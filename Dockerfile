@@ -6,7 +6,6 @@ RUN apt-get update
 RUN apt-get install -y git
 RUN apt-get install -y npm
 RUN apt-get install -y nodejs
-RUN apt-get install -y nginx
 
 RUN ln -s /usr/bin/nodejs /usr/bin/node
 
