@@ -1,17 +1,7 @@
-FROM ubuntu
+FROM nginx
 
-# Update aptitude with new repo
-RUN apt-get update
+RUN rm -rf /usr/share/nginx/html
+COPY src/ /usr/share/nginx/html
 
-RUN apt-get install -y git
-RUN apt-get install -y npm
-RUN apt-get install -y nodejs
-
-RUN ln -s /usr/bin/nodejs /usr/bin/node
-
-ADD . /opt/liveops
-RUN npm install --prefix /opt/liveops/ /opt/liveops/
-
-CMD npm start /opt/liveops
-
-EXPOSE 8000
+EXPOSE 80
+EXPOSE 443

@@ -1,2 +1,6 @@
 node_modules/
 bower_components/
+src/assets/.sass-cache/
+.sass-cache/
+src/assets/stylesheets/
+src/bower/
