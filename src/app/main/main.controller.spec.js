@@ -3,7 +3,7 @@
 describe('controllers', function(){
   var scope;
 
-  beforeEach(module('test2'));
+  beforeEach(module('liveopsConfigPanel'));
 
   beforeEach(inject(function($rootScope) {
     scope = $rootScope.$new();

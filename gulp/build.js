@@ -7,7 +7,7 @@ var $ = require('gulp-load-plugins')({
 });
 
 module.exports = function(options) {
-  gulp.task('partials', function () {
+  gulp.task('partials', ['markups'], function () {
     return gulp.src([
       options.src + '/app/**/*.html',
       options.tmp + '/serve/app/**/*.html'
@@ -18,7 +18,7 @@ module.exports = function(options) {
         quotes: true
       }))
       .pipe($.angularTemplatecache('templateCacheHtml.js', {
-        module: 'test2',
+        module: 'liveopsConfigPanel',
         root: 'app'
       }))
       .pipe(gulp.dest(options.tmp + '/partials/'));
@@ -60,13 +60,15 @@ module.exports = function(options) {
       }))
       .pipe(htmlFilter.restore())
       .pipe(gulp.dest(options.dist + '/'))
-      .pipe($.size({ title: options.dist + '/', showFiles: true }));
+      .pipe($.size({ title: options.dist + '/', showFiles: true }))
+      .pipe($.filelog('build'));
   });
 
   // Only applies for fonts from bower dependencies
   // Custom fonts are handled by the "other" task
   gulp.task('fonts', function () {
-    return gulp.src($.mainBowerFiles())
+    return gulp.src($.mainBowerFiles({}))
+      .pipe($.debug('bower: '))
       .pipe($.filter('**/*.{eot,svg,ttf,woff,woff2}'))
       .pipe($.flatten())
       .pipe(gulp.dest(options.dist + '/fonts/'));
@@ -75,7 +77,7 @@ module.exports = function(options) {
   gulp.task('other', function () {
     return gulp.src([
       options.src + '/**/*',
-      '!' + options.src + '/**/*.{html,css,js,scss}'
+      '!' + options.src + '/**/*.{html,css,js,scss,hbs}'
     ])
       .pipe(gulp.dest(options.dist + '/'));
   });

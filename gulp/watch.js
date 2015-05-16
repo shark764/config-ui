@@ -8,7 +8,7 @@ function isOnlyChange(event) {
 }
 
 module.exports = function(options) {
-  gulp.task('watch', ['inject'], function () {
+  gulp.task('watch', ['markups', 'inject'], function () {
 
     gulp.watch([options.src + '/*.html', 'bower.json'], ['inject']);
 
@@ -30,6 +30,8 @@ module.exports = function(options) {
         gulp.start('inject');
       }
     });
+
+    gulp.watch(options.src + '/app/**/*.hbs', ['markups']);
 
     gulp.watch(options.src + '/app/**/*.html', function(event) {
       browserSync.reload(event.path);
