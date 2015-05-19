@@ -1,14 +1,16 @@
 'use strict';
 
-angular.module('liveopsConfigPanel', ['ngResource', 'ui.router'])
-  .config(function ($stateProvider, $urlRouterProvider) {
-    $stateProvider
-      .state('home', {
-        url: '/',
-        templateUrl: 'app/main/main.html',
-        controller: 'MainCtrl'
-      });
-
-    $urlRouterProvider.otherwise('/');
+angular.module('liveopsConfigPanel', ['ngRoute', 'ngResource'])
+  .config(function ($routeProvider) {
+    $routeProvider
+    .when('/', {
+      templateUrl: 'app/main/main.html',
+      controller: 'MainCtrl'
+    })
+    .when('/users', {
+      templateUrl: 'app/users/user-list.html',
+      controller: 'UserListCtrl'
+    })
+    .otherwise('/');
   })
 ;
