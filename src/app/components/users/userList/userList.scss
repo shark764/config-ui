@@ -1,0 +1,16 @@
+#user-list-container{
+	#action-container {
+		height: 125px; /* Just for whitespace, will contain things later */
+	}
+	
+	#left-panel {
+		width: 70%;
+		border-right: 1px solid $medium-grey;
+		padding: 20px;
+	}
+	
+	#right-panel {
+		width: 30%;
+		padding: 20px;
+	}
+}

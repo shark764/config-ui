@@ -3,6 +3,7 @@
 angular.module('liveopsConfigPanel')
   .directive('userTable', function() {
     return {
+      restrict: 'E',
       scope: {
         users: '=users'
       },
