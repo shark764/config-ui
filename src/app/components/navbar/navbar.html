@@ -4,14 +4,10 @@
 
     <ul ng-switch-when="true">
       <li ng-class="{ active: isActive('/')}"><a ng-href="#/">Users Management</a></li>
-      <li ng-class="{ active: isActive('/flow')}"><a ng-href="#/flow">Flow Designer</a></li>
-      <li ng-class="{ active: isActive('/campaigns')}"><a ng-href="#/campaigns">Campaigns</a></li>
-      <li ng-class="{ active: isActive('/reporting')}"><a ng-href="#/reporting">Reporting</a></li>
-      <li ng-class="{ active: isActive('/configuration')}"><a ng-href="#/configuration">Configuration</a></li>
     </ul>
 
     <div ng-switch-when="true">
-      Welcome back, {{ user.fullName }}
+      Welcome back, {{ AuthService.user.fullName }}
       <div>
         <i class="fa fa-cog" ng-click="logout()"></i>
       </div>
