@@ -2,8 +2,8 @@
 
 angular.module('liveopsConfigPanel')
   .directive('userState', function() {
-    var controller = ['$scope', function ($scope) {
-      var getDisplayState = function(state){
+    var link = function (scope) {
+      function getDisplayState(state){
         //Temporary logic based on mocks
         switch(state.toLowerCase()) {
           case 'online' : return 'ready';
@@ -13,14 +13,14 @@ angular.module('liveopsConfigPanel')
         }
       };
       
-      $scope.stateClass = getDisplayState($scope.state);
-    }];
+      scope.stateClass = getDisplayState(scope.state);
+    };
   
     return {
       scope: {
-        state: '=state'
+        state: '@'
       },
-      controller : controller,
+      link : link,
       templateUrl: 'app/shared/directives/userState/userState.html'
     };
    })

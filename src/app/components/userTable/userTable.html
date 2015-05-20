@@ -21,7 +21,7 @@
 			<td>{{user.displayName}}</td>
 			<td>{{user.externalId}}</td>
 			<td><span ng-class="{disabled : ! user.status}">{{user.status ? 'Enabled' : 'Disabled'}}</span></td>
-			<td><div user-state state="user.state"></div></td>
+			<td><div user-state state="{{user.state}}"></div></td>
 		</tr>
 	</tbody>
 </table>
