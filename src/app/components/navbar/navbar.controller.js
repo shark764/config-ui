@@ -1,6 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('NavbarCtrl', function ($scope) {
-    $scope.date = new Date();
-  });
+    .controller('NavbarCtrl', function ($scope, $location) {
+        $scope.isActive = function (viewLocation){
+            return viewLocation === $location.path();
+        }
+    });

@@ -1,13 +1,15 @@
 <nav class="navbar" ng-controller="NavbarCtrl">
-  <a href="https://github.com/Swiip/generator-gulp-angular">Gulp Angular</a>
-
   <ul>
-    <li class="active"><a ng-href="#">Home</a></li>
-    <li><a ng-href="#">About</a></li>
-    <li><a ng-href="#">Contact</a></li>
+    <li ng-class="{ active: isActive('/users')}"><a ng-href="#/users">Users Management</a></li>
+    <li ng-class="{ active: isActive('/flow')}"><a ng-href="#/flow">Flow Designer</a></li>
+    <li ng-class="{ active: isActive('/campaigns')}"><a ng-href="#/campaigns">Campaigns</a></li>
+    <li ng-class="{ active: isActive('/reporting')}"><a ng-href="#/reporting">Reporting</a></li>
+    <li ng-class="{ active: isActive('/configuration')}"><a ng-href="#/configuration">Configuration</a></li>
   </ul>
 
-  <ul>
-    <li><a ng-href="#">Current date: {{ date | date:'yyyy-MM-dd' }}</a></li>
-  </ul>
+  <div>
+    Welcome back, Ron
+    <i class="fa fa-cog"></i>
+  </div>
+
 </nav>
