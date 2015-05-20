@@ -1,0 +1,27 @@
+<table class="user-table">
+	<thead>
+		<tr>
+			<th>
+				Name
+			</th>
+			<th>
+				ID
+			</th>
+			<th>
+				Status
+			</th>
+			<th>
+				State
+			</th>
+		</tr>
+	</thead>
+	
+	<tbody>
+		<tr ng-repeat="user in users | orderBy:'displayName'">
+			<td>{{user.displayName}}</td>
+			<td>{{user.externalId}}</td>
+			<td><span ng-class="{disabled : ! user.status}">{{user.status ? 'Enabled' : 'Disabled'}}</span></td>
+			<td><div user-state state="{{user.state}}"></div></td>
+		</tr>
+	</tbody>
+</table>
