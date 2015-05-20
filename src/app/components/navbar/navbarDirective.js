@@ -6,5 +6,5 @@ angular.module('liveopsConfigPanel')
             restrict: 'E',
             templateUrl: 'app/components/navbar/navbar.html',
             controller: 'NavbarCtrl'
-        }
+        };
     });

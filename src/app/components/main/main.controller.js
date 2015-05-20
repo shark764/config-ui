@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('MainCtrl', function ($scope) {
+  .controller('MainCtrl', function ($scope, $http) {
     $scope.awesomeThings = [
       {
         'title': 'AngularJS',
@@ -56,4 +56,6 @@ angular.module('liveopsConfigPanel')
     angular.forEach($scope.awesomeThings, function(awesomeThing) {
       awesomeThing.rank = Math.random();
     });
+
+    $http.get('http://beta.json-generator.com/api/json/get/AzlRttI');
   });

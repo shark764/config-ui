@@ -1,5 +1,9 @@
 $navbar-height: 55px;
 
+#__bs_notify__ {
+  display: none !important;
+}
+
 .navbar {
   position: relative;
   min-height: $navbar-height;
@@ -17,16 +21,29 @@ $navbar-height: 55px;
     float: right;
     line-height: $navbar-height;
     font-size: 14px;
+
     i {
       cursor: pointer;
+      color: rgb(114, 132, 156);
+      font-size: 28px;
+      line-height: 55px;
+      margin-left: 10px;
+
+      &:hover {
+        color: white;
+      }
     }
   }
+
   &>a {
     float: left;
     padding: 0px 8px;
-    margin:10px 0px;
+    margin-top: 10px;
     font-size: 18px;
-    height: 50px;
+    height: ($navbar-height - 10px);
+    width: 150px;
+    background: url(/assets/images/liveops-logo.png) no-repeat;
+    background-size: 150px;
   }
 
   ul {

@@ -1,32 +1,17 @@
 'use strict';
 
-angular.module('liveopsConfigPanel', ['ngResource', 'ui.router'])
+angular.module('liveopsConfigPanel', ['ngResource', 'ui.router', 'ngLodash'])
   .config(function ($stateProvider, $urlRouterProvider) {
     $stateProvider
       .state('users', {
-        url: '/users',
-        templateUrl: 'app/main/main.html',
+        url: '/',
+        templateUrl: 'app/components/main/main.html',
         controller: 'MainCtrl'
       })
-      .state('flow', {
-        url: '/flow',
-        templateUrl: 'app/main/main.html',
-        controller: 'MainCtrl'
-      })
-      .state('campaigns', {
-        url: '/campaigns',
-        templateUrl: 'app/main/main.html',
-        controller: 'MainCtrl'
-      })
-      .state('reporting', {
-        url: '/reporting',
-        templateUrl: 'app/main/main.html',
-        controller: 'MainCtrl'
-      })
-      .state('configuration', {
-        url: '/configuration',
-        templateUrl: 'app/main/main.html',
-        controller: 'MainCtrl'
+      .state('login', {
+        url: '/login',
+        templateUrl: 'app/components/login/login.html',
+        controller: 'LoginController'
       }) ;
 
     $urlRouterProvider.otherwise('/');
