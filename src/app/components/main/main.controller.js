@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('MainCtrl', function ($scope, $http) {
+  .controller('MainController', function ($scope, $http) {
     $scope.awesomeThings = [
       {
         'title': 'AngularJS',

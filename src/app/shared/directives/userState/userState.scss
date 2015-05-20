@@ -1,0 +1,16 @@
+.user-state {
+	.ready {
+		color: #fff;
+		background-color: green;
+	}
+	
+	.busy {
+		color: #fff;
+		background-color: #ccc;
+	}
+	
+	.not-ready { 
+		color: #ccc;
+		background-color: #fff;
+	}
+}
