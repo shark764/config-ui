@@ -1,0 +1,97 @@
+<div class="detail-header-pane">
+  <div class="abox"></div>
+  <div id="user-details-header-name">
+    <h1>{{firstName}} {{lastName}}</h1>
+    <span>
+      <h2>{{displayName}}</h2>
+      <user-state />
+    </span>
+    <span class="state-description">User Created by {{user.createdBy}} on {{user.created}}</span>
+    <span class="state-description">Enabled by {{user.createdBy}} on {{user.created}}</span>
+  </div>
+</div>
+
+<form name="userForm" novalidate>
+
+  <div>
+    First Name*
+    <input type="text" ng-model="user.firstName" name="firstName" required="">
+    <div ng-show="userForm.$submitted || userForm.firstName.$touched">
+      <div ng-show="userForm.firstName.$error.required">First Name must be provided.</div>
+    </div>
+  </div>
+
+  <div>
+    Last Name*
+    <input type="text" ng-model="user.lastName" name="lastName" required="">
+    <div ng-show="userForm.$submitted || userForm.lastName.$touched">
+      <div ng-show="userForm.lastName.$error.required">Last Name must be provided.</div>
+    </div>
+  </div>
+
+  <div>
+    Display Name*
+    <input type="text" ng-model="user.displayName" name="displayName" required="">
+    <div ng-show="userForm.$submitted || userForm.displayName.$touched">
+      <div ng-show="userForm.displayName.$error.required">Display Name must be provided.</div>
+    </div>
+  </div>
+
+  <div>
+    Telephone
+    <input type="text" ng-model="user.telephone" name="telephone">
+  </div>
+
+  <div>
+    Email*
+    <input type="email" ng-model="user.email" name="email" required="">
+    <br />
+    <div ng-show="userForm.$submitted || userForm.email.$touched">
+      <span ng-show="userForm.email.$error.required">Email must be provided.</span>
+      <span ng-show="userForm.email.$error.email">This is not a valid email.</span>
+    </div>
+  </div>
+
+  <div>
+    External ID*
+    <input type="text" ng-model="user.externalId" name="externalId" required="">
+    <div ng-show="userForm.$submitted || userForm.externalId.$touched">
+      <div ng-show="userForm.externalId.$error.required">External ID must be provided.</div>
+    </div>
+  </div>
+
+  <input type="button" ng-click="resetPassword()" value="Reset Password" />
+
+  <select ng-model="user.role" ng-options="role for role in roles">
+    <option value="">-- choose role --</option>
+  </select>
+
+  <tabset>
+    <tab heading="Extensions">
+      Primary:
+      <input type="text" placeholder="Search..."> Secondary:
+      <input type="text" placeholder="Search...">
+    </tab>
+    <tab heading="Addresses">
+    </tab>
+    <tab heading="Skills">
+      <div id="user-skill-input-pane">
+        <span>
+          <input id="user-skill-search-box" type="text">
+          <select ng-model="user.role" ng-options="n for n in [] | range:1:100">
+            <option value=""></option>
+          </select>
+        </span>
+      </div>
+      <div id="user-skill-list-pane" ng-repeat="skill in user.skills">
+        <div class="user-skill-bubble">
+          <span class="user-skill-name">{{skill.name}}</span>
+          <span class="user-skill-proficiency">{{skill.proficiency}}</span>
+        </div>
+      </div>
+    </tab>
+    <tab heading="Groups">
+    </tab>
+  </tabset>
+
+</form>
