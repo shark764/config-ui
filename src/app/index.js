@@ -8,7 +8,7 @@ angular.module('liveopsConfigPanel', ['ngRoute', 'ngResource'])
       controller: 'MainController'
     })
     .when('/users', {
-      templateUrl: 'app/components/users/userList.html',
+      templateUrl: 'app/components/users/userList/userList.html',
       controller: 'UserListController'
     })
     .otherwise('/');

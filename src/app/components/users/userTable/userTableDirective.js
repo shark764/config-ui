@@ -6,6 +6,6 @@ angular.module('liveopsConfigPanel')
       scope: {
         users: '=users'
       },
-      templateUrl: 'app/components/userTable/userTable.html'
+      templateUrl: 'app/components/users/userTable/userTable.html'
     };
  });
