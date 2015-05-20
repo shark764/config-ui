@@ -5,11 +5,11 @@ angular.module('liveopsConfigPanel', ['ngRoute', 'ngResource'])
     $routeProvider
     .when('/', {
       templateUrl: 'app/main/main.html',
-      controller: 'MainCtrl'
+      controller: 'MainController'
     })
     .when('/users', {
       templateUrl: 'app/users/userList.html',
-      controller: 'UserListCtrl'
+      controller: 'UserListController'
     })
     .otherwise('/');
   })

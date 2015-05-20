@@ -4,6 +4,7 @@ angular.module('liveopsConfigPanel')
   .directive('userState', function() {
     var controller = ['$scope', function ($scope) {
       var getDisplayState = function(state){
+        //Temporary logic based on mocks
         switch(state.toLowerCase()) {
           case 'online' : return 'ready';
           case 'busy' : return 'busy';
