@@ -1,19 +1,15 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-    .controller('NavbarController', function ($scope, $location, authInterceptorService) {
+    .controller('NavbarController', function ($scope, $location, AuthService) {
         $scope.isActive = function (viewLocation){
             return viewLocation === $location.path();
         };
 
-        $scope.$watch(function() {
-            return authInterceptorService.user;
-        }, function(user){
-            $scope.user = user;
-        });
+        $scope.AuthService = AuthService;
 
         $scope.logout = function () {
-            authInterceptorService.logout();
+            AuthService.logout();
             $location.path('/login');
-        }
+        };
     });

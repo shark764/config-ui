@@ -1,4 +1,5 @@
-<nav class="navbar" ng-controller="NavbarController" ng-switch="!!user">
+<nav class="navbar" ng-controller="NavbarController" ng-switch="!!AuthService.user">
+
     <a ng-href="#/" ng-switch-when="true"></a>
 
     <ul ng-switch-when="true">
