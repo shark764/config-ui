@@ -25,7 +25,6 @@ module.exports = function(options) {
 
     var injectOptions = {
       ignorePath: [
-        options.dist,
         options.src,
         options.tmp + '/serve'
       ],
