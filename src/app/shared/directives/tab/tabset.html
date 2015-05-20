@@ -1,0 +1,10 @@
+<div>
+  <ul class="nav nav-tabs">
+    <li role="presentation" ng-repeat="tab in tabset.tabs">
+      <a href="" ng-click="tabset.select(tab)">{{tab.heading}}</a>
+    </li>
+  </ul>
+
+  <ng-transclude>
+  </ng-transclude>
+</div>
