@@ -5,6 +5,6 @@ angular.module('liveopsConfigPanel')
         return {
             restrict: 'E',
             templateUrl: 'app/components/navbar/navbar.html',
-            controller: 'NavbarCtrl'
+            controller: 'NavbarController'
         };
     });

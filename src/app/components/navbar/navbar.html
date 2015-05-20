@@ -1,4 +1,4 @@
-<nav class="navbar" ng-controller="NavbarCtrl" ng-switch="!!user">
+<nav class="navbar" ng-controller="NavbarController" ng-switch="!!user">
     <a ng-href="#/" ng-switch-when="true"></a>
 
     <ul ng-switch-when="true">
@@ -10,7 +10,7 @@
     </ul>
 
     <div ng-switch-when="true">
-      Welcome back, {{ user.username }}
+      Welcome back, {{ user.fullName }}
       <div>
         <i class="fa fa-cog" ng-click="logout()"></i>
       </div>

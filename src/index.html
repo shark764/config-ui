@@ -21,13 +21,10 @@
     <!-- endinject -->
     <!-- endbuild -->
   </head>
-  <body>
-	
-    <div ng-view></div>
-
+  <body ng-controller="ApplicationController">
 
     <navbar></navbar>
-    <div ui-view></div>
+    <div ng-view></div>
 
     <!-- build:js(src) scripts/vendor.js -->
     <!-- bower:js -->

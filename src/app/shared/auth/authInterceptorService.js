@@ -12,21 +12,15 @@ angular.module('liveopsConfigPanel')
     // session information using redis or memcache
 
     // this will suffice in beta however.
-    .factory('liveopsApiInterceptor', function($rootScope) {
+    .factory('liveopsApiInterceptor', function($rootScope, lodash) {
 
         var Interceptor = function () {
 
             this.setCredentials = function(username, password){
-                $rootScope.user = {
-                    username : username
-                };
-
                 localStorage.liveopsOauth = window.btoa(username + ':' + password);
             };
 
             this.clearCredentials = function (){
-                $rootScope.user = null;
-
                 localStorage.liveopsOauth = null;
             };
 
@@ -53,18 +47,16 @@ angular.module('liveopsConfigPanel')
 
     // this also wires up the isLoggedIn flag to the rootScope so
     // all controllers, directives, etc can see it.
-    .run(function ($rootScope, $location, liveopsApiInterceptor) {
+    .run(function ($rootScope, $location, lodash, liveopsApiInterceptor) {
+        $rootScope.isLoggedIn = false;
 
-        $rootScope.$on('$locationChangeStart', function (event) {
+        $rootScope.$on('$locationChangeStart', function (event, next) {
 
-            if($location.url() !== '/login') {
-                if (!$rootScope.user) {
-                  event.preventDefault();
-                  $location.path('/login');
-
-                } else {
-                  $rootScope.isLoggedIn = true;
-                }
+            if(next.secure && localStorage.liveopsOauth === null) { // if we're on a secure route and we have no token
+              event.preventDefault();
+              $location.path('/login');
+            } else {
+              $rootScope.isLoggedIn = true;
             }
         });
     });

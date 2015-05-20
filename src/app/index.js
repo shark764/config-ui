@@ -1,16 +1,17 @@
 'use strict';
 
-angular.module('liveopsConfigPanel', ['ngRoute', 'ngResource'])
+angular.module('liveopsConfigPanel', ['ngRoute', 'ngResource', 'ngLodash'])
   .config(function ($routeProvider) {
     $routeProvider
     .when('/', {
-      templateUrl: 'app/components/main/main.html',
-      controller: 'MainController'
-  })
-    .when('/users', {
       templateUrl: 'app/components/users/userList/userList.html',
-      controller: 'UserListController'
+      controller: 'UserListController',
+      secure: true
     })
-    .otherwise('/');
+    .when('/login', {
+      templateUrl: 'app/components/login/login.html',
+      controller: 'LoginController'
+    })
+    .otherwise('/users');
   })
 ;
