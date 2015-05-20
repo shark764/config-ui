@@ -4,16 +4,13 @@ angular.module('liveopsConfigPanel')
   .directive('userState', function() {
     var controller = ['$scope', function ($scope) {
       var getDisplayState = function(state){
-        if (state == 'online'){
-          return 'ready';
-        } else if (state == 'busy'){
-          return 'busy';
-        }else if (state == 'offline'){
-          return 'not-ready';
-        } else {
-          return 'not-ready';
+        switch(state.toLowerCase()) {
+          case 'online' : return 'ready';
+          case 'busy' : return 'busy';
+          case 'offline' : return 'not-ready';
+          default : return 'not-ready';
         }
-      }
+      };
       
       $scope.stateClass = getDisplayState($scope.state);
     }];
@@ -23,7 +20,7 @@ angular.module('liveopsConfigPanel')
         state: '=state'
       },
       controller : controller,
-      templateUrl: 'app/components/userState/userState.html'
+      templateUrl: 'app/shared/directives/userState/userState.html'
     };
    })
 ;

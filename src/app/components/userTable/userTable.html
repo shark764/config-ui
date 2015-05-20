@@ -20,7 +20,7 @@
 		<tr ng-repeat="user in users | orderBy:'displayName'">
 			<td>{{user.displayName}}</td>
 			<td>{{user.externalId}}</td>
-			<td><span ng-class="{disabled : ! user.status}">{{user.status ? 'enabled' : 'disabled'}}</span></td>
+			<td><span ng-class="{disabled : ! user.status}">{{user.status ? 'Enabled' : 'Disabled'}}</span></td>
 			<td><div user-state state="user.state"></div></td>
 		</tr>
 	</tbody>
