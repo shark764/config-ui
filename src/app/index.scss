@@ -1,5 +1,15 @@
+@mixin border-radius($radius) {
+  -webkit-border-radius: $radius;
+     -moz-border-radius: $radius;
+      -ms-border-radius: $radius;
+          border-radius: $radius;
+}
+
+$medium-grey: #CFCFCF;
 $main-color: rgb(30, 58, 97);
 $main-font: Montserrat, sans-sarif;
+
+
 .browsehappy {
   margin: 0.2em 0;
   background: #ccc;
@@ -9,7 +19,9 @@ $main-font: Montserrat, sans-sarif;
 
 body {
   margin: 0;
-  font-family: 'Montserrat', sans-serif;
+  font-family: $main-font; 
+  color: #474747;
+  font-size: 0.9em;
 }
 
 a {
