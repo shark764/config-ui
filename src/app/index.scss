@@ -1,3 +1,13 @@
+@mixin border-radius($radius) {
+  -webkit-border-radius: $radius;
+     -moz-border-radius: $radius;
+      -ms-border-radius: $radius;
+          border-radius: $radius;
+}
+
+$medium-grey: #CFCFCF;
+
+
 .browsehappy {
   margin: 0.2em 0;
   background: #ccc;
@@ -7,6 +17,10 @@
 
 body {
   margin: 0;
+  font-family: sans-serif;
+  font-weight:bold;
+  color: #474747;
+  font-size: 0.9em;
 }
 
 a {

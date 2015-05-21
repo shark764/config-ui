@@ -8,17 +8,17 @@
 				ID
 			</th>
 			<th>
-				Status
+				<dropdown label="Status" items="statuses" changefunction="updateUsers"></dropdown>
 			</th>
 			<th>
-				State
+				<dropdown label="State" items="states" changefunction="updateUsers"></dropdown>
 			</th>
 		</tr>
 	</thead>
 	
 	<tbody>
-		<tr ng-repeat="user in users | orderBy:'displayName'">
-			<td>{{user.displayName}}</td>
+		<tr ng-repeat="user in users | userFilter:statuses:'status' | userFilter:states:'state' | orderBy:'lastName'">
+			<td>{{user.firstName}} {{user.lastName}}</td>
 			<td>{{user.externalId}}</td>
 			<td><span ng-class="{disabled : ! user.status}">{{user.status ? 'Enabled' : 'Disabled'}}</span></td>
 			<td><div user-state state="{{user.state}}"></div></td>
