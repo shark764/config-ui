@@ -13,8 +13,9 @@ angular.module('liveopsConfigPanel')
           if (!scope.queryUser) return true;
           var wildCardQuery = new RegExp(scope.regExpReplace(scope.queryUser), 'i');
 
-          // Search by displayName and location
-          return (wildCardQuery.test(user.displayName) || wildCardQuery.test(user.location));
+          // Search by displayName and location; location not defined yet
+          // return (wildCardQuery.test(user.displayName) || wildCardQuery.test(user.location));
+          return (wildCardQuery.test(user.displayName));
         };
 
         scope.regExpReplace = function (string){
