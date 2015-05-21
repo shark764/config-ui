@@ -4,18 +4,18 @@ angular.module('liveopsConfigPanel')
   .controller('UserListController', ['$scope', 'UserService', function ($scope, UserService) {
     UserService.query(function(data){
       $scope.users = data.result;
-      
-      if($scope.users) {
-        $scope.selectedUser = $scope.users[0];
-        $scope.selectedUser.display = {
-          firstName : $scope.selectedUser.firstName,
-          lastName : $scope.selectedUser.lastName,
-          displayName : $scope.selectedUser.displayName
-        }
-      }
+      $scope.selectedUserContext = {};
       
       $scope.selectUser = function(user) {
-        $scope.selectedUser = user;
+        $scope.selectedUserContext = {
+          user: user
+        }
+        
+        $scope.selectedUserContext.display = {
+          firstName : user.firstName,
+          lastName : user.lastName,
+          displayName : user.displayName
+        }
       }
     });
 

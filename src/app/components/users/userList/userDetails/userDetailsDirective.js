@@ -4,7 +4,8 @@ angular.module('liveopsConfigPanel')
   .directive('userDetails', function() {
     return {
       scope: {
-        user: '='
+        user: '=',
+        display: '='
       },
       templateUrl: 'app/components/users/userList/userDetails/userDetails.html'
     };

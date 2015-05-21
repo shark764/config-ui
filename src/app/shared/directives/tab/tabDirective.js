@@ -5,7 +5,7 @@ angular.module('liveopsConfigPanel')
     return {
       restrict: 'E',
       transclude: true,
-      templateUrl: 'app/shared/directives/tab/tabset.html',
+      templateUrl: 'app/shared/directives/tab/tab.html',
       require: '^tabset',
       scope: {
         heading: '@'
