@@ -1,3 +1,5 @@
+<input ng-model="queryUser" placeholder="Search">
+
 <table class="user-table">
 	<thead>
 		<tr>
@@ -8,6 +10,9 @@
 				ID
 			</th>
 			<th>
+				TEMP Location
+			</th>
+			<th>
 				Status
 			</th>
 			<th>
@@ -15,11 +20,12 @@
 			</th>
 		</tr>
 	</thead>
-	
+
 	<tbody>
-		<tr ng-repeat="user in users | orderBy:'displayName'">
+		<tr ng-repeat="user in users | orderBy:'displayName' | filter: searchUser">
 			<td>{{user.displayName}}</td>
 			<td>{{user.externalId}}</td>
+			<td>{{user.location}}</td>
 			<td><span ng-class="{disabled : ! user.status}">{{user.status ? 'Enabled' : 'Disabled'}}</span></td>
 			<td><div user-state state="{{user.state}}"></div></td>
 		</tr>
