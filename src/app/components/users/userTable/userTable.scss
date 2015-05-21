@@ -12,16 +12,19 @@
 		text-align: left;
 	}
 
-	td, th {
+	td {
 		padding: 10px 5px;
+	}
+	
+	th {
+		padding: 10px 5px 0 5px;
+	}
+	
+	td, th {
 		border-bottom: 1px solid #DADADA;
 	}
 	
 	.disabled {
 		color: #ccc;
 	}
-	
-	
-	
-
 }
