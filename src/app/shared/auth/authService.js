@@ -12,27 +12,16 @@ angular.module('liveopsConfigPanel')
     // session information using redis or memcache
 
     // this will suffice in beta however.
-    .factory('AuthService', function($rootScope) {
-
-        var USER_SESSION_KEY = 'LIVEOPS-SESSION-KEY';
+    .factory('AuthService', function(Session) {
 
         var authService = {
 
-            user : JSON.parse(localStorage.getItem(USER_SESSION_KEY)),
-
             login : function (username, password) {
-                this.user = {
-                    token : window.btoa(username + ':' + password),
-                    fullName: 'Ron'
-                };
-
-                localStorage.setItem(USER_SESSION_KEY, JSON.stringify(this.user));
+                Session.set(window.btoa(username + ':' + password), 'Ron');
             },
 
             logout : function () {
-                this.user = null;
-
-                localStorage.removeItem(USER_SESSION_KEY);
+                Session.destroy();
             }
 
         };
@@ -45,12 +34,12 @@ angular.module('liveopsConfigPanel')
 
     // this also wires up the isLoggedIn flag to the rootScope so
     // all controllers, directives, etc can see it.
-    .run(function ($rootScope, $location, AuthService) {
+    .run(function ($rootScope, $location, Session) {
         $rootScope.isLoggedIn = false;
 
         $rootScope.$on('$locationChangeStart', function (event, next) {
 
-            if(next.secure && AuthService.user) { // if we're on a secure route and we have no token
+            if(next.secure && Session.isAuthenticated()) { // if we're on a secure route and we have no token
               event.preventDefault();
               $location.path('/login');
             }

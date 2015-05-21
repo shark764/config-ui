@@ -1,4 +1,4 @@
-<nav class="navbar" ng-controller="NavbarController" ng-switch="!!AuthService.user">
+<nav class="navbar" ng-controller="NavbarController" ng-switch="Session.isAuthenticated">
 
     <a ng-href="#/" ng-switch-when="true"></a>
 
@@ -7,7 +7,7 @@
     </ul>
 
     <div ng-switch-when="true">
-      Welcome back, {{ AuthService.user.fullName }}
+      Welcome back, {{ Session.fullName }}
       <div>
         <i class="fa fa-cog" ng-click="logout()"></i>
       </div>
