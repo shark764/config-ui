@@ -12,6 +12,6 @@ module.exports = function(options) {
         constants: envConfig,
         stream: true
       })
-      .pipe(gulp.dest('.tmp/serve/app'));
+      .pipe(gulp.dest(options.tmp + '/serve/app'));
   });
 }
