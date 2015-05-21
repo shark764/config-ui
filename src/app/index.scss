@@ -6,7 +6,21 @@
 }
 
 $medium-grey: #CFCFCF;
+$side-menu-width: 50px;
+$header-height: 55px;
 
+html, body {
+	height: 100%;
+}
+
+body > .ng-view {
+	height: calc(100% - #{$header-height});
+}
+
+header {
+	height: $header-height;
+	background-color: #1E3A61;
+}
 
 .browsehappy {
   margin: 0.2em 0;
