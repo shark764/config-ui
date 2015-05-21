@@ -1,7 +1,9 @@
 'use strict';
 
+/* global spyOn: false  */
+
 describe('AuthService', function() {
-    var $scope, $location, createController, AuthService, Session;
+    var $scope, $location, AuthService, Session;
 
     beforeEach(module('liveopsConfigPanel'));
 
@@ -35,9 +37,6 @@ describe('AuthService', function() {
 
 
     it('should have a method to logout which destroys the session', function() {
-        var username = 'john',
-            password = 'password';
-
         spyOn(Session, 'destroy');
 
         AuthService.logout();

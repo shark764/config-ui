@@ -1,8 +1,8 @@
-"use strict";
+'use strict';
 
-describe("AuthInterceptor", function() {
+describe('AuthInterceptor', function() {
 
-  var $scope, $httpProviderIt, $httpBackend, createController, AuthInterceptor, Session, hostname;
+  var $scope, $httpProviderIt, $httpBackend, AuthInterceptor, Session, hostname;
 
     beforeEach(module('liveopsConfigPanel', function($httpProvider){
       $httpProviderIt = $httpProvider;

@@ -22,7 +22,8 @@ describe('NavbarController', function() {
     }]));
 
     it('should have a method to check if the path is active', function() {
-        var controller = createController();
+        createController();
+
         $location.path('/users');
 
         expect($location.path()).toBe('/users');
@@ -31,7 +32,8 @@ describe('NavbarController', function() {
     });
 
     it('should have a method to log the user out and redirect them to the login page', function() {
-        var controller = createController();
+        createController();
+
         $location.path('/users');
         session.set('abc', 'John');
 

@@ -1,7 +1,9 @@
 'use strict';
 
+/* global localStorage: false */
+
 describe('Session', function() {
-    var $scope, createController, session;
+    var $scope, session;
 
     beforeEach(module('liveopsConfigPanel'));
 

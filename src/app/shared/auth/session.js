@@ -1,6 +1,6 @@
 'use strict';
 
-/* global localStorage: false, window: false */
+/* global localStorage: false */
 
 angular.module('liveopsConfigPanel')
 
