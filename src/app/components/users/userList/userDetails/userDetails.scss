@@ -1,0 +1,26 @@
+#user-details-container {
+  
+  form {
+    display: block;
+  }
+  
+  
+  .detail-header-pane {
+    margin-bottom: 20px;
+  }
+  
+  padding: 20px;
+  float: right;
+  border-left: 1px grey solid;
+  height: 100%;
+  width: 400px;
+  
+  .input-field-tile {
+    margin-bottom: 10px;
+    
+    input {
+      display:block;
+      margin-top: 5px;
+    }
+  }
+}

@@ -1,9 +1,9 @@
 <div class="detail-header-pane">
   <div class="abox"></div>
   <div id="user-details-header-name">
-    <h1>{{firstName}} {{lastName}}</h1>
+    <h1>{{display.firstName}} {{display.lastName}}</h1>
     <span>
-      <h2>{{displayName}}</h2>
+      <h2>{{display.displayName}}</h2>
       <user-state />
     </span>
     <span class="state-description">User Created by {{user.createdBy}} on {{user.created}}</span>
@@ -13,7 +13,7 @@
 
 <form name="userForm" novalidate>
 
-  <div>
+  <div class="input-field-tile">
     First Name*
     <input type="text" ng-model="user.firstName" name="firstName" required="">
     <div ng-show="userForm.$submitted || userForm.firstName.$touched">
@@ -21,7 +21,7 @@
     </div>
   </div>
 
-  <div>
+  <div class="input-field-tile">
     Last Name*
     <input type="text" ng-model="user.lastName" name="lastName" required="">
     <div ng-show="userForm.$submitted || userForm.lastName.$touched">
@@ -29,7 +29,7 @@
     </div>
   </div>
 
-  <div>
+  <div class="input-field-tile">
     Display Name*
     <input type="text" ng-model="user.displayName" name="displayName" required="">
     <div ng-show="userForm.$submitted || userForm.displayName.$touched">
@@ -37,34 +37,37 @@
     </div>
   </div>
 
-  <div>
+  <div class="input-field-tile">
     Telephone
     <input type="text" ng-model="user.telephone" name="telephone">
   </div>
 
-  <div>
+  <div class="input-field-tile">
     Email*
     <input type="email" ng-model="user.email" name="email" required="">
-    <br />
     <div ng-show="userForm.$submitted || userForm.email.$touched">
       <span ng-show="userForm.email.$error.required">Email must be provided.</span>
       <span ng-show="userForm.email.$error.email">This is not a valid email.</span>
     </div>
   </div>
 
-  <div>
+  <div class="input-field-tile">
     External ID*
     <input type="text" ng-model="user.externalId" name="externalId" required="">
     <div ng-show="userForm.$submitted || userForm.externalId.$touched">
       <div ng-show="userForm.externalId.$error.required">External ID must be provided.</div>
     </div>
   </div>
-
-  <input type="button" ng-click="resetPassword()" value="Reset Password" />
-
-  <select ng-model="user.role" ng-options="role for role in roles">
-    <option value="">-- choose role --</option>
-  </select>
+  
+  <div class="input-field-tile">
+    <input type="button" ng-click="resetPassword()" value="Reset Password" />
+  </div>
+  
+  <div class="input-field-tile">
+    <select ng-model="user.role" ng-options="role for role in roles">
+      <option value="">-- choose role --</option>
+    </select>
+  </div>
 
   <tabset>
     <tab heading="Extensions">
