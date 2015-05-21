@@ -1,0 +1,5 @@
+{
+  "local": {
+    "api-hostname" : "localhost:9080"
+  }
+}

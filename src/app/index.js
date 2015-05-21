@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('liveopsConfigPanel', ['ngRoute', 'ngResource', 'ngLodash'])
+angular.module('liveopsConfigPanel', ['ngRoute', 'ngResource', 'liveopsConfigPanel.config'])
   .config(function ($routeProvider) {
     $routeProvider
     .when('/', {
