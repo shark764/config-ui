@@ -2,12 +2,15 @@
 
 angular.module('liveopsConfigPanel')
 
-    .factory('AuthInterceptor', 'api-hostname', function($rootScope, Session, apiHostname) {
+    .factory('AuthInterceptor', ['$rootScope', 'Session', 'api-hostname', function($rootScope, Session, apiHostname) {
+
 
         var Interceptor = function () {
 
             this.request = function(config){
-                if(config.url.indexOf(apiHostname) > 0 && Session.token.length > 0){
+                config.headers = {};
+
+                if(config.url.indexOf(apiHostname) >= 0 && Session.token.length > 0){
                     config.headers.Authorization = 'Basic ' + Session.token;
                 }
 
@@ -17,7 +20,7 @@ angular.module('liveopsConfigPanel')
         };
 
         return new Interceptor();
-    })
+    }])
 
     // queue the interceptor
     .config(function($httpProvider) {

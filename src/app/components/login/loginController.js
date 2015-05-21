@@ -6,7 +6,7 @@ angular.module('liveopsConfigPanel')
     $scope.password = '';
 
     $scope.login = function(){
-      $scope.setCurrentUser(AuthService.login($scope.username, $scope.password));
+      AuthService.login($scope.username, $scope.password);
       $location.path('/');
     };
   });

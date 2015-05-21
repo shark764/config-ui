@@ -2,25 +2,47 @@
 
 describe("AuthInterceptor", function() {
 
-  var $scope, $httpProvider, $httpBackend, createController, AuthInterceptor, Session;
+  var $scope, $httpProviderIt, $httpBackend, createController, AuthInterceptor, Session, hostname;
 
-    beforeEach(module('liveopsConfigPanel'));
+    beforeEach(module('liveopsConfigPanel', function($httpProvider){
+      $httpProviderIt = $httpProvider;
+    }));
 
-    beforeEach(inject(['$rootScope', '$httpProvider', '$httpBackend', 'AuthInterceptor', 'Session',
-        function(_$rootScope_, _$httpProvider_, _$httpBackend_, _AuthInterceptor_, _Session_) {
+    beforeEach(inject(['$rootScope', '$httpBackend', 'AuthInterceptor', 'Session', 'api-hostname',
+        function(_$rootScope_, _$httpBackend_, _AuthInterceptor_, _Session_, _hostname_) {
 
+      hostname = _hostname_;
       $scope = _$rootScope_.$new();
-      $httpProvider = _$httpProvider_;
       $httpBackend = _$httpBackend_;
       AuthInterceptor = _AuthInterceptor_;
       Session = _Session_;
     }]));
 
     it('should be registered as an interceptor', function () {
-        expect($httpProvider.interceptors).toContain('AuthInterceptor');
+        expect($httpProviderIt.interceptors).toContain('AuthInterceptor');
     });
 
     it('should add the authorization header when the request URL and token are set and correct', function () {
-        expect($httpProvider.interceptors).toContain('AuthInterceptor');
+      Session.token = 'abc123';
+
+      var config = AuthInterceptor.request({ url : hostname + '/v1/users' });
+
+      expect(config.headers.Authorization).toBe('Basic ' + Session.token);
+    });
+
+    it('should not add the authorization header when the request URL is not valid', function () {
+      Session.token = 'abc123';
+
+      var config = AuthInterceptor.request({ url : 'http://google.com' });
+
+      expect(config.headers.Authorization).not.toBeDefined();
+    });
+
+    it('should not add the authorization header when the token is not valid', function () {
+      Session.token = '';
+
+      var config = AuthInterceptor.request({ url : hostname + '/v1/users' });
+
+      expect(config.headers.Authorization).not.toBeDefined();
     });
 });
