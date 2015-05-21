@@ -11,7 +11,7 @@ angular.module('liveopsConfigPanel')
         filteredUsers = $filter('userStatusFilter')(filteredUsers, $scope.statuses);
         filteredUsers = $filter('userStateFilter')(filteredUsers, $scope.states);
         $scope.users = filteredUsers;
-      }
+      };
     }];
     
     return {

@@ -24,7 +24,7 @@ angular.module('liveopsConfigPanel')
             });
         });
         
-        scope.$watch(function(scope) { return scope.items.all.checked },
+        scope.$watch(function(scope) { return scope.items.all.checked; },
           function(newValue, oldValue) {
             if (newValue && !oldValue){
               angular.forEach(scope.items.filters, function(state) {
@@ -35,7 +35,7 @@ angular.module('liveopsConfigPanel')
         );
         
         angular.forEach(scope.items.filters, function(state) {
-          scope.$watch(function(scope) { return state.checked },
+          scope.$watch(function(scope) { return state.checked; },
             function(newValue, oldValue) {
               if (newValue && !oldValue){
                 scope.items.all.checked = false;
@@ -44,6 +44,6 @@ angular.module('liveopsConfigPanel')
           );
         });
       }
-    }
+    };
    })
 ;
