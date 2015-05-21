@@ -2,13 +2,13 @@
 
 angular.module('liveopsConfigPanel')
 
-    .factory('AuthInterceptor', function($rootScope, AuthService) {
+    .factory('AuthInterceptor', function($rootScope, Session) {
 
         var Interceptor = function () {
 
             this.request = function(config){
-                if(config.url.indexOf('http://beta.json-generator.com') > 0 && AuthService.user){
-                    config.headers.Authorization = 'Basic ' + AuthService.user.token;
+                if(config.url.indexOf('http://beta.json-generator.com') > 0 && Session.token.length > 0){
+                    config.headers.Authorization = 'Basic ' + Session.token;
                 }
 
                 return config;

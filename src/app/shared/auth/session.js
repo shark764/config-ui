@@ -16,7 +16,6 @@ angular.module('liveopsConfigPanel')
 
         var Session = function () {
 
-
             this.userSessionKey = 'LIVEOPS-SESSION-KEY';
             this.token = '';
             this.fullName = '';
@@ -30,7 +29,7 @@ angular.module('liveopsConfigPanel')
                 localStorage.setItem(this.userSessionKey, JSON.stringify(this));
             };
 
-            this.destroy = function(){
+            this.destroy = function() {
                 this.token = '';
                 this.fullName = '';
                 this.isAuthenticated = false;
@@ -38,12 +37,14 @@ angular.module('liveopsConfigPanel')
                 localStorage.removeItem(this.userSessionKey);
             };
 
-            this.restoreSession = function(){
+            this.restore = function() {
                 angular.extend(this, JSON.parse(localStorage.getItem(this.userSessionKey)));
             };
-
-            this.restoreSession();
         };
 
-        return new Session;
+        // this only gets called once
+        var instance = new Session();
+        instance.restore();
+
+        return instance;
     });
