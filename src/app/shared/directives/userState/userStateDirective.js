@@ -5,15 +5,12 @@ angular.module('liveopsConfigPanel')
     var link = function(scope) {
       function getDisplayState(state) {
         //Temporary logic based on mocks
-        switch (state.toLowerCase()) {
-          case 'online':
-            return 'ready';
-          case 'busy':
-            return 'busy';
-          case 'offline':
-            return 'not-ready';
-          default:
-            return 'not-ready';
+        switch(state.toLowerCase()) {
+          case 'ready' : return 'ready';
+          case 'not_ready' : return 'not-ready';
+          case 'busy' : return 'busy';
+          case 'wrap' : return 'busy';
+          default : return 'not-ready';
         }
       }
 
