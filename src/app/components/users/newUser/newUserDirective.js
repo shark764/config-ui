@@ -8,6 +8,7 @@ angular.module('liveopsConfigPanel')
 
      	$scope.ok = function(){
      		console.log($scope.data);
+        $scope.data.createdBy = $scope.Session.id;
     		$scope.saveCreateUser($scope.data);
 	    }
 	     $scope.cancel = function(){
