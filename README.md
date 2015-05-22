@@ -5,8 +5,10 @@ This README would normally document whatever steps are necessary to get your app
 ### What is this repository for? ###
 
 * Quick summary
+Visual front-end for the LiveOps Configuration API.
+
 * Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+0.0.0
 
 ### How do I get set up? ###
 
@@ -18,14 +20,13 @@ This README would normally document whatever steps are necessary to get your app
 1. run the liveops api project (https://bluespurs.atlassian.net/wiki/display/LCP/Instructions+to+Download+Public+API+and+Run+for+Docker)
 1. gulp serve
 
-
-### Contribution guidelines ###
-
-* Writing tests
-* Code review
-* Other guidelines
-
 ### Who do I talk to? ###
 
 * Repo owner or admin
+John Benson (john.benson@bluespurs.com)
+
 * Other community or team contact
+Phil Hachey (phil.hachey@bluespurs.com)
+Samantha Routledge (samantha.routledge@bluespurs.com)
+Sasha Wilcox (sasha.wilcox@bluespurs.com)
+Greg Royan (greg.royan@bluespurs.com)
