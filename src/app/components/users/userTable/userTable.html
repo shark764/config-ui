@@ -1,27 +1,20 @@
 <div class="action-container">
-	<div>
-      <input type="text" name='queryUserInput' ng-model="queryUser" placeholder="Search">
-    </div>
-	<div>
-      <a href="#" class="btn btn-primary">Create user</a>
-    </div>
+  <div>
+    <input type="text" name='queryUserInput' ng-model="queryUser" placeholder="Search">
+  </div>
+  
+  <div>
+    <a href="#" class="btn btn-primary">Create user</a>
+  </div>
 </div>
 
 <table class="user-table">
   <thead>
     <tr>
-      <th>
-        Name
-      </th>
-      <th>
-        ID
-      </th>
-      <th>
-        <dropdown label="Status" items="statuses" changefunction="updateUsers"></dropdown>
-      </th>
-      <th>
-        <dropdown label="State" items="states" changefunction="updateUsers"></dropdown>
-      </th>
+      <th>Name</th>
+      <th>ID</th>
+      <th><dropdown label="Status" items="statuses" changefunction="updateUsers"></dropdown></th>
+      <th><dropdown label="State" items="states" changefunction="updateUsers"></dropdown></th>
     </tr>
   </thead>
 
