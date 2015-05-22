@@ -17,7 +17,8 @@ angular.module('liveopsConfigPanel')
     return {
       restrict: 'E',
       scope: {
-        users: '='
+        users: '=',
+        selectUser: '='
       },
       link : function (scope) {
         scope.searchUser = function (user) {
