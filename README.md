@@ -22,11 +22,11 @@ Visual front-end for the LiveOps Configuration API.
 
 ### Who do I talk to? ###
 
-* Repo owner or admin
+## Repo owner or admin ##
 
 John Benson (john.benson@bluespurs.com)
 
-* Other community or team contact
+## Other community or team contact ##
 
 Phil Hachey (phil.hachey@bluespurs.com)
 Samantha Routledge (samantha.routledge@bluespurs.com)
