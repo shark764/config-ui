@@ -5,4 +5,5 @@ angular.module('liveopsConfigPanel')
     UserService.query(function(data){
       $scope.users = data.result;
     });
+
   }]);
