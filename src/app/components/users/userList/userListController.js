@@ -28,37 +28,14 @@ angular.module('liveopsConfigPanel')
     	$scope.showModal = true;
     }
 
-    $scope.saveUser = function($data, $userId) {
-
-      if ( $userId == "" || typeof $userId === 'undefined' ){
-        $userId = null;
-      }
-      if ($userId == null){
-        $data.createdBy = $scope.Session.id;
-        $scope.createUser($data);
-      } else {
-        $data.updatedBy = $scope.Session.id;
-        $scope.updateUser($userId, $data);
-      }
-
-    }
-
   	$scope.createUser = function($data){
+      $data.createdBy = $scope.Session.id;
       UserService.save($data)
       .$promise.then(
         $scope.successResponse,
         $scope.errorResponse
       );
     }
-
-    $scope.updateUser = function($userId, $data){
-      UserService.update({ id:$userId }, $data)
-        .$promise.then(
-          $scope.successResponse,
-          $scope.errorResponse
-        );
-    }
-
 
     $scope.successResponse = function($data) {
       $scope.showError = false;
@@ -67,6 +44,6 @@ angular.module('liveopsConfigPanel')
 
     $scope.errorResponse = function($data) {
       $scope.showError = true;
-      $scope.errorMsg = data.statusText;
+      $scope.errorMsg = $data.data.message;
     }
   }]);
