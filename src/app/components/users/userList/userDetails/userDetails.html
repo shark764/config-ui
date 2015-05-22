@@ -14,7 +14,7 @@
 <form name="userForm" novalidate>
 
   <div class="input-field-tile">
-    First Name*
+    <label>First Name*</label>
     <input type="text" ng-model="user.firstName" name="firstName" required="">
     <div ng-show="userForm.$submitted || userForm.firstName.$touched" class="input-error">
       <div ng-show="userForm.firstName.$error.required">First Name must be provided.</div>
@@ -22,7 +22,7 @@
   </div>
 
   <div class="input-field-tile">
-    Last Name*
+    <label>Last Name*</label>
     <input type="text" ng-model="user.lastName" name="lastName" required="">
     <div ng-show="userForm.$submitted || userForm.lastName.$touched" class="input-error">
       <div ng-show="userForm.lastName.$error.required">Last Name must be provided.</div>
@@ -30,7 +30,7 @@
   </div>
 
   <div class="input-field-tile">
-    Display Name*
+    <label>Display Name*</label>
     <input type="text" ng-model="user.displayName" name="displayName" required="">
     <div ng-show="userForm.$submitted || userForm.displayName.$touched" class="input-error">
       <div ng-show="userForm.displayName.$error.required">Display Name must be provided.</div>
@@ -38,12 +38,12 @@
   </div>
 
   <div class="input-field-tile">
-    Telephone
+    <label>Telephone</label>
     <input type="text" ng-model="user.telephone" name="telephone">
   </div>
 
   <div class="input-field-tile">
-    Email*
+    <label>Email*</label>
     <input type="email" ng-model="user.email" name="email" required="">
     <div ng-show="userForm.$submitted || userForm.email.$touched" class="input-error">
       <span ng-show="userForm.email.$error.required">Email must be provided.</span>
@@ -52,7 +52,7 @@
   </div>
 
   <div class="input-field-tile">
-    External ID*
+    <label>External ID*</label>
     <input type="text" ng-model="user.externalId" name="externalId" required="">
     <div ng-show="userForm.$submitted || userForm.externalId.$touched" class="input-error">
       <div ng-show="userForm.externalId.$error.required">External ID must be provided.</div>
@@ -69,9 +69,7 @@
       style="-webkit-transform: scale(0.078125, 0.078125);-moz-transform: scale(0.078125, 0.078125);transform: scale(0.078125, 0.078125);"></path>
     </svg>
     <h2>Role</h2>
-  </div>
-
-  <div class="input-field-tile">
+    
     <select ng-model="user.role" ng-options="role for role in roles">
       <option value="">-- choose role --</option>
     </select>

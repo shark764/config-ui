@@ -14,7 +14,7 @@ $margin : 20px;
       
       .user-state {
         display: inline-block;
-      }
+      };
       
       h1 {
         margin: 0px;
@@ -22,8 +22,7 @@ $margin : 20px;
       };
       
       h2 {
-        display: inline;
-        margin: 0px;
+        display: inline-block;
         font-size: 18px;
         color: $light-grey;
       };
@@ -80,8 +79,8 @@ $margin : 20px;
       
       h2 {
         color: $dark-blue;
-        margin: 0px;
-        display: inline;
+        margin: 10px 0;
+        display: inline-block;
       };
       
       svg {
