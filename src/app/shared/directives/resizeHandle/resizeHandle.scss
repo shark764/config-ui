@@ -1,7 +1,10 @@
 .resizable-handle {
-	color: $medium-grey;
-	float: right;
-	font-size: 2em;
-	margin-right: -15px;
-	margin-top: 20px;
+  color: $medium-grey;
+  float: right;
+  font-size: 2em;
+  font-weight: normal; 
+  margin-right : -15px;
+  margin-top: 20px;
+  cursor: col-resize;
+  margin-right: -15px;
 }
