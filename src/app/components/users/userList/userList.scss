@@ -1,5 +1,6 @@
 .user-list-container {
 	padding-left: $side-menu-width;
+	display: table;
 	
 	.action-container {
 		height: 125px; /* Just for whitespace, will contain things later */
@@ -7,9 +8,15 @@
 	
 	.left-panel {
 		border-right: 1px solid $medium-grey;
+		display: table-cell;
 		height: calc(100% - #{$header-height});
 		padding: 20px;
 		width: 70%;
+	}
+	
+	.right-panel {
+		display: table-cell;
+		padding: 10px;
 	}
 }
 

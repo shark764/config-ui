@@ -1,47 +1,52 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-.directive('resizeHandle', function() {
+  .directive('resizeHandle', ['$window', '$document', function($window, $document) {
     return {
       restrict : 'E',
       scope : {
-        elementId : '@'
-      }, 
+        elementId : '@',
+        maxWidth : '@',
+        minWidth : '@'
+      },
+      
+      templateUrl : 'app/shared/directives/resizeHandle/resizeHandle.html',
+      link : function(scope, element) {
+        scope.targetElement = document.getElementById(scope.elementId);
         
-       templateUrl: 'app/shared/directives/resizeHandle/resizeHandle.html'
-    };
-  })
-  .directive('resizable', function($document, $window) {
-    return function(scope, element, attrs) {
         element.on('mousedown', function(event) {
+          //Don't initiate resize on right click, because it's annoying
+          if (event.button != 2) {
             event.preventDefault();
-
+            
             $document.on('mousemove', mousemove);
             $document.on('mouseup', mouseup);
+          }
         });
-
+        
         function mousemove(event) {
-            element = angular.element(document.querySelector( '#' + attrs.elementId ) );
-            
-            var elem = document.getElementById(attrs.elementId);
-            var left = elem.offsetLeft;
-            var x = event.pageX;
-            var newWidth = (x - left)
-            
-            if (attrs.minWidth && newWidth < attrs.minWidth) {
-              return;
-            }
-            
-            if ((attrs.maxWidth && newWidth > attrs.maxWidth) || newWidth > ($window.innerWidth * 0.95)) {
-              return;
-            }
-            
-            element.css('width', newWidth + 'px');
-        }
+          var left = scope.targetElement.offsetLeft;
+          var x = event.pageX;
+          var newWidth = (x - left)
 
-        function mouseup() {
-            $document.unbind('mousemove', mousemove);
-            $document.unbind('mouseup', mouseup);
+          if (scope.minWidth && newWidth < scope.minWidth) {
+            return;
+          }
+          
+          // Restrict by maxWidth if it was given,
+          // otherwise make sure it doesn't get dragged larger than
+          // the page, which would make the handle unreachable.
+          if ((scope.maxWidth && newWidth > scope.maxWidth) || newWidth > ($window.innerWidth * 0.95)) {
+            return;
+          }
+          
+          angular.element(scope.targetElement).css('width', newWidth + 'px');
         }
+        
+        function mouseup() {
+          $document.unbind('mousemove', mousemove);
+          $document.unbind('mouseup', mouseup);
+        }
+      }
     };
-  })
+  }]);
