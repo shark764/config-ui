@@ -19,13 +19,9 @@ Visual front-end for the LiveOps Configuration API.
 1. bower install
 1. run the liveops api project (https://bluespurs.atlassian.net/wiki/display/LCP/Instructions+to+Download+Public+API+and+Run+for+Docker)
 1. gulp serve
-
-### Who do I talk to? ###
-
-## Repo owner or admin ##
+ 
+## Team ##
 * John Benson (john.benson@bluespurs.com)
-
-## Other community or team contact ##
 * Phil Hachey (phil.hachey@bluespurs.com)
 * Samantha Routledge (samantha.routledge@bluespurs.com)
 * Sasha Wilcox (sasha.wilcox@bluespurs.com)
