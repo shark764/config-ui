@@ -1,9 +1,12 @@
 <div class="user-list-container">
-	<div class="left-panel">
-		<div class="action-container">
+  <div class="left-panel">
+    <div class="action-container">
 
-		</div>
+    </div>
 
-		<user-table users="users"></user-table>
-	</div>
+    <user-table users="users" select-user="selectUser(user)"></user-table>
+  </div>
+  <div class="right-panel">
+    <user-details id="user-details-container" user="selectedUserContext.user" display="selectedUserContext.display">
+  </div>
 </div>
