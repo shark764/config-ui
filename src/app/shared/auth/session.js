@@ -19,11 +19,13 @@ angular.module('liveopsConfigPanel')
             this.userSessionKey = 'LIVEOPS-SESSION-KEY';
             this.token = '';
             this.fullName = '';
+            this.id = '';
             this.isAuthenticated = false;
 
-            this.set = function(token, fullName) {
+            this.set = function(token, fullName, id) {
                 this.token = token;
                 this.fullName = fullName;
+                this.id = id;
                 this.isAuthenticated = true;
 
                 localStorage.setItem(this.userSessionKey, JSON.stringify(this));
@@ -32,6 +34,7 @@ angular.module('liveopsConfigPanel')
             this.destroy = function() {
                 this.token = '';
                 this.fullName = '';
+                this.id = '';
                 this.isAuthenticated = false;
 
                 localStorage.removeItem(this.userSessionKey);
