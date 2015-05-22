@@ -8,7 +8,7 @@ describe('AuthInterceptor', function() {
       $httpProviderIt = $httpProvider;
     }));
 
-    beforeEach(inject(['$rootScope', '$httpBackend', 'AuthInterceptor', 'Session', 'api-hostname',
+    beforeEach(inject(['$rootScope', '$httpBackend', 'AuthInterceptor', 'Session', 'apiHostname',
         function(_$rootScope_, _$httpBackend_, _AuthInterceptor_, _Session_, _hostname_) {
 
       hostname = _hostname_;
