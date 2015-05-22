@@ -1,0 +1,63 @@
+<!--
+	ToDo: move this to a directive
+	-->
+<div class="overlay" close="cancel()">
+	<div class="createUserContainer">
+		<h4>New User</h4>
+		<div class="modal-body">
+			<div class="error" ng-show="showError">{{errorMsg}}</div>
+			<div>
+				<label>Role</label>
+				<input type="text" ng-model="data.role" />
+			</div>
+
+			<div>
+				<label>Display Name</label>
+				<input type="text" ng-model="data.displayName" />
+			</div>
+
+			<div>
+				<label>Password</label>
+				<input type="text" ng-model="data.password" />
+			</div>
+
+			<div>
+				<label>First Name</label>
+				<input type="text" ng-model="data.firstName" />
+			</div>
+
+			<div>
+				<label>Last Name</label>
+				<input type="text" ng-model="data.lastName" />
+			</div>
+
+			<div>
+				<label>Email</label>
+				<input type="text" ng-model="data.email" />
+			</div>
+
+			<div>
+				<label>State</label>
+				<input type="text" ng-model="data.state" />
+			</div>
+
+			<div>
+				<label>External Id</label>
+				<input type="text" ng-model="data.externalId" />
+			</div>
+
+			<div>
+				<label>Created By</label>
+				<input type="text" ng-model="data.createdBy" />
+			</div>
+			<div>
+				<label>Status</label>
+				<input type="text" ng-model="data.status" />
+			</div>
+		</div>
+		<div class="modal-footer">
+			<button class="btn btn-success" ng-click="ok()">Okay</button>
+			<button class="btn" ng-click="cancel()">Cancel</button>
+		</div>
+	</div>
+</div>
