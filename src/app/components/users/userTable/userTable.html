@@ -1,3 +1,5 @@
+<input name='queryUserInput' ng-model="queryUser" placeholder="Search">
+
 <table class="user-table">
 	<thead>
 		<tr>
@@ -15,9 +17,9 @@
 			</th>
 		</tr>
 	</thead>
-	
+
 	<tbody>
-		<tr ng-repeat="user in users | userFilter:statuses:'status' | userFilter:states:'state' | orderBy:'lastName'">
+		<tr ng-repeat="user in users | userFilter:statuses:'status' | userFilter:states:'state' | orderBy:'lastName' | filter: searchUser">
 			<td>{{user.firstName}} {{user.lastName}}</td>
 			<td>{{user.externalId}}</td>
 			<td><span ng-class="{disabled : ! user.status}">{{user.status ? 'Enabled' : 'Disabled'}}</span></td>
