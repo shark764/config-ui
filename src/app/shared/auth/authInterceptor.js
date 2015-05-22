@@ -2,7 +2,7 @@
 
 angular.module('liveopsConfigPanel')
 
-  .factory('AuthInterceptor', ['$rootScope', 'Session', 'api-hostname', function($rootScope, Session, apiHostname) {
+  .factory('AuthInterceptor', ['$rootScope', 'Session', 'apiHostname', function($rootScope, Session, apiHostname) {
 
 
   var Interceptor = function () {

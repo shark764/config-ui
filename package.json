@@ -1,10 +1,6 @@
 {
   "name": "liveopsConfigPanel",
   "version": "0.0.0",
-  "dependencies": {
-    "gulp-debug": "^2.0.1",
-    "gulp-ng-constant": "~0.3.0"
-  },
   "scripts": {
     "test": "gulp test"
   },
@@ -55,7 +51,9 @@
     "require-dir": "~0.1.0",
     "uglify-save-license": "~0.4.1",
     "wiredep": "~2.2.0",
-    "wrench": "~1.5.8"
+    "wrench": "~1.5.8",
+    "gulp-debug": "~2.0.1",
+    "gulp-ng-constant": "~0.3.0"
   },
   "engines": {
     "node": ">=0.10.0"
