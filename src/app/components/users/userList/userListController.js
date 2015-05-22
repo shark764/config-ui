@@ -11,41 +11,49 @@ angular.module('liveopsConfigPanel')
       $scope.users = data.result;
     });
 
-    $scope.createUser = function(){
+    $scope.showModalSection = function(){
     	$scope.showModal = true;
     }
 
-  	$scope.saveCreateUser = function($data){
+    $scope.saveUser = function($data, $userId) {
 
-      if($data) {
-        UserService.save({
-          "role": $data.role,
-          "email": $data.email,
-          "password": $data.password,
-          "displayName": $data.displayName,
-          "firstName": $data.firstName,
-          "lastName": $data.lastName,
-          "state": $data.state,
-          "externalId": $data.externalId,
-          "createdBy": $data.createdBy,
-          "status": ($data.status == "true" ? true : false)
-        }).$promise.then(
-          function (data){
-            console.log("Success");
-            console.log(data);
-            $scope.showError = false;
-            $scope.showModal = false;
-          },
-          function (data) {
-            console.log("Error")
-            console.log(data);
-            $scope.showError = true;
-            $scope.errorMsg = data.statusText;
-          }
-        )
-      } else {
-        $scope.showError = true;
+      if ( $userId == "" || typeof $userId === 'undefined' ){
+        $userId = null;
       }
-    };
+      if ($userId == null){
+        $data.createdBy = $scope.Session.id;
+        $scope.createUser($data);
+      } else {
+        $data.updatedBy = $scope.Session.id;
+        $scope.updateUser($userId, $data);
+      }
 
+    }
+
+  	$scope.createUser = function($data){
+      UserService.save($data)
+      .$promise.then(
+        $scope.successResponse,
+        $scope.errorResponse
+      );
+    }
+
+    $scope.updateUser = function($userId, $data){
+      UserService.update({ id:$userId }, $data)
+        .$promise.then(
+          $scope.successResponse,
+          $scope.errorResponse
+        );
+    }
+
+
+    $scope.successResponse = function($data) {
+      $scope.showError = false;
+      $scope.showModal = false;
+    }
+
+    $scope.errorResponse = function($data) {
+      $scope.showError = true;
+      $scope.errorMsg = data.statusText;
+    }
   }]);
