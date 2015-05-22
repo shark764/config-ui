@@ -1,0 +1,50 @@
+{
+  "userStatuses": {
+    "all": {
+      "display": "All",
+      "value": "all",
+      "checked": true
+    },
+    "filters": [{
+      "display": "Disabled",
+      "value": "false",
+      "checked": false
+    }, {
+      "display": "Enabled",
+      "value": "true",
+      "checked": false
+    }]
+  },
+  "userStates": {
+    "all": {
+      "display": "All",
+      "value": "all",
+      "checked": true
+    },
+    "filters": [{
+      "display": "Busy",
+      "value": "BUSY",
+      "checked": false
+    }, {
+      "display": "Logout",
+      "value": "LOGOUT",
+      "checked": false
+    }, {
+      "display": "Ready",
+      "value": "READY",
+      "checked": false
+    }, {
+      "display": "Login",
+      "value": "LOGIN",
+      "checked": false
+    }, {
+      "display": "Not Ready",
+      "value": "NOT_READY",
+      "checked": false
+    }, {
+      "display": "Wrap",
+      "value": "WRAP",
+      "checked": false
+    }]
+  }
+}
