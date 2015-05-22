@@ -1,16 +1,29 @@
 .user-state {
+	width: 100%;
+	text-align: center;
+	height:100%;
+	
+	span {
+		display:block;
+		width: 100%;
+		padding: 3px;
+		line-height: 1.3em;
+		@include border-radius(5px);
+	}
+	
 	.ready {
-		color: #fff;
-		background-color: green;
+		color: #FFFFFF;
+		background-color: #04BD60;
 	}
 	
 	.busy {
-		color: #fff;
-		background-color: #ccc;
+		color: #FFFFFF;
+		background-color: $medium-grey;
 	}
 	
 	.not-ready { 
-		color: #ccc;
-		background-color: #fff;
+		color: $medium-grey;
+		background-color: #FFFFFF;
+		border: 1px solid $medium-grey;
 	}
 }
