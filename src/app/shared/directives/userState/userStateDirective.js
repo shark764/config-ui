@@ -13,7 +13,6 @@ angular.module('liveopsConfigPanel')
           default : return 'not-ready';
         }
       }
-
       scope.stateClass = getDisplayState(scope.state);
     };
 

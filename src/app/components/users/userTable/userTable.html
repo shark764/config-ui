@@ -6,29 +6,34 @@
 </div>
 
 <table class="user-table">
-	<thead>
-		<tr>
-			<th>
-				Name
-			</th>
-			<th>
-				ID
-			</th>
-			<th>
-				<dropdown label="Status" items="statuses" changefunction="updateUsers"></dropdown>
-			</th>
-			<th>
-				<dropdown label="State" items="states" changefunction="updateUsers"></dropdown>
-			</th>
-		</tr>
-	</thead>
+  <thead>
+    <tr>
+      <th>
+        Name
+      </th>
+      <th>
+        ID
+      </th>
+      <th>
+        <dropdown label="Status" items="statuses" changefunction="updateUsers"></dropdown>
+      </th>
+      <th>
+        <dropdown label="State" items="states" changefunction="updateUsers"></dropdown>
+      </th>
+    </tr>
+  </thead>
 
-	<tbody>
-		<tr ng-repeat="user in users | userFilter:statuses:'status' | userFilter:states:'state' | orderBy:'lastName' | filter: searchUser">
-			<td>{{user.firstName}} {{user.lastName}}</td>
-			<td>{{user.externalId}}</td>
-			<td><span ng-class="{disabled : ! user.status}">{{user.status ? 'Enabled' : 'Disabled'}}</span></td>
-			<td><div user-state state="{{user.state}}"></div></td>
-		</tr>
-	</tbody>
+  <tbody>
+
+    <tr ng-repeat="user in users | userFilter:statuses:'status' | userFilter:states:'state' | orderBy:'lastName' | filter: searchUser" ng-click="selectUser({user:user})">
+      <td>{{user.firstName}} {{user.lastName}}</td>
+      <td>{{user.externalId}}</td>
+      <td>
+        <span ng-class="{disabled : ! user.status}">{{user.status ? 'Enabled' : 'Disabled'}}</span>
+      </td>
+      <td>
+        <div user-state state="{{user.state}}"></div>
+      </td>
+    </tr>
+  </tbody>
 </table>
