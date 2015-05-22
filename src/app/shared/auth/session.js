@@ -12,11 +12,11 @@ angular.module('liveopsConfigPanel')
 // session information using redis or memcache
 
 // this will suffice in beta however.
-.factory('Session', function() {
+.factory('Session', ['sessionKey', function(sessionKey) {
 
   var Session = function () {
 
-    this.userSessionKey = 'LIVEOPS-SESSION-KEY';
+    this.userSessionKey = sessionKey;
     this.token = '';
     this.fullName = '';
     this.id = '';
@@ -50,4 +50,4 @@ angular.module('liveopsConfigPanel')
   instance.restore();
 
   return instance;
-});
+}]);

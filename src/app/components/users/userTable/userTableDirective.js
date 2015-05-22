@@ -1,11 +1,11 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('userTable', function() {
+  .directive('userTable', ['userStates', 'userStatuses', function(userStates, userStatuses) {
     var controller = ['$scope', '$filter', function($scope, $filter) {
-      $scope.statuses = {all : {display: 'All', value: 'all', checked: true}, filters : [{display: 'Disabled', value: 'false', checked: false}, {display: 'Enabled', value : 'true', checked: false}]};
-      $scope.states = {all: {display: 'All', value: 'all', checked: true}, filters : [{display: 'Busy', value: 'BUSY', checked: false}, {display: 'Logout', value : 'LOGOUT', checked: false}, {display: 'Ready', value : 'READY', checked: false}, {display: 'Login', value : 'LOGIN', checked: false}, {display: 'Not Ready', value : 'NOT_READY', checked: false}, {display: 'Wrap', value : 'WRAP', checked: false}]};
-
+      $scope.states = userStates;
+      $scope.statuses = userStatuses;
+      
       $scope.updateUsers = function(){
         var filteredUsers = $scope.users;
         filteredUsers = $filter('userStatusFilter')(filteredUsers, $scope.statuses);
@@ -17,7 +17,8 @@ angular.module('liveopsConfigPanel')
     return {
       restrict: 'E',
       scope: {
-        users: '='
+        users: '=',
+        selectUser: '='
       },
       link : function (scope) {
         scope.searchUser = function (user) {
@@ -39,7 +40,7 @@ angular.module('liveopsConfigPanel')
       templateUrl: 'app/components/users/userTable/userTable.html',
       controller : controller,
     };
-  })
+  }])
   .filter('userFilter', function() {
     return function( users, items, field) {
       if (items.all && items.all.checked){
