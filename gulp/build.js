@@ -68,7 +68,6 @@ module.exports = function(options) {
   // Custom fonts are handled by the "other" task
   gulp.task('fonts', function () {
     return gulp.src($.mainBowerFiles({}))
-      .pipe($.debug('bower: '))
       .pipe($.filter('**/*.{eot,svg,ttf,woff,woff2}'))
       .pipe($.flatten())
       .pipe(gulp.dest(options.dist + '/fonts/'));
