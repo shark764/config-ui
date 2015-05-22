@@ -1,6 +1,6 @@
 {
   "local": {
-    "api-hostname" : "localhost:9080"
+    "apiHostname" : "localhost:9080"
   },
   "unitTest": {
     "api-hostname" : "https://fakendpoint.com"

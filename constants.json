@@ -1,4 +1,5 @@
 {
+  "sessionKey" : "LIVEOPS-SESSION-KEY",
   "userStatuses": {
     "all": {
       "display": "All",
