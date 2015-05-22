@@ -4,10 +4,10 @@ This README would normally document whatever steps are necessary to get your app
 
 ### What is this repository for? ###
 
-* Quick summary
+## Quick summary ##
 Visual front-end for the LiveOps Configuration API.
 
-* Version
+## Version ##
 0.0.0
 
 ### How do I get set up? ###
