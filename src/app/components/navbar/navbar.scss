@@ -1,0 +1,76 @@
+$navbar-height: 55px;
+
+#__bs_notify__ {
+  display: none !important;
+}
+
+.navbar {
+  position: relative;
+  min-height: $navbar-height;
+  margin-bottom: 20px;
+  background-color: $main-color;
+  font-family: $main-font;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: normal;
+  -webkit-font-smoothing: antialiased;
+  color: white;
+  padding: 0px 20px;
+
+  div {
+    float: right;
+    line-height: $navbar-height;
+    font-size: 14px;
+
+    i {
+      cursor: pointer;
+      color: rgb(114, 132, 156);
+      font-size: 28px;
+      line-height: 55px;
+      margin-left: 10px;
+
+      &:hover {
+        color: white;
+      }
+    }
+  }
+
+  &>a {
+    float: left;
+    padding: 0px 8px;
+    margin-top: 10px;
+    font-size: 18px;
+    height: ($navbar-height - 10px);
+    width: 150px;
+    background: url(/assets/images/liveops-logo.png) no-repeat;
+    background-size: 150px;
+  }
+
+  ul {
+    float: left;
+    padding: 0;
+    margin: 0;
+
+    li {
+      float: left;
+      position: relative;
+      display: block;
+
+      a {
+        position: relative;
+        display: block;
+        padding: 15px 0px;
+        margin: 0px 10px;
+        line-height: 25px;
+        color: rgb(114, 132, 156);
+      }
+
+      &.active a {
+        -webkit-box-shadow: inset 0px -7px 0px 0px lighten($main-color, 30%);
+        -moz-box-shadow: inset 0px -7px 0px 0px lighten($main-color, 30%);
+        box-shadow: inset 0px -7px 0px 0px lighten($main-color, 30%);
+        color: white;
+      }
+    }
+  }
+}

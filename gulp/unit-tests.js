@@ -10,6 +10,7 @@ var concat = require('concat-stream');
 var _ = require('lodash');
 
 module.exports = function(options) {
+
   function listFiles(callback) {
     var wiredepOptions = _.extend({}, options.wiredep, {
       dependencies: true,
@@ -49,14 +50,20 @@ module.exports = function(options) {
         configFile: __dirname + '/../karma.conf.js',
         files: files,
         singleRun: singleRun,
-        autoWatch: !singleRun
+        autoWatch: !singleRun,
+        reporters: ['progress']
       }, done);
     });
   }
 
-  gulp.task('test', ['scripts'], function(done) {
+  gulp.task('test-setup', [], function(){
+    process.env.ENV = 'unitTest';
+  });
+
+  gulp.task('test', ['test-setup', 'config', 'scripts'], function(done) {
     runTests(true, done);
   });
+
   gulp.task('test:auto', ['watch'], function(done) {
     runTests(false, done);
   });
