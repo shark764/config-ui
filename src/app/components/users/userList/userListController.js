@@ -9,14 +9,14 @@ angular.module('liveopsConfigPanel')
       $scope.selectUser = function(user) {
         $scope.selectedUserContext = {
           user: user
-        }
+        };
         
         $scope.selectedUserContext.display = {
           firstName : user.firstName,
           lastName : user.lastName,
           displayName : user.displayName
-        }
-      }
+        };
+      };
     });
 
   }]);

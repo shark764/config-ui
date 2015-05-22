@@ -11,7 +11,7 @@ angular.module('liveopsConfigPanel')
         heading: '@'
       },
       link: function(scope, elem, attr, tabsetController) {
-        scope.active = false;
+        scope.active = !tabsetController.tabs.length;
         tabsetController.tabs.push(scope);
       }
     };

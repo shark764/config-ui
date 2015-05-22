@@ -17,10 +17,10 @@ angular.module('liveopsConfigPanel')
             if (tab.active && tab !== selectedTab) {
               tab.active = false;
             }
-          })
+          });
 
           selectedTab.active = true;
-        }
+        };
       }
     };
   });
