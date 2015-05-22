@@ -4,13 +4,12 @@
 
   <div class="left-panel">
     <div class="action-container">
-
       <button class="btn" ng-click="showModalSection()">Create New User</button>
-
     </div>
 
-    <user-table users="users"></user-table>
-    
+    <user-table users="users" select-user="selectUser(user)"></user-table>
   </div>
-
+  <div class="right-panel">
+    <user-details id="user-details-container" user="selectedUserContext.user" display="selectedUserContext.display">
+  </div>
 </div>

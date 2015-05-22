@@ -8,4 +8,3 @@ angular.module('liveopsConfigPanel')
     update: { method: 'PUT' }
   });
 }]);
-

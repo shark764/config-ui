@@ -4,5 +4,8 @@
   },
   "unitTest": {
     "api-hostname" : "https://fakendpoint.com"
+  },
+  "test": {
+    "api-hostname" : "ec2-52-6-188-168.compute-1.amazonaws.com"
   }
 }

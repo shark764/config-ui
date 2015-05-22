@@ -1,14 +1,11 @@
-@mixin border-radius($radius) {
-  -webkit-border-radius: $radius;
-     -moz-border-radius: $radius;
-      -ms-border-radius: $radius;
-          border-radius: $radius;
-}
-
 $medium-grey: #CFCFCF;
 $main-color: rgb(30, 58, 97);
 $main-font: Montserrat, sans-sarif;
 
+$light-grey: #999999;
+$lighter-grey: #ebebeb;
+$dark-grey: #474747;
+$dark-blue: #1e3a61;
 
 .browsehappy {
   margin: 0.2em 0;
