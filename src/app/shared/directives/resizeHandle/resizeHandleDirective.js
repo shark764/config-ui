@@ -12,11 +12,12 @@ angular.module('liveopsConfigPanel')
       
       templateUrl : 'app/shared/directives/resizeHandle/resizeHandle.html',
       link : function(scope, element) {
+        //Need non-jqlite object here because jqlite doesn't support offsetLeft, used in mousemove()
         scope.targetElement = document.getElementById(scope.elementId);
         
         element.on('mousedown', function(event) {
           //Don't initiate resize on right click, because it's annoying
-          if (event.button != 2) {
+          if (event.button !== 2) {
             event.preventDefault();
             
             $document.on('mousemove', mousemove);
@@ -27,7 +28,7 @@ angular.module('liveopsConfigPanel')
         function mousemove(event) {
           var left = scope.targetElement.offsetLeft;
           var x = event.pageX;
-          var newWidth = (x - left)
+          var newWidth = (x - left);
 
           if (scope.minWidth && newWidth < scope.minWidth) {
             return;

@@ -1,13 +1,16 @@
-<nav class="navbar" ng-controller="NavbarCtrl">
-  <a href="https://github.com/Swiip/generator-gulp-angular">Gulp Angular</a>
+<nav class="navbar" ng-controller="NavbarController" ng-switch="Session.isAuthenticated">
 
-  <ul>
-    <li class="active"><a ng-href="#">Home</a></li>
-    <li><a ng-href="#">About</a></li>
-    <li><a ng-href="#">Contact</a></li>
-  </ul>
+    <a ng-href="#/" ng-switch-when="true"></a>
 
-  <ul>
-    <li><a ng-href="#">Current date: {{ date | date:'yyyy-MM-dd' }}</a></li>
-  </ul>
+    <ul ng-switch-when="true">
+      <li ng-class="{ active: isActive('/')}"><a ng-href="#/">Users Management</a></li>
+    </ul>
+
+    <div ng-switch-when="true">
+      Welcome back, {{ Session.fullName }}
+      <div>
+        <i class="fa fa-sign-out" ng-click="logout()"></i>
+      </div>
+    </div>
+
 </nav>

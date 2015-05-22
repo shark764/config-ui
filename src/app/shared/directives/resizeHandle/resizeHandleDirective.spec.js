@@ -8,11 +8,13 @@ describe('resizeHandle directive', function(){
   beforeEach(module('liveopsConfigPanel'));
   beforeEach(module('gulpAngular')); 
   
-  beforeEach(inject(['$compile', '$rootScope', function(_$compile_,_$rootScope_) {
+  beforeEach(inject(['$compile', '$rootScope', '$document', function(_$compile_,_$rootScope_, $document) {
     $scope = _$rootScope_.$new();
     $compile = _$compile_;
     
-    element = $compile('<div id="container" style="width: 500px;"></container><resize-handle element-id="container" min-width="200"></resize-handle>')($scope);
+    var target = $compile('<div id="container" style="width: 500px;"></div>')($scope);
+    angular.element($document[0].body).append(target);
+    element = $compile('<resize-handle element-id="container" min-width="200" max-width="800"></resize-handle>')($scope);
     $scope.$digest();
   }]));
 
@@ -20,6 +22,4 @@ describe('resizeHandle directive', function(){
     var handle = element[0].querySelectorAll('.resizable-handle');
     expect(angular.element(handle).hasClass('resizable-handle')).toBe(true);
   }));
-  
-  
 });
