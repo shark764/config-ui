@@ -4,7 +4,7 @@
   width: calc(100% - #{$side-menu-width});
 
   .action-container {
-    height: 125px; /* Just for whitespace, will contain things later */
+    padding-bottom: 50px;; /* Just for whitespace, will contain things later */
   }
 
   .left-panel {
@@ -13,9 +13,9 @@
     height: calc(100% - #{$header-height});
     padding: 20px;
     width: 70%;
-    vertical-align: top;	
+    vertical-align: top;
   }
-  
+
   .right-panel {
     display: table-cell;
     padding: 10px;

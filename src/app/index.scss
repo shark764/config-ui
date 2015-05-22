@@ -61,12 +61,12 @@ a {
   margin: 0;
 }
 
-.btn:hover { 
+.btn:hover {
   @include inset-box-shadow;
 }
 
 .btn-group {
-  .btn { 
+  .btn {
     border-radius: 0;
     float: left;
   }
@@ -79,7 +79,7 @@ a {
   .btn + .btn {
     border-left: none;
   }
-  
+
   .btn:last-child {
     border-bottom-right-radius: 6px;
     border-top-right-radius: 6px;
@@ -91,12 +91,40 @@ a {
   color: darken($medium-grey, 20%);
 }
 
-.btn.disabled:hover, .btn-group.disabled .btn:hover { 
+.btn.disabled:hover, .btn-group.disabled .btn:hover {
   @include inset-box-shadow(0,0,0);
 }
 
 .pull-right {
   float: right;
+}
+
+input[type=password], input[type=text]{
+  border-radius: 3px;
+  border: none;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.2) inset, 0 -1px 0 rgba(0,0,0,0.05) inset;
+  transition: all 0.2s linear;
+  font-size: 13px;
+  color: #222222;
+  position: relative;
+  height: 36px;
+  width: 500px;
+  max-width: 100%;
+  padding-left: 15px;
+  box-sizing: border-box;
+
+  &::-webkit-input-placeholder {
+    color: #999999;
+  }
+
+  &:-moz-placeholder {
+    color: #999999;
+  }
+
+  &:focus{
+    box-shadow: 0 1px 0 #2392F3 inset, 0 -1px 0 #2392F3 inset, 1px 0 0 #2392F3 inset, -1px 0 0 #2392F3 inset, 0 0 4px rgba(35,146,243,0.5);
+    outline: none;
+  }
 }
 
 /* Do not remove this comments bellow. It's the markers used by gulp-inject to inject
