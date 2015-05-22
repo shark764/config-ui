@@ -1,8 +1,10 @@
 <div class="action-container">
-
-	<div><input type="text" name='queryUserInput' ng-model="queryUser" placeholder="Search"></div>
-	<div><a href="#" class="btn btn-primary">Create user</a></div>
-
+	<div>
+      <input type="text" name='queryUserInput' ng-model="queryUser" placeholder="Search">
+    </div>
+	<div>
+      <a href="#" class="btn btn-primary">Create user</a>
+    </div>
 </div>
 
 <table class="user-table">
@@ -24,7 +26,6 @@
   </thead>
 
   <tbody>
-
     <tr ng-repeat="user in users | userFilter:statuses:'status' | userFilter:states:'state' | orderBy:'lastName' | filter: searchUser" ng-click="selectUser(user)">
       <td>{{user.firstName}} {{user.lastName}}</td>
       <td>{{user.externalId}}</td>
