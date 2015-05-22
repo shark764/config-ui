@@ -1,13 +1,12 @@
-<div class="container">
-  <form name="login-form" ng-submit="login()" >
-    <div>
+
+  <form id="login-form" name="login-form" ng-submit="login()" >
+    <div class='input-group'>
       <input type="text" placeholder="joe.blo@example.com" ng-model="username" ng-required="true"/>
     </div>
-    <div>
+    <div class='input-group'>
       <input type="password" placeholder="*********" ng-model="password" ng-required="true"/>
     </div>
-    <div>
-     <input type="submit" value="Login"/>
+    <div class='input-group'>
+     <input class='login-btn' type="submit" value="Login"/>
     </div>
   </form>
-</div>
