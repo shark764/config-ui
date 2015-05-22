@@ -12,6 +12,6 @@ angular.module('liveopsConfigPanel', ['ngRoute', 'ngResource', 'liveopsConfigPan
       templateUrl: 'app/components/login/login.html',
       controller: 'LoginController'
     })
-    .otherwise('/users');
+    .otherwise('/');
   })
 ;
