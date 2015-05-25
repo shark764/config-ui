@@ -56,11 +56,6 @@ describe('userTable directive', function(){
     expect(element.find('tr').length).toEqual(users.length + 1);
   }));
 
-  it('should have an updateUsers function', inject(function() {
-    expect(element.isolateScope().updateUsers).toBeDefined();
-    expect(element.isolateScope().updateUsers).toEqual(jasmine.any(Function));
-  }));
-
   it('should have statuses and states objects', inject(function() {
     expect(element.isolateScope().statuses).toBeDefined();
     expect(element.isolateScope().statuses).toEqual(jasmine.any(Object));

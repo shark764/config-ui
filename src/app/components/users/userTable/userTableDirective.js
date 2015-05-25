@@ -2,28 +2,18 @@
 
 angular.module('liveopsConfigPanel')
   .directive('userTable', ['userStates', 'userStatuses', function(userStates, userStatuses) {
-    var controller = ['$scope', '$filter', function($scope, $filter) {
-      $scope.states = userStates;
-      $scope.statuses = userStatuses;
-      
-      $scope.updateUsers = function(){
-        var filteredUsers = $scope.users;
-        filteredUsers = $filter('userStatusFilter')(filteredUsers, $scope.statuses);
-        filteredUsers = $filter('userStateFilter')(filteredUsers, $scope.states);
-        filteredUsers = $scope.filter(filteredUsers);
-        $scope.users = filteredUsers;
-      };
-    }];
-
     return {
       restrict: 'E',
       scope: {
         users: '=',
         selectUser: '=',
-        filter: '='
+        searchfilter: '='
       },
       templateUrl: 'app/components/users/userTable/userTable.html',
-      controller : controller,
+      link : function(scope){
+        scope.states = userStates;
+        scope.statuses = userStatuses;
+      }
     };
   }])
   .filter('userFilter', function() {
@@ -43,6 +33,8 @@ angular.module('liveopsConfigPanel')
       angular.forEach(users, function(user) {
         if(selectedFilters.indexOf(String(user[field])) > -1) {
           filtered.push(user);
+        } else {
+          user.checked = false; //TODO: find a better place to put this logic
         }
       });
 

@@ -11,17 +11,19 @@
         <button class="btn btn-primary" ng-click="showModalSection()">Create New User</button>
       </div>
       
-      <div  class="actions">
-        <div><a href="#" class="btn disabled pull-left"><input type="checkbox"/>Action <i class="fa fa-caret-down"></i></a></div>
-        <div class="btn-group disabled pull-left">
-          <a href="#" class="btn"><i class="fa fa-check"></i>Enable</a>
-          <a href="#" class="btn"><i class="fa fa-times"></i>Disable</a>
-          <a href="#" class="btn"><i class="fa fa-lock"></i>Change Password</a>
+      <div class="actions">
+        <div><a href="" ng-class="{disabled : ! checkedUsers.length}" class="btn"><i class="fa fa-square-o"></i> Select <i class="fa fa-caret-down"></i></a></div>
+        <div class="btn-group" ng-class="{disabled : ! checkedUsers.length}">
+          <a ng-click="enableChecked()" class="btn"><i class="fa fa-check"></i>Enable</a>
+          <a ng-click="disableChecked()" class="btn"><i class="fa fa-times"></i>Disable</a>
+          <a href="" class="btn disabled"><i class="fa fa-lock"></i>Change Password</a>
         </div>
       </div>
     </div>
 
-    <user-table users="users" filter="searchUser" select-user="selectUser"></user-table>
+    Selected Users: <span ng-repeat="user in checkedUsers track by $index">{{user.firstName}}, </span>
+    
+    <user-table users="users" searchfilter="searchUser" select-user="selectUser"></user-table>
     <resize-handle element-id="left-panel" min-width="500"></resize-handle>
   </div>
 

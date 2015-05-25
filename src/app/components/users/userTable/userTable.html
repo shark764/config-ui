@@ -10,8 +10,8 @@
   </thead>
 
   <tbody>
-    <tr ng-repeat="user in users | userFilter:statuses:'status' | userFilter:states:'state' | orderBy:'lastName' | filter:filter" ng-click="selectUser(user)">
-      <td><input type="checkbox" /></td>
+    <tr ng-repeat="user in users | userFilter:statuses:'status' | userFilter:states:'state' | orderBy:'lastName' | filter:searchfilter" ng-click="selectUser(user)">
+      <td><input type="checkbox" ng-model="user.checked"/></td>
       <td>{{user.firstName}} {{user.lastName}}</td>
       <td>{{user.externalId}}</td>
       <td>

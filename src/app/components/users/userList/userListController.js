@@ -4,8 +4,9 @@ angular.module('liveopsConfigPanel')
   .controller('UserListController', ['$scope', 'Session', 'UserService', function ($scope, Session, UserService) {
     $scope.showModal = false;
     $scope.showError = false;
-    $scope.errorMsg = "Input required data";
-
+    $scope.errorMsg = 'Input required data';
+    $scope.checkedUsers = [];
+    
     $scope.selectUser = function (user) {
       $scope.selectedUserContext = {
         user: user
@@ -16,6 +17,14 @@ angular.module('liveopsConfigPanel')
         lastName: user.lastName,
         displayName: user.displayName
       };
+      
+      //TODO: Can this be accomplished without an explicit watch set on every user item?
+      //What would the performance be like with a select-all or select-none operation?
+      angular.forEach($scope.users, function(user) {
+        $scope.$watch(function() {return user.checked;}, function(newValue, oldValue) {
+          $scope.checkedUsers = filterFilter($scope.users, {'checked' : true})
+        });
+      });
     };
 
   	UserService.query(function(data){
