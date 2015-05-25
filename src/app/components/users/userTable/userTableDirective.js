@@ -34,7 +34,8 @@ angular.module('liveopsConfigPanel')
         if(selectedFilters.indexOf(String(user[field])) > -1) {
           filtered.push(user);
         } else {
-          user.checked = false; //TODO: find a better place to put this logic
+          //Uncheck users that have been excluded by the filter, so they are not included in batch operations:
+          user.checked = false;
         }
       });
 

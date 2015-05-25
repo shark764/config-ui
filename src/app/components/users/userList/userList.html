@@ -12,8 +12,28 @@
       </div>
       
       <div class="actions">
-        <div><a href="" ng-class="{disabled : ! checkedUsers.length}" class="btn"><i class="fa fa-square-o"></i> Select <i class="fa fa-caret-down"></i></a></div>
-        <div class="btn-group" ng-class="{disabled : ! checkedUsers.length}">
+        <div>
+          <button ng-class="{'drop-origin' : showSelectOptions}" class="btn" ng-click="showSelectOptions = ! showSelectOptions"> 
+            <i class="fa fa-square-o"></i> Select
+            <span><i class="fa" ng-class="{'fa-caret-up' : showSelectOptions, 'fa-caret-down' : ! showSelectOptions}"></i></span>
+          </button>
+          
+          <div class="check-dropdown-container">
+            <div class="check-dropdown" ng-hide="! showSelectOptions">
+              <ul>
+                <li ng-click="selectAll()">
+                   All
+                </li>
+                
+                <li ng-click="selectNone()">
+                   None
+                </li>
+              </ul>
+            </div>
+          </div>
+        
+        </div>
+        <div class="btn-group" ng-disabled="{{! checkedUsers.length}}">
           <a ng-click="enableChecked()" class="btn"><i class="fa fa-check"></i>Enable</a>
           <a ng-click="disableChecked()" class="btn"><i class="fa fa-times"></i>Disable</a>
           <a href="" class="btn disabled"><i class="fa fa-lock"></i>Change Password</a>
@@ -23,7 +43,7 @@
 
     Selected Users: <span ng-repeat="user in checkedUsers track by $index">{{user.firstName}}, </span>
     
-    <user-table users="users" searchfilter="searchUser" select-user="selectUser"></user-table>
+    <user-table users="users" searchfilter="searchUser" select-user="selectUser" checked-function="updateChecked"></user-table>
     <resize-handle element-id="left-panel" min-width="500"></resize-handle>
   </div>
 
