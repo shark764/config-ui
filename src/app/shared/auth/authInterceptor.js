@@ -10,6 +10,14 @@ angular.module('liveopsConfigPanel')
     this.request = function(config){
       config.headers = {};
 
+      
+
+      if (config.method == "POST"){
+        config.data.createdBy = Session.id;
+      } else if (config.method == "PUT") {
+        config.data.updatedBy = Session.id;
+      }
+
       if(config.url.indexOf(apiHostname) >= 0 && Session.token.length > 0){
           config.headers.Authorization = 'Basic ' + Session.token;
           config.headers['Content-Type'] = 'application/json';
