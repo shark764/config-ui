@@ -23,12 +23,6 @@ angular.module('liveopsConfigPanel')
 
     UserService.query(function (data) {
       $scope.users = data.result;
-      $scope.selectedUserContext = {};
-
-      if (data.result) {
-        //Binding form to first result. Putting this in for now.
-        $scope.selectUser(data.result[0]);
-      }
     });
 
     $scope.showModalSection = function () {
@@ -65,7 +59,7 @@ angular.module('liveopsConfigPanel')
         );
     };
 
-    $scope.successResponse = function (data) {
+    $scope.successResponse = function () {
       $scope.showError = false;
       $scope.showModal = false;
     };

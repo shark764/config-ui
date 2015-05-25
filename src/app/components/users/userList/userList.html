@@ -11,7 +11,7 @@
     <resize-handle element-id="left-panel" min-width="500"></resize-handle>
   </div>
 
-  <div class="right-panel">
+  <div class="right-panel" ng-show="selectedUserContext">
     <user-details id="user-details-container"
       user-fields="selectedUserContext.userFields"
       user="selectedUserContext.user"

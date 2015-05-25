@@ -1,0 +1,15 @@
+<div class="edit-field edit-field-drop-down" ng-init="edit = false">
+  <ng-transclude></ng-transclude>
+  <div class="input-toggle">
+
+    <select ng-model="field" ng-options="option for option in options" name={{name}} required="" ng-show="edit" ng-change="saveHandler(save, name, field, objectId)">
+      <option value="">{{defaultText}}</option>
+    </select>
+
+    <div ng-mouseover="hover=true" ng-mouseout="hover=false" ng-click="edit = true" title="Click to edit." ng-show="!edit">
+      <label ng-show="field">{{field}}</label>
+      <label class="placeholder" ng-show="!field">Click to add value</label>
+      <i class="fa fa-pencil" ng-show="hover"></i>
+    </div>
+  </div>
+</div>

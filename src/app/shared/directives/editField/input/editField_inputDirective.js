@@ -4,14 +4,15 @@ angular.module('liveopsConfigPanel')
   .directive('editField', ['UserService', function (UserService) {
     return {
       restrict: 'E',
-      templateUrl: 'app/shared/directives/editField/editField.html',
+      templateUrl: 'app/shared/directives/editField/input/editField_input.html',
       scope: {
         field: '=',
         save: '=',
         objectId: '=',
         name: '@',
         label: '@',
-        type: '@'
+        type: '@',
+        placeholder: '@'
       },
       link: function(scope, elem, attr) {
         scope.saveHandler = function(save, key, value, objectId) {
