@@ -1,12 +1,12 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('userTable', ['userStates', 'userStatuses', function(userStates, userStatuses) {
-    var controller = ['$scope', '$filter', function($scope, $filter) {
+  .directive('userTable', ['userStates', 'userStatuses', function (userStates, userStatuses) {
+    var controller = ['$scope', '$filter', function ($scope, $filter) {
       $scope.states = userStates;
       $scope.statuses = userStatuses;
-      
-      $scope.updateUsers = function(){
+
+      $scope.updateUsers = function () {
         var filteredUsers = $scope.users;
         filteredUsers = $filter('userStatusFilter')(filteredUsers, $scope.statuses);
         filteredUsers = $filter('userStateFilter')(filteredUsers, $scope.states);
@@ -20,9 +20,15 @@ angular.module('liveopsConfigPanel')
         users: '=',
         selectUser: '='
       },
-      link : function (scope) {
+      link: function (scope) {
+
+        scope.selectUser = function (selectedUser) {
+          scope.selectedUser = selectedUser;
+          scope.$emit('userTable:user:selected', selectedUser);
+        }
+
         scope.searchUser = function (user) {
-          if (!scope.queryUser){
+          if (!scope.queryUser) {
             return true;
           }
           var wildCardQuery = new RegExp(scope.regExpReplace(scope.queryUser), 'i');
@@ -32,7 +38,7 @@ angular.module('liveopsConfigPanel')
           return (wildCardQuery.test(user.firstName + ' ' + user.lastName));
         };
 
-        scope.regExpReplace = function (string){
+        scope.regExpReplace = function (string) {
           // Allow all characters in user search, use * as wildcard
           string.replace(/([.+?^=!:${}()|\[\]\/\\])/g, '\\$1');
           return string.replace(/([*])/g, '.*');
@@ -40,30 +46,29 @@ angular.module('liveopsConfigPanel')
 
       },
       templateUrl: 'app/components/users/userTable/userTable.html',
-      controller : controller,
+      controller: controller,
     };
   }])
-  .filter('userFilter', function() {
-    return function( users, items, field) {
-      if (items.all && items.all.checked){
+  .filter('userFilter', function () {
+    return function (users, items, field) {
+      if (items.all && items.all.checked) {
         return users;
       }
 
       var selectedFilters = [];
-      angular.forEach(items.filters, function(item) {
-        if(item.checked) {
+      angular.forEach(items.filters, function (item) {
+        if (item.checked) {
           selectedFilters.push(String(item.value));
         }
       });
 
       var filtered = [];
-      angular.forEach(users, function(user) {
-        if(selectedFilters.indexOf(String(user[field])) > -1) {
+      angular.forEach(users, function (user) {
+        if (selectedFilters.indexOf(String(user[field])) > -1) {
           filtered.push(user);
         }
       });
 
       return filtered;
     };
-  })
- ;
+  });

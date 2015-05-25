@@ -6,20 +6,10 @@ angular.module('liveopsConfigPanel')
     $scope.showError = false;
     $scope.errorMsg = 'Input required data';
 
-    $scope.selectUser = function (user) {
-      $scope.selectedUserContext = {
-        user: user
-      };
-
-      $scope.selectedUserContext.display = {
-        firstName: user.firstName,
-        lastName: user.lastName,
-        displayName: user.displayName,
-        state: user.state,
-        created: user.created,
-        createdBy: user.createdBy
-      };
-    };
+    $scope.$on('userTable:user:selected', function (event, selectedUser) {
+      $scope.selectedUser = selectedUser;
+      $scope.$broadcast('userList:user:selected', selectedUser);
+    });
 
     UserService.query(function (data) {
       $scope.users = data.result;
@@ -34,29 +24,27 @@ angular.module('liveopsConfigPanel')
 
       if (!userId) { // if userId is null
         data.createdBy = Session.id;
-        $scope.createUser(data);
+        $scope.createUser(data)
+          .then(
+            $scope.successResponse,
+            $scope.errorResponse);
       } else {
         data.updatedBy = Session.id;
-        $scope.updateUser(userId, data);
+        $scope.updateUser(userId, data)
+          .then(
+            $scope.successResponse,
+            $scope.errorResponse);
       }
     };
 
     $scope.createUser = function (data) {
-      UserService.save(data)
-        .$promise.then(
-          $scope.successResponse,
-          $scope.errorResponse
-        );
+      return UserService.save(data).$promise;
     };
 
     $scope.updateUser = function (userId, data) {
       return UserService.update({
-          id: userId
-        }, data)
-        .$promise.then(
-          $scope.successResponse,
-          $scope.errorResponse
-        );
+        id: userId
+      }, data).$promise;
     };
 
     $scope.successResponse = function () {
@@ -68,4 +56,17 @@ angular.module('liveopsConfigPanel')
       $scope.showError = true;
       $scope.errorMsg = data.statusText;
     };
+
+    $scope.$on('editField:save', function (event, args) {
+      var saveObject = {};
+      saveObject.updatedBy = '1c838030-f772-11e4-ac37-45b2e1245d4b';
+      saveObject[args.fieldName] = args.fieldValue;
+
+      $scope.updateUser(args.objectId, saveObject)
+        .then(function (data) {
+          $scope.$broadcast('userList:' + args.fieldName + ':save', data);
+        }, function (data) {
+          $scope.$broadcast('userList:' + args.fieldName + ':save:error', data);
+        });
+    });
   }]);

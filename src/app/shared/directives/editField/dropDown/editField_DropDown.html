@@ -2,7 +2,7 @@
   <ng-transclude></ng-transclude>
   <div class="input-toggle">
 
-    <select ng-model="ngModel" ng-options="option for option in options" name={{name}} required="" ng-show="edit" ng-change="saveHandler(save, name, ngModel, objectId)">
+    <select ng-model="ngModel" ng-options="option for option in ['Admin', 'Agent']" name={{name}} required="" ng-show="edit" ng-change="saveHandler()">
       <option value="">{{defaultText}}</option>
     </select>
 

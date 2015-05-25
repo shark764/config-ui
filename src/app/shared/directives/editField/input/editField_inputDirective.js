@@ -15,15 +15,21 @@ angular.module('liveopsConfigPanel')
         placeholder: '@'
       },
       link: function(scope) {
-        scope.saveHandler = function(save, key, value, objectId) {
-          var saveField = {};
-          saveField[key] = value;
-          saveField.updatedBy = '09478090-02e7-11e5-b2a6-2da9f0004fdd';
-          
-          save(objectId, saveField).then(function(){
-            scope.edit = false;
-          });
+        scope.saveHandler = function() {
+          scope.$emit('editField:save', {
+            objectId: scope.objectId,
+            fieldName: scope.name,
+            fieldValue: scope.ngModel
+          })
         };
+        
+        scope.$on('userList:' + scope.name + ':save', function(event, args) {
+          scope.edit = false;
+        });
+        
+        scope.$on('userList:' + scope.name + ':save:error', function(event, args) {
+          console.log(args)
+        });
       }
     };
   });
