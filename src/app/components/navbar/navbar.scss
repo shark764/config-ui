@@ -1,4 +1,5 @@
 $navbar-height: 55px;
+$divider-margin: 12px;
 
 #__bs_notify__ {
   display: none !important;
@@ -17,6 +18,23 @@ $navbar-height: 55px;
   color: white;
   padding: 0px 20px;
 
+  select {
+    position: relative;
+    width: 150px;
+    margin-top: 10px;
+    padding: 7px;
+    background: transparent;
+    -webkit-appearance: none;
+    background: url("/assets/images/down-arrow.png") no-repeat;
+    background-size: 18px 18px;
+    background-position: 95% 50%;
+    color: $medium-grey;
+    font-family: $main-font;
+    font-size:15px;
+    border-color: $light-grey;
+    @include border-radius(5px);
+  }
+
   div {
     float: right;
     line-height: $navbar-height;
@@ -33,6 +51,16 @@ $navbar-height: 55px;
         color: white;
       }
     }
+  }
+
+  .divider {
+    height: $navbar-height - ($divider-margin * 2);
+    width: 2px;
+    margin-top: $divider-margin;
+    margin-bottom: $divider-margin;
+    margin-right: 10px;
+    margin-left: 20px;
+    background-color: $light-grey;
   }
 
   &>a {
