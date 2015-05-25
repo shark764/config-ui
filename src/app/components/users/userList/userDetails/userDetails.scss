@@ -1,7 +1,8 @@
 $margin : 20px;
 
 #user-details-container {
-  float: right;
+  position: absolute;
+  right: 0px;
   border-left: 1px grey solid;
   height: 100%;
   width: 400px;
@@ -11,6 +12,7 @@ $margin : 20px;
     border-bottom: 1px solid;
     
     #user-details-header-name {
+
       
       .user-state {
         display: inline-block;
