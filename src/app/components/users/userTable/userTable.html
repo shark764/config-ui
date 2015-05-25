@@ -1,25 +1,20 @@
-<input name='queryUserInput' ng-model="queryUser" placeholder="Search">
+<div class="action-container">
+  <div>
+    <input type="text" name='queryUserInput' ng-model="queryUser" placeholder="Search">
+  </div>
+</div>
 
 <table class="user-table">
   <thead>
     <tr>
-      <th>
-        Name
-      </th>
-      <th>
-        ID
-      </th>
-      <th>
-        <dropdown label="Status" items="statuses" changefunction="updateUsers"></dropdown>
-      </th>
-      <th>
-        <dropdown label="State" items="states" changefunction="updateUsers"></dropdown>
-      </th>
+      <th>Name</th>
+      <th>ID</th>
+      <th><dropdown label="Status" items="statuses" changefunction="updateUsers"></dropdown></th>
+      <th><dropdown label="State" items="states" changefunction="updateUsers"></dropdown></th>
     </tr>
   </thead>
 
   <tbody>
-
     <tr ng-repeat="user in users | userFilter:statuses:'status' | userFilter:states:'state' | orderBy:'lastName' | filter: searchUser" ng-click="selectUser(user)">
       <td>{{user.firstName}} {{user.lastName}}</td>
       <td>{{user.externalId}}</td>

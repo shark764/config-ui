@@ -22,7 +22,9 @@ angular.module('liveopsConfigPanel')
       },
       link : function (scope) {
         scope.searchUser = function (user) {
-          if (!scope.queryUser) return true;
+          if (!scope.queryUser){
+            return true;
+          }
           var wildCardQuery = new RegExp(scope.regExpReplace(scope.queryUser), 'i');
 
           // Search by displayName and location; location not defined yet

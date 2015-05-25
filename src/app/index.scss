@@ -1,22 +1,36 @@
-$medium-grey: #CFCFCF;
-$main-color: rgb(30, 58, 97);
-$main-font: Montserrat, sans-sarif;
+@mixin inset-box-shadow ($horizontal: 0px, $vertical: 1px, $blur: 2px, $color: rgba(175, 175, 175, 0.4 )) {
+  -webkit-box-shadow: inset $horizontal $vertical $blur $color;
+  -moz-box-shadow: inset $horizontal $vertical $blur $color;
+  box-shadow: inset $horizontal $vertical $blur $color;
+}
 
+$medium-grey: #CFCFCF;
+$side-menu-width: 50px;
+$header-height: 55px;
+$main-color: rgb(30, 58, 97);
+$main-color-light: lighten(desaturate($main-color, 35%), 20%);
+$main-font: Montserrat, sans-serif;
 $light-grey: #999999;
 $lighter-grey: #ebebeb;
 $dark-grey: #474747;
 $dark-blue: #1e3a61;
 
-.browsehappy {
-  margin: 0.2em 0;
-  background: #ccc;
-  color: #000;
-  padding: 0.2em 0;
+html, body {
+  height: 100%;
+}
+
+body > .ng-view {
+  height: calc(100% - #{$header-height});
+}
+
+header {
+  height: $header-height;
+  background-color: #1E3A61;
 }
 
 body {
   margin: 0;
-  font-family: $main-font; 
+  font-family: $main-font;
   color: #474747;
   font-size: 0.9em;
 }
@@ -25,58 +39,57 @@ a {
   text-decoration: none;
 }
 
-.container {
-  width: 1170px;
-  margin-right: auto;
-  margin-left: auto;
-  padding-left: 15px;
-  padding-right: 15px;
-}
-
-.jumbotron {
-  padding: 60px;
-  margin-bottom: 30px;
-  background-color: gainsboro;
-  border-radius: 6px;
-  text-align: center;
-}
-
 .btn {
+  background-color: #FFFFFF;
+  border: 1px solid $medium-grey;
+  border-radius: 6px;
+  color: $main-color;
+  cursor: pointer;
   display: inline-block;
+  font-size: 18px;
+  line-height: 1.25;
+  padding: 7px 16px;
   text-align: center;
   vertical-align: middle;
-  cursor: pointer;
-  border: 1px solid transparent;
-  color: white;
-  background-color: #5cb85c;
-  border-color: #4cae4c;
-  padding: 10px 16px;
-  font-size: 18px;
-  line-height: 1.33;
-  border-radius: 6px;
 }
 
-.col {
-  float: left;
-  width: 33.33%;
-  position: relative;
-  padding-left: 15px;
-  padding-right: 15px;
-  box-sizing: border-box;
+.btn-primary {
+  background-color: $main-color;
+  color: #FFFFFF;
+  margin: 0;
+}
 
-  .thumbnail {
-    height: 200px;
-    border: 1px solid lightgrey;
-    border-radius: 4px;
-    margin-bottom: 20px;
+.btn:hover {
+  @include inset-box-shadow;
+}
 
-    .caption {
-      padding: 9px;
-    }
+.btn-group {
+  .btn {
+    border-radius: 0;
+    float: left;
+  }
 
-    img.pull-right {
-      width: 50px;
-    }
+  .btn:first-child {
+    border-bottom-left-radius: 6px;
+    border-top-left-radius: 6px;
+  }
+
+  .btn + .btn {
+    border-left: none;
+  }
+
+  .btn:last-child {
+    border-bottom-right-radius: 6px;
+    border-top-right-radius: 6px;
+  }
+}
+
+.btn.disabled, .btn-group.disabled .btn {
+  border-color: lighten($medium-grey, 3%);
+  color: darken($medium-grey, 20%);
+  
+  &:hover {
+    @include inset-box-shadow(0,0,0);
   }
 }
 
@@ -84,11 +97,35 @@ a {
   float: right;
 }
 
-hr {
-  clear: both;
+input[type=password], input[type=text]{
+  border-radius: 3px;
+  border: none;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.2) inset, 0 -1px 0 rgba(0,0,0,0.05) inset;
+  transition: all 0.2s linear;
+  font-size: 13px;
+  color: #222222;
+  position: relative;
+  height: 36px;
+  width: 500px;
+  max-width: 100%;
+  padding-left: 15px;
+  box-sizing: border-box;
+
+  &::-webkit-input-placeholder {
+    color: #999999;
+  }
+
+  &:-moz-placeholder {
+    color: #999999;
+  }
+
+  &:focus{
+    box-shadow: 0 1px 0 #2392F3 inset, 0 -1px 0 #2392F3 inset, 1px 0 0 #2392F3 inset, -1px 0 0 #2392F3 inset, 0 0 4px rgba(35,146,243,0.5);
+    outline: none;
+  }
 }
 
 /* Do not remove this comments bellow. It's the markers used by gulp-inject to inject
    all your sass files automatically */
-// injector
-// endinjector
+//injector
+//endinjector

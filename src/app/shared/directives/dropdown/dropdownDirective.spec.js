@@ -1,6 +1,6 @@
 'use strict';
 
-describe('userTable directive', function(){
+describe('dropdown directive', function(){
   var $scope,
     $compile,
     element,

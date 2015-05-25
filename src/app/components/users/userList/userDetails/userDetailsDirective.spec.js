@@ -27,7 +27,7 @@ describe('tabset directive', function () {
     displayName: 'Don C.',
 
   };
-  
+
   it('should have display bindings equal to scope', inject(function () {
     $scope.user = user;
     $scope.display = display;
@@ -50,18 +50,5 @@ describe('tabset directive', function () {
     var enabledByDisplayElement = element.find('#user-details-header-name .state-description:last');
     expect(createdByDisplayElement.length).toEqual(1);
     expect(enabledByDisplayElement.html()).toEqual('Enabled by <b>{John Doh}</b> on <b class="ng-binding">2015-08-01</b>');
-  }));
-
-  it('should have user bindings equal to scope', inject(function () {
-    $scope.user = user;
-    $scope.display = display;
-
-    var element = $compile('<user-details user="user" display="display"></user-details>')($scope);
-    $scope.$digest();
-
-    var inputElement = element.find('form input[ng-model="firstName"]');
-    expect(fullNameDisplayElement.length).toEqual(1);
-    expect(fullNameDisplayElement.attr).toEqual('Don');
-
   }));
 });
