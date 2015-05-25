@@ -30,11 +30,14 @@
           <input type="text" ng-model="data.email" placeholder="Email Address" />
         </div>
 
-        <label class="switch switch-green">
-          <input type="checkbox" class="switch-input" checked ng-model="data.status">
-          <span class="switch-label" data-on="On" data-off="Off"></span>
-          <span class="switch-handle"></span>
-        </label>
+        <div class="input-field-tile">
+          <label style="padding-top 5px">Status</label>
+          <label class="switch switch-green">
+            <input type="checkbox" class="switch-input" checked ng-model="data.status">
+            <span class="switch-label" data-on="On" data-off="Off"></span>
+            <span class="switch-handle"></span>
+          </label>
+        </div>
 
     </div>
     <div class="modal-footer">
