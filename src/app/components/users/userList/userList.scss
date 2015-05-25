@@ -21,6 +21,30 @@
     display: table-cell;
     vertical-align: top;
   }
+  
+  .action-container > div {
+	box-sizing: border-box;
+	float:left;
+	width: 50%;
+  }
+
+  .action-container > div:nth-child(even) {
+  	text-align: right;
+  }
+  
+  .actions {
+    margin: 20px 0;
+    width: 100%;
+    
+    .btn-group {
+      padding-left: 15px;
+      width: 75%;
+      
+      .fa {
+        margin-right: 7px;
+      }
+    }
+  }
 }
 
 .side-menu {

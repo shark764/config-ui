@@ -10,6 +10,7 @@ angular.module('liveopsConfigPanel')
         var filteredUsers = $scope.users;
         filteredUsers = $filter('userStatusFilter')(filteredUsers, $scope.statuses);
         filteredUsers = $filter('userStateFilter')(filteredUsers, $scope.states);
+        filteredUsers = $scope.filter(filteredUsers);
         $scope.users = filteredUsers;
       };
     }];
@@ -18,26 +19,8 @@ angular.module('liveopsConfigPanel')
       restrict: 'E',
       scope: {
         users: '=',
-        selectUser: '='
-      },
-      link : function (scope) {
-        scope.searchUser = function (user) {
-          if (!scope.queryUser){
-            return true;
-          }
-          var wildCardQuery = new RegExp(scope.regExpReplace(scope.queryUser), 'i');
-
-          // Search by displayName and location; location not defined yet
-          // return (wildCardQuery.test(user.firstName + ' ' + user.lastName) || wildCardQuery.test(user.location));
-          return (wildCardQuery.test(user.firstName + ' ' + user.lastName));
-        };
-
-        scope.regExpReplace = function (string){
-          // Allow all characters in user search, use * as wildcard
-          string.replace(/([.+?^=!:${}()|\[\]\/\\])/g, '\\$1');
-          return string.replace(/([*])/g, '.*');
-        };
-
+        selectUser: '=',
+        filter: '='
       },
       templateUrl: 'app/components/users/userTable/userTable.html',
       controller : controller,

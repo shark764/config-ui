@@ -4,10 +4,24 @@
 <div class="user-list-container">
   <div id="left-panel" class="left-panel">
     <div class="action-container">
-      <button class="btn" ng-click="showModalSection()">Create New User</button>
+      <div>
+        <input type="text" name='queryUserInput' ng-model="queryUser" placeholder="Search">
+      </div>
+      <div>
+        <button class="btn btn-primary" ng-click="showModalSection()">Create New User</button>
+      </div>
+      
+      <div  class="actions">
+        <div><a href="#" class="btn disabled pull-left"><input type="checkbox"/>Action <i class="fa fa-caret-down"></i></a></div>
+        <div class="btn-group disabled pull-left">
+          <a href="#" class="btn"><i class="fa fa-check"></i>Enable</a>
+          <a href="#" class="btn"><i class="fa fa-times"></i>Disable</a>
+          <a href="#" class="btn"><i class="fa fa-lock"></i>Change Password</a>
+        </div>
+      </div>
     </div>
 
-    <user-table users="users" select-user="selectUser"></user-table>
+    <user-table users="users" filter="searchUser" select-user="selectUser"></user-table>
     <resize-handle element-id="left-panel" min-width="500"></resize-handle>
   </div>
 

@@ -27,7 +27,7 @@ angular.module('liveopsConfigPanel')
         $scope.selectUser(data.result[0]);
       }
     });
-
+    
     $scope.showModalSection = function(){
     	$scope.showModal = true;
     }
