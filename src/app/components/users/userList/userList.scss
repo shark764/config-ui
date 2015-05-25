@@ -74,6 +74,7 @@
   position: absolute;
   padding: 15px 0;
   top: -2px;
+  width: calc(100% - 2px);
   z-index: 10;
    
   ul{
@@ -91,5 +92,5 @@
 }
 
 .drop-origin {
-  @include border-radius-complex(6, 0, 6, 6);
+  @include border-radius-complex(6, 0, 0, 6);
 }

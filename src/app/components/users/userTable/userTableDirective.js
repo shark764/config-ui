@@ -6,8 +6,7 @@ angular.module('liveopsConfigPanel')
       restrict: 'E',
       scope: {
         users: '=',
-        selectUser: '=',
-        searchfilter: '='
+        selectUser: '='
       },
       templateUrl: 'app/components/users/userTable/userTable.html',
       link : function(scope){

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('UserListController', ['$scope', 'Session', 'UserService', 'filterFilter', function ($scope, Session, UserService, filterFilter) {
+  .controller('UserListController', ['$scope', 'Session', 'UserService', 'filterFilter', '$filter', function ($scope, Session, UserService, filterFilter, $filter) {
     $scope.showModal = false;
     $scope.showError = false;
     $scope.errorMsg = 'Input required data';
@@ -22,19 +22,24 @@ angular.module('liveopsConfigPanel')
 
   	UserService.query(function(data){
       $scope.users = data.result;
+      $scope.filteredUsers = $scope.users;
       $scope.selectedUserContext = {};
 
       if (data.result) {
         //Binding form to first result. Putting this in for now.
         $scope.selectUser(data.result[0]);
           
-        //TODO: Can this be accomplished without an explicit watch set on every user item?
+        //TODO: Can this be accomplished without an explicit watches?
         //Imagining poor performance with a select-all or select-none operation
         //What happens when a user is added?
         angular.forEach($scope.users, function(user) {
           $scope.$watch(function() {return user.checked;}, function(newValue, oldValue) {
-            $scope.checkedUsers = filterFilter($scope.users, {'checked' : true})
+            $scope.checkedUsers = filterFilter($scope.filteredUsers, {'checked' : true})
           });
+        });
+        
+        $scope.$watch(function() {return $scope.queryUser}, function(newValue, oldValue) {
+          $scope.filteredUsers = $filter('userSearchFilter')($scope.users, $scope.queryUser);
         });
       }
     });
@@ -50,23 +55,6 @@ angular.module('liveopsConfigPanel')
         user.checked = false;
       });
   	}
-  	
-  	$scope.searchUser = function (user) {
-      if (!$scope.queryUser){
-        return true;
-      }
-      var wildCardQuery = new RegExp($scope.regExpReplace($scope.queryUser), 'i');
-
-      // Search by displayName and location; location not defined yet
-      // return (wildCardQuery.test(user.firstName + ' ' + user.lastName) || wildCardQuery.test(user.location));
-      return (wildCardQuery.test(user.firstName + ' ' + user.lastName));
-    };
-
-    $scope.regExpReplace = function(string){
-      // Allow all characters in user search, use * as wildcard
-      string.replace(/([.+?^=!:${}()|\[\]\/\\])/g, '\\$1');
-      return string.replace(/([*])/g, '.*');
-    };
   	
     $scope.showModalSection = function(){
     	$scope.showModal = true;
@@ -124,4 +112,31 @@ angular.module('liveopsConfigPanel')
       $scope.showError = true;
       $scope.errorMsg = data.statusText;
     }
-  }]);
+  }])
+  .filter('userSearchFilter', function() {
+   function regExpReplace(string){
+      // Allow all characters in user search, use * as wildcard
+      string.replace(/([.+?^=!:${}()|\[\]\/\\])/g, '\\$1');
+      return string.replace(/([*])/g, '.*');
+    };
+    
+    return function(users, query) {
+      if (! query){
+        return users;
+      }
+      
+      var wildCardQuery = new RegExp(regExpReplace(query), 'i');
+
+      var filtered = [];
+      angular.forEach(users, function(user) {
+        if ((wildCardQuery.test(user.firstName + ' ' + user.lastName))){
+          filtered.push(user);
+        } else {
+          //Uncheck users that have been excluded by the search, so they are not included in batch operations:
+          user.checked = false;
+        }
+      });
+
+      return filtered;
+    };
+  });

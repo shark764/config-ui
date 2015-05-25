@@ -41,9 +41,9 @@
       </div>
     </div>
 
-    Selected Users: <span ng-repeat="user in checkedUsers track by $index">{{user.firstName}}, </span>
+    Selected Users: <span ng-repeat="user in checkedUsers">{{user.firstName}}, </span>
     
-    <user-table users="users" searchfilter="searchUser" select-user="selectUser" checked-function="updateChecked"></user-table>
+    <user-table users="filteredUsers" select-user="selectUser"></user-table>
     <resize-handle element-id="left-panel" min-width="500"></resize-handle>
   </div>
 
