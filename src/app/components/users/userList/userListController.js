@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('UserListController', ['$scope', 'UserService', function ($scope, UserService) {
+  .controller('UserListController', ['$scope', 'Session', 'UserService', function ($scope, Session, UserService) {
     $scope.showModal = false;
     $scope.showError = false;
     $scope.errorMsg = "Input required data";
@@ -27,26 +27,47 @@ angular.module('liveopsConfigPanel')
         $scope.selectUser(data.result[0]);
       }
     });
-    
+
     $scope.showModalSection = function(){
     	$scope.showModal = true;
     }
 
-  	$scope.createUser = function($data){
-      $data.createdBy = $scope.Session.id;
-      UserService.save($data)
-      .$promise.then(
-        $scope.successResponse,
-        $scope.errorResponse
-      );
+    $scope.saveUser = function(data, userId) {
+      userId = userId || null;
+
+      if (!userId){ // if userId is null
+        data.createdBy = Session.id;
+        $scope.createUser(data);
+      } else {
+        data.updatedBy = Session.id;
+        $scope.updateUser(userId, data);
+      }
+
     }
 
-    $scope.successResponse = function($data) {
+  	$scope.createUser = function(data){
+      UserService.save(data)
+        .$promise.then(
+          $scope.successResponse,
+          $scope.errorResponse
+        );
+    }
+
+    $scope.updateUser = function(userId, data){
+      UserService.update( { id:userId }, data)
+        .$promise.then(
+          $scope.successResponse,
+          $scope.errorResponse
+        );
+    }
+
+
+    $scope.successResponse = function(data) {
       $scope.showError = false;
       $scope.showModal = false;
     }
 
-    $scope.errorResponse = function($data) {
+    $scope.errorResponse = function(data) {
       $scope.showError = true;
       $scope.errorMsg = $data.data.message;
     }

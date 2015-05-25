@@ -34,9 +34,11 @@ $margin: 20px;
   form {
     display: block;
     padding: $margin;
+
     .input-field-tile {
       margin-bottom: 15px;
       color: $dark-grey;
+
       .ng-invalid {
         border-width: 1px;
         border-color: red;
@@ -45,6 +47,7 @@ $margin: 20px;
         color: red;
         font-size: 11px;
       }
+
       input,
       select {
         display: block;
@@ -52,43 +55,40 @@ $margin: 20px;
         border: 1px solid $light-grey;
         @include border-radius(4px);
         padding: 8px;
+        width:100%;
+        box-sizing: border-box;
       }
-      input[type="text"] {
-        width: 90%;
-        max-width: 500px;
-      }
-      input[type="email"] {
-        width: 85%;
-        max-width: 482px;
-      }
+
       input[type="button"] {
-        width: 90%;
-        max-width: 450px;
         background-color: white;
         color: $dark-blue;
         font-weight: bold;
         font-size: 16px;
+        width: auto;
       }
+
       select {
-        width: 90%;
-        max-width: 500px;
         background-color: white;
       }
+
       h2 {
         color: $dark-blue;
         margin: 10px 0;
         display: inline-block;
       }
+
       svg {
         height: 20px;
         width: 25px;
       }
+
     }
+
     tabset {
-      width: 90%;
-      max-width: 500px;
+      width: 100%;
       margin-top: 10px;
       display: inline-block;
+
       li {
         width: 80px;
       }

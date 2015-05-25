@@ -5,13 +5,14 @@ angular.module('liveopsConfigPanel')
   return {
 
     templateUrl: 'app/components/users/newUser/newUser.html',
-    controller:  function ($scope) {
+
+    link:  function ($scope) {
       $scope.data = {};
       $scope.data.status = false;
       $scope.data.state = "Offline";
 
       $scope.ok = function(){
-        $scope.createUser($scope.data);
+        $scope.saveUser($scope.data);
       }
 
       $scope.cancel = function(){
@@ -20,7 +21,6 @@ angular.module('liveopsConfigPanel')
         $scope.showModal = false;
       }
 
-    },
-    controllerAs: 'newUserController'
+    }
   };
 });
