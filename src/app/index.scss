@@ -1,19 +1,6 @@
-@mixin inset-box-shadow ($horizontal: 0px, $vertical: 1px, $blur: 2px, $color: rgba(175, 175, 175, 0.4 )) {
-  -webkit-box-shadow: inset $horizontal $vertical $blur $color;
-  -moz-box-shadow: inset $horizontal $vertical $blur $color;
-  box-shadow: inset $horizontal $vertical $blur $color;
-}
-
-$medium-grey: #CFCFCF;
-$side-menu-width: 50px;
-$header-height: 55px;
-$main-color: rgb(30, 58, 97);
-$main-color-light: lighten(desaturate($main-color, 35%), 20%);
-$main-font: Montserrat, sans-serif;
-$light-grey: #999999;
-$lighter-grey: #ebebeb;
-$dark-grey: #474747;
-$dark-blue: #1e3a61;
+@import 'shared/sass/constants';
+@import 'shared/sass/_mixins';
+@import 'shared/sass/_fonts';
 
 html, body {
   height: 100%;
@@ -87,10 +74,10 @@ a {
 .btn.disabled, .btn-group.disabled .btn {
   border-color: lighten($medium-grey, 3%);
   color: darken($medium-grey, 20%);
-  
-  &:hover {
-    @include inset-box-shadow(0,0,0);
-  }
+}
+
+.btn.disabled:hover, .btn-group.disabled .btn:hover {
+  @include inset-box-shadow(0,0,0);
 }
 
 .pull-right {
