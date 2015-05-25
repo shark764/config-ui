@@ -7,16 +7,9 @@ angular.module('liveopsConfigPanel')
     $scope.errorMsg = 'Input required data';
 
     $scope.selectUser = function (user) {
-      $scope.selectedUserContext = {};
-      $scope.selectedUserContext.userFields = {};
-      angular.forEach(user, function (value, key) {
-        $scope.selectedUserContext.userFields[key] = {
-          userId: user.id,
-          name: key,
-          value: value,
-          edit: false
-        };
-      });
+      $scope.selectedUserContext = {
+        user: user
+      };
 
       $scope.selectedUserContext.display = {
         firstName: user.firstName,

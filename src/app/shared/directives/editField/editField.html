@@ -1,12 +1,12 @@
 
-<div class="edit-field">
+<div class="edit-field" ng-init="edit = false">
   <label>{{label}}</label>
   <div class="input-toggle">
-    <input type="text" ng-model="field.value" name="{{field.name}}" type="{{type}}" required="" ng-if="field.edit" ng-enter="saveHandler(save, field)">
+    <input type="text" ng-model="field" name="{{name}}" type="{{type}}" required="" ng-show="edit" ng-enter="saveHandler(save, name, field, objectId)">
     
-    <div ng-mouseover="hover=true" ng-mouseout="hover=false" ng-click="edit(field)" title="Click to edit." ng-if="!field.edit">
-      <label ng-show="field.value">{{field.value}}</label>
-      <label class="placeholder" ng-show="!field.value">Click to add value</label>
+    <div ng-mouseover="hover=true" ng-mouseout="hover=false" ng-click="edit = true" title="Click to edit." ng-show="!edit">
+      <label ng-show="field">{{field}}</label>
+      <label class="placeholder" ng-show="!field">Click to add value</label>
       <button ng-show="hover">E</button>
     </div>
   </div>

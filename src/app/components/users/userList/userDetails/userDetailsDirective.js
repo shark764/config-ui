@@ -5,7 +5,6 @@ angular.module('liveopsConfigPanel')
     return {
       scope: {
         user: '=',
-        userFields: '=',
         display: '=',
         saveField: '='
       },

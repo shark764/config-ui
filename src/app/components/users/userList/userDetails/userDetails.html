@@ -17,12 +17,12 @@
 
 <form name="userForm" novalidate>
 
-  <edit-field field="userFields.firstName" label="First Name*" type="text" save="saveField"></edit-field>
-  <edit-field field="userFields.lastName" label="Last Name*"  type="text" save="saveField"></edit-field>
-  <edit-field field="userFields.displayName" label="Display Name*"  type="text" save="saveField"></edit-field>
-  <edit-field field="userFields.telephone" label="Telephone"  type="text" save="saveField"></edit-field>
-  <edit-field field="userFields.email" label="Email*"  type="text" save="saveField"></edit-field>
-  <edit-field field="userFields.externalId" label="External ID*" type="text" save="saveField"></edit-field>
+  <edit-field field="user.firstName" name="firstName" label="First Name*" type="text" save="saveField" object-id="user.id"></edit-field>
+  <edit-field field="user.lastName" name="lastName" label="Last Name*"  type="text" save="saveField" object-id="user.id"></edit-field>
+  <edit-field field="user.displayName" name="displayName" label="Display Name*"  type="text" save="saveField" object-id="user.id"></edit-field>
+  <edit-field field="user.telephone" name="telephone" label="Telephone"  type="text" save="saveField" object-id="user.id"></edit-field>
+  <edit-field field="user.email" name="email" label="Email*"  type="text" save="saveField" object-id="user.id"></edit-field>
+  <edit-field field="user.externalId" name="externalId" label="External ID*" type="text" save="saveField" object-id="user.id"></edit-field>
 
   <div class="input-field-tile">
     <input type="button" ng-click="resetPassword()" value="Reset Password" />
