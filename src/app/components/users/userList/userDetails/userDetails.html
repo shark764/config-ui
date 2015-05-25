@@ -2,13 +2,9 @@
   <div class="abox"></div>
   <div id="user-details-header-name">
 
-    <label class="switch switch-green user-toggle">
-        <input type="checkbox" class="switch-input" checked ng-model="user.status">
-        <span class="switch-label" data-on="On" data-off="Off"></span>
-        <span class="switch-handle"></span>
-    </label>
-
+    <toggle class="user-toggle" ng-model="user.status"></toggle>
     <h1 class="user-name">{{display.firstName}} {{display.lastName}}</h1>
+    
     <span>
       <h2>{{display.displayName}}</h2>
       <user-state state="{{user.state}}" />
