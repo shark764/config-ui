@@ -2,56 +2,55 @@ $margin : 20px;
 
 #user-details-container {
   float: right;
-  border-left: 1px grey solid;
   height: 100%;
-  width: 400px;
-  
+  width: 100%;
+
   .detail-header-pane {
     padding: $margin;
     border-bottom: 1px solid;
-    
+
     #user-details-header-name {
-      
+
       .user-state {
         display: inline-block;
       };
-      
+
       h1 {
         margin: 0px;
         color: $dark-grey;
       };
-      
+
       h2 {
         display: inline-block;
         font-size: 18px;
         color: $light-grey;
       };
-      
+
       .state-description {
         font-size: 12px;
         color: $light-grey;
       }
     }
   }
-  
+
   form {
     display: block;
     padding: $margin;
-    
+
     .input-field-tile {
       margin-bottom: 15px;
       color: $dark-grey;
-      
+
       .ng-invalid {
         border-width: 1px;
         border-color: red;
       };
-      
+
       .input-error {
         color: red;
         font-size: 11px;
       };
-      
+
       input, select {
         display:block;
         margin-top: 5px;
@@ -59,11 +58,11 @@ $margin : 20px;
         @include border-radius(4px);
         padding: 8px;
       };
-      
+
       input[type="text"], input[type="email"] {
         width: 300px;
       };
-      
+
       input[type="button"] {
         width: 165px;
         background-color: white;
@@ -71,34 +70,34 @@ $margin : 20px;
         font-weight: bold;
         font-size: 16px;
       };
-      
+
       select {
         background-color: white;
         width: 320px;
       }
-      
+
       h2 {
         color: $dark-blue;
         margin: 10px 0;
         display: inline-block;
       };
-      
+
       svg {
         height: 20px;
         width: 25px;
       };
     };
-    
+
     tabset {
       margin-top: 10px;
       display: inline-block;
-      
+
       li {
         width: 70px;
       };
-      
+
       #extensions-tab {
-        
+
       }
     }
   };
