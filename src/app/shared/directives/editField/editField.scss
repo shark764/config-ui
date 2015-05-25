@@ -1,0 +1,73 @@
+.edit-field {
+  margin-bottom: 15px;
+  color: $dark-grey;
+  
+  .input-toggle {
+    div {
+      margin-top:5px;
+      display:block;
+      width: 500px;
+      border: $lighter-grey 1px solid;
+      @include border-radius(4px);
+      
+      label {
+        display: inline-block;
+        margin: 10px;
+      }
+      
+      .placeholder {
+        color: $light-grey;
+      }
+      
+      button {
+        display: block;
+        float: right;
+        height: 39px;
+        width: 30px;
+      }
+    }
+    
+    div:hover {
+      border: $light-grey 1px solid;
+    }
+  }
+  
+  input,
+  select {
+    display: block;
+    margin-top: 5px;
+    border: 1px solid $light-grey;
+    @include border-radius(4px);
+    padding: 8px;
+  }
+  input[type="text"] {
+    width: 90%;
+    max-width: 500px;
+  }
+  input[type="email"] {
+    width: 85%;
+    max-width: 482px;
+  }
+  input[type="button"] {
+    width: 90%;
+    max-width: 450px;
+    background-color: white;
+    color: $dark-blue;
+    font-weight: bold;
+    font-size: 16px;
+  }
+  select {
+    width: 90%;
+    max-width: 500px;
+    background-color: white;
+  }
+  h2 {
+    color: $dark-blue;
+    margin: 10px 0;
+    display: inline-block;
+  }
+  svg {
+    height: 20px;
+    width: 25px;
+  }
+}

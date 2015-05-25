@@ -8,60 +8,21 @@
 
     <span>
       <h2>{{display.displayName}}</h2>
-      <user-state state="{{user.state}}" />
+      <user-state state="{{display.state}}" />
     </span>
-    <div class="state-description">User Created by <b>{John Doh}</b> on <b>{{user.created}}</b></div>
-    <div class="state-description">Enabled by <b>{John Doh}</b> on <b>{{user.created}}</b></div>
+    <div class="state-description">User Created by <b>{John Doh}</b> on <b>{{display.created}}</b></div>
+    <div class="state-description">Enabled by <b>{John Doh}</b> on <b>{{display.created}}</b></div>
   </div>
 </div>
 
 <form name="userForm" novalidate>
 
-  <div class="input-field-tile">
-    <label>First Name*</label>
-    <input type="text" ng-model="user.firstName" name="firstName" required="">
-    <div ng-show="userForm.$submitted || userForm.firstName.$touched" class="input-error">
-      <div ng-show="userForm.firstName.$error.required">First Name must be provided.</div>
-    </div>
-  </div>
-
-  <div class="input-field-tile">
-    <label>Last Name*</label>
-    <input type="text" ng-model="user.lastName" name="lastName" required="">
-    <div ng-show="userForm.$submitted || userForm.lastName.$touched" class="input-error">
-      <div ng-show="userForm.lastName.$error.required">Last Name must be provided.</div>
-    </div>
-  </div>
-
-  <div class="input-field-tile">
-    <label>Display Name*</label>
-    <input type="text" ng-model="user.displayName" name="displayName" required="">
-    <div ng-show="userForm.$submitted || userForm.displayName.$touched" class="input-error">
-      <div ng-show="userForm.displayName.$error.required">Display Name must be provided.</div>
-    </div>
-  </div>
-
-  <div class="input-field-tile">
-    <label>Telephone</label>
-    <input type="text" ng-model="user.telephone" name="telephone">
-  </div>
-
-  <div class="input-field-tile">
-    <label>Email*</label>
-    <input type="email" ng-model="user.email" name="email" required="">
-    <div ng-show="userForm.$submitted || userForm.email.$touched" class="input-error">
-      <span ng-show="userForm.email.$error.required">Email must be provided.</span>
-      <span ng-show="userForm.email.$error.email">This is not a valid email.</span>
-    </div>
-  </div>
-
-  <div class="input-field-tile">
-    <label>External ID*</label>
-    <input type="text" ng-model="user.externalId" name="externalId" required="">
-    <div ng-show="userForm.$submitted || userForm.externalId.$touched" class="input-error">
-      <div ng-show="userForm.externalId.$error.required">External ID must be provided.</div>
-    </div>
-  </div>
+  <edit-field field="userFields.firstName" label="First Name*" type="text" save="saveField"></edit-field>
+  <edit-field field="userFields.lastName" label="Last Name*"  type="text" save="saveField"></edit-field>
+  <edit-field field="userFields.displayName" label="Display Name*"  type="text" save="saveField"></edit-field>
+  <edit-field field="userFields.telephone" label="Telephone"  type="text" save="saveField"></edit-field>
+  <edit-field field="userFields.email" label="Email*"  type="text" save="saveField"></edit-field>
+  <edit-field field="userFields.externalId" label="External ID*" type="text" save="saveField"></edit-field>
 
   <div class="input-field-tile">
     <input type="button" ng-click="resetPassword()" value="Reset Password" />

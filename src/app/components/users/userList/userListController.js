@@ -7,18 +7,28 @@ angular.module('liveopsConfigPanel')
     $scope.errorMsg = 'Input required data';
 
     $scope.selectUser = function (user) {
-      $scope.selectedUserContext = {
-        user: user
-      };
+      $scope.selectedUserContext = {};
+      $scope.selectedUserContext.userFields = {};
+      angular.forEach(user, function (value, key) {
+        $scope.selectedUserContext.userFields[key] = {
+          userId: user.id,
+          name: key,
+          value: value,
+          edit: false
+        };
+      });
 
       $scope.selectedUserContext.display = {
         firstName: user.firstName,
         lastName: user.lastName,
-        displayName: user.displayName
+        displayName: user.displayName,
+        state: user.state,
+        created: user.created,
+        createdBy: user.createdBy
       };
     };
 
-  	UserService.query(function(data){
+    UserService.query(function (data) {
       $scope.users = data.result;
       $scope.selectedUserContext = {};
 
@@ -28,24 +38,23 @@ angular.module('liveopsConfigPanel')
       }
     });
 
-    $scope.showModalSection = function(){
-    	$scope.showModal = true;
+    $scope.showModalSection = function () {
+      $scope.showModal = true;
     };
 
-    $scope.saveUser = function(data, userId) {
+    $scope.saveUser = function (data, userId) {
       userId = userId || null;
 
-      if (!userId){ // if userId is null
+      if (!userId) { // if userId is null
         data.createdBy = Session.id;
         $scope.createUser(data);
       } else {
         data.updatedBy = Session.id;
         $scope.updateUser(userId, data);
       }
-
     };
 
-  	$scope.createUser = function(data){
+    $scope.createUser = function (data) {
       UserService.save(data)
         .$promise.then(
           $scope.successResponse,
@@ -53,22 +62,23 @@ angular.module('liveopsConfigPanel')
         );
     };
 
-    $scope.updateUser = function(userId, data){
-      UserService.update( { id:userId }, data)
+    $scope.updateUser = function (userId, data) {
+      return UserService.update({
+          id: userId
+        }, data)
         .$promise.then(
           $scope.successResponse,
           $scope.errorResponse
         );
     };
 
-
-    $scope.successResponse = function() {
+    $scope.successResponse = function (data) {
       $scope.showError = false;
       $scope.showModal = false;
     };
 
-    $scope.errorResponse = function(data) {
+    $scope.errorResponse = function (data) {
       $scope.showError = true;
-      $scope.errorMsg = data.data.message;
-    };
+      $scope.errorMsg = data.statusText;
+    }
   }]);

@@ -5,7 +5,9 @@ angular.module('liveopsConfigPanel')
     return {
       scope: {
         user: '=',
-        display: '='
+        userFields: '=',
+        display: '=',
+        saveField: '='
       },
       templateUrl: 'app/components/users/userList/userDetails/userDetails.html'
     };
