@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('UserListController', ['$scope', 'Session', 'UserService', function ($scope, Session, UserService) {
+  .controller('UserListController', ['$scope', 'Session', 'UserService', 'filterFilter', function ($scope, Session, UserService, filterFilter) {
     $scope.showModal = false;
     $scope.showError = false;
     $scope.errorMsg = 'Input required data';
@@ -101,6 +101,19 @@ angular.module('liveopsConfigPanel')
         );
     }
 
+    $scope.enableChecked = function(){
+      angular.forEach($scope.checkedUsers, function(user) {
+        $scope.saveUser({'status' : true}, user.id)
+        user.status = true;
+      });
+    }
+    
+    $scope.disableChecked = function(){
+      angular.forEach($scope.checkedUsers, function(user) {
+        $scope.saveUser({'status' : false}, user.id)
+        user.status = false;
+      });
+    }
 
     $scope.successResponse = function(data) {
       $scope.showError = false;
