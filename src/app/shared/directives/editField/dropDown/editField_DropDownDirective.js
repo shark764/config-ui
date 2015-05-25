@@ -7,7 +7,7 @@ angular.module('liveopsConfigPanel')
       transclude: true,
       templateUrl: 'app/shared/directives/editField/dropDown/editField_DropDown.html',
       scope: {
-        field: '=',
+        ngModel: '=',
         save: '=',
         objectId: '=',
         defaultText: '@',

@@ -6,7 +6,7 @@ angular.module('liveopsConfigPanel')
       restrict: 'E',
       templateUrl: 'app/shared/directives/editField/input/editField_input.html',
       scope: {
-        field: '=',
+        ngModel: '=',
         save: '=',
         objectId: '=',
         name: '@',
