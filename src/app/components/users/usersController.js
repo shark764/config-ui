@@ -40,7 +40,6 @@ angular.module('liveopsConfigPanel')
     };
 
     $scope.errorResponse = function (data) {
-      console.log(data);
       $scope.showError = true;
       $scope.errorMsg = data.data.message;
     };
