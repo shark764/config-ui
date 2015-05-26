@@ -4,8 +4,8 @@ angular.module('liveopsConfigPanel', ['ngRoute', 'ngResource', 'liveopsConfigPan
   .config(function ($routeProvider) {
     $routeProvider
     .when('/', {
-      templateUrl: 'app/components/users/userManagement.html',
-      controller: 'UserManagementController',
+      templateUrl: 'app/components/users/users.html',
+      controller: 'UsersController',
       secure: true
     })
     .when('/login', {

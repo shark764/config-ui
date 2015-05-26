@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('UserManagementController', ['$scope', 'Session', 'UserService', function ($scope, Session, UserService) {
+  .controller('UsersController', ['$scope', 'Session', 'UserService', function ($scope, Session, UserService) {
     $scope.showModal = false;
     $scope.showError = false;
     $scope.errorMsg = 'Input required data';
