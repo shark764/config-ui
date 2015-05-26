@@ -93,7 +93,7 @@ angular.module('liveopsConfigPanel')
   	$scope.enableChecked = function(){
       angular.forEach($scope.filteredUsers, function(user) {
         if (user.checked && ! user.filtered){
-          $scope.saveUser({'status' : true}, user.id);
+          $scope.updateUser(user.id, {'status' : true});
           user.status = true;
         }
       });
@@ -102,7 +102,7 @@ angular.module('liveopsConfigPanel')
     $scope.disableChecked = function(){
       angular.forEach($scope.filteredUsers, function(user) {
         if (user.checked && ! user.filtered){
-          $scope.saveUser({'status' : false}, user.id);
+          $scope.updateUser(user.id, {'status' : false});
           user.status = false;
         }
       });
@@ -114,21 +114,6 @@ angular.module('liveopsConfigPanel')
 
     $scope.showModalSection = function () {
       $scope.showModal = true;
-    };
-
-    $scope.saveUser = function (data, userId) {
-      userId = userId || null;
-
-
-      if (!userId){ // if userId is null
-        $scope.createUser(data).then(
-          $scope.successResponse,
-          $scope.errorResponse);
-      } else {
-        $scope.updateUser(userId, data).then(
-          $scope.successResponse,
-          $scope.errorResponse);
-      }
     };
 
     $scope.createUser = function (data) {
@@ -144,6 +129,12 @@ angular.module('liveopsConfigPanel')
     $scope.successResponse = function () {
       $scope.showError = false;
       $scope.showModal = false;
+      // Updates the user list
+      UserService.query(function (data) {
+        $scope.users = data.result;
+      });
+      // Tells the children that it was successful in creating a user. (So the form can be cleared)
+      $scope.$broadcast('createUser:success');
     };
 
     $scope.errorResponse = function (data) {
@@ -153,7 +144,6 @@ angular.module('liveopsConfigPanel')
     
     $scope.$on('editField:save', function (event, args) {
       var saveObject = {};
-      saveObject.updatedBy = '1c838030-f772-11e4-ac37-45b2e1245d4b';
       saveObject[args.fieldName] = args.fieldValue;
 
       $scope.updateUser(args.objectId, saveObject)
@@ -162,6 +152,14 @@ angular.module('liveopsConfigPanel')
         }, function (data) {
           $scope.$broadcast('userList:' + args.fieldName + ':save:error', data);
         });
+    });
+    
+    $scope.$on('createUser:save', function (event, args) {
+      $scope.createUser(args.data)
+        .then(
+          $scope.successResponse,
+          $scope.errorResponse
+        );
     });
   }])
   .filter('UserSearchFilter', function() {
