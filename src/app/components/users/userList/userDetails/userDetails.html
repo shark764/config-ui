@@ -1,7 +1,10 @@
 <div class="detail-header-pane">
   <div class="abox"></div>
   <div id="user-details-header-name">
-    <h1>{{display.firstName}} {{display.lastName}}</h1>
+
+    <toggle class="user-toggle" ng-model="user.status"></toggle>
+    <h1 class="user-name">{{display.firstName}} {{display.lastName}}</h1>
+    
     <span>
       <h2>{{display.displayName}}</h2>
       <user-state state="{{user.state}}" />
