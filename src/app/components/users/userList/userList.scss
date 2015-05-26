@@ -60,37 +60,3 @@
   position: absolute;
   width: $side-menu-width;
 }
-
-.check-dropdown-container {
-  position: relative;
-}
-
-.check-dropdown {
-  background-color: #FFFFFF;
-  border: 1px solid$medium-grey;
-  border-top: none;
-  font-weight: normal;
-  right: 0;
-  position: absolute;
-  padding: 15px 0;
-  top: -2px;
-  width: calc(100% - 2px);
-  z-index: 10;
-   
-  ul{
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-  }
-  
-  li {
-    padding: 0 15px;
-  }
-  li:hover {
-    background-color: $lighter-grey;
-  }
-}
-
-.drop-origin {
-  @include border-radius-complex(6, 0, 0, 6);
-}

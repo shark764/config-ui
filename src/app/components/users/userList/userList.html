@@ -13,24 +13,8 @@
       
       <div class="actions">
         <div>
-          <button ng-class="{'drop-origin' : showSelectOptions}" class="btn" ng-click="showSelectOptions = ! showSelectOptions"> 
-            <i class="fa fa-square-o"></i> Select
-            <span><i class="fa" ng-class="{'fa-caret-up' : showSelectOptions, 'fa-caret-down' : ! showSelectOptions}"></i></span>
-          </button>
+          <dropdown items="selectOptions" label="Select"></dropdown>
           
-          <div class="check-dropdown-container">
-            <div class="check-dropdown" ng-hide="! showSelectOptions">
-              <ul>
-                <li ng-click="selectAll()">
-                   All
-                </li>
-                
-                <li ng-click="selectNone()">
-                   None
-                </li>
-              </ul>
-            </div>
-          </div>
         
         </div>
         <div class="btn-group" ng-disabled="{{! checkedUsers.length}}">

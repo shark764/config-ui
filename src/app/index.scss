@@ -79,10 +79,10 @@ a {
   border-color: lighten($medium-grey, 3%);
   color: darken($medium-grey, 20%);
   cursor: default;
-}
-
-.btn.disabled:hover, .btn-group.disabled .btn:hover {
-  @include inset-box-shadow(0,0,0);
+  
+  &:hover {
+     @include inset-box-shadow(0,0,0);
+  }
 }
 
 .pull-right {

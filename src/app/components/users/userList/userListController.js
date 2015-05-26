@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('UserListController', ['$scope', 'Session', 'UserService', 'filterFilter', '$filter', function ($scope, Session, UserService, filterFilter, $filter) {
+  .controller('UserListController', ['$scope', 'Session', 'UserService', 'filterFilter', '$filter', '$document', function ($scope, Session, UserService, filterFilter, $filter, $document) {
     $scope.showModal = false;
     $scope.showError = false;
     $scope.errorMsg = 'Input required data';
@@ -29,21 +29,55 @@ angular.module('liveopsConfigPanel')
         //Binding form to first result. Putting this in for now.
         $scope.selectUser(data.result[0]);
           
-        //TODO: Can this be accomplished without an explicit watches?
-        //Imagining poor performance with a select-all or select-none operation
-        //What happens when a user is added?
+        //Watch the checked value for items in the users list, so we can autoupdate the checkedUsers list when needed
         angular.forEach($scope.users, function(user) {
           $scope.$watch(function() {return user.checked;}, function(newValue, oldValue) {
             $scope.checkedUsers = filterFilter($scope.filteredUsers, {'checked' : true})
           });
         });
         
+        //Watch the search value so we can update the filteredUsers list which gets passed to the table directive
         $scope.$watch(function() {return $scope.queryUser}, function(newValue, oldValue) {
-          $scope.filteredUsers = $filter('userSearchFilter')($scope.users, $scope.queryUser);
+          $scope.filteredUsers = $filter('UserSearchFilter')($scope.users, $scope.queryUser);
+        });
+        
+        //Watch for additions to the users list
+        $scope.$watchCollection("users", function(newList, oldList) {
+            if (newList < oldList){
+              return;
+            }
+            
+            var newItems = [];
+            angular.forEach(newList, function(user) {
+              if (oldList.indexOf(user) === -1) {
+                newItems.push(user);
+              }
+            });
+            
+            //Add a watch to the new user(s) checked attribute
+            angular.forEach(newItems, function(user) {
+              $scope.$watch(function() {return user.checked;}, function(newValue, oldValue) {
+                $scope.checkedUsers = filterFilter($scope.filteredUsers, {'checked' : true})
+              });
+            });
         });
       }
     });
     
+  	$scope.selectOptions = [{
+    	  label : 'All',
+    	  onClick : function(){
+    	      $scope.selectAll();
+    	  }
+    	}, 
+    	{
+    	 label : 'None',
+       onClick : function(){
+         $scope.selectNone();
+        }
+    }];
+  	
+  	
   	$scope.selectAll = function(){
   	  angular.forEach($scope.users, function(user) {
         user.checked = true;
@@ -113,7 +147,7 @@ angular.module('liveopsConfigPanel')
       $scope.errorMsg = data.statusText;
     }
   }])
-  .filter('userSearchFilter', function() {
+  .filter('UserSearchFilter', function() {
    function regExpReplace(string){
       // Allow all characters in user search, use * as wildcard
       string.replace(/([.+?^=!:${}()|\[\]\/\\])/g, '\\$1');

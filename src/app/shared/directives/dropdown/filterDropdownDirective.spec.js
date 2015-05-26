@@ -1,6 +1,6 @@
 'use strict';
 
-describe('dropdown directive', function(){
+describe('filterDropdown directive', function(){
   var $scope,
     $compile,
     element,
@@ -16,7 +16,7 @@ describe('dropdown directive', function(){
     statuses = {all : {display: 'All', value: 'all', checked: true}, filters : [{display: 'Disabled', value: 'false', checked: false}, {display: 'Enabled', value : 'true', checked: false}]};
     $scope.statuses = statuses;
     
-    element = $compile('<dropdown label="Some Label" items="statuses"></dropdown>')($scope);
+    element = $compile('<filter-dropdown label="Some Label" items="statuses"></filter-dropdown>')($scope);
     $scope.$digest();
   }]));
 
@@ -45,7 +45,7 @@ describe('dropdown directive', function(){
     statuses = {all : {display: 'All', value: 'all', checked: false}, filters : [{display: 'Disabled', value: 'false', checked: true}]};
     $scope.statuses = statuses;
     
-    element = $compile('<dropdown label="Some Label" items="statuses"></dropdown>')($scope);
+    element = $compile('<filter-dropdown label="Some Label" items="statuses"></filter-dropdown>')($scope);
     $scope.$digest();
     expect($scope.statuses.all.checked).toBe(false);
     expect($scope.statuses.filters[0].checked).toBe(true);

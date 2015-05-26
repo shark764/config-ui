@@ -103,26 +103,16 @@ describe('userListController controller', function(){
       expect(scope.disableChecked).toEqual(jasmine.any(Function));
     }));
   });
-  
-  describe('regExpReplace function', function(){
-    it('should replace asterisk with .*', inject(function() {
-      expect(scope.regExpReplace('*H*e*l*l*o*')).toEqual('.*H.*e.*l.*l.*o.*');
-    }));
-  });
 });
 
-describe('userListController searchUser function', function(){
-  var scope,
-    $filter,
-    controller,
+describe('userListController searchUser filter', function(){
+  var filter,
     users;
 
   beforeEach(module('liveopsConfigPanel'));
   beforeEach(module('gulpAngular'));
 
-  beforeEach(inject(['$rootScope', '$filter', '$controller', function($rootScope, _$filter_, $controller) {
-    $filter = _$filter_;
-    scope = $rootScope.$new();
+  beforeEach(inject(['$rootScope', '$filter', '$controller', function($rootScope, $filter, $controller) {
     users = [ {
         'id': 'c6aa44f6-b19e-49f5-bd3f-66f00b885e39',
         'status': false,
@@ -140,124 +130,103 @@ describe('userListController searchUser function', function(){
         'createdBy': '02f1eeff-8204-4902-9f4c-7960db3795fa',
         'role': 'Administrator'
       }];
-    scope.users = users;
-    controller = $controller('UserListController', {$scope : scope});
+
+    filter = $filter('UserSearchFilter');
     
   }]));
 
   it('should return user if search is blank', inject(function() {
-    scope.queryUser ='';
-    var result = scope.searchUser(users[0]);
-    expect(result).toBeTruthy();
+    var result = filter(users, '');
+    expect(result.length).toBe(1);
   }));
 
   it('should not return user if search not included in user values', inject(function() {
-    scope.queryUser ='blahh';
-    var result = scope.searchUser(users[0]);
-    expect(result).toBeFalsy();
+    var result = filter(users, 'blahh');
+    expect(result.length).toBe(0);
   }));
 
-    it('should return user if search is included in user first name', inject(function() {
-      scope.queryUser ='ike';
-      var result = scope.searchUser(users[0]);
-      expect(result).toBeTruthy();
-    }));
+  it('should return user if search is included in user first name', inject(function() {
+    var result = filter(users, 'ike');
+    expect(result.length).toBe(1);
+  }));
 
-    it('should return user if search is included in user first and last name', inject(function() {
-      scope.queryUser ='Mike Wazowski';
-      var result = scope.searchUser(users[0]);
-      expect(result).toBeTruthy();
-    }));
+  it('should return user if search is included in user first and last name', inject(function() {
+    var result = filter(users, 'Mike Wazowski');
+    expect(result.length).toBe(1);
+  }));
 
-    it('should return user if search is included in user last name', inject(function() {
-      scope.queryUser ='ski';
-      var result = scope.searchUser(users[0]);
-      expect(result).toBeTruthy();
-    }));
+  it('should return user if search is included in user last name', inject(function() {
+    var result = filter(users, 'ski');
+    expect(result.length).toBe(1);
+  }));
 
-    it('should not return part search is included in user values', inject(function() {
-      scope.queryUser ='Michael Wazowski';
-      var result = scope.searchUser(users[0]);
-      expect(result).toBeFalsy();
-    }));
+  it('should not return part search is included in user values', inject(function() {
+    var result = filter(users, 'Michael Wazowski');
+    expect(result.length).toBe(0);
+  }));
 
-    it('should return user if search has wildcard value only', inject(function() {
-      scope.queryUser ='*';
-      var result = scope.searchUser(users[0]);
-      expect(result).toBeTruthy();
-    }));
+  it('should return user if search has wildcard value only', inject(function() {
+    var result = filter(users, '*');
+    expect(result.length).toBe(1);
+  }));
 
-    it('should return user with containing partial string using wildcard in user', inject(function() {
-      scope.queryUser ='Mi*Wazowski';
-      var result = scope.searchUser(users[0]);
-      expect(result).toBeTruthy();
-    }));
+  it('should return user with containing partial string using wildcard in user', inject(function() {
+    var result = filter(users, 'Mi*Wazowski');
+    expect(result.length).toBe(1);
+  }));
 
-    it('should only return user containing partial strings using several wildcards in user', inject(function() {
-      scope.queryUser ='i*e*a';
-      var result = scope.searchUser(users[0]);
-      expect(result).toBeTruthy();
+  it('should only return user containing partial strings using several wildcards in user', inject(function() {
+    var result = filter(users, 'i*e*a');
+    expect(result.length).toBe(1);
 
-      scope.queryUser ='i*l*e*a';
-      var result = scope.searchUser(users[0]);
-      expect(result).toBeFalsy();
-    }));
+    var result = filter(users, 'i*l*e*a');
+    expect(result.length).toBe(0);
+  }));
 
-    it('should return user regardless of character case', inject(function() {
-      scope.queryUser ='MIKE wAzoWsKi';
-      var result = scope.searchUser(users[0]);
-      expect(result).toBeTruthy();
-    }));
+  it('should return user regardless of character case', inject(function() {
+    var result = filter(users, 'MIKE wAzoWsKi');
+    expect(result.length).toBe(1);
+  }));
 
-    it('should not return user when search string does not match any user details', inject(function() {
-      scope.queryUser ='Randall Boggs';
-      var result = scope.searchUser(users[0]);
-      expect(result).toBeFalsy();
-    }));
+  it('should not return user when search string does not match any user details', inject(function() {
+    var result = filter(users, 'Randall Boggs');
+    expect(result.length).toBe(0);
+  }));
 
-    it('should not return user when search string with wild cards does not match any user', inject(function() {
-      scope.queryUser ='*boo*';
-      var result = scope.searchUser(users[0]);
-      expect(result).toBeFalsy();
-    }));
+  it('should not return user when search string with wild cards does not match any user', inject(function() {
+    var result = filter(users, '*boo*');
+    expect(result.length).toBe(0);
+  }));
 
-    it('should not use the asterisk as a repeat operator', inject(function() {
-      scope.queryUser ='q*';
-      var result = scope.searchUser(users[0]);
-      expect(result).toBeFalsy();
-    }));
+  it('should not use the asterisk as a repeat operator', inject(function() {
+    var result = filter(users, 'q*');
+    expect(result.length).toBe(0);
+  }));
 
-    it('should use the asterisk as 0 or more of any valid character', inject(function() {
-      scope.queryUser ='M*i*W*a*z*o*i';
-      var result = scope.searchUser(users[0]);
-      expect(result).toBeTruthy();
-    }));
+  it('should use the asterisk as 0 or more of any valid character', inject(function() {
+    var result = filter(users, 'M*i*W*a*z*o*i');
+    expect(result.length).toBe(1);
+  }));
 
-    it('should return the same result regardless of wildcard repeats', inject(function() {
-      scope.queryUser ='M*****';
-      var result = scope.searchUser(users[0]);
-      expect(result).toBeTruthy();
-    }));
+  it('should return the same result regardless of wildcard repeats', inject(function() {
+    var result = filter(users, 'M*****');
+    expect(result.length).toBe(1);
+  }));
 
-    it('should return the same result for strings starting and ending with wildcard', inject(function() {
-      scope.queryUser ='*Wazow*';
-      var result = scope.searchUser(users[0]);
-      expect(result).toBeTruthy();
+  it('should return the same result for strings starting and ending with wildcard', inject(function() {
+    var result = filter(users, '*Wazow*');
+    expect(result.length).toBe(1);
 
-      scope.queryUser ='*Wazow*';
-      result = scope.searchUser(users[0]);
-      expect(result).toBeTruthy();
+    result = filter(users, '*Wazow*');
+    expect(result.length).toBe(1);
 
-      scope.queryUser ='Wazow';
-      result = scope.searchUser(users[0]);
-      expect(result).toBeTruthy();
+    result = filter(users, 'Wazow');
+    expect(result.length).toBe(1);
 
-      scope.queryUser ='Wazow*';
-      result = scope.searchUser(users[0]);
-      expect(result).toBeTruthy();
+    result = filter(users, 'Wazow*');
+    expect(result.length).toBe(1);
 
-      scope.queryUser ='*Wazow';
-      result = scope.searchUser(users[0]);
-      expect(result).toBeTruthy();
-    }));
+    result = filter(users, '*Wazow');
+    expect(result.length).toBe(1);
+  }));
 });
