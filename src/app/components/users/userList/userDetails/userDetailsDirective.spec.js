@@ -20,23 +20,14 @@ describe('tabset directive', function () {
     createdBy: '32jasdlfjk-23ljdsfa',
     created: '2015-08-01'
   };
-
-  var display = {
-    firstName: 'Don',
-    lastName: 'Cherry',
-    displayName: 'Don C.',
-    state: 'offline',
-    createdBy: '32jasdlfjk-23ljdsfa',
-    created: '2015-08-01'
-  };
-
+  
   it('should have display bindings equal to scope', inject(function () {
-    $scope.user = user;
-    $scope.display = display;
-
     var element = $compile('<user-details user="user" display="display"></user-details>')($scope);
     $scope.$digest();
-
+    
+    $scope.user = user;
+    $scope.$apply();
+    
     var fullNameDisplayElement = element.find('#user-details-header-name h1');
     expect(fullNameDisplayElement.length).toEqual(1);
     expect(fullNameDisplayElement.text()).toEqual('Don Cherry');
