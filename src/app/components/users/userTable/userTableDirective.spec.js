@@ -65,6 +65,11 @@ describe('userTable directive', function(){
     expect(element.isolateScope().states).toBeDefined();
     expect(element.isolateScope().states).toEqual(jasmine.any(Object));
   }));
+  
+  it('should have a filteredUsers list', inject(function() {
+    expect(element.isolateScope().filteredUsers).toBeDefined();
+    expect(element.isolateScope().filteredUsers).toEqual(jasmine.any(Object));
+  }));
 });
 
 describe('userFilter filter', function(){

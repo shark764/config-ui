@@ -4,7 +4,17 @@
   width: calc(100% - #{$side-menu-width});
 
   .action-container {
-    padding-bottom: 50px;
+    .btn-group {
+      .btn {
+        font-size: 14px;
+      }
+    }
+
+    .btn-create {
+      padding: 8px 26px;
+      font-weight: bold;
+      font-size: 16px;
+    }
   }
 
   .left-panel {
@@ -21,6 +31,34 @@
     display: table-cell;
     vertical-align: top;
   }
+
+  .action-container > div {
+	box-sizing: border-box;
+	float:left;
+	width: 50%;
+  }
+
+  .action-container > div:nth-child(even) {
+  	text-align: right;
+  }
+
+  .actions {
+    margin: 20px 0;
+    width: 100% !important;
+
+    > div {
+      float: left;
+      margin-right: 15px;
+    }
+
+    .btn-group {
+      min-width: 450px;
+
+      .fa {
+        margin-right: 7px;
+      }
+    }
+  }
 }
 
 .side-menu {
@@ -31,4 +69,4 @@
   text-align: center;
   position: absolute;
   width: $side-menu-width;
-} 
+}

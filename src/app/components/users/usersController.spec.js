@@ -4,6 +4,14 @@ describe('userListController controller', function(){
   var scope,
     controller,
     $httpBackend,
+    users;
+  
+  beforeEach(module('liveopsConfigPanel'));
+  beforeEach(module('gulpAngular'));
+  
+  beforeEach(inject(['$controller', '$rootScope', '$injector', function($controller, $rootScope, $injector) {
+    scope = $rootScope;
+
     users = [ {
       'id': 'c6aa44f6-b19e-49f5-bd3f-66f00b885e39',
       'status': false,
@@ -38,13 +46,7 @@ describe('userListController controller', function(){
       'createdBy': 'b8e5d096-f828-4269-ae5a-117e69917340',
       'role': 'Administrator'
     }];
-  
-  beforeEach(module('liveopsConfigPanel'));
-  beforeEach(module('gulpAngular'));
-  
-  beforeEach(inject(['$controller', '$rootScope', '$injector', function($controller, $rootScope, $injector) {
-    scope = $rootScope;
-
+    
     //Need the following so that $digest() works
     $httpBackend = $injector.get('$httpBackend');
     $httpBackend.when('GET', 'http://fakendpoint.com/v1/users').respond({'result' : users});
@@ -52,6 +54,7 @@ describe('userListController controller', function(){
     $httpBackend.expectGET('http://fakendpoint.com/v1/users');
     controller = $controller('UserListController', {$scope : scope});
     $httpBackend.flush();
+
 
   }]));
   
@@ -62,10 +65,57 @@ describe('userListController controller', function(){
     }));
   });
 
+  describe('hasChecked tracking', function(){
+    it('should have nothing checked to start', inject(function() {
+      expect(scope.hasChecked).toEqual(0);
+    }));
+    
+    it('should catch the userList:user:checked event', inject(function() {
+      scope.$broadcast('userList:user:checked');
+      expect(scope.hasChecked).toEqual(1);
+    }));
+    
+    it('should catch the userList:user:unchecked event', inject(function() {
+      scope.hasChecked = 1;
+      scope.$broadcast('userList:user:unchecked');
+      expect(scope.hasChecked).toEqual(0);
+    }));
+    
+    it('should never go below 0', inject(function() {
+      scope.$broadcast('userList:user:unchecked');
+      expect(scope.hasChecked).toEqual(0);
+    }));
+  });
+  
   describe('enableChecked batch operation', function(){
     it('should be defined', inject(function() {
       expect(scope.enableChecked).toBeDefined();
       expect(scope.enableChecked).toEqual(jasmine.any(Function));
+    }));
+    
+    it('should should update only checked users', inject(function() {
+      scope.users[0].checked = true;
+      scope.users[0].status = false;
+      scope.users[1].status = false;
+      scope.enableChecked();
+      
+      expect(scope.users[0].status).toBeTruthy();
+      expect(scope.users[1].status).toBeFalsy();
+    }));
+    
+    it('should skip users that are marked as filtered', inject(function() {
+      scope.users[0].filtered = true;
+      scope.users[0].checked = true;
+      scope.enableChecked();
+      
+      expect(scope.users[0].status).toBeFalsy();
+      
+      scope.filteredUsers[0].filtered = true;
+      scope.filteredUsers[0].checked = true;
+      scope.filteredUsers[0].status = false;
+      scope.enableChecked();
+      
+      expect(scope.filteredUsers[0].status).toBeFalsy();
     }));
   });
   
@@ -73,6 +123,25 @@ describe('userListController controller', function(){
     it('should be defined', inject(function() {
       expect(scope.disableChecked).toBeDefined();
       expect(scope.disableChecked).toEqual(jasmine.any(Function));
+    }));
+    
+    it('should should update only checked users', inject(function() {
+      scope.users[0].checked = true;
+      scope.users[0].status = true;
+      scope.users[1].status = true;
+      scope.disableChecked();
+      
+      expect(scope.users[0].status).toBeFalsy();
+      expect(scope.users[1].status).toBeTruthy();
+    }));
+    
+    it('should skip users that are marked as filtered', inject(function() {
+      scope.filteredUsers[0].filtered = true;
+      scope.filteredUsers[0].checked = true;
+      scope.filteredUsers[0].status = true;
+      scope.disableChecked();
+      
+      expect(scope.filteredUsers[0].status).toBeTruthy();
     }));
   });
 });
@@ -200,5 +269,17 @@ describe('userListController searchUser filter', function(){
 
     result = filter(users, '*Wazow');
     expect(result.length).toBe(1);
+  }));
+  
+  it('should mark excluded users as filtered', inject(function() {
+    var result = filter(users, 'q');
+    expect(result.length).toBe(0);
+    expect(users[0].filtered).toBeTruthy();
+  }));
+  
+  it('should not mark included users as filtered ', inject(function() {
+    var result = filter(users, 'm');
+    expect(result.length).toBe(1);
+    expect(users[0].filtered).toBeFalsy();
   }));
 });
