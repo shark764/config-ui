@@ -75,4 +75,14 @@ angular.module('liveopsConfigPanel')
           $scope.$broadcast('userList:' + args.fieldName + ':save:error', data);
         });
     });
+
+    $scope.$on('createUser:save', function (event, args) {
+      console.log("Creating user");
+
+      $scope.createUser(args.data)
+        .then(
+          successResponse,
+          errorResponse
+        );
+    });
   }]);

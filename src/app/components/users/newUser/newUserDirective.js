@@ -6,20 +6,24 @@ angular.module('liveopsConfigPanel')
 
     templateUrl: 'app/components/users/newUser/newUser.html',
 
-    link:  function ($scope) {
-      $scope.data = {};
-      $scope.data.status = false;
-      $scope.data.state = 'Offline';
+    link:  function (scope) {
+      scope.data = {};
+      scope.data.status = false;
+      scope.data.state = 'Offline';
 
 
-      $scope.ok = function(){
-        $scope.saveUser($scope.data);
+      scope.ok = function(){
+        scope.$emit('createUser:save', {
+            data: scope.data
+          });
+
+        //scope.saveUser(scope.data);
       };
 
-      $scope.cancel = function(){
-        $scope.data = [];
-        $scope.showError = false;
-        $scope.showModal = false;
+      scope.cancel = function(){
+        scope.data = [];
+        scope.showError = false;
+        scope.showModal = false;
       };
 
     }
