@@ -21,18 +21,15 @@ angular.module('liveopsConfigPanel')
     $scope.saveUser = function (data, userId) {
       userId = userId || null;
 
-      if (!userId) { // if userId is null
-        data.createdBy = Session.id;
-        $scope.createUser(data)
-          .then(
-            $scope.successResponse,
-            $scope.errorResponse);
+
+      if (!userId){ // if userId is null
+        $scope.createUser(data).then(
+          $scope.successResponse,
+          $scope.errorResponse);
       } else {
-        data.updatedBy = Session.id;
-        $scope.updateUser(userId, data)
-          .then(
-            $scope.successResponse,
-            $scope.errorResponse);
+        $scope.updateUser(userId, data).then(
+          $scope.successResponse,
+          $scope.errorResponse);
       }
     };
 
