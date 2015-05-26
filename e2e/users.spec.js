@@ -36,7 +36,7 @@ describe('The users view', function () {
   });
 
   xit('should display users based on the user Search', function() {
-    // TO DO: Update with values that will be more likely to always match users
+    // TODO: Update with values that will be more likely to always match users
 
     queryUserField.sendKeys('Ron');
     element.all(by.repeater('user in users')).then(function(rows) {
@@ -242,15 +242,15 @@ describe('The users view', function () {
     element(by.model('user.firstName')).sendKeys('test');
     element(by.model('user.lastName')).sendKeys('test');
     element(by.model('user.displayName')).sendKeys('test');
-    element(by.model('user.telephone')).sendKeys('test');
     element(by.model('user.email')).sendKeys('test');
     element(by.model('user.externalId')).sendKeys('test');
+    // TODO Add telephone
 
     // Verify user's name in table matches new user details
     expect(element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(1)')).getText()).toContain(element(by.model('user.firstName')).getAttribute('value'));
     expect(element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(1)')).getText()).toContain(element(by.model('user.lastName')).getAttribute('value'));
-    // TO DO: Uncomment once the user details header is updated automatically
-    expect(element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(1)')).getText()).toBe(element(by.css('h1.ng-binding')).getText());
+    // TODO: Uncomment once the user details header is updated automatically
+    // expect(element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(1)')).getText()).toBe(element(by.css('h1.ng-binding')).getText());
 
     // Verify user's externalId in table matches new user details
     expect(element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(2)')).getText()).toBe(element(by.model('user.externalId')).getAttribute('value'));
@@ -281,7 +281,6 @@ describe('The users view', function () {
     element(by.model('user.firstName')).sendKeys('\u0008\u0008\u0008\u0008');
     element(by.model('user.lastName')).sendKeys('\u0008\u0008\u0008\u0008');
     element(by.model('user.displayName')).sendKeys('\u0008\u0008\u0008\u0008');
-    element(by.model('user.telephone')).sendKeys('\u0008\u0008\u0008\u0008');
     element(by.model('user.email')).sendKeys('\u0008\u0008\u0008\u0008');
     element(by.model('user.externalId')).sendKeys('\u0008\u0008\u0008\u0008');
     browser.pause();
