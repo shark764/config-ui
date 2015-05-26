@@ -8,21 +8,18 @@
 	z-index: 1000;
 
 	.create-user-container {
-		width:600px;
+		width:300px;
 		margin: 100px auto;
 		background-color: #fff;
 		border:1px solid #000;
 		padding:15px;
 
-    .left-input{
-      width: 50%;
-      display: inline-block;
-      margin-right: 10px;
+    .error {
+      color: red;
     }
 
-    .right-input {
-      width:auto;
-      display: inline-block;
+    .input-field-tile{
+      margin-bottom: 10px;
     }
 	}
 }
