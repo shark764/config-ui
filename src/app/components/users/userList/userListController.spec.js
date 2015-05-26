@@ -61,35 +61,7 @@ describe('userListController controller', function(){
       expect(scope.users.length).toEqual(users.length);
     }));
   });
-  
-  describe('checkedUsers', function(){
-    it('should be empty by default', inject(function() {
-      expect(scope.checkedUsers.length).toBeDefined();
-      expect(scope.checkedUsers.length).toEqual(0);
-    }));
-    
-    it('should contain a user when a user\'s checked value is set to true', inject(function() {
-      expect(scope.checkedUsers.length).toEqual(0);
-      scope.users[0].checked = true;
-      scope.$digest();
-      
-      expect(scope.checkedUsers.length).toEqual(1);
-      expect(scope.checkedUsers[0]).toEqual(scope.users[0]);
-    }));
-    
-    it('should remove a user when a user\'s checked value is set to false', inject(function() {
-      scope.users[0].checked = true;
-      scope.$digest();
-      
-      expect(scope.checkedUsers.length).toEqual(1);
-      
-      scope.users[0].checked = false;
-      scope.$digest();
-      
-      expect(scope.checkedUsers.length).toEqual(0);
-    }));
-  });
-  
+
   describe('enableChecked batch operation', function(){
     it('should be defined', inject(function() {
       expect(scope.enableChecked).toBeDefined();

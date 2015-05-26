@@ -10,9 +10,9 @@
   </thead>
 
   <tbody>
-    <tr ng-repeat="user in users | userFilter:statuses:'status' | userFilter:states:'state' | orderBy:'lastName'" 
+    <tr ng-repeat="user in filteredUsers = (users | userFilter:statuses:'status' | userFilter:states:'state' | orderBy:'lastName')" 
       ng-click="selectUser(user)" ng-class="{selected: user.id === selectedUser.id}">
-      <td><input type="checkbox" ng-model="user.checked"/></td>
+      <td><input type="checkbox" ng-model="user.checked" ng-change="checkChanged(user.checked)"/></td>
       <td>{{user.firstName}} {{user.lastName}}</td>
       <td>{{selectUser.id}}{{user.externalId}}</td>
       <td>
