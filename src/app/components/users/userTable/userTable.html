@@ -14,7 +14,7 @@
       ng-click="selectUser(user)" ng-class="{selected: user.id === selectedUser.id}">
       <td><input type="checkbox" ng-model="user.checked"/></td>
       <td>{{user.firstName}} {{user.lastName}}</td>
-      <td>{{user.externalId}}</td>
+      <td>{{selectUser.id}}{{user.externalId}}</td>
       <td>
         <span ng-class="{disabled : ! user.status}">{{user.status ? 'Enabled' : 'Disabled'}}</span>
       </td>
