@@ -3,6 +3,7 @@
   color: $dark-grey;
   .input-toggle {
     div {
+      cursor: pointer;
       margin-top: 5px;
       display: block;
       border: $lighter-grey 1px solid;

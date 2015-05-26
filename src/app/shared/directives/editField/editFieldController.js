@@ -5,7 +5,7 @@ angular.module('liveopsConfigPanel')
   .controller('EditFieldController', function ($scope) {
 
     $scope.saveHandler = function() {
-      scope.$emit('editField:save', {
+      $scope.$emit('editField:save', {
         objectId: $scope.objectId,
         fieldName: $scope.name,
         fieldValue: $scope.ngModel
@@ -13,7 +13,7 @@ angular.module('liveopsConfigPanel')
     };
 
     $scope.$on($scope.name + ':save', function() {
-      scope.edit = false;
+      $scope.edit = false;
     });
 
   });
