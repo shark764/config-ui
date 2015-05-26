@@ -14,8 +14,6 @@
       <div class="actions">
         <div>
           <dropdown items="selectOptions" label="Select"></dropdown>
-          
-        
         </div>
         <div class="btn-group" ng-disabled="{{! checkedUsers.length}}">
           <a ng-click="enableChecked()" class="btn"><i class="fa fa-check"></i>Enable</a>
@@ -24,8 +22,6 @@
         </div>
       </div>
     </div>
-
-    Selected Users: <span ng-repeat="user in checkedUsers">{{user.firstName}}, </span>
     
     <user-table users="filteredUsers" select-user="selectUser"></user-table>
     <resize-handle element-id="left-panel" min-width="500"></resize-handle>
