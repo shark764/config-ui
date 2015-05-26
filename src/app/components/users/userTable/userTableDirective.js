@@ -22,8 +22,9 @@ angular.module('liveopsConfigPanel')
       link: function (scope) {
 
         scope.selectUser = function (selectedUser) {
+          scope.selectedUser = selectedUser;
           scope.$emit('userTable:user:selected', selectedUser);
-        };
+        }
 
         scope.searchUser = function (user) {
           if (!scope.queryUser) {
