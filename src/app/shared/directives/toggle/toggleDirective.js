@@ -1,12 +1,11 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('toggle', ['$document', function($document) {
+  .directive('toggle', function() {
     return {
       templateUrl : 'app/shared/directives/toggle/toggle.html',
       scope : {
-        ngModel : "="
+        ngModel : '='
       }
     };
-   }])
-;
+   });
