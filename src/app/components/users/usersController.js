@@ -18,21 +18,6 @@ angular.module('liveopsConfigPanel')
       $scope.showModal = true;
     };
 
-    $scope.saveUser = function (data, userId) {
-      userId = userId || null;
-
-
-      if (!userId){ // if userId is null
-        $scope.createUser(data).then(
-          $scope.successResponse,
-          $scope.errorResponse);
-      } else {
-        $scope.updateUser(userId, data).then(
-          $scope.successResponse,
-          $scope.errorResponse);
-      }
-    };
-
     $scope.createUser = function (data) {
       return UserService.save(data).$promise;
     };
@@ -46,6 +31,12 @@ angular.module('liveopsConfigPanel')
     $scope.successResponse = function () {
       $scope.showError = false;
       $scope.showModal = false;
+      // Updates the user list
+      UserService.query(function (data) {
+        $scope.users = data.result;
+      });
+      // Tells the children that it was successful in creating a user. (So the form can be cleared)
+      $scope.$broadcast('createUser:success');
     };
 
     $scope.errorResponse = function (data) {
@@ -55,7 +46,6 @@ angular.module('liveopsConfigPanel')
 
     $scope.$on('editField:save', function (event, args) {
       var saveObject = {};
-      saveObject.updatedBy = '1c838030-f772-11e4-ac37-45b2e1245d4b';
       saveObject[args.fieldName] = args.fieldValue;
 
       $scope.updateUser(args.objectId, saveObject)
@@ -65,4 +55,13 @@ angular.module('liveopsConfigPanel')
           $scope.$broadcast(args.fieldName + ':save:error', data);
         });
     });
+
+    $scope.$on('createUser:save', function (event, args) {
+      $scope.createUser(args.data)
+        .then(
+          $scope.successResponse,
+          $scope.errorResponse
+        );
+    });
+
   }]);
