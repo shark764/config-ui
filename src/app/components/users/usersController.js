@@ -31,12 +31,16 @@ angular.module('liveopsConfigPanel')
     $scope.successResponse = function () {
       $scope.showError = false;
       $scope.showModal = false;
+      // Updates the user list
       UserService.query(function (data) {
         $scope.users = data.result;
       });
+      // Tells the children that it was successful in creating a user. (So the form can be cleared)
+      $scope.$broadcast('createUser:success');
     };
 
     $scope.errorResponse = function (data) {
+      console.log(data);
       $scope.showError = true;
       $scope.errorMsg = data.data.message;
     };
