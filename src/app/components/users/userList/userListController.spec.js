@@ -112,7 +112,7 @@ describe('userListController searchUser filter', function(){
   beforeEach(module('liveopsConfigPanel'));
   beforeEach(module('gulpAngular'));
 
-  beforeEach(inject(['$rootScope', '$filter', '$controller', function($rootScope, $filter, $controller) {
+  beforeEach(inject(['$filter', function($filter) {
     users = [ {
         'id': 'c6aa44f6-b19e-49f5-bd3f-66f00b885e39',
         'status': false,
@@ -179,7 +179,7 @@ describe('userListController searchUser filter', function(){
     var result = filter(users, 'i*e*a');
     expect(result.length).toBe(1);
 
-    var result = filter(users, 'i*l*e*a');
+    result = filter(users, 'i*l*e*a');
     expect(result.length).toBe(0);
   }));
 

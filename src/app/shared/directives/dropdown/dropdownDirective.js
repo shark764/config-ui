@@ -31,6 +31,11 @@ angular.module('liveopsConfigPanel')
 
           $document.off('click', onClick);
         }
+        
+        scope.optionClick = function(func){
+          scope.showDrop = false;
+          func();
+        };
       }
     };
    }])

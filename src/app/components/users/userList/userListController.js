@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('UserListController', ['$scope', 'Session', 'UserService', 'filterFilter', '$filter', '$document', function ($scope, Session, UserService, filterFilter, $filter, $document) {
+  .controller('UserListController', ['$scope', 'Session', 'UserService', 'filterFilter', '$filter', function ($scope, Session, UserService, filterFilter, $filter) {
     $scope.showModal = false;
     $scope.showError = false;
     $scope.errorMsg = 'Input required data';
@@ -31,19 +31,19 @@ angular.module('liveopsConfigPanel')
         // Watch the checked value for items in the users list, so we can
         // autoupdate the checkedUsers list when needed
         angular.forEach($scope.users, function(user) {
-          $scope.$watch(function() {return user.checked;}, function(newValue, oldValue) {
-            $scope.checkedUsers = filterFilter($scope.filteredUsers, {'checked' : true})
+          $scope.$watch(function() {return user.checked;}, function() {
+            $scope.checkedUsers = filterFilter($scope.filteredUsers, {'checked' : true});
           });
         });
         
         // Watch the search value so we can update the filteredUsers list which
         // gets passed to the table directive
-        $scope.$watch(function() {return $scope.queryUser}, function(newValue, oldValue) {
+        $scope.$watch(function() {return $scope.queryUser;}, function() {
           $scope.filteredUsers = $filter('UserSearchFilter')($scope.users, $scope.queryUser);
         });
         
         // Watch for additions to the users list
-        $scope.$watchCollection("users", function(newList, oldList) {
+        $scope.$watchCollection('users', function(newList, oldList) {
             if (newList < oldList){
               return;
             }
@@ -57,8 +57,8 @@ angular.module('liveopsConfigPanel')
             
             // Add a watch to the new user(s) checked attribute
             angular.forEach(newItems, function(user) {
-              $scope.$watch(function() {return user.checked;}, function(newValue, oldValue) {
-                $scope.checkedUsers = filterFilter($scope.filteredUsers, {'checked' : true})
+              $scope.$watch(function() {return user.checked;}, function() {
+                $scope.checkedUsers = filterFilter($scope.filteredUsers, {'checked' : true});
               });
             });
         });
@@ -88,7 +88,7 @@ angular.module('liveopsConfigPanel')
   	  angular.forEach($scope.users, function(user) {
         user.checked = true;
       });
-  	}
+  	};
   	
   	$scope.selectNone = function(){
   	  angular.forEach($scope.users, function(user) {
@@ -142,14 +142,14 @@ angular.module('liveopsConfigPanel')
 
     $scope.enableChecked = function(){
       angular.forEach($scope.checkedUsers, function(user) {
-        $scope.saveUser({'status' : true}, user.id)
+        $scope.saveUser({'status' : true}, user.id);
         user.status = true;
       });
     };
     
     $scope.disableChecked = function(){
       angular.forEach($scope.checkedUsers, function(user) {
-        $scope.saveUser({'status' : false}, user.id)
+        $scope.saveUser({'status' : false}, user.id);
         user.status = false;
       });
     };
@@ -178,11 +178,11 @@ angular.module('liveopsConfigPanel')
     });
   }])
   .filter('UserSearchFilter', function() {
-   function regExpReplace(string){
+    function regExpReplace(string){
       // Allow all characters in user search, use * as wildcard
       string.replace(/([.+?^=!:${}()|\[\]\/\\])/g, '\\$1');
       return string.replace(/([*])/g, '.*');
-    };
+    }
     
     return function(users, query) {
       if (! query){
