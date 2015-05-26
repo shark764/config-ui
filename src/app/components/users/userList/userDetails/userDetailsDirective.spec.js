@@ -15,7 +15,7 @@ describe('tabset directive', function () {
   var user = {
     firstName: 'Don',
     lastName: 'Cherry',
-    displayName: 'Don C',
+    displayName: 'Don C.',
     state: 'offline',
     createdBy: '32jasdlfjk-23ljdsfa',
     created: '2015-08-01'
