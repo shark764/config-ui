@@ -4,39 +4,39 @@
   <toggle class="user-toggle" ng-model="user.status"></toggle>
   <div id="user-details-header-name">
 
-    <h1 class="user-name">{{display.firstName}} {{display.lastName}}</h1>
+    <h1 class="user-name">{{user.firstName}} {{user.lastName}}</h1>
 
     <span>
-      <h2>{{display.displayName}}</h2>
+      <h2>{{user.displayName}}</h2>
       <user-state state="{{display.state}}" />
     </span>
-    <div class="state-description">User Created by <b>{John Doh}</b> on <b>{{display.created}}</b></div>
-    <div class="state-description">Enabled by <b>{John Doh}</b> on <b>{{display.created}}</b></div>
+    <div class="state-description">User Created by <b>{John Doh}</b> on <b>{{user.created}}</b></div>
+    <div class="state-description">Enabled by <b>{John Doh}</b> on <b>{{user.created}}</b></div>
   </div>
 </div>
 
 <form name="userForm" novalidate>
 
-  <edit-field ng-model="user.firstName" name="firstName" label="First Name*" type="text" save="saveField" object-id="user.id"></edit-field>
-  <edit-field ng-model="user.lastName" name="lastName" label="Last Name*" type="text" save="saveField" object-id="user.id"></edit-field>
-  <edit-field ng-model="user.displayName" name="displayName" label="Display Name*" type="text" save="saveField" object-id="user.id"></edit-field>
-  <edit-field ng-model="user.telephone" name="telephone" label="Telephone" type="text" save="saveField" object-id="user.id"></edit-field>
-  <edit-field ng-model="user.email" name="email" label="Email*" type="email" save="saveField" object-id="user.id"></edit-field>
-  <edit-field ng-model="user.externalId" name="externalId" label="External ID*" type="text" save="saveField" object-id="user.id"></edit-field>
+  <edit-field ng-model="user.firstName" name="firstName" label="First Name*" type="text" object-id="user.id"></edit-field>
+  <edit-field ng-model="user.lastName" name="lastName" label="Last Name*" type="text" object-id="user.id"></edit-field>
+  <edit-field ng-model="user.displayName" name="displayName" label="Display Name*" type="text" object-id="user.id"></edit-field>
+  <edit-field ng-model="user.telephone" name="telephone" label="Telephone" type="text" object-id="user.id"></edit-field>
+  <edit-field ng-model="user.email" name="email" label="Email*" type="email" object-id="user.id"></edit-field>
+  <edit-field ng-model="user.externalId" name="externalId" label="External ID*" type="text" object-id="user.id"></edit-field>
 
   <div class="edit-field">
     <input type="button" ng-click="resetPassword()" value="Reset Password" />
   </div>
 
-  <edit-field-drop-down ng-model="user.role" name="role" save="saveField" object-id="user.id" default-text="Select role">
+  <edit-field-drop-down ng-model="user.role" name="role" object-id="user.id" default-text="Select role">
     <i class="fa fa-star-o"></i>
     <label>Role</label>
   </edit-field-drop-down>
 
   <tabset>
     <tab id="extension-tab" heading="Extensions">
-      <edit-field ng-model="user.extensions.primary" name="user.extensions.primary" label="Primary:" placeholder="Search..." type="text" save="saveField" object-id="user.id"></edit-field>
-      <edit-field ng-model="user.extensions.secondary" name="user.extensions.secondary" label="Secondary:" placeholder="Search..." type="text" save="saveField" object-id="user.id"></edit-field>
+      <edit-field ng-model="user.extensions.primary" name="user.extensions.primary" label="Primary:" placeholder="Search..." type="text" object-id="user.id"></edit-field>
+      <edit-field ng-model="user.extensions.secondary" name="user.extensions.secondary" label="Secondary:" placeholder="Search..." type="text" object-id="user.id"></edit-field>
     </tab>
     <tab heading="Addresses">
     </tab>
