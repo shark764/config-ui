@@ -1,5 +1,7 @@
 'use strict';
 
+/* global jasmine: false  */
+
 describe('userTable directive', function(){
   var $scope,
     $compile,
@@ -271,7 +273,7 @@ describe('searchUser function', function(){
       expect(result).toBeTruthy();
 
       element.isolateScope().queryUser ='i*l*e*a';
-      var result = element.isolateScope().searchUser(users[0]);
+      result = element.isolateScope().searchUser(users[0]);
       expect(result).toBeFalsy();
     }));
 

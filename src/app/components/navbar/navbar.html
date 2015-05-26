@@ -3,6 +3,14 @@
     <a ng-href="#/"></a>
 
     <ul ng-switch-when="true">
+      <li>
+        <select>
+          <option>Tenant ABC</option>
+          <option>Tenant XYZ</option>
+          <option>Tenant 123</option>
+        </select>
+      </li>
+      <li class="divider"></li>
       <li ng-class="{ active: isActive('/')}"><a ng-href="#/">Users Management</a></li>
     </ul>
 
