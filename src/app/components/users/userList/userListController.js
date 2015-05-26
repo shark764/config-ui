@@ -30,8 +30,9 @@ angular.module('liveopsConfigPanel')
           $scope.filteredUsers = $filter('UserSearchFilter')($scope.users, $scope.queryUser);
         });
         
-        scope.$watchCollection('filteredUsers', function(newList, oldList) {
-          angular.forEach(scope.users, function(user) {
+        //Watch for changes to filteredUsers that are caused by searching.
+        $scope.$watchCollection('filteredUsers', function(newList) {
+          angular.forEach($scope.users, function(user) {
             if (newList.indexOf(user) === -1) {
               user.filtered = true;
               if (user.checked) {

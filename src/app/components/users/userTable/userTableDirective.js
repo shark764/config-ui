@@ -12,7 +12,7 @@ angular.module('liveopsConfigPanel')
         scope.statuses = userStatuses;
         scope.filteredUsers = [];
   
-        scope.$watchCollection('filteredUsers', function(newList, oldList) {
+        scope.$watchCollection('filteredUsers', function(newList) {
           angular.forEach(scope.users, function(user) {
             if (newList.indexOf(user) === -1) {
               user.filtered = true;
@@ -37,7 +37,7 @@ angular.module('liveopsConfigPanel')
           } else {
             scope.$emit('userList:user:unchecked');
           }
-        }
+        };
      	},
       templateUrl: 'app/components/users/userTable/userTable.html'
     };
