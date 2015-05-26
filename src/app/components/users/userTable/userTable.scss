@@ -1,40 +1,35 @@
 .user-table {
-	width: 100%;
-	border-collapse: collapse;
-
-	th:not(:first-child), td:not(:first-child) {
-		text-align: right;
-		width: 10%;
-		min-width: 100px;
-	}
-
-	th:first-child, td:first-child {
-		text-align: left;
-	}
-
-	td {
-		padding: 10px 5px;
-	}
-
-	th {
-		padding: 10px 5px 0 5px;
-	}
-
-	td, th {
-		border-bottom: 1px solid #DADADA;
-	}
-
-	.disabled {
-		color: #ccc;
-	}
+  width: 100%;
+  border-collapse: collapse;
+  th:not(:first-child),
+  td:not(:first-child) {
+    text-align: right;
+    width: 10%;
+    min-width: 100px;
+  }
+  th:first-child,
+  td:first-child {
+    text-align: left;
+  }
+  td {
+    padding: 10px 5px;
+  }
+  th {
+    padding: 10px 5px 0;
+  }
+  td,
+  th {
+    border-bottom: 1px solid #dadada;
+  }
+  .disabled {
+    color: #ccc;
+  }
 }
-
 .action-container > div {
-	box-sizing: border-box;
-	float:left;
-	width: 50%;
+  box-sizing: border-box;
+  float: left;
+  width: 50%;
 }
-
 .action-container > div:last-child {
-	text-align: right;
+  text-align: right;
 }
