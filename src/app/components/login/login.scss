@@ -35,7 +35,6 @@ input[type=password], input[type=text]{
   &:focus{
     box-shadow: 0 1px 0 #2392F3 inset, 0 -1px 0 #2392F3 inset, 1px 0 0 #2392F3 inset, -1px 0 0 #2392F3 inset, 0 0 4px rgba(35,146,243,0.5);
     outline: none;
-    background: url(../img/keyIcon.png) 12px 11px no-repeat, #FFF;
   }
 }
 

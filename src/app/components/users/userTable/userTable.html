@@ -15,10 +15,10 @@
   </thead>
 
   <tbody>
-    <tr ng-repeat="user in users | userFilter:statuses:'status' | userFilter:states:'state' | orderBy:'lastName' | filter: searchUser" 
-      ng-click="selectUser(user)" ng-class="{selected: user.id === selectedUser.id}">
+    <tr ng-repeat="user in users | userFilter:statuses:'status' | userFilter:states:'state' | orderBy:'lastName' | filter: searchUser"
+      ng-click="selectUser(user)" ng-class="{selected: user.id == selectedUser.id}">
       <td>{{user.firstName}} {{user.lastName}}</td>
-      <td>{{user.externalId}}</td>
+      <td>{{selectUser.id}}{{user.externalId}}</td>
       <td>
         <span ng-class="{disabled : ! user.status}">{{user.status ? 'Enabled' : 'Disabled'}}</span>
       </td>

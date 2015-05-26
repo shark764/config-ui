@@ -24,6 +24,14 @@
   .disabled {
     color: #ccc;
   }
+  tr {
+    cursor: pointer;
+
+    &.selected {
+      background-color: lighten($lighter-grey, 5%);
+    }
+  }
+
 }
 .action-container > div {
   box-sizing: border-box;
