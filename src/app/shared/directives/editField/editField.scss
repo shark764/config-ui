@@ -5,7 +5,6 @@
     div {
       margin-top: 5px;
       display: block;
-      width: 500px;
       border: $lighter-grey 1px solid;
       @include border-radius(4px);
       label {
