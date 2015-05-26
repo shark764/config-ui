@@ -7,26 +7,12 @@ angular.module('liveopsConfigPanel')
     $scope.errorMsg = 'Input required data';
     $scope.checkedUsers = [];
 
-    $scope.selectUser = function (user) {
-      $scope.selectedUserContext = {
-        user: user
-      };
-
-      $scope.selectedUserContext.display = {
-        firstName: user.firstName,
-        lastName: user.lastName,
-        displayName: user.displayName
-      };
-    };
-
   	UserService.query(function(data){
       $scope.users = data.result;
       $scope.filteredUsers = $scope.users;
       $scope.selectedUserContext = {};
 
       if (data.result) {
-        // Binding form to first result. Putting this in for now.
-        $scope.selectUser(data.result[0]);
 
         // Watch the checked value for items in the users list, so we can
         // autoupdate the checkedUsers list when needed
