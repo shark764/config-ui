@@ -85,6 +85,50 @@ describe('userListController controller', function(){
       scope.$broadcast('userList:user:unchecked');
       expect(scope.hasChecked).toEqual(0);
     }));
+    
+    it('should decrease when checked items are filtered out', inject(function() {
+      scope.filteredUsers[1].checked=true;
+      scope.hasChecked = 1;
+      scope.filteredUsers = scope.filteredUsers.slice(0,1);
+      scope.$digest();
+      expect(scope.hasChecked).toEqual(0);
+    }));
+    
+    it('should be set to none after a call to selectNone()', inject(function() {
+      scope.hasChecked = 5;
+      scope.selectNone();
+      expect(scope.hasChecked).toEqual(0);
+    }));
+    
+    it('should be set to the size of filteredUsers when calling selectAll()', inject(function() {
+      scope.selectAll();
+      expect(scope.hasChecked).toEqual(2);
+      
+      scope.filteredUsers = scope.filteredUsers.slice(0,1);
+      scope.$digest();
+      expect(scope.hasChecked).toEqual(1);
+      scope.selectAll();
+      expect(scope.hasChecked).toEqual(1);
+    }));
+  });
+  
+  describe('filteredUsers', function(){
+    it('should be defined', inject(function() {
+      expect(scope.filteredUsers).toBeDefined();
+      expect(scope.filteredUsers).toEqual(jasmine.any(Object));
+    }));
+    
+    it('should be updated when search query changes', inject(function() {
+      expect(scope.filteredUsers.length).toBe(2);
+      scope.queryUser = 'Oliver';
+      scope.$digest();
+      expect(scope.filteredUsers.length).toBe(1);
+      
+      scope.queryUser = '';
+      scope.$digest();
+      expect(scope.filteredUsers.length).toBe(2);
+    }));
+    
   });
   
   describe('enableChecked batch operation', function(){
@@ -142,6 +186,20 @@ describe('userListController controller', function(){
       scope.disableChecked();
       
       expect(scope.filteredUsers[0].status).toBeTruthy();
+    }));
+  });
+  
+  describe('selectAll function', function(){
+    it('should be defined', inject(function() {
+      expect(scope.selectAll).toBeDefined();
+      expect(scope.selectAll).toEqual(jasmine.any(Function));
+    }));
+  });
+  
+  describe('selectNone function', function(){
+    it('should be defined', inject(function() {
+      expect(scope.selectNone).toBeDefined();
+      expect(scope.selectNone).toEqual(jasmine.any(Function));
     }));
   });
 });

@@ -14,8 +14,8 @@ describe('dropdown directive', function(){
     $compile = _$compile_;
     
     items = [
-             {label: 'One', onClick: function(){return 'You clicked one!'}},
-             {label: 'Another', onClick: function(){return 'The other thing was called!'}}
+             {label: 'One', onClick: function(){return 'You clicked one!';}},
+             {label: 'Another', onClick: function(){return 'The other thing was called!';}}
             ];
     $scope.items = items;
     
