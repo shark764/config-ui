@@ -15,7 +15,7 @@ describe('tabset directive', function () {
   var user = {
     firstName: 'Don',
     lastName: 'Cherry',
-    displayName: 'Don C',
+    displayName: 'Don C.',
     state: 'offline',
     createdBy: '32jasdlfjk-23ljdsfa',
     created: '2015-08-01'
@@ -25,7 +25,9 @@ describe('tabset directive', function () {
     firstName: 'Don',
     lastName: 'Cherry',
     displayName: 'Don C.',
-
+    state: 'offline',
+    createdBy: '32jasdlfjk-23ljdsfa',
+    created: '2015-08-01'
   };
 
   it('should have display bindings equal to scope', inject(function () {
