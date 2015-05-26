@@ -11,9 +11,11 @@
 }
 	
 .filter-dropdown {
+    border: 1px solid$medium-grey;
 	min-width: 230px;
 	padding: 15px;
 	text-align: left;
+	top: 0;
 }
 
 .filter-dropdown > div {
