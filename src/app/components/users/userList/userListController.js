@@ -119,18 +119,15 @@ angular.module('liveopsConfigPanel')
     $scope.saveUser = function (data, userId) {
       userId = userId || null;
 
-      if (!userId) { // if userId is null
-        data.createdBy = Session.id;
-        $scope.createUser(data)
-          .then(
-            $scope.successResponse,
-            $scope.errorResponse);
+
+      if (!userId){ // if userId is null
+        $scope.createUser(data).then(
+          $scope.successResponse,
+          $scope.errorResponse);
       } else {
-        data.updatedBy = Session.id;
-        $scope.updateUser(userId, data)
-          .then(
-            $scope.successResponse,
-            $scope.errorResponse);
+        $scope.updateUser(userId, data).then(
+          $scope.successResponse,
+          $scope.errorResponse);
       }
     };
 
@@ -142,6 +139,16 @@ angular.module('liveopsConfigPanel')
       return UserService.update({
         id: userId
       }, data).$promise;
+    };
+
+    $scope.successResponse = function () {
+      $scope.showError = false;
+      $scope.showModal = false;
+    };
+
+    $scope.errorResponse = function (data) {
+      $scope.showError = true;
+      $scope.errorMsg = data.data.message;
     };
     
     $scope.$on('editField:save', function (event, args) {
