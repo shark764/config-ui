@@ -7,7 +7,7 @@ angular.module('liveopsConfigPanel')
         user: '=',
         saveField: '='
       },
-      templateUrl: 'app/components/users/userDetails/userDetails.html'
+      templateUrl: 'app/components/users/userDetails/userDetails.html',
       link: function(scope) {
         
         scope.$watch('user', function() {
