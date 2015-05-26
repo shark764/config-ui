@@ -16,8 +16,6 @@ angular.module('liveopsConfigPanel')
         scope.$emit('createUser:save', {
             data: scope.data
           });
-
-        //scope.saveUser(scope.data);
       };
 
       scope.cancel = function(){
