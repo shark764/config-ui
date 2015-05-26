@@ -1,90 +1,42 @@
 <div class="detail-header-pane">
   <div class="abox"></div>
+
+  <toggle class="user-toggle" ng-model="user.status"></toggle>
   <div id="user-details-header-name">
-    <h1>{{display.firstName}} {{display.lastName}}</h1>
+
+    <h1 class="user-name">{{display.firstName}} {{display.lastName}}</h1>
+
     <span>
       <h2>{{display.displayName}}</h2>
-      <user-state state="{{user.state}}" />
+      <user-state state="{{display.state}}" />
     </span>
-    <div class="state-description">User Created by <b>{John Doh}</b> on <b>{{user.created}}</b></div>
-    <div class="state-description">Enabled by <b>{John Doh}</b> on <b>{{user.created}}</b></div>
+    <div class="state-description">User Created by <b>{John Doh}</b> on <b>{{display.created}}</b></div>
+    <div class="state-description">Enabled by <b>{John Doh}</b> on <b>{{display.created}}</b></div>
   </div>
 </div>
 
 <form name="userForm" novalidate>
 
-  <div class="input-field-tile">
-    <label>First Name*</label>
-    <input type="text" ng-model="user.firstName" name="firstName" required="">
-    <div ng-show="userForm.$submitted || userForm.firstName.$touched" class="input-error">
-      <div ng-show="userForm.firstName.$error.required">First Name must be provided.</div>
-    </div>
-  </div>
+  <edit-field ng-model="user.firstName" name="firstName" label="First Name*" type="text" save="saveField" object-id="user.id"></edit-field>
+  <edit-field ng-model="user.lastName" name="lastName" label="Last Name*" type="text" save="saveField" object-id="user.id"></edit-field>
+  <edit-field ng-model="user.displayName" name="displayName" label="Display Name*" type="text" save="saveField" object-id="user.id"></edit-field>
+  <edit-field ng-model="user.telephone" name="telephone" label="Telephone" type="text" save="saveField" object-id="user.id"></edit-field>
+  <edit-field ng-model="user.email" name="email" label="Email*" type="email" save="saveField" object-id="user.id"></edit-field>
+  <edit-field ng-model="user.externalId" name="externalId" label="External ID*" type="text" save="saveField" object-id="user.id"></edit-field>
 
-  <div class="input-field-tile">
-    <label>Last Name*</label>
-    <input type="text" ng-model="user.lastName" name="lastName" required="">
-    <div ng-show="userForm.$submitted || userForm.lastName.$touched" class="input-error">
-      <div ng-show="userForm.lastName.$error.required">Last Name must be provided.</div>
-    </div>
-  </div>
-
-  <div class="input-field-tile">
-    <label>Display Name*</label>
-    <input type="text" ng-model="user.displayName" name="displayName" required="">
-    <div ng-show="userForm.$submitted || userForm.displayName.$touched" class="input-error">
-      <div ng-show="userForm.displayName.$error.required">Display Name must be provided.</div>
-    </div>
-  </div>
-
-  <div class="input-field-tile">
-    <label>Telephone</label>
-    <input type="text" ng-model="user.telephone" name="telephone">
-  </div>
-
-  <div class="input-field-tile">
-    <label>Email*</label>
-    <input type="email" ng-model="user.email" name="email" required="">
-    <div ng-show="userForm.$submitted || userForm.email.$touched" class="input-error">
-      <span ng-show="userForm.email.$error.required">Email must be provided.</span>
-      <span ng-show="userForm.email.$error.email">This is not a valid email.</span>
-    </div>
-  </div>
-
-  <div class="input-field-tile">
-    <label>External ID*</label>
-    <input type="text" ng-model="user.externalId" name="externalId" required="">
-    <div ng-show="userForm.$submitted || userForm.externalId.$touched" class="input-error">
-      <div ng-show="userForm.externalId.$error.required">External ID must be provided.</div>
-    </div>
-  </div>
-
-  <div class="input-field-tile">
+  <div class="edit-field">
     <input type="button" ng-click="resetPassword()" value="Reset Password" />
   </div>
 
-  <div class="input-field-tile">
-    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-      <path fill="#1e3a61" d="M128.039,5.907c1.84,0,3.398,0.687,4.677,2.058c1.278,1.372,2.213,2.775,2.837,4.209l34.714,70.146 l77.315,11.317c1.809,0.405,3.68,1.06,5.55,1.964c1.87,0.935,2.868,2.556,2.868,4.895c0,1.434-0.374,2.774-1.122,4.053 c-0.687,1.278-1.559,2.432-2.557,3.429l-56.116,54.449l13.156,77.004c0,0.374,0.062,0.873,0.125,1.372 c0.125,0.499,0.187,1.122,0.187,1.808c0,2.059-0.437,3.804-1.372,5.301c-0.935,1.496-2.557,2.182-4.926,2.182 c-2.307,0-4.426-0.623-6.234-1.933l-69.102-36.227l-69.21,36.227c-1.84,1.185-3.835,1.87-5.955,1.933 c-2.369,0-4.021-0.686-5.05-2.182c-1.029-1.497-1.528-3.242-1.528-5.301c0-0.561,0.031-1.184,0.156-1.746 c0.094-0.561,0.156-1.06,0.156-1.434l13.125-77.004L4.115,107.977c-1.028-0.998-1.964-2.151-2.837-3.429S0,101.929,0,100.495 c0-2.338,0.936-3.959,2.806-4.895c1.902-0.904,3.741-1.559,5.581-1.964l77.347-11.317l34.668-70.146 c0.623-1.434,1.652-2.837,3.055-4.209C124.891,6.594,126.418,5.907,128.039,5.907z M102.07,104.485l-57.924,8.542l41.869,40.965 l-9.914,57.629l51.938-27.248l51.955,27.248l-10.039-57.629l41.838-40.965l-57.753-8.542l-26.001-52.594L102.07,104.485z"
-      style="-webkit-transform: scale(0.078125, 0.078125);-moz-transform: scale(0.078125, 0.078125);transform: scale(0.078125, 0.078125);"></path>
-    </svg>
-    <h2>Role</h2>
-    
-    <select ng-model="user.role" ng-options="role for role in roles">
-      <option value="">-- choose role --</option>
-    </select>
-  </div>
+  <edit-field-drop-down ng-model="user.role" name="role" save="saveField" object-id="user.id" default-text="Select role">
+    <i class="fa fa-star-o"></i>
+    <label>Role</label>
+  </edit-field-drop-down>
 
   <tabset>
     <tab id="extension-tab" heading="Extensions">
-      <div class="input-field-tile">
-        Primary:
-        <input type="text" placeholder="Search...">
-      </div>
-      <div class="input-field-tile">
-        Secondary:
-        <input type="text" placeholder="Search...">
-      </div>
+      <edit-field ng-model="user.extensions.primary" name="user.extensions.primary" label="Primary:" placeholder="Search..." type="text" save="saveField" object-id="user.id"></edit-field>
+      <edit-field ng-model="user.extensions.secondary" name="user.extensions.secondary" label="Secondary:" placeholder="Search..." type="text" save="saveField" object-id="user.id"></edit-field>
     </tab>
     <tab heading="Addresses">
     </tab>

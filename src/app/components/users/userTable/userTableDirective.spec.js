@@ -1,5 +1,7 @@
 'use strict';
 
+/* global jasmine: false  */
+
 describe('userTable directive', function(){
   var $scope,
     $compile,
@@ -43,7 +45,7 @@ describe('userTable directive', function(){
   beforeEach(module('liveopsConfigPanel'));
   beforeEach(module('gulpAngular'));
 
-  beforeEach(inject(['$compile', '$rootScope', function(_$compile_,$rootScope) {
+  beforeEach(inject(['$compile', '$rootScope', function(_$compile_, $rootScope) {
     $scope = $rootScope.$new();
     $compile = _$compile_;
     $scope.users = users;
@@ -153,4 +155,3 @@ describe('userFilter filter', function(){
     expect(result.length).toEqual(1);
   }));
 });
-

@@ -19,7 +19,7 @@ angular.module('liveopsConfigPanel')
             case 'wrap' : return 'busy';
             default : return 'not-ready';
           }
-        }
+        };
 
         attrs.$observe('state', function(value) {
           $scope.stateClass = $scope.getDisplayState(value);

@@ -5,64 +5,35 @@
 
       <div class="error" ng-show="showError">{{errorMsg}}</div>
 
-      <div class="left-input">
-
         <div class="input-field-tile">
           <label>First Name</label>
-          <input type="text" ng-model="data.firstName" />
+          <input type="text" ng-model="data.firstName" placeholder="First Name" />
         </div>
 
         <div class="input-field-tile">
           <label>Last Name</label>
-          <input type="text" ng-model="data.lastName" />
+          <input type="text" ng-model="data.lastName" placeholder="Last Name" />
         </div>
 
         <div class="input-field-tile">
           <label>Display Name</label>
-          <input type="text" ng-model="data.displayName" />
+          <input type="text" ng-model="data.displayName" placeholder="Display Name" />
         </div>
 
         <div class="input-field-tile">
           <label>Password</label>
-          <input type="text" ng-model="data.password" />
+          <input type="password" ng-model="data.password" placeholder="Password" />
         </div>
-
-        
 
         <div class="input-field-tile">
           <label>Email</label>
-          <input type="text" ng-model="data.email" />
-        </div>
-
-      </div>
-
-      <div class="right-input">
-        
-        <div class="input-field-tile">
-          <label>Role</label>
-          <input type="text" ng-model="data.role" />
+          <input type="text" ng-model="data.email" placeholder="Email Address" />
         </div>
 
         <div class="input-field-tile">
-          <label>State</label>
-          <input type="text" ng-model="data.state" />
+          <label style="padding-top 5px">Status</label>
+          <toggle ng-model="data.status"></toggle>
         </div>
-
-        <div class="input-field-tile">
-          <label>External Id</label>
-          <input type="text" ng-model="data.externalId" />
-        </div>
-
-        <div class="input-field-tile">
-          <label>Status</label>
-          <input type="checkbox" ng-model="data.status" />
-        </div>
-
-      </div>
-
-
-
-      
 
     </div>
     <div class="modal-footer">

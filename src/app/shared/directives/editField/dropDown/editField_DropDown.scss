@@ -1,0 +1,13 @@
+.edit-field-drop-down {
+  select {
+    width: 100%;
+    max-width: 500px;
+    background-color: white;
+  }
+  ng-transclude {
+    label, i {
+      font-size: 22px;
+      color: $dark-blue;
+    }
+  }
+}
