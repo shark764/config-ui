@@ -29,6 +29,20 @@ angular.module('liveopsConfigPanel')
         $scope.$watch(function() {return $scope.queryUser;}, function() {
           $scope.filteredUsers = $filter('UserSearchFilter')($scope.users, $scope.queryUser);
         });
+        
+        scope.$watchCollection('filteredUsers', function(newList, oldList) {
+          angular.forEach(scope.users, function(user) {
+            if (newList.indexOf(user) === -1) {
+              user.filtered = true;
+              if (user.checked) {
+                user.checked = false;
+                $scope.hasChecked = $scope.hasChecked > 0 ? $scope.hasChecked - 1 : 0;
+              }
+            } else {
+              user.filtered = false;
+            }
+          });
+        });
       }
   	});
 
@@ -163,10 +177,6 @@ angular.module('liveopsConfigPanel')
           filtered.push(user);
         } else {
           user.filtered = true;
-          if (user.checked){
-            scope.$emit('userList:user:unchecked');
-            user.checked = false;
-          }
         }
       });
 
