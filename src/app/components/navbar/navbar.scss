@@ -1,5 +1,6 @@
 $navbar-height: 55px;
 $divider-margin: 12px;
+$down-arrow-url: "/assets/images/down-arrow.png";
 
 #__bs_notify__ {
   display: none !important;
@@ -25,7 +26,7 @@ $divider-margin: 12px;
     padding: 7px;
     background: transparent;
     -webkit-appearance: none;
-    background: url("/assets/images/down-arrow.png") no-repeat;
+    background: url($down-arrow-url) no-repeat;
     background-size: 18px 18px;
     background-position: 95% 50%;
     color: $medium-grey;
