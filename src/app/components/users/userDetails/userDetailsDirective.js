@@ -4,8 +4,7 @@ angular.module('liveopsConfigPanel')
   .directive('userDetails', function() {
     return {
       scope: {
-        user: '=',
-        saveField: '='
+        user: '='
       },
       templateUrl: 'app/components/users/userDetails/userDetails.html',
       link: function(scope) {

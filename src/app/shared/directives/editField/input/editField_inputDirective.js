@@ -20,17 +20,15 @@ angular.module('liveopsConfigPanel')
             objectId: scope.objectId,
             fieldName: scope.name,
             fieldValue: scope.ngModel
-          })
+          });
         };
-        
-        scope.$on('userList:' + scope.name + ':save', function(event, args) {
+
+        scope.$on(scope.name + ':save', function() {
           scope.edit = false;
         });
-        
-        scope.$on('userList:' + scope.name + ':save:error', function(event, args) {
-          console.log(args)
+
+        scope.$on(scope.name + ':save:error', function() {
         });
       }
     };
   });
-  

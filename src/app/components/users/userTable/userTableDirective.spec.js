@@ -45,7 +45,7 @@ describe('userTable directive', function(){
   beforeEach(module('liveopsConfigPanel'));
   beforeEach(module('gulpAngular'));
 
-  beforeEach(inject(['$compile', '$rootScope', function(_$compile_,$rootScope) {
+  beforeEach(inject(['$compile', '$rootScope', function(_$compile_, $rootScope) {
     $scope = $rootScope.$new();
     $compile = _$compile_;
     $scope.users = users;

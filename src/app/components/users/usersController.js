@@ -8,7 +8,6 @@ angular.module('liveopsConfigPanel')
 
     $scope.$on('userTable:user:selected', function (event, selectedUser) {
       $scope.selectedUser = selectedUser;
-      $scope.$broadcast('userList:user:selected', selectedUser);
     });
 
     UserService.query(function (data) {
@@ -22,18 +21,15 @@ angular.module('liveopsConfigPanel')
     $scope.saveUser = function (data, userId) {
       userId = userId || null;
 
-      if (!userId) { // if userId is null
-        data.createdBy = Session.id;
-        $scope.createUser(data)
-          .then(
-            $scope.successResponse,
-            $scope.errorResponse);
+
+      if (!userId){ // if userId is null
+        $scope.createUser(data).then(
+          $scope.successResponse,
+          $scope.errorResponse);
       } else {
-        data.updatedBy = Session.id;
-        $scope.updateUser(userId, data)
-          .then(
-            $scope.successResponse,
-            $scope.errorResponse);
+        $scope.updateUser(userId, data).then(
+          $scope.successResponse,
+          $scope.errorResponse);
       }
     };
 
@@ -54,7 +50,7 @@ angular.module('liveopsConfigPanel')
 
     $scope.errorResponse = function (data) {
       $scope.showError = true;
-      $scope.errorMsg = data.statusText;
+      $scope.errorMsg = data.data.message;
     };
 
     $scope.$on('editField:save', function (event, args) {
@@ -64,9 +60,9 @@ angular.module('liveopsConfigPanel')
 
       $scope.updateUser(args.objectId, saveObject)
         .then(function (data) {
-          $scope.$broadcast('userList:' + args.fieldName + ':save', data);
+          $scope.$broadcast(args.fieldName + ':save', data);
         }, function (data) {
-          $scope.$broadcast('userList:' + args.fieldName + ':save:error', data);
+          $scope.$broadcast(args.fieldName + ':save:error', data);
         });
     });
   }]);
