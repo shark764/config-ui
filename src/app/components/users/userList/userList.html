@@ -8,9 +8,9 @@
         <input type="text" name='queryUserInput' ng-model="queryUser" placeholder="Search">
       </div>
       <div>
-        <button class="btn btn-primary" ng-click="showModalSection()">Create New User</button>
+        <button class="btn btn-primary btn-create" ng-click="showModalSection()">Create</button>
       </div>
-      
+
       <div class="actions">
         <div>
           <dropdown items="selectOptions" label="Select"></dropdown>
@@ -22,9 +22,9 @@
         </div>
       </div>
     </div>
-    
+
     <user-table users="filteredUsers" select-user="selectUser"></user-table>
-    <resize-handle element-id="left-panel" min-width="500"></resize-handle>
+    <resize-handle ng-show="!!selectedUser" element-id="left-panel" min-width="500"></resize-handle>
   </div>
 
   <div class="right-panel" ng-show="selectedUser">

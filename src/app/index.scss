@@ -33,7 +33,7 @@ a {
 .btn {
   background-color: #FFFFFF;
   border: 1px solid $medium-grey;
-  border-radius: 6px;
+  border-radius: 4px;
   color: $main-color;
   cursor: pointer;
   display: inline-block;
@@ -79,7 +79,7 @@ a {
   border-color: lighten($medium-grey, 3%);
   color: darken($medium-grey, 20%);
   cursor: default;
-  
+
   &:hover {
      @include inset-box-shadow(0,0,0);
   }

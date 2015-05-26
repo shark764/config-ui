@@ -10,7 +10,7 @@ angular.module('liveopsConfigPanel')
       link : function(scope) {
         scope.states = userStates;
         scope.statuses = userStatuses;
-        
+
         scope.selectUser = function(selectedUser) {
           scope.selectedUser = selectedUser;
           scope.$emit('userTable:user:selected', selectedUser);
@@ -21,19 +21,18 @@ angular.module('liveopsConfigPanel')
             return true;
           }
           var wildCardQuery = new RegExp(scope.regExpReplace(scope.queryUser), 'i');
-          
+
           // Search by displayName and location; location not defined yet
           // return (wildCardQuery.test(user.firstName + ' ' +
           // user.lastName) || wildCardQuery.test(user.location));
           return (wildCardQuery.test(user.firstName + ' ' + user.lastName));
         };
-        
+
         scope.regExpReplace = function(string) {
           // Allow all characters in user search, use * as wildcard
           string.replace(/([.+?^=!:${}()|\[\]\/\\])/g, '\\$1');
           return string.replace(/([*])/g, '.*');
         };
-        
       },
       templateUrl: 'app/components/users/userTable/userTable.html'
     };
