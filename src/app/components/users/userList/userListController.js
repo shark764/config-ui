@@ -15,6 +15,8 @@ angular.module('liveopsConfigPanel')
       $scope.users = data.result;
     });
 
+    $scope.$on('')
+
     $scope.showModalSection = function () {
       $scope.showModal = true;
     };
@@ -51,6 +53,9 @@ angular.module('liveopsConfigPanel')
     $scope.successResponse = function () {
       $scope.showError = false;
       $scope.showModal = false;
+      UserService.query(function (data) {
+        $scope.users = data.result;
+      });
     };
 
     $scope.errorResponse = function (data) {
