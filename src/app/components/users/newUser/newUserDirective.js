@@ -12,13 +12,13 @@ angular.module('liveopsConfigPanel')
 
       $scope.ok = function(){
         $scope.saveUser($scope.data);
-      }
+      };
 
       $scope.cancel = function(){
         $scope.data = [];
         $scope.showError = false;
         $scope.showModal = false;
-      }
+      };
 
     }
   };

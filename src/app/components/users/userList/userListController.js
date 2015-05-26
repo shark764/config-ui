@@ -4,7 +4,7 @@ angular.module('liveopsConfigPanel')
   .controller('UserListController', ['$scope', 'Session', 'UserService', function ($scope, Session, UserService) {
     $scope.showModal = false;
     $scope.showError = false;
-    $scope.errorMsg = "Input required data";
+    $scope.errorMsg = 'Input required data';
 
     $scope.selectUser = function (user) {
       $scope.selectedUserContext = {
@@ -30,7 +30,7 @@ angular.module('liveopsConfigPanel')
 
     $scope.showModalSection = function(){
     	$scope.showModal = true;
-    }
+    };
 
     $scope.saveUser = function(data, userId) {
       userId = userId || null;
@@ -43,7 +43,7 @@ angular.module('liveopsConfigPanel')
         $scope.updateUser(userId, data);
       }
 
-    }
+    };
 
   	$scope.createUser = function(data){
       UserService.save(data)
@@ -51,7 +51,7 @@ angular.module('liveopsConfigPanel')
           $scope.successResponse,
           $scope.errorResponse
         );
-    }
+    };
 
     $scope.updateUser = function(userId, data){
       UserService.update( { id:userId }, data)
@@ -59,16 +59,16 @@ angular.module('liveopsConfigPanel')
           $scope.successResponse,
           $scope.errorResponse
         );
-    }
+    };
 
 
-    $scope.successResponse = function(data) {
+    $scope.successResponse = function() {
       $scope.showError = false;
       $scope.showModal = false;
-    }
+    };
 
     $scope.errorResponse = function(data) {
       $scope.showError = true;
       $scope.errorMsg = data.statusText;
-    }
+    };
   }]);
