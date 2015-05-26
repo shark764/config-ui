@@ -5,8 +5,26 @@ angular.module('liveopsConfigPanel')
     return {
       scope: {
         user: '=',
-        display: '='
+        saveField: '='
       },
+<<<<<<< HEAD:src/app/components/users/userDetails/userDetailsDirective.js
       templateUrl: 'app/components/users/userDetails/userDetails.html'
+      link: function(scope) {
+        
+        scope.$watch('user', function() {
+          if(!scope.user){
+            return;
+          }
+          
+          scope.display = {
+            firstName: scope.user.firstName,
+            lastName: scope.user.lastName,
+            displayName: scope.user.displayName,
+            state: scope.user.state,
+            created: scope.user.created,
+            createdBy: scope.user.createdBy
+          };
+        });
+      }
     };
  });
