@@ -14,8 +14,6 @@ angular.module('liveopsConfigPanel')
       $scope.users = data.result;
     });
 
-    $scope.$on('')
-
     $scope.showModalSection = function () {
       $scope.showModal = true;
     };
@@ -45,7 +43,6 @@ angular.module('liveopsConfigPanel')
 
     $scope.$on('editField:save', function (event, args) {
       var saveObject = {};
-      saveObject.updatedBy = '1c838030-f772-11e4-ac37-45b2e1245d4b';
       saveObject[args.fieldName] = args.fieldValue;
 
       $scope.updateUser(args.objectId, saveObject)
