@@ -7,6 +7,6 @@ angular.module('liveopsConfigPanel')
         user: '=',
         display: '='
       },
-      templateUrl: 'app/components/users/userList/userDetails/userDetails.html'
+      templateUrl: 'app/components/users/userDetails/userDetails.html'
     };
  });
