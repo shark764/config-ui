@@ -5,11 +5,11 @@ $margin: 20px;
     border-bottom: 1px solid $medium-grey;
     display: table;
     width: 100%;
+    box-sizing: border-box;
 
     .user-toggle {
       vertical-align: middle;
       display: table-cell;
-      padding-right: 15px;
     }
     #user-details-header-name {
       display: table-cell;

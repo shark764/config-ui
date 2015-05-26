@@ -1,0 +1,17 @@
+<div class="side-menu"><i class="fa fa-angle-double-left"></i></div>
+<div new-user ng-show="showModal"></div>
+
+<div class="user-list-container">
+  <div id="left-panel" class="left-panel">
+    <div class="action-container">
+      <button class="btn" ng-click="showModalSection()">Create New User</button>
+    </div>
+
+    <user-table users="users" select-user="selectUser"></user-table>
+    <resize-handle element-id="left-panel" min-width="600" ></resize-handle>
+  </div>
+
+  <div class="right-panel" ng-show="selectedUser">
+    <user-details id="user-details-container" user="selectedUser"  save-field="updateUser">
+  </div>
+</div>

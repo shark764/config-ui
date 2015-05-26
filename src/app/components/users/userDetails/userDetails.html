@@ -24,7 +24,7 @@
   <edit-field ng-model="user.externalId" name="externalId" label="External ID*" type="text" object-id="user.id"></edit-field>
 
   <div class="edit-field">
-    <input type="button" ng-click="resetPassword()" value="Reset Password" />
+    <input type="button" class="btn" ng-click="resetPassword()" value="Reset Password" />
   </div>
 
   <edit-field-drop-down ng-model="user.role" name="role" object-id="user.id" default-text="Select role">
