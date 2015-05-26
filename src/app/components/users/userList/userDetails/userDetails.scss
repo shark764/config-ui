@@ -3,22 +3,29 @@ $margin: 20px;
   .detail-header-pane {
     padding: $margin;
     border-bottom: 1px solid $medium-grey;
+    display:table;
+
+    .user-toggle{
+      vertical-align: middle;
+      display: table-cell;
+      padding-right:15px;
+
+    }
+
     #user-details-header-name {
+
+      display:table-cell;
+
       .user-state {
         display: inline-block;
         width: 200px;
         margin-left: 10px;
       }
-      .user-toggle{
-        position:absolute;
-        margin-top: 10px;
-      }
-      .user-name {
-        padding-left: 70px;
-      }
+
       h1 {
         margin: 0;
         color: $dark-grey;
+        font-weight: normal;
       }
       h2 {
         display: inline-block;
