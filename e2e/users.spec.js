@@ -26,16 +26,16 @@ describe('The users view', function () {
     userCount = element.all(by.repeater('user in users')).count();
   });
 
-  xit('should include users management page components', function() {
+  it('should include users management page components', function() {
     expect(navBar.isDisplayed()).toBeTruthy();
-    expect(element(by.css('ul.ng-scope > li:nth-child(1) > a:nth-child(1)')).getText()).toBe('Users Management');
+    expect(element(by.css('li.active:nth-child(3) > a:nth-child(1)')).getText()).toBe('Users Management');
     expect(element(by.css('#left-panel > div:nth-child(1) > button:nth-child(1)')).getText()).toBe('Create New User');
     expect(queryUserField.getAttribute('placeholder')).toBe('Search');
     expect(userTable.isDisplayed()).toBeTruthy();
-    expect(userDetails.isDisplayed()).toBeTruthy();
+    expect(userDetails.isDisplayed()).toBeFalsy();
   });
 
-  xit('should display users based on the user Search', function() {
+  it('should display users based on the user Search', function() {
     // TODO: Update with values that will be more likely to always match users
 
     queryUserField.sendKeys('Ron');
@@ -72,7 +72,7 @@ describe('The users view', function () {
     expect(element.all(by.repeater('user in users')).count()).toBe(userCount);
   });
 
-  xit('should display users based on the table Status filter', function() {
+  it('should display users based on the table Status filter', function() {
     // Select Disabled from Status drop down
     statusDropDown.click();
     statusDropDown.all(by.css('input')).get(1).click();
@@ -105,7 +105,7 @@ describe('The users view', function () {
     expect(element.all(by.repeater('user in users')).count()).toBe(userCount);
   });
 
-  xit('should display users based on the table State filter', function() {
+  it('should display users based on the table State filter', function() {
     // One State selected
     stateDropDown.click(); // Open
     stateDropDown.all(by.css('input')).get(3).click(); // Select Ready
@@ -145,7 +145,7 @@ describe('The users view', function () {
     expect(element.all(by.repeater('user in users')).count()).toBe(userCount);
   });
 
-  xit('should display users based on the Search, Status and State filters', function() {
+  it('should display users based on the Search, Status and State filters', function() {
     // Search
     queryUserField.sendKeys('a');
 
@@ -199,8 +199,10 @@ describe('The users view', function () {
   });
 
   xit('should display the selected user details in the user details section', function() {
+    // TODO Update selectors for user Details
     // Select user row
     element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(1)')).click();
+    expect(userDetails.isDisplayed()).toBeTruthy();
 
     // Verify user's name in table matches user details
     expect(element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(1)')).getText()).toContain(element(by.model('user.firstName')).getAttribute('value'));
@@ -234,23 +236,23 @@ describe('The users view', function () {
     }
   });
 
-  it('should update table when user details are changed', function() {
+  xit('should update table when user details are changed', function() {
+    // TODO Update selectors for user Details
     // Select user row
     element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(1)')).click();
+    expect(userDetails.isDisplayed()).toBeTruthy();
 
     // Update User details
-    element(by.model('user.firstName')).sendKeys('test');
-    element(by.model('user.lastName')).sendKeys('test');
-    element(by.model('user.displayName')).sendKeys('test');
-    element(by.model('user.email')).sendKeys('test');
-    element(by.model('user.externalId')).sendKeys('test');
-    // TODO Add telephone
+    element(by.model('user.firstName')).sendKeys('test\n');
+    element(by.model('user.lastName')).sendKeys('test\n');
+    element(by.model('user.displayName')).sendKeys('test\n');
+    element(by.model('user.email')).sendKeys('test\n');
+    element(by.model('user.externalId')).sendKeys('test\n');
+    // TODO Add telephone and any other user details that can be updated
 
     // Verify user's name in table matches new user details
-    expect(element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(1)')).getText()).toContain(element(by.model('user.firstName')).getAttribute('value'));
-    expect(element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(1)')).getText()).toContain(element(by.model('user.lastName')).getAttribute('value'));
-    // TODO: Uncomment once the user details header is updated automatically
-    // expect(element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(1)')).getText()).toBe(element(by.css('h1.ng-binding')).getText());
+    expect(element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(1)')).getText()).toContain(element(by.css('user.firstName')).getAttribute('value'));
+    expect(element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(1)')).getText()).toBe(element(by.css('h1.ng-binding')).getText());
 
     // Verify user's externalId in table matches new user details
     expect(element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(2)')).getText()).toBe(element(by.model('user.externalId')).getAttribute('value'));
@@ -278,12 +280,11 @@ describe('The users view', function () {
     expect(element(by.model('user.email')).getAttribute('value')).toBeTruthy();
 
     // Reset all user values
-    element(by.model('user.firstName')).sendKeys('\u0008\u0008\u0008\u0008');
-    element(by.model('user.lastName')).sendKeys('\u0008\u0008\u0008\u0008');
-    element(by.model('user.displayName')).sendKeys('\u0008\u0008\u0008\u0008');
-    element(by.model('user.email')).sendKeys('\u0008\u0008\u0008\u0008');
-    element(by.model('user.externalId')).sendKeys('\u0008\u0008\u0008\u0008');
-    browser.pause();
+    element(by.model('user.firstName')).sendKeys('\u0008\u0008\u0008\u0008\n');
+    element(by.model('user.lastName')).sendKeys('\u0008\u0008\u0008\u0008\n');
+    element(by.model('user.displayName')).sendKeys('\u0008\u0008\u0008\u0008\n');
+    element(by.model('user.email')).sendKeys('\u0008\u0008\u0008\u0008\n');
+    element(by.model('user.externalId')).sendKeys('\u0008\u0008\u0008\u0008\n');
   });
 
 });

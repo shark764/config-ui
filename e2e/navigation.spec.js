@@ -10,5 +10,5 @@ describe('The view navigation', function () {
     expect(browser.getCurrentUrl()).toBe('http://localhost:3000/#/login');
   });
 
-  // TO DO: Complete remaining expected redirects as new pages are added
+  // TODO: Complete remaining expected redirects as new pages are added
 });

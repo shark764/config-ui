@@ -51,7 +51,7 @@ describe('The login view', function () {
   });
 
   it('should display error message after unsuccessful login', function () {
-    // TO DO
+    // TODO
   });
 
   it('should display user\'s name after successful login', function () {
