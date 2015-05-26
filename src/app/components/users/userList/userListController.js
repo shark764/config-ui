@@ -36,10 +36,8 @@ angular.module('liveopsConfigPanel')
       userId = userId || null;
 
       if (!userId){ // if userId is null
-        data.createdBy = Session.id;
         $scope.createUser(data);
       } else {
-        data.updatedBy = Session.id;
         $scope.updateUser(userId, data);
       }
 
