@@ -23,11 +23,11 @@ angular.module('liveopsConfigPanel')
           });
         };
 
-        scope.$on('userList:' + scope.name + ':save', function() {
+        scope.$on(scope.name + ':save', function() {
           scope.edit = false;
         });
 
-        scope.$on('userList:' + scope.name + ':save:error', function() {
+        scope.$on(scope.name + ':save:error', function() {
         });
       }
     };
