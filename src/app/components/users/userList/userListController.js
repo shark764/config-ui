@@ -54,7 +54,7 @@ angular.module('liveopsConfigPanel')
 
     $scope.errorResponse = function (data) {
       $scope.showError = true;
-      $scope.errorMsg = data.statusText;
+      $scope.errorMsg = data.data.message;
     };
 
     $scope.$on('editField:save', function (event, args) {
