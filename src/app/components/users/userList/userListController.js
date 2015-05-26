@@ -76,7 +76,7 @@ angular.module('liveopsConfigPanel')
   	
   	$scope.selectAll = function(){
   	  $scope.hasChecked = $scope.users.length;
-  	  angular.forEach($scope.users, function(user) {
+  	  angular.forEach($scope.filteredUsers, function(user) {
   	    if (!user.filtered){
   	      user.checked = true;
   	    }
