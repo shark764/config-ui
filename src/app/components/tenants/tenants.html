@@ -1,0 +1,35 @@
+<div>
+  <h3>Tenants</h3>
+  <ul>
+    <li class="error" ng-repeat="tenant in tenants">
+      <a ng-href="#/tenants/{{tenant.id}}">{{tenant.name}}</a>
+    </li>
+  </ul>
+
+  <ul>
+    <li class="error" ng-repeat="(key, value) in error.error">
+      Field `{{key}}` has the following error `{{value}}`
+    </li>
+  </ul>
+
+  <h3>Create new Tenant</h3>
+  <form ng-submit="save()">
+    <div>Name: <input type="text" ng-required="true" ng-model="tenant.name" placehold="This is my tenant description"></input></div>
+    <div>Description: <input ng-disabled="!!tenant.id" type="text" ng-required="true" ng-model="tenant.description" placehold="This is my tenant description"></input></div>
+    <div>Region :
+      <select ng-disabled="!!tenant.id" ng-model="tenant.regionId" ng-required="true">
+        <option value=""></option>
+        <option ng-repeat="region in regions" value="{{region.id}}">{{region.name}}</option>
+      </select>
+    </div>
+    <div>Parent Tenant:
+      <select ng-disabled="!!tenant.id" >
+        <option value=""></option>
+        <option ng-repeat="tenant in tenants" value="{{tenant.id}}">{{tenant.name}}</option>
+      </select>
+    </div>
+
+    <input type="submit" class="btn btn-primary" value="Create"/>
+  </form>
+
+</div>
