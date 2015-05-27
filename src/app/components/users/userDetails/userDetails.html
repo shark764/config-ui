@@ -17,10 +17,21 @@
 
 <form name="userForm" novalidate>
 
+  <div class="error" ng-show="userForm.firstName.$touched && userForm.firstName.$invalid">Please enter a first name.</div>
   <edit-field ng-model="user.firstName" name="firstName" label="First Name*" type="text" object-id="user.id"></edit-field>
+  
+  <div class="error" ng-show="userForm.lastName.$touched && userForm.lastName.$invalid">Please enter a last name.</div>
   <edit-field ng-model="user.lastName" name="lastName" label="Last Name*" type="text" object-id="user.id"></edit-field>
+  
+  <div class="error" ng-show="userForm.displayName.$touched && userForm.displayName.$invalid">Please enter a display name.</div>
   <edit-field ng-model="user.displayName" name="displayName" label="Display Name*" type="text" object-id="user.id"></edit-field>
+  
+  <div class="error" ng-show="userForm.email.$touched && userForm.email.$invalid">
+    <span ng-show="userForm.email.$error.required">Please enter an email.</span>
+    <span ng-show="userForm.email.$error.email">Must be a valid email address.</span>
+  </div>
   <edit-field ng-model="user.email" name="email" label="Email*" type="email" object-id="user.id"></edit-field>
+  
   <edit-field ng-model="user.externalId" name="externalId" label="External ID*" type="text" object-id="user.id"></edit-field>
 
   <div class="edit-field">

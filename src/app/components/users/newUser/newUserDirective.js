@@ -13,9 +13,12 @@ angular.module('liveopsConfigPanel')
 
       // Passes data via emit to usersController in order to make api call.
       scope.ok = function(){
-        scope.$emit('createUser:save', {
+        if(scope.createUserForm.$valid){
+          scope.$emit('createUser:save', {
             data: scope.data
           });
+        }
+        
       };
 
       // Clears form upon cancel
