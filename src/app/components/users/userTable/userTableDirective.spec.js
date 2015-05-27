@@ -160,7 +160,7 @@ describe('userTable directive', function(){
     it('should be called when a paramater changes in parent scope', inject(['$compile', '$rootScope', 'filterFilter', function(_$compile_, $rootScope, filterFilter) {
       $scope = $rootScope.$new();
       $scope.users = users;
-      $scope.coolName = 'Oliver'
+      $scope.coolName = 'Oliver';
       $scope.preFilter = function(items){
         return filterFilter(items, {firstName : $scope.coolName});
       };

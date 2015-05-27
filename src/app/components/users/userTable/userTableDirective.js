@@ -82,6 +82,8 @@ angular.module('liveopsConfigPanel')
     return function(items, filterFunction){
       if (filterFunction){
         return filterFunction(items);
+      } else {
+        return items;
       }
-    }
+    };
 });
