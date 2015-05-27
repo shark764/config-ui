@@ -6,6 +6,6 @@
     "apiHostname" : "https://fakendpoint.com"
   },
   "test": {
-    "apiHostname" : "ec2-52-6-188-168.compute-1.amazonaws.com"
+    "apiHostname" : "ec2-52-6-188-168.compute-1.amazonaws.com:9080"
   }
 }

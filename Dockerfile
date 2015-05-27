@@ -10,7 +10,7 @@ WORKDIR /opt/liveops
 RUN npm install -g gulp bower
 RUN npm install
 RUN /usr/local/bin/bower install --allow-root
-RUN /usr/local/bin/gulp build
+RUN ENV=test /usr/local/bin/gulp build
 
 RUN rm -rf /usr/share/nginx/html
 RUN cp -r dist /usr/share/nginx/html
