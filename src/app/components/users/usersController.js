@@ -22,63 +22,57 @@ angular.module('liveopsConfigPanel')
       $scope.users = data.result;
       $scope.filteredUsers = $scope.users;
       $scope.selectedUserContext = {};
-
-      if (data.result) {
-        // Watch the search value so we can update the filteredUsers list which
-        // gets passed to the table directive
-        $scope.$watch(function() {return $scope.queryUser;}, function() {
-          $scope.filteredUsers = $filter('UserSearchFilter')($scope.users, $scope.queryUser);
-        });
+      
+      // Watch the search value so we can update the filteredUsers list which
+      // gets passed to the table directive
+      $scope.$watch(function() {return $scope.queryUser;}, function() {
+        $scope.filteredUsers = $filter('UserSearchFilter')($scope.users, $scope.queryUser);
         
-        //Watch for changes to filteredUsers that are caused by searching.
-        $scope.$watchCollection('filteredUsers', function(newList) {
-          angular.forEach($scope.users, function(user) {
-            if (newList.indexOf(user) === -1) {
-              user.filtered = true;
-              if (user.checked) {
-                user.checked = false;
-                $scope.hasChecked = $scope.hasChecked > 0 ? $scope.hasChecked - 1 : 0;
-              }
-            } else {
-              user.filtered = false;
+        angular.forEach($scope.users, function(user) {
+          if ($scope.filteredUsers.indexOf(user) === -1) { //If the user has been filtered out of the results
+            user.filtered = true;
+            if (user.checked) {
+              user.checked = false;
+              decreaseCheckedCount();
             }
-          });
+          } else {
+            user.filtered = false;
+          }
         });
-      }
+      });
   	});
-
+    
     $scope.$on('userTable:user:selected', function (event, selectedUser) {
       $scope.selectedUser = selectedUser;
       $scope.$broadcast('userList:user:selected', selectedUser);
     });
     
     $scope.hasChecked = 0;
+    function decreaseCheckedCount(){
+      $scope.hasChecked = $scope.hasChecked > 0 ? $scope.hasChecked - 1 : 0;
+    }
+    
+    $scope.decreaseCheckedCount = decreaseCheckedCount;
+    
     $scope.$on('userList:user:checked', function () {
       $scope.hasChecked++;
     });
     
     $scope.$on('userList:user:unchecked', function () {
-      $scope.hasChecked = $scope.hasChecked > 0 ? $scope.hasChecked - 1 : 0;
+      decreaseCheckedCount();
     });
     
-  	$scope.selectOptions = [{
-    	  label : 'All',
-    	  onClick : function(){
-    	      $scope.selectAll();
-    	  }
-    	}, 
-    	{
-    	 label : 'None',
-       onClick : function(){
-         $scope.selectNone();
-        }
-    }];
+  	$scope.selectOptions = [
+  	                        {label : 'All', onClick : function(){$scope.selectAll();}}, 
+  	                        {label : 'None', onClick : function(){$scope.selectNone();}}
+  	                       ];
   	
   	$scope.selectAll = function(){
-  	  $scope.hasChecked = $scope.filteredUsers.length;
-  	  angular.forEach($scope.filteredUsers, function(user) {
-  	    if (!user.filtered){
+  	  $scope.hasChecked = 0;
+  	  angular.forEach($scope.users, function(user) {
+  	    if (! user.filtered){
   	      user.checked = true;
+  	      $scope.hasChecked++;
   	    }
       });
   	};
@@ -179,10 +173,7 @@ angular.module('liveopsConfigPanel')
       var filtered = [];
       angular.forEach(users, function(user) {
         if ((wildCardQuery.test(user.firstName + ' ' + user.lastName))){
-          user.filtered = false; //TODO: What if it was also filtered somewhere else? This will clobber it.
           filtered.push(user);
-        } else {
-          user.filtered = true;
         }
       });
 

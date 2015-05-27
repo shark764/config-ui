@@ -87,10 +87,11 @@ describe('userListController controller', function(){
     }));
     
     it('should decrease when checked items are filtered out', inject(function() {
-      scope.filteredUsers[1].checked=true;
+      scope.users[1].checked = true;
       scope.hasChecked = 1;
-      scope.filteredUsers = scope.filteredUsers.slice(0,1);
+      scope.queryUser = 'Lowe';
       scope.$digest();
+      
       expect(scope.hasChecked).toEqual(0);
     }));
     
@@ -104,9 +105,12 @@ describe('userListController controller', function(){
       scope.selectAll();
       expect(scope.hasChecked).toEqual(2);
       
-      scope.filteredUsers = scope.filteredUsers.slice(0,1);
-      scope.$digest();
+      scope.queryUser = 'Lowe';
+      scope.$apply();
+      
       expect(scope.hasChecked).toEqual(1);
+      expect(scope.filteredUsers.length).toEqual(1);
+
       scope.selectAll();
       expect(scope.hasChecked).toEqual(1);
     }));
@@ -147,19 +151,19 @@ describe('userListController controller', function(){
       expect(scope.users[1].status).toBeFalsy();
     }));
     
-    it('should skip users that are marked as filtered', inject(function() {
+    it('should skip users that are marked as filtered even if they\'re checked', inject(function() {
       scope.users[0].filtered = true;
       scope.users[0].checked = true;
       scope.enableChecked();
       
       expect(scope.users[0].status).toBeFalsy();
       
-      scope.filteredUsers[0].filtered = true;
-      scope.filteredUsers[0].checked = true;
-      scope.filteredUsers[0].status = false;
+      scope.users[0].filtered = true;
+      scope.users[0].checked = true;
+      scope.users[0].status = false;
       scope.enableChecked();
       
-      expect(scope.filteredUsers[0].status).toBeFalsy();
+      expect(scope.users[0].status).toBeFalsy();
     }));
   });
   
@@ -180,12 +184,12 @@ describe('userListController controller', function(){
     }));
     
     it('should skip users that are marked as filtered', inject(function() {
-      scope.filteredUsers[0].filtered = true;
-      scope.filteredUsers[0].checked = true;
-      scope.filteredUsers[0].status = true;
+      scope.users[0].filtered = true;
+      scope.users[0].checked = true;
+      scope.users[0].status = true;
       scope.disableChecked();
       
-      expect(scope.filteredUsers[0].status).toBeTruthy();
+      expect(scope.users[0].status).toBeTruthy();
     }));
   });
   
@@ -194,12 +198,34 @@ describe('userListController controller', function(){
       expect(scope.selectAll).toBeDefined();
       expect(scope.selectAll).toEqual(jasmine.any(Function));
     }));
+    
+    it('should skip users that are marked as filtered', inject(function() {
+      scope.users[0].filtered = true;
+      scope.selectAll();
+      
+      expect(scope.users[0].checked).toBeFalsy();
+    }));
+    
+    it('should mark all nonfiltered users as checked', inject(function() {
+      scope.selectAll();
+      
+      expect(scope.users[0].checked).toBeTruthy();
+      expect(scope.users[1].checked).toBeTruthy();
+    }));
   });
   
   describe('selectNone function', function(){
     it('should be defined', inject(function() {
       expect(scope.selectNone).toBeDefined();
       expect(scope.selectNone).toEqual(jasmine.any(Function));
+    }));
+    
+    it('should remove checked flag from all users', inject(function() {
+      scope.users[0].checked = true;
+      scope.selectNone();
+      
+      expect(scope.users[0].checked).toBeFalsy();
+      expect(scope.users[1].checked).toBeFalsy();
     }));
   });
 });
@@ -327,17 +353,5 @@ describe('userListController searchUser filter', function(){
 
     result = filter(users, '*Wazow');
     expect(result.length).toBe(1);
-  }));
-  
-  it('should mark excluded users as filtered', inject(function() {
-    var result = filter(users, 'q');
-    expect(result.length).toBe(0);
-    expect(users[0].filtered).toBeTruthy();
-  }));
-  
-  it('should not mark included users as filtered ', inject(function() {
-    var result = filter(users, 'm');
-    expect(result.length).toBe(1);
-    expect(users[0].filtered).toBeFalsy();
   }));
 });
