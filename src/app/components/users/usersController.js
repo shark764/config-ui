@@ -10,14 +10,11 @@ angular.module('liveopsConfigPanel')
       $scope.selectedUserContext = {
         user: user
       };
-
-      $scope.selectedUserContext.display = {
-        firstName: user.firstName,
-        lastName: user.lastName,
-        displayName: user.displayName
-      };
     };
-
+    $scope.$on('userTable:user:selected', function (event, selectedUser) {
+      $scope.selectedUser = selectedUser;
+    });
+    
   	UserService.query(function(data){
       $scope.users = data.result;
       $scope.$broadcast('user:selected', $scope.users[0]);
@@ -127,10 +124,10 @@ angular.module('liveopsConfigPanel')
 
       $scope.updateUser(args.objectId, saveObject)
         .then(function (data) {
-          $scope.$broadcast('userList:' + args.fieldName + ':save', data);
+          $scope.$broadcast(args.fieldName + ':save', data);
         }, function (data) {
-          $scope.$broadcast('userList:' + args.fieldName + ':save:error', data);
-        });
+          $scope.$broadcast(args.fieldName + ':save:error', data);
+      });
     });
     
     $scope.$on('createUser:save', function (event, args) {
