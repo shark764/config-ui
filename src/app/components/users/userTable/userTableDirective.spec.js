@@ -5,53 +5,56 @@
 describe('userTable directive', function(){
   var $scope,
     $compile,
-    element;
-
-  var users = [ {
-    'id': 'c6aa44f6-b19e-49f5-bd3f-66f00b885e39',
-    'status': false,
-    'updatedBy': 'b9a14681-9912-437d-b72b-320bbebfa40c',
-    'externalId': 73795,
-    'extension': 9969,
-    'state': 'WRAP',
-    'created': 'Wed Nov 07 2001 21:32:07 GMT+0000 (UTC)',
-    'lastName': 'Lowe',
-    'firstName': 'Munoz',
-    'updated': 'Sun Aug 31 1997 19:52:45 GMT+0000 (UTC)',
-    'email': 'munoz.lowe@hivedom.org',
-    'displayName': 'Munoz Lowe',
-    'password': '',
-    'createdBy': '02f1eeff-8204-4902-9f4c-7960db3795fa',
-    'role': 'Administrator'
-  },
-  {
-    'id': '9f97f9d9-004c-469c-906d-b917bd79fbe8',
-    'status': true,
-    'updatedBy': '52fcfff0-b35f-4ba3-94b8-964511671045',
-    'externalId': 80232,
-    'extension': 5890,
-    'state': 'NOT_READY',
-    'created': 'Sat Apr 12 2008 07:40:10 GMT+0000 (UTC)',
-    'lastName': 'Oliver',
-    'firstName': 'Michael',
-    'updated': 'Sat Nov 07 1970 10:53:22 GMT+0000 (UTC)',
-    'email': 'michael.oliver@ezent.io',
-    'displayName': 'Michael Oliver',
-    'password': '',
-    'createdBy': 'b8e5d096-f828-4269-ae5a-117e69917340',
-    'role': 'Administrator'
-  }];
+    element,
+    users,
+    isolateScope;
 
   beforeEach(module('liveopsConfigPanel'));
   beforeEach(module('gulpAngular'));
 
   beforeEach(inject(['$compile', '$rootScope', function(_$compile_, $rootScope) {
+    users  = [ {
+      'id': 'c6aa44f6-b19e-49f5-bd3f-66f00b885e39',
+      'status': false,
+      'updatedBy': 'b9a14681-9912-437d-b72b-320bbebfa40c',
+      'externalId': 73795,
+      'extension': 9969,
+      'state': 'WRAP',
+      'created': 'Wed Nov 07 2001 21:32:07 GMT+0000 (UTC)',
+      'lastName': 'Lowe',
+      'firstName': 'Munoz',
+      'updated': 'Sun Aug 31 1997 19:52:45 GMT+0000 (UTC)',
+      'email': 'munoz.lowe@hivedom.org',
+      'displayName': 'Munoz Lowe',
+      'password': '',
+      'createdBy': '02f1eeff-8204-4902-9f4c-7960db3795fa',
+      'role': 'Administrator'
+    },
+    {
+      'id': '9f97f9d9-004c-469c-906d-b917bd79fbe8',
+      'status': true,
+      'updatedBy': '52fcfff0-b35f-4ba3-94b8-964511671045',
+      'externalId': 80232,
+      'extension': 5890,
+      'state': 'NOT_READY',
+      'created': 'Sat Apr 12 2008 07:40:10 GMT+0000 (UTC)',
+      'lastName': 'Oliver',
+      'firstName': 'Michael',
+      'updated': 'Sat Nov 07 1970 10:53:22 GMT+0000 (UTC)',
+      'email': 'michael.oliver@ezent.io',
+      'displayName': 'Michael Oliver',
+      'password': '',
+      'createdBy': 'b8e5d096-f828-4269-ae5a-117e69917340',
+      'role': 'Administrator'
+    }];
+    
     $scope = $rootScope.$new();
     $compile = _$compile_;
     $scope.users = users;
 
     element = $compile('<user-table users="users"></user-table>')($scope);
     $scope.$digest();
+    isolateScope = element.isolateScope();
   }]));
 
   it('should insert a row for each user, plus a header row', inject(function() {
@@ -59,17 +62,82 @@ describe('userTable directive', function(){
   }));
 
   it('should have statuses and states objects', inject(function() {
-    expect(element.isolateScope().statuses).toBeDefined();
-    expect(element.isolateScope().statuses).toEqual(jasmine.any(Object));
+    expect(isolateScope.statuses).toBeDefined();
+    expect(isolateScope.statuses).toEqual(jasmine.any(Object));
 
-    expect(element.isolateScope().states).toBeDefined();
-    expect(element.isolateScope().states).toEqual(jasmine.any(Object));
+    expect(isolateScope.states).toBeDefined();
+    expect(isolateScope.states).toEqual(jasmine.any(Object));
   }));
   
-  it('should have a filteredUsers list', inject(function() {
-    expect(element.isolateScope().filteredUsers).toBeDefined();
-    expect(element.isolateScope().filteredUsers).toEqual(jasmine.any(Object));
+  it('should have users', inject(function() {
+    expect(element.isolateScope().users).toBeDefined();
+    expect(element.isolateScope().users.length).toEqual(2);
   }));
+  
+  describe('checkChanged function', function(){
+    it('should emit checked event when called with true', inject(function() {
+      spyOn(isolateScope, '$emit');
+      isolateScope.checkChanged(true);
+      
+      expect(isolateScope.$emit).toHaveBeenCalledWith('userList:user:checked');
+    }));
+    
+    it('should emit unchecked event when called with false', inject(function() {
+      spyOn(isolateScope, '$emit');
+      isolateScope.checkChanged(false);
+      
+      expect(isolateScope.$emit).toHaveBeenCalledWith('userList:user:unchecked');
+    }));
+  });
+  
+  describe('filteredUsers list', function(){
+    it('should be defined', inject(function() {
+      expect(isolateScope.filteredUsers).toBeDefined();
+      expect(isolateScope.filteredUsers).toEqual(jasmine.any(Object));
+    }));
+    
+    it('should equal users to start', inject(function() {
+      expect(isolateScope.filteredUsers.length).toEqual(2);
+    }));
+    
+    describe('with filters', function(){
+      beforeEach(function(){
+        isolateScope.statuses = {all : {checked: false}, filters : [{value: 'false', checked: false}, {value : 'true', checked: false}]};
+        isolateScope.statuses.filters[0].checked = true;
+        isolateScope.$digest();
+      });
+      
+      it('should remove users that don\'t conform to selected filters', inject(function() {
+        expect(isolateScope.filteredUsers.length).toEqual(1);
+        expect(isolateScope.filteredUsers[0]).toEqual(users[0]);
+      }));
+      
+      it('should not mark included users as filtered', inject(function() {
+        expect(isolateScope.users[0].filtered).toBeFalsy();
+      }));
+      
+      it('should mark excluded users as filtered', inject(function() {
+        expect(isolateScope.users[1].filtered).toBeTruthy();
+      }));
+      
+      it('should remove filtered flag on users that are re-shown', inject(function() {
+        isolateScope.statuses.all.checked = true;
+        isolateScope.$digest();
+        
+        expect(isolateScope.users[1].filtered).toBeFalsy();
+      }));
+    });
+    
+    it('should emit the unchecked event when a checked user is filtered out', inject(function() {
+      spyOn(isolateScope, '$emit');
+      isolateScope.statuses = {all : {checked: false}, filters : [{value: 'false', checked: false}, {value : 'true', checked: false}]};
+      isolateScope.users[1].checked = true;
+      isolateScope.statuses.filters[0].checked = true;
+      isolateScope.$digest();
+      
+      expect(isolateScope.$emit).toHaveBeenCalledWith('userList:user:unchecked');
+    }));
+  });
 });
 
 describe('userFilter filter', function(){

@@ -12,7 +12,7 @@ angular.module('liveopsConfigPanel')
         scope.statuses = userStatuses;
         scope.filteredUsers = [];
   
-        scope.$watchCollection('filteredUsers', function(newList) {
+        scope.$watchCollection(function(){return scope.filteredUsers;}, function(newList) {
           angular.forEach(scope.users, function(user) {
             if (newList.indexOf(user) === -1) {
               user.filtered = true;

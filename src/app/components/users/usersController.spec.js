@@ -52,7 +52,7 @@ describe('userListController controller', function(){
     $httpBackend.when('GET', 'http://fakendpoint.com/v1/users').respond({'result' : users});
     
     $httpBackend.expectGET('http://fakendpoint.com/v1/users');
-    controller = $controller('UserListController', {$scope : scope});
+    controller = $controller('UsersController', {$scope : scope});
     $httpBackend.flush();
 
 
