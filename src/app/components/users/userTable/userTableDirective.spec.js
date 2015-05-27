@@ -51,8 +51,10 @@ describe('userTable directive', function(){
     $scope = $rootScope.$new();
     $compile = _$compile_;
     $scope.users = users;
-
-    element = $compile('<user-table users="users"></user-table>')($scope);
+    $scope.preFilter = function(items){
+      return items;
+    };
+    element = $compile('<user-table users="users" parent-filter="preFilter"></user-table>')($scope);
     $scope.$digest();
     isolateScope = element.isolateScope();
   }]));
@@ -137,6 +139,40 @@ describe('userTable directive', function(){
       
       expect(isolateScope.$emit).toHaveBeenCalledWith('userList:user:unchecked');
     }));
+  });
+  
+  describe('parentFilter', function(){
+    it('should be called on init', inject(['$compile', '$rootScope', function(_$compile_, $rootScope) {
+      $scope = $rootScope.$new();
+      $scope.users = users;
+      $scope.preFilter = function(items){
+        return items;
+      };
+      
+      spyOn($scope, 'preFilter');
+      
+      element = $compile('<user-table users="users" parent-filter="preFilter"></user-table>')($scope);
+      $scope.$digest();
+      
+      expect($scope.preFilter).toHaveBeenCalled();
+    }]));
+    
+    it('should be called when a paramater changes in parent scope', inject(['$compile', '$rootScope', 'filterFilter', function(_$compile_, $rootScope, filterFilter) {
+      $scope = $rootScope.$new();
+      $scope.users = users;
+      $scope.coolName = 'Oliver'
+      $scope.preFilter = function(items){
+        return filterFilter(items, {firstName : $scope.coolName});
+      };
+      
+      element = $compile('<user-table users="users" parent-filter="preFilter"></user-table>')($scope);
+      $scope.$digest();
+      
+      spyOn($scope, 'preFilter');
+      $scope.coolName = '';
+      $scope.$digest();
+      expect($scope.preFilter).toHaveBeenCalled();
+    }]));
   });
 });
 

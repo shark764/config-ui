@@ -20,28 +20,13 @@ angular.module('liveopsConfigPanel')
 
   	UserService.query(function(data){
       $scope.users = data.result;
-      $scope.filteredUsers = $scope.users;
       $scope.selectedUserContext = {};
-      
-      // Watch the search value so we can update the filteredUsers list which
-      // gets passed to the table directive
-      $scope.$watch(function() {return $scope.queryUser;}, function() {
-        $scope.filteredUsers = $filter('UserSearchFilter')($scope.users, $scope.queryUser);
-        
-        angular.forEach($scope.users, function(user) {
-          if ($scope.filteredUsers.indexOf(user) === -1) { //If the user has been filtered out of the results
-            user.filtered = true;
-            if (user.checked) {
-              user.checked = false;
-              decreaseCheckedCount();
-            }
-          } else {
-            user.filtered = false;
-          }
-        });
-      });
   	});
     
+  	$scope.doSearchFilter = function(users){
+  	  return $filter('UserSearchFilter')(users, $scope.queryUser);
+  	};
+  	
     $scope.$on('userTable:user:selected', function (event, selectedUser) {
       $scope.selectedUser = selectedUser;
       $scope.$broadcast('userList:user:selected', selectedUser);
@@ -85,7 +70,7 @@ angular.module('liveopsConfigPanel')
   	};
   	
   	$scope.enableChecked = function(){
-      angular.forEach($scope.filteredUsers, function(user) {
+      angular.forEach($scope.users, function(user) {
         if (user.checked && ! user.filtered){
           $scope.updateUser(user.id, {'status' : true});
           user.status = true;
@@ -94,7 +79,7 @@ angular.module('liveopsConfigPanel')
     };
     
     $scope.disableChecked = function(){
-      angular.forEach($scope.filteredUsers, function(user) {
+      angular.forEach($scope.users, function(user) {
         if (user.checked && ! user.filtered){
           $scope.updateUser(user.id, {'status' : false});
           user.status = false;

@@ -5,14 +5,19 @@ angular.module('liveopsConfigPanel')
     return {
       restrict: 'E',
       scope: {
-        users: '='
+        users: '=',
+        parentFilter: '='
       },
       link : function(scope) {
         scope.states = userStates;
         scope.statuses = userStatuses;
         scope.filteredUsers = [];
-  
+        
         scope.$watchCollection(function(){return scope.filteredUsers;}, function(newList) {
+          if (!newList){
+            return;
+          }
+          
           angular.forEach(scope.users, function(user) {
             if (newList.indexOf(user) === -1) {
               user.filtered = true;
@@ -64,4 +69,11 @@ angular.module('liveopsConfigPanel')
 
       return filtered;
     };
-  });
+  })
+  .filter('applyFilter', function() {
+    return function(items, filterFunction){
+      if (filterFunction){
+        return filterFunction(items);
+      }
+    }
+});

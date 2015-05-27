@@ -86,53 +86,20 @@ describe('userListController controller', function(){
       expect(scope.hasChecked).toEqual(0);
     }));
     
-    it('should decrease when checked items are filtered out', inject(function() {
-      scope.users[1].checked = true;
-      scope.hasChecked = 1;
-      scope.queryUser = 'Lowe';
-      scope.$digest();
-      
-      expect(scope.hasChecked).toEqual(0);
-    }));
-    
     it('should be set to none after a call to selectNone()', inject(function() {
       scope.hasChecked = 5;
       scope.selectNone();
       expect(scope.hasChecked).toEqual(0);
     }));
     
-    it('should be set to the size of filteredUsers when calling selectAll()', inject(function() {
+    it('should be the number of nonfiltered users when calling selectAll()', inject(function() {
       scope.selectAll();
       expect(scope.hasChecked).toEqual(2);
-      
-      scope.queryUser = 'Lowe';
-      scope.$apply();
-      
-      expect(scope.hasChecked).toEqual(1);
-      expect(scope.filteredUsers.length).toEqual(1);
+      scope.users[0].filtered = true;
 
       scope.selectAll();
       expect(scope.hasChecked).toEqual(1);
     }));
-  });
-  
-  describe('filteredUsers', function(){
-    it('should be defined', inject(function() {
-      expect(scope.filteredUsers).toBeDefined();
-      expect(scope.filteredUsers).toEqual(jasmine.any(Object));
-    }));
-    
-    it('should be updated when search query changes', inject(function() {
-      expect(scope.filteredUsers.length).toBe(2);
-      scope.queryUser = 'Oliver';
-      scope.$digest();
-      expect(scope.filteredUsers.length).toBe(1);
-      
-      scope.queryUser = '';
-      scope.$digest();
-      expect(scope.filteredUsers.length).toBe(2);
-    }));
-    
   });
   
   describe('enableChecked batch operation', function(){
