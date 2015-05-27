@@ -12,6 +12,8 @@ angular.module('liveopsConfigPanel')
 
     UserService.query(function (data) {
       $scope.users = data.result;
+
+      $scope.$broadcast('userTable:user:selected', $scope.users[0]);
     });
 
     $scope.showModalSection = function () {

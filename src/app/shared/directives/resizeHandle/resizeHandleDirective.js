@@ -6,15 +6,17 @@ angular.module('liveopsConfigPanel')
     return {
       restrict : 'E',
       scope : {
-        elementId : '@',
-        maxWidth : '@',
-        minWidth : '@'
+        leftElementId : '@',
+        rightElementId : '@',
+        rightMinWidth: '@',
+        leftMinWidth : '@'
       },
 
       templateUrl : 'app/shared/directives/resizeHandle/resizeHandle.html',
       link : function(scope, element) {
         //Need non-jqlite object here because jqlite doesn't support offsetLeft, used in mousemove()
-        scope.targetElement = document.getElementById(scope.elementId);
+        scope.leftTargetElement = document.getElementById(scope.leftElementId);
+        scope.rightTargetElement = document.getElementById(scope.rightElementId);
 
         element.on('mousedown', function(event) {
           //Don't initiate resize on right click, because it's annoying
@@ -27,22 +29,28 @@ angular.module('liveopsConfigPanel')
         });
 
         function mousemove(event) {
-          var left = scope.targetElement.offsetLeft;
+          var left = scope.leftTargetElement.offsetWidth;
+          var right = scope.rightTargetElement.offsetWidth;
+
           var x = event.pageX;
-          var newWidth = (x - left);
 
-          if (scope.minWidth && newWidth < scope.minWidth) {
+          var newLeftWidth = left - (left - x),
+              newRightWidth = right + (left - x);
+
+          console.log();
+
+          if (scope.leftMinWidth && newLeftWidth < scope.leftMinWidth) {
             return;
           }
 
-          // Restrict by maxWidth if it was given,
-          // otherwise make sure it doesn't get dragged larger than
-          // the page, which would make the handle unreachable.
-          if ((scope.maxWidth && newWidth > scope.maxWidth) || newWidth > ($window.innerWidth * 0.95)) {
+          if(scope.rightMinWidth && newRightWidth < scope.rightMinWidth){
             return;
           }
 
-          angular.element(scope.targetElement).css('width', newWidth + 'px');
+          scope.previousRight = right;
+
+          angular.element(scope.leftTargetElement).css('width', newLeftWidth + 'px');
+          angular.element(scope.rightTargetElement).css('left', newLeftWidth + 'px');
         }
 
         function mouseup() {

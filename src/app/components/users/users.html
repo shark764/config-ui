@@ -8,10 +8,10 @@
     </div>
 
     <user-table users="users" select-user="selectUser"></user-table>
-    <resize-handle element-id="left-panel" min-width="600" ></resize-handle>
+    <resize-handle ng-show="!!selectedUser" right-element-id="right-panel" left-element-id="left-panel" left-min-width="600" right-min-width="600" ></resize-handle>
   </div>
 
-  <div class="right-panel" ng-show="selectedUser">
+  <div id="right-panel" class="right-panel" ng-show="selectedUser">
     <user-details id="user-details-container" user="selectedUser"  save-field="updateUser">
   </div>
 </div>
