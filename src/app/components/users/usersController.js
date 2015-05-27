@@ -6,11 +6,6 @@ angular.module('liveopsConfigPanel')
     $scope.showError = false;
     $scope.errorMsg = 'Input required data';
     
-    $scope.selectUser = function (user) {
-      $scope.selectedUserContext = {
-        user: user
-      };
-    };
     $scope.$on('userTable:user:selected', function (event, selectedUser) {
       $scope.selectedUser = selectedUser;
     });
