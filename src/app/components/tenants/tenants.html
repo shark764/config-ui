@@ -1,7 +1,25 @@
 <div>
   <h3>Tenants</h3>
+
+  <table >
+    <thead>
+      <td>ID</td>
+      <td>Name</td>
+      <td>Admin ID</td>
+      <td>Admin Name</td>
+      <td>Status</td>
+    </thead>
+    <tr ng-repeat="tenant in tenants" >
+      <td style="border: 1px solid black;">{{tenant.id}}</td>
+      <td style="border: 1px solid black;">{{tenant.name}}</td>
+      <td style="border: 1px solid black;">{{tenant.adminId}}</td>
+      <td style="border: 1px solid black;">{{tenant.adminName}}</td>
+      <td style="border: 1px solid black;">{{tenant.status}}</td>
+    </tr>
+  </table>
+
   <ul>
-    <li class="error" ng-repeat="tenant in tenants">
+    <li class="error" >
       <a ng-href="#/tenants/{{tenant.id}}">{{tenant.name}}</a>
     </li>
   </ul>
@@ -16,20 +34,25 @@
   <form ng-submit="save()">
     <div>Name: <input type="text" ng-required="true" ng-model="tenant.name" placehold="This is my tenant description"></input></div>
     <div>Description: <input ng-disabled="!!tenant.id" type="text" ng-required="true" ng-model="tenant.description" placehold="This is my tenant description"></input></div>
+    <div>Status: <toggle class="user-toggle" ng-model="tenant.status"></toggle></div>
     <div>Region :
       <select ng-disabled="!!tenant.id" ng-model="tenant.regionId" ng-required="true">
         <option value=""></option>
         <option ng-repeat="region in regions" value="{{region.id}}">{{region.name}}</option>
       </select>
     </div>
+    <div ng-show="!!tenant.id">Tenant Admin :
+      <select ng-model="tenant.adminId">
+        <option ng-repeat="user in users" value="{{user.id}}">{{user.displayName}}</option>
+      </select>
+    </div>
     <div>Parent Tenant:
-      <select ng-disabled="!!tenant.id" >
+      <select>
         <option value=""></option>
         <option ng-repeat="tenant in tenants" value="{{tenant.id}}">{{tenant.name}}</option>
       </select>
     </div>
-
-    <input type="submit" class="btn btn-primary" value="Create"/>
+    <input type="submit" class="btn btn-primary" value="{{ !tenant.id ? 'Create' : 'Update' }}"/>
   </form>
 
 </div>
