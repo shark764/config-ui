@@ -10,6 +10,7 @@ $margin: 20px;
     .user-toggle {
       vertical-align: middle;
       display: table-cell;
+      width: 85px;
     }
     #user-details-header-name {
       display: table-cell;
@@ -37,6 +38,8 @@ $margin: 20px;
   form {
     display: block;
     padding: $margin;
+
+
     input[type="button"] {
       background-color: white;
       color: $dark-blue;

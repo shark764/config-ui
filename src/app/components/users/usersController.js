@@ -20,7 +20,7 @@ angular.module('liveopsConfigPanel')
 
   	UserService.query(function(data){
       $scope.users = data.result;
-      $scope.selectedUserContext = {};
+      $scope.$broadcast('user:selected', $scope.users[0]);
   	});
     
   	$scope.doSearchFilter = function(users){
@@ -105,7 +105,7 @@ angular.module('liveopsConfigPanel')
       }, data).$promise;
     };
 
-    $scope.successResponse = function () {
+    $scope.successResponse = function (data) {
       $scope.showError = false;
       $scope.showModal = false;
       // Updates the user list
@@ -113,7 +113,7 @@ angular.module('liveopsConfigPanel')
         $scope.users = data.result;
       });
       // Tells the children that it was successful in creating a user. (So the form can be cleared)
-      $scope.$broadcast('createUser:success');
+      $scope.$broadcast('createUser:success', data.result);
     };
 
     $scope.errorResponse = function (data) {

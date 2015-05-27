@@ -31,7 +31,15 @@ angular.module('liveopsConfigPanel')
           });
         });
       
-        scope.selectUser = function(selectedUser) {
+      	scope.$on('createUser:success', function (ev, user){
+          scope.selectUser(user);
+        });
+
+        scope.$on('user:selected', function (ev, user){
+          scope.selectUser(user);
+        });
+
+        scope.selectUser = function (selectedUser) {
           scope.selectedUser = selectedUser;
           scope.$emit('userTable:user:selected', selectedUser);
         };
