@@ -5,7 +5,9 @@ angular.module('liveopsConfigPanel')
   .controller('EditFieldController', function ($scope) {
 
     $scope.saveHandler = function($event) {
-      $event.target.blur();
+      if ($event){
+        $event.target.blur();
+      }
       
       $scope.$emit('editField:save', {
         objectId: $scope.objectId,

@@ -25,12 +25,16 @@ angular.module('liveopsConfigPanel')
         });
         
         scope.$on('editField:save', function(event, args) {
+          scope.handleSaveEvent(event,args);
+        });
+        
+        scope.handleSaveEvent = function(event, args){
           if (scope.userForm[args.fieldName].$invalid){
             event.stopPropagation();
           } else {
             scope.userForm[args.fieldName].$setPristine(true);
           }
-        });
+        }
       }
     };
  });

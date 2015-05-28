@@ -1,8 +1,9 @@
 'use strict';
 
-describe('tabset directive', function () {
+describe('userDetails directive', function () {
   var $scope,
-    $compile;
+    $compile,
+    element;
 
   beforeEach(module('liveopsConfigPanel'));
   beforeEach(module('gulpAngular'));
@@ -44,4 +45,33 @@ describe('tabset directive', function () {
     expect(createdByDisplayElement.length).toEqual(1);
     expect(enabledByDisplayElement.html()).toEqual('Enabled by <b>{John Doh}</b> on <b class="ng-binding">2015-08-01</b>');
   }));
+  
+  describe('editFields', function () {
+    beforeEach(function () {
+      $scope.user = user;
+      element = $compile('<user-details user="user" display="display"></user-details>')($scope);
+      $scope.$digest();
+    });
+    
+    it('should reset pristine when the field is valid', inject(function () {
+      spyOn(element.isolateScope().userForm.email, '$setPristine');
+      element.isolateScope().userForm.email.$invalid = false;
+      element.isolateScope().handleSaveEvent('editField:save', {fieldName: 'email'});
+
+      expect(element.isolateScope().userForm.email.$setPristine).toHaveBeenCalled();
+    }));
+    
+    it('should stop propogation of edit event when field is invalid', inject(function () {
+      var event = {
+          type: 'editField:save',
+          stopPropagation: function(){}
+      }
+      var spy = spyOn(event, 'stopPropagation');
+      
+      element.isolateScope().userForm.email.$invalid = true;
+      element.isolateScope().handleSaveEvent(event, {fieldName: 'email'});
+
+      expect(spy).toHaveBeenCalled();
+    }));
+  });
 });
