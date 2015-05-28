@@ -18,11 +18,6 @@ angular.module('liveopsConfigPanel')
   	$scope.doSearchFilter = function(users){
   	  return $filter('UserSearchFilter')(users, $scope.queryUser);
   	};
-  	
-    $scope.$on('userTable:user:selected', function (event, selectedUser) {
-      $scope.selectedUser = selectedUser;
-      $scope.$broadcast('userList:user:selected', selectedUser);
-    });
     
     $scope.hasChecked = 0;
     function decreaseCheckedCount(){
