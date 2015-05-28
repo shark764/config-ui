@@ -21,7 +21,10 @@ angular.module('liveopsConfigPanel')
       
       scope.updateDisplayName = function(){
         if (! scope.createUserForm.displayName.$touched){
-          scope.data.displayName = (scope.data.firstName ? scope.data.firstName : '') + (scope.data.lastName ? ' ' + scope.data.lastName : '');
+          var firstName = (scope.data.firstName ? scope.data.firstName : '');
+          var lastName = (scope.data.lastName ? scope.data.lastName : '');
+          var name = firstName + ' ' + lastName
+          scope.data.displayName =  name.trim();
         }
       }
       
@@ -32,7 +35,6 @@ angular.module('liveopsConfigPanel')
             data: scope.data
           });
         }
-        
       };
 
       // Clears form upon cancel
