@@ -1,6 +1,6 @@
 <a class="dropdown-label" ng-click="showDrop = ! showDrop" ng-class="{selected : showDrop}"> 
   {{label}}
-  <div ng-if="showPreview">
+  <div ng-if="items.all">
     <span ng-if="items.all.checked">: All</span>
     <span ng-if="! items.all.checked">: (...)</span>
   </div>
