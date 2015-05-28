@@ -23,10 +23,10 @@ angular.module('liveopsConfigPanel')
         if (! scope.createUserForm.displayName.$touched){
           var firstName = (scope.data.firstName ? scope.data.firstName : '');
           var lastName = (scope.data.lastName ? scope.data.lastName : '');
-          var name = firstName + ' ' + lastName
+          var name = firstName + ' ' + lastName;
           scope.data.displayName =  name.trim();
         }
-      }
+      };
       
       // Passes data via emit to usersController in order to make api call.
       scope.ok = function(){

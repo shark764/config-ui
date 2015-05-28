@@ -1,5 +1,6 @@
 'use strict';
 
+/* global spyOn: false  */
 describe('userController controller', function(){
   var scope,
     $rootScope,

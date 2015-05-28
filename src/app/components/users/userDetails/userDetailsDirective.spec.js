@@ -1,5 +1,6 @@
 'use strict';
 
+/* global spyOn: false  */
 describe('userDetails directive', function () {
   var $scope,
     $compile,
@@ -65,7 +66,8 @@ describe('userDetails directive', function () {
       var event = {
           type: 'editField:save',
           stopPropagation: function(){}
-      }
+      };
+      
       var spy = spyOn(event, 'stopPropagation');
       
       element.isolateScope().userForm.email.$invalid = true;
