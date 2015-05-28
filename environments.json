@@ -1,11 +1,11 @@
 {
   "local": {
-    "apiHostname" : "localhost:9080"
+    "apiHostname" : "http://localhost:9080"
   },
   "unitTest": {
     "apiHostname" : "https://fakendpoint.com"
   },
   "test": {
-    "apiHostname" : "ec2-52-6-188-168.compute-1.amazonaws.com:9080"
+    "apiHostname" : "https://ec2-52-6-188-168.compute-1.amazonaws.com:9080"
   }
 }
