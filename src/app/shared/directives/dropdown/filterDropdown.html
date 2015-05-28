@@ -1,19 +1,21 @@
 <a class="dropdown-label" ng-click="showDrop = ! showDrop" ng-class="{selected : showDrop}"> 
-  {{label}}: 
-  <span ng-if="items.all.checked">All</span>
-  <span ng-if="! items.all.checked">(...)</span>
+  {{label}}
+  <div ng-if="showPreview">
+    <span ng-if="items.all.checked">: All</span>
+    <span ng-if="! items.all.checked">: (...)</span>
+  </div>
   <span><i class="fa" ng-class="{'fa-caret-up' : showDrop, 'fa-caret-down' : ! showDrop}"></i></span>
 </a>
 
 <div class="dropdown-container">
   <div class="dropdown filter-dropdown" ng-hide="! showDrop">
-    <div class="all">
+    <div class="all" ng-if="withAll">
       <input ng-model="items.all.checked" name="{{items.all.display}}" type="checkbox" ng-checked="{{items.all.checked}}" />
       <label for="{{items.all.value}}">{{items.all.display}}</label>
     </div>
-    <div ng-repeat="item in items.filters track by item.value">
+    <div ng-repeat="item in items.filters track by item.value" ng-click="item.checked = !item.checked" class="dropdown-option">
       <input ng-model="item.checked" name="{{item.display}}" type="checkbox" ng-checked="{{item.checked}}" />
-        <label for="{{item.value}}">{{item.display}}</label>
+      <label for="{{item.value}}">{{item.display}}</label>
     </div>
   </div>
 </div>

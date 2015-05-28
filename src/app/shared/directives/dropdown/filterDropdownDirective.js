@@ -5,7 +5,8 @@ angular.module('liveopsConfigPanel')
     return {
       scope : {
         items : '=',
-        label : '@'
+        label : '@',
+        withAll: '@'
       },
       templateUrl : 'app/shared/directives/dropdown/filterDropdown.html',
       link : function(scope, element) {
@@ -46,15 +47,17 @@ angular.module('liveopsConfigPanel')
         }
 
         //Automatically uncheck "All" when another filter is selected
-        angular.forEach(scope.items.filters, function(state) {
-          scope.$watch(function() {
-            return state.checked;
-          }, function(newValue, oldValue) {
-            if (newValue && !oldValue) {
-              scope.items.all.checked = false;
-            }
+        if(scope.withAll){
+          angular.forEach(scope.items.filters, function(state) {
+            scope.$watch(function() {
+              return state.checked;
+            }, function(newValue, oldValue) {
+              if (newValue && !oldValue) {
+                scope.items.all.checked = false;
+              }
+            });
           });
-        });
+        }
       }
     };
    }])

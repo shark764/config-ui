@@ -5,7 +5,8 @@ angular.module('liveopsConfigPanel')
     return {
       scope : {
         items : '=',
-        label : '@'
+        label : '@',
+        showPreview: '@'
       },
       templateUrl : 'app/shared/directives/dropdown/dropdown.html',
       link : function(scope, element) {
