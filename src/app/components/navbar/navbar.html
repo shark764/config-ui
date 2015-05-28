@@ -4,14 +4,13 @@
 
     <ul ng-switch-when="true">
       <li>
-        <select>
-          <option>Tenant ABC</option>
-          <option>Tenant XYZ</option>
-          <option>Tenant 123</option>
+        <select ng-model="activeTenant" ng-options="tenant.name for tenant in tenants">
+          <option value=""></option>
         </select>
       </li>
       <li class="divider"></li>
       <li ng-class="{ active: isActive('/')}"><a ng-href="#/">Users Management</a></li>
+      <li ng-class="{ active: isActive('/tenants')}"><a ng-href="#/tenants">Tenants</a></li>
     </ul>
 
     <div ng-switch-when="true">
