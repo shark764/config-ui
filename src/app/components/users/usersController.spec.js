@@ -1,6 +1,6 @@
 'use strict';
 
-describe('userListController controller', function(){
+describe('userController controller', function(){
   var scope,
     controller,
     $httpBackend,
@@ -49,9 +49,9 @@ describe('userListController controller', function(){
     
     //Need the following so that $digest() works
     $httpBackend = $injector.get('$httpBackend');
-    $httpBackend.when('GET', 'http://fakendpoint.com/v1/users').respond({'result' : users});
+    $httpBackend.when('GET', 'fakendpoint.com/v1/users').respond({'result' : users});
     
-    $httpBackend.expectGET('http://fakendpoint.com/v1/users');
+    $httpBackend.expectGET('fakendpoint.com/v1/users');
     controller = $controller('UsersController', {$scope : scope});
     $httpBackend.flush();
 

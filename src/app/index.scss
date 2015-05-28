@@ -89,18 +89,20 @@ a {
   float: right;
 }
 
-input[type=password], input[type=text]{
+input[type=password], input[type=text], input[type=email]{
   border-radius: 3px;
-  border: none;
+  border: 1px solid transparent;
   box-shadow: 0 1px 2px rgba(0,0,0,0.2) inset, 0 -1px 0 rgba(0,0,0,0.05) inset;
   transition: all 0.2s linear;
   font-size: 13px;
   color: #222222;
+  max-width: 100%;
   position: relative;
   height: 36px;
   padding-left: 15px;
   box-sizing: border-box;
-
+  width:100%;
+  
   &::-webkit-input-placeholder {
     color: #999999;
   }
@@ -113,8 +115,15 @@ input[type=password], input[type=text]{
     box-shadow: 0 1px 0 #2392F3 inset, 0 -1px 0 #2392F3 inset, 1px 0 0 #2392F3 inset, -1px 0 0 #2392F3 inset, 0 0 4px rgba(35,146,243,0.5);
     outline: none;
   }
+  
+  &.ng-touched.ng-invalid {
+    border-color: red;
+  }
 }
 
+.error {
+  color: red;
+}
 
 
 /* Do not remove this comments bellow. It's the markers used by gulp-inject to inject

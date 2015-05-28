@@ -1,7 +1,7 @@
 <div class="edit-field edit-field-input" ng-init="edit = false">
   <label>{{label}}</label>
   <div class="input-toggle">
-    <input type="text" ng-model="ngModel" name="{{name}}" type="{{type}}" required="" ng-show="edit" ng-keyup="$event.keyCode == 13 ? saveHandler() : null">
+    <input ng-model="ngModel" name="{{name}}" type="{{type ? type : 'text'}}" required="" ng-show="edit" ng-keyup="$event.keyCode == 13 ? saveHandler($event) : null">
     
     <div ng-mouseover="hover=true" ng-mouseout="hover=false" ng-click="edit = true" title="Click to edit." ng-show="!edit">
       <label ng-show="ngModel">{{ngModel}}</label>
