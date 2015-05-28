@@ -47,7 +47,7 @@ angular.module('liveopsConfigPanel')
       };
 
       // Clears form for next create user.
-      scope.$on('createUser:success', function (event, args) {
+      scope.$on('createUser:success', function () {
         scope.data = {};
         scope.data.status = false;
         scope.data.state = 'Offline';

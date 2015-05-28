@@ -1,5 +1,7 @@
 'use strict';
 
+/* global jasmine: false  */
+
 describe('selectActionsDirective', function(){
   var scope,
     users,

@@ -22,7 +22,7 @@ angular.module('liveopsConfigPanel')
     $scope.hasChecked = 0;
     $scope.decreaseCheckedCount = function(){
       $scope.hasChecked = $scope.hasChecked > 0 ? $scope.hasChecked - 1 : 0;
-    }
+    };
     
     $scope.$on('userList:user:checked', function () {
       $scope.hasChecked++;

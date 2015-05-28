@@ -1,5 +1,7 @@
 'use strict';
 
+/* global jasmine: false  */
+
 describe('batchButtonsDirective', function(){
   var $scope,
     users,
