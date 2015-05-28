@@ -11,6 +11,20 @@ angular.module('liveopsConfigPanel')
       scope.data.status = false;
       scope.data.state = 'Offline';
 
+      scope.$watch('data.firstName', function() {
+        scope.updateDisplayName();
+      });
+      
+      scope.$watch('data.lastName', function() {
+        scope.updateDisplayName();
+      });
+      
+      scope.updateDisplayName = function(){
+        if (! scope.createUserForm.displayName.$touched){
+          scope.data.displayName = (scope.data.firstName ? scope.data.firstName : '') + (scope.data.lastName ? ' ' + scope.data.lastName : '');
+        }
+      }
+      
       // Passes data via emit to usersController in order to make api call.
       scope.ok = function(){
         if(scope.createUserForm.$valid){
