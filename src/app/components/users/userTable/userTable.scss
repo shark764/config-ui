@@ -1,29 +1,34 @@
 .user-table {
-  width: 100%;
-  border-collapse: collapse;
-  th:not(:first-child),
-  td:not(:first-child) {
-    text-align: right;
-    width: 10%;
-    min-width: 100px;
-  }
-  th:first-child,
-  td:first-child {
-    text-align: left;
-  }
-  td {
-    padding: 10px 5px;
-  }
-  th {
-    padding: 10px 5px 0;
-  }
-  td,
-  th {
-    border-bottom: 1px solid #dadada;
-  }
-  .disabled {
-    color: #ccc;
-  }
+	width: 100%;
+	border-collapse: collapse;
+
+	th:not(:nth-child(2)), td:not(:nth-child(2)) {
+		text-align: right;
+		width: 15%;
+		min-width: 100px;
+	}
+
+	th:first-child, td:first-child {
+      max-width: 20px;
+      width: 20px;
+    }
+
+	th:nth-child(2), td:nth-child(2) {
+		text-align: left;
+	}
+
+	td {
+		padding: 10px 5px;
+	}
+
+	th {
+		padding: 10px 5px 0 5px;
+	}
+
+	td, th {
+		border-bottom: 1px solid #DADADA;
+	}
+
   tr {
     cursor: pointer;
 
@@ -32,12 +37,7 @@
     }
   }
 
-}
-.action-container > div {
-  box-sizing: border-box;
-  float: left;
-  width: 50%;
-}
-.action-container > div:last-child {
-  text-align: right;
+	.disabled {
+		color: #ccc;
+	}
 }

@@ -5,8 +5,7 @@ angular.module('liveopsConfigPanel')
     return {
       scope : {
         items : '=',
-        label : '@',
-        changeFunction : '=changefunction'
+        label : '@'
       },
       templateUrl : 'app/shared/directives/dropdown/dropdown.html',
       link : function(scope, element) {
@@ -32,28 +31,11 @@ angular.module('liveopsConfigPanel')
 
           $document.off('click', onClick);
         }
-
-        //Automatically uncheck other filters when "All" is selected
-        scope.$watch(function(scope) {return scope.items.all.checked;},
-          function(newValue, oldValue) {
-            if (newValue && !oldValue) {
-              angular.forEach(scope.items.filters, function(state) {
-                state.checked = false;
-              });
-            }
-          }
-        );
-
-        //Automatically uncheck "All" when another filter is selected
-        angular.forEach(scope.items.filters, function(state) {
-          scope.$watch(function() {
-            return state.checked;
-          }, function(newValue, oldValue) {
-            if (newValue && !oldValue) {
-              scope.items.all.checked = false;
-            }
-          });
-        });
+        
+        scope.optionClick = function(func){
+          scope.showDrop = false;
+          func();
+        };
       }
     };
    }])

@@ -5,71 +5,175 @@
 describe('userTable directive', function(){
   var $scope,
     $compile,
-    element;
-
-  var users = [ {
-    'id': 'c6aa44f6-b19e-49f5-bd3f-66f00b885e39',
-    'status': false,
-    'updatedBy': 'b9a14681-9912-437d-b72b-320bbebfa40c',
-    'externalId': 73795,
-    'extension': 9969,
-    'state': 'WRAP',
-    'created': 'Wed Nov 07 2001 21:32:07 GMT+0000 (UTC)',
-    'lastName': 'Lowe',
-    'firstName': 'Munoz',
-    'updated': 'Sun Aug 31 1997 19:52:45 GMT+0000 (UTC)',
-    'email': 'munoz.lowe@hivedom.org',
-    'displayName': 'Munoz Lowe',
-    'password': '',
-    'createdBy': '02f1eeff-8204-4902-9f4c-7960db3795fa',
-    'role': 'Administrator'
-  },
-  {
-    'id': '9f97f9d9-004c-469c-906d-b917bd79fbe8',
-    'status': true,
-    'updatedBy': '52fcfff0-b35f-4ba3-94b8-964511671045',
-    'externalId': 80232,
-    'extension': 5890,
-    'state': 'NOT_READY',
-    'created': 'Sat Apr 12 2008 07:40:10 GMT+0000 (UTC)',
-    'lastName': 'Oliver',
-    'firstName': 'Michael',
-    'updated': 'Sat Nov 07 1970 10:53:22 GMT+0000 (UTC)',
-    'email': 'michael.oliver@ezent.io',
-    'displayName': 'Michael Oliver',
-    'password': '',
-    'createdBy': 'b8e5d096-f828-4269-ae5a-117e69917340',
-    'role': 'Administrator'
-  }];
+    element,
+    users,
+    isolateScope;
 
   beforeEach(module('liveopsConfigPanel'));
   beforeEach(module('gulpAngular'));
 
   beforeEach(inject(['$compile', '$rootScope', function(_$compile_, $rootScope) {
+    users  = [ {
+      'id': 'c6aa44f6-b19e-49f5-bd3f-66f00b885e39',
+      'status': false,
+      'updatedBy': 'b9a14681-9912-437d-b72b-320bbebfa40c',
+      'externalId': 73795,
+      'extension': 9969,
+      'state': 'WRAP',
+      'created': 'Wed Nov 07 2001 21:32:07 GMT+0000 (UTC)',
+      'lastName': 'Lowe',
+      'firstName': 'Munoz',
+      'updated': 'Sun Aug 31 1997 19:52:45 GMT+0000 (UTC)',
+      'email': 'munoz.lowe@hivedom.org',
+      'displayName': 'Munoz Lowe',
+      'password': '',
+      'createdBy': '02f1eeff-8204-4902-9f4c-7960db3795fa',
+      'role': 'Administrator'
+    },
+    {
+      'id': '9f97f9d9-004c-469c-906d-b917bd79fbe8',
+      'status': true,
+      'updatedBy': '52fcfff0-b35f-4ba3-94b8-964511671045',
+      'externalId': 80232,
+      'extension': 5890,
+      'state': 'NOT_READY',
+      'created': 'Sat Apr 12 2008 07:40:10 GMT+0000 (UTC)',
+      'lastName': 'Oliver',
+      'firstName': 'Michael',
+      'updated': 'Sat Nov 07 1970 10:53:22 GMT+0000 (UTC)',
+      'email': 'michael.oliver@ezent.io',
+      'displayName': 'Michael Oliver',
+      'password': '',
+      'createdBy': 'b8e5d096-f828-4269-ae5a-117e69917340',
+      'role': 'Administrator'
+    }];
+    
     $scope = $rootScope.$new();
     $compile = _$compile_;
     $scope.users = users;
-
-    element = $compile('<user-table users="users"></user-table>')($scope);
+    $scope.preFilter = function(items){
+      return items;
+    };
+    element = $compile('<user-table users="users" parent-filter="preFilter"></user-table>')($scope);
     $scope.$digest();
+    isolateScope = element.isolateScope();
   }]));
 
   it('should insert a row for each user, plus a header row', inject(function() {
     expect(element.find('tr').length).toEqual(users.length + 1);
   }));
 
-  it('should have an updateUsers function', inject(function() {
-    expect(element.isolateScope().updateUsers).toBeDefined();
-    expect(element.isolateScope().updateUsers).toEqual(jasmine.any(Function));
-  }));
-
   it('should have statuses and states objects', inject(function() {
-    expect(element.isolateScope().statuses).toBeDefined();
-    expect(element.isolateScope().statuses).toEqual(jasmine.any(Object));
+    expect(isolateScope.statuses).toBeDefined();
+    expect(isolateScope.statuses).toEqual(jasmine.any(Object));
 
-    expect(element.isolateScope().states).toBeDefined();
-    expect(element.isolateScope().states).toEqual(jasmine.any(Object));
+    expect(isolateScope.states).toBeDefined();
+    expect(isolateScope.states).toEqual(jasmine.any(Object));
   }));
+  
+  it('should have users', inject(function() {
+    expect(element.isolateScope().users).toBeDefined();
+    expect(element.isolateScope().users.length).toEqual(2);
+  }));
+  
+  describe('checkChanged function', function(){
+    it('should emit checked event when called with true', inject(function() {
+      spyOn(isolateScope, '$emit');
+      isolateScope.checkChanged(true);
+      
+      expect(isolateScope.$emit).toHaveBeenCalledWith('userList:user:checked');
+    }));
+    
+    it('should emit unchecked event when called with false', inject(function() {
+      spyOn(isolateScope, '$emit');
+      isolateScope.checkChanged(false);
+      
+      expect(isolateScope.$emit).toHaveBeenCalledWith('userList:user:unchecked');
+    }));
+  });
+  
+  describe('filteredUsers list', function(){
+    it('should be defined', inject(function() {
+      expect(isolateScope.filteredUsers).toBeDefined();
+      expect(isolateScope.filteredUsers).toEqual(jasmine.any(Object));
+    }));
+    
+    it('should equal users to start', inject(function() {
+      expect(isolateScope.filteredUsers.length).toEqual(2);
+    }));
+    
+    describe('with filters', function(){
+      beforeEach(function(){
+        isolateScope.statuses = {all : {checked: false}, filters : [{value: 'false', checked: false}, {value : 'true', checked: false}]};
+        isolateScope.statuses.filters[0].checked = true;
+        isolateScope.$digest();
+      });
+      
+      it('should remove users that don\'t conform to selected filters', inject(function() {
+        expect(isolateScope.filteredUsers.length).toEqual(1);
+        expect(isolateScope.filteredUsers[0]).toEqual(users[0]);
+      }));
+      
+      it('should not mark included users as filtered', inject(function() {
+        expect(isolateScope.users[0].filtered).toBeFalsy();
+      }));
+      
+      it('should mark excluded users as filtered', inject(function() {
+        expect(isolateScope.users[1].filtered).toBeTruthy();
+      }));
+      
+      it('should remove filtered flag on users that are re-shown', inject(function() {
+        isolateScope.statuses.all.checked = true;
+        isolateScope.$digest();
+        
+        expect(isolateScope.users[1].filtered).toBeFalsy();
+      }));
+    });
+    
+    it('should emit the unchecked event when a checked user is filtered out', inject(function() {
+      spyOn(isolateScope, '$emit');
+      isolateScope.statuses = {all : {checked: false}, filters : [{value: 'false', checked: false}, {value : 'true', checked: false}]};
+      isolateScope.users[1].checked = true;
+      isolateScope.statuses.filters[0].checked = true;
+      isolateScope.$digest();
+      
+      expect(isolateScope.$emit).toHaveBeenCalledWith('userList:user:unchecked');
+    }));
+  });
+  
+  describe('parentFilter', function(){
+    it('should be called on init', inject(['$compile', '$rootScope', function(_$compile_, $rootScope) {
+      $scope = $rootScope.$new();
+      $scope.users = users;
+      $scope.preFilter = function(items){
+        return items;
+      };
+      
+      spyOn($scope, 'preFilter');
+      
+      element = $compile('<user-table users="users" parent-filter="preFilter"></user-table>')($scope);
+      $scope.$digest();
+      
+      expect($scope.preFilter).toHaveBeenCalled();
+    }]));
+    
+    it('should be called when a paramater changes in parent scope', inject(['$compile', '$rootScope', 'filterFilter', function(_$compile_, $rootScope, filterFilter) {
+      $scope = $rootScope.$new();
+      $scope.users = users;
+      $scope.coolName = 'Oliver';
+      $scope.preFilter = function(items){
+        return filterFilter(items, {firstName : $scope.coolName});
+      };
+      
+      element = $compile('<user-table users="users" parent-filter="preFilter"></user-table>')($scope);
+      $scope.$digest();
+      
+      spyOn($scope, 'preFilter');
+      $scope.coolName = '';
+      $scope.$digest();
+      expect($scope.preFilter).toHaveBeenCalled();
+    }]));
+  });
 });
 
 describe('userFilter filter', function(){
@@ -159,179 +263,4 @@ describe('userFilter filter', function(){
     var result = $filter('userFilter')(users, filters, 'value');
     expect(result.length).toEqual(1);
   }));
-});
-
-describe('regExpReplace function', function(){
-  var scope,
-    $compile,
-    element;
-
-  beforeEach(module('liveopsConfigPanel'));
-  beforeEach(module('gulpAngular'));
-
-  beforeEach(inject(['$compile', '$rootScope', '$filter', function(_$compile_, $rootScope) {
-    scope = $rootScope.$new();
-    $compile = _$compile_;
-
-    element = $compile('<user-table users="users"></user-table>')(scope);
-    scope.$digest();
-  }]));
-
-  it('should replace asterisk with .*', inject(function() {
-    expect(element.isolateScope().regExpReplace('*H*e*l*l*o*')).toEqual('.*H.*e.*l.*l.*o.*');
-  }));
-});
-
-describe('searchUser function', function(){
-  var scope,
-    $filter,
-    $compile,
-    element,
-    users;
-
-  beforeEach(module('liveopsConfigPanel'));
-  beforeEach(module('gulpAngular'));
-
-  beforeEach(inject(['$compile', '$rootScope', function(_$compile_, $rootScope, _$filter_) {
-    $filter = _$filter_;
-    scope = $rootScope.$new();
-    users = [ {
-        'id': 'c6aa44f6-b19e-49f5-bd3f-66f00b885e39',
-        'status': false,
-        'updatedBy': 'b9a14681-9912-437d-b72b-320bbebfa40c',
-        'externalId': 73543,
-        'extension': 9970,
-        'state': 'WRAP',
-        'created': 'Wed Nov 07 2001 21:32:07 GMT+0000 (UTC)',
-        'lastName': 'Wazowski',
-        'firstName': 'Mike',
-        'updated': 'Sun Aug 31 1997 19:52:45 GMT+0000 (UTC)',
-        'email': 'mike.Wazowski@hivedom.org',
-        'displayName': 'Mike Wazowski',
-        'password': '',
-        'createdBy': '02f1eeff-8204-4902-9f4c-7960db3795fa',
-        'role': 'Administrator'
-      }];
-    $compile = _$compile_;
-    scope.users = users;
-
-    element = $compile('<user-table users="users"></user-table>')(scope);
-    scope.$digest();
-  }]));
-
-  it('should return user if search is blank', inject(function() {
-    element.isolateScope().queryUser ='';
-    var result = element.isolateScope().searchUser(users[0]);
-    expect(result).toBeTruthy();
-  }));
-
-  it('should not return user if search not included in user values', inject(function() {
-    element.isolateScope().queryUser ='blahh';
-    var result = element.isolateScope().searchUser(users[0]);
-    expect(result).toBeFalsy();
-  }));
-
-    it('should return user if search is included in user first name', inject(function() {
-      element.isolateScope().queryUser ='ike';
-      var result = element.isolateScope().searchUser(users[0]);
-      expect(result).toBeTruthy();
-    }));
-
-    it('should return user if search is included in user first and last name', inject(function() {
-      element.isolateScope().queryUser ='Mike Wazowski';
-      var result = element.isolateScope().searchUser(users[0]);
-      expect(result).toBeTruthy();
-    }));
-
-    it('should return user if search is included in user last name', inject(function() {
-      element.isolateScope().queryUser ='ski';
-      var result = element.isolateScope().searchUser(users[0]);
-      expect(result).toBeTruthy();
-    }));
-
-    it('should not return part search is included in user values', inject(function() {
-      element.isolateScope().queryUser ='Michael Wazowski';
-      var result = element.isolateScope().searchUser(users[0]);
-      expect(result).toBeFalsy();
-    }));
-
-    it('should return user if search has wildcard value only', inject(function() {
-      element.isolateScope().queryUser ='*';
-      var result = element.isolateScope().searchUser(users[0]);
-      expect(result).toBeTruthy();
-    }));
-
-    it('should return user with containing partial string using wildcard in user', inject(function() {
-      element.isolateScope().queryUser ='Mi*Wazowski';
-      var result = element.isolateScope().searchUser(users[0]);
-      expect(result).toBeTruthy();
-    }));
-
-    it('should only return user containing partial strings using several wildcards in user', inject(function() {
-      element.isolateScope().queryUser ='i*e*a';
-      var result = element.isolateScope().searchUser(users[0]);
-      expect(result).toBeTruthy();
-
-      element.isolateScope().queryUser ='i*l*e*a';
-      result = element.isolateScope().searchUser(users[0]);
-      expect(result).toBeFalsy();
-    }));
-
-    it('should return user regardless of character case', inject(function() {
-      element.isolateScope().queryUser ='MIKE wAzoWsKi';
-      var result = element.isolateScope().searchUser(users[0]);
-      expect(result).toBeTruthy();
-    }));
-
-    it('should not return user when search string does not match any user details', inject(function() {
-      element.isolateScope().queryUser ='Randall Boggs';
-      var result = element.isolateScope().searchUser(users[0]);
-      expect(result).toBeFalsy();
-    }));
-
-    it('should not return user when search string with wild cards does not match any user', inject(function() {
-      element.isolateScope().queryUser ='*boo*';
-      var result = element.isolateScope().searchUser(users[0]);
-      expect(result).toBeFalsy();
-    }));
-
-    it('should not use the asterisk as a repeat operator', inject(function() {
-      element.isolateScope().queryUser ='q*';
-      var result = element.isolateScope().searchUser(users[0]);
-      expect(result).toBeFalsy();
-    }));
-
-    it('should use the asterisk as 0 or more of any valid character', inject(function() {
-      element.isolateScope().queryUser ='M*i*W*a*z*o*i';
-      var result = element.isolateScope().searchUser(users[0]);
-      expect(result).toBeTruthy();
-    }));
-
-    it('should return the same result regardless of wildcard repeats', inject(function() {
-      element.isolateScope().queryUser ='M*****';
-      var result = element.isolateScope().searchUser(users[0]);
-      expect(result).toBeTruthy();
-    }));
-
-    it('should return the same result for strings starting and ending with wildcard', inject(function() {
-      element.isolateScope().queryUser ='*Wazow*';
-      var result = element.isolateScope().searchUser(users[0]);
-      expect(result).toBeTruthy();
-
-      element.isolateScope().queryUser ='*Wazow*';
-      result = element.isolateScope().searchUser(users[0]);
-      expect(result).toBeTruthy();
-
-      element.isolateScope().queryUser ='Wazow';
-      result = element.isolateScope().searchUser(users[0]);
-      expect(result).toBeTruthy();
-
-      element.isolateScope().queryUser ='Wazow*';
-      result = element.isolateScope().searchUser(users[0]);
-      expect(result).toBeTruthy();
-
-      element.isolateScope().queryUser ='*Wazow';
-      result = element.isolateScope().searchUser(users[0]);
-      expect(result).toBeTruthy();
-    }));
 });

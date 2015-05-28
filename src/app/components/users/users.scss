@@ -7,7 +7,17 @@
   top: $navbar-height;
 
   .action-container {
-    padding-bottom: 50px;
+    .btn-group {
+      .btn {
+        font-size: 14px;
+      }
+    }
+
+    .btn-create {
+      padding: 8px 26px;
+      font-weight: bold;
+      font-size: 16px;
+    }
   }
 
   .left-panel {
@@ -29,6 +39,34 @@
     position:absolute;
     right: 0;
     left: 600px;
+  }
+
+  .action-container > div {
+	box-sizing: border-box;
+	float:left;
+	width: 50%;
+  }
+
+  .action-container > div:nth-child(even) {
+  	text-align: right;
+  }
+
+  .actions {
+    margin: 20px 0;
+    width: 100% !important;
+
+    > div {
+      float: left;
+      margin-right: 15px;
+    }
+
+    .btn-group {
+      min-width: 450px;
+
+      .fa {
+        margin-right: 7px;
+      }
+    }
   }
 }
 

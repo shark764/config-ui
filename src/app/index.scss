@@ -26,10 +26,14 @@ a {
   text-decoration: none;
 }
 
+[ng-click] {
+  cursor: pointer;
+}
+
 .btn {
   background-color: #FFFFFF;
   border: 1px solid $medium-grey;
-  border-radius: 6px;
+  border-radius: 4px;
   color: $main-color;
   cursor: pointer;
   display: inline-block;
@@ -71,13 +75,14 @@ a {
   }
 }
 
-.btn.disabled, .btn-group.disabled .btn {
+.btn.disabled, .btn-group.disabled .btn, .btn[ng-disabled="true"], .btn-group[ng-disabled="true"] .btn  {
   border-color: lighten($medium-grey, 3%);
   color: darken($medium-grey, 20%);
-}
+  cursor: default;
 
-.btn.disabled:hover, .btn-group.disabled .btn:hover {
-  @include inset-box-shadow(0,0,0);
+  &:hover {
+     @include inset-box-shadow(0,0,0);
+  }
 }
 
 .pull-right {
