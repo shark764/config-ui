@@ -2,6 +2,7 @@
 
 describe('userController controller', function(){
   var scope,
+    $rootScope,
     controller,
     $httpBackend,
     users;
@@ -9,8 +10,9 @@ describe('userController controller', function(){
   beforeEach(module('liveopsConfigPanel'));
   beforeEach(module('gulpAngular'));
   
-  beforeEach(inject(['$controller', '$rootScope', '$injector', function($controller, $rootScope, $injector) {
-    scope = $rootScope;
+  beforeEach(inject(['$controller', '$rootScope', '$injector', function($controller, _$rootScope_, $injector) {
+    $rootScope = _$rootScope_;
+    scope = $rootScope.$new();
 
     users = [ {
       'id': 'c6aa44f6-b19e-49f5-bd3f-66f00b885e39',
@@ -58,13 +60,19 @@ describe('userController controller', function(){
 
   }]));
   
-  describe('initialization', function(){
-    it('should fetch initial list of users', inject(function() {
-      expect(scope.users).toBeDefined();
-      expect(scope.users.length).toEqual(users.length);
-    }));
-  });
 
+  it('should fetch initial list of users', inject(function() {
+    expect(scope.users).toBeDefined();
+    expect(scope.users.length).toEqual(users.length);
+  }));
+
+  it('should call updateUser when recieving the user:update event', inject(function() {
+    spyOn(scope, 'updateUser');
+    
+    $rootScope.$broadcast('user:update', {userId : 1, data: {}});
+    expect(scope.updateUser).toHaveBeenCalled();
+  }));
+  
   describe('hasChecked tracking', function(){
     it('should have nothing checked to start', inject(function() {
       expect(scope.hasChecked).toEqual(0);
@@ -81,118 +89,15 @@ describe('userController controller', function(){
       expect(scope.hasChecked).toEqual(0);
     }));
     
+    it('should catch the userList:user:uncheckAll event and reset hasChecked', inject(function() {
+      scope.hasChecked = 5;
+      scope.$broadcast('userList:user:uncheckAll');
+      expect(scope.hasChecked).toEqual(0);
+    }));
+    
     it('should never go below 0', inject(function() {
       scope.$broadcast('userList:user:unchecked');
       expect(scope.hasChecked).toEqual(0);
-    }));
-    
-    it('should be set to none after a call to selectNone()', inject(function() {
-      scope.hasChecked = 5;
-      scope.selectNone();
-      expect(scope.hasChecked).toEqual(0);
-    }));
-    
-    it('should be the number of nonfiltered users when calling selectAll()', inject(function() {
-      scope.selectAll();
-      expect(scope.hasChecked).toEqual(2);
-      scope.users[0].filtered = true;
-
-      scope.selectAll();
-      expect(scope.hasChecked).toEqual(1);
-    }));
-  });
-  
-  describe('enableChecked batch operation', function(){
-    it('should be defined', inject(function() {
-      expect(scope.enableChecked).toBeDefined();
-      expect(scope.enableChecked).toEqual(jasmine.any(Function));
-    }));
-    
-    it('should should update only checked users', inject(function() {
-      scope.users[0].checked = true;
-      scope.users[0].status = false;
-      scope.users[1].status = false;
-      scope.enableChecked();
-      
-      expect(scope.users[0].status).toBeTruthy();
-      expect(scope.users[1].status).toBeFalsy();
-    }));
-    
-    it('should skip users that are marked as filtered even if they\'re checked', inject(function() {
-      scope.users[0].filtered = true;
-      scope.users[0].checked = true;
-      scope.enableChecked();
-      
-      expect(scope.users[0].status).toBeFalsy();
-      
-      scope.users[0].filtered = true;
-      scope.users[0].checked = true;
-      scope.users[0].status = false;
-      scope.enableChecked();
-      
-      expect(scope.users[0].status).toBeFalsy();
-    }));
-  });
-  
-  describe('disableChecked batch operation', function(){
-    it('should be defined', inject(function() {
-      expect(scope.disableChecked).toBeDefined();
-      expect(scope.disableChecked).toEqual(jasmine.any(Function));
-    }));
-    
-    it('should should update only checked users', inject(function() {
-      scope.users[0].checked = true;
-      scope.users[0].status = true;
-      scope.users[1].status = true;
-      scope.disableChecked();
-      
-      expect(scope.users[0].status).toBeFalsy();
-      expect(scope.users[1].status).toBeTruthy();
-    }));
-    
-    it('should skip users that are marked as filtered', inject(function() {
-      scope.users[0].filtered = true;
-      scope.users[0].checked = true;
-      scope.users[0].status = true;
-      scope.disableChecked();
-      
-      expect(scope.users[0].status).toBeTruthy();
-    }));
-  });
-  
-  describe('selectAll function', function(){
-    it('should be defined', inject(function() {
-      expect(scope.selectAll).toBeDefined();
-      expect(scope.selectAll).toEqual(jasmine.any(Function));
-    }));
-    
-    it('should skip users that are marked as filtered', inject(function() {
-      scope.users[0].filtered = true;
-      scope.selectAll();
-      
-      expect(scope.users[0].checked).toBeFalsy();
-    }));
-    
-    it('should mark all nonfiltered users as checked', inject(function() {
-      scope.selectAll();
-      
-      expect(scope.users[0].checked).toBeTruthy();
-      expect(scope.users[1].checked).toBeTruthy();
-    }));
-  });
-  
-  describe('selectNone function', function(){
-    it('should be defined', inject(function() {
-      expect(scope.selectNone).toBeDefined();
-      expect(scope.selectNone).toEqual(jasmine.any(Function));
-    }));
-    
-    it('should remove checked flag from all users', inject(function() {
-      scope.users[0].checked = true;
-      scope.selectNone();
-      
-      expect(scope.users[0].checked).toBeFalsy();
-      expect(scope.users[1].checked).toBeFalsy();
     }));
   });
 });
