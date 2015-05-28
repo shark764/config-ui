@@ -17,6 +17,6 @@ angular.module('liveopsConfigPanel')
 
         $scope.logout = function () {
             AuthService.logout();
-            $location.path('/login');
+            $location.url($location.path('/login'));
         };
     });

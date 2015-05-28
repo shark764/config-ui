@@ -10,11 +10,9 @@ angular.module('liveopsConfigPanel', ['ngRoute', 'ngResource', 'liveopsConfigPan
     })
     .when('/tenants', {
       templateUrl: 'app/components/tenants/tenants.html',
-      controller: 'TenantsController'
-    })
-    .when('/tenants/:tenantId', {
-      templateUrl: 'app/components/tenants/tenants.html',
-      controller: 'TenantsController'
+      controller: 'TenantsController',
+      reloadOnSearch: false,
+      secure: true
     })
     .when('/login', {
       templateUrl: 'app/components/login/login.html',

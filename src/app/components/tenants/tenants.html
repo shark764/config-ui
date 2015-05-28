@@ -11,19 +11,12 @@
     </thead>
     <tr ng-repeat="tenant in tenants" >
       <td style="border: 1px solid black;">{{tenant.id}}</td>
-      <td style="border: 1px solid black;">{{tenant.name}}</td>
+      <td style="border: 1px solid black;"><a ng-href="#/tenants?id={{tenant.id}}">{{tenant.name}}</a></td>
       <td style="border: 1px solid black;">{{tenant.adminId}}</td>
       <td style="border: 1px solid black;">{{tenant.adminName}}</td>
       <td style="border: 1px solid black;">{{tenant.status}}</td>
     </tr>
   </table>
-
-  <ul>
-    <li class="error" >
-      <a ng-href="#/tenants/{{tenant.id}}">{{tenant.name}}</a>
-    </li>
-  </ul>
-
   <ul>
     <li class="error" ng-repeat="(key, value) in error.error">
       Field `{{key}}` has the following error `{{value}}`

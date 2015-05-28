@@ -11,6 +11,10 @@ angular.module('liveopsConfigPanel')
     $scope.regions = [];
     $scope.users = [];
 
+    $scope.$on('$routeUpdate', function () {
+      $scope.setTenant($routeParams.id);
+    });
+
     RegionsService.query(function (data){
       $scope.regions = data.result;
       $scope.fetch($scope.regions[0].id);
@@ -20,13 +24,15 @@ angular.module('liveopsConfigPanel')
       $scope.users = data.result;
     });
 
+    $scope.setTenant = function (id) {
+      var activeTenant = $filter('filter')($scope.tenants, {id : id})[0];
+      $scope.tenant = id ? activeTenant : {  } ;
+    };
 
     $scope.fetch = function (regionId) {
       TenantsService.query( { regionId : regionId }, function (data) {
         $scope.tenants = data.result;
-        var activeTenant = $filter('filter')($scope.tenants, {id : $routeParams.tenantId})[0];
-        $scope.tenant = $routeParams.tenantId ? activeTenant : {  } ;
-
+        $scope.setTenant($routeParams.id);
       });
     };
 
