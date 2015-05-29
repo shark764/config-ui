@@ -1,10 +1,11 @@
 'use strict';
 
 var TenantsPage = function() {
-  this.jumbEl = element(by.css('.jumbotron'));
-  this.h1El = this.jumbEl.element(by.css('h1'));
-  this.imgEl = this.jumbEl.element(by.css('img'));
-  this.thumbnailEls = element(by.css('body')).all(by.repeater('awesomeThing in awesomeThings'));
+  this.existingTenantsTable = element(by.css('div.ng-scope:nth-child(1) > table:nth-child(2)'));
+  this.createTenantForm = element(by.css('form'));
+  this.createTenantBtn = element(by.css('.btn'));
+
+  // TODO Add remaining Tenants page elements as the design is finalized
 };
 
 module.exports = new TenantsPage();

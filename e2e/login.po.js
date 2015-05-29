@@ -7,12 +7,12 @@ var Login = function() {
 
   this.emailLoginCreds = 'test@test.com';
   this.passwordLoginCreds = 'password';
-/*
+
   this.login = function(email, password) {
     this.emailLoginField.sendKeys(email);
     this.passwordLoginField.sendKeys(password);
     this.loginButton.click();
-  }; */
+  }; 
 };
 
 module.exports = new Login();
