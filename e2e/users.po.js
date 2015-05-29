@@ -1,6 +1,7 @@
 'use strict';
 
 var UserPage = function() {
+<<<<<<< HEAD
   this.userTable = element(by.css('.user-table'));
   this.userDetails = element(by.id('user-details-container'));
 
@@ -29,6 +30,9 @@ var UserPage = function() {
   this.userNameDetailsHeader = element(by.id('.user-name'));
   this.userDetailsHeader = element(by.id('.user-name'));
 
+=======
+  // TODO
+>>>>>>> d18a76e8d48367b3671df90aef81bf62c7a6d92c
 };
 
 module.exports = new UserPage();
