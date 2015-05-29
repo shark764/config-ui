@@ -1,9 +1,8 @@
 'use strict';
 
-describe('The navigation', function () {
+describe('The navigation', function() {
 
-  beforeEach(function () {
-  });
+  beforeEach(function() {});
 
   it('should redirect to home page from login page when logged in', function() {
     browser.get('http://localhost:3000/#/login');

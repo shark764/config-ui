@@ -13,6 +13,17 @@ exports.config = {
     'browserName': 'chrome'
   },
 
+  // For testing multiple browsers. (Remove browserName in capabilities.)
+  /*
+  multiCapabilities: [{
+    'browserName': 'chrome'
+  }, {
+    'browserName': 'firefox'
+  }, {
+    'browserName': 'internet explorer'
+  }],
+  */
+
   // Spec patterns are relative to the current working directly when
   // protractor is called.
   specs: [paths.e2e + '/**/*.js'],
