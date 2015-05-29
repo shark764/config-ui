@@ -41,22 +41,29 @@ angular.module('liveopsConfigPanel')
             displayName: user.displayName,
             status: user.status,
             password: user.password,
-            state: user.state
+            state: user.state,
+            externalId: user.externalId
           };
         };
 
         $scope.save = function () {
+          var trimmedUser = $scope.trimmedUser($scope.user);
           if ($scope.user.id) {
-            UserService.update({ id: $scope.user.id }, $scope.trimmedUser($scope.user), function (data){
-              $scope.user = data.result;
-            });
-
+            var promise =UserService.update({
+              id: $scope.user.id
+            }, trimmedUser).$promise;
           } else {
-            UserService.save($scope.trimmedUser($scope.user), function (data){
+            var promise = UserService.save(trimmedUser).$promise;
+
+            promise = promise.then(function (response) {
               $scope.$emit('user:created', $scope.user);
-              $scope.user = data.result;
+              return response;
             });
           }
+          
+          promise.then(function(response) {
+            $scope.user = response.result;
+          });
         };
       }
     };
