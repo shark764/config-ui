@@ -22,28 +22,12 @@ angular.module('liveopsConfigPanel')
 
         $scope.selectUser = function(user){
           $scope.selectedUser = user;
-          $location.search({id : user.id})
-        };
-
-        $scope.regExpReplace = function(string) {
-          string.replace(/([.+?^=!:${}()|\[\]\/\\])/g, '\\$1');
-          return string.replace(/([*])/g, '.*');
-        };
-
-        $scope.search = function(user) {
-          if (!$scope.searchQuery){
-            return true
-          }
-
-          var wildCardQuery = new RegExp($scope.regExpReplace($scope.searchQuery), 'i');
-
-          return wildCardQuery.test(user.firstName + ' ' + user.lastName);
+          $location.search({id : user.id});
         };
      	},
       templateUrl: 'app/components/users/userTable/userTable.html'
     };
   }])
-
   .filter('userFilter', function () {
     return function (users, items, field) {
       if (items.all && items.all.checked) {
