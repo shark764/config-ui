@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('liveopsConfigPanel', ['ngRoute', 'ngResource', 'liveopsConfigPanel.config'])
-  .config(function ($routeProvider) {
+angular.module('liveopsConfigPanel', ['ngRoute', 'ngResource', 'liveopsConfigPanel.config', 'pascalprecht.translate', 'ngCookies'])
+  .config(['$routeProvider', '$translateProvider', function ($routeProvider, $translateProvider) {
     $routeProvider
     .when('/', {
       templateUrl: 'app/components/users/users.html',
@@ -20,5 +20,9 @@ angular.module('liveopsConfigPanel', ['ngRoute', 'ngResource', 'liveopsConfigPan
       controller: 'LoginController'
     })
     .otherwise('/');
-  })
+    
+    $translateProvider
+    .useLocalStorage()
+    .preferredLanguage('en');
+  }])
 ;
