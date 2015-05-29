@@ -1,6 +1,6 @@
 'use strict';
 
-/* global jasmine, spyOn: false  */
+/* global jasmine: false  */
 
 describe('userTable directive', function(){
   var $scope,

@@ -12,7 +12,7 @@ angular.module('liveopsConfigPanel')
 // session information using redis or memcache
 
 // this will suffice in beta however.
-.factory('Session', ['sessionKey', function(sessionKey) {
+.factory('Session', ['sessionKey', '$translate', function(sessionKey, $translate) {
 
   var Session = function () {
 
@@ -21,14 +21,19 @@ angular.module('liveopsConfigPanel')
     this.fullName = '';
     this.id = '';
     this.isAuthenticated = false;
+    this.lang = '';
 
-    this.set = function(token, fullName, id) {
+    this.set = function(token, fullName, id, lang) {
       this.token = token;
       this.fullName = fullName;
       this.id = id;
+      this.lang = lang;
       this.isAuthenticated = true;
 
       localStorage.setItem(this.userSessionKey, JSON.stringify(this));
+      if (lang){
+        $translate.use(lang);
+      }
     };
 
     this.destroy = function() {
@@ -36,7 +41,8 @@ angular.module('liveopsConfigPanel')
       this.fullName = '';
       this.id = '';
       this.isAuthenticated = false;
-
+      this.lang = '';
+      
       localStorage.removeItem(this.userSessionKey);
     };
 
