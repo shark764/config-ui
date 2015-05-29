@@ -1,7 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('userTable', ['$location', '$routeParams',  '$filter', 'userStates', 'userStatuses', 'columns', 'UserService', function($location, $routeParams, $filter, userStates, userStatuses, columns, UserService) {
+  .directive('userTable', ['$location', '$routeParams', '$filter', 'userStates', 'userStatuses', 'columns', 'UserService', 
+    function ($location, $routeParams, $filter, userStates, userStatuses, columns, UserService) {
     return {
       restrict: 'E',
       link: function ($scope) {
@@ -26,11 +27,11 @@ angular.module('liveopsConfigPanel')
           });
         };
 
-        $scope.createUser = function() {
+        $scope.createUser = function () {
           $scope.$broadcast('user:create');
         };
 
-        $scope.$on('user:created', function(event, user) {
+        $scope.$on('user:created', function (event, user) {
           $scope.users.push(user);
         })
       },

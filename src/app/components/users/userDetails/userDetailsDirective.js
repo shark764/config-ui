@@ -1,7 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('userDetails', ['UserService', 'userRoles', 'userStates', 'userStatuses', function (UserService, userRoles, userStates, userStatuses) {
+  .directive('userDetails', ['UserService', 'userRoles', 'userStates', 'userStatuses', 
+    function (UserService, userRoles, userStates, userStatuses) {
     return {
 
       scope: {
@@ -41,8 +42,7 @@ angular.module('liveopsConfigPanel')
             displayName: user.displayName,
             status: user.status,
             password: user.password,
-            state: user.state,
-            externalId: user.externalId
+            state: user.state
           };
         };
 
@@ -53,10 +53,10 @@ angular.module('liveopsConfigPanel')
               id: $scope.user.id
             }, trimmedUser).$promise;
           } else {
-            var promise = UserService.save(trimmedUser).$promise;
+            var promise = UserService.save($scope.trimmedUser($scope.user)).$promise;
 
-            promise = promise.then(function (response) {
-              $scope.$emit('user:created', $scope.user);
+            promise.then(function (response) {
+              $scope.$emit('user:created', response.result);
               return response;
             });
           }
