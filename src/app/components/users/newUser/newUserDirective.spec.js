@@ -4,7 +4,8 @@
 describe('newUser directive', function () {
   var $rootScope,
     $scope,
-    element;
+    element,
+    isolateScope;
 
   beforeEach(module('liveopsConfigPanel'));
   beforeEach(module('gulpAngular'));
@@ -14,51 +15,34 @@ describe('newUser directive', function () {
     $scope = $rootScope.$new();
     element = $compile('<div new-user></div>')($scope);
     $scope.$digest();
+    isolateScope = element.isolateScope();
   }]));
 
   it('should update displayName when firstName is changed', inject(function () {
-    $scope.data.firstName = 'Karen';
-    $scope.$digest();
-    expect($scope.data.displayName).toEqual('Karen');
+    isolateScope.user.firstName = 'Karen';
+    isolateScope.$digest();
+    expect(isolateScope.user.displayName).toEqual('Karen');
   }));
   
   it('should update displayName when lastName is changed', inject(function () {
-    $scope.data.lastName = 'Mason';
-    $scope.$digest();
-    expect($scope.data.displayName).toEqual('Mason');
+    isolateScope.user.lastName = 'Mason';
+    isolateScope.$digest();
+    expect(isolateScope.user.displayName).toEqual('Mason');
   }));
   
   it('should be equal to "[firstName] [lastName]"', inject(function () {
-    $scope.data.firstName = 'Karen';
-    $scope.data.lastName = 'Mason';
-    $scope.$digest();
-    expect($scope.data.displayName).toEqual('Karen Mason');
+    isolateScope.user.firstName = 'Karen';
+    isolateScope.user.lastName = 'Mason';
+    isolateScope.$digest();
+    expect(isolateScope.user.displayName).toEqual('Karen Mason');
   }));
   
   it('should stop updating when displayName is $touched', inject(function () {
-    $scope.createUserForm.displayName.$touched = true;
-    $scope.data.displayName = 'Karen M.';
-    $scope.data.firstName = 'Susan';
-    $scope.$digest();
+    isolateScope.createUserForm.displayName.$touched = true;
+    isolateScope.user.displayName = 'Karen M.';
+    isolateScope.user.firstName = 'Susan';
+    isolateScope.$digest();
     
-    expect($scope.data.displayName).toEqual('Karen M.');
-  }));
-
-  it('should not save if there is a validation error', inject(function () {
-    spyOn($rootScope, '$emit');
-    
-    $scope.createUserForm.$invalid = true;
-    $scope.ok();
-    
-    expect($rootScope.$emit).not.toHaveBeenCalled();
-  }));
-  
-  it('should emit save event if the form is valid', inject(function () {
-    spyOn($rootScope, '$emit');
-    
-    $scope.createUserForm.$valid = true;
-    $scope.ok();
-    
-    expect($rootScope.$emit).toHaveBeenCalled();
+    expect(isolateScope.user.displayName).toEqual('Karen M.');
   }));
 });

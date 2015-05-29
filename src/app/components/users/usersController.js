@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-	.controller('UsersController', ['$scope', 'Session', 'UserService', '$filter', function($scope, Session, UserService, $filter) {
+	.controller('UsersController', ['$scope', function($scope) {
     $scope.selectedUser = null;
 
   }]);
