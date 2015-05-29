@@ -1,21 +1,17 @@
 'use strict';
 
 describe('The navbar', function() {
-  var navBar = element(by.css('nav')),
-    emailLogin = element(by.model('username')),
-    passwordLogin = element(by.model('password')),
-    loginButton = element(by.css('.login-btn'));
+  var loginPage = require('login.po.js'),
+    shared = require('shared.po.js');
 
   beforeEach(function() {
-    browser.get('http://localhost:3000/#/login');
     // Login
-    emailLogin.sendKeys('test@test.com');
-    passwordLogin.sendKeys('testpassword');
-    loginButton.click();
+    browser.get(shared.loginPageUrl);
+    loginPage.login(loginPage.emailLoginCreds, loginPage.passwordLoginCreds);
   });
 
   it('should contain logo, Tenant drop down, page links, user info and Logout button', function() {
-    expect(navBar.isDisplayed()).toBeTruthy();
+    expect(shared.navBar.isDisplayed()).toBeTruthy();
     expect(element(by.css('.navbar > a:nth-child(1)')).isDisplayed()).toBeTruthy();
     expect(element(by.model('activeTenant')).isDisplayed()).toBeTruthy();
     expect(element(by.css('li.active:nth-child(3) > a:nth-child(1)')).getText()).toBe('Users Management');
