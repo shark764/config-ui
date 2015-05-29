@@ -14,7 +14,7 @@ angular.module('liveopsConfigPanel')
         $scope.userRoles = userRoles;
         $scope.userStates = userStates;
         $scope.userStatuses = userStatuses;
-        
+
         $scope.reset = function () {
           $scope.user = {
             status: false,
@@ -36,7 +36,7 @@ angular.module('liveopsConfigPanel')
             firstName: user.firstName,
             lastName: user.lastName,
             role: user.role,
-            extensionId: user.extensionId,
+            externalId: user.externalId,
             email: user.email,
             displayName: user.displayName,
             status: user.status,
@@ -47,14 +47,14 @@ angular.module('liveopsConfigPanel')
 
         $scope.save = function () {
           if ($scope.user.id) {
-            UserService.update({
-              id: $scope.user.id
-            }, $scope.trimmedUser($scope.user));
+            UserService.update({ id: $scope.user.id }, $scope.trimmedUser($scope.user), function (data){
+              $scope.user = data.result;
+            });
+
           } else {
-            var promise = UserService.save($scope.trimmedUser($scope.user)).$promise;
-            
-            promise.then(function () {
+            UserService.save($scope.trimmedUser($scope.user), function (data){
               $scope.$emit('user:created', $scope.user);
+              $scope.user = data.result;
             });
           }
         };

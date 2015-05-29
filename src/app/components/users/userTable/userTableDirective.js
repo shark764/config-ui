@@ -9,6 +9,7 @@ angular.module('liveopsConfigPanel')
         $scope.statuses = userStatuses;
         $scope.selectedUser = null;
         $scope.filteredUsers = []; // set by the ng-repeat on table
+        $scope.users = [];
 
         UserService.query(function (data) {
           $scope.users = data.result;
@@ -16,6 +17,7 @@ angular.module('liveopsConfigPanel')
           var activeUser = $filter('filter')($scope.users, {
             id: $routeParams.id
           })[0];
+
           $scope.selectedUser = $routeParams.id ? activeUser : {};
         });
 
@@ -25,11 +27,11 @@ angular.module('liveopsConfigPanel')
             id: user.id
           });
         };
-        
+
         $scope.createUser = function() {
           $scope.$broadcast('user:create');
         };
-        
+
         $scope.$on('user:created', function(event, user) {
           $scope.users.push(user);
         })
