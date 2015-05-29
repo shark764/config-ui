@@ -1,6 +1,6 @@
 <div class="action-container">
   <input type="text" name='queryUserInput' ng-model="searchQuery" placeholder="Search">
-  <button class="btn btn-primary btn-create" ng-click="createUser()">Create</button>
+  <button id='create-user-btn' class="btn btn-primary btn-create" ng-click="createUser()">Create</button>
 </div>
 
 <table class="user-table">
@@ -19,9 +19,7 @@
   </thead>
 
   <tbody>
-    <tr ng-repeat="user in users | userFilter:statuses:'status' | userFilter:states:'state' | search:['firstName','lastName']:searchQuery | orderBy:'lastName'" 
-      ng-click="selectUser(user)"
-      ng-class="{selected: user.id === selectedUser.id}">
+    <tr ng-repeat="user in users | userFilter:statuses:'status' | userFilter:states:'state' | search:['firstName','lastName']:searchQuery | orderBy:'lastName'" ng-click="selectUser(user)" ng-class="{selected: user.id === selectedUser.id}">
       <td>
         <input type="checkbox" ng-model="user.checked" />
       </td>
