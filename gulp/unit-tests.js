@@ -44,27 +44,31 @@ module.exports = function(options) {
       }));
   }
 
-  function runTests (singleRun, done) {
+  function runTests(singleRun, reporters, done) {
     listFiles(function(files) {
       karma.server.start({
         configFile: __dirname + '/../karma.conf.js',
         files: files,
         singleRun: singleRun,
         autoWatch: !singleRun,
-        reporters: ['progress']
+        reporters: reporters
       }, done);
     });
   }
 
-  gulp.task('test-setup', [], function(){
+  gulp.task('test-setup', [], function() {
     process.env.ENV = 'unitTest';
   });
 
   gulp.task('test', ['test-setup', 'config', 'scripts'], function(done) {
-    runTests(true, done);
+    runTests(true, ['progress'], done);
   });
 
   gulp.task('test:auto', ['watch'], function(done) {
-    runTests(false, done);
+    runTests(false, ['progress'], done);
+  });
+
+  gulp.task('coverage', ['test-setup', 'config', 'scripts'], function(done) {
+    runTests(true, ['progress', 'coverage'], done);
   });
 };

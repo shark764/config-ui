@@ -53,7 +53,8 @@
     "wiredep": "~2.2.0",
     "wrench": "~1.5.8",
     "gulp-debug": "~2.0.1",
-    "gulp-ng-constant": "~0.3.0"
+    "gulp-ng-constant": "~0.3.0",
+    "karma-coverage": "~0.3.1"
   },
   "engines": {
     "node": ">=0.10.0"
