@@ -13,12 +13,10 @@
 
       <div class="actions">
         <div>
-          <dropdown items="selectOptions" label="Select"></dropdown>
+          <select-actions users="users"></select-actions>
         </div>
         <div class="btn-group" ng-disabled="{{! hasChecked}}">
-          <a ng-click="enableChecked()" class="btn"><i class="fa fa-check"></i>Enable</a>
-          <a ng-click="disableChecked()" class="btn"><i class="fa fa-times"></i>Disable</a>
-          <a href="" class="btn disabled"><i class="fa fa-lock"></i>Change Password</a>
+          <batch-buttons users="users"></batch-buttons>
         </div>
       </div>
     </div>

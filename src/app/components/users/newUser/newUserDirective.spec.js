@@ -1,5 +1,6 @@
 'use strict';
 
+/* global spyOn: false  */
 describe('newUser directive', function () {
   var $rootScope,
     $scope,

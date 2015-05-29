@@ -34,7 +34,7 @@ angular.module('liveopsConfigPanel')
           } else {
             scope.userForm[args.fieldName].$setPristine(true);
           }
-        }
+        };
       }
     };
  });

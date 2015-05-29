@@ -20,59 +20,25 @@ angular.module('liveopsConfigPanel')
   	};
     
     $scope.hasChecked = 0;
-    function decreaseCheckedCount(){
+    $scope.decreaseCheckedCount = function(){
       $scope.hasChecked = $scope.hasChecked > 0 ? $scope.hasChecked - 1 : 0;
-    }
-    
-    $scope.decreaseCheckedCount = decreaseCheckedCount;
+    };
     
     $scope.$on('userList:user:checked', function () {
       $scope.hasChecked++;
     });
     
     $scope.$on('userList:user:unchecked', function () {
-      decreaseCheckedCount();
+      $scope.decreaseCheckedCount();
     });
     
-  	$scope.selectOptions = [
-  	                        {label : 'All', onClick : function(){$scope.selectAll();}}, 
-  	                        {label : 'None', onClick : function(){$scope.selectNone();}}
-  	                       ];
-  	
-  	$scope.selectAll = function(){
-  	  $scope.hasChecked = 0;
-  	  angular.forEach($scope.users, function(user) {
-  	    if (! user.filtered){
-  	      user.checked = true;
-  	      $scope.hasChecked++;
-  	    }
-      });
-  	};
-  	
-  	$scope.selectNone = function(){
-  	  $scope.hasChecked = 0;
-  	  angular.forEach($scope.users, function(user) {
-        user.checked = false;
-      });
-  	};
-  	
-  	$scope.enableChecked = function(){
-      angular.forEach($scope.users, function(user) {
-        if (user.checked && ! user.filtered){
-          $scope.updateUser(user.id, {'status' : true});
-          user.status = true;
-        }
-      });
-    };
+    $scope.$on('userList:user:uncheckAll', function () {
+      $scope.hasChecked = 0;
+    });
     
-    $scope.disableChecked = function(){
-      angular.forEach($scope.users, function(user) {
-        if (user.checked && ! user.filtered){
-          $scope.updateUser(user.id, {'status' : false});
-          user.status = false;
-        }
-      });
-    };
+    $scope.$on('user:update', function (event, args) {
+      $scope.updateUser(args.userId, args.data);
+    });
     
     $scope.showModalSection = function(){
     	$scope.showModal = true;

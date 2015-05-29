@@ -37,8 +37,6 @@ angular.module('liveopsConfigPanel')
           var newLeftWidth = left - (left - x),
               newRightWidth = right + (left - x);
 
-          console.log();
-
           if (scope.leftMinWidth && newLeftWidth < scope.leftMinWidth) {
             return;
           }

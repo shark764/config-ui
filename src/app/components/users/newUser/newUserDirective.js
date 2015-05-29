@@ -23,10 +23,10 @@ angular.module('liveopsConfigPanel')
         if (! scope.createUserForm.displayName.$touched){
           var firstName = (scope.data.firstName ? scope.data.firstName : '');
           var lastName = (scope.data.lastName ? scope.data.lastName : '');
-          var name = firstName + ' ' + lastName
+          var name = firstName + ' ' + lastName;
           scope.data.displayName =  name.trim();
         }
-      }
+      };
       
       // Passes data via emit to usersController in order to make api call.
       scope.ok = function(){
@@ -47,7 +47,7 @@ angular.module('liveopsConfigPanel')
       };
 
       // Clears form for next create user.
-      scope.$on('createUser:success', function (event, args) {
+      scope.$on('createUser:success', function () {
         scope.data = {};
         scope.data.status = false;
         scope.data.state = 'Offline';
