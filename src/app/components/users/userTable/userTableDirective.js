@@ -1,57 +1,39 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('userTable', ['userStates', 'userStatuses', function(userStates, userStatuses) {
+  .directive('userTable', ['$location', '$routeParams', '$filter', 'userStates', 'userStatuses', 'UserService', function ($location, $routeParams, $filter, userStates, userStatuses, UserService) {
     return {
       restrict: 'E',
-      scope: {
-        users: '=',
-        parentFilter: '='
-      },
-      link : function(scope) {
-        scope.states = userStates;
-        scope.statuses = userStatuses;
-        scope.filteredUsers = [];
-        
-        scope.$watchCollection(function(){return scope.filteredUsers;}, function(newList) {
-          if (!newList){
-            return;
-          }
-          
-          angular.forEach(scope.users, function(user) {
-            if (newList.indexOf(user) === -1) {
-              user.filtered = true;
-              if (user.checked) {
-                user.checked = false;
-                scope.$emit('userList:user:unchecked');
-              }
-            } else {
-              user.filtered = false;
-            }
+      link: function ($scope) {
+        $scope.states = userStates;
+        $scope.statuses = userStatuses;
+        $scope.selectedUser = null;
+        $scope.filteredUsers = []; // set by the ng-repeat on table
+
+        UserService.query(function (data) {
+          $scope.users = data.result;
+
+          var activeUser = $filter('filter')($scope.users, {
+            id: $routeParams.id
+          })[0];
+          $scope.selectedUser = $routeParams.id ? activeUser : {};
+        });
+
+        $scope.selectUser = function (user) {
+          $scope.selectedUser = user;
+          $location.search({
+            id: user.id
           });
-        });
-      
-      	scope.$on('createUser:success', function (ev, user){
-          scope.selectUser(user);
-        });
-
-        scope.$on('user:selected', function (ev, user){
-          scope.selectUser(user);
-        });
-
-        scope.selectUser = function (selectedUser) {
-          scope.selectedUser = selectedUser;
-          scope.$emit('userTable:user:selected', selectedUser);
         };
-
-        scope.checkChanged = function(value){
-          if (value){
-            scope.$emit('userList:user:checked');
-          } else {
-            scope.$emit('userList:user:unchecked');
-          }
+        
+        $scope.createUser = function() {
+          $scope.$broadcast('user:create');
         };
-     	},
+        
+        $scope.$on('user:created', function(event, user) {
+          $scope.users.push(user);
+        })
+      },
       templateUrl: 'app/components/users/userTable/userTable.html'
     };
   }])
@@ -77,13 +59,4 @@ angular.module('liveopsConfigPanel')
 
       return filtered;
     };
-  })
-  .filter('applyFilter', function() {
-    return function(items, filterFunction){
-      if (filterFunction){
-        return filterFunction(items);
-      } else {
-        return items;
-      }
-    };
-});
+  });

@@ -1,20 +1,32 @@
+<div class="action-container">
+  <input type="text" name='queryUserInput' ng-model="searchQuery" placeholder="Search">
+  <button class="btn btn-primary btn-create" ng-click="createUser()">Create</button>
+</div>
+
 <table class="user-table">
   <thead>
     <tr>
       <th>&nbsp;</th>
       <th>Name</th>
       <th>ID</th>
-      <th><filter-dropdown label="Status" items="statuses"></filter-dropdown></th>
-      <th><filter-dropdown label="State" items="states"></filter-dropdown></th>
+      <th>
+        <filter-dropdown label="Status" items="statuses"></filter-dropdown>
+      </th>
+      <th>
+        <filter-dropdown label="State" items="states"></filter-dropdown>
+      </th>
     </tr>
   </thead>
 
   <tbody>
-    <tr ng-repeat="user in filteredUsers = (users | userFilter:statuses:'status' | userFilter:states:'state' | applyFilter:parentFilter | orderBy:'lastName')" 
-      ng-click="selectUser(user)" ng-class="{selected: user.id === selectedUser.id}">
-      <td><input type="checkbox" ng-model="user.checked" ng-change="checkChanged(user.checked)"/></td>
+    <tr ng-repeat="user in users | userFilter:statuses:'status' | userFilter:states:'state' | search:['firstName','lastName']:searchQuery | orderBy:'lastName'" 
+      ng-click="selectUser(user)"
+      ng-class="{selected: user.id === selectedUser.id}">
+      <td>
+        <input type="checkbox" ng-model="user.checked" />
+      </td>
       <td>{{user.firstName}} {{user.lastName}}</td>
-      <td>{{selectUser.id}}{{user.externalId}}</td>
+      <td>{{user.externalId}}</td>
       <td>
         <span ng-class="{disabled : ! user.status}">{{user.status ? 'Enabled' : 'Disabled'}}</span>
       </td>

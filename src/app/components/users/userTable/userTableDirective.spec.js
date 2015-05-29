@@ -4,15 +4,14 @@
 
 describe('userTable directive', function(){
   var $scope,
-    $compile,
+    $httpBackend,
     element,
-    users,
-    isolateScope;
+    users;
 
   beforeEach(module('liveopsConfigPanel'));
   beforeEach(module('gulpAngular'));
 
-  beforeEach(inject(['$compile', '$rootScope', function(_$compile_, $rootScope) {
+  beforeEach(inject(['$compile', '$rootScope', '$injector', function($compile, $rootScope, $injector) {
     users  = [ {
       'id': 'c6aa44f6-b19e-49f5-bd3f-66f00b885e39',
       'status': false,
@@ -48,132 +47,39 @@ describe('userTable directive', function(){
       'role': 'Administrator'
     }];
     
+    //Need the following so that $digest() works
+    $httpBackend = $injector.get('$httpBackend');
+    $httpBackend.when('GET', 'fakendpoint.com/v1/users').respond({'result' : users});
+    $httpBackend.expectGET('fakendpoint.com/v1/users');
+    
     $scope = $rootScope.$new();
-    $compile = _$compile_;
     $scope.users = users;
-    $scope.preFilter = function(items){
-      return items;
-    };
-    element = $compile('<user-table users="users" parent-filter="preFilter"></user-table>')($scope);
+    element = $compile('<user-table></user-table>')($scope);
     $scope.$digest();
-    isolateScope = element.isolateScope();
+    $httpBackend.flush();
   }]));
 
+  it('should have users', inject(function() {
+    expect($scope.users).toBeDefined();
+    expect($scope.users.length).toEqual(2);
+  }));
+  
+  it('should fetch initial list of users', inject(function() {
+    expect($scope.users).toBeDefined();
+    expect($scope.users.length).toEqual(users.length);
+  }));
+  
   it('should insert a row for each user, plus a header row', inject(function() {
     expect(element.find('tr').length).toEqual(users.length + 1);
   }));
 
   it('should have statuses and states objects', inject(function() {
-    expect(isolateScope.statuses).toBeDefined();
-    expect(isolateScope.statuses).toEqual(jasmine.any(Object));
+    expect($scope.statuses).toBeDefined();
+    expect($scope.statuses).toEqual(jasmine.any(Object));
 
-    expect(isolateScope.states).toBeDefined();
-    expect(isolateScope.states).toEqual(jasmine.any(Object));
+    expect($scope.states).toBeDefined();
+    expect($scope.states).toEqual(jasmine.any(Object));
   }));
-  
-  it('should have users', inject(function() {
-    expect(element.isolateScope().users).toBeDefined();
-    expect(element.isolateScope().users.length).toEqual(2);
-  }));
-  
-  describe('checkChanged function', function(){
-    it('should emit checked event when called with true', inject(function() {
-      spyOn(isolateScope, '$emit');
-      isolateScope.checkChanged(true);
-      
-      expect(isolateScope.$emit).toHaveBeenCalledWith('userList:user:checked');
-    }));
-    
-    it('should emit unchecked event when called with false', inject(function() {
-      spyOn(isolateScope, '$emit');
-      isolateScope.checkChanged(false);
-      
-      expect(isolateScope.$emit).toHaveBeenCalledWith('userList:user:unchecked');
-    }));
-  });
-  
-  describe('filteredUsers list', function(){
-    it('should be defined', inject(function() {
-      expect(isolateScope.filteredUsers).toBeDefined();
-      expect(isolateScope.filteredUsers).toEqual(jasmine.any(Object));
-    }));
-    
-    it('should equal users to start', inject(function() {
-      expect(isolateScope.filteredUsers.length).toEqual(2);
-    }));
-    
-    describe('with filters', function(){
-      beforeEach(function(){
-        isolateScope.statuses = {all : {checked: false}, filters : [{value: 'false', checked: false}, {value : 'true', checked: false}]};
-        isolateScope.statuses.filters[0].checked = true;
-        isolateScope.$digest();
-      });
-      
-      it('should remove users that don\'t conform to selected filters', inject(function() {
-        expect(isolateScope.filteredUsers.length).toEqual(1);
-        expect(isolateScope.filteredUsers[0]).toEqual(users[0]);
-      }));
-      
-      it('should not mark included users as filtered', inject(function() {
-        expect(isolateScope.users[0].filtered).toBeFalsy();
-      }));
-      
-      it('should mark excluded users as filtered', inject(function() {
-        expect(isolateScope.users[1].filtered).toBeTruthy();
-      }));
-      
-      it('should remove filtered flag on users that are re-shown', inject(function() {
-        isolateScope.statuses.all.checked = true;
-        isolateScope.$digest();
-        
-        expect(isolateScope.users[1].filtered).toBeFalsy();
-      }));
-    });
-    
-    it('should emit the unchecked event when a checked user is filtered out', inject(function() {
-      spyOn(isolateScope, '$emit');
-      isolateScope.statuses = {all : {checked: false}, filters : [{value: 'false', checked: false}, {value : 'true', checked: false}]};
-      isolateScope.users[1].checked = true;
-      isolateScope.statuses.filters[0].checked = true;
-      isolateScope.$digest();
-      
-      expect(isolateScope.$emit).toHaveBeenCalledWith('userList:user:unchecked');
-    }));
-  });
-  
-  describe('parentFilter', function(){
-    it('should be called on init', inject(['$compile', '$rootScope', function(_$compile_, $rootScope) {
-      $scope = $rootScope.$new();
-      $scope.users = users;
-      $scope.preFilter = function(items){
-        return items;
-      };
-      
-      spyOn($scope, 'preFilter');
-      
-      element = $compile('<user-table users="users" parent-filter="preFilter"></user-table>')($scope);
-      $scope.$digest();
-      
-      expect($scope.preFilter).toHaveBeenCalled();
-    }]));
-    
-    it('should be called when a paramater changes in parent scope', inject(['$compile', '$rootScope', 'filterFilter', function(_$compile_, $rootScope, filterFilter) {
-      $scope = $rootScope.$new();
-      $scope.users = users;
-      $scope.coolName = 'Oliver';
-      $scope.preFilter = function(items){
-        return filterFilter(items, {firstName : $scope.coolName});
-      };
-      
-      element = $compile('<user-table users="users" parent-filter="preFilter"></user-table>')($scope);
-      $scope.$digest();
-      
-      spyOn($scope, 'preFilter');
-      $scope.coolName = '';
-      $scope.$digest();
-      expect($scope.preFilter).toHaveBeenCalled();
-    }]));
-  });
 });
 
 describe('userFilter filter', function(){

@@ -1,40 +1,63 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('userDetails', function() {
+  .directive('userDetails', ['UserService', 'userRoles', 'userStates', 'userStatuses', function (UserService, userRoles, userStates, userStatuses) {
     return {
+
       scope: {
         user: '='
       },
+
       templateUrl: 'app/components/users/userDetails/userDetails.html',
-      link: function(scope) {
+
+      link: function ($scope) {
+        $scope.userRoles = userRoles;
+        $scope.userStates = userStates;
+        $scope.userStatuses = userStatuses;
         
-        scope.$watch('user', function() {
-          if(!scope.user){
-            return;
-          }
-          
-          scope.display = {
-            firstName: scope.user.firstName,
-            lastName: scope.user.lastName,
-            displayName: scope.user.displayName,
-            state: scope.user.state,
-            created: scope.user.created,
-            createdBy: scope.user.createdBy
+        $scope.reset = function () {
+          $scope.user = {
+            status: false,
+            state: 'OFFLINE',
+            password: 'blah'
           };
-        });
-        
-        scope.$on('editField:save', function(event, args) {
-          scope.handleSaveEvent(event,args);
-        });
-        
-        scope.handleSaveEvent = function(event, args){
-          if (scope.userForm[args.fieldName].$invalid){
-            event.stopPropagation();
+        }
+
+        if (!$scope.user) {
+          $scope.reset();
+        }
+
+        $scope.$on('user:create', function () {
+          $scope.reset();
+        })
+
+        $scope.trimmedUser = function (user) {
+          return {
+            firstName: user.firstName,
+            lastName: user.lastName,
+            role: user.role,
+            extensionId: user.extensionId,
+            email: user.email,
+            displayName: user.displayName,
+            status: user.status,
+            password: user.password,
+            state: user.state
+          };
+        };
+
+        $scope.save = function () {
+          if ($scope.user.id) {
+            UserService.update({
+              id: $scope.user.id
+            }, $scope.trimmedUser($scope.user));
           } else {
-            scope.userForm[args.fieldName].$setPristine(true);
+            var promise = UserService.save($scope.trimmedUser($scope.user)).$promise;
+            
+            promise.then(function () {
+              $scope.$emit('user:created', $scope.user);
+            });
           }
         };
       }
     };
- });
+  }]);
