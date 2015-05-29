@@ -1,10 +1,13 @@
 'use strict';
 
 describe('The navbar', function() {
-  var loginPage = require('login.po.js'),
-    shared = require('shared.po.js');
+  var loginPage,
+    shared;
 
   beforeEach(function() {
+    loginPage = require('login.po.js');
+    shared = require('shared.po.js');
+
     // Login
     browser.get(shared.loginPageUrl);
     loginPage.login(loginPage.emailLoginCreds, loginPage.passwordLoginCreds);

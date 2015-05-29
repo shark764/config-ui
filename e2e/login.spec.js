@@ -1,11 +1,11 @@
 'use strict';
 
 describe('The login view', function() {
-  var loginPage = require('login.po.js'),
-    shared = require('shared.po.js');
+  var loginPage = require('./login.po.js'),
+    shared = require('./shared.po.js');
 
   beforeEach(function() {
-    browser.get(shared.loginPageUrl);
+    browser.get('localhost:3000/#/login');
   });
 
   it('should include header, login fields, and submit button', function() {
