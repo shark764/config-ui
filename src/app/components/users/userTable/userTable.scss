@@ -1,3 +1,14 @@
+.action-container {
+    input, button {
+        display: inline-block;
+    }
+
+    input {
+        width: 45%;
+        margin-right : 30px;
+    }
+}
+
 .user-table {
 	width: 100%;
 	border-collapse: collapse;

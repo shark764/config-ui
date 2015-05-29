@@ -1,58 +1,56 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-.directive('newUser', function() {
+.directive('newUser', ['UserService', function(UserService) {
   return {
 
     templateUrl: 'app/components/users/newUser/newUser.html',
 
-    link:  function (scope) {
-      scope.data = {};
-      scope.data.status = false;
-      scope.data.state = 'Offline';
+    scope: {
+      'users' : '=',
+      'showModal' : '='
+    },
 
-      scope.$watch('data.firstName', function() {
-        scope.updateDisplayName();
+    link:  function ($scope) {
+      $scope.defaultUser = function(){
+        return {
+          status: false,
+          state: 'Offline',
+          firstName: '',
+          lastName: ''
+        };
+      };
+      $scope.user = $scope.defaultUser();
+
+
+      $scope.$watch('user.firstName', function() {
+        $scope.updateDisplayName();
       });
-      
-      scope.$watch('data.lastName', function() {
-        scope.updateDisplayName();
+
+      $scope.$watch('user.lastName', function() {
+        $scope.updateDisplayName();
       });
-      
-      scope.updateDisplayName = function(){
-        if (! scope.createUserForm.displayName.$touched){
-          var firstName = (scope.data.firstName ? scope.data.firstName : '');
-          var lastName = (scope.data.lastName ? scope.data.lastName : '');
-          var name = firstName + ' ' + lastName;
-          scope.data.displayName =  name.trim();
+
+      $scope.updateDisplayName = function(){
+        if (! $scope.createUserForm.displayName.$touched){
+          $scope.user.displayName =  $scope.user.firstName + ' ' + $scope.user.lastName;
         }
       };
-      
+
       // Passes data via emit to usersController in order to make api call.
-      scope.ok = function(){
-        if(scope.createUserForm.$valid){
-          scope.$emit('createUser:save', {
-            data: scope.data
-          });
-        }
+      $scope.ok = function(){
+        UserService.save($scope.user, function (data) {
+          $scope.users.push(data.result);
+          $scope.showModal = false;
+        })
       };
 
       // Clears form upon cancel
-      scope.cancel = function(){
-        scope.data = {};
-        scope.data.status = false;
-        scope.data.state = 'Offline';
-        scope.showError = false;
-        scope.showModal = false;
+      $scope.cancel = function(){
+        $scope.user = $scope.defaultUser();
+        $scope.showError = false;
+        $scope.showModal = false;
       };
-
-      // Clears form for next create user.
-      scope.$on('createUser:success', function () {
-        scope.data = {};
-        scope.data.status = false;
-        scope.data.state = 'Offline';
-      });
-
     }
   };
-});
+}]);

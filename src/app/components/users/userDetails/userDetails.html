@@ -15,59 +15,49 @@
   </div>
 </div>
 
-<form name="userForm" novalidate>
+<form name="userForm" ng-submit="save()">
 
-  <div class="error" ng-show="userForm.firstName.$touched && userForm.firstName.$invalid">Please enter a first name.</div>
-  <edit-field ng-model="user.firstName" name="firstName" label="First Name*" type="text" object-id="user.id"></edit-field>
-  
-  <div class="error" ng-show="userForm.lastName.$touched && userForm.lastName.$invalid">Please enter a last name.</div>
-  <edit-field ng-model="user.lastName" name="lastName" label="Last Name*" type="text" object-id="user.id"></edit-field>
-  
-  <div class="error" ng-show="userForm.displayName.$touched && userForm.displayName.$invalid">Please enter a display name.</div>
-  <edit-field ng-model="user.displayName" name="displayName" label="Display Name*" type="text" object-id="user.id"></edit-field>
-  
-  <div class="error" ng-show="userForm.email.$touched && userForm.email.$invalid">
-    <span ng-show="userForm.email.$error.required">Please enter an email.</span>
-    <span ng-show="userForm.email.$error.email">Must be a valid email address.</span>
-  </div>
-  <edit-field ng-model="user.email" name="email" label="Email*" type="email" object-id="user.id"></edit-field>
-  
-  <edit-field ng-model="user.externalId" name="externalId" label="External ID*" type="text" object-id="user.id"></edit-field>
-
-  <div class="edit-field">
-    <input type="button" class="btn" ng-click="resetPassword()" value="Reset Password" />
+  <div class="input-group">
+    <label>First Name</label>
+    <div class="error" ng-show="userForm.firstName.$touched && userForm.firstName.$invalid">Please enter a first name.</div>
+    <input ng-model="user.firstName" name="firstName" type="text"></input>
   </div>
 
-  <edit-field-drop-down ng-model="user.role" name="role" object-id="user.id" default-text="Select role">
-    <i class="fa fa-star-o"></i>
+  <div class="input-group">
+    <label>Last Name</label>
+    <div class="error" ng-show="userForm.lastName.$touched && userForm.lastName.$invalid">Please enter a last name.</div>
+    <input ng-model="user.lastName" name="lastName" type="text"></input>
+  </div>
+
+  <div class="input-group">
+    <label>Display Name</label>
+    <div class="error" ng-show="userForm.displayName.$touched && userForm.displayName.$invalid">Please enter a display name.</div>
+    <input ng-model="user.displayName" name="displayName" type="text"></input>
+  </div>
+
+  <div class="input-group">
+    <label>Email</label>
+    <div class="error" ng-show="userForm.email.$touched && userForm.email.$invalid">
+      <span ng-show="userForm.email.$error.required">Please enter an email.</span>
+      <span ng-show="userForm.email.$error.email">Must be a valid email address.</span>
+    </div>
+    <input ng-model="user.email" name="email" type="email" ></input>
+  </div>
+
+  <div class="input-group">
+    <label>External ID</label>
+    <input ng-model="user.externalId" name="externalId" type="text"></input>
+  </div>
+
+  <div class="input-group">
     <label>Role</label>
-  </edit-field-drop-down>
+    <select ng-model="user.role" name="externalId" type="text">
+      <option>Admin</option>
+      <option>User</option>
+      <option>Other</option>
+    </select>
+  </div>
 
-  <tabset>
-    <tab id="extension-tab" heading="Extensions">
-      <edit-field ng-model="user.extensions.primary" name="user.extensions.primary" label="Primary:" placeholder="Search..." type="text" object-id="user.id"></edit-field>
-      <edit-field ng-model="user.extensions.secondary" name="user.extensions.secondary" label="Secondary:" placeholder="Search..." type="text" object-id="user.id"></edit-field>
-    </tab>
-    <tab heading="Addresses">
-    </tab>
-    <tab heading="Skills">
-      <div id="user-skill-input-pane">
-        <span>
-          <input id="user-skill-search-box" type="text">
-          <select ng-model="user.role" ng-options="n for n in [] | range:1:100">
-            <option value=""></option>
-          </select>
-        </span>
-      </div>
-      <div id="user-skill-list-pane" ng-repeat="skill in user.skills">
-        <div class="user-skill-bubble">
-          <span class="user-skill-name">{{skill.name}}</span>
-          <span class="user-skill-proficiency">{{skill.proficiency}}</span>
-        </div>
-      </div>
-    </tab>
-    <tab heading="Groups">
-    </tab>
-  </tabset>
 
+  <input type="submit" value="Submit" />
 </form>

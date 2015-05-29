@@ -1,27 +1,8 @@
 <div class="side-menu"><i class="fa fa-angle-double-left"></i></div>
-<div new-user ng-show="showModal"></div>
 
 <div class="user-list-container">
   <div id="left-panel" class="left-panel">
-    <div class="action-container">
-      <div>
-        <input type="text" name='queryUserInput' ng-model="queryUser" placeholder="Search">
-      </div>
-      <div>
-        <button class="btn btn-primary btn-create" ng-click="showModalSection()">Create</button>
-      </div>
-
-      <div class="actions">
-        <div>
-          <select-actions users="users"></select-actions>
-        </div>
-        <div class="btn-group" ng-disabled="{{! hasChecked}}">
-          <batch-buttons users="users"></batch-buttons>
-        </div>
-      </div>
-    </div>
-
-    <user-table users="users" parent-filter="doSearchFilter"></user-table>
+    <user-table></user-table>
     <resize-handle ng-show="!!selectedUser" right-element-id="right-panel" left-element-id="left-panel" left-min-width="600" right-min-width="600" ></resize-handle>
   </div>
 

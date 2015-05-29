@@ -10,45 +10,45 @@
             <div class="error" ng-show="createUserForm.firstName.$touched && createUserForm.firstName.$invalid">
               Please enter a first name.
             </div>
-            <input name="firstName" type="text" ng-model="data.firstName" placeholder="First Name" required/>
+            <input name="firstName" type="text" ng-model="user.firstName" placeholder="First Name" required/>
           </div>
-  
+
           <div class="input-field-tile">
             <label>Last Name</label>
             <div class="error" ng-show="createUserForm.lastName.$touched && createUserForm.lastName.$invalid">
               Please enter a last name.
             </div>
-            <input name="lastName" type="text" ng-model="data.lastName" placeholder="Last Name" required/>
+            <input name="lastName" type="text" ng-model="user.lastName" placeholder="Last Name" required/>
           </div>
-  
+
           <div class="input-field-tile">
             <label>Display Name</label>
             <div class="error" ng-show="createUserForm.displayName.$touched && createUserForm.displayName.$invalid">
               Please enter a display name.
             </div>
-            <input name="displayName" type="text" ng-model="data.displayName" placeholder="Display Name" required/>
+            <input name="displayName" type="text" ng-model="user.displayName" placeholder="Display Name" required/>
           </div>
-  
+
           <div class="input-field-tile">
             <label>Password</label>
             <div class="error" ng-show="createUserForm.password.$touched && createUserForm.password.$invalid">
               Please assign a password.
             </div>
-            <input name="password" type="password" ng-model="data.password" placeholder="Password" required/>
+            <input name="password" type="password" ng-model="user.password" placeholder="Password" required/>
           </div>
-  
+
           <div class="input-field-tile">
             <label>Email</label>
             <div class="error" ng-show="createUserForm.email.$touched && createUserForm.email.$invalid">
               <span ng-show="createUserForm.email.$error.required">Please enter an email.</span>
               <span ng-show="createUserForm.email.$error.email">Must be a valid email address.</span>
             </div>
-            <input name="email" type="email" ng-model="data.email" placeholder="Email Address" required/>
+            <input name="email" type="email" ng-model="user.email" placeholder="Email Address" required/>
           </div>
-  
+
           <div class="input-field-tile">
             <label style="padding-top 5px">Status</label>
-            <toggle ng-model="data.status"></toggle>
+            <toggle ng-model="user.status"></toggle>
           </div>
         </form>
     </div>
