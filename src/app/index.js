@@ -6,6 +6,7 @@ angular.module('liveopsConfigPanel', ['ngRoute', 'ngResource', 'liveopsConfigPan
     .when('/', {
       templateUrl: 'app/components/users/users.html',
       controller: 'UsersController',
+      reloadOnSearch: false,
       secure: true
     })
     .when('/tenants', {

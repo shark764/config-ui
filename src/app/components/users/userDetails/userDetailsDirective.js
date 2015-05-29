@@ -12,7 +12,7 @@ angular.module('liveopsConfigPanel')
 
       link: function($scope) {
 
-        $scope.saveValues = function(user) {
+        $scope.trimmedUser = function(user) {
           return {
             firstName: user.firstName,
             lastName: user.lastName,
@@ -25,7 +25,7 @@ angular.module('liveopsConfigPanel')
         };
 
         $scope.save = function () {
-          UserService.update({id : $scope.user.id}, $scope.saveValues($scope.user));
+          UserService.update({id : $scope.user.id}, $scope.trimmedUser($scope.user));
         };
 
       }
