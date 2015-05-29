@@ -43,6 +43,5 @@ describe('NavbarController', function() {
         $scope.logout();
 
         expect(session.isAuthenticated).toBe(false);
-        expect($location.path()).toBe('/login');
     });
 });
