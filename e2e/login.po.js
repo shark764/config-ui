@@ -12,11 +12,7 @@ var Login = function() {
     this.emailLoginField.sendKeys(email);
     this.passwordLoginField.sendKeys(password);
     this.loginButton.click();
-<<<<<<< HEAD
   };
-=======
-  }; 
->>>>>>> d18a76e8d48367b3671df90aef81bf62c7a6d92c
 };
 
 module.exports = new Login();
