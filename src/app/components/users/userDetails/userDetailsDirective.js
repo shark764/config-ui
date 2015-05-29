@@ -23,11 +23,7 @@ angular.module('liveopsConfigPanel')
               password: 'blah'
             };
           };
-
-          if (!$scope.user) {
-            $scope.reset();
-          }
-
+          
           $scope.$on('user:create', function () {
             $scope.reset();
           });
