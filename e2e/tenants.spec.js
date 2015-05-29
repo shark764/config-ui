@@ -1,23 +1,21 @@
 'use strict';
 
 describe('The tenants view', function() {
-  var loginPage = require('pages.po.js'),
-    tenants = require('tenants.po.js'),
-    shared = require('shared.po.js');
+  var loginPage = require('./login.po.js'),
+    tenants = require('./tenants.po.js'),
+    shared = require('./shared.po.js');
 
   beforeEach(function() {
-    browser.get('http://localhost:3000/#/login');
     // Login
-    emailLogin.sendKeys('test@test.com');
-    passwordLogin.sendKeys('testpassword');
-    loginButton.click();
+    browser.get(shared.loginPageUrl);
+    loginPage.login(loginPage.emailLoginCreds, loginPage.passwordLoginCreds);
 
-    browser.get('http://localhost:3000/#/tenants');
+    browser.get(shared.tenantsPageUrl);
   });
 
   it('should include list of tenants, create tenant section and standard page components', function() {
-    expect(navBar.isDisplayed()).toBeTruthy();
-    expect(element(by.css('ul.ng-scope > li:nth-child(4)')).getText()).toBe('Tenants');
+    expect(shared.navBar.isDisplayed()).toBeTruthy();
+    expect(shared.tenantsNavButton.getText()).toBe('Tenants');
     // TODO Determine what should be displayed on initial page load
 
     // Tenants table columns

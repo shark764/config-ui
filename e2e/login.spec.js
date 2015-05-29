@@ -5,7 +5,7 @@ describe('The login view', function() {
     shared = require('./shared.po.js');
 
   beforeEach(function() {
-    browser.get('localhost:3000/#/login');
+    browser.get(shared.loginPageUrl);
   });
 
   it('should include header, login fields, and submit button', function() {
