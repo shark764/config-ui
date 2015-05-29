@@ -48,16 +48,20 @@
     <label>External ID</label>
     <input ng-model="user.externalId" name="externalId" type="text"></input>
   </div>
-
+  
   <div class="input-group">
     <label>Role</label>
-    <select ng-model="user.role" name="externalId" type="text">
-      <option>Admin</option>
-      <option>User</option>
-      <option>Other</option>
+    <select ng-model="user.role" name="role" ng-options="role.value as role.label for role in userRoles">
+      <option value="">Select Role</option>
     </select>
   </div>
-
+  
+  <div class="input-group">
+    <label>State</label>
+    <select ng-model="user.state" name="state" ng-options="state.value as state.display for state in userStates.filters">
+      <option value="">Select State</option>
+    </select>
+  </div>
 
   <input type="submit" value="Submit" />
 </form>
