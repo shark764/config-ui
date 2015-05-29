@@ -33,7 +33,7 @@ angular.module('liveopsConfigPanel')
 
         $scope.$on('user:created', function (event, user) {
           $scope.users.push(user);
-        })
+        });
       },
       templateUrl: 'app/components/users/userTable/userTable.html'
     };

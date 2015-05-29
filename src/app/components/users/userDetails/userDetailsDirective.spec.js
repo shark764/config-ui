@@ -1,10 +1,8 @@
 'use strict';
 
-/* global spyOn: false  */
 describe('userDetails directive', function () {
   var $scope,
-    $compile,
-    element;
+    $compile;
 
   beforeEach(module('liveopsConfigPanel'));
   beforeEach(module('gulpAngular'));

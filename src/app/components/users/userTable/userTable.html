@@ -4,7 +4,7 @@
 </div>
 
 <div id="user-table-options">
-  <filter-dropdown label="Columns" items="columns" show-preview="false"></filter-dropdown>
+  <filter-dropdown label="Columns" items="columns"></filter-dropdown>
 </div>
 
 <table class="user-table">
@@ -14,10 +14,10 @@
       <th ng-if="columns.filters.name.checked">Name</th>
       <th ng-if="columns.filters.id.checked">ID</th>
       <th ng-if="columns.filters.status.checked">
-        <filter-dropdown label="Status" items="statuses" with-all="true"></filter-dropdown>
+        <filter-dropdown label="Status" items="statuses"></filter-dropdown>
       </th>
       <th ng-if="columns.filters.state.checked">
-        <filter-dropdown label="State" items="states" with-all="true"></filter-dropdown>
+        <filter-dropdown label="State" items="states"></filter-dropdown>
       </th>
     </tr>
   </thead>

@@ -9,7 +9,7 @@
 
 <div class="dropdown-container">
   <div class="dropdown filter-dropdown" ng-hide="! showDrop">
-    <div class="all" ng-if="withAll">
+    <div class="all" ng-if="items.all">
       <input ng-model="items.all.checked" name="{{items.all.display}}" type="checkbox" ng-checked="{{items.all.checked}}" />
       <label for="{{items.all.value}}">{{items.all.display}}</label>
     </div>
