@@ -8,11 +8,11 @@
     },
     "filters": [{
       "display": "Disabled",
-      "value": "false",
+      "value": false,
       "checked": false
     }, {
       "display": "Enabled",
-      "value": "true",
+      "value": true,
       "checked": false
     }]
   },
@@ -47,5 +47,16 @@
       "value": "WRAP",
       "checked": false
     }]
-  }
+  },
+  "userRoles": [{
+      "value": "admin",
+      "label": "Admin"
+    }, {
+      "value": "user",
+      "label": "User"
+    }, {
+      "value": "other",
+      "label": "Other"
+    }
+  ]
 }
