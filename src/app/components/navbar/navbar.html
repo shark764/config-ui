@@ -9,12 +9,12 @@
         </select>
       </li>
       <li class="divider"></li>
-      <li ng-class="{ active: isActive('/')}"><a ng-href="#/">Users Management</a></li>
-      <li ng-class="{ active: isActive('/tenants')}"><a ng-href="#/tenants">Tenants</a></li>
+      <li ng-class="{ active: isActive('/')}"><a ng-href="#/">{{'navbar.users.title' | translate}}</a></li>
+      <li ng-class="{ active: isActive('/tenants')}"><a ng-href="#/tenants">{{'navbar.tenants.title' | translate}}</a></li>
     </ul>
 
     <div ng-switch-when="true">
-      Welcome back, {{ Session.fullName }}
+      <span translate="navbar.welcome" translate-value-name="{{Session.fullName}}"></span>
       <div>
         <i class="fa fa-sign-out" ng-click="logout()"></i>
       </div>
