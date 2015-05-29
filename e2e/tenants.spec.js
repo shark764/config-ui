@@ -1,10 +1,9 @@
 'use strict';
 
 describe('The tenants view', function() {
-  var navBar = element(by.css('nav')),
-    emailLogin = element(by.model('username')),
-    passwordLogin = element(by.model('password')),
-    loginButton = element(by.css('.login-btn'));
+  var loginPage = require('pages.po.js'),
+    tenants = require('tenants.po.js'),
+    shared = require('shared.po.js');
 
   beforeEach(function() {
     browser.get('http://localhost:3000/#/login');
