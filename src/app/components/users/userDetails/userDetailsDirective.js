@@ -37,7 +37,6 @@ angular.module('liveopsConfigPanel')
             lastName: user.lastName,
             role: user.role,
             externalId: user.externalId,
-            extensionId: user.extensionId,
             email: user.email,
             displayName: user.displayName,
             status: user.status,
