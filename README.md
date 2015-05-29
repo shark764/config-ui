@@ -17,9 +17,10 @@ Visual front-end for the LiveOps Configuration API.
 1. npm install -g gulp
 1. npm install
 1. bower install
-1. run the liveops api project (https://bluespurs.atlassian.net/wiki/display/LCP/Instructions+to+Download+Public+API+and+Run+for+Docker)
+1. if necessary, login to the docker.liveopslabs.com (if you need creds, please check confluence)
+1. docker run -it --privileged=true -v /var/lib/docker:/var/lib/docker -p 9080:9080 --name bs-api docker.liveopslabs.com/bs-api
 1. gulp serve
- 
+
 ## Team ##
 * John Benson (john.benson@bluespurs.com)
 * Phil Hachey (phil.hachey@bluespurs.com)
