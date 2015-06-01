@@ -1,11 +1,14 @@
 {
   "local": {
-    "apiHostname" : "http://192.168.59.103:9080"
+    "apiHostname": "http://192.168.59.103:9080"
   },
   "unitTest": {
-    "apiHostname" : "fakendpoint.com"
+    "apiHostname": "fakendpoint.com"
   },
   "test": {
-    "apiHostname" : "https://ec2-52-6-188-168.compute-1.amazonaws.com:9080"
+    "apiHostname": "https://ec2-52-6-188-168.compute-1.amazonaws.com:9080"
+  },
+  "staging": {
+    "apiHostname": "https://api.liveopslabs.com"
   }
 }
