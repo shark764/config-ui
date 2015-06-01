@@ -1,29 +1,27 @@
 .dropdown-label {
-	border: 1px solid transparent;
-	border-bottom: none;
-	cursor: pointer;
-	display: block;
-	padding: 5px;
+  > div {
+    display: inline-block;
+  }
+  border: 1px solid transparent;
+  border-bottom: none;
+  cursor: pointer;
+  padding: 5px;
 }
-
 .dropdown-label.selected {
-	border-color: $medium-grey;
+  border-color: $medium-grey;
 }
-	
 .filter-dropdown {
-    border: 1px solid$medium-grey;
-	min-width: 230px;
-	padding: 15px;
-	text-align: left;
-	top: 0;
+  border: 1px solid$medium-grey;
+  min-width: 230px;
+  padding: 15px;
+  text-align: left;
+  top: 0;
 }
-
 .filter-dropdown > div {
-	padding: 5px;
+  padding: 5px;
 }
-
 .filter-dropdown > .all {
-	border-bottom: 1px solid $medium-grey;
-	margin-bottom: 10px;
-	padding-bottom: 20px;
+  border-bottom: 1px solid $medium-grey;
+  margin-bottom: 10px;
+  padding-bottom: 20px;
 }

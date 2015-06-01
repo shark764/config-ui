@@ -29,7 +29,8 @@ module.exports = function(options) {
 
     var srcFiles = [
       options.src + '/app/**/*.js',
-      options.tmp + '/serve/app/**/*.js'
+      options.tmp + '/serve/app/**/*.js',
+      '!' + options.src + '/app/translation-loader.js',
     ].concat(specFiles.map(function(file) {
       return '!' + file;
     }));

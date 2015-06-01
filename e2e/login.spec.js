@@ -1,77 +1,68 @@
 'use strict';
 
-describe('The login view', function () {
-  var navBar = element(by.css('nav'));
-  var emailLogin = element(by.model('username'));
-  var passwordLogin = element(by.model('password'));
-  var loginButton = element(by.css('.login-btn'));
-  var logoutButton = element(by.css('.fa-sign-out'));
+describe('The login view', function() {
+  var loginPage = require('./login.po.js'),
+    shared = require('./shared.po.js');
 
-  beforeEach(function () {
-    browser.get('http://localhost:3000/#/login');
+  beforeEach(function() {
+    browser.get(shared.loginPageUrl);
   });
 
   it('should include header, login fields, and submit button', function() {
-    expect(navBar.isDisplayed()).toBeTruthy();
+    expect(shared.navBar.isDisplayed()).toBeTruthy();
 
-    expect(emailLogin.isDisplayed()).toBeTruthy();
-    expect(emailLogin.getAttribute('placeholder')).toBe('joe.blo@example.com')
-    expect(emailLogin.getAttribute('type')).toBe('text');
+    expect(loginPage.emailLoginField.isDisplayed()).toBeTruthy();
+    expect(loginPage.emailLoginField.getAttribute('placeholder')).toBe('joe.blo@example.com')
+    expect(loginPage.emailLoginField.getAttribute('type')).toBe('text');
 
-    expect(passwordLogin.isDisplayed()).toBeTruthy();
-    expect(passwordLogin.getAttribute('placeholder')).toBe('*********')
-    expect(passwordLogin.getAttribute('type')).toBe('password');
+    expect(loginPage.passwordLoginField.isDisplayed()).toBeTruthy();
+    expect(loginPage.passwordLoginField.getAttribute('placeholder')).toBe('*********')
+    expect(loginPage.passwordLoginField.getAttribute('type')).toBe('password');
 
-    expect(loginButton.getAttribute('value')).toBe('Login');
+    expect(loginPage.loginButton.getAttribute('value')).toBe('Login');
   });
 
-  it('should redirect after successful login', function () {
-    emailLogin.sendKeys('test@test.com');
-    passwordLogin.sendKeys('testpassword');
-    loginButton.click();
-
-    expect(browser.getCurrentUrl()).toBe('http://localhost:3000/#/');
+  it('should redirect after successful login', function() {
+    loginPage.login(loginPage.emailLoginCreds, loginPage.passwordLoginCreds);
+    expect(browser.getCurrentUrl()).toBe(shared.mainUrl);
   });
 
-  it('should require email and password input', function () {
-    expect(emailLogin.getAttribute('required')).toBeTruthy();
-    expect(passwordLogin.getAttribute('required')).toBeTruthy();
+  it('should require email and password input', function() {
+    expect(loginPage.emailLoginField.getAttribute('required')).toBeTruthy();
+    expect(loginPage.passwordLoginField.getAttribute('required')).toBeTruthy();
 
-    loginButton.click();
-    expect(browser.getCurrentUrl()).toBe('http://localhost:3000/#/login');
+    // No login credentials input
+    loginPage.login('', '');
+    expect(browser.getCurrentUrl()).toBe(shared.loginPageUrl);
 
-    emailLogin.sendKeys('test@test.com');
-    loginButton.click();
-    expect(browser.getCurrentUrl()).toBe('http://localhost:3000/#/login');
+    // Email only
+    loginPage.login(loginPage.emailLoginCreds, '');
+    expect(browser.getCurrentUrl()).toBe(shared.loginPageUrl);
 
-    emailLogin.clear();
-    passwordLogin.sendKeys('testpassword');
-    loginButton.click();
-    expect(browser.getCurrentUrl()).toBe('http://localhost:3000/#/login');
+    // Password only
+    loginPage.emailLoginField.clear();
+    loginPage.login('', loginPage.passwordLoginCreds);
+    expect(browser.getCurrentUrl()).toBe(shared.loginPageUrl);
   });
 
-  it('should display error message after unsuccessful login', function () {
+  it('should display error message after unsuccessful login', function() {
     // TODO
   });
 
-  it('should display user\'s name after successful login', function () {
-    emailLogin.sendKeys('test@test.com');
-    passwordLogin.sendKeys('testpassword');
-    loginButton.click();
-    expect(browser.getCurrentUrl()).toBe('http://localhost:3000/#/');
+  it('should display user\'s name after successful login', function() {
+    loginPage.login(loginPage.emailLoginCreds, loginPage.passwordLoginCreds);
+    expect(browser.getCurrentUrl()).toBe(shared.mainUrl);
 
     // TO DO: Update to match current logged in user's name
-    expect(element(by.css('div.ng-binding:nth-child(3)')).getText()).toContain('Welcome back');
+    expect(shared.welcomeMessage.getText()).toContain('Welcome back');
   });
 
-  it('should redirect to login page after logout', function () {
-    emailLogin.sendKeys('test@test.com');
-    passwordLogin.sendKeys('testpassword');
-    loginButton.click();
-    expect(browser.getCurrentUrl()).toBe('http://localhost:3000/#/');
+  it('should redirect to login page after logout', function() {
+    loginPage.login(loginPage.emailLoginCreds, loginPage.passwordLoginCreds);
+    expect(browser.getCurrentUrl()).toBe(shared.mainUrl);
 
-    logoutButton.click();
-    expect(browser.getCurrentUrl()).toBe('http://localhost:3000/#/login');
+    shared.logoutButton.click();
+    expect(browser.getCurrentUrl()).toBe(shared.loginPageUrl);
   });
 
 });

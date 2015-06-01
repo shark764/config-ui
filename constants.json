@@ -1,5 +1,5 @@
 {
-  "sessionKey" : "LIVEOPS-SESSION-KEY",
+  "sessionKey": "LIVEOPS-SESSION-KEY",
   "userStatuses": {
     "all": {
       "display": "All",
@@ -58,5 +58,29 @@
       "value": "other",
       "label": "Other"
     }
-  ]
+  ],
+  "columns": {
+    "filters": {
+      "name": {
+        "display": "Name",
+        "value": "name",
+        "checked": true
+      },
+      "id": {
+        "display": "ID",
+        "value": "id",
+        "checked": true
+      },
+      "status": {
+        "display": "Status",
+        "value": "status",
+        "checked": true
+      },
+      "state": {
+        "display": "State",
+        "value": "state",
+        "checked": true
+      }
+    }
+  }
 }

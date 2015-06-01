@@ -1,32 +1,17 @@
 .user-state {
-	width: 100%;
-	text-align: center;
-	height:100%;
+  .ready { 
+    color: #04BD60;
+  }
 
-	span {
-		display:block;
-		width: 100%;
-		padding: 3px;
-		@include border-radius(5px);
-		text-transform: uppercase;
-		font-size: 0.8em;
-		font-weight: bold;
-		box-sizing: border-box;
-	}
+  .busy {
+    color: red;
+  }
 
-	.ready {
-		color: #FFFFFF;
-		background-color: #04BD60;
-	}
-
-	.busy {
-		color: #FFFFFF;
-		background-color: $medium-grey;
-	}
-
-	.not-ready {
-		color: $medium-grey;
-		background-color: #FFFFFF;
-		border: 1px solid $medium-grey;
-	}
+  .not-ready {
+    color: $medium-grey;
+  }
+  
+  .wrap {
+    color: #FEA955;
+  }
 }

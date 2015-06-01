@@ -6,14 +6,12 @@
       <td>ID</td>
       <td>Name</td>
       <td>Admin ID</td>
-      <td>Admin Name</td>
       <td>Status</td>
     </thead>
     <tr ng-repeat="tenant in tenants" >
       <td style="border: 1px solid black;">{{tenant.id}}</td>
       <td style="border: 1px solid black;"><a ng-href="#/tenants?id={{tenant.id}}">{{tenant.name}}</a></td>
-      <td style="border: 1px solid black;">{{tenant.adminId}}</td>
-      <td style="border: 1px solid black;">{{tenant.adminName}}</td>
+      <td style="border: 1px solid black;">{{tenant.adminUserId}}</td>
       <td style="border: 1px solid black;">{{tenant.status}}</td>
     </tr>
   </table>
@@ -34,14 +32,13 @@
         <option ng-repeat="region in regions" value="{{region.id}}">{{region.name}}</option>
       </select>
     </div>
-    <div ng-show="!!tenant.id">Tenant Admin :
-      <select ng-model="tenant.adminId">
+    <div >Tenant Admin :
+      <select ng-model="tenant.adminUserId">
         <option ng-repeat="user in users" value="{{user.id}}">{{user.displayName}}</option>
       </select>
     </div>
     <div>Parent Tenant:
-      <select>
-        <option value=""></option>
+      <select ng-model="tenant.parentId">
         <option ng-repeat="tenant in tenants" value="{{tenant.id}}">{{tenant.name}}</option>
       </select>
     </div>

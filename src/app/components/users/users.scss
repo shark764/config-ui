@@ -1,11 +1,9 @@
-
 .user-list-container {
   position: absolute;
   left: $side-menu-width;
   bottom: 0;
   right: 0;
   top: $navbar-height;
-
 
   .left-panel {
     border-right: 1px solid $medium-grey;
@@ -18,7 +16,6 @@
     position: absolute;
     width: 600px;
   }
-
   .right-panel {
     display:table-cell;
     height: 100%;
@@ -27,13 +24,10 @@
     right: 0;
     left: 600px;
   }
-
-
 }
-
 .side-menu {
-  background-color: #F2F2F2;
-  color: #999999;
+  background-color: #f2f2f2;
+  color: #999;
   font-size: 1.5em;
   top: $navbar-height;
   bottom: 0px;

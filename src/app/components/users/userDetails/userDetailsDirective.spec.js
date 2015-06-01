@@ -4,46 +4,60 @@
 describe('userDetails directive', function () {
   var $scope,
     $compile,
-    element;
+    element,
+    user,
+    isolateScope,
+    UserService;
 
   beforeEach(module('liveopsConfigPanel'));
   beforeEach(module('gulpAngular'));
 
-  beforeEach(inject(['$compile', '$rootScope', function (_$compile_, _$rootScope_) {
+  beforeEach(inject(['$compile', '$rootScope', 'UserService', function (_$compile_, _$rootScope_, _UserService_) {
     $scope = _$rootScope_.$new();
     $compile = _$compile_;
-  }]));
-
-  var user = {
-    firstName: 'Don',
-    lastName: 'Cherry',
-    displayName: 'Don C.',
-    state: 'offline',
-    createdBy: '32jasdlfjk-23ljdsfa',
-    created: '2015-08-01'
-  };
-  
-  it('should have display bindings equal to scope', inject(function () {
-    var element = $compile('<user-details user="user" display="display"></user-details>')($scope);
-    $scope.$digest();
+    UserService = _UserService_;
+    
+    user =  {
+        firstName: 'Don',
+        lastName: 'Cherry',
+        displayName: 'Don C.',
+        state: 'offline',
+        createdBy: '32jasdlfjk-23ljdsfa',
+        created: '2015-08-01'
+      };
     
     $scope.user = user;
-    $scope.$apply();
     
-    var fullNameDisplayElement = element.find('#user-details-header-name h1');
-    expect(fullNameDisplayElement.length).toEqual(1);
-    expect(fullNameDisplayElement.text()).toEqual('Don Cherry');
+    element = $compile('<user-details user="user">')($scope);
+    $scope.$digest();
+    isolateScope = element.isolateScope();
+  }]));
 
-    var displayNameDisplayElement = element.find('#user-details-header-name span h2');
-    expect(displayNameDisplayElement.length).toEqual(1);
-    expect(displayNameDisplayElement.text()).toEqual('Don C.');
-
-    var createdByDisplayElement = element.find('#user-details-header-name .state-description:first');
-    expect(createdByDisplayElement.length).toEqual(1);
-    expect(createdByDisplayElement.html()).toEqual('User Created by <b>{John Doh}</b> on <b class="ng-binding">2015-08-01</b>');
-
-    var enabledByDisplayElement = element.find('#user-details-header-name .state-description:last');
-    expect(createdByDisplayElement.length).toEqual(1);
-    expect(enabledByDisplayElement.html()).toEqual('Enabled by <b>{John Doh}</b> on <b class="ng-binding">2015-08-01</b>');
+  it('should catch the user:create event and reset', inject(function() {
+    spyOn(isolateScope, 'reset');
+    $scope.$broadcast('user:create');
+    expect(isolateScope.reset).toHaveBeenCalled();
   }));
+
+  it('should have states, statuses, roles', inject(function() {
+    expect(isolateScope.userStates).toBeDefined();
+    expect(isolateScope.userStatuses).toBeDefined();
+    expect(isolateScope.userRoles).toBeDefined();
+  }));
+  
+  describe('save function', function () {
+    it('should update the user if the user already exists', inject(function() {
+      spyOn(UserService, 'update').and.callThrough();
+      
+      $scope.user.id = '1234';
+      isolateScope.save();
+      expect(UserService.update).toHaveBeenCalled();
+    }));
+    
+    it('should add a new user if the user doesn\'t yet exist', inject(function() {
+      spyOn(UserService, 'save').and.callThrough();
+      isolateScope.save();
+      expect(UserService.save).toHaveBeenCalled();
+    }));
+  });
 });

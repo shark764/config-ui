@@ -21,6 +21,8 @@ Visual front-end for the LiveOps Configuration API.
 1. docker run -it --privileged=true -v /var/lib/docker:/var/lib/docker -p 9080:9080 --name bs-api docker.liveopslabs.com/bs-api
 1. gulp serve
 
+*To configure the API end-point, you can change the app/env.js apiHostname.
+
 ## Team ##
 * John Benson (john.benson@bluespurs.com)
 * Phil Hachey (phil.hachey@bluespurs.com)

@@ -1,0 +1,23 @@
+{
+  "value.submit": "Submit",
+  
+  "navbar.users.title": "User Management",
+  "navbar.tenants.title": "Tenants",
+  "navbar.welcome": "Welcome back, {{name}}",
+  
+  "details.user.createdby": "User created by {{creator}} at {{date}}",
+  "details.user.enabledby": "User enabled by {{enabler}} at {{date}}",
+  "details.firstName": "First Name",
+  "details.firstName.error": "Please enter a first name",
+  "details.lastName": "Last Name",
+  "details.lastName.error": "Please enter a last name",
+  "details.displayName": "Display Name",
+  "details.displayName.error": "Please enter a display name",
+  "details.email": "Email",
+  "details.email.error": "Please enter an email address",
+  "details.email.invalid": "Must be a valid email address",
+  "details.password": "Password",
+  "details.password.error": "Please enter a password",
+  "details.externalId": "External ID",
+  "details.role": "Role"
+}

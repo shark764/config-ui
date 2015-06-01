@@ -10,52 +10,57 @@
       <h2>{{user.displayName}}</h2>
       <user-state state="{{user.state}}" />
     </span>
-    <div class="state-description">User Created by <b>{John Doh}</b> on <b>{{user.created}}</b></div>
-    <div class="state-description">Enabled by <b>{John Doh}</b> on <b>{{user.created}}</b></div>
+    <div class="state-description"><b translate="details.user.createdby" translate-value-date="{{user.created | date:'medium'}}" translate-value-creator="John Doe"></b></div>
+    <div class="state-description"><b translate="details.user.enabledby" translate-value-date="{{user.created | date:'medium'}}" translate-value-enabler="John Doe"></b></div>
   </div>
 </div>
 
 <form name="userForm" ng-submit="save()">
 
   <div class="input-group">
-    <label>First Name</label>
-    <div class="error" ng-show="userForm.firstName.$touched && userForm.firstName.$invalid">Please enter a first name.</div>
+    <label>{{'details.firstName' | translate}}</label>
+    <div class="error" ng-show="userForm.firstName.$touched && userForm.firstName.$invalid">{{'details.firstName.error' | translate}}</div>
     <input ng-model="user.firstName" name="firstName" type="text"></input>
   </div>
 
   <div class="input-group">
-    <label>Last Name</label>
-    <div class="error" ng-show="userForm.lastName.$touched && userForm.lastName.$invalid">Please enter a last name.</div>
+    <label>{{'details.lastName' | translate}}</label>
+    <div class="error" ng-show="userForm.lastName.$touched && userForm.lastName.$invalid">{{'details.lastName.error' | translate}}</div>
     <input ng-model="user.lastName" name="lastName" type="text"></input>
   </div>
 
   <div class="input-group">
-    <label>Display Name</label>
-    <div class="error" ng-show="userForm.displayName.$touched && userForm.displayName.$invalid">Please enter a display name.</div>
+    <label>{{'details.displayName' | translate}}</label>
+    <div class="error" ng-show="userForm.displayName.$touched && userForm.displayName.$invalid">{{'details.displayName.error' | translate}}</div>
     <input ng-model="user.displayName" name="displayName" type="text"></input>
   </div>
 
   <div class="input-group">
-    <label>Email</label>
+    <label>{{'details.email' | translate}}</label>
     <div class="error" ng-show="userForm.email.$touched && userForm.email.$invalid">
-      <span ng-show="userForm.email.$error.required">Please enter an email.</span>
-      <span ng-show="userForm.email.$error.email">Must be a valid email address.</span>
+      <span ng-show="userForm.email.$error.required">{{'details.email.error' | translate}}</span>
+      <span ng-show="userForm.email.$error.email">{{'details.email.invalid' | translate}}</span>
     </div>
     <input ng-model="user.email" name="email" type="email" ></input>
   </div>
+  
+   <div class="input-group">
+    <label>{{'details.password' | translate}}</label>
+    <input ng-model="user.password" name="password" type="password"></input>
+  </div>
 
   <div class="input-group">
-    <label>External ID</label>
+    <label>{{'details.externalId' | translate}}</label>
     <input ng-model="user.externalId" name="externalId" type="text"></input>
   </div>
-  
+
   <div class="input-group">
-    <label>Role</label>
+    <label>{{'details.role' | translate}}</label>
     <select ng-model="user.role" name="role" ng-options="role.value as role.label for role in userRoles">
       <option value="">Select Role</option>
     </select>
   </div>
-  
+
   <div class="input-group">
     <label>State</label>
     <select ng-model="user.state" name="state" ng-options="state.value as state.display for state in userStates.filters">
@@ -63,5 +68,6 @@
     </select>
   </div>
 
-  <input type="submit" value="Submit" />
+  <input id='submit-user-form' type="submit" value="Submit" />
+
 </form>
