@@ -46,16 +46,16 @@ describe('userDetails directive', function () {
   }));
   
   describe('save function', function () {
-    xit('should update the user if the user already exists', inject(function() {
-      spyOn(UserService, 'update');
+    it('should update the user if the user already exists', inject(function() {
+      spyOn(UserService, 'update').and.callThrough();
       
       $scope.user.id = '1234';
       isolateScope.save();
       expect(UserService.update).toHaveBeenCalled();
     }));
     
-    xit('should add a new user if the user doesn\'t yet exist', inject(function() {
-      spyOn(UserService, 'save');
+    it('should add a new user if the user doesn\'t yet exist', inject(function() {
+      spyOn(UserService, 'save').and.callThrough();
       isolateScope.save();
       expect(UserService.save).toHaveBeenCalled();
     }));
