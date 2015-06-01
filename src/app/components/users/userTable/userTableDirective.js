@@ -9,6 +9,7 @@ angular.module('liveopsConfigPanel')
         $scope.states = userStates;
         $scope.statuses = userStatuses;
         $scope.columns = columns;
+        $scope.filteredUsers = [];
         
         UserService.query(function (data) {
           $scope.users = data.result;
@@ -22,6 +23,13 @@ angular.module('liveopsConfigPanel')
           }
         });
 
+        $scope.$watchCollection(function(){ return $scope.filteredUsers;}, function(newList, oldList){
+          //Only replace the selected user if the old one got excluded via filtering.
+          if (newList && newList.indexOf($scope.selectedUser) === -1){
+            $scope.selectedUser = $scope.filteredUsers[0];
+          }
+        })
+        
         $scope.selectUser = function (user) {
           $scope.selectedUser = user;
           $location.search({

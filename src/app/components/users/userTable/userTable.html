@@ -23,7 +23,7 @@
   </thead>
 
   <tbody>
-    <tr ng-repeat="user in users | userFilter:statuses:'status' | userFilter:states:'state' | search:['firstName','lastName']:searchQuery | orderBy:'lastName'"
+    <tr ng-repeat="user in filteredUsers = (users | userFilter:statuses:'status' | userFilter:states:'state' | search:['firstName','lastName']:searchQuery | orderBy:'lastName')"
       ng-click="selectUser(user)"
       ng-class="{selected: user.id === selectedUser.id}">
       <td>

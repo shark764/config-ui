@@ -16,6 +16,8 @@
   "details.email": "Email",
   "details.email.error": "Please enter an email address",
   "details.email.invalid": "Must be a valid email address",
+  "details.password": "Password",
+  "details.password.error": "Please enter a password",
   "details.externalId": "External ID",
   "details.role": "Role"
 }
