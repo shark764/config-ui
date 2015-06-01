@@ -23,12 +23,12 @@ angular.module('liveopsConfigPanel')
           }
         });
 
-        $scope.$watchCollection(function(){ return $scope.filteredUsers;}, function(newList, oldList){
+        $scope.$watchCollection(function(){ return $scope.filteredUsers;}, function(newList){
           //Only replace the selected user if the old one got excluded via filtering.
           if (newList && newList.indexOf($scope.selectedUser) === -1){
             $scope.selectedUser = $scope.filteredUsers[0];
           }
-        })
+        });
         
         $scope.selectUser = function (user) {
           $scope.selectedUser = user;

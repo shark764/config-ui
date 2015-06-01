@@ -32,6 +32,17 @@ describe('filterDropdown directive', function(){
     expect(angular.element(allCheckbox)).toBeTruthy();
   }));
   
+  it('should not add the all field if the filters dont provide one', inject(function() {
+    var newStatuses = {filters : [{display: 'Disabled', value: 'false', checked: false}, {display: 'Enabled', value : 'true', checked: false}]};
+    $scope.newStatuses = newStatuses;
+    
+    element = $compile('<filter-dropdown label="Some Label" items="newStatuses"></filter-dropdown>')($scope);
+    $scope.$digest();
+    
+    var allContainer = element[0].querySelectorAll('.all');
+    expect(allContainer.length).toEqual(0);
+  }));
+  
   it('should uncheck the "all" value when a filter is enabled', inject(function() {
     expect($scope.statuses.all.checked).toBe(true);
     
@@ -71,5 +82,21 @@ describe('filterDropdown directive', function(){
     element.find('a').click();
     var dropdown = element[0].querySelectorAll('.dropdown');
     expect(angular.element(dropdown).hasClass('ng-hide')).toBe(true);
+  }));
+  
+  it('should update the item.checked value when the check wrapper div is clicked', inject(function() {
+    $scope.statuses.all.checked = true;
+    var allContainer = element[0].querySelectorAll('.all');
+    var allElement = angular.element(allContainer);
+    
+    allElement.click();
+    expect($scope.statuses.all.checked).toBeFalsy();
+    
+    $scope.statuses.filters[0].checked = true;
+    var filterContainer = element[0].querySelectorAll('.dropdown-option');
+    var filterElement = angular.element(filterContainer[0]);
+    
+    filterElement.click();
+    expect($scope.statuses.filters[0].checked).toBeFalsy();
   }));
 });
