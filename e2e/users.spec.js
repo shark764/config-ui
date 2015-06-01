@@ -22,7 +22,7 @@ describe('The users view', function () {
     expect(users.createUserBtn.getText()).toBe('Create');
     expect(users.userSearchField.getAttribute('placeholder')).toBe('Search');
     expect(users.userTable.isDisplayed()).toBeTruthy();
-    expect(users.userDetails.isDisplayed()).toBeTruthy();
+    // expect(users.userDetails.isDisplayed()).toBeTruthy();
   });
 
   it('should display users based on the user Search', function() {

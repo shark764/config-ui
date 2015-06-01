@@ -3,32 +3,38 @@
   <button id='create-user-btn' class="btn btn-primary btn-create" ng-click="createUser()">Create</button>
 </div>
 
+<div id="user-table-options">
+  <filter-dropdown label="Columns" items="columns"></filter-dropdown>
+</div>
+
 <table class="user-table">
   <thead>
     <tr>
       <th>&nbsp;</th>
-      <th>Name</th>
-      <th>ID</th>
-      <th>
+      <th ng-if="columns.filters.name.checked">Name</th>
+      <th ng-if="columns.filters.id.checked">ID</th>
+      <th ng-if="columns.filters.status.checked">
         <filter-dropdown label="Status" items="statuses"></filter-dropdown>
       </th>
-      <th>
+      <th ng-if="columns.filters.state.checked">
         <filter-dropdown label="State" items="states"></filter-dropdown>
       </th>
     </tr>
   </thead>
 
   <tbody>
-    <tr ng-repeat="user in users | userFilter:statuses:'status' | userFilter:states:'state' | search:['firstName','lastName']:searchQuery | orderBy:'lastName'" ng-click="selectUser(user)" ng-class="{selected: user.id === selectedUser.id}">
+    <tr ng-repeat="user in users | userFilter:statuses:'status' | userFilter:states:'state' | search:['firstName','lastName']:searchQuery | orderBy:'lastName'"
+      ng-click="selectUser(user)"
+      ng-class="{selected: user.id === selectedUser.id}">
       <td>
         <input type="checkbox" ng-model="user.checked" />
       </td>
-      <td>{{user.firstName}} {{user.lastName}}</td>
-      <td>{{user.externalId}}</td>
-      <td>
+      <td ng-if="columns.filters.name.checked">{{user.firstName}} {{user.lastName}}</td>
+      <td ng-if="columns.filters.id.checked">{{user.externalId}}</td>
+      <td ng-if="columns.filters.status.checked">
         <span ng-class="{disabled : ! user.status}">{{user.status ? 'Enabled' : 'Disabled'}}</span>
       </td>
-      <td>
+      <td ng-if="columns.filters.state.checked">
         <div user-state state="{{user.state}}"></div>
       </td>
     </tr>

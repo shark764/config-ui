@@ -9,7 +9,7 @@ var Shared = function() {
 
   // Elements that are present on all pages: navbar, etc.
   this.navBar = element(by.css('.navbar'));
-  this.welcomeMessage = element(by.css('div.ng-binding:nth-child(3)'));
+  this.welcomeMessage = element(by.css('.navbar > div:nth-child(3) > span:nth-child(1)'));
   this.logoutButton = element(by.css('.fa-sign-out'));
   this.siteNavLogo = element(by.css('.navbar > a:nth-child(1)'));
   this.tenantsNavDropdown = element(by.model('activeTenant'));

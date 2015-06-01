@@ -1,24 +1,25 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('userTable', ['$location', '$routeParams', '$filter', 'userStates', 'userStatuses', 'UserService', function ($location, $routeParams, $filter, userStates, userStatuses, UserService) {
+  .directive('userTable', ['$location', '$routeParams', '$filter', 'userStates', 'userStatuses', 'columns', 'UserService', 
+    function ($location, $routeParams, $filter, userStates, userStatuses, columns, UserService) {
     return {
       restrict: 'E',
       link: function ($scope) {
         $scope.states = userStates;
         $scope.statuses = userStatuses;
-        $scope.selectedUser = null;
-        $scope.filteredUsers = []; // set by the ng-repeat on table
-        $scope.users = [];
-
+        $scope.columns = columns;
+        
         UserService.query(function (data) {
           $scope.users = data.result;
+          
+          if($routeParams.id) {
+            var activeUser = $filter('filter')($scope.users, {
+              id: $routeParams.id
+            })[0];
 
-          var activeUser = $filter('filter')($scope.users, {
-            id: $routeParams.id
-          })[0];
-
-          $scope.selectedUser = $routeParams.id ? activeUser : {};
+            $scope.selectedUser = activeUser;
+          }
         });
 
         $scope.selectUser = function (user) {
@@ -28,13 +29,13 @@ angular.module('liveopsConfigPanel')
           });
         };
 
-        $scope.createUser = function() {
+        $scope.createUser = function () {
           $scope.$broadcast('user:create');
         };
 
-        $scope.$on('user:created', function(event, user) {
+        $scope.$on('user:created', function (event, user) {
           $scope.users.push(user);
-        })
+        });
       },
       templateUrl: 'app/components/users/userTable/userTable.html'
     };

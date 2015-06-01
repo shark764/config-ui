@@ -46,15 +46,17 @@ angular.module('liveopsConfigPanel')
         }
 
         //Automatically uncheck "All" when another filter is selected
-        angular.forEach(scope.items.filters, function(state) {
-          scope.$watch(function() {
-            return state.checked;
-          }, function(newValue, oldValue) {
-            if (newValue && !oldValue) {
-              scope.items.all.checked = false;
-            }
+        if(scope.items.all){
+          angular.forEach(scope.items.filters, function(state) {
+            scope.$watch(function() {
+              return state.checked;
+            }, function(newValue, oldValue) {
+              if (newValue && !oldValue) {
+                scope.items.all.checked = false;
+              }
+            });
           });
-        });
+        }
       }
     };
    }])

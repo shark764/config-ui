@@ -14,7 +14,7 @@ describe('The navbar', function() {
     expect(shared.navBar.isDisplayed()).toBeTruthy();
     expect(shared.siteNavLogo.isDisplayed()).toBeTruthy();
     expect(shared.tenantsNavDropdown.isDisplayed()).toBeTruthy();
-    expect(shared.usersNavButton.getText()).toBe('Users Management');
+    expect(shared.usersNavButton.getText()).toBe('User Management');
     expect(shared.tenantsNavButton.getText()).toBe('Tenants');
     expect(shared.logoutButton.isDisplayed()).toBeTruthy();
     // TODO Add remaining page buttons as they are added
