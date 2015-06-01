@@ -2,9 +2,9 @@
 
 if [ -n "$1" ]
   then
-  sed -ri "s|http://localhost:9080|$1|g" /usr/share/nginx/html/app/env.js
+  sed -ri "s|http://localhost:9080|$1|g" /var/www/app/env.js
   printf "Contents of env.js:\n"
-  cat /usr/share/nginx/html/app/env.js
+  cat /var/www/app/env.js
 fi
 
 printf "\nNginx is running... Waiting for requests...\n"
