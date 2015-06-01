@@ -25,7 +25,7 @@ angular.module('liveopsConfigPanel')
         if (match){
           return item;
         }
-      };
+      }
       
       return undefined;
     };

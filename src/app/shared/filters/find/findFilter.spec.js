@@ -64,7 +64,7 @@ describe('find filter', function(){
     var result = filter(items, {id : '726555', color : 'red'});
     expect(result).toEqual(items[0]);
     
-    var result = filter(items, {id : '555', color : 'red'});
+    result = filter(items, {id : '555', color : 'red'});
     expect(result).toEqual(items[2]);
     
     result = filter(items, {id : '6', color : 'red'});
