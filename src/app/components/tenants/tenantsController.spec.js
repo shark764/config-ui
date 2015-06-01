@@ -9,7 +9,8 @@ describe('TenantsController', function() {
         regions,
         tenants,
         region2tenants,
-        users;
+        users,
+        routeParams;
 
     beforeEach(module('liveopsConfigPanel'));
     beforeEach(inject(['$rootScope', '$controller', '$injector', function($rootScope, _$controller_, $injector) {
@@ -61,65 +62,76 @@ describe('TenantsController', function() {
                   'name': 'ca-east-1'
                   }];
       tenants = [{'description': 'Test',
-                 'regionId': '1',
-                 'createdBy': '333',
-                 'updated': '2015-05-13T10:16:50Z',
-                 'name': 'Test',
-                 'adminUserId': '444',
-                 'created': '2015-05-13T10:08:48Z',
-                 'updatedBy': '333',
-                 'status': true,
-                 'id': 't1',
-                 'parentId': null},
+                   'regionId': '1',
+                   'name': 'Test',
+                   'id': 't1',
+                 },
                  {'description': 'A Tenant',
                    'regionId': '1',
-                   'createdBy': '333',
-                   'updated': '2015-05-13T10:16:50Z',
                    'name': 'A Tenant',
-                   'adminUserId': '444',
-                   'created': '2015-05-13T10:08:48Z',
-                   'updatedBy': '333',
-                   'status': true,
-                   'id': 't2',
-                   'parentId': null}];
+                   'id': 't2'
+                 }];
       
-      region2tenants = [{'description': 'Very Tenant',
-                  'regionId': '2',
-                  'createdBy': '333',
-                  'updated': '2015-05-13T10:16:50Z',
-                  'name': 'Very Tenant',
-                  'adminUserId': '444',
-                  'created': '2015-05-13T10:08:48Z',
-                  'updatedBy': '333',
-                  'status': true,
-                  'id': 't3',
-                  'parentId': null},
+      region2tenants = [
+                  {'description': 'Very Tenant',
+                    'regionId': '2',
+                    'name': 'Very Tenant',
+                    'id': 't3'
+                  },
                   {'description': 'Much Tenant',
                     'regionId': '2',
-                    'createdBy': '333',
-                    'updated': '2015-05-13T10:16:50Z',
                     'name': 'Much Tenant',
-                    'adminUserId': '444',
-                    'created': '2015-05-13T10:08:48Z',
-                    'updatedBy': '333',
-                    'status': true,
-                    'id': 't4',
-                    'parentId': null}];
+                    'id': 't4'
+                  }];
+      
+      routeParams = {};
       
       $httpBackend = $injector.get('$httpBackend');
       $httpBackend.when('GET', 'fakendpoint.com/v1/users').respond({'result' : users});
       $httpBackend.when('GET', 'fakendpoint.com/v1/regions').respond({'result' : regions});
       $httpBackend.when('GET', 'fakendpoint.com/v1/tenants?regionId=1').respond({'result' : tenants});
       $httpBackend.when('GET', 'fakendpoint.com/v1/tenants?regionId=2').respond({'result' : region2tenants});
-      $httpBackend.expectGET('fakendpoint.com/v1/users');
       
-      $controller('TenantsController', {'$scope': $scope});
+      $controller('TenantsController', {'$scope': $scope, '$routeParams' : routeParams});
       $httpBackend.flush();
     }]));
 
     it('should have users defined', function() {
         expect($scope.users).toBeDefined();
         expect($scope.users).toEqual(users);
+    });
+    
+    it('should have regions defined', function() {
+      expect($scope.regions).toBeDefined();
+      expect($scope.regions).toEqual(regions);
+    });
+    
+    it('should catch the routeUpdate event and set a new tenant', function() {
+      spyOn($scope, 'setTenant');
+      routeParams.id = 't2';
+      $scope.$broadcast('$routeUpdate');
+      expect($scope.setTenant).toHaveBeenCalledWith('t2');
+    });
+    
+    describe('saveSuccess function', function() {
+      it('should clear the tenant', function() {
+        $scope.tenant = tenants[0];
+        $scope.saveSuccess();
+        expect($scope.tenant).toEqual({});
+      });
+      
+      it('should refetch the list of tenants', function() {
+        spyOn($scope, 'fetch');
+        $scope.saveSuccess();
+        expect($scope.fetch).toHaveBeenCalled();
+      });
+    });
+    
+    describe('saveFailure function', function() {
+      it('should set the error message', function() {
+        $scope.saveFailure({data: 'some message'});
+        expect($scope.error).toEqual('some message');
+      });
     });
     
     describe('setTenants function', function() {

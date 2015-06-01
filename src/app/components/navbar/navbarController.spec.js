@@ -1,18 +1,16 @@
 'use strict';
 
 describe('NavbarController', function() {
-    var $scope, $location, $compile, $controller, authService, createController, session;
+    var $scope, $location, createController, session, $httpBackend;
 
     beforeEach(module('liveopsConfigPanel'));
 
-    beforeEach(inject(['$compile', '$rootScope', '$location', '$controller', 'AuthService', 'Session', function(_$compile_, _$rootScope_, _$location_, _$controller_, _authService_, _session_) {
+    beforeEach(inject(['$rootScope', '$location', '$controller', 'Session', '$httpBackend', function(_$rootScope_, _$location_, $controller, _session_, _$httpBackend_) {
       $scope = _$rootScope_.$new();
-      $compile = _$compile_;
       $location = _$location_;
-      $controller = _$controller_;
-      authService = _authService_;
       session = _session_;
-
+      $httpBackend = _$httpBackend_;
+      
       createController = function () {
           return $controller('NavbarController', {
               '$scope': $scope,
@@ -44,4 +42,13 @@ describe('NavbarController', function() {
 
         expect(session.isAuthenticated).toBe(false);
     });
+    
+    it('should load the tenants for the region', function() {
+      $httpBackend.when('GET', 'fakendpoint.com/v1/tenants?regionId=c98f5fc0-f91a-11e4-a64e-7f6e9992be1f').respond({'result' : [{id: 1}, {id: 2}]});
+      $httpBackend.expectGET('fakendpoint.com/v1/tenants?regionId=c98f5fc0-f91a-11e4-a64e-7f6e9992be1f');
+      createController();
+      $httpBackend.flush();
+      
+      expect($scope.tenants.length).toEqual(2);
+  });
 });
