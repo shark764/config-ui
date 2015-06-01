@@ -14,7 +14,7 @@ angular.module('liveopsConfigPanel')
           $scope.users = data.result;
           
           if($routeParams.id) {
-            var activeUser = $filter('filter')($scope.users, {
+            var activeUser = $filter('find')($scope.users, {
               id: $routeParams.id
             })[0];
 
