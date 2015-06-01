@@ -2,5 +2,8 @@ node_modules/
 bower_components/
 .sass-cache/
 .tmp/
-dist/
 .editorconfig
+src/
+e2e/
+gulp/
+
