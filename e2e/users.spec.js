@@ -1,44 +1,34 @@
 'use strict';
 
 describe('The users view', function () {
-  var Q = require("q");
-  var navBar = element(by.css('nav')),
-    emailLogin = element(by.model('username')),
-    passwordLogin = element(by.model('password')),
-    loginButton = element(by.css('.login-btn')),
-    queryUserField = element(by.model('queryUser')),
-    userTable = element(by.css('.user-table')),
-    userDetails = element(by.id('user-details-container')),
-    statusDropDown = element(by.css('.user-table > thead:nth-child(1) > tr:nth-child(1) > th:nth-child(3) > dropdown:nth-child(1)')),
-    stateDropDown = element(by.css('.user-table > thead:nth-child(1) > tr:nth-child(1) > th:nth-child(4) > dropdown:nth-child(1)')),
+  var loginPage = require('./login.po.js'),
+    shared = require('./shared.po.js'),
+    users = require('./users.po.js'),
     userQueryText,
     statusFilterText,
     userCount;
 
   beforeEach(function () {
-    browser.get('http://localhost:3000/#/login');
     // Login
-    emailLogin.sendKeys('test@test.com');
-    passwordLogin.sendKeys('testpassword');
-    loginButton.click();
+    browser.get(shared.loginPageUrl);
+    loginPage.login(loginPage.emailLoginCreds, loginPage.passwordLoginCreds);
 
-    browser.get('http://localhost:3000/#/users');
-    userCount = element.all(by.repeater('user in users')).count();
+    browser.get(shared.usersPageUrl);
+    userCount = users.userElements.count();
   });
 
   it('should include users management page components', function() {
-    expect(navBar.isDisplayed()).toBeTruthy();
-    expect(element(by.css('li.active:nth-child(3) > a:nth-child(1)')).getText()).toBe('Users Management');
-    expect(element(by.css('#left-panel > div:nth-child(1) > button:nth-child(1)')).getText()).toBe('Create New User');
-    expect(queryUserField.getAttribute('placeholder')).toBe('Search');
-    expect(userTable.isDisplayed()).toBeTruthy();
-    expect(userDetails.isDisplayed()).toBeFalsy();
+    expect(shared.navBar.isDisplayed()).toBeTruthy();
+    expect(users.createUserBtn.getText()).toBe('Create');
+    expect(users.userSearchField.getAttribute('placeholder')).toBe('Search');
+    expect(users.userTable.isDisplayed()).toBeTruthy();
+    // expect(users.userDetails.isDisplayed()).toBeTruthy();
   });
 
   it('should display users based on the user Search', function() {
     // TODO: Update with values that will be more likely to always match users
 
-    queryUserField.sendKeys('Ron');
+    users.userSearchField.sendKeys('Ron');
     element.all(by.repeater('user in users')).then(function(rows) {
       for (var i = 0; i < rows.length; ++i) {
         element(by.css('tr.ng-scope:nth-child('+ (i+1) +') > td:nth-child(1)')).getText().then(function (value) {
@@ -47,8 +37,8 @@ describe('The users view', function () {
       };
     });
 
-    queryUserField.clear();
-    queryUserField.sendKeys('B');
+    users.userSearchField.clear();
+    users.userSearchField.sendKeys('B');
     element.all(by.repeater('user in users')).then(function(rows) {
       for (var i = 0; i < rows.length; ++i) {
         element(by.css('tr.ng-scope:nth-child('+ (i+1) +') > td:nth-child(1)')).getText().then(function (value) {
@@ -57,8 +47,8 @@ describe('The users view', function () {
       };
     });
 
-    queryUserField.clear();
-    queryUserField.sendKeys('Ro*Bur');
+    users.userSearchField.clear();
+    users.userSearchField.sendKeys('Ro*Bur');
     element.all(by.repeater('user in users')).then(function(rows) {
       for (var i = 0; i < rows.length; ++i) {
         element(by.css('tr.ng-scope:nth-child('+ (i+1) +') > td:nth-child(1)')).getText().then(function (value) {
@@ -68,130 +58,130 @@ describe('The users view', function () {
       };
     });
 
-    queryUserField.clear();
+    users.userSearchField.clear();
     expect(element.all(by.repeater('user in users')).count()).toBe(userCount);
   });
 
   it('should display users based on the table Status filter', function() {
     // Select Disabled from Status drop down
-    statusDropDown.click();
-    statusDropDown.all(by.css('input')).get(1).click();
-    expect(statusDropDown.all(by.css('input')).get(0).getAttribute('ng-checked')).toBe('false');
-    statusDropDown.click();
+    users.statusTableDropDown.click();
+    users.statusTableDropDown.all(by.css('input')).get(1).click();
+    expect(users.statusTableDropDown.all(by.css('input')).get(0).getAttribute('ng-checked')).toBe('false');
+    users.statusTableDropDown.click();
     element.all(by.repeater('user in users')).then(function(rows) {
       for (var i = 0; i < rows.length; ++i) {
-        expect(element(by.css('tr.ng-scope:nth-child('+ (i+1) +') > td:nth-child(3)')).getText()).toBe('Disabled');
+        expect(element(by.css('tr.ng-scope:nth-child('+ (i+1) +') > td:nth-child(4)')).getText()).toBe('Disabled');
       };
     });
 
     // Select Enabled from Status drop down
-    statusDropDown.click();
-    statusDropDown.all(by.css('input')).get(1).click();
-    statusDropDown.all(by.css('input')).get(2).click();
-    statusDropDown.click();
+    users.statusTableDropDown.click();
+    users.statusTableDropDown.all(by.css('input')).get(1).click();
+    users.statusTableDropDown.all(by.css('input')).get(2).click();
+    users.statusTableDropDown.click();
     element.all(by.repeater('user in users')).then(function(rows) {
       for (var i = 0; i < rows.length; ++i) {
-        expect(element(by.css('tr.ng-scope:nth-child('+ (i+1) +') > td:nth-child(3)')).getText()).toBe('Enabled');
+        expect(element(by.css('tr.ng-scope:nth-child('+ (i+1) +') > td:nth-child(4)')).getText()).toBe('Enabled');
       };
     });
 
     // Select All from Status drop down
-    statusDropDown.click();
-    statusDropDown.all(by.css('input')).get(0).click();
-    expect(statusDropDown.all(by.css('input')).get(1).getAttribute('ng-checked')).toBe('false');
-    expect(statusDropDown.all(by.css('input')).get(2).getAttribute('ng-checked')).toBe('false');
-    statusDropDown.click();
+    users.statusTableDropDown.click();
+    users.statusTableDropDown.all(by.css('input')).get(0).click();
+    expect(users.statusTableDropDown.all(by.css('input')).get(1).getAttribute('ng-checked')).toBe('false');
+    expect(users.statusTableDropDown.all(by.css('input')).get(2).getAttribute('ng-checked')).toBe('false');
+    users.statusTableDropDown.click();
     // Expect all users to be displayed
     expect(element.all(by.repeater('user in users')).count()).toBe(userCount);
   });
 
   it('should display users based on the table State filter', function() {
     // One State selected
-    stateDropDown.click(); // Open
-    stateDropDown.all(by.css('input')).get(3).click(); // Select Ready
+    users.stateTableDropDown.click(); // Open
+    users.stateTableDropDown.all(by.css('input')).get(3).click(); // Select Ready
     // All is deselected
-    expect(stateDropDown.all(by.css('input')).get(0).getAttribute('ng-checked')).toBe('false');
-    stateDropDown.click(); // Close
+    expect(users.stateTableDropDown.all(by.css('input')).get(0).getAttribute('ng-checked')).toBe('false');
+    users.stateTableDropDown.click(); // Close
 
     element.all(by.repeater('user in users')).then(function(rows) {
       for (var j = 0; j < rows.length; ++j) {
-        expect(element(by.css('tr.ng-scope:nth-child('+ (j+1) +') > td:nth-child(4)')).getText()).toBe('READY');
+        expect(element(by.css('tr.ng-scope:nth-child('+ (j+1) +') > td:nth-child(5)')).getText()).toBe('READY');
       };
     });
 
     // Multiple States selected
-    stateDropDown.click(); // Open
-    stateDropDown.all(by.css('input')).get(1).click(); // Select Busy
-    stateDropDown.click(); // Close
+    users.stateTableDropDown.click(); // Open
+    users.stateTableDropDown.all(by.css('input')).get(1).click(); // Select Busy
+    users.stateTableDropDown.click(); // Close
 
     var userHasState = false;
     var currentUserState;
     element.all(by.repeater('user in users')).then(function(rows) {
       for (var j = 0; j < rows.length; ++j) {
-        element(by.css('tr.ng-scope:nth-child('+ (j+1) +') > td:nth-child(4)')).getText().then(function (value) {
+        element(by.css('tr.ng-scope:nth-child('+ (j+1) +') > td:nth-child(5)')).getText().then(function (value) {
           expect(['BUSY', 'READY']).toContain(value);
         });
       };
     });
 
     // All selected
-    stateDropDown.click(); // Open
-    stateDropDown.all(by.css('input')).get(0).click(); // Select All
+    users.stateTableDropDown.click(); // Open
+    users.stateTableDropDown.all(by.css('input')).get(0).click(); // Select All
     // Previous selections are deselected
-    expect(stateDropDown.all(by.css('input')).get(3).getAttribute('ng-checked')).toBe('false');
-    expect(stateDropDown.all(by.css('input')).get(1).getAttribute('ng-checked')).toBe('false');
-    stateDropDown.click(); // Close
+    expect(users.stateTableDropDown.all(by.css('input')).get(3).getAttribute('ng-checked')).toBe('false');
+    expect(users.stateTableDropDown.all(by.css('input')).get(1).getAttribute('ng-checked')).toBe('false');
+    users.stateTableDropDown.click(); // Close
     // Expect all users to be displayed
     expect(element.all(by.repeater('user in users')).count()).toBe(userCount);
   });
 
   it('should display users based on the Search, Status and State filters', function() {
     // Search
-    queryUserField.sendKeys('a');
+    users.userSearchField.sendKeys('a');
 
     // Select Status filter
-    statusDropDown.click(); // Open
-    statusDropDown.all(by.css('input')).get(2).click();
-    statusDropDown.click(); // Close
+    users.statusTableDropDown.click(); // Open
+    users.statusTableDropDown.all(by.css('input')).get(2).click();
+    users.statusTableDropDown.click(); // Close
 
     // Select State filter
-    stateDropDown.click(); // Open
-    stateDropDown.all(by.css('input')).get(3).click(); // Select Ready
-    stateDropDown.click(); // Close
+    users.stateTableDropDown.click(); // Open
+    users.stateTableDropDown.all(by.css('input')).get(3).click(); // Select Ready
+    users.stateTableDropDown.click(); // Close
 
     element.all(by.repeater('user in users')).then(function(rows) {
       for (var i = 0; i < rows.length; ++i) {
         element(by.css('tr.ng-scope:nth-child('+ (i+1) +') > td:nth-child(1)')).getText().then(function (value) {
           expect(value.toLowerCase()).toContain('a');
         });
-        expect(element(by.css('tr.ng-scope:nth-child('+ (i+1) +') > td:nth-child(3)')).getText()).toBe('Enabled');
-        expect(element(by.css('tr.ng-scope:nth-child('+ (i+1) +') > td:nth-child(4)')).getText()).toBe('READY');
+        expect(element(by.css('tr.ng-scope:nth-child('+ (i+1) +') > td:nth-child(4)')).getText()).toBe('Enabled');
+        expect(element(by.css('tr.ng-scope:nth-child('+ (i+1) +') > td:nth-child(5)')).getText()).toBe('READY');
       };
     });
 
     // Update Search & add filter options
-    queryUserField.clear();
-    queryUserField.sendKeys('an');
+    users.userSearchField.clear();
+    users.userSearchField.sendKeys('an');
 
     // Select Status filter
-    statusDropDown.click(); // Open
-    statusDropDown.all(by.css('input')).get(1).click();
-    statusDropDown.click(); // Close
+    users.statusTableDropDown.click(); // Open
+    users.statusTableDropDown.all(by.css('input')).get(1).click();
+    users.statusTableDropDown.click(); // Close
 
     // Select State filter
-    stateDropDown.click(); // Open
-    stateDropDown.all(by.css('input')).get(4).click(); // Select Ready
-    stateDropDown.click(); // Close
+    users.stateTableDropDown.click(); // Open
+    users.stateTableDropDown.all(by.css('input')).get(4).click(); // Select Ready
+    users.stateTableDropDown.click(); // Close
 
     element.all(by.repeater('user in users')).then(function(rows) {
       for (var i = 0; i < rows.length; ++i) {
         element(by.css('tr.ng-scope:nth-child('+ (i+1) +') > td:nth-child(1)')).getText().then(function (value) {
           expect(value.toLowerCase()).toContain('an');
         });
-        element(by.css('tr.ng-scope:nth-child('+ (i+1) +') > td:nth-child(3)')).getText().then(function (value) {
+        element(by.css('tr.ng-scope:nth-child('+ (i+1) +') > td:nth-child(4)')).getText().then(function (value) {
           expect(['Enabled', 'Disabled']).toContain(value);
         });
-        element(by.css('tr.ng-scope:nth-child('+ (i+1) +') > td:nth-child(4)')).getText().then(function (value) {
+        element(by.css('tr.ng-scope:nth-child('+ (i+1) +') > td:nth-child(5)')).getText().then(function (value) {
           expect(['LOGIN', 'READY']).toContain(value);
         });
       };
@@ -202,7 +192,7 @@ describe('The users view', function () {
     // TODO Update selectors for user Details
     // Select user row
     element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(1)')).click();
-    expect(userDetails.isDisplayed()).toBeTruthy();
+    expect(users.userDetails.isDisplayed()).toBeTruthy();
 
     // Verify user's name in table matches user details
     expect(element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(1)')).getText()).toContain(element(by.model('user.firstName')).getAttribute('value'));
