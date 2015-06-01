@@ -14,6 +14,6 @@ module.exports = function (options) {
   
   gulp.task('env', function () {
     return gulp.src(options.src + '/app/env.js')
-      .pipe(gulp.dest(options.dist + '/scripts'));
+      .pipe(gulp.dest(options.dist + '/app'));
   });
 }
