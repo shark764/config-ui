@@ -53,7 +53,7 @@ angular.module('liveopsConfigPanel')
             $scope.saveFailure
           );
       } else {
-        return TenantsService.update({ tenantId : $scope.tenant.id }, { name : $scope.tenant.name, adminId: $scope.tenant.adminId, status: $scope.tenant.status }).$promise
+        return TenantsService.update({ tenantId : $scope.tenant.id }, { name : $scope.tenant.name, adminUserId: $scope.tenant.adminUserId, status: $scope.tenant.status }).$promise
           .then(
             $scope.saveSuccess,
             $scope.saveFailure
