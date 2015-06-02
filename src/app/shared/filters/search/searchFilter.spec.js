@@ -149,9 +149,9 @@ describe('search filter', function(){
       expect(result.length).toBe(2);
     }));
     
-    it('should onyl matching results', inject(function() {
+    it('should only return matching results', inject(function() {
       
-      var result = filter(users, ['firstName', 'lastName'], 's');
+      var result = filter(users, ['firstName', 'lastName'], 'se');
       expect(result.length).toBe(1);
       expect(result[0]).toEqual(users[1]);
     }));

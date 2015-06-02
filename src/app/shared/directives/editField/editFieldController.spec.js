@@ -11,14 +11,6 @@ describe('EditFieldController', function() {
       $controller('EditFieldController', {'$scope': $scope});
     }]));
 
-    it('should catch the save event and disable edit', inject(function() {
-      $scope.edit = true;
-      $scope.name = 'name';
-      $scope.$broadcast('name:save');
-      
-      expect($scope.edit).toBeFalsy();
-    }));
-    
     describe('saveHandler function', function() {
       it('should blur the element on save', inject(function() {
         var wasCalled = false;
