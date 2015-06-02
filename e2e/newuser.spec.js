@@ -20,23 +20,25 @@ describe('The create new user form', function() {
     expect(users.userDetails.isDisplayed()).toBeTruthy();
   });
 
-  xit('should clear Create New User section', function() {
-    // Select User from table
+  it('should clear Create New User section', function() {
+    if userCount > 0 {
+      // Select User from table
+      element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(2)')).click();
 
+      // Select Create button
+      users.createUserBtn.click();
 
-    // Select Create button
-    users.createUserBtn.click();
-
-    // Create user section cleared
-    expect(users.userDetails.isDisplayed()).toBeTruthy();
-    expect(users.userDetailsHeader.getText()).toBe('');
-    expect(users.firstNameFormField.getAttribute('value')).toBe('');
-    expect(users.lastNameFormField.getAttribute('value')).toBe('');
-    expect(users.displayNameFormField.getAttribute('value')).toBe('');
-    expect(users.emailFormField.getAttribute('value')).toBe('');
-    expect(users.externalIdFormField.getAttribute('value')).toBe('');
-    expect(users.roleFormDropDown.getAttribute('value')).toBe('');
-    expect(users.stateFormDropDown.getAttribute('value')).toBe('');
+      // Create user section cleared
+      expect(users.userDetails.isDisplayed()).toBeTruthy();
+      expect(users.userDetailsHeader.getText()).toBe('');
+      expect(users.firstNameFormField.getAttribute('value')).toBe('');
+      expect(users.lastNameFormField.getAttribute('value')).toBe('');
+      expect(users.displayNameFormField.getAttribute('value')).toBe('');
+      expect(users.emailFormField.getAttribute('value')).toBe('');
+      expect(users.externalIdFormField.getAttribute('value')).toBe('');
+      expect(users.roleFormDropDown.getAttribute('value')).toBe('');
+      expect(users.stateFormDropDown.getAttribute('value')).toBe('');
+    }
   });
 
   it('should require all fields in Create New User section', function() {
