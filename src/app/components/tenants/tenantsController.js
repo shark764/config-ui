@@ -22,8 +22,10 @@ angular.module('liveopsConfigPanel')
     $scope.users = UserService.query();
 
     $scope.setTenant = function (id) {
-      var activeTenant = $filter('filter')($scope.tenants.result, {id : id})[0];
+			var activeTenant = $filter('filter')($scope.tenants.result, {id : id}, true)[0];
+
       $scope.tenant = id ? activeTenant : {  } ;
+      Session.tenantId = id ? id : '' ;
     };
 
     $scope.fetchTenants = function (regionId) {

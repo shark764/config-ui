@@ -1,0 +1,21 @@
+<table >
+  <thead>
+    <td>ID</td>
+    <td>Name</td>
+    <td>Description</td>
+  </thead>
+  <tr ng-repeat="queue in queues" >
+    <td style="border: 1px solid black;">{{queue.id}}</td>
+    <td style="border: 1px solid black;"><a ng-href="#/queues?id={{queue.id}}">{{queue.name}}</a></td>
+    <td style="border: 1px solid black;">{{queue.description}}</td>
+  </tr>
+</table>
+
+<h3>Create new Queue</h3>
+
+<form ng-submit="save()">
+  <div>Name: <input type="text" ng-required="true" ng-model="queue.name"></input></div>
+  <div>Description: <input type="text" ng-required="true" ng-model="queue.description"></input></div>
+  
+  <input type="submit" class="btn btn-primary" value="Save"/>
+</form>
