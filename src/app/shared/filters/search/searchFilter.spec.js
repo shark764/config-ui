@@ -9,68 +9,65 @@ describe('search filter', function(){
 
   beforeEach(inject(['$filter', function($filter) {
     users = [ {
-        'id': 'c6aa44f6-b19e-49f5-bd3f-66f00b885e39',
+        'id': '3',
         'status': false,
-        'updatedBy': 'b9a14681-9912-437d-b72b-320bbebfa40c',
-        'externalId': 73543,
-        'extension': 9970,
         'state': 'WRAP',
-        'created': 'Wed Nov 07 2001 21:32:07 GMT+0000 (UTC)',
         'lastName': 'Wazowski',
         'firstName': 'Mike',
-        'updated': 'Sun Aug 31 1997 19:52:45 GMT+0000 (UTC)',
         'email': 'mike.Wazowski@hivedom.org',
-        'displayName': 'Mike Wazowski',
-        'password': '',
-        'createdBy': '02f1eeff-8204-4902-9f4c-7960db3795fa',
-        'role': 'Administrator'
+        'displayName': 'Mike Wazowski'
       }];
 
     filter = $filter('search');
     
   }]));
 
-  it('should return user if search is blank', inject(function() {
+  it('should return all items if search is blank', inject(function() {
     var result = filter(users, ['firstName', 'lastName'], '');
     expect(result.length).toBe(1);
   }));
+  
+  it('should return all items if fields are blank', inject(function() {
+    var result = filter(users, null, 'ssssss');
+    expect(result.length).toBe(1);
+  }));
 
-  it('should not return user if search not included in user values', inject(function() {
+  it('should not return item if search not included in item\'s values', inject(function() {
     var result = filter(users, ['firstName', 'lastName'], 'blahh');
     expect(result.length).toBe(0);
   }));
 
-  it('should return user if search is included in user first name', inject(function() {
+  it('should return item if search is included in first given field', inject(function() {
     var result = filter(users, ['firstName', 'lastName'], 'ike');
     expect(result.length).toBe(1);
   }));
 
-  it('should return user if search is included in user first and last name', inject(function() {
+  it('should return item if search is included in multiple given fields', inject(function() {
     var result = filter(users, ['firstName', 'lastName'], 'Mike Wazowski');
     expect(result.length).toBe(1);
   }));
 
-  it('should return user if search is included in user last name', inject(function() {
+  it('should return item if search is included in last given field', inject(function() {
     var result = filter(users, ['firstName', 'lastName'], 'ski');
     expect(result.length).toBe(1);
   }));
 
-  it('should not return part search is included in user values', inject(function() {
+  it('should not return if only part search is included in item fields', inject(function() {
     var result = filter(users, ['firstName', 'lastName'], 'Michael Wazowski');
     expect(result.length).toBe(0);
   }));
 
-  it('should return user if search has wildcard value only', inject(function() {
+  it('should return item if search has wildcard value only', inject(function() {
     var result = filter(users, ['firstName', 'lastName'], '*');
     expect(result.length).toBe(1);
   }));
 
-  it('should return user with containing partial string using wildcard in user', inject(function() {
+  it('should return item with containing partial string using wildcard in query', inject(function() {
     var result = filter(users, ['firstName', 'lastName'], 'Mi*Wazowski');
     expect(result.length).toBe(1);
   }));
 
-  it('should only return user containing partial strings using several wildcards in user', inject(function() {
+  it('should only return item containing partial strings using several wildcards in query', inject(function() {
     var result = filter(users, ['firstName', 'lastName'], 'i*e*a');
     expect(result.length).toBe(1);
 
@@ -78,17 +75,17 @@ describe('search filter', function(){
     expect(result.length).toBe(0);
   }));
 
-  it('should return user regardless of character case', inject(function() {
+  it('should return matching item regardless of character case', inject(function() {
     var result = filter(users, ['firstName', 'lastName'], 'MIKE wAzoWsKi');
     expect(result.length).toBe(1);
   }));
 
-  it('should not return user when search string does not match any user details', inject(function() {
+  it('should not return item when search string does not match any fields', inject(function() {
     var result = filter(users, ['firstName', 'lastName'], 'Randall Boggs');
     expect(result.length).toBe(0);
   }));
 
-  it('should not return user when search string with wild cards does not match any user', inject(function() {
+  it('should not return item when search string with wild cards does not match any fields', inject(function() {
     var result = filter(users, ['firstName', 'lastName'], '*boo*');
     expect(result.length).toBe(0);
   }));
@@ -124,4 +121,45 @@ describe('search filter', function(){
     result = filter(users, ['firstName', 'lastName'], '*Wazow');
     expect(result.length).toBe(1);
   }));
+  
+  describe('on multiple items', function(){
+    beforeEach(function(){
+      users = [ {
+        'id': '3',
+        'status': 'true',
+        'state': 'WRAP',
+        'lastName': 'Wazowski',
+        'firstName': 'Mike',
+        'email': 'mike.Wazowski@hivedom.org',
+        'displayName': 'Mike Wazowski'
+      },{
+        'id': '7',
+        'status': true,
+        'state': 'OFFLINE',
+        'lastName': 'Walter',
+        'firstName': 'Serge',
+        'email': 'serge.walter@example.com',
+        'displayName': 'Serge Walter'
+      }];
+    });
+    
+    it('should return multiple results if they match', inject(function() {
+      
+      var result = filter(users, ['firstName', 'lastName'], 'w');
+      expect(result.length).toBe(2);
+    }));
+    
+    it('should onyl matching results', inject(function() {
+      
+      var result = filter(users, ['firstName', 'lastName'], 's');
+      expect(result.length).toBe(1);
+      expect(result[0]).toEqual(users[1]);
+    }));
+    
+    it('should return results matching string and primitive fields', inject(function() {
+      
+      var result = filter(users, ['status'], 'tru');
+      expect(result.length).toBe(2);
+    }));
+  });
 });

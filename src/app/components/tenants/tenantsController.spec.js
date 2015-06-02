@@ -18,39 +18,17 @@ describe('TenantsController', function() {
       $controller = _$controller_;
       
       users  = [ {
-        'id': 'c6aa44f6-b19e-49f5-bd3f-66f00b885e39',
-        'status': false,
-        'updatedBy': 'b9a14681-9912-437d-b72b-320bbebfa40c',
-        'externalId': 73795,
-        'extension': 9969,
-        'state': 'WRAP',
-        'created': 'Wed Nov 07 2001 21:32:07 GMT+0000 (UTC)',
-        'lastName': 'Lowe',
-        'firstName': 'Munoz',
-        'updated': 'Sun Aug 31 1997 19:52:45 GMT+0000 (UTC)',
-        'email': 'munoz.lowe@hivedom.org',
-        'displayName': 'Munoz Lowe',
-        'password': '',
-        'createdBy': '02f1eeff-8204-4902-9f4c-7960db3795fa',
-        'role': 'Administrator'
-      },
-      {
-        'id': '9f97f9d9-004c-469c-906d-b917bd79fbe8',
-        'status': true,
-        'updatedBy': '52fcfff0-b35f-4ba3-94b8-964511671045',
-        'externalId': 80232,
-        'extension': 5890,
-        'state': 'NOT_READY',
-        'created': 'Sat Apr 12 2008 07:40:10 GMT+0000 (UTC)',
-        'lastName': 'Oliver',
-        'firstName': 'Michael',
-        'updated': 'Sat Nov 07 1970 10:53:22 GMT+0000 (UTC)',
-        'email': 'michael.oliver@ezent.io',
-        'displayName': 'Michael Oliver',
-        'password': '',
-        'createdBy': 'b8e5d096-f828-4269-ae5a-117e69917340',
-        'role': 'Administrator'
-      }];
+                  'id': 'c6aa44f6-b19e-49f5-bd3f-66f00b885e39',
+                  'lastName': 'Lowe',
+                  'firstName': 'Munoz',
+                  'displayName': 'Munoz Lowe'
+                },
+                {
+                  'id': '9f97f9d9-004c-469c-906d-b917bd79fbe8',
+                  'lastName': 'Oliver',
+                  'firstName': 'Michael',
+                  'displayName': 'Michael Oliver'
+                }];
       
       regions = [{
                   'id': '1',
@@ -61,6 +39,7 @@ describe('TenantsController', function() {
                   'description': 'Maritimes CA',
                   'name': 'ca-east-1'
                   }];
+      
       tenants = [{'description': 'Test',
                    'regionId': '1',
                    'name': 'Test',
