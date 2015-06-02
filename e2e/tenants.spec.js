@@ -64,14 +64,23 @@ describe('The tenants view', function() {
     }
   });
 
-  it('should list existing tenants in the Parent Tenant dropdown', function() {
-    expect(tenants.parentFormDropDown.all(by.repeater('tenant in tenants')).count()).toBe(tenantCount);
+  it('should list enabled existing tenants in the Parent Tenant dropdown', function() {
+    // TODO ensure disabled tenants are not listed
+    expect(tenants.tenantsNavDropdown.all(by.repeater('tenant in tenants')).count()).toBe(tenantCount);
+    for (var i = 1; i <= tenantCount; ++i) {
+      expect(tenants.tenantsNavDropdown.all(by.css('option')).get(i).getText()).toBe(element(by.css('tr.ng-scope:nth-child(' + i + ') > td:nth-child(2) > a:nth-child(1)')).getText());
+    }
+  });
+
+  it('should list enabled existing tenants in the navbar Tenant dropdown', function() {
+    // TODO ensure disabled tenants are not listed
+    expect(shared.parentFormDropDown.all(by.repeater('tenant in tenants')).count()).toBe(tenantCount);
     for (var i = 1; i <= tenantCount; ++i) {
       expect(tenants.parentFormDropDown.all(by.css('option')).get(i).getText()).toBe(element(by.css('tr.ng-scope:nth-child(' + i + ') > td:nth-child(2) > a:nth-child(1)')).getText());
     }
   });
 
-  it('should successfully create a new tenant and add to the tenants table', function() {
+  it('should successfully create a new enabled tenant and add to the tenants lists', function() {
     // Add randomness to tenant details
     randomTenant = Math.floor((Math.random() * 100) + 1);
     var tenantAdded = false;
@@ -98,6 +107,38 @@ describe('The tenants view', function() {
       expect(tenantAdded).toBeTruthy();
       tenantCount++;
       expect(tenants.tenantElements.count()).toBe(tenantCount);
+
+      // TODO Verify new tenant is added to navbar and parent tenant dropdowns
+    });
+  });
+
+  it('should successfully create a new disabled tenant and add to the tenants table only', function() {
+    // Add randomness to tenant details
+    randomTenant = Math.floor((Math.random() * 100) + 1);
+    var tenantAdded = false;
+
+    // Complete tenant form and submit
+    tenants.nameFormField.sendKeys('Tenant ' + randomTenant);
+    tenants.descriptionFormField.sendKeys('This is the tenant description for tenant ' + randomTenant);
+    tenants.regionFormDropDown.all(by.css('option')).get(1).click();
+    tenants.createTenantBtn.click();
+
+    // Confirm tenant is displayed in tenant table with correct details
+    tenants.tenantElements.then(function(rows) {
+      for (var i = 0; i < rows.length; ++i) {
+        // Check if user name in table matches newly added user
+        element(by.css('tr.ng-scope:nth-child(' + i + ') > td:nth-child(2) > a:nth-child(1)')).getText().then(function(value) {
+          if (value == 'Tenant ' + randomTenant) {
+            tenantAdded = true;
+          }
+        });
+      }
+    }).thenFinally(function() {
+      // Verify new user was found in the user table
+      expect(tenantAdded).toBeTruthy();
+      tenantCount++;
+      expect(tenants.tenantElements.count()).toBe(tenantCount);
+      // TODO Verify new tenant is added to navbar and parent tenant dropdowns
     });
   });
 
@@ -187,5 +228,39 @@ describe('The tenants view', function() {
     }
   });
 
+
+  xit('should allow the tenant fields to be updated', function() {
+    // TODO Edit tenant, current tenant not listed in tenant parent list
+  });
+
+  xit('should require all tenant fields when editing', function() {
+    // TODO Edit tenant, clear all fields, unable to save changes
+  });
+
+  xit('should validate tenant fields when editing', function() {
+    // TODO Edit tenant, ensure field inputs are validated
+  });
+
+  xit('should not allow duplicate tenant names when editing', function() {
+    // TODO Edit tenant, change tenant name to another existing tenants name, unable to save
+  });
+
+  xit('should ensure updates to tenants are persistant on page reload', function() {
+    // TODO Edit tenant, reload page, ensure changes are persistant
+  });
+
+  xit('should prevent the tenant parent from being set to itself while editing', function() {
+    // TODO Edit tenant, current tenant not listed in tenant parent list
+  });
+
+  xit('should add enabled tenant to parent dropdown and navbar tenant dropdown', function() {
+    // TODO Enable existing user
+    // TODO Ensure enabled tenant is added to dropdowns
+  });
+
+  xit('should remove disabled tenant from parent dropdown and from navbar tenant dropdown', function() {
+    // TODO Disable existing user
+    // TODO Ensure disabled tenants are removed from dropdowns
+  });
 
 });
