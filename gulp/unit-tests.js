@@ -8,8 +8,9 @@ var wiredep = require('wiredep');
 var karma = require('karma');
 var concat = require('concat-stream');
 var _ = require('lodash');
+var ngConstant = require('gulp-ng-constant');
 
-module.exports = function(options) {
+module.exports = function (options) {
 
   function listFiles(callback) {
     var wiredepOptions = _.extend({}, options.wiredep, {
@@ -28,16 +29,18 @@ module.exports = function(options) {
     ];
 
     var srcFiles = [
+      options.tmp + '/serve/app/liveops.js',
+      options.tmp + '/serve/app/constants.js',
       options.src + '/app/**/*.js',
-      options.tmp + '/serve/app/**/*.js',
+      '!' + options.src + '/app/env.js',
       '!' + options.src + '/app/translation-loader.js',
-    ].concat(specFiles.map(function(file) {
+    ].concat(specFiles.map(function (file) {
       return '!' + file;
     }));
 
 
     gulp.src(srcFiles)
-      .pipe(concat(function(files) {
+      .pipe(concat(function (files) {
         callback(bowerDeps.js
           .concat(_.pluck(files, 'path'))
           .concat(htmlFiles)
@@ -46,7 +49,7 @@ module.exports = function(options) {
   }
 
   function runTests(singleRun, reporters, done) {
-    listFiles(function(files) {
+    listFiles(function (files) {
       karma.server.start({
         configFile: __dirname + '/../karma.conf.js',
         files: files,
@@ -57,19 +60,26 @@ module.exports = function(options) {
     });
   }
 
-  gulp.task('test-setup', [], function() {
-    process.env.ENV = 'unitTest';
+  gulp.task('test-setup', ['env'], function () {
+    return gulp.src('constants.json')
+      .pipe(ngConstant({
+        name: 'liveopsConfigPanel.config',
+        constants: {
+          apiHostname: 'fakendpoint.com'
+        }
+      }))
+      .pipe(gulp.dest(options.tmp + '/serve/app'));
   });
 
-  gulp.task('test', ['test-setup', 'config', 'scripts'], function(done) {
+  gulp.task('test', ['test-setup', 'scripts'], function (done) {
     runTests(true, ['progress'], done);
   });
 
-  gulp.task('test:auto', ['watch'], function(done) {
+  gulp.task('test:auto', ['watch'], function (done) {
     runTests(false, ['progress'], done);
   });
 
-  gulp.task('coverage', ['test-setup', 'config', 'scripts'], function(done) {
+  gulp.task('coverage', ['test-setup', 'scripts'], function (done) {
     runTests(true, ['progress', 'coverage'], done);
   });
 };
