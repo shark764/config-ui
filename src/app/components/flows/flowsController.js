@@ -36,6 +36,19 @@ angular.module('liveopsConfigPanel')
         $scope.error = reason.data;
       };
 
+      $scope.trimmedFlow = function(flowData) {
+        var data = {
+          tenantId: flowData.tenantId,
+          description: flowData.description,
+          name: flowData.name,
+          activeVersion: flowData.id,
+          active: flowData.active,
+          channelType: (flowData.channelType ? flowData.channelType : "")
+        };
+
+        return data;
+      };
+
       $scope.save = function () {
         if(!$scope.flow.id){
           return FlowsService.save({ tenantId : Session.tenantId }, $scope.flow).$promise
@@ -44,7 +57,9 @@ angular.module('liveopsConfigPanel')
             $scope.saveFailure
             );
         } else {
-          return FlowsService.update({ tenantId: Session.tenantId, flowId : $scope.flow.id }, $scope.flow).$promise
+          var trimmedFlow = $scope.trimmedFlow($scope.flow);
+
+          return FlowsService.update({ tenantId: Session.tenantId, flowId : $scope.flow.id }, trimmedFlow).$promise
           .then(
             $scope.saveSuccess,
             $scope.saveFailure
