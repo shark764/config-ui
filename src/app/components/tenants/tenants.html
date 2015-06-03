@@ -11,8 +11,7 @@
     <tr ng-repeat="curTeanent in tenants" >
       <td style="border: 1px solid black;">{{curTeanent.id}}</td>
       <td style="border: 1px solid black;">
-          <a ng-show="tenant.$resolved" ng-href="#/tenants?id={{curTeanent.id}}">{{curTeanent.name}}</a>
-          <span ng-show="!tenant.$resolved">{{curTeanent.name}}</span>
+          <a ng-href="#/tenants?id={{curTeanent.id}}">{{curTeanent.name}}</a>
       </td>
       <td style="border: 1px solid black;">{{curTeanent.adminUserId}}</td>
       <td style="border: 1px solid black;">{{curTeanent.status}}</td>
@@ -25,7 +24,7 @@
   </ul>
 
   <h3>Create new Tenant</h3>
-  <form ng-submit="save()" ng-show="tenant.$resolved">
+  <form ng-submit="save()">
     <div>Name: <input type="text" ng-required="true" ng-model="tenant.name" placehold="This is my tenant description"></input></div>
     <div>Description: <input ng-disabled="!!tenant.id" type="text" ng-required="true" ng-model="tenant.description" placehold="This is my tenant description"></input></div>
     <div>Status: <toggle class="user-toggle" ng-model="tenant.status"></toggle></div>

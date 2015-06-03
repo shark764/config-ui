@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .factory('RegionsService', ['ServiceFactory', function (ServiceFactory) {
+  .factory('RegionsService', ['LiveopsResourceFactory', function (LiveopsResourceFactory) {
 
-    return ServiceFactory.create('/v1/regions');
+    return LiveopsResourceFactory.create('/v1/regions');
   }]);
 

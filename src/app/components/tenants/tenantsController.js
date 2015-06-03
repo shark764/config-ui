@@ -23,7 +23,8 @@ angular.module('liveopsConfigPanel')
 
     $scope.setTenant = function (id) {
       if(id){
-        $scope.tenant = TenantsService.get({id : id});
+        var activeTenant = $filter('filter')($scope.tenants, {id : id})[0];
+        $scope.tenant = id ? activeTenant : {  } ;
       }
     };
 
@@ -35,7 +36,7 @@ angular.module('liveopsConfigPanel')
 
     $scope.saveSuccess = function () {
       $scope.tenant = {};
-      $scope.fetchTenants($scope.regions[0].id);
+      $scope.fetchTenants($scope.regions.result[0].id);
     };
 
     $scope.saveFailure = function (reason) {
@@ -43,7 +44,7 @@ angular.module('liveopsConfigPanel')
     };
 
     $scope.save = function () {
-    $scope.tenant.$save({id: 1 }, {id : 1});
+      $scope.tenant.save({id : $scope.tenant.id});
     };
 
   }]);
