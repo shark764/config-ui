@@ -9,12 +9,12 @@
       <td>Active</td>
       <td>Parent Tenant</td>
     </thead>
-    <tr ng-repeat="flow in flows" >
+    <tr ng-repeat="flow in flows.result" >
       <td style="border: 1px solid black;">{{flow.id}}</td>
       <td style="border: 1px solid black;"><a ng-href="#/flows?id={{flow.id}}">{{flow.name}}</a></td>
       <td style="border: 1px solid black;">{{flow.description}}</td>
       <td style="border: 1px solid black;">{{flow.active}}</td>
-      <td style="border: 1px solid black;">{{getTenantName(flow.tenantId)}}</td>
+      <td style="border: 1px solid black;">{{flow.tenantId}}</td>
     </tr>
   </table>
   <ul>
@@ -39,11 +39,6 @@
   <toggle class="user-toggle" ng-model="flow.active">
 
   </toggle>
-</div>
-<div>Associated Tenant:
-  <select ng-model="flow.tenantId">
-    <option ng-repeat="tenant in tenants" value="{{tenant.id}}">{{tenant.name}}</option>
-  </select>
 </div>
 <input type="submit" class="btn btn-primary" value="{{ !flow.id ? 'Create' : 'Update' }}"/>
 </form>
