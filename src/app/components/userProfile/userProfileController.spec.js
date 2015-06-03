@@ -1,7 +1,5 @@
 'use strict';
 
-/* global spyOn: false  */
-
 describe('UserProfileController', function() {
     var $scope,
         createController,
@@ -23,7 +21,7 @@ describe('UserProfileController', function() {
       
       createController = function(){
         $controller('UserProfileController', {'$scope': $scope, 'Session' : {id : '12345'}});
-      }
+      };
 
     }]));
 
