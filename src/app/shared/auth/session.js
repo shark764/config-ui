@@ -2,8 +2,6 @@
 
 /* global localStorage: false */
 
-angular.module('liveopsConfigPanel')
-
 // localStorage should not be used to store passwords in production
 // this is a temporary solution until Tao gets back to me on the ability to get
 // a token back from the API to store instead.
@@ -12,10 +10,8 @@ angular.module('liveopsConfigPanel')
 // session information using redis or memcache
 
 // this will suffice in beta however.
+angular.module('liveopsConfigPanel')
 .service('Session', ['$rootScope', 'sessionKey', '$translate', function($rootScope, sessionKey, $translate) {
-
-  var Session = function () {
-
     var self = this;
 
     this.userSessionKey = sessionKey;
@@ -32,9 +28,9 @@ angular.module('liveopsConfigPanel')
       this.id = user.id;
       this.lang = 'en';
 
-      if (lang){
-        $translate.use(lang);
-      }
+      if (this.lang){
+        $translate.use(this.lang);
+      };
 
       this.storeSession();
     };
@@ -70,11 +66,6 @@ angular.module('liveopsConfigPanel')
     this.isAuthenticated = function () {
       return !!this.token;
     };
-  };
 
-  // this only gets called once
-  var instance = new Session();
-  instance.restore();
-
-  return instance;
-}]);
+    this.restore();
+  }]);

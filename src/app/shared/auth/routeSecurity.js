@@ -9,6 +9,11 @@ angular.module('liveopsConfigPanel')
   .run(['$rootScope', '$location', 'Session',
     function ($rootScope, $location, Session) {
       $rootScope.$on('$routeChangeStart', function (event, next) {
+        if(Session.isAuthenticated() && next.$$route.controller === 'LoginController'){
+          event.preventDefault();
+          $location.path('/');
+        }
+        
         if (next.secure && !Session.isAuthenticated()) {
           event.preventDefault();
           $location.path('/login');
