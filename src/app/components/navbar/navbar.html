@@ -3,7 +3,7 @@
     <a ng-href="#/"></a>
     <ul ng-switch-when="true">
       <li>
-        <select ng-model="activeTenantId" ng-change="changeTenantId(activeTenantId)" ng-options="tenant.id as tenant.name for tenant in tenants.result">
+        <select ng-model="Session.tenantId" ng-options="tenant.id as tenant.name for tenant in tenants.result">
         </select>
       </li>
       <li class="divider"></li>
