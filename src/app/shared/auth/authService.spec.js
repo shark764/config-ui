@@ -2,76 +2,96 @@
 
 /* global spyOn: false  */
 
-describe('AuthService', function() {
-var $scope, $location, AuthService, Session;
+var USER = {
+  'role': 'admin',
+  'email': 'titan@liveops.com',
+  'createdBy': '00000000-0000-0000-0000-000000000000',
+  'displayName': 'titan',
+  'updated': '2015-06-02T08:29:03Z',
+  'firstName': 'titan',
+  'created': '2015-06-02T08:29:03Z',
+  'state': null,
+  'extension': null,
+  'externalId': null,
+  'updatedBy': '00000000-0000-0000-0000-000000000000',
+  'status': true,
+  'id': '6d094710-0901-11e5-87f2-b1d420920055',
+  'lastName': 'user'
+};
 
-beforeEach(module('liveopsConfigPanel'));
+var TOKEN = 'dGl0YW5AbGl2ZW9wcy5jb206Z0tWbmZGOXdyczZYUFNZcw==';
+var USERNAME = 'titan@liveops.com';
+var PASSWORD = 'gKVnfF9wrs6XPSYs';
 
-beforeEach(inject(['$rootScope', '$location', 'AuthService', 'Session', function(_$rootScope_, _$location_, _AuthService_, _Session_) {
-  $scope = _$rootScope_.$new();
-  $location = _$location_;
-  AuthService = _AuthService_;
-  Session = _Session_;
-}]));
+describe('AuthService', function () {
+  var $scope, $location, $httpBackend, AuthService, Session;
 
-it('should have a method get an authentication token', function() {
-  var username = 'john',
-  password = 'password';
+  beforeEach(module('liveopsConfigPanel'));
 
-  var token = AuthService.generateToken(username, password);
+  beforeEach(inject(['$rootScope', '$location', '$httpBackend', 'AuthService', 'Session',
+    function (_$rootScope_, _$location_, _$httpBackend_, _AuthService_, _Session_) {
+      $scope = _$rootScope_.$new();
+      $location = _$location_;
+      $httpBackend = _$httpBackend_;
+      AuthService = _AuthService_;
+      Session = _Session_;
+    }
+  ]));
+  
+  it('should have a method get an authentication token', function () {
+    var token = AuthService.generateToken(USERNAME, PASSWORD);
+    expect(token).toBe(TOKEN);
+  });
+  
+  it('should have a method to logout which destroys the session', function () {
+    spyOn(Session, 'destroy');
 
-  expect(token).toBe('am9objpwYXNzd29yZA==');
-});
+    AuthService.logout();
 
-it('should have a method to login which sets the session', function() {
-  var username = 'john',
-  password = 'password';
+    expect(Session.destroy).toHaveBeenCalled();
+    expect(Session.token).toBeNull();
+  });
+  
+  describe('ON login', function() {
+    it('should set the session when successful', function () {
+      $httpBackend.expectGET('fakendpoint.com/v1/users').respond({
+        'result': [USER]
+      });
+      
+      spyOn(Session, 'set');
+      
+      AuthService.login(USERNAME, PASSWORD);
+      
+      $httpBackend.flush();
 
-  spyOn(Session, 'set');
+      expect(Session.set).toHaveBeenCalledWith(
+        USER, AuthService.generateToken(USERNAME, PASSWORD));
+    });
+    
+    it('should throw an error if the user is not returned', function () {
+      $httpBackend.expectGET('fakendpoint.com/v1/users').respond({
+        'result': []
+      });
+      
+      spyOn(Session, 'set');
+      
+      expect(AuthService.login).toThrow();
+      
+      expect(Session.set).not.toHaveBeenCalled();
+      expect(Session.token).toBeNull();
+    });
+    
+    it('should validate on failure', function () {
+      $httpBackend.expectGET('fakendpoint.com/v1/users').respond(500, '');
+      
+      spyOn(Session, 'set');
+      
+      AuthService.login(USERNAME, PASSWORD);
+      
+      $httpBackend.flush();
 
-  AuthService.login(username, password);
-
-  expect(Session.set).toHaveBeenCalledWith(AuthService.generateToken(username, password), 'Ron', '1c838030-f772-11e4-ac37-45b2e1245d4b', 'en');
-});
-
-
-it('should have a method to logout which destroys the session', function() {
-  spyOn(Session, 'destroy');
-
-  AuthService.logout();
-
-  expect(Session.destroy).toHaveBeenCalled();
-  expect(Session.token).toBeNull();
-});
-
-
-it('should setup route interception and prevent access to secure routes when authenticated', inject(function ($rootScope) {
-  $location.path('/users');
-
-  Session.isAuthenticated = true;
-
-  var event = $rootScope.$broadcast('$routeChangeStart', { $$route : { secure : true } });
-
-  expect(event.defaultPrevented).toBeFalsy();
-  expect($location.path()).toBe('/users');
-}));
-
-it('should setup route interception and prevent access to secure routes when not authenticated', inject(function ($rootScope) {
-  $location.path('/users');
-
-  var event = $rootScope.$broadcast('$routeChangeStart', { $$route : { secure : true } });
-
-  expect(event.defaultPrevented).toBeTruthy();
-  expect($location.path()).toBe('/login');
-}));
-
-it('should setup route interception and allow access to unsecure routes when not authenticated', inject(function ($rootScope) {
-  $location.path('/blarg');
-
-  var event = $rootScope.$broadcast('$routeChangeStart', { $$route : { secure : false } });
-
-  expect(event.defaultPrevented).toBeFalsy();
-  expect($location.path()).toBe('/blarg');
-}));
-
+      expect(Session.set).not.toHaveBeenCalled();
+      expect(Session.token).toBeNull();
+    });
+  });
 });

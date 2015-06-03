@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .factory('AuthenticatedServiceFactory', ['$resource', 'apiHostname', 'Session', 'AuthInterceptor',
-    function ($resource, apiHostname, Session, AuthInterceptor) {
+  .factory('ServiceFactory', ['$resource', 'apiHostname', 'Session',
+    function ($resource, apiHostname, Session) {
       return {
         create: function (endpoint, setCreatedBy, setUpdatedBy) {
           setUpdatedBy = typeof setUpdatedBy !== 'undefined' ? setUpdatedBy : true;

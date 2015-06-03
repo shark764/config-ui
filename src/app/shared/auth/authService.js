@@ -2,9 +2,16 @@
 
 /* global  window: false */
 
+function UserNotFoundException() {
+  this.name = 'UserNotFoundException';
+  this.message = 'Username was not found under /v1/users';
+}
+UserNotFoundException.prototype = new Error();
+UserNotFoundException.prototype.constructor = UserNotFoundException;
+
 angular.module('liveopsConfigPanel')
-  .service('AuthService', ['$resource', 'Session', 'UserService', 'apiHostname',
-    function ($resource, Session, UserService, apiHostname) {
+  .service('AuthService', ['$resource', '$http', 'Session', 'apiHostname',
+    function ($resource, $http, Session, apiHostname) {
       // localStorage should not be used to store passwords in production
       // this is a temporary solution until Tao gets back to me on the ability to get
       // a token back from the API to store instead.
@@ -15,18 +22,15 @@ angular.module('liveopsConfigPanel')
       // this will suffice in beta however.
       this.login = function (username, password) {
         var token = this.generateToken(username, password);
-
-        var resource = $resource(apiHostname + '/v1/users', null, {
-          query: {
-            method: 'GET',
-            headers: {
-              Authorization: 'Basic ' + token
-            }
+        var request = $http({
+          method: 'GET',
+          url: apiHostname + '/v1/users',
+          headers: {
+            Authorization: 'Basic ' + token
           }
         });
-
-        var promise = resource.query().$promise;
-        promise = promise.then(function (response) {
+        
+        return request.success(function (response) {
           angular.forEach(response.result, function (user) {
             if (user.email === username) {
               response = {
@@ -39,11 +43,13 @@ angular.module('liveopsConfigPanel')
           if (!response.user) {
             throw new UserNotFoundException();
           }
+          
+          Session.set(response.user, response.token);
 
           return response;
-        })
-
-        return promise;
+        }).error(function() {
+          
+        });
       };
 
       this.logout = function () {
@@ -55,10 +61,3 @@ angular.module('liveopsConfigPanel')
       };
     }
   ]);
-
-function UserNotFoundException() {
-  this.name = 'UserNotFoundException';
-  this.message = 'Username was not found under /v1/users';
-}
-UserNotFoundException.prototype = new Error();
-UserNotFoundException.prototype.constructor = UserNotFoundException;

@@ -11,9 +11,9 @@
 
 // this will suffice in beta however.
 angular.module('liveopsConfigPanel')
-.service('Session', ['$rootScope', 'sessionKey', '$translate', function($rootScope, sessionKey, $translate) {
+  .service('Session', ['$rootScope', 'sessionKey', '$translate', function ($rootScope, sessionKey, $translate) {
     var self = this;
-
+    
     this.userSessionKey = sessionKey;
     this.token = null;
     this.displayName = null;
@@ -28,14 +28,14 @@ angular.module('liveopsConfigPanel')
       this.id = user.id;
       this.lang = 'en';
 
-      if (this.lang){
+      if (this.lang) {
         $translate.use(this.lang);
-      };
+      }
 
       this.storeSession();
     };
 
-    $rootScope.$watch('Session.tenantId' , function () {
+    $rootScope.$watch('Session.tenantId', function () {
       self.storeSession();
     });
 
@@ -49,7 +49,7 @@ angular.module('liveopsConfigPanel')
       }));
     };
 
-    this.destroy = function() {
+    this.destroy = function () {
       this.token = null;
       this.displayName = null;
       this.id = null;

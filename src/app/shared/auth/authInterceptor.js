@@ -1,17 +1,17 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .factory('AuthInterceptor', ['$rootScope', '$location', 'Session', 'apiHostname',
-    function ($rootScope, $location, Session, apiHostname) {
+  .factory('AuthInterceptor', ['$q', '$location', 'Session', 'apiHostname',
+    function ($q, $location, Session, apiHostname) {
 
       var Interceptor = function () {
 
         this.request = function (request) {
-          if (Session.token) {
+          if (request.url.indexOf(apiHostname) >= 0 && Session.token) {
             request.headers.Authorization = 'Basic ' + Session.token;
             request.headers['Content-Type'] = 'application/json';
           }
-
+          
           return request;
         };
 
@@ -20,16 +20,14 @@ angular.module('liveopsConfigPanel')
             Session.destroy();
             $location.path('/login');
           }
-
-          return response;
-        }
+          return $q.reject(response);
+        };
       };
 
       return new Interceptor();
     }
   ])
-
-  // queue the interceptor
   .config(function ($httpProvider) {
+    // queue the interceptor
     $httpProvider.interceptors.push('AuthInterceptor');
   });

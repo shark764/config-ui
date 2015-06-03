@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .factory('TenantsService', ['AuthenticatedServiceFactory', function (AuthenticatedServiceFactory) {
+  .factory('TenantsService', ['ServiceFactory', function (ServiceFactory) {
 
-    return AuthenticatedServiceFactory.create('/v1/tenants/:tenantId', true, false);
+    return ServiceFactory.create('/v1/tenants/:tenantId', true, false);
   }]);
 

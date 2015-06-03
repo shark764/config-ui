@@ -1,17 +1,15 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('LoginController', ['$scope', '$location', 'AuthService', 'Session',
-    function ($scope, $location, AuthService, Session) {
+  .controller('LoginController', ['$scope', '$location', 'AuthService',
+    function ($scope, $location, AuthService) {
       $scope.login = function () {
         AuthService.login(
           $scope.username,
           $scope.password
-        ).then(function (response) {
-          Session.set(response.user, response.token);
+        ).then(function () {
           $location.path('/');
-        }, function (response) {
-          //TODO validation error
+        }, function () {
         });
       };
     }
