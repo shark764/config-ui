@@ -8,11 +8,14 @@
       <td>Admin ID</td>
       <td>Status</td>
     </thead>
-    <tr ng-repeat="tenant in tenants.result" >
-      <td style="border: 1px solid black;">{{tenant.id}}</td>
-      <td style="border: 1px solid black;"><a ng-href="#/tenants?id={{tenant.id}}">{{tenant.name}}</a></td>
-      <td style="border: 1px solid black;">{{tenant.adminUserId}}</td>
-      <td style="border: 1px solid black;">{{tenant.status}}</td>
+    <tr ng-repeat="curTeanent in tenants" >
+      <td style="border: 1px solid black;">{{curTeanent.id}}</td>
+      <td style="border: 1px solid black;">
+          <a ng-show="tenant.$resolved" ng-href="#/tenants?id={{curTeanent.id}}">{{curTeanent.name}}</a>
+          <span ng-show="!tenant.$resolved">{{curTeanent.name}}</span>
+      </td>
+      <td style="border: 1px solid black;">{{curTeanent.adminUserId}}</td>
+      <td style="border: 1px solid black;">{{curTeanent.status}}</td>
     </tr>
   </table>
   <ul>
@@ -22,25 +25,25 @@
   </ul>
 
   <h3>Create new Tenant</h3>
-  <form ng-submit="save()">
+  <form ng-submit="save()" ng-show="tenant.$resolved">
     <div>Name: <input type="text" ng-required="true" ng-model="tenant.name" placehold="This is my tenant description"></input></div>
     <div>Description: <input ng-disabled="!!tenant.id" type="text" ng-required="true" ng-model="tenant.description" placehold="This is my tenant description"></input></div>
     <div>Status: <toggle class="user-toggle" ng-model="tenant.status"></toggle></div>
     <div>Region :
       <select ng-disabled="!!tenant.id" ng-model="tenant.regionId" ng-required="true">
         <option value=""></option>
-        <option ng-repeat="region in regions.result" value="{{region.id}}">{{region.name}}</option>
+        <option ng-repeat="region in regions" value="{{region.id}}">{{region.name}}</option>
       </select>
     </div>
     <div >Tenant Admin :
       <select ng-model="tenant.adminUserId">
-        <option ng-repeat="user in users.result" value="{{user.id}}">{{user.displayName}}</option>
+        <option ng-repeat="user in users" value="{{user.id}}">{{user.displayName}}</option>
       </select>
     </div>
     <div ng-show="false">Parent Tenant:
       <select ng-model="tenant.parentId">
         <option value=""></option>
-        <option ng-repeat="tenant in tenants.result" value="{{tenant.id}}">{{tenant.name}}</option>
+        <option ng-repeat="tenant in tenants" value="{{tenant.id}}">{{tenant.name}}</option>
       </select>
     </div>
     <input type="submit" class="btn btn-primary" value="{{ !tenant.id ? 'Create' : 'Update' }}"/>

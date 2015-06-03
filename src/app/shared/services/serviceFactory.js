@@ -1,7 +1,17 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .factory('ServiceFactory', ['$resource', 'apiHostname', 'Session', function ($resource, apiHostname, Session) {
+  .factory('ServiceFactory', ['$http', '$resource', 'apiHostname', 'Session', function ($http, $resource, apiHostname, Session) {
+    function appendTransform(defaults, transform) {
+
+      // We can't guarantee that the default transformation is an array
+      defaults = angular.isArray(defaults) ? defaults : [defaults];
+
+      // Append the new transformation to the defaults
+      return defaults.concat(transform);
+    }
+
+
     return {
       create: function (endpoint, setCreatedBy, setUpdatedBy) {
         setUpdatedBy = typeof setUpdatedBy !== 'undefined' ? setUpdatedBy : true;
@@ -10,7 +20,19 @@ angular.module('liveopsConfigPanel')
         return $resource(apiHostname + endpoint, {}, {
           query: {
             method: 'GET',
-            isArray: false
+
+            isArray: true,
+
+            transformResponse: appendTransform($http.defaults.transformResponse, function(value) {
+                return value.result;
+            })
+          },
+          get: {
+            method: 'GET',
+
+            transformResponse: appendTransform($http.defaults.transformResponse, function(value) {
+                return value.result;
+            })
           },
           update: {
             method: 'PUT',

@@ -16,14 +16,15 @@ angular.module('liveopsConfigPanel')
     });
 
     $scope.regions = RegionsService.query(function (data){
-      $scope.fetchTenants($scope.regions.result[0].id);
+      $scope.fetchTenants($scope.regions[0].id);
     });
 
     $scope.users = UserService.query();
 
     $scope.setTenant = function (id) {
-      var activeTenant = $filter('filter')($scope.tenants.result, {id : id})[0];
-      $scope.tenant = id ? activeTenant : {  } ;
+      if(id){
+        $scope.tenant = TenantsService.get({id : id});
+      }
     };
 
     $scope.fetchTenants = function (regionId) {
@@ -34,7 +35,7 @@ angular.module('liveopsConfigPanel')
 
     $scope.saveSuccess = function () {
       $scope.tenant = {};
-      $scope.fetchTenants($scope.regions.result[0].id);
+      $scope.fetchTenants($scope.regions[0].id);
     };
 
     $scope.saveFailure = function (reason) {
@@ -42,19 +43,7 @@ angular.module('liveopsConfigPanel')
     };
 
     $scope.save = function () {
-      if(!$scope.tenant.id){
-        return TenantsService.save({ regionId : $scope.tenant.regionId }, $scope.tenant).$promise
-          .then(
-            $scope.saveSuccess,
-            $scope.saveFailure
-          );
-      } else {
-        return TenantsService.update({ tenantId : $scope.tenant.id }, { name : $scope.tenant.name, adminUserId: $scope.tenant.adminUserId, status: $scope.tenant.status }).$promise
-          .then(
-            $scope.saveSuccess,
-            $scope.saveFailure
-          );
-      }
+    $scope.tenant.$save({id: 1 }, {id : 1});
     };
 
   }]);
