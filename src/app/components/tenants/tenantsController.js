@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('TenantsController', ['$scope', '$routeParams', '$filter', 'Session', 'TenantsService', 'RegionsService', 'UserService',
-    function ($scope, $routeParams, $filter, Session, TenantsService, RegionsService, UserService) {
+  .controller('TenantsController', ['$scope', '$routeParams', '$filter', 'Session', 'Tenant', 'RegionsService', 'User',
+    function ($scope, $routeParams, $filter, Session, Tenant, RegionsService, User) {
 
     $scope.tenant = {};
     $scope.error = {};
@@ -19,17 +19,21 @@ angular.module('liveopsConfigPanel')
       $scope.fetchTenants($scope.regions[0].id);
     });
 
-    $scope.users = UserService.query();
+    $scope.users = User.query();
 
     $scope.setTenant = function (id) {
       if(id){
         var activeTenant = $filter('filter')($scope.tenants, {id : id})[0];
         $scope.tenant = id ? activeTenant : {  } ;
+      } else {
+        $scope.tenant = new Tenant();
+        $scope.tenants.push($scope.tenant);
       }
+
     };
 
     $scope.fetchTenants = function (regionId) {
-      $scope.tenants = TenantsService.query( { regionId : regionId }, function (data) {
+      $scope.tenants = Tenant.query( { regionId : regionId }, function (data) {
         $scope.setTenant($routeParams.id);
       });
     };
@@ -44,7 +48,9 @@ angular.module('liveopsConfigPanel')
     };
 
     $scope.save = function () {
-      $scope.tenant.save({id : $scope.tenant.id});
+      $scope.tenant.save({id : $scope.tenant.id}, null, function(error) {
+        $scope.error = error.data;
+      });
     };
 
   }]);

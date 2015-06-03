@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('userTable', ['$location', '$routeParams', '$filter', 'userStates', 'userStatuses', 'columns', 'UserService', 
-    function ($location, $routeParams, $filter, userStates, userStatuses, columns, UserService) {
+  .directive('userTable', ['$location', '$routeParams', '$filter', 'userStates', 'userStatuses', 'columns', 'User',
+    function ($location, $routeParams, $filter, userStates, userStatuses, columns, User) {
     return {
       restrict: 'E',
       link: function ($scope) {
@@ -10,10 +10,9 @@ angular.module('liveopsConfigPanel')
         $scope.statuses = userStatuses;
         $scope.columns = columns;
         $scope.filteredUsers = [];
-        
-        UserService.query(function (data) {
-          $scope.users = data.result;
-          
+
+        $scope.users = User.query(function (data) {
+
           if($routeParams.id) {
             var activeUser = $filter('filter')($scope.users, {
               id: $routeParams.id
@@ -29,7 +28,7 @@ angular.module('liveopsConfigPanel')
             $scope.selectedUser = $scope.filteredUsers[0];
           }
         });
-        
+
         $scope.selectUser = function (user) {
           $scope.selectedUser = user;
           $location.search({

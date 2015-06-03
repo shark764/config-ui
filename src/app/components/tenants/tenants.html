@@ -8,7 +8,7 @@
       <td>Admin ID</td>
       <td>Status</td>
     </thead>
-    <tr ng-repeat="curTeanent in tenants" >
+    <tr ng-repeat="curTeanent in tenants" ng-show="curTeanent.id">
       <td style="border: 1px solid black;">{{curTeanent.id}}</td>
       <td style="border: 1px solid black;">
           <a ng-href="#/tenants?id={{curTeanent.id}}">{{curTeanent.name}}</a>

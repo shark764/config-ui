@@ -1,10 +1,10 @@
   'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('NavbarController', function ($scope, $location, AuthService, Session, TenantsService) {
+  .controller('NavbarController', function ($scope, $location, AuthService, Session, Tenant) {
     $scope.Session = Session;
 
-    $scope.tenants = TenantsService.query( { regionId : Session.activeRegionId }, function (data) {
+    $scope.tenants = Tenant.query( { regionId : Session.activeRegionId }, function (data) {
 
       if(!Session.tenantId){
           Session.tenantId = $scope.tenants.result[0].id;

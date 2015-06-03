@@ -11,6 +11,14 @@ angular.module('liveopsConfigPanel')
       return defaults.concat(transform);
     };
 
+    function getResult(value){
+      if(value.result){
+        return value.result;
+      }
+
+      return value;
+    }
+
 
     return {
       create: function (endpoint, setCreatedBy, setUpdatedBy, updateFields) {
@@ -24,14 +32,14 @@ angular.module('liveopsConfigPanel')
             isArray: true,
 
             transformResponse: appendTransform($http.defaults.transformResponse, function(value) {
-                return value.result;
+                return getResult(value);
             })
           },
           get: {
             method: 'GET',
 
             transformResponse: appendTransform($http.defaults.transformResponse, function(value) {
-                return value.result;
+                return getResult(value);
             })
           },
           update: {
@@ -56,7 +64,7 @@ angular.module('liveopsConfigPanel')
             },
 
             transformResponse: appendTransform($http.defaults.transformResponse, function(value) {
-                return value.result;
+                return getResult(value);
             })
           },
           save: {
@@ -71,17 +79,17 @@ angular.module('liveopsConfigPanel')
             },
 
             transformResponse: appendTransform($http.defaults.transformResponse, function(value) {
-                return value.result;
+                return getResult(value);
             })
           }
         });
 
-        Resource.prototype.save = function (params) {
+        Resource.prototype.save = function (params, success, failure) {
           if(this.id){
-            return this.$update(params);
+            return this.$update(params, success, failure);
           }
 
-          return this.$save(params);
+          return this.$save(params, success, failure);
         };
 
         return Resource;
