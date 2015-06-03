@@ -1,11 +1,9 @@
-<nav class="navbar" ng-controller="NavbarController" ng-switch="Session.isAuthenticated">
+<nav class="navbar" ng-switch="Session.isAuthenticated">
 
     <a ng-href="#/"></a>
-
     <ul ng-switch-when="true">
       <li>
-        <select ng-model="activeTenant" ng-options="tenant.name for tenant in tenants">
-          <option value=""></option>
+        <select ng-model="Session.tenantId" ng-options="tenant.id as tenant.name for tenant in tenants.result">
         </select>
       </li>
       <li class="divider"></li>
@@ -14,7 +12,7 @@
       <li ng-class="{ active: isActive('/flows')}"><a ng-href="#/flows">{{'navbar.flows.title' | translate}}</a></li>
     </ul>
 
-    <div ng-switch-when="true">
+    <div class="welcome" ng-switch-when="true">
       <span translate="navbar.welcome" translate-value-name="{{Session.fullName}}"></span>
       <div>
         <i class="fa fa-sign-out" ng-click="logout()"></i>
