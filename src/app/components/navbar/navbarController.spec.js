@@ -1,54 +1,94 @@
 'use strict';
 
 describe('NavbarController', function() {
-    var $scope, $location, createController, session, $httpBackend;
+  var $scope, $location, $compile, $controller, $injector, $httpBackend, authService, createController, session, tenants, regions, apiHostname;
 
-    beforeEach(module('liveopsConfigPanel'));
+  beforeEach(module('liveopsConfigPanel'));
 
-    beforeEach(inject(['$rootScope', '$location', '$controller', 'Session', '$httpBackend', function(_$rootScope_, _$location_, $controller, _session_, _$httpBackend_) {
-      $scope = _$rootScope_.$new();
-      $location = _$location_;
-      session = _session_;
-      $httpBackend = _$httpBackend_;
-      
-      createController = function () {
-          return $controller('NavbarController', {
-              '$scope': $scope,
-          });
-      };
+  beforeEach(inject(['$compile', '$rootScope', '$location', '$controller', '$injector', 'AuthService', 'Session', 'apiHostname',
+    function(_$compile_, _$rootScope_, _$location_, _$controller_, _$injector_, _authService_, _session_, _apiHostname_) {
+    $scope = _$rootScope_.$new();
+    $compile = _$compile_;
+    $location = _$location_;
+    $controller = _$controller_;
+    $injector = _$injector_;
+    $httpBackend = $injector.get('$httpBackend');
+    authService = _authService_;
+    session = _session_;
+    apiHostname = _apiHostname_;
 
-    }]));
+    tenants  = [
+      {
+        'id': 'c6aa44f6-b19e-49f5-bd3f-66f00b885e39'
+      },
+      {
+        'id': '9f97f9d9-004c-469c-906d-b917bd79fbe8'
+      }
+    ];
 
-    it('should have a method to check if the path is active', function() {
-        createController();
+    regions = [
+      {
+        'id' : 'c6aa45a6-b19e-49f5-bd3f-61f00b893e39'
+      }
+    ];
 
-        $location.path('/users');
+    session.activeRegionId = regions[0].id;
 
-        expect($location.path()).toBe('/users');
-        expect($scope.isActive('/users')).toBe(true);
-        expect($scope.isActive('/contact')).toBe(false);
-    });
+    $httpBackend.when('GET', apiHostname + '/v1/tenants?regionId=' + session.activeRegionId).respond({'result' : tenants});
+    $httpBackend.when('GET', apiHostname + '/v1/regions').respond({'result' : regions});
 
-    it('should have a method to log the user out and redirect them to the login page', function() {
-        createController();
+    createController = function () {
+        return $controller('NavbarController', {
+            '$scope': $scope,
+        });
+    };
+  }]));
 
-        $location.path('/users');
-        session.set('abc', 'John');
-
-        expect(session.isAuthenticated).toBe(true);
-        expect($location.path()).toBe('/users');
-
-        $scope.logout();
-
-        expect(session.isAuthenticated).toBe(false);
-    });
-    
-    it('should load the tenants for the region', function() {
-      $httpBackend.when('GET', 'fakendpoint.com/v1/tenants?regionId=c98f5fc0-f91a-11e4-a64e-7f6e9992be1f').respond({'result' : [{id: 1}, {id: 2}]});
-      $httpBackend.expectGET('fakendpoint.com/v1/tenants?regionId=c98f5fc0-f91a-11e4-a64e-7f6e9992be1f');
+  it('should have a method to check if the path is active', function() {
       createController();
-      $httpBackend.flush();
-      
-      expect($scope.tenants.length).toEqual(2);
+
+      $location.path('/users');
+
+      expect($location.path()).toBe('/users');
+      expect($scope.isActive('/users')).toBe(true);
+      expect($scope.isActive('/contact')).toBe(false);
   });
+
+  it('should have a method to log the user out and redirect them to the login page', function() {
+      createController();
+
+      $location.path('/users');
+      session.set('abc', 'John');
+
+      expect(session.isAuthenticated).toBe(true);
+      expect($location.path()).toBe('/users');
+
+      $scope.logout();
+
+      expect(session.isAuthenticated).toBe(false);
+  });
+
+  it('should select the first tenant retrieved as the active tenant if no tenant is set in the session', function () {
+
+    expect(session.tenantId).toBeNull();
+
+    $httpBackend.expectGET(apiHostname + '/v1/tenants?regionId=' + session.activeRegionId);
+
+    createController();
+
+    $httpBackend.flush();
+
+    expect(session.tenantId).toBe(tenants[0].id);
+  });
+
+
+	it('should load the tenants for the active region', function() {
+      $httpBackend.expectGET(apiHostname + '/v1/tenants?regionId=' + session.activeRegionId);
+
+      createController();
+
+      $httpBackend.flush();
+
+      expect($scope.tenants.length).toEqual(tenants.size);
+  	});
 });

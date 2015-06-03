@@ -7,38 +7,34 @@ angular.module('liveopsConfigPanel')
     $scope.tenant = {};
     $scope.error = {};
 
-    $scope.tenants = [];
-    $scope.regions = [];
-    $scope.users = [];
+    $scope.tenants = {};
+    $scope.regions = {};
+    $scope.users = {};
 
     $scope.$on('$routeUpdate', function () {
       $scope.setTenant($routeParams.id);
     });
 
-    RegionsService.query(function (data){
-      $scope.regions = data.result;
-      $scope.fetch($scope.regions[0].id);
+    $scope.regions = RegionsService.query(function (data){
+      $scope.fetchTenants($scope.regions.result[0].id);
     });
 
-    UserService.query(function(data){
-      $scope.users = data.result;
-    });
+    $scope.users = UserService.query();
 
     $scope.setTenant = function (id) {
-      var activeTenant = $filter('filter')($scope.tenants, {id : id})[0];
+      var activeTenant = $filter('filter')($scope.tenants.result, {id : id})[0];
       $scope.tenant = id ? activeTenant : {  } ;
     };
 
-    $scope.fetch = function (regionId) {
-      TenantsService.query( { regionId : regionId }, function (data) {
-        $scope.tenants = data.result;
+    $scope.fetchTenants = function (regionId) {
+      $scope.tenants = TenantsService.query( { regionId : regionId }, function (data) {
         $scope.setTenant($routeParams.id);
       });
     };
 
     $scope.saveSuccess = function () {
       $scope.tenant = {};
-      $scope.fetch($scope.regions[0].id);
+      $scope.fetchTenants($scope.regions.result[0].id);
     };
 
     $scope.saveFailure = function (reason) {

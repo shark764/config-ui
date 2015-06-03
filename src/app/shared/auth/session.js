@@ -12,16 +12,20 @@ angular.module('liveopsConfigPanel')
 // session information using redis or memcache
 
 // this will suffice in beta however.
-.factory('Session', ['sessionKey', '$translate', function(sessionKey, $translate) {
+.service('Session', ['$rootScope', 'sessionKey', '$translate', function($rootScope, sessionKey, $translate) {
 
   var Session = function () {
 
+    var self = this;
+
     this.userSessionKey = sessionKey;
-    this.token = '';
-    this.fullName = '';
-    this.id = '';
+    this.token = null;
+    this.fullName = null;
+    this.id = null;
+    this.lang = null;
+    this.tenantId = null;
     this.isAuthenticated = false;
-    this.lang = '';
+    this.activeRegionId = '6aff1f30-0901-11e5-87f2-b1d420920055';
 
     this.set = function(token, fullName, id, lang) {
       this.token = token;
@@ -30,19 +34,29 @@ angular.module('liveopsConfigPanel')
       this.lang = lang;
       this.isAuthenticated = true;
 
-      localStorage.setItem(this.userSessionKey, JSON.stringify(this));
       if (lang){
         $translate.use(lang);
-      }
+      };
+
+      this.storeSession();
+    };
+
+    $rootScope.$watch('Session.tenantId' , function () {
+      self.storeSession();
+    });
+
+    this.storeSession = function () {
+      localStorage.setItem(this.userSessionKey, JSON.stringify(this));
     };
 
     this.destroy = function() {
-      this.token = '';
-      this.fullName = '';
-      this.id = '';
+      this.token = null;
+      this.fullName = null;
+      this.id = null;
+      this.lang = null;
+      this.tenantId = null;
       this.isAuthenticated = false;
-      this.lang = '';
-      
+
       localStorage.removeItem(this.userSessionKey);
     };
 
