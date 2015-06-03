@@ -4,11 +4,9 @@ angular.module('liveopsConfigPanel')
   .directive('userDetails', ['UserService', 'userRoles', 'userStates', 'userStatuses',
     function (UserService, userRoles, userStates, userStatuses) {
       return {
-
         scope: {
           user: '='
         },
-
         templateUrl: 'app/components/users/userDetails/userDetails.html',
 
         link: function ($scope) {
@@ -29,17 +27,23 @@ angular.module('liveopsConfigPanel')
           });
 
           $scope.trimmedUser = function (user) {
-            return {
+            var data =  {
               firstName: user.firstName,
               lastName: user.lastName,
               role: user.role,
-              externalId: user.externalId,
               email: user.email,
               displayName: user.displayName,
               status: user.status,
               password: user.password,
               state: user.state
             };
+            
+            //Optional fields
+            if (user.externalId){
+              data.externalId = user.externalId;
+            }
+            
+            return data;
           };
 
           $scope.save = function () {

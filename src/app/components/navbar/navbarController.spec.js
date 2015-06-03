@@ -90,4 +90,14 @@ describe('NavbarController', function() {
 
       expect(session.setTenantId).toHaveBeenCalledWith(tenants[0].id);
     });
+
+	it('should load the tenants for the active region', function() {
+      $httpBackend.expectGET(apiHostname + '/v1/tenants?regionId=' + session.activeRegionId);
+
+      createController();
+
+      $httpBackend.flush();
+
+      expect($scope.tenants.length).toEqual(tenants.size);
+  	});
 });
