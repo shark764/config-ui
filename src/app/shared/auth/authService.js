@@ -3,47 +3,66 @@
 /* global  window: false */
 
 angular.module('liveopsConfigPanel')
+  .factory('AuthService', ['$resource', 'Session', 'UserService', 'apiHostname',
+    function ($resource, Session, UserService, apiHostname) {
+      // localStorage should not be used to store passwords in production
+      // this is a temporary solution until Tao gets back to me on the ability to get
+      // a token back from the API to store instead.
 
-  // localStorage should not be used to store passwords in production
-  // this is a temporary solution until Tao gets back to me on the ability to get
-  // a token back from the API to store instead.
+      // if this is NOT possible, we will need to setup a slim backend server to manage
+      // session information using redis or memcache
 
-  // if this is NOT possible, we will need to setup a slim backend server to manage
-  // session information using redis or memcache
+      // this will suffice in beta however.
+      
+      var AuthService =  function() {
+        this.login = function (username, password) {
+          var token = this.generateToken(username, password);
 
-  // this will suffice in beta however.
-  .factory('AuthService', function(Session) {
+          var resource = $resource(apiHostname + '/v1/users', null, {
+            query: {
+              method: 'GET',
+              headers: {
+                Authorization: 'Basic ' + token
+              }
+            }
+          });
+          
+          var promise = resource.query().$promise;
+          promise = promise.then(function(response) {
+            angular.forEach(response.result, function (user) {
+              if (user.email === username) {
+                response = {
+                  token: token
+                };
+              }
+            });
+            
+            if(!response.user){
+              throw new UserNotFoundException();
+            }
+            
+            return response;
+          })
+          
+          return promise;
+        };
 
-    var AuthService = function () {
+        this.logout = function () {
+          Session.destroy();
+        };
 
-      this.login = function (username, password) {
-        Session.set(this.generateToken(username, password), 'Ron', '1c838030-f772-11e4-ac37-45b2e1245d4b', 'en');
-      };
-
-      this.logout = function () {
-        Session.destroy();
-      };
-
-      this.generateToken = function (username, password) {
-        return window.btoa(username + ':' + password);
-      };
-
-    };
-
-    return new AuthService();
-  })
-
-  // this function runs once, and only once, to wire up the route
-  // blocking and redirecting.
-
-  // this also wires up the isLoggedIn flag to the rootScope so
-  // all controllers, directives, etc can see it.
-  .run(function ($rootScope, $location, Session) {
-
-    $rootScope.$on('$routeChangeStart', function (event, next) {
-      if(next.$$route && next.$$route.secure && !Session.isAuthenticated) { // if we're on a secure route and we have no token
-        event.preventDefault();
-        $location.path('/login');
+        this.generateToken = function (username, password) {
+          return window.btoa(username + ':' + password);
+        };
       }
-    });
-  });
+      
+      return AuthService;
+    }
+  ]);
+  
+function UserNotFoundException() {
+  this.name = 'UserNotFoundException';
+  this.message = 'Username was not found under /v1/users';
+}
+UserNotFoundException.prototype = new Error();
+UserNotFoundException.prototype.constructor = UserNotFoundException;

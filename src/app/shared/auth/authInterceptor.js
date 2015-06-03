@@ -1,29 +1,35 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
+  .factory('AuthInterceptor', ['$rootScope', '$location', 'Session', 'apiHostname',
+    function ($rootScope, $location, Session, apiHostname) {
 
-  .factory('AuthInterceptor', ['$rootScope', 'Session', 'apiHostname', function($rootScope, Session, apiHostname) {
+      var Interceptor = function () {
 
+        this.request = function (request) {
+          if (Session.token) {
+            request.headers.Authorization = 'Basic ' + Session.token;
+            request.headers['Content-Type'] = 'application/json';
+          }
 
-  var Interceptor = function () {
+          return request;
+        };
 
-    this.request = function(config){
-      config.headers = {};
+        this.responseError = function (response) {
+          if (response.status === 401) {
+            Session.destroy();
+            $location.path('/login');
+          }
 
-      if(config.url.indexOf(apiHostname) >= 0 && Session.token){
-          config.headers.Authorization = 'Basic ' + Session.token;
-          config.headers['Content-Type'] = 'application/json';
-      }
+          return response;
+        }
+      };
 
-      return config;
-    };
-
-  };
-
-    return new Interceptor();
-  }])
+      return new Interceptor();
+    }
+  ])
 
   // queue the interceptor
-  .config(function($httpProvider) {
+  .config(function ($httpProvider) {
     $httpProvider.interceptors.push('AuthInterceptor');
   });
