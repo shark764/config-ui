@@ -39,6 +39,7 @@
     </div>
     <div>Parent Tenant:
       <select ng-model="tenant.parentId">
+        <option value="null"></option>
         <option ng-repeat="tenant in tenants" value="{{tenant.id}}">{{tenant.name}}</option>
       </select>
     </div>

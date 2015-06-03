@@ -1,11 +1,9 @@
 <nav class="navbar" ng-controller="NavbarController" ng-switch="Session.isAuthenticated">
 
     <a ng-href="#/"></a>
-
     <ul ng-switch-when="true">
       <li>
-        <select ng-model="activeTenant" ng-options="tenant.name for tenant in tenants">
-          <option value=""></option>
+        <select ng-model="activeTenantId" ng-change="changeTenant(activeTenantId)" ng-options="tenant.id as tenant.name for tenant in tenants.result">
         </select>
       </li>
       <li class="divider"></li>

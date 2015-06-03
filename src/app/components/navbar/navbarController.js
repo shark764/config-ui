@@ -1,22 +1,33 @@
-'use strict';
+  'use strict';
 
 angular.module('liveopsConfigPanel')
-    .controller('NavbarController', function ($scope, $location, AuthService, Session, TenantsService) {
-        $scope.tenants = [];
-        $scope.activeTenant = {};
+  .controller('NavbarController', function ($scope, $location, AuthService, Session, TenantsService) {
 
-        $scope.isActive = function (viewLocation){
-            return viewLocation === $location.path();
-        };
+    $scope.activeTenantId = '';
 
-        $scope.Session = Session;
+    $scope.tenants = TenantsService.query( { regionId : '6aff1f30-0901-11e5-87f2-b1d420920055' }, function (data) {
+      $scope.activeTenantId = Session.tenantId;
 
-        TenantsService.query( { regionId : 'c98f5fc0-f91a-11e4-a64e-7f6e9992be1f' }, function (data) {
-            $scope.tenants = data.result;
-        });
+      if(!$scope.activeTenantId){
+          $scope.activeTenantId = $scope.tenants.result[0].id;
+          $scope.changeTenant($scope.activeTenantId);
+      };
 
-        $scope.logout = function () {
-            AuthService.logout();
-            $location.url($location.path('/login'));
-        };
     });
+
+    $scope.Session = Session;
+
+    $scope.changeTenant = function (tenantId) {
+      $scope.activeTenantId = tenantId;
+      Session.setTenantId(tenantId);
+    };
+
+    $scope.isActive = function (viewLocation){
+      return viewLocation === $location.path();
+    };
+
+    $scope.logout = function () {
+      AuthService.logout();
+      $location.url($location.path('/login'));
+    };
+  });

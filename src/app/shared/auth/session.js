@@ -22,6 +22,7 @@ angular.module('liveopsConfigPanel')
     this.id = '';
     this.isAuthenticated = false;
     this.lang = '';
+    this.tenantId = '';
 
     this.set = function(token, fullName, id, lang) {
       this.token = token;
@@ -30,10 +31,20 @@ angular.module('liveopsConfigPanel')
       this.lang = lang;
       this.isAuthenticated = true;
 
-      localStorage.setItem(this.userSessionKey, JSON.stringify(this));
       if (lang){
         $translate.use(lang);
-      }
+      };
+
+      this.storeSession();
+    };
+
+    this.setTenantId = function(tenantId) {
+      this.tenantId = tenantId;
+      this.storeSession();
+    };
+
+    this.storeSession = function () {
+      localStorage.setItem(this.userSessionKey, JSON.stringify(this));
     };
 
     this.destroy = function() {
@@ -42,7 +53,8 @@ angular.module('liveopsConfigPanel')
       this.id = '';
       this.isAuthenticated = false;
       this.lang = '';
-      
+      this.tenantId = '';
+
       localStorage.removeItem(this.userSessionKey);
     };
 
