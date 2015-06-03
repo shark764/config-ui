@@ -5,11 +5,9 @@ angular.module('liveopsConfigPanel')
     $scope.Session = Session;
 
     $scope.tenants = TenantsService.query( { regionId : Session.activeRegionId }, function (data) {
-
       if(!Session.tenantId){
-          Session.tenantId = $scope.tenants.result[0].id;
+          Session.tenantId = $scope.tenants[0].id;
       };
-
     });
 
     $scope.isActive = function (viewLocation){

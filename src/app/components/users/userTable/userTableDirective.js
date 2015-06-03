@@ -11,13 +11,11 @@ angular.module('liveopsConfigPanel')
         $scope.columns = columns;
         $scope.filteredUsers = [];
         
-        UserService.query(function (data) {
-          $scope.users = data.result;
-          
+        $scope.users = UserService.query(function (data) {
           if($routeParams.id) {
             var activeUser = $filter('filter')($scope.users, {
               id: $routeParams.id
-            }, true)[0];
+            }, true);
 
             $scope.selectedUser = activeUser;
           }

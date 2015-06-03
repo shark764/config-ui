@@ -77,12 +77,13 @@ describe('TenantsController', function() {
 
     it('should have users defined', function() {
         expect($scope.users).toBeDefined();
-        expect($scope.users).toEqual(users);
+        expect($scope.users.length).toEqual(users.length);
     });
     
     it('should have regions defined', function() {
       expect($scope.regions).toBeDefined();
-      expect($scope.regions).toEqual(regions);
+      expect($scope.regions.length).toEqual(regions.length);
+      expect($scope.regions[0].id).toEqual(regions[0].id);
     });
     
     it('should catch the routeUpdate event and set a new tenant', function() {
@@ -99,10 +100,10 @@ describe('TenantsController', function() {
         expect($scope.tenant).toEqual({});
       });
       
-      it('should refetch the list of tenants', function() {
-        spyOn($scope, 'fetch');
+      it('should refetchTenants the list of tenants', function() {
+        spyOn($scope, 'fetchTenants');
         $scope.saveSuccess();
-        expect($scope.fetch).toHaveBeenCalled();
+        expect($scope.fetchTenants).toHaveBeenCalled();
       });
     });
     
@@ -116,7 +117,7 @@ describe('TenantsController', function() {
     describe('setTenants function', function() {
       it('should update the scope\'s tenant', function() {
         $scope.setTenant(tenants[1].id);
-        expect($scope.tenant).toEqual(tenants[1]);
+        expect($scope.tenant.id).toEqual(tenants[1].id);
       });
       
       it('should set tenant to empty object when given no id', function() {
@@ -125,12 +126,13 @@ describe('TenantsController', function() {
       });
     });
     
-    describe('fetch function', function() {
+    describe('fetchTenants function', function() {
       it('should update the tenants for the new regionid', function() {
         $httpBackend.expectGET('fakendpoint.com/v1/tenants?regionId=2');
-        $scope.fetch('2');
+        $scope.fetchTenants('2');
         $httpBackend.flush();
-        expect($scope.tenants).toEqual(region2tenants);
+        expect($scope.tenants.length).toEqual(region2tenants.length);
+        expect($scope.tenants[0].id).toEqual(region2tenants[0].id);
       });
       
       it('should select a tenant based on the routeparams', function() {
@@ -139,81 +141,22 @@ describe('TenantsController', function() {
         $controller('TenantsController', {'$scope': $scope, $routeParams: {id: region2tenants[0].id}});
         $httpBackend.flush();
         $httpBackend.expectGET('fakendpoint.com/v1/tenants?regionId=2');
-        $scope.fetch('2');
+        $scope.fetchTenants('2');
         $httpBackend.flush();
-        expect($scope.tenant).toEqual(region2tenants[0]);
+        expect($scope.tenant.id).toEqual(region2tenants[0].id);
       });
     });
     
     describe('save function', function() {
-      describe('create', function() {
-        beforeEach(function(){
-          $scope.tenant = {};
-        });
-        
-        it('should create a new tenant if scope.tenant is empty', function() {
-          $httpBackend.when('POST', 'fakendpoint.com/v1/tenants').respond({'result' : {}});
-          $httpBackend.expectPOST('fakendpoint.com/v1/tenants');
-          
-          $scope.save();
-          $httpBackend.flush();
-        });
-        
-        it('should call savesuccess on create success', function() {
-          $httpBackend.when('POST', 'fakendpoint.com/v1/tenants').respond({'result' : {}});
-          $httpBackend.expectPOST('fakendpoint.com/v1/tenants');
-          
-          spyOn($scope, 'saveSuccess');
-          $scope.save();
-          $httpBackend.flush();
-          expect($scope.saveSuccess).toHaveBeenCalled();
-        });
-        
-        it('should call savefailure on create error', function() {
-          $httpBackend.when('POST', 'fakendpoint.com/v1/tenants').respond(500, '');
-          $httpBackend.expectPOST('fakendpoint.com/v1/tenants');
-          
-          spyOn($scope, 'saveFailure');
-          $scope.save();
-          $httpBackend.flush();
-          expect($scope.saveFailure).toHaveBeenCalled();
-        });
-      });
-      
       describe('update function', function() {
-        beforeEach(function(){
+        it('should call the save function on tenant', function() {
           $scope.tenant = region2tenants[0];
+          $scope.tenant.save = function(){};
           $scope.tenant.description = 'a better description';
-        });
-        
-        it('should update existing tenant if scope.tenant.id exists', function() {
-          $httpBackend.when('PUT', 'fakendpoint.com/v1/tenants/t3').respond({'result' : {}});
-          $httpBackend.expectPUT('fakendpoint.com/v1/tenants/t3');
           
+          spyOn($scope.tenant, 'save');
           $scope.save();
-          $httpBackend.flush();
-        });
-        
-        it('should call savesuccess on update success', function() {
-          $httpBackend.when('PUT', 'fakendpoint.com/v1/tenants/t3').respond({'result' : {}});
-          $httpBackend.expectPUT('fakendpoint.com/v1/tenants/t3');
-          
-          spyOn($scope, 'saveSuccess');
-          $scope.save();
-          $httpBackend.flush();
-          
-          expect($scope.saveSuccess).toHaveBeenCalled();
-        });
-        
-        it('should call savefailure on update error', function() {
-          $httpBackend.when('PUT', 'fakendpoint.com/v1/tenants/t3').respond(500, '');
-          $httpBackend.expectPUT('fakendpoint.com/v1/tenants/t3');
-          
-          spyOn($scope, 'saveFailure');
-          $scope.save();
-          $httpBackend.flush();
-          
-          expect($scope.saveFailure).toHaveBeenCalled();
+          expect($scope.tenant.save).toHaveBeenCalled();
         });
       });
     });
