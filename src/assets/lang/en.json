@@ -3,6 +3,7 @@
   
   "navbar.users.title": "User Management",
   "navbar.tenants.title": "Tenants",
+  "navbar.flows.title": "Flow Designer",
   "navbar.welcome": "Welcome back, {{name}}",
   
   "details.user.createdby": "User created by {{creator}} at {{date}}",

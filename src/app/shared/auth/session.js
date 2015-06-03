@@ -22,6 +22,7 @@ angular.module('liveopsConfigPanel')
     this.id = '';
     this.isAuthenticated = false;
     this.lang = '';
+    this.tenantId = '519974b0-09ff-11e5-af00-b1d420920055';
 
     this.set = function(token, fullName, id, lang) {
       this.token = token;
