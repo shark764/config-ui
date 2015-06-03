@@ -8,7 +8,7 @@
       <td>Admin ID</td>
       <td>Status</td>
     </thead>
-    <tr ng-repeat="tenant in tenants.result" >
+    <tr ng-repeat="tenant in tenants.result">
       <td style="border: 1px solid black;">{{tenant.id}}</td>
       <td style="border: 1px solid black;"><a ng-href="#/tenants?id={{tenant.id}}">{{tenant.name}}</a></td>
       <td style="border: 1px solid black;">{{tenant.adminUserId}}</td>
@@ -23,16 +23,22 @@
 
   <h3>Create new Tenant</h3>
   <form ng-submit="save()">
-    <div>Name: <input type="text" ng-required="true" ng-model="tenant.name" placeholder="This is my tenant description"></input></div>
-    <div>Description: <input ng-disabled="!!tenant.id" type="text" ng-required="true" ng-model="tenant.description" placeholder="This is my tenant description"></input></div>
-    <div>Status: <toggle class="user-toggle" ng-model="tenant.status"></toggle></div>
+    <div>Name:
+      <input type="text" ng-required="true" ng-model="tenant.name" placeholder="This is my tenant description"></input>
+    </div>
+    <div>Description:
+      <input ng-disabled="!!tenant.id" type="text" ng-required="true" ng-model="tenant.description" placeholder="This is my tenant description"></input>
+    </div>
+    <div ng-hide="true">Status:
+      <toggle class="user-toggle" ng-model="tenant.status" checked="true"></toggle>
+    </div>
     <div>Region :
       <select ng-disabled="!!tenant.id" ng-model="tenant.regionId" ng-required="true">
         <option value=""></option>
         <option ng-repeat="region in regions.result" value="{{region.id}}">{{region.name}}</option>
       </select>
     </div>
-    <div >Tenant Admin :
+    <div>Tenant Admin :
       <select ng-model="tenant.adminUserId">
         <option ng-repeat="user in users.result" value="{{user.id}}">{{user.displayName}}</option>
       </select>
@@ -43,7 +49,7 @@
         <option ng-repeat="tenant in tenants.result" value="{{tenant.id}}">{{tenant.name}}</option>
       </select>
     </div>
-    <input type="submit" id='submit-tenant-form' class="btn btn-primary" value="{{ !tenant.id ? 'Create' : 'Update' }}"/>
+    <input type="submit" id='submit-tenant-form' class="btn btn-primary" value="{{ !tenant.id ? 'Create' : 'Update' }}" />
   </form>
 
 </div>

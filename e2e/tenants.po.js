@@ -9,7 +9,7 @@ var TenantsPage = function() {
   this.descriptionFormField = element(by.model('tenant.description'));
   this.statusFormToggle = element(by.model('tenant.status'));
   this.regionFormDropDown = element(by.model('tenant.regionId'));
-  this.adminFormDropDown = element(by.model('tenant.adminId'));
+  this.adminFormDropDown = element(by.model('tenant.adminUserId'));
   this.parentFormDropDown = element(by.model('tenant.parentId'));
 
   this.tenantElements = this.tenantsTable.all(by.repeater('tenant in tenants'));

@@ -29,7 +29,7 @@ describe('The users view', function() {
     // TODO: Update with values that will be more likely to always match users
 
     users.userSearchField.sendKeys('Ron');
-    element.all(by.repeater('user in users')).then(function(rows) {
+    element.all(by.repeater('user in filteredUsers')).then(function(rows) {
       for (var i = 0; i < rows.length; ++i) {
         element(by.css('tr.ng-scope:nth-child(' + (i + 1) + ') > td:nth-child(1)')).getText().then(function(value) {
           expect(value.toLowerCase()).toContain('ron');
@@ -39,7 +39,7 @@ describe('The users view', function() {
 
     users.userSearchField.clear();
     users.userSearchField.sendKeys('B');
-    element.all(by.repeater('user in users')).then(function(rows) {
+    element.all(by.repeater('user in filteredUsers')).then(function(rows) {
       for (var i = 0; i < rows.length; ++i) {
         element(by.css('tr.ng-scope:nth-child(' + (i + 1) + ') > td:nth-child(1)')).getText().then(function(value) {
           expect(value.toLowerCase()).toContain('b');
@@ -49,7 +49,7 @@ describe('The users view', function() {
 
     users.userSearchField.clear();
     users.userSearchField.sendKeys('Ro*Bur');
-    element.all(by.repeater('user in users')).then(function(rows) {
+    element.all(by.repeater('user in filteredUsers')).then(function(rows) {
       for (var i = 0; i < rows.length; ++i) {
         element(by.css('tr.ng-scope:nth-child(' + (i + 1) + ') > td:nth-child(1)')).getText().then(function(value) {
           expect(value.toLowerCase()).toContain('ro');
@@ -59,16 +59,17 @@ describe('The users view', function() {
     });
 
     users.userSearchField.clear();
-    expect(element.all(by.repeater('user in users')).count()).toBe(userCount);
+    expect(element.all(by.repeater('user in filteredUsers')).count()).toBe(userCount);
   });
 
   it('should display users based on the table Status filter', function() {
     // Select Disabled from Status drop down
     users.statusTableDropDown.click();
     users.statusTableDropDown.all(by.css('input')).get(1).click();
-    expect(users.statusTableDropDown.all(by.css('input')).get(0).getAttribute('ng-checked')).toBe('false');
+    expect(users.statusTableDropDown.all(by.css('input')).get(1).getAttribute('checked')).toBe('true');
+    expect(users.statusTableDropDown.all(by.css('input')).get(0).getAttribute('checked')).toBe(null);
     users.statusTableDropDown.click();
-    element.all(by.repeater('user in users')).then(function(rows) {
+    element.all(by.repeater('user in filteredUsers')).then(function(rows) {
       for (var i = 0; i < rows.length; ++i) {
         expect(element(by.css('tr.ng-scope:nth-child(' + (i + 1) + ') > td:nth-child(4)')).getText()).toBe('Disabled');
       };
@@ -79,7 +80,7 @@ describe('The users view', function() {
     users.statusTableDropDown.all(by.css('input')).get(1).click();
     users.statusTableDropDown.all(by.css('input')).get(2).click();
     users.statusTableDropDown.click();
-    element.all(by.repeater('user in users')).then(function(rows) {
+    element.all(by.repeater('user in filteredUsers')).then(function(rows) {
       for (var i = 0; i < rows.length; ++i) {
         expect(element(by.css('tr.ng-scope:nth-child(' + (i + 1) + ') > td:nth-child(4)')).getText()).toBe('Enabled');
       };
@@ -88,11 +89,12 @@ describe('The users view', function() {
     // Select All from Status drop down
     users.statusTableDropDown.click();
     users.statusTableDropDown.all(by.css('input')).get(0).click();
-    expect(users.statusTableDropDown.all(by.css('input')).get(1).getAttribute('ng-checked')).toBe('false');
-    expect(users.statusTableDropDown.all(by.css('input')).get(2).getAttribute('ng-checked')).toBe('false');
+    expect(users.statusTableDropDown.all(by.css('input')).get(0).getAttribute('checked')).toBe('true');
+    expect(users.statusTableDropDown.all(by.css('input')).get(1).getAttribute('checked')).toBe(null);
+    expect(users.statusTableDropDown.all(by.css('input')).get(2).getAttribute('checked')).toBe(null);
     users.statusTableDropDown.click();
     // Expect all users to be displayed
-    expect(element.all(by.repeater('user in users')).count()).toBe(userCount);
+    expect(element.all(by.repeater('user in filteredUsers')).count()).toBe(userCount);
   });
 
   it('should display users based on the table State filter', function() {
@@ -100,12 +102,13 @@ describe('The users view', function() {
     users.stateTableDropDown.click(); // Open
     users.stateTableDropDown.all(by.css('input')).get(3).click(); // Select Ready
     // All is deselected
-    expect(users.stateTableDropDown.all(by.css('input')).get(0).getAttribute('ng-checked')).toBe('false');
+    expect(users.stateTableDropDown.all(by.css('input')).get(3).getAttribute('checked')).toBe('true');
+    expect(users.stateTableDropDown.all(by.css('input')).get(0).getAttribute('checked')).toBe(null);
     users.stateTableDropDown.click(); // Close
 
-    element.all(by.repeater('user in users')).then(function(rows) {
+    element.all(by.repeater('user in filteredUsers')).then(function(rows) {
       for (var j = 0; j < rows.length; ++j) {
-        expect(element(by.css('tr.ng-scope:nth-child(' + (j + 1) + ') > td:nth-child(5)')).getText()).toBe('READY');
+        expect(element(by.css('tr.ng-scope:nth-child(' + (j + 1) + ') > td:nth-child(5) > div:nth-child(1)')).getText()).toBe('READY');
       };
     });
 
@@ -116,9 +119,9 @@ describe('The users view', function() {
 
     var userHasState = false;
     var currentUserState;
-    element.all(by.repeater('user in users')).then(function(rows) {
+    element.all(by.repeater('user in filteredUsers')).then(function(rows) {
       for (var j = 0; j < rows.length; ++j) {
-        element(by.css('tr.ng-scope:nth-child(' + (j + 1) + ') > td:nth-child(5)')).getText().then(function(value) {
+        element(by.css('tr.ng-scope:nth-child(' + (j + 1) + ') > td:nth-child(5) > div:nth-child(1)')).getAttribute('state').then(function(value) {
           expect(['BUSY', 'READY']).toContain(value);
         });
       };
@@ -128,11 +131,12 @@ describe('The users view', function() {
     users.stateTableDropDown.click(); // Open
     users.stateTableDropDown.all(by.css('input')).get(0).click(); // Select All
     // Previous selections are deselected
-    expect(users.stateTableDropDown.all(by.css('input')).get(3).getAttribute('ng-checked')).toBe('false');
-    expect(users.stateTableDropDown.all(by.css('input')).get(1).getAttribute('ng-checked')).toBe('false');
+    expect(users.stateTableDropDown.all(by.css('input')).get(0).getAttribute('checked')).toBe('true');
+    expect(users.stateTableDropDown.all(by.css('input')).get(3).getAttribute('checked')).toBe(null);
+    expect(users.stateTableDropDown.all(by.css('input')).get(1).getAttribute('checked')).toBe(null);
     users.stateTableDropDown.click(); // Close
     // Expect all users to be displayed
-    expect(element.all(by.repeater('user in users')).count()).toBe(userCount);
+    expect(element.all(by.repeater('user in filteredUsers')).count()).toBe(userCount);
   });
 
   it('should display users based on the Search, Status and State filters', function() {
@@ -149,13 +153,13 @@ describe('The users view', function() {
     users.stateTableDropDown.all(by.css('input')).get(3).click(); // Select Ready
     users.stateTableDropDown.click(); // Close
 
-    element.all(by.repeater('user in users')).then(function(rows) {
+    element.all(by.repeater('user in filteredUsers')).then(function(rows) {
       for (var i = 0; i < rows.length; ++i) {
         element(by.css('tr.ng-scope:nth-child(' + (i + 1) + ') > td:nth-child(1)')).getText().then(function(value) {
           expect(value.toLowerCase()).toContain('a');
         });
         expect(element(by.css('tr.ng-scope:nth-child(' + (i + 1) + ') > td:nth-child(4)')).getText()).toBe('Enabled');
-        expect(element(by.css('tr.ng-scope:nth-child(' + (i + 1) + ') > td:nth-child(5)')).getText()).toBe('READY');
+        expect(element(by.css('tr.ng-scope:nth-child(' + (i + 1) + ') > td:nth-child(5) > div:nth-child(1)')).getAttribute('state')).toBe('READY');
       };
     });
 
@@ -173,7 +177,7 @@ describe('The users view', function() {
     users.stateTableDropDown.all(by.css('input')).get(4).click(); // Select Ready
     users.stateTableDropDown.click(); // Close
 
-    element.all(by.repeater('user in users')).then(function(rows) {
+    element.all(by.repeater('user in filteredUsers')).then(function(rows) {
       for (var i = 0; i < rows.length; ++i) {
         element(by.css('tr.ng-scope:nth-child(' + (i + 1) + ') > td:nth-child(1)')).getText().then(function(value) {
           expect(value.toLowerCase()).toContain('an');
@@ -181,7 +185,7 @@ describe('The users view', function() {
         element(by.css('tr.ng-scope:nth-child(' + (i + 1) + ') > td:nth-child(4)')).getText().then(function(value) {
           expect(['Enabled', 'Disabled']).toContain(value);
         });
-        element(by.css('tr.ng-scope:nth-child(' + (i + 1) + ') > td:nth-child(5)')).getText().then(function(value) {
+        element(by.css('tr.ng-scope:nth-child(' + (i + 1) + ') > td:nth-child(5) > div:nth-child(1)')).getAttribute('state').then(function(value) {
           expect(['LOGIN', 'READY']).toContain(value);
         });
       };
