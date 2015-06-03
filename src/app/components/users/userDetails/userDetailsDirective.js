@@ -14,23 +14,24 @@ angular.module('liveopsConfigPanel')
           $scope.userStates = userStates;
           $scope.userStatuses = userStatuses;
 
-          $scope.reset = function () {
-            $scope.user = {
-              status: false,
-              state: 'OFFLINE',
-              password: 'blah'
-            };
-          };
 
           $scope.$on('user:create', function () {
-            $scope.reset();
+
+            $scope.user = new User({
+              status: false,
+              state: 'OFFLINE'
+            });
           });
 
           $scope.save = function () {
             $scope.user.save({id: $scope.user.id},
               function (result) {
+
                 $scope.user = result;
-                $scope.$emit('user:created', result);
+
+                if(!$scope.user.id){
+                  $scope.$emit('user:created', result);
+                }
               });
           };
         }

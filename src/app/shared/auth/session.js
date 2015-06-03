@@ -56,6 +56,7 @@ angular.module('liveopsConfigPanel')
       this.lang = null;
       this.tenantId = null;
       this.isAuthenticated = false;
+      this.activeRegionId = null;
 
       localStorage.removeItem(this.userSessionKey);
     };

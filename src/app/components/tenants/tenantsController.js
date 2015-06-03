@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('TenantsController', ['$scope', '$routeParams', '$filter', 'Session', 'Tenant', 'RegionsService', 'User',
-    function ($scope, $routeParams, $filter, Session, Tenant, RegionsService, User) {
+  .controller('TenantsController', ['$scope', '$routeParams', '$filter', 'Session', 'Tenant', 'Region', 'User',
+    function ($scope, $routeParams, $filter, Session, Tenant, Region, User) {
 
     $scope.tenant = {};
     $scope.error = {};
@@ -15,7 +15,7 @@ angular.module('liveopsConfigPanel')
       $scope.setTenant($routeParams.id);
     });
 
-    $scope.regions = RegionsService.query(function (data){
+    $scope.regions = Region.query(function (data){
       $scope.fetchTenants($scope.regions[0].id);
     });
 
