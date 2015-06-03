@@ -17,12 +17,13 @@ angular.module('liveopsConfigPanel')
   var Session = function () {
 
     this.userSessionKey = sessionKey;
-    this.token = '';
-    this.fullName = '';
-    this.id = '';
+    this.token = null;
+    this.fullName = null;
+    this.id = null;
+    this.lang = null;
+    this.tenantId = null;
     this.isAuthenticated = false;
-    this.lang = '';
-    this.tenantId = '';
+    this.activeRegionId = 'c6aa45a6-b19e-49f5-bd3f-61f00b893e39';
 
     this.set = function(token, fullName, id, lang) {
       this.token = token;
@@ -48,12 +49,12 @@ angular.module('liveopsConfigPanel')
     };
 
     this.destroy = function() {
-      this.token = '';
-      this.fullName = '';
-      this.id = '';
+      this.token = null;
+      this.fullName = null;
+      this.id = null;
+      this.lang = null;
+      this.tenantId = null;
       this.isAuthenticated = false;
-      this.lang = '';
-      this.tenantId = '';
 
       localStorage.removeItem(this.userSessionKey);
     };

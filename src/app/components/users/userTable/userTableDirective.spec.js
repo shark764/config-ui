@@ -11,7 +11,7 @@ describe('userTable directive', function(){
   beforeEach(module('liveopsConfigPanel'));
   beforeEach(module('gulpAngular'));
 
-  beforeEach(inject(['$compile', '$rootScope', '$injector', function($compile, $rootScope, $injector) {
+  beforeEach(inject(['$compile', '$rootScope', '$injector', 'apiHostname', function($compile, $rootScope, $injector, apiHostname) {
     users  = [ {
       'id': 'c6aa44f6-b19e-49f5-bd3f-66f00b885e39',
       'status': false,
@@ -46,12 +46,12 @@ describe('userTable directive', function(){
       'createdBy': 'b8e5d096-f828-4269-ae5a-117e69917340',
       'role': 'Administrator'
     }];
-    
+
     //Need the following so that $digest() works
     $httpBackend = $injector.get('$httpBackend');
-    $httpBackend.when('GET', 'fakendpoint.com/v1/users').respond({'result' : users});
-    $httpBackend.expectGET('fakendpoint.com/v1/users');
-    
+    $httpBackend.when('GET', apiHostname + '/v1/users').respond({'result' : users});
+    $httpBackend.expectGET(apiHostname + '/v1/users');
+
     $scope = $rootScope.$new();
     $scope.users = users;
     element = $compile('<user-table></user-table>')($scope);
@@ -63,12 +63,12 @@ describe('userTable directive', function(){
     expect($scope.users).toBeDefined();
     expect($scope.users.length).toEqual(2);
   }));
-  
+
   it('should fetch initial list of users', inject(function() {
     expect($scope.users).toBeDefined();
     expect($scope.users.length).toEqual(users.length);
   }));
-  
+
   it('should insert a row for each user, plus a header row', inject(function() {
     expect(element.find('tr').length).toEqual(users.length + 1);
   }));

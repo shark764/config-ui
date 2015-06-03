@@ -10,7 +10,7 @@ angular.module('liveopsConfigPanel')
     this.request = function(config){
       config.headers = {};
 
-      if(config.url.indexOf(apiHostname) >= 0 && Session.token.length > 0){
+      if(config.url.indexOf(apiHostname) >= 0 && Session.token){
           config.headers.Authorization = 'Basic ' + Session.token;
           config.headers['Content-Type'] = 'application/json';
       }

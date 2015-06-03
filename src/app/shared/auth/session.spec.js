@@ -14,7 +14,7 @@ describe('Session', function() {
   }]));
 
   it('should have a method to set the session information', function() {
-    session.set('abc', 'john');
+    session.set('abc', 'john', 'abc', 'en');
 
     expect(session.token).toBe('abc');
     expect(session.fullName).toBe('john');
@@ -28,8 +28,8 @@ describe('Session', function() {
 
     session.destroy();
 
-    expect(session.token).toBe('');
-    expect(session.fullName).toBe('');
+    expect(session.token).toBeNull();
+    expect(session.fullName).toBeNull();
     expect(session.isAuthenticated).toBeFalsy();
     expect(localStorage.getItem(session.userSessionKey)).toBe(null);
   });
@@ -38,12 +38,12 @@ describe('Session', function() {
   it('should have a method to restore the session information', function() {
     session.set('abc', 'john');
 
-    session.token = '';
-    session.fullName = '';
+    session.token = null;
+    session.fullName = null;
     session.isAuthenticated = false;
 
-    expect(session.token).toBe('');
-    expect(session.fullName).toBe('');
+    expect(session.token).toBeNull();
+    expect(session.fullName).toBeNull();
     expect(session.isAuthenticated).toBeFalsy();
 
     session.restore();

@@ -31,8 +31,7 @@ it('should have a method to login which sets the session', function() {
 
   AuthService.login(username, password);
 
-  expect(Session.set).toHaveBeenCalled();
-  expect(Session.token).not.toBeNull();
+  expect(Session.set).toHaveBeenCalledWith(AuthService.generateToken(username, password), 'Ron', '1c838030-f772-11e4-ac37-45b2e1245d4b', 'en');
 });
 
 
@@ -42,7 +41,7 @@ it('should have a method to logout which destroys the session', function() {
   AuthService.logout();
 
   expect(Session.destroy).toHaveBeenCalled();
-  expect(Session.token).toBe('');
+  expect(Session.token).toBeNull();
 });
 
 
