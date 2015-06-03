@@ -4,7 +4,7 @@
     <td>Name</td>
     <td>Description</td>
   </thead>
-  <tr ng-repeat="queue in queues" >
+  <tr ng-repeat="queue in queues.result" >
     <td style="border: 1px solid black;">{{queue.id}}</td>
     <td style="border: 1px solid black;"><a ng-href="#/queues?id={{queue.id}}">{{queue.name}}</a></td>
     <td style="border: 1px solid black;">{{queue.description}}</td>

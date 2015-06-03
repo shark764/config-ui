@@ -6,10 +6,8 @@ angular.module('liveopsConfigPanel')
     $scope.queue = {};
     
     $scope.fetch = function () {
-      QueueService.query({tenantId : Session.tenantId}, function (data){
-        $scope.queues = data.result;
-        $scope.setQueue($routeParams.id);
-      });
+      $scope.queues = QueueService.query({tenantId : Session.tenantId});
+      $scope.setQueue($routeParams.id);
     };
     
     $scope.setQueue = function(id) {

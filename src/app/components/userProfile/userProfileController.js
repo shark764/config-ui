@@ -12,5 +12,5 @@ angular.module('liveopsConfigPanel')
         lastName: $scope.user.lastName,
         displayName: $scope.user.displayName
       });
-    }
+    };
   }]);

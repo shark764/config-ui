@@ -21,11 +21,13 @@ angular.module('liveopsConfigPanel', ['ngRoute', 'ngResource', 'liveopsConfigPan
       })
       .when('/queues', {
         templateUrl: 'app/components/queues/queues.html',
-        controller: 'QueueController'
+        controller: 'QueueController',
+        secure: true
       })
       .when('/userprofile', {
         templateUrl: 'app/components/userProfile/userProfile.html',
-        controller: 'UserProfileController'
+        controller: 'UserProfileController',
+        secure: true
       })
       .otherwise('/');
 

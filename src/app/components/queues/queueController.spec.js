@@ -34,8 +34,8 @@ describe('QueueController', function() {
     }]));
 
     it('should have queues defined', function() {
-        expect($scope.queues).toBeDefined();
-        expect($scope.queues).toEqual(queues);
+        expect($scope.queues.result).toBeDefined();
+        expect($scope.queues.result).toEqual(queues);
     });
     
     it('should load the queue that\'s defined routeParam on init', function() {
