@@ -50,9 +50,9 @@ describe('The tenants view', function() {
     }
   });
 
-  xit('should list existing tenants in the navbar Tenant dropdown', function() {
+  it('should list existing tenants in the navbar Tenant dropdown', function() {
     // TODO
-    expect(shared.tenantsNavDropdown.all(by.repeater('tenant in tenants')).count()).toBe(tenantCount);
+    expect(shared.tenantsNavDropdown.all(by.css('option')).count()).toBe(tenantCount);
     for (var i = 1; i <= tenantCount; ++i) {
       expect(shared.tenantsNavDropdown.all(by.css('option')).get(i).getText()).toBe(element(by.css('tr.ng-scope:nth-child(' + i + ') > td:nth-child(2) > a:nth-child(1)')).getText());
     }

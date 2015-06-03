@@ -12,7 +12,7 @@ var Shared = function() {
   this.welcomeMessage = element(by.css('.navbar > div:nth-child(3) > span:nth-child(1)'));
   this.logoutButton = element(by.css('.fa-sign-out'));
   this.siteNavLogo = element(by.css('.navbar > a:nth-child(1)'));
-  this.tenantsNavDropdown = element(by.model('activeTenant'));
+  this.tenantsNavDropdown = element(by.model('Session.tenantId'));
   this.usersNavButton = element(by.css('li.active:nth-child(3) > a:nth-child(1)'));
   this.tenantsNavButton = element(by.css('ul.ng-scope > li:nth-child(4) > a:nth-child(1)'));
 };
