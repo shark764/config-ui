@@ -89,6 +89,6 @@ describe('NavbarController', function() {
 
       $httpBackend.flush();
 
-      expect($scope.tenants.length).toEqual(tenants.size);
+      expect($scope.tenants.length).toEqual(tenants.length);
   	});
 });

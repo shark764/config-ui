@@ -40,7 +40,7 @@ angular.module('liveopsConfigPanel')
 
     $scope.saveSuccess = function () {
       $scope.tenant = {};
-      $scope.fetchTenants($scope.regions.result[0].id);
+      $scope.fetchTenants($scope.regions[0].id);
     };
 
     $scope.saveFailure = function (reason) {
