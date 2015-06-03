@@ -17,7 +17,7 @@ angular.module('liveopsConfigPanel')
     var AuthService = function () {
 
       this.login = function (username, password) {
-        Session.set(this.generateToken(username, password), 'Ron', '69be6bc0-0957-11e5-b98c-b1d420920055', 'en');
+        Session.set(this.generateToken(username, password), 'Ron', '1c838030-f772-11e4-ac37-45b2e1245d4b', 'en');
       };
 
       this.logout = function () {

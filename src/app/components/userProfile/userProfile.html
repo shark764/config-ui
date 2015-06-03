@@ -1,6 +1,9 @@
 <h3>Hello you!</h3>
 
-<div>First Name: {{user.firstName}}</div>
-<div>Last Name: {{user.lastName}}</div>
-<div>Display Name: {{user.displayName}}</div>
-<div>Email: {{user.email}}</div>
+<form novalidate ng-submit="save()">
+  <div>First Name: <input ng-model="user.firstName" type="text" required></input></div>
+  <div>Last Name: <input ng-model="user.lastName" type="text" required></input></div>
+  <div>Display Name: <input ng-model="user.displayName" type="text" required></input></div>
+  <div>Email: {{user.email}}</div>
+  <input type="submit" class="btn btn-primary" value="Update"/>
+</form>
