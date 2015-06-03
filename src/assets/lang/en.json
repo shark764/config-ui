@@ -9,7 +9,7 @@
   "navbar.welcome": "Welcome back, {{name}}",
   
   "details.user.createdby": "User created by {{creator}} at {{date}}",
-  "details.user.enabledby": "User enabled by {{enabler}} at {{date}}",
+  "details.user.updatedby": "User updated by {{enabler}} at {{date}}",
   "details.firstName": "First Name",
   "details.firstName.error": "Please enter a first name",
   "details.lastName": "Last Name",
