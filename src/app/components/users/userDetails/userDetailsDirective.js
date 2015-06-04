@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('userDetails', ['UserService', 'userRoles', 'userStates', 'userStatuses',
-    function (UserService, userRoles, userStates, userStatuses) {
+  .directive('userDetails', ['User', 'userRoles', 'userStates', 'userStatuses',
+    function (User, userRoles, userStates, userStatuses) {
       return {
         scope: {
           user: '='
@@ -14,56 +14,25 @@ angular.module('liveopsConfigPanel')
           $scope.userStates = userStates;
           $scope.userStatuses = userStatuses;
 
-          $scope.reset = function () {
-            $scope.user = {
-              status: true,
-              state: 'OFFLINE'
-            };
-          };
 
           $scope.$on('user:create', function () {
-            $scope.reset();
+
+            $scope.user = new User({
+              status: false,
+              state: 'OFFLINE'
+            });
           });
 
-          $scope.trimmedUser = function (user) {
-            var data =  {
-              firstName: user.firstName,
-              lastName: user.lastName,
-              role: user.role,
-              email: user.email,
-              displayName: user.displayName,
-              status: user.status,
-              password: user.password,
-              state: user.state
-            };
-
-            //Optional fields
-            if (user.externalId){
-              data.externalId = user.externalId;
-            }
-
-            return data;
-          };
-
           $scope.save = function () {
-            var promise;
-            var trimmedUser = $scope.trimmedUser($scope.user);
-            if ($scope.user.id) {
-              promise = UserService.update({
-                id: $scope.user.id
-              }, trimmedUser).$promise;
-            } else {
-              promise = UserService.save($scope.trimmedUser($scope.user)).$promise;
+            $scope.user.save({id: $scope.user.id},
+              function (result) {
 
-              promise.then(function (response) {
-                $scope.$emit('user:created', response.result);
-                return response;
+                $scope.user = result;
+
+                if(!$scope.user.id){
+                  $scope.$emit('user:created', result);
+                }
               });
-            }
-
-            promise.then(function (response) {
-              $scope.user = response.result;
-            });
           };
         }
       };

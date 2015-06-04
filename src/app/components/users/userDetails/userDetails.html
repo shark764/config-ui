@@ -35,7 +35,7 @@
     <input ng-model="user.displayName" name="displayName" type="text"></input>
   </div>
 
-  <div class="input-group">
+  <div class="input-group" ng-show="!user.id">
     <label>{{'details.email' | translate}}</label>
     <div class="error" ng-show="userForm.email.$touched && userForm.email.$invalid">
       <span ng-show="userForm.email.$error.required">{{'details.email.error' | translate}}</span>

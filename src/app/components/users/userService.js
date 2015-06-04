@@ -1,7 +1,18 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .factory('UserService', ['ServiceFactory', function (ServiceFactory) {
-    return ServiceFactory.create('/v1/users/:id');
+  .factory('User', ['LiveopsResourceFactory', function (LiveopsResourceFactory) {
+
+    return LiveopsResourceFactory.create('/v1/users/:id', true, true, [
+      'firstName',
+      'lastName',
+      'role',
+      'displayName',
+      'status',
+      'password',
+      'state',
+      'externalId'
+    ]);
+
   }]);
 

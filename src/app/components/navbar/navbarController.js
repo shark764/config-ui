@@ -1,23 +1,21 @@
   'use strict';
 
-  angular.module('liveopsConfigPanel')
-    .controller('NavbarController', function ($scope, $location, AuthService, Session, TenantsService) {
-      $scope.Session = Session;
+angular.module('liveopsConfigPanel')
+  .controller('NavbarController', function ($scope, $location, AuthService, Session, Tenant) {
+    $scope.Session = Session;
 
-      $scope.tenants = TenantsService.query({
-        regionId: Session.activeRegionId
-      }, function () {
-        if (!Session.tenantId) {
-          Session.tenantId = $scope.tenants.result[0].id;
-        }
-      });
-
-      $scope.isActive = function (viewLocation) {
-        return viewLocation === $location.path();
-      };
-
-      $scope.logout = function () {
-        AuthService.logout();
-        $location.url($location.path('/login'));
-      };
+    $scope.tenants = Tenant.query( { regionId : Session.activeRegionId }, function () {
+      if(!Session.tenantId){
+          Session.tenantId = $scope.tenants[0].id;
+      }
     });
+
+    $scope.isActive = function (viewLocation){
+      return viewLocation === $location.path();
+    };
+
+    $scope.logout = function () {
+      AuthService.logout();
+      $location.url($location.path('/login'));
+    };
+  });
