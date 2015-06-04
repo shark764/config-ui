@@ -36,7 +36,7 @@ angular.module('liveopsConfigPanel')
 
       if (lang){
         $translate.use(lang);
-      };
+      }
 
       this.storeSession();
     };

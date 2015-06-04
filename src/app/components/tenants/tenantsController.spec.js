@@ -76,13 +76,13 @@ describe('TenantsController', function() {
     }]));
 
     it('should have users defined', function() {
-        expect($scope.users).toBeDefined();
-        expect($scope.users).toEqual(users);
+        expect($scope.users.result).toBeDefined();
+        expect($scope.users.result).toEqual(users);
     });
     
     it('should have regions defined', function() {
-      expect($scope.regions).toBeDefined();
-      expect($scope.regions).toEqual(regions);
+      expect($scope.regions.result).toBeDefined();
+      expect($scope.regions.result).toEqual(regions);
     });
     
     it('should catch the routeUpdate event and set a new tenant', function() {
@@ -100,9 +100,9 @@ describe('TenantsController', function() {
       });
       
       it('should refetch the list of tenants', function() {
-        spyOn($scope, 'fetch');
+        spyOn($scope, 'fetchTenants');
         $scope.saveSuccess();
-        expect($scope.fetch).toHaveBeenCalled();
+        expect($scope.fetchTenants).toHaveBeenCalled();
       });
     });
     
@@ -128,9 +128,9 @@ describe('TenantsController', function() {
     describe('fetch function', function() {
       it('should update the tenants for the new regionid', function() {
         $httpBackend.expectGET('fakendpoint.com/v1/tenants?regionId=2');
-        $scope.fetch('2');
+        $scope.fetchTenants('2');
         $httpBackend.flush();
-        expect($scope.tenants).toEqual(region2tenants);
+        expect($scope.tenants.result).toEqual(region2tenants);
       });
       
       it('should select a tenant based on the routeparams', function() {
@@ -139,7 +139,7 @@ describe('TenantsController', function() {
         $controller('TenantsController', {'$scope': $scope, $routeParams: {id: region2tenants[0].id}});
         $httpBackend.flush();
         $httpBackend.expectGET('fakendpoint.com/v1/tenants?regionId=2');
-        $scope.fetch('2');
+        $scope.fetchTenants('2');
         $httpBackend.flush();
         expect($scope.tenant).toEqual(region2tenants[0]);
       });
