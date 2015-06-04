@@ -1,0 +1,47 @@
+<div>
+  <h3>Flow Version</h3>
+
+  <table >
+    <thead>
+      <td>ID</td>
+      <td>Name</td>
+      <td>Description</td>
+      <td>Active</td>
+      <td>Parent Tenant</td>
+  </thead>
+  <tr ng-repeat="version in versions" >
+      <td style="border: 1px solid black;">{{version.id}}</td>
+      <td style="border: 1px solid black;"><a ng-href="#/version?flowId={{}};id={{version.id}}">{{version.name}}</a></td>
+      <td style="border: 1px solid black;">{{version.description}}</td>
+      <td style="border: 1px solid black;">{{version.active}}</td>
+      <td style="border: 1px solid black;">{{version.tenantId}}</td>
+  </tr>
+</table>
+<ul>
+    <li class="error" ng-repeat="(key, value) in error.error">
+      Field `{{key}}` has the following error `{{value}}`
+  </li>
+</ul>
+
+<h3>Create Flow Version</h3>
+<form ng-submit="save()">
+    <div>Name:
+        <input type="text" ng-required="true" ng-model="version.name" placeholder="This is my version name">
+
+    </input>
+</div>
+<div>Description:
+ <input type="text" ng-required="true" ng-model="version.description" placeholder="This is my version description">
+
+</input>
+</div>
+
+<div>Flow:
+ <input type="text" ng-required="true" ng-model="version.flow" placeholder="This is my version flow">
+
+</input>
+</div>
+<input type="submit" class="btn btn-primary" value="{{ !version.id ? 'Create' : 'Update' }}"/>
+</form>
+
+</div>
