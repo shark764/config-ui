@@ -16,12 +16,11 @@ angular.module('liveopsConfigPanel')
 
           $scope.reset = function () {
             $scope.user = {
-              status: false,
-              state: 'OFFLINE',
-              password: 'blah'
+              status: true,
+              state: 'OFFLINE'
             };
           };
-          
+
           $scope.$on('user:create', function () {
             $scope.reset();
           });
@@ -37,12 +36,12 @@ angular.module('liveopsConfigPanel')
               password: user.password,
               state: user.state
             };
-            
+
             //Optional fields
             if (user.externalId){
               data.externalId = user.externalId;
             }
-            
+
             return data;
           };
 

@@ -12,8 +12,12 @@ describe('navbar directive', function(){
       //Mock out the controller for this directive, so we don't have to worry about httpd calls, etc, that it might make
       var directiveDefinition = navbarDirective[0];
       directiveDefinition.controller = function($scope) {
-        $scope.tenants = {result: [{name: 'one'}, {name : 'two'}, {name: 'three'}]};
-        $scope.Session = {isAuthenticated : true, fullName : 'Bob Bobberton'};
+        $scope.tenants = [{name: 'one'}, {name : 'two'}, {name: 'three'}];
+        $scope.Session = {
+          displayName : 'Bob Bobberton',
+          isAuthenticated: function() {
+            return true;
+          }};
       };
 
       $scope = $rootScope.$new();

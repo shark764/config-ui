@@ -25,6 +25,16 @@ angular.module('liveopsConfigPanel', ['ngRoute', 'ngResource', 'liveopsConfigPan
         templateUrl: 'app/components/login/login.html',
         controller: 'LoginController'
       })
+      .when('/queues', {
+        templateUrl: 'app/components/queues/queues.html',
+        controller: 'QueueController',
+        secure: true
+      })
+      .when('/userprofile', {
+        templateUrl: 'app/components/userProfile/userProfile.html',
+        controller: 'UserProfileController',
+        secure: true
+      })
       .otherwise('/');
 
     $translateProvider

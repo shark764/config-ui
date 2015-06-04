@@ -1,4 +1,4 @@
-<nav class="navbar" ng-switch="Session.isAuthenticated">
+<nav class="navbar" ng-switch="Session.isAuthenticated()">
 
     <a ng-href="#/"></a>
     <ul ng-switch-when="true">
@@ -10,10 +10,12 @@
       <li ng-class="{ active: isActive('/')}"><a ng-href="#/">{{'navbar.users.title' | translate}}</a></li>
       <li ng-class="{ active: isActive('/tenants')}"><a ng-href="#/tenants">{{'navbar.tenants.title' | translate}}</a></li>
       <li ng-class="{ active: isActive('/flows')}"><a ng-href="#/flows">{{'navbar.flows.title' | translate}}</a></li>
+      <li ng-class="{ active: isActive('/queues')}"><a ng-href="#/queues">Queues</a></li>
+      <li ng-class="{ active: isActive('/userprofile')}"><a ng-href="#/userprofile">Your Profile</a></li>
     </ul>
 
     <div class="welcome" ng-switch-when="true">
-      <span translate="navbar.welcome" translate-value-name="{{Session.fullName}}"></span>
+      <span translate="navbar.welcome" translate-value-name="{{Session.displayName}}"></span>
       <div>
         <i class="fa fa-sign-out" ng-click="logout()"></i>
       </div>

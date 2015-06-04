@@ -25,7 +25,7 @@ describe('AuthInterceptor', function() {
     it('should add the authorization header when the request URL and token are set and correct', function () {
       Session.token = 'abc123';
 
-      var config = AuthInterceptor.request({ url : hostname + '/v1/users' });
+      var config = AuthInterceptor.request({ url : hostname + '/v1/users', headers: {} });
 
       expect(config.headers.Authorization).toBe('Basic ' + Session.token);
     });
@@ -33,7 +33,7 @@ describe('AuthInterceptor', function() {
     it('should not add the authorization header when the request URL is not valid', function () {
       Session.token = 'abc123';
 
-      var config = AuthInterceptor.request({ url : 'http://google.com' });
+      var config = AuthInterceptor.request({ url : 'http://google.com', headers: {} });
 
       expect(config.headers.Authorization).not.toBeDefined();
     });
@@ -41,7 +41,7 @@ describe('AuthInterceptor', function() {
     it('should not add the authorization header when the token is not valid', function () {
       Session.token = '';
 
-      var config = AuthInterceptor.request({ url : hostname + '/v1/users' });
+      var config = AuthInterceptor.request({ url : hostname + '/v1/users', headers: {} });
 
       expect(config.headers.Authorization).not.toBeDefined();
     });
