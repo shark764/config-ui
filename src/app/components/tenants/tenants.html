@@ -8,13 +8,13 @@
       <td>Admin ID</td>
       <td>Status</td>
     </thead>
-    <tr ng-repeat="curTeanent in tenants" ng-show="curTeanent.id">
-      <td style="border: 1px solid black;">{{curTeanent.id}}</td>
+    <tr ng-repeat="curTenant in tenants" ng-show="curTenant.id">
+      <td style="border: 1px solid black;">{{curTenant.id}}</td>
       <td style="border: 1px solid black;">
-          <a ng-href="#/tenants?id={{curTeanent.id}}">{{curTeanent.name}}</a>
+          <a ng-href="#/tenants?id={{curTenant.id}}">{{curTenant.name}}</a>
       </td>
-      <td style="border: 1px solid black;">{{curTeanent.adminUserId}}</td>
-      <td style="border: 1px solid black;">{{curTeanent.status}}</td>
+      <td style="border: 1px solid black;">{{curTenant.adminUserId}}</td>
+      <td style="border: 1px solid black;">{{curTenant.status}}</td>
     </tr>
   </table>
   <ul>
