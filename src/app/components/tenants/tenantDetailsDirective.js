@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('tenantDetails', ['Tenant', 'User', 'Region', '$routeParams',
-    function (Tenant, User, Region, $routeParams) {
+  .directive('tenantDetails', ['Tenant', 'User', 'Region',
+    function (Tenant, User, Region) {
       return {
         scope: {
           tenant: '='
