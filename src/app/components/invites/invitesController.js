@@ -1,10 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('InvitesController', ['$scope', 'Session', 'Invite', 'userRoles', 'InviteAccept',
-    function ($scope, Session, Invite, userRoles, InviteAccept) {
-      $scope.userRoles = userRoles;
-      
+  .controller('InvitesController', ['$scope', 'Session', 'Invite', 'InviteAccept',
+    function ($scope, Session, Invite, InviteAccept) {
       $scope.fetchInvites = function(){
         $scope.invites = Invite.query({tenantId : Session.tenantId});
       };
@@ -12,12 +10,12 @@ angular.module('liveopsConfigPanel')
       $scope.init = function(){
         $scope.newInvite = new Invite();
         $scope.newInvite.roleId = '10f15d80-0052-11e5-b68b-fb65b1fe22e1'; //TEMPORARY until roles are implemented
-      }
+      };
       
       $scope.init();
       $scope.fetchInvites();
       
-      $scope.$watch('Session.tenantId', function () {
+      $scope.$watch(function(){return Session.tenantId;}, function () {
         $scope.fetchInvites();
       });
       
