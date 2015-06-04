@@ -1,26 +1,31 @@
-  'use strict';
+'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('NavbarController', function ($scope, $location, AuthService, Session, Tenant) {
+  .controller('NavbarController', function($scope, $location, AuthService, Session, Tenant, navBarDropDowns) {
     $scope.Session = Session;
 
-    $scope.tenants = Tenant.query( { regionId : Session.activeRegionId }, function () {
-      if(!Session.tenantId){
-          Session.tenantId = $scope.tenants[0].id;
+    $scope.$watch('Session.isAuthenticated()', function() {
+      if (!$scope.Session.isAuthenticated()) {
+        return;
       }
+
+      $scope.tenants = Tenant.query({
+        regionId: Session.activeRegionId
+      }, function() {
+        if (!Session.tenantId) {
+          Session.tenantId = $scope.tenants[0].id;
+        }
+      });
     });
 
-    $scope.isActive = function (viewLocation){
+    $scope.isActive = function(viewLocation) {
       return viewLocation === $location.path();
     };
 
-    $scope.logout = function () {
+    $scope.logout = function() {
       AuthService.logout();
       $location.url($location.path('/login'));
     };
-    
-    $scope.userDropdownItems = [
-                                {label: 'User Profile', onClick: function(){$location.path('/userprofile');}, iconClass: 'fa fa-gear'},
-                                {label: 'Log Out', onClick: function(){$scope.logout();}, iconClass: 'fa fa-sign-out'}
-                               ];
+
+    $scope.userDropdownItems = navBarDropDowns;
   });
