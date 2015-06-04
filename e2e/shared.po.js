@@ -7,6 +7,7 @@ var Shared = function() {
   this.usersPageUrl = this.mainUrl + 'users';
   this.tenantsPageUrl = this.mainUrl + 'tenants';
   this.flowsPageUrl = this.mainUrl + 'flows';
+  this.profilePageUrl = this.mainUrl + 'userprofile';
 
   // Elements that are present on all pages: navbar, etc.
   this.navBar = element(by.css('.navbar'));
@@ -17,6 +18,11 @@ var Shared = function() {
   this.usersNavButton = element(by.css('li.active:nth-child(3) > a:nth-child(1)'));
   this.tenantsNavButton = element(by.css('ul.ng-scope > li:nth-child(4) > a:nth-child(1)'));
   this.flowsNavButton = element(by.css('ul.ng-scope > li:nth-child(6) > a:nth-child(1)'));
+
+  this.tearDown = function() {
+    browser.executeScript('window.sessionStorage.clear()');
+    browser.executeScript('window.localStorage.clear()');
+  };
 };
 
 module.exports = new Shared();

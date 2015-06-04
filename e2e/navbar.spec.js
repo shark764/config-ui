@@ -4,10 +4,16 @@ describe('The navbar', function() {
   var loginPage = require('./login.po.js'),
     shared = require('./shared.po.js');
 
-  beforeEach(function() {
-    // Login
-    browser.get(shared.loginPageUrl);
+  beforeAll(function() {
     loginPage.login(loginPage.emailLoginCreds, loginPage.passwordLoginCreds);
+  });
+
+  beforeEach(function() {
+    browser.get(shared.mainUrl);
+  });
+
+  afterAll(function(){
+    shared.tearDown();
   });
 
   it('should contain logo, Tenant drop down, page links, user info and Logout button', function() {

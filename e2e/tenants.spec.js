@@ -6,13 +6,17 @@ describe('The tenants view', function() {
     shared = require('./shared.po.js'),
     tenantCount;
 
-  beforeEach(function() {
-    // Login
-    browser.get(shared.loginPageUrl);
+  beforeAll(function() {
     loginPage.login(loginPage.emailLoginCreds, loginPage.passwordLoginCreds);
+  });
 
+  beforeEach(function() {
     browser.get(shared.tenantsPageUrl);
     tenantCount = tenants.tenantElements.count();
+  });
+
+  afterAll(function(){
+    shared.tearDown();
   });
 
   it('should include list of tenants, create tenant section and standard page components', function() {
@@ -51,7 +55,7 @@ describe('The tenants view', function() {
   });
 
   it('should list existing tenants in the navbar Tenant dropdown', function() {
-    // TODO
+    shared.tenantsNavDropdown.all(by.css('option')).get(1).click();
     expect(shared.tenantsNavDropdown.all(by.css('option')).count()).toBe(tenantCount);
     for (var i = 1; i <= tenantCount; ++i) {
       expect(shared.tenantsNavDropdown.all(by.css('option')).get(i).getText()).toBe(element(by.css('tr.ng-scope:nth-child(' + i + ') > td:nth-child(2) > a:nth-child(1)')).getText());

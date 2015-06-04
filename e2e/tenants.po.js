@@ -12,7 +12,7 @@ var TenantsPage = function() {
   this.adminFormDropDown = element(by.model('tenant.adminUserId'));
   this.parentFormDropDown = element(by.model('tenant.parentId'));
 
-  this.tenantElements = this.tenantsTable.all(by.repeater('tenant in tenants'));
+  this.tenantElements = this.tenantsTable.all(by.repeater('tenant in tenants.result'));
 
   this.tenantRegions;
   // TODO Add remaining Tenants page elements as the design is finalized

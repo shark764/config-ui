@@ -8,13 +8,17 @@ describe('The users view', function() {
     statusFilterText,
     userCount;
 
-  beforeEach(function() {
-    // Login
-    browser.get(shared.loginPageUrl);
+  beforeAll(function() {
     loginPage.login(loginPage.emailLoginCreds, loginPage.passwordLoginCreds);
+  });
 
+  beforeEach(function() {
     browser.get(shared.usersPageUrl);
     userCount = users.userElements.count();
+  });
+
+  afterAll(function(){
+    shared.tearDown();
   });
 
   it('should include users management page components', function() {

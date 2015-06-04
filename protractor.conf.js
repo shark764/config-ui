@@ -28,6 +28,8 @@ exports.config = {
   // protractor is called.
   specs: [paths.e2e + '/**/*.js'],
 
+  framework: 'jasmine2',
+
   // Options to be passed to Jasmine-node.
   jasmineNodeOpts: {
     showColors: true,

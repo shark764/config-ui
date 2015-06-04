@@ -7,13 +7,17 @@ describe('The create new tenants view', function() {
     tenantCount,
     randomTenant;
 
-  beforeEach(function() {
-    // Login
-    browser.get(shared.loginPageUrl);
+  beforeAll(function() {
     loginPage.login(loginPage.emailLoginCreds, loginPage.passwordLoginCreds);
+  });
 
+  beforeEach(function() {
     browser.get(shared.tenantsPageUrl);
     tenantCount = tenants.tenantElements.count();
+  });
+
+  afterAll(function(){
+    shared.tearDown();
   });
 
   it('should include supported tenant fields only', function() {
@@ -114,14 +118,14 @@ describe('The create new tenants view', function() {
     }
   });
 
-  xit('should validate field input when creating a new tenant', function() {
+  it('should validate field input when creating a new tenant', function() {
     // TODO
     tenants.createTenantBtn.click();
 
     expect(tenants.tenantElements.count()).toBe(tenantCount);
   });
 
-  xit('should not accept spaces only as valid field input when creating a new tenant', function() {
+  it('should not accept spaces only as valid field input when creating a new tenant', function() {
     // TODO
     tenants.createTenantBtn.click();
 

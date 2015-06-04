@@ -5,18 +5,26 @@ describe('The login view', function() {
     shared = require('./shared.po.js');
 
   beforeEach(function() {
+    // Ensure user is logged out initially
     browser.get(shared.loginPageUrl);
+    browser.executeScript('window.sessionStorage.clear()');
+    browser.executeScript('window.localStorage.clear()');
+    browser.get(shared.loginPageUrl);
+  });
+
+  afterAll(function(){
+    shared.tearDown();
   });
 
   it('should include header, login fields, and submit button', function() {
     expect(shared.navBar.isDisplayed()).toBeTruthy();
 
     expect(loginPage.emailLoginField.isDisplayed()).toBeTruthy();
-    expect(loginPage.emailLoginField.getAttribute('placeholder')).toBe('joe.blo@example.com')
+    expect(loginPage.emailLoginField.getAttribute('placeholder')).toBe('Email')
     expect(loginPage.emailLoginField.getAttribute('type')).toBe('text');
 
     expect(loginPage.passwordLoginField.isDisplayed()).toBeTruthy();
-    expect(loginPage.passwordLoginField.getAttribute('placeholder')).toBe('*********')
+    expect(loginPage.passwordLoginField.getAttribute('placeholder')).toBe('Password')
     expect(loginPage.passwordLoginField.getAttribute('type')).toBe('password');
 
     expect(loginPage.loginButton.getAttribute('value')).toBe('Login');
@@ -32,16 +40,21 @@ describe('The login view', function() {
     expect(loginPage.passwordLoginField.getAttribute('required')).toBeTruthy();
 
     // No login credentials input
-    loginPage.login('', '');
+    loginPage.emailLoginField.sendKeys('');
+    loginPage.passwordLoginField.sendKeys('');
+    loginPage.loginButton.click();
     expect(browser.getCurrentUrl()).toBe(shared.loginPageUrl);
 
     // Email only
-    loginPage.login(loginPage.emailLoginCreds, '');
+    loginPage.emailLoginField.sendKeys(loginPage.emailLoginCreds);
+    loginPage.passwordLoginField.sendKeys('');
+    loginPage.loginButton.click();
     expect(browser.getCurrentUrl()).toBe(shared.loginPageUrl);
 
     // Password only
     loginPage.emailLoginField.clear();
-    loginPage.login('', loginPage.passwordLoginCreds);
+    loginPage.passwordLoginField.sendKeys(loginPage.passwordLoginCreds);
+    loginPage.loginButton.click();
     expect(browser.getCurrentUrl()).toBe(shared.loginPageUrl);
   });
 

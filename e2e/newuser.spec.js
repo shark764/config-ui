@@ -6,13 +6,17 @@ describe('The create new user form', function() {
     users = require('./users.po.js'),
     userCount;
 
-  beforeEach(function() {
-    // Login
-    browser.get(shared.loginPageUrl);
+  beforeAll(function() {
     loginPage.login(loginPage.emailLoginCreds, loginPage.passwordLoginCreds);
+  });
 
+  beforeEach(function() {
     browser.get(shared.usersPageUrl);
     userCount = users.userElements.count();
+  });
+
+  afterAll(function(){
+    shared.tearDown();
   });
 
   it('should display Create New User section', function() {

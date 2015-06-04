@@ -14,4 +14,4 @@ var FlowPage = function() {
 
 };
 
-module.exports = new flowPage();
+module.exports = new FlowPage();

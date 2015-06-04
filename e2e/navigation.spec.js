@@ -5,11 +5,19 @@ describe('The view navigation', function () {
     shared = require('./shared.po.js');
 
   beforeEach(function () {
+    // Ensure user is logged out initially
+    browser.get(shared.loginPageUrl);
+    browser.executeScript('window.sessionStorage.clear()');
+    browser.executeScript('window.localStorage.clear()');
   });
 
-  xit('should redirect to login page when not logged in', function() {
+  afterAll(function(){
+    shared.tearDown();
+  });
+
+  it('should redirect to login page when not logged in', function() {
     // TODO: Complete remaining expected redirects as new pages are added
-    
+
     browser.get(shared.mainUrl);
     expect(browser.getCurrentUrl()).toBe(shared.loginPageUrl);
 
