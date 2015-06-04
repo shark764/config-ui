@@ -1,4 +1,4 @@
-<div>
+<div class="left-panel" id="left-panel">
   <h3>Tenants</h3>
 
   <table >
@@ -17,35 +17,9 @@
       <td style="border: 1px solid black;">{{curTenant.status}}</td>
     </tr>
   </table>
-  <ul>
-    <li class="error" ng-repeat="(key, value) in error.error">
-      Field `{{key}}` has the following error `{{value}}`
-    </li>
-  </ul>
+  <resize-handle right-element-id="right-panel" left-element-id="left-panel" left-min-width="600" right-min-width="600" ></resize-handle>
+</div>
 
-  <h3>Create new Tenant</h3>
-  <form ng-submit="save()">
-    <div>Name: <input type="text" ng-required="true" ng-model="tenant.name" placehold="This is my tenant description"></input></div>
-    <div>Description: <input ng-disabled="!!tenant.id" type="text" ng-required="true" ng-model="tenant.description" placehold="This is my tenant description"></input></div>
-    <div>Status: <toggle class="user-toggle" ng-model="tenant.status"></toggle></div>
-    <div>Region :
-      <select ng-disabled="!!tenant.id" ng-model="tenant.regionId" ng-required="true">
-        <option value=""></option>
-        <option ng-repeat="region in regions" value="{{region.id}}">{{region.name}}</option>
-      </select>
-    </div>
-    <div >Tenant Admin :
-      <select ng-model="tenant.adminUserId">
-        <option ng-repeat="user in users" value="{{user.id}}">{{user.displayName}}</option>
-      </select>
-    </div>
-    <div ng-show="false">Parent Tenant:
-      <select ng-model="tenant.parentId">
-        <option value=""></option>
-        <option ng-repeat="tenant in tenants" value="{{tenant.id}}">{{tenant.name}}</option>
-      </select>
-    </div>
-    <input type="submit" class="btn btn-primary" value="{{ !tenant.id ? 'Create' : 'Update' }}"/>
-  </form>
-
+<div class="right-panel" id="right-panel">
+  <tenant-details tenant="tenant"></tenant-details>
 </div>

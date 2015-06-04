@@ -125,6 +125,25 @@ input[type=password], input[type=text], input[type=email]{
   color: red;
 }
 
+.left-panel {
+  border-right: 1px solid $medium-grey;
+  padding: 20px;
+  box-sizing: border-box;
+  vertical-align: top;
+  display:table-cell;
+  height: 100%;
+  overflow-y: auto;
+  position: absolute;
+  width: 600px;
+}
+.right-panel {
+  display:table-cell;
+  height: 100%;
+  overflow-y: auto;
+  position:absolute;
+  right: 0;
+  left: 600px;
+}
 
 /* Do not remove this comments bellow. It's the markers used by gulp-inject to inject
    all your sass files automatically */

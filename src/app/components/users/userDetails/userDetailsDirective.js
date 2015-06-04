@@ -14,7 +14,10 @@ angular.module('liveopsConfigPanel')
           $scope.userStates = userStates;
           $scope.userStatuses = userStatuses;
 
-
+          $scope.cancel = function(){
+            $scope.$emit('user:cancel');
+          }
+          
           $scope.$on('user:create', function () {
 
             $scope.user = new User({
