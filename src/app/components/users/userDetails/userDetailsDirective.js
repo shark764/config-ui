@@ -27,12 +27,14 @@ angular.module('liveopsConfigPanel')
           });
 
           $scope.save = function () {
+            var isCreated = ($scope.user.id ? false : true);
+
             $scope.user.save({id: $scope.user.id},
               function (result) {
 
                 $scope.user = result;
 
-                if(!$scope.user.id){
+                if(isCreated){
                   $scope.$emit('user:created', result);
                 }
               });
