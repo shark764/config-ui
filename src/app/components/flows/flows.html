@@ -9,7 +9,7 @@
       <td>Active</td>
       <td>Parent Tenant</td>
     </thead>
-    <tr ng-repeat="flow in flows.result" >
+    <tr ng-repeat="flow in flows" >
       <td style="border: 1px solid black;">{{flow.id}}</td>
       <td style="border: 1px solid black;"><a ng-href="#/flows?id={{flow.id}}">{{flow.name}}</a></td>
       <td style="border: 1px solid black;">{{flow.description}}</td>

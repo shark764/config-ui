@@ -1,8 +1,15 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .factory('FlowsService', ['ServiceFactory', function (ServiceFactory) {
+  .factory('Flow', ['LiveopsResourceFactory', function (LiveopsResourceFactory) {
 
-    return ServiceFactory.create('/v1/tenants/:tenantId/flows/:flowId', true, false);
+    return LiveopsResourceFactory.create('/v1/tenants/:tenantId/flows/:id', true, false, [
+      'tenantId',
+      'description',
+      'name',
+      'activeVersion',
+      'active',
+      'channelType'
+    ]);
   }]);
 
