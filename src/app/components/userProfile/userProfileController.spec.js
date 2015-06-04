@@ -4,21 +4,23 @@ describe('UserProfileController', function() {
     var $scope,
         createController,
         $httpBackend,
-        user;
+        user,
+        User;
 
     beforeEach(module('liveopsConfigPanel'));
-    beforeEach(inject(['$rootScope', '$controller', '$httpBackend', function($rootScope, $controller, _$httpBackend_) {
+    beforeEach(inject(['$rootScope', '$controller', '$httpBackend', 'User', function($rootScope, $controller, _$httpBackend_, _User_) {
       $scope = $rootScope.$new();
       $httpBackend = _$httpBackend_;
-      
-      user = {
+      User = _User_;
+
+      user = new User({
         id: '12345',
         firstName: 'Bob',
         lastName: 'Bobberton',
         email: 'bobbobberton@example.com',
         displayName: 'B.Bobberton'
-      };
-      
+      });
+
       createController = function(){
         $controller('UserProfileController', {'$scope': $scope, 'Session' : {id : '12345'}});
       };
@@ -30,8 +32,8 @@ describe('UserProfileController', function() {
       $httpBackend.expectGET('fakendpoint.com/v1/users/12345');
       createController();
       $httpBackend.flush();
-       
+
       expect($scope.user).toBeDefined();
-      expect($scope.user).toEqual(user);
+      expect($scope.user.id).toEqual(user.id);
     });
 });

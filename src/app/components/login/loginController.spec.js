@@ -66,8 +66,7 @@ describe('LoginController', function () {
     beforeEach(function () {
       AuthServiceMock.login = function () {
         return {
-          then: function (callback, fail) {
-            return fail();
+          then: function () {
           }
         };
       };

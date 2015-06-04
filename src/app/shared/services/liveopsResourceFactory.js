@@ -9,7 +9,7 @@ angular.module('liveopsConfigPanel')
 
       // Append the new transformation to the defaults
       return defaults.concat(transform);
-    };
+    }
 
     function getResult(value){
       if(value.result){
@@ -55,7 +55,7 @@ angular.module('liveopsConfigPanel')
                 for (var i = 0; i < updateFields.length; i++) {
                     var fieldName = updateFields[i];
                     newData[fieldName] = data[fieldName];
-                };
+                }
 
                 data = newData;
               }

@@ -4,10 +4,10 @@ angular.module('liveopsConfigPanel')
   .controller('NavbarController', function ($scope, $location, AuthService, Session, Tenant) {
     $scope.Session = Session;
 
-    $scope.tenants = Tenant.query( { regionId : Session.activeRegionId }, function (data) {
+    $scope.tenants = Tenant.query( { regionId : Session.activeRegionId }, function () {
       if(!Session.tenantId){
           Session.tenantId = $scope.tenants[0].id;
-      };
+      }
     });
 
     $scope.isActive = function (viewLocation){

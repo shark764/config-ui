@@ -60,12 +60,12 @@ describe('NavbarController', function() {
       $location.path('/users');
       session.set('abc', 'John');
 
-      expect(session.isAuthenticated).toBe(true);
+      expect(session.isAuthenticated()).toBeTruthy();
       expect($location.path()).toBe('/users');
 
       $scope.logout();
 
-      expect(session.isAuthenticated).toBe(false);
+      expect(session.isAuthenticated()).toBeFalsy(false);
   });
 
   it('should select the first tenant retrieved as the active tenant if no tenant is set in the session', function () {

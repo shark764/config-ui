@@ -1,8 +1,11 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .factory('QueueService', ['ServiceFactory', function (ServiceFactory) {
+  .factory('Queue', ['LiveopsResourceFactory', function (LiveopsResourceFactory) {
 
-    return ServiceFactory.create('/v1/tenants/:tenantId/queues/:id');
+    return LiveopsResourceFactory.create('/v1/tenants/:tenantId/queues/:id', true, true, [
+      'name',
+      'description'
+    ]);
   }]);
 

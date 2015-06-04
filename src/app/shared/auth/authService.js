@@ -22,6 +22,7 @@ angular.module('liveopsConfigPanel')
       // this will suffice in beta however.
       this.login = function (username, password) {
         var token = this.generateToken(username, password);
+
         var request = $http({
           method: 'GET',
           url: apiHostname + '/v1/users',
@@ -29,7 +30,7 @@ angular.module('liveopsConfigPanel')
             Authorization: 'Basic ' + token
           }
         });
-        
+
         return request.success(function (response) {
           angular.forEach(response.result, function (user) {
             if (user.email === username) {
@@ -43,12 +44,10 @@ angular.module('liveopsConfigPanel')
           if (!response.user) {
             throw new UserNotFoundException();
           }
-          
+
           Session.set(response.user, response.token);
 
           return response;
-        }).error(function() {
-          
         });
       };
 

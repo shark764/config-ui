@@ -15,7 +15,7 @@ angular.module('liveopsConfigPanel')
       $scope.setTenant($routeParams.id);
     });
 
-    $scope.regions = Region.query(function (data){
+    $scope.regions = Region.query(function (){
       $scope.fetchTenants($scope.regions[0].id);
     });
 
@@ -33,7 +33,7 @@ angular.module('liveopsConfigPanel')
     };
 
     $scope.fetchTenants = function (regionId) {
-      $scope.tenants = Tenant.query( { regionId : regionId }, function (data) {
+      $scope.tenants = Tenant.query( { regionId : regionId }, function () {
         $scope.setTenant($routeParams.id);
       });
     };
