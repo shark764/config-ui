@@ -15,6 +15,12 @@ angular.module('liveopsConfigPanel', ['ngRoute', 'ngResource', 'liveopsConfigPan
         reloadOnSearch: false,
         secure: true
       })
+      .when('/flows', {
+        templateUrl: 'app/components/flows/flows.html',
+        controller: 'FlowsController',
+        reloadOnSearch: false,
+        secure: true
+      })
       .when('/login', {
         templateUrl: 'app/components/login/login.html',
         controller: 'LoginController'
