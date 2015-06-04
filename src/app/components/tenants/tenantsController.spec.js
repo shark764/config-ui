@@ -13,7 +13,7 @@ describe('TenantsController', function () {
     routeParams;
 
   beforeEach(module('liveopsConfigPanel'));
-  beforeEach(inject(['$rootScope', '$controller', '$injector', 'RegionsService', function ($rootScope, _$controller_, $injector) {
+  beforeEach(inject(['$rootScope', '$controller', '$injector', function ($rootScope, _$controller_, $injector) {
     $scope = $rootScope.$new();
     $controller = _$controller_;
 
@@ -39,16 +39,39 @@ describe('TenantsController', function () {
       'name': 'ca-east-1'
     }];
 
-    it('should have users defined', function() {
-        expect($scope.users.result).toBeDefined();
-        expect($scope.users.result).toEqual(users);
+    tenants = [{
+      'description': 'Test',
+      'regionId': '1',
+      'name': 'Test',
+      'id': 't1',
+    }, {
+      'description': 'A Tenant',
+      'regionId': '1',
+      'name': 'A Tenant',
+      'id': 't2'
+    }];
+
+    region2tenants = [{
+      'description': 'Very Tenant',
+      'regionId': '2',
+      'name': 'Very Tenant',
+      'id': 't3'
+    }, {
+      'description': 'Much Tenant',
+      'regionId': '2',
+      'name': 'Much Tenant',
+      'id': 't4'
+    }];
+
+    routeParams = {};
+
+    $httpBackend = $injector.get('$httpBackend');
+    $httpBackend.when('GET', 'fakendpoint.com/v1/users').respond({
+      'result': users
     });
-    
-    it('should have regions defined', function() {
-      expect($scope.regions.result).toBeDefined();
-      expect($scope.regions.result).toEqual(regions);
+    $httpBackend.when('GET', 'fakendpoint.com/v1/regions').respond({
+      'result': regions
     });
-    
     $httpBackend.when('GET', 'fakendpoint.com/v1/tenants?regionId=1').respond({
       'result': tenants
     });
@@ -64,13 +87,13 @@ describe('TenantsController', function () {
   }]));
 
   it('should have users defined', function () {
-    expect($scope.users).toBeDefined();
-    expect($scope.users).toEqual(users);
+    expect($scope.users.result).toBeDefined();
+    expect($scope.users.result).toEqual(users);
   });
 
   it('should have regions defined', function () {
-    expect($scope.regions).toBeDefined();
-    expect($scope.regions).toEqual(regions);
+    expect($scope.regions.result).toBeDefined();
+    expect($scope.regions.result).toEqual(regions);
   });
 
   it('should catch the routeUpdate event and set a new tenant', function () {
@@ -88,9 +111,9 @@ describe('TenantsController', function () {
     });
 
     it('should refetch the list of tenants', function () {
-      spyOn($scope, 'fetch');
+      spyOn($scope, 'fetchTenants');
       $scope.saveSuccess();
-      expect($scope.fetch).toHaveBeenCalled();
+      expect($scope.fetchTenants).toHaveBeenCalled();
     });
   });
 
@@ -118,9 +141,9 @@ describe('TenantsController', function () {
   describe('fetch function', function () {
     it('should update the tenants for the new regionid', function () {
       $httpBackend.expectGET('fakendpoint.com/v1/tenants?regionId=2');
-      $scope.fetch('2');
+      $scope.fetchTenants('2');
       $httpBackend.flush();
-      expect($scope.tenants).toEqual(region2tenants);
+      expect($scope.tenants.result).toEqual(region2tenants);
     });
 
     it('should select a tenant based on the routeparams', function () {
@@ -134,17 +157,26 @@ describe('TenantsController', function () {
       });
       $httpBackend.flush();
       $httpBackend.expectGET('fakendpoint.com/v1/tenants?regionId=2');
-      $scope.fetch('2');
+      $scope.fetchTenants('2');
       $httpBackend.flush();
       expect($scope.tenant).toEqual(region2tenants[0]);
     });
-    
-    describe('fetch function', function() {
-      it('should update the tenants for the new regionid', function() {
-        $httpBackend.expectGET('fakendpoint.com/v1/tenants?regionId=2');
-        $scope.fetchTenants('2');
+  });
+
+  describe('save function', function () {
+    describe('create', function () {
+      beforeEach(function () {
+        $scope.tenant = {};
+      });
+
+      it('should create a new tenant if scope.tenant is empty', function () {
+        $httpBackend.when('POST', 'fakendpoint.com/v1/tenants').respond({
+          'result': {}
+        });
+        $httpBackend.expectPOST('fakendpoint.com/v1/tenants');
+
+        $scope.save();
         $httpBackend.flush();
-        expect($scope.tenants.result).toEqual(region2tenants);
       });
 
       it('should call savesuccess on create success', function () {
@@ -156,9 +188,15 @@ describe('TenantsController', function () {
         spyOn($scope, 'saveSuccess');
         $scope.save();
         $httpBackend.flush();
-        $httpBackend.expectGET('fakendpoint.com/v1/tenants?regionId=2');
-        
-        $scope.fetchTenants('2');
+        expect($scope.saveSuccess).toHaveBeenCalled();
+      });
+
+      it('should call savefailure on create error', function () {
+        $httpBackend.when('POST', 'fakendpoint.com/v1/tenants').respond(500, '');
+        $httpBackend.expectPOST('fakendpoint.com/v1/tenants');
+
+        spyOn($scope, 'saveFailure');
+        $scope.save();
         $httpBackend.flush();
         expect($scope.saveFailure).toHaveBeenCalled();
       });
