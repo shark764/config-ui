@@ -2,8 +2,6 @@
 
 /* global localStorage: false */
 
-angular.module('liveopsConfigPanel')
-
 // localStorage should not be used to store passwords in production
 // this is a temporary solution until Tao gets back to me on the ability to get
 // a token back from the API to store instead.
@@ -12,62 +10,62 @@ angular.module('liveopsConfigPanel')
 // session information using redis or memcache
 
 // this will suffice in beta however.
-.service('Session', ['$rootScope', 'sessionKey', '$translate', function($rootScope, sessionKey, $translate) {
-
-  var Session = function () {
-
+angular.module('liveopsConfigPanel')
+  .service('Session', ['$rootScope', 'sessionKey', '$translate', function ($rootScope, sessionKey, $translate) {
     var self = this;
-
+    
     this.userSessionKey = sessionKey;
     this.token = null;
-    this.fullName = null;
+    this.displayName = null;
     this.id = null;
     this.lang = null;
     this.tenantId = null;
-    this.isAuthenticated = false;
     this.activeRegionId = '6aff1f30-0901-11e5-87f2-b1d420920055';
 
-    this.set = function(token, fullName, id, lang) {
+    this.set = function (user, token) {
       this.token = token;
-      this.fullName = fullName;
-      this.id = id;
-      this.lang = lang;
-      this.isAuthenticated = true;
+      this.displayName = user.displayName;
+      this.id = user.id;
+      this.lang = 'en';
 
-      if (lang){
-        $translate.use(lang);
+      if (this.lang) {
+        $translate.use(this.lang);
       }
 
       this.storeSession();
     };
 
-    $rootScope.$watch('Session.tenantId' , function () {
+    $rootScope.$watch('Session.tenantId', function () {
       self.storeSession();
     });
 
     this.storeSession = function () {
-      localStorage.setItem(this.userSessionKey, JSON.stringify(this));
+      localStorage.setItem(this.userSessionKey, JSON.stringify({
+        token: this.token,
+        tenantId: this.tenantId,
+        displayName: this.displayName,
+        id: this.id,
+        lang: this.lang
+      }));
     };
 
-    this.destroy = function() {
+    this.destroy = function () {
       this.token = null;
-      this.fullName = null;
+      this.displayName = null;
       this.id = null;
       this.lang = null;
       this.tenantId = null;
-      this.isAuthenticated = false;
 
       localStorage.removeItem(this.userSessionKey);
     };
 
-    this.restore = function() {
+    this.restore = function () {
       angular.extend(this, JSON.parse(localStorage.getItem(this.userSessionKey)));
     };
-  };
 
-  // this only gets called once
-  var instance = new Session();
-  instance.restore();
+    this.isAuthenticated = function () {
+      return !!this.token;
+    };
 
-  return instance;
-}]);
+    this.restore();
+  }]);
