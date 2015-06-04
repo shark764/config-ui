@@ -12,8 +12,12 @@ describe('navbar directive', function(){
       //Mock out the controller for this directive, so we don't have to worry about httpd calls, etc, that it might make
       var directiveDefinition = navbarDirective[0];
       directiveDefinition.controller = function($scope) {
-        $scope.tenants = {result: [{name: 'one', id:1}, {name : 'two', id:2}, {name: 'three', id:3}]};
-        $scope.Session = {isAuthenticated : true, fullName : 'Bob Bobberton'};
+        $scope.tenants = [{name: 'one'}, {name : 'two'}, {name: 'three'}];
+        $scope.Session = {
+          displayName : 'Bob Bobberton',
+          isAuthenticated: function() {
+            return true;
+          }};
       };
 
       $scope = $rootScope.$new();
@@ -28,6 +32,11 @@ describe('navbar directive', function(){
     it('should insert a welcome message', inject(function() {
       var welcomeElement = element[0].querySelector('.welcome');
       expect(angular.element(welcomeElement).length).toEqual(1);
+    }));
+
+    it('should insert a tenant switch dropdown', inject(function() {
+      expect(element.find('select').length).toEqual(1);
+      expect(element.find('option').length).toEqual(3);
     }));
   });
 });

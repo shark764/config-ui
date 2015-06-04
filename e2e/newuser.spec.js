@@ -20,23 +20,41 @@ describe('The create new user form', function() {
     expect(users.userDetails.isDisplayed()).toBeTruthy();
   });
 
-  xit('should clear Create New User section', function() {
-    // Select User from table
-
-
-    // Select Create button
+  it('should include supported user fields only', function() {
     users.createUserBtn.click();
+    expect(users.firstNameFormField.isDisplayed()).toBeTruthy();
+    expect(users.lastNameFormField.isDisplayed()).toBeTruthy();
+    expect(users.displayNameFormField.isDisplayed()).toBeTruthy();
+    expect(users.emailFormField.isDisplayed()).toBeTruthy();
+    expect(users.passwordFormField.isDisplayed()).toBeTruthy();
+    expect(users.externalIdFormField.isDisplayed()).toBeTruthy();
+    expect(users.roleFormDropDown.isDisplayed()).toBeTruthy();
+    expect(users.stateFormDropDown.isDisplayed()).toBeTruthy();;
 
-    // Create user section cleared
-    expect(users.userDetails.isDisplayed()).toBeTruthy();
-    expect(users.userDetailsHeader.getText()).toBe('');
-    expect(users.firstNameFormField.getAttribute('value')).toBe('');
-    expect(users.lastNameFormField.getAttribute('value')).toBe('');
-    expect(users.displayNameFormField.getAttribute('value')).toBe('');
-    expect(users.emailFormField.getAttribute('value')).toBe('');
-    expect(users.externalIdFormField.getAttribute('value')).toBe('');
-    expect(users.roleFormDropDown.getAttribute('value')).toBe('');
-    expect(users.stateFormDropDown.getAttribute('value')).toBe('');
+    // The Status field is not to be displayed for the initial Beta release
+    expect(users.statusFormToggle.isDisplayed()).toBeFalsy();
+  });
+
+
+  it('should clear Create New User section', function() {
+    if (userCount > 0) {
+      // Select User from table
+      element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(2)')).click();
+
+      // Select Create button
+      users.createUserBtn.click();
+
+      // Create user section cleared
+      expect(users.userDetails.isDisplayed()).toBeTruthy();
+      expect(users.userDetailsHeader.getText()).toBe('');
+      expect(users.firstNameFormField.getAttribute('value')).toBe('');
+      expect(users.lastNameFormField.getAttribute('value')).toBe('');
+      expect(users.displayNameFormField.getAttribute('value')).toBe('');
+      expect(users.emailFormField.getAttribute('value')).toBe('');
+      expect(users.externalIdFormField.getAttribute('value')).toBe('');
+      expect(users.roleFormDropDown.getAttribute('value')).toBe('');
+      expect(users.stateFormDropDown.getAttribute('value')).toBe('');
+    }
   });
 
   it('should require all fields in Create New User section', function() {
@@ -80,6 +98,7 @@ describe('The create new user form', function() {
     users.lastNameFormField.sendKeys('Last' + randomUser);
     users.displayNameFormField.sendKeys('Display' + randomUser);
     users.emailFormField.sendKeys('email' + randomUser + '@email.com');
+    users.passwordFormField.sendKeys('password');
     users.externalIdFormField.sendKeys(randomUser);
     users.roleFormDropDown.all(by.css('option')).get(1).click();
     users.stateFormDropDown.all(by.css('option')).get(1).click();
@@ -87,9 +106,9 @@ describe('The create new user form', function() {
 
     // Confirm user is displayed in user list with correct details
     users.userElements.then(function(users) {
-      for (var i = 0; i < users.length; ++i) {
+      for (var i = 1; i <= users.length; ++i) {
         // Check if user name in table matches newly added user
-        element(by.css('tr.ng-scope:nth-child(' + (i + 1) + ') > td:nth-child(2)')).getText().then(function(value) {
+        element(by.css('tr.ng-scope:nth-child(' + i + ') > td:nth-child(2)')).getText().then(function(value) {
           if (value == newUserName) {
             userAdded = true;
           }
@@ -109,6 +128,7 @@ describe('The create new user form', function() {
     users.lastNameFormField.sendKeys('Last');
     users.displayNameFormField.sendKeys('Display');
     users.emailFormField.sendKeys('email@email.com');
+    users.passwordFormField.sendKeys('password');
     users.externalIdFormField.sendKeys('12345');
     users.roleFormDropDown.all(by.css('option')).get(1).click();
     users.stateFormDropDown.all(by.css('option')).get(1).click();
@@ -126,6 +146,7 @@ describe('The create new user form', function() {
     users.firstNameFormField.sendKeys('First');
     users.displayNameFormField.sendKeys('Display');
     users.emailFormField.sendKeys('email@email.com');
+    users.passwordFormField.sendKeys('password');
     users.externalIdFormField.sendKeys('12345');
     users.roleFormDropDown.all(by.css('option')).get(1).click();
     users.stateFormDropDown.all(by.css('option')).get(1).click();
@@ -143,6 +164,7 @@ describe('The create new user form', function() {
     users.firstNameFormField.sendKeys('First');
     users.lastNameFormField.sendKeys('Last');
     users.emailFormField.sendKeys('email@email.com');
+    users.passwordFormField.sendKeys('password');
     users.externalIdFormField.sendKeys('12345');
     users.roleFormDropDown.all(by.css('option')).get(1).click();
     users.stateFormDropDown.all(by.css('option')).get(1).click();
@@ -160,6 +182,7 @@ describe('The create new user form', function() {
     users.firstNameFormField.sendKeys('First');
     users.lastNameFormField.sendKeys('Last');
     users.displayNameFormField.sendKeys('Display');
+    users.passwordFormField.sendKeys('password');
     users.externalIdFormField.sendKeys('12345');
     users.roleFormDropDown.all(by.css('option')).get(1).click();
     users.stateFormDropDown.all(by.css('option')).get(1).click();

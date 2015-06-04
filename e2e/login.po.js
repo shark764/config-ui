@@ -5,8 +5,8 @@ var Login = function() {
   this.passwordLoginField = element(by.model('password'));
   this.loginButton = element(by.css('.login-btn'));
 
-  this.emailLoginCreds = 'test@test.com';
-  this.passwordLoginCreds = 'password';
+  this.emailLoginCreds = 'titan@liveops.com';
+  this.passwordLoginCreds = 'gKVnfF9wrs6XPSYs';
 
   this.login = function(email, password) {
     this.emailLoginField.sendKeys(email);
