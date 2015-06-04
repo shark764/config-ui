@@ -1,0 +1,34 @@
+<div>
+  <h3>Invites</h3>
+
+  <table >
+    <thead>
+      <td>Email</td>
+      <td>State</td>
+      <td>Role</td>
+      <td>Sent On</td>
+      <td>Expiry Date</td>
+      <td>Token</td>
+      <td></td>
+    </thead>
+    <tr ng-repeat="curInvite in invites">
+      <td style="border: 1px solid black;">{{curInvite.email}}</td>
+      <td style="border: 1px solid black;">{{curInvite.invitationState}}</td>
+      <td style="border: 1px solid black;">{{curInvite.roleId}}</td>
+      <td style="border: 1px solid black;">{{curInvite.created | date}}</td>
+      <td style="border: 1px solid black;">{{curInvite.invitationExpiryDate | date}}</td>
+      <td style="border: 1px solid black;">{{curInvite.invitationToken}}</td>
+      <td style="border: 1px solid black;"><a ng-click="resend(curInvite)">Resend</a></td>
+      <td style="border: 1px solid black;"><a ng-click="remove(curInvite)">Delete</a></td>
+      <td style="border: 1px solid black;"><a ng-click="accept(curInvite)">Accept</a></td>
+    </tr>
+  </table>
+  
+  <h3>Create new Invitation</h3>
+  <form ng-submit="save()" name="inviteCreateForm">
+    <div>Email: <input type="email" ng-required="true" ng-model="newInvite.email"></input></div>
+    
+    <input type="submit" class="btn btn-primary" value="Send"/>
+  </form>
+
+</div>
