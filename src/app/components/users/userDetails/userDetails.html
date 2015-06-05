@@ -37,11 +37,12 @@
 
   <div class="input-group" ng-show="!user.id">
     <label>{{'details.email' | translate}}</label>
-    <div class="error" ng-show="userForm.email.$touched && userForm.email.$invalid">
-      <span ng-show="userForm.email.$error.required">{{'details.email.error' | translate}}</span>
-      <span ng-show="userForm.email.$error.email">{{'details.email.invalid' | translate}}</span>
+    {{userForm.email.$error}}
+    <div class="error" ng-messages="userForm.email.$error" role="alert">
+      <div ng-message="required">{{'details.email.error' | translate}}</div>
+      <div ng-message="email">{{'details.email.invalid' | translate}}</div>
     </div>
-    <input ng-model="user.email" name="email" type="email" ></input>
+    <input ng-model="user.email" name="email" type="email" required email></input>
   </div>
 
    <div class="input-group">
