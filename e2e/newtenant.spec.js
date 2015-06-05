@@ -23,12 +23,13 @@ describe('The create new tenants view', function() {
   it('should include supported tenant fields only', function() {
     expect(tenants.nameFormField.isDisplayed()).toBeTruthy();
     expect(tenants.descriptionFormField.isDisplayed()).toBeTruthy();
-    expect(tenants.regionFormDropDown.isDisplayed()).toBeTruthy();
     expect(tenants.adminFormDropDown.isDisplayed()).toBeTruthy();
 
-    // The Status and Parent fields are not to be displayed for the initial Beta release
+    // The Status (and Parent) fields are not to be displayed for the initial Beta release
     expect(tenants.statusFormToggle.isDisplayed()).toBeFalsy();
-    expect(tenants.parentFormDropDown.isDisplayed()).toBeFalsy();
+
+    // Region is not displayed when adding a new user, defaults to current region
+    expect(tenants.region.isDisplayed()).toBeFalsy();
   });
 
   it('should successfully create a new tenant and add to the tenants lists', function() {
@@ -39,7 +40,6 @@ describe('The create new tenants view', function() {
     // Complete tenant form and submit
     tenants.nameFormField.sendKeys('Tenant ' + randomTenant);
     tenants.descriptionFormField.sendKeys('This is the tenant description for tenant ' + randomTenant);
-    tenants.regionFormDropDown.all(by.css('option')).get(1).click();
     tenants.createTenantBtn.click();
 
     // Confirm tenant is displayed in tenant table with correct details
@@ -73,7 +73,6 @@ describe('The create new tenants view', function() {
 
     // Complete tenant form and submit without tenant name
     tenants.descriptionFormField.sendKeys('This is the tenant description for tenant ' + randomTenant);
-    tenants.regionFormDropDown.all(by.css('option')).get(1).click();
     tenants.createTenantBtn.click();
 
     expect(tenants.tenantElements.count()).toBe(tenantCount);
@@ -84,13 +83,13 @@ describe('The create new tenants view', function() {
 
     // Complete tenant form and submit without tenant description
     tenants.nameFormField.sendKeys('Tenant ' + randomTenant);
-    tenants.regionFormDropDown.all(by.css('option')).get(1).click();
     tenants.createTenantBtn.click();
 
     expect(tenants.tenantElements.count()).toBe(tenantCount);
   });
 
-  it('should require region when creating a new tenant', function() {
+  xit('should require region when creating a new tenant', function() {
+    // TBD Region is defaulting to current region
     randomTenant = Math.floor((Math.random() * 100) + 1);
 
     // Complete tenant form and submit without tenant region
@@ -109,7 +108,6 @@ describe('The create new tenants view', function() {
 
       tenants.nameFormField.sendKeys('Tenant ' + randomTenant);
       tenants.descriptionFormField.sendKeys('This is the tenant description for tenant ' + randomTenant);
-      tenants.regionFormDropDown.all(by.css('option')).get(1).click();
       tenants.adminFormDropDown.all(by.css('option')).get(1).click();
       tenants.createTenantBtn.click();
 
@@ -139,7 +137,6 @@ describe('The create new tenants view', function() {
       tenants.tenantElements.then(function(existingTenants) {
         tenants.nameFormField.sendKeys(existingTenants.get(0).name);
         tenants.descriptionFormField.sendKeys('This is the tenant description for tenant');
-        tenants.regionFormDropDown.all(by.css('option')).get(1).click();
         tenants.createTenantBtn.click();
 
         // Verify tenant is not created

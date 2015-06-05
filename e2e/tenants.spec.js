@@ -43,6 +43,8 @@ describe('The tenants view', function() {
       // Verify tenant admin in table matches populated field
       expect(element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(3)')).getText()).toContain(adminFormDropDown).getAttribute('value');
 
+      expect(tenants.region.isDisplayed()).toBeTruthy();
+
       if (tenantCount > 1) {
         // Change selected tenant and ensure details are updated
         element(by.css("tr.ng-scope:nth-child(2) > td:nth-child(2) > a:nth-child(1)")).click();
@@ -50,6 +52,7 @@ describe('The tenants view', function() {
         expect(element(by.css('tr.ng-scope:nth-child(2) > td:nth-child(2) > a:nth-child(1)')).getText()).toContain(nameFormField).getAttribute('value');
         expect(element(by.css('tr.ng-scope:nth-child(2) > td:nth-child(4)')).getText()).toContain(nameFormField).getAttribute('value');
         expect(element(by.css('tr.ng-scope:nth-child(2) > td:nth-child(3)')).getText()).toContain(adminFormDropDown).getAttribute('value');
+        expect(tenants.region.isDisplayed()).toBeTruthy();
       }
     }
   });
@@ -62,16 +65,7 @@ describe('The tenants view', function() {
     }
   });
 
-  it('should change Create button to Update when editing tenant', function() {
-    expect(tenants.createTenantBtn.getAttribute('value')).toBe('Create');
-    if (tenantCount > 0) {
-      // Select first tenant from table
-      element(by.css("tr.ng-scope:nth-child(1) > td:nth-child(2) > a:nth-child(1)")).click();
-      expect(tenants.createTenantBtn.getAttribute('value')).toBe('Update');
-    }
-  });
-
-  it('should allow the tenant name, region, and admin fields to be updated', function() {
+  it('should allow the tenant name and admin fields to be updated', function() {
     if (tenantCount > 0) {
       // Select first tenant from table
       element(by.css("tr.ng-scope:nth-child(1) > td:nth-child(2) > a:nth-child(1)")).click();
@@ -108,9 +102,9 @@ describe('The tenants view', function() {
       tenants.descriptionFormField.clear();
       expect(tenants.descriptionFormField.getText()).toBeTruthy;
 
-      // Review Region dropdown
-      expect(tenants.regionFormDropDown.getAttribute('disabled')).toBe('true');
-      expect(tenants.regionFormDropDown.all(by.css('option')).count()).toBe(0);
+      // Review Region label
+      expect(tenants.region.getText()).toBeTruthy;
+      expect(tenants.region.all(by.css('option')).count()).toBe(0);
     }
   });
 
