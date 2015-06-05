@@ -56,6 +56,16 @@ $fontRobotoCondensed: 'Roboto Condensed';
   box-shadow:         inset $x $y $blur $spread rgba(0, 0, 0, $alpha);
 }
 
+@mixin inline-flexbox () {
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+}
+
+@mixin flexbox () {
+  display: -ms-flexbox;
+  display: flex;
+}
+
 @mixin inset-box-shadow ($horizontal: 0px, $vertical: 1px, $blur: 2px, $color: rgba(175, 175, 175, 0.4 )) {
   -webkit-box-shadow: inset $horizontal $vertical $blur $color;
   -moz-box-shadow: inset $horizontal $vertical $blur $color;
