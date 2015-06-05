@@ -1,4 +1,6 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('UsersController', function () {});
+  .controller('UsersController', ['$scope', 'Session', function ($scope, Session) {
+    $scope.menuCollapsed = Session.collapseSideMenu;
+  }]);

@@ -21,7 +21,8 @@ angular.module('liveopsConfigPanel')
     this.lang = null;
     this.tenantId = null;
     this.activeRegionId = '6aff1f30-0901-11e5-87f2-b1d420920055';
-
+    this.collapseSideMenu = true;
+    
     this.set = function (user, token) {
       this.token = token;
       this.displayName = user.displayName;
@@ -56,7 +57,8 @@ angular.module('liveopsConfigPanel')
       this.lang = null;
       this.tenantId = null;
       this.activeRegionId = null;
-
+      this.collapseSideMenu = true;
+      
       localStorage.removeItem(this.userSessionKey);
     };
 

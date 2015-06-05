@@ -1,6 +1,6 @@
-<div class="side-menu"><i class="fa fa-angle-double-left"></i></div>
+<user-managment-menu collapsed="menuCollapsed"></user-managment-menu>
 
-<div class="user-list-container">
+<div class="user-list-container" ng-class="{'expanded-menu': ! menuCollapsed}">
   <div id="left-panel" class="left-panel">
     <user-table></user-table>
     <resize-handle ng-show="!!selectedUser" right-element-id="right-panel" left-element-id="left-panel" left-min-width="600" right-min-width="600" ></resize-handle>
