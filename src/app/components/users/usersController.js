@@ -2,7 +2,7 @@
 
 angular.module('liveopsConfigPanel')
   .controller('UsersController', ['$scope', '$location', '$routeParams', '$filter', 'userStates', 'userStatuses', 'columns', 'User', 'Session',
-      function ($scope, $location, $routeParams, $filter, userStates, userStatuses, columns, User, Session) {
+      function ($scope, $location, $routeParams, $filter, userStates, userStatuses, columns, User, _Session_) {
     $scope.states = userStates;
     $scope.statuses = userStatuses;
     $scope.columns = columns;
