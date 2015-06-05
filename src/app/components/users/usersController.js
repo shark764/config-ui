@@ -7,7 +7,8 @@ angular.module('liveopsConfigPanel')
     $scope.statuses = userStatuses;
     $scope.columns = columns;
     $scope.filteredUsers = [];
-	$scope.Session = _Session_;
+	  $scope.Session = Session;
+
     $scope.users = User.query(function () {
 
       if($routeParams.id) {
@@ -17,11 +18,6 @@ angular.module('liveopsConfigPanel')
 
         $scope.selectedUser = activeUser;
       }
-    });
-
-    $scope.$on('user:cancel', function () {
-      //TODO: undo changes to scope selectedUser without a query
-      $scope.selectedUser.$get({id: $scope.selectedUser.id});
     });
 
     $scope.$watchCollection(function(){ return $scope.filteredUsers;}, function(newList){

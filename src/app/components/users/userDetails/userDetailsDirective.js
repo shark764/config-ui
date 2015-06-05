@@ -14,10 +14,6 @@ angular.module('liveopsConfigPanel')
           $scope.userStates = userStates;
           $scope.userStatuses = userStatuses;
 
-          $scope.cancel = function(){
-            $scope.$emit('user:cancel');
-          };
-          
           $scope.$on('user:create', function () {
 
             $scope.user = new User({
@@ -25,21 +21,26 @@ angular.module('liveopsConfigPanel')
               state: 'OFFLINE'
             });
           });
-          
-          $scope.$watch('user', function(){
-            if ($scope.user && $scope.user.id){
+
+          $scope.$watch('user.createdBy', function(){
+            if($scope.user && $scope.user.createdBy) {
               $scope.creator = User.get({id : $scope.user.createdBy});
+            }
+          });
+
+          $scope.$watch('user.updatedBy', function () {
+            if($scope.user && $scope.user.updatedBy){
               $scope.updater = User.get({id : $scope.user.updatedBy});
             }
           });
-          
+
           $scope.save = function () {
             var isCreated = ($scope.user.id ? false : true);
 
             $scope.user.save({id: $scope.user.id},
               function (result) {
 
-                $scope.user = result;
+                $scope.user = angular.copy(result);
 
                 if(isCreated){
                   $scope.$emit('user:created', result);

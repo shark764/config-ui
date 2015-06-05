@@ -9,8 +9,9 @@ angular.module('liveopsConfigPanel')
         form: '='
       },
       templateUrl : 'app/shared/directives/detailControls/detailControls.html',
+
       link : function($scope) {
-        $scope.oResource = $scope.resource;
+        $scope.oResource = angular.copy($scope.resource);
 
         $scope.$watch('resource', function () {
           $scope.oResource = angular.copy($scope.resource);
