@@ -17,7 +17,7 @@ describe('The users view', function() {
     userCount = users.userElements.count();
   });
 
-  afterAll(function(){
+  afterAll(function() {
     shared.tearDown();
   });
 
@@ -111,8 +111,8 @@ describe('The users view', function() {
     users.stateTableDropDown.click(); // Close
 
     element.all(by.repeater('user in filteredUsers')).then(function(rows) {
-      for (var j = 0; j < rows.length; ++j) {
-        expect(element(by.css('tr.ng-scope:nth-child(' + (j + 1) + ') > td:nth-child(5) > div:nth-child(1)')).getText()).toBe('READY');
+      for (var j = 1; j <= rows.length; ++j) {
+        expect(element(by.css('tr.ng-scope:nth-child(' + j + ') > td:nth-child(5) > div:nth-child(1)')).getAttribute('state')).toBe('READY');
       };
     });
 
@@ -158,12 +158,12 @@ describe('The users view', function() {
     users.stateTableDropDown.click(); // Close
 
     element.all(by.repeater('user in filteredUsers')).then(function(rows) {
-      for (var i = 0; i < rows.length; ++i) {
-        element(by.css('tr.ng-scope:nth-child(' + (i + 1) + ') > td:nth-child(1)')).getText().then(function(value) {
+      for (var i = 1; i <= rows.length; ++i) {
+        element(by.css('tr.ng-scope:nth-child(' + i + ') > td:nth-child(2)')).getText().then(function(value) {
           expect(value.toLowerCase()).toContain('a');
         });
-        expect(element(by.css('tr.ng-scope:nth-child(' + (i + 1) + ') > td:nth-child(4)')).getText()).toBe('Enabled');
-        expect(element(by.css('tr.ng-scope:nth-child(' + (i + 1) + ') > td:nth-child(5) > div:nth-child(1)')).getAttribute('state')).toBe('READY');
+        expect(element(by.css('tr.ng-scope:nth-child(' + i + ') > td:nth-child(4)')).getText()).toBe('Enabled');
+        expect(element(by.css('tr.ng-scope:nth-child(' + i + ') > td:nth-child(5) > div:nth-child(1)')).getAttribute('state')).toBe('READY');
       };
     });
 
@@ -183,7 +183,7 @@ describe('The users view', function() {
 
     element.all(by.repeater('user in filteredUsers')).then(function(rows) {
       for (var i = 0; i < rows.length; ++i) {
-        element(by.css('tr.ng-scope:nth-child(' + (i + 1) + ') > td:nth-child(1)')).getText().then(function(value) {
+        element(by.css('tr.ng-scope:nth-child(' + (i + 1) + ') > td:nth-child(2)')).getText().then(function(value) {
           expect(value.toLowerCase()).toContain('an');
         });
         element(by.css('tr.ng-scope:nth-child(' + (i + 1) + ') > td:nth-child(4)')).getText().then(function(value) {
@@ -196,42 +196,37 @@ describe('The users view', function() {
     });
   });
 
-  xit('should display the selected user details in the user details section', function() {
-    // TODO Update selectors for user Details
+  it('should display the selected user details in the user details section', function() {
     if (userCount > 0) {
       // Select user row
-      element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(1)')).click();
+      element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(2)')).click();
       expect(users.userDetails.isDisplayed()).toBeTruthy();
 
       // Verify user's name in table matches user details
-      expect(element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(1)')).getText()).toContain(element(by.model('user.firstName')).getAttribute('value'));
-      expect(element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(1)')).getText()).toContain(element(by.model('user.lastName')).getAttribute('value'));
-      expect(element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(1)')).getText()).toBe(element(by.css('h1.ng-binding')).getText());
+      expect(element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(2)')).getText()).toContain(users.firstNameFormField.getAttribute('value'));
+      expect(element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(2)')).getText()).toContain(users.lastNameFormField.getAttribute('value'));
 
       // Verify user's externalId in table matches user details
-      expect(element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(2)')).getText()).toBe(element(by.model('user.externalId')).getAttribute('value'));
+      expect(element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(2)')).getText()).toBe(users.externalIdFormField.getAttribute('value'));
 
       // Verify user's state in table matches user details
-      expect(element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(4)')).getText()).toBe(element(by.css('user-state.ng-isolate-scope > div:nth-child(1) > span:nth-child(1)')).getText());
+      expect(element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(5) > div:nth-child(1)')).getAttribute('state')).toBe(users.stateFormDropDown.getAttribute('value'));
 
       // Verify user's displayName matches
       expect(element(by.model('user.displayName')).getAttribute('value')).toBe(element(by.css('h2.ng-binding')).getText());
 
       // Verify remaining required fields are completed
       expect(element(by.model('user.firstName')).getAttribute('value')).toBeTruthy();
-      expect(element(by.model('user.email')).getAttribute('value')).toBeTruthy();
 
       // Change user and verify all fields are updated
       if (userCount > 1) {
-        element(by.css('tr.ng-scope:nth-child(2) > td:nth-child(1)')).click();
-        expect(element(by.css('tr.ng-scope:nth-child(2) > td:nth-child(1)')).getText()).toContain(element(by.model('user.firstName')).getAttribute('value'));
-        expect(element(by.css('tr.ng-scope:nth-child(2) > td:nth-child(1)')).getText()).toContain(element(by.model('user.lastName')).getAttribute('value'));
-        expect(element(by.css('tr.ng-scope:nth-child(2) > td:nth-child(1)')).getText()).toBe(element(by.css('h1.ng-binding')).getText());
-        expect(element(by.css('tr.ng-scope:nth-child(2) > td:nth-child(2)')).getText()).toBe(element(by.model('user.externalId')).getAttribute('value'));
-        expect(element(by.css('tr.ng-scope:nth-child(2) > td:nth-child(4)')).getText()).toBe(element(by.css('user-state.ng-isolate-scope > div:nth-child(1) > span:nth-child(1)')).getText());
+        element(by.css('tr.ng-scope:nth-child(2) > td:nth-child(2)')).click();
+        expect(element(by.css('tr.ng-scope:nth-child(2) > td:nth-child(2)')).getText()).toContain(users.firstNameFormField.getAttribute('value'));
+        expect(element(by.css('tr.ng-scope:nth-child(2) > td:nth-child(2)')).getText()).toContain(users.firstNameFormField.getAttribute('value'));
+        expect(element(by.css('tr.ng-scope:nth-child(2) > td:nth-child(3)')).getText()).toBe(users.externalIdFormField.getAttribute('value'));
+        expect(element(by.css('tr.ng-scope:nth-child(2) > td:nth-child(5) > div:nth-child(1)')).getAttribute('state')).toBe(users.stateFormDropDown.getAttribute('value'));
         expect(element(by.model('user.displayName')).getAttribute('value')).toBe(element(by.css('h2.ng-binding')).getText());
         expect(element(by.model('user.firstName')).getAttribute('value')).toBeTruthy();
-        expect(element(by.model('user.email')).getAttribute('value')).toBeTruthy();
       }
     }
   });

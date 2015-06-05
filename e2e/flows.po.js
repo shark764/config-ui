@@ -8,7 +8,8 @@ var FlowPage = function() {
 
   this.nameFormField = element(by.model('flow.name'));
   this.descriptionFormField = element(by.model('flow.description'));
-  this.submitflowFormBtn = element(by.id('submit-flow-form'));
+  this.activeFormToggle = element(by.model('flow.active'));
+  this.submitFlowFormBtn = element(by.css('.btn'));
 
   this.errors = element.all(by.css('.error'));
 

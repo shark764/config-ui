@@ -66,8 +66,7 @@ describe('The login view', function() {
     loginPage.login(loginPage.emailLoginCreds, loginPage.passwordLoginCreds);
     expect(browser.getCurrentUrl()).toBe(shared.mainUrl);
 
-    // TO DO: Update to match current logged in user's name
-    expect(shared.welcomeMessage.getText()).toContain('Welcome back');
+    expect(shared.welcomeMessage.getText()).toContain('Welcome back, titan');
   });
 
   it('should redirect to login page after logout', function() {
