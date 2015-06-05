@@ -26,7 +26,7 @@ angular.module('liveopsConfigPanel')
             });
           });
           
-          $scope.$watch(function(){return $scope.user;}, function(){
+          $scope.$watch('user', function(){
             if ($scope.user && $scope.user.id){
               $scope.creator = User.get({id : $scope.user.createdBy});
               $scope.updater = User.get({id : $scope.user.updatedBy});
