@@ -46,6 +46,12 @@ angular.module('liveopsConfigPanel', ['ngRoute', 'ngResource', 'liveopsConfigPan
         controller: 'InvitesController',
         secure: true
       })
+      .when('/users', {
+        templateUrl: 'app/components/users/users.html',
+        controller: 'UsersController',
+        reloadOnSearch: false,
+        secure: true
+      })
       .otherwise('/');
 
     $translateProvider
