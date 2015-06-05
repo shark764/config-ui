@@ -1,5 +1,6 @@
 .dropdown-container {
   position: relative;
+  text-align: left;
 }
 
 .dropdown {
@@ -36,8 +37,9 @@
       margin: 0;
       padding: 0;
     }
-
-    li {
+    
+    li, li i {
+      color: #333;
       padding: 0 15px;
     }
     li:hover {

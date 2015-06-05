@@ -35,12 +35,14 @@ $down-arrow-url: "/assets/images/down-arrow.png";
     @include border-radius(5px);
   }
 
-  div {
+  .welcome {
     float: right;
     line-height: $navbar-height;
     font-size: 14px;
+    min-width: 200px;
+    text-align: right;
 
-    i {
+    i.label-icon {
       cursor: pointer;
       color: $main-color-light;
       font-size: 28px;
@@ -74,7 +76,7 @@ $down-arrow-url: "/assets/images/down-arrow.png";
     background-size: 150px;
   }
 
-  ul {
+  > ul {
     float: left;
     padding: 0;
     margin: 0;
@@ -100,5 +102,9 @@ $down-arrow-url: "/assets/images/down-arrow.png";
         color: white;
       }
     }
+  }
+  
+  dropdown {
+    line-height: normal;
   }
 }
