@@ -19,7 +19,7 @@ angular.module('liveopsConfigPanel')
         });
       };
 
-      $rootScope.$on('Session:login', populateTenantsHandler);
+      $rootScope.$on('login:success', populateTenantsHandler);
       $scope.$watch('Session.activeRegionId', populateTenantsHandler);
 
       $scope.isActive = function(viewLocation) {
@@ -29,7 +29,7 @@ angular.module('liveopsConfigPanel')
       $scope.logout = function() {
         AuthService.logout();
         $location.url($location.path('/login'));
-        $rootScope.$broadcast('Session:logout');
+        $rootScope.$broadcast('logout');
       };
 
       $scope.userDropdownItems = [{

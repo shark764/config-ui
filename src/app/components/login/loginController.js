@@ -7,7 +7,7 @@ angular.module('liveopsConfigPanel')
         AuthService.login($scope.username, $scope.password)
           .then(function () {
             $location.path('/');
-            $rootScope.$broadcast('Session:login');
+            $rootScope.$broadcast('login:success');
           });
       };
     }
