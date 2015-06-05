@@ -73,6 +73,7 @@ describe('The login view', function() {
     loginPage.login(loginPage.emailLoginCreds, loginPage.passwordLoginCreds);
     expect(browser.getCurrentUrl()).toBe(shared.mainUrl);
 
+    shared.settingsDropdown.click();
     shared.logoutButton.click();
     expect(browser.getCurrentUrl()).toBe(shared.loginPageUrl);
   });

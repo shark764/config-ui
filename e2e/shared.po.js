@@ -12,12 +12,16 @@ var Shared = function() {
   // Elements that are present on all pages: navbar, etc.
   this.navBar = element(by.css('.navbar'));
   this.welcomeMessage = element(by.css('.navbar > div:nth-child(3) > span:nth-child(1)'));
-  this.logoutButton = element(by.css('.fa-sign-out'));
   this.siteNavLogo = element(by.css('.navbar > a:nth-child(1)'));
   this.tenantsNavDropdown = element(by.model('Session.tenantId'));
   this.usersNavButton = element(by.css('li.active:nth-child(3) > a:nth-child(1)'));
   this.tenantsNavButton = element(by.css('ul.ng-scope > li:nth-child(4) > a:nth-child(1)'));
   this.flowsNavButton = element(by.css('ul.ng-scope > li:nth-child(6) > a:nth-child(1)'));
+
+  this.settingsDropdownButton = element(by.css('i.fa:nth-child(2)'));
+  this.settingsDropdown = element(by.id('user-settings-dropdown'));
+  this.userProfileButton = element(by.css('li.ng-binding:nth-child(1)'))
+  this.logoutButton = element(by.css('.fa-sign-out'))
 
   this.tearDown = function() {
     browser.executeScript('window.sessionStorage.clear()');

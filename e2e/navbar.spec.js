@@ -22,8 +22,16 @@ describe('The navbar', function() {
     expect(shared.tenantsNavDropdown.isDisplayed()).toBeTruthy();
     expect(shared.usersNavButton.getText()).toBe('User Management');
     expect(shared.tenantsNavButton.getText()).toBe('Tenants');
-    expect(shared.logoutButton.isDisplayed()).toBeTruthy();
+    expect(shared.settingsDropdownButton.isDisplayed()).toBeTruthy();
     // TODO Add remaining page buttons as they are added
+  });
+
+  it('should open settings dropdown when clicked and list links', function() {
+    shared.settingsDropdownButton.click();
+    expect(shared.settingsDropdown.isDisplayed()).toBeTruthy();
+
+    expect(shared.userProfileButton.isDisplayed()).toBeTruthy();
+    expect(shared.logoutButton.isDisplayed()).toBeTruthy();
   });
 
   it('should navigate to main page logo is selected', function() {
