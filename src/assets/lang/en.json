@@ -1,5 +1,7 @@
 {
   "value.submit": "Submit",
+  "value.cancel": "Cancel",
+  "value.save": "Save",
   
   "navbar.users.title": "User Management",
   "navbar.tenants.title": "Tenants",
@@ -20,5 +22,13 @@
   "details.password": "Password",
   "details.password.error": "Please enter a password",
   "details.externalId": "External ID",
-  "details.role": "Role"
+  "details.role": "Role",
+  
+  "tenant.details.title": "Tenants",
+  "tenant.details.createdby": "Created by {{creator}} at {{date}}",
+  "tenant.details.updatedby": "Last updated by {{updater}} at {{date}}",
+  "tenant.details.name": "Tenant Name",
+  "tenant.details.admin": "Platform Admin",
+  "tenant.details.description": "Description",
+  "tenant.details.region": "Region"
 }
