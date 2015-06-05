@@ -17,9 +17,4 @@ describe('UsersController', function() {
     it('should exist', function(){
       expect(controller).toBeDefined();
     });
-    
-    it('should initialize menuCollapsed', function(){
-      expect($scope.menuCollapsed).toBeDefined();
-      expect($scope.menuCollapsed).toBeTruthy();
-    });
 });
