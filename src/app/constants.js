@@ -92,18 +92,4 @@ angular.module('liveopsConfigPanel.config', [])
   }
 })
 
-.constant('navBarDropDowns', [{
-  label: 'User Profile',
-  onClick: function() {
-    $location.path('/userprofile');
-  },
-  iconClass: 'fa fa-gear'
-}, {
-  label: 'Log Out',
-  onClick: function() {
-    $scope.logout();
-  },
-  iconClass: 'fa fa-sign-out'
-}])
-
 ;

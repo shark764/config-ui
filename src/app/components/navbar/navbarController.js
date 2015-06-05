@@ -1,31 +1,49 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('NavbarController', function($scope, $location, AuthService, Session, Tenant, navBarDropDowns) {
-    $scope.Session = Session;
+  .controller('NavbarController', ['$rootScope', '$scope', '$location', 'AuthService', 'Session', 'Tenant',
+    function($rootScope, $scope, $location, AuthService, Session, Tenant) {
+      $scope.Session = Session;
 
-    $scope.$watch('Session.isAuthenticated()', function() {
-      if (!$scope.Session.isAuthenticated()) {
-        return;
-      }
-
-      $scope.tenants = Tenant.query({
-        regionId: Session.activeRegionId
-      }, function() {
-        if (!Session.tenantId) {
-          Session.tenantId = $scope.tenants[0].id;
+      var populateTenantsHandler = function(event) {
+        if (!$scope.Session.isAuthenticated()) {
+          return;
         }
-      });
-    });
 
-    $scope.isActive = function(viewLocation) {
-      return viewLocation === $location.path();
-    };
+        $scope.tenants = Tenant.query({
+          regionId: Session.activeRegionId
+        }, function() {
+          if (!Session.tenantId && $scope.tenants.length) {
+            Session.tenantId = $scope.tenants[0].id;
+          }
+        });
+      };
 
-    $scope.logout = function() {
-      AuthService.logout();
-      $location.url($location.path('/login'));
-    };
+      $rootScope.$on('Session:login', populateTenantsHandler);
+      $scope.$watch('Session.activeRegionId', populateTenantsHandler);
 
-    $scope.userDropdownItems = navBarDropDowns;
-  });
+      $scope.isActive = function(viewLocation) {
+        return viewLocation === $location.path();
+      };
+
+      $scope.logout = function() {
+        AuthService.logout();
+        $location.url($location.path('/login'));
+        $rootScope.$broadcast('Session:logout');
+      };
+
+      $scope.userDropdownItems = [{
+        label: 'User Profile',
+        onClick: function() {
+          $location.path('/userprofile');
+        },
+        iconClass: 'fa fa-gear'
+      }, {
+        label: 'Log Out',
+        onClick: function() {
+          $scope.logout();
+        },
+        iconClass: 'fa fa-sign-out'
+      }];
+    }
+  ]);

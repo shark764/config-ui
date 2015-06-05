@@ -47,12 +47,12 @@ angular.module('liveopsConfigPanel')
         localStorage.setItem(this.userPreferenceKey, JSON.stringify({
           tenantId: this.tenantId,
           lang: this.lang,
-          collapseSideMenu: this.collapseSideMenu
+          collapseSideMenu: this.collapseSideMenu,
+          activeRegionId: this.activeRegionId
         }));
       };
 
       this.destroy = function () {
-        console.log('destroy')
         this.token = null;
         this.displayName = null;
         this.id = null;
