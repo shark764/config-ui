@@ -20,6 +20,10 @@ angular.module('liveopsConfigPanel')
 
     $scope.fetch();
 
+    $scope.$watch('Session.tenantId', function () {
+      $scope.fetch();
+    });
+    
     $scope.$on('$routeUpdate', function () {
       $scope.setQueue($routeParams.id);
     });
