@@ -6,41 +6,31 @@ $down-arrow-url: "/assets/images/down-arrow.png";
   display: none !important;
 }
 
-.navbar {
-  position: relative;
-  min-height: $navbar-height;
+#topnav {
   background-color: $main-color;
-  font-family: $main-font;
-  font-size: 16px;
-  font-style: normal;
-  font-weight: normal;
-  -webkit-font-smoothing: antialiased;
-  color: white;
-  padding: 0px 20px;
-
-  select {
-    position: relative;
-    width: 150px;
-    margin-top: 10px;
-    padding: 7px;
-    background: transparent;
-    -webkit-appearance: none;
-    background: url($down-arrow-url) no-repeat;
-    background-size: 18px 18px;
-    background-position: 95% 50%;
-    color: $medium-grey;
-    font-family: $main-font;
-    font-size:15px;
-    border-color: $light-grey;
-    @include border-radius(5px);
-  }
-
+  color: #C0BAB6;
+  clear: both;
+  max-width: 100% !important;
+  min-height: $navbar-height;
+  padding: 0;
+  padding-left: 2.5%;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  word-wrap: normal;
+  white-space: nowrap;
+  z-index: 15;
+  
   .welcome {
+    padding: 0;
     float: right;
-    line-height: $navbar-height;
-    font-size: 14px;
-    min-width: 200px;
-    text-align: right;
+    top: 0;
+    position: fixed;
+    right: 2.5%;
+    color:#C0BAB6;
+    clear:both;
+    word-wrap:normal;
+    white-space:nowrap;
 
     i.label-icon {
       cursor: pointer;
@@ -70,36 +60,33 @@ $down-arrow-url: "/assets/images/down-arrow.png";
     padding: 0px 8px;
     margin-top: 10px;
     font-size: 18px;
-    height: ($navbar-height - 10px);
     width: 150px;
-    background: url(/assets/images/liveops-logo.png) no-repeat;
-    background-size: 150px;
   }
 
-  > ul {
-    float: left;
+  ul {
+    font-size: 12px;
     padding: 0;
     margin: 0;
 
     li {
-      float: left;
-      position: relative;
       display: block;
+      float: left;
+      margin:0 30px 0 0;
+      padding:0;
+      position: relative;
 
       a {
-        position: relative;
+        border-bottom: 4px solid #07487a;
         display: block;
-        padding: 15px 0px;
-        margin: 0px 10px;
-        line-height: 25px;
-        color: rgb(114, 132, 156);
+        padding:20px 0;
+        color: #C0BAB6;
+        background-color: #07487a;
+        font-weight: bold;
       }
 
-      &.active a {
-        -webkit-box-shadow: inset 0px -7px 0px 0px lighten($main-color, 30%);
-        -moz-box-shadow: inset 0px -7px 0px 0px lighten($main-color, 30%);
-        box-shadow: inset 0px -7px 0px 0px lighten($main-color, 30%);
-        color: white;
+      &.active a, &:hover a{
+        color:#FFFFFF;
+        border-color: lighten($main-color, 30%);
       }
     }
   }
