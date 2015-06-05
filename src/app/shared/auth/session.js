@@ -39,6 +39,10 @@ angular.module('liveopsConfigPanel')
     $rootScope.$watch('Session.tenantId', function () {
       self.storeSession();
     });
+    
+    $rootScope.$watch('Session.collapseSideMenu', function () {
+      self.storeSession();
+    });
 
     this.storeSession = function () {
       localStorage.setItem(this.userSessionKey, JSON.stringify({
@@ -46,7 +50,8 @@ angular.module('liveopsConfigPanel')
         tenantId: this.tenantId,
         displayName: this.displayName,
         id: this.id,
-        lang: this.lang
+        lang: this.lang,
+        collapseSideMenu: this.collapseSideMenu
       }));
     };
 
