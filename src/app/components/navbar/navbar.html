@@ -3,7 +3,7 @@
     <a ng-href="#/"></a>
     <ul ng-switch-when="true">
       <li>
-        <select ng-model="Session.tenantId" ng-options="tenant.id as tenant.name for tenant in tenants">
+        <select ng-model="Session.tenantId" ng-options="tenant.id as tenant.name for tenant in tenants | orderBy:'name'">
         </select>
       </li>
       <li class="divider"></li>
@@ -12,6 +12,7 @@
       <li ng-class="{ active: isActive('/flows')}"><a ng-href="#/flows">{{'navbar.flows.title' | translate}}</a></li>
       <li ng-class="{ active: isActive('/queues')}"><a ng-href="#/queues">Queues</a></li>
       <li ng-class="{ active: isActive('/userprofile')}"><a ng-href="#/userprofile">Your Profile</a></li>
+      <li ng-class="{ active: isActive('/invites')}"><a ng-href="#/invites">Invites</a></li>
     </ul>
 
     <div class="welcome" ng-switch-when="true">

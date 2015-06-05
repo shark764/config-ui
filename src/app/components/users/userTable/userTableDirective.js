@@ -22,6 +22,11 @@ angular.module('liveopsConfigPanel')
           }
         });
 
+        $scope.$on('user:cancel', function () {
+          //TODO: undo changes to scope selectedUser without a query
+          $scope.selectedUser.$get({id: $scope.selectedUser.id});
+        });
+        
         $scope.$watchCollection(function(){ return $scope.filteredUsers;}, function(newList){
           //Only replace the selected user if the old one got excluded via filtering.
           if (newList && newList.indexOf($scope.selectedUser) === -1){
