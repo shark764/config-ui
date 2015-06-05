@@ -5,12 +5,10 @@ angular.module('liveopsConfigPanel')
 
     return LiveopsResourceFactory.create('/v1/tenants/:tenantId/flows/:flowId/versions/:id', true, false, [
       'tenantId',
-      'description',
       'name',
-      'activeVersion',
+      'description',
       'flowId',
-      'flow',
-      'version'
+      'flow'
     ]);
   }]);
 
