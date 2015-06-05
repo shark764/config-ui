@@ -37,8 +37,7 @@
 
   <div class="input-group" ng-show="!user.id">
     <label>{{'details.email' | translate}}</label>
-    {{userForm.email.$error}}
-    <div class="error" ng-messages="userForm.email.$error" role="alert">
+    <div class="error" ng-messages="userForm.email.$error" role="alert" ng-if='userForm.email.$dirty'>
       <div ng-message="required">{{'details.email.error' | translate}}</div>
       <div ng-message="email">{{'details.email.invalid' | translate}}</div>
     </div>
