@@ -9,31 +9,36 @@ angular.module('liveopsConfigPanel')
       },
       templateUrl : 'app/shared/directives/dropdown/filterDropdown.html',
       controller: 'DropdownController',
-      link : function(scope) {
+      link : function($scope) {
         //Automatically uncheck other filters when "All" is selected
-        if (scope.items.all){
-          scope.$watch(function(scope) {return scope.items.all.checked;},
+        if ($scope.items.all) {
+
+          $scope.$watch('items.filters', function () {
+
+              for(var i = 0; i < $scope.items.filters.length; i++){
+                var item = $scope.items.filters[i];
+
+                if(item.checked){
+                  $scope.items.all.checked = false;
+                  return;
+                }
+              }
+
+              $scope.items.all.checked = true;
+          }, true);
+
+          $scope.$watch('items.all.checked',
+
             function(newValue, oldValue) {
+
               if (newValue && !oldValue) {
-                angular.forEach(scope.items.filters, function(state) {
+
+                angular.forEach($scope.items.filters, function(state) {
                   state.checked = false;
                 });
               }
             }
           );
-        }
-
-        //Automatically uncheck "All" when another filter is selected
-        if(scope.items.all){
-          angular.forEach(scope.items.filters, function(filter) {
-            scope.$watch(function() {
-              return filter.checked;
-            }, function(newValue, oldValue) {
-              if (newValue && !oldValue) {
-                scope.items.all.checked = false;
-              }
-            });
-          });
         }
       }
     };

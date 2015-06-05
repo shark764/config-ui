@@ -2,6 +2,7 @@
 
 <div class="user-list-container">
   <div id="left-panel" class="left-panel">
+    <table-controls  search-query="searchQuery" columns="columns" on-create-click="createUser"></table-controls>
     <user-table></user-table>
     <resize-handle ng-show="!!selectedUser" right-element-id="right-panel" left-element-id="left-panel" left-min-width="600" right-min-width="600" ></resize-handle>
   </div>

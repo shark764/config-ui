@@ -1,38 +1,3 @@
-.action-container {
-  input,
-  button {
-    display: inline-block;
-  }
-  input {
-    width: 45%;
-    margin-right: 30px;
-  }
-}
-
-#user-table-options {
-  a {
-    float: right;
-    border: $light-grey 1px solid;
-    @include border-radius(4px);
-    color: $dark-grey;
-  }
-  
-  .dropdown-container {
-    float:right;
-    width: 200px;
-    
-    .dropdown-option:hover {
-      border: $lighter-grey 1px solid;
-      @include border-radius(6px);
-    }
-    
-    .dropdown {
-      top: 30px;
-      right: -90px;
-    }
-  }
-}
-
 .user-table {
   width: 100%;
   border-collapse: collapse;
@@ -40,7 +5,7 @@
   td:not(:nth-child(1)) {
     text-align: right;
     width: 100%;
-    min-width: 100px;
+    min-width: 110px;
   }
 
   thead {
@@ -51,8 +16,8 @@
     display: block;
     margin-right: 20px;
     position: absolute;
-    top: 130px;
     bottom: 10px;
+    top: 100px;
     overflow-y: auto;
   }
 

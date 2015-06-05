@@ -26,7 +26,7 @@ angular.module('liveopsConfigPanel')
           //TODO: undo changes to scope selectedUser without a query
           $scope.selectedUser.$get({id: $scope.selectedUser.id});
         });
-        
+
         $scope.$watchCollection(function(){ return $scope.filteredUsers;}, function(newList){
           //Only replace the selected user if the old one got excluded via filtering.
           if (newList && newList.indexOf($scope.selectedUser) === -1){
@@ -51,27 +51,4 @@ angular.module('liveopsConfigPanel')
       },
       templateUrl: 'app/components/users/userTable/userTable.html'
     };
-  }])
-  .filter('userFilter', function () {
-    return function (users, items, field) {
-      if (items.all && items.all.checked) {
-        return users;
-      }
-
-      var selectedFilters = [];
-      angular.forEach(items.filters, function (item) {
-        if (item.checked) {
-          selectedFilters.push(String(item.value));
-        }
-      });
-
-      var filtered = [];
-      angular.forEach(users, function (user) {
-        if (selectedFilters.indexOf(String(user[field])) > -1) {
-          filtered.push(user);
-        }
-      });
-
-      return filtered;
-    };
-  });
+  }]);
