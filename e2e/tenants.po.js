@@ -1,9 +1,9 @@
 'use strict';
 
 var TenantsPage = function() {
-  this.tenantsTable = element(by.id('tenant-table'));
+  this.tenantsTable = element(by.css('table'));
   this.tenantForm = element(by.css('form'));
-  this.createTenantBtn = element(by.id('submit-tenant-form'));
+  this.createTenantBtn = element(by.css('.btn'));
 
   this.nameFormField = element(by.model('tenant.name'));
   this.descriptionFormField = element(by.model('tenant.description'));
@@ -12,7 +12,7 @@ var TenantsPage = function() {
   this.adminFormDropDown = element(by.model('tenant.adminUserId'));
   this.parentFormDropDown = element(by.model('tenant.parentId'));
 
-  this.tenantElements = this.tenantsTable.all(by.repeater('tenant in tenants.result'));
+  this.tenantElements = element.all(by.repeater('curTenant in tenants'));
 
   this.tenantRegions;
   // TODO Add remaining Tenants page elements as the design is finalized

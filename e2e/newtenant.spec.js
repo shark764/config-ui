@@ -55,9 +55,10 @@ describe('The create new tenants view', function() {
     }).thenFinally(function() {
       // Verify new user was found in the user table
       expect(tenantAdded).toBeTruthy();
-      expect(tenants.tenantElements.count()).toBeGreaterThan(tenantCount);
 
       // TODO Verify new tenant is added to navbar and parent tenant dropdowns
+      // shared.tenantsNavDropdown.all(by.css('option')).get(1).click();
+      // expect(shared.tenantsNavDropdown.all(by.css('option')).count()).toBe(tenants.tenantElements.count());
     });
   });
 
@@ -136,9 +137,8 @@ describe('The create new tenants view', function() {
     if (tenantCount > 0) {
       // Attempt to create a new Tenant with the name of an existing Tenant
       tenants.tenantElements.then(function(existingTenants) {
-        tenants.nameFormField.sendKeys(existingTenants[0].name);
+        tenants.nameFormField.sendKeys(existingTenants.get(0).name);
         tenants.descriptionFormField.sendKeys('This is the tenant description for tenant');
-        tenants.statusFormToggle.click();
         tenants.regionFormDropDown.all(by.css('option')).get(1).click();
         tenants.createTenantBtn.click();
 

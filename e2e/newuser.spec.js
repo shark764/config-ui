@@ -71,7 +71,7 @@ describe('The create new user form', function() {
     expect(users.userElements.count()).toBe(userCount);
   });
 
-  xit('should not accept spaces as valid input in Create New User modal', function() {
+  it('should not accept spaces as valid input in Create New User modal', function() {
     // TODO Validation on user form
     users.createUserBtn.click();
 
@@ -197,13 +197,13 @@ describe('The create new user form', function() {
     expect(users.userElements.count()).toBe(userCount);
   });
 
-  xit('should validate field input in Create New User modal', function() {
+  it('should validate field input in Create New User modal', function() {
     // TODO
     // Validate field input: email format, acceptable characters in name, password
     // Validate field character limits
   });
 
-  xit('should ensure User Email is unique when Creating a new user', function() {
+  it('should ensure User Email is unique when Creating a new user', function() {
     // TODO
     // verify unable to create a user with an existing user's email
   });
