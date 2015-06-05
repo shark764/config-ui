@@ -17,7 +17,7 @@ angular.module('liveopsConfigPanel')
           $scope.$on('user:create', function () {
 
             $scope.user = new User({
-              status: false,
+              status: true,
               state: 'OFFLINE'
             });
           });

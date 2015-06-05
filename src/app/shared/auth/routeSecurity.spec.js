@@ -17,49 +17,71 @@ describe('routeSecurity', function () {
     }
   ]));
 
-  it('should setup route interception and prevent access to secure routes when authenticated', inject(function ($rootScope) {
-    $location.path('/users');
-
-    Session.token = TOKEN;
-
-    var event = $rootScope.$broadcast('$routeChangeStart', {
-      secure: true,
-      $$route: {
-        controller: 'BlargController'
-      }
+  
+  describe('user is AUTHENTICATED', function () {
+    beforeEach(function() {
+      Session.token = TOKEN;
     });
+    
+    
+    it('should setup route interception and prevent access to secure routes', inject(function ($rootScope) {
+      $location.path('/users');
 
-    expect(event.defaultPrevented).toBeFalsy();
-    expect($location.path()).toBe('/users');
-  }));
+      var event = $rootScope.$broadcast('$routeChangeStart', {
+        secure: true,
+        $$route: {
+          controller: 'BlargController'
+        }
+      });
 
-  it('should setup route interception and prevent access to secure routes when not authenticated', inject(function ($rootScope) {
-    $location.path('/users');
+      expect(event.defaultPrevented).toBeFalsy();
+      expect($location.path()).toBe('/users');
+    }));
+  
+    it('should setup route interception and route to / when user is authenticated and hits /login', inject(function ($rootScope) {
+      $location.path('/');
+      
+      var event = $rootScope.$broadcast('$routeChangeStart', {
+        secure: true,
+        $$route: {
+          controller: 'LoginController'
+        }
+      });
 
-    Session.token = null;
+      expect(event.defaultPrevented).toBeTruthy();
+      expect($location.path()).toBe('/');
+    }));
+  });
+  
+  describe('user is NOT AUTHENTICATED', function () {
+    it('should setup route interception and prevent access to secure routes', inject(function ($rootScope) {
+      $location.path('/users');
 
-    var event = $rootScope.$broadcast('$routeChangeStart', {
-      secure: true,
-      $$route: {
-        controller: 'BlargController'
-      }
-    });
+      Session.token = null;
 
-    expect(event.defaultPrevented).toBeTruthy();
-    expect($location.path()).toBe('/login');
-  }));
+      var event = $rootScope.$broadcast('$routeChangeStart', {
+        secure: true,
+        $$route: {
+          controller: 'BlargController'
+        }
+      });
 
-  it('should setup route interception and allow access to unsecure routes when not authenticated', inject(function ($rootScope) {
-    $location.path('/blarg');
+      expect(event.defaultPrevented).toBeTruthy();
+      expect($location.path()).toBe('/login');
+    }));
 
-    var event = $rootScope.$broadcast('$routeChangeStart', {
-      secure: false,
-      $$route: {
-        controller: 'BlargController'
-      }
-    });
+    it('should setup route interception and allow access to unsecure routes when not authenticated', inject(function ($rootScope) {
+      $location.path('/blarg');
 
-    expect(event.defaultPrevented).toBeFalsy();
-    expect($location.path()).toBe('/blarg');
-  }));
+      var event = $rootScope.$broadcast('$routeChangeStart', {
+        secure: false,
+        $$route: {
+          controller: 'BlargController'
+        }
+      });
+
+      expect(event.defaultPrevented).toBeFalsy();
+      expect($location.path()).toBe('/blarg');
+    }));
+  });
 });

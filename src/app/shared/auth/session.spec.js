@@ -19,14 +19,17 @@ var USER = {
   'lastName': 'user'
 };
 
+var PREFERENCES = {
+  tenantId: 'c6aa44f6-b19e-49f5-bd3f-66f00b885e39',
+  lang: 'en'
+};
+
 var TOKEN = 'dGl0YW5AbGl2ZW9wcy5jb206Z0tWbmZGOXdyczZYUFNZcw==';
 
 var SESSION_OBJECT = {
   token: TOKEN,
   displayName: USER.displayName,
-  id: USER.id,
-  lang: 'en',
-  tenantId: null
+  id: USER.id
 };
 
 describe('Session', function() {
@@ -37,7 +40,6 @@ describe('Session', function() {
   beforeEach(inject(['$rootScope','Session', function(_$rootScope_, _session_) {
     $scope = _$rootScope_.$new();
     session = _session_;
-
   }]));
 
   it('should have a method to set the session information', function() {

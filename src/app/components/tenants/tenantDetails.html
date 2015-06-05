@@ -15,9 +15,9 @@
     </select>
   </div>
   <div>{{'tenant.details.description' | translate}} <input type="text" ng-required="false" ng-model="tenant.description"></input></div>
-  <div><toggle class="tenant-toggle" ng-model="tenant.status"></toggle></div>
+  <div ng-hide="true"><toggle class="tenant-toggle" ng-model="tenant.status"></toggle></div>
   <div ng-hide="!tenant.id">{{'tenant.details.region' | translate}} {{tenant.regionId}}</div>
-  
+
   <input type="submit" class="btn btn-primary" value="{{'value.save' | translate}}"/>
   <a class="btn" ng-click="cancel()">{{'value.cancel' | translate}}</a>
 </form>

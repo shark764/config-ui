@@ -11,69 +11,77 @@
 
 // this will suffice in beta however.
 angular.module('liveopsConfigPanel')
-  .service('Session', ['$rootScope', 'sessionKey', '$translate', function ($rootScope, sessionKey, $translate) {
-    var self = this;
-    
-    this.userSessionKey = sessionKey;
-    this.token = null;
-    this.displayName = null;
-    this.id = null;
-    this.lang = null;
-    this.tenantId = null;
-    this.activeRegionId = '6aff1f30-0901-11e5-87f2-b1d420920055';
-    this.collapseSideMenu = true;
-    
-    this.set = function (user, token) {
-      this.token = token;
-      this.displayName = user.displayName;
-      this.id = user.id;
-      this.lang = 'en';
+  .service('Session', ['$rootScope', 'sessionKey', 'preferenceKey', '$translate',
+    function ($rootScope, sessionKey, preferenceKey, $translate) {
+      var self = this;
 
-      if (this.lang) {
-        $translate.use(this.lang);
-      }
+      this.userSessionKey = sessionKey;
+      this.userPreferenceKey = preferenceKey;
 
-      this.storeSession();
-    };
-
-    $rootScope.$watch('Session.tenantId', function () {
-      self.storeSession();
-    });
-    
-    $rootScope.$watch('Session.collapseSideMenu', function () {
-      self.storeSession();
-    });
-
-    this.storeSession = function () {
-      localStorage.setItem(this.userSessionKey, JSON.stringify({
-        token: this.token,
-        tenantId: this.tenantId,
-        displayName: this.displayName,
-        id: this.id,
-        lang: this.lang,
-        collapseSideMenu: this.collapseSideMenu
-      }));
-    };
-
-    this.destroy = function () {
       this.token = null;
       this.displayName = null;
       this.id = null;
       this.lang = null;
       this.tenantId = null;
-      this.activeRegionId = null;
+      this.activeRegionId = '6aff1f30-0901-11e5-87f2-b1d420920055';
       this.collapseSideMenu = true;
-      
-      localStorage.removeItem(this.userSessionKey);
-    };
 
-    this.restore = function () {
-      angular.extend(this, JSON.parse(localStorage.getItem(this.userSessionKey)));
-    };
+      this.set = function (user, token) {
+        this.token = token;
+        this.displayName = user.displayName;
+        this.id = user.id;
 
-    this.isAuthenticated = function () {
-      return !!this.token;
-  };
+        this.storeSession();
+      };
 
-    this.restore();
-  }]);
+      $rootScope.$watch('Session.tenantId', self.storeSession);
+      $rootScope.$watch('Session.collapseSideMenu', self.storeSession);
+
+      this.storeSession = function () {
+        localStorage.setItem(this.userSessionKey, JSON.stringify({
+          token: this.token,
+          displayName: this.displayName,
+          id: this.id,
+        }));
+
+        localStorage.setItem(this.userPreferenceKey, JSON.stringify({
+          tenantId: this.tenantId,
+          lang: this.lang,
+          collapseSideMenu: this.collapseSideMenu,
+          activeRegionId: this.activeRegionId
+        }));
+      };
+
+      this.destroy = function () {
+        this.token = null;
+        this.displayName = null;
+        this.id = null;
+
+        localStorage.removeItem(this.userSessionKey);
+      };
+
+      this.destroyAll = function () {
+        this.destroy();
+        this.tenantId = null;
+        this.activeRegionId = null;
+        this.lang = null;
+
+        localStorage.removeItem(this.userPreferenceKey);
+      };
+
+      this.restore = function () {
+        angular.extend(this, JSON.parse(localStorage.getItem(this.userSessionKey)));
+        angular.extend(this, JSON.parse(localStorage.getItem(this.userPreferenceKey)));
+
+        if (this.lang) {
+          $translate.use(this.lang);
+        }
+      };
+
+      this.isAuthenticated = function () {
+        return !!this.token;
+      };
+
+      this.restore();
+    }
+  ]);
