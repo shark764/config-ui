@@ -12,7 +12,7 @@
   position: absolute;
   padding: 15px 0;
   top: -2px;
-  width: calc(100% - 2px);
+  min-width: 200px;
   z-index: 10;
 }
 
@@ -21,7 +21,9 @@
 }
   
 .dropdown-wrapper {
-
+  display: inline-block;
+  overflow: visible;
+  
   button {
     font-size: 1em;
     font-family: $main-font;
@@ -40,7 +42,7 @@
     
     li, li i {
       color: #333;
-      padding: 0 15px;
+      padding: 5px 20px 5px 15px;
     }
     li:hover {
       background-color: $lighter-grey;

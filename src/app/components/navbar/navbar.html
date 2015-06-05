@@ -1,10 +1,11 @@
 <nav id="topnav" ng-switch="Session.isAuthenticated()">
-    <a ng-href="#/">LiveOps</a>
+    <a ng-href="#/"></a>
     <ul ng-switch-when="true">
       <li>
         <select ng-model="Session.tenant" ng-options="tenant.id as tenant.name for tenant in tenants | orderBy:'name'">
         </select>
       </li>
+      <li class="divider"></li>
       <li ng-class="{ active: isActive('/')}"><a ng-href="#/">{{'navbar.users.title' | translate}}</a></li>
       <li ng-class="{ active: isActive('/tenants')}"><a ng-href="#/tenants">{{'navbar.tenants.title' | translate}}</a></li>
       <li ng-class="{ active: isActive('/flows')}"><a ng-href="#/flows">{{'navbar.flows.title' | translate}}</a></li>
