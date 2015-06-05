@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .factory('LiveopsResourceFactory', ['$http', '$resource', 'apiHostname', 'Session', 'SaveInterceptor', 'UpdateInterceptor',
-    function ($http, $resource, apiHostname, Session, SaveInterceptor, UpdateInterceptor) {
+  .factory('LiveopsResourceFactory', ['$http', '$resource', 'apiHostname', 'Session', 'SaveInterceptor',
+    function ($http, $resource, apiHostname, Session, SaveInterceptor) {
 
       function appendTransform(defaults, transform) {
         // We can't guarantee that the default transformation is an array
@@ -45,7 +45,7 @@ angular.module('liveopsConfigPanel')
             },
             update: {
               method: 'PUT',
-              interceptor: UpdateInterceptor,
+              interceptor: SaveInterceptor,
               transformRequest: function (data) {
                 if (setUpdatedBy) {
                   data.updatedBy = Session.id;
