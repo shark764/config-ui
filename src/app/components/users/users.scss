@@ -5,13 +5,7 @@
   right: 0;
   top: $navbar-height;
 }
-.side-menu {
-  background-color: #f2f2f2;
-  color: #999;
-  font-size: 1.5em;
-  top: $navbar-height;
-  bottom: 0px;
-  text-align: center;
-  position: absolute;
-  width: $side-menu-width;
+
+.user-list-container.expanded-menu {
+  margin-left: 250px;
 }
