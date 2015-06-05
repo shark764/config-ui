@@ -29,9 +29,8 @@ module.exports = function (options) {
     ];
 
     var srcFiles = [
-      options.tmp + '/serve/app/liveops.js',
-      options.tmp + '/serve/app/constants.js',
       options.src + '/app/**/*.js',
+      'test/test-env.js',
       '!' + options.src + '/app/env.js',
       '!' + options.src + '/app/translation-loader.js',
     ].concat(specFiles.map(function (file) {
@@ -60,18 +59,7 @@ module.exports = function (options) {
     });
   }
 
-  gulp.task('test-setup', ['env'], function () {
-    return gulp.src('constants.json')
-      .pipe(ngConstant({
-        name: 'liveopsConfigPanel.config',
-        constants: {
-          apiHostname: 'fakendpoint.com'
-        }
-      }))
-      .pipe(gulp.dest(options.tmp + '/serve/app'));
-  });
-
-  gulp.task('test', ['test-setup', 'scripts'], function (done) {
+  gulp.task('test', ['scripts'], function (done) {
     runTests(true, ['progress'], done);
   });
 
@@ -79,7 +67,7 @@ module.exports = function (options) {
     runTests(false, ['progress'], done);
   });
 
-  gulp.task('coverage', ['test-setup', 'scripts'], function (done) {
+  gulp.task('coverage', ['scripts'], function (done) {
     runTests(true, ['progress', 'coverage'], done);
   });
 };
