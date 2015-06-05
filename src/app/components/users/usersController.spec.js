@@ -5,7 +5,8 @@
 describe('userTable directive', function(){
   var $scope,
     $httpBackend,
-    users;
+    users,
+    Session;
 
   beforeEach(module('liveopsConfigPanel'));
   beforeEach(module('gulpAngular'));
@@ -39,8 +40,8 @@ describe('userTable directive', function(){
 
     $scope = $rootScope.$new();
     $scope.users = users;
-
-    $controller('UsersController', {'$scope': $scope});
+	Session = {collapseSideMenu: true};
+    $controller('UsersController', {'$scope': $scope, 'Session' : Session});
     $httpBackend.flush();
   }]));
 

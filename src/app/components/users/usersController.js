@@ -1,13 +1,13 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('UsersController', ['$scope', '$location', '$routeParams', '$filter', 'userStates', 'userStatuses', 'columns', 'User',
-      function ($scope, $location, $routeParams, $filter, userStates, userStatuses, columns, User) {
+  .controller('UsersController', ['$scope', '$location', '$routeParams', '$filter', 'userStates', 'userStatuses', 'columns', 'User', 'Session',
+      function ($scope, $location, $routeParams, $filter, userStates, userStatuses, columns, User, Session) {
     $scope.states = userStates;
     $scope.statuses = userStatuses;
     $scope.columns = columns;
     $scope.filteredUsers = [];
-
+	$scope.Session = _Session_;
     $scope.users = User.query(function () {
 
       if($routeParams.id) {

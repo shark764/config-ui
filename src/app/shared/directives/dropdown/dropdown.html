@@ -1,14 +1,17 @@
 <span class="dropdown-wrapper">
-  <button ng-class="{'drop-origin' : showDrop}" class="btn" ng-click="showDrop = ! showDrop">
+  <a ng-class="{'drop-origin' : showDrop}" ng-click="showDrop = ! showDrop">
     {{label}}
-    <span><i class="fa" ng-class="{'fa-caret-up' : showDrop, 'fa-caret-down' : ! showDrop}"></i></span>
-  </button>
+    <span>
+      <i ng-show="showDrop" class="{{collapseIcon}} label-icon"></i>
+      <i ng-show="! showDrop" class="{{expandIcon}} label-icon"></i>
+    </span>
+  </a>
 
   <div class="dropdown-container">
     <div class="dropdown" ng-hide="! showDrop">
       <ul>
         <li ng-repeat="item in items" ng-click="optionClick(item.onClick)">
-          {{item.label}}
+          <i class="{{item.iconClass}}"></i>{{item.label}}
         </li>
       </ul>
     </div>

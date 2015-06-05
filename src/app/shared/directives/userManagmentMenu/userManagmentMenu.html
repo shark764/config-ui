@@ -1,0 +1,21 @@
+<div class="side-bar">
+  <div ng-hide="collapsed" class="menu-container">
+    <aside>
+      <nav>
+        <ul>
+          <li><a href="#/users">Users</a></li>
+          <li>Groups</li>
+          <li>Skills</li>
+          <li>Roles</li>
+          <li>Locations</li>
+          <li>Extensions</li>
+        </ul>
+      </nav>
+    </aside>
+  </div>
+  
+  <div class="collapse-bar" ng-click="collapsed = !collapsed">
+    <i ng-hide="collapsed" class="fa fa-angle-double-left"></i>
+    <i ng-show="collapsed" class="fa fa-angle-double-right"></i>
+  </div>
+</div>

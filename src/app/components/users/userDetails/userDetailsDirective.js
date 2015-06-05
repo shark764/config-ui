@@ -25,7 +25,14 @@ angular.module('liveopsConfigPanel')
               state: 'OFFLINE'
             });
           });
-
+          
+          $scope.$watch('user', function(){
+            if ($scope.user && $scope.user.id){
+              $scope.creator = User.get({id : $scope.user.createdBy});
+              $scope.updater = User.get({id : $scope.user.updatedBy});
+            }
+          });
+          
           $scope.save = function () {
             var isCreated = ($scope.user.id ? false : true);
 
