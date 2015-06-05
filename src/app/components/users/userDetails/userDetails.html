@@ -10,8 +10,8 @@
       <h2>{{user.displayName}}</h2>
       <user-state state="{{user.state}}" />
     </span>
-    <div class="state-description"><b translate="details.user.createdby" translate-value-date="{{user.created | date:'medium'}}" translate-value-creator="{{creator.result.firstName + ' ' + creator.result.lastName}}"></b></div>
-    <div class="state-description"><b translate="details.user.updatedby" translate-value-date="{{user.created | date:'medium'}}" translate-value-enabler="{{updater.result.firstName + ' ' + updater.result.lastName}}"></b></div>
+    <div ng-show="creator.displayName" class="state-description"><b translate="details.user.createdby" translate-value-date="{{user.created | date:'medium'}}" translate-value-creator="{{creator.displayName}}"></b></div>
+    <div ng-show="updater.displayName" class="state-description"><b translate="details.user.updatedby" translate-value-date="{{user.created | date:'medium'}}" translate-value-enabler="{{updater.displayName}}"></b></div>
   </div>
 </div>
 
