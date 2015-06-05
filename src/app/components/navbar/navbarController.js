@@ -19,7 +19,7 @@ angular.module('liveopsConfigPanel')
         });
       };
 
-      $rootScope.$on('login:success', populateTenantsHandler);
+      $scope.$on('login:success', populateTenantsHandler);
       $scope.$watch('Session.activeRegionId', populateTenantsHandler);
 
       $scope.isActive = function(viewLocation) {
