@@ -1,15 +1,16 @@
 'use strict';
 
-describe('UsersController', function() {
+/* global jasmine: false  */
+
+describe('userTable directive', function(){
   var $scope,
     $httpBackend,
-    element,
     users;
 
   beforeEach(module('liveopsConfigPanel'));
   beforeEach(module('gulpAngular'));
 
-  beforeEach(inject(['$compile', '$rootScope', '$injector', 'apiHostname', function($compile, $rootScope, $injector, apiHostname) {
+  beforeEach(inject(['$compile', '$rootScope', '$injector', '$controller', 'apiHostname', function($compile, $rootScope, $injector, $controller, apiHostname) {
     users  = [ {
       'id': 'c6aa44f6-b19e-49f5-bd3f-66f00b885e39',
       'status': false,
@@ -38,8 +39,8 @@ describe('UsersController', function() {
 
     $scope = $rootScope.$new();
     $scope.users = users;
-    element = $compile('<user-table></user-table>')($scope);
-    $scope.$digest();
+
+    $controller('UsersController', {'$scope': $scope});
     $httpBackend.flush();
   }]));
 
@@ -51,10 +52,6 @@ describe('UsersController', function() {
   it('should fetch initial list of users', inject(function() {
     expect($scope.users).toBeDefined();
     expect($scope.users.length).toEqual(users.length);
-  }));
-
-  it('should insert a row for each user, plus a header row', inject(function() {
-    expect(element.find('tr').length).toEqual(users.length + 1);
   }));
 
   it('should have statuses and states objects', inject(function() {
