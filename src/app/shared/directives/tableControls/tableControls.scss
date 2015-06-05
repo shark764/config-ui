@@ -1,0 +1,31 @@
+.action-container {
+  input,
+  button,
+  a {
+    display: inline-block;
+  }
+
+  input {
+    width: 45%;
+    margin-right: 10px;
+  }
+
+  a {
+    border: $light-grey 1px solid;
+    @include border-radius(4px);
+    color: $dark-grey;
+  }
+
+  .dropdown-container {
+    width: 200px;
+    display: inline;
+
+    .dropdown-option:hover {
+    }
+
+    .dropdown {
+      top: 30px;
+      right: -90px;
+    }
+  }
+}

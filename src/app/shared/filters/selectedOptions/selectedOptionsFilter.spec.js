@@ -1,74 +1,6 @@
 'use strict';
 
-/* global jasmine: false  */
-
-describe('userTable directive', function(){
-  var $scope,
-    $httpBackend,
-    element,
-    users;
-
-  beforeEach(module('liveopsConfigPanel'));
-  beforeEach(module('gulpAngular'));
-
-  beforeEach(inject(['$compile', '$rootScope', '$injector', 'apiHostname', function($compile, $rootScope, $injector, apiHostname) {
-    users  = [ {
-      'id': 'c6aa44f6-b19e-49f5-bd3f-66f00b885e39',
-      'status': false,
-      'externalId': 73795,
-      'state': 'WRAP',
-      'lastName': 'Lowe',
-      'firstName': 'Munoz',
-      'email': 'munoz.lowe@hivedom.org',
-      'displayName': 'Munoz Lowe'
-    },
-    {
-      'id': '9f97f9d9-004c-469c-906d-b917bd79fbe8',
-      'status': true,
-      'externalId': 80232,
-      'state': 'NOT_READY',
-      'lastName': 'Oliver',
-      'firstName': 'Michael',
-      'email': 'michael.oliver@ezent.io',
-      'displayName': 'Michael Oliver'
-    }];
-
-    //Need the following so that $digest() works
-    $httpBackend = $injector.get('$httpBackend');
-    $httpBackend.when('GET', apiHostname + '/v1/users').respond({'result' : users});
-    $httpBackend.expectGET(apiHostname + '/v1/users');
-
-    $scope = $rootScope.$new();
-    $scope.users = users;
-    element = $compile('<user-table></user-table>')($scope);
-    $scope.$digest();
-    $httpBackend.flush();
-  }]));
-
-  it('should have users', inject(function() {
-    expect($scope.users).toBeDefined();
-    expect($scope.users.length).toEqual(2);
-  }));
-
-  it('should fetch initial list of users', inject(function() {
-    expect($scope.users).toBeDefined();
-    expect($scope.users.length).toEqual(users.length);
-  }));
-
-  it('should insert a row for each user, plus a header row', inject(function() {
-    expect(element.find('tr').length).toEqual(users.length + 1);
-  }));
-
-  it('should have statuses and states objects', inject(function() {
-    expect($scope.statuses).toBeDefined();
-    expect($scope.statuses).toEqual(jasmine.any(Object));
-
-    expect($scope.states).toBeDefined();
-    expect($scope.states).toEqual(jasmine.any(Object));
-  }));
-});
-
-describe('userFilter filter', function(){
+describe('selectedOptions filter', function(){
   var $filter,
       users;
 
@@ -100,43 +32,43 @@ describe('userFilter filter', function(){
 
   it('should return all users if the all value is checked', inject(function() {
     var filters = {all : {value: 'all', checked: true}, filters : [{value: 'false', checked: false}, {value : 'true', checked: false}]};
-    var result = $filter('userFilter')(users, filters, 'status');
+    var result = $filter('selectedOptions')(users, filters, 'status');
     expect(result.length).toEqual(users.length);
   }));
 
   it('should return an empty array when no filters are selected and "all" is not selected', inject(function() {
     var filters = {all : {value: 'all', checked: false}, filters : [{value: 'false', checked: false}, {value : 'true', checked: false}]};
-    var result = $filter('userFilter')(users, filters, 'status');
+    var result = $filter('selectedOptions')(users, filters, 'status');
     expect(result.length).toEqual(0);
   }));
 
   it('should allow the all option to be optional', inject(function() {
     var filters = {filters : [{value: 'false', checked: true}, {value : 'true', checked: false}]};
-    var result = $filter('userFilter')(users, filters, 'status');
+    var result = $filter('selectedOptions')(users, filters, 'status');
     expect(result.length).toEqual(1);
   }));
 
   it('should return users that match one selected filter', inject(function() {
     var filters = {all : {value: 'all', checked: false}, filters : [{value: 'false', checked: true}, {value : 'true', checked: false}]};
-    var result = $filter('userFilter')(users, filters, 'status');
+    var result = $filter('selectedOptions')(users, filters, 'status');
     expect(result.length).toEqual(1);
   }));
 
   it('should return users that match one of many selected filters', inject(function() {
     var filters = {all : {value: 'all', checked: false}, filters : [{value: 'WRAP', checked: true}, {value : 'READY', checked: false}, {value: 'NOT_READY', checked: true}]};
-    var result = $filter('userFilter')(users, filters, 'state');
+    var result = $filter('selectedOptions')(users, filters, 'state');
     expect(result.length).toEqual(3);
   }));
 
   it('should return an empty array if no users match the filters', inject(function() {
     var filters = {all : {value: 'all', checked: false}, filters : [{value: 'SOMETHINGELSE', checked: true}, {value : 'READY', checked: false}]};
-    var result = $filter('userFilter')(users, filters, 'state');
+    var result = $filter('selectedOptions')(users, filters, 'state');
     expect(result.length).toEqual(0);
   }));
 
   it('should work with string and primitive values in the field', inject(function() {
     var filters = {all : {value: 'all', checked: false}, filters : [{value: 'true', checked: true}, {value : 'false', checked: false}]};
-    var result = $filter('userFilter')(users, filters, 'status');
+    var result = $filter('selectedOptions')(users, filters, 'status');
     expect(result.length).toEqual(3);
   }));
 
@@ -144,7 +76,7 @@ describe('userFilter filter', function(){
     var filters = {all : {value: 'all', checked: true}, filters : [{value: '5', checked: false}, {value : '4', checked: false}]};
     users.push({});
 
-    var result = $filter('userFilter')(users, filters, 'value');
+    var result = $filter('selectedOptions')(users, filters, 'value');
     expect(result.length).toEqual(5);
   }));
 
@@ -152,7 +84,7 @@ describe('userFilter filter', function(){
     var filters = {all : {value: 'all', checked: false}, filters : [{value: '5', checked: true}, {value : '4', checked: false}]};
     users.push({});
 
-    var result = $filter('userFilter')(users, filters, 'value');
+    var result = $filter('selectedOptions')(users, filters, 'value');
     expect(result.length).toEqual(1);
   }));
 });
