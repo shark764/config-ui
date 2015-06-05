@@ -60,6 +60,15 @@ angular.module('liveopsConfigPanel')
         localStorage.removeItem(this.userSessionKey);
       };
 
+      this.destroyAll = function () {
+        this.destroy();
+        this.tenantId = null;
+        this.activeRegionId = null;
+        this.lang = null;
+
+        localStorage.removeItem(this.userPreferenceKey);
+      };
+
       this.restore = function () {
         angular.extend(this, JSON.parse(localStorage.getItem(this.userSessionKey)));
         angular.extend(this, JSON.parse(localStorage.getItem(this.userPreferenceKey)));

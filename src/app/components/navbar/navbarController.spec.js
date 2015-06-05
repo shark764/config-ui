@@ -7,13 +7,35 @@ var USER = {
 
 var TOKEN = 'token';
 
-describe('NavbarController', function () {
-  var $scope, $location, $compile, $controller, $injector, $httpBackend, authService, createController, session, tenants, regions, apiHostname;
+describe('NavbarController', function() {
+  var $rootScope,
+    $scope,
+    $location,
+    $compile,
+    $controller,
+    $injector,
+    $httpBackend,
+    authService,
+    session,
+    tenants,
+    regions,
+    apiHostname;
+
+  var createController = function() {
+    return $controller('NavbarController', {
+      '$scope': $scope,
+    });
+  };
+
+  var login = function() {
+    session.set(USER, TOKEN);
+  }
 
   beforeEach(module('liveopsConfigPanel'));
 
   beforeEach(inject(['$compile', '$rootScope', '$location', '$controller', '$injector', 'AuthService', 'Session', 'apiHostname',
-    function (_$compile_, _$rootScope_, _$location_, _$controller_, _$injector_, _authService_, _session_, _apiHostname_) {
+    function(_$compile_, _$rootScope_, _$location_, _$controller_, _$injector_, _authService_, _session_, _apiHostname_) {
+      $rootScope = _$rootScope_;
       $scope = _$rootScope_.$new();
       $compile = _$compile_;
       $location = _$location_;
@@ -23,6 +45,8 @@ describe('NavbarController', function () {
       authService = _authService_;
       session = _session_;
       apiHostname = _apiHostname_;
+
+      session.destroyAll();
 
       tenants = [{
         'id': 'c6aa44f6-b19e-49f5-bd3f-66f00b885e39'
@@ -42,16 +66,10 @@ describe('NavbarController', function () {
       $httpBackend.when('GET', apiHostname + '/v1/regions').respond({
         'result': regions
       });
-
-      createController = function () {
-        return $controller('NavbarController', {
-          '$scope': $scope,
-        });
-      };
     }
   ]));
 
-  it('should have a method to check if the path is active', function () {
+  it('should have a method to check if the path is active', function() {
     createController();
 
     $location.path('/users');
@@ -61,11 +79,11 @@ describe('NavbarController', function () {
     expect($scope.isActive('/contact')).toBe(false);
   });
 
-  it('should have a method to log the user out and redirect them to the login page', function () {
+  it('should have a method to log the user out and redirect them to the login page', function() {
     createController();
 
     $location.path('/users');
-    session.set(USER, TOKEN);
+    login();
 
     expect(session.isAuthenticated()).toBeTruthy();
     expect($location.path()).toBe('/users');
@@ -75,30 +93,33 @@ describe('NavbarController', function () {
     expect(session.isAuthenticated()).toBeFalsy(false);
   });
 
-  it('should select the first tenant retrieved as the active tenant if no tenant is set in the session', function () {
-
+  it('should select the first tenant retrieved as the active tenant if no tenant is set in the session', function() {
+    login();
     expect(session.tenantId).toBeNull();
 
     $httpBackend.expectGET(apiHostname + '/v1/tenants?regionId=' + session.activeRegionId);
 
     createController();
+    $rootScope.$broadcast('Session:login');
 
     $httpBackend.flush();
 
     expect(session.tenantId).toBe(tenants[0].id);
   });
 
-  it('should load the tenants for the active region', function () {
+  it('should load the tenants for the active region', function() {
+    login();
     $httpBackend.expectGET(apiHostname + '/v1/tenants?regionId=' + session.activeRegionId);
 
     createController();
 
     $httpBackend.flush();
-    
+
     expect($scope.tenants.length).toEqual(tenants.length);
   });
 
-  it('should have Session.tenantId not reset when already set', function () {
+  it('should have Session.tenantId not reset when already set', function() {
+    login();
     session.tenantId = tenants[0].id;
 
     $httpBackend.expectGET(apiHostname + '/v1/tenants?regionId=' + session.activeRegionId);
