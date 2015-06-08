@@ -46,6 +46,8 @@ describe('The navbar', function() {
     shared.tenantsNavDropdown.all(by.repeater('item in items')).then(function(tenants) {
       var randomTenant = Math.floor((Math.random() * tenants.length) + 1);
       element(by.css('#tenant-dropdown > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) > ul:nth-child(1) > li:nth-child(' + randomTenant + ')')).getText().then(function(value) {
+        expect(value).not.toBe(null);
+
         element(by.css('#tenant-dropdown > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) > ul:nth-child(1) > li:nth-child(' + randomTenant + ')')).click();
         expect(shared.tenantsNavDropdown.getAttribute('label')).toBe(value);
 
