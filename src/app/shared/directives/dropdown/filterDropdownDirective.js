@@ -19,7 +19,7 @@ angular.module('liveopsConfigPanel')
         
         $scope.allFilter = {checked: true};
         
-        $scope.$watch('options', function (option) {
+        $scope.$watch('options', function () {
           $scope.$emit('filter:changed');
         }, true);
         

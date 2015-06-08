@@ -70,8 +70,8 @@ angular.module('liveopsConfigPanel.config', [])
         'options': userStates,
         'filter': 'selectedOptions'
       }],
-      "search": {
-        "fields": ['firstName', 'lastName']
+      'search': {
+        'fields': ['firstName', 'lastName']
       }
     };
   }

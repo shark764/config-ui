@@ -6,12 +6,12 @@ angular.module('liveopsConfigPanel')
       var filtered = [];
       angular.forEach(items, function (item) {
         angular.forEach(field.options, function (option) {
-          if (option.checked && option.value === item[field.name]) {
+          if (option.checked && option.value === String(item[field.name])) {
             return filtered.push(item);
           }
         });
       });
 
       return filtered;
-    }
+    };
   });

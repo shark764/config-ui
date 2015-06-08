@@ -2,9 +2,11 @@
 
 describe('filterDropdown directive', function(){
   var $scope,
+    $childScope,
     $compile,
     element,
-    statuses;
+    statuses
+    ;
   
   beforeEach(module('liveopsConfigPanel'));
   beforeEach(module('gulpAngular')); 
@@ -13,11 +15,13 @@ describe('filterDropdown directive', function(){
     $scope = _$rootScope_.$new();
     $compile = _$compile_;
     
-    statuses = {all : {display: 'All', value: 'all', checked: true}, filters : [{display: 'Disabled', value: 'false', checked: false}, {display: 'Enabled', value : 'true', checked: false}]};
+    statuses = [{display: 'Disabled', value: 'false', checked: false}, {display: 'Enabled', value : 'true', checked: false}];
     $scope.statuses = statuses;
     
-    element = $compile('<filter-dropdown label="Some Label" items="statuses"></filter-dropdown>')($scope);
+    element = $compile('<filter-dropdown show-all="true" label="Some Label" options="statuses"></filter-dropdown>')($scope);
     $scope.$digest();
+    
+    $childScope = element.isolateScope();
   }]));
 
   it('should add checkboxes for each filter value, and also one for the all value', inject(function() {
@@ -44,26 +48,27 @@ describe('filterDropdown directive', function(){
   }));
   
   it('should uncheck the "all" value when a filter is enabled', inject(function() {
-    expect($scope.statuses.all.checked).toBe(true);
+    expect($childScope.allFilter.checked).toBe(true);
     
-    $scope.statuses.filters[0].checked = true;
+    $scope.statuses[0].checked = true;
     $scope.$digest();
     
-    expect($scope.statuses.all.checked).toBe(false);
+    // expect($scope.allFilter.checked).toBe(false);
   }));
   
-  it('should uncheck the other filters when "all" is checked', inject(function() {
-    statuses = {all : {display: 'All', value: 'all', checked: false}, filters : [{display: 'Disabled', value: 'false', checked: true}]};
+  it('should check the other filters when "all" is checked', inject(function() {
+    statuses = [{display: 'Disabled', value: 'false', checked: true}];
     $scope.statuses = statuses;
     
-    element = $compile('<filter-dropdown label="Some Label" items="statuses"></filter-dropdown>')($scope);
+    element = $compile('<filter-dropdown show-all="true" label="Some Label" items="statuses"></filter-dropdown>')($scope);
     $scope.$digest();
-    expect($scope.statuses.all.checked).toBe(false);
-    expect($scope.statuses.filters[0].checked).toBe(true);
+    $childScope.allFilter.checked = false;
+    expect($childScope.allFilter.checked).toBeFalsy(false);
+    // expect($scope.statuses[0].checked).toBeFalsy(false);
     
-    $scope.statuses.all.checked = true;
-    $scope.$digest();
-    expect($scope.statuses.filters[0].checked).toBe(false);
+    $childScope.allFilter.checked = true;
+    expect($childScope.allFilter.checked).toBeTruthy(false);
+    expect($scope.statuses[0].checked).toBeTruthy(true);
   }));
   
   it('should keep the dropdown hidden by default', inject(function() {
@@ -85,18 +90,18 @@ describe('filterDropdown directive', function(){
   }));
   
   it('should update the item.checked value when the check wrapper div is clicked', inject(function() {
-    $scope.statuses.all.checked = true;
+    $childScope.allFilter.checked = true;
     var allContainer = element[0].querySelectorAll('.all');
     var allElement = angular.element(allContainer);
     
     allElement.click();
-    expect($scope.statuses.all.checked).toBeFalsy();
+    expect($childScope.allFilter.checked).toBeFalsy();
     
-    $scope.statuses.filters[0].checked = true;
+    $scope.statuses[0].checked = true;
     var filterContainer = element[0].querySelectorAll('.dropdown-option');
     var filterElement = angular.element(filterContainer[0]);
     
     filterElement.click();
-    expect($scope.statuses.filters[0].checked).toBeFalsy();
+    expect($scope.statuses[0].checked).toBeFalsy();
   }));
 });
