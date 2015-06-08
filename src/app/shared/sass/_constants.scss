@@ -3,11 +3,12 @@ $side-menu-width: 50px;
 $header-height: 55px;
 $main-color: #07487a;
 $main-color-light: lighten(desaturate($main-color, 35%), 20%);
-$main-font: Montserrat, sans-serif;
+$main-font: Arial, Helvetica, sans-serif;
 $light-grey: #999999;
 $lighter-grey: #ebebeb;
 $dark-grey: #474747;
 $dark-blue: #1e3a61;
-$navbar-height: 61px;
+$navbar-height: 57px;
 
-$accent1: rgb(0, 172, 237);
+$accent1: #3498db;
+$accent-light: #e6f5ff;

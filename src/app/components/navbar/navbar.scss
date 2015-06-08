@@ -10,7 +10,7 @@ $down-arrow-url: "/assets/images/down-arrow.png";
   color: #C0BAB6;
   clear: both;
   max-width: 100% !important;
-  min-height: $navbar-height;
+  height: $navbar-height;
   padding: 0;
   padding-left: 2.5%;
   position: fixed;
@@ -20,34 +20,81 @@ $down-arrow-url: "/assets/images/down-arrow.png";
   white-space: nowrap;
   z-index: 15;
   
-  select {
-    position: relative;
-    width: 150px;
+  #logo {
+    background: none;
+    border: 0 !important;
+  }
+  
+  #tenant-dropdown .drop-label {
+    padding: 15px;
+    background-position: 130px center;
+    background-repeat: no-repeat;
+    border: 1px solid #fff;
     margin-top: 10px;
-    padding: 7px;
-    background: transparent;
-    -webkit-appearance: none;
-    background: url($down-arrow-url) no-repeat;
-    background-size: 18px 18px;
-    background-position: 95% 50%;
-    color: $medium-grey;
-    font-family: $main-font;
-    font-size:15px;
-    border-color: $light-grey;
-    @include border-radius(5px);
+    padding: 6px 30px 6px 30px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
   }
   
   .divider {
-    height: $navbar-height - ($divider-margin * 2);
-    width: 2px;
-    margin-top: $divider-margin;
-    margin-bottom: $divider-margin;
-    margin-right: 25px;
-    margin-left: 0;
-    background-color: $light-grey;
+      border: 1px solid #C0BAB6;
+      height: 40px;
+      margin-top: 12px !important;
+  }
+
+  a {
+    color: #C0BAB6;
+    font-weight: bold;
+  }
+
+  ul {
+    font-size: 12px;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    
+    li {
+      display: block;
+      float: left;
+      margin: 0 30px 0 0;
+      padding: 0;
+      position: relative;
+
+      a {
+        border-bottom: 4px solid $main-color;
+        display: block;
+        padding: 18px 0;
+        color: #C0BAB6;
+        font-size: 130%;
+        font-weight: 100;
+        padding-bottom: 13px;
+      }
+
+      &.active a, &:hover a{
+        color: #FFFFFF;
+        border-color: $accent1;
+      }
+    }
+  }
+}
+
+#topnav .dropdown, #welcome .dropdown {
+  & li {
+    border-left: 3px solid #fff;
+    color: #474747;
+    background: #FFFFFF;
+    padding: 10px 15px;
+    font-size: 14px;
   }
   
-  .welcome {
+  & li:hover {
+    color: #474747;
+    background: $accent-light;
+    border-left: 3px solid $accent1
+  }
+}
+
+#welcome {
     padding: 0;
     float: right;
     min-height: $navbar-height;
@@ -55,93 +102,18 @@ $down-arrow-url: "/assets/images/down-arrow.png";
     top: 0;
     position: fixed;
     right: 2.5%;
-    color:#C0BAB6;
-    clear:both;
-    word-wrap:normal;
-    white-space:nowrap;
-
-    a {
-      color: #C0BAB6;
+    color: #C0BAB6;
+    clear: both;
+    word-wrap: normal;
+    white-space: nowrap;
+    z-index: 15;
+    
+    & > * {
+      line-height: normal;
     }
     
-    i.label-icon {
-      cursor: pointer;
-      color: $main-color-light;
+    .label-icon {
       font-size: 1.5em;
       margin-left: 5px;
     }
   }
-
-  &>a {
-    float: left;
-    padding: 0px 8px;
-    margin-top: 10px;
-    font-size: 18px;
-    height: ($navbar-height - 10px);
-    width: 150px;
-    background: url(/assets/images/liveops-logo.png) no-repeat;
-    background-size: 150px;
-  }
-
-  &>ul {
-    font-size: 12px;
-    padding: 0;
-    margin: 0;
-
-    li {
-      display: block;
-      float: left;
-      font-size: 16px;
-      margin:0 30px 0 0;
-      padding:0;
-      position: relative;
-
-      a {
-        border-bottom: 4px solid #07487a;
-        display: block;
-        padding:20px 0;
-        color: #C0BAB6;
-      }
-
-      &.active a, &:hover a{
-        color:#FFFFFF;
-        border-color: lighten($main-color, 30%);
-      }
-    }
-  }
-  
-  dropdown {
-    line-height: normal;
-  }
-}
-
-/* Top navigation for smaller resolutions */
-
-#topnav form{
-  display:block;
-  height:20px;
-  margin:0 auto;
-  padding:20px 0;
-  
-  select{
-    display:block;
-    width:100%;
-    padding:0px;
-    color:#FFFFFF;
-    background-color:#07487a;
-    border:0px solid #494949;
-    cursor:pointer;
-    outline:none;
-    -webkit-appearance:none;
-  }
-  
-  select option {
-    display: block;
-    margin: 10px;
-    padding: 0;
-    cursor: pointer;
-    outline: none;
-    border: none;
-    -webkit-appearance: none;
-  }
-}
