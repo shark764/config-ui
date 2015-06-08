@@ -14,7 +14,7 @@ angular.module('liveopsConfigPanel')
           $rootScope.$broadcast('updated:resource' + eventPath, response.resource);
         }
 
-        return response;
+        return response.resource;
       };
     }
   ]);

@@ -1,14 +1,19 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('UsersController', ['$scope', '$location', '$routeParams', '$filter', 'userStates', 'userStatuses', 'columns', 'User', 'Session',
-    function($scope, $location, $routeParams, $filter, userStates, userStatuses, columns, User, Session) {
+  .controller('UsersController', ['$scope', '$location', '$routeParams', '$filter', 'userStates', 'userStatuses', 'userRoles', 'columns', 'User', 'Session',
+    function($scope, $location, $routeParams, $filter, userStates, userStatuses, userRoles, columns, User, Session) {
       $scope.states = userStates;
       $scope.statuses = userStatuses;
       $scope.columns = columns;
       $scope.filteredUsers = [];
       $scope.Session = Session;
-      
+
+      $scope.additional = {
+        states: userStates,
+        roles: userRoles
+      };
+
       $scope.users = User.query(function() {
 
         if ($routeParams.id) {
@@ -20,20 +25,15 @@ angular.module('liveopsConfigPanel')
         }
       });
 
-      $scope.$on('user:cancel', function() {
-        //TODO: undo changes to scope selectedUser without a query
-        $scope.selectedUser.$get({
-          id: $scope.selectedUser.id
-        });
-      });
-
-      $scope.$watchCollection(function() {
-        return $scope.filteredUsers;
-      }, function(newList) {
+      $scope.$watchCollection('filteredUsers', function(newList) {
         //Only replace the selected user if the old one got excluded via filtering.
         if (newList && newList.indexOf($scope.selectedUser) === -1) {
           $scope.selectedUser = $scope.filteredUsers[0];
         }
+      });
+
+      $scope.$on('created:resource:user', function (user) {
+        $scope.users.push(user);
       });
 
       $scope.selectUser = function(user) {
@@ -44,12 +44,10 @@ angular.module('liveopsConfigPanel')
       };
 
       $scope.createUser = function() {
-        $scope.$broadcast('user:create');
+        $scope.selectedUser = new User({
+          status: true,
+          state: 'Ready'
+        });
       };
-
-      $scope.$on('user:created', function(event, user) {
-        $scope.users.push(user);
-      });
-
     }
   ]);
