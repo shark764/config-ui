@@ -1,13 +1,13 @@
-<form name="detailsForm" ng-submit="save()">
+<form id="details-form" name="detailsForm" ng-submit="save()">
 
-  <div ng-if="headerTemplateUrl" class="detail-header-pane" ng-include src="headerTemplateUrl">
+  <div ng-if="headerTemplateUrl" id="detail-header-pane" ng-include src="headerTemplateUrl">
   </div>
 
-  <div ng-if="bodyTemplateUrl" class="detail-body-pane" ng-include src="bodyTemplateUrl">
+  <div ng-if="bodyTemplateUrl" id="detail-body-pane" ng-include src="bodyTemplateUrl">
   </div>
 
-  <div class="detail-controls-pane">
-    <input class="btn btn-primary" type="submit" value="Submit" />
-    <a class="btn" ng-click="cancel()">{{'value.cancel' | translate}}</a>
+  <div id="detail-controls-pane">
+  <input type="button" class="btn" ng-click="cancel()" value="{{'value.cancel' | translate}}"></input>
+    <input class="btn btn-primary" type="submit" value="{{'value.submit' | translate}}" />
   </div>
 </form>

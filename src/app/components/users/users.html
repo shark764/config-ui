@@ -7,11 +7,12 @@
   </div>
 
   <div id="right-panel" class="right-panel" ng-show="selectedUser">
-    <resource-details
-      extend-scope="additional"
-      header-template-url="app/components/users/userDetailHeader.html"
-      body-template-url="app/components/users/userDetailBody.html"
-      resource="selectedUser"
-    />
+    <resource-details id="details-pane"
+    ng-show="selectedUser"  
+    extend-scope="additional"
+    header-template-url="app/components/users/userDetailHeader.html"
+    body-template-url="app/components/users/userDetailBody.html"
+    resource="selectedUser"
+   />
   </div>
 </div>

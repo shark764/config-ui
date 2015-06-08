@@ -1,0 +1,30 @@
+#details-form {
+   height: 100%;
+   -ms-box-orient: vertical;
+   @include display-flex();
+   @include flex-box-direct(column);
+
+  #detail-header-pane {
+    border-bottom: 1px solid #dadada;
+    padding: 15px;
+  }
+
+  #detail-body-pane {
+    padding: 15px;
+    @include flex(1, 1, auto);
+    overflow: auto;
+    height:0;
+    min-height: 0;
+  }
+
+  #detail-controls-pane {
+    padding: 5px;
+    border-top: 1px solid #dadada;
+    justify-content: space-around;
+    @include display-flex();
+
+    input {
+      width: 40%;
+    }
+  }
+}

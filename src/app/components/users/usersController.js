@@ -7,7 +7,7 @@ angular.module('liveopsConfigPanel')
       $scope.statuses = userStatuses;
       $scope.filteredUsers = [];
       $scope.Session = Session;
-      
+
       $scope.additional = {
         states: userStates,
         roles: userRoles
