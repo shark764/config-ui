@@ -1,24 +1,30 @@
 
 .side-bar {
+  background-color: #f8fbfc;
+  border-right: 1px solid #dadada;
   height: 100%;
   position: fixed;
   z-index: 10;
-  min-width: 30px;
   padding: 10px;
-
+  @include transition(left 0.25s);
+  
   .collapse-bar {
     color: #919191;
     font-size: 25px;
     position: absolute;
-    top: 0;
+    top: -0.3em;
     bottom: 0;
-    background-color: #f8fbfc;
-    min-width: 30px;
-    @include transition(left 0.5s);
+    right: 0;
   }
 
+  &:not(.collapsed) .collapse-bar i{
+    @include border-radius;
+    border: 1px solid #919191;
+  }
+  
   .collapse-bar i {
-    padding: 10px;
+    padding: 5px 10px;
+    font-size: 0.7em;
   }
 
   .menu-container {
@@ -32,54 +38,39 @@
     @include transition(left 0.5s);
   }
 
-  nav {
-    display: block;
-    width: 100%;
-    margin-bottom: 30px;
-  }
-
   ul {
     list-style: none;
     margin: 0;
     padding: 0;
-
-    .list-title {
-      font-style: uppercase;
-      font-size: 18px;
-      color: #3498db;
-      text-transform: uppercase;
-      padding: 5px;
-      padding-left: 20px;
-    }
+    width: 100%;
 
     li {
       margin: 0 0 3px 0;
       padding: 0;
-
+      width: 100%;
+      
       a {
         display: block;
         margin: 0;
         padding: 5px 10px 5px 20px;
       }
+      
+      &:hover {
+        background-color: $accent-light;
+      }
     }
   }
 }
 
-.collapsed.menu-container {
-  left: -$left-nav-width;
+.side-bar.collapsed {
+  left: -120px;
 }
 
-.menu-container:not(.collapsed) {
+.side-bar:not(.collapsed) {
   left: 0;
 }
 
-.collapsed.collapse-bar {
-  border-right: 1px solid #dadada;
-  left: 0;
-}
-
-.collapse-bar:not(.collapsed) {
+.side-bar:not(.collapsed):not(.locked) {
   @include drop-shadow(7px, 0, 16px, 0px, 0.19);
   border: none;
-  left: $left-nav-width;
 }

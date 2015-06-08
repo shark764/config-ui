@@ -7,7 +7,7 @@
   @include transition(0.5s all);
 }
 .user-list-container.expanded-menu {
-  margin-left: $left-nav-width;
+  margin-left: $left-nav-width - 30px;
 }
 
 .side-menu {
