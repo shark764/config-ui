@@ -2,7 +2,7 @@
 
 <div class="user-list-container" ng-class="{'expanded-menu': Session.lockSideMenu}">
   <div id="left-panel" class="left-panel">
-    <table-controls config="config" items="users"></table-controls>
+    <table-controls config="config" items="users" on-create-click="createUser" on-select="selectUser"></table-controls>
     <resize-handle ng-show="!!selectedUser" right-element-id="right-panel" left-element-id="left-panel" left-min-width="600" right-min-width="600" ></resize-handle>
   </div>
 

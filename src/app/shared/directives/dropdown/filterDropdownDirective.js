@@ -5,24 +5,30 @@ angular.module('liveopsConfigPanel')
     return {
       scope: {
         id: '@',
-        field: '=',
-        label: '@'
+        options: '=',
+        valuePath: '@',
+        displayPath: '@',
+        label: '@',
+        showAll: '@'
       },
       templateUrl: 'app/shared/directives/dropdown/filterDropdown.html',
       controller: 'DropdownController',
       link: function ($scope) {
+        $scope.valuePath = $scope.valuePath ? $scope.valuePath : 'value';
+        $scope.displayPath = $scope.displayPath ? $scope.displayPath : 'display';
+        
         $scope.allFilter = {checked: true};
         
-        $scope.$watch('field.options', function (option) {
+        $scope.$watch('options', function (option) {
           $scope.$emit('filter:changed');
         }, true);
         
         $scope.$watch('allFilter', function(all) {
-          if(!$scope.field){
+          if(!$scope.options){
             return;
           }
           
-          angular.forEach($scope.field.options.options, function (option) {
+          angular.forEach($scope.options, function (option) {
             option.checked = all.checked;
           });
         }, true);

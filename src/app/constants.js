@@ -6,51 +6,43 @@ angular.module('liveopsConfigPanel.config', [])
 
 .constant('sessionKey', 'LIVEOPS-SESSION-KEY')
 
-.constant('userStatuses', {
-  'id': 'userStatuses',
-  'showAll': true,
-  'options': [{
-    'display': 'Disabled',
-    'value': false
-  }, {
-    'display': 'Enabled',
-    'value': true
-  }]
-})
+.constant('userStatuses', [{
+  'display': 'Disabled',
+  'value': false
+}, {
+  'display': 'Enabled',
+  'value': true
+}])
 
-.constant('userStates', {
-  'id': 'userStates',
-  'showAll': true,
-  'options': [{
-    'display': 'Busy',
-    'value': 'BUSY'
-  }, {
-    'display': 'Logout',
-    'value': 'LOGOUT'
-  }, {
-    'display': 'Ready',
-    'value': 'READY'
-  }, {
-    'display': 'Login',
-    'value': 'LOGIN'
-  }, {
-    'display': 'Not Ready',
-    'value': 'NOT_READY'
-  }, {
-    'display': 'Wrap',
-    'value': 'WRAP'
-  }]
-})
+.constant('userStates', [{
+  'display': 'Busy',
+  'value': 'BUSY'
+}, {
+  'display': 'Logout',
+  'value': 'LOGOUT'
+}, {
+  'display': 'Ready',
+  'value': 'READY'
+}, {
+  'display': 'Login',
+  'value': 'LOGIN'
+}, {
+  'display': 'Not Ready',
+  'value': 'NOT_READY'
+}, {
+  'display': 'Wrap',
+  'value': 'WRAP'
+}])
 
 .constant('userRoles', [{
   'value': 'admin',
-  'label': 'Admin'
+  'display': 'Admin'
 }, {
   'value': 'user',
-  'label': 'User'
+  'display': 'User'
 }, {
   'value': 'other',
-  'label': 'Other'
+  'display': 'Other'
 }])
 
 

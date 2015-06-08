@@ -5,7 +5,7 @@ angular.module('liveopsConfigPanel')
     return function (items, field) {
       var filtered = [];
       angular.forEach(items, function (item) {
-        angular.forEach(field.options.options, function (option) {
+        angular.forEach(field.options, function (option) {
           if (option.checked && option.value === item[field.name]) {
             return filtered.push(item);
           }

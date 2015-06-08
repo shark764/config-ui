@@ -30,17 +30,17 @@ angular.module('liveopsConfigPanel')
       }
     });
 
-      $scope.$on('created:resource:user', function (user) {
+      $scope.$on('created:resource:users', function (event, user) {
         $scope.users.push(user);
       });
-
+      
       $scope.selectUser = function(user) {
-      $scope.selectedUser = user;
-      $location.search({
-        id: user.id
-      });
-    };
-
+        $scope.selectedUser = user;
+        $location.search({
+          id: user.id
+        });
+      };
+      
       $scope.createUser = function() {
         $scope.selectedUser = new User({
           status: true,
