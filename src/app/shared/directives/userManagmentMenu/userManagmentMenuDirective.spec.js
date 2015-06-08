@@ -1,7 +1,5 @@
 'use strict';
 
-/*global jasmine: false*/
-
 describe('user managment menu directive', function(){
   var $scope,
     element,

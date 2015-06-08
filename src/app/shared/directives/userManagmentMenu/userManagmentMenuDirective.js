@@ -15,7 +15,7 @@ angular.module('liveopsConfigPanel')
             if (! $scope.menuLocked){
               $scope.collapsed = true;
             }
-          }
+          };
         }
       };
   });
