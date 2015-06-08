@@ -7,7 +7,7 @@
   @include transition(0.5s all);
 }
 .user-list-container.expanded-menu {
-  margin-left: 250px;
+  margin-left: $left-nav-width;
 }
 
 .side-menu {
