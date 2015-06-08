@@ -30,10 +30,11 @@ $down-arrow-url: "/assets/images/down-arrow.png";
     background-position: 130px center;
     background-repeat: no-repeat;
     border: 1px solid #fff;
-    margin-top: 10px;
-    padding: 6px 30px 6px 30px;
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
+    height: 2em;
+    margin-top: 13px;
+    min-width: 150px;
+    padding: 6px 10px 6px 20px;
+    @include border-radius();
   }
   
   .divider {
@@ -83,7 +84,7 @@ $down-arrow-url: "/assets/images/down-arrow.png";
     border-left: 3px solid #fff;
     color: #474747;
     background: #FFFFFF;
-    padding: 10px 15px;
+    padding: 10px 6px 10px 0;
     font-size: 14px;
   }
   

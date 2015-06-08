@@ -17,7 +17,7 @@ angular.module('liveopsConfigPanel')
           
           var tenantDropdownItems = [];
           angular.forEach($scope.tenants, function(tenant) {
-            tenantDropdownItems.push({label: tenant.name, onClick: function(){Session.tenantId = tenant.id;}});
+            tenantDropdownItems.push({label: tenant.name, onClick: function(){Session.tenant = tenant;}});
           });
           
           $scope.tenantDropdownItems = tenantDropdownItems;

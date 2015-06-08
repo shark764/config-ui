@@ -2,7 +2,7 @@
   <ul class="clear">
     <li><a ng-href="#/" title="Home" id="logo"><img ng-src="assets/images/liveops-logo.png" height="23" ></a></li>
     <li>
-      <dropdown id="tenant-dropdown" items="tenantDropdownItems" label="{{Session.tenantId}}"></dropdown>
+      <dropdown id="tenant-dropdown" items="tenantDropdownItems" label="{{Session.tenant.name}}"></dropdown>
     </li>
     <li class="divider"></li>
     <li ng-class="{ active: isActive('/')}"><a ng-href="#/">{{'navbar.users.title' | translate}}</a></li>
