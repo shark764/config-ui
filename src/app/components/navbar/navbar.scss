@@ -50,6 +50,7 @@ $down-arrow-url: "/assets/images/down-arrow.png";
 
   ul {
     font-size: 12px;
+    height: 100%;
     padding: 0;
     margin: 0;
     list-style: none;
@@ -57,6 +58,7 @@ $down-arrow-url: "/assets/images/down-arrow.png";
     li {
       display: block;
       float: left;
+      height: 100%;
       margin: 0 30px 0 0;
       padding: 0;
       position: relative;
@@ -64,6 +66,7 @@ $down-arrow-url: "/assets/images/down-arrow.png";
       a {
         border-bottom: 4px solid $main-color;
         display: block;
+        height: 100%;
         padding: 18px 0;
         color: #C0BAB6;
         font-size: 130%;
