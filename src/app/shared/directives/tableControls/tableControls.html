@@ -1,6 +1,28 @@
 <div class="action-container">
   <input type="text" ng-model="searchQuery" placeholder="Search">
-  <filter-dropdown label="Columns" items="columns"></filter-dropdown>
+  <filter-dropdown label="Columns" items="config.fields"></filter-dropdown>
   <button class="btn btn-primary btn-create" ng-click="onActionsClick()">Actions</button>
   <button id="create-user-btn" class="btn btn-primary btn-create" ng-click="onCreateClick()">Create</button>
 </div>
+
+<table>
+  <thead>
+    <tr>
+      <th>&nbsp;</th>
+      <th ng-repeat="field in config.fields" ng-if="!field.hide">
+        <div ng-if="!field.sortable">{{field.header}}</div>
+        <filter-dropdown id="{{field.name}}" ng-if="field.options" label="{{field.header}}" field="field"></filter-dropdown>
+      </th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr ng-repeat="item in filteredItems" ng-click="selectUser(user)" ng-class="{selected: item.id === selected.id}">
+      <td>
+        <input type="checkbox" ng-model="item.checked" />
+      </td>
+      
+      <td ng-if="!field.hide" ng-repeat="field in config.fields">{{item[field.name]}}</td>
+    </tr>
+  </tbody>
+</table>

@@ -1,12 +1,11 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('UsersController', ['$scope', '$location', '$routeParams', '$filter', 'userStates', 'userStatuses', 'userRoles', 'columns', 'User', 'Session',
-    function($scope, $location, $routeParams, $filter, userStates, userStatuses, userRoles, columns, User, Session) {
-    $scope.states = userStates;
-    $scope.statuses = userStatuses;
-    $scope.columns = columns;
-    $scope.filteredUsers = [];
+  .controller('UsersController', ['$scope', '$location', '$routeParams', '$filter', 'userStates', 'userStatuses', 'userRoles', 'User', 'Session', 'userTableConfig',
+    function($scope, $location, $routeParams, $filter, userStates, userStatuses, userRoles, User, Session, userTableConfig) {
+      $scope.states = userStates;
+      $scope.statuses = userStatuses;
+      $scope.filteredUsers = [];
       $scope.Session = Session;
       
       $scope.additional = {
@@ -15,7 +14,6 @@ angular.module('liveopsConfigPanel')
       };
 
       $scope.users = User.query(function() {
-
         if ($routeParams.id) {
         var activeUser = $filter('filter')($scope.users, {
           id: $routeParams.id
@@ -48,6 +46,8 @@ angular.module('liveopsConfigPanel')
           status: true,
           state: 'Ready'
         });
-    };
+      };
+      
+      $scope.config = userTableConfig;
     }
   ]);

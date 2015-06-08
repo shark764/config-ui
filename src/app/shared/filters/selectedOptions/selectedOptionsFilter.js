@@ -2,25 +2,16 @@
 
 angular.module('liveopsConfigPanel')
   .filter('selectedOptions', function () {
-    return function (users, items, field) {
-      if (items.all && items.all.checked) {
-        return users;
-      }
-
-      var selectedFilters = [];
-      angular.forEach(items.filters, function (item) {
-        if (item.checked) {
-          selectedFilters.push(String(item.value));
-        }
-      });
-
+    return function (items, field) {
       var filtered = [];
-      angular.forEach(users, function (user) {
-        if (selectedFilters.indexOf(String(user[field])) > -1) {
-          filtered.push(user);
-        }
+      angular.forEach(items, function (item) {
+        angular.forEach(field.options.options, function (option) {
+          if (option.checked && option.value === item[field.name]) {
+            return filtered.push(item);
+          }
+        });
       });
 
       return filtered;
-    };
+    }
   });

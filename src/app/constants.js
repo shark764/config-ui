@@ -7,52 +7,38 @@ angular.module('liveopsConfigPanel.config', [])
 .constant('sessionKey', 'LIVEOPS-SESSION-KEY')
 
 .constant('userStatuses', {
-  'all': {
-    'display': 'All',
-    'value': 'all',
-    'checked': true
-  },
-  'filters': [{
+  'id': 'userStatuses',
+  'showAll': true,
+  'options': [{
     'display': 'Disabled',
-    'value': false,
-    'checked': false
+    'value': false
   }, {
     'display': 'Enabled',
-    'value': true,
-    'checked': false
+    'value': true
   }]
 })
 
 .constant('userStates', {
-  'all': {
-    'display': 'All',
-    'value': 'all',
-    'checked': true
-  },
-  'filters': [{
+  'id': 'userStates',
+  'showAll': true,
+  'options': [{
     'display': 'Busy',
-    'value': 'BUSY',
-    'checked': false
+    'value': 'BUSY'
   }, {
     'display': 'Logout',
-    'value': 'LOGOUT',
-    'checked': false
+    'value': 'LOGOUT'
   }, {
     'display': 'Ready',
-    'value': 'READY',
-    'checked': false
+    'value': 'READY'
   }, {
     'display': 'Login',
-    'value': 'LOGIN',
-    'checked': false
+    'value': 'LOGIN'
   }, {
     'display': 'Not Ready',
-    'value': 'NOT_READY',
-    'checked': false
+    'value': 'NOT_READY'
   }, {
     'display': 'Wrap',
-    'value': 'WRAP',
-    'checked': false
+    'value': 'WRAP'
   }]
 })
 
@@ -67,29 +53,36 @@ angular.module('liveopsConfigPanel.config', [])
   'label': 'Other'
 }])
 
-.constant('columns', {
-  'filters': {
-    'name': {
-      'display': 'Name',
-      'value': 'name',
-      'checked': true
-    },
-    'id': {
-      'display': 'ID',
-      'value': 'id',
-      'checked': true
-    },
-    'status': {
-      'display': 'Status',
-      'value': 'status',
-      'checked': true
-    },
-    'state': {
-      'display': 'State',
-      'value': 'state',
-      'checked': true
-    }
+
+.service('userTableConfig', ['userStatuses', 'userStates',
+  function (userStatuses, userStates) {
+    return {
+      'fields': [{
+        'header': 'Name',
+        'name': 'displayName',
+        'sortable': false
+      }, {
+        'header': 'ID',
+        'name': 'id',
+        'sortable': false
+      }, {
+        'header': 'Status',
+        'name': 'status',
+        'sortable': true,
+        'options': userStatuses,
+        'filter': 'selectedOptions'
+      }, {
+        'header': 'State',
+        'name': 'state',
+        'sortable': true,
+        'options': userStates,
+        'filter': 'selectedOptions'
+      }],
+      "search": {
+        "fields": ['firstName', 'lastName']
+      }
+    };
   }
-})
+])
 
 ;
