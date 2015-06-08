@@ -22,7 +22,7 @@ angular.module('liveopsConfigPanel')
       this.displayName = null;
       this.id = null;
       this.lang = null;
-      this.tenantId = null;
+      this.tenant = null;
       this.activeRegionId = '6aff1f30-0901-11e5-87f2-b1d420920055';
       this.collapseSideMenu = true;
 
@@ -34,7 +34,7 @@ angular.module('liveopsConfigPanel')
         this.storeSession();
       };
 
-      $rootScope.$watch('Session.tenantId', self.storeSession);
+      $rootScope.$watch('Session.tenant', self.storeSession);
       $rootScope.$watch('Session.collapseSideMenu', self.storeSession);
 
       this.storeSession = function () {
@@ -45,7 +45,7 @@ angular.module('liveopsConfigPanel')
         }));
 
         localStorage.setItem(this.userPreferenceKey, JSON.stringify({
-          tenantId: this.tenantId,
+          tenant: this.tenant,
           lang: this.lang,
           collapseSideMenu: this.collapseSideMenu,
           activeRegionId: this.activeRegionId
@@ -62,7 +62,7 @@ angular.module('liveopsConfigPanel')
 
       this.destroyAll = function () {
         this.destroy();
-        this.tenantId = null;
+        this.tenant = null;
         this.activeRegionId = null;
         this.lang = null;
 
@@ -73,9 +73,9 @@ angular.module('liveopsConfigPanel')
         angular.extend(this, JSON.parse(localStorage.getItem(this.userSessionKey)));
         angular.extend(this, JSON.parse(localStorage.getItem(this.userPreferenceKey)));
 
-        if (this.lang) {
-          $translate.use(this.lang);
-        }
+        //if (this.lang) {
+        //  $translate.use(this.lang);
+        //}
       };
 
       this.isAuthenticated = function () {

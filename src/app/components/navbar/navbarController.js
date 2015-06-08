@@ -13,8 +13,8 @@ angular.module('liveopsConfigPanel')
         $scope.tenants = Tenant.query({
           regionId: Session.activeRegionId
         }, function() {
-          if (!Session.tenantId && $scope.tenants.length) {
-            Session.tenantId = $scope.tenants[0].id;
+          if (!Session.tenant && $scope.tenants.length) {
+            Session.tenant = $scope.tenants[0];
           }
         });
       };

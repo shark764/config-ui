@@ -6,10 +6,10 @@ angular.module('liveopsConfigPanel')
 
       $scope.version = new Version({});
 
-      $scope.versions = Version.query( { tenantId: Session.tenantId, flowId: $routeParams.flowId });
+      $scope.versions = Version.query( { tenantId: Session.tenant.id, flowId: $routeParams.flowId });
 
       $scope.fetch = function () {
-        $scope.versions = Version.query( { tenantId: Session.tenantId, flowId: $routeParams.flowId });
+        $scope.versions = Version.query( { tenantId: Session.tenant.id, flowId: $routeParams.flowId });
       };
 
       $scope.saveSuccess = function (response) {
@@ -22,7 +22,7 @@ angular.module('liveopsConfigPanel')
       };
 
       $scope.save = function () {
-        $scope.version.save({tenantId : Session.tenantId, flowId : $routeParams.flowId}, $scope.saveSuccess, $scope.saveFailure);
+        $scope.version.save({tenantId : Session.tenant.id, flowId : $routeParams.flowId}, $scope.saveSuccess, $scope.saveFailure);
       };
 
     }]);
