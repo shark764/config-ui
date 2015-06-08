@@ -1,4 +1,3 @@
-
 $divider-margin: 12px;
 $down-arrow-url: "/assets/images/down-arrow.png";
 
@@ -6,105 +5,119 @@ $down-arrow-url: "/assets/images/down-arrow.png";
   display: none !important;
 }
 
-.navbar {
-  position: relative;
-  min-height: $navbar-height;
+#topnav {
   background-color: $main-color;
-  font-family: $main-font;
-  font-size: 16px;
-  font-style: normal;
-  font-weight: normal;
-  -webkit-font-smoothing: antialiased;
-  color: white;
-  padding: 0px 20px;
+  color: $lighter-grey;
+  clear: both;
+  max-width: 100% !important;
+  height: $navbar-height;
+  padding: 0;
+  padding-left: 2.5%;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  word-wrap: normal;
+  white-space: nowrap;
+  z-index: 15;
 
-  select {
-    position: relative;
-    width: 150px;
-    margin-top: 10px;
-    padding: 7px;
-    background: transparent;
-    -webkit-appearance: none;
-    background: url($down-arrow-url) no-repeat;
-    background-size: 18px 18px;
-    background-position: 95% 50%;
-    color: $medium-grey;
-    font-family: $main-font;
-    font-size:15px;
-    border-color: $light-grey;
-    @include border-radius(5px);
+  #logo {
+    background: none;
+    border: 0 !important;
   }
 
-  .welcome {
-    float: right;
-    line-height: $navbar-height;
-    font-size: 14px;
-    min-width: 200px;
-    text-align: right;
-
-    i.label-icon {
-      cursor: pointer;
-      color: $main-color-light;
-      font-size: 28px;
-      line-height: 55px;
-      margin-left: 10px;
-
-      &:hover {
-        color: white;
-      }
-    }
+  #tenant-dropdown .drop-label {
+    padding: 15px;
+    background-position: 130px center;
+    background-repeat: no-repeat;
+    border: 1px solid #fff;
+    height: 2em;
+    margin-top: 13px;
+    min-width: 150px;
+    padding: 6px 10px 6px 20px;
+    @include border-radius();
   }
 
   .divider {
-    height: $navbar-height - ($divider-margin * 2);
-    width: 2px;
-    margin-top: $divider-margin;
-    margin-bottom: $divider-margin;
-    margin-right: 10px;
-    margin-left: 20px;
-    background-color: $light-grey;
+      border: 1px solid $lighter-grey;
+      height: 40px;
+      margin-top: 12px !important;
   }
 
-  &>a {
-    float: left;
-    padding: 0px 8px;
-    margin-top: 10px;
-    font-size: 18px;
-    height: ($navbar-height - 10px);
-    width: 150px;
-    background: url(/assets/images/liveops-logo.png) no-repeat;
-    background-size: 150px;
+  a {
+    color: $lighter-grey;
+    font-weight: bold;
   }
 
-  > ul {
-    float: left;
+  ul {
+    font-size: 12px;
+    height: 100%;
     padding: 0;
     margin: 0;
+    list-style: none;
 
     li {
-      float: left;
-      position: relative;
       display: block;
+      float: left;
+      height: 100%;
+      margin: 0 30px 0 0;
+      padding: 0;
+      position: relative;
 
       a {
-        position: relative;
+        border-bottom: 4px solid $main-color;
         display: block;
-        padding: 15px 0px;
-        margin: 0px 10px;
-        line-height: 25px;
-        color: rgb(114, 132, 156);
+        height: 100%;
+        padding: 18px 0;
+        color: $lighter-grey;
+        font-size: 130%;
+        font-weight: 100;
+        padding-bottom: 13px;
       }
 
-      &.active a {
-        -webkit-box-shadow: inset 0px -7px 0px 0px lighten($main-color, 30%);
-        -moz-box-shadow: inset 0px -7px 0px 0px lighten($main-color, 30%);
-        box-shadow: inset 0px -7px 0px 0px lighten($main-color, 30%);
-        color: white;
+      &.active a, &:hover a{
+        color: #FFFFFF;
+        border-color: $accent1;
       }
     }
   }
-  
-  dropdown {
-    line-height: normal;
+}
+
+#topnav .dropdown, #welcome .dropdown {
+  & li {
+    border-left: 3px solid #fff;
+    color: $dark-grey;
+    background: #FFFFFF;
+    padding: 10px 6px 10px 0;
+    font-size: 14px;
+  }
+
+  & li:hover {
+    color: $dark-grey;
+    background: $accent-light;
+    border-left: 3px solid $accent1
   }
 }
+
+#welcome {
+    padding: 0;
+    float: right;
+    min-height: $navbar-height;
+    line-height: $navbar-height;
+    top: 0;
+    position: fixed;
+    right: 2.5%;
+    color: $lighter-grey;
+    clear: both;
+    word-wrap: normal;
+    white-space: nowrap;
+    z-index: 15;
+
+    & > * {
+      line-height: normal;
+    }
+
+    .label-icon {
+      font-size: 1.5em;
+      margin-left: 5px;
+    }
+  }

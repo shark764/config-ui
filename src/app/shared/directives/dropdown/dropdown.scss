@@ -10,40 +10,47 @@
   font-weight: normal;
   right: 0;
   position: absolute;
-  padding: 15px 0;
+  padding: 6px 0;
   top: -2px;
-  width: calc(100% - 2px);
+  min-width: 200px;
+  width: 100%;
   z-index: 10;
 }
 
 .drop-origin {
   @include border-radius-complex(6, 0, 0, 6);
 }
-  
+
 .dropdown-wrapper {
+  display: inline-block;
+  overflow: visible;
 
   button {
     font-size: 1em;
     font-family: $main-font;
   }
-  
+
   .dropdown {
     button {
       color: $medium-grey;
     }
 
-    ul{
+    ul {
       list-style-type: none;
       margin: 0;
       padding: 0;
     }
-    
+
+    li {
+      width: 100%;
+    }
+
     li, li i {
       color: #333;
-      padding: 0 15px;
+      padding: 5px;
     }
     li:hover {
-      background-color: $lighter-grey;
+      background-color: $lightest-grey;
     }
   }
 }

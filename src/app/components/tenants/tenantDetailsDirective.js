@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('tenantDetails', ['Tenant', 'User', 'Region',
-    function (Tenant, User, Region) {
+  .directive('tenantDetails', ['Tenant', 'User', 'Region', 'Session',
+    function (Tenant, User, Region, Session) {
       return {
         scope: {
           tenant: '='
@@ -15,7 +15,7 @@ angular.module('liveopsConfigPanel')
           $scope.regions = Region.query(function (){});
           
           $scope.save = function () {
-            $scope.tenant.save({id : $scope.tenant.id}, null, function(error) {
+            $scope.tenant.save({id : $scope.tenant.id, regionId: Session.activeRegionId}, null, function(error) {
               $scope.error = error.data;
             });
           };

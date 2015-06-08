@@ -67,7 +67,7 @@
   tr {
     cursor: pointer;
     &.selected {
-      background-color: lighten($lighter-grey, 5%);
+      background-color: lighten($lightest-grey, 5%);
     }
   }
   .disabled {

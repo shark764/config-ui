@@ -14,7 +14,7 @@ describe('InvitesController', function() {
       $controller = _$controller_;
       Invite = _Invite_;
       invites = [new Invite({email: 'atestemail@test.com', tenantId: 1}), new Invite({email: 'foorbar@test.com', tenantId: 1})];
-      session = {tenantId : 1};
+      session = {tenant: {id : 1}};
       
       $httpBackend = $injector.get('$httpBackend');
       $httpBackend.when('GET', 'fakendpoint.com/v1/tenants/1/invites').respond({'result' : invites});
@@ -35,7 +35,7 @@ describe('InvitesController', function() {
     
     it('should reload the invites when Session tenantId changes', function() {
       $httpBackend.when('GET', 'fakendpoint.com/v1/tenants/2/invites').respond({'result' : [new Invite({email: 'someotherinvite.email.com'})]});
-      session.tenantId = 2;
+      session.tenant.id = 2;
       $scope.$digest();
       $httpBackend.flush();
       

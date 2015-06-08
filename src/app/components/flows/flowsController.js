@@ -21,7 +21,7 @@ angular.module('liveopsConfigPanel')
       };
 
       $scope.fetch = function () {
-        $scope.flows = Flow.query( { tenantId: Session.tenantId });
+        $scope.flows = Flow.query( { tenantId: Session.tenant.id });
       };
 
       $scope.saveSuccess = function (response) {
@@ -34,7 +34,7 @@ angular.module('liveopsConfigPanel')
       };
 
       $scope.save = function () {
-        $scope.flow.save({id : $scope.flow.id, tenantId : Session.tenantId}, $scope.saveSuccess, $scope.saveFailure);
+        $scope.flow.save({id : $scope.flow.id, tenantId : Session.tenant.id}, $scope.saveSuccess, $scope.saveFailure);
       };
 
     }]);
