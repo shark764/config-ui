@@ -34,24 +34,24 @@ angular.module('liveopsConfigPanel')
         this.storeSession();
       };
 
-      $rootScope.$watch('Session.tenant', self.storeSession);
-      $rootScope.$watch('Session.collapseSideMenu', self.storeSession);
-
       this.storeSession = function () {
-        localStorage.setItem(this.userSessionKey, JSON.stringify({
-          token: this.token,
-          displayName: this.displayName,
-          id: this.id,
+        localStorage.setItem(self.userSessionKey, JSON.stringify({
+          token: self.token,
+          displayName: self.displayName,
+          id: self.id,
         }));
 
-        localStorage.setItem(this.userPreferenceKey, JSON.stringify({
-          tenant: this.tenant,
-          lang: this.lang,
-          lockSideMenu: this.lockSideMenu,
-          activeRegionId: this.activeRegionId
+        localStorage.setItem(self.userPreferenceKey, JSON.stringify({
+          tenant: self.tenant,
+          lang: self.lang,
+          lockSideMenu: self.lockSideMenu,
+          activeRegionId: self.activeRegionId
         }));
       };
 
+      $rootScope.$watch('Session.tenant', self.storeSession);
+      $rootScope.$watch('Session.lockSideMenu', self.storeSession);
+      
       this.destroy = function () {
         this.token = null;
         this.displayName = null;
