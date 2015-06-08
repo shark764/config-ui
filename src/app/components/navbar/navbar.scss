@@ -7,7 +7,7 @@ $down-arrow-url: "/assets/images/down-arrow.png";
 
 #topnav {
   background-color: $main-color;
-  color: #C0BAB6;
+  color: $lighter-grey;
   clear: both;
   max-width: 100% !important;
   height: $navbar-height;
@@ -19,12 +19,12 @@ $down-arrow-url: "/assets/images/down-arrow.png";
   word-wrap: normal;
   white-space: nowrap;
   z-index: 15;
-  
+
   #logo {
     background: none;
     border: 0 !important;
   }
-  
+
   #tenant-dropdown .drop-label {
     padding: 15px;
     background-position: 130px center;
@@ -36,15 +36,15 @@ $down-arrow-url: "/assets/images/down-arrow.png";
     padding: 6px 10px 6px 20px;
     @include border-radius();
   }
-  
+
   .divider {
-      border: 1px solid #C0BAB6;
+      border: 1px solid $lighter-grey;
       height: 40px;
       margin-top: 12px !important;
   }
 
   a {
-    color: #C0BAB6;
+    color: $lighter-grey;
     font-weight: bold;
   }
 
@@ -54,7 +54,7 @@ $down-arrow-url: "/assets/images/down-arrow.png";
     padding: 0;
     margin: 0;
     list-style: none;
-    
+
     li {
       display: block;
       float: left;
@@ -68,7 +68,7 @@ $down-arrow-url: "/assets/images/down-arrow.png";
         display: block;
         height: 100%;
         padding: 18px 0;
-        color: #C0BAB6;
+        color: $lighter-grey;
         font-size: 130%;
         font-weight: 100;
         padding-bottom: 13px;
@@ -85,14 +85,14 @@ $down-arrow-url: "/assets/images/down-arrow.png";
 #topnav .dropdown, #welcome .dropdown {
   & li {
     border-left: 3px solid #fff;
-    color: #474747;
+    color: $dark-grey;
     background: #FFFFFF;
     padding: 10px 6px 10px 0;
     font-size: 14px;
   }
-  
+
   & li:hover {
-    color: #474747;
+    color: $dark-grey;
     background: $accent-light;
     border-left: 3px solid $accent1
   }
@@ -106,16 +106,16 @@ $down-arrow-url: "/assets/images/down-arrow.png";
     top: 0;
     position: fixed;
     right: 2.5%;
-    color: #C0BAB6;
+    color: $lighter-grey;
     clear: both;
     word-wrap: normal;
     white-space: nowrap;
     z-index: 15;
-    
+
     & > * {
       line-height: normal;
     }
-    
+
     .label-icon {
       font-size: 1.5em;
       margin-left: 5px;
