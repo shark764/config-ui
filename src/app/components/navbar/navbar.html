@@ -1,10 +1,9 @@
-<nav class="navbar" ng-switch="Session.isAuthenticated()">
-
-    <a ng-href="#/"></a>
-    <ul ng-switch-when="true">
+<div ng-switch="Session.isAuthenticated()">
+  <nav id="topnav" class="clear">
+    <ul class="clear" ng-switch-when="true">
+      <li><a ng-href="#/" title="Home" id="logo"><img ng-src="assets/images/liveops-logo.png" height="23" ></a></li>
       <li>
-        <select ng-model="Session.tenant" ng-options="tenant.id as tenant.name for tenant in tenants | orderBy:'name'">
-        </select>
+        <dropdown id="tenant-dropdown" items="tenantDropdownItems" label="{{Session.tenant.name}}"></dropdown>
       </li>
       <li class="divider"></li>
       <li ng-class="{ active: isActive('/')}"><a ng-href="#/">{{'navbar.users.title' | translate}}</a></li>
@@ -14,10 +13,9 @@
       <li ng-class="{ active: isActive('/userprofile')}"><a ng-href="#/userprofile">Your Profile</a></li>
       <li ng-class="{ active: isActive('/invites')}"><a ng-href="#/invites">Invites</a></li>
     </ul>
-
-    <div class="welcome" ng-switch-when="true">
-      <span translate="navbar.welcome" translate-value-name="{{Session.displayName}}"></span>
-      <dropdown id="user-settings-dropdown" items="userDropdownItems" expand-icon="fa fa-gear" collapse-icon="fa fa-gear"></dropdown>
-    </div>
-
-</nav>
+  </nav>
+  
+  <nav id="welcome" ng-switch-when="true">
+    <dropdown id="user-settings-dropdown" items="userDropdownItems" label="{{welcomeMessage}}" expand-icon="fa fa-gear" collapse-icon="fa fa-gear"></dropdown>
+  </nav>
+</div>

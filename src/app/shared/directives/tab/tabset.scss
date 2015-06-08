@@ -3,27 +3,27 @@ tabset {
     list-style-type: none;
     margin: 0px;
     padding: 0px;
-    
+
     li {
       display: inline-block;
       padding: 25px 10px;
       background: white;
       text-align: center;
-      
+
       a {
         color: $dark-blue;
         font-weight: bold;
       }
     };
-    
+
     li.active {
-      background: $lighter-grey;
+      background: $lightest-grey;
       @include border-radius-complex(5px, 0px, 0px, 5px);
     }
   };
 }
 
 .tab {
-  border: solid $lighter-grey;
+  border: solid $lightest-grey;
   padding: 15px;
 }

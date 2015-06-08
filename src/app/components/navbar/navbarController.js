@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('NavbarController', ['$rootScope', '$scope', '$location', 'AuthService', 'Session', 'Tenant',
-    function($rootScope, $scope, $location, AuthService, Session, Tenant) {
+  .controller('NavbarController', ['$rootScope', '$scope', '$location', 'AuthService', 'Session', 'Tenant', '$translate',
+    function($rootScope, $scope, $location, AuthService, Session, Tenant, $translate) {
       $scope.Session = Session;
 
       var populateTenantsHandler = function(event) {
@@ -10,15 +10,22 @@ angular.module('liveopsConfigPanel')
           return;
         }
 
-        $scope.tenants = Tenant.query({
-          regionId: Session.activeRegionId
-        }, function() {
-          if (!Session.tenant && $scope.tenants.length) {
+        $scope.tenants = Tenant.query({regionId: Session.activeRegionId}, function() {
+          if (!Session.tenantId && $scope.tenants.length) {
             Session.tenant = $scope.tenants[0];
           }
+          
+          var tenantDropdownItems = [];
+          angular.forEach($scope.tenants, function(tenant) {
+            tenantDropdownItems.push({label: tenant.name, onClick: function(){Session.tenant = tenant;}});
+          });
+          
+          $scope.tenantDropdownItems = tenantDropdownItems;
         });
       };
 
+      $scope.welcomeMessage = $translate('navbar.welcome', {name: Session.displayName});
+      
       $scope.$on('login:success', populateTenantsHandler);
       $scope.$watch('Session.activeRegionId', populateTenantsHandler);
 
