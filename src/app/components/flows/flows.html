@@ -8,6 +8,7 @@
       <td>Description</td>
       <td>Active</td>
       <td>Parent Tenant</td>
+      <td>Version</td>
     </thead>
     <tr ng-repeat="flow in flows" >
       <td style="border: 1px solid black;">{{flow.id}}</td>
@@ -15,6 +16,7 @@
       <td style="border: 1px solid black;">{{flow.description}}</td>
       <td style="border: 1px solid black;">{{flow.active}}</td>
       <td style="border: 1px solid black;">{{flow.tenantId}}</td>
+      <td style="border: 1px solid black;"><a ng-href="#/versions?flowId={{flow.id}}">Version</a></td>
     </tr>
   </table>
   <ul>

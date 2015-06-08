@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('liveopsConfigPanel', ['ngRoute', 'ngResource', 'liveopsConfigPanel.config', 'pascalprecht.translate', 'ngCookies'])
+angular.module('liveopsConfigPanel', ['ngRoute', 'ngResource', 'liveopsConfigPanel.config', 'pascalprecht.translate', 'ngCookies', 'ngMessages'])
   .config(['$routeProvider', '$translateProvider', function ($routeProvider, $translateProvider) {
     $routeProvider
       .when('/', {
@@ -18,6 +18,12 @@ angular.module('liveopsConfigPanel', ['ngRoute', 'ngResource', 'liveopsConfigPan
       .when('/flows', {
         templateUrl: 'app/components/flows/flows.html',
         controller: 'FlowsController',
+        reloadOnSearch: false,
+        secure: true
+      })
+      .when('/versions', {
+        templateUrl: 'app/components/flows/versions/versions.html',
+        controller: 'VersionsController',
         reloadOnSearch: false,
         secure: true
       })

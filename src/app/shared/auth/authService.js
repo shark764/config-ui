@@ -10,8 +10,8 @@ UserNotFoundException.prototype = new Error();
 UserNotFoundException.prototype.constructor = UserNotFoundException;
 
 angular.module('liveopsConfigPanel')
-  .service('AuthService', ['$resource', '$http', 'Session', 'apiHostname',
-    function ($resource, $http, Session, apiHostname) {
+  .service('AuthService', ['$resource', '$http', '$q', 'Session', 'apiHostname',
+    function ($resource, $http, $q, Session, apiHostname) {
       // localStorage should not be used to store passwords in production
       // this is a temporary solution until Tao gets back to me on the ability to get
       // a token back from the API to store instead.
@@ -22,17 +22,14 @@ angular.module('liveopsConfigPanel')
       // this will suffice in beta however.
       this.login = function (username, password) {
         var token = this.generateToken(username, password);
-
-        var request = $http({
-          method: 'GET',
-          url: apiHostname + '/v1/users',
+        var request = $http.get(apiHostname + '/v1/users', {
           headers: {
             Authorization: 'Basic ' + token
           }
         });
-
-        return request.success(function (response) {
-          angular.forEach(response.result, function (user) {
+        
+        return request.then(function(response) {
+          angular.forEach(response.data.result, function (user) {
             if (user.email === username) {
               response = {
                 token: token,
@@ -42,11 +39,13 @@ angular.module('liveopsConfigPanel')
           });
 
           if (!response.user) {
-            throw new UserNotFoundException();
+            return $q.reject(new UserNotFoundException());
           }
-
+          
           Session.set(response.user, response.token);
 
+          return response;
+        }, function(response) {
           return response;
         });
       };

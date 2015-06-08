@@ -6,13 +6,13 @@ angular.module('liveopsConfigPanel')
     $scope.queue = {};
 
     $scope.fetch = function () {
-      $scope.queues = Queue.query({tenantId : Session.tenantId});
+      $scope.queues = Queue.query({tenantId : Session.tenant.id});
       $scope.setQueue($routeParams.id);
     };
 
     $scope.setQueue = function(id) {
       if (id){
-        $scope.queue = Queue.get({'tenantId' : Session.tenantId, 'id' : id});
+        $scope.queue = Queue.get({'tenantId' : Session.tenant.id, 'id' : id});
       } else {
         $scope.queue = new Queue();
       }
@@ -20,7 +20,7 @@ angular.module('liveopsConfigPanel')
 
     $scope.fetch();
 
-    $scope.$watch('Session.tenantId', function () {
+    $scope.$watch('Session.tenant.id', function () {
       $scope.fetch();
     });
     
@@ -38,6 +38,6 @@ angular.module('liveopsConfigPanel')
     };
 
     $scope.save = function () {
-      $scope.queue.save({tenantId: Session.tenantId, id: $scope.queue.id}, $scope.saveSuccess, $scope.saveFailure);
+      $scope.queue.save({tenantId: Session.tenant.id, id: $scope.queue.id}, $scope.saveSuccess, $scope.saveFailure);
     };
   }]);
