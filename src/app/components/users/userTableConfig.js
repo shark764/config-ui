@@ -21,7 +21,8 @@ angular.module('liveopsConfigPanel')
           'name': 'state',
           'sortable': true,
           'options': userStates,
-          'filter': 'selectedOptions'
+          'filter': 'selectedOptions',
+          'templateUrl': 'app/shared/templates/state.html'
         }],
         'search': {
           'fields': ['firstName', 'lastName']

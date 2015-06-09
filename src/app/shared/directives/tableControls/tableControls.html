@@ -22,7 +22,10 @@
         <input type="checkbox" ng-model="item.checked" />
       </td>
       
-      <td ng-if="field.checked" ng-repeat="field in config.fields">{{item[field.name]}}</td>
+      <td ng-if="field.checked" ng-repeat="field in config.fields">
+        <div ng-if="field.templateUrl" class="detail-header-pane" ng-include="field.templateUrl"></div>
+        <span ng-if="!field.templateUrl">{{item[field.name]}}</span>
+      </td>
     </tr>
   </tbody>
 </table>
