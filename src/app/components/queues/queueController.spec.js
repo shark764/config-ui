@@ -36,7 +36,7 @@ describe('QueueController', function() {
       $httpBackend.when('GET', 'fakendpoint.com/v1/tenants/1/queues/q1').respond({'result' : queues[0]});
       $httpBackend.when('GET', 'fakendpoint.com/v1/tenants/1/queues/q2').respond({'result' : queues[1]});
 
-      $controller('QueueController', {'$scope': $scope, 'Session' : {tenantId : 1}, '$routeParams' : routeParams});
+      $controller('QueueController', {'$scope': $scope, 'Session' : {tenant : {id : 1}}, '$routeParams' : routeParams});
       $httpBackend.flush();
     }]));
 

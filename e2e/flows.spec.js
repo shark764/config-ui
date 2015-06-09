@@ -16,7 +16,7 @@ describe('The flows view', function() {
     flowCount = flows.flowElements.count();
   });
 
-  afterAll(function(){
+  afterAll(function() {
     shared.tearDown();
   });
 
@@ -27,6 +27,35 @@ describe('The flows view', function() {
     expect(flows.descriptionFormField.isDisplayed()).toBeTruthy();
     expect(flows.activeFormToggle.isDisplayed()).toBeTruthy();
     expect(flows.submitFlowFormBtn.isDisplayed()).toBeTruthy();
+  });
+
+
+  it('should display flow details when selected from table', function() {
+    if (flowCount > 0) {
+      // Select first flow from table
+      element(by.css("tr.ng-scope:nth-child(1) > td:nth-child(2) > a:nth-child(1)")).click();
+
+      // Verify flow name in table matches populated field
+      expect(element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(2) > a:nth-child(1)')).getText()).toContain(nameFormField).getAttribute('value');
+
+      if (flowCount > 1) {
+        // Change selected flow and ensure details are updated
+        element(by.css("tr.ng-scope:nth-child(2) > td:nth-child(2) > a:nth-child(1)")).click();
+
+        expect(element(by.css('tr.ng-scope:nth-child(2) > td:nth-child(2) > a:nth-child(1)')).getText()).toContain(nameFormField).getAttribute('value');
+        expect(element(by.css('tr.ng-scope:nth-child(2) > td:nth-child(4)')).getText()).toContain(nameFormField).getAttribute('value');
+      }
+    }
+  });
+
+  it('should display flow version page when version is selected from table', function() {
+    if (flowCount > 0) {
+      // Select first flow version from table
+      element(by.css("tr.ng-scope:nth-child(1) > td:nth-child(6) > a:nth-child(1)")).click();
+
+      // Verify flow version page is displayed
+      expect(browser.getCurrentUrl()).toContain(shared.flowVersionsPageUrl);
+    }
   });
 
   it('should require all fields when creating a new Flow', function() {
@@ -51,32 +80,6 @@ describe('The flows view', function() {
     expect(flows.flowElements.count()).toBe(flowCount);
 
     //TODO Verify error messages
-  });
-
-  it('should add new flow to table', function() {
-    var flowAdded = false;
-    randomFlow = Math.floor((Math.random() * 100) + 1);
-
-    flows.nameFormField.sendKeys('Flow ' + randomFlow);
-    flows.descriptionFormField.sendKeys('This is a new flow description');
-    flows.submitFlowFormBtn.click();
-
-    expect(flows.flowElements.count()).toBeGreaterThan(flowCount);
-
-    // Confirm user is displayed in user list with correct details
-    flows.flowElements.then(function(flowsList) {
-      for (var i = 1; i <= flowsList.length; ++i) {
-        // Check if flow name in table matches newly added flow
-        element(by.css('tr.ng-scope:nth-child(' + i + ') > td:nth-child(2) > a:nth-child(1)')).getText().then(function(value) {
-          if (value == 'Flow ' + randomFlow) {
-            flowAdded = true;
-          }
-        });
-      }
-    }).thenFinally(function() {
-      // Verify new flow was found in the table
-      expect(flowAdded).toBeTruthy();
-    });
   });
 
   it('should not require Active toggle change when creating a new Flow', function() {

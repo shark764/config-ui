@@ -25,18 +25,19 @@ describe('navbar directive', function(){
       $scope.$digest();
     }]));
 
-    it('should insert a nav element', inject(function() {
-      expect(element.find('nav').length).toEqual(1);
+    it('should insert two nav elements', inject(function() {
+      expect(element.find('nav').length).toEqual(2);
     }));
 
     it('should insert a welcome message', inject(function() {
-      var welcomeElement = element[0].querySelector('.welcome');
+      var welcomeElement = element[0].querySelector('#welcome');
       expect(angular.element(welcomeElement).length).toEqual(1);
     }));
 
-    it('should insert a tenant switch dropdown', inject(function() {
-      expect(element.find('select').length).toEqual(1);
-      expect(element.find('option').length).toEqual(3);
+    it('should insert a tenant switcher dropdown', inject(function() {
+      var navElement = angular.element(element[0].querySelector('#topnav'));
+      var dropdownElement = navElement.find('dropdown');
+      expect(dropdownElement.length).toEqual(1);
     }));
   });
 });

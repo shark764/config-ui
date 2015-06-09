@@ -5,8 +5,17 @@ angular.module('liveopsConfigPanel')
       return {
         restrict: 'E',
         scope: {
-          collapsed: '='
+          menuLocked: '='
         },
-        templateUrl: 'app/shared/directives/userManagmentMenu/userManagmentMenu.html'
+        templateUrl: 'app/shared/directives/userManagmentMenu/userManagmentMenu.html',
+        link: function($scope){
+          $scope.collapsed = ! $scope.menuLocked;
+          
+          $scope.mouseleave = function(){
+            if (! $scope.menuLocked){
+              $scope.collapsed = true;
+            }
+          };
+        }
       };
   });

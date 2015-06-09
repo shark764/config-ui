@@ -12,7 +12,7 @@
 // this will suffice in beta however.
 angular.module('liveopsConfigPanel')
   .service('Session', ['$rootScope', 'sessionKey', 'preferenceKey', '$translate',
-    function ($rootScope, sessionKey, preferenceKey, $injector, $translate) {
+    function ($rootScope, sessionKey, preferenceKey, $translate) {
       var self = this;
 
       this.userSessionKey = sessionKey;
@@ -22,9 +22,9 @@ angular.module('liveopsConfigPanel')
       this.displayName = null;
       this.id = null;
       this.lang = null;
-      this.tenantId = null;
+      this.tenant = null;
       this.activeRegionId = '6aff1f30-0901-11e5-87f2-b1d420920055';
-      this.collapseSideMenu = true;
+      this.lockSideMenu = false;
 
       this.set = function (user, token) {
         this.token = token;
@@ -34,24 +34,24 @@ angular.module('liveopsConfigPanel')
         this.storeSession();
       };
 
-      $rootScope.$watch('Session.tenantId', self.storeSession);
-      $rootScope.$watch('Session.collapseSideMenu', self.storeSession);
-
       this.storeSession = function () {
-        localStorage.setItem(this.userSessionKey, JSON.stringify({
-          token: this.token,
-          displayName: this.displayName,
-          id: this.id,
+        localStorage.setItem(self.userSessionKey, JSON.stringify({
+          token: self.token,
+          displayName: self.displayName,
+          id: self.id,
         }));
 
-        localStorage.setItem(this.userPreferenceKey, JSON.stringify({
-          tenantId: this.tenantId,
-          lang: this.lang,
-          collapseSideMenu: this.collapseSideMenu,
-          activeRegionId: this.activeRegionId
+        localStorage.setItem(self.userPreferenceKey, JSON.stringify({
+          tenant: self.tenant,
+          lang: self.lang,
+          lockSideMenu: self.lockSideMenu,
+          activeRegionId: self.activeRegionId
         }));
       };
 
+      $rootScope.$watch('Session.tenant', self.storeSession);
+      $rootScope.$watch('Session.lockSideMenu', self.storeSession);
+      
       this.destroy = function () {
         this.token = null;
         this.displayName = null;
@@ -62,7 +62,7 @@ angular.module('liveopsConfigPanel')
 
       this.destroyAll = function () {
         this.destroy();
-        this.tenantId = null;
+        this.tenant = null;
         this.activeRegionId = null;
         this.lang = null;
 
@@ -73,9 +73,9 @@ angular.module('liveopsConfigPanel')
         angular.extend(this, JSON.parse(localStorage.getItem(this.userSessionKey)));
         angular.extend(this, JSON.parse(localStorage.getItem(this.userPreferenceKey)));
 
-        if (this.lang) {
-          $translate.use(this.lang);
-        }
+        //if (this.lang) {
+        //  $translate.use(this.lang);
+        //}
       };
 
       this.isAuthenticated = function () {

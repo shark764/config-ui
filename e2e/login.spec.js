@@ -12,7 +12,7 @@ describe('The login view', function() {
     browser.get(shared.loginPageUrl);
   });
 
-  afterAll(function(){
+  afterAll(function() {
     shared.tearDown();
   });
 
@@ -28,6 +28,19 @@ describe('The login view', function() {
     expect(loginPage.passwordLoginField.getAttribute('type')).toBe('password');
 
     expect(loginPage.loginButton.getAttribute('value')).toBe('Login');
+  });
+
+  it('should not display nav bar links when not logged in', function() {
+    expect(shared.navBar.isDisplayed()).toBeTruthy();
+
+    expect(shared.siteNavLogo.isPresent()).toBeFalsy();
+    expect(shared.tenantsNavDropdown.isPresent()).toBeFalsy();
+    expect(shared.usersNavButton.isPresent()).toBeFalsy();
+    expect(shared.tenantsNavButton.isPresent()).toBeFalsy();
+    expect(shared.queuesNavButton.isPresent()).toBeFalsy();
+    expect(shared.flowsNavButton.isPresent()).toBeFalsy();
+    expect(shared.settingsDropdown.isPresent()).toBeFalsy();
+    expect(shared.welcomeMessage.isPresent()).toBeFalsy();
   });
 
   it('should redirect after successful login', function() {
@@ -73,9 +86,8 @@ describe('The login view', function() {
     loginPage.login(loginPage.emailLoginCreds, loginPage.passwordLoginCreds);
     expect(browser.getCurrentUrl()).toBe(shared.mainUrl);
 
-    shared.settingsDropdown.click();
+    browser.actions().mouseMove(shared.welcomeMessage).perform();
     shared.logoutButton.click();
     expect(browser.getCurrentUrl()).toBe(shared.loginPageUrl);
   });
-
 });

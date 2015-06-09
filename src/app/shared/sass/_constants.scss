@@ -1,13 +1,17 @@
 $medium-grey: #CFCFCF;
 $side-menu-width: 50px;
 $header-height: 55px;
-$main-color: rgb(30, 58, 97);
+$main-color: #07487a;
 $main-color-light: lighten(desaturate($main-color, 35%), 20%);
-$main-font: Montserrat, sans-serif;
+$main-font: Arial, Helvetica, sans-serif;
 $light-grey: #999999;
-$lighter-grey: #ebebeb;
+$lighter-grey: #C0BAB6;
+$lightest-grey: #ebebeb;
 $dark-grey: #474747;
 $dark-blue: #1e3a61;
-$navbar-height: 55px;
+$navbar-height: 57px;
+$left-nav-width: 150px;
 
-$accent1: rgb(0, 172, 237);
+
+$accent1: #3498db;
+$accent-light: #e6f5ff;

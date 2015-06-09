@@ -29,12 +29,12 @@ describe('NavbarController', function() {
 
   var login = function() {
     session.set(USER, TOKEN);
-  }
+  };
 
   beforeEach(module('liveopsConfigPanel'));
 
-  beforeEach(inject(['$compile', '$rootScope', '$location', '$controller', '$injector', 'AuthService', 'Session', 'apiHostname',
-    function(_$compile_, _$rootScope_, _$location_, _$controller_, _$injector_, _authService_, _session_, _apiHostname_) {
+  beforeEach(inject(['$compile', '$rootScope', '$location', '$controller', '$injector', 'AuthService', 'Session', 'apiHostname', 'Tenant',
+    function(_$compile_, _$rootScope_, _$location_, _$controller_, _$injector_, _authService_, _session_, _apiHostname_, Tenant) {
       $rootScope = _$rootScope_;
       $scope = _$rootScope_.$new();
       $compile = _$compile_;
@@ -48,11 +48,11 @@ describe('NavbarController', function() {
 
       session.destroyAll();
 
-      tenants = [{
+      tenants = [new Tenant({
         'id': 'c6aa44f6-b19e-49f5-bd3f-66f00b885e39'
-      }, {
+      }), new Tenant({
         'id': '9f97f9d9-004c-469c-906d-b917bd79fbe8'
-      }];
+      })];
 
       regions = [{
         'id': 'c6aa45a6-b19e-49f5-bd3f-61f00b893e39'
@@ -95,7 +95,7 @@ describe('NavbarController', function() {
 
   it('should select the first tenant retrieved as the active tenant if no tenant is set in the session', function() {
     login();
-    expect(session.tenantId).toBeNull();
+    expect(session.tenant).toBeNull();
 
     $httpBackend.expectGET(apiHostname + '/v1/tenants?regionId=' + session.activeRegionId);
 
@@ -104,7 +104,7 @@ describe('NavbarController', function() {
 
     $httpBackend.flush();
 
-    expect(session.tenantId).toBe(tenants[0].id);
+    expect(session.tenant.id).toBe(tenants[0].id);
   });
 
   it('should load the tenants for the active region', function() {
@@ -118,9 +118,9 @@ describe('NavbarController', function() {
     expect($scope.tenants.length).toEqual(tenants.length);
   });
 
-  it('should have Session.tenantId not reset when already set', function() {
+  it('should have Session.tenant not reset when already set', function() {
     login();
-    session.tenantId = tenants[0].id;
+    session.tenant = tenants[0];
 
     $httpBackend.expectGET(apiHostname + '/v1/tenants?regionId=' + session.activeRegionId);
 
@@ -128,6 +128,6 @@ describe('NavbarController', function() {
 
     $httpBackend.flush();
 
-    expect(session.tenantId).toEqual(tenants[0].id);
+    expect(session.tenant).toEqual(tenants[0]);
   });
 });

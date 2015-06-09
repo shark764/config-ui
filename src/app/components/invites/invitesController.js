@@ -4,7 +4,7 @@ angular.module('liveopsConfigPanel')
   .controller('InvitesController', ['$scope', 'Session', 'Invite', 'InviteAccept',
     function ($scope, Session, Invite, InviteAccept) {
       $scope.fetchInvites = function(){
-        $scope.invites = Invite.query({tenantId : Session.tenantId});
+        $scope.invites = Invite.query({tenantId : Session.tenant.id});
       };
       
       $scope.init = function(){
@@ -15,12 +15,12 @@ angular.module('liveopsConfigPanel')
       $scope.init();
       $scope.fetchInvites();
       
-      $scope.$watch(function(){return Session.tenantId;}, function () {
+      $scope.$watch(function(){return Session.tenant.id;}, function () {
         $scope.fetchInvites();
       });
       
       $scope.save = function(){
-        $scope.newInvite.save({tenantId : Session.tenantId}, function(data){
+        $scope.newInvite.save({tenantId : Session.tenant.id}, function(data){
           $scope.invites.push(data.invitation);
           $scope.init();
           $scope.inviteCreateForm.$setUntouched();
