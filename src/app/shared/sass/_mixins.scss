@@ -33,6 +33,28 @@ $fontRobotoCondensed: 'Roboto Condensed';
   text-shadow: $string;
 }
 
+@mixin display-flex(){
+  display: -webkit-box;
+  display: -moz-flex;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  display: -ms-flex;
+}
+
+@mixin flex($one, $two, $three){
+
+  -ms-flex: $one $two $three;
+  -webkit-flex: $one $two $three;
+  flex: $one $two $three;
+}
+
+@mixin flex-box-direct ($string) {
+  -ms-flex-direction: $string;
+  -webkit-flex-direction: $string;
+  flex-direction: $string;
+}
+
 @mixin box-shadow ($string) {
   -webkit-box-shadow: $string;
   -moz-box-shadow:    $string;

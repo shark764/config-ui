@@ -1,16 +1,29 @@
-<div class="abox"></div>
-
-<toggle ng-hide="true" class="user-toggle" ng-model="resource.status"></toggle>
-
-<div id="user-details-header-name" ng-hide="! resource.id">
-
-  <h1 class="user-name">{{resource.firstName}} {{resource.lastName}}</h1>
-
-  <span>
-    <h2>{{resource.displayName}}</h2>
-    <user-state state="{{resource.state}}" />
-  </span>
-
-  <div ng-show="creator.displayName" class="state-description"><b translate="details.resource.createdby" translate-value-date="{{resource.created | date:'medium'}}" translate-value-creator="{{creator.displayName}}"></b></div>
-  <div ng-show="updater.displayName" class="state-description"><b translate="details.resource.updatedby" translate-value-date="{{resource.created | date:'medium'}}" translate-value-enabler="{{updater.displayName}}"></b></div>
+<div id="user-detail-header">
+  <div class="mystery-man pull-left">
+    <i class="fa fa-user"></i>
+  </div>
+  
+  <div class="user-info">
+    <h1>{{resource.firstName}} {{resource.lastName}} <user-state state="{{resource.state}}" /></h1>
+  
+    <div class="details">
+      <div>
+        <toggle class="status-toggle" ng-model="resource.status"></toggle>
+      </div>
+    
+      <div>
+        <b
+          translate="details.resource.createdby"
+          translate-value-date="{{resource.created | date:'medium'}}"
+          translate-value-creator="{{creator.displayName}}">
+        </b>
+        <br/>
+        <b
+          translate="details.resource.updatedby"
+          translate-value-date="{{resource.created | date:'medium'}}"
+          translate-value-enabler="{{updater.displayName}}">
+        </b>
+      </div>
+    </div>
+  </div>
 </div>
