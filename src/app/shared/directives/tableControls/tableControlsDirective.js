@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('tableControls', ['$filter', '$location', function ($filter, $location) {
+  .directive('tableControls', ['$filter', '$location', '$routeParams', function ($filter, $location, $routeParams) {
     return {
       restrict: 'E',
       scope: {
@@ -40,9 +40,19 @@ angular.module('liveopsConfigPanel')
             $scope.searchQuery);
 
           //Only replace the selected user if the old one got excluded via filtering.
-          // if ($scope.filteredItems.indexOf($scope.selected) === -1) {
-          //   $scope.selected = $scope.filteredItems[0];
-          // }
+          if ($scope.filteredItems && $scope.filteredItems.indexOf($scope.selected) === -1) {
+            $scope.selected = $scope.filteredItems[0];
+          }
+          
+          if ($routeParams.id) {
+            var active = $filter('filter')($scope.items, {
+              id: $routeParams.id
+            }, true);
+            
+            if(active) {
+              $scope.selected = active[0];
+            }
+          }
         };
 
         $scope.$on('filter:changed', refresh);

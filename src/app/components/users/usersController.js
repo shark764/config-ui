@@ -13,22 +13,7 @@ angular.module('liveopsConfigPanel')
         roles: userRoles
       };
 
-      $scope.users = User.query(function() {
-        if ($routeParams.id) {
-        var activeUser = $filter('filter')($scope.users, {
-          id: $routeParams.id
-        }, true);
-
-        $scope.selectedUser = activeUser;
-      }
-    });
-
-      $scope.$watchCollection('filteredUsers', function(newList) {
-      //Only replace the selected user if the old one got excluded via filtering.
-        if (newList && newList.indexOf($scope.selectedUser) === -1) {
-          $scope.selectedUser = $scope.filteredUsers[0];
-        }
-      });
+      $scope.users = User.query();
       
       $scope.createUser = function() {
         $scope.selectedUser = new User({
@@ -37,6 +22,6 @@ angular.module('liveopsConfigPanel')
         });
       };
       
-      $scope.config = userTableConfig;
+      $scope.tableConfig = userTableConfig;
     }
   ]);

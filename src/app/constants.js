@@ -51,18 +51,16 @@ angular.module('liveopsConfigPanel.config', [])
     return {
       'fields': [{
         'header': 'Name',
-        'name': 'displayName',
-        'sortable': false
+        'name': 'displayName'
       }, {
         'header': 'ID',
-        'name': 'id',
-        'sortable': false
+        'name': 'id'
       }, {
         'header': 'Status',
         'name': 'status',
-        'sortable': true,
         'options': userStatuses,
-        'filter': 'selectedOptions'
+        'filter': 'selectedOptions',
+        'sortable': true
       }, {
         'header': 'State',
         'name': 'state',
@@ -76,5 +74,29 @@ angular.module('liveopsConfigPanel.config', [])
     };
   }
 ])
+
+.service('tenantTableConfig', ['userStatuses', function (userStatuses) {
+  return {
+    'fields': [{
+      'header': 'ID',
+      'name': 'id'
+    }, {
+      'header': 'Name',
+      'name': 'name'
+    }, {
+      'header': 'Admin ID',
+      'name': 'adminUserId'
+    }, {
+      'header': 'Status',
+      'name': 'status',
+      'sortable': true,
+      'options': userStatuses,
+      'filter': 'selectedOptions'
+    }],
+    'search': {
+      'fields': ['name']
+    }
+  };
+}])
 
 ;
