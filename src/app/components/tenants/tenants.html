@@ -1,25 +1,14 @@
 <div class="left-panel" id="left-panel">
   <h3>Tenants</h3>
-
-  <table >
-    <thead>
-      <td>ID</td>
-      <td>Name</td>
-      <td>Admin ID</td>
-      <td>Status</td>
-    </thead>
-    <tr ng-repeat="curTenant in tenants" ng-show="curTenant.id">
-      <td style="border: 1px solid black;">{{curTenant.id}}</td>
-      <td style="border: 1px solid black;">
-          <a ng-href="#/tenants?id={{curTenant.id}}">{{curTenant.name}}</a>
-      </td>
-      <td style="border: 1px solid black;">{{curTenant.adminUserId}}</td>
-      <td style="border: 1px solid black;">{{curTenant.status}}</td>
-    </tr>
-  </table>
+  <table-controls config="tableConfig" items="tenants" selected="selectedTenant" on-create-click="createTenant" resource-name="tenants"></table-controls>
   <resize-handle right-element-id="right-panel" left-element-id="left-panel" left-min-width="600" right-min-width="600" ></resize-handle>
 </div>
 
-<div class="right-panel" id="right-panel">
-  <tenant-details tenant="tenant"></tenant-details>
+<div id="right-panel" class="right-panel" ng-show="selectedTenant">
+  <resource-details
+    extend-scope="additional"
+    header-template-url="app/components/tenants/tenantDetailHeader.html"
+    body-template-url="app/components/tenants/tenantDetailBody.html"
+    resource="selectedTenant"
+  />
 </div>

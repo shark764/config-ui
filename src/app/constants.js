@@ -6,90 +6,43 @@ angular.module('liveopsConfigPanel.config', [])
 
 .constant('sessionKey', 'LIVEOPS-SESSION-KEY')
 
-.constant('userStatuses', {
-  'all': {
-    'display': 'All',
-    'value': 'all',
-    'checked': true
-  },
-  'filters': [{
-    'display': 'Disabled',
-    'value': false,
-    'checked': false
-  }, {
-    'display': 'Enabled',
-    'value': true,
-    'checked': false
-  }]
-})
+.constant('userStatuses', [{
+  'display': 'Disabled',
+  'value': false
+}, {
+  'display': 'Enabled',
+  'value': true
+}])
 
-.constant('userStates', {
-  'all': {
-    'display': 'All',
-    'value': 'all',
-    'checked': true
-  },
-  'filters': [{
-    'display': 'Busy',
-    'value': 'BUSY',
-    'checked': false
-  }, {
-    'display': 'Logout',
-    'value': 'LOGOUT',
-    'checked': false
-  }, {
-    'display': 'Ready',
-    'value': 'READY',
-    'checked': false
-  }, {
-    'display': 'Login',
-    'value': 'LOGIN',
-    'checked': false
-  }, {
-    'display': 'Not Ready',
-    'value': 'NOT_READY',
-    'checked': false
-  }, {
-    'display': 'Wrap',
-    'value': 'WRAP',
-    'checked': false
-  }]
-})
+.constant('userStates', [{
+  'display': 'Busy',
+  'value': 'BUSY'
+}, {
+  'display': 'Logout',
+  'value': 'LOGOUT'
+}, {
+  'display': 'Ready',
+  'value': 'READY'
+}, {
+  'display': 'Login',
+  'value': 'LOGIN'
+}, {
+  'display': 'Not Ready',
+  'value': 'NOT_READY'
+}, {
+  'display': 'Wrap',
+  'value': 'WRAP'
+}])
 
 .constant('userRoles', [{
   'value': 'admin',
-  'label': 'Admin'
+  'display': 'Admin'
 }, {
   'value': 'user',
-  'label': 'User'
+  'display': 'User'
 }, {
   'value': 'other',
-  'label': 'Other'
+  'display': 'Other'
 }])
-
-.constant('columns', {
-  'filters': {
-    'name': {
-      'display': 'Name',
-      'value': 'name',
-      'checked': true
-    },
-    'id': {
-      'display': 'ID',
-      'value': 'id',
-      'checked': true
-    },
-    'status': {
-      'display': 'Status',
-      'value': 'status',
-      'checked': true
-    },
-    'state': {
-      'display': 'State',
-      'value': 'state',
-      'checked': true
-    }
-  }
-})
 
 ;

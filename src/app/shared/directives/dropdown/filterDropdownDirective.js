@@ -1,46 +1,57 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('filterDropdown', [function() {
+  .directive('filterDropdown', [function () {
     return {
-      scope : {
-        items : '=',
-        label : '@'
+      scope: {
+        id: '@',
+        options: '=',
+        valuePath: '@',
+        displayPath: '@',
+        label: '@',
+        showAll: '@'
       },
-      templateUrl : 'app/shared/directives/dropdown/filterDropdown.html',
+      templateUrl: 'app/shared/directives/dropdown/filterDropdown.html',
       controller: 'DropdownController',
-      link : function($scope) {
-        //Automatically uncheck other filters when "All" is selected
-        if ($scope.items.all) {
+      link: function ($scope) {
+        $scope.valuePath = $scope.valuePath ? $scope.valuePath : 'value';
+        $scope.displayPath = $scope.displayPath ? $scope.displayPath : 'display';
 
-          $scope.$watch('items.filters', function () {
 
-              for(var i = 0; i < $scope.items.filters.length; i++){
-                var item = $scope.items.filters[i];
+        $scope.all = {checked : !!$scope.showAll};
 
-                if(item.checked){
-                  $scope.items.all.checked = false;
-                  return;
-                }
-              }
+        // not ideal; we are adding a property to an object that will be used
+        // in multiple places; however I cannot find a better way to do this.
 
-              $scope.items.all.checked = true;
-          }, true);
+        angular.forEach($scope.options, function (option) {
+          option.checked = !$scope.showAll;
+        });
 
-          $scope.$watch('items.all.checked',
+        // if all is checked; then set the rest of the options to false
+        $scope.$watch('all.checked', function () {
+          if($scope.all.checked){
+            angular.forEach($scope.options, function(option){
+              option.checked = false;
+            });
+          }
+        });
 
-            function(newValue, oldValue) {
+        // if an option has been selected; if any option was checked, set
+        // all to false. if no options are checked, set all to true
+        $scope.$watch('options', function () {
+          var anyChecked = false;
 
-              if (newValue && !oldValue) {
-
-                angular.forEach($scope.items.filters, function(state) {
-                  state.checked = false;
-                });
-              }
+          angular.forEach($scope.options, function (option){
+            if(option.checked) {
+              anyChecked = true;
+              $scope.all.checked = false;
             }
-          );
-        }
+          });
+
+          if(!anyChecked){
+            $scope.all.checked = true;
+          }
+        }, true);
       }
     };
-   }])
-;
+  }]);
