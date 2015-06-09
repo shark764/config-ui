@@ -27,7 +27,12 @@ body {
 }
 
 a {
+  color: #777;
   text-decoration: none;
+}
+
+a:hover {
+  color: $main-color;
 }
 
 [ng-click] {

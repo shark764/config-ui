@@ -29,7 +29,7 @@ describe('NavbarController', function() {
 
   var login = function() {
     session.set(USER, TOKEN);
-  }
+  };
 
   beforeEach(module('liveopsConfigPanel'));
 

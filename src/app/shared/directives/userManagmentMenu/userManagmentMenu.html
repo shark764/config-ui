@@ -1,21 +1,27 @@
-<div class="side-bar">
-  <div ng-hide="collapsed" class="menu-container">
-    <aside>
-      <nav>
-        <ul>
-          <li><a href="#/users">Users</a></li>
-          <li>Groups</li>
-          <li>Skills</li>
-          <li>Roles</li>
-          <li>Locations</li>
-          <li>Extensions</li>
-        </ul>
-      </nav>
-    </aside>
-  </div>
+<div class="side-bar" ng-class="{collapsed : collapsed, locked : menuLocked}" ng-mouseenter="collapsed = false;" ng-mouseleave="mouseleave()">
+  <div style="position:relative;height:100%;width:100%;">
+    <div class="menu-container">
+      <aside>
+        <nav>
+          <h4>Managment</h4>
+          <ul>
+            <li><a href="#/users">Users</a></li>
+            <li><a>Groups</a></li>
+            <li><a>Skills</a></li>
+            <li><a>Roles</a></li>
+            <li><a>Locations</a></li>
+            <li><a>Extensions</a></li>
+          </ul>
+        </nav>
+      </aside>
+    </div>
   
-  <div class="collapse-bar" ng-click="collapsed = !collapsed">
-    <i ng-hide="collapsed" class="fa fa-angle-double-left"></i>
-    <i ng-show="collapsed" class="fa fa-angle-double-right"></i>
+    <div class="collapse-bar">
+      <span ng-hide="collapsed">
+        <i ng-show="menuLocked" class="fa fa-angle-double-left" ng-click="menuLocked = false" title="Undock sidebar"></i>
+        <i ng-hide="menuLocked" class="fa fa-thumb-tack" ng-click="menuLocked = true" title="Dock sidebar"></i>
+      </span>
+      <span ng-show="collapsed"><i class="fa fa-angle-double-right" ng-click="collapsed = false"></i></span>
+    </div>
   </div>
 </div>

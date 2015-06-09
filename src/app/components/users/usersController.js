@@ -3,12 +3,12 @@
 angular.module('liveopsConfigPanel')
   .controller('UsersController', ['$scope', '$location', '$routeParams', '$filter', 'userStates', 'userStatuses', 'userRoles', 'columns', 'User', 'Session',
     function($scope, $location, $routeParams, $filter, userStates, userStatuses, userRoles, columns, User, Session) {
-      $scope.states = userStates;
-      $scope.statuses = userStatuses;
-      $scope.columns = columns;
-      $scope.filteredUsers = [];
+    $scope.states = userStates;
+    $scope.statuses = userStatuses;
+    $scope.columns = columns;
+    $scope.filteredUsers = [];
       $scope.Session = Session;
-
+      
       $scope.additional = {
         states: userStates,
         roles: userRoles
@@ -17,37 +17,37 @@ angular.module('liveopsConfigPanel')
       $scope.users = User.query(function() {
 
         if ($routeParams.id) {
-          var activeUser = $filter('filter')($scope.users, {
-            id: $routeParams.id
-          }, true);
+        var activeUser = $filter('filter')($scope.users, {
+          id: $routeParams.id
+        }, true);
 
-          $scope.selectedUser = activeUser;
-        }
-      });
+        $scope.selectedUser = activeUser;
+      }
+    });
 
       $scope.$watchCollection('filteredUsers', function(newList) {
-        //Only replace the selected user if the old one got excluded via filtering.
+      //Only replace the selected user if the old one got excluded via filtering.
         if (newList && newList.indexOf($scope.selectedUser) === -1) {
-          $scope.selectedUser = $scope.filteredUsers[0];
-        }
-      });
+        $scope.selectedUser = $scope.filteredUsers[0];
+      }
+    });
 
       $scope.$on('created:resource:user', function (user) {
         $scope.users.push(user);
       });
 
       $scope.selectUser = function(user) {
-        $scope.selectedUser = user;
-        $location.search({
-          id: user.id
-        });
-      };
+      $scope.selectedUser = user;
+      $location.search({
+        id: user.id
+      });
+    };
 
       $scope.createUser = function() {
         $scope.selectedUser = new User({
           status: true,
           state: 'Ready'
         });
-      };
+    };
     }
   ]);

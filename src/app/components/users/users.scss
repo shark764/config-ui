@@ -4,9 +4,10 @@
   bottom: 0;
   right: 0;
   top: $navbar-height;
+  @include transition(0.5s all);
 }
 .user-list-container.expanded-menu {
-  margin-left: 250px;
+  margin-left: $left-nav-width - 30px;
 }
 
 .side-menu {

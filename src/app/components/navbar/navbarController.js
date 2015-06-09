@@ -5,7 +5,7 @@ angular.module('liveopsConfigPanel')
     function($rootScope, $scope, $location, AuthService, Session, Tenant, $translate) {
       $scope.Session = Session;
 
-      var populateTenantsHandler = function(event) {
+      var populateTenantsHandler = function() {
         if (!$scope.Session.isAuthenticated()) {
           return;
         }
