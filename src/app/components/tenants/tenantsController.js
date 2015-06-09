@@ -6,19 +6,20 @@ angular.module('liveopsConfigPanel')
       $scope.regions = Region.query(function (){
         $scope.tenants = Tenant.query( { regionId : $scope.regions[0].id } );
       });
-      
+
       $scope.users = User.query();
-      
+
       $scope.additional = {
         regions: $scope.regions,
         users: $scope.users
       };
-      
+
       $scope.createTenant = function() {
         $scope.selectedTenant = new Tenant({
-          status: true
+          status: true,
+          regionId: $scope.regions[0].id
         });
       };
-      
+
       $scope.tableConfig = tenantTableConfig;
   }]);
