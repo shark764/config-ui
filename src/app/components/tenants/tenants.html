@@ -4,6 +4,11 @@
   <resize-handle right-element-id="right-panel" left-element-id="left-panel" left-min-width="600" right-min-width="600" ></resize-handle>
 </div>
 
-<div class="right-panel" id="right-panel">
-  <tenant-details tenant="selectedTenant"></tenant-details>
+<div id="right-panel" class="right-panel" ng-show="selectedTenant">
+  <resource-details
+    extend-scope="additional"
+    header-template-url="app/components/tenants/tenantDetailHeader.html"
+    body-template-url="app/components/tenants/tenantDetailBody.html"
+    resource="selectedTenant"
+  />
 </div>
