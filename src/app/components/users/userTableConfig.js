@@ -13,20 +13,15 @@ angular.module('liveopsConfigPanel')
         }, {
           'header': 'Status',
           'name': 'status',
-          'options': userStatuses,
-          'filter': 'selectedOptions',
-          'sortable': true
+          'options': userStatuses
         }, {
           'header': 'State',
           'name': 'state',
-          'sortable': true,
           'options': userStates,
-          'filter': 'selectedOptions',
           'templateUrl': 'app/shared/templates/state.html'
         }],
-        'search': {
-          'fields': ['firstName', 'lastName']
-        }
+        'searchOn' : ['firstName', 'lastName'],
+        'orderBy' : ['lastName']
       };
     }
   ])

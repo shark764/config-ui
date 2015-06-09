@@ -10,18 +10,18 @@
     <tr>
       <th>&nbsp;</th>
       <th ng-repeat="field in config.fields" ng-if="field.checked">
-        <div ng-if="!field.sortable">{{field.header}}</div>
-        <filter-dropdown show-all="true" ng-if="field.options" label="{{field.header}}" options="field.options"></filter-dropdown>
+        <div ng-if="!field.options">{{field.header}}</div>
+        <filter-dropdown ng-if="!!field.options" show-all="true" ng-if="field.options" label="{{field.header}}" options="field.options"></filter-dropdown>
       </th>
     </tr>
   </thead>
 
   <tbody>
-    <tr ng-repeat="item in filteredItems" ng-click="selectItem(item)" ng-class="{selected: item.id === selected.id}">
+    <tr ng-repeat="item in items | selectedTableOptions:config.fields | search:config.searchOn:searchQuery | orderBy:config.orderBy" ng-click="selectItem(item)" ng-class="{selected: item.id === selected.id}">
       <td>
         <input type="checkbox" ng-model="item.checked" />
       </td>
-      
+
       <td ng-if="field.checked" ng-repeat="field in config.fields">
         <div ng-if="field.templateUrl" class="detail-header-pane" ng-include="field.templateUrl"></div>
         <span ng-if="!field.templateUrl">{{item[field.name]}}</span>
