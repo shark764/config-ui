@@ -40,13 +40,12 @@ a:hover {
 }
 
 .btn {
+  @include border-radius(4px);
   background-color: #FFFFFF;
   border: 1px solid $medium-grey;
-  border-radius: 4px;
-  color: $main-color;
   cursor: pointer;
   display: inline-block;
-  font-size: 18px;
+  font-size: 14px;
   line-height: 1.25;
   padding: 7px 16px;
   text-align: center;
@@ -143,7 +142,7 @@ input[type=password], input[type=text], input[type=email]{
   height: 100%;
   overflow-y: auto;
   position: absolute;
-  width: 600px;
+  width: 720px;
 }
 .right-panel {
   display:table-cell;
@@ -151,7 +150,7 @@ input[type=password], input[type=text], input[type=email]{
   overflow-y: auto;
   position:absolute;
   right: 0;
-  left: 600px;
+  left: 720px;
 }
 
 .clear {

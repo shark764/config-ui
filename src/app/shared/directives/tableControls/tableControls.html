@@ -1,8 +1,19 @@
-<div class="action-container">
-  <input type="text" ng-model="searchQuery" placeholder="Search">
-  <filter-dropdown label="Columns" options="config.fields" display-path="header" value-path="name"></filter-dropdown>
-  <button class="btn btn-primary btn-create" ng-click="onActionsClick()">Actions</button>
-  <button id="create-user-btn" class="btn btn-primary btn-create" ng-click="onCreateClick()">Create</button>
+<div class="table-controls">
+  <div class="col">
+    <input type="text" ng-model="searchQuery" placeholder="Search">
+    <i class="fa fa-search"></i>
+  </div>
+  <div class="action-container">
+    <div class="col">
+      <filter-dropdown label="Columns" options="config.fields" display-path="header" value-path="name"></filter-dropdown>
+    </div>
+    <div class="col action">
+      <button class="btn btn-create" ng-click="onActionsClick()">Actions</button>
+    </div>
+    <div class="col action">
+      <button id="create-user-btn" class="btn btn-create" ng-click="onCreateClick()">Create</button>
+    </div>
+  </div>
 </div>
 
 <table class="table">
