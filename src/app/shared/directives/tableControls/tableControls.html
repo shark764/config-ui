@@ -17,7 +17,7 @@
   </thead>
 
   <tbody>
-    <tr ng-repeat="item in filteredItems" ng-click="onSelect(item)" ng-class="{selected: item.id === selected.id}">
+    <tr ng-repeat="item in filteredItems" ng-click="selectItem(item)" ng-class="{selected: item.id === selected.id}">
       <td>
         <input type="checkbox" ng-model="item.checked" />
       </td>

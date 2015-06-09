@@ -26,20 +26,9 @@ angular.module('liveopsConfigPanel')
       $scope.$watchCollection('filteredUsers', function(newList) {
       //Only replace the selected user if the old one got excluded via filtering.
         if (newList && newList.indexOf($scope.selectedUser) === -1) {
-        $scope.selectedUser = $scope.filteredUsers[0];
-      }
-    });
-
-      $scope.$on('created:resource:users', function (event, user) {
-        $scope.users.push(user);
+          $scope.selectedUser = $scope.filteredUsers[0];
+        }
       });
-      
-      $scope.selectUser = function(user) {
-        $scope.selectedUser = user;
-        $location.search({
-          id: user.id
-        });
-      };
       
       $scope.createUser = function() {
         $scope.selectedUser = new User({
