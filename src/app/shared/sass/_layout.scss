@@ -14,7 +14,7 @@
 
   #table-pane {
     position: absolute;
-    width: 600px;
+    width: 70%;
     border-right: 1px solid $medium-grey;
     padding: 20px;
     box-sizing: border-box;
@@ -32,7 +32,7 @@
     overflow-y: auto;
     position:absolute;
     right: 0;
-    left: 600px;
+    left: 70%;
   }
 
 }

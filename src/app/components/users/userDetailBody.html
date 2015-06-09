@@ -1,4 +1,8 @@
-<div ng-if="! resource.id"><h4>Create new User</h4></div>
+<h3 ng-if="! resource.id">Creating New User</h3>
+
+<div class="divider-header">
+  <h4>Details</h4>
+</div>
 
 <div class="input-group">
   <label>{{'details.firstName' | translate}}</label>
@@ -36,13 +40,6 @@
   </div>
 </div>
 
- <div class="input-group">
-  <label>{{'details.password' | translate}}</label>
-  <div>
-    <input ng-model="resource.password" name="password" type="password"></input>
-  </div>
-</div>
-
 <div class="input-group">
   <label>{{'details.externalId' | translate}}</label>
   <div>
@@ -50,32 +47,39 @@
   </div>
 </div>
 
+<div class="divider-header">
+  <h4>Role</h4>
+</div>
+
 <div class="input-group">
   <label>{{'details.role' | translate}}</label>
-<<<<<<< Upstream, based on origin/table-directive
-  <select ng-model="resource.role" name="role" ng-options="role.value as role.display for role in roles">
-    <option value="">Select Role</option>
-  </select>
-=======
   <div>
-    <select ng-model="resource.role" name="role" ng-options="role.value as role.label for role in roles">
+    <select ng-model="resource.role" name="role" ng-options="role.value as role.display for role in roles">
       <option value="">Select Role</option>
     </select>
   </div>
->>>>>>> 9c51c8c TITAN2-718 Styling for right panel when creating a user.
+</div>
+
+<div class="divider-header">
+  <h4>State (Dev Only)</h4>
 </div>
 
 <div class="input-group">
   <label>State</label>
-<<<<<<< Upstream, based on origin/table-directive
-  <select ng-model="resource.state" name="state" ng-options="state.value as state.display for state in states">
-    <option value="">Select State</option>
-  </select>
-=======
   <div>
-    <select ng-model="resource.state" name="state" ng-options="state.value as state.display for state in states.filters">
+    <select ng-model="resource.state" name="state" ng-options="state.value as state.display for state in states">
       <option value="">Select State</option>
     </select>
   </div>
->>>>>>> 9c51c8c TITAN2-718 Styling for right panel when creating a user.
+</div>
+
+<div class="divider-header">
+  <h4 ng-if="resource.id">Actions</h4>
+</div>
+
+<div ng-if="resource.id" class="input-group">
+  <label>{{'details.password' | translate}}</label>
+  <div>
+    <button class="btn">Reset Password</button>
+  </div>
 </div>

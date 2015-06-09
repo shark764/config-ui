@@ -1,9 +1,9 @@
 <user-managment-menu menu-locked="Session.lockSideMenu"></user-managment-menu>
 
-<div class="user-list-container" ng-class="{'expanded-menu': Session.lockSideMenu}">
-  <div id="left-panel" class="left-panel">
+<div id="main-content" class="user-list-container" ng-class="{'expanded-menu': Session.lockSideMenu}">
+  <div id="table-pane">
     <table-controls config="tableConfig" items="users" on-create-click="createUser" selected="selectedUser" resource-name="users"></table-controls>
-    <resize-handle ng-show="!!selectedUser" right-element-id="right-panel" left-element-id="left-panel" left-min-width="600" right-min-width="600" ></resize-handle>
+    <resize-handle ng-show="!!selectedUser" right-element-id="details-pane" left-element-id="table-pane" left-min-width="600" right-min-width="400" ></resize-handle>
   </div>
 
   <div id="right-panel" class="right-panel" ng-show="selectedUser">

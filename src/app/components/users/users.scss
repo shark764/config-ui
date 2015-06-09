@@ -1,21 +1,23 @@
-#detail-header-pane {
+#user-detail-header {
+  background-color: #fff;
+  
+  .mystery-man {
+    color: #fff;
+    background-color: #eee;
+    font-size: 2em;
+    height: 100%;
+    margin-right: 0.5em;
+    padding: 15px 20px;
+  }
+  
   .user-info {
     display: table-cell;
 
     h1 {
-      padding: 1px 0;
-      font-size: 2em;
-      color: #07487a;
-      line-height: .8;
+      padding: 0;
+      padding-bottom: 5px;
+      line-height: 0.8em;
       margin: 0;
-    }
-
-    h2 {
-      padding: 1px 0;
-      font-size: 15px;
-      color: #989898;
-      margin: 0;
-      display:inline-block;
     }
 
     b {
@@ -27,19 +29,28 @@
 
     .user-state {
       display:inline-block;
+      font-size: 0.7em;
+      vertical-align: top;
     }
-  }
-
-  .status-toggle {
-    display: table-cell;
-    vertical-align: middle;
-    width: 85px;
+    
+    .details {
+      display: table;
+      
+      & > * {
+        display: table-cell;
+      }
+      
+      toggle {
+        padding-right: 7px;
+      }
+    }
   }
 }
 
 .user-table {
   width: 100%;
   border-collapse: collapse;
+  
   th:not(:nth-child(1)),
   td:not(:nth-child(1)) {
     text-align: right;
@@ -77,4 +88,8 @@
   .disabled {
     color: #ccc;
   }
+}
+
+.user-list-container {
+  
 }
