@@ -27,6 +27,11 @@ var Shared = function() {
   this.userProfileButton = this.settingsDropdownOptions.get(1);
   this.logoutButton = this.settingsDropdownOptions.get(0);
 
+  this.sidebarCollapsed = element(by.css('.side-bar collapsed'));
+  this.sidebarLocked = element(by.css('.side-bar locked'));
+  this.sidebarOpen = element(by.css('span.ng-hide'));
+  this.sidebarTack = element(by.css('.fa-thumb-tack'));
+
   this.tearDown = function() {
     browser.executeScript('window.sessionStorage.clear()');
     browser.executeScript('window.localStorage.clear()');
