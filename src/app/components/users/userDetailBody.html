@@ -1,50 +1,81 @@
+<div ng-if="! resource.id"><h4>Create new User</h4></div>
+
 <div class="input-group">
   <label>{{'details.firstName' | translate}}</label>
-  <div class="error" ng-show="detailsForm.firstName.$touched && detailsForm.firstName.$invalid">{{'details.firstName.error' | translate}}</div>
-  <input ng-model="resource.firstName" name="firstName" type="text"></input>
+  <div>
+    <div class="error" ng-show="detailsForm.firstName.$touched && detailsForm.firstName.$invalid">{{'details.firstName.error' | translate}}</div>
+    <input ng-model="resource.firstName" name="firstName" type="text"></input>
+  </div>
+  
 </div>
 
 <div class="input-group">
   <label>{{'details.lastName' | translate}}</label>
-  <div class="error" ng-show="detailsForm.lastName.$touched && detailsForm.lastName.$invalid">{{'details.lastName.error' | translate}}</div>
-  <input ng-model="resource.lastName" name="lastName" type="text"></input>
+  <div>
+    <div class="error" ng-show="detailsForm.lastName.$touched && detailsForm.lastName.$invalid">{{'details.lastName.error' | translate}}</div>
+    <input ng-model="resource.lastName" name="lastName" type="text"></input>
+  </div>
 </div> 
 
 <div class="input-group">
   <label>{{'details.displayName' | translate}}</label>
-  <div class="error" ng-show="detailsForm.displayName.$touched && detailsForm.displayName.$invalid">{{'details.displayName.error' | translate}}</div>
-  <input ng-model="resource.displayName" name="displayName" type="text"></input>
+  <div>
+    <div class="error" ng-show="detailsForm.displayName.$touched && detailsForm.displayName.$invalid">{{'details.displayName.error' | translate}}</div>
+    <input ng-model="resource.displayName" name="displayName" type="text"></input>
+  </div>
 </div>
 
 <div class="input-group" ng-show="!resource.id">
   <label>{{'details.email' | translate}}</label>
-  <div class="error" ng-messages="detailsForm.email.$error" role="alert" ng-if='detailsForm.email.$dirty'>
-    <div ng-message="required">{{'details.email.error' | translate}}</div>
-    <div ng-message="email">{{'details.email.invalid' | translate}}</div>
+  <div>
+    <div class="error" ng-messages="detailsForm.email.$error" role="alert" ng-if='detailsForm.email.$dirty'>
+      <div ng-message="required">{{'details.email.error' | translate}}</div>
+      <div ng-message="email">{{'details.email.invalid' | translate}}</div>
+    </div>
+    <input ng-model="resource.email" name="email" type="email" required email></input>
   </div>
-  <input ng-model="resource.email" name="email" type="email" required email></input>
 </div>
 
  <div class="input-group">
   <label>{{'details.password' | translate}}</label>
-  <input ng-model="resource.password" name="password" type="password"></input>
+  <div>
+    <input ng-model="resource.password" name="password" type="password"></input>
+  </div>
 </div>
 
 <div class="input-group">
   <label>{{'details.externalId' | translate}}</label>
-  <input ng-model="resource.externalId" name="externalId" type="text"></input>
+  <div>
+    <input ng-model="resource.externalId" name="externalId" type="text"></input>
+  </div>
 </div>
 
 <div class="input-group">
   <label>{{'details.role' | translate}}</label>
+<<<<<<< Upstream, based on origin/table-directive
   <select ng-model="resource.role" name="role" ng-options="role.value as role.display for role in roles">
     <option value="">Select Role</option>
   </select>
+=======
+  <div>
+    <select ng-model="resource.role" name="role" ng-options="role.value as role.label for role in roles">
+      <option value="">Select Role</option>
+    </select>
+  </div>
+>>>>>>> 9c51c8c TITAN2-718 Styling for right panel when creating a user.
 </div>
 
 <div class="input-group">
   <label>State</label>
+<<<<<<< Upstream, based on origin/table-directive
   <select ng-model="resource.state" name="state" ng-options="state.value as state.display for state in states">
     <option value="">Select State</option>
   </select>
+=======
+  <div>
+    <select ng-model="resource.state" name="state" ng-options="state.value as state.display for state in states.filters">
+      <option value="">Select State</option>
+    </select>
+  </div>
+>>>>>>> 9c51c8c TITAN2-718 Styling for right panel when creating a user.
 </div>

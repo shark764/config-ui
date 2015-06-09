@@ -14,11 +14,6 @@ body > .ng-view {
   height: calc(100% - #{$header-height});
 }
 
-header {
-  height: $header-height;
-  background-color: #1E3A61;
-}
-
 body {
   margin: 0;
   font-family: $main-font;
@@ -40,15 +35,14 @@ a:hover {
 }
 
 .btn {
-  background-color: #FFFFFF;
+  background-color: #F5F5F5;
   border: 1px solid $medium-grey;
   border-radius: 4px;
   color: $main-color;
   cursor: pointer;
   display: inline-block;
-  font-size: 18px;
-  line-height: 1.25;
-  padding: 7px 16px;
+  font-size: 14px;
+  padding: 3px 10px;
   text-align: center;
   vertical-align: middle;
 }
@@ -98,7 +92,8 @@ a:hover {
   float: right;
 }
 
-input[type=password], input[type=text], input[type=email]{
+input[type=password], input[type=text], input[type=email], select{
+  background-color: #fff;
   border-radius: 3px;
   border: 1px solid transparent;
   box-shadow: 0 1px 2px rgba(0,0,0,0.2) inset, 0 -1px 0 rgba(0,0,0,0.05) inset;
