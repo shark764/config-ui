@@ -2,26 +2,28 @@
 
 angular.module('liveopsConfigPanel')
   .service('userTableConfig', ['userStatuses', 'userStates',
-    function (userStatuses, userStates) {
+    function(userStatuses, userStates) {
       return {
         'fields': [{
-          'header': 'First Name',
-          'name': 'firstName'
-        }, {
-          'header': 'Last Name',
-          'name': 'lastName'
-        }, {
-          'header': 'Email',
-          'name': 'email'
+          'header': 'Name',
+          'name': 'fullName',
+          'templateUrl': 'app/shared/templates/fullName.html'
         }, {
           'header': 'Display Name',
           'name': 'displayName'
         }, {
+          'header': 'Email',
+          'name': 'email'
+        }, {
           'header': 'Telephone',
           'name': 'telephone'
         }, {
+          'header': 'ID',
+          'name': 'externalId'
+        }, {
           'header': 'Status',
           'name': 'status',
+          'templateUrl': 'app/shared/templates/status.html',
           'options': userStatuses
         }, {
           'header': 'State',
