@@ -6,7 +6,7 @@ angular.module('liveopsConfigPanel')
         restrict: 'AE',
         scope: {
           menuLocked: '=',
-          templateUrl: '@'
+          menuConfig: '='
         },
         templateUrl: 'app/shared/directives/managementMenu/managementMenu.html',
         link: function($scope){

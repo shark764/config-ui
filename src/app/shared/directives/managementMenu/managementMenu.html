@@ -1,7 +1,13 @@
 <div class="side-bar" ng-class="{collapsed : collapsed, locked : menuLocked}" ng-mouseenter="collapsed = false;" ng-mouseleave="mouseleave()">
   <div style="position:relative;height:100%;width:100%;">
     <div class="menu-container">
-      <aside ng-if="templateUrl" ng-include src="templateUrl">
+      <aside>
+        <h4>{{menuConfig.title}}</h4>
+        <ul>
+          <li ng-repeat="item in menuConfig.links">
+            <a href="{{item.link}}" id="{{item.id}}">{{item.display}}</a>
+          </li>
+        </ul>
       </aside>
     </div>
   
