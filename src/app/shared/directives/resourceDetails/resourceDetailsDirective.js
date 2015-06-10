@@ -27,6 +27,10 @@ angular.module('liveopsConfigPanel')
           );
         };
 
+        $scope.$watch('resource.lastName', function () {
+          console.log($scope.resource);
+        }, true);
+
         $scope.$watch('resource', function () {
           $scope.oResource = angular.copy($scope.resource);
         });

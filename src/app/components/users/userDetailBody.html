@@ -43,6 +43,9 @@
 <div class="input-group" ng-show="!resource.id">
   <label>{{'details.password' | translate}}</label>
   <div>
+    <div class="error" ng-messages="detailsForm.password.$error" role="alert" ng-if='detailsForm.password.$dirty'>
+      <div ng-message="required">{{'details.password.error' | translate}}</div>
+    </div>
     <input ng-model="resource.password" name="password" type="password" required></input>
   </div>
 </div>
