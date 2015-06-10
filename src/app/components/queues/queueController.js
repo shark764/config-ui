@@ -23,6 +23,11 @@ angular.module('liveopsConfigPanel')
       $scope.fetch();
     });
     
+    $scope.$on('created:resource:tenants:' + Session.tenant.id + ':queues', function(event, resource){
+      $scope.queues.push(resource);
+      $scope.selectedQueue = resource;
+    })
+    
     $scope.fetch();
     $scope.sidebarConfig = flowSidebarConfig;
     $scope.tableConfig = queueTableConfig;
