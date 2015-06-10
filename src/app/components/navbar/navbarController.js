@@ -14,18 +14,18 @@ angular.module('liveopsConfigPanel')
           if (!Session.tenantId && $scope.tenants.length) {
             Session.tenant = $scope.tenants[0];
           }
-          
+
           var tenantDropdownItems = [];
           angular.forEach($scope.tenants, function(tenant) {
             tenantDropdownItems.push({label: tenant.name, onClick: function(){Session.tenant = tenant;}});
           });
-          
+
           $scope.tenantDropdownItems = tenantDropdownItems;
         });
       };
 
       $scope.welcomeMessage = $translate('navbar.welcome', {name: Session.displayName});
-      
+
       $scope.$on('login:success', populateTenantsHandler);
       $scope.$watch('Session.activeRegionId', populateTenantsHandler);
 
