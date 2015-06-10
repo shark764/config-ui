@@ -11,13 +11,18 @@ angular.module('liveopsConfigPanel')
         }
 
         $scope.tenants = Tenant.query({regionId: Session.activeRegionId}, function() {
-          if (!Session.tenantId && $scope.tenants.length) {
+          if (!Session.tenant && $scope.tenants.length) {
             Session.tenant = $scope.tenants[0];
           }
 
           var tenantDropdownItems = [];
           angular.forEach($scope.tenants, function(tenant) {
-            tenantDropdownItems.push({label: tenant.name, onClick: function(){Session.tenant = tenant;}});
+            tenantDropdownItems.push({
+              label: tenant.name,
+              onClick: function(){
+                Session.tenant = tenant;
+              }
+            });
           });
 
           $scope.tenantDropdownItems = tenantDropdownItems;
@@ -27,7 +32,6 @@ angular.module('liveopsConfigPanel')
       $scope.welcomeMessage = $translate('navbar.welcome', {name: Session.displayName});
 
       $scope.$on('login:success', populateTenantsHandler);
-
 
       $scope.$on('created:resource:tenants', populateTenantsHandler);
 

@@ -1,6 +1,6 @@
 <div class="dropdown-wrapper" ng-mouseenter="showDrop = true" ng-mouseleave="showDrop = false">
   <a class="drop-label" ng-class="{'drop-origin' : showDrop}" ng-click="showDrop = ! showDrop" >
-    {{label}}
+    <span>{{label}}</span>
     <span class="pull-right">
       <i ng-show="showDrop" class="{{collapseIcon}} label-icon"></i>
       <i ng-show="! showDrop" class="{{expandIcon}} label-icon"></i>
