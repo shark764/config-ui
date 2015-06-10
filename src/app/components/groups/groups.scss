@@ -1,0 +1,29 @@
+
+
+#detail-body-pane{
+  .member-count {
+    color: $accent1;
+  }
+
+
+  table {
+    border: $lighter-grey solid 1px;
+    @include border-radius(4px);
+    width: 100%;
+
+    td, th {
+      padding: 10px;
+    }
+
+    thead th {
+      border-bottom: $lighter-grey solid 1px;
+    }
+
+    th {
+      text-align: left;
+      font-weight: bold;
+    }
+
+
+  }
+}

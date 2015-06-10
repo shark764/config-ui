@@ -2,12 +2,17 @@
   "value.submit": "Submit",
   "value.cancel": "Cancel",
   "value.save": "Save",
-  
+
   "navbar.users.title": "User Management",
   "navbar.tenants.title": "Tenants",
   "navbar.flows.title": "Flow Designer",
   "navbar.welcome": "Welcome back, {{name}}",
-  
+
+  "common.name": "Name",
+  "common.description": "Description",
+  "common.details.createdby": "Created by {{creator}} at {{date}}",
+  "common.details.updatedby": "Updated by {{enabler}} at {{date}}",
+
   "details.user.createdby": "User created by {{creator}} at {{date}}",
   "details.user.updatedby": "User updated by {{enabler}} at {{date}}",
   "details.firstName": "First Name",
@@ -29,7 +34,7 @@
   "skill.details.description": "Description",
   "skill.details.description.error": "Please enter a description",
   "skill.details.hasProficiency": "Has proficiency",
-  
+
   "tenant.details.title": "Tenants",
   "tenant.details.createdby": "Created by {{creator}} at {{date}}",
   "tenant.details.updatedby": "Last updated by {{updater}} at {{date}}",
