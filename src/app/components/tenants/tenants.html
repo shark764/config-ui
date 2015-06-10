@@ -2,12 +2,13 @@
   <table-controls config="tableConfig" items="tenants" selected="selectedTenant" on-create-click="createTenant" resource-name="tenants"></table-controls>
   <resize-handle right-element-id="right-panel" left-element-id="left-panel" left-min-width="720" right-min-width="720" ></resize-handle>
 </div>
-
-<div id="right-panel" class="right-panel" ng-show="selectedTenant">
-  <resource-details
+  <div id="right-panel" class="right-panel" ng-show="selectedTenant">
+    <resource-details id="details-pane"
+    ng-show="selectedTenant"
     extend-scope="additional"
     header-template-url="app/components/tenants/tenantDetailHeader.html"
     body-template-url="app/components/tenants/tenantDetailBody.html"
     resource="selectedTenant"
-  />
+    />
+  </div>
 </div>
