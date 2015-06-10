@@ -10,7 +10,7 @@
     <div class="error" ng-show="detailsForm.firstName.$touched && detailsForm.firstName.$invalid">{{'details.firstName.error' | translate}}</div>
     <input ng-model="resource.firstName" name="firstName" type="text"></input>
   </div>
-  
+
 </div>
 
 <div class="input-group">
@@ -19,7 +19,7 @@
     <div class="error" ng-show="detailsForm.lastName.$touched && detailsForm.lastName.$invalid">{{'details.lastName.error' | translate}}</div>
     <input ng-model="resource.lastName" name="lastName" type="text"></input>
   </div>
-</div> 
+</div>
 
 <div class="input-group">
   <label>{{'details.displayName' | translate}}</label>
@@ -37,6 +37,16 @@
       <div ng-message="email">{{'details.email.invalid' | translate}}</div>
     </div>
     <input ng-model="resource.email" name="email" type="email" required email></input>
+  </div>
+</div>
+
+<div class="input-group" ng-show="!resource.id">
+  <label>{{'details.password' | translate}}</label>
+  <div>
+    <div class="error" ng-messages="detailsForm.password.$error" role="alert" ng-if='detailsForm.password.$dirty'>
+      <div ng-message="required">{{'details.password.error' | translate}}</div>
+    </div>
+    <input ng-model="resource.password" name="password" type="password" required></input>
   </div>
 </div>
 

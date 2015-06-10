@@ -1,15 +1,28 @@
-<div class="action-container">
-  <input type="text" ng-model="searchQuery" placeholder="Search">
-  <filter-dropdown label="Columns" options="config.fields" display-path="header" value-path="name"></filter-dropdown>
-  <button class="btn btn-primary btn-create" ng-click="onActionsClick()">Actions</button>
-  <button id="create-user-btn" class="btn btn-primary btn-create" ng-click="onCreateClick()">Create</button>
+<div class="table-controls">
+  <div class="col">
+    <div class="inner-addon-right">
+      <input type="text" ng-model="searchQuery" placeholder="Search"> </input>
+      <i class="fa fa-search"></i>
+    </div>
+  </div>
+  <div class="action-container">
+    <div class="col">
+      <filter-dropdown label="Columns" options="config.fields" display-path="header" value-path="name"></filter-dropdown>
+    </div>
+    <div class="col action">
+      <button class="btn btn-create" ng-click="onActionsClick()">Actions</button>
+    </div>
+    <div class="col action">
+      <button id="create-user-btn" class="btn btn-create" ng-click="onCreateClick()">Create</button>
+    </div>
+  </div>
 </div>
 
-<table>
+<table class="table">
   <thead>
     <tr>
       <th>&nbsp;</th>
-      <th ng-repeat="field in config.fields" ng-if="field.checked">
+      <th ng-repeat="field in config.fields" ng-if="field.checked" ng-class="{'filter-header': !!field.options}">
         <div ng-if="!field.options">{{field.header}}</div>
         <filter-dropdown ng-if="!!field.options" show-all="true" ng-if="field.options" label="{{field.header}}" options="field.options"></filter-dropdown>
       </th>
@@ -18,7 +31,7 @@
 
   <tbody>
     <tr ng-repeat="item in (filtered = (items | selectedTableOptions:config.fields | search:config.searchOn:searchQuery | orderBy:config.orderBy))" ng-click="selectItem(item)" ng-class="{selected: item.id === selected.id}">
-      <td>
+      <td class="check-col">
         <input type="checkbox" ng-model="item.checked" />
       </td>
 

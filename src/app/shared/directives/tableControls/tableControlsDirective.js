@@ -31,8 +31,6 @@ angular.module('liveopsConfigPanel')
             $scope.selected = $scope.filtered[0];
           }
         });
-
-
       }
     };
   }]);

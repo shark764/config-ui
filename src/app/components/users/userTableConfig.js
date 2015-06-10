@@ -5,11 +5,20 @@ angular.module('liveopsConfigPanel')
     function (userStatuses, userStates) {
       return {
         'fields': [{
-          'header': 'Name',
+          'header': 'First Name',
+          'name': 'firstName'
+        }, {
+          'header': 'Last Name',
+          'name': 'lastName'
+        }, {
+          'header': 'Email',
+          'name': 'email'
+        }, {
+          'header': 'Display Name',
           'name': 'displayName'
         }, {
-          'header': 'ID',
-          'name': 'id'
+          'header': 'Telephone',
+          'name': 'telephone'
         }, {
           'header': 'Status',
           'name': 'status',
@@ -18,7 +27,8 @@ angular.module('liveopsConfigPanel')
           'header': 'State',
           'name': 'state',
           'options': userStates,
-          'templateUrl': 'app/shared/templates/state.html'
+          'templateUrl': 'app/components/users/userStateTemplate.html',
+          'checked': false
         }],
         'searchOn' : ['firstName', 'lastName'],
         'orderBy' : ['lastName']

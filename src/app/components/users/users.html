@@ -3,16 +3,16 @@
 <div id="main-content" class="user-list-container" ng-class="{'expanded-menu': Session.lockSideMenu}">
   <div id="table-pane">
     <table-controls config="tableConfig" items="users" on-create-click="createUser" selected="selectedUser" resource-name="users"></table-controls>
-    <resize-handle ng-show="!!selectedUser" right-element-id="details-pane" left-element-id="table-pane" left-min-width="600" right-min-width="400" ></resize-handle>
+    <resize-handle ng-show="!!selectedUser" right-element-id="details-pane" left-element-id="table-pane" left-min-width="830" right-min-width="400" ></resize-handle>
   </div>
 
   <div id="right-panel" class="right-panel" ng-show="selectedUser">
     <resource-details id="details-pane"
-    ng-show="selectedUser"  
-    extend-scope="additional"
-    header-template-url="app/components/users/userDetailHeader.html"
-    body-template-url="app/components/users/userDetailBody.html"
-    resource="selectedUser"
+      ng-show="selectedUser"
+      extend-scope="additional"
+      header-template-url="app/components/users/userDetailHeader.html"
+      body-template-url="app/components/users/userDetailBody.html"
+      resource="selectedUser"
    />
   </div>
 </div>
