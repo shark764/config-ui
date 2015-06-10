@@ -1,6 +1,6 @@
 'use strict';
 
-describe('user managment menu directive', function(){
+describe('management menu directive', function(){
   var $scope,
     element,
     isolateScope,
@@ -19,7 +19,7 @@ describe('user managment menu directive', function(){
     $templateCache.put('template', template);
     $scope.menuLocked = false;
     
-    element = $compile('<managment-menu template-url="template" menu-locked="menuLocked"></managment-menu>')($scope);
+    element = $compile('<management-menu template-url="template" menu-locked="menuLocked"></management-menu>')($scope);
     $scope.$digest();
     isolateScope = element.isolateScope();
   }]));
@@ -34,7 +34,7 @@ describe('user managment menu directive', function(){
   }));
   
   it('should not have an aside when no template url is included', inject(function() {
-    element = $compile('<managment-menu></managment-menu>')($scope);
+    element = $compile('<management-menu></management-menu>')($scope);
     $scope.$digest();
     
     expect(element.find('aside').length).toEqual(0);
@@ -47,7 +47,7 @@ describe('user managment menu directive', function(){
   it('should show the menu by default if it is locked', inject(function() {
     $scope.menuLocked = true;
     
-    element = $compile('<managment-menu template-url="template" menu-locked="menuLocked"></managment-menu>')($scope);
+    element = $compile('<management-menu template-url="template" menu-locked="menuLocked"></management-menu>')($scope);
     $scope.$digest();
     
     expect(element.isolateScope().collapsed).toBeFalsy();
