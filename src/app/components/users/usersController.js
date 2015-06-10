@@ -10,7 +10,14 @@ angular.module('liveopsConfigPanel')
 
       $scope.additional = {
         states: userStates,
-        roles: userRoles
+        roles: userRoles,
+        updateDisplayName : function($childScope){
+          if (!$childScope.resource.id && $childScope.detailsForm.displayName.$untouched){
+            var first = $childScope.resource.firstName ? $childScope.resource.firstName : '';
+            var last = $childScope.resource.lastName ? $childScope.resource.lastName : '';
+            $childScope.resource.displayName = first + ' ' + last;
+          }
+        }
       };
 
       $scope.users = User.query();

@@ -18,14 +18,8 @@ angular.module('liveopsConfigPanel.config', [])
   'display': 'Busy',
   'value': 'BUSY'
 }, {
-  'display': 'Logout',
-  'value': 'LOGOUT'
-}, {
   'display': 'Ready',
   'value': 'READY'
-}, {
-  'display': 'Login',
-  'value': 'LOGIN'
 }, {
   'display': 'Not Ready',
   'value': 'NOT_READY'
