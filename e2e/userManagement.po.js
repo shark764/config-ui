@@ -14,12 +14,12 @@ var UserManagement = function() {
   this.sidebarHeader = this.sidebarMenu.element(by.css('h4'));
 
   // Page links
-  this.sidebarUserLink = element(by.id('users-side-bar-link'));
-  this.sidebarGroupsLink = element(by.id('groups-side-bar-link'));
-  this.sidebarSkillsLink = element(by.id('skills-side-bar-link'));
-  this.sidebarRolesLink = element(by.id('roles-side-bar-link'));
-  this.sidebarLocationsLink = element(by.id('locations-side-bar-link'));
-  this.sidebarExtensionsLink = element(by.id('extensions-side-bar-link'));
+  this.sidebarUserLink = element(by.id('user-management-link'));
+  this.sidebarGroupsLink = element(by.id('group-management-link'));
+  this.sidebarSkillsLink = element(by.id('skill-management-link'));
+  this.sidebarRolesLink = element(by.id('role-management-link'));
+  this.sidebarLocationsLink = element(by.id('location-management-link'));
+  this.sidebarExtensionsLink = element(by.id('extension-management-link'));
 };
 
 module.exports = new UserManagement();

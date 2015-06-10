@@ -131,8 +131,8 @@ describe('The User Management sidebar', function() {
       expect(userManagement.sidebarGroupsLink.getText()).toBe('Groups');
       expect(userManagement.sidebarSkillsLink.getText()).toBe('Skills');
       expect(userManagement.sidebarRolesLink.getText()).toBe('Roles');
-      expect(userManagement.sidebarLocationsLink.getText()).toBe('Locations');
-      expect(userManagement.sidebarExtensionsLink.getText()).toBe('Extensions');
+      //expect(userManagement.sidebarLocationsLink.getText()).toBe('Locations');
+      //expect(userManagement.sidebarExtensionsLink.getText()).toBe('Extensions');
     }).then(function () {
       userManagement.sidebarCloseArrow.click();
     });
