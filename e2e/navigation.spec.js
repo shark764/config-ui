@@ -7,8 +7,8 @@ describe('The view navigation', function() {
   beforeEach(function() {
     // Ensure user is logged out initially
     browser.get(shared.loginPageUrl);
-    browser.executeScript('window.sessionStorage.clear()');
-    browser.executeScript('window.localStorage.clear()');
+    shared.tearDown();
+    browser.get(shared.loginPageUrl);
   });
 
   afterAll(function() {
@@ -41,6 +41,11 @@ describe('The view navigation', function() {
     expect(browser.getCurrentUrl()).toBe(shared.loginPageUrl);
   });
 
+  it('should navigate to login page for unknown urls and not logged in', function() {
+    browser.get(shared.mainUrl + 'unknownpage');
+    expect(browser.getCurrentUrl()).toBe(shared.loginPageUrl);
+  });
+
   it('should navigate to correct page when logged in', function() {
     loginPage.login(loginPage.emailLoginCreds, loginPage.passwordLoginCreds);
 
@@ -67,11 +72,6 @@ describe('The view navigation', function() {
 
     browser.get(shared.invitesPageUrl);
     expect(browser.getCurrentUrl()).toBe(shared.invitesPageUrl);
-  });
-
-  it('should navigate to login page for unknown urls and not logged in', function() {
-    browser.get(shared.mainUrl + 'unknownpage');
-    expect(browser.getCurrentUrl()).toBe(shared.loginPageUrl);
   });
 
   it('should navigate to main page for unknown urls and logged in', function() {

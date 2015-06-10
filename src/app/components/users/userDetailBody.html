@@ -1,50 +1,85 @@
+<h3 ng-if="! resource.id">Creating New User</h3>
+
+<div class="divider-header">
+  <h4>Details</h4>
+</div>
+
 <div class="input-group">
   <label>{{'details.firstName' | translate}}</label>
-  <div class="error" ng-show="detailsForm.firstName.$touched && detailsForm.firstName.$invalid">{{'details.firstName.error' | translate}}</div>
-  <input ng-model="resource.firstName" name="firstName" type="text"></input>
+  <div>
+    <div class="error" ng-show="detailsForm.firstName.$touched && detailsForm.firstName.$invalid">{{'details.firstName.error' | translate}}</div>
+    <input ng-model="resource.firstName" name="firstName" type="text"></input>
+  </div>
+  
 </div>
 
 <div class="input-group">
   <label>{{'details.lastName' | translate}}</label>
-  <div class="error" ng-show="detailsForm.lastName.$touched && detailsForm.lastName.$invalid">{{'details.lastName.error' | translate}}</div>
-  <input ng-model="resource.lastName" name="lastName" type="text"></input>
-</div>
+  <div>
+    <div class="error" ng-show="detailsForm.lastName.$touched && detailsForm.lastName.$invalid">{{'details.lastName.error' | translate}}</div>
+    <input ng-model="resource.lastName" name="lastName" type="text"></input>
+  </div>
+</div> 
 
 <div class="input-group">
   <label>{{'details.displayName' | translate}}</label>
-  <div class="error" ng-show="detailsForm.displayName.$touched && detailsForm.displayName.$invalid">{{'details.displayName.error' | translate}}</div>
-  <input ng-model="resource.displayName" name="displayName" type="text"></input>
+  <div>
+    <div class="error" ng-show="detailsForm.displayName.$touched && detailsForm.displayName.$invalid">{{'details.displayName.error' | translate}}</div>
+    <input ng-model="resource.displayName" name="displayName" type="text"></input>
+  </div>
 </div>
 
 <div class="input-group" ng-show="!resource.id">
   <label>{{'details.email' | translate}}</label>
-  <div class="error" ng-messages="detailsForm.email.$error" role="alert" ng-if='detailsForm.email.$dirty'>
-    <div ng-message="required">{{'details.email.error' | translate}}</div>
-    <div ng-message="email">{{'details.email.invalid' | translate}}</div>
+  <div>
+    <div class="error" ng-messages="detailsForm.email.$error" role="alert" ng-if='detailsForm.email.$dirty'>
+      <div ng-message="required">{{'details.email.error' | translate}}</div>
+      <div ng-message="email">{{'details.email.invalid' | translate}}</div>
+    </div>
+    <input ng-model="resource.email" name="email" type="email" required email></input>
   </div>
-  <input ng-model="resource.email" name="email" type="email" required email></input>
-</div>
-
- <div class="input-group">
-  <label>{{'details.password' | translate}}</label>
-  <input ng-model="resource.password" name="password" type="password"></input>
 </div>
 
 <div class="input-group">
   <label>{{'details.externalId' | translate}}</label>
-  <input ng-model="resource.externalId" name="externalId" type="text"></input>
+  <div>
+    <input ng-model="resource.externalId" name="externalId" type="text"></input>
+  </div>
+</div>
+
+<div class="divider-header">
+  <h4>Role</h4>
 </div>
 
 <div class="input-group">
   <label>{{'details.role' | translate}}</label>
-  <select ng-model="resource.role" name="role" ng-options="role.value as role.label for role in roles">
-    <option value="">Select Role</option>
-  </select>
+  <div>
+    <select ng-model="resource.role" name="role" ng-options="role.value as role.display for role in roles">
+      <option value="">Select Role</option>
+    </select>
+  </div>
+</div>
+
+<div class="divider-header">
+  <h4>State (Dev Only)</h4>
 </div>
 
 <div class="input-group">
   <label>State</label>
-  <select ng-model="resource.state" name="state" ng-options="state.value as state.display for state in states.filters">
-    <option value="">Select State</option>
-  </select>
+  <div>
+    <select ng-model="resource.state" name="state" ng-options="state.value as state.display for state in states">
+      <option value="">Select State</option>
+    </select>
+  </div>
+</div>
+
+<div class="divider-header">
+  <h4 ng-if="resource.id">Actions</h4>
+</div>
+
+<div ng-if="resource.id" class="input-group">
+  <label>{{'details.password' | translate}}</label>
+  <div>
+    <button class="btn">Reset Password</button>
+  </div>
 </div>

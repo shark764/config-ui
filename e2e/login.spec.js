@@ -12,6 +12,10 @@ describe('The login view', function() {
     browser.get(shared.loginPageUrl);
   });
 
+  afterEach(function() {
+    shared.tearDown();
+  });
+
   afterAll(function() {
     shared.tearDown();
   });

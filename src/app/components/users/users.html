@@ -1,53 +1,18 @@
-<user-managment-menu menu-locked="Session.lockSideMenu"></user-managment-menu>
+<management-menu menu-locked="Session.lockSideMenu" menu-config="sidebarConfig"></management-menu>
 
-<div class="user-list-container" ng-class="{'expanded-menu': Session.lockSideMenu}">
-  <div id="left-panel" class="left-panel">
-    <table-controls search-query="searchQuery" columns="columns" on-create-click="createUser"></table-controls>
-
-    <table class="user-table">
-      <thead>
-        <tr>
-          <th>&nbsp;</th>
-          <th ng-if="columns.filters.name.checked">Name</th>
-          <th ng-if="columns.filters.id.checked">ID</th>
-          <th ng-if="columns.filters.status.checked">
-            <filter-dropdown label="Status" items="statuses"></filter-dropdown>
-          </th>
-          <th ng-if="columns.filters.state.checked">
-            <filter-dropdown label="State" items="states"></filter-dropdown>
-          </th>
-        </tr>
-      </thead>
-
-      <tbody>
-        <tr ng-repeat="user in filteredUsers = (users | selectedOptions:statuses:'status' | selectedOptions:states:'state' | search:['firstName','lastName']:searchQuery | orderBy:'lastName')"
-          ng-click="selectUser(user)"
-          ng-class="{selected: user.id === selectedUser.id}">
-          <td>
-            <input type="checkbox" ng-model="user.checked" />
-          </td>
-          <td ng-if="columns.filters.name.checked">{{user.firstName}} {{user.lastName}}</td>
-          <td ng-if="columns.filters.id.checked">{{user.externalId}}</td>
-          <td ng-if="columns.filters.status.checked">
-            <span ng-class="{disabled : ! user.status}">{{user.status ? 'Enabled' : 'Disabled'}}</span>
-          </td>
-          <td ng-if="columns.filters.state.checked">
-            <div user-state state="{{user.state}}"></div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-
-
-    <resize-handle ng-show="!!selectedUser" right-element-id="right-panel" left-element-id="left-panel" left-min-width="600" right-min-width="600" ></resize-handle>
+<div id="main-content" class="user-list-container" ng-class="{'expanded-menu': Session.lockSideMenu}">
+  <div id="table-pane">
+    <table-controls config="tableConfig" items="users" on-create-click="createUser" selected="selectedUser" resource-name="users"></table-controls>
+    <resize-handle ng-show="!!selectedUser" right-element-id="details-pane" left-element-id="table-pane" left-min-width="600" right-min-width="400" ></resize-handle>
   </div>
 
   <div id="right-panel" class="right-panel" ng-show="selectedUser">
-    <resource-details
-      extend-scope="additional"
-      header-template-url="app/components/users/userDetailHeader.html"
-      body-template-url="app/components/users/userDetailBody.html"
-      resource="selectedUser"
-    />
+    <resource-details id="details-pane"
+    ng-show="selectedUser"  
+    extend-scope="additional"
+    header-template-url="app/components/users/userDetailHeader.html"
+    body-template-url="app/components/users/userDetailBody.html"
+    resource="selectedUser"
+   />
   </div>
 </div>
