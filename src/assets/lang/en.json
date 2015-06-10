@@ -2,17 +2,16 @@
   "value.submit": "Submit",
   "value.cancel": "Cancel",
   "value.save": "Save",
+  "value.name": "Name",
+  "value.description": "Description",
+  "value.createdby": "Created by {{creator}} at {{date}}",
+  "value.updatedby": "Last updated by {{enabler}} at {{date}}",
   
   "navbar.users.title": "User Management",
   "navbar.tenants.title": "Tenants",
   "navbar.flows.title": "Flow Designer",
   "navbar.welcome": "Welcome back, {{name}}",
   
-  "details.createdby": "Created by {{creator}} at {{date}}",
-  "details.updatedby": "Last updated by {{enabler}} at {{date}}",
-  
-  "details.user.createdby": "User created by {{creator}} at {{date}}",
-  "details.user.updatedby": "User updated by {{enabler}} at {{date}}",
   "details.firstName": "First Name",
   "details.firstName.error": "Please enter a first name",
   "details.lastName": "Last Name",
@@ -28,10 +27,10 @@
   "details.role": "Role",
   
   "tenant.details.title": "Tenants",
-  "tenant.details.createdby": "Created by {{creator}} at {{date}}",
-  "tenant.details.updatedby": "Last updated by {{updater}} at {{date}}",
   "tenant.details.name": "Tenant Name",
   "tenant.details.admin": "Platform Admin",
   "tenant.details.description": "Description",
-  "tenant.details.region": "Region"
+  "tenant.details.region": "Region",
+  
+  "flow.details.version" : "Active Version"
 }
