@@ -52,4 +52,20 @@ describe('management menu directive', function(){
     
     expect(element.isolateScope().collapsed).toBeFalsy();
   }));
+  
+  describe('mouseleave function', function(){
+    it('should collapse the menu if it is not locked', inject(function() {
+      isolateScope.menuLocked = false;
+      isolateScope.collapsed = false;
+      isolateScope.mouseleave();
+      expect(isolateScope.collapsed).toBeTruthy();
+    }));
+    
+    it('should not collapse the menu if it is locked', inject(function() {
+      isolateScope.menuLocked = true;
+      isolateScope.collapsed = false;
+      isolateScope.mouseleave();
+      expect(isolateScope.collapsed).toBeFalsy();
+    }));
+  });
 });
