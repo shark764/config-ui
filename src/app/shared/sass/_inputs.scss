@@ -2,9 +2,10 @@ $input-height: 36px;
 $input-left-padding: 15px;
 $input-border-shadow: rgba(102,175,233,.6);
 
-input[type=password], input[type=text], input[type=email], select{
+input[type=password], input[type=text], input[type=email], select, textarea{
   background-color: #fff;
   border-radius: 3px;
+  border: 1px solid transparent;
   box-shadow: 0 1px 2px rgba(0,0,0,0.2) inset, 0 -1px 0 rgba(0,0,0,0.05) inset;
   transition: all 0.2s linear;
   font-size: 13px;
@@ -15,7 +16,6 @@ input[type=password], input[type=text], input[type=email], select{
   padding-left: $input-left-padding;
   box-sizing: border-box;
   width:100%;
-  border: 1px solid transparent;
 
   &::-webkit-input-placeholder {
     color: #999999;
@@ -34,6 +34,11 @@ input[type=password], input[type=text], input[type=email], select{
   &.ng-touched.ng-invalid {
     border-color: red;
   }
+}
+
+textarea {
+  height: 5em;
+  padding-top: 7px;
 }
 
 .inner-addon-right {
