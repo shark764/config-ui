@@ -23,7 +23,7 @@ angular.module('liveopsConfigPanel')
       this.id = null;
       this.lang = null;
       this.tenant = null;
-      this.activeRegionId = '6aff1f30-0901-11e5-87f2-b1d420920055';
+      this.activeRegionId = 'c96cf160-0f18-11e5-8ee6-b1d420920055';
       this.lockSideMenu = false;
 
       this.set = function (user, token) {

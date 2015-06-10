@@ -17,7 +17,7 @@
   <label>{{'skill.details.description' | translate}}</label>
   <div>
     <div class="error" ng-show="detailsForm.description.$touched && detailsForm.description.$invalid">{{'skill.details.description.error' | translate}}</div>
-    <input ng-model="resource.description" name="description" type="text"></input>
+    <textarea rows=3 cols=30 ng-model="resource.description" name="description" type="text"></textarea>
   </div>
 </div> 
 
