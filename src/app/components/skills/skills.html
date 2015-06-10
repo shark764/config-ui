@@ -1,0 +1,18 @@
+<user-managment-menu menu-locked="Session.lockSideMenu"></user-managment-menu>
+
+<div id="main-content" class="skill-list-container" ng-class="{'expanded-menu': Session.lockSideMenu}">
+  <div id="table-pane">
+    <table-controls config="tableConfig" items="skills" on-create-click="createSkill" selected="selectedSkill" resource-name="skills"></table-controls>
+    <resize-handle ng-show="!!selectedSkill" right-element-id="details-pane" left-element-id="table-pane" left-min-width="600" right-min-width="400" ></resize-handle>
+  </div>
+
+  <div id="right-panel" class="right-panel" ng-show="selectedSkill">
+    <resource-details id="details-pane"
+    ng-show="selectedSkill"  
+    extend-scope="additional"
+    header-template-url="app/components/skills/skillDetailHeader.html"
+    body-template-url="app/components/skills/skillDetailBody.html"
+    resource="selectedSkill"
+   />
+  </div>
+</div>
