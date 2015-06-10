@@ -36,7 +36,7 @@
       <div ng-message="required">{{'details.email.error' | translate}}</div>
       <div ng-message="email">{{'details.email.invalid' | translate}}</div>
     </div>
-    <input ng-model="resource.email" name="email" type="email" required email></input>
+    <input autocomplete="off" ng-model="resource.email" name="email" type="email" required email></input>
   </div>
 </div>
 
@@ -46,7 +46,7 @@
     <div class="error" ng-messages="detailsForm.password.$error" role="alert" ng-if='detailsForm.password.$dirty'>
       <div ng-message="required">{{'details.password.error' | translate}}</div>
     </div>
-    <input ng-model="resource.password" name="password" type="password" required></input>
+    <input autocomplete="off" ng-model="resource.password" name="password" type="password" required></input>
   </div>
 </div>
 

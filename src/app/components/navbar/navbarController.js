@@ -27,6 +27,10 @@ angular.module('liveopsConfigPanel')
       $scope.welcomeMessage = $translate('navbar.welcome', {name: Session.displayName});
 
       $scope.$on('login:success', populateTenantsHandler);
+
+
+      $scope.$on('created:resource:tenants', populateTenantsHandler);
+
       $scope.$watch('Session.activeRegionId', populateTenantsHandler);
 
       $scope.isActive = function(viewLocation) {
