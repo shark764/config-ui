@@ -4,7 +4,7 @@
   }
   border: 1px solid transparent;
   border-bottom: none;
-  
+
   padding: 5px;
 }
 .dropdown-label.selected {
@@ -21,10 +21,12 @@
   padding: 5px 10px;
 }
 
-.filter-dropdown > div:hover {
-  background-color: $accent-light;
-  border-left: $accent1 4px solid;
-  cursor: pointer;
+.filter-dropdown {
+  div:hover {
+    background-color: $accent-light;
+    @include box-shadow(inset 4px 0px 0px 0px $accent1);
+    cursor: pointer;
+  }
 }
 
 .filter-dropdown > .all {

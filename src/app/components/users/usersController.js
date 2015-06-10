@@ -7,21 +7,21 @@ angular.module('liveopsConfigPanel')
       $scope.statuses = userStatuses;
       $scope.filteredUsers = [];
       $scope.Session = Session;
-      
+
       $scope.additional = {
         states: userStates,
         roles: userRoles
       };
 
       $scope.users = User.query();
-      
+
       $scope.createUser = function() {
         $scope.selectedUser = new User({
           status: true,
           state: 'Ready'
         });
       };
-      
+
       $scope.tableConfig = userTableConfig;
     }
   ]);

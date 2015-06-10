@@ -1,23 +1,48 @@
-.user-list-container {
-  position: absolute;
-  left: $side-menu-width;
-  bottom: 0;
-  right: 0;
-  top: $navbar-height;
-  @include transition(0.5s all);
-}
+#user-detail-header {
+  background-color: #fff;
+  
+  .mystery-man {
+    color: #fff;
+    background-color: #eee;
+    font-size: 2em;
+    height: 100%;
+    margin-right: 0.5em;
+    padding: 15px 20px;
+  }
+  
+  .user-info {
+    display: table-cell;
 
-.user-list-container.expanded-menu {
-  margin-left: $left-nav-width - 30px;
-}
+    h1 {
+      padding: 0;
+      padding-bottom: 5px;
+      line-height: 0.8em;
+      margin: 0;
+    }
 
-.side-menu {
-  background-color: #f2f2f2;
-  color: #999;
-  font-size: 1.5em;
-  top: $navbar-height;
-  bottom: 0px;
-  text-align: center;
-  position: absolute;
-  width: $side-menu-width;
+    b {
+      padding: 1px 0;
+      font-size: .7em;
+      color: #999999;
+      line-height: 1.2em;
+    }
+
+    .user-state {
+      display:inline-block;
+      font-size: 0.7em;
+      vertical-align: top;
+    }
+    
+    .details {
+      display: table;
+      
+      & > * {
+        display: table-cell;
+      }
+      
+      toggle {
+        padding-right: 7px;
+      }
+    }
+  }
 }

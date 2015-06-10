@@ -1,11 +1,11 @@
-<a class="dropdown-label" ng-click="showDrop = ! showDrop" ng-class="{selected : showDrop}">
+<div class="dropdown-label" ng-click="showDrop = ! showDrop" ng-class="{selected : showDrop}">
   <span>{{label}}</span>
   <div ng-if="showAll">
     <span ng-if="all.checked">: All</span>
     <span ng-if="!all.checked">: (...)</span>
   </div>
   <span><i class="fa" ng-class="{'fa-caret-up' : showDrop, 'fa-caret-down' : ! showDrop}"></i></span>
-</a>
+</div>
 
 <div class="dropdown-container">
   <div class="dropdown filter-dropdown" ng-hide="! showDrop">

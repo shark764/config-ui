@@ -3,7 +3,7 @@
 angular.module('liveopsConfigPanel')
   .directive('resourceDetails', [function() {
     return {
-      restrict: 'E',
+      restrict: 'AE',
       scope : {
         resource: '=',
         headerTemplateUrl: '@',

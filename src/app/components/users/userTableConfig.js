@@ -27,7 +27,7 @@ angular.module('liveopsConfigPanel')
           'header': 'State',
           'name': 'state',
           'options': userStates,
-          'templateUrl': 'app/shared/templates/state.html',
+          'templateUrl': 'app/components/users/userStateTemplate.html',
           'checked': false
         }],
         'searchOn' : ['firstName', 'lastName'],
