@@ -5,12 +5,12 @@ describe('The User Management sidebar', function() {
     shared = require('./shared.po.js'),
     userManagement = require('./userManagement.po.js');
 
-  beforeEach(function() {
+  beforeAll(function() {
     loginPage.login(loginPage.emailLoginCreds, loginPage.passwordLoginCreds);
     browser.get(shared.usersPageUrl);
   });
 
-  afterEach(function() {
+  afterAll(function() {
     shared.tearDown();
   });
 
@@ -44,6 +44,27 @@ describe('The User Management sidebar', function() {
 
   it('should remain open when tack button is selected', function() {
     browser.actions().mouseMove(userManagement.sidebarCollapse).perform();
+    userManagement.sidebarTack.click().then(function() {
+      expect(userManagement.sidebarMenu.isDisplayed()).toBeTruthy();
+      expect(userManagement.sidebar.getAttribute('class')).toBe('side-bar locked');
+      expect(userManagement.sidebarCloseArrow.isDisplayed()).toBeTruthy();
+
+      expect(userManagement.sidebarTack.isDisplayed()).toBeFalsy();
+
+      // Sidebar remains open on mouse off
+      browser.actions().mouseMove(shared.navBar).perform();
+      expect(userManagement.sidebar.getAttribute('class')).toBe('side-bar locked');
+      expect(userManagement.sidebarMenu.isDisplayed()).toBeTruthy();
+      expect(userManagement.sidebarCloseArrow.isDisplayed()).toBeTruthy();
+
+      expect(userManagement.sidebarTack.isDisplayed()).toBeFalsy(); // body...
+    }).then(function() {
+      userManagement.sidebarCloseArrow.click();
+    });
+  });
+
+  it('should close when unlocked', function() {
+    browser.actions().mouseMove(userManagement.sidebarCollapse).perform();
     userManagement.sidebarTack.click();
     expect(userManagement.sidebarMenu.isDisplayed()).toBeTruthy();
     expect(userManagement.sidebar.getAttribute('class')).toBe('side-bar locked');
@@ -51,33 +72,35 @@ describe('The User Management sidebar', function() {
 
     expect(userManagement.sidebarTack.isDisplayed()).toBeFalsy();
 
-    // Sidebar remains open on mouse off
+    userManagement.sidebarCloseArrow.click();
+
+    // Unlocked sidebar now closes on mouse off
     browser.actions().mouseMove(shared.navBar).perform();
-    expect(userManagement.sidebar.getAttribute('class')).toBe('side-bar locked');
-    expect(userManagement.sidebarMenu.isDisplayed()).toBeTruthy();
-    expect(userManagement.sidebarCloseArrow.isDisplayed()).toBeTruthy();
+    expect(userManagement.sidebar.getAttribute('class')).toBe('side-bar collapsed');
+    expect(userManagement.sidebarOpenArrow.isDisplayed()).toBeTruthy();
 
     expect(userManagement.sidebarTack.isDisplayed()).toBeFalsy();
-
+    expect(userManagement.sidebarCloseArrow.isDisplayed()).toBeFalsy();
   });
 
   it('should remain open when locked after page reload', function() {
     browser.actions().mouseMove(userManagement.sidebarCollapse).perform();
     userManagement.sidebarTack.click();
 
-    browser.get(shared.usersPageUrl);
+    browser.get(shared.usersPageUrl).then(function() {
+      expect(shared.navBar.isDisplayed()).toBeTruthy();
+      expect(userManagement.sidebar.isDisplayed()).toBeTruthy();
 
-    expect(shared.navBar.isDisplayed()).toBeTruthy();
-    expect(userManagement.sidebar.isDisplayed()).toBeTruthy();
+      // Sidebar remains open after page reload
+      expect(userManagement.sidebar.getAttribute('class')).toBe('side-bar locked');
+      expect(userManagement.sidebarMenu.isDisplayed()).toBeTruthy();
+      expect(userManagement.sidebarCloseArrow.isDisplayed()).toBeTruthy();
 
-    // Sidebar remains open after page reload
-    expect(userManagement.sidebar.getAttribute('class')).toBe('side-bar locked');
-    expect(userManagement.sidebarMenu.isDisplayed()).toBeTruthy();
-    expect(userManagement.sidebarCloseArrow.isDisplayed()).toBeTruthy();
-
-    expect(userManagement.sidebarTack.isDisplayed()).toBeFalsy();
-    expect(userManagement.sidebarOpenArrow.isDisplayed()).toBeFalsy();
-
+      expect(userManagement.sidebarTack.isDisplayed()).toBeFalsy();
+      expect(userManagement.sidebarOpenArrow.isDisplayed()).toBeFalsy();
+    }).then(function() {
+      userManagement.sidebarCloseArrow.click();
+    });
   });
 
   it('overlaps the remaining page components when opened but not locked', function() {
@@ -94,21 +117,25 @@ describe('The User Management sidebar', function() {
 
     // Able to select checkbox from User table; not covered by locked sidebar
     element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(1) > input:nth-child(1)')).click();
+
+    userManagement.sidebarCloseArrow.click();
   });
 
   it('should contain User Management page header and links', function() {
     browser.actions().mouseMove(userManagement.sidebarCollapse).perform();
-    userManagement.sidebarTack.click();
+    userManagement.sidebarTack.click().then(function (){
+      expect(userManagement.sidebarHeader.getText()).toBe('Management');
 
-    expect(userManagement.sidebarHeader.getText()).toBe('Management');
-
-    // User Management page links
-    expect(userManagement.sidebarUserLink.getText()).toBe('Users');
-    expect(userManagement.sidebarGroupsLink.getText()).toBe('Groups');
-    expect(userManagement.sidebarSkillsLink.getText()).toBe('Skills');
-    expect(userManagement.sidebarRolesLink.getText()).toBe('Roles');
-    expect(userManagement.sidebarLocationsLink.getText()).toBe('Locations');
-    expect(userManagement.sidebarExtensionsLink.getText()).toBe('Extensions');
+      // User Management page links
+      expect(userManagement.sidebarUserLink.getText()).toBe('Users');
+      expect(userManagement.sidebarGroupsLink.getText()).toBe('Groups');
+      expect(userManagement.sidebarSkillsLink.getText()).toBe('Skills');
+      expect(userManagement.sidebarRolesLink.getText()).toBe('Roles');
+      expect(userManagement.sidebarLocationsLink.getText()).toBe('Locations');
+      expect(userManagement.sidebarExtensionsLink.getText()).toBe('Extensions');
+    }).then(function () {
+      userManagement.sidebarCloseArrow.click();
+    });
   });
 
   it('should navigate to respective page when links are selected', function() {
@@ -136,5 +163,7 @@ describe('The User Management sidebar', function() {
     userManagement.sidebarExtensionsLink.click();
     expect(browser.getCurrentUrl()).toBe(shared.extensionsPageUrl);
     */
+
+    userManagement.sidebarCloseArrow.click();
   });
 });
