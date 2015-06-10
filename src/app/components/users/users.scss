@@ -1,5 +1,4 @@
 #user-detail-header {
-  background-color: #fff;
   
   .mystery-man {
     color: #fff;
@@ -10,23 +9,7 @@
     padding: 15px 20px;
   }
   
-  .user-info {
-    display: table-cell;
-
-    h1 {
-      padding: 0;
-      padding-bottom: 5px;
-      line-height: 0.8em;
-      margin: 0;
-    }
-
-    b {
-      padding: 1px 0;
-      font-size: .7em;
-      color: #999999;
-      line-height: 1.2em;
-    }
-
+  .info {
     .user-state {
       display:inline-block;
       font-size: 0.7em;

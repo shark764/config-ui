@@ -100,7 +100,7 @@ a:hover {
   float: right;
 }
 
-input[type=password], input[type=text], input[type=email], select{
+input[type=password], input[type=text], input[type=email], select, textarea{
   background-color: #fff;
   border-radius: 3px;
   border: 1px solid transparent;
@@ -133,6 +133,11 @@ input[type=password], input[type=text], input[type=email], select{
   &.ng-touched.ng-invalid {
     border-color: red;
   }
+}
+
+textarea {
+  height: 5em;
+  padding-top: 7px;
 }
 
 .error {

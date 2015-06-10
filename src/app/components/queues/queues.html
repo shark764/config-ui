@@ -1,21 +1,18 @@
-<table >
-  <thead>
-    <td>ID</td>
-    <td>Name</td>
-    <td>Description</td>
-  </thead>
-  <tr ng-repeat="queue in queues" >
-    <td style="border: 1px solid black;">{{queue.id}}</td>
-    <td style="border: 1px solid black;"><a ng-href="#/queues?id={{queue.id}}">{{queue.name}}</a></td>
-    <td style="border: 1px solid black;">{{queue.description}}</td>
-  </tr>
-</table>
+<management-menu menu-locked="Session.lockSideMenu" menu-config="sidebarConfig"></management-menu>
 
-<h3>Create new Queue</h3>
-
-<form ng-submit="save()">
-  <div>Name: <input type="text" ng-required="true" ng-model="queue.name"></input></div>
-  <div>Description: <input type="text" ng-required="true" ng-model="queue.description"></input></div>
-
-  <input type="submit" class="btn btn-primary" value="Save"/>
-</form>
+<div id="main-content" ng-class="{'expanded-menu': Session.lockSideMenu}">
+  <div id="table-pane">
+    <table-controls config="tableConfig" items="queues" on-create-click="createQueue" selected="selectedQueue" resource-name="queues"></table-controls>
+    <resize-handle ng-show="!!selectedQueue" right-element-id="details-pane" left-element-id="table-pane" left-min-width="600" right-min-width="400" ></resize-handle>
+  </div>
+  
+  <div id="right-panel" class="right-panel">
+    <resource-details id="details-pane"
+    ng-show="selectedQueue"  
+    extend-scope="additional"
+    header-template-url="app/components/queues/queueDetailHeader.html"
+    body-template-url="app/components/queues/queueDetailBody.html"
+    resource="selectedQueue"
+   />
+  </div>
+</div>

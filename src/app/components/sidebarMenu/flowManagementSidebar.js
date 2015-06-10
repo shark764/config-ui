@@ -10,7 +10,7 @@ angular.module('liveopsConfigPanel')
           id: 'flow-management-link'
         }, {
           display: 'Queues',
-          link: '#/',
+          link: '#/queues',
           id: 'queue-management-link'
         }]
     };

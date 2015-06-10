@@ -1,6 +1,6 @@
 <form id="details-form" name="detailsForm" ng-submit="save()">
 
-  <div ng-show="resource.id" ng-if="headerTemplateUrl" id="detail-header-pane" ng-include src="headerTemplateUrl">
+  <div ng-if="headerTemplateUrl" class="details-header" id="detail-header-pane" ng-include src="headerTemplateUrl">
   </div>
 
   <div ng-if="bodyTemplateUrl" id="detail-body-pane" ng-include src="bodyTemplateUrl">

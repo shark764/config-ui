@@ -8,9 +8,7 @@
       <li class="divider"></li>
       <li id="users-nav-link" ng-class="{ active: isActive('/')}"><a ng-href="#/">{{'navbar.users.title' | translate}}</a></li>
       <li id="tenants-nav-link" ng-class="{ active: isActive('/tenants')}"><a ng-href="#/tenants">{{'navbar.tenants.title' | translate}}</a></li>
-      <li id="flows-nav-link" ng-class="{ active: isActive('/flows')}"><a ng-href="#/flows">{{'navbar.flows.title' | translate}}</a></li>
-      <li id="queues-nav-link" ng-class="{ active: isActive('/queues')}"><a ng-href="#/queues">Queues</a></li>
-      <li id="profile-nav-link" ng-class="{ active: isActive('/userprofile')}"><a ng-href="#/userprofile">Your Profile</a></li>
+      <li id="flows-nav-link" ng-class="{ active: isActive('/flows') || isActive('/queues')}"><a ng-href="#/flows">{{'navbar.flows.title' | translate}}</a></li>
       <li id="invites-nav-link" ng-class="{ active: isActive('/invites')}"><a ng-href="#/invites">Invites</a></li>
     </ul>
   </nav>
