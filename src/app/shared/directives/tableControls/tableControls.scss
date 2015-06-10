@@ -81,6 +81,10 @@
     text-align: left;
     border-right: 1px solid #dadada;
     width: 13%;
+
+    &.check-col {
+      width: 100px;
+    }
   }
 
   th.filter-header {
