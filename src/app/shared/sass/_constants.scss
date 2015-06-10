@@ -11,6 +11,8 @@ $dark-grey: #474747;
 $dark-blue: #1e3a61;
 $navbar-height: 57px;
 $left-nav-width: 150px;
+$left-nav-left-hide: -120px;
+$left-nav-closed-width: $left-nav-width + $left-nav-left-hide;
 
 
 $accent1: #3498db;

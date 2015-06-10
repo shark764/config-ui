@@ -40,7 +40,7 @@
   </div>
 </div>
 
-<div class="input-group" ng-show="!resource.id">
+<div class="input-group" ng-if="!resource.id">
   <label>{{'details.password' | translate}}</label>
   <div>
     <div class="error" ng-messages="detailsForm.password.$error" role="alert" ng-if='detailsForm.password.$dirty'>

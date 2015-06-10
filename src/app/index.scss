@@ -14,10 +14,6 @@ body > .ng-view {
   height: calc(100% - #{$header-height});
 }
 
-header {
-  height: $header-height;
-}
-
 body {
   margin: 0;
   font-family: $main-font;

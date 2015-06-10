@@ -1,21 +1,36 @@
+$main-content-left-margin: 15px;
+
+
+
+header {
+  position: absolute;
+  height: $header-height;
+}
+
+
+#container {
+  height: 100%;
+  width: 100%;
+  padding-top: $header-height; 
+}
 
 #main-content {
-  position: absolute;
+  display: table;
+  padding-left: $left-nav-closed-width + $main-content-left-margin;
   left: $side-menu-width;
-  bottom: 0;
-  right: 0;
   top: $navbar-height;
+  height: 100%;
+  width: 100%;
   @include transition(0.5s all);
 
   &.expanded-menu {
-    margin-left: $left-nav-width - 30px;
+    padding-left: $left-nav-width + $main-content-left-margin;
   }
 
 
   #table-pane {
-    position: absolute;
+    display: table-cell;
     width: 70%;
-    border-right: 1px solid $medium-grey;
     padding: 20px;
     box-sizing: border-box;
     vertical-align: top;
@@ -24,15 +39,19 @@
   }
 
   #resize-pane {
-
+    display: table-cell;
+    height:100%;
+    width: 10px;
+    border-left: 1px solid $medium-grey;
+    border-right: 1px solid $medium-grey;
+    vertical-align: middle;
+    text-align: center;
   }
 
   #details-pane {
     height: 100%;
     overflow-y: auto;
-    position:absolute;
-    right: 0;
-    left: 70%;
+    display: table-cell;
   }
 
 }
