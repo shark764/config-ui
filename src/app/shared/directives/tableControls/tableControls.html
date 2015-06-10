@@ -19,8 +19,8 @@
 <table class="table">
   <thead>
     <tr>
-      <th class="check-col"><input type="checkbox"/></th>
-      <th ng-repeat="field in config.fields" ng-if="field.checked" ng-class="{'filter-header': field.sortable}">
+      <th>&nbsp;</th>
+      <th ng-repeat="field in config.fields" ng-if="field.checked" ng-class="{'filter-header': !!field.options}">
         <div ng-if="!field.options">{{field.header}}</div>
         <filter-dropdown ng-if="!!field.options" show-all="true" ng-if="field.options" label="{{field.header}}" options="field.options"></filter-dropdown>
       </th>

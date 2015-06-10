@@ -4,13 +4,13 @@
     width: 50%;
     padding-right: 10px;
     display: inline-block;
-    
+
     input {
       @include border-radius(5px);
       display: inline-block;
       width: 98%;
     }
-    
+
     >i.fa-search {
       text-align: center;
       display: inline-block;
@@ -27,12 +27,12 @@
       line-height: 30px;
     }
   }
-  
+
   .action-container {
     text-align: right;
     display: inline-block;
     width: 49%;
-    
+
     .col {
       text-align: left;
       display: inline-block;
@@ -40,28 +40,28 @@
       padding-left: 5px;
       padding-right: 5px;
       // min-width: 300px;
-      
+
       button {
         border-color: $accent1;
         width: 100%;
         max-width: 200px;
       }
-      
+
       button:hover {
         background-color: $accent1;
         color: white;
       }
     }
-    
+
     .col.action {
       text-align: right;
     }
   }
-  
+
   .col.actions {
     text-align: right;
   }
-  
+
   a {
     border: $light-grey 1px solid;
     @include border-radius(4px);
@@ -74,28 +74,28 @@
     display: inline;
     top: 1.5em;
   }
-  
-  
+
+
 }
 
 .table {
   border-collapse: collapse;
   margin-top: 20px;
   width: 100%;
-  
+
   th, td {
     padding: 8px;
   }
-  
+
   th {
     font-weight: bold;
     text-align: left;
     border-right: 1px solid #dadada;
   }
-  
+
   th.filter-header {
     white-space: nowrap;
-    
+
     a:not(:hover) {
       color: #474747;
     }
@@ -103,19 +103,19 @@
   th:last-child {
     border-right: none;
   }
-  
+
   td {
     border-top: 1px solid #ddd;
   }
-  
+
   tr:last-child td{
     border-bottom: 1px solid #ddd;
   }
-  
+
   tbody tr:hover, tr.selected {
     background-color: $accent-light;
   }
-  
+
   .check-col {
     width: 40px;
   }
