@@ -7,7 +7,7 @@
   z-index: 10;
   padding: 10px;
   @include transition(left 0.25s);
-  
+
   .collapse-bar {
     color: #919191;
     font-size: 25px;
@@ -21,7 +21,7 @@
     @include border-radius;
     border: 1px solid #919191;
   }
-  
+
   .collapse-bar i {
     padding: 5px 10px;
     font-size: 0.7em;
@@ -48,13 +48,13 @@
       margin: 0 0 3px 0;
       padding: 0;
       width: 100%;
-      
+
       a {
         display: block;
         margin: 0;
         padding: 5px 10px 5px 20px;
       }
-      
+
       &:hover {
         background-color: $accent-light;
       }
@@ -63,7 +63,7 @@
 }
 
 .side-bar.collapsed {
-  left: -120px;
+  left: $left-nav-left-hide;
 }
 
 .side-bar:not(.collapsed) {
