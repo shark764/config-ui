@@ -52,6 +52,18 @@ angular.module('liveopsConfigPanel', ['ngRoute', 'ngResource', 'liveopsConfigPan
         reloadOnSearch: false,
         secure: true
       })
+      .when('/skills', {
+        templateUrl: 'app/components/skills/skills.html',
+        controller: 'SkillsController',
+        reloadOnSearch: false,
+        secure: true
+      })
+      .when('/groups', {
+        templateUrl: 'app/components/groups/groups.html',
+        controller: 'GroupsController',
+        reloadOnSearch: false,
+        secure: true
+      })
       .otherwise('/');
 
     $translateProvider
