@@ -30,6 +30,16 @@
     font-family: $main-font;
   }
 
+  .drop-label {
+    >div {
+      width: 100px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin: 0;
+      display: inline-block;
+    }
+  }
+
   .dropdown {
     button {
       color: $medium-grey;
