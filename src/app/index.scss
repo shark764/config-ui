@@ -43,14 +43,14 @@ a:hover {
 }
 
 .btn {
-  @include border-radius(4px);
-  background-color: #FFFFFF;
+  background-color: #F5F5F5;
   border: 1px solid $medium-grey;
+  @include border-radius(4px);
+  color: $main-color;
   cursor: pointer;
   display: inline-block;
   font-size: 14px;
-  line-height: 1.25;
-  padding: 7px 16px;
+  padding: 3px 10px;
   text-align: center;
   vertical-align: middle;
 }
