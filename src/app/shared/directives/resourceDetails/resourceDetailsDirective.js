@@ -8,17 +8,17 @@ angular.module('liveopsConfigPanel')
         resource: '=',
         headerTemplateUrl: '@',
         bodyTemplateUrl: '@',
-        extendScope: '='
+        extendScope: '=',
+        queryParams: '='
       },
       templateUrl : 'app/shared/directives/resourceDetails/resourceDetails.html',
 
       link : function($scope) {
-
         angular.extend($scope, $scope.extendScope);
         $scope.oResource = angular.copy($scope.resource);
 
         $scope.save = function () {
-          $scope.resource.save($scope.resource,
+          $scope.resource.save($scope.queryParams,
             function (result) {
               $scope.detailsForm.$setPristine();
               $scope.resource = result;

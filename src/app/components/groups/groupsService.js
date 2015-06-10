@@ -6,7 +6,8 @@ angular.module('liveopsConfigPanel')
     return LiveopsResourceFactory.create('/v1/tenants/:tenantId/groups/:id', true, true, [
       'name',
       'description',
-      'hasProficiency'
+      'owner',
+      'status'
     ]);
 
   }]);

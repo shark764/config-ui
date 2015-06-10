@@ -8,20 +8,26 @@ angular.module('liveopsConfigPanel')
       $scope.tableConfig = groupTableConfig;
       $scope.sidebarConfig = groupSidebarConfig;
 
-      $scope.users = User.query();
-
       $scope.groups = Group.query({
         tenantId: Session.tenant.id
       });
 
-      $scope.additional = {
-        users: $scope.users
-      }
+      //dummy data until we have members
+      var users = User.query();
+
+      $scope.groups.$promise.then(function() {
+        users.$promise.then(function(){
+          angular.forEach($scope.groups, function(group) {
+            group.members = users;
+          });
+        });
+      });
 
       $scope.createGroup = function() {
         $scope.selectedGroup = new Group({
           tenantId: Session.tenant.id,
-          status: true
+          status: true,
+          owner: Session.id
         });
       };
 

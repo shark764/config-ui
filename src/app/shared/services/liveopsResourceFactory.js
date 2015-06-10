@@ -47,22 +47,19 @@ angular.module('liveopsConfigPanel')
               method: 'PUT',
               interceptor: SaveInterceptor,
               transformRequest: function (data) {
+                var newData = {};
                 if (setUpdatedBy) {
-                  data.updatedBy = Session.id;
+                  newData.updatedBy = Session.id;
                 }
 
                 if (updateFields) {
-                  var newData = {};
-
                   for (var i = 0; i < updateFields.length; i++) {
                     var fieldName = updateFields[i];
                     newData[fieldName] = data[fieldName];
                   }
-
-                  data = newData;
                 }
 
-                return JSON.stringify(data);
+                return JSON.stringify(newData);
               },
 
               transformResponse: appendTransform($http.defaults.transformResponse, function (value) {

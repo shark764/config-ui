@@ -22,7 +22,7 @@
 </div>
 
 <div class="divider-header">
-  <h4>Members <span class="member-count">({{users.length}})<span></h4>
+  <h4>Members <span class="member-count">({{resource.members.length}})<span></h4>
 </div>
 
 <table>
@@ -30,7 +30,7 @@
     <tr><th>{{'common.name' | translate}}</th></tr>
   </thead>
   <tbody>
-    <tr ng-repeat="user in users">
+    <tr ng-repeat="user in resource.members">
       <td>{{user.firstName}} {{user.lastName}}</td>
     </tr>
   </tbody>

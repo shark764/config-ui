@@ -8,7 +8,7 @@
       on-create-click="createGroup"
       selected="selectedGroup"
       resource-name="{{'tenants:' + Session.tenant.id + ':groups'}}"
-      extend-scope="additional">
+    >
     </table-controls>
     <resize-handle ng-show="!!selectedGroup" right-element-id="details-pane" left-element-id="table-pane" left-min-width="600" right-min-width="400" ></resize-handle>
   </div>
@@ -19,7 +19,8 @@
       extend-scope="additional"
       header-template-url="app/components/groups/groupDetailHeader.html"
       body-template-url="app/components/groups/groupDetailBody.html"
-      resource="selectedGroup"
+      resource="selectedGroup",
+      query-params="{id: selectedGroup.id, tenantId: selectedGroup.tenantId}"
    />
   </div>
 </div>
