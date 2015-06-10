@@ -16,8 +16,6 @@ angular.module('liveopsConfigPanel')
       link: function ($scope) {
         $scope.valuePath = $scope.valuePath ? $scope.valuePath : 'value';
         $scope.displayPath = $scope.displayPath ? $scope.displayPath : 'display';
-
-
         $scope.all = {checked : !!$scope.showAll};
 
         // not ideal; we are adding a property to an object that will be used

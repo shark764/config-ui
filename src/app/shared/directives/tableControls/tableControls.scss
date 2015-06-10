@@ -1,31 +1,117 @@
-.action-container {
-  input,
-  button,
-  a {
+.table-controls {
+  width: 100%;
+
+  > .col {
+    width: 50%;
+    padding-right: 10px;
     display: inline-block;
+    position:relative;
+
+
+    i {
+      background-color: $accent1;
+      color: white;
+    }
   }
 
-  input {
-    width: 45%;
-    margin-right: 10px;
+  .action-container {
+    text-align: right;
+    display: inline-block;
+    width: 49%;
+
+    .col {
+      text-align: left;
+      display: inline-flex;
+      padding-left: 5px;
+      padding-right: 5px;
+      // min-width: 300px;
+
+      button {
+        border-color: $accent1;
+        width: 100%;
+        max-width: 200px;
+      }
+
+      button:hover {
+        background-color: $accent1;
+        color: white;
+      }
+    }
+
+    .col.action {
+      text-align: right;
+    }
   }
 
-  a {
-    border: $light-grey 1px solid;
-    @include border-radius(4px);
-    color: $dark-grey;
+  .col.actions {
+    text-align: right;
   }
 
   .dropdown-container {
-    width: 200px;
-    display: inline;
+    top: -3px;
+  }
 
-    .dropdown-option:hover {
-    }
+  .dropdown-label {
+    border: $light-grey 1px solid;
+    color: $dark-grey;
+    padding: 7px 12px;
+    @include border-radius(4px);
+    margin-top:-1px;
 
-    .dropdown {
-      top: 30px;
-      right: -90px;
+    &.selected {
+      border-bottom: none;
     }
+  }
+
+
+}
+
+.table {
+  border-collapse: collapse;
+  margin-top: 20px;
+  width: 100%;
+  table-layout: fixed;
+
+  th, td {
+    padding: 8px;
+  }
+
+  th {
+    font-weight: bold;
+    text-align: left;
+    border-right: 1px solid #dadada;
+    width: 13%;
+  }
+
+  th.filter-header {
+    white-space: nowrap;
+    width: 15%;
+
+    a:not(:hover) {
+      color: #474747;
+    }
+  }
+  th:last-child {
+    border-right: none;
+  }
+
+  td {
+    border-top: 1px solid #ddd;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    word-wrap: nowrap;
+    white-space: nowrap;
+  }
+
+  tr:last-child td{
+    border-bottom: 1px solid #ddd;
+  }
+
+  tbody tr:hover, tr.selected {
+    background-color: $accent-light;
+  }
+
+  .check-col {
+    width: 40px;
   }
 }

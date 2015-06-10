@@ -1,11 +1,9 @@
-<user-managment-menu menu-locked="Session.lockSideMenu"></user-managment-menu>
-
-<div id="main-content" class="user-list-container" ng-class="{'expanded-menu': Session.lockSideMenu}">
+<div id="main-content" class="user-list-container" >
   <div id="table-pane">
-    <h3>Tenants</h3>
     <table-controls config="tableConfig" items="tenants" selected="selectedTenant" on-create-click="createTenant" resource-name="tenants"></table-controls>
     <resize-handle ng-show="!!selectedTenant" right-element-id="details-pane" left-element-id="table-pane" left-min-width="600" right-min-width="400" ></resize-handle>
   </div>
+
 
   <div id="right-panel" class="right-panel" ng-show="selectedTenant">
     <resource-details id="details-pane"

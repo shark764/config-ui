@@ -2,20 +2,15 @@
   <div style="position:relative;height:100%;width:100%;">
     <div class="menu-container">
       <aside>
-        <nav>
-          <h4>Managment</h4>
-          <ul>
-            <li><a href="#/users">Users</a></li>
-            <li><a href="#/groups">Groups</a></li>
-            <li><a href="#/skills">Skills</a></li>
-            <li><a>Roles</a></li>
-            <li><a>Locations</a></li>
-            <li><a>Extensions</a></li>
-          </ul>
-        </nav>
+        <h4>{{menuConfig.title}}</h4>
+        <ul>
+          <li ng-repeat="item in menuConfig.links">
+            <a href="{{item.link}}" id="{{item.id}}">{{item.display}}</a>
+          </li>
+        </ul>
       </aside>
     </div>
-  
+
     <div class="collapse-bar">
       <span ng-hide="collapsed">
         <i ng-show="menuLocked" class="fa fa-angle-double-left" ng-click="menuLocked = false" title="Undock sidebar"></i>
