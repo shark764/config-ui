@@ -1,13 +1,14 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('userManagmentMenu', function () {
+  .directive('managmentMenu', function () {
       return {
         restrict: 'AE',
         scope: {
-          menuLocked: '='
+          menuLocked: '=',
+          templateUrl: '@'
         },
-        templateUrl: 'app/shared/directives/userManagmentMenu/userManagmentMenu.html',
+        templateUrl: 'app/shared/directives/userManagmentMenu/managmentMenu.html',
         link: function($scope){
           $scope.collapsed = ! $scope.menuLocked;
 
