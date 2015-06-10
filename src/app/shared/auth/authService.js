@@ -27,7 +27,7 @@ angular.module('liveopsConfigPanel')
             Authorization: 'Basic ' + token
           }
         });
-        
+
         return request.then(function(response) {
           angular.forEach(response.data.result, function (user) {
             if (user.email === username) {
@@ -41,7 +41,7 @@ angular.module('liveopsConfigPanel')
           if (!response.user) {
             return $q.reject(new UserNotFoundException());
           }
-          
+
           Session.set(response.user, response.token);
 
           return response;

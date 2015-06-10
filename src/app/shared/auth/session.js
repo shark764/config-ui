@@ -51,7 +51,7 @@ angular.module('liveopsConfigPanel')
 
       $rootScope.$watch('Session.tenant', self.storeSession);
       $rootScope.$watch('Session.lockSideMenu', self.storeSession);
-      
+
       this.destroy = function () {
         this.token = null;
         this.displayName = null;
