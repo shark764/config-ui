@@ -1,9 +1,9 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('FlowsController', ['$scope', '$routeParams', '$filter', 'Session', 'Flow',
-    function ($scope, $routeParams, $filter, Session, Flow) {
-
+  .controller('FlowsController', ['$scope', '$routeParams', '$filter', 'Session', 'Flow', 'flowTableConfig', 'flowSidebarConfig',
+    function ($scope, $routeParams, $filter, Session, Flow, flowTableConfig, flowSidebarConfig) {
+      $scope.tableConfig = flowTableConfig;
       $scope.flow = new Flow({});
 
       $scope.flows = [];
@@ -22,18 +22,12 @@ angular.module('liveopsConfigPanel')
       $scope.fetch = function () {
         $scope.flows = Flow.query( { tenantId: Session.tenant.id });
       };
-
-      $scope.saveSuccess = function () {
-        $scope.flow = {};
-        $scope.fetch();
+      
+      $scope.createFlow = function() {
+        $scope.selectedFlow = new Flow({
+          tenantId: Session.tenant.id
+        });
       };
-
-      $scope.saveFailure = function (reason) {
-        $scope.error = reason.data;
-      };
-
-      $scope.save = function () {
-        $scope.flow.save({id : $scope.flow.id, tenantId : Session.tenant.id}, $scope.saveSuccess, $scope.saveFailure);
-      };
-
-    }]);
+      
+      $scope.sidebarConfig = flowSidebarConfig;
+}]);

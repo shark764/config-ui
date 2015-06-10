@@ -45,7 +45,7 @@ a:hover {
 .btn {
   background-color: #F5F5F5;
   border: 1px solid $medium-grey;
-  @include border-radius(4px);
+  border-radius: 4px;
   color: $main-color;
   cursor: pointer;
   display: inline-block;
@@ -100,6 +100,40 @@ a:hover {
   float: right;
 }
 
+input[type=password], input[type=text], input[type=email], select{
+  background-color: #fff;
+  border-radius: 3px;
+  border: 1px solid transparent;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.2) inset, 0 -1px 0 rgba(0,0,0,0.05) inset;
+  transition: all 0.2s linear;
+  font-size: 13px;
+  color: #222222;
+  max-width: 100%;
+  position: relative;
+  height: 36px;
+  padding-left: 15px;
+  box-sizing: border-box;
+  width:100%;
+
+  &::-webkit-input-placeholder {
+    color: #999999;
+  }
+
+  &:-moz-placeholder {
+    color: #999999;
+  }
+
+  &:focus{
+    border-color: #66afe9;
+    outline: 0;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6);
+  }
+
+  &.ng-touched.ng-invalid {
+    border-color: red;
+  }
+}
 
 .error {
   color: red;

@@ -1,48 +1,18 @@
-<div>
-  <h3>Flow Designer</h3>
+<management-menu menu-locked="Session.lockSideMenu" menu-config="sidebarConfig"></management-menu>
 
-  <table >
-    <thead>
-      <td>ID</td>
-      <td>Name</td>
-      <td>Description</td>
-      <td>Active</td>
-      <td>Parent Tenant</td>
-      <td>Version</td>
-    </thead>
-    <tr ng-repeat="flow in flows" >
-      <td style="border: 1px solid black;">{{flow.id}}</td>
-      <td style="border: 1px solid black;"><a ng-href="#/flows?id={{flow.id}}">{{flow.name}}</a></td>
-      <td style="border: 1px solid black;">{{flow.description}}</td>
-      <td style="border: 1px solid black;">{{flow.active}}</td>
-      <td style="border: 1px solid black;">{{flow.tenantId}}</td>
-      <td style="border: 1px solid black;"><a ng-href="#/versions?flowId={{flow.id}}">Version</a></td>
-    </tr>
-  </table>
-  <ul>
-    <li class="error" ng-repeat="(key, value) in error.error">
-      Field `{{key}}` has the following error `{{value}}`
-    </li>
-  </ul>
-
-  <h3>Create new Flow</h3>
-  <form ng-submit="save()">
-    <div>Name:
-    <input type="text" ng-required="true" ng-model="flow.name" placeholder="This is my flow name">
-
-    </input>
+<div id="main-content" ng-class="{'expanded-menu': Session.lockSideMenu}">
+  <div id="table-pane">
+    <table-controls config="tableConfig" items="flows" on-create-click="createFlow" selected="selectedFlow" resource-name="flows"></table-controls>
+    <resize-handle ng-show="!!selectedFlow" right-element-id="details-pane" left-element-id="table-pane" left-min-width="600" right-min-width="400" ></resize-handle>
   </div>
-  <div>Description:
-   <input type="text" ng-required="true" ng-model="flow.description" placeholder="This is my flow description">
-
- </input>
-</div>
-<div>Active:
-  <toggle class="user-toggle" ng-model="flow.active">
-
-  </toggle>
-</div>
-<input type="submit" class="btn btn-primary" value="{{ !flow.id ? 'Create' : 'Update' }}"/>
-</form>
-
+  
+  <div id="right-panel" class="right-panel" ng-show="selectedFlow">
+    <resource-details id="details-pane"
+    ng-show="selectedFlow"  
+    extend-scope="additional"
+    header-template-url="app/components/flows/flowDetailHeader.html"
+    body-template-url="app/components/flows/flowDetailBody.html"
+    resource="selectedFlow"
+   />
+  </div>
 </div>

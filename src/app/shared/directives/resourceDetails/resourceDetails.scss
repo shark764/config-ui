@@ -4,7 +4,7 @@
    @include display-flex();
    @include flex-box-direct(column);
    width: 100%;
-
+   
   #detail-header-pane {
     border-bottom: 1px solid #dadada;
     padding: 15px;
@@ -61,7 +61,12 @@
       padding-right: 10px;
       vertical-align: middle;
     }
-
+    
+    label.textarea-label {
+      padding-top: 0.7em;
+      vertical-align: top;
+    }
+    
     input, select, button {
       width: 100%;
       max-width: 400px;

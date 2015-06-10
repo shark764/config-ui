@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('UsersController', ['$scope', '$location', '$routeParams', '$filter', 'userStates', 'userStatuses', 'userRoles', 'User', 'Session', 'userTableConfig',
-    function($scope, $location, $routeParams, $filter, userStates, userStatuses, userRoles, User, Session, userTableConfig) {
+  .controller('UsersController', ['$scope', 'userStates', 'userStatuses', 'userRoles', 'User', 'Session', 'userTableConfig', 'userSidebarConfig',
+    function($scope, userStates, userStatuses, userRoles, User, Session, userTableConfig, userSidebarConfig) {
       $scope.states = userStates;
       $scope.statuses = userStatuses;
       $scope.filteredUsers = [];
@@ -22,27 +22,7 @@ angular.module('liveopsConfigPanel')
         });
       };
 
-      $scope.sidebarConfig = {
-          title: 'Management',
-          links: [{
-            display: 'Users',
-            link: '#/users',
-            id: 'user-management-link'
-          }, {
-            display: 'Groups',
-            link: '#/',
-            id: 'group-management-link'
-          }, {
-            display: 'Skills',
-            link: '#/',
-            id: 'skill-management-link'
-          }, {
-            display: 'Roles',
-            link: '#/',
-            id: 'role-management-link'
-          }]
-      }
-
+      $scope.sidebarConfig = userSidebarConfig;
       $scope.tableConfig = userTableConfig;
     }
   ]);

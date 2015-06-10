@@ -1,0 +1,21 @@
+<div class="input-group">
+  <label>Name</label>
+  <div>
+    <div class="error" ng-show="detailsForm.name.$touched && detailsForm.name.$invalid">{{'flow.details.name.error' | translate}}</div>
+    <input type="text" ng-required="true" ng-model="resource.name" name="name"></input>
+  </div>
+</div>
+
+<div ng-if="resource.id" class="input-group">
+  <label>Active Version</label>
+  <div>
+    <input disabled type="text" ng-model="resource.version"></input>
+  </div>
+</div>
+
+<div class="input-group">
+  <label class="textarea-label">Description</label>
+  <div>
+    <textarea ng-model="resource.description"></textarea>
+  </div>
+</div>
