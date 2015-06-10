@@ -11,7 +11,7 @@ angular.module('liveopsConfigPanel')
           'name': 'description'
         }, {
           'header': 'Active Version',
-          'name': 'version'
+          'name': 'activeVersion'
         }],
         'searchOn' : ['name'],
         'orderBy' : ['name']
