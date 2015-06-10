@@ -23,6 +23,13 @@ angular.module('liveopsConfigPanel')
 
         $scope.$on('created:resource:' + $scope.resourceName, function (event, item) {
           $scope.items.push(item);
+          $scope.selected = item;
+        });
+
+        $scope.$watchCollection('filtered', function () {
+          if(!$scope.selected || $scope.filtered.indexOf($scope.selected) == -1) {
+            $scope.selected = $scope.filtered[0];
+          }
         });
       }
     };
