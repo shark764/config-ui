@@ -6,13 +6,14 @@ angular.module('liveopsConfigPanel')
 
       $scope.flow = new Flow({});
 
+      console.log(Session);
+
       $scope.flows = [];
       $scope.tenants = [];
 
       $scope.$on('$routeUpdate', function () {
         $scope.setFlow($routeParams.id);
       });
-
       $scope.flows = Flow.query( { tenantId: Session.tenantId });
 
       $scope.setFlow = function (id) {
@@ -24,7 +25,7 @@ angular.module('liveopsConfigPanel')
         $scope.flows = Flow.query( { tenantId: Session.tenant.id });
       };
 
-      $scope.saveSuccess = function (response) {
+      $scope.saveSuccess = function () {
         $scope.flow = {};
         $scope.fetch();
       };
