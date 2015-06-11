@@ -11,7 +11,7 @@ html, body {
 }
 
 body > .ng-view {
-  height: calc(100% - #{$header-height});
+  height: calc(100% - #{$navbar-height});
 }
 
 body {
@@ -39,7 +39,7 @@ a:hover {
 }
 
 .btn {
-  background-color: #F5F5F5;
+  background-color: #F9F9F9;
   border: 1px solid $medium-grey;
   border-radius: 4px;
   color: $main-color;

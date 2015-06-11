@@ -14,7 +14,8 @@ angular.module('liveopsConfigPanel')
           'name': 'activeVersion'
         }],
         'searchOn' : ['name'],
-        'orderBy' : ['name']
+        'orderBy' : ['name'],
+        'title' : 'Flow Management'
       };
     }
   )

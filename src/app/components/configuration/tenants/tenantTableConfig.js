@@ -20,6 +20,7 @@ angular.module('liveopsConfigPanel')
         'filter': 'selectedOptions'
       }],
       'searchOn': ['name'],
-      'orderBy': ['name']
+      'orderBy': ['name'],
+      'title' : 'Tenant Management'
     };
   }])
