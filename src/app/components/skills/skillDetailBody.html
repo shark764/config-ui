@@ -5,7 +5,7 @@
 </div>
 
 <div class="input-group">
-  <label>{{'skill.details.name' | translate}}</label>
+  <label>{{'value.name' | translate}}</label>
   <div>
     <div class="error" ng-show="detailsForm.name.$touched && detailsForm.name.$invalid">{{'skill.details.name.error' | translate}}</div>
     <input ng-model="resource.name" name="name" type="text"></input>
@@ -14,7 +14,7 @@
 </div>
 
 <div class="input-group">
-  <label>{{'skill.details.description' | translate}}</label>
+  <label>{{'value.description' | translate}}</label>
   <div>
     <div class="error" ng-show="detailsForm.description.$touched && detailsForm.description.$invalid">{{'skill.details.description.error' | translate}}</div>
     <textarea rows=3 cols=30 ng-model="resource.description" name="description" type="text"></textarea>

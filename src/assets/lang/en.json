@@ -6,6 +6,7 @@
   "value.description": "Description",
   "value.createdby": "Created by {{creator}} at {{date}}",
   "value.updatedby": "Last updated by {{enabler}} at {{date}}",
+  "value.numMembers": "({{number}})",
   
   "navbar.users.title": "User Management",
   "navbar.tenants.title": "Tenants",
@@ -25,6 +26,9 @@
   "details.password.error": "Please enter a password",
   "details.externalId": "External ID",
   "details.role": "Role",
+
+  
+  "skill.details.hasProficiency": "Has Proficiency",
   
   "tenant.details.title": "Tenants",
   "tenant.details.name": "Tenant Name",
