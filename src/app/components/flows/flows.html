@@ -12,7 +12,6 @@
 
   <resize-handle
     id="resize-pane"
-    ng-show="!!selectedFlow"
     right-element-id="details-pane"
     left-element-id="table-pane"
     left-min-width="600"
@@ -20,7 +19,6 @@
 
   <resource-details
     id="details-pane"
-    ng-show="selectedFlow"
     extend-scope="additional"
     header-template-url="app/components/flows/flowDetailHeader.html"
     body-template-url="app/components/flows/flowDetailBody.html"

@@ -9,11 +9,19 @@
 
 
     i {
-      background-color: $accent1;
+      background-color: $main-color;
       color: white;
     }
   }
 
+  &.top-row {
+    margin-bottom: 30px;
+    
+    h1, h2 {
+      margin: 0;
+    }
+  }
+  
   .action-container {
     text-align: right;
     display: inline-block;
@@ -24,17 +32,19 @@
       display: inline-flex;
       padding-left: 5px;
       padding-right: 5px;
-      // min-width: 300px;
 
-      button {
-        border-color: $accent1;
+      button, filter-dropdown {
         width: 100%;
         max-width: 200px;
+        padding: 7px 15px;
       }
-
-      button:hover {
-        background-color: $accent1;
-        color: white;
+      
+      filter-dropdown {
+        padding: 0;
+      }
+      
+      .dropdown-label {
+        padding: 7px 15px;
       }
     }
 
@@ -50,25 +60,11 @@
   .dropdown-container {
     top: -3px;
   }
-
-  .dropdown-label {
-    border: $light-grey 1px solid;
-    color: $dark-grey;
-    padding: 7px 12px;
-    @include border-radius(4px);
-    margin-top:-1px;
-
-    &.selected {
-      border-bottom: none;
-    }
-  }
-
-
 }
 
 .table {
   border-collapse: collapse;
-  margin-top: 20px;
+  margin-top: 15px;
   width: 100%;
   table-layout: fixed;
 

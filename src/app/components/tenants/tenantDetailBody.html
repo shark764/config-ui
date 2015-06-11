@@ -1,11 +1,30 @@
-<div>{{'tenant.details.name' | translate}}<input type="text" ng-required="true" ng-model="resource.name"></input></div>
-<div>
-  {{'tenant.details.admin' | translate}}
-  <select ng-model="resource.adminUserId" ng-options="user.id as user.displayName for user in users"></select>
+<div class="input-group">
+  <label>{{'tenant.details.name' | translate}}</label>
+  <div>
+    <div class="error" ng-show="detailsForm.name.$touched && detailsForm.name.$invalid">{{'tenant.details.name.error' | translate}}</div>
+    <input required ng-model="resource.name" name="name" type="text"></input>
+  </div>
 </div>
-<div>
-  {{'tenant.details.description' | translate}}
-  <input type="text" ng-required="false" ng-model="resource.description">
+
+<div class="input-group">
+  <label>{{'tenant.details.admin' | translate}}</label>
+  <div>
+    <select ng-model="resource.adminUserId" ng-options="user.id as user.displayName for user in users">
+      <option value="">(None)</option>
+    </select>
+  </div>
 </div>
-<div ng-hide="true"><toggle class="tenant-toggle" ng-model="resource.status"></toggle></div>
-<div ng-hide="!resource.id">{{'tenant.details.region' | translate}} {{resource.regionId}}</div>
+
+<div class="input-group">
+  <label class="textarea-label">{{'tenant.details.description' | translate}}</label>
+  <div>
+    <textarea ng-required="false" ng-model="resource.description"></textarea>
+  </div>
+</div>
+
+<div class="input-group" ng-if="resource.id">
+  <label class="textarea-label">{{'tenant.details.region' | translate}}</label>
+  <div>
+    <input type="text" disabled value="{{resource.regionId}}"/>
+  </div>
+</div>

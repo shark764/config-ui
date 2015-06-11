@@ -20,7 +20,8 @@ angular.module('liveopsConfigPanel')
           'options': userStatuses
         }],
         'searchOn' : ['name', 'description'],
-        'orderBy' : ['name']
+        'orderBy' : ['name'],
+        'title' : 'Groups Management'
       };
     }
   ])

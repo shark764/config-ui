@@ -11,7 +11,8 @@ angular.module('liveopsConfigPanel')
           'name': 'description'
         }],
         'searchOn' : ['name'],
-        'orderBy' : ['name']
+        'orderBy' : ['name'],
+        'title' : 'Queue Management'
       };
     }
   )
