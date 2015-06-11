@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('resourceDetails', [function() {
+  .directive('resourceDetails', ['User', function(User) {
     return {
       restrict: 'AE',
       scope : {
@@ -26,8 +26,14 @@ angular.module('liveopsConfigPanel')
           );
         };
 
-        $scope.$watch('resource.id', function(){
+        $scope.$watch('resource.id', function(newValue){
           $scope.resetForm();
+          
+          if (newValue){
+            $scope.creator = User.get({id : $scope.resource.createdBy});
+          } else {
+            delete $scope.creator;
+          }
         })
 
         $scope.$watch('resource', function () {
