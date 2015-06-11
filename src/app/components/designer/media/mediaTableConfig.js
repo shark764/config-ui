@@ -14,7 +14,8 @@ angular.module('liveopsConfigPanel')
           'name': 'properties'
         }],
         'searchOn' : ['name'],
-        'orderBy' : ['name']
+        'orderBy' : ['name'],
+        'title' : 'Media'
       };
     }
   )

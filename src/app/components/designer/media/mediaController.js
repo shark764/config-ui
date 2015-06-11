@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('MediaController', ['$scope', 'Media', 'Session', '$routeParams', 'flowSidebarConfig', 'mediaTableConfig',
-  function ($scope, Media, Session, $routeParams, flowSidebarConfig, mediaTableConfig) {
+  .controller('MediaController', ['$scope', 'Media', 'Session', 'mediaTableConfig',
+  function ($scope, Media, Session, mediaTableConfig) {
     $scope.Session = Session;
     
     $scope.fetch = function(){
@@ -25,6 +25,5 @@ angular.module('liveopsConfigPanel')
     });
     
     $scope.fetch();
-    $scope.sidebarConfig = flowSidebarConfig;
     $scope.tableConfig = mediaTableConfig;
   }]);

@@ -16,7 +16,7 @@ angular.module('liveopsConfigPanel')
           id: 'queue-management-link'
         }, {
           display: 'Media',
-          link: '#/media',
+          link: $state.href('designer.media'),
           id: 'media-management-link'
         }]
     };;
