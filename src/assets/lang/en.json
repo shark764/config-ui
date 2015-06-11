@@ -11,7 +11,7 @@
   "navbar.users.title": "User Management",
   "navbar.tenants.title": "Tenants",
   "navbar.flows.title": "Flow Designer",
-  "navbar.welcome": "Welcome back, {{name}}",
+  "navbar.welcome": "Welcome back, {{displayName}}",
   
   "details.firstName": "First Name",
   "details.firstName.error": "Please enter a first name",
@@ -26,7 +26,6 @@
   "details.password.error": "Please enter a password",
   "details.externalId": "External ID",
   "details.role": "Role",
-
   
   "skill.details.hasProficiency": "Has Proficiency",
   
