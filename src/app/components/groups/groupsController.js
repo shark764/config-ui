@@ -9,8 +9,8 @@ angular.module('liveopsConfigPanel')
 
       $scope.groups = Group.query( { tenantId: Session.tenant.id } );
 
-      $scope.createSkill = function() {
-        $scope.selectedGroup = new Group( { 
+      $scope.createGroup = function() {
+        $scope.selectedGroup = new Group( {
           tenantId: Session.tenant.id,
           status: true
            } );

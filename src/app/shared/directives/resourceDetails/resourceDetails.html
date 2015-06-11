@@ -8,6 +8,6 @@
 
   <div id="detail-controls-pane">
     <input type="button" class="btn" ng-click="cancel()" value="{{'value.cancel' | translate}}"></input>
-    <input class="btn btn-primary" type="submit" value="{{'value.submit' | translate}}" />
+    <input ng-disabled="detailsForm.$invalid || ! detailsForm.$dirty" class="btn btn-primary" type="submit" value="{{'value.submit' | translate}}" />
   </div>
 </form>

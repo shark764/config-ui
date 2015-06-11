@@ -51,7 +51,7 @@ angular.module('liveopsConfigPanel')
       };
 
       this.logout = function () {
-        Session.destroy();
+        Session.destroyAll();
       };
 
       this.generateToken = function (username, password) {
