@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('NavbarController', ['$rootScope', '$scope', '$location', 'AuthService', 'Session', 'Tenant', '$translate',
-    function($rootScope, $scope, $location, AuthService, Session, Tenant, $translate) {
+  .controller('NavbarController', ['$rootScope', '$scope', '$state', 'AuthService', 'Session', 'Tenant', '$translate',
+    function($rootScope, $scope, $state, AuthService, Session, Tenant, $translate) {
       $scope.Session = Session;
 
       var populateTenantsHandler = function() {
@@ -28,16 +28,16 @@ angular.module('liveopsConfigPanel')
       };
 
       $scope.$on('login:success', populateTenantsHandler);
-      
+
       $scope.$watch('Session.tenants', populateTenantsHandler);
 
       $scope.isActive = function(viewLocation) {
-        return viewLocation === $location.path();
+        return $state.current.name != '' ? $state.href($state.current.name).indexOf(viewLocation) === 1 : false;
       };
 
       $scope.logout = function() {
         AuthService.logout();
-        $location.url($location.path('/login'));
+        $state.go('login');
         $rootScope.$broadcast('logout');
       };
 

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('tableControls', ['$filter', '$location', '$routeParams', function ($filter, $location, $routeParams) {
+  .directive('tableControls', ['$filter', '$location', '$stateParams', function ($filter, $location, $stateParams) {
     return {
       restrict: 'E',
       scope: {
