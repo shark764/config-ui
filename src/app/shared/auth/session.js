@@ -19,8 +19,7 @@ angular.module('liveopsConfigPanel')
       this.userPreferenceKey = preferenceKey;
 
       this.token = null;
-      this.displayName = null;
-      this.id = null;
+      this.user = null;
       this.lang = null;
       this.tenants = null;
       this.tenant = null;
@@ -29,8 +28,11 @@ angular.module('liveopsConfigPanel')
 
       this.set = function (user, tenants, token) {
         this.token = token;
-        this.displayName = user.displayName;
-        this.id = user.id;
+        
+        this.user = {
+          id: user.id,
+          displayName: user.displayName
+        }
         
         this.tenants = tenants;
         
@@ -40,8 +42,7 @@ angular.module('liveopsConfigPanel')
       this.storeSession = function () {
         localStorage.setItem(self.userSessionKey, JSON.stringify({
           token: self.token,
-          displayName: self.displayName,
-          id: self.id,
+          user: self.user,
           tenants: self.tenants
         }));
 
@@ -55,8 +56,7 @@ angular.module('liveopsConfigPanel')
 
       this.destroy = function () {
         this.token = null;
-        this.displayName = null;
-        this.id = null;
+        this.user = null;
 
         localStorage.removeItem(this.userSessionKey);
       };
@@ -92,7 +92,7 @@ angular.module('liveopsConfigPanel')
       this.isAuthenticated = function () {
         return !!this.token;
       };
-
+      
       this.restore();
     }
   ]);

@@ -27,8 +27,6 @@ angular.module('liveopsConfigPanel')
         $scope.tenantDropdownItems = tenantDropdownItems;
       };
 
-      $scope.welcomeMessage = $translate('navbar.welcome', {name: Session.displayName});
-
       $scope.$on('login:success', populateTenantsHandler);
       
       $scope.$watch('Session.tenants', populateTenantsHandler);
