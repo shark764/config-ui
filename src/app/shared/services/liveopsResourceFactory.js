@@ -49,7 +49,7 @@ angular.module('liveopsConfigPanel')
               transformRequest: function (data) {
                 var newData = {};
                 if (setUpdatedBy) {
-                  newData.updatedBy = Session.id;
+                  newData.updatedBy = Session.user.id;
                 }
 
                 if (updateFields) {
@@ -72,7 +72,7 @@ angular.module('liveopsConfigPanel')
               transformRequest: function (data) {
 
                 if (setCreatedBy) {
-                  data.createdBy = Session.id;
+                  data.createdBy = Session.user.id;
                 }
 
                 return JSON.stringify(data);
