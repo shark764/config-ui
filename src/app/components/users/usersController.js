@@ -28,7 +28,7 @@ angular.module('liveopsConfigPanel')
           state: 'Ready'
         });
       };
-      
+
       $scope.sidebarConfig = {
           title: 'Management',
           links: [{

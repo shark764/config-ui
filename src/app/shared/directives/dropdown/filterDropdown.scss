@@ -4,22 +4,31 @@
   }
   border: 1px solid transparent;
   border-bottom: none;
-  cursor: pointer;
+
   padding: 5px;
 }
 .dropdown-label.selected {
   border-color: $medium-grey;
+  @include box-shadow(inset 0 3px 5px rgba(0,0,0,.125));
 }
 .filter-dropdown {
-  border: 1px solid$medium-grey;
-  min-width: 230px;
-  padding: 15px;
+  border: 1px solid $medium-grey;
+  min-width: 140px;
   text-align: left;
   top: 0;
 }
 .filter-dropdown > div {
-  padding: 5px;
+  padding: 5px 10px;
 }
+
+.filter-dropdown {
+  div:hover {
+    background-color: $accent-light;
+    @include box-shadow(inset 4px 0px 0px 0px $accent1);
+    cursor: pointer;
+  }
+}
+
 .filter-dropdown > .all {
   border-bottom: 1px solid $medium-grey;
   margin-bottom: 10px;

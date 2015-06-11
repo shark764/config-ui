@@ -10,7 +10,7 @@
     <div class="error" ng-show="detailsForm.firstName.$touched && detailsForm.firstName.$invalid">{{'details.firstName.error' | translate}}</div>
     <input required ng-model="resource.firstName" name="firstName" type="text" ng-change="updateDisplayName(this)"></input>
   </div>
-  
+
 </div>
 
 <div class="input-group">
@@ -19,7 +19,7 @@
     <div class="error" ng-show="detailsForm.lastName.$touched && detailsForm.lastName.$invalid">{{'details.lastName.error' | translate}}</div>
     <input required ng-model="resource.lastName" name="lastName" type="text" ng-change="updateDisplayName(this)"></input>
   </div>
-</div> 
+</div>
 
 <div class="input-group">
   <label>{{'details.displayName' | translate}}</label>
@@ -36,7 +36,17 @@
       <div ng-message="required">{{'details.email.error' | translate}}</div>
       <div ng-message="email">{{'details.email.invalid' | translate}}</div>
     </div>
-    <input ng-model="resource.email" name="email" type="email" required email></input>
+    <input autocomplete="off" ng-model="resource.email" name="email" type="email" required email></input>
+  </div>
+</div>
+
+<div class="input-group" ng-if="!resource.id">
+  <label>{{'details.password' | translate}}</label>
+  <div>
+    <div class="error" ng-messages="detailsForm.password.$error" role="alert" ng-if='detailsForm.password.$dirty'>
+      <div ng-message="required">{{'details.password.error' | translate}}</div>
+    </div>
+    <input autocomplete="off" ng-model="resource.password" name="password" type="password" required></input>
   </div>
 </div>
 
@@ -89,6 +99,6 @@
 <div ng-if="resource.id" class="input-group">
   <label>{{'details.password' | translate}}</label>
   <div>
-    <button class="btn disabled">Reset Password</button>
+    <button disabled class="btn disabled">Reset Password</button>
   </div>
 </div>
