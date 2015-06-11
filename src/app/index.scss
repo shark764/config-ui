@@ -14,10 +14,6 @@ body > .ng-view {
   height: calc(100% - #{$header-height});
 }
 
-header {
-  height: $header-height;
-}
-
 body {
   margin: 0;
   font-family: $main-font;
@@ -65,34 +61,18 @@ a:hover {
   @include inset-box-shadow;
 }
 
-.btn-group {
-  .btn {
-    border-radius: 0;
-    float: left;
-  }
-
-  .btn:first-child {
-    border-bottom-left-radius: 6px;
-    border-top-left-radius: 6px;
-  }
-
-  .btn + .btn {
-    border-left: none;
-  }
-
-  .btn:last-child {
-    border-bottom-right-radius: 6px;
-    border-top-right-radius: 6px;
-  }
-}
-
-.btn.disabled, .btn-group.disabled .btn, .btn[ng-disabled="true"], .btn-group[ng-disabled="true"] .btn  {
+.btn.disabled, .btn[disabled] {
   border-color: lighten($medium-grey, 3%);
   color: darken($medium-grey, 20%);
   cursor: default;
-
+  @include box-shadow(inset 3px 3px 3px 0px rgba(0,0,0,0.34));
+  
   &:hover {
-     @include inset-box-shadow(0,0,0);
+     @include box-shadow(inset 3px 3px 3px 0px rgba(0,0,0,0.34));
+  }
+  
+  .btn-primary {
+    color: darken($main-color, 20%);
   }
 }
 

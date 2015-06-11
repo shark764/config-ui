@@ -11,22 +11,30 @@ angular.module('liveopsConfigPanel')
         }
 
         $scope.tenants = Tenant.query({regionId: Session.activeRegionId}, function() {
-          if (!Session.tenantId && $scope.tenants.length) {
-            Session.tenant = $scope.tenants[0];
+          if (!Session.tenant && $scope.tenants.length) {
+            Session.setTeant($scope.tenants[0]);
           }
-          
+
           var tenantDropdownItems = [];
           angular.forEach($scope.tenants, function(tenant) {
-            tenantDropdownItems.push({label: tenant.name, onClick: function(){Session.tenant = tenant;}});
+            tenantDropdownItems.push({
+              label: tenant.name,
+              onClick: function(){
+                Session.setTeant(tenant);
+              }
+            });
           });
-          
+
           $scope.tenantDropdownItems = tenantDropdownItems;
         });
       };
 
       $scope.welcomeMessage = $translate('navbar.welcome', {name: Session.displayName});
-      
+
       $scope.$on('login:success', populateTenantsHandler);
+
+      $scope.$on('created:resource:tenants', populateTenantsHandler);
+
       $scope.$watch('Session.activeRegionId', populateTenantsHandler);
 
       $scope.isActive = function(viewLocation) {

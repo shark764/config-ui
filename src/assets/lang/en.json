@@ -33,7 +33,10 @@
   "skill.details.description": "Description",
   "skill.details.description.error": "Please enter a description",
   "skill.details.hasProficiency": "Has proficiency",
-
+  "skill.details.createdby": "Skill created by {{creator}} at {{date}}",
+  "skill.details.updatedby": "Skill updated by {{enabler}} at {{date}}",
+  "skill.details.numMembers": "({{number}})",
+  
   "tenant.details.title": "Tenants",
   "tenant.details.createdby": "Created by {{creator}} at {{date}}",
   "tenant.details.updatedby": "Last updated by {{updater}} at {{date}}",

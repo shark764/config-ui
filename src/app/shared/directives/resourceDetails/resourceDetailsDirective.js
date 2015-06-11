@@ -8,8 +8,7 @@ angular.module('liveopsConfigPanel')
         resource: '=',
         headerTemplateUrl: '@',
         bodyTemplateUrl: '@',
-        extendScope: '=',
-        queryParams: '='
+        extendScope: '='
       },
       templateUrl : 'app/shared/directives/resourceDetails/resourceDetails.html',
 
@@ -18,14 +17,18 @@ angular.module('liveopsConfigPanel')
         $scope.oResource = angular.copy($scope.resource);
 
         $scope.save = function () {
-          $scope.resource.save($scope.queryParams,
+          $scope.resource.save($scope.resource,
             function (result) {
-              $scope.detailsForm.$setPristine();
+              $scope.resetForm();
               $scope.resource = result;
               $scope.oResource = angular.copy($scope.resource);
             }
           );
         };
+
+        $scope.$watch('resource.id', function(){
+          $scope.resetForm();
+        })
 
         $scope.$watch('resource', function () {
           $scope.oResource = angular.copy($scope.resource);
@@ -33,8 +36,13 @@ angular.module('liveopsConfigPanel')
 
         $scope.cancel = function () {
           angular.copy($scope.oResource, $scope.resource);
-          $scope.detailsForm.$setPristine();
+          $scope.resetForm();
         };
+
+        $scope.resetForm = function(){
+          $scope.detailsForm.$setPristine();
+          $scope.detailsForm.$setUntouched();
+        }
       }
     };
    }]);
