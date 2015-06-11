@@ -22,15 +22,18 @@ angular.module('liveopsConfigPanel')
       this.displayName = null;
       this.id = null;
       this.lang = null;
+      this.tenants = null;
       this.tenant = null;
       this.activeRegionId = 'c96cf160-0f18-11e5-8ee6-b1d420920055';
       this.lockSideMenu = false;
 
-      this.set = function (user, token) {
+      this.set = function (user, tenants, token) {
         this.token = token;
         this.displayName = user.displayName;
         this.id = user.id;
-
+        
+        this.tenants = tenants;
+        
         this.storeSession();
       };
 
@@ -39,13 +42,14 @@ angular.module('liveopsConfigPanel')
           token: self.token,
           displayName: self.displayName,
           id: self.id,
+          tenants: self.tenants
         }));
 
         localStorage.setItem(self.userPreferenceKey, JSON.stringify({
-          tenant: self.tenant,
           lang: self.lang,
           lockSideMenu: self.lockSideMenu,
-          activeRegionId: self.activeRegionId
+          activeRegionId: self.activeRegionId,
+          tenant: self.tenant
         }));
       };
 
@@ -62,7 +66,7 @@ angular.module('liveopsConfigPanel')
         self.storeSession();
       };
 
-      this.setTeant = function (tenant){
+      this.setTenant = function (tenant){
         self.tenant = tenant;
         self.storeSession();
       };
