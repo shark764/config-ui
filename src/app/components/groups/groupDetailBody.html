@@ -1,0 +1,37 @@
+<h3 ng-if="! resource.id">Creating Groups</h3>
+
+<div class="divider-header">
+  <h4>Group Details</h4>
+</div>
+
+<div class="input-group">
+  <label>{{'common.name' | translate}}</label>
+  <div>
+    <div class="error" ng-show="detailsForm.name.$touched && detailsForm.name.$invalid">{{'group.details.name.error' | translate}}</div>
+    <input ng-model="resource.name" name="name" type="text"></input>
+  </div>
+
+</div>
+
+<div class="input-group">
+  <label>{{'common.description' | translate}}</label>
+  <div>
+    <div class="error" ng-show="detailsForm.description.$touched && detailsForm.description.$invalid">{{'group.details.description.error' | translate}}</div>
+    <input ng-model="resource.description" name="description" type="text"></input>
+  </div>
+</div>
+
+<div class="divider-header">
+  <h4>Members <span class="member-count">({{resource.members.length}})<span></h4>
+</div>
+
+<table>
+  <thead>
+    <tr><th>{{'common.name' | translate}}</th></tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="user in resource.members">
+      <td>{{user.firstName}} {{user.lastName}}</td>
+    </tr>
+  </tbody>
+</table>

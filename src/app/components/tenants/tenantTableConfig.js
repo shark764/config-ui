@@ -19,8 +19,7 @@ angular.module('liveopsConfigPanel')
         'options': userStatuses,
         'filter': 'selectedOptions'
       }],
-      'search': {
-        'fields': ['name']
-      }
+      'searchOn': ['name'],
+      'orderBy': ['name']
     };
   }])

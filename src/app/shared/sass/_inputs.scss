@@ -2,8 +2,12 @@ $input-height: 36px;
 $input-left-padding: 15px;
 $input-border-shadow: rgba(102,175,233,.6);
 
-input[type=password], input[type=text], input[type=email], select, textarea{
-  background-color: #fff;
+
+textarea{
+  resize: vertical;
+}
+
+input[type=password], input[type=text], input[type=email], select{  background-color: #fff;
   border-radius: 3px;
   border: 1px solid transparent;
   box-shadow: 0 1px 2px rgba(0,0,0,0.2) inset, 0 -1px 0 rgba(0,0,0,0.05) inset;

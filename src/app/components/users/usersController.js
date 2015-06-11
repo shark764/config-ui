@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('UsersController', ['$scope', 'userStates', 'userStatuses', 'userRoles', 'User', 'Session', 'userTableConfig', 'userSidebarConfig',
-    function($scope, userStates, userStatuses, userRoles, User, Session, userTableConfig, userSidebarConfig) {
+  .controller('UsersController', ['$scope', '$location', '$routeParams', '$filter', 'userStates', 'userStatuses', 'userRoles', 'User', 'Session', 'userTableConfig', 'userSidebarConfig',
+    function($scope, $location, $routeParams, $filter, userStates, userStatuses, userRoles, User, Session, userTableConfig, userSidebarConfig) {
       $scope.states = userStates;
       $scope.statuses = userStatuses;
       $scope.filteredUsers = [];
@@ -22,7 +22,7 @@ angular.module('liveopsConfigPanel')
         });
       };
 
-      $scope.sidebarConfig = userSidebarConfig;
       $scope.tableConfig = userTableConfig;
+      $scope.sidebarConfig = userSidebarConfig;
     }
   ]);

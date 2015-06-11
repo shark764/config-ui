@@ -1,0 +1,30 @@
+<h3 ng-if="! resource.id">Creating Skill</h3>
+
+<div class="divider-header">
+  <h4>Skill Details</h4>
+</div>
+
+<div class="input-group">
+  <label>{{'skill.details.name' | translate}}</label>
+  <div>
+    <div class="error" ng-show="detailsForm.name.$touched && detailsForm.name.$invalid">{{'skill.details.name.error' | translate}}</div>
+    <input ng-model="resource.name" name="name" type="text"></input>
+  </div>
+  
+</div>
+
+<div class="input-group">
+  <label>{{'skill.details.description' | translate}}</label>
+  <div>
+    <div class="error" ng-show="detailsForm.description.$touched && detailsForm.description.$invalid">{{'skill.details.description.error' | translate}}</div>
+    <textarea rows=3 cols=30 ng-model="resource.description" name="description" type="text"></textarea>
+  </div>
+</div> 
+
+<div class="input-group">
+  <label>{{'skill.details.hasProficiency' | translate}}</label>
+  <div>
+    <div class="error" ng-show="detailsForm.hasProficiency.$touched && detailsForm.hasProficiency.$invalid">{{'skill.details.hasProficiency.error' | translate}}</div>
+    <input ng-model="resource.hasProficiency" name="hasProficiency" type="checkbox"></input>
+  </div>
+</div>
