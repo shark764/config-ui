@@ -1,0 +1,23 @@
+<table-controls
+  id="table-pane"
+  config="tableConfig"
+  items="skills"
+  on-create-click="createSkill"
+  selected="selectedSkill"
+  resource-name="skills"></table-controls>
+
+<resize-handle
+  id="resize-pane"
+  ng-show="!!selectedSkill"
+  right-element-id="details-pane"
+  left-element-id="table-pane"
+  left-min-width="600"
+  right-min-width="400"></resize-handle>
+
+<resource-details
+  id="details-pane"
+  ng-show="selectedSkill"
+  extend-scope="additional"
+  header-template-url="app/components/management/skills/skillDetailHeader.html"
+  body-template-url="app/components/management/skills/skillDetailBody.html"
+  resource="selectedSkill"></resource-details>

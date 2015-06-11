@@ -10,12 +10,13 @@
   "value.source": "Source",
   "value.properties": "Properties",
   "value.type": "Type",
-  
+
   "navbar.users.title": "User Management",
   "navbar.tenants.title": "Tenants",
   "navbar.flows.title": "Flow Designer",
-  "navbar.welcome": "Welcome back, {{name}}",
-  
+  "navbar.welcome": "Welcome back, {{displayName}}",
+  "navbar.configuration.title": "Configuration",
+
   "details.firstName": "First Name",
   "details.firstName.error": "Please enter a first name",
   "details.lastName": "Last Name",
@@ -30,16 +31,15 @@
   "details.externalId": "External ID",
   "details.role": "Role",
 
-  
   "skill.details.hasProficiency": "Has Proficiency",
 
   "media.details.source.error": "Please enter a source",
-  
+
   "tenant.details.title": "Tenants",
   "tenant.details.name": "Tenant Name",
   "tenant.details.admin": "Platform Admin",
   "tenant.details.description": "Description",
   "tenant.details.region": "Region",
-  
+
   "flow.details.version" : "Active Version"
 }

@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('NavbarController', ['$rootScope', '$scope', '$location', 'AuthService', 'Session', 'Tenant', '$translate',
-    function($rootScope, $scope, $location, AuthService, Session, Tenant, $translate) {
+  .controller('NavbarController', ['$rootScope', '$scope', '$state', 'AuthService', 'Session', 'Tenant', '$translate',
+    function($rootScope, $scope, $state, AuthService, Session, Tenant, $translate) {
       $scope.Session = Session;
 
       var populateTenantsHandler = function() {
@@ -10,40 +10,34 @@ angular.module('liveopsConfigPanel')
           return;
         }
 
-        $scope.tenants = Tenant.query({regionId: Session.activeRegionId}, function() {
-          if (!Session.tenant && $scope.tenants.length) {
-            Session.setTeant($scope.tenants[0]);
-          }
+        if (!Session.tenant && Session.tenants.length) {
+          Session.setTenant(Session.tenants[0]);
+        }
 
-          var tenantDropdownItems = [];
-          angular.forEach($scope.tenants, function(tenant) {
-            tenantDropdownItems.push({
-              label: tenant.name,
-              onClick: function(){
-                Session.setTeant(tenant);
-              }
-            });
+        var tenantDropdownItems = [];
+        angular.forEach(Session.tenants, function(tenant) {
+          tenantDropdownItems.push({
+            label: tenant.name,
+            onClick: function(){
+              Session.setTenant(tenant);
+            }
           });
-
-          $scope.tenantDropdownItems = tenantDropdownItems;
         });
-      };
 
-      $scope.welcomeMessage = $translate('navbar.welcome', {name: Session.displayName});
+        $scope.tenantDropdownItems = tenantDropdownItems;
+      };
 
       $scope.$on('login:success', populateTenantsHandler);
 
-      $scope.$on('created:resource:tenants', populateTenantsHandler);
-
-      $scope.$watch('Session.activeRegionId', populateTenantsHandler);
+      $scope.$watch('Session.tenants', populateTenantsHandler);
 
       $scope.isActive = function(viewLocation) {
-        return viewLocation === $location.path();
+        return $state.current.name != '' ? $state.href($state.current.name).indexOf(viewLocation) === 1 : false;
       };
 
       $scope.logout = function() {
         AuthService.logout();
-        $location.url($location.path('/login'));
+        $state.go('login');
         $rootScope.$broadcast('logout');
       };
 

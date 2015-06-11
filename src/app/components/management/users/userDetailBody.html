@@ -1,0 +1,93 @@
+<div class="divider-header">
+  <h4>Details</h4>
+</div>
+
+<div class="input-group">
+  <label>{{'details.firstName' | translate}}</label>
+  <div>
+    <div class="error" ng-show="detailsForm.firstName.$touched && detailsForm.firstName.$invalid">{{'details.firstName.error' | translate}}</div>
+    <input required ng-model="resource.firstName" name="firstName" type="text" ng-change="updateDisplayName(this)"></input>
+  </div>
+</div>
+
+<div class="input-group">
+  <label>{{'details.lastName' | translate}}</label>
+  <div>
+    <div class="error" ng-show="detailsForm.lastName.$touched && detailsForm.lastName.$invalid">{{'details.lastName.error' | translate}}</div>
+    <input required ng-model="resource.lastName" name="lastName" type="text" ng-change="updateDisplayName(this)"></input>
+  </div>
+</div>
+
+<div class="input-group">
+  <label>{{'details.displayName' | translate}}</label>
+  <div>
+    <div class="error" ng-show="detailsForm.displayName.$touched && detailsForm.displayName.$invalid">{{'details.displayName.error' | translate}}</div>
+    <input required ng-model="resource.displayName" name="displayName" type="text"></input>
+  </div>
+</div>
+
+<div class="input-group" ng-show="!resource.id">
+  <label>{{'details.email' | translate}}</label>
+  <div>
+    <div class="error" ng-messages="detailsForm.email.$error" role="alert" ng-if='detailsForm.email.$dirty'>
+      <div ng-message="required">{{'details.email.error' | translate}}</div>
+      <div ng-message="email">{{'details.email.invalid' | translate}}</div>
+    </div>
+    <input autocomplete="off" ng-model="resource.email" name="email" type="email" required email></input>
+  </div>
+</div>
+
+<div class="input-group" ng-if="!resource.id">
+  <label>{{'details.password' | translate}}</label>
+  <div>
+    <div class="error" ng-messages="detailsForm.password.$error" role="alert" ng-if='detailsForm.password.$dirty'>
+      <div ng-message="required">{{'details.password.error' | translate}}</div>
+    </div>
+    <input autocomplete="off" ng-model="resource.password" name="password" type="password" required></input>
+  </div>
+</div>
+
+<div class="input-group">
+  <label>{{'details.externalId' | translate}}</label>
+  <div>
+    <input ng-model="resource.externalId" name="externalId" type="text"></input>
+  </div>
+</div>
+
+<div class="divider-header">
+  <h4>Role</h4>
+</div>
+
+<div class="input-group">
+  <label>{{'details.role' | translate}}</label>
+  <div>
+    <div class="error" ng-show="detailsForm.role.$touched && detailsForm.role.$invalid">{{'details.role.error' | translate}}</div>
+    <select required ng-model="resource.role" name="role" ng-options="role.value as role.display for role in roles">
+      <option value="" disabled>Select Role</option>
+    </select>
+  </div>
+</div>
+
+<div class="divider-header">
+  <h4>State (Dev Only)</h4>
+</div>
+
+<div class="input-group">
+  <label>State</label>
+  <div>
+    <select required ng-model="resource.state" name="state" ng-options="state.value as state.display for state in states">
+      <option value="" disabled>Select State</option>
+    </select>
+  </div>
+</div>
+
+<div class="divider-header">
+  <h4 ng-if="resource.id">Actions</h4>
+</div>
+
+<div ng-if="resource.id" class="input-group">
+  <label>{{'details.password' | translate}}</label>
+  <div>
+    <button disabled class="btn disabled">Reset Password</button>
+  </div>
+</div>

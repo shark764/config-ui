@@ -6,14 +6,14 @@
         <dropdown id="tenant-dropdown" items="tenantDropdownItems" label="{{Session.tenant.name}}"></dropdown>
       </li>
       <li class="divider"></li>
-      <li id="users-nav-link" ng-class="{ active: isActive('/')}"><a ng-href="#/">{{'navbar.users.title' | translate}}</a></li>
-      <li id="tenants-nav-link" ng-class="{ active: isActive('/tenants')}"><a ng-href="#/tenants">{{'navbar.tenants.title' | translate}}</a></li>
-      <li id="flows-nav-link" ng-class="{ active: isActive('/flows') || isActive('/queues')}"><a ng-href="#/flows">{{'navbar.flows.title' | translate}}</a></li>
+      <li id="users-nav-link" ng-class="{ active: isActive('/management')}"><a ng-href="#/">{{'navbar.users.title' | translate}}</a></li>
+      <li id="tenants-nav-link" ng-class="{ active: isActive('/configuration')}"><a ng-href="#/configuration/tenants">{{'navbar.configuration.title' | translate}}</a></li>
+      <li id="flows-nav-link" ng-class="{ active: isActive('/designer')}"><a ng-href="#/designer/flows">{{'navbar.flows.title' | translate}}</a></li>
       <li id="invites-nav-link" ng-class="{ active: isActive('/invites')}"><a ng-href="#/invites">Invites</a></li>
     </ul>
   </nav>
 
   <nav id="welcome" ng-switch-when="true">
-    <dropdown items="userDropdownItems" label="{{welcomeMessage}}" expand-icon="fa fa-gear" collapse-icon="fa fa-gear"></dropdown>
+    <dropdown items="userDropdownItems" label="{{ 'navbar.welcome' | translate:Session.user }}" expand-icon="fa fa-gear" collapse-icon="fa fa-gear"></dropdown>
   </nav>
 </div>

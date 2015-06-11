@@ -49,7 +49,7 @@ describe('details directive', function() {
   it('should render the body and header if a body or header templates are provided', inject(function () {
     $scope.user = new User({ firstName: 'John', lastName: 'Benson' });
 
-    var ele = $compile('<resource-details resource="user" header-template-url="app/components/users/userDetailHeader.html" body-template-url="app/components/users/userDetailBody.html"></resource-details>')($scope);
+    var ele = $compile('<resource-details resource="user" header-template-url="app/components/management/users/userDetailHeader.html" body-template-url="app/components/management/users/userDetailBody.html"></resource-details>')($scope);
     $scope.$digest();
     var isolateScope = ele.isolateScope();
 

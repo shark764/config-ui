@@ -2,13 +2,6 @@
 
 /* global  window: false */
 
-function UserNotFoundException() {
-  this.name = 'UserNotFoundException';
-  this.message = 'Username was not found under /v1/users';
-}
-UserNotFoundException.prototype = new Error();
-UserNotFoundException.prototype.constructor = UserNotFoundException;
-
 angular.module('liveopsConfigPanel')
   .service('AuthService', ['$resource', '$http', '$q', 'Session', 'apiHostname',
     function ($resource, $http, $q, Session, apiHostname) {
@@ -22,27 +15,16 @@ angular.module('liveopsConfigPanel')
       // this will suffice in beta however.
       this.login = function (username, password) {
         var token = this.generateToken(username, password);
-        var request = $http.get(apiHostname + '/v1/users', {
+        var request = $http.post(apiHostname + '/v1/login', {}, {
           headers: {
             Authorization: 'Basic ' + token
           }
         });
 
         return request.then(function(response) {
-          angular.forEach(response.data.result, function (user) {
-            if (user.email === username) {
-              response = {
-                token: token,
-                user: user
-              };
-            }
-          });
-
-          if (!response.user) {
-            return $q.reject(new UserNotFoundException());
-          }
-
-          Session.set(response.user, response.token);
+          var user = response.data.result.user;
+          var tenants = response.data.result.tenants;
+          Session.set(user, tenants, token);
 
           return response;
         }, function(response) {

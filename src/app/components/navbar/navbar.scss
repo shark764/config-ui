@@ -7,7 +7,6 @@ $down-arrow-url: "/assets/images/down-arrow.png";
 
 #topnav {
   background-color: $main-color;
-  color: $lighter-grey;
   clear: both;
   max-width: 100% !important;
   height: $navbar-height;
@@ -27,11 +26,9 @@ $down-arrow-url: "/assets/images/down-arrow.png";
 
   #tenant-dropdown .drop-label {
     padding: 15px;
-    background-position: 130px center;
-    background-repeat: no-repeat;
     border: 1px solid #fff;
     height: 2em;
-    margin-top: 13px;
+    margin-top: 10px;
     min-width: 150px;
     padding: 6px 10px 6px 20px;
     @include border-radius();
@@ -39,13 +36,8 @@ $down-arrow-url: "/assets/images/down-arrow.png";
 
   .divider {
       border: 1px solid $lighter-grey;
-      height: 40px;
-      margin-top: 12px !important;
-  }
-
-  a {
-    color: $lighter-grey;
-    font-weight: bold;
+      height: $navbar-height - 20px;
+      margin-top: 10px !important;
   }
 
   ul {
@@ -119,5 +111,11 @@ $down-arrow-url: "/assets/images/down-arrow.png";
     .label-icon {
       font-size: 1.5em;
       margin-left: 5px;
+    }
+    
+    .drop-label, .label-icon {
+      &:hover {
+        color: #fff;
+      }
     }
   }

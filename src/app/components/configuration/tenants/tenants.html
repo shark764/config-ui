@@ -1,0 +1,21 @@
+<table-controls
+  id="table-pane"
+  config="tableConfig"
+  items="tenants"
+  selected="selectedTenant"
+  on-create-click="createTenant"
+  resource-name="tenants"></table-controls>
+
+<resize-handle
+  id="resize-pane"
+  right-element-id="details-pane"
+  left-element-id="table-pane"
+  left-min-width="830"
+  right-min-width="400"></resize-handle>
+
+<resource-details
+  id="details-pane"
+  extend-scope="additional"
+  header-template-url="app/components/configuration/tenants/tenantDetailHeader.html"
+  body-template-url="app/components/configuration/tenants/tenantDetailBody.html"
+  resource="selectedTenant"></resource-details>

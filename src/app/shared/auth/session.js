@@ -19,40 +19,44 @@ angular.module('liveopsConfigPanel')
       this.userPreferenceKey = preferenceKey;
 
       this.token = null;
-      this.displayName = null;
-      this.id = null;
+      this.user = null;
       this.lang = null;
+      this.tenants = null;
       this.tenant = null;
       this.activeRegionId = 'c96cf160-0f18-11e5-8ee6-b1d420920055';
       this.lockSideMenu = false;
 
-      this.set = function (user, token) {
+      this.set = function (user, tenants, token) {
         this.token = token;
-        this.displayName = user.displayName;
-        this.id = user.id;
-
+        
+        this.user = {
+          id: user.id,
+          displayName: user.displayName
+        }
+        
+        this.tenants = tenants;
+        
         this.storeSession();
       };
 
       this.storeSession = function () {
         localStorage.setItem(self.userSessionKey, JSON.stringify({
           token: self.token,
-          displayName: self.displayName,
-          id: self.id,
+          user: self.user,
+          tenants: self.tenants
         }));
 
         localStorage.setItem(self.userPreferenceKey, JSON.stringify({
-          tenant: self.tenant,
           lang: self.lang,
           lockSideMenu: self.lockSideMenu,
-          activeRegionId: self.activeRegionId
+          activeRegionId: self.activeRegionId,
+          tenant: self.tenant
         }));
       };
 
       this.destroy = function () {
         this.token = null;
-        this.displayName = null;
-        this.id = null;
+        this.user = null;
 
         localStorage.removeItem(this.userSessionKey);
       };
@@ -62,7 +66,7 @@ angular.module('liveopsConfigPanel')
         self.storeSession();
       };
 
-      this.setTeant = function (tenant){
+      this.setTenant = function (tenant){
         self.tenant = tenant;
         self.storeSession();
       };
@@ -88,7 +92,7 @@ angular.module('liveopsConfigPanel')
       this.isAuthenticated = function () {
         return !!this.token;
       };
-
+      
       this.restore();
     }
   ]);

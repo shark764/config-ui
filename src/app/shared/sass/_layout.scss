@@ -4,20 +4,20 @@ $main-content-left-margin: 15px;
 
 header {
   position: absolute;
-  height: $header-height;
+  height: $navbar-height;
 }
 
 
 #container {
   height: 100%;
   width: 100%;
-  padding-top: $header-height; 
+  padding-top: $navbar-height; 
 }
 
 #main-content {
   display: table;
   padding-left: $left-nav-closed-width + $main-content-left-margin;
-  left: $side-menu-width;
+  left: $left-nav-closed-width;
   top: $navbar-height;
   height: 100%;
   width: 100%;
