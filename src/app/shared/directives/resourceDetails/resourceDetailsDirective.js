@@ -13,7 +13,6 @@ angular.module('liveopsConfigPanel')
       templateUrl : 'app/shared/directives/resourceDetails/resourceDetails.html',
 
       link : function($scope) {
-
         angular.extend($scope, $scope.extendScope);
         $scope.oResource = angular.copy($scope.resource);
 
@@ -39,7 +38,7 @@ angular.module('liveopsConfigPanel')
           angular.copy($scope.oResource, $scope.resource);
           $scope.resetForm();
         };
-        
+
         $scope.resetForm = function(){
           $scope.detailsForm.$setPristine();
           $scope.detailsForm.$setUntouched();

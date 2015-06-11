@@ -10,10 +10,13 @@ angular.module('liveopsConfigPanel')
         items: '=',
         onCreateClick: '=',
         selected: '=',
-        resourceName: '@'
+        resourceName: '@',
+        extendScope: '='
       },
       templateUrl: 'app/shared/directives/tableControls/tableControls.html',
       link: function ($scope) {
+        angular.extend($scope, $scope.extendScope);
+
         $scope.selectItem = function (item) {
           $scope.selected = item;
           $location.search({

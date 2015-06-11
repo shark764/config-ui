@@ -2,24 +2,24 @@
   <div class="mystery-man pull-left">
     <i class="fa fa-user"></i>
   </div>
-  
+
   <div class="user-info">
     <h1>{{resource.firstName}} {{resource.lastName}} <user-state state="{{resource.state}}" /></h1>
-  
+
     <div class="details">
       <div>
         <toggle class="status-toggle" ng-model="resource.status"></toggle>
       </div>
-    
+
       <div>
         <b
-          translate="details.user.createdby"
+          translate="value.details.createdby"
           translate-value-date="{{resource.created | date:'medium'}}"
           translate-value-creator="{{creator.displayName}}">
         </b>
         <br/>
         <b
-          translate="details.user.updatedby"
+          translate="value.details.updatedby"
           translate-value-date="{{resource.created | date:'medium'}}"
           translate-value-enabler="{{updater.displayName}}">
         </b>

@@ -2,12 +2,16 @@
   "value.submit": "Submit",
   "value.cancel": "Cancel",
   "value.save": "Save",
-  
+  "value.name": "Name",
+  "value.description": "Description",
+  "value.details.createdby": "Created by {{creator}} at {{date}}",
+  "value.details.updatedby": "Updated by {{enabler}} at {{date}}",
+
   "navbar.users.title": "User Management",
   "navbar.tenants.title": "Tenants",
   "navbar.flows.title": "Flow Designer",
   "navbar.welcome": "Welcome back, {{name}}",
-  
+
   "details.user.createdby": "User created by {{creator}} at {{date}}",
   "details.user.updatedby": "User updated by {{enabler}} at {{date}}",
   "details.firstName": "First Name",

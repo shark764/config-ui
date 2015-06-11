@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('UsersController', ['$scope', '$location', '$routeParams', '$filter', 'userStates', 'userStatuses', 'userRoles', 'User', 'Session', 'userTableConfig',
-    function($scope, $location, $routeParams, $filter, userStates, userStatuses, userRoles, User, Session, userTableConfig) {
+  .controller('UsersController', ['$scope', '$location', '$routeParams', '$filter', 'userStates', 'userStatuses', 'userRoles', 'User', 'Session', 'userTableConfig', 'userSidebarConfig',
+    function($scope, $location, $routeParams, $filter, userStates, userStatuses, userRoles, User, Session, userTableConfig, userSidebarConfig) {
       $scope.states = userStates;
       $scope.statuses = userStatuses;
       $scope.filteredUsers = [];
@@ -10,14 +10,7 @@ angular.module('liveopsConfigPanel')
 
       $scope.additional = {
         states: userStates,
-        roles: userRoles,
-        updateDisplayName : function($childScope){
-          if (!$childScope.resource.id && $childScope.detailsForm.displayName.$untouched){
-            var first = $childScope.resource.firstName ? $childScope.resource.firstName : '';
-            var last = $childScope.resource.lastName ? $childScope.resource.lastName : '';
-            $childScope.resource.displayName = first + ' ' + last;
-          }
-        }
+        roles: userRoles
       };
 
       $scope.users = User.query();
@@ -29,27 +22,7 @@ angular.module('liveopsConfigPanel')
         });
       };
 
-      $scope.sidebarConfig = {
-          title: 'Management',
-          links: [{
-            display: 'Users',
-            link: '#/users',
-            id: 'user-management-link'
-          }, {
-            display: 'Groups',
-            link: '#/groups',
-            id: 'group-management-link'
-          }, {
-            display: 'Skills',
-            link: '#/skills',
-            id: 'skill-management-link'
-          }, {
-            display: 'Roles',
-            link: '#/',
-            id: 'role-management-link'
-          }]
-      }
-
       $scope.tableConfig = userTableConfig;
+      $scope.sidebarConfig = userSidebarConfig;
     }
   ]);

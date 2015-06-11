@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('groupTableConfig', [
-    function () {
+  .service('groupTableConfig', ['userStatuses',
+    function (userStatuses) {
       return {
         'fields': [{
           'header': 'Group Name',
@@ -13,9 +13,11 @@ angular.module('liveopsConfigPanel')
         }, {
           'header': 'Members',
           'name': 'members',
+          'templateUrl': 'app/components/groups/templates/members.html'
         }, {
           'header': 'Status',
           'name': 'status',
+          'options': userStatuses
         }],
         'searchOn' : ['name', 'description'],
         'orderBy' : ['name']

@@ -1,15 +1,14 @@
 <management-menu menu-locked="Session.lockSideMenu" menu-config="sidebarConfig"></management-menu>
 
 <div id="main-content" class="group-list-container" ng-class="{'expanded-menu': Session.lockSideMenu}">
-<!--
+
   <table-controls
     id="table-pane"
     config="tableConfig"
     items="groups"
     on-create-click="createGroup"
     selected="selectedGroup"
-    resource-name="groups">
-  </table-controls>
+    resource-name="{{'tenants:' + Session.tenant.id + ':groups'}}"></table-controls>
 
   <resize-handle
     id="resize-pane"
@@ -26,5 +25,5 @@
     header-template-url="app/components/groups/groupDetailHeader.html"
     body-template-url="app/components/groups/groupDetailBody.html"
     resource="selectedGroup"></resource-details>
--->
-</div>
+
+ </div>
