@@ -27,7 +27,11 @@
   </div>
 </div>
 
-<table class="table">
+<div class="no-results" ng-hide="items.length">
+  No results were found.
+</div>
+
+<table class="table" ng-show="items.length">
   <thead>
     <tr>
       <th class="check-col">&nbsp;</th>
