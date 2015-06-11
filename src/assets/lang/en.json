@@ -7,12 +7,13 @@
   "value.createdby": "Created by {{creator}} at {{date}}",
   "value.updatedby": "Last updated by {{enabler}} at {{date}}",
   "value.numMembers": "({{number}})",
-  
+
   "navbar.users.title": "User Management",
   "navbar.tenants.title": "Tenants",
   "navbar.flows.title": "Flow Designer",
   "navbar.welcome": "Welcome back, {{name}}",
-  
+  "navbar.configuration.title": "Configuration",
+
   "details.firstName": "First Name",
   "details.firstName.error": "Please enter a first name",
   "details.lastName": "Last Name",
@@ -27,14 +28,14 @@
   "details.externalId": "External ID",
   "details.role": "Role",
 
-  
+
   "skill.details.hasProficiency": "Has Proficiency",
-  
+
   "tenant.details.title": "Tenants",
   "tenant.details.name": "Tenant Name",
   "tenant.details.admin": "Platform Admin",
   "tenant.details.description": "Description",
   "tenant.details.region": "Region",
-  
+
   "flow.details.version" : "Active Version"
 }

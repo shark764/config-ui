@@ -8,16 +8,13 @@
 angular.module('liveopsConfigPanel')
   .run(['$rootScope', '$location', 'Session',
     function ($rootScope, $location, Session) {
-      $rootScope.$on('$routeChangeStart', function (event, next) {
-        if(Session.isAuthenticated() && next.$$route.controller === 'LoginController'){
-          event.preventDefault();
-          $location.path('/');
+      $rootScope.$on('$stateChangeStart', function (event, next) {
+
+        if(next.isPublic || Session.isAuthenticated()){
+          return;
         }
-        
-        if (next.secure && !Session.isAuthenticated()) {
-          event.preventDefault();
-          $location.path('/login');
-        }
+
+        $location.path('/login');
       });
     }
   ]);

@@ -1,70 +1,87 @@
 'use strict';
 
-angular.module('liveopsConfigPanel', ['ngRoute', 'ngResource', 'liveopsConfigPanel.config', 'pascalprecht.translate', 'ngCookies', 'ngMessages', 'ngSanitize'])
-  .config(['$routeProvider', '$translateProvider', function ($routeProvider, $translateProvider) {
-    $routeProvider
-      .when('/', {
-        templateUrl: 'app/components/users/users.html',
+angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigPanel.config', 'pascalprecht.translate', 'ngCookies', 'ngMessages', 'ngSanitize'])
+  .config(['$stateProvider', '$urlRouterProvider', '$translateProvider', function ($stateProvider, $urlRouterProvider, $translateProvider) {
+    $urlRouterProvider.otherwise('/management/users');
+
+    $stateProvider
+      .state('management', {
+        abstract: true,
+        url: '/management',
+        templateUrl: 'app/components/management/management.html',
+        controller: 'ManagementController'
+      })
+      .state('management.users', {
+        url: '/users',
+        templateUrl: 'app/components/management/users/users.html',
         controller: 'UsersController',
-        reloadOnSearch: false,
-        secure: true
+        reloadOnSearch: false
       })
-      .when('/tenants', {
-        templateUrl: 'app/components/tenants/tenants.html',
+      .state('management.skills', {
+        url: '/skills',
+        templateUrl: 'app/components/management/skills/skills.html',
+        controller: 'SkillsController',
+        reloadOnSearch: false
+      })
+      .state('management.groups', {
+        url: '/groups',
+        templateUrl: 'app/components/management/groups/groups.html',
+        controller: 'GroupsController',
+        reloadOnSearch: false
+      })
+      .state('configuration', {
+        abstract: true,
+        url: '/configuration',
+        templateUrl: 'app/components/configuration/configuration.html',
+        controller: 'ConfigurationController'
+      })
+      .state('configuration.tenants', {
+        url: '/tenants',
+        templateUrl: 'app/components/configuration/tenants/tenants.html',
         controller: 'TenantsController',
-        reloadOnSearch: false,
-        secure: true
+        reloadOnSearch: false
       })
-      .when('/flows', {
-        templateUrl: 'app/components/flows/flows.html',
+      .state('designer', {
+        abstract: true,
+        url: '/designer',
+        templateUrl: 'app/components/designer/designer.html',
+        controller: 'DesignerController'
+      })
+      .state('designer.flows', {
+        url: '/flows',
+        templateUrl: 'app/components/designer/flows/flows.html',
         controller: 'FlowsController',
-        reloadOnSearch: false,
-        secure: true
+        reloadOnSearch: false
       })
-      .when('/versions', {
-        templateUrl: 'app/components/flows/versions/versions.html',
+      .state('designer.queues', {
+        url: '/queues',
+        templateUrl: 'app/components/designer/queues/queues.html',
+        controller: 'QueueController'
+      })
+      .state('versions', {
+        url: '/versions',
+        templateUrl: 'app/components/designer/flows/versions/versions.html',
         controller: 'VersionsController',
-        reloadOnSearch: false,
-        secure: true
+        reloadOnSearch: false
       })
-      .when('/login', {
+      .state('login', {
+        url: '/login',
         templateUrl: 'app/components/login/login.html',
-        controller: 'LoginController'
+        controller: 'LoginController',
+        isPublic: true
       })
-      .when('/queues', {
-        templateUrl: 'app/components/queues/queues.html',
-        controller: 'QueueController',
-        secure: true
-      })
-      .when('/userprofile', {
+      .state('userprofile', {
+        url: '/userprofile',
         templateUrl: 'app/components/userProfile/userProfile.html',
         controller: 'UserProfileController',
         secure: true
       })
-      .when('/invites', {
+      .state('invites', {
+        url: '/invites',
         templateUrl: 'app/components/invites/invites.html',
         controller: 'InvitesController',
         secure: true
-      })
-      .when('/users', {
-        templateUrl: 'app/components/users/users.html',
-        controller: 'UsersController',
-        reloadOnSearch: false,
-        secure: true
-      })
-      .when('/skills', {
-        templateUrl: 'app/components/skills/skills.html',
-        controller: 'SkillsController',
-        reloadOnSearch: false,
-        secure: true
-      })
-      .when('/groups', {
-        templateUrl: 'app/components/groups/groups.html',
-        controller: 'GroupsController',
-        reloadOnSearch: false,
-        secure: true
-      })
-      .otherwise('/');
+      });
 
     $translateProvider
       .useSanitizeValueStrategy('escaped')
