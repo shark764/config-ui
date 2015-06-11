@@ -41,7 +41,7 @@ a:hover {
 .btn {
   background-color: #F5F5F5;
   border: 1px solid $medium-grey;
-  @include border-radius(4px);
+  border-radius: 4px;
   color: $main-color;
   cursor: pointer;
   display: inline-block;

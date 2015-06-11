@@ -4,7 +4,7 @@
    @include display-flex();
    @include flex-box-direct(column);
    width: 100%;
-
+   
   #detail-header-pane {
     border-bottom: 1px solid #dadada;
     padding: 15px;
@@ -61,7 +61,12 @@
       padding-right: 10px;
       vertical-align: middle;
     }
-
+    
+    label.textarea-label {
+      padding-top: 0.7em;
+      vertical-align: top;
+    }
+    
     input, select, button {
       width: 100%;
       max-width: 400px;
@@ -71,5 +76,31 @@
     button {
       height: 30px;
     }
+  }
+}
+
+.details-header {
+  background-color: #fff;
+  
+  .info {
+    display: table-cell;
+
+    h1 {
+      padding: 0;
+      padding-bottom: 5px;
+      line-height: 0.8em;
+      margin: 0;
+    }
+
+    b {
+      padding: 1px 0;
+      font-size: .7em;
+      color: #999999;
+      line-height: 1.2em;
+    }
+  }
+  
+  .pull-left + .pull-left{
+    padding-left: 10px;
   }
 }

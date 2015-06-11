@@ -1,16 +1,12 @@
-<div ng-if="resource.id" id="user-detail-header">
-  <div class="mystery-man pull-left">
-    <i class="fa fa-user"></i>
+<div ng-if="resource.id">
+  <div class="pull-left">
+    <toggle class="status-toggle" ng-model="resource.status"></toggle>
   </div>
   
-  <div class="info">
-    <h1>{{resource.firstName}} {{resource.lastName}} <user-state state="{{resource.state}}" /></h1>
+  <div class="info pull-left">
+    <h1>{{resource.name}}</h1>
   
     <div class="details">
-      <div>
-        <toggle class="status-toggle" ng-model="resource.status"></toggle>
-      </div>
-    
       <div>
         <b
           translate="value.createdby"
@@ -30,6 +26,6 @@
 
 <div ng-if="! resource.id">
   <div class="info">
-    <h1>Creating New User</h1>
+    <h1>Creating New Queue</h1>
   </div>
 </div>

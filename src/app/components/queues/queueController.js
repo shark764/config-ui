@@ -1,43 +1,34 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('QueueController', ['$scope', 'Queue', 'Session', '$filter', '$routeParams', function ($scope, Queue, Session, $filter, $routeParams) {
-    $scope.queues = [];
-    $scope.queue = {};
-
-    $scope.fetch = function () {
-      $scope.queues = Queue.query({tenantId : Session.tenant.id});
-      $scope.setQueue($routeParams.id);
-    };
-
-    $scope.setQueue = function(id) {
-      if (id){
-        $scope.queue = Queue.get({'tenantId' : Session.tenant.id, 'id' : id});
-      } else {
-        $scope.queue = new Queue();
-      }
-    };
-
-    $scope.fetch();
+  .controller('QueueController', ['$scope', 'Queue', 'Session', '$routeParams', 'flowSidebarConfig', 'queueTableConfig',
+  function ($scope, Queue, Session, $routeParams, flowSidebarConfig, queueTableConfig) {
+    $scope.Session = Session;
+    
+    $scope.fetch = function(){
+      $scope.queues = Queue.query({tenantId : Session.tenant.id}, function(){
+        if ($scope.queues[0]){
+          $scope.selectedQueue = $scope.queues[0];
+        }
+      });
+    }
+    
+    $scope.createQueue = function(){
+      $scope.selectedQueue = new Queue({
+        tenantId: Session.tenant.id
+      });
+    }
 
     $scope.$watch('Session.tenant.id', function () {
       $scope.fetch();
     });
     
-    $scope.$on('$routeUpdate', function () {
-      $scope.setQueue($routeParams.id);
-    });
-
-    $scope.saveSuccess = function () {
-      $scope.queue = {};
-      $scope.fetch();
-    };
-
-    $scope.saveFailure = function (reason) {
-      $scope.error = reason.data;
-    };
-
-    $scope.save = function () {
-      $scope.queue.save({tenantId: Session.tenant.id, id: $scope.queue.id}, $scope.saveSuccess, $scope.saveFailure);
-    };
+    $scope.$on('created:resource:tenants:' + Session.tenant.id + ':queues', function(event, resource){
+      $scope.queues.push(resource);
+      $scope.selectedQueue = resource;
+    })
+    
+    $scope.fetch();
+    $scope.sidebarConfig = flowSidebarConfig;
+    $scope.tableConfig = queueTableConfig;
   }]);

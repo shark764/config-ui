@@ -1,39 +1,30 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('FlowsController', ['$scope', '$routeParams', '$filter', 'Session', 'Flow',
-    function ($scope, $routeParams, $filter, Session, Flow) {
-
-      $scope.flow = new Flow({});
-
-      $scope.flows = [];
-      $scope.tenants = [];
-
-      $scope.$on('$routeUpdate', function () {
-        $scope.setFlow($routeParams.id);
-      });
-      $scope.flows = Flow.query( { tenantId: Session.tenant.id });
-
-      $scope.setFlow = function (id) {
-        var activeFlow = $filter('filter')($scope.flows, {id : id})[0];
-        $scope.flow = id ? activeFlow : {  } ;
-      };
-
+  .controller('FlowsController', ['$scope', 'Session', 'Flow', 'flowTableConfig', 'flowSidebarConfig',
+    function ($scope, Session, Flow, flowTableConfig, flowSidebarConfig) {
       $scope.fetch = function () {
-        $scope.flows = Flow.query( { tenantId: Session.tenant.id });
+        $scope.flows = Flow.query( { tenantId: Session.tenant.id }, function(){
+          $scope.selectedFlow = $scope.flows[0];
+        });
       };
-
-      $scope.saveSuccess = function () {
-        $scope.flow = {};
+      
+      $scope.createFlow = function() {
+        $scope.selectedFlow = new Flow({
+          tenantId: Session.tenant.id
+        });
+      };
+      
+      $scope.$watch('Session.tenant.id', function () {
         $scope.fetch();
-      };
-
-      $scope.saveFailure = function (reason) {
-        $scope.error = reason.data;
-      };
-
-      $scope.save = function () {
-        $scope.flow.save({id : $scope.flow.id, tenantId : Session.tenant.id}, $scope.saveSuccess, $scope.saveFailure);
-      };
-
-    }]);
+      });
+      
+      $scope.$on('created:resource:tenants:' + Session.tenant.id + ':flows', function(event, resource){
+        $scope.flows.push(resource);
+        $scope.selectedFlow = resource;
+      })
+      
+      $scope.fetch();
+      $scope.tableConfig = flowTableConfig;
+      $scope.sidebarConfig = flowSidebarConfig;
+}]);
