@@ -12,6 +12,10 @@ angular.module('liveopsConfigPanel')
           display: 'Queues',
           link: '#/queues',
           id: 'queue-management-link'
+        }, {
+          display: 'Media',
+          link: '#/media',
+          id: 'media-management-link'
         }]
     };
     }

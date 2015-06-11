@@ -64,6 +64,12 @@ angular.module('liveopsConfigPanel', ['ngRoute', 'ngResource', 'liveopsConfigPan
         reloadOnSearch: false,
         secure: true
       })
+      .when('/media', {
+        templateUrl: 'app/components/media/media.html',
+        controller: 'MediaController',
+        reloadOnSearch: false,
+        secure: true
+      })
       .otherwise('/');
 
     $translateProvider
