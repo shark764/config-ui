@@ -49,9 +49,6 @@ angular.module('liveopsConfigPanel')
         }));
       };
 
-      $rootScope.$watch('Session.tenant', self.storeSession);
-      $rootScope.$watch('Session.lockSideMenu', self.storeSession);
-
       this.destroy = function () {
         this.token = null;
         this.displayName = null;
@@ -60,11 +57,21 @@ angular.module('liveopsConfigPanel')
         localStorage.removeItem(this.userSessionKey);
       };
 
+      this.setLockSideMenu = function(state){
+        self.lockSideMenu = state;
+        self.storeSession();
+      };
+
+      this.setTeant = function (tenant){
+        self.tenant = tenant;
+        self.storeSession();
+      };
+
       this.destroyAll = function () {
         this.destroy();
         this.tenant = null;
-        this.activeRegionId = null;
-        this.lang = null;
+        this.activeRegionId = 'c96cf160-0f18-11e5-8ee6-b1d420920055';
+        this.lang = 'en';
 
         localStorage.removeItem(this.userPreferenceKey);
       };

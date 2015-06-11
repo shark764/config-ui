@@ -12,7 +12,7 @@ angular.module('liveopsConfigPanel')
 
         $scope.tenants = Tenant.query({regionId: Session.activeRegionId}, function() {
           if (!Session.tenant && $scope.tenants.length) {
-            Session.tenant = $scope.tenants[0];
+            Session.setTeant($scope.tenants[0]);
           }
 
           var tenantDropdownItems = [];
@@ -20,7 +20,7 @@ angular.module('liveopsConfigPanel')
             tenantDropdownItems.push({
               label: tenant.name,
               onClick: function(){
-                Session.tenant = tenant;
+                Session.setTeant(tenant);
               }
             });
           });
