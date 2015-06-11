@@ -6,15 +6,15 @@
 // all controllers, directives, etc can see it.
 
 angular.module('liveopsConfigPanel')
-  .run(['$rootScope', '$location', 'Session',
-    function ($rootScope, $location, Session) {
+  .run(['$rootScope', '$state', 'Session',
+    function ($rootScope, $state, Session) {
       $rootScope.$on('$stateChangeStart', function (event, next) {
 
         if(next.isPublic || Session.isAuthenticated()){
           return;
         }
 
-        $location.path('/login');
+        $state.go('login');
       });
     }
   ]);
