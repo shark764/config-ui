@@ -62,8 +62,7 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
         url: '/media',
         templateUrl: 'app/components/designer/media/media.html',
         controller: 'MediaController',
-        reloadOnSearch: false,
-        secure: true
+        reloadOnSearch: false
       })
       .state('versions', {
         url: '/versions',
