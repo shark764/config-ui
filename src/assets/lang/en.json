@@ -23,6 +23,15 @@
   "details.password.error": "Please enter a password",
   "details.externalId": "External ID",
   "details.role": "Role",
+
+  "skill.details.name": "Name",
+  "skill.details.name.error": "Please enter a name",
+  "skill.details.description": "Description",
+  "skill.details.description.error": "Please enter a description",
+  "skill.details.hasProficiency": "Has proficiency",
+  "skill.details.createdby": "Skill created by {{creator}} at {{date}}",
+  "skill.details.updatedby": "Skill updated by {{enabler}} at {{date}}",
+  "skill.details.numMembers": "({{number}})",
   
   "tenant.details.title": "Tenants",
   "tenant.details.createdby": "Created by {{creator}} at {{date}}",

@@ -18,7 +18,7 @@ angular.module('liveopsConfigPanel')
         $scope.oResource = angular.copy($scope.resource);
 
         $scope.save = function () {
-          $scope.resource.save({id: $scope.resource.id},
+          $scope.resource.save($scope.resource,
             function (result) {
               $scope.resetForm();
               $scope.resource = result;

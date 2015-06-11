@@ -37,11 +37,11 @@ angular.module('liveopsConfigPanel')
             id: 'user-management-link'
           }, {
             display: 'Groups',
-            link: '#/',
+            link: '#/groups',
             id: 'group-management-link'
           }, {
             display: 'Skills',
-            link: '#/',
+            link: '#/skills',
             id: 'skill-management-link'
           }, {
             display: 'Roles',

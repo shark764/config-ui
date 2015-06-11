@@ -1,25 +1,22 @@
-<div id="user-detail-header">
+<div id="skill-detail-header">
   <div class="mystery-man pull-left">
     <i class="fa fa-user"></i>
   </div>
   
-  <div class="user-info">
-    <h1>{{resource.firstName}} {{resource.lastName}} <user-state state="{{resource.state}}" /></h1>
+  <div class="skill-info">
+    <h1>{{resource.name}} <b class="skill-members" translate="skill.details.numMembers" translate-value-number="{{resource.members ? resource.members : 0}}" ></b></h1>
   
     <div class="details">
-      <div>
-        <toggle class="status-toggle" ng-model="resource.status"></toggle>
-      </div>
     
       <div>
         <b
-          translate="details.user.createdby"
+          translate="skill.details.createdby"
           translate-value-date="{{resource.created | date:'medium'}}"
           translate-value-creator="{{creator.displayName}}">
         </b>
         <br/>
         <b
-          translate="details.user.updatedby"
+          translate="skill.details.updatedby"
           translate-value-date="{{resource.created | date:'medium'}}"
           translate-value-enabler="{{updater.displayName}}">
         </b>

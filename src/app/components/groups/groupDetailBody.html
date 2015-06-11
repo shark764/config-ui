@@ -1,0 +1,30 @@
+<h3 ng-if="! resource.id">Creating Groups</h3>
+
+<div class="divider-header">
+  <h4>Group Details</h4>
+</div>
+
+<div class="input-group">
+  <label>{{'group.details.name' | translate}}</label>
+  <div>
+    <div class="error" ng-show="detailsForm.name.$touched && detailsForm.name.$invalid">{{'group.details.name.error' | translate}}</div>
+    <input ng-model="resource.name" name="name" type="text"></input>
+  </div>
+  
+</div>
+
+<div class="input-group">
+  <label>{{'group.details.description' | translate}}</label>
+  <div>
+    <div class="error" ng-show="detailsForm.description.$touched && detailsForm.description.$invalid">{{'group.details.description.error' | translate}}</div>
+    <input ng-model="resource.description" name="description" type="text"></input>
+  </div>
+</div> 
+
+<div class="input-group">
+  <label>{{'group.details.hasProficiency' | translate}}</label>
+  <div>
+    <div class="error" ng-show="detailsForm.hasProficiency.$touched && detailsForm.hasProficiency.$invalid">{{'group.details.hasProficiency.error' | translate}}</div>
+    <input ng-model="resource.hasProficiency" name="hasProficiency" type="checkbox"></input>
+  </div>
+</div>
