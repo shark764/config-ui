@@ -27,8 +27,14 @@
   </div>
 </div>
 
-<div class="no-results" ng-hide="items.length">
-  No results were found.
+<div class="table-message">
+  <div ng-show="!items.$resolved">
+    <i class="fa fa-spinner fa-spin" />
+    Loading...
+  </div>
+  <div ng-show="items.$resolved && !items.length">
+    No results were found.
+  </div>
 </div>
 
 <table class="table" ng-show="items.length">
