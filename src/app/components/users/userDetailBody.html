@@ -27,22 +27,6 @@
   </div>
 </div>
 
-<div ng-if="!resource.id" class="input-group">
-  <label>{{'details.password' | translate}}</label>
-  <div>
-    <div class="error" ng-show="detailsForm.password.$touched && detailsForm.password.$invalid">{{'details.password.error' | translate}}</div>
-    <input ng-model="resource.password" name="password" type="password"></input>
-  </div>
-</div>
-
-<div ng-if="!resource.id" class="input-group">
-  <label>{{'details.password' | translate}}</label>
-  <div>
-    <div class="error" ng-show="detailsForm.password.$touched && detailsForm.password.$invalid">{{'details.password.error' | translate}}</div>
-    <input ng-model="resource.password" name="password" type="password"></input>
-  </div>
-</div>
-
 <div class="input-group" ng-show="!resource.id">
   <label>{{'details.email' | translate}}</label>
   <div>
@@ -61,14 +45,6 @@
       <div ng-message="required">{{'details.password.error' | translate}}</div>
     </div>
     <input autocomplete="off" ng-model="resource.password" name="password" type="password" required></input>
-  </div>
-</div>
-
-<div ng-if="! resource.id" class="input-group">
-  <label>{{'details.password' | translate}}</label>
-  <div>
-    <div class="error" ng-show="detailsForm.password.$touched && detailsForm.password.$invalid">{{'details.password.error' | translate}}</div>
-    <input required ng-model="resource.password" name="password" type="text"></input>
   </div>
 </div>
 
