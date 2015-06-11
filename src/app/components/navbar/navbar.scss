@@ -54,7 +54,11 @@ $down-arrow-url: "/assets/images/down-arrow.png";
       margin: 0 30px 0 0;
       padding: 0;
       position: relative;
-
+      
+      .drop-label>div {
+        max-width: 100px;
+      }
+      
       a {
         border-bottom: 4px solid $main-color;
         display: block;
@@ -111,6 +115,10 @@ $down-arrow-url: "/assets/images/down-arrow.png";
     .label-icon {
       font-size: 1.5em;
       margin-left: 5px;
+    }
+    
+    .drop-label>div {
+      max-width: 200px;
     }
     
     .drop-label, .label-icon {

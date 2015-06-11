@@ -8,6 +8,14 @@
   #detail-header-pane {
     border-bottom: 1px solid #dadada;
     padding: 15px;
+    min-width: 500px;
+    
+    h1 {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      max-width: 400px;
+    }
   }
 
   #detail-body-pane {
