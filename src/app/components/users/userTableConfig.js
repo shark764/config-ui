@@ -31,7 +31,8 @@ angular.module('liveopsConfigPanel')
           'checked': false
         }],
         'searchOn' : ['firstName', 'lastName'],
-        'orderBy' : ['lastName']
+        'orderBy' : ['lastName'],
+        'title' : 'User Management'
       };
     }
   ])

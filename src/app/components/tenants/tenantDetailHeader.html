@@ -1,5 +1,20 @@
-<div class="tenant-header" ng-show="resource.id">
-  <h2>{{resource.name}}</h2>
-  <p translate="value.createdby" translate-value-date="{{resource.created | date:'medium'}}" translate-value-creator="John Doe"></p>
-  <p translate="value.updatedby" translate-value-date="{{resource.updated | date:'medium'}}" translate-value-updater="John Doe"></p>
+<div ng-if="resource.id">
+  <div class="pull-left">
+    <toggle class="status-toggle" ng-model="resource.status"></toggle>
+  </div>
+  
+  <div class="info pull-left">
+    <h1>{{resource.name}}</h1>
+    <div class="details">
+      <b translate="value.createdby" translate-value-date="{{resource.created | date:'medium'}}" translate-value-creator="John Doe"></b>
+      <br/>
+      <b translate="value.updatedby" translate-value-date="{{resource.updated | date:'medium'}}" translate-value-updater="John Doe"></b>
+    </div>
+  </div>
+</div>
+
+<div ng-if="! resource.id">
+  <div class="info">
+    <h1>Creating New Tenant</h1>
+  </div>
 </div>
