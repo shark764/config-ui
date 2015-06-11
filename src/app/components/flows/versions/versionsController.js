@@ -9,8 +9,6 @@ angular.module('liveopsConfigPanel')
         flow: '[]'
       });
 
-      $scope.versions = Version.query( { tenantId: Session.tenant.id, flowId: $scope.flow.id });
-
       $scope.fetch = function () {
         $scope.versions = Version.query( { tenantId: Session.tenant.id, flowId: $scope.flow.id });
       };
@@ -18,6 +16,17 @@ angular.module('liveopsConfigPanel')
       $scope.saveVersion = function () {
         $scope.version.save({tenantId : Session.tenant.id, flowId : $scope.flow.id});
       };
+      
+      $scope.$on('created:resource:tenants:' + Session.tenant.id + ':flows:' + $scope.flow.id + ':versions', function (event, item) {
+        $scope.versions.push(item);
+        $scope.selectedVersion = item;
+      });
+      
+      $scope.$watch('flow', function(){
+        $scope.fetch();
+      });
+      
+      $scope.fetch();
   }])
   .directive('flowVersions', [function() {
     return {

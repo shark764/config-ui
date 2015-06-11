@@ -1,3 +1,7 @@
+<div ng-if="resource.id" class="divider-header">
+  <h4>Details</h4>
+</div>
+
 <div class="input-group">
   <label>{{'value.name' | translate}}</label>
   <div>
@@ -20,6 +24,11 @@
   </div>
 </div>
 
+<div ng-if="resource.id" class="divider-header">
+  <h4>Versions</h4>
+</div>
+  
 <div ng-if="resource.id">
+  
   <flow-versions flow="resource"></flow-versions>
 </div>

@@ -1,18 +1,14 @@
 
   <table >
     <thead>
-      <td>ID</td>
       <td>Name</td>
-      <td>Flow</td>
       <td>Description</td>
-      <td>Parent Flow</td>
+      <td>Created</td>
   </thead>
   <tr ng-repeat="version in versions" >
-      <td style="border: 1px solid black;">{{version.version}}</td>
-      <td style="border: 1px solid black;">{{version.name}}</td>
-      <td style="border: 1px solid black;">{{version.flow}}</td>
-      <td style="border: 1px solid black;">{{version.description}}</td>
-      <td style="border: 1px solid black;">{{version.flowId}}</td>
+      <td>{{version.name}}</td>
+      <td>{{version.description}}</td>
+      <td>{{version.created | date:'medium'}}</td>
   </tr>
 </table>
 
