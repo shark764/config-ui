@@ -29,14 +29,9 @@ angular.module('liveopsConfigPanel')
       };
 
       $scope.loginHandler = function (){
-        $scope.regions = Region.query({}, function () {
-          $scope.Session.activeRegionId = $scope.regions[0].id;
-        });
 
         $scope.populateTenantsHandler();
       };
-
-      $scope.$on('login:success', $scope.loginHandler);
 
       $scope.$watch('Session.tenants', $scope.populateTenantsHandler);
 

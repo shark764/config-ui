@@ -12,7 +12,22 @@ header {
   width: 100%;
   padding-top: $navbar-height;
 
-  .content-container {
+  .app-loader {
+    display: table;
+
+    .app-loader-content {
+      text-align: center;
+      position: relative;
+      display: table-cell;
+      vertical-align: middle;
+
+      >i {
+        font-size: 20em;
+      }
+    }
+  }
+
+  .content-container, .app-loader {
     height: 100%;
     width: 100%;
   }
