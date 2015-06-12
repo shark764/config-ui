@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .factory('AuthInterceptor', ['$q', '$location', 'Session', 'apiHostname',
-    function ($q, $location, Session, apiHostname) {
+  .factory('AuthInterceptor', ['$q', '$injector', 'Session', 'apiHostname',
+    function ($q, $injector, Session, apiHostname) {
 
       var Interceptor = function () {
 
@@ -18,7 +18,7 @@ angular.module('liveopsConfigPanel')
         this.responseError = function (response) {
           if (response.status === 401) {
             Session.destroy();
-            $location.path('/login');
+            $injector.get('$state').transitionTo('login');
           }
           return $q.reject(response);
         };

@@ -1,20 +1,26 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('SkillsController', ['$scope', 'Session', 'Skill', 'skillTableConfig',
-    function($scope, Session, Skill, skillTableConfig) {
+  .controller('SkillsController', ['$scope', '$state', 'Session', 'Skill', 'skillTableConfig',
+    function($scope, $state, Session, Skill, skillTableConfig) {
+
       $scope.Session = Session;
+
+      if(!Session.tenant.tenantId){
+        $state.transitionTo('management.users');
+        alert('No tenant set; redirect to users');
+      }
 
       $scope.tableConfig = skillTableConfig;
 
-      $scope.skills = Skill.query( { tenantId: Session.tenant.id } );
+      $scope.skills = Skill.query( { tenantId: Session.tenant.tenantId } );
 
       $scope.createSkill = function() {
         $scope.selectedSkill = new Skill( {
-          tenantId: Session.tenant.id,
+          tenantId: Session.tenant.tenantId,
           status: true,
           hasProficiency: false
-           } );
+        } );
       };
 
     }

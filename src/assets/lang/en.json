@@ -1,15 +1,18 @@
 {
   "value.submit": "Submit",
+  "value.create": "Create",
   "value.cancel": "Cancel",
   "value.save": "Save",
   "value.name": "Name",
   "value.description": "Description",
   "value.createdby": "Created by {{creator}} at {{date}}",
-  "value.updatedby": "Last updated by {{enabler}} at {{date}}",
+  "value.updatedby": "Last updated by {{updater}} at {{date}}",
   "value.numMembers": "({{number}})",
   "value.source": "Source",
   "value.properties": "Properties",
   "value.type": "Type",
+  "value.createdOn" : "Created On",
+  
 
   "navbar.users.title": "User Management",
   "navbar.tenants.title": "Tenants",

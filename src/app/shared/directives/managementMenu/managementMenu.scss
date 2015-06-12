@@ -9,7 +9,7 @@
   @include transition(left 0.25s);
 
   .collapse-bar {
-    color: $light-grey;
+    color: $grey;
     font-size: 25px;
     position: absolute;
     top: -0.3em;
@@ -19,7 +19,7 @@
 
   &:not(.collapsed) .collapse-bar i{
     @include border-radius;
-    border: 1px solid $light-grey;
+    border: 1px solid $grey;
   }
 
   .collapse-bar i {

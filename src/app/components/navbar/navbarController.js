@@ -1,11 +1,12 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('NavbarController', ['$rootScope', '$scope', '$state', 'AuthService', 'Session', 'Tenant', '$translate',
-    function($rootScope, $scope, $state, AuthService, Session, Tenant, $translate) {
+  .controller('NavbarController', ['$rootScope', '$scope', '$state', 'AuthService', 'Session', 'Tenant', '$translate', 'Region',
+    function($rootScope, $scope, $state, AuthService, Session, Tenant, $translate, Region) {
       $scope.Session = Session;
 
-      var populateTenantsHandler = function() {
+      $scope.populateTenantsHandler = function() {
+
         if (!$scope.Session.isAuthenticated()) {
           return;
         }
@@ -27,9 +28,17 @@ angular.module('liveopsConfigPanel')
         $scope.tenantDropdownItems = tenantDropdownItems;
       };
 
-      $scope.$on('login:success', populateTenantsHandler);
+      $scope.loginHandler = function (){
+        $scope.regions = Region.query({}, function () {
+          $scope.Session.activeRegionId = $scope.regions[0].id;
+        });
 
-      $scope.$watch('Session.tenants', populateTenantsHandler);
+        $scope.populateTenantsHandler();
+      };
+
+      $scope.$on('login:success', $scope.loginHandler);
+
+      $scope.$watch('Session.tenants', $scope.populateTenantsHandler);
 
       $scope.isActive = function(viewLocation) {
         return $state.current.name != '' ? $state.href($state.current.name).indexOf(viewLocation) === 1 : false;
@@ -37,14 +46,14 @@ angular.module('liveopsConfigPanel')
 
       $scope.logout = function() {
         AuthService.logout();
-        $state.go('login');
+        $state.transitionTo('login');
         $rootScope.$broadcast('logout');
       };
 
       $scope.userDropdownItems = [{
         label: 'User Profile',
         onClick: function() {
-          $location.path('/userprofile');
+          $state.transitionTo('userprofile');
         },
         iconClass: 'fa fa-gear'
       }, {

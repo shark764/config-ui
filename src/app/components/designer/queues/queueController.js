@@ -6,7 +6,7 @@ angular.module('liveopsConfigPanel')
     $scope.Session = Session;
 
     $scope.fetch = function(){
-      $scope.queues = Queue.query({tenantId : Session.tenant.id}, function(){
+      $scope.queues = Queue.query({tenantId : Session.tenant.tenantId}, function(){
         if ($scope.queues[0]){
           $scope.selectedQueue = $scope.queues[0];
         }
@@ -15,19 +15,20 @@ angular.module('liveopsConfigPanel')
 
     $scope.createQueue = function(){
       $scope.selectedQueue = new Queue({
-        tenantId: Session.tenant.id
+        tenantId: Session.tenant.tenantId
       });
     }
 
-    $scope.$watch('Session.tenant.id', function () {
+    $scope.$watch('Session.tenant.tenantId', function () {
       $scope.fetch();
     });
 
-    $scope.$on('created:resource:tenants:' + Session.tenant.id + ':queues', function(event, resource){
+    $scope.$on('created:resource:tenants:' + Session.tenant.tenantId + ':queues', function(event, resource){
       $scope.queues.push(resource);
       $scope.selectedQueue = resource;
     })
 
+    $scope.createQueue();
     $scope.fetch();
     $scope.tableConfig = queueTableConfig;
   }]);

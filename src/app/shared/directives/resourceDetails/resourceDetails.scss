@@ -8,6 +8,14 @@
   #detail-header-pane {
     border-bottom: 1px solid #dadada;
     padding: 15px;
+    min-width: 500px;
+    
+    h1 {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      max-width: 400px;
+    }
   }
 
   #detail-body-pane {
@@ -34,6 +42,31 @@
       display: inline-block;
       margin: 0;
       padding-right: 5px;
+    }
+    
+    table {
+      border: $light-grey solid 1px;
+      border-spacing: 0;
+      @include border-radius(4px);
+      width: 100%;
+  
+      td, th {
+        padding: 10px;
+      }
+  
+      thead th {
+        border-bottom: $light-grey solid 1px;
+      }
+  
+      th {
+        color: $dark-grey;
+        text-align: left;
+        font-weight: 600;
+      }
+      
+      tbody tr:hover {
+        background-color: $accent-light;
+      }
     }
   }
 

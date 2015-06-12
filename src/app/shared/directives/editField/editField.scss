@@ -1,6 +1,6 @@
 .edit-field {
   margin-bottom: 15px;
-  color: $dark-grey;
+  color: $darkest-grey;
   .input-toggle {
     div {
       cursor: pointer;
@@ -13,7 +13,7 @@
         margin: 10px;
       }
       .placeholder {
-        color: $light-grey;
+        color: $grey;
       }
       i {
         margin-top: 3px;
@@ -27,14 +27,14 @@
       }
     }
     div:hover {
-      border: $light-grey 1px solid;
+      border: $grey 1px solid;
     }
   }
   input,
   select {
     display: block;
     margin-top: 5px;
-    border: 1px solid $light-grey;
+    border: 1px solid $grey;
     @include border-radius(4px);
     padding: 8px;
   }

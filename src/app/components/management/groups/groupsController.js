@@ -1,14 +1,20 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('GroupsController', ['$scope', 'Session', 'Group', 'User', 'groupTableConfig',
-    function($scope, Session, Group, User, groupTableConfig) {
+  .controller('GroupsController', ['$scope', '$state', 'Session', 'Group', 'User', 'groupTableConfig',
+    function($scope, $state, Session, Group, User, groupTableConfig) {
       $scope.Session = Session;
+
+
+      if(!Session.tenant.tenantId){
+          $state.transitionTo('management.users');
+          alert('No tenant set; redirect to management');
+      }
 
       $scope.tableConfig = groupTableConfig;
 
       $scope.groups = Group.query({
-        tenantId: Session.tenant.id
+        tenantId: Session.tenant.tenantId
       });
 
       //dummy data until we have members
@@ -24,7 +30,7 @@ angular.module('liveopsConfigPanel')
 
       $scope.createGroup = function() {
         $scope.selectedGroup = new Group({
-          tenantId: Session.tenant.id,
+          tenantId: Session.tenant.tenantId,
           status: true,
           owner: Session.user.id
         });

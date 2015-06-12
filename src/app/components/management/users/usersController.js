@@ -20,7 +20,6 @@ angular.module('liveopsConfigPanel')
         }
       };
 
-      $scope.users = User.query();
 
       $scope.createUser = function() {
         $scope.selectedUser = new User({
@@ -28,7 +27,8 @@ angular.module('liveopsConfigPanel')
           state: 'Ready'
         });
       };
-
+ 
+      $scope.users = User.query();
       $scope.tableConfig = userTableConfig;
     }
   ]);

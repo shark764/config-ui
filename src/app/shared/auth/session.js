@@ -11,8 +11,8 @@
 
 // this will suffice in beta however.
 angular.module('liveopsConfigPanel')
-  .service('Session', ['$rootScope', 'sessionKey', 'preferenceKey', '$translate',
-    function ($rootScope, sessionKey, preferenceKey, $translate) {
+  .service('Session', ['$rootScope', 'sessionKey', 'preferenceKey',
+    function ($rootScope, sessionKey, preferenceKey) {
       var self = this;
 
       this.userSessionKey = sessionKey;
@@ -23,19 +23,25 @@ angular.module('liveopsConfigPanel')
       this.lang = null;
       this.tenants = null;
       this.tenant = null;
-      this.activeRegionId = 'c96cf160-0f18-11e5-8ee6-b1d420920055';
+      this.activeRegionId = null;
       this.lockSideMenu = false;
 
       this.set = function (user, tenants, token) {
         this.token = token;
-        
+
         this.user = {
           id: user.id,
           displayName: user.displayName
         }
-        
-        this.tenants = tenants;
-        
+
+        if(tenants.length > 0){
+          this.tenants = tenants;
+        } else {
+          this.tenants = [{id: '', name: 'No tenants available'}];
+        }
+
+        this.tenant = this.tenants[0];
+
         this.storeSession();
       };
 
@@ -74,7 +80,7 @@ angular.module('liveopsConfigPanel')
       this.destroyAll = function () {
         this.destroy();
         this.tenant = null;
-        this.activeRegionId = 'c96cf160-0f18-11e5-8ee6-b1d420920055';
+        this.activeRegionId = null;
         this.lang = 'en';
 
         localStorage.removeItem(this.userPreferenceKey);
@@ -83,7 +89,7 @@ angular.module('liveopsConfigPanel')
       this.restore = function () {
         angular.extend(this, JSON.parse(localStorage.getItem(this.userSessionKey)));
         angular.extend(this, JSON.parse(localStorage.getItem(this.userPreferenceKey)));
-
+        
         //if (this.lang) {
         //  $translate.use(this.lang);
         //}
@@ -92,7 +98,7 @@ angular.module('liveopsConfigPanel')
       this.isAuthenticated = function () {
         return !!this.token;
       };
-      
+
       this.restore();
     }
   ]);

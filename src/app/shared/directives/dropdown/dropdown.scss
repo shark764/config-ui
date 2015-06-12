@@ -5,7 +5,7 @@
 
 .dropdown {
   background-color: #FFFFFF;
-  border: 1px solid $medium-grey;
+  border: 1px solid $light-grey;
   border-top: none;
   font-weight: normal;
   right: 0;
@@ -29,12 +29,12 @@
     font-size: 1em;
     font-family: $main-font;
   }
-
+  
   .drop-label {
     >div {
-      width: 100px;
       overflow: hidden;
       text-overflow: ellipsis;
+      white-space: nowrap;
       margin: 0;
       display: inline-block;
     }
@@ -42,7 +42,7 @@
 
   .dropdown {
     button {
-      color: $medium-grey;
+      color: $light-grey;
     }
 
     ul {
