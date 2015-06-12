@@ -1,4 +1,6 @@
-<ng-form id="details-form" name="detailsForm">
+<loading ng-if="! resource"></loading>
+
+<ng-form ng-show="resource" id="details-form" name="detailsForm">
 
   <div ng-if="headerTemplateUrl" class="details-header" id="detail-header-pane" ng-include src="headerTemplateUrl">
   </div>
