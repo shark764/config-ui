@@ -43,6 +43,31 @@
       margin: 0;
       padding-right: 5px;
     }
+    
+    table {
+      border: $light-grey solid 1px;
+      border-spacing: 0;
+      @include border-radius(4px);
+      width: 100%;
+  
+      td, th {
+        padding: 10px;
+      }
+  
+      thead th {
+        border-bottom: $light-grey solid 1px;
+      }
+  
+      th {
+        color: $dark-grey;
+        text-align: left;
+        font-weight: 600;
+      }
+      
+      tbody tr:hover {
+        background-color: $accent-light;
+      }
+    }
   }
 
   #detail-controls-pane {

@@ -1,28 +1,40 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('VersionsController', ['$scope', '$stateParams', '$filter', 'Session', 'Version',
-    function ($scope, $stateParams, $filter, Session, Version) {
+  .controller('VersionsController', ['$scope', 'Session', 'Version',
+    function ($scope, Session, Version) {
 
-      $scope.version = new Version({});
-
-      $scope.versions = Version.query( { tenantId: Session.tenant.tenantId, flowId: $stateParams.flowId });
+      $scope.version = new Version({
+        flowId : $scope.flow.id,
+        flow: '[]'
+      });
 
       $scope.fetch = function () {
-        $scope.versions = Version.query( { tenantId: Session.tenant.tenantId, flowId: $stateParams.flowId });
+        $scope.versions = Version.query( { tenantId: Session.tenant.tenantId, flowId: $scope.flow.id });
       };
 
-      $scope.saveSuccess = function (response) {
-        $scope.version = {};
+      $scope.saveVersion = function () {
+        $scope.version.save({tenantId : Session.tenant.tenantId, flowId : $scope.flow.id});
+      };
+      
+      $scope.$on('created:resource:tenants:' + Session.tenantId + ':flows:' + $scope.flow.id + ':versions', function (event, item) {
+        $scope.versions.push(item);
+        $scope.selectedVersion = item;
+      });
+      
+      $scope.$watch('flow', function(){
         $scope.fetch();
-      };
-
-      $scope.saveFailure = function (reason) {
-        $scope.error = reason.data;
-      };
-
-      $scope.save = function () {
-        $scope.version.save({tenantId : Session.tenant.tenantId, flowId : $stateParams.flowId}, $scope.saveSuccess, $scope.saveFailure);
-      };
-
-    }]);
+      });
+      
+      $scope.fetch();
+  }])
+  .directive('flowVersions', [function() {
+    return {
+      scope : {
+        flow : '='
+      },
+      templateUrl : 'app/components/designer/flows/versions/versions.html',
+      controller : 'VersionsController'
+    };
+   }])
+;
