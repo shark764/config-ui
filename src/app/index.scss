@@ -40,7 +40,7 @@ a:hover {
 
 .btn {
   background-color: #F9F9F9;
-  border: 1px solid $medium-grey;
+  border: 1px solid $light-grey;
   border-radius: 4px;
   color: $main-color;
   cursor: pointer;
@@ -62,8 +62,8 @@ a:hover {
 }
 
 .btn.disabled, .btn[disabled] {
-  border-color: lighten($medium-grey, 3%);
-  color: darken($medium-grey, 20%);
+  border-color: lighten($light-grey, 3%);
+  color: darken($light-grey, 20%);
   cursor: default;
   @include box-shadow(inset 3px 3px 3px 0px rgba(0,0,0,0.34));
   

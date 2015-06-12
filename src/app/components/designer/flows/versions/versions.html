@@ -1,46 +1,29 @@
-<div>
-  <h3>Flow Version</h3>
 
-  <table >
-    <thead>
-      <td>ID</td>
-      <td>Name</td>
-      <td>Flow</td>
-      <td>Description</td>
-      <td>Parent Flow</td>
+<table>
+  <thead>
+    <th>{{value.name | translate}}</th>
+    <th>{{value.description | translate}}</th>
+    <th>{{value.createdOn | translate}}</th>
   </thead>
   <tr ng-repeat="version in versions" >
-      <td style="border: 1px solid black;">{{version.version}}</td>
-      <td style="border: 1px solid black;">{{version.name}}</td>
-      <td style="border: 1px solid black;">{{version.flow}}</td>
-      <td style="border: 1px solid black;">{{version.description}}</td>
-      <td style="border: 1px solid black;">{{version.flowId}}</td>
+    <td>{{version.name}}</td>
+    <td>{{version.description}}</td>
+    <td>{{version.created | date:'medium'}}</td>
   </tr>
 </table>
-<ul>
-    <li class="error" ng-repeat="(key, value) in error.error">
-      Field `{{key}}` has the following error `{{value}}`
-  </li>
-</ul>
 
-<h3>Create Flow Version</h3>
-<form ng-submit="save()">
-    <div>Name:
-        <input type="text" ng-required="true" ng-model="version.name" placeholder="This is my version name">
 
-    </input>
-</div>
-<div>Description:
- <input type="text" ng-required="true" ng-model="version.description" placeholder="This is my version description">
+<h3>Create Flow Version (Dev only)</h3>
 
-</input>
-</div>
-<div>Flow:
- <input type="text" ng-required="true" ng-model="version.flow" placeholder="This is my version flow">
+<ng-form name="create-version-form">
+  <div>Name:
+        <input type="text" ng-model="version.name" name="name"></input>
+  </div>
+  
+  <div>Description:
+   <input type="text" ng-model="version.description" name="description"></input>
+  </div>
+  
+  <input ng-click="saveVersion()" type="submit" class="btn btn-primary" value="{{ 'value.create' | translate }}"/>
+</ng-form>
 
-</input>
-</div>
-<input type="submit" class="btn btn-primary" value="{{ 'Create' }}"/>
-</form>
-
-</div>

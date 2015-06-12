@@ -1,7 +1,5 @@
 'use strict';
 
-/*global spyOn : false */
-
 describe('FlowsController', function() {
     var $scope,
         $controller,
@@ -33,10 +31,8 @@ describe('FlowsController', function() {
 
       $httpBackend = $injector.get('$httpBackend');
       $httpBackend.when('GET', 'fakendpoint.com/v1/tenants/1/flows').respond({'result' : flows});
-      $httpBackend.when('GET', 'fakendpoint.com/v1/tenants/1/flows/q1').respond({'result' : flows[0]});
-      $httpBackend.when('GET', 'fakendpoint.com/v1/tenants/1/flows/q2').respond({'result' : flows[1]});
 
-      $controller('FlowsController', {'$scope': $scope, 'Session' : {tenantId : 1}, '$stateParams' : routeParams});
+      $controller('FlowsController', {'$scope': $scope, 'Session' : {tenant : {tenantId : 1}}, '$stateParams' : routeParams});
       $httpBackend.flush();
     }]));
 

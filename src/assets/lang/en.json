@@ -1,5 +1,6 @@
 {
   "value.submit": "Submit",
+  "value.create": "Create",
   "value.cancel": "Cancel",
   "value.save": "Save",
   "value.name": "Name",
@@ -7,7 +8,8 @@
   "value.createdby": "Created by {{creator}} at {{date}}",
   "value.updatedby": "Last updated by {{updater}} at {{date}}",
   "value.numMembers": "({{number}})",
-
+  "value.createdOn" : "Created On",
+  
   "navbar.users.title": "User Management",
   "navbar.tenants.title": "Tenants",
   "navbar.flows.title": "Flow Designer",

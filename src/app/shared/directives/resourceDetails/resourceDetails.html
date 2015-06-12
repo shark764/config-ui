@@ -1,4 +1,4 @@
-<form id="details-form" name="detailsForm" ng-submit="save()">
+<ng-form id="details-form" name="detailsForm">
 
   <div ng-if="headerTemplateUrl" class="details-header" id="detail-header-pane" ng-include src="headerTemplateUrl">
   </div>
@@ -8,6 +8,6 @@
 
   <div id="detail-controls-pane">
     <input type="button" class="btn" ng-click="cancel()" value="{{'value.cancel' | translate}}"></input>
-    <input ng-disabled="detailsForm.$invalid || ! detailsForm.$dirty" class="btn btn-primary" type="submit" value="{{'value.submit' | translate}}" />
+    <input ng-click="save()" ng-disabled="detailsForm.$invalid || ! detailsForm.$dirty" class="btn btn-primary" type="submit" value="{{'value.submit' | translate}}" />
   </div>
-</form>
+</ng-form>
