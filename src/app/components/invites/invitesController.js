@@ -1,10 +1,10 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('InvitesController', ['$scope', 'Session', 'Invite', 'InviteAccept', 'Tenant',
-    function ($scope, Session, Invite, InviteAccept, Tenant) {
-      $scope.fetchInvites = function(){
+  .controller('InvitesController', ['$scope', 'Session', 'Invite', 'InviteAccept', 'Tenant', 'AuthService', 'toastr',
+    function ($scope, Session, Invite, InviteAccept, Tenant, AuthService, toastr) {
 
+      $scope.fetchInvites = function(){
         $scope.invites = Invite.query({tenantId : $scope.newInvite.tenantId});
       };
 
@@ -14,6 +14,7 @@ angular.module('liveopsConfigPanel')
       };
 
       $scope.init();
+
       $scope.tenants = Tenant.query({regionId : Session.activeRegionId}, function () {
         if($scope.tenants.length > 0){
           $scope.newInvite.tenantId = $scope.tenants[0].id;
@@ -28,28 +29,48 @@ angular.module('liveopsConfigPanel')
       });
 
       $scope.save = function(){
+        var prevTenant = $scope.newInvite.tenantId;
+
         $scope.newInvite.save({tenantId : $scope.newInvite.tenantId}, function(data){
-          $scope.invites.push(data.invitation);
           $scope.init();
-          $scope.inviteCreateForm.$setUntouched();
+          $scope.newInvite.tenantId = prevTenant;
+          $scope.fetchInvites();
+        }, function () {
+          toastr.error('Failed to create invite');
         });
       };
 
       $scope.remove = function(invite){
         invite.$delete({tenantId: invite.tenantId, userId: invite.userId, token: invite.invitationToken}, function(){
-          $scope.invites.removeItem(invite);
+          toastr.success('Succesfully removed invitation');
+          $scope.fetchInvites();
+        }, function () {
+          toastr.error('Failed to remove invitation');
         });
       };
 
       $scope.resend = function(invite){
         //Using the Invite service here so it doesn't send all params on create.
-        invite = Invite.save({verb: 'resend', tenantId: invite.tenantId}, {userId: invite.userId, token: invite.invitationToken});
+        invite = Invite.save({verb: 'resend', tenantId: invite.tenantId}, {userId: invite.userId, token: invite.invitationToken}, function (){
+          toastr.success('Successfully resent invitation');
+          $scope.fetchInvites();
+        }, function () {
+          toastr.error('Failed to resend invitation');
+        });
       };
 
       //TEMPORARY
       $scope.accept = function(invite){
         InviteAccept.get({tenantId: invite.tenantId, userId: invite.userId, token: invite.invitationToken}, function () {
+          toastr.success('Successfully accepted invitation');
+
           $scope.fetchInvites();
+
+          if(invite.email === Session.user.email){
+            AuthService.refreshTenants();
+          }
+        }, function () {
+          toastr.error('Failed to accept invitation');
         });
       };
   }]);

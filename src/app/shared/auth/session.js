@@ -31,8 +31,16 @@ angular.module('liveopsConfigPanel')
 
         this.user = {
           id: user.id,
-          displayName: user.displayName
+          displayName: user.displayName,
+          email: user.email
         }
+
+        this.setTenants(tenants);
+
+        this.storeSession();
+      };
+
+      this.setTenants = function (tenants){
 
         if(tenants.length > 0){
           this.tenants = tenants;
@@ -41,8 +49,6 @@ angular.module('liveopsConfigPanel')
         }
 
         this.tenant = this.tenants[0];
-
-        this.storeSession();
       };
 
       this.storeSession = function () {
@@ -89,7 +95,7 @@ angular.module('liveopsConfigPanel')
       this.restore = function () {
         angular.extend(this, JSON.parse(localStorage.getItem(this.userSessionKey)));
         angular.extend(this, JSON.parse(localStorage.getItem(this.userPreferenceKey)));
-        
+
         //if (this.lang) {
         //  $translate.use(this.lang);
         //}

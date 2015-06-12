@@ -28,11 +28,6 @@ angular.module('liveopsConfigPanel')
         $scope.tenantDropdownItems = tenantDropdownItems;
       };
 
-      $scope.loginHandler = function (){
-
-        $scope.populateTenantsHandler();
-      };
-
       $scope.$watch('Session.tenants', $scope.populateTenantsHandler);
 
       $scope.isActive = function(viewLocation) {
@@ -46,17 +41,17 @@ angular.module('liveopsConfigPanel')
       };
 
       $scope.userDropdownItems = [{
-        label: 'User Profile',
-        onClick: function() {
-          $state.transitionTo('userprofile');
-        },
-        iconClass: 'fa fa-gear'
-      }, {
         label: 'Log Out',
         onClick: function() {
           $scope.logout();
         },
         iconClass: 'fa fa-sign-out'
+      }, {
+        label: 'User Profile',
+        onClick: function() {
+          $state.transitionTo('userprofile');
+        },
+        iconClass: 'fa fa-gear'
       }];
     }
   ]);
