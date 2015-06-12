@@ -1,9 +1,9 @@
 
 <table>
   <thead>
-    <th>Name</th>
-    <th>Description</th>
-    <th>Created</th>
+    <th>{{value.name | translate}}</th>
+    <th>{{value.description | translate}}</th>
+    <th>{{value.createdOn | translate}}</th>
   </thead>
   <tr ng-repeat="version in versions" >
     <td>{{version.name}}</td>

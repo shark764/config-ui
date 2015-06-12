@@ -10,7 +10,9 @@ angular.module('liveopsConfigPanel')
     
       $scope.fetch = function () {
         $scope.flows = Flow.query( { tenantId: Session.tenant.tenantId }, function(){
-          $scope.selectedFlow = $scope.flows[0];
+          if($scope.flows.length > 0){
+            $scope.selectedFlow = $scope.flows[0];
+          }
         });
       };
       
