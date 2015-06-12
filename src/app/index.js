@@ -67,7 +67,14 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
         templateUrl: 'app/components/designer/queues/queues.html',
         controller: 'QueueController'
       })
-      .state('content.versions', {
+
+      .state('content.designer.media', {
+        url: '/media',
+        templateUrl: 'app/components/designer/media/media.html',
+        controller: 'MediaController',
+        reloadOnSearch: false
+      })
+      .state('content.designer.versions', {
         url: '/versions',
         templateUrl: 'app/components/designer/flows/versions/versions.html',
         controller: 'VersionsController',
@@ -95,8 +102,10 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
     angular.extend(toastrConfig, {
       closeButton: true,
       timeout: 10000,
-      maxOpened: 0,
+      maxOpened: 1,
       positionClass: 'toast-top-center',
+      preventDuplicates: true,
+      newestOnTop: true,
     });
 
     $translateProvider

@@ -1,0 +1,21 @@
+<div class="input-group">
+  <label>{{'value.source' | translate}}</label>
+  <div>
+    <div class="error" ng-show="detailsForm.source.$touched && detailsForm.source.$invalid">{{'media.details.source.error' | translate}}</div>
+    <input type="text" ng-required="true" ng-model="resource.source" name="source"></input>
+  </div>
+</div>
+<div class="input-group">
+  <label>{{'value.type' | translate}}</label>
+  <div>
+    <div class="error" ng-show="detailsForm.type.$touched && detailsForm.type.$invalid">{{'media.details.type.error' | translate}}</div>
+    <input type="text" ng-required="true" ng-model="resource.type" name="type"></input>
+  </div>
+</div>
+
+<div class="input-group">
+  <label class="textarea-label">{{'value.properties' | translate}}</label>
+  <div>
+    <textarea json-text ng-model="resource.properties"></textarea>
+  </div>
+</div>
