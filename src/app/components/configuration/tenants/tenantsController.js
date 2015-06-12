@@ -13,16 +13,12 @@ angular.module('liveopsConfigPanel')
         users: $scope.users
       };
 
-      $scope.$watch('selectedTenant', function () {
-        console.log($scope.selectedTenant);
-      });
-
       $scope.createTenant = function() {
         $scope.selectedTenant = new Tenant({
           regionId: Session.activeRegionId
         });
       };
- 
+
 
       $scope.tableConfig = tenantTableConfig;
   }]);
