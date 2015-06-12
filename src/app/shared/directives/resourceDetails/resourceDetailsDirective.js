@@ -48,8 +48,6 @@ angular.module('liveopsConfigPanel')
               });
             }
           );
-          
-          
         };
 
         $scope.$watch('resource.id', function(newValue){
