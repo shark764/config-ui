@@ -8,7 +8,7 @@ angular.module('liveopsConfigPanel')
         title: 'Configuration',
         links: [{
           display: 'Tenants',
-          link: $state.href('configuration.tenants'),
+          link: $state.href('content.configuration.tenants'),
           id: 'tenants-configuration-link'
         }]
       };

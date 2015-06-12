@@ -8,11 +8,11 @@ angular.module('liveopsConfigPanel')
         title: 'Management',
         links: [{
           display: 'Flows',
-          link: $state.href('designer.flows'),
+          link: $state.href('content.designer.flows'),
           id: 'flow-management-link'
         }, {
           display: 'Queues',
-          link: $state.href('designer.queues'),
+          link: $state.href('content.designer.queues'),
           id: 'queue-management-link'
         }]
     };;

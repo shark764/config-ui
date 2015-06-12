@@ -7,11 +7,15 @@ header {
   height: $navbar-height;
 }
 
-
-#container {
+.container {
   height: 100%;
   width: 100%;
-  padding-top: $navbar-height; 
+  padding-top: $navbar-height;
+
+  .content-container {
+    height: 100%;
+    width: 100%;
+  }
 }
 
 #main-content {

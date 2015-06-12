@@ -5,7 +5,7 @@ angular.module('liveopsConfigPanel')
     function ($scope, $state, Session, Flow, flowTableConfig) {
 
       if(!Session.tenant.tenantId){
-          $state.transitionTo('management.users');
+          $state.transitionTo('content.management.users');
           alert('No tenant set; redirect to management');
       }
 
