@@ -5,7 +5,7 @@
   "value.name": "Name",
   "value.description": "Description",
   "value.createdby": "Created by {{creator}} at {{date}}",
-  "value.updatedby": "Last updated by {{enabler}} at {{date}}",
+  "value.updatedby": "Last updated by {{updater}} at {{date}}",
   "value.numMembers": "({{number}})",
 
   "navbar.users.title": "User Management",

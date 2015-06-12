@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('resourceDetails', [function() {
+  .directive('resourceDetails', ['UserName', function(UserName) {
     return {
       restrict: 'AE',
       scope : {
@@ -17,7 +17,7 @@ angular.module('liveopsConfigPanel')
         $scope.oResource = angular.copy($scope.resource);
 
         $scope.save = function () {
-          $scope.resource.save({id: $scope.resource.id, tenantId: $scope.resource.tenantId, regionId: $scope.resource.regionId},
+          $scope.resource.save($scope.oResource,
             function (result) {
               $scope.resetForm();
               $scope.resource = result;
@@ -26,8 +26,16 @@ angular.module('liveopsConfigPanel')
           );
         };
 
-        $scope.$watch('resource.id', function(){
+        $scope.$watch('resource.id', function(newValue){
           $scope.resetForm();
+          
+          if (newValue){
+            $scope.creator = UserName.get($scope.resource.createdBy);
+            $scope.updater = UserName.get($scope.resource.updatedBy);
+          } else {
+            delete $scope.creator;
+            delete $scope.updater;
+          }
         })
 
         $scope.$watch('resource', function () {

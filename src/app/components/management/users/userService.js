@@ -12,6 +12,8 @@ angular.module('liveopsConfigPanel')
       'password',
       'state',
       'externalId'
+    ], [
+        'id'
     ]);
 
   }]);
