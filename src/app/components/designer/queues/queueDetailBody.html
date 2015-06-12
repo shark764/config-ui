@@ -1,7 +1,7 @@
 <div class="input-group">
   <label>{{'value.name' | translate}}</label>
   <div>
-    <div class="error" ng-show="detailsForm.name.$touched && detailsForm.name.$invalid">{{'queue.details.name.error' | translate}}</div>
+    <form-error field="detailsForm.name" error-type-api="{{'queue.details.name.error' | translate}}" error-type-required="{{'queue.details.name.error' | translate}}"></form-error>
     <input type="text" ng-required="true" ng-model="resource.name" name="name"></input>
   </div>
 </div>

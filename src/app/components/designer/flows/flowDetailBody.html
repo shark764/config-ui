@@ -5,7 +5,7 @@
 <div class="input-group">
   <label>{{'value.name' | translate}}</label>
   <div>
-    <div class="error" ng-show="detailsForm.name.$touched && detailsForm.name.$invalid">{{'flow.details.name.error' | translate}}</div>
+    <form-error field="detailsForm.name" error-type-api="{{'flow.details.name.error' | translate}}" error-type-required="{{'flow.details.name.error' | translate}}"></form-error>
     <input type="text" ng-required="true" ng-model="resource.name" name="name"></input>
   </div>
 </div>
@@ -20,7 +20,7 @@
 <div class="input-group">
   <label class="textarea-label">{{'value.description' | translate}}</label>
   <div>
-    <textarea ng-required="true" ng-model="resource.description"></textarea>
+    <textarea ng-model="resource.description"></textarea>
   </div>
 </div>
 
