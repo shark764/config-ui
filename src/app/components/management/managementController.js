@@ -8,15 +8,15 @@ angular.module('liveopsConfigPanel')
         title: 'Management',
         links: [{
           display: 'Users',
-          link: $state.href('management.users'),
+          link: $state.href('content.management.users'),
           id: 'user-management-link'
         }, {
           display: 'Groups',
-          link: $state.href('management.groups'),
+          link: $state.href('content.management.groups'),
           id: 'group-management-link'
         }, {
           display: 'Skills',
-          link: $state.href('management.skills'),
+          link: $state.href('content.management.skills'),
           id: 'skill-management-link'
         }]
       };

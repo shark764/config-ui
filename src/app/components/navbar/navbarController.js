@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('NavbarController', ['$rootScope', '$scope', '$state', 'AuthService', 'Session', 'Tenant', '$translate', 'Region',
-    function($rootScope, $scope, $state, AuthService, Session, Tenant, $translate, Region) {
+  .controller('NavbarController', ['$rootScope', '$scope', '$state', 'AuthService', 'Session', 'Tenant', '$translate',
+    function($rootScope, $scope, $state, AuthService, Session, Tenant, $translate) {
       $scope.Session = Session;
 
       $scope.populateTenantsHandler = function() {
@@ -29,14 +29,9 @@ angular.module('liveopsConfigPanel')
       };
 
       $scope.loginHandler = function (){
-        $scope.regions = Region.query({}, function () {
-          $scope.Session.activeRegionId = $scope.regions[0].id;
-        });
 
         $scope.populateTenantsHandler();
       };
-
-      $scope.$on('login:success', $scope.loginHandler);
 
       $scope.$watch('Session.tenants', $scope.populateTenantsHandler);
 

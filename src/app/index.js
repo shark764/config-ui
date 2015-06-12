@@ -1,70 +1,80 @@
 'use strict';
 
-angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigPanel.config', 'pascalprecht.translate', 'ngCookies', 'ngMessages', 'ngSanitize'])
-  .config(['$stateProvider', '$urlRouterProvider', '$translateProvider', function ($stateProvider, $urlRouterProvider, $translateProvider) {
+angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigPanel.config', 'pascalprecht.translate', 'ngCookies', 'ngMessages', 'ngSanitize', 'toastr'])
+  .config(['$stateProvider', '$urlRouterProvider', '$translateProvider', 'toastrConfig', function ($stateProvider, $urlRouterProvider, $translateProvider, toastrConfig) {
     $urlRouterProvider.otherwise('/management/users');
 
     $stateProvider
-      .state('management', {
+      .state('content', {
+        abstract: true,
+        templateUrl: 'app/components/content/content.html',
+        controller: 'ContentController'
+      })
+      .state('error', {
+        templateUrl: 'app/components/error/error.html',
+        controller: 'ErrorController'
+      })
+      .state('content.management', {
         abstract: true,
         url: '/management',
         templateUrl: 'app/components/management/management.html',
         controller: 'ManagementController'
       })
-      .state('management.users', {
+      .state('content.management.users', {
         url: '/users',
         templateUrl: 'app/components/management/users/users.html',
         controller: 'UsersController',
         reloadOnSearch: false
       })
-      .state('management.skills', {
+      .state('content.management.skills', {
         url: '/skills',
         templateUrl: 'app/components/management/skills/skills.html',
         controller: 'SkillsController',
         reloadOnSearch: false
       })
-      .state('management.groups', {
+      .state('content.management.groups', {
         url: '/groups',
         templateUrl: 'app/components/management/groups/groups.html',
         controller: 'GroupsController',
         reloadOnSearch: false
       })
-      .state('configuration', {
+      .state('content.configuration', {
         abstract: true,
         url: '/configuration',
         templateUrl: 'app/components/configuration/configuration.html',
         controller: 'ConfigurationController'
       })
-      .state('configuration.tenants', {
+      .state('content.configuration.tenants', {
         url: '/tenants',
         templateUrl: 'app/components/configuration/tenants/tenants.html',
         controller: 'TenantsController',
         reloadOnSearch: false
       })
-      .state('designer', {
+      .state('content.designer', {
         abstract: true,
         url: '/designer',
         templateUrl: 'app/components/designer/designer.html',
         controller: 'DesignerController'
       })
-      .state('designer.flows', {
+      .state('content.designer.flows', {
         url: '/flows',
         templateUrl: 'app/components/designer/flows/flows.html',
         controller: 'FlowsController',
         reloadOnSearch: false
       })
-      .state('designer.queues', {
+      .state('content.designer.queues', {
         url: '/queues',
         templateUrl: 'app/components/designer/queues/queues.html',
         controller: 'QueueController'
       })
-      .state('designer.media', {
+
+      .state('content.designer.media', {
         url: '/media',
         templateUrl: 'app/components/designer/media/media.html',
         controller: 'MediaController',
         reloadOnSearch: false
       })
-      .state('versions', {
+      .state('content.designer.versions', {
         url: '/versions',
         templateUrl: 'app/components/designer/flows/versions/versions.html',
         controller: 'VersionsController',
@@ -76,21 +86,31 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
         controller: 'LoginController',
         isPublic: true
       })
-      .state('userprofile', {
+      .state('content.userprofile', {
         url: '/userprofile',
         templateUrl: 'app/components/userProfile/userProfile.html',
         controller: 'UserProfileController',
         secure: true
       })
-      .state('invites', {
+      .state('content.invites', {
         url: '/invites',
         templateUrl: 'app/components/invites/invites.html',
         controller: 'InvitesController',
         secure: true
       });
 
+    angular.extend(toastrConfig, {
+      closeButton: true,
+      timeout: 10000,
+      maxOpened: 1,
+      positionClass: 'toast-top-center',
+      preventDuplicates: true,
+      newestOnTop: true,
+    });
+
     $translateProvider
       .useSanitizeValueStrategy('escaped')
       .useLocalStorage()
       .preferredLanguage('en');
+
   }]);

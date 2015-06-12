@@ -7,7 +7,7 @@ angular.module('liveopsConfigPanel')
       $scope.Session = Session;
 
       if(!Session.tenant.tenantId){
-        $state.transitionTo('management.users');
+        $state.transitionTo('content.management.users');
         alert('No tenant set; redirect to users');
       }
 
