@@ -5,7 +5,9 @@ describe('The create new user form', function() {
     shared = require('./shared.po.js'),
     users = require('./users.po.js'),
     userCount,
-    randomUser;
+    randomUser,
+    userAdded,
+    newUserName;
 
   beforeAll(function() {
     loginPage.login(loginPage.emailLoginCreds, loginPage.passwordLoginCreds);
@@ -16,7 +18,7 @@ describe('The create new user form', function() {
     userCount = users.userElements.count();
   });
 
-  afterAll(function(){
+  afterAll(function() {
     shared.tearDown();
   });
 
@@ -25,7 +27,7 @@ describe('The create new user form', function() {
     expect(users.userDetails.isDisplayed()).toBeTruthy();
   });
 
-  it('should include supported user fields only', function() {
+  it('should include supported fields for creating a new user', function() {
     users.createUserBtn.click();
     expect(users.firstNameFormField.isDisplayed()).toBeTruthy();
     expect(users.lastNameFormField.isDisplayed()).toBeTruthy();
@@ -34,14 +36,18 @@ describe('The create new user form', function() {
     expect(users.passwordFormField.isDisplayed()).toBeTruthy();
     expect(users.externalIdFormField.isDisplayed()).toBeTruthy();
     expect(users.roleFormDropDown.isDisplayed()).toBeTruthy();
-    expect(users.stateFormDropDown.isDisplayed()).toBeTruthy();;
+    expect(users.stateFormDropDown.isDisplayed()).toBeTruthy();
 
-    // The Status field is not to be displayed for the initial Beta release
-    expect(users.statusFormToggle.isDisplayed()).toBeFalsy();
+    expect(users.passwordEditFormBtn.isPresent()).toBeFalsy();
+
+    expect(users.cancelUserFormBtn.isDisplayed()).toBeTruthy();
+    expect(users.submitUserFormBtn.isDisplayed()).toBeTruthy();
+
+    expect(users.createNewUserHeader.isDisplayed()).toBeTruthy();
   });
 
 
-  it('should clear Create New User section', function() {
+  it('should clear user details section when Create button is selected', function() {
     if (userCount > 0) {
       // Select User from table
       element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(2)')).click();
@@ -90,10 +96,9 @@ describe('The create new user form', function() {
 
   it('should display new user in table and display user details', function() {
     // Add randomness to user details
-    //TODO could use epoch to ensure uniqueness if value length is not an issue
     randomUser = Math.floor((Math.random() * 100) + 1);
-    var userAdded = false;
-    var newUserName = 'First' + randomUser + ' Last' + randomUser;
+    userAdded = false;
+    newUserName = 'First' + randomUser + ' Last' + randomUser;
 
     // Add new user
     users.createUserBtn.click();
@@ -104,7 +109,7 @@ describe('The create new user form', function() {
     users.passwordFormField.sendKeys('password');
     users.externalIdFormField.sendKeys(randomUser);
     users.roleFormDropDown.all(by.css('option')).get((randomUser % 3) + 1).click();
-    users.stateFormDropDown.all(by.css('option')).get((randomUser % 6) + 1).click();
+    users.stateFormDropDown.all(by.css('option')).get((randomUser % 4) + 1).click();
     users.submitUserFormBtn.click();
 
     // Confirm user is displayed in user list with correct details
@@ -124,6 +129,50 @@ describe('The create new user form', function() {
     });
   });
 
+  it('should clear new user fields after clicking Cancel', function() {
+    // Add randomness to user details
+    randomUser = Math.floor((Math.random() * 100) + 1);
+    userAdded = false;
+    newUserName = 'First' + randomUser + ' Last' + randomUser;
+
+    // Add new user
+    users.createUserBtn.click();
+    users.firstNameFormField.sendKeys('First' + randomUser);
+    users.lastNameFormField.sendKeys('Last' + randomUser);
+    users.displayNameFormField.sendKeys('Display' + randomUser);
+    users.emailFormField.sendKeys('email' + randomUser + '@email.com');
+    users.passwordFormField.sendKeys('password');
+    users.externalIdFormField.sendKeys(randomUser);
+    users.roleFormDropDown.all(by.css('option')).get((randomUser % 3) + 1).click();
+    users.stateFormDropDown.all(by.css('option')).get((randomUser % 4) + 1).click();
+    users.cancelUserFormBtn.click();
+
+    // Fields are cleared
+    expect(users.firstNameFormField.getAttribute('value')).toBe('');
+    expect(users.lastNameFormField.getAttribute('value')).toBe('');
+    expect(users.displayNameFormField.getAttribute('value')).toBe('');
+    expect(users.emailFormField.getAttribute('value')).toBe('');
+    expect(users.externalIdFormField.getAttribute('value')).toBe('');
+    expect(users.roleFormDropDown.getAttribute('value')).toBe('');
+    expect(users.stateFormDropDown.getAttribute('value')).toBe('');
+
+    // Confirm user is not displayed in user list with correct details
+    users.userElements.then(function(users) {
+      for (var i = 1; i <= users.length; ++i) {
+        // Check if user name in table matches newly added user
+        element(by.css('tr.ng-scope:nth-child(' + i + ') > td:nth-child(2)')).getText().then(function(value) {
+          if (value == newUserName) {
+            userAdded = true;
+          }
+        });
+      }
+    }).thenFinally(function() {
+      // Verify new user was not found in the user table
+      expect(userAdded).toBeFalsy();
+      expect(users.userElements.count()).toBe(userCount);
+    });
+  });
+
   it('should require First Name field in Create New User modal', function() {
     // Add randomness to user details
     randomUser = Math.floor((Math.random() * 100) + 1);
@@ -132,11 +181,11 @@ describe('The create new user form', function() {
     // First name field blank
     users.lastNameFormField.sendKeys('Last' + randomUser);
     users.displayNameFormField.sendKeys('Display' + randomUser);
-    users.emailFormField.sendKeys('email' +  + randomUser + '@email.com');
+    users.emailFormField.sendKeys('email' + +randomUser + '@email.com');
     users.passwordFormField.sendKeys('password');
     users.externalIdFormField.sendKeys('12345');
     users.roleFormDropDown.all(by.css('option')).get((randomUser % 3) + 1).click();
-    users.stateFormDropDown.all(by.css('option')).get((randomUser % 6) + 1).click();
+    users.stateFormDropDown.all(by.css('option')).get((randomUser % 4) + 1).click();
     users.submitUserFormBtn.click();
 
     // Error messages displayed, no user is created
@@ -163,23 +212,25 @@ describe('The create new user form', function() {
     expect(users.userElements.count()).toBe(userCount);
   });
 
-  it('should not require Display Name field in Create New User modal', function() {
+  it('should user default Display Name in Create New User modal', function() {
     randomUser = Math.floor((Math.random() * 100) + 1);
     users.createUserBtn.click();
 
     // Display name field blank
     users.firstNameFormField.sendKeys('First' + randomUser);
     users.lastNameFormField.sendKeys('Last' + randomUser);
-    users.emailFormField.sendKeys('email'  + randomUser + '@email.com');
+    users.emailFormField.sendKeys('email' + randomUser + '@email.com');
     users.passwordFormField.sendKeys('password');
     users.externalIdFormField.sendKeys('12345');
     users.roleFormDropDown.all(by.css('option')).get((randomUser % 3) + 1).click();
-    users.stateFormDropDown.all(by.css('option')).get((randomUser % 6) + 1).click();
+    users.stateFormDropDown.all(by.css('option')).get((randomUser % 4) + 1).click();
+
+    expect(users.displayNameFormField.getAttribute('value')).toBe('First' + randomUser + ' Last' + randomUser);
     users.submitUserFormBtn.click();
 
     // User added, error messages not displayed
     // TODO Error messages not displayed
-    //expect(users.userElements.count()).toBeGreaterThan(userCount);
+    expect(users.userElements.count()).toBeGreaterThan(userCount);
   });
 
   it('should require Email field in Create New User modal', function() {
@@ -193,7 +244,7 @@ describe('The create new user form', function() {
     users.passwordFormField.sendKeys('password');
     users.externalIdFormField.sendKeys('12345');
     users.roleFormDropDown.all(by.css('option')).get((randomUser % 3) + 1).click();
-    users.stateFormDropDown.all(by.css('option')).get((randomUser % 6) + 1).click();
+    users.stateFormDropDown.all(by.css('option')).get((randomUser % 4) + 1).click();
     users.submitUserFormBtn.click();
 
     // Error messages displayed, no user is created
@@ -201,7 +252,7 @@ describe('The create new user form', function() {
     expect(users.userElements.count()).toBe(userCount);
   });
 
-  it('should not require State or Role fields in Create New User modal', function() {
+  it('should require State field in Create New User modal', function() {
     randomUser = Math.floor((Math.random() * 100) + 1);
     users.createUserBtn.click();
 
@@ -209,12 +260,34 @@ describe('The create new user form', function() {
     users.firstNameFormField.sendKeys('First' + randomUser);
     users.lastNameFormField.sendKeys('Last' + randomUser);
     users.displayNameFormField.sendKeys('Display' + randomUser);
-    users.emailFormField.sendKeys('email'  + randomUser + '@email.com');
+    users.emailFormField.sendKeys('email' + randomUser + '@email.com');
     users.passwordFormField.sendKeys('password');
     users.externalIdFormField.sendKeys('12345');
+    users.roleFormDropDown.all(by.css('option')).get((randomUser % 3) + 1).click();
     users.submitUserFormBtn.click();
 
-    expect(users.userElements.count()).toBeGreaterThan(userCount);
+    // Error messages displayed, no user is created
+    // TODO Error messages
+    expect(users.userElements.count()).toBe(userCount);
+  });
+
+  it('should require Role field in Create New User modal', function() {
+    randomUser = Math.floor((Math.random() * 100) + 1);
+    users.createUserBtn.click();
+
+    // Email field blank
+    users.firstNameFormField.sendKeys('First' + randomUser);
+    users.lastNameFormField.sendKeys('Last' + randomUser);
+    users.displayNameFormField.sendKeys('Display' + randomUser);
+    users.emailFormField.sendKeys('email' + randomUser + '@email.com');
+    users.passwordFormField.sendKeys('password');
+    users.externalIdFormField.sendKeys('12345');
+    users.stateFormDropDown.all(by.css('option')).get((randomUser % 4) + 1).click();
+    users.submitUserFormBtn.click();
+
+    // Error messages displayed, no user is created
+    // TODO Error messages
+    expect(users.userElements.count()).toBe(userCount);
   });
 
   it('should validate field input in Create New User modal', function() {
@@ -236,7 +309,7 @@ describe('The create new user form', function() {
         users.passwordFormField.sendKeys('password');
         users.externalIdFormField.sendKeys('12345');
         users.roleFormDropDown.all(by.css('option')).get((randomUser % 3) + 1).click();
-        users.stateFormDropDown.all(by.css('option')).get((randomUser % 6) + 1).click();
+        users.stateFormDropDown.all(by.css('option')).get((randomUser % 4) + 1).click();
         users.submitUserFormBtn.click();
 
         // Verify user is not created
@@ -245,5 +318,4 @@ describe('The create new user form', function() {
       });
     }
   });
-
 });

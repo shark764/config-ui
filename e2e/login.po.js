@@ -22,7 +22,7 @@ var Login = function() {
 
     browser.driver.wait(function() {
       return browser.getCurrentUrl().then(function (url) {
-          return shared.mainUrl == url;
+          return shared.usersPageUrl == url;
       });
     }, 5000);
   };
