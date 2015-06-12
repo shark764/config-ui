@@ -1,13 +1,24 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('LoginController', ['$rootScope', '$scope', '$location', 'AuthService',
-    function ($rootScope, $scope, $location, AuthService) {
+  .controller('LoginController', ['$rootScope', '$scope', '$state', 'AuthService',
+    function ($rootScope, $scope, $state, AuthService) {
       $scope.login = function () {
+        $scope.error = '';
         AuthService.login($scope.username, $scope.password)
-          .then(function () {
-            $location.path('/');
-            $rootScope.$broadcast('login:success');
+          .then(function (response) {
+            if(response.data) {
+
+              if(response.data.error && response.data.error.code == 401) {
+                $scope.error = 'Invalid username and password';
+                return;
+              }
+
+              $state.go('management.users');
+              $rootScope.$broadcast('login:success');
+            } else {
+              $scope.error = "API returned no response. Please check console for more details and try again";
+            }
           });
       };
     }

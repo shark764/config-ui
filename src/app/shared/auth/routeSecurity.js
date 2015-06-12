@@ -14,6 +14,7 @@ angular.module('liveopsConfigPanel')
           return;
         }
 
+        event.preventDefault();
         $state.go('login');
       });
     }

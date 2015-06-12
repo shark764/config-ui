@@ -48,6 +48,8 @@ angular.module('liveopsConfigPanel')
 
       //TEMPORARY
       $scope.accept = function(invite){
-        InviteAccept.get({tenantId: invite.tenantId, userId: invite.userId, token: invite.invitationToken});
+        InviteAccept.get({tenantId: invite.tenantId, userId: invite.userId, token: invite.invitationToken}, function () {
+          $scope.fetchInvites();
+        });
       };
   }]);

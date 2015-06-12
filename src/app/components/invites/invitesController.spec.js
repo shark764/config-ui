@@ -35,7 +35,7 @@ describe('InvitesController', function() {
     
     it('should reload the invites when Session tenantId changes', function() {
       $httpBackend.when('GET', 'fakendpoint.com/v1/tenants/2/invites').respond({'result' : [new Invite({email: 'someotherinvite.email.com'})]});
-      session.tenant.id = 2;
+      Session.tenant.tenantId = 2;
       $scope.$digest();
       $httpBackend.flush();
       

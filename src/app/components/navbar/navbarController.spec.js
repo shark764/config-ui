@@ -46,7 +46,7 @@ describe('NavbarController', function() {
       session = _session_;
       apiHostname = _apiHostname_;
 
-      session.destroyAll();
+      session.destroy();
 
       tenants = [new Tenant({
         'id': 'c6aa44f6-b19e-49f5-bd3f-66f00b885e39'
@@ -104,7 +104,7 @@ describe('NavbarController', function() {
 
     $httpBackend.flush();
 
-    expect(session.tenant.id).toBe(tenants[0].id);
+    expect(Session.tenant.tenantId).toBe(tenants[0].id);
   });
 
   it('should load the tenants for the active region', function() {

@@ -30,7 +30,7 @@ angular.module('liveopsConfigPanel')
         });
 
         $scope.$watchCollection('filtered', function () {
-          if(!$scope.selected || $scope.filtered.indexOf($scope.selected) == -1) {
+          if($scope.filtered.lenght > 0 && (!$scope.selected || $scope.filtered.indexOf($scope.selected) == -1)) {
             $scope.selected = $scope.filtered[0];
           }
         });
