@@ -68,6 +68,18 @@
   </div>
 </div>
 
+<div class="divider-header">
+  <h4>State (Dev Only)</h4>
+</div>
+
+<div class="input-group">
+  <label>State</label>
+  <div>
+    <select required ng-model="resource.state" name="state" ng-options="state.value as state.display for state in states">
+      <option value="" disabled>Select State</option>
+    </select>
+  </div>
+</div>
 
 <div class="divider-header">
   <h4 ng-if="resource.id">Actions</h4>
