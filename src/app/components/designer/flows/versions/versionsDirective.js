@@ -3,7 +3,6 @@
 angular.module('liveopsConfigPanel')
   .controller('VersionsController', ['$scope', 'Session', 'Version',
     function ($scope, Session, Version) {
-
       $scope.redirectToInvites();
 
       $scope.version = new Version({
@@ -12,7 +11,7 @@ angular.module('liveopsConfigPanel')
       });
 
       $scope.fetch = function () {
-        $scope.versions = Version.query( { tenantId: Session.tenant.tenantId, flowId: $scope.flow.id });
+        $scope.flow.versions = Version.query( { tenantId: Session.tenant.tenantId, flowId: $scope.flow.id });
       };
 
       $scope.saveVersion = function () {
@@ -20,7 +19,7 @@ angular.module('liveopsConfigPanel')
       };
 
       $scope.$on('created:resource:tenants:' + Session.tenantId + ':flows:' + $scope.flow.id + ':versions', function (event, item) {
-        $scope.versions.push(item);
+        $scope.flow.versions.push(item);
         $scope.selectedVersion = item;
       });
 
