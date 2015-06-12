@@ -8,8 +8,12 @@
   "value.createdby": "Created by {{creator}} at {{date}}",
   "value.updatedby": "Last updated by {{updater}} at {{date}}",
   "value.numMembers": "({{number}})",
+  "value.source": "Source",
+  "value.properties": "Properties",
+  "value.type": "Type",
   "value.createdOn" : "Created On",
   
+
   "navbar.users.title": "User Management",
   "navbar.tenants.title": "Tenants",
   "navbar.flows.title": "Flow Designer",
@@ -31,6 +35,8 @@
   "details.role": "Role",
 
   "skill.details.hasProficiency": "Has Proficiency",
+
+  "media.details.source.error": "Please enter a source",
 
   "tenant.details.title": "Tenants",
   "tenant.details.name": "Tenant Name",
