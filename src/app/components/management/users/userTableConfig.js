@@ -7,7 +7,7 @@ angular.module('liveopsConfigPanel')
         'fields': [{
           'header': 'Name',
           'name': 'fullName',
-          'templateUrl': 'app/shared/templates/fullName.html'
+          'templateUrl': 'app/components/management/users/userFullNameTemplate.html'
         }, {
           'header': 'Display Name',
           'name': 'displayName'
@@ -23,7 +23,7 @@ angular.module('liveopsConfigPanel')
         }, {
           'header': 'Status',
           'name': 'status',
-          'templateUrl': 'app/shared/templates/status.html',
+          'templateUrl': 'app/components/management/users/userStatusTemplate.html',
           'options': userStatuses
         }, {
           'header': 'State',
