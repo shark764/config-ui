@@ -26,7 +26,11 @@ angular.module('liveopsConfigPanel')
             },
             function (error){
               toastr.error('Record failed to ' + ($scope.resource.id ? 'update' : 'save'));
-              console.log(error.data.error.attribute);
+              var attributes = error.data.error.attribute;
+              
+              angular.forEach(attributes, function(value, key) {
+                $scope.detailsForm[key].$error = {api : value};
+              });
             }
           );
         };
