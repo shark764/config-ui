@@ -5,6 +5,8 @@ angular.module('liveopsConfigPanel')
   function ($scope, Queue, Session, $stateParams, queueTableConfig) {
     $scope.Session = Session;
 
+    $scope.redirectToInvites();
+
     $scope.fetch = function(){
       $scope.queues = Queue.query({tenantId : Session.tenant.tenantId}, function(){
         if ($scope.queues[0]){
