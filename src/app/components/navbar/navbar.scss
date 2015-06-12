@@ -40,14 +40,14 @@ $down-arrow-url: "/assets/images/down-arrow.png";
       margin-top: 10px !important;
   }
 
-  ul {
+  > ul {
     font-size: 12px;
     height: 100%;
     padding: 0;
     margin: 0;
     list-style: none;
 
-    li {
+    > li {
       display: block;
       float: left;
       height: 100%;
@@ -130,3 +130,4 @@ $down-arrow-url: "/assets/images/down-arrow.png";
       }
     }
   }
+}
