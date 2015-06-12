@@ -2,22 +2,20 @@
 
 angular.module('liveopsConfigPanel')
   .service('UserName', ['User', 'UUIDCache', function (User, UUIDCache) {
-    this.get = function (params, success, failure) {
-      if (params.id){
-        var cached = UUIDCache.get(params.id);
+    this.get = function (id) {
+      if (id){
+        var cached = UUIDCache.get(id);
         if (cached){
           return cached;
         } else {
-          return User.get(params, function(data, status, headers, config){
-            UUIDCache.put(data.id, data);
-            if (success){
-              success(data, status, headers, config);
-            }
-          }, failure);
+          return User.get({id: id}, function(data){
+            UUIDCache.put(id, data);
+          });
         }
       }
       
-      return User.get(params, succcess, failure);
+      //Return nothing if not supplied with the id.
+      return;
     }
   }]);
 
