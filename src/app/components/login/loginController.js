@@ -3,9 +3,10 @@
 angular.module('liveopsConfigPanel')
   .controller('LoginController', ['$rootScope', '$scope', '$state', 'AuthService',
     function ($rootScope, $scope, $state, AuthService) {
+      $scope.loginStatus = { $$state : {status: 1} };
+
       $scope.login = function () {
-        $scope.error = '';
-        AuthService.login($scope.username, $scope.password)
+        $scope.loginStatus = AuthService.login($scope.username, $scope.password)
           .then(function (response) {
             if(response.data) {
 
@@ -20,6 +21,8 @@ angular.module('liveopsConfigPanel')
               $scope.error = "API returned no response. Please check console for more details and try again";
             }
           });
+
+          console.log($scope.loginStatus);
       };
     }
   ]);

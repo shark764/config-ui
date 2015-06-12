@@ -1,4 +1,9 @@
-<form id="login-form" name="login-form" ng-submit="login()">
+<div ng-show="loginStatus.$$state.status == 0" id="login-form">
+  <span>Logging you in...</span>
+
+  <i class="fa fa-cog fa-spin"></i>
+</div>
+<form id="login-form" name="login-form" ng-submit="login()" ng-show="loginStatus.$$state.status == 1">
   <div class='input-group'>
     <input type="text" placeholder="Email" ng-model="username" ng-required="true" />
   </div>
