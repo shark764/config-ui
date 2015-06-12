@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .factory('LiveopsResourceFactory', ['$http', '$resource', 'apiHostname', 'Session', 'SaveInterceptor', 'GetInterceptor',
-    function ($http, $resource, apiHostname, Session, SaveInterceptor, GetInterceptor) {
+  .factory('LiveopsResourceFactory', ['$http', '$resource', 'apiHostname', 'Session', 'SaveInterceptor',
+    function ($http, $resource, apiHostname, Session, SaveInterceptor) {
 
       function appendTransform(defaults, transform) {
         // We can't guarantee that the default transformation is an array
@@ -38,7 +38,6 @@ angular.module('liveopsConfigPanel')
             },
             get: {
               method: 'GET',
-              //interceptor: GetInterceptor,
               transformResponse: appendTransform($http.defaults.transformResponse, function (value) {
                 return getResult(value);
               })
