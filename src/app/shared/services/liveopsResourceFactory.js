@@ -45,7 +45,7 @@ angular.module('liveopsConfigPanel')
             update: {
               method: 'PUT',
               interceptor: SaveInterceptor,
-              transformRequest: function (data, headers) {
+              transformRequest: function (data) {
                 var newData = {};
                 if (setUpdatedBy) {
                   newData.updatedBy = Session.user.id;
