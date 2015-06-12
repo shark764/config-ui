@@ -1,15 +1,11 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('GroupsController', ['$scope', '$state', 'Session', 'Group', 'User', 'groupTableConfig',
+  .controller('GroupsController', ['$scope', '$state', 'Session', 'Group', 'User', 'groupTableConfig', 'toastr',
     function($scope, $state, Session, Group, User, groupTableConfig) {
       $scope.Session = Session;
 
-
-      if(!Session.tenant.tenantId){
-          $state.transitionTo('content.management.users');
-          alert('No tenant set; redirect to management');
-      }
+      $scope.redirectToInvites();
 
       $scope.tableConfig = groupTableConfig;
 
