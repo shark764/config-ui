@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('resourceDetails', ['UserName', function(UserName) {
+  .directive('resourceDetails', ['UserName', 'toastr', function(UserName, toastr) {
     return {
       restrict: 'AE',
       scope : {
@@ -22,6 +22,11 @@ angular.module('liveopsConfigPanel')
               $scope.resetForm();
               $scope.resource = result;
               $scope.oResource = angular.copy($scope.resource);
+              toastr.success('Record ' + ($scope.resource.id ? 'updated' : 'saved'));
+            },
+            function (error){
+              toastr.error('Record failed to ' + ($scope.resource.id ? 'update' : 'save'));
+              console.log(error.data.error.attribute);
             }
           );
         };
