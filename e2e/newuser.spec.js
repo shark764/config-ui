@@ -36,7 +36,7 @@ describe('The create new user form', function() {
     expect(users.passwordFormField.isDisplayed()).toBeTruthy();
     expect(users.externalIdFormField.isDisplayed()).toBeTruthy();
     expect(users.roleFormDropDown.isDisplayed()).toBeTruthy();
-    expect(users.stateFormDropDown.isDisplayed()).toBeTruthy();;
+    expect(users.stateFormDropDown.isDisplayed()).toBeTruthy();
 
     expect(users.passwordEditFormBtn.isPresent()).toBeFalsy();
 

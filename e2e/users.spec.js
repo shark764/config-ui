@@ -110,9 +110,9 @@ describe('The users view', function() {
   it('should display users based on the table Status filter', function() {
     // Select Disabled from Status drop down
     users.statusTableDropDown.click();
-    users.statusTableDropDown.all(by.css('input')).get(1).click();
-    expect(users.statusTableDropDown.all(by.css('input')).get(1).getAttribute('checked')).toBe('true');
-    expect(users.statusTableDropDown.all(by.css('input')).get(0).getAttribute('checked')).toBe(null);
+    users.userStatuses.get(0).click();
+    expect(users.userStatuses.get(0).element(by.css('input')).isSelected()).toBeTruthy();
+    expect(element(by.css('th.ng-scope:nth-child(7) > filter-dropdown:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > input:nth-child(1)')).isSelected()).toBeFalsy();
     users.statusTableDropDown.click();
     users.userElements.then(function(rows) {
       for (var i = 0; i < rows.length; ++i) {
@@ -122,8 +122,8 @@ describe('The users view', function() {
 
     // Select Enabled from Status drop down
     users.statusTableDropDown.click();
-    users.statusTableDropDown.all(by.css('input')).get(1).click();
-    users.statusTableDropDown.all(by.css('input')).get(2).click();
+    users.userStatuses.get(0).click();
+    users.userStatuses.get(1).click();
     users.statusTableDropDown.click();
     users.userElements.then(function(rows) {
       for (var i = 0; i < rows.length; ++i) {
@@ -133,10 +133,10 @@ describe('The users view', function() {
 
     // Select All from Status drop down
     users.statusTableDropDown.click();
-    users.statusTableDropDown.all(by.css('input')).get(0).click();
-    expect(users.statusTableDropDown.all(by.css('input')).get(0).getAttribute('checked')).toBe('true');
-    expect(users.statusTableDropDown.all(by.css('input')).get(1).getAttribute('checked')).toBe(null);
-    expect(users.statusTableDropDown.all(by.css('input')).get(2).getAttribute('checked')).toBe(null);
+    element(by.css('th.ng-scope:nth-child(7) > filter-dropdown:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(1)')).click();
+    expect(element(by.css('th.ng-scope:nth-child(7) > filter-dropdown:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > input:nth-child(1)')).isSelected()).toBeTruthy();
+    expect(users.userStatuses.get(0).element(by.css('input')).isSelected()).toBeFalsy();
+    expect(users.userStatuses.get(1).element(by.css('input')).isSelected()).toBeFalsy();
     users.statusTableDropDown.click();
     // Expect all users to be displayed
     expect(users.userElements.count()).toBe(userCount);
@@ -145,28 +145,28 @@ describe('The users view', function() {
   it('should display users based on the table State filter', function() {
     // One State selected
     users.stateTableDropDown.click(); // Open
-    users.stateTableDropDown.all(by.css('input')).get(3).click(); // Select Ready
+    users.userStates.get(2).click(); // Select Ready
     // All is deselected
-    expect(users.stateTableDropDown.all(by.css('input')).get(3).getAttribute('checked')).toBe('true');
-    expect(users.stateTableDropDown.all(by.css('input')).get(0).getAttribute('checked')).toBe(null);
+    expect(users.userStates.get(2).element(by.css('input')).isSelected()).toBeTruthy();
+    expect(element(by.css('th.ng-scope:nth-child(8) > filter-dropdown:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > input:nth-child(1)')).isSelected()).toBeFalsy();
     users.stateTableDropDown.click(); // Close
 
     users.userElements.then(function(rows) {
       for (var j = 1; j <= rows.length; ++j) {
-        expect(element(by.css('tr.ng-scope:nth-child(' + j + ') > td:nth-child(7) > div:nth-child(1) > user-state:nth-child(1)')).getAttribute('state')).toBe('READY');
+        expect(element(by.css('tr.ng-scope:nth-child(' + j + ') > td:nth-child(8) > div:nth-child(1) > center:nth-child(1) > user-state:nth-child(1)')).getAttribute('state')).toBe('READY');
       };
     });
 
     // Multiple States selected
     users.stateTableDropDown.click(); // Open
-    users.stateTableDropDown.all(by.css('input')).get(1).click(); // Select Busy
+    users.userStates.get(0).click();
     users.stateTableDropDown.click(); // Close
 
     var userHasState = false;
     var currentUserState;
     users.userElements.then(function(rows) {
       for (var j = 1; j <= rows.length; ++j) {
-        element(by.css('tr.ng-scope:nth-child(' + j + ') > td:nth-child(7) > div:nth-child(1) > user-state:nth-child(1)')).getAttribute('state').then(function(value) {
+        element(by.css('tr.ng-scope:nth-child(' + j + ') > td:nth-child(8) > div:nth-child(1) > center:nth-child(1) > user-state:nth-child(1)')).getAttribute('state').then(function(value) {
           expect(['BUSY', 'READY']).toContain(value);
         });
       };
@@ -174,11 +174,12 @@ describe('The users view', function() {
 
     // All selected
     users.stateTableDropDown.click(); // Open
-    users.stateTableDropDown.all(by.css('input')).get(0).click(); // Select All
+    element(by.css('th.ng-scope:nth-child(8) > filter-dropdown:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(1)')).click();
+
     // Previous selections are deselected
-    expect(users.stateTableDropDown.all(by.css('input')).get(0).getAttribute('checked')).toBe('true');
-    expect(users.stateTableDropDown.all(by.css('input')).get(3).getAttribute('checked')).toBe(null);
-    expect(users.stateTableDropDown.all(by.css('input')).get(1).getAttribute('checked')).toBe(null);
+    expect(element(by.css('th.ng-scope:nth-child(8) > filter-dropdown:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > input:nth-child(1)')).isSelected()).toBeTruthy();
+    expect(users.userStates.get(2).element(by.css('input')).isSelected()).toBeFalsy();
+    expect(users.userStates.get(0).element(by.css('input')).isSelected()).toBeFalsy();
     users.stateTableDropDown.click(); // Close
     // Expect all users to be displayed
     expect(users.userElements.count()).toBe(userCount);
@@ -190,12 +191,12 @@ describe('The users view', function() {
 
     // Select Status filter
     users.statusTableDropDown.click(); // Open
-    users.statusTableDropDown.all(by.css('input')).get(2).click();
+    users.userStatuses.get(1).click();
     users.statusTableDropDown.click(); // Close
 
     // Select State filter
     users.stateTableDropDown.click(); // Open
-    users.stateTableDropDown.all(by.css('input')).get(3).click(); // Select Ready
+    users.userStates.get(2).click(); // Select Ready
     users.stateTableDropDown.click(); // Close
 
     users.userElements.then(function(rows) {
@@ -204,7 +205,7 @@ describe('The users view', function() {
           expect(value.toLowerCase()).toContain('a');
         });
         expect(rows[i].getText()).toContain('Enabled');
-        expect(element(by.css('tr.ng-scope:nth-child(' + (i + 1) + ') > td:nth-child(7) > div:nth-child(1) > user-state:nth-child(1)')).getAttribute('state')).toBe('READY');
+        expect(element(by.css('tr.ng-scope:nth-child(' + (i + 1) + ') > td:nth-child(8) > div:nth-child(1) > center:nth-child(1) > user-state:nth-child(1)')).getAttribute('state')).toBe('READY');
       };
     });
 
@@ -214,12 +215,12 @@ describe('The users view', function() {
 
     // Select Status filter
     users.statusTableDropDown.click(); // Open
-    users.statusTableDropDown.all(by.css('input')).get(1).click();
+    users.userStatuses.get(0).click();
     users.statusTableDropDown.click(); // Close
 
     // Select State filter
     users.stateTableDropDown.click(); // Open
-    users.stateTableDropDown.all(by.css('input')).get(4).click(); // Select Ready
+    users.userStates.get(3).click(); // Select Ready
     users.stateTableDropDown.click(); // Close
 
     users.userElements.then(function(rows) {
@@ -227,10 +228,10 @@ describe('The users view', function() {
         rows[i].getText().then(function(value) {
           expect(value.toLowerCase()).toContain('an');
         });
-        element(by.css('tr.ng-scope:nth-child(' + (i + 1) + ') > td:nth-child(6) > div:nth-child(1) > user-status:nth-child(1)')).getText().then(function(value) {
+        element(by.css('tr.ng-scope:nth-child(' + (i + 1) + ') > td:nth-child(7) > div:nth-child(1) > user-status:nth-child(1)')).getText().then(function(value) {
           expect(['Enabled', 'Disabled']).toContain(value);
         });
-        element(by.css('tr.ng-scope:nth-child(' + (i + 1) + ') > td:nth-child(7) > div:nth-child(1) > user-state:nth-child(1)')).getAttribute('state').then(function(value) {
+        element(by.css('tr.ng-scope:nth-child(' + (i + 1) + ') > td:nth-child(8) > div:nth-child(1) > center:nth-child(1) > user-state:nth-child(1)')).getAttribute('state').then(function(value) {
           expect(['LOGIN', 'READY']).toContain(value);
         });
       };
@@ -248,10 +249,10 @@ describe('The users view', function() {
       expect(element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(2)')).getText()).toContain(users.lastNameFormField.getAttribute('value'));
 
       // Verify user's externalId in table matches user details
-      expect(element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(5)')).getText()).toBe(users.externalIdFormField.getAttribute('value'));
+      expect(element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(6)')).getText()).toBe(users.externalIdFormField.getAttribute('value'));
 
       // Verify user's state in table matches user details
-      expect(element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(7) > div:nth-child(1) > user-state:nth-child(1)')).getAttribute('state')).toBe(element(by.css('h1.ng-binding > user-state:nth-child(1)')).getAttribute('state'));
+      expect(element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(8) > div:nth-child(1) > center:nth-child(1) > user-state:nth-child(1)')).getAttribute('state')).toBe(element(by.css('h1.ng-binding > user-state:nth-child(1)')).getAttribute('state'));
 
       // Verify user's displayName matches
       expect(element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(3)')).getAttribute('value')).toBe(element(by.css('h1.ng-binding')).getText());
@@ -262,8 +263,8 @@ describe('The users view', function() {
         expect(users.userDetails.isDisplayed()).toBeTruthy();
         expect(element(by.css('tr.ng-scope:nth-child(2) > td:nth-child(2)')).getText()).toContain(users.firstNameFormField.getAttribute('value'));
         expect(element(by.css('tr.ng-scope:nth-child(2) > td:nth-child(2)')).getText()).toContain(users.lastNameFormField.getAttribute('value'));
-        expect(element(by.css('tr.ng-scope:nth-child(2) > td:nth-child(5)')).getText()).toBe(users.externalIdFormField.getAttribute('value'));
-        expect(element(by.css('tr.ng-scope:nth-child(2) > td:nth-child(7) > div:nth-child(1) > user-state:nth-child(1)')).getAttribute('state')).toBe(element(by.css('h1.ng-binding > user-state:nth-child(1)')).getAttribute('state'));
+        expect(element(by.css('tr.ng-scope:nth-child(2) > td:nth-child(6)')).getText()).toBe(users.externalIdFormField.getAttribute('value'));
+        expect(element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(8) > div:nth-child(1) > center:nth-child(1) > user-state:nth-child(1)')).getAttribute('state')).toBe(element(by.css('h1.ng-binding > user-state:nth-child(1)')).getAttribute('state'));
         expect(element(by.css('tr.ng-scope:nth-child(2) > td:nth-child(3)')).getAttribute('value')).toBe(element(by.css('h1.ng-binding')).getText());
       }
     }
@@ -284,8 +285,8 @@ describe('The users view', function() {
       expect(users.userDetails.isDisplayed()).toBeTruthy();
       expect(element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(2)')).getText()).toContain(users.firstNameFormField.getAttribute('value'));
       expect(element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(2)')).getText()).toContain(users.lastNameFormField.getAttribute('value'));
-      expect(element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(5)')).getText()).toBe(users.externalIdFormField.getAttribute('value'));
-      expect(element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(7) > div:nth-child(1) > user-state:nth-child(1)')).getAttribute('state')).toBe(element(by.css('h1.ng-binding > user-state:nth-child(1)')).getAttribute('state'));
+      expect(element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(6)')).getText()).toBe(users.externalIdFormField.getAttribute('value'));
+      expect(element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(8) > div:nth-child(1) > center:nth-child(1) > user-state:nth-child(1)')).getAttribute('state')).toBe(element(by.css('h1.ng-binding > user-state:nth-child(1)')).getAttribute('state'));
       expect(element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(2)')).getText()).toBe(element(by.css('h1.ng-binding')).getText());
     }).then(function() {
       // Refresh browser and ensure changes persist
@@ -293,8 +294,8 @@ describe('The users view', function() {
       element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(2)')).click();
       expect(element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(2)')).getText()).toContain(users.firstNameFormField.getAttribute('value'));
       expect(element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(2)')).getText()).toContain(users.lastNameFormField.getAttribute('value'));
-      expect(element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(5)')).getText()).toBe(users.externalIdFormField.getAttribute('value'));
-      expect(element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(7) > div:nth-child(1) > user-state:nth-child(1)')).getAttribute('state')).toBe(element(by.css('h1.ng-binding > user-state:nth-child(1)')).getAttribute('state'));
+      expect(element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(6)')).getText()).toBe(users.externalIdFormField.getAttribute('value'));
+      expect(element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(8) > div:nth-child(1) > center:nth-child(1) > user-state:nth-child(1)')).getAttribute('state')).toBe(element(by.css('h1.ng-binding > user-state:nth-child(1)')).getAttribute('state'));
       expect(element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(2)')).getText()).toBe(element(by.css('h1.ng-binding')).getText());
     }).then(function() {
       // Reset all user values
@@ -327,8 +328,8 @@ describe('The users view', function() {
 
       expect(element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(2)')).getText()).toContain(users.firstNameFormField.getAttribute('value'));
       expect(element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(2)')).getText()).toContain(users.lastNameFormField.getAttribute('value'));
-      expect(element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(5)')).getText()).toBe(users.externalIdFormField.getAttribute('value'));
-      expect(element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(7) > div:nth-child(1) > user-state:nth-child(1)')).getAttribute('state')).toBe(element(by.css('h1.ng-binding > user-state:nth-child(1)')).getAttribute('state'));
+      expect(element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(6)')).getText()).toBe(users.externalIdFormField.getAttribute('value'));
+      expect(element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(8) > div:nth-child(1) > center:nth-child(1) > user-state:nth-child(1)')).getAttribute('state')).toBe(element(by.css('h1.ng-binding > user-state:nth-child(1)')).getAttribute('state'));
       expect(element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(2)')).getText()).toBe(element(by.css('h1.ng-binding')).getText());
     }).then(function() {
       // Refresh browser and ensure changes did not persist
@@ -341,8 +342,8 @@ describe('The users view', function() {
 
       expect(element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(2)')).getText()).toContain(users.firstNameFormField.getAttribute('value'));
       expect(element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(2)')).getText()).toContain(users.lastNameFormField.getAttribute('value'));
-      expect(element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(5)')).getText()).toBe(users.externalIdFormField.getAttribute('value'));
-      expect(element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(7) > div:nth-child(1) > user-state:nth-child(1)')).getAttribute('state')).toBe(element(by.css('h1.ng-binding > user-state:nth-child(1)')).getAttribute('state'));
+      expect(element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(6)')).getText()).toBe(users.externalIdFormField.getAttribute('value'));
+      expect(element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(8) > div:nth-child(1) > center:nth-child(1) > user-state:nth-child(1)')).getAttribute('state')).toBe(element(by.css('h1.ng-binding > user-state:nth-child(1)')).getAttribute('state'));
       expect(element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(2)')).getText()).toBe(element(by.css('h1.ng-binding')).getText());
     });
   });

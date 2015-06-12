@@ -7,9 +7,9 @@ var UserPage = function() {
   this.userSearchField = element(by.model('searchQuery'));
   this.actionsBtn = element(by.buttonText('Actions'));
   this.createUserBtn = element(by.id('create-user-btn'));
-  this.tableColumnsDropDown = element(by.css('filter-dropdown.ng-isolate-scope:nth-child(2)'));
-  this.statusTableDropDown = element(by.css('th.ng-scope:nth-child(6) > filter-dropdown:nth-child(1)'));
-  this.stateTableDropDown = element(by.css('th.ng-scope:nth-child(7) > filter-dropdown:nth-child(1)'));
+  this.tableColumnsDropDown = element(by.css('.action-container > div:nth-child(1) > filter-dropdown:nth-child(1)'));
+  this.statusTableDropDown = element(by.css('th.ng-scope:nth-child(7) > filter-dropdown:nth-child(1)'));
+  this.stateTableDropDown = element(by.css('th.ng-scope:nth-child(8) > filter-dropdown:nth-child(1)'));
 
   this.userElements = element.all(by.repeater('item in (filtered = (items | selectedTableOptions:config.fields | search:config.searchOn:searchQuery | orderBy:config.orderBy))'));
 
@@ -29,8 +29,9 @@ var UserPage = function() {
 
   this.errors = element.all(by.css('.error'));
 
+  this.userStatuses = this.statusTableDropDown.all(by.repeater('option in options track by option[valuePath]'));
   this.userRoles = ['Admin', 'User', 'Other'];
-  this.userStates = ['Busy', 'Logout', 'Ready', 'Login', 'Not Ready', 'Wrap']
+  this.userStates = this.stateTableDropDown.all(by.repeater('option in options track by option[valuePath]'));
 
   this.userNameDetailsHeader = element(by.css('h1.ng-binding'));
   this.userStateDetailsHeader = element(by.css('h1.ng-binding > user-state:nth-child(1) > div:nth-child(1)'));
