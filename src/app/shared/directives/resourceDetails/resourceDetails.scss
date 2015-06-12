@@ -76,7 +76,7 @@
     justify-content: space-around;
     @include display-flex();
 
-    input {
+    input, .btn {
       width: 40%;
     }
   }

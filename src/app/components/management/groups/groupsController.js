@@ -9,13 +9,7 @@ angular.module('liveopsConfigPanel')
 
       $scope.tableConfig = groupTableConfig;
 
-      $scope.groups = Group.query({
-        tenantId: Session.tenant.tenantId
-      }, function(data){
-        if (! data.length){
-          $scope.createGroup();
-        }
-      });
+      $scope.groups = Group.query({tenantId: Session.tenant.tenantId});
 
       $scope.createGroup = function() {
         $scope.selectedGroup = new Group({
