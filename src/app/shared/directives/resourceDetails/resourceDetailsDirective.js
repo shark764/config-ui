@@ -5,7 +5,7 @@ angular.module('liveopsConfigPanel')
     return {
       restrict: 'AE',
       scope : {
-        resource: '=',
+        originalResource: '=',
         headerTemplateUrl: '@',
         bodyTemplateUrl: '@',
         extendScope: '='
@@ -14,7 +14,6 @@ angular.module('liveopsConfigPanel')
 
       link : function($scope) {
         angular.extend($scope, $scope.extendScope);
-        $scope.oResource = angular.copy($scope.resource);
 
         $scope.save = function () {
           $scope.loading = true;
@@ -22,7 +21,7 @@ angular.module('liveopsConfigPanel')
             $scope.preSave($scope);
           }
 
-          $scope.resource.save($scope.oResource,
+          $scope.resource.save($scope.originalResource,
             function (result) {
               $scope.loading = false;
               if($scope.postSave){
@@ -30,7 +29,7 @@ angular.module('liveopsConfigPanel')
               }
               
               $scope.resetForm();
-              $scope.oResource = angular.copy($scope.resource);
+              angular.copy($scope.resource, $scope.originalResource);
               toastr.success('Record ' + ($scope.resource.id ? 'updated' : 'saved'));
             },
 
@@ -62,12 +61,12 @@ angular.module('liveopsConfigPanel')
           }
         })
 
-        $scope.$watch('resource', function () {
-          $scope.oResource = angular.copy($scope.resource);
+        $scope.$watch('originalResource', function () {
+          $scope.resource = angular.copy($scope.originalResource);
         });
 
         $scope.cancel = function () {
-          angular.copy($scope.oResource, $scope.resource);
+          angular.copy($scope.originalResource, $scope.resource);
           $scope.resetForm();
         };
 
