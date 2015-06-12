@@ -2,16 +2,16 @@
 
 /*global spyOn : false */
 
-describe('QueueController', function() {
+describe('MediaController', function() {
     var $scope,
         $controller,
         $httpBackend,
-        queues,
-        Queue,
-        routeParams;
+        medias,
+        Media,
+        stateParams;
 
     beforeEach(module('liveopsConfigPanel'));
-    beforeEach(inject(['$rootScope', '$controller', '$injector', 'Queue', function($rootScope, _$controller_, $injector, _Queue_) {
+    beforeEach(inject(['$rootScope', '$controller', '$injector', 'Queue', function($rootScope, _$controller_, $injector, _Media_) {
       $scope = $rootScope.$new();
       $controller = _$controller_;
       Queue = _Queue_;
