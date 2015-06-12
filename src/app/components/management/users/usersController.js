@@ -23,11 +23,10 @@ angular.module('liveopsConfigPanel')
 
       $scope.createUser = function() {
         $scope.selectedUser = new User({
-          status: true,
           state: 'Ready'
         });
       };
- 
+
       $scope.users = User.query();
       $scope.tableConfig = userTableConfig;
     }
