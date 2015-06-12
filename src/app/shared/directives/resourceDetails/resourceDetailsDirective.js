@@ -18,6 +18,10 @@ angular.module('liveopsConfigPanel')
 
         $scope.save = function () {
           $scope.loading = true;
+          if($scope.preSave){
+            $scope.preSave($scope);
+          }
+
           $scope.resource.save($scope.oResource,
 
             function (result) {
@@ -42,6 +46,10 @@ angular.module('liveopsConfigPanel')
               });
             }
           );
+          
+          if($scope.postSave){
+            $scope.postSave($scope);
+          }
         };
 
         $scope.$watch('resource.id', function(newValue){

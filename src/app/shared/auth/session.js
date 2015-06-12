@@ -28,6 +28,7 @@ angular.module('liveopsConfigPanel')
 
       this.set = function (user, tenants, token) {
         this.token = token;
+        this.setUser(user);
 
         this.user = {
           id: user.id,
@@ -37,33 +38,36 @@ angular.module('liveopsConfigPanel')
 
         this.setTenants(tenants);
 
-        this.storeSession();
+        this.flush();
       };
 
       this.setTenants = function (tenants){
 
-        if(tenants.length > 0){
+        if(tenants && tenants.length > 0){
           this.tenants = tenants;
         } else {
-          this.tenants = [{id: '', name: 'No tenants available'}];
+          this.tenants = [{
+            id: '',
+            name: 'No tenants available'
+          }];
         }
 
         this.tenant = this.tenants[0];
+
+        this.flush();
       };
 
-      this.storeSession = function () {
-        localStorage.setItem(self.userSessionKey, JSON.stringify({
-          token: self.token,
-          user: self.user,
-          tenants: self.tenants
-        }));
+      this.setUser = function (user) {
+        this.user = {
+          id: user.id,
+          displayName: user.displayName
+        };
+        this.flush();
+      };
 
-        localStorage.setItem(self.userPreferenceKey, JSON.stringify({
-          lang: self.lang,
-          lockSideMenu: self.lockSideMenu,
-          activeRegionId: self.activeRegionId,
-          tenant: self.tenant
-        }));
+      this.setToken = function (token) {
+        this.token = token;
+        this.flush();
       };
 
       this.destroy = function () {
@@ -73,14 +77,17 @@ angular.module('liveopsConfigPanel')
         localStorage.removeItem(this.userSessionKey);
       };
 
-      this.setLockSideMenu = function(state){
+      this.setLockSideMenu = function (state) {
         self.lockSideMenu = state;
-        self.storeSession();
+        self.flush();
       };
 
-      this.setTenant = function (tenant){
-        self.tenant = tenant;
-        self.storeSession();
+      this.setTenant = function (tenant) {
+        self.tenant = {
+          tenantId: tenant.id,
+          name: tenant.name
+        };
+        self.flush();
       };
 
       this.destroyAll = function () {
@@ -103,6 +110,21 @@ angular.module('liveopsConfigPanel')
 
       this.isAuthenticated = function () {
         return !!this.token;
+      };
+
+      this.flush = function () {
+        localStorage.setItem(self.userSessionKey, JSON.stringify({
+          token: self.token,
+          user: self.user,
+          tenants: self.tenants
+        }));
+
+        localStorage.setItem(self.userPreferenceKey, JSON.stringify({
+          lang: self.lang,
+          lockSideMenu: self.lockSideMenu,
+          activeRegionId: self.activeRegionId,
+          tenant: self.tenant
+        }));
       };
 
       this.restore();

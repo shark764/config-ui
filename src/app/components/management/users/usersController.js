@@ -1,14 +1,25 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('UsersController', ['$scope', '$location', 'userStates', 'userStatuses', 'userRoles', 'User', 'Session', 'userTableConfig',
-    function($scope, $location, userStates, userStatuses, userRoles, User, Session, userTableConfig) {
+  .controller('UsersController', ['$scope', '$location', 'userStates', 'userStatuses', 'userRoles', 'User', 'Session', 'AuthService', 'userTableConfig',
+    function($scope, $location, userStates, userStatuses, userRoles, User, Session, AuthService, userTableConfig) {
       $scope.states = userStates;
       $scope.statuses = userStatuses;
       $scope.filteredUsers = [];
       $scope.Session = Session;
-
+      
+      var postSave = function(scope){
+        if(scope.resource.id === Session.user.id && scope.resource.password) {
+          var token = AuthService.generateToken(
+            scope.resource.email,
+            scope.resource.password);
+          Session.setUser(scope.resource);
+          Session.setToken(token);
+        }
+      };
+      
       $scope.additional = {
+        postSave: postSave,
         states: userStates,
         roles: userRoles,
         updateDisplayName : function($childScope){
@@ -19,7 +30,6 @@ angular.module('liveopsConfigPanel')
           }
         }
       };
-
 
       $scope.createUser = function() {
         $scope.selectedUser = new User({
