@@ -28,7 +28,7 @@ angular.module('liveopsConfigPanel')
 
         $scope.$watch('resource.id', function(newValue){
           $scope.resetForm();
-          
+
           if (newValue){
             $scope.creator = UserName.get($scope.resource.createdBy);
             $scope.updater = UserName.get($scope.resource.updatedBy);

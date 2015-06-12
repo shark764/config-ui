@@ -10,7 +10,13 @@ angular.module('liveopsConfigPanel')
 
       $scope.tableConfig = skillTableConfig;
 
-      $scope.skills = Skill.query( { tenantId: Session.tenant.tenantId } );
+      $scope.$watch('Session.tenant', function () {
+        $scope.fetch();
+      });
+
+      $scope.fetch = function () {
+        $scope.skills = Skill.query( { tenantId: Session.tenant.tenantId } );
+      };
 
       $scope.createSkill = function() {
         $scope.selectedSkill = new Skill( {
@@ -20,5 +26,6 @@ angular.module('liveopsConfigPanel')
         } );
       };
 
+      $scope.fetch();
     }
   ]);

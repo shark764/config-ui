@@ -9,8 +9,15 @@ angular.module('liveopsConfigPanel')
 
       $scope.tableConfig = groupTableConfig;
 
-      $scope.groups = Group.query({
-        tenantId: Session.tenant.tenantId
+
+      $scope.fetch = function () {
+        $scope.groups = Group.query({
+          tenantId: Session.tenant.tenantId
+        });
+      };
+
+      $scope.$watch('Session.tenant', function () {
+        $scope.fetch();
       });
 
       //dummy data until we have members
@@ -32,5 +39,6 @@ angular.module('liveopsConfigPanel')
         });
       };
 
+      $scope.fetch();
     }
   ]);
