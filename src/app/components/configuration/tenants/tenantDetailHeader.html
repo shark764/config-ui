@@ -8,7 +8,7 @@
     <div class="details">
       <b translate="value.createdby" translate-value-date="{{resource.created | date:'medium'}}" translate-value-creator="{{creator.displayName}}"></b>
       <br/>
-      <b ng-if="{{updater}}" translate="value.updatedby" translate-value-date="{{resource.updated | date:'medium'}}" translate-value-updater="{{updater.displayName}}"></b>
+      <b ng-if="resource.updatedBy" translate="value.updatedby" translate-value-date="{{resource.updated | date:'medium'}}" translate-value-updater="{{updater.displayName}}"></b>
     </div>
   </div>
 </div>

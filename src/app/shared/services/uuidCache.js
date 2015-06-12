@@ -4,12 +4,12 @@
 
 angular.module('liveopsConfigPanel')
   .service('UUIDCache', ['$rootScope', 'uuidcacheKey', '$translate',
-    function ($rootScope, sessionKey, uuidcacheKey, $translate) {
+    function ($rootScope, uuidcacheKey, $translate) {
       this.items = {};
       var self = this;
 
       this.store = function () {
-        localStorage.setItem(this.uuidcacheKey, JSON.stringify(self.items));
+        localStorage.setItem(uuidcacheKey, JSON.stringify(self.items));
       };
 
       this.destroy = function () {
@@ -19,7 +19,7 @@ angular.module('liveopsConfigPanel')
       };
 
       this.restore = function () {
-        angular.extend(this, JSON.parse(localStorage.getItem(uuidcacheKey)));
+        angular.extend(self.items, JSON.parse(localStorage.getItem(uuidcacheKey)));
       };
       
       this.put = function(key, value){
