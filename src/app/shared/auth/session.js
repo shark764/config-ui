@@ -11,8 +11,8 @@
 
 // this will suffice in beta however.
 angular.module('liveopsConfigPanel')
-  .service('Session', ['$rootScope', 'sessionKey', 'preferenceKey', '$translate',
-    function ($rootScope, sessionKey, preferenceKey, $translate) {
+  .service('Session', ['$rootScope', 'sessionKey', 'preferenceKey',
+    function ($rootScope, sessionKey, preferenceKey) {
       var self = this;
 
       this.userSessionKey = sessionKey;
@@ -89,7 +89,7 @@ angular.module('liveopsConfigPanel')
       this.restore = function () {
         angular.extend(this, JSON.parse(localStorage.getItem(this.userSessionKey)));
         angular.extend(this, JSON.parse(localStorage.getItem(this.userPreferenceKey)));
-
+        
         //if (this.lang) {
         //  $translate.use(this.lang);
         //}

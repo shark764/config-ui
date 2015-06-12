@@ -22,23 +22,22 @@ angular.module('liveopsConfigPanel')
 
 
       return {
-        create: function (endpoint, setCreatedBy, setUpdatedBy, updateFields) {
+        create: function (endpoint, setCreatedBy, setUpdatedBy, updateFields, requestUrlFields) {
           setUpdatedBy = typeof setUpdatedBy !== 'undefined' ? setUpdatedBy : true;
           setCreatedBy = typeof setCreatedBy !== 'undefined' ? setCreatedBy : true;
-
+          var self = this;
+          
           var Resource = $resource(apiHostname + endpoint, {}, {
             query: {
               method: 'GET',
 
               isArray: true,
-
               transformResponse: appendTransform($http.defaults.transformResponse, function (value) {
                 return getResult(value);
               })
             },
             get: {
               method: 'GET',
-
               transformResponse: appendTransform($http.defaults.transformResponse, function (value) {
                 return getResult(value);
               })
@@ -85,6 +84,16 @@ angular.module('liveopsConfigPanel')
           });
 
           Resource.prototype.save = function (params, success, failure) {
+            if (requestUrlFields){
+              var newParams = {};
+              for (var i = 0; i < requestUrlFields.length; i++) {
+                var fieldName = requestUrlFields[i];
+                newParams[fieldName] = params[fieldName];
+              }
+              
+              params = newParams;
+            }
+            
             if (this.id) {
               return this.$update(params, success, failure);
             }

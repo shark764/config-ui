@@ -35,7 +35,7 @@ $down-arrow-url: "/assets/images/down-arrow.png";
   }
 
   .divider {
-      border: 1px solid $lighter-grey;
+      border: 1px solid $light-grey;
       height: $navbar-height - 20px;
       margin-top: 10px !important;
   }
@@ -64,7 +64,7 @@ $down-arrow-url: "/assets/images/down-arrow.png";
         display: block;
         height: 100%;
         padding: 18px 0;
-        color: $lighter-grey;
+        color: $light-grey;
         font-size: 130%;
         font-weight: 100;
         padding-bottom: 13px;
@@ -81,14 +81,14 @@ $down-arrow-url: "/assets/images/down-arrow.png";
 #topnav .dropdown, #welcome .dropdown {
   & li {
     border-left: 3px solid #fff;
-    color: $dark-grey;
+    color: $darkest-grey;
     background: #FFFFFF;
     padding: 10px 6px 10px 0;
     font-size: 14px;
   }
 
   & li:hover {
-    color: $dark-grey;
+    color: $darkest-grey;
     background: $accent-light;
     border-left: 3px solid $accent1
   }
@@ -98,20 +98,23 @@ $down-arrow-url: "/assets/images/down-arrow.png";
     padding: 0;
     float: right;
     min-height: $navbar-height;
-    line-height: $navbar-height;
     top: 0;
     position: fixed;
     right: 2.5%;
-    color: $lighter-grey;
     clear: both;
     word-wrap: normal;
     white-space: nowrap;
     z-index: 15;
 
-    & > * {
-      line-height: normal;
+    .drop-label {
+      color: $light-grey;
+      line-height: $navbar-height / 2;
     }
-
+    
+    .dropdown-wrapper{
+      padding-top: $navbar-height / 2 - 10px;
+    }
+    
     .label-icon {
       font-size: 1.5em;
       margin-left: 5px;
