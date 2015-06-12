@@ -22,8 +22,7 @@ angular.module('liveopsConfigPanel')
           regionId: Session.activeRegionId
         });
       };
-
-      $scope.createTenant();
+ 
 
       $scope.tableConfig = tenantTableConfig;
   }]);

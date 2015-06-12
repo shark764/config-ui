@@ -27,8 +27,7 @@ angular.module('liveopsConfigPanel')
           state: 'Ready'
         });
       };
-
-      $scope.createUser();
+ 
       $scope.users = User.query();
       $scope.tableConfig = userTableConfig;
     }
