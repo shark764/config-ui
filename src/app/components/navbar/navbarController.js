@@ -5,11 +5,10 @@ angular.module('liveopsConfigPanel')
     function($rootScope, $scope, $state, AuthService, Session, Tenant, $translate, Region) {
       $scope.Session = Session;
 
-      $scope.regions = Region.query({}, function () {
-        $scope.Session.activeRegionId = $scope.regions[0].id;
-      });
-
-      var populateTenantsHandler = function() {
+      var populateTenantsHandler = function() { 
+        $scope.regions = Region.query({}, function () {
+          $scope.Session.activeRegionId = $scope.regions[0].id;
+        });
 
         if (!$scope.Session.isAuthenticated()) {
           return;
