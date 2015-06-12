@@ -3,10 +3,14 @@
 var Shared = function() {
   // Page URLS
   this.mainUrl = 'http://localhost:3000/#/';
+  this.managementUrl = this.mainUrl + 'management/';
+  this.configurationUrl = this.mainUrl + 'configuration/';
+  this.designerUrl = this.mainUrl + 'configuration/';
+
   this.loginPageUrl = this.mainUrl + 'login';
-  this.usersPageUrl = this.mainUrl + 'users';
-  this.tenantsPageUrl = this.mainUrl + 'tenants';
-  this.flowsPageUrl = this.mainUrl + 'flows';
+  this.usersPageUrl = this.managementUrl + 'users';
+  this.tenantsPageUrl = this.configurationUrl + 'tenants';
+  this.flowsPageUrl = this.designerUrl + 'flows';
   this.flowVersionsPageUrl = this.mainUrl + 'versions';
   this.queuesPageUrl = this.mainUrl + 'queues';
   this.profilePageUrl = this.mainUrl + 'userprofile';

@@ -145,9 +145,9 @@ describe('The users view', function() {
   it('should display users based on the table State filter', function() {
     // One State selected
     users.stateTableDropDown.click(); // Open
-    users.userStates.get(2).click(); // Select Ready
+    users.userStates.get(1).click(); // Select Ready
     // All is deselected
-    expect(users.userStates.get(2).element(by.css('input')).isSelected()).toBeTruthy();
+    expect(users.userStates.get(1).element(by.css('input')).isSelected()).toBeTruthy();
     expect(element(by.css('th.ng-scope:nth-child(8) > filter-dropdown:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > input:nth-child(1)')).isSelected()).toBeFalsy();
     users.stateTableDropDown.click(); // Close
 
@@ -178,7 +178,7 @@ describe('The users view', function() {
 
     // Previous selections are deselected
     expect(element(by.css('th.ng-scope:nth-child(8) > filter-dropdown:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > input:nth-child(1)')).isSelected()).toBeTruthy();
-    expect(users.userStates.get(2).element(by.css('input')).isSelected()).toBeFalsy();
+    expect(users.userStates.get(1).element(by.css('input')).isSelected()).toBeFalsy();
     expect(users.userStates.get(0).element(by.css('input')).isSelected()).toBeFalsy();
     users.stateTableDropDown.click(); // Close
     // Expect all users to be displayed
@@ -196,7 +196,7 @@ describe('The users view', function() {
 
     // Select State filter
     users.stateTableDropDown.click(); // Open
-    users.userStates.get(2).click(); // Select Ready
+    users.userStates.get(1).click(); // Select Ready
     users.stateTableDropDown.click(); // Close
 
     users.userElements.then(function(rows) {
@@ -220,7 +220,7 @@ describe('The users view', function() {
 
     // Select State filter
     users.stateTableDropDown.click(); // Open
-    users.userStates.get(3).click(); // Select Ready
+    users.userStates.get(2).click(); // Select Not Ready
     users.stateTableDropDown.click(); // Close
 
     users.userElements.then(function(rows) {
@@ -232,7 +232,7 @@ describe('The users view', function() {
           expect(['Enabled', 'Disabled']).toContain(value);
         });
         element(by.css('tr.ng-scope:nth-child(' + (i + 1) + ') > td:nth-child(8) > div:nth-child(1) > center:nth-child(1) > user-state:nth-child(1)')).getAttribute('state').then(function(value) {
-          expect(['LOGIN', 'READY']).toContain(value);
+          expect(['NOT READY', 'READY']).toContain(value);
         });
       };
     });
