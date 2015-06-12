@@ -8,17 +8,25 @@ angular.module('liveopsConfigPanel')
       $scope.filteredUsers = [];
       $scope.Session = Session;
       
-      var postSave = function(scope){
-        if(scope.resource.id === Session.user.id && scope.resource.password) {
+      var newPassword;
+      var preSave = function(scope) {
+        if(scope.resource.password){
+          newPassword = scope.resource.password
+        }
+      }
+      
+      var postSave = function(scope, result){
+        if(result.id === Session.user.id && newPassword) {
           var token = AuthService.generateToken(
-            scope.resource.email,
-            scope.resource.password);
+            result.email, newPassword);
           Session.setUser(scope.resource);
           Session.setToken(token);
+          newPassword = null;
         }
       };
       
       $scope.additional = {
+        preSave: preSave,
         postSave: postSave,
         states: userStates,
         roles: userRoles,

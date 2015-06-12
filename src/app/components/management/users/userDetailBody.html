@@ -99,7 +99,7 @@
     <label>{{'details.password' | translate}}</label>
     <div>
       <input type="button" class="btn" ng-hide="detailsForm.password.$dirty" ng-click="detailsForm.password.$setDirty()" value="Reset Password">
-      <input autocomplete="off" ng-model="resource.password" name="password" type="password" ng-show="detailsForm.password.$dirty"></input>
+      <input ng-required="detailsForm.password.$dirty" autocomplete="off" ng-model="resource.password" name="password" type="password" ng-show="detailsForm.password.$dirty"></input>
     </div>
   </div>
 </div>
