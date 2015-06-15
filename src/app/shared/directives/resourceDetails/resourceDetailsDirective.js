@@ -27,24 +27,27 @@ angular.module('liveopsConfigPanel')
               if($scope.postSave){
                 $scope.postSave($scope, result);
               }
-              
+
               $scope.resetForm();
               angular.copy($scope.resource, $scope.originalResource);
               toastr.success('Record ' + ($scope.resource.id ? 'updated' : 'saved'));
             },
 
             function (error){
-              $scope.loading = false;
 
               toastr.error('Record failed to ' + ($scope.resource.id ? 'update' : 'save'));
+              $scope.loading = false;
 
-              var attributes = error.data.error.attribute;
+              if(error.data.error) {
 
-              angular.forEach(attributes, function(value, key) {
-                $scope.detailsForm[key].$setValidity("api", false);
-                $scope.detailsForm[key].$error = {api : value};
-                $scope.detailsForm[key].$setTouched();
-              });
+                var attributes = error.data.error.attribute;
+
+                angular.forEach(attributes, function(value, key) {
+                  $scope.detailsForm[key].$setValidity("api", false);
+                  $scope.detailsForm[key].$error = {api : value};
+                  $scope.detailsForm[key].$setTouched();
+                });
+              }
             }
           );
         };

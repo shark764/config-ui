@@ -84,7 +84,7 @@ angular.module('liveopsConfigPanel')
 
       this.setTenant = function (tenant) {
         self.tenant = {
-          tenantId: tenant.id,
+          tenantId: tenant.tenantId,
           name: tenant.name
         };
         self.flush();
