@@ -229,5 +229,5 @@
     };
   }
 
-  angular.module('liveops.flowdesigner').directive('flowDesigner', flowDesigner);
+  angular.module('liveopsConfigPanel').directive('flowDesigner', flowDesigner);
 })();
