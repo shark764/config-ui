@@ -10,11 +10,9 @@ angular.module('liveopsConfigPanel')
       'displayName',
       'status',
       'password',
-      'state',
       'externalId'
     ], [
-        'id'
+      'id'
     ]);
 
   }]);
-
