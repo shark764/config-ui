@@ -94,5 +94,5 @@
     };
   }
 
-  angular.module('liveops.flowdesigner').service('FlowNotationService', FlowNotationService);
+  angular.module('liveopsConfigPanel').service('FlowNotationService', FlowNotationService);
 })();

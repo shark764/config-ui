@@ -151,5 +151,5 @@
     };
   }
 
-  angular.module('liveops.flowdesigner').service('FlowConversionService', FlowConversionService);
+  angular.module('liveopsConfigPanel').service('FlowConversionService', FlowConversionService);
 })();

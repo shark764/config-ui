@@ -83,5 +83,5 @@
     };
   }
 
-  angular.module('liveops.flowdesigner').service('JointInitService', JointInitService);
+  angular.module('liveopsConfigPanel').service('JointInitService', JointInitService);
 })();

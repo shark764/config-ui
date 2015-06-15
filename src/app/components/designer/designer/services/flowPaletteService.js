@@ -61,5 +61,5 @@
     };
   }
 
-  angular.module('liveops.flowdesigner').service('FlowPaletteService', FlowPaletteService);
+  angular.module('liveopsConfigPanel').service('FlowPaletteService', FlowPaletteService);
 })();
