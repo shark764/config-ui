@@ -33,11 +33,15 @@ angular.module('liveopsConfigPanel')
               toastr.success('Record ' + ($scope.resource.id ? 'updated' : 'saved'));
             },
 
-            function (error){
+            function (error, headers){
 
               toastr.error('Record failed to ' + ($scope.resource.id ? 'update' : 'save'));
               $scope.loading = false;
 
+              if ($scope.postError){
+                $scope.postError($scope, error, headers);
+              }
+              
               if(error.data.error) {
 
                 var attributes = error.data.error.attribute;

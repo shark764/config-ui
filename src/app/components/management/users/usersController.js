@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('UsersController', ['$scope', '$location', 'userStatuses', 'userRoles', 'User', 'Session', 'AuthService', 'userTableConfig',
-    function($scope, $location, userStatuses, userRoles, User, Session, AuthService, userTableConfig) {
+  .controller('UsersController', ['$scope', '$location', 'userStatuses', 'userRoles', 'User', 'Session', 'AuthService', 'userTableConfig', 'Invite',
+    function($scope, $location, userStatuses, userRoles, User, Session, AuthService, userTableConfig, Invite) {
       $scope.statuses = userStatuses;
       $scope.filteredUsers = [];
       $scope.Session = Session;
@@ -22,11 +22,21 @@ angular.module('liveopsConfigPanel')
           Session.setToken(token);
           newPassword = null;
         }
+        
+        Invite.save({tenantId: Session.tenant.tenantId}, {email : result.email, roleId : '00000000-0000-0000-0000-000000000000'} ); //TEMPORARY roleId
+      };
+      
+      var postError = function(scope, error){
+        if (error.config.method === 'POST' && error.status === 400){
+          Invite.save({tenantId: Session.tenant.tenantId}, {email : error.data.email, roleId : '00000000-0000-0000-0000-000000000000'} ); //TEMPORARY roleId
+          scope.detailsForm.$setValidity(true);
+        }
       };
 
       $scope.additional = {
         preSave: preSave,
         postSave: postSave,
+        postError: postError,
         roles: userRoles,
         updateDisplayName : function($childScope){
           if (!$childScope.resource.id && $childScope.detailsForm.displayName.$untouched){
