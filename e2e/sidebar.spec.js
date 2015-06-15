@@ -43,23 +43,23 @@ describe('The generic sidebar', function() {
 
   it('should remain open when tack button is selected', function() {
     browser.actions().mouseMove(sidebar.sidebarCollapse).perform();
-    sidebar.tack.click().then(function() {
-      expect(sidebar.sidebarMenu.isDisplayed()).toBeTruthy();
-      expect(sidebar.sidebar.getAttribute('class')).toBe('side-bar locked');
-      expect(sidebar.closeArrow.isDisplayed()).toBeTruthy();
+    sidebar.tack.click();
 
-      expect(sidebar.tack.isDisplayed()).toBeFalsy();
+    expect(sidebar.sidebarMenu.isDisplayed()).toBeTruthy();
+    expect(sidebar.sidebar.getAttribute('class')).toBe('side-bar locked');
+    expect(sidebar.closeArrow.isDisplayed()).toBeTruthy();
 
-      // Sidebar remains open on mouse off
-      browser.actions().mouseMove(shared.navBar).perform();
-      expect(sidebar.sidebar.getAttribute('class')).toBe('side-bar locked');
-      expect(sidebar.sidebarMenu.isDisplayed()).toBeTruthy();
-      expect(sidebar.closeArrow.isDisplayed()).toBeTruthy();
+    expect(sidebar.tack.isDisplayed()).toBeFalsy();
 
-      expect(sidebar.tack.isDisplayed()).toBeFalsy();
-    }).then(function() {
-      sidebar.closeArrow.click();
-    });
+    // Sidebar remains open on mouse off
+    browser.actions().mouseMove(shared.navBar).perform();
+    expect(sidebar.sidebar.getAttribute('class')).toBe('side-bar locked');
+    expect(sidebar.sidebarMenu.isDisplayed()).toBeTruthy();
+    expect(sidebar.closeArrow.isDisplayed()).toBeTruthy();
+
+    expect(sidebar.tack.isDisplayed()).toBeFalsy();
+
+    sidebar.closeArrow.click();
   });
 
   it('should close when unlocked', function() {
