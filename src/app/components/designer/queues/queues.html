@@ -16,8 +16,8 @@
 
 <resource-details
   id="details-pane"
-  ng-show="selectedQueue"
+  ng-show="!!selectedQueue"
   extend-scope="additional"
   header-template-url="app/components/designer/queues/queueDetailHeader.html"
   body-template-url="app/components/designer/queues/queueDetailBody.html"
-  resource="selectedQueue"></resource-details>
+  original-resource="selectedQueue"></resource-details>

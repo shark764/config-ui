@@ -8,20 +8,20 @@ angular.module('liveopsConfigPanel')
     $scope.redirectToInvites();
 
     $scope.fetch = function(){
-      $scope.medias = Media.query({tenantId : Session.tenant.id});
+      $scope.medias = Media.query({tenantId : Session.tenant.tenantId});
     }
 
     $scope.createMedia = function(){
       $scope.selectedMedia = new Media({
-        tenantId: Session.tenant.id
+        tenantId: Session.tenant.tenantId
       });
     }
 
-    $scope.$watch('Session.tenant.id', function () {
+    $scope.$watch('Session.tenant.tenantId', function () {
       $scope.fetch();
     });
 
-    $scope.$on('created:resource:tenants:' + Session.tenant.id + ':media', function(event, resource){
+    $scope.$on('created:resource:tenants:' + Session.tenant.tenantId + ':media', function(event, resource){
       $scope.medias.push(resource);
       $scope.selectedMedia = resource;
     });

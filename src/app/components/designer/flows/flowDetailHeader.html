@@ -1,22 +1,22 @@
-<div ng-if="resource.id">
+<div ng-if="originalResource.id">
   <div class="pull-left">
-    <toggle class="status-toggle" ng-model="resource.status"></toggle>
+    <toggle class="status-toggle" ng-model="originalResource.status"></toggle>
   </div>
   
   <div class="info pull-left">
-    <h1>{{resource.name}}</h1>
+    <h1>{{originalResource.name}}</h1>
   
     <div class="details">
       <div>
-        <b translate="value.createdby" translate-value-date="{{resource.created | date:'medium'}}" translate-value-creator="{{creator.displayName}}"></b>
+        <b translate="value.createdby" translate-value-date="{{originalResource.created | date:'medium'}}" translate-value-creator="{{creator.displayName}}"></b>
         <br/>
-        <b ng-if="updater.id" translate="value.updatedby" translate-value-date="{{resource.updated | date:'medium'}}" translate-value-updater="{{updater.displayName}}"></b>
+        <b ng-if="updater.id" translate="value.updatedby" translate-value-date="{{originalResource.updated | date:'medium'}}" translate-value-updater="{{updater.displayName}}"></b>
       </div>
     </div>
   </div>
 </div>
 
-<div ng-if="! resource.id">
+<div ng-if="! originalResource.id">
   <div class="info">
     <h1>Creating New Flow</h1>
   </div>

@@ -4,17 +4,19 @@ angular.module('liveopsConfigPanel')
   .controller('FlowsController', ['$scope', '$state', 'Session', 'Flow', 'flowTableConfig',
     function ($scope, $state, Session, Flow, flowTableConfig) {
 
-      $scope.redirectToInvites();
+    $scope.redirectToInvites();
 
       $scope.fetch = function () {
-        $scope.flows = Flow.query( { tenantId: Session.tenant.tenantId }, function(){
-          if($scope.flows.length > 0){
+        $scope.flows = Flow.query({
+          tenantId: Session.tenant.tenantId
+        }, function () {
+          if ($scope.flows.length > 0) {
             $scope.selectedFlow = $scope.flows[0];
           }
         });
       };
 
-      $scope.createFlow = function() {
+      $scope.createFlow = function () {
         $scope.selectedFlow = new Flow({
           tenantId: Session.tenant.tenantId
         });
@@ -26,4 +28,5 @@ angular.module('liveopsConfigPanel')
 
       $scope.fetch();
       $scope.tableConfig = flowTableConfig;
-}]);
+    }
+  ]);

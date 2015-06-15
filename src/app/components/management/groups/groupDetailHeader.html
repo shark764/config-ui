@@ -1,13 +1,13 @@
-<div ng-hide="! resource.id">
+<div ng-hide="! originalResource.id">
   <div class="info">
-     <h1>{{resource.name}}</h1>
+     <h1>{{originalResource.name}}</h1>
      <div class="details">
-        <b translate="value.details.createdby" translate-value-date="{{resource.created | date:'medium'}}" translate-value-creator="{{creator.displayName}}"></b>
-        <b translate="value.details.updatedby" translate-value-date="{{resource.updated | date:'medium'}}" translate-value-updater="{{updater.displayName}}"></b>
+        <b translate="value.details.createdby" translate-value-date="{{originalResource.created | date:'medium'}}" translate-value-creator="{{creator.displayName}}"></b>
+        <b translate="value.details.updatedby" translate-value-date="{{originalResource.updated | date:'medium'}}" translate-value-updater="{{updater.displayName}}"></b>
      </div>
   </div>
 </div>
 
-<div ng-hide="resource.id">
+<div ng-hide="originalResource.id">
   <h1>Creating Group</h1>
 </div>
