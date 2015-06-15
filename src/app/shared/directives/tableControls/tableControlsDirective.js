@@ -22,13 +22,15 @@ angular.module('liveopsConfigPanel')
             $scope.onCreateClick();
           }
         });
-        
+
         $scope.selectItem = function (item) {
           $scope.selected = item;
+
+
           $location.search({
-            id: item.id
+            id: item ? item.id : null
           });
-          
+
           $scope.$emit('resource:selected', item);
         };
 
@@ -41,20 +43,29 @@ angular.module('liveopsConfigPanel')
               return;
             }
           }
-          
+
           $scope.selected = $scope.filtered[0];
         });
-        
-        $scope.$on('created:resource:' + $scope.resourceName, function (event, item) {
-          $scope.items.push(item);
-          $scope.selectItem(item);
+
+
+        $scope.$watch('resourceName', function () {
+
+          if($scope.resourceWatcher){
+            $scope.resourceWatcher();
+          }
+
+          $scope.resourceWatcher = $scope.$on('created:resource:' + $scope.resourceName, function (event, item) {
+            $scope.items.push(item);
+            $scope.selectItem(item);
+          });
         });
 
         $scope.$watchCollection('filtered', function () {
-          if(! $scope.filtered.length){
+          if($scope.filtered.length === 0){
+            $scope.selectItem(null);
             return;
           }
-          
+
           var selectedIsVisible = false;
           if ($scope.selected){
             var matchedItems = $filter('filter')($scope.filtered, {id : $scope.selected.id}, true);
