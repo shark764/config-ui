@@ -1,3 +1,30 @@
+<div ng-if="! resource.id">
+  <div class="divider-header">
+    <h4 >Login</h4>
+  </div>
+  
+  <div class="input-group">
+    <label>{{'details.email' | translate}}</label>
+    <div>
+      <div class="error" ng-messages="detailsForm.email.$error" role="alert" ng-if='detailsForm.email.$dirty'>
+        <div ng-message="required">{{'details.email.error' | translate}}</div>
+        <div ng-message="email">{{'details.email.invalid' | translate}}</div>
+      </div>
+      <input autocomplete="off" ng-model="resource.email" name="email" type="email" required email></input>
+    </div>
+  </div>
+  
+  <div class="input-group">
+    <label>{{'details.password' | translate}}</label>
+    <div>
+      <div class="error" ng-messages="detailsForm.password.$error" role="alert" ng-if='detailsForm.password.$dirty'>
+        <div ng-message="required">{{'details.password.error' | translate}}</div>
+      </div>
+      <input autocomplete="off" ng-model="resource.password" name="password" type="password" required></input>
+    </div>
+  </div>
+</div>
+
 <div class="divider-header">
   <h4>Details</h4>
 </div>
@@ -23,27 +50,6 @@
   <div>
     <div class="error" ng-show="detailsForm.displayName.$touched && detailsForm.displayName.$invalid">{{'details.displayName.error' | translate}}</div>
     <input required ng-model="resource.displayName" name="displayName" type="text"></input>
-  </div>
-</div>
-
-<div class="input-group" ng-show="!resource.id">
-  <label>{{'details.email' | translate}}</label>
-  <div>
-    <div class="error" ng-messages="detailsForm.email.$error" role="alert" ng-if='detailsForm.email.$dirty'>
-      <div ng-message="required">{{'details.email.error' | translate}}</div>
-      <div ng-message="email">{{'details.email.invalid' | translate}}</div>
-    </div>
-    <input autocomplete="off" ng-model="resource.email" name="email" type="email" required email></input>
-  </div>
-</div>
-
-<div class="input-group" ng-show="!resource.id">
-  <label>{{'details.password' | translate}}</label>
-  <div>
-    <div class="error" ng-messages="detailsForm.password.$error" role="alert" ng-if='detailsForm.password.$dirty'>
-      <div ng-message="required">{{'details.password.error' | translate}}</div>
-    </div>
-    <input autocomplete="off" ng-model="resource.password" name="password" type="password" required></input>
   </div>
 </div>
 
@@ -81,13 +87,22 @@
   </div>
 </div>
 
-<div class="divider-header">
-  <h4 ng-if="resource.id">Actions</h4>
-</div>
+<div ng-if="resource.id">
+  <div class="divider-header">
+    <h4 >Login</h4>
+  </div>
 
-<div ng-if="resource.id" class="input-group">
-  <label>{{'details.password' | translate}}</label>
-  <div>
-    <button disabled class="btn disabled">Reset Password</button>
+  <div class="input-group">
+    <label>{{'details.email' | translate}}</label>
+    <div>
+      <span >{{resource.email}}</span>
+    </div>
+  </div>
+
+  <div class="input-group">
+    <label>{{'details.password' | translate}}</label>
+    <div>
+      <button disabled class="btn disabled">Reset Password</button>
+    </div>
   </div>
 </div>
