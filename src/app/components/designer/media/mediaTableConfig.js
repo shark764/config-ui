@@ -10,7 +10,7 @@ angular.module('liveopsConfigPanel')
           'header': 'Description',
           'name': 'type'
         }, {
-          'header': 'Description',
+          'header': 'Properties',
           'name': 'properties'
         }],
         'searchOn' : ['name'],

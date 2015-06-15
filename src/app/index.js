@@ -67,11 +67,16 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
         templateUrl: 'app/components/designer/queues/queues.html',
         controller: 'QueueController'
       })
-
       .state('content.designer.media', {
         url: '/media',
         templateUrl: 'app/components/designer/media/media.html',
         controller: 'MediaController',
+        reloadOnSearch: false
+      })
+      .state('content.designer.media-collections', {
+        url: '/media-collections',
+        templateUrl: 'app/components/designer/media-collections/media-collections.html',
+        controller: 'MediaCollectionController',
         reloadOnSearch: false
       })
       .state('content.designer.versions', {
