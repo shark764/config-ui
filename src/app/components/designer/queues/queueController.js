@@ -25,6 +25,10 @@ angular.module('liveopsConfigPanel')
       });
     };
 
-    $scope.fetch();
+    $scope.$watch('Session.tenant.tenantId', function () {
+      $scope.fetch();
+    });
+    
     $scope.tableConfig = queueTableConfig;
+    $scope.fetch();
   }]);

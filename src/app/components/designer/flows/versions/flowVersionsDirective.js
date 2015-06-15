@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('VersionsController', ['$scope', 'Session', 'Version',
+  .controller('FlowVersionsController', ['$scope', 'Session', 'FlowVersion',
     function ($scope, Session, Version) {
       $scope.version = new Version({
         flowId: $scope.flow.id,
@@ -43,6 +43,6 @@ angular.module('liveopsConfigPanel')
         versions: '='
       },
       templateUrl: 'app/components/designer/flows/versions/flowVersions.html',
-      controller: 'VersionsController'
+      controller: 'FlowVersionsController'
     };
   }]);
