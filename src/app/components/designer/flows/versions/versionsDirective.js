@@ -4,8 +4,6 @@ angular.module('liveopsConfigPanel')
   .controller('VersionsController', ['$scope', 'Session', 'Version',
     function ($scope, Session, Version) {
 
-      $scope.redirectToInvites();
-
       $scope.version = new Version({
         flowId : $scope.flow.id,
         flow: '[]'
