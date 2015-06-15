@@ -23,4 +23,4 @@ angular.module('liveopsConfigPanel')
       'orderBy': ['name'],
       'title' : 'Tenant Management'
     };
-  }])
+  }]);

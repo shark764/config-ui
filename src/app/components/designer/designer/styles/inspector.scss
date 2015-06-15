@@ -1,0 +1,28 @@
+#inspector-container {
+  position: absolute;
+  top: 0;
+  right: -300px;
+  width: 300px;
+  bottom: 0;
+  transition: all 300ms ease;
+  .inspector {
+    padding: 5px;
+  }
+
+  .inspector .field.hidden {
+    display: none;
+  }
+
+  .inspector input{
+    width: 100% !important;
+    height: 26px;
+  }
+
+  .inspector .group > .group-label {
+    line-height: 30px;
+  }
+}
+
+#inspector-container.onscreen {
+  right: 0px !important;
+}
