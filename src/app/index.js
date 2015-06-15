@@ -21,19 +21,19 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
         controller: 'ManagementController'
       })
       .state('content.management.users', {
-        url: '/users',
+        url: '/users?id',
         templateUrl: 'app/components/management/users/users.html',
         controller: 'UsersController',
         reloadOnSearch: false
       })
       .state('content.management.skills', {
-        url: '/skills',
+        url: '/skills?id',
         templateUrl: 'app/components/management/skills/skills.html',
         controller: 'SkillsController',
         reloadOnSearch: false
       })
       .state('content.management.groups', {
-        url: '/groups',
+        url: '/groups?id',
         templateUrl: 'app/components/management/groups/groups.html',
         controller: 'GroupsController',
         reloadOnSearch: false
@@ -45,7 +45,7 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
         controller: 'ConfigurationController'
       })
       .state('content.configuration.tenants', {
-        url: '/tenants',
+        url: '/tenants?id',
         templateUrl: 'app/components/configuration/tenants/tenants.html',
         controller: 'TenantsController',
         reloadOnSearch: false
@@ -57,25 +57,25 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
         controller: 'DesignerController'
       })
       .state('content.designer.flows', {
-        url: '/flows',
+        url: '/flows?id',
         templateUrl: 'app/components/designer/flows/flows.html',
         controller: 'FlowsController',
         reloadOnSearch: false
       })
       .state('content.designer.queues', {
-        url: '/queues',
+        url: '/queues?id',
         templateUrl: 'app/components/designer/queues/queues.html',
         controller: 'QueueController'
       })
 
       .state('content.designer.media', {
-        url: '/media',
+        url: '/media?id',
         templateUrl: 'app/components/designer/media/media.html',
         controller: 'MediaController',
         reloadOnSearch: false
       })
       .state('content.designer.versions', {
-        url: '/versions',
+        url: '/versions?id',
         templateUrl: 'app/components/designer/flows/versions/versions.html',
         controller: 'VersionsController',
         reloadOnSearch: false
@@ -93,7 +93,7 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
         secure: true
       })
       .state('content.invites', {
-        url: '/invites',
+        url: '/invites?id',
         templateUrl: 'app/components/invites/invites.html',
         controller: 'InvitesController',
         secure: true
