@@ -19,6 +19,11 @@
   "white": true,
   "validthis": true,
   "globals": {
+    "joint": false,
+    "Backbone": false,
+    "_": false,
+    "$": false,
+    "console": false,
     "angular": false,
     // Angular Mocks
     "inject": false,
