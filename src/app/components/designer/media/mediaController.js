@@ -17,13 +17,8 @@ angular.module('liveopsConfigPanel')
       });
     }
 
-    $scope.$watch('Session.tenant.tenantId', function () {
+    $scope.$watch('Session.tenant', function () {
       $scope.fetch();
-    });
-
-    $scope.$on('created:resource:tenants:' + Session.tenant.tenantId + ':media', function(event, resource){
-      $scope.medias.push(resource);
-      $scope.selectedMedia = resource;
     });
 
     $scope.fetch();

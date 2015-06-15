@@ -65,7 +65,8 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
       .state('content.designer.queues', {
         url: '/queues?id',
         templateUrl: 'app/components/designer/queues/queues.html',
-        controller: 'QueueController'
+        controller: 'QueueController',
+        reloadOnSearch: false
       })
 
       .state('content.designer.media', {

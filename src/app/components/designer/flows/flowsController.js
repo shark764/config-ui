@@ -22,7 +22,7 @@ angular.module('liveopsConfigPanel')
         });
       };
 
-      $scope.$watch('Session.tenant.tenantId', function () {
+      $scope.$watch('Session.tenant', function () {
         $scope.fetch();
       });
 

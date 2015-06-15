@@ -4,7 +4,7 @@
   items="queues"
   on-create-click="createQueue"
   selected="selectedQueue"
-  resource-name="queues"></table-controls>
+  resource-name="{{'tenants:' + Session.tenant.tenantId + ':queues'}}"></table-controls>
 
 <resize-handle
   id="resize-pane"

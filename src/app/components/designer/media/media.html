@@ -4,7 +4,7 @@
   items="medias"
   on-create-click="createMedia"
   selected="selectedMedia"
-  resource-name="medias"></table-controls>
+  resource-name="{{'tenants:' + Session.tenant.tenantId + ':media'}}"></table-controls>
 
 <resize-handle
   id="resize-pane"
