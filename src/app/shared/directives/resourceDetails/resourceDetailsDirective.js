@@ -4,15 +4,15 @@ angular.module('liveopsConfigPanel')
   .directive('resourceDetails', ['UserName', 'toastr', function(UserName, toastr) {
     return {
       restrict: 'AE',
-      scope : {
+      scope: {
         resource: '=',
         headerTemplateUrl: '@',
         bodyTemplateUrl: '@',
         extendScope: '='
       },
-      templateUrl : 'app/shared/directives/resourceDetails/resourceDetails.html',
+      templateUrl: 'app/shared/directives/resourceDetails/resourceDetails.html',
 
-      link : function($scope) {
+      link: function ($scope) {
         angular.extend($scope, $scope.extendScope);
         $scope.oResource = angular.copy($scope.resource);
 
@@ -44,12 +44,17 @@ angular.module('liveopsConfigPanel')
           );
         };
 
-        $scope.$watch('resource.id', function(newValue){
+        $scope.$watch('resource.id', function (newValue) {
           $scope.resetForm();
 
-          if (newValue){
-            $scope.creator = UserName.get($scope.resource.createdBy);
-            $scope.updater = UserName.get($scope.resource.updatedBy);
+          if (newValue) {
+            if ($scope.resource.createdBy !== '00000000-0000-0000-0000-000000000000') {
+              $scope.creator = UserName.get($scope.resource.createdBy);
+            }
+
+            if ($scope.resource.updatedBy !== '00000000-0000-0000-0000-000000000000') {
+              $scope.updater = UserName.get($scope.resource.updatedBy);
+            }
           } else {
             delete $scope.creator;
             delete $scope.updater;
@@ -65,10 +70,10 @@ angular.module('liveopsConfigPanel')
           $scope.resetForm();
         };
 
-        $scope.resetForm = function(){
+        $scope.resetForm = function () {
           $scope.detailsForm.$setPristine();
           $scope.detailsForm.$setUntouched();
         }
       }
     };
-   }]);
+  }]);

@@ -1,15 +1,13 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('UsersController', ['$scope', '$location', 'userStates', 'userStatuses', 'userRoles', 'User', 'Session', 'userTableConfig',
-    function($scope, $location, userStates, userStatuses, userRoles, User, Session, userTableConfig) {
-      $scope.states = userStates;
+  .controller('UsersController', ['$scope', '$location', 'userStatuses', 'userRoles', 'User', 'Session', 'userTableConfig',
+    function($scope, $location, userStatuses, userRoles, User, Session, userTableConfig) {
       $scope.statuses = userStatuses;
       $scope.filteredUsers = [];
       $scope.Session = Session;
 
       $scope.additional = {
-        states: userStates,
         roles: userRoles,
         updateDisplayName : function($childScope){
           if (!$childScope.resource.id && $childScope.detailsForm.displayName.$untouched){
@@ -19,7 +17,6 @@ angular.module('liveopsConfigPanel')
           }
         }
       };
-
 
       $scope.createUser = function() {
         $scope.selectedUser = new User({
