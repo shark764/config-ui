@@ -1,0 +1,23 @@
+<table-controls
+id="table-pane"
+config="tableConfig"
+items="medias"
+on-create-click="createMediaCollection"
+selected="selectedMediaCollection"
+resource-name="medias"></table-controls>
+
+<resize-handle
+id="resize-pane"
+ng-show="!!selectedMediaCollection"
+right-element-id="details-pane"
+left-element-id="table-pane"
+left-min-width="600"
+right-min-width="400" ></resize-handle>
+
+<resource-details
+id="details-pane"
+ng-show="selectedMediaCollection"
+extend-scope="additional"
+header-template-url="app/components/designer/media-collections/mediaCollectionDetailHeader.html"
+body-template-url="app/components/designer/media-collections/mediaCollectionDetailBody.html"
+resource="selectedMediaCollection"></resource-details>

@@ -1,0 +1,27 @@
+<div ng-if="resource.id">
+  <div class="info pull-left">
+    <h1>{{resource.source}}</h1>
+  
+    <div class="details">
+      <div>
+        <b
+          translate="value.createdby"
+          translate-value-date="{{resource.created | date:'medium'}}"
+          translate-value-creator="{{creator.displayName}}">
+        </b>
+        <br/>
+        <b
+          translate="value.updatedby"
+          translate-value-date="{{resource.created | date:'medium'}}"
+          translate-value-enabler="{{updater.displayName}}">
+        </b>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div ng-if="! resource.id">
+  <div class="info">
+    <h1>Creating New Media</h1>
+  </div>
+</div>
