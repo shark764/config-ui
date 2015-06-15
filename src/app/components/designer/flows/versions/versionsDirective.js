@@ -3,18 +3,27 @@
 angular.module('liveopsConfigPanel')
   .controller('VersionsController', ['$scope', 'Session', 'Version',
     function ($scope, Session, Version) {
-
       $scope.version = new Version({
-        flowId : $scope.flow.id,
+        flowId: $scope.flow.id,
         flow: '[]'
       });
 
       $scope.fetch = function () {
-        $scope.flow.versions = Version.query( { tenantId: Session.tenant.tenantId, flowId: $scope.flow.id });
+        Version.query({
+          tenantId: Session.tenant.tenantId,
+          flowId: $scope.flow.id
+        }, function(versions){
+          angular.copy(versions, $scope.versions);
+        });
       };
 
       $scope.saveVersion = function () {
-        $scope.version.save({tenantId : Session.tenant.tenantId, flowId : $scope.flow.id});
+        $scope.version.save({
+          tenantId: Session.tenant.tenantId,
+          flowId: $scope.flow.id
+        }, function() {
+          $scope.versions.push($scope.version);
+        });
       };
 
       $scope.$on('created:resource:tenants:' + Session.tenantId + ':flows:' + $scope.flow.id + ':versions', function (event, item) {
@@ -22,19 +31,18 @@ angular.module('liveopsConfigPanel')
         $scope.selectedVersion = item;
       });
 
-      $scope.$watch('flow', function(){
+      $scope.$watch('flow', function () {
         $scope.fetch();
       });
-
-      $scope.fetch();
-  }])
-  .directive('flowVersions', [function() {
+    }
+  ])
+  .directive('flowVersions', [function () {
     return {
-      scope : {
-        flow : '='
+      scope: {
+        flow: '=',
+        versions: '='
       },
-      templateUrl : 'app/components/designer/flows/versions/versions.html',
-      controller : 'VersionsController'
+      templateUrl: 'app/components/designer/flows/versions/versions.html',
+      controller: 'VersionsController'
     };
-   }])
-;
+  }]);

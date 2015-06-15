@@ -28,6 +28,8 @@ angular.module('liveopsConfigPanel')
           $location.search({
             id: item.id
           });
+          
+          $scope.$emit('resource:selected', item);
         };
 
         $scope.$on('created:resource:' + $scope.resourceName, function (event, item) {
