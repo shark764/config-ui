@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('UsersController', ['$scope', '$location', 'userStates', 'userStatuses', 'userRoles', 'User', 'Session', 'AuthService', 'userTableConfig',
-    function($scope, $location, userStates, userStatuses, userRoles, User, Session, AuthService, userTableConfig) {
+  .controller('UsersController', ['$scope', '$location', 'userStatuses', 'userRoles', 'User', 'Session', 'AuthService', 'userTableConfig',
+    function($scope, $location, userStatuses, userRoles, User, Session, AuthService, userTableConfig) {
       $scope.states = userStates;
       $scope.statuses = userStatuses;
       $scope.filteredUsers = [];
@@ -28,7 +28,6 @@ angular.module('liveopsConfigPanel')
       $scope.additional = {
         preSave: preSave,
         postSave: postSave,
-        states: userStates,
         roles: userRoles,
         updateDisplayName : function($childScope){
           if (!$childScope.resource.id && $childScope.detailsForm.displayName.$untouched){
