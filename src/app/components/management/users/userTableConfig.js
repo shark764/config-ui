@@ -24,13 +24,8 @@ angular.module('liveopsConfigPanel')
           'header': 'Status',
           'name': 'status',
           'templateUrl': 'app/components/management/users/userStatusTemplate.html',
-          'options': userStatuses,
-          'checked' : false
-        }, {
-          'header': 'State',
-          'name': 'state',
-          'options': userStates,
-          'templateUrl': 'app/components/management/users/userStateTemplate.html'
+          'checked' : false,
+          'options': userStatuses
         }],
         'searchOn' : ['firstName', 'lastName'],
         'orderBy' : ['lastName'],
