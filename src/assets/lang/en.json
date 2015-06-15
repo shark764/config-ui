@@ -39,6 +39,8 @@
   "skill.details.hasProficiency": "Has Proficiency",
 
   "media.details.source.error": "Please enter a source",
+  "media.details.type.error": "Please enter a type",
+  "media.details.properties.error": "Please enter properties as JSON",
 
   "tenant.details.title": "Tenants",
   "tenant.details.name": "Tenant Name",

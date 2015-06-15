@@ -5,7 +5,7 @@ angular.module('liveopsConfigPanel')
 
     return LiveopsResourceFactory.create('/v1/tenants/:tenantId/media/:id', true, true, [
       {name: 'name'},
-      {name: 'description', optional: true}
+      {name: 'properties', optional: true}
     ], [
       'id', 'tenantId'
     ]);

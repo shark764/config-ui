@@ -3,6 +3,9 @@
 angular.module('liveopsConfigPanel')
   .controller('FlowsController', ['$scope', '$state', 'Session', 'Flow', 'flowTableConfig',
     function ($scope, $state, Session, Flow, flowTableConfig) {
+
+    $scope.redirectToInvites();
+
       $scope.fetch = function () {
         $scope.flows = Flow.query({
           tenantId: Session.tenant.tenantId

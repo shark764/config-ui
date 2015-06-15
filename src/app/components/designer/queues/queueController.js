@@ -30,7 +30,6 @@ angular.module('liveopsConfigPanel')
       $scope.selectedQueue = resource;
     });
 
-    $scope.createQueue();
     $scope.fetch();
     $scope.tableConfig = queueTableConfig;
   }]);
