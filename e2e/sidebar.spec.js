@@ -84,9 +84,9 @@ describe('The generic sidebar', function() {
 
   it('should remain open when locked after page reload', function() {
     browser.actions().mouseMove(sidebar.sidebarCollapse).perform();
-    sidebar.tack.click();
+    sidebar.tack.click().then(function() {
+      sidebar.userLink.click();
 
-    sidebar.userLink.click().then(function() {
       expect(shared.navBar.isDisplayed()).toBeTruthy();
       expect(sidebar.sidebar.isDisplayed()).toBeTruthy();
 
@@ -97,10 +97,9 @@ describe('The generic sidebar', function() {
 
       expect(sidebar.tack.isDisplayed()).toBeFalsy();
       expect(sidebar.openArrow.isDisplayed()).toBeFalsy();
-    }).then(function() {
+
       sidebar.closeArrow.click();
     });
-
   });
 
   it('overlaps the remaining page components when opened but not locked', function() {
@@ -123,17 +122,15 @@ describe('The generic sidebar', function() {
 
   it('should contain User Management page header and links', function() {
     browser.actions().mouseMove(sidebar.sidebarCollapse).perform();
-    sidebar.tack.click().then(function() {
-      expect(sidebar.header.getText()).toBe('Management');
+    sidebar.tack.click();
+    expect(sidebar.header.getText()).toBe('Management');
 
-      // User Management page links
-      expect(sidebar.userLink.getText()).toBe('Users');
-      expect(sidebar.groupsLink.getText()).toBe('Groups');
-      expect(sidebar.skillsLink.getText()).toBe('Skills');
+    // User Management page links
+    expect(sidebar.userLink.getText()).toBe('Users');
+    expect(sidebar.groupsLink.getText()).toBe('Groups');
+    expect(sidebar.skillsLink.getText()).toBe('Skills');
 
-    }).then(function() {
-      sidebar.closeArrow.click();
-    });
+    sidebar.closeArrow.click();
   });
 
   it('should navigate to respective User Management pages when links are selected', function() {
@@ -167,15 +164,13 @@ describe('The generic sidebar', function() {
 
   it('should contain Configuration page header and links', function() {
     browser.actions().mouseMove(sidebar.sidebarCollapse).perform();
-    sidebar.tack.click().then(function() {
-      expect(sidebar.header.getText()).toBe('Configuration');
+    sidebar.tack.click();
+    expect(sidebar.header.getText()).toBe('Configuration');
 
-      // Configuration page links
-      expect(sidebar.tenantsLink.getText()).toBe('Tenants');
+    // Configuration page links
+    expect(sidebar.tenantsLink.getText()).toBe('Tenants');
 
-    }).then(function() {
-      sidebar.closeArrow.click();
-    });
+    sidebar.closeArrow.click();
   });
 
   it('should navigate to respective Configuration pages when links are selected', function() {
@@ -204,17 +199,15 @@ describe('The generic sidebar', function() {
 
   it('should contain Flow Management page header and links', function() {
     browser.actions().mouseMove(sidebar.sidebarCollapse).perform();
-    sidebar.tack.click().then(function() {
-      expect(sidebar.header.getText()).toBe('Management');
+    sidebar.tack.click();
+    expect(sidebar.header.getText()).toBe('Management');
 
-      // Flow Management page links
-      expect(sidebar.flowsLink.getText()).toBe('Flows');
-      expect(sidebar.queuesLink.getText()).toBe('Queues');
-      expect(sidebar.mediaLink.getText()).toBe('Media');
+    // Flow Management page links
+    expect(sidebar.flowsLink.getText()).toBe('Flows');
+    expect(sidebar.queuesLink.getText()).toBe('Queues');
+    expect(sidebar.mediaLink.getText()).toBe('Media');
 
-    }).then(function() {
-      sidebar.closeArrow.click();
-    });
+    sidebar.closeArrow.click();
   });
 
   it('should navigate to respective Flow Management pages when links are selected', function() {
