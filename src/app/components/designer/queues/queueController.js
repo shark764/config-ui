@@ -13,13 +13,13 @@ angular.module('liveopsConfigPanel')
           $scope.selectedQueue = $scope.queues[0];
         }
       });
-    }
+    };
 
     $scope.createQueue = function(){
       $scope.selectedQueue = new Queue({
         tenantId: Session.tenant.tenantId
       });
-    }
+    };
 
     $scope.$watch('Session.tenant.tenantId', function () {
       $scope.fetch();
@@ -28,7 +28,7 @@ angular.module('liveopsConfigPanel')
     $scope.$on('created:resource:tenants:' + Session.tenant.tenantId + ':queues', function(event, resource){
       $scope.queues.push(resource);
       $scope.selectedQueue = resource;
-    })
+    });
 
     $scope.createQueue();
     $scope.fetch();
