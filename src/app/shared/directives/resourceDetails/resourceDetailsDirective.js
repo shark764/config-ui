@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('resourceDetails', ['UserName', function(UserName) {
+  .directive('resourceDetails', ['UserName', 'toastr', function(UserName, toastr) {
     return {
       restrict: 'AE',
       scope : {
@@ -17,11 +17,29 @@ angular.module('liveopsConfigPanel')
         $scope.oResource = angular.copy($scope.resource);
 
         $scope.save = function () {
+          $scope.loading = true;
           $scope.resource.save($scope.oResource,
+
             function (result) {
+              $scope.loading = false;
               $scope.resetForm();
               $scope.resource = result;
               $scope.oResource = angular.copy($scope.resource);
+              toastr.success('Record ' + ($scope.resource.id ? 'updated' : 'saved'));
+            },
+
+            function (error){
+              $scope.loading = false;
+
+              toastr.error('Record failed to ' + ($scope.resource.id ? 'update' : 'save'));
+
+              var attributes = error.data.error.attribute;
+
+              angular.forEach(attributes, function(value, key) {
+                $scope.detailsForm[key].$setValidity("api", false);
+                $scope.detailsForm[key].$error = {api : value};
+                $scope.detailsForm[key].$setTouched();
+              });
             }
           );
         };

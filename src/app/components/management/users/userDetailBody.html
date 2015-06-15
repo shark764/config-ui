@@ -5,15 +5,15 @@
 <div class="input-group">
   <label>{{'details.firstName' | translate}}</label>
   <div>
-    <div class="error" ng-show="detailsForm.firstName.$touched && detailsForm.firstName.$invalid">{{'details.firstName.error' | translate}}</div>
-    <input required ng-model="resource.firstName" name="firstName" type="text" ng-change="updateDisplayName(this)"></input>
+    <form-error field="detailsForm.firstName" error-type-api="{{'details.firstName.error' | translate}}" error-type-required="{{'details.firstName.error' | translate}}"></form-error>
+    <input ng-required="true" ng-model="resource.firstName" name="firstName" type="text" ng-change="updateDisplayName(this)"></input>
   </div>
 </div>
 
 <div class="input-group">
   <label>{{'details.lastName' | translate}}</label>
   <div>
-    <div class="error" ng-show="detailsForm.lastName.$touched && detailsForm.lastName.$invalid">{{'details.lastName.error' | translate}}</div>
+    <form-error field="detailsForm.lastName" error-type-api="{{'details.lastName.error' | translate}}" error-type-required="{{'details.lastName.error' | translate}}"></form-error>
     <input required ng-model="resource.lastName" name="lastName" type="text" ng-change="updateDisplayName(this)"></input>
   </div>
 </div>
@@ -21,7 +21,7 @@
 <div class="input-group">
   <label>{{'details.displayName' | translate}}</label>
   <div>
-    <div class="error" ng-show="detailsForm.displayName.$touched && detailsForm.displayName.$invalid">{{'details.displayName.error' | translate}}</div>
+    <form-error field="detailsForm.displayName" error-type-api="{{'details.displayName.error' | translate}}" error-type-required="{{'details.displayName.error' | translate}}"></form-error>
     <input required ng-model="resource.displayName" name="displayName" type="text"></input>
   </div>
 </div>
@@ -29,20 +29,15 @@
 <div class="input-group" ng-show="!resource.id">
   <label>{{'details.email' | translate}}</label>
   <div>
-    <div class="error" ng-messages="detailsForm.email.$error" role="alert" ng-if='detailsForm.email.$dirty'>
-      <div ng-message="required">{{'details.email.error' | translate}}</div>
-      <div ng-message="email">{{'details.email.invalid' | translate}}</div>
-    </div>
-    <input autocomplete="off" ng-model="resource.email" name="email" type="email" required email></input>
+    <form-error field="detailsForm.email" error-type-api="{{'details.email.error' | translate}}" error-type-required="{{'details.email.error' | translate}}" error-type-email="{{'details.email.invalid' | translate}}"></form-error>
+    <input autocomplete="off" ng-model="resource.email" name="email" type="email" required email api-error></input>
   </div>
 </div>
 
-<div class="input-group" ng-show="!resource.id">
+<div class="input-group" ng-if="!resource.id">
   <label>{{'details.password' | translate}}</label>
   <div>
-    <div class="error" ng-messages="detailsForm.password.$error" role="alert" ng-if='detailsForm.password.$dirty'>
-      <div ng-message="required">{{'details.password.error' | translate}}</div>
-    </div>
+    <form-error field="detailsForm.password" error-type-api="{{'details.password.error' | translate}}" error-type-required="{{'details.password.error' | translate}}"></form-error>
     <input autocomplete="off" ng-model="resource.password" name="password" type="password" required></input>
   </div>
 </div>
@@ -50,6 +45,7 @@
 <div class="input-group">
   <label>{{'details.externalId' | translate}}</label>
   <div>
+    <form-error field="detailsForm.externalId" error-type-api="Must be a String"></form-error>
     <input ng-model="resource.externalId" name="externalId" type="text"></input>
   </div>
 </div>
@@ -61,9 +57,9 @@
 <div class="input-group">
   <label>{{'details.role' | translate}}</label>
   <div>
-    <div class="error" ng-show="detailsForm.role.$touched && detailsForm.role.$invalid">{{'details.role.error' | translate}}</div>
+    <form-error field="detailsForm.role" error-type-api="{{'details.role.error' | translate}}" error-type-required="{{'details.role.error' | translate}}"></form-error>
     <select required ng-model="resource.role" name="role" ng-options="role.value as role.display for role in roles">
-      <option value="" disabled>Select Role</option>
+      <option value="" disabled>{{'details.role.placeholder' | translate}}</option>
     </select>
   </div>
 </div>

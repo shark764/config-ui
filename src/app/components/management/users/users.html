@@ -9,7 +9,6 @@
 
 <resize-handle
     id="resize-pane"
-    ng-hide="!selectedUser"
     right-element-id="details-pane"
     left-element-id="table-pane"
     left-min-width="830"
@@ -17,7 +16,6 @@
 
 <resource-details
     id="details-pane"
-    ng-hide="!selectedUser"
     extend-scope="additional"
     header-template-url="app/components/management/users/userDetailHeader.html"
     body-template-url="app/components/management/users/userDetailBody.html"

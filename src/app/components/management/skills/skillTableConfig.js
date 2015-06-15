@@ -21,7 +21,8 @@ angular.module('liveopsConfigPanel')
           'name': 'status',
         }],
         'searchOn' : ['name', 'description'],
-        'orderBy' : ['name']
+        'orderBy' : ['name'],
+        'title': 'Skills Management'
       };
     }
   ])

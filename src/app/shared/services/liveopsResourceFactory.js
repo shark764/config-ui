@@ -25,8 +25,9 @@ angular.module('liveopsConfigPanel')
         create: function (endpoint, setCreatedBy, setUpdatedBy, updateFields, requestUrlFields) {
           setUpdatedBy = typeof setUpdatedBy !== 'undefined' ? setUpdatedBy : true;
           setCreatedBy = typeof setCreatedBy !== 'undefined' ? setCreatedBy : true;
+          requestUrlFields = typeof requestUrlFields !== 'undefined' ? requestUrlFields : [ 'id', 'tenantId', 'regionId' ];
           var self = this;
-          
+
           var Resource = $resource(apiHostname + endpoint, {}, {
             query: {
               method: 'GET',
@@ -90,10 +91,10 @@ angular.module('liveopsConfigPanel')
                 var fieldName = requestUrlFields[i];
                 newParams[fieldName] = params[fieldName];
               }
-              
+
               params = newParams;
             }
-            
+
             if (this.id) {
               return this.$update(params, success, failure);
             }

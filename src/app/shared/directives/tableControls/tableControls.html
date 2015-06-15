@@ -33,12 +33,10 @@
   </div>
 
   <div class="table-message">
-    <div ng-show="!items.$resolved">
-      <i class="fa fa-spinner fa-spin"></i>
-      <span>Loading...</span>
-    </div>
+    <loading ng-if="!items.$resolved"></loading>
+  
     <div ng-show="items.$resolved && !items.length">
-      No results were found.
+     No results were found.
     </div>
   </div>
 
