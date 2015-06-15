@@ -19,7 +19,7 @@ angular.module('liveopsConfigPanel')
           link: $state.href('content.designer.media'),
           id: 'media-management-link'
         }]
-    };;
+    };
     }
   ]);
 

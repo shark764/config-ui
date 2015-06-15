@@ -12,11 +12,11 @@
   "value.properties": "Properties",
   "value.type": "Type",
   "value.createdOn" : "Created On",
-  
+
 
   "navbar.users.title": "User Management",
   "navbar.tenants.title": "Tenants",
-  "navbar.flows.title": "Flow Designer",
+  "navbar.flows.title": "Flows",
   "navbar.welcome": "Welcome back, {{displayName}}",
   "navbar.configuration.title": "Configuration",
 
@@ -33,6 +33,8 @@
   "details.password.error": "Please enter a password",
   "details.externalId": "External ID",
   "details.role": "Role",
+  "details.role.placeholder": "Select Role",
+  "details.role.error": "Please select a role",
 
   "skill.details.hasProficiency": "Has Proficiency",
 

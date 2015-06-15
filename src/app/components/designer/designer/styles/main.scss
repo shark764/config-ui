@@ -1,0 +1,43 @@
+@import 'stencil.scss';
+@import 'inspector.scss';
+
+
+.paper-scroller {
+  height: 100%;
+  overflow: hidden;
+}
+
+#paper-container {
+  left: 300px;
+  right: 300px;
+  bottom: 0;
+}
+
+.free-transform {
+  display: none;
+}
+
+.halo {
+  margin: 0px;
+}
+
+h3{
+  font-family: sans-serif;
+}
+
+body {
+  margin: 0;
+}
+
+.liveops-flow-designer {
+  width: 1280px;
+  position: relative;
+  height: 100vh;
+  max-height: 800px;
+  overflow: hidden;
+  display: inline-block;
+}
+
+* {
+  box-sizing: border-box;
+}

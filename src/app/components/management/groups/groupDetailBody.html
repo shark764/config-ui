@@ -1,5 +1,3 @@
-<h3 ng-if="! resource.id">Creating Groups</h3>
-
 <div class="divider-header">
   <h4>Group Details</h4>
 </div>
@@ -7,7 +5,7 @@
 <div class="input-group">
   <label>{{'value.name' | translate}}</label>
   <div>
-    <div class="error" ng-show="detailsForm.name.$touched && detailsForm.name.$invalid">{{'group.details.name.error' | translate}}</div>
+    <form-error field="detailsForm.name" error-type-api="{{'group.details.name.error' | translate}}" error-type-required="{{'group.details.name.error' | translate}}"></form-error>
     <input ng-model="resource.name" name="name" type="text"></input>
   </div>
 
@@ -16,16 +14,15 @@
 <div class="input-group">
   <label>{{'value.description' | translate}}</label>
   <div>
-    <div class="error" ng-show="detailsForm.description.$touched && detailsForm.description.$invalid">{{'group.details.description.error' | translate}}</div>
     <input ng-model="resource.description" name="description" type="text"></input>
   </div>
 </div>
 
-<div class="divider-header">
+<div class="divider-header" ng-hide="! resource.id">
   <h4>Members <b translate="value.numMembers" translate-value-number="{{resource.members ? resource.members.length : 0}}" ></b></h4>
 </div>
 
-<table>
+<table  ng-hide="! resource.id">
   <thead>
     <tr><th>{{'value.name' | translate}}</th></tr>
   </thead>
