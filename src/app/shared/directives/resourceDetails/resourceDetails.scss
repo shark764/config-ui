@@ -26,9 +26,40 @@
     min-height: 0;
     width: 100%;
 
-    & > div:not(.divider-header) {
+    .input-group {
+      display: table;
       margin-left: 10px;
       padding-right: 10px;
+      width: 100%;
+    
+      & + .input-group {
+        padding-top: 10px;
+      }
+
+      & > label, & > div {
+        display: table-cell;
+      }
+
+      label {
+        width: 150px;
+        padding-right: 10px;
+        vertical-align: middle;
+      }
+    
+      label.textarea-label {
+        padding-top: 0.7em;
+        vertical-align: top;
+      }
+    
+      input, select, button {
+        width: 100%;
+        max-width: 400px;
+        margin: 0;
+      }
+
+      button {
+        height: 30px;
+      }
     }
 
     .divider-header {
@@ -78,40 +109,6 @@
 
     input, .btn {
       width: 40%;
-    }
-  }
-
-  .input-group {
-    display: table;
-    width: 100%;
-    
-    & + .input-group {
-      padding-top: 10px;
-    }
-
-    & > label, & > div {
-      display: table-cell;
-    }
-
-    label {
-      width: 150px;
-      padding-right: 10px;
-      vertical-align: middle;
-    }
-    
-    label.textarea-label {
-      padding-top: 0.7em;
-      vertical-align: top;
-    }
-    
-    input, select, button {
-      width: 100%;
-      max-width: 400px;
-      margin: 0;
-    }
-
-    button {
-      height: 30px;
     }
   }
 }
