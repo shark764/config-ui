@@ -1,5 +1,5 @@
-<div>
-  <h3>Invites</h3>
+<div id="main-content">
+  <h1>Invites</h1>
 
   <div ng-show="tenants.$resolved && tenants.length == 0">
     No tenants available to send invites from. Please create a tenant.
@@ -10,37 +10,26 @@
   </div>
 
   <div ng-show="tenants.$resolved && tenants.length > 0">
-
-    <table ng-show="invites.$resolved">
+    <p ng-show="invites.$resolved && ! invites.length > 0">
+      No pending invitations.
+    </p>
+    
+    <table ng-show="invites.$resolved && invites.length > 0" class="table">
       <thead>
-        <td>Email</td>
-        <td>State</td>
-        <td>Role</td>
-        <td>Sent On</td>
-        <td>Expiry Date</td>
-        <td>Token</td>
-        <td></td>
+        <th>Email</th>
+        <th>State</th>
+        <th>Sent On</th>
+        <th>Expiry Date</th>
+        <th></td>
       </thead>
       <tr ng-repeat="curInvite in invites">
         <td style="border: 1px solid black;">{{curInvite.email}}</td>
         <td style="border: 1px solid black;">{{curInvite.invitationState}}</td>
-        <td style="border: 1px solid black;">{{curInvite.roleId}}</td>
         <td style="border: 1px solid black;">{{curInvite.created | date}}</td>
         <td style="border: 1px solid black;">{{curInvite.invitationExpiryDate | date}}</td>
-        <td style="border: 1px solid black;">{{curInvite.invitationToken}}</td>
         <td style="border: 1px solid black;"><a ng-click="resend(curInvite)">Resend</a></td>
         <td style="border: 1px solid black;"><a ng-click="remove(curInvite)">Delete</a></td>
-        <td style="border: 1px solid black;"><a ng-click="accept(curInvite)">Accept</a></td>
       </tr>
     </table>
-
-    <h3>Create new Invitation</h3>
-    <form ng-submit="save()" name="inviteCreateForm">
-      <div>Email: <input type="email" ng-required="true" ng-model="newInvite.email"></input></div>
-      <div>
-          Tenant: <select ng-required="true" ng-model="newInvite.tenantId" ng-options="tenant.id as tenant.name for tenant in tenants"></select>
-      </div>
-      <input type="submit" class="btn btn-primary" value="Send"/>
-    </form>
   </div>
 </div>
