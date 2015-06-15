@@ -3,6 +3,7 @@
     margin: 0;
     padding: 0;
     overflow: auto;">
+
   <div class="table-controls top-row">
     <div class="col">
       <h2 ng-if="config.title">{{config.title}}</h2>
@@ -34,7 +35,7 @@
 
   <div class="table-message">
     <loading ng-if="!items.$resolved"></loading>
-  
+
     <div ng-show="items.$resolved && !items.length">
      No results were found.
     </div>

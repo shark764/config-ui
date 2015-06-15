@@ -103,7 +103,7 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
       closeButton: true,
       timeout: 10000,
       maxOpened: 1,
-      positionClass: 'toast-top-center',
+      positionClass: 'toast-top-right',
       preventOpenDuplicates: true,
       newestOnTop: true,
     });
