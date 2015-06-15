@@ -16,6 +16,7 @@
 <resource-details
   id="details-pane"
   extend-scope="additional"
+  ng-hide="!selectedTenant"
   header-template-url="app/components/configuration/tenants/tenantDetailHeader.html"
   body-template-url="app/components/configuration/tenants/tenantDetailBody.html"
   original-resource="selectedTenant">
