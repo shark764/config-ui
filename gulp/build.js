@@ -34,8 +34,6 @@ module.exports = function(options) {
 
     var htmlFilter = $.filter('*.html');
     var jsFilter = $.filter('**/*.js');
-    var keyboardJS = $.filter('../bower_components/keyboardJS/keyboard.js');
-    var editorCSS = $.filter('../bower_components/rappid/dist/joint.all.css');
     var cssFilter = $.filter('**/*.css');
     var assets;
 
@@ -44,12 +42,10 @@ module.exports = function(options) {
       .pipe(assets = $.useref.assets())
       .pipe($.rev())
       .pipe(jsFilter)
-      .pipe(keyboardJS)
       .pipe($.ngAnnotate())
       .pipe($.uglify({ preserveComments: $.uglifySaveLicense })).on('error', options.errorHandler('Uglify'))
       .pipe(jsFilter.restore())
       .pipe(cssFilter)
-      .pipe(editorCSS)
       .pipe($.csso())
       .pipe(cssFilter.restore())
       .pipe(assets.restore())
