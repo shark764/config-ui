@@ -1,6 +1,6 @@
 'use strict';
 
-var $scope, $location, AuthServiceMock;
+var $scope, $state, $httpBackend, AuthServiceMock, apiHostname;
 
 var USER = {
   'role': 'admin',
@@ -26,11 +26,14 @@ describe('LoginController', function () {
     AuthServiceMock = {};
     $provide.value('AuthService', AuthServiceMock);
   }));
+  beforeEach(module('gulpAngular'));
 
-  beforeEach(inject(['$q', '$timeout', '$rootScope', '$controller', '$location',
-    function ($q, $timeout, _$rootScope_, _$controller_, _$location_) {
+  beforeEach(inject(['$q', '$timeout', '$rootScope', '$controller', '$state', '$httpBackend', 'apiHostname',
+    function ($q, $timeout, _$rootScope_, _$controller_, _$state, _$httpBackend_, _apiHostname_) {
       $scope = _$rootScope_;
-      $location = _$location_;
+      $state = _$state;
+      $httpBackend = _$httpBackend_;
+      apiHostname = _apiHostname_;
 
       _$controller_('LoginController', {
         '$scope': $scope
@@ -56,9 +59,13 @@ describe('LoginController', function () {
       $scope.username = 'username';
       $scope.password = 'password';
 
-      $scope.login();
+      $httpBackend.when('GET', apiHostname + '/v1/login').respond({'data' : true});
 
-      expect($location.path()).toBe('/');
+      $scope.login();
+      $httpBackend.flush();
+
+
+      expect($state.current.name).toBe('content.management.users');
     });
   });
 
@@ -80,7 +87,7 @@ describe('LoginController', function () {
 
       $scope.login();
 
-      expect($location.path()).toBe('');
+      expect($state.current.name).toBe('');
     });
   });
 });

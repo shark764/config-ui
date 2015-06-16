@@ -8,13 +8,20 @@ describe('QueueController', function() {
         $httpBackend,
         queues,
         Queue,
+        regions,
         routeParams;
 
     beforeEach(module('liveopsConfigPanel'));
-    beforeEach(inject(['$rootScope', '$controller', '$injector', 'Queue', function($rootScope, _$controller_, $injector, _Queue_) {
+    beforeEach(module('gulpAngular'));
+    beforeEach(inject(['$rootScope', '$controller', '$injector', 'Queue', 'apiHostname',
+      function($rootScope, _$controller_, $injector, _Queue_, apiHostname) {
       $scope = $rootScope.$new();
       $controller = _$controller_;
       Queue = _Queue_;
+
+      regions = [{
+        id : 1
+      }];
 
       queues = [
         new Queue({
@@ -32,11 +39,14 @@ describe('QueueController', function() {
       routeParams = {id : 'q1'};
 
       $httpBackend = $injector.get('$httpBackend');
-      $httpBackend.when('GET', 'fakendpoint.com/v1/tenants/1/queues').respond({'result' : queues});
-      $httpBackend.when('GET', 'fakendpoint.com/v1/tenants/1/queues/q1').respond({'result' : queues[0]});
-      $httpBackend.when('GET', 'fakendpoint.com/v1/tenants/1/queues/q2').respond({'result' : queues[1]});
+      $httpBackend.when('GET', apiHostname + '/v1/regions').respond({'result' : regions});
+      $httpBackend.when('GET', apiHostname + '/v1/tenants/1/queues').respond({'result' : queues});
+      $httpBackend.when('GET', apiHostname + '/v1/tenants/1/queues/q1').respond({'result' : queues[0]});
+      $httpBackend.when('GET', apiHostname + '/v1/tenants/1/queues/q2').respond({'result' : queues[1]});
 
-      $controller('QueueController', {'$scope': $scope, 'Session' : {tenant : {id : 1}}, '$stateParams' : routeParams});
+
+      $controller('ContentController', {'$scope': $scope});
+      $controller('QueueController', {'$scope': $scope, 'Session' : {tenant : {tenantId : 1}}, '$stateParams' : routeParams});
       $httpBackend.flush();
     }]));
 

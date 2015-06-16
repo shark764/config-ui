@@ -15,7 +15,7 @@ angular.module('liveopsConfigPanel')
                 return;
               }
 
-              $state.go('content.management.users');
+              $state.transitionTo('content.management.users');
               $rootScope.$broadcast('login:success');
             } else {
               $scope.error = "API returned no response. Please check console for more details and try again";

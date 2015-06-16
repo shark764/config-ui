@@ -6,91 +6,74 @@ describe('TenantsController', function() {
     var $scope,
         $controller,
         $httpBackend,
-        regions,
         tenants,
         region2tenants,
         routeParams,
+        apiHostname,
+        users,
+        Session,
         Tenant;
 
     beforeEach(module('liveopsConfigPanel'));
-    beforeEach(inject(['$rootScope', '$controller', '$injector', 'Tenant', function($rootScope, _$controller_, $injector, _Tenant_) {
+    beforeEach(module('gulpAngular'));
+    beforeEach(inject(['$rootScope', '$controller', '$injector', 'Tenant', 'apiHostname', 'Session',
+      function($rootScope, _$controller_, $injector, _Tenant_, _apiHostname_, _Session_) {
       $scope = $rootScope.$new();
       $controller = _$controller_;
       Tenant = _Tenant_;
+      Session = _Session_;
 
-      regions = [{
-                  'id': '1',
-                  'description': 'US East (N. Virginia)',
-                  'name': 'us-east-1'
-                },{
-                  'id': '2',
-                  'description': 'Maritimes CA',
-                  'name': 'ca-east-1'
-                  }];
+      tenants = [
+        {'description': 'Test',
+         'regionId': '1',
+         'name': 'Test',
+         'id': 't1',
+       },
+       {'description': 'A Tenant',
+         'regionId': '1',
+         'name': 'A Tenant',
+         'id': 't2'
+       }
+      ];
 
-      tenants = [{'description': 'Test',
-                   'regionId': '1',
-                   'name': 'Test',
-                   'id': 't1',
-                 },
-                 {'description': 'A Tenant',
-                   'regionId': '1',
-                   'name': 'A Tenant',
-                   'id': 't2'
-                 }];
+      users = [
+        {
+          id: 1
+        },
+        {
+          id: 2
+        }
+      ];
 
-      region2tenants = [
-                  {'description': 'Very Tenant',
-                    'regionId': '2',
-                    'name': 'Very Tenant',
-                    'id': 't3'
-                  },
-                  {'description': 'Much Tenant',
-                    'regionId': '2',
-                    'name': 'Much Tenant',
-                    'id': 't4'
-                  }];
+      Session.activeRegionId = 1;
+      apiHostname = _apiHostname_;
 
       routeParams = {};
 
       $httpBackend = $injector.get('$httpBackend');
-      $httpBackend.when('GET', 'fakendpoint.com/v1/regions').respond({'result' : regions});
-      $httpBackend.when('GET', 'fakendpoint.com/v1/tenants?regionId=1').respond({'result' : tenants});
-      $httpBackend.when('GET', 'fakendpoint.com/v1/tenants?regionId=2').respond({'result' : region2tenants});
+      $httpBackend.when('GET', apiHostname + '/v1/tenants?regionId=' + Session.activeRegionId).respond({'result' : tenants});
+      $httpBackend.when('GET', apiHostname + '/v1/users').respond({'result' : users});
 
       $controller('TenantsController', {'$scope': $scope, '$stateParams' : routeParams});
       $httpBackend.flush();
     }]));
 
-    it('should have regions defined', function() {
-      expect($scope.regions).toBeDefined();
-      expect($scope.regions.length).toEqual(regions.length);
-      expect($scope.regions[0].id).toEqual(regions[0].id);
+    it('should fetch the list of tenants on create', function () {
+      expect($scope.tenants).toBeDefined();
+      expect($scope.tenants[0].id).toEqual(tenants[0].id);
+      expect($scope.tenants[1].id).toEqual(tenants[1].id);
     });
 
-    it('should catch the routeUpdate event and set a new tenant', function() {
-      spyOn($scope, 'setTenant');
-      routeParams.id = 't2';
-      $scope.$broadcast('$routeUpdate');
-      expect($scope.setTenant).toHaveBeenCalledWith('t2');
+    it('should fetch the list of users on create', function () {
+      expect($scope.users).toBeDefined();
+      expect($scope.users[0].id).toEqual(users[0].id);
+      expect($scope.users[1].id).toEqual(users[1].id);
     });
 
-    describe('fetchTenants function', function() {
-      it('should update the tenants for the new regionid', function() {
-        $httpBackend.expectGET('fakendpoint.com/v1/tenants?regionId=2');
-        $scope.fetchTenants('2');
-        $httpBackend.flush();
-        expect($scope.tenants.length).toEqual(region2tenants.length + 1);
-        expect($scope.tenants[0].id).toEqual(region2tenants[0].id);
-      });
+    it('should have a function to create a new tenant and set it as selected', function () {
+      $scope.createTenant();
 
-      it('should select a tenant based on the routeparams', function() {
-        $controller('TenantsController', {'$scope': $scope, $stateParams: {id: region2tenants[0].id}});
-        $httpBackend.flush();
-        $httpBackend.expectGET('fakendpoint.com/v1/tenants?regionId=2');
-        $scope.fetchTenants('2');
-        $httpBackend.flush();
-        expect($scope.tenant.id).toEqual(region2tenants[0].id);
-      });
+      expect($scope.selectedTenant).toBeDefined();
+      expect($scope.selectedTenant.regionId).toBe(Session.activeRegionId);
     });
 });

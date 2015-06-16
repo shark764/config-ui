@@ -1,2 +1,2 @@
 angular.module('liveopsConfigPanel.config')
-  .constant('apiHostname', 'http://localhost:9080');
+  .constant('apiHostname', 'http://192.168.59.103:9080');
