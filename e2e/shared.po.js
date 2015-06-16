@@ -3,17 +3,24 @@
 var Shared = function() {
   // Page URLS
   this.mainUrl = 'http://localhost:3000/#/';
+  this.loginPageUrl = this.mainUrl + 'login';
+  this.profilePageUrl = this.mainUrl + 'userprofile';
+
   this.managementUrl = this.mainUrl + 'management/';
   this.configurationUrl = this.mainUrl + 'configuration/';
-  this.designerUrl = this.mainUrl + 'configuration/';
+  this.designerUrl = this.mainUrl + 'designer/';
 
-  this.loginPageUrl = this.mainUrl + 'login';
   this.usersPageUrl = this.managementUrl + 'users';
+  this.groupsPageUrl = this.managementUrl + 'groups';
+  this.skillsPageUrl = this.managementUrl + 'skills';
+
   this.tenantsPageUrl = this.configurationUrl + 'tenants';
+
   this.flowsPageUrl = this.designerUrl + 'flows';
   this.flowVersionsPageUrl = this.mainUrl + 'versions';
-  this.queuesPageUrl = this.mainUrl + 'queues';
-  this.profilePageUrl = this.mainUrl + 'userprofile';
+  this.queuesPageUrl = this.designerUrl + 'queues';
+  this.mediaPageUrl = this.designerUrl + 'media';
+
   this.invitesPageUrl = this.mainUrl + 'invites';
 
   // Elements that are present on all pages: navbar, etc.
