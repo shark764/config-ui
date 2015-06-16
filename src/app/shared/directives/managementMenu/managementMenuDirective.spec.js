@@ -4,8 +4,7 @@ describe('management menu directive', function(){
   var $scope,
     element,
     isolateScope,
-    $compile,
-    Session;
+    $compile;
 
   beforeEach(module('liveopsConfigPanel'));
   beforeEach(module('gulpAngular'));
@@ -26,8 +25,8 @@ describe('management menu directive', function(){
           link: '#/',
           id: 'link2'
         }]
-    }
-    
+    };
+
     element = $compile('<management-menu menu-config="config" menu-locked="menuLocked"></management-menu>')($scope);
     $scope.$digest();
     isolateScope = element.isolateScope();
@@ -36,25 +35,25 @@ describe('management menu directive', function(){
   it('should insert an aside element', inject(function() {
     expect(element.find('aside').length).toEqual(1);
   }));
-  
+
   it('should include the link items', inject(function() {
     expect(element.find('ul').length).toEqual(1);
     expect(element.find('li').length).toEqual(2);
   }));
-  
+
   it('should collapse the menu by default if it is not locked', inject(function() {
     expect(isolateScope.collapsed).toBeTruthy();
   }));
-  
+
   it('should show the menu by default if it is locked', inject(function() {
     $scope.menuLocked = true;
-    
+
     element = $compile('<management-menu menu-config="config" menu-locked="menuLocked"></management-menu>')($scope);
     $scope.$digest();
-    
+
     expect(element.isolateScope().collapsed).toBeFalsy();
   }));
-  
+
   describe('mouseleave function', function(){
     it('should collapse the menu if it is not locked', inject(function() {
       isolateScope.menuLocked = false;
@@ -62,7 +61,7 @@ describe('management menu directive', function(){
       isolateScope.mouseleave();
       expect(isolateScope.collapsed).toBeTruthy();
     }));
-    
+
     it('should not collapse the menu if it is locked', inject(function() {
       isolateScope.menuLocked = true;
       isolateScope.collapsed = false;

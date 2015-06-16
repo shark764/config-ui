@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('userTableConfig', ['userStatuses', 'userStates',
-    function(userStatuses, userStates) {
+  .service('userTableConfig', ['userStatuses',
+    function(userStatuses) {
       return {
         'fields': [{
           'header': 'Name',
@@ -29,4 +29,4 @@ angular.module('liveopsConfigPanel')
         'title' : 'User Management'
       };
     }
-  ])
+  ]);

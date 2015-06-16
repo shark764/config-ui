@@ -17,13 +17,12 @@ describe('routeSecurity', function () {
     }
   ]));
 
-  
   describe('user is AUTHENTICATED', function () {
     beforeEach(function() {
       Session.token = TOKEN;
     });
-    
-    
+
+
     it('should setup route interception and prevent access to secure routes', inject(function ($rootScope) {
       $location.path('/users');
 
@@ -37,10 +36,10 @@ describe('routeSecurity', function () {
       expect(event.defaultPrevented).toBeFalsy();
       expect($location.path()).toBe('/users');
     }));
-  
+
     it('should setup route interception and route to / when user is authenticated and hits /login', inject(function ($rootScope) {
       $location.path('/');
-      
+
       var event = $rootScope.$broadcast('$routeChangeStart', {
         secure: true,
         $$route: {
@@ -52,7 +51,7 @@ describe('routeSecurity', function () {
       expect($location.path()).toBe('/');
     }));
   });
-  
+
   describe('user is NOT AUTHENTICATED', function () {
     it('should setup route interception and prevent access to secure routes', inject(function ($rootScope) {
       $location.path('/users');

@@ -11,7 +11,7 @@
 </div>
 
 <div ng-if="resource.id" class="input-group">
-  <label>{{'flow.details.version' | translate}}</label>
+  <label>{{'value.details.version' | translate}}</label>
   <div>
     <select ng-model="resource.activeVersion" name="activeVersion" ng-options="version.version as version.name for version in versions">
       <option value="">Select Version</option>
@@ -29,7 +29,7 @@
 <div ng-if="resource.id" class="divider-header">
   <h4>Versions</h4>
 </div>
-  
+
 <div ng-if="resource.id">
-  <flow-versions  flow="resource" versions="versions"></flow-versions>
+  <flow-versions flow="resource" versions="versions"></flow-versions>
 </div>

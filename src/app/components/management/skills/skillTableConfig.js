@@ -25,4 +25,4 @@ angular.module('liveopsConfigPanel')
         'title': 'Skills Management'
       };
     }
-  ])
+  ]);

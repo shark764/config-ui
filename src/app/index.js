@@ -86,6 +86,12 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
         controller: 'VersionsController',
         reloadOnSearch: false
       })
+      .state('content.designer.flows.editor', {
+        url: '/editor/:flowId/:versionId',
+        templateUrl: 'app/components/designer/designer/designerPage.html',
+        controller: 'DesignerPageController',
+        reloadOnSearch: false
+      })
       .state('login', {
         url: '/login',
         templateUrl: 'app/components/login/login.html',
@@ -118,5 +124,4 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
       .useSanitizeValueStrategy('escaped')
       .useLocalStorage()
       .preferredLanguage('en');
-
   }]);

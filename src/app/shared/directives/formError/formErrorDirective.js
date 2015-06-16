@@ -14,7 +14,7 @@ angular.module('liveopsConfigPanel')
             var errorName = value.replace(/error-type-/, '');
             $scope.errorTypes[errorName] = $attrs[key];
           }
-        })
+        });
       }
     };
    });

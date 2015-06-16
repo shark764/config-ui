@@ -54,12 +54,12 @@ describe('AuthService', function () {
       Session = _Session_;
     }
   ]));
-  
+
   it('should have a method get an authentication token', function () {
     var token = AuthService.generateToken(USERNAME, PASSWORD);
     expect(token).toBe(TOKEN);
   });
-  
+
   it('should have a method to logout which destroys the session', function () {
     spyOn(Session, 'destroy');
 
@@ -68,49 +68,49 @@ describe('AuthService', function () {
     expect(Session.destroy).toHaveBeenCalled();
     expect(Session.token).toBeNull();
   });
-  
+
   describe('ON login', function() {
     it('should set the session when successful', function () {
       $httpBackend.expectGET('fakendpoint.com/v1/users').respond({
         'result': [USER]
       });
-      
+
       spyOn(Session, 'set');
-      
+
       AuthService.login(USERNAME, PASSWORD);
       $httpBackend.flush();
 
       expect(Session.set).toHaveBeenCalledWith(
         USER, AuthService.generateToken(USERNAME, PASSWORD));
     });
-    
+
     it('should throw an error if the user is not returned', function () {
       $httpBackend.expectGET('fakendpoint.com/v1/users').respond({
         'result': [OTHER_USER]
       });
-      
+
       spyOn(Session, 'set');
-      
+
       var promise = AuthService.login(USERNAME, PASSWORD);
-      
+
       $httpBackend.flush();
-      
+
       expect(promise.$$state.status).toEqual(2); //rejected
       expect(promise.$$state.value.name).toEqual('UserNotFoundException');
       expect(promise.$$state.value.message).toEqual('Username was not found under /v1/users');
-      
+
       expect(Session.set).not.toHaveBeenCalled();
       expect(Session.token).toBeNull();
     });
-    
+
     it('should validate on failure', function () {
       $httpBackend.expectGET('fakendpoint.com/v1/users').respond(500, '');
-      
+
       spyOn(Session, 'set');
-      
+
       var promise = AuthService.login(USERNAME, PASSWORD);
       $httpBackend.flush();
-      
+
       expect(promise.$$state.status).toEqual(1); //resolved
       expect(promise.$$state.value.status).toEqual(500);
       expect(promise.$$state.value.data).toEqual('');

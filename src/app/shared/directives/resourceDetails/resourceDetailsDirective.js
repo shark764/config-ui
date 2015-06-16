@@ -42,8 +42,8 @@ angular.module('liveopsConfigPanel')
                 var attributes = error.data.error.attribute;
 
                 angular.forEach(attributes, function(value, key) {
-                  $scope.detailsForm[key].$setValidity("api", false);
-                  $scope.detailsForm[key].$error = {api : value};
+                  $scope.detailsForm[key].$setValidity('api', false);
+                  $scope.detailsForm[key].$error = { api: value };
                   $scope.detailsForm[key].$setTouched();
                 });
               }
@@ -70,7 +70,7 @@ angular.module('liveopsConfigPanel')
             delete $scope.creator;
             delete $scope.updater;
           }
-        })
+        });
 
         $scope.$watch('originalResource', function () {
           $scope.resource = angular.copy($scope.originalResource);
@@ -84,7 +84,7 @@ angular.module('liveopsConfigPanel')
         $scope.resetForm = function () {
           $scope.detailsForm.$setPristine();
           $scope.detailsForm.$setUntouched();
-        }
+        };
       }
     };
   }]);
