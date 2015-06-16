@@ -57,7 +57,7 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
         controller: 'DesignerController'
       })
       .state('content.designer.flows', {
-        url: '/flows',
+        url: '/flows?id',
         templateUrl: 'app/components/designer/flows/flows.html',
         controller: 'FlowsController',
         reloadOnSearch: false
