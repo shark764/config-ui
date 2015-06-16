@@ -6,3 +6,4 @@ dist/
 .editorconfig
 /.project
 coverage/
+npm-debug.log
