@@ -32,7 +32,8 @@ $form-height: 300px;
     bottom: 0;
     width: 100%;
     filter: 4px;
-    background-color: rgba(255, 255, 255, 0.25);
+    background-color: rgba(255, 255, 255, 0.40);
+    background-image: url("/assets/images/square_bg.png");
   }
   
   .blur-over {
