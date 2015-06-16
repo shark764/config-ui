@@ -1,4 +1,4 @@
-<div id="main-content">
+<div id="main-content" class="invites">
   <h1>Invites</h1>
 
   <div ng-show="tenants.$resolved && tenants.length == 0">
@@ -14,21 +14,22 @@
       No pending invitations.
     </p>
     
-    <table ng-show="invites.$resolved && invites.length > 0" class="table">
+    <table ng-show="invites.$resolved && invites.length > 0">
       <thead>
         <th>Email</th>
         <th>State</th>
         <th>Sent On</th>
         <th>Expiry Date</th>
-        <th></td>
+        <th></th>
+        <th></th>
       </thead>
       <tr ng-repeat="curInvite in invites">
-        <td style="border: 1px solid black;">{{curInvite.email}}</td>
-        <td style="border: 1px solid black;">{{curInvite.invitationState}}</td>
-        <td style="border: 1px solid black;">{{curInvite.created | date}}</td>
-        <td style="border: 1px solid black;">{{curInvite.invitationExpiryDate | date}}</td>
-        <td style="border: 1px solid black;"><a ng-click="resend(curInvite)">Resend</a></td>
-        <td style="border: 1px solid black;"><a ng-click="remove(curInvite)">Delete</a></td>
+        <td>{{curInvite.email}}</td>
+        <td>{{curInvite.invitationState}}</td>
+        <td>{{curInvite.created | date}}</td>
+        <td>{{curInvite.invitationExpiryDate | date}}</td>
+        <td><a ng-click="resend(curInvite)" class="btn">Resend</a></td>
+        <td><a ng-click="remove(curInvite)" class="btn">Delete</a></td>
       </tr>
     </table>
   </div>
