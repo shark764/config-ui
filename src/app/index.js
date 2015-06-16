@@ -75,7 +75,7 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
         reloadOnSearch: false
       })
       .state('content.designer.versions', {
-        url: '/versions/:versionId',
+        url: '/versions?id',
         templateUrl: 'app/components/designer/flows/versions/versions.html',
         controller: 'VersionsController',
         reloadOnSearch: false
