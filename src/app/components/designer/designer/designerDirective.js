@@ -5,11 +5,11 @@
     return {
       scope: {},
       restrict: 'E',
-      templateUrl: 'app/components/designer/designer/flowDesigner.html',
+      templateUrl: 'app/components/designer/designer/designerDirective.html',
       replace: true,
       link: function() {},
-      controller: function($scope, $element, $attrs, $window, JointInitService, FlowConversionService, FlowNotationService, FlowPaletteService, mocks) {
-        var demoFlow = mocks.demoFlow;
+      controller: function($scope, $element, $attrs, $window, JointInitService, FlowConversionService, FlowNotationService, FlowPaletteService, flowMocks) {
+        var demoFlow = flowMocks.demoFlow;
         var inspectorContainer = $($element).find('#inspector-container');
         var flow = JointInitService.graph();
         var flowCommandManager = JointInitService.commandManager(flow);

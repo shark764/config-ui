@@ -19,17 +19,24 @@
   "white": true,
   "validthis": true,
   "globals": {
+    "joint": false,
+    "Backbone": false,
+    "_": false,
+    "$": false,
+    "console": false,
     "angular": false,
     // Angular Mocks
     "inject": false,
     "module": false,
     // JASMINE
-    "describe": false,
+    "KeyboardJS": false,
+    "MouseWheelJS": false,
     "it": false,
     "before": false,
     "beforeEach": false,
     "after": false,
     "afterEach": false,
+    "g": false,
     "expect": false
   }
 }

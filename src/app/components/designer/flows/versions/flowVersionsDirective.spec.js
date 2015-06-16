@@ -32,7 +32,7 @@ describe('Versions directive controller', function() {
       $scope.flow = {
           id : 1
       };
-      
+
       $controller('VersionsController', {'$scope': $scope, 'Session' : {tenantId : 1}});
       $httpBackend.flush();
     }]));
