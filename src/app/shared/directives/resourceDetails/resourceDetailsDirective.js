@@ -13,7 +13,7 @@ angular.module('liveopsConfigPanel')
       templateUrl: 'app/shared/directives/resourceDetails/resourceDetails.html',
 
       link: function ($scope) {
-        angular.extend($scope, $scope.extendScope);
+        angular.extend($scope, $scope.extendScope); 
 
         $scope.save = function () {
           $scope.loading = true;
@@ -37,7 +37,7 @@ angular.module('liveopsConfigPanel')
 
               toastr.error('Record failed to ' + ($scope.resource.id ? 'update' : 'save'));
               $scope.loading = false;
-              
+
               if(error.data.error) {
 
                 var attributes = error.data.error.attribute;
@@ -48,7 +48,7 @@ angular.module('liveopsConfigPanel')
                   $scope.detailsForm[key].$setTouched();
                 });
               }
-              
+
               if ($scope.postError){
                 $scope.postError($scope, error, headers);
               }

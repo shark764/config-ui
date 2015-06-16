@@ -5,21 +5,22 @@ describe('Versions directive controller', function() {
         $controller,
         $httpBackend,
         versions,
-        Version;
+        FlowVersion;
 
     beforeEach(module('liveopsConfigPanel'));
-    beforeEach(inject(['$rootScope', '$controller', '$injector', 'Version', function($rootScope, _$controller_, $injector, _Version_) {
+    beforeEach(module('gulpAngular'));
+    beforeEach(inject(['$rootScope', '$controller', '$injector', 'FlowVersion', function($rootScope, _$controller_, $injector, _FlowVersion_) {
       $scope = $rootScope.$new();
       $controller = _$controller_;
-      Version = _Version_;
+      FlowVersion = _FlowVersion_;
 
       versions = [
-        new Version({
+        new FlowVersion({
           name: 'q1',
           description: 'A pretty good version',
           id: 'q1'
         }),
-        new Version({
+        new FlowVersion({
           name: 'q2',
           description: 'Not as cool as the other version',
           id: 'q2'
@@ -33,7 +34,8 @@ describe('Versions directive controller', function() {
           id : 1
       };
 
-      $controller('VersionsController', {'$scope': $scope, 'Session' : {tenantId : 1}});
+      $controller('FlowVersionsController', {'$scope': $scope, 'Session' : {tenant : { tenantId : 1}}});
+
       $httpBackend.flush();
     }]));
 
@@ -41,5 +43,13 @@ describe('Versions directive controller', function() {
         expect($scope.versions).toBeDefined();
         expect($scope.versions[0].id).toEqual(versions[0].id);
         expect($scope.versions[1].id).toEqual(versions[1].id);
+    });
+
+    it('should have a function to create a new version', function() {
+        $scope.createVersion();
+
+        expect($scope.version).toBeDefined();
+        expect($scope.version.flow).toBe('[]');
+        expect($scope.version.flowId).toBe($scope.flow.id);
     });
 });

@@ -17,4 +17,5 @@ angular.module('liveopsConfigPanel')
         'orderBy' : ['name'],
         'title' : 'Media'
       };
-    });
+    }
+  );

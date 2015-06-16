@@ -3,13 +3,17 @@
 describe('UserProfileController', function() {
     var $scope,
         createController,
+        apiHostname,
         $httpBackend,
         user,
         User;
 
     beforeEach(module('liveopsConfigPanel'));
-    beforeEach(inject(['$rootScope', '$controller', '$httpBackend', 'User', function($rootScope, $controller, _$httpBackend_, _User_) {
+    beforeEach(module('gulpAngular'));
+    beforeEach(inject(['$rootScope', '$controller', '$httpBackend', 'User', 'apiHostname',
+      function($rootScope, $controller, _$httpBackend_, _User_, _apiHostname_) {
       $scope = $rootScope.$new();
+      apiHostname = _apiHostname_;
       $httpBackend = _$httpBackend_;
       User = _User_;
 
@@ -22,7 +26,7 @@ describe('UserProfileController', function() {
       });
 
       createController = function(){
-        $controller('UserProfileController', {'$scope': $scope, 'Session' : {id : '12345'}});
+        $controller('UserProfileController', {'$scope': $scope, 'Session' : {user : { id : '12345'}}});
       };
 
     }]));

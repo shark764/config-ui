@@ -56,12 +56,9 @@ describe('users controller', function(){
     expect($scope.users.length).toEqual(users.length);
   }));
 
-  it('should have statuses and states objects', inject(function() {
+  it('should have statuses', inject(function() {
     expect($scope.statuses).toBeDefined();
     expect($scope.statuses).toEqual(jasmine.any(Object));
-
-    expect($scope.states).toBeDefined();
-    expect($scope.states).toEqual(jasmine.any(Object));
   }));
 
   describe('updateDisplayName function', function(){
@@ -72,6 +69,7 @@ describe('users controller', function(){
             lastName: 'last',
             displayName : ''
           },
+
           detailsForm: {
             displayName: {
               $untouched : true
@@ -91,4 +89,6 @@ describe('users controller', function(){
       expect(childScope.resource.displayName).toEqual('');
     }));
   });
+
+
 });
