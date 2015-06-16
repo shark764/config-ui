@@ -26,7 +26,6 @@ angular.module('liveopsConfigPanel')
         $scope.selectItem = function (item) {
           $scope.selected = item;
 
-
           $location.search({
             id: item ? item.id : null
           });
@@ -49,7 +48,6 @@ angular.module('liveopsConfigPanel')
 
 
         $scope.$watch('resourceName', function () {
-
           if($scope.resourceWatcher){
             $scope.resourceWatcher();
           }
@@ -66,6 +64,7 @@ angular.module('liveopsConfigPanel')
             return;
           }
 
+          //Swap the selection if the selected item gets filtered out
           var selectedIsVisible = false;
           if ($scope.selected){
             var matchedItems = $filter('filter')($scope.filtered, {id : $scope.selected.id}, true);
@@ -78,6 +77,7 @@ angular.module('liveopsConfigPanel')
             $scope.selectItem($scope.filtered[0]);
           }
           
+          //Uncheck rows that have been filtered out
           angular.forEach($scope.items, function(item){
             if (item.checked && $scope.filtered.indexOf(item) < 0){
               item.checked = false;
