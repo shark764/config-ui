@@ -19,7 +19,6 @@
     "angular-ui-router": "~0.2.15",
     "angular-toastr": "~1.4.1",
     "rappid": "git@github.com:liveops/rappid.git",
-    "KeyboardJS": "git@github.com:liveops/KeyboardJS.git",
     "MouseWheelJS": "*"
   },
   "devDependencies": {
