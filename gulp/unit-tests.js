@@ -31,6 +31,7 @@ module.exports = function (options) {
     var srcFiles = [
       options.src + '/app/**/*.js',
       'test/test-env.js',
+      '!' + options.src + '/app/components/designer/designer/**/*.js',
       '!' + options.src + '/app/env.js',
       '!' + options.src + '/app/translation-loader.js',
     ].concat(specFiles.map(function (file) {

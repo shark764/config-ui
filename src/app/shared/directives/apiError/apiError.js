@@ -1,3 +1,5 @@
+'use strict';
+
 angular.module('liveopsConfigPanel')
   .directive('apiError', function(){
     return {
@@ -9,5 +11,5 @@ angular.module('liveopsConfigPanel')
           return value;
         });
       }
-    }
+    };
   });

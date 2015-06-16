@@ -1,6 +1,7 @@
 (function() {
   'use strict';
 
+  joint.shapes.liveOps = joint.shapes.liveOps || {};
   joint.shapes.liveOps.event = joint.dia.Element.extend({
     markup: ['<g class="rotatable">',
              '<g class="scalable">',
@@ -26,8 +27,8 @@
         image: {
           width:  40, height: 40, 'xlink:href': '', transform: 'translate(10,10)'
         },
-        "image polygon": {
-          fill: "#ff00ff"
+        'image polygon': {
+          fill: '#ff00ff'
         },
         '.label': {
           text: '',

@@ -1,20 +1,27 @@
 'use strict';
 
-/*global spyOn : false */
-
 describe('QueueController', function() {
     var $scope,
         $controller,
         $httpBackend,
         queues,
         Queue,
+        regions,
+        Session,
         routeParams;
 
     beforeEach(module('liveopsConfigPanel'));
-    beforeEach(inject(['$rootScope', '$controller', '$injector', 'Queue', function($rootScope, _$controller_, $injector, _Queue_) {
+    beforeEach(module('gulpAngular'));
+    beforeEach(inject(['$rootScope', '$controller', '$injector', 'Queue', 'apiHostname', 'Session',
+      function($rootScope, _$controller_, $injector, _Queue_, apiHostname, _Session_) {
       $scope = $rootScope.$new();
       $controller = _$controller_;
       Queue = _Queue_;
+      Session = _Session_;
+
+      regions = [{
+        id : 1
+      }];
 
       queues = [
         new Queue({
@@ -29,14 +36,19 @@ describe('QueueController', function() {
         })
       ];
 
+      Session.tenant = { tenantId : 1 };
+
       routeParams = {id : 'q1'};
 
       $httpBackend = $injector.get('$httpBackend');
-      $httpBackend.when('GET', 'fakendpoint.com/v1/tenants/1/queues').respond({'result' : queues});
-      $httpBackend.when('GET', 'fakendpoint.com/v1/tenants/1/queues/q1').respond({'result' : queues[0]});
-      $httpBackend.when('GET', 'fakendpoint.com/v1/tenants/1/queues/q2').respond({'result' : queues[1]});
+      $httpBackend.when('GET', apiHostname + '/v1/regions').respond({'result' : regions});
+      $httpBackend.when('GET', apiHostname + '/v1/tenants/1/queues').respond({'result' : queues});
+      $httpBackend.when('GET', apiHostname + '/v1/tenants/1/queues/q1').respond({'result' : queues[0]});
+      $httpBackend.when('GET', apiHostname + '/v1/tenants/1/queues/q2').respond({'result' : queues[1]});
 
-      $controller('QueueController', {'$scope': $scope, 'Session' : {tenant : {id : 1}}, '$stateParams' : routeParams});
+
+      $controller('ContentController', {'$scope': $scope});
+      $controller('QueueController', {'$scope': $scope, '$stateParams' : routeParams});
       $httpBackend.flush();
     }]));
 
@@ -46,18 +58,8 @@ describe('QueueController', function() {
         expect($scope.queues[1].id).toEqual(queues[1].id);
     });
 
-    xit('should load the queue that\'s defined routeParam on init', function() {
-      expect($scope.queue).toBeDefined();
-      expect($scope.queue.id).toEqual(queues[0].id);
-    });
-
-    xit('should catch when routeParam changes', function() {
-      spyOn($scope, 'setQueue').and.callThrough();
-      routeParams.id = 'q2';
-      $scope.$broadcast('$routeUpdate');
-      $scope.$digest();
-      $httpBackend.flush();
-
-      expect($scope.setQueue).toHaveBeenCalledWith('q2');
+    it('should load the queue that\'s defined routeParam on init', function() {
+      expect($scope.selectedQueue).toBeDefined();
+      expect($scope.selectedQueue.id).toEqual(queues[0].id);
     });
 });

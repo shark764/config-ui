@@ -13,7 +13,7 @@ angular.module('liveopsConfigPanel')
       templateUrl: 'app/shared/directives/resourceDetails/resourceDetails.html',
 
       link: function ($scope) {
-        angular.extend($scope, $scope.extendScope);
+        angular.extend($scope, $scope.extendScope); 
 
         $scope.save = function () {
           $scope.loading = true;
@@ -33,7 +33,7 @@ angular.module('liveopsConfigPanel')
               toastr.success('Record ' + ($scope.resource.id ? 'updated' : 'saved'));
             },
 
-            function (error){
+            function (error, headers){
 
               toastr.error('Record failed to ' + ($scope.resource.id ? 'update' : 'save'));
               $scope.loading = false;
@@ -43,10 +43,14 @@ angular.module('liveopsConfigPanel')
                 var attributes = error.data.error.attribute;
 
                 angular.forEach(attributes, function(value, key) {
-                  $scope.detailsForm[key].$setValidity("api", false);
-                  $scope.detailsForm[key].$error = {api : value};
+                  $scope.detailsForm[key].$setValidity('api', false);
+                  $scope.detailsForm[key].$error = { api: value };
                   $scope.detailsForm[key].$setTouched();
                 });
+              }
+
+              if ($scope.postError){
+                $scope.postError($scope, error, headers);
               }
             }
           );
@@ -67,7 +71,7 @@ angular.module('liveopsConfigPanel')
             delete $scope.creator;
             delete $scope.updater;
           }
-        })
+        });
 
         $scope.$watch('originalResource', function () {
           $scope.resource = angular.copy($scope.originalResource);
@@ -81,7 +85,7 @@ angular.module('liveopsConfigPanel')
         $scope.resetForm = function () {
           $scope.detailsForm.$setPristine();
           $scope.detailsForm.$setUntouched();
-        }
+        };
       }
     };
   }]);

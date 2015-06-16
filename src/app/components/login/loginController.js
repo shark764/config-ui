@@ -10,19 +10,17 @@ angular.module('liveopsConfigPanel')
           .then(function (response) {
             if(response.data) {
 
-              if(response.data.error && response.data.error.code == 401) {
+              if(response.data.error && response.data.error.code === '401') {
                 $scope.error = 'Invalid username and password';
                 return;
               }
 
-              $state.go('content.management.users');
+              $state.transitionTo('content.management.users');
               $rootScope.$broadcast('login:success');
             } else {
-              $scope.error = "API returned no response. Please check console for more details and try again";
+              $scope.error = 'API returned no response. Please check console for more details and try again';
             }
           });
-
-          console.log($scope.loginStatus);
       };
     }
   ]);

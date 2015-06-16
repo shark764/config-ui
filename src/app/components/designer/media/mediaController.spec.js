@@ -1,63 +1,35 @@
 'use strict';
-
-/*global spyOn : false */
-
+// jshint unused:false
 describe('MediaController', function() {
     var $scope,
         $controller,
         $httpBackend,
         medias,
         Media,
-        stateParams;
+        apiHostname,
+        routeParams;
 
     beforeEach(module('liveopsConfigPanel'));
-    beforeEach(inject(['$rootScope', '$controller', '$injector', 'Queue', function($rootScope, _$controller_, $injector, _Media_) {
+    beforeEach(inject(['$rootScope', '$controller', '$injector', 'Media', 'apiHostname',
+      function($rootScope, _$controller_, $injector, _Media_, apiHostname) {
       $scope = $rootScope.$new();
       $controller = _$controller_;
-      Queue = _Queue_;
+      Media = _Media_;
 
-      queues = [
-        new Queue({
-          name: 'q1',
-          description: 'A pretty good queue',
-          id: 'q1'
+      medias = [
+        new Media({
+          id: 'm1'
         }),
-        new Queue({
-          name: 'q2',
-          description: 'Not as cool as the other queue',
-          id: 'q2'
+        new Media({
+          id: 'm2'
         })
       ];
 
       routeParams = {id : 'q1'};
 
       $httpBackend = $injector.get('$httpBackend');
-      $httpBackend.when('GET', 'fakendpoint.com/v1/tenants/1/queues').respond({'result' : queues});
-      $httpBackend.when('GET', 'fakendpoint.com/v1/tenants/1/queues/q1').respond({'result' : queues[0]});
-      $httpBackend.when('GET', 'fakendpoint.com/v1/tenants/1/queues/q2').respond({'result' : queues[1]});
 
-      $controller('QueueController', {'$scope': $scope, 'Session' : {tenant : {id : 1}}, '$routeParams' : routeParams});
+      $controller('MediaController', {'$scope': $scope, 'Session' : {tenant : {id : 1}}, '$routeParams' : routeParams});
       $httpBackend.flush();
     }]));
-
-    it('should have queues defined', function() {
-        expect($scope.queues).toBeDefined();
-        expect($scope.queues[0].id).toEqual(queues[0].id);
-        expect($scope.queues[1].id).toEqual(queues[1].id);
-    });
-
-    xit('should load the queue that\'s defined routeParam on init', function() {
-      expect($scope.queue).toBeDefined();
-      expect($scope.queue.id).toEqual(queues[0].id);
-    });
-
-    xit('should catch when routeParam changes', function() {
-      spyOn($scope, 'setQueue').and.callThrough();
-      routeParams.id = 'q2';
-      $scope.$broadcast('$routeUpdate');
-      $scope.$digest();
-      $httpBackend.flush();
-
-      expect($scope.setQueue).toHaveBeenCalledWith('q2');
-    });
 });

@@ -34,7 +34,7 @@ angular.module('liveopsConfigPanel')
           id: user.id,
           displayName: user.displayName,
           email: user.email
-        }
+        };
 
         this.setTenants(tenants);
 
@@ -47,7 +47,7 @@ angular.module('liveopsConfigPanel')
           this.tenants = tenants;
         } else {
           this.tenants = [{
-            id: '',
+            tenantId: '',
             name: 'No tenants available'
           }];
         }
