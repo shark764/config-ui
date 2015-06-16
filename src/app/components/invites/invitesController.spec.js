@@ -40,15 +40,4 @@ describe('InvitesController', function() {
       expect($scope.newInvite).toBeDefined();
       expect($scope.newInvite.email).toBeUndefined();
     });
-
-    it('should reload the invites when Session tenantId changes', function() {
-      $httpBackend.when('GET', 'fakendpoint.com/v1/tenants/2/invites').respond({'result' : [new Invite({email: 'someotherinvite.email.com'})]});
-      $scope.newInvite = new Invite({
-        tenantId : 2
-      });
-      $scope.$digest();
-      $httpBackend.flush();
-
-      expect($scope.invites[0].email).toEqual('someotherinvite.email.com');
-    });
 });

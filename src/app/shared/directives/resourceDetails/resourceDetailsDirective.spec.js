@@ -21,38 +21,38 @@ describe('details directive', function() {
   it('should have a function to reset a resource', inject(function() {
     $scope.user = new User({ firstName: 'John', lastName: 'Benson' });
 
-    var ele = $compile('<resource-details originalResource="user"></resource-details>')($scope);
+    var ele = $compile('<resource-details original-resource="user"></resource-details>')($scope);
     $scope.$digest();
     var isolateScope = ele.isolateScope();
 
-    $scope.resource.firstName = 'JohnTest';
+    isolateScope.resource.firstName = 'JohnTest';
 
     isolateScope.cancel();
 
-    expect($scope.resource.firstName).toBe('John');
+    expect(isolateScope.resource.firstName).toBe('John');
   }));
 
   it('should not render the body or header if no body or header templates were provided', inject(function () {
     $scope.user = new User({ firstName: 'John', lastName: 'Benson' });
 
-    var ele = $compile('<resource-details originalResource="user"></resource-details>')($scope);
+    var ele = $compile('<resource-details original-resource="user"></resource-details>')($scope);
     $scope.$digest();
 
-    var body = ele.find('.detail-body-pane');
-    var header = ele.find('.detail-header-pane');
+    var body = ele.find('#detail-body-pane');
+    var header = ele.find('#detail-header-pane');
 
     expect(body.length).toBe(0);
     expect(header.length).toBe(0);
   }));
 
   it('should render the body and header if a body or header templates are provided', inject(function () {
-    $scope.user = new User({ firstName: 'John', lastName: 'Benson' });
+    $scope.user = new User({ id: 1, firstName: 'John', lastName: 'Benson' });
 
-    var ele = $compile('<resource-details originalResource="user" header-template-url="app/components/management/users/userDetailHeader.html" body-template-url="app/components/management/users/userDetailBody.html"></resource-details>')($scope);
+    var ele = $compile('<resource-details original-resource="user" header-template-url="app/components/management/users/userDetailHeader.html" body-template-url="app/components/management/users/userDetailBody.html"></resource-details>')($scope);
     $scope.$digest();
 
-    var body = ele.find('.detail-body-pane');
-    var header = ele.find('.detail-header-pane');
+    var body = ele.find('#detail-body-pane');
+    var header = ele.find('#detail-header-pane');
 
     expect(body.length).toBe(1);
     expect(header.length).toBe(1);
@@ -62,14 +62,14 @@ describe('details directive', function() {
   it('should have a function to reset a resource that properly handles saves', inject(function() {
     $scope.user = new User({ firstName: 'John', lastName: 'Benson' });
 
-    var resultUser = angular.copy($scope.resource);
+    var resultUser = angular.copy($scope.user);
     resultUser.firstName = 'Fred';
     resultUser.id = 'abc';
 
     $httpBackend.when('POST', apiHostname + '/v1/users').respond({'result' : resultUser});
     $httpBackend.expectPOST(apiHostname + '/v1/users');
 
-    var ele = $compile('<resource-details originalResource="user"></resource-details>')($scope);
+    var ele = $compile('<resource-details original-resource="user"></resource-details>')($scope);
     $scope.$digest();
     var isolateScope = ele.isolateScope();
 
@@ -78,27 +78,27 @@ describe('details directive', function() {
 
     isolateScope.cancel();
 
-    expect($scope.resource.firstName).toBe('Fred');
+    expect(isolateScope.resource.firstName).toBe('Fred');
 
   }));
 
   it('should have a function to save a resource', inject(function() {
     $scope.user = new User({ firstName: 'John', lastName: 'Benson' });
 
-    var resultUser = angular.copy($scope.resource);
+    var resultUser = angular.copy($scope.user);
     resultUser.id = 'abc';
 
     $httpBackend.when('POST', apiHostname + '/v1/users').respond({'result' : resultUser});
     $httpBackend.expectPOST(apiHostname + '/v1/users');
 
-    var ele = $compile('<resource-details originalResource="user"></resource-details>')($scope);
+    var ele = $compile('<resource-details original-resource="user"></resource-details>')($scope);
     $scope.$digest();
     var isolateScope = ele.isolateScope();
 
     isolateScope.save();
     $httpBackend.flush();
 
-    expect($scope.resource.id).toBe(resultUser.id);
+    expect(isolateScope.resource.id).toBe(resultUser.id);
 
   }));
 });

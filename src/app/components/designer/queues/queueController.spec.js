@@ -1,7 +1,5 @@
 'use strict';
 
-/*global spyOn : false */
-
 describe('QueueController', function() {
     var $scope,
         $controller,
@@ -61,17 +59,7 @@ describe('QueueController', function() {
     });
 
     it('should load the queue that\'s defined routeParam on init', function() {
-      expect($scope.queue).toBeDefined();
-      expect($scope.queue.id).toEqual(queues[0].id);
-    });
-
-    it('should catch when routeParam changes', function() {
-      spyOn($scope, 'setQueue').and.callThrough();
-      routeParams.id = 'q2';
-      $scope.$broadcast('$routeUpdate');
-      $scope.$digest();
-      $httpBackend.flush();
-
-      expect($scope.setQueue).toHaveBeenCalledWith('q2');
+      expect($scope.selectedQueue).toBeDefined();
+      expect($scope.selectedQueue.id).toEqual(queues[0].id);
     });
 });
