@@ -12,6 +12,8 @@
   "value.properties": "Properties",
   "value.type": "Type",
   "value.createdOn" : "Created On",
+  "value.designerLink": "Designer Link",
+  "value.openInDesigner": "Open in designer",
 
 
   "navbar.users.title": "User Management",

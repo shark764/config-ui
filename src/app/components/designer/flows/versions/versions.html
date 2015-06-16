@@ -4,11 +4,13 @@
     <th>{{value.name | translate}}</th>
     <th>{{value.description | translate}}</th>
     <th>{{value.createdOn | translate}}</th>
+    <th>{{value.designerLink | translate}}</th>
   </thead>
   <tr ng-repeat="version in versions" >
     <td>{{version.name}}</td>
     <td>{{version.description}}</td>
     <td>{{version.created | date:'medium'}}</td>
+    <td><a href="#/designer/flows/{{version.flowId}}/versions/{{version.version}}">{{'value.openInDesigner' | translate}}</a></td>
   </tr>
 </table>
 
@@ -19,11 +21,10 @@
   <div>Name:
         <input type="text" ng-model="version.name" name="name"></input>
   </div>
-  
+
   <div>Description:
    <input type="text" ng-model="version.description" name="description"></input>
   </div>
-  
+
   <input ng-click="saveVersion()" type="submit" class="btn btn-primary" value="{{ 'value.create' | translate }}"/>
 </ng-form>
-

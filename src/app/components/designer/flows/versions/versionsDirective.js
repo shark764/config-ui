@@ -9,6 +9,8 @@ angular.module('liveopsConfigPanel')
         flow: '[]'
       });
 
+      console.log($scope.version);
+
       $scope.fetch = function () {
         $scope.versions = Version.query( { tenantId: Session.tenant.tenantId, flowId: $scope.flow.id });
       };
