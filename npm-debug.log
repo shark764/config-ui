@@ -1,0 +1,323 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/bin/node', '/usr/bin/npm', 'install', '-g', 'keybase' ]
+2 info using npm@1.4.28
+3 info using node@v0.10.38
+4 verbose node symlink /usr/bin/node
+5 verbose cache add [ 'keybase', null ]
+6 verbose cache add name=undefined spec="keybase" args=["keybase",null]
+7 verbose parsed url { protocol: null,
+7 verbose parsed url   slashes: null,
+7 verbose parsed url   auth: null,
+7 verbose parsed url   host: null,
+7 verbose parsed url   port: null,
+7 verbose parsed url   hostname: null,
+7 verbose parsed url   hash: null,
+7 verbose parsed url   search: null,
+7 verbose parsed url   query: null,
+7 verbose parsed url   pathname: 'keybase',
+7 verbose parsed url   path: 'keybase',
+7 verbose parsed url   href: 'keybase' }
+8 silly lockFile 66ff7e1f-keybase keybase
+9 verbose lock keybase /home/nick/.npm/66ff7e1f-keybase.lock
+10 silly lockFile 66ff7e1f-keybase keybase
+11 silly lockFile 66ff7e1f-keybase keybase
+12 verbose addNamed [ 'keybase', '' ]
+13 verbose addNamed [ null, '*' ]
+14 silly lockFile 91e25997-keybase keybase@
+15 verbose lock keybase@ /home/nick/.npm/91e25997-keybase.lock
+16 silly addNameRange { name: 'keybase', range: '*', hasData: false }
+17 verbose request where is /keybase
+18 verbose request registry https://registry.npmjs.org/
+19 verbose request id 42ee304d66e1d84e
+20 verbose url raw /keybase
+21 verbose url resolving [ 'https://registry.npmjs.org/', './keybase' ]
+22 verbose url resolved https://registry.npmjs.org/keybase
+23 verbose request where is https://registry.npmjs.org/keybase
+24 info trying registry request attempt 1 at 15:09:16
+25 http GET https://registry.npmjs.org/keybase
+26 http 200 https://registry.npmjs.org/keybase
+27 silly registry.get cb [ 200,
+27 silly registry.get   { server: 'CouchDB/1.5.0 (Erlang OTP/R16B03)',
+27 silly registry.get     etag: '"EULF5Z2KZ118NVTAUA3IIGR4A"',
+27 silly registry.get     'content-type': 'application/json',
+27 silly registry.get     'cache-control': 'max-age=60',
+27 silly registry.get     'content-length': '203377',
+27 silly registry.get     'accept-ranges': 'bytes',
+27 silly registry.get     date: 'Fri, 29 May 2015 18:09:16 GMT',
+27 silly registry.get     via: '1.1 varnish',
+27 silly registry.get     age: '0',
+27 silly registry.get     connection: 'keep-alive',
+27 silly registry.get     'x-served-by': 'cache-atl6220-ATL',
+27 silly registry.get     'x-cache': 'MISS',
+27 silly registry.get     'x-cache-hits': '0',
+27 silly registry.get     'x-timer': 'S1432922956.535218,VS0,VE229',
+27 silly registry.get     vary: 'Accept' } ]
+28 silly addNameRange number 2 { name: 'keybase', range: '*', hasData: true }
+29 silly addNameRange versions [ 'keybase',
+29 silly addNameRange   [ '0.0.0',
+29 silly addNameRange     '0.0.4',
+29 silly addNameRange     '0.0.5',
+29 silly addNameRange     '0.0.6',
+29 silly addNameRange     '0.0.7',
+29 silly addNameRange     '0.0.8',
+29 silly addNameRange     '0.0.10',
+29 silly addNameRange     '0.0.11',
+29 silly addNameRange     '0.0.12',
+29 silly addNameRange     '0.0.13',
+29 silly addNameRange     '0.0.15',
+29 silly addNameRange     '0.0.16',
+29 silly addNameRange     '0.0.17',
+29 silly addNameRange     '0.0.18',
+29 silly addNameRange     '0.0.19',
+29 silly addNameRange     '0.0.20',
+29 silly addNameRange     '0.0.21',
+29 silly addNameRange     '0.0.22',
+29 silly addNameRange     '0.0.23',
+29 silly addNameRange     '0.0.24',
+29 silly addNameRange     '0.0.25',
+29 silly addNameRange     '0.0.26',
+29 silly addNameRange     '0.0.27',
+29 silly addNameRange     '0.0.28',
+29 silly addNameRange     '0.0.29',
+29 silly addNameRange     '0.0.30',
+29 silly addNameRange     '0.0.31',
+29 silly addNameRange     '0.0.32',
+29 silly addNameRange     '0.0.33',
+29 silly addNameRange     '0.0.34',
+29 silly addNameRange     '0.0.35',
+29 silly addNameRange     '0.0.36',
+29 silly addNameRange     '0.0.37',
+29 silly addNameRange     '0.0.38',
+29 silly addNameRange     '0.0.39',
+29 silly addNameRange     '0.0.40',
+29 silly addNameRange     '0.0.41',
+29 silly addNameRange     '0.0.42',
+29 silly addNameRange     '0.0.43',
+29 silly addNameRange     '0.0.44',
+29 silly addNameRange     '0.1.1',
+29 silly addNameRange     '0.1.2',
+29 silly addNameRange     '0.2.0',
+29 silly addNameRange     '0.2.1',
+29 silly addNameRange     '0.2.2',
+29 silly addNameRange     '0.2.3',
+29 silly addNameRange     '0.2.4',
+29 silly addNameRange     '0.2.5',
+29 silly addNameRange     '0.2.6',
+29 silly addNameRange     '0.2.7',
+29 silly addNameRange     '0.2.8',
+29 silly addNameRange     '0.2.9',
+29 silly addNameRange     '0.2.10',
+29 silly addNameRange     '0.2.11',
+29 silly addNameRange     '0.2.12',
+29 silly addNameRange     '0.2.13',
+29 silly addNameRange     '0.2.14',
+29 silly addNameRange     '0.2.15',
+29 silly addNameRange     '0.2.16',
+29 silly addNameRange     '0.2.17',
+29 silly addNameRange     '0.2.18',
+29 silly addNameRange     '0.2.19',
+29 silly addNameRange     '0.2.20',
+29 silly addNameRange     '0.2.21',
+29 silly addNameRange     '0.3.0',
+29 silly addNameRange     '0.3.1',
+29 silly addNameRange     '0.3.2',
+29 silly addNameRange     '0.3.3',
+29 silly addNameRange     '0.4.0',
+29 silly addNameRange     '0.4.1',
+29 silly addNameRange     '0.4.2',
+29 silly addNameRange     '0.4.3',
+29 silly addNameRange     '0.4.4',
+29 silly addNameRange     '0.4.5',
+29 silly addNameRange     '0.4.6',
+29 silly addNameRange     '0.4.7',
+29 silly addNameRange     '0.4.8',
+29 silly addNameRange     '0.4.9',
+29 silly addNameRange     '0.4.10',
+29 silly addNameRange     '0.4.11',
+29 silly addNameRange     '0.4.12',
+29 silly addNameRange     '0.4.13',
+29 silly addNameRange     '0.4.14',
+29 silly addNameRange     '0.4.15',
+29 silly addNameRange     '0.4.16',
+29 silly addNameRange     '0.4.17',
+29 silly addNameRange     '0.4.18',
+29 silly addNameRange     '0.4.19',
+29 silly addNameRange     '0.4.20',
+29 silly addNameRange     '0.4.21',
+29 silly addNameRange     '0.4.22',
+29 silly addNameRange     '0.5.0',
+29 silly addNameRange     '0.5.1',
+29 silly addNameRange     '0.6.0',
+29 silly addNameRange     '0.6.1',
+29 silly addNameRange     '0.6.2',
+29 silly addNameRange     '0.7.0',
+29 silly addNameRange     '0.7.1',
+29 silly addNameRange     '0.7.2',
+29 silly addNameRange     '0.7.3',
+29 silly addNameRange     '0.7.4',
+29 silly addNameRange     '0.7.5',
+29 silly addNameRange     '0.7.6',
+29 silly addNameRange     '0.7.7',
+29 silly addNameRange     '0.7.8',
+29 silly addNameRange     '0.7.9' ] ]
+30 verbose addNamed [ 'keybase', '0.7.9' ]
+31 verbose addNamed [ '0.7.9', '0.7.9' ]
+32 silly lockFile bea533e1-keybase-0-7-9 keybase@0.7.9
+33 verbose lock keybase@0.7.9 /home/nick/.npm/bea533e1-keybase-0-7-9.lock
+34 silly lockFile e807882d-js-org-keybase-keybase-0-7-9-tgz https://registry.npmjs.org/keybase/-/keybase-0.7.9.tgz
+35 verbose lock https://registry.npmjs.org/keybase/-/keybase-0.7.9.tgz /home/nick/.npm/e807882d-js-org-keybase-keybase-0-7-9-tgz.lock
+36 verbose addRemoteTarball [ 'https://registry.npmjs.org/keybase/-/keybase-0.7.9.tgz',
+36 verbose addRemoteTarball   '451910d8e29adb3ee4982de0039d8af5d743e17d' ]
+37 info retry fetch attempt 1 at 15:09:16
+38 verbose fetch to= /tmp/npm-17649-HFLRxfnO/registry.npmjs.org/keybase/-/keybase-0.7.9.tgz
+39 http GET https://registry.npmjs.org/keybase/-/keybase-0.7.9.tgz
+40 http 200 https://registry.npmjs.org/keybase/-/keybase-0.7.9.tgz
+41 silly lockFile e807882d-js-org-keybase-keybase-0-7-9-tgz https://registry.npmjs.org/keybase/-/keybase-0.7.9.tgz
+42 silly lockFile e807882d-js-org-keybase-keybase-0-7-9-tgz https://registry.npmjs.org/keybase/-/keybase-0.7.9.tgz
+43 silly lockFile bea533e1-keybase-0-7-9 keybase@0.7.9
+44 silly lockFile bea533e1-keybase-0-7-9 keybase@0.7.9
+45 silly lockFile 91e25997-keybase keybase@
+46 silly lockFile 91e25997-keybase keybase@
+47 silly resolved [ { name: 'keybase',
+47 silly resolved     version: '0.7.9',
+47 silly resolved     description: 'CLI interface to keybase.io',
+47 silly resolved     repository: { type: 'git', url: 'git://github.com/keybase/node-client.git' },
+47 silly resolved     author: { name: 'Maxwell Krohn', email: 'themax@gmail.com' },
+47 silly resolved     license: 'BSD-3-Clause',
+47 silly resolved     bugs: { url: 'https://github.com/keybase/node-client/issues' },
+47 silly resolved     bin: { keybase: './bin/main.js' },
+47 silly resolved     scripts: { test: 'make test', build: 'make build' },
+47 silly resolved     dependencies:
+47 silly resolved      { argparse: '0.1.15',
+47 silly resolved        badnode: '^1.0.1',
+47 silly resolved        bitcoyne: '>=0.0.6',
+47 silly resolved        bn: '^1.0.1',
+47 silly resolved        cheerio: '0.13.0',
+47 silly resolved        codesign: '0.0.9',
+47 silly resolved        colors: '0.6.2',
+47 silly resolved        'deep-equal': '0.2.1',
+47 silly resolved        'framed-msgpack-rpc': '1.1.4',
+47 silly resolved        'gpg-wrapper': '>=1.0.5',
+47 silly resolved        'iced-data-structures': '0.0.5',
+47 silly resolved        'iced-db': '0.0.4',
+47 silly resolved        'iced-error': '0.0.9',
+47 silly resolved        'iced-lock': '^1.0.1',
+47 silly resolved        'iced-logger': '0.0.5',
+47 silly resolved        'iced-runtime': '>=0.0.1',
+47 silly resolved        'iced-spawn': '>=1.0.0',
+47 silly resolved        'iced-utils': '0.1.20',
+47 silly resolved        kbpgp: '>=2.0.9',
+47 silly resolved        'keybase-installer': '1.0.1',
+47 silly resolved        'keybase-path': '0.0.16',
+47 silly resolved        'keybase-proofs': '^2.0.13',
+47 silly resolved        libkeybase: '^1.0.2',
+47 silly resolved        'merkle-tree': '0.0.12',
+47 silly resolved        mkdirp: '0.3.5',
+47 silly resolved        'pgp-utils': '>=0.0.28',
+47 silly resolved        progress: '1.1.3',
+47 silly resolved        purepack: '1.0.1',
+47 silly resolved        read: 'github:keybase/read',
+47 silly resolved        request: '^2.55.0',
+47 silly resolved        semver: '^4.0.0',
+47 silly resolved        'socks5-client': '^0.3.6',
+47 silly resolved        'socks5-http-client': '^0.1.6',
+47 silly resolved        'socks5-https-client': '^0.2.2',
+47 silly resolved        spotty: '^1.0.0',
+47 silly resolved        tablify: '0.1.5',
+47 silly resolved        timeago: '0.1.0',
+47 silly resolved        triplesec: '>=3.0.16' },
+47 silly resolved     devDependencies:
+47 silly resolved      { 'iced-coffee-script': '~1.7.1-c',
+47 silly resolved        'iced-expect': '0.0.3',
+47 silly resolved        'iced-test': '>=0.0.16',
+47 silly resolved        optimist: '0.6.1' },
+47 silly resolved     bundleDependencies:
+47 silly resolved      [ 'argparse',
+47 silly resolved        'badnode',
+47 silly resolved        'bitcoyne',
+47 silly resolved        'bn',
+47 silly resolved        'cheerio',
+47 silly resolved        'codesign',
+47 silly resolved        'colors',
+47 silly resolved        'deep-equal',
+47 silly resolved        'framed-msgpack-rpc',
+47 silly resolved        'gpg-wrapper',
+47 silly resolved        'iced-data-structures',
+47 silly resolved        'iced-db',
+47 silly resolved        'iced-error',
+47 silly resolved        'iced-lock',
+47 silly resolved        'iced-logger',
+47 silly resolved        'iced-runtime',
+47 silly resolved        'iced-spawn',
+47 silly resolved        'iced-utils',
+47 silly resolved        'kbpgp',
+47 silly resolved        'keybase-path',
+47 silly resolved        'keybase-proofs',
+47 silly resolved        'libkeybase',
+47 silly resolved        'merkle-tree',
+47 silly resolved        'mkdirp',
+47 silly resolved        'pgp-utils',
+47 silly resolved        'progress',
+47 silly resolved        'purepack',
+47 silly resolved        'read',
+47 silly resolved        'request',
+47 silly resolved        'semver',
+47 silly resolved        'socks5-client',
+47 silly resolved        'socks5-http-client',
+47 silly resolved        'socks5-https-client',
+47 silly resolved        'spotty',
+47 silly resolved        'tablify',
+47 silly resolved        'timeago',
+47 silly resolved        'triplesec' ],
+47 silly resolved     gitHead: '796bb0e85307e82e854f97dc8de2e0b067a89e87',
+47 silly resolved     homepage: 'https://github.com/keybase/node-client#readme',
+47 silly resolved     _id: 'keybase@0.7.9',
+47 silly resolved     _shasum: '451910d8e29adb3ee4982de0039d8af5d743e17d',
+47 silly resolved     _from: 'keybase@',
+47 silly resolved     _npmVersion: '2.10.1',
+47 silly resolved     _nodeVersion: '0.12.3',
+47 silly resolved     _npmUser: { name: 'maxtaco', email: 'themax@gmail.com' },
+47 silly resolved     maintainers: [ [Object] ],
+47 silly resolved     dist:
+47 silly resolved      { shasum: '451910d8e29adb3ee4982de0039d8af5d743e17d',
+47 silly resolved        tarball: 'http://registry.npmjs.org/keybase/-/keybase-0.7.9.tgz' },
+47 silly resolved     directories: {},
+47 silly resolved     _resolved: 'https://registry.npmjs.org/keybase/-/keybase-0.7.9.tgz' } ]
+48 info install keybase@0.7.9 into /usr/lib
+49 info installOne keybase@0.7.9
+50 verbose lib/node_modules/keybase unbuild
+51 verbose tar unpack /home/nick/.npm/keybase/0.7.9/package.tgz
+52 silly lockFile a1ca0fde-tar-usr-lib-node-modules-keybase tar:///usr/lib/node_modules/keybase
+53 verbose lock tar:///usr/lib/node_modules/keybase /home/nick/.npm/a1ca0fde-tar-usr-lib-node-modules-keybase.lock
+54 silly lockFile 6bbe6bdb-ck-npm-keybase-0-7-9-package-tgz tar:///home/nick/.npm/keybase/0.7.9/package.tgz
+55 verbose lock tar:///home/nick/.npm/keybase/0.7.9/package.tgz /home/nick/.npm/6bbe6bdb-ck-npm-keybase-0-7-9-package-tgz.lock
+56 silly gunzTarPerm modes [ '775', '664' ]
+57 error Error: EACCES, mkdir '/usr/lib/node_modules/keybase'
+57 error  { [Error: EACCES, mkdir '/usr/lib/node_modules/keybase']
+57 error   errno: 3,
+57 error   code: 'EACCES',
+57 error   path: '/usr/lib/node_modules/keybase',
+57 error   fstream_type: 'Directory',
+57 error   fstream_path: '/usr/lib/node_modules/keybase',
+57 error   fstream_class: 'DirWriter',
+57 error   fstream_stack:
+57 error    [ '/usr/lib/node_modules/npm/node_modules/fstream/lib/dir-writer.js:36:23',
+57 error      '/usr/lib/node_modules/npm/node_modules/mkdirp/index.js:46:53',
+57 error      'Object.oncomplete (fs.js:108:15)' ] }
+58 error Please try running this command again as root/Administrator.
+59 error System Linux 3.19.0-10-generic
+60 error command "/usr/bin/node" "/usr/bin/npm" "install" "-g" "keybase"
+61 error cwd /home/nick/Projects/config-ui
+62 error node -v v0.10.38
+63 error npm -v 1.4.28
+64 error path /usr/lib/node_modules/keybase
+65 error fstream_path /usr/lib/node_modules/keybase
+66 error fstream_type Directory
+67 error fstream_class DirWriter
+68 error code EACCES
+69 error errno 3
+70 error stack Error: EACCES, mkdir '/usr/lib/node_modules/keybase'
+71 error fstream_stack /usr/lib/node_modules/npm/node_modules/fstream/lib/dir-writer.js:36:23
+71 error fstream_stack /usr/lib/node_modules/npm/node_modules/mkdirp/index.js:46:53
+71 error fstream_stack Object.oncomplete (fs.js:108:15)
+72 verbose exit [ 3, true ]
