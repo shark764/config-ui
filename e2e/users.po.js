@@ -1,14 +1,8 @@
 'use strict';
 
 var UserPage = function() {
-  this.userTable = element(by.css('.table'));
-  this.userDetails = element(by.id('details-form'));
   this.loadingMessage = element(by.id('.table-message > div:nth-child(1)'));
 
-  this.userSearchField = element(by.model('searchQuery'));
-  this.actionsBtn = element(by.buttonText('Actions'));
-  this.createUserBtn = element(by.id('create-user-btn'));
-  this.tableColumnsDropDown = element(by.css('filter-dropdown.btn'));
   this.statusTableDropDown = element(by.css('th.ng-scope:nth-child(7) > filter-dropdown:nth-child(1)'));
   this.stateTableDropDown = element(by.css('th.ng-scope:nth-child(8) > filter-dropdown:nth-child(1)'));
 
@@ -24,9 +18,6 @@ var UserPage = function() {
   this.stateFormDropDown = element(by.model('resource.state'));
   this.statusFormToggle = element(by.model('resource.status'));
   this.passwordEditFormBtn = element(by.buttonText('Reset Password'));
-
-  this.cancelUserFormBtn = element(by.css('input.btn:nth-child(1)'));
-  this.submitUserFormBtn = element(by.buttonText('Submit'));
 
   this.errors = element.all(by.css('.error'));
 

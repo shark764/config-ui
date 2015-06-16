@@ -24,16 +24,16 @@ describe('The users view', function() {
   it('should include users management page components', function() {
     expect(shared.navBar.isDisplayed()).toBeTruthy();
 
-    expect(users.userSearchField.getAttribute('placeholder')).toBe('Search');
-    expect(users.createUserBtn.getText()).toBe('Create');
-    expect(users.actionsBtn.isDisplayed()).toBeTruthy();
+    expect(shared.searchField.getAttribute('placeholder')).toBe('Search');
+    expect(shared.createBtn.getText()).toBe('Create');
+    expect(shared.actionsBtn.isDisplayed()).toBeTruthy();
 
-    expect(users.tableColumnsDropDown.getText()).toBe('Columns');
-    expect(users.userTable.isDisplayed()).toBeTruthy();
+    expect(shared.tableColumnsDropDown.getText()).toBe('Columns');
+    expect(shared.table.isDisplayed()).toBeTruthy();
     expect(users.statusTableDropDown.isDisplayed()).toBeTruthy();
     expect(users.stateTableDropDown.isDisplayed()).toBeTruthy();
 
-    expect(users.userDetails.isDisplayed()).toBeTruthy();
+    expect(shared.detailsForm.isDisplayed()).toBeTruthy();
   });
 
   it('should display supported fields for editing a user', function() {
@@ -54,8 +54,8 @@ describe('The users view', function() {
     expect(users.passwordFormField.isDisplayed()).toBeFalsy();
     expect(users.passwordEditFormBtn.isDisplayed()).toBeTruthy();
 
-    expect(users.cancelUserFormBtn.isDisplayed()).toBeTruthy();
-    expect(users.submitUserFormBtn.isDisplayed()).toBeTruthy();
+    expect(shared.cancelFormBtn.isDisplayed()).toBeTruthy();
+    expect(shared.submitFormBtn.isDisplayed()).toBeTruthy();
 
     expect(users.createNewUserHeader.isPresent()).toBeFalsy();
   });
@@ -63,7 +63,7 @@ describe('The users view', function() {
   it('should display users based on the user Search', function() {
     // TODO: Update with values that will be more likely to always match users
 
-    users.userSearchField.sendKeys('Titan');
+    shared.searchField.sendKeys('Titan');
     users.userElements.then(function(rows) {
       for (var i = 0; i < rows.length; ++i) {
         rows[i].getText().then(function(value) {
@@ -72,8 +72,8 @@ describe('The users view', function() {
       };
     });
 
-    users.userSearchField.clear();
-    users.userSearchField.sendKeys('tan');
+    shared.searchField.clear();
+    shared.searchField.sendKeys('tan');
     users.userElements.then(function(rows) {
       for (var i = 0; i < rows.length; ++i) {
         rows[i].getText().then(function(value) {
@@ -82,8 +82,8 @@ describe('The users view', function() {
       };
     });
 
-    users.userSearchField.clear();
-    users.userSearchField.sendKeys('USER');
+    shared.searchField.clear();
+    shared.searchField.sendKeys('USER');
     users.userElements.then(function(rows) {
       for (var i = 0; i < rows.length; ++i) {
         rows[i].getText().then(function(value) {
@@ -92,8 +92,8 @@ describe('The users view', function() {
       };
     });
 
-    users.userSearchField.clear();
-    users.userSearchField.sendKeys('Ti*er');
+    shared.searchField.clear();
+    shared.searchField.sendKeys('Ti*er');
     users.userElements.then(function(rows) {
       for (var i = 0; i < rows.length; ++i) {
         rows[i].getText().then(function(value) {
@@ -103,7 +103,7 @@ describe('The users view', function() {
       };
     });
 
-    users.userSearchField.clear();
+    shared.searchField.clear();
     expect(users.userElements.count()).toBe(userCount);
   });
 
@@ -187,7 +187,7 @@ describe('The users view', function() {
 
   it('should display users based on the Search, Status and State filters', function() {
     // Search
-    users.userSearchField.sendKeys('a');
+    shared.searchField.sendKeys('a');
 
     // Select Status filter
     users.statusTableDropDown.click(); // Open
@@ -210,8 +210,8 @@ describe('The users view', function() {
     });
 
     // Update Search & add filter options
-    users.userSearchField.clear();
-    users.userSearchField.sendKeys('an');
+    shared.searchField.clear();
+    shared.searchField.sendKeys('an');
 
     // Select Status filter
     users.statusTableDropDown.click(); // Open
@@ -242,7 +242,7 @@ describe('The users view', function() {
     if (userCount > 0) {
       // Select user row
       element(by.css('tr.ng-scope:nth-child(1)')).click();
-      expect(users.userDetails.isDisplayed()).toBeTruthy();
+      expect(shared.detailsForm.isDisplayed()).toBeTruthy();
 
       // Verify user's name in table matches user details
       expect(element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(2)')).getText()).toContain(users.firstNameFormField.getAttribute('value'));
@@ -260,7 +260,7 @@ describe('The users view', function() {
       // Change user and verify all fields are updated
       if (userCount > 1) {
         element(by.css('tr.ng-scope:nth-child(2)')).click();
-        expect(users.userDetails.isDisplayed()).toBeTruthy();
+        expect(shared.detailsForm.isDisplayed()).toBeTruthy();
         expect(element(by.css('tr.ng-scope:nth-child(2) > td:nth-child(2)')).getText()).toContain(users.firstNameFormField.getAttribute('value'));
         expect(element(by.css('tr.ng-scope:nth-child(2) > td:nth-child(2)')).getText()).toContain(users.lastNameFormField.getAttribute('value'));
         expect(element(by.css('tr.ng-scope:nth-child(2) > td:nth-child(6)')).getText()).toBe(users.externalIdFormField.getAttribute('value'));
@@ -273,7 +273,7 @@ describe('The users view', function() {
   it('should update table when user details are changed and saved', function() {
     // Select user row
     element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(2)')).click();
-    expect(users.userDetails.isDisplayed()).toBeTruthy();
+    expect(shared.detailsForm.isDisplayed()).toBeTruthy();
 
     // Update User details
     users.firstNameFormField.sendKeys('test');
@@ -281,8 +281,8 @@ describe('The users view', function() {
     users.displayNameFormField.sendKeys('test');
     users.externalIdFormField.sendKeys('test');
 
-    users.submitUserFormBtn.click().then(function() {
-      expect(users.userDetails.isDisplayed()).toBeTruthy();
+    shared.submitFormBtn.click().then(function() {
+      expect(shared.detailsForm.isDisplayed()).toBeTruthy();
       expect(element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(2)')).getText()).toContain(users.firstNameFormField.getAttribute('value'));
       expect(element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(2)')).getText()).toContain(users.lastNameFormField.getAttribute('value'));
       expect(element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(6)')).getText()).toBe(users.externalIdFormField.getAttribute('value'));
@@ -303,14 +303,14 @@ describe('The users view', function() {
       users.lastNameFormField.sendKeys('\u0008\u0008\u0008\u0008');
       users.displayNameFormField.sendKeys('\u0008\u0008\u0008\u0008');
       users.externalIdFormField.sendKeys('\u0008\u0008\u0008\u0008');
-      users.submitUserFormBtn.click();
+      shared.submitFormBtn.click();
     });
   });
 
   it('should not update table when user details are changed and cancelled', function() {
     // Select user row
     element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(2)')).click();
-    expect(users.userDetails.isDisplayed()).toBeTruthy();
+    expect(shared.detailsForm.isDisplayed()).toBeTruthy();
 
     // Update User details
     users.firstNameFormField.sendKeys('test');
@@ -318,8 +318,8 @@ describe('The users view', function() {
     users.displayNameFormField.sendKeys('test');
     users.externalIdFormField.sendKeys('test');
 
-    users.cancelUserFormBtn.click().then(function() {
-      expect(users.userDetails.isDisplayed()).toBeTruthy();
+    shared.cancelFormBtn.click().then(function() {
+      expect(shared.detailsForm.isDisplayed()).toBeTruthy();
 
       expect(element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(2)')).getText()).not.toContain('test');
       expect(element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(2)')).getText()).not.toContain('test');
