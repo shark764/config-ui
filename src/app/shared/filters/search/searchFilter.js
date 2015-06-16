@@ -12,6 +12,25 @@ angular.module('liveopsConfigPanel')
         return string.replace(/([*])/g, '.*');
       }
 
+      var findFields = function (field, item) {
+        var itemStrings = [];
+        var fieldGetter = $parse(field.path);
+        var fieldValue = fieldGetter(item);
+
+        if (typeof (fieldValue) === 'string') {
+          itemStrings = [fieldValue];
+        } else if (typeof (fieldValue) === 'object') {
+          angular.forEach(fieldGetter(item), function (result) {
+            if ('inner' in field) {
+              itemStrings = itemStrings.concat(findFields(field.inner, result));
+            } else {
+              itemStrings = [result];
+            }
+          });
+        }
+        return itemStrings;
+      }
+
       var filtered = [];
       angular.forEach(items, function (item) {
 
@@ -22,14 +41,7 @@ angular.module('liveopsConfigPanel')
           if (typeof (field) === 'string') {
             itemString += item[field] + ' ';
           } else if (typeof (field) === 'object') {
-            var fieldGetter = $parse(field.path);
-            angular.forEach(fieldGetter(item), function(result){
-              if('name' in field){
-                itemString += result[field.name] + ' ';
-              } else {
-                itemString += result + ' ';
-              }
-            });
+            itemString += findFields(field, item).join(' ');
           }
         });
 

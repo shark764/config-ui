@@ -26,7 +26,9 @@ angular.module('liveopsConfigPanel')
         }],
         'searchOn': ['firstName', 'lastName', {
           path: 'skills',
-          name: 'name'
+          inner: {
+            path: 'name'
+          }
         }],
         'orderBy': ['lastName'],
         'title': 'User Management'

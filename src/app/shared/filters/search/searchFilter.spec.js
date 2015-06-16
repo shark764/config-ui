@@ -28,7 +28,14 @@ describe('search filter', function () {
       },
       'text_array': [
         'text1', 'text2'
-      ]
+      ],
+      'recur1': [{
+        'recur2': [{
+          'recur3': [{
+            'name': 'youdidit!'
+          }]
+        }]
+      }]
     }];
 
     filter = $filter('search');
@@ -139,7 +146,9 @@ describe('search filter', function () {
 
     var result = filter(users, [{
       path: 'skills',
-      name: 'name'
+      inner: {
+        path: 'name'
+      }
     }], 'walk');
     expect(result.length).toBe(1);
   }));
@@ -148,7 +157,9 @@ describe('search filter', function () {
 
     var result = filter(users, [{
       path: 'skills',
-      name: 'name'
+      inner: {
+        path: 'name'
+      }
     }], 'walk');
     expect(result.length).toBe(1);
   }));
@@ -157,7 +168,9 @@ describe('search filter', function () {
 
     var result = filter(users, [{
       path: 'test.array',
-      name: 'fieldName'
+      inner: {
+        path: 'fieldName'
+      }
     }], 'Value');
     expect(result.length).toBe(1);
   }));
@@ -165,7 +178,9 @@ describe('search filter', function () {
   it('should not return results when path is incorrect', inject(function () {
     var result = filter(users, [{
       path: 'test.array_z',
-      name: 'fieldName'
+      inner: {
+        path: 'fieldName'
+      }
     }], 'Value');
     expect(result.length).toBe(0);
   }));
@@ -181,6 +196,38 @@ describe('search filter', function () {
     var result = filter(users, [{
       path: 'text_array'
     }], 'text3');
+    expect(result.length).toBe(0);
+  }));
+  
+  it('should return even with 3x recursion', inject(function () {
+    var result = filter(users, [{
+      path: 'recur1',
+      inner: {
+        path: 'recur2',
+        inner: {
+          path: 'recur3',
+          inner: {
+            path: 'name'
+          }
+        }
+      }
+    }], 'youdidit!');
+    expect(result.length).toBe(1);
+  }));
+  
+  it('should not return even with 3x recursion because of wrong path', inject(function () {
+    var result = filter(users, [{
+      path: 'recur1',
+      inner: {
+        path: 'recur3',
+        inner: {
+          path: 'recur2',
+          inner: {
+            path: 'name'
+          }
+        }
+      }
+    }], 'youdidit!');
     expect(result.length).toBe(0);
   }));
 
@@ -233,7 +280,9 @@ describe('search filter', function () {
     it('should return one walking users', inject(function () {
       var result = filter(users, [{
         path: 'skills',
-        name: 'name'
+        inner: {
+          path: 'name'
+        }
       }], 'walking');
       expect(result.length).toBe(1);
     }));
@@ -241,7 +290,9 @@ describe('search filter', function () {
     it('should return one talking users', inject(function () {
       var result = filter(users, [{
         path: 'skills',
-        name: 'name'
+        inner: {
+          path: 'name'
+        }
       }], 'talking');
       expect(result.length).toBe(1);
     }));
@@ -249,7 +300,9 @@ describe('search filter', function () {
     it('should return two king users', inject(function () {
       var result = filter(users, [{
         path: 'skills',
-        name: 'name'
+        inner: {
+          path: 'name'
+        }
       }], 'king');
       expect(result.length).toBe(2);
     }));
