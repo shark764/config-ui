@@ -4,8 +4,8 @@ angular.module('liveopsConfigPanel')
   .directive('resourceDetails', ['UserName', 'toastr', function(UserName, toastr) {
     return {
       restrict: 'AE',
-      scope: {
-        resource: '=',
+      scope : {
+        originalResource: '=',
         headerTemplateUrl: '@',
         bodyTemplateUrl: '@',
         extendScope: '='
@@ -14,35 +14,43 @@ angular.module('liveopsConfigPanel')
 
       link: function ($scope) {
         angular.extend($scope, $scope.extendScope);
-        $scope.oResource = angular.copy($scope.resource);
 
         $scope.save = function () {
           $scope.loading = true;
-          $scope.resource.save($scope.oResource,
+          if($scope.preSave){
+            $scope.preSave($scope);
+          }
 
+          $scope.resource.save($scope.originalResource,
             function (result) {
               $scope.loading = false;
+              if($scope.postSave){
+                $scope.postSave($scope, result);
+              }
+
               $scope.resetForm();
-              $scope.resource = result;
-              $scope.oResource = angular.copy($scope.resource);
+              angular.copy($scope.resource, $scope.originalResource);
               toastr.success('Record ' + ($scope.resource.id ? 'updated' : 'saved'));
             },
 
-            function (error){
-              console.log(error);
-              $scope.loading = false;
-
+            function (error, headers){
               toastr.error('Record failed to ' + ($scope.resource.id ? 'update' : 'save'));
+              $scope.loading = false;
+              
+              if(error.data.error) {
 
-              console.log(error);
+                var attributes = error.data.error.attribute;
 
-              var attributes = error.data.error.attribute;
-
-              angular.forEach(attributes, function(value, key) {
-                $scope.detailsForm[key].$setValidity("api", false);
-                $scope.detailsForm[key].$error = {api : value};
-                $scope.detailsForm[key].$setTouched();
-              });
+                angular.forEach(attributes, function(value, key) {
+                  $scope.detailsForm[key].$setValidity("api", false);
+                  $scope.detailsForm[key].$error = {api : value};
+                  $scope.detailsForm[key].$setTouched();
+                });
+              }
+              
+              if ($scope.postError){
+                $scope.postError($scope, error, headers);
+              }
             }
           );
         };
@@ -64,12 +72,12 @@ angular.module('liveopsConfigPanel')
           }
         })
 
-        $scope.$watch('resource', function () {
-          $scope.oResource = angular.copy($scope.resource);
+        $scope.$watch('originalResource', function () {
+          $scope.resource = angular.copy($scope.originalResource);
         });
 
         $scope.cancel = function () {
-          angular.copy($scope.oResource, $scope.resource);
+          angular.copy($scope.originalResource, $scope.resource);
           $scope.resetForm();
         };
 

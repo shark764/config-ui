@@ -4,20 +4,20 @@
   </div>
   
   <div class="skill-info">
-    <h1>{{resource.name}} <b translate="value.numMembers" translate-value-number="{{resource.members ? resource.members.length : 0}}" ></b></h1>
+    <h1>{{originalResource.name}} <b translate="value.numMembers" translate-value-number="{{originalResource.members ? originalResource.members.length : 0}}" ></b></h1>
   
     <div class="details">
     
       <div>
         <b
           translate="value.createdby"
-          translate-value-date="{{resource.created | date:'medium'}}"
+          translate-value-date="{{originalResource.created | date:'medium'}}"
           translate-value-creator="{{creator.displayName}}">
         </b>
         <br/>
         <b
           translate="value.updatedby"
-          translate-value-date="{{resource.created | date:'medium'}}"
+          translate-value-date="{{originalResource.created | date:'medium'}}"
           translate-value-enabler="{{updater.displayName}}">
         </b>
       </div>

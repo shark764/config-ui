@@ -5,26 +5,19 @@ angular.module('liveopsConfigPanel')
     function ($scope, Session, Invite, InviteAccept, Tenant, AuthService, toastr) {
 
       $scope.fetchInvites = function(){
-        $scope.invites = Invite.query({tenantId : $scope.newInvite.tenantId});
+        $scope.invites = Invite.query({tenantId : Session.tenant.tenantId});
       };
 
       $scope.init = function(){
         $scope.newInvite = new Invite();
         $scope.newInvite.roleId = '10f15d80-0052-11e5-b68b-fb65b1fe22e1'; //TEMPORARY until roles are implemented
+        $scope.newInvite.tenantId = $scope.tenants[0].id;
       };
-
-      $scope.init();
 
       $scope.tenants = Tenant.query({regionId : Session.activeRegionId}, function () {
         if($scope.tenants.length > 0){
-          $scope.newInvite.tenantId = $scope.tenants[0].id;
           $scope.fetchInvites();
-        }
-      });
-
-      $scope.$watch('newInvite.tenantId', function () {
-        if($scope.newInvite.tenantId){
-          $scope.fetchInvites();
+          $scope.init();
         }
       });
 
@@ -56,21 +49,6 @@ angular.module('liveopsConfigPanel')
           $scope.fetchInvites();
         }, function () {
           toastr.error('Failed to resend invitation');
-        });
-      };
-
-      //TEMPORARY
-      $scope.accept = function(invite){
-        InviteAccept.get({tenantId: invite.tenantId, userId: invite.userId, token: invite.invitationToken}, function () {
-          toastr.success('Successfully accepted invitation');
-
-          $scope.fetchInvites();
-
-          if(invite.email === Session.user.email){
-            AuthService.refreshTenants();
-          }
-        }, function () {
-          toastr.error('Failed to accept invitation');
         });
       };
   }]);

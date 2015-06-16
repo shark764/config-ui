@@ -4,7 +4,7 @@
   items="flows"
   on-create-click="createFlow"
   selected="selectedFlow"
-  resource-name="flows"></table-controls>
+  resource-name="{{'tenants:' + Session.tenant.tenantId + ':flows'}}"></table-controls>
 
 <resize-handle
   id="resize-pane"
@@ -15,7 +15,7 @@
 
 <resource-details
   id="details-pane"
-  extend-scope="additional"
+  extend-scope="{versions: []}"
   header-template-url="app/components/designer/flows/flowDetailHeader.html"
   body-template-url="app/components/designer/flows/flowDetailBody.html"
-  resource="selectedFlow"></resource-details>
+  original-resource="selectedFlow"></resource-details>
