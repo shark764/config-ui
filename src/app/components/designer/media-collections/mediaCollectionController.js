@@ -21,7 +21,7 @@ angular.module('liveopsConfigPanel')
       $scope.fetch();
     });
 
-    $scope.$on('created:resource:tenants:' + Session.tenant.tenantId + ':mediaCollection', function(event, resource){
+    $scope.$on('created:resource:tenants:' + Session.tenant.tenantId + ':mediaCollections', function(event, resource){
       $scope.mediaColletions.push(resource);
       $scope.selectedMediaCollection = resource;
     });
