@@ -1,19 +1,28 @@
-<div ng-show="loginStatus.$$state.status == 0" id="login-form">
-  <span>Logging you in...</span>
-
-  <i class="fa fa-cog fa-spin"></i>
+<div id="login-page">
+  <div id="login-wrapper">
+    <div ng-show="loginStatus.$$state.status == 0" >
+      <loading></loading>
+    </div>
+      
+    <form id="login-form" name="login-form" ng-submit="login()" ng-show="loginStatus.$$state.status == 1">
+      <img ng-src="assets/images/liveops-logo.png" height="23" >
+      <div id="glass-wrapper">
+        <div class="blur-bg"></div>
+        <div class="blur-over">
+          <div class="error" ng-if="error">
+            {{error}}
+          </div>
+          <div class='input-group'>
+            <input type="text" placeholder="Email" ng-model="username" ng-required="true" />
+          </div>
+          <div class='input-group'>
+            <input type="password" placeholder="Password" ng-model="password" ng-required="true" />
+          </div>
+        </div>
+      </div>
+        <div class='input-group'>
+          <input class='btn btn-primary' type="submit" value="Login" />
+        </div>
+    </form>
+  </div>
 </div>
-<form id="login-form" name="login-form" ng-submit="login()" ng-show="loginStatus.$$state.status == 1">
-  <div class='input-group'>
-    <input type="text" placeholder="Email" ng-model="username" ng-required="true" />
-  </div>
-  <div class='input-group'>
-    <input type="password" placeholder="Password" ng-model="password" ng-required="true" />
-  </div>
-  <div class='input-group'>
-    <input class='login-btn' type="submit" value="Login" />
-  </div>
-  <div class="error">
-    {{error}}
-  </div>
-</form>
