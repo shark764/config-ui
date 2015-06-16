@@ -119,18 +119,3 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
       .useLocalStorage()
       .preferredLanguage('en');
   }]);
-
-angular.module('liveopsConfigPanel').run(function($rootScope) {
-  $rootScope.$on('$stateChangeError',
-  function(event, toState, toParams, fromState, fromParams, error){
-    console.log(event, toState, toParams, fromState, fromParams, error);
-  });
-  $rootScope.$on('$stateChangeStart',
-  function(event, toState, toParams, fromState, fromParams, error){
-    console.log(event, toState, toParams, fromState, fromParams, error);
-  });
-  $rootScope.$on('$stateNotFound',
-  function(event, toState, toParams, fromState, fromParams, error){
-    console.log(event, toState, toParams, fromState, fromParams, error);
-  });
-});
