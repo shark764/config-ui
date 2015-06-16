@@ -17,7 +17,6 @@ var Shared = function() {
   this.tenantsPageUrl = this.configurationUrl + 'tenants';
 
   this.flowsPageUrl = this.designerUrl + 'flows';
-  this.flowVersionsPageUrl = this.mainUrl + 'versions';
   this.queuesPageUrl = this.designerUrl + 'queues';
   this.mediaPageUrl = this.designerUrl + 'media';
 
@@ -43,6 +42,7 @@ var Shared = function() {
 
   // Table controls
   this.table = element(by.css('.table'));
+  this.tableElements = element.all(by.repeater('item in (filtered = (items | selectedTableOptions:config.fields | search:config.searchOn:searchQuery | orderBy:config.orderBy))'));
   this.createBtn = element(by.id('create-btn'));
   this.searchField = element(by.model('searchQuery'));
   this.actionBtn = element(by.buttonText('Actions'));
