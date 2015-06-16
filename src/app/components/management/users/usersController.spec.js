@@ -56,14 +56,11 @@ describe('users controller', function(){
     expect($scope.users.length).toEqual(users.length);
   }));
 
-  it('should have statuses and states objects', inject(function() {
+  it('should have statuses', inject(function() {
     expect($scope.statuses).toBeDefined();
     expect($scope.statuses).toEqual(jasmine.any(Object));
-
-    expect($scope.states).toBeDefined();
-    expect($scope.states).toEqual(jasmine.any(Object));
   }));
-  
+
   describe('updateDisplayName function', function(){
     beforeEach(function(){
       childScope = {
@@ -72,7 +69,7 @@ describe('users controller', function(){
             lastName: 'last',
             displayName : ''
           },
-          
+
           detailsForm: {
             displayName: {
               $untouched : true
@@ -80,18 +77,18 @@ describe('users controller', function(){
           }
       }
     });
-    
+
     it('should update the displayName with the first and last name if untouched', inject(function() {
       $scope.additional.updateDisplayName(childScope);
       expect(childScope.resource.displayName).toEqual('first last');
     }));
-    
+
     it('should do nothing if the displayName field is touched', inject(function() {
       childScope.detailsForm.displayName.$untouched = false;
       $scope.additional.updateDisplayName(childScope);
       expect(childScope.resource.displayName).toEqual('');
     }));
   });
-  
-  
+
+
 });

@@ -22,10 +22,7 @@ var USER = {
 var TOKEN = 'generated-token';
 
 describe('LoginController', function () {
-  beforeEach(module('liveopsConfigPanel', function ($provide) {
-    AuthServiceMock = {};
-    $provide.value('AuthService', AuthServiceMock);
-  }));
+  beforeEach(module('liveopsConfigPanel'));
   beforeEach(module('gulpAngular'));
 
   beforeEach(inject(['$q', '$timeout', '$rootScope', '$controller', '$state', '$httpBackend', 'apiHostname',
@@ -42,24 +39,22 @@ describe('LoginController', function () {
   ]));
 
   describe('LoginController login success', function () {
-    beforeEach(function () {
-      AuthServiceMock.login = function () {
-        return {
-          then: function (callback) {
-            return callback({
-              user: USER,
-              token: TOKEN
-            });
-          }
-        };
-      };
-    });
+
 
     it('should redirect me to root on success', function () {
       $scope.username = 'username';
       $scope.password = 'password';
 
-      $httpBackend.when('GET', apiHostname + '/v1/login').respond({'data' : true});
+      $httpBackend.when('POST', apiHostname + '/v1/login').respond(200,
+        {
+          result : {
+            user: {
+
+            },
+            tenants: []
+          }
+        }
+      );
 
       $scope.login();
       $httpBackend.flush();
@@ -70,24 +65,18 @@ describe('LoginController', function () {
   });
 
   describe('LoginController login fail', function () {
-    beforeEach(function () {
-      AuthServiceMock.login = function () {
-        return {
-          then: function () {
-          }
-        };
-      };
-    });
 
     it('should not redirect me on fail', function () {
 
+      $httpBackend.when('POST', apiHostname + '/v1/login').respond(401);
 
       $scope.username = 'username';
       $scope.password = 'password';
 
       $scope.login();
+      $httpBackend.flush();
 
-      expect($state.current.name).toBe('');
+      expect($state.current.name).toBe('login');
     });
   });
 });
