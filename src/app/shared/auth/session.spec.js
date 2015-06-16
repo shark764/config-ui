@@ -19,10 +19,10 @@ var USER = {
   'lastName': 'user'
 };
 
-var PREFERENCES = {
-  tenantId: 'c6aa44f6-b19e-49f5-bd3f-66f00b885e39',
-  lang: 'en'
-};
+// var PREFERENCES = {
+//   tenantId: 'c6aa44f6-b19e-49f5-bd3f-66f00b885e39',
+//   lang: 'en'
+// };
 
 var TOKEN = 'dGl0YW5AbGl2ZW9wcy5jb206Z0tWbmZGOXdyczZYUFNZcw==';
 
@@ -48,10 +48,10 @@ describe('Session', function() {
     expect(session.token).toBe(TOKEN);
     expect(session.displayName).toBe(USER.displayName);
     expect(session.isAuthenticated()).toBeTruthy(true);
-    
+
     var stringifiedSession = localStorage.getItem(session.userSessionKey);
     expect(stringifiedSession).toBeDefined();
-    
+
     var objectSession = JSON.parse(stringifiedSession);
     expect(objectSession).toEqual(SESSION_OBJECT);
   });

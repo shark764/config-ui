@@ -13,9 +13,9 @@ angular.module('liveopsConfigPanel')
           });
         }
       }
-      
+
       //Return nothing if not supplied with the id.
       return;
-    }
+    };
   }]);
 

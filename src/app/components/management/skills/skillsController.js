@@ -16,7 +16,7 @@ angular.module('liveopsConfigPanel')
 
       $scope.fetch = function(){
         $scope.skills = Skill.query( { tenantId: Session.tenant.tenantId } );
-      }
+      };
 
       $scope.createSkill = function() {
         $scope.selectedSkill = new Skill( {
@@ -25,7 +25,7 @@ angular.module('liveopsConfigPanel')
           hasProficiency: false
         } );
       };
-      
+
       $scope.fetch();
     }
   ]);

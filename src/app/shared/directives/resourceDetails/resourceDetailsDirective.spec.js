@@ -37,7 +37,7 @@ describe('details directive', function() {
 
     var ele = $compile('<resource-details resource="user"></resource-details>')($scope);
     $scope.$digest();
-    var isolateScope = ele.isolateScope();
+    ele.isolateScope();
 
     var body = ele.find('.detail-body-pane');
     var header = ele.find('.detail-header-pane');
@@ -51,7 +51,7 @@ describe('details directive', function() {
 
     var ele = $compile('<resource-details resource="user" header-template-url="app/components/management/users/userDetailHeader.html" body-template-url="app/components/management/users/userDetailBody.html"></resource-details>')($scope);
     $scope.$digest();
-    var isolateScope = ele.isolateScope();
+    ele.isolateScope();
 
     var body = ele.find('.detail-body-pane');
     var header = ele.find('.detail-header-pane');

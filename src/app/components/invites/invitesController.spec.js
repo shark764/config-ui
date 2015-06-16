@@ -15,7 +15,7 @@ describe('InvitesController', function() {
       Invite = _Invite_;
       invites = [new Invite({email: 'atestemail@test.com', tenantId: 1}), new Invite({email: 'foorbar@test.com', tenantId: 1})];
       session = {tenant: {id : 1}};
-      
+
       $httpBackend = $injector.get('$httpBackend');
       $httpBackend.when('GET', 'fakendpoint.com/v1/tenants/1/invites').respond({'result' : invites});
 
@@ -27,18 +27,18 @@ describe('InvitesController', function() {
         expect($scope.invites).toBeDefined();
         expect($scope.invites[0].email).toEqual(invites[0].email);
     });
-    
+
     it('should have a blank newInvite', function() {
       expect($scope.newInvite).toBeDefined();
       expect($scope.newInvite.email).toBeUndefined();
     });
-    
+
     it('should reload the invites when Session tenantId changes', function() {
       $httpBackend.when('GET', 'fakendpoint.com/v1/tenants/2/invites').respond({'result' : [new Invite({email: 'someotherinvite.email.com'})]});
-      Session.tenant.tenantId = 2;
+      session.tenant.tenantId = 2;
       $scope.$digest();
       $httpBackend.flush();
-      
+
       expect($scope.invites[0].email).toEqual('someotherinvite.email.com');
     });
 });

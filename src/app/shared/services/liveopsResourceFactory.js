@@ -26,7 +26,6 @@ angular.module('liveopsConfigPanel')
           setUpdatedBy = typeof setUpdatedBy !== 'undefined' ? setUpdatedBy : true;
           setCreatedBy = typeof setCreatedBy !== 'undefined' ? setCreatedBy : true;
           requestUrlFields = typeof requestUrlFields !== 'undefined' ? requestUrlFields : [ 'id', 'tenantId', 'regionId' ];
-          var self = this;
 
           var Resource = $resource(apiHostname + endpoint, {}, {
             query: {
@@ -56,11 +55,11 @@ angular.module('liveopsConfigPanel')
                   for (var i = 0; i < updateFields.length; i++) {
                     var fieldName = updateFields[i].name;
                     if(updateFields[i].optional && !data[fieldName]){
-                      newData[fieldName] = ''
+                      newData[fieldName] = '';
                     } else {
                       newData[fieldName] = data[fieldName];
                     }
-                    
+
                   }
                 }
 

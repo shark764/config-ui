@@ -104,7 +104,7 @@ describe('NavbarController', function() {
 
     $httpBackend.flush();
 
-    expect(Session.tenant.tenantId).toBe(tenants[0].id);
+    expect(session.tenant.tenantId).toBe(tenants[0].id);
   });
 
   it('should load the tenants for the active region', function() {
