@@ -1,13 +1,10 @@
 'use strict';
 
-/* global spyOn: false  */
-
 describe('TenantsController', function() {
     var $scope,
         $controller,
         $httpBackend,
         tenants,
-        region2tenants,
         routeParams,
         apiHostname,
         users,

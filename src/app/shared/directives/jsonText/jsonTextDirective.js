@@ -1,3 +1,5 @@
+'use strict';
+
 angular.module('liveopsConfigPanel')
   .directive('jsonText', function(){
     return {
@@ -32,5 +34,5 @@ angular.module('liveopsConfigPanel')
         ctrl.$parsers.push(into);
         ctrl.$formatters.push(out);
       }
-    }
+    };
   });

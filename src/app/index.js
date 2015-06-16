@@ -12,7 +12,8 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
       })
       .state('error', {
         templateUrl: 'app/components/error/error.html',
-        controller: 'ErrorController'
+        controller: 'ErrorController',
+        isPublic: true
       })
       .state('content.management', {
         abstract: true,

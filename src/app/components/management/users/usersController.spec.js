@@ -75,7 +75,7 @@ describe('users controller', function(){
               $untouched : true
             }
           }
-      }
+      };
     });
 
     it('should update the displayName with the first and last name if untouched', inject(function() {

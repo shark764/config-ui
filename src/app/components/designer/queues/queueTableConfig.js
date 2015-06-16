@@ -15,4 +15,4 @@ angular.module('liveopsConfigPanel')
         'title' : 'Queue Management'
       };
     }
-  )
+  );

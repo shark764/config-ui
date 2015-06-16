@@ -4,7 +4,6 @@ describe('NavbarController', function() {
   var $rootScope,
     $scope,
     $state,
-    $rootScope,
     $compile,
     $controller,
     $injector,
@@ -24,13 +23,12 @@ describe('NavbarController', function() {
   beforeEach(module('liveopsConfigPanel'));
   beforeEach(module('gulpAngular'));
 
-  beforeEach(inject(['$compile', '$rootScope' '$state', '$controller', '$injector', 'AuthService', 'Session', 'apiHostname', 'Tenant',
-    function(_$compile_, _$rootScope_, _$state, _$controller_, _$injector_, _authService_, _session_, _apiHostname_, Tenant) {
+  beforeEach(inject(['$compile', '$rootScope', '$state', '$controller', '$injector', 'AuthService', 'Session', 'apiHostname', 'Tenant',
+    function(_$compile_, _$rootScope_, _$state_, _$controller_, _$injector_, _authService_, _session_, _apiHostname_, Tenant) {
       $rootScope = _$rootScope_;
       $scope = _$rootScope_.$new();
-      $rootScope = _$rootScope_;
       $compile = _$compile_;
-      $state = _$state;
+      $state = _$state_;
       $controller = _$controller_;
       $injector = _$injector_;
       $httpBackend = $injector.get('$httpBackend');
@@ -60,9 +58,13 @@ describe('NavbarController', function() {
         'result': regions
       });
     }
-  ]));
+  ]
+)
+);
 
   it('should have a method to check if the path is active', function() {
+    session.tenants = [];
+
     createController();
 
     $state.transitionTo('content.management.users');
@@ -73,6 +75,8 @@ describe('NavbarController', function() {
   });
 
   it('should have a method to log the user out and redirect them to the login page', function() {
+    session.tenants = [];
+
     createController();
 
     $state.transitionTo('content.management.users');
@@ -85,14 +89,23 @@ describe('NavbarController', function() {
   });
 
   it('should select the first tenant retrieved as the active tenant if no tenant is set in the session', function() {
-    expect(session.tenant.id).toBe('');
+    expect(session.tenant.tenantId).toBe('');
+
+    session.tenants = [
+      {
+        tenantId: 1,
+        name: 'test'
+      },
+      {
+        tenantId: 2,
+        name: 'test2'
+      }
+    ];
 
     createController();
 
-    session.tenants = [{tenantId: 1}, {tenantId: 2}];
+    $scope.$apply();
 
-    $scope.populateTenantsHandler();
-
-    expect(session.tenant.tenantId).toBe(tenants[0].id);
+    expect(session.tenant.tenantId).toBe(1);
   });
 });
