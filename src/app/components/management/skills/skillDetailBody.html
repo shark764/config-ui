@@ -7,24 +7,23 @@
 <div class="input-group">
   <label>{{'value.name' | translate}}</label>
   <div>
-    <div class="error" ng-show="detailsForm.name.$touched && detailsForm.name.$invalid">{{'skill.details.name.error' | translate}}</div>
+    <form-error field="detailsForm.name" error-type-api="{{'skill.details.name.error' | translate}}" error-type-required="{{'skill.details.name.error' | translate}}"></form-error>
     <input ng-model="resource.name" name="name" type="text"></input>
   </div>
-  
+
 </div>
 
 <div class="input-group">
-  <label>{{'value.description' | translate}}</label>
+  <label class="textarea-label">{{'value.description' | translate}}</label>
   <div>
-    <div class="error" ng-show="detailsForm.description.$touched && detailsForm.description.$invalid">{{'skill.details.description.error' | translate}}</div>
-    <textarea rows=3 cols=30 ng-model="resource.description" name="description" type="text"></textarea>
+    <textarea ng-model="resource.description" name="description"></textarea>
   </div>
-</div> 
+</div>
 
 <div class="input-group">
   <label>{{'skill.details.hasProficiency' | translate}}</label>
   <div>
     <div class="error" ng-show="detailsForm.hasProficiency.$touched && detailsForm.hasProficiency.$invalid">{{'skill.details.hasProficiency.error' | translate}}</div>
-    <input ng-model="resource.hasProficiency" name="hasProficiency" type="checkbox"></input>
+    <input ng-disabled="resource.id" ng-model="resource.hasProficiency" name="hasProficiency" type="checkbox"></input>
   </div>
 </div>

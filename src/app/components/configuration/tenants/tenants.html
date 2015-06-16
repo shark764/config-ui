@@ -11,13 +11,12 @@
   right-element-id="details-pane"
   left-element-id="table-pane"
   left-min-width="830"
-  right-min-width="400"
-  ng-hide="!selectedTenant"></resize-handle>
+  right-min-width="400"></resize-handle>
 
 <resource-details
   id="details-pane"
   extend-scope="additional"
   header-template-url="app/components/configuration/tenants/tenantDetailHeader.html"
   body-template-url="app/components/configuration/tenants/tenantDetailBody.html"
-  resource="selectedTenant"
-  ng-hide="!selectedTenant"></resource-details>
+  original-resource="selectedTenant">
+</resource-details>

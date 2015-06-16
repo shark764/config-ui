@@ -8,6 +8,7 @@ angular.module('liveopsConfigPanel')
       'description',
       'status',
       'adminUserId'
-    ]);
+    ],
+    [ 'id' ]);
   }]);
 

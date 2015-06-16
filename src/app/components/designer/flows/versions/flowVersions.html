@@ -1,4 +1,3 @@
-
 <table>
   <thead>
     <th>{{value.name | translate}}</th>
@@ -10,16 +9,15 @@
     <td>{{version.name}}</td>
     <td>{{version.description}}</td>
     <td>{{version.created | date:'medium'}}</td>
-    <td><a href="#/designer/flows/{{version.flowId}}/versions/{{version.version}}">{{'value.openInDesigner' | translate}}</a></td>
+    <td><a href="#/designer/flows/editor/{{version.flowId}}/{{version.version}}">{{'value.openInDesigner' | translate}}</a></td>
   </tr>
 </table>
-
 
 <h3>Create Flow Version (Dev only)</h3>
 
 <ng-form name="create-version-form">
   <div>Name:
-        <input type="text" ng-model="version.name" name="name"></input>
+    <input type="text" ng-model="version.name" name="name"></input>
   </div>
 
   <div>Description:

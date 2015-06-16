@@ -19,6 +19,5 @@ angular.module('liveopsConfigPanel')
         });
       };
 
-
       $scope.tableConfig = tenantTableConfig;
   }]);

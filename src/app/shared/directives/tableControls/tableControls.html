@@ -3,6 +3,7 @@
     margin: 0;
     padding: 0;
     overflow: auto;">
+
   <div class="table-controls top-row">
     <div class="col">
       <h2 ng-if="config.title">{{config.title}}</h2>
@@ -33,12 +34,10 @@
   </div>
 
   <div class="table-message">
-    <div ng-show="!items.$resolved">
-      <i class="fa fa-spinner fa-spin"></i>
-      <span>Loading...</span>
-    </div>
+    <loading ng-if="!items.$resolved"></loading>
+
     <div ng-show="items.$resolved && !items.length">
-      No results were found.
+     No results were found.
     </div>
   </div>
 

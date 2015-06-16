@@ -35,10 +35,14 @@
   "details.password.error": "Please enter a password",
   "details.externalId": "External ID",
   "details.role": "Role",
+  "details.role.placeholder": "Select Role",
+  "details.role.error": "Please select a role",
 
   "skill.details.hasProficiency": "Has Proficiency",
 
   "media.details.source.error": "Please enter a source",
+  "media.details.type.error": "Please enter a type",
+  "media.details.properties.error": "Please enter properties as JSON",
 
   "tenant.details.title": "Tenants",
   "tenant.details.name": "Tenant Name",

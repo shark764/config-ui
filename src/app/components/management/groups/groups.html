@@ -9,7 +9,6 @@
 
 <resize-handle
     id="resize-pane"
-    ng-hide="!selectedGroup"
     right-element-id="details-pane"
     left-element-id="table-pane"
     left-min-width="600"
@@ -17,8 +16,7 @@
 
 <resource-details
     id="details-pane"
-    ng-hide="!selectedGroup"
     extend-scope="additional"
     header-template-url="app/components/management/groups/groupDetailHeader.html"
     body-template-url="app/components/management/groups/groupDetailBody.html"
-    resource="selectedGroup"></resource-details>
+    original-resource="selectedGroup"></resource-details>

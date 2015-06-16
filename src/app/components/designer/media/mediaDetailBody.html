@@ -1,21 +1,22 @@
 <div class="input-group">
   <label>{{'value.source' | translate}}</label>
   <div>
-    <div class="error" ng-show="detailsForm.source.$touched && detailsForm.source.$invalid">{{'media.details.source.error' | translate}}</div>
-    <input type="text" ng-required="true" ng-model="resource.source" name="source"></input>
+    <form-error field="detailsForm.source" error-type-api="true" error-type-required="media.details.source.error"></form-error>
+    <input type="text" ng-required="true" ng-model="resource.source" name="source" required></input>
   </div>
 </div>
 <div class="input-group">
   <label>{{'value.type' | translate}}</label>
   <div>
-    <div class="error" ng-show="detailsForm.type.$touched && detailsForm.type.$invalid">{{'media.details.type.error' | translate}}</div>
-    <input type="text" ng-required="true" ng-model="resource.type" name="type"></input>
+    <form-error field="detailsForm.type" error-type-api="true" error-type-required="media.details.type.error"></form-error>
+    <input type="text" ng-disabled="resource.id" ng-required="!resource.id" ng-model="resource.type" name="type" required></input>
   </div>
 </div>
 
 <div class="input-group">
   <label class="textarea-label">{{'value.properties' | translate}}</label>
   <div>
-    <textarea json-text ng-model="resource.properties"></textarea>
+    <form-error field="detailsForm.properties" error-type-api="true" error-type-required="media.details.properties.error" error-type-json="media.details.properties.error"></form-error>
+    <textarea ng-required="true" json-text ng-model="resource.properties" name="properties" api-error></textarea>
   </div>
 </div>

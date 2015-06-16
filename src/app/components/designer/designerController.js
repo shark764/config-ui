@@ -22,5 +22,3 @@ angular.module('liveopsConfigPanel')
     };
     }
   ]);
-
-

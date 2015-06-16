@@ -21,19 +21,19 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
         controller: 'ManagementController'
       })
       .state('content.management.users', {
-        url: '/users',
+        url: '/users?id',
         templateUrl: 'app/components/management/users/users.html',
         controller: 'UsersController',
         reloadOnSearch: false
       })
       .state('content.management.skills', {
-        url: '/skills',
+        url: '/skills?id',
         templateUrl: 'app/components/management/skills/skills.html',
         controller: 'SkillsController',
         reloadOnSearch: false
       })
       .state('content.management.groups', {
-        url: '/groups',
+        url: '/groups?id',
         templateUrl: 'app/components/management/groups/groups.html',
         controller: 'GroupsController',
         reloadOnSearch: false
@@ -45,7 +45,7 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
         controller: 'ConfigurationController'
       })
       .state('content.configuration.tenants', {
-        url: '/tenants',
+        url: '/tenants?id',
         templateUrl: 'app/components/configuration/tenants/tenants.html',
         controller: 'TenantsController',
         reloadOnSearch: false
@@ -63,21 +63,27 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
         reloadOnSearch: false
       })
       .state('content.designer.queues', {
-        url: '/queues',
+        url: '/queues?id',
         templateUrl: 'app/components/designer/queues/queues.html',
-        controller: 'QueueController'
+        controller: 'QueueController',
+        reloadOnSearch: false
       })
-
       .state('content.designer.media', {
-        url: '/media',
+        url: '/media?id',
         templateUrl: 'app/components/designer/media/media.html',
         controller: 'MediaController',
         reloadOnSearch: false
       })
       .state('content.designer.versions', {
-        url: '/versions',
+        url: '/versions/:versionId',
         templateUrl: 'app/components/designer/flows/versions/versions.html',
         controller: 'VersionsController',
+        reloadOnSearch: false
+      })
+      .state('content.designer.flows.editor', {
+        url: '/editor/:flowId/:versionId',
+        templateUrl: 'app/components/designer/designer/designerPage.html',
+        controller: 'DesignerPageController',
         reloadOnSearch: false
       })
       .state('login', {
@@ -93,7 +99,7 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
         secure: true
       })
       .state('content.invites', {
-        url: '/invites',
+        url: '/invites?id',
         templateUrl: 'app/components/invites/invites.html',
         controller: 'InvitesController',
         secure: true
@@ -103,7 +109,7 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
       closeButton: true,
       timeout: 10000,
       maxOpened: 1,
-      positionClass: 'toast-top-center',
+      positionClass: 'toast-top-right',
       preventOpenDuplicates: true,
       newestOnTop: true,
     });
@@ -112,5 +118,19 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
       .useSanitizeValueStrategy('escaped')
       .useLocalStorage()
       .preferredLanguage('en');
-
   }]);
+
+angular.module('liveopsConfigPanel').run(function($rootScope) {
+  $rootScope.$on('$stateChangeError',
+  function(event, toState, toParams, fromState, fromParams, error){
+    console.log(event, toState, toParams, fromState, fromParams, error);
+  });
+  $rootScope.$on('$stateChangeStart',
+  function(event, toState, toParams, fromState, fromParams, error){
+    console.log(event, toState, toParams, fromState, fromParams, error);
+  });
+  $rootScope.$on('$stateNotFound',
+  function(event, toState, toParams, fromState, fromParams, error){
+    console.log(event, toState, toParams, fromState, fromParams, error);
+  });
+});
