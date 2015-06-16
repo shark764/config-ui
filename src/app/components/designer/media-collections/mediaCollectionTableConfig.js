@@ -1,14 +1,14 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('mediaTableConfig', function () {
+  .service('mediaCollectionTableConfig', function () {
       return {
         'fields': [{
           'header': 'Name',
-          'name': 'source'
+          'name': 'name'
         }, {
           'header': 'Description',
-          'name': 'type'
+          'name': 'description'
         }, {
           'header': 'Media Map',
           'name': 'properties'

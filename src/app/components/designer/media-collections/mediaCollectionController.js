@@ -1,31 +1,31 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('MediaCollectionController', ['$scope', 'Media', 'Session', 'mediaTableConfig',
-  function ($scope, Media, Session, mediaTableConfig) {
+  .controller('MediaCollectionController', ['$scope', 'MediaCollection', 'Session', 'mediaCollectionTableConfig',
+  function ($scope, MediaCollection, Session, mediaCollectionTableConfig) {
     $scope.Session = Session;
 
     $scope.redirectToInvites();
 
     $scope.fetch = function(){
-      $scope.medias = Media.query({tenantId : Session.tenant.id});
+      $scope.mediaCollections = MediaCollection.query({tenantId : Session.tenant.tenantId});
     }
 
-    $scope.createMedia = function(){
-      $scope.selectedMedia = new Media({
+    $scope.createMediaCollection = function(){
+      $scope.selectedMediaCollection = new MediaCollection({
         tenantId: Session.tenant.id
       });
     }
 
-    $scope.$watch('Session.tenant.id', function () {
+    $scope.$watch('Session.tenant.tenantId', function () {
       $scope.fetch();
     });
 
-    $scope.$on('created:resource:tenants:' + Session.tenant.id + ':media', function(event, resource){
-      $scope.medias.push(resource);
-      $scope.selectedMedia = resource;
+    $scope.$on('created:resource:tenants:' + Session.tenant.tenantId + ':mediaCollection', function(event, resource){
+      $scope.mediaColletions.push(resource);
+      $scope.selectedMediaCollection = resource;
     });
 
     $scope.fetch();
-    $scope.tableConfig = mediaTableConfig;
+    $scope.tableConfig = mediaCollectionTableConfig;
   }]);
