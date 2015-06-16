@@ -39,6 +39,7 @@
   "details.role.error": "Please select a role",
 
   "skill.details.hasProficiency": "Has Proficiency",
+  "skill.details.name.error": "Please enter a name",
 
   "media.details.source.error": "Please enter a source",
   "media.details.type.error": "Please enter a type",
