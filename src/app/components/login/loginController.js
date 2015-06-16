@@ -10,7 +10,7 @@ angular.module('liveopsConfigPanel')
           .then(function (response) {
             if(response.data) {
 
-              if(response.data.error && response.data.error.code === 401) {
+              if(response.data.error && response.data.error.code === '401') {
                 $scope.error = 'Invalid username and password';
                 return;
               }

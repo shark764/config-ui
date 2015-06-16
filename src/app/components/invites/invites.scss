@@ -1,0 +1,25 @@
+.invites {
+  table{
+    border: 1px solid $light-grey;
+    border-spacing: 0;
+    @include border-radius();
+    padding: 10px;
+  }
+
+  th {
+    padding-bottom: 10px;
+    border-bottom: 1px solid $light-grey;
+  }
+
+  td {
+    padding: 5px 10px;
+  }
+
+}
+
+.new-invite-form {
+  padding: 10px;
+  width: 500px;
+  @include border-radius(5px);
+  border: 1px solid $light-grey;
+}

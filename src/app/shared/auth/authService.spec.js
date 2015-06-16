@@ -38,7 +38,7 @@ var LOGIN_RESPONSE = {
     user: USER,
     tenants: TENANTS
   }
-}
+};
 
 describe('AuthService', function () {
   var $scope, $location, $httpBackend, AuthService, Session, apiHostname;

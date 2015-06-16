@@ -60,12 +60,12 @@ describe('QueueController', function() {
         expect($scope.queues[1].id).toEqual(queues[1].id);
     });
 
-    xit('should load the queue that\'s defined routeParam on init', function() {
+    it('should load the queue that\'s defined routeParam on init', function() {
       expect($scope.queue).toBeDefined();
       expect($scope.queue.id).toEqual(queues[0].id);
     });
 
-    xit('should catch when routeParam changes', function() {
+    it('should catch when routeParam changes', function() {
       spyOn($scope, 'setQueue').and.callThrough();
       routeParams.id = 'q2';
       $scope.$broadcast('$routeUpdate');

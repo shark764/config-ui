@@ -15,9 +15,6 @@ angular.module('liveopsConfigPanel')
           'header': 'Email',
           'name': 'email'
         }, {
-          'header': 'Telephone',
-          'name': 'telephone'
-        }, {
           'header': 'ID',
           'name': 'externalId'
         }, {

@@ -23,22 +23,21 @@
     "Backbone": false,
     "_": false,
     "$": false,
-    "g": false,
-    "KeyboardJS": false,
-    "MouseWheelJS": false,
     "console": false,
     "angular": false,
     // Angular Mocks
     "inject": false,
     "module": false,
     // JASMINE
-    "spyOn": false,
-    "describe": false,
+    "KeyboardJS": false,
+    "MouseWheelJS": false,
     "it": false,
     "before": false,
     "beforeEach": false,
     "after": false,
     "afterEach": false,
-    "expect": false
+    "g": false,
+    "expect": false,
+    "describe": false
   }
 }

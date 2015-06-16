@@ -21,12 +21,6 @@ var USER = {
 
 var TOKEN = 'dGl0YW5AbGl2ZW9wcy5jb206Z0tWbmZGOXdyczZYUFNZcw==';
 
-var SESSION_OBJECT = {
-  token: TOKEN,
-  displayName: USER.displayName,
-  id: USER.id
-};
-
 describe('Session', function() {
   var $scope, session;
 

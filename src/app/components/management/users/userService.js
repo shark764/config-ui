@@ -6,7 +6,7 @@ angular.module('liveopsConfigPanel')
     return LiveopsResourceFactory.create('/v1/users/:id', true, true, [
       {name: 'firstName'},
       {name: 'lastName'},
-      {name: 'role'},
+      {name: 'role', optional: true},
       {name: 'displayName'},
       {name: 'status'},
       {name: 'password'},

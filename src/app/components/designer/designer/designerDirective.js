@@ -1,15 +1,17 @@
 (function() {
-  'use strict';
+'use strict';
 
-  function flowDesigner() {
-    return {
-      scope: {},
-      restrict: 'E',
-      templateUrl: 'app/components/designer/designer/flowDesigner.html',
-      replace: true,
-      link: function() {},
-      controller: function($scope, $element, $attrs, $window, JointInitService, FlowConversionService, FlowNotationService, FlowPaletteService, mocks) {
-        var demoFlow = mocks.demoFlow;
+function flowDesigner() {
+  return {
+    scope: {},
+    restrict: 'E',
+    templateUrl: 'app/components/designer/designer/designerDirective.html',
+    replace: true,
+    link: function() {},
+    controller: function($scope, $element, $attrs, $window, $timeout, JointInitService, FlowConversionService, FlowNotationService, FlowPaletteService, flowMocks) {
+      
+      $timeout(function(){
+        var demoFlow = flowMocks.demoFlow;
         var inspectorContainer = $($element).find('#inspector-container');
         var flow = JointInitService.graph();
         var flowCommandManager = JointInitService.commandManager(flow);
@@ -225,9 +227,11 @@
 
         flow.fromJSON(FlowConversionService.convertToJoint(demoFlow));
         console.log(FlowConversionService.convertToAlienese(flow.toJSON()));
-      }
-    };
-  }
 
-  angular.module('liveopsConfigPanel').directive('flowDesigner', flowDesigner);
+      }, 1000); 
+    }
+  };
+}
+
+angular.module('liveopsConfigPanel').directive('flowDesigner', flowDesigner);
 })();

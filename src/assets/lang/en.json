@@ -12,7 +12,10 @@
   "value.properties": "Properties",
   "value.type": "Type",
   "value.createdOn" : "Created On",
-
+  "value.designerLink": "Designer Link",
+  "value.openInDesigner": "Open in designer",
+  "value.details.version" : "Active Version",
+  "value.error.name.required" : "Field \"Name\" is required.",
 
   "navbar.users.title": "User Management",
   "navbar.tenants.title": "Tenants",
@@ -46,7 +49,5 @@
   "tenant.details.name": "Tenant Name",
   "tenant.details.admin": "Platform Admin",
   "tenant.details.description": "Description",
-  "tenant.details.region": "Region",
-
-  "flow.details.version" : "Active Version"
+  "tenant.details.region": "Region"
 }

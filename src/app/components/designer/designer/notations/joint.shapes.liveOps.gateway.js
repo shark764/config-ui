@@ -1,6 +1,7 @@
 (function() {
   'use strict';
 
+  joint.shapes.liveOps = joint.shapes.liveOps || {};
   joint.shapes.liveOps.gateway = joint.dia.Element.extend({
     markup: ['<g class="rotatable">',
              '<g class="scalable">',
