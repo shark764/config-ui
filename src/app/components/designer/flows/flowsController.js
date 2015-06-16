@@ -1,15 +1,15 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('FlowsController', ['$scope', '$state', 'Session', 'Flow',
-    function ($scope, $state, Session, Flow) {
+  .controller('FlowsController', ['$scope', '$state', 'Session', 'Flow', 'flowTableConfig',
+    function ($scope, $state, Session, Flow, flowTableConfig) {
 
       $scope.redirectToInvites();
 
       $scope.fetch = function () {
         $scope.flows = Flow.query({
           tenantId: Session.tenant.tenantId
-        }); 
+        });
       };
 
       $scope.createFlow = function () {
@@ -23,5 +23,6 @@ angular.module('liveopsConfigPanel')
       });
 
       $scope.fetch();
+      $scope.tableConfig = flowTableConfig;
     }
   ]);
