@@ -37,6 +37,7 @@
     "after": false,
     "afterEach": false,
     "g": false,
-    "expect": false
+    "expect": false,
+    "describe": false
   }
 }

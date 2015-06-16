@@ -68,7 +68,6 @@
       }
     }, joint.shapes.basic.TextBlock.prototype.defaults),
     initialize: function() {
-      var self = this;
       joint.shapes.basic.TextBlock.prototype.initialize.apply(this, arguments);
 
       this.listenTo(this, 'change:subProcess', this.onSubProcessChange);
@@ -76,7 +75,7 @@
       this.listenTo(this, 'change:activityType', this.onActivityTypeChange);
       this.onActivityTypeChange(this, this.get('activityType'));
       this.listenTo(this, 'change:embeds', this.onEmbedsChange);
-      this.onEmbedsChange(this, this.get('embeds'))
+      this.onEmbedsChange(this, this.get('embeds'));
 
     },
 
@@ -87,14 +86,14 @@
         var box = cell.getBBox();
         joint.util.nextFrame(function() {
           _.forEach(cell.getEmbeddedCells(), function(child) {
-            if (!child) return;
+            if (!child) { return; }
             child.set('position',
             {
               x: (box.x + box.width) - 15,
               y: (box.y + box.height) - 15
             });
-          })
-        })
+          });
+        });
 
       }
     },
@@ -156,7 +155,7 @@
           break;
 
         default:
-          throw "BPMN: Unknown Activity Type: " + type;
+          throw 'BPMN: Unknown Activity Type: ' + type;
       }
     },
     onSubProcessChange: function(cell, subProcess) {

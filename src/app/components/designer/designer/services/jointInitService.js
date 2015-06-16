@@ -32,7 +32,7 @@
             return (parentView.model instanceof Pool) && !(childView.model instanceof Pool);
           },
           validateConnection: function(cellViewS, magnetS, cellViewT, magnetT, end) {
-            if (cellViewS == cellViewT) { return false; }
+            if (cellViewS === cellViewT) { return false; }
             var view = end === 'target' ? cellViewT : cellViewS;
             if (view instanceof joint.dia.LinkView) { return false; }
             return true;
@@ -63,15 +63,15 @@
           },
           groups: {
             activity: {
-              label: "Activities",
+              label: 'Activities',
               index: 1
             },
             events: {
-              label: "Events",
+              label: 'Events',
               index: 2
             },
             gateways: {
-              label: "Gateways",
+              label: 'Gateways',
               index: 3
             },
           }

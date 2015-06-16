@@ -24,4 +24,4 @@ angular.module('liveopsConfigPanel')
         'title' : 'Groups Management'
       };
     }
-  ])
+  ]);

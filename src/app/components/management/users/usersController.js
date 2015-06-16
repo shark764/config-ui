@@ -10,9 +10,9 @@ angular.module('liveopsConfigPanel')
       var newPassword;
       var preSave = function(scope) {
         if(scope.resource.password){
-          newPassword = scope.resource.password
+          newPassword = scope.resource.password;
         }
-      }
+      };
 
       var postSave = function(scope, result){
         if(result.id === Session.user.id && newPassword) {

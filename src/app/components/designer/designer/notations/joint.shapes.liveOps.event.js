@@ -26,8 +26,8 @@
         image: {
           width:  40, height: 40, 'xlink:href': '', transform: 'translate(10,10)'
         },
-        "image polygon": {
-          fill: "#ff00ff"
+        'image polygon': {
+          fill: '#ff00ff'
         },
         '.label': {
           text: '',
