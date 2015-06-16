@@ -1,12 +1,5 @@
 'use strict';
 
-var USER = {
-  displayName: 'titan',
-  id: 'id'
-};
-
-var TOKEN = 'token';
-
 describe('NavbarController', function() {
   var $rootScope,
     $scope,
@@ -31,8 +24,8 @@ describe('NavbarController', function() {
   beforeEach(module('liveopsConfigPanel'));
   beforeEach(module('gulpAngular'));
 
-  beforeEach(inject(['$compile', '$rootScope', '$state', '$controller', '$injector', 'AuthService', 'Session', 'apiHostname', 'Tenant', '$q',
-    function(_$compile_, _$rootScope_, _$state, _$controller_, _$injector_, _authService_, _session_, _apiHostname_, Tenant, $q) {
+  beforeEach(inject(['$compile', '$rootScope' '$state', '$controller', '$injector', 'AuthService', 'Session', 'apiHostname', 'Tenant',
+    function(_$compile_, _$rootScope_, _$state, _$controller_, _$injector_, _authService_, _session_, _apiHostname_, Tenant) {
       $rootScope = _$rootScope_;
       $scope = _$rootScope_.$new();
       $rootScope = _$rootScope_;

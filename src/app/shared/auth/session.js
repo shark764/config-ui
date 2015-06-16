@@ -34,7 +34,7 @@ angular.module('liveopsConfigPanel')
           id: user.id,
           displayName: user.displayName,
           email: user.email
-        }
+        };
 
         this.setTenants(tenants);
 

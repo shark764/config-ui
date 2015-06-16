@@ -1,25 +1,6 @@
 'use strict';
 
-var $scope, $state, $httpBackend, AuthServiceMock, apiHostname;
-
-var USER = {
-  'role': 'admin',
-  'email': 'titan@liveops.com',
-  'createdBy': '00000000-0000-0000-0000-000000000000',
-  'displayName': 'titan',
-  'updated': '2015-06-02T08:29:03Z',
-  'firstName': 'titan',
-  'created': '2015-06-02T08:29:03Z',
-  'state': null,
-  'extension': null,
-  'externalId': null,
-  'updatedBy': '00000000-0000-0000-0000-000000000000',
-  'status': true,
-  'id': '6d094710-0901-11e5-87f2-b1d420920055',
-  'lastName': 'user'
-};
-
-var TOKEN = 'generated-token';
+var $scope, $state, $httpBackend, apiHostname;
 
 describe('LoginController', function () {
   beforeEach(module('liveopsConfigPanel'));

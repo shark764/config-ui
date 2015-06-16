@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('TenantsController', ['$scope', '$stateParams', '$filter', 'Session', 'Tenant', 'User',
+  .controller('TenantsController', ['$scope', '$stateParams', '$filter', 'Session', 'Tenant', 'User', 'tenantTableConfig',
     function ($scope, $stateParams, $filter, Session, Tenant, User, tenantTableConfig) {
 
       $scope.tenants = Tenant.query( { regionId : Session.activeRegionId } );
@@ -17,4 +17,6 @@ angular.module('liveopsConfigPanel')
           regionId: Session.activeRegionId
         });
       };
+
+      $scope.tableConfig = tenantTableConfig;
   }]);

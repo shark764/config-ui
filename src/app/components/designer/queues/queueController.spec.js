@@ -9,15 +9,17 @@ describe('QueueController', function() {
         queues,
         Queue,
         regions,
+        Session,
         routeParams;
 
     beforeEach(module('liveopsConfigPanel'));
     beforeEach(module('gulpAngular'));
-    beforeEach(inject(['$rootScope', '$controller', '$injector', 'Queue', 'apiHostname',
-      function($rootScope, _$controller_, $injector, _Queue_, apiHostname) {
+    beforeEach(inject(['$rootScope', '$controller', '$injector', 'Queue', 'apiHostname', 'Session',
+      function($rootScope, _$controller_, $injector, _Queue_, apiHostname, _Session_) {
       $scope = $rootScope.$new();
       $controller = _$controller_;
       Queue = _Queue_;
+      Session = _Session_;
 
       regions = [{
         id : 1
@@ -36,6 +38,8 @@ describe('QueueController', function() {
         })
       ];
 
+      Session.tenant = { tenantId : 1 };
+
       routeParams = {id : 'q1'};
 
       $httpBackend = $injector.get('$httpBackend');
@@ -46,7 +50,7 @@ describe('QueueController', function() {
 
 
       $controller('ContentController', {'$scope': $scope});
-      $controller('QueueController', {'$scope': $scope, 'Session' : {tenant : {tenantId : 1}}, '$stateParams' : routeParams});
+      $controller('QueueController', {'$scope': $scope, '$stateParams' : routeParams});
       $httpBackend.flush();
     }]));
 
