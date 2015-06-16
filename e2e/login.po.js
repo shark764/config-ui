@@ -6,8 +6,8 @@ var Login = function() {
   this.passwordLoginField = element(by.model('password'));
   this.loginButton = element(by.css('.login-btn'));
 
-  this.emailLoginCreds = 'Sasha.wilcox@bluespurs.com';
-  this.passwordLoginCreds = 'password';
+  this.emailLoginCreds = 'titan@liveops.com';
+  this.passwordLoginCreds = 'gKVnfF9wrs6XPSYs';
 
   this.login = function(email, password) {
     // Ensure user is logged out before trying to login
