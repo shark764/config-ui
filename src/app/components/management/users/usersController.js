@@ -56,6 +56,17 @@ angular.module('liveopsConfigPanel')
       };
 
       $scope.users = User.query();
+      
+      $scope.users.$promise.then(function() {
+        angular.forEach($scope.users, function(user) {
+          user.skills = [{
+            name: 'Walking'
+          }, {
+            name: 'Talking'
+          }]
+        });
+      }); 
+      
       $scope.tableConfig = userTableConfig;
     }
   ]);
