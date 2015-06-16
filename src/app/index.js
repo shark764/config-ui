@@ -68,7 +68,6 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
         controller: 'QueueController',
         reloadOnSearch: false
       })
-
       .state('content.designer.media', {
         url: '/media?id',
         templateUrl: 'app/components/designer/media/media.html',
@@ -79,6 +78,12 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
         url: '/versions?id',
         templateUrl: 'app/components/designer/flows/versions/versions.html',
         controller: 'VersionsController',
+        reloadOnSearch: false
+      })
+      .state('content.designer.flows.editor', {
+        url: '/editor/:flowId/:versionId',
+        templateUrl: 'app/components/designer/designer/designerPage.html',
+        controller: 'DesignerPageController',
         reloadOnSearch: false
       })
       .state('login', {
@@ -113,5 +118,4 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
       .useSanitizeValueStrategy('escaped')
       .useLocalStorage()
       .preferredLanguage('en');
-
   }]);

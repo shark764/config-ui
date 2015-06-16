@@ -2,10 +2,9 @@
   <div class="pull-left">
     <toggle class="status-toggle" ng-model="originalResource.status"></toggle>
   </div>
-  
+
   <div class="info pull-left">
     <h1>{{originalResource.name}}</h1>
-  
     <div class="details">
       <div>
         <b translate="value.createdby" translate-value-date="{{originalResource.created | date:'medium'}}" translate-value-creator="{{creator.displayName}}"></b>
