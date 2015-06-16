@@ -1,3 +1,9 @@
+$action-container-height: 167px;
+
+#controls-wrapper {
+  height: $action-container-height;
+}
+
 .table-controls {
   width: 100%;
 
@@ -71,12 +77,28 @@
   }
 }
 
+.table-wrapper {
+  position: relative;
+  width: 100%;
+  height: calc(100% - #{$action-container-height});
+  overflow: auto;
+  
+  thead {
+    visibility: hidden;
+    height: 0;
+    
+    th {
+      line-height: 0;
+      padding: 0;
+    }
+  }
+}
+
 .table {
   border-collapse: collapse;
-  margin-top: 15px;
   width: 100%;
   table-layout: fixed;
-
+  
   th, td {
     padding: 8px;
   }
@@ -85,7 +107,6 @@
     font-weight: bold;
     text-align: left;
     border-right: 1px solid #dadada;
-
   }
 
   th.filter-header {
