@@ -13,7 +13,7 @@
     <p ng-show="invites.$resolved && ! invites.length > 0">
       No pending invitations.
     </p>
-    
+
     <table ng-show="invites.$resolved && invites.length > 0">
       <thead>
         <th>Email</th>
@@ -32,5 +32,24 @@
         <td><a ng-click="remove(curInvite)" class="btn">Delete</a></td>
       </tr>
     </table>
+  </div>
+
+  <div id="details-form" >
+    <h1>New Invite</h1>
+    <form id="detail-body-pane" style="flex: inherit; height: auto; width: 500px" class="new-invite-form" field="detailsForm" ng-submit="save()">
+      <div class="input-group">
+        <label>Email</label>
+        <div>
+          <input autocomplete="off" ng-model="newInvite.email" name="email" type="email" email ng-required="true"></input>
+        </div>
+      </div>
+      <div class="input-group">
+        <label>Tenant</label>
+        <div>
+          <select ng-required="true" ng-model="newInvite.tenantId" name="tenantId" ng-options="tenant.id as tenant.name for tenant in tenants"></select>
+        </div>
+      </div>
+      <input type="submit" class="btn" />
+    </form>
   </div>
 </div>
