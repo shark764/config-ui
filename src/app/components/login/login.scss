@@ -3,7 +3,7 @@ $form-height: 300px;
 #login-page {
   background: $main-color;
   /* Background pattern from subtlepatterns.com */
-  background-image: url("/assets/images/square_bg.png"), linear-gradient(to bottom, $main-color, $accent1);
+  background-image: url("/assets/images/square_bg.png"), linear-gradient(to bottom, lighten($main-color, 10%), $accent1);
   box-sizing: content-box;
   margin-top: -$navbar-height;
   padding-top: $navbar-height;
