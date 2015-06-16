@@ -37,10 +37,6 @@ angular.module('liveopsConfigPanel')
 
               toastr.error('Record failed to ' + ($scope.resource.id ? 'update' : 'save'));
               $scope.loading = false;
-
-              if ($scope.postError){
-                $scope.postError($scope, error, headers);
-              }
               
               if(error.data.error) {
 
@@ -51,6 +47,10 @@ angular.module('liveopsConfigPanel')
                   $scope.detailsForm[key].$error = {api : value};
                   $scope.detailsForm[key].$setTouched();
                 });
+              }
+              
+              if ($scope.postError){
+                $scope.postError($scope, error, headers);
               }
             }
           );

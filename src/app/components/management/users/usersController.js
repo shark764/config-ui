@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('UsersController', ['$scope', '$location', 'userStatuses', 'userRoles', 'User', 'Session', 'AuthService', 'userTableConfig', 'Invite',
-    function($scope, $location, userStatuses, userRoles, User, Session, AuthService, userTableConfig, Invite) {
+  .controller('UsersController', ['$scope', '$location', 'userStatuses', 'userRoles', 'User', 'Session', 'AuthService', 'userTableConfig', 'Invite', 'toastr',
+    function($scope, $location, userStatuses, userRoles, User, Session, AuthService, userTableConfig, Invite, toastr) {
       $scope.statuses = userStatuses;
       $scope.filteredUsers = [];
       $scope.Session = Session;
@@ -28,8 +28,10 @@ angular.module('liveopsConfigPanel')
       
       var postError = function(scope, error){
         if (error.config.method === 'POST' && error.status === 400){
-          Invite.save({tenantId: Session.tenant.tenantId}, {email : error.data.email, roleId : '00000000-0000-0000-0000-000000000000'} ); //TEMPORARY roleId
-          scope.detailsForm.$setValidity(true);
+          toastr.clear();
+          toastr.success('User already exists. Sending ' + scope.resource.email + ' an invite for ' + Session.tenant.name, '', {timeout: 5000});
+          Invite.save({tenantId: Session.tenant.tenantId}, {email : scope.resource.email, roleId : '00000000-0000-0000-0000-000000000000'} ); //TEMPORARY roleId
+          scope.cancel();
         }
       };
 
