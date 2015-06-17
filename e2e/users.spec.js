@@ -21,7 +21,7 @@ describe('The users view', function() {
     shared.tearDown();
   });
 
-  xit('should include users management page components', function() {
+  it('should include users management page components', function() {
     expect(shared.navBar.isDisplayed()).toBeTruthy();
 
     expect(shared.searchField.getAttribute('placeholder')).toBe('Search');
@@ -37,7 +37,7 @@ describe('The users view', function() {
     expect(shared.detailsForm.isDisplayed()).toBeTruthy();
   });
 
-  xit('should display supported fields for editing a user', function() {
+  it('should display supported fields for editing a user', function() {
     // Select user row
     users.firstTableRow.click();
     expect(users.firstNameFormField.isDisplayed()).toBeTruthy();
@@ -59,7 +59,7 @@ describe('The users view', function() {
     expect(shared.detailsFormHeader.getText()).not.toBe('Creating New User');
   });
 
-  xit('should display users based on the table Status filter', function() {
+  it('should display users based on the table Status filter', function() {
     // Add Status Column
     shared.tableColumnsDropDown.click();
     shared.tableColumnsDropDown.all(by.repeater('option in options track by option[valuePath]')).get(4).click();
@@ -99,7 +99,7 @@ describe('The users view', function() {
     expect(shared.tableElements.count()).toBe(userCount);
   });
 
-  xit('should display users based on the Search and Status filters', function() {
+  it('should display users based on the Search and Status filters', function() {
     // Add Status Column
     shared.tableColumnsDropDown.click();
     shared.tableColumnsDropDown.all(by.repeater('option in options track by option[valuePath]')).get(4).click();
@@ -142,7 +142,7 @@ describe('The users view', function() {
     });
   });
 
-  xit('should display the selected user details in the user details section', function() {
+  it('should display the selected user details in the user details section', function() {
     // Select user row
     users.firstTableRow.click();
 
@@ -164,7 +164,7 @@ describe('The users view', function() {
     expect(users.secondTableRow.element(by.css(users.nameColumn)).getText()).toBe(shared.detailsFormHeader.getText());
   });
 
-  xit('should not update table when user details are changed and cancelled', function() {
+  it('should not update table when user details are changed and cancelled', function() {
     // Select user row
     users.firstTableRow.click();
 
@@ -201,7 +201,7 @@ describe('The users view', function() {
     });
   });
 
-  xit('should update table when user details are changed and saved', function() {
+  it('should update table when user details are changed and saved', function() {
     // Select user row
     users.firstTableRow.click();
 
@@ -237,7 +237,7 @@ describe('The users view', function() {
     });
   });
 
-  xit('should require First Name when editing', function() {
+  it('should require First Name when editing', function() {
     // Select first user from table
     users.firstTableRow.click();
 
@@ -255,7 +255,7 @@ describe('The users view', function() {
     expect(shared.successMessage.isPresent()).toBeFalsy();
   });
 
-  xit('should require Last Name when editing', function() {
+  it('should require Last Name when editing', function() {
     // Select first user from table
     users.firstTableRow.click();
 
@@ -273,7 +273,7 @@ describe('The users view', function() {
     expect(shared.successMessage.isPresent()).toBeFalsy();
   });
 
-  xit('should require Display Name when editing', function() {
+  it('should require Display Name when editing', function() {
     // Select first user from table
     users.firstTableRow.click();
 
@@ -291,7 +291,7 @@ describe('The users view', function() {
     expect(shared.successMessage.isPresent()).toBeFalsy();
   });
 
-  xit('should not require External Id when editing', function() {
+  it('should not require External Id when editing', function() {
     // Select first user from table
     users.firstTableRow.click();
 
@@ -303,7 +303,7 @@ describe('The users view', function() {
     expect(shared.successMessage.isDisplayed()).toBeTruthy();
   });
 
-  xit('should display password field when editing button is selected', function() {
+  it('should display password field when editing button is selected', function() {
     // Select first user from table
     users.firstTableRow.click();
     users.passwordEditFormBtn.click();
@@ -316,7 +316,7 @@ describe('The users view', function() {
     expect(users.passwordEditFormBtn.isDisplayed()).toBeTruthy();
   });
 
-  xit('should require password when editing button is selected', function() {
+  it('should require password when editing button is selected', function() {
     // Select first user from table
     users.firstTableRow.click();
 
@@ -335,36 +335,26 @@ describe('The users view', function() {
   });
 
   it('should successfully update password', function() {
-    // Select titan user from table
-    shared.searchField.sendKeys('titan user');
     users.firstTableRow.click();
+    var randomPassword = 'newpassword' + Math.floor((Math.random() * 100) + 1);
 
-    var randomPassword = 'newpassword';
+    users.emailLabel.getText(function(userEmail) {
+      users.passwordEditFormBtn.click();
+      users.passwordFormField.sendKeys(randomPassword);
+      shared.submitFormBtn.click();
+      expect(shared.successMessage.isDisplayed()).toBeTruthy();
 
-    users.passwordEditFormBtn.click();
-    users.passwordFormField.sendKeys(randomPassword);
-    shared.submitFormBtn.click();
-    expect(shared.successMessage.isDisplayed()).toBeTruthy();
+      // Close success message
+      shared.closeMessageBtn.click();
 
-    // Close success message
-    shared.closeMessageBtn.click();
+      // Password field is hidden after saving
+      expect(users.passwordEditFormBtn.isDisplayed()).toBeTruthy();
+      expect(users.passwordFormField.isDisplayed()).toBeFalsy();
 
-    // Password field is hidden after saving
-    expect(users.passwordEditFormBtn.isDisplayed()).toBeTruthy();
-    expect(users.passwordFormField.isDisplayed()).toBeFalsy();
-
-    // Login with user's new password
-    shared.welcomeMessage.click();
-    shared.logoutButton.click();
-    loginPage.login(loginPage.emailLoginCreds, randomPassword);
-
-
-    // Reset titan user's password
-    shared.searchField.sendKeys('titan user');
-    users.firstTableRow.click();
-
-    users.passwordEditFormBtn.click();
-    users.passwordFormField.sendKeys(loginPage.passwordLoginCreds);
-    shared.submitFormBtn.click();
+      // Login with user's new password
+      shared.welcomeMessage.click();
+      shared.logoutButton.click();
+      loginPage.login(userEmail, randomPassword);
+    });
   });
 });
