@@ -1,8 +1,105 @@
 #toolbar-container {
   height: 50px;
-  background: #000000;
+  background: #FFFFFF;
   position: absolute;
   top: 0;
-  left: 300px;
+  left: 303px;
   right: 0;
+  border: 0;
+  vertical-align: top;
+  -webkit-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+  -moz-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+
+  .flow-title-wrapper {
+    vertical-align: top;
+    height: 100%;
+    display: inline-block;
+
+    h3 {
+      font-weight: normal;
+      padding: 0 0 0 10px;
+      margin: 0;
+      line-height: 40px;
+    }
+  }
+
+  .right-side-tools-wrapper {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+
+    .right-side-tools {
+      height: 100%;
+
+      .version-wrapper {
+        display: inline-block;
+        vertical-align: top;
+
+        h4 {
+          display: inline-block;
+          padding: 0;
+          margin: 0;
+          line-height: 50px;
+          font-size: 18px;
+          width: 40px;
+
+          span {
+            color: #1294F6;
+            text-align: center;
+            display: block;
+            height: 40px;
+            border-bottom: 2px solid #1294F6;
+          }
+        }
+      }
+
+      .publish-wrapper {
+        display: inline-block;
+        padding: 4px 20px;
+
+        button.publish-btn {
+          background: #1294F6;
+          font-size: 17px;
+          font-weight: normal;
+          border: 0;
+          border-radius: 2px;
+          width: 125px;
+          -webkit-transition: all 300ms ease;
+          -o-transition: all 300ms ease;
+          transition: all 300ms ease;
+          height: 40px;
+
+          &:hover {
+            background: lighten(#1294F6, 20%);
+          }
+        }
+      }
+
+      .tools-wrapper {
+        border-left: 1px solid #E0E0E0;
+        vertical-align: top;
+        margin-top: 7.5px;
+        line-height: 35px;
+        display: inline-block;
+        padding: 0 20px;
+
+        i {
+          position: relative;
+          top: 3px;
+          color: #A7A6A7;
+          -webkit-transition: all 300ms ease;
+          -o-transition: all 300ms ease;
+          transition: all 300ms ease;
+          font-size: 20px;
+
+          &:hover {
+            cursor: pointer;
+            color: #000000;
+          }
+        }
+      }
+    }
+  }
 }
