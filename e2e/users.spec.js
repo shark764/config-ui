@@ -60,53 +60,6 @@ describe('The users view', function() {
     expect(users.createNewUserHeader.isPresent()).toBeFalsy();
   });
 
-  it('should display users based on the user Search', function() {
-    // TODO: Update with values that will be more likely to always match users
-
-    shared.searchField.sendKeys('Titan');
-    users.userElements.then(function(rows) {
-      for (var i = 0; i < rows.length; ++i) {
-        rows[i].getText().then(function(value) {
-          expect(value.toLowerCase()).toContain('titan');
-        });
-      };
-    });
-
-    shared.searchField.clear();
-    shared.searchField.sendKeys('tan');
-    users.userElements.then(function(rows) {
-      for (var i = 0; i < rows.length; ++i) {
-        rows[i].getText().then(function(value) {
-          expect(value.toLowerCase()).toContain('tan');
-        });
-      };
-    });
-
-    shared.searchField.clear();
-    shared.searchField.sendKeys('USER');
-    users.userElements.then(function(rows) {
-      for (var i = 0; i < rows.length; ++i) {
-        rows[i].getText().then(function(value) {
-          expect(value.toLowerCase()).toContain('user');
-        });
-      };
-    });
-
-    shared.searchField.clear();
-    shared.searchField.sendKeys('Ti*er');
-    users.userElements.then(function(rows) {
-      for (var i = 0; i < rows.length; ++i) {
-        rows[i].getText().then(function(value) {
-          expect(value.toLowerCase()).toContain('ti');
-          expect(value.toLowerCase()).toContain('er');
-        });
-      };
-    });
-
-    shared.searchField.clear();
-    expect(users.userElements.count()).toBe(userCount);
-  });
-
   it('should display users based on the table Status filter', function() {
     // Select Disabled from Status drop down
     users.statusTableDropDown.click();
