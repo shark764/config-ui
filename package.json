@@ -54,7 +54,8 @@
     "wrench": "~1.5.8",
     "gulp-debug": "~2.0.1",
     "gulp-ng-constant": "~0.3.0",
-    "karma-coverage": "~0.3.1"
+    "karma-coverage": "~0.3.1",
+    "yargs": "~3.11.0"
   },
   "engines": {
     "node": ">=0.10.0"
