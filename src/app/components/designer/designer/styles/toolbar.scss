@@ -16,11 +16,31 @@
     height: 100%;
     display: inline-block;
 
-    h3 {
+    input {
+      color: #505050;
+      font-size: 17px;
+      cursor: pointer;
+      border: 0;
+      box-shadow: none;
+      position: relative;
+      top: 2px;
+      display: inline-block;
       font-weight: normal;
       padding: 0 0 0 10px;
       margin: 0;
       line-height: 40px;
+
+      &.active {
+        cursor: default;
+      }
+    }
+
+    input.version-name {
+      width: 200px;
+    }
+
+    input.version-desc {
+      width: 300px;
     }
   }
 
