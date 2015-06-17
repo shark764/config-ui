@@ -24,6 +24,6 @@
   <label>{{'skill.details.hasProficiency' | translate}}</label>
   <div>
     <div class="error" ng-show="detailsForm.hasProficiency.$touched && detailsForm.hasProficiency.$invalid">{{'skill.details.hasProficiency.error' | translate}}</div>
-    <input ng-disabled="resource.id" ng-model="resource.hasProficiency" name="hasProficiency" type="checkbox"></input>
+    <toggle ng-disabled="resource.id" class="status-toggle" name="hasProficiency" ng-model="resource.hasProficiency"></toggle>
   </div>
 </div>

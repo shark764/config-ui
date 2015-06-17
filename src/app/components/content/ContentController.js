@@ -9,11 +9,10 @@ angular.module('liveopsConfigPanel')
       });
 
       $scope.redirectToInvites = function () {
-          if(!Session.tenant.tenantId){
-            $state.transitionTo('content.invites');
-            toastr.warning('You have no tenants assigned to you. Invite yourself to one!');
-          }
+        if (!Session.tenant.tenantId) {
+          $state.transitionTo('content.invites');
+          toastr.warning('You have no tenants assigned to you. Invite yourself to one!');
+        }
       };
-
     }
   ]);

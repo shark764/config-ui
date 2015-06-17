@@ -7,7 +7,8 @@ angular.module('liveopsConfigPanel')
       {name: 'name'},
       {name: 'description', optional: true},
       {name: 'activeVersion'},
-      {name: 'channelType', optional: true}
+      {name: 'channelType', optional: true},
+      {name: 'type'}
     ]);
   }]);
 
