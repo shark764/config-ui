@@ -75,10 +75,6 @@ describe('The login view', function() {
     expect(browser.getCurrentUrl()).toBe(shared.loginPageUrl);
   });
 
-  it('should display error message after unsuccessful login', function() {
-    // TODO
-  });
-
   it('should display user\'s name after successful login', function() {
     loginPage.login(loginPage.emailLoginCreds, loginPage.passwordLoginCreds);
     expect(browser.getCurrentUrl()).toBe(shared.mainUrl);
@@ -94,4 +90,24 @@ describe('The login view', function() {
     shared.logoutButton.click();
     expect(browser.getCurrentUrl()).toBe(shared.loginPageUrl);
   });
+
+  it('should not redirect after unsuccessful login and display error message', function() {
+    loginPage.emailLoginField.sendKeys('test@test.test');
+    loginPage.passwordLoginField.sendKeys('test');
+    loginPage.loginButton.click();
+
+    expect(browser.getCurrentUrl()).toBe(shared.loginPageUrl);
+    
+  });
+
+  it('should require correct password case input', function() {
+    loginPage.login(loginPage.emailLoginCreds, loginPage.passwordLoginCreds.toLowerCase());
+    expect(browser.getCurrentUrl()).toBe(shared.loginPageUrl);
+  });
+
+  it('should not require consistent email case input', function() {
+    loginPage.login(loginPage.emailLoginCreds, loginPage.passwordLoginCreds);
+    expect(browser.getCurrentUrl()).toBe(shared.mainUrl);
+  });
+
 });

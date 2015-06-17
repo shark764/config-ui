@@ -105,7 +105,7 @@ describe('The create new user form', function() {
     users.firstNameFormField.sendKeys('First' + randomUser);
     users.lastNameFormField.sendKeys('Last' + randomUser);
     users.displayNameFormField.sendKeys('Display' + randomUser);
-    users.emailFormField.sendKeys('email' + randomUser + '@email.com');
+    users.emailFormField.sendKeys('titantest' + randomUser + '@mailinator.com');
     users.passwordFormField.sendKeys('password');
     users.externalIdFormField.sendKeys(randomUser);
     users.roleFormDropDown.all(by.css('option')).get((randomUser % 3) + 1).click();
@@ -140,7 +140,7 @@ describe('The create new user form', function() {
     users.firstNameFormField.sendKeys('First' + randomUser);
     users.lastNameFormField.sendKeys('Last' + randomUser);
     users.displayNameFormField.sendKeys('Display' + randomUser);
-    users.emailFormField.sendKeys('email' + randomUser + '@email.com');
+    users.emailFormField.sendKeys('titantest' + randomUser + '@mailinator.com');
     users.passwordFormField.sendKeys('password');
     users.externalIdFormField.sendKeys(randomUser);
     users.roleFormDropDown.all(by.css('option')).get((randomUser % 3) + 1).click();
@@ -181,7 +181,7 @@ describe('The create new user form', function() {
     // First name field blank
     users.lastNameFormField.sendKeys('Last' + randomUser);
     users.displayNameFormField.sendKeys('Display' + randomUser);
-    users.emailFormField.sendKeys('email' + +randomUser + '@email.com');
+    users.emailFormField.sendKeys('titantest' + randomUser + '@mailinator.com');
     users.passwordFormField.sendKeys('password');
     users.externalIdFormField.sendKeys('12345');
     users.roleFormDropDown.all(by.css('option')).get((randomUser % 3) + 1).click();
@@ -200,7 +200,7 @@ describe('The create new user form', function() {
     // Last name field blank
     users.firstNameFormField.sendKeys('First' + randomUser);
     users.displayNameFormField.sendKeys('Display' + randomUser);
-    users.emailFormField.sendKeys('email' + randomUser + '@email.com');
+    users.emailFormField.sendKeys('titantest' + randomUser + '@mailinator.com');
     users.passwordFormField.sendKeys('password');
     users.externalIdFormField.sendKeys('12345');
     users.roleFormDropDown.all(by.css('option')).get(1).click();
@@ -219,7 +219,7 @@ describe('The create new user form', function() {
     // Display name field blank
     users.firstNameFormField.sendKeys('First' + randomUser);
     users.lastNameFormField.sendKeys('Last' + randomUser);
-    users.emailFormField.sendKeys('email' + randomUser + '@email.com');
+    users.emailFormField.sendKeys('titantest' + randomUser + '@mailinator.com');
     users.passwordFormField.sendKeys('password');
     users.externalIdFormField.sendKeys('12345');
     users.roleFormDropDown.all(by.css('option')).get((randomUser % 3) + 1).click();
@@ -260,7 +260,7 @@ describe('The create new user form', function() {
     users.firstNameFormField.sendKeys('First' + randomUser);
     users.lastNameFormField.sendKeys('Last' + randomUser);
     users.displayNameFormField.sendKeys('Display' + randomUser);
-    users.emailFormField.sendKeys('email' + randomUser + '@email.com');
+    users.emailFormField.sendKeys('titantest' + randomUser + '@mailinator.com');
     users.passwordFormField.sendKeys('password');
     users.externalIdFormField.sendKeys('12345');
     users.roleFormDropDown.all(by.css('option')).get((randomUser % 3) + 1).click();
@@ -279,7 +279,7 @@ describe('The create new user form', function() {
     users.firstNameFormField.sendKeys('First' + randomUser);
     users.lastNameFormField.sendKeys('Last' + randomUser);
     users.displayNameFormField.sendKeys('Display' + randomUser);
-    users.emailFormField.sendKeys('email' + randomUser + '@email.com');
+    users.emailFormField.sendKeys('titantest' + randomUser + '@mailinator.com');
     users.passwordFormField.sendKeys('password');
     users.externalIdFormField.sendKeys('12345');
     users.stateFormDropDown.all(by.css('option')).get((randomUser % 4) + 1).click();
