@@ -6,21 +6,22 @@ angular.module('liveopsConfigPanel')
       $scope.statuses = userStatuses;
       $scope.filteredUsers = [];
       $scope.Session = Session;
-
+      var self = this;
+      
       this.newPassword = null;
       this.preSave = function(scope) {
         if(scope.resource.password){
-          this.newPassword = scope.resource.password;
+          self.newPassword = scope.resource.password;
         }
       };
 
       this.postSave = function(scope, result){
-        if(result.id === Session.user.id && this.newPassword) {
+        if(result.id === Session.user.id && self.newPassword) {
           var token = AuthService.generateToken(
-            result.email, this.newPassword);
+            result.email, self.newPassword);
           Session.setUser(scope.resource);
           Session.setToken(token);
-          this.newPassword = null;
+          self.newPassword = null;
         }
         
         if (! scope.originalResource.id){
@@ -38,9 +39,9 @@ angular.module('liveopsConfigPanel')
       };
 
       $scope.additional = {
-        preSave: this.preSave,
-        postSave: this.postSave,
-        postError: this.postError,
+        preSave: self.preSave,
+        postSave: self.postSave,
+        postError: self.postError,
         roles: userRoles,
         updateDisplayName : function($childScope){
           if (!$childScope.resource.id && $childScope.detailsForm.displayName.$untouched){
