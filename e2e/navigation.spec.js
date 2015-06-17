@@ -31,9 +31,6 @@ describe('The view navigation', function() {
     browser.get(shared.flowsPageUrl);
     expect(browser.getCurrentUrl()).toBe(shared.loginPageUrl);
 
-    browser.get(shared.flowVersionsPageUrl);
-    expect(browser.getCurrentUrl()).toBe(shared.loginPageUrl);
-
     browser.get(shared.profilePageUrl);
     expect(browser.getCurrentUrl()).toBe(shared.loginPageUrl);
 
@@ -63,9 +60,6 @@ describe('The view navigation', function() {
 
     browser.get(shared.flowsPageUrl);
     expect(browser.getCurrentUrl()).toBe(shared.flowsPageUrl);
-
-    browser.get(shared.flowVersionsPageUrl);
-    expect(browser.getCurrentUrl()).toBe(shared.flowVersionsPageUrl);
 
     browser.get(shared.profilePageUrl);
     expect(browser.getCurrentUrl()).toBe(shared.profilePageUrl);

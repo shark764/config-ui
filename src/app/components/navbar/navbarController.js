@@ -48,7 +48,7 @@ angular.module('liveopsConfigPanel')
       }, {
         label: 'User Profile',
         onClick: function() {
-          $state.transitionTo('userprofile');
+          $state.transitionTo('content.userprofile');
         },
         iconClass: 'fa fa-gear'
       }];

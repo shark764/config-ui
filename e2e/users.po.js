@@ -6,8 +6,6 @@ var UserPage = function() {
   this.statusTableDropDown = element(by.css('th.ng-scope:nth-child(7) > filter-dropdown:nth-child(1)'));
   this.stateTableDropDown = element(by.css('th.ng-scope:nth-child(8) > filter-dropdown:nth-child(1)'));
 
-  this.userElements = element.all(by.repeater('item in (filtered = (items | selectedTableOptions:config.fields | search:config.searchOn:searchQuery | orderBy:config.orderBy))'));
-
   this.firstNameFormField = element(by.model('resource.firstName'));
   this.lastNameFormField = element(by.model('resource.lastName'));
   this.displayNameFormField = element(by.model('resource.displayName'));

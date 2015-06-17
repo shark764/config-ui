@@ -14,7 +14,7 @@ describe('The users view', function() {
 
   beforeEach(function() {
     browser.get(shared.usersPageUrl);
-    userCount = users.userElements.count();
+    userCount = shared.tableElements.count();
   });
 
   afterAll(function() {
@@ -67,7 +67,7 @@ describe('The users view', function() {
     expect(users.userStatuses.get(0).element(by.css('input')).isSelected()).toBeTruthy();
     expect(element(by.css('th.ng-scope:nth-child(7) > filter-dropdown:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > input:nth-child(1)')).isSelected()).toBeFalsy();
     users.statusTableDropDown.click();
-    users.userElements.then(function(rows) {
+    shared.tableElements.then(function(rows) {
       for (var i = 0; i < rows.length; ++i) {
         expect(rows[i].getText()).toContain('Disabled');
       };
@@ -78,7 +78,7 @@ describe('The users view', function() {
     users.userStatuses.get(0).click();
     users.userStatuses.get(1).click();
     users.statusTableDropDown.click();
-    users.userElements.then(function(rows) {
+    shared.tableElements.then(function(rows) {
       for (var i = 0; i < rows.length; ++i) {
         expect(rows[i].getText()).toContain('Enabled');
       };
@@ -92,7 +92,7 @@ describe('The users view', function() {
     expect(users.userStatuses.get(1).element(by.css('input')).isSelected()).toBeFalsy();
     users.statusTableDropDown.click();
     // Expect all users to be displayed
-    expect(users.userElements.count()).toBe(userCount);
+    expect(shared.tableElements.count()).toBe(userCount);
   });
 
   it('should display users based on the table State filter', function() {
@@ -104,7 +104,7 @@ describe('The users view', function() {
     expect(element(by.css('th.ng-scope:nth-child(8) > filter-dropdown:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > input:nth-child(1)')).isSelected()).toBeFalsy();
     users.stateTableDropDown.click(); // Close
 
-    users.userElements.then(function(rows) {
+    shared.tableElements.then(function(rows) {
       for (var j = 1; j <= rows.length; ++j) {
         expect(element(by.css('tr.ng-scope:nth-child(' + j + ') > td:nth-child(8) > div:nth-child(1) > center:nth-child(1) > user-state:nth-child(1)')).getAttribute('state')).toBe('READY');
       };
@@ -117,7 +117,7 @@ describe('The users view', function() {
 
     var userHasState = false;
     var currentUserState;
-    users.userElements.then(function(rows) {
+    shared.tableElements.then(function(rows) {
       for (var j = 1; j <= rows.length; ++j) {
         element(by.css('tr.ng-scope:nth-child(' + j + ') > td:nth-child(8) > div:nth-child(1) > center:nth-child(1) > user-state:nth-child(1)')).getAttribute('state').then(function(value) {
           expect(['BUSY', 'READY']).toContain(value);
@@ -135,7 +135,7 @@ describe('The users view', function() {
     expect(users.userStates.get(0).element(by.css('input')).isSelected()).toBeFalsy();
     users.stateTableDropDown.click(); // Close
     // Expect all users to be displayed
-    expect(users.userElements.count()).toBe(userCount);
+    expect(shared.tableElements.count()).toBe(userCount);
   });
 
   it('should display users based on the Search, Status and State filters', function() {
@@ -152,7 +152,7 @@ describe('The users view', function() {
     users.userStates.get(1).click(); // Select Ready
     users.stateTableDropDown.click(); // Close
 
-    users.userElements.then(function(rows) {
+    shared.tableElements.then(function(rows) {
       for (var i = 0; i < rows.length; ++i) {
         rows[i].getText().then(function(value) {
           expect(value.toLowerCase()).toContain('a');
@@ -176,7 +176,7 @@ describe('The users view', function() {
     users.userStates.get(2).click(); // Select Not Ready
     users.stateTableDropDown.click(); // Close
 
-    users.userElements.then(function(rows) {
+    shared.tableElements.then(function(rows) {
       for (var i = 0; i < rows.length; ++i) {
         rows[i].getText().then(function(value) {
           expect(value.toLowerCase()).toContain('an');
