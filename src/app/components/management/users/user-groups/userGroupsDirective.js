@@ -12,22 +12,33 @@ angular.module('liveopsConfigPanel')
       templateUrl: 'app/components/management/users/user-groups/userGroups.html',
 
       link: function ($scope) {
-        $scope.groupId = null;
 
-        $scope.delete = function (userGroup) {
-          userGroup.delete(userGroup, function (){
-            $scope.userGroups.remove(userGroup);
+        $scope.remove = function (userGroup) {
+          $scope.groupId = null;
+
+          var tgu = new TenantGroupUsers({
+            memberId: userGroup.memberId,
+            groupId: userGroup.groupId,
+            tenantId: userGroup.tenantId
           });
+
+          tgu.$delete(function () {
+            $scope.fetch();
+          });
+
         };
 
         $scope.add = function (groupId) {
-          var tgu = new TenantGroupUsers();
+          $scope.groupId = null;
 
-          tgu.userId = $scope.user.id;
+          var tgu = new TenantGroupUsers({
+            userId: $scope.user.id,
+            groupId: groupId,
+            tenantId: Session.tenant.tenantId
+          });
 
-          tgu.save({ groupId: $scope.groupId, tenantId: Session.tenant.tenantId }, function () {
+          tgu.$save(function () {
             $scope.fetch();
-            $scope.groupId = null;
           });
         };
 
@@ -36,14 +47,18 @@ angular.module('liveopsConfigPanel')
         };
 
         $scope.new = function() {
-          if($scope.groups && $scope.groups.length  > 0){
-            $scope.groupId = $scope.groups[0].id;
+          if($scope.groups && $scope.filtered.length  > 0){
+            $scope.groupId = $scope.filtered[0].id;
           }
         };
 
-        $scope.groups = Group.query({tenantId: Session.tenant.tenantId }, function () {
-          $scope.fetch();
-        })
+        $scope.$watch('user', function () {
+          $scope.groupId = null;
+
+          $scope.groups = Group.query({tenantId: Session.tenant.tenantId }, function () {
+            $scope.fetch();
+          })
+        });
       }
     };
   }]);
