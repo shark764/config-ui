@@ -13,7 +13,7 @@ angular.module('liveopsConfigPanel')
 
     $scope.createMediaCollection = function(){
       $scope.selectedMediaCollection = new MediaCollection({
-        tenantId: Session.tenant.id
+        tenantId: Session.tenant.tenantId
       });
     }
 

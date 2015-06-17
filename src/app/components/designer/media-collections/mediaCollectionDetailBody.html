@@ -1,21 +1,14 @@
 <div class="input-group">
   <label>{{'value.name' | translate}}</label>
   <div>
-    <form-error field="detailsForm.source" error-type-api="{{'media.details.source.error' | translate}}" error-type-required="{{'media.details.source.error' | translate}}"></form-error>
+    <form-error field="detailsForm.source" error-type-api="{{'media.details.name.error' | translate}}" error-type-required="{{'media.details.name.error' | translate}}"></form-error>
     <input type="text" ng-required="true" ng-model="resource.name" name="name"></input>
   </div>
 </div>
 <div class="input-group">
   <label>{{'value.description' | translate}}</label>
   <div>
-    <form-error field="detailsForm.source" error-type-api="{{'media.details.type.error' | translate}}" error-type-required="{{'media.details.type.error' | translate}}"></form-error>
+    <form-error field="detailsForm.source" error-type-api="{{'media.details.description.error' | translate}}" error-type-required="{{'media.details.description.error' | translate}}"></form-error>
     <input type="text" ng-required="true" ng-model="resource.description" name="description"></input>
-  </div>
-</div>
-
-<div class="input-group">
-  <label class="textarea-label">{{'value.properties' | translate}}</label>
-  <div>
-    <textarea json-text ng-model="resource.properties"></textarea>
   </div>
 </div>

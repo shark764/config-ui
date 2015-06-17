@@ -5,7 +5,8 @@ angular.module('liveopsConfigPanel')
 
     return LiveopsResourceFactory.create('/v1/tenants/:tenantId/media-collections/:id', true, true, [
       {name: 'name'},
-      {name: 'description', optional: true}
+      {name: 'description', optional: true},
+      {name: 'mediaMap', optional: true}
     ]);
   }]);
 

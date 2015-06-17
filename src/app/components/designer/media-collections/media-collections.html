@@ -1,23 +1,21 @@
 <table-controls
-id="table-pane"
-config="tableConfig"
-items="mediaCollections"
-on-create-click="createMediaCollection"
-selected="selectedMediaCollection"
-resource-name="mediaCollections"></table-controls>
+  id="table-pane"
+  config="tableConfig"
+  items="mediaCollections"
+  on-create-click="createMediaCollection"
+  selected="selectedMediaCollection"
+  resource-name="{{'tenants:' + Session.tenant.tenantId + ':mediaCollections'}}"></table-controls>
 
 <resize-handle
-id="resize-pane"
-ng-show="!!selectedMediaCollection"
-right-element-id="details-pane"
-left-element-id="table-pane"
-left-min-width="600"
-right-min-width="400" ></resize-handle>
+  id="resize-pane"
+  right-element-id="details-pane"
+  left-element-id="table-pane"
+  left-min-width="600"
+  right-min-width="400" ></resize-handle>
 
 <resource-details
-id="details-pane"
-ng-show="selectedMediaCollection"
-extend-scope="additional"
-header-template-url="app/components/designer/media-collections/mediaCollectionDetailHeader.html"
-body-template-url="app/components/designer/media-collections/mediaCollectionDetailBody.html"
-resource="selectedMediaCollection"></resource-details>
+  id="details-pane"
+  extend-scope="additional"
+  header-template-url="app/components/designer/media-collections/mediaCollectionDetailHeader.html"
+  body-template-url="app/components/designer/media-collections/mediaCollectionDetailBody.html"
+  original-resource="selectedMediaCollection"></resource-details>
