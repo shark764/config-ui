@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('FlowsController', ['$scope', '$state', 'Session', 'Flow', 'flowTableConfig',
-    function ($scope, $state, Session, Flow, flowTableConfig) {
+  .controller('FlowsController', ['$scope', '$state', 'Session', 'Flow', 'flowTableConfig', 'flowTypes',
+    function ($scope, $state, Session, Flow, flowTableConfig, flowTypes) {
 
       $scope.redirectToInvites();
 
@@ -21,7 +21,12 @@ angular.module('liveopsConfigPanel')
       $scope.$watch('Session.tenant', function () {
         $scope.fetch();
       });
-
+      
+      $scope.additional = {
+        versions: {},
+        flowTypes: flowTypes
+      };
+      
       $scope.fetch();
       $scope.tableConfig = flowTableConfig;
     }
