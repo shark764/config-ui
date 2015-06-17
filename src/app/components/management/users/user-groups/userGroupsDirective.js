@@ -46,12 +46,6 @@ angular.module('liveopsConfigPanel')
           $scope.userGroups = TenantUserGroups.query({ tenantId: Session.tenant.tenantId, userId: $scope.user.id });
         };
 
-        $scope.new = function() {
-          if($scope.groups && $scope.filtered.length  > 0){
-            $scope.groupId = $scope.filtered[0].id;
-          }
-        };
-
         $scope.$watch('user', function () {
           $scope.groupId = null;
 

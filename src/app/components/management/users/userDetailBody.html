@@ -58,11 +58,6 @@
 
 <div ng-if="resource.id">
   <div class="divider-header">
-    <h4>Groups</h4>
-    <user-groups user="resource"></user-groups>
-  </div>
-
-  <div class="divider-header">
     <h4>Login</h4>
   </div>
 
@@ -80,4 +75,6 @@
       <input ng-required="detailsForm.password.$dirty" autocomplete="off" ng-model="resource.password" name="password" type="password" ng-show="detailsForm.password.$dirty"></input>
     </div>
   </div>
+  
+  <user-groups user="resource"></user-groups>
 </div>

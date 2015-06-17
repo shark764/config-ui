@@ -2,8 +2,8 @@
   <div class="info">
      <h1>{{originalResource.name}}</h1>
      <div class="details">
-        <b translate="value.details.createdby" translate-value-date="{{originalResource.created | date:'medium'}}" translate-value-creator="{{creator.displayName}}"></b>
-        <b translate="value.details.updatedby" translate-value-date="{{originalResource.updated | date:'medium'}}" translate-value-updater="{{updater.displayName}}"></b>
+        <b translate="value.createdby" translate-value-date="{{originalResource.created | date:'medium'}}" translate-value-creator="{{creator.displayName}}"></b>
+        <b ng-if="updater" translate="value.updatedby" translate-value-date="{{originalResource.updated | date:'medium'}}" translate-value-updater="{{updater.displayName}}"></b>
      </div>
   </div>
 </div>
