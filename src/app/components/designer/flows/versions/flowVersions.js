@@ -14,10 +14,7 @@ angular.module('liveopsConfigPanel')
       };
 
       $scope.saveVersion = function () {
-        $scope.version.save({
-          tenantId: Session.tenant.tenantId,
-          flowId: $scope.flow.id
-        }, function() {
+        $scope.version.save(function() {
           $scope.versions.push($scope.version);
         });
       };

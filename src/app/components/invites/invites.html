@@ -1,5 +1,5 @@
 <div id="main-content" class="invites">
-  <h1>Invites</h1>
+  <h1>Invites for {{ Session.tenant.name }}</h1>
 
   <div ng-show="tenants.$resolved && tenants.length == 0">
     No tenants available to send invites from. Please create a tenant.

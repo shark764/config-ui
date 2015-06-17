@@ -5,6 +5,6 @@ angular.module('liveopsConfigPanel')
     $scope.user = User.get({id : Session.user.id});
 
     $scope.save = function() {
-      $scope.user.save({id : $scope.user.id});
+      $scope.user.save();
     };
   }]);

@@ -8,8 +8,6 @@ angular.module('liveopsConfigPanel')
       {name: 'description', optional: true},
       {name: 'activeVersion'},
       {name: 'channelType', optional: true}
-    ],[
-      'id', 'tenantId'
     ]);
   }]);
 
