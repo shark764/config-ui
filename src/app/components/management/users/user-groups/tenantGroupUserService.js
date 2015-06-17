@@ -1,8 +1,30 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .factory('TenantGroupUsers', ['LiveopsResourceFactory', function (LiveopsResourceFactory) {
+  .factory('TenantGroupUsers', ['$resource', 'apiHostname', '$http', function ($resource, apiHostname, $http) {
 
-    return LiveopsResourceFactory.create('/v1/tenants/:tenantId/groups/:groupId/users', true, true, null, [ 'tenantId', 'groupId' ]);
+
+    function appendTransform(defaults, transform) {
+      // We can't guarantee that the default transformation is an array
+      defaults = angular.isArray(defaults) ? defaults : [defaults];
+
+      // Append the new transformation to the defaults
+      return defaults.concat(transform);
+    }
+
+    return $resource(apiHostname + '/v1/tenants/:tenantId/groups/:groupId/users/:memberId', { tenantId: '@tenantId', groupId: '@groupId', memberId: '@memberId'}, {
+      save: {
+        method: 'POST',
+
+        transformResponse: appendTransform($http.defaults.transformResponse, function (value) {
+
+          if(value.result && value.result.length > 0){
+            return value.result[0];
+          }
+
+          return value;
+        })
+      }
+    });
 
   }]);
