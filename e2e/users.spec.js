@@ -21,7 +21,7 @@ describe('The users view', function() {
     shared.tearDown();
   });
 
-  it('should include users management page components', function() {
+  xit('should include users management page components', function() {
     expect(shared.navBar.isDisplayed()).toBeTruthy();
 
     expect(shared.searchField.getAttribute('placeholder')).toBe('Search');
@@ -30,25 +30,24 @@ describe('The users view', function() {
 
     expect(shared.tableColumnsDropDown.getText()).toBe('Columns');
     expect(shared.table.isDisplayed()).toBeTruthy();
-    expect(users.statusTableDropDown.isDisplayed()).toBeTruthy();
-    expect(users.stateTableDropDown.isDisplayed()).toBeTruthy();
+
+    // Status field not displayed by default
+    expect(users.statusTableDropDown.isPresent()).toBeFalsy();
 
     expect(shared.detailsForm.isDisplayed()).toBeTruthy();
   });
 
-  it('should display supported fields for editing a user', function() {
+  xit('should display supported fields for editing a user', function() {
     // Select user row
-    element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(2)')).click();
+    users.firstTableRow.click();
     expect(users.firstNameFormField.isDisplayed()).toBeTruthy();
     expect(users.lastNameFormField.isDisplayed()).toBeTruthy();
     expect(users.displayNameFormField.isDisplayed()).toBeTruthy();
     expect(users.externalIdFormField.isDisplayed()).toBeTruthy();
-    expect(users.roleFormDropDown.isDisplayed()).toBeTruthy();
-    expect(users.stateFormDropDown.isDisplayed()).toBeTruthy();
-    expect(users.statusFormToggle.isDisplayed()).toBeTruthy();
 
-    // User details not able to be edited are not displayed
-    expect(users.emailFormField.isDisplayed()).toBeFalsy();
+    // User email is not able to be edited
+    expect(users.emailFormField.isPresent()).toBeFalsy();
+    expect(users.emailLabel.isDisplayed()).toBeTruthy();
 
     // Reset password button displayed instead of form field
     expect(users.passwordFormField.isDisplayed()).toBeFalsy();
@@ -57,15 +56,20 @@ describe('The users view', function() {
     expect(shared.cancelFormBtn.isDisplayed()).toBeTruthy();
     expect(shared.submitFormBtn.isDisplayed()).toBeTruthy();
 
-    expect(users.createNewUserHeader.isPresent()).toBeFalsy();
+    expect(shared.detailsFormHeader.getText()).not.toBe('Creating New User');
   });
 
-  it('should display users based on the table Status filter', function() {
+  xit('should display users based on the table Status filter', function() {
+    // Add Status Column
+    shared.tableColumnsDropDown.click();
+    shared.tableColumnsDropDown.all(by.repeater('option in options track by option[valuePath]')).get(4).click();
+    shared.tableColumnsDropDown.click();
+
     // Select Disabled from Status drop down
     users.statusTableDropDown.click();
     users.userStatuses.get(0).click();
     expect(users.userStatuses.get(0).element(by.css('input')).isSelected()).toBeTruthy();
-    expect(element(by.css('th.ng-scope:nth-child(7) > filter-dropdown:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > input:nth-child(1)')).isSelected()).toBeFalsy();
+    expect(element(by.css('th.ng-scope:nth-child(6) > filter-dropdown:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > input:nth-child(1)')).isSelected()).toBeFalsy();
     users.statusTableDropDown.click();
     shared.tableElements.then(function(rows) {
       for (var i = 0; i < rows.length; ++i) {
@@ -86,8 +90,8 @@ describe('The users view', function() {
 
     // Select All from Status drop down
     users.statusTableDropDown.click();
-    element(by.css('th.ng-scope:nth-child(7) > filter-dropdown:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(1)')).click();
-    expect(element(by.css('th.ng-scope:nth-child(7) > filter-dropdown:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > input:nth-child(1)')).isSelected()).toBeTruthy();
+    element(by.css('th.ng-scope:nth-child(6) > filter-dropdown:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(1)')).click();
+    expect(element(by.css('th.ng-scope:nth-child(6) > filter-dropdown:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > input:nth-child(1)')).isSelected()).toBeTruthy();
     expect(users.userStatuses.get(0).element(by.css('input')).isSelected()).toBeFalsy();
     expect(users.userStatuses.get(1).element(by.css('input')).isSelected()).toBeFalsy();
     users.statusTableDropDown.click();
@@ -95,50 +99,11 @@ describe('The users view', function() {
     expect(shared.tableElements.count()).toBe(userCount);
   });
 
-  it('should display users based on the table State filter', function() {
-    // One State selected
-    users.stateTableDropDown.click(); // Open
-    users.userStates.get(1).click(); // Select Ready
-    // All is deselected
-    expect(users.userStates.get(1).element(by.css('input')).isSelected()).toBeTruthy();
-    expect(element(by.css('th.ng-scope:nth-child(8) > filter-dropdown:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > input:nth-child(1)')).isSelected()).toBeFalsy();
-    users.stateTableDropDown.click(); // Close
+  xit('should display users based on the Search and Status filters', function() {
+    // Add Status Column
+    shared.tableColumnsDropDown.click();
+    shared.tableColumnsDropDown.all(by.repeater('option in options track by option[valuePath]')).get(4).click();
 
-    shared.tableElements.then(function(rows) {
-      for (var j = 1; j <= rows.length; ++j) {
-        expect(element(by.css('tr.ng-scope:nth-child(' + j + ') > td:nth-child(8) > div:nth-child(1) > center:nth-child(1) > user-state:nth-child(1)')).getAttribute('state')).toBe('READY');
-      };
-    });
-
-    // Multiple States selected
-    users.stateTableDropDown.click(); // Open
-    users.userStates.get(0).click();
-    users.stateTableDropDown.click(); // Close
-
-    var userHasState = false;
-    var currentUserState;
-    shared.tableElements.then(function(rows) {
-      for (var j = 1; j <= rows.length; ++j) {
-        element(by.css('tr.ng-scope:nth-child(' + j + ') > td:nth-child(8) > div:nth-child(1) > center:nth-child(1) > user-state:nth-child(1)')).getAttribute('state').then(function(value) {
-          expect(['BUSY', 'READY']).toContain(value);
-        });
-      };
-    });
-
-    // All selected
-    users.stateTableDropDown.click(); // Open
-    element(by.css('th.ng-scope:nth-child(8) > filter-dropdown:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(1)')).click();
-
-    // Previous selections are deselected
-    expect(element(by.css('th.ng-scope:nth-child(8) > filter-dropdown:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > input:nth-child(1)')).isSelected()).toBeTruthy();
-    expect(users.userStates.get(1).element(by.css('input')).isSelected()).toBeFalsy();
-    expect(users.userStates.get(0).element(by.css('input')).isSelected()).toBeFalsy();
-    users.stateTableDropDown.click(); // Close
-    // Expect all users to be displayed
-    expect(shared.tableElements.count()).toBe(userCount);
-  });
-
-  it('should display users based on the Search, Status and State filters', function() {
     // Search
     shared.searchField.sendKeys('a');
 
@@ -147,18 +112,12 @@ describe('The users view', function() {
     users.userStatuses.get(1).click();
     users.statusTableDropDown.click(); // Close
 
-    // Select State filter
-    users.stateTableDropDown.click(); // Open
-    users.userStates.get(1).click(); // Select Ready
-    users.stateTableDropDown.click(); // Close
-
     shared.tableElements.then(function(rows) {
       for (var i = 0; i < rows.length; ++i) {
         rows[i].getText().then(function(value) {
           expect(value.toLowerCase()).toContain('a');
         });
         expect(rows[i].getText()).toContain('Enabled');
-        expect(element(by.css('tr.ng-scope:nth-child(' + (i + 1) + ') > td:nth-child(8) > div:nth-child(1) > center:nth-child(1) > user-state:nth-child(1)')).getAttribute('state')).toBe('READY');
       };
     });
 
@@ -171,62 +130,80 @@ describe('The users view', function() {
     users.userStatuses.get(0).click();
     users.statusTableDropDown.click(); // Close
 
-    // Select State filter
-    users.stateTableDropDown.click(); // Open
-    users.userStates.get(2).click(); // Select Not Ready
-    users.stateTableDropDown.click(); // Close
-
     shared.tableElements.then(function(rows) {
       for (var i = 0; i < rows.length; ++i) {
         rows[i].getText().then(function(value) {
           expect(value.toLowerCase()).toContain('an');
         });
-        element(by.css('tr.ng-scope:nth-child(' + (i + 1) + ') > td:nth-child(7) > div:nth-child(1) > user-status:nth-child(1)')).getText().then(function(value) {
+        element(by.css('tr.ng-scope:nth-child(' + (i + 1) + ') > td:nth-child(6) > div:nth-child(1) > user-status:nth-child(1)')).getText().then(function(value) {
           expect(['Enabled', 'Disabled']).toContain(value);
-        });
-        element(by.css('tr.ng-scope:nth-child(' + (i + 1) + ') > td:nth-child(8) > div:nth-child(1) > center:nth-child(1) > user-state:nth-child(1)')).getAttribute('state').then(function(value) {
-          expect(['NOT READY', 'READY']).toContain(value);
         });
       };
     });
   });
 
-  it('should display the selected user details in the user details section', function() {
-    if (userCount > 0) {
-      // Select user row
-      element(by.css('tr.ng-scope:nth-child(1)')).click();
-      expect(shared.detailsForm.isDisplayed()).toBeTruthy();
+  xit('should display the selected user details in the user details section', function() {
+    // Select user row
+    users.firstTableRow.click();
 
-      // Verify user's name in table matches user details
-      expect(element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(2)')).getText()).toContain(users.firstNameFormField.getAttribute('value'));
-      expect(element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(2)')).getText()).toContain(users.lastNameFormField.getAttribute('value'));
+    expect(users.firstTableRow.element(by.css(users.nameColumn)).getText()).toContain(users.firstNameFormField.getAttribute('value'));
+    expect(users.firstTableRow.element(by.css(users.nameColumn)).getText()).toContain(users.lastNameFormField.getAttribute('value'));
+    expect(users.firstTableRow.element(by.css(users.displayNameColumn)).getText()).toBe(users.displayNameFormField.getAttribute('value'));
+    expect(users.firstTableRow.element(by.css(users.emailColumn)).getText()).toBe(users.emailLabel.getText());
+    expect(users.firstTableRow.element(by.css(users.externalIdColumn)).getText()).toBe(users.externalIdFormField.getAttribute('value'));
+    expect(users.firstTableRow.element(by.css(users.nameColumn)).getText()).toBe(shared.detailsFormHeader.getText());
 
-      // Verify user's externalId in table matches user details
-      expect(element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(6)')).getText()).toBe(users.externalIdFormField.getAttribute('value'));
+    // Change user and verify all fields are updated
+    users.secondTableRow.click();
 
-      // Verify user's state in table matches user details
-      expect(element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(8) > div:nth-child(1) > center:nth-child(1) > user-state:nth-child(1)')).getAttribute('state')).toBe(element(by.css('h1.ng-binding > user-state:nth-child(1)')).getAttribute('state'));
-
-      // Verify user's displayName matches
-      expect(element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(3)')).getAttribute('value')).toBe(element(by.css('h1.ng-binding')).getText());
-
-      // Change user and verify all fields are updated
-      if (userCount > 1) {
-        element(by.css('tr.ng-scope:nth-child(2)')).click();
-        expect(shared.detailsForm.isDisplayed()).toBeTruthy();
-        expect(element(by.css('tr.ng-scope:nth-child(2) > td:nth-child(2)')).getText()).toContain(users.firstNameFormField.getAttribute('value'));
-        expect(element(by.css('tr.ng-scope:nth-child(2) > td:nth-child(2)')).getText()).toContain(users.lastNameFormField.getAttribute('value'));
-        expect(element(by.css('tr.ng-scope:nth-child(2) > td:nth-child(6)')).getText()).toBe(users.externalIdFormField.getAttribute('value'));
-        expect(element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(8) > div:nth-child(1) > center:nth-child(1) > user-state:nth-child(1)')).getAttribute('state')).toBe(element(by.css('h1.ng-binding > user-state:nth-child(1)')).getAttribute('state'));
-        expect(element(by.css('tr.ng-scope:nth-child(2) > td:nth-child(3)')).getAttribute('value')).toBe(element(by.css('h1.ng-binding')).getText());
-      }
-    }
+    expect(users.secondTableRow.element(by.css(users.nameColumn)).getText()).toContain(users.firstNameFormField.getAttribute('value'));
+    expect(users.secondTableRow.element(by.css(users.nameColumn)).getText()).toContain(users.lastNameFormField.getAttribute('value'));
+    expect(users.secondTableRow.element(by.css(users.displayNameColumn)).getText()).toBe(users.displayNameFormField.getAttribute('value'));
+    expect(users.secondTableRow.element(by.css(users.emailColumn)).getText()).toBe(users.emailLabel.getText());
+    expect(users.secondTableRow.element(by.css(users.externalIdColumn)).getText()).toBe(users.externalIdFormField.getAttribute('value'));
+    expect(users.secondTableRow.element(by.css(users.nameColumn)).getText()).toBe(shared.detailsFormHeader.getText());
   });
 
-  it('should update table when user details are changed and saved', function() {
+  xit('should not update table when user details are changed and cancelled', function() {
     // Select user row
-    element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(2)')).click();
-    expect(shared.detailsForm.isDisplayed()).toBeTruthy();
+    users.firstTableRow.click();
+
+    // Update User details
+    users.firstNameFormField.sendKeys('cancel');
+    users.lastNameFormField.sendKeys('cancel');
+    users.displayNameFormField.sendKeys('cancel');
+    users.externalIdFormField.sendKeys('cancel');
+
+    shared.cancelFormBtn.click().then(function() {
+      expect(shared.successMessage.isPresent()).toBeFalsy();
+      expect(users.firstTableRow.element(by.css(users.nameColumn)).getText()).not.toContain('cancel');
+      expect(users.firstTableRow.element(by.css(users.displayNameColumn)).getText()).not.toContain('cancel');
+      expect(users.firstTableRow.element(by.css(users.externalIdColumn)).getText()).not.toContain('cancel');
+
+      expect(users.firstTableRow.element(by.css(users.nameColumn)).getText()).toContain(users.firstNameFormField.getAttribute('value'));
+      expect(users.firstTableRow.element(by.css(users.nameColumn)).getText()).toContain(users.lastNameFormField.getAttribute('value'));
+      expect(users.firstTableRow.element(by.css(users.displayNameColumn)).getText()).toContain(users.displayNameFormField.getAttribute('value'));
+      expect(users.firstTableRow.element(by.css(users.externalIdColumn)).getText()).toBe(users.externalIdFormField.getAttribute('value'));
+      expect(users.firstTableRow.element(by.css(users.nameColumn)).getText()).toBe(shared.detailsFormHeader.getText());
+    }).then(function() {
+      // Refresh browser and ensure changes did not persist
+      browser.refresh();
+      users.firstTableRow.click();
+      expect(users.firstTableRow.element(by.css(users.nameColumn)).getText()).not.toContain('cancel');
+      expect(users.firstTableRow.element(by.css(users.displayNameColumn)).getText()).not.toContain('cancel');
+      expect(users.firstTableRow.element(by.css(users.externalIdColumn)).getText()).not.toContain('cancel');
+
+      expect(users.firstTableRow.element(by.css(users.nameColumn)).getText()).toContain(users.firstNameFormField.getAttribute('value'));
+      expect(users.firstTableRow.element(by.css(users.nameColumn)).getText()).toContain(users.lastNameFormField.getAttribute('value'));
+      expect(users.firstTableRow.element(by.css(users.displayNameColumn)).getText()).toContain(users.displayNameFormField.getAttribute('value'));
+      expect(users.firstTableRow.element(by.css(users.externalIdColumn)).getText()).toBe(users.externalIdFormField.getAttribute('value'));
+      expect(users.firstTableRow.element(by.css(users.nameColumn)).getText()).toBe(shared.detailsFormHeader.getText());
+    });
+  });
+
+  xit('should update table when user details are changed and saved', function() {
+    // Select user row
+    users.firstTableRow.click();
 
     // Update User details
     users.firstNameFormField.sendKeys('test');
@@ -235,21 +212,21 @@ describe('The users view', function() {
     users.externalIdFormField.sendKeys('test');
 
     shared.submitFormBtn.click().then(function() {
-      expect(shared.detailsForm.isDisplayed()).toBeTruthy();
-      expect(element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(2)')).getText()).toContain(users.firstNameFormField.getAttribute('value'));
-      expect(element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(2)')).getText()).toContain(users.lastNameFormField.getAttribute('value'));
-      expect(element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(6)')).getText()).toBe(users.externalIdFormField.getAttribute('value'));
-      expect(element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(8) > div:nth-child(1) > center:nth-child(1) > user-state:nth-child(1)')).getAttribute('state')).toBe(element(by.css('h1.ng-binding > user-state:nth-child(1)')).getAttribute('state'));
-      expect(element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(2)')).getText()).toBe(element(by.css('h1.ng-binding')).getText());
+      expect(shared.successMessage.isDisplayed()).toBeTruthy();
+      expect(users.firstTableRow.element(by.css(users.nameColumn)).getText()).toContain(users.firstNameFormField.getAttribute('value'));
+      expect(users.firstTableRow.element(by.css(users.nameColumn)).getText()).toContain(users.lastNameFormField.getAttribute('value'));
+      expect(users.firstTableRow.element(by.css(users.displayNameColumn)).getText()).toContain(users.displayNameFormField.getAttribute('value'));
+      expect(users.firstTableRow.element(by.css(users.externalIdColumn)).getText()).toBe(users.externalIdFormField.getAttribute('value'));
+      expect(users.firstTableRow.element(by.css(users.nameColumn)).getText()).toBe(shared.detailsFormHeader.getText());
     }).then(function() {
       // Refresh browser and ensure changes persist
       browser.refresh();
-      element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(2)')).click();
-      expect(element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(2)')).getText()).toContain(users.firstNameFormField.getAttribute('value'));
-      expect(element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(2)')).getText()).toContain(users.lastNameFormField.getAttribute('value'));
-      expect(element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(6)')).getText()).toBe(users.externalIdFormField.getAttribute('value'));
-      expect(element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(8) > div:nth-child(1) > center:nth-child(1) > user-state:nth-child(1)')).getAttribute('state')).toBe(element(by.css('h1.ng-binding > user-state:nth-child(1)')).getAttribute('state'));
-      expect(element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(2)')).getText()).toBe(element(by.css('h1.ng-binding')).getText());
+      users.firstTableRow.click();
+      expect(users.firstTableRow.element(by.css(users.nameColumn)).getText()).toContain(users.firstNameFormField.getAttribute('value'));
+      expect(users.firstTableRow.element(by.css(users.nameColumn)).getText()).toContain(users.lastNameFormField.getAttribute('value'));
+      expect(users.firstTableRow.element(by.css(users.displayNameColumn)).getText()).toContain(users.displayNameFormField.getAttribute('value'));
+      expect(users.firstTableRow.element(by.css(users.externalIdColumn)).getText()).toBe(users.externalIdFormField.getAttribute('value'));
+      expect(users.firstTableRow.element(by.css(users.nameColumn)).getText()).toBe(shared.detailsFormHeader.getText());
     }).then(function() {
       // Reset all user values
       users.firstNameFormField.sendKeys('\u0008\u0008\u0008\u0008');
@@ -260,44 +237,134 @@ describe('The users view', function() {
     });
   });
 
-  it('should not update table when user details are changed and cancelled', function() {
-    // Select user row
-    element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(2)')).click();
-    expect(shared.detailsForm.isDisplayed()).toBeTruthy();
+  xit('should require First Name when editing', function() {
+    // Select first user from table
+    users.firstTableRow.click();
 
-    // Update User details
-    users.firstNameFormField.sendKeys('test');
-    users.lastNameFormField.sendKeys('test');
-    users.displayNameFormField.sendKeys('test');
-    users.externalIdFormField.sendKeys('test');
+    // Edit fields
+    users.firstNameFormField.clear();
+    users.lastNameFormField.click();
 
-    shared.cancelFormBtn.click().then(function() {
-      expect(shared.detailsForm.isDisplayed()).toBeTruthy();
+    // Submit button is still disabled
+    expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
+    shared.submitFormBtn.click();
 
-      expect(element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(2)')).getText()).not.toContain('test');
-      expect(element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(2)')).getText()).not.toContain('test');
-      expect(element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(5)')).getText()).not.toContain('test');
-      expect(element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(2)')).getText()).not.toContain('test');
+    // Error messages displayed
+    expect(users.error.isDisplayed()).toBeTruthy();
+    expect(users.error.getText()).toBe('Please enter a first name');
+    expect(shared.successMessage.isPresent()).toBeFalsy();
+  });
 
-      expect(element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(2)')).getText()).toContain(users.firstNameFormField.getAttribute('value'));
-      expect(element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(2)')).getText()).toContain(users.lastNameFormField.getAttribute('value'));
-      expect(element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(6)')).getText()).toBe(users.externalIdFormField.getAttribute('value'));
-      expect(element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(8) > div:nth-child(1) > center:nth-child(1) > user-state:nth-child(1)')).getAttribute('state')).toBe(element(by.css('h1.ng-binding > user-state:nth-child(1)')).getAttribute('state'));
-      expect(element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(2)')).getText()).toBe(element(by.css('h1.ng-binding')).getText());
-    }).then(function() {
-      // Refresh browser and ensure changes did not persist
-      browser.refresh();
-      element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(2)')).click();
-      expect(element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(2)')).getText()).not.toContain('test');
-      expect(element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(2)')).getText()).not.toContain('test');
-      expect(element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(5)')).getText()).not.toContain('test');
-      expect(element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(2)')).getText()).not.toContain('test');
+  xit('should require Last Name when editing', function() {
+    // Select first user from table
+    users.firstTableRow.click();
 
-      expect(element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(2)')).getText()).toContain(users.firstNameFormField.getAttribute('value'));
-      expect(element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(2)')).getText()).toContain(users.lastNameFormField.getAttribute('value'));
-      expect(element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(6)')).getText()).toBe(users.externalIdFormField.getAttribute('value'));
-      expect(element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(8) > div:nth-child(1) > center:nth-child(1) > user-state:nth-child(1)')).getAttribute('state')).toBe(element(by.css('h1.ng-binding > user-state:nth-child(1)')).getAttribute('state'));
-      expect(element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(2)')).getText()).toBe(element(by.css('h1.ng-binding')).getText());
-    });
+    // Edit fields
+    users.lastNameFormField.clear();
+    users.firstNameFormField.click();
+
+    // Submit button is still disabled
+    expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
+    shared.submitFormBtn.click();
+
+    // Error messages displayed
+    expect(users.error.isDisplayed()).toBeTruthy();
+    expect(users.error.getText()).toBe('Please enter a last name');
+    expect(shared.successMessage.isPresent()).toBeFalsy();
+  });
+
+  xit('should require Display Name when editing', function() {
+    // Select first user from table
+    users.firstTableRow.click();
+
+    // Edit fields
+    users.displayNameFormField.clear();
+    users.firstNameFormField.click();
+
+    // Submit button is still disabled
+    expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
+    shared.submitFormBtn.click();
+
+    // Error messages displayed
+    expect(users.error.isDisplayed()).toBeTruthy();
+    expect(users.error.getText()).toBe('Please enter a display name');
+    expect(shared.successMessage.isPresent()).toBeFalsy();
+  });
+
+  xit('should not require External Id when editing', function() {
+    // Select first user from table
+    users.firstTableRow.click();
+
+    // Edit fields
+    users.externalIdFormField.sendKeys('temp'); // Incase the field was already empty
+    users.externalIdFormField.clear();
+    users.firstNameFormField.click();
+    shared.submitFormBtn.click();
+    expect(shared.successMessage.isDisplayed()).toBeTruthy();
+  });
+
+  xit('should display password field when editing button is selected', function() {
+    // Select first user from table
+    users.firstTableRow.click();
+    users.passwordEditFormBtn.click();
+
+    expect(users.passwordFormField.isDisplayed()).toBeTruthy();
+    expect(users.passwordEditFormBtn.isDisplayed()).toBeFalsy();
+
+    shared.cancelFormBtn.click();
+    expect(users.passwordFormField.isDisplayed()).toBeFalsy();
+    expect(users.passwordEditFormBtn.isDisplayed()).toBeTruthy();
+  });
+
+  xit('should require password when editing button is selected', function() {
+    // Select first user from table
+    users.firstTableRow.click();
+
+    users.passwordEditFormBtn.click();
+    users.passwordFormField.click();
+    users.firstNameFormField.click();
+
+    // Submit button is still disabled
+    expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
+    shared.submitFormBtn.click();
+
+    // Error messages displayed
+    expect(users.error.isDisplayed()).toBeTruthy();
+    expect(users.error.getText()).toBe('Please enter a password');
+    expect(shared.successMessage.isPresent()).toBeFalsy();
+  });
+
+  it('should successfully update password', function() {
+    // Select titan user from table
+    shared.searchField.sendKeys('titan user');
+    users.firstTableRow.click();
+
+    var randomPassword = 'newpassword';
+
+    users.passwordEditFormBtn.click();
+    users.passwordFormField.sendKeys(randomPassword);
+    shared.submitFormBtn.click();
+    expect(shared.successMessage.isDisplayed()).toBeTruthy();
+
+    // Close success message
+    shared.closeMessageBtn.click();
+
+    // Password field is hidden after saving
+    expect(users.passwordEditFormBtn.isDisplayed()).toBeTruthy();
+    expect(users.passwordFormField.isDisplayed()).toBeFalsy();
+
+    // Login with user's new password
+    shared.welcomeMessage.click();
+    shared.logoutButton.click();
+    loginPage.login(loginPage.emailLoginCreds, randomPassword);
+
+
+    // Reset titan user's password
+    shared.searchField.sendKeys('titan user');
+    users.firstTableRow.click();
+
+    users.passwordEditFormBtn.click();
+    users.passwordFormField.sendKeys(loginPage.passwordLoginCreds);
+    shared.submitFormBtn.click();
   });
 });

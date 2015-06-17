@@ -241,7 +241,7 @@ describe('The skills view', function() {
   });
 
   it('should require name field when editing a Skill', function() {
-    // Select first queue from table
+    // Select first skill from table
     skills.firstTableRow.click();
 
     // Edit fields
