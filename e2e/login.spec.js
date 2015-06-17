@@ -21,7 +21,7 @@ describe('The login view', function() {
   });
 
   it('should include header, login fields, and submit button', function() {
-    expect(shared.navBar.isDisplayed()).toBeTruthy();
+    expect(loginPage.logo.isDisplayed()).toBeTruthy();
 
     expect(loginPage.emailLoginField.isDisplayed()).toBeTruthy();
     expect(loginPage.emailLoginField.getAttribute('placeholder')).toBe('Email')
@@ -32,11 +32,12 @@ describe('The login view', function() {
     expect(loginPage.passwordLoginField.getAttribute('type')).toBe('password');
 
     expect(loginPage.loginButton.getAttribute('value')).toBe('Login');
+
+    expect(loginPage.errorMessage.isPresent()).toBeFalsy();
   });
 
   it('should not display nav bar links when not logged in', function() {
-    expect(shared.navBar.isDisplayed()).toBeTruthy();
-
+    expect(shared.navBar.isPresent()).toBeFalsy();
     expect(shared.siteNavLogo.isPresent()).toBeFalsy();
     expect(shared.tenantsNavDropdown.isPresent()).toBeFalsy();
     expect(shared.usersNavButton.isPresent()).toBeFalsy();
@@ -49,7 +50,7 @@ describe('The login view', function() {
 
   it('should redirect after successful login', function() {
     loginPage.login(loginPage.emailLoginCreds, loginPage.passwordLoginCreds);
-    expect(browser.getCurrentUrl()).toBe(shared.mainUrl);
+    expect(browser.getCurrentUrl()).toContain(shared.usersPageUrl);
   });
 
   it('should require email and password input', function() {
@@ -77,18 +78,57 @@ describe('The login view', function() {
 
   it('should display user\'s name after successful login', function() {
     loginPage.login(loginPage.emailLoginCreds, loginPage.passwordLoginCreds);
-    expect(browser.getCurrentUrl()).toBe(shared.mainUrl);
+    expect(browser.getCurrentUrl()).toContain(shared.usersPageUrl);
 
     expect(shared.welcomeMessage.getText()).toContain('Welcome back, titan');
   });
 
   it('should redirect to login page after logout', function() {
     loginPage.login(loginPage.emailLoginCreds, loginPage.passwordLoginCreds);
-    expect(browser.getCurrentUrl()).toBe(shared.mainUrl);
+    expect(browser.getCurrentUrl()).toContain(shared.usersPageUrl);
 
-    browser.actions().mouseMove(shared.welcomeMessage).perform();
+    shared.welcomeMessage.click();
     shared.logoutButton.click();
     expect(browser.getCurrentUrl()).toBe(shared.loginPageUrl);
+  });
+
+  xit('should login successfully using all uppercase email', function() {
+    // TODO Test fails due to existing bug
+    loginPage.emailLoginField.sendKeys(loginPage.emailLoginCreds.toUpperCase());
+    loginPage.passwordLoginField.sendKeys(loginPage.passwordLoginCreds);
+    loginPage.loginButton.click();
+
+    expect(browser.getCurrentUrl()).toContain(shared.usersPageUrl);
+  });
+
+  xit('should login successfully using all lowercase email', function() {
+    // TODO Test fails due to existing bug
+    loginPage.emailLoginField.sendKeys(loginPage.emailLoginCreds.toLowerCase());
+    loginPage.passwordLoginField.sendKeys(loginPage.passwordLoginCreds);
+    loginPage.loginButton.click();
+
+    expect(browser.getCurrentUrl()).toContain(shared.usersPageUrl);
+  });
+
+  it('should require correct password case input', function() {
+    loginPage.emailLoginField.sendKeys(loginPage.emailLoginCreds);
+    loginPage.passwordLoginField.sendKeys(loginPage.passwordLoginCreds.toLowerCase());
+    loginPage.loginButton.click();
+
+    // Not logged in; error message displayed
+    expect(browser.getCurrentUrl()).toBe(shared.loginPageUrl);
+    expect(loginPage.errorMessage.isDisplayed()).toBeTruthy();
+
+    loginPage.emailLoginField.clear();
+    loginPage.passwordLoginField.clear();
+
+    loginPage.emailLoginField.sendKeys(loginPage.emailLoginCreds);
+    loginPage.passwordLoginField.sendKeys(loginPage.passwordLoginCreds.toUpperCase());
+    loginPage.loginButton.click();
+
+    // Not logged in; error message displayed
+    expect(browser.getCurrentUrl()).toBe(shared.loginPageUrl);
+    expect(loginPage.errorMessage.isDisplayed()).toBeTruthy();
   });
 
   it('should not redirect after unsuccessful login and display error message', function() {
@@ -97,17 +137,24 @@ describe('The login view', function() {
     loginPage.loginButton.click();
 
     expect(browser.getCurrentUrl()).toBe(shared.loginPageUrl);
-    
+    expect(loginPage.errorMessage.isDisplayed()).toBeTruthy();
   });
 
-  it('should require correct password case input', function() {
-    loginPage.login(loginPage.emailLoginCreds, loginPage.passwordLoginCreds.toLowerCase());
+  it('should not login with valid user email and invalid password', function() {
+    loginPage.emailLoginField.sendKeys(loginPage.emailLoginCreds);
+    loginPage.passwordLoginField.sendKeys('invalidpassword');
+    loginPage.loginButton.click();
+
     expect(browser.getCurrentUrl()).toBe(shared.loginPageUrl);
+    expect(loginPage.errorMessage.isDisplayed()).toBeTruthy();
   });
 
-  it('should not require consistent email case input', function() {
-    loginPage.login(loginPage.emailLoginCreds, loginPage.passwordLoginCreds);
-    expect(browser.getCurrentUrl()).toBe(shared.mainUrl);
-  });
+  it('should not login with invalid user email and valid password', function() {
+    loginPage.emailLoginField.sendKeys('invalid@user.email');
+    loginPage.passwordLoginField.sendKeys(loginPage.passwordLoginCreds);
+    loginPage.loginButton.click();
 
+    expect(browser.getCurrentUrl()).toBe(shared.loginPageUrl);
+    expect(loginPage.errorMessage.isDisplayed()).toBeTruthy();
+  });
 });

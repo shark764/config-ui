@@ -9,6 +9,9 @@ var Login = function() {
   this.emailLoginCreds = 'titan@liveops.com';
   this.passwordLoginCreds = 'gKVnfF9wrs6XPSYs';
 
+  this.logo = element(by.css('img'));
+  this.errorMessage = element(by.css('.error'));
+
   this.login = function(email, password) {
     // Ensure user is logged out before trying to login
     browser.get(shared.loginPageUrl);
