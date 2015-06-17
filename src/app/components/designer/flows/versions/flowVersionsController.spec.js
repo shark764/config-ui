@@ -31,15 +31,15 @@ describe('Versions directive controller', function () {
           id: 'q2'
         })
       ];
-      
+
       flowId = 555;
       flow = '[]';
-      
+
       $httpBackend = $injector.get('$httpBackend');
       $httpBackend.when('GET', 'fakendpoint.com/v1/tenants/1/flows/' + flowId + '/versions').respond({
         'result': versions
       });
-      
+
       $scope.flow = {
         id: flowId
       };
@@ -52,7 +52,7 @@ describe('Versions directive controller', function () {
           }
         }
       });
-      
+
       $httpBackend.flush();
     }
   ]));
@@ -66,7 +66,7 @@ describe('Versions directive controller', function () {
   describe('on new version creation', function () {
     beforeEach(function () {
       $scope.createVersion();
-      
+
       $httpBackend.when('POST', 'fakendpoint.com/v1/tenants/1/flows/' + flowId + '/versions').respond(201, {
         'result': versions[0]
       });
@@ -80,27 +80,29 @@ describe('Versions directive controller', function () {
 
     it('should succeed on save and push new item to list', function () {
       $scope.saveVersion();
-      
+
       $httpBackend.flush();
-      
+
+      console.log($scope.versions);
+
       expect($scope.versions.length).toEqual(3);
       expect($scope.selectedVersion).toEqual($scope.version);
     });
-    
+
     it('should clean listener when switching flow id', function () {
       $httpBackend.when('GET', 'fakendpoint.com/v1/tenants/1/flows/' + versions[1].id + '/versions').respond({
         'result': []
       });
-      
+
       spyOn($scope, 'cleanHandler');
       var cleanHandler = $scope.cleanHandler;
-      
+
       $scope.flow = {
         id: versions[1].id
       };
-      
+
       $scope.$digest();
-      
+
       expect(cleanHandler).not.toBe($scope.cleanHandler);
       expect(cleanHandler).toHaveBeenCalled();
     });

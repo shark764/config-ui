@@ -15,14 +15,17 @@
 
 <h3>Create Flow Version (Dev only)</h3>
 
-<ng-form name="create-version-form">
+<ng-form name="createVersionForm">
   <div>Name:
-    <input type="text" ng-model="version.name" name="name"></input>
+    <form-error field="createVersionForm.name"
+    error-type-required="{{'value.error.name.required' | translate}}"></form-error>
+    <input ng-required="true" type="text" ng-model="version.name" name="name"></input>
   </div>
 
   <div>Description:
    <input type="text" ng-model="version.description" name="description"></input>
   </div>
 
-  <input ng-click="saveVersion()" type="submit" class="btn btn-primary" value="{{ 'value.create' | translate }}"/>
+  <input ng-disabled="createVersionForm.$invalid || !createVersionForm.$dirty"
+   ng-click="saveVersion()" type="submit" class="btn btn-primary" value="{{ 'value.create' | translate }}"/>
 </ng-form>

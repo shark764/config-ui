@@ -21,12 +21,12 @@ angular.module('liveopsConfigPanel')
       $scope.$watch('Session.tenant', function () {
         $scope.fetch();
       });
-      
+
       $scope.additional = {
-        versions: {},
+        versions: new Array(),
         flowTypes: flowTypes
       };
-      
+
       $scope.fetch();
       $scope.tableConfig = flowTableConfig;
     }

@@ -13,15 +13,17 @@ angular.module('liveopsConfigPanel')
       };
 
       $scope.saveVersion = function () {
-        $scope.version.save({
-          tenantId: Session.tenant.tenantId,
-          queueId: $scope.queue.id
+        $scope.version.save(function (){
+          $scope.createVersion();
+          $scope.createVersionForm.$setPristine();
+          $scope.createVersionForm.$setUntouched();
         });
       };
 
       $scope.createVersion = function () {
         $scope.version = new QueueVersion({
-          queueId: $scope.queue.id
+          queueId: $scope.queue.id,
+          tenantId: Session.tenant.tenantId
         });
       };
 
