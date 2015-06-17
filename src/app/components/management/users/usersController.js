@@ -7,26 +7,26 @@ angular.module('liveopsConfigPanel')
       $scope.filteredUsers = [];
       $scope.Session = Session;
 
-      var newPassword;
-      var preSave = function(scope) {
+      this.newPassword = null;
+      this.preSave = function(scope) {
         if(scope.resource.password){
-          newPassword = scope.resource.password;
+          this.newPassword = scope.resource.password;
         }
       };
 
-      var postSave = function(scope, result){
-        if(result.id === Session.user.id && newPassword) {
+      this.postSave = function(scope, result){
+        if(result.id === Session.user.id && this.newPassword) {
           var token = AuthService.generateToken(
-            result.email, newPassword);
+            result.email, this.newPassword);
           Session.setUser(scope.resource);
           Session.setToken(token);
-          newPassword = null;
+          this.newPassword = null;
         }
         
         Invite.save({tenantId: Session.tenant.tenantId}, {email : result.email, roleId : '00000000-0000-0000-0000-000000000000'} ); //TEMPORARY roleId
       };
       
-      var postError = function(scope, error){
+      this.postError = function(scope, error){
         if (error.config.method === 'POST' && error.status === 400){
           toastr.clear();
           toastr.success('User already exists. Sending ' + scope.resource.email + ' an invite for ' + Session.tenant.name, '', {timeout: 5000});
@@ -36,9 +36,9 @@ angular.module('liveopsConfigPanel')
       };
 
       $scope.additional = {
-        preSave: preSave,
-        postSave: postSave,
-        postError: postError,
+        preSave: this.preSave,
+        postSave: this.postSave,
+        postError: this.postError,
         roles: userRoles,
         updateDisplayName : function($childScope){
           if (!$childScope.resource.id && $childScope.detailsForm.displayName.$untouched){
