@@ -25,7 +25,7 @@ angular.module('liveopsConfigPanel')
         create: function (endpoint, setCreatedBy, setUpdatedBy, updateFields, requestUrlFields) {
           setUpdatedBy = typeof setUpdatedBy !== 'undefined' ? setUpdatedBy : true;
           setCreatedBy = typeof setCreatedBy !== 'undefined' ? setCreatedBy : true;
-          requestUrlFields = typeof requestUrlFields !== 'undefined' ? requestUrlFields : [ 'id', 'tenantId', 'regionId' ];
+          requestUrlFields = typeof requestUrlFields !== 'undefined' ? requestUrlFields : [ 'id', 'tenantId' ];
 
           var Resource = $resource(apiHostname + endpoint, {}, {
             query: {
@@ -47,9 +47,6 @@ angular.module('liveopsConfigPanel')
               interceptor: SaveInterceptor,
               transformRequest: function (data) {
                 var newData = {};
-                if (setUpdatedBy) {
-                  newData.updatedBy = Session.user.id;
-                }
 
                 if (updateFields) {
                   for (var i = 0; i < updateFields.length; i++) {
@@ -74,10 +71,6 @@ angular.module('liveopsConfigPanel')
               method: 'POST',
               interceptor: SaveInterceptor,
               transformRequest: function (data) {
-
-                if (setCreatedBy) {
-                  data.createdBy = Session.user.id;
-                }
 
                 return JSON.stringify(data);
               },
