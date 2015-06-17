@@ -111,15 +111,21 @@ describe('users controller', function(){
       
       spyOn(Session, 'setToken');
       controller.preSave({resource : {password : 'anewpassword'}}); //Set newPassword
-      controller.postSave($scope, result);
+      controller.postSave({originalResource : {id : 3}}, result);
       expect(Session.setToken).toHaveBeenCalledWith(token);
       
     }));
     
     it('should create an invite for the new user', inject(function() {
       spyOn(Invite, 'save');
-      controller.postSave({}, {email : 'somenewemail@test.com'});
+      controller.postSave({originalResource : {}}, {email : 'somenewemail@test.com'});
       expect(Invite.save).toHaveBeenCalledWith({tenantId: 1}, {email : 'somenewemail@test.com', roleId : '00000000-0000-0000-0000-000000000000'});
+    }));
+    
+    it('should not send an invite if editing an existing user', inject(function() {
+      spyOn(Invite, 'save');
+      controller.postSave({originalResource : {id : 3}}, {email : 'somenewemail@test.com'});
+      expect(Invite.save).not.toHaveBeenCalled();
     }));
   });
 

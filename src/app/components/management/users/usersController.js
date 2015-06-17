@@ -23,7 +23,9 @@ angular.module('liveopsConfigPanel')
           this.newPassword = null;
         }
         
-        Invite.save({tenantId: Session.tenant.tenantId}, {email : result.email, roleId : '00000000-0000-0000-0000-000000000000'} ); //TEMPORARY roleId
+        if (! scope.originalResource.id){
+          Invite.save({tenantId: Session.tenant.tenantId}, {email : result.email, roleId : '00000000-0000-0000-0000-000000000000'} ); //TEMPORARY roleId
+        }
       };
       
       this.postError = function(scope, error){
