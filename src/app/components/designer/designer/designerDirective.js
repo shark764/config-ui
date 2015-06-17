@@ -3,15 +3,17 @@
 
 function flowDesigner() {
   return {
-    scope: {},
+    scope: {
+      alienese: '=alienese',
+      flowVersion: '=flowVersion'
+    },
     restrict: 'E',
     templateUrl: 'app/components/designer/designer/designerDirective.html',
     replace: true,
     link: function() {},
-    controller: function($scope, $element, $attrs, $window, $timeout, JointInitService, FlowConversionService, FlowNotationService, FlowPaletteService, flowMocks) {
+    controller: function($scope, $element, $attrs, $window, $timeout, JointInitService, FlowConversionService, FlowNotationService, FlowPaletteService, FlowVersion, Session) {
 
-      $timeout(function(){
-        var demoFlow = flowMocks.demoFlow;
+      $timeout(function() {
         var inspectorContainer = $($element).find('#inspector-container');
         var flow = JointInitService.graph();
         var flowCommandManager = JointInitService.commandManager(flow);
@@ -23,6 +25,24 @@ function flowDesigner() {
         var flowPalette = JointInitService.palette(flow, flowPaper);
         var flowSnapper = JointInitService.snapper(flowPaper);
         var flowPropertiesPanel;
+
+        $scope.publish = function() {
+          if(flow.toJSON().cells.length === 0) { return; }
+          var alienese = JSON.stringify(FlowConversionService.convertToAlienese(flow.toJSON()));
+          console.log('FLOW', alienese);
+          $scope.version = new FlowVersion({
+            flow: alienese,
+            description: $scope.flowVersion.description,
+            name: $scope.flowVersion.name
+          });
+
+          $scope.version.save({
+            tenantId: Session.tenant.tenantId,
+            flowId: $scope.flowVersion.flowId
+          });
+        };
+
+        console.log($scope);
 
         $scope.hidePropertiesPanel = function() {
           inspectorContainer.css({'right': '-300px'});
@@ -225,9 +245,7 @@ function flowDesigner() {
         //   flowScroller.zoom(-0.2, {max: 2, min: 0.2});
         // });
 
-        flow.fromJSON(FlowConversionService.convertToJoint(demoFlow));
-        console.log(FlowConversionService.convertToAlienese(flow.toJSON()));
-
+        flow.fromJSON(FlowConversionService.convertToJoint(JSON.parse($scope.flowVersion.flow)));
       }, 1000);
     }
   };

@@ -2,10 +2,10 @@
 
 angular.module('liveopsConfigPanel')
   .controller('FlowVersionsController', ['$scope', 'Session', 'FlowVersion',
-    function ($scope, Session, Version) {
+    function ($scope, Session, FlowVersion) {
 
       $scope.fetch = function () {
-        Version.query({
+        FlowVersion.query({
           tenantId: Session.tenant.tenantId,
           flowId: $scope.flow.id
         }, function(versions){
@@ -23,7 +23,7 @@ angular.module('liveopsConfigPanel')
       };
 
       $scope.createVersion = function () {
-        $scope.version = new Version({
+        $scope.version = new FlowVersion({
           flowId: $scope.flow.id,
           flow: '[]'
         });
