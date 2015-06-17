@@ -2,17 +2,13 @@
 
 angular.module('liveopsConfigPanel')
   .controller('QueueVersionsController', ['$scope', 'Session', 'QueueVersion',
-    function ($scope, Session, Version) {
-      $scope.version = new Version({
-        queueId: $scope.queue.id
-      });
-
+    function ($scope, Session, QueueVersion) {
       $scope.fetch = function () {
-        Version.query({
+        QueueVersion.query({
           tenantId: Session.tenant.tenantId,
           queueId: $scope.queue.id
         }, function (versions) {
-          angular.copy(versions, $scope.versions);
+          $scope.versions = angular.copy(versions, $scope.versions);
         });
       };
 
@@ -20,20 +16,33 @@ angular.module('liveopsConfigPanel')
         $scope.version.save({
           tenantId: Session.tenant.tenantId,
           queueId: $scope.queue.id
-        }, function () {
-          $scope.versions.push($scope.version);
         });
       };
 
-      $scope.$on('created:resource:tenants:' + Session.tenantId + ':queues:' + $scope.queue.id + ':versions',
-        function (event, item) {
-          $scope.queue.versions.push(item);
-          $scope.selectedVersion = item;
+      $scope.createVersion = function () {
+        $scope.version = new QueueVersion({
+          queueId: $scope.queue.id
         });
+      };
+
+      $scope.pushNewItem = function (event, item) {
+        $scope.versions.push(item);
+        $scope.selectedVersion = item;
+      };
 
       $scope.$watch('queue', function () {
         $scope.fetch();
+
+        if ($scope.cleanHandler) {
+          $scope.cleanHandler();
+        }
+
+        $scope.cleanHandler = $scope.$on(
+          'created:resource:tenants:' + Session.tenant.tenantId + ':queues:' + $scope.queue.id + ':versions',
+          $scope.pushNewItem);
       });
+
+      $scope.createVersion();
     }
   ])
   .directive('queueVersions', [function () {

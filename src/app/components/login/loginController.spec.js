@@ -47,9 +47,24 @@ describe('LoginController', function () {
 
   describe('LoginController login fail', function () {
 
-    it('should not redirect me on fail', function () {
+    it('should not redirect me on 401 and show authentication error', function () {
 
-      $httpBackend.when('POST', apiHostname + '/v1/login').respond(401);
+      $httpBackend.when('POST', apiHostname + '/v1/login').respond(401, {
+        error: 'Invalid username and password.'
+      });
+
+      $scope.username = 'username';
+      $scope.password = 'password';
+
+      $scope.login();
+      $httpBackend.flush();
+
+      expect($state.current.name).toBe('login');
+    });
+    
+    it('should not redirect me 500 and do nothing', function () {
+
+      $httpBackend.when('POST', apiHostname + '/v1/login').respond(500);
 
       $scope.username = 'username';
       $scope.password = 'password';

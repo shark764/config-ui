@@ -26,6 +26,15 @@
   </div>
 </div>
 
+<div class="input-group">
+  <label>{{'flow.type' | translate}}</label>
+  <div>
+    <select ng-model="resource.type" ng-options="type.value as type.display for type in flowTypes">
+      <option value="">{{'flow.type.choose' | translate}}</option>
+    </select>
+  </div>
+</div>
+
 <div ng-if="resource.id" class="divider-header">
   <h4>Versions</h4>
 </div>
