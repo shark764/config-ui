@@ -1,23 +1,22 @@
-<div ui-view>
-  <table-controls
-    id="table-pane"
-    config="tableConfig"
-    items="flows"
-    on-create-click="createFlow"
-    selected="selectedFlow"
-    resource-name="{{'tenants:' + Session.tenant.tenantId + ':flows'}}"></table-controls>
 
-  <resize-handle
-    id="resize-pane"
-    right-element-id="details-pane"
-    left-element-id="table-pane"
-    left-min-width="600"
-    right-min-width="400"></resize-handle>
+<table-controls
+  id="table-pane"
+  config="tableConfig"
+  items="flows"
+  on-create-click="createFlow"
+  selected="selectedFlow"
+  resource-name="{{'tenants:' + Session.tenant.tenantId + ':flows'}}"></table-controls>
 
-  <resource-details
-    id="details-pane"
-    extend-scope="{versions: []}"
-    header-template-url="app/components/designer/flows/flowDetailHeader.html"
-    body-template-url="app/components/designer/flows/flowDetailBody.html"
-    original-resource="selectedFlow"></resource-details>
-</div>
+<resize-handle
+  id="resize-pane"
+  right-element-id="details-pane"
+  left-element-id="table-pane"
+  left-min-width="600"
+  right-min-width="400"></resize-handle>
+
+<resource-details
+  id="details-pane"
+  extend-scope="{versions: []}"
+  header-template-url="app/components/designer/flows/flowDetailHeader.html"
+  body-template-url="app/components/designer/flows/flowDetailBody.html"
+  original-resource="selectedFlow"></resource-details>

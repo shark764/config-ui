@@ -21,6 +21,7 @@ angular.module('liveopsConfigPanel')
         var request = this.fetchUserInfo(token);
 
         return request.then(function(response) {
+
           var user = response.data.result.user;
           var tenants = response.data.result.tenants;
           Session.set(user, tenants, token);

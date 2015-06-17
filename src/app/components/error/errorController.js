@@ -1,6 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('ErrorController', [function () {
+  .controller('ErrorController', ['$scope',
+    function () {
 
-  }]);
+    }
+  ]);

@@ -1,15 +1,14 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('TenantsController', ['$scope', '$stateParams', '$filter', 'Session', 'Tenant', 'Region', 'User', 'tenantTableConfig',
-    function ($scope, $stateParams, $filter, Session, Tenant, Region, User, tenantTableConfig) {
+  .controller('TenantsController', ['$scope', '$stateParams', '$filter', 'Session', 'Tenant', 'User', 'tenantTableConfig',
+    function ($scope, $stateParams, $filter, Session, Tenant, User, tenantTableConfig) {
 
       $scope.tenants = Tenant.query( { regionId : Session.activeRegionId } );
 
       $scope.users = User.query();
 
       $scope.additional = {
-        regions: $scope.regions,
         users: $scope.users
       };
 

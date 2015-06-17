@@ -15,11 +15,11 @@ describe('selectedOptions filter', function () {
     }, {
       'status': true,
       'state': 'NOT_READY',
-      'value': '5'
+      'value': 5
     }, {
-      'status': 'true',
+      'status': true,
       'state': 'READY',
-      'value': '6'
+      'value': 6
     }, {
       'status': true,
       'state': 'WRAP',
@@ -31,14 +31,15 @@ describe('selectedOptions filter', function () {
     var field = {
       name: 'status',
       options: [{
-        value: 'false',
+        value: false,
         checked: true
       }, {
-        value: 'true',
+        value: true,
         checked: true
       }]
     };
     var result = $filter('selectedOptions')(users, field);
+
     expect(result.length).toEqual(users.length);
   }));
 
@@ -46,10 +47,10 @@ describe('selectedOptions filter', function () {
     var field = {
       name: 'status',
       options: [{
-        value: 'false',
+        value: false,
         checked: true
       }, {
-        value: 'true',
+        value: true,
         checked: false
       }]
     };
@@ -94,10 +95,10 @@ describe('selectedOptions filter', function () {
     var field = {
       name: 'status',
       options: [{
-        value: 'true',
+        value: true,
         checked: true
       }, {
-        value: 'false',
+        value: false,
         checked: false
       }]
     };

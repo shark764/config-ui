@@ -78,7 +78,7 @@ angular.module('liveopsConfigPanel')
           if(! selectedIsVisible) {
             $scope.selectItem($scope.filtered[0]);
           }
-          
+
           //Uncheck rows that have been filtered out
           angular.forEach($scope.items, function(item){
             if (item.checked && $scope.filtered.indexOf(item) < 0){
@@ -86,12 +86,12 @@ angular.module('liveopsConfigPanel')
             }
           });
         });
-        
+
         $scope.toggleAll = function(checkedValue){
           angular.forEach($scope.filtered, function(item){
             item.checked = checkedValue;
-          })
-        }
+          });
+        };
       }
     };
   }]);

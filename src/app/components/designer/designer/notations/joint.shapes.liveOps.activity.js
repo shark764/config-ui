@@ -1,6 +1,7 @@
 (function() {
   'use strict';
 
+  joint.shapes.liveOps = joint.shapes.liveOps || {};
   joint.shapes.liveOps.activity = joint.shapes.basic.TextBlock.extend({
     markup: ['<g class="rotatable">',
              '<g class="scalable"><rect class="body outer"/><rect class="body inner"/></g>',
