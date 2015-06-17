@@ -29,7 +29,7 @@ angular.module('liveopsConfigPanel')
           });
         }
         return itemStrings;
-      }
+      };
 
       var filtered = [];
       angular.forEach(items, function (item) {
