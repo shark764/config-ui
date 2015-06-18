@@ -5,8 +5,11 @@ angular.module('liveopsConfigPanel')
     function ($scope, $state, Session, Flow, flowTableConfig, flowTypes) {
 
       $scope.redirectToInvites();
+      $scope.versions = [];
 
       $scope.fetch = function () {
+        $scope.versions = [];
+
         $scope.flows = Flow.query({
           tenantId: Session.tenant.tenantId
         });
@@ -21,12 +24,12 @@ angular.module('liveopsConfigPanel')
       $scope.$watch('Session.tenant', function () {
         $scope.fetch();
       });
-      
+
       $scope.additional = {
-        versions: {},
+        versions: $scope.versions,
         flowTypes: flowTypes
       };
-      
+
       $scope.fetch();
       $scope.tableConfig = flowTableConfig;
     }
