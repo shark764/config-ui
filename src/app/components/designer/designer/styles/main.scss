@@ -1,6 +1,6 @@
 @import 'stencil.scss';
 @import 'inspector.scss';
-
+@import 'toolbar.scss';
 
 .paper-scroller {
   height: 100%;
@@ -9,8 +9,9 @@
 
 #paper-container {
   left: 300px;
-  right: 300px;
+  right: 0;
   bottom: 0;
+  top: 48px;
 }
 
 .free-transform {
@@ -29,8 +30,13 @@ body {
   margin: 0;
 }
 
+.editor-page {
+  padding-left: 7px;
+}
+
+
 .liveops-flow-designer {
-  width: 1280px;
+  width: 100%;
   position: relative;
   height: 100vh;
   max-height: 800px;

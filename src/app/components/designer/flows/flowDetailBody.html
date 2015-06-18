@@ -27,7 +27,7 @@
 </div>
 
 <div class="input-group">
-  <label>{{'flow.type' | translate}}</label>
+  <label>{{'value.type' | translate}}</label>
   <div>
     <form-error field="detailsForm.type" error-type-required="{{'flow.details.type.error' | translate}}"></form-error>
     <select ng-required="true" name="type" ng-model="resource.type" ng-options="type.value as type.display for type in flowTypes">

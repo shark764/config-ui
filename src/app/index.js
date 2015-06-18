@@ -85,7 +85,38 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
         url: '/editor/:flowId/:versionId',
         templateUrl: 'app/components/designer/designer/designerPage.html',
         controller: 'DesignerPageController',
-        reloadOnSearch: false
+        reloadOnSearch: false,
+        resolve: {
+          flow: ['$stateParams', 'Session', 'Flow', '$q', function($stateParams, Session, Flow, $q) {
+            var deferred = $q.defer();
+            var flow;
+
+            Flow.get({
+              tenantId: Session.tenant.tenantId,
+              id: $stateParams.flowId
+            }, function(data) {
+              flow = data;
+              deferred.resolve(flow);
+            });
+
+            return deferred.promise;
+          }],
+          version: ['$stateParams', 'FlowVersion', 'Session', '$q', function($stateParams, FlowVersion, Session, $q) {
+            var deferred = $q.defer();
+            var version;
+
+            FlowVersion.get({
+              flowId: $stateParams.flowId,
+              version: $stateParams.versionId,
+              tenantId: Session.tenant.tenantId
+            }, function(data) {
+              version = data;
+              deferred.resolve(version);
+            });
+
+            return deferred.promise;
+          }]
+        }
       })
       .state('login', {
         url: '/login',
