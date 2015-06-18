@@ -1,23 +1,28 @@
-<div ng-show="!skills.$resolved || !userSkills.$resolved">
-  Loading...
-</div>
-
-<div ng-show="skills.$resolved && userSkills.$resolved">
+<div ng-show="skills.$resolved && userSkills.$resolved" class="user-skills-table">
+  <div class="header">
+    <span class="title">Add New Skill</span>
+  </div>
+  <div class="input-group">
+    <label>Skill Name</label>
+    <type-ahead fieldName="name" items="skills" ng-model="thing" ></type-ahead>
+  </div>
+  <div class="input-group">
+    <label>Skill Proficiency</label>
+    <number-slider value="newInvite.proficiency"></number-slider>
+  </div>
+  <div class="header">
+    <span class="title">Skills</span>
+    <span class="count">({{userSkills.length}})</span>
+  </div>
   <table>
     <tr ng-show="userSkills.length === 0">
       <td>None found</td>
     <tr>
     <tr ng-show="userSkills.length > 0" ng-repeat="userSkill in userSkills">
-      <td>{{userSkill.skillName}}</td>
-      <td><input value="X" type="button" ng-click="remove(userSkill)" /></td>
-    </tr>
-    <tr ng-show="skillId">
-      <td><select ng-model="skillId" ng-options="skill.id as skill.name for skill in (filtered = (skills | objectNegation:'id':userSkills:'skillId' | orderBy:name))"></select></td>
-      <td></td>
+      <td>{{userSkill.name}}</td>
+      <td><input ng-model="userSkill.proficiency" type="number" ng-required="true" min="0" max="100"/></td>
+      <td><input value="Save" type="button" ng-click="save(userSkill)" /></td>
+      <td><input value="Remove" type="button" ng-click="remove(userSkill)" /></td>
     </tr>
   </table>
-  <div ng-show="skills.length > 0 && filtered.length > 0">
-    <input ng-show="!skillId" type="button" class="btn" value="Add New" ng-click="new()"/>
-    <input ng-show="skillId" type="button" class="btn" value="Save" ng-click="add(skillId)"/>
-  </div>
 </div>

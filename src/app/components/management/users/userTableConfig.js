@@ -21,12 +21,17 @@ angular.module('liveopsConfigPanel')
           'header': 'Status',
           'name': 'status',
           'templateUrl': 'app/components/management/users/userStatusTemplate.html',
-          'checked' : false,
+          'checked': false,
           'options': userStatuses
         }],
-        'searchOn' : ['firstName', 'lastName'],
-        'orderBy' : ['lastName'],
-        'title' : 'User Management'
+        'searchOn': ['firstName', 'lastName', {
+          path: 'skills',
+          inner: {
+            path: 'name'
+          }
+        }],
+        'orderBy': ['lastName'],
+        'title': 'User Management'
       };
     }
   ]);

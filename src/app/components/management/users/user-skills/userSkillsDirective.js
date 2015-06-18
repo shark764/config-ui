@@ -13,51 +13,34 @@ angular.module('liveopsConfigPanel')
 
       link: function ($scope) {
 
-        $scope.remove = function (userSkill) {
-          $scope.skillId = null;
-
-          var tsu = new TenantUserSkills({
-            memberId: userSkill.memberId,
-            skillId: userSkill.skillId,
-            tenantId: userSkill.tenantId
-          });
-
-          tsu.$delete(function () {
-            $scope.fetch();
-          });
-
+        $scope.remove = function (tsu) {
+          tsu.$delete({skillId: tsu.skillId}, $scope.fetch);
         };
 
-        $scope.add = function (skillId) {
-          $scope.skillId = null;
-
-          var tsu = new TenantUserSkills({
-            userId: $scope.user.id,
-            tenantId: Session.tenant.tenantId,
-            skillId: skillId
-          });
-
-          tsu.$save(function () {
-            $scope.fetch();
-          });
+        $scope.save = function (tsu) {
+          if(tsu.added){
+            tsu.save({skillId: tsu.skillId}, $scope.fetch);
+          } else {
+            tsu.save($scope.fetch);
+          }
         };
 
         $scope.fetch = function () {
+          $scope.newSkill = null;
           $scope.userSkills = TenantUserSkills.query({ tenantId: Session.tenant.tenantId, userId: $scope.user.id });
         };
 
         $scope.new = function() {
-          if($scope.skills && $scope.filtered.length  > 0){
-            $scope.skillId = $scope.filtered[0].id;
-          }
+          $scope.newSkill = new TenantUserSkills({
+            skillId: $scope.filtered[0].id,
+            tenantId: Session.tenant.tenantId,
+            userId: $scope.user.id
+          });
+
         };
 
         $scope.$watch('user', function () {
-          $scope.skillId = null;
-
-          $scope.skills = Skill.query({ tenantId: Session.tenant.tenantId }, function () {
-            $scope.fetch();
-          });
+          $scope.skills = Skill.query({ tenantId: Session.tenant.tenantId }, $scope.fetch);
         });
       }
     };

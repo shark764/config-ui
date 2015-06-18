@@ -5,7 +5,8 @@ angular.module('liveopsConfigPanel')
     return {
       templateUrl : 'app/shared/directives/toggle/toggle.html',
       scope : {
-        ngModel : '='
+        ngModel : '=',
+        ngDisabled : '='
       }
     };
    });

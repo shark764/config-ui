@@ -25,9 +25,17 @@ angular.module('liveopsConfigPanel')
         create: function (endpoint, setCreatedBy, setUpdatedBy, updateFields, requestUrlFields) {
           setUpdatedBy = typeof setUpdatedBy !== 'undefined' ? setUpdatedBy : true;
           setCreatedBy = typeof setCreatedBy !== 'undefined' ? setCreatedBy : true;
-          requestUrlFields = typeof requestUrlFields !== 'undefined' ? requestUrlFields : [ 'id', 'tenantId' ];
+          requestUrlFields = typeof requestUrlFields !== 'undefined' ? requestUrlFields : {
+            id : '@id',
+            tenantId : '@tenantId',
+            groupId: '@groupId',
+            flowId: '@flowId',
+            queueId: '@queueId',
+            userId: '@userId',
+            memberId: '@memberId'
+          };
 
-          var Resource = $resource(apiHostname + endpoint, {}, {
+          var Resource = $resource(apiHostname + endpoint, requestUrlFields, {
             query: {
               method: 'GET',
 
@@ -81,22 +89,20 @@ angular.module('liveopsConfigPanel')
             }
           });
 
+          /**
+            Params can be a function or object.
+
+            If it is a function
+
+          **/
           Resource.prototype.save = function (params, success, failure) {
-            if (requestUrlFields){
-              var newParams = {};
-              for (var i = 0; i < requestUrlFields.length; i++) {
-                var fieldName = requestUrlFields[i];
-                newParams[fieldName] = params[fieldName];
-              }
+            var isFunction = typeof(params) === 'function';
 
-              params = newParams;
+            if (this.id || this.added) {
+              return isFunction ? this.$update(params, success) : this.$update(params, success, failure);
             }
 
-            if (this.id) {
-              return this.$update(params, success, failure);
-            }
-
-            return this.$save(params, success, failure);
+            return isFunction ? this.$save(params, success) : this.$save(params, success, failure);
           };
 
           return Resource;

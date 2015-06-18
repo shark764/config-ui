@@ -81,7 +81,7 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
         controller: 'VersionsController',
         reloadOnSearch: false
       })
-      .state('content.designer.flows.editor', {
+      .state('content.designer.editor', {
         url: '/editor/:flowId/:versionId',
         templateUrl: 'app/components/designer/designer/designerPage.html',
         controller: 'DesignerPageController',

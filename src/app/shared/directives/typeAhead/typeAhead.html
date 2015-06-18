@@ -1,0 +1,6 @@
+<div class="typeahead-container">
+  <input type="text" ng-model="currentText"></input>
+  <ul ng-show="currentText !== '' && filtered.length > 0">
+    <li ng-repeat="item in filtered = (items | filter:{name: currentText})">{{item.name}}</li>
+  </ul>
+</div>

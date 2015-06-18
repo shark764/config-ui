@@ -4,7 +4,7 @@ var shared = require('./shared.po.js');
 var Login = function() {
   this.emailLoginField = element(by.model('username'));
   this.passwordLoginField = element(by.model('password'));
-  this.loginButton = element(by.css('.login-btn'));
+  this.loginButton = element(by.css('.btn'));
 
   this.emailLoginCreds = 'titan@liveops.com';
   this.passwordLoginCreds = 'gKVnfF9wrs6XPSYs';
@@ -22,7 +22,7 @@ var Login = function() {
 
     browser.driver.wait(function() {
       return browser.getCurrentUrl().then(function (url) {
-          return shared.usersPageUrl == url;
+          return shared.loginPageUrl !== url;
       });
     }, 5000);
   };
