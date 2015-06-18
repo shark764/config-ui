@@ -3,6 +3,7 @@
 
   function FlowPaletteService(FlowNotationService, flowMocks) {
     var demoInit = flowMocks.demoInit;
+    console.log(demoInit);
     return {
       loadGateways: function(palette) {
         palette.load([
@@ -48,7 +49,8 @@
             _.map(notations, function(notation) {
               return new joint.shapes.liveOps[entity]({
                 content: notation.label,
-                type: notation.type,
+                type: 'liveOps.activity',
+                activityType: notation.type,
                 name: notation.name
               });
             }
@@ -57,6 +59,7 @@
             FlowNotationService.registerActivity(notation);
           });
         });
+        console.log(FlowNotationService);
       }
     };
   }
