@@ -1,6 +1,6 @@
 'use strict';
 
-describe('resorce details directive', function() {
+describe('resource details directive', function() {
   var $scope,
     $compile,
     User,

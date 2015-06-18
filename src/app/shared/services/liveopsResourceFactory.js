@@ -53,6 +53,9 @@ angular.module('liveopsConfigPanel')
               interceptor: SaveInterceptor,
               transformRequest: function (data) {
                 var newData = {};
+                if (setUpdatedBy) {
+                  newData.updatedBy = Session.user.id;
+                }
 
                 if (updateFields) {
                   for (var i = 0; i < updateFields.length; i++) {
@@ -77,6 +80,10 @@ angular.module('liveopsConfigPanel')
               method: 'POST',
               interceptor: SaveInterceptor,
               transformRequest: function (data) {
+
+                if (setCreatedBy) {
+                  data.createdBy = Session.user.id;
+                }
 
                 return JSON.stringify(data);
               },
