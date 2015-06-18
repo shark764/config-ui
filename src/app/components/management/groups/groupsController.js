@@ -17,13 +17,13 @@ angular.module('liveopsConfigPanel')
         });
       };
 
-      $scope.createGroup = function () {
+      $scope.$on('on:click:create', function(){
         $scope.selectedGroup = new Group({
           tenantId: Session.tenant.tenantId,
           status: true,
           owner: Session.user.id
         });
-      };
+      });
 
       $scope.fetch();
     }

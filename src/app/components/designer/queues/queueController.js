@@ -19,11 +19,11 @@ angular.module('liveopsConfigPanel')
       });
     };
 
-    $scope.createQueue = function(){
+    $scope.$on('on:click:create', function(){
       $scope.selectedQueue = new Queue({
         tenantId: Session.tenant.tenantId
       });
-    };
+    });
 
     $scope.$watch('Session.tenant.tenantId', function () {
       $scope.fetch();

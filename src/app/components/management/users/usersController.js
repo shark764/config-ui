@@ -1,9 +1,9 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('UsersController', ['$scope', '$window', 'userStatuses', 'userRoles', 'User', 'Session', 'AuthService', 'userTableConfig', 'Invite', 'toastr', 'flowSetup',
-    function($scope, $window, userStatuses, userRoles, User, Session, AuthService, userTableConfig, Invite, toastr, flowSetup) {
-      $scope.statuses = userStatuses;
+  .controller('UsersController', ['$scope', '$window', 'statuses', 'userRoles', 'User', 'Session', 'AuthService', 'userTableConfig', 'Invite', 'toastr', 'flowSetup',
+    function($scope, $window, statuses, userRoles, User, Session, AuthService, userTableConfig, Invite, toastr, flowSetup) {
+      $scope.statuses = statuses;
       $scope.filteredUsers = [];
       $scope.Session = Session;
       var self = this;
@@ -54,11 +54,11 @@ angular.module('liveopsConfigPanel')
         }
       };
 
-      $scope.createUser = function() {
+      $scope.$on('on:click:create', function(){
         $scope.selectedUser = new User({
           status: true
         });
-      };
+      });
 
       $scope.fetch = function () {
         $scope.users = User.query();
