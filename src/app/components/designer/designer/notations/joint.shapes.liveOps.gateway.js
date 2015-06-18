@@ -13,8 +13,21 @@
       attrs: {
           '.body': {
             points: '40,0 80,40 40,80 0,40',
-            fill: '#ffffff',
-            stroke: '#27AAE1'
+            fill: {
+              type: 'linearGradient',
+              stops: [
+                {offset: '0%', color: '#FFFFFF'},
+                {offset: '100%', color: '#E8E3E7'}
+              ],
+              attrs: {
+                x1: '0%',
+                y1: '0%',
+                x2: '0%',
+                y2: '90%'
+              }
+            },
+            stroke: '#E693E5',
+            'stroke-width': 1.5
           },
           '.label': {
             text: '',

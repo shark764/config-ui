@@ -62,8 +62,6 @@
         var activity = self.activities[model.name];
         var params = {};
 
-        console.log('Params: ', activity.params);
-
         params = _.reduce(activity.params, function(memo, param, key) {
 
           if (param.source === 'constant') {
