@@ -1,7 +1,9 @@
 'use strict';
 
+/*jshint browser:true */
+
 angular.module('liveopsConfigPanel')
-  .directive('userGroups', ['TenantUserGroups', 'TenantGroupUsers', 'Group', 'Session', function (TenantUserGroups, TenantGroupUsers, Group, Session) {
+  .directive('userGroups', ['TenantUserGroups', 'TenantGroupUsers', 'Group', 'Session', '$timeout', function (TenantUserGroups, TenantGroupUsers, Group, Session, $timeout) {
     return {
       restrict: 'E',
 
@@ -37,39 +39,50 @@ angular.module('liveopsConfigPanel')
 
           tgu.$delete(function(){
             $scope.userGroups.removeItem(userGroup);
+            $scope.updateCollapseState(tagWrapper.height());
           });
         };
 
         $scope.fetch = function () {
           $scope.userGroups = TenantUserGroups.query({ tenantId: Session.tenant.tenantId, userId: $scope.user.id });
+          $scope.userGroups.$promise.then(function(){
+            $timeout(function(){
+              $scope.updateCollapseState(tagWrapper.height());
+            }, 200); //TODO: Is it possible to get reliable readings without a delay?
+          });
+          $scope.groups = Group.query({tenantId: Session.tenant.tenantId });
         };
 
         $scope.$watch('user', function () {
           $scope.groupId = null;
-
-          $scope.groups = Group.query({tenantId: Session.tenant.tenantId }, function () {
-            $scope.fetch();
-          })
+          $scope.fetch();
+        });
+        
+        $scope.$watch('Session.tenant.tenantId', function(){
+          $scope.groupId = null;
+          $scope.fetch();
         });
         
         $scope.collapsed = true;
         
         //This is just for presentation, to only show the expander thing when there is more than three rows of data
-        var tagWrapper = angular.element(document.querySelector('#tag-wrapper'));
-        $scope.$watch(function () {return tagWrapper.height();}, function (newValue) {
-          if (newValue !== 0){ //TODO: figure out why watch isn't firing on first fetch
-            $scope.updateCollapseState(newValue);
-          }
+        var tagWrapper = angular.element(document.querySelector('#tags-inside'));
+        $scope.$on('resizehandle:resize', function(){
+          $scope.updateCollapseState(tagWrapper.height());
         });
         
         $scope.updateCollapseState = function(wrapperHeight){
-          var maxCollapsedHeight = 91; //TODO: This should be dynamically determined
-          if (wrapperHeight < maxCollapsedHeight){
-            $scope.hideCollapseControls = true;
+          var maxCollapsedHeight = 94; //TODO: This should be dynamically determined
+          if (wrapperHeight < maxCollapsedHeight && wrapperHeight > 0){
+            $scope.$apply(function(){
+              $scope.hideCollapseControls = true;
+            });
           } else {
-            $scope.hideCollapseControls = false;
+            $scope.$apply(function(){
+              $scope.hideCollapseControls = false;
+            });
           }
-        }
+        };
       }
     };
   }]);

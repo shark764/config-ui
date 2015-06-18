@@ -1,18 +1,21 @@
 'use strict';
 
-describe('details directive', function() {
+describe('resorce details directive', function() {
   var $scope,
     $compile,
     User,
     $httpBackend,
-    apiHostname;
+    apiHostname,
+    $templateCache;
 
   beforeEach(module('liveopsConfigPanel'));
   beforeEach(module('gulpAngular'));
 
-  beforeEach(inject(['$compile', '$rootScope', '$injector', 'User', 'apiHostname', function(_$compile_, _$rootScope_, $injector, _User_, _apiHostname_) {
+  beforeEach(inject(['$compile', '$rootScope', '$injector', 'User', 'apiHostname', '$templateCache', function(_$compile_, _$rootScope_, $injector, _User_, _apiHostname_, _$templateCache_) {
     $scope = _$rootScope_.$new();
     $compile = _$compile_;
+    $templateCache = _$templateCache_;
+    
     User = _User_;
     $httpBackend = $injector.get('$httpBackend');
     apiHostname = _apiHostname_;
@@ -48,11 +51,13 @@ describe('details directive', function() {
   it('should render the body and header if a body or header templates are provided', inject(function () {
     $scope.user = new User({ id: 1, firstName: 'John', lastName: 'Benson' });
 
-    var ele = $compile('<resource-details original-resource="user" header-template-url="app/components/management/users/userDetailHeader.html" body-template-url="app/components/management/users/userDetailBody.html"></resource-details>')($scope);
+    $templateCache.put('body.html', '<detail-body-pane></detail-body-pane>');
+    $templateCache.put('header.html', '<detail-header-pane></detail-header-pane>');
+    var ele = $compile('<resource-details original-resource="user" header-template-url="header.html" body-template-url="body.html"></resource-details>')($scope);
     $scope.$digest();
 
-    var body = ele.find('#detail-body-pane');
-    var header = ele.find('#detail-header-pane');
+    var body = ele.find('detail-body-pane');
+    var header = ele.find('detail-header-pane');
 
     expect(body.length).toBe(1);
     expect(header.length).toBe(1);

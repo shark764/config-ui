@@ -22,13 +22,18 @@
   
   <div ng-show="userGroups.length > 0">
     <div id="tag-wrapper" class="input-group clear" ng-class="{collapsed : collapsed}">
-      <div ng-repeat="userGroup in userGroups" class="tag">
-        {{userGroup.groupName}}
-        <a ng-click="remove(userGroup)" title="Remove user from this group"><i class="fa fa-times"></i></a>
+      <div id="tags-inside" class="clear">
+        <div ng-repeat="userGroup in userGroups" class="tag">
+          {{userGroup.groupName}}
+          <a ng-click="remove(userGroup)" title="Remove user from this group"><i class="fa fa-times"></i></a>
+        </div>
       </div>
     </div>
     
-    <div class="expander down" ng-show="collapsed && ! hideCollapseControls"><a ng-click="collapsed = false"><i class="fa fa-ellipsis-h"></i></a></div>
-    <div class="expander up" ng-show="! collapsed && ! hideCollapseControls"><a ng-click="collapsed = true"><i class="fa fa-caret-up"></i></a></div>
+    <div ng-show="! hideCollapseControls">
+      <div class="expander down" ng-show="collapsed"><a ng-click="collapsed = false"><i class="fa fa-ellipsis-h"></i></a></div>
+      <div class="expander up" ng-show="! collapsed"><a ng-click="collapsed = true"><i class="fa fa-caret-up"></i></a></div>
+    </div>
+    
   </div>
 </div>

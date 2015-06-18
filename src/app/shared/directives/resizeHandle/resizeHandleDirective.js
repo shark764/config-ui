@@ -2,7 +2,7 @@
 /*jslint browser:true */
 
 angular.module('liveopsConfigPanel')
-  .directive('resizeHandle', ['$window', '$document', function($window, $document) {
+  .directive('resizeHandle', ['$window', '$document', '$rootScope', function($window, $document, $rootScope) {
     return {
       restrict : 'E',
       scope : {
@@ -54,6 +54,7 @@ angular.module('liveopsConfigPanel')
 
           scope.leftTargetElement.css('width', newLeftWidth + 'px');
           scope.rightTargetElement.css('left', newLeftWidth + 'px');
+          $rootScope.$broadcast('resizehandle:resize');
         };
 
         function mouseup() {
