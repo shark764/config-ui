@@ -18,6 +18,8 @@
   "value.error.name.required" : "Field \"Name\" is required.",
   "value.create.new": "Create & New",
 
+
+  "value.error.query.required" : "Field \"Query\" is required.",
   "navbar.users.title": "User Management",
   "navbar.tenants.title": "Tenants",
   "navbar.flows.title": "Flows",
@@ -41,6 +43,14 @@
   "details.role.error": "Please select a role",
 
   "skill.details.hasProficiency": "Has Proficiency",
+  "skill.details.name.error": "Please enter a name",
+
+  "flow.type": "Type",
+  "flow.type.choose": "Choose a Type",
+  "flow.details.type.error": "Type is required",
+  "flow.details.activeVersion.error": "Active version is required",
+
+  "queue.details.version.error" : "Active Version is required",
 
   "media.details.source.error": "Please enter a source",
   "media.details.type.error": "Please enter a type",

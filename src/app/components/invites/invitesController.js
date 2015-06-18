@@ -24,7 +24,7 @@ angular.module('liveopsConfigPanel')
       $scope.save = function(){
         var prevTenant = $scope.newInvite.tenantId;
 
-        $scope.newInvite.save({tenantId : $scope.newInvite.tenantId}, function(){
+        $scope.newInvite.save(function(){
           $scope.init();
           $scope.newInvite.tenantId = prevTenant;
           $scope.fetchInvites();

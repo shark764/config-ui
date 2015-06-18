@@ -7,3 +7,4 @@ dist/
 /.project
 coverage/
 npm-debug.log
+jenkins/

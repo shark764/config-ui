@@ -17,13 +17,13 @@ var Shared = function() {
   this.tenantsPageUrl = this.configurationUrl + 'tenants';
 
   this.flowsPageUrl = this.designerUrl + 'flows';
-  this.flowVersionsPageUrl = this.mainUrl + 'versions';
   this.queuesPageUrl = this.designerUrl + 'queues';
   this.mediaPageUrl = this.designerUrl + 'media';
 
   this.invitesPageUrl = this.mainUrl + 'invites';
+  this.skillsPageUrl = this.managementUrl + 'skills';
 
-  // Elements that are present on all pages: navbar, etc.
+  // Navbar elements
   this.navBar = element(by.id('topnav'));
   this.welcomeMessage = element(by.id('welcome'));
   this.siteNavLogo = element(by.id('logo'));
@@ -32,11 +32,28 @@ var Shared = function() {
   this.tenantsNavButton = element(by.id('tenants-nav-link'));
   this.flowsNavButton = element(by.id('flows-nav-link'));
   this.queuesNavButton = element(by.id('queues-nav-link'));
-
   this.settingsDropdown = element(by.id('user-settings-dropdown'));
   this.settingsDropdownOptions = this.settingsDropdown.all(by.repeater('item in items'));
   this.userProfileButton = this.settingsDropdownOptions.get(1);
   this.logoutButton = this.settingsDropdownOptions.get(0);
+
+  // Shared page elements
+  this.pageHeader = element(by.css('h2.ng-binding'));
+
+  // Table controls
+  this.table = element(by.css('.table'));
+  this.tableElements = element.all(by.repeater('item in (filtered = (items | selectedTableOptions:config.fields | search:config.searchOn:searchQuery | orderBy:config.orderBy))'));
+  this.createBtn = element(by.id('create-btn'));
+  this.searchField = element(by.model('searchQuery'));
+  this.actionBtn = element(by.buttonText('Actions'));
+  this.tableColumnsDropDown = element(by.css('filter-dropdown.btn'));
+
+  // Shared Form elements
+  this.detailsForm = element(by.id('details-form'));
+  this.submitFormBtn = element(by.buttonText('Submit'));
+  this.cancelFormBtn = element(by.buttonText('Cancel'));
+  this.successMessage = element(by.css('.toast-success'));
+  this.errorMessage = element(by.css('.toast-error'));
 
   this.tearDown = function() {
     browser.executeScript('window.sessionStorage.clear()');
