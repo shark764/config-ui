@@ -30,9 +30,9 @@ body {
 }
 
 .liveops-flow-designer {
-  width: 1280px;
+  width: 100%;
   position: relative;
-  height: 100vh;
+  height: calc(100vh - 125px);
   max-height: 800px;
   overflow: hidden;
   display: inline-block;

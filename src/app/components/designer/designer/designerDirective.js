@@ -10,7 +10,7 @@ function flowDesigner() {
     link: function() {},
     controller: function($scope, $element, $attrs, $window, $timeout, JointInitService, FlowConversionService, FlowNotationService, FlowPaletteService, flowMocks) {
       
-      $timeout(function(){
+      $timeout(function() {
         var demoFlow = flowMocks.demoFlow;
         var inspectorContainer = $($element).find('#inspector-container');
         var flow = JointInitService.graph();
@@ -228,7 +228,9 @@ function flowDesigner() {
         flow.fromJSON(FlowConversionService.convertToJoint(demoFlow));
         console.log(FlowConversionService.convertToAlienese(flow.toJSON()));
 
-      }, 1000); 
+        console.log(flowPaper.defs);
+
+      }, 1000);
     }
   };
 }
