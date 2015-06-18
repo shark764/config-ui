@@ -95,7 +95,7 @@ describe('AuthService', function () {
       var promise = AuthService.login(USERNAME, PASSWORD);
       $httpBackend.flush();
 
-      expect(promise.$$state.status).toEqual(1); //resolved
+      expect(promise.$$state.status).toEqual(2); //rejected
       expect(promise.$$state.value.status).toEqual(500);
       expect(promise.$$state.value.data).toEqual('');
 

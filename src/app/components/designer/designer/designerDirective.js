@@ -214,21 +214,19 @@ function flowDesigner() {
          * [ Mouse wheel listeners ]
          */
         // Zooming in
-        MouseWheelJS.on('scrollUp', function(evt) {
-          console.log('Scrolled up!', evt);
-          flowScroller.zoom(0.2, {max: 2, min: 0.2});
-        });
+        // MouseWheelJS.on('scrollUp', function(evt) {
+        //   console.log('Scrolled up!', evt);
+        //   flowScroller.zoom(0.2, {max: 2, min: 0.2});
+        // });
 
         // Zooming out
-        MouseWheelJS.on('scrollDown', function(evt) {
-          console.log('Scrolled down!', evt);
-          flowScroller.zoom(-0.2, {max: 2, min: 0.2});
-        });
+        // MouseWheelJS.on('scrollDown', function(evt) {
+        //   console.log('Scrolled down!', evt);
+        //   flowScroller.zoom(-0.2, {max: 2, min: 0.2});
+        // });
 
         flow.fromJSON(FlowConversionService.convertToJoint(demoFlow));
         console.log(FlowConversionService.convertToAlienese(flow.toJSON()));
-
-        console.log(flowPaper.defs);
 
       }, 1000);
     }

@@ -28,7 +28,7 @@ angular.module('liveopsConfigPanel')
 
           return response;
         }, function(response) {
-          return response;
+          return $q.reject(response);
         });
       };
 
