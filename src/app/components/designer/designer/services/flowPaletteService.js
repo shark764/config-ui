@@ -3,7 +3,6 @@
 
   function FlowPaletteService(FlowNotationService, flowMocks) {
     var demoInit = flowMocks.demoInit;
-    console.log(demoInit);
     return {
       loadGateways: function(palette) {
         palette.load([
@@ -59,7 +58,6 @@
             FlowNotationService.registerActivity(notation);
           });
         });
-        console.log(FlowNotationService);
       }
     };
   }
