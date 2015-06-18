@@ -39,16 +39,18 @@ angular.module('liveopsConfigPanel')
 
           tgu.$delete(function(){
             $scope.userGroups.removeItem(userGroup);
-            $scope.updateCollapseState(tagWrapper.height());
+            $timeout(function(){ //Timeout prevents simultaneous $digest cycles
+              $scope.updateCollapseState(tagWrapper.height());
+            }, 200);
           });
         };
 
         $scope.fetch = function () {
           $scope.userGroups = TenantUserGroups.query({ tenantId: Session.tenant.tenantId, userId: $scope.user.id });
           $scope.userGroups.$promise.then(function(){
-            $timeout(function(){
+            $timeout(function(){ //Timeout prevents simultaneous $digest cycles
               $scope.updateCollapseState(tagWrapper.height());
-            }, 200); //TODO: Is it possible to get reliable readings without a delay?
+            }, 200);
           });
           $scope.groups = Group.query({tenantId: Session.tenant.tenantId });
         };
