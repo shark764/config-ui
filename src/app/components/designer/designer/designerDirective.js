@@ -10,7 +10,7 @@ function flowDesigner() {
     templateUrl: 'app/components/designer/designer/designerDirective.html',
     replace: true,
     link: function() {},
-    controller: function($scope, $element, $attrs, $window, $timeout, JointInitService, FlowConversionService, FlowNotationService, FlowPaletteService, FlowVersion, Session, toastr) {
+    controller: function($scope, $element, $attrs, $window, $timeout, JointInitService, FlowConversionService, FlowNotationService, FlowPaletteService, FlowVersion, Session, toastr, $location) {
 
       $timeout(function() {
         var inspectorContainer = $($element).find('#inspector-container');
@@ -25,7 +25,7 @@ function flowDesigner() {
         var flowSnapper = JointInitService.snapper(flowPaper);
         var flowPropertiesPanel;
 
-        console.log(FlowVersion);
+        console.log('Editing current version:', $scope.flowVersion);
 
         $scope.publish = function() {
           if (flow.toJSON().cells.length === 0) { return; }
@@ -41,7 +41,7 @@ function flowDesigner() {
             flowId: $scope.flowVersion.flowId
           }, function() {
             toastr.success('New flow version successfully created.');
-            console.log('VALID! CREATED NEW VERSION!');
+            $scope.flowVersion.v = parseInt($scope.flowVersion.v) + 1;
           }, function(error) {
             if (error.data.error.attribute === null) {
               toastr.error('API rejected this flow -- likely invalid Alienese.', JSON.stringify(error, null, 2));

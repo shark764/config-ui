@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigPanel.config', 'pascalprecht.translate', 'ngCookies', 'ngMessages', 'ngSanitize', 'toastr'])
+angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigPanel.config', 'pascalprecht.translate', 'ngCookies', 'ngMessages', 'ngSanitize', 'toastr', 'ngLodash'])
   .config(['$stateProvider', '$urlRouterProvider', '$translateProvider', 'toastrConfig', function ($stateProvider, $urlRouterProvider, $translateProvider, toastrConfig) {
     $urlRouterProvider.otherwise('/management/users');
 
@@ -82,7 +82,7 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
         reloadOnSearch: false
       })
       .state('content.designer.editor', {
-        url: '/editor/:flowId/:versionId',
+        url: '/editor/:flowId/:versionId?v=:version',
         templateUrl: 'app/components/designer/designer/designerPage.html',
         controller: 'DesignerPageController',
         reloadOnSearch: false,
@@ -111,6 +111,7 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
               tenantId: Session.tenant.tenantId
             }, function(data) {
               version = data;
+              version.v = $stateParams.v;
               deferred.resolve(version);
             });
 
