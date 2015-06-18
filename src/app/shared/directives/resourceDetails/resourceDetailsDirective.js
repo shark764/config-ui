@@ -8,6 +8,7 @@ angular.module('liveopsConfigPanel')
         originalResource: '=',
         headerTemplateUrl: '@',
         bodyTemplateUrl: '@',
+        footerTemplateUrl: '@',
         extendScope: '='
       },
       templateUrl: 'app/shared/directives/resourceDetails/resourceDetails.html',
@@ -30,6 +31,46 @@ angular.module('liveopsConfigPanel')
 
               $scope.resetForm();
               angular.copy($scope.resource, $scope.originalResource);
+              toastr.success('Record ' + ($scope.resource.id ? 'updated' : 'saved'));
+            },
+
+            function (error, headers){
+              toastr.error('Record failed to ' + ($scope.resource.id ? 'update' : 'save'));
+              $scope.loading = false;
+
+              if(error.data.error) {
+
+                var attributes = error.data.error.attribute;
+
+                angular.forEach(attributes, function(value, key) {
+                  $scope.detailsForm[key].$setValidity('api', false);
+                  $scope.detailsForm[key].$error = { api: value };
+                  $scope.detailsForm[key].$setTouched();
+                });
+              }
+
+              if ($scope.postError){
+                $scope.postError($scope, error, headers);
+              }
+            }
+          );
+        };
+
+        $scope.saveAndNew = function () {
+          $scope.loading = true;
+          if($scope.preSaveAndNew){
+            $scope.preSaveAndNew($scope);
+          }
+
+          $scope.resource.save($scope.originalResource,
+            function (result) {
+              $scope.loading = false;
+              if($scope.postSaveAndNew){
+                $scope.postSaveAndNew($scope, result);
+              }
+
+              $scope.resetForm();
+              //angular.copy($scope.resource, $scope.originalResource);
               toastr.success('Record ' + ($scope.resource.id ? 'updated' : 'saved'));
             },
 

@@ -16,6 +16,7 @@
   "value.openInDesigner": "Open in designer",
   "value.details.version" : "Active Version",
   "value.error.name.required" : "Field \"Name\" is required.",
+  "value.create.new": "Create & New",
 
   "navbar.users.title": "User Management",
   "navbar.tenants.title": "Tenants",

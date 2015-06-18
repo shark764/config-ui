@@ -19,3 +19,20 @@
   header-template-url="app/components/designer/media-collections/mediaCollectionDetailHeader.html"
   body-template-url="app/components/designer/media-collections/mediaCollectionDetailBody.html"
   original-resource="selectedMediaCollection"></resource-details>
+
+  <resize-handle
+  id="resize-pane"
+  ng-show="selectedMedia"
+  right-element-id="media-pane"
+  left-element-id="details-pane"
+  left-min-width="600"
+  right-min-width="400" ></resize-handle>
+
+<resource-details
+  id="media-pane"
+  ng-show="selectedMedia"
+  extend-scope="additional"
+  header-template-url="app/components/designer/media/mediaDetailHeader.html"
+  body-template-url="app/components/designer/media/mediaDetailBody.html"
+  footer-template-url="app/components/designer/media/mediaDetailFooter.html"
+  original-resource="selectedMedia"></resource-details>
