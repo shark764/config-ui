@@ -6,8 +6,6 @@ angular.module('liveopsConfigPanel')
 
       $scope.Session = Session;
 
-      $scope.redirectToInvites();
-
       $scope.tableConfig = skillTableConfig;
 
       $scope.$watch('Session.tenant', function () {
@@ -25,7 +23,7 @@ angular.module('liveopsConfigPanel')
           hasProficiency: false
         } );
       };
-
+      
       $scope.fetch();
     }
   ]);
