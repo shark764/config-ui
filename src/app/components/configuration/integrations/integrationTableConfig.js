@@ -4,6 +4,9 @@ angular.module('liveopsConfigPanel')
   .service('integrationTableConfig', ['statuses', function (statuses) {
     return {
       'fields': [{
+        'header': 'Type',
+        'name': 'type'
+      }, {
         'header': 'Account',
         'name': 'properties.accountSid'
       }, {
