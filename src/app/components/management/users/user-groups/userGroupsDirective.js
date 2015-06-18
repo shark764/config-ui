@@ -57,7 +57,7 @@ angular.module('liveopsConfigPanel')
 
           $scope.groups = Group.query({tenantId: Session.tenant.tenantId }, function () {
             $scope.fetch();
-          })
+          });
         });
       }
     };
