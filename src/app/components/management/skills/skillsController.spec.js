@@ -46,13 +46,12 @@ describe('SkillsController', function () {
     expect($scope.Session).toBeDefined();
     expect($scope.tableConfig).toBeDefined();
     expect($scope.fetch).toBeDefined();
-    expect($scope.createSkill).toBeDefined();
     
     expect($scope.skills.length).toEqual(2);
   });
   
   it('should set selectedGroup on createSkill', function() {
-    $scope.createSkill();
+    $scope.$broadcast('on:click:create');
     
     expect($scope.selectedSkill).toBeDefined();
     expect($scope.selectedSkill.tenantId).toEqual(Session.tenant.tenantId);

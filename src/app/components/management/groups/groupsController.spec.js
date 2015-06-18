@@ -46,13 +46,12 @@ describe('GroupsController', function () {
     expect($scope.Session).toBeDefined();
     expect($scope.tableConfig).toBeDefined();
     expect($scope.fetch).toBeDefined();
-    expect($scope.createGroup).toBeDefined();
     
     expect($scope.groups.length).toEqual(2);
   });
   
   it('should set selectedGroup on createGroup', function() {
-    $scope.createGroup();
+    $scope.$broadcast('on:click:create');
     
     expect($scope.selectedGroup).toBeDefined();
     expect($scope.selectedGroup.tenantId).toEqual(Session.tenant.tenantId);
