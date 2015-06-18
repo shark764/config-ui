@@ -4,7 +4,6 @@
 function flowDesigner() {
   return {
     scope: {
-      alienese: '=alienese',
       flowVersion: '=flowVersion'
     },
     restrict: 'E',
