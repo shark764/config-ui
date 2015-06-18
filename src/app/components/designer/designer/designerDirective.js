@@ -10,7 +10,7 @@ function flowDesigner() {
     templateUrl: 'app/components/designer/designer/designerDirective.html',
     replace: true,
     link: function() {},
-    controller: function($scope, $element, $attrs, $window, $timeout, JointInitService, FlowConversionService, FlowNotationService, FlowPaletteService, FlowVersion, Session) {
+    controller: function($scope, $element, $attrs, $window, $timeout, JointInitService, FlowConversionService, FlowNotationService, FlowPaletteService, FlowVersion, Session, toastr) {
 
       $timeout(function() {
         var inspectorContainer = $($element).find('#inspector-container');
@@ -25,6 +25,8 @@ function flowDesigner() {
         var flowSnapper = JointInitService.snapper(flowPaper);
         var flowPropertiesPanel;
 
+        console.log(FlowVersion);
+
         $scope.publish = function() {
           if (flow.toJSON().cells.length === 0) { return; }
           var alienese = JSON.stringify(FlowConversionService.convertToAlienese(flow.toJSON()));
@@ -37,6 +39,15 @@ function flowDesigner() {
           $scope.version.save({
             tenantId: Session.tenant.tenantId,
             flowId: $scope.flowVersion.flowId
+          }, function() {
+            toastr.success('New flow version successfully created.');
+            console.log('VALID! CREATED NEW VERSION!');
+          }, function(error) {
+            if (error.data.error.attribute === null) {
+              toastr.error('API rejected this flow -- likely invalid Alienese.', JSON.stringify(error, null, 2));
+            } else {
+              toastr.error('API rejected this flow -- some other reason...', JSON.stringify(error, null, 2));
+            }
           });
         };
 
@@ -240,7 +251,7 @@ function flowDesigner() {
         //   console.log('Scrolled down!', evt);
         //   flowScroller.zoom(-0.2, {max: 2, min: 0.2});
         // });
-
+        console.log(FlowConversionService.convertToJoint(JSON.parse($scope.flowVersion.flow)));
         flow.fromJSON(FlowConversionService.convertToJoint(JSON.parse($scope.flowVersion.flow)));
       }, 1000);
     }
