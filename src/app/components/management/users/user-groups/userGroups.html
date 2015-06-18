@@ -5,24 +5,30 @@
     <h4>Groups <span class="count">({{userGroups.length}})</span></h4>
   </div>
   
-  <div ng-show="groups.length > 0 && filtered.length > 0" class="clear">
-    <div ng-if="addNew" class="add-wrapper">
+  <p ng-show="groups.length === 0" class="null">There are no groups for the selected tenant.</p>
+  
+  <div ng-show="groups.length > 0" class="clear">
+    <div ng-show="filtered.length > 0" class="add-wrapper input-group">
       <select ng-model="groupId" ng-options="group.id as group.name for group in (filtered = (groups | objectNegation:'id':userGroups:'groupId' | orderBy:name))">
         <option disabled value="">Select Group...</option>
       </select>
-      <input type="button" class="btn pull-right" value="Save" ng-click="add(groupId)"/>
+      <a class="btn" ng-click="add(groupId)" title="Save"><i class="fa fa-check"></i></a>
     </div>
     
-    <input ng-show="! addNew" type="button" class="btn pull-right" value="Assign Group" ng-click="addNew = true"/>
+    <div class="input-group">
+      <p ng-show="userGroups.length === 0 && ! addNew" class="null">{{user.displayName}} is not assigned to any groups.</p>
+    </div>
   </div>
   
-  <p ng-show="userGroups.length === 0" class="null">{{user.displayName}} is not assigned to any groups.</p>
-  
-  <table ng-show="userGroups.length > 0">
-    <tr ng-repeat="userGroup in userGroups">
-      <td>{{userGroup.groupName}}</td>
-      <td><input value="X" type="button" ng-click="remove(userGroup)" /></td>
-    </tr>
-  </table>
-  
+  <div ng-show="userGroups.length > 0">
+    <div id="tag-wrapper" class="input-group clear" ng-class="{collapsed : collapsed}">
+      <div ng-repeat="userGroup in userGroups" class="tag">
+        {{userGroup.groupName}}
+        <a ng-click="remove(userGroup)" title="Remove user from this group"><i class="fa fa-times"></i></a>
+      </div>
+    </div>
+    
+    <div class="expander down" ng-show="collapsed && ! hideCollapseControls"><a ng-click="collapsed = false"><i class="fa fa-ellipsis-h"></i></a></div>
+    <div class="expander up" ng-show="! collapsed && ! hideCollapseControls"><a ng-click="collapsed = true"><i class="fa fa-caret-up"></i></a></div>
+  </div>
 </div>

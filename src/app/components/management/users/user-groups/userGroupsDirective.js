@@ -12,22 +12,6 @@ angular.module('liveopsConfigPanel')
       templateUrl: 'app/components/management/users/user-groups/userGroups.html',
 
       link: function ($scope) {
-
-        $scope.remove = function (userGroup) {
-          $scope.groupId = null;
-
-          var tgu = new TenantGroupUsers({
-            memberId: userGroup.memberId,
-            groupId: userGroup.groupId,
-            tenantId: userGroup.tenantId
-          });
-
-          tgu.$delete(function () {
-            $scope.fetch();
-          });
-
-        };
-
         $scope.add = function (groupId) {
           $scope.groupId = null;
 
@@ -39,6 +23,20 @@ angular.module('liveopsConfigPanel')
 
           tgu.$save(function () {
             $scope.fetch();
+          });
+        };
+        
+        $scope.remove = function (userGroup) {
+          $scope.groupId = null;
+
+          var tgu = new TenantGroupUsers({
+            memberId: userGroup.memberId,
+            groupId: userGroup.groupId,
+            tenantId: userGroup.tenantId
+          });
+
+          tgu.$delete(function(){
+            $scope.userGroups.removeItem(userGroup);
           });
         };
 
@@ -53,6 +51,25 @@ angular.module('liveopsConfigPanel')
             $scope.fetch();
           })
         });
+        
+        $scope.collapsed = true;
+        
+        //This is just for presentation, to only show the expander thing when there is more than three rows of data
+        var tagWrapper = angular.element(document.querySelector('#tag-wrapper'));
+        $scope.$watch(function () {return tagWrapper.height();}, function (newValue) {
+          if (newValue !== 0){ //TODO: figure out why watch isn't firing on first fetch
+            $scope.updateCollapseState(newValue);
+          }
+        });
+        
+        $scope.updateCollapseState = function(wrapperHeight){
+          var maxCollapsedHeight = 91; //TODO: This should be dynamically determined
+          if (wrapperHeight < maxCollapsedHeight){
+            $scope.hideCollapseControls = true;
+          } else {
+            $scope.hideCollapseControls = false;
+          }
+        }
       }
     };
   }]);
