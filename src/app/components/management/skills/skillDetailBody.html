@@ -8,7 +8,7 @@
   <label>{{'value.name' | translate}}</label>
   <div>
     <form-error field="detailsForm.name" error-type-api="{{'skill.details.name.error' | translate}}" error-type-required="{{'skill.details.name.error' | translate}}"></form-error>
-    <input ng-model="resource.name" name="name" type="text"></input>
+    <input required ng-model="resource.name" name="name" type="text"></input>
   </div>
 
 </div>
@@ -24,6 +24,6 @@
   <label>{{'skill.details.hasProficiency' | translate}}</label>
   <div>
     <div class="error" ng-show="detailsForm.hasProficiency.$touched && detailsForm.hasProficiency.$invalid">{{'skill.details.hasProficiency.error' | translate}}</div>
-    <input ng-disabled="resource.id" ng-model="resource.hasProficiency" name="hasProficiency" type="checkbox"></input>
+    <toggle ng-disabled="resource.id" class="status-toggle" name="hasProficiency" ng-model="resource.hasProficiency"></toggle>
   </div>
 </div>

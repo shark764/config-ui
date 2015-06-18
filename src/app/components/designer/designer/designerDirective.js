@@ -9,7 +9,7 @@ function flowDesigner() {
     replace: true,
     link: function() {},
     controller: function($scope, $element, $attrs, $window, $timeout, JointInitService, FlowConversionService, FlowNotationService, FlowPaletteService, flowMocks) {
-      
+
       $timeout(function(){
         var demoFlow = flowMocks.demoFlow;
         var inspectorContainer = $($element).find('#inspector-container');
@@ -214,21 +214,21 @@ function flowDesigner() {
          * [ Mouse wheel listeners ]
          */
         // Zooming in
-        MouseWheelJS.on('scrollUp', function(evt) {
-          console.log('Scrolled up!', evt);
-          flowScroller.zoom(0.2, {max: 2, min: 0.2});
-        });
+        // MouseWheelJS.on('scrollUp', function(evt) {
+        //   console.log('Scrolled up!', evt);
+        //   flowScroller.zoom(0.2, {max: 2, min: 0.2});
+        // });
 
         // Zooming out
-        MouseWheelJS.on('scrollDown', function(evt) {
-          console.log('Scrolled down!', evt);
-          flowScroller.zoom(-0.2, {max: 2, min: 0.2});
-        });
+        // MouseWheelJS.on('scrollDown', function(evt) {
+        //   console.log('Scrolled down!', evt);
+        //   flowScroller.zoom(-0.2, {max: 2, min: 0.2});
+        // });
 
         flow.fromJSON(FlowConversionService.convertToJoint(demoFlow));
         console.log(FlowConversionService.convertToAlienese(flow.toJSON()));
 
-      }, 1000); 
+      }, 1000);
     }
   };
 }

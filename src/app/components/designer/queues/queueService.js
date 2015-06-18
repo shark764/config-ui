@@ -7,8 +7,6 @@ angular.module('liveopsConfigPanel')
       {name: 'name'},
       {name: 'description', optional: true},
       {name: 'activeVersion', optional: true}
-    ], [
-      'id', 'tenantId'
     ]);
   }]);
 

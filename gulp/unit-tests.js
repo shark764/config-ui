@@ -9,32 +9,33 @@ var karma = require('karma');
 var concat = require('concat-stream');
 var _ = require('lodash');
 var ngConstant = require('gulp-ng-constant');
+var argv = require('yargs').argv;
 
 module.exports = function (options) {
 
-  function listFiles(callback) {
+  function listFiles(specFiles, callback) {
     var wiredepOptions = _.extend({}, options.wiredep, {
       dependencies: true,
       devDependencies: true
     });
     var bowerDeps = wiredep(wiredepOptions);
 
-    var specFiles = [
-      options.src + '/**/*.spec.js',
-      options.src + '/**/*.mock.js'
-    ];
-
     var htmlFiles = [
       options.src + '/**/*.html'
     ];
-
+    
+    var allSpecFiles = [
+      options.src + '/**/*.spec.js',
+      options.src + '/**/*.mock.js'
+    ];
+    
     var srcFiles = [
       options.src + '/app/**/*.js',
       'test/test-env.js',
       '!' + options.src + '/app/components/designer/designer/**/*.js',
       '!' + options.src + '/app/env.js',
-      '!' + options.src + '/app/translation-loader.js',
-    ].concat(specFiles.map(function (file) {
+      '!' + options.src + '/app/translation-loader.js'
+    ].concat(allSpecFiles.map(function (file) {
       return '!' + file;
     }));
 
@@ -48,8 +49,8 @@ module.exports = function (options) {
       }));
   }
 
-  function runTests(singleRun, reporters, done) {
-    listFiles(function (files) {
+  function runTests(singleRun, reporters, specFiles, done) {
+    listFiles(specFiles, function (files) {
       karma.server.start({
         configFile: __dirname + '/../karma.conf.js',
         files: files,
@@ -61,14 +62,28 @@ module.exports = function (options) {
   }
 
   gulp.task('test', ['scripts'], function (done) {
-    runTests(true, ['progress'], done);
+    var specFiles = [
+      options.src + '/**/*.spec.js',
+      options.src + '/**/*.mock.js'
+    ];
+    runTests(true, ['progress'], specFiles, done);
   });
-
-  gulp.task('test:auto', ['watch'], function (done) {
-    runTests(false, ['progress'], done);
+  
+  gulp.task('test:single', ['scripts'], function (done) {
+    if(typeof(argv.specFile) === 'object'){
+      var specFiles = argv.specFile;
+    } else {
+      var specFiles = [argv.specFile];
+    }
+    
+    runTests(true, ['progress'], specFiles, done);
   });
 
   gulp.task('coverage', ['scripts'], function (done) {
-    runTests(true, ['progress', 'coverage'], done);
+    var specFiles = [
+      options.src + '/**/*.spec.js',
+      options.src + '/**/*.mock.js'
+    ];
+    runTests(true, ['progress', 'coverage'], specFiles, done);
   });
 };

@@ -9,10 +9,6 @@ angular.module('liveopsConfigPanel')
       {name: 'description', optional: true},
       {name: 'flowId'},
       {name: 'flow'}
-    ], [
-      'tenantId',
-      'flowId',
-      'id'
     ]);
   }]);
 
