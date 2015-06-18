@@ -44,6 +44,13 @@ describe('Versions directive controller', function () {
         id: flowId
       };
 
+      $scope.createVersionForm = {
+        $setPristine: angular.noop,
+        $setUntouched: angular.noop
+      };
+
+      $scope.versions = [];
+
       $controller('FlowVersionsController', {
         '$scope': $scope,
         'Session': {
@@ -79,14 +86,17 @@ describe('Versions directive controller', function () {
     });
 
     it('should succeed on save and push new item to list', function () {
+      spyOn($scope, 'createVersion');
+
       $scope.saveVersion();
+
+      expect($scope.versions.length).toEqual(2);
 
       $httpBackend.flush();
 
-      console.log($scope.versions);
-
       expect($scope.versions.length).toEqual(3);
-      expect($scope.selectedVersion).toEqual($scope.version);
+
+      expect($scope.createVersion).toHaveBeenCalled();
     });
 
     it('should clean listener when switching flow id', function () {

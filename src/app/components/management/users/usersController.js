@@ -7,7 +7,7 @@ angular.module('liveopsConfigPanel')
       $scope.filteredUsers = [];
       $scope.Session = Session;
       var self = this;
-      
+
       this.newPassword = null;
       this.preSave = function(scope) {
         if(scope.resource.password){
@@ -58,7 +58,12 @@ angular.module('liveopsConfigPanel')
         });
       };
 
-      $scope.users = User.query();
+      $scope.fetch = function () {
+        $scope.users = User.query();
+      };
+
+      $scope.fetch();
+      $scope.$watch('Session.tenant', $scope.fetch);
       $scope.tableConfig = userTableConfig;
     }
   ]);

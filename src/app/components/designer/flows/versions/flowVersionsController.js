@@ -4,6 +4,8 @@ angular.module('liveopsConfigPanel')
   .controller('FlowVersionsController', ['$scope', 'Session', 'FlowVersion',
     function ($scope, Session, FlowVersion) {
       $scope.fetch = function () {
+        angular.copy([], $scope.versions);
+
         FlowVersion.query({
           tenantId: Session.tenant.tenantId,
           flowId: $scope.flow.id

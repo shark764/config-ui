@@ -31,16 +31,21 @@ describe('Versions directive controller', function () {
           id: 'q2'
         })
       ];
-      
+
       queueId = 555;
-      
+
       $httpBackend = $injector.get('$httpBackend');
       $httpBackend.when('GET', 'fakendpoint.com/v1/tenants/1/queues/' + queueId + '/versions').respond({
         'result': versions
       });
-      
+
       $scope.queue = {
         id: queueId
+      };
+
+      $scope.createVersionForm = {
+        $setPristine: angular.noop,
+        $setUntouched: angular.noop
       };
 
       $controller('QueueVersionsController', {
@@ -51,7 +56,7 @@ describe('Versions directive controller', function () {
           }
         }
       });
-      
+
       $httpBackend.flush();
     }
   ]));
@@ -65,7 +70,7 @@ describe('Versions directive controller', function () {
   describe('on new version creation', function () {
     beforeEach(function () {
       $scope.createVersion();
-      
+
       $httpBackend.when('POST', 'fakendpoint.com/v1/tenants/1/queues/' + queueId + '/versions').respond(201, {
         'result': versions[0]
       });
@@ -78,28 +83,33 @@ describe('Versions directive controller', function () {
     });
 
     it('should succeed on save and push new item to list', function () {
+      spyOn($scope, 'createVersion');
+
       $scope.saveVersion();
-      
+
+      expect($scope.versions.length).toEqual(2);
+
       $httpBackend.flush();
-      
+
       expect($scope.versions.length).toEqual(3);
-      expect($scope.selectedVersion).toEqual($scope.version);
+
+      expect($scope.createVersion).toHaveBeenCalled();
     });
-    
+
     it('should clean listener when switching queue id', function () {
       $httpBackend.when('GET', 'fakendpoint.com/v1/tenants/1/queues/' + versions[1].id + '/versions').respond({
         'result': []
       });
-      
+
       spyOn($scope, 'cleanHandler');
       var cleanHandler = $scope.cleanHandler;
-      
+
       $scope.queue = {
         id: versions[1].id
       };
-      
+
       $scope.$digest();
-      
+
       expect(cleanHandler).not.toBe($scope.cleanHandler);
       expect(cleanHandler).toHaveBeenCalled();
     });

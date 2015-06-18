@@ -14,21 +14,21 @@
 
 <h3>Create Queue Version (Dev only)</h3>
 
-<ng-form name="createVersionForm">
-  <div>
-    Name:
+<ng-form name="createVersionForm" seperate-validation>
+  <div class="input-group">
+    <label>Name</label>
     <form-error field="createVersionForm.name"
-    error-type-required="{{'value.error.query.required' | translate}}"></form-error>
+    error-type-required="{{'value.error.name.required' | translate}}"></form-error>
     <input ng-required="true" type="text" ng-model="version.name" name="name"></input>
   </div>
 
-  <div>
-    Description:
+  <div class="input-group">
+    <label>Description</label>
     <input type="text" ng-model="version.description" name="description"></input>
   </div>
 
-  <div>
-    Query:
+  <div class="input-group">
+    <label>Query</label>
     <form-error field="createVersionForm.query"
     error-type-required="{{'value.error.query.required' | translate}}"></form-error>
     <input ng-required="true" type="text" ng-model="version.query" name="query"></input>

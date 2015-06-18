@@ -4,6 +4,8 @@ angular.module('liveopsConfigPanel')
   .controller('QueueVersionsController', ['$scope', 'Session', 'QueueVersion',
     function ($scope, Session, QueueVersion) {
       $scope.fetch = function () {
+        angular.copy([], $scope.versions);
+
         QueueVersion.query({
           tenantId: Session.tenant.tenantId,
           queueId: $scope.queue.id
