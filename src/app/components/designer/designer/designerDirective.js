@@ -28,7 +28,6 @@ function flowDesigner() {
         $scope.publish = function() {
           if(flow.toJSON().cells.length === 0) { return; }
           var alienese = JSON.stringify(FlowConversionService.convertToAlienese(flow.toJSON()));
-          console.log('FLOW', alienese);
           $scope.version = new FlowVersion({
             flow: alienese,
             description: $scope.flowVersion.description,
@@ -40,8 +39,6 @@ function flowDesigner() {
             flowId: $scope.flowVersion.flowId
           });
         };
-
-        console.log($scope);
 
         $scope.hidePropertiesPanel = function() {
           inspectorContainer.css({'right': '-300px'});

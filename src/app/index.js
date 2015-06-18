@@ -95,7 +95,6 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
               tenantId: Session.tenant.tenantId,
               id: $stateParams.flowId
             }, function(data) {
-              console.log('Flow', data);
               flow = data;
               deferred.resolve(flow);
             });
@@ -111,7 +110,6 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
               version: $stateParams.versionId,
               tenantId: Session.tenant.tenantId
             }, function(data) {
-              console.log('Version', data);
               version = data;
               deferred.resolve(version);
             });
