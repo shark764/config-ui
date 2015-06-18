@@ -1,4 +1,4 @@
-<div class="error" ng-messages="field.$error" role="alert" ng-if='field.$touched'>
+<div class="error" ng-messages="field.$error" role="alert" ng-show='field.$touched'>
   <div ng-message="required">{{errorTypes.required | translate}}</div>
   <div ng-message="email">{{errorTypes.email | translate}}</div>
   <div ng-message="api">{{field.$error.api}}</div>

@@ -1,13 +1,13 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('UsersController', ['$scope', '$location', 'userStatuses', 'userRoles', 'User', 'Session', 'AuthService', 'userTableConfig', 'Invite', 'toastr',
-    function($scope, $location, userStatuses, userRoles, User, Session, AuthService, userTableConfig, Invite, toastr) {
+  .controller('UsersController', ['$scope', 'userStatuses', 'userRoles', 'User', 'Session', 'AuthService', 'userTableConfig', 'Invite', 'toastr',
+    function($scope, userStatuses, userRoles, User, Session, AuthService, userTableConfig, Invite, toastr) {
       $scope.statuses = userStatuses;
       $scope.filteredUsers = [];
       $scope.Session = Session;
       var self = this;
-      
+
       this.newPassword = null;
       this.preSave = function(scope) {
         if(scope.resource.password){
@@ -23,12 +23,12 @@ angular.module('liveopsConfigPanel')
           Session.setToken(token);
           self.newPassword = null;
         }
-        
+
         if (! scope.originalResource.id){
           Invite.save({tenantId: Session.tenant.tenantId}, {email : result.email, roleId : '00000000-0000-0000-0000-000000000000'} ); //TEMPORARY roleId
         }
       };
-      
+
       this.postError = function(scope, error){
         if (error.config.method === 'POST' && error.status === 400){
           toastr.clear();
@@ -58,7 +58,12 @@ angular.module('liveopsConfigPanel')
         });
       };
 
-      $scope.users = User.query();
+      $scope.fetch = function () {
+        $scope.users = User.query();
+      };
+
+      $scope.fetch();
+      $scope.$watch('Session.tenant', $scope.fetch);
       $scope.tableConfig = userTableConfig;
     }
   ]);

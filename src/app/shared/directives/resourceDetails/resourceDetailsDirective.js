@@ -13,7 +13,7 @@ angular.module('liveopsConfigPanel')
       templateUrl: 'app/shared/directives/resourceDetails/resourceDetails.html',
 
       link: function ($scope) {
-        angular.extend($scope, $scope.extendScope); 
+        angular.extend($scope, $scope.extendScope);
 
         $scope.save = function () {
           $scope.loading = true;
@@ -21,7 +21,7 @@ angular.module('liveopsConfigPanel')
             $scope.preSave($scope);
           }
 
-          $scope.resource.save($scope.originalResource,
+          $scope.resource.save(
             function (result) {
               $scope.loading = false;
               if($scope.postSave){
