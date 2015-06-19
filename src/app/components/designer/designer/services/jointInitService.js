@@ -256,38 +256,42 @@
           graph.interfaces.selectorView.cancelSelection();
         });
 
-        KeyboardJS.on('ctrl + z', function() {
-          if (!graph.interfaces.commandManager.hasUndo()) {return;}
-          console.log('Ctrl + z\'d!');
-          graph.interfaces.commandManager.undo();
-        });
+        var metaKeys = ['ctrl', 'cmd'];
 
-        KeyboardJS.on('ctrl + y', function() {
-          if (!graph.interfaces.commandManager.hasRedo()) {return;}
-          console.log('Ctrl + y\'d!');
-          graph.interfaces.commandManager.redo();
-        });
+        _.each(metaKeys, function(key) {
+          KeyboardJS.on(key + ' + z', function() {
+            if (!graph.interfaces.commandManager.hasUndo()) {return;}
+            console.log(key + ' + z\'d!');
+            graph.interfaces.commandManager.undo();
+          });
 
-        KeyboardJS.on('ctrl + c', function() {
-          console.log('Ctrl + c\'d!');
-          graph.interfaces.clipboard.copyElements(graph.interfaces.selector, graph);
-        });
+          KeyboardJS.on(key + ' + y', function() {
+            if (!graph.interfaces.commandManager.hasRedo()) {return;}
+            console.log(key + ' + y\'d!');
+            graph.interfaces.commandManager.redo();
+          });
 
-        KeyboardJS.on('ctrl + v', function() {
-          console.log('Ctrl + v\'d!');
-          graph.interfaces.clipboard.pasteCells(graph);
-        });
+          KeyboardJS.on(key + ' + c', function() {
+            console.log(key + ' + c\'d!');
+            graph.interfaces.clipboard.copyElements(graph.interfaces.selector, graph);
+          });
 
-        KeyboardJS.on('ctrl + =', function(evt) {
-          evt.preventDefault();
-          console.log('Ctrl + +\'d!');
-          graph.interfaces.scroller.zoomIn();
-        });
+          KeyboardJS.on(key + ' + v', function() {
+            console.log(key + ' + v\'d!');
+            graph.interfaces.clipboard.pasteCells(graph);
+          });
 
-        KeyboardJS.on('ctrl + -', function(evt) {
-          evt.preventDefault();
-          console.log('Ctrl + -\'d!');
-          graph.interfaces.scroller.zoomOut();
+          KeyboardJS.on(key + ' + =', function(evt) {
+            evt.preventDefault();
+            console.log(key + ' + +\'d!');
+            graph.interfaces.scroller.zoomIn();
+          });
+
+          KeyboardJS.on(key + ' + -', function(evt) {
+            evt.preventDefault();
+            console.log(key + ' + -\'d!');
+            graph.interfaces.scroller.zoomOut();
+          });
         });
       }
     };
