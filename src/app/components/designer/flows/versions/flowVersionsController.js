@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('FlowVersionsController', ['$scope', 'Session', 'FlowVersion', 'lodash',
-    function ($scope, Session, FlowVersion, lodash) {
+  .controller('FlowVersionsController', ['$scope', 'Session', 'FlowVersion',
+    function ($scope, Session, FlowVersion) {
       $scope.fetch = function () {
         angular.copy([], $scope.versions);
 
@@ -10,7 +10,7 @@ angular.module('liveopsConfigPanel')
           tenantId: Session.tenant.tenantId,
           flowId: $scope.flow.id
         }, function (versions) {
-          lodash.forEach(versions, function(version, index) {
+          angular.forEach(versions, function(version, index) {
             version.v = Math.abs((index - versions.length));
           });
           angular.copy(versions, $scope.versions);
