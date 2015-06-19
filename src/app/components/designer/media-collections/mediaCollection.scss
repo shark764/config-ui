@@ -16,7 +16,35 @@ th a {
   .add-item-cell {
     text-align: reight;
      i {
-      font-size: 2em;
+      font-size: 1.5em;
      }
+  }
+
+  .remove-cell {
+    text-align: right;
+    i {
+      font-size: 1.5em
+    }
+  }
+
+  .modify-media-box {
+    border: 1px solid $light-grey;
+    @include border-radius(3px);
+    padding: 10px;
+    cursor: pointer;
+    width: 300px;
+
+    .label {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      margin: 0;
+      display: inline-block;
+      max-width: 250px;
+    }
+
+    i {
+      font-size: 18px;
+    }
   }
 }

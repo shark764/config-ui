@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigPanel.config', 'pascalprecht.translate', 'ngCookies', 'ngMessages', 'ngSanitize', 'toastr'])
+angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigPanel.config', 'pascalprecht.translate', 'ngCookies', 'ngMessages', 'ngSanitize', 'toastr', 'ngLodash'])
   .config(['$stateProvider', '$urlRouterProvider', '$translateProvider', 'toastrConfig', function ($stateProvider, $urlRouterProvider, $translateProvider, toastrConfig) {
     $urlRouterProvider.otherwise('/management/users');
 

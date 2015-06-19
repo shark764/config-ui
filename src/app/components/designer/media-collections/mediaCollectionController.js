@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('MediaCollectionController', ['$scope', 'MediaCollection', 'Media', 'Session', 'mediaCollectionTableConfig',
-  function ($scope, MediaCollection, Media, Session, mediaCollectionTableConfig) {
+  .controller('MediaCollectionController', ['$scope', 'MediaCollection', 'Media', 'Session', 'mediaCollectionTableConfig', 'lodash',
+  function ($scope, MediaCollection, Media, Session, mediaCollectionTableConfig, _) {
     $scope.Session = Session;
 
     $scope.redirectToInvites();
@@ -32,18 +32,13 @@ angular.module('liveopsConfigPanel')
       });
     };
 
+    $scope.removeCollectionMedia = function(media){
+      index = _.findIndex($scope.selectedMediaCollection.mediaMap, { id : media.id });
+      $scope.selectedMediaCollection.mediaMap.splice(index, 1);
+      $scope.selectedMediaCollection.save();
+    };
+
     $scope.$watch('selectedMediaCollection', function () {
-      $scope.additional.mediaMap.length = 0;
-
-      if($scope.selectedMediaCollection && $scope.selectedMediaCollection.mediaMap){
-
-        var mm = $scope.selectedMediaCollection.mediaMap;
-
-        for(var i = 0; i < mm.length; i++) {
-          $scope.additional.mediaMap.push(Media.get({id : mm[i].id, tenantId: Session.tenant.tenantId}));
-        }
-      }
-
     });
 
     $scope.$on('on:click:create', function(){
@@ -57,7 +52,8 @@ angular.module('liveopsConfigPanel')
       cancelMedia: $scope.cancelMedia,
       postSave: $scope.createMedia,
       postSaveAndNew: $scope.createNewMedia,
-      mediaMap : $scope.mediaMap
+      mediaMap : $scope.mediaMap,
+      removeCollectionMedia: $scope.removeCollectionMedia
     };
 
     $scope.$watch('Session.tenant.tenantId', function () {

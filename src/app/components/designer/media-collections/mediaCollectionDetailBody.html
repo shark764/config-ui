@@ -16,34 +16,46 @@
     <textarea ng-required="true" ng-model="resource.description" name="description"></textarea>
   </div>
 </div>
-</div>
 
-<div class="section-header">
-<h4>Media</h4>
-</div>
-
-<div class="divider-header">
+<div class="divider-header ">
   <h4>Media Mappings</h4>
 </div>
 
 <div>
+  <div class="input-group">
+    <label>Media</label>
+    <select ng-model="selectedMedia" ng-options="media.id as media.name for media in medias"></select>
+  </div>
+  <div class="input-group">
+    <label>Label</label>
+    <input type="text" ng-model="lookupValue" />
+  </div>
+
+  <input type="button" class="btn btn-primary" on-click="addMediaItem(selectedMedia, lookupValue)" value="Add Media"/>
+
   <table class="media-collection-table" >
     <thead>
       <th>Label</th>
       <th>Media</th>
-      <th class="add-item-cell" style="text-align: right;"><a ng-click="createMediaMapping()"><i class="fa fa-plus"></i></a></th>
+      <th class="add-item-cell"><a ng-click="addMediaMapping()"><i class="fa fa-plus"></i></a></th>
     </thead>
     <tbody>
-      <tr ng-repeat="media in mediaMap" ng-show="media.id">
+      <tr ng-repeat="media in resource.mediaMap">
         <td>
-          {{media.source}}
+          <input type="text" ng-model="media.lookup"/>
         </td>
         <td>
-          {{media.properties.text}}
-          {{media.properties.url}}
+          <div class="modify-media-box">
+
+            <div class="label">{{media.id}}</div>
+
+            <span class="pull-right">
+              <i class="fa fa-caret-down"></i>
+            </span>
+          </div>
         </td>
-        <td>
-          <i class="fa fa-remove"></i>
+        <td class="remove-cell">
+          <i class="fa fa-remove error" ng-click="removeCollectionMedia(media)"></i>
         </td>
       </tr>
 
