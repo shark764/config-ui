@@ -22,11 +22,6 @@ angular.module('liveopsConfigPanel')
       
       $scope.additional = {
           postSave : function(childScope){
-            //Need to do both because updating is asynchronous, 
-            //and ResourceDetails will copy resource into originalResource before updateMembers completes
-            //Meaning one or both of them will be missing the list of members
-            //Hooray for races.
-            $scope.updateMembers(childScope.resource);
             $scope.updateMembers(childScope.originalResource);
           }
       };
