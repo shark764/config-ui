@@ -16,7 +16,7 @@ function flowDesigner() {
         var inspectorContainer = $($element).find('#inspector-container');
         var flow = JointInitService.graph();
         var flowCommandManager = JointInitService.commandManager(flow);
-        var flowPaper = JointInitService.paper(flow, 1280, 800, 20, true, true, false, new joint.shapes.bpmn.Flow());
+        var flowPaper = JointInitService.paper(flow, 1280, 800, 20, true, true, false, new joint.shapes.liveOps.link());
         var flowScroller = JointInitService.scroller(flowPaper, 0, true);
         var flowSelector = JointInitService.selector();
         var flowSelectorView = JointInitService.selectorView(flow, flowPaper, flowSelector, []);
@@ -253,6 +253,11 @@ function flowDesigner() {
         // });
         console.log(FlowConversionService.convertToJoint(JSON.parse($scope.flowVersion.flow)));
         flow.fromJSON(FlowConversionService.convertToJoint(JSON.parse($scope.flowVersion.flow)));
+
+        window.spitOutAlienese = function() {
+          return JSON.stringify(FlowConversionService.convertToAlienese(flow.toJSON()));
+        }
+
       }, 1000);
     }
   };

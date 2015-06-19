@@ -13,6 +13,12 @@
         self.activities[name] = alieneseJSON;
       },
 
+      getActivityLabel: function(model) {
+        var self = this;
+        var activity = _.findWhere(self.activities, {name: model.name});
+        return activity.label;
+      },
+
       buildInputPanel: function(model) {
         var self = this;
         var modelType = model.get('type');
@@ -64,23 +70,16 @@
 
         params = _.reduce(activity.params, function(memo, param, key) {
 
-          if (param.source === 'constant') {
+          if (param.source === 'constant' || param.source === 'variable') {
             memo[key] = {
-              source: 'constant',
-              type: param.type,
-              value: model[key]
-            };
-          } else if (param.source === 'variable') {
-            memo[key] = {
-              source: 'constant',
-              type: param.type,
-              variable: model[key]
+              source: 'expression',
+              value: model[key] || '5'
             };
           } else if (param.source === 'entity') {
             memo[key] = {
               source: 'system',
-              type: param.type,
-              id: model[key]
+              store: param.type,
+              id: uuid()
             };
           }
 

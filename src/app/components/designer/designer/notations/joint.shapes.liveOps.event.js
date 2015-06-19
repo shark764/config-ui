@@ -45,6 +45,7 @@
       eventType: 'start',
       interrupting: true,
       throwing: false,
+      terminate: false,
       icon: 'none',
       inputs: {
         eventType: {
@@ -113,6 +114,16 @@
           when: {
             eq: {
               'eventType': 'intermediate'
+            }
+          }
+        },
+        target: {
+          type: 'text',
+          group: 'general',
+          label: 'Target',
+          when: {
+            eq: {
+              'eventName': 'signal'
             }
           }
         }
