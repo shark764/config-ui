@@ -49,9 +49,8 @@ exports.config = {
   specs: [
     paths.e2e + '/login/login.spec.js',
     paths.e2e + '/navigation/**/*.spec.js',
-    paths.e2e + '/management/newuser.spec.js',
-    paths.e2e + '/management/users.spec.js',
-    paths.e2e + '/management/skills.spec.js'
+    paths.e2e + '/management/**/*.spec.js',
+    paths.e2e + '/configuration/**/*.spec.js'
   ],
 
   framework: 'jasmine2',

@@ -59,7 +59,8 @@
   "tenant.details.admin": "Platform Admin",
   "tenant.details.description": "Description",
   "tenant.details.region": "Region",
-  
+  "tenant.details.name.error": "Please enter a name",
+
   "integration.details.properties.accountSid": "Account SID",
   "integration.details.properties.authToken": "Auth Token",
   "integration.details.properties.webRTC": "Web RTC"

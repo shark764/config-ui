@@ -13,138 +13,126 @@ describe('The create new tenants view', function() {
   });
 
   beforeEach(function() {
-    browser.get(shared.tenantsPageUrl);
-    tenantCount = tenants.tenantElements.count();
+    browser.get(shared.usersPageUrl);
+    shared.tenantsNavButton.click();
+    tenantCount = shared.tableElements.count();
   });
 
-  afterAll(function(){
+  afterAll(function() {
     shared.tearDown();
   });
 
   it('should include supported tenant fields only', function() {
+    shared.createBtn.click();
     expect(tenants.nameFormField.isDisplayed()).toBeTruthy();
     expect(tenants.descriptionFormField.isDisplayed()).toBeTruthy();
     expect(tenants.adminFormDropDown.isDisplayed()).toBeTruthy();
 
-    // The Status (and Parent) fields are not to be displayed for the initial Beta release
-    expect(tenants.statusFormToggle.isDisplayed()).toBeFalsy();
-
     // Region is not displayed when adding a new user, defaults to current region
-    expect(tenants.region.isDisplayed()).toBeFalsy();
+    expect(tenants.region.isPresent()).toBeFalsy();
   });
 
   it('should successfully create a new tenant and add to the tenants lists', function() {
-    // Add randomness to tenant details
-    randomTenant = Math.floor((Math.random() * 100) + 1);
+    shared.createBtn.click();
+    randomTenant = Math.floor((Math.random() * 1000) + 1);
     var tenantAdded = false;
 
     // Complete tenant form and submit
     tenants.nameFormField.sendKeys('Tenant ' + randomTenant);
     tenants.descriptionFormField.sendKeys('This is the tenant description for tenant ' + randomTenant);
-    tenants.createTenantBtn.click();
+    shared.submitFormBtn.click();
 
     // Confirm tenant is displayed in tenant table with correct details
-    tenants.tenantElements.then(function(rows) {
+    shared.tableElements.then(function(rows) {
       for (var i = 1; i <= rows.length; ++i) {
-        // Check if user name in table matches newly added user
-        element(by.css('tr.ng-scope:nth-child(' + i + ') > td:nth-child(2) > a:nth-child(1)')).getText().then(function(value) {
+        element(by.css('tr.ng-scope:nth-child(' + i + ') > td:nth-child(3)')).getText().then(function(value) {
           if (value == 'Tenant ' + randomTenant) {
             tenantAdded = true;
           }
         });
       }
     }).thenFinally(function() {
-      // Verify new user was found in the user table
+      // Verify new tenant was found in the table
       expect(tenantAdded).toBeTruthy();
-
-      // TODO Verify new tenant is added to navbar and parent tenant dropdowns
-      // shared.tenantsNavDropdown.all(by.css('option')).get(1).click();
-      // expect(shared.tenantsNavDropdown.all(by.css('option')).count()).toBe(tenants.tenantElements.count());
+      expect(tenants.nameRequiredError.get(0).isDisplayed()).toBeFalsy();
+      expect(shared.successMessage.isDisplayed()).toBeTruthy();
+      expect(shared.tableElements.count()).toBeGreaterThan(tenantCount);
     });
   });
 
   it('should require field inputs when creating a new tenant', function() {
-    tenants.createTenantBtn.click();
+    shared.createBtn.click();
 
-    expect(tenants.tenantElements.count()).toBe(tenantCount);
+    expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
+    shared.submitFormBtn.click();
+
+    expect(shared.successMessage.isPresent()).toBeFalsy();
+    expect(shared.tableElements.count()).toBe(tenantCount);
   });
 
   it('should require name when creating a new tenant', function() {
-    randomTenant = Math.floor((Math.random() * 100) + 1);
+    shared.createBtn.click();
+    randomTenant = Math.floor((Math.random() * 1000) + 1);
 
     // Complete tenant form and submit without tenant name
+    tenants.nameFormField.click();
     tenants.descriptionFormField.sendKeys('This is the tenant description for tenant ' + randomTenant);
-    tenants.createTenantBtn.click();
+    tenants.adminFormDropDown.all(by.css('option')).get(1).click();
 
-    expect(tenants.tenantElements.count()).toBe(tenantCount);
+    expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
+    shared.submitFormBtn.click();
+
+    expect(tenants.nameRequiredError.get(0).isDisplayed()).toBeTruthy();
+    expect(tenants.nameRequiredError.get(0).getText()).toBe('Please enter a name');
+    expect(shared.successMessage.isPresent()).toBeFalsy();
+    expect(shared.tableElements.count()).toBe(tenantCount);
   });
 
-  it('should require description when creating a new tenant', function() {
-    randomTenant = Math.floor((Math.random() * 100) + 1);
+  it('should not require a description or admin when creating a new tenant', function() {
+    shared.createBtn.click();
+    randomTenant = Math.floor((Math.random() * 1000) + 1);
 
-    // Complete tenant form and submit without tenant description
     tenants.nameFormField.sendKeys('Tenant ' + randomTenant);
-    tenants.createTenantBtn.click();
+    tenants.descriptionFormField.click();
+    tenants.adminFormDropDown.click();
 
-    expect(tenants.tenantElements.count()).toBe(tenantCount);
-  });
+    expect(shared.submitFormBtn.getAttribute('disabled')).toBeFalsy();
+    shared.submitFormBtn.click();
 
-  xit('should require region when creating a new tenant', function() {
-    // TBD Region is defaulting to current region
-    randomTenant = Math.floor((Math.random() * 100) + 1);
-
-    // Complete tenant form and submit without tenant region
-    tenants.nameFormField.sendKeys('Tenant ' + randomTenant);
-    tenants.descriptionFormField.sendKeys('This is the tenant description for tenant ' + randomTenant);
-    tenants.createTenantBtn.click();
-
-    expect(tenants.tenantElements.count()).toBe(tenantCount);
+    expect(tenants.nameRequiredError.get(0).isDisplayed()).toBeFalsy();
+    expect(shared.successMessage.isPresent()).toBeTruthy();
+    expect(shared.tableElements.count()).toBeGreaterThan(tenantCount);
   });
 
   it('should allow admin to be added when creating a new tenant', function() {
-    // TODO ensure there is an enabled admin user available
-    if (tenantCount > 0) {
-      // Add randomness to tenant details
-      var randomTenant = Math.floor((Math.random() * 100) + 1);
+    shared.createBtn.click();
+    randomTenant = Math.floor((Math.random() * 1000) + 1);
 
-      tenants.nameFormField.sendKeys('Tenant ' + randomTenant);
-      tenants.descriptionFormField.sendKeys('This is the tenant description for tenant ' + randomTenant);
-      tenants.adminFormDropDown.all(by.css('option')).get(1).click();
-      tenants.createTenantBtn.click();
+    tenants.nameFormField.sendKeys('Tenant ' + randomTenant);
+    tenants.adminFormDropDown.all(by.css('option')).get(1).click();
 
-      // Confirm tenant is added
-      tenantCount++;
-      expect(tenants.tenantElements.count()).toBe(tenantCount);
-    }
-  });
+    expect(shared.submitFormBtn.getAttribute('disabled')).toBeFalsy();
+    shared.submitFormBtn.click();
 
-  it('should validate field input when creating a new tenant', function() {
-    // TODO
-    tenants.createTenantBtn.click();
-
-    expect(tenants.tenantElements.count()).toBe(tenantCount);
+    expect(tenants.nameRequiredError.get(0).isDisplayed()).toBeFalsy();
+    expect(shared.successMessage.isPresent()).toBeTruthy();
+    expect(shared.tableElements.count()).toBeGreaterThan(tenantCount);
   });
 
   it('should not accept spaces only as valid field input when creating a new tenant', function() {
-    // TODO
-    tenants.createTenantBtn.click();
+    shared.createBtn.click();
+    randomTenant = Math.floor((Math.random() * 1000) + 1);
 
-    expect(tenants.tenantElements.count()).toBe(tenantCount);
+    // Complete tenant form and submit without tenant name
+    tenants.nameFormField.sendKeys(' ');
+    tenants.descriptionFormField.sendKeys(' ');
+
+    expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
+    shared.submitFormBtn.click();
+
+    expect(tenants.nameRequiredError.get(0).isDisplayed()).toBeTruthy();
+    expect(tenants.nameRequiredError.get(0).getText()).toBe('Please enter a name');
+    expect(shared.successMessage.isPresent()).toBeFalsy();
+    expect(shared.tableElements.count()).toBe(tenantCount);
   });
-
-  it('should require unique tenant name when creating a new tenant', function() {
-    if (tenantCount > 0) {
-      // Attempt to create a new Tenant with the name of an existing Tenant
-      tenants.tenantElements.then(function(existingTenants) {
-        tenants.nameFormField.sendKeys(existingTenants.get(0).name);
-        tenants.descriptionFormField.sendKeys('This is the tenant description for tenant');
-        tenants.createTenantBtn.click();
-
-        // Verify tenant is not created
-        expect(tenants.tenantElements.count()).toBe(tenantCount);
-        // TODO Error message displayed
-      });
-    }
-  });
-
 });

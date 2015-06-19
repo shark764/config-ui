@@ -1,20 +1,22 @@
 'use strict';
 
 var TenantsPage = function() {
-  this.tenantsTable = element(by.css('table'));
-  this.tenantForm = element(by.css('form'));
-  this.createTenantBtn = element(by.css('input.btn'));
-
   this.nameFormField = element(by.model('resource.name'));
   this.descriptionFormField = element(by.model('resource.description'));
-  this.statusFormToggle = element(by.model('tenant.status'));
-  this.region = element(by.css('div.ng-binding:nth-child(5)'));
-  this.adminFormDropDown = element(by.model('tenant.adminUserId'));
+  this.statusFormToggle = element(by.model('resource.status'));
+  this.adminFormDropDown = element(by.model('resource.adminUserId'));
 
-  this.tenantElements = element.all(by.repeater('curTenant in tenants'));
+  this.region = element(by.id('tenant-details-region'));
 
-  this.tenantRegions;
-  // TODO Add remaining Tenants page elements as the design is finalized
+  this.firstTableRow = element(by.css('tr.ng-scope:nth-child(1)'));
+  this.secondTableRow = element(by.css('tr.ng-scope:nth-child(2)'));
+
+  this.idColumn = 'td:nth-child(2)';
+  this.nameColumn = 'td:nth-child(3)';
+  this.adminIdColumn = 'td:nth-child(4)';
+  this.statusColumn = 'td:nth-child(5)';
+
+  this.nameRequiredError = element.all(by.css('.error'));
 };
 
 module.exports = new TenantsPage();
