@@ -1,9 +1,11 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('DesignerPageController', ['$scope', 'flow', 'version',
-    function($scope, flow, version) {
-      $scope.flow = flow;
-      $scope.version = version;
+  .controller('DesignerPageController', ['$scope', 'SubflowCommunicationService', 'subflow',
+    function($scope, SubflowCommunicationService, subflow) {
+      $scope.subflow = subflow;
+      $scope.save = function() {
+        SubflowCommunicationService.addSubflow();
+      };
     }
   ]);

@@ -57,12 +57,6 @@
             inspectorContainer.css({'right': '0px'});
           };
 
-          // Debugging
-          $window.flow = flow;
-          flow.go = function() {
-            FlowConversionService.convertToAlienese(flow.toJSON());
-          };
-
           /**
            * [ Flow Scroller Logic ]
            */
@@ -210,45 +204,46 @@
           });
 
           // Undo
-          KeyboardJS.on('ctrl + z', function(evt) {
+          KeyboardJS.on('ctrl + z', function() {
             if (!flowCommandManager.hasUndo()) {return;}
-            console.log('Ctrl+z\'d!', evt);
+            console.log('Ctrl + z\'d!');
             flowCommandManager.undo();
           });
 
           // Redo
-          KeyboardJS.on('ctrl + y', function(evt) {
+          KeyboardJS.on('ctrl + y', function() {
             if (!flowCommandManager.hasRedo()) {return;}
-            console.log('Ctrl+y\'d!', evt);
+            console.log('Ctrl + y\'d!');
             flowCommandManager.redo();
           });
 
           // Copy
-          KeyboardJS.on('ctrl + c', function(evt) {
-            console.log('Ctrl+c\'d!', evt);
+          KeyboardJS.on('ctrl + c', function() {
+            console.log('Ctrl + c\'d!');
             flowClipboard.copyElements(flowSelector, flow);
           });
 
           // Paste
-          KeyboardJS.on('ctrl + v', function(evt) {
-            console.log('Ctrl+v\'d!', evt);
+          KeyboardJS.on('ctrl + v', function() {
+            console.log('Ctrl + v\'d!');
             flowClipboard.pasteCells(flow);
           });
 
-          /**
-           * [ Mouse wheel listeners ]
-           */
-          // Zooming in
-          // MouseWheelJS.on('scrollUp', function(evt) {
-          //   console.log('Scrolled up!', evt);
-          //   flowScroller.zoom(0.2, {max: 2, min: 0.2});
-          // });
+          // Zoom-in
+          KeyboardJS.on('ctrl + =', function(evt) {
+            evt.preventDefault();
+            console.log('Ctrl + +\'d!');
+            flowScroller.zoomIn();
+          });
 
-          // Zooming out
-          // MouseWheelJS.on('scrollDown', function(evt) {
-          //   console.log('Scrolled down!', evt);
-          //   flowScroller.zoom(-0.2, {max: 2, min: 0.2});
-          // });
+          // Zoom-out
+          KeyboardJS.on('ctrl + -', function(evt) {
+            evt.preventDefault();
+            console.log('Ctrl + -\'d!');
+            flowScroller.zoomOut();
+          });
+
+
           console.log(FlowConversionService.convertToJoint(JSON.parse($scope.flowVersion.flow)));
           flow.fromJSON(FlowConversionService.convertToJoint(JSON.parse($scope.flowVersion.flow)));
         }, 1000);

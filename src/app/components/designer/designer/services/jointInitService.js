@@ -40,11 +40,21 @@
         });
       },
       scroller: function(paper, padding, autoResizePaper) {
-        return new joint.ui.PaperScroller({
+        var flowScroller = new joint.ui.PaperScroller({
           autoResizePaper: autoResizePaper,
           padding: padding,
           paper: paper
         });
+
+        flowScroller.zoomIn = function() {
+          this.zoom(0.2, {max: 2, min: 0.2});
+        };
+
+        flowScroller.zoomOut = function() {
+          this.zoom(-0.2, {max: 2, min: 0.2});
+        };
+
+        return flowScroller;
       },
       selectorView: function(graph, paper, selector, filterArray) {
         return new joint.ui.SelectionView({
