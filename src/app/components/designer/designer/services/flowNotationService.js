@@ -79,7 +79,7 @@
             memo[key] = {
               source: 'system',
               store: param.type,
-              id: uuid()
+              id: joint.util.uuid()
             };
           }
 

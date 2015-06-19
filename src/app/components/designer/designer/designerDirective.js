@@ -12,7 +12,7 @@ function flowDesigner() {
       controller: ['$scope', '$element', '$attrs', '$window', '$timeout', 'JointInitService', 'FlowConversionService', 'FlowNotationService', 'FlowVersion', 'Session', 'toastr', function($scope, $element, $attrs, $window, $timeout, JointInitService, FlowConversionService, FlowNotationService, FlowVersion, Session, toastr) {
 
         $timeout(function() {
-          var graph = JointInitService.graph(1280, 800, 20, true, true, false, new joint.shapes.bpmn.Flow(), 0, true, [], '#stencil-container', '#paper-container', '#inspector-container');
+          var graph = JointInitService.graph(1280, 800, 20, true, true, false, new joint.shapes.liveOps.link(), 0, true, [], '#stencil-container', '#paper-container', '#inspector-container');
 
           $scope.publish = function() {
             if (graph.toJSON().cells.length === 0) { return; }
