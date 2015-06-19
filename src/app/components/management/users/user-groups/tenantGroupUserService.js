@@ -11,6 +11,14 @@ angular.module('liveopsConfigPanel')
       // Append the new transformation to the defaults
       return defaults.concat(transform);
     }
+    
+    function getResult(value) {
+      if (value.result) {
+        return value.result;
+      }
+
+      return value;
+    }
 
     return $resource(apiHostname + '/v1/tenants/:tenantId/groups/:groupId/users/:memberId', { tenantId: '@tenantId', groupId: '@groupId', memberId: '@memberId'}, {
       save: {
@@ -24,7 +32,16 @@ angular.module('liveopsConfigPanel')
 
           return value;
         })
-      }
+      },
+      
+      query: {
+        method: 'GET',
+
+        isArray: true,
+        transformResponse: appendTransform($http.defaults.transformResponse, function (value) {
+          return getResult(value);
+        })
+      },
     });
 
   }]);

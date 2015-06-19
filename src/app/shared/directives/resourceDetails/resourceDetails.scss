@@ -118,7 +118,11 @@
 
 .details-header {
   background-color: #fff;
-
+  
+  toggle {
+    padding-right: 7px;
+  }
+      
   .info {
     display: table-cell;
 
