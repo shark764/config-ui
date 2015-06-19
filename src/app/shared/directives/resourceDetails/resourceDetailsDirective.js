@@ -23,13 +23,13 @@ angular.module('liveopsConfigPanel')
 
           $scope.resource.save(
             function (result) {
+              angular.copy($scope.resource, $scope.originalResource);
               $scope.loading = false;
               if($scope.postSave){
                 $scope.postSave($scope, result);
               }
 
               $scope.resetForm();
-              angular.copy($scope.resource, $scope.originalResource);
               toastr.success('Record ' + ($scope.resource.id ? 'updated' : 'saved'));
             },
 
@@ -75,7 +75,7 @@ angular.module('liveopsConfigPanel')
 
         $scope.$watch('originalResource', function () {
           $scope.resource = angular.copy($scope.originalResource);
-        });
+        }, true);
 
         $scope.cancel = function () {
           angular.copy($scope.originalResource, $scope.resource);

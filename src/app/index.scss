@@ -98,6 +98,13 @@ a:hover {
   content:"";
 }
 
+.null {
+  color: $dark-grey;
+  font-style:italic;
+  width: 100%;
+  text-align: center;
+}
+
 /* Do not remove this comments bellow. It's the markers used by gulp-inject to inject
    all your sass files automatically */
 //injector
