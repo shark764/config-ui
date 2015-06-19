@@ -1,6 +1,6 @@
 'use strict';
 
-describe('TenantsController', function () {
+describe('IntegrationsController', function () {
   var $scope,
     $controller,
     $httpBackend,
