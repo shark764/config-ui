@@ -1,12 +1,12 @@
 'use strict';
 
-describe('TenantsController', function () {
+describe('DispatchMappingsController', function () {
   var $scope,
     $controller,
     $httpBackend,
-    routeParams,
     apiHostname,
-    integrations,
+    dispatchMappings,
+    flows,
     Session;
 
   beforeEach(module('liveopsConfigPanel'));
@@ -18,18 +18,30 @@ describe('TenantsController', function () {
       Session = _Session_;
       apiHostname = _apiHostname_;
 
-      integrations = [{
+      dispatchMappings = [{
         'id': 'id1',
       }, {
         'id': 'id2'
       }];
 
+      flows = [{
+        'id': 'flow-id-1'
+      }, {
+        'id': 'flow-id-1'
+      }];
+
+      Session.tenant.tenantId = 'tenant-id';
+
       $httpBackend = $injector.get('$httpBackend');
-      $httpBackend.when('GET', apiHostname + '/v1/tenants/' + Session.tenant.tenantId + '/integrations').respond({
-        'result': integrations
+      $httpBackend.when('GET', apiHostname + '/v1/tenants/' + Session.tenant.tenantId + '/dispatch-mappings').respond({
+        'result': dispatchMappings
       });
 
-      $controller('IntegrationsController', {
+      $httpBackend.when('GET', apiHostname + '/v1/tenants/' + Session.tenant.tenantId + '/flows').respond({
+        'result': flows
+      });
+
+      $controller('DispatchMappingsController', {
         '$scope': $scope
       });
 
@@ -37,14 +49,18 @@ describe('TenantsController', function () {
     }
   ]));
 
-  it('should fetch the list of integrations on load', function () {
-    expect($scope.integrations).toBeDefined();
-    expect($scope.integrations[0].id).toEqual(integrations[0].id);
-    expect($scope.integrations[1].id).toEqual(integrations[1].id);
+  it('should fetch the list of dispatchMappings on load', function () {
+    expect($scope.dispatchMappings).toBeDefined();
+    expect($scope.dispatchMappings[0].id).toEqual(dispatchMappings[0].id);
+    expect($scope.dispatchMappings[1].id).toEqual(dispatchMappings[1].id);
+
+    expect($scope.flows).toBeDefined();
+    expect($scope.flows[0].id).toEqual(flows[0].id);
+    expect($scope.flows[1].id).toEqual(flows[1].id);
   });
 
-  it('should have a function to create a new integration and set it as selected', function () {
+  it('should have a function to create a new dispatchMapping and set it as selected', function () {
     $scope.$broadcast('on:click:create');
-    expect($scope.selectedIntegration).toBeDefined();
+    expect($scope.selectedDispatchMapping).toBeDefined();
   });
 });

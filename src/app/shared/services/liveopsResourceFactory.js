@@ -59,12 +59,9 @@ angular.module('liveopsConfigPanel')
                 if (updateFields) {
                   for (var i = 0; i < updateFields.length; i++) {
                     var fieldName = updateFields[i].name;
-                    if(updateFields[i].optional && !data[fieldName]){
-                      newData[fieldName] = '';
-                    } else {
+                    if(data[fieldName]){
                       newData[fieldName] = data[fieldName];
                     }
-
                   }
                 }
 
