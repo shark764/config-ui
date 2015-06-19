@@ -1,14 +1,13 @@
 'use strict';
 
 describe('The flow versions view', function() {
-  var loginPage = require('./login.po.js'),
-    shared = require('./shared.po.js'),
+  var shared = require('./shared.po.js'),
     flowVersions = require('./flows.po.js'),
     flowVersionCount,
     randomFlowVersion;
 
   beforeAll(function() {
-    loginPage.login(loginPage.emailLoginCreds, loginPage.passwordLoginCreds);
+    loginPage.login(params.login.user, params.login.password);
   });
 
   beforeEach(function() {

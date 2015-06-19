@@ -7,6 +7,8 @@ var SkillsPage = function() {
   this.nameFormField = element(by.model('resource.name'));
   this.descriptionFormField = element(by.model('resource.description'));
   this.proficiencyFormCheckbox = element(by.model('resource.hasProficiency'));
+  this.proficiencySwitch = element(by.css('.switch-input'));
+
 
   this.nameHeader = element(by.css('h1.ng-binding'));
   this.detailsMemberCount = element(by.css('h1.ng-binding > b:nth-child(1)'));

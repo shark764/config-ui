@@ -6,7 +6,7 @@ describe('The profile view', function() {
     profile = require('./profile.po.js');
 
   beforeAll(function() {
-    loginPage.login(loginPage.emailLoginCreds, loginPage.passwordLoginCreds);
+    loginPage.login(params.login.user, params.login.password);
   });
 
   beforeEach(function() {

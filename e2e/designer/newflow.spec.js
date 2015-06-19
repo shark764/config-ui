@@ -8,7 +8,7 @@ describe('The create new flows view', function() {
     randomFlow;
 
   beforeAll(function() {
-    loginPage.login(loginPage.emailLoginCreds, loginPage.passwordLoginCreds);
+    loginPage.login(params.login.user, params.login.password);
   });
 
   beforeEach(function() {

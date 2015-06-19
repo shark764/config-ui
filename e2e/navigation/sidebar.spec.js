@@ -1,12 +1,13 @@
 'use strict';
 
 describe('The generic sidebar', function() {
-  var loginPage = require('./login.po.js'),
-    shared = require('./shared.po.js'),
-    sidebar = require('./sidebar.po.js');
+  var loginPage = require('../login//login.po.js'),
+    shared = require('../shared.po.js'),
+    sidebar = require('./sidebar.po.js'),
+    params = browser.params;
 
   beforeAll(function() {
-    loginPage.login(loginPage.emailLoginCreds, loginPage.passwordLoginCreds);
+    loginPage.login(params.login.user, params.login.password);
   });
 
   afterAll(function() {
@@ -140,13 +141,13 @@ describe('The generic sidebar', function() {
 
     // Select each link in turn
     sidebar.userLink.click();
-    expect(browser.getCurrentUrl()).toBe(shared.usersPageUrl);
+    expect(browser.getCurrentUrl()).toContain(shared.usersPageUrl);
 
     sidebar.groupsLink.click();
-    expect(browser.getCurrentUrl()).toBe(shared.groupsPageUrl);
+    expect(browser.getCurrentUrl()).toContain(shared.groupsPageUrl);
 
     sidebar.skillsLink.click();
-    expect(browser.getCurrentUrl()).toBe(shared.skillsPageUrl);
+    expect(browser.getCurrentUrl()).toContain(shared.skillsPageUrl);
 
     sidebar.closeArrow.click();
   });
@@ -180,7 +181,7 @@ describe('The generic sidebar', function() {
 
     // Select each link in turn
     sidebar.tenantsLink.click();
-    expect(browser.getCurrentUrl()).toBe(shared.tenantsPageUrl);
+    expect(browser.getCurrentUrl()).toContain(shared.tenantsPageUrl);
 
     sidebar.closeArrow.click();
   });
@@ -217,13 +218,13 @@ describe('The generic sidebar', function() {
 
     // Select each link in turn
     sidebar.flowsLink.click();
-    expect(browser.getCurrentUrl()).toBe(shared.flowsPageUrl);
+    expect(browser.getCurrentUrl()).toContain(shared.flowsPageUrl);
 
     sidebar.queuesLink.click();
-    expect(browser.getCurrentUrl()).toBe(shared.queuesPageUrl);
+    expect(browser.getCurrentUrl()).toContain(shared.queuesPageUrl);
 
     sidebar.mediaLink.click();
-    expect(browser.getCurrentUrl()).toBe(shared.mediaPageUrl);
+    expect(browser.getCurrentUrl()).toContain(shared.mediaPageUrl);
 
     sidebar.closeArrow.click();
   });

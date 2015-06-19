@@ -2,7 +2,8 @@
 
 describe('The login view', function() {
   var loginPage = require('./login.po.js'),
-    shared = require('./shared.po.js');
+    shared = require('../shared.po.js'),
+    params = browser.params;
 
   beforeEach(function() {
     // Ensure user is logged out initially
@@ -42,14 +43,13 @@ describe('The login view', function() {
     expect(shared.tenantsNavDropdown.isPresent()).toBeFalsy();
     expect(shared.usersNavButton.isPresent()).toBeFalsy();
     expect(shared.tenantsNavButton.isPresent()).toBeFalsy();
-    expect(shared.queuesNavButton.isPresent()).toBeFalsy();
     expect(shared.flowsNavButton.isPresent()).toBeFalsy();
     expect(shared.settingsDropdown.isPresent()).toBeFalsy();
     expect(shared.welcomeMessage.isPresent()).toBeFalsy();
   });
 
   it('should redirect after successful login', function() {
-    loginPage.login(loginPage.emailLoginCreds, loginPage.passwordLoginCreds);
+    loginPage.login(params.login.user, params.login.password);
     expect(browser.getCurrentUrl()).toContain(shared.usersPageUrl);
   });
 
@@ -64,27 +64,27 @@ describe('The login view', function() {
     expect(browser.getCurrentUrl()).toBe(shared.loginPageUrl);
 
     // Email only
-    loginPage.emailLoginField.sendKeys(loginPage.emailLoginCreds);
+    loginPage.emailLoginField.sendKeys(params.login.user);
     loginPage.passwordLoginField.sendKeys('');
     loginPage.loginButton.click();
     expect(browser.getCurrentUrl()).toBe(shared.loginPageUrl);
 
     // Password only
     loginPage.emailLoginField.clear();
-    loginPage.passwordLoginField.sendKeys(loginPage.passwordLoginCreds);
+    loginPage.passwordLoginField.sendKeys(params.login.password);
     loginPage.loginButton.click();
     expect(browser.getCurrentUrl()).toBe(shared.loginPageUrl);
   });
 
   it('should display user\'s name after successful login', function() {
-    loginPage.login(loginPage.emailLoginCreds, loginPage.passwordLoginCreds);
+    loginPage.login(params.login.user, params.login.password);
     expect(browser.getCurrentUrl()).toContain(shared.usersPageUrl);
 
-    expect(shared.welcomeMessage.getText()).toContain('Welcome back, titan');
+    expect(shared.welcomeMessage.getText()).toContain('Welcome back, ' + params.login.userDisplayName);
   });
 
   it('should redirect to login page after logout', function() {
-    loginPage.login(loginPage.emailLoginCreds, loginPage.passwordLoginCreds);
+    loginPage.login(params.login.user, params.login.password);
     expect(browser.getCurrentUrl()).toContain(shared.usersPageUrl);
 
     shared.welcomeMessage.click();
@@ -94,8 +94,8 @@ describe('The login view', function() {
 
   xit('should login successfully using all uppercase email', function() {
     // TODO Test fails due to existing bug
-    loginPage.emailLoginField.sendKeys(loginPage.emailLoginCreds.toUpperCase());
-    loginPage.passwordLoginField.sendKeys(loginPage.passwordLoginCreds);
+    loginPage.emailLoginField.sendKeys(params.login.user.toUpperCase());
+    loginPage.passwordLoginField.sendKeys(params.login.password);
     loginPage.loginButton.click();
 
     expect(browser.getCurrentUrl()).toContain(shared.usersPageUrl);
@@ -103,16 +103,16 @@ describe('The login view', function() {
 
   xit('should login successfully using all lowercase email', function() {
     // TODO Test fails due to existing bug
-    loginPage.emailLoginField.sendKeys(loginPage.emailLoginCreds.toLowerCase());
-    loginPage.passwordLoginField.sendKeys(loginPage.passwordLoginCreds);
+    loginPage.emailLoginField.sendKeys(params.login.user.toLowerCase());
+    loginPage.passwordLoginField.sendKeys(params.login.password);
     loginPage.loginButton.click();
 
     expect(browser.getCurrentUrl()).toContain(shared.usersPageUrl);
   });
 
   it('should require correct password case input', function() {
-    loginPage.emailLoginField.sendKeys(loginPage.emailLoginCreds);
-    loginPage.passwordLoginField.sendKeys(loginPage.passwordLoginCreds.toLowerCase());
+    loginPage.emailLoginField.sendKeys(params.login.user);
+    loginPage.passwordLoginField.sendKeys(params.login.password.toLowerCase());
     loginPage.loginButton.click();
 
     // Not logged in; error message displayed
@@ -122,8 +122,8 @@ describe('The login view', function() {
     loginPage.emailLoginField.clear();
     loginPage.passwordLoginField.clear();
 
-    loginPage.emailLoginField.sendKeys(loginPage.emailLoginCreds);
-    loginPage.passwordLoginField.sendKeys(loginPage.passwordLoginCreds.toUpperCase());
+    loginPage.emailLoginField.sendKeys(params.login.user);
+    loginPage.passwordLoginField.sendKeys(params.login.password.toUpperCase());
     loginPage.loginButton.click();
 
     // Not logged in; error message displayed
@@ -141,7 +141,7 @@ describe('The login view', function() {
   });
 
   it('should not login with valid user email and invalid password', function() {
-    loginPage.emailLoginField.sendKeys(loginPage.emailLoginCreds);
+    loginPage.emailLoginField.sendKeys(params.login.user);
     loginPage.passwordLoginField.sendKeys('invalidpassword');
     loginPage.loginButton.click();
 
@@ -151,7 +151,7 @@ describe('The login view', function() {
 
   it('should not login with invalid user email and valid password', function() {
     loginPage.emailLoginField.sendKeys('invalid@user.email');
-    loginPage.passwordLoginField.sendKeys(loginPage.passwordLoginCreds);
+    loginPage.passwordLoginField.sendKeys(params.login.password);
     loginPage.loginButton.click();
 
     expect(browser.getCurrentUrl()).toBe(shared.loginPageUrl);

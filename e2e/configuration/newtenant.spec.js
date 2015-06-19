@@ -1,14 +1,15 @@
 'use strict';
 
 describe('The create new tenants view', function() {
-  var loginPage = require('./login.po.js'),
+  var loginPage = require('../login/login.po.js'),
     tenants = require('./tenants.po.js'),
-    shared = require('./shared.po.js'),
+    shared = require('../shared.po.js'),
+    params = browser.params,
     tenantCount,
     randomTenant;
 
   beforeAll(function() {
-    loginPage.login(loginPage.emailLoginCreds, loginPage.passwordLoginCreds);
+    loginPage.login(params.login.user, params.login.password);
   });
 
   beforeEach(function() {

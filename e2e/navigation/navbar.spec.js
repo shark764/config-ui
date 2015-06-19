@@ -1,11 +1,12 @@
 'use strict';
 
 describe('The navbar', function() {
-  var loginPage = require('./login.po.js'),
-    shared = require('./shared.po.js');
+  var loginPage = require('../login/login.po.js'),
+    shared = require('../shared.po.js'),
+    params = browser.params;
 
   beforeAll(function() {
-    loginPage.login(loginPage.emailLoginCreds, loginPage.passwordLoginCreds);
+    loginPage.login(params.login.user, params.login.password);
   });
 
   beforeEach(function() {
@@ -61,13 +62,13 @@ describe('The navbar', function() {
     expect(browser.getCurrentUrl()).toContain(shared.usersPageUrl);
 
     shared.tenantsNavButton.click();
-    expect(browser.getCurrentUrl()).toBe(shared.tenantsPageUrl);
+    expect(browser.getCurrentUrl()).toContain(shared.tenantsPageUrl);
 
     shared.flowsNavButton.click();
-    expect(browser.getCurrentUrl()).toBe(shared.flowsPageUrl);
+    expect(browser.getCurrentUrl()).toContain(shared.flowsPageUrl);
 
     shared.invitesNavButton.click();
-    expect(browser.getCurrentUrl()).toBe(shared.invitesPageUrl);
+    expect(browser.getCurrentUrl()).toContain(shared.invitesPageUrl);
   });
 
   it('should navigate to correct page when settings dropdown buttons are selected', function() {

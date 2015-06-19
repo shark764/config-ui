@@ -5,8 +5,8 @@ var TenantsPage = function() {
   this.tenantForm = element(by.css('form'));
   this.createTenantBtn = element(by.css('input.btn'));
 
-  this.nameFormField = element(by.model('tenant.name'));
-  this.descriptionFormField = element(by.model('tenant.description'));
+  this.nameFormField = element(by.model('resource.name'));
+  this.descriptionFormField = element(by.model('resource.description'));
   this.statusFormToggle = element(by.model('tenant.status'));
   this.region = element(by.css('div.ng-binding:nth-child(5)'));
   this.adminFormDropDown = element(by.model('tenant.adminUserId'));

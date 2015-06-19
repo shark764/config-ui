@@ -7,7 +7,7 @@ describe('The queues view', function () {
     queueCount;
 
     beforeAll(function() {
-      loginPage.login(loginPage.emailLoginCreds, loginPage.passwordLoginCreds);
+      loginPage.login(params.login.user, params.login.password);
     });
 
     beforeEach(function() {

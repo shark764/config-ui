@@ -1,15 +1,16 @@
 'use strict';
 
 describe('The users view', function() {
-  var loginPage = require('./login.po.js'),
-    shared = require('./shared.po.js'),
+  var loginPage = require('../login/login.po.js'),
+    shared = require('../shared.po.js'),
     users = require('./users.po.js'),
+    params = browser.params,
     userQueryText,
     statusFilterText,
     userCount;
 
   beforeAll(function() {
-    loginPage.login(loginPage.emailLoginCreds, loginPage.passwordLoginCreds);
+    loginPage.login(params.login.user, params.login.password);
   });
 
   beforeEach(function() {
@@ -334,9 +335,33 @@ describe('The users view', function() {
     expect(shared.successMessage.isPresent()).toBeFalsy();
   });
 
+  it('should not accept spaces as valid input when editing', function() {
+    users.firstTableRow.click();
+
+    // Enter a space into each field
+    users.firstNameFormField.clear();
+    users.firstNameFormField.sendKeys(' ');
+    users.lastNameFormField.clear();
+    users.lastNameFormField.sendKeys(' ');
+    users.displayNameFormField.clear();
+    users.displayNameFormField.sendKeys(' ');
+    users.externalIdFormField.clear();
+
+    // Select Okay with 'empty' fields, confirm error message displayed, no user is created
+    shared.submitFormBtn.click();
+    expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
+    expect(shared.tableElements.count()).toBe(userCount);
+
+    // Verify error messages are displayed
+    expect(users.requiredErrors.count()).toBe(3);
+    expect(users.requiredErrors.get(0).getText()).toBe('Please enter a first name');
+    expect(users.requiredErrors.get(1).getText()).toBe('Please enter a last name');
+    expect(users.requiredErrors.get(2).getText()).toBe('Please enter a display name');
+  });
+
   it('should successfully update password', function() {
     users.firstTableRow.click();
-    var randomPassword = 'newpassword' + Math.floor((Math.random() * 100) + 1);
+    var randomPassword = 'newpassword' + Math.floor((Math.random() * 1000) + 1);
 
     users.emailLabel.getText(function(userEmail) {
       users.passwordEditFormBtn.click();

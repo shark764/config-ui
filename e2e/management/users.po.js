@@ -12,6 +12,7 @@ var UserPage = function() {
   this.passwordEditFormBtn = element(by.buttonText('Reset Password'));
   this.emailLabel = element(by.id('user-details-email'));
   this.error = element(by.css('.error'));
+  this.requiredErrors = element.all(by.css('.error'));
 
   this.userNameDetailsHeader = element(by.css('h1.ng-binding'));
   this.userStateDetailsHeader = element(by.css('h1.ng-binding > user-state:nth-child(1) > div:nth-child(1)'));

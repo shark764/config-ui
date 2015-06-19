@@ -6,7 +6,7 @@ describe('The table search', function() {
     elementCount;
 
   beforeAll(function() {
-    loginPage.login(loginPage.emailLoginCreds, loginPage.passwordLoginCreds);
+    loginPage.login(params.login.user, params.login.password);
   });
 
   afterAll(function() {
