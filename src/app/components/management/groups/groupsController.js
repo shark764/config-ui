@@ -16,7 +16,7 @@ angular.module('liveopsConfigPanel')
         $scope.groups = Group.query({tenantId: Session.tenant.tenantId}, function(){
           angular.forEach($scope.groups, function(item, itemKey){
             $scope.updateMembers($scope.groups[itemKey]);
-          })
+          });
         });
       };
       
@@ -29,7 +29,7 @@ angular.module('liveopsConfigPanel')
             $scope.updateMembers(childScope.resource);
             $scope.updateMembers(childScope.originalResource);
           }
-      }
+      };
       
       $scope.updateMembers = function(group){
         group.members = TenantGroupUsers.query({tenantId: Session.tenant.tenantId, groupId: group.id}, function(){
@@ -39,7 +39,7 @@ angular.module('liveopsConfigPanel')
             });
           });
         });
-      }
+      };
 
       $scope.$on('on:click:create', function(){
         $scope.selectedGroup = new Group({
