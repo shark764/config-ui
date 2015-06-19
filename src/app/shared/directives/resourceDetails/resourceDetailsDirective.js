@@ -21,36 +21,22 @@ angular.module('liveopsConfigPanel')
 
         $scope.save = function () {
           $scope.loading = true;
+
           if($scope.preSave){
             $scope.preSave($scope);
           }
 
           $scope.resource.save(
             function (result) {
-              $scope.loading = false;
+              $scope.handleSuccess(result);
+
               if($scope.postSave){
                 $scope.postSave($scope, result);
               }
-
-              $scope.resetForm();
-              angular.copy($scope.resource, $scope.originalResource);
-              toastr.success('Record ' + ($scope.resource.id ? 'updated' : 'saved'));
             },
 
             function (error, headers){
-              toastr.error('Record failed to ' + ($scope.resource.id ? 'update' : 'save'));
-              $scope.loading = false;
-
-              if(error.data.error) {
-
-                var attributes = error.data.error.attribute;
-
-                angular.forEach(attributes, function(value, key) {
-                  $scope.detailsForm[key].$setValidity('api', false);
-                  $scope.detailsForm[key].$error = { api: value };
-                  $scope.detailsForm[key].$setTouched();
-                });
-              }
+              $scope.handleErrors(error);
 
               if ($scope.postError){
                 $scope.postError($scope, error, headers);
@@ -61,42 +47,52 @@ angular.module('liveopsConfigPanel')
 
         $scope.saveAndNew = function () {
           $scope.loading = true;
+
           if($scope.preSaveAndNew){
             $scope.preSaveAndNew($scope);
           }
 
           $scope.resource.save($scope.originalResource,
             function (result) {
-              $scope.loading = false;
+              $scope.handleSuccess(result);
+
               if($scope.postSaveAndNew){
                 $scope.postSaveAndNew($scope, result);
               }
-
-              $scope.resetForm();
-              //angular.copy($scope.resource, $scope.originalResource);
-              toastr.success('Record ' + ($scope.resource.id ? 'updated' : 'saved'));
             },
 
             function (error, headers){
-              toastr.error('Record failed to ' + ($scope.resource.id ? 'update' : 'save'));
-              $scope.loading = false;
-
-              if(error.data.error) {
-
-                var attributes = error.data.error.attribute;
-
-                angular.forEach(attributes, function(value, key) {
-                  $scope.detailsForm[key].$setValidity('api', false);
-                  $scope.detailsForm[key].$error = { api: value };
-                  $scope.detailsForm[key].$setTouched();
-                });
-              }
+              $scope.handleErrors(error);
 
               if ($scope.postError){
                 $scope.postError($scope, error, headers);
               }
             }
           );
+        };
+
+        $scope.handleSuccess = function (result) {
+          $scope.loading = false;
+
+          $scope.resetForm();
+          angular.copy($scope.resource, $scope.originalResource);
+          toastr.success('Record ' + ($scope.resource.id ? 'updated' : 'saved'));
+        };
+
+        $scope.handleErrors = function (error) {
+          toastr.error('Record failed to ' + ($scope.resource.id ? 'update' : 'save'));
+          $scope.loading = false;
+
+          if(error.data.error) {
+
+            var attributes = error.data.error.attribute;
+
+            angular.forEach(attributes, function(value, key) {
+              $scope.detailsForm[key].$setValidity('api', false);
+              $scope.detailsForm[key].$error = { api: value };
+              $scope.detailsForm[key].$setTouched();
+            });
+          }
         };
 
         $scope.$watch('resource.id', function (newValue) {
@@ -115,6 +111,10 @@ angular.module('liveopsConfigPanel')
             delete $scope.updater;
           }
         });
+
+        $scope.$watch('originalResource', function () {
+          $scope.resource = angular.copy($scope.originalResource);
+        }, true);
 
         $scope.$watch('originalResource', function () {
           $scope.resource = angular.copy($scope.originalResource);
