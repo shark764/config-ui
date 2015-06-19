@@ -11,6 +11,7 @@
   "value.source": "Source",
   "value.properties": "Properties",
   "value.type": "Type",
+  "value.version": "Version",
   "value.createdOn" : "Created On",
   "value.designerLink": "Designer Link",
   "value.openInDesigner": "Open in designer",
