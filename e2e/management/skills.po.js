@@ -20,7 +20,7 @@ var SkillsPage = function() {
   this.membersColumn = 'td:nth-child(4)';
   this.proficiencyColumn = 'td:nth-child(5)';
 
-  this.nameRequiredError = element(by.css('form-error'));
+  this.nameRequiredError = element.all(by.css('.error'));
 };
 
 module.exports = new SkillsPage();

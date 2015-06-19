@@ -41,7 +41,7 @@ describe('The skills view', function() {
   });
 
   it('should successfully create new Skill', function() {
-    randomSkill = Math.floor((Math.random() * 100) + 1);
+    randomSkill = Math.floor((Math.random() * 1000) + 1);
     var skillAdded = false;
     var newSkillName = 'Skill Name ' + randomSkill;
     shared.createBtn.click();
@@ -52,7 +52,7 @@ describe('The skills view', function() {
     skills.proficiencyFormCheckbox.click();
     shared.submitFormBtn.click();
 
-    expect(skills.nameRequiredError.isDisplayed()).toBeFalsy();
+    expect(skills.nameRequiredError.get(0).isDisplayed()).toBeFalsy();
     expect(shared.successMessage.isDisplayed()).toBeTruthy();
     expect(skills.skillElements.count()).toBeGreaterThan(skillCount);
 
@@ -110,8 +110,8 @@ describe('The skills view', function() {
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
 
     // Error messages displayed
-    expect(skills.nameRequiredError.isDisplayed()).toBeTruthy();
-    expect(skills.nameRequiredError.getText()).toBe('Please enter a name');
+    expect(skills.nameRequiredError.get(0).isDisplayed()).toBeTruthy();
+    expect(skills.nameRequiredError.get(0).getText()).toBe('Please enter a name');
 
     // New Skill is not saved
     expect(skills.skillElements.count()).toBe(skillCount);
@@ -119,7 +119,7 @@ describe('The skills view', function() {
 
   xit('should successfully create new Skill without description', function() {
     // TODO Fails due to existing bug
-    randomSkill = Math.floor((Math.random() * 100) + 1);
+    randomSkill = Math.floor((Math.random() * 1000) + 1);
     shared.createBtn.click();
 
     // Edit fields
@@ -127,13 +127,13 @@ describe('The skills view', function() {
     skills.proficiencyFormCheckbox.click();
     shared.submitFormBtn.click();
 
-    expect(skills.nameRequiredError.isDisplayed()).toBeFalsy();
+    expect(skills.nameRequiredError.get(0).isDisplayed()).toBeFalsy();
     expect(shared.successMessage.isDisplayed()).toBeTruthy();
     expect(skills.skillElements.count()).toBeGreaterThan(skillCount);
   });
 
   it('should successfully create new Skill without proficiency', function() {
-    randomSkill = Math.floor((Math.random() * 100) + 1);
+    randomSkill = Math.floor((Math.random() * 1000) + 1);
     shared.createBtn.click();
 
     // Edit fields
@@ -141,7 +141,7 @@ describe('The skills view', function() {
     skills.descriptionFormField.sendKeys('Skill Description');
     shared.submitFormBtn.click();
 
-    expect(skills.nameRequiredError.isDisplayed()).toBeFalsy();
+    expect(skills.nameRequiredError.get(0).isDisplayed()).toBeFalsy();
     expect(shared.successMessage.isDisplayed()).toBeTruthy();
     expect(skills.skillElements.count()).toBeGreaterThan(skillCount);
   });
@@ -156,7 +156,7 @@ describe('The skills view', function() {
     shared.cancelFormBtn.click();
 
     // New skill is not created
-    expect(skills.nameRequiredError.isDisplayed()).toBeFalsy();
+    expect(skills.nameRequiredError.get(0).isDisplayed()).toBeFalsy();
     expect(shared.successMessage.isPresent()).toBeFalsy();
     expect(skills.skillElements.count()).toBe(skillCount);
 
@@ -207,7 +207,7 @@ describe('The skills view', function() {
 
     shared.cancelFormBtn.click();
 
-    expect(skills.nameRequiredError.isDisplayed()).toBeFalsy();
+    expect(skills.nameRequiredError.get(0).isDisplayed()).toBeFalsy();
     expect(shared.successMessage.isPresent()).toBeFalsy();
     expect(skills.skillElements.count()).toBe(skillCount);
 
@@ -232,7 +232,7 @@ describe('The skills view', function() {
     var editedProficiency = skills.descriptionFormField.isSelected();
     shared.submitFormBtn.click();
 
-    expect(skills.nameRequiredError.isDisplayed()).toBeFalsy();
+    expect(skills.nameRequiredError.get(0).isDisplayed()).toBeFalsy();
     expect(shared.successMessage.isDisplayed()).toBeTruthy();
     expect(skills.skillElements.count()).toBe(skillCount);
 
@@ -256,8 +256,8 @@ describe('The skills view', function() {
     shared.submitFormBtn.click();
 
     // Error messages displayed
-    expect(skills.nameRequiredError.isDisplayed()).toBeTruthy();
-    expect(skills.nameRequiredError.getText()).toBe('Please enter a name');
+    expect(skills.nameRequiredError.get(0).isDisplayed()).toBeTruthy();
+    expect(skills.nameRequiredError.get(0).getText()).toBe('Please enter a name');
     expect(shared.successMessage.isPresent()).toBeFalsy();
   });
 

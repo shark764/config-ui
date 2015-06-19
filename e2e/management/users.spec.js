@@ -251,8 +251,8 @@ describe('The users view', function() {
     shared.submitFormBtn.click();
 
     // Error messages displayed
-    expect(users.error.isDisplayed()).toBeTruthy();
-    expect(users.error.getText()).toBe('Please enter a first name');
+    expect(users.requiredErrors.get(0).isDisplayed()).toBeTruthy();
+    expect(users.requiredErrors.get(0).getText()).toBe('Please enter a first name');
     expect(shared.successMessage.isPresent()).toBeFalsy();
   });
 
@@ -269,8 +269,8 @@ describe('The users view', function() {
     shared.submitFormBtn.click();
 
     // Error messages displayed
-    expect(users.error.isDisplayed()).toBeTruthy();
-    expect(users.error.getText()).toBe('Please enter a last name');
+    expect(users.requiredErrors.get(1).isDisplayed()).toBeTruthy();
+    expect(users.requiredErrors.get(1).getText()).toBe('Please enter a last name');
     expect(shared.successMessage.isPresent()).toBeFalsy();
   });
 
@@ -287,8 +287,8 @@ describe('The users view', function() {
     shared.submitFormBtn.click();
 
     // Error messages displayed
-    expect(users.error.isDisplayed()).toBeTruthy();
-    expect(users.error.getText()).toBe('Please enter a display name');
+    expect(users.requiredErrors.get(2).isDisplayed()).toBeTruthy();
+    expect(users.requiredErrors.get(2).getText()).toBe('Please enter a display name');
     expect(shared.successMessage.isPresent()).toBeFalsy();
   });
 
@@ -300,8 +300,9 @@ describe('The users view', function() {
     users.externalIdFormField.sendKeys('temp'); // Incase the field was already empty
     users.externalIdFormField.clear();
     users.firstNameFormField.click();
-    shared.submitFormBtn.click();
-    expect(shared.successMessage.isDisplayed()).toBeTruthy();
+    shared.submitFormBtn.click().then(function () {
+      expect(shared.successMessage.isDisplayed()).toBeTruthy();
+    });
   });
 
   it('should display password field when editing button is selected', function() {
@@ -330,8 +331,8 @@ describe('The users view', function() {
     shared.submitFormBtn.click();
 
     // Error messages displayed
-    expect(users.error.isDisplayed()).toBeTruthy();
-    expect(users.error.getText()).toBe('Please enter a password');
+    expect(users.requiredErrors.get(4).isDisplayed()).toBeTruthy();
+    expect(users.requiredErrors.get(4).getText()).toBe('Please enter a password');
     expect(shared.successMessage.isPresent()).toBeFalsy();
   });
 
@@ -353,7 +354,6 @@ describe('The users view', function() {
     expect(shared.tableElements.count()).toBe(userCount);
 
     // Verify error messages are displayed
-    expect(users.requiredErrors.count()).toBe(3);
     expect(users.requiredErrors.get(0).getText()).toBe('Please enter a first name');
     expect(users.requiredErrors.get(1).getText()).toBe('Please enter a last name');
     expect(users.requiredErrors.get(2).getText()).toBe('Please enter a display name');

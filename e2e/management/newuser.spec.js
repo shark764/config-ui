@@ -77,10 +77,10 @@ describe('The create new user form', function() {
     shared.createBtn.click();
 
     // Enter a space into each field
+    users.emailFormField.sendKeys(' ');
     users.firstNameFormField.sendKeys(' ');
     users.lastNameFormField.sendKeys(' ');
     users.displayNameFormField.sendKeys(' ');
-    users.emailFormField.sendKeys(' ');
     users.externalIdFormField.sendKeys(' ');
 
     // Select Okay with 'empty' fields, confirm error message displayed, no user is created
@@ -90,11 +90,10 @@ describe('The create new user form', function() {
     expect(shared.successMessage.isPresent()).toBeFalsy();
 
     // Verify error messages are displayed
-    expect(users.requiredErrors.count()).toBe(4);
     expect(users.requiredErrors.get(0).getText()).toBe('Please enter an email address');
-    expect(users.requiredErrors.get(1).getText()).toBe('Please enter a first name');
-    expect(users.requiredErrors.get(2).getText()).toBe('Please enter a last name');
-    expect(users.requiredErrors.get(3).getText()).toBe('Please enter a display name');
+    expect(users.requiredErrors.get(2).getText()).toBe('Please enter a first name');
+    expect(users.requiredErrors.get(3).getText()).toBe('Please enter a last name');
+    expect(users.requiredErrors.get(4).getText()).toBe('Please enter a display name');
   });
 
   it('should display new user in table and display user details', function() {
