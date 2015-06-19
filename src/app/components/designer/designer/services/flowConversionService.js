@@ -9,11 +9,11 @@
         var jjs = _.clone(jointJSON.cells);
 
         var links = _.filter(jjs, function(notation) {
-          return notation.type === 'bpmn.Flow';
+          return notation.type === 'liveOps.link';
         });
 
         var notations = _.filter(jjs, function(notation) {
-          return notation.type !== 'bpmn.Flow';
+          return notation.type !== 'liveOps.link';
         });
 
         var alienese = _.map(notations, function(n) {
@@ -46,6 +46,7 @@
             notation.entity = 'activity';
             notation.name = n.name;
             notation.params = FlowNotationService.addActivityParams(n);
+            notation.bindings = {};
           }
 
           if (n.type === 'liveOps.gateway') {
@@ -54,34 +55,62 @@
           }
 
           if (n.type === 'liveOps.event') {
-            notation.type = n.icon;
-            notation.entity = n.eventType;
+
+            //Entity
+            if (n.throwing) {
+              notation.entity = 'throw';
+            } else if (n.eventType == 'intermediate') {
+              notation.entity = 'catch';
+              notation.interrupting = n.interrupting;
+            } else if (n.eventType == 'start') {
+              notation.entity = 'start';
+
+              if (n.eventName !== 'none' && n.eventName !== 'error') {
+                notation.interrupting = n.interrupting;
+              }
+            }
+
+            if (n.eventType == 'end') {
+              notation.terminate = true;
+            }
+
+            notation.type = n.eventName;
+            
+            if (n.eventName == 'signal') {
+              notation.target = n.target;
+            }
           }
 
           return notation;
         });
 
-        console.log('Alienese', alienese);
         return alienese;
       },
 
       convertToJoint: function(alienese) {
-        console.log(alienese);
-
         var jointNotation = _.reduce(alienese, function(memo, notation) {
 
-          if (notation.entity === 'start' || notation.entity === 'catch' || notation.entity === 'end') {
-            memo.push({
+          if (notation.entity === 'start' || notation.entity === 'catch' || notation.entity === 'throw') {
+            var event = {
               id: String(notation.id),
               type: 'liveOps.event',
-              eventType: notation.entity,
               interrupting: notation.interrupting,
-              icon: notation.type,
+              eventName: notation.type,
               position: {
                 x: notation['rendering-data'].x,
                 y: notation['rendering-data'].y,
               }
-            });
+            }
+
+            if (notation.entity == 'throw' && notation.terminate) {
+              event.eventType = 'end';
+              event.terminate = true;
+            } else if ((notation.entity == 'throw' && !notation.terminate) || notation.entity == 'catch') {
+              event.eventType = 'intermediate';
+              event.terminate = false;
+            }
+
+            memo.push(event);
           } else if (notation.entity === 'gateway') {
             memo.push({
               id: String(notation.id),
@@ -98,7 +127,7 @@
               type: 'liveOps.activity',
               name: notation.name,
               activityType: notation.type,
-              content: notation['rendering-data'].label,
+              content: FlowNotationService.getActivityLabel(notation),
               position: {
                 x: notation['rendering-data'].x,
                 y: notation['rendering-data'].y
@@ -124,7 +153,7 @@
             _.each(notation.children, function(child, index) {
               memo.push({
                 id: 'link-' + index + '-' + notation.id,
-                type: 'bpmn.Flow',
+                type: 'liveOps.link',
                 source: {id: String(notation.id)},
                 target: {id: String(child)}
               });
@@ -143,8 +172,6 @@
             decoration.parent = notation.id;
           }
         });
-
-        console.log(jointNotation);
 
         return {cells: jointNotation};
       }
