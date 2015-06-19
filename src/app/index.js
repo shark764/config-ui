@@ -125,18 +125,6 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
           }]
         }
       })
-      .state('content.designer.subflowEditor', {
-        url: '/editor/:flowId/:versionId?v=:version',
-        templateUrl: 'app/components/designer/designer/designerPage.html',
-        controller: 'DesignerPageController',
-        reloadOnSearch: false,
-        resolve: {
-          subflow: ['$stateParams', 'Session', 'Flow', '$q', function($stateParams, Session, Flow, $q) {
-            var deferred = $q.defer();
-            return deferred.promise;
-          }]
-        }
-      })
       .state('login', {
         url: '/login',
         templateUrl: 'app/components/login/login.html',
