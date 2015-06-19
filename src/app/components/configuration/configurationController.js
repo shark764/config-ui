@@ -10,6 +10,10 @@ angular.module('liveopsConfigPanel')
           display: 'Tenants',
           link: $state.href('content.configuration.tenants'),
           id: 'tenants-configuration-link'
+        },{
+          display: 'Integrations',
+          link: $state.href('content.configuration.integrations'),
+          id: 'integrations-configuration-link'
         }]
       };
     }

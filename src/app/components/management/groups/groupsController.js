@@ -2,10 +2,8 @@
 
 angular.module('liveopsConfigPanel')
   .controller('GroupsController', ['$scope', '$state', 'Session', 'Group', 'User', 'groupTableConfig', 'toastr',
-    function($scope, $state, Session, Group, User, groupTableConfig) {
+    function ($scope, $state, Session, Group, User, groupTableConfig) {
       $scope.Session = Session;
-
-      $scope.redirectToInvites();
 
       $scope.tableConfig = groupTableConfig;
 
@@ -14,16 +12,18 @@ angular.module('liveopsConfigPanel')
       });
 
       $scope.fetch = function () {
-        $scope.groups = Group.query({tenantId: Session.tenant.tenantId});
+        $scope.groups = Group.query({
+          tenantId: Session.tenant.tenantId
+        });
       };
 
-      $scope.createGroup = function() {
+      $scope.$on('on:click:create', function(){
         $scope.selectedGroup = new Group({
           tenantId: Session.tenant.tenantId,
           status: true,
           owner: Session.user.id
         });
-      };
+      });
 
       $scope.fetch();
     }
