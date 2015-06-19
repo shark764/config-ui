@@ -28,7 +28,7 @@ function flowDesigner() {
         console.log(FlowVersion);
 
         $scope.publish = function() {
-          if(flow.toJSON().cells.length === 0) { return; }
+          if (flow.toJSON().cells.length === 0) { return; }
           var alienese = JSON.stringify(FlowConversionService.convertToAlienese(flow.toJSON()));
           $scope.version = new FlowVersion({
             flow: alienese,

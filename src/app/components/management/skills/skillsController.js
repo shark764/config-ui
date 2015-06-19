@@ -2,7 +2,7 @@
 
 angular.module('liveopsConfigPanel')
   .controller('SkillsController', ['$scope', '$state', 'Session', 'Skill', 'skillTableConfig',
-    function($scope, $state, Session, Skill, skillTableConfig) {
+    function ($scope, $state, Session, Skill, skillTableConfig) {
 
       $scope.Session = Session;
 
@@ -12,18 +12,20 @@ angular.module('liveopsConfigPanel')
         $scope.fetch();
       });
 
-      $scope.fetch = function(){
-        $scope.skills = Skill.query( { tenantId: Session.tenant.tenantId } );
+      $scope.fetch = function () {
+        $scope.skills = Skill.query({
+          tenantId: Session.tenant.tenantId
+        });
       };
 
-      $scope.createSkill = function() {
-        $scope.selectedSkill = new Skill( {
+      $scope.$on('on:click:create', function () {
+        $scope.selectedSkill = new Skill({
           tenantId: Session.tenant.tenantId,
           status: true,
           hasProficiency: false
-        } );
-      };
-      
+        });
+      });
+
       $scope.fetch();
     }
   ]);

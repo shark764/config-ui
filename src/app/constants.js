@@ -8,7 +8,7 @@ angular.module('liveopsConfigPanel.config', [])
 
 .constant('uuidcacheKey', 'LIVEOPS-CACHE-KEY')
 
-.constant('userStatuses', [{
+.constant('statuses', [{
   'display': 'Disabled',
   'value': false
 }, {

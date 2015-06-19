@@ -15,11 +15,11 @@ angular.module('liveopsConfigPanel')
         });
       };
 
-      $scope.createFlow = function () {
+      $scope.$on('on:click:create', function() {
         $scope.selectedFlow = new Flow({
           tenantId: Session.tenant.tenantId
         });
-      };
+      });
 
       $scope.$watch('Session.tenant', function () {
         $scope.fetch();
