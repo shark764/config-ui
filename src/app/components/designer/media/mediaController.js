@@ -11,11 +11,11 @@ angular.module('liveopsConfigPanel')
       $scope.medias = Media.query({tenantId : Session.tenant.tenantId});
     };
 
-    $scope.createMedia = function(){
+    $scope.$on('on:click:create', function(){
       $scope.selectedMedia = new Media({
         tenantId: Session.tenant.tenantId
       });
-    };
+    });
 
     $scope.$watch('Session.tenant', function () {
       $scope.fetch();

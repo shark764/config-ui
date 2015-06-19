@@ -17,12 +17,16 @@
           stroke: '#000000'
         },
         '.outer': {
-          'stroke-width': 1, r:30,
+          'stroke-width': 1.5, 
+          r:30,
           transform: 'translate(30,30)'
         },
         '.inner': {
-          'stroke-width': 1, r: 26,
-          transform: 'translate(30,30)'
+          'stroke-width': 1.5, 
+          r: 26,
+          transform: 'translate(30,30)',
+          'stroke': '#F2C208',
+          'fill-opacity': 0.0
         },
         image: {
           width:  40, height: 40, 'xlink:href': '', transform: 'translate(10,10)'
@@ -132,7 +136,21 @@
               visibility: 'hidden'
             },
             '.outer': {
-              'stroke-width': 1
+              'stroke-width': 1.5,
+              'stroke': '#1EC16B',
+              'fill': {
+                type: 'linearGradient',
+                stops: [
+                  {offset: '0%', color: '#FFFFFF'},
+                  {offset: '100%', color: '#EFFEF7'}
+                ],
+                attrs: {
+                  x1: '0%',
+                  y1: '0%',
+                  x2: '0%',
+                  y2: '90%'
+                }
+              }
             }
           });
           break;
@@ -142,7 +160,21 @@
               visibility: 'hidden'
             },
             '.outer': {
-              'stroke-width': 5
+              'stroke-width': 3,
+              'stroke': '#C2402A',
+              'fill': {
+                type: 'linearGradient',
+                stops: [
+                  {offset: '0%', color: '#FFFFFF'},
+                  {offset: '100%', color: '#F4D3CC'}
+                ],
+                attrs: {
+                  x1: '0%',
+                  y1: '0%',
+                  x2: '0%',
+                  y2: '90%'
+                }
+              }
             }
           });
           break;
@@ -152,7 +184,21 @@
               visibility: 'visible'
             },
             '.outer': {
-              'stroke-width': 1
+              'stroke-width': 1.5,
+              'stroke': '#F2C208',
+              'fill': {
+                type: 'linearGradient',
+                stops: [
+                  {offset: '0%', color: '#FFFFFF'},
+                  {offset: '100%', color: '#f9edbb'}
+                ],
+                attrs: {
+                  x1: '0%',
+                  y1: '0%',
+                  x2: '0%',
+                  y2: '90%'
+                }
+              }
             }
           });
           break;

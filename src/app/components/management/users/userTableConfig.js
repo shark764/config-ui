@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('userTableConfig', ['userStatuses',
-    function(userStatuses) {
+  .service('userTableConfig', ['statuses',
+    function(statuses) {
       return {
         'fields': [{
           'header': 'Name',
@@ -22,7 +22,7 @@ angular.module('liveopsConfigPanel')
           'name': 'status',
           'templateUrl': 'app/components/management/users/userStatusTemplate.html',
           'checked': false,
-          'options': userStatuses
+          'options': statuses
         }],
         'searchOn': ['firstName', 'lastName', {
           path: 'skills',

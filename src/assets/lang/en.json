@@ -11,12 +11,13 @@
   "value.source": "Source",
   "value.properties": "Properties",
   "value.type": "Type",
+  "value.version": "Version",
   "value.createdOn" : "Created On",
   "value.designerLink": "Designer Link",
   "value.openInDesigner": "Open in designer",
   "value.details.version" : "Active Version",
   "value.error.name.required" : "Field \"Name\" is required.",
-
+  "value.error.query.required" : "Field \"Query\" is required.",
   "navbar.users.title": "User Management",
   "navbar.tenants.title": "Tenants",
   "navbar.flows.title": "Flows",
@@ -42,6 +43,13 @@
   "skill.details.hasProficiency": "Has Proficiency",
   "skill.details.name.error": "Please enter a name",
 
+  "flow.type": "Type",
+  "flow.type.choose": "Choose a Type",
+  "flow.details.type.error": "Type is required",
+  "flow.details.activeVersion.error": "Active version is required",
+
+  "queue.details.version.error" : "Active Version is required",
+
   "media.details.source.error": "Please enter a source",
   "media.details.type.error": "Please enter a type",
   "media.details.properties.error": "Please enter properties as JSON",
@@ -50,5 +58,9 @@
   "tenant.details.name": "Tenant Name",
   "tenant.details.admin": "Platform Admin",
   "tenant.details.description": "Description",
-  "tenant.details.region": "Region"
+  "tenant.details.region": "Region",
+  
+  "integration.details.properties.accountSid": "Account SID",
+  "integration.details.properties.authToken": "Auth Token",
+  "integration.details.properties.webRTC": "Web RTC"
 }

@@ -4,7 +4,7 @@ angular.module('liveopsConfigPanel')
   .controller('NavbarController', ['$rootScope', '$scope', '$state', 'AuthService', 'Session',
     function($rootScope, $scope, $state, AuthService, Session) {
       $scope.Session = Session;
-
+      
       $scope.populateTenantsHandler = function() {
         if (!$scope.Session.isAuthenticated()) {
           return;

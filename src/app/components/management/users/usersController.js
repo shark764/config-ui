@@ -1,13 +1,15 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('UsersController', ['$scope', '$location', 'userStatuses', 'userRoles', 'User', 'Session', 'AuthService', 'userTableConfig', 'Invite', 'toastr',
-    function($scope, $location, userStatuses, userRoles, User, Session, AuthService, userTableConfig, Invite, toastr) {
-      $scope.statuses = userStatuses;
+  .controller('UsersController', ['$scope', '$window', 'statuses', 'userRoles', 'User', 'Session', 'AuthService', 'userTableConfig', 'Invite', 'toastr', 'flowSetup',
+    function($scope, $window, statuses, userRoles, User, Session, AuthService, userTableConfig, Invite, toastr, flowSetup) {
+      $scope.statuses = statuses;
       $scope.filteredUsers = [];
       $scope.Session = Session;
       var self = this;
-      
+
+      $window.flowSetup = flowSetup;
+
       this.newPassword = null;
       this.preSave = function(scope) {
         if(scope.resource.password){
@@ -23,12 +25,12 @@ angular.module('liveopsConfigPanel')
           Session.setToken(token);
           self.newPassword = null;
         }
-        
+
         if (! scope.originalResource.id){
           Invite.save({tenantId: Session.tenant.tenantId}, {email : result.email, roleId : '00000000-0000-0000-0000-000000000000'} ); //TEMPORARY roleId
         }
       };
-      
+
       this.postError = function(scope, error){
         if (error.config.method === 'POST' && error.status === 400){
           toastr.clear();
@@ -52,13 +54,18 @@ angular.module('liveopsConfigPanel')
         }
       };
 
-      $scope.createUser = function() {
+      $scope.$on('on:click:create', function(){
         $scope.selectedUser = new User({
           status: true
         });
+      });
+
+      $scope.fetch = function () {
+        $scope.users = User.query();
       };
 
-      $scope.users = User.query();
+      $scope.fetch();
+      $scope.$watch('Session.tenant', $scope.fetch);
       $scope.tableConfig = userTableConfig;
     }
   ]);

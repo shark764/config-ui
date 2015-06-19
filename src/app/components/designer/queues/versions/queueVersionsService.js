@@ -8,10 +8,6 @@ angular.module('liveopsConfigPanel')
       'name',
       'description',
       'query'
-    ], [
-      'id',
-      'tenantId',
-      'queueId'
     ]);
   }]);
 

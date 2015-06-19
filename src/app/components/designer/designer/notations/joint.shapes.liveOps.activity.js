@@ -27,8 +27,20 @@
           height: 100
         },
         '.body': {
-          fill: '#ffffff',
-          stroke: '#27AAE1'
+          fill: {
+            type: 'linearGradient',
+            stops: [
+              {offset: '0%', color: '#FFFFFF'},
+              {offset: '100%', color: '#F6FBFF'}
+            ],
+            attrs: {
+              x1: '0%',
+              y1: '0%',
+              x2: '0%',
+              y2: '90%'
+            }
+          },
+          stroke: '#0090CC'
         },
         '.inner': {
           transform: 'scale(0.9,0.9) translate(5,5)'
@@ -107,7 +119,7 @@
               visibility: 'hidden'
             },
             '.outer': {
-              'stroke-width': 1,
+              'stroke-width': 1.5,
               'stroke-dasharray': 'none'
             },
             path: {
@@ -125,7 +137,7 @@
               visibility: 'hidden'
             },
             '.outer': {
-              'stroke-width': 1,
+              'stroke-width': 1.5,
               'stroke-dasharray': '1,2'
             },
             path: {

@@ -48,7 +48,8 @@
             _.map(notations, function(notation) {
               return new joint.shapes.liveOps[entity]({
                 content: notation.label,
-                type: notation.type,
+                activityType: notation.type,
+                type: 'liveOps.activity',
                 name: notation.name
               });
             }
