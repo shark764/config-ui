@@ -3,5 +3,13 @@
     background-color: $accent1;
     color: white;
     font-size: 1.5em;
+    cursor: pointer;
+  }
+
+  input {
+    text-align: center;
+    padding: 0;
+    font-size: 18px;
+    font-weight: bold;
   }
 }

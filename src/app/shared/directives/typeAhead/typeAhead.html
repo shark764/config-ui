@@ -1,6 +1,10 @@
 <div class="typeahead-container">
-  <input type="text" ng-model="currentText"></input>
-  <ul ng-show="currentText !== '' && filtered.length > 0">
-    <li ng-repeat="item in filtered = (items | filter:{name: currentText})">{{item.name}}</li>
+  <input
+    type="text"
+    ng-model="currentText"
+    ng-focus="showSuggestions=true"
+    ng-blur="showSuggestions=false"></input>
+  <ul ng-show="filtered.length > 0 && (showSuggestions || hovering)" ng-mouseover="hovering=true" ng-mouseout="hovering=false">
+    <li ng-click="select(item)" ng-repeat="item in filtered = (items | filter:{name: currentText} | orderBy:'name')">{{item.name}}</li>
   </ul>
 </div>

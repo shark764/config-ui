@@ -1,28 +1,45 @@
-<div ng-show="skills.$resolved && userSkills.$resolved" class="user-skills-table">
-  <div class="header">
-    <span class="title">Add New Skill</span>
-  </div>
-  <div class="input-group">
-    <label>Skill Name</label>
-    <type-ahead fieldName="name" items="skills" ng-model="thing" ></type-ahead>
-  </div>
-  <div class="input-group">
-    <label>Skill Proficiency</label>
-    <number-slider value="newInvite.proficiency"></number-slider>
-  </div>
+
+<loading ng-if="!skills.$resolved"></loading>
+<div class="user-skills-table">
+  <ng-form seperate-validation ng-disabled="saving"> 
+    <div ng-show="skills.$resolved" >
+      <div class="header">
+        <span class="title">Add New Skill</span>
+      </div>
+      <div class="input-group">
+        <label>Skill Name</label>
+        <type-ahead items="skills" selected-item="selectedSkill" ></type-ahead>
+      </div>
+      <div class="input-group" ng-show="selectedSkill.hasProficiency || !selectedSkill.id">
+        <label>Skill Proficiency</label>
+        <number-slider value="newUserSkill.proficiency" min-value="0" max-value="100" ></number-slider>
+      </div>
+      <div class="input-group skills-controls">
+        <label></label>
+        <input ng-show="!saving" ng-disabled="!selectedSkill" ng-click="save()" type="button" class="btn btn-primary" value="Add Skill" />
+        <a ng-show="saving" ng-disabled="true" class="btn btn-primary"><i class="fa fa-refresh fa-spin"></i></a>
+      </div>
+    </div>
+  </ng-form>
+
   <div class="header">
     <span class="title">Skills</span>
     <span class="count">({{userSkills.length}})</span>
   </div>
-  <table>
-    <tr ng-show="userSkills.length === 0">
-      <td>None found</td>
-    <tr>
-    <tr ng-show="userSkills.length > 0" ng-repeat="userSkill in userSkills">
-      <td>{{userSkill.name}}</td>
-      <td><input ng-model="userSkill.proficiency" type="number" ng-required="true" min="0" max="100"/></td>
-      <td><input value="Save" type="button" ng-click="save(userSkill)" /></td>
-      <td><input value="Remove" type="button" ng-click="remove(userSkill)" /></td>
-    </tr>
+  <table class="skill-table" ng-show="userSkills.$resolved">
+    <thead>
+      <tr>
+        <th>Skill Name</th>
+        <th>Proficiency</th>
+        <th>Remove</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-show="userSkills.length > 0" ng-repeat="userSkill in userSkills | orderBy:'name'">
+        <td>{{userSkill.name}}</td>
+        <td>{{userSkill.proficiency}}</td>
+        <td><i class="fa fa-times" ng-click="remove(userSkill)"></i></td>
+      </tr>
+    </tbody>
   </table>
 </div>
