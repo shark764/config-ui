@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('typeAhead', ['filterFilter', '$compile', function(filterFilter, $compile) {
+  .directive('typeAhead', ['filterFilter', function(filterFilter) {
     return {
       restrict: 'E',
       scope : {
@@ -11,7 +11,7 @@ angular.module('liveopsConfigPanel')
 
       templateUrl: 'app/shared/directives/typeAhead/typeAhead.html',
 
-      link: function ($scope, ele, attrs, ctrl) {
+      link: function ($scope) {
         $scope.currentText = '';
 
         $scope.$watch('selectedItem', function () {
@@ -24,7 +24,7 @@ angular.module('liveopsConfigPanel')
           var items = filterFilter($scope.filtered, {name : $scope.currentText }, true);
 
           if(items && items.length > 0){
-            $scope.selectedItem = items[0]
+            $scope.selectedItem = items[0];
           } else {
             $scope.selectedItem = {
               name: $scope.currentText

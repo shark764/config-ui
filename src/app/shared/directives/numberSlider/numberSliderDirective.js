@@ -10,7 +10,7 @@ angular.module('liveopsConfigPanel')
         maxValue: '@'
       },
       templateUrl: 'app/shared/directives/numberSlider/numberSlider.html',
-      link: function($scope, elem, attr) {
+      link: function($scope) {
 
         $scope.minValue = $scope.minValue ? Number($scope.minValue) : null;
         $scope.maxValue = $scope.maxValue ? Number($scope.maxValue) : null;

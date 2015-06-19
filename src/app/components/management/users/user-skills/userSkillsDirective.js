@@ -23,7 +23,7 @@ angular.module('liveopsConfigPanel')
           $scope.userSkills.splice(index, 1);
 
           tsu.$delete({skillId: tsu.skillId}, null, function() {
-            $scope.fetch
+            $scope.fetch();
             toastr.error('Failed to remove skill');
           });
         };
