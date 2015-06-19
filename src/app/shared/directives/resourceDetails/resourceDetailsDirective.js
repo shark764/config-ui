@@ -3,7 +3,7 @@
 angular.module('liveopsConfigPanel')
   .directive('resourceDetails', ['UserName', 'toastr', function(UserName, toastr) {
     return {
-      restrict: 'AE',
+      restrict: 'E',
       scope : {
         originalResource: '=',
         headerTemplateUrl: '@',
@@ -13,7 +13,10 @@ angular.module('liveopsConfigPanel')
       },
       templateUrl: 'app/shared/directives/resourceDetails/resourceDetails.html',
 
-      link: function ($scope) {
+      link: function ($scope, ele) {
+
+        ele.addClass('details-pane');
+
         angular.extend($scope, $scope.extendScope);
 
         $scope.save = function () {

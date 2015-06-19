@@ -2,12 +2,11 @@
   id="table-pane"
   config="tableConfig"
   items="mediaCollections"
-  on-create-click="createMediaCollection"
   selected="selectedMediaCollection"
   resource-name="{{'tenants:' + Session.tenant.tenantId + ':mediaCollections'}}"></table-controls>
 
 <resize-handle
-  id="resize-pane"
+  id="resize-pane-1"
   right-element-id="details-pane"
   left-element-id="table-pane"
   left-min-width="600"
@@ -20,8 +19,8 @@
   body-template-url="app/components/designer/media-collections/mediaCollectionDetailBody.html"
   original-resource="selectedMediaCollection"></resource-details>
 
-  <resize-handle
-  id="resize-pane"
+<resize-handle
+  id="resize-pane-2"
   ng-show="selectedMedia"
   right-element-id="media-pane"
   left-element-id="details-pane"

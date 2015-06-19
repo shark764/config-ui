@@ -1,11 +1,11 @@
-#details-form {
+.details-form {
    height: 100%;
    -ms-box-orient: vertical;
    @include display-flex();
    @include flex-box-direct(column);
    width: 100%;
 
-  #detail-header-pane {
+  .detail-header-pane {
     border-bottom: 1px solid #dadada;
     padding: 15px;
     min-width: 500px;
@@ -18,7 +18,7 @@
     }
   }
 
-  #detail-body-pane {
+  .detail-body-pane {
     padding: 15px;
     @include flex(1, 1, auto);
     overflow: auto;
@@ -101,7 +101,7 @@
     }
   }
 
-  #detail-controls-pane {
+  .detail-controls-pane {
     padding: 15px 5px;
     border-top: 1px solid #dadada;
     justify-content: space-around;
