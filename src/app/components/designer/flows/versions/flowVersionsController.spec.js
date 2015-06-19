@@ -1,4 +1,4 @@
-/* global spyOn: false  */
+/* global spyOn, jasmine: false  */
 
 'use strict';
 
@@ -36,6 +36,7 @@ describe('Versions directive controller', function () {
       flow = '[]';
 
       $httpBackend = $injector.get('$httpBackend');
+
       $httpBackend.when('GET', 'fakendpoint.com/v1/tenants/1/flows/' + flowId + '/versions').respond({
         'result': versions
       });
@@ -48,6 +49,9 @@ describe('Versions directive controller', function () {
         'description': 'US East (N. Virginia)',
         'name': 'us-east-1'
       }]});
+
+      $httpBackend.when('GET', 'fakendpoint.com/v1/tenants/1/flows/' + flowId + '/versions').respond({'result': versions});
+
 
       $scope.flow = {
         id: flowId
@@ -77,6 +81,27 @@ describe('Versions directive controller', function () {
     expect($scope.versions).toBeDefined();
     expect($scope.versions[0].id).toEqual(versions[0].id);
     expect($scope.versions[1].id).toEqual(versions[1].id);
+  });
+  
+  describe('fetch function', function () {
+    it('should be defined', function () {
+      expect($scope.fetch).toBeDefined();
+      expect($scope.fetch).toEqual(jasmine.any(Function));
+    });
+    
+    it('should query for flow versions', function () {
+      $httpBackend.expectGET('fakendpoint.com/v1/tenants/1/flows/' + flowId + '/versions');
+      $scope.fetch();
+      $httpBackend.flush();
+    });
+    
+    it('should set the v property', function () {
+      $scope.fetch();
+      $httpBackend.flush();
+      
+      expect($scope.versions[0].v).toEqual(2);
+      expect($scope.versions[1].v).toEqual(1);
+    });
   });
 
   describe('on new version creation', function () {
@@ -126,4 +151,32 @@ describe('Versions directive controller', function () {
       expect(cleanHandler).toHaveBeenCalled();
     });
   });
+});
+
+describe('flow versions directive', function(){
+  var $scope,
+    element,
+    isolateScope,
+    $compile;
+
+  beforeEach(module('liveopsConfigPanel', function($controllerProvider){
+    $controllerProvider.register('FlowVersionsController', function(){});
+  }));
+  beforeEach(module('gulpAngular'));
+
+  beforeEach(inject(['$compile', '$rootScope', function(_$compile_, $rootScope) {
+    $scope = $rootScope.$new();
+    $compile = _$compile_;
+    $scope.flow = {id: '1'};
+    
+    element = $compile('<flow-versions flow="flow" versions="versions"></flow-versions>')($scope);
+    $scope.$digest();
+    isolateScope = element.isolateScope();
+  }]));
+
+  it('should insert a table', inject(function() {
+    expect(element.find('table').length).toEqual(1);
+  }));
+
+  
 });
