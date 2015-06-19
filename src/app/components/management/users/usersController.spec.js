@@ -17,7 +17,7 @@ describe('users controller', function(){
 
   beforeEach(inject(['$compile', '$rootScope', '$injector', '$controller', 'apiHostname', function($compile, $rootScope, _$injector_, $controller, apiHostname) {
     $injector = _$injector_;
-    
+
     users  = [ {
       'id': 'c6aa44f6-b19e-49f5-bd3f-66f00b885e39',
       'status': false,
@@ -41,8 +41,8 @@ describe('users controller', function(){
 
     //Need the following so that $digest() works
     $httpBackend = $injector.get('$httpBackend');
-    $httpBackend.when('GET', apiHostname + '/v1/users').respond({'result' : users});
-    $httpBackend.expectGET(apiHostname + '/v1/users');
+    $httpBackend.when('GET', apiHostname + '/v1/users?tenantId=1').respond({'result' : users});
+    $httpBackend.expectGET(apiHostname + '/v1/users?tenantId=1');
 
     $scope = $rootScope.$new();
     $scope.users = users;
@@ -98,30 +98,30 @@ describe('users controller', function(){
       expect(childScope.resource.displayName).toEqual('');
     }));
   });
-  
+
   describe('postSave function', function(){
     it('should reset the session authentication token if user changes their own password', inject(function() {
       var result = {
           id : 1,
           email: 'somenewemail@test.com'
       };
-      
+
       var AuthService = $injector.get('AuthService');
       var token = AuthService.generateToken('somenewemail@test.com', 'anewpassword');
-      
+
       spyOn(Session, 'setToken');
       controller.preSave({resource : {password : 'anewpassword'}}); //Set newPassword
       controller.postSave({originalResource : {id : 3}}, result);
       expect(Session.setToken).toHaveBeenCalledWith(token);
-      
+
     }));
-    
+
     it('should create an invite for the new user', inject(function() {
       spyOn(Invite, 'save');
       controller.postSave({originalResource : {}}, {email : 'somenewemail@test.com'});
       expect(Invite.save).toHaveBeenCalledWith({tenantId: 1}, {email : 'somenewemail@test.com', roleId : '00000000-0000-0000-0000-000000000000'});
     }));
-    
+
     it('should not send an invite if editing an existing user', inject(function() {
       spyOn(Invite, 'save');
       controller.postSave({originalResource : {id : 3}}, {email : 'somenewemail@test.com'});
@@ -137,16 +137,16 @@ describe('users controller', function(){
           },
           status : '500'
       };
-      
+
       spyOn(Invite, 'save');
       controller.postError({}, error);
       expect(Invite.save).not.toHaveBeenCalled();
-      
+
       error.status = 404;
       controller.postError({}, error);
       expect(Invite.save).not.toHaveBeenCalled();
     }));
-    
+
     it('should do nothing if http method is not POST', inject(function() {
       var error = {
           config : {
@@ -154,16 +154,16 @@ describe('users controller', function(){
           },
           status : 400
       };
-      
+
       spyOn(Invite, 'save');
       controller.postError({}, error);
       expect(Invite.save).not.toHaveBeenCalled();
-      
+
       error.config.method = 'PUT';
       controller.postError({}, error);
       expect(Invite.save).not.toHaveBeenCalled();
     }));
-    
+
     it('should create an invite if error is 400 and method is POST', inject(function() {
       var error = {
           config : {
@@ -171,7 +171,7 @@ describe('users controller', function(){
           },
           status : 400
       };
-      
+
       spyOn(Invite, 'save');
       controller.postError({resource : {email : 'email'}, cancel : function(){}}, error);
       expect(Invite.save).toHaveBeenCalledWith({tenantId: 1}, {email : 'email', roleId : '00000000-0000-0000-0000-000000000000'});
