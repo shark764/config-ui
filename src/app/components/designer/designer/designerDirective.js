@@ -1,7 +1,6 @@
 (function() {
 'use strict';
-
-  function flowDesigner() {
+function flowDesigner() {
     return {
       scope: {
         flowVersion: '=flowVersion'
@@ -10,10 +9,10 @@
       templateUrl: 'app/components/designer/designer/designerDirective.html',
       replace: true,
       link: function() {},
-      controller: ['$scope','$element','$attrs','$window','$timeout','JointInitService','FlowConversionService','FlowNotationService','FlowVersion','Session','toastr', function($scope, $element, $attrs, $window, $timeout, JointInitService, FlowConversionService, FlowNotationService, FlowVersion, Session, toastr) {
+      controller: ['$scope', '$element', '$attrs', '$window', '$timeout', 'JointInitService', 'FlowConversionService', 'FlowNotationService', 'FlowVersion', 'Session', 'toastr', function($scope, $element, $attrs, $window, $timeout, JointInitService, FlowConversionService, FlowNotationService, FlowVersion, Session, toastr) {
 
         $timeout(function() {
-          var graph = JointInitService.graph(1280, 800, 20, true, true, false, new joint.shapes.bpmn.Flow(), 0, true, [], '#stencil-container', '#paper-container', '#inspector-container');
+          var graph = JointInitService.graph(1280, 800, 20, true, true, false, new joint.shapes.liveOps.link(), 0, true, [], '#stencil-container', '#paper-container', '#inspector-container');
 
           $scope.publish = function() {
             if (graph.toJSON().cells.length === 0) { return; }
@@ -40,10 +39,14 @@
           };
 
           graph.fromJSON(FlowConversionService.convertToJoint(JSON.parse($scope.flowVersion.flow)));
+          
+          window.spitOutAlienese = function() {
+            return JSON.stringify(FlowConversionService.convertToAlienese(graph.toJSON()));
+          }
         }, 1000);
       }]
     };
   }
 
-  angular.module('liveopsConfigPanel').directive('flowDesigner', flowDesigner);
+angular.module('liveopsConfigPanel').directive('flowDesigner', flowDesigner);
 })();

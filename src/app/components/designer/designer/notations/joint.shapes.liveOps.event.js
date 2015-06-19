@@ -44,19 +44,54 @@
       },
       eventType: 'start',
       interrupting: true,
-      terminating: false,
+      throwing: false,
+      terminate: false,
       icon: 'none',
       inputs: {
         eventType: {
           type: 'select',
-          options: ['start', 'end', 'catch'],
+          options: [
+            {
+              value: 'start',
+              content: 'Start'
+            },
+            {
+              value: 'intermediate',
+              content: 'Intermediate'
+            },
+            {
+              value: 'end',
+              content: 'End'
+            }
+          ],
           group: 'general',
           label: 'Type',
           index: 1
         },
-        icon: {
+        eventName: {
           type: 'select',
-          options: ['terminate', 'error', 'signal', 'escalation'],
+          options: [
+            {
+              value: 'none',
+              content: 'None'
+            },
+            {
+              value: 'terminate',
+              content: 'Terminate'
+            },
+            {
+              value: 'error',
+              content: 'Error'
+            },
+            {
+              value: 'signal',
+              content: 'Signal'
+            },
+            {
+              value: 'escalation',
+              content: 'Escalation'
+            }
+          ],
           group: 'general',
           label: 'Event Name',
           index: 2
@@ -72,13 +107,23 @@
             }
           }
         },
-        terminating: {
+        throwing: {
           type: 'toggle',
           group: 'general',
-          label: 'Terminating',
+          label: 'Throwing',
           when: {
             eq: {
-              'eventType': 'catching'
+              'eventType': 'intermediate'
+            }
+          }
+        },
+        target: {
+          type: 'text',
+          group: 'general',
+          label: 'Target',
+          when: {
+            eq: {
+              'eventName': 'signal'
             }
           }
         }
@@ -88,10 +133,26 @@
       joint.dia.Element.prototype.initialize.apply(this, arguments);
       this.listenTo(this, 'change:eventType', this.onEventTypeChange);
       this.onEventTypeChange(this, this.get('eventType'));
+      this.listenTo(this, 'change:eventName', this.updateIcon);
+      this.listenTo(this, 'change:throwing', this.updateIcon);
+      
+      this.updateIcon(this);
+      
       this.listenTo(this, 'change:interrupting', this.onInterruptingChange);
       this.onInterruptingChange(this, this.get('interrupting'));
       this.listenTo(this, 'change:parent', this.onParentChange);
       this.onParentChange(this, this.get('parent'));
+    },
+
+    updateIcon: function(cell) {
+      var throwing = cell.get('throwing');
+      var name = cell.get('eventName');
+      if (throwing) {
+        cell.set('icon', name + 'Throwing');
+      } else {
+        cell.set('icon', name);
+      }
+
     },
 
     onParentChange: function(cell, parent) {
@@ -176,8 +237,9 @@
               }
             }
           });
+          cell.set('throwing', true);
           break;
-        case 'catch':
+        case 'intermediate':
           cell.attr({
             '.inner': {
               visibility: 'visible'

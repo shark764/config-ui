@@ -20,25 +20,17 @@
       loadEvents: function(palette) {
         palette.load([
           new joint.shapes.liveOps.event({
-            icon: 'none',
-            content: 'none'
+            eventName: 'none',
+            eventType: 'start'
           }),
           new joint.shapes.liveOps.event({
-            icon: 'signal',
-            content: 'signal'
+            eventName: 'none',
+            eventType: 'intermediate'
           }),
           new joint.shapes.liveOps.event({
-            icon: 'error',
-            content: 'error'
-          }),
-          new joint.shapes.liveOps.event({
-            icon: 'escalation',
-            content: 'escalation'
-          }),
-          new joint.shapes.liveOps.event({
-            icon: 'terminate',
-            content: 'terminate'
-          }),
+            eventName: 'none',
+            eventType: 'end'
+          })
         ], 'events');
       },
 

@@ -22,9 +22,9 @@
               'mandatory':true,
               'dataSensitivity':'low'
             },
-            'mediaCollections':{
+            'media-collection':{
               'source':'entity',
-              'type':'mediaCollections',
+              'type':'media-collection',
               'label':'Media Collection',
               'desctiption':'',
               'icon':'url',
@@ -62,9 +62,9 @@
             'mandatory':true,
             'dataSensitivity':'low'
           },
-          'mediaCollections':{
+          'media-collection':{
             'source':'entity',
-            'type':'mediaCollections',
+            'type':'media-collection',
             'label':'Media Collection',
             'description':'',
             'icon':'url',
