@@ -31,6 +31,8 @@ angular.module('liveopsConfigPanel')
             groupId: '@groupId',
             flowId: '@flowId',
             queueId: '@queueId',
+            userId: '@userId',
+            memberId: '@memberId'
           };
 
           var Resource = $resource(apiHostname + endpoint, requestUrlFields, {
@@ -53,9 +55,6 @@ angular.module('liveopsConfigPanel')
               interceptor: SaveInterceptor,
               transformRequest: function (data) {
                 var newData = {};
-                if (setUpdatedBy) {
-                  newData.updatedBy = Session.user.id;
-                }
 
                 if (updateFields) {
                   for (var i = 0; i < updateFields.length; i++) {
@@ -81,10 +80,6 @@ angular.module('liveopsConfigPanel')
               interceptor: SaveInterceptor,
               transformRequest: function (data) {
 
-                if (setCreatedBy) {
-                  data.createdBy = Session.user.id;
-                }
-
                 return JSON.stringify(data);
               },
 
@@ -103,7 +98,7 @@ angular.module('liveopsConfigPanel')
           Resource.prototype.save = function (params, success, failure) {
             var isFunction = typeof(params) === 'function';
 
-            if (this.id) {
+            if (this.id || this.added) {
               return isFunction ? this.$update(params, success) : this.$update(params, success, failure);
             }
 
