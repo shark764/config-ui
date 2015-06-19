@@ -75,6 +75,12 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
         controller: 'IntegrationsController',
         reloadOnSearch: false
       })
+      .state('content.configuration.dispatchMappings', {
+        url: '/dispatchMappings?id',
+        templateUrl: 'app/components/configuration/dispatchMappings/dispatchMappings.html',
+        controller: 'DispatchMappingsController',
+        reloadOnSearch: false
+      })
       .state('content.designer', {
         abstract: true,
         url: '/designer',
