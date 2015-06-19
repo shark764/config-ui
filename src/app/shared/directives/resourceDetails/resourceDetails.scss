@@ -8,7 +8,7 @@
   #detail-header-pane {
     border-bottom: 1px solid #dadada;
     padding: 15px;
-    min-width: 500px;
+    min-width: $max-control-width;
 
     h1 {
       overflow: hidden;
@@ -31,6 +31,7 @@
       margin-left: 10px;
       padding-right: 10px;
       width: 100%;
+      max-width: $max-control-width;
 
       & + .input-group {
         padding-top: 10px;
@@ -41,7 +42,7 @@
       }
 
       > label {
-        width: 150px;
+        width: $controls-label-width;
         padding-right: 10px;
         vertical-align: middle;
       }
@@ -53,7 +54,6 @@
 
       input, select, button {
         width: 100%;
-        max-width: 400px;
         margin: 0;
       }
 

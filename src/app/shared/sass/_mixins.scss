@@ -33,6 +33,11 @@ $fontRobotoCondensed: 'Roboto Condensed';
   text-shadow: $string;
 }
 
+@mixin calc($property, $expression) {
+  #{$property}: -webkit-calc(#{$expression});
+  #{$property}: calc(#{$expression});
+} 
+
 @mixin display-flex(){
   display: -webkit-box;
   display: -moz-flex;
