@@ -1,11 +1,9 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('GroupsController', ['$scope', '$state', 'Session', 'Group', 'User', 'groupTableConfig', 'toastr',
-    function($scope, $state, Session, Group, User, groupTableConfig) {
+  .controller('GroupsController', ['$scope', 'Session', 'Group', 'User', 'groupTableConfig', 'TenantGroupUsers', 'UserName',
+    function($scope, Session, Group, User, groupTableConfig, TenantGroupUsers, UserName) {
       $scope.Session = Session;
-
-      $scope.redirectToInvites();
 
       $scope.tableConfig = groupTableConfig;
 
@@ -13,17 +11,38 @@ angular.module('liveopsConfigPanel')
         $scope.fetch();
       });
 
+      //This is really awful and hopefully the API will update to accommodate this.
       $scope.fetch = function () {
-        $scope.groups = Group.query({tenantId: Session.tenant.tenantId});
+        $scope.groups = Group.query({tenantId: Session.tenant.tenantId}, function(){
+          angular.forEach($scope.groups, function(item, itemKey){
+            $scope.updateMembers($scope.groups[itemKey]);
+          });
+        });
+      };
+      
+      $scope.additional = {
+          postSave : function(childScope){
+            $scope.updateMembers(childScope.originalResource);
+          }
+      };
+      
+      $scope.updateMembers = function(group){
+        group.members = TenantGroupUsers.query({tenantId: Session.tenant.tenantId, groupId: group.id}, function(){
+          angular.forEach(group.members, function(member, key){
+            UserName.get(member.memberId, function(data){
+              group.members[key].displayName = data.displayName;
+            });
+          });
+        });
       };
 
-      $scope.createGroup = function() {
+      $scope.$on('on:click:create', function(){
         $scope.selectedGroup = new Group({
           tenantId: Session.tenant.tenantId,
           status: true,
           owner: Session.user.id
         });
-      };
+      });
 
       $scope.fetch();
     }

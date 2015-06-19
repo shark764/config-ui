@@ -17,12 +17,12 @@
           stroke: '#000000'
         },
         '.outer': {
-          'stroke-width': 1.5, 
+          'stroke-width': 1.5,
           r:30,
           transform: 'translate(30,30)'
         },
         '.inner': {
-          'stroke-width': 1.5, 
+          'stroke-width': 1.5,
           r: 26,
           transform: 'translate(30,30)',
           'stroke': '#F2C208',
@@ -157,7 +157,6 @@
 
     onParentChange: function(cell, parent) {
       if (parent) {
-        console.log('Parent changed: ', cell);
         this.resize(30, 30);
         this.set('z', 2);
       } else {

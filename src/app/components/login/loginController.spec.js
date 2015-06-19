@@ -21,7 +21,6 @@ describe('LoginController', function () {
 
   describe('LoginController login success', function () {
 
-
     it('should redirect me to root on success', function () {
       $scope.username = 'username';
       $scope.password = 'password';

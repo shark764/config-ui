@@ -4,12 +4,11 @@
   <div id="toolbar-container">
     <div class="flow-title-wrapper">
       <input type="text" ng-click="" highlight-on-click ng-focus="nameActive = true;" ng-blur="nameActive = false;" class="version-name" ng-model="flowVersion.name" ng-class="{'active': nameActive}" />
-      <input type="text" ng-click="" highlight-on-click ng-focus="descActive = true;" ng-blur="descActive = false;" class="version-desc" ng-model="flowVersion.description" ng-class="{'active': descActive}" />
     </div>
     <div class="right-side-tools-wrapper">
       <div class="right-side-tools">
         <div class="version-wrapper">
-          <h4><span>v 1</span></h4>
+          <h4><span>v {{flowVersion.v}}</span></h4>
         </div>
         <div class="publish-wrapper">
           <button ng-click="publish()" class="publish-btn">Publish</button>

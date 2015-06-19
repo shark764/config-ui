@@ -1,0 +1,21 @@
+<table-controls
+  id="table-pane"
+  config="tableConfig"
+  items="integrations"
+  selected="selectedIntegration"
+  resource-name="{{'tenants' + Session.tenant.tenantId + 'integrations'}}">
+</table-controls>
+
+<resize-handle
+  id="resize-pane"
+  right-element-id="details-pane"
+  left-element-id="table-pane"
+  left-min-width="830"
+  right-min-width="400"></resize-handle>
+
+<resource-details
+  id="details-pane"
+  extend-scope="additional"
+  header-template-url="app/components/configuration/integrations/integrationDetailHeader.html"
+  body-template-url="app/components/configuration/integrations/integrationDetailBody.html"
+  original-resource="selectedIntegration"></resource-details>

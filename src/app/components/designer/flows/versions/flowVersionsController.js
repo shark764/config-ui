@@ -10,6 +10,9 @@ angular.module('liveopsConfigPanel')
           tenantId: Session.tenant.tenantId,
           flowId: $scope.flow.id
         }, function (versions) {
+          angular.forEach(versions, function(version, index) {
+            version.v = Math.abs((index - versions.length));
+          });
           angular.copy(versions, $scope.versions);
         });
       };
@@ -31,7 +34,8 @@ angular.module('liveopsConfigPanel')
       };
 
       $scope.pushNewItem = function(event, item) {
-        $scope.versions.push(item);
+        item.v = $scope.versions.length + 1;
+        $scope.versions.unshift(item);
         $scope.selectedVersion = item;
       };
 

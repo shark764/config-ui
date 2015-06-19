@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('tenantTableConfig', ['userStatuses', function (userStatuses) {
+  .service('tenantTableConfig', ['statuses', function (statuses) {
     return {
       'fields': [{
         'header': 'ID',
@@ -16,7 +16,7 @@ angular.module('liveopsConfigPanel')
         'header': 'Status',
         'name': 'status',
         'sortable': true,
-        'options': userStatuses,
+        'options': statuses,
         'filter': 'selectedOptions'
       }],
       'searchOn': ['name'],
