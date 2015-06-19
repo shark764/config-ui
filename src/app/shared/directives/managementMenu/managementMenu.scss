@@ -8,6 +8,10 @@
   padding: 10px;
   @include transition(left 0.25s);
 
+  a {
+    color: $dark-grey;
+  }
+  
   .collapse-bar {
     color: $grey;
     font-size: 25px;

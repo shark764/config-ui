@@ -41,7 +41,8 @@ angular.module('liveopsConfigPanel')
 
       $scope.$watch('flow', function () {
         $scope.fetch();
-
+        $scope.createVersion();
+        
         if($scope.cleanHandler){
           $scope.cleanHandler();
         }
@@ -50,8 +51,6 @@ angular.module('liveopsConfigPanel')
           'created:resource:tenants:' + Session.tenant.tenantId + ':flows:' + $scope.flow.id + ':versions',
           $scope.pushNewItem);
       });
-
-      $scope.createVersion();
     }
   ])
   .directive('flowVersions', [function () {
