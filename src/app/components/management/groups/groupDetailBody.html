@@ -19,10 +19,10 @@
 </div>
 
 <div class="divider-header" ng-hide="! resource.id">
-  <h4>Members <b translate="value.numMembers" translate-value-number="{{resource.members ? resource.members.length : 0}}" ></b></h4>
+  <h4>Members <b class="count" translate="value.numMembers" translate-value-number="{{resource.members ? resource.members.length : 0}}" ></b></h4>
 </div>
 
-<div ng-if="resource.id">
+<div ng-if="resource.id" class="input-group">
   <p class="null" ng-show="resource.members.length == 0">There are no members assigned to this group.</p>
   
   <table ng-hide="resource.members.length <= 0">

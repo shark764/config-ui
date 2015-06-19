@@ -57,13 +57,6 @@ describe('groups controller', function(){
     expect($scope.groups).toBeDefined();
     expect($scope.groups.length).toEqual(2);
   }));
-
-  it('should set selectedGroup on createGroup', function() {
-    $scope.$broadcast('on:click:create');
-    
-    expect($scope.selectedGroup).toBeDefined();
-    expect($scope.selectedGroup.tenantId).toEqual(Session.tenant.tenantId);
-  });
   
   it('should refetch groups when tenant changes', inject(function() {
     spyOn($scope, 'fetch');
@@ -109,13 +102,14 @@ describe('groups controller', function(){
   });
   
   describe('createGroup function', function(){
-    it('should be defined', inject(function() {
-      expect($scope.createGroup).toBeDefined();
-      expect($scope.createGroup).toEqual(jasmine.any(Function));
-    }));
+    it('should catch the on:click:create event', function() {
+      $scope.$broadcast('on:click:create');
+      expect($scope.selectedGroup).toBeDefined();
+      expect($scope.selectedGroup.tenantId).toEqual(Session.tenant.tenantId);
+    });
     
     it('should set selectedGroup to default values', inject(function() {
-      $scope.createGroup();
+      $scope.$broadcast('on:click:create');
       expect($scope.selectedGroup.tenantId).toEqual(1);
       expect($scope.selectedGroup.status).toBeTruthy();
       expect($scope.selectedGroup.owner).toEqual(2);
