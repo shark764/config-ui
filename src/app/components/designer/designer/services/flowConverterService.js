@@ -61,10 +61,13 @@
           return notation;
         });
 
+        console.log('Alienese', alienese);
         return alienese;
       },
 
       convertToJoint: function(alienese) {
+        console.log(alienese);
+
         var jointNotation = _.reduce(alienese, function(memo, notation) {
 
           if (notation.entity === 'start' || notation.entity === 'catch' || notation.entity === 'end') {
@@ -140,6 +143,8 @@
             decoration.parent = notation.id;
           }
         });
+
+        console.log(jointNotation);
 
         return {cells: jointNotation};
       }
