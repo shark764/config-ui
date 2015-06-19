@@ -63,8 +63,8 @@ describe('The users view', function() {
   it('should display users based on the table Status filter', function() {
     // Select Disabled from Status drop down
     users.statusTableDropDown.click();
-    users.userStatuses.get(0).click();
-    expect(users.userStatuses.get(0).element(by.css('input')).isSelected()).toBeTruthy();
+    users.statuses.get(0).click();
+    expect(users.statuses.get(0).element(by.css('input')).isSelected()).toBeTruthy();
     expect(element(by.css('th.ng-scope:nth-child(7) > filter-dropdown:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > input:nth-child(1)')).isSelected()).toBeFalsy();
     users.statusTableDropDown.click();
     users.userElements.then(function(rows) {
@@ -75,8 +75,8 @@ describe('The users view', function() {
 
     // Select Enabled from Status drop down
     users.statusTableDropDown.click();
-    users.userStatuses.get(0).click();
-    users.userStatuses.get(1).click();
+    users.statuses.get(0).click();
+    users.statuses.get(1).click();
     users.statusTableDropDown.click();
     users.userElements.then(function(rows) {
       for (var i = 0; i < rows.length; ++i) {
@@ -88,8 +88,8 @@ describe('The users view', function() {
     users.statusTableDropDown.click();
     element(by.css('th.ng-scope:nth-child(7) > filter-dropdown:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(1)')).click();
     expect(element(by.css('th.ng-scope:nth-child(7) > filter-dropdown:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > input:nth-child(1)')).isSelected()).toBeTruthy();
-    expect(users.userStatuses.get(0).element(by.css('input')).isSelected()).toBeFalsy();
-    expect(users.userStatuses.get(1).element(by.css('input')).isSelected()).toBeFalsy();
+    expect(users.statuses.get(0).element(by.css('input')).isSelected()).toBeFalsy();
+    expect(users.statuses.get(1).element(by.css('input')).isSelected()).toBeFalsy();
     users.statusTableDropDown.click();
     // Expect all users to be displayed
     expect(users.userElements.count()).toBe(userCount);
@@ -144,7 +144,7 @@ describe('The users view', function() {
 
     // Select Status filter
     users.statusTableDropDown.click(); // Open
-    users.userStatuses.get(1).click();
+    users.statuses.get(1).click();
     users.statusTableDropDown.click(); // Close
 
     // Select State filter
@@ -168,7 +168,7 @@ describe('The users view', function() {
 
     // Select Status filter
     users.statusTableDropDown.click(); // Open
-    users.userStatuses.get(0).click();
+    users.statuses.get(0).click();
     users.statusTableDropDown.click(); // Close
 
     // Select State filter

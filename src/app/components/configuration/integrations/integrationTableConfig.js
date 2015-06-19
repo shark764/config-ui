@@ -1,17 +1,17 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('tenantTableConfig', ['statuses', function (statuses) {
+  .service('integrationTableConfig', ['statuses', function (statuses) {
     return {
       'fields': [{
-        'header': 'ID',
-        'name': 'id'
+        'header': 'Type',
+        'name': 'type'
       }, {
-        'header': 'Name',
-        'name': 'name'
+        'header': 'Account',
+        'name': 'properties.accountSid'
       }, {
-        'header': 'Admin ID',
-        'name': 'adminUserId'
+        'header': 'Secret',
+        'name': 'properties.authToken'
       }, {
         'header': 'Status',
         'name': 'status',
@@ -21,6 +21,6 @@ angular.module('liveopsConfigPanel')
       }],
       'searchOn': ['name'],
       'orderBy': ['name'],
-      'title' : 'Tenant Management'
+      'title' : 'Integration Management'
     };
   }]);

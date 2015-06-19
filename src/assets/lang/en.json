@@ -60,5 +60,9 @@
   "tenant.details.name": "Tenant Name",
   "tenant.details.admin": "Platform Admin",
   "tenant.details.description": "Description",
-  "tenant.details.region": "Region"
+  "tenant.details.region": "Region",
+  
+  "integration.details.properties.accountSid": "Account SID",
+  "integration.details.properties.authToken": "Auth Token",
+  "integration.details.properties.webRTC": "Web RTC"
 }

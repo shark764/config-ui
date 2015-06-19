@@ -1,6 +1,8 @@
 'use strict';
 
-describe('NavbarController', function() {
+/* global spyOn: false  */
+
+describe('NavbarController', function () {
   var $rootScope,
     $scope,
     $state,
@@ -14,17 +16,11 @@ describe('NavbarController', function() {
     regions,
     apiHostname;
 
-  var createController = function() {
-    return $controller('NavbarController', {
-      '$scope': $scope,
-    });
-  };
-
   beforeEach(module('liveopsConfigPanel'));
   beforeEach(module('gulpAngular'));
 
   beforeEach(inject(['$compile', '$rootScope', '$state', '$controller', '$injector', 'AuthService', 'Session', 'apiHostname', 'Tenant',
-    function(_$compile_, _$rootScope_, _$state_, _$controller_, _$injector_, _authService_, _session_, _apiHostname_, Tenant) {
+    function (_$compile_, _$rootScope_, _$state_, _$controller_, _$injector_, _authService_, _session_, _apiHostname_, Tenant) {
       $rootScope = _$rootScope_;
       $scope = _$rootScope_.$new();
       $compile = _$compile_;
@@ -40,9 +36,11 @@ describe('NavbarController', function() {
       session.token = 'abc';
 
       tenants = [new Tenant({
-        'id': 'c6aa44f6-b19e-49f5-bd3f-66f00b885e39'
+        'tenantId': 'c6aa44f6-b19e-49f5-bd3f-66f00b885e39',
+        'name': 'Tenant'
       }), new Tenant({
-        'id': '9f97f9d9-004c-469c-906d-b917bd79fbe8'
+        'tenantId': '9f97f9d9-004c-469c-906d-b917bd79fbe8',
+        'name': 'Tenant2'
       })];
 
       regions = [{
@@ -58,54 +56,91 @@ describe('NavbarController', function() {
         'result': regions
       });
     }
-  ]
-)
-);
+  ]));
+  
+  describe('initialized with no tenants', function() {
+    beforeEach(function() {
+      session.tenants = [];
+      
+      $controller('NavbarController', {
+        '$scope': $scope,
+      });
+      
+      $rootScope.$apply();
+    });
+    
+    it('should have a method to check if the path is active', function () {
+      $state.transitionTo('content.management.users');
+      $rootScope.$apply();
 
-  it('should have a method to check if the path is active', function() {
-    session.tenants = [];
+      expect($scope.isActive('/management')).toBe(true);
+      expect($scope.isActive('/configuration')).toBe(false);
+    });
 
-    createController();
+    it('should have a method to log the user out and redirect them to the login page', function () {
+      $state.transitionTo('content.management.users');
 
-    $state.transitionTo('content.management.users');
-    $rootScope.$apply();
+      expect(session.isAuthenticated()).toBeTruthy();
 
-    expect($scope.isActive('/management')).toBe(true);
-    expect($scope.isActive('/configuration')).toBe(false);
+      $scope.logout();
+
+      expect(session.isAuthenticated()).toBeFalsy(false);
+    });
   });
-
-  it('should have a method to log the user out and redirect them to the login page', function() {
-    session.tenants = [];
-
-    createController();
-
-    $state.transitionTo('content.management.users');
-
-    expect(session.isAuthenticated()).toBeTruthy();
-
-    $scope.logout();
-
-    expect(session.isAuthenticated()).toBeFalsy(false);
+  
+  describe('initialized with tenants', function() {
+    beforeEach(function() {
+      session.tenants = tenants;
+      
+      $controller('NavbarController', {
+        '$scope': $scope,
+      });
+      
+      $scope.$apply();
+      
+      expect($scope.Session.tenants).toBeDefined();
+      expect($scope.Session.tenants.length).toEqual(2);
+    });
+    
+    it('should select the first tenant retrieved as the active tenant if no tenant is set in the session', function () {
+      expect($scope.Session.tenant.tenantId).toBe(tenants[0].tenantId);
+    });
+    
+    it('should switch the tenant on drop down click', function() {
+      expect($scope.tenantDropdownItems).toBeDefined();
+      expect($scope.tenantDropdownItems[1]).toBeDefined();
+      expect($scope.tenantDropdownItems[1].onClick).toBeDefined();
+      
+      $scope.tenantDropdownItems[1].onClick();
+      expect($scope.Session.tenant.tenantId).toEqual(tenants[1].tenantId);
+    });
+    
+    it('should call $scope.logout on logout click', function() {
+      spyOn($scope, 'logout');
+      
+      $scope.userDropdownItems[0].onClick();
+      
+      expect($scope.logout).toHaveBeenCalled();
+    });
+    
+    it('should call $scope.logout on logout click', function() {
+      spyOn($state, 'transitionTo');
+      
+      $scope.userDropdownItems[1].onClick();
+      
+      expect($state.transitionTo).toHaveBeenCalled();
+    });
   });
+  
+  it('should return null if user is not authenticated', function() {
+    session.token = null;
+    
+    $controller('NavbarController', {
+      '$scope': $scope,
+    });
 
-  it('should select the first tenant retrieved as the active tenant if no tenant is set in the session', function() {
-    expect(session.tenant.tenantId).toBe('');
-
-    session.tenants = [
-      {
-        tenantId: 1,
-        name: 'test'
-      },
-      {
-        tenantId: 2,
-        name: 'test2'
-      }
-    ];
-
-    createController();
-
-    $scope.$apply();
-
-    expect(session.tenant.tenantId).toBe(1);
+    $scope.populateTenantsHandler();
+    
+    expect($scope.tenantDropdownItems).not.toBeDefined();
   });
 });

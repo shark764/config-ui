@@ -1,14 +1,14 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('tableControls', ['$filter', '$location', '$stateParams', function ($filter, $location, $stateParams) {
+  .directive('tableControls', ['$filter', '$location', '$stateParams', '$parse',
+    function ($filter, $location, $stateParams, $parse) {
     return {
       restrict: 'E',
       scope: {
         id: '@',
         config: '=',
         items: '=',
-        onCreateClick: '=',
         selected: '=',
         resourceName: '@',
         extendScope: '='
@@ -35,11 +35,22 @@ angular.module('liveopsConfigPanel')
           $scope.$emit('resource:selected', item);
         };
 
+          $scope.onCreateClick = function () {
+            $scope.$emit('on:click:create');
+          };
+
+          $scope.parse = function (item, field) {
+            var parseFunc = $parse(field.name);
+            return parseFunc(item);
+          };
+
         //Init the selected item based on URL param
-        $scope.items.$promise.then(function(){
-          if($stateParams.id){
-            var matchedItems = $filter('filter')($scope.items, {id : $stateParams.id}, true);
-            if (matchedItems.length > 0){
+          $scope.items.$promise.then(function () {
+            if ($stateParams.id) {
+              var matchedItems = $filter('filter')($scope.items, {
+                id: $stateParams.id
+              }, true);
+              if (matchedItems.length > 0) {
               $scope.selected = matchedItems[0];
               return;
             }
@@ -50,7 +61,7 @@ angular.module('liveopsConfigPanel')
 
 
         $scope.$watch('resourceName', function () {
-          if($scope.resourceWatcher){
+            if ($scope.resourceWatcher) {
             $scope.resourceWatcher();
           }
 
@@ -61,37 +72,40 @@ angular.module('liveopsConfigPanel')
         });
 
         $scope.$watchCollection('filtered', function () {
-          if($scope.filtered.length === 0){
+            if ($scope.filtered.length === 0) {
             $scope.selectItem(null);
             return;
           }
 
           //Swap the selection if the selected item gets filtered out
           var selectedIsVisible = false;
-          if ($scope.selected){
-            var matchedItems = $filter('filter')($scope.filtered, {id : $scope.selected.id}, true);
-            if (matchedItems.length > 0){
+            if ($scope.selected) {
+              var matchedItems = $filter('filter')($scope.filtered, {
+                id: $scope.selected.id
+              }, true);
+              if (matchedItems.length > 0) {
               selectedIsVisible = true;
             }
           }
 
-          if(! selectedIsVisible) {
+            if (!selectedIsVisible) {
             $scope.selectItem($scope.filtered[0]);
           }
 
           //Uncheck rows that have been filtered out
-          angular.forEach($scope.items, function(item){
-            if (item.checked && $scope.filtered.indexOf(item) < 0){
+            angular.forEach($scope.items, function (item) {
+              if (item.checked && $scope.filtered.indexOf(item) < 0) {
               item.checked = false;
             }
           });
         });
 
-        $scope.toggleAll = function(checkedValue){
-          angular.forEach($scope.filtered, function(item){
+          $scope.toggleAll = function (checkedValue) {
+            angular.forEach($scope.filtered, function (item) {
             item.checked = checkedValue;
           });
         };
       }
     };
-  }]);
+    }
+  ]);

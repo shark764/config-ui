@@ -21,7 +21,7 @@ var UserPage = function() {
 
   this.errors = element.all(by.css('.error'));
 
-  this.userStatuses = this.statusTableDropDown.all(by.repeater('option in options track by option[valuePath]'));
+  this.statuses = this.statusTableDropDown.all(by.repeater('option in options track by option[valuePath]'));
   this.userRoles = ['Admin', 'User', 'Other'];
   this.userStates = this.stateTableDropDown.all(by.repeater('option in options track by option[valuePath]'));
 

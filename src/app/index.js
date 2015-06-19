@@ -51,6 +51,12 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
         controller: 'TenantsController',
         reloadOnSearch: false
       })
+      .state('content.configuration.integrations', {
+        url: '/integrations?id',
+        templateUrl: 'app/components/configuration/integrations/integrations.html',
+        controller: 'IntegrationsController',
+        reloadOnSearch: false
+      })
       .state('content.designer', {
         abstract: true,
         url: '/designer',
