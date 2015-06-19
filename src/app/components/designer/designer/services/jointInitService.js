@@ -256,7 +256,7 @@
           graph.interfaces.selectorView.cancelSelection();
         });
 
-        var metaKeys = ['ctrl', 'cmd'];
+        var metaKeys = ['cmd', 'ctrl'];
 
         _.each(metaKeys, function(key) {
           KeyboardJS.on(key + ' + z', function() {
