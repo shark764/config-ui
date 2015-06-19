@@ -39,9 +39,16 @@
   "details.role": "Role",
   "details.role.placeholder": "Select Role",
   "details.role.error": "Please select a role",
+  "details.groups.none" : "There are no groups for the selected tenant.",
+  "details.groups.select.placeholder" : "Select Group...",
+  "details.usergroups.none": "{{displayName}} is not assigned to any groups.",
+  "details.usergroups.remove": "Remove user from this group",
+  "details.groups.showall": "Show all",
+  "details.groups.hideextra": "Minimize",
 
   "skill.details.hasProficiency": "Has Proficiency",
   "skill.details.name.error": "Please enter a name",
+  "skill.details.description.error" : "Description is required",
 
   "flow.type": "Type",
   "flow.type.choose": "Choose a Type",

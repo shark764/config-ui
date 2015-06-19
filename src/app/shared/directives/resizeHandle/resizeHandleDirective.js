@@ -2,7 +2,7 @@
 /*jslint browser:true */
 
 angular.module('liveopsConfigPanel')
-  .directive('resizeHandle', ['$window', '$document', function($window, $document) {
+  .directive('resizeHandle', ['$window', '$document', '$rootScope', function($window, $document, $rootScope) {
     return {
       restrict : 'E',
       scope : {
@@ -57,6 +57,7 @@ angular.module('liveopsConfigPanel')
         };
 
         function mouseup() {
+          $rootScope.$broadcast('resizehandle:resize'); //Save some cycles and only broadcast when user is done
           $document.unbind('mousemove', mousemove);
           $document.unbind('mouseup', mouseup);
         }
