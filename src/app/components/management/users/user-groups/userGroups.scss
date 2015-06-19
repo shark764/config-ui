@@ -8,9 +8,9 @@ user-groups {
     }
     
     .btn {
-      height: 36px;
+      height: $input-height;
       vertical-align: middle;
-      line-height: 30px;
+      line-height: $input-height - 6px;
       margin-left: 5px;
     }
   }

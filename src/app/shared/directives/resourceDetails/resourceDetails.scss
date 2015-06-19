@@ -26,11 +26,14 @@
     min-height: 0;
     width: 100%;
 
-    .input-group {
-      display: table;
+    .detail-group, .input-group {
       margin-left: 10px;
       padding-right: 10px;
       width: 100%;
+    }
+    
+    .input-group {
+      display: table;
       max-width: $max-control-width;
 
       & + .input-group {
@@ -87,6 +90,7 @@
       border-spacing: 0;
       display: block;
       @include border-radius(4px);
+      font-size: 0.9em;
       max-height: 300px;
       overflow: auto;
       width: 100%;

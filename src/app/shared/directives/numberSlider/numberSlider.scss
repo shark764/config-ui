@@ -1,15 +1,55 @@
-.number-slider {
-  i {
-    background-color: $accent1;
-    color: white;
-    font-size: 1.5em;
-    cursor: pointer;
+number-slider {
+  .inner-addon {
+    position: relative;
   }
-
-  input {
-    text-align: center;
-    padding: 0;
-    font-size: 18px;
-    font-weight: bold;
+    
+  .number-slider {
+    i {
+      background-color: $light-grey;
+      display: inline-block;
+      color: $dark-grey;
+      cursor: pointer;
+      height: 50%;
+      position: absolute;
+    }
+    
+    i:hover {
+      @include inner-shadow();
+    }
+    
+    .disabled {
+      background-color: $lightest-grey;
+      color: $grey;
+      @include inner-shadow(2px, 2px);
+    }
+    
+    .disabled:hover {
+      cursor: default !important;
+    }
+    
+    .top {
+      top: 0;
+      right: 0;
+      @include border-radius-complex(4px, 4px, 0, 0);
+      border-left: none;
+    }
+    
+    .bottom {
+      bottom: 0;
+      top: 50%;
+      right: 0;
+      @include border-radius-complex(4px, 4px, 0, 0);
+      border-left: none;
+    }
+  
+    input {
+      font-size: 18px;
+      text-align: right;
+      padding: 0;
+      padding-right: 5px;
+      width: calc(100% - 40px) !important;
+    }
+    
+    
   }
 }

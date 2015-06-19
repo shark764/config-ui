@@ -16,6 +16,7 @@ angular.module('liveopsConfigPanel')
       link: function ($scope) {
         $scope.add = function (selectedGroup) {
           $scope.selectedGroup = null;
+          $scope.saving = true;
 
           var tgu = new TenantGroupUsers({
             userId: $scope.user.id,
@@ -57,7 +58,7 @@ angular.module('liveopsConfigPanel')
           if(!Session.tenant.tenantId){
             return;
           }
-
+          $scope.saving = false;
           $scope.userGroups = TenantUserGroups.query({ tenantId: Session.tenant.tenantId, userId: $scope.user.id });
           $scope.userGroups.$promise.then(function(){
             $timeout(function(){ //Timeout prevents simultaneous $digest cycles

@@ -1,107 +1,28 @@
-.user-skills-table {
-  h5 {
-    margin:0;
-    margin-bottom: 5px;
-  }
-
-  .skills-controls {
-    display: table;
-    width: $max-control-width;
-
-    type-ahead {
-      display: table-cell;
-      width: 45%;
-      padding-right: 10px;
-      vertical-align: top;
-    }
-    number-slider {
-      display:table-cell;
-      width: 45%;
-        vertical-align: top;
-    }
-    .controls{
-      text-align: right;
-      display:table-cell;
-      font-size: 2em;
+user-skills {
+  
+  .btn {
+      height: $input-height;
       vertical-align: middle;
-      width: 6%;
-
-      .fa-plus-circle {
-        color: $succes-green;
-        &.disabled {
-          pointer-events: none;
-          pointer:default;
-        }
-      }
+      line-height: $input-height - 7px;
+      margin-left: 5px;
+    }
+    
+   #add-skill {
+    width: 100%;
+    display: table;
+    margin-bottom: 10px;
+    
+    > * {
+      display: table-cell;
+    }
+    
+    number-slider {
+      max-width: 100px;
     }
   }
-
-  .header {
-    .title {
-      font-weight: bold;
-    }
-    .count {
-      color: $accent1;
-    }
-
-    margin-bottom: 5px;
+  
+  .detail-group {
+    /* temporary until we can get a right margin on the table */
+    width: 98% !important;
   }
-
-  .skill-table {
-    max-width: $max-control-width;
-    table-layout: fixed;
-    border-width: 0;
-    margin-top:10px;
-
-    i {
-      color: red;
-    }
-
-    td:nth-child(1), th:nth-child(1) { min-width: $max-control-width * 0.4; }
-    td:nth-child(2), th:nth-child(2) { min-width: $max-control-width * 0.3; }
-    td:nth-child(3), th:nth-child(3) { width: $max-control-width * 0.3; }
-
-    thead, tbody {
-
-    }
-
-    thead {
-      tr {
-        display: block;
-        position: relative;
-
-        th {
-          border-right: 1px solid $light-grey;
-          text-align: center;
-        }
-      }
-    }
-
-    tbody {
-      display: block;
-      overflow: auto;
-      width: 100%;
-      max-height: 120px;
-
-      tr {
-        td {
-          padding: 5px;
-
-          &:nth-child(1){
-            padding-left:30px;
-          }
-          &:nth-child(2){
-            text-align: center;
-          }
-          &:nth-child(3){
-            text-align: center;
-          }
-
-
-        }
-      }
-    }
-
-  }
-
 }
