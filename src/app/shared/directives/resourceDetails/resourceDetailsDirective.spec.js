@@ -6,19 +6,26 @@ describe('resource details directive', function() {
     User,
     $httpBackend,
     apiHostname,
-    $templateCache;
+    $templateCache,
+    Session;
 
   beforeEach(module('liveopsConfigPanel'));
   beforeEach(module('gulpAngular'));
 
-  beforeEach(inject(['$compile', '$rootScope', '$injector', 'User', 'apiHostname', '$templateCache', function(_$compile_, _$rootScope_, $injector, _User_, _apiHostname_, _$templateCache_) {
+  beforeEach(inject(['$compile', '$rootScope', '$injector', 'User', 'apiHostname', '$templateCache', 'Session',
+    function(_$compile_, _$rootScope_, $injector, _User_, _apiHostname_, _$templateCache_, _Session_) {
     $scope = _$rootScope_.$new();
     $compile = _$compile_;
     $templateCache = _$templateCache_;
-    
+
     User = _User_;
     $httpBackend = $injector.get('$httpBackend');
     apiHostname = _apiHostname_;
+    Session = _Session_;
+
+    Session.tenant = {
+      tenantId: 1
+    };
   }]));
 
   it('should have a function to reset a resource', inject(function() {
@@ -49,6 +56,10 @@ describe('resource details directive', function() {
   }));
 
   it('should render the body and header if a body or header templates are provided', inject(function () {
+
+    $httpBackend.when('GET', apiHostname + '/v1/tenants/' + Session.tenant.tenantId + '/skills').respond({'result' : []});
+    $httpBackend.expectGET(apiHostname + '/v1/tenants/' + Session.tenant.tenantId + '/skills');
+
     $scope.user = new User({ id: 1, firstName: 'John', lastName: 'Benson' });
 
     $templateCache.put('body.html', '<detail-body-pane></detail-body-pane>');

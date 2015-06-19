@@ -48,6 +48,7 @@
 
   "skill.details.hasProficiency": "Has Proficiency",
   "skill.details.name.error": "Please enter a name",
+  "skill.details.description.error" : "Description is required",
 
   "flow.type": "Type",
   "flow.type.choose": "Choose a Type",
