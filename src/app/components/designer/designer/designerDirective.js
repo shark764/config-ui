@@ -25,8 +25,6 @@
           var flowSnapper = JointInitService.snapper(flowPaper);
           var flowPropertiesPanel;
 
-          console.log('Editing current version:', $scope.flowVersion);
-
           $scope.publish = function() {
             if (flow.toJSON().cells.length === 0) { return; }
             var alienese = JSON.stringify(FlowConversionService.convertToAlienese(flow.toJSON()));
