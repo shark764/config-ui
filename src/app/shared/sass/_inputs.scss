@@ -7,14 +7,13 @@ textarea{
   resize: vertical;
 }
 
-input[type=password], input[type=text], input[type=email], select, textarea{  background-color: #fff;
+input[type=password], input[type=text], input[type=email], input[type=tel], select, textarea{  background-color: #fff;
   border-radius: 3px;
   border: 1px solid transparent;
   box-shadow: 0 1px 2px rgba(0,0,0,0.2) inset, 0 -1px 0 rgba(0,0,0,0.05) inset;
   transition: all 0.2s linear;
   font-size: 13px;
   color: $darkest-grey;
-  max-width: 100%;
   position: relative;
   height: $input-height;
   padding-left: $input-left-padding;
@@ -45,31 +44,49 @@ textarea {
   padding-top: 7px;
 }
 
-.inner-addon-right {
+.inner-addon {
   display: inline-table;
   width: 100%;
+  max-width: 400px;
 
-  input {
-    display:table-cell;
-    @include border-radius-complex(0, 0, 5px, 5px);
-    border-right: none;
-      transition: none;
-
-    &:focus {
-      + i {
-        border-color: $accent1;
-        outline: 0;
-        @include box-shadow-2(inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px $input-border-shadow);
-      }
+  &.left {
+    input {
+      @include border-radius-complex(0, 0, 5px, 5px);
     }
   }
 
+  &.right {
+    input {
+      @include border-radius-complex(5px, 5px, 0, 0);
+    }
+  }
+
+  &.right.right {
+    input {
+      @include border-radius-complex(0, 0, 0, 0);
+    }
+  }
+
+  input {
+    display:table-cell;
+    transition: none;
+  }
+
   i {
+    vertical-align: middle;
     display:table-cell;
     width: 40px;
     text-align: center;
     border: 1px solid transparent;
-    border-left: none;
-    @include border-radius-complex(4px, 4px, 0, 0);
+
+    &:last-child {
+      @include border-radius-complex(4px, 4px, 0, 0);
+      border-left: none;
+    }
+
+    &:first-child {
+      @include border-radius-complex(0, 0, 4px, 4px);
+      border-right: none;
+    }
   }
 }

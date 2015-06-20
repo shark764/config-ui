@@ -1,15 +1,17 @@
 <table>
   <thead>
+    <th>{{value.version | translate}}</th>
     <th>{{value.name | translate}}</th>
     <th>{{value.description | translate}}</th>
     <th>{{value.createdOn | translate}}</th>
     <th>{{value.designerLink | translate}}</th>
   </thead>
-  <tr ng-repeat="version in versions" >
+  <tr ng-repeat="version in versions track by $index">
+    <td>v{{version.v}}</td>
     <td>{{version.name}}</td>
     <td>{{version.description}}</td>
     <td>{{version.created | date:'medium'}}</td>
-    <td><a href="#/designer/editor/{{version.flowId}}/{{version.version}}">{{'value.openInDesigner' | translate}}</a></td>
+    <td><a href="#/designer/editor/{{version.flowId}}/{{version.version}}?v={{version.v}}">{{'value.openInDesigner' | translate}}</a></td>
   </tr>
 </table>
 

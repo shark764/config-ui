@@ -1,0 +1,74 @@
+.user-skills-table {
+
+  .skills-controls {
+    text-align: right;
+
+    input, a {
+      width: 100px !important;
+    }
+  }
+
+  .header {
+    .title {
+      font-weight: bold;
+    }
+    .count {
+      color: $accent1;
+    }
+
+    margin-bottom: 5px;
+  }
+
+  .skill-table {
+    max-width: $max-control-width;
+    table-layout: fixed;
+    border-collapse: collapse;
+
+    i {
+      color: red;
+      font-size: 2em;
+    }
+
+    td:nth-child(1), th:nth-child(1) { min-width: $max-control-width * 0.4; }
+    td:nth-child(2), th:nth-child(2) { min-width: $max-control-width * 0.3; }
+    td:nth-child(3), th:nth-child(3) { width: $max-control-width * 0.3; }
+
+    thead, tbody {
+
+    }
+
+    thead {
+      tr {
+        display: block;
+        position: relative;
+
+        th {
+          border-right: 1px solid $light-grey;
+
+          &:last-child{
+            border-right: none;
+          }
+        }
+      }
+    }
+
+    tbody {
+      display: block;
+      overflow: auto;
+      width: 100%;
+      max-height: 300px;
+
+      tr {
+        td {
+          border-bottom: 1px solid $light-grey;
+        }
+
+        &:last-child td {
+          border-bottom: none;
+        }
+      }
+    }
+
+  }
+
+}
