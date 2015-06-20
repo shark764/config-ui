@@ -1,11 +1,5 @@
-<header ng-show="regions.$resolved">
+<header>
    <navbar></navbar>
 </header>
 
-<div ng-show="!regions.$resolved" class="app-loader">
-  <div class="app-loader-content">
-    <i class="fa fa-cog fa-spin"></i>
-  </div>
-</div>
-
-<div ng-show="regions.$resolved" class="content-container" ui-view></div>
+<div class="content-container" ui-view></div>

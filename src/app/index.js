@@ -8,7 +8,17 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
       .state('content', {
         abstract: true,
         templateUrl: 'app/components/content/content.html',
-        controller: 'ContentController'
+        controller: 'ContentController',
+        resolve: {
+
+          regions: ['Session', 'Region', function(Session, Region) {
+            return Region.query({}, function (result) {
+              Session.activeRegionId = result[0].id;
+            }).$promise;
+          }],
+
+
+        }
       })
       .state('error', {
         templateUrl: 'app/components/error/error.html',

@@ -1,50 +1,70 @@
-div{
-  .media-collection-table {
-    border: none !important;
-  }
-}
 
-th a {
-  display:block;
-}
+.details-form .detail-body-pane .media-collection-table {
+  border: none !important;
 
-.section-header {
-  margin: 20px 0 10px;
-}
-
-.media-collection-table {
-  .add-item-cell {
-    text-align: reight;
-     i {
-      font-size: 1.5em;
-     }
+  .section-header {
+    margin: 20px 0 10px;
   }
 
-  .remove-cell {
-    text-align: right;
-    i {
-      font-size: 1.5em
+  th {
+    &:first-child {
+      width: 130px;
+    }
+    &:last-child {
+      width: 40px;
+    }
+    a {
+      display:block;
     }
   }
 
-  .modify-media-box {
-    border: 1px solid $light-grey;
-    @include border-radius(3px);
-    padding: 10px;
-    cursor: pointer;
-    width: 300px;
+  tr {
+    &:hover {
+      background-color: initial;
+    }
+  }
 
-    .label {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      margin: 0;
-      display: inline-block;
-      max-width: 250px;
+  td {
+
+    vertical-align: top;
+
+    .add-item-cell {
+      text-align: right;
+       i {
+        font-size: 1.5em;
+       }
     }
 
-    i {
-      font-size: 18px;
+    .remove-cell {
+      text-align: right;
+      i {
+        font-size: 1.5em
+      }
+    }
+
+    .modify-media-box {
+      border: 1px solid $light-grey;
+      @include border-radius(3px);
+      padding: 10px;
+      cursor: pointer;
+      width: 100%;
+
+      &.edit {
+        height: 150px;
+      }
+
+      .label {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        margin: 0;
+        display: inline-block;
+        max-width: 250px;
+      }
+
+      i {
+        font-size: 18px;
+      }
     }
   }
 }

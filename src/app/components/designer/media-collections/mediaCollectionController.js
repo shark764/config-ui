@@ -32,8 +32,12 @@ angular.module('liveopsConfigPanel')
       });
     };
 
+    $scope.addMediaItem = function () {
+      $scope.selectedMediaCollection.mediaMap.push({ lookup: '', id: 'Add Media'})
+    };
+
     $scope.removeCollectionMedia = function(media){
-      index = _.findIndex($scope.selectedMediaCollection.mediaMap, { id : media.id });
+      var index = $scope.selectedMediaCollection.mediaMap.indexOf(media);
       $scope.selectedMediaCollection.mediaMap.splice(index, 1);
       $scope.selectedMediaCollection.save();
     };
@@ -43,7 +47,8 @@ angular.module('liveopsConfigPanel')
 
     $scope.$on('on:click:create', function(){
       $scope.selectedMediaCollection = new MediaCollection({
-        tenantId: Session.tenant.tenantId
+        tenantId: Session.tenant.tenantId,
+        mediaMap: []
       });
     });
 
@@ -53,7 +58,8 @@ angular.module('liveopsConfigPanel')
       postSave: $scope.createMedia,
       postSaveAndNew: $scope.createNewMedia,
       mediaMap : $scope.mediaMap,
-      removeCollectionMedia: $scope.removeCollectionMedia
+      removeCollectionMedia: $scope.removeCollectionMedia,
+      addMediaItem: $scope.addMediaItem
     };
 
     $scope.$watch('Session.tenant.tenantId', function () {
