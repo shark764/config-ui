@@ -20,7 +20,7 @@ angular.module('liveopsConfigPanel')
         }, {
           'header': 'Status',
           'name': 'status',
-          'templateUrl': 'app/components/management/users/userStatusTemplate.html',
+          'templateUrl': 'app/shared/templates/statuses.html',
           'checked': false,
           'options': statuses
         }],
