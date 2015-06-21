@@ -19,5 +19,6 @@ angular.module('liveopsConfigPanel')
       });
 
       $scope.tableConfig = integrationTableConfig;
+      $scope.fetch();
     }
   ]);
