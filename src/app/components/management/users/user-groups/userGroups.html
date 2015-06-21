@@ -1,13 +1,12 @@
-<loading ng-show="!groups.$resolved || !userGroups.$resolved"></loading>
+<div class="divider-header">
+  <h4>Groups <span class="count" ng-show="userGroups.$resolved">({{userGroups.length}})</span></h4>
+</div>
+
+<loading ng-show="groups && !groups.$resolved && userGroups && !userGroups.$resolved"></loading>
+<p ng-hide="groups && groups.$resolved && userGroups.$resolved && groups.length" class="null">{{'details.groups.none' | translate}}</p>
 
 <ng-form seperate-validation>
   <div ng-show="groups.$resolved && userGroups.$resolved">
-    <div class="divider-header">
-      <h4>Groups <span class="count">({{userGroups.length}})</span></h4>
-    </div>
-
-    <p ng-show="groups.length === 0" class="null">{{'details.groups.none' | translate}}</p>
-
     <div ng-show="groups.length > 0" class="clear">
       <div ng-show="filtered.length > 0" class="add-wrapper input-group">
         <select ng-model="groupId" ng-options="group.id as group.name for group in (filtered = (groups | objectNegation:'id':userGroups:'groupId' | orderBy:name))">
