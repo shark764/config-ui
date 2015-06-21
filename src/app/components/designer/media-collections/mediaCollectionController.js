@@ -27,6 +27,7 @@ angular.module('liveopsConfigPanel')
     $scope.additionalMedia = {
       cancelMedia: function (){
         $scope.selectedMedia = null;
+        $scope.waitingMedia = null;
       },
 
       postSave: function() {
@@ -62,6 +63,10 @@ angular.module('liveopsConfigPanel')
 
       $scope.mediaCreateHandler = $scope.$on('created:resource:tenants:' + Session.tenant.tenantId + ':media', function (event, resource) {
         $scope.medias.push(resource);
+
+        if($scope.waitingMedia) {
+          $scope.waitingMedia.id = resource.id;
+        }
       });
 
       if($scope.mediaCollectionsCreateHandler){

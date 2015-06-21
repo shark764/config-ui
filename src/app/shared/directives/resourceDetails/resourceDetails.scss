@@ -89,7 +89,8 @@
       border: $light-grey solid 1px;
       border-spacing: 0;
       @include border-radius(4px);
-      width: $max-control-width;;
+      max-width: $max-control-width;
+      min-width: $max-control-width;
 
       td, th {
         padding: 10px;

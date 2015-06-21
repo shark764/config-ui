@@ -54,7 +54,7 @@
 
     <tbody>
       <tr ng-repeat="item in (filtered = (items | selectedTableOptions:config.fields | search:config.searchOn:searchQuery | orderBy:config.orderBy))" ng-click="selectItem(item)" ng-class="{selected: item.id === selected.id}">
-        <td>
+        <td class="check-col">
           <input type="checkbox" ng-model="item.checked"/>
         </td>
 

@@ -8,7 +8,10 @@ angular.module('liveopsConfigPanel')
         items: '=',
         selectedItem: '=',
         nameField: '@',
-        onSelect: '&'
+        onSelect: '&',
+        isRequired: '=',
+        placeholder: '@',
+        hover: '='
       },
 
       templateUrl: 'app/shared/directives/typeAhead/typeAhead.html',
@@ -32,7 +35,11 @@ angular.module('liveopsConfigPanel')
 
           if(items && items.length > 0){
             $scope.selectedItem = items[0];
-            $scope.onSelect();
+
+            if($scope.onSelect){
+              $scope.onSelect();
+            }
+
           } else {
             $scope.selectedItem = {};
             $scope.selectedItem[$scope.nameField] = $scope.currentText;

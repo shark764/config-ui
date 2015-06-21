@@ -1,39 +1,41 @@
 <loading ng-show="!groups.$resolved || !userGroups.$resolved"></loading>
 
-<div ng-show="groups.$resolved && userGroups.$resolved">
-  <div class="divider-header">
-    <h4>Groups <span class="count">({{userGroups.length}})</span></h4>
-  </div>
-
-  <p ng-show="groups.length === 0" class="null">{{'details.groups.none' | translate}}</p>
-
-  <div ng-show="groups.length > 0" class="clear">
-    <div ng-show="filtered.length > 0" class="add-wrapper input-group">
-      <select ng-model="groupId" ng-options="group.id as group.name for group in (filtered = (groups | objectNegation:'id':userGroups:'groupId' | orderBy:name))">
-        <option disabled value="">{{'details.groups.select.placeholder' | translate}}</option>
-      </select>
-      <a class="btn" ng-click="add(groupId)" title="{{'value.save' | translate}}"><i class="fa fa-check"></i></a>
+<ng-form seperate-validation>
+  <div ng-show="groups.$resolved && userGroups.$resolved">
+    <div class="divider-header">
+      <h4>Groups <span class="count">({{userGroups.length}})</span></h4>
     </div>
 
-    <div class="input-group">
-      <p ng-show="userGroups.length === 0 && ! addNew" class="null" translate translate-value-display-name="{{user.displayName}}"></p>
-    </div>
-  </div>
+    <p ng-show="groups.length === 0" class="null">{{'details.groups.none' | translate}}</p>
 
-  <div ng-show="userGroups.length > 0">
-    <div id="tag-wrapper" class="input-group clear" ng-class="{collapsed : collapsed}">
-      <div id="tags-inside" class="clear">
-        <div ng-repeat="userGroup in userGroups" class="tag">
-          {{userGroup.groupName}}
-          <a ng-click="remove(userGroup)" title="{{'details.usergroups.remove' | translate}}"><i class="fa fa-times"></i></a>
-        </div>
+    <div ng-show="groups.length > 0" class="clear">
+      <div ng-show="filtered.length > 0" class="add-wrapper input-group">
+        <select ng-model="groupId" ng-options="group.id as group.name for group in (filtered = (groups | objectNegation:'id':userGroups:'groupId' | orderBy:name))">
+          <option disabled value="">{{'details.groups.select.placeholder' | translate}}</option>
+        </select>
+        <a class="btn" ng-click="add(groupId)" title="{{'value.save' | translate}}"><i class="fa fa-check"></i></a>
+      </div>
+
+      <div class="input-group">
+        <p ng-show="userGroups.length === 0 && ! addNew" class="null" translate translate-value-display-name="{{user.displayName}}"></p>
       </div>
     </div>
 
-    <div ng-show="! hideCollapseControls">
-      <div class="expander down" ng-show="collapsed"><a ng-click="collapsed = false" title="{{'details.groups.showall' | translate}}"><i class="fa fa-ellipsis-h"></i></a></div>
-      <div class="expander up" ng-show="! collapsed"><a ng-click="collapsed = true" title="{{'details.groups.hideextra' | translate}}"><i class="fa fa-caret-up"></i></a></div>
-    </div>
+    <div ng-show="userGroups.length > 0">
+      <div id="tag-wrapper" class="input-group clear" ng-class="{collapsed : collapsed}">
+        <div id="tags-inside" class="clear">
+          <div ng-repeat="userGroup in userGroups" class="tag">
+            {{userGroup.groupName}}
+            <a ng-click="remove(userGroup)" title="{{'details.usergroups.remove' | translate}}"><i class="fa fa-times"></i></a>
+          </div>
+        </div>
+      </div>
 
+      <div ng-show="! hideCollapseControls">
+        <div class="expander down" ng-show="collapsed"><a ng-click="collapsed = false" title="{{'details.groups.showall' | translate}}"><i class="fa fa-ellipsis-h"></i></a></div>
+        <div class="expander up" ng-show="! collapsed"><a ng-click="collapsed = true" title="{{'details.groups.hideextra' | translate}}"><i class="fa fa-caret-up"></i></a></div>
+      </div>
+
+    </div>
   </div>
-</div>
+</ng-form>

@@ -16,12 +16,12 @@
 
   &.top-row {
     margin-bottom: 30px;
-    
+
     h1, h2 {
       margin: 0;
     }
   }
-  
+
   .action-container {
     text-align: right;
     display: inline-block;
@@ -38,11 +38,11 @@
         max-width: 200px;
         padding: 7px 15px;
       }
-      
+
       filter-dropdown {
         padding: 0;
       }
-      
+
       .dropdown-label {
         padding: 7px 15px;
       }
@@ -65,7 +65,7 @@
 .table-message {
   margin: 30px 20px;
   font-size: 18px;
-  
+
   i {
     margin-right: 10px;
   }
@@ -85,8 +85,7 @@
     font-weight: bold;
     text-align: left;
     border-right: 1px solid #dadada;
-    width: 13%;
- 
+
   }
 
   th.filter-header {
