@@ -57,7 +57,7 @@ header {
     overflow-y: auto;
   }
 
-  #resize-pane {
+  .resize-pane {
     display: table-cell;
     height:100%;
     width: 10px;
@@ -67,7 +67,7 @@ header {
     text-align: center;
   }
 
-  #details-pane {
+  .details-pane {
     height: 100%;
     overflow-y: auto;
     display: table-cell;

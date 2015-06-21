@@ -17,6 +17,9 @@
   "value.openInDesigner": "Open in designer",
   "value.details.version" : "Active Version",
   "value.error.name.required" : "Field \"Name\" is required.",
+  "value.create.new": "Create & New",
+
+
   "value.error.query.required" : "Field \"Query\" is required.",
   "navbar.users.title": "User Management",
   "navbar.tenants.title": "Tenants",
@@ -60,13 +63,16 @@
   "media.details.source.error": "Please enter a source",
   "media.details.type.error": "Please enter a type",
   "media.details.properties.error": "Please enter properties as JSON",
+  "media.details.name.error" : "Please enter a name",
+  "media.details.url.error" : "URL is required",
+  "media.details.text.error" : "Text-to-Speech text is required",
 
   "tenant.details.title": "Tenants",
   "tenant.details.name": "Tenant Name",
   "tenant.details.admin": "Platform Admin",
   "tenant.details.description": "Description",
   "tenant.details.region": "Region",
-  
+
   "integration.details.properties.accountSid": "Account SID",
   "integration.details.properties.authToken": "Auth Token",
   "integration.details.properties.webRTC": "Web RTC"

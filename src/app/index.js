@@ -8,7 +8,25 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
       .state('content', {
         abstract: true,
         templateUrl: 'app/components/content/content.html',
-        controller: 'ContentController'
+        controller: 'ContentController',
+        resolve: {
+
+          regions: ['Session', 'Region', function(Session, Region) {
+            return Region.query({}, function (result) {
+              Session.activeRegionId = result[0].id;
+            }).$promise;
+          }],
+
+          login: ['Session', 'Login', function (Session, Login) {
+
+            return Login.save(function(result){
+              Session.tenants = result.tenants;
+            }).$promise;
+
+          }],
+
+
+        }
       })
       .state('error', {
         templateUrl: 'app/components/error/error.html',
@@ -79,6 +97,12 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
         url: '/media?id',
         templateUrl: 'app/components/designer/media/media.html',
         controller: 'MediaController',
+        reloadOnSearch: false
+      })
+      .state('content.designer.media-collections', {
+        url: '/media-collections',
+        templateUrl: 'app/components/designer/media-collections/media-collections.html',
+        controller: 'MediaCollectionController',
         reloadOnSearch: false
       })
       .state('content.designer.versions', {

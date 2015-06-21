@@ -46,6 +46,15 @@ describe('QueueController', function() {
       $httpBackend.when('GET', apiHostname + '/v1/tenants/1/queues/q1').respond({'result' : queues[0]});
       $httpBackend.when('GET', apiHostname + '/v1/tenants/1/queues/q2').respond({'result' : queues[1]});
 
+      $httpBackend.when('POST', apiHostname + '/v1/login').respond({'result' : {
+        'tenants': []
+      }});
+
+      $httpBackend.when('GET', apiHostname + '/v1/regions').respond({'result' : [{
+        'id': 'c98f5fc0-f91a-11e4-a64e-7f6e9992be1f',
+        'description': 'US East (N. Virginia)',
+        'name': 'us-east-1'
+      }]});
 
       $controller('ContentController', {'$scope': $scope});
       $controller('QueueController', {'$scope': $scope, '$stateParams' : routeParams});

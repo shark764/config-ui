@@ -4,17 +4,17 @@ angular.module('liveopsConfigPanel')
   .service('mediaTableConfig', function () {
       return {
         'fields': [{
-          'header': 'Name',
+          'header': 'Source',
           'name': 'source'
         }, {
-          'header': 'Description',
+          'header': 'Type',
           'name': 'type'
         }, {
-          'header': 'Description',
+          'header': 'Properties',
           'name': 'properties'
         }],
-        'searchOn' : ['name'],
-        'orderBy' : ['name'],
+        'searchOn' : ['source'],
+        'orderBy' : ['source'],
         'title' : 'Media'
       };
     }

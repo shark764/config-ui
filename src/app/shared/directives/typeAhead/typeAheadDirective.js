@@ -6,12 +6,19 @@ angular.module('liveopsConfigPanel')
       restrict: 'E',
       scope : {
         items: '=',
-        selectedItem: '='
+        selectedItem: '=',
+        nameField: '@',
+        onSelect: '&',
+        isRequired: '=',
+        placeholder: '@',
+        hover: '='
       },
 
       templateUrl: 'app/shared/directives/typeAhead/typeAhead.html',
 
       link: function ($scope) {
+        $scope.nameField = $scope.nameField || 'name';
+
         $scope.currentText = '';
 
         $scope.$watch('selectedItem', function () {
@@ -21,21 +28,28 @@ angular.module('liveopsConfigPanel')
         });
 
         $scope.$watch('currentText', function () {
-          var items = filterFilter($scope.filtered, {name : $scope.currentText }, true);
+          $scope.filterCriteria = {};
+          $scope.filterCriteria[$scope.nameField] = $scope.currentText;
+
+          var items = filterFilter($scope.filtered, $scope.filterCriteria, true);
 
           if(items && items.length > 0){
             $scope.selectedItem = items[0];
+
+            if($scope.onSelect){
+              $scope.onSelect();
+            }
+
           } else {
-            $scope.selectedItem = {
-              name: $scope.currentText
-            };
+            $scope.selectedItem = {};
+            $scope.selectedItem[$scope.nameField] = $scope.currentText;
           }
         });
 
         $scope.select = function (item){
           $scope.hovering = false;
           $scope.selectedItem = item;
-          $scope.currentText = $scope.selectedItem.name;
+          $scope.currentText = $scope.selectedItem[$scope.nameField];
         };
       }
     };

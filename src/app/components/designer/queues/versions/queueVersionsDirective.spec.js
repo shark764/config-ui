@@ -13,8 +13,8 @@ describe('Versions directive controller', function () {
 
   beforeEach(module('liveopsConfigPanel'));
   beforeEach(module('gulpAngular'));
-  beforeEach(inject(['$rootScope', '$controller', '$injector', 'QueueVersion',
-    function ($rootScope, _$controller_, $injector, _QueueVersion_) {
+  beforeEach(inject(['$rootScope', '$controller', '$injector', 'QueueVersion', 'apiHostname',
+    function ($rootScope, _$controller_, $injector, _QueueVersion_, apiHostname) {
       $scope = $rootScope.$new();
       $controller = _$controller_;
       QueueVersion = _QueueVersion_;
@@ -38,6 +38,15 @@ describe('Versions directive controller', function () {
       $httpBackend.when('GET', 'fakendpoint.com/v1/tenants/1/queues/' + queueId + '/versions').respond({
         'result': versions
       });
+      $httpBackend.when('POST', apiHostname + '/v1/login').respond({'result' : {
+        'tenants': []
+      }});
+
+      $httpBackend.when('GET', apiHostname + '/v1/regions').respond({'result' : [{
+        'id': 'c98f5fc0-f91a-11e4-a64e-7f6e9992be1f',
+        'description': 'US East (N. Virginia)',
+        'name': 'us-east-1'
+      }]});
 
       $scope.queue = {
         id: queueId

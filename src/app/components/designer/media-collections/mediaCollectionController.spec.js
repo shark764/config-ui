@@ -1,26 +1,26 @@
 'use strict';
 // jshint unused:false
-describe('MediaController', function() {
+describe('MediaCollectionController', function() {
     var $scope,
         $controller,
         $httpBackend,
-        medias,
-        Media,
+        mediaCollections,
+        MediaCollection,
         apiHostname,
         routeParams;
 
     beforeEach(module('liveopsConfigPanel'));
-    beforeEach(inject(['$rootScope', '$controller', '$injector', 'Media', 'apiHostname',
-      function($rootScope, _$controller_, $injector, _Media_, apiHostname) {
+    beforeEach(inject(['$rootScope', '$controller', '$injector', 'MediaCollection', 'apiHostname',
+      function($rootScope, _$controller_, $injector, _MediaCollection_, apiHostname) {
       $scope = $rootScope.$new();
       $controller = _$controller_;
-      Media = _Media_;
+      MediaCollection = _MediaCollection_;
 
-      medias = [
-        new Media({
+      mediaCollections = [
+        new MediaCollection({
           id: 'm1'
         }),
-        new Media({
+        new MediaCollection({
           id: 'm2'
         })
       ];
@@ -34,7 +34,7 @@ describe('MediaController', function() {
         'name': 'us-east-1'
       }]});
 
-      $controller('MediaController', {'$scope': $scope, 'Session' : {tenant : {id : 1}}, '$routeParams' : routeParams});
+      $controller('MediaCollectionController', {'$scope': $scope, 'Session' : {tenant : {id : 1}}, '$routeParams' : routeParams});
       $httpBackend.flush();
     }]));
 });

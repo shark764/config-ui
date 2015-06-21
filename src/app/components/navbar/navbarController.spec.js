@@ -55,6 +55,10 @@ describe('NavbarController', function () {
       $httpBackend.when('GET', apiHostname + '/v1/regions').respond({
         'result': regions
       });
+
+      $httpBackend.when('POST', apiHostname + '/v1/login').respond({'result' : {
+        'tenants': []
+      }});
     }
   ]));
 
@@ -70,11 +74,11 @@ describe('NavbarController', function () {
     });
 
     it('should have a method to check if the path is active', function () {
-      $state.transitionTo('content.management.users');
+      $state.go('content.management.users').then(function (){
+        expect($scope.isActive('/management')).toBe(true);
+        expect($scope.isActive('/configuration')).toBe(false);
+      });
       $rootScope.$apply();
-
-      expect($scope.isActive('/management')).toBe(true);
-      expect($scope.isActive('/configuration')).toBe(false);
     });
 
     it('should have a method to log the user out and redirect them to the login page', function () {

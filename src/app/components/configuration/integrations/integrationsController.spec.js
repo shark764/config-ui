@@ -4,7 +4,6 @@ describe('IntegrationsController', function () {
   var $scope,
     $controller,
     $httpBackend,
-    routeParams,
     apiHostname,
     integrations,
     Session;
@@ -28,6 +27,15 @@ describe('IntegrationsController', function () {
       $httpBackend.when('GET', apiHostname + '/v1/tenants/' + Session.tenant.tenantId + '/integrations').respond({
         'result': integrations
       });
+      $httpBackend.when('POST', apiHostname + '/v1/login').respond({'result' : {
+        'tenants': []
+      }});
+
+      $httpBackend.when('GET', apiHostname + '/v1/regions').respond({'result' : [{
+        'id': 'c98f5fc0-f91a-11e4-a64e-7f6e9992be1f',
+        'description': 'US East (N. Virginia)',
+        'name': 'us-east-1'
+      }]});
 
       $controller('IntegrationsController', {
         '$scope': $scope

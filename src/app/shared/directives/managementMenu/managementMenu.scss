@@ -17,9 +17,17 @@
     right: 0;
   }
 
-  &:not(.collapsed) .collapse-bar i{
-    @include border-radius;
-    border: 1px solid $grey;
+  &:not(.collapsed) {
+
+    .menu-container ul {
+      display: block;
+    }
+
+    .collapse-bar i {
+      @include border-radius;
+      border: 1px solid $grey;
+    }
+
   }
 
   .collapse-bar i {
@@ -29,6 +37,9 @@
 
   .menu-container {
     height: 100%;
+    ul {
+      display: none;
+    }
   }
 
   .menu-container {
