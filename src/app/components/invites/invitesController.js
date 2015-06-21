@@ -12,14 +12,12 @@ angular.module('liveopsConfigPanel')
         }
       });
 
-      $scope.$watch('newInvite.tenantId', function () {
-        if($scope.newInvite && $scope.newInvite.tenantId){
-          $scope.fetchInvites();
-        }
+      $scope.$watch('Session.tenant.tenantId', function () {
+        $scope.fetchInvites();
       });
 
       $scope.fetchInvites = function(){
-        $scope.invites = Invite.query({tenantId : $scope.newInvite.tenantId});
+        $scope.invites = Invite.query({tenantId : Session.tenant.tenantId});
       };
 
       $scope.init = function(){

@@ -21,8 +21,7 @@
         <th>Sent On</th>
         <th>Expiry Date</th>
         <th></th>
-        <th></th>
-        <th></th>
+        <th></th> 
       </thead>
       <tr ng-repeat="curInvite in invites">
         <td>{{curInvite.email}}</td>
@@ -31,7 +30,6 @@
         <td>{{curInvite.invitationExpiryDate | date}}</td>
         <td><a ng-click="resend(curInvite)" class="btn">Resend</a></td>
         <td><a ng-click="remove(curInvite)" class="btn">Delete</a></td>
-        <td><a ng-click="accept(curInvite)" class="btn">Accept</a></td>
       </tr>
     </table>
   </div>
