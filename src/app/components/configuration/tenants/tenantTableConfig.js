@@ -4,14 +4,11 @@ angular.module('liveopsConfigPanel')
   .service('tenantTableConfig', ['statuses', function (statuses) {
     return {
       'fields': [{
-        'header': 'ID',
-        'name': 'id'
-      }, {
         'header': 'Name',
         'name': 'name'
       }, {
-        'header': 'Admin ID',
-        'name': 'adminUserId'
+        'header': 'Description',
+        'name': 'description'
       }, {
         'header': 'Status',
         'name': 'status',
