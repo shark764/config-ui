@@ -1,28 +1,27 @@
 
-<div ng-if="originalResource.id">
+<div>
   <div class="info pull-left">
-    <h1>{{originalResource.name}}</h1>
-  
+    <h1 ng-if="originalResource.id">{{originalResource.name}}</h1>
+    <h1 ng-if="!originalResource.id">Creating New Media Collection</h1>
+
     <div class="details">
       <div>
-        <b
-          translate="value.createdby"
-          translate-value-date="{{originalResource.created | date:'medium'}}"
-          translate-value-creator="{{creator.displayName}}">
+        <b>
+          <span ng-show="creator.displayName"
+            translate="value.createdby"
+            translate-value-date="{{originalResource.created | date:'medium'}}"
+            translate-value-creator="{{creator.displayName}}"></span>
+            &nbsp;
         </b>
         <br/>
-        <b
-          translate="value.updatedby"
-          translate-value-date="{{originalResource.created | date:'medium'}}"
-          translate-value-enabler="{{updater.displayName}}">
+        <b>
+          <span ng-show="updater.displayName"
+            translate="value.updatedby"
+            translate-value-date="{{originalResource.created | date:'medium'}}"
+            translate-value-enabler="{{updater.displayName}}"></span>
+            &nbsp;
         </b>
       </div>
     </div>
-  </div>
-</div>
-
-<div ng-if="! originalResource.id">
-  <div class="info">
-    <h1>Creating New Media Collection</h1>
   </div>
 </div>

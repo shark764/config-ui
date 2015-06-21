@@ -5,6 +5,6 @@
     ng-focus="showSuggestions=true"
     ng-blur="showSuggestions=false"></input>
   <ul ng-show="filtered.length > 0 && (showSuggestions || hovering)" ng-mouseover="hovering=true" ng-mouseout="hovering=false">
-    <li ng-click="select(item)" ng-repeat="item in filtered = (items | filter:{name: currentText} | orderBy:'name')">{{item.name}}</li>
+    <li ng-click="select(item)" ng-repeat="item in filtered = (items | filter:filterCriteria | orderBy:nameField)">{{item[nameField]}}</li>
   </ul>
 </div>

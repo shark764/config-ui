@@ -114,10 +114,6 @@ angular.module('liveopsConfigPanel')
 
         $scope.$watch('originalResource', function () {
           $scope.resource = angular.copy($scope.originalResource);
-        }, true);
-
-        $scope.$watch('originalResource', function () {
-          $scope.resource = angular.copy($scope.originalResource);
         });
 
         $scope.cancel = function () {

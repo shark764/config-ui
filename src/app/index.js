@@ -13,8 +13,17 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
 
           regions: ['Session', 'Region', function(Session, Region) {
             return Region.query({}, function (result) {
+              console.log('regions resolved');
               Session.activeRegionId = result[0].id;
             }).$promise;
+          }],
+
+          login: ['Session', 'Login', function (Session, Login) {
+
+            Login.save(function(result){
+              Session.tenants = result.tenants;
+            });
+
           }],
 
 

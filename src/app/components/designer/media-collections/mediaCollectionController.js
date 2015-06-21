@@ -4,46 +4,22 @@ angular.module('liveopsConfigPanel')
   .controller('MediaCollectionController', ['$scope', 'MediaCollection', 'Media', 'Session', 'mediaCollectionTableConfig', 'lodash',
   function ($scope, MediaCollection, Media, Session, mediaCollectionTableConfig, _) {
     $scope.Session = Session;
-
+    $scope.medias = [];
     $scope.redirectToInvites();
-    $scope.mediaMap = [];
 
     $scope.fetch = function(){
+
+      Media.query({tenantId : Session.tenant.tenantId}, function (result){
+        angular.copy(result, $scope.additionalCollections.medias);
+      })
+
       $scope.mediaCollections = MediaCollection.query({tenantId : Session.tenant.tenantId});
     };
 
-    $scope.createMediaMapping = function() {
-      $scope.selectedMedia = new Media({
-        tenantId : Session.tenant.tenantId
-      });
-    };
+    $scope.removeCollectionMedia = function(index, list){
 
-    $scope.cancelMedia = function() {
-      $scope.selectedMedia = null;
+      $scope.detailsForm.$dirty = true;
     };
-
-    $scope.createMedia = function(parentScope, result) {
-      $scope.selectedMedia = null;
-    };
-
-    $scope.createNewMedia = function(parentScope) {
-      $scope.selectedMedia = new Media({
-        tenantId: Session.tenant.tenantId
-      });
-    };
-
-    $scope.addMediaItem = function () {
-      $scope.selectedMediaCollection.mediaMap.push({ lookup: '', id: 'Add Media'})
-    };
-
-    $scope.removeCollectionMedia = function(media){
-      var index = $scope.selectedMediaCollection.mediaMap.indexOf(media);
-      $scope.selectedMediaCollection.mediaMap.splice(index, 1);
-      $scope.selectedMediaCollection.save();
-    };
-
-    $scope.$watch('selectedMediaCollection', function () {
-    });
 
     $scope.$on('on:click:create', function(){
       $scope.selectedMediaCollection = new MediaCollection({
@@ -52,14 +28,34 @@ angular.module('liveopsConfigPanel')
       });
     });
 
-    $scope.additional = {
-      createMediaMapping: $scope.createMediaMapping,
-      cancelMedia: $scope.cancelMedia,
-      postSave: $scope.createMedia,
-      postSaveAndNew: $scope.createNewMedia,
-      mediaMap : $scope.mediaMap,
-      removeCollectionMedia: $scope.removeCollectionMedia,
-      addMediaItem: $scope.addMediaItem
+
+    $scope.additionalMedia = {
+      cancelMedia: function (){
+        $scope.selectedMedia = null;
+      },
+
+      postSave: function() {
+        $scope.selectedMedia = null;
+      },
+
+      postSaveAndNew: function () {
+        $scope.selectedMedia = new Media({
+          tenantId: Session.tenant.tenantId
+        })
+      }
+    };
+
+    $scope.additionalCollections = {
+      medias: $scope.medias,
+
+      createMediaMapping: function(media) {
+        $scope.waitingMedia = media;
+
+        $scope.selectedMedia = new Media({
+          tenantId: Session.tenant.tenantId
+        });
+      }
+
     };
 
     $scope.$watch('Session.tenant.tenantId', function () {
@@ -70,9 +66,7 @@ angular.module('liveopsConfigPanel')
       }
 
       $scope.mediaCreateHandler = $scope.$on('created:resource:tenants:' + Session.tenant.tenantId + ':media', function (event, resource) {
-        $scope.selectedMediaCollection.mediaMap.push({id: resource.id, lookup: resource.source});
-        $scope.additional.mediaMap.push(resource);
-        $scope.selectedMediaCollection.save();
+        $scope.medias.push(resource);
       });
 
       if($scope.mediaCollectionsCreateHandler){

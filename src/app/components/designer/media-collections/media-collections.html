@@ -1,3 +1,4 @@
+
 <table-controls
   id="table-pane"
   config="tableConfig"
@@ -14,7 +15,7 @@
 
 <resource-details
   id="details-pane"
-  extend-scope="additional"
+  extend-scope="additionalCollections"
   header-template-url="app/components/designer/media-collections/mediaCollectionDetailHeader.html"
   body-template-url="app/components/designer/media-collections/mediaCollectionDetailBody.html"
   original-resource="selectedMediaCollection"></resource-details>
@@ -30,7 +31,7 @@
 <resource-details
   id="media-pane"
   ng-show="selectedMedia"
-  extend-scope="additional"
+  extend-scope="additionalMedia"
   header-template-url="app/components/designer/media/mediaDetailHeader.html"
   body-template-url="app/components/designer/media/mediaDetailBody.html"
   footer-template-url="app/components/designer/media/mediaDetailFooter.html"
