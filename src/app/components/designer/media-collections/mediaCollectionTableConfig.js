@@ -18,4 +18,4 @@ angular.module('liveopsConfigPanel')
         'title' : 'Media Collections'
       };
     }
-  )
+  );

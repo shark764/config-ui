@@ -43,6 +43,14 @@ describe('users controller', function(){
     $httpBackend = $injector.get('$httpBackend');
     $httpBackend.when('GET', apiHostname + '/v1/users?tenantId=1').respond({'result' : users});
     $httpBackend.expectGET(apiHostname + '/v1/users?tenantId=1');
+    $httpBackend.when('GET', apiHostname + '/v1/regions').respond({'result' : [{
+      'id': 'c98f5fc0-f91a-11e4-a64e-7f6e9992be1f',
+      'description': 'US East (N. Virginia)',
+      'name': 'us-east-1'
+    }]}); 
+    $httpBackend.when('POST', apiHostname + '/v1/login').respond({'result' : {
+      'tenants': []
+    }});
 
     $scope = $rootScope.$new();
     $scope.users = users;

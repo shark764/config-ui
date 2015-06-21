@@ -71,7 +71,7 @@ angular.module('liveopsConfigPanel')
           );
         };
 
-        $scope.handleSuccess = function (result) {
+        $scope.handleSuccess = function () {
           $scope.loading = false;
 
           $scope.resetForm();

@@ -16,6 +16,12 @@ describe('LoginController', function () {
       _$controller_('LoginController', {
         '$scope': $scope
       });
+
+      $httpBackend.when('GET', apiHostname + '/v1/regions').respond({'result' : [{
+        'id': 'c98f5fc0-f91a-11e4-a64e-7f6e9992be1f',
+        'description': 'US East (N. Virginia)',
+        'name': 'us-east-1'
+      }]});
     }
   ]));
 
@@ -60,7 +66,7 @@ describe('LoginController', function () {
 
       expect($state.current.name).toBe('login');
     });
-    
+
     it('should not redirect me 500 and do nothing', function () {
 
       $httpBackend.when('POST', apiHostname + '/v1/login').respond(500);

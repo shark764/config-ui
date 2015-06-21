@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('MediaCollectionController', ['$scope', 'MediaCollection', 'Media', 'Session', 'mediaCollectionTableConfig', 'lodash',
-  function ($scope, MediaCollection, Media, Session, mediaCollectionTableConfig, _) {
+  .controller('MediaCollectionController', ['$scope', 'MediaCollection', 'Media', 'Session', 'mediaCollectionTableConfig',
+  function ($scope, MediaCollection, Media, Session, mediaCollectionTableConfig) {
     $scope.Session = Session;
     $scope.medias = [];
     $scope.redirectToInvites();
@@ -11,14 +11,9 @@ angular.module('liveopsConfigPanel')
 
       Media.query({tenantId : Session.tenant.tenantId}, function (result){
         angular.copy(result, $scope.additionalCollections.medias);
-      })
+      });
 
       $scope.mediaCollections = MediaCollection.query({tenantId : Session.tenant.tenantId});
-    };
-
-    $scope.removeCollectionMedia = function(index, list){
-
-      $scope.detailsForm.$dirty = true;
     };
 
     $scope.$on('on:click:create', function(){
@@ -41,7 +36,7 @@ angular.module('liveopsConfigPanel')
       postSaveAndNew: function () {
         $scope.selectedMedia = new Media({
           tenantId: Session.tenant.tenantId
-        })
+        });
       }
     };
 

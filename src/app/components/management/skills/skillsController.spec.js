@@ -37,6 +37,16 @@ describe('SkillsController', function () {
       'result': skills
     });
 
+    $httpBackend.when('GET', apiHostname + '/v1/regions').respond({'result' : [{
+      'id': 'c98f5fc0-f91a-11e4-a64e-7f6e9992be1f',
+      'description': 'US East (N. Virginia)',
+      'name': 'us-east-1'
+    }]});
+
+    $httpBackend.when('POST', apiHostname + '/v1/login').respond({'result' : {
+      'tenants': []
+    }});
+
     $controller('SkillsController', {'$scope': $scope});
 
     $httpBackend.flush();
@@ -52,7 +62,7 @@ describe('SkillsController', function () {
 
   it('should set selectedGroup on createSkill', function() {
     $scope.$broadcast('on:click:create');
-    
+
     expect($scope.selectedSkill).toBeDefined();
     expect($scope.selectedSkill.tenantId).toEqual(Session.tenant.tenantId);
   });
