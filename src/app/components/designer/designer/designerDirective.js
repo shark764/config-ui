@@ -27,7 +27,7 @@ function flowDesigner() {
             paperContainerId: '#paper-container',
             inspectorContainerId: '#inspector-container'
           };
-          var graph = JointInitService.graph(graphOptions);
+          var graph = JointInitService.initializeGraph(graphOptions);
 
           graph.interfaces.paper.on({
             'cell:pointerdblclick': function(cellView) {

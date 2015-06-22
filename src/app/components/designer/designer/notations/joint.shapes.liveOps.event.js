@@ -256,6 +256,8 @@
               }
             }
           });
+          cell.set('throwing', false);
+          cell.set('terminate', false);
           break;
         case 'end':
           cell.attr({
@@ -281,6 +283,7 @@
             }
           });
           cell.set('throwing', true);
+          cell.set('terminate', true);
           break;
         case 'intermediate':
           cell.attr({
@@ -305,6 +308,7 @@
               }
             }
           });
+          cell.set('terminate', false);
           break;
         default:
           throw 'BPMN: Unknown Event Type: ' + type;

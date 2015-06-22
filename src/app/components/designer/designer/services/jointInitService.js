@@ -3,7 +3,7 @@
 
   function JointInitService (FlowPaletteService, FlowNotationService) {
     return {
-      graph: function(graphOptions) {
+      initializeGraph: function(graphOptions) {
         var self = this;
 
         // Interface Initializations
@@ -65,7 +65,7 @@
               }
             }).render();
             graph.interfaces.selectorView.cancelSelection();
-            graph.interfaces.selector.reset([cellView.model], { safe: true });
+            graph.interfaces.selector.reset([cellView.model], {safe: true});
           }
         };
 
