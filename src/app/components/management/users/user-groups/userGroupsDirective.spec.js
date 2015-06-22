@@ -109,4 +109,19 @@ describe('userGroups directive', function(){
        $httpBackend.flush();
      }));
    });
+  
+  describe('new function', function(){
+    it('should exist', inject(function() {
+     expect(isolateScope.new).toBeDefined();
+     expect(isolateScope.new).toEqual(jasmine.any(Function));
+    }));
+    
+    it('should reset the context', inject(function() {
+      isolateScope.new();
+      expect(isolateScope.selectedgroup).toBeUndefined();
+      expect(isolateScope.addGroup.name.$touched).toBeFalsy();
+      expect(isolateScope.newGroupUser.groupId).toBeNull();
+      expect(isolateScope.newGroupUser.userId).toEqual(1);
+     }));
+  });
 });
