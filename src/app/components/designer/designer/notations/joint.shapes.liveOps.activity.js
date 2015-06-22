@@ -71,12 +71,6 @@
           label: 'Type',
           group: 'general',
           index: 3
-        },
-        subProcess: {
-          type: 'toggle',
-          label: 'Sub-process',
-          group: 'general',
-          index: 4
         }
       }
     }, joint.shapes.basic.TextBlock.prototype.defaults),
@@ -89,7 +83,6 @@
       this.onActivityTypeChange(this, this.get('activityType'));
       this.listenTo(this, 'change:embeds', this.onEmbedsChange);
       this.onEmbedsChange(this, this.get('embeds'));
-
     },
 
     onEmbedsChange: function(cell, embeds) {
