@@ -9,9 +9,10 @@ function flowDesigner() {
       templateUrl: 'app/components/designer/designer/designerDirective.html',
       replace: true,
       link: function() {},
-      controller: ['$scope', '$element', '$attrs', '$window', '$timeout', 'JointInitService', 'FlowConversionService', 'FlowNotationService', 'FlowVersion', 'Session', 'toastr', function($scope, $element, $attrs, $window, $timeout, JointInitService, FlowConversionService, FlowNotationService, FlowVersion, Session, toastr) {
+      controller: ['$scope', '$window', '$timeout', 'JointInitService', 'FlowConversionService', 'FlowVersion', 'Session', 'toastr', 
+        function($scope, $window, $timeout, JointInitService, FlowConversionService, FlowVersion, Session, toastr) {
 
-        $timeout(function() {
+          $timeout(function() {
           var graph = JointInitService.graph(1280, 800, 20, true, true, false, new joint.shapes.liveOps.link(), 0, true, [], '#stencil-container', '#paper-container', '#inspector-container');
 
           $scope.publishNewFlowVersion = function() {
@@ -43,7 +44,7 @@ function flowDesigner() {
             return FlowConversionService.convertToAlienese(graph.toJSON());
           };
         }, 1000);
-      }]
+        }]
     };
   }
 

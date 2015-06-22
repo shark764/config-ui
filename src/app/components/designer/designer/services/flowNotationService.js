@@ -1,7 +1,7 @@
 (function() {
   'use strict';
 
-  function FlowNotationService() {
+  function FlowNotationService($q, Media, Queue, Session) {
     return {
       activities: {},
       events: {},
@@ -20,6 +20,7 @@
       },
 
       buildInputPanel: function(model) {
+        console.log(this);
         var self = this;
         var modelType = model.get('type');
         var name = model.get('name');
