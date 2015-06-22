@@ -1,0 +1,24 @@
+.subflow-caret {
+  -moz-transform: rotate(270deg);
+  -moz-transform-origin: 50% 50%;
+  -webkit-transform: rotate(270deg);
+  -webkit-transform-origin: 50% 50%;
+  -o-transform: rotate(270deg);
+  -o-transform-origin: 50% 50%;
+  transform: rotate(270deg);
+  transform-origin: 50% 50%;
+  max-height: 20px;
+  position: relative;
+  top: 5px;
+  max-width: 20px;
+  margin: 0 10px;
+}
+
+.subflow-title-wrapper {
+  padding-left: 20px;
+}
+
+.subflow-headers {
+  line-height: 40px;
+  font-size: 17px;
+}

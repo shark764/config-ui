@@ -14,7 +14,7 @@ function flowDesigner() {
         $timeout(function() {
           var graph = JointInitService.graph(1280, 800, 20, true, true, false, new joint.shapes.liveOps.link(), 0, true, [], '#stencil-container', '#paper-container', '#inspector-container');
 
-          $scope.publish = function() {
+          $scope.publishNewFlowVersion = function() {
             if (graph.toJSON().cells.length === 0) { return; }
             var alienese = JSON.stringify(FlowConversionService.convertToAlienese(graph.toJSON()));
             $scope.version = new FlowVersion({
@@ -39,10 +39,9 @@ function flowDesigner() {
           };
 
           graph.fromJSON(FlowConversionService.convertToJoint(JSON.parse($scope.flowVersion.flow)));
-          
-          window.spitOutAlienese = function() {
+          $window.spitOutAlienese = function() {
             return FlowConversionService.convertToAlienese(graph.toJSON());
-          }
+          };
         }, 1000);
       }]
     };

@@ -83,7 +83,6 @@
       this.onActivityTypeChange(this, this.get('activityType'));
       this.listenTo(this, 'change:embeds', this.onEmbedsChange);
       this.onEmbedsChange(this, this.get('embeds'));
-
     },
 
     onEmbedsChange: function(cell, embeds) {
