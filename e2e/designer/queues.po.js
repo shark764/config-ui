@@ -1,19 +1,22 @@
 'use strict';
 
 var QueuePage = function() {
-  this.nameFormField = element(by.model('queue.name'));
-  this.descriptionFormField = element(by.model('queue.description'));
-  this.submitQueueFormBtn = element(by.css('.btn'));
+  this.nameFormField = element(by.model('resource.name'));
+  this.descriptionFormField = element(by.model('resource.description'));
+  this.activeVersionDropdown = element(by.model('resource.activeVersion'));
 
-  this.errors = element.all(by.css('.error'));
+  this.versionsTable =  element(by.css('queue-versions.ng-isolate-scope > table:nth-child(1)'));
+  this.versionsTableElements =  this.versionsTable.all(by.repeater('version in versions track by $index'));
+  this.versionNameFormField = element(by.model('version.name'));
+  this.versionDescriptionFormField = element(by.model('version.description'));
+  this.versionQueryFormField = element(by.model('version.query'));
+  this.createVersionBtn = element(by.css('input.btn:nth-child(3)'));
+  this.requiredErrors = element.all(by.css('.error'));
 
-  this.firstTableRow = element(by.css('tr.ng-scope:nth-child(1)'));
-  this.secondTableRow = element(by.css('tr.ng-scope:nth-child(2)'));
+  this.firstTableRow = element(by.css('.table > tbody:nth-child(2) > tr:nth-child(1)'));
+  this.secondTableRow = element(by.css('.table > tbody:nth-child(2) > tr:nth-child(2)'));
   this.nameColumn = 'td:nth-child(2)';
-  this.displayNameColumn = 'td:nth-child(3)';
-  this.emailColumn = 'td:nth-child(4)';
-  this.externalIdColumn = 'td:nth-child(5)';
-  this.statusColumn = 'td:nth-child(6)';
+  this.descriptionColumn = 'td:nth-child(3)';
 };
 
 module.exports = new QueuePage();

@@ -53,7 +53,8 @@ exports.config = {
     paths.e2e + '/navigation/**/*.spec.js',
     paths.e2e + '/management/**/*.spec.js',
     paths.e2e + '/configuration/**/*.spec.js',
-    paths.e2e + '/userProfile/**/*.spec.js'
+    paths.e2e + '/userProfile/**/*.spec.js',
+    paths.e2e + '/designer/**/*.spec.js'
   ],
 
   framework: 'jasmine2',

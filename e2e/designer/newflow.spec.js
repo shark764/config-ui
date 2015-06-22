@@ -56,21 +56,21 @@ describe('The create new flows view', function() {
     });
   });
 
-  xit('should create a default version', function() {
-    // TODO
+  it('should create a default version', function() {
     randomFlow = Math.floor((Math.random() * 1000) + 1);
     shared.createBtn.click();
 
     flows.nameFormField.sendKeys('Flow ' + randomFlow);
     flows.descriptionFormField.sendKeys('This is a new flow description');
     flows.typeFormDropdown.all(by.css('option')).get(1).click();
-    // Add randomness to Flow Type when more types are available
-    //flows.typeFormDropdown.all(by.css('option')).get((randomFlow % 3) + 1).click();
+
     shared.submitFormBtn.click().then(function() {
       expect(flows.requiredErrors.get(0).isDisplayed()).toBeFalsy();
       expect(shared.successMessage.isDisplayed()).toBeTruthy();
 
-      // Verify new flow has default v1 version
+      // Default v1 flow version added
+      expect(flows.versionsTableElements.count()).toBe(1);
+      expect(flows.versionsTableElements.get(0).v).toBe('1');
     });
   });
 
