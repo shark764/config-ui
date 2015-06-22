@@ -28,19 +28,20 @@ angular.module('liveopsConfigPanel')
 
           $scope.resource.save(
             function (result) {
-              $scope.handleSuccess(result);
-
               if($scope.postSave){
                 $scope.postSave($scope, result);
               }
+
+              $scope.handleSuccess(result);
+
             },
 
             function (error, headers){
-              $scope.handleErrors(error);
-
               if ($scope.postError){
                 $scope.postError($scope, error, headers);
               }
+
+              $scope.handleErrors(error);
             }
           );
         };
