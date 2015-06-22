@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('userTableConfig', ['statuses',
-    function(statuses) {
+  .service('userTableConfig', ['statuses', 'userStates',
+    function(statuses, userStates) {
       return {
         'fields': [{
           'header': 'Name',
@@ -18,9 +18,15 @@ angular.module('liveopsConfigPanel')
           'header': 'ID',
           'name': 'externalId'
         }, {
+          'header': 'State',
+          'name': 'state',
+          'templateUrl': 'app/components/management/users/userStateTemplate.html',
+          'checked': false,
+          'options': userStates
+        }, {
           'header': 'Status',
           'name': 'status',
-          'templateUrl': 'app/components/management/users/userStatusTemplate.html',
+          'templateUrl': 'app/shared/templates/statuses.html',
           'checked': false,
           'options': statuses
         }],
