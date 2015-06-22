@@ -122,9 +122,52 @@
           group: 'general',
           label: 'Target',
           when: {
-            eq: {
-              'eventName': 'signal'
+            and: [
+              {
+                eq: {
+                  'eventName': 'signal'
+                }
+              },
+              {
+                eq: {
+                  'throwing': false
+                }
+              }
+
+            ]
+          }
+        },
+        event: {
+          type: 'list',
+          group: 'general',
+          label: 'Event',
+          item: {
+            type: 'object',
+            properties: {
+              key: {
+                label: 'Key',
+                type: 'text'
+              },
+              value: {
+                label: 'Value',
+                type: 'text'
+              }
             }
+          },
+          when: {
+            and: [
+              {
+                eq: {
+                  'eventName': 'signal'
+                }
+              },
+              {
+                eq: {
+                  'throwing': true
+                }
+              }
+
+            ]
           }
         }
       }

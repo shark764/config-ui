@@ -71,12 +71,6 @@
           label: 'Type',
           group: 'general',
           index: 3
-        },
-        subProcess: {
-          type: 'toggle',
-          label: 'Sub-process',
-          group: 'general',
-          index: 4
         }
       }
     }, joint.shapes.basic.TextBlock.prototype.defaults),
