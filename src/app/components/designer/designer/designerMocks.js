@@ -114,26 +114,6 @@
           }
         },
         'bindings': {},
-      },
-      {
-        'name': 'subflow',
-        'entity': 'activity',
-        'label': 'Edit Subflow',
-        'description': 'Edit Subflow',
-        'type': 'task',
-        'params': {
-          'resource': {
-            'source': 'expression',
-            'type':'string',
-            'label':'Subflow name',
-            'description':'Subflow name',
-            'icon':'url',
-            'tooltip':'Edit Subflow',
-            'dataSensitivity':'low',
-            'mandatory':true
-          }
-        },
-        'bindings': {},
       }
       // {
       //   'bindings':{

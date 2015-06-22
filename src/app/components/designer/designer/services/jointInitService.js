@@ -8,6 +8,7 @@
 
         // Interface Initializations
         var graph = new joint.dia.Graph();
+        self.graph = graph;
         graph.interfaces = {};
         graph.utils = {};
         graph.interfaces.commandManager = self.initializeCommandManager(graph);
@@ -185,27 +186,27 @@
       },
       initializePaperListeners: function() {
         var self = this;
-        self.interfaces.paper.on({
+        self.graph.interfaces.paper.on({
           'blank:pointerdown': function(evt, x, y) {
-            self.utils.hidePropertiesPanel();
+            self.graph.utils.hidePropertiesPanel();
             if (_.contains(KeyboardJS.activeKeys(), 'shift')) {
-              self.interfaces.selectorView.startSelecting(evt, x, y);
+              self.graph.interfaces.selectorView.startSelecting(evt, x, y);
             } else {
-              self.interfaces.selectorView.cancelSelection();
-              self.interfaces.scroller.startPanning(evt, x, y);
+              self.graph.interfaces.selectorView.cancelSelection();
+              self.graph.interfaces.scroller.startPanning(evt, x, y);
             }
           },
           'cell:pointerdown': function(cellView, evt) {
             if ((evt.ctrlKey || evt.metaKey) && cellView.model instanceof joint.dia.Element && !(cellView.model instanceof joint.shapes.bpmn.Pool)) { // Select an element if CTRL/Meta key is pressed while the element is clicked.
-              self.interfaces.selector.add(cellView.model);
-              self.interfaces.selectorView.createSelectionBox(cellView);
+              self.graph.interfaces.selector.add(cellView.model);
+              self.graph.interfaces.selectorView.createSelectionBox(cellView);
             }
           },
           'cell:pointerup': function(cellView, evt, x, y) {
             var cell = cellView.model;
 
             // Find the first element below that is not a link nor the dragged element itself.
-            var elementBelow = self.get('cells').find(function(cell) {
+            var elementBelow = this.get('cells').find(function(cell) {
               if (cell instanceof joint.dia.Link) {return false;} // Not interested in links.
               if (cell.id === cellView.model.id) {return false;} // The same element as the dropped one.
               if (cell.getBBox().moveAndExpand({x: -20, y: -20, width: 40, height: 40}).containsPoint(g.point(cellView._dx, cellView._dy))) {
@@ -216,12 +217,12 @@
 
             if (elementBelow && elementBelow.attributes.type === 'liveOps.activity' && cell.attributes.type === 'liveOps.event') {
               elementBelow.embed(cell);
-              _.each(self.getConnectedLinks(cell, {inbound: true}), function(link) {
+              _.each(this.getConnectedLinks(cell, {inbound: true}), function(link) {
                 link.remove();
               });
             }
 
-            self.utils.renderPropertiesPanel(cellView, evt, x, y);
+            self.graph.utils.renderPropertiesPanel(cellView, evt, x, y);
           }
         });
       },
@@ -230,19 +231,20 @@
         self.on({
           'add': function(cell, collection, opt) {
             if (!opt.stencil) {return;}
-            var view = self.interfaces.paper.findViewByModel(cell);
-            if (view) {self.utils.renderPropertiesPanel(view);}
+            var view = self.graph.interfaces.paper.findViewByModel(cell);
+            if (view) {self.graph.utils.renderPropertiesPanel(view);}
           }
         });
       },
       initializeSelectorViewListeners: function() {
         var self = this;
-        self.interfaces.selectorView.on({
+        console.log(self);
+        self.graph.interfaces.selectorView.on({
           'selection-box:pointerdown': function(evt) {
             if (evt.ctrlKey || evt.metaKey) {
-              var cell = self.interfaces.selector.get($(evt.target).data('model'));
-              self.interfaces.selector.reset(self.interfaces.selector.without(cell));
-              self.interfaces.selectorView.destroySelectionBox(self.interfaces.paper.findViewByModel(cell));
+              var cell = self.graph.interfaces.selector.get($(evt.target).data('model'));
+              self.graph.interfaces.selector.reset(self.graph.interfaces.selector.without(cell));
+              self.graph.interfaces.selectorView.destroySelectionBox(self.graph.interfaces.paper.findViewByModel(cell));
             }
           }
         });
@@ -250,48 +252,48 @@
       initializeKeyboardListeners: function() {
         var self = this;
         KeyboardJS.on('delete', function(evt) {
-          if (!$.contains(evt.target, self.interfaces.paper.el)) {return;}
-          self.interfaces.commandManager.initBatchCommand();
-          self.interfaces.selector.invoke('remove');
-          self.interfaces.commandManager.storeBatchCommand();
-          self.interfaces.selectorView.cancelSelection();
+          if (!$.contains(evt.target, self.graph.interfaces.paper.el)) {return;}
+          self.graph.interfaces.commandManager.initBatchCommand();
+          self.graph.interfaces.selector.invoke('remove');
+          self.graph.interfaces.commandManager.storeBatchCommand();
+          self.graph.interfaces.selectorView.cancelSelection();
         });
 
         var metaKeys = ['super', 'ctrl'];
 
         _.each(metaKeys, function(key) {
           KeyboardJS.on(key + ' + z', function() {
-            if (!self.interfaces.commandManager.hasUndo()) {return;}
+            if (!self.graph.interfaces.commandManager.hasUndo()) {return;}
             console.log(key + ' + z\'d!');
-            self.interfaces.commandManager.undo();
+            self.graph.interfaces.commandManager.undo();
           });
 
           KeyboardJS.on(key + ' + y', function() {
-            if (!self.interfaces.commandManager.hasRedo()) {return;}
+            if (!self.graph.interfaces.commandManager.hasRedo()) {return;}
             console.log(key + ' + y\'d!');
-            self.interfaces.commandManager.redo();
+            self.graph.interfaces.commandManager.redo();
           });
 
           KeyboardJS.on(key + ' + c', function() {
             console.log(key + ' + c\'d!');
-            self.interfaces.clipboard.copyElements(self.interfaces.selector, this);
+            self.graph.interfaces.clipboard.copyElements(self.graph.interfaces.selector, this);
           });
 
           KeyboardJS.on(key + ' + v', function() {
             console.log(key + ' + v\'d!');
-            self.interfaces.clipboard.pasteCells(this);
+            self.graph.interfaces.clipboard.pasteCells(this);
           });
 
           KeyboardJS.on(key + ' + =', function(evt) {
             evt.preventDefault();
             console.log(key + ' + +\'d!');
-            self.interfaces.scroller.zoomIn();
+            self.graph.interfaces.scroller.zoomIn();
           });
 
           KeyboardJS.on(key + ' + -', function(evt) {
             evt.preventDefault();
             console.log(key + ' + -\'d!');
-            self.interfaces.scroller.zoomOut();
+            self.graph.interfaces.scroller.zoomOut();
           });
         });
       }
