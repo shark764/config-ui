@@ -132,12 +132,12 @@ describe('FlowsController', function() {
         expect($scope.updateVersionName).toHaveBeenCalledWith({info : 'info', id: 3});
       });
       
-      it('should create a version if the resource id was null', function() {
+      it('should create a version if creating a new flow', function() {
         spyOn($scope, 'updateVersionName');
         var newFlow = new Flow({id: 3, save: function(){}});
         $httpBackend.when('POST', apiHostname + '/v1/tenants/1/flows/3/versions').respond({'result' : {version: 'fv1'}});
         $httpBackend.expectPOST(apiHostname + '/v1/tenants/1/flows/3/versions');
-        $scope.additional.postSave({originalResource : {}, resource : newFlow}, newFlow);
+        $scope.additional.postSave({originalResource : {}, resource : newFlow}, newFlow, true);
         $httpBackend.flush();
         
         expect(newFlow.activeVersion).toEqual('fv1');
