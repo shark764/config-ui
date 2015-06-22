@@ -10,7 +10,7 @@ angular.module('liveopsConfigPanel')
         });
       };
 
-      $scope.$watch('Session.tenant', $scope.fetch);
+      $scope.$watch('Session.tenant.tenantId', $scope.fetch, true);
 
       $scope.$on('on:click:create', function() {
         $scope.selectedIntegration = new Integration({

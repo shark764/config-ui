@@ -7,9 +7,7 @@ angular.module('liveopsConfigPanel')
 
       $scope.tableConfig = groupTableConfig;
 
-      $scope.$watch('Session.tenant', function () {
-        $scope.fetch();
-      });
+      $scope.$watch('Session.tenant.tenantId', $scope.fetch, true);
 
       //This is really awful and hopefully the API will update to accommodate this.
       $scope.fetch = function () {
@@ -19,13 +17,13 @@ angular.module('liveopsConfigPanel')
           });
         });
       };
-      
+
       $scope.additional = {
           postSave : function(childScope){
             $scope.updateMembers(childScope.originalResource);
           }
       };
-      
+
       $scope.updateMembers = function(group){
         group.members = TenantGroupUsers.query({tenantId: Session.tenant.tenantId, groupId: group.id}, function(){
           angular.forEach(group.members, function(member, key){

@@ -59,7 +59,7 @@ angular.module('liveopsConfigPanel')
           $scope.groups = Group.query({tenantId: Session.tenant.tenantId });
         };
 
-        $scope.$watchGroup(['Session.tenant.tenantId', 'user'], function(old, newz){
+        $scope.$watchGroup(['Session.tenant.tenantId', 'user'], function(){
           $scope.groupId = null;
           $scope.fetch();
         });

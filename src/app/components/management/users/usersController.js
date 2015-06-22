@@ -72,7 +72,7 @@ angular.module('liveopsConfigPanel')
         });
       });
 
-      $scope.fetch = function(old, newz) {
+      $scope.fetch = function() {
         $scope.users = User.query({
           tenantId: Session.tenant.tenantId !== '' ? Session.tenant.tenantId : null
         });
