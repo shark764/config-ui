@@ -6,30 +6,18 @@
 <p ng-hide="groups && groups.$resolved && userGroups.$resolved && groups.length" class="null">{{'details.groups.none' | translate}}</p>
 
 <div ng-show="groups.$resolved && userGroups.$resolved">
-  <div class="divider-header">
-    <h4>Groups <span class="count">({{userGroups.length}})</span></h4>
-  </div>
+  <ng-form seperate-validation ng-show="filtered.length > 0" id="addGroup" name="addGroup" class="clear input-group">
+    <type-ahead hover="true" placeholder="Group name" items="filtered" selected-item="selectedGroup" is-required="true" nameField="name" ></type-ahead>
+    <a ng-hide="saving" ng-disabled="!selectedGroup" class="btn" ng-click="save()" title="{{'value.save' | translate}}"><i class="fa fa-check"></i></a>
+    <a ng-show="saving" ng-disabled="true" class="btn btn-primary"><i class="fa fa-refresh fa-spin"></i></a>
+  </ng-form>
   
-  <p ng-show="groups.length === 0" class="null">{{'details.groups.none' | translate}}</p>
-  
-  <div ng-show="groups.length > 0" class="clear" id="add-skill">
-    <div ng-show="filtered.length > 0" class="add-wrapper input-group">
-      <ng-form seperate-validation>
-        <select ng-model="groupId" ng-options="group.id as group.name for group in (filtered = (groups | objectNegation:'id':userGroups:'groupId' | orderBy:name))">
-          <option disabled value="">{{'details.groups.select.placeholder' | translate}}</option>
-        </select>
-        <a ng-hide="saving" ng-disabled="! groupId" class="btn" ng-click="add(groupId)" title="{{'value.save' | translate}}"><i class="fa fa-check"></i></a>
-        <a ng-show="saving" ng-disabled="true" class="btn btn-primary"><i class="fa fa-refresh fa-spin"></i></a>
-      </ng-form>
-    </div>
-    
-    <div class="input-group">
-      <p ng-show="userGroups.length === 0 && ! addNew" class="null" translate="details.usergroups.none" translate-value-display-name="{{user.displayName}}"></p>
-    </div>
+  <div class="input-group">
+    <p ng-show="userGroups.length === 0 && ! addNew" class="null" translate="details.usergroups.none" translate-value-display-name="{{user.displayName}}"></p>
   </div>
   
   <div ng-show="userGroups.length > 0">
-    <div id="tag-wrapper" class="input-group clear" ng-class="{collapsed : collapsed}">
+    <div id="tag-wrapper" class="details-group clear" ng-class="{collapsed : collapsed}">
       <div id="tags-inside" class="clear">
         <div ng-repeat="userGroup in userGroups" class="tag">
           {{userGroup.groupName}}

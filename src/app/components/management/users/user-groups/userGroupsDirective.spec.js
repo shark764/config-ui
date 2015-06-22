@@ -101,16 +101,6 @@ describe('userGroups directive', function(){
     }));
    });
 
-  describe('add function', function(){
-
-   it('should call TenantUserGroup save', inject(function() {
-     $httpBackend.when('POST', apiHostname + '/v1/tenants/1/groups/g1/users').respond({});
-     $httpBackend.expectPOST(apiHostname + '/v1/tenants/1/groups/g1/users');
-     isolateScope.add({id: 'g1', name: ''});
-     $httpBackend.flush();
-   }));
-  });
-
   describe('remove function', function(){
      it('should call TenantUserGroup delete', inject(function() {
        $httpBackend.when('DELETE', apiHostname + '/v1/tenants/1/groups/g2/users/1').respond({});

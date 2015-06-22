@@ -4,6 +4,7 @@
 
 <loading ng-if="!skills.$resolved"></loading>
 
+<div ng-show="skills.$resolved">
 <ng-form seperate-validation ng-disabled="saving" id="skillsForm" name="skillsForm" ng-show="skills.$resolved" class="clear input-group"> 
   <type-ahead hover="true" placeholder="Skill name" items="skills" selected-item="selectedSkill" is-required="true" nameField="name" ></type-ahead>
   <number-slider ng-if="selectedSkill.hasProficiency" placeholder="Proficiency" value="newUserSkill.proficiency" min-value="0" max-value="100" ></number-slider>

@@ -3,7 +3,7 @@
 /*jshint browser:true */
 
 angular.module('liveopsConfigPanel')
-  .directive('userGroups', ['TenantUserGroups', 'TenantGroupUsers', 'Group', 'Session', '$timeout', function (TenantUserGroups, TenantGroupUsers, Group, Session, $timeout) {
+  .directive('userGroups', ['TenantUserGroups', 'TenantGroupUsers', 'Group', 'Session', '$timeout', '$filter', 'toastr', function (TenantUserGroups, TenantGroupUsers, Group, Session, $timeout, $filter, toastr) {
     return {
       restrict: 'E',
 
@@ -14,27 +14,53 @@ angular.module('liveopsConfigPanel')
       templateUrl: 'app/components/management/users/user-groups/userGroups.html',
 
       link: function ($scope) {
-        $scope.add = function (selectedGroup) {
+        $scope.new = function() {
+          $scope.saving = true;
           $scope.selectedGroup = null;
+          $scope.addGroup.name.$touched = false;
+
+          $scope.newGroupUser = new TenantGroupUsers({
+            groupId: null,
+            tenantId: Session.tenant.tenantId,
+            memberId: $scope.user.id
+          });
+        };
+        
+        $scope.save = function () {
           $scope.saving = true;
 
-          var tgu = new TenantGroupUsers({
-            userId: $scope.user.id,
-            groupId: selectedGroup.id,
-            tenantId: Session.tenant.tenantId
-          });
+          if(!$scope.selectedGroup.id){
+            new Group({
+              name: $scope.selectedGroup.name,
+              tenantId: Session.tenant.tenantId,
+              description: '',
+              status: true,
+              owner: Session.user.id
+            }).save(function(result){
+              $scope.selectedGroup = result;
+              $scope.saveUserGroup();
+            });
+          } else {
+            $scope.saveUserGroup();
+          }
+        };
+        
+        $scope.saveUserGroup = function () {
+          $scope.newGroupUser.groupId = $scope.selectedGroup.id;
 
-          tgu.$save(function (result) {
-
-            $scope.userGroups.push(new TenantUserGroups({
-              tenantId: result.tenantId,
-              groupId: result.groupId,
-              memberId: result.memberId,
-              groupName: selectedGroup.name
-            }));
+          var usc = angular.copy($scope.newGroupUser);
+          usc.groupName = $scope.selectedGroup.name;
+          $scope.userGroups.push(usc);
+          
+          $scope.newGroupUser.$save(function(){
+            $scope.new();
+            $scope.saving = false;
           }, function () {
             $scope.fetch();
+            toastr.error('Failed to save user group');
           });
+          
+          
         };
 
         $scope.remove = function (userGroup) {
@@ -59,13 +85,15 @@ angular.module('liveopsConfigPanel')
             return;
           }
           $scope.saving = false;
-          $scope.userGroups = TenantUserGroups.query({ tenantId: Session.tenant.tenantId, userId: $scope.user.id });
+          $scope.userGroups = TenantUserGroups.query({ tenantId: Session.tenant.tenantId, memberId: $scope.user.id }, $scope.new);
           $scope.userGroups.$promise.then(function(){
             $timeout(function(){ //Timeout prevents simultaneous $digest cycles
               $scope.updateCollapseState(tagWrapper.height());
             }, 200);
           });
-          $scope.groups = Group.query({tenantId: Session.tenant.tenantId });
+          $scope.groups = Group.query({tenantId: Session.tenant.tenantId }, function(){
+            $scope.filtered = $filter('objectNegation')($scope.groups, 'id', $scope.userGroups, 'groupId');
+          });
         };
 
         $scope.$watchGroup(['Session.tenant.tenantId', 'user'], function(){
