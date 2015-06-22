@@ -3,7 +3,7 @@
 
   function JointInitService (FlowPaletteService, FlowNotationService) {
     return {
-      graph: function(width, height, gridSize, perpendicularLinks, embeddingMode, frontParentOnly, defaultLink, scrollerPadding, autoResizePaper, selectorFilterArray, stencilContainerId, paperContainerId, inspectorContainerId) {
+      graph: function(graphOptions) {
         var self = this;
         var graph = new joint.dia.Graph();
         graph.interfaces = {};
@@ -11,19 +11,19 @@
         graph.interfaces.commandManager = self.initializeCommandManager(graph);
         graph.interfaces.selector = self.initializeSelector();
         graph.interfaces.clipboard = self.initializeClipboard();
-        graph.interfaces.paper = self.initializePaper(graph, width, height, gridSize, perpendicularLinks, embeddingMode, frontParentOnly, defaultLink);
-        graph.interfaces.scroller = self.initializeScroller(graph.interfaces.paper, scrollerPadding, autoResizePaper);
-        graph.interfaces.selectorView = self.initializeSelectorView(graph, graph.interfaces.paper, graph.interfaces.selector, selectorFilterArray);
+        graph.interfaces.paper = self.initializePaper(graphOptions, graphOptions.width, graphOptions.height, graphOptions.gridSize, graphOptions.perpendicularLinks, graphOptions.embeddingMode, graphOptions.frontParentOnly, graphOptions.defaultLink);
+        graph.interfaces.scroller = self.initializeScroller(graph.interfaces.paper, graphOptions.scrollerPadding, graphOptions.autoResizePaper);
+        graph.interfaces.selectorView = self.initializeSelectorView(graph, graph.interfaces.paper, graph.interfaces.selector, graphOptions.selectorFilterArray);
         graph.interfaces.palette = self.initializePalette(graph, graph.interfaces.paper);
         graph.interfaces.snapper = self.initializeSnapper(graph.interfaces.paper);
         graph.interfaces.keyboardListeners = self.initializeKeyboardListeners(graph);
         graph.interfaces.flowPropertiesPanel = undefined;
-        graph.interfaces.inspectorContainer = $(inspectorContainerId);
+        graph.interfaces.inspectorContainer = $(graphOptions.inspectorContainerId);
 
         /**
          * [ Palette Logic ]
          */
-        graph.interfaces.palette.render().$el.appendTo(stencilContainerId);
+        graph.interfaces.palette.render().$el.appendTo(graphOptions.stencilContainerId);
         FlowPaletteService.loadGateways(graph.interfaces.palette);
         FlowPaletteService.loadEvents(graph.interfaces.palette);
         FlowPaletteService.loadActivities(graph.interfaces.palette);
@@ -44,7 +44,7 @@
         /**
          * [ Flow Scroller Logic ]
          */
-        graph.interfaces.scroller.$el.appendTo(paperContainerId);
+        graph.interfaces.scroller.$el.appendTo(graphOptions.paperContainerId);
 
         /**
          * [ Flow Snapper Logic ]
