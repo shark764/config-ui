@@ -9,10 +9,27 @@ function subflowDesigner() {
       templateUrl: 'app/components/designer/subflow/subflowDesignerDirective.html',
       replace: true,
       link: function() {},
-      controller: ['$scope', '$element', '$attrs', '$window', '$timeout', 'JointInitService', 'SubflowCommunicationService', function($scope, $element, $attrs, $window, $timeout, JointInitService, SubflowCommunicationService) {
+      controller: ['$scope', '$element', '$attrs', '$window', '$timeout', 'JointInitService', 'SubflowCommunicationService', '$state',function($scope, $element, $attrs, $window, $timeout, JointInitService, SubflowCommunicationService, $state) {
         console.log('SF in directive:', $scope.subflow);
         $timeout(function() {
-          var graph = JointInitService.graph(1280, 800, 20, true, true, false, new joint.shapes.liveOps.link(), 0, true, [], '#stencil-container', '#paper-container', '#inspector-container');
+
+          var graphOptions = {
+            width: 1280,
+            height: 800,
+            gridSize: 20,
+            perpendicularLinks: true,
+            embeddingMode: true,
+            frontParentOnly: false,
+            defaultLink: new joint.shapes.liveOps.link(),
+            scrollerPadding: 0,
+            autoResizePaper: true,
+            selectorFilterArray: [],
+            stencilContainerId: '#stencil-container',
+            paperContainerId: '#paper-container',
+            inspectorContainerId: '#inspector-container'
+          };
+
+          var graph = JointInitService.graph(graphOptions);
 
           $scope.saveSubflow = function() {
             SubflowCommunicationService.add({
@@ -23,7 +40,11 @@ function subflowDesigner() {
               parentVersionId: $scope.subflow.parentVersionId
             });
 
-            console.log(SubflowCommunicationService);
+            $state.go('content.designer.editor', {
+              flowId: $scope.subflow.parentFlowId,
+              versionId: $scope.subflow.parentVersionId,
+              version: 'v99'
+            });
           };
 
           if ($scope.subflow.graphJSON !== '{"cells":[]}') {
