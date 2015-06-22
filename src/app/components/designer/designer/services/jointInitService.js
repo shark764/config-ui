@@ -257,7 +257,7 @@
           self.interfaces.selectorView.cancelSelection();
         });
 
-        var metaKeys = ['cmd', 'ctrl'];
+        var metaKeys = ['super', 'ctrl'];
 
         _.each(metaKeys, function(key) {
           KeyboardJS.on(key + ' + z', function() {
