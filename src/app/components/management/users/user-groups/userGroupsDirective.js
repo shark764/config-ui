@@ -22,7 +22,7 @@ angular.module('liveopsConfigPanel')
           $scope.newGroupUser = new TenantGroupUsers({
             groupId: null,
             tenantId: Session.tenant.tenantId,
-            memberId: $scope.user.id
+            userId: $scope.user.id
           });
         };
         
@@ -50,6 +50,7 @@ angular.module('liveopsConfigPanel')
 
           var usc = angular.copy($scope.newGroupUser);
           usc.groupName = $scope.selectedGroup.name;
+          usc.memberId = usc.userId;
           $scope.userGroups.push(usc);
           
           $scope.newGroupUser.$save(function(){
