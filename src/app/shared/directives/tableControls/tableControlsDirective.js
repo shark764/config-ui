@@ -17,11 +17,6 @@ angular.module('liveopsConfigPanel')
         link: function($scope) {
           angular.extend($scope, $scope.extendScope);
 
-          $scope.items.$promise.then(function(data) {
-            if (data.length === 0) {
-              $scope.onCreateClick();
-            }
-          });
 
           $scope.selectItem = function(item) {
             $scope.selected = item;

@@ -6,9 +6,17 @@ angular.module('liveopsConfigPanel')
       $scope.loginStatus = { $$state : {status: 1} };
 
       $scope.login = function () {
+        $scope.error = null;
+
         $scope.loginStatus = AuthService.login($scope.username, $scope.password)
           .then(function () {
-            $state.transitionTo('content.management.users');
+
+            $scope.loggingIn = true;
+
+            $state.go('content.management.users').finally(function () {
+              $scope.loggingIn = false;
+            });
+
             $rootScope.$broadcast('login:success');
           }, function(response){
             if(response.status === 401) {
