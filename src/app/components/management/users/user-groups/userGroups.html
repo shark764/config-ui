@@ -9,10 +9,10 @@
   <div ng-show="groups.$resolved && userGroups.$resolved">
     <div ng-show="groups.length > 0" class="clear">
       <div ng-show="filtered.length > 0" class="add-wrapper input-group">
-        <select ng-model="groupId" ng-options="group.id as group.name for group in (filtered = (groups | objectNegation:'id':userGroups:'groupId' | orderBy:name))">
+        <select ng-model="selectedGroup" ng-options="group.name for group in (filtered = (groups | objectNegation:'id':userGroups:'groupId' | orderBy:name))">
           <option disabled value="">{{'details.groups.select.placeholder' | translate}}</option>
         </select>
-        <a class="btn" ng-click="add(groupId)" title="{{'value.save' | translate}}"><i class="fa fa-check"></i></a>
+        <a class="btn" ng-click="add(selectedGroup)" title="{{'value.save' | translate}}"><i class="fa fa-check"></i></a>
       </div>
 
       <div class="input-group">

@@ -14,16 +14,24 @@ angular.module('liveopsConfigPanel')
       templateUrl: 'app/components/management/users/user-groups/userGroups.html',
 
       link: function ($scope) {
-        $scope.add = function (groupId) {
-          $scope.groupId = null;
+        $scope.add = function (selectedGroup) {
+          $scope.selectedGroup = null;
 
           var tgu = new TenantGroupUsers({
             userId: $scope.user.id,
-            groupId: groupId,
+            groupId: selectedGroup.id,
             tenantId: Session.tenant.tenantId
           });
 
-          tgu.$save(function () {
+          tgu.$save(function (result) {
+
+            $scope.userGroups.push(new TenantUserGroups({
+              tenantId: result.tenantId,
+              groupId: result.groupId,
+              memberId: result.memberId,
+              groupName: selectedGroup.name
+            }));
+          }, function () {
             $scope.fetch();
           });
         };
