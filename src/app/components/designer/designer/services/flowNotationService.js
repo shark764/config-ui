@@ -34,12 +34,12 @@
           params = _.reduce(notation.params, function(memo, param, name) {
             memo[name] = {
               label: param.label,
-              group: notation.label,
+              group: notation.label
             };
 
-            if ((param.source === 'constant' || param.source === 'variable') && (param.type === 'integer' || param.type === 'string')) {
+            if (param.source === 'expression' && (param.type === 'integer' || param.type === 'string')) {
               memo[name].type = 'text';
-            } else if (param.source === 'constant' && param.type === 'boolean') {
+            } else if (param.source === 'expression' && param.type === 'boolean') {
               memo[name].type = 'toggle';
             } else if (param.source === 'entity') {
               memo[name].type = 'select';
@@ -60,7 +60,7 @@
           }, {});
         }
 
-        return _.extend(inputs, params, bindings);
+        return _.extend(inputs, {params: params}, {bindings: bindings});
       },
 
       addActivityParams: function(model) {
@@ -70,10 +70,10 @@
 
         params = _.reduce(activity.params, function(memo, param, key) {
 
-          if (param.source === 'constant' || param.source === 'variable') {
+          if (param.source === 'expression') {
             memo[key] = {
               source: 'expression',
-              value: model[key] || '5'
+              value: model.params[key] || '5'
             };
           } else if (param.source === 'entity') {
             memo[key] = {

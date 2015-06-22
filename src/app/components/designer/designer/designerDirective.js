@@ -41,7 +41,7 @@ function flowDesigner() {
           graph.fromJSON(FlowConversionService.convertToJoint(JSON.parse($scope.flowVersion.flow)));
           
           window.spitOutAlienese = function() {
-            return JSON.stringify(FlowConversionService.convertToAlienese(graph.toJSON()));
+            return FlowConversionService.convertToAlienese(graph.toJSON());
           }
         }, 1000);
       }]
