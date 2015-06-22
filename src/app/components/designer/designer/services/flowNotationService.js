@@ -19,8 +19,13 @@
         return activity.label;
       },
 
+      getActivityTargeted: function(model) {
+        var self = this;
+        var activity = _.findWhere(self.activities, {name: model.name});
+        return activity.targeted;
+      },
+
       buildInputPanel: function(model) {
-        console.log(this);
         var self = this;
         var modelType = model.get('type');
         var name = model.get('name');
@@ -76,10 +81,10 @@
 
         params = _.reduce(activity.params, function(memo, param, key) {
 
-          if (param.source === 'expression') {
+          if (param.source === 'expression' && model.params[key]) {
             memo[key] = {
               source: 'expression',
-              value: model.params[key] || '5'
+              value: model.params[key]
             };
           } else if (param.source === 'entity') {
             memo[key] = {

@@ -138,19 +138,29 @@
           }
         },
         event: {
-          type: 'list',
+          type: 'object',
           group: 'general',
           label: 'Event',
-          item: {
-            type: 'object',
-            properties: {
-              key: {
-                label: 'Key',
-                type: 'text'
-              },
-              value: {
-                label: 'Value',
-                type: 'text'
+          properties: {
+            name: {
+              label: 'Signal Name',
+              type: 'text'
+            },
+            params: {
+              label: 'Params',
+              type: 'list',
+              item: {
+                type: 'object',
+                properties: {
+                  key: {
+                    label: 'Key',
+                    type: 'text'
+                  },
+                  value: {
+                    label: 'Value',
+                    type: 'text'
+                  }
+                }
               }
             }
           },
