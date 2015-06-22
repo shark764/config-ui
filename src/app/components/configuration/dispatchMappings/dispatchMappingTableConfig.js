@@ -14,7 +14,7 @@ angular.module('liveopsConfigPanel')
         'name': 'value'
       }, {
         'header': 'Interaction Field',
-        'name': 'intractionField'
+        'name': 'interactionField'
       }, {
         'header': 'Channel Type',
         'name': 'channelType'
@@ -23,6 +23,7 @@ angular.module('liveopsConfigPanel')
         'name': 'active',
         'sortable': true,
         'options': statuses,
+        'templateUrl': 'app/components/management/users/userStatusTemplate.html',
         'filter': 'selectedOptions'
       }],
       'searchOn': ['name'],
