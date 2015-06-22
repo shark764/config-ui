@@ -206,7 +206,7 @@
             var cell = cellView.model;
 
             // Find the first element below that is not a link nor the dragged element itself.
-            var elementBelow = this.get('cells').find(function(cell) {
+            var elementBelow = self.graph.get('cells').find(function(cell) {
               if (cell instanceof joint.dia.Link) {return false;} // Not interested in links.
               if (cell.id === cellView.model.id) {return false;} // The same element as the dropped one.
               if (cell.getBBox().moveAndExpand({x: -20, y: -20, width: 40, height: 40}).containsPoint(g.point(cellView._dx, cellView._dy))) {
@@ -217,7 +217,7 @@
 
             if (elementBelow && elementBelow.attributes.type === 'liveOps.activity' && cell.attributes.type === 'liveOps.event') {
               elementBelow.embed(cell);
-              _.each(this.getConnectedLinks(cell, {inbound: true}), function(link) {
+              _.each(self.graph.getConnectedLinks(cell, {inbound: true}), function(link) {
                 link.remove();
               });
             }
@@ -276,12 +276,17 @@
 
           KeyboardJS.on(key + ' + c', function() {
             console.log(key + ' + c\'d!');
-            self.graph.interfaces.clipboard.copyElements(self.graph.interfaces.selector, this);
+            if (self.graph.interfaces.selector.models.length === 0) { return; }
+            _.each(self.graph.interfaces.selector.models, function(model) {
+              model.attributes.position.x -= 25;
+              model.attributes.position.y -= 25;
+            });
+            self.graph.interfaces.clipboard.copyElements(self.graph.interfaces.selector, self.graph);
           });
 
           KeyboardJS.on(key + ' + v', function() {
             console.log(key + ' + v\'d!');
-            self.graph.interfaces.clipboard.pasteCells(this);
+            self.graph.interfaces.clipboard.pasteCells(self.graph);
           });
 
           KeyboardJS.on(key + ' + =', function(evt) {
