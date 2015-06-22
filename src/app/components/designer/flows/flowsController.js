@@ -29,7 +29,8 @@ angular.module('liveopsConfigPanel')
       
       $scope.$on('on:click:create', function() {
         $scope.selectedFlow = new Flow({
-          tenantId: Session.tenant.tenantId
+          tenantId: Session.tenant.tenantId,
+          active: true
         });
       });
 
@@ -40,10 +41,8 @@ angular.module('liveopsConfigPanel')
       $scope.additional = {
           versions: $scope.versions,
           flowTypes: flowTypes,
-          postSave: function(childScope, result){
-            $scope.updateVersionName(childScope.originalResource);
-            
-            if (! childScope.originalResource.id){
+          postSave: function(childScope, result, creatingNew){
+            if (creatingNew){
               var initialVersion = new FlowVersion({
                 flowId: result.id,
                 flow: '[]',
@@ -52,11 +51,18 @@ angular.module('liveopsConfigPanel')
               });
               
               initialVersion.save(function(versionResult){
-                childScope.resource.activeVersion = versionResult.version; //Update the display
+                //Update the displays
+                childScope.originalResource.activeVersion = versionResult.version;
+                childScope.resource.activeVersion = versionResult.version;
+                
                 result.activeVersion = versionResult.version;
-                result.save();
+                result.save(function(){
+                  $scope.updateVersionName(childScope.originalResource);
+                });
               });
               $scope.versions.push(initialVersion);
+            } else {
+              $scope.updateVersionName(childScope.originalResource);
             }
           }
         };

@@ -1,19 +1,19 @@
-<table>
+<table ng-show="versions.length > 0">
   <thead>
     <th>&nbsp;</th>
     <th>{{'value.name' | translate}}</th>
-    <th>{{'value.description' | translate}}</th>
     <th>{{'value.createdOn' | translate}}</th>
+    <th>Created By</th>
   </thead>
-  <tr ng-repeat="version in versions track by $index">
+  <tr ng-repeat="version in versions | orderBy:'v'">
     <td><a href="#/designer/editor/{{version.flowId}}/{{version.version}}?v={{version.v}}">v{{version.v}}</a></td>
     <td>{{version.name}}</td>
-    <td>{{version.description}}</td>
     <td>{{version.created | date:'medium'}}</td>
+    <td>{{version.createdBy | displayName}}</td>
   </tr>
 </table>
 
-<h3>Create Flow Version (Dev only)</h3>
+<h3>Create Flow Version</h3>
 
 <ng-form name="createVersionForm" seperate-validation>
   <div class="input-group">
