@@ -38,7 +38,15 @@
     <form-error field="detailsForm.lastName" error-type-api="{{'details.lastName.error' | translate}}" error-type-required="{{'details.lastName.error' | translate}}"></form-error>
     <input required ng-model="resource.lastName" name="lastName" type="text" ng-change="updateDisplayName(this)"></input>
   </div>
-</div> 
+</div>
+
+<div class="input-group">
+  <label>{{'details.displayName' | translate}} *</label>
+  <div>
+    <form-error field="detailsForm.displayName" error-type-api="{{'details.displayName.error' | translate}}" error-type-required="{{'details.displayName.error' | translate}}"></form-error>
+    <input required ng-model="resource.displayName" name="displayName" type="text"></input>
+  </div>
+</div>
 
 <div class="input-group">
   <label>{{'details.externalId' | translate}}</label>
