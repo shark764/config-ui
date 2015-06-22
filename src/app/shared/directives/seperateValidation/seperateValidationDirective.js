@@ -13,9 +13,11 @@ angular.module('liveopsConfigPanel')
 
         // Remove this form from parent controller
         var parentFormController = element.parent().controller('form');
+
         if(parentFormController){
           parentFormController.$removeControl(formController);
         }
+        
         // Replace form controller with a "null-controller"
         var nullFormCtrl = {
           $addControl: angular.noop,

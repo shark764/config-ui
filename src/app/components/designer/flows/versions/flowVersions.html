@@ -1,21 +1,19 @@
-<table>
+<table ng-show="versions.length > 0">
   <thead>
-    <th>{{value.version | translate}}</th>
-    <th>{{value.name | translate}}</th>
-    <th>{{value.description | translate}}</th>
-    <th>{{value.createdOn | translate}}</th>
-    <th>{{value.designerLink | translate}}</th>
+    <th>&nbsp;</th>
+    <th>{{'value.name' | translate}}</th>
+    <th>{{'value.createdOn' | translate}}</th>
+    <th>Created By</th>
   </thead>
-  <tr ng-repeat="version in versions track by $index">
-    <td>v{{version.v}}</td>
+  <tr ng-repeat="version in versions | orderBy:'v'">
+    <td><a href="#/designer/editor/{{version.flowId}}/{{version.version}}?v={{version.v}}">v{{version.v}}</a></td>
     <td>{{version.name}}</td>
-    <td>{{version.description}}</td>
     <td>{{version.created | date:'medium'}}</td>
-    <td><a href="#/designer/editor/{{version.flowId}}/{{version.version}}?v={{version.v}}">{{'value.openInDesigner' | translate}}</a></td>
+    <td>{{version.createdBy | displayName}}</td>
   </tr>
 </table>
 
-<h3>Create Flow Version (Dev only)</h3>
+<h3>Create Flow Version</h3>
 
 <ng-form name="createVersionForm" seperate-validation>
   <div class="input-group">
@@ -29,6 +27,9 @@
     <label>Description</label>
     <input type="text" ng-model="version.description" name="description"></input>
   </div>
-  <input ng-disabled="createVersionForm.$invalid || !createVersionForm.$dirty"
-   ng-click="saveVersion()" type="submit" class="btn btn-primary" value="{{ 'value.create' | translate }}"/>
+  <div class="input-group">
+    <div style="width:150px"></div>
+    <input ng-disabled="createVersionForm.$invalid || !createVersionForm.$dirty"
+      ng-click="saveVersion()" type="submit" class="btn btn-primary" value="{{ 'value.create' | translate }}"/>
+  </div>
 </ng-form>
