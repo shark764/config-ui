@@ -15,7 +15,6 @@ angular.module('liveopsConfigPanel')
 
       link: function ($scope) {
         $scope.new = function() {
-          $scope.saving = true;
           $scope.selectedGroup = null;
           $scope.addGroup.name.$touched = false;
 
@@ -47,18 +46,19 @@ angular.module('liveopsConfigPanel')
         
         $scope.saveUserGroup = function () {
           $scope.newGroupUser.groupId = $scope.selectedGroup.id;
-
           var usc = angular.copy($scope.newGroupUser);
           usc.groupName = $scope.selectedGroup.name;
           usc.memberId = usc.userId;
           $scope.userGroups.push(usc);
           
+          $scope.newGroupUser.memberId = 
           $scope.newGroupUser.$save(function(){
             $scope.new();
             $scope.saving = false;
           }, function () {
             $scope.fetch();
             toastr.error('Failed to save user group');
+            $scope.saving = false;
           });
           
           
