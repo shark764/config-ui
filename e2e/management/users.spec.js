@@ -155,7 +155,7 @@ describe('The users view', function() {
     expect(users.firstTableRow.element(by.css(users.nameColumn)).getText()).toBe(shared.detailsFormHeader.getText());
 
     // Change user and verify all fields are updated
-    shared.tableElements.count().then(funtion(numUsers) {
+    shared.tableElements.count().then(function(numUsers) {
       if (numUsers > 1) {
         users.secondTableRow.click();
 
