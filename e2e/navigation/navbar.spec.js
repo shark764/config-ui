@@ -1,11 +1,12 @@
 'use strict';
 
 describe('The navbar', function() {
-  var loginPage = require('./login.po.js'),
-    shared = require('./shared.po.js');
+  var loginPage = require('../login/login.po.js'),
+    shared = require('../shared.po.js'),
+    params = browser.params;
 
   beforeAll(function() {
-    loginPage.login(loginPage.emailLoginCreds, loginPage.passwordLoginCreds);
+    loginPage.login(params.login.user, params.login.password);
   });
 
   beforeEach(function() {
@@ -22,14 +23,13 @@ describe('The navbar', function() {
     expect(shared.tenantsNavDropdown.isDisplayed()).toBeTruthy();
     expect(shared.usersNavButton.isDisplayed()).toBeTruthy();
     expect(shared.tenantsNavButton.isDisplayed()).toBeTruthy();
-    expect(shared.queuesNavButton.isDisplayed()).toBeTruthy();
     expect(shared.flowsNavButton.isDisplayed()).toBeTruthy();
-    expect(shared.settingsDropdown.isDisplayed()).toBeTruthy();
+    expect(shared.invitesNavButton.isDisplayed()).toBeTruthy();
     expect(shared.welcomeMessage.isDisplayed()).toBeTruthy();
   });
 
-  it('should open settings dropdown on mouse over and list links', function() {
-    browser.actions().mouseMove(shared.welcomeMessage).perform();
+  it('should open settings dropdown on click and list links', function() {
+    shared.welcomeMessage.click();
     expect(shared.settingsDropdown.isDisplayed()).toBeTruthy();
 
     expect(shared.userProfileButton.isDisplayed()).toBeTruthy();
@@ -38,11 +38,11 @@ describe('The navbar', function() {
 
   it('should navigate to main page logo is selected', function() {
     shared.siteNavLogo.click();
-    expect(browser.getCurrentUrl()).toBe(shared.mainUrl);
+    expect(browser.getCurrentUrl()).toContain(shared.usersPageUrl);
   });
 
   it('should change current Tenant when tenant drop down is altered', function() {
-    browser.actions().mouseMove(shared.tenantsNavDropdown).perform();
+    shared.tenantsNavDropdown.click();
     shared.tenantsNavDropdown.all(by.repeater('item in items')).then(function(tenants) {
       var randomTenant = Math.floor((Math.random() * tenants.length) + 1);
       element(by.css('#tenant-dropdown > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) > ul:nth-child(1) > li:nth-child(' + randomTenant + ')')).getText().then(function(value) {
@@ -59,24 +59,24 @@ describe('The navbar', function() {
 
   it('should navigate to correct page when buttons are selected', function() {
     shared.usersNavButton.click();
-    expect(browser.getCurrentUrl()).toBe(shared.mainUrl);
+    expect(browser.getCurrentUrl()).toContain(shared.usersPageUrl);
 
     shared.tenantsNavButton.click();
-    expect(browser.getCurrentUrl()).toBe(shared.tenantsPageUrl);
+    expect(browser.getCurrentUrl()).toContain(shared.tenantsPageUrl);
 
     shared.flowsNavButton.click();
-    expect(browser.getCurrentUrl()).toBe(shared.flowsPageUrl);
+    expect(browser.getCurrentUrl()).toContain(shared.flowsPageUrl);
 
-    shared.queuesNavButton.click();
-    expect(browser.getCurrentUrl()).toBe(shared.queuesPageUrl);
+    shared.invitesNavButton.click();
+    expect(browser.getCurrentUrl()).toContain(shared.invitesPageUrl);
   });
 
   it('should navigate to correct page when settings dropdown buttons are selected', function() {
-    browser.actions().mouseMove(shared.welcomeMessage).perform();
+    shared.welcomeMessage.click();
     shared.userProfileButton.click();
     expect(browser.getCurrentUrl()).toBe(shared.profilePageUrl);
 
-    browser.actions().mouseMove(shared.welcomeMessage).perform();
+    shared.welcomeMessage.click();
     shared.logoutButton.click();
     expect(browser.getCurrentUrl()).toBe(shared.loginPageUrl);
   });

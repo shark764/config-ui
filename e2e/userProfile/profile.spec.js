@@ -1,0 +1,94 @@
+'use strict';
+
+describe('The profile view', function() {
+  var loginPage = require('../login/login.po.js'),
+    shared = require('../shared.po.js'),
+    profile = require('./profile.po.js'),
+    params = browser.params;
+
+  beforeAll(function() {
+    loginPage.login(params.login.user, params.login.password);
+  });
+
+  beforeEach(function() {
+    browser.get(shared.profilePageUrl);
+  });
+
+  afterAll(function() {
+    shared.tearDown();
+  });
+
+  it('should include profile page components', function() {
+    expect(shared.navBar.isDisplayed()).toBeTruthy();
+    expect(profile.firstNameFormField.getAttribute('value')).toBe(params.login.firstName);
+    expect(profile.lastNameFormField.getAttribute('value')).toBe(params.login.lastName);
+    expect(profile.displayNameFormField.getAttribute('value')).toBe(params.login.userDisplayName);
+    expect(profile.userEmail.getText()).toContain(params.login.user);
+
+    expect(profile.updateProfileBtn.isDisplayed()).toBeTruthy();
+  });
+
+  it('should update user details', function() {
+    profile.firstNameFormField.sendKeys('Update');
+    profile.lastNameFormField.sendKeys('Update');
+    profile.displayNameFormField.sendKeys('Update');
+
+    profile.updateProfileBtn.click().then(function() {
+      expect(profile.firstNameFormField.getAttribute('value')).toBe(params.login.firstName + 'Update');
+      expect(profile.lastNameFormField.getAttribute('value')).toBe(params.login.lastName + 'Update');
+      expect(profile.displayNameFormField.getAttribute('value')).toBe(params.login.userDisplayName + 'Update');
+
+      // Confirm user is updated
+      shared.usersNavButton.click();
+      shared.searchField.sendKeys(params.login.firstName + 'Update ' + params.login.lastName + 'Update');
+      expect(shared.tableElements.count()).toBe(1);
+    }).then(function() {
+      // Revert changes
+      shared.welcomeMessage.click();
+      shared.userProfileButton.click();
+
+      profile.firstNameFormField.clear();
+      profile.firstNameFormField.sendKeys(params.login.firstName);
+      profile.lastNameFormField.clear();
+      profile.lastNameFormField.sendKeys(params.login.lastName);
+      profile.displayNameFormField.clear();
+      profile.displayNameFormField.sendKeys(params.login.userDisplayName);
+
+      profile.updateProfileBtn.click();
+    }).then(function() {
+      expect(profile.firstNameFormField.getAttribute('value')).toBe(params.login.firstName);
+      expect(profile.lastNameFormField.getAttribute('value')).toBe(params.login.lastName);
+      expect(profile.displayNameFormField.getAttribute('value')).toBe(params.login.userDisplayName);
+    });
+  });
+
+  it('should require First Name when editing', function() {
+    profile.firstNameFormField.clear();
+    profile.updateProfileBtn.click().then(function() {
+      // Confirm user is not updated
+      expect(profile.firstNameFormField.getAttribute('value')).toBe(params.login.firstName);
+
+      // TODO Validation messages
+    });
+  });
+
+  it('should require Last Name when editing', function() {
+    profile.lastNameFormField.clear();
+    profile.updateProfileBtn.click().then(function() {
+      // Confirm user is not updated
+      expect(profile.lastNameFormField.getAttribute('value')).toBe(params.login.lastName);
+
+      // TODO Validation messages
+    });
+  });
+
+  it('should require Display Name when editing', function() {
+    profile.displayNameFormField.clear();
+    profile.updateProfileBtn.click().then(function() {
+      // Confirm user is not updated
+      expect(profile.displayNameFormField.getAttribute('value')).toBe(params.login.userDisplayName);
+
+      // TODO Validation messages
+    });
+  });
+});
