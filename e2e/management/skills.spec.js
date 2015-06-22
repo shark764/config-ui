@@ -229,7 +229,7 @@ describe('The skills view', function() {
 
     var editedName = skills.nameFormField.getAttribute('value');
     var editedDescription = skills.descriptionFormField.getAttribute('value');
-    var editedProficiency = skills.descriptionFormField.isSelected();
+    var editedProficiency = skills.proficiencySwitch.isSelected();
     shared.submitFormBtn.click();
 
     expect(skills.nameRequiredError.get(0).isDisplayed()).toBeFalsy();
