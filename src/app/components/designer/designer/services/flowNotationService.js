@@ -44,7 +44,12 @@
               memo[name].type = 'toggle';
             } else if (param.source === 'entity') {
               memo[name].type = 'select';
-              memo[name].options = ['media_1', 'media_2', 'media_3'];
+              memo[name].options = _.map(self[param.type], function(entity) {
+                return {
+                  value: entity.id,
+                  content: entity.source || entity.name
+                }
+              });
             }
 
             return memo;

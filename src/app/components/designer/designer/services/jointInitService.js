@@ -3,7 +3,7 @@
 
   function JointInitService (FlowPaletteService, FlowNotationService) {
     return {
-      graph: function(graphOptions) {
+      initializeGraph: function(graphOptions) {
         var self = this;
 
         // Interface Initializations

@@ -7,6 +7,6 @@ angular.module('liveopsConfigPanel')
       $scope.version = version;
 
       FlowNotationService.media = media;
-      FlowNotationService.queues = queue;
+      FlowNotationService.queue = queue;
     }
   ]);
