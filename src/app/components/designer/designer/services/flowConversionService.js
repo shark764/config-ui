@@ -4,6 +4,8 @@
   function FlowConversionService (FlowNotationService) {
     return {
       convertToAlienese: function(jointJSON) {
+        var self = this;
+
         if (jointJSON.cells.length === 0) {return;}
 
         var jjs = _.clone(jointJSON.cells);
@@ -56,28 +58,12 @@
 
           if (n.type === 'liveOps.event') {
 
-            //Entity
-            if (n.throwing) {
-              notation.entity = 'throw';
-            } else if (n.eventType == 'intermediate') {
-              notation.entity = 'catch';
-              notation.interrupting = n.interrupting;
-            } else if (n.eventType == 'start') {
-              notation.entity = 'start';
-
-              if (n.eventName !== 'none' && n.eventName !== 'error') {
-                notation.interrupting = n.interrupting;
-              }
-            }
-
-            if (n.eventType == 'end') {
-              notation.terminate = true;
-            }
-
-            notation.type = n.eventName;
-            
-            if (n.eventName == 'signal') {
-              notation.target = n.target;
+            if (n.eventType == 'start') {
+              notation = _.extend(notation, self.events[n.eventType][n.eventName](n));
+            } else if (n.eventType == 'intermediate' && !n.throwing) {
+              notation = _.extend(notation, self.events['catch'][n.eventName](n));
+            } else {
+              notation = _.extend(notation, self.events['throw'][n.eventName](n));
             }
           }
 
@@ -174,6 +160,62 @@
         });
 
         return {cells: jointNotation};
+      },
+
+      events: {
+
+        start: {
+          none: function(model) {
+            return {
+              entity: 'start',
+              type: 'none',
+            }
+          }
+        },
+
+        throw: {
+          none: function(model) {
+            return {
+              entity: 'throw',
+              type: 'none',
+              terminate: model.terminate
+            }
+          },
+          signal: function(model) {
+            return {
+              entity: 'throw',
+              type: 'signal',
+              terminate: model.terminate,
+              event: model.event || {}
+            }
+          },
+          error: function(model) {
+            return {
+              entity: 'throw',
+              type: 'error',
+              terminate: model.terminate
+            }
+          }
+        },
+        catch: {
+          signal: function(model) {
+            return {
+              entity: 'catch',
+              type: 'signal',
+              interrupting: model.interrupting,
+              target: model.target,
+              bindings: model.bindings || []
+            }
+          },
+          error: function(model) {
+            return {
+              entity: 'catch',
+              type: 'error',
+              interrupting: true,
+              bindings: model.bindings || []
+            }
+          }
+        }
       }
     };
   }

@@ -4,122 +4,80 @@
   var flowMocks = {
     demoInit: [
       {
-        'bindings':{
-            'success':'boolean'
-          },
         'name':'play-media',
         'entity':'activity',
         'label':'Play Media',
         'description':'Play some media',
         'type':'task',
         'params':{
-            'participant':{
-              'source':'constant',
-              'type':'string',
-              'label':'participant',
-              'tooltip':'participant',
-              'description':'',
-              'mandatory':true,
-              'dataSensitivity':'low'
-            },
-            'media-collection':{
-              'source':'entity',
-              'type':'media-collection',
-              'label':'Media Collection',
-              'desctiption':'',
-              'icon':'url',
-              'toolTip':'Select Media Collection',
-              'dataSensitivity':'low',
-              'mandatory':true
-            },
-            'media-key':{
-              'source':'variable',
-              'type':'string',
-              'label':'Media Key',
-              'tooltip':'Media Key',
-              'description':'',
-              'mandatory':true,
-              'dataSensitivity':'low'
-            }
+          'media':{
+            'source':'entity',
+            'type':'media',
+            'label':'Media',
+            'desctiption':'',
+            'icon':'url',
+            'toolTip':'Select Media',
+            'dataSensitivity':'low',
+            'mandatory':true
+          },
+          'loop':{
+            'source':'expression',
+            'type': 'integer',
+            'label':'Loop',
+            'tooltip':'Number of times to loop',
+            'description':'',
+            'mandatory':true,
+            'dataSensitivity':'low'
           }
+        },
+        'bindings':{}
       },
       {
-        'bindings':{
-          'digits':'string'
-        },
         'name':'collect-digits',
         'entity':'activity',
         'label':'Collect Digits',
         'description':'Collect some digits',
         'type':'task',
         'params':{
-          'participant':{
-            'source':'constant',
-            'type':'string',
-            'label':'participant',
-            'tooltip':'participant',
-            'description':'',
-            'mandatory':true,
-            'dataSensitivity':'low'
-          },
-          'media-collection':{
+          'media':{
             'source':'entity',
-            'type':'media-collection',
-            'label':'Media Collection',
+            'type':'media',
+            'label':'Media',
             'description':'',
             'icon':'url',
             'tooltip':'Select Media Collection',
             'dataSensitivity':'low',
             'mandatory':false
           },
-          'mediaKey':{
-            'source':'variable',
-            'type':'string',
-            'label':'Media Key',
-            'tooltip':'Media Key',
-            'description':'',
-            'mandatory':true,
-            'dataSensitivity':'low'
-          },
-          'numDigits':{
-            'source':'constant',
-            'type':'integer',
-            'label':'Number of digits',
+          'digits':{
+            'source':'expression',
+            'type': 'integer',
+            'label':'Digits',
             'tooltip':'Number of digits',
             'description':'',
             'mandatory':false,
             'dataSensitivity':'low',
             'default': 5
           },
-          'finishOnKey':{
-            'source':'constant',
+          'terminator':{
+            'source':'expression',
             'type':'string',
-            'label':'Finish on key',
+            'label':'Terminator',
             'tooltip':'Finish on key',
             'description':'',
             'mandatory':false,
             'dataSensitivity':'low'
-          },
-          'timeout':{
-            'source':'constant',
-            'type':'integer',
-            'label':'Timeout',
-            'tooltip':'Timeout',
-            'description':'',
-            'mandatory':false,
-            'dataSensitivity':'low',
-            'default': 5
-          },
+          }
+        },
+        'bindings':{
+          'digits':'string'
         }
       },
       {
-        'bindings':{
-          'success':'boolean'
-        },
         'name':'enqueue',
         'entity':'activity',
         'label':'Enqueue',
-        'description':'Collect some digits',
+        'description':'Stick the call in a queue',
         'type':'task',
         'params':{
           'queue':{
@@ -131,160 +89,145 @@
             'tooltip':'Select Queue',
             'dataSensitivity':'low',
             'mandatory':true
-          },
-          'currentRatePriorityIncrease':{
-            'source':'constant',
-            'type':'boolean',
-            'label':'Current Rate of Priority Increase',
-            'tooltip':'Need a better name',
-            'description':'',
-            'mandatory':false,
-            'dataSensitivity':'low',
-            'default': true
           }
-        }
-      },
-      {
+        },
         'bindings':{
-          'status':'string',
-          'status_message':'string'
+          'the-resource':'string'
         },
-        'name':'dequeue',
-        'type':'task',
-        'entity':'activity',
-        'label':'Dequeue',
-        'description':'Dequeue',
-        'tooltip':'Dequeue',
-        'params':{
-          'queue':{
-            'source':'entity',
-            'type':'queue',
-            'label':'Queue',
-            'description':'Queue',
-            'tooltip':'Queue',
-            'dataSensitivity':'low',
-            'mandatory':true,
-          }
-        }
       },
       {
-        'bindings': {
-          'status': 'string',
-          'status_message': 'string'
-        },
-        'name': 'conversation',
-        'entity': 'activity',
-        'label': 'Conversation',
-        'description': 'Conversation',
-        'type': 'task',
-        'params': {
-          'participantType': {
-            'source':'constant',
-            'type':'string',
-            'label':'Participent Type',
-            'tooltip':'Participant Type',
-            'description':'',
-            'mandatory':true,
-            'dataSensitivity':'low'
-          },
-          'muted': {
-            'source':'constant',
-            'type':'boolean',
-            'label':'Muted',
-            'tooltip':'Muted',
-            'description':'',
-            'mandatory':false,
-            'dataSensitivity':'low',
-            'default': false
-          },
-          'disconnectOn': {
-            'source':'constant',
-            'type':'string',
-            'label':'Disconnect On',
-            'tooltip':'Disconnect On',
-            'description':'',
-            'mandatory':false,
-            'dataSensitivity':'low'
-          }
-        }
-      },
-      {
-        'bindings': {
-          'status': 'string',
-          'status_message': 'string'
-        },
-        'name': 'disconnect',
-        'entity': 'activity',
-        'label': 'Disconnect',
-        'description': 'Disconnect',
-        'type': 'task',
-        'params': {
-          'participantType': {
-            'source':'constant',
-            'type':'string',
-            'label':'Participant Type',
-            'tooltip':'Participant Type',
-            'description':'Participant Type',
-            'mandatory':true,
-            'dataSensitivity':'low'
-          },
-          'reason': {
-            'source':'constant',
-            'type':'string',
-            'label':'Reason',
-            'tooltip':'Reason',
-            'description':'',
-            'mandatory':true,
-            'dataSensitivity':'low'
-          },
-          'reasonDescription': {
-            'source':'constant',
-            'type':'string',
-            'label':'Reason Description',
-            'tooltip':'Reason Description',
-            'description':'',
-            'mandatory':false,
-            'dataSensitivity':'low'
-          },
-          'throwAbandonEvent': {
-            'source':'constant',
-            'type':'boolean',
-            'label':'Throw Abandon Event',
-            'tooltip':'Throw Abandon Event',
-            'description':'',
-            'mandatory':false,
-            'dataSensitivity':'low'
-          }
-        }
-      },
-      {
-        'bindings': {},
         'name': 'add-participant',
         'entity': 'activity',
         'label': 'Add Participant',
         'description': 'Add Participant',
         'type': 'task',
-        'params': {}
-      },
-      {
-        'bindings': {},
-        'name': 'subflow',
-        'entity': 'activity',
-        'label': 'Edit Subflow',
-        'description': 'Edit subflow',
-        'type': 'task',
         'params': {
-          'subflowName': {
-            'source':'constant',
+          'resource': {
+            'source': 'expression',
             'type':'string',
-            'label':'Subflow Name',
-            'tooltip':'Subflow Name',
-            'description':'Subflow Name',
-            'mandatory':true,
-            'dataSensitivity':'low'
+            'label':'Resource',
+            'description':'',
+            'icon':'url',
+            'tooltip':'Resource to add',
+            'dataSensitivity':'low',
+            'mandatory':true
           }
-        }
+        },
+        'bindings': {},
       }
+      // {
+      //   'bindings':{
+      //     'status':'string',
+      //     'status_message':'string'
+      //   },
+      //   'name':'dequeue',
+      //   'type':'task',
+      //   'entity':'activity',
+      //   'label':'Dequeue',
+      //   'description':'Dequeue',
+      //   'tooltip':'Dequeue',
+      //   'params':{
+      //     'queue':{
+      //       'source':'entity',
+      //       'type':'queue',
+      //       'label':'Queue',
+      //       'description':'Queue',
+      //       'tooltip':'Queue',
+      //       'dataSensitivity':'low',
+      //       'mandatory':true,
+      //     }
+      //   }
+      // },
+      // {
+      //   'bindings': {
+      //     'status': 'string',
+      //     'status_message': 'string'
+      //   },
+      //   'name': 'conversation',
+      //   'entity': 'activity',
+      //   'label': 'Conversation',
+      //   'description': 'Conversation',
+      //   'type': 'task',
+      //   'params': {
+      //     'participantType': {
+      //       'source':'constant',
+      //       'type':'string',
+      //       'label':'Participent Type',
+      //       'tooltip':'Participant Type',
+      //       'description':'',
+      //       'mandatory':true,
+      //       'dataSensitivity':'low'
+      //     },
+      //     'muted': {
+      //       'source':'constant',
+      //       'type':'boolean',
+      //       'label':'Muted',
+      //       'tooltip':'Muted',
+      //       'description':'',
+      //       'mandatory':false,
+      //       'dataSensitivity':'low',
+      //       'default': false
+      //     },
+      //     'disconnectOn': {
+      //       'source':'constant',
+      //       'type':'string',
+      //       'label':'Disconnect On',
+      //       'tooltip':'Disconnect On',
+      //       'description':'',
+      //       'mandatory':false,
+      //       'dataSensitivity':'low'
+      //     }
+      //   }
+      // },
+      // {
+      //   'bindings': {
+      //     'status': 'string',
+      //     'status_message': 'string'
+      //   },
+      //   'name': 'disconnect',
+      //   'entity': 'activity',
+      //   'label': 'Disconnect',
+      //   'description': 'Disconnect',
+      //   'type': 'task',
+      //   'params': {
+      //     'participantType': {
+      //       'source':'constant',
+      //       'type':'string',
+      //       'label':'Participant Type',
+      //       'tooltip':'Participant Type',
+      //       'description':'Participant Type',
+      //       'mandatory':true,
+      //       'dataSensitivity':'low'
+      //     },
+      //     'reason': {
+      //       'source':'constant',
+      //       'type':'string',
+      //       'label':'Reason',
+      //       'tooltip':'Reason',
+      //       'description':'',
+      //       'mandatory':true,
+      //       'dataSensitivity':'low'
+      //     },
+      //     'reasonDescription': {
+      //       'source':'constant',
+      //       'type':'string',
+      //       'label':'Reason Description',
+      //       'tooltip':'Reason Description',
+      //       'description':'',
+      //       'mandatory':false,
+      //       'dataSensitivity':'low'
+      //     },
+      //     'throwAbandonEvent': {
+      //       'source':'constant',
+      //       'type':'boolean',
+      //       'label':'Throw Abandon Event',
+      //       'tooltip':'Throw Abandon Event',
+      //       'description':'',
+      //       'mandatory':false,
+      //       'dataSensitivity':'low'
+      //     }
+      //   }
+      // },
     ],
     demoFlow: {
       cells: [{
