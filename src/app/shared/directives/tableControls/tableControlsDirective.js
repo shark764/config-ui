@@ -17,7 +17,6 @@ angular.module('liveopsConfigPanel')
       link: function ($scope) {
         angular.extend($scope, $scope.extendScope);
 
-        console.log($scope.items);
 
         $scope.items.$promise.then(function(data){
           if (data.length === 0){

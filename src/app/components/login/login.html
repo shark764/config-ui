@@ -1,10 +1,10 @@
 <div id="login-page">
   <div id="login-wrapper">
-    <div ng-show="loginStatus.$$state.status == 0" >
+    <div ng-show="loginStatus.$$state.status == 0 || loggingIn" >
       <loading></loading>
     </div>
-      
-    <form id="login-form" name="login-form" ng-submit="login()" ng-show="loginStatus.$$state.status == 1">
+
+    <form id="login-form" name="login-form" ng-submit="login()" ng-show="loginStatus.$$state.status == 1 && !loggingIn">
       <img ng-src="assets/images/liveops-logo.png" height="23" >
       <div id="glass-wrapper">
         <div class="blur-bg"></div>
