@@ -5,52 +5,26 @@
     return {
       graph: function(graphOptions) {
         var self = this;
+
+        // Interface Initializations
         var graph = new joint.dia.Graph();
         graph.interfaces = {};
         graph.utils = {};
         graph.interfaces.commandManager = self.initializeCommandManager(graph);
         graph.interfaces.selector = self.initializeSelector();
         graph.interfaces.clipboard = self.initializeClipboard();
-        graph.interfaces.paper = self.initializePaper(graphOptions, graphOptions.width, graphOptions.height, graphOptions.gridSize, graphOptions.perpendicularLinks, graphOptions.embeddingMode, graphOptions.frontParentOnly, graphOptions.defaultLink);
-        graph.interfaces.scroller = self.initializeScroller(graph.interfaces.paper, graphOptions.scrollerPadding, graphOptions.autoResizePaper);
+        graph.interfaces.paper = self.initializePaper(graph, graphOptions.width, graphOptions.height, graphOptions.gridSize, graphOptions.perpendicularLinks, graphOptions.embeddingMode, graphOptions.frontParentOnly, graphOptions.defaultLink);
+        graph.interfaces.scroller = self.initializeScroller(graph.interfaces.paper, graphOptions.scrollerPadding, graphOptions.autoResizePaper, graphOptions.paperContainerId);
         graph.interfaces.selectorView = self.initializeSelectorView(graph, graph.interfaces.paper, graph.interfaces.selector, graphOptions.selectorFilterArray);
-        graph.interfaces.palette = self.initializePalette(graph, graph.interfaces.paper);
+        graph.interfaces.palette = self.initializePalette(graph, graph.interfaces.paper, graphOptions.stencilContainerId);
         graph.interfaces.snapper = self.initializeSnapper(graph.interfaces.paper);
-        graph.interfaces.keyboardListeners = self.initializeKeyboardListeners(graph);
         graph.interfaces.flowPropertiesPanel = undefined;
         graph.interfaces.inspectorContainer = $(graphOptions.inspectorContainerId);
 
-        /**
-         * [ Palette Logic ]
-         */
-        graph.interfaces.palette.render().$el.appendTo(graphOptions.stencilContainerId);
-        FlowPaletteService.loadGateways(graph.interfaces.palette);
-        FlowPaletteService.loadEvents(graph.interfaces.palette);
-        FlowPaletteService.loadActivities(graph.interfaces.palette);
-        _.each(graph.interfaces.palette.graphs, function(graph) {
-          joint.layout.GridLayout.layout(graph, {
-            columns: 3,
-            columnWidth: 95,
-            rowHeight: 75,
-            dy: 5,
-            dx: 5,
-            resizeToFit: true
-          });
-        });
-        _.each(graph.interfaces.palette.papers, function(paper) {
-          paper.fitToContent(0, 0, 10);
-        });
-
-        /**
-         * [ Flow Scroller Logic ]
-         */
-        graph.interfaces.scroller.$el.appendTo(graphOptions.paperContainerId);
-
-        /**
-         * [ Flow Snapper Logic ]
-         */
-        graph.interfaces.snapper.startListening();
-
+        // Default Listener Initializations
+        self.initializeKeyboardListeners();
+        self.initializeSelectorViewListeners();
+        self.initializePaperListeners();
 
         /**
          * [ Properties Panel Logic  & Functions]
@@ -94,85 +68,21 @@
           }
         };
 
-        /**
-         * [ Flow Selector View Listeners ]
-         */
-        graph.interfaces.selectorView.on({
-          'selection-box:pointerdown': function(evt) {
-            if (evt.ctrlKey || evt.metaKey) { // Unselect an element if the CTRL/Meta key is pressed while a selected element is clicked.
-              var cell = graph.interfaces.selector.get($(evt.target).data('model'));
-              graph.interfaces.selector.reset(graph.interfaces.selector.without(cell));
-              graph.interfaces.selectorView.destroySelectionBox(graph.interfaces.paper.findViewByModel(cell));
-            }
-          }
-        });
-
-        /**
-         * [ Flow Paper Listeners ]
-         */
-        graph.interfaces.paper.on({
-          'blank:pointerdown': function(evt, x, y) {
-            graph.utils.hidePropertiesPanel();
-            if (_.contains(KeyboardJS.activeKeys(), 'shift')) {
-              graph.interfaces.selectorView.startSelecting(evt, x, y);
-            } else {
-              graph.interfaces.selectorView.cancelSelection();
-              graph.interfaces.scroller.startPanning(evt, x, y);
-            }
-          },
-          'cell:pointerdown': function(cellView, evt) {
-            if ((evt.ctrlKey || evt.metaKey) && cellView.model instanceof joint.dia.Element && !(cellView.model instanceof joint.shapes.bpmn.Pool)) { // Select an element if CTRL/Meta key is pressed while the element is clicked.
-              graph.interfaces.selector.add(cellView.model);
-              graph.interfaces.selectorView.createSelectionBox(cellView);
-            }
-          },
-          'cell:pointerup': function(cellView, evt, x, y) {
-            var cell = cellView.model;
-
-            // Find the first element below that is not a link nor the dragged element itself.
-            var elementBelow = graph.get('cells').find(function(cell) {
-              if (cell instanceof joint.dia.Link) {return false;} // Not interested in links.
-              if (cell.id === cellView.model.id) {return false;} // The same element as the dropped one.
-              if (cell.getBBox().moveAndExpand({x: -20, y: -20, width: 40, height: 40}).containsPoint(g.point(cellView._dx, cellView._dy))) {
-                return true;
-              }
-              return false;
-            });
-
-            if (elementBelow && elementBelow.attributes.type === 'liveOps.activity' && cell.attributes.type === 'liveOps.event') {
-              elementBelow.embed(cell);
-              _.each(graph.getConnectedLinks(cell, {inbound: true}), function(link) {
-                link.remove();
-              });
-            }
-
-            graph.utils.renderPropertiesPanel(cellView, evt, x, y);
-          }
-        });
-
-        /**
-         * [ Flow Graph Listeners ]
-         */
-        graph.on({
-          'add': function(cell, collection, opt) {
-            if (!opt.stencil) {return;}
-            var view = graph.interfaces.paper.findViewByModel(cell);
-            if (view) {graph.utils.renderPropertiesPanel(view);}
-          }
-        });
-
         return graph;
       },
       initializeCommandManager: function(graph) {
-        return new joint.dia.CommandManager({
+        var commandManager = new joint.dia.CommandManager({
           graph: graph
         });
+        return commandManager;
       },
       initializeSelector: function() {
-        return new Backbone.Collection();
+        var selector = new Backbone.Collection();
+        return selector;
       },
       initializeClipboard: function() {
-        return new joint.ui.Clipboard();
+        var clipboard = new joint.ui.Clipboard();
+        return clipboard;
       },
       initializePaper: function(graph, width, height, gridSize, perpendicularLinks, embeddingMode, frontParentOnly, defaultLink) {
         return new joint.dia.Paper({
@@ -196,7 +106,7 @@
           },
         });
       },
-      initializeScroller: function(paper, padding, autoResizePaper) {
+      initializeScroller: function(paper, padding, autoResizePaper, paperContainerId) {
         var flowScroller = new joint.ui.PaperScroller({
           autoResizePaper: autoResizePaper,
           padding: padding,
@@ -204,12 +114,16 @@
         });
 
         flowScroller.zoomIn = function() {
-          this.zoom(0.2, {max: 2, min: 0.2});
+          var self = this;
+          self.zoom(0.2, {max: 2, min: 0.2});
         };
 
         flowScroller.zoomOut = function() {
-          this.zoom(-0.2, {max: 2, min: 0.2});
+          var self = this;
+          self.zoom(-0.2, {max: 2, min: 0.2});
         };
+
+        flowScroller.$el.appendTo(paperContainerId);
 
         return flowScroller;
       },
@@ -221,8 +135,8 @@
           filter: filterArray
         });
       },
-      initializePalette: function(graph, paper) {
-        return new joint.ui.Stencil({
+      initializePalette: function(graph, paper, stencilContainerId) {
+        var stencil = new joint.ui.Stencil({
           graph: graph,
           paper: paper,
           search: {
@@ -243,54 +157,141 @@
             },
           }
         });
+
+        stencil.render().$el.appendTo(stencilContainerId);
+        FlowPaletteService.loadGateways(stencil);
+        FlowPaletteService.loadEvents(stencil);
+        FlowPaletteService.loadActivities(stencil);
+        _.each(stencil.graphs, function(graph) {
+          joint.layout.GridLayout.layout(graph, {
+            columns: 3,
+            columnWidth: 95,
+            rowHeight: 75,
+            dy: 5,
+            dx: 5,
+            resizeToFit: true
+          });
+        });
+        _.each(stencil.papers, function(paper) {
+          paper.fitToContent(0, 0, 10);
+        });
+
+        return stencil;
       },
       initializeSnapper: function(paper) {
-        return new joint.ui.Snaplines({paper: paper});
+        var snapper = new joint.ui.Snaplines({paper: paper});
+        snapper.startListening();
+        return snapper;
       },
-      initializeKeyboardListeners: function(graph) {
+      initializePaperListeners: function() {
+        var self = this;
+        self.interfaces.paper.on({
+          'blank:pointerdown': function(evt, x, y) {
+            self.utils.hidePropertiesPanel();
+            if (_.contains(KeyboardJS.activeKeys(), 'shift')) {
+              self.interfaces.selectorView.startSelecting(evt, x, y);
+            } else {
+              self.interfaces.selectorView.cancelSelection();
+              self.interfaces.scroller.startPanning(evt, x, y);
+            }
+          },
+          'cell:pointerdown': function(cellView, evt) {
+            if ((evt.ctrlKey || evt.metaKey) && cellView.model instanceof joint.dia.Element && !(cellView.model instanceof joint.shapes.bpmn.Pool)) { // Select an element if CTRL/Meta key is pressed while the element is clicked.
+              self.interfaces.selector.add(cellView.model);
+              self.interfaces.selectorView.createSelectionBox(cellView);
+            }
+          },
+          'cell:pointerup': function(cellView, evt, x, y) {
+            var cell = cellView.model;
+
+            // Find the first element below that is not a link nor the dragged element itself.
+            var elementBelow = self.get('cells').find(function(cell) {
+              if (cell instanceof joint.dia.Link) {return false;} // Not interested in links.
+              if (cell.id === cellView.model.id) {return false;} // The same element as the dropped one.
+              if (cell.getBBox().moveAndExpand({x: -20, y: -20, width: 40, height: 40}).containsPoint(g.point(cellView._dx, cellView._dy))) {
+                return true;
+              }
+              return false;
+            });
+
+            if (elementBelow && elementBelow.attributes.type === 'liveOps.activity' && cell.attributes.type === 'liveOps.event') {
+              elementBelow.embed(cell);
+              _.each(self.getConnectedLinks(cell, {inbound: true}), function(link) {
+                link.remove();
+              });
+            }
+
+            self.utils.renderPropertiesPanel(cellView, evt, x, y);
+          }
+        });
+      },
+      initializeGraphListeners: function() {
+        var self = this;
+        self.on({
+          'add': function(cell, collection, opt) {
+            if (!opt.stencil) {return;}
+            var view = self.interfaces.paper.findViewByModel(cell);
+            if (view) {self.utils.renderPropertiesPanel(view);}
+          }
+        });
+      },
+      initializeSelectorViewListeners: function() {
+        var self = this;
+        self.interfaces.selectorView.on({
+          'selection-box:pointerdown': function(evt) {
+            if (evt.ctrlKey || evt.metaKey) {
+              var cell = self.interfaces.selector.get($(evt.target).data('model'));
+              self.interfaces.selector.reset(self.interfaces.selector.without(cell));
+              self.interfaces.selectorView.destroySelectionBox(self.interfaces.paper.findViewByModel(cell));
+            }
+          }
+        });
+      },
+      initializeKeyboardListeners: function() {
+        var self = this;
         KeyboardJS.on('delete', function(evt) {
-          if (!$.contains(evt.target, graph.interfaces.paper.el)) {return;}
-          graph.interfaces.commandManager.initBatchCommand();
-          graph.interfaces.selector.invoke('remove');
-          graph.interfaces.commandManager.storeBatchCommand();
-          graph.interfaces.selectorView.cancelSelection();
+          if (!$.contains(evt.target, self.interfaces.paper.el)) {return;}
+          self.interfaces.commandManager.initBatchCommand();
+          self.interfaces.selector.invoke('remove');
+          self.interfaces.commandManager.storeBatchCommand();
+          self.interfaces.selectorView.cancelSelection();
         });
 
         var metaKeys = ['cmd', 'ctrl'];
 
         _.each(metaKeys, function(key) {
           KeyboardJS.on(key + ' + z', function() {
-            if (!graph.interfaces.commandManager.hasUndo()) {return;}
+            if (!self.interfaces.commandManager.hasUndo()) {return;}
             console.log(key + ' + z\'d!');
-            graph.interfaces.commandManager.undo();
+            self.interfaces.commandManager.undo();
           });
 
           KeyboardJS.on(key + ' + y', function() {
-            if (!graph.interfaces.commandManager.hasRedo()) {return;}
+            if (!self.interfaces.commandManager.hasRedo()) {return;}
             console.log(key + ' + y\'d!');
-            graph.interfaces.commandManager.redo();
+            self.interfaces.commandManager.redo();
           });
 
           KeyboardJS.on(key + ' + c', function() {
             console.log(key + ' + c\'d!');
-            graph.interfaces.clipboard.copyElements(graph.interfaces.selector, graph);
+            self.interfaces.clipboard.copyElements(self.interfaces.selector, this);
           });
 
           KeyboardJS.on(key + ' + v', function() {
             console.log(key + ' + v\'d!');
-            graph.interfaces.clipboard.pasteCells(graph);
+            self.interfaces.clipboard.pasteCells(this);
           });
 
           KeyboardJS.on(key + ' + =', function(evt) {
             evt.preventDefault();
             console.log(key + ' + +\'d!');
-            graph.interfaces.scroller.zoomIn();
+            self.interfaces.scroller.zoomIn();
           });
 
           KeyboardJS.on(key + ' + -', function(evt) {
             evt.preventDefault();
             console.log(key + ' + -\'d!');
-            graph.interfaces.scroller.zoomOut();
+            self.interfaces.scroller.zoomOut();
           });
         });
       }

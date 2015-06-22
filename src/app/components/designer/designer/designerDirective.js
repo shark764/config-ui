@@ -12,7 +12,22 @@ function flowDesigner() {
       controller: ['$scope', '$element', '$attrs', '$window', '$timeout', 'JointInitService', 'FlowConversionService', 'FlowNotationService', 'FlowVersion', 'Session', 'toastr', '$state', function($scope, $element, $attrs, $window, $timeout, JointInitService, FlowConversionService, FlowNotationService, FlowVersion, Session, toastr, $state) {
 
         $timeout(function() {
-          var graph = JointInitService.graph(1280, 800, 20, true, true, false, new joint.shapes.liveOps.link(), 0, true, [], '#stencil-container', '#paper-container', '#inspector-container');
+          var graphOptions = {
+            width: 1280,
+            height: 800,
+            gridSize: 20,
+            perpendicularLinks: true,
+            embeddingMode: true,
+            frontParentOnly: false,
+            defaultLink: new joint.shapes.liveOps.link(),
+            scrollerPadding: 0,
+            autoResizePaper: true,
+            selectorFilterArray: [],
+            stencilContainerId: '#stencil-container',
+            paperContainerId: '#paper-container',
+            inspectorContainerId: '#inspector-container'
+          };
+          var graph = JointInitService.graph(graphOptions);
 
           graph.interfaces.paper.on({
             'cell:pointerdblclick': function(cellView) {
