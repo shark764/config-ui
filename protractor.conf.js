@@ -17,6 +17,8 @@ exports.config = {
   // --params.login.user 'ngrocks'
   params: {
     login: {
+      firstName: 'E2E',
+      lastName: 'User',
       userDisplayName: 'E2E User',
       user: 'e2e.user@mailinator.com',
       password: 'P@$$w0rd'
@@ -50,7 +52,8 @@ exports.config = {
     paths.e2e + '/login/login.spec.js',
     paths.e2e + '/navigation/**/*.spec.js',
     paths.e2e + '/management/**/*.spec.js',
-    paths.e2e + '/configuration/**/*.spec.js'
+    paths.e2e + '/configuration/**/*.spec.js',
+    paths.e2e + '/userProfile/**/*.spec.js'
   ],
 
   framework: 'jasmine2',

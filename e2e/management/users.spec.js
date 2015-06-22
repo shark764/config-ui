@@ -155,14 +155,18 @@ describe('The users view', function() {
     expect(users.firstTableRow.element(by.css(users.nameColumn)).getText()).toBe(shared.detailsFormHeader.getText());
 
     // Change user and verify all fields are updated
-    users.secondTableRow.click();
+    shared.tableElements.count().then(funtion(numUsers) {
+      if (numUsers > 1) {
+        users.secondTableRow.click();
 
-    expect(users.secondTableRow.element(by.css(users.nameColumn)).getText()).toContain(users.firstNameFormField.getAttribute('value'));
-    expect(users.secondTableRow.element(by.css(users.nameColumn)).getText()).toContain(users.lastNameFormField.getAttribute('value'));
-    expect(users.secondTableRow.element(by.css(users.displayNameColumn)).getText()).toBe(users.displayNameFormField.getAttribute('value'));
-    expect(users.secondTableRow.element(by.css(users.emailColumn)).getText()).toBe(users.emailLabel.getText());
-    expect(users.secondTableRow.element(by.css(users.externalIdColumn)).getText()).toBe(users.externalIdFormField.getAttribute('value'));
-    expect(users.secondTableRow.element(by.css(users.nameColumn)).getText()).toBe(shared.detailsFormHeader.getText());
+        expect(users.secondTableRow.element(by.css(users.nameColumn)).getText()).toContain(users.firstNameFormField.getAttribute('value'));
+        expect(users.secondTableRow.element(by.css(users.nameColumn)).getText()).toContain(users.lastNameFormField.getAttribute('value'));
+        expect(users.secondTableRow.element(by.css(users.displayNameColumn)).getText()).toBe(users.displayNameFormField.getAttribute('value'));
+        expect(users.secondTableRow.element(by.css(users.emailColumn)).getText()).toBe(users.emailLabel.getText());
+        expect(users.secondTableRow.element(by.css(users.externalIdColumn)).getText()).toBe(users.externalIdFormField.getAttribute('value'));
+        expect(users.secondTableRow.element(by.css(users.nameColumn)).getText()).toBe(shared.detailsFormHeader.getText());
+      }
+    });
   });
 
   it('should not update table when user details are changed and cancelled', function() {
@@ -300,7 +304,7 @@ describe('The users view', function() {
     users.externalIdFormField.sendKeys('temp'); // Incase the field was already empty
     users.externalIdFormField.clear();
     users.firstNameFormField.click();
-    shared.submitFormBtn.click().then(function () {
+    shared.submitFormBtn.click().then(function() {
       expect(shared.successMessage.isDisplayed()).toBeTruthy();
     });
   });

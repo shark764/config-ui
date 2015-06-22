@@ -170,6 +170,7 @@ describe('The generic sidebar', function() {
 
     // Configuration page links
     expect(sidebar.tenantsLink.getText()).toBe('Tenants');
+    expect(sidebar.integrationsLink.getText()).toBe('Integrations');
 
     sidebar.closeArrow.click();
   });
@@ -182,6 +183,9 @@ describe('The generic sidebar', function() {
     // Select each link in turn
     sidebar.tenantsLink.click();
     expect(browser.getCurrentUrl()).toContain(shared.tenantsPageUrl);
+
+    sidebar.integrationsLink.click();
+    expect(browser.getCurrentUrl()).toContain(shared.integrationsPageUrl);
 
     sidebar.closeArrow.click();
   });

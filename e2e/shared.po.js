@@ -15,6 +15,7 @@ var Shared = function() {
   this.skillsPageUrl = this.managementUrl + 'skills';
 
   this.tenantsPageUrl = this.configurationUrl + 'tenants';
+  this.integrationsPageUrl = this.configurationUrl + 'integrations';
 
   this.flowsPageUrl = this.designerUrl + 'flows';
   this.queuesPageUrl = this.designerUrl + 'queues';
