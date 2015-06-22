@@ -1,19 +1,19 @@
 'use strict';
 
 describe('The create new queues view', function() {
-  var loginPage = require('./login.po.js'),
+  var loginPage = require('../login/login.po.js'),
     queues = require('./queues.po.js'),
-    shared = require('./shared.po.js'),
+    shared = require('../shared.po.js'),
+    params = browser.params,
     queueCount,
     randomQueue;
 
   beforeAll(function() {
-    loginPage.login(loginPage.emailLoginCreds, loginPage.passwordLoginCreds);
+    loginPage.login(params.login.user, params.login.password);
   });
 
   beforeEach(function() {
     browser.get(shared.queuesPageUrl);
-    queueCount = queues.queueElements.count();
   });
 
   afterAll(function(){
@@ -102,20 +102,4 @@ describe('The create new queues view', function() {
 
     expect(queues.queueElements.count()).toBe(queueCount);
   });
-
-  it('should require unique queue name when creating a new queue', function() {
-    if (queueCount > 0) {
-      // Attempt to create a new Queue with the name of an existing Queue
-      queues.queueElements.then(function(existingQueues) {
-        queues.nameFormField.sendKeys(existingQueues.get(0).name);
-        queues.descriptionFormField.sendKeys('This is the queue description for queue');
-        queues.submitQueueFormBtn.click();
-
-        // Verify queue is not created
-        expect(queues.queueElements.count()).toBe(queueCount);
-        // TODO Error message displayed
-      });
-    }
-  });
-
 });

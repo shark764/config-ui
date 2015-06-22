@@ -7,7 +7,7 @@
     <label>{{'details.email' | translate}} *</label>
     <div>
       <form-error field="detailsForm.email" error-type-api="{{'details.email.error' | translate}}" error-type-required="{{'details.email.error' | translate}}" error-type-email="{{'details.email.invalid' | translate}}"></form-error>
-      <input autocomplete="off" ng-model="resource.email" name="email" type="email" ng-required="true"></input>
+      <input autocomplete="off" ng-model="resource.email" name="email" type="email" ng-required="true" api-error></input>
     </div>
   </div>
 
@@ -65,7 +65,7 @@
   <div class="input-group">
     <label>{{'details.email' | translate}}</label>
     <div>
-      <span>{{resource.email}}</span>
+      <span id="user-details-email">{{resource.email}}</span>
     </div>
   </div>
 
@@ -73,6 +73,7 @@
     <label>{{'details.password' | translate}}</label>
     <div>
       <input type="button" class="btn" ng-hide="detailsForm.password.$dirty" ng-click="detailsForm.password.$setDirty()" value="Reset Password">
+      <form-error field="detailsForm.password" error-type-api="{{'details.password.error' | translate}}" error-type-required="{{'details.password.error' | translate}}"></form-error>
       <input ng-required="detailsForm.password.$dirty" autocomplete="off" ng-model="resource.password" name="password" type="password" ng-show="detailsForm.password.$dirty"></input>
     </div>
   </div>

@@ -1,20 +1,19 @@
 'use strict';
-var shared = require('./shared.po.js');
+var shared = require('../shared.po.js');
 
 var Login = function() {
   this.emailLoginField = element(by.model('username'));
   this.passwordLoginField = element(by.model('password'));
   this.loginButton = element(by.css('.btn'));
 
-  this.emailLoginCreds = 'titan@liveops.com';
-  this.passwordLoginCreds = 'gKVnfF9wrs6XPSYs';
+  this.logo = element(by.css('img'));
+  this.errorMessage = element(by.css('.error'));
 
   this.login = function(email, password) {
     // Ensure user is logged out before trying to login
     browser.get(shared.loginPageUrl);
     browser.executeScript('window.sessionStorage.clear()');
     browser.executeScript('window.localStorage.clear()');
-    browser.driver.manage().window().maximize();
 
     this.emailLoginField.sendKeys(email);
     this.passwordLoginField.sendKeys(password);

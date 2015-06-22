@@ -21,20 +21,20 @@ describe('ContentController', function () {
       apiHostname = _apiHostname_;
     }
   ]));
-  
+
   beforeEach(function() {
     regions = [{
       'id': 'c98f5fc0-f91a-11e4-a64e-7f6e9992be1f',
       'description': 'US East (N. Virginia)',
       'name': 'us-east-1'
     }];
-  
+
     tenantId = 'c98f5fc0-f91a-11e4-a64e-000e9992be1f';
-  
+
     $httpBackend.when('GET', apiHostname + '/v1/regions').respond({'result' : regions});
-  
+
     $controller('ContentController', {'$scope': $scope});
-  
+
     $httpBackend.flush();
   });
 });

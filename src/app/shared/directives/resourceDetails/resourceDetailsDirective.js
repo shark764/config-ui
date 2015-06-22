@@ -20,27 +20,29 @@ angular.module('liveopsConfigPanel')
         angular.extend($scope, $scope.extendScope);
 
         $scope.save = function () {
+          $scope.newRecord = !$scope.originalResource || !$scope.originalResource.id;
+
           $scope.loading = true;
 
           if($scope.preSave){
-            $scope.preSave($scope);
+            $scope.preSave($scope, $scope.newRecord);
           }
 
           $scope.resource.save(
             function (result) {
-              $scope.handleSuccess(result);
-
               if($scope.postSave){
-                $scope.postSave($scope, result);
+                $scope.postSave($scope, result, $scope.newRecord);
               }
+
+              $scope.handleSuccess(result);
             },
 
             function (error, headers){
-              $scope.handleErrors(error);
-
               if ($scope.postError){
-                $scope.postError($scope, error, headers);
+                $scope.postError($scope, error, headers, $scope.newRecord);
               }
+
+              $scope.handleErrors(error);
             }
           );
         };

@@ -58,9 +58,11 @@
   "skill.details.hasProficiency": "Has Proficiency",
   "skill.details.name.error": "Please enter a name",
   "skill.details.description.error" : "Description is required",
+  "skill.details.none" : "There are no skills for the selected tenant.",
 
   "flow.type": "Type",
   "flow.type.choose": "Choose a Type",
+  "flow.details.name.error": "Please enter a name",
   "flow.details.type.error": "Type is required",
   "flow.details.activeVersion.error": "Active version is required",
 
@@ -78,6 +80,7 @@
   "tenant.details.admin": "Platform Admin",
   "tenant.details.description": "Description",
   "tenant.details.region": "Region",
+  "tenant.details.name.error": "Please enter a name",
 
   "integration.details.properties.accountSid": "Account SID",
   "integration.details.properties.authToken": "Auth Token",

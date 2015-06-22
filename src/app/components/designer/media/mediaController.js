@@ -17,9 +17,7 @@ angular.module('liveopsConfigPanel')
       });
     });
 
-    $scope.$watch('Session.tenant', function () {
-      $scope.fetch();
-    });
+    $scope.$watch('Session.tenant.tenantId', $scope.fetch, true);
 
     $scope.fetch();
     $scope.tableConfig = mediaTableConfig;

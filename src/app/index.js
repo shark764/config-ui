@@ -17,9 +17,11 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
             }).$promise;
           }],
 
-          login: ['Session', 'Login', function (Session, Login) {
+          login: ['Session', 'Login', '$state', function (Session, Login, $state) {
             return Login.save(function (result) {
               Session.tenants = result.tenants;
+            }, function () {
+              $state.go('login');
             }).$promise;
           }],
         }
