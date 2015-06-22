@@ -8,13 +8,23 @@ describe('routeSecurity', function () {
   beforeEach(module('liveopsConfigPanel'));
   beforeEach(module('gulpAngular'));
 
-  beforeEach(inject(['$rootScope', '$state', '$injector', 'AuthService', 'Session',
-    function (_$rootScope_, _$state, _$injector_, _AuthService_, _Session_) {
+  beforeEach(inject(['$rootScope', '$state', '$injector', 'AuthService', 'Session', '$httpBackend', 'apiHostname',
+    function (_$rootScope_, _$state, _$injector_, _AuthService_, _Session_, $httpBackend, apiHostname) {
       $scope = _$rootScope_.$new();
       $state = _$state;
       $injector = _$injector_;
       AuthService = _AuthService_;
       Session = _Session_;
+
+      $httpBackend.when('GET', apiHostname + '/v1/regions').respond({'result' : [{
+        'id': 'c98f5fc0-f91a-11e4-a64e-7f6e9992be1f',
+        'description': 'US East (N. Virginia)',
+        'name': 'us-east-1'
+      }]});
+
+      $httpBackend.when('POST', apiHostname + '/v1/login').respond({'result' : {
+        'tenants': []
+      }});
     }
   ]));
 
@@ -26,17 +36,18 @@ describe('routeSecurity', function () {
 
 
     it('should setup route interception and allow access to secure routes', inject(function ($rootScope) {
-      $state.go('content.management.users');
 
       Session.token = 'abc';
 
-      var event = $rootScope.$broadcast('$stateChangeStart', {
+      $state.go('content.management.users').then(function () {
+        var event = $rootScope.$broadcast('$stateChangeStart', {
+        });
+
+        expect(event.defaultPrevented).toBeFalsy();
+        expect($state.current.name).toBe('content.management.users');
+
       });
-
       $scope.$apply();
-
-      expect(event.defaultPrevented).toBeFalsy();
-      expect($state.current.name).toBe('content.management.users');
     }));
 
   });

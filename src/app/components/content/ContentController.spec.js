@@ -1,12 +1,9 @@
-/* global spyOn: false  */
-
 'use strict';
 
 describe('ContentController', function () {
   var $scope,
     $controller,
     $httpBackend,
-    $state,
     Session,
     apiHostname,
     regions,
@@ -15,12 +12,11 @@ describe('ContentController', function () {
   beforeEach(module('liveopsConfigPanel'));
   beforeEach(module('gulpAngular'));
 
-  beforeEach(inject(['$rootScope', '$controller', '$httpBackend', '$state', 'Session', 'apiHostname',
-    function ($rootScope, _$controller_, _$httpBackend_, _$state_, _Session_, _apiHostname_) {
+  beforeEach(inject(['$rootScope', '$controller', '$httpBackend', 'Session', 'apiHostname',
+    function ($rootScope, _$controller_, _$httpBackend_, _Session_, _apiHostname_) {
       $scope = $rootScope.$new();
       $controller = _$controller_;
       $httpBackend = _$httpBackend_;
-      $state = _$state_;
       Session = _Session_;
       apiHostname = _apiHostname_;
     }
@@ -40,28 +36,5 @@ describe('ContentController', function () {
     $controller('ContentController', {'$scope': $scope});
 
     $httpBackend.flush();
-  });
-
-  it('should set activeRegionId to first region found', function () {
-    expect($scope.regions[0].id).toEqual(regions[0].id);
-    expect(Session.activeRegionId).toEqual(regions[0].id);
-  });
-
-  it('should transition when Session tenantId is not set', function () {
-    spyOn($state, 'transitionTo');
-
-    $scope.redirectToInvites();
-
-    expect($state.transitionTo).toHaveBeenCalled();
-  });
-
-  it('should not transition when Session tenantId is set', function () {
-    Session.tenant.tenantId = tenantId;
-
-    spyOn($state, 'transitionTo');
-
-    $scope.redirectToInvites();
-
-    expect($state.transitionTo).not.toHaveBeenCalled();
   });
 });

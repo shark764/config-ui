@@ -39,6 +39,7 @@ angular.module('liveopsConfigPanel')
 
         $scope.new = function() {
           $scope.selectedSkill = null;
+          $scope.skillsForm.name.$touched = false;
 
           $scope.newUserSkill = new TenantUserSkills({
             skillId: null,

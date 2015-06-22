@@ -85,6 +85,27 @@
         default:
           throw 'BPMN: Unknown Gateway Type: ' + type;
       }
+    },
+
+    updateLinks: function(cell, type) {
+      if (!cell.collection) {return;}
+      joint.util.nextFrame(function() {
+        if (type == 'exclusive') {
+          var links = cell.collection.getConnectedLinks(cell, {outbound: true});
+          _.each(links, function(link, index) {
+            if (link.prop('target/id') == cell.get('default')) {
+              link.set('linkType', 'default');
+            } else {
+              link.set('linkType', 'conditional');
+            }
+          })
+        } else if (type == 'inclusive') {
+          var links = cell.collection.getConnectedLinks(cell, {outbound: true});
+          _.each(links, function(link, index) {
+            link.set('linkType', 'normal');
+          });
+        }
+      });
     }
   }).extend(joint.shapes.liveOps.IconInterface);
 })();

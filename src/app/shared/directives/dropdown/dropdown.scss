@@ -29,14 +29,24 @@
     font-size: 1em;
     font-family: $main-font;
   }
-  
+
   .drop-label {
+    display:table !important;
+
     >div {
+      display: table-cell;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
       margin: 0;
       display: inline-block;
+      vertical-align: middle;
+    }
+    span {
+      display: table-cell;
+      i{
+        vertical-align: middle; 
+      }
     }
   }
 
@@ -59,14 +69,14 @@
       color: #333;
       padding: 5px;
     }
-    
+
     li {
       border-left: 3px solid #fff;
       color: $dark-grey;
       background: #FFFFFF;
       padding: 10px 6px 10px 5px;
       font-size: 14px;
-      
+
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;

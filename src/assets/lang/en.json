@@ -17,13 +17,18 @@
   "value.openInDesigner": "Open in designer",
   "value.details.version" : "Active Version",
   "value.error.name.required" : "Field \"Name\" is required.",
+  "value.create.new": "Create & New",
+
+
   "value.error.query.required" : "Field \"Query\" is required.",
+
   "navbar.users.title": "User Management",
   "navbar.tenants.title": "Tenants",
   "navbar.flows.title": "Flows",
   "navbar.welcome": "Welcome back, {{displayName}}",
   "navbar.configuration.title": "Configuration",
 
+  "details": "Details",
   "details.firstName": "First Name",
   "details.firstName.error": "Please enter a first name",
   "details.lastName": "Last Name",
@@ -45,6 +50,10 @@
   "details.usergroups.remove": "Remove user from this group",
   "details.groups.showall": "Show all",
   "details.groups.hideextra": "Minimize",
+  "details.channelType": "Channel Type",
+  "details.flow": "Flow",
+  "details.interactionField": "Interaction Field",
+  "details.value": "Value",
 
   "skill.details.hasProficiency": "Has Proficiency",
   "skill.details.name.error": "Please enter a name",
@@ -61,6 +70,9 @@
   "media.details.source.error": "Please enter a source",
   "media.details.type.error": "Please enter a type",
   "media.details.properties.error": "Please enter properties as JSON",
+  "media.details.name.error" : "Please enter a name",
+  "media.details.url.error" : "URL is required",
+  "media.details.text.error" : "Text-to-Speech text is required",
 
   "tenant.details.title": "Tenants",
   "tenant.details.name": "Tenant Name",

@@ -1,10 +1,14 @@
 <div class="typeahead-container">
   <input
+    placeholder="{{placeholder}}"
+    name="{{nameField}}"
+    ng-required="isRequired"
     type="text"
     ng-model="currentText"
     ng-focus="showSuggestions=true"
     ng-blur="showSuggestions=false"></input>
-  <ul ng-show="filtered.length > 0 && (showSuggestions || hovering)" ng-mouseover="hovering=true" ng-mouseout="hovering=false">
-    <li ng-click="select(item)" ng-repeat="item in filtered = (items | filter:{name: currentText} | orderBy:'name')">{{item.name}}</li>
+    <i class="fa fa-search"></i>
+  <ul  ng-class="{'embeded' : !hover}" ng-show="filtered.length > 0 && (showSuggestions || hovering)" ng-mouseover="hovering=true" ng-mouseout="hovering=false">
+    <li ng-click="select(item)" ng-repeat="item in filtered = (items | filter:filterCriteria | orderBy:nameField)">{{item[nameField]}}</li>
   </ul>
 </div>

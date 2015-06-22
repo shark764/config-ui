@@ -50,7 +50,15 @@ describe('TenantsController', function() {
       $httpBackend = $injector.get('$httpBackend');
       $httpBackend.when('GET', apiHostname + '/v1/tenants?regionId=' + Session.activeRegionId).respond({'result' : tenants});
       $httpBackend.when('GET', apiHostname + '/v1/users').respond({'result' : users});
+      $httpBackend.when('POST', apiHostname + '/v1/login').respond({'result' : {
+        'tenants': []
+      }});
 
+      $httpBackend.when('GET', apiHostname + '/v1/regions').respond({'result' : [{
+        'id': 'c98f5fc0-f91a-11e4-a64e-7f6e9992be1f',
+        'description': 'US East (N. Virginia)',
+        'name': 'us-east-1'
+      }]});
       $controller('TenantsController', {'$scope': $scope, '$stateParams' : routeParams});
       $httpBackend.flush();
     }]));

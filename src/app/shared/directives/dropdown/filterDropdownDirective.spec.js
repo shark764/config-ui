@@ -11,7 +11,8 @@ describe('filterDropdown directive', function(){
   beforeEach(module('liveopsConfigPanel'));
   beforeEach(module('gulpAngular'));
 
-  beforeEach(inject(['$compile', '$rootScope', function(_$compile_,_$rootScope_) {
+  beforeEach(inject(['$compile', '$rootScope', '$httpBackend', 'apiHostname',
+  function(_$compile_,_$rootScope_,$httpBackend, apiHostname) {
     $scope = _$rootScope_.$new();
     $compile = _$compile_;
 
@@ -20,6 +21,16 @@ describe('filterDropdown directive', function(){
 
     element = $compile('<filter-dropdown show-all="true" label="Some Label" options="statuses"></filter-dropdown>')($scope);
     $scope.$digest();
+
+    $httpBackend.when('GET', apiHostname + '/v1/regions').respond({'result' : [{
+      'id': 'c98f5fc0-f91a-11e4-a64e-7f6e9992be1f',
+      'description': 'US East (N. Virginia)',
+      'name': 'us-east-1'
+    }]});
+
+    $httpBackend.when('POST', apiHostname + '/v1/login').respond({'result' : {
+      'tenants': []
+    }});
 
     $childScope = element.isolateScope();
   }]));

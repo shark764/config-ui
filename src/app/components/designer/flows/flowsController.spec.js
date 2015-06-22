@@ -58,6 +58,16 @@ describe('FlowsController', function() {
       $httpBackend = $injector.get('$httpBackend');
       $httpBackend.when('GET', apiHostname + '/v1/tenants/1/flows').respond({'result' : flows});
       $httpBackend.when('GET', apiHostname + '/v1/regions').respond({'result' : regions});
+      $httpBackend.when('POST', apiHostname + '/v1/login').respond({'result' : {
+        'tenants': []
+      }});
+
+      $httpBackend.when('GET', apiHostname + '/v1/regions').respond({'result' : [{
+        'id': 'c98f5fc0-f91a-11e4-a64e-7f6e9992be1f',
+        'description': 'US East (N. Virginia)',
+        'name': 'us-east-1'
+      }]});
+
 
       $controller('ContentController', {'$scope': $scope});
       $controller('FlowsController', {'$scope': $scope, '$stateParams' : routeParams});

@@ -4,6 +4,18 @@ angular.module('liveopsConfigPanel')
   .controller('InvitesController', ['$scope', 'Session', 'Invite', 'InviteAccept', 'Tenant', 'AuthService', 'toastr',
     function ($scope, Session, Invite, InviteAccept, Tenant, AuthService, toastr) {
 
+
+      $scope.tenants = Tenant.query({regionId : Session.activeRegionId}, function () {
+        if($scope.tenants.length > 0){
+          $scope.init();
+          $scope.fetchInvites();
+        }
+      });
+
+      $scope.$watch('Session.tenant.tenantId', function () {
+        $scope.fetchInvites();
+      });
+
       $scope.fetchInvites = function(){
         $scope.invites = Invite.query({tenantId : Session.tenant.tenantId});
       };
@@ -13,13 +25,6 @@ angular.module('liveopsConfigPanel')
         $scope.newInvite.roleId = '10f15d80-0052-11e5-b68b-fb65b1fe22e1'; //TEMPORARY until roles are implemented
         $scope.newInvite.tenantId = $scope.tenants[0].id;
       };
-
-      $scope.tenants = Tenant.query({regionId : Session.activeRegionId}, function () {
-        if($scope.tenants.length > 0){
-          $scope.fetchInvites();
-          $scope.init();
-        }
-      });
 
       $scope.save = function(){
         var prevTenant = $scope.newInvite.tenantId;
@@ -31,6 +36,10 @@ angular.module('liveopsConfigPanel')
         }, function () {
           toastr.error('Failed to create invite');
         });
+      };
+
+      $scope.accept = function(invite) {
+        new InviteAccept.get({tenantId: invite.tenantId, userId: invite.userId, token: invite.invitationToken}, $scope.fetchInvites);
       };
 
       $scope.remove = function(invite){
