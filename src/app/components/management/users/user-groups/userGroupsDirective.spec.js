@@ -1,6 +1,6 @@
 'use strict';
 
-/* global spyOn : false */
+/* global spyOn, jasmine : false */
 describe('userGroups directive', function(){
   var $scope,
     $httpBackend,
@@ -26,6 +26,9 @@ describe('userGroups directive', function(){
           },
           isAuthenticated : function(){
             return true;
+          },
+          user : {
+            id : 1
           }
         };
       });
@@ -122,6 +125,70 @@ describe('userGroups directive', function(){
       expect(isolateScope.addGroup.name.$touched).toBeFalsy();
       expect(isolateScope.newGroupUser.groupId).toBeNull();
       expect(isolateScope.newGroupUser.userId).toEqual(1);
+     }));
+  });
+  
+  describe('save function', function(){
+    beforeEach(function(){
+      isolateScope.newGroupUser = {$save : function(){}};
+    });
+    
+    it('should exist', inject(function() {
+     expect(isolateScope.save).toBeDefined();
+     expect(isolateScope.save).toEqual(jasmine.any(Function));
+    }));
+    
+    it('should set the saving flag to true', inject(function() {
+      isolateScope.saveUserGroup = function(){};
+      isolateScope.selectedGroup = {id : 'g1'};
+      isolateScope.save();
+      expect(isolateScope.saving).toBeTruthy();
+     }));
+    
+    it('should create a new group if the user didn\'t select one', inject(function() {
+      isolateScope.saveUserGroup = function(){};
+      $httpBackend.when('POST', apiHostname + '/v1/tenants/1/groups').respond({});
+      $httpBackend.expectPOST(apiHostname + '/v1/tenants/1/groups');
+      isolateScope.selectedGroup = {};
+      isolateScope.save();
+      $httpBackend.flush();
+     }));
+  });
+  
+  describe('saveUserGroup function', function(){
+    beforeEach(function(){
+      isolateScope.newGroupUser = {id : 'newthing', $save : function(){}};
+    });
+    
+    it('should exist', inject(function() {
+     expect(isolateScope.saveUserGroup).toBeDefined();
+     expect(isolateScope.saveUserGroup).toEqual(jasmine.any(Function));
+    }));
+    
+    it('should add newGroupUser to the userGroups array', inject(function() {
+      isolateScope.saveUserGroup();
+      expect(isolateScope.userGroups.length).toBe(3);
+      expect(isolateScope.userGroups[2].id).toBe('newthing');
+     }));
+    
+    it('should call save on newUserGroup', inject(function() {
+      spyOn(isolateScope.newGroupUser, '$save');
+      isolateScope.saveUserGroup();
+      expect(isolateScope.newGroupUser.$save).toHaveBeenCalled();
+     }));
+  });
+  
+  describe('updateCollapseState function', function(){
+    it('should exist', inject(function() {
+     expect(isolateScope.updateCollapseState).toBeDefined();
+     expect(isolateScope.updateCollapseState).toEqual(jasmine.any(Function));
+    }));
+    
+    it('should be called on the resizehandle:resize event', inject(function() {
+      spyOn(isolateScope, 'updateCollapseState');
+      $scope.$broadcast('resizehandle:resize');
+      isolateScope.$digest();
+      expect(isolateScope.updateCollapseState).toHaveBeenCalled();
      }));
   });
 });
