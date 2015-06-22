@@ -50,6 +50,19 @@ number-slider {
       width: calc(100% - 40px) !important;
     }
     
-    
+    input::-webkit-input-placeholder {
+      font-size: 12px;
+      padding-left: 3px;
+      padding-top: 4px;
+      text-align: left;
+      
+    }
+
+    input:-moz-placeholder {
+      font-size: 12px;
+      padding-left: 3px;
+      padding-top: 4px;
+      text-align: left;
+    }
   }
 }

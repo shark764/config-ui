@@ -4,16 +4,11 @@
 
 <loading ng-if="!skills.$resolved"></loading>
 
-<div ng-show="skills.$resolved">
-<ng-form seperate-validation ng-disabled="saving"> 
-  <div ng-show="skills.$resolved" id="add-skill" class="clear input-group">
-    <type-ahead hover="true" placeholder="Skill name" items="skills" selected-item="selectedSkill" is-required="true" nameField="name" ></type-ahead>
-    <number-slider value="newUserSkill.proficiency" min-value="0" max-value="100" ></number-slider>
-    <div>
-      <a ng-show="!saving" ng-disabled="!selectedSkill" ng-click="save()" class="btn"><i class="fa fa-check"></i></a>
-      <a ng-show="saving" ng-disabled="true" class="btn btn-primary"><i class="fa fa-refresh fa-spin"></i></a>
-    </div>
-  </div>
+<ng-form seperate-validation ng-disabled="saving" id="skillsForm" name="skillsForm" ng-show="skills.$resolved" class="clear input-group"> 
+  <type-ahead hover="true" placeholder="Skill name" items="skills" selected-item="selectedSkill" is-required="true" nameField="name" ></type-ahead>
+  <number-slider ng-if="selectedSkill.hasProficiency" placeholder="Proficiency" value="newUserSkill.proficiency" min-value="0" max-value="100" ></number-slider>
+  <a ng-show="!saving" ng-disabled="!selectedSkill" ng-click="save()" class="btn"><i class="fa fa-check"></i></a>
+  <a ng-show="saving" ng-disabled="true" class="btn btn-primary"><i class="fa fa-refresh fa-spin"></i></a>
 </ng-form>
 
 <p class="null" ng-if="userSkills.length == 0">This user has not been assigned any skills</p>
@@ -26,7 +21,7 @@
     </tr>
   </thead>
   <tbody>
-    <tr  ng-repeat="userSkill in userSkills | orderBy:'name'">
+    <tr ng-repeat="userSkill in userSkills | orderBy:'name'">
       <td>{{userSkill.name}}</td>
       <td style="text-align:right">{{userSkill.proficiency}}</td>
       <td style="text-align:right"><i class="fa fa-times remove" ng-click="remove(userSkill)" title="Remove"></i></td>

@@ -4,13 +4,18 @@ user-skills {
       height: $input-height;
       vertical-align: middle;
       line-height: $input-height - 7px;
-      margin-left: 5px;
+      width: $input-height;
     }
     
-   #add-skill {
+    type-ahead, number-slider {
+      padding-right: 8px;
+    }
+    
+   #skillsForm {
     width: 100%;
     display: table;
     margin-bottom: 10px;
+    padding-right: 0;
     
     > * {
       display: table-cell;

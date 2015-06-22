@@ -10,7 +10,7 @@
     <h4>Groups <span class="count">({{userGroups.length}})</span></h4>
   </div>
   
-  <p ng-show="groups.length === 0" class="null">{{'details.groups.none' | translate</p>
+  <p ng-show="groups.length === 0" class="null">{{'details.groups.none' | translate}}</p>
   
   <div ng-show="groups.length > 0" class="clear" id="add-skill">
     <div ng-show="filtered.length > 0" class="add-wrapper input-group">
@@ -24,7 +24,7 @@
     </div>
     
     <div class="input-group">
-      <p ng-show="userGroups.length === 0 && ! addNew" class="null" translate translate-value-display-name="{{user.displayName}}"></p>
+      <p ng-show="userGroups.length === 0 && ! addNew" class="null" translate="details.usergroups.none" translate-value-display-name="{{user.displayName}}"></p>
     </div>
   </div>
   

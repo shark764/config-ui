@@ -18,7 +18,7 @@
           translate-value-creator="{{creator.displayName}}">
         </b>
         <br/>
-        <b
+        <b ng-show="!!originalResource.updatedBy"
           translate="value.updatedby"
           translate-value-date="{{originalResource.updated | date:'medium'}}"
           translate-value-updater="{{updater.displayName}}">
