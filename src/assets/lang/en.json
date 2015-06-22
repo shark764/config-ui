@@ -19,7 +19,6 @@
   "value.error.name.required" : "Field \"Name\" is required.",
   "value.create.new": "Create & New",
 
-
   "value.error.query.required" : "Field \"Query\" is required.",
 
   "navbar.users.title": "User Management",
@@ -52,8 +51,9 @@
   "details.groups.hideextra": "Minimize",
   "details.channelType": "Channel Type",
   "details.flow": "Flow",
-  "details.interactionField": "Interaction Field",
   "details.value": "Value",
+  "details.phoneNumber": "Phone Number",
+  "details.phoneNumber.error": "Phone number should be in E.164 format.",
 
   "skill.details.hasProficiency": "Has Proficiency",
   "skill.details.name.error": "Please enter a name",
@@ -85,5 +85,9 @@
 
   "integration.details.properties.accountSid": "Account SID",
   "integration.details.properties.authToken": "Auth Token",
-  "integration.details.properties.webRTC": "Web RTC"
+  "integration.details.properties.webRTC": "Web RTC",
+  
+  "dispatchMappings.details.interactionField": "Interaction Type",
+  "dispatchMappings.details.channelType": "Mapping",
+  "dispatchMappings.details.flow": "Dispatch to flow"
 }
