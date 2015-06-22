@@ -23,6 +23,8 @@ describe('IntegrationsController', function () {
         'id': 'id2'
       }];
 
+      Session.tenant.tenantId = 'tenant-id';
+
       $httpBackend = $injector.get('$httpBackend');
       $httpBackend.when('GET', apiHostname + '/v1/tenants/' + Session.tenant.tenantId + '/integrations').respond({
         'result': integrations
