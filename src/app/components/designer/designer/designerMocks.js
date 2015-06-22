@@ -265,6 +265,25 @@
         'description': 'Add Participant',
         'type': 'task',
         'params': {}
+      },
+      {
+        'bindings': {},
+        'name': 'subflow',
+        'entity': 'activity',
+        'label': 'Edit Subflow',
+        'description': 'Edit subflow',
+        'type': 'task',
+        'params': {
+          'subflowName': {
+            'source':'constant',
+            'type':'string',
+            'label':'Subflow Name',
+            'tooltip':'Subflow Name',
+            'description':'Subflow Name',
+            'mandatory':true,
+            'dataSensitivity':'low'
+          }
+        }
       }
     ],
     demoFlow: {

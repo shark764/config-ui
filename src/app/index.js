@@ -152,14 +152,25 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
         }
       })
       .state('content.designer.subflowEditor', {
-        url: '/editor/:flowId/:versionId?v=:version',
-        templateUrl: 'app/components/designer/designer/designerPage.html',
-        controller: 'DesignerPageController',
+        url: '/subflow-editor/:parentName/:notationName/:parentFlowId/:parentVersionId/:subflowNotationId',
+        templateUrl: 'app/components/designer/subflow/subflowDesignerPage.html',
+        controller: 'SubflowDesignerPageController',
         reloadOnSearch: false,
         resolve: {
-          subflow: ['$stateParams', 'Session', 'Flow', '$q', function ($stateParams, Session, Flow, $q) {
-            var deferred = $q.defer();
-            return deferred.promise;
+          subflow: ['$stateParams', 'SubflowCommunicationService', function ($stateParams, SubflowCommunicationService) {
+            console.log($stateParams);
+            var subflow = SubflowCommunicationService.retrieve($stateParams.subflowNotationId);
+            if (_.isUndefined(subflow)) {
+              subflow = {
+                id: $stateParams.subflowNotationId,
+                graphJSON: '{"cells":[]}',
+                parentName: $stateParams.parentName,
+                notationName: $stateParams.notationName,
+                parentVersionId: $stateParams.parentVersionId,
+                parentFlowId: $stateParams.parentFlowId
+              };
+            }
+            return subflow;
           }]
         }
       })
