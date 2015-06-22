@@ -106,7 +106,7 @@ describe('userGroups directive', function(){
    it('should call TenantUserGroup save', inject(function() {
      $httpBackend.when('POST', apiHostname + '/v1/tenants/1/groups/g1/users').respond({});
      $httpBackend.expectPOST(apiHostname + '/v1/tenants/1/groups/g1/users');
-     isolateScope.add('g1');
+     isolateScope.add({id: 'g1', name: ''});
      $httpBackend.flush();
    }));
   });

@@ -7,10 +7,6 @@ angular.module('liveopsConfigPanel')
 
     $scope.redirectToInvites();
 
-    $scope.$watch('Session.tenant.tenantId', function () {
-      $scope.fetch();
-    });
-
     $scope.fetch = function(){
       $scope.queues = Queue.query({tenantId : Session.tenant.tenantId}, function(){
         if ($scope.queues[0]){
@@ -25,10 +21,8 @@ angular.module('liveopsConfigPanel')
       });
     });
 
-    $scope.$watch('Session.tenant.tenantId', function () {
-      $scope.fetch();
-    });
-    
+    $scope.$watch('Session.tenant.tenantId', $scope.fetch, true);
+
     $scope.tableConfig = queueTableConfig;
     $scope.fetch();
   }]);

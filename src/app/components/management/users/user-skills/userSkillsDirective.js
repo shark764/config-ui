@@ -29,6 +29,10 @@ angular.module('liveopsConfigPanel')
         };
 
         $scope.fetch = function () {
+          if(!Session.tenant.tenantId){
+            return;
+          }
+
           $scope.saving = false;
 
           $scope.userSkills = TenantUserSkills.query(
@@ -98,6 +102,10 @@ angular.module('liveopsConfigPanel')
         };
 
         $scope.$watch('user', function () {
+          if(!Session.tenant.tenantId){
+            return;
+          }
+          
           $scope.skills = Skill.query({ tenantId: Session.tenant.tenantId }, $scope.fetch);
         });
       }

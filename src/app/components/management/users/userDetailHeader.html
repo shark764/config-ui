@@ -2,15 +2,15 @@
   <div class="mystery-man pull-left">
     <i class="fa fa-user"></i>
   </div>
-  
+
   <div class="info">
     <h1>{{originalResource.firstName}} {{originalResource.lastName}}</h1>
-  
+
     <div class="details">
       <div>
         <toggle class="status-toggle" ng-model="resource.status"></toggle>
       </div>
-    
+
       <div>
         <b
           translate="value.createdby"
@@ -20,8 +20,8 @@
         <br/>
         <b
           translate="value.updatedby"
-          translate-value-date="{{originalResource.created | date:'medium'}}"
-          translate-value-enabler="{{updater.displayName}}">
+          translate-value-date="{{originalResource.updated | date:'medium'}}"
+          translate-value-updater="{{updater.displayName}}">
         </b>
       </div>
     </div>

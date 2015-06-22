@@ -11,7 +11,7 @@ angular.module('liveopsConfigPanel')
       // Append the new transformation to the defaults
       return defaults.concat(transform);
     }
-    
+
     function getResult(value) {
       if (value.result) {
         return value.result;
@@ -26,14 +26,10 @@ angular.module('liveopsConfigPanel')
 
         transformResponse: appendTransform($http.defaults.transformResponse, function (value) {
 
-          if(value.result && value.result.length > 0){
-            return value.result[0];
-          }
-
-          return value;
+          return getResult(value);
         })
       },
-      
+
       query: {
         method: 'GET',
 

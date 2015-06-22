@@ -8,9 +8,7 @@ angular.module('liveopsConfigPanel')
 
       $scope.tableConfig = skillTableConfig;
 
-      $scope.$watch('Session.tenant', function() {
-        $scope.fetch();
-      });
+      $scope.$watch('Session.tenant.tenantId', $scope.fetch, true);
 
       $scope.fetch = function() {
         $scope.skills = Skill.query({

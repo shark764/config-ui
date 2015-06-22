@@ -2,8 +2,10 @@
     <h4>Skills <span class="count" ng-show="userSkills.$resolved">({{userSkills.length}})</span></h4>
 </div>
 
-<loading ng-if="!skills.$resolved"></loading>
-<div class="user-skills-table">
+<loading ng-show="skills && !skills.$resolved && userSkills && !userSkills.$resolved"></loading>
+<p ng-hide="skills" class="null">{{'skill.details.none' | translate}}</p>
+
+<div ng-show="skills.$resolved" class="user-skills-table">
   <ng-form id="skillsForm" name="skillsForm" seperate-validation ng-disabled="saving">
     <h5>Add a Skill</h5>
     <div class="skills-controls" ng-show="skills.$resolved" >
