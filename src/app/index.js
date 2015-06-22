@@ -11,21 +11,17 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
         controller: 'ContentController',
         resolve: {
 
-          regions: ['Session', 'Region', function(Session, Region) {
+          regions: ['Session', 'Region', function (Session, Region) {
             return Region.query({}, function (result) {
               Session.activeRegionId = result[0].id;
             }).$promise;
           }],
 
           login: ['Session', 'Login', function (Session, Login) {
-
-            return Login.save(function(result){
+            return Login.save(function (result) {
               Session.tenants = result.tenants;
             }).$promise;
-
           }],
-
-
         }
       })
       .state('error', {
@@ -123,21 +119,21 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
         controller: 'DesignerPageController',
         reloadOnSearch: false,
         resolve: {
-          flow: ['$stateParams', 'Session', 'Flow', '$q', function($stateParams, Session, Flow, $q) {
+          flow: ['$stateParams', 'Session', 'Flow', '$q', function ($stateParams, Session, Flow, $q) {
             var deferred = $q.defer();
             var flow;
 
             Flow.get({
               tenantId: Session.tenant.tenantId,
               id: $stateParams.flowId
-            }, function(data) {
+            }, function (data) {
               flow = data;
               deferred.resolve(flow);
             });
 
             return deferred.promise;
           }],
-          version: ['$stateParams', 'FlowVersion', 'Session', '$q', function($stateParams, FlowVersion, Session, $q) {
+          version: ['$stateParams', 'FlowVersion', 'Session', '$q', function ($stateParams, FlowVersion, Session, $q) {
             var deferred = $q.defer();
             var version;
 
@@ -145,7 +141,7 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
               flowId: $stateParams.flowId,
               version: $stateParams.versionId,
               tenantId: Session.tenant.tenantId
-            }, function(data) {
+            }, function (data) {
               version = data;
               version.v = $stateParams.v;
               deferred.resolve(version);
@@ -161,7 +157,7 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
         controller: 'DesignerPageController',
         reloadOnSearch: false,
         resolve: {
-          subflow: ['$stateParams', 'Session', 'Flow', '$q', function($stateParams, Session, Flow, $q) {
+          subflow: ['$stateParams', 'Session', 'Flow', '$q', function ($stateParams, Session, Flow, $q) {
             var deferred = $q.defer();
             return deferred.promise;
           }]

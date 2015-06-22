@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('DispatchMappingsController', ['$scope', '$state', 'Session', 'DispatchMapping', 'Flow', 'dispatchMappingTableConfig',
-    function($scope, $state, Session, DispatchMapping, Flow, dispatchMappingTableConfig) {
+  .controller('DispatchMappingsController', ['$scope', 'Session', 'DispatchMapping', 'Flow', 'dispatchMappingTableConfig',
+    function($scope, Session, DispatchMapping, Flow, dispatchMappingTableConfig) {
       $scope.dispatchMappings = DispatchMapping.query({
         tenantId: Session.tenant.tenantId
       });

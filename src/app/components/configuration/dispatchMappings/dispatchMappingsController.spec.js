@@ -33,6 +33,7 @@ describe('DispatchMappingsController', function () {
       Session.tenant.tenantId = 'tenant-id';
 
       $httpBackend = $injector.get('$httpBackend');
+      
       $httpBackend.when('GET', apiHostname + '/v1/tenants/' + Session.tenant.tenantId + '/dispatch-mappings').respond({
         'result': dispatchMappings
       });
