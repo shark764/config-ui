@@ -13,6 +13,7 @@ angular.module('liveopsConfigPanel')
 
     $scope.$on('on:click:create', function(){
       $scope.selectedMedia = new Media({
+        properties: {},
         tenantId: Session.tenant.tenantId
       });
     });
