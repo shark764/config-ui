@@ -10,7 +10,6 @@ function subflowDesigner() {
       replace: true,
       link: function() {},
       controller: ['$scope', '$element', '$attrs', '$window', '$timeout', 'JointInitService', 'SubflowCommunicationService', '$state',function($scope, $element, $attrs, $window, $timeout, JointInitService, SubflowCommunicationService, $state) {
-        console.log('SF in directive:', $scope.subflow);
         $timeout(function() {
 
           $scope.subflowName = SubflowCommunicationService.currentFlowNotationName;
@@ -44,8 +43,6 @@ function subflowDesigner() {
               parentFlowId: $scope.subflow.parentFlowId,
               parentVersionId: $scope.subflow.parentVersionId
             });
-
-            console.log(SubflowCommunicationService);
 
             $state.go('content.designer.editor', {
               flowId: SubflowCommunicationService.currentVersionContext.flowId,

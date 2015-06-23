@@ -165,7 +165,6 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
         reloadOnSearch: false,
         resolve: {
           subflow: ['$stateParams', '$state', '$timeout', 'SubflowCommunicationService', function($stateParams, $state, $timeout, SubflowCommunicationService) {
-            console.log(SubflowCommunicationService);
             if (SubflowCommunicationService.currentFlowContext === '') {
               $timeout(function() { $state.go('content.designer.flows'); }, 5);
             }
