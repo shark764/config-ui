@@ -151,26 +151,29 @@
         'bindings': {},
         'targeted': true
       },
-      {
-        'name': 'subflow',
-        'entity': 'activity',
-        'label': 'Edit Subflow',
-        'description': 'Edit Subflow',
-        'type': 'task',
-        'params': {
-          'name': {
-            'source': 'expression',
-            'type':'string',
-            'label':'Subflow Name',
-            'icon':'url',
-            'tooltip':'Subflow Name',
-            'dataSensitivity':'low',
-            'mandatory':true
-          }
-        },
-        'bindings': {},
-        'targeted': true
-      }
+
+      // RE-ADD FOR SUBFLOWS TO WORK
+      // {
+      //   'name': 'subflow',
+      //   'entity': 'activity',
+      //   'label': 'Edit Subflow',
+      //   'description': 'Edit Subflow',
+      //   'type': 'task',
+      //   'params': {
+      //     'name': {
+      //       'source': 'expression',
+      //       'type':'string',
+      //       'label':'Subflow Name',
+      //       'icon':'url',
+      //       'tooltip':'Subflow Name',
+      //       'dataSensitivity':'low',
+      //       'mandatory':true
+      //     }
+      //   },
+      //   'bindings': {},
+      //   'targeted': true
+      // }
+
       // {
       //   'bindings':{
       //     'status':'string',
