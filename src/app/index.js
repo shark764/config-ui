@@ -10,7 +10,6 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
         templateUrl: 'app/components/content/content.html',
         controller: 'ContentController',
         resolve: {
-
           regions: ['Session', 'Region', function(Session, Region) {
             return Region.query({}, function(result) {
               Session.activeRegionId = result[0].id;
@@ -160,22 +159,25 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
         }
       })
       .state('content.designer.subflowEditor', {
-        url: '/subflow-editor/:parentName/:notationName/:parentFlowId/:parentVersionId/:subflowNotationId',
+        url: '/subflow-editor/:subflowNotationId',
         templateUrl: 'app/components/designer/subflow/subflowDesignerPage.html',
         controller: 'SubflowDesignerPageController',
         reloadOnSearch: false,
         resolve: {
-          subflow: ['$stateParams', 'SubflowCommunicationService', function($stateParams, SubflowCommunicationService) {
-            console.log($stateParams);
+          subflow: ['$stateParams', '$state', '$timeout', 'SubflowCommunicationService', function($stateParams, $state, $timeout, SubflowCommunicationService) {
+            console.log(SubflowCommunicationService);
+            if (SubflowCommunicationService.currentFlowContext === '') {
+              $timeout(function() { $state.go('content.designer.flows'); }, 5);
+            }
             var subflow = SubflowCommunicationService.retrieve($stateParams.subflowNotationId);
             if (_.isUndefined(subflow)) {
               subflow = {
                 id: $stateParams.subflowNotationId,
                 graphJSON: '{"cells":[]}',
-                parentName: $stateParams.parentName,
-                notationName: $stateParams.notationName,
-                parentVersionId: $stateParams.parentVersionId,
-                parentFlowId: $stateParams.parentFlowId
+                parentName: SubflowCommunicationService.currentVersionContext.name,
+                notationName: SubflowCommunicationService.currentFlowNotationName,
+                parentVersionId: SubflowCommunicationService.currentVersionContext.version,
+                parentFlowId: SubflowCommunicationService.currentVersionContext.flowId
               };
             }
             return subflow;
