@@ -21,7 +21,6 @@ describe('The groups view', function() {
   });
 
   it('should successfully create new Group', function() {
-    groupCount = shared.tableElements.count();
     randomGroup = Math.floor((Math.random() * 1000) + 1);
     var groupAdded = false;
     var newGroupName = 'Group Name ' + randomGroup;
@@ -34,7 +33,6 @@ describe('The groups view', function() {
 
     expect(groups.nameRequiredError.get(0).isDisplayed()).toBeFalsy();
     expect(shared.successMessage.isDisplayed()).toBeTruthy();
-    expect(shared.tableElements.count()).toBeGreaterThan(groupCount);
 
     // Confirm group is displayed in group list
     shared.tableElements.then(function(rows) {
@@ -167,7 +165,7 @@ describe('The groups view', function() {
         expect(groups.nameHeader.getText()).toContain(groups.secondTableRow.element(by.css(groups.nameColumn)).getText());
         expect(groups.secondTableRow.element(by.css(groups.nameColumn)).getText()).toBe(groups.nameFormField.getAttribute('value'));
         expect(groups.secondTableRow.element(by.css(groups.descriptionColumn)).getText()).toBe(groups.descriptionFormField.getAttribute('value'));
-        expect(groups.detailsMemberCount.getText()).toContain(groups.secondTableRow.element(by.css(groups.membersColumn)).getText());    
+        expect(groups.detailsMemberCount.getText()).toContain(groups.secondTableRow.element(by.css(groups.membersColumn)).getText());
       };
     });
   });

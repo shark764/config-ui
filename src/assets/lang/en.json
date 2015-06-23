@@ -20,7 +20,6 @@
   "value.create.new": "Create & New",
   "details.name.error": "Please enter a name",
 
-
   "value.error.query.required" : "Field \"Query\" is required.",
 
   "navbar.users.title": "User Management",

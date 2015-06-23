@@ -1,9 +1,9 @@
 
 
 <div class="input-group">
-  <label>{{'value.name' | translate}}</label>
+  <label>{{'value.source' | translate}}</label>
   <div>
-    <form-error field="detailsForm.source" error-type-api="true" error-type-required="media.details.name.error"></form-error>
+    <form-error field="detailsForm.source" error-type-api="true" error-type-required="media.details.source.error"></form-error>
     <input type="text" ng-required="true" ng-model="resource.source" name="source" required></input>
   </div>
 </div>
@@ -27,7 +27,7 @@
   <label>URL</label>
   <div>
     <form-error field="detailsForm.url" error-type-required="media.details.url.error"></form-error>
-    <input ng-model="text" type="text" required ng-change="resource.properties = {url: text}" name="url"></textarea>
+    <input ng-model="resource.properties.url" type="text" required="resource.type === 'audio'" ng-change="resource.properties = {url: resource.properties.url}" name="url"></textarea>
   </div>
 </div>
 
@@ -35,6 +35,6 @@
   <label>Text</label>
   <div>
     <form-error field="detailsForm.text" error-type-required="media.details.text.error"></form-error>
-    <input ng-model="text" type="text" required ng-change="resource.properties = {text: text}" name="text"></textarea>
+    <input ng-model="resource.properties.text" type="text" required="resource.type === 'text'" ng-change="resource.properties = {text: resource.properties.text}" name="text"></textarea>
   </div>
 </div>
