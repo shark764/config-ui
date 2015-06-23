@@ -17,12 +17,9 @@ angular.module('liveopsConfigPanel')
         $scope.selectedSkill = null;
 
         $scope.remove = function (tsu) {
-
-          var index = $scope.userSkills.indexOf(tsu);
-
-          $scope.userSkills.splice(index, 1);
-
-          tsu.$delete({skillId: tsu.skillId}, null, function() {
+          tsu.$delete({skillId: tsu.skillId}, function(){
+            $scope.userSkills.removeItem(tsu);
+          }, function() {
             $scope.fetch();
             toastr.error('Failed to remove skill');
           });
@@ -36,7 +33,7 @@ angular.module('liveopsConfigPanel')
           $scope.saving = false;
 
           $scope.userSkills = TenantUserSkills.query(
-            { tenantId: Session.tenant.tenantId, userId: $scope.user.id },
+              { tenantId: Session.tenant.tenantId, userId: $scope.user.id },
             $scope.new
           );
         };
@@ -44,12 +41,12 @@ angular.module('liveopsConfigPanel')
         $scope.new = function() {
           $scope.selectedSkill = null;
           $scope.skillsForm.name.$setUntouched();
-
+          $scope.skillsForm.name.$setPristine();
+          
           $scope.newUserSkill = new TenantUserSkills({
             skillId: null,
             tenantId: Session.tenant.tenantId,
-            userId: $scope.user.id,
-            proficiency: 0
+            userId: $scope.user.id
           });
         };
 
@@ -59,7 +56,7 @@ angular.module('liveopsConfigPanel')
           if(!$scope.selectedSkill.id){
             new Skill({
               name: $scope.selectedSkill.name,
-              hasProficiency: false, //TODO: add ability to have proficiency on create
+              hasProficiency: (typeof $scope.newUserSkill.proficiency === 'undefined' ? false : true),
               tenantId: Session.tenant.tenantId,
               description: '',
               status: true

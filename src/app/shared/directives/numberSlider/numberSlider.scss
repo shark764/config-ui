@@ -11,6 +11,7 @@ number-slider {
       cursor: pointer;
       height: 50%;
       position: absolute;
+      width: 30px;
     }
     
     i:hover {
@@ -43,25 +44,21 @@ number-slider {
     }
   
     input {
-      font-size: 18px;
       text-align: right;
       padding: 0;
       padding-right: 5px;
-      width: calc(100% - 40px) !important;
+      width: calc(100% - 30px) !important;
     }
     
     input::-webkit-input-placeholder {
       font-size: 12px;
       padding-left: 3px;
-      padding-top: 4px;
       text-align: left;
-      
     }
 
     input:-moz-placeholder {
       font-size: 12px;
       padding-left: 3px;
-      padding-top: 4px;
       text-align: left;
     }
   }

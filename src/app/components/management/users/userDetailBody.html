@@ -1,5 +1,5 @@
 <div ng-if="! resource.id">
-  <div class="divider-header">
+  <div class="divider-header first-header">
     <h4>Login</h4>
   </div>
 
@@ -20,7 +20,7 @@
   </div>
 </div>
 
-<div class="divider-header">
+<div class="divider-header" ng-class="{'first-header' : resource.id}">
   <h4>Details</h4>
 </div>
 

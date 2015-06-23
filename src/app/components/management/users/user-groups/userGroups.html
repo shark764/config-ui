@@ -5,8 +5,8 @@
 <loading ng-show="groups && !groups.$resolved && userGroups && !userGroups.$resolved"></loading>
 <p ng-hide="groups && groups.$resolved && userGroups.$resolved && groups.length" class="null">{{'details.groups.none' | translate}}</p>
 
-<div ng-show="groups.$resolved && userGroups.$resolved">
-  <ng-form seperate-validation id="addGroup" name="addGroup" class="clear input-group">
+<div ng-show="groups.$resolved && userGroups.$resolved" class="detail-group">
+  <ng-form seperate-validation id="addGroup" name="addGroup">
     <type-ahead hover="true" placeholder="Group name" items="filtered" selected-item="selectedGroup" is-required="true" nameField="name" ></type-ahead>
     <a ng-hide="saving" ng-disabled="!selectedGroup" class="btn" ng-click="save()" title="{{'value.save' | translate}}"><i class="fa fa-plus"></i></a>
     <a ng-show="saving" ng-disabled="true" class="btn btn-primary"><i class="fa fa-refresh fa-spin"></i></a>
@@ -17,7 +17,7 @@
   </div>
   
   <div ng-show="userGroups.length > 0">
-    <div id="tag-wrapper" class="details-group clear" ng-class="{collapsed : collapsed}">
+    <div id="tag-wrapper" class=" clear" ng-class="{collapsed : collapsed}">
       <div id="tags-inside" class="clear">
         <div ng-repeat="userGroup in userGroups" class="tag">
           {{userGroup.groupName}}

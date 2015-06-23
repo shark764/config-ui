@@ -1,15 +1,15 @@
 user-skills {
   .btn {
-      height: $input-height;
-      vertical-align: middle;
-      width: $input-height;
-    }
+    height: $input-height;
+    vertical-align: middle;
+    width: $input-height;
+  }
     
-    type-ahead, number-slider {
-      padding-right: 8px;
-    }
+  type-ahead, number-slider {
+    padding-right: 8px;
+  }
     
-   #skillsForm {
+  #skillsForm {
     width: 100%;
     display: table;
     margin-bottom: 10px;
@@ -20,12 +20,11 @@ user-skills {
     }
     
     number-slider {
-      max-width: 100px;
+      max-width: 75px;
     }
   }
   
   .detail-group {
-    /* temporary until we can get a right margin on the table */
-    width: 98% !important;
+    padding-right: 25px !important;
   }
 }

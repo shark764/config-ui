@@ -65,10 +65,10 @@ a:hover {
   border-color: lighten($light-grey, 3%);
   color: darken($light-grey, 20%);
   cursor: default;
-  @include box-shadow(inset 3px 3px 3px 0px rgba(0,0,0,0.34));
+  @include box-shadow(inset 2px 2px 3px 0px rgba(0,0,0,0.34));
   
   &:hover {
-     @include box-shadow(inset 3px 3px 3px 0px rgba(0,0,0,0.34));
+     @include box-shadow(inset 2px 2px 3px 0px rgba(0,0,0,0.34));
   }
   
   .btn-primary {

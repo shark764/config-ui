@@ -17,7 +17,11 @@ angular.module('liveopsConfigPanel')
         $scope.reset = function() {
           $scope.saving = false;
           $scope.selectedGroup = null;
-          $scope.addGroup.name.$setUntouched();
+          
+          if ($scope.addGroup.name){
+            $scope.addGroup.name.$setUntouched();
+            $scope.addGroup.name.$setPristine();
+          }
 
           $scope.newGroupUser = new TenantGroupUsers({
             groupId: null,
@@ -60,9 +64,7 @@ angular.module('liveopsConfigPanel')
           $scope.newGroupUser.groupId = $scope.selectedGroup.id;
           
           $scope.newGroupUser.$save(function(){
-            var newUserGroup = angular.copy($scope.newGroupUser);
-            newUserGroup.groupName = $scope.selectedGroup.name;
-            $scope.userGroups.push(newUserGroup);
+            $scope.fetch();
             $scope.reset();
           }, function () {
             toastr.error('Failed to save user group');
@@ -78,7 +80,7 @@ angular.module('liveopsConfigPanel')
           });
 
           tgu.$delete(function(){
-            $scope.userGroups.removeItem(userGroup);
+            $scope.fetch();
             $timeout(function(){ //Timeout prevents simultaneous $digest cycles
               $scope.updateCollapseState(tagWrapper.height());
             }, 200);
