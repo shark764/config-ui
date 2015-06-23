@@ -42,7 +42,8 @@
                 content: notation.label,
                 activityType: notation.type,
                 type: 'liveOps.activity',
-                name: notation.name
+                name: notation.name,
+                targeted: notation.targeted
               });
             }
           ), entity);
