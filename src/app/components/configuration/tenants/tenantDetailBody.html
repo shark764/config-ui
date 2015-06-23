@@ -1,8 +1,8 @@
 <div class="input-group">
   <label>{{'tenant.details.name' | translate}}</label>
   <div>
-    <div class="error" ng-show="detailsForm.name.$touched && detailsForm.name.$invalid">{{'tenant.details.name.error' | translate}}</div>
-    <input required ng-model="resource.name" name="name" type="text"></input>
+    <form-error field="detailsForm.name" error-type-api="true" error-type-required="{{'tenant.details.name.error' | translate}}" ></form-error>
+    <input required ng-model="resource.name" name="name" type="text" api-error></input>
   </div>
 </div>
 
