@@ -8,7 +8,7 @@ angular.module('liveopsConfigPanel')
         $scope.selectedTenant = new Tenant({
           regionId: Session.activeRegionId
         });
-      }
+      };
 
       $scope.fetch = function() {
         $scope.tenants = Tenant.query({
@@ -20,7 +20,7 @@ angular.module('liveopsConfigPanel')
         });
 
         $scope.users = User.query();
-      }
+      };
 
       $scope.$on('on:click:create', function() {
         $scope.create();

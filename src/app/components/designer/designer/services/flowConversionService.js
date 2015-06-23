@@ -286,7 +286,10 @@
               type: 'signal',
               interrupting: model.interrupting,
               target: model.target,
-              bindings: model.bindings || {}
+              bindings: _.reduce(model.bindings, function(memo, param) {
+                memo[param.key] = param.value;
+                return memo;
+              }, {})
             };
           },
           error: function(model) {

@@ -7,7 +7,7 @@
       loadGateways: function(palette) {
         palette.load([
           new joint.shapes.liveOps.gateway({
-            gatewayType: 'inclusive',
+            gatewayType: 'parallel',
             content: 'derp'
           }),
           new joint.shapes.liveOps.gateway({
