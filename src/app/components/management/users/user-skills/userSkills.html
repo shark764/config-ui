@@ -1,23 +1,23 @@
 <div class="divider-header">
-  <h4>Skills <span class="count">({{userSkills.length}})</span></h4>
+  <h4>{{'details.skills.title' | translate}} <span class="count">({{userSkills.length}})</span></h4>
 </div>
 
 <loading ng-if="!skills.$resolved"></loading>
 
 <div ng-show="skills.$resolved" class="detail-group">
 <ng-form seperate-validation ng-disabled="saving" id="skillsForm" name="skillsForm" ng-show="skills.$resolved"> 
-  <type-ahead hover="true" placeholder="Skill name" items="skills" selected-item="selectedSkill" is-required="true" nameField="name" ></type-ahead>
-  <number-slider ng-if="selectedSkill.hasProficiency || (skillsForm.name.$dirty && ! selectedSkill.id)" placeholder="Proficiency" value="newUserSkill.proficiency" min-value="0" max-value="100" ></number-slider>
+  <type-ahead hover="true" placeholder="{{'details.skills.placeholder' | translate}}" items="skills" selected-item="selectedSkill" is-required="true" nameField="name" ></type-ahead>
+  <number-slider ng-if="selectedSkill.hasProficiency || (skillsForm.name.$dirty && ! selectedSkill.id)" placeholder="{{'skill.details.proficiency' | translate}}" value="newUserSkill.proficiency" min-value="0" max-value="100" ></number-slider>
   <a ng-show="!saving" ng-disabled="!selectedSkill" ng-click="save()" class="btn"><i class="fa fa-plus"></i></a>
   <a ng-show="saving" ng-disabled="true" class="btn btn-primary"><i class="fa fa-refresh fa-spin"></i></a>
 </ng-form>
 
-  <p class="null" ng-if="userSkills.length == 0">This user has not been assigned any skills</p>
+  <p class="null" ng-if="userSkills.length == 0">{{'details.skills.none' | translate}}</p>
   <table ng-show="userSkills.length > 0">
     <thead>
       <tr>
-        <th>Skill Name</th>
-        <th style="text-align:right">Proficiency</th>
+        <th>{{'value.name' | translate}}</th>
+        <th style="text-align:right">{{'skill.details.proficiency' | translate}}</th>
         <th>&nbsp;</th>
       </tr>
     </thead>
@@ -25,7 +25,7 @@
       <tr ng-repeat="userSkill in userSkills | orderBy:'name'">
         <td>{{userSkill.name}}</td>
         <td style="text-align:right">{{userSkill.proficiency}}</td>
-        <td style="text-align:right"><i class="fa fa-times remove" ng-click="remove(userSkill)" title="Remove"></i></td>
+        <td style="text-align:right"><i class="fa fa-times remove" ng-click="remove(userSkill)" title="{{'value.remove' | translate}}"></i></td>
       </tr>
     </tbody>
   </table>
