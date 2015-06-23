@@ -28,7 +28,7 @@ angular.module('liveopsConfigPanel')
           'name': 'status',
           'templateUrl': 'app/shared/templates/statuses.html',
           'checked': false,
-          'options': statuses
+          'options': statuses()
         }],
         'searchOn': ['firstName', 'lastName', {
           path: 'skills',
