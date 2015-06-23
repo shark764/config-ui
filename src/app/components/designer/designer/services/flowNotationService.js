@@ -1,7 +1,7 @@
 (function() {
   'use strict';
 
-  function FlowNotationService($q, Media, Queue, Session) {
+  function FlowNotationService() {
     return {
       activities: {},
       events: {},
@@ -31,7 +31,6 @@
         var name = model.get('name');
         var inputs = model.get('inputs');
         var params = {};
-        var bindings = {};
         var notation = {};
 
         if (modelType === 'liveOps.activity') {
@@ -53,7 +52,7 @@
                 return {
                   value: entity.id,
                   content: entity.source || entity.name
-                }
+                };
               });
             }
 
@@ -90,12 +89,10 @@
       },
 
       addActivityBindings: function(model) {
-        var self = this;
-        var activity = self.activities[model.name];
         var bindings = {};
 
-        bindings = _.reduce(model.bindings, function(memo, binding, key) {
-          memo[binding.key] = binding.value
+        bindings = _.reduce(model.bindings, function(memo, binding) {
+          memo[binding.key] = binding.value;
           return memo;
         }, {});
         return bindings;

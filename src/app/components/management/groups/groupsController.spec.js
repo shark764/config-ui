@@ -23,7 +23,7 @@ describe('groups controller', function () {
       apiHostname = _apiHostname_;
       Session = _Session_;
       $controller = _$controller_;
-      $rootScope = _$rootScope_
+      $rootScope = _$rootScope_;
       $httpBackend = _$httpBackend_;
       UserName = _UserName_;
     }
@@ -82,7 +82,7 @@ describe('groups controller', function () {
     Session.tenant = {
       tenantId: 1
     };
-    
+
     Session.user = {
       id: 2
     };
@@ -90,7 +90,7 @@ describe('groups controller', function () {
     $controller('GroupsController', {
       '$scope': $scope
     });
-    
+
     $scope.$digest();
     $httpBackend.flush();
   });
@@ -107,9 +107,9 @@ describe('groups controller', function () {
     Session.tenant = {
       tenantId: 2
     };
-    
+
     $scope.$digest();
-    
+
     expect($scope.fetch).toHaveBeenCalled();
   }));
 

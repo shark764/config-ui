@@ -73,13 +73,13 @@
         if (!cell.collection) {return;}
         var _source = cell.collection.get(source);
 
-        if (_source.get('type') == 'liveOps.gateway' && _source.get('gatewayType') == 'exclusive') {
+        if (_source.get('type') === 'liveOps.gateway' && _source.get('gatewayType') === 'exclusive') {
           cell.set('linkType', 'conditional');
         } else {
           cell.set('linkType', 'normal');
         }
 
-        cell.collection.get(source).get('type') == 'liveOps.event'
+        return cell.collection.get(source).get('type') === 'liveOps.event';
       });
     },
 
@@ -173,7 +173,7 @@
 
       default:
 
-        throw "BPMN: Unknown Flow Type: " + type;
+        throw 'BPMN: Unknown Flow Type: ' + type;
       }
 
       cell.attr(_.merge({}, this.defaults.attrs, attrs));
