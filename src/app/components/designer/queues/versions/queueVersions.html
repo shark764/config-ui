@@ -1,16 +1,15 @@
 <table>
   <thead>
-    <th>{{value.name | translate}}</th>
-    <th>{{value.description | translate}}</th>
-    <th>{{value.createdOn | translate}}</th>
+    <th>{{'value.name' | translate}}</th>
+    <th>{{'value.description' | translate}}</th>
+    <th>{{'value.createdOn' | translate}}</th>
   </thead>
-  <tr ng-repeat="version in versions">
+  <tr ng-repeat="version in versions | orderBy:'created':'reverse'">
     <td>{{version.name}}</td>
     <td>{{version.description}}</td>
     <td>{{version.created | date:'medium'}}</td>
   </tr>
 </table>
-
 
 <h3>Create Queue Version (Dev only)</h3>
 
