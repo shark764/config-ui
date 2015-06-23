@@ -19,6 +19,8 @@ angular.module('liveopsConfigPanel')
       };
 
       $scope.updateMembers = function (group) {
+        var group = group;
+
         group.members = TenantGroupUsers.query({
           tenantId: Session.tenant.tenantId,
           groupId: group.id
@@ -33,7 +35,7 @@ angular.module('liveopsConfigPanel')
 
       $scope.additional = {
         postSave: function (childScope) {
-          $scope.updateMembers(childScope.originalResource);
+          $scope.updateMembers(childScope.resource);
         }
       };
 
