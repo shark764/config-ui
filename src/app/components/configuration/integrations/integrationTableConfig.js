@@ -15,6 +15,7 @@ angular.module('liveopsConfigPanel')
       }, {
         'header': 'Status',
         'name': 'status',
+        'templateUrl': 'app/shared/templates/statuses.html',
         'sortable': true,
         'options': statuses,
         'filter': 'selectedOptions'

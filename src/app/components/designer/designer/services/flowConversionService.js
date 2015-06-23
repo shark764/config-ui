@@ -97,8 +97,8 @@
               interrupting: notation.interrupting,
               eventName: notation.type,
               position: {
-                x: notation['rendering-data'].x,
-                y: notation['rendering-data'].y,
+                x: (notation['rendering-data']) ? notation['rendering-data'].x : 0,
+                y: (notation['rendering-data']) ? notation['rendering-data'].y : 0
               }
             }
 
@@ -149,8 +149,8 @@
               type: 'liveOps.gateway',
               gatewayType: notation.type,
               position: {
-                x: notation['rendering-data'].x,
-                y: notation['rendering-data'].y,
+                x: (notation['rendering-data']) ? notation['rendering-data'].x : 0,
+                y: (notation['rendering-data']) ? notation['rendering-data'].y : 0
               }
             });
           } else if (notation.entity === 'activity') {
@@ -161,8 +161,8 @@
               activityType: notation.type,
               content: FlowNotationService.getActivityLabel(notation),
               position: {
-                x: notation['rendering-data'].x,
-                y: notation['rendering-data'].y
+                x: (notation['rendering-data']) ? notation['rendering-data'].x : 0,
+                y: (notation['rendering-data']) ? notation['rendering-data'].y : 0
               },
               embeds: notation.decorations,
               params: {},
