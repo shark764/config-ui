@@ -238,7 +238,6 @@
       },
       initializeSelectorViewListeners: function() {
         var self = this;
-        console.log(self);
         self.graph.interfaces.selectorView.on({
           'selection-box:pointerdown': function(evt) {
             if (evt.ctrlKey || evt.metaKey) {
@@ -264,18 +263,15 @@
         _.each(metaKeys, function(key) {
           KeyboardJS.on(key + ' + z', function() {
             if (!self.graph.interfaces.commandManager.hasUndo()) {return;}
-            console.log(key + ' + z\'d!');
             self.graph.interfaces.commandManager.undo();
           });
 
           KeyboardJS.on(key + ' + y', function() {
             if (!self.graph.interfaces.commandManager.hasRedo()) {return;}
-            console.log(key + ' + y\'d!');
             self.graph.interfaces.commandManager.redo();
           });
 
           KeyboardJS.on(key + ' + c', function() {
-            console.log(key + ' + c\'d!');
             if (self.graph.interfaces.selector.models.length === 0) { return; }
             _.each(self.graph.interfaces.selector.models, function(model) {
               model.attributes.position.x -= 25;
@@ -285,19 +281,16 @@
           });
 
           KeyboardJS.on(key + ' + v', function() {
-            console.log(key + ' + v\'d!');
             self.graph.interfaces.clipboard.pasteCells(self.graph);
           });
 
           KeyboardJS.on(key + ' + =', function(evt) {
             evt.preventDefault();
-            console.log(key + ' + +\'d!');
             self.graph.interfaces.scroller.zoomIn();
           });
 
           KeyboardJS.on(key + ' + -', function(evt) {
             evt.preventDefault();
-            console.log(key + ' + -\'d!');
             self.graph.interfaces.scroller.zoomOut();
           });
         });
