@@ -206,7 +206,7 @@
               },
               {
                 eq: {
-                  'eventType': 'start'
+                  'throwing': false
                 }
               }
 
