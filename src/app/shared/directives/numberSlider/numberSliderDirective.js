@@ -8,7 +8,8 @@ angular.module('liveopsConfigPanel')
         value: '=',
         minValue: '@',
         maxValue: '@',
-        hasHandles: '='
+        hasHandles: '=',
+        placeholder: '@'
       },
       templateUrl: 'app/shared/directives/numberSlider/numberSlider.html',
       link: function($scope) {

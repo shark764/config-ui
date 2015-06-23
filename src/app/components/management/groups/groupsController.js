@@ -19,8 +19,6 @@ angular.module('liveopsConfigPanel')
       };
 
       $scope.updateMembers = function (group) {
-        var group = group;
-
         group.members = TenantGroupUsers.query({
           tenantId: Session.tenant.tenantId,
           groupId: group.id
