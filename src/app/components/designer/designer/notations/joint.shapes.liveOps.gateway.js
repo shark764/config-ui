@@ -51,7 +51,6 @@
             type: 'select',
             options: [
               {value: 'parallel', content: 'Parallel'},
-              {value: 'inclusive', content: 'Inclusive'},
               {value: 'exclusive', content: 'Exclusive'}
             ],
             label: 'Type',
@@ -78,9 +77,6 @@
     onGatewayTypeChange: function(cell, type) {
       switch (type){
         case 'parallel':
-          cell.set('icon', 'plus');
-          break;
-        case 'inclusive':
           cell.set('icon', 'plus');
           break;
         case 'exclusive':
