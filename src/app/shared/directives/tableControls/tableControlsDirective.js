@@ -20,10 +20,12 @@ angular.module('liveopsConfigPanel')
 
           $scope.selectItem = function(item) {
             $scope.selected = item;
-
-            $location.search({
-              id: item ? item.id : null
-            });
+            
+            if(item) {
+              $location.search({
+                id: item ? item.id : null
+              });
+            }
 
             $scope.$emit('resource:selected', item);
           };
@@ -59,7 +61,7 @@ angular.module('liveopsConfigPanel')
                   return;
                 }
               }
-
+          
               $scope.selected = $scope.filtered[0];
             });
           }
