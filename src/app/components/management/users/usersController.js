@@ -1,9 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('UsersController', ['$scope', '$window', 'statuses', 'userRoles', 'User', 'Session', 'AuthService', 'userTableConfig', 'Invite', 'toastr', 'flowSetup',
-    function($scope, $window, statuses, userRoles, User, Session, AuthService, userTableConfig, Invite, toastr, flowSetup) {
-      $scope.statuses = statuses;
+  .controller('UsersController', ['$scope', '$window', 'userRoles', 'User', 'Session', 'AuthService', 'userTableConfig', 'Invite', 'toastr', 'flowSetup',
+    function($scope, $window, userRoles, User, Session, AuthService, userTableConfig, Invite, toastr, flowSetup) {
       $scope.filteredUsers = [];
       $scope.Session = Session;
       var self = this;

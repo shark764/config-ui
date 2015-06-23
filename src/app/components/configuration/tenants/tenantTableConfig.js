@@ -13,7 +13,7 @@ angular.module('liveopsConfigPanel')
         'header': 'Status',
         'name': 'status',
         'sortable': true,
-        'options': statuses,
+        'options': statuses(),
         'templateUrl': 'app/shared/templates/statuses.html',
         'filter': 'selectedOptions'
       }],
