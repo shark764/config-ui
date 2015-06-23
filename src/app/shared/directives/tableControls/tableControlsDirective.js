@@ -20,10 +20,12 @@ angular.module('liveopsConfigPanel')
 
           $scope.selectItem = function(item) {
             $scope.selected = item;
-
-            $location.search({
-              id: item ? item.id : null
-            });
+            
+            if(item) {
+              $location.search({
+                id: item ? item.id : null
+              });
+            }
 
             $scope.$emit('resource:selected', item);
           };
@@ -41,21 +43,28 @@ angular.module('liveopsConfigPanel')
             }
           };
 
+          $scope.toggleAll = function(checkedValue) {
+            angular.forEach($scope.filtered, function(item) {
+              item.checked = checkedValue;
+            });
+          };
+
           //Init the selected item based on URL param
-          $scope.items.$promise.then(function() {
-            if ($stateParams.id) {
-              var matchedItems = $filter('filter')($scope.items, {
-                id: $stateParams.id
-              }, true);
-              if (matchedItems.length > 0) {
-                $scope.selected = matchedItems[0];
-                return;
+          if ($scope.items) {
+            $scope.items.$promise.then(function() {
+              if ($stateParams.id) {
+                var matchedItems = $filter('filter')($scope.items, {
+                  id: $stateParams.id
+                }, true);
+                if (matchedItems.length > 0) {
+                  $scope.selected = matchedItems[0];
+                  return;
+                }
               }
-            }
-
-            $scope.selected = $scope.filtered[0];
-          });
-
+          
+              $scope.selected = $scope.filtered[0];
+            });
+          }
 
           $scope.$watch('resourceName', function() {
             if ($scope.resourceWatcher) {
@@ -69,7 +78,7 @@ angular.module('liveopsConfigPanel')
           });
 
           $scope.$watchCollection('filtered', function() {
-            if ($scope.filtered.length === 0) {
+            if (!$scope.filtered || $scope.filtered.length === 0) {
               $scope.selectItem(null);
               return;
             }
@@ -96,12 +105,6 @@ angular.module('liveopsConfigPanel')
               }
             });
           });
-
-          $scope.toggleAll = function(checkedValue) {
-            angular.forEach($scope.filtered, function(item) {
-              item.checked = checkedValue;
-            });
-          };
         }
       };
     }

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigPanel.config', 'pascalprecht.translate', 'ngCookies', 'ngMessages', 'ngSanitize', 'toastr', 'ngLodash'])
-  .config(['$stateProvider', '$urlRouterProvider', '$translateProvider', 'toastrConfig', function ($stateProvider, $urlRouterProvider, $translateProvider, toastrConfig) {
+  .config(['$stateProvider', '$urlRouterProvider', '$translateProvider', 'toastrConfig', function($stateProvider, $urlRouterProvider, $translateProvider, toastrConfig) {
     $urlRouterProvider.otherwise('/management/users');
 
     $stateProvider
@@ -11,16 +11,16 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
         controller: 'ContentController',
         resolve: {
 
-          regions: ['Session', 'Region', function (Session, Region) {
-            return Region.query({}, function (result) {
+          regions: ['Session', 'Region', function(Session, Region) {
+            return Region.query({}, function(result) {
               Session.activeRegionId = result[0].id;
             }).$promise;
           }],
 
-          login: ['Session', 'Login', '$state', function (Session, Login, $state) {
-            return Login.save(function (result) {
+          login: ['Session', 'Login', '$state', function(Session, Login, $state) {
+            return Login.save(function(result) {
               Session.tenants = result.tenants;
-            }, function () {
+            }, function() {
               $state.go('login');
             }).$promise;
           }],
@@ -121,21 +121,21 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
         controller: 'DesignerPageController',
         reloadOnSearch: false,
         resolve: {
-          flow: ['$stateParams', 'Session', 'Flow', '$q', function ($stateParams, Session, Flow, $q) {
+          flow: ['$stateParams', 'Session', 'Flow', '$q', function($stateParams, Session, Flow, $q) {
             var deferred = $q.defer();
             var flow;
 
             Flow.get({
               tenantId: Session.tenant.tenantId,
               id: $stateParams.flowId
-            }, function (data) {
+            }, function(data) {
               flow = data;
               deferred.resolve(flow);
             });
 
             return deferred.promise;
           }],
-          version: ['$stateParams', 'FlowVersion', 'Session', '$q', function ($stateParams, FlowVersion, Session, $q) {
+          version: ['$stateParams', 'FlowVersion', 'Session', '$q', function($stateParams, FlowVersion, Session, $q) {
             var deferred = $q.defer();
             var version;
 
@@ -143,25 +143,42 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
               flowId: $stateParams.flowId,
               version: $stateParams.versionId,
               tenantId: Session.tenant.tenantId
-            }, function (data) {
+            }, function(data) {
               version = data;
               version.v = $stateParams.v;
               deferred.resolve(version);
             });
 
             return deferred.promise;
+          }],
+          media: ['Media', 'Session', function(Media, Session) {
+            return Media.query({tenantId : Session.tenant.tenantId});
+          }],
+          queue: ['Queue', 'Session', function(Queue, Session) {
+            return Queue.query({tenantId : Session.tenant.tenantId});
           }]
         }
       })
       .state('content.designer.subflowEditor', {
-        url: '/editor/:flowId/:versionId?v=:version',
-        templateUrl: 'app/components/designer/designer/designerPage.html',
-        controller: 'DesignerPageController',
+        url: '/subflow-editor/:parentName/:notationName/:parentFlowId/:parentVersionId/:subflowNotationId',
+        templateUrl: 'app/components/designer/subflow/subflowDesignerPage.html',
+        controller: 'SubflowDesignerPageController',
         reloadOnSearch: false,
         resolve: {
-          subflow: ['$stateParams', 'Session', 'Flow', '$q', function ($stateParams, Session, Flow, $q) {
-            var deferred = $q.defer();
-            return deferred.promise;
+          subflow: ['$stateParams', 'SubflowCommunicationService', function($stateParams, SubflowCommunicationService) {
+            console.log($stateParams);
+            var subflow = SubflowCommunicationService.retrieve($stateParams.subflowNotationId);
+            if (_.isUndefined(subflow)) {
+              subflow = {
+                id: $stateParams.subflowNotationId,
+                graphJSON: '{"cells":[]}',
+                parentName: $stateParams.parentName,
+                notationName: $stateParams.notationName,
+                parentVersionId: $stateParams.parentVersionId,
+                parentFlowId: $stateParams.parentFlowId
+              };
+            }
+            return subflow;
           }]
         }
       })

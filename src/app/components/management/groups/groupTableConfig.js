@@ -17,6 +17,7 @@ angular.module('liveopsConfigPanel')
         }, {
           'header': 'Status',
           'name': 'status',
+          'templateUrl': 'app/shared/templates/statuses.html',
           'options': statuses
         }],
         'searchOn' : ['name', 'description'],

@@ -7,7 +7,7 @@
       loadGateways: function(palette) {
         palette.load([
           new joint.shapes.liveOps.gateway({
-            gatewayType: 'inclusive',
+            gatewayType: 'parallel',
             content: 'derp'
           }),
           new joint.shapes.liveOps.gateway({
@@ -42,7 +42,8 @@
                 content: notation.label,
                 activityType: notation.type,
                 type: 'liveOps.activity',
-                name: notation.name
+                name: notation.name,
+                targeted: notation.targeted
               });
             }
           ), entity);

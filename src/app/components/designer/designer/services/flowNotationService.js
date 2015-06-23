@@ -1,7 +1,7 @@
 (function() {
   'use strict';
 
-  function FlowNotationService() {
+  function FlowNotationService($q, Media, Queue, Session) {
     return {
       activities: {},
       events: {},
@@ -19,6 +19,12 @@
         return activity.label;
       },
 
+      getActivityTargeted: function(model) {
+        var self = this;
+        var activity = _.findWhere(self.activities, {name: model.name});
+        return activity.targeted;
+      },
+
       buildInputPanel: function(model) {
         var self = this;
         var modelType = model.get('type');
@@ -34,33 +40,28 @@
           params = _.reduce(notation.params, function(memo, param, name) {
             memo[name] = {
               label: param.label,
-              group: notation.label,
+              group: 'params'
             };
 
-            if ((param.source === 'constant' || param.source === 'variable') && (param.type === 'integer' || param.type === 'string')) {
+            if (param.source === 'expression' && (param.type === 'integer' || param.type === 'string')) {
               memo[name].type = 'text';
-            } else if (param.source === 'constant' && param.type === 'boolean') {
+            } else if (param.source === 'expression' && param.type === 'boolean') {
               memo[name].type = 'toggle';
             } else if (param.source === 'entity') {
               memo[name].type = 'select';
-              memo[name].options = ['media_1', 'media_2', 'media_3'];
+              memo[name].options = _.map(self[param.type], function(entity) {
+                return {
+                  value: entity.id,
+                  content: entity.source || entity.name
+                }
+              });
             }
-
-            return memo;
-          }, {});
-
-          bindings = _.reduce(notation.bindings, function(memo, binding, name) {
-            memo[name] = {
-              label: name,
-              group: 'Bindings',
-              type: 'text'
-            };
 
             return memo;
           }, {});
         }
 
-        return _.extend(inputs, params, bindings);
+        return _.extend({params: params}, inputs);
       },
 
       addActivityParams: function(model) {
@@ -70,22 +71,34 @@
 
         params = _.reduce(activity.params, function(memo, param, key) {
 
-          if (param.source === 'constant' || param.source === 'variable') {
+          if (param.source === 'expression' && model.params[key]) {
             memo[key] = {
               source: 'expression',
-              value: model[key] || '5'
+              value: model.params[key]
             };
           } else if (param.source === 'entity') {
             memo[key] = {
               source: 'system',
               store: param.type,
-              id: joint.util.uuid()
+              id: model.params[key]
             };
           }
 
           return memo;
         }, {});
         return params;
+      },
+
+      addActivityBindings: function(model) {
+        var self = this;
+        var activity = self.activities[model.name];
+        var bindings = {};
+
+        bindings = _.reduce(model.bindings, function(memo, binding, key) {
+          memo[binding.key] = binding.value
+          return memo;
+        }, {});
+        return bindings;
       }
 
     };

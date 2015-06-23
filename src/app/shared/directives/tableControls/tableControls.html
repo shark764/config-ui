@@ -34,10 +34,10 @@
   </div>
 
   <div class="table-message">
-    <loading ng-if="!items.$resolved"></loading>
+    <loading ng-if="items && !items.$resolved"></loading>
 
-    <div ng-show="items.$resolved && !items.length">
-     No results were found.
+    <div ng-show="!items || (items.$resolved && !items.length)">
+      No results were found.
     </div>
   </div>
 
