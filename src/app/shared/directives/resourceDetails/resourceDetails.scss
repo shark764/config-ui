@@ -92,11 +92,8 @@
     table {
       border: $light-grey solid 1px;
       border-spacing: 0;
-      display: block;
       @include border-radius(4px);
       font-size: 0.9em;
-      max-height: 300px;
-      overflow: auto;
       width: 100%;
 
       td, th {
