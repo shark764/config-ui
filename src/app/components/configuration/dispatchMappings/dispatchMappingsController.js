@@ -30,7 +30,7 @@ angular.module('liveopsConfigPanel')
         
         $scope.integrations = Integration.query({
           tenantId: Session.tenant.tenantId
-        })
+        });
       };
 
       $scope.$watch('Session.tenant.tenantId', $scope.fetch, true);

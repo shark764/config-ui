@@ -30,14 +30,13 @@
 <div class="input-group">
   <label>{{'dispatchMappings.details.channelType' | translate}}</label>
   <div>
-    <select ng-model="resource.interactionField" name="interactionField"
+    <select ng-model="resource.interactionField" name="interactionField" ng-change="resource.value = ''"
       ng-options="interactionFields.value as interactionFields.display for interactionFields in dispatchMappingInteractionFields">
     </select>
   </div>
 </div>
 
-<div class="input-group" ng-if="resource.interactionField === 'customer' || resource.interactionField === 'contact-point'"
-  ng-init="resource.value = ''">
+<div class="input-group" ng-if="resource.interactionField === 'customer' || resource.interactionField === 'contact-point'">
   <label>{{'details.phoneNumber' | translate}}</label>
   <div>
     <form-error field="detailsForm.value" error-type-pattern="{{'details.phoneNumber.error' | translate}}"></form-error>

@@ -23,7 +23,7 @@ angular.module('liveopsConfigPanel')
         'name': 'active',
         'sortable': true,
         'options': statuses,
-        'templateUrl': 'app/shared/templates/statuses.html',
+        'templateUrl': 'app/shared/templates/active.html',
         'filter': 'selectedOptions'
       }],
       'searchOn': ['name'],
