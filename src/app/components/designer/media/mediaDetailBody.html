@@ -1,13 +1,3 @@
-
-
-<div class="input-group">
-  <label>{{'value.name' | translate}}</label>
-  <div>
-    <form-error field="detailsForm.source" error-type-api="true" error-type-required="media.details.name.error"></form-error>
-    <input type="text" ng-required="true" ng-model="resource.source" name="source" required></input>
-  </div>
-</div>
-
 <div class="divider-header">
   <h4>Media</h4>
 </div>
@@ -17,24 +7,16 @@
   <div>
     <form-error field="detailsForm.type" error-type-api="true" error-type-required="media.details.type.error"></form-error>
     <select ng-change="text = ''" ng-disabled="resource.id" ng-required="!resource.id" ng-model="resource.type" name="type" required>
-      <option value="audio">Audio</option>
+      <option value="url">URL</option>
       <option value="tts">Text-To-Speech</option>
     </select>
   </div>
 </div>
 
-<div class="input-group" ng-show="resource.type === 'audio'">
-  <label>URL</label>
+<div class="input-group">
+  <label>{{'value.source' | translate}}</label>
   <div>
-    <form-error field="detailsForm.url" error-type-required="media.details.url.error"></form-error>
-    <input ng-model="text" type="text" required ng-change="resource.properties = {url: text}" name="url"></textarea>
-  </div>
-</div>
-
-<div class="input-group" ng-show="resource.type === 'tts'">
-  <label>Text</label>
-  <div>
-    <form-error field="detailsForm.text" error-type-required="media.details.text.error"></form-error>
-    <input ng-model="text" type="text" required ng-change="resource.properties = {text: text}" name="text"></textarea>
+    <form-error field="detailsForm.source" error-type-api="true" error-type-required="media.details.source.error"></form-error>
+    <input type="text" ng-required="true" ng-model="resource.source" name="source" required></input>
   </div>
 </div>
