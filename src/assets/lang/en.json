@@ -18,8 +18,7 @@
   "value.details.version" : "Active Version",
   "value.error.name.required" : "Field \"Name\" is required.",
   "value.create.new": "Create & New",
-  "details.name.error": "Please enter a name",
-
+  "value.remove": "Remove",
   "value.error.query.required" : "Field \"Query\" is required.",
 
   "navbar.users.title": "User Management",
@@ -50,15 +49,23 @@
   "details.usergroups.remove": "Remove user from this group",
   "details.groups.showall": "Show all",
   "details.groups.hideextra": "Minimize",
+  "details.groups.placeholder": "Add Group...",
+  "details.groups.title": "Groups",
   "details.channelType": "Channel Type",
   "details.flow": "Flow",
-  "details.interactionField": "Interaction Field",
   "details.value": "Value",
+  "details.phoneNumber": "Phone Number",
+  "details.phoneNumber.error": "Phone number should be in E.164 format (15555555555 or 1-555-555-5555).",
+  "details.skills.none": "This user has not been assigned any skills",
+  "details.skills.title": "Skills",
+  "details.skills.placeholder": "Add Skill...",
+  "details.name.error": "Please enter a name",
 
   "skill.details.hasProficiency": "Has Proficiency",
   "skill.details.name.error": "Please enter a name",
   "skill.details.description.error" : "Description is required",
   "skill.details.none" : "There are no skills for the selected tenant.",
+  "skill.details.proficiency": "Proficiency",
 
   "flow.type": "Type",
   "flow.type.choose": "Choose a Type",
@@ -74,6 +81,7 @@
   "media.details.name.error" : "Please enter a name",
   "media.details.url.error" : "URL is required",
   "media.details.text.error" : "Text-to-Speech text is required",
+  "media.details.description.error": "Description is required",
 
   "tenant.details.title": "Tenants",
   "tenant.details.name": "Tenant Name",
@@ -82,7 +90,13 @@
   "tenant.details.region": "Region",
   "tenant.details.name.error": "Please enter a name",
 
+  "integration.details": "Integration",
   "integration.details.properties.accountSid": "Account SID",
   "integration.details.properties.authToken": "Auth Token",
-  "integration.details.properties.webRTC": "Web RTC"
+  "integration.details.properties.webRTC": "Web RTC",
+
+  "dispatchMappings.details.interactionType": "Interaction Type",
+  "dispatchMappings.details.channelType": "Mapping",
+  "dispatchMappings.details.flow": "Dispatch to flow",
+  "dispatchMappings.details.direction": "Direction"
 }

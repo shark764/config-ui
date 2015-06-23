@@ -33,7 +33,7 @@ angular.module('liveopsConfigPanel')
 
       $scope.additional = {
         postSave: function (childScope) {
-          $scope.updateMembers(childScope.originalResource);
+          $scope.updateMembers(childScope.resource);
         }
       };
 

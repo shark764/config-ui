@@ -23,7 +23,7 @@ describe('groups controller', function () {
       apiHostname = _apiHostname_;
       Session = _Session_;
       $controller = _$controller_;
-      $rootScope = _$rootScope_
+      $rootScope = _$rootScope_;
       $httpBackend = _$httpBackend_;
       UserName = _UserName_;
     }
@@ -87,9 +87,7 @@ describe('groups controller', function () {
       id: 2
     };
 
-    $controller('GroupsController', {
-      '$scope': $scope
-    });
+    $controller('GroupsController', {'$scope': $scope});
     
     $scope.$digest();
     $httpBackend.flush();
@@ -187,6 +185,7 @@ describe('groups controller', function () {
     }));
 
     it('should add the display name to the member', inject(function () {
+      spyOn(UserName, 'get').and.callFake(function(id, callback){callback(user1);});
       $scope.updateMembers(groups[0]);
       $httpBackend.flush();
       expect(groups[0].members[0].displayName).toBeDefined();

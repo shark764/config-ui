@@ -64,6 +64,7 @@
       activityType: 'task',
       icon: 'none',
       name: '',
+      params: {},
       inputs: {
         activityType: {
           type: 'select',
@@ -72,11 +73,33 @@
           group: 'general',
           index: 3
         },
-        subProcess: {
-          type: 'toggle',
-          label: 'Sub-process',
+        target: {
+          type: 'text',
+          label: 'Target',
           group: 'general',
-          index: 4
+          when: {
+            eq: {
+              'targeted': true
+            }
+          }
+        },
+        bindings: {
+          type: 'list',
+          label: 'Bindings',
+          group: 'bindings',
+          item: {
+            type: 'object',
+            properties: {
+              key: {
+                label: 'Key',
+                type: 'text'
+              },
+              value: {
+                label: 'Value',
+                type: 'text'
+              }
+            }
+          }
         }
       }
     }, joint.shapes.basic.TextBlock.prototype.defaults),
@@ -89,7 +112,6 @@
       this.onActivityTypeChange(this, this.get('activityType'));
       this.listenTo(this, 'change:embeds', this.onEmbedsChange);
       this.onEmbedsChange(this, this.get('embeds'));
-
     },
 
     onEmbedsChange: function(cell, embeds) {

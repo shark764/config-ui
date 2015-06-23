@@ -18,6 +18,7 @@ angular.module('liveopsConfigPanel')
           'name': 'hasProficiency',
         }, {
           'header': 'Status',
+          'templateUrl': 'app/shared/templates/statuses.html',
           'name': 'status',
         }],
         'searchOn' : ['name', 'description'],

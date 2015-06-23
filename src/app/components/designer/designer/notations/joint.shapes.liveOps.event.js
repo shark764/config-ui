@@ -122,9 +122,95 @@
           group: 'general',
           label: 'Target',
           when: {
-            eq: {
-              'eventName': 'signal'
+            and: [
+              {
+                eq: {
+                  'eventName': 'signal'
+                }
+              },
+              {
+                eq: {
+                  'throwing': false
+                }
+              }
+
+            ]
+          }
+        },
+        event: {
+          type: 'object',
+          group: 'general',
+          label: 'Event',
+          properties: {
+            name: {
+              label: 'Signal Name',
+              type: 'text'
+            },
+            params: {
+              label: 'Params',
+              type: 'list',
+              item: {
+                type: 'object',
+                properties: {
+                  key: {
+                    label: 'Key',
+                    type: 'text'
+                  },
+                  value: {
+                    label: 'Value',
+                    type: 'text'
+                  }
+                }
+              }
             }
+          },
+          when: {
+            and: [
+              {
+                eq: {
+                  'eventName': 'signal'
+                }
+              },
+              {
+                eq: {
+                  'throwing': true
+                }
+              }
+
+            ]
+          }
+        },
+        bindings: {
+          type: 'list',
+          label: 'Bindings',
+          group: 'bindings',
+          item: {
+            type: 'object',
+            properties: {
+              key: {
+                label: 'Key',
+                type: 'text'
+              },
+              value: {
+                label: 'Value',
+                type: 'text'
+              }
+            }
+          },
+          when: {
+            and: [
+              {
+                eq: {
+                  'eventName': 'signal'
+                }
+              },
+              {
+                eq: {
+                  'throwing': false
+                }
+              }
+
+            ]
           }
         }
       }
@@ -213,6 +299,8 @@
               }
             }
           });
+          cell.set('throwing', false);
+          cell.set('terminate', false);
           break;
         case 'end':
           cell.attr({
@@ -238,6 +326,7 @@
             }
           });
           cell.set('throwing', true);
+          cell.set('terminate', true);
           break;
         case 'intermediate':
           cell.attr({
@@ -262,6 +351,7 @@
               }
             }
           });
+          cell.set('terminate', false);
           break;
         default:
           throw 'BPMN: Unknown Event Type: ' + type;
