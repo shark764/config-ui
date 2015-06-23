@@ -9,6 +9,7 @@
         'label':'Play Media',
         'description':'Play some media',
         'type':'task',
+        'targeted': true,
         'params':{
           'media':{
             'source':'entity',
@@ -38,6 +39,7 @@
         'label':'Collect Digits',
         'description':'Collect some digits',
         'type':'task',
+        'targeted': true,
         'params':{
           'media':{
             'source':'entity',
@@ -79,6 +81,7 @@
         'label':'Enqueue',
         'description':'Stick the call in a queue',
         'type':'task',
+        'targeted': false,
         'params':{
           'queue':{
             'source':'entity',
@@ -101,6 +104,7 @@
         'label': 'Add Participant',
         'description': 'Add Participant',
         'type': 'task',
+        'targeted': true,
         'params': {
           'resource': {
             'source': 'expression',
@@ -114,6 +118,38 @@
           }
         },
         'bindings': {},
+      },
+      {
+        'name': 'work-offer',
+        'entity': 'activity',
+        'label': 'Work Offer',
+        'description': 'Offer some work',
+        'type': 'task',
+        'params': {
+        },
+        'bindings': {},
+        'targeted': true
+      },
+      {
+        'name': 'free-resource',
+        'entity': 'activity',
+        'label': 'Free Resource',
+        'description': 'Free Resource',
+        'type': 'task',
+        'params': {
+          "resource-id": {
+            'source': 'expression',
+            'type':'string',
+            'label':'Resource ID',
+            'description':'',
+            'icon':'url',
+            'tooltip':'Resource to free',
+            'dataSensitivity':'low',
+            'mandatory':true
+          }
+        },
+        'bindings': {},
+        'targeted': true
       }
       // {
       //   'bindings':{

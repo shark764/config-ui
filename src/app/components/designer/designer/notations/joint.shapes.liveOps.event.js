@@ -138,9 +138,52 @@
           }
         },
         event: {
-          type: 'list',
+          type: 'object',
           group: 'general',
           label: 'Event',
+          properties: {
+            name: {
+              label: 'Signal Name',
+              type: 'text'
+            },
+            params: {
+              label: 'Params',
+              type: 'list',
+              item: {
+                type: 'object',
+                properties: {
+                  key: {
+                    label: 'Key',
+                    type: 'text'
+                  },
+                  value: {
+                    label: 'Value',
+                    type: 'text'
+                  }
+                }
+              }
+            }
+          },
+          when: {
+            and: [
+              {
+                eq: {
+                  'eventName': 'signal'
+                }
+              },
+              {
+                eq: {
+                  'throwing': true
+                }
+              }
+
+            ]
+          }
+        },
+        bindings: {
+          type: 'list',
+          label: 'Bindings',
+          group: 'bindings',
           item: {
             type: 'object',
             properties: {
@@ -163,7 +206,7 @@
               },
               {
                 eq: {
-                  'throwing': true
+                  'eventType': 'start'
                 }
               }
 

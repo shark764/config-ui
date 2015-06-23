@@ -64,6 +64,7 @@
       activityType: 'task',
       icon: 'none',
       name: '',
+      params: {},
       inputs: {
         activityType: {
           type: 'select',
@@ -71,6 +72,34 @@
           label: 'Type',
           group: 'general',
           index: 3
+        },
+        target: {
+          type: 'text',
+          label: 'Target',
+          group: 'general',
+          when: {
+            eq: {
+              'targeted': true
+            }
+          }
+        },
+        bindings: {
+          type: 'list',
+          label: 'Bindings',
+          group: 'bindings',
+          item: {
+            type: 'object',
+            properties: {
+              key: {
+                label: 'Key',
+                type: 'text'
+              },
+              value: {
+                label: 'Value',
+                type: 'text'
+              }
+            }
+          }
         }
       }
     }, joint.shapes.basic.TextBlock.prototype.defaults),
