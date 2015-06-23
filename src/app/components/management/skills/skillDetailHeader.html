@@ -1,10 +1,8 @@
-<div id="skill-detail-header">
-  <div class="mystery-man pull-left">
-    <i class="fa fa-user"></i>
-  </div>
+<div ng-if="originalResource.id" id="skill-detail-header">
+  <toggle class="status-toggle pull-left" name="status" ng-model="resource.status"></toggle>
   
   <div class="skill-info">
-    <h1>{{originalResource.name}} <b translate="value.numMembers" translate-value-number="{{originalResource.members ? originalResource.members.length : 0}}" ></b></h1>
+    <h1>{{originalResource.name}}</h1>
   
     <div class="details">
     
@@ -23,4 +21,8 @@
       </div>
     </div>
   </div>
+</div>
+
+<div ng-hide="originalResource.id">
+  <h1>Creating Skill</h1>
 </div>
