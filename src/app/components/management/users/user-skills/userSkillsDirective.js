@@ -43,7 +43,7 @@ angular.module('liveopsConfigPanel')
 
         $scope.new = function() {
           $scope.selectedSkill = null;
-          $scope.skillsForm.name.$touched = false;
+          $scope.skillsForm.name.$setUntouched();
 
           $scope.newUserSkill = new TenantUserSkills({
             skillId: null,
@@ -59,7 +59,7 @@ angular.module('liveopsConfigPanel')
           if(!$scope.selectedSkill.id){
             new Skill({
               name: $scope.selectedSkill.name,
-              hasProficiency: true,
+              hasProficiency: false, //TODO: add ability to have proficiency on create
               tenantId: Session.tenant.tenantId,
               description: '',
               status: true

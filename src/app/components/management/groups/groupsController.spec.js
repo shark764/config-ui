@@ -185,7 +185,7 @@ describe('groups controller', function () {
     }));
 
     it('should add the display name to the member', inject(function () {
-      spyOn(UserName, 'get').and.callFake(function(id, callback){callback(user1)});
+      spyOn(UserName, 'get').and.callFake(function(id, callback){callback(user1);});
       $scope.updateMembers(groups[0]);
       $httpBackend.flush();
       expect(groups[0].members[0].displayName).toBeDefined();
