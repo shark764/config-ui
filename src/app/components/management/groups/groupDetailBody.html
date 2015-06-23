@@ -23,8 +23,9 @@
 </div>
 
 <div ng-if="resource.id" class="input-group">
+  <label>&nbsp;</label>
   <p class="null" ng-show="resource.members.length == 0">There are no members assigned to this group.</p>
-  
+
   <table ng-hide="resource.members.length <= 0">
     <thead>
       <tr><th>{{'value.name' | translate}}</th></tr>
