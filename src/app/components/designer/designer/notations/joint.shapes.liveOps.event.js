@@ -179,6 +179,39 @@
 
             ]
           }
+        },
+        bindings: {
+          type: 'list',
+          label: 'Bindings',
+          group: 'bindings',
+          item: {
+            type: 'object',
+            properties: {
+              key: {
+                label: 'Key',
+                type: 'text'
+              },
+              value: {
+                label: 'Value',
+                type: 'text'
+              }
+            }
+          },
+          when: {
+            and: [
+              {
+                eq: {
+                  'eventName': 'signal'
+                }
+              },
+              {
+                eq: {
+                  'eventType': 'start'
+                }
+              }
+
+            ]
+          }
         }
       }
     }, joint.dia.Element.prototype.defaults),

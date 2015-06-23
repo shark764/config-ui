@@ -40,7 +40,7 @@
           params = _.reduce(notation.params, function(memo, param, name) {
             memo[name] = {
               label: param.label,
-              group: notation.label
+              group: 'params'
             };
 
             if (param.source === 'expression' && (param.type === 'integer' || param.type === 'string')) {
@@ -59,19 +59,9 @@
 
             return memo;
           }, {});
-
-          bindings = _.reduce(notation.bindings, function(memo, binding, name) {
-            memo[name] = {
-              label: name,
-              group: 'Bindings',
-              type: 'text'
-            };
-
-            return memo;
-          }, {});
         }
 
-        return _.extend(inputs, {params: params}, {bindings: bindings});
+        return _.extend({params: params}, inputs);
       },
 
       addActivityParams: function(model) {
@@ -97,6 +87,18 @@
           return memo;
         }, {});
         return params;
+      },
+
+      addActivityBindings: function(model) {
+        var self = this;
+        var activity = self.activities[model.name];
+        var bindings = {};
+
+        bindings = _.reduce(model.bindings, function(memo, binding, key) {
+          memo[binding.key] = binding.value
+          return memo;
+        }, {});
+        return bindings;
       }
 
     };

@@ -48,7 +48,7 @@
             notation.entity = 'activity';
             notation.name = n.name;
             notation.params = FlowNotationService.addActivityParams(n);
-            notation.bindings = {};
+            notation.bindings = FlowNotationService.addActivityBindings(n);
 
             if (n.targeted) {
               notation.target = n.target
@@ -132,6 +132,16 @@
               }
             }
 
+            if (notation.bindings) {
+              event.bindings = _.reduce(notation.bindings, function(memo, value, key) {
+                memo.push({
+                  key: key,
+                  value: value
+                })
+                return memo;
+              }, [])
+            }
+
             memo.push(event);
           } else if (notation.entity === 'gateway') {
             memo.push({
@@ -157,7 +167,14 @@
               embeds: notation.decorations,
               params: {},
               targeted: FlowNotationService.getActivityTargeted(notation),
-              target: notation.target || ""
+              target: notation.target || "",
+              bindings: _.reduce(notation.bindings, function(memo, key, value) {
+                memo.push({
+                  key: key,
+                  value: value
+                });
+                return memo;
+              }, [])
             };
 
             _.each(notation.params, function(param, key) {
@@ -214,7 +231,10 @@
               type: 'signal',
               target: model.target,
               interrupting: model.interrupting,
-              bindings: model.bindings || {}
+              bindings: _.reduce(model.bindings, function(memo, param) {
+                memo[param.key] = param.value;
+                return memo;
+              }, {})
             }
           }
         },
