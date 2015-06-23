@@ -18,6 +18,7 @@
   "value.details.version" : "Active Version",
   "value.error.name.required" : "Field \"Name\" is required.",
   "value.create.new": "Create & New",
+  "details.name.error": "Please enter a name",
 
 
   "value.error.query.required" : "Field \"Query\" is required.",
