@@ -59,6 +59,7 @@ describe('The flows view', function() {
       flows.descriptionFormField.sendKeys('Edit');
       var versionSelected = randomFlow % curFlowVersionCount;
       flows.activeVersionDropdown.all(by.css('option')).get(versionSelected).click();
+      flows.typeFormDropdown.all(by.css('option')).get((randomFlow % 3) + 1).click();
 
       var editedName = flows.nameFormField.getAttribute('value');
       var editedDescription = flows.descriptionFormField.getAttribute('value');
@@ -116,6 +117,7 @@ describe('The flows view', function() {
       flows.descriptionFormField.sendKeys('Edit');
       var versionSelected = randomFlow % curFlowVersionCount;
       flows.activeVersionDropdown.all(by.css('option')).get(versionSelected).click();
+      flows.typeFormDropdown.all(by.css('option')).get((randomFlow % 3) + 1).click();
 
       shared.cancelFormBtn.click();
 
@@ -131,7 +133,11 @@ describe('The flows view', function() {
 
   it('should display all flow versions in Active Version dropdown', function() {
     flows.firstTableRow.click();
-    expect(flows.versionsTableElements.count()).toBe(flows.activeVersionDropdown.all(by.css('option')).count());
+    flows.activeVersionDropdown.all(by.css('option')).then(function(dropdownVersions) {
+      for (var i = 1; i < dropdownVersions.length; ++i) {
+        expect(flows.versionsTableElements.get(i - 1).getText()).toContain(flows.activeVersionDropdown.all(by.css('option')).get(i).getText());
+      };
+    });
   });
 
   it('should add new flow version', function() {
@@ -146,7 +152,11 @@ describe('The flows view', function() {
       expect(flows.versionNameFormField.getAttribute('value')).toBe('');
       expect(flows.versionDescriptionFormField.getAttribute('value')).toBe('');
       expect(flows.versionsTableElements.count()).toBeGreaterThan(flowVersionCount);
-      expect(flows.versionsTableElements.count()).toBe(flows.activeVersionDropdown.all(by.css('option')).count());
+      flows.activeVersionDropdown.all(by.css('option')).then(function(dropdownVersions) {
+        for (var i = 1; i < dropdownVersions.length; ++i) {
+          expect(flows.versionsTableElements.get(i - 1).getText()).toContain(flows.activeVersionDropdown.all(by.css('option')).get(i).getText());
+        };
+      });
     });
   });
 
@@ -164,7 +174,6 @@ describe('The flows view', function() {
     expect(flows.requiredErrors.get(3).getText()).toBe('Field \"Name\" is required.');
 
     expect(flows.versionsTableElements.count()).toBe(flowVersionCount);
-    expect(flows.versionsTableElements.count()).toBe(flows.activeVersionDropdown.all(by.css('option')).count());
   });
 
   it('should not require description when adding a new flow version', function() {
@@ -178,7 +187,6 @@ describe('The flows view', function() {
     flows.createVersionBtn.click().then(function() {
       expect(flows.versionNameFormField.getAttribute('value')).toBe('');
       expect(flows.versionsTableElements.count()).toBeGreaterThan(flowVersionCount);
-      expect(flows.versionsTableElements.count()).toBe(flows.activeVersionDropdown.all(by.css('option')).count());
     });
   });
 

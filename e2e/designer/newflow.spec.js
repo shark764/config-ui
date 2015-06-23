@@ -21,6 +21,7 @@ describe('The create new flows view', function() {
   });
 
   it('should include supported flow fields only', function() {
+    shared.createBtn.click();
     expect(flows.nameFormField.isDisplayed()).toBeTruthy();
     expect(flows.descriptionFormField.isDisplayed()).toBeTruthy();
     expect(flows.typeFormDropdown.isDisplayed()).toBeTruthy();
@@ -33,9 +34,7 @@ describe('The create new flows view', function() {
 
     flows.nameFormField.sendKeys('Flow ' + randomFlow);
     flows.descriptionFormField.sendKeys('This is a new flow description');
-    flows.typeFormDropdown.all(by.css('option')).get(1).click();
-    // Add randomness to Flow Type when more types are available
-    //flows.typeFormDropdown.all(by.css('option')).get((randomFlow % 3) + 1).click();
+    flows.typeFormDropdown.all(by.css('option')).get((randomFlow % 3) + 1).click();
     shared.submitFormBtn.click();
 
     // Confirm flow is displayed in flow list with correct details
@@ -62,15 +61,15 @@ describe('The create new flows view', function() {
 
     flows.nameFormField.sendKeys('Flow ' + randomFlow);
     flows.descriptionFormField.sendKeys('This is a new flow description');
-    flows.typeFormDropdown.all(by.css('option')).get(1).click();
+    flows.typeFormDropdown.all(by.css('option')).get((randomFlow % 3) + 1).click();
 
     shared.submitFormBtn.click().then(function() {
       expect(flows.requiredErrors.get(0).isDisplayed()).toBeFalsy();
       expect(shared.successMessage.isDisplayed()).toBeTruthy();
 
-      // Default v1 flow version added
+      expect(flows.activeVersionDropdown.getAttribute('value')).toBe('0');
       expect(flows.versionsTableElements.count()).toBe(1);
-      expect(flows.versionsTableElements.get(0).v).toBe('1');
+      expect(flows.versionsTableElements.get(0).getText()).toContain('v1');
     });
   });
 
@@ -94,7 +93,7 @@ describe('The create new flows view', function() {
     // Complete flow form and submit without flow name
     flows.nameFormField.click();
     flows.descriptionFormField.sendKeys('This is the flow description for flow ' + randomFlow);
-    flows.typeFormDropdown.all(by.css('option')).get(1).click();
+    flows.typeFormDropdown.all(by.css('option')).get((randomFlow % 3) + 1).click();
 
     // Submit button is still disabled
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
@@ -114,7 +113,8 @@ describe('The create new flows view', function() {
     // Complete flow form and submit without flow description
     flows.nameFormField.sendKeys('Flow ' + randomFlow);
     flows.descriptionFormField.click();
-    flows.typeFormDropdown.all(by.css('option')).get(1).click();
+    flows.typeFormDropdown.all(by.css('option')).get((randomFlow % 3) + 1).click();
+
     shared.submitFormBtn.click().then(function() {
       expect(shared.tableElements.count()).toBeGreaterThan(flowCount);
       expect(shared.successMessage.isDisplayed()).toBeTruthy();
@@ -146,7 +146,7 @@ describe('The create new flows view', function() {
     shared.createBtn.click();
     flows.nameFormField.sendKeys(' ');
     flows.descriptionFormField.sendKeys(' ');
-    flows.typeFormDropdown.all(by.css('option')).get(1).click();
+    flows.typeFormDropdown.all(by.css('option')).get((randomFlow % 3) + 1).click();
 
     // Submit button is still disabled
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
@@ -165,7 +165,7 @@ describe('The create new flows view', function() {
     // Edit fields
     flows.nameFormField.sendKeys('Flow Name');
     flows.descriptionFormField.sendKeys('Flow Description');
-    flows.typeFormDropdown.all(by.css('option')).get(1).click();
+    flows.typeFormDropdown.all(by.css('option')).get((randomFlow % 3) + 1).click();
     shared.cancelFormBtn.click();
 
     // New skill is not created
@@ -175,6 +175,6 @@ describe('The create new flows view', function() {
     // Form fields are cleared and reset to default
     expect(flows.nameFormField.getAttribute('value')).toBe('');
     expect(flows.descriptionFormField.getAttribute('value')).toBe('');
-    expect(flows.typeFormDropdown.getAttribute('value')).toBe('?');
+    expect(flows.typeFormDropdown.getAttribute('value')).toBe('');
   });
 });

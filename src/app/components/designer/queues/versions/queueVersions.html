@@ -34,6 +34,6 @@
     <input ng-required="true" type="text" ng-model="version.query" name="query"></input>
   </div>
 
-  <input  ng-click="saveVersion()" ng-disabled="createVersionForm.$invalid || !createVersionForm.$dirty"
+  <input id='create-queue-version-btn' ng-click="saveVersion()" ng-disabled="createVersionForm.$invalid || !createVersionForm.$dirty"
   type="submit" class="btn btn-primary" value="{{ 'value.create' | translate }}" />
 </ng-form>

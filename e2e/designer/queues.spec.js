@@ -6,6 +6,7 @@ describe('The queues view', function() {
     queues = require('./queues.po.js'),
     params = browser.params,
     queueCount,
+    queueVersionCount,
     randomQueue;
 
   beforeAll(function() {
@@ -34,12 +35,12 @@ describe('The queues view', function() {
     queues.firstTableRow.click();
 
     // Verify queue name in table matches populated field
-    expect(element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(2) > a:nth-child(1)')).getText()).toContain(nameFormField).getAttribute('value');
+    expect(element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(2) > a:nth-child(1)')).getText()).toContain(queues.nameFormField.getAttribute('value'));
 
     shared.tableElements.count().then(function(numQueues) {
       if (numQueues > 1) {
         queues.secondTableRow.click();
-        expect(element(by.css('tr.ng-scope:nth-child(2) > td:nth-child(2) > a:nth-child(1)')).getText()).toContain(nameFormField).getAttribute('value');
+        expect(element(by.css('tr.ng-scope:nth-child(2) > td:nth-child(2) > a:nth-child(1)')).getText()).toContain(queues.nameFormField.getAttribute('value'));
       }
     });
   });
@@ -105,11 +106,10 @@ describe('The queues view', function() {
     expect(queues.createVersionBtn.getAttribute('disabled')).toBeTruthy();
 
     queues.createVersionBtn.click();
-    expect(queues.requiredErrors.get(3).isDisplayed()).toBeTruthy();
-    expect(queues.requiredErrors.get(3).getText()).toBe('Field \"Name\" is required.');
+    expect(queues.requiredErrors.get(2).isDisplayed()).toBeTruthy();
+    expect(queues.requiredErrors.get(2).getText()).toBe('Field \"Name\" is required.');
 
     expect(queues.versionsTableElements.count()).toBe(queueVersionCount);
-    expect(queues.versionsTableElements.count()).toBe(queues.activeVersionDropdown.all(by.css('option')).count());
   });
 
   it('should not require description when adding a new queue version', function() {
@@ -123,7 +123,6 @@ describe('The queues view', function() {
     queues.createVersionBtn.click().then(function() {
       expect(queues.versionNameFormField.getAttribute('value')).toBe('');
       expect(queues.versionsTableElements.count()).toBeGreaterThan(queueVersionCount);
-      expect(queues.versionsTableElements.count()).toBe(queues.activeVersionDropdown.all(by.css('option')).count());
     });
   });
 
@@ -138,11 +137,10 @@ describe('The queues view', function() {
     expect(queues.createVersionBtn.getAttribute('disabled')).toBeTruthy();
 
     queues.createVersionBtn.click();
-    expect(queues.requiredErrors.get(4).isDisplayed()).toBeTruthy();
-    expect(queues.requiredErrors.get(4).getText()).toBe('Field \"Query\" is required.');
+    expect(queues.requiredErrors.get(3).isDisplayed()).toBeTruthy();
+    expect(queues.requiredErrors.get(3).getText()).toBe('Field \"Query\" is required.');
 
     expect(queues.versionsTableElements.count()).toBe(queueVersionCount);
-    expect(queues.versionsTableElements.count()).toBe(queues.activeVersionDropdown.all(by.css('option')).count());
   });
 
   it('should reset fields after editing and selecting Cancel', function() {
@@ -175,7 +173,11 @@ describe('The queues view', function() {
 
   it('should display all queue versions in Active Version dropdown', function() {
     queues.firstTableRow.click();
-    expect(queues.versionsTableElements.count()).toBe(queues.activeVersionDropdown.all(by.css('option')).count());
+    queues.activeVersionDropdown.all(by.css('option')).then(function(dropdownVersions) {
+      for (var i = 1; i < dropdownVersions.length; ++i) {
+        expect(queues.versionsTableElements.get(i - 1).getText()).toContain(queues.activeVersionDropdown.all(by.css('option')).get(i).getText());
+      };
+    });
   });
 
   it('should add new queue version', function() {
@@ -191,7 +193,11 @@ describe('The queues view', function() {
       expect(queues.versionNameFormField.getAttribute('value')).toBe('');
       expect(queues.versionDescriptionFormField.getAttribute('value')).toBe('');
       expect(queues.versionsTableElements.count()).toBeGreaterThan(queueVersionCount);
-      expect(queues.versionsTableElements.count()).toBe(queues.activeVersionDropdown.all(by.css('option')).count());
+      queues.activeVersionDropdown.all(by.css('option')).then(function(dropdownVersions) {
+        for (var i = 1; i < dropdownVersions.length; ++i) {
+          expect(queues.versionsTableElements.get(i - 1).getText()).toContain(queues.activeVersionDropdown.all(by.css('option')).get(i).getText());
+        };
+      });
     });
   });
 
@@ -207,7 +213,7 @@ describe('The queues view', function() {
     shared.submitFormBtn.click();
 
     expect(queues.requiredErrors.get(0).isDisplayed()).toBeTruthy();
-    expect(queues.requiredErrors.get(0).getText()).toBe('Please enter a name');
+    expect(queues.requiredErrors.get(0).getText()).toBe('Field \"Name\" is required.');
     expect(shared.tableElements.count()).toBe(queueCount);
     expect(shared.successMessage.isPresent()).toBeFalsy();
   });

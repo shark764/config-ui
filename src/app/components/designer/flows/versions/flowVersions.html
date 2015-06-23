@@ -29,7 +29,7 @@
   </div>
   <div class="input-group">
     <div style="width:150px"></div>
-    <input ng-disabled="createVersionForm.$invalid || !createVersionForm.$dirty"
+    <input id='create-flow-version-btn' ng-disabled="createVersionForm.$invalid || !createVersionForm.$dirty"
       ng-click="saveVersion()" type="submit" class="btn btn-primary" value="{{ 'value.create' | translate }}"/>
   </div>
 </ng-form>

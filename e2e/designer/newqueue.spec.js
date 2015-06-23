@@ -54,7 +54,8 @@ describe('The create new queues view', function() {
     });
   });
 
-  it('should create a default version', function() {
+  xit('should create a default version', function() {
+    // TODO
     randomQueue = Math.floor((Math.random() * 1000) + 1);
     shared.createBtn.click();
 
@@ -66,8 +67,9 @@ describe('The create new queues view', function() {
       expect(shared.successMessage.isDisplayed()).toBeTruthy();
 
       // Default v1 queue version added
+      expect(queues.activeVersionDropdown.getAttribute('value')).toBe('0');
       expect(queues.versionsTableElements.count()).toBe(1);
-      expect(queues.versionsTableElements.get(0).v).toBe('1');
+      expect(queues.versionsTableElements.get(0).getText()).toContain('v1');
     });
   });
 

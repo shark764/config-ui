@@ -51,7 +51,7 @@ var Shared = function() {
   this.tableColumnsDropDown = element(by.css('filter-dropdown.btn'));
 
   // Shared Form elements
-  this.detailsForm = element(by.id('details-form'));
+  this.detailsForm = element(by.css('.details-form'));
   this.submitFormBtn = element(by.buttonText('Submit'));
   this.cancelFormBtn = element(by.buttonText('Cancel'));
   this.successMessage = element(by.css('.toast-success'));
