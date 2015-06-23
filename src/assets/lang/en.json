@@ -19,7 +19,9 @@
   "value.error.name.required" : "Field \"Name\" is required.",
   "value.create.new": "Create & New",
   "value.remove": "Remove",
-  
+  "value.identifier": "Identifier",
+  "value.media": "Media",
+
   "value.error.query.required" : "Field \"Query\" is required.",
 
   "navbar.users.title": "User Management",
@@ -60,7 +62,7 @@
   "details.skills.none": "This user has not been assigned any skills",
   "details.skills.title": "Skills",
   "details.skills.placeholder": "Add Skill...",
-  
+
   "skill.details.hasProficiency": "Has Proficiency",
   "skill.details.name.error": "Please enter a name",
   "skill.details.description.error" : "Description is required",
@@ -82,6 +84,8 @@
   "media.details.url.error" : "URL is required",
   "media.details.text.error" : "Text-to-Speech text is required",
   "media.details.description.error": "Description is required",
+
+  "media.collections.media.new" : "Create New Media",
 
   "tenant.details.title": "Tenants",
   "tenant.details.name": "Tenant Name",
