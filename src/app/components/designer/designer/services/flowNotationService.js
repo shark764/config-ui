@@ -19,8 +19,13 @@
         return activity.label;
       },
 
+      getActivityTargeted: function(model) {
+        var self = this;
+        var activity = _.findWhere(self.activities, {name: model.name});
+        return activity.targeted;
+      },
+
       buildInputPanel: function(model) {
-        console.log(this);
         var self = this;
         var modelType = model.get('type');
         var name = model.get('name');
@@ -35,7 +40,7 @@
           params = _.reduce(notation.params, function(memo, param, name) {
             memo[name] = {
               label: param.label,
-              group: notation.label
+              group: 'params'
             };
 
             if (param.source === 'expression' && (param.type === 'integer' || param.type === 'string')) {
@@ -54,19 +59,9 @@
 
             return memo;
           }, {});
-
-          bindings = _.reduce(notation.bindings, function(memo, binding, name) {
-            memo[name] = {
-              label: name,
-              group: 'Bindings',
-              type: 'text'
-            };
-
-            return memo;
-          }, {});
         }
 
-        return _.extend(inputs, {params: params}, {bindings: bindings});
+        return _.extend({params: params}, inputs);
       },
 
       addActivityParams: function(model) {
@@ -76,10 +71,10 @@
 
         params = _.reduce(activity.params, function(memo, param, key) {
 
-          if (param.source === 'expression') {
+          if (param.source === 'expression' && model.params[key]) {
             memo[key] = {
               source: 'expression',
-              value: model.params[key] || '5'
+              value: model.params[key]
             };
           } else if (param.source === 'entity') {
             memo[key] = {
@@ -92,6 +87,18 @@
           return memo;
         }, {});
         return params;
+      },
+
+      addActivityBindings: function(model) {
+        var self = this;
+        var activity = self.activities[model.name];
+        var bindings = {};
+
+        bindings = _.reduce(model.bindings, function(memo, binding, key) {
+          memo[binding.key] = binding.value
+          return memo;
+        }, {});
+        return bindings;
       }
 
     };

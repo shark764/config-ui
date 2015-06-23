@@ -48,7 +48,8 @@
               inputs: FlowNotationService.buildInputPanel(cellView.model),
               groups: {
                 general: {label: type, index: 1},
-                appearance: {index: 2}
+                params: {label: 'Params', index: 2},
+                bindings: {label: 'Bindings', index: 3}
               }
             });
             $('#inspector-container').prepend(graph.interfaces.flowPropertiesPanel.render().el);
