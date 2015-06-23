@@ -15,12 +15,14 @@
   "value.createdOn" : "Created On",
   "value.designerLink": "Designer Link",
   "value.openInDesigner": "Open in designer",
-  "value.details.version" : "Active Version",
+  "value.details.version" : "Version",
   "value.error.name.required" : "Field \"Name\" is required.",
   "value.create.new": "Create & New",
   "value.remove": "Remove",
   "value.identifier": "Identifier",
   "value.media": "Media",
+  "value.details.activeVersion": "Active Version",
+  "value.details.query" : "Query",
 
   "value.error.query.required" : "Field \"Query\" is required.",
 

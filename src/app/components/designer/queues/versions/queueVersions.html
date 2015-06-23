@@ -1,5 +1,5 @@
 <div class="divider-header">
-  <h4>Active Version</h4>
+  <h4>{{'value.details.activeVersion' | translate}}</h4>
 </div>
 
 <div class="input-group">
@@ -12,39 +12,13 @@
   </div>
 </div>
 
-<div class="divider-header">
-  <h4>Active Query</h4>
-</div>
-
 <div class="input-group">
+  <label class="textarea-label">{{'value.details.query' | translate}}</label>
   <div>
     <textarea disabled ng-model="currVersion.query">
     </textarea>
   </div>
 </div>
-
-<!--<div class="divider-header">
-  <h4>Active Priority</h4>
-</div>
-
- <div class="input-group">
-  <label>Starting Priority</label>
-  <div>
-    <input type="number" >
-  </input>
-</div>
-</div>
-<div class="input-group">
-  <label>Rate of Increase</label>
-  <div>
-    <input type="number" >
-  </input>
-  <select>
-    <option>mins</option>
-  </select>
-</div>
-</div> -->
-
 
 <div class="divider-header">
   <h4>Versions: View &amp; Create Additional Versions</h4>
@@ -58,42 +32,25 @@
   </div>
 
   <ng-form name="createVersionForm" seperate-validation>
-  <div class="input-group">
-    <label>Name</label>
-    <form-error field="createVersionForm.name"
-    error-type-required="{{'value.error.name.required' | translate}}"></form-error>
-    <input disabled="true" ng-required="true" type="text" ng-model="version.name" name="name"></input>
-  </div>
+    <div class="input-group">
+      <label>{{'value.name' | translate}}</label>
+      <form-error field="createVersionForm.name"
+      error-type-required="{{'value.error.name.required' | translate}}"></form-error>
+      <input disabled="true" ng-required="true" type="text" ng-model="version.name" name="name"></input>
+    </div>
 
-  <div class="input-group">
-    <label>Query</label>
-    <form-error field="createVersionForm.query"
-    error-type-required="{{'value.error.query.required' | translate}}"></form-error>
-    <textarea ng-required="true" type="text" ng-model="version.query" name="query"></textarea>
-  </div>
-
-<!--   <div class="input-group">
-    <label>Starting Priority</label>
-    <div>
-      <input type="number" >
-    </input>
-  </div>
-</div>
-<div class="input-group">
-  <label>Rate of Increase</label>
-  <div>
-    <input type="number" >
-  </input>
-  <select>
-    <option>mins</option>
-  </select>
-</div>
-</div> -->
-
-<input  ng-click="cancelVersion()" class="btn" value="Cancel" />
-  <input  ng-click="saveVersion()" ng-disabled="createVersionForm.$invalid || !createVersionForm.$dirty"
-  type="submit" class="btn btn-primary" value="Save New Version" />
-</ng-form>
+    <div class="input-group">
+      <label class="textarea-label">{{'value.details.query' | translate}}</label>
+      <form-error field="createVersionForm.query"
+      error-type-required="{{'value.error.query.required' | translate}}"></form-error>
+      <textarea ng-required="true" type="text" ng-model="version.query" name="query"></textarea>
+    </div>
+    <div class="queue-controls input-group">
+      <label></label>
+      <input type="button" ng-click="cancelVersion()" class="btn" value="Cancel" />
+      <input ng-click="saveVersion()" ng-disabled="createVersionForm.$invalid || !createVersionForm.$dirty" type="submit" class="btn btn-primary" value="Save New Version" />
+    </div>
+  </ng-form>
 </div>
 
 <div class="queue-version-table">
@@ -109,4 +66,4 @@
       <td>{{version.created | date:'medium'}}</td>
     </tr>
   </table>
-</div> 
+</div>

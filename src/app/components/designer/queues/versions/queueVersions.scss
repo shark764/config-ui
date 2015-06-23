@@ -1,3 +1,11 @@
 .queue-version-table{
   margin-top: 20px;
 }
+
+.queue-controls{
+  text-align: right;
+  input {
+    display: inline-block;
+    width: 50% !important;
+  }
+}

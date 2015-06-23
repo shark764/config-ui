@@ -23,7 +23,7 @@ angular.module('liveopsConfigPanel')
           } else {
             $scope.currVersion = null;
           }
-        
+
         });
       };
 
@@ -49,7 +49,7 @@ angular.module('liveopsConfigPanel')
         $scope.version = new QueueVersion({
           queueId: $scope.queue.id,
           tenantId: Session.tenant.tenantId,
-          name: $scope.versions.length + 1 + ""
+          name: 'v' + ($scope.versions.length + 1) + ""
         });
       };
 
