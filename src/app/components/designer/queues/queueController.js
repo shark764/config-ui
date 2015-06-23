@@ -13,6 +13,7 @@ angular.module('liveopsConfigPanel')
           $scope.selectedQueue = $scope.queues[0];
         }
       });
+      
     };
 
     $scope.$on('on:click:create', function(){
