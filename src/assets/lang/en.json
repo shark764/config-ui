@@ -53,7 +53,7 @@
   "details.flow": "Flow",
   "details.value": "Value",
   "details.phoneNumber": "Phone Number",
-  "details.phoneNumber.error": "Phone number should be in E.164 format.",
+  "details.phoneNumber.error": "Phone number should be in E.164 format (15555555555 or 1-555-555-5555).",
 
   "skill.details.hasProficiency": "Has Proficiency",
   "skill.details.name.error": "Please enter a name",
@@ -82,7 +82,7 @@
   "tenant.details.description": "Description",
   "tenant.details.region": "Region",
   "tenant.details.name.error": "Please enter a name",
-  
+
   "integration.details": "Integration",
   "integration.details.properties.accountSid": "Account SID",
   "integration.details.properties.authToken": "Auth Token",
