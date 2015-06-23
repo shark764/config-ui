@@ -2,11 +2,12 @@
 
 angular.module('liveopsConfigPanel')
   .controller('DispatchMappingsController', [
-    '$scope', 'Session', 'DispatchMapping', 'Flow', 'dispatchMappingTableConfig', 'dispatchMappingInteractionFields', 'dispatchMappingChannelTypes',
-    function($scope, Session, DispatchMapping, Flow, dispatchMappingTableConfig, dispatchMappingInteractionFields, dispatchMappingChannelTypes) {
+    '$scope', 'Session', 'DispatchMapping', 'Flow', 'Integration', 'dispatchMappingTableConfig', 'dispatchMappingInteractionFields', 'dispatchMappingChannelTypes', 'dispatchMappingDirections',
+    function($scope, Session, DispatchMapping, Flow, Integration, dispatchMappingTableConfig, dispatchMappingInteractionFields, dispatchMappingChannelTypes, dispatchMappingDirections) {
       $scope.create = function() {
         $scope.selectedDispatchMapping = new DispatchMapping({
-          tenantId: Session.tenant.tenantId
+          tenantId: Session.tenant.tenantId,
+          channelType: 'voice'
         });
       };
 
@@ -26,6 +27,10 @@ angular.module('liveopsConfigPanel')
         $scope.flows = Flow.query({
           tenantId: Session.tenant.tenantId
         });
+        
+        $scope.integrations = Integration.query({
+          tenantId: Session.tenant.tenantId
+        })
       };
 
       $scope.$watch('Session.tenant.tenantId', $scope.fetch, true);
@@ -39,8 +44,10 @@ angular.module('liveopsConfigPanel')
 
       $scope.additional = {
         flows: $scope.flows,
+        integrations: $scope.integrations,
         dispatchMappingInteractionFields: dispatchMappingInteractionFields,
-        dispatchMappingChannelTypes: dispatchMappingChannelTypes
+        dispatchMappingChannelTypes: dispatchMappingChannelTypes,
+        dispatchMappingDirections: dispatchMappingDirections
       };
     }
   ]);

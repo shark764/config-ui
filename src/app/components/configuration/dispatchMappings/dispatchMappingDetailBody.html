@@ -36,11 +36,30 @@
   </div>
 </div>
 
-<div class="input-group">
+<div class="input-group" ng-if="resource.interactionField === 'customer' || resource.interactionField === 'contact-point'"
+  ng-init="resource.value = ''">
   <label>{{'details.phoneNumber' | translate}}</label>
   <div>
     <form-error field="detailsForm.value" error-type-pattern="{{'details.phoneNumber.error' | translate}}"></form-error>
-    <input ng-pattern="/^\+?\d{1,2}\d{10}$/" type="text" ng-model="resource.value" name="value">
+    <input ng-pattern="/^\+?\d{1,2}-?\d{3}-?\d{3}-?\d{4}-?$/" type="text" ng-model="resource.value" name="value">
+  </div>
+</div>
+
+<div class="input-group" ng-if="resource.interactionField === 'integration'" ng-init="resource.value = integrations[0].id">
+  <label>{{'integration.details' | translate}}</label>
+  <div>
+    <select ng-model="resource.value" name="value"
+      ng-options="integration.id as integration.type for integration in integrations">
+    </select>
+  </div>
+</div>
+
+<div class="input-group" ng-if="resource.interactionField === 'direction'">
+  <label>{{'dispatchMappings.details.direction' | translate}}</label>
+  <div>
+    <select ng-model="resource.value" name="value" ng-init="resource.value = 'outbound'"
+      ng-options="dispatchMappingDirection.value as dispatchMappingDirection.display for dispatchMappingDirection in dispatchMappingDirections">
+    </select>
   </div>
 </div>
 

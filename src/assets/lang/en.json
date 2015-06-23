@@ -82,12 +82,14 @@
   "tenant.details.description": "Description",
   "tenant.details.region": "Region",
   "tenant.details.name.error": "Please enter a name",
-
+  
+  "integration.details": "Integration",
   "integration.details.properties.accountSid": "Account SID",
   "integration.details.properties.authToken": "Auth Token",
   "integration.details.properties.webRTC": "Web RTC",
 
   "dispatchMappings.details.interactionType": "Interaction Type",
   "dispatchMappings.details.channelType": "Mapping",
-  "dispatchMappings.details.flow": "Dispatch to flow"
+  "dispatchMappings.details.flow": "Dispatch to flow",
+  "dispatchMappings.details.direction": "Direction"
 }
