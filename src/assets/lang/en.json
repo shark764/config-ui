@@ -74,6 +74,7 @@
   "media.details.name.error" : "Please enter a name",
   "media.details.url.error" : "URL is required",
   "media.details.text.error" : "Text-to-Speech text is required",
+  "media.details.description.error": "Description is required",
 
   "tenant.details.title": "Tenants",
   "tenant.details.name": "Tenant Name",

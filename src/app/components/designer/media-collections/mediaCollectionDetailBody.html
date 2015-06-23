@@ -4,14 +4,14 @@
 <div class="input-group">
   <label>{{'value.name' | translate}}</label>
   <div>
-    <form-error field="detailsForm.source" error-type-api="{{'media.details.name.error' | translate}}" error-type-required="{{'media.details.name.error' | translate}}"></form-error>
+    <form-error field="detailsForm.name" error-type-api="{{'media.details.name.error' | translate}}" error-type-required="{{'media.details.name.error' | translate}}"></form-error>
     <input type="text" ng-required="true" ng-model="resource.name" name="name"></input>
   </div>
 </div>
 <div class="input-group">
   <label>{{'value.description' | translate}}</label>
   <div>
-    <form-error field="detailsForm.source" error-type-api="{{'media.details.description.error' | translate}}" error-type-required="{{'media.details.description.error' | translate}}"></form-error>
+    <form-error field="detailsForm.description" error-type-api="{{'media.details.description.error' | translate}}" error-type-required="{{'media.details.description.error' | translate}}"></form-error>
     <textarea ng-required="true" ng-model="resource.description" name="description"></textarea>
   </div>
 </div>
