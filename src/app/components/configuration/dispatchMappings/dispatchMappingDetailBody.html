@@ -19,10 +19,10 @@
 </div>
 
 <div class="input-group">
-  <label>{{'dispatchMappings.details.interactionField' | translate}}</label>
+  <label>{{'dispatchMappings.details.interactionType' | translate}}</label>
   <div>
-    <select ng-model="resource.interactionField" name="interactionField"
-      ng-options="interactionType.value as interactionType.display for interactionType in dispatchMappingInteractionTypes">
+    <select ng-model="resource.channelType" name="channelType"
+      ng-options="channelType.value as channelType.display for channelType in dispatchMappingChannelTypes">
     </select>
   </div>
 </div>
@@ -30,8 +30,8 @@
 <div class="input-group">
   <label>{{'dispatchMappings.details.channelType' | translate}}</label>
   <div>
-    <select ng-model="resource.channelType" name="channelType"
-      ng-options="channelType.value as channelType.display for channelType in dispatchMappingChannelTypes">
+    <select ng-model="resource.interactionField" name="interactionField"
+      ng-options="interactionFields.value as interactionFields.display for interactionFields in dispatchMappingInteractionFields">
     </select>
   </div>
 </div>

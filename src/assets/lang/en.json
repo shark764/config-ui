@@ -86,8 +86,8 @@
   "integration.details.properties.accountSid": "Account SID",
   "integration.details.properties.authToken": "Auth Token",
   "integration.details.properties.webRTC": "Web RTC",
-  
-  "dispatchMappings.details.interactionField": "Interaction Type",
+
+  "dispatchMappings.details.interactionType": "Interaction Type",
   "dispatchMappings.details.channelType": "Mapping",
   "dispatchMappings.details.flow": "Dispatch to flow"
 }
