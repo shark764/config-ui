@@ -206,7 +206,7 @@
         //Do another pass to set up decorations
 
         _.each(jointNotation, function(notation, index, list) {
-          if (notation.embeds) {
+          if (notation.embeds && notation.embeds.length > 0) {
             //find the child
             var decoration = _.findWhere(list, {id: String(notation.embeds[0])});
             decoration.parent = notation.id;
