@@ -79,7 +79,7 @@
   "flow.details.activeVersion.error": "Active version is required",
   "flow.details.versions.create.title": "Create new version",
   "queue.details.version.error" : "Active Version is required",
-
+  
   "media.details.source.error": "Please enter a source",
   "media.details.type.error": "Please enter a type",
   "media.details.properties.error": "Please enter properties as JSON",
