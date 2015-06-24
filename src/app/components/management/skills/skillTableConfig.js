@@ -15,7 +15,8 @@ angular.module('liveopsConfigPanel')
           'name': 'members',
         }, {
           'header': 'Proficiency',
-          'name': 'hasProficiency',
+          'templateUrl': 'app/components/management/skills/proficiencyTemplate.html',
+          'name': 'hasProficiency'
         }, {
           'header': 'Status',
           'templateUrl': 'app/shared/templates/statuses.html',
