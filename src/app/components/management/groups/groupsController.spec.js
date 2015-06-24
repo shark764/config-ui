@@ -82,13 +82,11 @@ describe('groups controller', function () {
     Session.tenant = {
       tenantId: 1
     };
-    
+
     Session.user = {
       id: 2
     };
-
     $controller('GroupsController', {'$scope': $scope});
-    
     $scope.$digest();
     $httpBackend.flush();
   });
@@ -105,9 +103,9 @@ describe('groups controller', function () {
     Session.tenant = {
       tenantId: 2
     };
-    
+
     $scope.$digest();
-    
+
     expect($scope.fetch).toHaveBeenCalled();
   }));
 
