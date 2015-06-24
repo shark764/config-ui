@@ -86,10 +86,6 @@
             {
               value: 'signal',
               content: 'Signal'
-            },
-            {
-              value: 'escalation',
-              content: 'Escalation'
             }
           ],
           group: 'general',
