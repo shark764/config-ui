@@ -5,7 +5,7 @@
   "value.save": "Save",
   "value.name": "Name",
   "value.description": "Description",
-  "value.createdby": "Created by {{creator}} at {{date}}",
+  "value.createdby.time": "Created by {{creator}} at {{date}}",
   "value.updatedby": "Last updated by {{updater}} at {{date}}",
   "value.numMembers": "({{number}})",
   "value.source": "Source",
@@ -24,6 +24,7 @@
   "value.media": "Media",
   "value.details.activeVersion": "Active Version",
   "value.details.query" : "Query",
+  "value.createdby": "Created By",
 
   "value.error.query.required" : "Field \"Query\" is required.",
 
@@ -77,7 +78,7 @@
   "flow.details.name.error": "Please enter a name",
   "flow.details.type.error": "Type is required",
   "flow.details.activeVersion.error": "Active version is required",
-
+  "flow.details.versions.create.title": "Create new version",
   "queue.details.version.error" : "Active Version is required",
   "queue.details.createdBy" : "Created By",
   "queue.details.createAdditionalVersions" : "Versions: View & Create Additional Versions",

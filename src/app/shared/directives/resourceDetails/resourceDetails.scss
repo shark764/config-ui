@@ -69,15 +69,10 @@
       .count {
         color: $dark-grey;
       }
-      
-      & + .btn {
-        margin-top: -5px;
-      }
-      
-      & + .btn.pull-right, 
-      & + .btn.pull-left {
-        margin-bottom: 10px;
-      }
+    }
+    
+    .clear .btn {
+      margin-bottom: 10px;
     }
     
     .divider-header.first-header {
