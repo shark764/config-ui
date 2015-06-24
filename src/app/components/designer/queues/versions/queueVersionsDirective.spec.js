@@ -23,12 +23,14 @@ describe('Versions directive controller', function () {
         new QueueVersion({
           name: 'q1',
           description: 'A pretty good version',
-          id: 'q1'
+          id: 'q1',
+          query: 'query 1'
         }),
         new QueueVersion({
           name: 'q2',
           description: 'Not as cool as the other version',
-          id: 'q2'
+          id: 'q2',
+          query: 'query 2'
         })
       ];
 
@@ -78,7 +80,7 @@ describe('Versions directive controller', function () {
 
   describe('on new version creation', function () {
     beforeEach(function () {
-      $scope.createVersion();
+      $scope.createVersion(versions[0]);
 
       $httpBackend.when('POST', 'fakendpoint.com/v1/tenants/1/queues/' + queueId + '/versions').respond(201, {
         'result': versions[0]
