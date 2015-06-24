@@ -10,8 +10,9 @@ angular.module('liveopsConfigPanel')
           'header': 'Description',
           'name': 'description'
         }, {
-          'header': 'Media Map',
-          'name': 'properties'
+          'header': 'Identifiers',
+          'name': 'identifier',
+          'templateUrl' : 'app/components/designer/media-collections/mediaCollectionIdentifier.html'
         }],
         'searchOn' : ['name'],
         'orderBy' : ['name'],

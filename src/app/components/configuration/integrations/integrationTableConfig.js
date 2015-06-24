@@ -10,13 +10,18 @@ angular.module('liveopsConfigPanel')
         'header': 'Account',
         'name': 'properties.accountSid'
       }, {
-        'header': 'Secret',
-        'name': 'properties.authToken'
-      }, {
         'header': 'Status',
         'name': 'status',
         'sortable': true,
-        'options': statuses,
+        'options': statuses(),
+        'templateUrl': 'app/shared/templates/statuses.html',
+        'filter': 'selectedOptions'
+      }, {
+        'header': 'WebRTC',
+        'name': 'properties.webRtc',
+        'sortable': true,
+        'options': statuses(),
+        'templateUrl': 'app/components/configuration/integrations/templates/webrtc.html',
         'filter': 'selectedOptions'
       }],
       'searchOn': ['name'],

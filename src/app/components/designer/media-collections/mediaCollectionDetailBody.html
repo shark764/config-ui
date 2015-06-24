@@ -19,10 +19,11 @@
 <div class="divider-header ">
   <h4>Media Mappings</h4>
 </div>
+<div class="input-group">
   <table class="media-collection-table" >
     <thead>
-      <th>Label</th>
-      <th>Media</th>
+      <th>{{'value.identifier' | translate}}</th>
+      <th>{{'value.media' | translate}}</th>
       <th class="add-item-cell"><a ng-click="resource.mediaMap.push({});  detailsForm.$dirty = true;"><i class="fa fa-plus"></i></a></th>
     </thead>
     <tbody>
@@ -48,7 +49,7 @@
                 selected-item="selectedMedia"
                 name-field="source"
                 on-select="mapping.id = selectedMedia.id; editMode = false; detailsForm.$dirty = true; selectedMedia = null;"></type-ahead>
-              <input ng-click="createMediaMapping(mapping); detailsForm.$dirty = true;" type="button" value="Create New" class="btn btn-primary new-media-btn" />
+              <input ng-click="createMediaMapping(mapping); detailsForm.$dirty = true;" type="button" value="{{'media.collections.media.new' | translate}}" class="btn btn-primary new-media-btn" />
             </div>
           </div>
         </td>
@@ -59,4 +60,5 @@
 
     </tbody>
   </table>
+</div>
 </div>

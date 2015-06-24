@@ -1,3 +1,5 @@
-<div class="number-slider">
-  <input type="text" ng-model="value"></input>
+<div class="number-slider inner-addon right">
+  <input type="text" ng-model="value" placeholder="{{placeholder}}"></input>
+  <i ng-mousedown="increment()" class="fa fa-caret-up top" ng-class="{disabled : value + 1 > maxValue}"></i>
+  <i ng-mousedown="decrement()" class="fa fa-caret-down bottom" ng-class="{disabled : value - 1 < minValue}"></i>
 </div>

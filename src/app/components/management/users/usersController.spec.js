@@ -73,11 +73,6 @@ describe('users controller', function(){
     expect($scope.users.length).toEqual(users.length);
   }));
 
-  it('should have statuses', inject(function() {
-    expect($scope.statuses).toBeDefined();
-    expect($scope.statuses).toEqual(jasmine.any(Object));
-  }));
-
   describe('updateDisplayName function', function(){
     beforeEach(function(){
       childScope = {
