@@ -6,9 +6,9 @@
   <label>{{'value.type' | translate}}</label>
   <div>
     <form-error field="detailsForm.type" error-type-api="true" error-type-required="media.details.type.error"></form-error>
-    <select ng-change="text = ''" ng-disabled="resource.id" ng-required="!resource.id" ng-model="resource.type" name="type" required>
-      <option value="url">URL</option>
-      <option value="tts">Text-To-Speech</option>
+    <select ng-change="text = ''" ng-disabled="resource.id" 
+      ng-required="!resource.id" ng-model="resource.type" name="type" required
+      ng-options="type.value as type.display for type in mediaTypes">
     </select>
   </div>
 </div>
