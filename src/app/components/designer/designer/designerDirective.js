@@ -36,6 +36,8 @@ function flowDesigner() {
             }
           });
 
+          $scope.manuallyOpenPropertiesPanel = graph.utils.showPropertiesPanel;
+
           $scope.redirectToSubflowEditor = function(cellView) {
             SubflowCommunicationService.currentFlowContext = graph.toJSON();
             SubflowCommunicationService.currentVersionContext = $scope.flowVersion;
