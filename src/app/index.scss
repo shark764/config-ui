@@ -76,8 +76,17 @@ a:hover {
   }
 }
 
+.btn:focus {
+  outline: none;
+}
+
 .pull-right {
   float: right;
+}
+
+.unfloat-right {
+  display: inline-block;
+  text-align: left;
 }
 
 .error {
