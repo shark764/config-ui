@@ -13,7 +13,7 @@ angular.module('liveopsConfigPanel')
           $scope.selectedQueue = $scope.queues[0];
         }
       });
-      
+
     };
 
     $scope.additional = {
@@ -24,14 +24,14 @@ angular.module('liveopsConfigPanel')
             queueId: result.id,
             query: '',
             tenantId: Session.tenant.tenantId,
-            name: '1'
+            name: 'v1'
           });
 
           initialVersion.save(function(versionResult){
                 //Update the displays
                 childScope.originalResource.activeVersion = versionResult.version;
                 childScope.resource.activeVersion = versionResult.version;
-                
+
                 result.activeVersion = versionResult.version;
                 result.save(function(){
                   $scope.updateVersionName(childScope.originalResource);
