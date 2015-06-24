@@ -6,18 +6,18 @@
     <div class="details">
       <div>
         <b>
-          <span ng-show="originalResource.created"
+          <span
             translate="value.createdby.time"
             translate-value-date="{{originalResource.created | date:'medium'}}"
-            translate-value-creator="{{creator.displayName}}"></span>
+            translate-value-creator="{{originalResource.createdBy | displayName}}"></span>
             &nbsp;
         </b>
         <br/>
         <b>
-          <span ng-show="originalResource.created"
+          <span ng-show="originalResource.updatedBy"
             translate="value.updatedby"
-            translate-value-date="{{originalResource.created | date:'medium'}}"
-            translate-value-updater="{{updater.displayName}}"></span>
+            translate-value-date="{{originalResource.updated | date:'medium'}}"
+            translate-value-updater="{{originalResource.updatedBy | displayName}}"></span>
             &nbsp;
         </b>
       </div>
