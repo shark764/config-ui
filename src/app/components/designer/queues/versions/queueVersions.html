@@ -53,17 +53,15 @@
   </ng-form>
 </div>
 
-<div class="queue-version-table">
-  <table>
-    <thead>
-      <th>{{'value.name' | translate}}</th>
-      <th>{{'value.description' | translate}}</th>
-      <th>{{'value.createdOn' | translate}}</th>
-    </thead>
-    <tr ng-repeat="version in versions">
-      <td>{{version.name}}</td>
-      <td>{{version.description}}</td>
-      <td>{{version.created | date:'medium'}}</td>
-    </tr>
-  </table>
-</div>
+<table>
+  <thead>
+    <th>{{'value.name' | translate}}</th>
+    <th>{{'value.description' | translate}}</th>
+    <th>{{'value.createdOn' | translate}}</th>
+  </thead>
+  <tr ng-repeat="version in versions">
+    <td>{{version.name}}</td>
+    <td>{{version.description}}</td>
+    <td>{{version.created | date:'medium'}}</td>
+  </tr>
+</table>
