@@ -12,7 +12,7 @@ angular.module('liveopsConfigPanel')
           tenantId: Session.tenant.tenantId,
           mediaMap: []
         });
-      }
+      };
       
       $scope.fetch = function () {
         Media.query({
