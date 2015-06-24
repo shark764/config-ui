@@ -118,6 +118,7 @@
       if (embeds) {
         // Position the embedded cells (since this is relative
         // To the parents position)
+        cell.set('z', 2);
         var box = cell.getBBox();
         joint.util.nextFrame(function() {
           _.forEach(cell.getEmbeddedCells(), function(child) {

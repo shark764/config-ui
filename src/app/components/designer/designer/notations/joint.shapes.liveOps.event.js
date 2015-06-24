@@ -240,7 +240,16 @@
     onParentChange: function(cell, parent) {
       if (parent) {
         this.resize(30, 30);
-        this.set('z', 2);
+        this.set('z', 20);
+
+        //remove connecting links
+        if (cell.collection) {
+          var links = cell.collection.getConnectedLinks(cell, {inbound: true});
+          _.each(links, function(link) {
+            link.remove();
+          });
+        }
+
       } else {
         this.resize(70, 70);
       }

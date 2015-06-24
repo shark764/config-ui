@@ -97,8 +97,12 @@
           frontParentOnly: frontParentOnly,
           defaultLink: defaultLink,
           validateEmbedding: function(childView, parentView) {
-            var Pool = joint.shapes.bpmn.Pool;
-            return (parentView.model instanceof Pool) && !(childView.model instanceof Pool);
+            if (childView.model.get('type') == 'liveOps.event' && childView.model.get('eventType') == 'intermediate') {
+              console.log('hurray');
+              return true;
+            } else {
+              return false;
+            }
           },
           validateConnection: function(cellViewS, magnetS, cellViewT, magnetT, end) {
             if (cellViewS === cellViewT) { return false; }
@@ -208,24 +212,24 @@
             }
           },
           'cell:pointerup': function(cellView, evt, x, y) {
-            var cell = cellView.model;
+            //   var cell = cellView.model;
 
-            // Find the first element below that is not a link nor the dragged element itself.
-            var elementBelow = self.graph.get('cells').find(function(cell) {
-              if (cell instanceof joint.dia.Link) {return false;} // Not interested in links.
-              if (cell.id === cellView.model.id) {return false;} // The same element as the dropped one.
-              if (cell.getBBox().moveAndExpand({x: -20, y: -20, width: 40, height: 40}).containsPoint(g.point(cellView._dx, cellView._dy))) {
-                return true;
-              }
-              return false;
-            });
+            //   // Find the first element below that is not a link nor the dragged element itself.
+            //   var elementBelow = self.graph.get('cells').find(function(cell) {
+            //     if (cell instanceof joint.dia.Link) {return false;} // Not interested in links.
+            //     if (cell.id === cellView.model.id) {return false;} // The same element as the dropped one.
+            //     if (cell.getBBox().moveAndExpand({x: -20, y: -20, width: 40, height: 40}).containsPoint(g.point(cellView._dx, cellView._dy))) {
+            //       return true;
+            //     }
+            //     return false;
+            //   });
 
-            if (elementBelow && elementBelow.attributes.type === 'liveOps.activity' && cell.attributes.type === 'liveOps.event') {
-              elementBelow.embed(cell);
-              _.each(self.graph.getConnectedLinks(cell, {inbound: true}), function(link) {
-                link.remove();
-              });
-            }
+            // if (elementBelow && elementBelow.get('type') === 'liveOps.activity' && cell.get('type') === 'liveOps.event' && cell.get('eventType') === 'intermediate') {
+            //   elementBelow.embed(cell);
+            //   _.each(self.graph.getConnectedLinks(cell, {inbound: true}), function(link) {
+            //     link.remove();
+            //   });
+            // }
 
             self.graph.utils.renderPropertiesPanel(cellView, evt, x, y);
           }
