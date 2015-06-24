@@ -1,5 +1,9 @@
+<div class="divider-header first-header">
+  <h4>{{'details' | translate}}</h4>
+</div>
+
 <div class="input-group">
-  <label>{{'tenant.details.name' | translate}}</label>
+  <label>{{'tenant.details.name' | translate}} *</label>
   <div>
     <form-error field="detailsForm.name" error-type-api="true" error-type-required="{{'tenant.details.name.error' | translate}}" ></form-error>
     <input required ng-model="resource.name" name="name" type="text" api-error></input>
@@ -24,7 +28,5 @@
 
 <div class="input-group" ng-if="resource.id">
   <label class="textarea-label">{{'tenant.details.region' | translate}}</label>
-  <div>
-    <input id="tenant-details-region" type="text" disabled value="{{resource.regionId}}"/>
-  </div>
+  <p>{{resource.regionId}}</p>
 </div>

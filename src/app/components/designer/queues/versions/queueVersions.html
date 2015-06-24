@@ -21,12 +21,12 @@
 </div>
 
 <div class="divider-header">
-  <h4>Versions: View &amp; Create Additional Versions</h4>
+  <h4>{{'queue.details.createAdditionalVersions' | translate}}</h4>
 </div>
 
 <div ng-show="createNewVersion">
   <div class="divider-header">
-    <h4>Query &amp; Priority Settings</h4>
+    <h4>{{'queue.details.queryPriority' | translate}}</h4>
   </div>
 
   <ng-form name="createVersionForm" seperate-validation>
@@ -56,13 +56,16 @@
   <table>
     <thead>
       <th></th>
-      <th>{{value.name | translate}}</th>
-      <th>{{value.createdOn | translate}}</th>
+      <th>{{'value.name' | translate}}</th>
+      <th>{{'value.createdOn' | translate}}</th>
+      <th>{{'queue.details.createdBy' | translate}}</th>
     </thead>
     <tr ng-repeat="version in versions">
       <td><a ng-click="createVersion(version)"><i class="fa fa-plus"></i></a></td>
       <td>{{version.name}}</td>
       <td>{{version.created | date:'medium'}}</td>
+      <td>{{version.createdBy | displayName}}</td>
     </tr>
   </table>
 </div>
+
