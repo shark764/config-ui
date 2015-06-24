@@ -80,7 +80,7 @@
             _.each(notation.decorations, function(decorationId) {
               var decoration = _.findWhere(alienese, {id: decorationId});
               decoration.parents.push(notation.id);
-            })
+            });
           }
         });
 

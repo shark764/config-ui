@@ -19,7 +19,7 @@
 
       retrieve: function(subflowId) {
         var filteredSubflows = _.filter(this.subflows, function(subflow) {
-          return subflowId === subflow.notationId;
+          return subflowId === subflow.id;
         });
         return filteredSubflows.length === 0 ? undefined : filteredSubflows[0];
       },
@@ -28,6 +28,8 @@
         this.subflows = _.filter(this.subflows, function(subflow) { return subflow.id !== subflowId; });
       },
 
+      currentFlowContext: '',
+      currentFlowNotationName: '',
       subflows: []
     };
   }
