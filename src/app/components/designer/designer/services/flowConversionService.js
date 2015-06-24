@@ -51,7 +51,7 @@
             notation.bindings = FlowNotationService.addActivityBindings(n);
 
             if (n.targeted) {
-              notation.target = n.target
+              notation.target = n.target;
             }
           }
 
@@ -62,9 +62,9 @@
 
           if (n.type === 'liveOps.event') {
 
-            if (n.eventType == 'start') {
+            if (n.eventType === 'start') {
               notation = _.extend(notation, self.events[n.eventType][n.eventName](n));
-            } else if (n.eventType == 'intermediate' && !n.throwing) {
+            } else if (n.eventType === 'intermediate' && !n.throwing) {
               notation = _.extend(notation, self.events['catch'][n.eventName](n));
             } else {
               notation = _.extend(notation, self.events['throw'][n.eventName](n));
@@ -100,18 +100,18 @@
                 x: (notation['rendering-data']) ? notation['rendering-data'].x : 0,
                 y: (notation['rendering-data']) ? notation['rendering-data'].y : 0
               }
-            }
+            };
 
-            if (notation.entity == 'throw' && notation.terminate) {
+            if (notation.entity === 'throw' && notation.terminate) {
               event.eventType = 'end';
               event.throwing = true;
-            } else if (notation.entity == 'throw' && !notation.terminate) {
+            } else if (notation.entity === 'throw' && !notation.terminate) {
               event.eventType = 'intermediate';
               event.throwing = true;
-            }else if (notation.entity == 'catch') {
+            }else if (notation.entity === 'catch') {
               event.eventType = 'intermediate';
               event.throwing = false;
-            } else if (notation.entity == 'start') {
+            } else if (notation.entity === 'start') {
               event.eventType = 'start';
             }
 
@@ -129,7 +129,7 @@
                   });
                   return memo;
                 }, [])
-              }
+              };
             }
 
             if (notation.bindings) {
@@ -137,9 +137,9 @@
                 memo.push({
                   key: key,
                   value: value
-                })
+                });
                 return memo;
-              }, [])
+              }, []);
             }
 
             memo.push(event);
@@ -167,7 +167,7 @@
               embeds: notation.decorations,
               params: {},
               targeted: FlowNotationService.getActivityTargeted(notation),
-              target: notation.target || "",
+              target: notation.target || '',
               bindings: _.reduce(notation.bindings, function(memo, key, value) {
                 memo.push({
                   key: key,
@@ -219,11 +219,11 @@
       events: {
 
         start: {
-          none: function(model) {
+          none: function() {
             return {
               entity: 'start',
               type: 'none',
-            }
+            };
           },
           signal: function(model) {
             return {
@@ -235,7 +235,7 @@
                 memo[param.key] = param.value;
                 return memo;
               }, {})
-            }
+            };
           }
         },
 
@@ -245,7 +245,7 @@
               entity: 'throw',
               type: 'none',
               terminate: model.terminate
-            }
+            };
           },
           signal: function(model) {
             return {
@@ -258,25 +258,25 @@
                   memo[param.key] = {
                     source: 'expression',
                     value: param.value
-                  }
+                  };
                   return memo;
                 }, {})
               }
-            }
+            };
           },
           error: function(model) {
             return {
               entity: 'throw',
               type: 'error',
               terminate: model.terminate
-            }
+            };
           },
           terminate: function(model) {
             return {
               entity: 'throw',
               type: 'terminate',
               terminate: model.terminate
-            }
+            };
           }
         },
         catch: {
@@ -290,7 +290,7 @@
                 memo[param.key] = param.value;
                 return memo;
               }, {})
-            }
+            };
           },
           error: function(model) {
             return {
@@ -298,7 +298,7 @@
               type: 'error',
               interrupting: true,
               bindings: model.bindings || {}
-            }
+            };
           }
         }
       }

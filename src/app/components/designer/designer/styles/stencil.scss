@@ -12,6 +12,10 @@
   }
 }
 
+.stencil .elements {
+  background: none !important;
+}
+
 .stencil {
    position: absolute;
    top: 0;
@@ -71,8 +75,8 @@
    max-height: 400px;
 }
 .stencil .group.closed {
-   height: 26px;
-   max-height: 26px;
+   max-height: 43px;
+   height: 43px;
 }
 
 .stencil .group > .group-label {
@@ -81,7 +85,7 @@
    left: 0px;
    margin-right: 0px;
    margin-top: 0;
-   margin-bottom: 0; 
+   margin-bottom: 0;
    font-size: 17px;
    line-height: 30px;
    font-weight: 700;
@@ -106,7 +110,7 @@
 }
 .stencil .group.closed > .group-label:before {
    left: auto;
-   top: 5px;
+   top: 13px;
    border-top: 7px solid transparent;
    border-bottom: 7px solid transparent;
    border-right: 7px solid transparent;

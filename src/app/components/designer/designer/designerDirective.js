@@ -13,8 +13,8 @@ function flowDesigner() {
 
         $timeout(function() {
           var graphOptions = {
-            width: 1280,
-            height: 800,
+            width: 2000,
+            height: 2000,
             gridSize: 20,
             perpendicularLinks: true,
             embeddingMode: true,
