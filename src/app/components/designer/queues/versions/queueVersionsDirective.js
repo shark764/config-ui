@@ -44,12 +44,13 @@ angular.module('liveopsConfigPanel')
         });
       };
 
-      $scope.createVersion = function () {
+      $scope.createVersion = function (version) {
         $scope.createNewVersion = true;
         $scope.version = new QueueVersion({
           queueId: $scope.queue.id,
           tenantId: Session.tenant.tenantId,
-          name: 'v' + ($scope.versions.length + 1) + ""
+          name: 'v' + ($scope.versions.length + 1) + "",
+          query: version.query
         });
       };
 
