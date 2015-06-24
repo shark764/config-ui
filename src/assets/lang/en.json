@@ -80,6 +80,11 @@
   "flow.details.versions.create.title": "Create new version",
   "queue.details.version.error" : "Active Version is required",
   
+  "queue.details.createdBy" : "Created By",
+  "queue.details.createAdditionalVersions" : "Versions: View & Create Additional Versions",
+  "queue.details.queryPriority" : "Query & Priority Settings",
+  "queue.details.saveNewVersion" : "Save New Version",
+  
   "media.details": "Media",
   "media.details.source.error": "Please enter a source",
   "media.details.type.error": "Please enter a type",
