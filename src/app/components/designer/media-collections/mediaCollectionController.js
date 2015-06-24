@@ -6,14 +6,14 @@ angular.module('liveopsConfigPanel')
       $scope.Session = Session;
       $scope.medias = [];
       $scope.redirectToInvites();
-      
+
       $scope.create = function() {
         $scope.selectedMediaCollection = new MediaCollection({
           tenantId: Session.tenant.tenantId,
           mediaMap: []
         });
       }
-      
+
       $scope.fetch = function () {
         Media.query({
           tenantId: Session.tenant.tenantId
@@ -59,16 +59,16 @@ angular.module('liveopsConfigPanel')
           });
         }
       };
-      
+
       $scope.$on('on:click:create', function () {
         $scope.create();
       });
-      
+
       $scope.$watch('Session.tenant', function (old, news) {
         if(angular.equals(old, news)){
           return;
         }
-        
+
         $scope.fetch();
 
         if ($scope.mediaCreateHandler) {
@@ -88,7 +88,7 @@ angular.module('liveopsConfigPanel')
         }
 
         $scope.mediaCollectionsCreateHandler = $scope.$on('created:resource:tenants:' + Session.tenant.tenantId + ':mediaCollections', function (event, resource) {
-          $scope.mediaColletions.push(resource);
+          $scope.mediaCollections.push(resource);
           $scope.selectedMediaCollection = resource;
         });
 
