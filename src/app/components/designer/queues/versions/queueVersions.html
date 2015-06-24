@@ -55,15 +55,19 @@
   </ng-form>
 </div>
 
-<table>
-  <thead>
-    <th>{{'value.name' | translate}}</th>
-    <th>{{'value.description' | translate}}</th>
-    <th>{{'value.createdOn' | translate}}</th>
-  </thead>
-  <tr ng-repeat="version in versions">
-    <td>{{version.name}}</td>
-    <td>{{version.description}}</td>
-    <td>{{version.created | date:'medium'}}</td>
-  </tr>
-</table>
+<div class="queue-version-table">
+  <table>
+    <thead>
+      <th></th>
+      <th>{{'value.name' | translate}}</th>
+      <th>{{'value.description' | translate}}</th>
+      <th>{{'value.createdOn' | translate}}</th>
+    </thead>
+    <tr ng-repeat="version in versions">
+      <td><a ng-click="resource.mediaMap.push({});  detailsForm.$dirty = true;"><i class="fa fa-plus"></i></a></td>
+      <td>{{version.name}}</td>
+      <td>{{version.description}}</td>
+      <td>{{version.created | date:'medium'}}</td>
+    </tr>
+  </table>
+</div>
