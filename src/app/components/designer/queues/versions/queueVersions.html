@@ -24,7 +24,7 @@
   <h4>Versions: View &amp; Create Additional Versions</h4>
 </div>
 
-<button ng-hide="createNewVersion" class="btn btn-primary" ng-click="createVersion()">New Version</button>
+<button ng-hide="createNewVersion" class="btn pull-right" ng-click="createVersion()" style="margin-bottom: 10px;"><i class="fa fa-plus"></i></button>
 
 <div ng-show="createNewVersion">
   <div class="divider-header">
@@ -56,9 +56,9 @@
 <div class="queue-version-table">
   <table>
     <thead>
-      <th>{{value.name | translate}}</th>
-      <th>{{value.description | translate}}</th>
-      <th>{{value.createdOn | translate}}</th>
+      <th>{{'value.name' | translate}}</th>
+      <th>{{'value.description' | translate}}</th>
+      <th>{{'value.createdOn' | translate}}</th>
     </thead>
     <tr ng-repeat="version in versions">
       <td>{{version.name}}</td>
