@@ -16,8 +16,7 @@ angular.module('liveopsConfigPanel')
         templateUrl: 'app/shared/directives/tableControls/tableControls.html',
         link: function($scope) {
           angular.extend($scope, $scope.extendScope);
-
-
+          
           $scope.selectItem = function(item) {
             $scope.selected = item;
             
@@ -61,14 +60,12 @@ angular.module('liveopsConfigPanel')
                   return;
                 }
               }
-          
-              $scope.selected = $scope.filtered[0];
             });
           }
 
           $scope.$watch('resourceName', function() {
             if ($scope.resourceWatcher) {
-              $scope.resourceWatcher();
+              $scope.resourceWatcher(); //Delete the old watch
             }
 
             $scope.resourceWatcher = $scope.$on('created:resource:' + $scope.resourceName, function(event, item) {
