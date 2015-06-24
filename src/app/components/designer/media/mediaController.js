@@ -5,8 +5,6 @@ angular.module('liveopsConfigPanel')
     function ($scope, Media, Session, mediaTableConfig, mediaTypes) {
       $scope.Session = Session;
 
-      $scope.redirectToInvites();
-
       $scope.create = function () {
         $scope.selectedMedia = new Media({
           properties: {},

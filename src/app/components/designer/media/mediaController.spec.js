@@ -1,40 +1,40 @@
 'use strict';
 // jshint unused:false
-describe('MediaController', function() {
-    var $scope,
-        $controller,
-        $httpBackend,
-        medias,
-        Media,
-        apiHostname,
-        routeParams;
+describe('MediaController', function () {
+  var $scope,
+    $controller,
+    $httpBackend,
+    apiHostname,
+    Session,
+    medias,
+    Media,
+    apiHostname,
+    routeParams;
 
-    beforeEach(module('liveopsConfigPanel'));
-    beforeEach(inject(['$rootScope', '$controller', '$injector', 'Media', 'apiHostname',
-      function($rootScope, _$controller_, $injector, _Media_, apiHostname) {
+  beforeEach(module('gulpAngular'));
+  beforeEach(module('liveopsConfigPanel', 'liveopsConfigPanel.mock.content.designer.media.mediaController'));
+  beforeEach(inject(['$rootScope', '$controller', '$httpBackend', 'Media', 'apiHostname', 'Session', 'medias',
+    function ($rootScope, _$controller_, _$httpBackend_, _Media_, _apiHostname_, _Session_, medias) {
       $scope = $rootScope.$new();
       $controller = _$controller_;
+      $httpBackend = _$httpBackend_;
       Media = _Media_;
-
-      medias = [
-        new Media({
-          id: 'm1'
-        }),
-        new Media({
-          id: 'm2'
-        })
-      ];
-
-      routeParams = {id : 'q1'};
-
-      $httpBackend = $injector.get('$httpBackend');
-      $httpBackend.when('GET', apiHostname + '/v1/regions').respond({'result' : [{
-        'id': 'c98f5fc0-f91a-11e4-a64e-7f6e9992be1f',
-        'description': 'US East (N. Virginia)',
-        'name': 'us-east-1'
-      }]});
-
-      $controller('MediaController', {'$scope': $scope, 'Session' : {tenant : {id : 1}}, '$routeParams' : routeParams});
+      apiHostname = _apiHostname_;
+      Session = _Session_;
+      
+      $httpBackend.when('GET', apiHostname + '/v1/tenants/' + Session.tenant.tenantId + '/media').respond({
+        'result': medias
+      });
+      
+      $controller('MediaController', {
+        '$scope': $scope
+      });
+      
       $httpBackend.flush();
-    }]));
+    }
+  ]));
+  
+  it('should do somehting', function() {
+    
+  })
 });

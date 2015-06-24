@@ -33,7 +33,7 @@ angular.module('liveopsConfigPanel')
         });
       };
 
-      $scope.$watch('Session.tenant.tenantId', $scope.fetch, true);
+      $scope.$watch('Session.tenant', $scope.fetch, true);
 
       $scope.$on('on:click:create', function() {
         $scope.create();
