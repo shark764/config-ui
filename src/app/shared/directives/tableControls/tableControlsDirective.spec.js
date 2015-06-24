@@ -65,6 +65,21 @@ describe('tableControls directive', function() {
     expect($scope.selected).toEqual($scope.items[1]);
   }));
   
+  it('should not try to select item based on url param if no items', inject(function() {
+    var itemsSpy = spyOn($scope.items.$promise, 'then');
+    delete $scope.items;
+    doCompile();
+    expect(itemsSpy).not.toHaveBeenCalled();
+  }));
+  
+  it('should not select an item if id in url params does not match any item', inject(function() {
+    $scope.items.push({id: 'item1'});
+    $scope.items.push({id: 'item2'});
+    $stateParams.id = 'somethingelse';
+    doCompile();
+    expect($scope.selected).toEqual({});
+  }));
+  
   it('should select the first item on init if there is no id param', inject(function() {
     delete $stateParams.id;
     $scope.selected = null;
@@ -85,6 +100,19 @@ describe('tableControls directive', function() {
     
     doCompile();
     expect(element.find('candy').length).toBe(2);
+  }));
+  
+  it('should not display columns that are unchecked in config', inject(function() {
+    $scope.config.fields.push({name : 'color', checked: false});
+    $scope.config.fields.push({name: 'online', checked: true});
+    doCompile();
+    expect(element.find('th').length).toBe(3); //Two shown, one hidden, one checkbox column.
+  }));
+  
+  it('should include a filter dropdown if field config has options defined', inject(function() {
+    $scope.config.fields.push({name : 'color', options: []});
+    doCompile();
+    expect(element.find('table').find('filter-dropdown').length).toBe(1);
   }));
   
   describe('selectItem function', function(){
@@ -109,7 +137,11 @@ describe('tableControls directive', function() {
       expect($location.search).toHaveBeenCalledWith({id : 'id1'});
       
       $location.search.calls.reset();
-      isolateScope.selectItem({});
+      isolateScope.selectItem();
+      expect($location.search).not.toHaveBeenCalled();
+      
+      $location.search.calls.reset();
+      isolateScope.selectItem({something : 'blah'});
       expect($location.search).toHaveBeenCalledWith({id : undefined});
     }));
     
@@ -163,7 +195,7 @@ describe('tableControls directive', function() {
      }));
   });
   
-  describe('filtered watch', function(){
+  describe('filtered', function(){
     beforeEach(function(){
       $scope.items.push({id: 'item1', checked: false});
       $scope.items.push({id: 'item2', checked: true});
@@ -171,14 +203,21 @@ describe('tableControls directive', function() {
       doCompile();
     });
     
-    it('should set selected item null if filtered is empty', inject(function() {
+    it('should update when searchQuery changes', inject(function() {
+      isolateScope.searchQuery = 'item2';
+      isolateScope.$digest();
+      expect(isolateScope.filtered.length).toBe(1);
+      expect(isolateScope.filtered[0].id).toEqual('item2');
+    }));
+    
+    it('watch should set selected item null if filtered is empty', inject(function() {
       spyOn(isolateScope, 'selectItem');
       isolateScope.searchQuery = 'a search';
       isolateScope.$digest();
       expect(isolateScope.selectItem).toHaveBeenCalledWith(null);
     }));
     
-    it('should set selected item if there isn\'t one', inject(function() {
+    it('watch should set selected item if there isn\'t one', inject(function() {
       spyOn(isolateScope, 'selectItem');
       delete isolateScope.selected;
       isolateScope.searchQuery = 'item1';
@@ -186,7 +225,7 @@ describe('tableControls directive', function() {
       expect(isolateScope.selectItem).toHaveBeenCalledWith($scope.items[0]);
     }));
     
-    it('should reset selected item if old one gets filtered', inject(function() {
+    it('watch should reset selected item if old one gets filtered', inject(function() {
       spyOn(isolateScope, 'selectItem');
       isolateScope.selected = $scope.items[2];
       isolateScope.searchQuery = 'item1';
@@ -194,7 +233,7 @@ describe('tableControls directive', function() {
       expect(isolateScope.selectItem).toHaveBeenCalledWith($scope.items[0]);
     }));
     
-    it('should uncheck items that have been filtered out', inject(function() {
+    it('watch should uncheck items that have been filtered out', inject(function() {
       isolateScope.searchQuery = 'item3';
       isolateScope.$digest();
       expect($scope.items[1].checked).toBeFalsy();
@@ -232,24 +271,51 @@ describe('tableControls directive', function() {
       doCompile();
     });
     
-    it('should define resourceWatcher function returned from scope.$on', inject(function() {
-      isolateScope.resourceName = 'anotherName';
-      isolateScope.$digest();
-      expect(isolateScope.resourceWatcher).toBeDefined();
+    it('should exist', inject(function() {
+      expect(isolateScope.parse).toBeDefined();
+      expect(isolateScope.parse).toEqual(jasmine.any(Function));
     }));
     
-    it('should call resourceWatcher function to remove old watcher', inject(function() {
-      var removeSpy = spyOn(isolateScope, 'resourceWatcher');
-      isolateScope.resourceName = 'anotherName';
-      isolateScope.$digest();
-      expect(removeSpy).toHaveBeenCalled();
+    it('should call and return field.name if field.name is a function', inject(function() {
+      var item = {entity: 'the Hypnotoad'};
+      var field = {
+        name : function(item){
+          return 'All Glory to ' + item.entity;
+        }
+      };
+      
+      var result = isolateScope.parse(item, field);
+      expect(result).toEqual('All Glory to the Hypnotoad');
     }));
     
-    it('should catch the created event and add new item to items', inject(function() {
-      $rootScope.$broadcast('created:resource:resource', {id: 'coolItem'});
-      isolateScope.$digest();
-      expect($scope.items.length).toEqual(1);
-      expect($scope.items[0].id).toEqual('coolItem');
+    it('should return the field value if field.name is a string', inject(function() {
+      var item = {bob: 'yes'};
+      var field = {name : 'bob'};
+      
+      var result = isolateScope.parse(item, field);
+      expect(result).toEqual('yes');
+    }));
+    
+    it('should do nothing if field name is a type other than string or function', inject(function() {
+      var result;
+      var field;
+      var item = {bob: 'yes'};
+      
+      field = {name : false};
+      result = isolateScope.parse(item, field);
+      expect(result).toBeUndefined();
+      
+      field = {name : []};
+      result = isolateScope.parse(item, field);
+      expect(result).toBeUndefined();
+      
+      field = {name : {}};
+      result = isolateScope.parse(item, field);
+      expect(result).toBeUndefined();
+      
+      field = {name : 11};
+      result = isolateScope.parse(item, field);
+      expect(result).toBeUndefined();
     }));
   });
 });

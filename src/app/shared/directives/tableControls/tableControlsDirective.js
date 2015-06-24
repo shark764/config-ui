@@ -20,10 +20,8 @@ angular.module('liveopsConfigPanel')
           $scope.selectItem = function(item) {
             $scope.selected = item;
             
-            if(item) {
-              $location.search({
-                id: item ? item.id : null
-              });
+            if (item) {
+              $location.search({id: item.id});
             }
 
             $scope.$emit('resource:selected', item);
