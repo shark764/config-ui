@@ -24,10 +24,13 @@
   <h4>Versions: View &amp; Create Additional Versions</h4>
 </div>
 
+<<<<<<< HEAD
 <div class="clear">
   <button ng-hide="createNewVersion" class="btn pull-right" ng-click="createVersion()"><i class="fa fa-plus"></i></button>
 </div>
 
+=======
+>>>>>>> Moving the create new version to the plus beside each version.
 <div ng-show="createNewVersion">
   <div class="divider-header">
     <h4>Query &amp; Priority Settings</h4>
@@ -47,6 +50,7 @@
       error-type-required="{{'value.error.query.required' | translate}}"></form-error>
       <textarea ng-required="true" type="text" ng-model="version.query" name="query"></textarea>
     </div>
+
     <div class="queue-controls input-group">
       <label></label>
       <input type="button" ng-click="cancelVersion()" class="btn" value="Cancel" />
@@ -60,13 +64,11 @@
     <thead>
       <th></th>
       <th>{{'value.name' | translate}}</th>
-      <th>{{'value.description' | translate}}</th>
       <th>{{'value.createdOn' | translate}}</th>
     </thead>
     <tr ng-repeat="version in versions">
-      <td><a ng-click="resource.mediaMap.push({});  detailsForm.$dirty = true;"><i class="fa fa-plus"></i></a></td>
+      <td><a ng-click="createVersion(version)"><i class="fa fa-plus"></i></a></td>
       <td>{{version.name}}</td>
-      <td>{{version.description}}</td>
       <td>{{version.created | date:'medium'}}</td>
     </tr>
   </table>
