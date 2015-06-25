@@ -1,6 +1,117 @@
 (function() {
   'use strict';
 
+  console.log('Overriding joint handlebars halo handle template');
+
+  joint.templates = joint.templates || {};
+  joint.templates.halo = joint.templates.halo || {};
+  joint.templates.halo['handle.html'] = Handlebars.template(function (Handlebars, depth0, helpers, partials, data) {
+    // console.log('Handlebars', Handlebars);
+    // console.log('depth0', depth0);
+    // console.log('helpers', helpers);
+    // console.log('partials', partials);
+    // console.log('data', data);
+    // console.log('----------------------------');
+    this.compilerInfo = [4,'>= 1.0.0'];
+    var buffer = '';
+    var stack1;
+    var options;
+    var functionType = 'function';
+    var escapeExpression = this.escapeExpression;
+    var self = this;
+    helpers = this.merge(helpers, Handlebars.helpers);
+    data = data || {};
+
+    var blockHelperMissing = helpers.blockHelperMissing;
+
+    function program1(depth0) {
+      console.log('Data', data);
+      var buffer = '';
+      buffer += 'style=\"background-image: url(' + escapeExpression((typeof depth0 === functionType ? depth0.apply(depth0) : depth0)) + ')\"';
+      return buffer;
+    }
+
+    buffer += '<div class=\"handle ';
+
+    if (stack1 = helpers.position) {
+      stack1 = stack1.call(depth0, {
+        hash: {},
+        data: data
+      });
+    } else {
+      stack1 = depth0.position;
+      stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1;
+    }
+
+    buffer += escapeExpression(stack1) + ' ';
+
+    if (stack1 = helpers.name) {
+      stack1 = stack1.call(depth0, {
+        hash: {},
+        data: data
+      });
+    } else {
+      stack1 = depth0.name;
+      stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1;
+    }
+
+    buffer += escapeExpression(stack1) + '\" draggable=\"false\" data-action=\"';
+
+    if (stack1 = helpers.name) {
+      stack1 = stack1.call(depth0, {
+        hash: {},
+        data: data
+      });
+    } else {
+      stack1 = depth0.name;
+      stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1;
+    }
+
+    buffer += escapeExpression(stack1) + '\" ';
+
+    options = {
+      hash: {},
+      inverse: self.noop,
+      fn: self.program(1, program1, data),
+      data: data
+    };
+
+    if (stack1 = helpers.icon) {
+      stack1 = stack1.call(depth0, options);
+    } else {
+      stack1 = depth0.icon;
+      stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1;
+    }
+
+    if (!helpers.icon) {
+      stack1 = blockHelperMissing.call(depth0, stack1, options);
+    }
+
+    if(stack1 || stack1 === 0) {
+      buffer += stack1;
+    }
+
+    buffer += '>\n    ';
+
+    if (stack1 = helpers.content) {
+      stack1 = stack1.call(depth0, {
+        hash: {},
+        data: data
+      });
+    } else {
+      stack1 = depth0.content;
+      stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1;
+    }
+
+    if(stack1 || stack1 === 0) {
+      buffer += stack1;
+    }
+
+    buffer += '\n</div>\n\n';
+
+    return buffer;
+  });
+
   console.log('Overriding built-in halo.');
 
   joint.ui.Halo = Backbone.View.extend({
@@ -20,7 +131,7 @@
       // of computing a bbox is that it takes no relative subelements into account (e.g ports).
       useModelGeometry: false,
       // a function returning a html string, which will be used as the halo box content
-      boxContent: function(cellView, boxElement) {
+      boxContent: function(cellView) {
         var tmpl =  _.template('x: <%= x %>, y: <%= y %>, width: <%= width %>, height: <%= height %>, angle: <%= angle %>');
         var bbox = cellView.model.getBBox();
         return tmpl({
@@ -35,13 +146,18 @@
       linkAttributes: {},
       smoothLinks: undefined,
       handles: [
-          { name: 'resize', position: 'se', events: { pointerdown: 'startResizing', pointermove: 'doResize', pointerup: 'stopBatch' } },
-          { name: 'remove', position: 'nw', events: { pointerdown: 'removeElement' } },
-          { name: 'clone', position: 'n', events: { pointerdown: 'startCloning', pointermove: 'doClone', pointerup: 'stopCloning' } },
-          { name: 'link', position: 'e', events: { pointerdown: 'startLinking', pointermove: 'doLink', pointerup: 'stopLinking' } },
-          { name: 'fork', position: 'ne', events: { pointerdown: 'startForking', pointermove: 'doFork', pointerup: 'stopForking' } },
-          { name: 'unlink', position: 'w', events: { pointerdown: 'unlinkElement' } },
-          { name: 'rotate', position: 'sw', events: { pointerdown: 'startRotating', pointermove: 'doRotate', pointerup: 'stopBatch' } }
+          { name: 'circle', position: 'oneOclock', events: { pointerdown: 'startLinking', pointermove: 'doLink', pointerup: 'stopLinking' } },
+          { name: 'rectangle', position: 'twoOclock', events: { pointerdown: 'startLinking', pointermove: 'doLink', pointerup: 'stopLinking' } },
+          { name: 'diamond', position: 'threeOclock', events: { pointerdown: 'startLinking', pointermove: 'doLink', pointerup: 'stopLinking' } },
+          { name: 'propertiesPanel', position: 'fourOclock', events: { pointerdown: 'startLinking', pointermove: 'doLink', pointerup: 'stopLinking' } },
+          { name: 'contextMenu', position: 'fiveOclock', events: { pointerdown: 'startLinking', pointermove: 'doLink', pointerup: 'stopLinking' } }
+          // { name: 'link', position: 'sixOclock', events: { pointerdown: 'startLinking', pointermove: 'doLink', pointerup: 'stopLinking' } },
+          // { name: 'link', position: 'sevenOclock', events: { pointerdown: 'startLinking', pointermove: 'doLink', pointerup: 'stopLinking' } },
+          // { name: 'link', position: 'eightOclock', events: { pointerdown: 'startLinking', pointermove: 'doLink', pointerup: 'stopLinking' } },
+          // { name: 'link', position: 'nineOclock', events: { pointerdown: 'startLinking', pointermove: 'doLink', pointerup: 'stopLinking' } },
+          // { name: 'link', position: 'tenOclock', events: { pointerdown: 'startLinking', pointermove: 'doLink', pointerup: 'stopLinking' } },
+          // { name: 'link', position: 'elevenOclock', events: { pointerdown: 'startLinking', pointermove: 'doLink', pointerup: 'stopLinking' } },
+          // { name: 'link', position: 'twelveOclock', events: { pointerdown: 'startLinking', pointermove: 'doLink', pointerup: 'stopLinking' } }
       ]
     },
     initialize: function(options) {
@@ -147,7 +263,7 @@
         this.triggerAction(this._action, 'pointerdown', evt);
       }
     },
-    triggerAction: function(action, eventName, evt) {
+    triggerAction: function(action, eventName) {
       // Trigger an action on the Halo object. `evt` is a DOM event, `eventName` is an abstracted
       // JointJS event name (pointerdown, pointermove, pointerup).
       var args = ['action:' + action + ':' + eventName].concat(_.rest(_.toArray(arguments), 2));
@@ -194,7 +310,7 @@
       this._cloneView = clone.findView(this.options.paper);
       this._cloneView.pointerdown(evt, this._clientX, this._clientY);
     },
-    startResizing: function(evt) {
+    startResizing: function() {
       this.options.graph.trigger('batch:start');
       // determine whether to flip x,y mouse coordinates while resizing or not
       this._flip = [1,0,0,1,1,0,0,1][Math.floor(g.normalizeAngle(this.options.cellView.model.get('angle')) / 45)];
@@ -287,16 +403,16 @@
       //
       this.options.graph.trigger('batch:stop');
     },
-    remove: function(evt) {
+    remove: function() {
       Backbone.View.prototype.remove.apply(this, arguments);
       $(document.body).off('mousemove touchmove', this.pointermove);
       $(document).off('mouseup touchend', this.pointerup);
     },
-    removeElement: function(evt) {
+    removeElement: function() {
       //
       this.options.cellView.model.remove();
     },
-    unlinkElement: function(evt) {
+    unlinkElement: function() {
       //
       this.options.graph.removeLinks(this.options.cellView.model);
     },

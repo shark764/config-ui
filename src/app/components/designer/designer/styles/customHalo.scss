@@ -1,0 +1,81 @@
+.halo .circle {
+  background-image: url('/images/halo-circle-icon.png');
+}
+
+.halo .rectangle {
+  background-image: url('/images/halo-rectangle-icon.png');
+}
+
+.halo .diamond {
+  background-image: url('/images/halo-diamond-icon.png');
+}
+
+.halo.propertiesPanel {
+  background-image: url('/images/halo-properties-panel-icon.png');
+}
+
+.halo.contextMenu {
+  background-image: url('/images/halo-context-menu-icon.png');
+}
+
+.halo .handle.oneOclock {
+  top: -32px;
+  right: -7px;
+}
+
+.halo .handle.twoOclock {
+  top: -7px;
+  right: -32px;
+}
+
+.halo .handle.threeOclock {
+  right: -42px;
+  top: calc(50% - 8px);
+}
+
+.halo .handle.fourOclock {
+  bottom: -7px;
+  right: -32px;
+}
+
+.halo .handle.fiveOclock {
+  bottom: -32px;
+  right: -7px;
+}
+
+.halo .handle.sixOclock {
+  bottom: -42px;
+  margin-left: -7.5px;
+  left: 50%;
+}
+
+.halo .handle.sevenOclock {
+  bottom: -32px;
+  left: -7px;
+}
+
+.halo .handle.eightOclock {
+  bottom: -7px;
+  left: -32px;
+}
+
+.halo .handle.nineOclock {
+  left: -42px;
+  top: calc(50% - 8px);
+}
+
+.halo .handle.tenOclock {
+  top: -7px;
+  left: -32px;
+}
+
+.halo .handle.elevenOclock {
+  top: -32px;
+  left: -7px;
+}
+
+.halo .handle.twelveOclock {
+  left: 50%;
+  top: -42px;
+  margin-left: -7.5px;
+}
