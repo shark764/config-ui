@@ -22,6 +22,6 @@
   <label>{{'skill.details.hasProficiency' | translate}}</label>
   <div>
     <div class="error" ng-show="detailsForm.hasProficiency.$touched && detailsForm.hasProficiency.$invalid">{{'skill.details.hasProficiency.error' | translate}}</div>
-    <toggle ng-disabled="resource.id" class="status-toggle" name="hasProficiency" ng-model="resource.hasProficiency"></toggle>
+    <toggle ng-disabled="originalResource.id && originalResource.hasProficiency" class="status-toggle" name="hasProficiency" ng-model="resource.hasProficiency"></toggle>
   </div>
 </div>
