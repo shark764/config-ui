@@ -279,7 +279,7 @@
       this._clientY = evt.clientY;
     },
     pointerup: function(evt) {
-      if (!this._action) return;
+      if (!this._action) { return; }
       this.triggerAction(this._action, 'pointerup', evt);
       delete this._action;
     },
@@ -322,7 +322,7 @@
       var linkWidth = this.options.loopLinkWidth;
       var paperOpt = this.options.paper.options;
       var paperRect = g.rect({x: 0, y: 0, width: paperOpt.width, height: paperOpt.height});
-      var bbox = V(this.options.cellView.el).bbox(false, this.options.paper.viewport);
+      var bbox = new V(this.options.cellView.el).bbox(false, this.options.paper.viewport);
       var p1, p2;
       var sides = _.uniq([this.options.loopLinkPreferredSide, 'top', 'bottom', 'left', 'right']);
       var sideFound = _.find(sides, function(side) {
@@ -383,7 +383,7 @@
         }, this);
       }
       // disable linking & forking from the element itself if is it not a magnet
-      if (this.options.cellView.$el.attr('magnet') == 'false') {
+      if (this.options.cellView.$el.attr('magnet') === 'false') {
         $link.hide();
         this.$('.fork').hide();
       }

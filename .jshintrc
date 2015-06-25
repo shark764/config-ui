@@ -24,6 +24,7 @@
     "_": false,
     "$": false,
     "console": false,
+    "document": false,
     "angular": false,
     // Angular Mocks
     "inject": false,
@@ -32,6 +33,8 @@
     "KeyboardJS": false,
     "MouseWheelJS": false,
     "it": false,
+    "V": false,
+    "g": false,
     "before": false,
     "beforeEach": false,
     "after": false,
