@@ -1,9 +1,16 @@
-<h3>Hello you!</h3>
-
-<form novalidate ng-submit="save()"> 
-  <div>First Name: <input ng-model="user.firstName" type="text" required></input></div>
-  <div>Last Name: <input ng-model="user.lastName" type="text" required></input></div>
-  <div>Display Name: <input ng-model="user.displayName" type="text" required></input></div>
-  <div>Email: {{user.email}}</div>
-  <input type="submit" class="btn btn-primary" value="Update"/>
-</form>
+<div id="userProfile">
+  <h2>User Profile</h2>
+  <div class="mystery-man pull-left">
+    <i class="fa fa-user"></i>
+  </div>
+  
+  <div class="pull-left wrapper">
+    <div><label>Email:</label> {{user.email}}</div>
+    <form novalidate ng-submit="save()"> 
+      <div><label>First Name:</label> <input ng-model="user.firstName" type="text" required></input></div>
+      <div><label>Last Name:</label> <input ng-model="user.lastName" type="text" required></input></div>
+      <div><label>Display Name:</label> <input ng-model="user.displayName" type="text" required></input></div>
+      <div><label>&nbsp;</label><input type="submit" class="btn btn-primary" value="Update"/></div>
+    </form>
+  </div>
+</div>

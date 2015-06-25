@@ -1,8 +1,8 @@
-<div ng-if="!resource.id">
-  <div class="divider-header">
-    <h4>{{'details' | translate}}</h4>
-  </div>
+<div class="divider-header first-header">
+  <h4>{{'details' | translate}}</h4>
+</div>
 
+<div ng-if="!resource.id">
   <div class="input-group">
     <label>{{'value.name' | translate}}</label>
     <div>
@@ -11,7 +11,7 @@
   </div>
 
   <div class="input-group">
-    <label>{{'value.description' | translate}}</label>
+    <label class="textarea-label">{{'value.description' | translate}}</label>
     <div>
       <textarea ng-required="false" ng-model="resource.description"></textarea>
     </div>

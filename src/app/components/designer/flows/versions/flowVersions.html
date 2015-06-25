@@ -1,3 +1,37 @@
+<div class="divider-header">
+  <h4>Versions</h4>
+</div>
+
+<div class="clear">
+  <a ng-hide="createNewVersion" class="btn pull-right" ng-click="createNewVersion = true"><i class="fa fa-plus"></i></a>
+</div>
+
+<div ng-show="createNewVersion">
+  <div class="divider-header">
+    <h4>{{'flow.details.versions.create.title' | translate }}</h4>
+  </div>
+  
+  <ng-form name="createVersionForm" seperate-validation>
+    <div class="input-group">
+      <label>{{'value.name' | translate}}</label>
+      <form-error field="createVersionForm.name"
+      error-type-required="{{'value.error.name.required' | translate}}"></form-error>
+      <input ng-required="true" type="text" ng-model="version.name" name="name"></input>
+    </div>
+  
+    <div class="input-group">
+      <label>Description</label>
+      <input type="text" ng-model="version.description" name="description"></input>
+    </div>
+    <div class="flow-controls input-group">
+      <label></label>
+      <input type="button" ng-click="createNewVersion = false" class="btn" value="Cancel" />
+      <input ng-disabled="createVersionForm.$invalid || !createVersionForm.$dirty"
+        ng-click="saveVersion()" type="submit" class="btn btn-primary" value="{{ 'value.create' | translate }}"/>
+    </div>
+  </ng-form>
+</div>
+
 <loading ng-show="versions.length == 0"></loading>
 
 <table ng-show="versions.length > 0">
@@ -5,7 +39,7 @@
     <th>&nbsp;</th>
     <th>{{'value.name' | translate}}</th>
     <th>{{'value.createdOn' | translate}}</th>
-    <th>Created By</th>
+    <th>{{'value.createdBy' | translate}}</th>
   </thead>
   <tr ng-repeat="version in versions | orderBy:'created':'reverse'">
     <td><a href="#/designer/editor/{{version.flowId}}/{{version.version}}?v={{version.v}}">v{{version.v}}</a></td>
@@ -14,24 +48,3 @@
     <td>{{version.createdBy | displayName}}</td>
   </tr>
 </table>
-
-<h3>Create Flow Version</h3>
-
-<ng-form name="createVersionForm" seperate-validation>
-  <div class="input-group">
-    <label>Name</label>
-    <form-error field="createVersionForm.name"
-    error-type-required="{{'value.error.name.required' | translate}}"></form-error>
-    <input ng-required="true" type="text" ng-model="version.name" name="name"></input>
-  </div>
-
-  <div class="input-group">
-    <label>Description</label>
-    <input type="text" ng-model="version.description" name="description"></input>
-  </div>
-  <div class="input-group">
-    <div style="width:150px"></div>
-    <input ng-disabled="createVersionForm.$invalid || !createVersionForm.$dirty"
-      ng-click="saveVersion()" type="submit" class="btn btn-primary" value="{{ 'value.create' | translate }}"/>
-  </div>
-</ng-form>

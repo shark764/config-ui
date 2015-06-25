@@ -18,8 +18,8 @@ angular.module('liveopsConfigPanel')
 
         $scope.dispatchMappings = DispatchMapping.query({
           tenantId: Session.tenant.tenantId
-        }, function() {
-          if (!$scope.dispatchMappings.length) {
+        }, function(dispatchMappings) {
+          if (!dispatchMappings.length) {
             $scope.create();
           }
         });
@@ -33,7 +33,7 @@ angular.module('liveopsConfigPanel')
         });
       };
 
-      $scope.$watch('Session.tenant.tenantId', $scope.fetch, true);
+      $scope.$watch('Session.tenant', $scope.fetch, true);
 
       $scope.$on('on:click:create', function() {
         $scope.create();
