@@ -10,7 +10,9 @@ exports.config = {
 
   // Capabilities to be passed to the webdriver instance.
   capabilities: {
-    'browserName': 'chrome'
+      'browserName': 'phantomjs',
+      'phantomjs.binary.path': './node_modules/karma-phantomjs-launcher/node_modules/phantomjs/bin/phantomjs',
+      'phantomjs.cli.args': '--debug=true --webdriver --webdriver-logfile=webdriver.log --webdriver-loglevel=DEBUG'
   },
 
   // This can be changed via the command line as:
@@ -49,14 +51,14 @@ exports.config = {
   // Spec patterns are relative to the current working directly when
   // protractor is called.
   specs: [
-    paths.e2e + '/login/login.spec.js',
-    paths.e2e + '/navigation/**/*.spec.js',
-    paths.e2e + '/management/**/*.spec.js',
-    paths.e2e + '/configuration/**/*.spec.js',
-    paths.e2e + '/userProfile/**/*.spec.js',
-    paths.e2e + '/designer/newflow.spec.js',
-    paths.e2e + '/designer/flows.spec.js',
-    paths.e2e + '/designer/newqueue.spec.js'
+    //paths.e2e + '/login/login.spec.js',
+    paths.e2e + '/navigation/navbar.spec.js',
+    //paths.e2e + '/management/skills.spec.js',
+    //paths.e2e + '/configuration/**/*.spec.js',
+    //paths.e2e + '/userProfile/**/*.spec.js',
+    //paths.e2e + '/designer/newflow.spec.js',
+    //paths.e2e + '/designer/flows.spec.js',
+    //paths.e2e + '/designer/newqueue.spec.js'
   ],
 
   framework: 'jasmine2',
