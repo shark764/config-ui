@@ -97,7 +97,9 @@
           frontParentOnly: frontParentOnly,
           defaultLink: defaultLink,
           validateEmbedding: function(childView, parentView) {
-            if (childView.model.get('type') == 'liveOps.event' && childView.model.get('eventType') == 'intermediate') {
+            if (childView.model.get('type') == 'liveOps.event' && 
+                childView.model.get('eventType') == 'intermediate' &&
+                ['message', 'signal', 'timer', 'conditional', 'escalation'].indexOf(childView.model.get('eventName')) > -1) {
               console.log('hurray');
               return true;
             } else {

@@ -29,7 +29,10 @@
           'fill-opacity': 0.0
         },
         image: {
-          width:  40, height: 40, 'xlink:href': '', transform: 'translate(10,10)'
+          width: 40, 
+          height: 40, 
+          'xlink:href': '', 
+          transform: 'translate(10,10)'
         },
         'image polygon': {
           fill: '#ff00ff'
