@@ -287,6 +287,7 @@
           });
 
           KeyboardJS.on(key + ' + v', function() {
+            if (document.activeElement.attributes[0] !== undefined) { return; }
             self.graph.interfaces.clipboard.pasteCells(self.graph);
           });
 
