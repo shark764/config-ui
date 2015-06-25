@@ -1,7 +1,7 @@
 (function() {
   'use strict';
 
-  function JointInitService (FlowPaletteService, FlowNotationService, $document) {
+  function JointInitService (FlowPaletteService, FlowNotationService) {
     return {
       initializeGraph: function(graphOptions) {
         var self = this;
