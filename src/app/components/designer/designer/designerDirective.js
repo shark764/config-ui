@@ -9,12 +9,12 @@ function flowDesigner() {
       templateUrl: 'app/components/designer/designer/designerDirective.html',
       replace: true,
       link: function() {},
-      controller: ['$scope', '$element', '$attrs', '$window', '$timeout', 'JointInitService', 'FlowConversionService', 'FlowNotationService', 'FlowVersion', 'Session', 'toastr', '$state', function($scope, $element, $attrs, $window, $timeout, JointInitService, FlowConversionService, FlowNotationService, FlowVersion, Session, toastr, $state) {
+      controller: ['$scope', '$element', '$attrs', '$window', '$timeout', 'JointInitService', 'FlowConversionService', 'SubflowCommunicationService', 'FlowNotationService', 'FlowVersion', 'Session', 'toastr', '$state', function($scope, $element, $attrs, $window, $timeout, JointInitService, FlowConversionService, SubflowCommunicationService, FlowNotationService, FlowVersion, Session, toastr, $state) {
 
         $timeout(function() {
           var graphOptions = {
-            width: 1280,
-            height: 800,
+            width: 2000,
+            height: 2000,
             gridSize: 20,
             perpendicularLinks: true,
             embeddingMode: true,
@@ -32,18 +32,17 @@ function flowDesigner() {
           graph.interfaces.paper.on({
             'cell:pointerdblclick': function(cellView) {
               if (cellView.model.attributes.name !== 'subflow') { return; }
-              console.log('DOUBLE CLICKED', cellView);
               $scope.redirectToSubflowEditor(cellView);
             }
           });
 
+          $scope.manuallyOpenPropertiesPanel = graph.utils.showPropertiesPanel;
+
           $scope.redirectToSubflowEditor = function(cellView) {
-            console.log(cellView);
+            SubflowCommunicationService.currentFlowContext = graph.toJSON();
+            SubflowCommunicationService.currentVersionContext = $scope.flowVersion;
+            SubflowCommunicationService.currentFlowNotationName = cellView.model.attributes.params.name || 'N/A';
             $state.go('content.designer.subflowEditor', {
-              parentName: $scope.flowVersion.name,
-              notationName: cellView.model.attributes.params.resource || 'N/A',
-              parentFlowId: $scope.flowVersion.flowId,
-              parentVersionId: $scope.flowVersion.version,
               subflowNotationId: cellView.model.id
             });
           };
@@ -53,7 +52,7 @@ function flowDesigner() {
             var alienese = JSON.stringify(FlowConversionService.convertToAlienese(graph.toJSON()));
             $scope.version = new FlowVersion({
               flow: alienese,
-              description: $scope.flowVersion.description || "This needs to be fixed",
+              description: $scope.flowVersion.description || 'This needs to be fixed',
               name: $scope.flowVersion.name
             });
 
@@ -72,7 +71,12 @@ function flowDesigner() {
             });
           };
 
-          graph.fromJSON(FlowConversionService.convertToJoint(JSON.parse($scope.flowVersion.flow)));
+          if (SubflowCommunicationService.currentFlowContext !== '') {
+            graph.fromJSON(SubflowCommunicationService.currentFlowContext);
+            SubflowCommunicationService.currentFlowContext = '';
+          } else {
+            graph.fromJSON(FlowConversionService.convertToJoint(JSON.parse($scope.flowVersion.flow)));
+          }
           $window.spitOutAlienese = function() {
             return FlowConversionService.convertToAlienese(graph.toJSON());
           };

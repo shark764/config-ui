@@ -10,8 +10,12 @@ function subflowDesigner() {
       replace: true,
       link: function() {},
       controller: ['$scope', '$element', '$attrs', '$window', '$timeout', 'JointInitService', 'SubflowCommunicationService', '$state',function($scope, $element, $attrs, $window, $timeout, JointInitService, SubflowCommunicationService, $state) {
-        console.log('SF in directive:', $scope.subflow);
         $timeout(function() {
+
+          $scope.subflowName = SubflowCommunicationService.currentFlowNotationName;
+          $scope.parentName = $scope.subflow.parentName;
+          $scope.flowId = $scope.subflow.parentFlowId;
+          $scope.versionId = $scope.subflow.parentVersionId;
 
           var graphOptions = {
             width: 1280,
@@ -29,7 +33,7 @@ function subflowDesigner() {
             inspectorContainerId: '#inspector-container'
           };
 
-          var graph = JointInitService.graph(graphOptions);
+          var graph = JointInitService.initializeGraph(graphOptions);
 
           $scope.saveSubflow = function() {
             SubflowCommunicationService.add({
@@ -41,9 +45,9 @@ function subflowDesigner() {
             });
 
             $state.go('content.designer.editor', {
-              flowId: $scope.subflow.parentFlowId,
-              versionId: $scope.subflow.parentVersionId,
-              version: 'v99'
+              flowId: SubflowCommunicationService.currentVersionContext.flowId,
+              versionId: SubflowCommunicationService.currentVersionContext.version,
+              version: 'TO BE FIXED'
             });
           };
 
