@@ -1,7 +1,7 @@
 (function() {
   'use strict';
 
-  function JointInitService (FlowPaletteService, FlowNotationService) {
+  function JointInitService (FlowPaletteService, FlowNotationService, $document) {
     return {
       initializeGraph: function(graphOptions) {
         var self = this;
@@ -277,6 +277,7 @@
           });
 
           KeyboardJS.on(key + ' + c', function() {
+            if (document.activeElement.attributes[0] !== undefined) { return; }
             if (self.graph.interfaces.selector.models.length === 0) { return; }
             _.each(self.graph.interfaces.selector.models, function(model) {
               model.attributes.position.x -= 25;
