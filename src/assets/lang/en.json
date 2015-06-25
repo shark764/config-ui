@@ -13,6 +13,8 @@
   "value.type": "Type",
   "value.version": "Version",
   "value.createdOn" : "Created On",
+  "value.close" : "Close",
+
   "value.designerLink": "Designer Link",
   "value.openInDesigner": "Open in designer",
   "value.details.version" : "Version",
@@ -80,6 +82,11 @@
   "flow.details.activeVersion.error": "Active version is required",
   "flow.details.versions.create.title": "Create new version",
   "queue.details.version.error" : "Active Version is required",
+  "queue.details.createdBy" : "Created By",
+  "queue.details.createAdditionalVersions" : "Versions: View & Create Additional Versions",
+  "queue.details.queryPriority" : "Query & Priority Settings",
+  "queue.details.saveNewVersion" : "Save New Version",
+  "queue.details.createNewVersion" : "Create New Version",
   
   "media.details": "Media",
   "media.details.source.error": "Please enter a source",
