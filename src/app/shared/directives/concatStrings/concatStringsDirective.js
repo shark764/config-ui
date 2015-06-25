@@ -9,10 +9,12 @@ angular.module('liveopsConfigPanel')
         seperator: '@'
       },
       template : '{{identifiers}}',
-      controller : 'DropdownController',
       link : function($scope) {
         $scope.identifiers = '';
-
+        if (! $scope.seperator){
+          $scope.seperator = '';
+        }
+        
         for(var i = 0; i < $scope.models.length; i++){
           if($scope.identifiers !== ''){
             $scope.identifiers += ($scope.seperator + ' ');
