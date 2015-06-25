@@ -65,6 +65,7 @@
   "details.skills.none": "This user has not been assigned any skills",
   "details.skills.title": "Skills",
   "details.skills.placeholder": "Add Skill...",
+  "details.name.error": "Please enter a name",
 
   "skill.details.hasProficiency": "Has Proficiency",
   "skill.details.name.error": "Please enter a name",

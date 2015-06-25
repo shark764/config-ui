@@ -26,13 +26,13 @@ var Shared = function() {
 
   // Navbar elements
   this.navBar = element(by.id('topnav'));
-  this.welcomeMessage = element(by.id('welcome'));
+  this.welcomeMessage = element(by.css('#user-settings-dropdown > div:nth-child(1) > a:nth-child(1)'));
   this.siteNavLogo = element(by.id('logo'));
   this.tenantsNavDropdown = element(by.id('tenant-dropdown'));
-  this.usersNavButton = element(by.id('users-nav-link'));
-  this.tenantsNavButton = element(by.id('tenants-nav-link'));
-  this.flowsNavButton = element(by.id('flows-nav-link'));
-  this.invitesNavButton = element(by.id('invites-nav-link'));
+  this.usersNavButton = element(by.css('#users-nav-link > a:nth-child(1)'));
+  this.tenantsNavButton = element(by.css('#tenants-nav-link > a:nth-child(1)'));
+  this.flowsNavButton = element(by.css('#flows-nav-link > a:nth-child(1)'));
+  this.invitesNavButton = element(by.css('#invites-nav-link > a:nth-child(1)'));
   this.settingsDropdown = element(by.id('user-settings-dropdown'));
   this.settingsDropdownOptions = this.settingsDropdown.all(by.repeater('item in items'));
   this.userProfileButton = this.settingsDropdownOptions.get(1);
@@ -51,7 +51,7 @@ var Shared = function() {
   this.tableColumnsDropDown = element(by.css('filter-dropdown.btn'));
 
   // Shared Form elements
-  this.detailsForm = element(by.id('details-form'));
+  this.detailsForm = element(by.css('.details-form'));
   this.submitFormBtn = element(by.buttonText('Submit'));
   this.cancelFormBtn = element(by.buttonText('Cancel'));
   this.successMessage = element(by.css('.toast-success'));
@@ -61,6 +61,7 @@ var Shared = function() {
   this.tearDown = function() {
     browser.executeScript('window.sessionStorage.clear()');
     browser.executeScript('window.localStorage.clear()');
+    browser.get(this.loginPageUrl);
   };
 };
 

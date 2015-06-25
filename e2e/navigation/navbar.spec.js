@@ -41,7 +41,7 @@ describe('The navbar', function() {
     expect(browser.getCurrentUrl()).toContain(shared.usersPageUrl);
   });
 
-  it('should change current Tenant when tenant drop down is altered', function() {
+  xit('should change current Tenant when tenant drop down is altered', function() {
     shared.tenantsNavDropdown.click();
     shared.tenantsNavDropdown.all(by.repeater('item in items')).then(function(tenants) {
       var randomTenant = Math.floor((Math.random() * tenants.length) + 1);
@@ -57,18 +57,28 @@ describe('The navbar', function() {
     });
   });
 
-  it('should navigate to correct page when buttons are selected', function() {
-    shared.usersNavButton.click();
-    expect(browser.getCurrentUrl()).toContain(shared.usersPageUrl);
+  it('should navigate to Tenants page when buttons are selected', function() {
+    shared.tenantsNavButton.click().then(function() {
+      expect(browser.getCurrentUrl()).toContain(shared.tenantsPageUrl);
+    });
+  });
 
-    shared.tenantsNavButton.click();
-    expect(browser.getCurrentUrl()).toContain(shared.tenantsPageUrl);
+  it('should navigate to Flows page when buttons are selected', function() {
+    shared.flowsNavButton.click().then(function() {
+      expect(browser.getCurrentUrl()).toContain(shared.flowsPageUrl);
+    });
+  });
 
-    shared.flowsNavButton.click();
-    expect(browser.getCurrentUrl()).toContain(shared.flowsPageUrl);
+  it('should navigate to Invites page when buttons are selected', function() {
+    shared.invitesNavButton.click().then(function() {
+      expect(browser.getCurrentUrl()).toContain(shared.invitesPageUrl);
+    });
+  });
 
-    shared.invitesNavButton.click();
-    expect(browser.getCurrentUrl()).toContain(shared.invitesPageUrl);
+  it('should navigate to Users page when buttons are selected', function() {
+    shared.usersNavButton.click().then(function() {
+      expect(browser.getCurrentUrl()).toContain(shared.usersPageUrl);
+    });
   });
 
   it('should navigate to correct page when settings dropdown buttons are selected', function() {
