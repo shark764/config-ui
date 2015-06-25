@@ -97,14 +97,10 @@
           frontParentOnly: frontParentOnly,
           defaultLink: defaultLink,
           validateEmbedding: function(childView, parentView) {
-            if (childView.model.get('type') == 'liveOps.event' && 
-                childView.model.get('eventType') == 'intermediate' &&
-                ['message', 'signal', 'timer', 'conditional', 'escalation'].indexOf(childView.model.get('eventName')) > -1) {
-              console.log('hurray');
-              return true;
-            } else {
-              return false;
-            }
+            var arrayOfValidEventNames = ['message', 'signal', 'timer', 'conditional', 'escalation'];
+            return (childView.model.get('type') == 'liveOps.event' &&
+              childView.model.get('eventType') == 'intermediate' &&
+              _.contains(arrayOfValidEventNames, childView.model.get('eventName')));
           },
           validateConnection: function(cellViewS, magnetS, cellViewT, magnetT, end) {
             if (cellViewS === cellViewT) { return false; }
