@@ -7,8 +7,7 @@ describe('Versions directive controller', function () {
     $controller,
     $httpBackend,
     versions,
-    QueueVersion,
-    queue;
+    QueueVersion;
 
   beforeEach(module('liveopsConfigPanel'));
   beforeEach(module('gulpAngular'));
@@ -79,7 +78,7 @@ describe('Versions directive controller', function () {
     expect($scope.versions[1].id).toEqual(versions[1].id);
   });
 
-  describe('on new version creation', function () {
+  describe('on version copy', function () {
     beforeEach(function () {
       $scope.createVersionCopy(versions[0]);
 
@@ -90,8 +89,6 @@ describe('Versions directive controller', function () {
 
     it('should have a function to create a new version', function () {
       expect($scope.versionCopy).toBeDefined();
-
-      console.log($scope.versionCopy);
 
       expect($scope.versionCopy.queueId).toBe('1');
     });

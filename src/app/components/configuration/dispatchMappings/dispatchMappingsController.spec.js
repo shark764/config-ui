@@ -11,8 +11,8 @@ describe('DispatchMappingsController', function () {
     Session;
 
   beforeEach(module('gulpAngular'));
-  beforeEach(module('liveopsConfigPanel', 
-    'liveopsConfigPanel.mock.content.configuration.dispatchMappings.dispatchMappingsController'));
+  beforeEach(module('liveopsConfigPanel'));
+  beforeEach(module('liveopsConfigPanel.mock.content.configuration.dispatchMappings.dispatchMappingsController'));
 
   beforeEach(inject(['$rootScope', '$controller', '$httpBackend', 'apiHostname', 'Session', 'mockDispatchMappings', 'mockFlows', 'mockIntegrations',
     function ($rootScope, _$controller_, _$httpBackend_, _apiHostname_, _Session_, _mockDispatchMappings_, _mockFlows_, _mockIntegrations_) {
@@ -29,6 +29,10 @@ describe('DispatchMappingsController', function () {
 
   describe('with tenant set', function () {
     beforeEach(function () {
+      Session.tenant = {
+        tenantId: '1'
+      };
+
       $controller('DispatchMappingsController', {
         '$scope': $scope
       });
@@ -60,15 +64,13 @@ describe('DispatchMappingsController', function () {
       $controller('DispatchMappingsController', {
         '$scope': $scope
       });
-      
-      $httpBackend.flush();
     });
 
     it('should not fetch anything if Session.tenant is not set', function () {
       expect($scope.dispatchMappings).not.toBeDefined();
     });
   });
-  
+
   describe('where no dispatchMappings are returned', function() {
     beforeEach(function () {
       $httpBackend.expect('GET', apiHostname + '/v1/tenants/' + Session.tenant.tenantId + '/dispatch-mappings').respond(200, {
@@ -78,10 +80,10 @@ describe('DispatchMappingsController', function () {
       $controller('DispatchMappingsController', {
         '$scope': $scope
       });
-      
+
       $httpBackend.flush();
     });
-    
+
     it('should called create on fetch', function() {
       expect($scope.selectedDispatchMapping.tenantId).toEqual(Session.tenant.tenantId);
       expect($scope.selectedDispatchMapping.channelType).toEqual('voice');

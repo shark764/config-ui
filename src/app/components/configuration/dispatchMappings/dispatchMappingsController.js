@@ -12,6 +12,7 @@ angular.module('liveopsConfigPanel')
       };
 
       $scope.fetch = function() {
+
         if (!Session.tenant || !Session.tenant.tenantId) {
           return;
         }
@@ -27,7 +28,7 @@ angular.module('liveopsConfigPanel')
         $scope.flows = Flow.query({
           tenantId: Session.tenant.tenantId
         });
-        
+
         $scope.integrations = Integration.query({
           tenantId: Session.tenant.tenantId
         });
