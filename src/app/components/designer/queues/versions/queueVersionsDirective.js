@@ -36,7 +36,7 @@ angular.module('liveopsConfigPanel')
 
         $scope.versionCopy = new QueueVersion({
           query: version.query,
-          name: "v" + ($scope.versions.length + 1),
+          name: 'v' + ($scope.versions.length + 1),
           tenantId: version.tenantId,
           queueId: version.queueId
         });
