@@ -1,11 +1,7 @@
 'use strict';
 
-/*global jasmine, spyOn : false */
-
 describe('numberSlider directive', function(){
   var $scope,
-    $compile,
-    $document,
     element,
     isolateScope,
     doCompile;
@@ -13,9 +9,8 @@ describe('numberSlider directive', function(){
   beforeEach(module('liveopsConfigPanel'));
   beforeEach(module('gulpAngular')); 
   
-  beforeEach(inject(['$compile', '$rootScope', function(_$compile_,_$rootScope_) {
+  beforeEach(inject(['$compile', '$rootScope', function($compile,_$rootScope_) {
     $scope = _$rootScope_.$new();
-    $compile = _$compile_;
     
     $scope.value = null;
     $scope.placeholder = 'enter a value';
@@ -25,7 +20,7 @@ describe('numberSlider directive', function(){
       element = $compile('<number-slider value="value" placeholder="{{placeholder}}" has-handles="hasHandles"></number-slider>')($scope);
       $scope.$digest();
       isolateScope = element.isolateScope();
-    }
+    };
   }]));
 
   it('should add an input', inject(function() {
@@ -73,7 +68,7 @@ describe('numberSlider directive', function(){
       expect($scope.value).toEqual(4.2);
     }));
     
-    it('should enforce the max value', inject(function() {
+    it('should enforce the max value', inject(['$compile', function($compile) {
       $scope.maxValue = 5;
       $scope.value = 10;
       element = $compile('<number-slider min-value="{{minValue}}" max-value="{{maxValue}}" value="value" placeholder="{{placeholder}}" has-handles="hasHandles"></number-slider>')($scope);
@@ -84,9 +79,9 @@ describe('numberSlider directive', function(){
       $scope.value = 30;
       $scope.$digest();
       expect($scope.value).toEqual(5);
-    }));
+    }]));
     
-    it('should enforce the min value', inject(function() {
+    it('should enforce the min value', inject(['$compile', function($compile) {
       $scope.minValue = 0;
       $scope.value = -1;
       
@@ -99,7 +94,7 @@ describe('numberSlider directive', function(){
       $scope.value = -15;
       $scope.$digest();
       expect($scope.value).toEqual(0);
-    }));
+    }]));
   });
   
   describe('increment function', function(){

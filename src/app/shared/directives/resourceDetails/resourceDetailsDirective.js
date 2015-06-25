@@ -97,7 +97,7 @@ angular.module('liveopsConfigPanel')
           }
         };
 
-        $scope.$watch('resource.id', function (newValue) {
+        $scope.$watch('resource.id', function () {
           $scope.resetForm();
         });
 

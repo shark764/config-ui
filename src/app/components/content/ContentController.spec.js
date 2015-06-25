@@ -3,10 +3,8 @@
 describe('ContentController', function () {
   var $scope,
       $controller,
-      $httpBackend,
       $state,
-      $injector,
-      RegionsMock = {};
+      $injector;
 
   beforeEach(module('liveopsConfigPanel'));
   beforeEach(module('gulpAngular'));

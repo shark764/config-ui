@@ -4,7 +4,6 @@
 
 describe('resizeHandle directive', function(){
   var $scope,
-    $compile,
     $document,
     element,
     leftSpy,
@@ -13,10 +12,9 @@ describe('resizeHandle directive', function(){
   beforeEach(module('liveopsConfigPanel'));
   beforeEach(module('gulpAngular')); 
   
-  beforeEach(inject(['$compile', '$rootScope', '$document', function(_$compile_,_$rootScope_, _$document_) {
+  beforeEach(inject(['$compile', '$rootScope', '$document', function($compile,_$rootScope_, _$document_) {
     $scope = _$rootScope_.$new();
     $document = _$document_;
-    $compile = _$compile_;
     
     var target = $compile('<div id="left" style="width: 300px;"></div><span id="right" style="width: 600px;"></span>')($scope);
     angular.element($document[0].body).append(target);
