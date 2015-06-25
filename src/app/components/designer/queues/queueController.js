@@ -4,6 +4,7 @@ angular.module('liveopsConfigPanel')
   .controller('QueueController', ['$scope', 'Queue', 'Session', '$stateParams', 'queueTableConfig', 'QueueVersion',
   function ($scope, Queue, Session, $stateParams, queueTableConfig, QueueVersion) {
     $scope.Session = Session;
+    $scope.versions = [];
 
     $scope.redirectToInvites();
 
@@ -22,9 +23,9 @@ angular.module('liveopsConfigPanel')
         if (creatingNew){
           var initialVersion = new QueueVersion({
             queueId: result.id,
-            query: '',
+            query: $scope.versions[0].query,
             tenantId: Session.tenant.tenantId,
-            name: 'v1'
+            name: $scope.versions[0].name
           });
 
           initialVersion.save(function(versionResult){
@@ -51,9 +52,12 @@ angular.module('liveopsConfigPanel')
       };
 
     $scope.$on('on:click:create', function(){
+      $scope.versions[0] = {name: 'v1'}
+
       $scope.selectedQueue = new Queue({
         tenantId: Session.tenant.tenantId
       });
+      //$scope.initVersion.name = "v1";
     });
 
     $scope.$watch('Session.tenant.tenantId', $scope.fetch, true);
