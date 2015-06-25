@@ -15,7 +15,7 @@ describe('concatStrings directive', function(){
   it('should create an empty string for an empty model array', inject(function() {
     $scope.models = [];
     
-    var element = $compile('<concat-strings models="models" field="name" seperator=",">')($scope);
+    var element = $compile('<concat-strings models="models" field="name" seperator=","></concat-strings>')($scope);
     $scope.$digest();
     expect(element.isolateScope().identifiers).toEqual('');
   }));
@@ -23,7 +23,7 @@ describe('concatStrings directive', function(){
   it('should join the model strings with seperator and space', inject(function() {
     $scope.models = [{name: 'matt'}, {name: 'mark'}, {name: 'luke'}];
     
-    var element = $compile('<concat-strings models="models" field="name" seperator=",">')($scope);
+    var element = $compile('<concat-strings models="models" field="name" seperator=","></concat-strings>')($scope);
     $scope.$digest();
     expect(element.isolateScope().identifiers).toEqual('matt, mark, luke');
   }));
@@ -31,7 +31,7 @@ describe('concatStrings directive', function(){
   it('should join with space if no seperator given', inject(function() {
     $scope.models = [{name: 'matt'}, {name: 'mark'}, {name: 'luke'}];
     
-    var element = $compile('<concat-strings models="models" field="name">')($scope);
+    var element = $compile('<concat-strings models="models" field="name"></concat-strings>')($scope);
     $scope.$digest();
     expect(element.isolateScope().identifiers).toEqual('matt mark luke');
   }));
