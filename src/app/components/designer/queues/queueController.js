@@ -57,7 +57,6 @@ angular.module('liveopsConfigPanel')
       $scope.selectedQueue = new Queue({
         tenantId: Session.tenant.tenantId
       });
-      //$scope.initVersion.name = "v1";
     });
 
     $scope.$watch('Session.tenant.tenantId', $scope.fetch, true);
