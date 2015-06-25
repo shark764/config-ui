@@ -34,20 +34,21 @@
       <label>{{'value.name' | translate}}</label>
       <form-error field="createVersionForm.name"
       error-type-required="{{'value.error.name.required' | translate}}"></form-error>
-      <input disabled="true" ng-required="true" type="text" ng-model="version.name" name="name"></input>
+      <input disabled="true" ng-required="true" type="text" ng-model="versionCopy.name" name="name"></input>
     </div>
 
     <div class="input-group">
       <label class="textarea-label">{{'value.details.query' | translate}}</label>
       <form-error field="createVersionForm.query"
       error-type-required="{{'value.error.query.required' | translate}}"></form-error>
-      <textarea ng-required="true" type="text" ng-model="version.query" name="query"></textarea>
+      <textarea ng-required="true" type="text" ng-model="versionCopy.query" name="query"></textarea>
     </div>
 
     <div class="queue-controls input-group">
       <label></label>
-      <input type="button" ng-click="cancelVersion()" class="btn" value="{{'value.cancel' | translate}}" />
-      <input ng-click="saveVersion()" ng-disabled="createVersionForm.$invalid || !createVersionForm.$dirty" type="submit" class="btn btn-primary" value="{{'queue.details.saveNewVersion' | translate}}" />
+      <input type="button" ng-click="createNewVersion = false" ng-disabled="saving" class="btn" value="{{'value.cancel' | translate}}" />
+      <input ng-click="saveVersion()" ng-show="!saving" ng-disabled="createVersionForm.$invalid || !createVersionForm.$dirty" type="submit" class="btn btn-primary" value="{{'queue.details.saveNewVersion' | translate}}" />
+      <a ng-show="saving" ng-disabled="true" class="btn btn-primary"><i class="fa fa-refresh fa-spin"></i></a>
     </div>
   </ng-form>
 </div>
@@ -60,11 +61,31 @@
       <th>{{'value.createdOn' | translate}}</th>
       <th>{{'queue.details.createdBy' | translate}}</th>
     </thead>
-    <tr ng-repeat="version in versions">
-      <td><a ng-click="createVersion(version)"><i class="fa fa-plus"></i></a></td>
+    <tr ng-repeat-start="version in versions" id="version-row-{{version.name}}">
+      <td><i class="fa" ng-class="{'fa-plus' : !version.viewing, 'fa-minus': version.viewing}" ng-click="toggleDetails(version);"></i></td>
       <td>{{version.name}}</td>
       <td>{{version.created | date:'medium'}}</td>
       <td>{{version.createdBy | displayName}}</td>
+    </tr>
+    <tr ng-repeat-end>
+      <td colspan="4" ng-show="version.viewing">
+        <div class="input-group">
+          <label>{{'value.name' | translate}}</label>
+          <form-error field="createVersionForm.name" error-type-required="{{'value.error.name.required' | translate}}"></form-error>
+          <input disabled="true" ng-required="true" type="text" ng-model="version.name" name="name"></input>
+        </div>
+
+        <div class="input-group">
+          <label class="textarea-label">{{'value.details.query' | translate}}</label>
+          <textarea ng-disabled="true" type="text" ng-model="version.query" name="query"></textarea>
+        </div>
+
+        <div class="queue-controls input-group">
+          <label></label>
+          <input type="button" ng-click="version.viewing = false;" class="btn" value="{{'value.close' | translate}}" />
+          <input ng-click="createVersionCopy(version)" type="submit" class="btn btn-primary" value="{{'queue.details.createNewVersion' | translate}}" />
+        </div>
+      </td>
     </tr>
   </table>
 </div>

@@ -3,7 +3,7 @@
 angular.module('liveopsConfigPanel')
   .controller('QueueVersionsController', ['$scope', 'Session', 'QueueVersion',
     function ($scope, Session, QueueVersion) {
-      $scope.createNewVersion = false;
+      $scope.saving = false;
 
       $scope.fetch = function () {
         angular.copy([], $scope.versions);
@@ -31,27 +31,42 @@ angular.module('liveopsConfigPanel')
         $scope.queue.activeVersion = $scope.currVersion.version;
       };
 
-      $scope.cancelVersion = function () {
-        $scope.createNewVersion = false;
+      $scope.createVersionCopy = function(version) {
+        version.viewing = false;
+
+        $scope.versionCopy = new QueueVersion({
+          query: version.query,
+          name: "v" + ($scope.versions.length + 1),
+          tenantId: version.tenantId,
+          queueId: version.queueId
+        });
+
+        $scope.createNewVersion = true;
       };
 
       $scope.saveVersion = function () {
-        $scope.version.save(function (){
-          $scope.createVersion();
+        $scope.saving = true;
+
+        $scope.versionCopy.save(function (){
           $scope.createVersionForm.$setPristine();
           $scope.createVersionForm.$setUntouched();
           $scope.createNewVersion = false;
+        }).finally(function () {
+          $scope.saving = false;
         });
       };
 
-      $scope.createVersion = function (version) {
-        $scope.createNewVersion = true;
-        $scope.version = new QueueVersion({
-          queueId: $scope.queue.id,
-          tenantId: Session.tenant.tenantId,
-          name: 'v' + ($scope.versions.length + 1) + '',
-          query: version.query
-        });
+      $scope.toggleDetails = function (version) {
+        if(version.viewing){
+          version.viewing = false;
+          return;
+        }
+
+        for(var i = 0; i < $scope.versions.length; i++){
+          $scope.versions[i].viewing = false;
+        }
+
+        version.viewing = true;
       };
 
       $scope.pushNewItem = function (event, item) {
@@ -61,7 +76,6 @@ angular.module('liveopsConfigPanel')
 
       $scope.$watch('queue', function () {
         $scope.fetch();
-        $scope.createNewVersion = false;
 
         if ($scope.cleanHandler) {
           $scope.cleanHandler();
