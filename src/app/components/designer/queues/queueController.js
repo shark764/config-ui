@@ -3,7 +3,7 @@
 angular.module('liveopsConfigPanel')
   .controller('QueueController', ['$scope', 'Queue', 'Session', '$stateParams', 'queueTableConfig', 'QueueVersion',
   function ($scope, Queue, Session, $stateParams, queueTableConfig, QueueVersion) {
-    $scope.Session = Session;
+    //$scope.Session = Session;
 
     $scope.redirectToInvites();
 

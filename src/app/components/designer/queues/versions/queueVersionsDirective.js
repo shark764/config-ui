@@ -7,6 +7,7 @@ angular.module('liveopsConfigPanel')
 
       $scope.fetch = function () {
         angular.copy([], $scope.versions);
+        $scope.currVersion = null;
 
         QueueVersion.query({
           tenantId: Session.tenant.tenantId,
@@ -20,8 +21,6 @@ angular.module('liveopsConfigPanel')
                 $scope.currVersion = $scope.versions[i];
               }
             }
-          } else {
-            $scope.currVersion = null;
           }
 
         });
