@@ -4,7 +4,7 @@
   <div class="info pull-left">
     <h1>{{originalResource.name}}</h1>
     <div class="details">
-      <b translate="value.createdby" translate-value-date="{{originalResource.created | date:'medium'}}" translate-value-creator="{{creator.displayName}}"></b>
+      <b translate="value.createdby.time" translate-value-date="{{originalResource.created | date:'medium'}}" translate-value-creator="{{creator.displayName}}"></b>
       <br/>
       <b ng-if="originalResource.updatedBy" translate="value.updatedby" translate-value-date="{{originalResource.updated | date:'medium'}}" translate-value-updater="{{updater.displayName}}"></b>
     </div>

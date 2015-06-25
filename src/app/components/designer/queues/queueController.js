@@ -42,7 +42,7 @@ angular.module('liveopsConfigPanel')
           $scope.updateVersionName(childScope.originalResource);
         }
       }
-    }
+    };
 
     $scope.updateVersionName = function(queue){
         QueueVersion.get({ id: queue.activeVersion, queueId : queue.id, tenantId: Session.tenant.tenantId}, function(data){

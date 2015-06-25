@@ -2,16 +2,18 @@
   <h4>Versions</h4>
 </div>
 
-<a ng-hide="createNewVersion" class="btn pull-right" ng-click="createNewVersion = true"><i class="fa fa-plus"></i></a>
+<div class="clear">
+  <a ng-hide="createNewVersion" class="btn pull-right" ng-click="createNewVersion = true"><i class="fa fa-plus"></i></a>
+</div>
 
 <div ng-show="createNewVersion">
   <div class="divider-header">
-    <h4>Create new version</h4>
+    <h4>{{'flow.details.versions.create.title' | translate }}</h4>
   </div>
   
   <ng-form name="createVersionForm" seperate-validation>
     <div class="input-group">
-      <label>Name</label>
+      <label>{{'value.name' | translate}}</label>
       <form-error field="createVersionForm.name"
       error-type-required="{{'value.error.name.required' | translate}}"></form-error>
       <input ng-required="true" type="text" ng-model="version.name" name="name"></input>
@@ -37,7 +39,7 @@
     <th>&nbsp;</th>
     <th>{{'value.name' | translate}}</th>
     <th>{{'value.createdOn' | translate}}</th>
-    <th>Created By</th>
+    <th>{{'value.createdBy' | translate}}</th>
   </thead>
   <tr ng-repeat="version in versions | orderBy:'created':'reverse'">
     <td><a href="#/designer/editor/{{version.flowId}}/{{version.version}}?v={{version.v}}">v{{version.v}}</a></td>

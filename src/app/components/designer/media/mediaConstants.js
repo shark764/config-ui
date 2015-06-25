@@ -1,10 +1,12 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .constant('mediaTypes', [{
-    display: 'Audio',
-    value: 'audio'
-  }, {
-    display: 'TTS',
-    value: 'tts'
+  .factory('mediaTypes', ['$filter',  function($filter) {
+    return [{
+      display: $filter('translate')('media.details.mediaTypes.audio'),
+      value: 'audio'
+    }, {
+      display: $filter('translate')('media.details.mediaTypes.tts'),
+      value: 'tts'
+    }]
   }]);

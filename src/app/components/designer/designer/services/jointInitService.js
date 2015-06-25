@@ -160,7 +160,8 @@
           }
         });
 
-        stencil.render().$el.appendTo(stencilContainerId);
+        $(stencilContainerId).append(stencil.render().$el);
+
         FlowPaletteService.loadGateways(stencil);
         FlowPaletteService.loadEvents(stencil);
         FlowPaletteService.loadActivities(stencil);
@@ -176,7 +177,10 @@
         });
         _.each(stencil.papers, function(paper) {
           paper.fitToContent(0, 0, 10);
+          //Hack to forece redraw :(
+          paper.$el.hide().show(0);
         });
+        console.log(stencil);
 
         return stencil;
       },

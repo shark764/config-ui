@@ -5,20 +5,18 @@ angular.module('liveopsConfigPanel')
     function ($scope, Media, Session, mediaTableConfig, mediaTypes) {
       $scope.Session = Session;
 
-      $scope.redirectToInvites();
-
       $scope.create = function () {
         $scope.selectedMedia = new Media({
           properties: {},
           tenantId: Session.tenant.tenantId
         });
-      }
+      };
 
       $scope.fetch = function () {
         $scope.medias = Media.query({
           tenantId: Session.tenant.tenantId
-        }, function() {
-          if(!$scope.medias.length) {
+        }, function(medias) {
+          if(!medias.length) {
             $scope.create();
           }
         });
@@ -35,6 +33,6 @@ angular.module('liveopsConfigPanel')
       
       $scope.additional = {
         mediaTypes: mediaTypes
-      }
+      };
     }
   ]);
