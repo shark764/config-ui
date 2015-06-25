@@ -24,6 +24,7 @@ var Sidebar = function() {
   // Configuration Page links
   this.tenantsLink = element(by.id('tenants-configuration-link'));
   this.integrationsLink = element(by.id('integrations-configuration-link'));
+  this.dispatchMappingsLink = element(by.id('dispatch-mappings-configuration-link'));
 
   // Flow Designer Page links
   this.flowsLink = element(by.id('flow-management-link'));

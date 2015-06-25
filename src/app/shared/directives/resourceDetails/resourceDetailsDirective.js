@@ -99,19 +99,6 @@ angular.module('liveopsConfigPanel')
 
         $scope.$watch('resource.id', function (newValue) {
           $scope.resetForm();
-
-          if (newValue) {
-            if ($scope.resource.createdBy !== '00000000-0000-0000-0000-000000000000') {
-              $scope.creator = UserName.get($scope.resource.createdBy);
-            }
-
-            if ($scope.resource.updatedBy !== '00000000-0000-0000-0000-000000000000') {
-              $scope.updater = UserName.get($scope.resource.updatedBy);
-            }
-          } else {
-            delete $scope.creator;
-            delete $scope.updater;
-          }
         });
 
         $scope.$watch('originalResource', function () {

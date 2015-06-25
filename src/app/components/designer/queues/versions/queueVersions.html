@@ -46,8 +46,8 @@
 
     <div class="queue-controls input-group">
       <label></label>
-      <input type="button" ng-click="createNewVersion = false" ng-disabled="saving" class="btn" value="{{'value.cancel' | translate}}" />
-      <input ng-click="saveVersion()" ng-show="!saving" ng-disabled="createVersionForm.$invalid || !createVersionForm.$dirty" type="submit" class="btn btn-primary" value="{{'queue.details.saveNewVersion' | translate}}" />
+      <input id='cancel-queue-version-btn' type="button" ng-click="createNewVersion = false" ng-disabled="saving" class="btn" value="{{'value.cancel' | translate}}" />
+      <input id='create-queue-version-btn' ng-click="saveVersion()" ng-show="!saving" ng-disabled="createVersionForm.$invalid || !createVersionForm.$dirty" type="submit" class="btn btn-primary" value="{{'queue.details.saveNewVersion' | translate}}" />
       <a ng-show="saving" ng-disabled="true" class="btn btn-primary"><i class="fa fa-refresh fa-spin"></i></a>
     </div>
   </ng-form>

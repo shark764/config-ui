@@ -1,6 +1,6 @@
 'use strict';
 
-/* global jasmine, spyOn: false  */
+/* global spyOn: false  */
 
 describe('users controller', function(){
   var $scope,
