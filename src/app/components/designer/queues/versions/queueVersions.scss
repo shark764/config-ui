@@ -1,13 +1,19 @@
 .queue-controls{
   text-align: right;
   margin-bottom: 10px;
-  
-  input {
+
+  input, a {
     display: inline-block;
     width: calc(50% - 3px) !important;
   }
-  
+
   input+input {
     margin-left: 6px !important;
+  }
+}
+
+.queue-version-table {
+  i {
+    color: $accent1;
   }
 }
