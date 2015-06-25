@@ -8,16 +8,14 @@ describe('users controller', function(){
     users,
     Session,
     childScope,
-    $injector,
     controller,
     Invite;
 
   beforeEach(module('liveopsConfigPanel'));
   beforeEach(module('gulpAngular'));
 
-  beforeEach(inject(['$compile', '$rootScope', '$injector', '$controller', 'apiHostname', function($compile, $rootScope, _$injector_, $controller, apiHostname) {
-    $injector = _$injector_;
-
+  beforeEach(inject(['$compile', '$rootScope', '$injector', '$controller', 'apiHostname', 
+                     function($compile, $rootScope, $injector, $controller, apiHostname) {
     users  = [ {
       'id': 'c6aa44f6-b19e-49f5-bd3f-66f00b885e39',
       'status': false,
@@ -103,7 +101,7 @@ describe('users controller', function(){
   });
 
   describe('postSave function', function(){
-    it('should reset the session authentication token if user changes their own password', inject(function() {
+    it('should reset the session authentication token if user changes their own password', inject(['$injector', function($injector) {
       var result = {
           id : 1,
           email: 'somenewemail@test.com'
@@ -117,7 +115,7 @@ describe('users controller', function(){
       controller.postSave({originalResource : {id : 3}}, result);
       expect(Session.setToken).toHaveBeenCalledWith(token);
 
-    }));
+    }]));
 
     it('should create an invite for the new user', inject(function() {
       spyOn(Invite, 'save');
