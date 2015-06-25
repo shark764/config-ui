@@ -19,7 +19,7 @@ describe('DispatchMappingsController', function () {
       $scope = $rootScope.$new();
       $controller = _$controller_;
       Session = _Session_;
-      $httpBackend = _$httpBackend_
+      $httpBackend = _$httpBackend_;
       apiHostname = _apiHostname_;
       mockDispatchMappings = _mockDispatchMappings_;
       mockFlows = _mockFlows_;
@@ -75,8 +75,8 @@ describe('DispatchMappingsController', function () {
     beforeEach(function () {
       $httpBackend.expect('GET', apiHostname + '/v1/tenants/' + Session.tenant.tenantId + '/dispatch-mappings').respond(200, {
         'result': []
-      })
-
+      });
+      
       $controller('DispatchMappingsController', {
         '$scope': $scope
       });
@@ -87,6 +87,6 @@ describe('DispatchMappingsController', function () {
     it('should called create on fetch', function() {
       expect($scope.selectedDispatchMapping.tenantId).toEqual(Session.tenant.tenantId);
       expect($scope.selectedDispatchMapping.channelType).toEqual('voice');
-    })
-  })
+    });
+  });
 });

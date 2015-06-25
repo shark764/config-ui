@@ -4,11 +4,7 @@
 
 describe('tableControls directive', function() {
   var $scope,
-    $compile,
-    $rootScope,
     $stateParams,
-    $templateCache,
-    $location,
     element,
     isolateScope,
     doCompile;
@@ -17,14 +13,10 @@ describe('tableControls directive', function() {
   
   beforeEach(module('gulpAngular'));
 
-  beforeEach(inject(['$compile', '$rootScope', '$stateParams', '$location', '$templateCache',
-    function(_$compile_, _$rootScope_, _$stateParams_, _$location_, _$templateCache_) {
-    $rootScope = _$rootScope_;
-    $scope = _$rootScope_.$new();
-    $compile = _$compile_;
+  beforeEach(inject(['$compile', '$rootScope', '$stateParams',
+    function($compile, $rootScope, _$stateParams_) {
+    $scope = $rootScope.$new();
     $stateParams = _$stateParams_;
-    $location = _$location_;
-    $templateCache = _$templateCache_;
 
     $scope.config = {fields : [{name: 'id'}], searchOn: ['id']};
     $scope.selected = {};
@@ -89,7 +81,7 @@ describe('tableControls directive', function() {
     expect($scope.selected).toEqual($scope.items[0]);
   }));
   
-  it('should include template for columns that define it', inject(function() {
+  it('should include template for columns that define it', inject(['$templateCache', function($templateCache) {
     $templateCache.put('candyTemplate.html', '<candy>{{item.favCandy}}</candy>');
     $scope.config.fields.push({
         name: 'favCandy',
@@ -100,7 +92,7 @@ describe('tableControls directive', function() {
     
     doCompile();
     expect(element.find('candy').length).toBe(2);
-  }));
+  }]));
   
   it('should not display columns that are unchecked in config', inject(function() {
     $scope.config.fields.push({name : 'color', checked: false});
@@ -131,7 +123,7 @@ describe('tableControls directive', function() {
       expect($scope.selected.name).toEqual('my new item');
     }));
     
-    it('should call location to update the query param', inject(function() {
+    it('should call location to update the query param', inject(['$location', function($location) {
       spyOn($location, 'search');
       isolateScope.selectItem({id: 'id1'});
       expect($location.search).toHaveBeenCalledWith({id : 'id1'});
@@ -143,7 +135,7 @@ describe('tableControls directive', function() {
       $location.search.calls.reset();
       isolateScope.selectItem({something : 'blah'});
       expect($location.search).toHaveBeenCalledWith({id : undefined});
-    }));
+    }]));
     
     it('should emit the resource:selected event', inject(function() {
       spyOn(isolateScope, '$emit');
@@ -258,12 +250,12 @@ describe('tableControls directive', function() {
       expect(removeSpy).toHaveBeenCalled();
     }));
     
-    it('should catch the created event and add new item to items', inject(function() {
+    it('should catch the created event and add new item to items', inject(['$rootScope', function($rootScope) {
       $rootScope.$broadcast('created:resource:resource', {id: 'coolItem'});
       isolateScope.$digest();
       expect($scope.items.length).toEqual(1);
       expect($scope.items[0].id).toEqual('coolItem');
-    }));
+    }]));
   });
   
   describe('parse function', function(){
