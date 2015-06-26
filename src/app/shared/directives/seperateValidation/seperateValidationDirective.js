@@ -25,17 +25,12 @@ angular.module('liveopsConfigPanel')
 
           $setValidity: function () {
             formController.$invalid = false;
-
             angular.forEach(element.find('input'), function (ele){
               if(formController[ele.name] && formController[ele.name].$error) {
                 for (var prop in formController[ele.name].$error){
-                  if(prop) {
+                  if(prop && formController[ele.name].$error[prop]) {
                     formController.$invalid = true;
                     break;
-                  }
-
-                  if(formController.$invalid){
-                    return false;
                   }
                 }
               }
