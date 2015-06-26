@@ -27,12 +27,6 @@ angular.module('liveopsConfigPanel')
 
     };
 
-    $scope.updateVersionName = function(queue){
-      QueueVersion.get({version : queue.activeVersion, queueId : queue.id, tenantId: Session.tenant.tenantId}, function(data){
-        queue.activeVersionName = data.name;
-      });
-    };
-
     $scope.additional = {
       versions: $scope.versions,
       postSave: function(childScope, result, creatingNew){
