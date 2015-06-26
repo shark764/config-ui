@@ -22,7 +22,7 @@ describe('The flows view', function() {
     shared.tearDown();
   });
 
-  xit('should include flow management page components', function() {
+  it('should include flow management page components', function() {
     expect(shared.navBar.isDisplayed()).toBeTruthy();
 
     expect(flows.nameFormField.isDisplayed()).toBeTruthy();
@@ -33,7 +33,7 @@ describe('The flows view', function() {
   });
 
 
-  xit('should display flow details when selected from table', function() {
+  it('should display flow details when selected from table', function() {
     // Select first flow from table
     flows.firstTableRow.click();
 
@@ -49,7 +49,7 @@ describe('The flows view', function() {
     });
   });
 
-  xit('should allow the Flow fields to be updated', function() {
+  it('should allow the Flow fields to be updated', function() {
     flowVersionCount = flows.versionsTableElements.count().then(function(curFlowVersionCount) {
       randomFlow = Math.floor((Math.random() * 1000) + 1);
       flows.firstTableRow.click();
@@ -76,7 +76,7 @@ describe('The flows view', function() {
     });
   });
 
-  xit('should require name field when editing a Flow', function() {
+  it('should require name field when editing a Flow', function() {
     flows.firstTableRow.click();
     flows.nameFormField.clear();
     flows.descriptionFormField.click();
@@ -91,7 +91,7 @@ describe('The flows view', function() {
     expect(flows.requiredErrors.get(0).getText()).toBe('Please enter a name');
   });
 
-  xit('should not require description field when editing a Flow', function() {
+  it('should not require description field when editing a Flow', function() {
     flows.firstTableRow.click();
     flows.descriptionFormField.clear();
     flows.nameFormField.click();
@@ -102,7 +102,7 @@ describe('The flows view', function() {
     });
   });
 
-  xit('should reset fields after editing and selecting Cancel', function() {
+  it('should reset fields after editing and selecting Cancel', function() {
     flowVersionCount = flows.versionsTableElements.count().then(function(curFlowVersionCount) {
       randomFlow = Math.floor((Math.random() * 1000) + 1);
       flows.firstTableRow.click();
@@ -131,7 +131,7 @@ describe('The flows view', function() {
     });
   });
 
-  xit('should display all flow versions in Active Version dropdown', function() {
+  it('should display all flow versions in Active Version dropdown', function() {
     flows.firstTableRow.click();
     flows.activeVersionDropdown.all(by.css('option')).then(function(dropdownVersions) {
       for (var i = 1; i < dropdownVersions.length; ++i) {

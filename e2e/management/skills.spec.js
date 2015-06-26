@@ -204,7 +204,6 @@ describe('The skills view', function() {
 
   it('should include valid Skill fields when editing an existing Skill', function() {
     skills.firstTableRow.click();
-    expect(skills.creatingSkillHeader.isPresent()).toBeFalsy();
     expect(skills.nameFormField.isDisplayed()).toBeTruthy();
     expect(skills.descriptionFormField.isDisplayed()).toBeTruthy();
     expect(skills.proficiencyFormCheckbox.isDisplayed()).toBeTruthy();

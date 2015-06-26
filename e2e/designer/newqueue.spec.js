@@ -42,7 +42,7 @@ describe('The create new queues view', function() {
     shared.tableElements.then(function(rows) {
       for (var i = 1; i <= rows.length; ++i) {
         // Check if queue name in table matches newly added queue
-        element(by.css('tr.ng-scope:nth-child(' + i + ') > td:nth-child(2)')).getText().then(function(value) {
+        element(by.css('.table > tbody:nth-child(' + i + ') > tr:nth-child(1) > td:nth-child(2)')).getText().then(function(value) {
           if (value == 'Queue ' + randomQueue) {
             queueAdded = true;
           }
