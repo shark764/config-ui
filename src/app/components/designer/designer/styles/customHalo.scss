@@ -1,21 +1,25 @@
-.halo .circle {
-  background-image: url('/images/halo-circle-icon.png');
+.halo .createEvent {
+  background-image: url('/assets/images/halo-circle-icon.png');
 }
 
-.halo .rectangle {
-  background-image: url('/images/halo-rectangle-icon.png');
+.halo .createActivity {
+  background-image: url('/assets/images/halo-rectangle-icon.png');
 }
 
-.halo .diamond {
-  background-image: url('/images/halo-diamond-icon.png');
+.halo .createGateway {
+  background-image: url('/assets/images/halo-diamond-icon.png');
 }
 
-.halo.propertiesPanel {
-  background-image: url('/images/halo-properties-panel-icon.png');
+.halo .propertiesPanel {
+  background-image: url('/assets/images/halo-properties-panel-icon.png');
 }
 
-.halo.contextMenu {
-  background-image: url('/images/halo-context-menu-icon.png');
+.halo .contextMenu {
+  background-image: url('/assets/images/halo-context-menu-icon.png');
+}
+
+.halo .remove {
+  background-image: url('/assets/images/remove.png');
 }
 
 .halo .handle.oneOclock {
@@ -78,4 +82,10 @@
   left: 50%;
   top: -42px;
   margin-left: -7.5px;
+}
+
+.halo .handle {
+  width: 20px !important;
+  height: 20px !important;
+  background-size: 20px 20px !important;
 }

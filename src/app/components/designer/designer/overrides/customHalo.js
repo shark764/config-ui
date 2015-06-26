@@ -6,12 +6,6 @@
   joint.templates = joint.templates || {};
   joint.templates.halo = joint.templates.halo || {};
   joint.templates.halo['handle.html'] = Handlebars.template(function (Handlebars, depth0, helpers, partials, data) {
-    // console.log('Handlebars', Handlebars);
-    // console.log('depth0', depth0);
-    // console.log('helpers', helpers);
-    // console.log('partials', partials);
-    // console.log('data', data);
-    // console.log('----------------------------');
     this.compilerInfo = [4,'>= 1.0.0'];
     var buffer = '';
     var stack1;
@@ -142,81 +136,91 @@
           angle: Math.floor(cellView.model.get('angle') || 0)
         });
       },
-      // deprecated (better use joint.dia.Paper.options.linkModel)
       linkAttributes: {},
       smoothLinks: undefined,
       handles: [
-          { name: 'circle', position: 'oneOclock', events: { pointerdown: 'startLinking', pointermove: 'doLink', pointerup: 'stopLinking' } },
-          { name: 'rectangle', position: 'twoOclock', events: { pointerdown: 'startLinking', pointermove: 'doLink', pointerup: 'stopLinking' } },
-          { name: 'diamond', position: 'threeOclock', events: { pointerdown: 'startLinking', pointermove: 'doLink', pointerup: 'stopLinking' } },
-          { name: 'propertiesPanel', position: 'fourOclock', events: { pointerdown: 'startLinking', pointermove: 'doLink', pointerup: 'stopLinking' } },
-          { name: 'contextMenu', position: 'fiveOclock', events: { pointerdown: 'startLinking', pointermove: 'doLink', pointerup: 'stopLinking' } }
-          // { name: 'link', position: 'sixOclock', events: { pointerdown: 'startLinking', pointermove: 'doLink', pointerup: 'stopLinking' } },
-          // { name: 'link', position: 'sevenOclock', events: { pointerdown: 'startLinking', pointermove: 'doLink', pointerup: 'stopLinking' } },
-          // { name: 'link', position: 'eightOclock', events: { pointerdown: 'startLinking', pointermove: 'doLink', pointerup: 'stopLinking' } },
-          // { name: 'link', position: 'nineOclock', events: { pointerdown: 'startLinking', pointermove: 'doLink', pointerup: 'stopLinking' } },
-          // { name: 'link', position: 'tenOclock', events: { pointerdown: 'startLinking', pointermove: 'doLink', pointerup: 'stopLinking' } },
-          // { name: 'link', position: 'elevenOclock', events: { pointerdown: 'startLinking', pointermove: 'doLink', pointerup: 'stopLinking' } },
-          // { name: 'link', position: 'twelveOclock', events: { pointerdown: 'startLinking', pointermove: 'doLink', pointerup: 'stopLinking' } }
+        {
+          name: 'createEvent',
+          position: 'oneOclock',
+          events: {
+            pointerdown: 'startForking',
+            pointermove: 'doFork',
+            pointerup: 'stopForking'
+          }
+        },
+        {
+          name: 'createActivity',
+          position: 'twoOclock',
+          events: {
+            pointerdown: 'startForking',
+            pointermove: 'doFork',
+            pointerup: 'stopForking'
+          }
+        },
+        {
+          name: 'createGateway',
+          position: 'threeOclock',
+          events: {
+            pointerdown: 'startForking',
+            pointermove: 'doFork',
+            pointerup: 'stopForking'
+          }
+        },
+        {
+          name: 'propertiesPanel',
+          position: 'fourOclock',
+          events: {
+            pointerdown: 'startLinking',
+            pointermove: 'doLink',
+            pointerup: 'stopLinking'
+          }
+        },
+        {
+          name: 'contextMenu',
+          position: 'fiveOclock',
+          events: {
+            pointerdown: 'startLinking',
+            pointermove: 'doLink',
+            pointerup: 'stopLinking'
+          }
+        }
       ]
     },
-    initialize: function(options) {
-      this.options = _.extend({}, _.result(this, 'options'), options || {});
-      _.defaults(this.options, {
-        paper: this.options.cellView.paper,
-        graph: this.options.cellView.paper.model
-      });
-      _.bindAll(this, 'pointermove', 'pointerup', 'render', 'update', 'remove');
-      // Clear a previous halo if there was one for the paper.
-      joint.ui.Halo.clear(this.options.paper);
-      // Add handles.
-      this.handles = [];
-      _.each(this.options.handles, this.addHandle, this);
-      // Update halo when the graph changed.
-      this.listenTo(this.options.graph, 'reset', this.remove);
-      this.listenTo(this.options.graph, 'all', this.update);
-      // Hide Halo when the user clicks anywhere in the paper or a new halo is created.
-      this.listenTo(this.options.paper, 'blank:pointerdown halo:create', this.remove);
-      this.listenTo(this.options.paper, 'scale translate', this.update);
-      $(document.body).on('mousemove touchmove', this.pointermove);
-      $(document).on('mouseup touchend', this.pointerup);
-      this.options.paper.$el.append(this.$el);
-    },
-    render: function() {
-      this.options.cellView.model.on('remove', this.remove);
-      this.$el.append(joint.templates.halo['box.html']());
-      this.renderMagnets();
-      this.update();
-      this.$el.addClass('animate');
-      // Add the `data-type` attribute with the `type` of the cell to the root element.
-      // This makes it possible to style the halo (including hiding/showing actions) based
-      // on the type of the cell.
-      this.$el.attr('data-type', this.options.cellView.model.get('type'));
-      this.toggleFork();
-      return this;
-    },
-    update: function() {
-      if (this.options.cellView.model instanceof joint.dia.Link) { return; }
-      if (_.isFunction(this.options.boxContent)) {
-        var $box = this.$('.box');
-        var content = this.options.boxContent.call(this, this.options.cellView, $box[0]);
-        // don't append empty content. (the content might had been created inside boxContent()
-        if (content) {
-          $box.html(content);
-        }
+
+    // Listeners
+    onHandlePointerDown: function(evt) {
+      this._action = $(evt.target).closest('.handle').attr('data-action');
+      if (this._action) {
+        evt.preventDefault();
+        evt.stopPropagation();
+        evt = joint.util.normalizeEvent(evt);
+        this._clientX = evt.clientX;
+        this._clientY = evt.clientY;
+        this._startClientX = this._clientX;
+        this._startClientY = this._clientY;
+        this.triggerAction(this._action, 'pointerdown', evt);
       }
-      var bbox = this.options.cellView.getBBox({ useModelGeometry: this.options.useModelGeometry });
-      this.$el.toggleClass('tiny', bbox.width < this.options.tinyTreshold && bbox.height < this.options.tinyTreshold);
-      this.$el.toggleClass('small', !this.$el.hasClass('tiny') && (bbox.width < this.options.smallTreshold && bbox.height < this.options.smallTreshold));
-      this.$el.css({
-        width: bbox.width,
-        height: bbox.height,
-        left: bbox.x,
-        top: bbox.y
-      }).show();
-      this.updateMagnets();
-      this.toggleUnlink();
     },
+    pointermove: function(evt) {
+      if (!this._action) { return; }
+      evt.preventDefault();
+      evt.stopPropagation();
+      evt = joint.util.normalizeEvent(evt);
+      var clientCoords = this.options.paper.snapToGrid({ x: evt.clientX, y: evt.clientY });
+      var oldClientCoords = this.options.paper.snapToGrid({ x: this._clientX, y: this._clientY });
+      var dx = clientCoords.x - oldClientCoords.x;
+      var dy = clientCoords.y - oldClientCoords.y;
+      this.triggerAction(this._action, 'pointermove', evt, dx, dy, evt.clientX - this._startClientX, evt.clientY - this._startClientY);
+      this._clientX = evt.clientX;
+      this._clientY = evt.clientY;
+    },
+    pointerup: function(evt) {
+      if (!this._action) { return; }
+      this.triggerAction(this._action, 'pointerup', evt);
+      delete this._action;
+    },
+
+    // Handle fn's
     addHandle: function(opt) {
       this.handles.push(opt);
       this.$el.append(joint.templates.halo['handle.html'](opt));
@@ -250,25 +254,8 @@
       }
       return this;
     },
-    onHandlePointerDown: function(evt) {
-      this._action = $(evt.target).closest('.handle').attr('data-action');
-      if (this._action) {
-        evt.preventDefault();
-        evt.stopPropagation();
-        evt = joint.util.normalizeEvent(evt);
-        this._clientX = evt.clientX;
-        this._clientY = evt.clientY;
-        this._startClientX = this._clientX;
-        this._startClientY = this._clientY;
-        this.triggerAction(this._action, 'pointerdown', evt);
-      }
-    },
-    triggerAction: function(action, eventName) {
-      // Trigger an action on the Halo object. `evt` is a DOM event, `eventName` is an abstracted
-      // JointJS event name (pointerdown, pointermove, pointerup).
-      var args = ['action:' + action + ':' + eventName].concat(_.rest(_.toArray(arguments), 2));
-      this.trigger.apply(this, args);
-    },
+
+    // Cloning
     startCloning: function(evt) {
       this.options.graph.trigger('batch:start');
       var clone = this.options.cellView.model.clone();
@@ -277,6 +264,16 @@
       this._cloneView = clone.findView(this.options.paper);
       this._cloneView.pointerdown(evt, this._clientX, this._clientY);
     },
+    doClone: function(evt) {
+      //
+      this._cloneView.pointermove(evt, this._clientX, this._clientY);
+    },
+    stopCloning: function(evt) {
+      this._cloneView.pointerup(evt, this._clientX, this._clientY);
+      this.stopBatch();
+    },
+
+    // Linking
     startLinking: function(evt) {
       this.options.graph.trigger('batch:start');
       var cellView = this.options.cellView;
@@ -294,27 +291,85 @@
       this._linkView = this.options.paper.findViewByModel(link);
       this._linkView.startArrowheadMove('target');
     },
+    doLink: function(evt) {
+      var clientCoords = this.options.paper.snapToGrid({ x: evt.clientX, y: evt.clientY });
+      this._linkView.pointermove(evt, clientCoords.x, clientCoords.y);
+    },
+    stopLinking: function(evt) {
+      this._linkView.pointerup(evt);
+      var sourceId = this._linkView.model.get('source').id;
+      var targetId = this._linkView.model.get('target').id;
+      if (sourceId && targetId && (sourceId === targetId)) {
+        this.makeLoopLink(this._linkView.model);
+      }
+      this.stopBatch();
+      this.triggerAction('link', 'add', this._linkView.model);
+      delete this._linkView;
+    },
+
+    // Forking
     startForking: function(evt) {
+      var classes = evt.currentTarget.className.split(' ');
+      var fork;
+      if (_.contains(classes, 'createGateway')) {
+        fork = new joint.shapes.liveOps.gateway({
+          gatewayType: 'parallel',
+          content: 'derp'
+        });
+      } else if (_.contains(classes, 'createActivity')) {
+        fork = new joint.shapes.liveOps.activity({
+          content: 'Free Resource',
+          activityType: 'task',
+          type: 'liveOps.activity',
+          name: 'free-resource',
+          targeted: true
+        });
+      } else {
+        fork = new joint.shapes.liveOps.event({
+          eventName: 'none',
+          eventType: 'start'
+        });
+      }
+
       this.options.graph.trigger('batch:start');
-      var clone = this.options.cellView.model.clone();
-      clone.unset('z');
-      this.options.graph.addCell(clone, { halo: this.cid });
+      fork.attributes.position.x = this.options.cellView.model.attributes.position.x;
+      fork.attributes.position.y = this.options.cellView.model.attributes.position.y;
+      fork.unset('z');
+      this.options.graph.addCell(fork, { halo: this.cid });
       var link = this.options.paper.getDefaultLink(this.options.cellView);
       link.set('source', { id: this.options.cellView.model.id });
-      link.set('target', { id: clone.id });
+      link.set('target', { id: fork.id });
       link.attr(this.options.linkAttributes);
       if (_.isBoolean(this.options.smoothLinks)) {
         link.set('smooth', this.options.smoothLinks);
       }
       this.options.graph.addCell(link, { halo: this.cid });
-      this._cloneView = clone.findView(this.options.paper);
+      this._cloneView = fork.findView(this.options.paper);
       this._cloneView.pointerdown(evt, this._clientX, this._clientY);
     },
+    doFork: function(evt) {
+      //
+      this._cloneView.pointermove(evt, this._clientX, this._clientY);
+    },
+    stopForking: function(evt) {
+      this._cloneView.pointerup(evt, this._clientX, this._clientY);
+      this.stopBatch();
+    },
+
+    // Resizing
     startResizing: function() {
       this.options.graph.trigger('batch:start');
       // determine whether to flip x,y mouse coordinates while resizing or not
       this._flip = [1,0,0,1,1,0,0,1][Math.floor(g.normalizeAngle(this.options.cellView.model.get('angle')) / 45)];
     },
+    doResize: function(evt, dx, dy) {
+      var size = this.options.cellView.model.get('size');
+      var width = Math.max(size.width + ((this._flip ? dx : dy)), 1);
+      var height = Math.max(size.height + ((this._flip ? dy : dx)), 1);
+      this.options.cellView.model.resize(width, height, { absolute: true });
+    },
+
+    // Rotating
     startRotating: function(evt) {
       this.options.graph.trigger('batch:start');
       var bbox = this.options.cellView.getBBox();
@@ -328,12 +383,6 @@
       this._rotationStart = g.point(evt.offsetX + evt.target.parentNode.offsetLeft, evt.offsetY + evt.target.parentNode.offsetTop + evt.target.parentNode.offsetHeight);
       var angle = this.options.cellView.model.get('angle');
       this._rotationStartAngle = angle || 0;
-    },
-    doResize: function(evt, dx, dy) {
-      var size = this.options.cellView.model.get('size');
-      var width = Math.max(size.width + ((this._flip ? dx : dy)), 1);
-      var height = Math.max(size.height + ((this._flip ? dy : dx)), 1);
-      this.options.cellView.model.resize(width, height, { absolute: true });
     },
     doRotate: function(evt, dx, dy, tx, ty) {
       var p = g.point(this._rotationStart).offset(tx, ty);
@@ -350,54 +399,70 @@
       angleDiff = g.snapToGrid(angleDiff, this.options.rotateAngleGrid);
       this.options.cellView.model.rotate(angleDiff + this._rotationStartAngle, true);
     },
-    doClone: function(evt) {
-      //
-      this._cloneView.pointermove(evt, this._clientX, this._clientY);
+
+    // Util fn's
+    initialize: function(options) {
+      this.options = _.extend({}, _.result(this, 'options'), options || {});
+      _.defaults(this.options, {
+        paper: this.options.cellView.paper,
+        graph: this.options.cellView.paper.model
+      });
+      _.bindAll(this, 'pointermove', 'pointerup', 'render', 'update', 'remove');
+      // Clear a previous halo if there was one for the paper.
+      joint.ui.Halo.clear(this.options.paper);
+      // Add handles.
+      this.handles = [];
+      _.each(this.options.handles, this.addHandle, this);
+      // Update halo when the graph changed.
+      this.listenTo(this.options.graph, 'reset', this.remove);
+      this.listenTo(this.options.graph, 'all', this.update);
+      // Hide Halo when the user clicks anywhere in the paper or a new halo is created.
+      this.listenTo(this.options.paper, 'blank:pointerdown halo:create', this.remove);
+      this.listenTo(this.options.paper, 'scale translate', this.update);
+      $(document.body).on('mousemove touchmove', this.pointermove);
+      $(document).on('mouseup touchend', this.pointerup);
+      this.options.paper.$el.append(this.$el);
     },
-    doFork: function(evt) {
-      //
-      this._cloneView.pointermove(evt, this._clientX, this._clientY);
+    render: function() {
+      this.options.cellView.model.on('remove', this.remove);
+      // this.$el.append(joint.templates.halo['box.html']());
+      this.renderMagnets();
+      this.update();
+      this.$el.addClass('animate');
+      // Add the `data-type` attribute with the `type` of the cell to the root element.
+      // This makes it possible to style the halo (including hiding/showing actions) based
+      // on the type of the cell.
+      this.$el.attr('data-type', this.options.cellView.model.get('type'));
+      this.toggleFork();
+      return this;
     },
-    doLink: function(evt) {
-      var clientCoords = this.options.paper.snapToGrid({ x: evt.clientX, y: evt.clientY });
-      this._linkView.pointermove(evt, clientCoords.x, clientCoords.y);
-    },
-    stopLinking: function(evt) {
-      this._linkView.pointerup(evt);
-      var sourceId = this._linkView.model.get('source').id;
-      var targetId = this._linkView.model.get('target').id;
-      if (sourceId && targetId && (sourceId === targetId)) {
-        this.makeLoopLink(this._linkView.model);
+    update: function() {
+      if (this.options.cellView.model instanceof joint.dia.Link) { return; }
+      if (_.isFunction(this.options.boxContent)) {
+        var $box = this.$('.box');
+        var content = this.options.boxContent.call(this, this.options.cellView, $box[0]);
+        // don't append empty content. (the content might had been created inside boxContent()
+        if (content) {
+          $box.html(content);
+        }
       }
-      this.stopBatch();
-      this.triggerAction('link', 'add', this._linkView.model);
-      delete this._linkView;
+      var bbox = this.options.cellView.getBBox({ useModelGeometry: this.options.useModelGeometry });
+      this.$el.toggleClass('tiny', bbox.width < this.options.tinyTreshold && bbox.height < this.options.tinyTreshold);
+      this.$el.toggleClass('small', !this.$el.hasClass('tiny') && (bbox.width < this.options.smallTreshold && bbox.height < this.options.smallTreshold));
+      this.$el.css({
+        width: bbox.width,
+        height: bbox.height,
+        left: bbox.x,
+        top: bbox.y
+      }).show();
+      this.updateMagnets();
+      this.toggleUnlink();
     },
-    stopForking: function(evt) {
-      this._cloneView.pointerup(evt, this._clientX, this._clientY);
-      this.stopBatch();
-    },
-    stopCloning: function(evt) {
-      this._cloneView.pointerup(evt, this._clientX, this._clientY);
-      this.stopBatch();
-    },
-    pointermove: function(evt) {
-      if (!this._action) { return; }
-      evt.preventDefault();
-      evt.stopPropagation();
-      evt = joint.util.normalizeEvent(evt);
-      var clientCoords = this.options.paper.snapToGrid({ x: evt.clientX, y: evt.clientY });
-      var oldClientCoords = this.options.paper.snapToGrid({ x: this._clientX, y: this._clientY });
-      var dx = clientCoords.x - oldClientCoords.x;
-      var dy = clientCoords.y - oldClientCoords.y;
-      this.triggerAction(this._action, 'pointermove', evt, dx, dy, evt.clientX - this._startClientX, evt.clientY - this._startClientY);
-      this._clientX = evt.clientX;
-      this._clientY = evt.clientY;
-    },
-    pointerup: function(evt) {
-      if (!this._action) { return; }
-      this.triggerAction(this._action, 'pointerup', evt);
-      delete this._action;
+    triggerAction: function(action, eventName) {
+      // Trigger an action on the Halo object. `evt` is a DOM event, `eventName` is an abstracted
+      // JointJS event name (pointerdown, pointermove, pointerup).
+      var args = ['action:' + action + ':' + eventName].concat(_.rest(_.toArray(arguments), 2));
+      this.trigger.apply(this, args);
     },
     stopBatch: function() {
       //
