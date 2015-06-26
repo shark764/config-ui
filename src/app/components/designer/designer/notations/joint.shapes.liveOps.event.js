@@ -95,17 +95,6 @@
           label: 'Event Name',
           index: 2
         },
-        interrupting: {
-          type: 'toggle',
-          group: 'general',
-          label: 'Interrupting',
-          index: 3,
-          when: {
-            ne: {
-              'eventType': 'end'
-            }
-          }
-        },
         throwing: {
           type: 'toggle',
           group: 'general',
