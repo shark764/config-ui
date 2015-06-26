@@ -9,13 +9,34 @@ angular.module('liveopsConfigPanel')
     $scope.redirectToInvites();
 
     $scope.fetch = function(){
-      $scope.queues = Queue.query({tenantId : Session.tenant.tenantId}, function(){
+      $scope.versions = [];
+
+      $scope.queues = Queue.query({
+        tenantId : Session.tenant.tenantId
+      }, function(){
+        angular.forEach($scope.queues, function(value){
+            if (value.activeVersion){
+              $scope.updateVersionName(value);
+            }
+          });
+
+
         if ($scope.queues[0]){
           $scope.selectedQueue = $scope.queues[0];
         }
       });
 
     };
+
+    $scope.updateVersionName = function(queue){
+      QueueVersion.get({version : queue.activeVersion, queueId : queue.id, tenantId: Session.tenant.tenantId}, function(data){
+        queue.activeVersionName = data.name;
+      });
+    };
+
+    $scope.setStatusValue = function(queue){
+      queue.statusValue = (value.status ? "Enabled" : "Disabled");
+    }
 
     $scope.additional = {
       versions: $scope.versions,
