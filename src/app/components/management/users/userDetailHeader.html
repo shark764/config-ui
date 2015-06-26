@@ -10,24 +10,23 @@
       <div>
         <toggle class="status-toggle" ng-model="resource.status"></toggle>
       </div>
-
+      
       <div>
-        <b
-          translate="value.createdby.time"
-          translate-value-date="{{originalResource.created | date:'medium'}}"
-          translate-value-creator="{{originalResource.createdBy | displayName}}">
+        <b audit-text
+          translation="value.createdby.time"
+          user-id="originalResource.createdBy"
+          date="originalResource.created">
         </b>
         <br/>
-        <b ng-show="!!originalResource.updatedBy"
-          translate="value.updatedby"
-          translate-value-date="{{originalResource.updated | date:'medium'}}"
-          translate-value-updater="{{originalResource.updatedBy | displayName}}">
+        <b audit-text
+          translation="value.updatedby"
+          user-id="originalResource.updatedBy"
+          date="originalResource.updated">
         </b>
       </div>
     </div>
   </div>
 </div>
-
 
 <h1 ng-if="! originalResource.id">Creating New User</h1>
 

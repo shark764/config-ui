@@ -159,15 +159,15 @@ describe('groups controller', function () {
       $httpBackend.flush();
     }]));
 
-    it('should fetch the users in the members list', inject(['UserName', '$httpBackend', function (UserName, $httpBackend) {
-      spyOn(UserName, 'get');
+    it('should fetch the users in the members list', inject(['UserCache', '$httpBackend', function (UserCache, $httpBackend) {
+      spyOn(UserCache, 'get');
       $scope.updateMembers(groups[0]);
       $httpBackend.flush();
-      expect(UserName.get).toHaveBeenCalledWith('1', jasmine.any(Function));
+      expect(UserCache.get).toHaveBeenCalledWith('1', jasmine.any(Function));
     }]));
 
-    it('should add the display name to the member', inject(['UserName', '$httpBackend', function (UserName, $httpBackend) {
-      spyOn(UserName, 'get').and.callFake(function(id, callback){callback(user1);});
+    it('should add the display name to the member', inject(['UserCache', '$httpBackend', function (UserCache, $httpBackend) {
+      spyOn(UserCache, 'get').and.callFake(function(id, callback){callback(user1);});
       $scope.updateMembers(groups[0]);
       $httpBackend.flush();
       expect(groups[0].members[0].displayName).toBeDefined();
