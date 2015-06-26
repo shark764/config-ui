@@ -23,6 +23,9 @@ angular.module('liveopsConfigPanel')
         }
       }
       
-      return defer.reject('id_not_set');
+      deferred.reject('id_not_set');
+      return {
+        $promise: deferred.promise
+      };
     };
   }]);

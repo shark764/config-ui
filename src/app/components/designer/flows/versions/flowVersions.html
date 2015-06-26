@@ -41,11 +41,14 @@
     <th>{{'value.createdOn' | translate}}</th>
     <th>{{'value.createdBy' | translate}}</th>
   </thead>
-  <tr ng-repeat="version in versions | orderBy:'created':'reverse'"
-    ng-init="createdBy = (originalResource.createdBy | smallUser)">
+  <tr ng-repeat="version in versions | orderBy:'created':'reverse'">
     <td><a href="#/designer/editor/{{version.flowId}}/{{version.version}}?v={{version.v}}">v{{version.v}}</a></td>
     <td>{{version.name}}</td>
     <td>{{version.created | date:'medium'}}</td>
-    <td>{{version.createdBy | createdBy.displayName}}</td>
+    <td>
+      <audit-text
+        translation="value.displayName" userId="version.createdBy">
+      </audit-text>
+    </td>
   </tr>
 </table>
