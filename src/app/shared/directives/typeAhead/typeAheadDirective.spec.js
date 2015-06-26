@@ -20,14 +20,14 @@ describe('typeAhead directive', function(){
     $scope.selectFunction = function(){};
     
     doDefaultCompile = function(){
-      element = $compile('<type-ahead items="items" name-field="title" selected-item="selected" on-select="selectFunction()" is-required="required" placeholder="Type here" hover="hover"></type-ahead')($scope);
+      element = $compile('<type-ahead items="items" name-field="title" selected-item="selected" on-select="selectFunction()" is-required="required" placeholder="Type here" hover="hover"></type-ahead>')($scope);
       $scope.$digest();
       isolateScope = element.isolateScope();
     };
   }]));
   
   it('should default to "name" as the name field if none is given', function() {
-    element = $compile('<type-ahead items="items" selected-item="selected" on-select="selectFunction()" is-required="required" placeholder="Type here" hover="hover"></type-ahead')($scope);
+    element = $compile('<type-ahead items="items" selected-item="selected" on-select="selectFunction()" is-required="required" placeholder="Type here" hover="hover"></type-ahead>')($scope);
     $scope.$digest();
     var isolateScope = element.isolateScope();
     expect(isolateScope.nameField).toEqual('name');
@@ -73,7 +73,7 @@ describe('typeAhead directive', function(){
     });
     
     it('should not call onSelect if not given', function() {
-      element = $compile('<type-ahead items="items" name-field="title" selected-item="selected" is-required="required" placeholder="Type here" hover="hover"></type-ahead')($scope);
+      element = $compile('<type-ahead items="items" name-field="title" selected-item="selected" is-required="required" placeholder="Type here" hover="hover"></type-ahead>')($scope);
       $scope.$digest();
       isolateScope = element.isolateScope();
       
