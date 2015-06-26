@@ -53,13 +53,13 @@ exports.config = {
   // Spec patterns are relative to the current working directly when
   // protractor is called.
   specs: [
-    paths.e2e + '/login/login.spec.js',
-    paths.e2e + '/navigation/**/*.spec.js',
-    paths.e2e + '/management/**/*.spec.js',
-    paths.e2e + '/configuration/**/*.spec.js',
-    paths.e2e + '/userProfile/**/*.spec.js',
+  //  paths.e2e + '/login/login.spec.js',
+  //  paths.e2e + '/navigation/sidebar.spec.js',
+  //  paths.e2e + '/management/**/*.spec.js',
+  //  paths.e2e + '/configuration/**/*.spec.js',
+  //  paths.e2e + '/userProfile/**/*.spec.js',
     paths.e2e + '/designer/newflow.spec.js',
-    paths.e2e + '/designer/flows.spec.js',
+  //  paths.e2e + '/designer/flows.spec.js',
   ],
 
   framework: 'jasmine2',
