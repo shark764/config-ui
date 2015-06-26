@@ -7,7 +7,7 @@ describe('apiError directive', function(){
   beforeEach(module('liveopsConfigPanel'));
   beforeEach(module('gulpAngular'));
 
-  beforeEach(inject(['$compile', '$rootScope', '$httpBackend', function(_$compile_,_$rootScope_, $httpBackend) {
+  beforeEach(inject(['$compile', '$rootScope', '$httpBackend', 'apiHostname', function(_$compile_,_$rootScope_, $httpBackend, apiHostname) {
     $scope = _$rootScope_.$new();
     $compile = _$compile_;
     
@@ -31,6 +31,4 @@ describe('apiError directive', function(){
     
     expect(element.find('input').hasClass('ng-valid-api')).toBeTruthy();
   }));
-  
-  
 });
