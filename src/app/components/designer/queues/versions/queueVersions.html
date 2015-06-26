@@ -65,7 +65,9 @@
       <td><i class="fa" ng-class="{'fa-plus' : !version.viewing, 'fa-minus': version.viewing}" ng-click="toggleDetails(version);"></i></td>
       <td>{{version.name}}</td>
       <td>{{version.created | date:'medium'}}</td>
-      <td>{{version.createdBy | displayName}}</td>
+      <td>
+        <audit-text translation="value.displayName" user-id="version.createdBy"></audit-text>
+      </td>
     </tr>
     <tr ng-repeat-end>
       <td colspan="4" ng-show="version.viewing">
