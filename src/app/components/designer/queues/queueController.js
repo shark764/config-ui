@@ -33,10 +33,6 @@ angular.module('liveopsConfigPanel')
       });
     };
 
-    $scope.setStatusValue = function(queue){
-      queue.statusValue = (value.status ? "Enabled" : "Disabled");
-    }
-
     $scope.additional = {
       versions: $scope.versions,
       postSave: function(childScope, result, creatingNew){
