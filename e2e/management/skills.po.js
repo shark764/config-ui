@@ -3,12 +3,11 @@
 var SkillsPage = function() {
   this.skillElements = element.all(by.repeater('item in (filtered = (items | selectedTableOptions:config.fields | search:config.searchOn:searchQuery | orderBy:config.orderBy))'));
 
-  this.creatingSkillHeader = element(by.css('h3.ng-scope'));
+  this.creatingSkillHeader = element(by.css('.details-header > div:nth-child(1) > h1:nth-child(1)'));
   this.nameFormField = element(by.model('resource.name'));
   this.descriptionFormField = element(by.model('resource.description'));
   this.proficiencyFormCheckbox = element(by.model('resource.hasProficiency'));
-  this.proficiencySwitch = element(by.css('.switch-input'));
-
+  this.proficiencySwitch = this.proficiencyFormCheckbox.element(by.css('.switch-input'));
 
   this.nameHeader = element(by.css('h1.ng-binding'));
   this.detailsMemberCount = element(by.css('h1.ng-binding > b:nth-child(1)'));

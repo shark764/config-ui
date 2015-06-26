@@ -3,100 +3,84 @@
 /* global spyOn, jasmine: false  */
 
 describe('groups controller', function () {
-  var $rootScope,
-    $scope,
-    $httpBackend,
-    apiHostname,
-    $controller,
+  var $scope,
     groups,
     g1Users,
     g2Users,
-    user1,
-    UserName,
-    Session;
+    user1;
 
   beforeEach(module('liveopsConfigPanel'));
   beforeEach(module('gulpAngular'));
 
-  beforeEach(inject(['$rootScope', '$httpBackend', '$controller', 'apiHostname', 'Session', 'UserName',
-    function (_$rootScope_, _$httpBackend_, _$controller_, _apiHostname_, _Session_, _UserName_) {
-      apiHostname = _apiHostname_;
-      Session = _Session_;
-      $controller = _$controller_;
-      $rootScope = _$rootScope_;
-      $httpBackend = _$httpBackend_;
-      UserName = _UserName_;
-    }
-  ]));
-
-  beforeEach(function () {
-    groups = [{
-      id: 'g1'
-    }, {
-      id: 'g2'
-    }];
-
-    g1Users = [{
-      memberId: '1'
-    }];
-
-    g2Users = [];
-
-    user1 = {
-      id: '1',
-      displayName: 'a nice display name.'
-    };
-
-    $httpBackend.when('GET', apiHostname + '/v1/tenants/1/groups').respond({
-      'result': groups
-    });
-
-    $httpBackend.when('GET', apiHostname + '/v1/tenants/1/groups/g1/users').respond({
-      'result': g1Users
-    });
-
-    $httpBackend.when('GET', apiHostname + '/v1/tenants/1/groups/g2/users').respond({
-      'result': g2Users
-    });
-
-    $httpBackend.when('GET', apiHostname + '/v1/users/1').respond({
-      'result': user1
-    });
-
-    $httpBackend.when('GET', apiHostname + '/v1/regions').respond({
-      'result': [{
-        'id': 'c98f5fc0-f91a-11e4-a64e-7f6e9992be1f',
-        'description': 'US East (N. Virginia)',
-        'name': 'us-east-1'
-      }]
-    });
-
-    $httpBackend.when('POST', apiHostname + '/v1/login').respond({
-      'result': {
-        'tenants': []
-      }
-    });
-
-    $scope = $rootScope.$new();
-
-    Session.tenant = {
-      tenantId: 1
-    };
-
-    Session.user = {
-      id: 2
-    };
-    $controller('GroupsController', {'$scope': $scope});
-    $scope.$digest();
-    $httpBackend.flush();
-  });
+  beforeEach(inject(['$rootScope', '$httpBackend', '$controller', 'apiHostname', 'Session',
+    function ($rootScope, $httpBackend, $controller, apiHostname, Session) {
+      groups = [{
+        id: 'g1'
+      }, {
+        id: 'g2'
+      }];
+  
+      g1Users = [{
+        memberId: '1'
+      }];
+  
+      g2Users = [];
+  
+      user1 = {
+        id: '1',
+        displayName: 'a nice display name.'
+      };
+  
+      $httpBackend.when('GET', apiHostname + '/v1/tenants/1/groups').respond({
+        'result': groups
+      });
+  
+      $httpBackend.when('GET', apiHostname + '/v1/tenants/1/groups/g1/users').respond({
+        'result': g1Users
+      });
+  
+      $httpBackend.when('GET', apiHostname + '/v1/tenants/1/groups/g2/users').respond({
+        'result': g2Users
+      });
+  
+      $httpBackend.when('GET', apiHostname + '/v1/users/1').respond({
+        'result': user1
+      });
+  
+      $httpBackend.when('GET', apiHostname + '/v1/regions').respond({
+        'result': [{
+          'id': 'c98f5fc0-f91a-11e4-a64e-7f6e9992be1f',
+          'description': 'US East (N. Virginia)',
+          'name': 'us-east-1'
+        }]
+      });
+  
+      $httpBackend.when('POST', apiHostname + '/v1/login').respond({
+        'result': {
+          'tenants': []
+        }
+      });
+  
+      $scope = $rootScope.$new();
+  
+      Session.tenant = {
+        tenantId: 1
+      };
+  
+      Session.user = {
+        id: 2
+      };
+      $controller('GroupsController', {'$scope': $scope});
+      $scope.$digest();
+      $httpBackend.flush();
+  }]));
 
   it('should have groups', inject(function () {
     expect($scope.groups).toBeDefined();
     expect($scope.groups.length).toEqual(2);
   }));
 
-  it('should refetch groups when tenant changes', inject(function () {
+  it('should refetch groups when tenant changes', inject(['Session', function (Session) {
     expect($scope.fetch).toBeDefined();
     spyOn($scope, 'fetch');
 
@@ -107,7 +91,7 @@ describe('groups controller', function () {
     $scope.$digest();
 
     expect($scope.fetch).toHaveBeenCalled();
-  }));
+  }]));
 
   describe('"additional" config', function () {
     it('should be defined', inject(function () {
@@ -134,26 +118,26 @@ describe('groups controller', function () {
       expect($scope.fetch).toBeDefined();
     }));
 
-    it('should query for groups', inject(function () {
+    it('should query for groups', inject(['$httpBackend', 'apiHostname', function ($httpBackend, apiHostname) {
       $httpBackend.expectGET(apiHostname + '/v1/tenants/1/groups');
       $scope.fetch();
       $httpBackend.flush();
-    }));
+    }]));
 
-    it('should call updateMembers for each group', inject(function () {
+    it('should call updateMembers for each group', inject(['$httpBackend', function ($httpBackend) {
       spyOn($scope, 'updateMembers');
       $scope.fetch();
       $httpBackend.flush();
       expect($scope.updateMembers.calls.count()).toEqual(groups.length);
-    }));
+    }]));
   });
 
   describe('createGroup function', function () {
-    it('should catch the on:click:create event', function () {
+    it('should catch the on:click:create event', inject(['Session', function (Session) {
       $scope.$broadcast('on:click:create');
       expect($scope.selectedGroup).toBeDefined();
       expect($scope.selectedGroup.tenantId).toEqual(Session.tenant.tenantId);
-    });
+    }]));
 
     it('should set selectedGroup to default values', inject(function () {
       $scope.$broadcast('on:click:create');
@@ -169,25 +153,25 @@ describe('groups controller', function () {
       expect($scope.updateMembers).toEqual(jasmine.any(Function));
     }));
 
-    it('should query for the members list', inject(function () {
+    it('should query for the members list', inject(['$httpBackend', 'apiHostname', function ($httpBackend, apiHostname) {
       $httpBackend.expectGET(apiHostname + '/v1/tenants/1/groups/g1/users');
       $scope.updateMembers(groups[0]);
       $httpBackend.flush();
-    }));
+    }]));
 
-    it('should fetch the users in the members list', inject(function () {
+    it('should fetch the users in the members list', inject(['UserName', '$httpBackend', function (UserName, $httpBackend) {
       spyOn(UserName, 'get');
       $scope.updateMembers(groups[0]);
       $httpBackend.flush();
       expect(UserName.get).toHaveBeenCalledWith('1', jasmine.any(Function));
-    }));
+    }]));
 
-    it('should add the display name to the member', inject(function () {
+    it('should add the display name to the member', inject(['UserName', '$httpBackend', function (UserName, $httpBackend) {
       spyOn(UserName, 'get').and.callFake(function(id, callback){callback(user1);});
       $scope.updateMembers(groups[0]);
       $httpBackend.flush();
       expect(groups[0].members[0].displayName).toBeDefined();
       expect(groups[0].members[0].displayName).toEqual(user1.displayName);
-    }));
+    }]));
   });
 });

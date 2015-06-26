@@ -8,5 +8,5 @@ angular.module('liveopsConfigPanel')
     }, {
       display: $filter('translate')('media.details.mediaTypes.tts'),
       value: 'tts'
-    }]
+    }];
   }]);

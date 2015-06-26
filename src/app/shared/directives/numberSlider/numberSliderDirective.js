@@ -20,7 +20,7 @@ angular.module('liveopsConfigPanel')
         $scope.$watch('value', function () {
           if($scope.value){
             if(typeof($scope.value) === 'string'){
-              $scope.value = Number($scope.value.replace(/[^0-9]/g, ''));
+              $scope.value = Number($scope.value.replace(/[^0-9\\.\\-]/g, ''));
             }
 
             if($scope.maxValue !== null && $scope.value > $scope.maxValue){

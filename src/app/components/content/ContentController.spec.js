@@ -2,39 +2,31 @@
 
 describe('ContentController', function () {
   var $scope,
-    $controller,
-    $httpBackend,
-    Session,
-    apiHostname,
-    regions,
-    tenantId;
+      $controller,
+      $state,
+      $injector;
 
   beforeEach(module('liveopsConfigPanel'));
   beforeEach(module('gulpAngular'));
+  beforeEach(module('liveopsConfigPanel.mock.content'));
 
-  beforeEach(inject(['$rootScope', '$controller', '$httpBackend', 'Session', 'apiHostname',
-    function ($rootScope, _$controller_, _$httpBackend_, _Session_, _apiHostname_) {
+  beforeEach(inject(['$rootScope', '$controller', '$httpBackend', '$state', '$injector',
+    function ($rootScope, _$controller_, $httpBackend, _$state_, _$injector_) {
       $scope = $rootScope.$new();
       $controller = _$controller_;
-      $httpBackend = _$httpBackend_;
-      Session = _Session_;
-      apiHostname = _apiHostname_;
+      $state = _$state_;
+      $injector = _$injector_;
+      $controller('ContentController', {'$scope': $scope});
+      $httpBackend.flush();
     }
   ]));
 
-  beforeEach(function() {
-    regions = [{
-      'id': 'c98f5fc0-f91a-11e4-a64e-7f6e9992be1f',
-      'description': 'US East (N. Virginia)',
-      'name': 'us-east-1'
-    }];
+  it('should define a function that redirects to invites if the current Session does not have a tenant', inject(function (Session){
+    Session.tenant = { tenantId: '' };
 
-    tenantId = 'c98f5fc0-f91a-11e4-a64e-000e9992be1f';
+    $scope.redirectToInvites();
+    $scope.$apply();
 
-    $httpBackend.when('GET', apiHostname + '/v1/regions').respond({'result' : regions});
-
-    $controller('ContentController', {'$scope': $scope});
-
-    $httpBackend.flush();
-  });
+    expect($state.current.name).toBe('content.invites');
+  }));
 });
