@@ -5,43 +5,40 @@ angular.module('liveopsConfigPanel')
     function (TenantUserSkills, Skill, Session, toastr, _) {
     return {
       restrict: 'E',
-
       scope: {
         user: '='
       },
-
       templateUrl: 'app/components/management/users/user-skills/userSkills.html',
-
       link: function ($scope) {
-
         $scope.selectedSkill = null;
 
         $scope.remove = function (tsu) {
           tsu.$delete({skillId: tsu.skillId}, function(){
             $scope.userSkills.removeItem(tsu);
           }, function() {
-            $scope.fetch();
             toastr.error('Failed to remove skill');
           });
         };
 
         $scope.fetch = function () {
+          $scope.saving = false;
+          
           if(!Session.tenant.tenantId){
             return;
           }
 
-          $scope.saving = false;
-
           $scope.userSkills = TenantUserSkills.query(
               { tenantId: Session.tenant.tenantId, userId: $scope.user.id },
-            $scope.new
+            $scope.reset
           );
         };
 
-        $scope.new = function() {
+        $scope.reset = function() {
           $scope.selectedSkill = null;
-          $scope.skillsForm.name.$setUntouched();
-          $scope.skillsForm.name.$setPristine();
+          if ($scope.skillsForm.name){
+            $scope.skillsForm.name.$setUntouched();
+            $scope.skillsForm.name.$setPristine();
+          }
           
           $scope.newUserSkill = new TenantUserSkills({
             skillId: null,
@@ -64,11 +61,9 @@ angular.module('liveopsConfigPanel')
               $scope.selectedSkill = result;
               $scope.saveUserSkill();
             });
-
-            return;
+          } else {
+            $scope.saveUserSkill();
           }
-
-          $scope.saveUserSkill();
         };
 
         $scope.saveUserSkill = function () {
@@ -90,7 +85,7 @@ angular.module('liveopsConfigPanel')
           }
 
           $scope.newUserSkill.save(function(){
-            $scope.new();
+            $scope.reset();
             $scope.saving = false;
           }, function () {
             $scope.fetch();

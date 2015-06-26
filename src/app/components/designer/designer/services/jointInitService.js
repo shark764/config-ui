@@ -1,6 +1,7 @@
 (function() {
   'use strict';
 
+  /* global document : false */
   function JointInitService (FlowPaletteService, FlowNotationService) {
     return {
       initializeGraph: function(graphOptions) {
@@ -277,6 +278,7 @@
           });
 
           KeyboardJS.on(key + ' + c', function() {
+            if (document.activeElement.attributes[0] !== undefined) { return; }
             if (self.graph.interfaces.selector.models.length === 0) { return; }
             _.each(self.graph.interfaces.selector.models, function(model) {
               model.attributes.position.x -= 25;
@@ -286,6 +288,7 @@
           });
 
           KeyboardJS.on(key + ' + v', function() {
+            if (document.activeElement.attributes[0] !== undefined) { return; }
             self.graph.interfaces.clipboard.pasteCells(self.graph);
           });
 

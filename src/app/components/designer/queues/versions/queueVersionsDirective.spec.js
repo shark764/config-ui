@@ -8,9 +8,7 @@ describe('Versions directive controller', function () {
     $compile,
     $httpBackend,
     versions,
-    QueueVersion,
-    queueId,
-    queue;
+    QueueVersion;
 
   beforeEach(module('liveopsConfigPanel'));
   beforeEach(module('gulpAngular'));
@@ -26,20 +24,26 @@ describe('Versions directive controller', function () {
           name: 'q1',
           description: 'A pretty good version',
           id: 'q1',
-          query: 'query 1'
+          query: 'query 1',
+          queueId: '1',
+          tenantId: '1'
         }),
         new QueueVersion({
           name: 'q2',
           description: 'Not as cool as the other version',
           id: 'q2',
-          query: 'query 2'
+          query: 'query 2',
+          queueId: '1',
+          tenantId: '1'
         })
       ];
 
-      queueId = 555;
+      $scope.queue = {
+        id: '1'
+      };
 
       $httpBackend = $injector.get('$httpBackend');
-      $httpBackend.when('GET', 'fakendpoint.com/v1/tenants/1/queues/' + queueId + '/versions').respond({
+      $httpBackend.when('GET', 'fakendpoint.com/v1/tenants/1/queues/1/versions').respond({
         'result': versions
       });
       $httpBackend.when('POST', apiHostname + '/v1/login').respond({'result' : {
@@ -51,10 +55,6 @@ describe('Versions directive controller', function () {
         'description': 'US East (N. Virginia)',
         'name': 'us-east-1'
       }]});
-
-      $scope.queue = {
-        id: queueId
-      };
 
       $scope.createVersionForm = {
         $setPristine: angular.noop,
@@ -90,19 +90,20 @@ describe('Versions directive controller', function () {
     isolateScope = element.isolateScope();
   });
 
-  describe('on new version creation', function () {
-    beforeEach(function () {
-      $scope.createVersion(versions[0]);
+  describe('on version copy', function () {
 
-      $httpBackend.when('POST', 'fakendpoint.com/v1/tenants/1/queues/' + queueId + '/versions').respond(201, {
+    beforeEach(function () {
+      $scope.createVersionCopy(versions[0]);
+
+      $httpBackend.when('POST', 'fakendpoint.com/v1/tenants/1/queues/1/versions').respond(201, {
         'result': versions[0]
       });
     });
 
     it('should have a function to create a new version', function () {
-      expect($scope.version).toBeDefined();
-      expect($scope.version.queue).toBe(queue);
-      expect($scope.version.queueId).toBe(queueId);
+      expect($scope.versionCopy).toBeDefined();
+
+      expect($scope.versionCopy.queueId).toBe('1');
     });
 
     it('should calling cancelVersion should set scope createNewVersion to false', function () {
@@ -127,7 +128,9 @@ describe('Versions directive controller', function () {
     });
 
     it('should succeed on save and push new item to list', function () {
-      spyOn($scope, 'createVersion');
+      $httpBackend.when('POST', 'fakendpoint.com/v1/tenants/1/queues/1/versions').respond(200, {
+
+      });
 
       $scope.saveVersion();
 
@@ -136,8 +139,6 @@ describe('Versions directive controller', function () {
       $httpBackend.flush();
 
       expect($scope.versions.length).toEqual(3);
-
-      expect($scope.createVersion).toHaveBeenCalled();
     });
 
     it('should clean listener when switching queue id', function () {

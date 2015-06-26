@@ -13,6 +13,7 @@
   "value.type": "Type",
   "value.version": "Version",
   "value.createdOn" : "Created On",
+  "value.close" : "Close",
 
   "value.designerLink": "Designer Link",
   "value.openInDesigner": "Open in designer",
@@ -66,6 +67,7 @@
   "details.skills.none": "This user has not been assigned any skills",
   "details.skills.title": "Skills",
   "details.skills.placeholder": "Add Skill...",
+  "details.name.error": "Please enter a name",
 
   "skill.details.hasProficiency": "Has Proficiency",
   "skill.details.name.error": "Please enter a name",
@@ -79,12 +81,16 @@
   "flow.details.type.error": "Type is required",
   "flow.details.activeVersion.error": "Active version is required",
   "flow.details.versions.create.title": "Create new version",
+
   "queue.details.version.error" : "Active Version is required",
   "queue.details.createdBy" : "Created By",
   "queue.details.createAdditionalVersions" : "Versions: View & Create Additional Versions",
   "queue.details.queryPriority" : "Query & Priority Settings",
   "queue.details.saveNewVersion" : "Save New Version",
-
+  "queue.details.createNewVersion" : "Create New Version",
+  "queue.details.activeVersion" : "Active Version",
+  
+  "media.details": "Media",
   "media.details.source.error": "Please enter a source",
   "media.details.type.error": "Please enter a type",
   "media.details.properties.error": "Please enter properties as JSON",
@@ -92,6 +98,8 @@
   "media.details.url.error" : "URL is required",
   "media.details.text.error" : "Text-to-Speech text is required",
   "media.details.description.error": "Description is required",
+  "media.details.mediaTypes.audio": "Audio",
+  "media.details.mediaTypes.tts": "TTS",
 
   "media.collections.media.new" : "Create New Media",
 

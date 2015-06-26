@@ -6,18 +6,33 @@
   <label>{{'value.name' | translate}} *</label>
   <div>
     <form-error field="detailsForm.name"
-      error-type-api="{{'queue.details.name.error' | translate}}"
-      error-type-required="{{'value.error.name.required' | translate}}"></form-error>
+    error-type-api="{{'queue.details.name.error' | translate}}"
+    error-type-required="{{'value.error.name.required' | translate}}"></form-error>
     <input type="text" ng-required="true" ng-model="resource.name" name="name"></input>
   </div>
 </div>
-
-
 
 <div class="input-group">
   <label class="textarea-label">{{'value.description' | translate}}</label>
   <div>
     <textarea ng-model="resource.description"></textarea>
+  </div>
+</div>
+
+<div ng-if="!resource.id">
+  <div class="input-group">
+    <label>{{'queue.details.activeVersion' | translate}}</label>
+    <form-error field="createVersionForm.name"
+    error-type-required="{{'value.error.name.required' | translate}}"></form-error>
+    <input disabled="true" ng-required="true" type="text" ng-model="versions[0].name" name="name"></input>
+  </div>
+  <div class="divider-header">
+    <h4>{{'value.details.query' | translate}}</h4>
+  </div>
+  <div class="input-group">
+    <form-error field="createVersionForm.query"
+    error-type-required="{{'value.error.query.required' | translate}}"></form-error>
+    <textarea ng-required="true" type="text" ng-model="versions[0].query" name="query"></textarea>
   </div>
 </div>
 
