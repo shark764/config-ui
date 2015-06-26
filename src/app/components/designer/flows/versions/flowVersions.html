@@ -3,7 +3,7 @@
 </div>
 
 <div class="clear">
-  <a ng-hide="createNewVersion" class="btn pull-right" ng-click="createNewVersion = true"><i class="fa fa-plus"></i></a>
+  <a id="show-create-new-version" ng-hide="createNewVersion" class="btn pull-right" ng-click="createNewVersion = true"><i class="fa fa-plus"></i></a>
 </div>
 
 <div ng-show="createNewVersion">
@@ -25,8 +25,8 @@
     </div>
     <div class="flow-controls input-group">
       <label></label>
-      <input type="button" ng-click="createNewVersion = false" class="btn" value="Cancel" />
-      <input ng-disabled="createVersionForm.$invalid || !createVersionForm.$dirty"
+      <input id="cancel-flow-version-btn" type="button" ng-click="createNewVersion = false" class="btn" value="Cancel" />
+      <input id="create-flow-version-btn" ng-disabled="createVersionForm.$invalid || !createVersionForm.$dirty"
         ng-click="saveVersion()" type="submit" class="btn btn-primary" value="{{ 'value.create' | translate }}"/>
     </div>
   </ng-form>
@@ -34,7 +34,7 @@
 
 <loading ng-show="versions.length == 0"></loading>
 
-<table ng-show="versions.length > 0">
+<table id="flow-details-versions-table" ng-show="versions.length > 0">
   <thead>
     <th>&nbsp;</th>
     <th>{{'value.name' | translate}}</th>

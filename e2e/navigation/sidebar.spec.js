@@ -44,23 +44,23 @@ describe('The generic sidebar', function() {
 
   it('should remain open when tack button is selected', function() {
     browser.actions().mouseMove(sidebar.sidebarCollapse).perform();
-    sidebar.tack.click();
+    sidebar.tack.click().then(function() {
+      expect(sidebar.sidebarMenu.isDisplayed()).toBeTruthy();
+      expect(sidebar.sidebar.getAttribute('class')).toBe('side-bar locked');
+      expect(sidebar.closeArrow.isDisplayed()).toBeTruthy();
 
-    expect(sidebar.sidebarMenu.isDisplayed()).toBeTruthy();
-    expect(sidebar.sidebar.getAttribute('class')).toBe('side-bar locked');
-    expect(sidebar.closeArrow.isDisplayed()).toBeTruthy();
+      expect(sidebar.tack.isDisplayed()).toBeFalsy();
 
-    expect(sidebar.tack.isDisplayed()).toBeFalsy();
+      // Sidebar remains open on mouse off
+      browser.actions().mouseMove(shared.navBar).perform();
+      expect(sidebar.sidebar.getAttribute('class')).toBe('side-bar locked');
+      expect(sidebar.sidebarMenu.isDisplayed()).toBeTruthy();
+      expect(sidebar.closeArrow.isDisplayed()).toBeTruthy();
 
-    // Sidebar remains open on mouse off
-    browser.actions().mouseMove(shared.navBar).perform();
-    expect(sidebar.sidebar.getAttribute('class')).toBe('side-bar locked');
-    expect(sidebar.sidebarMenu.isDisplayed()).toBeTruthy();
-    expect(sidebar.closeArrow.isDisplayed()).toBeTruthy();
-
-    expect(sidebar.tack.isDisplayed()).toBeFalsy();
-
-    sidebar.closeArrow.click();
+      expect(sidebar.tack.isDisplayed()).toBeFalsy();
+    }).then(function() {
+      sidebar.closeArrow.click();
+    });
   });
 
   it('should close when unlocked', function() {
@@ -86,8 +86,6 @@ describe('The generic sidebar', function() {
   it('should remain open when locked after page reload', function() {
     browser.actions().mouseMove(sidebar.sidebarCollapse).perform();
     sidebar.tack.click().then(function() {
-      sidebar.userLink.click();
-
       expect(shared.navBar.isDisplayed()).toBeTruthy();
       expect(sidebar.sidebar.isDisplayed()).toBeTruthy();
 
@@ -98,7 +96,7 @@ describe('The generic sidebar', function() {
 
       expect(sidebar.tack.isDisplayed()).toBeFalsy();
       expect(sidebar.openArrow.isDisplayed()).toBeFalsy();
-
+    }).then(function() {
       sidebar.closeArrow.click();
     });
   });
@@ -165,14 +163,15 @@ describe('The generic sidebar', function() {
 
   it('should contain Configuration page header and links', function() {
     browser.actions().mouseMove(sidebar.sidebarCollapse).perform();
-    sidebar.tack.click();
-    expect(sidebar.header.getText()).toBe('Configuration');
+    sidebar.tack.click().then(function () {
+      expect(sidebar.header.getText()).toBe('Configuration');
 
-    // Configuration page links
-    expect(sidebar.tenantsLink.getText()).toBe('Tenants');
-    expect(sidebar.integrationsLink.getText()).toBe('Integrations');
+      // Configuration page links
+      expect(sidebar.tenantsLink.getText()).toBe('Tenants');
+      expect(sidebar.integrationsLink.getText()).toBe('Integrations');
 
-    sidebar.closeArrow.click();
+      sidebar.closeArrow.click();
+    });
   });
 
   it('should navigate to respective Configuration pages when links are selected', function() {
