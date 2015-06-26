@@ -20,7 +20,6 @@ angular.module('liveopsConfigPanel')
             }
           });
 
-
         if ($scope.queues[0]){
           $scope.selectedQueue = $scope.queues[0];
         }
