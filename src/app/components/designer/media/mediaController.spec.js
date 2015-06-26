@@ -8,7 +8,6 @@ describe('MediaController', function () {
     Session,
     mockMedias,
     Media,
-    apiHostname,
     routeParams;
 
   beforeEach(module('gulpAngular'));
@@ -32,7 +31,7 @@ describe('MediaController', function () {
       });
       
       $httpBackend.flush();
-    })
+    });
     
     it('should populate $scope.medias when loaded', function() {
       expect($scope.medias).toBeDefined();
@@ -58,7 +57,7 @@ describe('MediaController', function () {
       });
       
       $httpBackend.flush();
-    })
+    });
     
     it('should call create when not results are return from fetch', function () {
       expect($scope.selectedMedia.tenantId).toEqual(Session.tenant.tenantId);

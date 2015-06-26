@@ -3,7 +3,6 @@
 /* global spyOn, jasmine : false */
 describe('userGroups directive', function(){
   var $scope,
-    $compile,
     $httpBackend,
     apiHostname,
     element,
@@ -20,9 +19,8 @@ describe('userGroups directive', function(){
   });
 
   beforeEach(inject(['$compile', '$rootScope', 'TenantUserSkills', 'Skill', 'Session', '$httpBackend', 'apiHostname',
-      function (_$compile_, _$rootScope_, _TenantUserSkills_, Skill, _Session_, _$httpBackend_, _apiHostname_) {
+      function ($compile, _$rootScope_, _TenantUserSkills_, Skill, _Session_, _$httpBackend_, _apiHostname_) {
     $scope = _$rootScope_.$new();
-    $compile = _$compile_;
     TenantUserSkills = _TenantUserSkills_;
     Session = _Session_;
     $httpBackend = _$httpBackend_;
@@ -68,14 +66,14 @@ describe('userGroups directive', function(){
     expect(isolateScope.userSkills.length).toEqual(userSkills.length);
   });
   
-  it('should not have skills or userSkill defined if no tenant is selected', function(){
+  it('should not have skills or userSkill defined if no tenant is selected', inject(['$compile', function($compile){
     Session.tenant = {};
     element = $compile('<user-skills user="user"></user-skills>')($scope);
     $scope.$digest();
     isolateScope = element.isolateScope();
     expect(isolateScope.userSkills).toBeUndefined();
     expect(isolateScope.skills).toBeUndefined();
-  });
+  }]));
   
   describe('remove function', function(){
     it('should exist', function(){

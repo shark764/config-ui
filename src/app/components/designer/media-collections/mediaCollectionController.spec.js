@@ -1,5 +1,6 @@
 'use strict';
 
+/* global spyOn: false */
 describe('MediaCollectionController', function() {
     var $scope,
         $rootScope,
@@ -11,8 +12,8 @@ describe('MediaCollectionController', function() {
     beforeEach(module('liveopsConfigPanel'));
     beforeEach(module('liveopsConfigPanel.mock.content.media.collections'));
 
-    beforeEach(inject(['$rootScope', '$controller', '$httpBackend', 'MediaCollection', 'Session', '$state',
-      function(_$rootScope_, _$controller_, _$httpBackend_, _MediaCollection_, Session, $state) {
+    beforeEach(inject(['$rootScope', '$controller', '$httpBackend', 'MediaCollection',
+      function(_$rootScope_, _$controller_, _$httpBackend_, _MediaCollection_) {
         $rootScope = _$rootScope_;
         $scope = $rootScope.$new();
         $controller = _$controller_;
@@ -72,7 +73,7 @@ describe('MediaCollectionController', function() {
       expect($scope.selectedMediaCollection.mediaMap).toEqual([]);
     }));
 
-    it('should call create when the create button is clicked', inject(function (MediaCollection, Session){
+    it('should call create when the create button is clicked', inject(function (){
       spyOn($scope, 'create');
 
       $rootScope.$broadcast('on:click:create');
@@ -86,12 +87,11 @@ describe('MediaCollectionController', function() {
 
       $scope.mediaCreateHandler = function () {
         mediaCalled = true;
-      }
+      };
 
       $scope.mediaCollectionsCreateHandler = function () {
         collectionsCalled = true;
-      }
-
+      };
 
       Session.tenant = { tenantId : '2' };
       $scope.$apply();
@@ -111,7 +111,7 @@ describe('MediaCollectionController', function() {
     }));
 
     it('should have a function to fetch a fresh copy of data for both media and collections, but place the medias in additional scope',
-      inject(function (mockMedias, mockMediaCollections, Session, apiHostname){
+      inject(function (mockMedias, mockMediaCollections){
       $scope.additionalCollections.medias = [];
       $scope.mediaCollections = [];
 

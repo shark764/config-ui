@@ -1,5 +1,7 @@
 'use strict';
 
+/*global window : false */
+
 angular.module('liveopsConfigPanel')
 .directive('highlightOnClick', function () {
   return {

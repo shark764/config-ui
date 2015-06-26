@@ -1,6 +1,7 @@
 (function() {
   'use strict';
 
+  /* global document : false */
   function JointInitService (FlowPaletteService, FlowNotationService) {
     return {
       initializeGraph: function(graphOptions) {

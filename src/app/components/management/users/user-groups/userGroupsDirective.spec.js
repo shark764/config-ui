@@ -4,17 +4,13 @@
 describe('userGroups directive', function(){
   var $scope,
     $httpBackend,
-    $compile,
     element,
     isolateScope,
     groups,
     userGroups,
-    Group,
     TenantUserGroups,
     apiHostname,
-    User,
-    Session,
-    $timeout;
+    Session;
 
   beforeEach(module('gulpAngular'));
 
@@ -38,15 +34,12 @@ describe('userGroups directive', function(){
     });
   });
 
-  beforeEach(inject(['$compile', '$rootScope', 'User', '$httpBackend', 'apiHostname', 'Group', 'TenantUserGroups', '$timeout', function (_$compile_, _$rootScope_, _User_, _$httpBackend_, _apiHostname_, _Group_, _TenantUserGroups_, _$timeout_) {
+  beforeEach(inject(['$compile', '$rootScope', 'User', '$httpBackend', 'apiHostname', 'Group', 'TenantUserGroups', 
+                     function ($compile, _$rootScope_, User, _$httpBackend_, _apiHostname_, Group, _TenantUserGroups_) {
     $scope = _$rootScope_.$new();
-    $compile = _$compile_;
     $httpBackend = _$httpBackend_;
-    Group = _Group_;
     TenantUserGroups = _TenantUserGroups_;
     apiHostname = _apiHostname_;
-    User = _User_;
-    $timeout = _$timeout_;
 
     $scope.user = new User({id : 1});
 
@@ -95,12 +88,12 @@ describe('userGroups directive', function(){
    }));
 
   describe('fetch function', function(){
-    it('should be called when user changes', inject(function() {
+    it('should be called when user changes', inject(['User', function(User) {
       spyOn(isolateScope, 'fetch');
       $scope.user = new User({id: 2});
       $scope.$digest();
       expect(isolateScope.fetch).toHaveBeenCalled();
-    }));
+    }]));
 
     it('should do nothing if there is no tenant selected', inject(function() {
       Session.tenant = {};
@@ -123,11 +116,11 @@ describe('userGroups directive', function(){
       expect(isolateScope.filtered).toEqual(groups);
     }));
 
-    it('should call updatecollapsestate', inject(function() {
+    it('should call updatecollapsestate', inject(['$timeout', function($timeout) {
       isolateScope.fetch();
       $timeout.flush();
       expect(isolateScope.updateCollapseState).toHaveBeenCalled();
-    }));
+    }]));
   });
 
   describe('remove function', function(){
@@ -141,12 +134,12 @@ describe('userGroups directive', function(){
       $httpBackend.flush();
     }));
 
-    it('should call updatecollapsestate', inject(function() {
+    it('should call updatecollapsestate', inject(['$timeout', function($timeout) {
       isolateScope.updateCollapseState.calls.reset();
       isolateScope.remove({tenantId : 1, memberId:1, groupId : 'g2'});
       $timeout.flush();
       expect(isolateScope.updateCollapseState).toHaveBeenCalled();
-    }));
+    }]));
   });
 
   describe('reset function', function(){

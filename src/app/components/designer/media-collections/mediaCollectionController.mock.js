@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel.mock.content.media.collections', ['liveopsConfigPanel.mock.content'])
-  .service('mockMediaCollections', function(MediaCollection) { return [new MediaCollection({id: 'mc1'}), new MediaCollection({id: 'mc2'})]})
-  .service('mockMedias', function(Media) { return [new Media({id: 'm1'}), new Media({id: 'm2'})]})
+  .service('mockMediaCollections', function(MediaCollection) { return [new MediaCollection({id: 'mc1'}), new MediaCollection({id: 'mc2'})];})
+  .service('mockMedias', function(Media) { return [new Media({id: 'm1'}), new Media({id: 'm2'})];})
   .run(function ($httpBackend, apiHostname, Session, mockMedias, mockMediaCollections){
     Session.tenant = { tenantId: '1' };
     $httpBackend.when('GET', apiHostname + '/v1/tenants/1/media').respond(200, mockMedias);
