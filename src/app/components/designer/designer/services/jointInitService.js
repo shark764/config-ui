@@ -97,10 +97,10 @@
           frontParentOnly: frontParentOnly,
           defaultLink: defaultLink,
           validateEmbedding: function(childView, parentView) {
-            var arrayOfValidEventNames = ['message', 'signal', 'timer', 'conditional', 'escalation'];
+            var validEventNames = ['message', 'signal', 'timer', 'conditional', 'escalation'];
             return (childView.model.get('type') === 'liveOps.event' &&
               childView.model.get('eventType') === 'intermediate' &&
-              _.contains(arrayOfValidEventNames, childView.model.get('eventName')));
+              _.contains(validEventNames, childView.model.get('eventName')));
           },
           validateConnection: function(cellViewS, magnetS, cellViewT, magnetT, end) {
             if (cellViewS === cellViewT) { return false; }
