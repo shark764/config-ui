@@ -10,10 +10,12 @@ exports.config = {
 
   // Capabilities to be passed to the webdriver instance.
   capabilities: {
-      'browserName': 'phantomjs',
-      'phantomjs.binary.path': './node_modules/karma-phantomjs-launcher/node_modules/phantomjs/bin/phantomjs',
-      'phantomjs.cli.args': '--debug=true --webdriver --webdriver-logfile=webdriver.log --webdriver-loglevel=DEBUG'
+    'browserName': 'chrome'
   },
+
+  // Timeout time ni milliseconds; prevents Protractor waiting to synchronize timeouts
+  // Defaults to 11 seconds
+  allScriptsTimeout: 20000,
 
   // This can be changed via the command line as:
   // --params.login.user 'ngrocks'
@@ -43,7 +45,7 @@ exports.config = {
       paths.e2e + '/login/**/*.spec.js',
       paths.e2e + '/navigation/**/*.spec.js',
       paths.e2e + '/search.spec.js',
-      paths.e2e + '/userProfile/**/*.spec.js',
+      paths.e2e + '/userProfile/**/*.spec.js'
     ],
     regression: [paths.e2e + '/**/*.spec.js']
   },
@@ -51,14 +53,14 @@ exports.config = {
   // Spec patterns are relative to the current working directly when
   // protractor is called.
   specs: [
-    //paths.e2e + '/login/login.spec.js',
-    paths.e2e + '/navigation/navbar.spec.js',
-    //paths.e2e + '/management/skills.spec.js',
-    //paths.e2e + '/configuration/**/*.spec.js',
-    //paths.e2e + '/userProfile/**/*.spec.js',
-    //paths.e2e + '/designer/newflow.spec.js',
-    //paths.e2e + '/designer/flows.spec.js',
-    //paths.e2e + '/designer/newqueue.spec.js'
+    paths.e2e + '/login/login.spec.js',
+    paths.e2e + '/navigation/sidebar.spec.js',
+    paths.e2e + '/management/**/*.spec.js',
+    paths.e2e + '/configuration/**/*.spec.js',
+    paths.e2e + '/userProfile/**/*.spec.js',
+    paths.e2e + '/designer/newflow.spec.js',
+    paths.e2e + '/designer/flows.spec.js',
+    paths.e2e + '/search.spec.js'
   ],
 
   framework: 'jasmine2',

@@ -11,10 +11,9 @@ var TenantsPage = function() {
   this.firstTableRow = element(by.css('tr.ng-scope:nth-child(1)'));
   this.secondTableRow = element(by.css('tr.ng-scope:nth-child(2)'));
 
-  this.idColumn = 'td:nth-child(2)';
-  this.nameColumn = 'td:nth-child(3)';
-  this.adminIdColumn = 'td:nth-child(4)';
-  this.statusColumn = 'td:nth-child(5)';
+  this.nameColumn = 'td:nth-child(2)';
+  this.descriptionColumn = 'td:nth-child(3)';
+  this.statusColumn = 'td:nth-child(4)';
 
   this.nameRequiredError = element.all(by.css('.error'));
 };

@@ -45,7 +45,7 @@ describe('The create new tenants view', function() {
     // Confirm tenant is displayed in tenant table with correct details
     shared.tableElements.then(function(rows) {
       for (var i = 1; i <= rows.length; ++i) {
-        element(by.css('tr.ng-scope:nth-child(' + i + ') > td:nth-child(3)')).getText().then(function(value) {
+        element(by.css('tr.ng-scope:nth-child(' + i + ') > td:nth-child(2)')).getText().then(function(value) {
           if (value == 'Tenant ' + randomTenant) {
             tenantAdded = true;
           }
@@ -60,7 +60,7 @@ describe('The create new tenants view', function() {
     });
   });
 
-  it('should require field inputs when creating a new tenant', function() {
+  it('should require field inputs', function() {
     shared.createBtn.click();
 
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
@@ -70,7 +70,7 @@ describe('The create new tenants view', function() {
     expect(shared.tableElements.count()).toBe(tenantCount);
   });
 
-  it('should require name when creating a new tenant', function() {
+  it('should require name', function() {
     shared.createBtn.click();
     randomTenant = Math.floor((Math.random() * 1000) + 1);
 
@@ -88,7 +88,7 @@ describe('The create new tenants view', function() {
     expect(shared.tableElements.count()).toBe(tenantCount);
   });
 
-  it('should not require a description or admin when creating a new tenant', function() {
+  it('should not require a description or admin', function() {
     shared.createBtn.click();
     randomTenant = Math.floor((Math.random() * 1000) + 1);
 
@@ -104,7 +104,7 @@ describe('The create new tenants view', function() {
     expect(shared.tableElements.count()).toBeGreaterThan(tenantCount);
   });
 
-  it('should allow admin to be added when creating a new tenant', function() {
+  it('should allow admin to be added', function() {
     shared.createBtn.click();
     randomTenant = Math.floor((Math.random() * 1000) + 1);
 
@@ -119,7 +119,24 @@ describe('The create new tenants view', function() {
     expect(shared.tableElements.count()).toBeGreaterThan(tenantCount);
   });
 
-  it('should not accept spaces only as valid field input when creating a new tenant', function() {
+  xit('should not require an admin', function() {
+    // TODO Fails from existing bug
+    shared.createBtn.click();
+    randomTenant = Math.floor((Math.random() * 1000) + 1);
+
+    tenants.nameFormField.sendKeys('Tenant ' + randomTenant);
+
+    expect(shared.submitFormBtn.getAttribute('disabled')).toBeFalsy();
+    shared.submitFormBtn.click();
+
+    expect(tenants.nameRequiredError.get(0).isDisplayed()).toBeFalsy();
+    expect(shared.successMessage.isPresent()).toBeTruthy();
+    expect(shared.tableElements.count()).toBeGreaterThan(tenantCount);
+
+    expect(tenants.adminFormDropDown.getAttribute('value')).toBe("");
+  });
+
+  it('should not accept spaces only as valid field input', function() {
     shared.createBtn.click();
     randomTenant = Math.floor((Math.random() * 1000) + 1);
 

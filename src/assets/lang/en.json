@@ -25,7 +25,7 @@
   "value.media": "Media",
   "value.details.activeVersion": "Active Version",
   "value.details.query" : "Query",
-  "value.createdby": "Created By",
+  "value.createdBy": "Created By",
 
   "value.error.query.required" : "Field \"Query\" is required.",
 
@@ -89,7 +89,7 @@
   "queue.details.saveNewVersion" : "Save New Version",
   "queue.details.createNewVersion" : "Create New Version",
   "queue.details.activeVersion" : "Active Version",
-  
+
   "media.details": "Media",
   "media.details.source.error": "Please enter a source",
   "media.details.type.error": "Please enter a type",

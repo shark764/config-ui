@@ -140,15 +140,52 @@ describe('The flows view', function() {
     });
   });
 
+  it('should display button to new flow version and correct fields', function() {
+    flows.firstTableRow.click();
+
+    // Create Flow version details not displayed be default
+    expect(flows.showCreateNewVersionBtn.isDisplayed()).toBeTruthy();
+    expect(flows.versionNameFormField.isDisplayed()).toBeFalsy();
+    expect(flows.versionDescriptionFormField.isDisplayed()).toBeFalsy();
+    expect(flows.cancelVersionFormBtn.isDisplayed()).toBeFalsy();
+    expect(flows.createVersionFormBtn.isDisplayed()).toBeFalsy();
+
+    flows.showCreateNewVersionBtn.click();
+    expect(flows.showCreateNewVersionBtn.isDisplayed()).toBeFalsy();
+    expect(flows.versionNameFormField.isDisplayed()).toBeTruthy();
+    expect(flows.versionDescriptionFormField.isDisplayed()).toBeTruthy();
+    expect(flows.cancelVersionFormBtn.isDisplayed()).toBeTruthy();
+    expect(flows.createVersionFormBtn.isDisplayed()).toBeTruthy();
+  });
+
+  it('should hide flow version fields on cancel', function() {
+    flows.firstTableRow.click();
+    flows.showCreateNewVersionBtn.click();
+    expect(flows.showCreateNewVersionBtn.isDisplayed()).toBeFalsy();
+    expect(flows.versionNameFormField.isDisplayed()).toBeTruthy();
+    expect(flows.versionDescriptionFormField.isDisplayed()).toBeTruthy();
+    expect(flows.cancelVersionFormBtn.isDisplayed()).toBeTruthy();
+    expect(flows.createVersionFormBtn.isDisplayed()).toBeTruthy();
+
+    // Create Flow version details no longer displayed after selecting Cancel
+    flows.cancelVersionFormBtn.click();
+    expect(flows.showCreateNewVersionBtn.isDisplayed()).toBeTruthy();
+    expect(flows.versionNameFormField.isDisplayed()).toBeFalsy();
+    expect(flows.versionDescriptionFormField.isDisplayed()).toBeFalsy();
+    expect(flows.cancelVersionFormBtn.isDisplayed()).toBeFalsy();
+    expect(flows.createVersionFormBtn.isDisplayed()).toBeFalsy();
+  });
+
   it('should add new flow version', function() {
     flowVersionCount = flows.versionsTableElements.count();
     randomFlow = Math.floor((Math.random() * 1000) + 1);
     flows.firstTableRow.click();
+    flows.showCreateNewVersionBtn.click();
 
     flows.versionNameFormField.sendKeys('Flow Version ' + randomFlow);
     flows.versionDescriptionFormField.sendKeys('Description for flow version ' + randomFlow);
 
-    flows.createVersionBtn.click().then(function() {
+    flows.createVersionFormBtn.click().then(function() {
       expect(flows.versionNameFormField.getAttribute('value')).toBe('');
       expect(flows.versionDescriptionFormField.getAttribute('value')).toBe('');
       expect(flows.versionsTableElements.count()).toBeGreaterThan(flowVersionCount);
@@ -164,12 +201,13 @@ describe('The flows view', function() {
     flowVersionCount = flows.versionsTableElements.count();
     randomFlow = Math.floor((Math.random() * 1000) + 1);
     flows.firstTableRow.click();
+    flows.showCreateNewVersionBtn.click();
 
     flows.versionNameFormField.click();
     flows.versionDescriptionFormField.sendKeys('Description for flow version ' + randomFlow);
-    expect(flows.createVersionBtn.getAttribute('disabled')).toBeTruthy();
+    expect(flows.createVersionFormBtn.getAttribute('disabled')).toBeTruthy();
 
-    flows.createVersionBtn.click();
+    flows.createVersionFormBtn.click();
     expect(flows.requiredErrors.get(3).isDisplayed()).toBeTruthy();
     expect(flows.requiredErrors.get(3).getText()).toBe('Field \"Name\" is required.');
 
@@ -180,11 +218,12 @@ describe('The flows view', function() {
     flowVersionCount = flows.versionsTableElements.count();
     randomFlow = Math.floor((Math.random() * 1000) + 1);
     flows.firstTableRow.click();
+    flows.showCreateNewVersionBtn.click();
 
     flows.versionDescriptionFormField.click();
     flows.versionNameFormField.sendKeys('Flow Version ' + randomFlow);
 
-    flows.createVersionBtn.click().then(function() {
+    flows.createVersionFormBtn.click().then(function() {
       expect(flows.versionNameFormField.getAttribute('value')).toBe('');
       expect(flows.versionsTableElements.count()).toBeGreaterThan(flowVersionCount);
     });
@@ -193,13 +232,14 @@ describe('The flows view', function() {
   it('should not accept spaces only as valid field input when creating flow version', function() {
     flowVersionCount = flows.versionsTableElements.count();
     flows.firstTableRow.click();
+    flows.showCreateNewVersionBtn.click();
 
     flows.versionNameFormField.sendKeys(' ');
     flows.versionDescriptionFormField.sendKeys(' ');
 
     // Submit button is still disabled
-    expect(flows.createVersionBtn.getAttribute('disabled')).toBeTruthy();
-    flows.createVersionBtn.click();
+    expect(flows.createVersionFormBtn.getAttribute('disabled')).toBeTruthy();
+    flows.createVersionFormBtn.click();
 
     expect(flows.requiredErrors.get(3).isDisplayed()).toBeTruthy();
     expect(flows.requiredErrors.get(3).getText()).toBe('Field \"Name\" is required.');

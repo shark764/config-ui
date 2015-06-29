@@ -40,7 +40,6 @@ describe('The tenants view', function() {
     // Verify tenant name in table matches populated field
     expect(tenants.firstTableRow.element(by.css(tenants.nameColumn)).getText()).toContain(tenants.nameFormField.getAttribute('value'));
     expect(tenants.region.isDisplayed()).toBeTruthy();
-    expect(tenants.region.getAttribute('disabled')).toBeTruthy();
 
     tenants.secondTableRow.isPresent().then(function(secondRowExists) {
       if (secondRowExists) {
@@ -63,13 +62,6 @@ describe('The tenants view', function() {
     expect(tenants.nameRequiredError.get(0).isDisplayed()).toBeTruthy();
     expect(tenants.nameRequiredError.get(0).getText()).toBe('Please enter a name');
     expect(shared.successMessage.isPresent()).toBeFalsy();
-  });
-
-  it('should not be able to edit Region field when editing', function() {
-    tenants.firstTableRow.click();
-
-    // Review Description field
-    expect(tenants.region.getAttribute('disabled')).toBe('true');
   });
 
   it('should not require description when editing', function() {
