@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('skillTableConfig', [
-    function () {
+  .service('skillTableConfig', ['statuses',
+    function (statuses) {
       return {
         'fields': [{
           'header': 'Skill',
@@ -19,6 +19,8 @@ angular.module('liveopsConfigPanel')
           'name': 'hasProficiency'
         }, {
           'header': 'Status',
+          'options': statuses(),
+          'filter': 'selectedOptions',
           'templateUrl': 'app/shared/templates/statuses.html',
           'name': 'status',
         }],
