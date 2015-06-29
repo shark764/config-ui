@@ -56,7 +56,7 @@
           'digits':{
             'source':'expression',
             'type': 'integer',
-            'label':'Digits',
+            'label':'Number of digits',
             'tooltip':'Number of digits',
             'description':'',
             'mandatory':false,
