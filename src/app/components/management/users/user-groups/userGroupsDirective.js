@@ -34,8 +34,15 @@ angular.module('liveopsConfigPanel')
           $scope.saving = true;
 
           if(!$scope.selectedGroup.id){
-            $scope.createGroup($scope.selectedGroup.name, $scope.saveUserGroup, function(){$scope.saving = false;});
+            $scope.createGroup($scope.selectedGroup.name, 
+                $scope.saveUserGroup, 
+                function(){
+                  $scope.saving = false;
+                  toastr.error('Failed to create a new group');
+                }
+            );
           } else {
+            $scope.filtered.removeItem($scope.selectedGroup);
             $scope.saveUserGroup();
           }
         };
@@ -63,8 +70,17 @@ angular.module('liveopsConfigPanel')
         $scope.saveUserGroup = function () {
           $scope.newGroupUser.groupId = $scope.selectedGroup.id;
           
-          $scope.newGroupUser.$save(function(){
-            $scope.fetch();
+          $scope.newGroupUser.$save(function(data){
+            var newUserGroup = new TenantUserGroups(data);
+            newUserGroup.groupName = $scope.selectedGroup.name;
+            
+            $scope.userGroups.push(newUserGroup);
+            $scope.updateFiltered();
+            
+            $timeout(function(){ //Timeout prevents simultaneous $digest cycles
+              $scope.updateCollapseState(tagWrapper.height());
+            }, 200);
+            
             $scope.reset();
           }, function () {
             toastr.error('Failed to save user group');
@@ -80,12 +96,17 @@ angular.module('liveopsConfigPanel')
           });
 
           tgu.$delete(function(){
-            $scope.fetch();
-            $timeout(function(){ //Timeout prevents simultaneous $digest cycles
+            $scope.userGroups.removeItem(userGroup);
+            $scope.updateFiltered();
+            $timeout(function(){
               $scope.updateCollapseState(tagWrapper.height());
             }, 200);
           });
         };
+        
+        $scope.updateFiltered = function(){
+          $scope.filtered = $filter('objectNegation')($scope.groups, 'id', $scope.userGroups, 'groupId');
+        }
 
         $scope.fetch = function () {
           if(!Session.tenant.tenantId){
@@ -93,14 +114,19 @@ angular.module('liveopsConfigPanel')
           }
           
           $scope.userGroups = TenantUserGroups.query({ tenantId: Session.tenant.tenantId, memberId: $scope.user.id }, $scope.reset);
+          
+          //Call updateFiltered in both handlers so that regardless of if one takes longer, 
+          //the filter is eventually run on two resolved resource lists instead of one of them being a promise
           $scope.userGroups.$promise.then(function(){
-            $timeout(function(){ //Timeout prevents simultaneous $digest cycles
+            $scope.updateFiltered();
+            
+            $timeout(function(){
               $scope.updateCollapseState(tagWrapper.height());
             }, 200);
           });
           
           $scope.groups = Group.query({tenantId: Session.tenant.tenantId }, function(){
-            $scope.filtered = $filter('objectNegation')($scope.groups, 'id', $scope.userGroups, 'groupId');
+            $scope.updateFiltered();
           });
         };
 

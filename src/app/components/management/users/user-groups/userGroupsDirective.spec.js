@@ -202,10 +202,10 @@ describe('userGroups directive', function(){
       expect(isolateScope.newGroupUser.$save).toHaveBeenCalled();
      }));
 
-    it('should call fetch on success', inject(function() {
-      spyOn(isolateScope, 'fetch');
+    it('should call updateFiltered on success', inject(function() {
+      spyOn(isolateScope, 'updateFiltered');
       isolateScope.saveUserGroup();
-      expect(isolateScope.fetch).toHaveBeenCalled();
+      expect(isolateScope.updateFiltered).toHaveBeenCalled();
      }));
 
     it('should call reset on success', inject(function() {
