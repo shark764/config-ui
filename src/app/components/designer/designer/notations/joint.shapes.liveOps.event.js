@@ -29,7 +29,10 @@
           'fill-opacity': 0.0
         },
         image: {
-          width:  40, height: 40, 'xlink:href': '', transform: 'translate(10,10)'
+          width: 40, 
+          height: 40, 
+          'xlink:href': '', 
+          transform: 'translate(10,10)'
         },
         'image polygon': {
           fill: '#ff00ff'
@@ -91,17 +94,6 @@
           group: 'general',
           label: 'Event Name',
           index: 2
-        },
-        interrupting: {
-          type: 'toggle',
-          group: 'general',
-          label: 'Interrupting',
-          index: 3,
-          when: {
-            ne: {
-              'eventType': 'end'
-            }
-          }
         },
         throwing: {
           type: 'toggle',
@@ -240,7 +232,16 @@
     onParentChange: function(cell, parent) {
       if (parent) {
         this.resize(30, 30);
-        this.set('z', 2);
+        this.set('z', 20);
+        this.set('throwing', false);
+        //remove connecting links
+        if (cell.collection) {
+          var links = cell.collection.getConnectedLinks(cell, {inbound: true});
+          _.each(links, function(link) {
+            link.remove();
+          });
+        }
+
       } else {
         this.resize(70, 70);
       }

@@ -59,30 +59,16 @@
 .inspector .list-item {
     border: none;
     box-shadow: none;
-    border-radius: 5px;
-    box-shadow: 1px 1px 1px 1px rgba(0,0,0, 0.2);
+    border-radius: 3px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
 }
 
 .inspector .list-item:nth-child(odd) {
-    background: #5494d2; /*fallback*/
-    background: -moz-linear-gradient(left, #5494d2 0%, #508dcc 100%);/*Firefox*/
-    background: -webkit-gradient(left, #5494d2 0%, #508dcc 100%);/*Chrome + Safari*/
-    background: -webkit-linear-gradient(left, #5494d2 0%, #508dcc 100%);/*Another Chrome + Safari*/
-    background: -o-linear-gradient(left, #5494d2 0%, #508dcc 100%); /*Opera*/
-    background: -ms-linear-gradient(left, #5494d2 0%, #508dcc 100%); /*IE10+*/
-    background: linear-gradient(left, #5494d2 0%, #508dcc 100%); /*W3C standards*/
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#5494d2', endColorstr='#508dcc',GradientType=0); /*IE6-9*/
+    background: transparent;
 }
 
 .inspector .list-item:nth-child(even) {
-    background: #4889cb; /*fallback*/
-    background: -moz-linear-gradient(left, #4889cb 0%, #3571b0 100%);/*Firefox*/
-    background: -webkit-gradient(left, #4889cb 0%, #3571b0 100%);/*Chrome + Safari*/
-    background: -webkit-linear-gradient(left, #4889cb 0%, #3571b0 100%);/*Another Chrome + Safari*/
-    background: -o-linear-gradient(left, #4889cb 0%, #3571b0 100%); /*Opera*/
-    background: -ms-linear-gradient(left, #4889cb 0%, #3571b0 100%); /*IE10+*/
-    background: linear-gradient(left, #4889cb 0%, #3571b0 100%); /*W3C standards*/
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#4889cb', endColorstr='#3571b0',GradientType=0); /*IE6-9*/
+    background: transparent;
 }
 
 .inspector .list-item .list-item:nth-child(odd) {
@@ -128,29 +114,32 @@
     position: relative;
     left: 110px;
     background: #0a468e;
-    border: 2px solid #1a9af3;
+
 }
  
 .inspector .btn-list-add,
 .inspector .btn-list-del {
     font-weight: bold;
     box-shadow: none;
-    background: transparent;
+    background: #1294F6;
+    border: 0px;
+    height: 19px;
+    width: 20px;
 }
 
 .inspector .list-item .btn-list-del, .inspector .list-item .btn-list-add {
-    border: 2px solid #0a468e;
+    border: 0px;
 }
 
 .inspector .list-item .list-item .btn-list-del {
-    border: 2px solid #5494d2;
+    border: 0px;
 }
 
 .inspector .btn-list-add:hover,
 .inspector .btn-list-del:hover {
     box-shadow: none;
     color: white;
-    background: #7f8c8d;
+    background: #74c0fa;
 }
 
 .inspector label {

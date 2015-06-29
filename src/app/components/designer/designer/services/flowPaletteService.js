@@ -43,7 +43,8 @@
                 activityType: notation.type,
                 type: 'liveOps.activity',
                 name: notation.name,
-                targeted: notation.targeted
+                targeted: notation.targeted,
+                target: notation.target
               });
             }
           ), entity);
