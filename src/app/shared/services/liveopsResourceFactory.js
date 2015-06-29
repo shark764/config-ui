@@ -75,11 +75,6 @@ angular.module('liveopsConfigPanel')
             save: {
               method: 'POST',
               interceptor: SaveInterceptor,
-              transformRequest: function (data) {
-
-                return JSON.stringify(data);
-              },
-
               transformResponse: appendTransform($http.defaults.transformResponse, function (value) {
                 return getResult(value);
               })
