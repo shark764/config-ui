@@ -97,7 +97,7 @@
           embeddingMode: embeddingMode,
           frontParentOnly: frontParentOnly,
           defaultLink: defaultLink,
-          validateEmbedding: function(childView, parentView) {
+          validateEmbedding: function(childView) {
             var validEventNames = ['message', 'signal', 'timer', 'conditional', 'escalation'];
             return (childView.model.get('type') === 'liveOps.event' &&
               childView.model.get('eventType') === 'intermediate' &&
