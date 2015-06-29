@@ -9,8 +9,6 @@ angular.module('liveopsConfigPanel')
     $scope.redirectToInvites();
 
     $scope.fetch = function(){
-      $scope.versions = [];
-
       $scope.queues = Queue.query({
         tenantId : Session.tenant.tenantId
       }, function(){
