@@ -66,7 +66,7 @@ describe('UUIDCache service', function(){
       UUIDCache.items = {'id1' : {title : 'wheee'}, 'id2' : {title: 'boooo'}};
       UUIDCache.remove('id1');
       expect(UUIDCache.get('id1')).toBeUndefined();
-      expect(UUIDCache.items['id2']).toBeDefined();
+      expect(UUIDCache.items.id2).toBeDefined();
     }));
     
     it('should call store', inject(function() {
