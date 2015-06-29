@@ -2,7 +2,7 @@
 
 /*global jasmine : false */
 
-describe('LiveopdResourceFactory', function(){
+describe('LiveopsResourceFactory', function(){
   var Resource,
       resourceSpy,
       apiHostname,
@@ -35,7 +35,7 @@ describe('LiveopdResourceFactory', function(){
   }]));
   
   it('should call the $resource constructor', inject(function() {
-    Resource = LiveopsResourceFactory.create('/endpoint', true, true);
+    Resource = LiveopsResourceFactory.create('/endpoint');
     
     expect(resourceSpy).toHaveBeenCalledWith(apiHostname + '/endpoint', jasmine.any(Object), {
       query: jasmine.any(Object),
@@ -46,7 +46,7 @@ describe('LiveopdResourceFactory', function(){
   }));
   
   it('should use given requestUrlFields if defined', inject(function() {
-    Resource = LiveopsResourceFactory.create('/endpoint', true, true, undefined, {title : '@title'});
+    Resource = LiveopsResourceFactory.create('/endpoint', undefined, {title : '@title'});
     
     expect(resourceSpy).toHaveBeenCalledWith(apiHostname + '/endpoint', {title : '@title'}, {
       query: jasmine.any(Object),
@@ -58,21 +58,21 @@ describe('LiveopdResourceFactory', function(){
   
   describe('update config', function(){
     it('should set the interceptor', inject(['SaveInterceptor', function(SaveInterceptor) {
-      LiveopsResourceFactory.create('/endpoint', true, true);
+      LiveopsResourceFactory.create('/endpoint');
       
       expect(givenConfig.update.interceptor).toEqual(SaveInterceptor);
     }]));
     
     describe('transformRequest function', function(){
       it('should return empty object when not given any updatefields', inject([function() {
-        LiveopsResourceFactory.create('/endpoint', true, true);
+        LiveopsResourceFactory.create('/endpoint');
         var transformRequest = givenConfig.update.transformRequest;
         var result = transformRequest({someProp: 'someValue', anotherProp: 'anotherValue'});
         expect(result).toEqual('{}');
       }]));
       
       it('should only return fields given by updatefields', inject([function() {
-        LiveopsResourceFactory.create('/endpoint', true, true, [{
+        LiveopsResourceFactory.create('/endpoint', [{
           name : 'myfield'
         }, {
           name : 'coolfield'
@@ -84,7 +84,7 @@ describe('LiveopdResourceFactory', function(){
       }]));
       
       it('should not include null data if its optional', inject([function() {
-        LiveopsResourceFactory.create('/endpoint', true, true, [{
+        LiveopsResourceFactory.create('/endpoint', [{
           name : 'myfield',
           optional: true
         }]);
@@ -95,7 +95,7 @@ describe('LiveopdResourceFactory', function(){
       }]));
       
       it('should include null data if its not optional', inject([function() {
-        LiveopsResourceFactory.create('/endpoint', true, true, [{
+        LiveopsResourceFactory.create('/endpoint', [{
           name : 'myfield',
           optional: false
         }]);
@@ -108,7 +108,7 @@ describe('LiveopdResourceFactory', function(){
     
     describe('transformResponse', function(){
       it('should append a function to the transformResponse array to return data from the result object', inject([function() {
-        LiveopsResourceFactory.create('/endpoint', true, true);
+        LiveopsResourceFactory.create('/endpoint');
         var transformResponse = givenConfig.update.transformResponse[givenConfig.update.transformResponse.length - 1];
         var result = transformResponse({result : {someProp: 'somevalue'}});
         expect(result).toEqual({someProp: 'somevalue'});
@@ -124,7 +124,7 @@ describe('LiveopdResourceFactory', function(){
   
   describe('query config', function(){
     it('should set isArray to true', inject([function() {
-      LiveopsResourceFactory.create('/endpoint', true, true);
+      LiveopsResourceFactory.create('/endpoint');
       
       expect(givenConfig.query.isArray).toBeTruthy();
     }]));
@@ -132,7 +132,7 @@ describe('LiveopdResourceFactory', function(){
   
   describe('prototype save function', function(){
     it('should call $update if the object exists', inject(function() {
-      Resource = LiveopsResourceFactory.create('/endpoint', true, true);
+      Resource = LiveopsResourceFactory.create('/endpoint');
       
       var resource = new Resource();
       resource.id = 'id1';

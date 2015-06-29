@@ -17,7 +17,7 @@ angular.module('liveopsConfigPanel')
           });
           
           return attrs;
-        }
+        };
         
         $scope.refresh = function () {
           var filter = $filter('translate');
