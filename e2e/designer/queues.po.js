@@ -7,7 +7,7 @@ var QueuePage = function() {
   this.activeFormToggle = element(by.model('originalResource.status'));
 
   this.versionsTable =  element(by.css('queue-versions.ng-isolate-scope > table:nth-child(1)'));
-  this.versionsTableElements =  this.versionsTable.all(by.repeater("version in versions | orderBy:\'v\'"));
+  this.versionsTableElements =  this.versionsTable.all(by.repeater('version in versions | orderBy:\'created\':\'reverse\''));
   this.versionNameFormField = element(by.model('version.name'));
   this.versionDescriptionFormField = element(by.model('version.description'));
   this.versionQueryFormField = element(by.model('version.query'));

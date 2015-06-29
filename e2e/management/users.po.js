@@ -17,7 +17,7 @@ var UserPage = function() {
 
   this.userNameDetailsHeader = element(by.css('h1.ng-binding'));
   this.userStateDetailsHeader = element(by.css('h1.ng-binding > user-state:nth-child(1) > div:nth-child(1)'));
-  this.createNewUserHeader = element(by.css('.info > h1:nth-child(1)'));
+  this.createNewUserHeader = element(by.css('h1.ng-scope'));
 
   this.firstTableRow = element(by.css('tr.ng-scope:nth-child(1)'));
   this.secondTableRow = element(by.css('tr.ng-scope:nth-child(2)'));

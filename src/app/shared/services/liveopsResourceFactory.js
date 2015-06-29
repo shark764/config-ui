@@ -22,9 +22,7 @@ angular.module('liveopsConfigPanel')
 
 
       return {
-        create: function (endpoint, setCreatedBy, setUpdatedBy, updateFields, requestUrlFields) {
-          setUpdatedBy = typeof setUpdatedBy !== 'undefined' ? setUpdatedBy : true;
-          setCreatedBy = typeof setCreatedBy !== 'undefined' ? setCreatedBy : true;
+        create: function (endpoint, updateFields, requestUrlFields) {
           requestUrlFields = typeof requestUrlFields !== 'undefined' ? requestUrlFields : {
             id : '@id',
             tenantId : '@tenantId',
@@ -77,11 +75,6 @@ angular.module('liveopsConfigPanel')
             save: {
               method: 'POST',
               interceptor: SaveInterceptor,
-              transformRequest: function (data) {
-
-                return JSON.stringify(data);
-              },
-
               transformResponse: appendTransform($http.defaults.transformResponse, function (value) {
                 return getResult(value);
               })

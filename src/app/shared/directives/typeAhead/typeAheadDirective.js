@@ -31,15 +31,11 @@ angular.module('liveopsConfigPanel')
           $scope.filterCriteria = {};
           $scope.filterCriteria[$scope.nameField] = $scope.currentText;
 
-          var items = filterFilter($scope.filtered, $scope.filterCriteria, true);
-
-          if(items && items.length > 0){
-            $scope.selectedItem = items[0];
-
-            if($scope.onSelect){
-              $scope.onSelect();
-            }
-
+          var filteredItems = filterFilter($scope.items, $scope.filterCriteria, true);
+          
+          if (filteredItems && filteredItems.length > 0){
+            $scope.selectedItem = filteredItems[0];
+            $scope.onSelect();
           } else {
             $scope.selectedItem = {};
             $scope.selectedItem[$scope.nameField] = $scope.currentText;
