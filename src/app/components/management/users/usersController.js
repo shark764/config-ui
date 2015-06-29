@@ -5,56 +5,61 @@ angular.module('liveopsConfigPanel')
     function($scope, $window, userRoles, User, Session, AuthService, userTableConfig, Invite, toastr, flowSetup) {
       $scope.filteredUsers = [];
       $scope.Session = Session;
+      $scope.user = {};
       var self = this;
 
       $window.flowSetup = flowSetup;
 
       this.newPassword = null;
-      this.preSave = function(scope) {
-        if (scope.resource.password) {
-          self.newPassword = scope.resource.password;
+      this.preUpdate = function(params) {
+        if (this.password) {
+          self.newPassword = this.password;
         }
       };
 
-      this.postSave = function(scope, result) {
-        if (result.id === Session.user.id && self.newPassword) {
+      this.postUpdate = function(user) {
+        if (user.id === Session.user.id && self.newPassword) {
           var token = AuthService.generateToken(
-            result.email, self.newPassword);
-          Session.setUser(scope.resource);
+            user.email, self.newPassword);
+          Session.setUser(user);
           Session.setToken(token);
           self.newPassword = null;
         }
-
-        if (!scope.originalResource.id) {
-          Invite.save({
-            tenantId: Session.tenant.tenantId
-          }, {
-            email: result.email,
-            roleId: '00000000-0000-0000-0000-000000000000'
-          }); //TEMPORARY roleId
-        }
       };
+      
+      this.postCreate = function(user) {
+        Invite.save({
+          tenantId: Session.tenant.tenantId
+        }, {
+          email: user.email,
+          roleId: '00000000-0000-0000-0000-000000000000'
+        }); //TEMPORARY roleId
+      }
 
-      this.postError = function(scope, error) {
-        if (error.config.method === 'POST' && error.status === 400) {
+      this.postCreateError = function(error) {
+        if (error.status === 400) {
           toastr.clear();
-          toastr.success('User already exists. Sending ' + scope.resource.email + ' an invite for ' + Session.tenant.name, '', {
+          toastr.success('User already exists. Sending ' + $scope.user.email + ' an invite for ' + Session.tenant.name, '', {
             timeout: 5000
           });
           Invite.save({
             tenantId: Session.tenant.tenantId
           }, {
-            email: scope.resource.email,
+            email: $scope.user.email,
             roleId: '00000000-0000-0000-0000-000000000000'
           }); //TEMPORARY roleId
-          scope.cancel();
+          $scope.$broadcast('resource:details:cancel');
         }
+        return error;
+      };
+      
+      $scope.fetch = function() {
+        $scope.users = User.query({
+          tenantId: Session.tenant.tenantId !== '' ? Session.tenant.tenantId : null
+        });
       };
 
       $scope.additional = {
-        preSave: self.preSave,
-        postSave: self.postSave,
-        postError: self.postError,
         roles: userRoles,
         updateDisplayName: function($childScope) {
           if (!$childScope.resource.id && $childScope.detailsForm.displayName.$untouched) {
@@ -70,12 +75,15 @@ angular.module('liveopsConfigPanel')
           status: true
         });
       });
-
-      $scope.fetch = function() {
-        $scope.users = User.query({
-          tenantId: Session.tenant.tenantId !== '' ? Session.tenant.tenantId : null
-        });
-      };
+      
+      $scope.$watch('user', function(user) {
+        if(user) {
+          $scope.user.preUpdate = self.preUpdate;
+          $scope.user.postUpdate = self.postUpdate;
+          $scope.user.postCreate = self.postCreate;
+          $scope.user.postCreateError = self.postCreateError;
+        }
+      });
 
       $scope.$watch('Session.tenant.tenantId', function(old, news) {
         if (angular.equals(old, news)) {
