@@ -183,6 +183,15 @@
             pointermove: 'doLink',
             pointerup: 'stopLinking'
           }
+        },
+        {
+          name: 'createLink',
+          position: 'sixOclock',
+          events: {
+            pointerdown: 'startLinking',
+            pointermove: 'doLink',
+            pointerup: 'stopLinking'
+          }
         }
       ]
     },
