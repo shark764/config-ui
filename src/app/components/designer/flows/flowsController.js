@@ -3,7 +3,7 @@
 angular.module('liveopsConfigPanel')
   .controller('FlowsController', ['$scope', '$state', 'Session', 'Flow', 'flowTableConfig', 'flowTypes', 'FlowVersion',
     function ($scope, $state, Session, Flow, flowTableConfig, flowTypes, FlowVersion) {
-
+      var self = this;
       $scope.redirectToInvites();
       $scope.versions = [];
 
@@ -27,6 +27,29 @@ angular.module('liveopsConfigPanel')
         });
       };
       
+      this.postCreate = function(flow){
+        var initialVersion = new FlowVersion({
+          flowId: flow.id,
+          flow: '[]',
+          tenantId: Session.tenant.tenantId,
+          name: 'v1'
+        });
+        
+        initialVersion.save(function(versionResult){
+          flow.activeVersion = versionResult.version;
+          
+          flow.save(function(){
+            $scope.flow.activeVersion = versionResult.version;
+            $scope.updateVersionName(flow);
+          });
+        });
+        $scope.versions.push(initialVersion);
+      };
+      
+      this.postUpdate = function(flow) {
+        $scope.updateVersionName(childScope.originalResource);
+      }
+      
       $scope.$on('on:click:create', function() {
         $scope.selectedFlow = new Flow({
           tenantId: Session.tenant.tenantId,
@@ -35,34 +58,17 @@ angular.module('liveopsConfigPanel')
       });
 
       $scope.$watch('Session.tenant.tenantId', $scope.fetch, true);
-
+      
+      $scope.$watch('flow', function(flow) {
+        if (flow) {
+          flow.postCreate = self.postCreate;
+          flow.postUpdate = self.postUpdate;
+        }
+      })
+      
       $scope.additional = {
           versions: $scope.versions,
-          flowTypes: flowTypes,
-          postSave: function(childScope, result, creatingNew){
-            if (creatingNew){
-              var initialVersion = new FlowVersion({
-                flowId: result.id,
-                flow: '[]',
-                tenantId: Session.tenant.tenantId,
-                name: 'v1'
-              });
-              
-              initialVersion.save(function(versionResult){
-                //Update the displays
-                childScope.originalResource.activeVersion = versionResult.version;
-                childScope.resource.activeVersion = versionResult.version;
-                
-                result.activeVersion = versionResult.version;
-                result.save(function(){
-                  $scope.updateVersionName(childScope.originalResource);
-                });
-              });
-              $scope.versions.push(initialVersion);
-            } else {
-              $scope.updateVersionName(childScope.originalResource);
-            }
-          }
+          flowTypes: flowTypes
         };
 
       $scope.fetch();
