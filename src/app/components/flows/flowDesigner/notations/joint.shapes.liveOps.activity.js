@@ -73,16 +73,6 @@
           group: 'general',
           index: 3
         },
-        target: {
-          type: 'text',
-          label: 'Target',
-          group: 'general',
-          when: {
-            eq: {
-              'targeted': true
-            }
-          }
-        },
         bindings: {
           type: 'list',
           label: 'Bindings',
@@ -118,15 +108,37 @@
       if (embeds) {
         // Position the embedded cells (since this is relative
         // To the parents position)
+        cell.set('z', 2);
         var box = cell.getBBox();
         joint.util.nextFrame(function() {
-          _.forEach(cell.getEmbeddedCells(), function(child) {
-            if (!child) { return; }
-            child.set('position',
-            {
-              x: (box.x + box.width) - 15,
-              y: (box.y + box.height) - 15
-            });
+          _.forEach(cell.getEmbeddedCells(), function(child, index) {
+            if (!child) {return;}
+
+            if (index === 0) {
+              child.set('position',
+              {
+                x: (box.x + box.width) - 15,
+                y: (box.y + box.height) - 15
+              });
+            }else if (index === 1) {
+              child.set('position',
+              {
+                x: (box.x + box.width) - 15,
+                y: (box.y) - 15
+              });
+            } else if (index === 2) {
+              child.set('position',
+              {
+                x: (box.x) - 15,
+                y: (box.y + box.height) - 15
+              });
+            } else if (index === 3) {
+              child.set('position',
+              {
+                x: (box.x) - 15,
+                y: (box.y) - 15
+              });
+            }
           });
         });
 
