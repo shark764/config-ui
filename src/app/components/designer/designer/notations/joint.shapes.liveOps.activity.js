@@ -73,16 +73,6 @@
           group: 'general',
           index: 3
         },
-        target: {
-          type: 'text',
-          label: 'Target',
-          group: 'general',
-          when: {
-            eq: {
-              'targeted': true
-            }
-          }
-        },
         bindings: {
           type: 'list',
           label: 'Bindings',

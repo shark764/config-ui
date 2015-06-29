@@ -10,6 +10,7 @@
         'description':'Play some media',
         'type':'task',
         'targeted': true,
+        'target': 'twilio',
         'params':{
           'media':{
             'source':'entity',
@@ -40,6 +41,7 @@
         'description':'Collect some digits',
         'type':'task',
         'targeted': true,
+        'target': 'twilio',
         'params':{
           'media':{
             'source':'entity',
@@ -105,6 +107,7 @@
         'description': 'Add Participant',
         'type': 'task',
         'targeted': true,
+        'target': 'twilio',
         'params': {
           'resource': {
             'source': 'expression',
@@ -128,7 +131,8 @@
         'params': {
         },
         'bindings': {},
-        'targeted': true
+        'targeted': true,
+        'target': 'client'
       },
       {
         'name': 'free-resource',
@@ -149,7 +153,8 @@
           }
         },
         'bindings': {},
-        'targeted': true
+        'targeted': true,
+        'target': 'twilio'
       },
 
       // RE-ADD FOR SUBFLOWS TO WORK
