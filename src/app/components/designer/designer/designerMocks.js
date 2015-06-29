@@ -24,7 +24,7 @@
           },
           'loop':{
             'source':'expression',
-            'type': 'integer',
+            'type': 'boolean',
             'label':'Loop',
             'tooltip':'Number of times to loop',
             'description':'',
