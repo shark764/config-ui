@@ -9,7 +9,7 @@ function flowDesigner() {
       templateUrl: 'app/components/flows/flowDesigner/flowDesignerDirective.html',
       replace: true,
       link: function() {},
-      controller: ['$scope', '$element', '$attrs', '$window', '$timeout', 'JointInitService', 'FlowConversionService', 'SubflowCommunicationService', 'FlowNotationService', 'FlowVersion', 'Session', 'toastr', '$state', function($scope, $element, $attrs, $window, $timeout, JointInitService, FlowConversionService, SubflowCommunicationService, FlowNotationService, FlowVersion, Session, toastr, $state) {
+      controller: ['$scope', '$element', '$attrs', '$window', '$timeout', 'FlowInitService', 'FlowConversionService', 'SubflowCommunicationService', 'FlowNotationService', 'FlowVersion', 'Session', 'toastr', '$state', function($scope, $element, $attrs, $window, $timeout, FlowInitService, FlowConversionService, SubflowCommunicationService, FlowNotationService, FlowVersion, Session, toastr, $state) {
 
         $timeout(function() {
           var graphOptions = {
@@ -27,7 +27,7 @@ function flowDesigner() {
             paperContainerId: '#paper-container',
             inspectorContainerId: '#inspector-container'
           };
-          var graph = JointInitService.initializeGraph(graphOptions);
+          var graph = FlowInitService.initializeGraph(graphOptions);
 
           graph.interfaces.paper.on({
             'cell:pointerdblclick': function(cellView) {
@@ -42,7 +42,7 @@ function flowDesigner() {
             SubflowCommunicationService.currentFlowContext = graph.toJSON();
             SubflowCommunicationService.currentVersionContext = $scope.flowVersion;
             SubflowCommunicationService.currentFlowNotationName = cellView.model.attributes.params.name || 'N/A';
-            $state.go('content.designer.subflowEditor', {
+            $state.go('content.flows.subflowEditor', {
               subflowNotationId: cellView.model.id
             });
           };

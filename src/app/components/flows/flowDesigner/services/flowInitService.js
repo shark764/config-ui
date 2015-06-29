@@ -2,7 +2,7 @@
   'use strict';
 
   /* global document : false */
-  function JointInitService (FlowPaletteService, FlowNotationService) {
+  function FlowInitService (FlowPaletteService, FlowNotationService) {
     return {
       initializeGraph: function(graphOptions) {
         var self = this;
@@ -306,5 +306,5 @@
     };
   }
 
-  angular.module('liveopsConfigPanel').service('JointInitService', JointInitService);
+  angular.module('liveopsConfigPanel').service('FlowInitService', FlowInitService);
 })();

@@ -1,6 +1,6 @@
 'use strict';
 
-describe('DesignerController', function () {
+describe('FlowsController', function () {
   var $scope,
     $controller,
     $state;
@@ -13,8 +13,7 @@ describe('DesignerController', function () {
       $scope = $rootScope.$new();
       $controller = _$controller_;
       $state = _$state_;
-      
-      $controller('DesignerController', {'$scope': $scope, '$state': $state});
+      $controller('FlowsController', {'$scope': $scope, '$state': $state});
     }
   ]));
 

@@ -42,7 +42,7 @@
     <th>{{'value.createdBy' | translate}}</th>
   </thead>
   <tr ng-repeat="version in versions | orderBy:'created':'reverse'">
-    <td><a href="#/designer/editor/{{version.flowId}}/{{version.version}}?v={{version.v}}">v{{version.v}}</a></td>
+    <td><a href="#/flows/editor/{{version.flowId}}/{{version.version}}?v={{version.v}}">v{{version.v}}</a></td>
     <td>{{version.name}}</td>
     <td>{{version.created | date:'medium'}}</td>
     <td>

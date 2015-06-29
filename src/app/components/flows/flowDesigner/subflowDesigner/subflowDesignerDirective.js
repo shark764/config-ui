@@ -9,7 +9,7 @@ function subflowDesigner() {
       templateUrl: 'app/components/flows/subflow/subflowDesignerDirective.html',
       replace: true,
       link: function() {},
-      controller: ['$scope', '$element', '$attrs', '$window', '$timeout', 'JointInitService', 'SubflowCommunicationService', '$state',function($scope, $element, $attrs, $window, $timeout, JointInitService, SubflowCommunicationService, $state) {
+      controller: ['$scope', '$element', '$attrs', '$window', '$timeout', 'FlowInitService', 'SubflowCommunicationService', '$state',function($scope, $element, $attrs, $window, $timeout, FlowInitService, SubflowCommunicationService, $state) {
         $timeout(function() {
 
           $scope.subflowName = SubflowCommunicationService.currentFlowNotationName;
@@ -33,7 +33,7 @@ function subflowDesigner() {
             inspectorContainerId: '#inspector-container'
           };
 
-          var graph = JointInitService.initializeGraph(graphOptions);
+          var graph = FlowInitService.initializeGraph(graphOptions);
 
           $scope.saveSubflow = function() {
             SubflowCommunicationService.add({
@@ -44,7 +44,7 @@ function subflowDesigner() {
               parentVersionId: $scope.subflow.parentVersionId
             });
 
-            $state.go('content.designer.editor', {
+            $state.go('content.flows.editor', {
               flowId: SubflowCommunicationService.currentVersionContext.flowId,
               versionId: SubflowCommunicationService.currentVersionContext.version,
               version: 'TO BE FIXED'

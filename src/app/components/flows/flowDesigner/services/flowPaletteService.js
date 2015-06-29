@@ -1,8 +1,8 @@
 (function() {
   'use strict';
 
-  function FlowPaletteService(FlowNotationService, flowMocks) {
-    var demoInit = flowMocks.demoInit;
+  function FlowPaletteService(FlowNotationService, FlowMockService) {
+    var demoInit = FlowMockService.demoInit;
     return {
       loadGateways: function(palette) {
         palette.load([

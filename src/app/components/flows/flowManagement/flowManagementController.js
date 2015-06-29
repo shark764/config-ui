@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('FlowsController', ['$scope', '$state', 'Session', 'Flow', 'flowTableConfig', 'flowTypes', 'FlowVersion',
+  .controller('FlowManagementController', ['$scope', '$state', 'Session', 'Flow', 'flowTableConfig', 'flowTypes', 'FlowVersion',
     function ($scope, $state, Session, Flow, flowTableConfig, flowTypes, FlowVersion) {
 
       $scope.redirectToInvites();
@@ -26,7 +26,7 @@ angular.module('liveopsConfigPanel')
           flow.activeVersionName = data.name;
         });
       };
-      
+
       $scope.$on('on:click:create', function() {
         $scope.selectedFlow = new Flow({
           tenantId: Session.tenant.tenantId,
@@ -47,12 +47,12 @@ angular.module('liveopsConfigPanel')
                 tenantId: Session.tenant.tenantId,
                 name: 'v1'
               });
-              
+
               initialVersion.save(function(versionResult){
                 //Update the displays
                 childScope.originalResource.activeVersion = versionResult.version;
                 childScope.resource.activeVersion = versionResult.version;
-                
+
                 result.activeVersion = versionResult.version;
                 result.save(function(){
                   $scope.updateVersionName(childScope.originalResource);
