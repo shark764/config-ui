@@ -45,6 +45,8 @@
     <td><a href="#/designer/editor/{{version.flowId}}/{{version.version}}?v={{version.v}}">v{{version.v}}</a></td>
     <td>{{version.name}}</td>
     <td>{{version.created | date:'medium'}}</td>
-    <td>{{version.createdBy | displayName}}</td>
+    <td>
+      <audit-text translation="value.displayName" user-id="version.createdBy"></audit-text>
+    </td>
   </tr>
 </table>

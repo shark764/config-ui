@@ -53,14 +53,4 @@ angular.module('liveopsConfigPanel')
           $scope.pushNewItem);
       });
     }
-  ])
-  .directive('flowVersions', [function () {
-    return {
-      scope: {
-        flow: '=',
-        versions: '='
-      },
-      templateUrl: 'app/components/designer/flows/versions/flowVersions.html',
-      controller: 'FlowVersionsController'
-    };
-  }]);
+  ]);

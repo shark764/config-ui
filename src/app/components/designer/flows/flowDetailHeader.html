@@ -4,14 +4,17 @@
   <div class="info">
     <h1>{{originalResource.name}}</h1>
     <div class="details">
-        <b translate="value.createdby.time" 
-        translate-value-date="{{originalResource.created | date:'medium'}}" 
-        translate-value-creator="{{originalResource.createdBy | displayName}}"></b>
-        <br/>
-        <b ng-if="!!originalResource.updatedBy" 
-        translate="value.updatedby" 
-        translate-value-date="{{originalResource.updated | date:'medium'}}" 
-        translate-value-updater="{{originalResource.updatedBy | displayName}}"></b>
+      <b audit-text
+        translation="value.createdby.time"
+        user-id="originalResource.createdBy"
+        date="originalResource.created">
+      </b>
+      <br/>
+      <b audit-text ng-if="!!originalResource.updatedBy"
+        translation="value.updatedby"
+        user-id="originalResource.updatedBy"
+        date="originalResource.updated">
+      </b>
     </div>
   </div>
 </div>
