@@ -12,7 +12,7 @@ angular.module('liveopsConfigPanel')
         }, {
           'header': 'Identifiers',
           'name': 'identifier',
-          'templateUrl' : 'app/components/designer/media-collections/mediaCollectionIdentifier.html'
+          'templateUrl' : 'app/components/flows/media-collections/mediaCollectionIdentifier.html'
         }],
         'searchOn' : ['name'],
         'orderBy' : ['name'],

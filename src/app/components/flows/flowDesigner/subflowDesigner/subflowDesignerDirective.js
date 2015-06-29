@@ -6,7 +6,7 @@ function subflowDesigner() {
         subflow: '=subflow'
       },
       restrict: 'E',
-      templateUrl: 'app/components/designer/subflow/subflowDesignerDirective.html',
+      templateUrl: 'app/components/flows/subflow/subflowDesignerDirective.html',
       replace: true,
       link: function() {},
       controller: ['$scope', '$element', '$attrs', '$window', '$timeout', 'JointInitService', 'SubflowCommunicationService', '$state',function($scope, $element, $attrs, $window, $timeout, JointInitService, SubflowCommunicationService, $state) {

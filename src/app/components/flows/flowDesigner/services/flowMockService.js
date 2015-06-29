@@ -1,7 +1,7 @@
 (function() {
   'use strict';
 
-  var flowMocks = {
+  var FlowMockService = {
     demoInit: [
       {
         'name':'play-media',
@@ -500,5 +500,5 @@
     }
   };
 
-  angular.module('liveopsConfigPanel').constant('flowMocks', flowMocks);
+  angular.module('liveopsConfigPanel').service('FlowMockService', FlowMockService);
 })();

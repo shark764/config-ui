@@ -95,7 +95,7 @@ angular.module('liveopsConfigPanel')
         queue: '=',
         versions: '='
       },
-      templateUrl: 'app/components/designer/queues/versions/queueVersions.html',
+      templateUrl: 'app/components/flows/queues/versions/queueVersions.html',
       controller: 'QueueVersionsController'
     };
   }]);

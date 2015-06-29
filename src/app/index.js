@@ -81,42 +81,42 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
       .state('content.designer', {
         abstract: true,
         url: '/designer',
-        templateUrl: 'app/components/designer/designer.html',
+        templateUrl: 'app/components/flows/flowDesigner.html',
         controller: 'DesignerController'
       })
       .state('content.designer.flows', {
         url: '/flows?id',
-        templateUrl: 'app/components/designer/flows/flows.html',
+        templateUrl: 'app/components/flows/flowManagement/flows.html',
         controller: 'FlowsController',
         reloadOnSearch: false
       })
       .state('content.designer.queues', {
         url: '/queues?id',
-        templateUrl: 'app/components/designer/queues/queues.html',
+        templateUrl: 'app/components/flows/queues/queues.html',
         controller: 'QueueController',
         reloadOnSearch: false
       })
       .state('content.designer.media', {
         url: '/media?id',
-        templateUrl: 'app/components/designer/media/media.html',
+        templateUrl: 'app/components/flows/media/media.html',
         controller: 'MediaController',
         reloadOnSearch: false
       })
       .state('content.designer.media-collections', {
         url: '/media-collections',
-        templateUrl: 'app/components/designer/media-collections/media-collections.html',
+        templateUrl: 'app/components/flows/media-collections/media-collections.html',
         controller: 'MediaCollectionController',
         reloadOnSearch: false
       })
       .state('content.designer.versions', {
         url: '/versions?id',
-        templateUrl: 'app/components/designer/flows/versions/versions.html',
+        templateUrl: 'app/components/flows/flowManagement/versions/versions.html',
         controller: 'VersionsController',
         reloadOnSearch: false
       })
       .state('content.designer.editor', {
         url: '/editor/:flowId/:versionId?v=:version',
-        templateUrl: 'app/components/designer/designer/designerPage.html',
+        templateUrl: 'app/components/flows/flowDesigner/flowDesignerPage.html',
         controller: 'DesignerPageController',
         reloadOnSearch: false,
         resolve: {
@@ -160,7 +160,7 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
       })
       .state('content.designer.subflowEditor', {
         url: '/subflow-editor/:subflowNotationId',
-        templateUrl: 'app/components/designer/subflow/subflowDesignerPage.html',
+        templateUrl: 'app/components/flows/subflow/subflowDesignerPage.html',
         controller: 'SubflowDesignerPageController',
         reloadOnSearch: false,
         resolve: {

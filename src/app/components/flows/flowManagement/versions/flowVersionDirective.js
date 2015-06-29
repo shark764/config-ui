@@ -7,7 +7,7 @@ angular.module('liveopsConfigPanel')
         flow: '=',
         versions: '='
       },
-      templateUrl: 'app/components/designer/flows/versions/flowVersions.html',
+      templateUrl: 'app/components/flows/flowManagement/versions/flowVersions.html',
       controller: 'FlowVersionsController'
     };
   }]);

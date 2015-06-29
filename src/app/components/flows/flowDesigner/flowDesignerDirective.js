@@ -6,7 +6,7 @@ function flowDesigner() {
         flowVersion: '=flowVersion'
       },
       restrict: 'E',
-      templateUrl: 'app/components/designer/designer/designerDirective.html',
+      templateUrl: 'app/components/flows/flowDesigner/flowDesignerDirective.html',
       replace: true,
       link: function() {},
       controller: ['$scope', '$element', '$attrs', '$window', '$timeout', 'JointInitService', 'FlowConversionService', 'SubflowCommunicationService', 'FlowNotationService', 'FlowVersion', 'Session', 'toastr', '$state', function($scope, $element, $attrs, $window, $timeout, JointInitService, FlowConversionService, SubflowCommunicationService, FlowNotationService, FlowVersion, Session, toastr, $state) {
