@@ -60,7 +60,7 @@ angular.module('liveopsConfigPanel')
       };
 
     $scope.$on('on:click:create', function(){
-      $scope.versions[0] = {name: 'v1'}
+      $scope.versions[0] = {name: 'v1'};
 
       $scope.selectedQueue = new Queue({
         tenantId: Session.tenant.tenantId
