@@ -15,7 +15,7 @@ angular.module('liveopsConfigPanel')
       this.destroy = function () {
         this.items = {};
 
-        localStorage.removeItem(this.uuidcacheKey);
+        localStorage.removeItem(uuidcacheKey);
       };
 
       this.restore = function () {

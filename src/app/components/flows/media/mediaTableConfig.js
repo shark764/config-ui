@@ -1,14 +1,16 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('mediaTableConfig', function () {
+  .service('mediaTableConfig', ['mediaTypes', function (mediaTypes) {
       return {
         'fields': [{
           'header': 'Source',
           'name': 'source'
         }, {
           'header': 'Type',
-          'name': 'type'
+          'name': 'type',
+          'options': mediaTypes,
+          'filter': 'selectedOptions'
         }, {
           'header': 'Properties',
           'name': 'properties'
@@ -17,5 +19,5 @@ angular.module('liveopsConfigPanel')
         'orderBy' : ['source'],
         'title' : 'Media'
       };
-    }
+    }]
   );
