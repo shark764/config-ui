@@ -114,25 +114,25 @@
           _.forEach(cell.getEmbeddedCells(), function(child, index) {
             if (!child) {return;}
 
-            if (index == 0) {
+            if (index === 0) {
               child.set('position',
               {
                 x: (box.x + box.width) - 15,
                 y: (box.y + box.height) - 15
               });
-            }else if (index == 1) {
+            }else if (index === 1) {
               child.set('position',
               {
                 x: (box.x + box.width) - 15,
                 y: (box.y) - 15
               });
-            } else if (index == 2) {
+            } else if (index === 2) {
               child.set('position',
               {
                 x: (box.x) - 15,
                 y: (box.y + box.height) - 15
               });
-            } else if (index == 3) {
+            } else if (index === 3) {
               child.set('position',
               {
                 x: (box.x) - 15,
