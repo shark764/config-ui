@@ -20,13 +20,18 @@ angular.module('liveopsConfigPanel')
 
         angular.extend($scope, $scope.extendScope);
 
-        $scope.save = function () {
-          var promise = $scope.resource.save();
-          promise.then($scope.handleSuccess, $scope.handleErrors);
-        };
-
-        $scope.saveAndNew = function () {
-          $scope.resource.save($scope.originalResource);
+        $scope.save = function (params, success, failure) {
+          var isFunction = typeof (params) === 'function';
+          
+          var promise;
+          if(isFunction){
+            promise = $scope.resource.save();
+            promise.then(params, success);
+          } else {
+            promise = $scope.resource.save(params)
+            promise.then(success, failure);
+          }
+          return promise.then($scope.handleSuccess, $scope.handleErrors);;
         };
 
         $scope.handleSuccess = function () {
@@ -72,10 +77,6 @@ angular.module('liveopsConfigPanel')
         
         $scope.$on('resource:details:cancel', function() {
           $scope.cancel();
-        });
-        
-        $scope.$on('resource:details:save', function() {
-          $scope.save();
         });
       }
     };

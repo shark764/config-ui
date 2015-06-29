@@ -94,44 +94,30 @@ angular.module('liveopsConfigPanel')
 
           **/
           Resource.prototype.save = function (params, success, failure) {
+            var self = this;
             this.$busy = true;
-
-            var me = this;
-
-            var isFunction = typeof (params) === 'function';
-            var saveFun = this.isNew() ? this.$save : this.$update;
-            var preFun = this.isNew() ? this.preCreate : this.preUpdate;
-            var postFun = this.isNew() ? this.postCreate : this.postUpdate;
 
             var promise;
             if (this.isNew()) {
-              if (isFunction) {
-
-              } else {
-                promise = $q.when(this.preUpdate(params));
-                return promise.then(function (params) {
-                    return me.$save(params);
-                  })
-                  .then(me.postCreate, me.postCreateError)
-                  .then(me.postSave, me.postSaveError)
-                  .finally(function () {
-                    me.$busy = false;
-                  });
-              }
+              promise = $q.when(this.preUpdate(params));
+              return promise.then(function (params) {
+                  return self.$save(params);
+                })
+                .then(self.postCreate, self.postCreateError)
+                .then(self.postSave, self.postSaveError)
+                .finally(function () {
+                  self.$busy = false;
+                });
             } else {
-              if (isFunction) {
-
-              } else {
-                promise = $q.when(this.preUpdate(params));
-                return promise.then(function (params) {
-                    return me.$update(params);
-                  })
-                  .then(me.postUpdate, me.postUpdateError)
-                  .then(me.postSave, me.postSaveError)
-                  .finally(function () {
-                    me.$busy = false;
-                  });
-              }
+              promise = $q.when(this.preUpdate(params));
+              return promise.then(function (params) {
+                  return self.$update(params);
+                })
+                .then(self.postUpdate, self.postUpdateError)
+                .then(self.postSave, self.postSaveError)
+                .finally(function () {
+                  self.$busy = false;
+                });
             }
           };
 
