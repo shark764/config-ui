@@ -5,7 +5,6 @@ angular.module('liveopsConfigPanel')
     return {
       restrict: 'E',
       scope: {
-        resource: '=',
         originalResource: '=',
         headerTemplateUrl: '@',
         bodyTemplateUrl: '@',
@@ -22,7 +21,7 @@ angular.module('liveopsConfigPanel')
 
         $scope.save = function (params, success, failure) {
           var isFunction = typeof (params) === 'function';
-          
+
           var promise;
           if(isFunction){
             promise = $scope.resource.save();
@@ -31,12 +30,13 @@ angular.module('liveopsConfigPanel')
             promise = $scope.resource.save(params)
             promise.then(success, failure);
           }
-          return promise.then($scope.handleSuccess, $scope.handleErrors);;
+          return promise.then($scope.handleSuccess, $scope.handleErrors);
         };
 
-        $scope.handleSuccess = function () {
+        $scope.handleSuccess = function (result) {
+          console.log('handling success');
+
           $scope.resetForm();
-          angular.copy($scope.resource, $scope.originalResource);
           toastr.success('Record ' + ($scope.resource.id ? 'updated' : 'saved'));
         };
 
@@ -74,7 +74,7 @@ angular.module('liveopsConfigPanel')
           $scope.detailsForm.$setPristine();
           $scope.detailsForm.$setUntouched();
         };
-        
+
         $scope.$on('resource:details:cancel', function() {
           $scope.cancel();
         });

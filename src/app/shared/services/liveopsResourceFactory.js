@@ -93,7 +93,7 @@ angular.module('liveopsConfigPanel')
 
             var promise;
             if (this.isNew()) {
-              promise = $q.when(this.preUpdate(params));
+              promise = $q.when(this.preCreate(params));
               return promise.then(function (params) {
                   return self.$save(params);
                 })

@@ -45,11 +45,7 @@ angular.module('liveopsConfigPanel')
         });
         $scope.versions.push(initialVersion);
       };
-      
-      this.postUpdate = function(flow) {
-        $scope.updateVersionName(childScope.originalResource);
-      }
-      
+
       $scope.$on('on:click:create', function() {
         $scope.selectedFlow = new Flow({
           tenantId: Session.tenant.tenantId,
@@ -58,19 +54,13 @@ angular.module('liveopsConfigPanel')
       });
 
       $scope.$watch('Session.tenant.tenantId', $scope.fetch, true);
-      
-      $scope.$watch('flow', function(flow) {
-        if (flow) {
-          flow.postCreate = self.postCreate;
-          flow.postUpdate = self.postUpdate;
-        }
-      })
-      
+
       $scope.additional = {
           versions: $scope.versions,
           flowTypes: flowTypes
         };
 
+      Flow.prototype.postCreate = this.postCreate;
       $scope.fetch();
       $scope.tableConfig = flowTableConfig;
     }
