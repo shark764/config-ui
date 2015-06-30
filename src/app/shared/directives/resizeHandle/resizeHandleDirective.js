@@ -15,7 +15,6 @@ angular.module('liveopsConfigPanel')
       templateUrl : 'app/shared/directives/resizeHandle/resizeHandle.html',
       link : function(scope, element) {
         scope.sendResizeEvent = _.throttle(function(eventInfo){
-            console.log(eventInfo);
             $rootScope.$broadcast('resizehandle:resize', eventInfo);
         }, 500);
         
