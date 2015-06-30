@@ -89,11 +89,11 @@ angular.module('liveopsConfigPanel')
 
           Resource.prototype.save = function (params, success, failure) {
             var self = this;
-            this.$busy = true;
+            self.$busy = true;
 
             var promise;
-            if (this.isNew()) {
-              promise = $q.when(this.preCreate(params));
+            if (self.isNew()) {
+              promise = $q.when(self.preCreate(params));
               return promise.then(function (params) {
                   return self.$save(params);
                 })
@@ -103,7 +103,7 @@ angular.module('liveopsConfigPanel')
                   self.$busy = false;
                 });
             } else {
-              promise = $q.when(this.preUpdate(params));
+              promise = $q.when(self.preUpdate(params));
               return promise.then(function (params) {
                   return self.$update(params);
                 })

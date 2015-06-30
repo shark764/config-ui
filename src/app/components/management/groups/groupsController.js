@@ -3,22 +3,22 @@
 angular.module('liveopsConfigPanel')
   .controller('GroupsController', ['$scope', 'Session', 'Group', 'User', 'groupTableConfig', 'TenantGroupUsers', 'UserCache',
     function ($scope, Session, Group, User, groupTableConfig, TenantGroupUsers, UserCache) {
+      var self = this;
       $scope.Session = Session;
-
       $scope.tableConfig = groupTableConfig;
 
       //This is really awful and hopefully the API will update to accommodate this.
-      $scope.fetch = function () {
+      this.fetch = function () {
         $scope.groups = Group.query({
           tenantId: Session.tenant.tenantId
         }, function () {
-          angular.forEach($scope.groups, function (item, itemKey) {
-            $scope.updateMembers($scope.groups[itemKey]);
+          angular.forEach($scope.groups, function (group) {
+            self.updateMembers(group);
           });
         });
       };
 
-      $scope.updateMembers = function (group) {
+      this.updateMembers = function (group) {
         group.members = TenantGroupUsers.query({
           tenantId: Session.tenant.tenantId,
           groupId: group.id
@@ -30,15 +30,13 @@ angular.module('liveopsConfigPanel')
           });
         });
       };
-
-      $scope.additional = {
-        postSave: function (childScope) {
-          $scope.updateMembers(childScope.resource);
-        }
+      
+      Group.prototype.postSave = function(group) {
+        self.updateMembers(group);
       };
-
+      
       $scope.$watch('Session.tenant', function() {
-        $scope.fetch();
+        self.fetch();
       }, true);
 
       $scope.$on('on:click:create', function () {
@@ -49,6 +47,6 @@ angular.module('liveopsConfigPanel')
         });
       });
 
-      $scope.fetch();
+      this.fetch();
     }
   ]);

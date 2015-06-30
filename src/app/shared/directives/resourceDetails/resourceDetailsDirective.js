@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('resourceDetails', ['toastr', function(toastr) {
+  .directive('resourceDetails', ['toastr', 'lodash', function(toastr, _) {
     return {
       restrict: 'E',
       scope: {
@@ -19,22 +19,23 @@ angular.module('liveopsConfigPanel')
 
         angular.extend($scope, $scope.extendScope);
 
-        $scope.save = function (params, success, failure) {
-          var isFunction = typeof (params) === 'function';
-
-          var promise;
-          if(isFunction){
-            promise = $scope.resource.save();
-            promise.then(params, success);
-          } else {
-            promise = $scope.resource.save(params)
-            promise.then(success, failure);
+        $scope.save = function (successEventName, failureEventName) {
+          if(!angular.isDefined(successEventName)) {
+            successEventName = 'resource:details:saved'
           }
-          return promise.then($scope.handleSuccess, $scope.handleErrors);
+
+          if(!angular.isDefined(failureEventName)) {
+            failureEventName = 'resource:details:failed'
+          }
+
+          var promise = $scope.resource.save()
+          promise.then($scope.handleSuccess, $scope.handleErrors);
+          return promise.then($scope.$emit(successEventName), $scope.$emit(failureEventName))
         };
 
-        $scope.handleSuccess = function (result) {
+        $scope.handleSuccess = function (resource) {
           $scope.resetForm();
+
           angular.copy($scope.resource, $scope.originalResource);
           toastr.success('Record ' + ($scope.resource.id ? 'updated' : 'saved'));
         };
@@ -60,13 +61,17 @@ angular.module('liveopsConfigPanel')
           $scope.resetForm();
         });
 
-        $scope.$watch('originalResource', function () {
+        $scope.$watch('originalResource', function (nv, ov) {
           $scope.resource = angular.copy($scope.originalResource);
+
+          window.thing1 = $scope.resource;
+          window.thing2 = $scope.originalResource;
         });
 
         $scope.cancel = function () {
           angular.copy($scope.originalResource, $scope.resource);
           $scope.resetForm();
+          $scope.$emit('resource:details:canceled')
         };
 
         $scope.resetForm = function () {

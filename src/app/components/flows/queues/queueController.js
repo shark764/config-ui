@@ -1,14 +1,15 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('QueueController', ['$scope', 'Queue', 'Session', '$stateParams', 'queueTableConfig', 'QueueVersion',
-  function ($scope, Queue, Session, $stateParams, queueTableConfig, QueueVersion) {
+  .controller('QueueController', ['$scope', 'Queue', 'Session', '$stateParams', 'queueTableConfig', 'QueueVersion', '$q',
+  function ($scope, Queue, Session, $stateParams, queueTableConfig, QueueVersion, $q) {
     $scope.Session = Session;
 
     $scope.redirectToInvites();
 
-    Queue.prototype.postCreate = function (queue) {
-      console.log('in post create');
+    this.postCreate = function (queue) {
+
+      var queue = queue;
 
       var iqv = new QueueVersion({
         tenantId: Session.tenant.tenantId,
@@ -24,6 +25,16 @@ angular.module('liveopsConfigPanel')
 
       return promise;
     };
+
+    this.postSave = function (queue) {
+      var d = $q.defer();
+      d.resolve(queue);
+      return d.promise;
+    };
+
+    Queue.prototype.postCreate = this.postCreate;
+
+    Queue.prototype.postSave = this.postSave;
 
     $scope.fetch = function(){
       $scope.queues = Queue.query({

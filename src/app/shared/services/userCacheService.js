@@ -2,12 +2,17 @@
 
 angular.module('liveopsConfigPanel')
   .service('UserCache', ['$q', 'User', 'UUIDCache', function ($q, User, UUIDCache) {
-    this.get = function (id) {
+    this.get = function (id, success, failure) {
       var deferred = $q.defer();
       if (id) {
         var cached = UUIDCache.get(id);
         if (cached) {
           deferred.resolve(cached);
+          
+          if(success) {
+            success(cached);
+          }
+          
           return angular.extend({
             $promise: deferred.promise,
           }, cached);
@@ -15,10 +20,16 @@ angular.module('liveopsConfigPanel')
           return User.get({
             id: id
           }, function (user) {
+            if(success) {
+              success(user);
+            }
+            
             UUIDCache.put(id, {
               id: user.id,
               displayName: user.displayName
             });
+          }, function(error) {
+            failure(error);
           });
         }
       }
