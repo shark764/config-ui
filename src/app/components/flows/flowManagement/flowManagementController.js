@@ -12,22 +12,26 @@ angular.module('liveopsConfigPanel')
 
         $scope.flows = Flow.query({
           tenantId: Session.tenant.tenantId
-        }, function(){
-          angular.forEach($scope.flows, function(value){
-            if (value.activeVersion){
+        }, function () {
+          angular.forEach($scope.flows, function (value) {
+            if (value.activeVersion) {
               $scope.updateVersionName(value);
             }
           });
         });
       };
 
-      $scope.updateVersionName = function(flow){
-        FlowVersion.get({version : flow.activeVersion, flowId : flow.id, tenantId: Session.tenant.tenantId}, function(data){
+      $scope.updateVersionName = function (flow) {
+        return FlowVersion.get({
+          version: flow.activeVersion,
+          flowId: flow.id,
+          tenantId: Session.tenant.tenantId
+        }, function (data) {
           flow.activeVersionName = data.name;
         });
       };
 
-      this.postCreate = function(flow){
+      Flow.prototype.postCreate = function (flow) {
         var initialVersion = new FlowVersion({
           flowId: flow.id,
           flow: '[]',
@@ -35,22 +39,20 @@ angular.module('liveopsConfigPanel')
           name: 'v1'
         });
 
-        initialVersion.save(function(versionResult){
+        var promise = initialVersion.save();
+        promise.then(function(versionResult) {
           flow.activeVersion = versionResult.version;
-
-          flow.save(function(){
-            $scope.flow.activeVersion = versionResult.version;
+          return flow.save(function () {
             $scope.updateVersionName(flow);
           });
-        });
-        $scope.versions.push(initialVersion);
+        })
       };
-      
-      this.postUpdate = function(flow) {
-        $scope.updateVersionName(childScope.originalResource);
-      }
-      
-      $scope.$on('on:click:create', function() {
+
+      Flow.prototype.postUpdate = function(flow) {
+        return $scope.updateVersionName(flow).$promise;
+      };
+
+      $scope.$on('on:click:create', function () {
         $scope.selectedFlow = new Flow({
           tenantId: Session.tenant.tenantId,
           active: true
@@ -58,18 +60,11 @@ angular.module('liveopsConfigPanel')
       });
 
       $scope.$watch('Session.tenant.tenantId', $scope.fetch, true);
-      
-      $scope.$watch('flow', function(flow) {
-        if (flow) {
-          flow.postCreate = self.postCreate;
-          flow.postUpdate = self.postUpdate;
-        }
-      })
-      
+
       $scope.additional = {
-          versions: $scope.versions,
-          flowTypes: flowTypes
-        };
+        versions: $scope.versions,
+        flowTypes: flowTypes
+      };
 
       $scope.fetch();
       $scope.tableConfig = flowTableConfig;

@@ -50,7 +50,7 @@
               selected-item="selectedMedia"
               name-field="source"
               on-select="mapping.id = selectedMedia.id; editMode = false; detailsForm.$dirty = true; selectedMedia = null;"></type-ahead>
-            <input ng-click="createMediaMapping(mapping); detailsForm.$dirty = true;" type="button" value="{{'media.collections.media.new' | translate}}" class="btn btn-primary new-media-btn" />
+            <input ng-click="$emit('resource:details:create:mediaMapping', mapping); detailsForm.$dirty = true;" type="button" value="{{'media.collections.media.new' | translate}}" class="btn btn-primary new-media-btn" />
           </div>
         </div>
       </td>

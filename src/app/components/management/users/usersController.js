@@ -3,21 +3,23 @@
 angular.module('liveopsConfigPanel')
   .controller('UsersController', ['$scope', '$window', 'userRoles', 'User', 'Session', 'AuthService', 'userTableConfig', 'Invite', 'toastr', 'flowSetup',
     function($scope, $window, userRoles, User, Session, AuthService, userTableConfig, Invite, toastr, flowSetup) {
+      var self = this;
       $scope.filteredUsers = [];
       $scope.Session = Session;
       $scope.user = {};
-      var self = this;
+      
 
       $window.flowSetup = flowSetup;
 
       this.newPassword = null;
-      this.preUpdate = function(params) {
+      
+      User.prototype.preUpdate = function(params) {
         if (this.password) {
           self.newPassword = this.password;
         }
       };
 
-      this.postUpdate = function(user) {
+      User.prototype.postUpdate = function(user) {
         if (user.id === Session.user.id && self.newPassword) {
           var token = AuthService.generateToken(
             user.email, self.newPassword);
@@ -27,7 +29,7 @@ angular.module('liveopsConfigPanel')
         }
       };
       
-      this.postCreate = function(user) {
+      User.prototype.postCreate = function(user) {
         Invite.save({
           tenantId: Session.tenant.tenantId
         }, {
@@ -36,7 +38,7 @@ angular.module('liveopsConfigPanel')
         }); //TEMPORARY roleId
       }
 
-      this.postCreateError = function(error) {
+      User.prototype.postCreateError = function(error) {
         if (error.status === 400) {
           toastr.clear();
           toastr.success('User already exists. Sending ' + $scope.user.email + ' an invite for ' + Session.tenant.name, '', {
@@ -53,7 +55,7 @@ angular.module('liveopsConfigPanel')
         return error;
       };
       
-      $scope.fetch = function() {
+      this.fetch = function() {
         $scope.users = User.query({
           tenantId: Session.tenant.tenantId !== '' ? Session.tenant.tenantId : null
         });
@@ -69,31 +71,22 @@ angular.module('liveopsConfigPanel')
           }
         }
       };
-
+      
       $scope.$on('on:click:create', function() {
         $scope.selectedUser = new User({
           status: true
         });
       });
       
-      $scope.$watch('user', function(user) {
-        if(user) {
-          $scope.user.preUpdate = self.preUpdate;
-          $scope.user.postUpdate = self.postUpdate;
-          $scope.user.postCreate = self.postCreate;
-          $scope.user.postCreateError = self.postCreateError;
-        }
-      });
-
       $scope.$watch('Session.tenant.tenantId', function(old, news) {
         if (angular.equals(old, news)) {
           return;
         }
 
-        $scope.fetch();
+        self.fetch();
       }, true);
 
       $scope.tableConfig = userTableConfig;
-      $scope.fetch();
+      self.fetch();
     }
   ]);

@@ -7,7 +7,7 @@ angular.module('liveopsConfigPanel')
       $scope.medias = [];
       $scope.redirectToInvites();
 
-      $scope.create = function() {
+      $scope.create = function () {
         $scope.selectedMediaCollection = new MediaCollection({
           tenantId: Session.tenant.tenantId,
           mediaMap: []
@@ -22,49 +22,50 @@ angular.module('liveopsConfigPanel')
 
         $scope.mediaCollections = MediaCollection.query({
           tenantId: Session.tenant.tenantId
-        }, function() {
-          if(!$scope.mediaCollections.length) {
+        }, function () {
+          if (!$scope.mediaCollections.length) {
             $scope.create();
           }
         });
       };
 
+      MediaCollection.prototype.postSave = function () {
+        $scope.selectedMedia = null;
+      };
+
       $scope.additionalMedia = {
-        mediaTypes: mediaTypes,
-        cancelMedia: function () {
-          $scope.selectedMedia = null;
-          $scope.waitingMedia = null;
-        },
-
-        postSave: function () {
-          $scope.selectedMedia = null;
-        },
-
-        postSaveAndNew: function () {
-          $scope.selectedMedia = new Media({
-            tenantId: Session.tenant.tenantId
-          });
-        }
+        mediaTypes: mediaTypes
       };
 
       $scope.additionalCollections = {
-        medias: $scope.medias,
-
-        createMediaMapping: function (media) {
-          $scope.waitingMedia = media;
-
-          $scope.selectedMedia = new Media({
-            tenantId: Session.tenant.tenantId
-          });
-        }
+        medias: $scope.medias
       };
+      
+      $scope.$on('resource:details:create:mediaMapping',  function (media) {
+        $scope.waitingMedia = media;
 
+        $scope.selectedMedia = new Media({
+          tenantId: Session.tenant.tenantId
+        });
+      });
+      
+      $scope.$on('resource:details:canceled',  function () {
+        $scope.media = null;
+        $scope.waitingMedia = null;
+      });
+      
+      $scope.$on('resource:details:savedAndNew', function() {
+        $scope.media = new Media({
+          tenantId: Session.tenant.tenantId
+        });
+      });
+      
       $scope.$on('on:click:create', function () {
         $scope.create();
       });
 
       $scope.$watch('Session.tenant', function (old, news) {
-        if(angular.equals(old, news)){
+        if (angular.equals(old, news)) {
           return;
         }
 
