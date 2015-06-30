@@ -3,7 +3,8 @@
 /*jshint browser:true */
 
 angular.module('liveopsConfigPanel')
-  .directive('userGroups', ['TenantUserGroups', 'TenantGroupUsers', 'Group', 'Session', '$timeout', '$filter', 'toastr', function (TenantUserGroups, TenantGroupUsers, Group, Session, $timeout, $filter, toastr) {
+  .directive('userGroups', ['TenantUserGroups', 'TenantGroupUsers', 'Group', 'Session', '$timeout', '$filter', 'toastr', '$q',
+                            function (TenantUserGroups, TenantGroupUsers, Group, Session, $timeout, $filter, toastr, $q) {
     return {
       restrict: 'E',
 
@@ -118,19 +119,14 @@ angular.module('liveopsConfigPanel')
           }
           
           $scope.userGroups = TenantUserGroups.query({ tenantId: Session.tenant.tenantId, memberId: $scope.user.id }, $scope.reset);
+          $scope.groups = Group.query({tenantId: Session.tenant.tenantId });
           
-          //Call updateFiltered in both handlers so that regardless of if one takes longer, 
-          //the filter is eventually run on two resolved resource lists instead of one of them being a promise
-          $scope.userGroups.$promise.then(function(){
+          $q.all([$scope.groups.$promise, $scope.userGroups.$promise]).then(function(){
             $scope.updateFiltered();
             
             $timeout(function(){
               $scope.updateCollapseState(tagWrapper.height());
             }, 200);
-          });
-          
-          $scope.groups = Group.query({tenantId: Session.tenant.tenantId }, function(){
-            $scope.updateFiltered();
           });
         };
 
