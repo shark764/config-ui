@@ -26,7 +26,7 @@ var Shared = function() {
 
   // Navbar elements
   this.navBar = element(by.id('topnav'));
-  this.welcomeMessage = element(by.id('welcome'));
+  this.welcomeMessage = element(by.id('user-settings-dropdown'));
   this.siteNavLogo = element(by.id('logo'));
   this.tenantsNavDropdown = element(by.id('tenant-dropdown'));
   this.usersNavButton = element(by.id('users-nav-link'));
@@ -51,9 +51,9 @@ var Shared = function() {
   this.tableColumnsDropDown = element(by.css('filter-dropdown.btn'));
 
   // Shared Form elements
-  this.detailsForm = element(by.id('details-form'));
-  this.submitFormBtn = element(by.buttonText('Submit'));
-  this.cancelFormBtn = element(by.buttonText('Cancel'));
+  this.detailsForm = element(by.css('.details-form'));
+  this.submitFormBtn = element(by.id('submit-details-btn'));
+  this.cancelFormBtn = element(by.id('cancel-details-btn'));
   this.successMessage = element(by.css('.toast-success'));
   this.errorMessage = element(by.css('.toast-error'));
   this.closeMessageBtn = element(by.css('.toast-close-button'));
@@ -61,6 +61,7 @@ var Shared = function() {
   this.tearDown = function() {
     browser.executeScript('window.sessionStorage.clear()');
     browser.executeScript('window.localStorage.clear()');
+    browser.get(this.loginPageUrl);
   };
 };
 

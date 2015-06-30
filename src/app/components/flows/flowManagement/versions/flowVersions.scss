@@ -1,0 +1,13 @@
+.flow-controls{
+  text-align: right;
+  margin-bottom: 10px;
+  
+  input {
+    float: left;
+    width: calc(50% - 3px) !important;
+  }
+  
+  input+input {
+    margin-left: 6px !important;
+  }
+}

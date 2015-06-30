@@ -3,6 +3,8 @@
 angular.module('liveopsConfigPanel')
   .factory('TenantUserSkills', ['LiveopsResourceFactory', function (LiveopsResourceFactory) {
 
-    return LiveopsResourceFactory.create('/v1/tenants/:tenantId/users/:userId/skills/:skillId', true, true, [ { name: 'proficiency' } ]);
+    return LiveopsResourceFactory.create('/v1/tenants/:tenantId/users/:userId/skills/:skillId', [{
+      name: 'proficiency'
+    }]);
 
   }]);

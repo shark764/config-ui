@@ -1,28 +1,22 @@
-<div ng-if="originalResource.id" id="skill-detail-header">
-  <toggle class="status-toggle pull-left" name="status" ng-model="resource.status"></toggle>
+<div ng-if="originalResource.id">
+  <toggle class="status-toggle" name="status" ng-model="resource.status"></toggle>
   
-  <div class="skill-info">
+  <div class="info">
     <h1>{{originalResource.name}}</h1>
-  
     <div class="details">
-    
-      <div>
-        <b
-          translate="value.createdby"
-          translate-value-date="{{originalResource.created | date:'medium'}}"
-          translate-value-creator="{{creator.displayName}}">
-        </b>
-        <br/>
-        <b
-          translate="value.updatedby"
-          translate-value-date="{{originalResource.created | date:'medium'}}"
-          translate-value-updater="{{updater.displayName}}">
-        </b>
-      </div>
+      <b audit-text
+        translation="value.createdby.time"
+        user-id="originalResource.createdBy"
+        date="originalResource.created">
+      </b>
+      <br/>
+      <b audit-text ng-if="!!originalResource.updatedBy"
+        translation="value.updatedby"
+        user-id="originalResource.updatedBy"
+        date="originalResource.updated">
+      </b>
     </div>
   </div>
 </div>
 
-<div ng-hide="originalResource.id">
-  <h1>Creating Skill</h1>
-</div>
+<h1 ng-hide="originalResource.id">Creating Skill</h1>

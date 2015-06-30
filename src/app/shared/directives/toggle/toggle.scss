@@ -5,7 +5,7 @@ $switchHandleSize: 28px;
   position: relative;
   display: inline-block;
   vertical-align: top;
-  width: 50px;
+  width: $toggle-width;
   height: 31px;
   padding: 3px;
   background-color: white;
@@ -80,4 +80,15 @@ $switchHandleSize: 28px;
   }
 }
 
-.switch-green > .switch-input:checked ~ .switch-label { background: $succes-green; }
+.switch-green > .switch-input:checked ~ .switch-label { 
+  background: $succes-green; 
+}
+
+.switch-green > .switch-input[disabled]:checked ~ .switch-label{ 
+  background: lighten($succes-green, 30%);
+}
+
+toggle[disabled] .switch {
+  pointer: default;
+  pointer-events: none;
+}

@@ -1,12 +1,12 @@
-<div class="divider-header">
-  <h4>Group Details</h4>
+<div class="divider-header first-header">
+  <h4>{{'details' | translate}}</h4>
 </div>
 
 <div class="input-group">
   <label>{{'value.name' | translate}}</label>
   <div>
-    <form-error field="detailsForm.name" error-type-api="{{'group.details.name.error' | translate}}" error-type-required="{{'group.details.name.error' | translate}}"></form-error>
-    <input ng-model="resource.name" name="name" type="text"></input>
+    <form-error field="detailsForm.name" error-type-api="{{'details.name.error' | translate}}" error-type-required="{{'details.name.error' | translate}}"></form-error>
+    <input required ng-model="resource.name" name="name" type="text"></input>
   </div>
 
 </div>
@@ -22,10 +22,10 @@
   <h4>Members <b class="count" translate="value.numMembers" translate-value-number="{{resource.members ? resource.members.length : 0}}" ></b></h4>
 </div>
 
+<p class="null" ng-show="resource.members.length == 0">There are no members assigned to this group.</p>
+
 <div ng-if="resource.id" class="input-group">
   <label>&nbsp;</label>
-  <p class="null" ng-show="resource.members.length == 0">There are no members assigned to this group.</p>
-
   <table ng-hide="! resource.members.length > 0">
     <thead>
       <tr><th>{{'value.name' | translate}}</th></tr>

@@ -12,14 +12,15 @@ angular.module('liveopsConfigPanel')
       };
 
       $scope.fetch = function() {
+
         if (!Session.tenant || !Session.tenant.tenantId) {
           return;
         }
 
         $scope.dispatchMappings = DispatchMapping.query({
           tenantId: Session.tenant.tenantId
-        }, function() {
-          if (!$scope.dispatchMappings.length) {
+        }, function(dispatchMappings) {
+          if (!dispatchMappings.length) {
             $scope.create();
           }
         });
@@ -27,13 +28,13 @@ angular.module('liveopsConfigPanel')
         $scope.flows = Flow.query({
           tenantId: Session.tenant.tenantId
         });
-        
+
         $scope.integrations = Integration.query({
           tenantId: Session.tenant.tenantId
         });
       };
 
-      $scope.$watch('Session.tenant.tenantId', $scope.fetch, true);
+      $scope.$watch('Session.tenant', $scope.fetch, true);
 
       $scope.$on('on:click:create', function() {
         $scope.create();

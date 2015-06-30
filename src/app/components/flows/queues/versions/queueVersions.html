@@ -1,0 +1,92 @@
+<div class="divider-header">
+  <h4>{{'value.details.activeVersion' | translate}}</h4>
+</div>
+
+<div class="input-group">
+  <label>{{'value.details.version' | translate}}</label>
+  <div>
+    <form-error field="detailsForm.activeVersion"
+    error-type-required="{{'queue.details.version.error' | translate}}"></form-error>
+    <select api-error ng-required="true" ng-model="currVersion" ng-change="currVersionChanged()" ng-options="version.name for version in versions | orderBy:'created':'reverse'">
+    </select>
+  </div>
+</div>
+
+<div class="input-group">
+  <label class="textarea-label">{{'value.details.query' | translate}}</label>
+  <div>
+    <textarea disabled ng-model="currVersion.query">
+    </textarea>
+  </div>
+</div>
+
+<div class="divider-header">
+  <h4>{{'queue.details.createAdditionalVersions' | translate}}</h4>
+</div>
+
+<div ng-show="createNewVersion">
+  <div class="divider-header">
+    <h4>{{'queue.details.queryPriority' | translate}}</h4>
+  </div>
+
+  <ng-form name="createVersionForm" seperate-validation>
+    <div class="input-group">
+      <label>{{'value.name' | translate}}</label>
+      <form-error field="createVersionForm.name"
+      error-type-required="{{'value.error.name.required' | translate}}"></form-error>
+      <input disabled="true" ng-required="true" type="text" ng-model="versionCopy.name" name="name"></input>
+    </div>
+
+    <div class="input-group">
+      <label class="textarea-label">{{'value.details.query' | translate}}</label>
+      <form-error field="createVersionForm.query"
+      error-type-required="{{'value.error.query.required' | translate}}"></form-error>
+      <textarea ng-required="true" type="text" ng-model="versionCopy.query" name="query"></textarea>
+    </div>
+
+    <div class="queue-controls input-group">
+      <label></label>
+      <input id='cancel-queue-version-btn' type="button" ng-click="createNewVersion = false" ng-disabled="saving" class="btn" value="{{'value.cancel' | translate}}" />
+      <input id='create-queue-version-btn' ng-click="saveVersion()" ng-show="!saving" ng-disabled="createVersionForm.$invalid || !createVersionForm.$dirty" type="submit" class="btn btn-primary" value="{{'queue.details.saveNewVersion' | translate}}" />
+      <a ng-show="saving" ng-disabled="true" class="btn btn-primary"><i class="fa fa-refresh fa-spin"></i></a>
+    </div>
+  </ng-form>
+</div> 
+<div class="queue-version-table">
+  <table>
+    <thead>
+      <th></th>
+      <th>{{'value.name' | translate}}</th>
+      <th>{{'value.createdOn' | translate}}</th>
+      <th>{{'queue.details.createdBy' | translate}}</th>
+    </thead>
+    <tr ng-repeat-start="version in versions | orderBy:'created':'reverse'" id="version-row-{{version.name}}">
+      <td><i class="fa" ng-class="{'fa-plus' : !version.viewing, 'fa-minus': version.viewing}" ng-click="toggleDetails(version);"></i></td>
+      <td>{{version.name}}</td>
+      <td>{{version.created | date:'medium'}}</td>
+      <td>
+        <audit-text translation="value.displayName" user-id="version.createdBy"></audit-text>
+      </td>
+    </tr>
+    <tr ng-repeat-end>
+      <td colspan="4" ng-show="version.viewing">
+        <div class="input-group">
+          <label>{{'value.name' | translate}}</label>
+          <form-error field="createVersionForm.name" error-type-required="{{'value.error.name.required' | translate}}"></form-error>
+          <input disabled="true" ng-required="true" type="text" ng-model="version.name" name="name"></input>
+        </div>
+
+        <div class="input-group">
+          <label class="textarea-label">{{'value.details.query' | translate}}</label>
+          <textarea ng-disabled="true" type="text" ng-model="version.query" name="query"></textarea>
+        </div>
+
+        <div class="queue-controls input-group">
+          <label></label>
+          <input type="button" ng-click="version.viewing = false;" class="btn" value="{{'value.close' | translate}}" />
+          <input ng-click="createVersionCopy(version)" type="submit" class="btn btn-primary" value="{{'queue.details.createNewVersion' | translate}}" />
+        </div>
+      </td>
+    </tr>
+  </table>
+</div>

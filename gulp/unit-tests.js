@@ -8,7 +8,6 @@ var wiredep = require('wiredep');
 var karma = require('karma');
 var concat = require('concat-stream');
 var _ = require('lodash');
-var ngConstant = require('gulp-ng-constant');
 var argv = require('yargs').argv;
 
 module.exports = function (options) {
@@ -23,16 +22,16 @@ module.exports = function (options) {
     var htmlFiles = [
       options.src + '/**/*.html'
     ];
-    
+
     var allSpecFiles = [
       options.src + '/**/*.spec.js',
       options.src + '/**/*.mock.js'
     ];
-    
+
     var srcFiles = [
       options.src + '/app/**/*.js',
       'test/test-env.js',
-      '!' + options.src + '/app/components/designer/designer/**/*.js',
+      '!' + options.src + '/app/components/flows/flowDesigner/**/*.js',
       '!' + options.src + '/app/env.js',
       '!' + options.src + '/app/translation-loader.js'
     ].concat(allSpecFiles.map(function (file) {
@@ -68,14 +67,15 @@ module.exports = function (options) {
     ];
     runTests(true, ['progress'], specFiles, done);
   });
-  
+
   gulp.task('test:single', ['scripts'], function (done) {
+    var specFiles;
     if(typeof(argv.specFile) === 'object'){
-      var specFiles = argv.specFile;
+      specFiles = argv.specFile;
     } else {
-      var specFiles = [argv.specFile];
+      specFiles = [argv.specFile];
     }
-    
+
     runTests(true, ['progress'], specFiles, done);
   });
 

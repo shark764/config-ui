@@ -5,9 +5,7 @@
     No tenants available to send invites from. Please create a tenant.
   </div>
 
-  <div ng-show="!tenants.$resolved || !invites.$resolved">
-    <i style="font-size: 30px;" class="fa fa-cog fa-spin"></i>
-  </div>
+  <loading ng-show="!tenants.$resolved || !invites.$resolved"></loading>
 
   <div ng-show="tenants.$resolved && tenants.length > 0">
     <p ng-show="invites.$resolved && ! invites.length > 0">

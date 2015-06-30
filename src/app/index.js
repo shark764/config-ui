@@ -10,7 +10,6 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
         templateUrl: 'app/components/content/content.html',
         controller: 'ContentController',
         resolve: {
-
           regions: ['Session', 'Region', function(Session, Region) {
             return Region.query({}, function(result) {
               Session.activeRegionId = result[0].id;
@@ -79,45 +78,45 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
         controller: 'DispatchMappingsController',
         reloadOnSearch: false
       })
-      .state('content.designer', {
+      .state('content.flows', {
         abstract: true,
-        url: '/designer',
-        templateUrl: 'app/components/designer/designer.html',
-        controller: 'DesignerController'
+        url: '/flows',
+        templateUrl: 'app/components/flows/flows.html',
+        controller: 'FlowsController'
       })
-      .state('content.designer.flows', {
-        url: '/flows?id',
-        templateUrl: 'app/components/designer/flows/flows.html',
-        controller: 'FlowsController',
+      .state('content.flows.flowManagement', {
+        url: '/management?id',
+        templateUrl: 'app/components/flows/flowManagement/flowManagement.html',
+        controller: 'FlowManagementController',
         reloadOnSearch: false
       })
-      .state('content.designer.queues', {
+      .state('content.flows.queues', {
         url: '/queues?id',
-        templateUrl: 'app/components/designer/queues/queues.html',
+        templateUrl: 'app/components/flows/queues/queues.html',
         controller: 'QueueController',
         reloadOnSearch: false
       })
-      .state('content.designer.media', {
+      .state('content.flows.media', {
         url: '/media?id',
-        templateUrl: 'app/components/designer/media/media.html',
+        templateUrl: 'app/components/flows/media/media.html',
         controller: 'MediaController',
         reloadOnSearch: false
       })
-      .state('content.designer.media-collections', {
+      .state('content.flows.media-collections', {
         url: '/media-collections',
-        templateUrl: 'app/components/designer/media-collections/media-collections.html',
+        templateUrl: 'app/components/flows/media-collections/media-collections.html',
         controller: 'MediaCollectionController',
         reloadOnSearch: false
       })
-      .state('content.designer.versions', {
+      .state('content.flows.versions', {
         url: '/versions?id',
-        templateUrl: 'app/components/designer/flows/versions/versions.html',
+        templateUrl: 'app/components/flows/flowManagement/versions/versions.html',
         controller: 'VersionsController',
         reloadOnSearch: false
       })
-      .state('content.designer.editor', {
+      .state('content.flows.editor', {
         url: '/editor/:flowId/:versionId?v=:version',
-        templateUrl: 'app/components/designer/designer/designerPage.html',
+        templateUrl: 'app/components/flows/flowDesigner/flowDesignerPage.html',
         controller: 'DesignerPageController',
         reloadOnSearch: false,
         resolve: {
@@ -159,23 +158,25 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
           }]
         }
       })
-      .state('content.designer.subflowEditor', {
-        url: '/subflow-editor/:parentName/:notationName/:parentFlowId/:parentVersionId/:subflowNotationId',
-        templateUrl: 'app/components/designer/subflow/subflowDesignerPage.html',
+      .state('content.flows.subflowEditor', {
+        url: '/subflow-editor/:subflowNotationId',
+        templateUrl: 'app/components/flows/subflow/subflowDesignerPage.html',
         controller: 'SubflowDesignerPageController',
         reloadOnSearch: false,
         resolve: {
-          subflow: ['$stateParams', 'SubflowCommunicationService', function($stateParams, SubflowCommunicationService) {
-            console.log($stateParams);
+          subflow: ['$stateParams', '$state', '$timeout', 'SubflowCommunicationService', function($stateParams, $state, $timeout, SubflowCommunicationService) {
+            if (SubflowCommunicationService.currentFlowContext === '') {
+              $timeout(function() { $state.go('content.flows.flowManagement'); }, 5);
+            }
             var subflow = SubflowCommunicationService.retrieve($stateParams.subflowNotationId);
             if (_.isUndefined(subflow)) {
               subflow = {
                 id: $stateParams.subflowNotationId,
                 graphJSON: '{"cells":[]}',
-                parentName: $stateParams.parentName,
-                notationName: $stateParams.notationName,
-                parentVersionId: $stateParams.parentVersionId,
-                parentFlowId: $stateParams.parentFlowId
+                parentName: SubflowCommunicationService.currentVersionContext.name,
+                notationName: SubflowCommunicationService.currentFlowNotationName,
+                parentVersionId: SubflowCommunicationService.currentVersionContext.version,
+                parentFlowId: SubflowCommunicationService.currentVersionContext.flowId
               };
             }
             return subflow;

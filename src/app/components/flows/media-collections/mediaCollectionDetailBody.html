@@ -1,0 +1,64 @@
+<div class="divider-header first-header">
+  <h4>Details</h4>
+</div>
+<div class="input-group">
+  <label>{{'value.name' | translate}}</label>
+  <div>
+    <form-error field="detailsForm.name" error-type-api="{{'media.details.name.error' | translate}}" error-type-required="{{'media.details.name.error' | translate}}"></form-error>
+    <input type="text" ng-required="true" ng-model="resource.name" name="name"></input>
+  </div>
+</div>
+<div class="input-group">
+  <label>{{'value.description' | translate}}</label>
+  <div>
+    <form-error field="detailsForm.description" error-type-api="{{'media.details.description.error' | translate}}" error-type-required="{{'media.details.description.error' | translate}}"></form-error>
+    <textarea ng-required="true" ng-model="resource.description" name="description"></textarea>
+  </div>
+</div>
+
+<div class="divider-header ">
+  <h4>Media Mappings</h4>
+</div>
+
+<div class="clear">
+  <a class="btn pull-right" ng-click="resource.mediaMap.push({});  detailsForm.$dirty = true;"><i class="fa fa-plus"></i></a>
+</div>
+
+<table class="media-collection-table" >
+  <thead>
+    <th>{{'value.identifier' | translate}}</th>
+    <th>{{'value.media' | translate}}</th>
+    <th>&nbsp;</th>
+  </thead>
+  <tbody>
+    <tr ng-repeat="mapping in resource.mediaMap">
+      <td>
+        <input type="text" ng-model="mapping.lookup" ng-required="true"/>
+      </td>
+      <td>
+        <div class="modify-media-box" ng-class="{'edit': editMode === true}">
+          <div class="label-container" ng-click="editMode = !editMode">
+            <div class="label" ng-show="mapping.id">{{mapping.id}}</div>
+            <div class="label" ng-show="!mapping.id">Add Media</div>
+            <i class="fa" ng-class="{'fa-caret-down': !editMode, 'fa-caret-up':editMode}"></i>
+          </div>
+
+          <div class="media-edit-box" ng-show="editMode">
+            <type-ahead
+              object-type="mediaType"
+              items="medias"
+              selected-item="selectedMedia"
+              name-field="source"
+              on-select="mapping.id = selectedMedia.id; editMode = false; detailsForm.$dirty = true; selectedMedia = null;"></type-ahead>
+            <input ng-click="createMediaMapping(mapping); detailsForm.$dirty = true;" type="button" value="{{'media.collections.media.new' | translate}}" class="btn btn-primary new-media-btn" />
+          </div>
+        </div>
+      </td>
+      <td>
+        <i class="fa fa-times remove" ng-click="resource.mediaMap.splice($index, 1); detailsForm.$dirty = true;"></i>
+      </td>
+    </tr>
+
+  </tbody>
+</table>
+

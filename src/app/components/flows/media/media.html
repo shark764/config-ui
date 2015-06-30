@@ -1,0 +1,20 @@
+<table-controls
+  id="table-pane"
+  config="tableConfig"
+  items="medias"
+  selected="selectedMedia"
+  resource-name="{{'tenants:' + Session.tenant.tenantId + ':media'}}"></table-controls>
+
+<resize-handle
+  id="resize-pane"
+  right-element-id="details-pane"
+  left-element-id="table-pane"
+  left-min-width="600"
+  right-min-width="400" ></resize-handle>
+
+<resource-details
+  id="details-pane"
+  extend-scope="additional"
+  header-template-url="app/components/flows/media/mediaDetailHeader.html"
+  body-template-url="app/components/flows/media/mediaDetailBody.html"
+  original-resource="selectedMedia"></resource-details>

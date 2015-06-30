@@ -1,20 +1,24 @@
 <div ng-if="originalResource.id">
-  <div class="pull-left">
-    <toggle class="status-toggle" ng-model="resource.active"></toggle>
-  </div>
+  <toggle class="status-toggle" ng-model="resource.active"></toggle>
 
   <div class="info pull-left">
     <h1>{{originalResource.name}}</h1>
     <div class="details">
-      <b translate="value.createdby" translate-value-date="{{originalResource.created | date:'medium'}}" translate-value-creator="{{creator.displayName}}"></b>
+      <b audit-text
+        translation="value.createdby.time"
+        user-id="originalResource.createdBy"
+        date="originalResource.created">
+      </b>
       <br/>
-      <b ng-if="originalResource.updatedBy" translate="value.updatedby" translate-value-date="{{originalResource.updated | date:'medium'}}" translate-value-updater="{{updater.displayName}}"></b>
+      <b audit-text ng-if="!!originalResource.updatedBy"
+        translation="value.updatedby"
+        user-id="originalResource.updatedBy"
+        date="originalResource.updated">
+      </b>
     </div>
   </div>
 </div>
 
 <div ng-if="! originalResource.id">
-  <div class="info">
     <h1>Creating New Dispatch Mapping</h1>
-  </div>
 </div>

@@ -13,6 +13,10 @@ exports.config = {
     'browserName': 'chrome'
   },
 
+  // Timeout time ni milliseconds; prevents Protractor waiting to synchronize timeouts
+  // Defaults to 11 seconds
+  allScriptsTimeout: 20000,
+
   // This can be changed via the command line as:
   // --params.login.user 'ngrocks'
   params: {
@@ -41,7 +45,7 @@ exports.config = {
       paths.e2e + '/login/**/*.spec.js',
       paths.e2e + '/navigation/**/*.spec.js',
       paths.e2e + '/search.spec.js',
-      paths.e2e + '/userProfile/**/*.spec.js',
+      paths.e2e + '/userProfile/**/*.spec.js'
     ],
     regression: [paths.e2e + '/**/*.spec.js']
   },
@@ -50,10 +54,13 @@ exports.config = {
   // protractor is called.
   specs: [
     paths.e2e + '/login/login.spec.js',
-    paths.e2e + '/navigation/**/*.spec.js',
+    paths.e2e + '/navigation/sidebar.spec.js',
     paths.e2e + '/management/**/*.spec.js',
     paths.e2e + '/configuration/**/*.spec.js',
-    paths.e2e + '/userProfile/**/*.spec.js'
+    paths.e2e + '/userProfile/**/*.spec.js',
+    paths.e2e + '/designer/newflow.spec.js',
+    paths.e2e + '/designer/flows.spec.js',
+    paths.e2e + '/search.spec.js'
   ],
 
   framework: 'jasmine2',

@@ -41,33 +41,38 @@ describe('The flows view', function() {
     expect(element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(2) > span:nth-child(1)')).getText()).toContain(flows.nameFormField.getAttribute('value'));
 
     // Change selected flow and ensure details are updated
-    flows.secondTableRow.click();
-    expect(element(by.css('tr.ng-scope:nth-child(2) > td:nth-child(2) > span:nth-child(1)')).getText()).toContain(flows.nameFormField.getAttribute('value'));
+    shared.tableElements.count().then(function(numFlows) {
+      if (numFlows > 1) {
+        flows.secondTableRow.click();
+        expect(element(by.css('tr.ng-scope:nth-child(2) > td:nth-child(2) > span:nth-child(1)')).getText()).toContain(flows.nameFormField.getAttribute('value'));
+      }
+    });
   });
 
   it('should allow the Flow fields to be updated', function() {
     flowVersionCount = flows.versionsTableElements.count().then(function(curFlowVersionCount) {
-      // Select first queue from table
+      randomFlow = Math.floor((Math.random() * 1000) + 1);
       flows.firstTableRow.click();
 
       // Edit fields
       flows.nameFormField.sendKeys('Edit');
       flows.descriptionFormField.sendKeys('Edit');
-      var versionSelected = (randomFlow % curFlowVersionCount) + 1;
+      var versionSelected = randomFlow % curFlowVersionCount;
       flows.activeVersionDropdown.all(by.css('option')).get(versionSelected).click();
+      flows.typeFormDropdown.all(by.css('option')).get((randomFlow % 3) + 1).click();
 
       var editedName = flows.nameFormField.getAttribute('value');
       var editedDescription = flows.descriptionFormField.getAttribute('value');
       var editedActiveVersion = flows.activeVersionDropdown.getAttribute('value');
-      shared.submitFormBtn.click();
+      shared.submitFormBtn.click().then(function() {
+        expect(shared.successMessage.isDisplayed()).toBeTruthy();
 
-      expect(shared.successMessage.isDisplayed()).toBeTruthy();
-
-      // Changes persist
-      browser.refresh();
-      expect(flows.nameFormField.getAttribute('value')).toBe(editedName);
-      expect(flows.descriptionFormField.getAttribute('value')).toBe(editedDescription);
-      expect(flows.activeVersionDropdown.getAttribute('value')).toBe(editedActiveVersion);
+        // Changes persist
+        browser.refresh();
+        expect(flows.nameFormField.getAttribute('value')).toBe(editedName);
+        expect(flows.descriptionFormField.getAttribute('value')).toBe(editedDescription);
+        expect(flows.activeVersionDropdown.getAttribute('value')).toBe(editedActiveVersion);
+      });
     });
   });
 
@@ -91,7 +96,7 @@ describe('The flows view', function() {
     flows.descriptionFormField.clear();
     flows.nameFormField.click();
 
-    shared.submitFormBtn.click().then(function () {
+    shared.submitFormBtn.click().then(function() {
       expect(shared.tableElements.count()).toBe(flowCount);
       expect(shared.successMessage.isDisplayed()).toBeTruthy();
     });
@@ -99,7 +104,7 @@ describe('The flows view', function() {
 
   it('should reset fields after editing and selecting Cancel', function() {
     flowVersionCount = flows.versionsTableElements.count().then(function(curFlowVersionCount) {
-      // Select first queue from table
+      randomFlow = Math.floor((Math.random() * 1000) + 1);
       flows.firstTableRow.click();
 
       var originalName = flows.nameFormField.getAttribute('value');
@@ -110,8 +115,9 @@ describe('The flows view', function() {
       // Edit fields
       flows.nameFormField.sendKeys('Edit');
       flows.descriptionFormField.sendKeys('Edit');
-      var versionSelected = (randomFlow % curFlowVersionCount) + 1;
+      var versionSelected = randomFlow % curFlowVersionCount;
       flows.activeVersionDropdown.all(by.css('option')).get(versionSelected).click();
+      flows.typeFormDropdown.all(by.css('option')).get((randomFlow % 3) + 1).click();
 
       shared.cancelFormBtn.click();
 
@@ -125,56 +131,120 @@ describe('The flows view', function() {
     });
   });
 
-  xit('should display all flow versions in Active Version dropdown', function() {
+  it('should display all flow versions in Active Version dropdown', function() {
     flows.firstTableRow.click();
-    expect(flows.versionsTableElements.count()).toBe(flows.activeVersionDropdown.all(by.css('option')).count());
-  });
-
-  xit('should add new flow version', function() {
-    flowVersionCount = flows.versionsTableElements.count();
-    randomFlowVersion = Math.floor((Math.random() * 1000) + 1);
-    flows.firstTableRow.click();
-
-    flows.versionNameFormField.sendKeys('Flow Version ' + randomFlowVersion);
-    flows.versionDescriptionFormField.sendKeys('Description for flow version ' + randomFlowVersion);
-
-    flow.createVersionBtn.click().then(function() {
-      expect(flows.versionNameFormField.getAttribute('value')).toBe('');
-      expect(flows.versionDescriptionFormField.getAttribute('value')).toBe('');
-      expect(flows.versionsTableElements.count()).toBeGreaterThan(flowVersionCount);
-      expect(flows.versionsTableElements.count()).toBe(flows.activeVersionDropdown.all(by.css('option')).count());
+    flows.activeVersionDropdown.all(by.css('option')).then(function(dropdownVersions) {
+      for (var i = 1; i < dropdownVersions.length; ++i) {
+        expect(flows.versionsTableElements.get(i - 1).getText()).toContain(flows.activeVersionDropdown.all(by.css('option')).get(i).getText());
+      };
     });
   });
 
-  xit('should require name when adding a new flow version', function() {
-    flowVersionCount = flows.versionsTableElements.count();
-    randomFlowVersion = Math.floor((Math.random() * 1000) + 1);
+  it('should display button to new flow version and correct fields', function() {
     flows.firstTableRow.click();
 
-    flows.versionNameFormField.click();
-    flows.versionDescriptionFormField.sendKeys('Description for flow version ' + randomFlowVersion);
-    expect(flows.createVersionBtn.getAttribute('disabled')).toBeTruthy();
+    // Create Flow version details not displayed be default
+    expect(flows.showCreateNewVersionBtn.isDisplayed()).toBeTruthy();
+    expect(flows.versionNameFormField.isDisplayed()).toBeFalsy();
+    expect(flows.versionDescriptionFormField.isDisplayed()).toBeFalsy();
+    expect(flows.cancelVersionFormBtn.isDisplayed()).toBeFalsy();
+    expect(flows.createVersionFormBtn.isDisplayed()).toBeFalsy();
 
-    flow.createVersionBtn.click();
+    flows.showCreateNewVersionBtn.click();
+    expect(flows.showCreateNewVersionBtn.isDisplayed()).toBeFalsy();
+    expect(flows.versionNameFormField.isDisplayed()).toBeTruthy();
+    expect(flows.versionDescriptionFormField.isDisplayed()).toBeTruthy();
+    expect(flows.cancelVersionFormBtn.isDisplayed()).toBeTruthy();
+    expect(flows.createVersionFormBtn.isDisplayed()).toBeTruthy();
+  });
+
+  it('should hide flow version fields on cancel', function() {
+    flows.firstTableRow.click();
+    flows.showCreateNewVersionBtn.click();
+    expect(flows.showCreateNewVersionBtn.isDisplayed()).toBeFalsy();
+    expect(flows.versionNameFormField.isDisplayed()).toBeTruthy();
+    expect(flows.versionDescriptionFormField.isDisplayed()).toBeTruthy();
+    expect(flows.cancelVersionFormBtn.isDisplayed()).toBeTruthy();
+    expect(flows.createVersionFormBtn.isDisplayed()).toBeTruthy();
+
+    // Create Flow version details no longer displayed after selecting Cancel
+    flows.cancelVersionFormBtn.click();
+    expect(flows.showCreateNewVersionBtn.isDisplayed()).toBeTruthy();
+    expect(flows.versionNameFormField.isDisplayed()).toBeFalsy();
+    expect(flows.versionDescriptionFormField.isDisplayed()).toBeFalsy();
+    expect(flows.cancelVersionFormBtn.isDisplayed()).toBeFalsy();
+    expect(flows.createVersionFormBtn.isDisplayed()).toBeFalsy();
+  });
+
+  it('should add new flow version', function() {
+    flowVersionCount = flows.versionsTableElements.count();
+    randomFlow = Math.floor((Math.random() * 1000) + 1);
+    flows.firstTableRow.click();
+    flows.showCreateNewVersionBtn.click();
+
+    flows.versionNameFormField.sendKeys('Flow Version ' + randomFlow);
+    flows.versionDescriptionFormField.sendKeys('Description for flow version ' + randomFlow);
+
+    flows.createVersionFormBtn.click().then(function() {
+      expect(flows.versionNameFormField.getAttribute('value')).toBe('');
+      expect(flows.versionDescriptionFormField.getAttribute('value')).toBe('');
+      expect(flows.versionsTableElements.count()).toBeGreaterThan(flowVersionCount);
+      flows.activeVersionDropdown.all(by.css('option')).then(function(dropdownVersions) {
+        for (var i = 1; i < dropdownVersions.length; ++i) {
+          expect(flows.versionsTableElements.get(i - 1).getText()).toContain(flows.activeVersionDropdown.all(by.css('option')).get(i).getText());
+        };
+      });
+    });
+  });
+
+  it('should require name when adding a new flow version', function() {
+    flowVersionCount = flows.versionsTableElements.count();
+    randomFlow = Math.floor((Math.random() * 1000) + 1);
+    flows.firstTableRow.click();
+    flows.showCreateNewVersionBtn.click();
+
+    flows.versionNameFormField.click();
+    flows.versionDescriptionFormField.sendKeys('Description for flow version ' + randomFlow);
+    expect(flows.createVersionFormBtn.getAttribute('disabled')).toBeTruthy();
+
+    flows.createVersionFormBtn.click();
     expect(flows.requiredErrors.get(3).isDisplayed()).toBeTruthy();
     expect(flows.requiredErrors.get(3).getText()).toBe('Field \"Name\" is required.');
 
     expect(flows.versionsTableElements.count()).toBe(flowVersionCount);
-    expect(flows.versionsTableElements.count()).toBe(flows.activeVersionDropdown.all(by.css('option')).count());
   });
 
-  xit('should not require describe when adding a new flow version', function() {
+  it('should not require description when adding a new flow version', function() {
     flowVersionCount = flows.versionsTableElements.count();
-    randomFlowVersion = Math.floor((Math.random() * 1000) + 1);
+    randomFlow = Math.floor((Math.random() * 1000) + 1);
     flows.firstTableRow.click();
+    flows.showCreateNewVersionBtn.click();
 
     flows.versionDescriptionFormField.click();
-    flows.versionNameFormField.sendKeys('Flow Version ' + randomFlowVersion);
+    flows.versionNameFormField.sendKeys('Flow Version ' + randomFlow);
 
-    flow.createVersionBtn.click().then(function() {
+    flows.createVersionFormBtn.click().then(function() {
       expect(flows.versionNameFormField.getAttribute('value')).toBe('');
       expect(flows.versionsTableElements.count()).toBeGreaterThan(flowVersionCount);
-      expect(flows.versionsTableElements.count()).toBe(flows.activeVersionDropdown.all(by.css('option')).count());
     });
+  });
+
+  it('should not accept spaces only as valid field input when creating flow version', function() {
+    flowVersionCount = flows.versionsTableElements.count();
+    flows.firstTableRow.click();
+    flows.showCreateNewVersionBtn.click();
+
+    flows.versionNameFormField.sendKeys(' ');
+    flows.versionDescriptionFormField.sendKeys(' ');
+
+    // Submit button is still disabled
+    expect(flows.createVersionFormBtn.getAttribute('disabled')).toBeTruthy();
+    flows.createVersionFormBtn.click();
+
+    expect(flows.requiredErrors.get(3).isDisplayed()).toBeTruthy();
+    expect(flows.requiredErrors.get(3).getText()).toBe('Field \"Name\" is required.');
+
+    expect(flows.versionsTableElements.count()).toBe(flowVersionCount);
+    expect(shared.successMessage.isPresent()).toBeFalsy();
   });
 });
