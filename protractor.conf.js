@@ -55,6 +55,7 @@ exports.config = {
   specs: [
     paths.e2e + '/login/login.spec.js',
     paths.e2e + '/navigation/sidebar.spec.js',
+    paths.e2e + '/tableControls/**/*.spec.js',
     paths.e2e + '/management/**/*.spec.js',
     paths.e2e + '/configuration/**/*.spec.js',
     paths.e2e + '/userProfile/**/*.spec.js',
