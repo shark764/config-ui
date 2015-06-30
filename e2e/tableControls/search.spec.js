@@ -1,8 +1,8 @@
 'use strict';
 
 describe('The table search', function() {
-  var loginPage = require('./login/login.po.js'),
-    shared = require('./shared.po.js'),
+  var loginPage = require('../login/login.po.js'),
+    shared = require('../shared.po.js'),
     params = browser.params,
     elementCount;
 
