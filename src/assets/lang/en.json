@@ -91,6 +91,7 @@
   "queue.details.saveNewVersion" : "Save New Version",
   "queue.details.createNewVersion" : "Create New Version",
   "queue.details.activeVersion" : "Active Version",
+  "queue.details.name.error": "Please enter a name",
 
   "media.details": "Media",
   "media.details.source.error": "Please enter a source",
