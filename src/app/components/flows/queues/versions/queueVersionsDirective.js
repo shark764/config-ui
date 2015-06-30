@@ -4,27 +4,34 @@ angular.module('liveopsConfigPanel')
   .controller('QueueVersionsController', ['$scope', 'Session', 'QueueVersion',
     function ($scope, Session, QueueVersion) {
       $scope.saving = false;
+      $scope.versions = [];
 
       $scope.fetch = function () {
-        angular.copy([], $scope.versions);
 
-        QueueVersion.query({
-          tenantId: Session.tenant.tenantId,
-          queueId: $scope.queue.id
-        }, function (versions) {
-          $scope.versions = angular.copy(versions, $scope.versions);
+        if($scope.queue && $scope.queue.id) {
 
-          if ($scope.queue.activeVersion !== null){
-            for(var i = 0; i < $scope.versions.length; i++){
-              if ($scope.versions[i].version === $scope.queue.activeVersion){
-                $scope.currVersion = $scope.versions[i];
-              }
+          QueueVersion.query({
+            tenantId: Session.tenant.tenantId,
+            queueId: $scope.queue.id
+          }, function (versions) {
+
+            $scope.versions.length = 0;
+
+            for(var i = 0; i < versions.length; i++){
+              $scope.versions.push(versions[i]);
             }
-          } else {
-            $scope.currVersion = null;
-          }
 
-        });
+            if ($scope.queue.activeVersion !== null){
+              for(var i = 0; i < $scope.versions.length; i++){
+                if ($scope.versions[i].version === $scope.queue.activeVersion){
+                  $scope.currVersion = $scope.versions[i];
+                }
+              }
+            } else {
+              $scope.currVersion = null;
+            }
+          });
+        }
       };
 
       $scope.currVersionChanged = function(){
@@ -81,10 +88,11 @@ angular.module('liveopsConfigPanel')
           $scope.cleanHandler();
         }
 
-        $scope.cleanHandler = $scope.$on(
-          'created:resource:tenants:' + Session.tenant.tenantId + ':queues:' + $scope.queue.id + ':versions',
-          $scope.pushNewItem);
-
+        if($scope.queue && $scope.queue.id){
+          $scope.cleanHandler = $scope.$on(
+            'created:resource:tenants:' + Session.tenant.tenantId + ':queues:' + $scope.queue.id + ':versions',
+            $scope.pushNewItem);
+        }
 
       });
     }
@@ -92,8 +100,7 @@ angular.module('liveopsConfigPanel')
   .directive('queueVersions', [function () {
     return {
       scope: {
-        queue: '=',
-        versions: '='
+        queue: '='
       },
       templateUrl: 'app/components/flows/queues/versions/queueVersions.html',
       controller: 'QueueVersionsController'

@@ -11,7 +11,7 @@ angular.module('liveopsConfigPanel')
           'name': 'description'
         }, {
           'header': 'Active Version',
-          'name': 'activeVersionName'
+          'templateUrl': 'app/components/flows/queues/activeVersionName.html'
         }, {
           'header': 'Status',
           'name': 'status',

@@ -65,7 +65,7 @@
 <div class="input-group">
   <label>{{'dispatchMappings.details.flow' | translate}}</label>
   <div>
-    <select ng-model="resource.flowId" name="flowId" ng-options="flow.id as flow.name for flow in flows">
+    <select api-error ng-model="resource.flowId" name="flowId" ng-options="flow.id as flow.name for flow in flows">
     </select>
   </div>
 </div>
