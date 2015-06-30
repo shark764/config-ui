@@ -66,9 +66,4 @@ describe('QueueController', function() {
         expect($scope.queues[0].id).toEqual(queues[0].id);
         expect($scope.queues[1].id).toEqual(queues[1].id);
     });
-
-    it('should load the queue that\'s defined routeParam on init', function() {
-      expect($scope.selectedQueue).toBeDefined();
-      expect($scope.selectedQueue.id).toEqual(queues[0].id);
-    });
 });
