@@ -87,12 +87,6 @@ angular.module('liveopsConfigPanel')
             }
           });
 
-          /**
-            Params can be a function or object.
-
-            If it is a function
-
-          **/
           Resource.prototype.save = function (params, success, failure) {
             var self = this;
             this.$busy = true;

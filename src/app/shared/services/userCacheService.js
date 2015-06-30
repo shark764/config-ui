@@ -2,12 +2,12 @@
 
 angular.module('liveopsConfigPanel')
   .service('UserCache', ['$q', 'User', 'UUIDCache', function ($q, User, UUIDCache) {
-    this.get = function (id, callback) {
+    this.get = function (id) {
       var deferred = $q.defer();
       if (id) {
         var cached = UUIDCache.get(id);
         if (cached) {
-          deferred.resolve(cached)
+          deferred.resolve(cached);
           return angular.extend({
             $promise: deferred.promise,
           }, cached);
@@ -22,7 +22,7 @@ angular.module('liveopsConfigPanel')
           });
         }
       }
-      
+
       deferred.reject('id_not_set');
       return {
         $promise: deferred.promise

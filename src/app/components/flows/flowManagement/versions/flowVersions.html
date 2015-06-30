@@ -1,0 +1,52 @@
+<div class="divider-header">
+  <h4>Versions</h4>
+</div>
+
+<div class="clear">
+  <a id="show-create-new-version" ng-hide="createNewVersion" class="btn pull-right" ng-click="createNewVersion = true"><i class="fa fa-plus"></i></a>
+</div>
+
+<div ng-show="createNewVersion">
+  <div class="divider-header">
+    <h4>{{'flow.details.versions.create.title' | translate }}</h4>
+  </div>
+
+  <ng-form name="createVersionForm" seperate-validation>
+    <div class="input-group">
+      <label>{{'value.name' | translate}}</label>
+      <form-error field="createVersionForm.name"
+      error-type-required="{{'value.error.name.required' | translate}}"></form-error>
+      <input ng-required="true" type="text" ng-model="version.name" name="name"></input>
+    </div>
+
+    <div class="input-group">
+      <label>Description</label>
+      <input type="text" ng-model="version.description" name="description"></input>
+    </div>
+    <div class="flow-controls input-group">
+      <label></label>
+      <input id="cancel-flow-version-btn" type="button" ng-click="createNewVersion = false" class="btn" value="Cancel" />
+      <input id="create-flow-version-btn" ng-disabled="createVersionForm.$invalid || !createVersionForm.$dirty"
+        ng-click="saveVersion()" type="submit" class="btn btn-primary" value="{{ 'value.create' | translate }}"/>
+    </div>
+  </ng-form>
+</div>
+
+<loading ng-show="versions.length == 0"></loading>
+
+<table id="flow-details-versions-table" ng-show="versions.length > 0">
+  <thead>
+    <th>&nbsp;</th>
+    <th>{{'value.name' | translate}}</th>
+    <th>{{'value.createdOn' | translate}}</th>
+    <th>{{'value.createdBy' | translate}}</th>
+  </thead>
+  <tr ng-repeat="version in versions | orderBy:'created':'reverse'">
+    <td><a href="#/flows/editor/{{version.flowId}}/{{version.version}}?v={{version.v}}">v{{version.v}}</a></td>
+    <td>{{version.name}}</td>
+    <td>{{version.created | date:'medium'}}</td>
+    <td>
+      <audit-text translation="value.displayName" user-id="version.createdBy"></audit-text>
+    </td>
+  </tr>
+</table>

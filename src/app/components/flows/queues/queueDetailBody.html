@@ -1,0 +1,31 @@
+<div ng-show="resource.id" class="divider-header first-header">
+  <h4>Details</h4>
+</div>
+
+<div class="input-group">
+  <label>{{'value.name' | translate}} *</label>
+  <div>
+    <form-error field="detailsForm.name"
+    error-type-api="{{'queue.details.name.error' | translate}}"
+    error-type-required="{{'value.error.name.required' | translate}}"></form-error>
+    <input type="text" ng-required="true" ng-model="resource.name" name="name"></input>
+  </div>
+</div>
+
+<div class="input-group">
+  <label class="textarea-label">{{'value.description' | translate}}</label>
+  <div>
+    <textarea ng-model="resource.description"></textarea>
+  </div>
+</div>
+<div ng-if="!resource.id">
+  <div class="input-group">
+    <label class="textarea-label">{{'value.details.query' | translate}}</label>
+    <form-error field="createVersionForm.query"
+    error-type-required="{{'value.error.query.required' | translate}}"></form-error>
+    <textarea ng-required="true" type="text" ng-model="extendScope.initialQuery" name="query"></textarea>
+  </div>
+</div>
+<div ng-if="resource.id">
+  <queue-versions queue="resource"></queue-versions>
+</div>

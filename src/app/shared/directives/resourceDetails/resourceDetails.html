@@ -2,17 +2,17 @@
 
 <ng-form ng-show="resource" class="details-form" name="detailsForm">
 
-  <div ng-if="headerTemplateUrl" class="details-header detail-header-pane" ng-include src="headerTemplateUrl">
+  <div ng-show="headerTemplateUrl" class="details-header detail-header-pane" ng-include src="headerTemplateUrl">
   </div>
 
-  <div ng-if="bodyTemplateUrl" class="detail-body-pane" ng-include src="bodyTemplateUrl">
+  <div ng-show="bodyTemplateUrl" class="detail-body-pane" ng-include src="bodyTemplateUrl">
   </div>
 
-  <div class="detail-controls-pane" ng-if="footerTemplateUrl" ng-include src="footerTemplateUrl">
+  <div class="detail-controls-pane" ng-show="footerTemplateUrl" ng-include src="footerTemplateUrl">
 
   </div>
 
-  <div class="detail-controls-pane" ng-if"!!footerTemplateUrl" ng-hide="footerTemplateUrl">
+  <div class="detail-controls-pane" ng-show"!!footerTemplateUrl" ng-hide="footerTemplateUrl">
     <input id="cancel-details-btn" type="button" class="btn" ng-click="cancel()" value="{{'value.cancel' | translate}}"></input>
     <input id="submit-details-btn" ng-hide="resource.$busy" ng-click="save()" ng-disabled="detailsForm.$invalid || ! detailsForm.$dirty" class="btn btn-primary" type="submit" value="{{'value.submit' | translate}}" />
     <a ng-show="resource.$busy" ng-disabled="true" class="btn btn-primary"><i class="fa fa-refresh fa-spin"></i></a>
