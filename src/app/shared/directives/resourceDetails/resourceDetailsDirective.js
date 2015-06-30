@@ -34,9 +34,8 @@ angular.module('liveopsConfigPanel')
         };
 
         $scope.handleSuccess = function (result) {
-          console.log('handling success');
-
           $scope.resetForm();
+          angular.copy($scope.resource, $scope.originalResource);
           toastr.success('Record ' + ($scope.resource.id ? 'updated' : 'saved'));
         };
 

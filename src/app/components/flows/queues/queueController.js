@@ -18,10 +18,8 @@ angular.module('liveopsConfigPanel')
       });
 
       var promise = iqv.save().then(function (versionResult) {
-        console.log('saved initial queue version');
         queue.activeVersion = versionResult.version;
-        var tmpPromise = queue.save();
-        return tmpPromise;
+        return queue.save();
       });
 
       return promise;
