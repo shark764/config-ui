@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('InvitesController', ['$scope', 'Session', 'Invite', 'InviteAccept', 'Tenant', 'AuthService', 'toastr',
-    function ($scope, Session, Invite, InviteAccept, Tenant, AuthService, toastr) {
+  .controller('InvitesController', ['$scope', 'Session', 'Invite', 'InviteAccept', 'Tenant', 'AuthService', 'Alert',
+    function ($scope, Session, Invite, InviteAccept, Tenant, AuthService, Alert) {
 
 
       $scope.tenants = Tenant.query({regionId : Session.activeRegionId}, function () {
@@ -34,7 +34,7 @@ angular.module('liveopsConfigPanel')
           $scope.newInvite.tenantId = prevTenant;
           $scope.fetchInvites();
         }, function () {
-          toastr.error('Failed to create invite');
+          Alert.error('Failed to create invite');
         });
       };
 
@@ -44,20 +44,20 @@ angular.module('liveopsConfigPanel')
 
       $scope.remove = function(invite){
         invite.$delete({tenantId: invite.tenantId, userId: invite.userId, token: invite.invitationToken}, function(){
-          toastr.success('Succesfully removed invitation');
+          Alert.success('Succesfully removed invitation');
           $scope.fetchInvites();
         }, function () {
-          toastr.error('Failed to remove invitation');
+          Alert.error('Failed to remove invitation');
         });
       };
 
       $scope.resend = function(invite){
         //Using the Invite service here so it doesn't send all params on create.
         invite = Invite.save({verb: 'resend', tenantId: invite.tenantId}, {userId: invite.userId, token: invite.invitationToken}, function (){
-          toastr.success('Successfully resent invitation');
+          Alert.success('Successfully resent invitation');
           $scope.fetchInvites();
         }, function () {
-          toastr.error('Failed to resend invitation');
+          Alert.error('Failed to resend invitation');
         });
       };
   }]);

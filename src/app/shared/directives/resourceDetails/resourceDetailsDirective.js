@@ -1,7 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('resourceDetails', ['toastr', '$rootScope', function(toastr, $rootScope) {
+  .directive('resourceDetails', ['Alert', '$rootScope', function(Alert, $rootScope) {
+
     return {
       restrict: 'E',
       scope: {
@@ -53,12 +54,12 @@ angular.module('liveopsConfigPanel')
         $scope.handleSuccess = function (resource) {
           $scope.resetForm();
           angular.copy($scope.resource, $scope.originalResource);
-          toastr.success('Record ' + ($scope.resource.id ? 'updated' : 'saved'));
+          Alert.success('Record ' + ($scope.resource.id ? 'updated' : 'saved'));
           return resource;
         };
 
         $scope.handleErrors = function (error) {
-          toastr.error('Record failed to ' + ($scope.resource.id ? 'update' : 'save'));
+          Alert.error('Record failed to ' + ($scope.resource.id ? 'update' : 'save'));
 
           if (error.data.error) {
 
@@ -87,18 +88,36 @@ angular.module('liveopsConfigPanel')
         });
 
         $scope.cancel = function () {
-          angular.copy($scope.originalResource, $scope.resource);
-          $scope.resetForm();
-          $scope.$emit('resource:details:' + $scope.resourceName + ':canceled');
+          if ($scope.detailsForm.$dirty){
+            Alert.confirm('You have unsaved changes that will be lost. Click OK to continue and discard your changes.', 
+                function(){
+                  angular.copy($scope.originalResource, $scope.resource);
+                  $scope.resetForm();
+                  $scope.$emit('resource:details:' + $scope.resourceName + ':canceled');
+                },
+                angular.noop
+            );
+          }
         };
 
         $scope.resetForm = function () {
           $scope.detailsForm.$setPristine();
           $scope.detailsForm.$setUntouched();
         };
-
+        
         $scope.$on('resource:details:' + $scope.resourceName + ':cancel', function() {
           $scope.cancel();
+        });
+        
+        $rootScope.$on('$stateChangeStart', function(event){
+          if ($scope.detailsForm.$dirty){
+            Alert.confirm('You have unsaved changes that will be lost. Click OK to continue, or click cancel to stay on this page.', 
+                angular.noop, 
+                function(){
+                  event.preventDefault();
+                }
+            );
+          }
         });
       }
     };

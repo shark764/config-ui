@@ -9,7 +9,7 @@ function flowDesigner() {
       templateUrl: 'app/components/flows/flowDesigner/flowDesignerDirective.html',
       replace: true,
       link: function() {},
-      controller: ['$scope', '$element', '$attrs', '$window', '$timeout', 'FlowInitService', 'FlowConversionService', 'SubflowCommunicationService', 'FlowNotationService', 'FlowVersion', 'Session', 'toastr', '$state', function($scope, $element, $attrs, $window, $timeout, FlowInitService, FlowConversionService, SubflowCommunicationService, FlowNotationService, FlowVersion, Session, toastr, $state) {
+      controller: ['$scope', '$element', '$attrs', '$window', '$timeout', 'FlowInitService', 'FlowConversionService', 'SubflowCommunicationService', 'FlowNotationService', 'FlowVersion', 'Session', 'Alert', '$state', function($scope, $element, $attrs, $window, $timeout, FlowInitService, FlowConversionService, SubflowCommunicationService, FlowNotationService, FlowVersion, Session, Alert, $state) {
 
         $timeout(function() {
           var graphOptions = {
@@ -60,13 +60,13 @@ function flowDesigner() {
               tenantId: Session.tenant.tenantId,
               flowId: $scope.flowVersion.flowId
             }, function() {
-              toastr.success('New flow version successfully created.');
+              Alert.success('New flow version successfully created.');
               $scope.flowVersion.v = parseInt($scope.flowVersion.v) + 1;
             }, function(error) {
               if (error.data.error.attribute === null) {
-                toastr.error('API rejected this flow -- likely invalid Alienese.', JSON.stringify(error, null, 2));
+                Alert.error('API rejected this flow -- likely invalid Alienese.', JSON.stringify(error, null, 2));
               } else {
-                toastr.error('API rejected this flow -- some other reason...', JSON.stringify(error, null, 2));
+                Alert.error('API rejected this flow -- some other reason...', JSON.stringify(error, null, 2));
               }
             });
           };
