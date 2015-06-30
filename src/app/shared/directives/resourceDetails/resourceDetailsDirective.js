@@ -117,15 +117,23 @@ angular.module('liveopsConfigPanel')
         
         $scope.$on('resizehandle:resize', function(event, info){
           if (info.rightWidth > 700){
-            $scope.twoCol = true;
+            $scope.$apply(function(){
+              $scope.twoCol = true;
+            });
           } else {
-            $scope.twoCol = false;
+            $scope.$apply(function(){
+              $scope.twoCol = false;
+            });
           }
           
           if (info.rightWidth < 450){
-            $scope.compactView = true;
+            $scope.$apply(function(){
+              $scope.compactView = true;
+            });
           } else {
-            $scope.compactView = false;
+            $scope.$apply(function(){
+              $scope.compactView = false;
+            });
           }
         });
       }

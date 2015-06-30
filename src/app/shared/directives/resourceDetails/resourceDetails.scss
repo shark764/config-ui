@@ -49,6 +49,10 @@
       width: 100%;
     }
     
+    .clear .btn {
+      margin-bottom: 10px;
+    }
+    
     .input-group {
       display: table;
       max-width: $max-control-width;
@@ -156,20 +160,20 @@
 }
 
 .details-form.compact-view .detail-body-pane {
-  .input-group {
+  .input-group, .detail-group {
     margin-left: 5px;
   }
   
-  .input-group > div{
+  .input-group > div {
     display: block;
   }
   
-  .input-group label {
+  .input-group label, .detail-group label {
     display: block;
-    margin: 10px 0 5px 0;
+    margin: 5px 0 5px 0;
   }
   
-  .divider-header+.input-group label {
+  .divider-header+.input-group label, .divider-header+.detail-group label {
     margin-top: 5px;
   }
 }
