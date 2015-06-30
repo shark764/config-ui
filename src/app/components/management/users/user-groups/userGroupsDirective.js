@@ -31,6 +31,10 @@ angular.module('liveopsConfigPanel')
         };
         
         $scope.save = function () {
+          if ($scope.selectedGroup === null){
+            return;
+          }
+          
           $scope.saving = true;
 
           if(!$scope.selectedGroup.id){
@@ -106,7 +110,7 @@ angular.module('liveopsConfigPanel')
         
         $scope.updateFiltered = function(){
           $scope.filtered = $filter('objectNegation')($scope.groups, 'id', $scope.userGroups, 'groupId');
-        }
+        };
 
         $scope.fetch = function () {
           if(!Session.tenant.tenantId){

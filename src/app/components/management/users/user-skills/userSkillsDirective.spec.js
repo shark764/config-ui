@@ -1,7 +1,7 @@
 'use strict';
 
 /* global spyOn, jasmine : false */
-describe('userGroups directive', function(){
+describe('userSkills directive', function(){
   var $scope,
     $httpBackend,
     apiHostname,
@@ -180,6 +180,7 @@ describe('userGroups directive', function(){
     });
     
     it('should set saving to true', function(){
+      isolateScope.selectedSkill = {};
       isolateScope.save();
       expect(isolateScope.saving).toBeTruthy();
     });

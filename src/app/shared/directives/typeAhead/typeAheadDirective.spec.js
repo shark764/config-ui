@@ -15,7 +15,7 @@ describe('typeAhead directive', function(){
   beforeEach(inject(['$compile', '$rootScope', function(_$compile_, $rootScope) {
     $compile = _$compile_;
     $scope = $rootScope.$new();
-    $scope.items = [{title : 'firstItem', extraProp: 'true'}, {title: 'secondItem'}, {title: 'thirdItem'}];
+    $scope.items = [{title : 'firstItem', extraProp: 'true'}, {title: 'secondItem'}, {title: 'secondItemAgain'}, {title: 'thirdItem'}];
     $scope.selectedItem = {id: '2'};
     $scope.selectFunction = function(){};
     
@@ -40,12 +40,27 @@ describe('typeAhead directive', function(){
     expect(isolateScope.currentText).toEqual('');
   });
   
+  it('should set item to null if there is no text', function() {
+    doDefaultCompile();
+    $scope.currentText = '';
+    $scope.$digest();
+    expect(isolateScope.selectedItem).toBeNull();
+  });
+  
   it('should do nothing if selected item changes to an object', function() {
     doDefaultCompile();
     isolateScope.currentText = 'some text';
     $scope.selectedItem = {id : '5'};
     $scope.$digest();
     expect(isolateScope.currentText).toEqual('some text');
+  });
+  
+  it('should add the highlight class to the first match', function() {
+    doDefaultCompile();
+    isolateScope.currentText = 'secondItem';
+    isolateScope.$digest();
+    var firstEle = angular.element(element.find('li')[0]);
+    expect(firstEle.hasClass('highlight')).toBeTruthy();
   });
   
   describe('currentText watch', function(){
