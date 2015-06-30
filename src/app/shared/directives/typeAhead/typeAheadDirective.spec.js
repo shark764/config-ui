@@ -47,6 +47,13 @@ describe('typeAhead directive', function(){
     expect(isolateScope.selectedItem).toBeNull();
   });
   
+  it('should set item to null if there is only whitespace', function() {
+    doDefaultCompile();
+    $scope.currentText = '                 ';
+    $scope.$digest();
+    expect(isolateScope.selectedItem).toBeNull();
+  });
+  
   it('should do nothing if selected item changes to an object', function() {
     doDefaultCompile();
     isolateScope.currentText = 'some text';
