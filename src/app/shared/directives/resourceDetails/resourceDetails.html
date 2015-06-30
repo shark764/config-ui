@@ -1,6 +1,6 @@
 <loading ng-if="! resource"></loading>
 
-<ng-form ng-class="{'two-col': twoCol, 'compact-view': compactView}" ng-show="resource" class="details-form" name="detailsForm">
+<ng-form resizable resizable-right ng-show="resource" class="details-form" name="detailsForm">
 
   <div ng-show="headerTemplateUrl" class="detail-header-pane" ng-include src="headerTemplateUrl">
   </div>

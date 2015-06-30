@@ -114,28 +114,6 @@ angular.module('liveopsConfigPanel')
           $scope.detailsForm.$setPristine();
           $scope.detailsForm.$setUntouched();
         };
-        
-        $scope.$on('resizehandle:resize', function(event, info){
-          if (info.rightWidth > 700){
-            $scope.$apply(function(){
-              $scope.twoCol = true;
-            });
-          } else {
-            $scope.$apply(function(){
-              $scope.twoCol = false;
-            });
-          }
-          
-          if (info.rightWidth < 450){
-            $scope.$apply(function(){
-              $scope.compactView = true;
-            });
-          } else {
-            $scope.$apply(function(){
-              $scope.compactView = false;
-            });
-          }
-        });
       }
     };
   }]);
