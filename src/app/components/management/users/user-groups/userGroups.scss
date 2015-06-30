@@ -10,12 +10,13 @@ user-groups {
     
     .btn {
       height: $input-height;
-      vertical-align: middle;
+      line-height: $input-height - 8px;
       width: $input-height;
     }
     
     type-ahead {
       padding-right: 8px;
+      width: $max-control-width;
     }
 
     & > * {
