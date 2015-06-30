@@ -11,7 +11,6 @@ angular.module('liveopsConfigPanel')
         $scope.errorTypes = {};
         angular.forEach($attrs.$attr, function(value, key){
           if(value.match(/error-type-+/)){
-            console.log(value);
             var errorName = value.replace(/error-type-/, '');
             $scope.errorTypes[errorName] = $attrs[key];
           }
