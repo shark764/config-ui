@@ -28,9 +28,9 @@ angular.module('liveopsConfigPanel')
             failureEventName = 'resource:details:failed'
           }
 
-          var promise = $scope.resource.save()
-          promise.then($scope.handleSuccess, $scope.handleErrors);
-          return promise.then($scope.$emit(successEventName), $scope.$emit(failureEventName))
+          return $scope.resource.save()
+            .then($scope.handleSuccess, $scope.handleErrors)
+            .then($scope.$emit(successEventName), $scope.$emit(failureEventName));
         };
 
         $scope.handleSuccess = function (resource) {
@@ -65,6 +65,10 @@ angular.module('liveopsConfigPanel')
           if(ov === null || typeof ov === 'undefined' ||
             ((ov.id && nv.id !== ov.id) || (ov.id && !nv.id))){
             $scope.resource = angular.copy($scope.originalResource);
+
+            window.resource = $scope.resource;
+            window.oResource = $scope.originalResource;
+            window.rddScope = $scope;
           }
         });
 

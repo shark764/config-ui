@@ -90,27 +90,20 @@ angular.module('liveopsConfigPanel')
             var self = this,
                 deferred = $q.defer(),
                 promise = deferred.promise,
+                action = self.isNew() ? self.$save : self.$update,
                 preEvent = self.isNew() ? self.preCreate : self.preUpdate,
                 postEvent = self.isNew() ? self.postCreate : self.postUpdate,
                 postEventFail = self.isNew() ? self.postCreateError : self.postUpdateError;
 
             self.$busy = true;
 
-            promise
-              .then(preEvent)
-              .then(function (params) {
-                return self.isNew() ? self.$save(params) : self.$update(params)
-              })
+            return action.call(self)
               .then(postEvent, postEventFail)
               .then(self.postSave, self.postSaveError)
               .finally(function (resource) {
                 self.$busy = false;
                 return resource;
               });
-
-            deferred.resolve();
-
-            return promise;
           };
 
           Resource.prototype.finally = function (resource) {
