@@ -3,7 +3,6 @@
 angular.module('liveopsConfigPanel')
   .factory('LiveopsResourceFactory', ['$http', '$resource', '$q', 'apiHostname', 'Session', 'SaveInterceptor',
     function ($http, $resource, $q, apiHostname, Session, SaveInterceptor) {
-
       function appendTransform(defaults, transform) {
         // We can't guarantee that the default transformation is an array
         defaults = angular.isArray(defaults) ? defaults : [defaults];
@@ -88,31 +87,33 @@ angular.module('liveopsConfigPanel')
           });
 
           Resource.prototype.save = function (params, success, failure) {
-            var self = this;
+            var self = this,
+                deferred = $q.defer(),
+                promise = deferred.promise,
+                preEvent = self.isNew() ? self.preCreate : self.preUpdate,
+                postEvent = self.isNew() ? self.postCreate : self.postUpdate,
+                postEventFail = self.isNew() ? self.postCreateError : self.postUpdateError;
+
             self.$busy = true;
 
-            var promise;
-            if (self.isNew()) {
-              promise = $q.when(self.preCreate(params));
-              return promise.then(function (params) {
-                  return self.$save(params);
-                })
-                .then(self.postCreate, self.postCreateError)
-                .then(self.postSave, self.postSaveError)
-                .finally(function () {
-                  self.$busy = false;
-                });
-            } else {
-              promise = $q.when(self.preUpdate(params));
-              return promise.then(function (params) {
-                  return self.$update(params);
-                })
-                .then(self.postUpdate, self.postUpdateError)
-                .then(self.postSave, self.postSaveError)
-                .finally(function () {
-                  self.$busy = false;
-                });
-            }
+            promise
+              .then(preEvent)
+              .then(function (params) {
+                self.isNew() ? self.$save(params) : self.$update(params)
+              })
+              .then(postEvent, postEventFail)
+              .then(self.postSave, self.postSaveError)
+              .finally(function () {
+                self.$busy = false;
+              });
+
+            deferred.resolve();
+
+            return promise;
+          };
+
+          Resource.prototype.finally = function (resource) {
+            resource.$busy = false;
           };
 
           Resource.prototype.preCreate = function (params) {
