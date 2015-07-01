@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('resourceDetails', ['toastr', 'lodash', function(toastr, _) {
+  .directive('resourceDetails', ['toastr', 'lodash', '$rootScope', function(toastr, _, $rootScope) {
     return {
       restrict: 'E',
       scope: {
@@ -30,7 +30,11 @@ angular.module('liveopsConfigPanel')
 
           return $scope.resource.save()
             .then($scope.handleSuccess, $scope.handleErrors)
-            .then($scope.$emit(successEventName), $scope.$emit(failureEventName));
+            .then(function () {
+              $rootScope.$broadcast(successEventName, $scope.resource)
+            }, function () {
+              $rootScope.$broadcast(failureEventName)
+            });
         };
 
         $scope.handleSuccess = function (resource) {
