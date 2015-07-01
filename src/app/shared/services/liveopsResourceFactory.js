@@ -97,17 +97,21 @@ angular.module('liveopsConfigPanel')
 
             self.$busy = true;
 
-            return action.call(self)
+            return $q.when(preEvent)
+              .then(function(){
+                return action.call(self);
+              })
               .then(postEvent, postEventFail)
               .then(self.postSave, self.postSaveError)
-              .finally(function (resource) {
+              .finally(function () {
                 self.$busy = false;
-                return resource;
+                return self;
               });
           };
 
           Resource.prototype.finally = function (resource) {
             resource.$busy = false;
+            return resource;
           };
 
           Resource.prototype.preCreate = function (params) {
