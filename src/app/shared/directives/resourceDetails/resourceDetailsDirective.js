@@ -62,7 +62,10 @@ angular.module('liveopsConfigPanel')
         });
 
         $scope.$watch('originalResource', function (nv, ov) {
-          $scope.resource = angular.copy($scope.originalResource);
+          if(ov === null ||
+            ((ov.id && nv.id !== ov.id) || (ov.id && !nv.id))){
+            $scope.resource = angular.copy($scope.originalResource);
+          }
         });
 
         $scope.cancel = function () {

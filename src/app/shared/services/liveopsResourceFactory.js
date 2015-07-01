@@ -99,12 +99,13 @@ angular.module('liveopsConfigPanel')
             promise
               .then(preEvent)
               .then(function (params) {
-                self.isNew() ? self.$save(params) : self.$update(params)
+                return self.isNew() ? self.$save(params) : self.$update(params)
               })
               .then(postEvent, postEventFail)
               .then(self.postSave, self.postSaveError)
-              .finally(function () {
+              .finally(function (resource) {
                 self.$busy = false;
+                return resource;
               });
 
             deferred.resolve();

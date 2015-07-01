@@ -6,7 +6,21 @@ angular.module('liveopsConfigPanel')
     $scope.Session = Session;
 
     $scope.redirectToInvites();
-  
+
+    Queue.prototype.postCreate = function (queue) {
+      return new QueueVersion({
+        tenantId: Session.tenant.tenantId,
+        query: $scope.additional.initialQuery,
+        name: 'v1',
+        queueId: queue.id
+      })
+      .$save()
+      .then(function (versionResult) {
+        queue.activeVersion = versionResult.version;
+        return queue.save();
+      });
+    };
+
     $scope.fetch = function(){
       $scope.queues = Queue.query({
         tenantId : Session.tenant.tenantId
