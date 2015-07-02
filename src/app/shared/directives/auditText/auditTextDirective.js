@@ -20,17 +20,19 @@ angular.module('liveopsConfigPanel')
         };
 
         $scope.refresh = function () {
-          var filter = $filter('translate');
-          var attrs = getAttributes();
-          attrs.displayName = filter('value.unknown');
-          attrs.date = $filter('date')($scope.date, 'medium');
-          var promise = UserCache.get($scope.userId).$promise;
-          promise.then(function (user) {
-            attrs.displayName = user.displayName;
-            element.text(filter($scope.translation, attrs));
-          });
+          if($scope.userId) {
+            var filter = $filter('translate');
+            var attrs = getAttributes();
+            attrs.displayName = filter('value.unknown');
+            attrs.date = $filter('date')($scope.date, 'medium');
+            var promise = UserCache.get($scope.userId).$promise;
+            promise.then(function (user) {
+              attrs.displayName = user.displayName;
+              element.text(filter($scope.translation, attrs));
+            });
 
-          element.text(filter($scope.translation, attrs));
+            element.text(filter($scope.translation, attrs));
+          }
         };
 
         $scope.$watchGroup(['userId', 'date'], function() {

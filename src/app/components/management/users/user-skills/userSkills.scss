@@ -4,37 +4,40 @@ user-skills {
     line-height: $input-height - 8px;
     width: $input-height;
   }
-  
+  .null {
+    max-width:  $details-table-width;
+  }
+
   type-ahead {
     padding-right: 8px;
-    width: $max-control-width;
+    width: $details-table-width - $input-height;
   }
-  
+
   number-slider {
     padding-right: 8px;
     width: 200px;
   }
-    
+
   #skillsForm {
     width: 100%;
     display: table;
     margin-bottom: 10px;
     padding-right: 0;
-    
+
     > * {
       display: table-cell;
     }
-    
+
     number-slider {
       max-width: 75px;
     }
   }
-  
+
   .detail-group {
     padding-right: 25px !important;
   }
-  
+
   table {
-    max-width: $max-control-width + 200px !important;
+    max-width: $details-table-width !important;
   }
 }
