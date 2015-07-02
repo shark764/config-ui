@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('GroupsController', ['$scope', '$q', 'Session', 'Group', 'User', 'groupTableConfig', 'TenantGroupUsers', 'UserCache',
-    function ($scope, $q, Session, Group, User, groupTableConfig, TenantGroupUsers, UserCache) {
+  .controller('GroupsController', ['$scope', 'Session', 'Group', 'User', 'groupTableConfig', 'TenantGroupUsers', 'UserCache',
+    function ($scope, Session, Group, User, groupTableConfig, TenantGroupUsers, UserCache) {
       $scope.Session = Session;
       $scope.tableConfig = groupTableConfig;
 
@@ -22,7 +22,7 @@ angular.module('liveopsConfigPanel')
           tenantId: Session.tenant.tenantId,
           groupId: group.id
         }, function() {
-          $scope.$broadcast('originalResource:changed', group);
+          $scope.$broadcast('resource:details:originalResource:changed', group);
         });
 
         return group.members;

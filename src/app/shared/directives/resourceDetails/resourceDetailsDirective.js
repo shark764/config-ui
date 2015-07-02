@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('resourceDetails', ['toastr', 'lodash', '$rootScope', function(toastr, _, $rootScope) {
+  .directive('resourceDetails', ['toastr', '$rootScope', function(toastr, $rootScope) {
     return {
       restrict: 'E',
       scope: {
@@ -78,7 +78,7 @@ angular.module('liveopsConfigPanel')
           $scope.resource = angular.copy($scope.originalResource);
         });
         
-        $scope.$on('originalResource:changed', function () {
+        $scope.$on('resource:details:originalResource:changed', function () {
           $scope.resource = angular.copy($scope.originalResource);
         });
 

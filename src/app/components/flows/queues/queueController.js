@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('QueueController', ['$scope', 'Queue', 'Session', '$stateParams', 'queueTableConfig', 'QueueVersion', '$q', '$timeout',
-  function ($scope, Queue, Session, $stateParams, queueTableConfig, QueueVersion, $q, $timeout) {
+  .controller('QueueController', ['$scope', 'Queue', 'Session', '$stateParams', 'queueTableConfig', 'QueueVersion',
+  function ($scope, Queue, Session, $stateParams, queueTableConfig, QueueVersion) {
     $scope.Session = Session;
 
     $scope.redirectToInvites();

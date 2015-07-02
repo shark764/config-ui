@@ -55,7 +55,7 @@ angular.module('liveopsConfigPanel')
         return error;
       };
       
-      this.fetch = function() {
+      $scope.fetch = function() {
         $scope.users = User.query({
           tenantId: Session.tenant.tenantId !== '' ? Session.tenant.tenantId : null
         });
@@ -83,10 +83,10 @@ angular.module('liveopsConfigPanel')
           return;
         }
 
-        self.fetch();
+        $scope.fetch();
       }, true);
 
       $scope.tableConfig = userTableConfig;
-      self.fetch();
+      $scope.fetch();
     }
   ]);
