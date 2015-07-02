@@ -8,26 +8,8 @@ angular.module('liveopsConfigPanel')
       $scope.versions = [];
 
       $scope.fetch = function () {
-        $scope.versions = [];
-
         $scope.flows = Flow.query({
           tenantId: Session.tenant.tenantId
-        }, function () {
-          angular.forEach($scope.flows, function (value) {
-            if (value.activeVersion) {
-              $scope.updateVersionName(value);
-            }
-          });
-        });
-      };
-
-      $scope.updateVersionName = function (flow) {
-        return FlowVersion.get({
-          version: flow.activeVersion,
-          flowId: flow.id,
-          tenantId: Session.tenant.tenantId
-        }, function (data) {
-          flow.activeVersionName = data.name;
         });
       };
 
@@ -39,17 +21,12 @@ angular.module('liveopsConfigPanel')
           name: 'v1'
         });
 
-        var promise = initialVersion.save();
-        promise.then(function(versionResult) {
+        var promise = initialVersion.$save();
+        promise = promise.then(function(versionResult) {
           flow.activeVersion = versionResult.version;
-          return flow.save(function () {
-            $scope.updateVersionName(flow);
-          });
-        })
-      };
-
-      Flow.prototype.postUpdate = function(flow) {
-        return $scope.updateVersionName(flow).$promise;
+          return flow.save();
+        });
+        return promise;
       };
 
       $scope.$on('on:click:create', function () {

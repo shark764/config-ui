@@ -27,7 +27,6 @@ angular.module('liveopsConfigPanel')
           if(!angular.isDefined(failureEventName)) {
             failureEventName = 'resource:details:failed'
           }
-
           return $scope.resource.save()
             .then($scope.handleSuccess, $scope.handleErrors)
             .then(function () {
@@ -39,9 +38,9 @@ angular.module('liveopsConfigPanel')
 
         $scope.handleSuccess = function (resource) {
           $scope.resetForm();
-
           angular.copy($scope.resource, $scope.originalResource);
           toastr.success('Record ' + ($scope.resource.id ? 'updated' : 'saved'));
+          return resource;
         };
 
         $scope.handleErrors = function (error) {

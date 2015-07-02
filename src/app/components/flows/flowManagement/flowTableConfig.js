@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('flowTableConfig', function () {
+  .service('flowTableConfig', ['FlowVersion', function (FlowVersion) {
       return {
         'fields': [{
           'header': 'Name',
@@ -11,11 +11,12 @@ angular.module('liveopsConfigPanel')
           'name': 'description'
         }, {
           'header': 'Active Version',
-          'name': 'activeVersionName'
+          'name': 'activeVersion',
+          'templateUrl': 'app/components/flows/flowManagement/flowVersionName.html'
         }],
         'searchOn' : ['name'],
         'orderBy' : ['name'],
         'title' : 'Flow Management'
       };
-    }
+    }]
   );
