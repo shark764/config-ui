@@ -55,7 +55,9 @@ angular.module('liveopsConfigPanel')
       });
       
       $scope.$on('resource:details:savedAndNew', function() {
-        $scope.media = new Media({
+        // $scope.selectedMedia.source = 'bleh';
+        
+        $scope.selectedMedia = new Media({
           tenantId: Session.tenant.tenantId
         });
       });

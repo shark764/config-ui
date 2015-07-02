@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('GroupsController', ['$scope', 'Session', 'Group', 'User', 'groupTableConfig', 'TenantGroupUsers', 'UserCache',
-    function ($scope, Session, Group, User, groupTableConfig, TenantGroupUsers, UserCache) {
+  .controller('GroupsController', ['$scope', '$q', 'Session', 'Group', 'User', 'groupTableConfig', 'TenantGroupUsers', 'UserCache',
+    function ($scope, $q, Session, Group, User, groupTableConfig, TenantGroupUsers, UserCache) {
       var self = this;
       $scope.Session = Session;
       $scope.tableConfig = groupTableConfig;
@@ -22,19 +22,17 @@ angular.module('liveopsConfigPanel')
         group.members = TenantGroupUsers.query({
           tenantId: Session.tenant.tenantId,
           groupId: group.id
-        }, function () {
-          angular.forEach(group.members, function (member, key) {
-            UserCache.get(member.memberId, function (data) {
-              group.members[key].displayName = data.displayName;
-            });
-          });
+        }, function() {
+          $scope.$broadcast('originalResource:changed', group);
         });
+
+        return group.members.$promise;
       };
-      
-      Group.prototype.postSave = function(group) {
-        self.updateMembers(group);
+
+      Group.prototype.postUpdate = function(group) {
+        return self.updateMembers(group);
       };
-      
+
       $scope.$watch('Session.tenant', function() {
         self.fetch();
       }, true);
