@@ -1,8 +1,7 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('resourceDetails', ['Alert', '$rootScope', function(Alert, $rootScope) {
-
+  .directive('resourceDetails', ['Alert', '$rootScope', '$window', function(Alert, $rootScope, $window) {
     return {
       restrict: 'E',
       scope: {
@@ -119,6 +118,12 @@ angular.module('liveopsConfigPanel')
             );
           }
         });
+        
+        $window.onbeforeunload = function(){
+          if ($scope.detailsForm.$dirty){
+            return 'You have unsaved changes that will be lost!';
+          }
+        };
       }
     };
   }]);

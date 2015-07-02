@@ -5,6 +5,7 @@
 angular.module('liveopsConfigPanel')
   .directive('userGroups', ['TenantUserGroups', 'TenantGroupUsers', 'Group', 'Session', '$timeout', '$filter', 'Alert', '$q',
                             function (TenantUserGroups, TenantGroupUsers, Group, Session, $timeout, $filter, Alert, $q) {
+
     return {
       restrict: 'E',
 
