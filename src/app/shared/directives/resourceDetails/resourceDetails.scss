@@ -144,7 +144,7 @@
   }
 }
 
-.details-form.two-col .logical-group {
+#details-pane.two-col .logical-group {
   float: left;
   max-width: $max-control-width;
   width: 50%;
@@ -159,7 +159,7 @@
   }
 }
 
-.details-form.compact-view .detail-body-pane {
+#details-pane.compact-view .detail-body-pane {
   .input-group, .detail-group {
     margin-left: 5px;
   }

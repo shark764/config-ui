@@ -14,10 +14,6 @@ angular.module('liveopsConfigPanel')
 
       templateUrl : 'app/shared/directives/resizeHandle/resizeHandle.html',
       link : function(scope, element) {
-        scope.sendResizeEvent = _.throttle(function(eventInfo){
-            $rootScope.$broadcast('resizehandle:resize', eventInfo);
-        }, 500);
-        
         element.addClass('resize-pane');
 
         scope.leftTargetElement = angular.element(document.getElementById(scope.leftElementId));
@@ -67,6 +63,26 @@ angular.module('liveopsConfigPanel')
           };
           
           scope.sendResizeEvent(eventInfo);
+          scope.applyClasses(eventInfo, scope.leftTargetElement, 'leftWidth');
+          scope.applyClasses(eventInfo, scope.rightTargetElement, 'rightWidth');
+        };
+        
+        scope.sendResizeEvent = _.throttle(function(eventInfo){
+          $rootScope.$broadcast('resizehandle:resize', eventInfo);
+        }, 500);
+        
+        scope.applyClasses = function(info, element, fieldName){
+          if (info[fieldName] > 700){
+            element.addClass('two-col');
+          } else {
+            element.removeClass('two-col');
+          }
+          
+          if (info[fieldName] < 450){
+            element.addClass('compact-view');
+          } else {
+            element.removeClass('compact-view');
+          }
         };
 
         function mouseup() {

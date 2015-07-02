@@ -7,7 +7,8 @@ describe('resizeHandle directive', function(){
     $document,
     element,
     leftSpy,
-    rightSpy;
+    rightSpy,
+    isolateScope;
   
   beforeEach(module('liveopsConfigPanel'));
   beforeEach(module('gulpAngular')); 
@@ -20,6 +21,7 @@ describe('resizeHandle directive', function(){
     angular.element($document[0].body).append(target);
     element = $compile('<resize-handle left-element-id="left" right-element-id="right" right-min-width="0" left-min-width="0"></resize-handle>')($scope);
     $scope.$digest();
+    isolateScope = element.isolateScope();
   }]));
 
   it('should add div with the resizable-handle class', inject(function() {
@@ -69,6 +71,7 @@ describe('resizeHandle directive', function(){
     beforeEach(function(){
       leftSpy = jasmine.createSpy('css');
       rightSpy = jasmine.createSpy('css');
+      spyOn(isolateScope, 'applyClasses');
       element.isolateScope().leftTargetElement = {css: leftSpy};
       element.isolateScope().rightTargetElement = {css: rightSpy};
     });
@@ -91,6 +94,43 @@ describe('resizeHandle directive', function(){
     it('should move the right element to match the left element\s edge if mouseX is larger ', inject(function() {
       element.isolateScope().resizeElements(200, 600, 500);
       expect(rightSpy).toHaveBeenCalledWith('left', '500px');
+    }));
+  });
+  
+  describe ('applyClasses function', function(){
+    it('should add the two-col class when width is larger than 700', inject(function() {
+      var ele = angular.element('<div></div>');
+      isolateScope.applyClasses({rightWidth: 800}, ele, 'rightWidth');
+      expect(ele.hasClass('two-col')).toBeTruthy();
+    }));
+    
+    it('should remove the two-col class when width is less than or equal to 700', inject(function() {
+      var ele = angular.element('<div></div>');
+      ele.addClass('two-col');
+      isolateScope.applyClasses({rightWidth: 700}, ele, 'rightWidth');
+      expect(ele.hasClass('two-col')).toBeFalsy();
+      
+      ele.addClass('two-col');
+      isolateScope.applyClasses({rightWidth: 500}, ele, 'rightWidth');
+      expect(ele.hasClass('two-col')).toBeFalsy();
+    }));
+    
+    it('should add the compact-view class when width is less than 450', inject(function() {
+      var ele = angular.element('<div></div>');
+      isolateScope.applyClasses({rightWidth: 300}, ele, 'rightWidth');
+      expect(ele.hasClass('compact-view')).toBeTruthy();
+    }));
+    
+    it('should remove the compact-view class when width is greater than or equal to 450', inject(function() {
+      var ele = angular.element('<div></div>');
+      
+      ele.addClass('compact-view');
+      isolateScope.applyClasses({rightWidth: 500}, ele, 'rightWidth');
+      expect(ele.hasClass('compact-view')).toBeFalsy();
+      
+      ele.addClass('compact-view');
+      isolateScope.applyClasses({rightWidth: 450}, ele, 'rightWidth');
+      expect(ele.hasClass('compact-view')).toBeFalsy();
     }));
   });
 });
