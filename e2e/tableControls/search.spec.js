@@ -1,8 +1,8 @@
 'use strict';
 
 describe('The table search', function() {
-  var loginPage = require('./login/login.po.js'),
-    shared = require('./shared.po.js'),
+  var loginPage = require('../login/login.po.js'),
+    shared = require('../shared.po.js'),
     params = browser.params,
     elementCount;
 
@@ -428,7 +428,7 @@ describe('The table search', function() {
     shared.tableElements.then(function(rows) {
       for (var i = 0; i < rows.length; ++i) {
         rows[i].getText().then(function(value) {
-          expect(value.toLowerCase()).toContain('Live Ops');
+          expect(value.toLowerCase()).toContain('live ops');
         });
       };
     });

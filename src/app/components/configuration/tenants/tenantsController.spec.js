@@ -80,4 +80,12 @@ describe('TenantsController', function() {
       expect($scope.selectedTenant).toBeDefined();
       expect($scope.selectedTenant.regionId).toBe(Session.activeRegionId);
     });
+    
+    describe('create function', function(){
+      it('should set the adminUserId to the current active user', function () {
+        Session.user = {id: 'me'};
+        $scope.create();
+        expect($scope.selectedTenant.adminUserId).toEqual('me');
+      });
+    });
 });
