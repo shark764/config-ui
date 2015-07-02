@@ -8,7 +8,7 @@ var Shared = function() {
 
   this.managementUrl = this.mainUrl + 'management/';
   this.configurationUrl = this.mainUrl + 'configuration/';
-  this.designerUrl = this.mainUrl + 'designer/';
+  this.flowsUrl = this.mainUrl + 'flows/';
 
   this.usersPageUrl = this.managementUrl + 'users';
   this.groupsPageUrl = this.managementUrl + 'groups';
@@ -18,10 +18,10 @@ var Shared = function() {
   this.integrationsPageUrl = this.configurationUrl + 'integrations';
   this.dispatchMappingsPageUrl = this.configurationUrl + 'dispatchMappings';
 
-  this.flowsPageUrl = this.designerUrl + 'flows';
-  this.queuesPageUrl = this.designerUrl + 'queues';
-  this.mediaCollectionsPageUrl = this.designerUrl + 'media-collections';
-  this.mediaPageUrl = this.designerUrl + 'media';
+  this.flowsPageUrl = this.flowsUrl + 'management';
+  this.queuesPageUrl = this.flowsUrl + 'queues';
+  this.mediaCollectionsPageUrl = this.flowsUrl + 'media-collections';
+  this.mediaPageUrl = this.flowsUrl + 'media';
 
   this.invitesPageUrl = this.mainUrl + 'invites';
   this.skillsPageUrl = this.managementUrl + 'skills';
