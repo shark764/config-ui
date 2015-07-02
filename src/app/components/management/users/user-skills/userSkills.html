@@ -24,7 +24,7 @@
     <tbody>
       <tr ng-repeat="userSkill in userSkills | orderBy:'name'">
         <td>{{userSkill.name}}</td>
-        <td style="text-align:right">{{userSkill.proficiency}}</td>
+        <td style="text-align:right">{{userSkill.proficiency > 0 ? userSkill.proficiency : "-"}}</td>
         <td style="text-align:right"><i class="fa fa-times remove" ng-click="remove(userSkill)" title="{{'value.remove' | translate}}"></i></td>
       </tr>
     </tbody>
