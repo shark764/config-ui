@@ -1,48 +1,69 @@
 
 .media-collection-table {
-  td {
-    vertical-align: top;
-
-    .modify-media-box {
-      border: 1px solid $light-grey;
-      @include border-radius(5px);
-      margin-bottom: 5px;
-      width: 100%;
-      position:relative;
-
-      .label-container {
-        padding: 10px;
+  tr {
+    td {
+      &:last-child {
+        padding-left : 0px !important;
       }
 
-      .new-media-btn{
-        @include border-radius(0);
-        border:0;
-        height: 30px;
-        border-top: 1px solid $light-grey;
-        width: 100%;
-      }
-
-      &.edit {
-        .label-container {
-          margin-bottom: 5px;
+      .typeahead-container {
+        input {
+          @include border-radius(0);
+          border: 1px;
         }
       }
 
-      .label {
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        margin: 0;
-        display: inline-block;
-        padding-right: 10px;
+      vertical-align: top;
+
+      &.remove-col {
+        text-align: center;
+
+        .remove {
+          padding-top: 10px;
+        }
       }
 
-      i {
-        font-size: 18px;
-        position: absolute;
-        right: 7px;
-        top: 10px;
-        width: 10px;
+      .modify-media-box {
+        border: 1px solid $light-grey;
+        @include border-radius(5px);
+        margin-bottom: 5px;
+        width: 100%;
+        position:relative;
+
+        .label-container {
+          padding: 10px;
+          position: relative;
+
+          i {
+            font-size: 18px;
+            position: absolute;
+            right: 7px;
+            top: 7px;
+            width: 10px;
+          }
+        }
+
+        .new-media-btn{
+          @include border-radius(0);
+          border:0;
+          height: 30px;
+          border-top: 1px solid $light-grey;
+          width: 100%;
+        }
+
+        &.edit {
+          .label-container {
+          }
+        }
+
+        .label {
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          margin: 0;
+          display: inline-block;
+          padding-right: 10px;
+        }
       }
     }
   }

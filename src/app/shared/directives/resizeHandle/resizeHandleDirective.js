@@ -2,14 +2,12 @@
 /*jslint browser:true */
 
 angular.module('liveopsConfigPanel')
-  .directive('resizeHandle', ['$window', '$document', '$rootScope', function($window, $document, $rootScope) {
+  .directive('resizeHandle', ['$window', '$document', '$rootScope', 'lodash', function($window, $document, $rootScope, _) {
     return {
       restrict : 'E',
       scope : {
         leftElementId : '@',
-        rightElementId : '@',
-        rightMinWidth: '@',
-        leftMinWidth : '@'
+        rightElementId : '@'
       },
 
       templateUrl : 'app/shared/directives/resizeHandle/resizeHandle.html',
@@ -43,23 +41,59 @@ angular.module('liveopsConfigPanel')
         }
 
         scope.resizeElements = function(currLeftWidth, currRightWidth, mouseX){
-          var newLeftWidth = currLeftWidth - (currLeftWidth - mouseX);
+          // TODO Fix this fo real.. temprorary test fix
 
-          if (scope.leftMinWidth && newLeftWidth < scope.leftMinWidth) {
-            return;
+          var parentWidth = 0;
+
+          if(scope.leftTargetElement.parent){
+            var parent = scope.leftTargetElement.parent();
+            parentWidth = parent[0].offsetWidth;
           }
 
-          var newRightWidth = currRightWidth + (currLeftWidth - mouseX);
-          if(scope.rightMinWidth && newRightWidth < scope.rightMinWidth){
+          var delta = currLeftWidth - mouseX,
+              newLeftWidth = currLeftWidth - delta,
+              newRightWidth = currRightWidth + delta,
+              leftMinWidth = parseInt(scope.leftTargetElement.css('min-width')),
+              rightMinWidth = parseInt(scope.rightTargetElement.css('min-width')),
+              leftMaxWidth = parentWidth - currRightWidth,
+              rightMaxWidth = parentWidth - currLeftWidth;
+
+          if(newRightWidth < rightMinWidth || newLeftWidth < leftMinWidth){
             return;
           }
 
           scope.leftTargetElement.css('width', newLeftWidth + 'px');
-          scope.rightTargetElement.css('left', newLeftWidth + 'px');
+          scope.rightTargetElement.css('width', newRightWidth + 'px');
+
+          var eventInfo = {
+            leftWidth: newLeftWidth,
+            rightWidth: newRightWidth
+          };
+
+          scope.sendResizeEvent(eventInfo);
+          scope.applyClasses(eventInfo, scope.leftTargetElement, 'leftWidth');
+          scope.applyClasses(eventInfo, scope.rightTargetElement, 'rightWidth');
+        };
+
+        scope.sendResizeEvent = _.throttle(function(eventInfo){
+          $rootScope.$broadcast('resizehandle:resize', eventInfo);
+        }, 500);
+
+        scope.applyClasses = function(info, element, fieldName){
+          if (info[fieldName] > 700){
+            element.addClass('two-col');
+          } else {
+            element.removeClass('two-col');
+          }
+
+          if (info[fieldName] < 450){
+            element.addClass('compact-view');
+          } else {
+            element.removeClass('compact-view');
+          }
         };
 
         function mouseup() {
-          $rootScope.$broadcast('resizehandle:resize'); //Save some cycles and only broadcast when user is done
           $document.unbind('mousemove', mousemove);
           $document.unbind('mouseup', mouseup);
         }
