@@ -25,7 +25,7 @@ angular.module('liveopsConfigPanel')
         
         $scope.$watch('flow', function() {
           $scope.fetch();
-        }, true)
+        }, true);
       }
     };
   }]);

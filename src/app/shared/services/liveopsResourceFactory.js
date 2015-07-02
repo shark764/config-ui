@@ -86,14 +86,12 @@ angular.module('liveopsConfigPanel')
             }
           });
 
-          Resource.prototype.save = function (params, success, failure) {
+          Resource.prototype.save = function () {
             var self = this,
-                deferred = $q.defer(),
-                promise = deferred.promise,
-                action = self.isNew() ? self.$save : self.$update,
-                preEvent = self.isNew() ? self.preCreate : self.preUpdate,
-                postEvent = self.isNew() ? self.postCreate : self.postUpdate,
-                postEventFail = self.isNew() ? self.postCreateError : self.postUpdateError;
+              action = self.isNew() ? self.$save : self.$update,
+              preEvent = self.isNew() ? self.preCreate : self.preUpdate,
+              postEvent = self.isNew() ? self.postCreate : self.postUpdate,
+              postEventFail = self.isNew() ? self.postCreateError : self.postUpdateError;
 
             self.$busy = true;
 
@@ -114,45 +112,43 @@ angular.module('liveopsConfigPanel')
             return resource;
           };
 
-          Resource.prototype.preCreate = function (params) {
-            return params;
-          }
-          Resource.prototype.postCreate = function (resource, headers) {
+          Resource.prototype.preCreate = function () {
+          };
+          Resource.prototype.postCreate = function (resource) {
             return resource;
-          }
+          };
           Resource.prototype.postCreateError = function (errors) {
             var d = $q.defer();
             d.reject(errors);
             return d.promise;
-          }
+          };
 
-          Resource.prototype.preUpdate = function (params) {
-            return params;
-          }
+          Resource.prototype.preUpdate = function () {
+          };
           Resource.prototype.postUpdate = function (resource) {
             return resource;
-          }
+          };
           Resource.prototype.postUpdateError = function (errors) {
             var d = $q.defer();
             d.reject(errors);
             return d.promise;
-          }
+          };
 
           Resource.prototype.preSave = function (params) {
             return params;
-          }
+          };
           Resource.prototype.postSave = function (resource) {
             return resource;
-          }
+          };
           Resource.prototype.postSaveError = function (errors) {
             var d = $q.defer();
             d.reject(errors);
             return d.promise;
-          }
+          };
 
           Resource.prototype.isNew = function () {
             return !this.id;
-          }
+          };
 
           Resource.prototype.$busy = false;
 

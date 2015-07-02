@@ -3,7 +3,6 @@
 angular.module('liveopsConfigPanel')
   .controller('FlowManagementController', ['$scope', '$state', 'Session', 'Flow', 'flowTableConfig', 'flowTypes', 'FlowVersion',
     function ($scope, $state, Session, Flow, flowTableConfig, flowTypes, FlowVersion) {
-      var self = this;
       $scope.redirectToInvites();
       $scope.versions = [];
 

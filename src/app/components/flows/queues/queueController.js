@@ -13,7 +13,7 @@ angular.module('liveopsConfigPanel')
         query: $scope.additional.initialQuery,
         name: 'v1',
         queueId: queue.id
-      })
+      });
 
       return qv.save()
         .then(function (versionResult) {
@@ -45,6 +45,4 @@ angular.module('liveopsConfigPanel')
     };
 
     $scope.fetch();
-
-    window.qs = $scope;
   }]);

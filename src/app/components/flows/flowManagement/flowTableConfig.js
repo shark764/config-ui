@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('flowTableConfig', ['FlowVersion', function (FlowVersion) {
+  .service('flowTableConfig', [function () {
       return {
         'fields': [{
           'header': 'Name',

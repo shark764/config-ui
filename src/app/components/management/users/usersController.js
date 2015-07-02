@@ -13,7 +13,7 @@ angular.module('liveopsConfigPanel')
 
       this.newPassword = null;
       
-      User.prototype.preUpdate = function(params) {
+      User.prototype.preUpdate = function() {
         if (this.password) {
           self.newPassword = this.password;
         }
@@ -36,7 +36,7 @@ angular.module('liveopsConfigPanel')
           email: user.email,
           roleId: '00000000-0000-0000-0000-000000000000'
         }); //TEMPORARY roleId
-      }
+      };
 
       User.prototype.postCreateError = function(error) {
         if (error.status === 400) {

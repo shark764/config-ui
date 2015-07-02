@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('GroupsController', ['$scope', 'Session', 'Group', 'User', 'groupTableConfig', 'TenantGroupUsers', 'UserCache',
-    function ($scope, Session, Group, User, groupTableConfig, TenantGroupUsers, UserCache) {
+  .controller('GroupsController', ['$scope', 'Session', 'Group', 'User', 'groupTableConfig', 'TenantGroupUsers',
+    function ($scope, Session, Group, User, groupTableConfig, TenantGroupUsers) {
       $scope.Session = Session;
       $scope.tableConfig = groupTableConfig;
 
@@ -30,7 +30,7 @@ angular.module('liveopsConfigPanel')
 
       Group.prototype.postUpdate = function(group) {
         return $scope.updateMembers(group).$promise
-          .then(function(members) {
+          .then(function() {
             //Need group to be returned at the tail of the promise/
             return group;
           });
