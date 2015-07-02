@@ -6,7 +6,8 @@ angular.module('liveopsConfigPanel')
 
       $scope.create = function() {
         $scope.selectedTenant = new Tenant({
-          regionId: Session.activeRegionId
+          regionId: Session.activeRegionId,
+          adminUserId: Session.user.id
         });
       };
 
