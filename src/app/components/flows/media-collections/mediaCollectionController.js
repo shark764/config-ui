@@ -14,18 +14,18 @@ angular.module('liveopsConfigPanel')
         });
       };
       $scope.fetch = function () {
-        Media.query({
-          tenantId: Session.tenant.tenantId
-        }, function (result) {
-          angular.copy(result, $scope.additionalCollections.medias);
-        });
-
         $scope.mediaCollections = MediaCollection.query({
           tenantId: Session.tenant.tenantId
         }, function () {
           if (!$scope.mediaCollections.length) {
             $scope.create();
           }
+        });
+
+        Media.query({
+          tenantId: Session.tenant.tenantId
+        }, function (result) {
+          angular.copy(result, $scope.additionalCollections.medias);
         });
       };
 
@@ -40,61 +40,48 @@ angular.module('liveopsConfigPanel')
       $scope.additionalCollections = {
         medias: $scope.medias
       };
-      
-      $scope.$on('resource:details:create:mediaMapping',  function (media) {
+
+      $scope.$on('resource:details:create:mediaMapping', function (media) {
         $scope.waitingMedia = media;
 
         $scope.selectedMedia = new Media({
           tenantId: Session.tenant.tenantId
         });
       });
-      
-      $scope.$on('resource:details:canceled',  function () {
-        $scope.media = null;
+
+      $scope.$on('resource:details:media:canceled', function () {
+        $scope.selectedMedia = null;
         $scope.waitingMedia = null;
       });
-      
-      $scope.$on('resource:details:savedAndNew', function() {
-        // $scope.selectedMedia.source = 'bleh';
-        
+
+      $scope.$on('resource:details:media:savedAndNew', function () {
+        $scope.waitingMedia = null;
+
         $scope.selectedMedia = new Media({
           tenantId: Session.tenant.tenantId
         });
       });
-      
+
       $scope.$on('on:click:create', function () {
         $scope.create();
       });
 
       $scope.$watch('Session.tenant', function (old, news) {
-        if (angular.equals(old, news)) {
-          return;
+        if (!angular.equals(old, news)) {
+          $scope.fetch();
         }
+      }, true);
 
-        $scope.fetch();
-
-        if ($scope.mediaCreateHandler) {
-          $scope.mediaCreateHandler();
-        }
-
-        $scope.mediaCreateHandler = $scope.$on('created:resource:tenants:' + Session.tenant.tenantId + ':media', function (event, resource) {
+      $scope.$on('resource:details:media:create:success',
+        function (event, resource) {
           $scope.medias.push(resource);
 
           if ($scope.waitingMedia) {
             $scope.waitingMedia.id = resource.id;
           }
+          
+          $scope.selectedMedia = null;
         });
-
-        if ($scope.mediaCollectionsCreateHandler) {
-          $scope.mediaCollectionsCreateHandler();
-        }
-
-        $scope.mediaCollectionsCreateHandler = $scope.$on('created:resource:tenants:' + Session.tenant.tenantId + ':mediaCollections', function (event, resource) {
-          $scope.mediaCollections.push(resource);
-          $scope.selectedMediaCollection = resource;
-        });
-
-      }, true);
 
       $scope.fetch();
       $scope.tableConfig = mediaCollectionTableConfig;

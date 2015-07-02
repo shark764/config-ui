@@ -10,14 +10,14 @@ angular.module('liveopsConfigPanel')
           config: '=',
           items: '=',
           selected: '=',
-          resourceName: '@',
-          extendScope: '='
+          extendScope: '=',
+          resourceName: '@'
         },
         templateUrl: 'app/shared/directives/tableControls/tableControls.html',
         link: function($scope) {
           angular.extend($scope, $scope.extendScope);
 
-          $scope.$on('resource:details:saved', function(event, item) {
+          $scope.$on('resource:details:' + $scope.resourceName + ':create:success', function(event, item) {
             $scope.items.push(item);
             $scope.selectItem(item);
           });

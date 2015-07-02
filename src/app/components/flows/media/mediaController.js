@@ -3,6 +3,7 @@
 angular.module('liveopsConfigPanel')
   .controller('MediaController', ['$scope', 'Media', 'Session', 'mediaTableConfig', 'mediaTypes',
     function ($scope, Media, Session, mediaTableConfig, mediaTypes) {
+      $scope.resourceName = 'tenants:' + Session.tenant.tenantId + ':media';      
       $scope.Session = Session;
 
       $scope.create = function () {

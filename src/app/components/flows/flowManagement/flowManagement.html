@@ -3,7 +3,7 @@
   config="tableConfig"
   items="flows"
   selected="selectedFlow"
-  resource-name="{{'tenants:' + Session.tenant.tenantId + ':flows'}}"></table-controls>
+  resource-name="flow"></table-controls>
 
 <resize-handle
   id="resize-pane"
@@ -17,4 +17,5 @@
   extend-scope="additional"
   header-template-url="app/components/flows/flowManagement/flowDetailHeader.html"
   body-template-url="app/components/flows/flowManagement/flowDetailBody.html"
-  original-resource="selectedFlow"></resource-details>
+  original-resource="selectedFlow"
+  resource-name="flow"></resource-details>

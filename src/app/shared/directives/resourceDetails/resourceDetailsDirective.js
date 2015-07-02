@@ -9,7 +9,8 @@ angular.module('liveopsConfigPanel')
         headerTemplateUrl: '@',
         bodyTemplateUrl: '@',
         footerTemplateUrl: '@',
-        extendScope: '='
+        extendScope: '=',
+        resourceName: '@'
       },
       templateUrl: 'app/shared/directives/resourceDetails/resourceDetails.html',
 
@@ -19,20 +20,29 @@ angular.module('liveopsConfigPanel')
 
         angular.extend($scope, $scope.extendScope);
 
-        $scope.save = function (successEventName, failureEventName) {
-          if(!angular.isDefined(successEventName)) {
-            successEventName = 'resource:details:saved'
-          }
-
-          if(!angular.isDefined(failureEventName)) {
-            failureEventName = 'resource:details:failed'
-          }
+        $scope.save = function (extSuccessEventName, extFailureEventName) {
+          var successEventName = $scope.resource.isNew()
+            ? 'resource:details:' + $scope.resourceName + ':create:success'
+            : 'resource:details:' + $scope.resourceName + ':update:success'
+          
+          var failureEventName = $scope.resource.isNew()
+            ? 'resource:details:' + $scope.resourceName + ':create:fail'
+            : 'resource:details:' + $scope.resourceName + ':update:fail'
+          
           return $scope.resource.save()
             .then($scope.handleSuccess, $scope.handleErrors)
             .then(function () {
+              if(angular.isDefined(extSuccessEventName)) {
+                $rootScope.$broadcast(extSuccessEventName, $scope.resource)
+              }
+              
               $rootScope.$broadcast(successEventName, $scope.resource)
             }, function () {
-              $rootScope.$broadcast(failureEventName)
+              if(angular.isDefined(extFailureEventName)) {
+                $rootScope.$broadcast(extFailureEventName, $scope.resource);
+              }
+              
+              $rootScope.$broadcast(failureEventName, $scope.resource)
             });
         };
 
@@ -75,7 +85,7 @@ angular.module('liveopsConfigPanel')
         $scope.cancel = function () {
           angular.copy($scope.originalResource, $scope.resource);
           $scope.resetForm();
-          $scope.$emit('resource:details:canceled')
+          $scope.$emit('resource:details:' + $scope.resourceName + ':canceled')
         };
 
         $scope.resetForm = function () {
@@ -83,7 +93,7 @@ angular.module('liveopsConfigPanel')
           $scope.detailsForm.$setUntouched();
         };
 
-        $scope.$on('resource:details:cancel', function() {
+        $scope.$on('resource:details:' + $scope.resourceName + ':cancel', function() {
           $scope.cancel();
         });
       }

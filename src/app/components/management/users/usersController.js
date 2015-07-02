@@ -50,7 +50,7 @@ angular.module('liveopsConfigPanel')
             email: $scope.user.email,
             roleId: '00000000-0000-0000-0000-000000000000'
           }); //TEMPORARY roleId
-          $scope.$broadcast('resource:details:cancel');
+          $scope.$broadcast('resource:details:user:cancel');
         }
         return error;
       };
