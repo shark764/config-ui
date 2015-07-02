@@ -96,6 +96,7 @@
   "queue.details.rateofincrease": "Rate of Increase",
   "queue.details.activepriority": "Active Priority",
   "queue.details.activequery": "Active Query",
+  "queue.details.priority": "Priority",
   
   "media.details": "Media",
   "media.details.source.error": "Please enter a source",
