@@ -112,6 +112,7 @@
       @include border-radius(4px);
       font-size: 0.9em;
       width: 100%;
+      max-width: $max-control-width;
 
       td, th {
         padding: 10px;

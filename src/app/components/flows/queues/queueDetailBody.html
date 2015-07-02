@@ -1,5 +1,5 @@
-<div ng-show="resource.id" class="divider-header first-header">
-  <h4>Details</h4>
+<div class="divider-header first-header">
+  <h4>{{'details' | translate}}</h4>
 </div>
 
 <div class="input-group">
@@ -16,14 +16,50 @@
     <textarea ng-model="resource.description"></textarea>
   </div>
 </div>
+
+<div ng-if="!resource.id" class="input-group">
+  <label class="disabled">{{'queue.details.activeVersion' | translate}}</label>
+  <div>
+    <input type="number" disabled value="1"></input>
+  </div>
+</div>
+
 <div ng-if="!resource.id">
+  <div class="divider-header first-header">
+    <h4>{{'value.details.query' | translate}}</h4>
+  </div>
+
   <div class="input-group">
     <label class="textarea-label">{{'value.details.query' | translate}} *</label>
     <form-error field="detailsForm.query"
     error-type-required="{{'value.error.query.required' | translate}}"></form-error>
     <textarea ng-required="true" type="text" ng-model="extendScope.initialQuery" name="query"></textarea>
   </div>
+  
+  <div class="divider-header">
+    <h4>{{'queue.details.priority' | translate}}</h4>
+  </div>
+  
+  <div class="input-group">
+    <label class="disabled">{{'queue.details.startingpriority' | translate}}</label>
+    <div>
+      <input type="number" disabled value="75"></input>
+    </div>
+  </div>
+  
+  <div class="input-group">
+    <label class="disabled">{{'queue.details.rateofincrease' | translate}}</label>
+    <div>
+      <input type="number" disabled value="2"></input>
+    </div>
+    <div>
+      <select disabled>
+        <option disabled>mins</option>
+      </select>
+    </div>
+  </div>
 </div>
+
 <div ng-if="resource.id">
   <queue-versions queue="resource"></queue-versions>
 </div>
