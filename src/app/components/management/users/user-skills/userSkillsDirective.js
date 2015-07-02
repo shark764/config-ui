@@ -48,8 +48,12 @@ angular.module('liveopsConfigPanel')
         };
 
         $scope.save = function () {
+          if ($scope.selectedSkill === null){
+            return;
+          }
+          
           $scope.saving = true;
-
+          
           if(!$scope.selectedSkill.id){
             new Skill({
               name: $scope.selectedSkill.name,
