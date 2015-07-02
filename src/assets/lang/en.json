@@ -89,6 +89,7 @@
   "queue.details.queryPriority" : "Query & Priority Settings",
   "queue.details.saveNewVersion" : "Save New Version",
   "queue.details.createNewVersion" : "Create New Version",
+  "queue.details.name.error": "Please enter a name",
   "queue.details.activeVersion": "Active Version",
 
   "media.details": "Media",
