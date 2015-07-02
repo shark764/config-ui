@@ -1,6 +1,6 @@
 <div class="bordered-section">
   <div class="input-group" style="margin-left: 0;">
-    <label><h4>{{'queue.details.activeVersion' | translate}}</h4></label>
+    <label>{{'queue.details.activeVersion' | translate}}</label>
     <div>
       <form-error field="detailsForm.activeVersion"
       error-type-required="{{'queue.details.version.error' | translate}}"></form-error>
@@ -8,29 +8,29 @@
       </select>
     </div>
   </div>
-  
+
   <div class="divider-header">
     <h4>{{'queue.details.activequery' | translate}}</h4>
   </div>
-  
+
   <div class="input-group">
     <div>
       <textarea disabled ng-model="currVersion.query">
       </textarea>
     </div>
   </div>
-  
+
   <div class="divider-header">
     <h4>{{'queue.details.activepriority' | translate}}</h4>
   </div>
-  
+
   <div class="input-group">
     <label class="disabled">{{'queue.details.startingpriority' | translate}}</label>
     <div>
       <input type="number" disabled value="75"></input>
     </div>
   </div>
-  
+
   <div class="input-group">
     <label class="disabled">{{'queue.details.rateofincrease' | translate}}</label>
     <div>
@@ -58,21 +58,21 @@
       <label class="disabled">{{'value.version' | translate}}</label>
       <input disabled type="number" value="{{newVersionNumber}}"></input>
     </div>
-    
+
     <div class="input-group">
       <label class="textarea-label">{{'value.details.query' | translate}}</label>
       <form-error field="createVersionForm.query"
       error-type-required="{{'value.error.query.required' | translate}}"></form-error>
       <textarea ng-required="true" type="text" ng-model="versionCopy.query" name="query"></textarea>
     </div>
-    
+
     <div class="input-group">
       <label class="disabled">{{'queue.details.startingpriority' | translate}}</label>
       <div>
         <input type="number" disabled value="75"></input>
       </div>
     </div>
-    
+
     <div class="input-group">
       <label class="disabled">{{'queue.details.rateofincrease' | translate}}</label>
       <div>
@@ -92,7 +92,7 @@
       <a ng-show="saving" ng-disabled="true" class="btn btn-primary"><i class="fa fa-refresh fa-spin"></i></a>
     </div>
   </ng-form>
-</div> 
+</div>
 
 <div class="queue-version-table">
   <table>
@@ -118,14 +118,14 @@
           <label class="textarea-label disabled">{{'value.details.query' | translate}}</label>
           <textarea ng-disabled="true" type="text" ng-model="version.query" name="query"></textarea>
         </div>
-        
+
         <div class="input-group">
           <label class="disabled">{{'queue.details.startingpriority' | translate}}</label>
           <div>
             <input type="number" disabled value="75"></input>
           </div>
         </div>
-        
+
         <div class="input-group">
           <label class="disabled">{{'queue.details.rateofincrease' | translate}}</label>
           <div>
