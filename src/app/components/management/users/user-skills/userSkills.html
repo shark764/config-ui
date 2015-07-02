@@ -6,7 +6,7 @@
 
 <div ng-show="skills.$resolved" class="detail-group">
 <ng-form seperate-validation ng-disabled="saving" id="skillsForm" name="skillsForm" ng-show="skills.$resolved">
-  <type-ahead hover="true" placeholder="{{'details.skills.placeholder' | translate}}" items="skills" selected-item="selectedSkill" is-required="true" name-field="name" ></type-ahead>
+  <type-ahead hover="true" placeholder="{{'details.skills.placeholder' | translate}}" items="skills" selected-item="selectedSkill" is-required="true"></type-ahead>
   <number-slider ng-if="selectedSkill.hasProficiency || (skillsForm.name.$dirty && ! selectedSkill.id)" placeholder="{{'skill.details.proficiency' | translate}}" value="newUserSkill.proficiency" min-value="0" max-value="100" ></number-slider>
   <a ng-show="!saving" ng-disabled="!selectedSkill" ng-click="save()" class="btn"><i class="fa fa-plus"></i></a>
   <a ng-show="saving" ng-disabled="true" class="btn btn-primary"><i class="fa fa-refresh fa-spin"></i></a>
