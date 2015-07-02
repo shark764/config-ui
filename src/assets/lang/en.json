@@ -83,6 +83,7 @@
   "flow.details.type.error": "Type is required",
   "flow.details.activeVersion.error": "Active version is required",
   "flow.details.versions.create.title": "Create new version",
+  
   "queue.details.version.error" : "Active Version is required",
   "queue.details.createdBy" : "Created By",
   "queue.details.createAdditionalVersions" : "Versions: View & Create Additional Versions",
@@ -91,7 +92,11 @@
   "queue.details.createNewVersion" : "Create New Version",
   "queue.details.name.error": "Please enter a name",
   "queue.details.activeVersion": "Active Version",
-
+  "queue.details.startingpriority": "Starting Priority",
+  "queue.details.rateofincrease": "Rate of Increase",
+  "queue.details.activepriority": "Active Priority",
+  "queue.details.activequery": "Active Query",
+  
   "media.details": "Media",
   "media.details.source.error": "Please enter a source",
   "media.details.type.error": "Please enter a type",

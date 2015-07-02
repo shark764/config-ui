@@ -1,6 +1,6 @@
 <div class="bordered-section">
   <div class="input-group" style="margin-left: 0;">
-    <label><h4>Active Version</h4></label>
+    <label><h4>{{'queue.details.activeVersion' | translate}}</h4></label>
     <div>
       <form-error field="detailsForm.activeVersion"
       error-type-required="{{'queue.details.version.error' | translate}}"></form-error>
@@ -10,7 +10,7 @@
   </div>
   
   <div class="divider-header">
-    <h4>Active Query</h4>
+    <h4>{{'queue.details.activequery' | translate}}</h4>
   </div>
   
   <div class="input-group">
@@ -21,18 +21,18 @@
   </div>
   
   <div class="divider-header">
-    <h4>Active Priority</h4>
+    <h4>{{'queue.details.activepriority' | translate}}</h4>
   </div>
   
   <div class="input-group">
-    <label class="disabled">Starting priority</label>
+    <label class="disabled">{{'queue.details.startingpriority' | translate}}</label>
     <div>
       <input type="number" disabled value="75"></input>
     </div>
   </div>
   
   <div class="input-group">
-    <label class="disabled">Rate of increase</label>
+    <label class="disabled">{{'queue.details.rateofincrease' | translate}}</label>
     <div>
       <input type="number" disabled value="2"></input>
     </div>
@@ -55,7 +55,7 @@
 
   <ng-form id="createVersionForm" name="createVersionForm" seperate-validation>
     <div class="input-group">
-      <label class="disabled">Version</label>
+      <label class="disabled">{{'value.version' | translate}}</label>
       <input disabled type="number" value="{{newVersionNumber}}"></input>
     </div>
     
@@ -67,14 +67,14 @@
     </div>
     
     <div class="input-group">
-      <label class="disabled">Starting priority</label>
+      <label class="disabled">{{'queue.details.startingpriority' | translate}}</label>
       <div>
         <input type="number" disabled value="75"></input>
       </div>
     </div>
     
     <div class="input-group">
-      <label class="disabled">Rate of increase</label>
+      <label class="disabled">{{'queue.details.rateofincrease' | translate}}</label>
       <div>
         <input type="number" disabled value="2"></input>
       </div>
@@ -97,7 +97,7 @@
 <div class="queue-version-table">
   <table>
     <thead>
-      <th>Version</th>
+      <th>{{'value.version' | translate}}</th>
       <th>{{'value.createdOn' | translate}}</th>
       <th>{{'queue.details.createdBy' | translate}}</th>
     </thead>
@@ -120,14 +120,14 @@
         </div>
         
         <div class="input-group">
-          <label class="disabled">Starting priority</label>
+          <label class="disabled">{{'queue.details.startingpriority' | translate}}</label>
           <div>
             <input type="number" disabled value="75"></input>
           </div>
         </div>
         
         <div class="input-group">
-          <label class="disabled">Rate of increase</label>
+          <label class="disabled">{{'queue.details.rateofincrease' | translate}}</label>
           <div>
             <input type="number" disabled value="2"></input>
           </div>
