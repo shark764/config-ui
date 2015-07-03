@@ -6,7 +6,7 @@ angular.module('liveopsConfigPanel.mock.content.invites', ['liveopsConfigPanel.m
       'id': 'inviteId1'
     }), new Invite({
       'id': 'inviteId2'
-    })]
+    })];
   })
   .run(['$httpBackend', 'apiHostname', 'mockInvites',
     function ($httpBackend, apiHostname, mockInvites) {

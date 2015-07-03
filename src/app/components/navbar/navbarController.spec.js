@@ -9,7 +9,6 @@ describe('NavbarController', function () {
     $compile,
     $controller,
     $httpBackend,
-    authService,
     Session,
     apiHostname,
     mockTenants;
@@ -28,7 +27,7 @@ describe('NavbarController', function () {
       $controller = _$controller_;
       $httpBackend = $httpBackend;
       apiHostname = _apiHostname_;
-      mockTenants = _mockTenants
+      mockTenants = _mockTenants;
       Session = _Session_;
     }
   ]));

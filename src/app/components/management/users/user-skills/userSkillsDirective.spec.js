@@ -31,7 +31,7 @@ describe('userSkills directive', function() {
       mockUsers = _mockUsers;
       TenantUserSkills = _TenantUserSkills;
 
-      $scope.user = mockUsers[0]
+      $scope.user = mockUsers[0];
 
       element = $compile('<user-skills user="user"></user-skills>')($scope);
       $scope.$digest();

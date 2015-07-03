@@ -20,7 +20,7 @@ angular.module('liveopsConfigPanel.mock.content.management.users', ['liveopsConf
       'firstName': 'Michael',
       'email': 'michael.oliver@ezent.io',
       'displayName': 'Michael Oliver'
-    })]
+    })];
   })
   .service('mockUserGroups', function (TenantUserGroups) {
     return [new TenantUserGroups({
@@ -29,7 +29,7 @@ angular.module('liveopsConfigPanel.mock.content.management.users', ['liveopsConf
     }), new TenantUserGroups({
       'userId': 'userId1',
       'groupId': 'groupId1'
-    })]
+    })];
   })
   .run(['$httpBackend', 'apiHostname', 'mockUsers', 'mockUserGroups',
     function ($httpBackend, apiHostname, mockUsers, mockUserGroups) {

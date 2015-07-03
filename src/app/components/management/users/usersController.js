@@ -40,7 +40,7 @@ angular.module('liveopsConfigPanel')
           toastr.success('User already exists. Sending ' + $scope.user.email + ' an invite for ' + Session.tenant.name, '', {
             timeout: 5000
           });
- 
+
           Invite.save({
             tenantId: Session.tenant.tenantId
           }, {
@@ -62,7 +62,7 @@ angular.module('liveopsConfigPanel')
         $scope.selectedUser = new User({
           status: true
         });
-      }
+      };
 
       $scope.additional = {
         roles: userRoles,

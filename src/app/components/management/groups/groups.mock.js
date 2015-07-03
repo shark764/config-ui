@@ -15,7 +15,7 @@ angular.module('liveopsConfigPanel.mock.content.management.groups', ['liveopsCon
       'name': 'groupName3',
       'description': 'Does not exist yet!',
       'tenantId': 'tenant-id'
-    })]
+    })];
   })
   .service('mockGroupUsers', function(TenantGroupUsers) {
     return [new TenantGroupUsers({
@@ -29,8 +29,8 @@ angular.module('liveopsConfigPanel.mock.content.management.groups', ['liveopsCon
       'memberId': 'userId1'
     })];
   })
-  .run(['$httpBackend', 'apiHostname', 'mockGroups', 'mockGroupUsers', 'mockUserGroups', 'Session',
-    function($httpBackend, apiHostname, mockGroups, mockGroupUsers, mockUserGroups, Session) {
+  .run(['$httpBackend', 'apiHostname', 'mockGroups', 'mockGroupUsers', 'mockUserGroups',
+    function($httpBackend, apiHostname, mockGroups, mockGroupUsers, mockUserGroups) {
       $httpBackend.when('GET', apiHostname + '/v1/tenants/tenant-id/groups/' + mockGroups[0].id).respond({
         'result': mockGroups[0]
       });

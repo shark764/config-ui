@@ -15,7 +15,7 @@ angular.module('liveopsConfigPanel.mock.content.management.skills', ['liveopsCon
       'name': 'skillName3',
       'description': 'Does not exist yet!',
       'tenantId': 'tenant-id'
-    })]
+    })];
   })
   .service('mockUserSkills', function(TenantUserSkills) {
     return [new TenantUserSkills({
@@ -29,8 +29,8 @@ angular.module('liveopsConfigPanel.mock.content.management.skills', ['liveopsCon
       'memberId': 'userId1'
     })];
   })
-  .run(['$httpBackend', 'apiHostname', 'mockSkills', 'mockUserSkills', 'Session',
-    function($httpBackend, apiHostname, mockSkills, mockUserSkills, Session) {
+  .run(['$httpBackend', 'apiHostname', 'mockSkills', 'mockUserSkills',
+    function($httpBackend, apiHostname, mockSkills, mockUserSkills) {
       $httpBackend.when('GET', apiHostname + '/v1/tenants/tenant-id/skills/' + mockSkills[0].id).respond({
         'result': mockSkills[0]
       });

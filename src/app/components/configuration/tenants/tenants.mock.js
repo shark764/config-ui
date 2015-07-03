@@ -6,7 +6,7 @@ angular.module('liveopsConfigPanel.mock.content.configuration.tenants', ['liveop
       'id': 'tenant-id'
     }), new Tenant({
       'id': 'tenant-id-2'
-    })]
+    })];
   })
   .run(['$httpBackend', 'apiHostname', 'mockTenants',
     function ($httpBackend, apiHostname, mockTenants) {

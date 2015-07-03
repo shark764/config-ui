@@ -1,6 +1,5 @@
 'use strict';
 
-/* global spyOn, jasmine : false */
 describe('userGroups directive', function() {
   var $scope,
     $httpBackend,
@@ -10,6 +9,7 @@ describe('userGroups directive', function() {
     apiHostname,
     mockGroups,
     mockUserGroups,
+    Session,
     mockUsers;
 
   beforeEach(module('gulpAngular'));
@@ -18,8 +18,8 @@ describe('userGroups directive', function() {
   beforeEach(module('liveopsConfigPanel.mock.content.management.users'));
   beforeEach(module('liveopsConfigPanel.mock.content.management.groups'));
 
-  beforeEach(inject(['$compile', '$rootScope', '$httpBackend', 'apiHostname', 'mockUsers', 'mockGroups', 'mockUserGroups',
-    function(_$compile, _$rootScope_, _$httpBackend_, _apiHostname_, _mockUsers, _mockGroups, _mockUserGroups) {
+  beforeEach(inject(['$compile', '$rootScope', '$httpBackend', 'apiHostname', 'mockUsers', 'mockGroups', 'mockUserGroups', 'Session',
+    function(_$compile, _$rootScope_, _$httpBackend_, _apiHostname_, _mockUsers, _mockGroups, _mockUserGroups, _Session_) {
       $compile = _$compile;
       $scope = _$rootScope_.$new();
       $httpBackend = _$httpBackend_;
@@ -27,6 +27,7 @@ describe('userGroups directive', function() {
       mockGroups = _mockGroups;
       mockUserGroups = _mockUserGroups;
       mockUsers = _mockUsers;
+      Session = _Session_;
     }
   ]));
 
@@ -72,7 +73,7 @@ describe('userGroups directive', function() {
       expect(isolateScope.fetch).toHaveBeenCalled();
     }]));
 
-    it('should do nothing if there is no tenant selected', inject(function(Session, TenantUserGroups) {
+    it('should do nothing if there is no tenant selected', inject(function(Session) {
       Session.tenant = {};
       isolateScope.fetch();
       expect($scope.groups).not.toBeDefined();
@@ -253,15 +254,15 @@ describe('userGroups directive', function() {
       expect(isolateScope.createGroup).toEqual(jasmine.any(Function));
     }));
 
-    xit('should make call to create a group', inject(function() {
+    it('should make call to create a group', inject(function() {
       $httpBackend.expectPOST(apiHostname + '/v1/tenants/tenant-id/groups');
       isolateScope.createGroup('groupname');
       $httpBackend.flush();
 
-      expect(isolateScope.selectedGroup).toEqual(mockGroups[2]);
+      expect(isolateScope.selectedGroup.id).toEqual(mockGroups[2].id);
     }));
 
-    xit('should call success callback on success', inject(function() {
+    it('should call success callback on success', inject(function() {
       var successSpy = jasmine.createSpy('success');
       var failSpy = jasmine.createSpy('fail');
       isolateScope.createGroup('groupname', successSpy, failSpy);
@@ -269,10 +270,11 @@ describe('userGroups directive', function() {
       expect(successSpy).toHaveBeenCalled();
     }));
 
-    xit('should call fail callback on success', inject(function() {
+    it('should call fail callback on success', inject(function() {
       var successSpy = jasmine.createSpy('success');
       var failSpy = jasmine.createSpy('fail');
-      $httpBackend.when('POST', apiHostname + '/v1/tenants/1/groups').respond(500);
+      Session.tenant.tenantId = '2';
+      $httpBackend.when('POST', apiHostname + '/v1/tenants/2/groups').respond(500);
       isolateScope.createGroup('groupname', successSpy, failSpy);
       $httpBackend.flush();
       expect(failSpy).toHaveBeenCalled();
