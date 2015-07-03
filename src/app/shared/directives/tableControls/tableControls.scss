@@ -1,17 +1,9 @@
-$table-header-height: 35px;
-$action-container-height: 95px + $table-header-height;
+$action-container-height: 100px;
 
 table-controls {
   #controls-wrapper {
     position: relative;
     height: $action-container-height;
-    padding-bottom: $table-header-height + 10px;
-    
-    .clone-header {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-    }
   }
   
   .table-controls {
@@ -78,39 +70,12 @@ table-controls {
     }
   }
   
-  .table-wrapper {
-    position: relative;
-    width: 100%;
-    height: calc(100% - #{$action-container-height});
-    overflow: auto;
-    
-    > div {
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      left: 0;
-      right: 0;
-    }
-    
-    thead {
-      visibility: hidden;
-      height: 0;
-      
-      th {
-        line-height: 0;
-        padding: 0;
-      }
-    }
-    
-    .table {
-      height: 100%;
-    }
+  .scrollable-table-container {
+    height: calc(100% - #{$action-container-height} + 40px);
   }
   
   .table {
     border-collapse: collapse;
-    width: 100%;
-    table-layout: fixed;
     
     th, td {
       padding: 8px;
