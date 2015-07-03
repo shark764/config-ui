@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('resourceDetails', ['Alert', '$rootScope', '$window', function(Alert, $rootScope, $window) {
+  .directive('resourceDetails', ['Alert', '$rootScope', '$window', 'DirtyForms', function(Alert, $rootScope, $window, DirtyForms) {
     return {
       restrict: 'E',
       scope: {
@@ -87,16 +87,11 @@ angular.module('liveopsConfigPanel')
         });
 
         $scope.cancel = function () {
-          if ($scope.detailsForm.$dirty){
-            Alert.confirm('You have unsaved changes that will be lost. Click OK to continue and discard your changes.', 
-                function(){
-                  angular.copy($scope.originalResource, $scope.resource);
+          DirtyForms.confirmIfDirty(function(){
+            angular.copy($scope.originalResource, $scope.resource);
                   $scope.resetForm();
                   $scope.$emit('resource:details:' + $scope.resourceName + ':canceled');
-                },
-                angular.noop
-            );
-          }
+          });
         };
 
         $scope.resetForm = function () {
@@ -107,23 +102,6 @@ angular.module('liveopsConfigPanel')
         $scope.$on('resource:details:' + $scope.resourceName + ':cancel', function() {
           $scope.cancel();
         });
-        
-        $rootScope.$on('$stateChangeStart', function(event){
-          if ($scope.detailsForm.$dirty){
-            Alert.confirm('You have unsaved changes that will be lost. Click OK to continue, or click cancel to stay on this page.', 
-                angular.noop, 
-                function(){
-                  event.preventDefault();
-                }
-            );
-          }
-        });
-        
-        $window.onbeforeunload = function(){
-          if ($scope.detailsForm.$dirty){
-            return 'You have unsaved changes that will be lost!';
-          }
-        };
       }
     };
   }]);

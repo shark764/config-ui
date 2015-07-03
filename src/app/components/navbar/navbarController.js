@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('NavbarController', ['$rootScope', '$scope', '$state', 'AuthService', 'Session',
-    function($rootScope, $scope, $state, AuthService, Session) {
+  .controller('NavbarController', ['$rootScope', '$scope', '$state', 'AuthService', 'Session', 'DirtyForms',
+    function($rootScope, $scope, $state, AuthService, Session, DirtyForms) {
       $scope.Session = Session;
 
       $scope.populateTenantsHandler = function() {
@@ -19,7 +19,9 @@ angular.module('liveopsConfigPanel')
           tenantDropdownItems.push({
             label: tenant.name,
             onClick: function(){
-              Session.setTenant(tenant);
+              DirtyForms.confirmIfDirty(function(){
+                Session.setTenant(tenant);
+              });
             }
           });
         });

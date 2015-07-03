@@ -97,49 +97,7 @@ describe('resource details directive', function() {
 
     expect(isolateScope.resource.id).toBe(resultUser.id);
   }));
-  
-  describe('$stateChangeStart handler', function(){
-    beforeEach(function(){
-      doDefaultCompile();
-    });
-    
-    it('should popup a confirm alert if the form is dirty', inject(['Alert', '$state', '$rootScope', function(Alert, $state, $rootScope) {
-      spyOn(Alert, 'confirm');
-      isolateScope.detailsForm.$dirty = true;
-      $rootScope.$broadcast('$stateChangeStart', {next: {isPublic : true}}); //Event params are checked by auth/routeSecurity.js
-      expect(Alert.confirm).toHaveBeenCalled();
-    }]));
-    
-    it('should do nothing and allow the state change to happen on ok', inject(['Alert', '$state', '$rootScope', function(Alert, $state, $rootScope) {
-      spyOn(Alert, 'confirm').and.callFake(function(msg, okCallback){
-        okCallback();
-      });
-      
-      spyOn(angular, 'noop');
-      isolateScope.detailsForm.$dirty = true;
-      $rootScope.$broadcast('$stateChangeStart', {next: {isPublic : true}});
-      expect(angular.noop).toHaveBeenCalled();
-    }]));
-    
-    it('should prevent the event on cancel', inject(['Alert', '$state', '$rootScope', function(Alert, $state, $rootScope) {
-      spyOn(Alert, 'confirm').and.callFake(function(msg, okCallback, cancelCallback){
-        cancelCallback();
-      });
-      
-      isolateScope.detailsForm.$dirty = true;
-      var event = $rootScope.$broadcast('$stateChangeStart', {next: {isPublic : true}});
-      
-      expect(event.defaultPrevented).toBeTruthy();
-    }]));
-    
-    it('should do nothing if the form is not dirty', inject(['Alert', '$state', '$rootScope', function(Alert, $state, $rootScope) {
-      spyOn(Alert, 'confirm');
-      isolateScope.detailsForm.$dirty = false;
-      $rootScope.$broadcast('$stateChangeStart', {next: {isPublic : true}});
-      expect(Alert.confirm).not.toHaveBeenCalled();
-    }]));
-  });
-  
+
   describe('cancel function', function(){
     beforeEach(function(){
       doDefaultCompile();
@@ -188,27 +146,6 @@ describe('resource details directive', function() {
       isolateScope.cancel();
 
       expect(Alert.confirm).not.toHaveBeenCalled();
-    }]));
-  });
-  
-  describe('onbeforeunload function', function(){
-    beforeEach(function(){
-      doDefaultCompile();
-    });
-    
-    it('should set $window.onbeforeunload', inject(['$window', function($window) {
-      expect($window.onbeforeunload).toBeDefined();
-      expect($window.onbeforeunload).toEqual(jasmine.any(Function));
-    }]));
-    
-    it('should set a message if the form is dirty', inject(['$window', function($window) {
-      isolateScope.detailsForm.$dirty = true;
-      expect($window.onbeforeunload()).toEqual(jasmine.any(String));
-    }]));
-    
-    it('should do nothing if the form isn\'t dirty', inject(['$window', function($window) {
-      isolateScope.detailsForm.$dirty = false;
-      expect($window.onbeforeunload()).toBeUndefined();
     }]));
   });
 });
