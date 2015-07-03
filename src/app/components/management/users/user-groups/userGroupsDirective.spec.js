@@ -35,17 +35,6 @@ describe('userGroups directive', function() {
     $scope.user = mockUsers[0];
 
     //Mock the group services
-    groups = [{id: 'g1'}, {id: 'g2'}, {id: 'g3'}];
-    userGroups = [{memberId: 1, tenantId: 1, groupId: 'g2'}, {memberId: 1, tenantId: 1, groupId: 'g3'}];
-    userGroups.$promise = {then : function(callback){callback();}};
-    spyOn(TenantUserGroups, 'query').and.returnValue(userGroups);
-    spyOn(Group, 'query').and.callFake(function(params, successCallback){if (typeof successCallback !== 'undefined') {successCallback();} return groups;});
-    $httpBackend.when('GET', apiHostname + '/v1/tenants/1/groups').respond({'result' : groups});
-    $httpBackend.when('GET', apiHostname + '/v1/tenants/1/users/1/groups').respond({'result' : userGroups});
-
-    $httpBackend.when('GET', apiHostname + '/v1/regions').respond({'result' : [{}]});
-    $httpBackend.when('POST', apiHostname + '/v1/login').respond({'result' : {}});
-
     element = $compile('<user-groups user="user"></user-groups>')($scope);
     $scope.$digest();
     $httpBackend.flush();
@@ -105,7 +94,7 @@ describe('userGroups directive', function() {
       isolateScope.filtered = [];
       isolateScope.fetch();
       $httpBackend.flush();
-      expect(isolateScope.filtered.length).toEqual(groups.length - userGroups.length);
+      expect(isolateScope.filtered.length).toEqual(mockGroups.length - mockUserGroups.length);
     }));
 
     it('should call updatecollapsestate', inject(['$timeout', function($timeout) {
@@ -117,11 +106,11 @@ describe('userGroups directive', function() {
 
   describe('remove function', function() {
     beforeEach(function() {
-      $httpBackend.when('DELETE', apiHostname + '/v1/tenants/tenant-id/groups/groupId1/users/userId1').respond({});
+      Session.tenant.tenantId = 'tenant-id';
+      $httpBackend.when('DELETE', apiHostname + '/v1/tenants/'+  Session.tenant.tenantId + '/groups/groupId1/users/userId1').respond({});
     });
 
     it('should call TenantUserGroup delete', inject(function() {
-      $httpBackend.expectDELETE(apiHostname + '/v1/tenants/tenant-id/groups/groupId1/users/userId1');
       isolateScope.remove({
         tenantId: 'tenant-id',
         memberId: 'userId1',
@@ -140,19 +129,19 @@ describe('userGroups directive', function() {
       $timeout.flush();
       expect(isolateScope.updateCollapseState).toHaveBeenCalled();
     }]));
-    
+
     it('should remove the item from userGroups list', inject(function() {
       isolateScope.updateFiltered();
       expect(isolateScope.userGroups.length).toBe(2);
-      isolateScope.remove(userGroups[0]);
+      isolateScope.remove(mockUserGroups[0]);
       $httpBackend.flush();
       expect(isolateScope.userGroups.length).toBe(1);
     }));
-    
+
     it('should add the removed group to the filtered list', inject(function() {
       isolateScope.updateFiltered();
       expect(isolateScope.filtered.length).toBe(1);
-      isolateScope.remove(userGroups[0]);
+      isolateScope.remove(mockUserGroups[0]);
       $httpBackend.flush();
       expect(isolateScope.filtered.length).toBe(2);
     }));
@@ -306,10 +295,10 @@ describe('userGroups directive', function() {
       $httpBackend.flush();
       expect(failSpy).toHaveBeenCalled();
     }));
-    
+
     it('should add the group to $scope.groups', inject(function() {
       $httpBackend.when('POST', apiHostname + '/v1/tenants/1/groups').respond({result: {name: 'groupname'}});
-      var originalLength = groups.length;
+      var originalLength = mockGroups.length;
       isolateScope.createGroup('groupname');
       $httpBackend.flush();
       expect(isolateScope.groups.length).toEqual(originalLength + 1);
