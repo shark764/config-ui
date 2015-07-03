@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('NavbarController', ['$rootScope', '$scope', '$state', 'AuthService', 'Session', 'DirtyForms',
-    function($rootScope, $scope, $state, AuthService, Session, DirtyForms) {
+  .controller('NavbarController', ['$rootScope', '$scope', '$state', 'AuthService', 'Session', 'DirtyForms', '$translate',
+    function($rootScope, $scope, $state, AuthService, Session, DirtyForms, $translate) {
       $scope.Session = Session;
 
       $scope.populateTenantsHandler = function() {
@@ -42,13 +42,13 @@ angular.module('liveopsConfigPanel')
       };
 
       $scope.userDropdownItems = [{
-        label: 'Log Out',
+        label: $translate.instant('navbar.logout'),
         onClick: function() {
           $scope.logout();
         },
         iconClass: 'fa fa-sign-out'
       }, {
-        label: 'User Profile',
+        label: $translate.instant('navbar.profile'),
         onClick: function() {
           $state.transitionTo('content.userprofile');
         },

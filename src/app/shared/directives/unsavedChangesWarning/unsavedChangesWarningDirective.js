@@ -1,7 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('unsavedChangesWarning', ['DirtyForms', '$rootScope', '$window', 'Alert', function (DirtyForms, $rootScope, $window, Alert) {
+  .directive('unsavedChangesWarning', ['DirtyForms', '$rootScope', '$window', 'Alert', '$translate',
+                                       function (DirtyForms, $rootScope, $window, Alert, $translate) {
     return {
       restrict: 'A',
       require: '?form',
@@ -13,7 +14,7 @@ angular.module('liveopsConfigPanel')
 
         $rootScope.$on('$stateChangeStart', function(event){
           if (formController.$dirty){
-            Alert.confirm('You have unsaved changes that will be lost. Click OK to continue, or click cancel to stay on this page.', 
+            Alert.confirm($translate.instant('unsavedchanges.nav.warning'), 
                 angular.noop, 
                 function(){
                   event.preventDefault();
@@ -24,7 +25,7 @@ angular.module('liveopsConfigPanel')
         
         $window.onbeforeunload = function(){
           if (formController.$dirty){
-            return 'You have unsaved changes that will be lost!';
+            return $translate.instant('unsavedchanges.reload.warning');
           }
         };
         

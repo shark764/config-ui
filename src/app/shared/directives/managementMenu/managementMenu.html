@@ -13,8 +13,8 @@
 
     <div class="collapse-bar">
       <span ng-show="!collapsed || menuLocked">
-        <i ng-show="menuLocked" class="fa fa-angle-double-left" ng-click="unlockMenu()" title="Undock sidebar"></i>
-        <i ng-show="!menuLocked" class="fa fa-thumb-tack" ng-click="lockMenu()" title="Dock sidebar"></i>
+        <i ng-show="menuLocked" class="fa fa-angle-double-left" ng-click="unlockMenu()" title="{{'sidebar.undock' | translate}}"></i>
+        <i ng-show="!menuLocked" class="fa fa-thumb-tack" ng-click="lockMenu()" title="{{'sidebar.dock' | translate}}"></i>
       </span>
       <span ng-show="collapsed && !menuLocked"><i class="fa fa-angle-double-right" ng-click="collapsed = false"></i></span>
     </div>

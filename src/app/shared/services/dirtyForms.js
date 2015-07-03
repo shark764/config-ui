@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('DirtyForms', ['Alert', function (Alert) {
+  .service('DirtyForms', ['Alert', '$translate', function (Alert, $translate) {
     var self = this;
     this.forms = [];
     
@@ -26,7 +26,7 @@ angular.module('liveopsConfigPanel')
     
     this.confirmIfDirty = function(actionFunction){
       if (self.hasDirty()){
-        Alert.confirm('You have unsaved changes! Click OK to discard, or cancel to continue editing.',
+        Alert.confirm($translate.instant('dirtyforms.confirm.warning'),
           actionFunction,
           angular.noop);
       } else {

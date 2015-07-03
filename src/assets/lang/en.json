@@ -34,13 +34,25 @@
   "value.value": "Value",
   "value.version": "Version",
 
+  "loading": "Loading",
+  
+  "api.error": "The API could not be contacted. Please reload the page to try again. If this error persists, please contact your systems administrator",
+  
   "login.button": "Login",
+  "login.error": "Invalid username or password.",
+  
+  "session.tenants.none": "No tenants available",
+  
+  "sidebar.dock": "Dock sidebar",
+  "sidebar.undock": "Undock sidebar",
   
   "navbar.users.title": "User Management",
   "navbar.tenants.title": "Tenants",
   "navbar.flows.title": "Flows",
   "navbar.welcome": "Welcome back, {{displayName}}",
   "navbar.configuration.title": "Configuration",
+  "navbar.logout": "Log Out",
+  "navbar.profile": "User Profile",
 
   "details": "Details",
   "details.firstName": "First Name",
@@ -100,6 +112,9 @@
   
   "flow.type": "Type",
   "flow.type.choose": "Select a Type...",
+  "flow.type.customer": "Customer",
+  "flow.type.resource": "Resource",
+  "flow.type.reusable": "Reusable",
   "flow.details.version.choose": "Select a version...",
   "flow.details.name.error": "Please enter a name",
   "flow.details.type.error": "Type is required",
@@ -174,5 +189,12 @@
   "table.search.placeholder": "Search",
   "table.actions.button": "Actions",
   "table.columns.button": "Columns",
-  "table.results.none": "No results were found."
+  "table.results.none": "No results were found.",
+  
+  "content.notenants.warning": "You have no tenants assigned to you. Invite yourself to one!",
+  
+  "unsavedchanges.nav.warning": "You have unsaved changes that will be lost. Click OK to continue, or click cancel to stay on this page.",
+  "unsavedchanges.reload.warning": "You have unsaved changes that will be lost!",
+  
+  "dirtyforms.confirm.warning": "You have unsaved changes! Click OK to discard, or cancel to continue editing."
 }
