@@ -4,15 +4,12 @@ angular.module('liveopsConfigPanel')
   .controller('UsersController', ['$scope', '$window', 'userRoles', 'User', 'Session', 'AuthService', 'userTableConfig', 'Invite', 'toastr', 'flowSetup',
     function($scope, $window, userRoles, User, Session, AuthService, userTableConfig, Invite, toastr, flowSetup) {
       var self = this;
-      $scope.filteredUsers = [];
       $scope.Session = Session;
-      $scope.user = {};
-      
 
       $window.flowSetup = flowSetup;
 
       this.newPassword = null;
-      
+
       User.prototype.preUpdate = function() {
         if (this.password) {
           self.newPassword = this.password;
@@ -21,14 +18,13 @@ angular.module('liveopsConfigPanel')
 
       User.prototype.postUpdate = function(user) {
         if (user.id === Session.user.id && self.newPassword) {
-          var token = AuthService.generateToken(
-            user.email, self.newPassword);
+          var token = AuthService.generateToken(user.email, self.newPassword);
           Session.setUser(user);
           Session.setToken(token);
           self.newPassword = null;
         }
       };
-      
+
       User.prototype.postCreate = function(user) {
         Invite.save({
           tenantId: Session.tenant.tenantId
@@ -44,6 +40,7 @@ angular.module('liveopsConfigPanel')
           toastr.success('User already exists. Sending ' + $scope.user.email + ' an invite for ' + Session.tenant.name, '', {
             timeout: 5000
           });
+ 
           Invite.save({
             tenantId: Session.tenant.tenantId
           }, {
@@ -54,12 +51,18 @@ angular.module('liveopsConfigPanel')
         }
         return error;
       };
-      
+
       $scope.fetch = function() {
         $scope.users = User.query({
           tenantId: Session.tenant.tenantId !== '' ? Session.tenant.tenantId : null
         });
       };
+
+      $scope.create = function() {
+        $scope.selectedUser = new User({
+          status: true
+        });
+      }
 
       $scope.additional = {
         roles: userRoles,
@@ -71,13 +74,11 @@ angular.module('liveopsConfigPanel')
           }
         }
       };
-      
+
       $scope.$on('on:click:create', function() {
-        $scope.selectedUser = new User({
-          status: true
-        });
+        $scope.create();
       });
-      
+
       $scope.$watch('Session.tenant.tenantId', function(old, news) {
         if (angular.equals(old, news)) {
           return;

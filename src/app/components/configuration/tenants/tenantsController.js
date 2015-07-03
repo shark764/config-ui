@@ -19,7 +19,9 @@ angular.module('liveopsConfigPanel')
           }
         });
 
-        $scope.users = User.query();
+        $scope.users = User.query({
+          tenantId: Session.tenant.tenantId
+        });
       };
 
       $scope.$on('on:click:create', function() {

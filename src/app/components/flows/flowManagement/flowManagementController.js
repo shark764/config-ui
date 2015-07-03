@@ -11,7 +11,14 @@ angular.module('liveopsConfigPanel')
           tenantId: Session.tenant.tenantId
         });
       };
-
+      
+      $scope.create = function() {
+        $scope.selectedFlow = new Flow({
+          tenantId: Session.tenant.tenantId,
+          active: true
+        });
+      };
+      
       Flow.prototype.postCreate = function (flow) {
         var initialVersion = new FlowVersion({
           flowId: flow.id,
@@ -29,10 +36,7 @@ angular.module('liveopsConfigPanel')
       };
 
       $scope.$on('on:click:create', function () {
-        $scope.selectedFlow = new Flow({
-          tenantId: Session.tenant.tenantId,
-          active: true
-        });
+        $scope.create();
       });
 
       $scope.$watch('Session.tenant.tenantId', $scope.fetch, true);

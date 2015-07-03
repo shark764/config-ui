@@ -86,7 +86,7 @@ angular.module('liveopsConfigPanel')
             }
           });
 
-          Resource.prototype.save = function () {
+          Resource.prototype.save = function (success, failure) {
             var self = this,
               action = self.isNew() ? self.$save : self.$update,
               preEvent = self.isNew() ? self.preCreate : self.preUpdate,
@@ -101,19 +101,17 @@ angular.module('liveopsConfigPanel')
               })
               .then(postEvent, postEventFail)
               .then(self.postSave, self.postSaveError)
+              .then(success, failure)
               .finally(function () {
                 self.$busy = false;
                 return self;
               });
           };
 
-          Resource.prototype.finally = function (resource) {
-            resource.$busy = false;
-            return resource;
+          Resource.prototype.preCreate = function () {
+            return {};
           };
 
-          Resource.prototype.preCreate = function () {
-          };
           Resource.prototype.postCreate = function (resource) {
             return resource;
           };
@@ -124,7 +122,9 @@ angular.module('liveopsConfigPanel')
           };
 
           Resource.prototype.preUpdate = function () {
+            return {};
           };
+
           Resource.prototype.postUpdate = function (resource) {
             return resource;
           };

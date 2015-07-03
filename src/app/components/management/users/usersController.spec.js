@@ -2,180 +2,162 @@
 
 /* global spyOn: false  */
 
-describe('users controller', function(){
+describe('users controller', function () {
   var $scope,
     $httpBackend,
-    users,
     Session,
-    childScope,
     controller,
-    Invite;
+    Invite,
+    mockUsers;
 
-  beforeEach(module('liveopsConfigPanel'));
   beforeEach(module('gulpAngular'));
+  beforeEach(module('liveopsConfigPanel'));
+  beforeEach(module('liveopsConfigPanel.mock.content.management.users'));
 
-  beforeEach(inject(['$compile', '$rootScope', '$injector', '$controller', 'apiHostname', 
-                     function($compile, $rootScope, $injector, $controller, apiHostname) {
-    users  = [ {
-      'id': 'c6aa44f6-b19e-49f5-bd3f-66f00b885e39',
-      'status': false,
-      'externalId': 73795,
-      'state': 'WRAP',
-      'lastName': 'Lowe',
-      'firstName': 'Munoz',
-      'email': 'munoz.lowe@hivedom.org',
-      'displayName': 'Munoz Lowe'
-    },
-    {
-      'id': '9f97f9d9-004c-469c-906d-b917bd79fbe8',
-      'status': true,
-      'externalId': 80232,
-      'state': 'NOT_READY',
-      'lastName': 'Oliver',
-      'firstName': 'Michael',
-      'email': 'michael.oliver@ezent.io',
-      'displayName': 'Michael Oliver'
-    }];
+  beforeEach(inject(['$compile', '$rootScope', '$httpBackend', '$controller', 'apiHostname', 'mockUsers', 'Session', 'Invite',
+    function ($compile, $rootScope, _$httpBackend, $controller, apiHostname, _mockUsers, _Session_, _Invite_) {
+      $scope = $rootScope.$new();
+      $httpBackend = _$httpBackend;
+      mockUsers = _mockUsers;
+      Session = _Session_;
+      Invite = _Invite_;
 
-    //Need the following so that $digest() works
-    $httpBackend = $injector.get('$httpBackend');
-    $httpBackend.when('GET', apiHostname + '/v1/users?tenantId=1').respond({'result' : users});
-    $httpBackend.expectGET(apiHostname + '/v1/users?tenantId=1');
-    $httpBackend.when('GET', apiHostname + '/v1/regions').respond({'result' : [{
-      'id': 'c98f5fc0-f91a-11e4-a64e-7f6e9992be1f',
-      'description': 'US East (N. Virginia)',
-      'name': 'us-east-1'
-    }]}); 
-    $httpBackend.when('POST', apiHostname + '/v1/login').respond({'result' : {
-      'tenants': []
-    }});
+      controller = $controller('UsersController', {
+        '$scope': $scope
+      });
 
-    $scope = $rootScope.$new();
-    $scope.users = users;
-    Session = {collapseSideMenu: true, tenant : {tenantId : 1, name: 'tenant 1'}};
-    Session. user = {id : 1};
-    Session.setUser = function(){};
-    Session.setToken = function(){};
-    Invite = {save : function(){}};
-    controller = $controller('UsersController', {'$scope': $scope, 'Session' : Session, 'Invite' : Invite});
-    $httpBackend.flush();
-  }]));
+      $scope.user = mockUsers[0];
+      $httpBackend.flush();
+    }
+  ]));
 
-  it('should have users', inject(function() {
+  it('should have users', inject(function () {
     expect($scope.users).toBeDefined();
     expect($scope.users.length).toEqual(2);
   }));
 
-  it('should fetch initial list of users', inject(function() {
-    expect($scope.users).toBeDefined();
-    expect($scope.users.length).toEqual(users.length);
-  }));
+  describe('updateDisplayName function', function () {
+    var childScope;
 
-  describe('updateDisplayName function', function(){
-    beforeEach(function(){
+    beforeEach(function () {
       childScope = {
-          resource: {
-            firstName : 'first',
-            lastName: 'last',
-            displayName : ''
-          },
+        resource: {
+          firstName: 'first',
+          lastName: 'last',
+          displayName: ''
+        },
 
-          detailsForm: {
-            displayName: {
-              $untouched : true
-            }
+        detailsForm: {
+          displayName: {
+            $untouched: true
           }
+        }
       };
     });
 
-    it('should update the displayName with the first and last name if untouched', inject(function() {
+    it('should update the displayName with the first and last name if untouched', inject(function () {
       $scope.additional.updateDisplayName(childScope);
       expect(childScope.resource.displayName).toEqual('first last');
     }));
 
-    it('should do nothing if the displayName field is touched', inject(function() {
+    it('should do nothing if the displayName field is touched', inject(function () {
       childScope.detailsForm.displayName.$untouched = false;
       $scope.additional.updateDisplayName(childScope);
       expect(childScope.resource.displayName).toEqual('');
     }));
   });
 
-  describe('postSave function', function(){
-    it('should reset the session authentication token if user changes their own password', inject(['$injector', function($injector) {
-      var result = {
-          id : 1,
-          email: 'somenewemail@test.com'
-      };
+  describe('postSave function', function () {
+    it('should reset the session authentication token if user changes their own password',
+      inject(['$injector', 'Session', function ($injector, Session) {
 
-      var AuthService = $injector.get('AuthService');
-      var token = AuthService.generateToken('somenewemail@test.com', 'anewpassword');
+        var newPassword = 'anewpassword';
+        var AuthService = $injector.get('AuthService');
+        var token = AuthService.generateToken(mockUsers[0].email, newPassword);
 
-      spyOn(Session, 'setToken');
-      controller.preSave({resource : {password : 'anewpassword'}}); //Set newPassword
-      controller.postSave({originalResource : {id : 3}}, result);
-      expect(Session.setToken).toHaveBeenCalledWith(token);
+        $scope.selectedUser = mockUsers[0];
+        $scope.selectedUser.password = newPassword;
 
-    }]));
+        spyOn(Session, 'setToken');
 
-    it('should create an invite for the new user', inject(function() {
+        $scope.selectedUser.preUpdate($scope.selectedUser);
+
+        expect(controller.newPassword).toBeDefined();
+        expect(controller.newPassword).toEqual(newPassword);
+
+        $scope.selectedUser.postUpdate($scope.selectedUser);
+
+        expect(Session.setToken).toHaveBeenCalledWith(token);
+      }]));
+
+    xit('should create an invite for the new user', inject('User', function (User) {
       spyOn(Invite, 'save');
-      controller.postSave({originalResource : {}}, {email : 'somenewemail@test.com'});
-      expect(Invite.save).toHaveBeenCalledWith({tenantId: 1}, {email : 'somenewemail@test.com', roleId : '00000000-0000-0000-0000-000000000000'});
+      var newUser = new User({
+        tenantId: 'tenant-id'
+      });
+      newUser.save();
+
+      expect(Invite.save).toHaveBeenCalledWith({
+        tenantId: 'tenant-id'
+      }, {
+        email: 'somenewemail@test.com',
+        roleId: '00000000-0000-0000-0000-000000000000'
+      });
     }));
 
-    it('should not send an invite if editing an existing user', inject(function() {
+    it('should not send an invite if editing an existing user', inject(function () {
       spyOn(Invite, 'save');
-      controller.postSave({originalResource : {id : 3}}, {email : 'somenewemail@test.com'});
+      mockUsers[0].save();
       expect(Invite.save).not.toHaveBeenCalled();
     }));
   });
 
-  describe('postError function', function(){
-    it('should do nothing if error code is not 400', inject(function() {
+  describe('postError function', function () {
+    it('should do nothing if error code is not 400', inject(function () {
       var error = {
-          config : {
-            method : 'POST'
-          },
-          status : '500'
+        config: {
+          method: 'POST'
+        },
+        status: '500'
       };
 
       spyOn(Invite, 'save');
-      controller.postError({}, error);
-      expect(Invite.save).not.toHaveBeenCalled();
 
-      error.status = 404;
-      controller.postError({}, error);
+      mockUsers[0].postCreateError(error);
       expect(Invite.save).not.toHaveBeenCalled();
     }));
 
-    it('should do nothing if http method is not POST', inject(function() {
+    it('should do nothing if error code is not 404', inject(function () {
       var error = {
-          config : {
-            method : 'GET'
-          },
-          status : 400
+        config: {
+          method: 'POST'
+        },
+        status: '404'
       };
 
       spyOn(Invite, 'save');
-      controller.postError({}, error);
-      expect(Invite.save).not.toHaveBeenCalled();
 
-      error.config.method = 'PUT';
-      controller.postError({}, error);
+      mockUsers[0].postCreateError(error);
       expect(Invite.save).not.toHaveBeenCalled();
     }));
 
-    it('should create an invite if error is 400 and method is POST', inject(function() {
+
+    it('should create an invite if error is 400 and method is POST', inject(function () {
       var error = {
-          config : {
-            method : 'POST'
-          },
-          status : 400
+        config: {
+          method: 'POST'
+        },
+        status: 400
       };
 
       spyOn(Invite, 'save');
-      controller.postError({resource : {email : 'email'}, cancel : function(){}}, error);
-      expect(Invite.save).toHaveBeenCalledWith({tenantId: 1}, {email : 'email', roleId : '00000000-0000-0000-0000-000000000000'});
+      mockUsers[0].postCreateError(error);
+      expect(Invite.save).toHaveBeenCalledWith({
+        tenantId: Session.tenant.tenantId
+      }, {
+        email: mockUsers[0].email,
+        roleId: '00000000-0000-0000-0000-000000000000'
+      });
     }));
   });
 

@@ -41,7 +41,7 @@ angular.module('liveopsConfigPanel')
         medias: $scope.medias
       };
 
-      $scope.$on('resource:details:create:mediaMapping', function (media) {
+      $scope.$on('resource:details:create:mediaMapping', function (event, media) {
         $scope.waitingMedia = media;
 
         $scope.selectedMedia = new Media({
