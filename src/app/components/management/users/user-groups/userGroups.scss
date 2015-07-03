@@ -2,41 +2,46 @@ $tag-row-height: 26px;
 $tag-row-margin: 5px;
 
 user-groups {
+
+.null {
+  max-width:  $details-table-width;
+}
   #addGroup{
     width: 100%;
     display: table;
     margin-bottom: 10px;
     padding-right: 0;
-    
+
     .btn {
       height: $input-height;
-      vertical-align: middle;
+      line-height: $input-height - 8px;
       width: $input-height;
     }
-    
+
     type-ahead {
       padding-right: 8px;
+      width: $details-table-width - $input-height;
     }
 
     & > * {
       display: table-cell;
     }
   }
-  
+
   #tag-wrapper {
     display: block !important;
     line-height: $tag-row-height;
   }
-  
+
   #tags-inside {
     display:block !important;
   }
-  
+
   #tag-wrapper.collapsed {
     max-height: ($tag-row-height * 3) + ($tag-row-margin * 2);
     overflow: hidden;
   }
-  
+
   .tag {
     border: 1px solid $light-grey;
     @include border-radius();
@@ -48,32 +53,32 @@ user-groups {
     background-color: $lightest-grey;
     color: $darkest-grey;
     padding: 3px 7px;
-    
+
     a {
       color: $grey;
     }
-    
+
     a:hover {
       color: $dark-grey;
     }
   }
-  
+
   .expander {
     height: 5px;
     margin: 5px auto;
     width: 70%;
     text-align: center;
   }
-  
+
   .expander.up {
     border-bottom: 1px solid $light-grey;
     height: auto;
   }
-  
+
   .expander.down {
     border-top: 1px solid $light-grey;
   }
-  
+
   .detail-group {
     padding-right: 25px !important;
   }

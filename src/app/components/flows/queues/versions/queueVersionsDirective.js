@@ -55,7 +55,8 @@ angular.module('liveopsConfigPanel')
           tenantId: version.tenantId,
           queueId: version.queueId
         });
-
+        
+        $scope.newVersionNumber = ($scope.versions.length + 1);
         $scope.createNewVersion = true;
       };
 

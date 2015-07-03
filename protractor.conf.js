@@ -2,18 +2,13 @@
 
 var paths = require('./.yo-rc.json')['generator-gulp-angular'].props.paths;
 
-// An example configuration file.
 exports.config = {
-  // The address of a running selenium server.
-  //seleniumAddress: 'http://localhost:4444/wd/hub',
-  //seleniumServerJar: deprecated, this should be set on node_modules/protractor/config.json
 
-  // Capabilities to be passed to the webdriver instance.
   capabilities: {
     'browserName': 'chrome'
   },
 
-  // Timeout time ni milliseconds; prevents Protractor waiting to synchronize timeouts
+  // Timeout time in milliseconds; prevents Protractor waiting to synchronize timeouts
   // Defaults to 11 seconds
   allScriptsTimeout: 20000,
 
@@ -50,22 +45,19 @@ exports.config = {
     regression: [paths.e2e + '/**/*.spec.js']
   },
 
-  // Spec patterns are relative to the current working directly when
-  // protractor is called.
   specs: [
     paths.e2e + '/login/login.spec.js',
     paths.e2e + '/navigation/sidebar.spec.js',
+    paths.e2e + '/tableControls/**/*.spec.js',
     paths.e2e + '/management/**/*.spec.js',
     paths.e2e + '/configuration/**/*.spec.js',
     paths.e2e + '/userProfile/**/*.spec.js',
-    paths.e2e + '/designer/newflow.spec.js',
-    paths.e2e + '/designer/flows.spec.js',
-    paths.e2e + '/search.spec.js'
+    paths.e2e + '/flows/newflow.spec.js',
+    paths.e2e + '/flows/flows.spec.js'
   ],
 
   framework: 'jasmine2',
 
-  // Options to be passed to Jasmine-node.
   jasmineNodeOpts: {
     showColors: true,
     defaultTimeoutInterval: 30000

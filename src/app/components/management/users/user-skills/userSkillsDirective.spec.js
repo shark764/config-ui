@@ -1,7 +1,7 @@
 'use strict';
 
 /* global spyOn, jasmine : false */
-describe('userSkills directive', function() {
+describe('userSkills directive', function(){
   var $scope,
     $httpBackend,
     Session,
@@ -164,6 +164,7 @@ describe('userSkills directive', function() {
 
     it('should set saving to true', function() {
       isolateScope.selectedSkill = mockSkills[2];
+      isolateScope.selectedSkill = {};
       isolateScope.save();
       expect(isolateScope.saving).toBeTruthy();
     });

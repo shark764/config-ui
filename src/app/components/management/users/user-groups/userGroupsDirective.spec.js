@@ -34,6 +34,18 @@ describe('userGroups directive', function() {
   beforeEach(function() {
     $scope.user = mockUsers[0];
 
+    //Mock the group services
+    groups = [{id: 'g1'}, {id: 'g2'}, {id: 'g3'}];
+    userGroups = [{memberId: 1, tenantId: 1, groupId: 'g2'}, {memberId: 1, tenantId: 1, groupId: 'g3'}];
+    userGroups.$promise = {then : function(callback){callback();}};
+    spyOn(TenantUserGroups, 'query').and.returnValue(userGroups);
+    spyOn(Group, 'query').and.callFake(function(params, successCallback){if (typeof successCallback !== 'undefined') {successCallback();} return groups;});
+    $httpBackend.when('GET', apiHostname + '/v1/tenants/1/groups').respond({'result' : groups});
+    $httpBackend.when('GET', apiHostname + '/v1/tenants/1/users/1/groups').respond({'result' : userGroups});
+
+    $httpBackend.when('GET', apiHostname + '/v1/regions').respond({'result' : [{}]});
+    $httpBackend.when('POST', apiHostname + '/v1/login').respond({'result' : {}});
+
     element = $compile('<user-groups user="user"></user-groups>')($scope);
     $scope.$digest();
     $httpBackend.flush();
@@ -93,8 +105,7 @@ describe('userGroups directive', function() {
       isolateScope.filtered = [];
       isolateScope.fetch();
       $httpBackend.flush();
-      expect(isolateScope.filtered.length).toEqual(1);
-      expect(isolateScope.filtered[0].id).toEqual(mockGroups[1].id);
+      expect(isolateScope.filtered.length).toEqual(groups.length - userGroups.length);
     }));
 
     it('should call updatecollapsestate', inject(['$timeout', function($timeout) {
@@ -129,6 +140,22 @@ describe('userGroups directive', function() {
       $timeout.flush();
       expect(isolateScope.updateCollapseState).toHaveBeenCalled();
     }]));
+    
+    it('should remove the item from userGroups list', inject(function() {
+      isolateScope.updateFiltered();
+      expect(isolateScope.userGroups.length).toBe(2);
+      isolateScope.remove(userGroups[0]);
+      $httpBackend.flush();
+      expect(isolateScope.userGroups.length).toBe(1);
+    }));
+    
+    it('should add the removed group to the filtered list', inject(function() {
+      isolateScope.updateFiltered();
+      expect(isolateScope.filtered.length).toBe(1);
+      isolateScope.remove(userGroups[0]);
+      $httpBackend.flush();
+      expect(isolateScope.filtered.length).toBe(2);
+    }));
   });
 
   describe('reset function', function() {
@@ -203,10 +230,10 @@ describe('userGroups directive', function() {
       expect(isolateScope.newGroupUser.$save).toHaveBeenCalled();
     }));
 
-    it('should call fetch on success', inject(function() {
-      spyOn(isolateScope, 'fetch');
+    it('should call updateFiltered on success', inject(function() {
+      spyOn(isolateScope, 'updateFiltered');
       isolateScope.saveUserGroup();
-      expect(isolateScope.fetch).toHaveBeenCalled();
+      expect(isolateScope.updateFiltered).toHaveBeenCalled();
     }));
 
     it('should call reset on success', inject(function() {
@@ -279,5 +306,14 @@ describe('userGroups directive', function() {
       $httpBackend.flush();
       expect(failSpy).toHaveBeenCalled();
     }));
+    
+    it('should add the group to $scope.groups', inject(function() {
+      $httpBackend.when('POST', apiHostname + '/v1/tenants/1/groups').respond({result: {name: 'groupname'}});
+      var originalLength = groups.length;
+      isolateScope.createGroup('groupname');
+      $httpBackend.flush();
+      expect(isolateScope.groups.length).toEqual(originalLength + 1);
+      expect(isolateScope.groups[isolateScope.groups.length - 1].name).toEqual('groupname');
+     }));
   });
 });

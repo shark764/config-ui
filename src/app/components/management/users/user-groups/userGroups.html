@@ -3,19 +3,19 @@
 </div>
 
 <loading ng-show="groups && !groups.$resolved && userGroups && !userGroups.$resolved"></loading>
-<p ng-hide="groups && groups.$resolved && userGroups.$resolved && groups.length" class="null">{{'details.groups.none' | translate}}</p>
 
 <div ng-show="groups.$resolved && userGroups.$resolved" class="detail-group">
   <ng-form seperate-validation id="addGroup" name="addGroup">
-    <type-ahead hover="true" placeholder="{{'details.groups.placeholder' | translate}}" items="filtered" selected-item="selectedGroup" is-required="true" nameField="name" ></type-ahead>
-    <a ng-hide="saving" ng-disabled="!selectedGroup" class="btn" ng-click="save()" title="{{'value.save' | translate}}"><i class="fa fa-plus"></i></a>
-    <a ng-show="saving" ng-disabled="true" class="btn btn-primary"><i class="fa fa-refresh fa-spin"></i></a>
+    <type-ahead hover="true" placeholder="{{'details.groups.placeholder' | translate}}" items="filtered" selected-item="selectedGroup" is-required="true"></type-ahead>
+    <div>
+      <a ng-hide="saving" ng-disabled="!selectedGroup" class="btn" ng-click="save()" title="{{'value.save' | translate}}"><i class="fa fa-plus"></i></a>
+      <a ng-show="saving" ng-disabled="true" class="btn btn-primary"><i class="fa fa-refresh fa-spin"></i></a>
+    </div>
   </ng-form>
   
-  <div class="input-group">
-    <p ng-show="userGroups.length === 0 && ! addNew" class="null" translate="details.usergroups.none" translate-value-display-name="{{user.displayName}}"></p>
-  </div>
-  
+  <p ng-hide="groups && groups.$resolved && userGroups.$resolved && groups.length" class="null">{{'details.groups.none' | translate}}</p>
+  <p ng-show="userGroups.length === 0 && ! addNew" class="null" translate="details.usergroups.none" translate-value-display-name="{{user.displayName}}"></p>
+ 
   <div ng-show="userGroups.length > 0">
     <div id="tag-wrapper" class=" clear" ng-class="{collapsed : collapsed}">
       <div id="tags-inside" class="clear">
@@ -25,11 +25,11 @@
         </div>
       </div>
     </div>
-    
+
     <div ng-show="! hideCollapseControls">
       <div class="expander down" ng-show="collapsed"><a ng-click="collapsed = false" title="{{'details.groups.showall' | translate}}"><i class="fa fa-ellipsis-h"></i></a></div>
       <div class="expander up" ng-show="! collapsed"><a ng-click="collapsed = true" title="{{'details.groups.hideextra' | translate}}"><i class="fa fa-caret-up"></i></a></div>
     </div>
-    
+
   </div>
 </div>

@@ -52,8 +52,12 @@ angular.module('liveopsConfigPanel')
           };
 
           $scope.save = function() {
+          if ($scope.selectedSkill === null){
+            return;
+          }
+          
             $scope.saving = true;
-
+          
             if (!$scope.selectedSkill.id) {
               new Skill({
                 name: $scope.selectedSkill.name,
@@ -73,16 +77,18 @@ angular.module('liveopsConfigPanel')
           $scope.saveUserSkill = function() {
             $scope.newUserSkill.skillId = $scope.selectedSkill.id;
 
-            var usc = angular.copy($scope.newUserSkill);
-            usc.name = $scope.selectedSkill.name;
-
             if (!$scope.selectedSkill.hasProficiency) {
               $scope.newUserSkill.proficiency = 0;
+          } else {
+            if (!$scope.newUserSkill.proficiency) {
+              $scope.newUserSkill.proficiency = 1;
             }
+          }
 
-            var existing = _.find($scope.userSkills, {
-              'skillId': usc.skillId
-            });
+          var usc = angular.copy($scope.newUserSkill);
+          usc.name = $scope.selectedSkill.name;
+
+          var existing = _.find($scope.userSkills, { 'skillId' : usc.skillId });
 
             if (!existing) {
               $scope.userSkills.push(usc);

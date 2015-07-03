@@ -90,7 +90,6 @@
 
   th.filter-header {
     white-space: nowrap;
-    width: 15%;
 
     a:not(:hover) {
       color: #474747;
@@ -104,7 +103,6 @@
     border-top: 1px solid #ddd;
     text-overflow: ellipsis;
     overflow: hidden;
-    word-wrap: nowrap;
     white-space: nowrap;
   }
 
