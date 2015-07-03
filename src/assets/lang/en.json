@@ -25,11 +25,13 @@
   "value.remove": "Remove",
   "value.save": "Save",
   "value.source": "Source",
+  "value.status": "Status",
   "value.submit": "Submit",
   "value.type": "Type",
   "value.unknown": "unknown",
   "value.update": "Update",
   "value.updatedby": "Last updated by {{displayName}} on {{date}}",
+  "value.value": "Value",
   "value.version": "Version",
 
   "login.button": "Login",
@@ -76,9 +78,15 @@
   
   "user.details.creating": "Creating New User",
   "user.details.password.reset": "Reset Password",
+  "user.table.displayName": "Display Name",
+  "user.table.externalId": "ID",
+  "user.table.state": "State",
+  "user.table.title": "User Management",
   
   "group.details.members.none": "There are no members assigned to this group.",
   "group.details.creating": "Creating Group",
+  "group.table.members": "Members",
+  "group.table.title": "Group Management",
   
   "skill.details.hasProficiency": "Has Proficiency",
   "skill.details.name.error": "Please enter a name",
@@ -86,6 +94,9 @@
   "skill.details.none" : "There are no skills for the selected tenant.",
   "skill.details.proficiency": "Proficiency",
   "skill.details.creating": "Creating Skill",
+  "skill.table.members": "Members",
+  "skill.table.proficiency": "Proficiency",
+  "skill.table.title": "Skill Management",
   
   "flow.type": "Type",
   "flow.type.choose": "Select a Type...",
@@ -96,6 +107,7 @@
   "flow.details.versions.create.title": "Create new version",
   "flowVersions.title": "Versions",
   "flow.details.creating": "Creating New Flow",
+  "flow.table.title": "Flow Management",
   
   "queue.details.version.error" : "Active Version is required",
   "queue.details.createdBy" : "Created By",
@@ -112,6 +124,7 @@
   "queue.details.priority": "Priority",
   "queue.details.queue.error" : "Field \"Query\" is required.",
   "queue.details.creating": "Creating New Queue",
+  "queue.table.title": "Queue Management",
   
   "media.details": "Media",
   "media.details.source.error": "Please enter a source",
@@ -124,10 +137,12 @@
   "media.details.mediaTypes.audio": "Audio",
   "media.details.mediaTypes.tts": "TTS",
   "media.details.creating": "Creating New Media",
+  "media.table.title": "Media Management",
   
   "media.collections.media.new" : "Create New Media",
   "media.collections.media.add": "Add Media",
   "media.collection.details.creating": "Creating New Media Collection",
+  "media.collections.table.title": "Media Collection Management",
   
   "tenant.details.title": "Tenants",
   "tenant.details.name": "Tenant Name",
@@ -136,18 +151,25 @@
   "tenant.details.region": "Region",
   "tenant.details.name.error": "Please enter a name",
   "tenant.details.creating": "Creating New Tenant",
-
+  "tenant.table.title": "Tenant Management",
+  
   "integration.details": "Integration",
   "integration.details.properties.accountSid": "Account SID",
   "integration.details.properties.authToken": "Auth Token",
   "integration.details.properties.webRTC": "WebRTC",
   "integration.details.creating": "Creating New Integration",
-
+  "integration.table.account": "Account",
+  "integration.table.webrtc": "WebRTC",
+  "integration.table.title": "Integration Management",
+  
   "dispatchMappings.details.interactionType": "Interaction Type",
   "dispatchMappings.details.channelType": "Mapping",
   "dispatchMappings.details.flow": "Dispatch to flow",
   "dispatchMappings.details.direction": "Direction",
   "dispatchMappings.details.creating": "Creating New Dispatch Mapping",
+  "dispatchMappings.table.interactionField": "Interaction Field",
+  "dispatchMappings.table.channelType": "Channel Type",
+  "dispatchmappings.table.title": "Dispatch Mapping Management",
   
   "table.search.placeholder": "Search",
   "table.actions.button": "Actions",
