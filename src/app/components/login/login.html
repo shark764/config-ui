@@ -13,15 +13,15 @@
             {{error}}
           </div>
           <div class='input-group'>
-            <input type="text" placeholder="Email" ng-model="username" ng-required="true" />
+            <input type="text" placeholder="{{'value.email' | translate}}" ng-model="username" ng-required="true" />
           </div>
           <div class='input-group'>
-            <input type="password" placeholder="Password" ng-model="password" ng-required="true" />
+            <input type="password" placeholder="{{'value.password' | translate}}" ng-model="password" ng-required="true" />
           </div>
         </div>
       </div>
         <div class='input-group'>
-          <input class='btn btn-primary' type="submit" value="Login" />
+          <input class='btn btn-primary' type="submit" value="{{'login.button' | translate}}" />
         </div>
     </form>
   </div>

@@ -25,7 +25,7 @@
     </div>
     <div class="flow-controls input-group">
       <label></label>
-      <input id="cancel-flow-version-btn" type="button" ng-click="createNewVersion = false" class="btn" value="Cancel" />
+      <input id="cancel-flow-version-btn" type="button" ng-click="createNewVersion = false" class="btn" value="{{'value.cancel' | translate}}" />
       <input id="create-flow-version-btn" ng-disabled="createVersionForm.$invalid || !createVersionForm.$dirty"
         ng-click="saveVersion()" type="submit" class="btn btn-primary" value="{{ 'value.create' | translate }}"/>
     </div>

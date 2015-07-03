@@ -13,12 +13,14 @@
   "value.disabled": "Disabled",
   "value.displayName": "{{displayName}}",
   "value.enabled" : "Enabled",
+  "value.email": "Email",
   "value.error.name.required" : "Field \"Name\" is required.",
   "value.identifier": "Identifier",
   "value.media": "Media",
   "value.name": "Name",
   "value.numMembers": "({{number}})",
   "value.openInDesigner": "Open in designer",
+  "value.password": "Password",
   "value.properties": "Properties",
   "value.remove": "Remove",
   "value.save": "Save",
@@ -26,9 +28,12 @@
   "value.submit": "Submit",
   "value.type": "Type",
   "value.unknown": "unknown",
+  "value.update": "Update",
   "value.updatedby": "Last updated by {{displayName}} on {{date}}",
   "value.version": "Version",
 
+  "login.button": "Login",
+  
   "navbar.users.title": "User Management",
   "navbar.tenants.title": "Tenants",
   "navbar.flows.title": "Flows",
@@ -70,6 +75,7 @@
   "details.name.error": "Please enter a name",
   
   "user.details.creating": "Creating New User",
+  "user.details.password.reset": "Reset Password",
   
   "group.details.members.none": "There are no members assigned to this group.",
   "group.details.creating": "Creating Group",
@@ -141,5 +147,10 @@
   "dispatchMappings.details.channelType": "Mapping",
   "dispatchMappings.details.flow": "Dispatch to flow",
   "dispatchMappings.details.direction": "Direction",
-  "dispatchMappings.details.creating": "Creating New Dispatch Mapping"
+  "dispatchMappings.details.creating": "Creating New Dispatch Mapping",
+  
+  "table.search.placeholder": "Search",
+  "table.actions.button": "Actions",
+  "table.columns.button": "Columns",
+  "table.results.none": "No results were found."
 }

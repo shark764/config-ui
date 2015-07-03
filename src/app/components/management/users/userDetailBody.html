@@ -73,7 +73,7 @@
   <div class="input-group">
     <label>{{'details.password' | translate}}</label>
     <div>
-      <input type="button" class="btn" ng-hide="detailsForm.password.$dirty" ng-click="detailsForm.password.$setDirty()" value="Reset Password">
+      <input type="button" class="btn" ng-hide="detailsForm.password.$dirty" ng-click="detailsForm.password.$setDirty()" value="{{'user.details.password.reset' | translate}}">
       <form-error field="detailsForm.password" error-type-api="{{'details.password.error' | translate}}" error-type-required="{{'details.password.error' | translate}}"></form-error>
       <input ng-required="detailsForm.password.$dirty" autocomplete="off" ng-model="resource.password" name="password" type="password" ng-show="detailsForm.password.$dirty"></input>
     </div>
