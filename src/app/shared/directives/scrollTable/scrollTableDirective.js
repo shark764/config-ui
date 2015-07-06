@@ -8,7 +8,11 @@ angular.module('liveopsConfigPanel')
       compile: function CompilingFunction($templateElement) {
         $templateElement.removeAttr('scroll-table'); //Prevent infinite recursion
         
-        var headerHeight = $templateElement.find('thead')[0].offsetHeight;
+        var headerHeight = $templateElement.find('thead').height();
+        if (headerHeight === 0){
+          headerHeight = 35;
+        }
+        
         var headerCopy = $templateElement.find('thead').clone(true, true);
         headerCopy.find('th').css('height', headerHeight + 'px');
         

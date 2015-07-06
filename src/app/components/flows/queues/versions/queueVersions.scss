@@ -7,7 +7,7 @@ queue-versions {
     margin-top: 10px;
     padding: 10px;
     width: 100%;
-    max-width: $max-control-width;
+    max-width: $max-control-width + 200px;
     
     .divider-header > *{
       background-color: lighten($lightest-grey, 2%) !important;
@@ -17,7 +17,7 @@ queue-versions {
   .queue-controls{
     text-align: right;
     margin-bottom: 10px;
-  
+    
     input, a {
       float: left;
       width: calc(50% - 3px) !important;
