@@ -93,8 +93,8 @@ describe('resource details directive', function() {
     resultUser.firstName = 'Fred';
     resultUser.id = 'abc';
 
-    $httpBackend.when('POST', apiHostname + '/v1/users').respond({'result' : resultUser});
-    $httpBackend.expectPOST(apiHostname + '/v1/users');
+    $httpBackend.when('POST', apiHostname + '/v1/tenants/users').respond({'result' : resultUser});
+    $httpBackend.expectPOST(apiHostname + '/v1/tenants/users');
 
     var ele = $compile('<resource-details original-resource="user"></resource-details>')($scope);
     $scope.$digest();
@@ -115,8 +115,8 @@ describe('resource details directive', function() {
     var resultUser = angular.copy($scope.user);
     resultUser.id = 'abc';
 
-    $httpBackend.when('POST', apiHostname + '/v1/users').respond({'result' : resultUser});
-    $httpBackend.expectPOST(apiHostname + '/v1/users');
+    $httpBackend.when('POST', apiHostname + '/v1/tenants/users').respond({'result' : resultUser});
+    $httpBackend.expectPOST(apiHostname + '/v1/tenants/users');
 
     var ele = $compile('<resource-details original-resource="user"></resource-details>')($scope);
     $scope.$digest();

@@ -21,16 +21,24 @@ angular.module('liveopsConfigPanel')
               $scope.versions.push(versions[i]);
             }
 
-            if ($scope.queue.activeVersion !== null){
-              for(var i = 0; i < $scope.versions.length; i++){
-                if ($scope.versions[i].version === $scope.queue.activeVersion){
-                  $scope.currVersion = $scope.versions[i];
-                }
-              }
-            } else {
-              $scope.currVersion = null;
-            }
+            $scope.updateCurrentVersion();
           });
+        }
+      };
+
+      $scope.$watch('queue.activeVersion', function () {
+        $scope.updateCurrentVersion();
+      });
+
+      $scope.updateCurrentVersion = function () {
+        if ($scope.queue.activeVersion !== null){
+          for(var i = 0; i < $scope.versions.length; i++){
+            if ($scope.versions[i].version === $scope.queue.activeVersion){
+              $scope.currVersion = $scope.versions[i];
+            }
+          }
+        } else {
+          $scope.currVersion = null;
         }
       };
 

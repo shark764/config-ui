@@ -32,7 +32,7 @@
     </thead>
     <tbody>
       <tr ng-repeat="user in resource.members">
-        <td>{{user.displayName}}</td>
+        <td><audit-text translation="value.displayName" user-id="user.memberId"></audit-text></td>
       </tr>
     </tbody>
   </table>

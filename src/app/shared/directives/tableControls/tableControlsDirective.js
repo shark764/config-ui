@@ -10,16 +10,21 @@ angular.module('liveopsConfigPanel')
           config: '=',
           items: '=',
           selected: '=',
-          resourceName: '@',
-          extendScope: '='
+          extendScope: '=',
+          resourceName: '@'
         },
         templateUrl: 'app/shared/directives/tableControls/tableControls.html',
         link: function($scope) {
           angular.extend($scope, $scope.extendScope);
-          
+
+          $scope.$on('resource:details:' + $scope.resourceName + ':create:success', function(event, item) {
+            $scope.items.push(item);
+            $scope.selectItem(item);
+          });
+
           $scope.selectItem = function(item) {
             $scope.selected = item;
-            
+
             if (item) {
               $location.search({id: item.id});
             }
@@ -60,17 +65,6 @@ angular.module('liveopsConfigPanel')
               }
             });
           }
-
-          $scope.$watch('resourceName', function() {
-            if ($scope.resourceWatcher) {
-              $scope.resourceWatcher(); //Delete the old watch
-            }
-
-            $scope.resourceWatcher = $scope.$on('created:resource:' + $scope.resourceName, function(event, item) {
-              $scope.items.push(item);
-              $scope.selectItem(item);
-            });
-          });
 
           $scope.$watchCollection('filtered', function() {
             if (!$scope.filtered || $scope.filtered.length === 0) {

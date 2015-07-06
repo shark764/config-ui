@@ -2,7 +2,7 @@
 
 angular.module('liveopsConfigPanel.mock.content', [])
   .value('mockRegions', [{
-    'id': 'c98f5fc0-f91a-11e4-a64e-7f6e9992be1f',
+    'id': 'regionId1',
     'description': 'US East (N. Virginia)',
     'name': 'us-east-1'
   }])
@@ -10,9 +10,12 @@ angular.module('liveopsConfigPanel.mock.content', [])
     user: {},
     tenants: []
   })
-  .value('tenantId', 'c98f5fc0-f91a-11e4-a64e-000e9992be1f')
   .run(function ($httpBackend, apiHostname, mockRegions, mockLogin, Session) {
     Session.tenant.tenantId = 'tenant-id';
+    Session.user = {
+      id: 'userId1'
+    };
+    Session.activeRegionId = mockRegions[0].id;
     $httpBackend.when('GET', apiHostname + '/v1/regions').respond({
       'result': mockRegions
     });
