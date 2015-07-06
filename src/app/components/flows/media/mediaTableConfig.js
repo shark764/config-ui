@@ -1,23 +1,23 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('mediaTableConfig', ['mediaTypes', function (mediaTypes) {
+  .service('mediaTableConfig', ['mediaTypes', '$translate', function (mediaTypes, $translate) {
       return {
         'fields': [{
-          'header': 'Source',
+          'header': $translate.instant('value.source'),
           'name': 'source'
         }, {
-          'header': 'Type',
+          'header': $translate.instant('value.type'),
           'name': 'type',
           'options': mediaTypes,
           'filter': 'selectedOptions'
         }, {
-          'header': 'Properties',
+          'header': $translate.instant('value.properties'),
           'name': 'properties'
         }],
         'searchOn' : ['source'],
         'orderBy' : ['source'],
-        'title' : 'Media'
+        'title' : $translate.instant('media.table.title')
       };
     }]
   );

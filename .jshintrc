@@ -42,6 +42,8 @@
     "afterEach": false,
     "g": false,
     "expect": false,
-    "describe": false
+    "describe": false,
+    "jasmine": false,
+    "spyOn": false
   }
 }

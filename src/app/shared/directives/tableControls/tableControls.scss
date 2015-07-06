@@ -1,124 +1,124 @@
-.table-controls {
-  width: 100%;
+$action-container-height: 100px;
 
-  > .col {
-    width: 50%;
-    padding-right: 10px;
-    display: inline-block;
-    position:relative;
-
-
-    i {
-      background-color: $main-color;
-      color: white;
-    }
-  }
-
-  &.top-row {
-    margin-bottom: 20px;
-
-    h1, h2 {
-      margin: 0;
-    }
-  }
-
-  .action-container {
-    text-align: right;
-    display: inline-block;
-    width: 49%;
-
-    .col {
-      text-align: left;
-      display: inline-flex;
-      padding-left: 5px;
-      padding-right: 5px;
-
-      button, filter-dropdown {
-        width: 100%;
-        max-width: 200px;
-        padding: 7px 15px;
-      }
-
-      filter-dropdown {
-        padding: 0;
-      }
-
-      .dropdown-label {
-        padding: 7px 15px;
-      }
-    }
-
-    .col.action {
-      text-align: right;
-    }
-  }
-
-  .col.actions {
-    text-align: right;
-  }
-
-  .dropdown-container {
-    top: -3px;
-  }
-}
-
-.table-message {
-  margin: 30px 20px;
-  font-size: 18px;
-
-  i {
-    margin-right: 10px;
-  }
-}
-
-.table {
-  border-collapse: collapse;
-  margin-top: 15px;
-  width: 100%;
-  table-layout: fixed;
-
-  th, td {
-    padding: 8px;
-  }
-
-  th {
-    font-weight: bold;
-    text-align: left;
-    border-right: 1px solid #dadada;
-
-  }
-
-  th.filter-header {
-    white-space: nowrap;
-
-    a:not(:hover) {
-      color: #474747;
-    }
-  }
-  th:last-child {
-    border-right: none;
-  }
-
-  td {
-    border-top: 1px solid #ddd;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-  }
-
-  tr:last-child td{
-    border-bottom: 1px solid #ddd;
-  }
-
-  tbody tr:hover, tr.selected {
-    background-color: $accent-light;
-  }
-
-  .check-col {
-    width: 40px;
+table-controls {
+  #controls-wrapper {
+    position: relative;
+    height: $action-container-height;
   }
   
-  .disabled {
-    color: $grey;
+  .table-controls {
+    width: 100%;
+  
+    > .col {
+      width: 50%;
+      padding-right: 10px;
+      display: inline-block;
+      position:relative;
+  
+  
+      i {
+        background-color: $main-color;
+        color: white;
+      }
+    }
+  
+    &.top-row {
+      margin-bottom: 20px;
+  
+      h1, h2 {
+        margin: 0;
+      }
+    }
+  
+    .action-container {
+      text-align: right;
+      display: inline-block;
+      width: 49%;
+  
+      .col {
+        text-align: left;
+        display: inline-flex;
+        padding-left: 5px;
+        padding-right: 5px;
+  
+        button, filter-dropdown {
+          width: 100%;
+          max-width: 200px;
+          padding: 7px 15px;
+        }
+  
+        filter-dropdown {
+          padding: 0;
+        }
+  
+        .dropdown-label {
+          padding: 7px 15px;
+        }
+      }
+  
+      .col.action {
+        text-align: right;
+      }
+    }
+  
+    .col.actions {
+      text-align: right;
+    }
+  
+    .dropdown-container {
+      top: -3px;
+    }
+  }
+  
+  .scrollable-table-container {
+    height: calc(100% - #{$action-container-height} + 40px);
+  }
+  
+  .table {
+    border-collapse: collapse;
+    
+    th, td {
+      padding: 8px;
+    }
+  
+    th {
+      font-weight: bold;
+      text-align: left;
+      border-right: 1px solid #dadada;
+    }
+  
+    th.filter-header {
+      white-space: nowrap;
+  
+      a:not(:hover) {
+        color: #474747;
+      }
+    }
+    th:last-child {
+      border-right: none;
+    }
+  
+    td {
+      border-top: 1px solid #ddd;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+  
+    tr:last-child td{
+      border-bottom: 1px solid #ddd;
+    }
+  
+    tbody tr:hover, tr.selected {
+      background-color: $accent-light;
+    }
+  
+    .check-col {
+      width: 40px;
+    }
+    
+    .disabled {
+      color: $grey;
+    }
   }
 }

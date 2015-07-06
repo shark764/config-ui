@@ -54,9 +54,7 @@ angular.module('liveopsConfigPanel')
               newLeftWidth = currLeftWidth - delta,
               newRightWidth = currRightWidth + delta,
               leftMinWidth = parseInt(scope.leftTargetElement.css('min-width')),
-              rightMinWidth = parseInt(scope.rightTargetElement.css('min-width')),
-              leftMaxWidth = parentWidth - currRightWidth,
-              rightMaxWidth = parentWidth - currLeftWidth;
+              rightMinWidth = parseInt(scope.rightTargetElement.css('min-width'));
 
           if(newRightWidth < rightMinWidth || newLeftWidth < leftMinWidth){
             return;

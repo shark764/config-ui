@@ -11,8 +11,8 @@
 
 // this will suffice in beta however.
 angular.module('liveopsConfigPanel')
-  .service('Session', ['$rootScope', 'sessionKey', 'preferenceKey',
-    function ($rootScope, sessionKey, preferenceKey) {
+  .service('Session', ['$rootScope', 'sessionKey', 'preferenceKey', '$translate',
+    function ($rootScope, sessionKey, preferenceKey, $translate) {
       var self = this;
 
       this.userSessionKey = sessionKey;
@@ -48,7 +48,7 @@ angular.module('liveopsConfigPanel')
         } else {
           this.tenants = [{
             tenantId: '',
-            name: 'No tenants available'
+            name: $translate.instant('session.tenants.none')
           }];
         }
 

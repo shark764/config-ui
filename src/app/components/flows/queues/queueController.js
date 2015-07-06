@@ -7,6 +7,21 @@ angular.module('liveopsConfigPanel')
 
     $scope.redirectToInvites();
 
+    Queue.prototype.postCreate = function (queue) {
+      var qv =new QueueVersion({
+        tenantId: Session.tenant.tenantId,
+        query: $scope.additional.initialQuery,
+        name: 'v1',
+        queueId: queue.id
+      });
+
+      return qv.save()
+        .then(function (versionResult) {
+          queue.activeVersion = versionResult.version;
+          return queue.save();
+        });
+    };
+
     $scope.fetch = function(){
       $scope.queues = Queue.query({
         tenantId : Session.tenant.tenantId
@@ -26,26 +41,7 @@ angular.module('liveopsConfigPanel')
     $scope.tableConfig = queueTableConfig;
 
     $scope.additional = {
-      initialQuery: '',
-      postSave: function(childScope, result, creatingNew) {
-        var childScope = childScope;
-        if (creatingNew) {
-
-          new QueueVersion({
-            tenantId: Session.tenant.tenantId,
-            query: $scope.additional.initialQuery,
-            name: 'v1',
-            queueId: result.id
-          }).save(function(versionResult){
-            // TODO: investigate if we can find a better way to allow a parent controller
-            // to manipulate $scope in its children... becuase right now we have to do this
-            // and it makes me weep.
-            $scope.selectedQueue.activeVersion = versionResult.version;
-            result.activeVersion = versionResult.version;
-            result.save();
-          });
-        }
-      }
+      initialQuery: ''
     };
 
     $scope.fetch();

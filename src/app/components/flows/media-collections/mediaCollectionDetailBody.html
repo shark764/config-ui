@@ -24,7 +24,7 @@
   <a class="btn pull-right" ng-click="resource.mediaMap.push({});  detailsForm.$dirty = true;"><i class="fa fa-plus"></i></a>
 </div>
 
-<table class="media-collection-table" >
+<table class="media-collection-table table" >
   <thead>
     <th>{{'value.identifier' | translate}}</th>
     <th>{{'value.media' | translate}}</th>
@@ -39,7 +39,7 @@
         <div class="modify-media-box" ng-class="{'edit': editMode === true}">
           <div class="label-container" ng-click="editMode = !editMode">
             <div class="label" ng-show="mapping.id">{{mapping.id}}</div>
-            <div class="label" ng-show="!mapping.id">Add Media</div>
+            <div class="label" ng-show="!mapping.id">{{'media.collections.media.add' | translate}}</div>
             <i class="fa" ng-class="{'fa-caret-down': !editMode, 'fa-caret-up':editMode}"></i>
           </div>
 
@@ -50,7 +50,7 @@
               selected-item="selectedMedia"
               name-field="source"
               on-select="mapping.id = selectedMedia.id; editMode = false; detailsForm.$dirty = true; selectedMedia = null;"></type-ahead>
-            <input ng-click="createMediaMapping(mapping); detailsForm.$dirty = true;" type="button" value="{{'media.collections.media.new' | translate}}" class="btn btn-primary new-media-btn" />
+            <input ng-click="$emit('resource:details:create:mediaMapping', mapping); detailsForm.$dirty = true;" type="button" value="{{'media.collections.media.new' | translate}}" class="btn btn-primary new-media-btn" />
           </div>
         </div>
       </td>
