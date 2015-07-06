@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('UsersController', ['$scope', '$window', 'userRoles', 'User', 'Session', 'AuthService', 'userTableConfig', 'Invite', 'toastr', 'flowSetup',
-    function($scope, $window, userRoles, User, Session, AuthService, userTableConfig, Invite, toastr, flowSetup) {
+  .controller('UsersController', ['$scope', '$window', 'userRoles', 'User', 'Session', 'AuthService', 'userTableConfig', 'Invite', 'Alert', 'flowSetup',
+    function($scope, $window, userRoles, User, Session, AuthService, userTableConfig, Invite, Alert, flowSetup) {
       var self = this;
       $scope.Session = Session;
 
@@ -36,10 +36,7 @@ angular.module('liveopsConfigPanel')
 
       User.prototype.postCreateError = function(error) {
         if (error.status === 400) {
-          toastr.clear();
-          toastr.success('User already exists. Sending ' + $scope.user.email + ' an invite for ' + Session.tenant.name, '', {
-            timeout: 5000
-          });
+          Alert.success('User already exists. Sending ' + $scope.user.email + ' an invite for ' + Session.tenant.name);
 
           Invite.save({
             tenantId: Session.tenant.tenantId

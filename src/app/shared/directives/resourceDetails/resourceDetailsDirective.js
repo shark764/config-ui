@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('resourceDetails', ['toastr', '$rootScope', function(toastr, $rootScope) {
+  .directive('resourceDetails', ['Alert', '$rootScope', '$window', 'DirtyForms', function(Alert, $rootScope, $window, DirtyForms) {
     return {
       restrict: 'E',
       scope: {
@@ -53,12 +53,12 @@ angular.module('liveopsConfigPanel')
         $scope.handleSuccess = function (resource) {
           $scope.resetForm();
           angular.copy($scope.resource, $scope.originalResource);
-          toastr.success('Record ' + ($scope.resource.id ? 'updated' : 'saved'));
+          Alert.success('Record ' + ($scope.resource.id ? 'updated' : 'saved'));
           return resource;
         };
 
         $scope.handleErrors = function (error) {
-          toastr.error('Record failed to ' + ($scope.resource.id ? 'update' : 'save'));
+          Alert.error('Record failed to ' + ($scope.resource.id ? 'update' : 'save'));
 
           if (error.data.error) {
 
@@ -87,16 +87,18 @@ angular.module('liveopsConfigPanel')
         });
 
         $scope.cancel = function () {
-          angular.copy($scope.originalResource, $scope.resource);
-          $scope.resetForm();
-          $scope.$emit('resource:details:' + $scope.resourceName + ':canceled');
+          DirtyForms.confirmIfDirty(function(){
+            angular.copy($scope.originalResource, $scope.resource);
+                  $scope.resetForm();
+                  $scope.$emit('resource:details:' + $scope.resourceName + ':canceled');
+          });
         };
 
         $scope.resetForm = function () {
           $scope.detailsForm.$setPristine();
           $scope.detailsForm.$setUntouched();
         };
-
+        
         $scope.$on('resource:details:' + $scope.resourceName + ':cancel', function() {
           $scope.cancel();
         });

@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('tableControls', ['$filter', '$location', '$stateParams', '$parse',
-    function($filter, $location, $stateParams, $parse) {
+  .directive('tableControls', ['$filter', '$location', '$stateParams', '$parse', 'DirtyForms',
+    function($filter, $location, $stateParams, $parse, DirtyForms) {
       return {
         restrict: 'E',
         scope: {
@@ -23,17 +23,21 @@ angular.module('liveopsConfigPanel')
           });
 
           $scope.selectItem = function(item) {
-            $scope.selected = item;
+            DirtyForms.confirmIfDirty(function(){
+              $scope.selected = item;
+              
+              if (item) {
+                $location.search({id: item.id});
+              }
 
-            if (item) {
-              $location.search({id: item.id});
-            }
-
-            $scope.$emit('resource:selected', item);
+              $scope.$emit('resource:selected', item);
+            });
           };
 
           $scope.onCreateClick = function() {
-            $scope.$emit('on:click:create');
+            DirtyForms.confirmIfDirty(function(){
+              $scope.$emit('on:click:create');
+            });
           };
 
           $scope.parse = function(item, field) {

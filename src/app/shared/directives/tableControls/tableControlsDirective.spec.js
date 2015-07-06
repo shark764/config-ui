@@ -116,6 +116,13 @@ describe('tableControls directive', function() {
       expect(isolateScope.selectItem).toBeDefined();
       expect(isolateScope.selectItem).toEqual(jasmine.any(Function));
     }));
+    
+    it('should check DirtyForms.confirmIfDirty', inject(['DirtyForms', function(DirtyForms) {
+      spyOn(DirtyForms, 'confirmIfDirty');
+      isolateScope.selectItem();
+      expect(DirtyForms.confirmIfDirty).toHaveBeenCalled();
+    }]));
+    
 
     it('should set selected', inject(function() {
       isolateScope.selectItem({name: 'my new item'});
@@ -148,7 +155,13 @@ describe('tableControls directive', function() {
     beforeEach(function(){
       doCompile();
     });
-
+    
+    it('should check DirtyForms.confirmIfDirty', inject(['DirtyForms', function(DirtyForms) {
+      spyOn(DirtyForms, 'confirmIfDirty');
+      isolateScope.onCreateClick();
+      expect(DirtyForms.confirmIfDirty).toHaveBeenCalled();
+    }]));
+    
     it('should emit the on:click:create event', inject(function() {
       spyOn(isolateScope, '$emit');
       isolateScope.onCreateClick();
