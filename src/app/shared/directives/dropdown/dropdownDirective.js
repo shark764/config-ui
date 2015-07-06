@@ -11,7 +11,8 @@ angular.module('liveopsConfigPanel')
       },
       templateUrl : 'app/shared/directives/dropdown/dropdown.html',
       controller : 'DropdownController',
-      link : function(scope) {
+      link : function(scope, element) {
+        element.parent().css('overflow', 'visible');
         scope.optionClick = function(func){
           scope.showDrop = false;
           func();

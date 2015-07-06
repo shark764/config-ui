@@ -1,7 +1,4 @@
-$table-header-height: 35px;
-
 .scrollable-table-container {
-  padding-top: $table-header-height + 10px;
   position: relative;
   width: 100%;
     
@@ -29,19 +26,20 @@ $table-header-height: 35px;
       visibility: hidden;
       height: 0;
       
-      th {
+      & * {
         line-height: 0;
         padding: 0;
       }
     }
-    
-    .table {
-      height: 100%;
-    }
   }
   
-  .table {
+  table {
     width: 100%;
     table-layout: fixed;
+    
+    thead th, thead td {
+      white-space: nowrap;
+      overflow: hidden;
+    }
   }
 }

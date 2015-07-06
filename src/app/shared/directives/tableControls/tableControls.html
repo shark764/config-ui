@@ -35,10 +35,11 @@
 <table scroll-table class="table" ng-show="items.length" id="items-table">
   <thead>
     <tr>
-      <th class="check-col"></th>
-      <th ng-repeat="field in config.fields" ng-if="field.checked" ng-class="{'filter-header': !!field.options}">
-        <div>{{field.header}}</div>
-      </th>
+      <th class="check-col"><input type="checkbox" ng-model="checkAll" ng-change="toggleAll(checkAll)"/></th>
+        <th ng-repeat="field in config.fields" ng-if="field.checked" ng-class="{'filter-header': !!field.options}">
+          <div ng-if="!field.options">{{field.header}}</div>
+          <filter-dropdown ng-if="!!field.options" show-all="true" label="{{field.header}}" options="field.options"></filter-dropdown>
+        </th>
     </tr>
   </thead>
 
