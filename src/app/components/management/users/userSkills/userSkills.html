@@ -15,7 +15,7 @@
 </ng-form>
 
   <p class="null" ng-if="userSkills.length == 0">{{'details.skills.none' | translate}}</p>
-  <table scroll-table class="table" ng-show="userSkills.length > 0">
+  <table scroll-table max-height="300" class="table" ng-show="userSkills.length > 0">
     <thead>
       <tr>
         <th>{{'value.name' | translate}}</th>
