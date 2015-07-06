@@ -39,7 +39,7 @@
         <div class="modify-media-box" ng-class="{'edit': editMode === true}">
           <div class="label-container" ng-click="editMode = !editMode">
             <div class="label" ng-show="mapping.id">{{mapping.id}}</div>
-            <div class="label" ng-show="!mapping.id">Add Media</div>
+            <div class="label" ng-show="!mapping.id">{{'media.collections.media.add' | translate}}</div>
             <i class="fa" ng-class="{'fa-caret-down': !editMode, 'fa-caret-up':editMode}"></i>
           </div>
 

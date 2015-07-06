@@ -1,5 +1,5 @@
 <div class="divider-header">
-  <h4>Versions</h4>
+  <h4>{{'flowVersions.title' | translate}}</h4>
 </div>
 
 <div class="clear">
@@ -20,12 +20,12 @@
     </div>
 
     <div class="input-group">
-      <label>Description</label>
+      <label>{{'value.description' | translate}}</label>
       <input type="text" ng-model="version.description" name="description"></input>
     </div>
     <div class="flow-controls input-group">
       <label></label>
-      <input id="cancel-flow-version-btn" type="button" ng-click="createNewVersion = false" class="btn" value="Cancel" />
+      <input id="cancel-flow-version-btn" type="button" ng-click="createNewVersion = false" class="btn" value="{{'value.cancel' | translate}}" />
       <input id="create-flow-version-btn" ng-disabled="createVersionForm.$invalid || !createVersionForm.$dirty"
         ng-click="saveVersion()" type="submit" class="btn btn-primary" value="{{ 'value.create' | translate }}"/>
     </div>

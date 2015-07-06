@@ -1,28 +1,28 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('groupTableConfig', ['statuses',
-    function (statuses) {
+  .service('groupTableConfig', ['statuses', '$translate',
+    function (statuses, $translate) {
       return {
         'fields': [{
-          'header': 'Group Name',
+          'header': $translate.instant('value.name'),
           'name': 'name'
         }, {
-          'header': 'Description',
+          'header': $translate.instant('value.description'),
           'name': 'description'
         }, {
-          'header': 'Members',
+          'header': $translate.instant('group.table.members'),
           'name': 'members',
           'templateUrl': 'app/components/management/groups/templates/members.html'
         }, {
-          'header': 'Status',
+          'header': $translate.instant('value.status'),
           'name': 'status',
           'templateUrl': 'app/shared/templates/statuses.html',
           'options': statuses()
         }],
         'searchOn' : ['name', 'description'],
         'orderBy' : ['name'],
-        'title' : 'Groups Management'
+        'title' : $translate.instant('group.table.title')
       };
     }
   ]);

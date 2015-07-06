@@ -5,7 +5,7 @@
     </div>
     <div class="action-container">
       <div class="col action">
-        <button id="create-btn" class="btn btn-create btn-primary" ng-click="onCreateClick()">Create</button>
+        <button id="create-btn" class="btn btn-create btn-primary" ng-click="onCreateClick()">{{'value.create' | translate}}</button>
       </div>
     </div>
   </div>
@@ -13,17 +13,17 @@
   <div class="table-controls">
     <div class="col">
       <div class="inner-addon right">
-        <input type="text" ng-model="searchQuery" placeholder="Search"> </input>
+        <input type="text" ng-model="searchQuery" placeholder="{{'table.search.placeholder' | translate}}"> </input>
         <i class="fa fa-search"></i>
       </div>
     </div>
 
     <div class="action-container">
       <div class="col action">
-        <button class="btn btn-create" ng-click="onActionsClick()">Actions</button>
+        <button class="btn btn-create" ng-click="onActionsClick()">{{'table.actions.button' | translate}}</button>
       </div>
       <div class="col">
-           <filter-dropdown id="table-columns-dropdown" class="btn" label="Columns" options="config.fields" display-path="header" value-path="name"></filter-dropdown>
+           <filter-dropdown id="table-columns-dropdown" class="btn" label="{{'table.columns.button' | translate}}" options="config.fields" display-path="header" value-path="name"></filter-dropdown>
       </div>
     </div>
   </div>
@@ -32,6 +32,9 @@
 <loading ng-if="items && !items.$resolved"></loading>
 <p class="null" ng-show="!items || (items.$resolved && !items.length)">No results were found.</p>
 
+    <p class="null" ng-show="!items || (items.$resolved && !items.length)">
+      {{'table.results.none' | translate}}
+    </p>
 <table scroll-table class="table" ng-show="items.length" id="items-table">
   <thead>
     <tr>
