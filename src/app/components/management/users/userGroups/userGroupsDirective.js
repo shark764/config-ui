@@ -3,8 +3,8 @@
 /*jshint browser:true */
 
 angular.module('liveopsConfigPanel')
-  .directive('userGroups', ['TenantUserGroups', 'TenantGroupUsers', 'Group', 'Session', '$timeout', '$filter', 'toastr', '$q',
-	function(TenantUserGroups, TenantGroupUsers, Group, Session, $timeout, $filter, toastr, $q) {
+  .directive('userGroups', ['TenantUserGroups', 'TenantGroupUsers', 'Group', 'Session', '$timeout', '$filter', 'Alert', '$q',
+	function(TenantUserGroups, TenantGroupUsers, Group, Session, $timeout, $filter, Alert, $q) {
     return {
       restrict: 'E',
 
@@ -43,7 +43,7 @@ angular.module('liveopsConfigPanel')
                 $scope.saveUserGroup,
                 function(){
                   $scope.saving = false;
-                  toastr.error('Failed to create a new group');
+                  Alert.error('Failed to create a new group');
                 }
             );
           } else {
@@ -88,7 +88,7 @@ angular.module('liveopsConfigPanel')
 
             $scope.reset();
           }, function() {
-            toastr.error('Failed to save user group');
+            Alert.error('Failed to save user group');
             $scope.saving = false;
           });
         };

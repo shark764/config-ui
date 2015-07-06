@@ -36,7 +36,7 @@ angular.module('liveopsConfigPanel')
 
       User.prototype.postCreateError = function(error) {
         if (error.status === 400) {
-          Alert.success('User already exists. Sending ' + scope.resource.email + ' an invite for ' + Session.tenant.name);
+          Alert.success('User already exists. Sending ' + $scope.user.email + ' an invite for ' + Session.tenant.name);
 
           Invite.save({
             tenantId: Session.tenant.tenantId

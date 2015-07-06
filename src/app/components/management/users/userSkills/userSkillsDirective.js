@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('userSkills', ['TenantUserSkills', 'Skill', 'Session', 'toastr', 'lodash',
-    function(TenantUserSkills, Skill, Session, toastr, _) {
+  .directive('userSkills', ['TenantUserSkills', 'Skill', 'Session', 'Alert', 'lodash',
+    function(TenantUserSkills, Skill, Session, Alert, _) {
       return {
         restrict: 'E',
         scope: {
@@ -18,7 +18,7 @@ angular.module('liveopsConfigPanel')
             }, function() {
               $scope.userSkills.removeItem(tsu);
             }, function() {
-              toastr.error('Failed to remove skill');
+              Alert.error('Failed to remove skill');
             });
           };
 
@@ -101,7 +101,7 @@ angular.module('liveopsConfigPanel')
               $scope.saving = false;
             }, function() {
               $scope.fetch();
-              toastr.error('Failed to save user skill');
+              Alert.error('Failed to save user skill');
             });
           };
 
