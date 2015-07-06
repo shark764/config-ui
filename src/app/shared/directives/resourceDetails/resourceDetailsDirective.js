@@ -1,15 +1,16 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('resourceDetails', ['toastr', function(toastr) {
+  .directive('resourceDetails', ['Alert', '$rootScope', '$window', 'DirtyForms', function(Alert, $rootScope, $window, DirtyForms) {
     return {
       restrict: 'E',
-      scope : {
+      scope: {
         originalResource: '=',
         headerTemplateUrl: '@',
         bodyTemplateUrl: '@',
         footerTemplateUrl: '@',
-        extendScope: '='
+        extendScope: '=',
+        resourceName: '@'
       },
       templateUrl: 'app/shared/directives/resourceDetails/resourceDetails.html',
 
@@ -19,79 +20,55 @@ angular.module('liveopsConfigPanel')
 
         angular.extend($scope, $scope.extendScope);
 
-        $scope.save = function () {
-          $scope.newRecord = !$scope.originalResource || !$scope.originalResource.id;
-
+        $scope.save = function (extSuccessEventName, extFailureEventName) {
           $scope.loading = true;
 
-          if($scope.preSave){
-            $scope.preSave($scope, $scope.newRecord);
-          }
+          var successEventName = $scope.resource.isNew() ?
+            'resource:details:' + $scope.resourceName + ':create:success' :
+            'resource:details:' + $scope.resourceName + ':update:success';
 
-          $scope.resource.save(
-            function (result) {
-              if($scope.postSave){
-                $scope.postSave($scope, result, $scope.newRecord);
+          var failureEventName = $scope.resource.isNew() ?
+            'resource:details:' + $scope.resourceName + ':create:fail' :
+            'resource:details:' + $scope.resourceName + ':update:fail';
+
+          return $scope.resource.save()
+            .then($scope.handleSuccess, $scope.handleErrors)
+            .then(function () {
+              if(angular.isDefined(extSuccessEventName)) {
+                $rootScope.$broadcast(extSuccessEventName, $scope.resource);
               }
 
-              $scope.handleSuccess(result);
-            },
-
-            function (error, headers){
-              if ($scope.postError){
-                $scope.postError($scope, error, headers, $scope.newRecord);
+              $rootScope.$broadcast(successEventName, $scope.resource);
+            }, function () {
+              if(angular.isDefined(extFailureEventName)) {
+                $rootScope.$broadcast(extFailureEventName, $scope.resource);
               }
 
-              $scope.handleErrors(error);
-            }
-          );
+              $rootScope.$broadcast(failureEventName, $scope.resource);
+            }).finally(function () {
+              $scope.loading = false;
+            });
         };
 
-        $scope.saveAndNew = function () {
-          $scope.loading = true;
-
-          if($scope.preSaveAndNew){
-            $scope.preSaveAndNew($scope);
-          }
-
-          $scope.resource.save($scope.originalResource,
-            function (result) {
-              $scope.handleSuccess(result);
-
-              if($scope.postSaveAndNew){
-                $scope.postSaveAndNew($scope, result);
-              }
-            },
-
-            function (error, headers){
-              $scope.handleErrors(error);
-
-              if ($scope.postError){
-                $scope.postError($scope, error, headers);
-              }
-            }
-          );
-        };
-
-        $scope.handleSuccess = function () {
-          $scope.loading = false;
-
+        $scope.handleSuccess = function (resource) {
           $scope.resetForm();
           angular.copy($scope.resource, $scope.originalResource);
-          toastr.success('Record ' + ($scope.resource.id ? 'updated' : 'saved'));
+          Alert.success('Record ' + ($scope.resource.id ? 'updated' : 'saved'));
+          return resource;
         };
 
         $scope.handleErrors = function (error) {
-          toastr.error('Record failed to ' + ($scope.resource.id ? 'update' : 'save'));
-          $scope.loading = false;
+          Alert.error('Record failed to ' + ($scope.resource.id ? 'update' : 'save'));
 
-          if(error.data.error) {
+          if (error.data.error) {
 
             var attributes = error.data.error.attribute;
 
-            angular.forEach(attributes, function(value, key) {
+            angular.forEach(attributes, function (value, key) {
               $scope.detailsForm[key].$setValidity('api', false);
-              $scope.detailsForm[key].$error = { api: value };
+              $scope.detailsForm[key].$error = {
+                api: value
+              };
               $scope.detailsForm[key].$setTouched();
             });
           }
@@ -105,15 +82,26 @@ angular.module('liveopsConfigPanel')
           $scope.resource = angular.copy($scope.originalResource);
         });
 
+        $scope.$on('resource:details:originalResource:changed', function () {
+          $scope.resource = angular.copy($scope.originalResource);
+        });
+
         $scope.cancel = function () {
-          angular.copy($scope.originalResource, $scope.resource);
-          $scope.resetForm();
+          DirtyForms.confirmIfDirty(function(){
+            angular.copy($scope.originalResource, $scope.resource);
+                  $scope.resetForm();
+                  $scope.$emit('resource:details:' + $scope.resourceName + ':canceled');
+          });
         };
 
         $scope.resetForm = function () {
           $scope.detailsForm.$setPristine();
           $scope.detailsForm.$setUntouched();
         };
+        
+        $scope.$on('resource:details:' + $scope.resourceName + ':cancel', function() {
+          $scope.cancel();
+        });
       }
     };
   }]);

@@ -1,30 +1,30 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('userTableConfig', ['statuses', 'userStates',
-    function(statuses, userStates) {
+  .service('userTableConfig', ['statuses', 'userStates', '$translate',
+    function(statuses, userStates, $translate) {
       return {
         'fields': [{
-          'header': 'Name',
+          'header': $translate.instant('value.name'),
           'name': 'fullName',
           'templateUrl': 'app/components/management/users/userFullNameTemplate.html'
         }, {
-          'header': 'Display Name',
+          'header': $translate.instant('user.table.displayName'),
           'name': 'displayName'
         }, {
-          'header': 'Email',
+          'header': $translate.instant('value.email'),
           'name': 'email'
         }, {
-          'header': 'ID',
+          'header': $translate.instant('user.table.externalId'),
           'name': 'externalId'
         }, {
-          'header': 'State',
+          'header': $translate.instant('user.table.state'),
           'name': 'state',
           'templateUrl': 'app/components/management/users/userStateTemplate.html',
           'checked': false,
           'options': userStates
         }, {
-          'header': 'Status',
+          'header': $translate.instant('value.status'),
           'name': 'status',
           'templateUrl': 'app/shared/templates/statuses.html',
           'checked': false,
@@ -37,7 +37,7 @@ angular.module('liveopsConfigPanel')
           }
         }],
         'orderBy': ['lastName'],
-        'title': 'User Management'
+        'title': $translate.instant('user.table.title')
       };
     }
   ]);

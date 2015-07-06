@@ -1,16 +1,16 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('tenantTableConfig', ['statuses', function (statuses) {
+  .service('tenantTableConfig', ['statuses', '$translate', function (statuses, $translate) {
     return {
       'fields': [{
-        'header': 'Name',
+        'header': $translate.instant('value.name'),
         'name': 'name'
       }, {
-        'header': 'Description',
+        'header': $translate.instant('value.description'),
         'name': 'description'
       }, {
-        'header': 'Status',
+        'header': $translate.instant('value.status'),
         'name': 'status',
         'sortable': true,
         'options': statuses(),
@@ -19,6 +19,6 @@ angular.module('liveopsConfigPanel')
       }],
       'searchOn': ['name'],
       'orderBy': ['name'],
-      'title' : 'Tenant Management'
+      'title' : $translate.instant('tenant.table.title')
     };
   }]);

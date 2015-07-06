@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('tableControls', ['$filter', '$location', '$stateParams', '$parse',
-    function($filter, $location, $stateParams, $parse) {
+  .directive('tableControls', ['$filter', '$location', '$stateParams', '$parse', 'DirtyForms',
+    function($filter, $location, $stateParams, $parse, DirtyForms) {
       return {
         restrict: 'E',
         scope: {
@@ -10,25 +10,34 @@ angular.module('liveopsConfigPanel')
           config: '=',
           items: '=',
           selected: '=',
-          resourceName: '@',
-          extendScope: '='
+          extendScope: '=',
+          resourceName: '@'
         },
         templateUrl: 'app/shared/directives/tableControls/tableControls.html',
         link: function($scope) {
           angular.extend($scope, $scope.extendScope);
-          
-          $scope.selectItem = function(item) {
-            $scope.selected = item;
-            
-            if (item) {
-              $location.search({id: item.id});
-            }
 
-            $scope.$emit('resource:selected', item);
+          $scope.$on('resource:details:' + $scope.resourceName + ':create:success', function(event, item) {
+            $scope.items.push(item);
+            $scope.selectItem(item);
+          });
+
+          $scope.selectItem = function(item) {
+            DirtyForms.confirmIfDirty(function(){
+              $scope.selected = item;
+              
+              if (item) {
+                $location.search({id: item.id});
+              }
+
+              $scope.$emit('resource:selected', item);
+            });
           };
 
           $scope.onCreateClick = function() {
-            $scope.$emit('on:click:create');
+            DirtyForms.confirmIfDirty(function(){
+              $scope.$emit('on:click:create');
+            });
           };
 
           $scope.parse = function(item, field) {
@@ -61,20 +70,14 @@ angular.module('liveopsConfigPanel')
             });
           }
 
-          $scope.$watch('resourceName', function() {
-            if ($scope.resourceWatcher) {
-              $scope.resourceWatcher(); //Delete the old watch
-            }
-
-            $scope.resourceWatcher = $scope.$on('created:resource:' + $scope.resourceName, function(event, item) {
-              $scope.items.push(item);
-              $scope.selectItem(item);
-            });
-          });
-
           $scope.$watchCollection('filtered', function() {
-            if (!$scope.filtered || $scope.filtered.length === 0) {
+            if (!$scope.items || !$scope.items.$resolved){
               $scope.selectItem(null);
+              return;
+            }
+            
+            if ($scope.filtered.length === 0){
+              $scope.onCreateClick();
               return;
             }
 

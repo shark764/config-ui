@@ -1,30 +1,30 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('dispatchMappingTableConfig', ['statuses', 'dispatchMappingInteractionFields', 'dispatchMappingChannelTypes',
-    function (statuses, dispatchMappingInteractionFields, dispatchMappingChannelTypes) {
+  .service('dispatchMappingTableConfig', ['statuses', 'dispatchMappingInteractionFields', 'dispatchMappingChannelTypes', '$translate',
+    function (statuses, dispatchMappingInteractionFields, dispatchMappingChannelTypes, $translate) {
       return {
         'fields': [{
-          'header': 'Name',
+          'header': $translate.instant('value.name'),
           'name': 'name'
         }, {
-          'header': 'Description',
+          'header': $translate.instant('value.description'),
           'name': 'description'
         }, {
-          'header': 'Value',
+          'header': $translate.instant('value.value'),
           'name': 'value'
         }, {
-          'header': 'Interaction Field',
+          'header': $translate.instant('dispatchMappings.table.interactionField'),
           'name': 'interactionField',
           'options': dispatchMappingInteractionFields,
           'filter': 'selectedOptions'
         }, {
-          'header': 'Channel Type',
+          'header': $translate.instant('dispatchMappings.table.channelType'),
           'name': 'channelType',
           'options': dispatchMappingChannelTypes,
           'filter': 'selectedOptions'
         }, {
-          'header': 'Status',
+          'header': $translate.instant('value.status'),
           'name': 'active',
           'sortable': true,
           'options': statuses(),
@@ -33,7 +33,7 @@ angular.module('liveopsConfigPanel')
         }],
         'searchOn': ['name'],
         'orderBy': ['name'],
-        'title': 'Dispatch Mapping Management'
+        'title': $translate.instant('dispatchmappings.table.title')
       };
     }
   ]);

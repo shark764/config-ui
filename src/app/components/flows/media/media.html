@@ -3,7 +3,7 @@
   config="tableConfig"
   items="medias"
   selected="selectedMedia"
-  resource-name="{{'tenants:' + Session.tenant.tenantId + ':media'}}"></table-controls>
+  resource-name="media"></table-controls>
 
 <resize-handle
   id="resize-pane"
@@ -17,4 +17,5 @@
   extend-scope="additional"
   header-template-url="app/components/flows/media/mediaDetailHeader.html"
   body-template-url="app/components/flows/media/mediaDetailBody.html"
-  original-resource="selectedMedia"></resource-details>
+  original-resource="selectedMedia"
+  resource-name="media"></resource-details>

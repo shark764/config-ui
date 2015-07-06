@@ -1,10 +1,9 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('GroupsController', ['$scope', 'Session', 'Group', 'User', 'groupTableConfig', 'TenantGroupUsers', 'UserCache',
-    function ($scope, Session, Group, User, groupTableConfig, TenantGroupUsers, UserCache) {
+  .controller('GroupsController', ['$scope', 'Session', 'Group', 'User', 'groupTableConfig', 'TenantGroupUsers',
+    function ($scope, Session, Group, User, groupTableConfig, TenantGroupUsers) {
       $scope.Session = Session;
-
       $scope.tableConfig = groupTableConfig;
 
       //This is really awful and hopefully the API will update to accommodate this.
@@ -12,8 +11,8 @@ angular.module('liveopsConfigPanel')
         $scope.groups = Group.query({
           tenantId: Session.tenant.tenantId
         }, function () {
-          angular.forEach($scope.groups, function (item, itemKey) {
-            $scope.updateMembers($scope.groups[itemKey]);
+          angular.forEach($scope.groups, function (group) {
+            $scope.updateMembers(group);
           });
         });
       };
@@ -22,19 +21,19 @@ angular.module('liveopsConfigPanel')
         group.members = TenantGroupUsers.query({
           tenantId: Session.tenant.tenantId,
           groupId: group.id
-        }, function () {
-          angular.forEach(group.members, function (member, key) {
-            UserCache.get(member.memberId, function (data) {
-              group.members[key].displayName = data.displayName;
-            });
-          });
+        }, function() {
+          $scope.$broadcast('resource:details:originalResource:changed', group);
         });
+
+        return group.members;
       };
 
-      $scope.additional = {
-        postSave: function (childScope) {
-          $scope.updateMembers(childScope.resource);
-        }
+      Group.prototype.postUpdate = function(group) {
+        return $scope.updateMembers(group).$promise
+          .then(function() {
+            //Need group to be returned at the tail of the promise/
+            return group;
+          });
       };
 
       $scope.$watch('Session.tenant', function() {
