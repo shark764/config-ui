@@ -7,13 +7,14 @@ describe('UserCache service', function(){
       cacheSpy,
       userSpy,
       userGet,
-      cacheGet;
+      cacheGet,
+      Session;
 
   beforeEach(module('liveopsConfigPanel'));
   beforeEach(module('gulpAngular'));
 
   describe('cached calls', function(){
-    beforeEach(inject(['UUIDCache', 'UserCache', function(UUIDCache, _UserCache_) {
+    beforeEach(inject(['UUIDCache', 'UserCache', 'Session', function(UUIDCache, _UserCache_, _Session_) {
       cacheGet = function(id){
         var user = {name: 'cached user', id: id};
         return user;
@@ -21,6 +22,7 @@ describe('UserCache service', function(){
 
       cacheSpy = spyOn(UUIDCache, 'get').and.callFake(cacheGet);
       UserCache = _UserCache_;
+      Session = _Session_;
     }]));
 
     it('should throw an error if not given an id', inject(['$rootScope', '$httpBackend', 'apiHostname', function($rootScope, $httpBackend, apiHostname) {
@@ -72,7 +74,7 @@ describe('UserCache service', function(){
 
     it('should query the user service if its not in the cache', inject(function() {
       var result = UserCache.get(5);
-      expect(userSpy).toHaveBeenCalledWith({id: 5}, jasmine.any(Function), jasmine.any(Function));
+      expect(userSpy).toHaveBeenCalledWith({id: 5, tenantId: Session.tenant.tenantId}, jasmine.any(Function), jasmine.any(Function));
       expect(result).toEqual({name: 'fetched user', id: 5});
     }));
   });

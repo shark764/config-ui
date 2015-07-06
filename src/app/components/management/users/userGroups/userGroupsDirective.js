@@ -12,7 +12,7 @@ angular.module('liveopsConfigPanel')
         user: '='
       },
 
-      templateUrl: 'app/components/management/users/user-groups/userGroups.html',
+      templateUrl: 'app/components/management/users/userGroups/userGroups.html',
 
       link: function($scope) {
         $scope.reset = function() {
@@ -122,6 +122,7 @@ angular.module('liveopsConfigPanel')
           $scope.groups = Group.query({tenantId: Session.tenant.tenantId });
 
           $q.all([$scope.groups.$promise, $scope.userGroups.$promise]).then(function(){
+
             $scope.updateFiltered();
 
             $timeout(function(){

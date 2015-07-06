@@ -8,7 +8,7 @@ angular.module('liveopsConfigPanel')
         scope: {
           user: '='
         },
-        templateUrl: 'app/components/management/users/user-skills/userSkills.html',
+        templateUrl: 'app/components/management/users/userSkills/userSkills.html',
         link: function($scope) {
           $scope.selectedSkill = null;
 
@@ -55,9 +55,9 @@ angular.module('liveopsConfigPanel')
           if ($scope.selectedSkill === null){
             return;
           }
-          
+
             $scope.saving = true;
-          
+
             if (!$scope.selectedSkill.id) {
               new Skill({
                 name: $scope.selectedSkill.name,

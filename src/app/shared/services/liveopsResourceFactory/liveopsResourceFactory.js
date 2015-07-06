@@ -92,7 +92,7 @@ angular.module('liveopsConfigPanel')
               preEvent = self.isNew() ? self.preCreate : self.preUpdate,
               postEvent = self.isNew() ? self.postCreate : self.postUpdate,
               postEventFail = self.isNew() ? self.postCreateError : self.postUpdateError;
-
+              
             self.$busy = true;
 
             return $q.when(preEvent)

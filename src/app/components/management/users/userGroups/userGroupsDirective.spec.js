@@ -14,9 +14,7 @@ describe('userGroups directive', function() {
 
   beforeEach(module('gulpAngular'));
   beforeEach(module('liveopsConfigPanel'));
-  beforeEach(module('liveopsConfigPanel.mock.content'));
-  beforeEach(module('liveopsConfigPanel.mock.content.management.users'));
-  beforeEach(module('liveopsConfigPanel.mock.content.management.groups'));
+  beforeEach(module('liveopsConfigPanel.mock.content.management.users.groups'));
 
   beforeEach(inject(['$compile', '$rootScope', '$httpBackend', 'apiHostname', 'mockUsers', 'mockGroups', 'mockUserGroups', 'Session',
     function(_$compile, _$rootScope_, _$httpBackend_, _apiHostname_, _mockUsers, _mockGroups, _mockUserGroups, _Session_) {
@@ -49,7 +47,7 @@ describe('userGroups directive', function() {
 
   it('should load the groups for the tenant', inject(function() {
     expect(isolateScope.groups).toBeDefined();
-    expect(isolateScope.groups.length).toEqual(2);
+    expect(isolateScope.groups.length).toEqual(mockGroups.length);
     expect(isolateScope.groups[0].id).toEqual(mockGroups[0].id);
     expect(isolateScope.groups[1].id).toEqual(mockGroups[1].id);
   }));
@@ -85,7 +83,7 @@ describe('userGroups directive', function() {
       isolateScope.groups = [];
       isolateScope.fetch();
       $httpBackend.flush();
-      expect(isolateScope.groups.length).toEqual(2);
+      expect(isolateScope.groups.length).toEqual(mockGroups.length);
       expect(isolateScope.groups[0].id).toEqual(mockGroups[0].id);
       expect(isolateScope.groups[1].id).toEqual(mockGroups[1].id);
     }));
@@ -105,11 +103,6 @@ describe('userGroups directive', function() {
   });
 
   describe('remove function', function() {
-    beforeEach(function() {
-      Session.tenant.tenantId = 'tenant-id';
-      $httpBackend.when('DELETE', apiHostname + '/v1/tenants/'+  Session.tenant.tenantId + '/groups/groupId1/users/userId1').respond({});
-    });
-
     it('should call TenantUserGroup delete', inject(function() {
       isolateScope.remove({
         tenantId: 'tenant-id',
@@ -132,18 +125,18 @@ describe('userGroups directive', function() {
 
     it('should remove the item from userGroups list', inject(function() {
       isolateScope.updateFiltered();
-      expect(isolateScope.userGroups.length).toBe(2);
-      isolateScope.remove(mockUserGroups[0]);
+      expect(isolateScope.userGroups.length).toBe(mockUserGroups.length);
+      isolateScope.remove(isolateScope.userGroups[0]);
       $httpBackend.flush();
-      expect(isolateScope.userGroups.length).toBe(1);
+      expect(isolateScope.userGroups.length).toBe(mockUserGroups.length - 1);
     }));
 
     it('should add the removed group to the filtered list', inject(function() {
       isolateScope.updateFiltered();
-      expect(isolateScope.filtered.length).toBe(1);
-      isolateScope.remove(mockUserGroups[0]);
+      expect(isolateScope.filtered.length).toBe(mockGroups.length - mockUserGroups.length);
+      isolateScope.remove(isolateScope.userGroups[0]);
       $httpBackend.flush();
-      expect(isolateScope.filtered.length).toBe(2);
+      expect(isolateScope.filtered.length).toBe(mockGroups.length - mockUserGroups.length + 1);
     }));
   });
 
@@ -275,7 +268,7 @@ describe('userGroups directive', function() {
       isolateScope.createGroup('groupname');
       $httpBackend.flush();
 
-      expect(isolateScope.selectedGroup.id).toEqual(mockGroups[2].id);
+      expect(isolateScope.selectedGroup.id).toEqual(mockGroups[0].id);
     }));
 
     it('should call success callback on success', inject(function() {
@@ -297,12 +290,14 @@ describe('userGroups directive', function() {
     }));
 
     it('should add the group to $scope.groups', inject(function() {
-      $httpBackend.when('POST', apiHostname + '/v1/tenants/1/groups').respond({result: {name: 'groupname'}});
+      var newGroup = {name: 'groupname'};
+      Session.tenant.tenantId = '2';
+      $httpBackend.when('POST', apiHostname + '/v1/tenants/2/groups').respond({result: newGroup});
       var originalLength = mockGroups.length;
-      isolateScope.createGroup('groupname');
+      isolateScope.createGroup(newGroup.name);
       $httpBackend.flush();
-      expect(isolateScope.groups.length).toEqual(originalLength + 1);
-      expect(isolateScope.groups[isolateScope.groups.length - 1].name).toEqual('groupname');
+      expect(isolateScope.groups.length).toEqual(mockGroups.length + 1);
+      expect(isolateScope.groups[isolateScope.groups.length - 1].name).toEqual(newGroup.name);
      }));
   });
 });

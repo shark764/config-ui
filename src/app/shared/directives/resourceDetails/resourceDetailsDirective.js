@@ -21,28 +21,32 @@ angular.module('liveopsConfigPanel')
         angular.extend($scope, $scope.extendScope);
 
         $scope.save = function (extSuccessEventName, extFailureEventName) {
+          $scope.loading = true;
+
           var successEventName = $scope.resource.isNew() ?
             'resource:details:' + $scope.resourceName + ':create:success' :
             'resource:details:' + $scope.resourceName + ':update:success';
-          
+
           var failureEventName = $scope.resource.isNew() ?
             'resource:details:' + $scope.resourceName + ':create:fail' :
             'resource:details:' + $scope.resourceName + ':update:fail';
-          
+
           return $scope.resource.save()
             .then($scope.handleSuccess, $scope.handleErrors)
             .then(function () {
               if(angular.isDefined(extSuccessEventName)) {
                 $rootScope.$broadcast(extSuccessEventName, $scope.resource);
               }
-              
+
               $rootScope.$broadcast(successEventName, $scope.resource);
             }, function () {
               if(angular.isDefined(extFailureEventName)) {
                 $rootScope.$broadcast(extFailureEventName, $scope.resource);
               }
-              
+
               $rootScope.$broadcast(failureEventName, $scope.resource);
+            }).finally(function () {
+              $scope.loading = false;
             });
         };
 
@@ -77,7 +81,7 @@ angular.module('liveopsConfigPanel')
         $scope.$watch('originalResource', function () {
           $scope.resource = angular.copy($scope.originalResource);
         });
-        
+
         $scope.$on('resource:details:originalResource:changed', function () {
           $scope.resource = angular.copy($scope.originalResource);
         });
