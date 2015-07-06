@@ -122,7 +122,7 @@ angular.module('liveopsConfigPanel')
 
                 return error;
               })
-              .finally(function (result) {
+              .finally(function () {
                 self.$busy = false;
                 return self;
               });

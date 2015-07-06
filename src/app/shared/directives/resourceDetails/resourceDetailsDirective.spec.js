@@ -25,12 +25,12 @@ describe('resource details directive', function() {
     Session.tenant = {
       tenantId: 1
     };
-    
+
     $httpBackend.when('GET', apiHostname + '/v1/regions').respond({'result' : [{}]});
     $httpBackend.when('POST', apiHostname + '/v1/login').respond({'result' : {}});
-    
+
     $scope.user = new User({ firstName: 'John', lastName: 'Benson' });
-    
+
     doDefaultCompile = function(){
       element = $compile('<resource-details original-resource="user"></resource-details>')($scope);
       $scope.$digest();
@@ -66,14 +66,14 @@ describe('resource details directive', function() {
 
   it('should have a function to reset a resource that properly handles saves', inject(function() {
     doDefaultCompile();
-    
+
     var resultUser = angular.copy($scope.user);
     resultUser.firstName = 'Fred';
     resultUser.id = 'abc';
 
-    $httpBackend.when('POST', apiHostname + '/v1/tenants/users').respond({'result' : resultUser});
-    $httpBackend.expectPOST(apiHostname + '/v1/tenants/users');
-    
+    $httpBackend.when('POST', apiHostname + '/v1/users').respond({'result' : resultUser});
+    $httpBackend.expectPOST(apiHostname + '/v1/users');
+
     isolateScope.save();
     $httpBackend.flush();
 
@@ -85,13 +85,13 @@ describe('resource details directive', function() {
 
   it('should have a function to save a resource', inject(function() {
     doDefaultCompile();
-    
+
     var resultUser = angular.copy($scope.user);
     resultUser.id = 'abc';
 
-    $httpBackend.when('POST', apiHostname + '/v1/tenants/users').respond({'result' : resultUser});
-    $httpBackend.expectPOST(apiHostname + '/v1/tenants/users');
-    
+    $httpBackend.when('POST', apiHostname + '/v1/users').respond({'result' : resultUser});
+    $httpBackend.expectPOST(apiHostname + '/v1/users');
+
     isolateScope.save();
     $httpBackend.flush();
 
@@ -102,43 +102,43 @@ describe('resource details directive', function() {
     beforeEach(function(){
       doDefaultCompile();
     });
-    
+
     it('should reset the resource on ok', inject(['Alert', function(Alert) {
       isolateScope.detailsForm.$dirty = true;
-      spyOn(Alert, 'confirm').and.callFake(function(msg, okCallback){
-        okCallback();
+      spyOn(Alert, 'confirm').and.callFake(function(msg, okCallback, cancelCallback){
+        cancelCallback();
       });
-      
+
       isolateScope.resource.firstName='JohnTest';
       isolateScope.cancel();
 
       expect(isolateScope.resource.firstName).toEqual('John');
     }]));
-    
+
     it('should reset the form on ok', inject(['Alert', function(Alert) {
       isolateScope.detailsForm.$dirty = true;
-      spyOn(Alert, 'confirm').and.callFake(function(msg, okCallback){
-        okCallback();
+      spyOn(Alert, 'confirm').and.callFake(function(msg, okCallback, cancelCallback){
+        cancelCallback();
       });
-      
+
       spyOn(isolateScope, 'resetForm');
       isolateScope.cancel();
 
       expect(isolateScope.resetForm).toHaveBeenCalled();
     }]));
-    
+
     it('should do nothing on dialog cancel', inject(['Alert', function(Alert) {
       isolateScope.detailsForm.$dirty = true;
-      spyOn(Alert, 'confirm').and.callFake(function(msg, okCallback, cancelCallback){
-        cancelCallback();
+      spyOn(Alert, 'confirm').and.callFake(function(msg, okCallback){
+        okCallback();
       });
-      
+
       spyOn(angular, 'noop');
       isolateScope.cancel();
 
       expect(angular.noop).toHaveBeenCalled();
     }]));
-    
+
     it('should do nothing if the form is not dirty', inject(['Alert', function(Alert) {
       isolateScope.detailsForm.$dirty = false;
       spyOn(Alert, 'confirm');

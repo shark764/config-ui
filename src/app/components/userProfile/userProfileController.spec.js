@@ -39,8 +39,8 @@ describe('UserProfileController', function() {
     }]));
 
     it('should load the user from the id in session', function() {
-      $httpBackend.when('GET', 'fakendpoint.com/v1/tenants/users/12345').respond({'result' : user});
-      $httpBackend.expectGET('fakendpoint.com/v1/tenants/users/12345');
+      $httpBackend.when('GET', 'fakendpoint.com/v1/users/12345').respond({'result' : user});
+      $httpBackend.expectGET('fakendpoint.com/v1/users/12345');
       createController();
       $httpBackend.flush();
 

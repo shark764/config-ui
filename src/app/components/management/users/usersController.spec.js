@@ -108,13 +108,14 @@ describe('users controller', function () {
     it('should create an invite for the new user after creation has failed if it was a 400 error', function () {
       spyOn(Invite, 'save');
 
-      $scope.user.email = 'joeblow@test.com';
-      new User().postCreateError({status:400});
+      var user = new User({email : 'joeblow@test.com'});
+
+      user.postCreateError({status:400});
 
       expect(Invite.save).toHaveBeenCalledWith({
         tenantId: Session.tenant.tenantId
       }, {
-        email: $scope.user.email,
+        email: user.email,
         roleId: '00000000-0000-0000-0000-000000000000'
       });
     });

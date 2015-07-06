@@ -293,7 +293,6 @@ describe('userGroups directive', function() {
       var newGroup = {name: 'groupname'};
       Session.tenant.tenantId = '2';
       $httpBackend.when('POST', apiHostname + '/v1/tenants/2/groups').respond({result: newGroup});
-      var originalLength = mockGroups.length;
       isolateScope.createGroup(newGroup.name);
       $httpBackend.flush();
       expect(isolateScope.groups.length).toEqual(mockGroups.length + 1);

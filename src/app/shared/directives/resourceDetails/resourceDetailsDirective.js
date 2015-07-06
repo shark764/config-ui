@@ -82,8 +82,8 @@ angular.module('liveopsConfigPanel')
         $scope.cancel = function () {
           DirtyForms.confirmIfDirty(function(){
             angular.copy($scope.originalResource, $scope.resource);
-              $scope.resetForm();
-              $scope.$emit('resource:details:' + $scope.resourceName + ':canceled');
+            $scope.resetForm();
+            $scope.$emit('resource:details:' + $scope.resourceName + ':canceled');
           });
         };
 

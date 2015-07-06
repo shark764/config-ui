@@ -1,8 +1,5 @@
 'use strict';
 
-/*global spyOn, jasmine : false */
-
-describe('UserCache service', function(){
   var UserCache,
       cacheSpy,
       userSpy,
@@ -10,6 +7,9 @@ describe('UserCache service', function(){
       cacheGet,
       Session;
 
+/*global spyOn, jasmine : false */
+
+describe('UserCache service', function(){
   beforeEach(module('liveopsConfigPanel'));
   beforeEach(module('gulpAngular'));
 

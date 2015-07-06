@@ -22,14 +22,18 @@ angular.module('liveopsConfigPanel')
               id: id,
               tenantId: Session.tenant.tenantId
             }, function (user) {
-              success ? success(user) : angular.noop;
+              if (success) {
+                success(user);
+              }
 
               UUIDCache.put(id, {
                 id: user.id,
                 displayName: user.displayName
               });
             }, function(error) {
-              failure ? failure(error) : angular.noop;
+              if (failure) {
+                failure(error);
+              }
             });
           }
         }
