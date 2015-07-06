@@ -49,7 +49,7 @@ header {
 
   #table-pane {
     display: table-cell;
-    width: 70%;
+    min-width: 600px;
     padding: 20px;
     box-sizing: border-box;
     vertical-align: top;
@@ -68,6 +68,7 @@ header {
   }
 
   .details-pane {
+    min-width: 350px;
     height: 100%;
     overflow-y: auto;
     display: table-cell;

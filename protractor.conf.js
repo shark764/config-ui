@@ -2,18 +2,15 @@
 
 var paths = require('./.yo-rc.json')['generator-gulp-angular'].props.paths;
 
-// An example configuration file.
 exports.config = {
-  // The address of a running selenium server.
-  //seleniumAddress: 'http://localhost:4444/wd/hub',
-  //seleniumServerJar: deprecated, this should be set on node_modules/protractor/config.json
 
-  // Capabilities to be passed to the webdriver instance.
   capabilities: {
-      'browserName': 'phantomjs',
-      'phantomjs.binary.path': './node_modules/karma-phantomjs-launcher/node_modules/phantomjs/bin/phantomjs',
-      'phantomjs.cli.args': '--debug=true --webdriver --webdriver-logfile=webdriver.log --webdriver-loglevel=DEBUG'
+    'browserName': 'chrome'
   },
+
+  // Timeout time in milliseconds; prevents Protractor waiting to synchronize timeouts
+  // Defaults to 11 seconds
+  allScriptsTimeout: 20000,
 
   // This can be changed via the command line as:
   // --params.login.user 'ngrocks'
@@ -43,27 +40,24 @@ exports.config = {
       paths.e2e + '/login/**/*.spec.js',
       paths.e2e + '/navigation/**/*.spec.js',
       paths.e2e + '/search.spec.js',
-      paths.e2e + '/userProfile/**/*.spec.js',
+      paths.e2e + '/userProfile/**/*.spec.js'
     ],
     regression: [paths.e2e + '/**/*.spec.js']
   },
 
-  // Spec patterns are relative to the current working directly when
-  // protractor is called.
   specs: [
-    //paths.e2e + '/login/login.spec.js',
-    paths.e2e + '/navigation/navbar.spec.js',
-    //paths.e2e + '/management/skills.spec.js',
-    //paths.e2e + '/configuration/**/*.spec.js',
-    //paths.e2e + '/userProfile/**/*.spec.js',
-    //paths.e2e + '/designer/newflow.spec.js',
-    //paths.e2e + '/designer/flows.spec.js',
-    //paths.e2e + '/designer/newqueue.spec.js'
+    paths.e2e + '/login/login.spec.js',
+    paths.e2e + '/navigation/sidebar.spec.js',
+    paths.e2e + '/tableControls/**/*.spec.js',
+    paths.e2e + '/management/**/*.spec.js',
+    paths.e2e + '/configuration/**/*.spec.js',
+    paths.e2e + '/userProfile/**/*.spec.js',
+    paths.e2e + '/flows/newflow.spec.js',
+    paths.e2e + '/flows/flows.spec.js'
   ],
 
   framework: 'jasmine2',
 
-  // Options to be passed to Jasmine-node.
   jasmineNodeOpts: {
     showColors: true,
     defaultTimeoutInterval: 30000

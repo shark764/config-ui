@@ -309,7 +309,7 @@ describe('The create new user form', function() {
     users.displayNameFormField.sendKeys('Display' + randomUser);
     users.emailFormField.sendKeys('titantest' + randomUser + '@mailinator.com');
     users.passwordFormField.sendKeys('password');
-    shared.submitFormBtn.click().then(function(){
+    shared.submitFormBtn.click().then(function() {
       expect(shared.successMessage.isDisplayed()).toBeTruthy();
       expect(shared.tableElements.count()).toBeGreaterThan(userCount);
     });
@@ -331,7 +331,7 @@ describe('The create new user form', function() {
     expect(users.requiredErrors.get(0).getText()).toBe('Must be a valid email address');
 
     users.emailFormField.clear();
-    users.emailFormField.sendKeys(randomUser + '.' + randomUser  + '\t');
+    users.emailFormField.sendKeys(randomUser + '.' + randomUser + '\t');
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
     expect(users.requiredErrors.get(0).isDisplayed()).toBeTruthy;
     expect(users.requiredErrors.get(0).getText()).toBe('Must be a valid email address');
@@ -349,12 +349,13 @@ describe('The create new user form', function() {
     users.displayNameFormField.sendKeys('Display' + randomUser);
     users.passwordFormField.sendKeys('password');
     users.externalIdFormField.sendKeys('12345');
-    shared.submitFormBtn.click().then(function () {
+    shared.submitFormBtn.click().then(function() {
       // New user not added, invite sent to existing user
       expect(shared.tableElements.count()).toBe(userCount);
       expect(shared.successMessage.getText()).toContain('User already exists. Sending ' + params.login.user + ' an invite for');
-    }).then(function () {
-      expect(shared.errorMessage.getText()).toContain('Record failed to save');
+      shared.closeMessageBtn.click().then(function() {
+        expect(shared.errorMessage.getText()).toContain('Record failed to save');
+      });
     });
   });
 

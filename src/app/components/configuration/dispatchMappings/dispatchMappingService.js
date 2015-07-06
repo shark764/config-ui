@@ -3,7 +3,7 @@
 angular.module('liveopsConfigPanel')
   .factory('DispatchMapping', ['LiveopsResourceFactory', function (LiveopsResourceFactory) {
 
-    return LiveopsResourceFactory.create('/v1/tenants/:tenantId/dispatch-mappings/:id', true, false, [
+    return LiveopsResourceFactory.create('/v1/tenants/:tenantId/dispatch-mappings/:id', [
       {name: 'name'},
       {name: 'description', optional: true},
       {name: 'value', optional: true},

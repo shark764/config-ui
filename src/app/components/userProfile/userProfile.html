@@ -1,12 +1,12 @@
 <div id="userProfile">
   <h2>User Profile</h2>
   <div class="mystery-man pull-left">
-    <i class="fa fa-user"></i>
+    <i id="user-profile-pic" class="fa fa-user"></i>
   </div>
-  
+
   <div class="pull-left wrapper">
-    <div><label>Email:</label> {{user.email}}</div>
-    <form novalidate ng-submit="save()"> 
+    <div id="user-profile-email"><label>Email:</label> {{user.email}}</div>
+    <form novalidate ng-submit="save()">
       <div><label>First Name:</label> <input ng-model="user.firstName" type="text" required></input></div>
       <div><label>Last Name:</label> <input ng-model="user.lastName" type="text" required></input></div>
       <div><label>Display Name:</label> <input ng-model="user.displayName" type="text" required></input></div>

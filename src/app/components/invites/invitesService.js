@@ -3,6 +3,6 @@
 angular.module('liveopsConfigPanel')
   .factory('Invite', ['LiveopsResourceFactory', function (LiveopsResourceFactory) {
 
-    return LiveopsResourceFactory.create('/v1/tenants/:tenantId/invites/:verb', false, false);
+    return LiveopsResourceFactory.create('/v1/tenants/:tenantId/invites/:verb');
   }]);
 

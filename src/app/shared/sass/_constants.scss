@@ -1,8 +1,4 @@
-$main-font: Arial, Helvetica, sans-serif;
-$navbar-height: 50px;
-$left-nav-width: 150px;
-$left-nav-left-hide: -120px;
-$left-nav-closed-width: $left-nav-width + $left-nav-left-hide;
+
 
 $lightest-grey: #ebebeb;
 $light-grey: #CCCCCC;
@@ -18,3 +14,9 @@ $accent-light: #e6f5ff;
 $max-control-width: 500px;
 $controls-label-width: 150px;
 $toggle-width: 50px;
+$main-font: Arial, Helvetica, sans-serif;
+$navbar-height: 50px;
+$left-nav-width: 150px;
+$left-nav-left-hide: -120px;
+$left-nav-closed-width: $left-nav-width + $left-nav-left-hide;
+$details-table-width: $max-control-width + 200px;

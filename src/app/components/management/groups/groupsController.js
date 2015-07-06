@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('GroupsController', ['$scope', 'Session', 'Group', 'User', 'groupTableConfig', 'TenantGroupUsers', 'UserName',
-    function ($scope, Session, Group, User, groupTableConfig, TenantGroupUsers, UserName) {
+  .controller('GroupsController', ['$scope', 'Session', 'Group', 'User', 'groupTableConfig', 'TenantGroupUsers', 'UserCache',
+    function ($scope, Session, Group, User, groupTableConfig, TenantGroupUsers, UserCache) {
       $scope.Session = Session;
 
       $scope.tableConfig = groupTableConfig;
@@ -24,7 +24,7 @@ angular.module('liveopsConfigPanel')
           groupId: group.id
         }, function () {
           angular.forEach(group.members, function (member, key) {
-            UserName.get(member.memberId, function (data) {
+            UserCache.get(member.memberId, function (data) {
               group.members[key].displayName = data.displayName;
             });
           });

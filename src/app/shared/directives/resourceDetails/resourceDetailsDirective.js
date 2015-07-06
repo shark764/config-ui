@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('resourceDetails', ['UserName', 'toastr', function(UserName, toastr) {
+  .directive('resourceDetails', ['toastr', function(toastr) {
     return {
       restrict: 'E',
       scope : {

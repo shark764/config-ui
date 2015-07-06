@@ -1,7 +1,6 @@
 .typeahead-container {
   position:relative;
   width: 100%;
-  max-width: $max-control-width;
 
   input {
     padding-right: 40px;
@@ -29,7 +28,7 @@
     z-index: 1;
     padding: 0;
     list-style-type: none;
-    
+
     &.embeded {
       position: inherit;
       @include border-radius(0);
@@ -40,8 +39,8 @@
     li {
       padding: 10px;
       cursor: pointer;
-      
-      &:hover {
+
+      &:hover, &.highlight {
         background-color: $accent-light;
       }
     }

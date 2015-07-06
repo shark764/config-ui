@@ -1,0 +1,17 @@
+<div class="info">
+  <div class="details">
+    <h1 ng-show="originalResource.id">{{originalResource.name}}</h1>
+    <h1 ng-show="!originalResource.id">Creating New Media Collection</h1>
+    <b audit-text
+      translation="value.createdby.time"
+      user-id="originalResource.createdBy"
+      date="originalResource.created">
+    </b>
+    <br/>
+    <b audit-text ng-if="!!originalResource.updatedBy"
+      translation="value.updatedby"
+      user-id="originalResource.updatedBy"
+      date="originalResource.updated">
+    </b>
+  </div>
+</div>
