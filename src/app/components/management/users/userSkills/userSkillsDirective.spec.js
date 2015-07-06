@@ -234,11 +234,11 @@ describe('userSkills directive', function(){
       expect(isolateScope.saveUserSkill).toEqual(jasmine.any(Function));
     });
 
-    it('should save a proficiency of 0 if the selected skill doesn\'t have proficiency', function() {
+    it('should not send proficiency if the selected skill doesn\'t have proficiency', function() {
       isolateScope.saveUserSkill();
       $httpBackend.expectPOST(apiHostname + '/v1/tenants/tenant-id/users/userId1/skills', function(requestBody) {
         var data = JSON.parse(requestBody);
-        return data.proficiency === 0;
+        return data.proficiency === undefined;
       });
       $httpBackend.flush();
 
@@ -254,7 +254,7 @@ describe('userSkills directive', function(){
       isolateScope.saveUserSkill();
       $httpBackend.expectPOST(apiHostname + '/v1/tenants/tenant-id/users/userId1/skills', function(requestBody) {
         var data = JSON.parse(requestBody);
-        return data.proficiency === 0;
+        return data.proficiency === undefined;
       });
       $httpBackend.flush();
     });
@@ -266,6 +266,15 @@ describe('userSkills directive', function(){
       $httpBackend.expectPOST(apiHostname + '/v1/tenants/tenant-id/users/userId1/skills', function(requestBody) {
         var data = JSON.parse(requestBody);
         return data.proficiency === 33;
+      });
+    });
+    
+    it('should set a default proficiency of 1 if the selected skill hasProficiency', function() {
+      isolateScope.selectedSkill.hasProficiency = true;
+      isolateScope.saveUserSkill();
+      $httpBackend.expectPOST(apiHostname + '/v1/tenants/tenant-id/users/userId1/skills', function(requestBody) {
+        var data = JSON.parse(requestBody);
+        return data.proficiency === 1;
       });
     });
 
