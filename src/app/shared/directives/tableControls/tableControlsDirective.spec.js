@@ -29,7 +29,8 @@ describe('tableControls directive', function() {
           callback();
         }
     };
-
+    $scope.items.$resolved = true;
+    
     doCompile = function(){
       element = $compile('<table-controls items="items" config="config" selected="selected" resource-name="{{resourceName}}" extend-scope="extendScope" id="id"></table-controls>')($scope);
       $scope.$digest();
@@ -39,7 +40,7 @@ describe('tableControls directive', function() {
 
   it('should create a table', inject(function() {
     doCompile();
-    expect(element.find('table').length).toEqual(1);
+    expect(element.find('table').length).toEqual(2); //Two tables are present due to scroll-table directive
   }));
 
   it('should add extendscope to its own scope', inject(function() {
@@ -98,13 +99,13 @@ describe('tableControls directive', function() {
     $scope.config.fields.push({name : 'color', checked: false});
     $scope.config.fields.push({name: 'online', checked: true});
     doCompile();
-    expect(element.find('th').length).toBe(3); //Two shown, one hidden, one checkbox column.
+    expect(element.find('th').length).toBe(3 * 2); //Two shown, one hidden, one checkbox column. Doubled due to scroll-table directive...
   }));
 
   it('should include a filter dropdown if field config has options defined', inject(function() {
     $scope.config.fields.push({name : 'color', options: []});
     doCompile();
-    expect(element.find('table').find('filter-dropdown').length).toBe(1);
+    expect(element.find('table').find('filter-dropdown').length).toBe(2); //Doubled due to scroll-table directive
   }));
 
   describe('selectItem function', function(){
@@ -214,12 +215,12 @@ describe('tableControls directive', function() {
       expect(isolateScope.filtered.length).toBe(1);
       expect(isolateScope.filtered[0].id).toEqual('item2');
     }));
-
-    it('watch should set selected item null if filtered is empty', inject(function() {
-      spyOn(isolateScope, 'selectItem');
+    
+    it('watch should call createClick if filtered is empty', inject(function() {
+      spyOn(isolateScope, 'onCreateClick');
       isolateScope.searchQuery = 'a search';
       isolateScope.$digest();
-      expect(isolateScope.selectItem).toHaveBeenCalledWith(null);
+      expect(isolateScope.onCreateClick).toHaveBeenCalled();
     }));
 
     it('watch should set selected item if there isn\'t one', inject(function() {

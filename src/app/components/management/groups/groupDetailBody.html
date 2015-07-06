@@ -26,7 +26,7 @@
 
 <div ng-if="resource.id" class="input-group">
   <label>&nbsp;</label>
-  <table ng-hide="! resource.members.length > 0">
+  <table scroll-table class="table" ng-hide="! resource.members.length > 0">
     <thead>
       <tr><th>{{'value.name' | translate}}</th></tr>
     </thead>

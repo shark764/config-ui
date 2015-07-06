@@ -71,8 +71,13 @@ angular.module('liveopsConfigPanel')
           }
 
           $scope.$watchCollection('filtered', function() {
-            if (!$scope.filtered || $scope.filtered.length === 0) {
+            if (!$scope.items || !$scope.items.$resolved){
               $scope.selectItem(null);
+              return;
+            }
+            
+            if ($scope.filtered.length === 0){
+              $scope.onCreateClick();
               return;
             }
 

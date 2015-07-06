@@ -13,7 +13,9 @@ angular.module('liveopsConfigPanel')
       },
       templateUrl: 'app/shared/directives/dropdown/filterDropdown.html',
       controller: 'DropdownController',
-      link: function ($scope) {
+      link: function ($scope, element) {
+        element.parent().css('overflow', 'visible');
+        
         $scope.valuePath = $scope.valuePath ? $scope.valuePath : 'value';
         $scope.displayPath = $scope.displayPath ? $scope.displayPath : 'display';
 
