@@ -85,6 +85,7 @@ describe('Versions directive controller', function () {
   it('should properly use the directive', function () {
     var element;
     //expect($controller).toBe(null);
+    Session.tenant = {tenantId: 1};
     element = $compile('<queue-versions queue="queue" versions="versions"></queue-versions>')($scope);
     $scope.$digest();
     isolateScope = element.isolateScope();
@@ -110,8 +111,6 @@ describe('Versions directive controller', function () {
       $scope.createNewVersion = true;
 
       expect($scope.createNewVersion).toBe(true);
-
-      console.log($scope);
 
       $scope.cancelVersion();
 
