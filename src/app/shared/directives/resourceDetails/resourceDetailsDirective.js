@@ -23,13 +23,10 @@ angular.module('liveopsConfigPanel')
         $scope.save = function (extSuccessEventName, extFailureEventName) {
           $scope.loading = true;
 
-          var successEventName = $scope.resource.isNew() ?
-            'resource:details:' + $scope.resourceName + ':create:success' :
-            'resource:details:' + $scope.resourceName + ':update:success';
+          var eventName = 'resource:details:' + ':' + ($scope.resource.isNew() ? 'create' : 'update');
 
-          var failureEventName = $scope.resource.isNew() ?
-            'resource:details:' + $scope.resourceName + ':create:fail' :
-            'resource:details:' + $scope.resourceName + ':update:fail';
+          var successEventName =  eventName + ':success',
+              failureEventName = eventName + ':fail';
 
           return $scope.resource.save()
             .then($scope.handleSuccess, $scope.handleErrors)
@@ -82,15 +79,11 @@ angular.module('liveopsConfigPanel')
           $scope.resource = angular.copy($scope.originalResource);
         });
 
-        $scope.$on('resource:details:originalResource:changed', function () {
-          $scope.resource = angular.copy($scope.originalResource);
-        });
-
         $scope.cancel = function () {
           DirtyForms.confirmIfDirty(function(){
             angular.copy($scope.originalResource, $scope.resource);
-                  $scope.resetForm();
-                  $scope.$emit('resource:details:' + $scope.resourceName + ':canceled');
+              $scope.resetForm();
+              $scope.$emit('resource:details:' + $scope.resourceName + ':canceled');
           });
         };
 
@@ -98,7 +91,7 @@ angular.module('liveopsConfigPanel')
           $scope.detailsForm.$setPristine();
           $scope.detailsForm.$setUntouched();
         };
-        
+
         $scope.$on('resource:details:' + $scope.resourceName + ':cancel', function() {
           $scope.cancel();
         });

@@ -21,8 +21,6 @@ angular.module('liveopsConfigPanel')
         group.members = TenantGroupUsers.query({
           tenantId: Session.tenant.tenantId,
           groupId: group.id
-        }, function() {
-          $scope.$broadcast('resource:details:originalResource:changed', group);
         });
 
         return group.members;
@@ -36,9 +34,9 @@ angular.module('liveopsConfigPanel')
           });
       };
 
-      $scope.$watch('Session.tenant', function() {
+      $scope.$watch('Session.tenant.tenantId', function() {
         $scope.fetch();
-      }, true);
+      });
 
       $scope.$on('on:click:create', function () {
         $scope.selectedGroup = new Group({

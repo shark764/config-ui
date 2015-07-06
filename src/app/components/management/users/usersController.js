@@ -36,12 +36,12 @@ angular.module('liveopsConfigPanel')
 
       User.prototype.postCreateError = function(error) {
         if (error.status === 400) {
-          Alert.success('User already exists. Sending ' + $scope.user.email + ' an invite for ' + Session.tenant.name);
+          Alert.success('User already exists. Sending ' + this.email + ' an invite for ' + Session.tenant.name);
 
           Invite.save({
             tenantId: Session.tenant.tenantId
           }, {
-            email: $scope.user.email,
+            email: this.email,
             roleId: '00000000-0000-0000-0000-000000000000'
           }); //TEMPORARY roleId
           $scope.$broadcast('resource:details:user:cancel');
@@ -51,7 +51,7 @@ angular.module('liveopsConfigPanel')
 
       $scope.fetch = function() {
         $scope.users = User.query({
-          tenantId: Session.tenant.tenantId !== '' ? Session.tenant.tenantId : null
+          tenantId: Session.tenant.tenantId
         });
       };
 

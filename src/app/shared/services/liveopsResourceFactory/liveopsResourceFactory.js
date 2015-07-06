@@ -92,17 +92,37 @@ angular.module('liveopsConfigPanel')
               preEvent = self.isNew() ? self.preCreate : self.preUpdate,
               postEvent = self.isNew() ? self.postCreate : self.postUpdate,
               postEventFail = self.isNew() ? self.postCreateError : self.postUpdateError;
-              
+
             self.$busy = true;
 
             return $q.when(preEvent)
-              .then(function(){
-                return action.call(self);
+              .then(function(params){
+                return action.call(self, params);
               })
-              .then(postEvent, postEventFail)
-              .then(self.postSave, self.postSaveError)
-              .then(success, failure)
-              .finally(function () {
+              .then(function (result) {
+                return postEvent.call(self, result);
+              }, function (error) {
+                return postEventFail.call(self, error);
+              })
+              .then(function (result) {
+                return self.postSave.call(self, result);
+              }, function (error) {
+                return self.postSaveError.call(self, error);
+              })
+              .then(function (result) {
+                if (success) {
+                  return success.call(self, result);
+                }
+
+                return result;
+              }, function (error) {
+                if (failure) {
+                  return failure.call(self, error);
+                }
+
+                return error;
+              })
+              .finally(function (result) {
                 self.$busy = false;
                 return self;
               });
