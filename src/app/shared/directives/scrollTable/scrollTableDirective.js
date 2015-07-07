@@ -29,6 +29,21 @@ angular.module('liveopsConfigPanel')
             cloneHeaderTable[0].outerHTML + 
             '<div class="table-wrapper"><div>' + $templateElement[0].outerHTML + '</div></div>' +
             '</div>');
+        
+        return function($scope, element, attrs){
+          if (attrs.maxHeight){
+            $scope.$watch(function(){return element.find('tbody').find('tr').length;}, function(count){
+              if (count > 0){
+                var approxHeight = headerHeight * count;
+                if (approxHeight < attrs.maxHeight){
+                  element.css('height', approxHeight + headerHeight + 5 + 'px');
+                } else {
+                  element.css('height', attrs.maxHeight + 'px');
+                }
+              }
+            });
+          }
+        }
       }
     };
   }]);
