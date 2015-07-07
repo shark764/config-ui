@@ -131,7 +131,7 @@ angular.module('liveopsConfigPanel')
           });
         };
 
-        $scope.$watchGroup(['Session.tenant.tenantId', 'user'], function() {
+        $scope.$watchGroup(['Session.tenant.tenantId', 'user.id'], function() {
           $scope.reset();
           $scope.fetch();
         });

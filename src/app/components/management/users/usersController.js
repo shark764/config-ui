@@ -16,20 +16,22 @@ angular.module('liveopsConfigPanel')
         }
       };
 
-      User.prototype.postUpdate = function(user) {
-        if (user.id === Session.user.id && self.newPassword) {
-          var token = AuthService.generateToken(user.email, self.newPassword);
-          Session.setUser(user);
+      User.prototype.postUpdate = function(result) {
+        if (this.id === Session.user.id && self.newPassword) {
+          var token = AuthService.generateToken(this.email, self.newPassword);
+          Session.setUser(this);
           Session.setToken(token);
           self.newPassword = null;
         }
+
+        return result;
       };
 
       User.prototype.postCreate = function(user) {
         Invite.save({
           tenantId: Session.tenant.tenantId
         }, {
-          email: user.email,
+          email: this.email,
           roleId: '00000000-0000-0000-0000-000000000000'
         }); //TEMPORARY roleId
       };
@@ -44,8 +46,10 @@ angular.module('liveopsConfigPanel')
             email: this.email,
             roleId: '00000000-0000-0000-0000-000000000000'
           }); //TEMPORARY roleId
-          $scope.$broadcast('resource:details:user:cancel');
         }
+
+        $scope.create();
+
         return error;
       };
 

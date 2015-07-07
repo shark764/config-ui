@@ -1,7 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('resourceDetails', ['Alert', '$rootScope', '$window', 'DirtyForms', function(Alert, $rootScope, $window, DirtyForms) {
+  .directive('resourceDetails', ['Alert', '$rootScope', '$window', 'DirtyForms', '$q',
+    function(Alert, $rootScope, $window, DirtyForms, $q) {
     return {
       restrict: 'E',
       scope: {
@@ -30,18 +31,23 @@ angular.module('liveopsConfigPanel')
 
           return $scope.resource.save()
             .then($scope.handleSuccess, $scope.handleErrors)
-            .then(function () {
+            .then(function (result) {
               if(angular.isDefined(extSuccessEventName)) {
                 $rootScope.$broadcast(extSuccessEventName, $scope.resource);
               }
 
               $rootScope.$broadcast(successEventName, $scope.resource);
-            }, function () {
+
+              return result;
+
+            }, function (error) {
               if(angular.isDefined(extFailureEventName)) {
                 $rootScope.$broadcast(extFailureEventName, $scope.resource);
               }
 
               $rootScope.$broadcast(failureEventName, $scope.resource);
+
+              return $q.reject(error);
             }).finally(function () {
               $scope.loading = false;
             });
@@ -69,9 +75,16 @@ angular.module('liveopsConfigPanel')
               $scope.detailsForm[key].$setTouched();
             });
           }
+
+          return $q.reject(error);
         };
 
         $scope.$watch('resource.id', function () {
+          $scope.resetForm();
+        });
+
+        $scope.$watch('originalResource', function () {
+          $scope.resource = angular.copy($scope.originalResource);
           $scope.resetForm();
         });
 
