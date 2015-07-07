@@ -7,7 +7,6 @@ angular.module('liveopsConfigPanel')
       {name: 'name'},
       {name: 'description', optional: true},
       {name: 'owner'},
-      {name: 'status'}
+      {name: 'status', optional: true}
     ]);
-
   }]);

@@ -95,7 +95,9 @@ describe('users controller', function () {
     it('should create an invite for the new user after creation', function () {
       spyOn(Invite, 'save');
 
-      new User().postCreate({email:'joeblow@test.com'});
+      var user = new User({email:'joeblow@test.com'});
+
+      user.postCreate();
 
       expect(Invite.save).toHaveBeenCalledWith({
         tenantId: 'tenant-id'

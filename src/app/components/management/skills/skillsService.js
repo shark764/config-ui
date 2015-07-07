@@ -6,7 +6,8 @@ angular.module('liveopsConfigPanel')
     return LiveopsResourceFactory.create('/v1/tenants/:tenantId/skills/:id', [
       {name: 'name'},
       {name: 'description', optional: true},
-      {name: 'hasProficiency'}
+      {name: 'hasProficiency'},
+      {name: 'status', optional: true}
     ]);
 
   }]);

@@ -78,12 +78,10 @@ angular.module('liveopsConfigPanel')
             $scope.newUserSkill.skillId = $scope.selectedSkill.id;
 
             if (!$scope.selectedSkill.hasProficiency) {
-              $scope.newUserSkill.proficiency = 0;
-          } else {
-            if (!$scope.newUserSkill.proficiency) {
+              delete $scope.newUserSkill.proficiency;
+            } else if (!$scope.newUserSkill.proficiency) {
               $scope.newUserSkill.proficiency = 1;
             }
-          }
 
           var usc = angular.copy($scope.newUserSkill);
           usc.name = $scope.selectedSkill.name;
@@ -105,7 +103,7 @@ angular.module('liveopsConfigPanel')
             });
           };
 
-          $scope.$watch('user', function() {
+          $scope.$watch('user.id', function() {
             if (!Session.tenant.tenantId) {
               return;
             }

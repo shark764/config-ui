@@ -80,9 +80,13 @@
         vertical-align: top;
       }
 
-      input, select, button {
+      input, select {
         width: 100%;
         margin: 0;
+      }
+
+      button, input[type=button] {
+        width: 175px;
       }
     }
 
@@ -111,9 +115,15 @@
     }
 
     .table {
+
+      &.clone-header {
+          @include border-radius-complex(4px, 0, 0, 4px);
+          border-bottom: 0;
+      }
+
       border: $light-grey solid 1px;
       border-spacing: 0;
-      @include border-radius(4px);
+      @include border-radius(0px);
       font-size: 0.9em;
       width: 100%;
       max-width: $max-control-width + 200px;
@@ -135,8 +145,6 @@
     }
 
     .scrollable-table-container {
-      display:block;
-      height: 300px;
       max-width: $max-control-width + 200px;
     }
   }

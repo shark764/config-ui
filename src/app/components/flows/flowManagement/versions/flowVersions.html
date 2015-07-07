@@ -34,16 +34,14 @@
 
 <loading ng-show="versions.length == 0"></loading>
 
-<table scroll-table class="table" id="flow-details-versions-table" ng-show="versions.length > 0">
+<table class="table" id="flow-details-versions-table" ng-show="versions.length > 0">
   <thead>
-    <th>&nbsp;</th>
     <th>{{'value.name' | translate}}</th>
     <th>{{'value.createdOn' | translate}}</th>
     <th>{{'value.createdBy' | translate}}</th>
   </thead>
   <tr ng-repeat="version in versions | orderBy:'created':'reverse'">
-    <td><a href="#/flows/editor/{{version.flowId}}/{{version.version}}?v={{version.v}}">v{{version.v}}</a></td>
-    <td>{{version.name}}</td>
+    <td><a href="#/flows/editor/{{version.flowId}}/{{version.version}}?v={{version.v}}">v{{version.v}}</a> &nbsp; {{version.name}}</td>
     <td>{{version.created | date:'medium'}}</td>
     <td>
       <audit-text translation="value.displayName" user-id="version.createdBy"></audit-text>
