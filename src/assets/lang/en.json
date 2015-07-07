@@ -196,5 +196,8 @@
   "unsavedchanges.nav.warning": "You have unsaved changes that will be lost. Click OK to continue, or click cancel to stay on this page.",
   "unsavedchanges.reload.warning": "You have unsaved changes that will be lost!",
 
-  "dirtyforms.confirm.warning": "You have unsaved changes! Click OK to continue editing, or cancel to discard your changes."
+  "dirtyforms.confirm.warning": "You have unsaved changes! Click OK to continue editing, or cancel to discard your changes.",
+  
+  "user.profile.save.success": "Your details have been updated.",
+  "user.profile.save.fail": "An error occured while updating your details."
 }
