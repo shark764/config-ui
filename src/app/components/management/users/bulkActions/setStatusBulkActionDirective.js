@@ -12,8 +12,7 @@ angular.module('liveopsConfigPanel')
         link: function ($scope) {
           $scope.bulkAction.action = function(user) {
             user.status = $scope.status
-            var promise = user.$update();
-            return promise;
+            return user;
           }
         }
       };

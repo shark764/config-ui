@@ -70,7 +70,7 @@ angular.module('liveopsConfigPanel')
                 return getResult(value);
               })
             },
-            save: {
+            create: {
               method: 'POST',
               interceptor: SaveInterceptor,
               transformRequest: function (data) {
@@ -85,10 +85,14 @@ angular.module('liveopsConfigPanel')
               })
             }
           });
-
+          
+          Resource.prototype.$save = function(success, failure) {
+            var action = this.isNew() ? this.$save : this.$update;
+            return action.call(this);
+          }
+          
           Resource.prototype.save = function (success, failure) {
             var self = this,
-              action = self.isNew() ? self.$save : self.$update,
               preEvent = self.isNew() ? self.preCreate : self.preUpdate,
               postEvent = self.isNew() ? self.postCreate : self.postUpdate,
               postEventFail = self.isNew() ? self.postCreateError : self.postUpdateError;
@@ -97,7 +101,7 @@ angular.module('liveopsConfigPanel')
 
             return $q.when(preEvent)
               .then(function(params){
-                return action.call(self, params);
+                return self.$save();
               })
               .then(function (result) {
                 return postEvent.call(self, result);

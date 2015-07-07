@@ -12,27 +12,49 @@ angular.module('liveopsConfigPanel')
         transclude: true,
         templateUrl: 'app/shared/directives/bulkActionExecutor/bulkActionExecutor.html',
         link: function ($scope) {
+          $scope.checkedItems = [];
+          
           $scope.execute = function() {
             var promises = [];
-            angular.forEach($scope.bulkActions, function(bulkAction) {
-              if(!bulkAction.selected){
+            
+            angular.forEach($scope.items, function(item) {
+              if(!item.checked) {
                 return;
               }
-              angular.forEach($scope.items, function(item) {
-                if(!item.checked) {
+              
+              var promise;
+              var itemCopy = angular.copy(item);
+              angular.forEach($scope.bulkActions, function(bulkAction) {
+                if(!bulkAction.selected){
                   return;
                 }
-                
-                var itemCopy = angular.copy(item);
-                var promise = $q.when(bulkAction.action(itemCopy));
-                promise = promise.then(function(itemSuccess) {
-                  angular.copy(itemSuccess, item);
-                  return item;
-                });
-                promises.push(promise);
+                promise = $q.when(bulkAction.action(itemCopy));
+              });
+              
+              promise = itemCopy.$save();
+              promise = promise.then(function(itemSuccess) {
+                angular.copy(itemSuccess, item);
+                item.checked = true; //keep the item checked after exec
+                return item;
               });
             });
-          }
+          };
+          
+          $scope.updateDropDown = function(event, item) {
+            setTimeout(function() {
+              if(item.checked) {
+                $scope.checkedItems.push(item);
+              } else {
+                $scope.checkedItems.removeItem(item);
+              }
+              $scope.$apply();
+            }, 5);
+            
+            
+          };
+          
+          $scope.$on('table:resource:checked', $scope.updateDropDown);
+          $scope.$on('dropdown:item:checked', $scope.updateDropDown);
         }
       };
     }

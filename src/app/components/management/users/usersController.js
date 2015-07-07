@@ -85,7 +85,7 @@ angular.module('liveopsConfigPanel')
       $scope.bulkActions = {
         setStatus: new BulkAction(),
         resetPassword: new BulkAction()
-      }
+      };
       
       $scope.tableConfig = userTableConfig;
       $scope.fetch();

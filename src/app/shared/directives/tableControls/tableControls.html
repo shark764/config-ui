@@ -15,7 +15,8 @@
 
     <div class="action-container">
       <div class="col">
-        <filter-dropdown id="table-columns-dropdown" class="btn" label="{{'table.columns.button' | translate}}" options="config.fields" display-path="header" value-path="name"></filter-dropdown>
+        <filter-dropdown id="table-columns-dropdown" class="btn" label="{{'table.columns.button' | translate}}"
+          options="config.fields" display-path="header" value-path="name"></filter-dropdown>
       </div>
     </div>
   </div>
@@ -41,12 +42,13 @@
   </thead>
 
   <tbody>
-    <tr ng-repeat="item in (filtered = (items | selectedTableOptions:config.fields | search:config.searchOn:searchQuery | orderBy:config.orderBy))" ng-click="selectItem(item)" ng-class="{selected: item.id === selected.id}">
-      <td class="check-col">
-        <input type="checkbox" ng-model="item.checked" />
+    <tr ng-repeat="item in (filtered = (items | selectedTableOptions:config.fields | search:config.searchOn:searchQuery | orderBy:config.orderBy))"
+      ng-class="{selected: item.id === selected.id}">
+      <td class="check-col" ng-click="checkItem(item)">
+        <input type="checkbox" ng-checked="item.checked"/>
       </td>
 
-      <td ng-if="field.checked" ng-repeat="field in config.fields">
+      <td ng-if="field.checked" ng-repeat="field in config.fields" ng-click="selectItem(item)">
         <div ng-if="field.templateUrl" class="detail-header-pane" ng-include="field.templateUrl"></div>
         <span ng-if="!field.templateUrl">{{parse(item, field)}}</span>
       </td>

@@ -33,6 +33,15 @@ angular.module('liveopsConfigPanel')
               $scope.$emit('resource:selected', item);
             });
           };
+          
+          $scope.checkItem = function(item, value) {
+            var newValue = angular.isDefined(value) ? value : !item.checked;
+            
+            if(item.checked !== newValue) {
+              item.checked = newValue;
+              $scope.$emit('resource:checked', item);
+            }
+          };
 
           $scope.parse = function(item, field) {
             if (typeof(field.name) === 'function') {
@@ -45,7 +54,7 @@ angular.module('liveopsConfigPanel')
 
           $scope.toggleAll = function(checkedValue) {
             angular.forEach($scope.filtered, function(item) {
-              item.checked = checkedValue;
+              $scope.checkItem(item, checkedValue);
             });
           };
 

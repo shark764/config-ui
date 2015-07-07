@@ -10,8 +10,9 @@
   <div class="dropdown-container">
     <div class="dropdown" ng-hide="! showDrop">
       <ul>
-        <li ng-repeat="item in items | orderBy:'label'" ng-click="optionClick(item.onClick)">
-          <i class="{{item.iconClass}}"></i>{{item.label}}
+        <li ng-repeat="item in items | orderBy:displayPath"
+          ng-click="optionClick(item.onClick)">
+          <i class="{{item.iconClass}}"></i>{{item[displayPath]}}
         </li>
       </ul>
     </div>

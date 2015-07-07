@@ -19,5 +19,10 @@ angular.module('liveopsConfigPanel')
       $scope.$on('on:click:actions', function() {
         $scope.bulkView = true;
       });
+      
+      $scope.$on('resource:checked', function(event, item) {
+        $scope.bulkView = true;
+        $scope.$broadcast('table:resource:checked', item);
+      });
     }
   ]);

@@ -199,5 +199,6 @@
   "dirtyforms.confirm.warning": "You have unsaved changes! Click OK to continue editing, or cancel to discard your changes.",
 
   "bulkActions.enable.users": "Enable Users",
-  "bulkActions.reset.password": "Reset Password"
+  "bulkActions.reset.password": "Reset Password",
+  "bulkActions.selected": "Selected ({{count}})"
 }
