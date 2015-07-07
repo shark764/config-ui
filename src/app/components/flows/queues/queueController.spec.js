@@ -79,17 +79,7 @@ describe('QueueController', function() {
     expect($scope.additional.initialQuery).toEqual('');
   });
 
-/*    it('should create a version if creating a new queue', function () {
-
-      /*$httpBackend.when('POST', apiHostname + '/v1/tenants/1/queues/q3').respond({
-        'result': {
-        name: 'q3',
-        description: 'super uncool queue',
-        id: 'q3'
-      }
-      });*/
-    /*  console.log("herp");
-
+    it('should create a version if creating a new queue', function () {
       var newQueue = new Queue({
         name: 'q3',
         description: 'super uncool queue',
@@ -97,23 +87,16 @@ describe('QueueController', function() {
       });
       
       $httpBackend.expectPOST(apiHostname + '/v1/tenants/1/queues/q3/versions').respond({});
-      var result = angular.extend(newQueue, {
+      var result = angular.extend({}, newQueue, {
         activeVersion: 'queueVersion1'
-      })
-      console.log("derp");
+      });
       
       $httpBackend.expectPUT(apiHostname + '/v1/tenants/queues/q3').respond({'result': result});
       
-      newQueue  = newQueue.postCreate(newQueue);
-      console.log("apiHostname: " + apiHostname);
+      newQueue.postCreate(newQueue);
       
       $httpBackend.flush();
-
-      console.log("perp");
-      console.log("newQueue: " + JSON.stringify(newQueue));
       
       expect(newQueue.activeVersion).toEqual('queueVersion1');
-
-      console.log("gerp");
-    });*/
+    });
 });
