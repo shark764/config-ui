@@ -84,7 +84,7 @@ $down-arrow-url: "/assets/images/down-arrow.png";
       color: $light-grey;
     }
     
-    li:hover .label-icon, #tenant-dropdown:hover .label-icon {
+    li:hover .label-icon, #tenant-dropdown:hover .label-icon, .drop-origin .label-icon {
       color: #fff;
     }
     

@@ -3,6 +3,8 @@
 angular.module('liveopsConfigPanel')
   .controller('NavbarController', ['$rootScope', '$scope', '$state', 'AuthService', 'Session', 'DirtyForms', '$translate',
     function($rootScope, $scope, $state, AuthService, Session, DirtyForms, $translate) {
+      $scope.hovering = false;
+      
       $scope.Session = Session;
 
       $scope.populateTenantsHandler = function() {
@@ -28,13 +30,16 @@ angular.module('liveopsConfigPanel')
 
         $scope.tenantDropdownItems = tenantDropdownItems;
       };
+      
+      
+      $scope.hoverTracker = [];
 
       $scope.$watch('Session.tenants', $scope.populateTenantsHandler);
 
       $scope.isActive = function(viewLocation) {
         return $state.current.name !== '' ? $state.href($state.current.name).indexOf(viewLocation) === 1 : false;
       };
-
+      
       $scope.logout = function() {
         AuthService.logout();
         $state.transitionTo('login');
@@ -70,7 +75,7 @@ angular.module('liveopsConfigPanel')
           onClick: function(){$state.transitionTo('content.management.skills');},
           id: 'skill-management-link',
           order: 3
-        }];
+      }];
       
       $scope.configurationDropConfig = [{
           label: 'Tenants',
@@ -87,7 +92,7 @@ angular.module('liveopsConfigPanel')
           onClick: function(){$state.transitionTo('content.configuration.dispatchMappings');},
           id: 'dispatch-mappings-configuration-link',
           order: 3
-        }];
+      }];
       
       $scope.flowsDropConfig = [{
           label: 'Flows',
@@ -109,6 +114,6 @@ angular.module('liveopsConfigPanel')
           onClick: function(){$state.transitionTo('content.flows.media');},
           id: 'media-management-link',
           order: 4
-        }];
+      }];
     }
   ]);
