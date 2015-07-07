@@ -23,7 +23,7 @@ angular.module('liveopsConfigPanel')
         $scope.save = function (extSuccessEventName, extFailureEventName) {
           $scope.loading = true;
 
-          var eventName = 'resource:details:' + ':' + ($scope.resource.isNew() ? 'create' : 'update');
+          var eventName = 'resource:details:' + $scope.resourceName + ':' + ($scope.resource.isNew() ? 'create' : 'update');
 
           var successEventName =  eventName + ':success',
               failureEventName = eventName + ':fail';
