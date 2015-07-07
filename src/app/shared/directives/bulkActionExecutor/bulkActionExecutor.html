@@ -1,13 +1,15 @@
-<filter-dropdown
-  label="{{'bulkActions.selected' | translate}}"
-  options="checkedItems"
-  display-path="displayName"
-  value-path="id">
-</filter-dropdown>
-
-<div class="bulk-actions-content" ng-transclude>
+<div class="detail-header-pane">
+  <filter-dropdown
+    label="{{'bulkActions.selected' | translate}}"
+    options="checkedItems"
+    display-path="displayName"
+    value-path="id">
+  </filter-dropdown>
 </div>
 
-<div class="bulk-actions-controls">
+<div class="detail-body-pane" ng-transclude>
+</div>
+
+<div class="detail-controls-pane">
   <input type="button" ng-click="execute()" style="height: 30px; width: 100px" value="Submit">
 </div>

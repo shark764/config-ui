@@ -15,28 +15,31 @@ angular.module('liveopsConfigPanel')
           $scope.checkedItems = [];
           
           $scope.execute = function() {
-            var promises = [];
-            
             angular.forEach($scope.items, function(item) {
               if(!item.checked) {
                 return;
               }
               
-              var promise;
+              var promises = [];
               var itemCopy = angular.copy(item);
               angular.forEach($scope.bulkActions, function(bulkAction) {
-                if(!bulkAction.selected){
+                if(!bulkAction.checked){
                   return;
                 }
-                promise = $q.when(bulkAction.action(itemCopy));
+                
+                promises.push($q.when(bulkAction.action(itemCopy)));
               });
               
-              promise = itemCopy.$save();
-              promise = promise.then(function(itemSuccess) {
-                angular.copy(itemSuccess, item);
-                item.checked = true; //keep the item checked after exec
-                return item;
-              });
+              if(promises.length) {
+                $q.all(promises).then(function() {
+                  var promise = itemCopy.$save();
+                  promise = promise.then(function(itemSuccess) {
+                    angular.copy(itemSuccess, item);
+                    item.checked = true; //keep the item checked after exec
+                    return item;
+                  });
+                });
+              }
             });
           };
           

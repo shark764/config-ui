@@ -20,12 +20,12 @@
 
       <li id="flows-nav-link" ng-class="{ active: isActive('/flows')}"><a ng-href="#/flows/management">{{'navbar.flows.title' | translate}}</a></li>
 
-      <li id="invites-nav-link" ng-class="{ active: isActive('/invites')}"><a ng-href="#/invites">Invites</a></li>
+      <li id="invites-nav-link" ng-class="{ active: isActive('/invites')}"><a ng-href="#/invites">{{'navbar.invites' | translate}}</a></li>
       
-      <li id="top-bar-create-btn"><a class="btn" ng-click="onCreateClick()">Create</a></li>
-      
-      <li id="top-bar-action-btn"><a class="btn" ng-click="onActionsClick()">Actions</a></li>
-      
+      <li id="top-bar-actions">
+        <input type="button" class="btn" ng-click="onCreateClick()" value="{{'navbar.create' | translate}}">
+        <input type="button" class="btn" ng-click="onActionsClick()" value="{{'navbar.actions' | translate}}">
+      </li>
     </ul>
   </nav>
 

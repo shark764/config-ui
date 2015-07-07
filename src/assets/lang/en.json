@@ -53,6 +53,9 @@
   "navbar.configuration.title": "Configuration",
   "navbar.logout": "Log Out",
   "navbar.profile": "User Profile",
+  "navbar.invites": "Invites",
+  "navbar.create": "Create",
+  "navbar.actions": "Actions",
 
   "details": "Details",
   "details.firstName": "First Name",

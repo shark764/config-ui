@@ -1,0 +1,14 @@
+.detail-body-pane {
+  .bulk-action {
+    margin-bottom: 20px;
+    
+    > label {
+      min-width: 400px;
+      margin-right: 20px;
+    }
+    
+    input {
+      max-width: 300px;
+    }
+  }
+}

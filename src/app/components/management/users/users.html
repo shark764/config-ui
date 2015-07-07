@@ -15,7 +15,6 @@
 
 <div id="right-panel" class="right-panel">
   <resource-details
-    class="details-pane"
     ng-hide="bulkView"
     extend-scope="additional"
     header-template-url="app/components/management/users/userDetailHeader.html"
@@ -23,8 +22,8 @@
     original-resource="selectedUser"
     resource-name="user"/></resource-details>
 
-  <bulk-action-executor ng-show="bulkView" items="users" bulk-actions="bulkActions">
-    <ba-set-status bulk-action="bulkActions.setStatus" class="input-group"></ba-set-status>
-    <ba-reset-password bulk-action="bulkActions.resetPassword" class="input-group"></ba-reset-password>
+  <bulk-action-executor class="details-form" ng-show="bulkView" items="users" bulk-actions="bulkActions">
+    <ba-set-status bulk-action="bulkActions.setStatus"></ba-set-status>
+    <ba-reset-password bulk-action="bulkActions.resetPassword"></ba-reset-password>
   </bulk-action-executor>
 </div>
