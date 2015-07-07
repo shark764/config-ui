@@ -22,6 +22,10 @@ angular.module('liveopsConfigPanel')
           display: 'Media',
           link: $state.href('content.flows.media'),
           id: 'media-management-link'
+        }, {
+          display: 'Dispatch Mappings',
+          link: $state.href('content.flows.dispatchMappings'),
+          id: 'dispatch-mappings-configuration-link'
         }]
     };
     }

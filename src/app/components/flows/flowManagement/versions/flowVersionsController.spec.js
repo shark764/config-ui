@@ -141,6 +141,6 @@ describe('flow versions directive', function(){
   }]));
 
   it('should insert a table', inject(function() {
-    expect(element.find('table').length).toEqual(2); //Two tables are present due to scroll-table directive
+    expect(element.find('table').length).toEqual(1);
   }));
 });
