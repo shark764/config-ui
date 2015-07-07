@@ -72,12 +72,13 @@ $down-arrow-url: "/assets/images/down-arrow.png";
         border-color: $accent1;
       }
     }
-    .drop-label span {
+    .drop-label .label-icon{
       padding-left: 10px;
     }
     
     .label-icon {
       color: $main-color;
+      width: 0;
     }
     
     #tenant-dropdown .label-icon {
@@ -91,6 +92,10 @@ $down-arrow-url: "/assets/images/down-arrow.png";
     #tenant-dropdown ul > li > div {
       max-width: 100px;
       min-width:100px;
+    }
+    
+    .dropdown {
+      top: -4px;
     }
   }
 }
