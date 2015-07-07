@@ -35,6 +35,12 @@ angular.module('liveopsConfigPanel')
         tenantId: Session.tenant.tenantId
       });
     });
+    
+    $scope.$on('resource:details:queue:canceled', function(){
+      if ($scope.selectedQueue.isNew()){
+        $scope.additional.initialQuery = '';
+      }
+    });
 
     $scope.$watch('Session.tenant.tenantId', $scope.fetch, true);
 

@@ -66,4 +66,11 @@ describe('QueueController', function() {
         expect($scope.queues[0].id).toEqual(queues[0].id);
         expect($scope.queues[1].id).toEqual(queues[1].id);
     });
+    
+    it('should reset the query on create cancel', inject(['$rootScope', function($rootScope){
+      $scope.selectedQueue = new Queue();
+      $scope.additional.initialQuery = 'somevalues';
+      $rootScope.$broadcast('resource:details:queue:canceled');
+      expect($scope.additional.initialQuery).toEqual('');
+    }]));
 });
