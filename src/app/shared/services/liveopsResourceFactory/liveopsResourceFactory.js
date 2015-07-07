@@ -88,7 +88,6 @@ angular.module('liveopsConfigPanel')
 
           Resource.prototype.save = function (success, failure) {
             var self = this,
-              deferred = $q.defer(),
               action = self.isNew() ? self.$save : self.$update,
               preEvent = self.isNew() ? self.preCreate : self.preUpdate,
               postEvent = self.isNew() ? self.postCreate : self.postUpdate,

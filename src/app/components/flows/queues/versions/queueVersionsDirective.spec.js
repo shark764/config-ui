@@ -113,25 +113,25 @@ describe('Versions directive controller', function () {
     });
 
     it('should calling currVersionChanged should set activeVersion to currVersion.version', function () {
-      $scope.queue.activeVersion = "v1";
-      $scope.currVersion.version = "v2";
+      $scope.queue.activeVersion = 'v1';
+      $scope.currVersion.version = 'v2';
 
-      expect($scope.queue.activeVersion).toBe("v1");
+      expect($scope.queue.activeVersion).toBe('v1');
 
       $scope.currVersionChanged();
 
-      expect($scope.queue.activeVersion).toBe("v2");
+      expect($scope.queue.activeVersion).toBe('v2');
     });
 
     it('should change current version to the same as active version should leave active version as the same', function () {
-      $scope.queue.activeVersion = "v1";
-      $scope.currVersion.version = "v1";
+      $scope.queue.activeVersion = 'v1';
+      $scope.currVersion.version = 'v1';
 
-      expect($scope.queue.activeVersion).toBe("v1");
+      expect($scope.queue.activeVersion).toBe('v1');
 
       $scope.updateCurrentVersion();
 
-      expect($scope.queue.activeVersion).toBe("v1");
+      expect($scope.queue.activeVersion).toBe('v1');
     });
 
     it('should toggle details be called, details should be toggled', function () {
@@ -146,7 +146,7 @@ describe('Versions directive controller', function () {
 
     it('should active version be set to null, current version should be set to null', function () {
       $scope.queue.activeVersion = null;
-      $scope.currVersion.version = "v2";
+      $scope.currVersion.version = 'v2';
 
       expect($scope.queue.activeVersion).toBe(null);
 

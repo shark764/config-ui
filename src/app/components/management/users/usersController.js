@@ -27,7 +27,7 @@ angular.module('liveopsConfigPanel')
         return result;
       };
 
-      User.prototype.postCreate = function(user) {
+      User.prototype.postCreate = function() {
         Invite.save({
           tenantId: Session.tenant.tenantId
         }, {
