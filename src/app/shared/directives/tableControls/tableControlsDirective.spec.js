@@ -246,7 +246,7 @@ describe('tableControls directive', function() {
     }));
   });
 
-  describe('resourceName watch', function(){
+  describe('resource creation watch', function(){
     beforeEach(function(){
       doCompile();
     });

@@ -80,9 +80,13 @@
         vertical-align: top;
       }
 
-      input, select, button {
+      input, select {
         width: 100%;
         margin: 0;
+      }
+      
+      button, input[type=button] {
+        width: 175px;
       }
     }
 

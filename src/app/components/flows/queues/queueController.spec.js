@@ -99,4 +99,11 @@ describe('QueueController', function() {
       
       expect(newQueue.activeVersion).toEqual('queueVersion1');
     });
+    
+    it('should reset the query on create cancel', inject(['$rootScope', function($rootScope){
+      $scope.selectedQueue = new Queue();
+      $scope.additional.initialQuery = 'somevalues';
+      $rootScope.$broadcast('resource:details:queue:canceled');
+      expect($scope.additional.initialQuery).toEqual('');
+    }]));
 });
