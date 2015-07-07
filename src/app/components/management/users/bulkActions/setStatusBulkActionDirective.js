@@ -1,0 +1,21 @@
+'use strict';
+
+angular.module('liveopsConfigPanel')
+  .directive('baSetStatus', [
+    function () {
+      return {
+        restrict: 'AE',
+        scope: {
+          bulkAction: '='
+        },
+        templateUrl: 'app/components/management/users/bulkActions/setStatusBulkAction.html',
+        link: function ($scope) {
+          $scope.bulkAction.action = function(user) {
+            user.status = $scope.status
+            var promise = user.$update();
+            return promise;
+          }
+        }
+      };
+    }
+  ]);

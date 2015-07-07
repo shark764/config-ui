@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('UsersController', ['$scope', '$window', 'userRoles', 'User', 'Session', 'AuthService', 'userTableConfig', 'Invite', 'Alert', 'flowSetup',
-    function($scope, $window, userRoles, User, Session, AuthService, userTableConfig, Invite, Alert, flowSetup) {
+  .controller('UsersController', ['$scope', '$window', 'userRoles', 'User', 'Session', 'AuthService', 'userTableConfig', 'Invite', 'Alert', 'flowSetup', 'BulkAction',
+    function($scope, $window, userRoles, User, Session, AuthService, userTableConfig, Invite, Alert, flowSetup, BulkAction) {
       var self = this;
       $scope.Session = Session;
 
@@ -50,9 +50,7 @@ angular.module('liveopsConfigPanel')
       };
 
       $scope.fetch = function() {
-        $scope.users = User.query({
-          tenantId: Session.tenant.tenantId
-        });
+        $scope.users = User.query();
       };
 
       $scope.create = function() {
@@ -83,7 +81,12 @@ angular.module('liveopsConfigPanel')
 
         $scope.fetch();
       }, true);
-
+      
+      $scope.bulkActions = {
+        setStatus: new BulkAction(),
+        resetPassword: new BulkAction()
+      }
+      
       $scope.tableConfig = userTableConfig;
       $scope.fetch();
     }

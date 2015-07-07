@@ -19,8 +19,7 @@ angular.module('liveopsConfigPanel')
             }, cached);
           } else {
             return User.get({
-              id: id,
-              tenantId: Session.tenant.tenantId
+              id: id
             }, function (user) {
               if (success) {
                 success(user);

@@ -34,12 +34,6 @@ angular.module('liveopsConfigPanel')
             });
           };
 
-          $scope.onCreateClick = function() {
-            DirtyForms.confirmIfDirty(function(){
-              $scope.$emit('on:click:create');
-            });
-          };
-
           $scope.parse = function(item, field) {
             if (typeof(field.name) === 'function') {
               return field.name(item);

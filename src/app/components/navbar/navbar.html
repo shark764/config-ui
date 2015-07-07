@@ -2,7 +2,11 @@
   <nav id="topnav" class="clear">
     <ul class="clear" ng-switch-when="true">
 
-      <li><a ng-href="#/" title="Home" id="logo"><img ng-src="assets/images/liveops-logo.png" height="23" ></a></li>
+      <li>
+        <a ng-href="#/" title="Home" id="logo">
+          <img ng-src="assets/images/liveops-logo.png" height="23">
+        </a>
+      </li>
 
       <li>
         <dropdown id="tenant-dropdown" items="tenantDropdownItems" label="{{Session.tenant.name}}" title="{{Session.tenant.name}}"></dropdown>
@@ -17,13 +21,16 @@
       <li id="flows-nav-link" ng-class="{ active: isActive('/flows')}"><a ng-href="#/flows/management">{{'navbar.flows.title' | translate}}</a></li>
 
       <li id="invites-nav-link" ng-class="{ active: isActive('/invites')}"><a ng-href="#/invites">Invites</a></li>
-
+      
+      <li id="top-bar-create-btn"><a class="btn" ng-click="onCreateClick()">Create</a></li>
+      
+      <li id="top-bar-action-btn"><a class="btn" ng-click="onActionsClick()">Actions</a></li>
+      
     </ul>
   </nav>
 
   <nav id="welcome" ng-switch-when="true">
-    <dropdown id="user-settings-dropdown" items="userDropdownItems" label="{{ 'navbar.welcome' | translate:Session.user }}"
-      title="{{Session.user.displayName}}" expand-icon="fa fa-gear" collapse-icon="fa fa-gear">
+    <dropdown id="user-settings-dropdown" items="userDropdownItems" label="{{ 'navbar.welcome' | translate:Session.user }}" title="{{Session.user.displayName}}" expand-icon="fa fa-gear" collapse-icon="fa fa-gear">
     </dropdown>
   </nav>
 </div>

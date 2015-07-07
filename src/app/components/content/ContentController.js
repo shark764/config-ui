@@ -9,5 +9,15 @@ angular.module('liveopsConfigPanel')
           Alert.warning($translate.instant('content.notenants.warning'));
         }
       };
+      
+      $scope.resetBulkView = function() {
+        $scope.bulkView = false;
+      }
+      
+      $scope.$on('on:click:create', $scope.resetBulkView);
+      $scope.$on('resource:selected', $scope.resetBulkView);
+      $scope.$on('on:click:actions', function() {
+        $scope.bulkView = true;
+      });
     }
   ]);

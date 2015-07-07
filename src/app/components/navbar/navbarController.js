@@ -4,7 +4,19 @@ angular.module('liveopsConfigPanel')
   .controller('NavbarController', ['$rootScope', '$scope', '$state', 'AuthService', 'Session', 'DirtyForms', '$translate',
     function($rootScope, $scope, $state, AuthService, Session, DirtyForms, $translate) {
       $scope.Session = Session;
-
+      
+      $scope.onCreateClick = function() {
+        DirtyForms.confirmIfDirty(function(){
+          $rootScope.$broadcast('on:click:create');
+        });
+      };
+      
+      $scope.onActionsClick = function() {
+        DirtyForms.confirmIfDirty(function(){
+          $rootScope.$broadcast('on:click:actions');
+        });
+      };
+      
       $scope.populateTenantsHandler = function() {
         if (!Session.isAuthenticated()) {
           return;
@@ -29,8 +41,6 @@ angular.module('liveopsConfigPanel')
         $scope.tenantDropdownItems = tenantDropdownItems;
       };
 
-      $scope.$watch('Session.tenants', $scope.populateTenantsHandler);
-
       $scope.isActive = function(viewLocation) {
         return $state.current.name !== '' ? $state.href($state.current.name).indexOf(viewLocation) === 1 : false;
       };
@@ -40,7 +50,7 @@ angular.module('liveopsConfigPanel')
         $state.transitionTo('login');
         $rootScope.$broadcast('logout');
       };
-
+      
       $scope.userDropdownItems = [{
         label: $translate.instant('navbar.logout'),
         onClick: function() {
@@ -54,5 +64,7 @@ angular.module('liveopsConfigPanel')
         },
         iconClass: 'fa fa-gear'
       }];
+      
+      $scope.$watch('Session.tenants', $scope.populateTenantsHandler);
     }
   ]);
