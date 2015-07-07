@@ -56,16 +56,11 @@ $down-arrow-url: "/assets/images/down-arrow.png";
       padding: 0;
       position: relative;
 
-      .drop-label>div {
-        max-width: 100px;
-        min-width:100px;
-      }
-
       a {
         border-bottom: 4px solid $main-color;
         display: block;
         height: 100%;
-        padding: 18px 0;
+        padding: 14px 0;
         color: $light-grey;
         font-size: 130%;
         font-weight: 100;
@@ -76,6 +71,26 @@ $down-arrow-url: "/assets/images/down-arrow.png";
         color: #FFFFFF;
         border-color: $accent1;
       }
+    }
+    .drop-label span {
+      padding-left: 10px;
+    }
+    
+    .label-icon {
+      color: $main-color;
+    }
+    
+    #tenant-dropdown .label-icon {
+      color: $light-grey;
+    }
+    
+    li:hover .label-icon, #tenant-dropdown:hover .label-icon {
+      color: #fff;
+    }
+    
+    #tenant-dropdown ul > li > div {
+      max-width: 100px;
+      min-width:100px;
     }
   }
 }

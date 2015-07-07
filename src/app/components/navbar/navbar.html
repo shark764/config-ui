@@ -10,11 +10,17 @@
 
       <li class="divider"></li>
 
-      <li id="users-nav-link" ng-class="{ active: isActive('/management')}"><a ng-href="#/">{{'navbar.users.title' | translate}}</a></li>
+      <li id="users-nav-link" ng-class="{ active: isActive('/management')}">
+        <dropdown items="managementDropConfig" label="{{'navbar.users.title' | translate}}" order-by="order"></dropdown>
+      </li>
 
-      <li id="tenants-nav-link" ng-class="{ active: isActive('/configuration')}"><a ng-href="#/configuration/tenants">{{'navbar.configuration.title' | translate}}</a></li>
+      <li id="tenants-nav-link" ng-class="{ active: isActive('/configuration')}">
+        <dropdown items="configurationDropConfig" label="{{'navbar.configuration.title' | translate}}" order-by="order"></dropdown>
+      </li>
 
-      <li id="flows-nav-link" ng-class="{ active: isActive('/flows')}"><a ng-href="#/flows/management">{{'navbar.flows.title' | translate}}</a></li>
+      <li id="flows-nav-link" ng-class="{ active: isActive('/flows')}">
+        <dropdown items="flowsDropConfig" label="{{'navbar.flows.title' | translate}}" order-by="order"></dropdown>
+      </li>
 
       <li id="invites-nav-link" ng-class="{ active: isActive('/invites')}"><a ng-href="#/invites">Invites</a></li>
 

@@ -35,8 +35,7 @@ describe('navbar directive', function(){
     }));
 
     it('should insert a tenant switcher dropdown', inject(function() {
-      var navElement = angular.element(element[0].querySelector('#topnav'));
-      var dropdownElement = navElement.find('dropdown');
+      var dropdownElement = angular.element(element[0].querySelector('#topnav').querySelector('#tenant-dropdown'));
       expect(dropdownElement.length).toEqual(1);
     }));
   });

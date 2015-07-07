@@ -10,7 +10,7 @@
   <div class="dropdown-container">
     <div class="dropdown" ng-hide="! showDrop">
       <ul>
-        <li ng-repeat="item in items | orderBy:'label'" ng-click="optionClick(item.onClick)">
+        <li ng-repeat="item in items | orderBy:orderBy" ng-click="optionClick(item.onClick)">
           <i class="{{item.iconClass}}"></i>{{item.label}}
         </li>
       </ul>

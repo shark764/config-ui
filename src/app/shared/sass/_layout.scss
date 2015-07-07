@@ -35,17 +35,9 @@ header {
 
 #main-content {
   display: table;
-  padding-left: $left-nav-closed-width + $main-content-left-margin;
-  left: $left-nav-closed-width;
   top: $navbar-height;
   height: 100%;
   width: 100%;
-  @include transition(0.5s all);
-
-  &.expanded-menu {
-    padding-left: $left-nav-width + $main-content-left-margin;
-  }
-
 
   #table-pane {
     display: table-cell;
