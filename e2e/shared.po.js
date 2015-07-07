@@ -60,6 +60,24 @@ var Shared = function() {
   this.errorMessage = element(by.css('.toast-error'));
   this.closeMessageBtn = element(by.css('.toast-close-button'));
 
+  this.dismissChanges = function() {
+    browser.switchTo().alert().then(
+      function(alert) {
+        alert.accept();
+      },
+      function(err) {}
+    );
+  };
+
+  this.cancelNavigation = function() {
+    browser.switchTo().alert().then(
+      function(alert) {
+        alert.dismiss();
+      },
+      function(err) {}
+    );
+  };
+
   this.tearDown = function() {
     browser.executeScript('window.sessionStorage.clear()');
     browser.executeScript('window.localStorage.clear()');

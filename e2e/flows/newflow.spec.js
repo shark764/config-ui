@@ -41,7 +41,7 @@ describe('The create new flows view', function() {
     shared.tableElements.then(function(flowsList) {
       for (var i = 1; i <= flowsList.length; ++i) {
         // Check if flow name in table matches newly added flow
-        element(by.css('tr.ng-scope:nth-child(' + i + ') > td:nth-child(2) > span:nth-child(1)')).getText().then(function(value) {
+        element(by.css('#items-table > tbody:nth-child(2) > tr:nth-child(' + i + ') > td:nth-child(2) > span:nth-child(1)')).getText().then(function(value) {
           if (value == 'Flow ' + randomFlow) {
             flowAdded = true;
           }
@@ -158,7 +158,7 @@ describe('The create new flows view', function() {
     expect(shared.successMessage.isPresent()).toBeFalsy();
   });
 
-  it('should clear fields on Cancel', function() {
+  xit('should clear fields on Cancel', function() {
     flowCount = shared.tableElements.count();
     shared.createBtn.click();
 

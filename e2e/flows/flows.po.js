@@ -14,8 +14,8 @@ var FlowPage = function() {
 
   this.requiredErrors = element.all(by.css('.error'));
 
-  this.firstTableRow = element(by.css('.table > tbody:nth-child(2) > tr:nth-child(1)'));
-  this.secondTableRow = element(by.css('.table > tbody:nth-child(2) > tr:nth-child(2)'));
+  this.firstTableRow = element(by.css('#items-table > tbody:nth-child(2) > tr:nth-child(1)'));
+  this.secondTableRow = element(by.css('#items-table > tbody:nth-child(2) > tr:nth-child(2)'));
   this.nameColumn = 'td:nth-child(2)';
   this.activeVersionColumn = 'td:nth-child(3)';
 
