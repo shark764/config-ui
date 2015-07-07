@@ -33,6 +33,10 @@ angular.module('liveopsConfigPanel')
             return group;
           });
       };
+      
+      Group.prototype.postCreate = function(group) {
+        group.members = new TenantGroupUsers();
+      };
 
       $scope.$watch('Session.tenant.tenantId', function() {
         $scope.fetch();

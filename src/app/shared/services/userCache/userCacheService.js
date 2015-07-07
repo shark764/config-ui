@@ -19,8 +19,8 @@ angular.module('liveopsConfigPanel')
             }, cached);
           } else {
             return User.get({
-              id: id,
-              tenantId: Session.tenant.tenantId
+              id: id
+              //tenantId: Session.tenant.tenantId //TODO: re-enable when we finally upgrade to /tenants/:tenantId/users/:userId endpoint
             }, function (user) {
               if (success) {
                 success(user);

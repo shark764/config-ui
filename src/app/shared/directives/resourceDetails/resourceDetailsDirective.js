@@ -77,7 +77,7 @@ angular.module('liveopsConfigPanel')
 
         $scope.$watch('originalResource', function () {
           $scope.resource = angular.copy($scope.originalResource);
-        });
+        }, true); //TODO: Deep watch can be removed when group API returns members list
 
         $scope.cancel = function () {
           DirtyForms.confirmIfDirty(function(){
