@@ -2,9 +2,9 @@
 
 angular.module('liveopsConfigPanel')
   .controller('DropdownController', ['$scope', '$document', '$element', function ($scope, $document, $element) {
+    var self= this;
     $scope.showDrop = false;
-    this.testname = $scope.label;
-    this.setShowDrop = function(val){
+    this.setShowDrop = function(val){ //Used by the dropdownDirective
       $scope.showDrop = val;
     };
     
@@ -14,14 +14,13 @@ angular.module('liveopsConfigPanel')
       },
       function (newValue, oldValue) {
         if (newValue && !oldValue) {
-          $document.on('click', onClick);
-        } else if (!newValue && oldValue && typeof $scope.hovering !== 'undefined' && ! $scope.hovering) {
-          $document.off('click', onClick);
+          $document.on('click', self.onClick);
         }
     });
 
-    function onClick(event) {
+    this.onClick = function(event) {
       //Hide the dropdown when user clicks outside of it
+      console.log($element.find(event.target));
       var clickedInDropdown = $element.find(event.target).length > 0;
       if (clickedInDropdown) {
         return;
@@ -29,11 +28,9 @@ angular.module('liveopsConfigPanel')
 
       $scope.$apply(function () {
         $scope.showDrop = false;
-        if (typeof $scope.hovering !== 'undefined'){
-          $scope.hovering = false;
-        }
+        $scope.hovering = false;
       });
       
-      $document.off('click', onClick);
+      $document.off('click', self.onClick);
     }
   }]);

@@ -55,9 +55,7 @@ angular.module('liveopsConfigPanel')
         
         scope.dropClick = function(){
           scope.showDrop = ! scope.showDrop
-          if (typeof scope.hovering !== 'undefined'){
-            scope.hovering = ! scope.hovering;
-          }
+          scope.hovering = ! scope.hovering;
         };
       }
     };
