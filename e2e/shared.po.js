@@ -81,8 +81,9 @@ var Shared = function() {
   this.tearDown = function() {
     browser.executeScript('window.sessionStorage.clear()');
     browser.executeScript('window.localStorage.clear()');
+    // Ignore unsaved changes warnings
+    browser.executeScript("window.onbeforeunload = function(){};");
     browser.get(this.loginPageUrl);
-    this.dismissChanges();
   };
 };
 

@@ -13,6 +13,8 @@ describe('The skills view', function() {
   });
 
   beforeEach(function() {
+    // Ignore unsaved changes warnings
+    browser.executeScript("window.onbeforeunload = function(){};");
     browser.get(shared.skillsPageUrl);
     skillCount = skills.skillElements.count();
   });
@@ -155,6 +157,12 @@ describe('The skills view', function() {
     skills.proficiencyFormCheckbox.click();
     shared.cancelFormBtn.click();
 
+    // Warning message is displayed
+    var alertDialog = browser.switchTo().alert();
+    expect(alertDialog.accept).toBeDefined();
+    expect(alertDialog.dismiss).toBeDefined();
+    alertDialog.accept();
+
     // New skill is not created
     expect(skills.nameRequiredError.get(0).isDisplayed()).toBeFalsy();
     expect(shared.successMessage.isPresent()).toBeFalsy();
@@ -223,6 +231,12 @@ describe('The skills view', function() {
     skills.proficiencyFormCheckbox.click();
 
     shared.cancelFormBtn.click();
+
+    // Warning message is displayed
+    var alertDialog = browser.switchTo().alert();
+    expect(alertDialog.accept).toBeDefined();
+    expect(alertDialog.dismiss).toBeDefined();
+    alertDialog.accept();
 
     expect(skills.nameRequiredError.get(0).isDisplayed()).toBeFalsy();
     expect(shared.successMessage.isPresent()).toBeFalsy();

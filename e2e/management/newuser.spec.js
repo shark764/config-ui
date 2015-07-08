@@ -15,6 +15,8 @@ describe('The create new user form', function() {
   });
 
   beforeEach(function() {
+    // Ignore unsaved changes warnings
+    browser.executeScript("window.onbeforeunload = function(){};");
     browser.get(shared.usersPageUrl);
     userCount = shared.tableElements.count();
   });
@@ -146,6 +148,13 @@ describe('The create new user form', function() {
     users.passwordFormField.sendKeys('password');
     users.externalIdFormField.sendKeys(randomUser);
     shared.cancelFormBtn.click();
+
+    // Warning message is displayed
+    var alertDialog = browser.switchTo().alert();
+    expect(alertDialog.accept).toBeDefined();
+    expect(alertDialog.dismiss).toBeDefined();
+    alertDialog.accept();
+    
     expect(shared.successMessage.isPresent()).toBeFalsy();
 
     // Fields are cleared

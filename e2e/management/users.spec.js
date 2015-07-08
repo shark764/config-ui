@@ -14,6 +14,8 @@ describe('The users view', function() {
   });
 
   beforeEach(function() {
+    // Ignore unsaved changes warnings
+    browser.executeScript("window.onbeforeunload = function(){};");
     browser.get(shared.usersPageUrl);
     userCount = shared.tableElements.count();
   });
@@ -179,7 +181,13 @@ describe('The users view', function() {
     users.displayNameFormField.sendKeys('cancel');
     users.externalIdFormField.sendKeys('cancel');
 
-    shared.cancelFormBtn.click().then(function() {
+    shared.cancelFormBtn.click();
+
+    // Warning message is displayed
+    var alertDialog = browser.switchTo().alert();
+    expect(alertDialog.accept).toBeDefined();
+    expect(alertDialog.dismiss).toBeDefined();
+    alertDialog.accept().then(function() {
       expect(shared.successMessage.isPresent()).toBeFalsy();
       expect(users.firstTableRow.element(by.css(users.nameColumn)).getText()).not.toContain('cancel');
       expect(users.firstTableRow.element(by.css(users.displayNameColumn)).getText()).not.toContain('cancel');
