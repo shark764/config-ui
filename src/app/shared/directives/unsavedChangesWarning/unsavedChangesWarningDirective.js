@@ -12,7 +12,7 @@ angular.module('liveopsConfigPanel')
           return;
         }
 
-        $rootScope.$on('$stateChangeStart', function(event){
+        $scope.destroyStateListener = $rootScope.$on('$stateChangeStart', function(event){
           if (formController.$dirty){
             Alert.confirm($translate.instant('unsavedchanges.nav.warning'), 
                 angular.noop, 
@@ -33,6 +33,7 @@ angular.module('liveopsConfigPanel')
         
         $scope.$on('$destroy', function() {
           DirtyForms.removeForm(formController);
+          $scope.destroyStateListener();
         });
       }
     };
