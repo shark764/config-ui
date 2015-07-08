@@ -87,12 +87,7 @@ angular.module('liveopsConfigPanel')
           onClick: function(){$state.transitionTo('content.configuration.integrations');},
           id: 'integrations-configuration-link',
           order: 2
-        }, {
-          label: 'Dispatch Mappings',
-          onClick: function(){$state.transitionTo('content.configuration.dispatchMappings');},
-          id: 'dispatch-mappings-configuration-link',
-          order: 3
-      }];
+        }];
       
       $scope.flowsDropConfig = [{
           label: 'Flows',
@@ -114,6 +109,11 @@ angular.module('liveopsConfigPanel')
           onClick: function(){$state.transitionTo('content.flows.media');},
           id: 'media-management-link',
           order: 4
+        }, {
+          label: 'Dispatch Mappings',
+          onClick: function(){$state.transitionTo('content.flows.dispatchMappings');},
+          id: 'dispatch-mappings-configuration-link',
+          order: 5
       }];
     }
   ]);
