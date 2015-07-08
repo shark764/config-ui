@@ -386,4 +386,18 @@ describe('The users view', function() {
       loginPage.login(userEmail, randomPassword);
     });
   });
+
+  it('should allow the user to input a E164 phone number', function () {
+    expect(users.personalTelephoneFormField.isDisplayed()).toBeTruthy();
+
+    //ensure the field is empty
+    users.personalTelephoneFormField.clear();
+
+    users.personalTelephoneFormField.sendKeys('a1bc234567890123456');
+
+    users.personalTelephoneFormField.getText(function(userTelephone){
+      //limits the user to digits only, limits the user to 15 characters, should prepend a +
+      expect(userTelephone).toEqual('+123456789012345');
+    });
+  });
 });
