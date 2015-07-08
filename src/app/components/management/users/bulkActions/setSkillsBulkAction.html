@@ -3,18 +3,18 @@
   <h4>{{'bulkActions.change.skills' | translate}}</h4>
 </div>
 
-<div ng-repeat="skillToAdd in skillsToAdd">
-  <select ng-model="skillToAdd.action" ng-options="item.action as item.label for item in skillActions">
-    <option value="">Select an Action</option>
+<div ng-repeat="userSkillsBulkAction in userSkillsBulkActions">
+  <select ng-model="userSkillsBulkAction.selectedType" ng-options="item.value as item.display for item in userSkillsBulkActionTypes">
+    <option value="">{{'bulkActions.skills.defaultActions' | translate}}</option>
   </select>
-  <select ng-model="skillToAdd.skill" ng-options="skill as skill.name for skill in skills">
-    <option value="">Select a Skill</option>
+  <select ng-model="userSkillsBulkAction.selectedSkill" ng-options="skill as skill.name for skill in skills">
+    <option value="">{{'bulkActions.skills.defaultSkills' | translate}}</option>
   </select>
-  <number-slider ng-if="skillToAdd.skill.hasProficiency" placeholder="{{'skill.details.proficiency' | translate}}" value="skillToAdd.skill.proficiency" min-value="0" max-value="100" ></number-slider>
-  <a ng-click="removeBulkSkill(skillToAdd)" class="btn"><i class="fa fa-times"></i></a>
+  <number-slider ng-if="userSkillsBulkAction.selectedSkill.hasProficiency" placeholder="{{'skill.details.proficiency' | translate}}" value="userSkillsBulkAction.selectedSkill.proficiency" min-value="0" max-value="100" ></number-slider>
+  <a ng-click="removeBulkSkill(userSkillsBulkAction)" class="btn"><i class="fa fa-times"></i></a>
 </div>
 
 <div>
-  Add skill edit
+  {{'bulkActions.skills.addSkillToEdit' | translate}}
   <a ng-click="addBulkSkill()" class="btn"><i class="fa fa-plus"></i></a>
-</div>
+  </div>
