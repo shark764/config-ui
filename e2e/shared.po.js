@@ -82,6 +82,7 @@ var Shared = function() {
     browser.executeScript('window.sessionStorage.clear()');
     browser.executeScript('window.localStorage.clear()');
     browser.get(this.loginPageUrl);
+    this.dismissChanges();
   };
 };
 
