@@ -52,8 +52,8 @@
   <div class="input-group">
     <label>{{'details.personalTelephone' | translate}}</label>
     <div>
-      <form-error field="detailsForm.personalTelephone" error-type-api="{{'details.personalTelephone.error' | translate}}" error-type-pattern="{{'details.phoneNumber.error' | translate}}"></form-error>
-      <input ng-model="resource.personalTelephone" name="personalTelephone" type="text" ng-pattern="/^\+?[1-9]\d{1,14}$/"></input>
+      <form-error field="detailsForm.personalTelephone" error-type-api="true" error-type-phone="{{'details.phoneNumber.error' | translate}}"></form-error>
+      <input name="personalTelephone" type="tel" ng-model="resource.personalTelephone" api-error>
     </div>
   </div>
 
