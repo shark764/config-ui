@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('bulkActionExecutor', ['$q',
-    function ($q) {
+  .directive('bulkActionExecutor', ['$q', 'Alert',
+    function ($q, Alert) {
       return {
         restrict: 'AE',
         scope: {
@@ -37,6 +37,10 @@ angular.module('liveopsConfigPanel')
                     angular.copy(itemSuccess, item);
                     item.checked = true; //keep the item checked after exec
                     return item;
+                  });
+                  
+                  promise = promise.then(function() {
+                    Alert.success('Bulk action successful!');
                   });
                 });
               }

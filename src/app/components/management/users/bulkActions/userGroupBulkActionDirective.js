@@ -6,7 +6,8 @@ angular.module('liveopsConfigPanel')
       return {
         restrict: 'AE',
         scope: {
-          bulkAction: '='
+          bulkAction: '=',
+          users: '='
         },
         templateUrl: 'app/components/management/users/bulkActions/userGroupBulkAction.html',
         link: function ($scope) {
@@ -17,25 +18,17 @@ angular.module('liveopsConfigPanel')
                 return;
               }
               
-              if(userGroupBulkAction.selectedType === 'add') {
-                var tenantGroupUser = new TenantGroupUsers();
-                tenantGroupUser.userId = user.id;
-                
-                promises.push(tenantGroupUser.$save({
-                  groupId: userGroupBulkAction.selectedGroup,
-                  tenantId: Session.tenant.tenantId
-                }));
-              } else if (userGroupBulkAction.selectedType === 'remove') {
-                var tenantGroupUser = new TenantGroupUsers();
-                promises.push(tenantGroupUser.$delete({
-                  groupId: userGroupBulkAction.selectedGroup,
-                  tenantId: Session.tenant.tenantId,
-                  memberId: user.id
-                }));
+              if(userGroupBulkAction.selectedType.doesQualify(user, 
+                userGroupBulkAction.selectedGroup)) {
+                  
+                promises.push(userGroupBulkAction.selectedType.execute(user,
+                  userGroupBulkAction.selectedGroup));
               }
             });
             
-            return $q.all(promises);
+            return $q.all(promises).finally(function() {
+              $scope.fetchUserGroups($scope.groups);
+            });
           };
           
           $scope.fetch = function () {
@@ -45,8 +38,26 @@ angular.module('liveopsConfigPanel')
 
             $scope.groups = Group.query({
               tenantId: Session.tenant.tenantId
+            }, function(groups) {
+              $scope.fetchUserGroups(groups);
             });
           };
+          
+          $scope.fetchUserGroups = function(groups) {
+            var promises = [];
+            angular.forEach(groups, function(group) {
+              group.members = TenantGroupUsers.query({
+                tenantId: Session.tenant.tenantId,
+                groupId: group.id
+              });
+              
+              promises.push(group.members.$promise);
+            });
+            
+            return $q.all(promises).finally(function() {
+              $scope.refreshAllAffectedUsers();
+            });
+          }
           
           $scope.removeUserGroupBulkAction = function(action) {
             $scope.userGroupBulkActions.removeItem(action);
@@ -54,9 +65,39 @@ angular.module('liveopsConfigPanel')
           
           $scope.addUserGroupBulkAction = function() {
             $scope.userGroupBulkActions.push({
-              selectedType: userGroupBulkActionTypes[0]
+              selectedType: userGroupBulkActionTypes[0],
+              usersAffected: []
             });
           };
+          
+          $scope.refreshAffectedUsers = function(userGroupBulkAction) {
+            if(!userGroupBulkAction.selectedGroup || !userGroupBulkAction.selectedType) {
+              return;
+            }
+            
+            userGroupBulkAction.usersAffected = [];
+            
+            angular.forEach($scope.users, function(user) {
+              if(!user.checked) {
+                return;
+              }
+              
+              if(userGroupBulkAction.selectedType.doesQualify(user, 
+                userGroupBulkAction.selectedGroup)){
+                  
+                userGroupBulkAction.usersAffected.push(user);
+              }
+            });
+          };
+          
+          $scope.refreshAllAffectedUsers = function() {
+            angular.forEach($scope.userGroupBulkActions, function(action) {
+              $scope.refreshAffectedUsers(action);
+            });
+          };
+          
+          $scope.$on('table:resource:checked', $scope.refreshAllAffectedUsers);
+          $scope.$on('dropdown:item:checked', $scope.refreshAllAffectedUsers);
           
           $scope.userGroupBulkActions = [];
           $scope.addUserGroupBulkAction();

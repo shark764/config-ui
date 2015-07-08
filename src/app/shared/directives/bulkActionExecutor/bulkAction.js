@@ -5,7 +5,7 @@ angular.module('liveopsConfigPanel')
     function () {
       var BulkAction = function(title, action) {
         this.action = action;
-        this.checked = true;
+        this.checked = false;
       };
       
       return BulkAction;
