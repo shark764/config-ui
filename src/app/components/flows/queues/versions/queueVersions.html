@@ -62,7 +62,7 @@
     <div class="input-group">
       <label class="textarea-label">{{'value.details.query' | translate}}</label>
       <form-error field="createVersionForm.query"
-      error-type-required="{{'value.error.query.required' | translate}}"></form-error>
+      error-type-required="{{'queue.details.queue.error' | translate}}"></form-error>
       <textarea ng-required="true" type="text" ng-model="versionCopy.query" name="query"></textarea>
     </div>
 
@@ -95,7 +95,7 @@
 </div>
 
 <div class="queue-version-table">
-  <table>
+  <table class="table">
     <thead>
       <th>{{'value.version' | translate}}</th>
       <th>{{'value.createdOn' | translate}}</th>

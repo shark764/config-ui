@@ -1,60 +1,71 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('UsersController', ['$scope', '$window', 'userRoles', 'User', 'Session', 'AuthService', 'userTableConfig', 'Invite', 'toastr', 'flowSetup',
-    function($scope, $window, userRoles, User, Session, AuthService, userTableConfig, Invite, toastr, flowSetup) {
-      $scope.filteredUsers = [];
-      $scope.Session = Session;
+  .controller('UsersController', ['$scope', '$window', 'userRoles', 'User', 'Session', 'AuthService', 'userTableConfig', 'Invite', 'Alert', 'flowSetup',
+    function($scope, $window, userRoles, User, Session, AuthService, userTableConfig, Invite, Alert, flowSetup) {
       var self = this;
+      $scope.Session = Session;
 
       $window.flowSetup = flowSetup;
 
       this.newPassword = null;
-      this.preSave = function(scope) {
-        if (scope.resource.password) {
-          self.newPassword = scope.resource.password;
+
+      User.prototype.preUpdate = function() {
+        if (this.password) {
+          self.newPassword = this.password;
         }
       };
 
-      this.postSave = function(scope, result) {
-        if (result.id === Session.user.id && self.newPassword) {
-          var token = AuthService.generateToken(
-            result.email, self.newPassword);
-          Session.setUser(scope.resource);
+      User.prototype.postUpdate = function(result) {
+        if (this.id === Session.user.id && self.newPassword) {
+          var token = AuthService.generateToken(this.email, self.newPassword);
+          Session.setUser(this);
           Session.setToken(token);
           self.newPassword = null;
         }
 
-        if (!scope.originalResource.id) {
-          Invite.save({
-            tenantId: Session.tenant.tenantId
-          }, {
-            email: result.email,
-            roleId: '00000000-0000-0000-0000-000000000000'
-          }); //TEMPORARY roleId
-        }
+        return result;
       };
 
-      this.postError = function(scope, error) {
-        if (error.config.method === 'POST' && error.status === 400) {
-          toastr.clear();
-          toastr.success('User already exists. Sending ' + scope.resource.email + ' an invite for ' + Session.tenant.name, '', {
-            timeout: 5000
-          });
+      User.prototype.postCreate = function() {
+        Invite.save({
+          tenantId: Session.tenant.tenantId
+        }, {
+          email: this.email,
+          roleId: '00000000-0000-0000-0000-000000000000'
+        }); //TEMPORARY roleId
+      };
+
+      User.prototype.postCreateError = function(error) {
+        if (error.status === 400) {
+          Alert.success('User already exists. Sending ' + this.email + ' an invite for ' + Session.tenant.name);
+
           Invite.save({
             tenantId: Session.tenant.tenantId
           }, {
-            email: scope.resource.email,
+            email: this.email,
             roleId: '00000000-0000-0000-0000-000000000000'
           }); //TEMPORARY roleId
-          scope.cancel();
         }
+
+        $scope.create();
+
+        return error;
+      };
+
+      $scope.fetch = function() {
+        $scope.users = User.query({
+          tenantId: Session.tenant.tenantId
+        });
+      };
+
+      $scope.create = function() {
+        $scope.selectedUser = new User({
+          status: true
+        });
       };
 
       $scope.additional = {
-        preSave: self.preSave,
-        postSave: self.postSave,
-        postError: self.postError,
         roles: userRoles,
         updateDisplayName: function($childScope) {
           if (!$childScope.resource.id && $childScope.detailsForm.displayName.$untouched) {
@@ -66,16 +77,8 @@ angular.module('liveopsConfigPanel')
       };
 
       $scope.$on('on:click:create', function() {
-        $scope.selectedUser = new User({
-          status: true
-        });
+        $scope.create();
       });
-
-      $scope.fetch = function() {
-        $scope.users = User.query({
-          tenantId: Session.tenant.tenantId !== '' ? Session.tenant.tenantId : null
-        });
-      };
 
       $scope.$watch('Session.tenant.tenantId', function(old, news) {
         if (angular.equals(old, news)) {

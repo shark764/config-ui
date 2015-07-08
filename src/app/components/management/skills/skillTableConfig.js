@@ -1,24 +1,24 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('skillTableConfig', ['statuses',
-    function (statuses) {
+  .service('skillTableConfig', ['statuses', '$translate',
+    function (statuses, $translate) {
       return {
         'fields': [{
-          'header': 'Skill',
+          'header': $translate.instant('value.name'),
           'name': 'name'
         }, {
-          'header': 'Description',
+          'header': $translate.instant('value.description'),
           'name': 'description'
         }, {
-          'header': 'Members',
+          'header': $translate.instant('skill.table.members'),
           'name': 'members',
         }, {
-          'header': 'Proficiency',
+          'header': $translate.instant('skill.table.proficiency'),
           'templateUrl': 'app/components/management/skills/proficiencyTemplate.html',
           'name': 'hasProficiency'
         }, {
-          'header': 'Status',
+          'header': $translate.instant('value.status'),
           'options': statuses(),
           'filter': 'selectedOptions',
           'templateUrl': 'app/shared/templates/statuses.html',
@@ -26,7 +26,7 @@ angular.module('liveopsConfigPanel')
         }],
         'searchOn' : ['name', 'description'],
         'orderBy' : ['name'],
-        'title': 'Skills Management'
+        'title': $translate.instant('skill.table.title')
       };
     }
   ]);

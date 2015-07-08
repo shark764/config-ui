@@ -12,10 +12,10 @@
       <a ng-show="saving" ng-disabled="true" class="btn btn-primary"><i class="fa fa-refresh fa-spin"></i></a>
     </div>
   </ng-form>
-  
+
   <p ng-hide="groups && groups.$resolved && userGroups.$resolved && groups.length" class="null">{{'details.groups.none' | translate}}</p>
   <p ng-show="userGroups.length === 0 && ! addNew" class="null" translate="details.usergroups.none" translate-value-display-name="{{user.displayName}}"></p>
- 
+
   <div ng-show="userGroups.length > 0">
     <div id="tag-wrapper" class=" clear" ng-class="{collapsed : collapsed}">
       <div id="tags-inside" class="clear">

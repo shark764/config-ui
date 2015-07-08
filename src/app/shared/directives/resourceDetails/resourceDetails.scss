@@ -49,6 +49,10 @@
       width: 100%;
     }
 
+    .clear {
+      max-width: $max-control-width + 200px;
+    }
+
     .clear .btn {
       margin-bottom: 10px;
     }
@@ -76,9 +80,13 @@
         vertical-align: top;
       }
 
-      input, select, button {
+      input, select {
         width: 100%;
         margin: 0;
+      }
+
+      button, input[type=button] {
+        width: 175px;
       }
     }
 
@@ -106,13 +114,19 @@
       }
     }
 
-    table {
+    .table {
+
+      &.clone-header {
+          @include border-radius-complex(4px, 0, 0, 4px);
+          border-bottom: 0;
+      }
+
       border: $light-grey solid 1px;
       border-spacing: 0;
-      @include border-radius(4px);
+      @include border-radius(0px);
       font-size: 0.9em;
       width: 100%;
-      max-width: $max-control-width;
+      max-width: $max-control-width + 200px;
 
       td, th {
         padding: 10px;
@@ -128,6 +142,10 @@
       tbody tr:hover {
         background-color: $accent-light;
       }
+    }
+
+    .scrollable-table-container {
+      max-width: $max-control-width + 200px;
     }
   }
 
@@ -147,7 +165,7 @@
 
 .two-col .logical-group {
   float: left;
-  max-width: $max-control-width;
+  max-width: $max-control-width  + 200px;
   width: 50%;
 
   &+.logical-group {

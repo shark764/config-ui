@@ -4,7 +4,7 @@
     config="tableConfig"
     items="groups"
     selected="selectedGroup"
-    resource-name="{{'tenants:' + Session.tenant.tenantId + ':groups'}}"></table-controls>
+    resource-name="group"></table-controls>
 
 <resize-handle
     id="resize-pane"
@@ -18,4 +18,5 @@
     extend-scope="additional"
     header-template-url="app/components/management/groups/groupDetailHeader.html"
     body-template-url="app/components/management/groups/groupDetailBody.html"
-    original-resource="selectedGroup"></resource-details>
+    original-resource="selectedGroup"
+    resource-name="group"></resource-details>

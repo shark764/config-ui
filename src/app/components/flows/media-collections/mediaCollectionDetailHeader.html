@@ -1,7 +1,7 @@
 <div class="info">
   <div class="details">
     <h1 ng-show="originalResource.id">{{originalResource.name}}</h1>
-    <h1 ng-show="!originalResource.id">Creating New Media Collection</h1>
+    <h1 ng-show="!originalResource.id">{{'media.collection.details.creating' | translate}}</h1>
     <b audit-text
       translation="value.createdby.time"
       user-id="originalResource.createdBy"

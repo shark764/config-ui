@@ -40,7 +40,7 @@
   <label>{{'details.phoneNumber' | translate}}</label>
   <div>
     <form-error field="detailsForm.value" error-type-pattern="{{'details.phoneNumber.error' | translate}}"></form-error>
-    <input ng-pattern="/^\+?\d{1,2}-?\d{3}-?\d{3}-?\d{4}-?$/" type="text" ng-model="resource.value" name="value">
+    <input ng-pattern="/^\+?[1-9]\d{1,14}$/" type="text" ng-model="resource.value" name="value">
   </div>
 </div>
 

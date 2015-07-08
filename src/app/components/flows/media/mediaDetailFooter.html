@@ -1,5 +1,5 @@
-<input type="button" class="btn" ng-click="cancelMedia()" value="{{'value.cancel' | translate}}"></input>
+<input type="button" class="btn" ng-click="cancel()" value="{{'value.cancel' | translate}}"></input>
 <input ng-hide="loading" ng-disabled="detailsForm.$invalid || ! detailsForm.$dirty"  ng-click="save()" class="btn btn-primary" type="submit" value="{{'value.create' | translate}}" />
-<input ng-hide="loading" ng-disabled="detailsForm.$invalid || ! detailsForm.$dirty"  ng-click="saveAndNew()" class="btn btn-primary" type="submit" value="{{'value.create.new' | translate}}" />
+<input ng-hide="loading" ng-disabled="detailsForm.$invalid || ! detailsForm.$dirty"  ng-click="save('resource:details:media:savedAndNew')" class="btn btn-primary" type="submit" value="{{'value.create.new' | translate}}" />
 <a ng-show="loading" ng-disabled="true" class="btn btn-primary"><i class="fa fa-refresh fa-spin"></i></a>
 <a ng-show="loading" ng-disabled="true" class="btn btn-primary"><i class="fa fa-refresh fa-spin"></i></a>

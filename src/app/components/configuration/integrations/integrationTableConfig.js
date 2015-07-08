@@ -1,23 +1,23 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('integrationTableConfig', ['statuses', function (statuses) {
+  .service('integrationTableConfig', ['statuses', '$translate', function (statuses, $translate) {
     return {
       'fields': [{
-        'header': 'Type',
+        'header': $translate.instant('value.type'),
         'name': 'type'
       }, {
-        'header': 'Account',
+        'header': $translate.instant('integration.table.account'),
         'name': 'properties.accountSid'
       }, {
-        'header': 'Status',
+        'header': $translate.instant('value.status'),
         'name': 'status',
         'sortable': true,
         'options': statuses(),
         'templateUrl': 'app/shared/templates/statuses.html',
         'filter': 'selectedOptions'
       }, {
-        'header': 'WebRTC',
+        'header': $translate.instant('integration.table.webrtc'),
         'name': 'properties.webRtc',
         'sortable': true,
         'options': statuses(),
@@ -26,6 +26,6 @@ angular.module('liveopsConfigPanel')
       }],
       'searchOn': ['name'],
       'orderBy': ['name'],
-      'title' : 'Integration Management'
+      'title' : $translate.instant('integration.table.title')
     };
   }]);

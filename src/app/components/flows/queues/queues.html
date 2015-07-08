@@ -3,7 +3,7 @@
   config="tableConfig"
   items="queues"
   selected="selectedQueue"
-  resource-name="{{'tenants:' + Session.tenant.tenantId + ':queues'}}"></table-controls>
+  resource-name="queue"></table-controls>
 
 <resize-handle
   id="resize-pane"
@@ -17,4 +17,5 @@
   extend-scope="additional"
   header-template-url="app/components/flows/queues/queueDetailHeader.html"
   body-template-url="app/components/flows/queues/queueDetailBody.html"
-  original-resource="selectedQueue"></resource-details>
+  original-resource="selectedQueue"
+  resource-name="queue"></resource-details>

@@ -1,21 +1,22 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('flowTableConfig', function () {
+  .service('flowTableConfig', ['$translate', function ($translate) {
       return {
         'fields': [{
-          'header': 'Name',
+          'header': $translate.instant('value.name'),
           'name': 'name'
         }, {
-          'header': 'Description',
+          'header': $translate.instant('value.description'),
           'name': 'description'
         }, {
-          'header': 'Active Version',
-          'name': 'activeVersionName'
+          'header': $translate.instant('value.details.activeVersion'),
+          'name': 'activeVersion',
+          'templateUrl': 'app/components/flows/flowManagement/flowVersionName.html'
         }],
         'searchOn' : ['name'],
         'orderBy' : ['name'],
-        'title' : 'Flow Management'
+        'title' : $translate.instant('flow.table.title')
       };
-    }
+    }]
   );
