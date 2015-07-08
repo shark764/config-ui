@@ -55,9 +55,9 @@ describe('DirtyForms service', function(){
       expect(Alert.confirm).toHaveBeenCalled();
     }]));
 
-    it('should call the given function if confirm returns ok', inject(['Alert', function(Alert) {
-      spyOn(Alert, 'confirm').and.callFake(function(msg, okCallback){
-        okCallback();
+    it('should call the given function if confirm returns cancel', inject(['Alert', function(Alert) {
+      spyOn(Alert, 'confirm').and.callFake(function(msg, okCallback, cancelCallback){
+        cancelCallback();
       });
 
       spyOn(DirtyForms, 'hasDirty').and.returnValue(true);
@@ -66,9 +66,9 @@ describe('DirtyForms service', function(){
       expect(callbackSpy).not.toHaveBeenCalled();
     }]));
 
-    it('should do nothing if the confirm returns cancel', inject(['Alert', function(Alert) {
+    it('should do nothing if the confirm returns ok', inject(['Alert', function(Alert) {
       spyOn(Alert, 'confirm').and.callFake(function(msg, okCallback, cancelCallback){
-        cancelCallback();
+        okCallback();
       });
 
       spyOn(DirtyForms, 'hasDirty').and.returnValue(true);

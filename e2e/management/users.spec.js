@@ -386,4 +386,36 @@ describe('The users view', function() {
       loginPage.login(userEmail, randomPassword);
     });
   });
+
+  it('should prevent invalid E164 numbers from being accepted', function () {
+    expect(users.personalTelephoneFormField.isDisplayed()).toBeTruthy();
+
+    //ensure the field is empty
+    users.personalTelephoneFormField.clear();
+
+    users.personalTelephoneFormField.sendKeys('a15064704361');
+
+    users.firstNameFormField.click();
+
+    expect(users.personalTelephoneFormField.getAttribute('class')).toContain('ng-invalid');
+
+  });
+
+  it('should allow E164 numbers to be accepted', function () {
+    expect(users.personalTelephoneFormField.isDisplayed()).toBeTruthy();
+
+    //ensure the field is empty
+    users.personalTelephoneFormField.clear();
+
+    users.personalTelephoneFormField.sendKeys('15064704361');
+
+    users.firstNameFormField.click();
+
+    expect(users.error.isDisplayed()).toBeFalsy();
+
+    users.personalTelephoneFormField.getText(function(phoneNumber){
+      //limits the user to digits only, limits the user to 15 characters, should prepend a +
+      expect(phoneNumber).toBe('+1 506-470-4361');
+    });
+  });
 });
