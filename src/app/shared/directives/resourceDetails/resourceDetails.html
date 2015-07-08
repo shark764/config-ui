@@ -1,13 +1,19 @@
-<ng-form unsaved-changes-warning id="details-form" name="detailsForm">
+<loading ng-if="! resource"></loading>
 
-  <div ng-if="headerTemplateUrl" class="details-header" id="detail-header-pane" ng-include src="headerTemplateUrl">
+<ng-form unsaved-changes-warning ng-show="resource" class="details-form" name="detailsForm">
+
+  <div ng-show="headerTemplateUrl" class="detail-header-pane" ng-include src="headerTemplateUrl">
   </div>
 
-  <div ng-if="bodyTemplateUrl" id="detail-body-pane" ng-include src="bodyTemplateUrl">
+  <div ng-show="bodyTemplateUrl" class="detail-body-pane" ng-include src="bodyTemplateUrl">
   </div>
 
-  <div id="detail-controls-pane">
-    <input type="button" class="btn" ng-click="cancel()" value="{{'value.cancel' | translate}}"></input>
-    <input ng-click="save()" ng-disabled="detailsForm.$invalid || ! detailsForm.$dirty" class="btn btn-primary" type="submit" value="{{'value.submit' | translate}}" />
+  <div class="detail-controls-pane" ng-show="footerTemplateUrl" ng-include src="footerTemplateUrl">
+
+  </div>
+  <div class="detail-controls-pane" ng-show"!!footerTemplateUrl" ng-hide="footerTemplateUrl">
+    <input id="cancel-details-btn" ng-disabled="loading" type="button" class="btn" ng-click="cancel()" value="{{'value.cancel' | translate}}"></input>
+    <input id="submit-details-btn" ng-show="!loading" ng-click="save()" ng-disabled="detailsForm.$invalid || ! detailsForm.$dirty" class="btn btn-primary" type="submit" value="{{'value.submit' | translate}}" />
+    <a ng-disabled="true" ng-show="loading" class="btn btn-primary"><i class="fa fa-refresh fa-spin"></i></a>
   </div>
 </ng-form>
