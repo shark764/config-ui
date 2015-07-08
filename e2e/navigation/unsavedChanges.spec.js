@@ -225,13 +225,20 @@ describe('The unsaved changes warning', function() {
     expect(browser.getCurrentUrl()).toContain(shared.tenantsPageUrl);
   });
 
-  xit('should not be displayed after accepting until new form is dirtied', function() {
-    // TODO Add after bug is fixed
+  it('should not be displayed after accepting until new form is dirtied', function() {
     // Select Users nav button
     shared.usersNavButton.click();
+    var alertPresent;
 
-    alertDialog = browser.switchTo().alert();
-    expect(alertDialog.accept).not.toBeDefined();
-    expect(alertDialog.dismiss).not.toBeDefined();
+    browser.switchTo().alert().then(
+      function(alert) {
+        alertPresent = true;
+      },
+      function(err) {
+        alertPresent = false;
+      }
+    ).then(function() {
+      expect(alertPresent).toBeFalsy();
+    });
   });
 });
