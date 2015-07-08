@@ -16,12 +16,12 @@ var Shared = function() {
 
   this.tenantsPageUrl = this.configurationUrl + 'tenants';
   this.integrationsPageUrl = this.configurationUrl + 'integrations';
-  this.dispatchMappingsPageUrl = this.configurationUrl + 'dispatchMappings';
 
   this.flowsPageUrl = this.flowsUrl + 'management';
   this.queuesPageUrl = this.flowsUrl + 'queues';
   this.mediaCollectionsPageUrl = this.flowsUrl + 'media-collections';
   this.mediaPageUrl = this.flowsUrl + 'media';
+  this.dispatchMappingsPageUrl = this.flowsUrl + 'dispatchMappings';
 
   this.invitesPageUrl = this.mainUrl + 'invites';
   this.skillsPageUrl = this.managementUrl + 'skills';
@@ -34,7 +34,7 @@ var Shared = function() {
   this.usersNavButton = element(by.id('users-nav-link'));
   this.tenantsNavButton = element(by.id('tenants-nav-link'));
   this.flowsNavButton = element(by.id('flows-nav-link'));
-  this.invitesNavButton = element(by.id('invites-nav-link'));
+  this.invitesNavButton = element(by.css('#invites-nav-link a'));
   this.settingsDropdown = element(by.id('user-settings-dropdown'));
   this.settingsDropdownOptions = this.settingsDropdown.all(by.repeater('item in items'));
   this.userProfileButton = this.settingsDropdownOptions.get(1);

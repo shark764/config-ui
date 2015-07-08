@@ -12,8 +12,7 @@ describe('The tenants view', function() {
   });
 
   beforeEach(function() {
-    browser.get(shared.usersPageUrl);
-    shared.tenantsNavButton.click();
+    browser.get(shared.tenantsPageUrl);
     tenantCount = shared.tableElements.count();
   });
 
