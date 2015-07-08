@@ -33,6 +33,8 @@
   "value.updatedby": "Last updated by {{displayName}} on {{date}}",
   "value.value": "Value",
   "value.version": "Version",
+  "value.select.group": "Select Group",
+  "value.select.action": "Select Action",
 
   "loading": "Loading",
 
@@ -202,6 +204,8 @@
   "dirtyforms.confirm.warning": "You have unsaved changes! Click OK to continue editing, or cancel to discard your changes.",
 
   "bulkActions.enable.users": "Enable Users",
-  "bulkActions.reset.password": "Reset Password",
-  "bulkActions.selected": "Selected ({{count}})"
+  "bulkActions.selected": "Selected ({{count}})",
+  "bulkActions.userGroups.add": "Add Group",
+  "bulkActions.userGroups.remove": "Remove Group",
+  "bulkActions.change.groups": "Change Group(s)"
 }

@@ -20,7 +20,11 @@ angular.module('liveopsConfigPanel')
       return value;
     }
 
-    return $resource(apiHostname + '/v1/tenants/:tenantId/groups/:groupId/users/:memberId', { tenantId: '@tenantId', groupId: '@groupId', memberId: '@memberId'}, {
+    return $resource(apiHostname + '/v1/tenants/:tenantId/groups/:groupId/users/:memberId', {
+      tenantId: '@tenantId',
+      groupId: '@groupId',
+      memberId: '@memberId'
+    }, {
       save: {
         method: 'POST',
 
