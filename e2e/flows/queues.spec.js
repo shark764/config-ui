@@ -22,7 +22,7 @@ describe('The queues view', function() {
     shared.tearDown();
   });
 
-  xit('should include queue management page components', function() {
+  it('should include queue management page components', function() {
     expect(shared.navBar.isDisplayed()).toBeTruthy();
 
     expect(queues.nameFormField.isDisplayed()).toBeTruthy();
@@ -31,7 +31,7 @@ describe('The queues view', function() {
     expect(shared.submitFormBtn.isDisplayed()).toBeTruthy();
   });
 
-  xit('should display queue details when selected from table', function() {
+  it('should display queue details when selected from table', function() {
     queues.firstTableRow.click();
 
     // Verify queue name in table matches populated field
@@ -45,7 +45,7 @@ describe('The queues view', function() {
     });
   });
 
-  xit('should require name field when editing a Queue', function() {
+  it('should require name field when editing a Queue', function() {
     queues.firstTableRow.click();
 
     // Edit fields
@@ -59,7 +59,7 @@ describe('The queues view', function() {
     expect(queues.requiredErrors.get(0).getText()).toBe('Field \"Name\" is required.');
   });
 
-  xit('should allow the Queue fields to be updated', function() {
+  it('should allow the Queue fields to be updated', function() {
     queues.activeVersionDropdown.all(by.css('option')).count().then(function(curQueueVersionCount) {
       randomQueue = Math.floor((Math.random() * 1000) + 1);
       queues.firstTableRow.click();
@@ -85,7 +85,7 @@ describe('The queues view', function() {
     });
   });
 
-  xit('should not require description field when editing a queue', function() {
+  it('should not require description field when editing a queue', function() {
     queues.firstTableRow.click();
     // Edit fields
     queues.descriptionFormField.clear();
@@ -95,7 +95,7 @@ describe('The queues view', function() {
     });
   });
 
-  xit('should not accept spaces only as valid field input', function() {
+  it('should not accept spaces only as valid field input', function() {
     queueCount = shared.tableElements.count();
     queues.firstTableRow.click();
 
@@ -114,7 +114,7 @@ describe('The queues view', function() {
     expect(shared.successMessage.isPresent()).toBeFalsy();
   });
 
-  xit('should reset fields after editing and selecting Cancel', function() {
+  it('should reset fields after editing and selecting Cancel', function() {
     queues.activeVersionDropdown.all(by.css('option')).count().then(function(curQueueVersionCount) {
       randomQueue = Math.floor((Math.random() * 1000) + 1);
       queues.firstTableRow.click();
@@ -140,7 +140,7 @@ describe('The queues view', function() {
     });
   });
 
-  xit('should display all queue versions in Active Version dropdown', function() {
+  it('should display all queue versions in Active Version dropdown', function() {
     queues.firstTableRow.click();
     queues.activeVersionDropdown.all(by.css('option')).then(function(dropdownVersions) {
       for (var i = 1; i < dropdownVersions.length; ++i) {
@@ -149,7 +149,119 @@ describe('The queues view', function() {
     });
   });
 
-  xit('should add new queue version', function() {
+  it('should toggle showing version details with defaults and disabled fields', function() {
+    queues.firstTableRow.click();
+    queues.versionRowV1Plus.click();
+
+    // Plus button changes to minus to close
+    expect(queues.versionRowV1Plus.isPresent()).toBeFalsy();
+    expect(queues.versionRowV1Minus.isDisplayed()).toBeTruthy();
+
+    // Version details show values and defaults
+    expect(queues.selectedVersionQuery.getAttribute('value')).not.toBeNull();
+    expect(queues.selectedVersionPriority.getAttribute('value')).toBe('75');
+    expect(queues.selectedVersionRate.getAttribute('value')).toBe('2');
+    expect(queues.selectedVersionRateUnit.getAttribute('value')).toBe('min');
+
+    // Version details should be disabled
+    expect(queues.selectedVersionQuery.getAttribute('disabled')).toBeTruthy();
+    expect(queues.selectedVersionPriority.getAttribute('disabled')).toBeTruthy();
+    expect(queues.selectedVersionRate.getAttribute('disabled')).toBeTruthy();
+    expect(queues.selectedVersionRateUnit.getAttribute('disabled')).toBeTruthy();
+
+    // Close and copy buttons displayed
+    expect(queues.closeVersionBtn.isDisplayed()).toBeTruthy();
+    expect(queues.copyVersionBtn.isDisplayed()).toBeTruthy();
+
+    queues.versionRowV1Minus.click().then(function() {
+      // Minus button changes to plus to open
+      expect(queues.versionRowV1Minus.isPresent()).toBeFalsy();
+      expect(queues.versionRowV1Plus.isDisplayed()).toBeTruthy();
+
+      // Version details show values and defaults
+      expect(queues.selectedVersionQuery.isDisplayed()).toBeFalsy();
+      expect(queues.selectedVersionPriority.isDisplayed()).toBeFalsy();
+      expect(queues.selectedVersionRate.isDisplayed()).toBeFalsy();
+      expect(queues.selectedVersionRateUnit.isDisplayed()).toBeFalsy();
+
+      // Close and copy buttons are not displayed
+      expect(queues.closeVersionBtn.isDisplayed()).toBeFalsy();
+      expect(queues.copyVersionBtn.isDisplayed()).toBeFalsy();
+    });
+  });
+
+  it('should close selected version details after selected close button', function() {
+    queues.firstTableRow.click();
+    queues.versionRowV1Plus.click();
+
+    // Plus button changes to minus to close
+    expect(queues.versionRowV1Plus.isPresent()).toBeFalsy();
+    expect(queues.versionRowV1Minus.isDisplayed()).toBeTruthy();
+
+    // Version details displayed
+    expect(queues.selectedVersionQuery.isDisplayed()).toBeTruthy();
+    expect(queues.selectedVersionPriority.isDisplayed()).toBeTruthy();
+    expect(queues.selectedVersionRate.isDisplayed()).toBeTruthy();
+    expect(queues.selectedVersionRateUnit.isDisplayed()).toBeTruthy();
+
+    // Close and copy buttons displayed
+    expect(queues.closeVersionBtn.isDisplayed()).toBeTruthy();
+    expect(queues.copyVersionBtn.isDisplayed()).toBeTruthy();
+
+    queues.closeVersionBtn.click().then(function() {
+      // Minus button changes to plus to open
+      expect(queues.versionRowV1Minus.isPresent()).toBeFalsy();
+      expect(queues.versionRowV1Plus.isDisplayed()).toBeTruthy();
+
+      // Version details show values and defaults
+      expect(queues.selectedVersionQuery.isDisplayed()).toBeFalsy();
+      expect(queues.selectedVersionPriority.isDisplayed()).toBeFalsy();
+      expect(queues.selectedVersionRate.isDisplayed()).toBeFalsy();
+      expect(queues.selectedVersionRateUnit.isDisplayed()).toBeFalsy();
+
+      // Close and copy buttons are not displayed
+      expect(queues.closeVersionBtn.isDisplayed()).toBeFalsy();
+      expect(queues.copyVersionBtn.isDisplayed()).toBeFalsy();
+    });
+  });
+
+  it('should copy version details when copy is selected', function() {
+    queues.activeVersionDropdown.all(by.css('option')).count().then(function(dropdownVersions) {
+      queues.firstTableRow.click();
+      queues.versionRowV1Plus.click();
+      queues.copyVersionBtn.click().then(function() {
+        // Version details section closes
+        expect(queues.versionRowV1Minus.isPresent()).toBeFalsy();
+        expect(queues.versionRowV1Plus.isDisplayed()).toBeTruthy();
+        expect(queues.selectedVersionQuery.isDisplayed()).toBeFalsy();
+        expect(queues.selectedVersionPriority.isDisplayed()).toBeFalsy();
+        expect(queues.selectedVersionRate.isDisplayed()).toBeFalsy();
+        expect(queues.selectedVersionRateUnit.isDisplayed()).toBeFalsy();
+        expect(queues.closeVersionBtn.isDisplayed()).toBeFalsy();
+        expect(queues.copyVersionBtn.isDisplayed()).toBeFalsy();
+
+        // New version number should be 1 more than the current number of versions
+        expect(queues.copyVersionNumberFormField.getAttribute('value')).toContain(dropdownVersions + 1);
+        expect(queues.copyVersionNumberFormField.getAttribute('disabled')).toBeTruthy();
+
+        // New version query field should be populated with copied query value
+        queues.versionRowV1Plus.click();
+        expect(queues.copyVersionQueryFormField.getAttribute('value')).toBe(queues.selectedVersionQuery.getAttribute('value'));
+
+        // Copy create fields are displayed with copied values and defaults
+        expect(queues.copyVersionPriorityFormField.getAttribute('value')).toBe('75');
+        expect(queues.copyVersionRateFormField.getAttribute('value')).toBe('2');
+        expect(queues.copyVersionRateUnitDropdown.getAttribute('value')).toBe('min');
+
+        // Version defaults should be disabled
+        expect(queues.copyVersionPriorityFormField.getAttribute('disabled')).toBeTruthy();
+        expect(queues.copyVersionRateFormField.getAttribute('disabled')).toBeTruthy();
+        expect(queues.copyVersionRateUnitDropdown.getAttribute('disabled')).toBeTruthy();
+      });
+    });
+  });
+
+  it('should add new queue version', function() {
     queueVersionCount = queues.activeVersionDropdown.all(by.css('option')).count();
     randomQueue = Math.floor((Math.random() * 1000) + 1);
     queues.firstTableRow.click();
@@ -168,7 +280,7 @@ describe('The queues view', function() {
     });
   });
 
-  xit('should require query when adding a new queue version', function() {
+  it('should require query when adding a new queue version', function() {
     queueVersionCount = queues.activeVersionDropdown.all(by.css('option')).count();
     randomQueue = Math.floor((Math.random() * 1000) + 1);
     queues.firstTableRow.click();
@@ -184,7 +296,7 @@ describe('The queues view', function() {
     expect(queues.activeVersionDropdown.all(by.css('option')).count()).toBe(queueVersionCount);
   });
 
-  xit('should not accept spaces only as valid field input when creating queue version', function() {
+  it('should not accept spaces only as valid field input when creating queue version', function() {
     queueVersionCount = queues.activeVersionDropdown.all(by.css('option')).count();
     queues.firstTableRow.click();
     queues.versionRowV1Plus.click();

@@ -27,21 +27,21 @@ var QueuePage = function() {
   this.createVersionPriorityFormField = element(by.id('create-version-priority-input'));
   this.createVersionRateFormField = element(by.id('create-version-rate-input'));
   this.createVersionRateUnitDropdown = element(by.id('create-version-rate-units-input'));
-  this.createVersionBtn = element(by.id('create-queue-version-btn'));
-  this.cancelVersionBtn = element(by.id('cancel-queue-version-btn'));
 
   this.requiredErrors = element.all(by.css('.error'));
 
-  this.selectedVersionQuery = element(by.model('version.query'));
-  this.selectedVersionPriority = element(by.id('selected-version-priority-input'));
-  this.selectedVersionRate = element(by.id('selected-version-rate-input'));
-  this.selectedVersionRateUnit = element(by.id('selected-version-rate-units-input'));
+  this.selectedVersionQuery = this.versionRowDetailsV1.element(by.model('version.query'));
+  this.selectedVersionPriority = this.versionRowDetailsV1.element(by.id('selected-version-priority'));
+  this.selectedVersionRate = this.versionRowDetailsV1.element(by.id('selected-version-rate'));
+  this.selectedVersionRateUnit = this.versionRowDetailsV1.element(by.id('selected-version-rate-units'));
 
   this.copyVersionNumberFormField = element(by.id('copy-version-number'));
   this.copyVersionQueryFormField = element(by.model('versionCopy.query'));
   this.copyVersionPriorityFormField = element(by.id('copy-version-priority-input'));
   this.copyVersionRateFormField = element(by.id('copy-version-rate-input'));
-  this.copyVersionRateUnitDropdown = element(by.id('copy-version-rate-units-input'));
+  this.copyVersionRateUnitDropdown = element(by.id('copy-version-rate-units-dropdown'));
+  this.createVersionBtn = element(by.id('create-queue-version-btn'));
+  this.cancelVersionBtn = element(by.id('cancel-queue-version-btn'));
 
   this.firstTableRow = element(by.css('#items-table > tbody:nth-child(2) > tr:nth-child(1)'));
   this.secondTableRow = element(by.css('#items-table > tbody:nth-child(2) > tr:nth-child(2)'));
