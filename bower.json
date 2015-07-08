@@ -20,7 +20,8 @@
     "angular-toastr": "~1.4.1",
     "rappid": "git@github.com:liveops/rappid.git",
     "MouseWheelJS": "*",
-    "KeyboardJS": "git@github.com:Latros/KeyboardJS.git#Testing-Package-JSON"
+    "KeyboardJS": "git@github.com:Latros/KeyboardJS.git#Testing-Package-JSON",
+    "angular-mask": "git@github.com:john-benson/ngMask.git#remove-wrong-positions-fix-deploy"
   },
   "devDependencies": {
     "angular-mocks": "~1.3.4"
@@ -29,3 +30,4 @@
     "angular": "~1.3.4"
   }
 }
+
