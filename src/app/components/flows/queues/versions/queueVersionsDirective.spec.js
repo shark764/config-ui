@@ -5,16 +5,21 @@
 describe('Versions directive controller', function () {
   var $scope,
     $controller,
+    $compile,
     $httpBackend,
     versions,
-    QueueVersion;
+    QueueVersion,
+    isolateScope;
 
-  beforeEach(module('liveopsConfigPanel'));
   beforeEach(module('gulpAngular'));
-  beforeEach(inject(['$rootScope', '$controller', '$injector', 'QueueVersion', 'apiHostname',
-    function ($rootScope, _$controller_, $injector, _QueueVersion_, apiHostname) {
+  beforeEach(module('liveopsConfigPanel'));
+  beforeEach(module('liveopsConfigPanel.mock.content'));
+
+  beforeEach(inject(['$compile', '$rootScope', '$controller', '$injector', 'QueueVersion', 'apiHostname',
+    function (_$compile_, $rootScope, _$controller_, $injector, _QueueVersion_, apiHostname) {
       $scope = $rootScope.$new();
       $controller = _$controller_;
+      $compile = _$compile_;
       QueueVersion = _QueueVersion_;
 
       versions = [
@@ -44,6 +49,9 @@ describe('Versions directive controller', function () {
       $httpBackend.when('GET', 'fakendpoint.com/v1/tenants/1/queues/1/versions').respond({
         'result': versions
       });
+      $httpBackend.when('GET', 'fakendpoint.com/v1/tenants/tenant-id/queues/1/versions').respond({
+        'result': versions
+      });
       $httpBackend.when('POST', apiHostname + '/v1/login').respond({'result' : {
         'tenants': []
       }});
@@ -68,6 +76,8 @@ describe('Versions directive controller', function () {
         }
       });
 
+
+
       $httpBackend.flush();
     }
   ]));
@@ -78,7 +88,16 @@ describe('Versions directive controller', function () {
     expect($scope.versions[1].id).toEqual(versions[1].id);
   });
 
+  it('should properly use the directive', function () {
+    var element;
+
+    element = $compile('<queue-versions queue="queue" versions="versions"></queue-versions>')($scope);
+    $scope.$digest();
+    isolateScope = element.isolateScope();
+  });
+
   describe('on version copy', function () {
+
     beforeEach(function () {
       $scope.createVersionCopy(versions[0]);
 
@@ -91,6 +110,49 @@ describe('Versions directive controller', function () {
       expect($scope.versionCopy).toBeDefined();
 
       expect($scope.versionCopy.queueId).toBe('1');
+    });
+
+    it('should calling currVersionChanged should set activeVersion to currVersion.version', function () {
+      $scope.queue.activeVersion = 'v1';
+      $scope.currVersion.version = 'v2';
+
+      expect($scope.queue.activeVersion).toBe('v1');
+
+      $scope.currVersionChanged();
+
+      expect($scope.queue.activeVersion).toBe('v2');
+    });
+
+    it('should change current version to the same as active version should leave active version as the same', function () {
+      $scope.queue.activeVersion = 'v1';
+      $scope.currVersion.version = 'v1';
+
+      expect($scope.queue.activeVersion).toBe('v1');
+
+      $scope.updateCurrentVersion();
+
+      expect($scope.queue.activeVersion).toBe('v1');
+    });
+
+    it('should toggle details be called, details should be toggled', function () {
+      $scope.toggleDetails(versions[0]);
+
+      expect(versions[0].viewing).toBe(true);
+
+      $scope.toggleDetails(versions[0]);
+
+      expect(versions[0].viewing).toBe(false);
+    });
+
+    it('should active version be set to null, current version should be set to null', function () {
+      $scope.queue.activeVersion = null;
+      $scope.currVersion.version = 'v2';
+
+      expect($scope.queue.activeVersion).toBe(null);
+
+      $scope.updateCurrentVersion();
+
+      expect($scope.queue.activeVersion).toBe(null);
     });
 
     it('should succeed on save and push new item to list', function () {

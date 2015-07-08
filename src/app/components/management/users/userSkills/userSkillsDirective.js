@@ -103,7 +103,7 @@ angular.module('liveopsConfigPanel')
             });
           };
 
-          $scope.$watch('user', function() {
+          $scope.$watch('user.id', function() {
             if (!Session.tenant.tenantId) {
               return;
             }

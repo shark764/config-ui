@@ -82,11 +82,13 @@
   "details.flow": "Flow",
   "details.value": "Value",
   "details.phoneNumber": "Phone Number",
-  "details.phoneNumber.error": "Phone number should be in E.164 format (15555555555 or 1-555-555-5555).",
+  "details.phoneNumber.error": "Phone number should be in E.164 format.",
   "details.skills.none": "This user has not been assigned any skills",
   "details.skills.title": "Skills",
   "details.skills.placeholder": "Add Skill...",
   "details.name.error": "Please enter a name",
+  "details.personalTelephone": "Personal Telephone",
+  "details.personalTelephone.error": "Personal Telephone must be E.164 format (+18005551234)",
 
   "user.details.creating": "Creating New User",
   "user.details.password.reset": "Reset Password",
@@ -196,5 +198,8 @@
   "unsavedchanges.nav.warning": "You have unsaved changes that will be lost. Click OK to continue, or click cancel to stay on this page.",
   "unsavedchanges.reload.warning": "You have unsaved changes that will be lost!",
 
-  "dirtyforms.confirm.warning": "You have unsaved changes! Click OK to continue editing, or cancel to discard your changes."
+  "dirtyforms.confirm.warning": "You have unsaved changes! Click OK to continue editing, or cancel to discard your changes.",
+  
+  "user.profile.save.success": "Your details have been updated.",
+  "user.profile.save.fail": "An error occured while updating your details."
 }

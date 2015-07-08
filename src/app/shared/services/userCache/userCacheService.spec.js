@@ -74,7 +74,7 @@ describe('UserCache service', function(){
 
     it('should query the user service if its not in the cache', inject(function() {
       var result = UserCache.get(5);
-      expect(userSpy).toHaveBeenCalledWith({id: 5, tenantId: Session.tenant.tenantId}, jasmine.any(Function), jasmine.any(Function));
+      expect(userSpy).toHaveBeenCalledWith({id: 5}, jasmine.any(Function), jasmine.any(Function));
       expect(result).toEqual({name: 'fetched user', id: 5});
     }));
   });
