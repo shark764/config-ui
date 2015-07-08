@@ -209,5 +209,6 @@
   "bulkActions.userGroups.remove": "Remove Group",
   "bulkActions.change.groups": "Change Group(s)",
   "bulkActions.reset.password": "Reset Password",
-  "bulkActions.change.skills": "Change Skills"
+  "bulkActions.change.skills": "Change Skills",
+  "bulkActions.selected": "Selected ({{count}})"
 }

@@ -1,4 +1,20 @@
 <div class="divider-header">
+  <input type="checkbox" ng-model="bulkAction.checked">
   <h4>{{'bulkActions.change.skills' | translate}}</h4>
 </div>
-<user-skills user="user.skills"></user-skills>
+
+<div ng-repeat="skillToAdd in skillsToAdd">
+  <select ng-model="skillToAdd.action" ng-options="item.action as item.label for item in skillActions">
+    <option value="">Select an Action</option>
+  </select>
+  <select ng-model="skillToAdd.skill" ng-options="skill as skill.name for skill in skills">
+    <option value="">Select a Skill</option>
+  </select>
+  <number-slider ng-if="skillToAdd.skill.hasProficiency" placeholder="{{'skill.details.proficiency' | translate}}" value="skillToAdd.skill.proficiency" min-value="0" max-value="100" ></number-slider>
+  <a ng-click="removeBulkSkill(skillToAdd)" class="btn"><i class="fa fa-times"></i></a>
+</div>
+
+<div>
+  Add skill edit
+  <a ng-click="addBulkSkill()" class="btn"><i class="fa fa-plus"></i></a>
+</div>
