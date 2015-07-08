@@ -53,7 +53,9 @@ exports.config = {
     paths.e2e + '/configuration/**/*.spec.js',
     paths.e2e + '/userProfile/**/*.spec.js',
     paths.e2e + '/flows/newflow.spec.js',
-    paths.e2e + '/flows/flows.spec.js'
+    paths.e2e + '/flows/flows.spec.js',
+    paths.e2e + '/flows/newqueue.spec.js',
+    paths.e2e + '/flows/queues.spec.js'
   ],
 
   framework: 'jasmine2',

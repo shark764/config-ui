@@ -38,13 +38,13 @@ describe('The flows view', function() {
     flows.firstTableRow.click();
 
     // Verify flow name in table matches populated field
-    expect(element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(2) > span:nth-child(1)')).getText()).toContain(flows.nameFormField.getAttribute('value'));
+    expect(flows.firstTableRow.getText()).toContain(flows.nameFormField.getAttribute('value'));
 
     // Change selected flow and ensure details are updated
     shared.tableElements.count().then(function(numFlows) {
       if (numFlows > 1) {
         flows.secondTableRow.click();
-        expect(element(by.css('tr.ng-scope:nth-child(2) > td:nth-child(2) > span:nth-child(1)')).getText()).toContain(flows.nameFormField.getAttribute('value'));
+        expect(flows.secondTableRow.getText()).toContain(flows.nameFormField.getAttribute('value'));
       }
     });
   });
