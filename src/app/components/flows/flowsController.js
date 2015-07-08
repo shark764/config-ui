@@ -1,6 +1,4 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('FlowsController', [
-    function() {}
-  ]);
+  .controller('FlowsController', function() {});

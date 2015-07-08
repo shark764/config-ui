@@ -1,6 +1,4 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('ManagementController', [
-    function() {}
-  ]);
+  .controller('ManagementController', function() {});
