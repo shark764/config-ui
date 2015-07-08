@@ -53,7 +53,7 @@
     <label>{{'details.personalTelephone' | translate}}</label>
     <div>
       <form-error field="detailsForm.personalTelephone" error-type-api="{{'details.personalTelephone.error' | translate}}" error-type-pattern="{{'details.phoneNumber.error' | translate}}"></form-error>
-      <input type="text" name="personalTelephone" mask="+9?9?9?9?9?9?9?9?9?9?9?9?9?9?9?" restrict="reject" ng-model="resource.personalTelephone">
+      <input type="text" api-error name="personalTelephone" mask="+9?9?9?9?9?9?9?9?9?9?9?9?9?9?9?" restrict="reject" ng-model="resource.personalTelephone">
     </div>
   </div>
 
