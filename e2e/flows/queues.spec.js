@@ -14,6 +14,8 @@ describe('The queues view', function() {
   });
 
   beforeEach(function() {
+    // Ignore unsaved changes warnings
+    browser.executeScript("window.onbeforeunload = function(){};");
     browser.get(shared.queuesPageUrl);
     queueCount = shared.tableElements.count();
   });
@@ -130,6 +132,12 @@ describe('The queues view', function() {
       queues.activeVersionDropdown.all(by.css('option')).get(versionSelected).click();
 
       shared.cancelFormBtn.click();
+
+      // Warning message is displayed
+      var alertDialog = browser.switchTo().alert();
+      expect(alertDialog.accept).toBeDefined();
+      expect(alertDialog.dismiss).toBeDefined();
+      alertDialog.accept();
 
       expect(shared.successMessage.isPresent()).toBeFalsy();
 

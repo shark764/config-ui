@@ -13,6 +13,8 @@ describe('The groups view', function() {
   });
 
   beforeEach(function() {
+    // Ignore unsaved changes warnings
+    browser.executeScript("window.onbeforeunload = function(){};");
     browser.get(shared.groupsPageUrl);
   });
 
@@ -52,13 +54,13 @@ describe('The groups view', function() {
 
   it('should include group page components', function() {
     expect(shared.navBar.isDisplayed()).toBeTruthy();
-    expect(shared.table.isDisplayed()).toBeTruthy();
+    expect(groups.tablePane.isDisplayed()).toBeTruthy();
     expect(shared.searchField.isDisplayed()).toBeTruthy();
     expect(shared.detailsForm.isDisplayed()).toBeTruthy();
     expect(shared.actionsBtn.isDisplayed()).toBeTruthy();
     expect(shared.createBtn.isDisplayed()).toBeTruthy();
     expect(shared.tableColumnsDropDown.isDisplayed()).toBeTruthy();
-    expect(shared.pageHeader.getText()).toBe('Groups Management');
+    expect(shared.pageHeader.getText()).toBe('Group Management');
   });
 
   it('should include valid Group fields when creating a new Group', function() {
@@ -138,6 +140,12 @@ describe('The groups view', function() {
     groups.descriptionFormField.sendKeys('Group Description');
     shared.cancelFormBtn.click();
 
+    // Warning message is displayed
+    var alertDialog = browser.switchTo().alert();
+    expect(alertDialog.accept).toBeDefined();
+    expect(alertDialog.dismiss).toBeDefined();
+    alertDialog.accept();
+
     // New group is not created
     expect(groups.nameRequiredError.get(0).isDisplayed()).toBeFalsy();
     expect(shared.successMessage.isPresent()).toBeFalsy();
@@ -171,7 +179,7 @@ describe('The groups view', function() {
   });
 
   it('should include valid Group fields when editing an existing Group', function() {
-    groups.firstTableRow.click();
+    groups.secondTableRow.click();
     expect(groups.nameHeader.isDisplayed()).toBeTruthy();
     expect(groups.nameFormField.isDisplayed()).toBeTruthy();
     expect(groups.descriptionFormField.isDisplayed()).toBeTruthy();
@@ -180,7 +188,7 @@ describe('The groups view', function() {
   });
 
   it('should reset Group fields after editing and selecting Cancel', function() {
-    groups.firstTableRow.click();
+    groups.secondTableRow.click();
 
     var originalName = groups.nameFormField.getAttribute('value');
     var originalDescription = groups.descriptionFormField.getAttribute('value');
@@ -191,6 +199,12 @@ describe('The groups view', function() {
 
     shared.cancelFormBtn.click();
 
+    // Warning message is displayed
+    var alertDialog = browser.switchTo().alert();
+    expect(alertDialog.accept).toBeDefined();
+    expect(alertDialog.dismiss).toBeDefined();
+    alertDialog.accept();
+
     expect(groups.nameRequiredError.get(0).isDisplayed()).toBeFalsy();
     expect(shared.successMessage.isPresent()).toBeFalsy();
 
@@ -200,7 +214,7 @@ describe('The groups view', function() {
   });
 
   it('should allow the Group fields to be updated', function() {
-    groups.firstTableRow.click();
+    groups.secondTableRow.click();
 
     // Edit fields
     groups.nameFormField.sendKeys('Edit');
@@ -221,7 +235,7 @@ describe('The groups view', function() {
 
   it('should require name field when editing a Group', function() {
     // Select first group from table
-    groups.firstTableRow.click();
+    groups.secondTableRow.click();
 
     // Edit fields
     groups.nameFormField.clear();
@@ -238,7 +252,7 @@ describe('The groups view', function() {
   });
 
   it('should not require description field when editing a Group', function() {
-    groups.firstTableRow.click();
+    groups.secondTableRow.click();
 
     // Edit fields
     groups.descriptionFormField.clear();
