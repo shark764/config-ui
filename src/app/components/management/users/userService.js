@@ -14,8 +14,9 @@ angular.module('liveopsConfigPanel')
       ]);
       
       User.prototype.fullName = function(){
-        if (this.firstName){
-          return this.firstName + ' ' + this.lastName;
+        if (this.firstName || this.lastName){
+          var name = (this.firstName ? this.firstName : '') + ' ' + (this.lastName ? this.lastName : '');
+          return name.trim();
         } else if (this.displayName){
           return this.displayName;
         } else {

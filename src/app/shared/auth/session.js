@@ -29,13 +29,6 @@ angular.module('liveopsConfigPanel')
       this.set = function (user, tenants, token) {
         this.token = token;
         this.setUser(user);
-
-        this.user = {
-          id: user.id,
-          displayName: user.fullName(),
-          email: user.email
-        };
-
         this.setTenants(tenants);
 
         this.flush();
@@ -60,7 +53,8 @@ angular.module('liveopsConfigPanel')
       this.setUser = function (user) {
         this.user = {
           id: user.id,
-          displayName: user.fullName()
+          displayName: user.fullName(),
+          email: user.email
         };
         this.flush();
       };
