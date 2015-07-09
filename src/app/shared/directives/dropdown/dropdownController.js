@@ -20,7 +20,6 @@ angular.module('liveopsConfigPanel')
 
     this.onClick = function(event) {
       //Hide the dropdown when user clicks outside of it
-      console.log($element.find(event.target));
       var clickedInDropdown = $element.find(event.target).length > 0;
       if (clickedInDropdown) {
         return;

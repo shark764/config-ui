@@ -9,8 +9,8 @@ angular.module('liveopsConfigPanel')
         collapseIcon: '@',
         expandIcon: '@',
         orderBy: '@',
-        hovering: '=',
-        hoverTracker: '='
+        hovering: '=?',
+        hoverTracker: '=?'
       },
       templateUrl : 'app/shared/directives/dropdown/dropdown.html',
       controller : 'DropdownController',

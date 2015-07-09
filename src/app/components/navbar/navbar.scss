@@ -60,11 +60,13 @@ $down-arrow-url: "/assets/images/down-arrow.png";
         border-bottom: 4px solid $main-color;
         display: block;
         height: 100%;
-        padding: 14px 0;
+        line-height: 100%;
         color: $light-grey;
         font-size: 130%;
         font-weight: 100;
-        padding-bottom: 13px;
+        height: $navbar-height;
+        padding-top: ($navbar-height / 4);
+        vertical-align: middle;
       }
 
       &.active a, &:hover a{
@@ -72,8 +74,15 @@ $down-arrow-url: "/assets/images/down-arrow.png";
         border-color: $accent1;
       }
     }
-    .drop-label .label-icon{
-      padding-left: 10px;
+    
+    .drop-label {
+      .label-icon{
+        padding-left: 10px;
+      }
+      
+      > div {
+        overflow: visible;
+      }
     }
     
     .label-icon {
@@ -83,6 +92,7 @@ $down-arrow-url: "/assets/images/down-arrow.png";
     
     #tenant-dropdown .label-icon {
       color: $light-grey;
+      width: auto;
     }
     
     li:hover .label-icon, #tenant-dropdown:hover .label-icon, .drop-origin .label-icon {
@@ -96,6 +106,11 @@ $down-arrow-url: "/assets/images/down-arrow.png";
     
     .dropdown {
       top: -4px;
+      right: -12px;
+    }
+    
+    #tenant-dropdown .dropdown {
+      right: 0;
     }
   }
 }
