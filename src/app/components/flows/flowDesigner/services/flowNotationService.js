@@ -48,12 +48,13 @@
               memo[name].type = 'toggle';
             } else if (param.source === 'entity') {
               memo[name].type = 'select';
-              memo[name].options = _.map(self[param.type], function(entity) {
-                return {
-                  value: entity.id,
-                  content: entity.source || entity.name
-                };
-              });
+              memo[name].options = _.union([{content: 'Please select one', value: undefined}], _.map(self[param.type], function(entity) {
+                  return {
+                    value: entity.id,
+                    content: entity.source || entity.name
+                  };
+                })
+              );
             }
 
             return memo;
