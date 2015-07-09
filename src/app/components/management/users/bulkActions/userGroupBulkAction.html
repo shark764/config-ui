@@ -2,13 +2,14 @@
   <h4><input type="checkbox" ng-model="bulkAction.checked">{{'bulkActions.change.groups' | translate}}</h4>
   <div ng-repeat="action in userGroupBulkActions">
     <select ng-model="action.selectedType" ng-options="type.value as type.display for type in userGroupBulkActionTypes">
+        <option disabled value="">{{'bulkActions.defaultActions' | translate}}</option>
     </select>
     <select ng-model="action.selectedGroup" ng-options="group.id as group.name for group in groups">
       <option disabled value="">{{'value.select.group' | translate}}</option>
     </select>
     
-    <i class="fa fa-times" ng-click="removeUserGroupBulkAction(action)"></i>
+    <a ng-click="removeUserGroupBulkAction(action)" class="btn"><i class="fa fa-times"></i></a>
   </div>
-  
-  <i class="fa fa-plus" ng-click="addUserGroupBulkAction()"></i>
+
+  <a ng-click="addUserGroupBulkAction()" class="btn"><i class="fa fa-plus"></i></a>
 </div>

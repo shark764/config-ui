@@ -59,7 +59,7 @@ angular.module('liveopsConfigPanel')
           };
           
           $scope.userGroupBulkActions = [];
-          $scope.addUserGroupBulkAction();
+          //$scope.addUserGroupBulkAction();
           
           $scope.userGroupBulkActionTypes = userGroupBulkActionTypes;
           $scope.fetch();
