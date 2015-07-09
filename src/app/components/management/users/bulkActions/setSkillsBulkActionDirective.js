@@ -12,7 +12,7 @@ angular.module('liveopsConfigPanel')
       link: function ($scope) {
         $scope.userSkillsBulkActionTypes = userSkillsBulkActionTypes;
         var countSkills = 0;
-        $scope.userSkillsBulkActions = [];
+        $scope.userSkillsBulkActions = [{}];
 
         $scope.skills = Skill.query({
           tenantId: Session.tenant.tenantId

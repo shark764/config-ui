@@ -1,6 +1,13 @@
 <div class="bulk-action">
-  <h4><input type="checkbox" ng-model="bulkAction.checked">{{'bulkActions.change.groups' | translate}}</h4>
-  <fieldset ng-repeat="action in userGroupBulkActions" ng-disabled="!bulkAction.checked">
+  <div><input type="checkbox" ng-model="bulkAction.checked"></div>
+  <label>{{'bulkActions.change.groups' | translate}}</label>
+  <div><a ng-show="bulkAction.checked" ng-click="bulkAction.checked && addUserGroupBulkAction()" class="btn"><i class="fa fa-plus add"></i></a></div>
+</div>
+
+<p class="null action-wrapper" ng-show="userGroupBulkActions.length == 0">{{'bulkActions.userGroups.none' | translate}}</p>
+
+<div ng-repeat="action in userGroupBulkActions" class="action-wrapper" ng-show="bulkAction.checked">
+  <fieldset>
     <select
       ng-model="action.selectedType"
       ng-options="type as type.display for type in userGroupBulkActionTypes"
@@ -10,13 +17,9 @@
       ng-model="action.selectedGroup"
       ng-options="group as group.name for group in groups"
       ng-change="refreshAllAffectedUsers(action)">
-      <option disabled value="">{{'value.select.group' | translate}}</option>
+      <option disabled value="">{{'bulkActions.userGroups.placeholder' | translate}}</option>
     </select>
-    
-    <i class="fa fa-times" ng-click="bulkAction.checked && removeUserGroupBulkAction(action)"></i>
-    
-    <a>{{action.usersAffected.length}} {{'bulkActions.affectedUsers' | translate}}</a>
+    <a class="affected-banner">{{action.usersAffected.length}} {{'bulkActions.affectedUsers' | translate}}</a>
+    <i class="fa fa-times remove" ng-click="bulkAction.checked && removeUserGroupBulkAction(action)"></i>
   </fieldset>
-  
-  <i class="fa fa-plus" ng-click="bulkAction.checked && addUserGroupBulkAction()"></i>
 </div>

@@ -100,7 +100,7 @@ angular.module('liveopsConfigPanel')
           $scope.$on('dropdown:item:checked', $scope.refreshAllAffectedUsers);
           
           $scope.userGroupBulkActions = [];
-          //$scope.addUserGroupBulkAction();
+          $scope.addUserGroupBulkAction();
           
           $scope.userGroupBulkActionTypes = userGroupBulkActionTypes;
           $scope.fetch();

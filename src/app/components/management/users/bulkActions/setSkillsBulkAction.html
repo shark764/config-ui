@@ -1,22 +1,21 @@
-<div class="bulkAction">
+<div class="bulk-action">
+  <div><input type="checkbox" ng-model="bulkAction.checked"></div>
+  <label>{{'bulkActions.change.skills' | translate}}</label>
+  <div ng-show="bulkAction.checked"><a ng-click="addBulkSkill()" class="btn"><i class="fa fa-plus"></i></a></div>
+</div>
 
+<p class="null action-wrapper" ng-show="userSkillsBulkActions.length == 0">{{'bulkActions.skills.none' | translate}}</p>
 
-  <h4><input type="checkbox" ng-model="bulkAction.checked">
-    {{'bulkActions.change.skills' | translate}}</h4>
-
-
-    <div class="skills-section" ng-repeat="userSkillsBulkAction in userSkillsBulkActions">
-      <div class="dropdown-container">
-        <select style="display:block" ng-model="userSkillsBulkAction.selectedType" ng-options="item.value as item.display for item in userSkillsBulkActionTypes">
-          <option disabled value="">{{'bulkActions.defaultActions' | translate}}</option>
-        </select>
-        <select ng-model="userSkillsBulkAction.selectedSkill" ng-options="skill as skill.name for skill in skills">
-          <option disabled value="">{{'bulkActions.skills.defaultSkills' | translate}}</option>
-        </select>
-        <number-slider ng-if="userSkillsBulkAction.selectedSkill.hasProficiency && userSkillsBulkAction.selectedType != 'remove'" placeholder="{{'skill.details.proficiency' | translate}}" value="userSkillsBulkAction.selectedSkill.proficiency" min-value="0" max-value="100" ></number-slider>
-      </div>
-      <a ng-click="removeBulkSkill(userSkillsBulkAction)" class="btn"><i class="fa fa-times"></i></a>
-    </div>
-
-  <a ng-click="addBulkSkill()" class="btn"><i class="fa fa-plus"></i></a>
+<div ng-show="bulkAction.checked" class="action-wrapper skills-section" ng-repeat="userSkillsBulkAction in userSkillsBulkActions">
+  <div>
+    <select ng-model="userSkillsBulkAction.selectedType" ng-options="item.value as item.display for item in userSkillsBulkActionTypes">
+      <option disabled value="">{{'bulkActions.defaultActions' | translate}}</option>
+    </select>
+    
+    <number-slider class="pull-right" ng-if="userSkillsBulkAction.selectedSkill.hasProficiency && userSkillsBulkAction.selectedType != 'remove'" placeholder="{{'skill.details.proficiency' | translate}}" value="userSkillsBulkAction.selectedSkill.proficiency" min-value="0" max-value="100" ></number-slider>
+    <select ng-model="userSkillsBulkAction.selectedSkill" ng-options="skill as skill.name for skill in skills">
+      <option disabled value="">{{'bulkActions.skills.defaultSkills' | translate}}</option>
+    </select>
+  </div>
+  <a ng-click="removeBulkSkill(userSkillsBulkAction)" class="remove"><i class="fa fa-times"></i></a>
 </div>
