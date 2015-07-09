@@ -1,10 +1,11 @@
 <div class="dropdown-wrapper">
   <a class="drop-label" ng-class="{'drop-origin' : showDrop}" ng-click="dropClick()" ng-mouseenter="mouseIn()">
-    <div>{{label}}</div>
-    <span>
+    <div>
+      <span>{{label}}</span>
       <i ng-show="showDrop" class="{{collapseIcon}} label-icon"></i>
       <i ng-show="! showDrop" class="{{expandIcon}} label-icon"></i>
-    </span>
+    </div>
+
   </a>
 
   <div class="dropdown-container">

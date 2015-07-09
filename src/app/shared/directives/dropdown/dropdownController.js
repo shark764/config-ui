@@ -7,11 +7,9 @@ angular.module('liveopsConfigPanel')
     this.setShowDrop = function(val){ //Used by the dropdownDirective
       $scope.showDrop = val;
     };
-    
+
     //Only bother listening for the click event when a dropdown is open
-    $scope.$watch(function(){
-        return $scope.showDrop;
-      },
+    $scope.$watch('showDrop',
       function (newValue, oldValue) {
         if (newValue && !oldValue) {
           $document.on('click', self.onClick);
@@ -29,7 +27,7 @@ angular.module('liveopsConfigPanel')
         $scope.showDrop = false;
         $scope.hovering = false;
       });
-      
+
       $document.off('click', self.onClick);
     }
   }]);

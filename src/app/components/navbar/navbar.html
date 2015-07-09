@@ -8,8 +8,6 @@
         <dropdown id="tenant-dropdown" items="tenantDropdownItems" label="{{Session.tenant.name}}" title="{{Session.tenant.name}}"></dropdown>
       </li>
 
-      <li class="divider"></li>
-
       <li id="users-nav-link" ng-class="{ active: isActive('/management')}">
         <dropdown items="managementDropConfig" label="{{'navbar.users.title' | translate}}" order-by="order" hovering="hovering" hover-tracker="hoverTracker"></dropdown>
       </li>

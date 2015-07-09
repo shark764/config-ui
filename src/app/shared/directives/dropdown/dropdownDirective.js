@@ -18,7 +18,7 @@ angular.module('liveopsConfigPanel')
         if (typeof scope.hovering !== 'undefined' && scope.hoverTracker){
           scope.hoverTracker.push(controller);
         }
-        
+
         scope.clearOtherHovers = function(){
           angular.forEach(scope.hoverTracker, function(hoverCtrl){
             if (hoverCtrl !== controller){
@@ -26,33 +26,31 @@ angular.module('liveopsConfigPanel')
             }
           });
         };
-        
-        element.parent().css('overflow', 'visible');
-        
+
         if (!scope.orderBy){
           scope.orderBy = 'label';
         }
-        
+
         scope.optionClick = function(func){
           scope.showDrop = false;
           func();
         };
-        
+
         if(! scope.collapseIcon){
           scope.collapseIcon = 'fa fa-caret-up';
         }
-        
+
         if (! scope.expandIcon){
           scope.expandIcon = 'fa fa-caret-down';
         }
-        
+
         scope.mouseIn = function(){
           if (scope.hovering){
             scope.showDrop = true;
             scope.clearOtherHovers();
           }
         };
-        
+
         scope.dropClick = function(){
           scope.showDrop = ! scope.showDrop
           scope.hovering = ! scope.hovering;
