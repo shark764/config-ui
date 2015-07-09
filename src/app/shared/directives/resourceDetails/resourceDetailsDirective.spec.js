@@ -119,7 +119,7 @@ describe('resource details directive', function() {
 
     it('should reset the resource on ok', inject(['Alert', function(Alert) {
       isolateScope.detailsForm.$dirty = true;
-      spyOn(Alert, 'confirm').and.callFake(function(msg, okCallback, cancelCallback) {
+      spyOn(Alert, 'confirm').and.callFake(function(msg, okCallback) {
         okCallback();
       });
 

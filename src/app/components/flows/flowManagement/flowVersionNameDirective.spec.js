@@ -51,8 +51,8 @@ describe('flowVersionNameDirective directive', function(){
   it('should passing in a queue without an active version means the queue active version is not defined', inject(function(){
     $scope.item = {
       id: 'q2',
-      tenantId: "t2"
-    }
+      tenantId: 't2'
+    };
     doCompile();
     expect(isolateScope.name).not.toBeDefined();
   }));
