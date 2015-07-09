@@ -13,6 +13,8 @@ describe('The media view', function() {
   });
 
   beforeEach(function() {
+    // Ignore unsaved changes warnings
+    browser.executeScript("window.onbeforeunload = function(){};");
     browser.get(shared.mediaPageUrl);
   });
 
@@ -271,6 +273,12 @@ describe('The media view', function() {
     media.typeFormDropdown.all(by.css('option')).get(1).click();
     media.audioUrlFormField.sendKeys(randomMedia);
     shared.cancelFormBtn.click();
+    
+    // Warning message is displayed
+    var alertDialog = browser.switchTo().alert();
+    expect(alertDialog.accept).toBeDefined();
+    expect(alertDialog.dismiss).toBeDefined();
+    alertDialog.accept();
 
     // New media is not created
     expect(shared.successMessage.isPresent()).toBeFalsy();

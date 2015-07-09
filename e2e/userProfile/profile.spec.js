@@ -16,9 +16,6 @@ describe('The profile view', function() {
 
   afterAll(function() {
     // Reset user details
-    shared.welcomeMessage.click();
-    shared.userProfileButton.click();
-
     profile.firstNameFormField.clear();
     profile.firstNameFormField.sendKeys(params.login.firstName);
     profile.lastNameFormField.clear();

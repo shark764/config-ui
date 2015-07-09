@@ -49,7 +49,7 @@ describe('The create new user form', function() {
 
   it('should clear user details section when Create button is selected', function() {
     // Select User from table
-    users.firstTableRow.click();
+    shared.firstTableRow.click();
 
     // Select Create button
     shared.createBtn.click();
@@ -154,7 +154,7 @@ describe('The create new user form', function() {
     expect(alertDialog.accept).toBeDefined();
     expect(alertDialog.dismiss).toBeDefined();
     alertDialog.accept();
-    
+
     expect(shared.successMessage.isPresent()).toBeFalsy();
 
     // Fields are cleared
@@ -245,7 +245,7 @@ describe('The create new user form', function() {
     expect(users.requiredErrors.get(4).getText()).toBe('Please enter a display name');
   });
 
-  it('should user default Display Name', function() {
+  it('should use default Display Name', function() {
     randomUser = Math.floor((Math.random() * 1000) + 1);
     shared.createBtn.click();
 
@@ -257,10 +257,10 @@ describe('The create new user form', function() {
     users.externalIdFormField.sendKeys('12345');
 
     expect(users.displayNameFormField.getAttribute('value')).toBe('First' + randomUser + ' Last' + randomUser);
-    shared.submitFormBtn.click();
-
-    expect(shared.tableElements.count()).toBeGreaterThan(userCount);
-    expect(shared.successMessage.isDisplayed()).toBeTruthy();
+    shared.submitFormBtn.click().then(function () {
+      expect(shared.tableElements.count()).toBeGreaterThan(userCount);
+      expect(shared.successMessage.isDisplayed()).toBeTruthy();
+    });
   });
 
   it('should require Email field', function() {

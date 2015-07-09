@@ -14,6 +14,8 @@ describe('The flows view', function() {
   });
 
   beforeEach(function() {
+    // Ignore unsaved changes warnings
+    browser.executeScript("window.onbeforeunload = function(){};");
     browser.get(shared.flowsPageUrl);
     flowCount = shared.tableElements.count();
   });
@@ -120,6 +122,12 @@ describe('The flows view', function() {
       flows.typeFormDropdown.all(by.css('option')).get((randomFlow % 3) + 1).click();
 
       shared.cancelFormBtn.click();
+
+      // Warning message is displayed
+      var alertDialog = browser.switchTo().alert();
+      expect(alertDialog.accept).toBeDefined();
+      expect(alertDialog.dismiss).toBeDefined();
+      alertDialog.accept();
 
       expect(shared.successMessage.isPresent()).toBeFalsy();
 

@@ -13,6 +13,8 @@ describe('The create new flows view', function() {
   });
 
   beforeEach(function() {
+    // Ignore unsaved changes warnings
+    browser.executeScript("window.onbeforeunload = function(){};");
     browser.get(shared.flowsPageUrl);
   });
 
@@ -167,6 +169,12 @@ describe('The create new flows view', function() {
     flows.descriptionFormField.sendKeys('Flow Description');
     flows.typeFormDropdown.all(by.css('option')).get((randomFlow % 3) + 1).click();
     shared.cancelFormBtn.click();
+
+    // Warning message is displayed
+    var alertDialog = browser.switchTo().alert();
+    expect(alertDialog.accept).toBeDefined();
+    expect(alertDialog.dismiss).toBeDefined();
+    alertDialog.accept();
 
     // New skill is not created
     expect(shared.successMessage.isPresent()).toBeFalsy();
