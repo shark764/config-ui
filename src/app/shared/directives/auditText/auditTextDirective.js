@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('auditText', ['$filter', 'UserCache', function ($filter, UserCache) {
+  .directive('auditText', ['$filter', 'UserCache', 'User', function ($filter, UserCache, User) {
     return {
       restrict: 'AE',
       scope: {
@@ -29,7 +29,7 @@ angular.module('liveopsConfigPanel')
             
             var promise = UserCache.get($scope.userId).$promise;
             promise.then(function (user) {
-              attrs.displayName = user.displayName;
+              attrs.displayName = user.fullName();
               element.text(filter($scope.translation, attrs));
             });
           } else {

@@ -32,7 +32,7 @@ angular.module('liveopsConfigPanel')
 
         this.user = {
           id: user.id,
-          displayName: user.displayName,
+          displayName: user.fullName(),
           email: user.email
         };
 
@@ -60,7 +60,7 @@ angular.module('liveopsConfigPanel')
       this.setUser = function (user) {
         this.user = {
           id: user.id,
-          displayName: user.displayName
+          displayName: user.fullName()
         };
         this.flush();
       };
