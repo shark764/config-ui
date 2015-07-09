@@ -19,16 +19,17 @@ var UserPage = function() {
   this.userStateDetailsHeader = element(by.css('h1.ng-binding > user-state:nth-child(1) > div:nth-child(1)'));
   this.createNewUserHeader = element(by.css('h1.ng-scope'));
 
-  this.firstTableRow = element(by.css('tr.ng-scope:nth-child(1)'));
-  this.secondTableRow = element(by.css('tr.ng-scope:nth-child(2)'));
+  this.tableHeader = element(by.css('#table-pane > div:nth-child(3) > table:nth-child(1)'));
   this.nameColumn = 'td:nth-child(2)';
   this.displayNameColumn = 'td:nth-child(3)';
   this.emailColumn = 'td:nth-child(4)';
   this.externalIdColumn = 'td:nth-child(5)';
   this.statusColumn = 'td:nth-child(6)';
 
-  this.statusTableDropDown = element(by.css('filter-dropdown.ng-scope'));
+  this.statusTableDropDown = this.tableHeader.element(by.css('filter-dropdown:nth-child(1)'));
+  this.allUserStatus = this.statusTableDropDown.element(by.css('.all'));
   this.userStatuses = this.statusTableDropDown.all(by.repeater('option in options track by option[valuePath]'));
+  this.userStatusInputs = this.statusTableDropDown.all(by.css('input'));
 };
 
 module.exports = new UserPage();
