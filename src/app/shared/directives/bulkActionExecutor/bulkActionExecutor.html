@@ -1,15 +1,17 @@
-<div class="detail-header-pane">
-  <filter-dropdown
-    label="{{'bulkActions.selected' | translate}}"
-    options="checkedItems"
-    display-path="displayName"
-    value-path="id">
-  </filter-dropdown>
-</div>
-
-<div class="detail-body-pane" ng-transclude>
-</div>
-
-<div class="detail-controls-pane">
-  <input class="btn btn-primary" type="button" ng-click="execute()" value="Submit"/>
+<div class="details-form">
+  <div class="detail-header-pane">
+    <filter-dropdown
+      label="{{'bulkActions.selected' | translate}}"
+      options="checkedItems"
+      display-path="displayName"
+      value-path="id">
+    </filter-dropdown>
+  </div>
+  
+  <div class="detail-body-pane" ng-transclude>
+  </div>
+  
+  <div class="detail-controls-pane">
+    <input class="btn btn-primary" type="button" ng-click="execute()" value="Submit"/>
+  </div>
 </div>

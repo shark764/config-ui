@@ -1,5 +1,5 @@
 <div class="bulk-action">
   <div><input type="checkbox" ng-model="bulkAction.checked"></div>
   <label>{{'bulkActions.enable.users' | translate}}</label>
-  <toggle ng-show="bulkAction.checked" ng-model="status"></toggle>
+  <toggle ng-disabled="! bulkAction.checked" ng-model="status"></toggle>
 </div>
