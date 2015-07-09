@@ -49,7 +49,7 @@ exports.config = {
     //paths.e2e + '/login/login.spec.js',
     //paths.e2e + '/navigation/**/*.spec.js',
     //paths.e2e + '/tableControls/**/*.spec.js',
-    paths.e2e + '/management/users.spec.js',
+    paths.e2e + '/management/skills.spec.js',
     //paths.e2e + '/configuration/**/*.spec.js',
     //paths.e2e + '/userProfile/**/*.spec.js',
     //paths.e2e + '/flows/newflow.spec.js',
