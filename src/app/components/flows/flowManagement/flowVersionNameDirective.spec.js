@@ -17,8 +17,7 @@ describe('flowVersionNameDirective directive', function(){
     
     $scope.item = { 
       activeVersion: 'v1',
-      id: 'q1',
-      tenantId: 't1'
+      id: 'f1'
     };
 
     $scope.version = {
@@ -29,13 +28,13 @@ describe('flowVersionNameDirective directive', function(){
     $scope.placeholder = 'enter a value';
     $scope.hasHandles = true;
 
-    $httpBackend.when('GET', apiHostname + '/v1/tenants/t1/queues/q1/versions/v1').respond({
+    $httpBackend.when('GET', apiHostname + '/v1/tenants/1/flows/f1/versions/v1').respond({
         'result': $scope.version
       });
     
     
     doCompile = function(){
-      element = $compile('<active-version queue="item"></active-version>')($scope);
+      element = $compile('<flow-version-name flow="item"></flow-version-name>')($scope);
       $scope.$digest();
       $httpBackend.flush();
       isolateScope = element.isolateScope();
@@ -46,7 +45,7 @@ describe('flowVersionNameDirective directive', function(){
   it('should get the version name based on the version id', inject(function() {
     Session.tenant = { tenantId: '1' };
     doCompile();
-    expect(isolateScope.queueActiveVersion).toEqual($scope.version.name);
+    expect(isolateScope.name).toEqual($scope.version.name);
   }));
 
   it('should passing in a queue without an active version means the queue active version is not defined', inject(function(){
@@ -55,7 +54,7 @@ describe('flowVersionNameDirective directive', function(){
       tenantId: "t2"
     }
     doCompile();
-    expect(isolateScope.queueActiveVersion).not.toBeDefined();
+    expect(isolateScope.name).not.toBeDefined();
   }));
 
 });
