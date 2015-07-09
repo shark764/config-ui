@@ -30,7 +30,7 @@ describe('Session', function() {
       'status': true,
       'id': '6d094710-0901-11e5-87f2-b1d420920055',
       'lastName': 'user'
-    })
+    });
   }]));
 
   it('should have a method to set the session information', function() {

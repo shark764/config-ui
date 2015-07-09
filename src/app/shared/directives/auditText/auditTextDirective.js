@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('auditText', ['$filter', 'UserCache', 'User', function ($filter, UserCache, User) {
+  .directive('auditText', ['$filter', 'UserCache', function ($filter, UserCache) {
     return {
       restrict: 'AE',
       scope: {
