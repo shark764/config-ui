@@ -38,7 +38,7 @@ describe('unsavedChangesWarning directive', function() {
     expect(removeSpy).toHaveBeenCalled();
   }]));
   
-  it('should unregister the state listener when destroyed', inject(['DirtyForms', '$rootScope', function(DirtyForms, $rootScope) {
+  it('should unregister the state listener when destroyed', inject(['DirtyForms', '$rootScope', function() {
     doDefaultCompile();
     var removeSpy = spyOn($scope, 'destroyStateListener');
     $scope.$destroy();
