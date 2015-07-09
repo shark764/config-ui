@@ -1,0 +1,36 @@
+.user-ba {
+
+
+  type-ahead {
+    padding-right: 8px;
+    width: $details-table-width - $input-height;
+  }
+
+  .skills-section {
+    position:relative;
+    display:table;
+    width: 100%;
+
+    .dropdown-container {
+      display: table-cell;
+      width: 100%;
+    }
+
+    .btn {
+      display: table-cell;
+    }
+
+    number-slider {
+      max-width: 75px !important;
+      display: inline;
+    }
+  }
+
+  .detail-group {
+    padding-right: 25px !important;
+  }
+
+  table {
+    max-width: $details-table-width !important;
+  }
+}

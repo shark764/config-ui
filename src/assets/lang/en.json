@@ -208,5 +208,13 @@
   "bulkActions.userGroups.add": "Add Group",
   "bulkActions.userGroups.remove": "Remove Group",
   "bulkActions.change.groups": "Change Group(s)",
-  "bulkActions.affectedUsers": "{{affectedUsers.length}} users will be affected"
+  "bulkActions.affectedUsers": "{{affectedUsers.length}} users will be affected",
+  "bulkActions.reset.password": "Reset Password",
+  "bulkActions.change.skills": "Change Skills",
+  "bulkActions.defaultActions": "Select Action",
+  "bulkActions.skills.defaultSkills" : "Select Skill",
+  "bulkActions.skills.addSkillToEdit": "Add Skill to Edit",
+  "bulkActions.skills.add": "Add Skill",
+  "bulkActions.skills.update": "Update Skill",
+  "bulkActions.skills.remove": "Remove Skill"
 }
