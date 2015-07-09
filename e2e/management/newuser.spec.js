@@ -36,6 +36,7 @@ describe('The create new user form', function() {
     expect(users.emailFormField.isDisplayed()).toBeTruthy();
     expect(users.passwordFormField.isDisplayed()).toBeTruthy();
     expect(users.externalIdFormField.isDisplayed()).toBeTruthy();
+    expect(users.personalTelephoneFormField.isDisplayed).toBeTruthy();
 
     expect(users.passwordEditFormBtn.isPresent()).toBeFalsy();
 
@@ -59,6 +60,7 @@ describe('The create new user form', function() {
     expect(users.displayNameFormField.getAttribute('value')).toBe('');
     expect(users.emailFormField.getAttribute('value')).toBe('');
     expect(users.externalIdFormField.getAttribute('value')).toBe('');
+    expect(users.personalTelephoneFormField.getAttribute('value')).toBe('');
   });
 
   it('should require completed fields in Create New User section', function() {
@@ -81,6 +83,7 @@ describe('The create new user form', function() {
     users.firstNameFormField.sendKeys(' ');
     users.lastNameFormField.sendKeys(' ');
     users.displayNameFormField.sendKeys(' ');
+    users.personalTelephoneFormField.sendKeys(' ');
     users.externalIdFormField.sendKeys(' ');
 
     // Select Okay with 'empty' fields, confirm error message displayed, no user is created
@@ -94,6 +97,7 @@ describe('The create new user form', function() {
     expect(users.requiredErrors.get(2).getText()).toBe('Please enter a first name');
     expect(users.requiredErrors.get(3).getText()).toBe('Please enter a last name');
     expect(users.requiredErrors.get(4).getText()).toBe('Please enter a display name');
+    expect(users.requiredErrors.get(5).getText()).toBe('Phone number should be in E.164 format.');
   });
 
   it('should display new user in table and display user details', function() {
@@ -110,6 +114,7 @@ describe('The create new user form', function() {
     users.emailFormField.sendKeys('titantest' + randomUser + '@mailinator.com');
     users.passwordFormField.sendKeys('password');
     users.externalIdFormField.sendKeys(randomUser);
+    users.personalTelephoneFormField.sendKeys('15062345678');
     shared.submitFormBtn.click();
     expect(shared.successMessage.isDisplayed()).toBeTruthy();
 
@@ -145,6 +150,7 @@ describe('The create new user form', function() {
     users.emailFormField.sendKeys('titantest' + randomUser + '@mailinator.com');
     users.passwordFormField.sendKeys('password');
     users.externalIdFormField.sendKeys(randomUser);
+    users.personalTelephoneFormField.sendKeys('15062345678');
     shared.cancelFormBtn.click();
     expect(shared.successMessage.isPresent()).toBeFalsy();
 
@@ -154,6 +160,7 @@ describe('The create new user form', function() {
     expect(users.displayNameFormField.getAttribute('value')).toBe('');
     expect(users.emailFormField.getAttribute('value')).toBe('');
     expect(users.externalIdFormField.getAttribute('value')).toBe('');
+    expect(users.personalTelephoneFormField.getAttribute('value')).toBe('');
 
     // Confirm user is not displayed in user list with correct details
     shared.tableElements.then(function(users) {
@@ -184,6 +191,7 @@ describe('The create new user form', function() {
     users.emailFormField.sendKeys('titantest' + randomUser + '@mailinator.com');
     users.passwordFormField.sendKeys('password');
     users.externalIdFormField.sendKeys('12345');
+    users.personalTelephoneFormField.sendKeys('15062345678');
     shared.submitFormBtn.click();
 
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
@@ -205,6 +213,7 @@ describe('The create new user form', function() {
     users.emailFormField.sendKeys('titantest' + randomUser + '@mailinator.com');
     users.passwordFormField.sendKeys('password');
     users.externalIdFormField.sendKeys('12345');
+    users.personalTelephoneFormField.sendKeys('15062345678');
     shared.submitFormBtn.click();
 
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
@@ -226,6 +235,7 @@ describe('The create new user form', function() {
     users.emailFormField.sendKeys('titantest' + randomUser + '@mailinator.com');
     users.passwordFormField.sendKeys('password');
     users.externalIdFormField.sendKeys('12345');
+    users.personalTelephoneFormField.sendKeys('15062345678');
     shared.submitFormBtn.click();
 
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
@@ -246,6 +256,7 @@ describe('The create new user form', function() {
     users.emailFormField.sendKeys('titantest' + randomUser + '@mailinator.com');
     users.passwordFormField.sendKeys('password');
     users.externalIdFormField.sendKeys('12345');
+    users.personalTelephoneFormField.sendKeys('15062345678');
 
     expect(users.displayNameFormField.getAttribute('value')).toBe('First' + randomUser + ' Last' + randomUser);
     shared.submitFormBtn.click();
@@ -265,6 +276,7 @@ describe('The create new user form', function() {
     users.displayNameFormField.sendKeys('Display' + randomUser);
     users.passwordFormField.sendKeys('password');
     users.externalIdFormField.sendKeys('12345');
+    users.personalTelephoneFormField.sendKeys('15062345678');
     shared.submitFormBtn.click();
 
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
@@ -274,7 +286,6 @@ describe('The create new user form', function() {
     expect(users.requiredErrors.get(0).isDisplayed()).toBeTruthy;
     expect(users.requiredErrors.get(0).getText()).toBe('Please enter an email address');
   });
-
 
   it('should require password field', function() {
     randomUser = Math.floor((Math.random() * 1000) + 1);
@@ -287,6 +298,7 @@ describe('The create new user form', function() {
     users.emailFormField.sendKeys('titantest' + randomUser + '@mailinator.com');
     users.passwordFormField.click();
     users.externalIdFormField.sendKeys('12345');
+    users.personalTelephoneFormField.sendKeys('15062345678');
     shared.submitFormBtn.click();
 
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
@@ -297,7 +309,7 @@ describe('The create new user form', function() {
     expect(users.requiredErrors.get(1).getText()).toBe('Please enter a password');
   });
 
-  it('should not require external id', function() {
+  it('should not require external id or personal telephone', function() {
     // Add randomness to user details
     randomUser = Math.floor((Math.random() * 1000) + 1);
     newUserName = 'First' + randomUser + ' Last' + randomUser;
@@ -349,6 +361,7 @@ describe('The create new user form', function() {
     users.displayNameFormField.sendKeys('Display' + randomUser);
     users.passwordFormField.sendKeys('password');
     users.externalIdFormField.sendKeys('12345');
+    users.personalTelephoneFormField.sendKeys('15062345678');
     shared.submitFormBtn.click().then(function() {
       // New user not added, invite sent to existing user
       expect(shared.tableElements.count()).toBe(userCount);
@@ -372,11 +385,38 @@ describe('The create new user form', function() {
     users.displayNameFormField.sendKeys('Display' + randomUser);
     users.passwordFormField.sendKeys('password');
     users.externalIdFormField.sendKeys('12345');
+    users.personalTelephoneFormField.sendKeys('15062345678');
     shared.submitFormBtn.click();
 
     // New user not added, invite sent to existing user
     expect(shared.tableElements.count()).toBe(userCount);
     expect(shared.errorMessage.getText()).toContain('Record failed to save');
     expect(shared.successMessage.getText()).toContain('User already exists. Sending ' + params.login.user.toUpperCase() + ' an invite for');
+  });
+  
+  it('should prevent invalid E164 numbers from being accepted', function() {
+    shared.createBtn.click();
+    expect(users.personalTelephoneFormField.isDisplayed()).toBeTruthy();
+
+    // Ensure the field is empty
+    users.personalTelephoneFormField.clear();
+    users.personalTelephoneFormField.sendKeys('a15064704361');
+
+    users.firstNameFormField.click();
+    expect(users.personalTelephoneFormField.getAttribute('class')).toContain('ng-invalid');
+    expect(users.requiredErrors.get(5).getText()).toBe('Phone number should be in E.164 format.');
+    expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
+  });
+
+  it('should allow E164 numbers to be accepted and format the input', function() {
+    shared.createBtn.click();
+    expect(users.personalTelephoneFormField.isDisplayed()).toBeTruthy();
+
+    // Complete field with valid input
+    users.personalTelephoneFormField.sendKeys('15064704361');
+
+    users.firstNameFormField.click();
+    expect(users.requiredErrors.get(5).isDisplayed()).toBeFalsy();
+    expect(users.personalTelephoneFormField.getText()).toBe('+1 506-470-4361');
   });
 });

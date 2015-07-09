@@ -44,6 +44,7 @@ describe('The users view', function() {
     expect(users.firstNameFormField.isDisplayed()).toBeTruthy();
     expect(users.lastNameFormField.isDisplayed()).toBeTruthy();
     expect(users.displayNameFormField.isDisplayed()).toBeTruthy();
+    expect(users.personalTelephoneFormField.isDisplayed()).toBeTruthy();
     expect(users.externalIdFormField.isDisplayed()).toBeTruthy();
 
     // User email is not able to be edited
@@ -309,6 +310,19 @@ describe('The users view', function() {
     });
   });
 
+  it('should not require Personal Telephone when editing', function() {
+    // Select first user from table
+    users.firstTableRow.click();
+
+    // Edit fields
+    users.personalTelephoneFormField.sendKeys('temp'); // Incase the field was already empty
+    users.personalTelephoneFormField.clear();
+    users.firstNameFormField.click();
+    shared.submitFormBtn.click().then(function() {
+      expect(shared.successMessage.isDisplayed()).toBeTruthy();
+    });
+  });
+
   it('should display password field when editing button is selected', function() {
     // Select first user from table
     users.firstTableRow.click();
@@ -387,7 +401,7 @@ describe('The users view', function() {
     });
   });
 
-  it('should prevent invalid E164 numbers from being accepted', function () {
+  it('should prevent invalid E164 numbers from being accepted', function() {
     expect(users.personalTelephoneFormField.isDisplayed()).toBeTruthy();
 
     //ensure the field is empty
@@ -398,10 +412,10 @@ describe('The users view', function() {
     users.firstNameFormField.click();
 
     expect(users.personalTelephoneFormField.getAttribute('class')).toContain('ng-invalid');
-
+    expect(users.requiredErrors.get(3).getText()).toBe('Phone number should be in E.164 format.');
   });
 
-  it('should allow E164 numbers to be accepted', function () {
+  it('should allow E164 numbers to be accepted', function() {
     expect(users.personalTelephoneFormField.isDisplayed()).toBeTruthy();
 
     //ensure the field is empty
@@ -411,11 +425,9 @@ describe('The users view', function() {
 
     users.firstNameFormField.click();
 
-    expect(users.error.isDisplayed()).toBeFalsy();
+    expect(users.requiredErrors.get(3).isDisplayed()).toBeFalsy();
 
-    users.personalTelephoneFormField.getText(function(phoneNumber){
-      //limits the user to digits only, limits the user to 15 characters, should prepend a +
-      expect(phoneNumber).toBe('+1 506-470-4361');
-    });
+    //limits the user to digits only, limits the user to 15 characters, should prepend a +
+    expect(users.personalTelephoneFormField.getText()).toBe('+1 506-470-4361');
   });
 });
