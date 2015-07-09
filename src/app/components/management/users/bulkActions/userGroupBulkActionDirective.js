@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('baUserGroups', ['$q', 'userGroupBulkActionTypes', 'Group', 'TenantGroupUsers', 'Session',
-    function ($q, userGroupBulkActionTypes, Group, TenantGroupUsers, Session) {
+  .directive('baUserGroups', ['$q', 'UserGroupBulkAction', 'userGroupBulkActionTypes', 'Group', 'TenantGroupUsers', 'Session',
+    function ($q, UserGroupBulkAction, userGroupBulkActionTypes, Group, TenantGroupUsers, Session) {
       return {
         restrict: 'AE',
         scope: {
@@ -11,24 +11,30 @@ angular.module('liveopsConfigPanel')
         },
         templateUrl: 'app/components/management/users/bulkActions/userGroupBulkAction.html',
         link: function ($scope) {
-          $scope.bulkAction.action = function (user) {
+          $scope.bulkAction.execute = function (user) {
             var promises = [];
             angular.forEach($scope.userGroupBulkActions, function(userGroupBulkAction) {
-              if(!userGroupBulkAction.selectedGroup || !userGroupBulkAction.selectedType) {
+              if(!userGroupBulkAction.canExecute()) {
                 return;
               }
               
-              if(userGroupBulkAction.selectedType.doesQualify(user, 
-                userGroupBulkAction.selectedGroup)) {
-                  
-                promises.push(userGroupBulkAction.selectedType.execute(user,
-                  userGroupBulkAction.selectedGroup));
+              if(userGroupBulkAction.selectedType.doesQualify(user, userGroupBulkAction)) {
+                promises.push(userGroupBulkAction.selectedType.execute(user, userGroupBulkAction));
               }
             });
             
             return $q.all(promises).finally(function() {
               $scope.fetchUserGroups($scope.groups);
             });
+          };
+          
+          $scope.bulkAction.canExecute = function() {
+            var canExecute = !!$scope.userGroupBulkActions.length;
+            angular.forEach($scope.userGroupBulkActions, function(userGroupBulkAction) {
+              canExecute = canExecute && userGroupBulkAction.selectedType.canExecute(userGroupBulkAction);
+            });
+            
+            return canExecute;
           };
           
           $scope.fetch = function () {
@@ -57,21 +63,19 @@ angular.module('liveopsConfigPanel')
             return $q.all(promises).finally(function() {
               $scope.refreshAllAffectedUsers();
             });
-          }
+          };
           
           $scope.removeUserGroupBulkAction = function(action) {
             $scope.userGroupBulkActions.removeItem(action);
           };
           
           $scope.addUserGroupBulkAction = function() {
-            $scope.userGroupBulkActions.push({
-              selectedType: userGroupBulkActionTypes[0],
-              usersAffected: []
-            });
+            $scope.userGroupBulkActions.push(
+              new UserGroupBulkAction());
           };
           
           $scope.refreshAffectedUsers = function(userGroupBulkAction) {
-            if(!userGroupBulkAction.selectedGroup || !userGroupBulkAction.selectedType) {
+            if(!userGroupBulkAction.canExecute()) {
               return;
             }
             
@@ -82,9 +86,7 @@ angular.module('liveopsConfigPanel')
                 return;
               }
               
-              if(userGroupBulkAction.selectedType.doesQualify(user, 
-                userGroupBulkAction.selectedGroup)){
-                  
+              if(userGroupBulkAction.selectedType.doesQualify(user, userGroupBulkAction)){
                 userGroupBulkAction.usersAffected.push(user);
               }
             });

@@ -12,6 +12,8 @@
   </div>
   
   <div class="detail-controls-pane">
-    <input class="btn btn-primary" type="button" ng-click="execute()" value="Submit"/>
+    <input ng-disabled="!canExecute()" 
+      type="button" ng-click="execute()"
+      value="{{'value.submit' | translate}}">
   </div>
 </div>

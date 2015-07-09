@@ -22,12 +22,12 @@ angular.module('liveopsConfigPanel')
               
               var promises = [];
               var itemCopy = angular.copy(item);
-              angular.forEach($scope.bulkActions, function(bulkAction) {
-                if(!bulkAction.checked){
-                  return;
+              
+              var selectedBulkActions = $scope.getBulkActionsSelected();
+              angular.forEach(selectedBulkActions, function(bulkAction) {
+                if(bulkAction.canExecute()) {
+                  promises.push($q.when(bulkAction.execute(itemCopy)));
                 }
-                
-                promises.push($q.when(bulkAction.action(itemCopy)));
               });
               
               if(promises.length) {
@@ -46,6 +46,27 @@ angular.module('liveopsConfigPanel')
               }
             });
           };
+          
+          $scope.canExecute = function() {
+            var selectedBulkActions = $scope.getBulkActionsSelected();
+            var canExecute = !!selectedBulkActions.length;
+            angular.forEach(selectedBulkActions, function(bulkAction) {
+              canExecute = canExecute && bulkAction.canExecute();
+            });
+            
+            return canExecute;
+          };
+          
+          $scope.getBulkActionsSelected = function() {
+            var selectedBulkActions = []
+            angular.forEach($scope.bulkActions, function(bulkAction) {
+              if(bulkAction.checked){
+                selectedBulkActions.push(bulkAction);
+              }
+            });
+            
+            return selectedBulkActions;
+          }
           
           $scope.updateDropDown = function(event, item) {
             setTimeout(function() {
