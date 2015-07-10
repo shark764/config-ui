@@ -28,7 +28,6 @@ angular.module('liveopsConfigPanel')
 
               UUIDCache.put(id, {
                 id: user.id,
-                displayName: user.displayName,
                 firstName: user.firstName,
                 lastName: user.lastName
               });
