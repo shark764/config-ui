@@ -51,6 +51,12 @@ describe('UserCache service', function(){
     it('should return the cache value if it is defined', inject(function() {
       expect(UserCache.get(5).name).toEqual('cached user');
     }));
+    
+    it('should call success if given', inject(function() {
+      var successSpy = jasmine.createSpy('success');
+      UserCache.get(5, successSpy);
+      expect(successSpy).toHaveBeenCalledWith({name: 'cached user', id: 5});
+    }));
   });
 
   describe('uncached calls', function(){
@@ -77,5 +83,29 @@ describe('UserCache service', function(){
       expect(userSpy).toHaveBeenCalledWith({id: 5}, jasmine.any(Function), jasmine.any(Function));
       expect(result).toEqual({name: 'fetched user', id: 5});
     }));
+    
+    it('should call success if given', inject(function() {
+      var successSpy = jasmine.createSpy('success');
+      UserCache.get(5, successSpy);
+      expect(successSpy).toHaveBeenCalledWith({name: 'fetched user', id: 5});
+    }));
   });
+  
+  it('should call fail callback if given and user get fails', inject(['User', 'UUIDCache', function(User, UUIDCache) {
+    userGet = function(params, callback, fail){
+      fail();
+    };
+    userSpy = spyOn(User, 'get').and.callFake(userGet);
+    
+    cacheGet = function(){
+      return undefined;
+    };
+
+    cacheSpy = spyOn(UUIDCache, 'get').and.callFake(cacheGet);
+    spyOn(UUIDCache, 'put'); //just stub this out
+    
+    var failSpy = jasmine.createSpy('fail');
+    UserCache.get(5, angular.noop, failSpy);
+    expect(failSpy).toHaveBeenCalled();
+  }]));
 });
