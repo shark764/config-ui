@@ -30,14 +30,14 @@ angular.module('liveopsConfigPanel')
         execute: function (user, action) {
           var tenantGroupUser = new TenantGroupUsers();
           tenantGroupUser.userId = user.id;
-
+          
           return tenantGroupUser.$save({
             groupId: action.selectedGroup.id,
             tenantId: Session.tenant.tenantId
           });
         },
         canExecute: function (action) {
-          return action.selectedGroup && action.selectedType;
+          return action.selectedGroup;
         }
       }, {
         display: $filter('translate')('bulkActions.userGroups.remove'),
@@ -53,7 +53,7 @@ angular.module('liveopsConfigPanel')
           });
         },
         canExecute: function (action) {
-          return action.selectedGroup && action.selectedType;
+          return action.selectedGroup;
         }
       }];
     }

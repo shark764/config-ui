@@ -40,7 +40,8 @@ angular.module('liveopsConfigPanel')
           });
         },
         canExecute: function (action) {
-          return action.selectedSkill && action.selectedType;
+          return !!(action.selectedSkill
+            && action.selectedType);
         }
       }, {
         display: $filter('translate')('bulkActions.skills.update'),
@@ -61,7 +62,9 @@ angular.module('liveopsConfigPanel')
           });
         },
         canExecute: function (action) {
-          return action.selectedSkill && action.selectedType && angular.isDefined(action.params.proficiency);
+          return !!(action.params
+            && action.params.skillId
+            && angular.isDefined(action.params.proficiency));
         }
       }, {
         display: $filter('translate')('bulkActions.skills.remove'),
@@ -78,7 +81,9 @@ angular.module('liveopsConfigPanel')
           });
         },
         canExecute: function (action) {
-          return action.selectedSkill && action.selectedType;
+          return !!(action.params
+            && action.params.skillId
+            && action.selectedType);
         }
       }];
     }

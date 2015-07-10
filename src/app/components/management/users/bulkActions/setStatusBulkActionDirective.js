@@ -10,7 +10,7 @@ angular.module('liveopsConfigPanel')
         },
         templateUrl: 'app/components/management/users/bulkActions/setStatusBulkAction.html',
         link: function ($scope) {
-          $scope.bulkAction.action = function(user) {
+          $scope.bulkAction.execute = function(user) {
             user.status = $scope.status
             return user;
           }

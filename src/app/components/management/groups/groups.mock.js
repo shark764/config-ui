@@ -31,19 +31,19 @@ angular.module('liveopsConfigPanel.mock.content.management.groups', ['liveopsCon
   })
   .run(['$httpBackend', 'apiHostname', 'mockGroups', 'mockGroupUsers', 'mockUserGroups',
     function($httpBackend, apiHostname, mockGroups, mockGroupUsers, mockUserGroups) {
-      $httpBackend.when('GET', apiHostname + '/v1/tenants/tenant-id/groups/' + mockGroups[0].id).respond({
+      $httpBackend.when('GET', apiHostname + '/v1/tenants/tenant-id/groups/groupId1').respond({
         'result': mockGroups[0]
       });
 
-      $httpBackend.when('GET', apiHostname + '/v1/tenants/tenant-id/groups/' + mockGroups[1].id).respond({
+      $httpBackend.when('GET', apiHostname + '/v1/tenants/tenant-id/groups/groupId2').respond({
         'result': mockGroups[1]
       });
 
-      $httpBackend.when('GET', apiHostname + '/v1/tenants/tenant-id/groups/' + mockGroups[0].id + '/users').respond({
+      $httpBackend.when('GET', apiHostname + '/v1/tenants/tenant-id/groups/groupId1/users').respond({
         'result': [mockGroupUsers[0]]
       });
 
-      $httpBackend.when('GET', apiHostname + '/v1/tenants/tenant-id/groups/' + mockGroups[1].id + '/users').respond({
+      $httpBackend.when('GET', apiHostname + '/v1/tenants/tenant-id/groups/groupId2/users').respond({
         'result': []
       });
 

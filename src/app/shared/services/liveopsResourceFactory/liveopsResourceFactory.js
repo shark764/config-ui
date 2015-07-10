@@ -86,9 +86,9 @@ angular.module('liveopsConfigPanel')
             }
           });
 
-          Resource.prototype.$save = function(success, failure) {
+          Resource.prototype.$save = function(params, success, failure) {
             var action = this.isNew() ? this.$create : this.$update;
-            return action.call(this);
+            return action.call(this, params, success, failure);
           }
 
           Resource.prototype.save = function (success, failure) {

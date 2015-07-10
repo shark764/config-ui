@@ -14,6 +14,7 @@ describe('userGroups directive', function() {
 
   beforeEach(module('gulpAngular'));
   beforeEach(module('liveopsConfigPanel'));
+  beforeEach(module('liveopsConfigPanel.mock.content.management.groups'));
   beforeEach(module('liveopsConfigPanel.mock.content.management.users.groups'));
 
   beforeEach(inject(['$compile', '$rootScope', '$httpBackend', 'apiHostname', 'mockUsers', 'mockGroups', 'mockUserGroups', 'Session',
@@ -47,7 +48,7 @@ describe('userGroups directive', function() {
 
   it('should load the groups for the tenant', inject(function() {
     expect(isolateScope.groups).toBeDefined();
-    expect(isolateScope.groups.length).toEqual(mockGroups.length);
+    expect(isolateScope.groups.length).toEqual(2);
     expect(isolateScope.groups[0].id).toEqual(mockGroups[0].id);
     expect(isolateScope.groups[1].id).toEqual(mockGroups[1].id);
   }));
@@ -57,7 +58,7 @@ describe('userGroups directive', function() {
   }));
 
   it('should load the user\'s groups', inject(function() {
-    expect(isolateScope.userGroups.length).toEqual(mockUserGroups.length);
+    expect(isolateScope.userGroups.length).toEqual(1);
     expect(isolateScope.userGroups[0].userId).toEqual(mockUserGroups[0].userId);
     expect(isolateScope.userGroups[0].groupId).toEqual(mockUserGroups[0].groupId);
   }));
@@ -83,7 +84,7 @@ describe('userGroups directive', function() {
       isolateScope.groups = [];
       isolateScope.fetch();
       $httpBackend.flush();
-      expect(isolateScope.groups.length).toEqual(mockGroups.length);
+      expect(isolateScope.groups.length).toEqual(2);
       expect(isolateScope.groups[0].id).toEqual(mockGroups[0].id);
       expect(isolateScope.groups[1].id).toEqual(mockGroups[1].id);
     }));
@@ -125,10 +126,10 @@ describe('userGroups directive', function() {
 
     it('should remove the item from userGroups list', inject(function() {
       isolateScope.updateFiltered();
-      expect(isolateScope.userGroups.length).toBe(mockUserGroups.length);
+      expect(isolateScope.userGroups.length).toBe(1);
       isolateScope.remove(isolateScope.userGroups[0]);
       $httpBackend.flush();
-      expect(isolateScope.userGroups.length).toBe(mockUserGroups.length - 1);
+      expect(isolateScope.userGroups.length).toBe(0);
     }));
 
     it('should add the removed group to the filtered list', inject(function() {
@@ -268,7 +269,7 @@ describe('userGroups directive', function() {
       isolateScope.createGroup('groupname');
       $httpBackend.flush();
 
-      expect(isolateScope.selectedGroup.id).toEqual(mockGroups[0].id);
+      expect(isolateScope.selectedGroup.id).toEqual('groupId3');
     }));
 
     it('should call success callback on success', inject(function() {
@@ -295,7 +296,7 @@ describe('userGroups directive', function() {
       $httpBackend.when('POST', apiHostname + '/v1/tenants/2/groups').respond({result: newGroup});
       isolateScope.createGroup(newGroup.name);
       $httpBackend.flush();
-      expect(isolateScope.groups.length).toEqual(mockGroups.length + 1);
+      expect(isolateScope.groups.length).toEqual(3);
       expect(isolateScope.groups[isolateScope.groups.length - 1].name).toEqual(newGroup.name);
      }));
   });

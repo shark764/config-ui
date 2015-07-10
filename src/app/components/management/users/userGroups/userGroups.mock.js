@@ -1,6 +1,8 @@
 'use strict';
 
-angular.module('liveopsConfigPanel.mock.content.management.users.groups', ['liveopsConfigPanel.mock.content', 'liveopsConfigPanel.mock.content.management.users'])
+angular.module('liveopsConfigPanel.mock.content.management.users.groups', [
+  'liveopsConfigPanel.mock.content', 
+  'liveopsConfigPanel.mock.content.management.users'])
   .service('mockGroups', function(Group) {
     return [new Group({
       'id': 'groupId1',
@@ -29,20 +31,21 @@ angular.module('liveopsConfigPanel.mock.content.management.users.groups', ['live
       'groupId': 'groupId1',
       'memberId': 'userId1',
       'tenantId': 'tenant-id'
+    }), new TenantUserGroups({
+      'groupId': 'groupId2',
+      'memberId': 'userId1',
+      'tenantId': 'tenant-id'
     })];
   })
   .run(['$httpBackend', 'apiHostname', 'mockGroups', 'mockGroupUsers', 'mockUserGroups', 'Session', 'mockUsers',
     function($httpBackend, apiHostname, mockGroups, mockGroupUsers, mockUserGroups, Session, mockUsers) {
       Session.tenant.tenantId = 'tenant-id';
+      
+      $httpBackend.when('POST', apiHostname + '/v1/tenants/tenant-id/groups/groupId2/users', {
+        userId: 'userId1'
+      }).respond(200, mockUserGroups[1]);
 
-      $httpBackend.when('GET', apiHostname + '/v1/tenants/' + Session.tenant.tenantId + '/groups')
-        .respond(200, mockGroups);
-
-      $httpBackend.when('POST', apiHostname + '/v1/tenants/' + Session.tenant.tenantId + '/groups')
-        .respond(200, mockGroups[0]);
-
-      $httpBackend.when('DELETE', apiHostname + '/v1/tenants/' + Session.tenant.tenantId + '/groups/' + mockGroups[0].id + '/users/' + mockUsers[0].id)
+      $httpBackend.when('DELETE', apiHostname + '/v1/tenants/tenant-id/groups/groupId1/users/userId1')
         .respond(200);
-
     }
   ]);

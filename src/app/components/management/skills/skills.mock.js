@@ -31,32 +31,46 @@ angular.module('liveopsConfigPanel.mock.content.management.skills', ['liveopsCon
   })
   .run(['$httpBackend', 'apiHostname', 'mockSkills', 'mockUserSkills',
     function($httpBackend, apiHostname, mockSkills, mockUserSkills) {
-      $httpBackend.when('GET', apiHostname + '/v1/tenants/tenant-id/skills/' + mockSkills[0].id).respond({
-        'result': mockSkills[0]
-      });
-
-      $httpBackend.when('GET', apiHostname + '/v1/tenants/tenant-id/skills/' + mockSkills[1].id).respond({
-        'result': mockSkills[1]
-      });
-
-      $httpBackend.when('GET', apiHostname + '/v1/tenants/tenant-id/users/userId1/skills').respond({
-        'result': [mockUserSkills[0], mockUserSkills[1]]
-      });
-
-      $httpBackend.when('GET', apiHostname + '/v1/tenants/tenant-id/skills/' + mockSkills[1].id + '/users').respond({
-        'result': []
-      });
-
+      //GET tenants/skills
       $httpBackend.when('GET', apiHostname + '/v1/tenants/tenant-id/skills').respond({
         'result': [mockSkills[0], mockSkills[1]]
       });
+      
+      $httpBackend.when('GET', apiHostname + '/v1/tenants/tenant-id/skills/skillId1').respond({
+        'result': mockSkills[0]
+      });
 
+      $httpBackend.when('GET', apiHostname + '/v1/tenants/tenant-id/skills/skillId2').respond({
+        'result': mockSkills[1]
+      });
+
+      //GET tenants/user/skills
+      $httpBackend.when('GET', apiHostname + '/v1/tenants/tenant-id/users/userId1/skills').respond({
+        'result': [mockUserSkills[0], mockUserSkills[1]]
+      });
+      
+      //GET tenants/skills/user
+      $httpBackend.when('GET', apiHostname + '/v1/tenants/tenant-id/skills/skillId2/users').respond({
+        'result': []
+      });
+      
+      
+      //POST tenants/skills
       $httpBackend.when('POST', apiHostname + '/v1/tenants/tenant-id/skills').respond({
         'result': mockSkills[2]
       });
-
+      
+      //POST tenants/users/skills
       $httpBackend.when('POST', apiHostname + '/v1/tenants/tenant-id/users/userId1/skills').respond({
         'result': mockUserSkills[2]
+      });
+      
+      //DELETE tenants/users/skills
+      $httpBackend.when('DELETE', apiHostname + '/v1/tenants/tenant-id/users/userId1/skills/skillId1').respond(200);
+    
+      //PUT tenants/users/skills
+      $httpBackend.when('PUT', apiHostname + '/v1/tenants/tenant-id/users/userId1/skills/skillId1').respond({
+        'result': mockUserSkills[0]
       });
     }
   ]);
