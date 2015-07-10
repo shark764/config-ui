@@ -13,6 +13,8 @@ describe('The create new queues view', function() {
   });
 
   beforeEach(function() {
+    // Ignore unsaved changes warnings
+    browser.executeScript("window.onbeforeunload = function(){};");
     browser.get(shared.queuesPageUrl);
   });
 
@@ -95,7 +97,13 @@ describe('The create new queues view', function() {
     queues.descriptionFormField.sendKeys('This is the queue description for queue ' + randomQueue);
     queues.createVersionQueryFormField.sendKeys('This is a new queue version query');
 
-    shared.cancelFormBtn.click().then(function() {
+    shared.cancelFormBtn.click();
+
+    // Warning message is displayed
+    var alertDialog = browser.switchTo().alert();
+    expect(alertDialog.accept).toBeDefined();
+    expect(alertDialog.dismiss).toBeDefined();
+    alertDialog.accept().then(function() {
       // Confirm fields are cleared and new queue is not added
       expect(queues.nameFormField.getAttribute('value')).toBe('');
       expect(queues.descriptionFormField.getAttribute('value')).toBe('');

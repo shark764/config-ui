@@ -13,7 +13,10 @@ describe('The create new tenants view', function() {
   });
 
   beforeEach(function() {
-    browser.get(shared.tenantsPageUrl);
+    // Ignore unsaved changes warnings
+    browser.executeScript("window.onbeforeunload = function(){};");
+    browser.get(shared.usersPageUrl);
+    shared.tenantsNavButton.click();
     tenantCount = shared.tableElements.count();
   });
 
@@ -44,7 +47,7 @@ describe('The create new tenants view', function() {
     // Confirm tenant is displayed in tenant table with correct details
     shared.tableElements.then(function(rows) {
       for (var i = 1; i <= rows.length; ++i) {
-        element(by.css('tr.ng-scope:nth-child(' + i + ') > td:nth-child(2)')).getText().then(function(value) {
+        element(by.css('tr.ng-scope:nth-child(' + i + ') > td:nth-child(2) > span:nth-child(1)')).getText().then(function(value) {
           if (value == 'Tenant ' + randomTenant) {
             tenantAdded = true;
           }

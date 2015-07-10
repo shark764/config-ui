@@ -67,7 +67,7 @@ describe('DirtyForms service', function(){
     }]));
 
     it('should do nothing if the confirm returns ok', inject(['Alert', function(Alert) {
-      spyOn(Alert, 'confirm').and.callFake(function(msg, okCallback, cancelCallback){
+      spyOn(Alert, 'confirm').and.callFake(function(msg, okCallback){
         okCallback();
       });
 

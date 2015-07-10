@@ -12,7 +12,10 @@ describe('The tenants view', function() {
   });
 
   beforeEach(function() {
-    browser.get(shared.tenantsPageUrl);
+    // Ignore unsaved changes warnings
+    browser.executeScript("window.onbeforeunload = function(){};");
+    browser.get(shared.usersPageUrl);
+    shared.tenantsNavButton.click();
     tenantCount = shared.tableElements.count();
   });
 
@@ -101,6 +104,13 @@ describe('The tenants view', function() {
     tenants.adminFormDropDown.all(by.css('option')).get(1).click();
 
     shared.cancelFormBtn.click();
+
+    // Warning message is displayed
+    var alertDialog = browser.switchTo().alert();
+    expect(alertDialog.accept).toBeDefined();
+    expect(alertDialog.dismiss).toBeDefined();
+    alertDialog.accept();
+    
     expect(shared.successMessage.isPresent()).toBeFalsy();
 
     // Fields reset to original values

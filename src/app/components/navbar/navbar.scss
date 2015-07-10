@@ -99,8 +99,8 @@ $down-arrow-url: "/assets/images/down-arrow.png";
         color : $main-color;
       }
 
-      &.active .drop-label, &:hover .drop-label {
-        span {
+      &.active, &:hover {
+        .drop-label span, a {
           @include box-shadow(inset 0px -5px 0px 0px $accent1);
           color: white;
         }
@@ -161,7 +161,7 @@ $down-arrow-url: "/assets/images/down-arrow.png";
       padding: 10px;
 
       span {
-        max-width: 150px;
+        max-width: 300px;
         overflow: hidden;
         text-overflow: ellipsis;
         display: table-cell;
