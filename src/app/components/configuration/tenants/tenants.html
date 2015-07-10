@@ -6,6 +6,7 @@
   resource-name="tenants"></table-controls>
 
 <resize-handle
+  ng-show="!! selectedTenant"
   id="resize-pane"
   right-element-id="details-pane"
   left-element-id="table-pane"
@@ -13,6 +14,7 @@
   right-min-width="300"></resize-handle>
 
 <resource-details
+  ng-show="!! selectedTenant"
   id="details-pane"
   extend-scope="additional"
   header-template-url="app/components/configuration/tenants/tenantDetailHeader.html"
