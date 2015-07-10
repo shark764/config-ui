@@ -21,8 +21,10 @@ $down-arrow-url: "/assets/images/down-arrow.png";
 
   #logo {
     background: none;
-    @include box-shadow(none);
 
+    span {
+      @include box-shadow(none);
+    }
 
     img {
       vertical-align: middle;
@@ -31,12 +33,19 @@ $down-arrow-url: "/assets/images/down-arrow.png";
 
   #tenant-dropdown {
     .drop-label {
-      @include box-shadow(none);
+      display: table-cell;
+      vertical-align: middle;
+
+      span {
+        @include box-shadow(none);
+      }
 
       div {
         min-width: 150px;
         border: 1px solid #fff;
-        padding: 10px;
+        padding: 0 10px;
+        height: 40px;
+
         @include border-radius();
 
         span {
@@ -71,29 +80,32 @@ $down-arrow-url: "/assets/images/down-arrow.png";
       display: inline-block;
       padding: 0;
       position: relative;
-      margin: 0px 10px;
+      margin: 0px 5px;
 
       a {
+        display: table-cell;
+        vertical-align: middle;
+      }
+
+      a, .drop-label {
         color: $light-grey;
         font-size: 130%;
         font-weight: 100;
         height: $navbar-height;
         position: relative;
-        display: table-cell;
-        vertical-align: middle;
+
+      }
+      .label-icon {
+        color : $main-color;
       }
 
-      &.active a, &:hover a {
-        @include box-shadow(inset 0px -5px 0px 0px $accent1);
-        color: white;
+      &.active .drop-label, &:hover .drop-label {
+        span {
+          @include box-shadow(inset 0px -5px 0px 0px $accent1);
+          color: white;
+        }
       }
 
-    }
-
-    .drop-label {
-      > div {
-        overflow: visible;
-      }
     }
 
     #tenant-dropdown .label-icon {
@@ -137,7 +149,7 @@ $down-arrow-url: "/assets/images/down-arrow.png";
       color: white;
 
     }
-    a {
+    span {
       @include box-shadow(none  !important);
     }
   }

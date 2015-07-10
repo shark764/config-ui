@@ -25,8 +25,8 @@ describe('navbar directive', function(){
       $scope.$digest();
     }]));
 
-    it('should insert two nav elements', inject(function() {
-      expect(element.find('nav').length).toEqual(2);
+    it('should insert one nav element', inject(function() {
+      expect(element.find('nav').length).toEqual(1);
     }));
 
     it('should insert a welcome message', inject(function() {
