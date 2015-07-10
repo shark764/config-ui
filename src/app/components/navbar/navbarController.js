@@ -65,6 +65,9 @@ angular.module('liveopsConfigPanel')
         iconClass: 'fa fa-gear'
       }];
       
+      $scope.$on('resource:create', $scope.onCreateClick);
+      $scope.$on('resource:actions', $scope.onActionsClick);
+      
       $scope.$watch('Session.tenants', $scope.populateTenantsHandler);
     }
   ]);

@@ -41,7 +41,7 @@ describe('LiveopsResourceFactory', function(){
       query: jasmine.any(Object),
       get: jasmine.any(Object),
       update: jasmine.any(Object),
-      save: jasmine.any(Object)
+      create: jasmine.any(Object)
     });
   }));
 
@@ -52,7 +52,7 @@ describe('LiveopsResourceFactory', function(){
       query: jasmine.any(Object),
       get: jasmine.any(Object),
       update: jasmine.any(Object),
-      save: jasmine.any(Object)
+      create: jasmine.any(Object)
     });
   }));
 

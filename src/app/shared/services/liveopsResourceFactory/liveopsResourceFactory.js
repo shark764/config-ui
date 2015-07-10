@@ -100,7 +100,7 @@ angular.module('liveopsConfigPanel')
             self.$busy = true;
 
             //TODO find out why preEvent didn't work in the chain
-            return action.call(self, preEvent.call(self))
+            return self.$save()
               .then(function (result) {
                 return postEvent.call(self, result);
               }, function (error) {

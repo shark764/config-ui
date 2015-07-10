@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('tableControls', ['$filter', '$location', '$stateParams', '$parse', 'DirtyForms',
-    function($filter, $location, $stateParams, $parse, DirtyForms) {
+  .directive('tableControls', ['$rootScope', '$filter', '$location', '$stateParams', '$parse', 'DirtyForms',
+    function($rootScope, $filter, $location, $stateParams, $parse, DirtyForms) {
       return {
         restrict: 'E',
         scope: {
@@ -61,7 +61,7 @@ angular.module('liveopsConfigPanel')
           if ($scope.items) {
             $scope.items.$promise.then(function() {
               if ($scope.items.length === 0){
-                $scope.onCreateClick();
+                $rootScope.$broadcast('resource:create');
               } else if ($stateParams.id) {
               //Init the selected item based on URL param
                 var matchedItems = $filter('filter')($scope.items, {
@@ -82,7 +82,7 @@ angular.module('liveopsConfigPanel')
             }
             
             if ($scope.filtered.length === 0){
-              $scope.onCreateClick();
+              $rootScope.$broadcast('resource:create');
               return;
             }
 

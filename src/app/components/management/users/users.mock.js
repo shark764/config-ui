@@ -44,6 +44,10 @@ angular.module('liveopsConfigPanel.mock.content.management.users', ['liveopsConf
       $httpBackend.when('GET', apiHostname + '/v1/users?tenantId=tenant-id').respond({
         'result': mockUsers
       });
+      
+      $httpBackend.when('GET', apiHostname + '/v1/users').respond({
+        'result': mockUsers
+      });
 
       $httpBackend.when('GET', apiHostname + '/v1/userId0?tenantId=tenant-id').respond(404);
 
