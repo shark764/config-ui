@@ -14,7 +14,6 @@ describe('navbar directive', function(){
       directiveDefinition.controller = function($scope) {
         $scope.tenants = [{name: 'one'}, {name : 'two'}, {name: 'three'}];
         $scope.Session = {
-          displayName : 'Bob Bobberton',
           isAuthenticated: function() {
             return true;
           }};
