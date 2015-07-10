@@ -1,16 +1,16 @@
 'use strict';
 
 var DispatchMappingsPage = function() {
-  this.creatingDispatchMappingHeader = element(by.id('dispatch-mapping-details-create-header'));
+  this.creatingDispatchMappingHeader = element(by.id('dispatch-mappings-details-create-header'));
   this.nameFormField = element(by.model('resource.name'));
   this.descriptionFormField = element(by.model('resource.description'));
   this.interactionTypeDropdown = element(by.model('resource.channelType'));
   this.mappingDropdown = element(by.model('resource.interactionField'));
   this.flowDropdown = element(by.model('resource.flowId'));
-  this.value = element(by.model('resource.value'));
+  this.valueFormField = element(by.model('resource.value'));
 
-  this.typeHeader = element(by.id('dispatch-mapping-details-name-header'));
-  this.statusSwitch = element(by.model('resource.status'));
+  this.nameHeader = element(by.id('dispatch-mappings-details-name-header'));
+  this.statusSwitch = element(by.model('resource.active'));
 
   this.nameColumn = 'td:nth-child(2)';
   this.descriptionColumn = 'td:nth-child(3)';
@@ -21,12 +21,12 @@ var DispatchMappingsPage = function() {
 
   this.requiredErrors = element.all(by.css('.error'));
 
-  this.interactionTypes = ('voice');
+  this.interactionTypes = ('Voice');
 
-  this.mappings = ('Customer', 'Contact Point', 'Integration', 'Direction');
+  this.mappingOptions = this.mappingDropdown.all(by.css('option'));
   this.phoneFormField = element(by.id('phone-form-field'));
   this.integrationFormDropdown = element(by.id('integration-form-dropdown'));
-  this.integrationValues = element(by.repeater('integration.id as integration.type for integration in integrations'));
+  this.integrationValues = element.all(by.repeater('integration.id as integration.type for integration in integrations'));
   this.directionFormDropdown = element(by.id('direction-form-dropdown'));
   this.directions = ('Outbound');
 };
