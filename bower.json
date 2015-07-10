@@ -21,7 +21,7 @@
     "rappid": "git@github.com:liveops/rappid.git",
     "MouseWheelJS": "*",
     "KeyboardJS": "git@github.com:Latros/KeyboardJS.git#Testing-Package-JSON",
-    "teljs": "~1.2.1"
+    "teljs": "git@github.com:john-benson/KeyboardJS.git#master"
   },
   "devDependencies": {
     "angular-mocks": "~1.3.4"
