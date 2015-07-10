@@ -32,7 +32,15 @@
   .drop-label {
 
     > div {
+      display: table-cell;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      margin: 0;
+      vertical-align: middle;
+
       i {
+        padding-left: 5px;
       }
     }
   }

@@ -8,6 +8,8 @@
         <dropdown id="tenant-dropdown" items="tenantDropdownItems" label="{{Session.tenant.name}}" title="{{Session.tenant.name}}"></dropdown>
       </li>
 
+      <li class="divider"></li>
+
       <li id="users-nav-link" ng-class="{ active: isActive('/management')}">
         <dropdown items="managementDropConfig" label="{{'navbar.users.title' | translate}}" order-by="order" hovering="hovering" hover-tracker="hoverTracker"></dropdown>
       </li>
@@ -22,12 +24,12 @@
 
       <li id="invites-nav-link" ng-class="{ active: isActive('/invites')}"><a ng-href="#/invites">Invites</a></li>
 
+      <li id='welcome'>
+        <dropdown id="user-settings-dropdown" items="userDropdownItems" label="{{ 'navbar.welcome' | translate:Session.user }}"
+          title="{{Session.user.displayName}}" expand-icon="fa fa-gear" collapse-icon="fa fa-gear">
+        </dropdown>
+      </li>
     </ul>
   </nav>
 
-  <nav id="welcome" ng-switch-when="true">
-    <dropdown id="user-settings-dropdown" items="userDropdownItems" label="{{ 'navbar.welcome' | translate:Session.user }}"
-      title="{{Session.user.displayName}}" expand-icon="fa fa-gear" collapse-icon="fa fa-gear">
-    </dropdown>
-  </nav>
 </div>

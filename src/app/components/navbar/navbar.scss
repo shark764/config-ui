@@ -11,7 +11,7 @@ $down-arrow-url: "/assets/images/down-arrow.png";
   max-width: 100% !important;
   height: $navbar-height;
   padding: 0;
-  padding-left: 15px;;
+  padding-left: 15px;
   position: fixed;
   top: 0;
   width: 100%;
@@ -87,21 +87,13 @@ $down-arrow-url: "/assets/images/down-arrow.png";
         @include box-shadow(inset 0px -5px 0px 0px $accent1);
         color: white;
       }
+
     }
 
     .drop-label {
-      .label-icon{
-      }
-
       > div {
         overflow: visible;
       }
-    }
-
-    .label-icon {
-      color: $main-color;
-      width: 0;
-      padding: 0;
     }
 
     #tenant-dropdown .label-icon {
@@ -138,31 +130,36 @@ $down-arrow-url: "/assets/images/down-arrow.png";
 #welcome {
   padding: 0;
   float: right;
-  min-height: $navbar-height;
-  top: 0;
-  position: fixed;
-  right: 2.5%;
-  clear: both;
-  word-wrap: normal;
-  white-space: nowrap;
-  z-index: 15;
+  font-size: 11px;
+
+  &:hover {
+    .drop-label, .label-icon {
+      color: white;
+
+    }
+    a {
+      @include box-shadow(none  !important);
+    }
+  }
 
   .drop-label {
     color: $light-grey;
-    line-height: $navbar-height / 2;
-  }
 
-  .dropdown-wrapper{
-    padding-top: $navbar-height / 2 - 10px;
-  }
+    div {
+      padding: 10px;
 
-  .label-icon {
-    font-size: 1.5em;
-  }
+      span {
+        max-width: 150px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: table-cell;
+      }
 
-  .drop-label, .label-icon {
-    &:hover {
-      color: #fff;
+      i {
+      display: table-cell;
+      font-size: 20px;
+      color: $light-grey;}
     }
   }
+
 }
