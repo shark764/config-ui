@@ -13,6 +13,8 @@ describe('The skills view', function() {
   });
 
   beforeEach(function() {
+    // Ignore unsaved changes warnings
+    browser.executeScript("window.onbeforeunload = function(){};");
     browser.get(shared.skillsPageUrl);
     skillCount = skills.skillElements.count();
   });
@@ -61,7 +63,7 @@ describe('The skills view', function() {
     expect(shared.actionsBtn.isDisplayed()).toBeTruthy();
     expect(shared.createBtn.isDisplayed()).toBeTruthy();
     expect(shared.tableColumnsDropDown.isDisplayed()).toBeTruthy();
-    expect(shared.pageHeader.getText()).toBe('Skills Management');
+    expect(shared.pageHeader.getText()).toBe('Skill Management');
   });
 
   it('should include valid Skill fields when creating a new Skill', function() {
@@ -118,7 +120,6 @@ describe('The skills view', function() {
   });
 
   it('should successfully create new Skill without description', function() {
-    // TODO Fails due to existing bug
     randomSkill = Math.floor((Math.random() * 1000) + 1);
     shared.createBtn.click();
 
@@ -155,6 +156,12 @@ describe('The skills view', function() {
     skills.proficiencyFormCheckbox.click();
     shared.cancelFormBtn.click();
 
+    // Warning message is displayed
+    var alertDialog = browser.switchTo().alert();
+    expect(alertDialog.accept).toBeDefined();
+    expect(alertDialog.dismiss).toBeDefined();
+    alertDialog.accept();
+
     // New skill is not created
     expect(skills.nameRequiredError.get(0).isDisplayed()).toBeFalsy();
     expect(shared.successMessage.isPresent()).toBeFalsy();
@@ -168,13 +175,13 @@ describe('The skills view', function() {
 
   it('should display skill details when selected from table', function() {
     // Select first queue from table
-    skills.firstTableRow.click();
+    shared.firstTableRow.click();
 
     // Verify skill details in table matches populated field
-    expect(skills.nameHeader.getText()).toContain(skills.firstTableRow.element(by.css(skills.nameColumn)).getText());
-    expect(skills.firstTableRow.element(by.css(skills.nameColumn)).getText()).toBe(skills.nameFormField.getAttribute('value'));
-    expect(skills.firstTableRow.element(by.css(skills.descriptionColumn)).getText()).toBe(skills.descriptionFormField.getAttribute('value'));
-    skills.firstTableRow.element(by.css(skills.proficiencyColumn)).getText().then(function (skillProficiency) {
+    expect(skills.nameHeader.getText()).toContain(shared.firstTableRow.element(by.css(skills.nameColumn)).getText());
+    expect(shared.firstTableRow.element(by.css(skills.nameColumn)).getText()).toBe(skills.nameFormField.getAttribute('value'));
+    expect(shared.firstTableRow.element(by.css(skills.descriptionColumn)).getText()).toBe(skills.descriptionFormField.getAttribute('value'));
+    shared.firstTableRow.element(by.css(skills.proficiencyColumn)).getText().then(function (skillProficiency) {
       if(skillProficiency == 'Yes'){
         expect(skills.proficiencySwitch.isSelected()).toBeTruthy();
       } else if (skillProficiency == 'No'){
@@ -186,11 +193,11 @@ describe('The skills view', function() {
     });
 
     // Change selected queue and ensure details are updated
-    skills.secondTableRow.click();
-    expect(skills.nameHeader.getText()).toContain(skills.secondTableRow.element(by.css(skills.nameColumn)).getText());
-    expect(skills.secondTableRow.element(by.css(skills.nameColumn)).getText()).toBe(skills.nameFormField.getAttribute('value'));
-    expect(skills.secondTableRow.element(by.css(skills.descriptionColumn)).getText()).toBe(skills.descriptionFormField.getAttribute('value'));
-    skills.secondTableRow.element(by.css(skills.proficiencyColumn)).getText().then(function (skillProficiency) {
+    shared.secondTableRow.click();
+    expect(skills.nameHeader.getText()).toContain(shared.secondTableRow.element(by.css(skills.nameColumn)).getText());
+    expect(shared.secondTableRow.element(by.css(skills.nameColumn)).getText()).toBe(skills.nameFormField.getAttribute('value'));
+    expect(shared.secondTableRow.element(by.css(skills.descriptionColumn)).getText()).toBe(skills.descriptionFormField.getAttribute('value'));
+    shared.secondTableRow.element(by.css(skills.proficiencyColumn)).getText().then(function (skillProficiency) {
       if(skillProficiency == 'Yes'){
         expect(skills.proficiencySwitch.isSelected()).toBeTruthy();
       } else if (skillProficiency == 'No'){
@@ -203,7 +210,7 @@ describe('The skills view', function() {
   });
 
   it('should include valid Skill fields when editing an existing Skill', function() {
-    skills.firstTableRow.click();
+    shared.firstTableRow.click();
     expect(skills.nameFormField.isDisplayed()).toBeTruthy();
     expect(skills.descriptionFormField.isDisplayed()).toBeTruthy();
     expect(skills.proficiencyFormCheckbox.isDisplayed()).toBeTruthy();
@@ -211,7 +218,7 @@ describe('The skills view', function() {
 
   it('should reset Skill fields after editing and selecting Cancel', function() {
     // Select first queue from table
-    skills.firstTableRow.click();
+    shared.firstTableRow.click();
 
     var originalName = skills.nameFormField.getAttribute('value');
     var originalDescription = skills.descriptionFormField.getAttribute('value');
@@ -220,9 +227,14 @@ describe('The skills view', function() {
     // Edit fields
     skills.nameFormField.sendKeys('Edit');
     skills.descriptionFormField.sendKeys('Edit');
-    skills.proficiencyFormCheckbox.click();
 
     shared.cancelFormBtn.click();
+
+    // Warning message is displayed
+    var alertDialog = browser.switchTo().alert();
+    expect(alertDialog.accept).toBeDefined();
+    expect(alertDialog.dismiss).toBeDefined();
+    alertDialog.accept();
 
     expect(skills.nameRequiredError.get(0).isDisplayed()).toBeFalsy();
     expect(shared.successMessage.isPresent()).toBeFalsy();
@@ -235,7 +247,7 @@ describe('The skills view', function() {
   });
 
   it('should allow the Skill fields to be updated', function() {
-    skills.firstTableRow.click();
+    shared.firstTableRow.click();
 
     // Edit fields
     skills.nameFormField.sendKeys('Edit');
@@ -257,34 +269,53 @@ describe('The skills view', function() {
     expect(skills.proficiencySwitch.isSelected()).toBe(editedProficiency);
   });
 
-  xit('should allow the Skill Proficiency to be updated', function() {
-    // TODO Fails from existing bug
-    skills.firstTableRow.click();
+  it('should allow the Skill to be update to have proficiency', function() {
+    // Create new skill without proficiency
+    randomSkill = Math.floor((Math.random() * 1000) + 1);
+    var newSkillName = 'Skill Name ' + randomSkill;
+    shared.createBtn.click();
 
     // Edit fields
-    skills.nameFormField.sendKeys('Edit');
-    skills.descriptionFormField.sendKeys('Edit');
+    skills.nameFormField.sendKeys(newSkillName);
+    skills.descriptionFormField.sendKeys('Skill Description');
+
+    shared.submitFormBtn.click().then(function () {
+      expect(skills.proficiencySwitch.isSelected()).toBeFalsy();
+
+      // Edit skill to have proficiency
+      skills.proficiencyFormCheckbox.click();
+      shared.submitFormBtn.click();
+
+      expect(shared.successMessage.isDisplayed()).toBeTruthy();
+
+      // Changes persist
+      browser.refresh();
+      expect(skills.proficiencySwitch.isSelected()).toBeTruthy();
+    });
+  });
+
+  it('should not allow the Skill proficiency to be removed', function() {
+    // Create new skill with proficiency
+    randomSkill = Math.floor((Math.random() * 1000) + 1);
+    var newSkillName = 'Skill Name ' + randomSkill;
+    shared.createBtn.click();
+
+    // Edit fields
+    skills.nameFormField.sendKeys(newSkillName);
+    skills.descriptionFormField.sendKeys('Skill Description');
     skills.proficiencyFormCheckbox.click();
 
-    var editedName = skills.nameFormField.getAttribute('value');
-    var editedDescription = skills.descriptionFormField.getAttribute('value');
-    var editedProficiency = skills.proficiencySwitch.isSelected();
-    shared.submitFormBtn.click();
+    shared.submitFormBtn.click().then(function () {
+      expect(skills.proficiencySwitch.isSelected()).toBeTruthy();
 
-    expect(skills.nameRequiredError.get(0).isDisplayed()).toBeFalsy();
-    expect(shared.successMessage.isDisplayed()).toBeTruthy();
-    expect(skills.skillElements.count()).toBe(skillCount);
-
-    // Changes persist
-    browser.refresh();
-    expect(skills.nameFormField.getAttribute('value')).toBe(editedName);
-    expect(skills.descriptionFormField.getAttribute('value')).toBe(editedDescription);
-    expect(skills.proficiencySwitch.isSelected()).toBe(editedProficiency);
+      // Unable to edit skill to remove proficiency
+      expect(skills.proficiencyFormCheckbox.getAttribute('disabled')).toBeTruthy();
+    });
   });
 
   it('should require name field when editing a Skill', function() {
     // Select first skill from table
-    skills.firstTableRow.click();
+    shared.firstTableRow.click();
 
     // Edit fields
     skills.nameFormField.clear();
@@ -301,7 +332,7 @@ describe('The skills view', function() {
   });
 
   it('should not require description field when editing a Skill', function() {
-    skills.firstTableRow.click();
+    shared.firstTableRow.click();
 
     // Edit fields
     skills.descriptionFormField.clear();

@@ -15,7 +15,6 @@ describe('search filter', function () {
       'lastName': 'Wazowski',
       'firstName': 'Mike',
       'email': 'mike.Wazowski@hivedom.org',
-      'displayName': 'Mike Wazowski',
       'skills': [{
         'name': 'walking'
       }, {
@@ -240,7 +239,6 @@ describe('search filter', function () {
         'lastName': 'Wazowski',
         'firstName': 'Mike',
         'email': 'mike.Wazowski@hivedom.org',
-        'displayName': 'Mike Wazowski',
         'skills': [{
           'name': 'talking'
         }]
@@ -251,7 +249,6 @@ describe('search filter', function () {
         'lastName': 'Walter',
         'firstName': 'Serge',
         'email': 'serge.walter@example.com',
-        'displayName': 'Serge Walter',
         'skills': [{
           'name': 'walking'
         }]

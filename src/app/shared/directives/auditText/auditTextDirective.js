@@ -10,7 +10,7 @@ angular.module('liveopsConfigPanel')
         date: '='
       },
       link: function ($scope, element, attributes) {
-        var getAttributes = function() {
+        $scope.getAttributes = function() {
           var attrs = {};
           angular.forEach(attributes.$attr, function(value, index) {
             attrs[index] = attributes[index];
@@ -20,17 +20,19 @@ angular.module('liveopsConfigPanel')
         };
 
         $scope.refresh = function () {
+          var filter = $filter('translate');
+          var attrs = $scope.getAttributes();
+          
           if($scope.userId) {
-            var filter = $filter('translate');
-            var attrs = getAttributes();
             attrs.displayName = filter('value.unknown');
             attrs.date = $filter('date')($scope.date, 'medium');
+            
             var promise = UserCache.get($scope.userId).$promise;
             promise.then(function (user) {
-              attrs.displayName = user.displayName;
+              attrs.displayName = user.fullName();
               element.text(filter($scope.translation, attrs));
             });
-
+          } else {
             element.text(filter($scope.translation, attrs));
           }
         };

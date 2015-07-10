@@ -9,8 +9,7 @@ angular.module('liveopsConfigPanel.mock.content.management.users', ['liveopsConf
       'state': 'WRAP',
       'lastName': 'Lowe',
       'firstName': 'Munoz',
-      'email': 'munoz.lowe@hivedom.org',
-      'displayName': 'Munoz Lowe'
+      'email': 'munoz.lowe@hivedom.org'
     }), new User({
       'id': 'userId2',
       'status': true,
@@ -18,8 +17,7 @@ angular.module('liveopsConfigPanel.mock.content.management.users', ['liveopsConf
       'state': 'NOT_READY',
       'lastName': 'Oliver',
       'firstName': 'Michael',
-      'email': 'michael.oliver@ezent.io',
-      'displayName': 'Michael Oliver'
+      'email': 'michael.oliver@ezent.io'
     })];
   })
   .service('mockUserGroups', function (TenantUserGroups) {

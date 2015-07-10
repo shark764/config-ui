@@ -38,6 +38,14 @@ describe('unsavedChangesWarning directive', function() {
     expect(removeSpy).toHaveBeenCalled();
   }]));
   
+
+  it('should unregister the state listener when destroyed', inject([function() {
+    doDefaultCompile();
+    var removeSpy = spyOn($scope, 'destroyStateListener');
+    $scope.$destroy();
+    expect(removeSpy).toHaveBeenCalled();
+  }]));
+  
   describe('$stateChangeStart handler', function(){
     beforeEach(function(){
       doDefaultCompile();

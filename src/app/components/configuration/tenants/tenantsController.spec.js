@@ -38,6 +38,20 @@ describe('TenantsController', function () {
     expect($scope.tenants[1].id).toEqual(mockTenants[1].id);
   });
 
+  it('should fetch the list of tenants on create', function () {
+    $httpBackend.when('GET', apiHostname + '/v1/tenants?regionId=regionId2').respond({
+        'result': []
+      });
+
+    Session.activeRegionId = 'regionId2';
+
+    $scope.tenants = null;
+    $scope.fetch();
+    $httpBackend.flush();
+
+    expect($scope.tenants).toBeDefined();
+  });
+
   it('should fetch the list of users on create', function () {
     expect($scope.users).toBeDefined();
     expect($scope.users[0].id).toEqual(mockUsers[0].id);
