@@ -21,10 +21,7 @@ $down-arrow-url: "/assets/images/down-arrow.png";
 
   #logo {
     background: none;
-
-    span {
       @include box-shadow(none);
-    }
 
     img {
       vertical-align: middle;
