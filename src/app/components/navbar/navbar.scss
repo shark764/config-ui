@@ -11,7 +11,7 @@ $down-arrow-url: "/assets/images/down-arrow.png";
   max-width: 100% !important;
   height: $navbar-height;
   padding: 0;
-  padding-left: 2.5%;
+  padding-left: 15px;
   position: fixed;
   top: 0;
   width: 100%;
@@ -21,17 +21,43 @@ $down-arrow-url: "/assets/images/down-arrow.png";
 
   #logo {
     background: none;
-    border: 0 !important;
+      @include box-shadow(none);
+
+    img {
+      vertical-align: middle;
+    }
   }
 
-  #tenant-dropdown .drop-label {
-    padding: 15px;
-    border: 1px solid #fff;
-    height: 2em;
-    margin-top: 10px;
-    min-width: 150px;
-    padding: 6px 10px 6px 20px;
-    @include border-radius();
+  #tenant-dropdown {
+    .drop-label {
+      display: table-cell;
+      vertical-align: middle;
+
+      span {
+        @include box-shadow(none);
+      }
+
+      div {
+        min-width: 150px;
+        border: 1px solid #fff;
+        padding: 0 10px;
+        height: 40px;
+
+        @include border-radius();
+
+        span {
+          max-width: 150px;
+          width: 150px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          display: table-cell;
+        }
+      }
+    }
+
+    .label-icon {
+      display: table-cell;
+    }
   }
 
   .divider {
@@ -43,39 +69,53 @@ $down-arrow-url: "/assets/images/down-arrow.png";
 
   > ul {
     font-size: 12px;
-    height: 100%;
     padding: 0;
     margin: 0;
     list-style: none;
 
     > li {
-      display: block;
-      float: left;
-      height: 100%;
-      margin: 0 30px 0 0;
+      display: inline-block;
       padding: 0;
       position: relative;
-
-      .drop-label>div {
-        max-width: 100px;
-        min-width:100px;
-      }
+      margin: 0px 5px;
 
       a {
-        border-bottom: 4px solid $main-color;
-        display: block;
-        height: 100%;
-        padding: 18px 0;
+        display: table-cell;
+        vertical-align: middle;
+      }
+
+      a, .drop-label {
         color: $light-grey;
         font-size: 130%;
         font-weight: 100;
-        padding-bottom: 13px;
+        height: $navbar-height;
+        position: relative;
+
+      }
+      .label-icon {
+        color : $main-color;
       }
 
-      &.active a, &:hover a{
-        color: #FFFFFF;
-        border-color: $accent1;
+      &.active, &:hover {
+        .drop-label span, a {
+          @include box-shadow(inset 0px -5px 0px 0px $accent1);
+          color: white;
+        }
       }
+
+    }
+
+    #tenant-dropdown .label-icon {
+      color: $light-grey;
+      width: auto;
+    }
+
+    li:hover .label-icon, #tenant-dropdown:hover .label-icon, .drop-origin .label-icon {
+      color: #fff;
+    }
+
+    #tenant-dropdown .dropdown {
+      right: 0;
     }
   }
 }
@@ -99,36 +139,36 @@ $down-arrow-url: "/assets/images/down-arrow.png";
 #welcome {
   padding: 0;
   float: right;
-  min-height: $navbar-height;
-  top: 0;
-  position: fixed;
-  right: 2.5%;
-  clear: both;
-  word-wrap: normal;
-  white-space: nowrap;
-  z-index: 15;
+  font-size: 11px;
+
+  &:hover {
+    .drop-label, .label-icon {
+      color: white;
+
+    }
+    span {
+      @include box-shadow(none  !important);
+    }
+  }
 
   .drop-label {
     color: $light-grey;
-    line-height: $navbar-height / 2;
-  }
 
-  .dropdown-wrapper{
-    padding-top: $navbar-height / 2 - 10px;
-  }
+    div {
+      padding: 10px;
 
-  .label-icon {
-    font-size: 1.5em;
-    margin-left: 5px;
-  }
+      span {
+        max-width: 300px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: table-cell;
+      }
 
-  .drop-label>div {
-    max-width: 200px;
-  }
-
-  .drop-label, .label-icon {
-    &:hover {
-      color: #fff;
+      i {
+      display: table-cell;
+      font-size: 20px;
+      color: $light-grey;}
     }
   }
+
 }

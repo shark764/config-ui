@@ -24,7 +24,6 @@ angular.module('liveopsConfigPanel')
       this.tenants = null;
       this.tenant = null;
       this.activeRegionId = null;
-      this.lockSideMenu = false;
 
       this.set = function (user, tenants, token) {
         this.token = token;
@@ -77,11 +76,6 @@ angular.module('liveopsConfigPanel')
         localStorage.removeItem(this.userSessionKey);
       };
 
-      this.setLockSideMenu = function (state) {
-        self.lockSideMenu = state;
-        self.flush();
-      };
-
       this.setTenant = function (tenant) {
         self.tenant = {
           tenantId: tenant.tenantId,
@@ -121,7 +115,6 @@ angular.module('liveopsConfigPanel')
 
         localStorage.setItem(self.userPreferenceKey, JSON.stringify({
           lang: self.lang,
-          lockSideMenu: self.lockSideMenu,
           activeRegionId: self.activeRegionId,
           tenant: self.tenant
         }));

@@ -25,8 +25,8 @@ describe('navbar directive', function(){
       $scope.$digest();
     }]));
 
-    it('should insert two nav elements', inject(function() {
-      expect(element.find('nav').length).toEqual(2);
+    it('should insert one nav element', inject(function() {
+      expect(element.find('nav').length).toEqual(1);
     }));
 
     it('should insert a welcome message', inject(function() {
@@ -35,8 +35,7 @@ describe('navbar directive', function(){
     }));
 
     it('should insert a tenant switcher dropdown', inject(function() {
-      var navElement = angular.element(element[0].querySelector('#topnav'));
-      var dropdownElement = navElement.find('dropdown');
+      var dropdownElement = angular.element(element[0].querySelector('#topnav').querySelector('#tenant-dropdown'));
       expect(dropdownElement.length).toEqual(1);
     }));
   });
