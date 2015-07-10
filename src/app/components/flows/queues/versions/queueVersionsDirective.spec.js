@@ -186,5 +186,16 @@ describe('Versions directive controller', function () {
       expect(cleanHandler).not.toBe($scope.cleanHandler);
       expect(cleanHandler).toHaveBeenCalled();
     });
+
+    it('should clean listener when switching queue id', function () {
+
+      $scope.queue = {};
+      $scope.cleanHandler = undefined;
+
+      $scope.$digest();
+
+      expect($scope.queue.active).not.toBeDefined();
+      expect($scope.cleanHandler).not.toBeDefined();
+    });
   });
 });
