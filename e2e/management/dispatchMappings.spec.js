@@ -23,7 +23,7 @@ describe('The dispatchMappings view', function() {
     shared.tearDown();
   });
 
-  it('should successfully create new Dispatch Mapping', function() {
+  it('should successfully create new Dispatch Mapping with Customer Mapping', function() {
     randomDispatchMapping = Math.floor((Math.random() * 1000) + 1);
     var dispatchMappingAdded = false;
     var newDispatchMappingName = 'DispatchMapping ' + randomDispatchMapping;
@@ -55,6 +55,18 @@ describe('The dispatchMappings view', function() {
     });
   });
 
+  it('should successfully create new Dispatch Mapping with Contact Point Mapping', function() {
+
+  });
+
+  it('should successfully create new Dispatch Mapping with Integration Mapping', function() {
+
+  });
+
+  it('should successfully create new Dispatch Mapping with Direction Mapping', function() {
+
+  });
+
   it('should include dispatchMapping page components', function() {
     expect(shared.navBar.isDisplayed()).toBeTruthy();
     expect(shared.table.isDisplayed()).toBeTruthy();
@@ -66,15 +78,18 @@ describe('The dispatchMappings view', function() {
     expect(shared.pageHeader.getText()).toBe('DispatchMapping Management');
   });
 
-  it('should include valid DispatchMapping fields when creating a new DispatchMapping', function() {
+  it('should include valid DispatchMapping fields when creating a new Dispatch Mapping', function() {
     shared.createBtn.click();
     expect(dispatchMappings.creatingDispatchMappingHeader.isDisplayed()).toBeTruthy();
     expect(dispatchMappings.accountSIDFormField.isDisplayed()).toBeTruthy();
     expect(dispatchMappings.authTokenFormField.isDisplayed()).toBeTruthy();
     expect(dispatchMappings.webRTCFormSwitch.isDisplayed()).toBeTruthy();
+
+    // Changes value field based on Mapping type selected
+
   });
 
-  it('should require field input when creating a new DispatchMapping', function() {
+  it('should require field input when creating a new Dispatch Mapping', function() {
     shared.createBtn.click();
 
     // Submit button is disabled
@@ -88,7 +103,7 @@ describe('The dispatchMappings view', function() {
     expect(shared.tableElements.count()).toBe(dispatchMappingCount);
   });
 
-  xit('should require Account SID when creating a new DispatchMapping', function() {
+  it('should require Name when creating a new Dispatch Mapping', function() {
     // TODO After error messages are added
     shared.createBtn.click();
 
@@ -120,45 +135,11 @@ describe('The dispatchMappings view', function() {
     expect(shared.tableElements.count()).toBe(dispatchMappingCount);
   });
 
-  xit('should require Auth Token when creating a new DispatchMapping', function() {
-    // TODO After error messages are added
-    shared.createBtn.click();
-
-    // Edit fields
-    dispatchMappings.accountSIDFormField.sendKeys('DispatchMapping Account SID');
-    dispatchMappings.webRTCFormSwitch.click();
-    shared.submitFormBtn.click();
-
-    // Submit button is still disabled
-    expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
-
-    // New DispatchMapping is not saved
-    expect(shared.successMessage.isPresent()).toBeFalsy();
-    expect(shared.tableElements.count()).toBe(dispatchMappingCount);
-
-    // Touch Auth Token input field
-    dispatchMappings.authTokenFormField.click();
-    dispatchMappings.accountSIDFormField.click();
-    shared.submitFormBtn.click();
-
-    // Submit button is still disabled
-    expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
-
-    // Error messages displayed
-    expect(dispatchMappings.nameRequiredError.get(1).isDisplayed()).toBeTruthy();
-    expect(dispatchMappings.nameRequiredError.get(1).getText()).toBe('Field "Auth Token" is required');
-
-    // New DispatchMapping is not saved
-    expect(shared.tableElements.count()).toBe(dispatchMappingCount);
-  });
-
   it('should clear fields on Cancel', function() {
     shared.createBtn.click();
 
     // Edit fields
-    dispatchMappings.accountSIDFormField.sendKeys('DispatchMapping Account SID');
-    dispatchMappings.authTokenFormField.sendKeys('DispatchMapping Token');
-    dispatchMappings.webRTCFormSwitch.click();
+
     shared.cancelFormBtn.click();
 
     // Warning message is displayed
@@ -167,9 +148,8 @@ describe('The dispatchMappings view', function() {
     expect(alertDialog.dismiss).toBeDefined();
     alertDialog.accept();
 
-    // New dispatchMapping is not created
-    // TODO
-    //expect(dispatchMappings.requiredError.get(0).isDisplayed()).toBeFalsy();
+    // New dispatch mapping is not created
+    expect(dispatchMappings.requiredError.get(0).isDisplayed()).toBeFalsy();
     expect(shared.successMessage.isPresent()).toBeFalsy();
     expect(shared.tableElements.count()).toBe(dispatchMappingCount);
 
@@ -179,11 +159,11 @@ describe('The dispatchMappings view', function() {
     expect(dispatchMappings.webRTCFormSwitch.isSelected()).toBeFalsy;
   });
 
-  it('should display dispatchMapping details when selected from table', function() {
-    // Select first dispatchMapping from table
+  it('should display dispatch mapping details when selected from table', function() {
+    // Select first dispatch mapping from table
     shared.firstTableRow.click();
 
-    // Verify dispatchMapping details in table matches populated field
+    // Verify dispatch mapping details in table matches populated field
     expect(dispatchMappings.typeHeader.getText()).toContain(shared.firstTableRow.element(by.css(dispatchMappings.typeColumn)).getText());
     expect(shared.firstTableRow.element(by.css(dispatchMappings.accountColumn)).getText()).toBe(dispatchMappings.accountSIDFormField.getAttribute('value'));
     shared.firstTableRow.element(by.css(dispatchMappings.statusColumn)).getText().then(function(dispatchMappingStatus) {
@@ -207,9 +187,7 @@ describe('The dispatchMappings view', function() {
       };
     });
 
-    // TODO Once dispatchMappings can be added
     // Change selected queue and ensure details are updated
-    /*
     shared.secondTableRow.click();
     expect(dispatchMappings.typeHeader.getText()).toContain(shared.secondTableRow.element(by.css(dispatchMappings.typeColumn)).getText());
     expect(shared.secondTableRow.element(by.css(dispatchMappings.accountColumn)).getText()).toBe(dispatchMappings.accountSIDFormField.getAttribute('value'));
@@ -233,17 +211,19 @@ describe('The dispatchMappings view', function() {
         expect(true).toBeFalsy();
       };
     });
-    */
   });
 
-  it('should include valid DispatchMapping fields when editing an existing DispatchMapping', function() {
+  it('should include valid Dispatch Mapping fields when editing an existing DispatchMapping', function() {
     expect(dispatchMappings.typeHeader.isDisplayed()).toBeTruthy();
     expect(dispatchMappings.accountSIDFormField.isDisplayed()).toBeTruthy();
     expect(dispatchMappings.authTokenFormField.isDisplayed()).toBeTruthy();
     expect(dispatchMappings.webRTCFormSwitch.isDisplayed()).toBeTruthy();
+
+    // Mapping type drop down field should be disabled
+
   });
 
-  it('should reset DispatchMapping fields after editing and selecting Cancel', function() {
+  it('should reset Dispatch Mapping fields after editing and selecting Cancel', function() {
     var originalAccountSID = dispatchMappings.accountSIDFormField.getAttribute('value');
     var originalAuthToken = dispatchMappings.authTokenFormField.getAttribute('value');
     var originalWebRTC = dispatchMappings.webRTCFormSwitch.isSelected();
@@ -260,8 +240,7 @@ describe('The dispatchMappings view', function() {
     expect(alertDialog.dismiss).toBeDefined();
     alertDialog.accept();
 
-    // TODO
-    //expect(dispatchMappings.requiredError.get(0).isDisplayed()).toBeFalsy();
+    expect(dispatchMappings.requiredError.get(0).isDisplayed()).toBeFalsy();
     expect(shared.successMessage.isPresent()).toBeFalsy();
     expect(shared.tableElements.count()).toBe(dispatchMappingCount);
 
@@ -271,8 +250,7 @@ describe('The dispatchMappings view', function() {
     expect(dispatchMappings.webRTCFormSwitch.isSelected()).toBe(originalWebRTC);
   });
 
-  xit('should allow the DispatchMapping fields to be updated', function() {
-    // TODO Once dispatchMappings is fixed
+  it('should allow the Dispatch Mapping fields to be updated', function() {
     // Edit fields
     dispatchMappings.accountSIDFormField.sendKeys('Edit');
     dispatchMappings.authTokenFormField.sendKeys('Edit');
@@ -294,7 +272,7 @@ describe('The dispatchMappings view', function() {
     expect(dispatchMappings.webRTCFormSwitch.isSelected()).toBe(editWebRTC);
   });
 
-  xit('should require Account SID field when editing a DispatchMapping', function() {
+  it('should require Name field when editing a Dispatch Mapping', function() {
     // Edit fields
     dispatchMappings.accountSIDFormField.clear();
     dispatchMappings.authTokenFormField.click();
@@ -306,21 +284,6 @@ describe('The dispatchMappings view', function() {
     // Error messages displayed
     expect(dispatchMappings.requiredError.get(0).isDisplayed()).toBeTruthy();
     expect(dispatchMappings.requiredError.get(0).getText()).toBe('Field "Account SID" is required');
-    expect(shared.successMessage.isPresent()).toBeFalsy();
-  });
-
-  xit('should require Auth Token field when editing a DispatchMapping', function() {
-    // Edit fields
-    dispatchMappings.authTokenFormField.clear();
-    dispatchMappings.accountSIDFormField.click();
-
-    // Submit button is still disabled
-    expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
-    shared.submitFormBtn.click();
-
-    // Error messages displayed
-    expect(dispatchMappings.requiredError.get(1).isDisplayed()).toBeTruthy();
-    expect(dispatchMappings.requiredError.get(1).getText()).toBe('Field "Auth Token" is required');
     expect(shared.successMessage.isPresent()).toBeFalsy();
   });
 });
