@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigPanel.config', 'pascalprecht.translate', 'ngCookies', 'ngMessages', 'ngSanitize', 'toastr', 'ngLodash'])
+angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigPanel.config', 'pascalprecht.translate', 'ngCookies', 'ngMessages', 'ngSanitize', 'toastr', 'ngLodash', 'teljs'])
   .config(['$stateProvider', '$urlRouterProvider', '$translateProvider', 'toastrConfig', function($stateProvider, $urlRouterProvider, $translateProvider, toastrConfig) {
     $urlRouterProvider.otherwise('/management/users');
 
@@ -72,12 +72,6 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
         controller: 'IntegrationsController',
         reloadOnSearch: false
       })
-      .state('content.configuration.dispatchMappings', {
-        url: '/dispatchMappings?id',
-        templateUrl: 'app/components/configuration/dispatchMappings/dispatchMappings.html',
-        controller: 'DispatchMappingsController',
-        reloadOnSearch: false
-      })
       .state('content.flows', {
         abstract: true,
         url: '/flows',
@@ -106,6 +100,12 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
         url: '/media-collections',
         templateUrl: 'app/components/flows/media-collections/media-collections.html',
         controller: 'MediaCollectionController',
+        reloadOnSearch: false
+      })
+      .state('content.flows.dispatchMappings', {
+        url: '/dispatchMappings?id',
+        templateUrl: 'app/components/flows/dispatchMappings/dispatchMappings.html',
+        controller: 'DispatchMappingsController',
         reloadOnSearch: false
       })
       .state('content.flows.versions', {

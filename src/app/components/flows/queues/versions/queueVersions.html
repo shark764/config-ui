@@ -27,17 +27,17 @@
   <div class="input-group">
     <label class="disabled">{{'queue.details.startingpriority' | translate}}</label>
     <div>
-      <input type="number" disabled value="75"></input>
+      <input id="curr-version-priority" type="number" disabled value="75"></input>
     </div>
   </div>
 
   <div class="input-group">
     <label class="disabled">{{'queue.details.rateofincrease' | translate}}</label>
     <div>
-      <input type="number" disabled value="2"></input>
+      <input id="curr-version-rate" type="number" disabled value="2"></input>
     </div>
     <div>
-      <select disabled>
+      <select id="curr-version-rate-units" disabled>
         <option disabled value="min">mins</option>
       </select>
     </div>
@@ -56,7 +56,7 @@
   <ng-form id="createVersionForm" name="createVersionForm" seperate-validation>
     <div class="input-group">
       <label class="disabled">{{'value.version' | translate}}</label>
-      <input disabled type="number" value="{{newVersionNumber}}"></input>
+      <input id="copy-version-number" disabled type="number" value="{{newVersionNumber}}"></input>
     </div>
 
     <div class="input-group">
@@ -69,17 +69,17 @@
     <div class="input-group">
       <label class="disabled">{{'queue.details.startingpriority' | translate}}</label>
       <div>
-        <input type="number" disabled value="75"></input>
+        <input id="copy-version-priority-input" type="number" disabled value="75"></input>
       </div>
     </div>
 
     <div class="input-group">
       <label class="disabled">{{'queue.details.rateofincrease' | translate}}</label>
       <div>
-        <input type="number" disabled value="2"></input>
+        <input id="copy-version-rate-input" type="number" disabled value="2"></input>
       </div>
       <div>
-        <select disabled>
+        <select id="copy-version-rate-units-dropdown" disabled>
           <option disabled value="min">mins</option>
         </select>
       </div>
@@ -95,7 +95,7 @@
 </div>
 
 <div class="queue-version-table">
-  <table scroll-table max-height="300" class="table">
+  <table class="table">
     <thead>
       <th>{{'value.version' | translate}}</th>
       <th>{{'value.createdOn' | translate}}</th>
@@ -112,7 +112,7 @@
         <audit-text translation="value.displayName" user-id="version.createdBy"></audit-text>
       </td>
     </tr>
-    <tr ng-repeat-end class="view-version">
+    <tr ng-repeat-end class="view-version" id="view-version-{{version.name}}">
       <td colspan="4" ng-show="version.viewing">
         <div class="input-group">
           <label class="textarea-label disabled">{{'value.details.query' | translate}}</label>
@@ -122,17 +122,17 @@
         <div class="input-group">
           <label class="disabled">{{'queue.details.startingpriority' | translate}}</label>
           <div>
-            <input type="number" disabled value="75"></input>
+            <input id="selected-version-priority" type="number" disabled value="75"></input>
           </div>
         </div>
 
         <div class="input-group">
           <label class="disabled">{{'queue.details.rateofincrease' | translate}}</label>
           <div>
-            <input type="number" disabled value="2"></input>
+            <input id="selected-version-rate" type="number" disabled value="2"></input>
           </div>
           <div>
-            <select disabled>
+            <select id="selected-version-rate-units" disabled>
               <option disabled value="min">mins</option>
             </select>
           </div>
@@ -140,8 +140,8 @@
 
         <div class="queue-controls input-group">
           <label></label>
-          <input type="button" ng-click="version.viewing = false;" class="btn" value="{{'value.close' | translate}}" />
-          <input ng-click="createVersionCopy(version)" type="submit" class="btn btn-primary" value="{{'queue.details.createNewVersion' | translate}}" />
+          <input id="close-version-btn" type="button" ng-click="version.viewing = false;" class="btn" value="{{'value.close' | translate}}" />
+          <input id="copy-version-btn" ng-click="createVersionCopy(version)" type="submit" class="btn btn-primary" value="{{'queue.details.createNewVersion' | translate}}" />
         </div>
       </td>
     </tr>

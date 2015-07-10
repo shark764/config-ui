@@ -20,7 +20,7 @@
 <div ng-if="!resource.id" class="input-group">
   <label class="disabled">{{'queue.details.activeVersion' | translate}}</label>
   <div>
-    <input type="number" disabled value="1"></input>
+    <input id="create-version-number" type="number" disabled value="1"></input>
   </div>
 </div>
 
@@ -35,25 +35,25 @@
     error-type-required="{{'queue.details.queue.error' | translate}}"></form-error>
     <textarea ng-required="true" type="text" ng-model="extendScope.initialQuery" name="query"></textarea>
   </div>
-  
+
   <div class="divider-header">
     <h4>{{'queue.details.priority' | translate}}</h4>
   </div>
-  
+
   <div class="input-group">
     <label class="disabled">{{'queue.details.startingpriority' | translate}}</label>
     <div>
-      <input type="number" disabled value="75"></input>
+      <input id="create-version-priority-input" type="number" disabled value="75"></input>
     </div>
   </div>
-  
+
   <div class="input-group">
     <label class="disabled">{{'queue.details.rateofincrease' | translate}}</label>
     <div>
-      <input type="number" disabled value="2"></input>
+      <input id="create-version-rate-input" type="number" disabled value="2"></input>
     </div>
     <div>
-      <select disabled>
+      <select id="create-version-rate-units-input" disabled>
         <option disabled>mins</option>
       </select>
     </div>

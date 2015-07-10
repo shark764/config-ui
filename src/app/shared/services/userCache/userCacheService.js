@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('UserCache', ['$q', 'User', 'UUIDCache', 'Session',
-    function ($q, User, UUIDCache, Session) {
+  .service('UserCache', ['$q', 'User', 'UUIDCache',
+    function ($q, User, UUIDCache) {
       this.get = function (id, success, failure) {
         var deferred = $q.defer();
         if (id) {

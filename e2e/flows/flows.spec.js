@@ -14,6 +14,8 @@ describe('The flows view', function() {
   });
 
   beforeEach(function() {
+    // Ignore unsaved changes warnings
+    browser.executeScript("window.onbeforeunload = function(){};");
     browser.get(shared.flowsPageUrl);
     flowCount = shared.tableElements.count();
   });
@@ -38,13 +40,13 @@ describe('The flows view', function() {
     flows.firstTableRow.click();
 
     // Verify flow name in table matches populated field
-    expect(element(by.css('tr.ng-scope:nth-child(1) > td:nth-child(2) > span:nth-child(1)')).getText()).toContain(flows.nameFormField.getAttribute('value'));
+    expect(flows.firstTableRow.getText()).toContain(flows.nameFormField.getAttribute('value'));
 
     // Change selected flow and ensure details are updated
     shared.tableElements.count().then(function(numFlows) {
       if (numFlows > 1) {
         flows.secondTableRow.click();
-        expect(element(by.css('tr.ng-scope:nth-child(2) > td:nth-child(2) > span:nth-child(1)')).getText()).toContain(flows.nameFormField.getAttribute('value'));
+        expect(flows.secondTableRow.getText()).toContain(flows.nameFormField.getAttribute('value'));
       }
     });
   });
@@ -120,6 +122,12 @@ describe('The flows view', function() {
       flows.typeFormDropdown.all(by.css('option')).get((randomFlow % 3) + 1).click();
 
       shared.cancelFormBtn.click();
+
+      // Warning message is displayed
+      var alertDialog = browser.switchTo().alert();
+      expect(alertDialog.accept).toBeDefined();
+      expect(alertDialog.dismiss).toBeDefined();
+      alertDialog.accept();
 
       expect(shared.successMessage.isPresent()).toBeFalsy();
 

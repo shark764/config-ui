@@ -23,11 +23,8 @@
 </div>
 
 <loading ng-if="items && !items.$resolved"></loading>
-<p class="null" ng-show="!items || (items.$resolved && !items.length)">No results were found.</p>
+<p class="null" ng-show="!items || (items.$resolved && !items.length)">{{'table.results.none' | translate}}</p>
 
-<p class="null" ng-show="!items || (items.$resolved && !items.length)">
-  {{'table.results.none' | translate}}
-</p>
 <table scroll-table class="table" ng-show="items.length" id="items-table">
   <thead>
     <tr>

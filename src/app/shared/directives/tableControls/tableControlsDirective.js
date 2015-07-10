@@ -58,10 +58,12 @@ angular.module('liveopsConfigPanel')
             });
           };
 
-          //Init the selected item based on URL param
           if ($scope.items) {
             $scope.items.$promise.then(function() {
-              if ($stateParams.id) {
+              if ($scope.items.length === 0){
+                $scope.onCreateClick();
+              } else if ($stateParams.id) {
+              //Init the selected item based on URL param
                 var matchedItems = $filter('filter')($scope.items, {
                   id: $stateParams.id
                 }, true);

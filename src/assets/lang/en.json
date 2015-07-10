@@ -87,11 +87,13 @@
   "details.flow": "Flow",
   "details.value": "Value",
   "details.phoneNumber": "Phone Number",
-  "details.phoneNumber.error": "Phone number should be in E.164 format (15555555555 or 1-555-555-5555).",
+  "details.phoneNumber.error": "Phone number should be in E.164 format.",
   "details.skills.none": "This user has not been assigned any skills",
   "details.skills.title": "Skills",
   "details.skills.placeholder": "Add Skill...",
   "details.name.error": "Please enter a name",
+  "details.personalTelephone": "Personal Telephone",
+  "details.personalTelephone.error": "Personal Telephone must be E.164 format (+18005551234)",
 
   "user.details.creating": "Creating New User",
   "user.details.password.reset": "Reset Password",
@@ -198,10 +200,8 @@
 
   "content.notenants.warning": "You have no tenants assigned to you. Invite yourself to one!",
 
-  "unsavedchanges.nav.warning": "You have unsaved changes that will be lost. Click OK to continue, or click cancel to stay on this page.",
+  "unsavedchanges.nav.warning": "You have unsaved changes that will be lost! Click OK to discard changes, or cancel to continue editing.",
   "unsavedchanges.reload.warning": "You have unsaved changes that will be lost!",
-
-  "dirtyforms.confirm.warning": "You have unsaved changes! Click OK to continue editing, or cancel to discard your changes.",
 
   "bulkActions.enable.users": "Enable Users",
   "bulkActions.selected": "Selected ({{count}})",
@@ -220,5 +220,8 @@
   "bulkActions.skills.add": "Add Skill",
   "bulkActions.skills.update": "Update Skill",
   "bulkActions.skills.remove": "Remove Skill",
-  "bulkActions.skills.none": "Click the plus button above to add a skill change"
+  "bulkActions.skills.none": "Click the plus button above to add a skill change",
+
+  "user.profile.save.success": "Your details have been updated.",
+  "user.profile.save.fail": "An error occured while updating your details."
 }

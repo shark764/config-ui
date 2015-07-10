@@ -45,7 +45,9 @@ var Shared = function() {
   this.detailsFormHeader = element(by.css('.info > h1:nth-child(1)'));
 
   // Table controls
-  this.table = element(by.css('.table'));
+  this.table = element(by.id('items-table'));
+  this.firstTableRow = this.table.element(by.css('tr.ng-scope:nth-child(1)'));
+  this.secondTableRow = this.table.element(by.css('tr.ng-scope:nth-child(2)'));
   this.tableElements = element.all(by.repeater('item in (filtered = (items | selectedTableOptions:config.fields | search:config.searchOn:searchQuery | orderBy:config.orderBy))'));
   this.createBtn = element(by.id('create-btn'));
   this.searchField = element(by.model('searchQuery'));
@@ -60,9 +62,29 @@ var Shared = function() {
   this.errorMessage = element(by.css('.toast-error'));
   this.closeMessageBtn = element(by.css('.toast-close-button'));
 
+  this.dismissChanges = function() {
+    browser.switchTo().alert().then(
+      function(alert) {
+        alert.accept();
+      },
+      function(err) {}
+    );
+  };
+
+  this.cancelNavigation = function() {
+    browser.switchTo().alert().then(
+      function(alert) {
+        alert.dismiss();
+      },
+      function(err) {}
+    );
+  };
+
   this.tearDown = function() {
     browser.executeScript('window.sessionStorage.clear()');
     browser.executeScript('window.localStorage.clear()');
+    // Ignore unsaved changes warnings
+    browser.executeScript("window.onbeforeunload = function(){};");
     browser.get(this.loginPageUrl);
   };
 };

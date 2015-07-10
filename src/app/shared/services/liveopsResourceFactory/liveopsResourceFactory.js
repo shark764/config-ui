@@ -85,12 +85,12 @@ angular.module('liveopsConfigPanel')
               })
             }
           });
-          
+
           Resource.prototype.$save = function(success, failure) {
             var action = this.isNew() ? this.$create : this.$update;
             return action.call(this);
           }
-          
+
           Resource.prototype.save = function (success, failure) {
             var self = this,
               preEvent = self.isNew() ? self.preCreate : self.preUpdate,
@@ -99,36 +99,36 @@ angular.module('liveopsConfigPanel')
 
             self.$busy = true;
 
-            return $q.when(preEvent)
-              .then(function(params){
-                return self.$save();
-              })
+            //TODO find out why preEvent didn't work in the chain
+            return action.call(self, preEvent.call(self))
               .then(function (result) {
                 return postEvent.call(self, result);
               }, function (error) {
-                return postEventFail.call(self, error);
+                postEventFail.call(self, error);
+                return $q.reject(error);
               })
               .then(function (result) {
                 return self.postSave.call(self, result);
               }, function (error) {
-                return self.postSaveError.call(self, error);
+                self.postSaveError.call(self, error);
+                return $q.reject(error);
               })
               .then(function (result) {
+                self.$busy = false;
+
                 if (success) {
                   return success.call(self, result);
                 }
 
                 return result;
               }, function (error) {
+                self.$busy = false;
+
                 if (failure) {
                   return failure.call(self, error);
                 }
 
-                return error;
-              })
-              .finally(function () {
-                self.$busy = false;
-                return self;
+                return $q.reject(error);
               });
           };
 
