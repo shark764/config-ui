@@ -84,7 +84,7 @@ describe('Versions directive controller', function () {
       expect($scope.version.flowId).toBe(mockFlowVersions[0].flowId);
     });
 
-    xit('should succeed on save and push new item to list', function () {
+    it('should succeed on save and push new item to list', function () {
       spyOn($scope, 'createVersion');
 
       $scope.saveVersion();
