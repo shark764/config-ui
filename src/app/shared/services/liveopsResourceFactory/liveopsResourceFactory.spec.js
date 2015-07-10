@@ -140,4 +140,14 @@ describe('LiveopsResourceFactory', function(){
       expect(resource.isNew()).toBeFalsy();
     }));
   });
+  
+  describe('prototype postUpdateError function', function(){
+    it('should return a promise that is rejected with the given error', inject(function() {
+      Resource = LiveopsResourceFactory.create('/endpoint');
+
+      var resource = new Resource();
+      var promise = resource.postUpdateError('some err');
+      expect(promise.$$state.value).toEqual('some err');
+    }));
+  });
 });

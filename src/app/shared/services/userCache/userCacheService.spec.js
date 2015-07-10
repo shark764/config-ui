@@ -91,7 +91,7 @@ describe('UserCache service', function(){
     }));
   });
   
-  it('should call fail callback if given and user get fails', inject(['User', 'UUIDCache', function(User, UUIDCache) {
+  it('should call fail callback if given and user get fails', inject(['User', 'UUIDCache', 'UserCache', function(User, UUIDCache, UserCache) {
     userGet = function(params, callback, fail){
       fail();
     };
