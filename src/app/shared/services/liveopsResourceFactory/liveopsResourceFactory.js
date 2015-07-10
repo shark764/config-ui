@@ -96,7 +96,7 @@ angular.module('liveopsConfigPanel')
             self.$busy = true;
 
             preEvent.call(self);
-
+            
             return action.call(self, preEvent.call(self))
               .then(function (result) {
                 return postEvent.call(self, result);
