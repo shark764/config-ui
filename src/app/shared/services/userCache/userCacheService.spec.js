@@ -108,4 +108,22 @@ describe('UserCache service', function(){
     UserCache.get(5, angular.noop, failSpy);
     expect(failSpy).toHaveBeenCalled();
   }]));
+  
+  it('should do nothing if not given fail callback and user get fails', inject(['User', 'UUIDCache', 'UserCache', function(User, UUIDCache, UserCache) {
+    userGet = function(params, callback, fail){
+      fail();
+    };
+    userSpy = spyOn(User, 'get').and.callFake(userGet);
+    
+    cacheGet = function(){
+      return undefined;
+    };
+
+    cacheSpy = spyOn(UUIDCache, 'get').and.callFake(cacheGet);
+    spyOn(UUIDCache, 'put'); //just stub this out
+    
+    var successSpy = jasmine.createSpy('success');
+    UserCache.get(5, successSpy);
+    expect(successSpy).not.toHaveBeenCalled();
+  }]));
 });
