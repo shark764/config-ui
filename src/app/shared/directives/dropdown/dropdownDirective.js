@@ -33,6 +33,7 @@ angular.module('liveopsConfigPanel')
 
         scope.optionClick = function(func){
           scope.showDrop = false;
+          scope.hovering = false;
           func();
         };
 

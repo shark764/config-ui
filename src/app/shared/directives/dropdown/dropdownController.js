@@ -11,6 +11,8 @@ angular.module('liveopsConfigPanel')
     //Only bother listening for the click event when a dropdown is open
     $scope.$watch('showDrop',
       function (newValue, oldValue) {
+        $document.off('click', self.onClick);
+
         if (newValue && !oldValue) {
           $document.on('click', self.onClick);
         }
