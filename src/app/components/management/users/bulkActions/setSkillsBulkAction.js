@@ -34,7 +34,7 @@ angular.module('liveopsConfigPanel')
         execute: function (user, action) {
           var tenantUserSkill = new TenantUserSkills(action.params);
 
-          return tenantUserSkill.$create({
+          return tenantUserSkill.$save({
             tenantId: Session.tenant.tenantId,
             userId: user.id
           });
