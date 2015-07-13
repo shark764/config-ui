@@ -68,16 +68,22 @@ $down-arrow-url: "/assets/images/down-arrow.png";
   }
 
   > ul {
+    height: $navbar-height;
     font-size: 12px;
     padding: 0;
     margin: 0;
     list-style: none;
     
     .top-bar-actions {
+      & > div {
+        display: table-cell;
+        vertical-align: middle;
+        height: $navbar-height;
+        position: relative;
+      }
       
-      
-      a {
-        margin: 10px;
+      .btn {
+        /* Button style modifications go here */
       }
     }
     
@@ -87,12 +93,12 @@ $down-arrow-url: "/assets/images/down-arrow.png";
       position: relative;
       margin: 0px 5px;
 
-      a {
+      a:not(.btn) {
         display: table-cell;
         vertical-align: middle;
       }
 
-      a, .drop-label {
+      a:not(.btn), .drop-label {
         color: $light-grey;
         font-size: 130%;
         font-weight: 100;
@@ -105,7 +111,7 @@ $down-arrow-url: "/assets/images/down-arrow.png";
       }
 
       &.active, &:hover {
-        .drop-label span, a {
+        .drop-label span, a:not(.btn) {
           @include box-shadow(inset 0px -5px 0px 0px $accent1);
           color: white;
         }
