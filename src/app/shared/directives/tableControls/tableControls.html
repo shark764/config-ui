@@ -50,7 +50,7 @@
       </td>
 
       <td ng-if="field.checked" ng-repeat="field in config.fields">
-        <div ng-if="field.templateUrl" class="detail-header-pane" ng-include="field.templateUrl"></div>
+        <div ng-if="field.templateUrl" class="detail-header-pane" compiled-include="{{field.templateUrl}}"></div>
         <span ng-if="!field.templateUrl">{{parse(item, field)}}</span>
       </td>
     </tr>

@@ -21,16 +21,10 @@ module.exports = function(options) {
         module: 'liveopsConfigPanel',
         root: 'app'
       }))
-      .pipe(gulp.dest(options.tmp + '/partials/'));
+      .pipe(gulp.dest(options.tmp + '/serve/app'));
   });
 
   gulp.task('html', ['inject', 'partials'], function () {
-    var partialsInjectFile = gulp.src(options.tmp + '/partials/templateCacheHtml.js', { read: false });
-    var partialsInjectOptions = {
-      starttag: '<!-- inject:partials -->',
-      ignorePath: options.tmp + '/partials',
-      addRootSlash: false
-    };
 
     var htmlFilter = $.filter('*.html');
     var jsFilter = $.filter('**/*.js');
@@ -38,7 +32,6 @@ module.exports = function(options) {
     var assets;
 
     return gulp.src(options.tmp + '/serve/*.html')
-      .pipe($.inject(partialsInjectFile, partialsInjectOptions))
       .pipe(assets = $.useref.assets())
       .pipe($.rev())
       .pipe(jsFilter)
