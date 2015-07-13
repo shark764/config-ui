@@ -321,8 +321,8 @@ describe('The dispatch mappings view', function() {
 
     // Verify dispatch mapping details in table matches populated field
     expect(shared.firstTableRow.element(by.css(dispatchMappings.nameColumn)).getText()).toBe(dispatchMappings.nameHeader.getText());
-    expect(shared.firstTableRow.element(by.css(dispatchMappings.interactionFieldColumn)).getText()).toBe(dispatchMappings.mappingDropdown.$('option:checked').getText().toLowerCase());
-    expect(shared.firstTableRow.element(by.css(dispatchMappings.channelTypeColumn)).getText()).toBe(dispatchMappings.interactionTypeDropdown.$('option:checked').getText().toLowerCase());
+    expect(shared.firstTableRow.element(by.css(dispatchMappings.interactionFieldColumn)).getText()).toBe(dispatchMappings.mappingDropdown.$('option:checked').getText());
+    expect(shared.firstTableRow.element(by.css(dispatchMappings.channelTypeColumn)).getText()).toBe(dispatchMappings.interactionTypeDropdown.$('option:checked').getText());
 
     shared.firstTableRow.element(by.css(dispatchMappings.statusColumn)).getText().then(function(dispatchMappingStatus) {
       if (dispatchMappingStatus == 'Enabled') {
@@ -339,8 +339,8 @@ describe('The dispatch mappings view', function() {
     shared.secondTableRow.click();
     // Verify dispatch mapping details in table matches populated field
     expect(shared.secondTableRow.element(by.css(dispatchMappings.nameColumn)).getText()).toBe(dispatchMappings.nameHeader.getText());
-    expect(shared.secondTableRow.element(by.css(dispatchMappings.interactionFieldColumn)).getText()).toBe(dispatchMappings.mappingDropdown.$('option:checked').getText().toLowerCase());
-    expect(shared.secondTableRow.element(by.css(dispatchMappings.channelTypeColumn)).getText()).toBe(dispatchMappings.interactionTypeDropdown.$('option:checked').getText().toLowerCase());
+    expect(shared.secondTableRow.element(by.css(dispatchMappings.interactionFieldColumn)).getText()).toBe(dispatchMappings.mappingDropdown.$('option:checked').getText());
+    expect(shared.secondTableRow.element(by.css(dispatchMappings.channelTypeColumn)).getText()).toBe(dispatchMappings.interactionTypeDropdown.$('option:checked').getText());
 
     shared.secondTableRow.element(by.css(dispatchMappings.statusColumn)).getText().then(function(dispatchMappingStatus) {
       if (dispatchMappingStatus == 'Enabled') {
@@ -453,7 +453,7 @@ describe('The dispatch mappings view', function() {
     dispatchMappings.phoneFormField.sendKeys('15062345678\t');
 
     // Error messages are not displayed
-    expect(dispatchMappings.requiredErrors.get(0).isDisplayed()).toBeFalsy();
+    expect(dispatchMappings.requiredErrors.get(0).getText()).toBe('');
 
     // Phone input is reformatted
     expect(dispatchMappings.phoneFormField.getAttribute('value')).toBe('+1 506-234-5678');
@@ -494,14 +494,13 @@ describe('The dispatch mappings view', function() {
   });
 
   it('should format Phone field when editing a Dispatch Mapping', function() {
-    // TODO Update once bug is fixed
     shared.firstTableRow.click();
 
     dispatchMappings.phoneFormField.clear();
     dispatchMappings.phoneFormField.sendKeys('15062345678\t');
 
     // Error messages are not displayed
-    expect(dispatchMappings.requiredErrors.get(0).isDisplayed()).toBeFalsy();
+    expect(dispatchMappings.requiredErrors.get(0).getText()).toBe('');
 
     // Phone input is reformatted
     expect(dispatchMappings.phoneFormField.getAttribute('value')).toBe('+1 506-234-5678');

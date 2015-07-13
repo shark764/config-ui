@@ -16,13 +16,8 @@ exports.config = {
   // --params.login.user 'ngrocks'
   params: {
      login: {
-       firstName: 'E2E',
-       lastName: 'User',
-       userDisplayName: 'E2E User',
-       user: 'e2e.user@mailinator.com',
-       password: 'P@$$w0rd'
-     },
-     liveops: {
+       firstName: 'titan',
+       lastName: 'user',
        userDisplayName: 'titan',
        user: 'titan@liveops.com',
        password: 'gKVnfF9wrs6XPSYs'
@@ -46,16 +41,16 @@ exports.config = {
   },
 
   specs: [
-  //  paths.e2e + '/login/login.spec.js',
-  //  paths.e2e + '/navigation/**/*.spec.js',
-  //  paths.e2e + '/tableControls/**/*.spec.js',
-  //  paths.e2e + '/management/**/*.spec.js',
-  //  paths.e2e + '/configuration/**/*.spec.js',
-  //  paths.e2e + '/userProfile/**/*.spec.js',
-  //  paths.e2e + '/flows/newflow.spec.js',
-  //  paths.e2e + '/flows/flows.spec.js',
-  //  paths.e2e + '/flows/newqueue.spec.js',
-  //  paths.e2e + '/flows/queues.spec.js'
+    paths.e2e + '/login/login.spec.js',
+    paths.e2e + '/navigation/**/*.spec.js',
+    paths.e2e + '/tableControls/**/*.spec.js',
+    paths.e2e + '/management/**/*.spec.js',
+    paths.e2e + '/configuration/**/*.spec.js',
+    paths.e2e + '/userProfile/**/*.spec.js',
+    paths.e2e + '/flows/newflow.spec.js',
+    paths.e2e + '/flows/flows.spec.js',
+    paths.e2e + '/flows/newqueue.spec.js',
+    paths.e2e + '/flows/queues.spec.js'
     paths.e2e + '/flows/dispatchMappings.spec.js',
   ],
 
