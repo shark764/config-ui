@@ -23,16 +23,16 @@ angular.module('liveopsConfigPanel')
             $scope.fetchSkillUsers($scope.skills);
           });
         };
-        
+
         $scope.bulkAction.canExecute = function() {
           var canExecute = !!$scope.userSkillsBulkActions.length;
           angular.forEach($scope.userSkillsBulkActions, function(userSkillsBulkAction) {
             canExecute = canExecute && userSkillsBulkAction.selectedType.canExecute(userSkillsBulkAction);
           });
-          
+
           return canExecute;
         };
-        
+
         $scope.fetch = function () {
           if (!Session.tenant.tenantId) {
             return;
@@ -44,7 +44,7 @@ angular.module('liveopsConfigPanel')
             $scope.fetchSkillUsers(skills)
           });
         };
-        
+
         $scope.fetchSkillUsers = function(skills) {
           var promises = [];
           angular.forEach(skills, function(skill) {
@@ -52,57 +52,56 @@ angular.module('liveopsConfigPanel')
               tenantId: Session.tenant.tenantId,
               skillId: skill.id
             });
-            
+
             promises.push(skill.users.$promise);
           });
-          
+
           return $q.all(promises).finally(function() {
             $scope.refreshAllAffectedUsers();
           });
         };
-        
+
         $scope.removeBulkSkill = function(item) {
-          var index = $scope.userSkillsBulkActions.indexOf(item);
-          $scope.userSkillsBulkActions.splice(index, 1);     
+          $scope.userSkillsBulkActions.removeItem(item);
         };
 
         $scope.addBulkSkill = function() {
           $scope.userSkillsBulkActions.push(
             new UserSkillsBulkAction());
         };
-        
+
         $scope.onSelectSkill = function(action) {
           action.params.skillId = action.selectedSkill.id;
           $scope.refreshAffectedUsers(action);
         }
-        
+
         $scope.refreshAffectedUsers = function(userSkillsBulkAction) {
           if(!userSkillsBulkAction.canExecute()) {
             return;
           }
-          
+
           userSkillsBulkAction.usersAffected = [];
           
           angular.forEach($scope.users, function(user) {
             if(!user.checked) {
               return;
             }
-            
+
             if(userSkillsBulkAction.selectedType.doesQualify(user, userSkillsBulkAction)){
               userSkillsBulkAction.usersAffected.push(user);
             }
           });
         };
-        
+
         $scope.refreshAllAffectedUsers = function() {
           angular.forEach($scope.userSkillsBulkActions, function(action) {
             $scope.refreshAffectedUsers(action);
           });
         };
-        
+
         $scope.$on('table:resource:checked', $scope.refreshAllAffectedUsers);
         $scope.$on('dropdown:item:checked', $scope.refreshAllAffectedUsers);
-        
+
         $scope.userSkillsBulkActionTypes = userSkillsBulkActionTypes;
         $scope.userSkillsBulkActions = [];
         $scope.addBulkSkill();

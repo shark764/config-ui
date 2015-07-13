@@ -89,14 +89,14 @@ angular.module('liveopsConfigPanel')
     }
   ])
   .service('hasSkill', function () {
-    return function (user, userSkills) {
-      var thisUserSkill;
-      angular.forEach(userSkills, function (userSkill) {
+    return function (user, skillUsers) {
+      var thisSkillUser;
+      angular.forEach(skillUsers, function (userSkill) {
         if (userSkill.userId === user.id) {
-          thisUserSkill = userSkill;
+          thisSkillUser = userSkill;
         }
       });
 
-      return thisUserSkill;
+      return thisSkillUser;
     };
   });;

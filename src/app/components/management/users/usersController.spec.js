@@ -35,7 +35,7 @@ describe('users controller', function () {
 
   it('should have users', inject(function () {
     expect($scope.users).toBeDefined();
-    expect($scope.users.length).toEqual(2);
+    expect($scope.users.length).toEqual(3);
   }));
 
   describe('updateDisplayName function', function () {

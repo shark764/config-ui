@@ -35,16 +35,16 @@ describe('userGroupBulkAction', function () {
       expect(canExecute).toBeFalsy();
     });
   });
-  
+
   describe('execute', function () {
     it('should call POST end-point', function () {
       var userGroupBulkAction = new UserGroupBulkAction();
       userGroupBulkAction.selectedGroup = mockGroups[1];
-      
+
       $httpBackend.expectPOST(apiHostname + '/v1/tenants/tenant-id/groups/groupId2/users');
-      
+
       userGroupBulkAction.execute(mockUsers[0]);
-      
+
       $httpBackend.flush();
     });
   });
@@ -101,5 +101,4 @@ describe('userGroupBulkAction', function () {
       });
     });
   });
-
 });

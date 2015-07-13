@@ -6,7 +6,6 @@ angular.module('liveopsConfigPanel.mock.content.management.users', ['liveopsConf
       'id': 'userId1',
       'status': false,
       'externalId': 73795,
-      'state': 'WRAP',
       'lastName': 'Lowe',
       'firstName': 'Munoz',
       'email': 'munoz.lowe@hivedom.org',
@@ -15,11 +14,18 @@ angular.module('liveopsConfigPanel.mock.content.management.users', ['liveopsConf
       'id': 'userId2',
       'status': true,
       'externalId': 80232,
-      'state': 'NOT_READY',
       'lastName': 'Oliver',
       'firstName': 'Michael',
       'email': 'michael.oliver@ezent.io',
       'displayName': 'Michael Oliver'
+      }), new User({
+        'id': 'userId3',
+        'status': true,
+        'externalId': 80233,
+        'lastName': 'Moon',
+        'firstName': 'Jackie',
+        'email': 'jackie.moon@liveops.com',
+        'displayName': 'Jackie Moon'
     })];
   })
   .service('mockUserGroups', function (TenantUserGroups) {
@@ -44,7 +50,7 @@ angular.module('liveopsConfigPanel.mock.content.management.users', ['liveopsConf
       $httpBackend.when('GET', apiHostname + '/v1/users?tenantId=tenant-id').respond({
         'result': mockUsers
       });
-      
+
       $httpBackend.when('GET', apiHostname + '/v1/users').respond({
         'result': mockUsers
       });
