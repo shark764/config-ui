@@ -146,6 +146,7 @@
   "media.details": "Media",
   "media.details.source.error": "Please enter a source",
   "media.details.type.error": "Please enter a type",
+  "media.details.type.select": "Select Type...",
   "media.details.properties.error": "Please enter properties as JSON",
   "media.details.name.error" : "Please enter a name",
   "media.details.url.error" : "URL is required",
