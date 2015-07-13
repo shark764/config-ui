@@ -3,10 +3,15 @@
 angular.module('liveopsConfigPanel')
   .service('BulkAction', [
     function () {
-      var BulkAction = function(title, execute, canExecute) {
-        this.execute = execute;
-        this.canExecute = canExecute;
+      var BulkAction = function() {
         this.checked = false;
+      };
+      
+      BulkAction.prototype.execute = function() {
+      };
+      
+      BulkAction.prototype.canExecute = function() {
+        return true;
       };
       
       return BulkAction;

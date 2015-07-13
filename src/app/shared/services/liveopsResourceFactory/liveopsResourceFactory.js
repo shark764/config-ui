@@ -70,7 +70,7 @@ angular.module('liveopsConfigPanel')
                 return getResult(value);
               })
             },
-            create: {
+            save: {
               method: 'POST',
               interceptor: SaveInterceptor,
               transformRequest: function (data) {
@@ -86,13 +86,9 @@ angular.module('liveopsConfigPanel')
             }
           });
 
-          Resource.prototype.$save = function(params, success, failure) {
-            var action = this.isNew() ? this.$create : this.$update;
-            return action.call(this, params, success, failure);
-          };
-
           Resource.prototype.save = function (success, failure) {
             var self = this,
+              action = this.isNew() ? this.$save : this.$update,
               preEvent = self.isNew() ? self.preCreate : self.preUpdate,
               postEvent = self.isNew() ? self.postCreate : self.postUpdate,
               postEventFail = self.isNew() ? self.postCreateError : self.postUpdateError;
@@ -102,7 +98,7 @@ angular.module('liveopsConfigPanel')
             //TODO find out why preEvent didn't work in the chain
             preEvent.call(self);
             
-            return self.$save()
+            return action.call(self)
               .then(function (result) {
                 return postEvent.call(self, result);
               }, function (error) {

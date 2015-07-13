@@ -32,7 +32,7 @@ angular.module('liveopsConfigPanel')
               
               if(promises.length) {
                 $q.all(promises).then(function() {
-                  var promise = itemCopy.$save();
+                  var promise = itemCopy.save();
                   promise = promise.then(function(itemSuccess) {
                     angular.copy(itemSuccess, item);
                     item.checked = true; //keep the item checked after exec
