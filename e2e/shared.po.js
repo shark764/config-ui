@@ -52,7 +52,7 @@ var Shared = function() {
   this.createBtn = element(by.id('create-btn'));
   this.searchField = element(by.model('searchQuery'));
   this.actionsBtn = element(by.buttonText('Actions'));
-  this.tableColumnsDropDown = element(by.css('filter-dropdown.btn'));
+  this.tableColumnsDropDown = element(by.id('table-columns-dropdown'));
 
   // Shared Form elements
   this.detailsForm = element(by.css('.details-form'));
