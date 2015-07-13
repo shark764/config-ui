@@ -19,6 +19,6 @@ angular.module('liveopsConfigPanel.config')
     value: 'direction'
   }])
   .constant('dispatchMappingDirections', [{
-    display: 'Outbound',
-    value: 'outbound'
+    display: 'Inbound',
+    value: 'inbound'
   }]);
