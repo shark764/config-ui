@@ -15,14 +15,14 @@ exports.config = {
   // This can be changed via the command line as:
   // --params.login.user 'ngrocks'
   params: {
-     login: {
-       firstName: 'titan',
-       lastName: 'user',
-       userDisplayName: 'titan',
-       user: 'titan@liveops.com',
-       password: 'gKVnfF9wrs6XPSYs'
-     },
-   },
+    login: {
+      firstName: 'titan',
+      lastName: 'user',
+      userDisplayName: 'titan',
+      user: 'titan@liveops.com',
+      password: 'gKVnfF9wrs6XPSYs'
+    },
+  },
 
   onPrepare: function() {
     browser.driver.manage().window().maximize();
