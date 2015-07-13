@@ -2,31 +2,28 @@
 
 describe('ContentController', function () {
   var $scope,
-      $controller,
-      $state,
-      $injector;
+      Session;
 
   beforeEach(module('liveopsConfigPanel'));
   beforeEach(module('gulpAngular'));
   beforeEach(module('liveopsConfigPanel.mock.content'));
 
-  beforeEach(inject(['$rootScope', '$controller', '$httpBackend', '$state', '$injector',
-    function ($rootScope, _$controller_, $httpBackend, _$state_, _$injector_) {
+  beforeEach(inject(['$rootScope', '$controller',
+    function ($rootScope, $controller) {
       $scope = $rootScope.$new();
-      $controller = _$controller_;
-      $state = _$state_;
-      $injector = _$injector_;
-      $controller('ContentController', {'$scope': $scope});
-      $httpBackend.flush();
+      
+      Session = {};
+      $controller('ContentController', {'$scope': $scope, 'Session': Session});
     }
   ]));
 
-  it('should define a function that redirects to invites if the current Session does not have a tenant', inject(function (Session){
-    Session.tenant = { tenantId: '' };
-
+  it('should define a function that redirects to invites if the current Session does not have a tenant', inject(['$state', function ($state){
+    Session.tenant = {};
+    spyOn($state, 'transitionTo');
+    
     $scope.redirectToInvites();
-    $scope.$apply();
+    $scope.$digest();
 
-    expect($state.current.name).toBe('content.invites');
-  }));
+    expect($state.transitionTo).toHaveBeenCalledWith('content.invites');
+  }]));
 });

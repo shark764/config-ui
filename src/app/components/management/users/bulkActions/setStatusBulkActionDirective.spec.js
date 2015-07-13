@@ -31,7 +31,7 @@ describe('setStatusBulkAction directive', function() {
   });
   
   it('should should set user.status on bulkAction.execute', inject(['mockUsers', function(mockUsers) {
-    isolateScope.status = 'blah'
+    isolateScope.status = 'blah';
     var user = isolateScope.bulkAction.execute(mockUsers[0]);
     expect(user.status).toEqual(isolateScope.status);
   }]));

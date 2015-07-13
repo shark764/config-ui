@@ -8,18 +8,18 @@ describe('LiveopsResourceFactory', function(){
       apiHostname,
       LiveopsResourceFactory,
       protoUpdateSpy,
-      protoSaveSpy,
+      protoCreateSpy,
       givenConfig;
 
   beforeEach(module('liveopsConfigPanel', function($provide) {
     resourceSpy = jasmine.createSpy('ResourceMock').and.callFake(function(endpoint, fields, config) {
       givenConfig = config;
 
-      protoSaveSpy = jasmine.createSpy('$save');
+      protoCreateSpy = jasmine.createSpy('$create');
       protoUpdateSpy = jasmine.createSpy('$update');
 
       function resource(){
-        this.$save = protoSaveSpy;
+        this.$create = protoCreateSpy;
         this.$update = protoUpdateSpy;
       }
 
@@ -130,14 +130,38 @@ describe('LiveopsResourceFactory', function(){
     }]));
   });
 
-  describe('prototype save function', function(){
-    it('should call $update if the object exists', inject(function() {
+  describe('prototype $save function', function(){
+    it('should call $update if the object exists', inject(['$q', function($q) {
       Resource = LiveopsResourceFactory.create('/endpoint');
 
       var resource = new Resource();
       resource.id = 'id1';
+      
+      expect(resource.$save).toBeDefined();
 
-      expect(resource.isNew()).toBeFalsy();
+      resource.$update = protoUpdateSpy.and.returnValue($q.when({}));
+      resource.$save();
+      expect(protoUpdateSpy).toHaveBeenCalled();
+    }]));
+    
+    it('should call $create if the object if new', inject(['$q', function($q) {
+      Resource = LiveopsResourceFactory.create('/endpoint');
+
+      var resource = new Resource();
+
+      resource.$create = protoCreateSpy.and.returnValue($q.when({}));
+      resource.$save();
+      expect(protoCreateSpy).toHaveBeenCalled();
+    }]));
+  });
+  
+  describe('prototype postUpdateError function', function(){
+    it('should return a promise that is rejected with the given error', inject(function() {
+      Resource = LiveopsResourceFactory.create('/endpoint');
+
+      var resource = new Resource();
+      var promise = resource.postUpdateError('some err');
+      expect(promise.$$state.value).toEqual('some err');
     }));
   });
 });

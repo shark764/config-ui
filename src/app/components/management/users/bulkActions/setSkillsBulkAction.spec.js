@@ -52,7 +52,7 @@ describe('setSkillsBulkAction', function() {
 
     beforeEach(function() {
       userSkillBulkAction = new UserSkillsBulkAction();
-      userSkillBulkAction.selectedType = userSkillsBulkActionTypes[0]
+      userSkillBulkAction.selectedType = userSkillsBulkActionTypes[0];
     });
 
     it('should have functions defined', function() {
@@ -94,7 +94,7 @@ describe('setSkillsBulkAction', function() {
       it('should return true if user does not have the skill', function() {
         mockSkills[2].users = [mockUsers[1]];
         userSkillBulkAction.selectedSkill = mockSkills[2];
-        userSkillBulkAction.params.proficiency = 0
+        userSkillBulkAction.params.proficiency = 0;
 
         var doesQualify = userSkillBulkAction.selectedType.doesQualify(mockUsers[0],
           userSkillBulkAction);
@@ -131,7 +131,7 @@ describe('setSkillsBulkAction', function() {
 
     beforeEach(function() {
       userSkillBulkAction = new UserSkillsBulkAction();
-      userSkillBulkAction.selectedType = userSkillsBulkActionTypes[1]
+      userSkillBulkAction.selectedType = userSkillsBulkActionTypes[1];
     });
 
     it('should have functions defined', function() {
@@ -142,7 +142,7 @@ describe('setSkillsBulkAction', function() {
 
     describe('ON execute', function() {
       it('should call PUT end-point', function() {
-        userSkillBulkAction.params.skillId = mockSkills[0].id
+        userSkillBulkAction.params.skillId = mockSkills[0].id;
 
         $httpBackend.expectPUT(apiHostname + '/v1/tenants/tenant-id/users/userId1/skills/skillId1');
 
@@ -181,7 +181,7 @@ describe('setSkillsBulkAction', function() {
       it('should return false if user does not have the skill', function() {
         mockSkills[2].users = [mockUsers[1]];
         userSkillBulkAction.selectedSkill = mockSkills[2];
-        userSkillBulkAction.params.proficiency = 0
+        userSkillBulkAction.params.proficiency = 0;
 
         var doesQualify = userSkillBulkAction.selectedType.doesQualify(mockUsers[0],
           userSkillBulkAction);
@@ -218,14 +218,14 @@ describe('setSkillsBulkAction', function() {
 
     beforeEach(function() {
       userSkillBulkAction = new UserSkillsBulkAction();
-      userSkillBulkAction.selectedType = userSkillsBulkActionTypes[2]
+      userSkillBulkAction.selectedType = userSkillsBulkActionTypes[2];
     });
 
     it('should return something on exe', function() {
       expect(userSkillBulkAction.selectedType.execute).toBeDefined();
       expect(userSkillBulkAction.selectedType.canExecute).toBeDefined();
       expect(userSkillBulkAction.selectedType.doesQualify).toBeDefined();
-    })
+    });
 
     describe('ON execute', function() {
       it('should call DELETE end-point', function() {
@@ -233,7 +233,7 @@ describe('setSkillsBulkAction', function() {
 
         $httpBackend.expectDELETE(apiHostname + '/v1/tenants/tenant-id/users/userId1/skills/skillId1');
 
-        var tenantSkillUser = userSkillBulkAction.selectedType.execute(mockUsers[0], userSkillBulkAction);
+        userSkillBulkAction.selectedType.execute(mockUsers[0], userSkillBulkAction);
 
         $httpBackend.flush();
       });

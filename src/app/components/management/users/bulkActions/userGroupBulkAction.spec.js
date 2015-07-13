@@ -86,7 +86,7 @@ describe('userGroupBulkAction', function () {
       expect(userGroupBulkActionType.execute).toBeDefined();
       expect(userGroupBulkActionType.canExecute).toBeDefined();
       expect(userGroupBulkActionType.doesQualify).toBeDefined();
-    })
+    });
 
     describe('ON execute', function () {
       it('should return tenantGroupUser', function () {
@@ -95,7 +95,7 @@ describe('userGroupBulkAction', function () {
 
         $httpBackend.expectDELETE(apiHostname + '/v1/tenants/tenant-id/groups/groupId1/users/userId1');
 
-        var tenantGroupUser = userGroupBulkActionType.execute(mockUsers[0], userGroupBulkAction);
+        userGroupBulkActionType.execute(mockUsers[0], userGroupBulkAction);
 
         $httpBackend.flush();
       });

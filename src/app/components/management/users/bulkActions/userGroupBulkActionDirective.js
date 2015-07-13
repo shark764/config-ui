@@ -14,26 +14,22 @@ angular.module('liveopsConfigPanel')
           $scope.bulkAction.execute = function (user) {
             var promises = [];
             angular.forEach($scope.userGroupBulkActions, function(userGroupBulkAction) {
-              if(!userGroupBulkAction.canExecute()) {
-                return;
-              }
-              
               if(userGroupBulkAction.selectedType.doesQualify(user, userGroupBulkAction)) {
-                promises.push(userGroupBulkAction.selectedType.execute(user, userGroupBulkAction));
+                promises.push(userGroupBulkAction.execute(user));
               }
             });
-            
+
             return $q.all(promises).finally(function() {
               $scope.fetchUserGroups($scope.groups);
             });
           };
-          
+
           $scope.bulkAction.canExecute = function() {
             var canExecute = !!$scope.userGroupBulkActions.length;
             angular.forEach($scope.userGroupBulkActions, function(userGroupBulkAction) {
               canExecute = canExecute && userGroupBulkAction.selectedType.canExecute(userGroupBulkAction);
             });
-            
+
             return canExecute;
           };
           

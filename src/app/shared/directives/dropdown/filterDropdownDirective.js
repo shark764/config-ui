@@ -20,7 +20,7 @@ angular.module('liveopsConfigPanel')
         $scope.displayPath = $scope.displayPath ? $scope.displayPath : 'display';
         
         $scope.checkItem = function(option) {
-          option.checked = !option.checked
+          option.checked = !option.checked;
           $scope.$emit('dropdown:item:checked', option);
         };
 

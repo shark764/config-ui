@@ -16,12 +16,12 @@ var Shared = function() {
 
   this.tenantsPageUrl = this.configurationUrl + 'tenants';
   this.integrationsPageUrl = this.configurationUrl + 'integrations';
-  this.dispatchMappingsPageUrl = this.configurationUrl + 'dispatchMappings';
 
   this.flowsPageUrl = this.flowsUrl + 'management';
   this.queuesPageUrl = this.flowsUrl + 'queues';
   this.mediaCollectionsPageUrl = this.flowsUrl + 'media-collections';
   this.mediaPageUrl = this.flowsUrl + 'media';
+  this.dispatchMappingsPageUrl = this.flowsUrl + 'dispatchMappings';
 
   this.invitesPageUrl = this.mainUrl + 'invites';
   this.skillsPageUrl = this.managementUrl + 'skills';

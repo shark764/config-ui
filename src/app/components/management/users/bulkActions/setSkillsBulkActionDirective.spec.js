@@ -103,7 +103,7 @@ describe('userSkillsBulkAction directive', function() {
     
     it('should return true when a userSkillsBulkAction\'s canExecute succeeds', function() {
       var userSkillsBulkAction = new UserSkillsBulkAction();
-      isolateScope.userSkillsBulkActions.push(userSkillsBulkAction)
+      isolateScope.userSkillsBulkActions.push(userSkillsBulkAction);
       
       isolateScope.userSkillsBulkActions[0].selectedType.canExecute =
         jasmine.createSpy().and.returnValue(true);
@@ -125,7 +125,7 @@ describe('userSkillsBulkAction directive', function() {
       isolateScope.removeBulkSkill(isolateScope.userSkillsBulkActions[0]);
 
       expect(isolateScope.userSkillsBulkActions.length).toEqual(0);
-    })
+    });
   });
 
   describe('ON addBulkSkill', function() {
@@ -139,7 +139,7 @@ describe('userSkillsBulkAction directive', function() {
       isolateScope.addBulkSkill();
 
       expect(isolateScope.userSkillsBulkActions.length).toEqual(2);
-    })
+    });
   });
   
   describe('ON onSelectSkill', function() {
@@ -158,7 +158,7 @@ describe('userSkillsBulkAction directive', function() {
         isolateScope.skills[0].id);
       expect(isolateScope.refreshAffectedUsers).toHaveBeenCalledWith(
         isolateScope.userSkillsBulkActions[0]);
-    })
+    });
   });
 
   describe('ON refreshAffectedUsers', function() {
@@ -170,7 +170,7 @@ describe('userSkillsBulkAction directive', function() {
       var theFuture = {
         userId1: true,
         userId2: true
-      }
+      };
       
       spyOn(isolateScope.userSkillsBulkActions[0].selectedType,
           'canExecute')
@@ -178,7 +178,7 @@ describe('userSkillsBulkAction directive', function() {
       
       spyOn(isolateScope.userSkillsBulkActions[0].selectedType,
           'doesQualify')
-        .and.callFake(function(user, action) {
+        .and.callFake(function(user) {
           return theFuture[user.id];
         });
       isolateScope.users[0].checked = true;
@@ -194,7 +194,7 @@ describe('userSkillsBulkAction directive', function() {
       var theFuture = {
         userId1: true,
         userId2: false
-      }
+      };
       
       spyOn(isolateScope.userSkillsBulkActions[0].selectedType,
           'canExecute')
@@ -202,7 +202,7 @@ describe('userSkillsBulkAction directive', function() {
       
       spyOn(isolateScope.userSkillsBulkActions[0].selectedType,
           'doesQualify')
-        .and.callFake(function(user, action) {
+        .and.callFake(function(user) {
           return theFuture[user.id];
         });
       isolateScope.users[0].checked = true;
@@ -218,7 +218,7 @@ describe('userSkillsBulkAction directive', function() {
       var theFuture = {
         userId1: true,
         userId2: true
-      }
+      };
       
       spyOn(isolateScope.userSkillsBulkActions[0].selectedType,
           'canExecute')
@@ -226,7 +226,7 @@ describe('userSkillsBulkAction directive', function() {
       
       spyOn(isolateScope.userSkillsBulkActions[0].selectedType,
           'doesQualify')
-        .and.callFake(function(user, action) {
+        .and.callFake(function(user) {
           return theFuture[user.id];
         });
       isolateScope.users[0].checked = true;

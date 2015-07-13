@@ -5,17 +5,17 @@ angular.module('liveopsConfigPanel')
     function (userGroupBulkActionTypes) {
       var UserGroupBulkAction = function () {
         this.selectedType = userGroupBulkActionTypes[0];
-        this.usersAffected = []
+        this.usersAffected = [];
         this.params = {};
-      }
+      };
 
       UserGroupBulkAction.prototype.execute = function (user) {
         return this.selectedType.execute(user, this);
-      }
+      };
 
       UserGroupBulkAction.prototype.canExecute = function () {
         return this.selectedType.canExecute(this);
-      }
+      };
 
       return UserGroupBulkAction;
     }

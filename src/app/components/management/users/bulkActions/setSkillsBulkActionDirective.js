@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-.directive('baUserSkills', [ '$q', 'UserSkillsBulkAction', 'userSkillsBulkActionTypes', 'Skill', 'Session', '$translate', 'TenantSkillUsers', 'TenantUserSkills',
-  function ($q, UserSkillsBulkAction, userSkillsBulkActionTypes, Skill, Session, $translate, TenantSkillUsers, TenantUserSkills) {
+.directive('baUserSkills', [ '$q', 'UserSkillsBulkAction', 'userSkillsBulkActionTypes', 'Skill', 'Session', '$translate', 'TenantSkillUsers',
+  function ($q, UserSkillsBulkAction, userSkillsBulkActionTypes, Skill, Session, $translate, TenantSkillUsers) {
     return {
       restrict: 'AE',
       scope: {
@@ -41,7 +41,7 @@ angular.module('liveopsConfigPanel')
           $scope.skills = Skill.query({
             tenantId: Session.tenant.tenantId
           }, function(skills) {
-            $scope.fetchSkillUsers(skills)
+            $scope.fetchSkillUsers(skills);
           });
         };
 
@@ -73,7 +73,7 @@ angular.module('liveopsConfigPanel')
         $scope.onSelectSkill = function(action) {
           action.params.skillId = action.selectedSkill.id;
           $scope.refreshAffectedUsers(action);
-        }
+        };
 
         $scope.refreshAffectedUsers = function(userSkillsBulkAction) {
           if(!userSkillsBulkAction.canExecute()) {

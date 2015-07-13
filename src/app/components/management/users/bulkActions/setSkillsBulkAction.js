@@ -5,17 +5,17 @@ angular.module('liveopsConfigPanel')
     function (userSkillsBulkActionTypes) {
       var UserSkillsBulkAction = function () {
         this.selectedType = userSkillsBulkActionTypes[0];
-        this.usersAffected = []
+        this.usersAffected = [];
         this.params = {};
-      }
+      };
 
       UserSkillsBulkAction.prototype.execute = function (user) {
         return this.selectedType.execute(user, this);
-      }
+      };
 
       UserSkillsBulkAction.prototype.canExecute = function () {
         return this.selectedType.canExecute(this);
-      }
+      };
 
       return UserSkillsBulkAction;
     }
@@ -40,8 +40,8 @@ angular.module('liveopsConfigPanel')
           });
         },
         canExecute: function (action) {
-          return !!(action.selectedSkill
-            && action.selectedType);
+          return !!(action.selectedSkill &&
+            action.selectedType);
         }
       }, {
         display: $filter('translate')('bulkActions.skills.update'),
@@ -62,9 +62,10 @@ angular.module('liveopsConfigPanel')
           });
         },
         canExecute: function (action) {
-          return !!(action.params
-            && action.params.skillId
-            && angular.isDefined(action.params.proficiency));
+          return !!(action.params &&
+            action.params.skillId &&
+            angular.isDefined(action.params.proficiency
+          ));
         }
       }, {
         display: $filter('translate')('bulkActions.skills.remove'),
@@ -81,9 +82,9 @@ angular.module('liveopsConfigPanel')
           });
         },
         canExecute: function (action) {
-          return !!(action.params
-            && action.params.skillId
-            && action.selectedType);
+          return !!(action.params &&
+            action.params.skillId &&
+            action.selectedType);
         }
       }];
     }
@@ -99,4 +100,4 @@ angular.module('liveopsConfigPanel')
 
       return thisSkillUser;
     };
-  });;
+  });

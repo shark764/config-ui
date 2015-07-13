@@ -13,7 +13,7 @@ angular.module('liveopsConfigPanel')
           $scope.bulkAction.execute = function(user) {
             user.password = $scope.password;
             return user;
-          }
+          };
         }
       };
     }

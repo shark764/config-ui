@@ -12,7 +12,7 @@ angular.module('liveopsConfigPanel')
       
       $scope.resetBulkView = function() {
         $scope.bulkView = false;
-      }
+      };
       
       $scope.$on('on:click:create', $scope.resetBulkView);
       $scope.$on('resource:selected', $scope.resetBulkView);

@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('bulkActionExecutor', ['$q', 'Alert',
-    function ($q, Alert) {
+  .directive('bulkActionExecutor', ['$q', '$timeout', 'Alert',
+    function ($q, $timeout, Alert) {
       return {
         restrict: 'AE',
         scope: {
@@ -58,7 +58,7 @@ angular.module('liveopsConfigPanel')
           };
           
           $scope.getBulkActionsSelected = function() {
-            var selectedBulkActions = []
+            var selectedBulkActions = [];
             angular.forEach($scope.bulkActions, function(bulkAction) {
               if(bulkAction.checked){
                 selectedBulkActions.push(bulkAction);
@@ -66,10 +66,10 @@ angular.module('liveopsConfigPanel')
             });
             
             return selectedBulkActions;
-          }
+          };
           
           $scope.updateDropDown = function(event, item) {
-            setTimeout(function() {
+            $timeout(function() {
               if(item.checked) {
                 $scope.checkedItems.push(item);
               } else {

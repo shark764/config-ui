@@ -89,7 +89,7 @@ angular.module('liveopsConfigPanel')
           Resource.prototype.$save = function(params, success, failure) {
             var action = this.isNew() ? this.$create : this.$update;
             return action.call(this, params, success, failure);
-          }
+          };
 
           Resource.prototype.save = function (success, failure) {
             var self = this,
@@ -98,8 +98,10 @@ angular.module('liveopsConfigPanel')
               postEventFail = self.isNew() ? self.postCreateError : self.postUpdateError;
 
             self.$busy = true;
-
+            
             //TODO find out why preEvent didn't work in the chain
+            preEvent.call(self);
+            
             return self.$save()
               .then(function (result) {
                 return postEvent.call(self, result);

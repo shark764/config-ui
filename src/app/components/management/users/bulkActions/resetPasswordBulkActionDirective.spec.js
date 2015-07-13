@@ -31,7 +31,7 @@ describe('resetPasswordBulkAction directive', function() {
   });
   
   it('should should set user.password on bulkAction.execute', inject(['mockUsers', function(mockUsers) {
-    isolateScope.password = 'blah'
+    isolateScope.password = 'blah';
     var user = isolateScope.bulkAction.execute(mockUsers[0]);
     expect(user.password).toEqual(isolateScope.password);
   }]));
