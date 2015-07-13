@@ -13,6 +13,8 @@ describe('The create new flows view', function() {
   });
 
   beforeEach(function() {
+    // Ignore unsaved changes warnings
+    browser.executeScript("window.onbeforeunload = function(){};");
     browser.get(shared.flowsPageUrl);
   });
 
@@ -41,7 +43,7 @@ describe('The create new flows view', function() {
     shared.tableElements.then(function(flowsList) {
       for (var i = 1; i <= flowsList.length; ++i) {
         // Check if flow name in table matches newly added flow
-        element(by.css('tr.ng-scope:nth-child(' + i + ') > td:nth-child(2) > span:nth-child(1)')).getText().then(function(value) {
+        element(by.css('#items-table > tbody:nth-child(2) > tr:nth-child(' + i + ') > td:nth-child(2) > span:nth-child(1)')).getText().then(function(value) {
           if (value == 'Flow ' + randomFlow) {
             flowAdded = true;
           }
@@ -158,7 +160,7 @@ describe('The create new flows view', function() {
     expect(shared.successMessage.isPresent()).toBeFalsy();
   });
 
-  it('should clear fields on Cancel', function() {
+  xit('should clear fields on Cancel', function() {
     flowCount = shared.tableElements.count();
     shared.createBtn.click();
 
@@ -167,6 +169,12 @@ describe('The create new flows view', function() {
     flows.descriptionFormField.sendKeys('Flow Description');
     flows.typeFormDropdown.all(by.css('option')).get((randomFlow % 3) + 1).click();
     shared.cancelFormBtn.click();
+
+    // Warning message is displayed
+    var alertDialog = browser.switchTo().alert();
+    expect(alertDialog.accept).toBeDefined();
+    expect(alertDialog.dismiss).toBeDefined();
+    alertDialog.accept();
 
     // New skill is not created
     expect(shared.successMessage.isPresent()).toBeFalsy();

@@ -12,27 +12,28 @@ angular.module('liveopsConfigPanel')
           return;
         }
 
-        $rootScope.$on('$stateChangeStart', function(event){
+        $scope.destroyStateListener = $rootScope.$on('$stateChangeStart', function(event){
           if (formController.$dirty){
-            Alert.confirm($translate.instant('unsavedchanges.nav.warning'), 
-                angular.noop, 
-                function(){
+            Alert.confirm($translate.instant('unsavedchanges.nav.warning'),
+                angular.noop,
+                function() {
                   event.preventDefault();
                 }
             );
           }
         });
-        
+
         $window.onbeforeunload = function(){
           if (formController.$dirty){
             return $translate.instant('unsavedchanges.reload.warning');
           }
         };
-        
+
         DirtyForms.registerForm(formController);
-        
+
         $scope.$on('$destroy', function() {
           DirtyForms.removeForm(formController);
+          $scope.destroyStateListener();
         });
       }
     };

@@ -9,9 +9,6 @@ angular.module('liveopsConfigPanel')
           'name': 'fullName',
           'templateUrl': 'app/components/management/users/userFullNameTemplate.html'
         }, {
-          'header': $translate.instant('user.table.displayName'),
-          'name': 'displayName'
-        }, {
           'header': $translate.instant('value.email'),
           'name': 'email'
         }, {

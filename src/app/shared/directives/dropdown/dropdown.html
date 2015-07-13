@@ -1,16 +1,16 @@
 <div class="dropdown-wrapper">
-  <a class="drop-label" ng-class="{'drop-origin' : showDrop}" ng-click="showDrop = ! showDrop" >
-    <div>{{label}}</div>
-    <span>
+  <div class="drop-label" ng-class="{'drop-origin' : showDrop}" ng-click="dropClick()" ng-mouseenter="mouseIn()">
+    <div>
+      <span>{{label}}</span>
       <i ng-show="showDrop" class="{{collapseIcon}} label-icon"></i>
       <i ng-show="! showDrop" class="{{expandIcon}} label-icon"></i>
-    </span>
-  </a>
+    </div>
+  </div>
 
   <div class="dropdown-container">
     <div class="dropdown" ng-hide="! showDrop">
       <ul>
-        <li ng-repeat="item in items | orderBy:'label'" ng-click="optionClick(item.onClick)">
+        <li id="{{item.id}}" ng-repeat="item in items | orderBy:orderBy" ng-click="optionClick(item.onClick)">
           <i class="{{item.iconClass}}"></i>{{item.label}}
         </li>
       </ul>

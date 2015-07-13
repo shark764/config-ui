@@ -13,6 +13,8 @@ describe('The create new queues view', function() {
   });
 
   beforeEach(function() {
+    // Ignore unsaved changes warnings
+    browser.executeScript("window.onbeforeunload = function(){};");
     browser.get(shared.queuesPageUrl);
   });
 
@@ -36,13 +38,14 @@ describe('The create new queues view', function() {
     // Complete queue form and submit
     queues.nameFormField.sendKeys('Queue ' + randomQueue);
     queues.descriptionFormField.sendKeys('This is the queue description for queue ' + randomQueue);
+    queues.createVersionQueryFormField.sendKeys('This is a new queue version query');
     shared.submitFormBtn.click();
 
     // Confirm queue is displayed in queue table with correct details
     shared.tableElements.then(function(rows) {
       for (var i = 1; i <= rows.length; ++i) {
         // Check if queue name in table matches newly added queue
-        element(by.css('.table > tbody:nth-child(' + i + ') > tr:nth-child(1) > td:nth-child(2)')).getText().then(function(value) {
+        element(by.css('#items-table > tbody:nth-child(2) > tr:nth-child(' + i + ') > td:nth-child(2) > span:nth-child(1)')).getText().then(function(value) {
           if (value == 'Queue ' + randomQueue) {
             queueAdded = true;
           }
@@ -54,13 +57,25 @@ describe('The create new queues view', function() {
     });
   });
 
-  xit('should create a default version', function() {
-    // TODO
+  it('should create a default version', function() {
     randomQueue = Math.floor((Math.random() * 1000) + 1);
     shared.createBtn.click();
 
     queues.nameFormField.sendKeys('Queue ' + randomQueue);
     queues.descriptionFormField.sendKeys('This is a new queue description');
+    queues.createVersionQueryFormField.sendKeys('This is a new queue version query');
+
+    // Version fields show defaults
+    expect(queues.createVersionNumberFormField.getAttribute('value')).toBe('1');
+    expect(queues.createVersionPriorityFormField.getAttribute('value')).toBe('75');
+    expect(queues.createVersionRateFormField.getAttribute('value')).toBe('2');
+    expect(queues.createVersionRateUnitDropdown.getAttribute('value')).toBe('mins');
+
+    // Version fields with default should be disabled
+    expect(queues.createVersionNumberFormField.getAttribute('disabled')).toBeTruthy();
+    expect(queues.createVersionPriorityFormField.getAttribute('disabled')).toBeTruthy();
+    expect(queues.createVersionRateFormField.getAttribute('disabled')).toBeTruthy();
+    expect(queues.createVersionRateUnitDropdown.getAttribute('disabled')).toBeTruthy();
 
     shared.submitFormBtn.click().then(function() {
       expect(queues.requiredErrors.get(0).isDisplayed()).toBeFalsy();
@@ -68,8 +83,8 @@ describe('The create new queues view', function() {
 
       // Default v1 queue version added
       expect(queues.activeVersionDropdown.getAttribute('value')).toBe('0');
-      expect(queues.versionsTableElements.count()).toBe(1);
-      expect(queues.versionsTableElements.get(0).getText()).toContain('v1');
+      expect(queues.activeVersionDropdown.all(by.css('option')).count()).toBe(1);
+      expect(queues.versionRowDetailsV1.isDisplayed()).toBeTruthy();
     });
   });
 
@@ -80,7 +95,15 @@ describe('The create new queues view', function() {
 
     queues.nameFormField.sendKeys('Queue ' + randomQueue);
     queues.descriptionFormField.sendKeys('This is the queue description for queue ' + randomQueue);
-    shared.cancelFormBtn.click().then(function() {
+    queues.createVersionQueryFormField.sendKeys('This is a new queue version query');
+
+    shared.cancelFormBtn.click();
+
+    // Warning message is displayed
+    var alertDialog = browser.switchTo().alert();
+    expect(alertDialog.accept).toBeDefined();
+    expect(alertDialog.dismiss).toBeDefined();
+    alertDialog.accept().then(function() {
       // Confirm fields are cleared and new queue is not added
       expect(queues.nameFormField.getAttribute('value')).toBe('');
       expect(queues.descriptionFormField.getAttribute('value')).toBe('');
@@ -109,10 +132,28 @@ describe('The create new queues view', function() {
     // Complete queue form and submit without queue name
     queues.nameFormField.click();
     queues.descriptionFormField.sendKeys('This is the queue description for queue ' + randomQueue);
+    queues.createVersionQueryFormField.sendKeys('This is a new queue version query');
     shared.submitFormBtn.click();
 
     expect(queues.requiredErrors.get(0).isDisplayed()).toBeTruthy();
     expect(queues.requiredErrors.get(0).getText()).toBe('Field "Name" is required.');
+    expect(shared.tableElements.count()).toBe(queueCount);
+    expect(shared.successMessage.isPresent()).toBeFalsy();
+  });
+
+  it('should require query', function() {
+    queueCount = shared.tableElements.count();
+    shared.createBtn.click();
+    randomQueue = Math.floor((Math.random() * 100) + 1);
+
+    // Complete queue form and submit without queue query
+    queues.createVersionQueryFormField.click();
+    queues.nameFormField.sendKeys('Queue ' + randomQueue);
+    queues.descriptionFormField.sendKeys('This is the queue description for queue ' + randomQueue);
+    shared.submitFormBtn.click();
+
+    expect(queues.requiredErrors.get(1).isDisplayed()).toBeTruthy();
+    expect(queues.requiredErrors.get(1).getText()).toBe('Field "Query" is required.');
     expect(shared.tableElements.count()).toBe(queueCount);
     expect(shared.successMessage.isPresent()).toBeFalsy();
   });
@@ -125,6 +166,7 @@ describe('The create new queues view', function() {
     // Complete queue form and submit without queue description
     queues.descriptionFormField.click();
     queues.nameFormField.sendKeys('Queue ' + randomQueue);
+    queues.createVersionQueryFormField.sendKeys('This is a new queue version query');
     shared.submitFormBtn.click().then(function() {
       expect(shared.tableElements.count()).toBeGreaterThan(queueCount);
       expect(shared.successMessage.isDisplayed()).toBeTruthy();
@@ -135,6 +177,7 @@ describe('The create new queues view', function() {
     queueCount = shared.tableElements.count();
     shared.createBtn.click();
     queues.nameFormField.sendKeys(' ');
+    queues.createVersionQueryFormField.sendKeys(' ');
     queues.descriptionFormField.sendKeys(' ');
 
     // Submit button is disabled
@@ -143,6 +186,9 @@ describe('The create new queues view', function() {
 
     expect(queues.requiredErrors.get(0).isDisplayed()).toBeTruthy();
     expect(queues.requiredErrors.get(0).getText()).toBe('Field "Name" is required.');
+    expect(queues.requiredErrors.get(1).isDisplayed()).toBeTruthy();
+    expect(queues.requiredErrors.get(1).getText()).toBe('Field "Query" is required.');
+
     expect(shared.successMessage.isPresent()).toBeFalsy();
     expect(shared.tableElements.count()).toBe(queueCount);
   });

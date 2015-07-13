@@ -14,6 +14,8 @@ describe('The users view', function() {
   });
 
   beforeEach(function() {
+    // Ignore unsaved changes warnings
+    browser.executeScript("window.onbeforeunload = function(){};");
     browser.get(shared.usersPageUrl);
     userCount = shared.tableElements.count();
   });
@@ -40,10 +42,11 @@ describe('The users view', function() {
 
   it('should display supported fields for editing a user', function() {
     // Select user row
-    users.firstTableRow.click();
+    shared.firstTableRow.click();
     expect(users.firstNameFormField.isDisplayed()).toBeTruthy();
     expect(users.lastNameFormField.isDisplayed()).toBeTruthy();
     expect(users.displayNameFormField.isDisplayed()).toBeTruthy();
+    expect(users.personalTelephoneFormField.isDisplayed()).toBeTruthy();
     expect(users.externalIdFormField.isDisplayed()).toBeTruthy();
 
     // User email is not able to be edited
@@ -63,14 +66,18 @@ describe('The users view', function() {
   it('should display users based on the table Status filter', function() {
     // Add Status Column
     shared.tableColumnsDropDown.click();
-    shared.tableColumnsDropDown.all(by.repeater('option in options track by option[valuePath]')).get(4).click();
+    shared.tableColumnsDropDown.all(by.repeater('option in options track by option[valuePath]')).get(5).click();
     shared.tableColumnsDropDown.click();
 
     // Select Disabled from Status drop down
     users.statusTableDropDown.click();
     users.userStatuses.get(0).click();
-    expect(users.userStatuses.get(0).element(by.css('input')).isSelected()).toBeTruthy();
-    expect(element(by.css('th.ng-scope:nth-child(6) > filter-dropdown:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > input:nth-child(1)')).isSelected()).toBeFalsy();
+
+    // Disabled input is selected
+    expect(users.userStatusInputs.get(1).isSelected()).toBeTruthy();
+    // All input is unselected
+    expect(users.userStatusInputs.get(0).isSelected()).toBeFalsy();
+
     users.statusTableDropDown.click();
     shared.tableElements.then(function(rows) {
       for (var i = 0; i < rows.length; ++i) {
@@ -82,6 +89,14 @@ describe('The users view', function() {
     users.statusTableDropDown.click();
     users.userStatuses.get(0).click();
     users.userStatuses.get(1).click();
+
+    // Enabled input is selected
+    expect(users.userStatusInputs.get(2).isSelected()).toBeTruthy();
+
+    // Disabled and All inputs are unselected
+    expect(users.userStatusInputs.get(1).isSelected()).toBeFalsy();
+    expect(users.userStatusInputs.get(0).isSelected()).toBeFalsy();
+
     users.statusTableDropDown.click();
     shared.tableElements.then(function(rows) {
       for (var i = 0; i < rows.length; ++i) {
@@ -91,10 +106,15 @@ describe('The users view', function() {
 
     // Select All from Status drop down
     users.statusTableDropDown.click();
-    element(by.css('th.ng-scope:nth-child(6) > filter-dropdown:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(1)')).click();
-    expect(element(by.css('th.ng-scope:nth-child(6) > filter-dropdown:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > input:nth-child(1)')).isSelected()).toBeTruthy();
-    expect(users.userStatuses.get(0).element(by.css('input')).isSelected()).toBeFalsy();
-    expect(users.userStatuses.get(1).element(by.css('input')).isSelected()).toBeFalsy();
+    users.allUserStatus.click();
+
+    // All input is selected
+    expect(users.userStatusInputs.get(0).isSelected()).toBeTruthy();
+
+    // Disabled and Enabled inputs are unselected
+    expect(users.userStatusInputs.get(1).isSelected()).toBeFalsy();
+    expect(users.userStatusInputs.get(2).isSelected()).toBeFalsy();
+
     users.statusTableDropDown.click();
     // Expect all users to be displayed
     expect(shared.tableElements.count()).toBe(userCount);
@@ -103,7 +123,8 @@ describe('The users view', function() {
   it('should display users based on the Search and Status filters', function() {
     // Add Status Column
     shared.tableColumnsDropDown.click();
-    shared.tableColumnsDropDown.all(by.repeater('option in options track by option[valuePath]')).get(4).click();
+    shared.tableColumnsDropDown.all(by.repeater('option in options track by option[valuePath]')).get(5).click();
+    shared.tableColumnsDropDown.click();
 
     // Search
     shared.searchField.sendKeys('a');
@@ -145,33 +166,33 @@ describe('The users view', function() {
 
   it('should display the selected user details in the user details section', function() {
     // Select user row
-    users.firstTableRow.click();
+    shared.firstTableRow.click();
 
-    expect(users.firstTableRow.element(by.css(users.nameColumn)).getText()).toContain(users.firstNameFormField.getAttribute('value'));
-    expect(users.firstTableRow.element(by.css(users.nameColumn)).getText()).toContain(users.lastNameFormField.getAttribute('value'));
-    expect(users.firstTableRow.element(by.css(users.displayNameColumn)).getText()).toBe(users.displayNameFormField.getAttribute('value'));
-    expect(users.firstTableRow.element(by.css(users.emailColumn)).getText()).toBe(users.emailLabel.getText());
-    expect(users.firstTableRow.element(by.css(users.externalIdColumn)).getText()).toBe(users.externalIdFormField.getAttribute('value'));
-    expect(users.firstTableRow.element(by.css(users.nameColumn)).getText()).toBe(shared.detailsFormHeader.getText());
+    expect(shared.firstTableRow.element(by.css(users.nameColumn)).getText()).toContain(users.firstNameFormField.getAttribute('value'));
+    expect(shared.firstTableRow.element(by.css(users.nameColumn)).getText()).toContain(users.lastNameFormField.getAttribute('value'));
+    expect(shared.firstTableRow.element(by.css(users.displayNameColumn)).getText()).toBe(users.displayNameFormField.getAttribute('value'));
+    expect(shared.firstTableRow.element(by.css(users.emailColumn)).getText()).toBe(users.emailLabel.getText());
+    expect(shared.firstTableRow.element(by.css(users.externalIdColumn)).getText()).toBe(users.externalIdFormField.getAttribute('value'));
+    expect(shared.firstTableRow.element(by.css(users.nameColumn)).getText()).toBe(shared.detailsFormHeader.getText());
 
     // Change user and verify all fields are updated
     shared.tableElements.count().then(function(numUsers) {
       if (numUsers > 1) {
-        users.secondTableRow.click();
+        shared.secondTableRow.click();
 
-        expect(users.secondTableRow.element(by.css(users.nameColumn)).getText()).toContain(users.firstNameFormField.getAttribute('value'));
-        expect(users.secondTableRow.element(by.css(users.nameColumn)).getText()).toContain(users.lastNameFormField.getAttribute('value'));
-        expect(users.secondTableRow.element(by.css(users.displayNameColumn)).getText()).toBe(users.displayNameFormField.getAttribute('value'));
-        expect(users.secondTableRow.element(by.css(users.emailColumn)).getText()).toBe(users.emailLabel.getText());
-        expect(users.secondTableRow.element(by.css(users.externalIdColumn)).getText()).toBe(users.externalIdFormField.getAttribute('value'));
-        expect(users.secondTableRow.element(by.css(users.nameColumn)).getText()).toBe(shared.detailsFormHeader.getText());
+        expect(shared.secondTableRow.element(by.css(users.nameColumn)).getText()).toContain(users.firstNameFormField.getAttribute('value'));
+        expect(shared.secondTableRow.element(by.css(users.nameColumn)).getText()).toContain(users.lastNameFormField.getAttribute('value'));
+        expect(shared.secondTableRow.element(by.css(users.displayNameColumn)).getText()).toBe(users.displayNameFormField.getAttribute('value'));
+        expect(shared.secondTableRow.element(by.css(users.emailColumn)).getText()).toBe(users.emailLabel.getText());
+        expect(shared.secondTableRow.element(by.css(users.externalIdColumn)).getText()).toBe(users.externalIdFormField.getAttribute('value'));
+        expect(shared.secondTableRow.element(by.css(users.nameColumn)).getText()).toBe(shared.detailsFormHeader.getText());
       }
     });
   });
 
   it('should not update table when user details are changed and cancelled', function() {
     // Select user row
-    users.firstTableRow.click();
+    shared.firstTableRow.click();
 
     // Update User details
     users.firstNameFormField.sendKeys('cancel');
@@ -179,36 +200,42 @@ describe('The users view', function() {
     users.displayNameFormField.sendKeys('cancel');
     users.externalIdFormField.sendKeys('cancel');
 
-    shared.cancelFormBtn.click().then(function() {
-      expect(shared.successMessage.isPresent()).toBeFalsy();
-      expect(users.firstTableRow.element(by.css(users.nameColumn)).getText()).not.toContain('cancel');
-      expect(users.firstTableRow.element(by.css(users.displayNameColumn)).getText()).not.toContain('cancel');
-      expect(users.firstTableRow.element(by.css(users.externalIdColumn)).getText()).not.toContain('cancel');
+    shared.cancelFormBtn.click();
 
-      expect(users.firstTableRow.element(by.css(users.nameColumn)).getText()).toContain(users.firstNameFormField.getAttribute('value'));
-      expect(users.firstTableRow.element(by.css(users.nameColumn)).getText()).toContain(users.lastNameFormField.getAttribute('value'));
-      expect(users.firstTableRow.element(by.css(users.displayNameColumn)).getText()).toContain(users.displayNameFormField.getAttribute('value'));
-      expect(users.firstTableRow.element(by.css(users.externalIdColumn)).getText()).toBe(users.externalIdFormField.getAttribute('value'));
-      expect(users.firstTableRow.element(by.css(users.nameColumn)).getText()).toBe(shared.detailsFormHeader.getText());
+    // Warning message is displayed
+    var alertDialog = browser.switchTo().alert();
+    expect(alertDialog.accept).toBeDefined();
+    expect(alertDialog.dismiss).toBeDefined();
+    alertDialog.accept().then(function() {
+      expect(shared.successMessage.isPresent()).toBeFalsy();
+      expect(shared.firstTableRow.element(by.css(users.nameColumn)).getText()).not.toContain('cancel');
+      expect(shared.firstTableRow.element(by.css(users.displayNameColumn)).getText()).not.toContain('cancel');
+      expect(shared.firstTableRow.element(by.css(users.externalIdColumn)).getText()).not.toContain('cancel');
+
+      expect(shared.firstTableRow.element(by.css(users.nameColumn)).getText()).toContain(users.firstNameFormField.getAttribute('value'));
+      expect(shared.firstTableRow.element(by.css(users.nameColumn)).getText()).toContain(users.lastNameFormField.getAttribute('value'));
+      expect(shared.firstTableRow.element(by.css(users.displayNameColumn)).getText()).toContain(users.displayNameFormField.getAttribute('value'));
+      expect(shared.firstTableRow.element(by.css(users.externalIdColumn)).getText()).toBe(users.externalIdFormField.getAttribute('value'));
+      expect(shared.firstTableRow.element(by.css(users.nameColumn)).getText()).toBe(shared.detailsFormHeader.getText());
     }).then(function() {
       // Refresh browser and ensure changes did not persist
       browser.refresh();
-      users.firstTableRow.click();
-      expect(users.firstTableRow.element(by.css(users.nameColumn)).getText()).not.toContain('cancel');
-      expect(users.firstTableRow.element(by.css(users.displayNameColumn)).getText()).not.toContain('cancel');
-      expect(users.firstTableRow.element(by.css(users.externalIdColumn)).getText()).not.toContain('cancel');
+      shared.firstTableRow.click();
+      expect(shared.firstTableRow.element(by.css(users.nameColumn)).getText()).not.toContain('cancel');
+      expect(shared.firstTableRow.element(by.css(users.displayNameColumn)).getText()).not.toContain('cancel');
+      expect(shared.firstTableRow.element(by.css(users.externalIdColumn)).getText()).not.toContain('cancel');
 
-      expect(users.firstTableRow.element(by.css(users.nameColumn)).getText()).toContain(users.firstNameFormField.getAttribute('value'));
-      expect(users.firstTableRow.element(by.css(users.nameColumn)).getText()).toContain(users.lastNameFormField.getAttribute('value'));
-      expect(users.firstTableRow.element(by.css(users.displayNameColumn)).getText()).toContain(users.displayNameFormField.getAttribute('value'));
-      expect(users.firstTableRow.element(by.css(users.externalIdColumn)).getText()).toBe(users.externalIdFormField.getAttribute('value'));
-      expect(users.firstTableRow.element(by.css(users.nameColumn)).getText()).toBe(shared.detailsFormHeader.getText());
+      expect(shared.firstTableRow.element(by.css(users.nameColumn)).getText()).toContain(users.firstNameFormField.getAttribute('value'));
+      expect(shared.firstTableRow.element(by.css(users.nameColumn)).getText()).toContain(users.lastNameFormField.getAttribute('value'));
+      expect(shared.firstTableRow.element(by.css(users.displayNameColumn)).getText()).toContain(users.displayNameFormField.getAttribute('value'));
+      expect(shared.firstTableRow.element(by.css(users.externalIdColumn)).getText()).toBe(users.externalIdFormField.getAttribute('value'));
+      expect(shared.firstTableRow.element(by.css(users.nameColumn)).getText()).toBe(shared.detailsFormHeader.getText());
     });
   });
 
   it('should update table when user details are changed and saved', function() {
     // Select user row
-    users.firstTableRow.click();
+    shared.firstTableRow.click();
 
     // Update User details
     users.firstNameFormField.sendKeys('test');
@@ -218,20 +245,20 @@ describe('The users view', function() {
 
     shared.submitFormBtn.click().then(function() {
       expect(shared.successMessage.isDisplayed()).toBeTruthy();
-      expect(users.firstTableRow.element(by.css(users.nameColumn)).getText()).toContain(users.firstNameFormField.getAttribute('value'));
-      expect(users.firstTableRow.element(by.css(users.nameColumn)).getText()).toContain(users.lastNameFormField.getAttribute('value'));
-      expect(users.firstTableRow.element(by.css(users.displayNameColumn)).getText()).toContain(users.displayNameFormField.getAttribute('value'));
-      expect(users.firstTableRow.element(by.css(users.externalIdColumn)).getText()).toBe(users.externalIdFormField.getAttribute('value'));
-      expect(users.firstTableRow.element(by.css(users.nameColumn)).getText()).toBe(shared.detailsFormHeader.getText());
+      expect(shared.firstTableRow.element(by.css(users.nameColumn)).getText()).toContain(users.firstNameFormField.getAttribute('value'));
+      expect(shared.firstTableRow.element(by.css(users.nameColumn)).getText()).toContain(users.lastNameFormField.getAttribute('value'));
+      expect(shared.firstTableRow.element(by.css(users.displayNameColumn)).getText()).toContain(users.displayNameFormField.getAttribute('value'));
+      expect(shared.firstTableRow.element(by.css(users.externalIdColumn)).getText()).toBe(users.externalIdFormField.getAttribute('value'));
+      expect(shared.firstTableRow.element(by.css(users.nameColumn)).getText()).toBe(shared.detailsFormHeader.getText());
     }).then(function() {
       // Refresh browser and ensure changes persist
       browser.refresh();
-      users.firstTableRow.click();
-      expect(users.firstTableRow.element(by.css(users.nameColumn)).getText()).toContain(users.firstNameFormField.getAttribute('value'));
-      expect(users.firstTableRow.element(by.css(users.nameColumn)).getText()).toContain(users.lastNameFormField.getAttribute('value'));
-      expect(users.firstTableRow.element(by.css(users.displayNameColumn)).getText()).toContain(users.displayNameFormField.getAttribute('value'));
-      expect(users.firstTableRow.element(by.css(users.externalIdColumn)).getText()).toBe(users.externalIdFormField.getAttribute('value'));
-      expect(users.firstTableRow.element(by.css(users.nameColumn)).getText()).toBe(shared.detailsFormHeader.getText());
+      shared.firstTableRow.click();
+      expect(shared.firstTableRow.element(by.css(users.nameColumn)).getText()).toContain(users.firstNameFormField.getAttribute('value'));
+      expect(shared.firstTableRow.element(by.css(users.nameColumn)).getText()).toContain(users.lastNameFormField.getAttribute('value'));
+      expect(shared.firstTableRow.element(by.css(users.displayNameColumn)).getText()).toContain(users.displayNameFormField.getAttribute('value'));
+      expect(shared.firstTableRow.element(by.css(users.externalIdColumn)).getText()).toBe(users.externalIdFormField.getAttribute('value'));
+      expect(shared.firstTableRow.element(by.css(users.nameColumn)).getText()).toBe(shared.detailsFormHeader.getText());
     }).then(function() {
       // Reset all user values
       users.firstNameFormField.sendKeys('\u0008\u0008\u0008\u0008');
@@ -244,7 +271,7 @@ describe('The users view', function() {
 
   it('should require First Name when editing', function() {
     // Select first user from table
-    users.firstTableRow.click();
+    shared.firstTableRow.click();
 
     // Edit fields
     users.firstNameFormField.clear();
@@ -262,7 +289,7 @@ describe('The users view', function() {
 
   it('should require Last Name when editing', function() {
     // Select first user from table
-    users.firstTableRow.click();
+    shared.firstTableRow.click();
 
     // Edit fields
     users.lastNameFormField.clear();
@@ -280,7 +307,7 @@ describe('The users view', function() {
 
   it('should require Display Name when editing', function() {
     // Select first user from table
-    users.firstTableRow.click();
+    shared.firstTableRow.click();
 
     // Edit fields
     users.displayNameFormField.clear();
@@ -298,7 +325,7 @@ describe('The users view', function() {
 
   it('should not require External Id when editing', function() {
     // Select first user from table
-    users.firstTableRow.click();
+    shared.firstTableRow.click();
 
     // Edit fields
     users.externalIdFormField.sendKeys('temp'); // Incase the field was already empty
@@ -309,22 +336,42 @@ describe('The users view', function() {
     });
   });
 
-  it('should display password field when editing button is selected', function() {
+  it('should not require Personal Telephone when editing', function() {
     // Select first user from table
     users.firstTableRow.click();
+
+    // Edit fields
+    users.personalTelephoneFormField.sendKeys('temp'); // Incase the field was already empty
+    users.personalTelephoneFormField.clear();
+    users.firstNameFormField.click();
+    shared.submitFormBtn.click().then(function() {
+      expect(shared.successMessage.isDisplayed()).toBeTruthy();
+    });
+  });
+
+  it('should display password field when editing button is selected', function() {
+    // Select first user from table
+    shared.firstTableRow.click();
     users.passwordEditFormBtn.click();
 
     expect(users.passwordFormField.isDisplayed()).toBeTruthy();
     expect(users.passwordEditFormBtn.isDisplayed()).toBeFalsy();
 
     shared.cancelFormBtn.click();
+
+    // Warning message is displayed
+    var alertDialog = browser.switchTo().alert();
+    expect(alertDialog.accept).toBeDefined();
+    expect(alertDialog.dismiss).toBeDefined();
+    alertDialog.accept();
+
     expect(users.passwordFormField.isDisplayed()).toBeFalsy();
     expect(users.passwordEditFormBtn.isDisplayed()).toBeTruthy();
   });
 
   it('should require password when editing button is selected', function() {
     // Select first user from table
-    users.firstTableRow.click();
+    shared.firstTableRow.click();
 
     users.passwordEditFormBtn.click();
     users.passwordFormField.click();
@@ -335,13 +382,13 @@ describe('The users view', function() {
     shared.submitFormBtn.click();
 
     // Error messages displayed
-    expect(users.requiredErrors.get(4).isDisplayed()).toBeTruthy();
-    expect(users.requiredErrors.get(4).getText()).toBe('Please enter a password');
+    expect(users.requiredErrors.get(5).isDisplayed()).toBeTruthy();
+    expect(users.requiredErrors.get(5).getText()).toBe('Please enter a password');
     expect(shared.successMessage.isPresent()).toBeFalsy();
   });
 
   it('should not accept spaces as valid input when editing', function() {
-    users.firstTableRow.click();
+    shared.firstTableRow.click();
 
     // Enter a space into each field
     users.firstNameFormField.clear();
@@ -364,7 +411,7 @@ describe('The users view', function() {
   });
 
   it('should successfully update password', function() {
-    users.firstTableRow.click();
+    shared.firstTableRow.click();
     var randomPassword = 'newpassword' + Math.floor((Math.random() * 1000) + 1);
 
     users.emailLabel.getText(function(userEmail) {
@@ -385,5 +432,35 @@ describe('The users view', function() {
       shared.logoutButton.click();
       loginPage.login(userEmail, randomPassword);
     });
+  });
+
+  it('should prevent invalid E164 numbers from being accepted', function() {
+    expect(users.personalTelephoneFormField.isDisplayed()).toBeTruthy();
+
+    //ensure the field is empty
+    users.personalTelephoneFormField.clear();
+
+    users.personalTelephoneFormField.sendKeys('a15064704361');
+
+    users.firstNameFormField.click();
+
+    expect(users.personalTelephoneFormField.getAttribute('class')).toContain('ng-invalid');
+    expect(users.requiredErrors.get(3).getText()).toBe('Phone number should be in E.164 format.');
+  });
+
+  it('should allow E164 numbers to be accepted', function() {
+    expect(users.personalTelephoneFormField.isDisplayed()).toBeTruthy();
+
+    //ensure the field is empty
+    users.personalTelephoneFormField.clear();
+
+    users.personalTelephoneFormField.sendKeys('15064704361');
+
+    users.firstNameFormField.click();
+
+    expect(users.requiredErrors.get(3).isDisplayed()).toBeFalsy();
+
+    //limits the user to digits only, limits the user to 15 characters, should prepend a +
+    expect(users.personalTelephoneFormField.getText()).toBe('+1 506-470-4361');
   });
 });

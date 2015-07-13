@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigPanel.config', 'pascalprecht.translate', 'ngCookies', 'ngMessages', 'ngSanitize', 'toastr', 'ngLodash'])
+angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigPanel.config', 'pascalprecht.translate', 'ngCookies', 'ngMessages', 'ngSanitize', 'toastr', 'ngLodash', 'teljs'])
   .config(['$stateProvider', '$urlRouterProvider', '$translateProvider', 'toastrConfig', function($stateProvider, $urlRouterProvider, $translateProvider, toastrConfig) {
     $urlRouterProvider.otherwise('/management/users');
 
@@ -24,11 +24,6 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
             }).$promise;
           }],
         }
-      })
-      .state('error', {
-        templateUrl: 'app/components/error/error.html',
-        controller: 'ErrorController',
-        isPublic: true
       })
       .state('content.management', {
         abstract: true,
