@@ -8,18 +8,18 @@ describe('LiveopsResourceFactory', function(){
       apiHostname,
       LiveopsResourceFactory,
       protoUpdateSpy,
-      protoCreateSpy,
+      protoSaveSpy,
       givenConfig;
 
   beforeEach(module('liveopsConfigPanel', function($provide) {
     resourceSpy = jasmine.createSpy('ResourceMock').and.callFake(function(endpoint, fields, config) {
       givenConfig = config;
 
-      protoCreateSpy = jasmine.createSpy('$create');
+      protoSaveSpy = jasmine.createSpy('$save');
       protoUpdateSpy = jasmine.createSpy('$update');
 
       function resource(){
-        this.$create = protoCreateSpy;
+        this.$save = protoSaveSpy;
         this.$update = protoUpdateSpy;
       }
 
@@ -41,7 +41,7 @@ describe('LiveopsResourceFactory', function(){
       query: jasmine.any(Object),
       get: jasmine.any(Object),
       update: jasmine.any(Object),
-      create: jasmine.any(Object)
+      save: jasmine.any(Object)
     });
   }));
 
@@ -52,7 +52,7 @@ describe('LiveopsResourceFactory', function(){
       query: jasmine.any(Object),
       get: jasmine.any(Object),
       update: jasmine.any(Object),
-      create: jasmine.any(Object)
+      save: jasmine.any(Object)
     });
   }));
 
@@ -130,28 +130,26 @@ describe('LiveopsResourceFactory', function(){
     }]));
   });
 
-  describe('prototype $save function', function(){
+  describe('prototype save function', function(){
     it('should call $update if the object exists', inject(['$q', function($q) {
       Resource = LiveopsResourceFactory.create('/endpoint');
 
       var resource = new Resource();
       resource.id = 'id1';
-      
-      expect(resource.$save).toBeDefined();
 
       resource.$update = protoUpdateSpy.and.returnValue($q.when({}));
-      resource.$save();
+      resource.save();
       expect(protoUpdateSpy).toHaveBeenCalled();
     }]));
     
-    it('should call $create if the object if new', inject(['$q', function($q) {
+    it('should call $save if the object if new', inject(['$q', function($q) {
       Resource = LiveopsResourceFactory.create('/endpoint');
 
       var resource = new Resource();
 
-      resource.$create = protoCreateSpy.and.returnValue($q.when({}));
-      resource.$save();
-      expect(protoCreateSpy).toHaveBeenCalled();
+      resource.$save = protoSaveSpy.and.returnValue($q.when({}));
+      resource.save();
+      expect(protoSaveSpy).toHaveBeenCalled();
     }]));
   });
   
