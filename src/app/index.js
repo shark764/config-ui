@@ -200,6 +200,12 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
         templateUrl: 'app/components/invites/invites.html',
         controller: 'InvitesController',
         secure: true
+      })
+      .state('content.reports', {
+        url: '/reports',
+        templateUrl: 'app/components/reports/reports.html',
+        controller: 'ReportsController',
+        secure: true
       });
 
     angular.extend(toastrConfig, {
