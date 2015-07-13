@@ -458,7 +458,7 @@ describe('The users view', function() {
     expect(users.personalTelephoneFormField.getAttribute('value')).toBe('+1 506-470-4361');
 
     users.requiredErrors.get(3).isDisplayed().then(function(visible){
-      expect(visible).toBeFalsy(); //isDisplayed() was improperly failing here.
+      expect(visible).toBeFalsy();
     })
   });
 });

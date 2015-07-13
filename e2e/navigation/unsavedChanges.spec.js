@@ -120,13 +120,6 @@ describe('The unsaved changes warning', function() {
     // Accept warning message to clear changes
     alertDialog = browser.switchTo().alert();
     alertDialog.accept();
-
-    // Fields are cleared
-    //expect(shared.detailsForm.getAttribute('value')).toBe('');
-    //expect(users.lastNameFormField.getAttribute('value')).toBe('');
-    //expect(users.displayNameFormField.getAttribute('value')).toBe('');
-    //expect(users.emailFormField.getAttribute('value')).toBe('');
-    //expect(users.externalIdFormField.getAttribute('value')).toBe('');
     
     //Panel is hidden
     expect(shared.detailsForm.isDisplayed()).toBeFalsy();
