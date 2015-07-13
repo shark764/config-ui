@@ -4,6 +4,7 @@ describe('The unsaved changes warning', function() {
   var loginPage = require('../login/login.po.js'),
     shared = require('../shared.po.js'),
     users = require('../management/users.po.js'),
+    navbar = require('./navbar.po.js'),
     params = browser.params,
     alertDialog;
 
@@ -16,6 +17,8 @@ describe('The unsaved changes warning', function() {
   });
 
   it('should be displayed after changing form fields and selecting cancel', function() {
+    shared.firstTableRow.click();
+    
     // Make changes to user form fields
     users.firstNameFormField.sendKeys('unsavedEdit');
     users.lastNameFormField.sendKeys('unsavedEdit');
@@ -36,9 +39,8 @@ describe('The unsaved changes warning', function() {
     alertDialog.accept();
 
     // Fields are reset
-    expect(users.firstTableRow.element(by.css(users.nameColumn)).getText()).toContain(users.firstNameFormField.getAttribute('value'));
-    expect(users.firstTableRow.element(by.css(users.nameColumn)).getText()).toContain(users.lastNameFormField.getAttribute('value'));
-    expect(users.firstTableRow.element(by.css(users.displayNameColumn)).getText()).toBe(users.displayNameFormField.getAttribute('value'));
+    expect(shared.firstTableRow.element(by.css(users.nameColumn)).getText()).toContain(users.firstNameFormField.getAttribute('value'));
+    expect(shared.firstTableRow.element(by.css(users.nameColumn)).getText()).toContain(users.lastNameFormField.getAttribute('value'));
   });
 
   it('should be closed after changing form fields, selecting cancel and dismissing warning', function() {
@@ -114,20 +116,26 @@ describe('The unsaved changes warning', function() {
     });
   });
 
-  it('should be closed after completing create forms, selecting cancel and clear fields after accepting warning', function() {
+  it('should be closed after completing create forms, selecting cancel and hide the panel after accepting warning', function() {
     // Accept warning message to clear changes
     alertDialog = browser.switchTo().alert();
     alertDialog.accept();
 
     // Fields are cleared
-    expect(users.firstNameFormField.getAttribute('value')).toBe('');
-    expect(users.lastNameFormField.getAttribute('value')).toBe('');
-    expect(users.displayNameFormField.getAttribute('value')).toBe('');
-    expect(users.emailFormField.getAttribute('value')).toBe('');
-    expect(users.externalIdFormField.getAttribute('value')).toBe('');
+    //expect(shared.detailsForm.getAttribute('value')).toBe('');
+    //expect(users.lastNameFormField.getAttribute('value')).toBe('');
+    //expect(users.displayNameFormField.getAttribute('value')).toBe('');
+    //expect(users.emailFormField.getAttribute('value')).toBe('');
+    //expect(users.externalIdFormField.getAttribute('value')).toBe('');
+    
+    //Panel is hidden
+    expect(shared.detailsForm.isDisplayed()).toBeFalsy();
   });
 
   it('should be closed after selecting cancel and dismissing warning', function() {
+    // Select create
+    shared.createBtn.click();
+    
     users.firstNameFormField.sendKeys('First');
     users.lastNameFormField.sendKeys('Last');
     users.emailFormField.sendKeys('titantest@mailinator.com');
@@ -148,7 +156,7 @@ describe('The unsaved changes warning', function() {
 
   it('should be displayed after completing create form fields and selecting row', function() {
     // Select user row
-    users.firstTableRow.click();
+    shared.firstTableRow.click();
 
     // Warning message is displayed
     alertDialog = browser.switchTo().alert();
@@ -162,12 +170,11 @@ describe('The unsaved changes warning', function() {
     alertDialog.accept();
 
     // Fields show selected user values
-    expect(users.firstTableRow.element(by.css(users.nameColumn)).getText()).toContain(users.firstNameFormField.getAttribute('value'));
-    expect(users.firstTableRow.element(by.css(users.nameColumn)).getText()).toContain(users.lastNameFormField.getAttribute('value'));
-    expect(users.firstTableRow.element(by.css(users.displayNameColumn)).getText()).toBe(users.displayNameFormField.getAttribute('value'));
-    expect(users.firstTableRow.element(by.css(users.emailColumn)).getText()).toBe(users.emailLabel.getText());
-    expect(users.firstTableRow.element(by.css(users.externalIdColumn)).getText()).toBe(users.externalIdFormField.getAttribute('value'));
-    expect(users.firstTableRow.element(by.css(users.nameColumn)).getText()).toBe(shared.detailsFormHeader.getText());
+    expect(shared.firstTableRow.element(by.css(users.nameColumn)).getText()).toContain(users.firstNameFormField.getAttribute('value'));
+    expect(shared.firstTableRow.element(by.css(users.nameColumn)).getText()).toContain(users.lastNameFormField.getAttribute('value'));
+    expect(shared.firstTableRow.element(by.css(users.emailColumn)).getText()).toBe(users.emailLabel.getText());
+    expect(shared.firstTableRow.element(by.css(users.externalIdColumn)).getText()).toBe(users.externalIdFormField.getAttribute('value'));
+    expect(shared.firstTableRow.element(by.css(users.nameColumn)).getText()).toBe(shared.detailsFormHeader.getText());
   });
 
   it('should be closed after selecting row and dismissing warning', function() {
@@ -179,7 +186,7 @@ describe('The unsaved changes warning', function() {
     users.passwordFormField.sendKeys('password');
 
     // Select user row
-    users.firstTableRow.click();
+    shared.firstTableRow.click();
 
     // Accept warning message to keep changes
     alertDialog = browser.switchTo().alert();
@@ -193,7 +200,8 @@ describe('The unsaved changes warning', function() {
 
   it('should be displayed after completing create form fields and selecting navigation button', function() {
     // Select Tenants nav button
-    shared.tenantsNavButton.click().then(function() {
+    shared.tenantsNavButton.click();
+    navbar.tenantsLink.click().then(function() {
       // Warning message is displayed
       alertDialog = browser.switchTo().alert();
       expect(alertDialog.accept).toBeDefined();
@@ -216,7 +224,8 @@ describe('The unsaved changes warning', function() {
   it('should be closed after selecting nav button and change page after accepting warning', function() {
     // Select Tenants nav button
     shared.tenantsNavButton.click();
-
+    navbar.tenantsLink.click();
+    
     // Accept warning message to clear changes and change page
     alertDialog = browser.switchTo().alert();
     alertDialog.accept();
@@ -228,6 +237,8 @@ describe('The unsaved changes warning', function() {
   it('should not be displayed after accepting until new form is dirtied', function() {
     // Select Users nav button
     shared.usersNavButton.click();
+    navbar.userLink.click();
+    
     var alertPresent;
 
     browser.switchTo().alert().then(
