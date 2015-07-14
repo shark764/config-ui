@@ -51,6 +51,7 @@ exports.config = {
     paths.e2e + '/flows/flows.spec.js',
     paths.e2e + '/flows/newqueue.spec.js',
     paths.e2e + '/flows/queues.spec.js'
+    paths.e2e + '/flows/dispatchMappings.spec.js',
   ],
 
   framework: 'jasmine2',

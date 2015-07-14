@@ -15,10 +15,6 @@ angular.module('liveopsConfigPanel')
       $scope.fetch = function () {
         $scope.medias = Media.query({
           tenantId: Session.tenant.tenantId
-        }, function(medias) {
-          if(!medias.length) {
-            $scope.create();
-          }
         });
       };
 

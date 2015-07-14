@@ -106,4 +106,11 @@ describe('QueueController', function() {
       $rootScope.$broadcast('resource:details:queue:canceled');
       expect($scope.additional.initialQuery).toEqual('');
     }]));
+
+    it('should not reset if the selectedQueue is not a new queue', inject(['$rootScope', function($rootScope){
+      $scope.selectedQueue = queues[0];
+      $scope.additional.initialQuery = 'somevalues';
+      $rootScope.$broadcast('resource:details:queue:canceled');
+      expect($scope.additional.initialQuery).toEqual('somevalues');
+    }]));
 });

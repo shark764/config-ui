@@ -62,6 +62,12 @@ describe('userGroups directive', function() {
     expect(isolateScope.userGroups[0].groupId).toEqual(mockUserGroups[0].groupId);
   }));
 
+  it('should load the user\'s groups', inject(function() {
+    expect(isolateScope.userGroups.length).toEqual(mockUserGroups.length);
+    expect(isolateScope.userGroups[0].userId).toEqual(mockUserGroups[0].userId);
+    expect(isolateScope.userGroups[0].groupId).toEqual(mockUserGroups[0].groupId);
+  }));
+
   describe('fetch function', function() {
     it('should be called when user changes', inject(['User', function(User) {
       spyOn(isolateScope, 'fetch');
@@ -166,6 +172,12 @@ describe('userGroups directive', function() {
     it('should exist', inject(function() {
       expect(isolateScope.save).toBeDefined();
       expect(isolateScope.save).toEqual(jasmine.any(Function));
+    }));
+
+    it('should not save if no group is selected', inject(function() {
+      expect(isolateScope.save).toBeDefined();
+      $scope.selectedGroup = null;
+      isolateScope.save();
     }));
 
     it('should set the saving flag to true', inject(function() {

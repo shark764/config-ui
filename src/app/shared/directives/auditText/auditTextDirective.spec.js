@@ -51,12 +51,12 @@ describe('auditText directive', function(){
       expect(element.text()).toEqual('A string');
     });
     
-    it('should translate the displayname with the one returned by usercache', inject(['$q', 'UserCache', function($q, UserCache) {
+    it('should translate the displayname with the one returned by usercache', inject(['$q', 'UserCache', 'User', function($q, UserCache, User) {
       var deferred = $q.defer();
-      deferred.resolve({id: 1,  displayName: 'bob'});
+      deferred.resolve(new User({id: 1,  firstName: 'bob'}));
       var cacheResult = angular.extend({
         $promise: deferred.promise,
-      }, {id: 1, displayName: 'bob'});
+      }, new User({id: 1, firstName: 'bob'}));
       spyOn(UserCache, 'get').and.returnValue(cacheResult);
       
       element = $compile('<audit-text translation="value.displayName" user-id="1"></audit-text>')($scope);

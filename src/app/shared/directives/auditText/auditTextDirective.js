@@ -29,7 +29,7 @@ angular.module('liveopsConfigPanel')
             
             var promise = UserCache.get($scope.userId).$promise;
             promise.then(function (user) {
-              attrs.displayName = user.displayName;
+              attrs.displayName = user.fullName();
               element.text(filter($scope.translation, attrs));
             });
           } else {

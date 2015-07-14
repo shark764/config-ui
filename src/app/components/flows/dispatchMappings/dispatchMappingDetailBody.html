@@ -40,14 +40,14 @@
   <label>{{'details.phoneNumber' | translate}}</label>
   <div>
     <form-error field="detailsForm.value" error-type-api="true" error-type-phone="{{'details.phoneNumber.error' | translate}}"></form-error>
-    <input name="value" type="tel" ng-model="resource.value" api-error>
+    <input id="phone-form-field" name="value" type="tel" ng-model="resource.value" api-error>
   </div>
 </div>
 
 <div class="input-group" ng-if="resource.interactionField === 'integration'" ng-init="resource.value = integrations[0].id">
   <label>{{'integration.details' | translate}}</label>
   <div>
-    <select ng-model="resource.value" name="value"
+    <select id="integration-form-dropdown" ng-model="resource.value" name="value"
       ng-options="integration.id as integration.type for integration in integrations">
     </select>
   </div>
@@ -56,7 +56,7 @@
 <div class="input-group" ng-if="resource.interactionField === 'direction'">
   <label>{{'dispatchMappings.details.direction' | translate}}</label>
   <div>
-    <select ng-model="resource.value" name="value" ng-init="resource.value = 'outbound'"
+    <select id="direction-form-dropdown" ng-model="resource.value" name="value" ng-init="resource.value = 'outbound'"
       ng-options="dispatchMappingDirection.value as dispatchMappingDirection.display for dispatchMappingDirection in dispatchMappingDirections">
     </select>
   </div>

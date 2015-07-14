@@ -74,7 +74,7 @@ describe('resource details directive', function() {
     expect(header.length).toBe(1);
   }]));
 
-  it('should have a function to reset a resource that properly handles saves', inject(function() {
+  it('should have a function to reset a resource that properly handles saves', inject(['DirtyForms', function(DirtyForms) {
     doDefaultCompile();
 
     var resultUser = angular.copy($scope.user);
@@ -89,11 +89,17 @@ describe('resource details directive', function() {
     isolateScope.save();
     $httpBackend.flush();
 
+    spyOn(DirtyForms, 'confirmIfDirty').and.callFake(function(callback){
+      callback();
+    })
+    
+    isolateScope.resource.firstName = 'Mark';
+    isolateScope.detailsForm.$dirty = true;
     isolateScope.cancel();
 
     expect(isolateScope.resource.firstName).toBe('Fred');
 
-  }));
+  }]));
 
   it('should have a function to save a resource', inject(function() {
     doDefaultCompile();
@@ -117,31 +123,20 @@ describe('resource details directive', function() {
       doDefaultCompile();
     });
 
-    it('should reset the resource on ok', inject(['Alert', function(Alert) {
-      isolateScope.detailsForm.$dirty = true;
-      spyOn(Alert, 'confirm').and.callFake(function(msg, okCallback) {
-        okCallback();
+    it('should reset the resource', inject(['DirtyForms', function(DirtyForms) {
+      spyOn(DirtyForms, 'confirmIfDirty').and.callFake(function(callback) {
+        callback();
       });
 
       isolateScope.resource.firstName = 'JohnTest';
+      isolateScope.resource.id = '123';
+      isolateScope.detailsForm.$dirty = true;
       isolateScope.cancel();
 
       expect(isolateScope.resource.firstName).toEqual('John');
     }]));
 
-    it('should do nothing on dialog ok', inject(['Alert', function(Alert) {
-      isolateScope.detailsForm.$dirty = true;
-      spyOn(Alert, 'confirm').and.callFake(function(msg, okCallback) {
-        okCallback();
-      });
-
-      spyOn(isolateScope, 'resetForm');
-      isolateScope.cancel();
-
-      expect(isolateScope.resetForm).toHaveBeenCalled();
-    }]));
-
-    it('should reset the form on cancel', inject(['Alert', function(Alert) {
+    it('should reset the form', inject(['Alert', function(Alert) {
       isolateScope.detailsForm.$dirty = true;
       spyOn(Alert, 'confirm').and.callFake(function(msg, okCallback, cancelCallback) {
         cancelCallback();

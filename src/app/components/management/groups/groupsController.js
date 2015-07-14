@@ -33,7 +33,7 @@ angular.module('liveopsConfigPanel')
             return group;
           });
       };
-      
+
       Group.prototype.postCreate = function(group) {
         //Display logic only, as we dont add/edit group users from this screen
         group.members = [];
@@ -42,7 +42,7 @@ angular.module('liveopsConfigPanel')
 
       $scope.$watch('Session.tenant.tenantId', function() {
         $scope.fetch();
-      });
+      }, true);
 
       $scope.$on('on:click:create', function () {
         $scope.selectedGroup = new Group({
