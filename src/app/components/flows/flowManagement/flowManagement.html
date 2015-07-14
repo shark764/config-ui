@@ -3,7 +3,11 @@
   config="tableConfig"
   items="flows"
   selected="selectedFlow"
-  resource-name="flow"></table-controls>
+  resource-name="flow">
+  
+  <flow-version-name name="activeVersion" flow="item" ></flow-version-name>
+  
+</table-controls>
 
 <resize-handle
   ng-show="!! selectedFlow"

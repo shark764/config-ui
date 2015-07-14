@@ -14,7 +14,8 @@ angular.module('liveopsConfigPanel')
           resourceName: '@'
         },
         templateUrl: 'app/shared/directives/tableControls/tableControls.html',
-        link: function($scope) {
+        transclude: true,
+        link: function ($scope) {
           angular.extend($scope, $scope.extendScope);
 
           $scope.$on('resource:details:' + $scope.resourceName + ':create:success', function(event, item) {
@@ -55,12 +56,12 @@ angular.module('liveopsConfigPanel')
             }
           };
 
-          $scope.parse = function(item, field) {
-            if (typeof(field.name) === 'function') {
-              return field.name(item);
-            } else if (typeof(field.name) === 'string') {
+          $scope.parse = function (item, field) {
+            if (field.name) {
               var parseFunc = $parse(field.name);
               return parseFunc(item);
+            } else if (field.resolve) {
+              return field.resolve(item);
             }
           };
 

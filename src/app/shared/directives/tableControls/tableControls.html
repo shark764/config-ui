@@ -54,8 +54,8 @@
       </td>
 
       <td ng-if="field.checked" ng-repeat="field in config.fields" ng-click="selectItem(item)">
-        <div ng-if="field.templateUrl" class="detail-header-pane" compiled-include="{{field.templateUrl}}"></div>
-        <span ng-if="!field.templateUrl">{{parse(item, field)}}</span>
+        <table-cell ng-if="field.transclude" class="detail-header-pane" name="{{field.name}}" item="item"></table-cell>
+        <span ng-if="!field.transclude">{{parse(item, field)}}</span>
       </td>
     </tr>
   </tbody>

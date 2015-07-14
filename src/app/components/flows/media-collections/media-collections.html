@@ -4,7 +4,11 @@
   config="tableConfig"
   items="mediaCollections"
   selected="selectedMediaCollection"
-  resource-name="media-collection"></table-controls>
+  resource-name="media-collection">
+  
+  <concat-strings name="identifier" models="item.mediaMap" seperator="," field="lookup"></concat-strings>
+
+</table-controls>
 
 <resize-handle
   ng-show="!! selectedMediaCollection"
