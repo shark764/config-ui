@@ -43,7 +43,7 @@ describe('userGroups directive', function() {
 
       isolateScope = element.isolateScope();
       spyOn(isolateScope, 'updateCollapseState'); //Stub this out so we dont trigger digests in the tests
-    }
+    };
   });
 
   it('should have groups defined', inject(function() {
@@ -54,7 +54,7 @@ describe('userGroups directive', function() {
   it('should load the groups for the tenant', inject(function() {
     doDefaultCompile();
     expect(isolateScope.groups).toBeDefined();
-    expect(isolateScope.groups.length).toEqual(mockGroups.length);
+    expect(isolateScope.groups.length).toEqual(3);
     expect(isolateScope.groups[0].id).toEqual(mockGroups[0].id);
     expect(isolateScope.groups[1].id).toEqual(mockGroups[1].id);
     expect(isolateScope.groups[2].id).toEqual(mockGroups[2].id);
@@ -67,14 +67,7 @@ describe('userGroups directive', function() {
 
   it('should load the user\'s groups', inject(function() {
     doDefaultCompile();
-    expect(isolateScope.userGroups.length).toEqual(mockUserGroups.length);
-    expect(isolateScope.userGroups[0].userId).toEqual(mockUserGroups[0].userId);
-    expect(isolateScope.userGroups[0].groupId).toEqual(mockUserGroups[0].groupId);
-  }));
-
-  it('should load the user\'s groups', inject(function() {
-    doDefaultCompile();
-    expect(isolateScope.userGroups.length).toEqual(mockUserGroups.length);
+    expect(isolateScope.userGroups.length).toEqual(1);
     expect(isolateScope.userGroups[0].userId).toEqual(mockUserGroups[0].userId);
     expect(isolateScope.userGroups[0].groupId).toEqual(mockUserGroups[0].groupId);
   }));
@@ -392,7 +385,7 @@ describe('userGroups directive', function() {
       $httpBackend.when('POST', apiHostname + '/v1/tenants/2/groups').respond({result: newGroup});
       isolateScope.createGroup(newGroup.name);
       $httpBackend.flush();
-      expect(isolateScope.groups.length).toEqual(mockGroups.length + 1);
+      expect(isolateScope.groups.length).toEqual(4);
       expect(isolateScope.groups[isolateScope.groups.length - 1].name).toEqual(newGroup.name);
      }));
   });
