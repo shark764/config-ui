@@ -82,6 +82,8 @@ angular.module('liveopsConfigPanel')
                 if (matchedItems.length > 0) {
                   $scope.selected = matchedItems[0];
                   return;
+                } else {
+                  $scope.selected = $scope.selectItem(null);
                 }
               }
             });
@@ -110,7 +112,7 @@ angular.module('liveopsConfigPanel')
             }
 
             if (!selectedIsVisible) {
-              $scope.selectItem($scope.filtered[0]);
+              $scope.selectItem(null);
             }
 
             //Uncheck rows that have been filtered out

@@ -27,10 +27,10 @@ describe('The queues view', function() {
   it('should include queue management page components', function() {
     expect(shared.navBar.isDisplayed()).toBeTruthy();
 
-    expect(queues.nameFormField.isDisplayed()).toBeTruthy();
-    expect(queues.descriptionFormField.isDisplayed()).toBeTruthy();
-    expect(queues.activeFormToggle.isDisplayed()).toBeTruthy();
-    expect(shared.submitFormBtn.isDisplayed()).toBeTruthy();
+    expect(shared.detailsForm.isDisplayed()).toBeFalsy();
+    expect(queues.nameFormField.isDisplayed()).toBeFalsy();
+    expect(queues.descriptionFormField.isDisplayed()).toBeFalsy();
+    expect(shared.submitFormBtn.isDisplayed()).toBeFalsy();
   });
 
   it('should display queue details when selected from table', function() {
@@ -62,15 +62,15 @@ describe('The queues view', function() {
   });
 
   it('should allow the Queue fields to be updated', function() {
+    queues.firstTableRow.click();
     queues.activeVersionDropdown.all(by.css('option')).count().then(function(curQueueVersionCount) {
       randomQueue = Math.floor((Math.random() * 1000) + 1);
-      queues.firstTableRow.click();
 
       // Edit fields
       queues.nameFormField.sendKeys('Edit');
       queues.descriptionFormField.sendKeys('Edit');
       var versionSelected = randomQueue % curQueueVersionCount;
-      queues.activeVersionDropdown.all(by.css('option')).get(versionSelected).click();
+      queues.activeVersionDropdown.all(by.css('option')).get(versionSelected + 1).click();
 
       var editedName = queues.nameFormField.getAttribute('value');
       var editedDescription = queues.descriptionFormField.getAttribute('value');
@@ -117,9 +117,10 @@ describe('The queues view', function() {
   });
 
   it('should reset fields after editing and selecting Cancel', function() {
+    queues.firstTableRow.click();
+    
     queues.activeVersionDropdown.all(by.css('option')).count().then(function(curQueueVersionCount) {
       randomQueue = Math.floor((Math.random() * 1000) + 1);
-      queues.firstTableRow.click();
 
       var originalName = queues.nameFormField.getAttribute('value');
       var originalDescription = queues.descriptionFormField.getAttribute('value');
@@ -128,7 +129,7 @@ describe('The queues view', function() {
       // Edit fields
       queues.nameFormField.sendKeys('Edit');
       queues.descriptionFormField.sendKeys('Edit');
-      var versionSelected = randomQueue % curQueueVersionCount;
+      var versionSelected = (randomQueue % curQueueVersionCount) + 1;
       queues.activeVersionDropdown.all(by.css('option')).get(versionSelected).click();
 
       shared.cancelFormBtn.click();
@@ -234,8 +235,9 @@ describe('The queues view', function() {
   });
 
   it('should copy version details when copy is selected', function() {
+    queues.firstTableRow.click();
+    
     queues.activeVersionDropdown.all(by.css('option')).count().then(function(dropdownVersions) {
-      queues.firstTableRow.click();
       queues.versionRowV1Plus.click();
       queues.copyVersionBtn.click().then(function() {
         // Version details section closes
@@ -270,6 +272,8 @@ describe('The queues view', function() {
   });
 
   it('should add new queue version', function() {
+    queues.firstTableRow.click();
+    
     queueVersionCount = queues.activeVersionDropdown.all(by.css('option')).count();
     randomQueue = Math.floor((Math.random() * 1000) + 1);
     queues.firstTableRow.click();
@@ -289,6 +293,8 @@ describe('The queues view', function() {
   });
 
   it('should require query when adding a new queue version', function() {
+    queues.firstTableRow.click();
+    
     queueVersionCount = queues.activeVersionDropdown.all(by.css('option')).count();
     randomQueue = Math.floor((Math.random() * 1000) + 1);
     queues.firstTableRow.click();
@@ -305,6 +311,8 @@ describe('The queues view', function() {
   });
 
   it('should not accept spaces only as valid field input when creating queue version', function() {
+    queues.firstTableRow.click();
+    
     queueVersionCount = queues.activeVersionDropdown.all(by.css('option')).count();
     queues.firstTableRow.click();
     queues.versionRowV1Plus.click();

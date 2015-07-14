@@ -15,8 +15,7 @@ describe('The create new tenants view', function() {
   beforeEach(function() {
     // Ignore unsaved changes warnings
     browser.executeScript("window.onbeforeunload = function(){};");
-    browser.get(shared.usersPageUrl);
-    shared.tenantsNavButton.click();
+    browser.get(shared.tenantsPageUrl);
     tenantCount = shared.tableElements.count();
   });
 
