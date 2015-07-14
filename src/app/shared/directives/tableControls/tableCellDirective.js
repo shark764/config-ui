@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('tableCell', ['$compile',
-    function ($compile) {
+  .directive('tableCell', [
+    function () {
       return {
         scope: {
           item: '=',
@@ -15,8 +15,8 @@ angular.module('liveopsConfigPanel')
             
             angular.forEach(clone, function(include) {
               if (include.attributes &&
-                include.attributes['name'] &&
-                include.attributes['name'].value === $scope.name){
+                include.attributes.name &&
+                include.attributes.name.value === $scope.name){
                 $element.append(include);
               }
             });

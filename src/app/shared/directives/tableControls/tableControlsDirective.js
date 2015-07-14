@@ -14,7 +14,8 @@ angular.module('liveopsConfigPanel')
           resourceName: '@'
         },
         templateUrl: 'app/shared/directives/tableControls/tableControls.html',
-        link: function($scope) {
+        transclude: true,
+        link: function ($scope) {
           angular.extend($scope, $scope.extendScope);
 
           $scope.$on('resource:details:' + $scope.resourceName + ':create:success', function(event, item) {
