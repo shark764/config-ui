@@ -51,7 +51,7 @@ describe('The flows view', function() {
   it('should allow the Flow fields to be updated', function() {
     shared.firstTableRow.click();
     
-    flowVersionCount = flows.versionsTableElements.count().then(function(curFlowVersionCount) {
+    flows.versionsTableElements.count().then(function(curFlowVersionCount) {
       randomFlow = Math.floor((Math.random() * 1000) + 1);
 
       // Edit fields
@@ -105,8 +105,8 @@ describe('The flows view', function() {
 
   it('should reset fields after editing and selecting Cancel', function() {
     shared.firstTableRow.click();
-    
-    flowVersionCount = flows.versionsTableElements.count().then(function(curFlowVersionCount) {
+
+    flows.versionsTableElements.count().then(function(curFlowVersionCount) {
       randomFlow = Math.floor((Math.random() * 1000) + 1);
 
       var originalName = flows.nameFormField.getAttribute('value');
