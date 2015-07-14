@@ -4,7 +4,7 @@ var FlowPage = function() {
   this.nameFormField = element(by.model('resource.name'));
   this.descriptionFormField = element(by.model('resource.description'));
   this.typeFormDropdown = element(by.model('resource.type'));
-  this.activeFormToggle = element(by.model('resource.active'));
+  this.activeFormToggle = element(by.model('resource.status'));
   this.activeVersionDropdown = element(by.model('resource.activeVersion'));
 
   this.versionsTable = element(by.id('flow-details-versions-table'));

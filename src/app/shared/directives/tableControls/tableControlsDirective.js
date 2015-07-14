@@ -57,9 +57,7 @@ angular.module('liveopsConfigPanel')
 
           if ($scope.items) {
             $scope.items.$promise.then(function() {
-              if ($scope.items.length === 0){
-                $scope.onCreateClick();
-              } else if ($stateParams.id) {
+              if ($scope.items.length !== 0 && $stateParams.id) {
               //Init the selected item based on URL param
                 var matchedItems = $filter('filter')($scope.items, {
                   id: $stateParams.id
@@ -67,6 +65,8 @@ angular.module('liveopsConfigPanel')
                 if (matchedItems.length > 0) {
                   $scope.selected = matchedItems[0];
                   return;
+                } else {
+                  $scope.selected = $scope.selectItem(null);
                 }
               }
             });
@@ -95,7 +95,7 @@ angular.module('liveopsConfigPanel')
             }
 
             if (!selectedIsVisible) {
-              $scope.selectItem($scope.filtered[0]);
+              $scope.selectItem(null);
             }
 
             //Uncheck rows that have been filtered out

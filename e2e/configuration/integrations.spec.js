@@ -59,7 +59,7 @@ describe('The integrations view', function() {
     expect(shared.navBar.isDisplayed()).toBeTruthy();
     expect(shared.table.isDisplayed()).toBeTruthy();
     expect(shared.searchField.isDisplayed()).toBeTruthy();
-    expect(shared.detailsForm.isDisplayed()).toBeTruthy();
+    expect(shared.detailsForm.isDisplayed()).toBeFalsy(); //Hide right panel by default
     expect(shared.actionsBtn.isDisplayed()).toBeTruthy();
     expect(shared.createBtn.isDisplayed()).toBeTruthy();
     expect(shared.tableColumnsDropDown.isDisplayed()).toBeTruthy();
@@ -237,6 +237,8 @@ describe('The integrations view', function() {
   });
 
   it('should include valid Integration fields when editing an existing Integration', function() {
+    shared.firstTableRow.click();
+    
     expect(integrations.typeHeader.isDisplayed()).toBeTruthy();
     expect(integrations.accountSIDFormField.isDisplayed()).toBeTruthy();
     expect(integrations.authTokenFormField.isDisplayed()).toBeTruthy();
@@ -244,6 +246,8 @@ describe('The integrations view', function() {
   });
 
   it('should reset Integration fields after editing and selecting Cancel', function() {
+    shared.firstTableRow.click();
+    
     var originalAccountSID = integrations.accountSIDFormField.getAttribute('value');
     var originalAuthToken = integrations.authTokenFormField.getAttribute('value');
     var originalWebRTC = integrations.webRTCFormSwitch.isSelected();
