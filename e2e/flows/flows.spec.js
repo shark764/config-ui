@@ -52,7 +52,7 @@ describe('The flows view', function() {
   });
 
   it('should allow the Flow fields to be updated', function() {
-    flowVersionCount = flows.versionsTableElements.count().then(function(curFlowVersionCount) {
+    flows.versionsTableElements.count().then(function(curFlowVersionCount) {
       randomFlow = Math.floor((Math.random() * 1000) + 1);
       flows.firstTableRow.click();
 
@@ -105,7 +105,7 @@ describe('The flows view', function() {
   });
 
   it('should reset fields after editing and selecting Cancel', function() {
-    flowVersionCount = flows.versionsTableElements.count().then(function(curFlowVersionCount) {
+    flows.versionsTableElements.count().then(function(curFlowVersionCount) {
       randomFlow = Math.floor((Math.random() * 1000) + 1);
       flows.firstTableRow.click();
 
