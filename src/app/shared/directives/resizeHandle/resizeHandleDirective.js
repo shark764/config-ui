@@ -23,7 +23,7 @@ angular.module('liveopsConfigPanel')
             event.preventDefault();
 
             $document.on('mousemove', mousemove);
-            $document.on('mouseup', mouseup);
+            $document.on('mouseup', scope.mouseup);
           }
         });
 
@@ -41,15 +41,6 @@ angular.module('liveopsConfigPanel')
         }
 
         scope.resizeElements = function(currLeftWidth, currRightWidth, mouseX){
-          // TODO Fix this fo real.. temprorary test fix
-
-          var parentWidth = 0;
-
-          if(scope.leftTargetElement.parent){
-            var parent = scope.leftTargetElement.parent();
-            parentWidth = parent[0].offsetWidth;
-          }
-
           var delta = currLeftWidth - mouseX,
               newLeftWidth = currLeftWidth - delta,
               newRightWidth = currRightWidth + delta,
@@ -91,9 +82,9 @@ angular.module('liveopsConfigPanel')
           }
         };
 
-        function mouseup() {
+        scope.mouseup = function() {
           $document.unbind('mousemove', mousemove);
-          $document.unbind('mouseup', mouseup);
+          $document.unbind('mouseup', scope.mouseup);
         }
       }
     };
