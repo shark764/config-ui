@@ -6,6 +6,7 @@
   resource-name="media"></table-controls>
 
 <resize-handle
+  ng-show="!! selectedMedia"
   id="resize-pane"
   right-element-id="details-pane"
   left-element-id="table-pane"
@@ -13,6 +14,7 @@
   right-min-width="300" ></resize-handle>
 
 <resource-details
+  ng-show="!! selectedMedia"
   id="details-pane"
   extend-scope="additional"
   header-template-url="app/components/flows/media/mediaDetailHeader.html"

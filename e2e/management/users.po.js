@@ -22,10 +22,9 @@ var UserPage = function() {
 
   this.tableHeader = element(by.css('#table-pane > div:nth-child(3) > table:nth-child(1)'));
   this.nameColumn = 'td:nth-child(2)';
-  this.displayNameColumn = 'td:nth-child(3)';
-  this.emailColumn = 'td:nth-child(4)';
-  this.externalIdColumn = 'td:nth-child(5)';
-  this.statusColumn = 'td:nth-child(6)';
+  this.emailColumn = 'td:nth-child(3)';
+  this.externalIdColumn = 'td:nth-child(4)';
+  this.statusColumn = 'td:nth-child(5)';
 
   this.statusTableDropDown = this.tableHeader.element(by.css('filter-dropdown:nth-child(1)'));
   this.allUserStatus = this.statusTableDropDown.element(by.css('.all'));
