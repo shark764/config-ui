@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 /**
   Based on Zach Snow's blog post entitled AngularJS: Faster ng-include

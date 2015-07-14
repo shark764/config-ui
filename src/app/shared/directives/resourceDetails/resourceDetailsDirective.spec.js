@@ -155,7 +155,7 @@ describe('resource details directive', function() {
 
       spyOn(DirtyForms, 'confirmIfDirty').and.callFake(function(callback){
         callback();
-      })
+      });
       
       isolateScope.resource.firstName = 'Mark';
       isolateScope.detailsForm.$dirty = true;

@@ -85,7 +85,7 @@ angular.module('liveopsConfigPanel')
         scope.mouseup = function() {
           $document.unbind('mousemove', mousemove);
           $document.unbind('mouseup', scope.mouseup);
-        }
+        };
       }
     };
   }]);
