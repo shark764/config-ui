@@ -19,7 +19,6 @@ angular.module('liveopsConfigPanel')
           'header': $translate.instant('user.table.state'),
           'name': 'state',
           'transclude': true,
-          'blah': 'userState',
           'checked': false,
           'options': userStates
         }, {

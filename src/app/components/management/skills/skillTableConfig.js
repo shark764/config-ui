@@ -15,13 +15,13 @@ angular.module('liveopsConfigPanel')
           'name': 'members',
         }, {
           'header': $translate.instant('skill.table.proficiency'),
-          'templateUrl': 'app/components/management/skills/proficiencyTemplate.html',
+          'transclude': true,
           'name': 'hasProficiency'
         }, {
           'header': $translate.instant('value.status'),
           'options': statuses(),
           'filter': 'selectedOptions',
-          'templateUrl': 'app/shared/templates/statuses.html',
+          'transclude': true,
           'name': 'status',
         }],
         'searchOn' : ['name', 'description'],
