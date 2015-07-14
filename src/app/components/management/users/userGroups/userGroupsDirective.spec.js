@@ -10,7 +10,8 @@ describe('userGroups directive', function() {
     mockGroups,
     mockUserGroups,
     Session,
-    mockUsers;
+    mockUsers,
+    doDefaultCompile;
 
   beforeEach(module('gulpAngular'));
   beforeEach(module('liveopsConfigPanel'));
@@ -34,38 +35,55 @@ describe('userGroups directive', function() {
   beforeEach(function() {
     $scope.user = mockUsers[1];
 
-    //Mock the group services
-    element = $compile('<user-groups user="user"></user-groups>')($scope);
-    $scope.$digest();
-    $httpBackend.flush();
+    doDefaultCompile = function(){
+      //Mock the group services
+      element = $compile('<user-groups user="user"></user-groups>')($scope);
+      $scope.$digest();
+      $httpBackend.flush();
 
-    isolateScope = element.isolateScope();
-    spyOn(isolateScope, 'updateCollapseState'); //Stub this out so we dont trigger digests in the tests
+      isolateScope = element.isolateScope();
+      spyOn(isolateScope, 'updateCollapseState'); //Stub this out so we dont trigger digests in the tests
+    }
   });
 
   it('should have groups defined', inject(function() {
+    doDefaultCompile();
     expect(isolateScope.groups).toBeDefined();
   }));
 
   it('should load the groups for the tenant', inject(function() {
+    doDefaultCompile();
     expect(isolateScope.groups).toBeDefined();
-    expect(isolateScope.groups.length).toEqual(3);
+    expect(isolateScope.groups.length).toEqual(mockGroups.length);
     expect(isolateScope.groups[0].id).toEqual(mockGroups[0].id);
     expect(isolateScope.groups[1].id).toEqual(mockGroups[1].id);
     expect(isolateScope.groups[2].id).toEqual(mockGroups[2].id);
   }));
 
   it('should have userGroups defined', inject(function() {
+    doDefaultCompile();
     expect(isolateScope.userGroups).toBeDefined();
   }));
 
   it('should load the user\'s groups', inject(function() {
-    expect(isolateScope.userGroups.length).toEqual(1);
-    expect(isolateScope.userGroups[0].userId).toEqual(mockUserGroups[2].userId);
-    expect(isolateScope.userGroups[0].groupId).toEqual(mockUserGroups[2].groupId);
+    doDefaultCompile();
+    expect(isolateScope.userGroups.length).toEqual(mockUserGroups.length);
+    expect(isolateScope.userGroups[0].userId).toEqual(mockUserGroups[0].userId);
+    expect(isolateScope.userGroups[0].groupId).toEqual(mockUserGroups[0].groupId);
+  }));
+
+  it('should load the user\'s groups', inject(function() {
+    doDefaultCompile();
+    expect(isolateScope.userGroups.length).toEqual(mockUserGroups.length);
+    expect(isolateScope.userGroups[0].userId).toEqual(mockUserGroups[0].userId);
+    expect(isolateScope.userGroups[0].groupId).toEqual(mockUserGroups[0].groupId);
   }));
 
   describe('fetch function', function() {
+    beforeEach(function(){
+      doDefaultCompile();
+    });
+    
     it('should be called when user changes', inject(['User', function(User) {
       spyOn(isolateScope, 'fetch');
       $scope.user = new User({
@@ -107,6 +125,10 @@ describe('userGroups directive', function() {
   });
 
   describe('remove function', function() {
+    beforeEach(function(){
+      doDefaultCompile();
+    });
+    
     it('should call TenantUserGroup delete', inject(function() {
       isolateScope.remove({
         tenantId: 'tenant-id',
@@ -145,6 +167,10 @@ describe('userGroups directive', function() {
   });
 
   describe('reset function', function() {
+    beforeEach(function(){
+      doDefaultCompile();
+    });
+    
     it('should exist', inject(function() {
       expect(isolateScope.reset).toBeDefined();
       expect(isolateScope.reset).toEqual(jasmine.any(Function));
@@ -162,6 +188,8 @@ describe('userGroups directive', function() {
 
   describe('save function', function() {
     beforeEach(function() {
+      doDefaultCompile();
+      
       isolateScope.newGroupUser = {
         $save: function() {}
       };
@@ -196,10 +224,23 @@ describe('userGroups directive', function() {
       isolateScope.save();
       $httpBackend.flush();
     }));
+    
+    it('should alert if creating a group failed', inject(['Alert', function(Alert) {
+      spyOn(Alert, 'error');
+      spyOn(isolateScope, 'createGroup').and.callFake(function(name, success, fail){
+        fail();
+      });
+      
+      isolateScope.selectedGroup = {name: 'a group'};
+      isolateScope.save();
+      expect(Alert.error).toHaveBeenCalled();
+    }]));
   });
 
   describe('saveUserGroup function', function() {
     beforeEach(function() {
+      doDefaultCompile();
+      
       isolateScope.newGroupUser = {
         id: 'newthing',
         $save: function(success) {
@@ -254,20 +295,66 @@ describe('userGroups directive', function() {
   });
 
   describe('updateCollapseState function', function() {
-    it('should exist', inject(function() {
-      expect(isolateScope.updateCollapseState).toBeDefined();
-      expect(isolateScope.updateCollapseState).toEqual(jasmine.any(Function));
-    }));
-
     it('should be called on the resizehandle:resize event', inject(function() {
+      doDefaultCompile();
+      
       isolateScope.updateCollapseState.calls.reset();
       $scope.$broadcast('resizehandle:resize');
       isolateScope.$digest();
       expect(isolateScope.updateCollapseState).toHaveBeenCalled();
     }));
+    
+    it('should set hideCollapseControls true if wrapperHeight is between 0 and 94', inject(function() {
+      element = $compile('<user-groups user="user"></user-groups>')($scope);
+      $scope.$digest();
+      $httpBackend.flush();
+      isolateScope = element.isolateScope();
+      
+      isolateScope.updateCollapseState(1);
+      isolateScope.$digest();
+      expect(isolateScope.hideCollapseControls).toBeTruthy();
+      
+      isolateScope.updateCollapseState(93);
+      isolateScope.$digest();
+      expect(isolateScope.hideCollapseControls).toBeTruthy();
+    }));
+    
+    it('should set hideCollapseControls false if wrapperHeight is 0 or less', inject(function() {
+      element = $compile('<user-groups user="user"></user-groups>')($scope);
+      $scope.$digest();
+      $httpBackend.flush();
+      isolateScope = element.isolateScope();
+      
+      isolateScope.updateCollapseState(0);
+      isolateScope.$digest();
+      expect(isolateScope.hideCollapseControls).toBeFalsy();
+      
+      isolateScope.updateCollapseState(-1);
+      isolateScope.$digest();
+      expect(isolateScope.hideCollapseControls).toBeFalsy();
+    }));
+    
+    it('should set hideCollapseControls false if wrapperHeight is 94 or greater', inject(function() {
+      element = $compile('<user-groups user="user"></user-groups>')($scope);
+      $scope.$digest();
+      $httpBackend.flush();
+      isolateScope = element.isolateScope();
+      
+      isolateScope.updateCollapseState(94);
+      isolateScope.$digest();
+      expect(isolateScope.hideCollapseControls).toBeFalsy();
+      
+      isolateScope.updateCollapseState(10000);
+      isolateScope.$digest();
+      expect(isolateScope.hideCollapseControls).toBeFalsy();
+    }));
   });
 
   describe('createGroup function', function() {
+    beforeEach(function(){
+      doDefaultCompile();
+    });
+    
     it('should exist', inject(function() {
       expect(isolateScope.createGroup).toBeDefined();
       expect(isolateScope.createGroup).toEqual(jasmine.any(Function));
@@ -305,7 +392,7 @@ describe('userGroups directive', function() {
       $httpBackend.when('POST', apiHostname + '/v1/tenants/2/groups').respond({result: newGroup});
       isolateScope.createGroup(newGroup.name);
       $httpBackend.flush();
-      expect(isolateScope.groups.length).toEqual(4);
+      expect(isolateScope.groups.length).toEqual(mockGroups.length + 1);
       expect(isolateScope.groups[isolateScope.groups.length - 1].name).toEqual(newGroup.name);
      }));
   });
