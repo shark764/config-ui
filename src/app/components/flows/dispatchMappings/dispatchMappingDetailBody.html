@@ -34,7 +34,7 @@
   <label>{{'dispatchMappings.details.channelType' | translate}} *</label>
   <div>
     <form-error field="detailsForm.interationField" error-type-api="true" error-type-required="{{'dispatchMappings.details.interactionType.error' | translate}}"></form-error>
-    <select ng-required="true" ng-model="resource.interactionField" name="interactionField" ng-change="resource.value = ''"
+    <select id="integration-form-dropwdown" ng-required="true" ng-model="resource.interactionField" name="interactionField" ng-change="resource.value = ''"
       ng-options="interactionFields.value as interactionFields.display for interactionFields in dispatchMappingInteractionFields">
       <option value="" ng-disabled="true">{{'dispatchMappings.details.channelType.select' | translate}}</option>
     </select>
