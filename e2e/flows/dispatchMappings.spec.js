@@ -24,7 +24,7 @@ describe('The dispatch mappings view', function() {
     shared.tearDown();
   });
 
-  xit('should successfully create new Dispatch Mapping with Customer Mapping', function() {
+  it('should successfully create new Dispatch Mapping with Customer Mapping', function() {
     randomDispatchMapping = Math.floor((Math.random() * 1000) + 1);
     var dispatchMappingAdded = false;
     newDispatchMappingName = 'DispatchMapping ' + randomDispatchMapping;
@@ -58,12 +58,12 @@ describe('The dispatch mappings view', function() {
       expect(dispatchMappingAdded).toBeTruthy();
 
       // Confirm correct Mapping type is selected after saving
-      expect(dispatchMappings.mappingOptions.get(0).isSelected()).toBeTruthy();
+      expect(dispatchMappings.mappingOptions.get(1).isSelected()).toBeTruthy();
       expect(dispatchMappings.mappingDropdown.$('option:checked').getText()).toBe('Customer');
     });
   });
 
-  xit('should successfully create new Dispatch Mapping with Contact Point Mapping', function() {
+  it('should successfully create new Dispatch Mapping with Contact Point Mapping', function() {
     randomDispatchMapping = Math.floor((Math.random() * 1000) + 1);
     var dispatchMappingAdded = false;
     newDispatchMappingName = 'DispatchMapping ' + randomDispatchMapping;
@@ -97,11 +97,12 @@ describe('The dispatch mappings view', function() {
       expect(dispatchMappingAdded).toBeTruthy();
 
       // Confirm correct Mapping type is selected after saving
-      expect(dispatchMappings.mappingOptions.get(1).isSelected()).toBeTruthy();
+      expect(dispatchMappings.mappingOptions.get(2).isSelected()).toBeTruthy();
       expect(dispatchMappings.mappingDropdown.$('option:checked').getText()).toBe('Contact Point');
     });
   });
 
+  //TODO: update once TITAN2-1829 is fixed
   xit('should successfully create new Dispatch Mapping with Integration Mapping', function() {
     randomDispatchMapping = Math.floor((Math.random() * 1000) + 1);
     var dispatchMappingAdded = false;
@@ -140,7 +141,7 @@ describe('The dispatch mappings view', function() {
     });
   });
 
-  xit('should successfully create new Dispatch Mapping with Direction Mapping', function() {
+  it('should successfully create new Dispatch Mapping with Direction Mapping', function() {
     randomDispatchMapping = Math.floor((Math.random() * 1000) + 1);
     var dispatchMappingAdded = false;
     newDispatchMappingName = 'DispatchMapping ' + randomDispatchMapping;
@@ -173,7 +174,7 @@ describe('The dispatch mappings view', function() {
       expect(dispatchMappingAdded).toBeTruthy();
 
       // Confirm correct Mapping type is selected after saving
-      expect(dispatchMappings.mappingOptions.get(3).isSelected()).toBeTruthy();
+      expect(dispatchMappings.mappingOptions.get(4).isSelected()).toBeTruthy();
       expect(dispatchMappings.mappingDropdown.$('option:checked').getText()).toBe('Direction');
     });
   });
@@ -182,7 +183,7 @@ describe('The dispatch mappings view', function() {
     expect(shared.navBar.isDisplayed()).toBeTruthy();
     expect(shared.table.isDisplayed()).toBeTruthy();
     expect(shared.searchField.isDisplayed()).toBeTruthy();
-    expect(shared.detailsForm.isDisplayed()).toBeTruthy();
+    expect(shared.detailsForm.isDisplayed()).toBeFalsy(); //Right panel is hidden
     expect(shared.actionsBtn.isDisplayed()).toBeTruthy();
     expect(shared.createBtn.isDisplayed()).toBeTruthy();
     expect(shared.tableColumnsDropDown.isDisplayed()).toBeTruthy();
@@ -199,12 +200,12 @@ describe('The dispatch mappings view', function() {
     expect(dispatchMappings.flowDropdown.isDisplayed()).toBeTruthy();
 
     // Should have Integration type selected by default
-    expect(dispatchMappings.interactionTypeDropdown.element(by.css('option')).getAttribute('label')).toBe('Voice');
+    expect(dispatchMappings.interactionTypeDropdown.element(by.css('option:checked')).getAttribute('label')).toBe('Voice');
 
     // Remaining dropdowns should have no value by default
-    expect(dispatchMappings.mappingDropdown.$('option:checked').getText()).toBe('');
+    expect(dispatchMappings.mappingDropdown.$('option:checked').getText()).toBe('Select Mapping...');
     expect(dispatchMappings.mappingOptions.get(0).isSelected()).toBeTruthy();
-    expect(dispatchMappings.flowDropdown.$('option:checked').getText()).toBe('');
+    expect(dispatchMappings.flowDropdown.$('option:checked').getText()).toBe('Select Flow...');
     expect(dispatchMappings.flowDropdown.all(by.css('option')).get(0).isSelected()).toBeTruthy();
 
     // Changes value field based on Mapping type selected
@@ -220,21 +221,21 @@ describe('The dispatch mappings view', function() {
     expect(dispatchMappings.directionFormDropdown.isPresent()).toBeFalsy();
 
     // Contact Point Mapping Shows Phone field; remaining conditional fields are not displayed
-    dispatchMappings.mappingOptions.get(1).click();
+    dispatchMappings.mappingOptions.get(2).click();
     expect(dispatchMappings.mappingDropdown.$('option:checked').getText()).toBe('Contact Point');
     expect(dispatchMappings.phoneFormField.isDisplayed()).toBeTruthy();
     expect(dispatchMappings.integrationFormDropdown.isPresent()).toBeFalsy();
     expect(dispatchMappings.directionFormDropdown.isPresent()).toBeFalsy();
 
     // Integration Mapping Shows Phone field; remaining conditional fields are not displayed
-    dispatchMappings.mappingOptions.get(2).click();
+    dispatchMappings.mappingOptions.get(3).click();
     expect(dispatchMappings.mappingDropdown.$('option:checked').getText()).toBe('Integration');
     expect(dispatchMappings.phoneFormField.isPresent()).toBeFalsy();
     expect(dispatchMappings.integrationFormDropdown.isDisplayed()).toBeTruthy();
     expect(dispatchMappings.directionFormDropdown.isPresent()).toBeFalsy();
 
     // Direction Shows Phone field; remaining conditional fields are not displayed
-    dispatchMappings.mappingOptions.get(3).click();
+    dispatchMappings.mappingOptions.get(4).click();
     expect(dispatchMappings.mappingDropdown.$('option:checked').getText()).toBe('Direction');
     expect(dispatchMappings.phoneFormField.isPresent()).toBeFalsy();
     expect(dispatchMappings.integrationFormDropdown.isPresent()).toBeFalsy();
@@ -255,7 +256,7 @@ describe('The dispatch mappings view', function() {
     expect(shared.tableElements.count()).toBe(dispatchMappingCount);
   });
 
-  xit('should require Name when creating a new Dispatch Mapping', function() {
+  it('should require Name when creating a new Dispatch Mapping', function() {
     shared.createBtn.click();
 
     // Edit fields
@@ -281,7 +282,7 @@ describe('The dispatch mappings view', function() {
 
     // Error messages displayed
     expect(dispatchMappings.requiredErrors.get(0).isDisplayed()).toBeTruthy();
-    expect(dispatchMappings.requiredErrors.get(0).getText()).toBe('Field "Name" is required');
+    expect(dispatchMappings.requiredErrors.get(0).getText()).toBe('Field "Name" is required.');
 
     // New DispatchMapping is not saved
     expect(shared.tableElements.count()).toBe(dispatchMappingCount);
@@ -312,7 +313,7 @@ describe('The dispatch mappings view', function() {
     // Form fields are cleared and reset to defaults
     expect(dispatchMappings.nameFormField.getAttribute('value')).toBe('');
     expect(dispatchMappings.descriptionFormField.getAttribute('value')).toBe('');
-    expect(dispatchMappings.mappingDropdown.getAttribute('value')).toBe('?');
+    expect(dispatchMappings.mappingDropdown.getAttribute('value')).toBe('');
     expect(dispatchMappings.phoneFormField.isPresent()).toBeFalsy();
   });
 
@@ -321,8 +322,12 @@ describe('The dispatch mappings view', function() {
 
     // Verify dispatch mapping details in table matches populated field
     expect(shared.firstTableRow.element(by.css(dispatchMappings.nameColumn)).getText()).toBe(dispatchMappings.nameHeader.getText());
-    expect(shared.firstTableRow.element(by.css(dispatchMappings.interactionFieldColumn)).getText()).toBe(dispatchMappings.mappingDropdown.$('option:checked').getText());
-    expect(shared.firstTableRow.element(by.css(dispatchMappings.channelTypeColumn)).getText()).toBe(dispatchMappings.interactionTypeDropdown.$('option:checked').getText());
+    dispatchMappings.mappingDropdown.$('option:checked').getText().then(function(value){
+      expect(shared.firstTableRow.element(by.css(dispatchMappings.interactionFieldColumn)).getText()).toBe(value.toLowerCase());
+    });
+    dispatchMappings.interactionTypeDropdown.$('option:checked').getText().then(function(value){
+      expect(shared.firstTableRow.element(by.css(dispatchMappings.channelTypeColumn)).getText()).toBe(value.toLowerCase());
+    });
 
     shared.firstTableRow.element(by.css(dispatchMappings.statusColumn)).getText().then(function(dispatchMappingStatus) {
       if (dispatchMappingStatus == 'Enabled') {
@@ -339,9 +344,13 @@ describe('The dispatch mappings view', function() {
     shared.secondTableRow.click();
     // Verify dispatch mapping details in table matches populated field
     expect(shared.secondTableRow.element(by.css(dispatchMappings.nameColumn)).getText()).toBe(dispatchMappings.nameHeader.getText());
-    expect(shared.secondTableRow.element(by.css(dispatchMappings.interactionFieldColumn)).getText()).toBe(dispatchMappings.mappingDropdown.$('option:checked').getText());
-    expect(shared.secondTableRow.element(by.css(dispatchMappings.channelTypeColumn)).getText()).toBe(dispatchMappings.interactionTypeDropdown.$('option:checked').getText());
-
+    dispatchMappings.mappingDropdown.$('option:checked').getText().then(function(value){
+      expect(shared.firstTableRow.element(by.css(dispatchMappings.interactionFieldColumn)).getText()).toBe(value.toLowerCase());
+    });
+    dispatchMappings.interactionTypeDropdown.$('option:checked').getText().then(function(value){
+      expect(shared.firstTableRow.element(by.css(dispatchMappings.channelTypeColumn)).getText()).toBe(value.toLowerCase());
+    });
+    
     shared.secondTableRow.element(by.css(dispatchMappings.statusColumn)).getText().then(function(dispatchMappingStatus) {
       if (dispatchMappingStatus == 'Enabled') {
         expect(dispatchMappings.statusSwitch.isSelected()).toBeTruthy();
@@ -401,7 +410,7 @@ describe('The dispatch mappings view', function() {
     //var originalValue = dispatchMappings.valueFormField.getAttribute('value');
 
     // Edit fields
-    dispatchMappings.mappingOptions.get((randomDispatchMapping % 4)).click();
+    dispatchMappings.mappingOptions.get((randomDispatchMapping % 4) + 1).click();
     dispatchMappings.flowDropdown.all(by.css('option')).count().then(function(flowCount) {
       dispatchMappings.flowDropdown.click((randomDispatchMapping % flowCount)).click();
 
@@ -470,13 +479,12 @@ describe('The dispatch mappings view', function() {
     shared.submitFormBtn.click();
 
     // Error messages displayed
-    expect(dispatchMappings.requiredErrors.get(0).isDisplayed()).toBeTruthy();
-    expect(dispatchMappings.requiredErrors.get(0).getText()).toBe('Phone number should be in E.164 format.');
+    expect(dispatchMappings.requiredErrors.get(3).isDisplayed()).toBeTruthy();
+    expect(dispatchMappings.requiredErrors.get(3).getText()).toBe('Phone number should be in E.164 format.');
     expect(shared.successMessage.isPresent()).toBeFalsy();
   });
 
   it('should require Valid Phone field when editing a Dispatch Mapping', function() {
-    // TODO Update once bug is fixed for error messages
     shared.firstTableRow.click();
 
     // Edit fields
@@ -488,8 +496,8 @@ describe('The dispatch mappings view', function() {
     shared.submitFormBtn.click();
 
     // Error messages displayed
-    expect(dispatchMappings.requiredErrors.get(0).isDisplayed()).toBeTruthy();
-    expect(dispatchMappings.requiredErrors.get(0).getText()).toBe('Phone number should be in E.164 format.');
+    expect(dispatchMappings.requiredErrors.get(2).isDisplayed()).toBeTruthy();
+    expect(dispatchMappings.requiredErrors.get(2).getText()).toBe('Phone number should be in E.164 format.');
     expect(shared.successMessage.isPresent()).toBeFalsy();
   });
 
@@ -500,7 +508,7 @@ describe('The dispatch mappings view', function() {
     dispatchMappings.phoneFormField.sendKeys('15062345678\t');
 
     // Error messages are not displayed
-    expect(dispatchMappings.requiredErrors.get(0).getText()).toBe('');
+    expect(dispatchMappings.requiredErrors.get(2).getText()).toBe('');
 
     // Phone input is reformatted
     expect(dispatchMappings.phoneFormField.getAttribute('value')).toBe('+1 506-234-5678');
