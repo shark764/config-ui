@@ -8,7 +8,7 @@
 </div>
 
 <div class="dropdown-container">
-  <div class="dropdown filter-dropdown" ng-hide="! showDrop">
+  <div class="dropdown filter-dropdown" ng-hide="! showDrop || options.length === 0">
     <div class="all" ng-if="showAll" ng-click="all.checked = !all.checked">
       <input type="checkbox" ng-checked="all.checked"/>
       <label>All</label>

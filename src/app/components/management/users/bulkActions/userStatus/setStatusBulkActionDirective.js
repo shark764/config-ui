@@ -8,7 +8,7 @@ angular.module('liveopsConfigPanel')
         scope: {
           bulkAction: '='
         },
-        templateUrl: 'app/components/management/users/bulkActions/setStatusBulkAction.html',
+        templateUrl: 'app/components/management/users/bulkActions/userStatus/setStatusBulkAction.html',
         link: function ($scope) {
           $scope.bulkAction.apply = function(user) {
             var userCopy = angular.copy(user);

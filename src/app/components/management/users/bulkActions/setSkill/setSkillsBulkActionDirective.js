@@ -9,7 +9,7 @@ angular.module('liveopsConfigPanel')
         bulkAction: '=',
         users: '='
       },
-      templateUrl: 'app/components/management/users/bulkActions/setSkillsBulkAction.html',
+      templateUrl: 'app/components/management/users/bulkActions/setSkill/setSkillsBulkAction.html',
       link: function ($scope) {
         $scope.bulkAction.execute = function (users) {
           var promises = [];
