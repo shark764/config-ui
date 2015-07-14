@@ -7,6 +7,7 @@
   resource-name="media-collection"></table-controls>
 
 <resize-handle
+  ng-show="!! selectedMediaCollection"
   id="resize-pane-1"
   right-element-id="details-pane"
   left-element-id="table-pane"
@@ -14,6 +15,7 @@
   right-min-width="300" ></resize-handle>
 
 <resource-details
+  ng-show="!! selectedMediaCollection"
   id="details-pane"
   extend-scope="additionalCollections"
   header-template-url="app/components/flows/media-collections/mediaCollectionDetailHeader.html"

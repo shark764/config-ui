@@ -70,16 +70,16 @@ describe('tableControls directive', function() {
     $scope.items.push({id: 'item2'});
     $stateParams.id = 'somethingelse';
     doCompile();
-    expect($scope.selected).toEqual({});
+    expect($scope.selected).toEqual(null);
   }));
 
-  it('should select the first item on init if there is no id param', inject(function() {
+  it('should select nothing on init if there is no id param', inject(function() {
     delete $stateParams.id;
     $scope.selected = null;
     $scope.items.push({id: 'item1'});
     $scope.items.push({id: 'item2'});
     doCompile();
-    expect($scope.selected).toEqual($scope.items[0]);
+    expect($scope.selected).toEqual(null);
   }));
 
   it('should include template for columns that define it', inject(['$templateCache', function($templateCache) {
@@ -90,7 +90,7 @@ describe('tableControls directive', function() {
     });
     $scope.items.push({id: 'item1', favCandy: 'Wurthers'});
     $scope.items.push({id: 'item2', favCandy: 'Peppermint'});
-
+    
     doCompile();
     expect(element.find('candy').length).toBe(2);
   }]));
@@ -152,24 +152,6 @@ describe('tableControls directive', function() {
     }));
   });
 
-  describe('onCreateClick function', function(){
-    beforeEach(function(){
-      doCompile();
-    });
-    
-    it('should check DirtyForms.confirmIfDirty', inject(['DirtyForms', function(DirtyForms) {
-      spyOn(DirtyForms, 'confirmIfDirty');
-      isolateScope.onCreateClick();
-      expect(DirtyForms.confirmIfDirty).toHaveBeenCalled();
-    }]));
-    
-    it('should emit the on:click:create event', inject(function() {
-      spyOn(isolateScope, '$emit');
-      isolateScope.onCreateClick();
-      expect(isolateScope.$emit).toHaveBeenCalledWith('on:click:create');
-    }));
-  });
-
   describe('toggleAll function', function(){
     beforeEach(function(){
       $scope.items.push({id: 'item1', checked: false});
@@ -215,20 +197,13 @@ describe('tableControls directive', function() {
       expect(isolateScope.filtered.length).toBe(1);
       expect(isolateScope.filtered[0].id).toEqual('item2');
     }));
-    
-    it('watch should call createClick if filtered is empty', inject(function() {
-      spyOn(isolateScope, 'onCreateClick');
-      isolateScope.searchQuery = 'a search';
-      isolateScope.$digest();
-      expect(isolateScope.onCreateClick).toHaveBeenCalled();
-    }));
 
-    it('watch should set selected item if there isn\'t one', inject(function() {
+    it('watch should set selected item to null if there isn\'t one', inject(function() {
       spyOn(isolateScope, 'selectItem');
       delete isolateScope.selected;
       isolateScope.searchQuery = 'item1';
       isolateScope.$digest();
-      expect(isolateScope.selectItem).toHaveBeenCalledWith($scope.items[0]);
+      expect(isolateScope.selectItem).toHaveBeenCalledWith(null);
     }));
 
     it('watch should reset selected item if old one gets filtered', inject(function() {
@@ -236,7 +211,7 @@ describe('tableControls directive', function() {
       isolateScope.selected = $scope.items[2];
       isolateScope.searchQuery = 'item1';
       isolateScope.$digest();
-      expect(isolateScope.selectItem).toHaveBeenCalledWith($scope.items[0]);
+      expect(isolateScope.selectItem).toHaveBeenCalledWith(null);
     }));
 
     it('watch should uncheck items that have been filtered out', inject(function() {

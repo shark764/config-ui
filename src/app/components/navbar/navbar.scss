@@ -72,7 +72,15 @@ $down-arrow-url: "/assets/images/down-arrow.png";
     padding: 0;
     margin: 0;
     list-style: none;
-
+    
+    .top-bar-actions {
+      
+      
+      a {
+        margin: 10px;
+      }
+    }
+    
     > li {
       display: inline-block;
       padding: 0;
@@ -102,7 +110,6 @@ $down-arrow-url: "/assets/images/down-arrow.png";
           color: white;
         }
       }
-
     }
 
     #tenant-dropdown .label-icon {

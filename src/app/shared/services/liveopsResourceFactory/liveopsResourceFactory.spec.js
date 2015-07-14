@@ -41,7 +41,8 @@ describe('LiveopsResourceFactory', function(){
       query: jasmine.any(Object),
       get: jasmine.any(Object),
       update: jasmine.any(Object),
-      save: jasmine.any(Object)
+      save: jasmine.any(Object),
+      delete: jasmine.any(Object)
     });
   }));
 
@@ -52,7 +53,8 @@ describe('LiveopsResourceFactory', function(){
       query: jasmine.any(Object),
       get: jasmine.any(Object),
       update: jasmine.any(Object),
-      save: jasmine.any(Object)
+      save: jasmine.any(Object),
+      delete: jasmine.any(Object)
     });
   }));
 
@@ -141,7 +143,7 @@ describe('LiveopsResourceFactory', function(){
       resource.save();
       expect(protoUpdateSpy).toHaveBeenCalled();
     }]));
-    
+
     it('should call $save if the object if new', inject(['$q', function($q) {
       Resource = LiveopsResourceFactory.create('/endpoint');
 
@@ -152,7 +154,7 @@ describe('LiveopsResourceFactory', function(){
       expect(protoSaveSpy).toHaveBeenCalled();
     }]));
   });
-  
+
   describe('prototype postUpdateError function', function(){
     it('should return a promise that is rejected with the given error', inject(function() {
       Resource = LiveopsResourceFactory.create('/endpoint');

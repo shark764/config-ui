@@ -2,7 +2,7 @@
   <toggle class="status-toggle" ng-model="resource.active"></toggle>
 
   <div class="info pull-left">
-    <h1>{{originalResource.name}}</h1>
+    <h1 id="dispatch-mappings-details-name-header">{{originalResource.name}}</h1>
     <div class="details">
       <b audit-text
         translation="value.createdby.time"
@@ -20,5 +20,5 @@
 </div>
 
 <div ng-if="! originalResource.id">
-    <h1>{{'dispatchMappings.details.creating' | translate}}</h1>
+    <h1 id="dispatch-mappings-details-create-header">{{'dispatchMappings.details.creating' | translate}}</h1>
 </div>

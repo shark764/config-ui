@@ -7,6 +7,7 @@
 </table-controls>
 
 <resize-handle
+  ng-show="!! selectedDispatchMapping"
   id="resize-pane"
   right-element-id="details-pane"
   left-element-id="table-pane"
@@ -14,7 +15,9 @@
   right-min-width="300"></resize-handle>
 
 <resource-details
+  ng-show="!! selectedDispatchMapping"
   id="details-pane"
+  resource-name="{{'tenants:' + Session.tenant.tenantId + ':dispatch-mappings'}}"
   extend-scope="additional"
   header-template-url="app/components/flows/dispatchMappings/dispatchMappingDetailHeader.html"
   body-template-url="app/components/flows/dispatchMappings/dispatchMappingDetailBody.html"

@@ -6,6 +6,8 @@ angular.module('liveopsConfigPanel')
       scope : {
         items : '=',
         label : '@',
+        valuePath: '@',
+        displayPath: '@',
         collapseIcon: '@',
         expandIcon: '@',
         orderBy: '@',
@@ -15,6 +17,9 @@ angular.module('liveopsConfigPanel')
       templateUrl : 'app/shared/directives/dropdown/dropdown.html',
       controller : 'DropdownController',
       link : function(scope, element, attrs, controller) {
+        scope.valuePath = scope.valuePath ? scope.valuePath : 'value';
+        scope.displayPath = scope.displayPath ? scope.displayPath : 'label';
+        
         if (typeof scope.hovering !== 'undefined' && scope.hoverTracker){
           scope.hoverTracker.push(controller);
         }
@@ -53,7 +58,7 @@ angular.module('liveopsConfigPanel')
         };
 
         scope.dropClick = function(){
-          scope.showDrop = ! scope.showDrop
+          scope.showDrop = ! scope.showDrop;
           scope.hovering = ! scope.hovering;
         };
       }
