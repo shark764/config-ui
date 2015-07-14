@@ -55,12 +55,12 @@ angular.module('liveopsConfigPanel')
             }
           };
 
-          $scope.parse = function(item, field) {
-            if (typeof(field.name) === 'function') {
-              return field.name(item);
-            } else if (typeof(field.name) === 'string') {
+          $scope.parse = function (item, field) {
+            if (field.name) {
               var parseFunc = $parse(field.name);
               return parseFunc(item);
+            } else if (field.resolve) {
+              return field.resolve(item);
             }
           };
 
