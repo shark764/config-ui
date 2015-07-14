@@ -204,7 +204,7 @@
   "unsavedchanges.reload.warning": "You have unsaved changes that will be lost!",
 
   "bulkActions.enable.users": "Enable Users",
-  "bulkActions.selected": "Selected ({{count}})",
+  "bulkActions.selected": "Selected ",
   "bulkActions.userGroups.add": "Add Group",
   "bulkActions.userGroups.remove": "Remove Group",
   "bulkActions.userGroups.placeholder": "Select Group...",

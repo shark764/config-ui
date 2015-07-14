@@ -1,18 +1,18 @@
 <div class="details-form">
   <div class="detail-header-pane">
     <filter-dropdown
-      label="{{'bulkActions.selected' | translate}}"
+      label="{{'bulkActions.selected' | translate}}({{checkedItems.length}})"
       options="checkedItems"
       display-path="displayName"
       value-path="id">
     </filter-dropdown>
   </div>
-  
+
   <div class="detail-body-pane" ng-transclude>
   </div>
-  
+
   <div class="detail-controls-pane">
-    <input ng-disabled="!canExecute()" 
+    <input ng-disabled="!canExecute()"
       type="button" ng-click="execute()"
       value="{{'value.submit' | translate}}">
   </div>

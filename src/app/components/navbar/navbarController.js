@@ -4,21 +4,9 @@ angular.module('liveopsConfigPanel')
   .controller('NavbarController', ['$rootScope', '$scope', '$state', 'AuthService', 'Session', 'DirtyForms', '$translate',
     function($rootScope, $scope, $state, AuthService, Session, DirtyForms, $translate) {
       $scope.hovering = false;
-      
+
       $scope.Session = Session;
-      
-      $scope.onCreateClick = function() {
-        DirtyForms.confirmIfDirty(function(){
-          $rootScope.$broadcast('on:click:create');
-        });
-      };
-      
-      $scope.onActionsClick = function() {
-        DirtyForms.confirmIfDirty(function(){
-          $rootScope.$broadcast('on:click:actions');
-        });
-      };
-      
+
       $scope.populateTenantsHandler = function() {
         if (!Session.isAuthenticated()) {
           return;
@@ -42,20 +30,20 @@ angular.module('liveopsConfigPanel')
 
         $scope.tenantDropdownItems = tenantDropdownItems;
       };
-      
-      
+
+
       $scope.hoverTracker = [];
 
       $scope.isActive = function(viewLocation) {
         return $state.current.name !== '' ? $state.href($state.current.name).indexOf(viewLocation) === 1 : false;
       };
-      
+
       $scope.logout = function() {
         AuthService.logout();
         $state.transitionTo('login');
         $rootScope.$broadcast('logout');
       };
-      
+
       $scope.userDropdownItems = [{
         label: $translate.instant('navbar.logout'),
         onClick: function() {
@@ -69,12 +57,12 @@ angular.module('liveopsConfigPanel')
         },
         iconClass: 'fa fa-gear'
       }];
-      
+
       $scope.$on('resource:create', $scope.onCreateClick);
       $scope.$on('resource:actions', $scope.onActionsClick);
-      
+
       $scope.$watch('Session.tenants', $scope.populateTenantsHandler);
-      
+
       $scope.managementDropConfig = [{
           label: 'Users',
           onClick: function(){$state.transitionTo('content.management.users');},
@@ -91,7 +79,7 @@ angular.module('liveopsConfigPanel')
           id: 'skill-management-link',
           order: 3
       }];
-      
+
       $scope.configurationDropConfig = [{
           label: 'Tenants',
           onClick: function(){$state.transitionTo('content.configuration.tenants');},
@@ -103,7 +91,7 @@ angular.module('liveopsConfigPanel')
           id: 'integrations-configuration-link',
           order: 2
         }];
-      
+
       $scope.flowsDropConfig = [{
           label: 'Flows',
           onClick: function(){$state.transitionTo('content.flows.flowManagement');},

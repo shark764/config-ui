@@ -3,6 +3,11 @@
     <div class="col">
       <h2 ng-if="config.title">{{config.title}}</h2>
     </div>
+    <div class="action-container">
+      <div class="col action">
+        <button id="create-btn" class="btn btn-create btn-primary" ng-click="onCreateClick()">{{'value.create' | translate}}</button>
+      </div>
+    </div>
   </div>
 
   <div class="table-controls">
@@ -14,6 +19,9 @@
     </div>
 
     <div class="action-container">
+      <div class="col action">
+        <button class="btn btn-create" ng-click="onActionsClick()">{{'table.actions.button' | translate}}</button>
+      </div>
       <div class="col">
         <filter-dropdown id="table-columns-dropdown" class="btn" label="{{'table.columns.button' | translate}}"
           options="config.fields" display-path="header" value-path="name"></filter-dropdown>
