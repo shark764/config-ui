@@ -70,23 +70,4 @@ describe('DispatchMappingsController', function () {
       expect($scope.dispatchMappings).not.toBeDefined();
     });
   });
-
-  describe('where no dispatchMappings are returned', function() {
-    beforeEach(function () {
-      $httpBackend.expect('GET', apiHostname + '/v1/tenants/' + Session.tenant.tenantId + '/dispatch-mappings').respond(200, {
-        'result': []
-      });
-      
-      $controller('DispatchMappingsController', {
-        '$scope': $scope
-      });
-
-      $httpBackend.flush();
-    });
-
-    it('should called create on fetch', function() {
-      expect($scope.selectedDispatchMapping.tenantId).toEqual(Session.tenant.tenantId);
-      expect($scope.selectedDispatchMapping.channelType).toEqual('voice');
-    });
-  });
 });
