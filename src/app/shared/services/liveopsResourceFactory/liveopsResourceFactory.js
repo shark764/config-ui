@@ -83,6 +83,13 @@ angular.module('liveopsConfigPanel')
               transformResponse: appendTransform($http.defaults.transformResponse, function (value) {
                 return getResult(value);
               })
+            },
+            
+            delete: {
+              method: 'DELETE',
+              transformResponse: appendTransform($http.defaults.transformResponse, function (value) {
+                return getResult(value);
+              })
             }
           });
 
@@ -94,10 +101,10 @@ angular.module('liveopsConfigPanel')
               postEventFail = self.isNew() ? self.postCreateError : self.postUpdateError;
 
             self.$busy = true;
-            
+
             //TODO find out why preEvent didn't work in the chain
             preEvent.call(self);
-            
+
             return action.call(self)
               .then(function (result) {
                 return postEvent.call(self, result);

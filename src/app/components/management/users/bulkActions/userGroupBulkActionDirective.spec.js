@@ -38,7 +38,7 @@ describe('userGroupBulkAction directive', function() {
     isolateScope = element.isolateScope();
     $httpBackend.flush();
   });
-  
+
   describe('ON bulkAction.execute', function() {
     it('should override bulkAction.execute', function() {
       expect(isolateScope.bulkAction.execute).toBeDefined();
@@ -47,8 +47,8 @@ describe('userGroupBulkAction directive', function() {
     it('should should call userkillBulkAction.selectedType.execute when user doesQualify', inject([function() {
       spyOn(isolateScope.userGroupBulkActions[0].selectedType, 'execute');
       spyOn(isolateScope.userGroupBulkActions[0].selectedType, 'doesQualify').and.returnValue(true);
-      
-      isolateScope.bulkAction.execute(mockUsers[0]);
+
+      isolateScope.bulkAction.execute([mockUsers[0]]);
 
       expect(isolateScope.userGroupBulkActions[0].selectedType.execute).toHaveBeenCalled();
     }]));
@@ -56,8 +56,8 @@ describe('userGroupBulkAction directive', function() {
     it('should not call userGroupBulkAction.selectedType.execute if user !doesQualify', inject([function() {
       spyOn(isolateScope.userGroupBulkActions[0].selectedType, 'execute');
       spyOn(isolateScope.userGroupBulkActions[0].selectedType, 'doesQualify').and.returnValue(false);
-      
-      isolateScope.bulkAction.execute(mockUsers[1]);
+
+      isolateScope.bulkAction.execute([mockUsers[1]]);
 
       expect(isolateScope.userGroupBulkActions[0].selectedType.execute).not.toHaveBeenCalled();
     }]));
@@ -65,53 +65,53 @@ describe('userGroupBulkAction directive', function() {
     it('should call fetchUserGroup on all userGroupBulkAction.selectedType.executes success', inject([function() {
       spyOn(isolateScope, 'fetchUserGroups');
       spyOn(isolateScope.userGroupBulkActions[0].selectedType, 'doesQualify').and.returnValue(true);
-      
+
       isolateScope.userGroupBulkActions[0].selectedGroup = mockGroups[0];
-      
-      isolateScope.bulkAction.execute(mockUsers[0]);
+
+      isolateScope.bulkAction.execute([mockUsers[0]]);
 
       $httpBackend.flush();
-      
+
       expect(isolateScope.fetchUserGroups).toHaveBeenCalled();
     }]));
   });
-  
+
   describe('ON bulkAction.canExecute', function() {
     it('should override bulkAction.canExecute', function() {
       expect(isolateScope.bulkAction.canExecute).toBeDefined();
     });
-    
+
     it('should return false when no userGroupBulkActions exist', function() {
       isolateScope.userGroupBulkActions = [];
-      
+
       var canExecute = isolateScope.bulkAction.canExecute();
-      
+
       expect(canExecute).toBeFalsy();
     });
-    
+
     it('should return false when a userGroupBulkAction\'s canExecute fails', function() {
       var userGroupBulkAction = new UserGroupBulkAction();
       isolateScope.userGroupBulkActions.push(userGroupBulkAction);
-      
+
       isolateScope.userGroupBulkActions[1].selectedType.canExecute =
         jasmine.createSpy().and.callFake(function(action) {
           return action === userGroupBulkAction;
         });
-      
+
       var canExecute = isolateScope.bulkAction.canExecute();
-      
+
       expect(canExecute).toBeFalsy();
     });
-    
+
     it('should return true when a userGroupBulkAction\'s canExecute succeeds', function() {
       var userGroupBulkAction = new UserGroupBulkAction();
       isolateScope.userGroupBulkActions.push(userGroupBulkAction);
-      
+
       isolateScope.userGroupBulkActions[0].selectedType.canExecute =
         jasmine.createSpy().and.returnValue(true);
-      
+
       var canExecute = isolateScope.bulkAction.canExecute();
-      
+
       expect(canExecute).toBeTruthy();
     });
   });
@@ -120,7 +120,7 @@ describe('userGroupBulkAction directive', function() {
     it('should be defined', function() {
       expect(isolateScope.removeUserGroupBulkAction).toBeDefined();
     });
-    
+
     it('should remove item from userGroupBulkActions on call', function() {
       expect(isolateScope.userGroupBulkActions.length).toEqual(1);
 
@@ -134,7 +134,7 @@ describe('userGroupBulkAction directive', function() {
     it('should be defined', function() {
       expect(isolateScope.addUserGroupBulkAction).toBeDefined();
     });
-    
+
     it('should add item to userGroupBulkActions on call', function() {
       expect(isolateScope.userGroupBulkActions.length).toEqual(1);
 
@@ -148,17 +148,17 @@ describe('userGroupBulkAction directive', function() {
     it('should be defined', function() {
       expect(isolateScope.refreshAffectedUsers).toBeDefined();
     });
-    
+
     it('should have 2 usersAffected when they both qualify and both are checked', function() {
       var theFuture = {
         userId1: true,
         userId2: true
       };
-      
+
       spyOn(isolateScope.userGroupBulkActions[0].selectedType,
           'canExecute')
         .and.returnValue(true);
-      
+
       spyOn(isolateScope.userGroupBulkActions[0].selectedType,
           'doesQualify')
         .and.callFake(function(user) {
@@ -172,17 +172,17 @@ describe('userGroupBulkAction directive', function() {
       expect(isolateScope.userGroupBulkActions[0].usersAffected).toBeDefined();
       expect(isolateScope.userGroupBulkActions[0].usersAffected.length).toEqual(2);
     });
-    
+
     it('should have 1 usersAffected when one qualifies and both are checked', function() {
       var theFuture = {
         userId1: true,
         userId2: false
       };
-      
+
       spyOn(isolateScope.userGroupBulkActions[0].selectedType,
           'canExecute')
         .and.returnValue(true);
-      
+
       spyOn(isolateScope.userGroupBulkActions[0].selectedType,
           'doesQualify')
         .and.callFake(function(user) {
@@ -196,17 +196,17 @@ describe('userGroupBulkAction directive', function() {
       expect(isolateScope.userGroupBulkActions[0].usersAffected).toBeDefined();
       expect(isolateScope.userGroupBulkActions[0].usersAffected.length).toEqual(1);
     });
-    
+
     it('should have 1 usersAffected when they both qualify but one is checked', function() {
       var theFuture = {
         userId1: true,
         userId2: true
       };
-      
+
       spyOn(isolateScope.userGroupBulkActions[0].selectedType,
           'canExecute')
         .and.returnValue(true);
-      
+
       spyOn(isolateScope.userGroupBulkActions[0].selectedType,
           'doesQualify')
         .and.callFake(function(user) {

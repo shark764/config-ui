@@ -11,16 +11,29 @@ angular.module('liveopsConfigPanel')
       },
       templateUrl: 'app/components/management/users/bulkActions/setSkillsBulkAction.html',
       link: function ($scope) {
-        $scope.bulkAction.execute = function (user) {
+        $scope.bulkAction.execute = function (users) {
           var promises = [];
-          angular.forEach($scope.userSkillsBulkActions, function(userSkillsBulkAction) {
-            if(userSkillsBulkAction.selectedType.doesQualify(user, userSkillsBulkAction)) {
-              promises.push(userSkillsBulkAction.execute(user));
-            }
+          angular.forEach(users, function(user) {
+            angular.forEach($scope.userSkillsBulkActions, function(userSkillsBulkAction) {
+              if(userSkillsBulkAction.selectedType.doesQualify(user, userSkillsBulkAction)) {
+                promises.push(userSkillsBulkAction.execute(user));
+              }
+            });
           });
 
-          return $q.all(promises).finally(function() {
-            $scope.fetchSkillUsers($scope.skills);
+          return $q.all(promises).then(function(userSkills) {
+            var skills = [];
+            angular.forEach(userSkills, function(userSkill) {
+              var skill = $scope.findSkillForId($scope.skills, userSkill.skillId);
+
+              if(skills.indexOf(skill) < 0) {
+                skills.push(skill);
+              }
+            });
+
+            $scope.fetchSkillUsers(skills);
+
+            return userSkills;
           });
         };
 
@@ -81,7 +94,7 @@ angular.module('liveopsConfigPanel')
           }
 
           userSkillsBulkAction.usersAffected = [];
-          
+
           angular.forEach($scope.users, function(user) {
             if(!user.checked) {
               return;
@@ -97,6 +110,17 @@ angular.module('liveopsConfigPanel')
           angular.forEach($scope.userSkillsBulkActions, function(action) {
             $scope.refreshAffectedUsers(action);
           });
+        };
+
+        $scope.findSkillForId = function(skills, id) {
+          var foundSkill;
+          angular.forEach(skills, function(skill) {
+            if(skill.id === id) {
+              foundSkill = skill;
+            }
+          });
+
+          return foundSkill;
         };
 
         $scope.$on('table:resource:checked', $scope.refreshAllAffectedUsers);
