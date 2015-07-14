@@ -3,7 +3,16 @@
   config="tableConfig"
   items="queues"
   selected="selectedQueue"
-  resource-name="queue"></table-controls>
+  resource-name="queue">
+  
+  <span name="status">
+    <span ng-if="item.status">{{'value.enabled' | translate}}</span>
+    <span ng-if="!item.status" class="disabled">{{'value.disabled' | translate}}</span>
+  </span>
+  
+  <active-version name="activeVersion" queue="item"></active-version>
+
+</table-controls>
 
 <resize-handle
   ng-show="!! selectedQueue"
