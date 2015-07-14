@@ -9,16 +9,25 @@
 <resize-handle
     ng-show="selectedUser"
     id="resize-pane"
-    right-element-id="details-pane"
+    right-element-id="right-panel"
     left-element-id="table-pane"
     left-min-width="700"
     right-min-width="300"></resize-handle>
 
-<resource-details
-    ng-show="selectedUser"
+<div id="right-panel" class="right-panel">
+  <resource-details
+    ng-show="selectedUser && !bulkView"
     id="details-pane"
     extend-scope="additional"
     header-template-url="app/components/management/users/userDetailHeader.html"
     body-template-url="app/components/management/users/userDetailBody.html"
     original-resource="selectedUser"
     resource-name="user"/></resource-details>
+
+  <bulk-action-executor class="details-pane user-ba" ng-show="bulkView" items="users" bulk-actions="bulkActions">
+    <ba-set-status bulk-action="bulkActions.setStatus"></ba-set-status>
+    <ba-reset-password bulk-action="bulkActions.resetPassword"></ba-reset-password>
+    <ba-user-skills bulk-action="bulkActions.userSkills" users="users"></ba-user-skills>
+    <ba-user-groups bulk-action="bulkActions.userGroups" users="users"></ba-user-groups>
+  </bulk-action-executor>
+</div>

@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('tableControls', ['$filter', '$location', '$stateParams', '$parse', 'DirtyForms',
-    function($filter, $location, $stateParams, $parse, DirtyForms) {
+  .directive('tableControls', ['$rootScope', '$filter', '$location', '$stateParams', '$parse', 'DirtyForms',
+    function($rootScope, $filter, $location, $stateParams, $parse, DirtyForms) {
       return {
         restrict: 'E',
         scope: {
@@ -22,10 +22,22 @@ angular.module('liveopsConfigPanel')
             $scope.selectItem(item);
           });
 
+          $scope.onCreateClick = function() {
+            DirtyForms.confirmIfDirty(function(){
+              $rootScope.$broadcast('on:click:create');
+            });
+          };
+          
+          $scope.onActionsClick = function() {
+            DirtyForms.confirmIfDirty(function(){
+              $rootScope.$broadcast('on:click:actions');
+            });
+          };
+
           $scope.selectItem = function(item) {
             DirtyForms.confirmIfDirty(function(){
               $scope.selected = item;
-              
+
               if (item) {
                 $location.search({id: item.id});
               }
@@ -34,10 +46,13 @@ angular.module('liveopsConfigPanel')
             });
           };
 
-          $scope.onCreateClick = function() {
-            DirtyForms.confirmIfDirty(function(){
-              $scope.$emit('on:click:create');
-            });
+          $scope.checkItem = function(item, value) {
+            var newValue = angular.isDefined(value) ? value : !item.checked;
+
+            if(item.checked !== newValue) {
+              item.checked = newValue;
+              $scope.$emit('resource:checked', item);
+            }
           };
 
           $scope.parse = function(item, field) {
@@ -51,13 +66,15 @@ angular.module('liveopsConfigPanel')
 
           $scope.toggleAll = function(checkedValue) {
             angular.forEach($scope.filtered, function(item) {
-              item.checked = checkedValue;
+              $scope.checkItem(item, checkedValue);
             });
           };
 
           if ($scope.items) {
             $scope.items.$promise.then(function() {
-              if ($scope.items.length !== 0 && $stateParams.id) {
+              if ($scope.items.length === 0){
+                $rootScope.$broadcast('resource:create');
+              } else if ($stateParams.id) {
               //Init the selected item based on URL param
                 var matchedItems = $filter('filter')($scope.items, {
                   id: $stateParams.id
@@ -77,9 +94,9 @@ angular.module('liveopsConfigPanel')
               $scope.selectItem(null);
               return;
             }
-            
+
             if ($scope.filtered.length === 0){
-              $scope.onCreateClick();
+              $rootScope.$broadcast('resource:create');
               return;
             }
 

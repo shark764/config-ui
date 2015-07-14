@@ -31,5 +31,5 @@ angular.module('liveopsConfigPanel')
       });
 
       $document.off('click', self.onClick);
-    }
+    };
   }]);

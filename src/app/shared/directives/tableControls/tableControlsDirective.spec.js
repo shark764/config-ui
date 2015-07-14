@@ -152,24 +152,6 @@ describe('tableControls directive', function() {
     }));
   });
 
-  describe('onCreateClick function', function(){
-    beforeEach(function(){
-      doCompile();
-    });
-    
-    it('should check DirtyForms.confirmIfDirty', inject(['DirtyForms', function(DirtyForms) {
-      spyOn(DirtyForms, 'confirmIfDirty');
-      isolateScope.onCreateClick();
-      expect(DirtyForms.confirmIfDirty).toHaveBeenCalled();
-    }]));
-    
-    it('should emit the on:click:create event', inject(function() {
-      spyOn(isolateScope, '$emit');
-      isolateScope.onCreateClick();
-      expect(isolateScope.$emit).toHaveBeenCalledWith('on:click:create');
-    }));
-  });
-
   describe('toggleAll function', function(){
     beforeEach(function(){
       $scope.items.push({id: 'item1', checked: false});
@@ -214,13 +196,6 @@ describe('tableControls directive', function() {
       isolateScope.$digest();
       expect(isolateScope.filtered.length).toBe(1);
       expect(isolateScope.filtered[0].id).toEqual('item2');
-    }));
-    
-    it('watch should call createClick if filtered is empty', inject(function() {
-      spyOn(isolateScope, 'onCreateClick');
-      isolateScope.searchQuery = 'a search';
-      isolateScope.$digest();
-      expect(isolateScope.onCreateClick).toHaveBeenCalled();
     }));
 
     it('watch should set selected item to null if there isn\'t one', inject(function() {

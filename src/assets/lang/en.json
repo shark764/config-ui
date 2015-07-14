@@ -33,6 +33,8 @@
   "value.updatedby": "Last updated by {{displayName}} on {{date}}",
   "value.value": "Value",
   "value.version": "Version",
+  "value.select.group": "Select Group",
+  "value.select.action": "Select Action",
 
   "loading": "Loading",
 
@@ -53,6 +55,9 @@
   "navbar.configuration.title": "Configuration",
   "navbar.logout": "Log Out",
   "navbar.profile": "User Profile",
+  "navbar.invites": "Invites",
+  "navbar.create": "Create",
+  "navbar.actions": "Actions",
 
   "details": "Details",
   "details.firstName": "First Name",
@@ -198,6 +203,25 @@
 
   "unsavedchanges.nav.warning": "You have unsaved changes that will be lost! Click OK to discard changes, or cancel to continue editing.",
   "unsavedchanges.reload.warning": "You have unsaved changes that will be lost!",
+
+  "bulkActions.enable.users": "Enable Users",
+  "bulkActions.selected": "Selected ",
+  "bulkActions.userGroups.add": "Add Group",
+  "bulkActions.userGroups.remove": "Remove Group",
+  "bulkActions.userGroups.placeholder": "Select Group...",
+  "bulkActions.userGroups.none": "Click the plus button above to add a group change.",
+  "bulkActions.change.groups": "Change Group(s)",
+  "bulkActions.affectedUsers": "{{affectedUsers.length}} users will be affected",
+  "bulkActions.reset.password": "Reset Password",
+  "bulkActions.reset.password.placeholder": "Enter new password",
+  "bulkActions.change.skills": "Change Skills",
+  "bulkActions.defaultActions": "Select Action",
+  "bulkActions.skills.defaultSkills" : "Select Skill",
+  "bulkActions.skills.addSkillToEdit": "Add Skill to Edit",
+  "bulkActions.skills.add": "Add Skill",
+  "bulkActions.skills.update": "Update Skill",
+  "bulkActions.skills.remove": "Remove Skill",
+  "bulkActions.skills.none": "Click the plus button above to add a skill change",
 
   "user.profile.save.success": "Your details have been updated.",
   "user.profile.save.fail": "An error occured while updating your details."
