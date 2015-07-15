@@ -197,10 +197,9 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
         secure: true
       })
       .state('content.reports', {
-        url: '/reports',
+        url: '/reports?id',
         templateUrl: 'app/components/reports/reports.html',
-        controller: 'ReportsController',
-        secure: true
+        controller: 'ReportsController'
       });
 
     angular.extend(toastrConfig, {

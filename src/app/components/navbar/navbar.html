@@ -22,7 +22,9 @@
         <dropdown items="flowsDropConfig" label="{{'navbar.flows.title' | translate}}" order-by="order" hovering="hovering" hover-tracker="hoverTracker"></dropdown>
       </li>
 
-      <li id="reports-nav-link" ng-class="{ active: isActive('/reports')}"><a ng-href="#/reports">Reports</a></li>
+      <li id="reporting-nav-link" ng-class="{ active: isActive('/reporting')}">
+        <dropdown items="reportingDropConfig" label="{{'navbar.reports.title' | translate}}" order-by="order" hovering="hovering" hover-tracker="hoverTracker"></dropdown>
+      </li>
 
       <li id="invites-nav-link" ng-class="{ active: isActive('/invites')}"><a ng-href="#/invites">Invites</a></li>
 
