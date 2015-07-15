@@ -1,10 +1,12 @@
 $main-content-left-margin: 15px;
 
-
-
 header {
+  width: 100%;
   position: absolute;
-  height: $navbar-height;
+  top: 0;
+  width: 100%;
+  max-width: 100%;
+  min-width: $min-body-width;
 }
 
 .container {
