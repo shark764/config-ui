@@ -14,6 +14,10 @@ angular.module('liveopsConfigPanel')
         link: function ($scope) {
           $scope.checkedItems = [];
 
+          $scope.closeBulk = function () {
+            $scope.bulkActions = null; // this will work when Phil pushes his PR.
+          };
+
           $scope.execute = function () {
             var selectedBulkActions = $scope.getSelectedItems($scope.bulkActions);
             var itemPromises = [];
