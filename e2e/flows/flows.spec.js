@@ -50,7 +50,7 @@ describe('The flows view', function() {
 
   it('should allow the Flow fields to be updated', function() {
     shared.firstTableRow.click();
-    
+
     flows.versionsTableElements.count().then(function(curFlowVersionCount) {
       randomFlow = Math.floor((Math.random() * 1000) + 1);
 
@@ -84,7 +84,6 @@ describe('The flows view', function() {
 
     // Submit button is still disabled
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
-    shared.submitFormBtn.click();
 
     expect(shared.tableElements.count()).toBe(flowCount);
     expect(shared.successMessage.isPresent()).toBeFalsy();
@@ -215,7 +214,6 @@ describe('The flows view', function() {
     flows.versionDescriptionFormField.sendKeys('Description for flow version ' + randomFlow);
     expect(flows.createVersionFormBtn.getAttribute('disabled')).toBeTruthy();
 
-    flows.createVersionFormBtn.click();
     expect(flows.requiredErrors.get(3).isDisplayed()).toBeTruthy();
     expect(flows.requiredErrors.get(3).getText()).toBe('Field \"Name\" is required.');
 
@@ -247,7 +245,6 @@ describe('The flows view', function() {
 
     // Submit button is still disabled
     expect(flows.createVersionFormBtn.getAttribute('disabled')).toBeTruthy();
-    flows.createVersionFormBtn.click();
 
     expect(flows.requiredErrors.get(3).isDisplayed()).toBeTruthy();
     expect(flows.requiredErrors.get(3).getText()).toBe('Field \"Name\" is required.');

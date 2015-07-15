@@ -53,7 +53,9 @@ describe('The queues view', function() {
     // Edit fields
     queues.nameFormField.clear();
     queues.descriptionFormField.clear();
-    shared.submitFormBtn.click();
+    
+    // Submit button is still disabled
+    expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
 
     expect(shared.tableElements.count()).toBe(queueCount);
     expect(shared.successMessage.isPresent()).toBeFalsy();
@@ -108,7 +110,6 @@ describe('The queues view', function() {
 
     // Submit button is still disabled
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
-    shared.submitFormBtn.click();
 
     expect(queues.requiredErrors.get(0).isDisplayed()).toBeTruthy();
     expect(queues.requiredErrors.get(0).getText()).toBe('Field \"Name\" is required.');
@@ -118,7 +119,7 @@ describe('The queues view', function() {
 
   it('should reset fields after editing and selecting Cancel', function() {
     queues.firstTableRow.click();
-    
+
     queues.activeVersionDropdown.all(by.css('option')).count().then(function(curQueueVersionCount) {
       randomQueue = Math.floor((Math.random() * 1000) + 1);
 
@@ -236,7 +237,7 @@ describe('The queues view', function() {
 
   it('should copy version details when copy is selected', function() {
     queues.firstTableRow.click();
-    
+
     queues.activeVersionDropdown.all(by.css('option')).count().then(function(dropdownVersions) {
       queues.versionRowV1Plus.click();
       queues.copyVersionBtn.click().then(function() {
@@ -273,7 +274,7 @@ describe('The queues view', function() {
 
   it('should add new queue version', function() {
     queues.firstTableRow.click();
-    
+
     queueVersionCount = queues.activeVersionDropdown.all(by.css('option')).count();
     randomQueue = Math.floor((Math.random() * 1000) + 1);
     queues.firstTableRow.click();
@@ -294,7 +295,7 @@ describe('The queues view', function() {
 
   it('should require query when adding a new queue version', function() {
     queues.firstTableRow.click();
-    
+
     queueVersionCount = queues.activeVersionDropdown.all(by.css('option')).count();
     randomQueue = Math.floor((Math.random() * 1000) + 1);
     queues.firstTableRow.click();
@@ -312,7 +313,7 @@ describe('The queues view', function() {
 
   it('should not accept spaces only as valid field input when creating queue version', function() {
     queues.firstTableRow.click();
-    
+
     queueVersionCount = queues.activeVersionDropdown.all(by.css('option')).count();
     queues.firstTableRow.click();
     queues.versionRowV1Plus.click();

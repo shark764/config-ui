@@ -45,7 +45,7 @@ describe('The create new queues view', function() {
     shared.tableElements.then(function(rows) {
       for (var i = 1; i <= rows.length; ++i) {
         // Check if queue name in table matches newly added queue
-        element(by.css('#items-table > tbody:nth-child(2) > tr:nth-child(' + i + ') > td:nth-child(2) > span:nth-child(1)')).getText().then(function(value) {
+        element(by.css('#items-table > tbody:nth-child(2) > tr:nth-child(' + i + ') > td:nth-child(2)')).getText().then(function(value) {
           if (value == 'Queue ' + randomQueue) {
             queueAdded = true;
           }
@@ -118,7 +118,6 @@ describe('The create new queues view', function() {
 
     // Submit button is disabled
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
-    shared.submitFormBtn.click();
 
     expect(shared.tableElements.count()).toBe(queueCount);
     expect(shared.successMessage.isPresent()).toBeFalsy();
@@ -133,7 +132,9 @@ describe('The create new queues view', function() {
     queues.nameFormField.click();
     queues.descriptionFormField.sendKeys('This is the queue description for queue ' + randomQueue);
     queues.createVersionQueryFormField.sendKeys('This is a new queue version query');
-    shared.submitFormBtn.click();
+
+    // Submit button is disabled
+    expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
 
     expect(queues.requiredErrors.get(0).isDisplayed()).toBeTruthy();
     expect(queues.requiredErrors.get(0).getText()).toBe('Field "Name" is required.');
@@ -150,7 +151,9 @@ describe('The create new queues view', function() {
     queues.createVersionQueryFormField.click();
     queues.nameFormField.sendKeys('Queue ' + randomQueue);
     queues.descriptionFormField.sendKeys('This is the queue description for queue ' + randomQueue);
-    shared.submitFormBtn.click();
+
+    // Submit button is disabled
+    expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
 
     expect(queues.requiredErrors.get(1).isDisplayed()).toBeTruthy();
     expect(queues.requiredErrors.get(1).getText()).toBe('Field "Query" is required.');
@@ -182,7 +185,6 @@ describe('The create new queues view', function() {
 
     // Submit button is disabled
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
-    shared.submitFormBtn.click();
 
     expect(queues.requiredErrors.get(0).isDisplayed()).toBeTruthy();
     expect(queues.requiredErrors.get(0).getText()).toBe('Field "Name" is required.');

@@ -248,9 +248,6 @@ describe('The dispatch mappings view', function() {
     // Submit button is disabled
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
 
-    // Submit without field input
-    shared.submitFormBtn.click();
-
     // New DispatchMapping is not saved
     expect(shared.successMessage.isPresent()).toBeFalsy();
     expect(shared.tableElements.count()).toBe(dispatchMappingCount);
@@ -263,7 +260,6 @@ describe('The dispatch mappings view', function() {
     dispatchMappings.descriptionFormField.sendKeys('Description for dispatch mapping');
     dispatchMappings.mappingOptions.get(4).click();
     dispatchMappings.flowDropdown.all(by.css('option')).get(1).click();
-    shared.submitFormBtn.click();
 
     // Submit button is still disabled
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
@@ -275,7 +271,6 @@ describe('The dispatch mappings view', function() {
     // Touch Name input field
     dispatchMappings.nameFormField.click();
     dispatchMappings.descriptionFormField.click();
-    shared.submitFormBtn.click();
 
     // Submit button is still disabled
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
@@ -323,7 +318,11 @@ describe('The dispatch mappings view', function() {
     // Verify dispatch mapping details in table matches populated field
     expect(shared.firstTableRow.element(by.css(dispatchMappings.nameColumn)).getText()).toBe(dispatchMappings.nameHeader.getText());
     dispatchMappings.mappingDropdown.$('option:checked').getText().then(function(value){
-      expect(shared.firstTableRow.element(by.css(dispatchMappings.interactionFieldColumn)).getText()).toBe(value.toLowerCase());
+      if (value == 'Contact Point') {
+        expect(shared.firstTableRow.element(by.css(dispatchMappings.interactionFieldColumn)).getText()).toBe('contact-point');
+      } else {
+        expect(shared.firstTableRow.element(by.css(dispatchMappings.interactionFieldColumn)).getText()).toBe(value.toLowerCase());
+      }
     });
     dispatchMappings.interactionTypeDropdown.$('option:checked').getText().then(function(value){
       expect(shared.firstTableRow.element(by.css(dispatchMappings.channelTypeColumn)).getText()).toBe(value.toLowerCase());
@@ -341,25 +340,30 @@ describe('The dispatch mappings view', function() {
     });
 
     // Change selected queue and ensure details are updated
-    shared.secondTableRow.click();
-    // Verify dispatch mapping details in table matches populated field
-    expect(shared.secondTableRow.element(by.css(dispatchMappings.nameColumn)).getText()).toBe(dispatchMappings.nameHeader.getText());
-    dispatchMappings.mappingDropdown.$('option:checked').getText().then(function(value){
-      expect(shared.firstTableRow.element(by.css(dispatchMappings.interactionFieldColumn)).getText()).toBe(value.toLowerCase());
-    });
-    dispatchMappings.interactionTypeDropdown.$('option:checked').getText().then(function(value){
-      expect(shared.firstTableRow.element(by.css(dispatchMappings.channelTypeColumn)).getText()).toBe(value.toLowerCase());
-    });
-    
-    shared.secondTableRow.element(by.css(dispatchMappings.statusColumn)).getText().then(function(dispatchMappingStatus) {
-      if (dispatchMappingStatus == 'Enabled') {
-        expect(dispatchMappings.statusSwitch.isSelected()).toBeTruthy();
-      } else if (dispatchMappingStatus == 'Disabled') {
-        expect(dispatchMappings.statusSwitch.isSelected()).toBeFalsy();
-      } else {
-        // fail test
-        expect(true).toBeFalsy();
-      };
+    shared.secondTableRow.click().then(function () {
+      // Verify dispatch mapping details in table matches populated field
+      expect(shared.secondTableRow.element(by.css(dispatchMappings.nameColumn)).getText()).toBe(dispatchMappings.nameHeader.getText());
+      dispatchMappings.mappingDropdown.$('option:checked').getText().then(function(value){
+        if (value == 'Contact Point') {
+          expect(shared.secondTableRow.element(by.css(dispatchMappings.interactionFieldColumn)).getText()).toBe('contact-point');
+        } else {
+          expect(shared.secondTableRow.element(by.css(dispatchMappings.interactionFieldColumn)).getText()).toBe(value.toLowerCase());
+        }
+      });
+      dispatchMappings.interactionTypeDropdown.$('option:checked').getText().then(function(value){
+        expect(shared.secondTableRow.element(by.css(dispatchMappings.channelTypeColumn)).getText()).toBe(value.toLowerCase());
+      });
+
+      shared.secondTableRow.element(by.css(dispatchMappings.statusColumn)).getText().then(function(dispatchMappingStatus) {
+        if (dispatchMappingStatus == 'Enabled') {
+          expect(dispatchMappings.statusSwitch.isSelected()).toBeTruthy();
+        } else if (dispatchMappingStatus == 'Disabled') {
+          expect(dispatchMappings.statusSwitch.isSelected()).toBeFalsy();
+        } else {
+          // fail test
+          expect(true).toBeFalsy();
+        };
+      });
     });
   });
 
@@ -432,7 +436,7 @@ describe('The dispatch mappings view', function() {
     });
   });
 
-  it('should allow the Dispatch Mapping fields to be updated', function() {
+  xit('should allow the Dispatch Mapping fields to be updated', function() {
     // TODO Update once TITAN2-1827 bug is fixed
     shared.firstTableRow.click();
 
@@ -476,7 +480,6 @@ describe('The dispatch mappings view', function() {
 
     // Submit button is still disabled
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
-    shared.submitFormBtn.click();
 
     // Error messages displayed
     expect(dispatchMappings.requiredErrors.get(3).isDisplayed()).toBeTruthy();
@@ -493,7 +496,6 @@ describe('The dispatch mappings view', function() {
 
     // Submit button is still disabled
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
-    shared.submitFormBtn.click();
 
     // Error messages displayed
     expect(dispatchMappings.requiredErrors.get(2).isDisplayed()).toBeTruthy();

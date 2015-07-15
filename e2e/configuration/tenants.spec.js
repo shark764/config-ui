@@ -58,7 +58,9 @@ describe('The tenants view', function() {
 
     tenants.nameFormField.clear();
     tenants.descriptionFormField.click();
-    shared.submitFormBtn.click();
+    
+    // Submit button is still disabled
+    expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
 
     expect(tenants.nameRequiredError.get(0).isDisplayed()).toBeTruthy();
     expect(tenants.nameRequiredError.get(0).getText()).toBe('Please enter a name');
@@ -76,8 +78,7 @@ describe('The tenants view', function() {
     });
   });
 
-  xit('should not require admin when editing', function() {
-    // TODO Fails from existing bug
+  it('should not require admin when editing', function() {
     tenants.firstTableRow.click();
 
     // Edit fields
@@ -109,7 +110,7 @@ describe('The tenants view', function() {
     expect(alertDialog.accept).toBeDefined();
     expect(alertDialog.dismiss).toBeDefined();
     alertDialog.accept();
-    
+
     expect(shared.successMessage.isPresent()).toBeFalsy();
 
     // Fields reset to original values

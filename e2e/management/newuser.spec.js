@@ -69,8 +69,6 @@ describe('The create new user form', function() {
     shared.createBtn.click();
     expect(shared.detailsForm.isDisplayed()).toBeTruthy();
 
-    // Select Okay with empty fields, no user is created
-    shared.submitFormBtn.click();
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
     expect(shared.tableElements.count()).toBe(userCount);
 
@@ -88,8 +86,6 @@ describe('The create new user form', function() {
     users.personalTelephoneFormField.sendKeys(' ');
     users.externalIdFormField.sendKeys(' ');
 
-    // Select Okay with 'empty' fields, confirm error message displayed, no user is created
-    shared.submitFormBtn.click();
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
     expect(shared.tableElements.count()).toBe(userCount);
     expect(shared.successMessage.isPresent()).toBeFalsy();
@@ -99,7 +95,6 @@ describe('The create new user form', function() {
     expect(users.requiredErrors.get(2).getText()).toBe('Please enter a first name');
     expect(users.requiredErrors.get(3).getText()).toBe('Please enter a last name');
     expect(users.requiredErrors.get(4).getText()).toBe('Please enter a display name');
-    expect(users.requiredErrors.get(5).getText()).toBe('Phone number should be in E.164 format.');
   });
 
   it('should display new user in table and display user details', function() {
@@ -201,7 +196,6 @@ describe('The create new user form', function() {
     users.passwordFormField.sendKeys('password');
     users.externalIdFormField.sendKeys('12345');
     users.personalTelephoneFormField.sendKeys('15062345678');
-    shared.submitFormBtn.click();
 
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
     expect(shared.tableElements.count()).toBe(userCount);
@@ -223,7 +217,6 @@ describe('The create new user form', function() {
     users.passwordFormField.sendKeys('password');
     users.externalIdFormField.sendKeys('12345');
     users.personalTelephoneFormField.sendKeys('15062345678');
-    shared.submitFormBtn.click();
 
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
     expect(shared.tableElements.count()).toBe(userCount);
@@ -245,7 +238,6 @@ describe('The create new user form', function() {
     users.passwordFormField.sendKeys('password');
     users.externalIdFormField.sendKeys('12345');
     users.personalTelephoneFormField.sendKeys('15062345678');
-    shared.submitFormBtn.click();
 
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
     expect(shared.tableElements.count()).toBe(userCount);
@@ -286,7 +278,6 @@ describe('The create new user form', function() {
     users.passwordFormField.sendKeys('password');
     users.externalIdFormField.sendKeys('12345');
     users.personalTelephoneFormField.sendKeys('15062345678');
-    shared.submitFormBtn.click();
 
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
     expect(shared.tableElements.count()).toBe(userCount);
@@ -308,7 +299,6 @@ describe('The create new user form', function() {
     users.passwordFormField.click();
     users.externalIdFormField.sendKeys('12345');
     users.personalTelephoneFormField.sendKeys('15062345678');
-    shared.submitFormBtn.click();
 
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
     expect(shared.tableElements.count()).toBe(userCount);
@@ -402,7 +392,7 @@ describe('The create new user form', function() {
     expect(shared.errorMessage.getText()).toContain('Record failed to save');
     expect(shared.successMessage.getText()).toContain('User already exists. Sending ' + params.login.user.toUpperCase() + ' an invite for');
   });
-  
+
   it('should prevent invalid E164 numbers from being accepted', function() {
     shared.createBtn.click();
     expect(users.personalTelephoneFormField.isDisplayed()).toBeTruthy();
@@ -426,6 +416,6 @@ describe('The create new user form', function() {
 
     users.firstNameFormField.click();
     expect(users.requiredErrors.get(5).isDisplayed()).toBeFalsy();
-    expect(users.personalTelephoneFormField.getText()).toBe('+1 506-470-4361');
+    expect(users.personalTelephoneFormField.getAttribute('value')).toBe('+1 506-470-4361');
   });
 });
