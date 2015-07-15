@@ -2,7 +2,6 @@
   'use strict';
 
   function FlowPaletteService(FlowNotationService, FlowMockService) {
-    var demoInit = FlowMockService.demoInit;
     return {
       loadGateways: function(palette) {
         palette.load([
@@ -32,10 +31,14 @@
             eventType: 'end'
           })
         ], 'events');
+
+        _.each(FlowMockService.events, function(notation, index) {
+          FlowNotationService.registerEvent(notation);
+        })
       },
 
       loadActivities: function(palette) {
-        _.each(_.groupBy(demoInit, 'entity'), function(notations, entity) {
+        _.each(_.groupBy(FlowMockService.activities, 'entity'), function(notations, entity) {
           palette.load(
             _.map(notations, function(notation) {
               return new joint.shapes.liveOps[entity]({

@@ -3,14 +3,18 @@
 
   function FlowNotationService() {
     return {
-      activities: {},
-      events: {},
-      gateways: {},
+      activities: [],
+      events: [],
+      gateways: [],
 
       registerActivity: function(alieneseJSON) {
         var self = this;
-        var name = alieneseJSON.name;
-        self.activities[name] = alieneseJSON;
+        self.activities.push(alieneseJSON);
+      },
+
+      registerEvent: function(alieneseJSON) {
+        var self = this;
+        self.events.push(alieneseJSON);
       },
 
       getActivityLabel: function(model) {
@@ -28,15 +32,14 @@
       buildInputPanel: function(model) {
         var self = this;
         var modelType = model.get('type');
-        var name = model.get('name');
-        var inputs = model.get('inputs');
-        var params = {};
-        var notation = {};
 
+        //If we're dealing with an actrivity
         if (modelType === 'liveOps.activity') {
-          notation = self.activities[name];
+          var name = model.get('name');
+          var inputs = model.get('inputs');
+          var notation = _.findWhere(self.activities, {name: name});
 
-          params = _.reduce(notation.params, function(memo, param, name) {
+          var params = _.reduce(notation.params, function(memo, param, name) {
             memo[name] = {
               label: param.label,
               group: 'params'
@@ -59,9 +62,35 @@
 
             return memo;
           }, {});
+          return _.extend({params: params}, inputs);
         }
 
-        return _.extend({params: params}, inputs);
+        //if we're dealing with an event
+        if (modelType === 'liveOps.event') {
+          // return {
+          //   eventType: {
+          //     type: 'select',
+          //     group: 'general',
+          //     label: 'Group',
+          //     options: [
+          //       {
+          //         value: 'start',
+          //         content: 'Start'
+          //       },
+          //       {
+          //         value: 'intermediate',
+          //         content: 'Intermediate'
+          //       },
+          //       {
+          //         value: 'end',
+          //         content: 'End'
+          //       }
+          //     ]
+          //   },
+          // }
+          return model.get('inputs');;
+        }
+
       },
 
       addActivityParams: function(model) {

@@ -209,9 +209,11 @@
       this.onEventTypeChange(this, this.get('eventType'));
       this.listenTo(this, 'change:eventName', this.updateIcon);
       this.listenTo(this, 'change:throwing', this.updateIcon);
+      this.listenTo(this, 'change:throwing', this.updateThrowing);
       
       this.updateIcon(this);
-      
+      this.updateThrowing(this, this.get('throwing'));
+
       this.listenTo(this, 'change:interrupting', this.onInterruptingChange);
       this.onInterruptingChange(this, this.get('interrupting'));
       this.listenTo(this, 'change:parent', this.onParentChange);
@@ -226,7 +228,16 @@
       } else {
         cell.set('icon', name);
       }
+    },
 
+    updateThrowing: function(cell, throwing) {
+      var eventType = cell.get('eventType');
+      if (eventType == 'intermediate' && throwing) {
+        cell.set('entity', 'throw');
+      } else if (eventType == 'intermediate' && !throwing) {
+        cell.set('entity', 'catch');
+      }
+      console.log(cell);
     },
 
     onParentChange: function(cell, parent) {
@@ -272,6 +283,7 @@
       }
     },
     onEventTypeChange: function(cell, type) {
+      //console.log(angular.element(document.body).injector().get('FlowNotationService'));
       switch (type) {
         case 'start':
           cell.attr({
@@ -298,6 +310,7 @@
           });
           cell.set('throwing', false);
           cell.set('terminate', false);
+          cell.set('entity', 'start');
           break;
         case 'end':
           cell.attr({
@@ -324,6 +337,7 @@
           });
           cell.set('throwing', true);
           cell.set('terminate', true);
+          cell.set('entity', 'throw');
           break;
         case 'intermediate':
           cell.attr({
@@ -349,6 +363,11 @@
             }
           });
           cell.set('terminate', false);
+          if (cell.get('throwing')) {
+            cell.set('entity', 'throw');
+          } else {
+            cell.set('entity', 'catch');
+          }
           break;
         default:
           throw 'BPMN: Unknown Event Type: ' + type;
