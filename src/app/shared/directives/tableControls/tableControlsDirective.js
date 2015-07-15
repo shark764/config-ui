@@ -25,13 +25,13 @@ angular.module('liveopsConfigPanel')
 
           $scope.onCreateClick = function() {
             DirtyForms.confirmIfDirty(function(){
-              $rootScope.$broadcast('on:click:create');
+              $rootScope.$broadcast('table:on:click:create');
             });
           };
           
           $scope.onActionsClick = function() {
             DirtyForms.confirmIfDirty(function(){
-              $rootScope.$broadcast('on:click:actions');
+              $rootScope.$broadcast('table:on:click:actions');
             });
           };
 
@@ -43,7 +43,7 @@ angular.module('liveopsConfigPanel')
                 $location.search({id: item.id});
               }
 
-              $scope.$emit('resource:selected', item);
+              $rootScope.$broadcast('table:resource:selected', item);
             });
           };
 
@@ -52,7 +52,7 @@ angular.module('liveopsConfigPanel')
 
             if(item.checked !== newValue) {
               item.checked = newValue;
-              $scope.$emit('resource:checked', item);
+              $rootScope.$broadcast('table:resource:checked', item);
             }
           };
 

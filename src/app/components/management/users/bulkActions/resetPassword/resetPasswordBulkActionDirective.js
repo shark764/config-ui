@@ -12,7 +12,7 @@ angular.module('liveopsConfigPanel')
         link: function ($scope) {
           $scope.bulkAction.apply = function(user) {
             var userCopy = angular.copy(user);
-            userCopy.password = $scope.password;
+            userCopy.password = $scope.bulkAction.password;
             return userCopy.save().then(function(userCopy) {
               angular.copy(userCopy, user);
               user.checked = true;

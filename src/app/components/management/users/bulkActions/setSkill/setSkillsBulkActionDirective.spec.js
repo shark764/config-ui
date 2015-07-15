@@ -44,26 +44,26 @@ describe('userSkillsBulkAction directive', function () {
     });
 
     it('should should call userkillBulkAction.selectedType.execute when user doesQualify', inject([function () {
-      spyOn(isolateScope.userSkillsBulkActions[0].selectedType, 'execute');
-      spyOn(isolateScope.userSkillsBulkActions[0].selectedType, 'doesQualify').and.returnValue(true);
+      spyOn(isolateScope.bulkAction.userSkillsBulkActions[0].selectedType, 'execute');
+      spyOn(isolateScope.bulkAction.userSkillsBulkActions[0].selectedType, 'doesQualify').and.returnValue(true);
 
       isolateScope.bulkAction.execute([mockUsers[0]]);
 
-      expect(isolateScope.userSkillsBulkActions[0].selectedType.execute).toHaveBeenCalled();
+      expect(isolateScope.bulkAction.userSkillsBulkActions[0].selectedType.execute).toHaveBeenCalled();
     }]));
 
     it('should not call userSkillsBulkAction.selectedType.execute if user !doesQualify', inject([function () {
-      spyOn(isolateScope.userSkillsBulkActions[0].selectedType, 'execute');
-      spyOn(isolateScope.userSkillsBulkActions[0].selectedType, 'doesQualify').and.returnValue(false);
+      spyOn(isolateScope.bulkAction.userSkillsBulkActions[0].selectedType, 'execute');
+      spyOn(isolateScope.bulkAction.userSkillsBulkActions[0].selectedType, 'doesQualify').and.returnValue(false);
 
       isolateScope.bulkAction.execute([mockUsers[1]]);
 
-      expect(isolateScope.userSkillsBulkActions[0].selectedType.execute).not.toHaveBeenCalled();
+      expect(isolateScope.bulkAction.userSkillsBulkActions[0].selectedType.execute).not.toHaveBeenCalled();
     }]));
 
     it('should call fetchUserSkills on all userSkillsBulkAction.selectedType.executes success', inject(['$httpBackend', function ($httpBackend) {
       spyOn(isolateScope, 'fetchSkillUsers');
-      spyOn(isolateScope.userSkillsBulkActions[0].selectedType, 'doesQualify').and.returnValue(true);
+      spyOn(isolateScope.bulkAction.userSkillsBulkActions[0].selectedType, 'doesQualify').and.returnValue(true);
       isolateScope.bulkAction.execute([mockUsers[0]]);
 
       $httpBackend.flush();
@@ -78,7 +78,7 @@ describe('userSkillsBulkAction directive', function () {
     });
 
     it('should return false when no userSkillsBulkActions exist', function () {
-      isolateScope.userSkillsBulkActions = [];
+      isolateScope.bulkAction.userSkillsBulkActions = [];
 
       var canExecute = isolateScope.bulkAction.canExecute();
 
@@ -87,9 +87,9 @@ describe('userSkillsBulkAction directive', function () {
 
     it('should return false when a userSkillsBulkAction\'s canExecute fails', function () {
       var userSkillsBulkAction = new UserSkillsBulkAction();
-      isolateScope.userSkillsBulkActions.push(userSkillsBulkAction);
+      isolateScope.bulkAction.userSkillsBulkActions.push(userSkillsBulkAction);
 
-      isolateScope.userSkillsBulkActions[1].selectedType.canExecute =
+      isolateScope.bulkAction.userSkillsBulkActions[1].selectedType.canExecute =
         jasmine.createSpy().and.callFake(function (action) {
           return action === userSkillsBulkAction;
         });
@@ -101,9 +101,9 @@ describe('userSkillsBulkAction directive', function () {
 
     it('should return true when a userSkillsBulkAction\'s canExecute succeeds', function () {
       var userSkillsBulkAction = new UserSkillsBulkAction();
-      isolateScope.userSkillsBulkActions.push(userSkillsBulkAction);
+      isolateScope.bulkAction.userSkillsBulkActions.push(userSkillsBulkAction);
 
-      isolateScope.userSkillsBulkActions[0].selectedType.canExecute =
+      isolateScope.bulkAction.userSkillsBulkActions[0].selectedType.canExecute =
         jasmine.createSpy().and.returnValue(true);
 
       var canExecute = isolateScope.bulkAction.canExecute();
@@ -118,11 +118,11 @@ describe('userSkillsBulkAction directive', function () {
     });
 
     it('should remove item from userSkillsBulkActions on call', function () {
-      expect(isolateScope.userSkillsBulkActions.length).toEqual(1);
+      expect(isolateScope.bulkAction.userSkillsBulkActions.length).toEqual(1);
 
-      isolateScope.removeBulkSkill(isolateScope.userSkillsBulkActions[0]);
+      isolateScope.removeBulkSkill(isolateScope.bulkAction.userSkillsBulkActions[0]);
 
-      expect(isolateScope.userSkillsBulkActions.length).toEqual(0);
+      expect(isolateScope.bulkAction.userSkillsBulkActions.length).toEqual(0);
     });
   });
 
@@ -132,11 +132,11 @@ describe('userSkillsBulkAction directive', function () {
     });
 
     it('should add item to userSkillsBulkActions on call', function () {
-      expect(isolateScope.userSkillsBulkActions.length).toEqual(1);
+      expect(isolateScope.bulkAction.userSkillsBulkActions.length).toEqual(1);
 
       isolateScope.addBulkSkill();
 
-      expect(isolateScope.userSkillsBulkActions.length).toEqual(2);
+      expect(isolateScope.bulkAction.userSkillsBulkActions.length).toEqual(2);
     });
   });
 
@@ -145,24 +145,24 @@ describe('userSkillsBulkAction directive', function () {
       expect(isolateScope.onChange).toBeDefined();
     });
 
-    it('should fetch userSkills', inject(['$httpBackend', function ($httpBackend) {
-      isolateScope.userSkillsBulkActions[0].selectedSkill = isolateScope.skills[0];
+    it('should fetch userSkills', inject(['$httpBackend', 'apiHostname', function ($httpBackend, apiHostname) {
+      isolateScope.bulkAction.userSkillsBulkActions[0].selectedSkill = isolateScope.skills[0];
 
       $httpBackend.expectGET(apiHostname + '/v1/tenants/tenant-id/skills/skillId1/users');
 
-      isolateScope.onChange(isolateScope.userSkillsBulkActions[0]);
+      isolateScope.onChange(isolateScope.bulkAction.userSkillsBulkActions[0]);
 
       $httpBackend.flush();
     }]));
 
     it('should set action.params.skillId', inject(['$httpBackend', function ($httpBackend) {
-      isolateScope.userSkillsBulkActions[0].selectedSkill = isolateScope.skills[0];
+      isolateScope.bulkAction.userSkillsBulkActions[0].selectedSkill = isolateScope.skills[0];
 
-      isolateScope.onChange(isolateScope.userSkillsBulkActions[0]);
+      isolateScope.onChange(isolateScope.bulkAction.userSkillsBulkActions[0]);
 
       $httpBackend.flush();
 
-      expect(isolateScope.userSkillsBulkActions[0].params.skillId).toEqual(
+      expect(isolateScope.bulkAction.userSkillsBulkActions[0].params.skillId).toEqual(
         isolateScope.skills[0].id);
     }]));
   });
@@ -178,7 +178,7 @@ describe('userSkillsBulkAction directive', function () {
         userId2: true
       };
 
-      var userSkillsBulkAction = isolateScope.userSkillsBulkActions[0];
+      var userSkillsBulkAction = isolateScope.bulkAction.userSkillsBulkActions[0];
 
       spyOn(userSkillsBulkAction.selectedType, 'canExecute')
         .and.returnValue(true);
@@ -201,7 +201,7 @@ describe('userSkillsBulkAction directive', function () {
         userId2: false
       };
 
-      var userSkillsBulkAction = isolateScope.userSkillsBulkActions[0];
+      var userSkillsBulkAction = isolateScope.bulkAction.userSkillsBulkActions[0];
 
       spyOn(userSkillsBulkAction.selectedType, 'canExecute')
         .and.returnValue(true);
@@ -224,7 +224,7 @@ describe('userSkillsBulkAction directive', function () {
         userId2: true
       };
 
-      var userSkillsBulkAction = isolateScope.userSkillsBulkActions[0];
+      var userSkillsBulkAction = isolateScope.bulkAction.userSkillsBulkActions[0];
 
       spyOn(userSkillsBulkAction.selectedType, 'canExecute')
         .and.returnValue(true);
