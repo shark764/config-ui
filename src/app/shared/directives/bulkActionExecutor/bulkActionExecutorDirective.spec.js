@@ -21,7 +21,15 @@ describe('bulkActionExecutor directive', function () {
     isolateScope = element.isolateScope();
   });
 
+  it('should have a function to null the list of bulk actions', function () {
+    isolateScope.bulkActions = [{}, {}];
+
+    isolateScope.closeBulk();
+
+    expect(isolateScope.bulkActions).toBeNull();
+  });
+
   it('should do something', function () {
-    
+
   });
 });

@@ -46,6 +46,17 @@ describe('resource details directive', function() {
     }
   ]));
 
+  it('should have a function to set the original resource to null', inject(function() {
+    doDefaultCompile();
+
+    isolateScope.originalResource = new User({});
+
+    isolateScope.closeDetails();
+
+    expect(isolateScope.originalResource).toBeNull();
+  }));
+
+
   it('should not render the body or header if no body or header templates were provided', inject(function() {
     doDefaultCompile();
 
@@ -92,7 +103,7 @@ describe('resource details directive', function() {
     spyOn(DirtyForms, 'confirmIfDirty').and.callFake(function(callback){
       callback();
     })
-    
+
     isolateScope.resource.firstName = 'Mark';
     isolateScope.detailsForm.$dirty = true;
     isolateScope.cancel();
