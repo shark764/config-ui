@@ -66,7 +66,7 @@ angular.module('liveopsConfigPanel')
         };
 
         $scope.handleErrors = function (error) {
-          Alert.error('Record failed to ' + ($scope.resource.id ? 'update' : 'save'));
+          Alert.error('Record failed to ' + ($scope.resource.isNew() ? 'save' : 'update'));
 
           if (error.data.error) {
 

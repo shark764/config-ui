@@ -39,7 +39,7 @@ describe('resource details directive', function() {
       });
 
       doDefaultCompile = function() {
-        element = $compile('<resource-details original-resource="user"></resource-details>')($scope);
+        element = $compile('<resource-details original-resource="user" resource-name="myresource"></resource-details>')($scope);
         $scope.$digest();
         isolateScope = element.isolateScope();
       };
@@ -85,36 +85,58 @@ describe('resource details directive', function() {
     expect(header.length).toBe(1);
   }]));
 
-  it('should have a function to reset a resource that properly handles saves', inject(['DirtyForms', function(DirtyForms) {
+  describe('cancel function', function() {
+    beforeEach(function() {
     doDefaultCompile();
-
-    var resultUser = angular.copy($scope.user);
-    resultUser.firstName = 'Fred';
-    resultUser.id = 'abc';
-
-    $httpBackend.when('POST', apiHostname + '/v1/users').respond({
-      'result': resultUser
     });
-    $httpBackend.expectPOST(apiHostname + '/v1/users');
 
-    isolateScope.save();
-    $httpBackend.flush();
+    it('should reset the resource', inject(['DirtyForms', function(DirtyForms) {
+      spyOn(DirtyForms, 'confirmIfDirty').and.callFake(function(callback) {
+        callback();
+    });
 
-    spyOn(DirtyForms, 'confirmIfDirty').and.callFake(function(callback){
-      callback();
-    })
+      isolateScope.resource.firstName = 'JohnTest';
+      isolateScope.resource.id = '123';
+      isolateScope.detailsForm.$dirty = true;
+      isolateScope.cancel();
 
-    isolateScope.resource.firstName = 'Mark';
+      expect(isolateScope.resource.firstName).toEqual('John');
+    }]));
+
+    it('should reset the form', inject(['Alert', function(Alert) {
     isolateScope.detailsForm.$dirty = true;
+      spyOn(Alert, 'confirm').and.callFake(function(msg, okCallback, cancelCallback) {
+        cancelCallback();
+      });
+      spyOn(angular, 'noop');
     isolateScope.cancel();
 
-    expect(isolateScope.resource.firstName).toBe('Fred');
+      expect(angular.noop).toHaveBeenCalled();
+    }]));
 
+    it('should do nothing if the form is not dirty', inject(['Alert', function(Alert) {
+      isolateScope.detailsForm.$dirty = false;
+      spyOn(Alert, 'confirm');
+
+      isolateScope.cancel();
+
+      expect(Alert.confirm).not.toHaveBeenCalled();
   }]));
-
-  it('should have a function to save a resource', inject(function() {
+    
+    it('should be called on cancel event', inject(['$rootScope', function($rootScope) {
+      spyOn(isolateScope, 'cancel');
+      $rootScope.$broadcast('resource:details:myresource:cancel');
+      isolateScope.$digest();
+      expect(isolateScope.cancel).toHaveBeenCalled();
+    }]));
+  });
+  
+  describe('save function', function() {
+    beforeEach(function() {
     doDefaultCompile();
+    });
 
+    it('should update the resource with the details returned by API', inject(function() {
     var resultUser = angular.copy($scope.user);
     resultUser.id = 'abc';
 
@@ -128,43 +150,134 @@ describe('resource details directive', function() {
 
     expect(isolateScope.resource.id).toBe(resultUser.id);
   }));
+    
+    it('should work with cancel', inject(['DirtyForms', function(DirtyForms) {
+      var resultUser = angular.copy($scope.user);
+      resultUser.firstName = 'Fred';
+      resultUser.id = 'abc';
 
-  describe('cancel function', function() {
+      $httpBackend.when('POST', apiHostname + '/v1/users').respond({
+        'result': resultUser
+    });
+      $httpBackend.expectPOST(apiHostname + '/v1/users');
+
+      isolateScope.save();
+      $httpBackend.flush();
+
+      spyOn(DirtyForms, 'confirmIfDirty').and.callFake(function(callback){
+        callback();
+      });
+      
+      isolateScope.resource.firstName = 'Mark';
+      isolateScope.detailsForm.$dirty = true;
+      isolateScope.cancel();
+
+      expect(isolateScope.resource.firstName).toBe('Fred');
+    }]));
+    
+    describe('on success', function(){
+      beforeEach(inject(['$q', '$rootScope', function($q, $rootScope){
+        spyOn(isolateScope.resource, 'save').and.callFake(function(){
+          var deferred = $q.defer();
+          deferred.resolve('success');
+          var promise = deferred.promise;
+          return promise;
+      });
+        
+        spyOn($rootScope, '$broadcast').and.callThrough();
+    }]));
+      
+      it('should broadcast event when creating', inject(['$rootScope', function($rootScope) {
+        isolateScope.save();
+        isolateScope.$digest();
+        expect($rootScope.$broadcast).toHaveBeenCalledWith('resource:details:myresource:create:success', jasmine.any(Object));
+      }]));
+      
+      it('should broadcast event when updating', inject(['$rootScope', function($rootScope) {
+        spyOn(isolateScope.resource, 'isNew').and.returnValue(false);
+        isolateScope.save();
+        isolateScope.$digest();
+        expect($rootScope.$broadcast).toHaveBeenCalledWith('resource:details:myresource:update:success', jasmine.any(Object));
+      }]));
+      
+      it('should broadcast the given extra event, if defined', inject(['$rootScope', function($rootScope) {
+        isolateScope.save('successEventName');
+        isolateScope.$digest();
+        expect($rootScope.$broadcast).toHaveBeenCalledWith('successEventName', jasmine.any(Object));
+      }]));
+    });
+    
+    describe('on failure', function(){
+      beforeEach(inject(['$q', '$rootScope', function($q, $rootScope){
+        spyOn(isolateScope.resource, 'save').and.callFake(function(){
+          var deferred = $q.defer();
+          deferred.reject('failure');
+          var promise = deferred.promise;
+          return promise;
+        });
+        
+        spyOn($rootScope, '$broadcast').and.callThrough();
+        spyOn(isolateScope, 'handleErrors').and.callFake(function(error){
+          return $q.reject(error);
+        });
+      }]));
+      
+      it('should broadcast event when creating', inject(['$rootScope', function($rootScope) {
+        isolateScope.save();
+        isolateScope.$digest();
+        expect($rootScope.$broadcast).toHaveBeenCalledWith('resource:details:myresource:create:fail', jasmine.any(Object));
+      }]));
+      
+      it('should broadcast event when updating', inject(['$rootScope', function($rootScope) {
+        spyOn(isolateScope.resource, 'isNew').and.returnValue(false);
+        isolateScope.save();
+        isolateScope.$digest();
+        expect($rootScope.$broadcast).toHaveBeenCalledWith('resource:details:myresource:update:fail', jasmine.any(Object));
+      }]));
+      
+      it('should broadcast the given extra event, if defined', inject(['$rootScope', function($rootScope) {
+        isolateScope.save('successEventName', 'failEventName');
+        isolateScope.$digest();
+        expect($rootScope.$broadcast).toHaveBeenCalledWith('failEventName', jasmine.any(Object));
+      }]));
+    });
+  });
+  
+  describe('handleErrors function', function() {
     beforeEach(function() {
       doDefaultCompile();
     });
 
-    it('should reset the resource', inject(['DirtyForms', function(DirtyForms) {
-      spyOn(DirtyForms, 'confirmIfDirty').and.callFake(function(callback) {
-        callback();
-      });
-
-      isolateScope.resource.firstName = 'JohnTest';
-      isolateScope.resource.id = '123';
-      isolateScope.detailsForm.$dirty = true;
-      isolateScope.cancel();
-
-      expect(isolateScope.resource.firstName).toEqual('John');
+    it('should call Alert when record fails to save', inject(['Alert', function(Alert) {
+      spyOn(Alert, 'error');
+      
+      isolateScope.handleErrors({data: {}});
+      expect(Alert.error).toHaveBeenCalledWith('Record failed to save');
     }]));
-
-    it('should reset the form', inject(['Alert', function(Alert) {
-      isolateScope.detailsForm.$dirty = true;
-      spyOn(Alert, 'confirm').and.callFake(function(msg, okCallback, cancelCallback) {
-        cancelCallback();
-      });
-      spyOn(angular, 'noop');
-      isolateScope.cancel();
-
-      expect(angular.noop).toHaveBeenCalled();
+    
+    it('should call Alert when record fails to update', inject(['Alert', function(Alert) {
+      spyOn(Alert, 'error');
+      spyOn(isolateScope.resource, 'isNew').and.returnValue(false);
+      
+      isolateScope.handleErrors({data: {}});
+      expect(Alert.error).toHaveBeenCalledWith('Record failed to update');
     }]));
-
-    it('should do nothing if the form is not dirty', inject(['Alert', function(Alert) {
-      isolateScope.detailsForm.$dirty = false;
-      spyOn(Alert, 'confirm');
-
-      isolateScope.cancel();
-
-      expect(Alert.confirm).not.toHaveBeenCalled();
+    
+    it('should set the error details of corresponding fields', inject([function() {
+      isolateScope.detailsForm = {
+          firstKey: {
+            $setValidity: jasmine.createSpy('setValidity'),
+            $error: {},
+            $setTouched: jasmine.createSpy('touched')
+          }
+      };
+      
+      isolateScope.handleErrors({data: {error : {attribute: {
+        'firstKey': 'The first error'
+      }}}});
+      expect(isolateScope.detailsForm.firstKey.$error).toEqual({api: 'The first error'});
+      expect(isolateScope.detailsForm.firstKey.$setValidity).toHaveBeenCalledWith('api', false);
+      expect(isolateScope.detailsForm.firstKey.$setTouched).toHaveBeenCalled();
     }]));
   });
 });

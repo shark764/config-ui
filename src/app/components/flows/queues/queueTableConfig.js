@@ -11,11 +11,11 @@ angular.module('liveopsConfigPanel')
           'name': 'description'
         }, {
           'header': $translate.instant('value.details.activeVersion'),
-          'templateUrl': 'app/components/flows/queues/activeVersionName.html'
+          'transclude': true
         }, {
           'header': $translate.instant('value.status'),
           'name': 'status',
-          'templateUrl': 'app/shared/templates/statuses.html',
+          'transclude': true,
           'options': statuses()
         }],
         'searchOn' : ['name'],
