@@ -14,10 +14,34 @@ modal {
     @include border-radius();
     border: 1px solid $grey;
     margin: auto auto;
-    padding: 10px 30px;
+    margin-top: 100px;
     min-width: 300px;
     max-width: 400px;
+    overflow: hidden;
     width: 30%;
+    top: 80px;
   }
   
+  p {
+   padding: 10px 30px;
+  }
+  
+  .header, .footer {
+    background-color: $lightest-grey;
+    padding: 10px 30px;
+  }
+  
+  .header {
+    margin: 0;
+  }
+  
+  .footer {
+    .btn {
+      width: 45%;
+    }
+    
+    .btn + .btn {
+      margin-left: 10%;
+    }
+  }
 }

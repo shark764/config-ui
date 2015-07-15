@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('bulkActionExecutor', ['$q', '$timeout', 'Alert',
-    function ($q, $timeout, Alert) {
+  .directive('bulkActionExecutor', ['$q', '$timeout', 'Alert', 'Modal', '$translate',
+    function ($q, $timeout, Alert, Modal, $translate) {
       return {
         restrict: 'AE',
         scope: {
@@ -14,6 +14,14 @@ angular.module('liveopsConfigPanel')
         link: function ($scope) {
           $scope.checkedItems = [];
 
+          $scope.confirmExecute = function(){
+            Modal.showConfirm({
+              title: $translate.instant('bulkActions.confirm.title'),
+              message: $translate.instant('bulkActions.confirm.message', {numItems: $scope.checkedItems.length}),
+              okCallback: $scope.execute
+            })
+          };
+          
           $scope.execute = function () {
             var selectedBulkActions = $scope.getSelectedItems($scope.bulkActions);
             var itemPromises = [];
