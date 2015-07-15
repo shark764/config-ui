@@ -22,8 +22,10 @@ angular.module('liveopsConfigPanel')
         angular.extend($scope, $scope.extendScope);
 
         $scope.closeDetails = function () {
-          $location.search({id : null});
-          $scope.originalResource = null;
+          DirtyForms.confirmIfDirty(function(){
+            $location.search({id : null});
+            $scope.originalResource = null;
+          });
         };
 
         $scope.save = function (extSuccessEventName, extFailureEventName) {

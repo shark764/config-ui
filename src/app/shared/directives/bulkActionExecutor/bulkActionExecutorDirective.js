@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('bulkActionExecutor', ['$q', '$timeout', 'Alert',
-    function ($q, $timeout, Alert) {
+  .directive('bulkActionExecutor', ['$q', '$timeout', 'Alert', 'DirtyForms',
+    function ($q, $timeout, Alert, DirtyForms) {
       return {
         restrict: 'AE',
         scope: {
@@ -15,7 +15,9 @@ angular.module('liveopsConfigPanel')
           $scope.checkedItems = [];
 
           $scope.closeBulk = function () {
-            $scope.bulkActions = null; // this will work when Phil pushes his PR.
+            DirtyForms.confirmIfDirty(function(){
+              $scope.bulkActions = null; // this will work when Phil pushes his PR.
+            });
           };
 
           $scope.execute = function () {
