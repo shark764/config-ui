@@ -4,8 +4,8 @@ var paths = require('./.yo-rc.json')['generator-gulp-angular'].props.paths;
 
 exports.config = {
 
-  sauceUser: '<sauce_user>',
-  sauceKey: '<sauce_key>',
+  sauceUser: process.env.SAUCE_USERNAME,
+  sauceKey: process.env.SAUCE_ACCESS_KEY,
 
   capabilities: {
     'browserName': 'chrome',
