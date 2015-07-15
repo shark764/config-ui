@@ -24,7 +24,7 @@
     left-min-width="700"
     right-min-width="300"></resize-handle>
 
-<div id="right-panel" class="right-panel">
+<div id="right-panel" class="right-panel" ng-show="selectedUser || bulkView">
   <resource-details
     ng-if="selectedUser && !bulkView"
     id="details-pane"
