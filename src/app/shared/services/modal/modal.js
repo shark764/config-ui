@@ -25,15 +25,19 @@ angular.module('liveopsConfigPanel')
         options.cancelCallback();
       };
       
-      var html = '<modal class="confirm"><div><h3 class="header">{{title}}</h3><p>{{message}}</p><div class="footer"><a id="modal-cancel" class="btn" ng-click="cancelCallback()">' +
-        $translate.instant('value.cancel') + 
-        '</a><a ng-click="okCallback()" class="btn btn-primary" id="modal-ok">' +
-        $translate.instant('value.ok') + 
-        '</a></div></div></modal>';
-      
-      var element = $compile(html)(newScope);
+      var element = $compile(self.getConfirmHtml())(newScope);
       $document.find('body').append(element);
     };
+    
+    this.getConfirmHtml = function(){
+      var html = '<modal class="confirm"><div><h3 class="header">{{title}}</h3><p>{{message}}</p><div class="footer"><a id="modal-cancel" class="btn" ng-click="cancelCallback()">' +
+      $translate.instant('value.cancel') + 
+      '</a><a ng-click="okCallback()" class="btn btn-primary" id="modal-ok">' +
+      $translate.instant('value.ok') + 
+      '</a></div></div></modal>';
+      
+      return html;
+    }
     
     this.close = function(){
       $document.find('modal').remove();
