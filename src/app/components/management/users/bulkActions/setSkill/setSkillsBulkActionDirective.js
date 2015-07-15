@@ -28,10 +28,9 @@ angular.module('liveopsConfigPanel')
 
               if(skills.indexOf(skill) < 0) {
                 skills.push(skill);
+                $scope.fetchSkillUsers(skill);
               }
             });
-
-            $scope.fetchSkillUsers(skills);
 
             return userSkills;
           });
@@ -53,26 +52,17 @@ angular.module('liveopsConfigPanel')
 
           $scope.skills = Skill.query({
             tenantId: Session.tenant.tenantId
-          }, function(skills) {
-            $scope.fetchSkillUsers(skills);
           });
         };
 
-        $scope.fetchSkillUsers = function(skills) {
-          var promises = [];
-          angular.forEach(skills, function(skill) {
-            skill.users = TenantSkillUsers.query({
-              tenantId: Session.tenant.tenantId,
-              skillId: skill.id
-            });
-
-            promises.push(skill.users.$promise);
+        $scope.fetchSkillUsers = function(skill) {
+          skill.users = TenantSkillUsers.query({
+            tenantId: Session.tenant.tenantId,
+            skillId: skill.id
           });
 
-          return $q.all(promises).finally(function() {
-            $scope.refreshAllAffectedUsers();
-          });
-        };
+          return skill.users
+        }
 
         $scope.removeBulkSkill = function(item) {
           $scope.userSkillsBulkActions.removeItem(item);
@@ -84,8 +74,13 @@ angular.module('liveopsConfigPanel')
         };
 
         $scope.onSelectSkill = function(action) {
-          action.params.skillId = action.selectedSkill.id;
-          $scope.refreshAffectedUsers(action);
+          var skill = action.selectedSkill;
+          $scope.fetchSkillUsers(skill);
+
+          skill.users.$promise.then(function() {
+            action.params.skillId = action.selectedSkill.id;
+            $scope.refreshAffectedUsers(action);
+          })
         };
 
         $scope.refreshAffectedUsers = function(userSkillsBulkAction) {
