@@ -54,7 +54,7 @@ angular.module('liveopsConfigPanel')
 
           $scope.updateDropDown = function (event, item) {
             $timeout(function () {
-              if (item.checked) {
+              if (item.checked && $scope.checkedItems.indexOf(item) < 0) {
                 $scope.checkedItems.push(item);
               } else {
                 $scope.checkedItems.removeItem(item);
