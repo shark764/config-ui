@@ -11,15 +11,15 @@
     <select ng-disabled="! bulkAction.checked"
       ng-model="action.selectedType"
       ng-options="type as type.display for type in userGroupBulkActionTypes"
-      ng-change="refreshAffectedUsers(action)">
+      ng-change="onChange(action)">
     </select>
     <select ng-disabled="! bulkAction.checked"
       ng-model="action.selectedGroup"
       ng-options="group as group.name for group in groups"
-      ng-change="refreshAffectedUsers(action)">
+      ng-change="onChange(action)">
       <option disabled value="">{{'bulkActions.userGroups.placeholder' | translate}}</option>
     </select>
-    <a ng-show="bulkAction.checked" class="affected-banner">{{action.usersAffected.length}} {{'bulkActions.affectedUsers' | translate}}</a>
+    <a ng-show="bulkAction.checked" class="affected-banner">{{refreshAffectedUsers(action).length}} {{'bulkActions.affectedUsers' | translate}}</a>
     <a ng-disabled="! bulkAction.checked" ng-click="bulkAction.checked && removeUserGroupBulkAction(action)"><i class="fa fa-times remove"></i></a>
   </fieldset>
 </div>

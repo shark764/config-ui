@@ -88,12 +88,14 @@ angular.module('liveopsConfigPanel')
         $scope.fetch();
       }, true);
       
-      $scope.bulkActions = {
-        setStatus: new BulkAction(),
-        resetPassword: new BulkAction(),
-        userSkills: new BulkAction(),
-        userGroups: new BulkAction()
-      };
+      $scope.$on('on:click:actions', function() {
+        $scope.bulkActions = {
+          setStatus: new BulkAction(),
+          resetPassword: new BulkAction(),
+          userSkills: new BulkAction(),
+          userGroups: new BulkAction()
+        };
+      });
 
       $scope.tableConfig = userTableConfig;
       $scope.fetch();

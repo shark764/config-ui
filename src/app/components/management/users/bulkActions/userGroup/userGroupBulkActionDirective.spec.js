@@ -149,76 +149,73 @@ describe('userGroupBulkAction directive', function() {
       expect(isolateScope.refreshAffectedUsers).toBeDefined();
     });
 
-    it('should have 2 usersAffected when they both qualify and both are checked', function() {
+    it('should have 2 usersAffected when they both qualify and both are checked', function () {
       var theFuture = {
         userId1: true,
         userId2: true
       };
 
-      spyOn(isolateScope.userGroupBulkActions[0].selectedType,
-          'canExecute')
+      var userGroupBulkAction = isolateScope.userGroupBulkActions[0];
+
+      spyOn(userGroupBulkAction.selectedType, 'canExecute')
         .and.returnValue(true);
 
-      spyOn(isolateScope.userGroupBulkActions[0].selectedType,
-          'doesQualify')
-        .and.callFake(function(user) {
+      spyOn(userGroupBulkAction.selectedType, 'doesQualify')
+        .and.callFake(function (user) {
           return theFuture[user.id];
         });
+
       isolateScope.users[0].checked = true;
       isolateScope.users[1].checked = true;
 
-      isolateScope.refreshAllAffectedUsers();
-
-      expect(isolateScope.userGroupBulkActions[0].usersAffected).toBeDefined();
-      expect(isolateScope.userGroupBulkActions[0].usersAffected.length).toEqual(2);
+      var usersAffected = isolateScope.refreshAffectedUsers(userGroupBulkAction);
+      expect(usersAffected.length).toEqual(2);
     });
 
-    it('should have 1 usersAffected when one qualifies and both are checked', function() {
+    it('should have 1 usersAffected when one qualifies and both are checked', function () {
       var theFuture = {
         userId1: true,
         userId2: false
       };
 
-      spyOn(isolateScope.userGroupBulkActions[0].selectedType,
-          'canExecute')
+      var userGroupBulkAction = isolateScope.userGroupBulkActions[0];
+
+      spyOn(userGroupBulkAction.selectedType, 'canExecute')
         .and.returnValue(true);
 
-      spyOn(isolateScope.userGroupBulkActions[0].selectedType,
-          'doesQualify')
-        .and.callFake(function(user) {
+      spyOn(userGroupBulkAction.selectedType, 'doesQualify')
+        .and.callFake(function (user) {
           return theFuture[user.id];
         });
+
       isolateScope.users[0].checked = true;
       isolateScope.users[1].checked = true;
 
-      isolateScope.refreshAllAffectedUsers();
-
-      expect(isolateScope.userGroupBulkActions[0].usersAffected).toBeDefined();
-      expect(isolateScope.userGroupBulkActions[0].usersAffected.length).toEqual(1);
+      var usersAffected = isolateScope.refreshAffectedUsers(userGroupBulkAction);
+      expect(usersAffected.length).toEqual(1);
     });
 
-    it('should have 1 usersAffected when they both qualify but one is checked', function() {
+    it('should have 1 usersAffected when they both qualify but one is checked', function () {
       var theFuture = {
         userId1: true,
         userId2: true
       };
 
-      spyOn(isolateScope.userGroupBulkActions[0].selectedType,
-          'canExecute')
+      var userGroupBulkAction = isolateScope.userGroupBulkActions[0];
+
+      spyOn(userGroupBulkAction.selectedType, 'canExecute')
         .and.returnValue(true);
 
-      spyOn(isolateScope.userGroupBulkActions[0].selectedType,
-          'doesQualify')
-        .and.callFake(function(user) {
+      spyOn(userGroupBulkAction.selectedType, 'doesQualify')
+        .and.callFake(function (user) {
           return theFuture[user.id];
         });
+
       isolateScope.users[0].checked = true;
       isolateScope.users[1].checked = false;
 
-      isolateScope.refreshAllAffectedUsers();
-
-      expect(isolateScope.userGroupBulkActions[0].usersAffected).toBeDefined();
-      expect(isolateScope.userGroupBulkActions[0].usersAffected.length).toEqual(1);
+      var usersAffected = isolateScope.refreshAffectedUsers(userGroupBulkAction);
+      expect(usersAffected.length).toEqual(1);
     });
   });
 });
