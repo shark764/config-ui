@@ -78,7 +78,6 @@ describe('The create new flows view', function() {
   it('should require field inputs', function() {
     flowCount = shared.tableElements.count();
     shared.createBtn.click();
-    shared.submitFormBtn.click();
 
     // Submit button is still disabled
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
@@ -99,7 +98,6 @@ describe('The create new flows view', function() {
 
     // Submit button is still disabled
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
-    shared.submitFormBtn.click();
 
     expect(shared.tableElements.count()).toBe(flowCount);
     expect(flows.requiredErrors.get(0).isDisplayed()).toBeTruthy();
@@ -135,7 +133,6 @@ describe('The create new flows view', function() {
 
     // Submit button is still disabled
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
-    shared.submitFormBtn.click();
 
     expect(shared.tableElements.count()).toBe(flowCount);
     expect(flows.requiredErrors.get(1).isDisplayed()).toBeTruthy();
@@ -152,7 +149,6 @@ describe('The create new flows view', function() {
 
     // Submit button is still disabled
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
-    shared.submitFormBtn.click();
 
     expect(flows.requiredErrors.get(0).isDisplayed()).toBeTruthy();
     expect(flows.requiredErrors.get(0).getText()).toBe('Please enter a name');
