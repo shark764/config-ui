@@ -4,8 +4,17 @@ var paths = require('./.yo-rc.json')['generator-gulp-angular'].props.paths;
 
 exports.config = {
 
+  sauceUser: '<sauce_user>',
+  sauceKey: '<sauce_key>',
+
   capabilities: {
-    'browserName': 'chrome'
+    'browserName': 'chrome',
+    'version': '35',
+    'tunnelIdentifier': 'sauce-tunnel-1',
+    // Test Identifiers - For easier grouping and reference in Sauce Labs
+    'name': 'Sauce Labs Test2',
+    'build': '0000',
+    'tags': ['Blue_Spurs', 'E2E', 'regression'],
   },
 
   // Timeout time in milliseconds; prevents Protractor waiting to synchronize timeouts
@@ -39,20 +48,6 @@ exports.config = {
     ],
     regression: [paths.e2e + '/**/*.spec.js']
   },
-
-  specs: [
-    paths.e2e + '/login/login.spec.js',
-    paths.e2e + '/navigation/**/*.spec.js',
-    paths.e2e + '/tableControls/**/*.spec.js',
-    paths.e2e + '/management/**/*.spec.js',
-    paths.e2e + '/configuration/**/*.spec.js',
-    paths.e2e + '/userProfile/**/*.spec.js',
-    paths.e2e + '/flows/newflow.spec.js',
-    paths.e2e + '/flows/flows.spec.js',
-    paths.e2e + '/flows/newqueue.spec.js',
-    paths.e2e + '/flows/queues.spec.js'
-    paths.e2e + '/flows/dispatchMappings.spec.js',
-  ],
 
   framework: 'jasmine2',
 
