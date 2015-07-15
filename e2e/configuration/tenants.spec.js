@@ -58,7 +58,7 @@ describe('The tenants view', function() {
 
     tenants.nameFormField.clear();
     tenants.descriptionFormField.click();
-    
+
     // Submit button is still disabled
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
 
@@ -78,17 +78,17 @@ describe('The tenants view', function() {
     });
   });
 
-  it('should not require admin when editing', function() {
+  xit('should require admin when editing', function() {
     tenants.firstTableRow.click();
 
     // Edit fields
     tenants.adminFormDropDown.all(by.css('option')).get(0).click();
     tenants.descriptionFormField.click();
 
-    expect(tenants.adminFormDropDown.getAttribute('value')).toBe('');
-    shared.submitFormBtn.click().then(function() {
-      expect(shared.successMessage.isDisplayed()).toBeTruthy();
-    });
+    expect(tenants.adminFormDropDown.getAttribute('value')).toBe('?');
+
+    // Submit button is still disabled
+    expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
   });
 
   it('should reset fields after editing and selecting Cancel', function() {
