@@ -95,9 +95,7 @@ angular.module('liveopsConfigPanel')
       $scope.$on('table:on:click:actions', $scope.createBulkActions);
 
       $scope.$on('bulk:action:cancel', function () {
-        DirtyForms.confirmIfDirty(function () {
-          $scope.createBulkActions();
-        });
+        $scope.createBulkActions();
       });
 
       $scope.additional = {

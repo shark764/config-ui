@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('bulkActionExecutor', ['$q', '$timeout', 'Alert',
-    function ($q, $timeout, Alert) {
+  .directive('bulkActionExecutor', ['$q', '$timeout', 'Alert', 'DirtyForms',
+    function ($q, $timeout, Alert, DirtyForms) {
       return {
         restrict: 'AE',
         scope: {
@@ -25,10 +25,19 @@ angular.module('liveopsConfigPanel')
             });
 
             var promise = $q.all(itemPromises).then(function () {
+              $scope.bulkActionForm.$setUntouched();
+              $scope.bulkActionForm.$setPristine();
+              $scope.resetBulkActions();
               Alert.success('Bulk action successful!');
             });
 
             return promise;
+          };
+          
+          $scope.resetBulkActions = function(){
+            angular.forEach($scope.bulkActions, function(action){
+              action.reset();
+            })
           };
 
           $scope.canExecute = function () {
@@ -64,7 +73,11 @@ angular.module('liveopsConfigPanel')
           };
           
           $scope.cancel = function () {
-            $scope.$emit('bulk:action:cancel');
+            DirtyForms.confirmIfDirty(function () {
+              $scope.bulkActionForm.$setUntouched();
+              $scope.bulkActionForm.$setPristine();
+              $scope.$emit('bulk:action:cancel');
+            });
           };
 
           $scope.$on('table:resource:checked', $scope.updateDropDown);

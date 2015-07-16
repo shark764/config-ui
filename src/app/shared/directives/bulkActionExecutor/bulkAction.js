@@ -9,6 +9,10 @@ angular.module('liveopsConfigPanel')
 
       BulkAction.prototype.apply = function() {
       };
+      
+      BulkAction.prototype.reset = function() {
+        this.checked = false;
+      };
 
       BulkAction.prototype.execute = function(items) {
         var promises = [];
