@@ -28,13 +28,8 @@ exports.config = {
   // --params.login.user 'ngrocks'
   params: {
     login: {
-      firstName: 'E2E',
-      lastName: 'User',
-      userDisplayName: 'E2E User',
-      user: 'e2e.user@mailinator.com',
-      password: 'P@$$w0rd'
-    },
-    liveops: {
+      firstName: 'titan',
+      lastName: 'user',
       userDisplayName: 'titan',
       user: 'titan@liveops.com',
       password: 'gKVnfF9wrs6XPSYs'
