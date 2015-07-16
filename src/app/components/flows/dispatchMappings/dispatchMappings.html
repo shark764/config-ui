@@ -4,6 +4,12 @@
   items="dispatchMappings"
   selected="selectedDispatchMapping"
   resource-name="{{'tenants:' + Session.tenant.tenantId + ':dispatch-mappings'}}">
+
+  <span name="active">
+    <span ng-if="item.active">{{'value.enabled' | translate}}</span>
+    <span ng-if="!item.active" class="disabled">{{'value.disabled' | translate}}</span>
+  </span>
+
 </table-controls>
 
 <resize-handle

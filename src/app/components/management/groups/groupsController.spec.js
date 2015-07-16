@@ -58,13 +58,13 @@ describe('groups controller', function () {
 
   describe('createGroup function', function () {
     it('should catch the on:click:create event', inject(['Session', function (Session) {
-      $scope.$broadcast('on:click:create');
+      $scope.$broadcast('table:on:click:create');
       expect($scope.selectedGroup).toBeDefined();
       expect($scope.selectedGroup.tenantId).toEqual(Session.tenant.tenantId);
     }]));
 
     it('should set selectedGroup to default values', inject(function () {
-      $scope.$broadcast('on:click:create');
+      $scope.$broadcast('table:on:click:create');
       expect($scope.selectedGroup.tenantId).toEqual('tenant-id');
       expect($scope.selectedGroup.status).toBeTruthy();
       expect($scope.selectedGroup.owner).toEqual('userId1');

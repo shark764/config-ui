@@ -4,21 +4,38 @@
     config="tableConfig"
     items="groups"
     selected="selectedGroup"
-    resource-name="group"></table-controls>
+    resource-name="group">
+
+  <span name="status">
+    <span ng-if="item.status">{{'value.enabled' | translate}}</span>
+    <span ng-if="!item.status" class="disabled">{{'value.disabled' | translate}}</span>
+  </span>
+
+  <span name="members">
+    {{item.members.length}}
+  </span>
+
+</table-controls>
 
 <resize-handle
-    ng-show="selectedGroup"
+    ng-show="selectedGroup || showBulkActions"
     id="resize-pane"
     right-element-id="details-pane"
     left-element-id="table-pane"
     left-min-width="600"
     right-min-width="300"></resize-handle>
 
-<resource-details
-    ng-show="selectedGroup"
-    id="details-pane"
-    extend-scope="additional"
-    header-template-url="app/components/management/groups/groupDetailHeader.html"
-    body-template-url="app/components/management/groups/groupDetailBody.html"
-    original-resource="selectedGroup"
-    resource-name="group"></resource-details>
+<div id="right-panel" class="right-panel" ng-show="selectedGroup || showBulkActions">
+  <resource-details
+      ng-show="selectedGroup && !showBulkActions"
+      id="details-pane"
+      extend-scope="additional"
+      header-template-url="app/components/management/groups/groupDetailHeader.html"
+      body-template-url="app/components/management/groups/groupDetailBody.html"
+      original-resource="selectedGroup"
+      resource-name="group"></resource-details>
+
+  <bulk-action-executor class="details-pane group-ba" ng-show="showBulkActions" items="groups" bulk-actions="bulkActions" show-bulk-actions="showBulkActions" selected-display="name">
+    <ba-set-group-status bulk-action="bulkActions.setGroupStatus"></ba-set-skill-status>
+  </bulk-action-executor>
+</div>

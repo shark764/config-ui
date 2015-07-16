@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('SkillsController', ['$scope', '$state', 'Session', 'Skill', 'skillTableConfig',
-    function($scope, $state, Session, Skill, skillTableConfig) {
+  .controller('SkillsController', ['$scope', '$state', 'Session', 'Skill', 'skillTableConfig', 'BulkAction', 'DirtyForms',
+    function($scope, $state, Session, Skill, skillTableConfig, BulkAction, DirtyForms) {
 
       $scope.Session = Session;
 
@@ -18,7 +18,10 @@ angular.module('liveopsConfigPanel')
         });
       };
 
-      $scope.$on('on:click:create', function() {
+    //Various navigation rules
+      $scope.$on('table:on:click:create', function () {
+        $scope.showBulkActions = false;
+
         $scope.selectedSkill = new Skill({
           tenantId: Session.tenant.tenantId,
           status: true,
@@ -27,6 +30,17 @@ angular.module('liveopsConfigPanel')
         });
       });
 
+      $scope.$on('table:resource:selected', function () {
+        $scope.showBulkActions = false;
+      });
+
+      $scope.$on('table:on:click:actions', function () {
+        $scope.showBulkActions = true;
+      });
+
       $scope.fetch();
+      $scope.bulkActions = {
+        setStatus: new BulkAction()
+      };
     }
   ]);

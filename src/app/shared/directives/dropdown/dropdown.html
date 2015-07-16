@@ -11,7 +11,7 @@
     <div class="dropdown" ng-hide="! showDrop">
       <ul>
         <li id="{{item.id}}"
-          ng-repeat="item in items | orderBy:displayPath"
+          ng-repeat="item in items | orderBy:orderBy"
           ng-click="optionClick(item.onClick)">
           <i class="{{item.iconClass}}"></i>{{item[displayPath]}}
         </li>

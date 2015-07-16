@@ -53,13 +53,12 @@ function flowDesigner() {
             $scope.version = new FlowVersion({
               flow: alienese,
               description: $scope.flowVersion.description || 'This needs to be fixed',
-              name: $scope.flowVersion.name
-            });
-
-            $scope.version.save({
+              name: $scope.flowVersion.name,
               tenantId: Session.tenant.tenantId,
               flowId: $scope.flowVersion.flowId
-            }, function() {
+            });
+
+            $scope.version.save(function() {
               Alert.success('New flow version successfully created.');
               $scope.flowVersion.v = parseInt($scope.flowVersion.v) + 1;
             }, function(error) {

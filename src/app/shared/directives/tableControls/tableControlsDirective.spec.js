@@ -82,19 +82,6 @@ describe('tableControls directive', function() {
     expect($scope.selected).toEqual(null);
   }));
 
-  it('should include template for columns that define it', inject(['$templateCache', function($templateCache) {
-    $templateCache.put('candyTemplate.html', '<candy>{{item.favCandy}}</candy>');
-    $scope.config.fields.push({
-        name: 'favCandy',
-        templateUrl: 'candyTemplate.html'
-    });
-    $scope.items.push({id: 'item1', favCandy: 'Wurthers'});
-    $scope.items.push({id: 'item2', favCandy: 'Peppermint'});
-    
-    doCompile();
-    expect(element.find('candy').length).toBe(2);
-  }]));
-
   it('should not display columns that are unchecked in config', inject(function() {
     $scope.config.fields.push({name : 'color', checked: false});
     $scope.config.fields.push({name: 'online', checked: true});
@@ -145,11 +132,11 @@ describe('tableControls directive', function() {
       expect($location.search).toHaveBeenCalledWith({id : undefined});
     }]));
 
-    it('should emit the resource:selected event', inject(function() {
-      spyOn(isolateScope, '$emit');
+    it('should emit the resource:selected event', inject(['$rootScope', function($rootScope) {
+      spyOn($rootScope, '$broadcast');
       isolateScope.selectItem({name: 'my item'});
-      expect(isolateScope.$emit).toHaveBeenCalledWith('resource:selected', {name: 'my item'});
-    }));
+      expect($rootScope.$broadcast).toHaveBeenCalledWith('table:resource:selected', {name: 'my item'});
+    }]));
   });
 
   describe('toggleAll function', function(){

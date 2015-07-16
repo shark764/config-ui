@@ -66,6 +66,10 @@ describe('The navbar', function() {
       expect(navbar.userLink.isDisplayed()).toBeTruthy();
       expect(navbar.skillsLink.isDisplayed()).toBeTruthy();
       expect(navbar.groupsLink.isDisplayed()).toBeTruthy();
+      
+      expect(navbar.managementOptions.get(0).getText()).toBe('Users');
+      expect(navbar.managementOptions.get(1).getText()).toBe('Skills');
+      expect(navbar.managementOptions.get(2).getText()).toBe('Groups');
     });
     
     it('should navigate to users page when users link is selected', function() {
@@ -94,6 +98,9 @@ describe('The navbar', function() {
   
       expect(navbar.tenantsLink.isDisplayed()).toBeTruthy();
       expect(navbar.integrationsLink.isDisplayed()).toBeTruthy();
+      
+      expect(navbar.configurationOptions.get(0).getText()).toBe('Tenants');
+      expect(navbar.configurationOptions.get(1).getText()).toBe('Integrations');
     });
     
     it('should navigate to tenants page when tenants link is selected', function() {
@@ -118,6 +125,12 @@ describe('The navbar', function() {
       expect(navbar.queuesLink.isDisplayed()).toBeTruthy();
       expect(navbar.mediaLink.isDisplayed()).toBeTruthy();
       expect(navbar.dispatchMappingsLink.isDisplayed()).toBeTruthy();
+      
+      expect(navbar.flowsOptions.get(0).getText()).toBe('Flows');
+      expect(navbar.flowsOptions.get(1).getText()).toBe('Queues');
+      expect(navbar.flowsOptions.get(2).getText()).toBe('Media Collections');
+      expect(navbar.flowsOptions.get(3).getText()).toBe('Media');
+      expect(navbar.flowsOptions.get(4).getText()).toBe('Dispatch Mappings');
     });
     
     it('should navigate to flows page when flows link is selected', function() {

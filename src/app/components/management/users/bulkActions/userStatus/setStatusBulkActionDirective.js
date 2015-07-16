@@ -19,6 +19,11 @@ angular.module('liveopsConfigPanel')
               return user;
             });
           };
+          
+          $scope.bulkAction.reset = function() {
+            $scope.bulkAction.checked = false;
+            $scope.status = false;
+          };
         }
       };
     }

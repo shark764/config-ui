@@ -44,7 +44,13 @@
                 type: 'liveOps.activity',
                 name: notation.name,
                 targeted: notation.targeted,
-                target: notation.target
+                target: notation.target,
+                params: _.reduce(notation.params, function(memo, value, key) {
+                  if (value.default) {
+                    memo[key] = value.default;
+                  };
+                  return memo;
+                }, {})
               });
             }
           ), entity);

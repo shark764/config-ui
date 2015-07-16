@@ -43,7 +43,7 @@
     </tr>
   </thead>
   <tr ng-repeat="version in versions | orderBy:'created':'reverse'">
-    <td><a href="#/flows/editor/{{version.flowId}}/{{version.version}}?v={{version.v}}">v{{version.v}}</a> &nbsp; {{version.name}}</td>
+    <td><a href="#/flows/editor/{{version.flowId}}/{{version.version}}?v={{version.v}}">v{{version.v}}</a>&nbsp;{{version.name}}</td>
     <td>{{version.created | date:'medium'}}</td>
     <td>
       <audit-text translation="value.displayName" user-id="version.createdBy"></audit-text>

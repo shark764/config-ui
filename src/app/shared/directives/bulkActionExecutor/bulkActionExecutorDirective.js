@@ -1,18 +1,34 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('bulkActionExecutor', ['$q', '$timeout', 'Alert',
-    function ($q, $timeout, Alert) {
+  .directive('bulkActionExecutor', ['$q', '$timeout', 'Alert', 'Modal', '$translate', 'DirtyForms',
+    function ($q, $timeout, Alert, Modal, $translate, DirtyForms) {
       return {
         restrict: 'AE',
         scope: {
           items: '=',
-          bulkActions: '='
+          bulkActions: '=',
+          showBulkActions: '=',
+          selectedDisplay: '@'
         },
         transclude: true,
         templateUrl: 'app/shared/directives/bulkActionExecutor/bulkActionExecutor.html',
         link: function ($scope) {
           $scope.checkedItems = [];
+
+          $scope.confirmExecute = function(){
+            Modal.showConfirm({
+              title: $translate.instant('bulkActions.confirm.title'),
+              message: $translate.instant('bulkActions.confirm.message', {numItems: $scope.checkedItems.length}),
+              okCallback: $scope.execute
+            });
+          };
+
+          $scope.closeBulk = function () {
+            DirtyForms.confirmIfDirty(function(){
+              $scope.showBulkActions = false; // this will work when Phil pushes his PR.
+            });
+          };
 
           $scope.execute = function () {
             var selectedBulkActions = $scope.getSelectedItems($scope.bulkActions);
@@ -26,6 +42,7 @@ angular.module('liveopsConfigPanel')
 
             var promise = $q.all(itemPromises).then(function () {
               Alert.success('Bulk action successful!');
+              $scope.resetForm();
             });
 
             return promise;
@@ -54,13 +71,27 @@ angular.module('liveopsConfigPanel')
 
           $scope.updateDropDown = function (event, item) {
             $timeout(function () {
-              if (item.checked) {
+              if (item.checked && $scope.checkedItems.indexOf(item) < 0) {
                 $scope.checkedItems.push(item);
               } else {
                 $scope.checkedItems.removeItem(item);
               }
               $scope.$apply();
             }, 5);
+          };
+
+          $scope.cancel = function () {
+            DirtyForms.confirmIfDirty(function () {
+              $scope.resetForm();
+            });
+          };
+
+          $scope.resetForm = function() {
+            $scope.bulkActionForm.$setUntouched();
+            $scope.bulkActionForm.$setPristine();
+            angular.forEach($scope.bulkActions, function(bulkAction) {
+              bulkAction.reset();
+            });
           };
 
           $scope.$on('table:resource:checked', $scope.updateDropDown);

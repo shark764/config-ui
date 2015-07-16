@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('resourceDetails', ['Alert', '$rootScope', '$window', 'DirtyForms', '$q',
-    function(Alert, $rootScope, $window, DirtyForms, $q) {
+  .directive('resourceDetails', ['Alert', '$rootScope', '$window', 'DirtyForms', '$q', '$location',
+    function(Alert, $rootScope, $window, DirtyForms, $q, $location) {
     return {
       restrict: 'E',
       scope: {
@@ -20,6 +20,13 @@ angular.module('liveopsConfigPanel')
         ele.addClass('details-pane');
 
         angular.extend($scope, $scope.extendScope);
+
+        $scope.closeDetails = function () {
+          DirtyForms.confirmIfDirty(function(){
+            $location.search({id : null});
+            $scope.originalResource = null;
+          });
+        };
 
         $scope.save = function (extSuccessEventName, extFailureEventName) {
           $scope.loading = true;
@@ -61,7 +68,7 @@ angular.module('liveopsConfigPanel')
         };
 
         $scope.handleErrors = function (error) {
-          Alert.error('Record failed to ' + ($scope.resource.id ? 'update' : 'save'));
+          Alert.error('Record failed to ' + ($scope.resource.isNew() ? 'save' : 'update'));
 
           if (error.data.error) {
 
@@ -86,16 +93,12 @@ angular.module('liveopsConfigPanel')
         $scope.$watch('originalResource', function () {
           $scope.resource = angular.copy($scope.originalResource);
           $scope.resetForm();
-        });
-
-        $scope.$watch('originalResource', function () {
-          $scope.resource = angular.copy($scope.originalResource);
         }, true); //TODO: Deep watch can be removed when group API returns members list
 
         $scope.cancel = function () {
           DirtyForms.confirmIfDirty(function(){
             $scope.$emit('resource:details:' + $scope.resourceName + ':canceled');
-            
+
             if ($scope.resource.isNew() || ! $scope.detailsForm.$dirty){
               $scope.originalResource = null;
               $scope.resource = null;

@@ -5,8 +5,9 @@ angular.module('liveopsConfigPanel')
     $scope.user = User.get({id : Session.user.id});
 
     $scope.save = function() {
-      $scope.user.save(function(){
+      $scope.user.save(function(result){
         Alert.success($translate.instant('user.profile.save.success'));
+        Session.setUser(result);
       }, function(){
         Alert.error($translate.instant('user.profile.save.fail'));
       });

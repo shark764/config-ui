@@ -69,14 +69,14 @@ angular.module('liveopsConfigPanel')
           id: 'user-management-link',
           order: 1
         }, {
-          label: 'Groups',
-          onClick: function(){$state.transitionTo('content.management.groups');},
-          id: 'group-management-link',
-          order: 2
-        }, {
           label: 'Skills',
           onClick: function(){$state.transitionTo('content.management.skills');},
           id: 'skill-management-link',
+          order: 2
+        }, {
+          label: 'Groups',
+          onClick: function(){$state.transitionTo('content.management.groups');},
+          id: 'group-management-link',
           order: 3
       }];
 
@@ -118,5 +118,22 @@ angular.module('liveopsConfigPanel')
           id: 'dispatch-mappings-configuration-link',
           order: 5
       }];
+
+      $scope.reportingDropConfig = [{
+          label: 'Historical Dashboards',
+          onClick: function(){$state.transitionTo('content.reports', {id: "historical-dashboards"});},
+          id: 'reports-management-link',
+          order: 1
+        }, {
+          label: 'Reporting Designer',
+          onClick: function(){$state.transitionTo('content.reports', {id: "reporting-designer"});},
+          id: 'reports-management-link',
+          order: 2
+        }, {
+          label: 'Chart Designer',
+          onClick: function(){$state.transitionTo('content.reports', {id: "chart-designer"});},
+          id: 'reports-management-link',
+          order: 3
+        }];
     }
   ]);

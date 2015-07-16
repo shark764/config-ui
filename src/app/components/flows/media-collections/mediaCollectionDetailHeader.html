@@ -3,6 +3,7 @@
     <h1 ng-show="originalResource.id">{{originalResource.name}}</h1>
     <h1 ng-show="!originalResource.id">{{'media.collection.details.creating' | translate}}</h1>
     <b audit-text
+      ng-if="!!originalResource.createdBy"
       translation="value.createdby.time"
       user-id="originalResource.createdBy"
       date="originalResource.created">

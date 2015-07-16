@@ -1,6 +1,6 @@
 'use strict';
 
-/*global jasmine, spyOn : false */
+/*global spyOn : false */
 
 describe('Save Interceptor service', function(){
   var SaveInterceptor,
