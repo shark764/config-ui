@@ -53,6 +53,11 @@
                 bindings: {label: 'Bindings', index: 3}
               }
             });
+            graph.interfaces.flowPropertiesPanel.on('all', function(event) {
+              if (event !== 'render') {
+                graph.utils.renderPropertiesPanel(cellView)
+              }
+            })
             $('#inspector-container').prepend(graph.interfaces.flowPropertiesPanel.render().el);
           } else {
             graph.utils.hidePropertiesPanel();

@@ -9,12 +9,16 @@
 
       registerActivity: function(alieneseJSON) {
         var self = this;
-        self.activities.push(alieneseJSON);
+        if (!_.contains(self.activities, alieneseJSON)) {
+          self.activities.push(alieneseJSON);
+        }
       },
 
       registerEvent: function(alieneseJSON) {
         var self = this;
-        self.events.push(alieneseJSON);
+        if (!_.contains(self.events, alieneseJSON)) {
+          self.events.push(alieneseJSON);
+        }
       },
 
       getActivityLabel: function(model) {
@@ -67,28 +71,102 @@
 
         //if we're dealing with an event
         if (modelType === 'liveOps.event') {
-          // return {
-          //   eventType: {
-          //     type: 'select',
-          //     group: 'general',
-          //     label: 'Group',
-          //     options: [
-          //       {
-          //         value: 'start',
-          //         content: 'Start'
-          //       },
-          //       {
-          //         value: 'intermediate',
-          //         content: 'Intermediate'
-          //       },
-          //       {
-          //         value: 'end',
-          //         content: 'End'
-          //       }
-          //     ]
-          //   },
-          // }
-          return model.get('inputs');;
+          var event = _.findWhere(self.events, {entity: model.get('entity'), type: model.get('name')})
+
+          var inputs = {
+            entity: {
+              type: 'select',
+              group: 'general',
+              label: 'Type',
+              options: _.map(_.filter(self.events, {type: model.get('name')}), function(def) {
+                return {
+                  value: def.entity,
+                  content: def.entity
+                }
+              })
+            },
+            name: {
+              type: 'select',
+              group: 'general',
+              label: 'Name',
+              options: _.map(_.filter(self.events, {entity: model.get('entity')}), function(def) {
+                return {
+                  value: def.type,
+                  content: def.type
+                }
+              })
+            }
+          }
+
+          _.each(event.props, function(prop) {
+            switch (prop){
+              case 'target':
+                inputs[prop] = {
+                  type: 'text',
+                  group: 'general',
+                  label: 'Target'
+                }
+                break;
+              case 'bindings':
+                inputs[prop] = {
+                  type: 'list',
+                  label: 'Bindings',
+                  group: 'bindings',
+                  item: {
+                    type: 'object',
+                    properties: {
+                      key: {
+                        label: 'Key',
+                        type: 'text'
+                      },
+                      value: {
+                        label: 'Value',
+                        type: 'text'
+                      }
+                    }
+                  }
+                }
+                break;
+              case 'event':
+                inputs[prop] = {
+                  type: 'object',
+                  group: 'general',
+                  label: 'Event',
+                  properties: {
+                    name: {
+                      label: 'Signal Name',
+                      type: 'text'
+                    },
+                    params: {
+                      label: 'Params',
+                      type: 'list',
+                      item: {
+                        type: 'object',
+                        properties: {
+                          key: {
+                            label: 'Key',
+                            type: 'text'
+                          },
+                          value: {
+                            label: 'Value',
+                            type: 'text'
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+                break;
+              case 'terminate':
+                inputs[prop] = {
+                  type: 'toggle',
+                  group: 'general',
+                  label: 'Terminate?'
+                }
+            }
+          })
+
+          return inputs;
         }
 
       },

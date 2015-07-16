@@ -91,29 +91,18 @@
         var jointNotation = _.reduce(alienese, function(memo, notation) {
 
           if (notation.entity === 'start' || notation.entity === 'catch' || notation.entity === 'throw') {
+
             var event = {
               id: String(notation.id),
               type: 'liveOps.event',
               interrupting: notation.interrupting,
-              eventName: notation.type,
+              name: notation.type,
               position: {
                 x: (notation['rendering-data']) ? notation['rendering-data'].x : 0,
                 y: (notation['rendering-data']) ? notation['rendering-data'].y : 0
-              }
+              },
+              entity: notation.entity
             };
-
-            if (notation.entity === 'throw' && notation.terminate) {
-              event.eventType = 'end';
-              event.throwing = true;
-            } else if (notation.entity === 'throw' && !notation.terminate) {
-              event.eventType = 'intermediate';
-              event.throwing = true;
-            }else if (notation.entity === 'catch') {
-              event.eventType = 'intermediate';
-              event.throwing = false;
-            } else if (notation.entity === 'start') {
-              event.eventType = 'start';
-            }
 
             if (notation.target) {
               event.target = notation.target;

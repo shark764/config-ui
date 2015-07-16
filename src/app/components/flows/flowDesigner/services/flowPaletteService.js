@@ -19,16 +19,17 @@
       loadEvents: function(palette) {
         palette.load([
           new joint.shapes.liveOps.event({
-            eventName: 'none',
-            eventType: 'start'
+            name: 'none',
+            entity: 'start'
           }),
           new joint.shapes.liveOps.event({
-            eventName: 'none',
-            eventType: 'intermediate'
+            name: 'none',
+            entity: 'catch'
           }),
           new joint.shapes.liveOps.event({
-            eventName: 'none',
-            eventType: 'end'
+            name: 'none',
+            entity: 'throw',
+            terminate: true
           })
         ], 'events');
 

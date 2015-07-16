@@ -215,6 +215,11 @@
         },
         {
           entity: 'catch',
+          type: 'none',
+          props: []
+        },
+        {
+          entity: 'catch',
           type: 'signal',
           props: ['target', 'interrupting', 'bindings']
         },
