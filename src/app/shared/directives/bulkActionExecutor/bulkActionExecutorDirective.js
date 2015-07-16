@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('bulkActionExecutor', ['$q', '$timeout', 'Alert', 'DirtyForms',
-    function ($q, $timeout, Alert, DirtyForms) {
+  .directive('bulkActionExecutor', ['$q', '$timeout', 'Alert', 'Modal', '$translate', 'DirtyForms',
+    function ($q, $timeout, Alert, Modal, $translate, DirtyForms) {
       return {
         restrict: 'AE',
         scope: {
@@ -14,6 +14,14 @@ angular.module('liveopsConfigPanel')
         link: function ($scope) {
           $scope.checkedItems = [];
 
+          $scope.confirmExecute = function(){
+            Modal.showConfirm({
+              title: $translate.instant('bulkActions.confirm.title'),
+              message: $translate.instant('bulkActions.confirm.message', {numItems: $scope.checkedItems.length}),
+              okCallback: $scope.execute
+            });
+          };
+          
           $scope.closeBulk = function () {
             DirtyForms.confirmIfDirty(function(){
               $scope.bulkActions = null; // this will work when Phil pushes his PR.
