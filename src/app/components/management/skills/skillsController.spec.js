@@ -61,7 +61,7 @@ describe('SkillsController', function () {
   });
 
   it('should set selectedGroup on createSkill', function() {
-    $scope.$broadcast('on:click:create');
+    $scope.$broadcast('table:on:click:create');
 
     expect($scope.selectedSkill).toBeDefined();
     expect($scope.selectedSkill.tenantId).toEqual(Session.tenant.tenantId);

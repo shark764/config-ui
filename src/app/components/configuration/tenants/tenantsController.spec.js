@@ -59,7 +59,7 @@ describe('TenantsController', function () {
   });
 
   it('should have a function to create a new tenant and set it as selected', function () {
-    $scope.$broadcast('on:click:create');
+    $scope.$broadcast('table:on:click:create');
     expect($scope.selectedTenant).toBeDefined();
     expect($scope.selectedTenant.regionId).toBe(Session.activeRegionId);
   });
