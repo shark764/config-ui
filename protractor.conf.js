@@ -16,7 +16,7 @@ exports.config = {
     // Test Identifiers - For easier grouping and reference in Sauce Labs
     'name': 'Sauce Labs Test',
     'build': '0001',
-    'tags': ['swilcox', 'full-regression'],
+    'tags': ['BlueSpurs', 'full-regression'],
     'max-duration': '5400',
   },
 
