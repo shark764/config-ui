@@ -15,7 +15,7 @@ module.exports = function(options) {
   gulp.task('webdriver-standalone', $.protractor.webdriver_standalone);
 
   gulp.task('sauce-start', function(done) {
-    tunnel = new SauceTunnel(process.env.SAUCE_USERNAME, process.env.SAUCE_ACCESS_KEY, "sauce-tunnel-1");
+    tunnel = new SauceTunnel(process.env.SAUCE_USERNAME, process.env.SAUCE_ACCESS_KEY, process.env.SAUCE_TUNNEL);
     // Enhance logging
     var methods = ['write', 'writeln', 'error', 'ok', 'debug'];
     methods.forEach(function(method) {
@@ -38,9 +38,8 @@ module.exports = function(options) {
     });
   });
 
-
-  function runProtractor (done) {
-    gulp.src(options.e2e + '/login/login.spec.js')
+  function runProtractor(done) {
+    gulp.src(options.e2e + '/**/*.spec.js')
       .pipe($.protractor.protractor({
         configFile: 'protractor.conf.js'
       }))
