@@ -54,7 +54,7 @@ describe('IntegrationsController', function () {
   });
 
   it('should have a function to create a new integration and set it as selected', function () {
-    $scope.$broadcast('on:click:create');
+    $scope.$broadcast('table:on:click:create');
     expect($scope.selectedIntegration).toBeDefined();
   });
 });

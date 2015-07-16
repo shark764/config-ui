@@ -82,7 +82,7 @@ describe('MediaCollectionController', function () {
   it('should call create when the create button is clicked', inject(function () {
     spyOn($scope, 'create');
 
-    $rootScope.$broadcast('on:click:create');
+    $rootScope.$broadcast('table:on:click:create');
 
     expect($scope.create).toHaveBeenCalled();
   }));

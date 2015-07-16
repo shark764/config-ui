@@ -40,7 +40,7 @@ describe('MediaController', function () {
     });
 
     it('should call create when on:click:create event occurs', function () {
-      $scope.$broadcast('on:click:create');
+      $scope.$broadcast('table:on:click:create');
       expect($scope.selectedMedia).toBeDefined();
     });
   });
