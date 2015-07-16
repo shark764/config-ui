@@ -20,8 +20,7 @@ angular.module('liveopsConfigPanel')
       
       $scope.createBulkActions = function () {
         $scope.bulkActions = {
-          setStatus: new BulkAction(),
-          hasProficiency: new BulkAction()
+          setStatus: new BulkAction()
         };
       };
       
