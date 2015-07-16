@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('GroupsController', ['$scope', 'Session', 'Group', 'User', 'groupTableConfig', 'TenantGroupUsers',
-    function ($scope, Session, Group, User, groupTableConfig, TenantGroupUsers) {
+  .controller('GroupsController', ['$scope', 'Session', 'Group', 'User', 'groupTableConfig', 'TenantGroupUsers', 'DirtyForms', 'BulkAction',
+    function ($scope, Session, Group, User, groupTableConfig, TenantGroupUsers, DirtyForms, BulkAction) {
       $scope.Session = Session;
       $scope.tableConfig = groupTableConfig;
 
@@ -44,13 +44,35 @@ angular.module('liveopsConfigPanel')
         $scope.fetch();
       }, true);
 
-      $scope.$on('on:click:create', function () {
+      $scope.$on('table:on:click:create', function () {
+        $scope.bulkActions = null;
         $scope.selectedGroup = new Group({
           tenantId: Session.tenant.tenantId,
           status: true,
           owner: Session.user.id
         });
       });
+      
+      $scope.createBulkActions = function () {
+        $scope.bulkActions = {
+          setGroupStatus: new BulkAction()
+        };
+      };
+      
+    //Various navigation rules
+      $scope.$on('table:resource:selected', function () {
+        $scope.bulkActions = null;
+      });
+
+      $scope.$on('table:resource:checked', function () {
+        if (!$scope.bulkActions) {
+          DirtyForms.confirmIfDirty(function () {
+            $scope.createBulkActions();
+          });
+        }
+      });
+
+      $scope.$on('table:on:click:actions', $scope.createBulkActions);
 
       $scope.fetch();
     }

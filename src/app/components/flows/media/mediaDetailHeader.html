@@ -1,6 +1,5 @@
-<div class="info">
-  <h1 ng-show="originalResource.id">{{originalResource.source}}</h1>
-  <h1 ng-show="!originalResource.id">{{'media.details.creating' | translate}}</h1>
+<div ng-show="originalResource.id" class="info">
+  <h1>{{originalResource.name}}</h1>
   <div class="details">
     <b audit-text
       translation="value.createdby.time"
@@ -15,3 +14,5 @@
     </b>
   </div>
 </div>
+
+<h1 ng-show="!originalResource.id">{{'media.details.creating' | translate}}</h1>

@@ -40,30 +40,8 @@ describe('MediaController', function () {
     });
 
     it('should call create when on:click:create event occurs', function () {
-      $scope.$broadcast('on:click:create');
+      $scope.$broadcast('table:on:click:create');
       expect($scope.selectedMedia).toBeDefined();
     });
   });
-
-
-  describe('when fetch returns no results', function() {
-    beforeEach(function() {
-      $httpBackend.expect('GET', apiHostname + '/v1/tenants/' + Session.tenant.tenantId + '/media').respond({
-        'result': []
-      });
-
-      $controller('MediaController', {
-        '$scope': $scope
-      });
-
-      $httpBackend.flush();
-    });
-
-    it('should call create when not results are return from fetch', function () {
-      expect($scope.selectedMedia.tenantId).toEqual(Session.tenant.tenantId);
-      expect($scope.selectedMedia.properties).toEqual({});
-    });
-  });
-
-
 });

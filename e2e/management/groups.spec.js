@@ -56,7 +56,7 @@ describe('The groups view', function() {
     expect(shared.navBar.isDisplayed()).toBeTruthy();
     expect(groups.tablePane.isDisplayed()).toBeTruthy();
     expect(shared.searchField.isDisplayed()).toBeTruthy();
-    expect(shared.detailsForm.isDisplayed()).toBeTruthy();
+    expect(shared.detailsForm.isDisplayed()).toBeFalsy(); //hide right panel by default
     expect(shared.actionsBtn.isDisplayed()).toBeTruthy();
     expect(shared.createBtn.isDisplayed()).toBeTruthy();
     expect(shared.tableColumnsDropDown.isDisplayed()).toBeTruthy();
@@ -157,7 +157,7 @@ describe('The groups view', function() {
   });
 
   it('should display group details when selected from table', function() {
-    // Select first queue from table
+    // Select first group from table
     groups.firstTableRow.click();
 
     // Verify group details in table matches populated field

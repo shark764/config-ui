@@ -14,14 +14,14 @@ angular.module('liveopsConfigPanel')
         'name': 'status',
         'sortable': true,
         'options': statuses(),
-        'templateUrl': 'app/shared/templates/statuses.html',
+        'transclude': true,
         'filter': 'selectedOptions'
       }, {
         'header': $translate.instant('integration.table.webrtc'),
         'name': 'properties.webRtc',
         'sortable': true,
         'options': statuses(),
-        'templateUrl': 'app/components/configuration/integrations/templates/webrtc.html',
+        'transclude': true,
         'filter': 'selectedOptions'
       }],
       'searchOn': ['name'],
