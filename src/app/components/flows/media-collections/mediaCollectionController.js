@@ -45,6 +45,7 @@ angular.module('liveopsConfigPanel')
         $scope.waitingMedia = media;
 
         $scope.selectedMedia = new Media({
+          properties: {},
           tenantId: Session.tenant.tenantId
         });
       });
