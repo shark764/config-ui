@@ -1,20 +1,23 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('ReportsController', ['$scope', '$sce', '$http', '$state',
-    function($scope, $sce, $http, $state) {
-      
-
+  .constant("BIRST_URL", 'http://dev-birst.liveopslabs.com')
+  .controller('ReportsController', ['$scope', '$sce', '$http', '$state', 'BIRST_URL',
+    function($scope, $sce, $http, $state, BIRST_URL) {
       $scope.birst = {};
-      $scope.birst.baseUrl = 'http://dev-birst.liveopslabs.com';
+
       $scope.fetch = function() {
-        var tokenGeneratorUrl = 
 
         $http({
-          url: $scope.birst.baseUrl + '/TokenGenerator.aspx?birst.username=titan-product@liveops.com&birst.ssopassword=JO4IIiv0vuzyhoYoyWpbip0QquoCQyGh&birst.spaceId=2846b565-23f8-4032-b563-21f8b7a01cc5' 
-          + '&birst.sessionVars=Birst$Groups=\'CreateDashboards\',\'CreateReports\',\'ExploreData\',\'ScheduleReports\',\'DownloadData\',\'43d0436d-356d-451a-ab73-d9a7e465e255\' ',
+          url: BIRST_URL + '/TokenGenerator.aspx?',
           method: 'POST',
           data: null,
+          params: {
+            'birst.username': 'titan-product@liveops.com',
+            'birst.ssopassword': 'JO4IIiv0vuzyhoYoyWpbip0QquoCQyGh',
+            'birst.spaceId': '2846b565-23f8-4032-b563-21f8b7a01cc5',
+            'birst.sessionVars': 'Birst$Groups=\'CreateDashboards\',\'CreateReports\',\'ExploreData\',\'ScheduleReports\',\'DownloadData\',\'43d0436d-356d-451a-ab73-d9a7e465e255\''
+          },
           headers: {'Content-Type': 'application/x-www-form-urlencoded'}
         }).success( function (data, status, headers, config) {
           $scope.birst.SSOToken = data;
@@ -35,7 +38,7 @@ angular.module('liveopsConfigPanel')
       }
 
       $scope.buildUrl = function() {
-        var buildingUrl = $scope.birst.baseUrl + '/SSO.aspx?';
+        var buildingUrl = BIRST_URL + '/SSO.aspx?';
 
         buildingUrl = buildingUrl + 'birst.SSOToken=' + $scope.birst.SSOToken + '&birst.embedded=true&birst.module=' + $scope.birst.module ;
 
