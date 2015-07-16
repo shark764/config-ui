@@ -25,11 +25,17 @@
     left-min-width="600"
     right-min-width="300"></resize-handle>
 
-<resource-details
-    ng-show="selectedGroup"
-    id="details-pane"
-    extend-scope="additional"
-    header-template-url="app/components/management/groups/groupDetailHeader.html"
-    body-template-url="app/components/management/groups/groupDetailBody.html"
-    original-resource="selectedGroup"
-    resource-name="group"></resource-details>
+<div id="right-panel" class="right-panel" ng-show="selectedGroup || bulkActions">
+  <resource-details
+      ng-show="selectedGroup"
+      id="details-pane"
+      extend-scope="additional"
+      header-template-url="app/components/management/groups/groupDetailHeader.html"
+      body-template-url="app/components/management/groups/groupDetailBody.html"
+      original-resource="selectedGroup"
+      resource-name="group"></resource-details>
+      
+  <bulk-action-executor class="details-pane group-ba" ng-if="!!bulkActions" items="groups" bulk-actions="bulkActions">
+    <ba-set-group-status bulk-action="bulkActions.setGroupStatus"></ba-set-skill-status>
+  </bulk-action-executor>
+</div>

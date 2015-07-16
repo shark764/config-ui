@@ -236,6 +236,7 @@
   "bulkActions.skills.none": "Click the plus button above to add a skill change",
   "bulkActions.enable.skills": "Enable Skills",
   "bulkActions.skills.hasProficiency": "Set Has Proficiency",
+  "bulkActions.enable.groups": "Enable Groups",
   
   "user.profile.save.success": "Your details have been updated.",
   "user.profile.save.fail": "An error occured while updating your details."
