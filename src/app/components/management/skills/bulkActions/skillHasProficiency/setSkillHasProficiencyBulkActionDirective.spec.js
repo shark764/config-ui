@@ -36,7 +36,7 @@ describe('setSkillHasProficiencyBulkAction directive', function() {
     
     isolateScope.bulkAction.hasProficiency = true;
     isolateScope.bulkAction.reset();
-    expect(isolateScope.bulkAction.hasProficiency).toBeFalsy();
+    expect(isolateScope.hasProficiency).toBeFalsy();
     expect(isolateScope.bulkAction.checked).toBeFalsy();
   });
 

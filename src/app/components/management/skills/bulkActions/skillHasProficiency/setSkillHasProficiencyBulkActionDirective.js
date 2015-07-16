@@ -12,7 +12,7 @@ angular.module('liveopsConfigPanel')
         link: function ($scope) {
           $scope.bulkAction.apply = function(skill) {
             var skillCopy = angular.copy(skill);
-            skillCopy.hasProficiency = $scope.bulkAction.hasProficiency;
+            skillCopy.hasProficiency = $scope.hasProficiency;
             return skillCopy.save().then(function(skillCopy) {
               angular.copy(skillCopy, skill);
               skill.checked = true;
@@ -21,8 +21,8 @@ angular.module('liveopsConfigPanel')
           };
           
           $scope.bulkAction.reset = function() {
-            this.checked = false;
-            $scope.bulkAction.hasProficiency = false;
+            $scope.bulkAction.checked = false;
+            $scope.hasProficiency = false;
           };
         }
       };
