@@ -49,10 +49,6 @@ angular.module('liveopsConfigPanel')
 
       $scope.$on('table:on:click:actions', $scope.createBulkActions);
 
-      $scope.$on('bulk:action:cancel', function () {
-        $scope.createBulkActions();
-      });
-
       $scope.fetch();
     }
   ]);

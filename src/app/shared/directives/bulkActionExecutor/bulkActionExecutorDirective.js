@@ -25,19 +25,11 @@ angular.module('liveopsConfigPanel')
             });
 
             var promise = $q.all(itemPromises).then(function () {
-              $scope.bulkActionForm.$setUntouched();
-              $scope.bulkActionForm.$setPristine();
-              $scope.resetBulkActions();
               Alert.success('Bulk action successful!');
+              $scope.resetForm();
             });
 
             return promise;
-          };
-          
-          $scope.resetBulkActions = function(){
-            angular.forEach($scope.bulkActions, function(action){
-              action.reset();
-            })
           };
 
           $scope.canExecute = function () {
@@ -74,9 +66,15 @@ angular.module('liveopsConfigPanel')
           
           $scope.cancel = function () {
             DirtyForms.confirmIfDirty(function () {
-              $scope.bulkActionForm.$setUntouched();
-              $scope.bulkActionForm.$setPristine();
-              $scope.$emit('bulk:action:cancel');
+              $scope.resetForm();
+            });
+          };
+          
+          $scope.resetForm = function() {
+            $scope.bulkActionForm.$setUntouched();
+            $scope.bulkActionForm.$setPristine();
+            angular.forEach($scope.bulkActions, function(bulkAction) {
+              bulkAction.reset();
             });
           };
 

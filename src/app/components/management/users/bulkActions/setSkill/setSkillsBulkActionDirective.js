@@ -21,19 +21,7 @@ angular.module('liveopsConfigPanel')
             });
           });
 
-          return $q.all(promises).then(function(userSkills) {
-            var skills = [];
-            angular.forEach(userSkills, function(userSkill) {
-              var skill = $scope.findSkillForId($scope.skills, userSkill.skillId);
-
-              if(skills.indexOf(skill) < 0) {
-                skills.push(skill);
-                $scope.fetchSkillUsers(skill);
-              }
-            });
-
-            return promises;
-          });
+          return $q.all(promises);
         };
 
         $scope.bulkAction.canExecute = function() {
@@ -43,6 +31,12 @@ angular.module('liveopsConfigPanel')
           });
 
           return canExecute;
+        };
+        
+        $scope.bulkAction.reset = function() {
+          $scope.bulkAction.checked = false;
+          $scope.bulkAction.userSkillsBulkActions = [];
+          $scope.addBulkSkill();
         };
 
         $scope.fetch = function () {
@@ -115,9 +109,8 @@ angular.module('liveopsConfigPanel')
           return foundSkill;
         };
         
-        $scope.$watch('bulkAction', function() {
-          $scope.bulkAction.userSkillsBulkActions = [];
-          $scope.addBulkSkill();
+        $scope.$watch('bulkAction.params', function() {
+          $scope.bulkAction.reset();
         });
           
         $scope.userSkillsBulkActionTypes = userSkillsBulkActionTypes;

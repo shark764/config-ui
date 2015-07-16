@@ -21,19 +21,7 @@ angular.module('liveopsConfigPanel')
               });
             });
 
-            return $q.all(promises).then(function (userGroups) {
-              var groups = [];
-              angular.forEach(userGroups, function (userGroup) {
-                var group = $scope.findGroupForId($scope.groups, userGroup.groupId);
-
-                if (groups.indexOf(group) < 0) {
-                  groups.push(group);
-                  $scope.fetchUserGroups(group);
-                }
-              });
-
-              return userGroups;
-            });
+            return $q.all(promises);
           };
 
           $scope.bulkAction.canExecute = function () {
@@ -43,6 +31,12 @@ angular.module('liveopsConfigPanel')
             });
 
             return canExecute;
+          };
+          
+          $scope.bulkAction.reset = function() {
+            $scope.bulkAction.checked = false;
+            $scope.bulkAction.userGroupBulkActions = [];
+            $scope.addUserGroupBulkAction();
           };
 
           $scope.fetch = function () {
@@ -111,8 +105,7 @@ angular.module('liveopsConfigPanel')
           };
           
           $scope.$watch('bulkAction', function() {
-            $scope.bulkAction.userGroupBulkActions = [];
-            $scope.addUserGroupBulkAction();
+            $scope.bulkAction.reset();
           });
           
           $scope.userGroupBulkActionTypes = userGroupBulkActionTypes;
