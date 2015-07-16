@@ -62,6 +62,14 @@ describe('bulkActionExecutor directive', function () {
       }
     ]));
   });
+  
+  it('should have a function to null the list of bulk actions', function () {
+    isolateScope.bulkActions = [{}, {}];
+
+    isolateScope.closeBulk();
+
+    expect(isolateScope.bulkActions).toBeNull();
+  });
 
   describe('ON canExecute', function () {
     it('should return false if no bulkActions are checked', function () {

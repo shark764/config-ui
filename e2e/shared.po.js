@@ -55,6 +55,7 @@ var Shared = function() {
   this.tableColumnsDropDown = element(by.id('table-columns-dropdown'));
 
   // Shared Form elements
+  this.detailsPanel = element(by.css('.details-pane'));
   this.detailsForm = element(by.css('.details-form'));
   this.submitFormBtn = element(by.id('submit-details-btn'));
   this.cancelFormBtn = element(by.id('cancel-details-btn'));

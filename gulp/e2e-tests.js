@@ -39,7 +39,7 @@ module.exports = function(options) {
   });
 
 
-  function runProtractor(done) {
+  function runProtractor (done) {
     gulp.src(options.e2e + '/login/login.spec.js')
       .pipe($.protractor.protractor({
         configFile: 'protractor.conf.js'
@@ -58,5 +58,22 @@ module.exports = function(options) {
       });
   }
 
+  function runProtractorLocal (done) {
+    gulp.src(options.e2e + '/**/*.js')
+      .pipe($.protractor.protractor({
+        configFile: 'protractor.local.conf.js'
+      }))
+      .on('error', function (err) {
+        // Make sure failed tests cause gulp to exit non-zero
+        throw err;
+      })
+      .on('end', function () {
+        // Close browser sync server
+        browserSync.exit();
+        done();
+      });
+  }
+
   gulp.task('protractor', ['sauce-start']);
+  gulp.task('protractor:local', ['serve:e2e', 'webdriver-update'], runProtractorLocal);
 };
