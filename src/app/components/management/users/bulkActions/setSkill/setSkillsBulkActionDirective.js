@@ -14,7 +14,7 @@ angular.module('liveopsConfigPanel')
         $scope.bulkAction.execute = function (users) {
           var promises = [];
           angular.forEach(users, function(user) {
-            angular.forEach($scope.userSkillsBulkActions, function(userSkillsBulkAction) {
+            angular.forEach($scope.bulkAction.userSkillsBulkActions, function(userSkillsBulkAction) {
               if(userSkillsBulkAction.selectedType.doesQualify(user, userSkillsBulkAction)) {
                 promises.push(userSkillsBulkAction.execute(user));
               }
@@ -28,18 +28,17 @@ angular.module('liveopsConfigPanel')
 
               if(skills.indexOf(skill) < 0) {
                 skills.push(skill);
+                $scope.fetchSkillUsers(skill);
               }
             });
 
-            $scope.fetchSkillUsers(skills);
-
-            return userSkills;
+            return promises;
           });
         };
 
         $scope.bulkAction.canExecute = function() {
-          var canExecute = !!$scope.userSkillsBulkActions.length;
-          angular.forEach($scope.userSkillsBulkActions, function(userSkillsBulkAction) {
+          var canExecute = !!$scope.bulkAction.userSkillsBulkActions.length;
+          angular.forEach($scope.bulkAction.userSkillsBulkActions, function(userSkillsBulkAction) {
             canExecute = canExecute && userSkillsBulkAction.selectedType.canExecute(userSkillsBulkAction);
           });
 
@@ -53,47 +52,44 @@ angular.module('liveopsConfigPanel')
 
           $scope.skills = Skill.query({
             tenantId: Session.tenant.tenantId
-          }, function(skills) {
-            $scope.fetchSkillUsers(skills);
           });
         };
 
-        $scope.fetchSkillUsers = function(skills) {
-          var promises = [];
-          angular.forEach(skills, function(skill) {
-            skill.users = TenantSkillUsers.query({
-              tenantId: Session.tenant.tenantId,
-              skillId: skill.id
-            });
-
-            promises.push(skill.users.$promise);
+        $scope.fetchSkillUsers = function(skill) {
+          skill.users = TenantSkillUsers.query({
+            tenantId: Session.tenant.tenantId,
+            skillId: skill.id
           });
 
-          return $q.all(promises).finally(function() {
-            $scope.refreshAllAffectedUsers();
-          });
+          return skill.users;
         };
 
         $scope.removeBulkSkill = function(item) {
-          $scope.userSkillsBulkActions.removeItem(item);
+          $scope.bulkAction.userSkillsBulkActions.removeItem(item);
         };
 
         $scope.addBulkSkill = function() {
-          $scope.userSkillsBulkActions.push(
+          $scope.bulkAction.userSkillsBulkActions.push(
             new UserSkillsBulkAction());
         };
 
-        $scope.onSelectSkill = function(action) {
-          action.params.skillId = action.selectedSkill.id;
-          $scope.refreshAffectedUsers(action);
-        };
+        $scope.onChange = function(action) {
+          if(action.selectedSkill) {
+            $scope.fetchSkillUsers(action.selectedSkill);
 
-        $scope.refreshAffectedUsers = function(userSkillsBulkAction) {
-          if(!userSkillsBulkAction.canExecute()) {
-            return;
+            action.selectedSkill.users.$promise.then(function() {
+              action.params.skillId = action.selectedSkill.id;
+            });
           }
-
-          userSkillsBulkAction.usersAffected = [];
+        };
+        
+        //@bound: don't add anything expensive to this function!
+        $scope.refreshAffectedUsers = function(userSkillsBulkAction) {
+          var usersAffected = [];
+          
+          if(!userSkillsBulkAction.canExecute()) {
+            return usersAffected;
+          }
 
           angular.forEach($scope.users, function(user) {
             if(!user.checked) {
@@ -101,15 +97,11 @@ angular.module('liveopsConfigPanel')
             }
 
             if(userSkillsBulkAction.selectedType.doesQualify(user, userSkillsBulkAction)){
-              userSkillsBulkAction.usersAffected.push(user);
+              usersAffected.push(user);
             }
           });
-        };
-
-        $scope.refreshAllAffectedUsers = function() {
-          angular.forEach($scope.userSkillsBulkActions, function(action) {
-            $scope.refreshAffectedUsers(action);
-          });
+          
+          return usersAffected;
         };
 
         $scope.findSkillForId = function(skills, id) {
@@ -122,13 +114,13 @@ angular.module('liveopsConfigPanel')
 
           return foundSkill;
         };
-
-        $scope.$on('table:resource:checked', $scope.refreshAllAffectedUsers);
-        $scope.$on('dropdown:item:checked', $scope.refreshAllAffectedUsers);
-
+        
+        $scope.$watch('bulkAction', function() {
+          $scope.bulkAction.userSkillsBulkActions = [];
+          $scope.addBulkSkill();
+        });
+          
         $scope.userSkillsBulkActionTypes = userSkillsBulkActionTypes;
-        $scope.userSkillsBulkActions = [];
-        $scope.addBulkSkill();
         $scope.fetch();
       }
     };

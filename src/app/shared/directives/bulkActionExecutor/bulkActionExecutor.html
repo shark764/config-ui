@@ -1,6 +1,6 @@
 <i class="fa fa-remove remove" ng-click="closeBulk()"></i>
 
-<div class="details-form">
+<form id="bulk-action-form" class="details-form" unsaved-changes-warning>
   <div class="detail-header-pane">
     <filter-dropdown
       label="{{'bulkActions.selected' | translate}}({{checkedItems.length}})"
@@ -14,8 +14,16 @@
   </div>
 
   <div class="detail-controls-pane">
+    <input id="cancel-details-btn" 
+      type="button" 
+      class="btn" 
+      ng-click="cancel()" 
+      value="{{'value.cancel' | translate}}">
+    </input>
     <input ng-disabled="!canExecute()"
-      type="button" ng-click="execute()"
+      type="button"
+      class="btn btn-primary"
+      ng-click="execute()"
       value="{{'value.submit' | translate}}">
   </div>
-</div>
+</form>

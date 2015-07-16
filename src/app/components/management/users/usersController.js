@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('UsersController', ['$scope', '$window', 'userRoles', 'User', 'Session', 'AuthService', 'userTableConfig', 'Invite', 'Alert', 'flowSetup', 'BulkAction',
-    function($scope, $window, userRoles, User, Session, AuthService, userTableConfig, Invite, Alert, flowSetup, BulkAction) {
+  .controller('UsersController', ['$scope', '$window', 'userRoles', 'User', 'Session', 'AuthService', 'userTableConfig', 'Invite', 'Alert', 'flowSetup', 'BulkAction', 'DirtyForms',
+    function($scope, $window, userRoles, User, Session, AuthService, userTableConfig, Invite, Alert, flowSetup, BulkAction, DirtyForms) {
       var self = this;
       $scope.Session = Session;
 
@@ -64,7 +64,42 @@ angular.module('liveopsConfigPanel')
           status: true
         });
       };
-
+      
+      $scope.createBulkActions = function() {
+        $scope.bulkActions = {
+          setStatus: new BulkAction(),
+          resetPassword: new BulkAction(),
+          userSkills: new BulkAction(),
+          userGroups: new BulkAction()
+        };
+      };
+      
+      //Various navigation rules
+      $scope.$on('table:on:click:create', function() {
+        $scope.bulkActions = null;
+        $scope.create();
+      });
+      
+      $scope.$on('table:resource:selected', function() {
+        DirtyForms.confirmIfDirty(function(){
+          $scope.bulkActions = null;
+        });
+      });
+      
+      $scope.$on('table:resource:checked', function() {
+        DirtyForms.confirmIfDirty(function(){
+          $scope.createBulkActions();
+        });
+      });
+      
+      $scope.$on('table:on:click:actions', $scope.createBulkActions);
+      
+      $scope.$on('bulk:action:cancel', function() {
+        DirtyForms.confirmIfDirty(function(){
+          $scope.resetBulkActions();
+        });
+      });
+      
       $scope.additional = {
         roles: userRoles,
         updateDisplayName: function($childScope) {
@@ -76,10 +111,6 @@ angular.module('liveopsConfigPanel')
         }
       };
 
-      $scope.$on('on:click:create', function() {
-        $scope.create();
-      });
-
       $scope.$watch('Session.tenant.tenantId', function(old, news) {
         if (angular.equals(old, news)) {
           return;
@@ -88,13 +119,6 @@ angular.module('liveopsConfigPanel')
         $scope.fetch();
       }, true);
       
-      $scope.bulkActions = {
-        setStatus: new BulkAction(),
-        resetPassword: new BulkAction(),
-        userSkills: new BulkAction(),
-        userGroups: new BulkAction()
-      };
-
       $scope.tableConfig = userTableConfig;
       $scope.fetch();
     }

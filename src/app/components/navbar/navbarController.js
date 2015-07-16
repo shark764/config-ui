@@ -69,14 +69,14 @@ angular.module('liveopsConfigPanel')
           id: 'user-management-link',
           order: 1
         }, {
-          label: 'Groups',
-          onClick: function(){$state.transitionTo('content.management.groups');},
-          id: 'group-management-link',
-          order: 2
-        }, {
           label: 'Skills',
           onClick: function(){$state.transitionTo('content.management.skills');},
           id: 'skill-management-link',
+          order: 2
+        }, {
+          label: 'Groups',
+          onClick: function(){$state.transitionTo('content.management.groups');},
+          id: 'group-management-link',
           order: 3
       }];
 

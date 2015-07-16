@@ -5,9 +5,10 @@ var ProfilePage = function() {
 
   this.firstNameFormField = element(by.model('user.firstName'));
   this.lastNameFormField = element(by.model('user.lastName'));
-  this.displayNameFormField = element(by.model('user.displayName'));
   this.userEmail = element(by.id('user-profile-email'));
   this.userProfilePic = element(by.id('user-profile-pic'));
+  this.resetPasswordButton = element(by.id('reset-password-button'));
+  this.passwordFormField = element(by.model('user.password'));
 
   this.errors = element.all(by.css('.error'));
 

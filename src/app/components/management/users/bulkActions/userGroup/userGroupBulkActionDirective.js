@@ -13,33 +13,32 @@ angular.module('liveopsConfigPanel')
         link: function ($scope) {
           $scope.bulkAction.execute = function (users) {
             var promises = [];
-            angular.forEach(users, function(user) {
-              angular.forEach($scope.userGroupBulkActions, function(userGroupBulkAction) {
-                if(userGroupBulkAction.selectedType.doesQualify(user, userGroupBulkAction)) {
+            angular.forEach(users, function (user) {
+              angular.forEach($scope.bulkAction.userGroupBulkActions, function (userGroupBulkAction) {
+                if (userGroupBulkAction.selectedType.doesQualify(user, userGroupBulkAction)) {
                   promises.push(userGroupBulkAction.execute(user));
                 }
               });
             });
 
-            return $q.all(promises).then(function(userGroups) {
+            return $q.all(promises).then(function (userGroups) {
               var groups = [];
-              angular.forEach(userGroups, function(userGroup) {
+              angular.forEach(userGroups, function (userGroup) {
                 var group = $scope.findGroupForId($scope.groups, userGroup.groupId);
 
-                if(groups.indexOf(group) < 0) {
+                if (groups.indexOf(group) < 0) {
                   groups.push(group);
+                  $scope.fetchUserGroups(group);
                 }
               });
-
-              $scope.fetchUserGroups(groups);
 
               return userGroups;
             });
           };
 
-          $scope.bulkAction.canExecute = function() {
-            var canExecute = !!$scope.userGroupBulkActions.length;
-            angular.forEach($scope.userGroupBulkActions, function(userGroupBulkAction) {
+          $scope.bulkAction.canExecute = function () {
+            var canExecute = !!$scope.bulkAction.userGroupBulkActions.length;
+            angular.forEach($scope.bulkAction.userGroupBulkActions, function (userGroupBulkAction) {
               canExecute = canExecute && userGroupBulkAction.selectedType.canExecute(userGroupBulkAction);
             });
 
@@ -53,77 +52,69 @@ angular.module('liveopsConfigPanel')
 
             $scope.groups = Group.query({
               tenantId: Session.tenant.tenantId
-            }, function(groups) {
-              $scope.fetchUserGroups(groups);
             });
           };
 
-          $scope.fetchUserGroups = function(groups) {
-            var promises = [];
-            angular.forEach(groups, function(group) {
-              group.members = TenantGroupUsers.query({
-                tenantId: Session.tenant.tenantId,
-                groupId: group.id
-              });
-
-              promises.push(group.members.$promise);
+          $scope.fetchUserGroups = function (group) {
+            group.members = TenantGroupUsers.query({
+              tenantId: Session.tenant.tenantId,
+              groupId: group.id
             });
 
-            return $q.all(promises).finally(function() {
-              $scope.refreshAllAffectedUsers();
-            });
+            return group.members;
           };
 
-          $scope.removeUserGroupBulkAction = function(action) {
-            $scope.userGroupBulkActions.removeItem(action);
+          $scope.removeUserGroupBulkAction = function (action) {
+            $scope.bulkAction.userGroupBulkActions.removeItem(action);
           };
 
-          $scope.addUserGroupBulkAction = function() {
-            $scope.userGroupBulkActions.push(
+          $scope.addUserGroupBulkAction = function () {
+            $scope.bulkAction.userGroupBulkActions.push(
               new UserGroupBulkAction());
           };
 
-          $scope.refreshAffectedUsers = function(userGroupBulkAction) {
-            if(!userGroupBulkAction.canExecute()) {
-              return;
+          $scope.onChange = function (action) {
+            var group = action.selectedGroup;
+            $scope.fetchUserGroups(group);
+          };
+          
+          //@bound: don't add anything expensive to this function!
+          $scope.refreshAffectedUsers = function (userGroupBulkAction) {
+            var usersAffected = [];
+            
+            if (!userGroupBulkAction.canExecute()) {
+              return usersAffected;
             }
 
-            userGroupBulkAction.usersAffected = [];
-
-            angular.forEach($scope.users, function(user) {
-              if(!user.checked) {
+            angular.forEach($scope.users, function (user) {
+              if (!user.checked) {
                 return;
               }
 
-              if(userGroupBulkAction.selectedType.doesQualify(user, userGroupBulkAction)){
-                userGroupBulkAction.usersAffected.push(user);
+              if (userGroupBulkAction.selectedType.doesQualify(user, userGroupBulkAction)) {
+                usersAffected.push(user);
               }
             });
+            
+            return usersAffected;
           };
 
-          $scope.refreshAllAffectedUsers = function() {
-            angular.forEach($scope.userGroupBulkActions, function(action) {
-              $scope.refreshAffectedUsers(action);
-            });
-          };
-
-          $scope.findGroupForId = function(groups, id) {
+          $scope.findGroupForId = function (groups, id) {
             var foundGroup;
-            angular.forEach(groups, function(group) {
-              if(group.id === id) {
+            angular.forEach(groups, function (group) {
+              if (group.id === id) {
                 foundGroup = group;
               }
             });
 
             return foundGroup;
           };
-
-          $scope.$on('table:resource:checked', $scope.refreshAllAffectedUsers);
-          $scope.$on('dropdown:item:checked', $scope.refreshAllAffectedUsers);
-
-          $scope.userGroupBulkActions = [];
-          $scope.addUserGroupBulkAction();
-
+          
+          $scope.$watch('bulkAction', function() {
+            $scope.bulkAction.userGroupBulkActions = [];
+            $scope.addUserGroupBulkAction();
+          });
+          
           $scope.userGroupBulkActionTypes = userGroupBulkActionTypes;
           $scope.fetch();
         }
