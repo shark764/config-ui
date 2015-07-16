@@ -99,7 +99,7 @@ angular.module('liveopsConfigPanel')
           $scope.createBulkActions();
         });
       });
-
+      
       $scope.additional = {
         roles: userRoles,
         updateDisplayName: function ($childScope) {
