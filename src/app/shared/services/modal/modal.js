@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('Modal', ['$document', '$rootScope', '$compile', '$translate', function ($document, $rootScope, $compile, $translate) {
+  .service('Modal', ['$document', '$rootScope', '$compile', function ($document, $rootScope, $compile) {
     var self = this;
     
     this.showConfirm = function(config){
@@ -14,6 +14,9 @@ angular.module('liveopsConfigPanel')
       
       var options = angular.extend(defaults, config);
       var newScope = $rootScope.$new();
+      
+      //Set scope properties for the template to use
+      newScope.modalBody = 'app/shared/services/modal/confirmModal.html';
       newScope.title = options.title;
       newScope.message = options.message;
       newScope.okCallback = function(){
@@ -25,19 +28,9 @@ angular.module('liveopsConfigPanel')
         options.cancelCallback();
       };
       
-      var element = $compile(self.getConfirmHtml())(newScope);
+      var element = $compile('<modal></modal>')(newScope);
       $document.find('body').append(element);
     };
-    
-    this.getConfirmHtml = function(){
-      var html = '<modal class="confirm"><div><h3 class="header">{{title}}</h3><p>{{message}}</p><div class="footer"><a id="modal-cancel" class="btn" ng-click="cancelCallback()">' +
-      $translate.instant('value.cancel') + 
-      '</a><a ng-click="okCallback()" class="btn btn-primary" id="modal-ok">' +
-      $translate.instant('value.ok') + 
-      '</a></div></div></modal>';
-      
-      return html;
-    }
     
     this.close = function(){
       $document.find('modal').remove();

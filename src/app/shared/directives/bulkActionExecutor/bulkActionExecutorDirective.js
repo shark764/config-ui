@@ -19,7 +19,7 @@ angular.module('liveopsConfigPanel')
               title: $translate.instant('bulkActions.confirm.title'),
               message: $translate.instant('bulkActions.confirm.message', {numItems: $scope.checkedItems.length}),
               okCallback: $scope.execute
-            })
+            });
           };
           
           $scope.execute = function () {

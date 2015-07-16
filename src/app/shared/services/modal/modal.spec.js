@@ -1,6 +1,6 @@
 'use strict';
 
-/*global spyOn, localStorage : false */
+/*global spyOn : false */
 
 describe('Modal service', function(){
   var Modal;
@@ -29,7 +29,7 @@ describe('Modal service', function(){
       Modal.showConfirm();
       
       expect(findSpy).toHaveBeenCalledWith('body');
-      var scopeObj = appendSpy.calls.mostRecent().args[0].isolateScope().$parent;
+      var scopeObj = appendSpy.calls.mostRecent().args[0].scope();
 
       expect(scopeObj.title).toEqual('');
       expect(scopeObj.message).toEqual('');
@@ -58,7 +58,7 @@ describe('Modal service', function(){
       });
       
       expect(findSpy).toHaveBeenCalledWith('body');
-      var scopeObj = appendSpy.calls.mostRecent().args[0].isolateScope().$parent;
+      var scopeObj = appendSpy.calls.mostRecent().args[0].scope();
 
       expect(scopeObj.title).toEqual('my title');
       expect(scopeObj.message).toEqual('my message');
