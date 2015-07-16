@@ -11,10 +11,6 @@ angular.module('liveopsConfigPanel')
         this.checked = false;
       };
       
-      BulkAction.prototype.reset = function() {
-        this.checked = false;
-      };
-
       BulkAction.prototype.apply = function () {};
 
       BulkAction.prototype.execute = function (items) {
