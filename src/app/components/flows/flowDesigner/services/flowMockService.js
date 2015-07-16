@@ -130,6 +130,28 @@
           'description': 'Offer some work',
           'type': 'task',
           'params': {
+            'resource-id': {
+              'source': 'expression',
+              'type':'string',
+              'label':'Resource ID',
+              'description':'',
+              'icon':'url',
+              'tooltip':'Resource to add',
+              'dataSensitivity':'low',
+              'mandatory':true,
+              'hidden': true,
+              'default': '"resource.id"'
+            },
+            'expires': {
+              'source': 'expression',
+              'type':'string',
+              'label':'Expires',
+              'description':'',
+              'icon':'url',
+              'tooltip':'How long work offer is valid',
+              'dataSensitivity':'low',
+              'mandatory':true
+            }
           },
           'bindings': {},
           'targeted': true,
