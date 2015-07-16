@@ -411,12 +411,13 @@ describe('The dispatch mappings view', function() {
     randomDispatchMapping = Math.floor((Math.random() * 1000) + 1);
     var originalMapping = dispatchMappings.mappingDropdown.$('option:checked').getAttribute('value');
     var originalFlow = dispatchMappings.flowDropdown.$('option:checked').getAttribute('value');
-    //var originalValue = dispatchMappings.valueFormField.getAttribute('value');
 
     // Edit fields
-    dispatchMappings.mappingOptions.get((randomDispatchMapping % 4) + 1).click();
+    dispatchMappings.mappingOptions.get(0).click();
+    dispatchMappings.mappingOptions.get((randomDispatchMapping % 4)).click();
+    dispatchMappings.flowDropdown.all(by.css('option')).get(0).click();
     dispatchMappings.flowDropdown.all(by.css('option')).count().then(function(flowCount) {
-      dispatchMappings.flowDropdown.click((randomDispatchMapping % flowCount)).click();
+      dispatchMappings.flowDropdown.all(by.css('option')).get((randomDispatchMapping % flowCount)).click();
 
       shared.cancelFormBtn.click();
 

@@ -53,7 +53,7 @@ describe('The queues view', function() {
     // Edit fields
     queues.nameFormField.clear();
     queues.descriptionFormField.clear();
-    
+
     // Submit button is still disabled
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
 
@@ -72,7 +72,7 @@ describe('The queues view', function() {
       queues.nameFormField.sendKeys('Edit');
       queues.descriptionFormField.sendKeys('Edit');
       var versionSelected = randomQueue % curQueueVersionCount;
-      queues.activeVersionDropdown.all(by.css('option')).get(versionSelected + 1).click();
+      queues.activeVersionDropdown.all(by.css('option')).get(versionSelected).click();
 
       var editedName = queues.nameFormField.getAttribute('value');
       var editedDescription = queues.descriptionFormField.getAttribute('value');
@@ -92,8 +92,8 @@ describe('The queues view', function() {
   it('should not require description field when editing a queue', function() {
     queues.firstTableRow.click();
     // Edit fields
+    queues.descriptionFormField.sendKeys('Temp Description');
     queues.descriptionFormField.clear();
-    queues.nameFormField.click();
     shared.submitFormBtn.click().then(function() {
       expect(shared.successMessage.isDisplayed()).toBeTruthy();
     });
@@ -130,7 +130,7 @@ describe('The queues view', function() {
       // Edit fields
       queues.nameFormField.sendKeys('Edit');
       queues.descriptionFormField.sendKeys('Edit');
-      var versionSelected = (randomQueue % curQueueVersionCount) + 1;
+      var versionSelected = randomQueue % curQueueVersionCount;
       queues.activeVersionDropdown.all(by.css('option')).get(versionSelected).click();
 
       shared.cancelFormBtn.click();
