@@ -82,6 +82,15 @@ header {
     height: 100%;
     overflow-y: auto;
     display: table-cell;
+    position: relative;
+
+    > .fa-remove {
+      position: absolute;
+      top : 10px;
+      right : 10px;
+      z-index: 2;
+      font-size: 1.5em;
+    }
   }
 
 }

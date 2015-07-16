@@ -46,6 +46,17 @@ describe('resource details directive', function() {
     }
   ]));
 
+  it('should have a function to set the original resource to null', inject(function() {
+    doDefaultCompile();
+
+    isolateScope.originalResource = new User({});
+
+    isolateScope.closeDetails();
+
+    expect(isolateScope.originalResource).toBeNull();
+  }));
+
+
   it('should not render the body or header if no body or header templates were provided', inject(function() {
     doDefaultCompile();
 
@@ -76,13 +87,13 @@ describe('resource details directive', function() {
 
   describe('cancel function', function() {
     beforeEach(function() {
-      doDefaultCompile();
+    doDefaultCompile();
     });
 
     it('should reset the resource', inject(['DirtyForms', function(DirtyForms) {
       spyOn(DirtyForms, 'confirmIfDirty').and.callFake(function(callback) {
         callback();
-      });
+    });
 
       isolateScope.resource.firstName = 'JohnTest';
       isolateScope.resource.id = '123';
@@ -93,12 +104,12 @@ describe('resource details directive', function() {
     }]));
 
     it('should reset the form', inject(['Alert', function(Alert) {
-      isolateScope.detailsForm.$dirty = true;
+    isolateScope.detailsForm.$dirty = true;
       spyOn(Alert, 'confirm').and.callFake(function(msg, okCallback, cancelCallback) {
         cancelCallback();
       });
       spyOn(angular, 'noop');
-      isolateScope.cancel();
+    isolateScope.cancel();
 
       expect(angular.noop).toHaveBeenCalled();
     }]));
@@ -110,7 +121,7 @@ describe('resource details directive', function() {
       isolateScope.cancel();
 
       expect(Alert.confirm).not.toHaveBeenCalled();
-    }]));
+  }]));
     
     it('should be called on cancel event', inject(['$rootScope', function($rootScope) {
       spyOn(isolateScope, 'cancel');
@@ -122,23 +133,23 @@ describe('resource details directive', function() {
   
   describe('save function', function() {
     beforeEach(function() {
-      doDefaultCompile();
+    doDefaultCompile();
     });
 
     it('should update the resource with the details returned by API', inject(function() {
-      var resultUser = angular.copy($scope.user);
-      resultUser.id = 'abc';
+    var resultUser = angular.copy($scope.user);
+    resultUser.id = 'abc';
 
-      $httpBackend.when('POST', apiHostname + '/v1/users').respond({
-        'result': resultUser
-      });
-      $httpBackend.expectPOST(apiHostname + '/v1/users');
+    $httpBackend.when('POST', apiHostname + '/v1/users').respond({
+      'result': resultUser
+    });
+    $httpBackend.expectPOST(apiHostname + '/v1/users');
 
-      isolateScope.save();
-      $httpBackend.flush();
+    isolateScope.save();
+    $httpBackend.flush();
 
-      expect(isolateScope.resource.id).toBe(resultUser.id);
-    }));
+    expect(isolateScope.resource.id).toBe(resultUser.id);
+  }));
     
     it('should work with cancel', inject(['DirtyForms', function(DirtyForms) {
       var resultUser = angular.copy($scope.user);
@@ -147,7 +158,7 @@ describe('resource details directive', function() {
 
       $httpBackend.when('POST', apiHostname + '/v1/users').respond({
         'result': resultUser
-      });
+    });
       $httpBackend.expectPOST(apiHostname + '/v1/users');
 
       isolateScope.save();
@@ -171,10 +182,10 @@ describe('resource details directive', function() {
           deferred.resolve('success');
           var promise = deferred.promise;
           return promise;
-        });
+      });
         
         spyOn($rootScope, '$broadcast').and.callThrough();
-      }]));
+    }]));
       
       it('should broadcast event when creating', inject(['$rootScope', function($rootScope) {
         isolateScope.save();
