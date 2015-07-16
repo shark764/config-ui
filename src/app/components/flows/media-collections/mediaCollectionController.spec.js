@@ -67,9 +67,8 @@ describe('MediaCollectionController', function () {
 
     expect($scope.waitingMedia).toEqual(newMedia);
 
-    expect($scope.selectedMedia).toEqual(new Media({
-      tenantId: Session.tenant.tenantId
-    }));
+    expect($scope.selectedMedia.tenantId).toEqual(Session.tenant.tenantId);
+    expect($scope.selectedMedia.properties).toEqual({});
   }));
 
   it('should have a function to create a blank MediaCollection and set it as selected', inject(function (MediaCollection, Session) {
