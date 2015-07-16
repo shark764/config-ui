@@ -3,13 +3,16 @@
 angular.module('liveopsConfigPanel')
   .controller('ReportsController', ['$scope', '$sce', '$http', '$state',
     function($scope, $sce, $http, $state) {
+      
+
       $scope.birst = {};
+      $scope.birst.baseUrl = 'http://dev-birst.liveopslabs.com';
       $scope.fetch = function() {
-        //console.log($state);
         var tokenGeneratorUrl = 
 
         $http({
-          url: 'https://login.bws.birst.com/TokenGenerator.aspx?birst.username=student11@class.com&birst.ssopassword=xTNU9yRURtrIkFRfNWFPVqye6te2yA5w&birst.spaceId=31346b8f-1143-4b19-8396-3201c349542b',
+          url: $scope.birst.baseUrl + '/TokenGenerator.aspx?birst.username=groyan@liveops.com&birst.ssopassword=JO4IIiv0vuzyhoYoyWpbip0QquoCQyGh&birst.spaceId=2846b565-23f8-4032-b563-21f8b7a01cc5' 
+          + '&birst.sessionVars=Birst$Groups=\'CreateDashboards\',\'CreateReports\',\'ExploreData\',\'ScheduleReports\',\'DownloadData\',\'43d0436d-356d-451a-ab73-d9a7e465e255\' ',
           method: 'POST',
           data: null,
           headers: {'Content-Type': 'application/x-www-form-urlencoded'}
@@ -25,21 +28,18 @@ angular.module('liveopsConfigPanel')
           }
 
           $scope.buildUrl();
-          //console.log("success : " + data);
         }).error( function (data, status, headers, config) {
           $scope.status = status;
-          //console.log("error : " + data);
         });
         
       }
 
       $scope.buildUrl = function() {
-        var buildingUrl = 'https://login.bws.birst.com/SSO.aspx?';
+        var buildingUrl = $scope.birst.baseUrl + '/SSO.aspx?';
 
-        buildingUrl = buildingUrl + 'birst.SSOToken=' + $scope.birst.SSOToken + '&birst.embedded=true&birst.module=' + $scope.birst.module;
+        buildingUrl = buildingUrl + 'birst.SSOToken=' + $scope.birst.SSOToken + '&birst.embedded=true&birst.module=' + $scope.birst.module ;
 
         $scope.birstUrl = $sce.trustAsResourceUrl(buildingUrl);
-        //console.log($scope.birstUrl);
       }
 
       $scope.fetch();
