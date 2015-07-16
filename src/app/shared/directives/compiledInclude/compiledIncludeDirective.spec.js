@@ -3,7 +3,8 @@
 describe('concatStrings directive', function(){
   var $scope,
     $compile,
-    $templateCache;
+    $templateCache,
+    $httpBackend;
 
   beforeEach(module('liveopsConfigPanel'));
   beforeEach(module('gulpAngular'));

@@ -1,0 +1,27 @@
+<form id="bulk-action-form" class="details-form" unsaved-changes-warning>
+  <div class="detail-header-pane">
+    <filter-dropdown
+      label="{{'bulkActions.selected' | translate}}({{checkedItems.length}})"
+      options="checkedItems"
+      display-path="displayName"
+      value-path="id">
+    </filter-dropdown>
+  </div>
+
+  <div class="detail-body-pane" ng-transclude>
+  </div>
+
+  <div class="detail-controls-pane">
+    <input id="cancel-details-btn" 
+      type="button" 
+      class="btn" 
+      ng-click="cancel()" 
+      value="{{'value.cancel' | translate}}">
+    </input>
+    <input ng-disabled="!canExecute()"
+      type="button"
+      class="btn btn-primary"
+      ng-click="execute()"
+      value="{{'value.submit' | translate}}">
+  </div>
+</form>

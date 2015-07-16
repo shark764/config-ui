@@ -39,7 +39,7 @@ describe('resource details directive', function() {
       });
 
       doDefaultCompile = function() {
-        element = $compile('<resource-details original-resource="user"></resource-details>')($scope);
+        element = $compile('<resource-details original-resource="user" resource-name="myresource"></resource-details>')($scope);
         $scope.$digest();
         isolateScope = element.isolateScope();
       };
@@ -73,50 +73,6 @@ describe('resource details directive', function() {
     expect(body.length).toBe(1);
     expect(header.length).toBe(1);
   }]));
-
-  it('should have a function to reset a resource that properly handles saves', inject(['DirtyForms', function(DirtyForms) {
-    doDefaultCompile();
-
-    var resultUser = angular.copy($scope.user);
-    resultUser.firstName = 'Fred';
-    resultUser.id = 'abc';
-
-    $httpBackend.when('POST', apiHostname + '/v1/users').respond({
-      'result': resultUser
-    });
-    $httpBackend.expectPOST(apiHostname + '/v1/users');
-
-    isolateScope.save();
-    $httpBackend.flush();
-
-    spyOn(DirtyForms, 'confirmIfDirty').and.callFake(function(callback){
-      callback();
-    })
-    
-    isolateScope.resource.firstName = 'Mark';
-    isolateScope.detailsForm.$dirty = true;
-    isolateScope.cancel();
-
-    expect(isolateScope.resource.firstName).toBe('Fred');
-
-  }]));
-
-  it('should have a function to save a resource', inject(function() {
-    doDefaultCompile();
-
-    var resultUser = angular.copy($scope.user);
-    resultUser.id = 'abc';
-
-    $httpBackend.when('POST', apiHostname + '/v1/users').respond({
-      'result': resultUser
-    });
-    $httpBackend.expectPOST(apiHostname + '/v1/users');
-
-    isolateScope.save();
-    $httpBackend.flush();
-
-    expect(isolateScope.resource.id).toBe(resultUser.id);
-  }));
 
   describe('cancel function', function() {
     beforeEach(function() {
@@ -154,6 +110,163 @@ describe('resource details directive', function() {
       isolateScope.cancel();
 
       expect(Alert.confirm).not.toHaveBeenCalled();
+    }]));
+    
+    it('should be called on cancel event', inject(['$rootScope', function($rootScope) {
+      spyOn(isolateScope, 'cancel');
+      $rootScope.$broadcast('resource:details:myresource:cancel');
+      isolateScope.$digest();
+      expect(isolateScope.cancel).toHaveBeenCalled();
+    }]));
+  });
+  
+  describe('save function', function() {
+    beforeEach(function() {
+      doDefaultCompile();
+    });
+
+    it('should update the resource with the details returned by API', inject(function() {
+      var resultUser = angular.copy($scope.user);
+      resultUser.id = 'abc';
+
+      $httpBackend.when('POST', apiHostname + '/v1/users').respond({
+        'result': resultUser
+      });
+      $httpBackend.expectPOST(apiHostname + '/v1/users');
+
+      isolateScope.save();
+      $httpBackend.flush();
+
+      expect(isolateScope.resource.id).toBe(resultUser.id);
+    }));
+    
+    it('should work with cancel', inject(['DirtyForms', function(DirtyForms) {
+      var resultUser = angular.copy($scope.user);
+      resultUser.firstName = 'Fred';
+      resultUser.id = 'abc';
+
+      $httpBackend.when('POST', apiHostname + '/v1/users').respond({
+        'result': resultUser
+      });
+      $httpBackend.expectPOST(apiHostname + '/v1/users');
+
+      isolateScope.save();
+      $httpBackend.flush();
+
+      spyOn(DirtyForms, 'confirmIfDirty').and.callFake(function(callback){
+        callback();
+      });
+      
+      isolateScope.resource.firstName = 'Mark';
+      isolateScope.detailsForm.$dirty = true;
+      isolateScope.cancel();
+
+      expect(isolateScope.resource.firstName).toBe('Fred');
+    }]));
+    
+    describe('on success', function(){
+      beforeEach(inject(['$q', '$rootScope', function($q, $rootScope){
+        spyOn(isolateScope.resource, 'save').and.callFake(function(){
+          var deferred = $q.defer();
+          deferred.resolve('success');
+          var promise = deferred.promise;
+          return promise;
+        });
+        
+        spyOn($rootScope, '$broadcast').and.callThrough();
+      }]));
+      
+      it('should broadcast event when creating', inject(['$rootScope', function($rootScope) {
+        isolateScope.save();
+        isolateScope.$digest();
+        expect($rootScope.$broadcast).toHaveBeenCalledWith('resource:details:myresource:create:success', jasmine.any(Object));
+      }]));
+      
+      it('should broadcast event when updating', inject(['$rootScope', function($rootScope) {
+        spyOn(isolateScope.resource, 'isNew').and.returnValue(false);
+        isolateScope.save();
+        isolateScope.$digest();
+        expect($rootScope.$broadcast).toHaveBeenCalledWith('resource:details:myresource:update:success', jasmine.any(Object));
+      }]));
+      
+      it('should broadcast the given extra event, if defined', inject(['$rootScope', function($rootScope) {
+        isolateScope.save('successEventName');
+        isolateScope.$digest();
+        expect($rootScope.$broadcast).toHaveBeenCalledWith('successEventName', jasmine.any(Object));
+      }]));
+    });
+    
+    describe('on failure', function(){
+      beforeEach(inject(['$q', '$rootScope', function($q, $rootScope){
+        spyOn(isolateScope.resource, 'save').and.callFake(function(){
+          var deferred = $q.defer();
+          deferred.reject('failure');
+          var promise = deferred.promise;
+          return promise;
+        });
+        
+        spyOn($rootScope, '$broadcast').and.callThrough();
+        spyOn(isolateScope, 'handleErrors').and.callFake(function(error){
+          return $q.reject(error);
+        });
+      }]));
+      
+      it('should broadcast event when creating', inject(['$rootScope', function($rootScope) {
+        isolateScope.save();
+        isolateScope.$digest();
+        expect($rootScope.$broadcast).toHaveBeenCalledWith('resource:details:myresource:create:fail', jasmine.any(Object));
+      }]));
+      
+      it('should broadcast event when updating', inject(['$rootScope', function($rootScope) {
+        spyOn(isolateScope.resource, 'isNew').and.returnValue(false);
+        isolateScope.save();
+        isolateScope.$digest();
+        expect($rootScope.$broadcast).toHaveBeenCalledWith('resource:details:myresource:update:fail', jasmine.any(Object));
+      }]));
+      
+      it('should broadcast the given extra event, if defined', inject(['$rootScope', function($rootScope) {
+        isolateScope.save('successEventName', 'failEventName');
+        isolateScope.$digest();
+        expect($rootScope.$broadcast).toHaveBeenCalledWith('failEventName', jasmine.any(Object));
+      }]));
+    });
+  });
+  
+  describe('handleErrors function', function() {
+    beforeEach(function() {
+      doDefaultCompile();
+    });
+
+    it('should call Alert when record fails to save', inject(['Alert', function(Alert) {
+      spyOn(Alert, 'error');
+      
+      isolateScope.handleErrors({data: {}});
+      expect(Alert.error).toHaveBeenCalledWith('Record failed to save');
+    }]));
+    
+    it('should call Alert when record fails to update', inject(['Alert', function(Alert) {
+      spyOn(Alert, 'error');
+      spyOn(isolateScope.resource, 'isNew').and.returnValue(false);
+      
+      isolateScope.handleErrors({data: {}});
+      expect(Alert.error).toHaveBeenCalledWith('Record failed to update');
+    }]));
+    
+    it('should set the error details of corresponding fields', inject([function() {
+      isolateScope.detailsForm = {
+          firstKey: {
+            $setValidity: jasmine.createSpy('setValidity'),
+            $error: {},
+            $setTouched: jasmine.createSpy('touched')
+          }
+      };
+      
+      isolateScope.handleErrors({data: {error : {attribute: {
+        'firstKey': 'The first error'
+      }}}});
+      expect(isolateScope.detailsForm.firstKey.$error).toEqual({api: 'The first error'});
+      expect(isolateScope.detailsForm.firstKey.$setValidity).toHaveBeenCalledWith('api', false);
+      expect(isolateScope.detailsForm.firstKey.$setTouched).toHaveBeenCalled();
     }]));
   });
 });

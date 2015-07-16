@@ -1,7 +1,5 @@
 'use strict';
 
-/*global spyOn, localStorage : false */
-
 describe('User service', function(){
   var User;
   

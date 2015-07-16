@@ -9,7 +9,8 @@ angular.module('liveopsConfigPanel')
         minValue: '@',
         maxValue: '@',
         hasHandles: '=',
-        placeholder: '@'
+        placeholder: '@',
+        ngChanged: '&'
       },
       templateUrl: 'app/shared/directives/numberSlider/numberSlider.html',
       link: function($scope) {
@@ -30,6 +31,8 @@ angular.module('liveopsConfigPanel')
             if($scope.minValue !== null && $scope.value < $scope.minValue){
               $scope.value = $scope.minValue;
             }
+            
+            $scope.ngChanged($scope.value);
           }
         });
 
@@ -39,6 +42,7 @@ angular.module('liveopsConfigPanel')
           }
 
           $scope.value = Number($scope.value) + 1;
+          $scope.ngChanged($scope.value);
         };
 
         $scope.decrement = function () {
@@ -47,8 +51,8 @@ angular.module('liveopsConfigPanel')
           }
 
           $scope.value = Number($scope.value) - 1;
+          $scope.ngChanged();
         };
-
       }
     };
   });

@@ -82,19 +82,6 @@ describe('tableControls directive', function() {
     expect($scope.selected).toEqual(null);
   }));
 
-  it('should include template for columns that define it', inject(['$templateCache', function($templateCache) {
-    $templateCache.put('candyTemplate.html', '<candy>{{item.favCandy}}</candy>');
-    $scope.config.fields.push({
-        name: 'favCandy',
-        templateUrl: 'candyTemplate.html'
-    });
-    $scope.items.push({id: 'item1', favCandy: 'Wurthers'});
-    $scope.items.push({id: 'item2', favCandy: 'Peppermint'});
-    
-    doCompile();
-    expect(element.find('candy').length).toBe(2);
-  }]));
-
   it('should not display columns that are unchecked in config', inject(function() {
     $scope.config.fields.push({name : 'color', checked: false});
     $scope.config.fields.push({name: 'online', checked: true});
@@ -145,29 +132,11 @@ describe('tableControls directive', function() {
       expect($location.search).toHaveBeenCalledWith({id : undefined});
     }]));
 
-    it('should emit the resource:selected event', inject(function() {
-      spyOn(isolateScope, '$emit');
+    it('should emit the resource:selected event', inject(['$rootScope', function($rootScope) {
+      spyOn($rootScope, '$broadcast');
       isolateScope.selectItem({name: 'my item'});
-      expect(isolateScope.$emit).toHaveBeenCalledWith('resource:selected', {name: 'my item'});
-    }));
-  });
-
-  describe('onCreateClick function', function(){
-    beforeEach(function(){
-      doCompile();
-    });
-    
-    it('should check DirtyForms.confirmIfDirty', inject(['DirtyForms', function(DirtyForms) {
-      spyOn(DirtyForms, 'confirmIfDirty');
-      isolateScope.onCreateClick();
-      expect(DirtyForms.confirmIfDirty).toHaveBeenCalled();
+      expect($rootScope.$broadcast).toHaveBeenCalledWith('table:resource:selected', {name: 'my item'});
     }]));
-    
-    it('should emit the on:click:create event', inject(function() {
-      spyOn(isolateScope, '$emit');
-      isolateScope.onCreateClick();
-      expect(isolateScope.$emit).toHaveBeenCalledWith('on:click:create');
-    }));
   });
 
   describe('toggleAll function', function(){
@@ -214,13 +183,6 @@ describe('tableControls directive', function() {
       isolateScope.$digest();
       expect(isolateScope.filtered.length).toBe(1);
       expect(isolateScope.filtered[0].id).toEqual('item2');
-    }));
-    
-    it('watch should call createClick if filtered is empty', inject(function() {
-      spyOn(isolateScope, 'onCreateClick');
-      isolateScope.searchQuery = 'a search';
-      isolateScope.$digest();
-      expect(isolateScope.onCreateClick).toHaveBeenCalled();
     }));
 
     it('watch should set selected item to null if there isn\'t one', inject(function() {

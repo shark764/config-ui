@@ -87,4 +87,15 @@ describe('AuthService', function () {
       expect(Session.token).toBeNull();
     });
   });
+  
+  describe('refreshTenants function', function() {
+    it('should set the tenants', inject([function () {
+      $httpBackend.expectPOST(apiHostname + '/v1/login').respond(LOGIN_RESPONSE);
+      spyOn(Session, 'setTenants');
+      
+      AuthService.refreshTenants();
+      $httpBackend.flush();
+      expect(Session.setTenants).toHaveBeenCalledWith(TENANTS);
+    }]));
+  });
 });

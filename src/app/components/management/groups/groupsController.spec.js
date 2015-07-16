@@ -11,6 +11,7 @@ describe('groups controller', function () {
   beforeEach(module('liveopsConfigPanel'));
   beforeEach(module('liveopsConfigPanel.mock.content.management.groups'));
   beforeEach(module('liveopsConfigPanel.mock.content.management.users'));
+  beforeEach(module('liveopsConfigPanel.mock.content.management.users.groups'));
 
   beforeEach(inject(['$rootScope', '$httpBackend', '$controller', 'apiHostname', 'Session', 'mockUsers', 'mockGroups',
     function ($rootScope, $httpBackend, $controller, apiHostname, Session, _mockUsers, _mockGroups) {
@@ -28,7 +29,7 @@ describe('groups controller', function () {
 
   it('should have groups', inject(function () {
     expect($scope.groups).toBeDefined();
-    expect($scope.groups.length).toEqual(2);
+    expect($scope.groups.length).toEqual(3);
   }));
 
   it('should refetch groups when tenant changes', function () {

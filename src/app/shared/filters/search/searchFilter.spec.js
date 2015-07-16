@@ -140,6 +140,11 @@ describe('search filter', function () {
     result = filter(users, ['firstName', 'lastName'], '*Wazow');
     expect(result.length).toBe(1);
   }));
+  
+  it('should return nothing if fields aren\'t object or strings', inject(function () {
+    var result = filter(users, [5, true], 'W');
+    expect(result.length).toBe(0);
+  }));
 
   it('should return results when skills match', inject(function () {
 

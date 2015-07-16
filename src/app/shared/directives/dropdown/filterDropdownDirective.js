@@ -18,6 +18,11 @@ angular.module('liveopsConfigPanel')
         
         $scope.valuePath = $scope.valuePath ? $scope.valuePath : 'value';
         $scope.displayPath = $scope.displayPath ? $scope.displayPath : 'display';
+        
+        $scope.checkItem = function(option) {
+          option.checked = !option.checked;
+          $scope.$emit('dropdown:item:checked', option);
+        };
 
         // not ideal; we are adding a property to an object that will be used
         // in multiple places; however I cannot find a better way to do this.
