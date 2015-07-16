@@ -18,7 +18,7 @@ angular.module('liveopsConfigPanel')
         });
       };
 
-      $scope.$on('on:click:create', function() {
+      $scope.$on('table:on:click:create', function() {
         $scope.selectedSkill = new Skill({
           tenantId: Session.tenant.tenantId,
           status: true,

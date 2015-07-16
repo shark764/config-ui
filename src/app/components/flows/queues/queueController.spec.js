@@ -72,7 +72,7 @@ describe('QueueController', function() {
   });
 
   it('should initialize a queue on createQueue', function() {
-    $scope.$broadcast('on:click:create');
+    $scope.$broadcast('table:on:click:create');
 
     expect($scope.selectedQueue).toBeDefined();
     expect($scope.selectedQueue.tenantId).toEqual(Session.tenant.tenantId);
