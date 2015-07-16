@@ -11,7 +11,7 @@ angular.module('liveopsConfigPanel')
         var tokenGeneratorUrl = 
 
         $http({
-          url: $scope.birst.baseUrl + '/TokenGenerator.aspx?birst.username=groyan@liveops.com&birst.ssopassword=JO4IIiv0vuzyhoYoyWpbip0QquoCQyGh&birst.spaceId=2846b565-23f8-4032-b563-21f8b7a01cc5' 
+          url: $scope.birst.baseUrl + '/TokenGenerator.aspx?birst.username=titan-product@liveops.com&birst.ssopassword=JO4IIiv0vuzyhoYoyWpbip0QquoCQyGh&birst.spaceId=2846b565-23f8-4032-b563-21f8b7a01cc5' 
           + '&birst.sessionVars=Birst$Groups=\'CreateDashboards\',\'CreateReports\',\'ExploreData\',\'ScheduleReports\',\'DownloadData\',\'43d0436d-356d-451a-ab73-d9a7e465e255\' ',
           method: 'POST',
           data: null,
