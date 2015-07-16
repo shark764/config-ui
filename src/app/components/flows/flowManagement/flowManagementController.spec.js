@@ -45,7 +45,7 @@ describe('FlowManagementController', function () {
   });
 
   it('should have a function to create a new flow and set it as selected', function () {
-    $scope.$broadcast('on:click:create');
+    $scope.$broadcast('table:on:click:create');
     expect($scope.selectedFlow).toBeDefined();
     expect($scope.selectedFlow.tenantId).toBe(Session.tenant.tenantId);
   });

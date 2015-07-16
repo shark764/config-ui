@@ -2,7 +2,7 @@
 
 angular.module('liveopsConfigPanel')
   .controller('UsersController', ['$scope', '$window', 'userRoles', 'User', 'Session', 'AuthService', 'userTableConfig', 'Invite', 'Alert', 'flowSetup', 'BulkAction', 'DirtyForms',
-    function($scope, $window, userRoles, User, Session, AuthService, userTableConfig, Invite, Alert, flowSetup, BulkAction, DirtyForms) {
+    function ($scope, $window, userRoles, User, Session, AuthService, userTableConfig, Invite, Alert, flowSetup, BulkAction, DirtyForms) {
       var self = this;
       $scope.Session = Session;
 
@@ -10,13 +10,13 @@ angular.module('liveopsConfigPanel')
 
       this.newPassword = null;
 
-      User.prototype.preUpdate = function() {
+      User.prototype.preUpdate = function () {
         if (this.password) {
           self.newPassword = this.password;
         }
       };
 
-      User.prototype.postUpdate = function(result) {
+      User.prototype.postUpdate = function (result) {
         if (this.id === Session.user.id && self.newPassword) {
           var token = AuthService.generateToken(this.email, self.newPassword);
           Session.setUser(this);
@@ -27,7 +27,7 @@ angular.module('liveopsConfigPanel')
         return result;
       };
 
-      User.prototype.postCreate = function() {
+      User.prototype.postCreate = function () {
         Invite.save({
           tenantId: Session.tenant.tenantId
         }, {
@@ -36,7 +36,7 @@ angular.module('liveopsConfigPanel')
         }); //TEMPORARY roleId
       };
 
-      User.prototype.postCreateError = function(error) {
+      User.prototype.postCreateError = function (error) {
         if (error.status === 400) {
           Alert.success('User already exists. Sending ' + this.email + ' an invite for ' + Session.tenant.name);
 
@@ -53,19 +53,19 @@ angular.module('liveopsConfigPanel')
         return error;
       };
 
-      $scope.fetch = function() {
+      $scope.fetch = function () {
         $scope.users = User.query({
           tenantId: Session.tenant.tenantId
         });
       };
 
-      $scope.create = function() {
+      $scope.create = function () {
         $scope.selectedUser = new User({
           status: true
         });
       };
-      
-      $scope.createBulkActions = function() {
+
+      $scope.createBulkActions = function () {
         $scope.bulkActions = {
           setStatus: new BulkAction(),
           resetPassword: new BulkAction(),
@@ -73,36 +73,30 @@ angular.module('liveopsConfigPanel')
           userGroups: new BulkAction()
         };
       };
-      
+
       //Various navigation rules
-      $scope.$on('table:on:click:create', function() {
+      $scope.$on('table:on:click:create', function () {
         $scope.bulkActions = null;
         $scope.create();
       });
-      
-      $scope.$on('table:resource:selected', function() {
-        DirtyForms.confirmIfDirty(function(){
-          $scope.bulkActions = null;
-        });
+
+      $scope.$on('table:resource:selected', function () {
+        $scope.bulkActions = null;
       });
-      
-      $scope.$on('table:resource:checked', function() {
-        DirtyForms.confirmIfDirty(function(){
-          $scope.createBulkActions();
-        });
+
+      $scope.$on('table:resource:checked', function () {
+        if (!$scope.bulkActions) {
+          DirtyForms.confirmIfDirty(function () {
+            $scope.createBulkActions();
+          });
+        }
       });
-      
+
       $scope.$on('table:on:click:actions', $scope.createBulkActions);
-      
-      $scope.$on('bulk:action:cancel', function() {
-        DirtyForms.confirmIfDirty(function(){
-          $scope.resetBulkActions();
-        });
-      });
-      
+
       $scope.additional = {
         roles: userRoles,
-        updateDisplayName: function($childScope) {
+        updateDisplayName: function ($childScope) {
           if (!$childScope.resource.id && $childScope.detailsForm.displayName.$untouched) {
             var first = $childScope.resource.firstName ? $childScope.resource.firstName : '';
             var last = $childScope.resource.lastName ? $childScope.resource.lastName : '';
@@ -111,14 +105,14 @@ angular.module('liveopsConfigPanel')
         }
       };
 
-      $scope.$watch('Session.tenant.tenantId', function(old, news) {
+      $scope.$watch('Session.tenant.tenantId', function (old, news) {
         if (angular.equals(old, news)) {
           return;
         }
 
         $scope.fetch();
       }, true);
-      
+
       $scope.tableConfig = userTableConfig;
       $scope.fetch();
     }

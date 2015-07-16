@@ -60,16 +60,6 @@ describe('userSkillsBulkAction directive', function () {
 
       expect(isolateScope.bulkAction.userSkillsBulkActions[0].selectedType.execute).not.toHaveBeenCalled();
     }]));
-
-    it('should call fetchUserSkills on all userSkillsBulkAction.selectedType.executes success', inject(['$httpBackend', function ($httpBackend) {
-      spyOn(isolateScope, 'fetchSkillUsers');
-      spyOn(isolateScope.bulkAction.userSkillsBulkActions[0].selectedType, 'doesQualify').and.returnValue(true);
-      isolateScope.bulkAction.execute([mockUsers[0]]);
-
-      $httpBackend.flush();
-
-      expect(isolateScope.fetchSkillUsers).toHaveBeenCalled();
-    }]));
   });
 
   describe('ON bulkAction.canExecute', function () {
