@@ -10,7 +10,7 @@ exports.config = {
   capabilities: {
     'browserName': 'chrome',
     'version': '35',
-    'tunnelIdentifier': 'sauce-tunnel-1',
+    'tunnelIdentifier': process.env.SAUCE_TUNNEL,
     // Test Identifiers - For easier grouping and reference in Sauce Labs
     'name': 'Sauce Labs Test2',
     'build': '0000',
@@ -41,10 +41,10 @@ exports.config = {
   suites: {
     // Smoke test suite - Nothing added or edited
     smoke: [
-      paths.e2e + '/login/**/*.spec.js',
-      paths.e2e + '/navigation/**/*.spec.js',
-      paths.e2e + '/search.spec.js',
-      paths.e2e + '/userProfile/**/*.spec.js'
+      paths.e2e + '/login/*.spec.js',
+      paths.e2e + '/navigation/*.spec.js',
+      paths.e2e + '/tableControls/*.spec.js',
+      paths.e2e + '/userProfile/*.spec.js'
     ],
     regression: [paths.e2e + '/**/*.spec.js']
   },
