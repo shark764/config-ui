@@ -36,7 +36,7 @@ describe('setSkillStatusBulkAction directive', function() {
     
     isolateScope.bulkAction.status = true;
     isolateScope.bulkAction.reset();
-    expect(isolateScope.bulkAction.status).toBeFalsy();
+    expect(isolateScope.status).toBeFalsy();
     expect(isolateScope.bulkAction.checked).toBeFalsy();
   });
 
