@@ -5,7 +5,7 @@
     <filter-dropdown
       label="{{'bulkActions.selected' | translate}}({{checkedItems.length}})"
       options="checkedItems"
-      display-path="displayName"
+      display-path="{{selectedDisplay}}"
       value-path="id">
     </filter-dropdown>
   </div>
@@ -14,10 +14,10 @@
   </div>
 
   <div class="detail-controls-pane">
-    <input id="cancel-details-btn" 
-      type="button" 
-      class="btn" 
-      ng-click="cancel()" 
+    <input id="cancel-details-btn"
+      type="button"
+      class="btn"
+      ng-click="cancel()"
       value="{{'value.cancel' | translate}}">
     </input>
     <input ng-disabled="!canExecute()"

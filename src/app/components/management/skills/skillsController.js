@@ -17,16 +17,11 @@ angular.module('liveopsConfigPanel')
           tenantId: Session.tenant.tenantId
         });
       };
-      
-      $scope.createBulkActions = function () {
-        $scope.bulkActions = {
-          setStatus: new BulkAction()
-        };
-      };
-      
+
     //Various navigation rules
       $scope.$on('table:on:click:create', function () {
-        $scope.bulkActions = null;
+        $scope.showBulkActions = false;
+
         $scope.selectedSkill = new Skill({
           tenantId: Session.tenant.tenantId,
           status: true,
@@ -36,19 +31,16 @@ angular.module('liveopsConfigPanel')
       });
 
       $scope.$on('table:resource:selected', function () {
-        $scope.bulkActions = null;
+        $scope.showBulkActions = false;
       });
 
-      $scope.$on('table:resource:checked', function () {
-        if (!$scope.bulkActions) {
-          DirtyForms.confirmIfDirty(function () {
-            $scope.createBulkActions();
-          });
-        }
+      $scope.$on('table:on:click:actions', function () {
+        $scope.showBulkActions = true;
       });
-
-      $scope.$on('table:on:click:actions', $scope.createBulkActions);
 
       $scope.fetch();
+      $scope.bulkActions = {
+        setStatus: new BulkAction()
+      };
     }
   ]);

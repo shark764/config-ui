@@ -45,35 +45,26 @@ angular.module('liveopsConfigPanel')
       }, true);
 
       $scope.$on('table:on:click:create', function () {
-        $scope.bulkActions = null;
+        $scope.showBulkActions = false;
+
         $scope.selectedGroup = new Group({
           tenantId: Session.tenant.tenantId,
           status: true,
           owner: Session.user.id
         });
       });
-      
-      $scope.createBulkActions = function () {
-        $scope.bulkActions = {
-          setGroupStatus: new BulkAction()
-        };
-      };
-      
-    //Various navigation rules
+
       $scope.$on('table:resource:selected', function () {
-        $scope.bulkActions = null;
+        $scope.showBulkActions = false;
       });
 
-      $scope.$on('table:resource:checked', function () {
-        if (!$scope.bulkActions) {
-          DirtyForms.confirmIfDirty(function () {
-            $scope.createBulkActions();
-          });
-        }
+      $scope.$on('table:on:click:actions', function () {
+        $scope.showBulkActions = true;
       });
-
-      $scope.$on('table:on:click:actions', $scope.createBulkActions);
 
       $scope.fetch();
+      $scope.bulkActions = {
+        setGroupStatus: new BulkAction()
+      };
     }
   ]);
