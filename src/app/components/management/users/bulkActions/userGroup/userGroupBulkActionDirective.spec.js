@@ -61,19 +61,6 @@ describe('userGroupBulkAction directive', function() {
 
       expect(isolateScope.bulkAction.userGroupBulkActions[0].selectedType.execute).not.toHaveBeenCalled();
     }]));
-
-    it('should call fetchUserGroup on all userGroupBulkAction.selectedType.executes success', inject([function() {
-      spyOn(isolateScope, 'fetchUserGroups');
-      spyOn(isolateScope.bulkAction.userGroupBulkActions[0].selectedType, 'doesQualify').and.returnValue(true);
-
-      isolateScope.bulkAction.userGroupBulkActions[0].selectedGroup = mockGroups[0];
-
-      isolateScope.bulkAction.execute([mockUsers[0]]);
-
-      $httpBackend.flush();
-
-      expect(isolateScope.fetchUserGroups).toHaveBeenCalled();
-    }]));
   });
 
   describe('ON bulkAction.canExecute', function() {
