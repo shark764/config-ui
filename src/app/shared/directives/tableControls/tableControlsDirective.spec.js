@@ -132,11 +132,11 @@ describe('tableControls directive', function() {
       expect($location.search).toHaveBeenCalledWith({id : undefined});
     }]));
 
-    it('should emit the resource:selected event', inject(function() {
-      spyOn(isolateScope, '$emit');
+    it('should emit the resource:selected event', inject(['$rootScope', function($rootScope) {
+      spyOn($rootScope, '$broadcast');
       isolateScope.selectItem({name: 'my item'});
-      expect(isolateScope.$emit).toHaveBeenCalledWith('resource:selected', {name: 'my item'});
-    }));
+      expect($rootScope.$broadcast).toHaveBeenCalledWith('table:resource:selected', {name: 'my item'});
+    }]));
   });
 
   describe('toggleAll function', function(){

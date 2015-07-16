@@ -14,7 +14,7 @@ angular.module('liveopsConfigPanel')
         $scope.bulkAction.execute = function (users) {
           var promises = [];
           angular.forEach(users, function(user) {
-            angular.forEach($scope.userSkillsBulkActions, function(userSkillsBulkAction) {
+            angular.forEach($scope.bulkAction.userSkillsBulkActions, function(userSkillsBulkAction) {
               if(userSkillsBulkAction.selectedType.doesQualify(user, userSkillsBulkAction)) {
                 promises.push(userSkillsBulkAction.execute(user));
               }
@@ -37,8 +37,8 @@ angular.module('liveopsConfigPanel')
         };
 
         $scope.bulkAction.canExecute = function() {
-          var canExecute = !!$scope.userSkillsBulkActions.length;
-          angular.forEach($scope.userSkillsBulkActions, function(userSkillsBulkAction) {
+          var canExecute = !!$scope.bulkAction.userSkillsBulkActions.length;
+          angular.forEach($scope.bulkAction.userSkillsBulkActions, function(userSkillsBulkAction) {
             canExecute = canExecute && userSkillsBulkAction.selectedType.canExecute(userSkillsBulkAction);
           });
 
@@ -65,21 +65,22 @@ angular.module('liveopsConfigPanel')
         };
 
         $scope.removeBulkSkill = function(item) {
-          $scope.userSkillsBulkActions.removeItem(item);
+          $scope.bulkAction.userSkillsBulkActions.removeItem(item);
         };
 
         $scope.addBulkSkill = function() {
-          $scope.userSkillsBulkActions.push(
+          $scope.bulkAction.userSkillsBulkActions.push(
             new UserSkillsBulkAction());
         };
 
         $scope.onChange = function(action) {
-          var skill = action.selectedSkill;
-          $scope.fetchSkillUsers(skill);
+          if(action.selectedSkill) {
+            $scope.fetchSkillUsers(action.selectedSkill);
 
-          skill.users.$promise.then(function() {
-            action.params.skillId = action.selectedSkill.id;
-          });
+            action.selectedSkill.users.$promise.then(function() {
+              action.params.skillId = action.selectedSkill.id;
+            });
+          }
         };
         
         //@bound: don't add anything expensive to this function!
@@ -113,10 +114,13 @@ angular.module('liveopsConfigPanel')
 
           return foundSkill;
         };
-
+        
+        $scope.$watch('bulkAction', function() {
+          $scope.bulkAction.userSkillsBulkActions = [];
+          $scope.addBulkSkill();
+        });
+          
         $scope.userSkillsBulkActionTypes = userSkillsBulkActionTypes;
-        $scope.userSkillsBulkActions = [];
-        $scope.addBulkSkill();
         $scope.fetch();
       }
     };

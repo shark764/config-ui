@@ -14,7 +14,7 @@ angular.module('liveopsConfigPanel')
           $scope.bulkAction.execute = function (users) {
             var promises = [];
             angular.forEach(users, function (user) {
-              angular.forEach($scope.userGroupBulkActions, function (userGroupBulkAction) {
+              angular.forEach($scope.bulkAction.userGroupBulkActions, function (userGroupBulkAction) {
                 if (userGroupBulkAction.selectedType.doesQualify(user, userGroupBulkAction)) {
                   promises.push(userGroupBulkAction.execute(user));
                 }
@@ -37,8 +37,8 @@ angular.module('liveopsConfigPanel')
           };
 
           $scope.bulkAction.canExecute = function () {
-            var canExecute = !!$scope.userGroupBulkActions.length;
-            angular.forEach($scope.userGroupBulkActions, function (userGroupBulkAction) {
+            var canExecute = !!$scope.bulkAction.userGroupBulkActions.length;
+            angular.forEach($scope.bulkAction.userGroupBulkActions, function (userGroupBulkAction) {
               canExecute = canExecute && userGroupBulkAction.selectedType.canExecute(userGroupBulkAction);
             });
 
@@ -65,11 +65,11 @@ angular.module('liveopsConfigPanel')
           };
 
           $scope.removeUserGroupBulkAction = function (action) {
-            $scope.userGroupBulkActions.removeItem(action);
+            $scope.bulkAction.userGroupBulkActions.removeItem(action);
           };
 
           $scope.addUserGroupBulkAction = function () {
-            $scope.userGroupBulkActions.push(
+            $scope.bulkAction.userGroupBulkActions.push(
               new UserGroupBulkAction());
           };
 
@@ -109,10 +109,12 @@ angular.module('liveopsConfigPanel')
 
             return foundGroup;
           };
-
-          $scope.userGroupBulkActions = [];
-          $scope.addUserGroupBulkAction();
-
+          
+          $scope.$watch('bulkAction', function() {
+            $scope.bulkAction.userGroupBulkActions = [];
+            $scope.addUserGroupBulkAction();
+          });
+          
           $scope.userGroupBulkActionTypes = userGroupBulkActionTypes;
           $scope.fetch();
         }

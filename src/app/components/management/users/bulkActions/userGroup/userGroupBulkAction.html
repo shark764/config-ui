@@ -6,7 +6,7 @@
 
 <p class="null action-wrapper" ng-show="userGroupBulkActions.length == 0 && bulkAction.checked">{{'bulkActions.userGroups.none' | translate}}</p>
 
-<div ng-repeat="action in userGroupBulkActions" class="action-wrapper">
+<div ng-repeat="action in bulkAction.userGroupBulkActions" class="action-wrapper">
   <fieldset>
     <select ng-disabled="! bulkAction.checked"
       ng-model="action.selectedType"

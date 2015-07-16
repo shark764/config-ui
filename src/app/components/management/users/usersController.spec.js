@@ -41,7 +41,7 @@ describe('users controller', function () {
   }));
 
   it('should catch the on:click:create event', inject([ function () {
-      $scope.$broadcast('on:click:create');
+      $scope.$broadcast('table:on:click:create');
       expect($scope.selectedUser).toBeDefined();
       expect($scope.selectedUser.status).toEqual(true);
     }]));

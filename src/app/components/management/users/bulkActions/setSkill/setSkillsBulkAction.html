@@ -6,7 +6,7 @@
 
 <p class="null action-wrapper" ng-show="userSkillsBulkActions.length == 0 && bulkAction.checked">{{'bulkActions.skills.none' | translate}}</p>
 
-<div class="action-wrapper skills-section" ng-repeat="userSkillsBulkAction in userSkillsBulkActions">
+<div class="action-wrapper skills-section" ng-repeat="userSkillsBulkAction in bulkAction.userSkillsBulkActions">
   <div>
     <select
       ng-disabled="! bulkAction.checked"

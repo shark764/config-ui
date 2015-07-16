@@ -62,6 +62,10 @@ angular.module('liveopsConfigPanel')
               $scope.$apply();
             }, 5);
           };
+          
+          $scope.cancel = function () {
+            $scope.$emit('bulk:action:cancel');
+          };
 
           $scope.$on('table:resource:checked', $scope.updateDropDown);
           $scope.$on('dropdown:item:checked', $scope.updateDropDown);

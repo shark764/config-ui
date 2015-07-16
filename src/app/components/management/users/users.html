@@ -17,7 +17,7 @@
 </table-controls>
 
 <resize-handle
-    ng-show="selectedUser || bulkView"
+    ng-show="selectedUser || bulkActions"
     id="resize-pane"
     right-element-id="right-panel"
     left-element-id="table-pane"
@@ -26,7 +26,7 @@
 
 <div id="right-panel" class="right-panel" ng-show="selectedUser || bulkView">
   <resource-details
-    ng-if="selectedUser && !bulkView"
+    ng-if="selectedUser && !bulkActions"
     id="details-pane"
     extend-scope="additional"
     header-template-url="app/components/management/users/userDetailHeader.html"
@@ -34,7 +34,7 @@
     original-resource="selectedUser"
     resource-name="user"/></resource-details>
 
-  <bulk-action-executor class="details-pane user-ba" ng-if="bulkView" items="users" bulk-actions="bulkActions">
+  <bulk-action-executor class="details-pane user-ba" ng-if="!!bulkActions" items="users" bulk-actions="bulkActions">
     <ba-set-status bulk-action="bulkActions.setStatus"></ba-set-status>
     <ba-reset-password bulk-action="bulkActions.resetPassword"></ba-reset-password>
     <ba-user-skills bulk-action="bulkActions.userSkills" users="users"></ba-user-skills>
