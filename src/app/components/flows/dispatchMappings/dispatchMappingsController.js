@@ -32,7 +32,7 @@ angular.module('liveopsConfigPanel')
 
       $scope.$watch('Session.tenant', $scope.fetch, true);
 
-      $scope.$on('on:click:create', function() {
+      $scope.$on('table:on:click:create', function() {
         $scope.create();
       });
 

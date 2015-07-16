@@ -52,7 +52,7 @@ describe('DispatchMappingsController', function () {
     });
 
     it('should have a function to create a new dispatchMapping and set it as selected', function () {
-      $scope.$broadcast('on:click:create');
+      $scope.$broadcast('table:on:click:create');
       expect($scope.selectedDispatchMapping).toBeDefined();
     });
   });

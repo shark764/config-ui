@@ -12,12 +12,17 @@ angular.module('liveopsConfigPanel')
         link: function ($scope) {
           $scope.bulkAction.apply = function(user) {
             var userCopy = angular.copy(user);
-            userCopy.status = $scope.bulkAction.status;
+            userCopy.status = $scope.status;
             return userCopy.save().then(function(userCopy) {
               angular.copy(userCopy, user);
               user.checked = true;
               return user;
             });
+          };
+          
+          $scope.bulkAction.reset = function() {
+            $scope.bulkAction.checked = false;
+            $scope.status = false;
           };
         }
       };

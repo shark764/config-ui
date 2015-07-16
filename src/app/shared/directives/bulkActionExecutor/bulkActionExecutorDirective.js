@@ -32,6 +32,7 @@ angular.module('liveopsConfigPanel')
 
             var promise = $q.all(itemPromises).then(function () {
               Alert.success('Bulk action successful!');
+              $scope.resetForm();
             });
 
             return promise;
@@ -70,7 +71,17 @@ angular.module('liveopsConfigPanel')
           };
           
           $scope.cancel = function () {
-            $scope.$emit('bulk:action:cancel');
+            DirtyForms.confirmIfDirty(function () {
+              $scope.resetForm();
+            });
+          };
+          
+          $scope.resetForm = function() {
+            $scope.bulkActionForm.$setUntouched();
+            $scope.bulkActionForm.$setPristine();
+            angular.forEach($scope.bulkActions, function(bulkAction) {
+              bulkAction.reset();
+            });
           };
 
           $scope.$on('table:resource:checked', $scope.updateDropDown);
