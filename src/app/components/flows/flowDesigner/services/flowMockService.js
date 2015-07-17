@@ -216,6 +216,18 @@
           meta: []
         },
         {
+          entity: 'start',
+          type: 'system-error',
+          props: [],
+          meta: []
+        },
+        {
+          entity: 'start',
+          type: 'flow-error',
+          props: [],
+          meta: []
+        },
+        {
           entity: 'catch',
           type: 'none',
           props: [],
@@ -229,8 +241,20 @@
         },
         {
           entity: 'catch',
-          type: 'error',
+          type: 'timer',
           props: ['interrupting', 'bindings'],
+          meta: []
+        },
+        {
+          entity: 'catch',
+          type: 'system-error',
+          props: ['interrupting', 'bindings'],
+          meta: []
+        },
+        {
+          entity: 'catch',
+          type: 'flow-error',
+          props: [],
           meta: []
         },
         {
@@ -247,7 +271,7 @@
         },
         {
           entity: 'throw',
-          type: 'error',
+          type: 'flow-error',
           props: ['terminate'],
           meta: ['mustTerminate']
         },
