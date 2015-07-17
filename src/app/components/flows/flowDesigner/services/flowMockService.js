@@ -206,47 +206,56 @@
         {
           entity: 'start',
           type: 'none',
-          props: []
+          props: [],
+          meta: []
         },
         {
           entity: 'start',
           type: 'signal',
-          props: ['target', 'interrupting', 'bindings']
+          props: ['target', 'interrupting', 'bindings'],
+          meta: []
         },
         {
           entity: 'catch',
           type: 'none',
-          props: []
+          props: [],
+          meta: []
         },
         {
           entity: 'catch',
           type: 'signal',
-          props: ['target', 'interrupting', 'bindings']
+          props: ['target', 'interrupting', 'bindings'],
+          meta: []
         },
         {
           entity: 'catch',
           type: 'error',
-          props: ['interrupting', 'bindings']
+          props: ['interrupting', 'bindings'],
+          meta: []
         },
         {
           entity: 'throw',
           type: 'none',
-          props: ['terminate']
+          props: ['terminate'],
+          meta: []
         },
         {
           entity: 'throw',
           type: 'signal',
-          props: ['terminate', 'event']
+          props: ['terminate', 'event'],
+          meta: []
         },
         {
           entity: 'throw',
           type: 'error',
-          props: ['terminate']
+          props: ['terminate'],
+          meta: ['mustTerminate']
         },
         {
           entity: 'throw',
           type: 'terminate',
-          props: ['terminate']
+          props: ['terminate'],
+          meta: ['mustTerminate']
         }
       ]
     };

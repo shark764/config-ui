@@ -61,14 +61,7 @@
           }
 
           if (n.type === 'liveOps.event') {
-
-            if (n.eventType === 'start') {
-              notation = _.extend(notation, self.events[n.eventType][n.eventName](n));
-            } else if (n.eventType === 'intermediate' && !n.throwing) {
-              notation = _.extend(notation, self.events['catch'][n.eventName](n));
-            } else {
-              notation = _.extend(notation, self.events['throw'][n.eventName](n));
-            }
+            notation = _.extend(notation, self.events[n.entity][n.name](n));
           }
 
           return notation;

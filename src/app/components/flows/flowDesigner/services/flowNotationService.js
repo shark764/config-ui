@@ -166,6 +166,14 @@
             }
           })
 
+          //Handle any meta info
+          _.each(event.meta, function(meta) {
+            if (meta === 'mustTerminate') {
+              model.set('terminate', true);
+              delete inputs.terminate;
+            }
+          })
+
           return inputs;
         }
 
