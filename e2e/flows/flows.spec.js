@@ -24,6 +24,18 @@ describe('The flows view', function() {
     shared.tearDown();
   });
 
+  it('should add new flow to table', function() {
+    var flowAdded = false;
+    randomFlow = Math.floor((Math.random() * 1000) + 1);
+    shared.createBtn.click();
+
+    flows.nameFormField.sendKeys('Flow ' + randomFlow);
+    flows.descriptionFormField.sendKeys('This is a new flow description');
+    flows.typeFormDropdown.all(by.css('option')).get((randomFlow % 3) + 1).click();
+    shared.submitFormBtn.click();
+    expect(shared.successMessage.isDisplayed()).toBeTruthy();
+  });
+
   it('should include flow management page components', function() {
     expect(shared.navBar.isDisplayed()).toBeTruthy();
 

@@ -38,7 +38,7 @@ describe('The create new queues view', function() {
     // Complete queue form and submit
     queues.nameFormField.sendKeys('Queue ' + randomQueue);
     queues.descriptionFormField.sendKeys('This is the queue description for queue ' + randomQueue);
-    queues.createVersionQueryFormField.sendKeys('This is a new queue version query');
+    queues.createVersionQueryFormField.sendKeys('{}');
     shared.submitFormBtn.click();
 
     // Confirm queue is displayed in queue table with correct details
@@ -63,7 +63,7 @@ describe('The create new queues view', function() {
 
     queues.nameFormField.sendKeys('Queue ' + randomQueue);
     queues.descriptionFormField.sendKeys('This is a new queue description');
-    queues.createVersionQueryFormField.sendKeys('This is a new queue version query');
+    queues.createVersionQueryFormField.sendKeys('{}');
 
     // Version fields show defaults
     expect(queues.createVersionNumberFormField.getAttribute('value')).toBe('1');
@@ -95,7 +95,7 @@ describe('The create new queues view', function() {
 
     queues.nameFormField.sendKeys('Queue ' + randomQueue);
     queues.descriptionFormField.sendKeys('This is the queue description for queue ' + randomQueue);
-    queues.createVersionQueryFormField.sendKeys('This is a new queue version query');
+    queues.createVersionQueryFormField.sendKeys('{}');
 
     shared.cancelFormBtn.click();
 
@@ -131,7 +131,7 @@ describe('The create new queues view', function() {
     // Complete queue form and submit without queue name
     queues.nameFormField.click();
     queues.descriptionFormField.sendKeys('This is the queue description for queue ' + randomQueue);
-    queues.createVersionQueryFormField.sendKeys('This is a new queue version query');
+    queues.createVersionQueryFormField.sendKeys('{}');
 
     // Submit button is disabled
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
@@ -169,7 +169,7 @@ describe('The create new queues view', function() {
     // Complete queue form and submit without queue description
     queues.descriptionFormField.click();
     queues.nameFormField.sendKeys('Queue ' + randomQueue);
-    queues.createVersionQueryFormField.sendKeys('This is a new queue version query');
+    queues.createVersionQueryFormField.sendKeys('{}');
     shared.submitFormBtn.click().then(function() {
       expect(shared.tableElements.count()).toBeGreaterThan(queueCount);
       expect(shared.successMessage.isDisplayed()).toBeTruthy();

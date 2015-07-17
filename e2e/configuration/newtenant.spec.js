@@ -77,7 +77,7 @@ describe('The create new tenants view', function() {
     // Complete tenant form and submit without tenant name
     tenants.nameFormField.click();
     tenants.descriptionFormField.sendKeys('This is the tenant description for tenant ' + randomTenant);
-    tenants.adminFormDropDown.all(by.css('option')).get(1).click();
+    tenants.adminFormDropDown.all(by.css('option')).get(0).click();
 
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
 
@@ -107,7 +107,7 @@ describe('The create new tenants view', function() {
     randomTenant = Math.floor((Math.random() * 1000) + 1);
 
     tenants.nameFormField.sendKeys('Tenant ' + randomTenant);
-    tenants.adminFormDropDown.all(by.css('option')).get(1).click();
+    tenants.adminFormDropDown.all(by.css('option')).get(0).click();
 
     shared.submitFormBtn.click();
 

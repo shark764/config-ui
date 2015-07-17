@@ -101,7 +101,7 @@ describe('The tenants view', function() {
     // Edit fields
     tenants.nameFormField.sendKeys('Edit');
     tenants.descriptionFormField.sendKeys('Edit');
-    tenants.adminFormDropDown.all(by.css('option')).get(1).click();
+    tenants.adminFormDropDown.all(by.css('option')).get(0).click();
 
     shared.cancelFormBtn.click();
 
@@ -125,7 +125,7 @@ describe('The tenants view', function() {
     // Edit fields
     tenants.nameFormField.sendKeys('Edit');
     tenants.descriptionFormField.sendKeys('Edit');
-    tenants.adminFormDropDown.all(by.css('option')).get(1).click();
+    tenants.adminFormDropDown.all(by.css('option')).get(0).click();
     shared.submitFormBtn.click().then(function() {
       expect(tenants.nameRequiredError.get(0).isDisplayed()).toBeFalsy();
       expect(shared.successMessage.isDisplayed()).toBeTruthy();
