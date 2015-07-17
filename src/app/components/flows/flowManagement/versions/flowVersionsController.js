@@ -43,7 +43,7 @@ angular.module('liveopsConfigPanel')
       $scope.$watch('flow', function () {
         $scope.fetch();
         $scope.createVersion();
-        
+
         if($scope.cleanHandler){
           $scope.cleanHandler();
         }

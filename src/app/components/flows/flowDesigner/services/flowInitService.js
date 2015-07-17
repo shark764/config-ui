@@ -2,7 +2,7 @@
   'use strict';
 
   /* global document : false */
-  function FlowInitService (FlowPaletteService, FlowNotationService) {
+  function FlowInitService (FlowPaletteService, FlowNotationService, $scope, $compile) {
     return {
       initializeGraph: function(graphOptions) {
         var self = this;
@@ -22,6 +22,7 @@
         graph.interfaces.snapper = self.initializeSnapper(graph.interfaces.paper);
         graph.interfaces.flowPropertiesPanel = undefined;
         graph.interfaces.inspectorContainer = $(graphOptions.inspectorContainerId);
+        graph.panelScope = $scope.$new();
 
         // Default Listener Initializations
         self.initializeKeyboardListeners();
@@ -37,38 +38,15 @@
         graph.utils.hidePropertiesPanel = function() {
           graph.interfaces.inspectorContainer.css({'right': '-300px'});
         };
-        graph.utils.renderPropertiesPanel = function(cellView) {
-          if (!graph.interfaces.flowPropertiesPanel || graph.interfaces.flowPropertiesPanel.options.cellView !== cellView) {
-            graph.utils.showPropertiesPanel();
-            if (graph.interfaces.flowPropertiesPanel) {
-              graph.interfaces.flowPropertiesPanel.remove(); // Clean up the old properties panel if there was one
-            }
-            var type = cellView.model.get('type');
-            graph.interfaces.flowPropertiesPanel = new joint.ui.Inspector({
-              cell: cellView.model,
-              inputs: FlowNotationService.buildInputPanel(cellView.model),
-              groups: {
-                general: {label: type, index: 1},
-                params: {label: 'Params', index: 2},
-                bindings: {label: 'Bindings', index: 3}
-              }
-            });
-            $('#inspector-container').prepend(graph.interfaces.flowPropertiesPanel.render().el);
-          } else {
-            graph.utils.hidePropertiesPanel();
-          }
 
-          if (cellView.model instanceof joint.dia.Element && !graph.interfaces.selector.contains(cellView.model)) {
-            new joint.ui.FreeTransform({cellView: cellView}).render();
-            new joint.ui.Halo({
-              cellView: cellView,
-              boxContent: function(cellView) {
-                return cellView.model.get('type');
-              }
-            }).render();
-            graph.interfaces.selectorView.cancelSelection();
-            graph.interfaces.selector.reset([cellView.model], {safe: true});
-          }
+        graph.utils.renderPropertiesPanel = function(cellView) {
+          console.log(self);
+          // destroy dom
+          // build new scope
+          // compile new directive
+          // append to dom
+          // var compiledPanel = $compile('<flow-panel notation="selectedNotation"></flow-panel>')(panelScope);
+          // $('#flow-panel-container').append(compiledPanel);
         };
 
         return graph;
@@ -210,8 +188,8 @@
               self.graph.interfaces.selectorView.createSelectionBox(cellView);
             }
           },
-          'cell:pointerup': function(cellView, evt, x, y) {
-            self.graph.utils.renderPropertiesPanel(cellView, evt, x, y);
+          'cell:pointerup': function(cellView) {
+            self.graph.utils.renderPropertiesPanel(cellView);
           }
         });
       },

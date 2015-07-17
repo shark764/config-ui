@@ -4,6 +4,8 @@ var gulp = require('gulp');
 var gutil = require('gulp-util');
 var wrench = require('wrench');
 
+console.log(process.env.FOR_BRITISH_EYES_ONLY);
+
 var options = {
   src: 'src',
   dist: 'dist',

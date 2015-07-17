@@ -12,6 +12,22 @@ function flowDesigner() {
       controller: ['$scope', '$element', '$attrs', '$window', '$timeout', 'FlowInitService', 'FlowConversionService', 'SubflowCommunicationService', 'FlowNotationService', 'FlowVersion', 'Session', 'Alert', '$state', function($scope, $element, $attrs, $window, $timeout, FlowInitService, FlowConversionService, SubflowCommunicationService, FlowNotationService, FlowVersion, Session, Alert, $state) {
 
         $timeout(function() {
+
+          $scope.$watch('graph.selectedNotation', function (oldV, newV) {
+            if (oldV === undefined || oldV === newV) return;
+            console.log('User selected a new notation!');
+            panelScope.$destroy();
+            $('#flow-panel-container').empty();
+            $scope.graph.renderPropertiesPanel();
+            $scope.openPropsPanel($scope.selectedNotation);
+          }, true);
+
+          $scope.openPropsPanel = function(notation) {
+            panelScope = $scope.$new();
+            var compiledPanel = $compile('<flow-panel notation="selectedNotation"></flow-panel>')(panelScope);
+            $('#flow-panel-container').append(compiledPanel);
+          };
+
           var graphOptions = {
             width: 2000,
             height: 2000,
@@ -27,19 +43,20 @@ function flowDesigner() {
             paperContainerId: '#paper-container',
             inspectorContainerId: '#inspector-container'
           };
-          var graph = FlowInitService.initializeGraph(graphOptions);
 
-          graph.interfaces.paper.on({
+          var $scope.graph = FlowInitService.initializeGraph(graphOptions);
+
+          $scope.graph.interfaces.paper.on({
             'cell:pointerdblclick': function(cellView) {
               if (cellView.model.attributes.name !== 'subflow') { return; }
               $scope.redirectToSubflowEditor(cellView);
             }
           });
 
-          $scope.manuallyOpenPropertiesPanel = graph.utils.showPropertiesPanel;
+          $scope.manuallyOpenPropertiesPanel = $scope.graph.utils.showPropertiesPanel;
 
           $scope.redirectToSubflowEditor = function(cellView) {
-            SubflowCommunicationService.currentFlowContext = graph.toJSON();
+            SubflowCommunicationService.currentFlowContext = $scope.graph.toJSON();
             SubflowCommunicationService.currentVersionContext = $scope.flowVersion;
             SubflowCommunicationService.currentFlowNotationName = cellView.model.attributes.params.name || 'N/A';
             $state.go('content.flows.subflowEditor', {
@@ -53,16 +70,16 @@ function flowDesigner() {
             $scope.version = new FlowVersion({
               flow: alienese,
               description: $scope.flowVersion.description || 'This needs to be fixed',
-              name: $scope.flowVersion.name
-            });
-
-            $scope.version.save({
+              name: $scope.flowVersion.name,
               tenantId: Session.tenant.tenantId,
               flowId: $scope.flowVersion.flowId
-            }, function() {
+            });
+
+            $scope.version.save(function() {
               Alert.success('New flow version successfully created.');
               $scope.flowVersion.v = parseInt($scope.flowVersion.v) + 1;
-            }, function(error) {
+            },
+            function(error) {
               if (error.data.error.attribute === null) {
                 Alert.error('API rejected this flow -- likely invalid Alienese.', JSON.stringify(error, null, 2));
               } else {
@@ -72,10 +89,10 @@ function flowDesigner() {
           };
 
           if (SubflowCommunicationService.currentFlowContext !== '') {
-            graph.fromJSON(SubflowCommunicationService.currentFlowContext);
+            $scope.graph.fromJSON(SubflowCommunicationService.currentFlowContext);
             SubflowCommunicationService.currentFlowContext = '';
           } else {
-            graph.fromJSON(FlowConversionService.convertToJoint(JSON.parse($scope.flowVersion.flow)));
+            $scope.graph.fromJSON(FlowConversionService.convertToJoint(JSON.parse($scope.flowVersion.flow)));
           }
           $window.spitOutAlienese = function() {
             return FlowConversionService.convertToAlienese(graph.toJSON());
