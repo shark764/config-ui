@@ -17,6 +17,9 @@ var GroupsPage = function() {
   this.membersColumn = 'td:nth-child(4)';
 
   this.nameRequiredError = element.all(by.css('.error'));
+  
+  this.groupMembersLoading = element(by.css('#right-panel loading'));
+  this.groupMembersEmpty = element(by.css('#right-panel #empty-members-message'));
 };
 
 module.exports = new GroupsPage();

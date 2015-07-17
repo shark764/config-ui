@@ -21,7 +21,7 @@
   <h4>Members <b class="count" translate="value.numMembers" translate-value-number="{{resource.members ? resource.members.length : 0}}" ></b></h4>
 </div>
 
-<p class="null" id="empty-members-message" ng-show="originalResource.members.$resolved && originalResource.members.length == 0">{{'group.details.members.none' | translate}}</p>
+<p ng-if="! resource.isNew() && (originalResource.members.$resolved == undefined || originalResource.members.$resolved)" class="null" id="empty-members-message" ng-hide="resource.members.length">{{'group.details.members.none' | translate}}</p>
 
 <div ng-if="resource.id" class="input-group">
   <loading ng-if="originalResource.members.$resolved != undefined" ng-show="!originalResource.members.$resolved"></loading>
