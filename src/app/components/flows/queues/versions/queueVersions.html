@@ -15,7 +15,9 @@
 
   <div class="input-group">
     <div>
-      <textarea disabled ng-model="currVersion.query">
+      <form-error field="$parent.detailsForm.query"
+      error-type-api="true"></form-error>
+      <textarea name="query" disabled ng-model="currVersion.query">
       </textarea>
     </div>
   </div>
