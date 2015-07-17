@@ -32,7 +32,8 @@ table-controls {
   
     .action-container {
       text-align: right;
-      display: inline-block;
+      display: inline-flex;
+      justify-content: flex-end;
       width: 49%;
   
       .col {
