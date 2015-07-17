@@ -21,10 +21,10 @@
   <h4>Members <b class="count" translate="value.numMembers" translate-value-number="{{resource.members ? resource.members.length : 0}}" ></b></h4>
 </div>
 
-<p class="null" ng-show="originalResource.members.$resolved && originalResource.members.length == 0">{{'group.details.members.none' | translate}}</p>
+<p class="null" id="empty-members-message" ng-show="originalResource.members.$resolved && originalResource.members.length == 0">{{'group.details.members.none' | translate}}</p>
 
 <div ng-if="resource.id" class="input-group">
-  <loading ng-hide="originalResource.members.$resolved"></loading>
+  <loading ng-if="originalResource.members.$resolved != undefined" ng-show="!originalResource.members.$resolved"></loading>
   
   <label>&nbsp;</label>
   <table scroll-table max-height="300" class="table" ng-hide="! originalResource.members.length > 0">
