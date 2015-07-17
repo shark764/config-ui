@@ -35,6 +35,12 @@ describe('userState directive', function(){
     $scope.$digest();
     expect(element.isolateScope().stateClass).toEqual('busy fa-check-circle-o');
   }));
+  
+  it('should have a stateClass of "wrap" when the state is WRAP', inject(function() {
+    var element = $compile('<div user-state state="WRAP"></div>')($scope);
+    $scope.$digest();
+    expect(element.isolateScope().stateClass).toEqual('wrap fa-check-circle');
+  }));
 
   it('should have a stateClass of "not-ready" when the state is NOT_READY', inject(function() {
     var element = $compile('<div user-state state="NOT_READY"></div>')($scope);

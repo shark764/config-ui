@@ -72,7 +72,7 @@ describe('QueueController', function() {
   });
 
   it('should initialize a queue on createQueue', function() {
-    $scope.$broadcast('on:click:create');
+    $scope.$broadcast('table:on:click:create');
 
     expect($scope.selectedQueue).toBeDefined();
     expect($scope.selectedQueue.tenantId).toEqual(Session.tenant.tenantId);
@@ -105,5 +105,12 @@ describe('QueueController', function() {
       $scope.additional.initialQuery = 'somevalues';
       $rootScope.$broadcast('resource:details:queue:canceled');
       expect($scope.additional.initialQuery).toEqual('');
+    }]));
+
+    it('should not reset if the selectedQueue is not a new queue', inject(['$rootScope', function($rootScope){
+      $scope.selectedQueue = queues[0];
+      $scope.additional.initialQuery = 'somevalues';
+      $rootScope.$broadcast('resource:details:queue:canceled');
+      expect($scope.additional.initialQuery).toEqual('somevalues');
     }]));
 });

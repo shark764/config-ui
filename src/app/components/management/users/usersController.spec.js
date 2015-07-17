@@ -7,6 +7,7 @@ describe('users controller', function () {
     $httpBackend,
     Session,
     controller,
+    apiHostname,
     Invite,
     User,
     mockUsers;
@@ -16,10 +17,11 @@ describe('users controller', function () {
   beforeEach(module('liveopsConfigPanel.mock.content.management.users'));
 
   beforeEach(inject(['$compile', '$rootScope', '$httpBackend', '$controller', 'apiHostname', 'mockUsers', 'Session', 'Invite', 'User',
-    function ($compile, $rootScope, _$httpBackend, $controller, apiHostname, _mockUsers, _Session_, _Invite_, _User_) {
+    function ($compile, $rootScope, _$httpBackend, $controller, _apiHostname, _mockUsers, _Session_, _Invite_, _User_) {
       $scope = $rootScope.$new();
       $httpBackend = _$httpBackend;
       mockUsers = _mockUsers;
+      apiHostname = _apiHostname;
       Session = _Session_;
       Invite = _Invite_;
       User = _User_;
@@ -35,8 +37,14 @@ describe('users controller', function () {
 
   it('should have users', inject(function () {
     expect($scope.users).toBeDefined();
-    expect($scope.users.length).toEqual(2);
+    expect($scope.users.length).toEqual(3);
   }));
+
+  it('should catch the on:click:create event', inject([ function () {
+      $scope.$broadcast('table:on:click:create');
+      expect($scope.selectedUser).toBeDefined();
+      expect($scope.selectedUser.status).toEqual(true);
+    }]));
 
   describe('updateDisplayName function', function () {
     var childScope;
@@ -67,6 +75,30 @@ describe('users controller', function () {
       $scope.additional.updateDisplayName(childScope);
       expect(childScope.resource.displayName).toEqual('');
     }));
+
+    it('should call fetch if session.tenant.tenantId is changed', inject(function () {
+      var tempUsers = [{
+        'id': 'userId20',
+        'status': true,
+        'externalId': 80232,
+        'state': 'NOT_READY',
+        'lastName': 'Oliver',
+        'firstName': 'Michael',
+        'email': 'michael.oliver@ezent.io'
+      }];
+
+      $httpBackend.expect('GET', apiHostname + '/v1/users?tenantId=tenant').respond({
+        'result': tempUsers
+      });
+
+      Session.tenant.tenantId = 'tenant';
+      $scope.$digest();
+
+      $httpBackend.flush();
+
+      expect($scope.users.length).toEqual(1);
+      expect($scope.users[0].id).toEqual(tempUsers[0].id);
+    }));
   });
 
   describe('postSave function', function () {
@@ -91,6 +123,31 @@ describe('users controller', function () {
 
         expect(Session.setToken).toHaveBeenCalledWith(token);
       }]));
+
+    it('should reset the session authentication token if user changes their own password',
+      inject(['$injector', 'Session', function ($injector, Session) {
+
+        var newPassword = 'anewpassword';
+        var AuthService = $injector.get('AuthService');
+        var token = AuthService.generateToken(mockUsers[0].email, newPassword);
+
+        $scope.selectedUser = mockUsers[0];
+        $scope.selectedUser.password = newPassword;
+
+        spyOn(Session, 'setToken');
+
+        $scope.selectedUser.preUpdate($scope.selectedUser);
+
+        expect(controller.newPassword).toBeDefined();
+        expect(controller.newPassword).toEqual(newPassword);
+
+        Session.user.id = 'nope';
+
+        $scope.selectedUser.postUpdate($scope.selectedUser);
+
+        expect(Session.setToken).not.toHaveBeenCalledWith(token);
+      }]));
+
 
     it('should create an invite for the new user after creation', function () {
       spyOn(Invite, 'save');

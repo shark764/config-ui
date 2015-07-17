@@ -1,0 +1,40 @@
+<div class="bulk-action">
+  <div><input type="checkbox" ng-model="bulkAction.checked"></div>
+  <label><b>{{'bulkActions.change.skills' | translate}}</b></label>
+  <div><a ng-disabled="! bulkAction.checked" ng-click="addBulkSkill()" class="btn"><i class="fa fa-plus"></i></a></div>
+</div>
+
+<p class="null action-wrapper" ng-show="userSkillsBulkActions.length == 0 && bulkAction.checked">{{'bulkActions.skills.none' | translate}}</p>
+
+<div class="action-wrapper skills-section" ng-repeat="userSkillsBulkAction in bulkAction.userSkillsBulkActions">
+  <div>
+    <select
+      ng-disabled="! bulkAction.checked"
+      ng-model="userSkillsBulkAction.selectedType"
+      ng-options="item as item.display for item in userSkillsBulkActionTypes"
+      ng-change="onChange(userSkillsBulkAction)">
+      <option disabled value="">{{'bulkActions.defaultActions' | translate}}</option>
+    </select>
+
+    <number-slider
+      ng-disabled="! bulkAction.checked" class="pull-right"
+      ng-if="userSkillsBulkAction.selectedSkill.hasProficiency && userSkillsBulkAction.selectedType != 'remove'"
+      placeholder="{{'skill.details.proficiency' | translate}}"
+      value="userSkillsBulkAction.params.proficiency"
+      min-value="0" max-value="100"
+      required="true"
+      ng-changed="onChange(userSkillsBulkAction)" >
+    </number-slider>
+    <select
+      ng-disabled="! bulkAction.checked"
+      ng-model="userSkillsBulkAction.selectedSkill"
+      ng-options="skill as skill.name for skill in skills"
+      ng-change="onChange(userSkillsBulkAction)">
+      <option disabled value="">{{'bulkActions.skills.defaultSkills' | translate}}</option>
+    </select>
+    <a ng-show="bulkAction.checked" class="affected-banner">{{refreshAffectedUsers(userSkillsBulkAction).length}} {{'bulkActions.affectedUsers' | translate}}</a>
+  </div>
+  <a ng-disabled="! bulkAction.checked" ng-click="removeBulkSkill(userSkillsBulkAction)" class="remove">
+    <i class="fa fa-times"></i>
+  </a>
+</div>

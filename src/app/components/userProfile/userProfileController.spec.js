@@ -56,7 +56,7 @@ describe('UserProfileController', function() {
       
       it('should show success alert on success', inject(['Alert', function(Alert) {
         spyOn($scope.user, 'save').and.callFake(function(success){
-          success();
+          success(user);
         });
         
         spyOn(Alert, 'success');

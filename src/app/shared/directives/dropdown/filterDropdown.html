@@ -8,12 +8,12 @@
 </div>
 
 <div class="dropdown-container">
-  <div class="dropdown filter-dropdown" ng-hide="! showDrop">
+  <div class="dropdown filter-dropdown" ng-hide="! showDrop || options.length === 0">
     <div class="all" ng-if="showAll" ng-click="all.checked = !all.checked">
       <input type="checkbox" ng-checked="all.checked"/>
       <label>All</label>
     </div>
-    <div ng-repeat="option in options track by option[valuePath]" class="dropdown-option" ng-click="option.checked = !option.checked" >
+    <div ng-repeat="option in options track by option[valuePath]" class="dropdown-option" ng-click="checkItem(option)" >
       <input name="{{option[valuePath]}}" type="checkbox" ng-checked="option.checked"/>
       <label for="{{option[valuePath]}}">{{option[displayPath]}}</label>
     </div>

@@ -6,11 +6,9 @@ angular.module('liveopsConfigPanel')
       return {
         'fields': [{
           'header': $translate.instant('value.name'),
-          'name': 'fullName',
-          'templateUrl': 'app/components/management/users/userFullNameTemplate.html'
-        }, {
-          'header': $translate.instant('user.table.displayName'),
-          'name': 'displayName'
+          'resolve': function(user) {
+            return user.firstName + ' ' + user.lastName;
+          }
         }, {
           'header': $translate.instant('value.email'),
           'name': 'email'
@@ -20,13 +18,13 @@ angular.module('liveopsConfigPanel')
         }, {
           'header': $translate.instant('user.table.state'),
           'name': 'state',
-          'templateUrl': 'app/components/management/users/userStateTemplate.html',
+          'transclude': true,
           'checked': false,
           'options': userStates
         }, {
           'header': $translate.instant('value.status'),
           'name': 'status',
-          'templateUrl': 'app/shared/templates/statuses.html',
+          'transclude': true,
           'checked': false,
           'options': statuses()
         }],

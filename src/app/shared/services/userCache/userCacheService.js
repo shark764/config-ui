@@ -8,7 +8,8 @@ angular.module('liveopsConfigPanel')
         if (id) {
           var cached = UUIDCache.get(id);
           if (cached) {
-            deferred.resolve(cached);
+            var userObj = new User(cached); //So fullName function works
+            deferred.resolve(userObj);
 
             if(success) {
               success(cached);
@@ -16,7 +17,7 @@ angular.module('liveopsConfigPanel')
 
             return angular.extend({
               $promise: deferred.promise,
-            }, cached);
+            }, userObj);
           } else {
             return User.get({
               id: id
@@ -27,7 +28,8 @@ angular.module('liveopsConfigPanel')
 
               UUIDCache.put(id, {
                 id: user.id,
-                displayName: user.displayName
+                firstName: user.firstName,
+                lastName: user.lastName
               });
             }, function(error) {
               if (failure) {

@@ -83,21 +83,29 @@ angular.module('liveopsConfigPanel')
               transformResponse: appendTransform($http.defaults.transformResponse, function (value) {
                 return getResult(value);
               })
+            },
+            
+            delete: {
+              method: 'DELETE',
+              transformResponse: appendTransform($http.defaults.transformResponse, function (value) {
+                return getResult(value);
+              })
             }
           });
 
           Resource.prototype.save = function (success, failure) {
             var self = this,
-              action = self.isNew() ? self.$save : self.$update,
+              action = this.isNew() ? this.$save : this.$update,
               preEvent = self.isNew() ? self.preCreate : self.preUpdate,
               postEvent = self.isNew() ? self.postCreate : self.postUpdate,
               postEventFail = self.isNew() ? self.postCreateError : self.postUpdateError;
 
             self.$busy = true;
 
+            //TODO find out why preEvent didn't work in the chain
             preEvent.call(self);
 
-            return action.call(self, preEvent.call(self))
+            return action.call(self)
               .then(function (result) {
                 return postEvent.call(self, result);
               }, function (error) {

@@ -13,11 +13,11 @@ angular.module('liveopsConfigPanel')
         }, {
           'header': $translate.instant('group.table.members'),
           'name': 'members',
-          'templateUrl': 'app/components/management/groups/templates/members.html'
+          'transclude': true,
         }, {
           'header': $translate.instant('value.status'),
           'name': 'status',
-          'templateUrl': 'app/shared/templates/statuses.html',
+          'transclude': true,
           'options': statuses()
         }],
         'searchOn' : ['name', 'description'],

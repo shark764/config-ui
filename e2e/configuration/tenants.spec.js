@@ -14,8 +14,7 @@ describe('The tenants view', function() {
   beforeEach(function() {
     // Ignore unsaved changes warnings
     browser.executeScript("window.onbeforeunload = function(){};");
-    browser.get(shared.usersPageUrl);
-    shared.tenantsNavButton.click();
+    browser.get(shared.tenantsPageUrl);
     tenantCount = shared.tableElements.count();
   });
 
@@ -29,7 +28,7 @@ describe('The tenants view', function() {
 
     expect(shared.table.isDisplayed()).toBeTruthy();
     expect(shared.searchField.isDisplayed()).toBeTruthy();
-    expect(shared.detailsForm.isDisplayed()).toBeTruthy();
+    expect(shared.detailsForm.isDisplayed()).toBeFalsy(); //Hide side panel by default
     expect(shared.actionsBtn.isDisplayed()).toBeTruthy();
     expect(shared.createBtn.isDisplayed()).toBeTruthy();
     expect(shared.tableColumnsDropDown.isDisplayed()).toBeTruthy();

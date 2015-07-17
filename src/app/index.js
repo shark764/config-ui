@@ -25,11 +25,6 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
           }],
         }
       })
-      .state('error', {
-        templateUrl: 'app/components/error/error.html',
-        controller: 'ErrorController',
-        isPublic: true
-      })
       .state('content.management', {
         abstract: true,
         url: '/management',
@@ -200,6 +195,11 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
         templateUrl: 'app/components/invites/invites.html',
         controller: 'InvitesController',
         secure: true
+      })
+      .state('content.reports', {
+        url: '/reports?id',
+        templateUrl: 'app/components/reports/reports.html',
+        controller: 'ReportsController'
       });
 
     angular.extend(toastrConfig, {

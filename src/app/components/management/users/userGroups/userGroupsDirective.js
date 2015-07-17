@@ -138,7 +138,8 @@ angular.module('liveopsConfigPanel')
 
         //This is just for presentation, to only show the expander thing when there is more than three rows of data
         $scope.collapsed = true;
-
+        $scope.hideCollapseControls = true;
+      
         var tagWrapper = angular.element(document.querySelector('#tags-inside'));
         $scope.$on('resizehandle:resize', function() {
           $scope.updateCollapseState(tagWrapper.height());

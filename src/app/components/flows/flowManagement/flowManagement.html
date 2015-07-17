@@ -3,9 +3,14 @@
   config="tableConfig"
   items="flows"
   selected="selectedFlow"
-  resource-name="flow"></table-controls>
+  resource-name="flow">
+  
+  <flow-version-name name="activeVersion" flow="item" ></flow-version-name>
+  
+</table-controls>
 
 <resize-handle
+  ng-show="!! selectedFlow"
   id="resize-pane"
   right-element-id="details-pane"
   left-element-id="table-pane"
@@ -13,6 +18,7 @@
   right-min-width="300"></resize-handle>
 
 <resource-details
+  ng-show="!! selectedFlow"
   id="details-pane"
   extend-scope="additional"
   header-template-url="app/components/flows/flowManagement/flowDetailHeader.html"

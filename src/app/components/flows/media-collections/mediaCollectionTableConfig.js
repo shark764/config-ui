@@ -12,7 +12,7 @@ angular.module('liveopsConfigPanel')
         }, {
           'header': $translate.instant('value.identifier'),
           'name': 'identifier',
-          'templateUrl' : 'app/components/flows/media-collections/mediaCollectionIdentifier.html'
+          'transclude': true
         }],
         'searchOn' : ['name'],
         'orderBy' : ['name'],
