@@ -20,15 +20,21 @@
 <resize-handle
   ng-show="!! selectedIntegration"
   id="resize-pane"
-  right-element-id="details-pane"
+  right-element-id="right-panel"
   left-element-id="table-pane"
   left-min-width="830"
   right-min-width="300"></resize-handle>
 
-<resource-details
-  ng-show="!! selectedIntegration"
-  id="details-pane"
-  extend-scope="additional"
-  header-template-url="app/components/configuration/integrations/integrationDetailHeader.html"
-  body-template-url="app/components/configuration/integrations/integrationDetailBody.html"
-  original-resource="selectedIntegration"></resource-details>
+<div id="right-panel" class="right-panel" ng-show="selectedIntegration || showBulkActions">
+  <resource-details
+    ng-show="!! selectedIntegration && !showBulkActions"
+    id="details-pane"
+    extend-scope="additional"
+    header-template-url="app/components/configuration/integrations/integrationDetailHeader.html"
+    body-template-url="app/components/configuration/integrations/integrationDetailBody.html"
+    original-resource="selectedIntegration"></resource-details>
+    
+    <bulk-action-executor class="details-pane" ng-show="showBulkActions" items="integrations" bulk-actions="bulkActions" show-bulk-actions="showBulkActions" selected-display="type">
+      <ba-set-integration-status bulk-action="bulkActions.setIntegrationStatus"></ba-set-integration-status>
+    </bulk-action-executor>
+</div>
