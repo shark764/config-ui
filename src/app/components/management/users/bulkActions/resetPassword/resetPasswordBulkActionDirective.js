@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('baResetPassword', [
-    function () {
+  .directive('baResetPassword', ['User',
+    function (User) {
       return {
         restrict: 'AE',
         scope: {
@@ -11,9 +11,10 @@ angular.module('liveopsConfigPanel')
         templateUrl: 'app/components/management/users/bulkActions/resetPassword/resetPasswordBulkAction.html',
         link: function ($scope) {
           $scope.bulkAction.apply = function(user) {
-            var userCopy = angular.copy(user);
-            userCopy.password = $scope.password;
-            return userCopy.save().then(function(userCopy) {
+            var copyUser = new User();
+            copyUser.id = user.id;
+            copyUser.password = $scope.password;
+            return copyUser.save().then(function(userCopy) {
               angular.copy(userCopy, user);
               user.checked = true;
               return user;

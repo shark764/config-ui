@@ -54,7 +54,7 @@
       </td>
 
       <td ng-if="field.checked" ng-repeat="field in config.fields" ng-click="selectItem(item)">
-        <table-cell ng-if="field.transclude" class="detail-header-pane" name="{{field.name}}" item="item"></table-cell>
+        <table-cell ng-if="field.transclude" name="{{field.name}}" item="item"></table-cell>
         <span ng-if="!field.transclude">{{parse(item, field)}}</span>
       </td>
     </tr>
