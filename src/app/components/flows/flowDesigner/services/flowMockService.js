@@ -242,7 +242,7 @@
         {
           entity: 'catch',
           type: 'timer',
-          props: ['interrupting', 'bindings'],
+          props: ['timer', 'interrupting', 'bindings'],
           meta: []
         },
         {
@@ -272,7 +272,7 @@
         {
           entity: 'throw',
           type: 'flow-error',
-          props: ['terminate'],
+          props: ['terminate', 'error'],
           meta: ['mustTerminate']
         },
         {

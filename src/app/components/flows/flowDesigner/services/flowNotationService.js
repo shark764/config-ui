@@ -107,11 +107,38 @@
                   label: 'Target'
                 }
                 break;
+              case 'timer':
+                inputs[prop] = {
+                  type: 'text',
+                  group: 'general',
+                  label: 'Time'
+                }
+                break;
               case 'bindings':
                 inputs[prop] = {
                   type: 'list',
                   label: 'Bindings',
                   group: 'bindings',
+                  item: {
+                    type: 'object',
+                    properties: {
+                      key: {
+                        label: 'Key',
+                        type: 'text'
+                      },
+                      value: {
+                        label: 'Value',
+                        type: 'text'
+                      }
+                    }
+                  }
+                }
+                break;
+              case 'error':
+                inputs[prop] = {
+                  type: 'list',
+                  label: 'Parameters',
+                  group: 'general',
                   item: {
                     type: 'object',
                     properties: {

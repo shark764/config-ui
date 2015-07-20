@@ -101,6 +101,10 @@
               event.target = notation.target;
             }
 
+            if (notation.timer) {
+              event.timer = notation.timer.value;
+            }
+
             if (notation.event) {
               event.event = {
                 name: notation.event.name,
@@ -246,11 +250,17 @@
               }
             };
           },
-          error: function(model) {
+          'flow-error': function(model) {
             return {
               entity: 'throw',
-              type: 'error',
-              terminate: model.terminate
+              type: 'flow-error',
+              terminate: model.terminate,
+              error: {
+                params: _.reduce(model.error, function(memo, param) {
+                  memo[param.key] = param.value;
+                  return memo;
+                }, {})
+              }
             };
           },
           terminate: function(model) {
@@ -274,13 +284,31 @@
               }, {})
             };
           },
-          error: function(model) {
+          'flow-error': function(model) {
             return {
               entity: 'catch',
-              type: 'error',
+              type: 'flow-error',
               interrupting: true,
               bindings: model.bindings || {}
             };
+          },
+          'system-error': function(model) {
+            return {
+              entity: 'catch',
+              type: 'system-error',
+              interrupting: true,
+              bindings: model.bindings || {}
+            };
+          },
+          timer: function(model) {
+            return {
+              entity: 'catch',
+              type: 'timer',
+              interrupting: model.interrupting,
+              timer: {
+                value: model.timer
+              }
+            }
           }
         }
       }
