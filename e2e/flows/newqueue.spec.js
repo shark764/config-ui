@@ -22,7 +22,7 @@ describe('The create new queues view', function() {
     shared.tearDown();
   });
 
-  it('should include supported queue fields only', function() {
+  xit('should include supported queue fields only', function() {
     shared.createBtn.click();
 
     expect(queues.nameFormField.isDisplayed()).toBeTruthy();
@@ -88,7 +88,7 @@ describe('The create new queues view', function() {
     });
   });
 
-  it('should clear fields on cancel', function() {
+  xit('should clear fields on cancel', function() {
     queueCount = shared.tableElements.count();
     randomQueue = Math.floor((Math.random() * 100) + 1);
     shared.createBtn.click();
@@ -112,7 +112,7 @@ describe('The create new queues view', function() {
     });
   });
 
-  it('should require field inputs', function() {
+  xit('should require field inputs', function() {
     queueCount = shared.tableElements.count();
     shared.createBtn.click();
 
@@ -123,7 +123,7 @@ describe('The create new queues view', function() {
     expect(shared.successMessage.isPresent()).toBeFalsy();
   });
 
-  it('should require name', function() {
+  xit('should require name', function() {
     queueCount = shared.tableElements.count();
     shared.createBtn.click();
     randomQueue = Math.floor((Math.random() * 100) + 1);
@@ -142,7 +142,7 @@ describe('The create new queues view', function() {
     expect(shared.successMessage.isPresent()).toBeFalsy();
   });
 
-  it('should require query', function() {
+  xit('should require query', function() {
     queueCount = shared.tableElements.count();
     shared.createBtn.click();
     randomQueue = Math.floor((Math.random() * 100) + 1);
@@ -157,6 +157,26 @@ describe('The create new queues view', function() {
 
     expect(queues.requiredErrors.get(1).isDisplayed()).toBeTruthy();
     expect(queues.requiredErrors.get(1).getText()).toBe('Field "Query" is required.');
+    expect(shared.tableElements.count()).toBe(queueCount);
+    expect(shared.successMessage.isPresent()).toBeFalsy();
+  });
+
+  xit('should validate query field', function() {
+    queueCount = shared.tableElements.count();
+    shared.createBtn.click();
+    randomQueue = Math.floor((Math.random() * 100) + 1);
+
+    // Complete queue form and submit without queue query
+    queues.createVersionQueryFormField.click();
+    queues.nameFormField.sendKeys('Queue ' + randomQueue);
+    queues.descriptionFormField.sendKeys('This is the queue description for queue ' + randomQueue);
+    queues.createVersionQueryFormField.sendKeys('This is not a valid query');
+
+    // Submit button is disabled
+    expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
+
+    expect(queues.requiredErrors.get(2).isDisplayed()).toBeTruthy();
+    expect(queues.requiredErrors.get(2).getText()).toBe('.');
     expect(shared.tableElements.count()).toBe(queueCount);
     expect(shared.successMessage.isPresent()).toBeFalsy();
   });
@@ -176,7 +196,7 @@ describe('The create new queues view', function() {
     });
   });
 
-  it('should not accept spaces only as valid field input when creating a new queue', function() {
+  xit('should not accept spaces only as valid field input when creating a new queue', function() {
     queueCount = shared.tableElements.count();
     shared.createBtn.click();
     queues.nameFormField.sendKeys(' ');

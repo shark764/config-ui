@@ -281,7 +281,7 @@ describe('The queues view', function() {
     queues.versionRowV1Plus.click();
     queues.copyVersionBtn.click();
 
-    queues.copyVersionQueryFormField.sendKeys('Query for queue version ' + randomQueue);
+    queues.copyVersionQueryFormField.sendKeys('{}');
 
     queues.createVersionBtn.click().then(function() {
       expect(queues.activeVersionDropdown.all(by.css('option')).count()).toBeGreaterThan(queueVersionCount);
@@ -303,10 +303,11 @@ describe('The queues view', function() {
     queues.copyVersionBtn.click();
 
     queues.copyVersionQueryFormField.clear();
+    queues.copyVersionQueryFormField.sendKeys('\t');
 
     queues.createVersionBtn.click();
-    expect(queues.requiredErrors.get(2).isDisplayed()).toBeTruthy();
-    expect(queues.requiredErrors.get(2).getText()).toBe('Field \"Query\" is required.');
+    expect(queues.requiredErrors.get(3).isDisplayed()).toBeTruthy();
+    expect(queues.requiredErrors.get(3).getText()).toBe('Field \"Query\" is required.');
 
     expect(queues.activeVersionDropdown.all(by.css('option')).count()).toBe(queueVersionCount);
   });
@@ -320,12 +321,12 @@ describe('The queues view', function() {
     queues.copyVersionBtn.click();
 
     queues.copyVersionQueryFormField.clear();
-    queues.copyVersionQueryFormField.sendKeys(' ');
+    queues.copyVersionQueryFormField.sendKeys(' \t');
 
     queues.createVersionBtn.click();
 
-    expect(queues.requiredErrors.get(2).isDisplayed()).toBeTruthy();
-    expect(queues.requiredErrors.get(2).getText()).toBe('Field \"Query\" is required.');
+    expect(queues.requiredErrors.get(3).isDisplayed()).toBeTruthy();
+    expect(queues.requiredErrors.get(3).getText()).toBe('Field \"Query\" is required.');
 
     expect(queues.activeVersionDropdown.all(by.css('option')).count()).toBe(queueVersionCount);
     expect(shared.successMessage.isPresent()).toBeFalsy();

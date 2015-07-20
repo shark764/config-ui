@@ -58,7 +58,7 @@ module.exports = function(options) {
   }
 
   function runProtractorLocal (done) {
-    gulp.src(options.e2e + '/**/*.js')
+    gulp.src(options.e2e + '/**/*.spec.js')
       .pipe($.protractor.protractor({
         configFile: 'protractor.local.conf.js'
       }))
