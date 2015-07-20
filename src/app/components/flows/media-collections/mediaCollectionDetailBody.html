@@ -2,17 +2,26 @@
   <h4>Details</h4>
 </div>
 <div class="input-group">
-  <label>{{'value.name' | translate}}</label>
+  <label>{{'value.name' | translate}} *</label>
   <div>
     <form-error field="detailsForm.name" error-type-api="{{'media.details.name.error' | translate}}" error-type-required="{{'media.details.name.error' | translate}}"></form-error>
     <input type="text" ng-required="true" ng-model="resource.name" name="name"></input>
   </div>
 </div>
 <div class="input-group">
-  <label>{{'value.description' | translate}}</label>
+  <label class="textarea-label">{{'value.description' | translate}}</label>
   <div>
-    <form-error field="detailsForm.description" error-type-api="{{'media.details.description.error' | translate}}" error-type-required="{{'media.details.description.error' | translate}}"></form-error>
-    <textarea ng-required="true" ng-model="resource.description" name="description"></textarea>
+    <form-error field="detailsForm.description" error-type-api="{{'media.details.description.error' | translate}}"></form-error>
+    <textarea ng-model="resource.description" name="description"></textarea>
+  </div>
+</div>
+<div ng-if="resource.mediaMap != undefined" class="input-group">
+  <label>{{'media.collections.defaultMediaKey' | translate}} *</label>
+  <div>
+    <form-error field="detailsForm.defaultMediaKey" error-type-api="true" error-type-required="{{'media.collections.defaultMediaKey.error' | translate}}"></form-error>
+    <select ng-class="{'default-selected': ! resource.defaultMediaKey}" ng-required="true" name="defaultMediaKey" ng-model="resource.defaultMediaKey" ng-options="mapping.lookup as mapping.lookup for mapping in resource.mediaMap">
+      <option value="" ng-disabled="true">{{'media.collections.defaultMediaKey.select' | translate}}</option>
+    </select>
   </div>
 </div>
 
@@ -20,8 +29,11 @@
   <h4>Media Mappings</h4>
 </div>
 
+<form-error field="detailsForm.mediaMapChanges" error-type-api="true"></form-error>
+<input type="text" name="mediaMapChanges" ng-model="mediaMapChanges" ng-hide="true"/>
+
 <div class="clear">
-  <a class="btn pull-right" ng-click="resource.mediaMap.push({});  detailsForm.$dirty = true;"><i class="fa fa-plus"></i></a>
+  <a class="btn pull-right" ng-click="addMapping(resource, detailsForm)"><i class="fa fa-plus"></i></a>
 </div>
 
 <table class="media-collection-table table" >
@@ -31,15 +43,19 @@
     <th>&nbsp;</th>
   </thead>
   <tbody>
+    <tr ng-show="! resource.mediaMap.length"><td colspan="3"><p class="null">{{'media.collections.mapping.add' | translate}}</p></td></tr>
     <tr ng-repeat="mapping in resource.mediaMap">
       <td>
-        <input type="text" ng-model="mapping.lookup" ng-required="true"/>
+        {{mappingFieldName='mapping' + $index;""}}
+        <form-error field="detailsForm[mappingFieldName]" error-type-required="{{'media.collections.mappingLookup.error' | translate}}"></form-error>
+        <input ng-required="true" type="text" name="{{mappingFieldName}}" ng-model="mapping.lookup" />
       </td>
       <td>
+        {{fieldName='source' + $index;""}}
+        <form-error ng-show="! editMode" field="detailsForm[fieldName]" error-type-required="{{'media.collections.mappingId.error' | translate}}"></form-error>
         <div class="modify-media-box" ng-class="{'edit': editMode === true}">
-          <div class="label-container" ng-click="editMode = !editMode">
-            <div class="label" ng-show="mapping.id">{{mapping.id}}</div>
-            <div class="label" ng-show="!mapping.id">{{'media.collections.media.add' | translate}}</div>
+          <div class="label-container" ng-click="editMode = !editMode;">
+            <input type="text" placeholder="{{'media.collections.media.add' | translate}}" name="{{fieldName}}" class="label" ng-required="true" ng-model="mapping.name" readonly="true" border="0"/>
             <i class="fa" ng-class="{'fa-caret-down': !editMode, 'fa-caret-up':editMode}"></i>
           </div>
 
@@ -48,17 +64,16 @@
               object-type="mediaType"
               items="medias"
               selected-item="selectedMedia"
-              name-field="source"
-              on-select="mapping.id = selectedMedia.id; editMode = false; detailsForm.$dirty = true; selectedMedia = null;"></type-ahead>
+              name-field="name"
+              on-select="mapping.id = selectedMedia.id; mapping.name = selectedMedia.name; editMode = false; detailsForm[fieldName].$dirty = true; selectedMedia = null;"></type-ahead>
             <input ng-click="$emit('resource:details:create:mediaMapping', mapping); detailsForm.$dirty = true;" type="button" value="{{'media.collections.media.new' | translate}}" class="btn btn-primary new-media-btn" />
           </div>
         </div>
       </td>
       <td class='remove-col'>
-        <i class="fa fa-times remove" ng-click="resource.mediaMap.splice($index, 1); detailsForm.$dirty = true;"></i>
+        <i class="fa fa-times remove" ng-click="removeMapping(resource, detailsForm, $index)"></i>
       </td>
     </tr>
-
   </tbody>
 </table>
 

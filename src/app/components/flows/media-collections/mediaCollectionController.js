@@ -9,8 +9,7 @@ angular.module('liveopsConfigPanel')
 
       $scope.create = function () {
         $scope.selectedMediaCollection = new MediaCollection({
-          tenantId: Session.tenant.tenantId,
-          mediaMap: []
+          tenantId: Session.tenant.tenantId
         });
       };
       $scope.fetch = function () {
@@ -28,6 +27,32 @@ angular.module('liveopsConfigPanel')
           angular.copy(result, $scope.additionalCollections.medias);
         });
       };
+      
+      MediaCollection.prototype.preCreate = function () {
+        if (angular.isDefined(this.mediaMap)){
+          $scope.cleanMediaMap(this);
+        }
+      };
+      
+      MediaCollection.prototype.preUpdate = function () {
+        if (angular.isDefined(this.mediaMap)){
+          $scope.cleanMediaMap(this);
+        }
+      };
+      
+      $scope.cleanMediaMap = function(collection){
+        var cleanedMediaMap = [];
+        angular.forEach(collection.mediaMap, function(mapping){
+          //Remove extra name property used to display the media name,
+          //And description which is present when loading an existing media collection
+          delete mapping.name;
+          delete mapping.description;
+        //angular.copy will strip the $$hashKey properties that are added by the ng-options
+          cleanedMediaMap.push(angular.copy(mapping));
+        });
+        
+        collection.mediaMap = cleanedMediaMap;
+      }
 
       MediaCollection.prototype.postSave = function () {
         $scope.selectedMedia = null;
@@ -36,9 +61,32 @@ angular.module('liveopsConfigPanel')
       $scope.additionalMedia = {
         mediaTypes: mediaTypes
       };
+      
+      $scope.addMapping = function(collection, form){
+        form.$setDirty();
+        
+        if(collection.mediaMap){
+          collection.mediaMap.push({});
+        } else {
+          collection.mediaMap = [{}];
+        }
+      };
+      
+      $scope.removeMapping = function(collection, form, index){
+        collection.mediaMap.splice(index, 1);
+        form.$removeControl(form['mapping' + index]);
+        form.$removeControl(form['source' + index]);
+        if (collection.mediaMap.length === 0){
+          delete collection.mediaMap;
+        }
+        
+        form.mediaMapChanges.$setDirty();
+      };
 
       $scope.additionalCollections = {
-        medias: $scope.medias
+        medias: $scope.medias,
+        addMapping: $scope.addMapping,
+        removeMapping: $scope.removeMapping
       };
 
       $scope.$on('resource:details:create:mediaMapping', function (event, media) {
