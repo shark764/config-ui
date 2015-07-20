@@ -7,21 +7,31 @@
   
   <flow-version-name name="activeVersion" flow="item" ></flow-version-name>
   
+  <span name="active">
+    <span ng-if="item.active">{{'value.enabled' | translate}}</span>
+    <span ng-if="!item.active" class="disabled">{{'value.disabled' | translate}}</span>
+  </span>
 </table-controls>
 
 <resize-handle
-  ng-show="!! selectedFlow"
+  ng-show="!! selectedFlow || showBulkActions"
   id="resize-pane"
-  right-element-id="details-pane"
+  right-element-id="right-panel"
   left-element-id="table-pane"
   left-min-width="600"
   right-min-width="300"></resize-handle>
 
-<resource-details
-  ng-show="!! selectedFlow"
-  id="details-pane"
-  extend-scope="additional"
-  header-template-url="app/components/flows/flowManagement/flowDetailHeader.html"
-  body-template-url="app/components/flows/flowManagement/flowDetailBody.html"
-  original-resource="selectedFlow"
-  resource-name="flow"></resource-details>
+<div id="right-panel" class="right-panel" ng-show="selectedFlow || showBulkActions">
+  <resource-details
+    ng-show="!! selectedFlow && !showBulkActions"
+    id="details-pane"
+    extend-scope="additional"
+    header-template-url="app/components/flows/flowManagement/flowDetailHeader.html"
+    body-template-url="app/components/flows/flowManagement/flowDetailBody.html"
+    original-resource="selectedFlow"
+    resource-name="flow"></resource-details>
+    
+  <bulk-action-executor class="details-pane" ng-show="showBulkActions" items="flows" bulk-actions="bulkActions" show-bulk-actions="showBulkActions" selected-display="name">
+    <ba-set-flow-status bulk-action="bulkActions.setFlowStatus"></ba-set-flow-status>
+  </bulk-action-executor>
+</div>
