@@ -22,7 +22,7 @@ describe('The create new queues view', function() {
     shared.tearDown();
   });
 
-  xit('should include supported queue fields only', function() {
+  it('should include supported queue fields only', function() {
     shared.createBtn.click();
 
     expect(queues.nameFormField.isDisplayed()).toBeTruthy();
@@ -88,7 +88,7 @@ describe('The create new queues view', function() {
     });
   });
 
-  xit('should clear fields on cancel', function() {
+  it('should clear fields on cancel', function() {
     queueCount = shared.tableElements.count();
     randomQueue = Math.floor((Math.random() * 100) + 1);
     shared.createBtn.click();
@@ -112,7 +112,7 @@ describe('The create new queues view', function() {
     });
   });
 
-  xit('should require field inputs', function() {
+  it('should require field inputs', function() {
     queueCount = shared.tableElements.count();
     shared.createBtn.click();
 
@@ -123,7 +123,7 @@ describe('The create new queues view', function() {
     expect(shared.successMessage.isPresent()).toBeFalsy();
   });
 
-  xit('should require name', function() {
+  it('should require name', function() {
     queueCount = shared.tableElements.count();
     shared.createBtn.click();
     randomQueue = Math.floor((Math.random() * 100) + 1);
@@ -142,7 +142,7 @@ describe('The create new queues view', function() {
     expect(shared.successMessage.isPresent()).toBeFalsy();
   });
 
-  xit('should require query', function() {
+  it('should require query', function() {
     queueCount = shared.tableElements.count();
     shared.createBtn.click();
     randomQueue = Math.floor((Math.random() * 100) + 1);
@@ -196,7 +196,7 @@ describe('The create new queues view', function() {
     });
   });
 
-  xit('should not accept spaces only as valid field input when creating a new queue', function() {
+  it('should not accept spaces only as valid field input when creating a new queue', function() {
     queueCount = shared.tableElements.count();
     shared.createBtn.click();
     queues.nameFormField.sendKeys(' ');
