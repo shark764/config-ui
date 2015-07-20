@@ -41,6 +41,11 @@ angular.module('liveopsConfigPanel')
       };
       
       $scope.cleanMediaMap = function(collection){
+        if (collection.mediaMap.length === 0){
+          delete collection.mediaMap;
+          return;
+        }
+        
         var cleanedMediaMap = [];
         angular.forEach(collection.mediaMap, function(mapping){
           //Remove extra name property used to display the media name,
@@ -52,7 +57,7 @@ angular.module('liveopsConfigPanel')
         });
         
         collection.mediaMap = cleanedMediaMap;
-      }
+      };
 
       MediaCollection.prototype.postSave = function () {
         $scope.selectedMedia = null;
@@ -62,9 +67,7 @@ angular.module('liveopsConfigPanel')
         mediaTypes: mediaTypes
       };
       
-      $scope.addMapping = function(collection, form){
-        form.$setDirty();
-        
+      $scope.addMapping = function(collection){
         if(collection.mediaMap){
           collection.mediaMap.push({});
         } else {

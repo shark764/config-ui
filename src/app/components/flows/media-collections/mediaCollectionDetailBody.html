@@ -15,7 +15,7 @@
     <textarea ng-model="resource.description" name="description"></textarea>
   </div>
 </div>
-<div ng-if="resource.mediaMap != undefined" class="input-group">
+<div ng-if="resource.mediaMap != undefined && resource.mediaMap.length > 0" class="input-group">
   <label>{{'media.collections.defaultMediaKey' | translate}} *</label>
   <div>
     <form-error field="detailsForm.defaultMediaKey" error-type-api="true" error-type-required="{{'media.collections.defaultMediaKey.error' | translate}}"></form-error>
