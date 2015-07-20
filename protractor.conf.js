@@ -52,8 +52,6 @@ exports.config = {
     regression: [paths.e2e + '/**/*.spec.js']
   },
 
-  specs: [paths.e2e + '/flows/dispatchMappings.spec.js'],
-
   framework: 'jasmine2',
 
   jasmineNodeOpts: {
