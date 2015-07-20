@@ -11,6 +11,7 @@ describe('groups controller', function () {
   beforeEach(module('liveopsConfigPanel'));
   beforeEach(module('liveopsConfigPanel.mock.content.management.groups'));
   beforeEach(module('liveopsConfigPanel.mock.content.management.users'));
+  beforeEach(module('liveopsConfigPanel.mock.content.management.users.groups'));
 
   beforeEach(inject(['$rootScope', '$httpBackend', '$controller', 'apiHostname', 'Session', 'mockUsers', 'mockGroups',
     function ($rootScope, $httpBackend, $controller, apiHostname, Session, _mockUsers, _mockGroups) {
@@ -28,7 +29,7 @@ describe('groups controller', function () {
 
   it('should have groups', inject(function () {
     expect($scope.groups).toBeDefined();
-    expect($scope.groups.length).toEqual(2);
+    expect($scope.groups.length).toEqual(3);
   }));
 
   it('should refetch groups when tenant changes', function () {
@@ -57,13 +58,13 @@ describe('groups controller', function () {
 
   describe('createGroup function', function () {
     it('should catch the on:click:create event', inject(['Session', function (Session) {
-      $scope.$broadcast('on:click:create');
+      $scope.$broadcast('table:on:click:create');
       expect($scope.selectedGroup).toBeDefined();
       expect($scope.selectedGroup.tenantId).toEqual(Session.tenant.tenantId);
     }]));
 
     it('should set selectedGroup to default values', inject(function () {
-      $scope.$broadcast('on:click:create');
+      $scope.$broadcast('table:on:click:create');
       expect($scope.selectedGroup.tenantId).toEqual('tenant-id');
       expect($scope.selectedGroup.status).toBeTruthy();
       expect($scope.selectedGroup.owner).toEqual('userId1');

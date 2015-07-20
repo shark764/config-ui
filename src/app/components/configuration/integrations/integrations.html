@@ -3,10 +3,22 @@
   config="tableConfig"
   items="integrations"
   selected="selectedIntegration"
-  resource-name="{{'tenants:' + Session.tenant.tenantId + ':integrations'}}">
+  resource-name="integrations">
+
+  <span name="status">
+    <span ng-if="item.status">{{'value.enabled' | translate}}</span>
+    <span ng-if="!item.status" class="disabled">{{'value.disabled' | translate}}</span>
+  </span>
+  
+  <span name="properties.webRtc">
+    <span ng-if="item.properties.webRtc">{{'value.enabled' | translate}}</span>
+    <span ng-if="!item.properties.webRtc">{{'value.disabled' | translate}}</span>
+  </span>
+  
 </table-controls>
 
 <resize-handle
+  ng-show="!! selectedIntegration"
   id="resize-pane"
   right-element-id="details-pane"
   left-element-id="table-pane"
@@ -14,6 +26,7 @@
   right-min-width="300"></resize-handle>
 
 <resource-details
+  ng-show="!! selectedIntegration"
   id="details-pane"
   extend-scope="additional"
   header-template-url="app/components/configuration/integrations/integrationDetailHeader.html"

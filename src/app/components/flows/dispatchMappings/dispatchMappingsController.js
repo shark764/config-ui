@@ -19,10 +19,6 @@ angular.module('liveopsConfigPanel')
 
         $scope.dispatchMappings = DispatchMapping.query({
           tenantId: Session.tenant.tenantId
-        }, function(dispatchMappings) {
-          if (!dispatchMappings.length) {
-            $scope.create();
-          }
         });
 
         $scope.flows = Flow.query({
@@ -36,7 +32,7 @@ angular.module('liveopsConfigPanel')
 
       $scope.$watch('Session.tenant', $scope.fetch, true);
 
-      $scope.$on('on:click:create', function() {
+      $scope.$on('table:on:click:create', function() {
         $scope.create();
       });
 

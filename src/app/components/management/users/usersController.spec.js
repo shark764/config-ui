@@ -37,11 +37,11 @@ describe('users controller', function () {
 
   it('should have users', inject(function () {
     expect($scope.users).toBeDefined();
-    expect($scope.users.length).toEqual(2);
+    expect($scope.users.length).toEqual(3);
   }));
 
   it('should catch the on:click:create event', inject([ function () {
-      $scope.$broadcast('on:click:create');
+      $scope.$broadcast('table:on:click:create');
       expect($scope.selectedUser).toBeDefined();
       expect($scope.selectedUser.status).toEqual(true);
     }]));
@@ -78,7 +78,7 @@ describe('users controller', function () {
 
     it('should call fetch if session.tenant.tenantId is changed', inject(function () {
       var tempUsers = [{
-        'id': 'userId2',
+        'id': 'userId20',
         'status': true,
         'externalId': 80232,
         'state': 'NOT_READY',
@@ -87,7 +87,7 @@ describe('users controller', function () {
         'email': 'michael.oliver@ezent.io'
       }];
 
-      $httpBackend.when('GET', apiHostname + '/v1/users?tenantId=tenant').respond({
+      $httpBackend.expect('GET', apiHostname + '/v1/users?tenantId=tenant').respond({
         'result': tempUsers
       });
 

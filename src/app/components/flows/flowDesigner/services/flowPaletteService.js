@@ -51,7 +51,7 @@
                 target: notation.target,
                 params: _.reduce(notation.params, function(memo, value, key) {
                   if (value.default) {
-                    memo[key] = value.default
+                    memo[key] = value.default;
                   };
                   return memo;
                 }, {})

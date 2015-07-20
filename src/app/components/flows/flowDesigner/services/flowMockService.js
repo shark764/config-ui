@@ -176,8 +176,7 @@
             }
           },
           'bindings': {},
-          'targeted': true,
-          'target': 'twilio'
+          'targeted': false
         },
 
         // RE-ADD FOR SUBFLOWS TO WORK

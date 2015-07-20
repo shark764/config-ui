@@ -27,40 +27,38 @@ describe('The flows view', function() {
   it('should include flow management page components', function() {
     expect(shared.navBar.isDisplayed()).toBeTruthy();
 
-    expect(flows.nameFormField.isDisplayed()).toBeTruthy();
-    expect(flows.descriptionFormField.isDisplayed()).toBeTruthy();
-    expect(flows.typeFormDropdown.isDisplayed()).toBeTruthy();
-    expect(flows.activeFormToggle.isDisplayed()).toBeTruthy();
-    expect(shared.submitFormBtn.isDisplayed()).toBeTruthy();
+    //Right panel is hidden by default
+    expect(shared.detailsForm.isDisplayed()).toBeFalsy();
   });
 
 
   it('should display flow details when selected from table', function() {
     // Select first flow from table
-    flows.firstTableRow.click();
+    shared.firstTableRow.click();
 
     // Verify flow name in table matches populated field
-    expect(flows.firstTableRow.getText()).toContain(flows.nameFormField.getAttribute('value'));
+    expect(shared.firstTableRow.getText()).toContain(flows.nameFormField.getAttribute('value'));
 
     // Change selected flow and ensure details are updated
     shared.tableElements.count().then(function(numFlows) {
       if (numFlows > 1) {
         flows.secondTableRow.click();
-        expect(flows.secondTableRow.getText()).toContain(flows.nameFormField.getAttribute('value'));
+        expect(shared.secondTableRow.getText()).toContain(flows.nameFormField.getAttribute('value'));
       }
     });
   });
 
   it('should allow the Flow fields to be updated', function() {
-    flowVersionCount = flows.versionsTableElements.count().then(function(curFlowVersionCount) {
+    shared.firstTableRow.click();
+    
+    flows.versionsTableElements.count().then(function(curFlowVersionCount) {
       randomFlow = Math.floor((Math.random() * 1000) + 1);
-      flows.firstTableRow.click();
 
       // Edit fields
       flows.nameFormField.sendKeys('Edit');
       flows.descriptionFormField.sendKeys('Edit');
       var versionSelected = randomFlow % curFlowVersionCount;
-      flows.activeVersionDropdown.all(by.css('option')).get(versionSelected).click();
+      flows.activeVersionDropdown.all(by.css('option')).get(versionSelected + 1).click();
       flows.typeFormDropdown.all(by.css('option')).get((randomFlow % 3) + 1).click();
 
       var editedName = flows.nameFormField.getAttribute('value');
@@ -71,6 +69,7 @@ describe('The flows view', function() {
 
         // Changes persist
         browser.refresh();
+        shared.firstTableRow.click();
         expect(flows.nameFormField.getAttribute('value')).toBe(editedName);
         expect(flows.descriptionFormField.getAttribute('value')).toBe(editedDescription);
         expect(flows.activeVersionDropdown.getAttribute('value')).toBe(editedActiveVersion);
@@ -105,9 +104,10 @@ describe('The flows view', function() {
   });
 
   it('should reset fields after editing and selecting Cancel', function() {
-    flowVersionCount = flows.versionsTableElements.count().then(function(curFlowVersionCount) {
+    shared.firstTableRow.click();
+
+    flows.versionsTableElements.count().then(function(curFlowVersionCount) {
       randomFlow = Math.floor((Math.random() * 1000) + 1);
-      flows.firstTableRow.click();
 
       var originalName = flows.nameFormField.getAttribute('value');
       var originalDescription = flows.descriptionFormField.getAttribute('value');
@@ -118,7 +118,7 @@ describe('The flows view', function() {
       flows.nameFormField.sendKeys('Edit');
       flows.descriptionFormField.sendKeys('Edit');
       var versionSelected = randomFlow % curFlowVersionCount;
-      flows.activeVersionDropdown.all(by.css('option')).get(versionSelected).click();
+      flows.activeVersionDropdown.all(by.css('option')).get(versionSelected + 1).click();
       flows.typeFormDropdown.all(by.css('option')).get((randomFlow % 3) + 1).click();
 
       shared.cancelFormBtn.click();
@@ -140,7 +140,7 @@ describe('The flows view', function() {
   });
 
   it('should display all flow versions in Active Version dropdown', function() {
-    flows.firstTableRow.click();
+    shared.firstTableRow.click();
     flows.activeVersionDropdown.all(by.css('option')).then(function(dropdownVersions) {
       for (var i = 1; i < dropdownVersions.length; ++i) {
         expect(flows.versionsTableElements.get(i - 1).getText()).toContain(flows.activeVersionDropdown.all(by.css('option')).get(i).getText());
@@ -149,7 +149,7 @@ describe('The flows view', function() {
   });
 
   it('should display button to new flow version and correct fields', function() {
-    flows.firstTableRow.click();
+    shared.firstTableRow.click();
 
     // Create Flow version details not displayed be default
     expect(flows.showCreateNewVersionBtn.isDisplayed()).toBeTruthy();
@@ -167,7 +167,7 @@ describe('The flows view', function() {
   });
 
   it('should hide flow version fields on cancel', function() {
-    flows.firstTableRow.click();
+    shared.firstTableRow.click();
     flows.showCreateNewVersionBtn.click();
     expect(flows.showCreateNewVersionBtn.isDisplayed()).toBeFalsy();
     expect(flows.versionNameFormField.isDisplayed()).toBeTruthy();
@@ -206,9 +206,9 @@ describe('The flows view', function() {
   });
 
   it('should require name when adding a new flow version', function() {
+    flows.firstTableRow.click();
     flowVersionCount = flows.versionsTableElements.count();
     randomFlow = Math.floor((Math.random() * 1000) + 1);
-    flows.firstTableRow.click();
     flows.showCreateNewVersionBtn.click();
 
     flows.versionNameFormField.click();
@@ -238,8 +238,8 @@ describe('The flows view', function() {
   });
 
   it('should not accept spaces only as valid field input when creating flow version', function() {
-    flowVersionCount = flows.versionsTableElements.count();
     flows.firstTableRow.click();
+    flowVersionCount = flows.versionsTableElements.count();
     flows.showCreateNewVersionBtn.click();
 
     flows.versionNameFormField.sendKeys(' ');

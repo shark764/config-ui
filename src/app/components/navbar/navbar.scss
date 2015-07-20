@@ -5,16 +5,18 @@ $down-arrow-url: "/assets/images/down-arrow.png";
   display: none !important;
 }
 
-#topnav {
+navbar {
+  display: block;
+  width: 100%;
   background-color: $main-color;
+  height: $navbar-height;
+}
+
+#topnav {
   clear: both;
-  max-width: 100% !important;
   height: $navbar-height;
   padding: 0;
   padding-left: 15px;
-  position: fixed;
-  top: 0;
-  width: 100%;
   word-wrap: normal;
   white-space: nowrap;
   z-index: 15;
@@ -72,7 +74,7 @@ $down-arrow-url: "/assets/images/down-arrow.png";
     padding: 0;
     margin: 0;
     list-style: none;
-
+    
     > li {
       display: inline-block;
       padding: 0;
@@ -90,8 +92,8 @@ $down-arrow-url: "/assets/images/down-arrow.png";
         font-weight: 100;
         height: $navbar-height;
         position: relative;
-
       }
+      
       .label-icon {
         color : $main-color;
       }
@@ -102,9 +104,17 @@ $down-arrow-url: "/assets/images/down-arrow.png";
           color: white;
         }
       }
-
     }
 
+    li:not(#welcome) {
+      dropdown:not(#tenant-dropdown){
+        .dropdown {
+          right: auto;
+          left: 0;
+        }
+      }
+    }
+    
     #tenant-dropdown .label-icon {
       color: $light-grey;
       width: auto;
@@ -120,25 +130,10 @@ $down-arrow-url: "/assets/images/down-arrow.png";
   }
 }
 
-#topnav .dropdown, #welcome .dropdown {
-  & li {
-    border-left: 3px solid #fff;
-    color: $darkest-grey;
-    background: #FFFFFF;
-    padding: 10px 6px 10px 0;
-    font-size: 14px;
-  }
-
-  & li:hover {
-    color: $darkest-grey;
-    background: $accent-light;
-    border-left: 3px solid $accent1
-  }
-}
-
 #welcome {
   padding: 0;
-  float: right;
+  position: absolute !important;
+  right: 0;
   font-size: 11px;
 
   &:hover {

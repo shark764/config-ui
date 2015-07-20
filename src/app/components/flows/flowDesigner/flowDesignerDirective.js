@@ -58,9 +58,7 @@ function flowDesigner() {
               flowId: $scope.flowVersion.flowId
             });
 
-            $scope.version.save(
-
-            function() {
+            $scope.version.save(function() {
               Alert.success('New flow version successfully created.');
               $scope.flowVersion.v = parseInt($scope.flowVersion.v) + 1;
             }, function(error) {

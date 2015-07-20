@@ -4,6 +4,9 @@ angular.module('liveopsConfigPanel')
   .service('mediaTableConfig', ['mediaTypes', '$translate', function (mediaTypes, $translate) {
       return {
         'fields': [{
+          'header': $translate.instant('value.name'),
+          'name': 'name'
+        }, {
           'header': $translate.instant('value.source'),
           'name': 'source'
         }, {
@@ -15,8 +18,8 @@ angular.module('liveopsConfigPanel')
           'header': $translate.instant('value.properties'),
           'name': 'properties'
         }],
-        'searchOn' : ['source'],
-        'orderBy' : ['source'],
+        'searchOn' : ['source', 'name'],
+        'orderBy' : ['name'],
         'title' : $translate.instant('media.table.title')
       };
     }]

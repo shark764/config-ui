@@ -35,7 +35,11 @@ describe('The groups view', function() {
 
     expect(groups.nameRequiredError.get(0).isDisplayed()).toBeFalsy();
     expect(shared.successMessage.isDisplayed()).toBeTruthy();
-
+    
+    expect(groups.groupMembersLoading.isPresent()).toBeFalsy();
+    expect(groups.groupMembersEmpty.isDisplayed()).toBeTruthy();
+    expect(groups.groupMembersEmpty.getText()).toEqual('There are no members assigned to this group.');
+    
     // Confirm group is displayed in group list
     shared.tableElements.then(function(rows) {
       for (var i = 1; i <= rows.length; ++i) {
@@ -56,7 +60,7 @@ describe('The groups view', function() {
     expect(shared.navBar.isDisplayed()).toBeTruthy();
     expect(groups.tablePane.isDisplayed()).toBeTruthy();
     expect(shared.searchField.isDisplayed()).toBeTruthy();
-    expect(shared.detailsForm.isDisplayed()).toBeTruthy();
+    expect(shared.detailsForm.isDisplayed()).toBeFalsy(); //hide right panel by default
     expect(shared.actionsBtn.isDisplayed()).toBeTruthy();
     expect(shared.createBtn.isDisplayed()).toBeTruthy();
     expect(shared.tableColumnsDropDown.isDisplayed()).toBeTruthy();
@@ -128,6 +132,8 @@ describe('The groups view', function() {
       expect(groups.nameRequiredError.get(0).isDisplayed()).toBeFalsy();
       expect(shared.successMessage.isDisplayed()).toBeTruthy();
       expect(shared.tableElements.count()).toBeGreaterThan(groupCount);
+      expect(groups.groupMembersLoading.isPresent()).toBeFalsy();
+      expect(groups.groupMembersEmpty.isDisplayed()).toBeTruthy();
     });
   });
 
@@ -157,7 +163,7 @@ describe('The groups view', function() {
   });
 
   it('should display group details when selected from table', function() {
-    // Select first queue from table
+    // Select first group from table
     groups.firstTableRow.click();
 
     // Verify group details in table matches populated field
@@ -222,10 +228,17 @@ describe('The groups view', function() {
 
     var editedName = groups.nameFormField.getAttribute('value');
     var editedDescription = groups.descriptionFormField.getAttribute('value');
+    var numMembers = parseInt(groups.detailsMemberCount.getText());
     shared.submitFormBtn.click().then(function () {
       expect(groups.nameRequiredError.get(0).isDisplayed()).toBeFalsy();
       expect(shared.successMessage.isDisplayed()).toBeTruthy();
-
+      
+      expect(groups.groupMembersLoading.isPresent()).toBeFalsy();
+      
+      if (numMembers > 0){
+        expect(groups.groupMembersEmpty.isDisplayed()).toBeFalsy();
+      }
+      
       // Changes persist
       browser.refresh();
       expect(groups.nameFormField.getAttribute('value')).toBe(editedName);

@@ -12,7 +12,7 @@ angular.module('liveopsConfigPanel')
         }, {
           'header': $translate.instant('value.details.activeVersion'),
           'name': 'activeVersion',
-          'templateUrl': 'app/components/flows/flowManagement/flowVersionName.html'
+          'transclude': true
         }],
         'searchOn' : ['name'],
         'orderBy' : ['name'],
