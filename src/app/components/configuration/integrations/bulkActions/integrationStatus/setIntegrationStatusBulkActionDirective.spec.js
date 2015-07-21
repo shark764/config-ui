@@ -35,7 +35,8 @@ describe('setIntegrationStatusBulkAction directive', function() {
     function($httpBackend, apiHostname) {
       var mockIntegration = {
           id: 'integration1'
-      }
+      };
+      
       var returnIntegration = angular.copy(mockIntegration);
       returnIntegration.status = true;
 
@@ -61,7 +62,8 @@ describe('setIntegrationStatusBulkAction directive', function() {
 
         var mockIntegration = {
             id: 'integration1'
-        }
+        };
+        
         isolateScope.status = true;
         isolateScope.bulkAction.apply(mockIntegration);
 

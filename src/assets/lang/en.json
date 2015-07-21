@@ -245,6 +245,7 @@
   "bulkActions.enable.dispatchmappings": "Enable Dispatch Mappings",
   "bulkActions.enable.integrations": "Enable Integrations",
   "bulkActions.enable.flows": "Enable Flows",
+  "bulkActions.enable.queues": "Enable Queues",
   
   "user.profile.save.success": "Your details have been updated.",
   "user.profile.save.fail": "An error occured while updating your details."

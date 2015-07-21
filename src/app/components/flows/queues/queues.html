@@ -15,18 +15,24 @@
 </table-controls>
 
 <resize-handle
-  ng-show="!! selectedQueue"
+  ng-show="!! selectedQueue || showBulkActions"
   id="resize-pane"
-  right-element-id="details-pane"
+  right-element-id="right-panel"
   left-element-id="table-pane"
   left-min-width="600"
   right-min-width="300" ></resize-handle>
 
-<resource-details
-  ng-show="!! selectedQueue"
-  id="details-pane"
-  extend-scope="additional"
-  header-template-url="app/components/flows/queues/queueDetailHeader.html"
-  body-template-url="app/components/flows/queues/queueDetailBody.html"
-  original-resource="selectedQueue"
-  resource-name="queue"></resource-details>
+<div id="right-panel" class="right-panel" ng-show="selectedQueue || showBulkActions">
+  <resource-details
+    ng-show="!! selectedQueue && !showBulkActions"
+    id="details-pane"
+    extend-scope="additional"
+    header-template-url="app/components/flows/queues/queueDetailHeader.html"
+    body-template-url="app/components/flows/queues/queueDetailBody.html"
+    original-resource="selectedQueue"
+    resource-name="queue"></resource-details>
+
+  <bulk-action-executor class="details-pane" ng-show="showBulkActions" items="queues" bulk-actions="bulkActions" show-bulk-actions="showBulkActions" selected-display="name">
+    <ba-set-queue-status bulk-action="bulkActions.setQueueStatus"></ba-set-queue-status>
+  </bulk-action-executor>
+</div>
