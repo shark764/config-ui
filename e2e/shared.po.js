@@ -16,12 +16,12 @@ var Shared = function() {
 
   this.tenantsPageUrl = this.configurationUrl + 'tenants';
   this.integrationsPageUrl = this.configurationUrl + 'integrations';
-  this.dispatchMappingsPageUrl = this.configurationUrl + 'dispatchMappings';
 
   this.flowsPageUrl = this.flowsUrl + 'management';
   this.queuesPageUrl = this.flowsUrl + 'queues';
   this.mediaCollectionsPageUrl = this.flowsUrl + 'media-collections';
   this.mediaPageUrl = this.flowsUrl + 'media';
+  this.dispatchMappingsPageUrl = this.flowsUrl + 'dispatchMappings';
 
   this.invitesPageUrl = this.mainUrl + 'invites';
   this.skillsPageUrl = this.managementUrl + 'skills';
@@ -52,9 +52,10 @@ var Shared = function() {
   this.createBtn = element(by.id('create-btn'));
   this.searchField = element(by.model('searchQuery'));
   this.actionsBtn = element(by.buttonText('Actions'));
-  this.tableColumnsDropDown = element(by.css('filter-dropdown.btn'));
+  this.tableColumnsDropDown = element(by.id('table-columns-dropdown'));
 
   // Shared Form elements
+  this.detailsPanel = element(by.css('.details-pane'));
   this.detailsForm = element(by.css('.details-form'));
   this.submitFormBtn = element(by.id('submit-details-btn'));
   this.cancelFormBtn = element(by.id('cancel-details-btn'));

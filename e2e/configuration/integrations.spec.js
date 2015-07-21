@@ -59,7 +59,7 @@ describe('The integrations view', function() {
     expect(shared.navBar.isDisplayed()).toBeTruthy();
     expect(shared.table.isDisplayed()).toBeTruthy();
     expect(shared.searchField.isDisplayed()).toBeTruthy();
-    expect(shared.detailsForm.isDisplayed()).toBeTruthy();
+    expect(shared.detailsForm.isDisplayed()).toBeFalsy(); //Hide right panel by default
     expect(shared.actionsBtn.isDisplayed()).toBeTruthy();
     expect(shared.createBtn.isDisplayed()).toBeTruthy();
     expect(shared.tableColumnsDropDown.isDisplayed()).toBeTruthy();
@@ -80,9 +80,6 @@ describe('The integrations view', function() {
     // Submit button is disabled
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
 
-    // Submit without field input
-    shared.submitFormBtn.click();
-
     // New Integration is not saved
     expect(shared.successMessage.isPresent()).toBeFalsy();
     expect(shared.tableElements.count()).toBe(integrationCount);
@@ -95,7 +92,6 @@ describe('The integrations view', function() {
     // Edit fields
     integrations.authTokenFormField.sendKeys('Integration Token');
     integrations.webRTCFormSwitch.click();
-    shared.submitFormBtn.click();
 
     // Submit button is still disabled
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
@@ -107,7 +103,6 @@ describe('The integrations view', function() {
     // Touch Account SID input field
     integrations.accountSIDFormField.click();
     integrations.authTokenFormField.click();
-    shared.submitFormBtn.click();
 
     // Submit button is still disabled
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
@@ -127,7 +122,6 @@ describe('The integrations view', function() {
     // Edit fields
     integrations.accountSIDFormField.sendKeys('Integration Account SID');
     integrations.webRTCFormSwitch.click();
-    shared.submitFormBtn.click();
 
     // Submit button is still disabled
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
@@ -139,7 +133,6 @@ describe('The integrations view', function() {
     // Touch Auth Token input field
     integrations.authTokenFormField.click();
     integrations.accountSIDFormField.click();
-    shared.submitFormBtn.click();
 
     // Submit button is still disabled
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
@@ -237,6 +230,8 @@ describe('The integrations view', function() {
   });
 
   it('should include valid Integration fields when editing an existing Integration', function() {
+    shared.firstTableRow.click();
+
     expect(integrations.typeHeader.isDisplayed()).toBeTruthy();
     expect(integrations.accountSIDFormField.isDisplayed()).toBeTruthy();
     expect(integrations.authTokenFormField.isDisplayed()).toBeTruthy();
@@ -244,6 +239,8 @@ describe('The integrations view', function() {
   });
 
   it('should reset Integration fields after editing and selecting Cancel', function() {
+    shared.firstTableRow.click();
+
     var originalAccountSID = integrations.accountSIDFormField.getAttribute('value');
     var originalAuthToken = integrations.authTokenFormField.getAttribute('value');
     var originalWebRTC = integrations.webRTCFormSwitch.isSelected();
@@ -301,7 +298,6 @@ describe('The integrations view', function() {
 
     // Submit button is still disabled
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
-    shared.submitFormBtn.click();
 
     // Error messages displayed
     expect(integrations.requiredError.get(0).isDisplayed()).toBeTruthy();
@@ -316,7 +312,6 @@ describe('The integrations view', function() {
 
     // Submit button is still disabled
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
-    shared.submitFormBtn.click();
 
     // Error messages displayed
     expect(integrations.requiredError.get(1).isDisplayed()).toBeTruthy();

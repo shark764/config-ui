@@ -3,8 +3,8 @@
 /* global  window: false */
 
 angular.module('liveopsConfigPanel')
-  .service('AuthService', ['$resource', '$http', '$q', 'Session', 'apiHostname',
-    function ($resource, $http, $q, Session, apiHostname) {
+  .service('AuthService', ['$resource', '$http', '$q', 'Session', 'apiHostname', 'User',
+    function ($resource, $http, $q, Session, apiHostname, User) {
 
       var self = this;
 
@@ -22,7 +22,7 @@ angular.module('liveopsConfigPanel')
 
         return request.then(function(response) {
 
-          var user = response.data.result.user;
+          var user = new User(response.data.result.user);
           var tenants = response.data.result.tenants;
           Session.set(user, tenants, token);
 

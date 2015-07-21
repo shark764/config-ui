@@ -4,8 +4,20 @@ var paths = require('./.yo-rc.json')['generator-gulp-angular'].props.paths;
 
 exports.config = {
 
+  sauceUser: process.env.SAUCE_USERNAME,
+  sauceKey: process.env.SAUCE_ACCESS_KEY,
+
   capabilities: {
-    'browserName': 'chrome'
+    'platform': 'Windows 8',
+    'browserName': 'chrome',
+    'version': '43',
+    'screenResolution': '1280x1024',
+    'tunnelIdentifier': process.env.SAUCE_TUNNEL,
+    // Test Identifiers - For easier grouping and reference in Sauce Labs
+    'name': 'Sauce Labs Test',
+    'build': '0001',
+    'tags': ['BlueSpurs', 'full-regression'],
+    'max-duration': '5400',
   },
 
   // Timeout time in milliseconds; prevents Protractor waiting to synchronize timeouts
@@ -32,31 +44,18 @@ exports.config = {
   suites: {
     // Smoke test suite - Nothing added or edited
     smoke: [
-      paths.e2e + '/login/**/*.spec.js',
-      paths.e2e + '/navigation/**/*.spec.js',
-      paths.e2e + '/search.spec.js',
-      paths.e2e + '/userProfile/**/*.spec.js'
+      paths.e2e + '/login/*.spec.js',
+      paths.e2e + '/navigation/*.spec.js',
+      paths.e2e + '/tableControls/*.spec.js',
+      paths.e2e + '/userProfile/*.spec.js'
     ],
     regression: [paths.e2e + '/**/*.spec.js']
   },
-
-  specs: [
-    paths.e2e + '/login/login.spec.js',
-    paths.e2e + '/navigation/**/*.spec.js',
-    paths.e2e + '/tableControls/**/*.spec.js',
-    paths.e2e + '/management/**/*.spec.js',
-    paths.e2e + '/configuration/**/*.spec.js',
-    paths.e2e + '/userProfile/**/*.spec.js',
-    paths.e2e + '/flows/newflow.spec.js',
-    paths.e2e + '/flows/flows.spec.js',
-    paths.e2e + '/flows/newqueue.spec.js',
-    paths.e2e + '/flows/queues.spec.js'
-  ],
 
   framework: 'jasmine2',
 
   jasmineNodeOpts: {
     showColors: true,
-    defaultTimeoutInterval: 30000
+    defaultTimeoutInterval: 100000
   }
 };

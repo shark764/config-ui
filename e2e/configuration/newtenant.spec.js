@@ -15,8 +15,7 @@ describe('The create new tenants view', function() {
   beforeEach(function() {
     // Ignore unsaved changes warnings
     browser.executeScript("window.onbeforeunload = function(){};");
-    browser.get(shared.usersPageUrl);
-    shared.tenantsNavButton.click();
+    browser.get(shared.tenantsPageUrl);
     tenantCount = shared.tableElements.count();
   });
 
@@ -66,7 +65,6 @@ describe('The create new tenants view', function() {
     shared.createBtn.click();
 
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
-    shared.submitFormBtn.click();
 
     expect(shared.successMessage.isPresent()).toBeFalsy();
     expect(shared.tableElements.count()).toBe(tenantCount);
@@ -79,10 +77,9 @@ describe('The create new tenants view', function() {
     // Complete tenant form and submit without tenant name
     tenants.nameFormField.click();
     tenants.descriptionFormField.sendKeys('This is the tenant description for tenant ' + randomTenant);
-    tenants.adminFormDropDown.all(by.css('option')).get(1).click();
+    tenants.adminFormDropDown.all(by.css('option')).get(0).click();
 
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
-    shared.submitFormBtn.click();
 
     expect(tenants.nameRequiredError.get(0).isDisplayed()).toBeTruthy();
     expect(tenants.nameRequiredError.get(0).getText()).toBe('Please enter a name');
@@ -98,7 +95,6 @@ describe('The create new tenants view', function() {
     tenants.descriptionFormField.click();
     tenants.adminFormDropDown.click();
 
-    expect(shared.submitFormBtn.getAttribute('disabled')).toBeFalsy();
     shared.submitFormBtn.click();
 
     expect(tenants.nameRequiredError.get(0).isDisplayed()).toBeFalsy();
@@ -111,9 +107,8 @@ describe('The create new tenants view', function() {
     randomTenant = Math.floor((Math.random() * 1000) + 1);
 
     tenants.nameFormField.sendKeys('Tenant ' + randomTenant);
-    tenants.adminFormDropDown.all(by.css('option')).get(1).click();
+    tenants.adminFormDropDown.all(by.css('option')).get(0).click();
 
-    expect(shared.submitFormBtn.getAttribute('disabled')).toBeFalsy();
     shared.submitFormBtn.click();
 
     expect(tenants.nameRequiredError.get(0).isDisplayed()).toBeFalsy();
@@ -122,13 +117,11 @@ describe('The create new tenants view', function() {
   });
 
   xit('should not require an admin', function() {
-    // TODO Fails from existing bug
     shared.createBtn.click();
     randomTenant = Math.floor((Math.random() * 1000) + 1);
 
     tenants.nameFormField.sendKeys('Tenant ' + randomTenant);
 
-    expect(shared.submitFormBtn.getAttribute('disabled')).toBeFalsy();
     shared.submitFormBtn.click();
 
     expect(tenants.nameRequiredError.get(0).isDisplayed()).toBeFalsy();
@@ -147,7 +140,6 @@ describe('The create new tenants view', function() {
     tenants.descriptionFormField.sendKeys(' ');
 
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
-    shared.submitFormBtn.click();
 
     expect(tenants.nameRequiredError.get(0).isDisplayed()).toBeTruthy();
     expect(tenants.nameRequiredError.get(0).getText()).toBe('Please enter a name');

@@ -30,7 +30,7 @@ describe('userSkills directive', function(){
       mockUserSkills = _mockUserSkills;
       mockUsers = _mockUsers;
       TenantUserSkills = _TenantUserSkills;
-
+      
       $scope.user = mockUsers[0];
 
       element = $compile('<user-skills user="user"></user-skills>')($scope);
@@ -66,7 +66,7 @@ describe('userSkills directive', function(){
       expect(isolateScope.remove).toEqual(jasmine.any(Function));
     });
 
-    it('should call delete on the item', function(TenantUserSkills) {
+    it('should call delete on the item', function() {
       var tus = new TenantUserSkills();
       spyOn(tus, '$delete');
       isolateScope.remove(tus);

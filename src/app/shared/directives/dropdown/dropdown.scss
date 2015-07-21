@@ -11,7 +11,7 @@
   right: 0;
   position: absolute;
   padding: 6px 0;
-  top: -2px;
+  top: -5px;
   min-width: 200px;
   width: 100%;
   z-index: 10;
@@ -22,7 +22,6 @@
 }
 
 .dropdown-wrapper {
-  display: inline-block;
   overflow: visible;
 
   button {
@@ -31,21 +30,21 @@
   }
 
   .drop-label {
-    display:table !important;
 
-    >div {
-      display: table-cell;
-      overflow: hidden;
-      text-overflow: ellipsis;
+    > div {
       white-space: nowrap;
       margin: 0;
-      display: inline-block;
-      vertical-align: middle;
-    }
-    span {
-      display: table-cell;
-      i{
-        vertical-align: middle; 
+      height: 100%;
+      display:table;
+
+      span, i {
+        display: table-cell;
+        vertical-align: middle;
+        height: 100%;
+      }
+
+      i {
+        padding-left: 10px;
       }
     }
   }
@@ -71,7 +70,7 @@
     }
 
     li {
-      border-left: 3px solid #fff;
+      border-left: 5px solid #fff;
       color: $dark-grey;
       background: #FFFFFF;
       padding: 10px 6px 10px 5px;
@@ -85,7 +84,6 @@
     li:hover {
       color: $dark-grey;
       background: $accent-light;
-      background-color: $lightest-grey;
       border-left: 5px solid $accent1
     }
   }

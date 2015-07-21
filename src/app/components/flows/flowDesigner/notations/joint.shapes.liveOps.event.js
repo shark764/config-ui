@@ -49,184 +49,51 @@
       interrupting: true,
       throwing: false,
       terminate: false,
-      icon: 'none',
-      inputs: {
-        eventType: {
-          type: 'select',
-          options: [
-            {
-              value: 'start',
-              content: 'Start'
-            },
-            {
-              value: 'intermediate',
-              content: 'Intermediate'
-            },
-            {
-              value: 'end',
-              content: 'End'
-            }
-          ],
-          group: 'general',
-          label: 'Type',
-          index: 1
-        },
-        eventName: {
-          type: 'select',
-          options: [
-            {
-              value: 'none',
-              content: 'None'
-            },
-            {
-              value: 'terminate',
-              content: 'Terminate'
-            },
-            {
-              value: 'error',
-              content: 'Error'
-            },
-            {
-              value: 'signal',
-              content: 'Signal'
-            }
-          ],
-          group: 'general',
-          label: 'Event Name',
-          index: 2
-        },
-        throwing: {
-          type: 'toggle',
-          group: 'general',
-          label: 'Throwing',
-          when: {
-            eq: {
-              'eventType': 'intermediate'
-            }
-          }
-        },
-        target: {
-          type: 'text',
-          group: 'general',
-          label: 'Target',
-          when: {
-            and: [
-              {
-                eq: {
-                  'eventName': 'signal'
-                }
-              },
-              {
-                eq: {
-                  'throwing': false
-                }
-              }
+      icon: 'none'
 
-            ]
-          }
-        },
-        event: {
-          type: 'object',
-          group: 'general',
-          label: 'Event',
-          properties: {
-            name: {
-              label: 'Signal Name',
-              type: 'text'
-            },
-            params: {
-              label: 'Params',
-              type: 'list',
-              item: {
-                type: 'object',
-                properties: {
-                  key: {
-                    label: 'Key',
-                    type: 'text'
-                  },
-                  value: {
-                    label: 'Value',
-                    type: 'text'
-                  }
-                }
-              }
-            }
-          },
-          when: {
-            and: [
-              {
-                eq: {
-                  'eventName': 'signal'
-                }
-              },
-              {
-                eq: {
-                  'throwing': true
-                }
-              }
-
-            ]
-          }
-        },
-        bindings: {
-          type: 'list',
-          label: 'Bindings',
-          group: 'bindings',
-          item: {
-            type: 'object',
-            properties: {
-              key: {
-                label: 'Key',
-                type: 'text'
-              },
-              value: {
-                label: 'Value',
-                type: 'text'
-              }
-            }
-          },
-          when: {
-            and: [
-              {
-                eq: {
-                  'eventName': 'signal'
-                }
-              },
-              {
-                eq: {
-                  'throwing': false
-                }
-              }
-
-            ]
-          }
-        }
-      }
     }, joint.dia.Element.prototype.defaults),
     initialize: function() {
       joint.dia.Element.prototype.initialize.apply(this, arguments);
-      this.listenTo(this, 'change:eventType', this.onEventTypeChange);
-      this.onEventTypeChange(this, this.get('eventType'));
-      this.listenTo(this, 'change:eventName', this.updateIcon);
-      this.listenTo(this, 'change:throwing', this.updateIcon);
+      this.listenTo(this, 'change:entity', this.updateGroup);
+      this.listenTo(this, 'change:terminate', this.updateGroup);
+      this.updateGroup(this);
+
+      this.listenTo(this, 'change:name', this.updateIcon);
+      this.listenTo(this, 'change:entity', this.updateIcon);
       
       this.updateIcon(this);
-      
+
       this.listenTo(this, 'change:interrupting', this.onInterruptingChange);
       this.onInterruptingChange(this, this.get('interrupting'));
+
+      this.listenTo(this, 'change:group', this.onGroupChange);
+      this.onGroupChange(this, this.get('group'));
+
       this.listenTo(this, 'change:parent', this.onParentChange);
       this.onParentChange(this, this.get('parent'));
     },
 
+    updateGroup: function(cell) {
+      console.log(cell);
+      var terminate = cell.get('terminate'),
+          entity = cell.get('entity')
+      if (entity === 'start') {
+        cell.set('group', 'start');
+      } else if (entity === 'catch' || (entity === 'throw' && !terminate)) {
+        cell.set('group', 'intermediate');
+      } else if (entity === 'throw' && terminate) {
+        cell.set('group', 'end');
+      }
+    },
+
     updateIcon: function(cell) {
-      var throwing = cell.get('throwing');
-      var name = cell.get('eventName');
-      if (throwing) {
+      var entity = cell.get('entity');
+      var name = cell.get('name');
+      if (entity == 'throw') {
         cell.set('icon', name + 'Throwing');
       } else {
         cell.set('icon', name);
       }
-
     },
 
     onParentChange: function(cell, parent) {
@@ -271,7 +138,7 @@
           break;
       }
     },
-    onEventTypeChange: function(cell, type) {
+    onGroupChange: function(cell, type) {
       switch (type) {
         case 'start':
           cell.attr({
@@ -296,8 +163,6 @@
               }
             }
           });
-          cell.set('throwing', false);
-          cell.set('terminate', false);
           break;
         case 'end':
           cell.attr({
@@ -322,8 +187,6 @@
               }
             }
           });
-          cell.set('throwing', true);
-          cell.set('terminate', true);
           break;
         case 'intermediate':
           cell.attr({
@@ -348,7 +211,6 @@
               }
             }
           });
-          cell.set('terminate', false);
           break;
         default:
           throw 'BPMN: Unknown Event Type: ' + type;

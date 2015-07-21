@@ -59,7 +59,7 @@ describe('The skills view', function() {
     expect(shared.navBar.isDisplayed()).toBeTruthy();
     expect(shared.table.isDisplayed()).toBeTruthy();
     expect(shared.searchField.isDisplayed()).toBeTruthy();
-    expect(shared.detailsForm.isDisplayed()).toBeTruthy();
+    expect(shared.detailsForm.isDisplayed()).toBeFalsy(); //Hide side panel by default
     expect(shared.actionsBtn.isDisplayed()).toBeTruthy();
     expect(shared.createBtn.isDisplayed()).toBeTruthy();
     expect(shared.tableColumnsDropDown.isDisplayed()).toBeTruthy();
@@ -80,9 +80,6 @@ describe('The skills view', function() {
     // Submit button is disabled
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
 
-    // Submit without field input
-    shared.submitFormBtn.click();
-
     // New Skill is not saved
     expect(shared.successMessage.isPresent()).toBeFalsy();
     expect(skills.skillElements.count()).toBe(skillCount);
@@ -94,7 +91,6 @@ describe('The skills view', function() {
     // Edit fields
     skills.descriptionFormField.sendKeys('Skill Description');
     skills.proficiencyFormCheckbox.click();
-    shared.submitFormBtn.click();
 
     // Submit button is still disabled
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
@@ -106,7 +102,6 @@ describe('The skills view', function() {
     // Touch name input field
     skills.nameFormField.click();
     skills.descriptionFormField.click();
-    shared.submitFormBtn.click();
 
     // Submit button is still disabled
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
@@ -323,7 +318,6 @@ describe('The skills view', function() {
 
     // Submit button is still disabled
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
-    shared.submitFormBtn.click();
 
     // Error messages displayed
     expect(skills.nameRequiredError.get(0).isDisplayed()).toBeTruthy();
@@ -336,8 +330,8 @@ describe('The skills view', function() {
 
     // Edit fields
     skills.descriptionFormField.clear();
-    shared.submitFormBtn.click();
-
-    expect(shared.successMessage.isPresent()).toBeTruthy();
+    shared.submitFormBtn.click().then(function () {
+      expect(shared.successMessage.isPresent()).toBeTruthy();
+    });
   });
 });

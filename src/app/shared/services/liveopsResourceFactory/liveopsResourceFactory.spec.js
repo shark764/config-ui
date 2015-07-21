@@ -41,7 +41,8 @@ describe('LiveopsResourceFactory', function(){
       query: jasmine.any(Object),
       get: jasmine.any(Object),
       update: jasmine.any(Object),
-      save: jasmine.any(Object)
+      save: jasmine.any(Object),
+      delete: jasmine.any(Object)
     });
   }));
 
@@ -52,7 +53,8 @@ describe('LiveopsResourceFactory', function(){
       query: jasmine.any(Object),
       get: jasmine.any(Object),
       update: jasmine.any(Object),
-      save: jasmine.any(Object)
+      save: jasmine.any(Object),
+      delete: jasmine.any(Object)
     });
   }));
 
@@ -131,13 +133,35 @@ describe('LiveopsResourceFactory', function(){
   });
 
   describe('prototype save function', function(){
-    it('should call $update if the object exists', inject(function() {
+    it('should call $update if the object exists', inject(['$q', function($q) {
       Resource = LiveopsResourceFactory.create('/endpoint');
 
       var resource = new Resource();
       resource.id = 'id1';
 
-      expect(resource.isNew()).toBeFalsy();
+      resource.$update = protoUpdateSpy.and.returnValue($q.when({}));
+      resource.save();
+      expect(protoUpdateSpy).toHaveBeenCalled();
+    }]));
+
+    it('should call $save if the object if new', inject(['$q', function($q) {
+      Resource = LiveopsResourceFactory.create('/endpoint');
+
+      var resource = new Resource();
+
+      resource.$save = protoSaveSpy.and.returnValue($q.when({}));
+      resource.save();
+      expect(protoSaveSpy).toHaveBeenCalled();
+    }]));
+  });
+
+  describe('prototype postUpdateError function', function(){
+    it('should return a promise that is rejected with the given error', inject(function() {
+      Resource = LiveopsResourceFactory.create('/endpoint');
+
+      var resource = new Resource();
+      var promise = resource.postUpdateError('some err');
+      expect(promise.$$state.value).toEqual('some err');
     }));
   });
 });

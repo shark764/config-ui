@@ -2,7 +2,6 @@
   'use strict';
 
   function FlowPaletteService(FlowNotationService, FlowMockService) {
-    var demoInit = FlowMockService.demoInit;
     return {
       loadGateways: function(palette) {
         palette.load([
@@ -20,22 +19,27 @@
       loadEvents: function(palette) {
         palette.load([
           new joint.shapes.liveOps.event({
-            eventName: 'none',
-            eventType: 'start'
+            name: 'none',
+            entity: 'start'
           }),
           new joint.shapes.liveOps.event({
-            eventName: 'none',
-            eventType: 'intermediate'
+            name: 'none',
+            entity: 'catch'
           }),
           new joint.shapes.liveOps.event({
-            eventName: 'none',
-            eventType: 'end'
+            name: 'none',
+            entity: 'throw',
+            terminate: true
           })
         ], 'events');
+
+        _.each(FlowMockService.events, function(notation, index) {
+          FlowNotationService.registerEvent(notation);
+        })
       },
 
       loadActivities: function(palette) {
-        _.each(_.groupBy(demoInit, 'entity'), function(notations, entity) {
+        _.each(_.groupBy(FlowMockService.activities, 'entity'), function(notations, entity) {
           palette.load(
             _.map(notations, function(notation) {
               return new joint.shapes.liveOps[entity]({
@@ -44,7 +48,13 @@
                 type: 'liveOps.activity',
                 name: notation.name,
                 targeted: notation.targeted,
-                target: notation.target
+                target: notation.target,
+                params: _.reduce(notation.params, function(memo, value, key) {
+                  if (value.default) {
+                    memo[key] = value.default;
+                  };
+                  return memo;
+                }, {})
               });
             }
           ), entity);

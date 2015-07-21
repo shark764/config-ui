@@ -15,7 +15,6 @@ describe('search filter', function () {
       'lastName': 'Wazowski',
       'firstName': 'Mike',
       'email': 'mike.Wazowski@hivedom.org',
-      'displayName': 'Mike Wazowski',
       'skills': [{
         'name': 'walking'
       }, {
@@ -141,6 +140,11 @@ describe('search filter', function () {
     result = filter(users, ['firstName', 'lastName'], '*Wazow');
     expect(result.length).toBe(1);
   }));
+  
+  it('should return nothing if fields aren\'t object or strings', inject(function () {
+    var result = filter(users, [5, true], 'W');
+    expect(result.length).toBe(0);
+  }));
 
   it('should return results when skills match', inject(function () {
 
@@ -240,7 +244,6 @@ describe('search filter', function () {
         'lastName': 'Wazowski',
         'firstName': 'Mike',
         'email': 'mike.Wazowski@hivedom.org',
-        'displayName': 'Mike Wazowski',
         'skills': [{
           'name': 'talking'
         }]
@@ -251,7 +254,6 @@ describe('search filter', function () {
         'lastName': 'Walter',
         'firstName': 'Serge',
         'email': 'serge.walter@example.com',
-        'displayName': 'Serge Walter',
         'skills': [{
           'name': 'walking'
         }]

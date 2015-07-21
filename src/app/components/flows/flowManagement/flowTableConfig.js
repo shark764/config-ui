@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('flowTableConfig', ['$translate', function ($translate) {
+  .service('flowTableConfig', ['$translate', 'statuses', function ($translate, statuses) {
       return {
         'fields': [{
           'header': $translate.instant('value.name'),
@@ -12,7 +12,14 @@ angular.module('liveopsConfigPanel')
         }, {
           'header': $translate.instant('value.details.activeVersion'),
           'name': 'activeVersion',
-          'templateUrl': 'app/components/flows/flowManagement/flowVersionName.html'
+          'transclude': true
+        }, {
+          'header': $translate.instant('value.status'),
+          'name': 'active',
+          'sortable': true,
+          'options': statuses(),
+          'transclude': true,
+          'filter': 'selectedOptions'
         }],
         'searchOn' : ['name'],
         'orderBy' : ['name'],

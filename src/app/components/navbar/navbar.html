@@ -2,7 +2,11 @@
   <nav id="topnav" class="clear">
     <ul class="clear" ng-switch-when="true">
 
-      <li><a ng-href="#/" title="Home" id="logo"><img ng-src="assets/images/liveops-logo.png" height="23" ></a></li>
+      <li>
+        <a ng-href="#/" title="Home" id="logo">
+          <img ng-src="assets/images/liveops-logo.png" height="23">
+        </a>
+      </li>
 
       <li>
         <dropdown id="tenant-dropdown" items="tenantDropdownItems" label="{{Session.tenant.name}}" title="{{Session.tenant.name}}"></dropdown>
@@ -10,20 +14,29 @@
 
       <li class="divider"></li>
 
-      <li id="users-nav-link" ng-class="{ active: isActive('/management')}"><a ng-href="#/">{{'navbar.users.title' | translate}}</a></li>
+      <li id="users-nav-link" ng-class="{ active: isActive('/management')}">
+        <dropdown items="managementDropConfig" collapse-icon="fa fa-caret-down" label="{{'navbar.users.title' | translate}}" order-by="order" hovering="hovering" hover-tracker="hoverTracker"></dropdown>
+      </li>
 
-      <li id="tenants-nav-link" ng-class="{ active: isActive('/configuration')}"><a ng-href="#/configuration/tenants">{{'navbar.configuration.title' | translate}}</a></li>
+      <li id="tenants-nav-link" ng-class="{ active: isActive('/configuration')}">
+        <dropdown items="configurationDropConfig" collapse-icon="fa fa-caret-down" label="{{'navbar.configuration.title' | translate}}" order-by="order" hovering="hovering" hover-tracker="hoverTracker"></dropdown>
+      </li>
 
-      <li id="flows-nav-link" ng-class="{ active: isActive('/flows')}"><a ng-href="#/flows/management">{{'navbar.flows.title' | translate}}</a></li>
+      <li id="flows-nav-link" ng-class="{ active: isActive('/flows')}">
+        <dropdown items="flowsDropConfig" collapse-icon="fa fa-caret-down" label="{{'navbar.flows.title' | translate}}" order-by="order" hovering="hovering" hover-tracker="hoverTracker"></dropdown>
+      </li>
 
-      <li id="invites-nav-link" ng-class="{ active: isActive('/invites')}"><a ng-href="#/invites">Invites</a></li>
+      <li id="reporting-nav-link" ng-class="{ active: isActive('/reporting')}">
+        <dropdown items="reportingDropConfig" collapse-icon="fa fa-caret-down" label="{{'navbar.reports.title' | translate}}" order-by="order" hovering="hovering" hover-tracker="hoverTracker"></dropdown>
+      </li>
 
+      <li id="invites-nav-link" ng-class="{ active: isActive('/invites')}"><a ng-href="#/invites">{{'navbar.invites' | translate}}</a></li>
+
+
+      <li id='welcome'>
+        <dropdown id="user-settings-dropdown" items="userDropdownItems" label="{{ 'navbar.welcome' | translate:Session.user }}" title="{{Session.user.displayName}}" expand-icon="fa fa-gear" collapse-icon="fa fa-gear">
+        </dropdown>
+      </li>
     </ul>
-  </nav>
-
-  <nav id="welcome" ng-switch-when="true">
-    <dropdown id="user-settings-dropdown" items="userDropdownItems" label="{{ 'navbar.welcome' | translate:Session.user }}"
-      title="{{Session.user.displayName}}" expand-icon="fa fa-gear" collapse-icon="fa fa-gear">
-    </dropdown>
   </nav>
 </div>

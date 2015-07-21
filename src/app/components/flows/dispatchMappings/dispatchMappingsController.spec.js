@@ -52,7 +52,7 @@ describe('DispatchMappingsController', function () {
     });
 
     it('should have a function to create a new dispatchMapping and set it as selected', function () {
-      $scope.$broadcast('on:click:create');
+      $scope.$broadcast('table:on:click:create');
       expect($scope.selectedDispatchMapping).toBeDefined();
     });
   });
@@ -68,25 +68,6 @@ describe('DispatchMappingsController', function () {
 
     it('should not fetch anything if Session.tenant is not set', function () {
       expect($scope.dispatchMappings).not.toBeDefined();
-    });
-  });
-
-  describe('where no dispatchMappings are returned', function() {
-    beforeEach(function () {
-      $httpBackend.expect('GET', apiHostname + '/v1/tenants/' + Session.tenant.tenantId + '/dispatch-mappings').respond(200, {
-        'result': []
-      });
-      
-      $controller('DispatchMappingsController', {
-        '$scope': $scope
-      });
-
-      $httpBackend.flush();
-    });
-
-    it('should called create on fetch', function() {
-      expect($scope.selectedDispatchMapping.tenantId).toEqual(Session.tenant.tenantId);
-      expect($scope.selectedDispatchMapping.channelType).toEqual('voice');
     });
   });
 });

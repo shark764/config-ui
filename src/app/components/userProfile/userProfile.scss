@@ -12,10 +12,17 @@
   
   .wrapper {
     width: 500px;
-    
-    div {
+  }
+  
+  #detailsForm {
+    & > div {
       width: 100%;
       margin: 10px 0;
+      
+      & > input, & > div {
+        width: 70%;
+        display: inline-block;
+      }
     }
     
     label {
@@ -23,10 +30,6 @@
       padding-right: 10px;
       width: 30%;
       float: left;
-    }
-    
-    input {
-      width: 70%;
     }
   }
 }

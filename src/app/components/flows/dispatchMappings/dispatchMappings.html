@@ -4,18 +4,33 @@
   items="dispatchMappings"
   selected="selectedDispatchMapping"
   resource-name="{{'tenants:' + Session.tenant.tenantId + ':dispatch-mappings'}}">
+
+  <span name="active">
+    <span ng-if="item.active">{{'value.enabled' | translate}}</span>
+    <span ng-if="!item.active" class="disabled">{{'value.disabled' | translate}}</span>
+  </span>
+
 </table-controls>
 
 <resize-handle
+  ng-show="!! selectedDispatchMapping || showBulkActions"
   id="resize-pane"
-  right-element-id="details-pane"
+  right-element-id="right-panel"
   left-element-id="table-pane"
   left-min-width="830"
   right-min-width="300"></resize-handle>
 
-<resource-details
-  id="details-pane"
-  extend-scope="additional"
-  header-template-url="app/components/flows/dispatchMappings/dispatchMappingDetailHeader.html"
-  body-template-url="app/components/flows/dispatchMappings/dispatchMappingDetailBody.html"
-  original-resource="selectedDispatchMapping"></resource-details>
+<div id="right-panel" class="right-panel" ng-show="selectedDispatchMapping || showBulkActions">
+  <resource-details
+    ng-show="!! selectedDispatchMapping && !showBulkActions"
+    id="details-pane"
+    resource-name="{{'tenants:' + Session.tenant.tenantId + ':dispatch-mappings'}}"
+    extend-scope="additional"
+    header-template-url="app/components/flows/dispatchMappings/dispatchMappingDetailHeader.html"
+    body-template-url="app/components/flows/dispatchMappings/dispatchMappingDetailBody.html"
+    original-resource="selectedDispatchMapping"></resource-details>
+
+  <bulk-action-executor class="details-pane" ng-show="showBulkActions" items="dispatchMappings" bulk-actions="bulkActions" show-bulk-actions="showBulkActions" selected-display="name">
+      <ba-set-dispatch-mapping-status bulk-action="bulkActions.setDispatchMappingStatus"></ba-set-dispatch-mapping-status>
+    </bulk-action-executor>
+</div>

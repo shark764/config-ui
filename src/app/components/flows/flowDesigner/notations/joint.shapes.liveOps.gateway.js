@@ -56,16 +56,6 @@
             label: 'Type',
             group: 'general',
             index: 1
-          },
-          thing: {
-            type: 'text',
-            label: 'thing',
-            group: 'general',
-            when: {
-              eq: {
-                gatewayType: 'exclusive'
-              }
-            }
           }
         }
     }, joint.dia.Element.prototype.defaults),
