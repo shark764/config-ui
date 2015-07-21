@@ -1,12 +1,13 @@
 'use strict';
 
-var MediaPage = function() {
+var MediaCollectionsPage = function() {
   this.creatingMediaHeader = element(by.css('.detail-header-pane'));
-
   this.nameFormField = element(by.model('resource.name'));
   this.sourceFormField = element(by.model('resource.source'));
   this.typeFormDropdown = element(by.model('resource.type'));
   this.requiredError = element.all(by.css('.error'));
+
+  this.sourceHeader = element(by.css('.detail-header-pane h1.ng-binding'));
 
   this.nameColumn = 'td:nth-child(2)';
   this.sourceColumn = 'td:nth-child(3)';
@@ -14,4 +15,4 @@ var MediaPage = function() {
   this.propertiesColumn = 'td:nth-child(5)';
 };
 
-module.exports = new MediaPage();
+module.exports = new MediaCollectionsPage();
