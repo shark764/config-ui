@@ -75,14 +75,6 @@ navbar {
     margin: 0;
     list-style: none;
     
-    .top-bar-actions {
-      
-      
-      a {
-        margin: 10px;
-      }
-    }
-    
     > li {
       display: inline-block;
       padding: 0;
@@ -100,8 +92,8 @@ navbar {
         font-weight: 100;
         height: $navbar-height;
         position: relative;
-
       }
+      
       .label-icon {
         color : $main-color;
       }
@@ -114,6 +106,15 @@ navbar {
       }
     }
 
+    li:not(#welcome) {
+      dropdown:not(#tenant-dropdown){
+        .dropdown {
+          right: auto;
+          left: 0;
+        }
+      }
+    }
+    
     #tenant-dropdown .label-icon {
       color: $light-grey;
       width: auto;
@@ -126,22 +127,6 @@ navbar {
     #tenant-dropdown .dropdown {
       right: 0;
     }
-  }
-}
-
-#topnav .dropdown, #welcome .dropdown {
-  & li {
-    border-left: 3px solid #fff;
-    color: $darkest-grey;
-    background: #FFFFFF;
-    padding: 10px 6px 10px 0;
-    font-size: 14px;
-  }
-
-  & li:hover {
-    color: $darkest-grey;
-    background: $accent-light;
-    border-left: 3px solid $accent1
   }
 }
 

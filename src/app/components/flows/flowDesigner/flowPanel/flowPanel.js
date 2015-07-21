@@ -13,7 +13,7 @@
 
     var formBuilder = {
       input: function (inputJSON) {
-        var formSection = '<div class="input-group">'
+        var formSection = '<div class="input-group">';
         formSection += '<label>' + inputJSON.label + '</label>';
         formSection += '<div><input type="text" ng-model="notation.params.' + inputJSON.name + '"';
         if (inputJSON.disabled === true) { formSection += ' disabled="disabled"'; }

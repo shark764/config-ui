@@ -31,10 +31,9 @@ describe('The table columns', function() {
     expect(columns.columnTwoHeader.getText()).toBe(columns.users[0]);
     expect(columns.columnThreeHeader.getText()).toBe(columns.users[1]);
     expect(columns.columnFourHeader.getText()).toBe(columns.users[2]);
-    expect(columns.columnFiveHeader.getText()).toBe(columns.users[3]);
 
     // Confirm that no other columns are displayed
-    expect(columns.columnSixHeader.isPresent()).toBeFalsy();
+    expect(columns.columnFiveHeader.isPresent()).toBeFalsy();
 
     // Confirm that only the displayed columns are shown as selected in the dropdown
     shared.tableColumnsDropDown.click();
@@ -43,13 +42,11 @@ describe('The table columns', function() {
     expect(columns.options.get(2).getText()).toBe(columns.users[2]);
     expect(columns.options.get(3).getText()).toBe(columns.users[3]);
     expect(columns.options.get(4).getText()).toBe(columns.users[4]);
-    expect(columns.options.get(5).getText()).toBe(columns.users[5]);
     expect(columns.optionCheckboxes.get(0).getAttribute('selected')).toBeTruthy();
     expect(columns.optionCheckboxes.get(1).getAttribute('selected')).toBeTruthy();
     expect(columns.optionCheckboxes.get(2).getAttribute('selected')).toBeTruthy();
-    expect(columns.optionCheckboxes.get(3).getAttribute('selected')).toBeTruthy();
+    expect(columns.optionCheckboxes.get(3).getAttribute('selected')).toBeFalsy();
     expect(columns.optionCheckboxes.get(4).getAttribute('selected')).toBeFalsy();
-    expect(columns.optionCheckboxes.get(5).getAttribute('selected')).toBeFalsy();
   });
 
   it('should not show default when unselected', function() {
@@ -63,31 +60,29 @@ describe('The table columns', function() {
     expect(columns.selectAll.isDisplayed()).toBeTruthy();
     expect(columns.columnTwoHeader.getText()).toBe(columns.users[1]);
     expect(columns.columnThreeHeader.getText()).toBe(columns.users[2]);
-    expect(columns.columnFourHeader.getText()).toBe(columns.users[3]);
 
     // Confirm that no other columns are displayed
-    expect(columns.columnFiveHeader.isPresent()).toBeFalsy();
+    expect(columns.columnFourHeader.isPresent()).toBeFalsy();
 
     // Unselect ID column
     shared.tableColumnsDropDown.click();
-    columns.options.get(3).click();
-    expect(columns.optionCheckboxes.get(3).getAttribute('selected')).toBeFalsy();
+    columns.options.get(2).click();
+    expect(columns.optionCheckboxes.get(2).getAttribute('selected')).toBeFalsy();
     shared.tableColumnsDropDown.click();
 
     // Confirm ID column is removed
     expect(columns.selectAll.isDisplayed()).toBeTruthy();
     expect(columns.columnTwoHeader.getText()).toBe(columns.users[1]);
-    expect(columns.columnThreeHeader.getText()).toBe(columns.users[2]);
 
     // Confirm that no other columns are displayed
-    expect(columns.columnFourHeader.isPresent()).toBeFalsy();
+    expect(columns.columnThreeHeader.isPresent()).toBeFalsy();
   });
 
   it('should show additional columns when selected', function() {
     // Select State column
     shared.tableColumnsDropDown.click();
-    columns.options.get(4).click();
-    expect(columns.optionCheckboxes.get(4).getAttribute('selected')).toBeTruthy();
+    columns.options.get(3).click();
+    expect(columns.optionCheckboxes.get(3).getAttribute('selected')).toBeTruthy();
     shared.tableColumnsDropDown.click();
 
     // Confirm State column is added
@@ -95,17 +90,16 @@ describe('The table columns', function() {
     expect(columns.columnTwoHeader.getText()).toBe(columns.users[0]);
     expect(columns.columnThreeHeader.getText()).toBe(columns.users[1]);
     expect(columns.columnFourHeader.getText()).toBe(columns.users[2]);
-    expect(columns.columnFiveHeader.getText()).toBe(columns.users[3]);
-    expect(columns.columnSixHeader.getText()).toContain(columns.users[4]);
+    expect(columns.columnFiveHeader.getText()).toContain(columns.users[3]);
 
     // Confirm that no other columns are displayed
-    expect(columns.columnSevenHeader.isPresent()).toBeFalsy();
+    expect(columns.columnSixHeader.isPresent()).toBeFalsy();
   });
 
   it('should show all columns when all are selected', function() {
     shared.tableColumnsDropDown.click();
+    columns.options.get(3).click();
     columns.options.get(4).click();
-    columns.options.get(5).click();
 
     // Confirm all checkboxes are selected
     columns.optionCheckboxes.then(function(columnSelection) {
@@ -120,12 +114,11 @@ describe('The table columns', function() {
     expect(columns.columnTwoHeader.getText()).toBe(columns.users[0]);
     expect(columns.columnThreeHeader.getText()).toBe(columns.users[1]);
     expect(columns.columnFourHeader.getText()).toBe(columns.users[2]);
-    expect(columns.columnFiveHeader.getText()).toBe(columns.users[3]);
+    expect(columns.columnFiveHeader.getText()).toContain(columns.users[3]);
     expect(columns.columnSixHeader.getText()).toContain(columns.users[4]);
-    expect(columns.columnSevenHeader.getText()).toContain(columns.users[5]);
 
     // Confirm that no other columns are displayed
-    expect(columns.columnEightHeader.isPresent()).toBeFalsy();
+    expect(columns.columnSevenHeader.isPresent()).toBeFalsy();
   });
 
   it('selection should persist on page reload', function() {
@@ -140,19 +133,17 @@ describe('The table columns', function() {
       expect(columns.optionCheckboxes.get(0).getAttribute('checked')).toBeTruthy();
       expect(columns.optionCheckboxes.get(1).getAttribute('checked')).toBeTruthy();
       expect(columns.optionCheckboxes.get(2).getAttribute('checked')).toBeFalsy();
-      expect(columns.optionCheckboxes.get(3).getAttribute('checked')).toBeTruthy();
+      expect(columns.optionCheckboxes.get(3).getAttribute('checked')).toBeFalsy();
       expect(columns.optionCheckboxes.get(4).getAttribute('checked')).toBeTruthy();
-      expect(columns.optionCheckboxes.get(5).getAttribute('checked')).toBeFalsy();
       shared.tableColumnsDropDown.click();
 
       expect(columns.selectAll.isDisplayed()).toBeTruthy();
       expect(columns.columnTwoHeader.getText()).toBe(columns.users[0]);
       expect(columns.columnThreeHeader.getText()).toBe(columns.users[1]);
-      expect(columns.columnFourHeader.getText()).toBe(columns.users[3]);
-      expect(columns.columnFiveHeader.getText()).toContain(columns.users[4]);
+      expect(columns.columnFourHeader.getText()).toContain(columns.users[4]);
 
       // Confirm that no other columns are displayed
-      expect(columns.columnSixHeader.isPresent()).toBeFalsy();
+      expect(columns.columnFiveHeader.isPresent()).toBeFalsy();
     })
   });
 
@@ -161,7 +152,6 @@ describe('The table columns', function() {
     columns.options.get(0).click();
     columns.options.get(1).click();
     columns.options.get(2).click();
-    columns.options.get(3).click();
 
     // Confirm all checkboxes are unselected
     columns.optionCheckboxes.then(function(columnSelection) {

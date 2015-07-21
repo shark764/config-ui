@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('baSetGroupStatus', [
-    function () {
+  .directive('baSetGroupStatus', ['Group', 'Session',
+    function (Group, Session) {
       return {
         restrict: 'AE',
         scope: {
@@ -11,7 +11,9 @@ angular.module('liveopsConfigPanel')
         templateUrl: 'app/components/management/groups/bulkActions/groupStatus/setGroupStatusBulkAction.html',
         link: function ($scope) {
           $scope.bulkAction.apply = function(group) {
-            var groupCopy = angular.copy(group);
+            var groupCopy = new Group();
+            groupCopy.id = group.id;
+            groupCopy.tenantId = Session.tenant.tenantId;
             groupCopy.status = $scope.status;
             return groupCopy.save().then(function(groupCopy) {
               angular.copy(groupCopy, group);

@@ -57,4 +57,18 @@ describe('setSkillHasProficiencyBulkAction directive', function() {
       expect(mockSkills[0].hasProficiency).toEqual(true);
     }
   ]));
+  
+  it('should should only have the attribute in the PUT payload',
+    inject(['mockSkills', '$httpBackend', 'apiHostname',
+      function (mockSkills, $httpBackend, apiHostname) {
+        $httpBackend.expect('PUT', apiHostname + '/v1/tenants/tenant-id/skills/skillId1', {
+          hasProficiency: true
+        }).respond(200);
+
+        isolateScope.hasProficiency = true;
+        isolateScope.bulkAction.apply(mockSkills[0]);
+
+        $httpBackend.flush();
+      }
+    ]));
 });

@@ -165,9 +165,15 @@
   "media.table.title": "Media Management",
 
   "media.collections.media.new" : "Create New Media",
-  "media.collections.media.add": "Add Media",
+  "media.collections.media.add": "Add Media...",
   "media.collection.details.creating": "Creating New Media Collection",
   "media.collections.table.title": "Media Collection Management",
+  "media.collections.defaultMediaKey.error": "Please select a default identifier",
+  "media.collections.defaultMediaKey.select": "Select default identifier...",
+  "media.collections.mappingId.error": "Please select a media item",
+  "media.collections.mappingLookup.error": "Please enter an identifier for this media item",
+  "media.collections.mapping.add": "Add media items with the plus button above.",
+  "media.collections.defaultMediaKey": "Default Identifier",
 
   "tenant.details.title": "Tenants",
   "tenant.details.name": "Tenant Name",
@@ -241,6 +247,11 @@
   "bulkActions.enable.skills": "Enable Skills",
   "bulkActions.skills.hasProficiency": "Set Has Proficiency",
   "bulkActions.enable.groups": "Enable Groups",
+  "bulkActions.enable.tenants": "Enable Tenants",
+  "bulkActions.enable.dispatchmappings": "Enable Dispatch Mappings",
+  "bulkActions.enable.integrations": "Enable Integrations",
+  "bulkActions.enable.flows": "Enable Flows",
+  "bulkActions.enable.queues": "Enable Queues",
   
   "user.profile.save.success": "Your details have been updated.",
   "user.profile.save.fail": "An error occured while updating your details."

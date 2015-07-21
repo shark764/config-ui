@@ -49,4 +49,18 @@ describe('setGroupStatusBulkAction directive', function() {
       expect(mockGroups[0].status).toEqual(true);
     }
   ]));
+  
+  it('should should only have the attribute in the PUT payload',
+    inject(['mockGroups', '$httpBackend', 'apiHostname',
+      function (mockGroups, $httpBackend, apiHostname) {
+        $httpBackend.expect('PUT', apiHostname + '/v1/tenants/tenant-id/groups/groupId1', {
+          status: true
+        }).respond(200);
+
+        isolateScope.status = true;
+        isolateScope.bulkAction.apply(mockGroups[0]);
+
+        $httpBackend.flush();
+      }
+    ]));
 });

@@ -3,14 +3,22 @@
 
   function FlowNotationService() {
     return {
-      activities: {},
-      events: {},
-      gateways: {},
+      activities: [],
+      events: [],
+      gateways: [],
 
       registerActivity: function(alieneseJSON) {
         var self = this;
-        var name = alieneseJSON.name;
-        self.activities[name] = alieneseJSON;
+        if (!_.contains(self.activities, alieneseJSON)) {
+          self.activities.push(alieneseJSON);
+        }
+      },
+
+      registerEvent: function(alieneseJSON) {
+        var self = this;
+        if (!_.contains(self.events, alieneseJSON)) {
+          self.events.push(alieneseJSON);
+        }
       },
 
       getActivityLabel: function(model) {
@@ -28,15 +36,14 @@
       buildInputPanel: function(model) {
         var self = this;
         var modelType = model.get('type');
-        var name = model.get('name');
-        var inputs = model.get('inputs');
-        var params = {};
-        var notation = {};
 
+        //If we're dealing with an actrivity
         if (modelType === 'liveOps.activity') {
-          notation = self.activities[name];
+          var name = model.get('name');
+          var inputs = model.get('inputs');
+          var notation = _.findWhere(self.activities, {name: name});
 
-          params = _.reduce(notation.params, function(memo, param, name) {
+          var params = _.reduce(notation.params, function(memo, param, name) {
             memo[name] = {
               label: param.label,
               group: 'params'
@@ -59,9 +66,117 @@
 
             return memo;
           }, {});
+          return _.extend({params: params}, inputs);
         }
 
-        return _.extend({params: params}, inputs);
+        //if we're dealing with an event
+        if (modelType === 'liveOps.event') {
+          var event = _.findWhere(self.events, {entity: model.get('entity'), type: model.get('name')})
+
+          var inputs = {
+            entity: {
+              type: 'select',
+              group: 'general',
+              label: 'Type',
+              options: _.map(_.filter(self.events, {type: model.get('name')}), function(def) {
+                return {
+                  value: def.entity,
+                  content: def.entity
+                }
+              })
+            },
+            name: {
+              type: 'select',
+              group: 'general',
+              label: 'Name',
+              options: _.map(_.filter(self.events, {entity: model.get('entity')}), function(def) {
+                return {
+                  value: def.type,
+                  content: def.type
+                }
+              })
+            }
+          }
+
+          _.each(event.props, function(prop) {
+            switch (prop){
+              case 'target':
+                inputs[prop] = {
+                  type: 'text',
+                  group: 'general',
+                  label: 'Target'
+                }
+                break;
+              case 'bindings':
+                inputs[prop] = {
+                  type: 'list',
+                  label: 'Bindings',
+                  group: 'bindings',
+                  item: {
+                    type: 'object',
+                    properties: {
+                      key: {
+                        label: 'Key',
+                        type: 'text'
+                      },
+                      value: {
+                        label: 'Value',
+                        type: 'text'
+                      }
+                    }
+                  }
+                }
+                break;
+              case 'event':
+                inputs[prop] = {
+                  type: 'object',
+                  group: 'general',
+                  label: 'Event',
+                  properties: {
+                    name: {
+                      label: 'Signal Name',
+                      type: 'text'
+                    },
+                    params: {
+                      label: 'Params',
+                      type: 'list',
+                      item: {
+                        type: 'object',
+                        properties: {
+                          key: {
+                            label: 'Key',
+                            type: 'text'
+                          },
+                          value: {
+                            label: 'Value',
+                            type: 'text'
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+                break;
+              case 'terminate':
+                inputs[prop] = {
+                  type: 'toggle',
+                  group: 'general',
+                  label: 'Terminate?'
+                }
+            }
+          })
+
+          //Handle any meta info
+          _.each(event.meta, function(meta) {
+            if (meta === 'mustTerminate') {
+              model.set('terminate', true);
+              delete inputs.terminate;
+            }
+          })
+
+          return inputs;
+        }
+
       },
 
       addActivityParams: function(model) {

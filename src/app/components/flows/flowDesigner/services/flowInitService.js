@@ -38,7 +38,6 @@
         graph.utils.hidePropertiesPanel = function() {
           graph.interfaces.inspectorContainer.css({'right': '-350px'});
         };
-
         graph.utils.renderPropertiesPanel = function(notation) {
           console.log('Rendering props panel', notation);
           graph.interfaces.inspectorContainer.empty();

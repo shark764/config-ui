@@ -37,7 +37,6 @@ angular.module('liveopsConfigPanel')
       Group.prototype.postCreate = function(group) {
         //Display logic only, as we dont add/edit group users from this screen
         group.members = [];
-        group.members.$resolved = true; //Hack to make sure loading spinner goes away
       };
 
       $scope.$watch('Session.tenant.tenantId', function() {

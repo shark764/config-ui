@@ -61,14 +61,7 @@
           }
 
           if (n.type === 'liveOps.event') {
-
-            if (n.eventType === 'start') {
-              notation = _.extend(notation, self.events[n.eventType][n.eventName](n));
-            } else if (n.eventType === 'intermediate' && !n.throwing) {
-              notation = _.extend(notation, self.events['catch'][n.eventName](n));
-            } else {
-              notation = _.extend(notation, self.events['throw'][n.eventName](n));
-            }
+            notation = _.extend(notation, self.events[n.entity][n.name](n));
           }
 
           return notation;
@@ -91,29 +84,18 @@
         var jointNotation = _.reduce(alienese, function(memo, notation) {
 
           if (notation.entity === 'start' || notation.entity === 'catch' || notation.entity === 'throw') {
+
             var event = {
-              id: String(notation.id),
+              id: notation.id.toString(),
               type: 'liveOps.event',
               interrupting: notation.interrupting,
-              eventName: notation.type,
+              name: notation.type,
               position: {
                 x: (notation['rendering-data']) ? notation['rendering-data'].x : 0,
                 y: (notation['rendering-data']) ? notation['rendering-data'].y : 0
-              }
+              },
+              entity: notation.entity
             };
-
-            if (notation.entity === 'throw' && notation.terminate) {
-              event.eventType = 'end';
-              event.throwing = true;
-            } else if (notation.entity === 'throw' && !notation.terminate) {
-              event.eventType = 'intermediate';
-              event.throwing = true;
-            }else if (notation.entity === 'catch') {
-              event.eventType = 'intermediate';
-              event.throwing = false;
-            } else if (notation.entity === 'start') {
-              event.eventType = 'start';
-            }
 
             if (notation.target) {
               event.target = notation.target;
@@ -145,7 +127,7 @@
             memo.push(event);
           } else if (notation.entity === 'gateway') {
             memo.push({
-              id: String(notation.id),
+              id: notation.id.toString(),
               type: 'liveOps.gateway',
               gatewayType: notation.type,
               position: {
@@ -155,7 +137,7 @@
             });
           } else if (notation.entity === 'activity') {
             var activity = {
-              id: String(notation.id),
+              id: notation.id.toString(),
               type: 'liveOps.activity',
               name: notation.name,
               activityType: notation.type,
@@ -194,8 +176,8 @@
               memo.push({
                 id: 'link-' + index + '-' + notation.id,
                 type: 'liveOps.link',
-                source: {id: String(notation.id)},
-                target: {id: String(child)}
+                source: {id: notation.id.toString()},
+                target: {id: child.toString()}
               });
             });
           }
@@ -208,7 +190,7 @@
         _.each(jointNotation, function(notation, index, list) {
           if (notation.embeds && notation.embeds.length > 0) {
             //find the child
-            var decoration = _.findWhere(list, {id: String(notation.embeds[0])});
+            var decoration = _.findWhere(list, {id: notation.embeds[0].toString()});
             decoration.parent = notation.id;
           }
         });

@@ -57,4 +57,18 @@ describe('setSkillStatusBulkAction directive', function() {
       expect(mockSkills[0].status).toEqual(true);
     }
   ]));
+  
+  it('should should only have the attribute in the PUT payload',
+    inject(['mockSkills', '$httpBackend', 'apiHostname',
+      function (mockSkills, $httpBackend, apiHostname) {
+        $httpBackend.expect('PUT', apiHostname + '/v1/tenants/tenant-id/skills/skillId1', {
+          status: true
+        }).respond(200);
+
+        isolateScope.status = true;
+        isolateScope.bulkAction.apply(mockSkills[0]);
+
+        $httpBackend.flush();
+      }
+    ]));
 });

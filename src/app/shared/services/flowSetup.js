@@ -1,5 +1,5 @@
 (function() {
- 'use strict';
+  'use strict';
 
   var flowSetup = function($http, AuthService) {
     return {
