@@ -11,26 +11,23 @@ angular.module('liveopsConfigPanel')
         });
       };
 
-      $scope.fetch = function() {
-
-        if (!Session.tenant || !Session.tenant.tenantId) {
-          return;
-        }
-
-        $scope.dispatchMappings = DispatchMapping.query({
-          tenantId: Session.tenant.tenantId
-        });
-
-        $scope.flows = Flow.query({
-          tenantId: Session.tenant.tenantId
-        });
-
-        $scope.integrations = Integration.query({
+      $scope.fetchDispatchMappings = function() {
+        return DispatchMapping.cachedQuery({
           tenantId: Session.tenant.tenantId
         });
       };
-
-      $scope.$watch('Session.tenant', $scope.fetch, true);
+      
+      $scope.fetchIntegrations = function() {
+        return Integration.cachedQuery({
+          tenantId: Session.tenant.tenantId
+        });
+      };
+      
+      $scope.fetchFlows = function() {
+        return Flow.cachedQuery({
+          tenantId: Session.tenant.tenantId
+        });
+      };
 
       $scope.$on('table:on:click:create', function() {
         $scope.showBulkActions = false;
@@ -38,11 +35,10 @@ angular.module('liveopsConfigPanel')
       });
 
       $scope.tableConfig = dispatchMappingTableConfig;
-      $scope.fetch();
 
       $scope.additional = {
-        flows: $scope.flows,
-        integrations: $scope.integrations,
+        fetchFlows: $scope.fetchFlows,
+        fetchIntegrations: $scope.fetchIntegrations,
         dispatchMappingInteractionFields: dispatchMappingInteractionFields,
         dispatchMappingChannelTypes: dispatchMappingChannelTypes,
         dispatchMappingDirections: dispatchMappingDirections

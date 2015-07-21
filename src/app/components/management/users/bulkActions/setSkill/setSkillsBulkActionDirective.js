@@ -39,12 +39,8 @@ angular.module('liveopsConfigPanel')
           $scope.addBulkSkill();
         };
 
-        $scope.fetch = function () {
-          if (!Session.tenant.tenantId) {
-            return;
-          }
-
-          $scope.skills = Skill.query({
+        $scope.fetchSkills = function () {
+          return Skill.cachedQuery({
             tenantId: Session.tenant.tenantId
           });
         };
@@ -114,7 +110,6 @@ angular.module('liveopsConfigPanel')
         });
           
         $scope.userSkillsBulkActionTypes = userSkillsBulkActionTypes;
-        $scope.fetch();
       }
     };
   }

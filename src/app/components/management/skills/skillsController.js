@@ -8,12 +8,8 @@ angular.module('liveopsConfigPanel')
 
       $scope.tableConfig = skillTableConfig;
 
-      $scope.$watch('Session.tenant.tenantId', function () {
-        $scope.fetch();
-      }, true);
-
-      $scope.fetch = function() {
-        $scope.skills = Skill.query({
+      $scope.fetchSkills = function() {
+        return Skill.cachedQuery({
           tenantId: Session.tenant.tenantId
         });
       };
@@ -38,7 +34,6 @@ angular.module('liveopsConfigPanel')
         $scope.showBulkActions = true;
       });
 
-      $scope.fetch();
       $scope.bulkActions = {
         setStatus: new BulkAction(),
         setHasProficiency: new BulkAction()

@@ -15,7 +15,8 @@ angular.module('liveopsConfigPanel')
         $scope.tenants = Tenant.query({
           regionId: Session.activeRegionId
         });
-
+        
+        //TODO users based on selected tenant?
         $scope.users = User.query({
           tenantId: Session.tenant.tenantId
         });
