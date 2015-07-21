@@ -3,10 +3,10 @@
 describe('The media collections view', function() {
   var loginPage = require('../login/login.po.js'),
     shared = require('../shared.po.js'),
-    media = require('./media.po.js'),
+    mediaCollections = require('./mediaCollections.po.js'),
     params = browser.params,
-    mediaCount,
-    randomMedia;
+    mediaCollectionCount,
+    randomCollection;
 
   beforeAll(function() {
     loginPage.login(params.login.user, params.login.password);
@@ -15,238 +15,141 @@ describe('The media collections view', function() {
   beforeEach(function() {
     // Ignore unsaved changes warnings
     browser.executeScript("window.onbeforeunload = function(){};");
-    browser.get(shared.mediaPageUrl);
+    browser.get(shared.mediaCollectionsPageUrl);
   });
 
   afterAll(function() {
     shared.tearDown();
   });
 
-  it('should include valid Media fields when creating a new Media', function() {
+  it('should include valid Media Collection fields when creating a new Media Collection', function() {
     shared.createBtn.click();
-    expect(media.creatingMediaHeader.getText()).toContain('Creating New Media');
-    expect(media.sourceFormField.isDisplayed()).toBeTruthy();
-    expect(media.typeFormDropdown.isDisplayed()).toBeTruthy();
-    expect(media.typeFormDropdown.all(by.css('option')).get(1).getText()).toBe('Audio');
-    expect(media.typeFormDropdown.all(by.css('option')).get(2).getText()).toBe('TTS');
+    expect(mediaCollections.creatingMediaHeader.getText()).toContain('Creating New Media Collection');
+    expect(mediaCollections.descriptionFormField.isDisplayed()).toBeTruthy();
+
+    expect(mediaCollections.addMediaMappingButton.isDisplayed()).toBeTruthy();
+    expect(mediaCollections.mediaMappingsTable.isDisplayed()).toBeTruthy();
+    expect(mediaCollections.noMediaMappingsMessage.isDisplayed()).toBeTruthy();
+
+    expect(shared.cancelFormBtn.isDisplayed()).toBeTruthy();
+    expect(shared.submitFormBtn.isDisplayed()).toBeTruthy();
+    expect(mediaCollections.closeMediaCollection.isDisplayed()).toBeTruthy();
+
+    // Create New Media details are not displayed by default
+    expect(mediaCollections.defaultIdDropdown.isPresent()).toBeFalsy();
+    expect(mediaCollections.noMediaMappingsMessage.isDisplayed()).toBeTruthy();
+    expect(mediaCollections.noMediaMappingsMessage.getText()).toBeTruthy('Add media items with the plus button above.');
+    expect(mediaCollections.createMediaForm.isDisplayed()).toBeFalsy();
   });
 
-  xit('should successfully create new Media with Audio type', function() {
-    randomMedia = Math.floor((Math.random() * 1000) + 1);
-    var mediaAdded = false;
-    var newMediaSource = 'http://www.example.com/' + randomMedia;
+  it('should successfully create new Media Collection without Media', function() {
+    mediaCollectionCount = shared.tableElements.count();
+    randomCollection = Math.floor((Math.random() * 1000) + 1);
+    var mediaCollectionAdded = false;
+    var newMediaCollectionName = 'Media Collection' + randomCollection;
     shared.createBtn.click();
 
-    // Edit required fields
-    media.nameFormField.sendKeys('Audio Media ' + newMediaSource);
-    media.sourceFormField.sendKeys(newMediaSource);
-    media.typeFormDropdown.all(by.css('option')).get(1).click();
+    // Complete fields
+    mediaCollections.nameFormField.sendKeys(newMediaCollectionName);
+    mediaCollections.descriptionFormField.sendKeys('Description for Media Collection');
 
-    shared.submitFormBtn.click().then(function () {
+    shared.submitFormBtn.click().then(function() {
       expect(shared.successMessage.isDisplayed()).toBeTruthy();
 
       // Confirm media is displayed in media list
       shared.tableElements.then(function(rows) {
         for (var i = 1; i <= rows.length; ++i) {
           // Check if media source in table matches newly added media
-          element(by.css('tr.ng-scope:nth-child(' + i + ') > ' + media.sourceColumn)).getText().then(function(value) {
-            if (value == newMediaSource) {
-              mediaAdded = true;
+          element(by.css('tr:nth-child(' + i + ') > ' + mediaCollections.nameColumn)).getText().then(function(value) {
+            if (value == newMediaCollectionName) {
+              mediaCollectionAdded = true;
             }
           });
         }
       }).thenFinally(function() {
         // Verify new media was found in the media table
-        expect(mediaAdded).toBeTruthy();
+        expect(mediaCollectionAdded).toBeTruthy();
+        expect(shared.tableElements.count()).toBeGreaterThan(mediaCollectionCount);
       });
     });
   });
 
-  xit('should successfully create new Media with Text-To-Speech type', function() {
-    randomMedia = Math.floor((Math.random() * 1000) + 1);
-    var mediaAdded = false;
-    var newMediaSource = 'Text-To-Speech Media Source ' + randomMedia;
-    shared.createBtn.click();
-
-    // Edit fields
-    media.nameFormField.sendKeys(newMediaSource);
-    media.sourceFormField.sendKeys(newMediaSource);
-    media.typeFormDropdown.all(by.css('option')).get(2).click();
-
-    shared.submitFormBtn.click().then(function () {
-      expect(shared.successMessage.isDisplayed()).toBeTruthy();
-
-      // Confirm media is displayed in media list
-      shared.tableElements.then(function(rows) {
-        for (var i = 1; i <= rows.length; ++i) {
-          // Check if media source in table matches newly added media
-          element(by.css('tr.ng-scope:nth-child(' + i + ') > td:nth-child(2)')).getText().then(function(value) {
-            if (value == newMediaSource) {
-              mediaAdded = true;
-            }
-          });
-        }
-      }).thenFinally(function() {
-        // Verify new media was found in the media table
-        expect(mediaAdded).toBeTruthy();
-      });
-    });
-  });
-
-  it('should include media page components', function() {
+  it('should include Media Collection page components', function() {
     expect(shared.navBar.isDisplayed()).toBeTruthy();
-    //expect(shared.table.isDisplayed()).toBeTruthy();
+    expect(shared.table.isDisplayed()).toBeTruthy();
     expect(shared.searchField.isDisplayed()).toBeTruthy();
     expect(shared.detailsForm.isDisplayed()).toBeFalsy(); //Hide by default
-    expect(shared.actionsBtn.isDisplayed()).toBeTruthy();
+    //expect(shared.actionsBtn.isDisplayed()).toBeFalsy(); // No bulk actions
     expect(shared.createBtn.isDisplayed()).toBeTruthy();
     expect(shared.tableColumnsDropDown.isDisplayed()).toBeTruthy();
-    expect(shared.pageHeader.getText()).toBe('Media Management');
+    expect(shared.pageHeader.getText()).toBe('Media Collection Management');
   });
 
-  xit('should require field input when creating a new Media', function() {
-    mediaCount = shared.tableElements.count();
+  it('should require field input when creating a new Media Collection', function() {
+    mediaCollectionCount = shared.tableElements.count();
     shared.createBtn.click();
 
     // Submit button is disabled
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
+    shared.submitFormBtn.click();
 
     // New Media is not saved
     expect(shared.successMessage.isPresent()).toBeFalsy();
-    expect(shared.tableElements.count()).toBe(mediaCount);
+    expect(shared.tableElements.count()).toBe(mediaCollectionCount);
   });
 
   it('should require name when creating a new Media', function() {
-    mediaCount = shared.tableElements.count();
+    mediaCollectionCount = shared.tableElements.count();
     shared.createBtn.click();
 
     // Edit fields
-    media.typeFormDropdown.all(by.css('option')).get(1).click();
-    media.sourceFormField.sendKeys(randomMedia);
+    mediaCollections.descriptionFormField.sendKeys('Media Collection Description');
 
     // Submit button is still disabled
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
+    shared.submitFormBtn.click();
 
     // New Media is not saved
     expect(shared.successMessage.isPresent()).toBeFalsy();
-    expect(shared.tableElements.count()).toBe(mediaCount);
+    expect(shared.tableElements.count()).toBe(mediaCollectionCount);
 
     // Touch name input field
-    media.nameFormField.click();
-    media.sourceFormField.click();
+    mediaCollections.nameFormField.click();
+    mediaCollections.descriptionFormField.click();
 
     // Submit button is still disabled
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
 
     // Error messages displayed
-    expect(media.requiredError.get(0).isDisplayed()).toBeTruthy();
-    expect(media.requiredError.get(0).getText()).toBe('Field "Name" is required.');
+    expect(mediaCollections.requiredError.get(0).isDisplayed()).toBeTruthy();
+    expect(mediaCollections.requiredError.get(0).getText()).toBe('Please enter a name');
 
     // New Media is not saved
-    expect(shared.tableElements.count()).toBe(mediaCount);
+    expect(shared.tableElements.count()).toBe(mediaCollectionCount);
   });
 
-  it('should require type when creating a new Media', function() {
-    randomMedia = Math.floor((Math.random() * 1000) + 1);
-    mediaCount = shared.tableElements.count();
+  it('should successfully create new Media Collection without Description', function() {
+    mediaCollectionCount = shared.tableElements.count();
+    randomCollection = Math.floor((Math.random() * 1000) + 1);
+
     shared.createBtn.click();
 
-    // Edit fields
-    media.nameFormField.sendKeys('Media Source ' + randomMedia);
-    media.sourceFormField.sendKeys('Media Source ' + randomMedia);
+    // Complete fields
+    mediaCollections.nameFormField.sendKeys('Media Collection' + randomCollection);
 
-    // Submit button is still disabled
-    expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
-
-    // New Media is not saved
-    expect(shared.successMessage.isPresent()).toBeFalsy();
-    expect(shared.tableElements.count()).toBe(mediaCount);
-
-    // Touch type input field
-    media.typeFormDropdown.click();
-    media.sourceFormField.click();
-
-    // Submit button is still disabled
-    expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
-
-    // Error messages displayed
-    expect(media.requiredError.get(1).isDisplayed()).toBeTruthy();
-    expect(media.requiredError.get(1).getText()).toBe('Please enter a type');
-
-    // New Media is not saved
-    expect(shared.tableElements.count()).toBe(mediaCount);
-  });
-
-  it('should require Source when creating a new Media with Audio type', function() {
-    randomMedia = Math.floor((Math.random() * 1000) + 1);
-    mediaCount = shared.tableElements.count();
-    shared.createBtn.click();
-
-    // Edit fields
-    media.nameFormField.sendKeys('Audio Media ' + randomMedia);
-    media.typeFormDropdown.all(by.css('option')).get(1).click();
-
-    // Submit button is still disabled
-    expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
-
-    // New Media is not saved
-    expect(shared.successMessage.isPresent()).toBeFalsy();
-    expect(shared.tableElements.count()).toBe(mediaCount);
-
-    // Touch URL input field
-    media.sourceFormField.click();
-    media.nameFormField.click();
-
-    // Submit button is still disabled
-    expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
-
-    // Error messages displayed
-    expect(media.requiredError.get(2).isDisplayed()).toBeTruthy();
-    expect(media.requiredError.get(2).getText()).toBe('Please enter a source');
-
-    // New Media is not saved
-    expect(shared.tableElements.count()).toBe(mediaCount);
-  });
-
-  it('should require Source when creating a new Media with Text-To-Speech type', function() {
-    randomMedia = Math.floor((Math.random() * 1000) + 1);
-    mediaCount = shared.tableElements.count();
-    shared.createBtn.click();
-
-    // Edit fields
-    media.nameFormField.sendKeys('Text-To-Speech Media ' + randomMedia);
-    media.typeFormDropdown.all(by.css('option')).get(2).click();
-
-    // Submit button is still disabled
-    expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
-
-    // New Media is not saved
-    expect(shared.successMessage.isPresent()).toBeFalsy();
-    expect(shared.tableElements.count()).toBe(mediaCount);
-
-    // Touch URL input field
-    media.sourceFormField.click();
-    media.nameFormField.click();
-
-    // Submit button is still disabled
-    expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
-
-    // Error messages displayed
-    expect(media.requiredError.get(2).isDisplayed()).toBeTruthy();
-    expect(media.requiredError.get(2).getText()).toBe('Please enter a source');
-
-    // New Media is not saved
-    expect(shared.tableElements.count()).toBe(mediaCount);
+    shared.submitFormBtn.click().then(function() {
+      expect(shared.successMessage.isDisplayed()).toBeTruthy();
+      expect(shared.tableElements.count()).toBeGreaterThan(mediaCollectionCount);
+    });
   });
 
   it('should clear fields on Cancel', function() {
-    randomMedia = Math.floor((Math.random() * 1000) + 1);
-    mediaCount = shared.tableElements.count();
+    mediaCollectionCount = shared.tableElements.count();
     shared.createBtn.click();
 
     // Edit fields
-    media.sourceFormField.sendKeys('http://www.example.com/' + randomMedia);
-    media.typeFormDropdown.all(by.css('option')).get(1).click();
+    mediaCollections.nameFormField.sendKeys('Media Collection Name');
+    mediaCollections.descriptionFormField.sendKeys('Media Collection Description');
     shared.cancelFormBtn.click();
 
     // Warning message is displayed
@@ -257,103 +160,133 @@ describe('The media collections view', function() {
 
     // New media is not created
     expect(shared.successMessage.isPresent()).toBeFalsy();
-    expect(shared.tableElements.count()).toBe(mediaCount);
+    expect(shared.tableElements.count()).toBe(mediaCollectionCount);
 
     // Form fields are cleared and reset to default
-    expect(media.sourceFormField.getAttribute('value')).toBe('');
-    expect(media.typeFormDropdown.getAttribute('value')).toBe('');
+    expect(mediaCollections.nameFormField.getAttribute('value')).toBe('');
+    expect(mediaCollections.descriptionFormField.getAttribute('value')).toBe('');
   });
 
-  xit('should display media details when Audio media is selected from table', function() {
-    // TODO Update based on expected display value of Properties in table
-    //TODO: Update for expected display of Type value in table
-    shared.searchField.sendKeys('Audio');
-    // Select first media from table
-    shared.firstTableRow.click();
-
-    // Verify media details in table matches populated field
-    expect(media.sourceHeader.getText()).toContain(shared.firstTableRow.element(by.css(media.nameColumn)).getText());
-    expect(shared.firstTableRow.element(by.css(media.sourceColumn)).getText()).toBe(media.sourceFormField.getAttribute('value'));
-
-    // Change selected media and ensure details are updated
-    shared.tableElements.count().then(function(curMediaCount) {
-      if (curMediaCount > 1) {
-        shared.secondTableRow.click();
-        expect(media.sourceHeader.getText()).toContain(shared.secondTableRow.element(by.css(media.nameColumn)).getText());
-        expect(shared.secondTableRow.element(by.css(media.sourceColumn)).getText()).toBe(media.sourceFormField.getAttribute('value'));
-      };
-    });
-  });
-
-  xit('should display media details when Text-To-Speech media is selected from table', function() {
-    // TODO Update based on expected display value of Properties in table
-    shared.searchField.sendKeys('Text-To-Speech');
-    // Select first media from table
-    shared.firstTableRow.click();
-
-    // Verify media details in table matches populated field
-    expect(media.sourceHeader.getText()).toContain(shared.firstTableRow.element(by.css(media.nameColumn)).getText());
-    expect(shared.firstTableRow.element(by.css(media.sourceColumn)).getText()).toBe(media.sourceFormField.getAttribute('value'));
-
-    // Change selected media and ensure details are updated
-    shared.tableElements.count().then(function(curMediaCount) {
-      if (curMediaCount > 1) {
-        shared.secondTableRow.click();
-        expect(media.sourceHeader.getText()).toContain(shared.secondTableRow.element(by.css(media.nameColumn)).getText());
-        expect(shared.secondTableRow.element(by.css(media.sourceColumn)).getText()).toBe(media.sourceFormField.getAttribute('value'));
-      };
-    });
-  });
-
-  xit('should include valid Media fields when editing an existing Media', function() {
-    shared.firstTableRow.click();
-    expect(media.sourceHeader.isDisplayed()).toBeTruthy();
-    expect(media.nameFormField.isDisplayed()).toBeTruthy();
-    expect(media.nameFormField.getAttribute('disabled')).toBeTruthy();
-    expect(media.sourceFormField.isDisplayed()).toBeTruthy();
-    expect(media.typeFormDropdown.getAttribute('disabled')).toBeTruthy();
-  });
-
-  xit('should reset fields after editing Text-To-Speech media and selecting Cancel', function() {
-    shared.searchField.sendKeys('Text-To-Speech');
-    randomMedia = Math.floor((Math.random() * 1000) + 1);
-    shared.firstTableRow.click();
-
-    var originalSource = media.sourceFormField.getAttribute('value');
-
-    // Edit editable fields
-    media.sourceFormField.sendKeys('Edit');
-
-    shared.cancelFormBtn.click();
-    shared.dismissChanges();
-
-    expect(media.requiredError.get(0).isDisplayed()).toBeFalsy();
-    expect(shared.successMessage.isPresent()).toBeFalsy();
-
-    // Fields reset to original values
-    expect(media.sourceFormField.getAttribute('value')).toBe(originalSource);
-  });
-
-  xit('should reset fields after editing Audio media and selecting Cancel', function() {
-    shared.searchField.sendKeys('Audio');
-    randomMedia = Math.floor((Math.random() * 1000) + 1);
-    shared.firstTableRow.click();
-
-    var originalSource = media.sourceFormField.getAttribute('value');
+  it('should clear and hide Media Mappings fields on Cancel', function() {
+    mediaCollectionCount = shared.tableElements.count();
+    shared.createBtn.click();
+    mediaCollections.addMediaMappingButton.click();
 
     // Edit fields
-    media.sourceFormField.sendKeys('Edit');
+    mediaCollections.mediaIdentifiers.get(0).sendKeys('Media Identifier');
+    mediaCollections.defaultIdDropdown.all(by.css('option')).get(1).click();
+
+    shared.cancelFormBtn.click();
+
+    // Warning message is displayed
+    var alertDialog = browser.switchTo().alert();
+    expect(alertDialog.accept).toBeDefined();
+    expect(alertDialog.dismiss).toBeDefined();
+    alertDialog.accept();
+
+    // New media is not created
+    expect(shared.successMessage.isPresent()).toBeFalsy();
+    expect(shared.tableElements.count()).toBe(mediaCollectionCount);
+
+    // Media Mappings fields are hidden by default
+    expect(mediaCollections.defaultIdDropdown.isPresent()).toBeFalsy();
+    expect(mediaCollections.mediaMappingsTable.isDisplayed()).toBeFalsy();
+  });
+
+  it('should include valid fields when editing an existing Media Collection', function() {
+    shared.firstTableRow.click();
+    expect(mediaCollections.editingMediaHeader.isDisplayed()).toBeTruthy();
+    expect(mediaCollections.nameFormField.isDisplayed()).toBeTruthy();
+    expect(mediaCollections.descriptionFormField.isDisplayed()).toBeTruthy();
+
+    shared.firstTableRow.element(by.css(mediaCollections.identifierColumn)).getText().then(function(identifiers) {
+      if (identifiers != null) {
+        expect(mediaCollections.defaultIdDropdown.isDisplayed()).toBeTruthy();
+      } else {
+        expect(mediaCollections.defaultIdDropdown.isPresent()).toBeFalsy();
+      }
+    });
+
+    expect(mediaCollections.addMediaMappingButton.isDisplayed()).toBeTruthy();
+    expect(mediaCollections.mediaMappingsTable.isDisplayed()).toBeTruthy();
+
+    expect(shared.cancelFormBtn.isDisplayed()).toBeTruthy();
+    expect(shared.submitFormBtn.isDisplayed()).toBeTruthy();
+  });
+
+  it('should display media collection details when selected from table', function() {
+    // Select first media from table
+    shared.firstTableRow.click();
+
+    // Verify media collections details in table matches populated field
+    expect(mediaCollections.editingMediaHeader.getText()).toContain(shared.firstTableRow.element(by.css(mediaCollections.nameColumn)).getText());
+    expect(shared.firstTableRow.element(by.css(mediaCollections.nameColumn)).getText()).toBe(mediaCollections.nameFormField.getAttribute('value'));
+    expect(shared.firstTableRow.element(by.css(mediaCollections.descriptionColumn)).getText()).toBe(mediaCollections.descriptionFormField.getAttribute('value'));
+
+    shared.firstTableRow.element(by.css(mediaCollections.identifierColumn)).getText().then(function(identifiers) {
+      if (identifiers != null) {
+        expect(mediaCollections.defaultIdDropdown.isDisplayed()).toBeTruthy();
+        expect(mediaCollections.defaultIdDropdown.$('option:checked').getText()).not.toBe('');
+        expect(mediaCollections.noMediaMappingsMessage.isDisplayed()).toBeFalsy();
+        mediaCollections.mediaIdentifiers.count().then(function(mediaCount) {
+          for (var i = 0; i < mediaCount; i++) {
+            expect(identifiers).toContain(mediaCollections.mediaIdentifiers.get(i).getText());
+          }
+        });
+      } else {
+        expect(mediaCollections.defaultIdDropdown.isPresent()).toBeFalsy();
+        expect(mediaCollections.noMediaMappingsMessage.isDisplayed()).toBeTruthy();
+        expect(mediaCollections.noMediaMappingsMessage.getText()).toBeTruthy('Add media items with the plus button above.');
+      }
+    });
+
+    // Change selected media and ensure details are updated
+    shared.tableElements.count().then(function(curMediaCount) {
+      if (curMediaCount > 1) {
+        shared.secondTableRow.click();
+
+        // Verify media collections details in table matches populated field
+        expect(mediaCollections.editingMediaHeader.getText()).toContain(shared.secondTableRow.element(by.css(mediaCollections.nameColumn)).getText());
+        expect(shared.secondTableRow.element(by.css(mediaCollections.nameColumn)).getText()).toBe(mediaCollections.nameFormField.getAttribute('value'));
+        expect(shared.secondTableRow.element(by.css(mediaCollections.descriptionColumn)).getText()).toBe(mediaCollections.descriptionFormField.getAttribute('value'));
+
+        shared.secondTableRow.element(by.css(mediaCollections.identifierColumn)).getText().then(function(identifiers) {
+          if (identifiers != null) {
+            expect(mediaCollections.defaultIdDropdown.isDisplayed()).toBeTruthy();
+            expect(mediaCollections.defaultIdDropdown.$('option:checked').getText()).not.toBe('');
+            expect(mediaCollections.noMediaMappingsMessage.isDisplayed()).toBeFalsy();
+            mediaCollections.mediaIdentifiers.count().then(function(mediaCount) {
+              for (var i = 0; i < mediaCount; i++) {
+                expect(identifiers).toContain(mediaCollections.mediaIdentifiers.get(i).getText());
+              }
+            });
+          } else {
+            expect(mediaCollections.defaultIdDropdown.isPresent()).toBeFalsy();
+            expect(mediaCollections.noMediaMappingsMessage.isDisplayed()).toBeTruthy();
+            expect(mediaCollections.noMediaMappingsMessage.getText()).toBeTruthy('Add media items with the plus button above.');
+          }
+        });
+      };
+    });
+  });
+
+  it('should reset fields after editing Media Collection and selecting Cancel', function() {
+    shared.firstTableRow.click();
+
+    var originalName = mediaCollections.nameFormField.getAttribute('value');
+    var originalDescription = mediaCollections.descriptionFormField.getAttribute('value');
+
+    // Edit editable fields
+    mediaCollections.sourceFormField.sendKeys('Edit');
 
     shared.cancelFormBtn.click();
     shared.dismissChanges();
 
-    expect(media.requiredError.get(0).isDisplayed()).toBeFalsy();
-    expect(media.requiredError.get(1).isDisplayed()).toBeFalsy();
-    expect(media.requiredError.get(2).isDisplayed()).toBeFalsy();
+    expect(mediaCollections.requiredError.get(0).isDisplayed()).toBeFalsy();
     expect(shared.successMessage.isPresent()).toBeFalsy();
 
     // Fields reset to original values
-    expect(media.sourceFormField.getAttribute('value')).toBe(originalSource);
+    expect(mediaCollections.sourceFormField.getAttribute('value')).toBe(originalSource);
   });
 
   xit('should allow the Audio Media fields to be updated except Type', function() {
@@ -361,21 +294,21 @@ describe('The media collections view', function() {
     shared.firstTableRow.click();
 
     // Edit fields
-    media.sourceFormField.sendKeys('Edit');
+    mediaCollections.sourceFormField.sendKeys('Edit');
 
-    var editedSource = media.sourceFormField.getAttribute('value');
+    var editedSource = mediaCollections.sourceFormField.getAttribute('value');
 
     shared.submitFormBtn.click().then(function() {
-      expect(media.requiredError.get(0).isDisplayed()).toBeFalsy();
-      expect(media.requiredError.get(1).isDisplayed()).toBeFalsy();
-      expect(media.requiredError.get(2).isDisplayed()).toBeFalsy();
+      expect(mediaCollections.requiredError.get(0).isDisplayed()).toBeFalsy();
+      expect(mediaCollections.requiredError.get(1).isDisplayed()).toBeFalsy();
+      expect(mediaCollections.requiredError.get(2).isDisplayed()).toBeFalsy();
       expect(shared.successMessage.isDisplayed()).toBeTruthy();
 
       // Changes persist
       browser.refresh();
       shared.searchField.sendKeys('Audio');
       shared.firstTableRow.click();
-      expect(media.sourceFormField.getAttribute('value')).toBe(editedSource);
+      expect(mediaCollections.sourceFormField.getAttribute('value')).toBe(editedSource);
     });
   });
 
@@ -384,21 +317,21 @@ describe('The media collections view', function() {
     shared.firstTableRow.click();
 
     // Edit fields
-    media.sourceFormField.sendKeys('Edit');
+    mediaCollections.sourceFormField.sendKeys('Edit');
 
-    var editedSource = media.sourceFormField.getAttribute('value');
+    var editedSource = mediaCollections.sourceFormField.getAttribute('value');
 
     shared.submitFormBtn.click().then(function() {
-      expect(media.requiredError.get(0).isDisplayed()).toBeFalsy();
-      expect(media.requiredError.get(1).isDisplayed()).toBeFalsy();
-      expect(media.requiredError.get(2).isDisplayed()).toBeFalsy();
+      expect(mediaCollections.requiredError.get(0).isDisplayed()).toBeFalsy();
+      expect(mediaCollections.requiredError.get(1).isDisplayed()).toBeFalsy();
+      expect(mediaCollections.requiredError.get(2).isDisplayed()).toBeFalsy();
       expect(shared.successMessage.isDisplayed()).toBeTruthy();
 
       // Changes persist
       browser.refresh();
       shared.searchField.sendKeys('Text-To-Speech');
       shared.firstTableRow.click();
-      expect(media.sourceFormField.getAttribute('value')).toBe(editedSource);
+      expect(mediaCollections.sourceFormField.getAttribute('value')).toBe(editedSource);
     });
   });
 
@@ -407,15 +340,15 @@ describe('The media collections view', function() {
     shared.firstTableRow.click();
 
     // Edit fields
-    media.sourceFormField.clear();
-    media.sourceFormField.sendKeys('\t');
+    mediaCollections.sourceFormField.clear();
+    mediaCollections.sourceFormField.sendKeys('\t');
 
     // Submit button is still disabled
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
 
-   // Error messages displayed
-    expect(media.requiredError.get(2).isDisplayed()).toBeTruthy();
-    expect(media.requiredError.get(2).getText()).toBe('Please enter a source');
+    // Error messages displayed
+    expect(mediaCollections.requiredError.get(2).isDisplayed()).toBeTruthy();
+    expect(mediaCollections.requiredError.get(2).getText()).toBe('Please enter a source');
     expect(shared.successMessage.isPresent()).toBeFalsy();
   });
 });
