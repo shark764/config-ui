@@ -33,9 +33,9 @@
           })
         ], 'events');
 
-        _.each(FlowMockService.events, function(notation, index) {
+        _.each(FlowMockService.events, function(notation) {
           FlowNotationService.registerEvent(notation);
-        })
+        });
       },
 
       loadActivities: function(palette) {
@@ -52,7 +52,7 @@
                 params: _.reduce(notation.params, function(memo, value, key) {
                   if (value.default) {
                     memo[key] = value.default;
-                  };
+                  }
                   return memo;
                 }, {})
               });

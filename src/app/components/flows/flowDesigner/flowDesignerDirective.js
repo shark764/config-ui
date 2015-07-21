@@ -50,8 +50,8 @@ function flowDesigner() {
           };
 
           $scope.publishNewFlowVersion = function() {
-            if (graph.toJSON().cells.length === 0) { return; }
-            var alienese = JSON.stringify(FlowConversionService.convertToAlienese(graph.toJSON()));
+            if ($scope.graph.toJSON().cells.length === 0) { return; }
+            var alienese = JSON.stringify(FlowConversionService.convertToAlienese($scope.graph.toJSON()));
             $scope.version = new FlowVersion({
               flow: alienese,
               description: $scope.flowVersion.description || 'This needs to be fixed',
@@ -80,7 +80,7 @@ function flowDesigner() {
             $scope.graph.fromJSON(FlowConversionService.convertToJoint(JSON.parse($scope.flowVersion.flow)));
           }
           $window.spitOutAlienese = function() {
-            return FlowConversionService.convertToAlienese(graph.toJSON());
+            return FlowConversionService.convertToAlienese($scope.graph.toJSON());
           };
         }, 1000);
       }]

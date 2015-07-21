@@ -36,11 +36,12 @@
       buildInputPanel: function(model) {
         var self = this;
         var modelType = model.get('type');
+        var inputs;
 
         //If we're dealing with an actrivity
         if (modelType === 'liveOps.activity') {
           var name = model.get('name');
-          var inputs = model.get('inputs');
+          inputs = model.get('inputs');
           var notation = _.findWhere(self.activities, {name: name});
 
           var params = _.reduce(notation.params, function(memo, param, name) {
@@ -71,9 +72,9 @@
 
         //if we're dealing with an event
         if (modelType === 'liveOps.event') {
-          var event = _.findWhere(self.events, {entity: model.get('entity'), type: model.get('name')})
+          var event = _.findWhere(self.events, {entity: model.get('entity'), type: model.get('name')});
 
-          var inputs = {
+          inputs = {
             entity: {
               type: 'select',
               group: 'general',
@@ -82,7 +83,7 @@
                 return {
                   value: def.entity,
                   content: def.entity
-                }
+                };
               })
             },
             name: {
@@ -93,10 +94,10 @@
                 return {
                   value: def.type,
                   content: def.type
-                }
+                };
               })
             }
-          }
+          };
 
           _.each(event.props, function(prop) {
             switch (prop){
@@ -105,7 +106,7 @@
                   type: 'text',
                   group: 'general',
                   label: 'Target'
-                }
+                };
                 break;
               case 'bindings':
                 inputs[prop] = {
@@ -125,7 +126,7 @@
                       }
                     }
                   }
-                }
+                };
                 break;
               case 'event':
                 inputs[prop] = {
@@ -155,16 +156,16 @@
                       }
                     }
                   }
-                }
+                };
                 break;
               case 'terminate':
                 inputs[prop] = {
                   type: 'toggle',
                   group: 'general',
                   label: 'Terminate?'
-                }
+                };
             }
-          })
+          });
 
           //Handle any meta info
           _.each(event.meta, function(meta) {
@@ -172,7 +173,7 @@
               model.set('terminate', true);
               delete inputs.terminate;
             }
-          })
+          });
 
           return inputs;
         }

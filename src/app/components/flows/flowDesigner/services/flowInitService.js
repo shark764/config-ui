@@ -4,7 +4,7 @@
   /* global document : false */
   function FlowInitService (FlowPaletteService, FlowNotationService, $compile, $rootScope) {
     return {
-      initializeGraph: function(graphOptions, panelScope) {
+      initializeGraph: function(graphOptions) {
         var self = this;
 
         // Interface Initializations
