@@ -53,7 +53,9 @@ describe('The queues view', function() {
     // Edit fields
     queues.nameFormField.clear();
     queues.descriptionFormField.clear();
-    shared.submitFormBtn.click();
+
+    // Submit button is still disabled
+    expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
 
     expect(shared.tableElements.count()).toBe(queueCount);
     expect(shared.successMessage.isPresent()).toBeFalsy();
@@ -70,7 +72,7 @@ describe('The queues view', function() {
       queues.nameFormField.sendKeys('Edit');
       queues.descriptionFormField.sendKeys('Edit');
       var versionSelected = randomQueue % curQueueVersionCount;
-      queues.activeVersionDropdown.all(by.css('option')).get(versionSelected + 1).click();
+      queues.activeVersionDropdown.all(by.css('option')).get(versionSelected).click();
 
       var editedName = queues.nameFormField.getAttribute('value');
       var editedDescription = queues.descriptionFormField.getAttribute('value');
@@ -90,8 +92,8 @@ describe('The queues view', function() {
   it('should not require description field when editing a queue', function() {
     queues.firstTableRow.click();
     // Edit fields
+    queues.descriptionFormField.sendKeys('Temp Description');
     queues.descriptionFormField.clear();
-    queues.nameFormField.click();
     shared.submitFormBtn.click().then(function() {
       expect(shared.successMessage.isDisplayed()).toBeTruthy();
     });
@@ -108,7 +110,6 @@ describe('The queues view', function() {
 
     // Submit button is still disabled
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
-    shared.submitFormBtn.click();
 
     expect(queues.requiredErrors.get(0).isDisplayed()).toBeTruthy();
     expect(queues.requiredErrors.get(0).getText()).toBe('Field \"Name\" is required.');
@@ -118,7 +119,7 @@ describe('The queues view', function() {
 
   it('should reset fields after editing and selecting Cancel', function() {
     queues.firstTableRow.click();
-    
+
     queues.activeVersionDropdown.all(by.css('option')).count().then(function(curQueueVersionCount) {
       randomQueue = Math.floor((Math.random() * 1000) + 1);
 
@@ -129,7 +130,7 @@ describe('The queues view', function() {
       // Edit fields
       queues.nameFormField.sendKeys('Edit');
       queues.descriptionFormField.sendKeys('Edit');
-      var versionSelected = (randomQueue % curQueueVersionCount) + 1;
+      var versionSelected = randomQueue % curQueueVersionCount;
       queues.activeVersionDropdown.all(by.css('option')).get(versionSelected).click();
 
       shared.cancelFormBtn.click();
@@ -236,7 +237,7 @@ describe('The queues view', function() {
 
   it('should copy version details when copy is selected', function() {
     queues.firstTableRow.click();
-    
+
     queues.activeVersionDropdown.all(by.css('option')).count().then(function(dropdownVersions) {
       queues.versionRowV1Plus.click();
       queues.copyVersionBtn.click().then(function() {
@@ -273,14 +274,14 @@ describe('The queues view', function() {
 
   it('should add new queue version', function() {
     queues.firstTableRow.click();
-    
+
     queueVersionCount = queues.activeVersionDropdown.all(by.css('option')).count();
     randomQueue = Math.floor((Math.random() * 1000) + 1);
     queues.firstTableRow.click();
     queues.versionRowV1Plus.click();
     queues.copyVersionBtn.click();
 
-    queues.copyVersionQueryFormField.sendKeys('Query for queue version ' + randomQueue);
+    queues.copyVersionQueryFormField.sendKeys('{}');
 
     queues.createVersionBtn.click().then(function() {
       expect(queues.activeVersionDropdown.all(by.css('option')).count()).toBeGreaterThan(queueVersionCount);
@@ -294,7 +295,7 @@ describe('The queues view', function() {
 
   it('should require query when adding a new queue version', function() {
     queues.firstTableRow.click();
-    
+
     queueVersionCount = queues.activeVersionDropdown.all(by.css('option')).count();
     randomQueue = Math.floor((Math.random() * 1000) + 1);
     queues.firstTableRow.click();
@@ -302,29 +303,30 @@ describe('The queues view', function() {
     queues.copyVersionBtn.click();
 
     queues.copyVersionQueryFormField.clear();
+    queues.copyVersionQueryFormField.sendKeys('\t');
 
     queues.createVersionBtn.click();
-    expect(queues.requiredErrors.get(2).isDisplayed()).toBeTruthy();
-    expect(queues.requiredErrors.get(2).getText()).toBe('Field \"Query\" is required.');
+    expect(queues.requiredErrors.get(3).isDisplayed()).toBeTruthy();
+    expect(queues.requiredErrors.get(3).getText()).toBe('Field \"Query\" is required.');
 
     expect(queues.activeVersionDropdown.all(by.css('option')).count()).toBe(queueVersionCount);
   });
 
   it('should not accept spaces only as valid field input when creating queue version', function() {
     queues.firstTableRow.click();
-    
+
     queueVersionCount = queues.activeVersionDropdown.all(by.css('option')).count();
     queues.firstTableRow.click();
     queues.versionRowV1Plus.click();
     queues.copyVersionBtn.click();
 
     queues.copyVersionQueryFormField.clear();
-    queues.copyVersionQueryFormField.sendKeys(' ');
+    queues.copyVersionQueryFormField.sendKeys(' \t');
 
     queues.createVersionBtn.click();
 
-    expect(queues.requiredErrors.get(2).isDisplayed()).toBeTruthy();
-    expect(queues.requiredErrors.get(2).getText()).toBe('Field \"Query\" is required.');
+    expect(queues.requiredErrors.get(3).isDisplayed()).toBeTruthy();
+    expect(queues.requiredErrors.get(3).getText()).toBe('Field \"Query\" is required.');
 
     expect(queues.activeVersionDropdown.all(by.css('option')).count()).toBe(queueVersionCount);
     expect(shared.successMessage.isPresent()).toBeFalsy();

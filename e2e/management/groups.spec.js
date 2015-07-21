@@ -81,9 +81,6 @@ describe('The groups view', function() {
     // Submit button is disabled
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
 
-    // Submit without field input
-    shared.submitFormBtn.click();
-
     // New Group is not saved
     expect(shared.successMessage.isPresent()).toBeFalsy();
     expect(shared.tableElements.count()).toBe(groupCount);
@@ -98,7 +95,6 @@ describe('The groups view', function() {
 
     // Submit button is still disabled
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
-    shared.submitFormBtn.click();
 
     // New Group is not saved
     expect(shared.successMessage.isPresent()).toBeFalsy();
@@ -107,7 +103,6 @@ describe('The groups view', function() {
     // Touch name input field
     groups.nameFormField.click();
     groups.descriptionFormField.click();
-    shared.submitFormBtn.click();
 
     // Submit button is still disabled
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
@@ -256,7 +251,6 @@ describe('The groups view', function() {
 
     // Submit button is still disabled
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
-    shared.submitFormBtn.click();
 
     // Error messages displayed
     expect(groups.nameRequiredError.get(0).isDisplayed()).toBeTruthy();
