@@ -454,4 +454,21 @@ describe('The users view', function() {
       expect(visible).toBeFalsy();
     })
   });
+  
+  describe('bulk actions', function(){
+    //Regression test for TITAN2-2237
+    it('should only display confirm dialog once when switching selected elements', function() {
+      //Dirty the bulk action form
+      shared.actionsBtn.click();
+      users.statusBulkEnableCheck.click();
+      
+      //Select a table item and dismiss the expected alert
+      shared.firstTableRow.click();
+      shared.dismissChanges();
+      
+      //Select another table item and expect there not to be an alert
+      shared.secondTableRow.click();
+    });
+  });
+  
 });
