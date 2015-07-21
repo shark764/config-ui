@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('MediaCollectionController', ['$scope', 'MediaCollection', 'Media', 'Session', 'mediaCollectionTableConfig', 'mediaTypes',
-    function ($scope, MediaCollection, Media, Session, mediaCollectionTableConfig, mediaTypes) {
+  .controller('MediaCollectionController', ['$scope', 'MediaCollection', 'Media', 'Session', 'mediaCollectionTableConfig', 'mediaTypes', '$timeout',
+    function ($scope, MediaCollection, Media, Session, mediaCollectionTableConfig, mediaTypes, $timeout) {
       $scope.Session = Session;
       $scope.medias = [];
       $scope.redirectToInvites();
@@ -116,11 +116,15 @@ angular.module('liveopsConfigPanel')
       });
 
       $scope.$on('resource:details:media:savedAndNew', function () {
-        $scope.waitingMedia = null;
-
-        $scope.selectedMedia = new Media({
-          tenantId: Session.tenant.tenantId
-        });
+        //Use a very small timeout so that we aren't changing a scoped variable within a digest cycle,
+        //Otherwise the change will not get picked up by watches
+        //(Because this is triggered by an event, there is already a digest cycle in progress)
+        $timeout(function(){
+          $scope.selectedMedia = new Media({
+            properties: {},
+            tenantId: Session.tenant.tenantId
+          });
+        }, 2);
       });
 
       $scope.$on('table:on:click:create', function () {
