@@ -260,7 +260,6 @@ describe('MediaCollectionController', function () {
       
       var form = {
         mediaMapChanges: {$setDirty: jasmine.createSpy('dirtySpy')},
-        $removeControl: jasmine.createSpy('formSpy'),
         mapping1: {id: 'mapping1'},
         source1: {id: 'source1'},
         mapping0: {id: 'mapping0'},
@@ -268,9 +267,7 @@ describe('MediaCollectionController', function () {
       }
       
       $scope.removeMapping(myCollection, form, 1);
-      
-      expect(form.$removeControl).toHaveBeenCalledWith(form.mapping1);
-      expect(form.$removeControl).toHaveBeenCalledWith(form.source1);
+
       expect(myCollection.mediaMap.length).toBe(1);
       expect(form.mediaMapChanges.$setDirty).toHaveBeenCalled();
     }));
