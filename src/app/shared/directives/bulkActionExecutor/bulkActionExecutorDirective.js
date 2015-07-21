@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('bulkActionExecutor', ['$q', '$timeout', 'Alert', 'Modal', '$translate', 'DirtyForms', 'BulkAction',
-    function ($q, $timeout, Alert, Modal, $translate, DirtyForms, BulkAction) {
+  .directive('bulkActionExecutor', ['$q', '$timeout', 'Alert', 'Modal', '$translate', 'DirtyForms',
+    function ($q, $timeout, Alert, Modal, $translate, DirtyForms) {
       return {
         restrict: 'AE',
         scope: {

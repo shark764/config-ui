@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('SkillsController', ['$scope', '$state', 'Session', 'Skill', 'skillTableConfig', 'BulkAction', 'DirtyForms',
-    function($scope, $state, Session, Skill, skillTableConfig, BulkAction, DirtyForms) {
+  .controller('SkillsController', ['$scope', '$state', 'Session', 'Skill', 'skillTableConfig', 'BulkAction',
+    function($scope, $state, Session, Skill, skillTableConfig, BulkAction) {
 
       $scope.Session = Session;
 
