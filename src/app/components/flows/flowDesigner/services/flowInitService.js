@@ -2,9 +2,9 @@
   'use strict';
 
   /* global document : false */
-  function FlowInitService (FlowPaletteService, FlowNotationService, $scope, $compile) {
+  function FlowInitService (FlowPaletteService, FlowNotationService, $compile, $rootScope) {
     return {
-      initializeGraph: function(graphOptions) {
+      initializeGraph: function(graphOptions, panelScope) {
         var self = this;
 
         // Interface Initializations
@@ -22,7 +22,7 @@
         graph.interfaces.snapper = self.initializeSnapper(graph.interfaces.paper);
         graph.interfaces.flowPropertiesPanel = undefined;
         graph.interfaces.inspectorContainer = $(graphOptions.inspectorContainerId);
-        graph.panelScope = $scope.$new();
+        graph.panelScope = $rootScope.$new();
 
         // Default Listener Initializations
         self.initializeKeyboardListeners();
@@ -36,17 +36,18 @@
           graph.interfaces.inspectorContainer.css({'right': '0px'});
         };
         graph.utils.hidePropertiesPanel = function() {
-          graph.interfaces.inspectorContainer.css({'right': '-300px'});
+          graph.interfaces.inspectorContainer.css({'right': '-350px'});
         };
 
-        graph.utils.renderPropertiesPanel = function(cellView) {
-          console.log(self);
-          // destroy dom
-          // build new scope
-          // compile new directive
-          // append to dom
-          // var compiledPanel = $compile('<flow-panel notation="selectedNotation"></flow-panel>')(panelScope);
-          // $('#flow-panel-container').append(compiledPanel);
+        graph.utils.renderPropertiesPanel = function(notation) {
+          console.log('Rendering props panel', notation);
+          graph.interfaces.inspectorContainer.empty();
+          graph.panelScope.$destroy();
+          graph.panelScope = $rootScope.$new();
+          graph.panelScope.notation = notation;
+          var compiledPanel = $compile('<flow-panel notation="notation"></flow-panel>')(graph.panelScope);
+          graph.interfaces.inspectorContainer.append(compiledPanel);
+          graph.utils.showPropertiesPanel();
         };
 
         return graph;

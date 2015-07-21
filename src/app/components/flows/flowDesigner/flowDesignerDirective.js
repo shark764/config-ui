@@ -13,21 +13,6 @@ function flowDesigner() {
 
         $timeout(function() {
 
-          $scope.$watch('graph.selectedNotation', function (oldV, newV) {
-            if (oldV === undefined || oldV === newV) return;
-            console.log('User selected a new notation!');
-            panelScope.$destroy();
-            $('#flow-panel-container').empty();
-            $scope.graph.renderPropertiesPanel();
-            $scope.openPropsPanel($scope.selectedNotation);
-          }, true);
-
-          $scope.openPropsPanel = function(notation) {
-            panelScope = $scope.$new();
-            var compiledPanel = $compile('<flow-panel notation="selectedNotation"></flow-panel>')(panelScope);
-            $('#flow-panel-container').append(compiledPanel);
-          };
-
           var graphOptions = {
             width: 2000,
             height: 2000,
@@ -44,7 +29,7 @@ function flowDesigner() {
             inspectorContainerId: '#inspector-container'
           };
 
-          var $scope.graph = FlowInitService.initializeGraph(graphOptions);
+          $scope.graph = FlowInitService.initializeGraph(graphOptions);
 
           $scope.graph.interfaces.paper.on({
             'cell:pointerdblclick': function(cellView) {

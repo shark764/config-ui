@@ -51,7 +51,9 @@
       }
     }
 
-    _.each(notation.inputs, function (input) {
+    console.log('Notation:', notation);
+
+    _.each(notation.model.attributes.inputs, function (input) {
       var formSection = formBuilder[input.type](input);
       tpl += formSection;
     });
@@ -68,6 +70,8 @@
       restrict: 'E',
       link: function (scope, element, attrs) {
         scope.loading = true;
+
+        console.log('NOTATION PASSED TO DIRECTIVE:', scope.notation);
 
         var content = $compile(buildTemplate(scope.notation))(scope);
         angular.element(element[0].children[0]).append(content);

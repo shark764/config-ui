@@ -6,7 +6,7 @@ angular.module('liveopsConfigPanel')
       var self = this;
       $scope.Session = Session;
 
-      $window.flowSetup = flowSetup;
+      window.flowSetup = flowSetup;
 
       this.newPassword = null;
 

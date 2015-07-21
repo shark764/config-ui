@@ -1,8 +1,6 @@
 (function() {
   'use strict';
 
-  console.log('Overriding joint handlebars halo handle template');
-
   joint.templates = joint.templates || {};
   joint.templates.halo = joint.templates.halo || {};
   joint.templates.halo['handle.html'] = Handlebars.template(function (Handlebars, depth0, helpers, partials, data) {
@@ -105,8 +103,6 @@
 
     return buffer;
   });
-
-  console.log('Overriding built-in halo.');
 
   joint.ui.Halo = Backbone.View.extend({
     className: 'halo',

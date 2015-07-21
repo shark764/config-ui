@@ -65,33 +65,39 @@
       icon: 'none',
       name: '',
       params: {},
-      inputs: {
-        activityType: {
-          type: 'select',
-          options: ['task', 'event-sub-process', 'call-activity'],
-          label: 'Type',
-          group: 'general',
-          index: 3
-        },
-        bindings: {
-          type: 'list',
-          label: 'Bindings',
-          group: 'bindings',
-          item: {
-            type: 'object',
-            properties: {
-              key: {
-                label: 'Key',
-                type: 'text'
-              },
-              value: {
-                label: 'Value',
-                type: 'text'
-              }
-            }
-          }
-        }
-      }
+      inputs: [{
+        name: 'notationBooleanExample',
+        type: 'boolean',
+        label: 'Boolean Test',
+        group: 'general',
+        index: 3
+      }, {
+        name: 'notationTextareaExample',
+        type: 'textarea',
+        label: 'Textarea Test',
+        group: 'general',
+        index: 3
+      }, {
+        name: 'notationSelectExample',
+        type: 'select',
+        label: 'Select Test',
+        group: 'general',
+        options: [
+          undefined,
+          'task',
+          'event-sub-process',
+          'call-activity'
+        ],
+        index: 3
+      }, {
+        name: 'notationInputExample',
+        type: 'input',
+        label: 'Input Test',
+        group: 'general',
+        disabled: true,
+        default: 'Some Default Value',
+        index: 3
+      }]
     }, joint.shapes.basic.TextBlock.prototype.defaults),
     initialize: function() {
       joint.shapes.basic.TextBlock.prototype.initialize.apply(this, arguments);
