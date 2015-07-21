@@ -13,19 +13,26 @@
 </table-controls>
 
 <resize-handle
-  ng-show="selectedTenant"
+  ng-show="selectedTenant || showBulkActions"
   id="resize-pane"
-  right-element-id="details-pane"
+  right-element-id="right-panel"
   left-element-id="table-pane"
   left-min-width="830"
   right-min-width="300"></resize-handle>
 
-<resource-details
-  ng-show="selectedTenant"
-  id="details-pane"
-  extend-scope="additional"
-  header-template-url="app/components/configuration/tenants/tenantDetailHeader.html"
-  body-template-url="app/components/configuration/tenants/tenantDetailBody.html"
-  original-resource="selectedTenant"
-  resource-name="tenants">
-</resource-details>
+
+<div id="right-panel" class="right-panel" ng-show="selectedTenant || showBulkActions">
+  <resource-details
+    ng-show="selectedTenant && !showBulkActions"
+    id="details-pane"
+    extend-scope="additional"
+    header-template-url="app/components/configuration/tenants/tenantDetailHeader.html"
+    body-template-url="app/components/configuration/tenants/tenantDetailBody.html"
+    original-resource="selectedTenant"
+    resource-name="tenants">
+  </resource-details>
+  
+  <bulk-action-executor class="details-pane" ng-show="showBulkActions" items="tenants" bulk-actions="bulkActions" show-bulk-actions="showBulkActions" selected-display="name">
+    <ba-set-tenant-status bulk-action="bulkActions.setTenantStatus"></ba-set-tenant-status>
+  </bulk-action-executor>
+</div>

@@ -65,34 +65,19 @@ angular.module('liveopsConfigPanel')
         });
       };
 
-      $scope.createBulkActions = function () {
-        $scope.bulkActions = {
-          setStatus: new BulkAction(),
-          resetPassword: new BulkAction(),
-          userSkills: new BulkAction(),
-          userGroups: new BulkAction()
-        };
-      };
-
       //Various navigation rules
       $scope.$on('table:on:click:create', function () {
-        $scope.bulkActions = null;
+        $scope.showBulkActions = false;
         $scope.create();
       });
 
       $scope.$on('table:resource:selected', function () {
-        $scope.bulkActions = null;
+        $scope.showBulkActions = false;
       });
 
-      $scope.$on('table:resource:checked', function () {
-        if (!$scope.bulkActions) {
-          DirtyForms.confirmIfDirty(function () {
-            $scope.createBulkActions();
-          });
-        }
+      $scope.$on('table:on:click:actions', function () {
+        $scope.showBulkActions = true;
       });
-
-      $scope.$on('table:on:click:actions', $scope.createBulkActions);
 
       $scope.additional = {
         roles: userRoles,
@@ -115,5 +100,11 @@ angular.module('liveopsConfigPanel')
 
       $scope.tableConfig = userTableConfig;
       $scope.fetch();
+      $scope.bulkActions = {
+        setStatus: new BulkAction(),
+        resetPassword: new BulkAction(),
+        userSkills: new BulkAction(),
+        userGroups: new BulkAction()
+      };
     }
   ]);

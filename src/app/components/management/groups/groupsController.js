@@ -37,7 +37,6 @@ angular.module('liveopsConfigPanel')
       Group.prototype.postCreate = function(group) {
         //Display logic only, as we dont add/edit group users from this screen
         group.members = [];
-        group.members.$resolved = true; //Hack to make sure loading spinner goes away
       };
 
       $scope.$watch('Session.tenant.tenantId', function() {
@@ -45,35 +44,26 @@ angular.module('liveopsConfigPanel')
       }, true);
 
       $scope.$on('table:on:click:create', function () {
-        $scope.bulkActions = null;
+        $scope.showBulkActions = false;
+
         $scope.selectedGroup = new Group({
           tenantId: Session.tenant.tenantId,
           status: true,
           owner: Session.user.id
         });
       });
-      
-      $scope.createBulkActions = function () {
-        $scope.bulkActions = {
-          setGroupStatus: new BulkAction()
-        };
-      };
-      
-    //Various navigation rules
+
       $scope.$on('table:resource:selected', function () {
-        $scope.bulkActions = null;
+        $scope.showBulkActions = false;
       });
 
-      $scope.$on('table:resource:checked', function () {
-        if (!$scope.bulkActions) {
-          DirtyForms.confirmIfDirty(function () {
-            $scope.createBulkActions();
-          });
-        }
+      $scope.$on('table:on:click:actions', function () {
+        $scope.showBulkActions = true;
       });
-
-      $scope.$on('table:on:click:actions', $scope.createBulkActions);
 
       $scope.fetch();
+      $scope.bulkActions = {
+        setGroupStatus: new BulkAction()
+      };
     }
   ]);

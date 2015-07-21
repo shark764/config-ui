@@ -19,7 +19,7 @@ describe('bulkActionExecutor directive', function () {
       $scope.items[0].checked = true;
       $scope.items[1].checked = true;
       $scope.items[2].checked = false;
-      
+
       $scope.bulkActions = mockBulkActions;
 
       var element = $compile('<bulk-action-executor items="items" bulk-actions="bulkActions"></bulk-action-executor>')($scope);
@@ -62,13 +62,13 @@ describe('bulkActionExecutor directive', function () {
       }
     ]));
   });
-  
+
   it('should have a function to null the list of bulk actions', function () {
-    isolateScope.bulkActions = [{}, {}];
+    isolateScope.showBulkActions = true;
 
     isolateScope.closeBulk();
 
-    expect(isolateScope.bulkActions).toBeNull();
+    expect(isolateScope.showBulkActions).toBeFalsy();
   });
 
   describe('ON canExecute', function () {

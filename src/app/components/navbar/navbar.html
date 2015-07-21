@@ -15,19 +15,19 @@
       <li class="divider"></li>
 
       <li id="users-nav-link" ng-class="{ active: isActive('/management')}">
-        <dropdown items="managementDropConfig" label="{{'navbar.users.title' | translate}}" order-by="order" hovering="hovering" hover-tracker="hoverTracker"></dropdown>
+        <dropdown items="managementDropConfig" collapse-icon="fa fa-caret-down" label="{{'navbar.users.title' | translate}}" order-by="order" hovering="hovering" hover-tracker="hoverTracker"></dropdown>
       </li>
 
       <li id="tenants-nav-link" ng-class="{ active: isActive('/configuration')}">
-        <dropdown items="configurationDropConfig" label="{{'navbar.configuration.title' | translate}}" order-by="order" hovering="hovering" hover-tracker="hoverTracker"></dropdown>
+        <dropdown items="configurationDropConfig" collapse-icon="fa fa-caret-down" label="{{'navbar.configuration.title' | translate}}" order-by="order" hovering="hovering" hover-tracker="hoverTracker"></dropdown>
       </li>
 
       <li id="flows-nav-link" ng-class="{ active: isActive('/flows')}">
-        <dropdown items="flowsDropConfig" label="{{'navbar.flows.title' | translate}}" order-by="order" hovering="hovering" hover-tracker="hoverTracker"></dropdown>
+        <dropdown items="flowsDropConfig" collapse-icon="fa fa-caret-down" label="{{'navbar.flows.title' | translate}}" order-by="order" hovering="hovering" hover-tracker="hoverTracker"></dropdown>
       </li>
 
       <li id="reporting-nav-link" ng-class="{ active: isActive('/reporting')}">
-        <dropdown items="reportingDropConfig" label="{{'navbar.reports.title' | translate}}" order-by="order" hovering="hovering" hover-tracker="hoverTracker"></dropdown>
+        <dropdown items="reportingDropConfig" collapse-icon="fa fa-caret-down" label="{{'navbar.reports.title' | translate}}" order-by="order" hovering="hovering" hover-tracker="hoverTracker"></dropdown>
       </li>
 
       <li id="invites-nav-link" ng-class="{ active: isActive('/invites')}"><a ng-href="#/invites">{{'navbar.invites' | translate}}</a></li>

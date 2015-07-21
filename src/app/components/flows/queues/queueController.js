@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('QueueController', ['$scope', 'Queue', 'Session', '$stateParams', 'queueTableConfig', 'QueueVersion',
-  function ($scope, Queue, Session, $stateParams, queueTableConfig, QueueVersion) {
+  .controller('QueueController', ['$scope', 'Queue', 'Session', '$stateParams', 'queueTableConfig', 'QueueVersion', 'BulkAction',
+  function ($scope, Queue, Session, $stateParams, queueTableConfig, QueueVersion, BulkAction) {
     $scope.Session = Session;
 
     $scope.redirectToInvites();
@@ -29,6 +29,7 @@ angular.module('liveopsConfigPanel')
     };
 
     $scope.$on('table:on:click:create', function() {
+      $scope.showBulkActions = false;
       $scope.additional.initialQuery = '';
 
       $scope.selectedQueue = new Queue({
@@ -50,5 +51,17 @@ angular.module('liveopsConfigPanel')
       initialQuery: ''
     };
 
+    $scope.$on('table:resource:selected', function () {
+      $scope.showBulkActions = false;
+    });
+
+    $scope.$on('table:on:click:actions', function () {
+      $scope.showBulkActions = true;
+    });
+    
+    $scope.bulkActions = {
+        setQueueStatus: new BulkAction()
+      };
+    
     $scope.fetch();
   }]);

@@ -7,7 +7,9 @@ angular.module('liveopsConfigPanel')
         restrict: 'AE',
         scope: {
           items: '=',
-          bulkActions: '='
+          bulkActions: '=',
+          showBulkActions: '=',
+          selectedDisplay: '@'
         },
         transclude: true,
         templateUrl: 'app/shared/directives/bulkActionExecutor/bulkActionExecutor.html',
@@ -21,10 +23,10 @@ angular.module('liveopsConfigPanel')
               okCallback: $scope.execute
             });
           };
-          
+
           $scope.closeBulk = function () {
             DirtyForms.confirmIfDirty(function(){
-              $scope.bulkActions = null; // this will work when Phil pushes his PR.
+              $scope.showBulkActions = false; // this will work when Phil pushes his PR.
             });
           };
 
@@ -77,13 +79,13 @@ angular.module('liveopsConfigPanel')
               $scope.$apply();
             }, 5);
           };
-          
+
           $scope.cancel = function () {
             DirtyForms.confirmIfDirty(function () {
               $scope.resetForm();
             });
           };
-          
+
           $scope.resetForm = function() {
             $scope.bulkActionForm.$setUntouched();
             $scope.bulkActionForm.$setPristine();

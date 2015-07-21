@@ -50,4 +50,18 @@ describe('setStatusBulkAction directive', function() {
       expect(mockUsers[0].status).toEqual(true);
     }
   ]));
+  
+  it('should should only have the attribute in the PUT payload',
+    inject(['mockUsers', '$httpBackend', 'apiHostname',
+      function (mockUsers, $httpBackend, apiHostname) {
+        $httpBackend.expect('PUT', apiHostname + '/v1/users/userId1', {
+          status: true
+        }).respond(200);
+
+        isolateScope.status = true;
+        isolateScope.bulkAction.apply(mockUsers[0]);
+
+        $httpBackend.flush();
+      }
+    ]));
 });

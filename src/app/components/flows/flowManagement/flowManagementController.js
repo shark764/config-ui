@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('FlowManagementController', ['$scope', '$state', 'Session', 'Flow', 'flowTableConfig', 'flowTypes', 'FlowVersion',
-    function ($scope, $state, Session, Flow, flowTableConfig, flowTypes, FlowVersion) {
+  .controller('FlowManagementController', ['$scope', '$state', 'Session', 'Flow', 'flowTableConfig', 'flowTypes', 'FlowVersion', 'BulkAction',
+    function ($scope, $state, Session, Flow, flowTableConfig, flowTypes, FlowVersion, BulkAction) {
       $scope.redirectToInvites();
       $scope.versions = [];
 
@@ -36,6 +36,7 @@ angular.module('liveopsConfigPanel')
       };
 
       $scope.$on('table:on:click:create', function () {
+        $scope.showBulkActions = false;
         $scope.create();
       });
 
@@ -46,7 +47,18 @@ angular.module('liveopsConfigPanel')
         flowTypes: flowTypes
       };
 
+      $scope.$on('table:resource:selected', function () {
+        $scope.showBulkActions = false;
+      });
+
+      $scope.$on('table:on:click:actions', function () {
+        $scope.showBulkActions = true;
+      });
+      
       $scope.fetch();
       $scope.tableConfig = flowTableConfig;
+      $scope.bulkActions = {
+          setFlowStatus: new BulkAction()
+        };
     }
   ]);

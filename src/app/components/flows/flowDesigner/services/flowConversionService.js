@@ -86,7 +86,7 @@
           if (notation.entity === 'start' || notation.entity === 'catch' || notation.entity === 'throw') {
 
             var event = {
-              id: String(notation.id),
+              id: notation.id.toString(),
               type: 'liveOps.event',
               interrupting: notation.interrupting,
               name: notation.type,
@@ -131,7 +131,7 @@
             memo.push(event);
           } else if (notation.entity === 'gateway') {
             memo.push({
-              id: String(notation.id),
+              id: notation.id.toString(),
               type: 'liveOps.gateway',
               gatewayType: notation.type,
               position: {
@@ -141,7 +141,7 @@
             });
           } else if (notation.entity === 'activity') {
             var activity = {
-              id: String(notation.id),
+              id: notation.id.toString(),
               type: 'liveOps.activity',
               name: notation.name,
               activityType: notation.type,
@@ -180,8 +180,8 @@
               memo.push({
                 id: 'link-' + index + '-' + notation.id,
                 type: 'liveOps.link',
-                source: {id: String(notation.id)},
-                target: {id: String(child)}
+                source: {id: notation.id.toString()},
+                target: {id: child.toString()}
               });
             });
           }
@@ -194,7 +194,7 @@
         _.each(jointNotation, function(notation, index, list) {
           if (notation.embeds && notation.embeds.length > 0) {
             //find the child
-            var decoration = _.findWhere(list, {id: String(notation.embeds[0])});
+            var decoration = _.findWhere(list, {id: notation.embeds[0].toString()});
             decoration.parent = notation.id;
           }
         });
