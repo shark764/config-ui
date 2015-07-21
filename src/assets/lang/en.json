@@ -163,6 +163,7 @@
   "media.details.mediaTypes.tts": "TTS",
   "media.details.creating": "Creating New Media",
   "media.table.title": "Media Management",
+  "media.details.source.url.error": "Audio source must be a URL",
 
   "media.collections.media.new" : "Create New Media",
   "media.collections.media.add": "Add Media...",

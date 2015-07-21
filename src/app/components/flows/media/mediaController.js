@@ -27,8 +27,18 @@ angular.module('liveopsConfigPanel')
       $scope.fetch();
       $scope.tableConfig = mediaTableConfig;
       
+      $scope.setupAudioSourceWatch = function(childScope){
+        childScope.$watch('detailsForm.audiosource', function(newValue){
+          if (angular.isDefined(newValue)){
+            childScope.detailsForm.audiosource.$setDirty();
+            childScope.detailsForm.audiosource.$setTouched();
+          }
+        });
+      };
+      
       $scope.additional = {
-        mediaTypes: mediaTypes
+        mediaTypes: mediaTypes,
+        setupAudioSourceWatch: $scope.setupAudioSourceWatch
       };
     }
   ]);
