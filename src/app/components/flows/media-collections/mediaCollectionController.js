@@ -59,10 +59,6 @@ angular.module('liveopsConfigPanel')
         collection.mediaMap = cleanedMediaMap;
       };
 
-      MediaCollection.prototype.postSave = function () {
-        $scope.selectedMedia = null;
-      };
-
       //TODO: remove duplication from MediaController
       $scope.setupAudioSourceWatch = function(childScope){
         childScope.$watch('detailsForm.audiosource', function(newValue){
@@ -102,8 +98,6 @@ angular.module('liveopsConfigPanel')
       };
 
       $scope.$on('resource:details:create:mediaMapping', function (event, media) {
-        $scope.waitingMedia = media;
-
         $scope.selectedMedia = new Media({
           properties: {},
           tenantId: Session.tenant.tenantId
@@ -112,7 +106,6 @@ angular.module('liveopsConfigPanel')
 
       $scope.$on('resource:details:media:canceled', function () {
         $scope.selectedMedia = null;
-        $scope.waitingMedia = null;
       });
 
       $scope.$on('resource:details:media:savedAndNew', function () {
@@ -141,10 +134,6 @@ angular.module('liveopsConfigPanel')
         function (event, resource) {
           $scope.medias.push(resource);
 
-          if ($scope.waitingMedia) {
-            $scope.waitingMedia.id = resource.id;
-          }
-          
           $scope.selectedMedia = null;
         });
 
