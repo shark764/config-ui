@@ -61,14 +61,7 @@
           }
 
           if (n.type === 'liveOps.event') {
-
-            if (n.eventType === 'start') {
-              notation = _.extend(notation, self.events[n.eventType][n.eventName](n));
-            } else if (n.eventType === 'intermediate' && !n.throwing) {
-              notation = _.extend(notation, self.events['catch'][n.eventName](n));
-            } else {
-              notation = _.extend(notation, self.events['throw'][n.eventName](n));
-            }
+            notation = _.extend(notation, self.events[n.entity][n.name](n));
           }
 
           return notation;
@@ -91,32 +84,25 @@
         var jointNotation = _.reduce(alienese, function(memo, notation) {
 
           if (notation.entity === 'start' || notation.entity === 'catch' || notation.entity === 'throw') {
+
             var event = {
               id: String(notation.id),
               type: 'liveOps.event',
               interrupting: notation.interrupting,
-              eventName: notation.type,
+              name: notation.type,
               position: {
                 x: (notation['rendering-data']) ? notation['rendering-data'].x : 0,
                 y: (notation['rendering-data']) ? notation['rendering-data'].y : 0
-              }
+              },
+              entity: notation.entity
             };
-
-            if (notation.entity === 'throw' && notation.terminate) {
-              event.eventType = 'end';
-              event.throwing = true;
-            } else if (notation.entity === 'throw' && !notation.terminate) {
-              event.eventType = 'intermediate';
-              event.throwing = true;
-            }else if (notation.entity === 'catch') {
-              event.eventType = 'intermediate';
-              event.throwing = false;
-            } else if (notation.entity === 'start') {
-              event.eventType = 'start';
-            }
 
             if (notation.target) {
               event.target = notation.target;
+            }
+
+            if (notation.timer) {
+              event.timer = notation.timer.value;
             }
 
             if (notation.event) {
@@ -264,11 +250,17 @@
               }
             };
           },
-          error: function(model) {
+          'flow-error': function(model) {
             return {
               entity: 'throw',
-              type: 'error',
-              terminate: model.terminate
+              type: 'flow-error',
+              terminate: model.terminate,
+              error: {
+                params: _.reduce(model.error, function(memo, param) {
+                  memo[param.key] = param.value;
+                  return memo;
+                }, {})
+              }
             };
           },
           terminate: function(model) {
@@ -292,13 +284,31 @@
               }, {})
             };
           },
-          error: function(model) {
+          'flow-error': function(model) {
             return {
               entity: 'catch',
-              type: 'error',
+              type: 'flow-error',
               interrupting: true,
               bindings: model.bindings || {}
             };
+          },
+          'system-error': function(model) {
+            return {
+              entity: 'catch',
+              type: 'system-error',
+              interrupting: true,
+              bindings: model.bindings || {}
+            };
+          },
+          timer: function(model) {
+            return {
+              entity: 'catch',
+              type: 'timer',
+              interrupting: model.interrupting,
+              timer: {
+                value: model.timer
+              }
+            }
           }
         }
       }

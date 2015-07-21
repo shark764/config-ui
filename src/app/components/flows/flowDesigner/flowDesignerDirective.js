@@ -59,6 +59,7 @@ function flowDesigner() {
             });
 
             $scope.version.save(function() {
+
               Alert.success('New flow version successfully created.');
               $scope.flowVersion.v = parseInt($scope.flowVersion.v) + 1;
             }, function(error) {
