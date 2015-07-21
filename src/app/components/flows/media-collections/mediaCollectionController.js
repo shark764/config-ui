@@ -77,8 +77,6 @@ angular.module('liveopsConfigPanel')
       
       $scope.removeMapping = function(collection, form, index){
         collection.mediaMap.splice(index, 1);
-        form.$removeControl(form['mapping' + index]);
-        form.$removeControl(form['source' + index]);
         if (collection.mediaMap.length === 0){
           delete collection.mediaMap;
         }
