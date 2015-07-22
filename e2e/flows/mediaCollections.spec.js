@@ -526,50 +526,117 @@ describe('The media collections view', function() {
     });
   });
 
+  describe('media mappings', function() {
+    xit('should list all existing Media', function() {
+      // TODO
+    });
+
+    xit('should search list all existing Media by Media name', function() {
+      // TODO
+    });
+  });
+
   describe('create new media pane', function() {
 
-    it('should create new Media to be included in Media Collection', function() {
+    xit('should create new Media to be included in Media Collection', function() {
       // TODO
+      shared.createBtn.click();
+      mediaCollections.openCreateNewMedia();
     });
 
     it('should be displayed when Create New Button is selected', function() {
-      // TODO
+      shared.createBtn.click();
+
+      // Create Media pane is not displayed by default
+      expect(mediaCollections.createMediaForm.isDisplayed()).toBeFalsy();
+
+      mediaCollections.openCreateNewMedia();
+
+      // Create Media pane is displayed
+      expect(mediaCollections.createMediaForm.isDisplayed()).toBeTruthy();
+      expect(mediaCollections.mediaNameField.isDisplayed()).toBeTruthy();
+      expect(mediaCollections.mediaTypeDropdown.isDisplayed()).toBeTruthy();
+      expect(mediaCollections.mediaSourceField.isDisplayed()).toBeTruthy();
+
+      // Create Media Pane has it's own Cancel, Create and Create & New buttons
+      expect(mediaCollections.mediaCancelBtn.isDisplayed()).toBeTruthy();
+      expect(mediaCollections.mediaCreateBtn.isDisplayed()).toBeTruthy();
+      expect(mediaCollections.mediaCreateAndNewBtn.isDisplayed()).toBeTruthy();
     });
 
-    it('should create new Media consistent with Media page create', function() {
-      // TODO
+    xit('should create new Audio Media consistent with Media page create', function() {
+      shared.createBtn.click();
+      mediaCollections.openCreateNewMedia();
+
+      randomMedia = Math.floor((Math.random() * 1000) + 1);
+      var mediaAdded = false;
+      var newMediaName = 'Audio Media ' + randomMedia;
+      mediaCollections.mediaCreateBtn.click();
+
+      // Edit required fields
+      mediaCollections.mediaNameField.sendKeys(newMediaName);
+      mediaCollections.mediaTypeDropdown.all(by.css('option')).get(1).click();
+      mediaCollections.mediaSourceField.sendKeys('http://www.example.com/' + randomMedia);
+
+      shared.submitFormBtn.click().then(function() {
+        expect(shared.successMessage.isDisplayed()).toBeTruthy();
+
+        // Confirm media is displayed in media list
+        shared.tableElements.then(function(rows) {
+          for (var i = 1; i <= rows.length; ++i) {
+            // Check if media name in table matches newly added media
+            element(by.css('tr:nth-child(' + i + ') > td:nth-child(2)')).getText().then(function(value) {
+              if (value == newMediaName) {
+                mediaAdded = true;
+              }
+            });
+          }
+        }).thenFinally(function() {
+          // Verify new media was found in the media table
+          expect(mediaAdded).toBeTruthy();
+        });
+      });
     });
 
-    it('should require all fields', function() {
-      // TODO
+    xit('should require all fields', function() {
+      shared.createBtn.click();
+      mediaCollections.openCreateNewMedia();
     });
 
-    it('should validate all fields', function() {
-      // TODO
+    xit('should validate all fields', function() {
+      shared.createBtn.click();
+      mediaCollections.openCreateNewMedia();
     });
 
-    it('should leave Media pane open when selecting Create & New', function() {
-      // TODO
+    xit('should leave Media pane open when selecting Create & New', function() {
+      shared.createBtn.click();
+      mediaCollections.openCreateNewMedia();
     });
 
-    it('should clear new Media fields and close pane on Media cancel', function() {
-      // TODO
+    xit('should clear new Media fields and close pane on Media cancel', function() {
+      shared.createBtn.click();
+      mediaCollections.openCreateNewMedia();
     });
 
-    it('should leave new Media fields and pane open on Media Collections cancel', function() {
-      // TODO
+    xit('should leave new Media fields and pane open on Media Collections cancel', function() {
+      shared.createBtn.click();
+      mediaCollections.openCreateNewMedia();
     });
 
-    it('should clear new Media fields and close pane on Media close', function() {
-      // TODO
+    xit('should clear new Media fields and close pane on Media close', function() {
+      shared.createBtn.click();
+      mediaCollections.openCreateNewMedia();
     });
 
-    it('should leave new Media fields and pane open on Media Collections close', function() {
-      // TODO
+    xit('should leave new Media fields and pane open on Media Collections close', function() {
+      shared.createBtn.click();
+      mediaCollections.openCreateNewMedia();
     });
 
-    it('should leave new Media fields and pane open on Media Collections create', function() {
+    xit('should leave new Media fields and pane open on Media Collections create', function() {
       // TODO
+      shared.createBtn.click();
+      mediaCollections.openCreateNewMedia();
     });
   });
 

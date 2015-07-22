@@ -3,8 +3,8 @@
 var MediaCollectionsPage = function() {
 
   this.mediaCollectionsForm = element(by.id('details-pane'));
-  this.creatingMediaHeader = this.mediaCollectionsForm.element(by.css('.detail-header-pane'));
-  this.editingMediaHeader = this.mediaCollectionsForm.element(by.css('h1'));
+  this.creatingMediaCollectionHeader = this.mediaCollectionsForm.element(by.css('.detail-header-pane'));
+  this.editingMediaCollectionHeader = this.mediaCollectionsForm.element(by.css('h1'));
   this.nameFormField = this.mediaCollectionsForm.element(by.model('resource.name'));
   this.descriptionFormField = this.mediaCollectionsForm.element(by.model('resource.description'));
   this.defaultIdDropdown = this.mediaCollectionsForm.element(by.model('resource.defaultMediaKey'));
@@ -22,10 +22,9 @@ var MediaCollectionsPage = function() {
 
   this.openCreateMediaButton = element.all(by.css('.new-media-btn'));
   this.createMediaForm = element(by.id('media-pane'));
-  this.createMediaHeader = this.createMediaForm.element(by.css('h1'));
   this.mediaNameField = this.createMediaForm.element(by.model('resource.name'));
   this.mediaTypeDropdown = this.createMediaForm.element(by.model('resource.type'));
-  this.mediaSourceDropdown = this.createMediaForm.element(by.model('resource.source'));
+  this.mediaSourceField = this.createMediaForm.element(by.model('resource.source'));
   this.mediaCancelBtn = this.createMediaForm.element(by.buttonText('Cancel'));
   this.mediaCreateBtn = this.createMediaForm.element(by.buttonText('Create'));
   this.mediaCreateAndNewBtn = this.createMediaForm.element(by.buttonText('Create & New'));
@@ -38,6 +37,12 @@ var MediaCollectionsPage = function() {
 
   this.closeMediaCollection = this.mediaCollectionsForm.element(by.id('close-details-button'));
   this.closeMedia = this.createMediaForm.element(by.id('close-details-button'));
+
+  this.openCreateNewMedia = function() {
+    this.addMediaMappingButton.click();
+    this.mediaDropdowns.get(0).click();
+    this.openCreateMediaButton.get(0).click();
+  };
 };
 
 module.exports = new MediaCollectionsPage();
