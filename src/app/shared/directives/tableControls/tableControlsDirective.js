@@ -12,7 +12,7 @@ angular.module('liveopsConfigPanel')
           selected: '=',
           extendScope: '=',
           resourceName: '@',
-          hideBulkActions: '@'
+          hideBulkActions: '='
         },
         templateUrl: 'app/shared/directives/tableControls/tableControls.html',
         transclude: true,
