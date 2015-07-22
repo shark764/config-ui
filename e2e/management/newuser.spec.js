@@ -54,7 +54,8 @@ describe('The create new user form', function() {
 
     // Select Create button
     shared.createBtn.click();
-
+    shared.dismissChanges();
+    
     // Create user section cleared
     expect(users.createNewUserHeader.getText()).toBe('Creating New User');
     expect(users.firstNameFormField.getAttribute('value')).toBe('');
@@ -105,6 +106,7 @@ describe('The create new user form', function() {
 
     // Add new user
     shared.createBtn.click();
+    
     users.firstNameFormField.sendKeys('First' + randomUser);
     users.lastNameFormField.sendKeys('Last' + randomUser);
     users.displayNameFormField.sendKeys('Display' + randomUser);
@@ -112,6 +114,7 @@ describe('The create new user form', function() {
     users.passwordFormField.sendKeys('password');
     users.externalIdFormField.sendKeys(randomUser);
     users.personalTelephoneFormField.sendKeys('15062345678');
+    
     shared.submitFormBtn.click();
     expect(shared.successMessage.isDisplayed()).toBeTruthy();
 
@@ -417,5 +420,47 @@ describe('The create new user form', function() {
     users.firstNameFormField.click();
     expect(users.requiredErrors.get(5).isDisplayed()).toBeFalsy();
     expect(users.personalTelephoneFormField.getAttribute('value')).toBe('+1 506-470-4361');
+  });
+  
+  //Regression test for TITAN2-2267
+  it('should reset the form when clicking Create while already Creating', function() {
+    shared.createBtn.click();
+    
+    //Fill out all fields
+    users.firstNameFormField.sendKeys('First' + randomUser);
+    users.lastNameFormField.sendKeys('Last' + randomUser);
+    users.displayNameFormField.sendKeys('Display' + randomUser);
+    users.emailFormField.sendKeys('titantest' + randomUser + '@mailinator.com');
+    users.passwordFormField.sendKeys('password');
+    users.externalIdFormField.sendKeys(randomUser);
+    users.personalTelephoneFormField.sendKeys('15062345678');
+    
+    //Click Create button again
+    shared.createBtn.click();
+    shared.dismissChanges();
+    
+    //Expect all fields to have been cleared
+    expect(users.firstNameFormField.getAttribute('value')).toBe('');
+    expect(users.lastNameFormField.getAttribute('value')).toBe('');
+    expect(users.displayNameFormField.getAttribute('value')).toBe('');
+    expect(users.emailFormField.getAttribute('value')).toBe('');
+    expect(users.externalIdFormField.getAttribute('value')).toBe('');
+    expect(users.personalTelephoneFormField.getAttribute('value')).toBe('')
+  });
+  
+  it('should reset invalid fields after clicking Create while already Creating', function() {
+    shared.createBtn.click();
+    
+    //Fill in invalid values
+    users.emailFormField.sendKeys('not an email');
+    users.personalTelephoneFormField.sendKeys('not a phone number');
+    
+    //Click Create button again
+    shared.createBtn.click();
+    shared.dismissChanges();
+    
+    //Expect all fields to have been cleared
+    expect(users.emailFormField.getAttribute('value')).toBe('');
+    expect(users.personalTelephoneFormField.getAttribute('value')).toBe('')
   });
 });
