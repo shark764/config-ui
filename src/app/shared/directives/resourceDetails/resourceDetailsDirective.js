@@ -117,17 +117,22 @@ angular.module('liveopsConfigPanel')
         };
 
         $scope.resetForm = function () {
-          $scope.detailsForm.$setPristine();
-          $scope.detailsForm.$setUntouched();
-          
           //Workaround for fields with invalid text in them not being cleared when the model is updated to undefined
           //E.g. http://stackoverflow.com/questions/18874019/angularjs-set-the-model-to-be-again-doesnt-clear-out-input-type-url
           angular.forEach($scope.detailsForm, function (value, key) {
             if (value && value.hasOwnProperty('$modelValue') && value.$invalid){
-              $scope.detailsForm[key].$setViewValue(value.$modelValue);
+              var displayValue = value.$modelValue;
+              if (displayValue === null){
+                displayValue = undefined;
+              }
+              
+              $scope.detailsForm[key].$setViewValue(displayValue);
               $scope.detailsForm[key].$rollbackViewValue();
             }
           });
+          
+          $scope.detailsForm.$setPristine();
+          $scope.detailsForm.$setUntouched();
         };
 
         $scope.$on('resource:details:' + $scope.resourceName + ':cancel', function() {
