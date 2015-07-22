@@ -51,7 +51,7 @@ var Shared = function() {
   this.tableElements = element.all(by.repeater('item in (filtered = (items | selectedTableOptions:config.fields | search:config.searchOn:searchQuery | orderBy:config.orderBy))'));
   this.createBtn = element(by.id('create-btn'));
   this.searchField = element(by.model('searchQuery'));
-  this.actionsBtn = element(by.buttonText('Actions'));
+  this.actionsBtn = element(by.id('actions-btn'));
   this.tableColumnsDropDown = element(by.id('table-columns-dropdown'));
 
   // Shared Form elements
