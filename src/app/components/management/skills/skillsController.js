@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('SkillsController', ['$scope', '$state', 'Session', 'Skill', 'skillTableConfig', 'BulkAction', 'DirtyForms',
-    function($scope, $state, Session, Skill, skillTableConfig, BulkAction, DirtyForms) {
+  .controller('SkillsController', ['$scope', '$state', 'Session', 'Skill', 'skillTableConfig', 'BulkAction',
+    function($scope, $state, Session, Skill, skillTableConfig, BulkAction) {
 
       $scope.Session = Session;
 
@@ -40,7 +40,8 @@ angular.module('liveopsConfigPanel')
 
       $scope.fetch();
       $scope.bulkActions = {
-        setStatus: new BulkAction()
+        setStatus: new BulkAction(),
+        setHasProficiency: new BulkAction()
       };
     }
   ]);

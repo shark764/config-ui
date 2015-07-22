@@ -2,7 +2,15 @@
 
 angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigPanel.config', 'pascalprecht.translate', 'ngCookies', 'ngMessages', 'ngSanitize', 'toastr', 'ngLodash', 'teljs'])
   .config(['$stateProvider', '$urlRouterProvider', '$translateProvider', 'toastrConfig', function($stateProvider, $urlRouterProvider, $translateProvider, toastrConfig) {
-    $urlRouterProvider.otherwise('/management/users');
+    
+    $urlRouterProvider.otherwise(function($injector){
+      var Session = $injector.get('Session');
+      if (Session.isAuthenticated()){
+        return '/management/users';
+      } else {
+        return '/login';
+      }
+    });
 
     $stateProvider
       .state('content', {
