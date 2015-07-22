@@ -22,7 +22,7 @@ describe('The media collections view', function() {
     shared.tearDown();
   });
 
-  it('should include valid Media Collection fields when creating a new Media Collection', function() {
+  xit('should include valid fields when creating a new Media Collection', function() {
     shared.createBtn.click();
     expect(mediaCollections.creatingMediaHeader.getText()).toContain('Creating New Media Collection');
     expect(mediaCollections.descriptionFormField.isDisplayed()).toBeTruthy();
@@ -42,7 +42,7 @@ describe('The media collections view', function() {
     expect(mediaCollections.createMediaForm.isDisplayed()).toBeFalsy();
   });
 
-  it('should successfully create new Media Collection without Media', function() {
+  xit('should successfully create new Media Collection without Media', function() {
     mediaCollectionCount = shared.tableElements.count();
     randomCollection = Math.floor((Math.random() * 1000) + 1);
     var mediaCollectionAdded = false;
@@ -74,7 +74,7 @@ describe('The media collections view', function() {
     });
   });
 
-  it('should include Media Collection page components', function() {
+  xit('should include Media Collection page components', function() {
     expect(shared.navBar.isDisplayed()).toBeTruthy();
     expect(shared.table.isDisplayed()).toBeTruthy();
     expect(shared.searchField.isDisplayed()).toBeTruthy();
@@ -85,7 +85,7 @@ describe('The media collections view', function() {
     expect(shared.pageHeader.getText()).toBe('Media Collection Management');
   });
 
-  it('should require field input when creating a new Media Collection', function() {
+  xit('should require field input when creating a new Media Collection', function() {
     mediaCollectionCount = shared.tableElements.count();
     shared.createBtn.click();
 
@@ -98,7 +98,7 @@ describe('The media collections view', function() {
     expect(shared.tableElements.count()).toBe(mediaCollectionCount);
   });
 
-  it('should require name when creating a new Media', function() {
+  xit('should require name when creating a new Media Collection', function() {
     mediaCollectionCount = shared.tableElements.count();
     shared.createBtn.click();
 
@@ -128,7 +128,7 @@ describe('The media collections view', function() {
     expect(shared.tableElements.count()).toBe(mediaCollectionCount);
   });
 
-  it('should successfully create new Media Collection without Description', function() {
+  xit('should successfully create new Media Collection without Description', function() {
     mediaCollectionCount = shared.tableElements.count();
     randomCollection = Math.floor((Math.random() * 1000) + 1);
 
@@ -143,7 +143,7 @@ describe('The media collections view', function() {
     });
   });
 
-  it('should clear fields on Cancel', function() {
+  xit('should clear fields on Cancel', function() {
     mediaCollectionCount = shared.tableElements.count();
     shared.createBtn.click();
 
@@ -167,7 +167,7 @@ describe('The media collections view', function() {
     expect(mediaCollections.descriptionFormField.getAttribute('value')).toBe('');
   });
 
-  it('should clear and hide Media Mappings fields on Cancel', function() {
+  xit('should clear and hide Media Mappings fields on Cancel', function() {
     mediaCollectionCount = shared.tableElements.count();
     shared.createBtn.click();
     mediaCollections.addMediaMappingButton.click();
@@ -193,17 +193,17 @@ describe('The media collections view', function() {
     expect(mediaCollections.mediaMappingsTable.isDisplayed()).toBeFalsy();
   });
 
-  it('should include valid fields when editing an existing Media Collection', function() {
+  xit('should include valid fields when editing an existing Media Collection', function() {
     shared.firstTableRow.click();
     expect(mediaCollections.editingMediaHeader.isDisplayed()).toBeTruthy();
     expect(mediaCollections.nameFormField.isDisplayed()).toBeTruthy();
     expect(mediaCollections.descriptionFormField.isDisplayed()).toBeTruthy();
 
     shared.firstTableRow.element(by.css(mediaCollections.identifierColumn)).getText().then(function(identifiers) {
-      if (identifiers != null) {
-        expect(mediaCollections.defaultIdDropdown.isDisplayed()).toBeTruthy();
-      } else {
+      if (identifiers == '') {
         expect(mediaCollections.defaultIdDropdown.isPresent()).toBeFalsy();
+      } else {
+        expect(mediaCollections.defaultIdDropdown.isDisplayed()).toBeTruthy();
       }
     });
 
@@ -214,7 +214,7 @@ describe('The media collections view', function() {
     expect(shared.submitFormBtn.isDisplayed()).toBeTruthy();
   });
 
-  it('should display media collection details when selected from table', function() {
+  xit('should display media collection details when selected from table', function() {
     // Select first media from table
     shared.firstTableRow.click();
 
@@ -224,7 +224,11 @@ describe('The media collections view', function() {
     expect(shared.firstTableRow.element(by.css(mediaCollections.descriptionColumn)).getText()).toBe(mediaCollections.descriptionFormField.getAttribute('value'));
 
     shared.firstTableRow.element(by.css(mediaCollections.identifierColumn)).getText().then(function(identifiers) {
-      if (identifiers != null) {
+      if (identifiers == '') {
+        expect(mediaCollections.defaultIdDropdown.isPresent()).toBeFalsy();
+        expect(mediaCollections.noMediaMappingsMessage.isDisplayed()).toBeTruthy();
+        expect(mediaCollections.noMediaMappingsMessage.getText()).toBeTruthy('Add media items with the plus button above.');
+      } else {
         expect(mediaCollections.defaultIdDropdown.isDisplayed()).toBeTruthy();
         expect(mediaCollections.defaultIdDropdown.$('option:checked').getText()).not.toBe('');
         expect(mediaCollections.noMediaMappingsMessage.isDisplayed()).toBeFalsy();
@@ -233,51 +237,48 @@ describe('The media collections view', function() {
             expect(identifiers).toContain(mediaCollections.mediaIdentifiers.get(i).getText());
           }
         });
-      } else {
-        expect(mediaCollections.defaultIdDropdown.isPresent()).toBeFalsy();
-        expect(mediaCollections.noMediaMappingsMessage.isDisplayed()).toBeTruthy();
-        expect(mediaCollections.noMediaMappingsMessage.getText()).toBeTruthy('Add media items with the plus button above.');
       }
-    });
+    }).then(function() {
+      // Change selected media and ensure details are updated
+      shared.tableElements.count().then(function(curMediaCount) {
+        if (curMediaCount > 1) {
+          shared.secondTableRow.click();
 
-    // Change selected media and ensure details are updated
-    shared.tableElements.count().then(function(curMediaCount) {
-      if (curMediaCount > 1) {
-        shared.secondTableRow.click();
+          // Verify media collections details in table matches populated field
+          expect(mediaCollections.editingMediaHeader.getText()).toContain(shared.secondTableRow.element(by.css(mediaCollections.nameColumn)).getText());
+          expect(shared.secondTableRow.element(by.css(mediaCollections.nameColumn)).getText()).toBe(mediaCollections.nameFormField.getAttribute('value'));
+          expect(shared.secondTableRow.element(by.css(mediaCollections.descriptionColumn)).getText()).toBe(mediaCollections.descriptionFormField.getAttribute('value'));
 
-        // Verify media collections details in table matches populated field
-        expect(mediaCollections.editingMediaHeader.getText()).toContain(shared.secondTableRow.element(by.css(mediaCollections.nameColumn)).getText());
-        expect(shared.secondTableRow.element(by.css(mediaCollections.nameColumn)).getText()).toBe(mediaCollections.nameFormField.getAttribute('value'));
-        expect(shared.secondTableRow.element(by.css(mediaCollections.descriptionColumn)).getText()).toBe(mediaCollections.descriptionFormField.getAttribute('value'));
-
-        shared.secondTableRow.element(by.css(mediaCollections.identifierColumn)).getText().then(function(identifiers) {
-          if (identifiers != null) {
-            expect(mediaCollections.defaultIdDropdown.isDisplayed()).toBeTruthy();
-            expect(mediaCollections.defaultIdDropdown.$('option:checked').getText()).not.toBe('');
-            expect(mediaCollections.noMediaMappingsMessage.isDisplayed()).toBeFalsy();
-            mediaCollections.mediaIdentifiers.count().then(function(mediaCount) {
-              for (var i = 0; i < mediaCount; i++) {
-                expect(identifiers).toContain(mediaCollections.mediaIdentifiers.get(i).getText());
-              }
-            });
-          } else {
-            expect(mediaCollections.defaultIdDropdown.isPresent()).toBeFalsy();
-            expect(mediaCollections.noMediaMappingsMessage.isDisplayed()).toBeTruthy();
-            expect(mediaCollections.noMediaMappingsMessage.getText()).toBeTruthy('Add media items with the plus button above.');
-          }
-        });
-      };
+          shared.secondTableRow.element(by.css(mediaCollections.identifierColumn)).getText().then(function(identifiers) {
+            if (identifiers == '') {
+              expect(mediaCollections.defaultIdDropdown.isPresent()).toBeFalsy();
+              expect(mediaCollections.noMediaMappingsMessage.isDisplayed()).toBeTruthy();
+              expect(mediaCollections.noMediaMappingsMessage.getText()).toBeTruthy('Add media items with the plus button above.');
+            } else {
+              expect(mediaCollections.defaultIdDropdown.isDisplayed()).toBeTruthy();
+              expect(mediaCollections.defaultIdDropdown.$('option:checked').getText()).not.toBe('');
+              expect(mediaCollections.noMediaMappingsMessage.isDisplayed()).toBeFalsy();
+              mediaCollections.mediaIdentifiers.count().then(function(mediaCount) {
+                for (var i = 0; i < mediaCount; i++) {
+                  expect(identifiers).toContain(mediaCollections.mediaIdentifiers.get(i).getText());
+                }
+              });
+            }
+          });
+        };
+      });
     });
   });
 
-  it('should reset fields after editing Media Collection and selecting Cancel', function() {
+  xit('should reset fields after editing Media Collection and selecting Cancel', function() {
     shared.firstTableRow.click();
 
     var originalName = mediaCollections.nameFormField.getAttribute('value');
     var originalDescription = mediaCollections.descriptionFormField.getAttribute('value');
 
     // Edit editable fields
-    mediaCollections.sourceFormField.sendKeys('Edit');
+    mediaCollections.nameFormField.sendKeys('Edit');
+    mediaCollections.descriptionFormField.sendKeys('Edit');
 
     shared.cancelFormBtn.click();
     shared.dismissChanges();
@@ -286,17 +287,62 @@ describe('The media collections view', function() {
     expect(shared.successMessage.isPresent()).toBeFalsy();
 
     // Fields reset to original values
-    expect(mediaCollections.sourceFormField.getAttribute('value')).toBe(originalSource);
+    expect(mediaCollections.nameFormField.getAttribute('value')).toBe(originalName);
+    expect(mediaCollections.descriptionFormField.getAttribute('value')).toBe(originalDescription);
   });
 
-  xit('should allow the Audio Media fields to be updated except Type', function() {
-    shared.searchField.sendKeys('Audio');
+  xit('should reset fields after editing Media Mappings and selecting Cancel', function() {
+    shared.firstTableRow.click();
+    var originalMediaCount = mediaCollections.mediaMappings.count();
+    var originalDefaultId = '';
+    var mappingOriginalId = '';
+    var mappingOriginalMedia = '';
+
+    // Edit and remove existing media
+    mediaCollections.mediaMappings.count().then(function(mediaCount) {
+      if (mediaCount > 0) {
+        originalDefaultId = mediaCollections.defaultIdDropdown.$('option:checked').getText();
+        mappingOriginalId = mediaCollections.mediaIdentifiers.get(0).getAttribute('value');
+        mappingOriginalMedia = mediaCollections.mediaDropdowns.get(0).$('option:checked').getText();
+
+        mediaCollections.mediaIdentifiers.get(0).sendKeys('edit');
+
+        if (mediaCount > 1) {
+          mediaCollections.removeMedia.get(1).click();
+        }
+      }
+
+      // add more media mappings
+      mediaCollections.addMediaMappingButton.click();
+      mediaCollections.addMediaMappingButton.click();
+
+      shared.cancelFormBtn.click();
+      shared.dismissChanges();
+
+      expect(mediaCollections.requiredError.get(0).isDisplayed()).toBeFalsy();
+      expect(shared.successMessage.isPresent()).toBeFalsy();
+
+      // Fields reset to original values
+      expect(mediaCollections.mediaMappings.count()).toBe(originalMediaCount);
+      if (mediaCount > 0) {
+        expect(mediaCollections.defaultIdDropdown.$('option:checked').getText()).toBe(originalDefaultId);
+        expect(mediaCollections.mediaIdentifiers.get(0).getAttribute('value')).toBe(mappingOriginalId);
+        expect(mediaCollections.mediaDropdowns.$('option:checked').getText()).toBe(mappingOriginalMedia);
+      } else {
+        expect(mediaCollections.defaultIdDropdown.isPresent()).toBeFalsy();
+      }
+    });
+  });
+
+  xit('should allow fields to be updated when editing', function() {
     shared.firstTableRow.click();
 
-    // Edit fields
-    mediaCollections.sourceFormField.sendKeys('Edit');
+    // Edit editable fields
+    mediaCollections.nameFormField.sendKeys('Edit');
+    mediaCollections.descriptionFormField.sendKeys('Edit');
 
-    var editedSource = mediaCollections.sourceFormField.getAttribute('value');
+    var editedName = mediaCollections.nameFormField.getAttribute('value');
+    var editedDescription = mediaCollections.descriptionFormField.getAttribute('value');
 
     shared.submitFormBtn.click().then(function() {
       expect(mediaCollections.requiredError.get(0).isDisplayed()).toBeFalsy();
@@ -306,49 +352,225 @@ describe('The media collections view', function() {
 
       // Changes persist
       browser.refresh();
-      shared.searchField.sendKeys('Audio');
       shared.firstTableRow.click();
-      expect(mediaCollections.sourceFormField.getAttribute('value')).toBe(editedSource);
+      expect(mediaCollections.nameFormField.getAttribute('value')).toBe(editedName);
+      expect(mediaCollections.descriptionFormField.getAttribute('value')).toBe(editedDescription);
     });
   });
 
-  xit('should allow the Text-To-Speech Media fields to be updated except Type', function() {
-    shared.searchField.sendKeys('Text-To-Speech');
+  xit('should require name field when editing', function() {
     shared.firstTableRow.click();
 
-    // Edit fields
-    mediaCollections.sourceFormField.sendKeys('Edit');
-
-    var editedSource = mediaCollections.sourceFormField.getAttribute('value');
-
-    shared.submitFormBtn.click().then(function() {
-      expect(mediaCollections.requiredError.get(0).isDisplayed()).toBeFalsy();
-      expect(mediaCollections.requiredError.get(1).isDisplayed()).toBeFalsy();
-      expect(mediaCollections.requiredError.get(2).isDisplayed()).toBeFalsy();
-      expect(shared.successMessage.isDisplayed()).toBeTruthy();
-
-      // Changes persist
-      browser.refresh();
-      shared.searchField.sendKeys('Text-To-Speech');
-      shared.firstTableRow.click();
-      expect(mediaCollections.sourceFormField.getAttribute('value')).toBe(editedSource);
-    });
-  });
-
-  xit('should require source field when editing a Media', function() {
-    // Select first media from table
-    shared.firstTableRow.click();
-
-    // Edit fields
-    mediaCollections.sourceFormField.clear();
-    mediaCollections.sourceFormField.sendKeys('\t');
+    // Edit editable fields
+    mediaCollections.nameFormField.clear();
+    mediaCollections.nameFormField.sendKeys('\t');
 
     // Submit button is still disabled
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
+    shared.submitFormBtn.click();
 
     // Error messages displayed
-    expect(mediaCollections.requiredError.get(2).isDisplayed()).toBeTruthy();
-    expect(mediaCollections.requiredError.get(2).getText()).toBe('Please enter a source');
+    // TODO
+    //expect(mediaCollections.requiredError.get(0).isDisplayed()).toBeTruthy();
+    //expect(mediaCollections.requiredError.get(0).getText()).toBe('Please enter a name');
     expect(shared.successMessage.isPresent()).toBeFalsy();
   });
+
+  xit('should not require description when editing', function() {
+    shared.firstTableRow.click();
+
+    // Edit editable fields
+    mediaCollections.descriptionFormField.sendKeys('Editing the description field'); // Incase the field was already blank
+    mediaCollections.descriptionFormField.clear();
+    mediaCollections.descriptionFormField.sendKeys('\t');
+
+    shared.submitFormBtn.click().then(function() {
+      expect(shared.successMessage.isDisplayed()).toBeTruthy();
+
+      // Changes persist
+      browser.refresh();
+      shared.firstTableRow.click();
+      expect(mediaCollections.descriptionFormField.getAttribute('value')).toBe('');
+    });
+  });
+
+  xit('should allow fields to be updated when editing Media Mappings', function() {
+    shared.firstTableRow.click();
+
+    // Edit existing media
+    mediaCollections.mediaMappings.count().then(function(mediaCount) {
+      if (mediaCount > 0) {
+        mediaCollections.mediaIdentifiers.get(0).sendKeys('edit');
+        mediaCollections.defaultIdDropdown.all(by.css('option')).get(2).click();
+
+        // Select Media, assume at least one media exists
+        mediaCollections.mediaDropdowns.get(0).click();
+        mediaCollections.mediaDropdownSearchFields.get(0).click();
+        mediaCollections.mediaMappings.get(0).all(by.css('ul')).get(0).click();
+
+        var mappingEditedId = mediaCollections.mediaIdentifiers.get(0).getAttribute('value');
+        var editedDefaultId = mediaCollections.defaultIdDropdown.$('option:checked').getText();
+        var mappingEditedMedia = mediaCollections.mediaDropdowns.get(0).getAttribute('value');
+
+        shared.submitFormBtn.click().then(function() {
+          expect(shared.successMessage.isDisplayed()).toBeTruthy();
+
+          // Changes persist
+          browser.refresh();
+          shared.firstTableRow.click();
+
+          expect(mediaCollections.defaultIdDropdown.isDisplayed()).toBeTruthy();
+          expect(mediaCollections.mediaMappings.count()).toBe(mediaCount);
+
+          expect(mediaCollections.defaultIdDropdown.$('option:checked').getText()).toBe(editedDefaultId);
+          expect(mediaCollections.mediaIdentifiers.get(0).getAttribute('value')).toBe(mappingEditedId);
+          expect(mediaCollections.mediaDropdowns.get(0).getAttribute('value')).toBe(mappingEditedMedia);
+        });
+      }
+    });
+  });
+
+  xit('should require identifier field when editing a Media Mapping', function() {
+    // Select first media from table
+    shared.firstTableRow.click();
+
+    mediaCollections.mediaMappings.count().then(function(mediaCount) {
+      if (mediaCount > 0) {
+        mediaCollections.mediaIdentifiers.get(0).clear();
+        mediaCollections.mediaIdentifiers.get(0).sendKeys('\t');
+
+        // Submit button is still disabled
+        expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
+        shared.submitFormBtn.click();
+
+        // Error messages displayed
+        expect(mediaCollections.requiredError.get(4).isDisplayed()).toBeTruthy();
+        expect(mediaCollections.requiredError.get(4).getText()).toBe('Please enter an identifier for this media item');
+        expect(shared.successMessage.isPresent()).toBeFalsy();
+      }
+    });
+  });
+
+  xit('should allow Media Mappings to be added when editing', function() {
+    shared.firstTableRow.click();
+    var originalMediaCount = mediaCollections.mediaMappings.count();
+
+    mediaCollections.mediaMappings.count().then(function(mediaCount) {
+      // Add media
+      mediaCollections.addMediaMappingButton.click();
+      mediaCollections.mediaIdentifiers.get(mediaCount).sendKeys('New Media Identifier');
+
+      mediaCollections.mediaDropdowns.get(mediaCount).click();
+      mediaCollections.mediaDropdownSearchFields.get(mediaCount).click();
+      mediaCollections.mediaMappings.get(mediaCount).all(by.css('ul')).get(0).click();
+
+      shared.submitFormBtn.click().then(function() {
+        expect(shared.successMessage.isDisplayed()).toBeTruthy();
+
+        // Changes persist
+        browser.refresh();
+        shared.firstTableRow.click();
+
+        expect(mediaCollections.defaultIdDropdown.isDisplayed()).toBeTruthy();
+        expect(mediaCollections.mediaMappings.count()).toBeGreaterThan(mediaCount);
+      });
+    });
+  });
+
+  xit('should allow a Media Mappings to be removed when editing', function() {
+    shared.firstTableRow.click();
+
+    // Remove existing media
+    mediaCollections.mediaMappings.count().then(function(mediaCount) {
+      if (mediaCount > 1) {
+        mediaCollections.removeMedia.get(0).click();
+        mediaCollections.defaultIdDropdown.all(by.css('option')).get(1).click();
+
+        expect(mediaCollections.mediaMappings.count()).toBeLessThan(mediaCount);
+
+        shared.submitFormBtn.click();
+        expect(shared.successMessage.isDisplayed()).toBeTruthy();
+
+        // Changes persist
+        browser.refresh();
+        shared.firstTableRow.click();
+
+        expect(mediaCollections.defaultIdDropdown.isDisplayed()).toBeTruthy();
+        expect(mediaCollections.mediaMappings.count()).toBeLessThan(mediaCount);
+      }
+    });
+  });
+
+  xit('should allow all Media Mappings to be removed when editing', function() {
+    // TODO
+    shared.firstTableRow.click();
+
+    // Remove existing media
+    mediaCollections.mediaMappings.count().then(function(mediaCount) {
+      if (mediaCount > 0) {
+        for (var i = 1; i <= mediaCount; i++) {
+          mediaCollections.removeMedia.get(mediaCount - i).click();
+        }
+        expect(mediaCollections.mediaMappings.count()).toBe(0);
+
+        shared.submitFormBtn.click();
+        expect(shared.successMessage.isDisplayed()).toBeTruthy();
+
+        // Changes persist
+        browser.refresh();
+        shared.firstTableRow.click();
+
+        expect(mediaCollections.defaultIdDropdown.isPresent()).toBeFalsy();
+        expect(mediaCollections.mediaMappings.count()).toBe(0);
+      }
+    });
+  });
+
+  describe('create new media pane', function() {
+
+    it('should create new Media to be included in Media Collection', function() {
+      // TODO
+    });
+
+    it('should be displayed when Create New Button is selected', function() {
+      // TODO
+    });
+
+    it('should create new Media consistent with Media page create', function() {
+      // TODO
+    });
+
+    it('should require all fields', function() {
+      // TODO
+    });
+
+    it('should validate all fields', function() {
+      // TODO
+    });
+
+    it('should leave Media pane open when selecting Create & New', function() {
+      // TODO
+    });
+
+    it('should clear new Media fields and close pane on Media cancel', function() {
+      // TODO
+    });
+
+    it('should leave new Media fields and pane open on Media Collections cancel', function() {
+      // TODO
+    });
+
+    it('should clear new Media fields and close pane on Media close', function() {
+      // TODO
+    });
+
+    it('should leave new Media fields and pane open on Media Collections close', function() {
+      // TODO
+    });
+
+    it('should leave new Media fields and pane open on Media Collections create', function() {
+      // TODO
+    });
+  });
+
 });
