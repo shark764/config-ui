@@ -63,8 +63,9 @@
               items="medias"
               selected-item="selectedMedia"
               name-field="name"
+              placeholder="{{'media.collections.mapping.search.placeholder' | translate}}"
               on-select="mapping.id = selectedMedia.id; mapping.name = selectedMedia.name; editMode = false; detailsForm[fieldName].$dirty = true; selectedMedia = null;"></type-ahead>
-            <input ng-click="$emit('resource:details:create:mediaMapping', mapping); detailsForm.$dirty = true;" type="button" value="{{'media.collections.media.new' | translate}}" class="btn btn-primary new-media-btn" />
+            <input ng-click="$emit('resource:details:create:mediaMapping', mapping); detailsForm.$dirty = true;" type="button" value="{{'media.collections.media.new' | translate}}" class="btn new-media-btn" />
           </div>
         </div>
       </td>
