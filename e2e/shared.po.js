@@ -57,9 +57,10 @@ var Shared = function() {
   // Shared Form elements
   this.detailsPanel = element(by.id('details-pane'));
   this.detailsForm = this.detailsPanel.element(by.css('.details-form'));
+  this.rightPanel = element(by.id('right-panel'));
+  this.bulkActionsPanel = element(by.css('bulk-action-executor.details-pane'));
   this.submitFormBtn = this.detailsPanel.element(by.id('submit-details-btn'));
   this.cancelFormBtn = this.detailsPanel.element(by.id('cancel-details-btn'));
-
   this.successMessage = element(by.css('.toast-success'));
   this.errorMessage = element(by.css('.toast-error'));
   this.closeMessageBtn = element(by.css('.toast-close-button'));
@@ -83,11 +84,12 @@ var Shared = function() {
   };
 
   this.tearDown = function() {
-    browser.executeScript('window.sessionStorage.clear()');
+    browser.get(this.loginPageUrl);
+    
     browser.executeScript('window.localStorage.clear()');
+    browser.executeScript('window.sessionStorage.clear()');
     // Ignore unsaved changes warnings
     browser.executeScript("window.onbeforeunload = function(){};");
-    browser.get(this.loginPageUrl);
   };
 };
 
