@@ -24,7 +24,7 @@ angular.module('liveopsConfigPanel')
           
           $scope.bulkAction.reset = function() {
             $scope.bulkAction.checked = false;
-            $scope.hasProficiency = false;
+            $scope.hasProficiency = true;
           };
         }
       };
