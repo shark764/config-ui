@@ -49,12 +49,12 @@
   </div>
 </div>
 
-<div class="input-group" ng-if="resource.interactionField === 'integration'" ng-init="resource.value = integrations[0].id">
+<div class="input-group" ng-if="resource.interactionField === 'integration'">
   <label>{{'integration.details' | translate}} *</label>
   <div>
     <form-error field="detailsForm.value" error-type-api="true"></form-error>
     <select id="integration-form-dropdown" ng-required="true" ng-model="resource.value" name="value"
-      ng-options="integration.id as integration.type for integration in integrations">
+      ng-options="integration.type as integration.type for integration in integrations">
       <option value="" ng-disabled="true">{{'dispatchMappings.details.integration.select' | translate}}</option>
     </select>
   </div>
