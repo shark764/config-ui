@@ -4,7 +4,6 @@ angular.module('liveopsConfigPanel')
   .controller('MediaCollectionController', ['$scope', 'MediaCollection', 'Media', 'Session', 'mediaCollectionTableConfig', 'mediaTypes', '$timeout',
     function ($scope, MediaCollection, Media, Session, mediaCollectionTableConfig, mediaTypes, $timeout) {
       $scope.Session = Session;
-      $scope.medias = [];
       $scope.redirectToInvites();
 
       $scope.create = function () {
@@ -12,19 +11,15 @@ angular.module('liveopsConfigPanel')
           tenantId: Session.tenant.tenantId
         });
       };
-      $scope.fetch = function () {
-        $scope.mediaCollections = MediaCollection.query({
+      $scope.fetchMediaCollections = function () {
+        return MediaCollection.cachedQuery({
           tenantId: Session.tenant.tenantId
-        }, function () {
-          if (!$scope.mediaCollections.length) {
-            $scope.create();
-          }
         });
-
-        Media.query({
+      };
+      
+      $scope.fetchMedias = function() {
+        return Media.cachedQuery({
           tenantId: Session.tenant.tenantId
-        }, function (result) {
-          angular.copy(result, $scope.additionalCollections.medias);
         });
       };
       
@@ -92,7 +87,7 @@ angular.module('liveopsConfigPanel')
       };
 
       $scope.additionalCollections = {
-        medias: $scope.medias,
+        fetchMedias: $scope.fetchMedias,
         addMapping: $scope.addMapping,
         removeMapping: $scope.removeMapping
       };
@@ -124,20 +119,13 @@ angular.module('liveopsConfigPanel')
         $scope.create();
       });
 
-      $scope.$watch('Session.tenant', function (old, news) {
-        if (!angular.equals(old, news)) {
-          $scope.fetch();
-        }
-      }, true);
-
       $scope.$on('resource:details:media:create:success',
         function (event, resource) {
-          $scope.medias.push(resource);
+          $scope.fetchMedias().push(resource);
 
           $scope.selectedMedia = null;
         });
 
-      $scope.fetch();
       $scope.tableConfig = mediaCollectionTableConfig;
     }
   ]);
