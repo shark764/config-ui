@@ -53,15 +53,17 @@ describe('groups controller', function () {
     }));
   });
 
-  describe('updateMembers function', function () {
-    it('should be defined', inject(function () {
-      expect($scope.updateMembers).toBeDefined();
-      expect($scope.updateMembers).toEqual(jasmine.any(Function));
+  describe('Group.fetchGroupUsers function', function () {
+    it('should be defined', inject(function (Group) {
+      expect(Group.prototype.fetchGroupUsers).toBeDefined();
+      expect(Group.prototype.fetchGroupUsers).toEqual(jasmine.any(Function));
+      
+      expect(mockGroups[0].fetchGroupUsers).toBeDefined();
     }));
 
     it('should query for the members list', inject(['$httpBackend', 'apiHostname', function ($httpBackend, apiHostname) {
       $httpBackend.expectGET(apiHostname + '/v1/tenants/tenant-id/groups/groupId1/users');
-      $scope.updateMembers(mockGroups[0]);
+      mockGroups[0].fetchGroupUsers();
       $httpBackend.flush();
     }]));
   });
