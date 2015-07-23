@@ -13,48 +13,82 @@ describe('DispatchMappingsController', function () {
   beforeEach(module('gulpAngular'));
   beforeEach(module('liveopsConfigPanel'));
   beforeEach(module('liveopsConfigPanel.mock.content.configuration.dispatchMappings.dispatchMappingsController'));
+  beforeEach(module('liveopsConfigPanel.mock.content.configuration.integrations'));
+  beforeEach(module('liveopsConfigPanel.mock.content.flows'));
 
   beforeEach(inject(['$rootScope', '$controller', '$httpBackend', 'apiHostname', 'Session', 'mockDispatchMappings', 'mockFlows', 'mockIntegrations',
-    function ($rootScope, _$controller_, _$httpBackend_, _apiHostname_, _Session_, _mockDispatchMappings_, _mockFlows_, _mockIntegrations_) {
+    function ($rootScope, _$controller_, _$httpBackend_, _apiHostname_, _Session_, _mockDispatchMappings, _mockFlows, _mockIntegrations) {
       $scope = $rootScope.$new();
       $controller = _$controller_;
       Session = _Session_;
       $httpBackend = _$httpBackend_;
       apiHostname = _apiHostname_;
-      mockDispatchMappings = _mockDispatchMappings_;
-      mockFlows = _mockFlows_;
-      mockIntegrations = _mockIntegrations_;
+      mockDispatchMappings = _mockDispatchMappings;
+      mockFlows = _mockFlows;
+      mockIntegrations = _mockIntegrations;
     }
   ]));
 
-  describe('with tenant set', function () {
-    beforeEach(function () {
-      Session.tenant = {
-        tenantId: '1'
-      };
-
-      $controller('DispatchMappingsController', {
-        '$scope': $scope
-      });
-
+  beforeEach(function () {
+    $controller('DispatchMappingsController', {
+      '$scope': $scope
+    });
+  });
+  
+  describe('ON fetchDispatchMappings', function() {
+    it('should be defined', function() {
+      expect($scope.fetchDispatchMappings);
+    });
+    
+    it('should return dispatchMappings on call', function () {
+      var dispatchMappings = $scope.fetchDispatchMappings();
+      
       $httpBackend.flush();
+      
+      expect(dispatchMappings).toBeDefined();
+      expect(dispatchMappings.length).toEqual(2);
+      expect(dispatchMappings[0].id).toEqual(mockDispatchMappings[0].id);
+      expect(dispatchMappings[1].id).toEqual(mockDispatchMappings[1].id);
     });
-
-    it('should fetch the list of dispatchMappings on load', function () {
-      expect($scope.dispatchMappings).toBeDefined();
-      expect($scope.dispatchMappings.length).toEqual(2);
-      expect($scope.dispatchMappings[0].id).toEqual(mockDispatchMappings[0].id);
-      expect($scope.dispatchMappings[1].id).toEqual(mockDispatchMappings[1].id);
-
-      expect($scope.flows).toBeDefined();
-      expect($scope.flows[0].id).toEqual(mockFlows[0].id);
-      expect($scope.flows[1].id).toEqual(mockFlows[1].id);
+  });
+  
+  describe('ON fetchFlows', function() {
+    it('should be defined', function() {
+      expect($scope.fetchFlows);
     });
-
-    it('should have a function to create a new dispatchMapping and set it as selected', function () {
-      $scope.$broadcast('table:on:click:create');
-      expect($scope.selectedDispatchMapping).toBeDefined();
+    
+    it('should return flows on call', function () {
+      var flows = $scope.fetchFlows();
+      
+      $httpBackend.flush();
+      
+      expect(flows).toBeDefined();
+      expect(flows[0].id).toEqual(mockFlows[0].id);
+      expect(flows[1].id).toEqual(mockFlows[1].id);
     });
+  });
+  
+  describe('ON fetchIntegrations', function() {
+    it('should be defined', function() {
+      expect($scope.fetchIntegrations);
+    });
+    
+    it('should return flows on call', function () {
+      var integrations = $scope.fetchIntegrations();
+      
+      $httpBackend.flush();
+      
+      expect(integrations).toBeDefined();
+      expect(integrations[0].id).toEqual(mockIntegrations[0].id);
+      expect(integrations[1].id).toEqual(mockIntegrations[1].id);
+    });
+  });
+
+  
+
+  it('should have a function to create a new dispatchMapping and set it as selected', function () {
+    $scope.$broadcast('table:on:click:create');
+    expect($scope.selectedDispatchMapping).toBeDefined();
   });
 
   describe('with tenant not set', function () {

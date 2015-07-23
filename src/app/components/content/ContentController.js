@@ -14,6 +14,6 @@ angular.module('liveopsConfigPanel')
         if(news) {
           queryCache.removeAll();
         }
-      })
+      });
     }
   ]);

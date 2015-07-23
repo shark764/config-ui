@@ -14,7 +14,7 @@ angular.module('liveopsConfigPanel')
         });
       };
 
-    //Various navigation rules
+      //Various navigation rules
       $scope.$on('table:on:click:create', function () {
         $scope.showBulkActions = false;
 

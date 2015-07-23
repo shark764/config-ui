@@ -4,73 +4,50 @@ describe('QueueController', function() {
   var $scope,
   $controller,
   $httpBackend,
-  queues,
+  mockQueues,
   Queue,
-  regions,
   apiHostname,
   Session,
   routeParams;
 
-  beforeEach(module('liveopsConfigPanel'));
   beforeEach(module('gulpAngular'));
-
-  beforeEach(inject(['$rootScope', '$controller', '$injector', 'Queue', 'apiHostname', 'Session',
-    function($rootScope, _$controller_, $injector, _Queue_, _apiHostname, _Session_) {
+  beforeEach(module('liveopsConfigPanel'));
+  beforeEach(module('liveopsConfigPanel.mock.content.queues'));
+  
+  beforeEach(inject(['$rootScope', '$controller', '$injector', 'Queue', 'apiHostname', 'Session', 'mockQueues',
+    function($rootScope, _$controller_, $injector, _Queue_, _apiHostname, _Session_, _mockQueues) {
       $scope = $rootScope.$new();
       $controller = _$controller_;
       Queue = _Queue_;
       apiHostname = _apiHostname;
       Session = _Session_;
-
-      regions = [{
-        id : 1
-      }];
-
-      queues = [
-      new Queue({
-        name: 'q1',
-        description: 'A pretty good queue',
-        id: 'q1'
-      }),
-      new Queue({
-        name: 'q2',
-        description: 'Not as cool as the other queue',
-        id: 'q2'
-      })
-      ];
-
-      Session.tenant = { tenantId : 1 };
+      mockQueues = _mockQueues;
 
       routeParams = {id : 'q1'};
 
       $httpBackend = $injector.get('$httpBackend');
-      $httpBackend.when('GET', apiHostname + '/v1/regions').respond({'result' : regions});
-      $httpBackend.when('GET', apiHostname + '/v1/tenants/1/queues').respond({'result' : queues});
-      $httpBackend.when('GET', apiHostname + '/v1/tenants/1/queues/q1').respond({'result' : queues[0]});
-      $httpBackend.when('GET', apiHostname + '/v1/tenants/1/queues/q2').respond({'result' : queues[1]});
-
-
-      $httpBackend.when('POST', apiHostname + '/v1/login').respond({'result' : {
-        'tenants': []
-      }});
-
-      $httpBackend.when('GET', apiHostname + '/v1/regions').respond({'result' : [{
-        'id': 'c98f5fc0-f91a-11e4-a64e-7f6e9992be1f',
-        'description': 'US East (N. Virginia)',
-        'name': 'us-east-1'
-      }]});
-
+      
       $controller('ContentController', {'$scope': $scope});
       $controller('QueueController', {'$scope': $scope, '$stateParams' : routeParams});
       $httpBackend.flush();
     }]));
-
-  it('should have queues defined', function() {
-    expect($scope.queues).toBeDefined();
-    expect($scope.queues[0].id).toEqual(queues[0].id);
-    expect($scope.queues[1].id).toEqual(queues[1].id);
+    
+    
+  describe('ON fetchQueues', function() {
+    it('should be defined', function() {
+      expect($scope.fetchQueues).toBeDefined();
+    });
+    
+    it('should return queues on call', function() {
+      var queues = $scope.fetchQueues();
+      
+      $httpBackend.flush();
+      
+      expect(queues[0].id).toEqual(queues[0].id);
+      expect(queues[1].id).toEqual(queues[1].id);
+    });
   });
-
+  
   it('should initialize a queue on createQueue', function() {
     $scope.$broadcast('table:on:click:create');
 
@@ -83,15 +60,17 @@ describe('QueueController', function() {
       var newQueue = new Queue({
         name: 'q3',
         description: 'super uncool queue',
-        id: 'q3'
+        id: 'q3',
+        tenantId: Session.tenant.tenantId
       });
       
-      $httpBackend.expectPOST(apiHostname + '/v1/tenants/1/queues/q3/versions').respond({});
+      $httpBackend.expectPOST(apiHostname + '/v1/tenants/tenant-id/queues/q3/versions').respond({});
       var result = angular.extend({}, newQueue, {
         activeVersion: 'queueVersion1'
       });
       
-      $httpBackend.expectPUT(apiHostname + '/v1/tenants/queues/q3').respond({'result': result});
+      
+      $httpBackend.expectPUT(apiHostname + '/v1/tenants/tenant-id/queues/q3').respond({'result': result});
       
       newQueue.postCreate(newQueue);
       
@@ -108,7 +87,7 @@ describe('QueueController', function() {
     }]));
 
     it('should not reset if the selectedQueue is not a new queue', inject(['$rootScope', function($rootScope){
-      $scope.selectedQueue = queues[0];
+      $scope.selectedQueue = mockQueues[0];
       $scope.additional.initialQuery = 'somevalues';
       $rootScope.$broadcast('resource:details:queue:canceled');
       expect($scope.additional.initialQuery).toEqual('somevalues');

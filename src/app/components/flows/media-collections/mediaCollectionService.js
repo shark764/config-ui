@@ -11,6 +11,6 @@ angular.module('liveopsConfigPanel')
     ]);
     
     MediaCollection.resourceName = 'MediaCollection';
-    return MediaCollection
+    return MediaCollection;
   }]);
 

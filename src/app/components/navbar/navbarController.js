@@ -121,17 +121,17 @@ angular.module('liveopsConfigPanel')
 
       $scope.reportingDropConfig = [{
           label: 'Historical Dashboards',
-          onClick: function(){$state.transitionTo('content.reports', {id: "historical-dashboards"});},
+          onClick: function(){$state.transitionTo('content.reports', {id: 'historical-dashboards'});},
           id: 'reports-management-link',
           order: 1
         }, {
           label: 'Reporting Designer',
-          onClick: function(){$state.transitionTo('content.reports', {id: "reporting-designer"});},
+          onClick: function(){$state.transitionTo('content.reports', {id: 'reporting-designer'});},
           id: 'reports-management-link',
           order: 2
         }, {
           label: 'Chart Designer',
-          onClick: function(){$state.transitionTo('content.reports', {id: "chart-designer"});},
+          onClick: function(){$state.transitionTo('content.reports', {id: 'chart-designer'});},
           id: 'reports-management-link',
           order: 3
         }];
