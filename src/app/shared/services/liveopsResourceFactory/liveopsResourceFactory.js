@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .factory('LiveopsResourceFactory', ['$http', '$resource', '$q', 'apiHostname', 'Session', 'SaveInterceptor',
-    function ($http, $resource, $q, apiHostname, Session, SaveInterceptor) {
+  .factory('LiveopsResourceFactory', ['$http', '$resource', '$q', 'apiHostname', 'Session', 'SaveInterceptor', 'queryCache',
+    function ($http, $resource, $q, apiHostname, Session, SaveInterceptor, queryCache) {
       function appendTransform(defaults, transform) {
         // We can't guarantee that the default transformation is an array
         defaults = angular.isArray(defaults) ? defaults : [defaults];
@@ -34,7 +34,6 @@ angular.module('liveopsConfigPanel')
           var Resource = $resource(apiHostname + endpoint, requestUrlFields, {
             query: {
               method: 'GET',
-
               isArray: true,
               transformResponse: appendTransform($http.defaults.transformResponse, function (value) {
                 return getResult(value);
@@ -92,7 +91,17 @@ angular.module('liveopsConfigPanel')
               })
             }
           });
-
+          
+          Resource.cachedQuery = function(params) {
+            if(!queryCache.get(this.resourceName)) {
+              var users = this.query(params);
+              queryCache.put(this.resourceName, users);
+              return users;
+            }
+            
+            return queryCache.get(this.resourceName);
+          };
+          
           Resource.prototype.save = function (success, failure) {
             var self = this,
               action = this.isNew() ? this.$save : this.$update,

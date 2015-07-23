@@ -40,11 +40,20 @@ describe('userSkills directive', function(){
       isolateScope = element.isolateScope();
     }
   ]));
-
-  it('should have skills defined', function() {
-    expect(isolateScope.skills).toBeDefined();
-    expect(isolateScope.skills.length).toEqual(2);
+  
+  describe('ON fetchSkills', function() {
+    it('should be defined', function() {
+      expect(isolateScope.fetchSkills);
+    });
+    
+    it('should return skills on call', function() {
+      var skills = isolateScope.fetchSkills();
+      
+      expect(skills).toBeDefined();
+      expect(skills.length).toEqual(2);
+    });
   });
+  
 
   it('should have userSkills defined', function() {
     expect(isolateScope.userSkills).toBeDefined();

@@ -36,7 +36,7 @@ describe('setDispatchMappingStatusBulkAction directive', function() {
       var returnMapping = angular.copy(mockDispatchMappings[0]);
       returnMapping.active = true;
 
-      $httpBackend.when('PUT', apiHostname + '/v1/tenants/1/dispatch-mappings/id1').respond(200, {
+      $httpBackend.when('PUT', apiHostname + '/v1/tenants/tenant-id/dispatch-mappings/dispatchMappingId1').respond(200, {
         result: returnMapping
       });
       
@@ -52,7 +52,7 @@ describe('setDispatchMappingStatusBulkAction directive', function() {
   
   it('should only have the attribute in the PUT payload',
     inject(['mockDispatchMappings', '$httpBackend', 'apiHostname', function (mockDispatchMappings, $httpBackend, apiHostname) {
-        $httpBackend.expect('PUT', apiHostname + '/v1/tenants/1/dispatch-mappings/id1', {
+        $httpBackend.expect('PUT', apiHostname + '/v1/tenants/tenant-id/dispatch-mappings/dispatchMappingId1', {
           active: true
         }).respond(200);
 

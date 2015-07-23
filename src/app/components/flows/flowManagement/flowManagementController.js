@@ -6,8 +6,8 @@ angular.module('liveopsConfigPanel')
       $scope.redirectToInvites();
       $scope.versions = [];
 
-      $scope.fetch = function () {
-        $scope.flows = Flow.query({
+      $scope.fetchFlows = function () {
+        return Flow.cachedQuery({
           tenantId: Session.tenant.tenantId
         });
       };
@@ -40,8 +40,6 @@ angular.module('liveopsConfigPanel')
         $scope.create();
       });
 
-      $scope.$watch('Session.tenant.tenantId', $scope.fetch, true);
-
       $scope.additional = {
         versions: $scope.versions,
         flowTypes: flowTypes
@@ -55,7 +53,6 @@ angular.module('liveopsConfigPanel')
         $scope.showBulkActions = true;
       });
       
-      $scope.fetch();
       $scope.tableConfig = flowTableConfig;
       $scope.bulkActions = {
           setFlowStatus: new BulkAction()

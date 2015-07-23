@@ -5,11 +5,11 @@ describe('SkillsController', function () {
     $controller,
     $httpBackend,
     Session,
-    apiHostname,
-    skills;
+    apiHostname;
 
-  beforeEach(module('liveopsConfigPanel'));
   beforeEach(module('gulpAngular'));
+  beforeEach(module('liveopsConfigPanel'));
+  beforeEach(module('liveopsConfigPanel.mock.content.management.skills'));
 
   beforeEach(inject(['$rootScope', '$controller', '$httpBackend', 'Session', 'apiHostname',
     function ($rootScope, _$controller_, _$httpBackend_, _Session_, _apiHostname_) {
@@ -22,42 +22,26 @@ describe('SkillsController', function () {
   ]));
 
   beforeEach(function() {
-    skills = [{
-      id: 'skill-id'
-    }, {
-      id: 'skill-id'
-    }];
-
-    Session.tenant.tenantId = 123;
-    Session.user = {
-      id: 456
-    };
-
-    $httpBackend.when('GET', apiHostname + '/v1/tenants/' + Session.tenant.tenantId + '/skills').respond({
-      'result': skills
-    });
-
-    $httpBackend.when('GET', apiHostname + '/v1/regions').respond({'result' : [{
-      'id': 'c98f5fc0-f91a-11e4-a64e-7f6e9992be1f',
-      'description': 'US East (N. Virginia)',
-      'name': 'us-east-1'
-    }]});
-
-    $httpBackend.when('POST', apiHostname + '/v1/login').respond({'result' : {
-      'tenants': []
-    }});
-
     $controller('SkillsController', {'$scope': $scope});
-
-    $httpBackend.flush();
   });
-
+  
+  describe('ON fetchSkills', function() {
+    it('should be defined', function() {
+      expect($scope.fetchSkills);
+    });
+    
+    it('should return skills on call', function() {
+      var skills = $scope.fetchSkills();
+      
+      $httpBackend.flush();
+      
+      expect(skills.length).toEqual(2);
+    });
+  });
+  
   it('should have stuff defined at startup', function() {
     expect($scope.Session).toBeDefined();
     expect($scope.tableConfig).toBeDefined();
-    expect($scope.fetch).toBeDefined();
-
-    expect($scope.skills.length).toEqual(2);
   });
 
   it('should set selectedGroup on createSkill', function() {

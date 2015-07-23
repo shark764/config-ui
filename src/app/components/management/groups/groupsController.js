@@ -7,11 +7,11 @@ angular.module('liveopsConfigPanel')
       $scope.tableConfig = groupTableConfig;
 
       //This is really awful and hopefully the API will update to accommodate this.
-      $scope.fetch = function () {
-        $scope.groups = Group.query({
+      $scope.fetchGroups = function () {
+        return Group.cachedQuery({
           tenantId: Session.tenant.tenantId
-        }, function () {
-          angular.forEach($scope.groups, function (group) {
+        }, function (groups) {
+          angular.forEach(groups, function (group) {
             $scope.updateMembers(group);
           });
         });
@@ -39,10 +39,6 @@ angular.module('liveopsConfigPanel')
         group.members = [];
       };
 
-      $scope.$watch('Session.tenant.tenantId', function() {
-        $scope.fetch();
-      }, true);
-
       $scope.$on('table:on:click:create', function () {
         $scope.showBulkActions = false;
 
@@ -61,7 +57,6 @@ angular.module('liveopsConfigPanel')
         $scope.showBulkActions = true;
       });
 
-      $scope.fetch();
       $scope.bulkActions = {
         setGroupStatus: new BulkAction()
       };

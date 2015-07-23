@@ -1,6 +1,6 @@
 'use strict';
 
-/* global spyOn, jasmine: false  */
+/* global jasmine: false  */
 
 describe('groups controller', function () {
   var $scope,
@@ -23,35 +23,17 @@ describe('groups controller', function () {
         '$scope': $scope
       });
       $scope.$digest();
-      $httpBackend.flush();
     }
   ]));
-
-  it('should have groups', inject(function () {
-    expect($scope.groups).toBeDefined();
-    expect($scope.groups.length).toEqual(3);
-  }));
-
-  it('should refetch groups when tenant changes', function () {
-    expect($scope.fetch).toBeDefined();
-    spyOn($scope, 'fetch');
-
-    $scope.Session.tenant = {
-      tenantId: 'tenant-id-2'
-    };
-
-    $scope.$digest();
-    expect($scope.fetch).toHaveBeenCalled();
-  });
-
+  
   describe('fetch function', function () {
     it('should be defined', inject(function () {
-      expect($scope.fetch).toBeDefined();
+      expect($scope.fetchGroups).toBeDefined();
     }));
 
     it('should query for groups', inject(['$httpBackend', 'apiHostname', function ($httpBackend, apiHostname) {
       $httpBackend.expectGET(apiHostname + '/v1/tenants/tenant-id/groups');
-      $scope.fetch();
+      $scope.fetchGroups();
       $httpBackend.flush();
     }]));
   });

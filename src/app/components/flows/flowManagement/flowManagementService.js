@@ -3,7 +3,7 @@
 angular.module('liveopsConfigPanel')
   .factory('Flow', ['LiveopsResourceFactory', function (LiveopsResourceFactory) {
 
-    return LiveopsResourceFactory.create('/v1/tenants/:tenantId/flows/:id', [
+    var Flow = LiveopsResourceFactory.create('/v1/tenants/:tenantId/flows/:id', [
       {name: 'name'},
       {name: 'description', optional: true},
       {name: 'activeVersion'},
@@ -11,5 +11,9 @@ angular.module('liveopsConfigPanel')
       {name: 'type'},
       {name: 'active'}
     ]);
+    
+    Flow.resourceName = 'Flow';
+    
+    return Flow;
   }]);
 
