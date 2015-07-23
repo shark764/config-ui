@@ -35,28 +35,20 @@ describe('MediaCollectionController', function () {
     $scope.waitingMedia = new Media({});
 
     $scope.$broadcast('resource:details:media:canceled');
-
-    expect($scope.selectedMedia).toBeNull();
-    expect($scope.waitingMedia).toBeNull();
-  }));
-
-  it('should have a function in the payload to media details to save and set selected to null', inject(function (Media) {
-    $scope.selectedMedia = new Media();
-    $scope.selectedMediaCollection = new MediaCollection();
-    $scope.selectedMediaCollection.postSave();
-
+    
     expect($scope.selectedMedia).toBeNull();
   }));
 
-  it('should have a function in the payload to media details to save and set selected to a new media', inject(function (Media, Session) {
+  it('should have a function in the payload to media details to save and set selected to a new media', inject(['Media', 'Session', '$timeout', function (Media, Session, $timeout) {
     $scope.selectedMedia = new Media({});
 
     $scope.$broadcast('resource:details:media:savedAndNew');
-
+    $timeout.flush();
     expect($scope.selectedMedia).toEqual(new Media({
+      properties: {},
       tenantId: Session.tenant.tenantId
     }));
-  }));
+  }]));
 
   it('should have a function in the payload to collections details to create a new media mapping which sets the waiting media, and sets the selected media to new', inject(function (Media, Session) {
     var newMedia = new Media({
@@ -64,8 +56,6 @@ describe('MediaCollectionController', function () {
     });
 
     $scope.$broadcast('resource:details:create:mediaMapping', newMedia);
-
-    expect($scope.waitingMedia).toEqual(newMedia);
 
     expect($scope.selectedMedia.tenantId).toEqual(Session.tenant.tenantId);
     expect($scope.selectedMedia.properties).toEqual({});
@@ -139,7 +129,6 @@ describe('MediaCollectionController', function () {
     $rootScope.$broadcast('resource:details:media:create:success', newMedia);
 
     expect($scope.medias.length).toBe(mockMedias.length + 1);
-    expect($scope.waitingMedia).toEqual(newMedia);
   }));
   
   describe('preCreate prototype function', function(){

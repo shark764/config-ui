@@ -164,6 +164,7 @@
   "media.details.mediaTypes.tts": "TTS",
   "media.details.creating": "Creating New Media",
   "media.table.title": "Media Management",
+  "media.details.source.url.error": "Audio source must be a URL",
 
   "media.collections.media.new" : "Create New Media",
   "media.collections.media.add": "Add Media...",
@@ -175,6 +176,7 @@
   "media.collections.mappingLookup.error": "Please enter an identifier for this media item",
   "media.collections.mapping.add": "Add media items with the plus button above.",
   "media.collections.defaultMediaKey": "Default Identifier",
+  "media.collections.mapping.search.placeholder": "Search existing media...",
 
   "tenant.details.title": "Tenants",
   "tenant.details.name": "Tenant Name",

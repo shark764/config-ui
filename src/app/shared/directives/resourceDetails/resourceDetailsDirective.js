@@ -39,12 +39,11 @@ angular.module('liveopsConfigPanel')
           return $scope.resource.save()
             .then($scope.handleSuccess, $scope.handleErrors)
             .then(function (result) {
+              $rootScope.$broadcast(successEventName, $scope.resource);
+
               if(angular.isDefined(extSuccessEventName)) {
                 $rootScope.$broadcast(extSuccessEventName, $scope.resource);
               }
-
-              $rootScope.$broadcast(successEventName, $scope.resource);
-
               return result;
 
             }, function (error) {
