@@ -72,7 +72,7 @@
         group: 'general',
         index: 0,
         disabled: false,
-        required: true,
+        required: false,
         placeholder: null,
         defaultsTo: null,
         hidden: false,
