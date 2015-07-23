@@ -14,8 +14,10 @@ var MediaCollectionsPage = function() {
   this.noMediaMappingsMessage = this.mediaMappingsTable.element(by.css('.null'));
   this.mediaMappings = element.all(by.repeater('mapping in resource.mediaMap'));
   this.mediaIdentifiers = element.all(by.model('mapping.lookup'));
+  this.mediaDropdownBoxes = element.all(by.css('.modify-media-box'));
   this.mediaDropdowns = element.all(by.model('mapping.name'));
   this.mediaDropdownSearchFields = element.all(by.model('currentText'));
+  this.mediaElementsSelector = 'item in filtered = (items | filter:filterCriteria | orderBy:nameField)';
   this.removeMedia = element.all(by.id('remove-media-mapping-button'));
 
   this.requiredError = this.mediaCollectionsForm.all(by.css('.error'));
@@ -25,9 +27,9 @@ var MediaCollectionsPage = function() {
   this.mediaNameField = this.createMediaForm.element(by.model('resource.name'));
   this.mediaTypeDropdown = this.createMediaForm.element(by.model('resource.type'));
   this.mediaSourceField = this.createMediaForm.element(by.model('resource.source'));
-  this.mediaCancelBtn = this.createMediaForm.element(by.buttonText('Cancel'));
-  this.mediaCreateBtn = this.createMediaForm.element(by.buttonText('Create'));
-  this.mediaCreateAndNewBtn = this.createMediaForm.element(by.buttonText('Create & New'));
+  this.mediaCancelBtn = this.createMediaForm.element(by.id('cancel-media-btn'));
+  this.mediaCreateBtn = this.createMediaForm.element(by.id('create-media-btn'));
+  this.mediaCreateAndNewBtn = this.createMediaForm.element(by.id('create-and-new-media-btn'));
 
   this.mediaRequiredError = this.createMediaForm.all(by.css('.error'));
 

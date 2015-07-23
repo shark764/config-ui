@@ -210,6 +210,27 @@ describe('The media view', function() {
     expect(shared.tableElements.count()).toBe(mediaCount);
   });
 
+  it('should verify Source when creating a new Media with Audio type', function() {
+    randomMedia = Math.floor((Math.random() * 1000) + 1);
+    mediaCount = shared.tableElements.count();
+    shared.createBtn.click();
+
+    // Edit fields
+    media.nameFormField.sendKeys(randomMedia);
+    media.typeFormDropdown.all(by.css('option')).get(1).click();
+    media.sourceFormField.sendKeys('This is not a valid audio source\t');
+
+    // Submit button is still disabled
+    expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
+
+    // Error messages displayed
+    expect(media.requiredError.get(3).isDisplayed()).toBeTruthy();
+    expect(media.requiredError.get(3).getText()).toBe('Source must be valid url');
+
+    // New Media is not saved
+    expect(shared.tableElements.count()).toBe(mediaCount);
+  });
+
   it('should require Source when creating a new Media with Text-To-Speech type', function() {
     randomMedia = Math.floor((Math.random() * 1000) + 1);
     mediaCount = shared.tableElements.count();
