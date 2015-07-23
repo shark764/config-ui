@@ -140,6 +140,7 @@
               }
             });
           } else if (notation.entity === 'activity') {
+            console.log(notation);
             var activity = {
               id: notation.id.toString(),
               type: 'liveOps.activity',
@@ -151,7 +152,7 @@
                 y: (notation['rendering-data']) ? notation['rendering-data'].y : 0
               },
               embeds: notation.decorations,
-              params: {},
+              params: FlowNotationService.extractActivityParams(notation),
               targeted: FlowNotationService.getActivityTargeted(notation),
               target: notation.target || '',
               bindings: _.reduce(notation.bindings, function(memo, key, value) {
@@ -162,15 +163,6 @@
                 return memo;
               }, [])
             };
-
-            _.each(notation.params, function(param, key) {
-              if (param.source === 'system') {
-                activity.params[key] = param.id;
-              } else if (param.source === 'expression') {
-                activity.params[key] = param.value;
-              }
-
-            });
 
             memo.push(activity);
           }
