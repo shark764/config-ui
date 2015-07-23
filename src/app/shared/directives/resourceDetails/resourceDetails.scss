@@ -82,7 +82,7 @@
       }
 
       input, select {
-        width: 100%;
+        width: calc(100% - #{$help-icon-width} - 2px);
         margin: 0;
       }
 
