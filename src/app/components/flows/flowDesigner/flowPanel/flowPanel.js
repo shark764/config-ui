@@ -1,50 +1,53 @@
 (function() {
   'use strict';
 
-  function addDefault (inputJSON, notation) {
-    // Add default property if default is defined
-    if (_.isUndefined(inputJSON.default)) { return; }
-    notation.params[inputJSON.name] = inputJSON.default;
-    return;
-  }
-
   function buildTemplate (notation) {
     var tpl = '<div id="details-pane"><form class="details-form"><div class="detail-body-pane" style="height: 100%;">';
 
     var formBuilder = {
-      input: function (inputJSON) {
-        var formSection = '<div class="input-group">';
-        formSection += '<label>' + inputJSON.label + '</label>';
-        formSection += '<div><input type="text" ng-model="notation.params.' + inputJSON.name + '"';
+
+      string: function (inputJSON) {
+        var formSection = '<div class="input-group"><label>' + inputJSON.label + '</label><div>';
+        formSection += '<input type="text" ng-model="notation.params.' + inputJSON.name + '"';
         if (inputJSON.disabled === true) { formSection += ' disabled="disabled"'; }
         formSection += '></input></div></div>';
         return formSection;
       },
+
+      number: function (inputJSON) {
+        var formSection = '<div class="input-group"><label>' + inputJSON.label + '</label><div>';
+        formSection += '<input type="text" ng-model="notation.params.' + inputJSON.name + '"';
+        if (inputJSON.disabled === true) { formSection += ' disabled="disabled"'; }
+        formSection += '></input></div></div>';
+        return formSection;
+      },
+
       textarea: function (inputJSON) {
-        var formSection = '<div class="input-group">';
-        formSection += '<label>' + inputJSON.label + '</label>';
-        formSection += '<div><textarea ng-model="notation.params.' + inputJSON.name + '"';
+        var formSection = '<div class="input-group"><label>' + inputJSON.label + '</label><div>';
+        formSection += '<textarea ng-model="notation.params.' + inputJSON.name + '"';
         if (inputJSON.disabled === true) { formSection += ' disabled="disabled"'; }
         formSection += '></textarea></div></div>';
         return formSection;
       },
+
       select: function (inputJSON) {
-        var formSection = '<div class="input-group">';
-        formSection += '<label>' + inputJSON.label + '</label>';
-        formSection += '<div><select ng-model="notation.params.' + inputJSON.name + '"';
+        var formSection = '<div class="input-group"><label>' + inputJSON.label + '</label><div>';
+        formSection += '<select ng-model="notation.params.' + inputJSON.name + '"';
         if (inputJSON.disabled === true) { formSection += ' disabled="disabled"'; }
         formSection += '><option value="undefined">Select one...</option></select></div></div>';
         return formSection;
       },
-      keyValList: function (inputJSON) {
+
+      typeahead: function (inputJSON) {
         var formSection = '<div class="input-group">';
-        formSection += '<label>' + inputJSON.label + '</label>';
-        formSection += '<div><keyValList></keyValList></div></div>';
+        formSection += '<label>' + inputJSON.label + '</label><div>';
+        formSection += '<type-ahead hover="true" placeholder="Search..." items="skills" selected-item="selected' + inputJSON.name + '" is-required="false">';
+        formSection += '</div></div>';
         return formSection;
       },
+
       boolean: function (inputJSON) {
-        var formSection = '<div class="input-group">';
-        formSection += '<label>' + inputJSON.label + '</label>';
+        var formSection = '<div class="input-group"><label>' + inputJSON.label + '</label>';
         formSection += '<toggle class="status-toggle"><label class="switch switch-green"><input type="checkbox" class="switch-input" ng-model="notation.params.' + inputJSON.name + '"';
         if (inputJSON.disabled === true) { formSection += ' disabled="disabled"'; }
         formSection += '><span class="switch-label" data-on="On" data-off="Off"></span><span class="switch-handle"></span></label></toggle></div>';
@@ -52,7 +55,7 @@
       }
     };
 
-    console.log('Notation:', notation);
+    console.log('Notation in buildTemplate function:', notation);
 
     _.each(notation.model.attributes.inputs, function (input) {
       var formSection = formBuilder[input.type](input);

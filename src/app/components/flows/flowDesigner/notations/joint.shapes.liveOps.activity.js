@@ -66,42 +66,27 @@
       name: '',
       params: {},
       inputs: [{
-        name: 'notationBooleanExample',
-        type: 'boolean',
-        label: 'Boolean Test',
-        group: 'general',
-        index: 3
-      }, {
-        name: 'notationTextareaExample',
-        type: 'textarea',
-        label: 'Textarea Test',
-        group: 'general',
-        index: 3
-      }, {
-        name: 'notationSelectExample',
+        name: 'type',
         type: 'select',
-        label: 'Select Test',
+        label: 'Task Type',
         group: 'general',
+        index: 0,
+        disabled: false,
+        required: true,
+        placeholder: null,
+        defaultsTo: null,
+        hidden: false,
+        dataSensitivity: 'low',
         options: [
           undefined,
           'task',
           'event-sub-process',
           'call-activity'
-        ],
-        index: 3
-      }, {
-        name: 'notationInputExample',
-        type: 'input',
-        label: 'Input Test',
-        group: 'general',
-        disabled: true,
-        default: 'Some Default Value',
-        index: 3
+        ]
       }]
     }, joint.shapes.basic.TextBlock.prototype.defaults),
     initialize: function() {
       joint.shapes.basic.TextBlock.prototype.initialize.apply(this, arguments);
-
       this.listenTo(this, 'change:subProcess', this.onSubProcessChange);
       this.onSubProcessChange(this, this.get('subProcess'));
       this.listenTo(this, 'change:activityType', this.onActivityTypeChange);
@@ -109,7 +94,6 @@
       this.listenTo(this, 'change:embeds', this.onEmbedsChange);
       this.onEmbedsChange(this, this.get('embeds'));
     },
-
     onEmbedsChange: function(cell, embeds) {
       if (embeds) {
         // Position the embedded cells (since this is relative
@@ -147,10 +131,8 @@
             }
           });
         });
-
       }
     },
-
     onActivityTypeChange: function(cell, type) {
       switch (type) {
         case 'task':
@@ -170,7 +152,6 @@
             }
           });
           break;
-
         case 'event-sub-process':
           cell.attr({
             '.inner': {
@@ -188,7 +169,6 @@
             }
           });
           break;
-
         case 'call-activity':
           cell.attr({
             '.inner': {
@@ -206,7 +186,6 @@
             }
           });
           break;
-
         default:
           throw 'BPMN: Unknown Activity Type: ' + type;
       }
@@ -250,3 +229,31 @@
     }
   }).extend(joint.shapes.liveOps.IconInterface).extend(joint.shapes.liveOps.SubProcessInterface);
 })();
+
+
+/*
+, {
+        name: 'notationBooleanExample',
+        type: 'boolean',
+        label: 'Boolean Test',
+        group: 'general',
+        index: 3,
+        disabled: false
+      }, {
+        name: 'notationTextareaExample',
+        type: 'textarea',
+        label: 'Textarea Test',
+        group: 'general',
+        index: 3,
+        disabled: false
+      }, {
+        name: 'notationInputExample',
+        type: 'input',
+        label: 'Input Test',
+        group: 'general',
+        index: 3,
+        disabled: false,
+        default: 'Some Default Value'
+      }
+
+ */
