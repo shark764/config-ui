@@ -67,6 +67,7 @@
       params: {},
       inputs: [{
         name: 'type',
+        path: 'activityType',
         type: 'select',
         label: 'Task Type',
         group: 'general',

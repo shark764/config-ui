@@ -42,20 +42,14 @@
         _.each(_.groupBy(FlowMockService.activities, 'entity'), function(notations, entity) {
           palette.load(
             _.map(notations, function(notation) {
-              return new joint.shapes.liveOps[entity]({
+              var n = new joint.shapes.liveOps[entity]({
                 content: notation.label,
                 activityType: notation.type,
                 type: 'liveOps.activity',
-                name: notation.name,
-                targeted: notation.targeted,
-                target: notation.target,
-                params: _.reduce(notation.params, function(memo, value, key) {
-                  if (value.default) {
-                    memo[key] = value.default;
-                  }
-                  return memo;
-                }, {})
+                name: notation.name
               });
+              n.attributes.inputs = n.attributes.inputs.concat(notation.inputs);
+              return n;
             }
           ), entity);
           _.each(notations, function(notation) {

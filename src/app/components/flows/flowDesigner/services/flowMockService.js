@@ -1,68 +1,6 @@
 (function() {
   'use strict';
 
-  /*
-    {
-      name: 'is_targeted',
-      type: 'string',
-      label: 'Targeted?',
-      group: 'general',
-      index: 0,
-      disabled: true,
-      required: true,
-      placeholder: 'Specify a target...',
-      defaultsTo: false
-    }, {
-      name: 'target',
-      type: 'string',
-      label: 'Target',
-      group: 'general',
-      index: 0,
-      disabled: true,
-      required: true,
-      placeholder: 'Specify a target...',
-      defaultsTo: 'twilio'
-    }
-
-    // RE-ADD FOR SUBFLOWS TO WORK
-    // {
-    //   name: 'subflow',
-    //   entity: 'activity',
-    //   label: 'Edit Subflow',
-    //   description: 'Edit Subflow',
-    //   type: 'task',
-    //   params: {
-    //     name: {
-    //       source: 'expression',
-    //       type: 'string',
-    //       label: 'Subflow Name',
-    //       icon: 'url',
-    //       tooltip: 'Subflow Name',
-    //       dataSensitivity: 'low',
-    //       mandatory: true
-    //     }
-    //   },
-    //   bindings: {},
-    //   targeted: true,
-    // }
-  */
-
- /*
-  Things removed:
-          targeted: true,
-          target: 'twilio',
-          target: 'client' --> on work offer
-          source: 'expression', on collect digits -> terminator
-          source: 'entity' on media
-            source: 'expression', --> on work offer resourceid and work offer expires
-          bindings:{
-            digits: 'string' --> collect digits
-          }
-          bindings: {
-            theresource: 'string' --> enqueue
-          },
-  */
-
   var FlowMockService = function() {
     return {
       activities: [
@@ -72,20 +10,18 @@
           name: 'play-media',
           entity: 'activity',
           label: 'Play Media',
-          type: 'task',
-          params: {},
           inputs: [{
             name: 'participant',
+            path: 'params.participant',
             type: 'select',
             label: 'Participant:',
-            group: 'general',
-            index: 0,
+            group: 'params',
+            index: 1,
             disabled: false,
             required: true,
             placeholder: 'Select a media...',
             defaultsTo: '',
             hidden: false,
-            dataSensitivity: 'low',
             options: [{
               value: undefined,
               content: 'Please select one...'
@@ -98,29 +34,29 @@
             }]
           }, {
             name: 'media',
+            path: 'params.media',
             type: 'typeahead',
             label: 'Media',
-            group: 'general',
+            group: 'params',
             index: 0,
             disabled: false,
             required: true,
             placeholder: 'Select a media...',
             defaultsTo: '',
             hidden: false,
-            dataSensitivity: 'low',
             source: 'media'
           }, {
             name: 'loop',
+            path: 'params.loop',
             type: 'boolean',
             label: 'Loop?',
-            group: 'general',
-            index: 0,
+            group: 'params',
+            index: 2,
             disabled: false,
             required: true,
             placeholder: null,
             defaultsTo: null,
-            hidden: false,
-            dataSensitivity: 'low'
+            hidden: false
           }]
         },
 
@@ -129,13 +65,12 @@
           name: 'collect-digits',
           entity: 'activity',
           label: 'Collect Digits',
-          type: 'task',
-          params: {},
           inputs: [{
             name: 'media',
+            path: 'params.media',
             type: 'typeahead',
             label: 'Media:',
-            group: 'general',
+            group: 'params',
             index: 0,
             disabled: false,
             required: true,
@@ -144,28 +79,28 @@
             collectionLookup: 'media'
           }, {
             name: 'digits',
+            path: 'params.digits',
             type: 'number',
             label: 'Number of digits:',
-            group: 'general',
+            group: 'params',
             index: 0,
             disabled: false,
             required: true,
             placeholder: 'Select a media...',
             defaultsTo: 5,
-            hidden: false,
-            dataSensitivity: 'low'
+            hidden: false
           }, {
             name: 'terminator',
+            path: 'params.terminator',
             type: 'string',
             label: 'Terminator:',
-            group: 'general',
+            group: 'params',
             index: 0,
             disabled: false,
             required: true,
             placeholder: 'Specify a terminating digit...',
             defaultsTo: 5,
-            hidden: false,
-            dataSensitivity: 'low'
+            hidden: false
           }]
         },
 
@@ -174,20 +109,18 @@
           name: 'enqueue',
           entity: 'activity',
           label: 'Enqueue',
-          type: 'task',
-          params: {},
           inputs: [{
             name: 'queue',
+            path: 'params.queue',
             type: 'typeahead',
             label: 'Queue:',
-            group: 'general',
+            group: 'params',
             index: 0,
             disabled: false,
             required: true,
             placeholder: 'Select a queue...',
             defaultsTo: null,
             hidden: false,
-            dataSensitivity: 'low',
             source: 'queue'
           }]
         },
@@ -197,32 +130,30 @@
           name: 'work-offer',
           entity: 'activity',
           label: 'Work Offer',
-          type: 'task',
-          params: {},
           inputs: [{
             name: 'resourceid',
+            path: 'params.resourceid',
             type: 'string',
             label: 'Resource ID',
-            group: 'general',
+            group: 'params',
             index: 0,
             disabled: false,
             required: true,
             placeholder: 'Specify a resource id...',
             defaultsTo: 'resource.id',
-            hidden: false,
-            dataSensitivity: 'low'
+            hidden: false
           }, {
             name: 'expires',
+            path: 'params.expires',
             type: 'string',
             label: 'Expires',
-            group: 'general',
+            group: 'params',
             index: 0,
             disabled: false,
             required: true,
             placeholder: 'Select a queue...',
             defaultsTo: null,
-            hidden: false,
-            dataSensitivity: 'low'
+            hidden: false
           }]
         },
 
@@ -231,21 +162,23 @@
           name: 'free-resource',
           entity: 'activity',
           label: 'Free Resource',
-          type: 'task',
-          params: {},
           inputs: [{
             name: 'resourceid',
-            source: 'expression',
+            path: 'params.resourceid',
             type: 'string',
             label: 'Resource ID',
-            description: '',
-            icon: 'url',
-            tooltip: 'Resource to free',
-            dataSensitivity: 'low',
-            mandatory: true
+            group: 'params',
+            index: 0,
+            disabled: false,
+            required: true,
+            placeholder: 'Enter a resource ID...',
+            defaultsTo: null,
+            hidden: false
           }]
         }
+
       ],
+
       events: [
         {
           entity: 'start',
