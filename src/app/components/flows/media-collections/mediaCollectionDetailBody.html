@@ -37,7 +37,7 @@
 <input type="text" name="mediaMapChanges" ng-model="mediaMapChanges" ng-hide="true"/>
 
 <div class="clear">
-  <a class="btn pull-right" ng-click="addMapping(resource, detailsForm)"><i class="fa fa-plus"></i></a>
+  <a id="add-media-mapping-button" class="btn pull-right" ng-click="addMapping(resource, detailsForm)"><i class="fa fa-plus"></i></a>
 </div>
 
 <table class="media-collection-table table" >
@@ -78,9 +78,8 @@
         </div>
       </td>
       <td class='remove-col'>
-        <i class="fa fa-times remove" ng-click="removeMapping(resource, detailsForm, $index)"></i>
+        <i id="remove-media-mapping-button" class="fa fa-times remove" ng-click="removeMapping(resource, detailsForm, $index)"></i>
       </td>
     </tr>
   </tbody>
 </table>
-
