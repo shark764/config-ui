@@ -125,6 +125,10 @@ angular.module('liveopsConfigPanel')
           id: 'reports-management-link',
           order: 1
         }
+
+        // TODO: This is coming out for this release as they are only giving access to dashboards for this Beta.
+        //    Will be adding back in once we move forward with data access restrictions.
+
         /*, {
           label: 'Reporting Designer',
           onClick: function(){$state.transitionTo('content.reports', {id: "reporting-designer"});},
