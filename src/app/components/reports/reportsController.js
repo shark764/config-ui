@@ -8,15 +8,20 @@ angular.module('liveopsConfigPanel')
 
       $scope.fetch = function() {
 
+        var username = 'titan-product@liveops.com';
+        var ssopassword = 'JO4IIiv0vuzyhoYoyWpbip0QquoCQyGh';
+        var spaceId = '2846b565-23f8-4032-b563-21f8b7a01cc5';
+        var sessionVars = 'Birst$Groups=\'ExploreData\',\'ScheduleReports\',\'DownloadData\',\'43d0436d-356d-451a-ab73-d9a7e465e255\'';
+
         $http({
           url: BIRST_URL + '/TokenGenerator.aspx?',
           method: 'POST',
           data: null,
           params: {
-            'birst.username': 'titan-product@liveops.com',
-            'birst.ssopassword': 'JO4IIiv0vuzyhoYoyWpbip0QquoCQyGh',
-            'birst.spaceId': '2846b565-23f8-4032-b563-21f8b7a01cc5',
-            'birst.sessionVars': 'Birst$Groups=\'CreateDashboards\',\'CreateReports\',\'ExploreData\',\'ScheduleReports\',\'DownloadData\',\'43d0436d-356d-451a-ab73-d9a7e465e255\''
+            'birst.username': username,
+            'birst.ssopassword': ssopassword,
+            'birst.spaceId': spaceId,
+            'birst.sessionVars': sessionVars
           },
           headers: {'Content-Type': 'application/x-www-form-urlencoded'}
         }).success( function (data, status, headers, config) {
@@ -31,6 +36,7 @@ angular.module('liveopsConfigPanel')
           }
 
           $scope.buildUrl();
+
         }).error( function (data, status, headers, config) {
           $scope.status = status;
         });
