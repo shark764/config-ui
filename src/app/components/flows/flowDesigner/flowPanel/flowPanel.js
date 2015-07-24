@@ -91,7 +91,7 @@
     return tpl += '</div></div></form>';
   }
 
-  var flowPanel = function ($compile, $timeout, $window) {
+  var flowPanel = function ($compile, $timeout) {
     return {
       scope: {
         notation: '=notation'
@@ -107,9 +107,6 @@
         $timeout(function() {
           scope.loading = false;
         });
-
-        // Debug
-        $window.scope = scope;
       }
     };
   };
