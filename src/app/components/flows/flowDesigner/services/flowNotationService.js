@@ -209,7 +209,7 @@
 
         params = _.reduce(activity.params, function(memo, param, key) {
 
-          if (param.source === 'expression' && !_.findKey(model.params, param.key)) {
+          if (param.source === 'expression' && _.has(model.params, param.key)) {
             
             if (!param.when || (expression.eval(param.when, model))) {
               memo[key] = {
@@ -237,9 +237,12 @@
 
         params = _.reduce(model.params, function(memo, param, key) {
           var paramDef = activity.params[key];
-
           if (param.source == 'expression') {
-            memo[paramDef.key] = param.value;
+            if (paramDef.type == 'boolean') {
+              memo[paramDef.key] = (param.value == 'true');
+            } else {
+              memo[paramDef.key] = param.value;
+            }
           } else if (param.source === 'system') {
             memo[paramDef.key] = param.id;
           }
@@ -282,13 +285,8 @@
 
     _evalPrimitive: function(expr) {
 
-      console.log(this.model)
       return _.reduce(expr, function(res, condition, operator) {
-        console.log(condition);
-        console.log(operator);
         return _.reduce(condition, function(res, condValue, condPath) {
-          console.log(condValue);
-          console.log(condPath);
 
           var val = joint.util.getByPath(this.model, condPath, '.');
 

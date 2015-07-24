@@ -105,6 +105,10 @@
               event.timer = notation.timer.value;
             }
 
+            if (notation.terminate) {
+              event.terminate = notation.terminate;
+            }
+
             if (notation.event) {
               event.event = {
                 name: notation.event.name,
