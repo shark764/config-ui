@@ -84,8 +84,10 @@ var Shared = function() {
   };
 
   this.tearDown = function() {
+    // Ignore unsaved changes warnings
+    browser.executeScript("window.onbeforeunload = function(){};");
     browser.get(this.loginPageUrl);
-    
+
     browser.executeScript('window.localStorage.clear()');
     browser.executeScript('window.sessionStorage.clear()');
     // Ignore unsaved changes warnings

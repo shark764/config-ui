@@ -265,7 +265,7 @@ describe('The media collections view', function() {
 
   it('should include valid fields when editing an existing Media Collection', function() {
     shared.firstTableRow.click();
-    expect(mediaCollections.editingMediaHeader.isDisplayed()).toBeTruthy();
+    expect(mediaCollections.editingMediaCollectionHeader.isDisplayed()).toBeTruthy();
     expect(mediaCollections.nameFormField.isDisplayed()).toBeTruthy();
     expect(mediaCollections.descriptionFormField.isDisplayed()).toBeTruthy();
 
@@ -289,7 +289,7 @@ describe('The media collections view', function() {
     shared.firstTableRow.click();
 
     // Verify media collections details in table matches populated field
-    expect(mediaCollections.editingMediaHeader.getText()).toContain(shared.firstTableRow.element(by.css(mediaCollections.nameColumn)).getText());
+    expect(mediaCollections.editingMediaCollectionHeader.getText()).toContain(shared.firstTableRow.element(by.css(mediaCollections.nameColumn)).getText());
     expect(shared.firstTableRow.element(by.css(mediaCollections.nameColumn)).getText()).toBe(mediaCollections.nameFormField.getAttribute('value'));
     expect(shared.firstTableRow.element(by.css(mediaCollections.descriptionColumn)).getText()).toBe(mediaCollections.descriptionFormField.getAttribute('value'));
 
@@ -315,7 +315,7 @@ describe('The media collections view', function() {
           shared.secondTableRow.click();
 
           // Verify media collections details in table matches populated field
-          expect(mediaCollections.editingMediaHeader.getText()).toContain(shared.secondTableRow.element(by.css(mediaCollections.nameColumn)).getText());
+          expect(mediaCollections.editingMediaCollectionHeader.getText()).toContain(shared.secondTableRow.element(by.css(mediaCollections.nameColumn)).getText());
           expect(shared.secondTableRow.element(by.css(mediaCollections.nameColumn)).getText()).toBe(mediaCollections.nameFormField.getAttribute('value'));
           expect(shared.secondTableRow.element(by.css(mediaCollections.descriptionColumn)).getText()).toBe(mediaCollections.descriptionFormField.getAttribute('value'));
 
@@ -373,7 +373,7 @@ describe('The media collections view', function() {
       if (mediaCount > 0) {
         originalDefaultId = mediaCollections.defaultIdDropdown.$('option:checked').getText();
         mappingOriginalId = mediaCollections.mediaIdentifiers.get(0).getAttribute('value');
-        mappingOriginalMedia = mediaCollections.mediaDropdowns.get(0).$('option:checked').getText();
+        mappingOriginalMedia = mediaCollections.mediaDropdowns.get(0).getAttribute('value');
 
         mediaCollections.mediaIdentifiers.get(0).sendKeys('edit');
 
@@ -397,7 +397,7 @@ describe('The media collections view', function() {
       if (mediaCount > 0) {
         expect(mediaCollections.defaultIdDropdown.$('option:checked').getText()).toBe(originalDefaultId);
         expect(mediaCollections.mediaIdentifiers.get(0).getAttribute('value')).toBe(mappingOriginalId);
-        expect(mediaCollections.mediaDropdowns.$('option:checked').getText()).toBe(mappingOriginalMedia);
+        expect(mediaCollections.mediaDropdowns.get(0).getAttribute('value')).toBe(mappingOriginalMedia);
       } else {
         expect(mediaCollections.defaultIdDropdown.isPresent()).toBeFalsy();
       }
@@ -555,14 +555,14 @@ describe('The media collections view', function() {
 
   xit('should require unique identifier field on edit when adding a new Media Mapping', function() {});
 
-  it('should allow a Media Mappings to be removed when editing', function() {
+  it('should allow a Media Mapping to be removed when editing', function() {
     shared.firstTableRow.click();
 
     // Remove existing media
     mediaCollections.mediaMappings.count().then(function(mediaCount) {
-      if (mediaCount > 1) {
+      if (mediaCount > 2) {
         mediaCollections.removeMedia.get(0).click();
-        mediaCollections.defaultIdDropdown.all(by.css('option')).get(1).click();
+        mediaCollections.defaultIdDropdown.all(by.css('option')).get(2).click();
 
         expect(mediaCollections.mediaMappings.count()).toBeLessThan(mediaCount);
 
@@ -826,8 +826,8 @@ describe('The media collections view', function() {
       expect(mediaCollections.mediaCreateAndNewBtn.getAttribute('disabled')).toBeTruthy();
 
       // Error messages displayed
-      expect(mediaCollections.mediaRequiredError.get(3).isDisplayed()).toBeTruthy();
-      expect(mediaCollections.mediaRequiredError.get(3).getText()).toBe('Source must be valid url');
+      expect(mediaCollections.mediaRequiredError.get(2).isDisplayed()).toBeTruthy();
+      expect(mediaCollections.mediaRequiredError.get(2).getText()).toBe('Audio source must be a URL');
     });
 
     xit('should leave Media pane open when selecting Create & New', function() {
