@@ -124,7 +124,8 @@ angular.module('liveopsConfigPanel')
           onClick: function(){$state.transitionTo('content.reports', {id: "historical-dashboards"});},
           id: 'reports-management-link',
           order: 1
-        }, {
+        }
+        /*, {
           label: 'Reporting Designer',
           onClick: function(){$state.transitionTo('content.reports', {id: "reporting-designer"});},
           id: 'reports-management-link',
@@ -134,6 +135,7 @@ angular.module('liveopsConfigPanel')
           onClick: function(){$state.transitionTo('content.reports', {id: "chart-designer"});},
           id: 'reports-management-link',
           order: 3
-        }];
+        }*/
+        ];
     }
   ]);
