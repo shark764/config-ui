@@ -190,7 +190,7 @@
           'params':{
             'queue':{
               'source':'entity',
-              'type':'queue',
+              'type':'queues',
               'mandatory':true,
               'key': 'queue'
             }
