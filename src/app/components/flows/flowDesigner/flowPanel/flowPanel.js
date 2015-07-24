@@ -42,6 +42,7 @@
         var formSection = '<div class="input-group"><label>' + input.label + '</label><div>';
         formSection += '<select ng-init="' + input.name + ' = \'\'" ng-model="notation.model.attributes.' + input.path + '"';
         if (input.disabled === true) { formSection += ' disabled="disabled"'; }
+        if (input.path === 'activityType') { formSection += ' ng-change="activityTypeChanged()"'; }
         formSection += '><option value="">Please select one...</option>';
         _.each(input.options, function (opt) {
           formSection += '<option value="' + opt.value + '">' + opt.content + '</option>';
@@ -101,14 +102,9 @@
       link: function (scope, element) {
         scope.loading = true;
 
-        function getThing () {
-          return scope.notation.model.attributes.activityType;
-        }
-
-        scope.$watch(getThing(), function (oldV, newV) {
-          console.log('Old', oldV);
-          console.log('Notation changed!', newV);
-        }, true);
+        scope.activityTypeChanged = function() {
+          scope.notation.model.set('activityType', scope.notation.model.attributes.activityType);
+        };
 
         var content = $compile(buildTemplate(scope.notation))(scope);
         angular.element(element[0].children[0]).append(content);
