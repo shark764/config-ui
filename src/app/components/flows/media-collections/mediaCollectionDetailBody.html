@@ -52,7 +52,12 @@
       <td>
         <form-error ng-init="mappingFieldName='mapping' + $index" field="detailsForm[mappingFieldName]"
           error-type-required="{{'media.collections.mappingLookup.error' | translate}}"></form-error>
-        <input ng-required="true" type="text" name="{{mappingFieldName}}" ng-model="mapping.lookup" />
+        <input 
+          ng-change="'{{mapping.lookup}}' == resource.defaultMediaKey ? resetDefaultMediaKey(resource, detailsForm) : ''" 
+          ng-required="true" 
+          type="text" 
+          name="{{mappingFieldName}}" 
+          ng-model="mapping.lookup" />
       </td>
       <td>
         <form-error ng-init="fieldName='source' + $index" ng-show="! editMode" field="detailsForm[fieldName]"
