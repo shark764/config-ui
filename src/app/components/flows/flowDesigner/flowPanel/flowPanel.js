@@ -108,6 +108,7 @@
           scope.loading = false;
         });
 
+        // Debug
         $window.scope = scope;
       }
     };
