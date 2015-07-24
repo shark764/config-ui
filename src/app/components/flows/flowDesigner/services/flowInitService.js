@@ -39,20 +39,15 @@
           graph.interfaces.inspectorContainer.css({'right': '-350px'});
         };
         graph.utils.renderPropertiesPanel = function(notation) {
+          graph.utils.showPropertiesPanel();
+          // Don't re-render if the model is already opened in the props panel
+          if (graph.panelScope.notation !== undefined && notation.model.id === graph.panelScope.notation.model.id) { return; }
           graph.interfaces.inspectorContainer.empty();
-          console.log('Panel scope before destroy:', graph.panelScope);
           graph.panelScope.$destroy();
-          console.log('Panel scope after destroy:', graph.panelScope);
           graph.panelScope = $rootScope.$new();
           graph.panelScope.notation = notation;
-
-          console.log('Inputs');
-          _.each(graph.panelScope.notation.model.attributes.inputs, function(i) {
-            console.log(i);
-          });
           var compiledPanel = $compile('<flow-panel notation="notation"></flow-panel>')(graph.panelScope);
           graph.interfaces.inspectorContainer.append(compiledPanel);
-          graph.utils.showPropertiesPanel();
         };
 
         return graph;

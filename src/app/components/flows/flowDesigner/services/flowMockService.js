@@ -16,16 +16,13 @@
             type: 'select',
             label: 'Participant:',
             group: 'params',
-            index: 1,
+            index: 0,
             disabled: false,
             required: true,
             placeholder: 'Select a media...',
             defaultsTo: '',
             hidden: false,
             options: [{
-              value: undefined,
-              content: 'Please select one...'
-            }, {
               value: 'customer',
               content: 'Customer'
             }, {
@@ -38,7 +35,7 @@
             type: 'typeahead',
             label: 'Media',
             group: 'params',
-            index: 0,
+            index: 1,
             disabled: false,
             required: true,
             placeholder: 'Select a media...',

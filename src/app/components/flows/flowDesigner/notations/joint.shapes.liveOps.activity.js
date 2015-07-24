@@ -78,12 +78,16 @@
         defaultsTo: null,
         hidden: false,
         dataSensitivity: 'low',
-        options: [
-          undefined,
-          'task',
-          'event-sub-process',
-          'call-activity'
-        ]
+        options: [{
+          value: 'task',
+          content: 'Task'
+        }, {
+          value: 'event-sub-process',
+          content: 'Event-sub-process'
+        }, {
+          value: 'call-activity',
+          content: 'Call-activity'
+        }]
       }]
     }, joint.shapes.basic.TextBlock.prototype.defaults),
     initialize: function() {

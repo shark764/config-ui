@@ -16,7 +16,7 @@
 
       string: function (input) {
         var formSection = '<div class="input-group"><label>' + input.label + '</label><div>';
-        formSection += '<input type="text" ng-model="' + input.name + '"';
+        formSection += '<input type="text" ng-model="notation.model.attributes.' + input.path + '"';
         if (input.disabled === true) { formSection += ' disabled="disabled"'; }
         formSection += '></input></div></div>';
         return formSection;
@@ -24,7 +24,7 @@
 
       number: function (input) {
         var formSection = '<div class="input-group"><label>' + input.label + '</label><div>';
-        formSection += '<input type="text" ng-model="' + input.name + '"';
+        formSection += '<input type="text" ng-model="notation.model.attributes.' + input.path + '"';
         if (input.disabled === true) { formSection += ' disabled="disabled"'; }
         formSection += '></input></div></div>';
         return formSection;
@@ -32,7 +32,7 @@
 
       textarea: function (input) {
         var formSection = '<div class="input-group"><label>' + input.label + '</label><div>';
-        formSection += '<textarea ng-model="' + input.name + '"';
+        formSection += '<textarea ng-model="notation.model.attributes.' + input.path + '"';
         if (input.disabled === true) { formSection += ' disabled="disabled"'; }
         formSection += '></textarea></div></div>';
         return formSection;
@@ -40,9 +40,13 @@
 
       select: function (input) {
         var formSection = '<div class="input-group"><label>' + input.label + '</label><div>';
-        formSection += '<select ng-model="' + input.name + '"';
+        formSection += '<select ng-init="' + input.name + ' = \'\'" ng-model="notation.model.attributes.' + input.path + '"';
         if (input.disabled === true) { formSection += ' disabled="disabled"'; }
-        formSection += '><option value="undefined">Select one...</option></select></div></div>';
+        formSection += '><option value="">Please select one...</option>';
+        _.each(input.options, function (opt) {
+          formSection += '<option value="' + opt.value + '">' + opt.content + '</option>';
+        });
+        formSection += '</select></div></div>';
         return formSection;
       },
 
@@ -56,7 +60,7 @@
 
       boolean: function (input) {
         var formSection = '<div class="input-group"><label>' + input.label + '</label>';
-        formSection += '<toggle class="status-toggle"><label class="switch switch-green"><input type="checkbox" class="switch-input" ng-model="' + input.name + '"';
+        formSection += '<toggle ng-model="notation.model.attributes.' + input.path + '" class="status-toggle"><label class="switch switch-green"><input type="checkbox" class="switch-input"';
         if (input.disabled === true) { formSection += ' disabled="disabled"'; }
         formSection += '><span class="switch-label" data-on="On" data-off="Off"></span><span class="switch-handle"></span></label></toggle></div>';
         return formSection;
@@ -69,10 +73,15 @@
       tpl += formBuilder.groupHeader(group);
     });
 
+    // Sort by index
+    notation.model.attributes.inputs.sort(function(a, b) {
+      return parseFloat(a.index) + parseFloat(b.index);
+    });
+
     // Iterate over the inputs on the notation, inserting the
     // appropriate type at the appropriate location within
     // the template
-    _.each(_.sortBy(notation.model.attributes.inputs, 'index'), function (input) {
+    _.each(notation.model.attributes.inputs, function (input) {
       var formSection = formBuilder[input.type](input);
       var groupIndex = tpl.indexOf(input.group) + input.group.length + 2;
       tpl = tpl.insert(groupIndex, formSection);
@@ -91,6 +100,8 @@
       restrict: 'E',
       link: function (scope, element) {
         scope.loading = true;
+
+        console.log('Scope in directive...', scope);
 
         var content = $compile(buildTemplate(scope.notation))(scope);
         angular.element(element[0].children[0]).append(content);
