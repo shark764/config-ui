@@ -521,7 +521,7 @@ describe('The media collections view', function() {
     });
   });
 
-  it('should allow Media Mappings to be added when editing with existing Media', function() {
+  it('should allow Media Mappings to be added when editing with existing Media Collection', function() {
     shared.firstTableRow.click();
     randomCollection = Math.floor((Math.random() * 1000) + 1);
     var originalMediaCount = mediaCollections.mediaMappings.count();
@@ -534,6 +534,8 @@ describe('The media collections view', function() {
       mediaCollections.mediaDropdowns.get(mediaCount).click();
       mediaCollections.mediaDropdownSearchFields.get(mediaCount).click();
       mediaCollections.mediaMappings.get(mediaCount).all(by.css('ul')).get(0).click();
+
+      mediaCollections.defaultIdDropdown.all(by.css('option')).get(1).click();
 
       shared.submitFormBtn.click().then(function() {
         expect(shared.successMessage.isDisplayed()).toBeTruthy();
