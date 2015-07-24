@@ -116,36 +116,16 @@ describe('bulkActionExecutor directive', function () {
     });
   });
 
-  describe('ON updateDropDown', function () {
-    var $timeout;
-
-    beforeEach(inject(['$timeout', function (_$timeout) {
-      $timeout = _$timeout;
-
-      isolateScope.updateDropDown(jasmine.any(Object), isolateScope.items[0]);
-      isolateScope.updateDropDown(jasmine.any(Object), isolateScope.items[1]);
-      isolateScope.updateDropDown(jasmine.any(Object), isolateScope.items[2]);
-      $timeout.flush();
-    }]));
-
-    it('should have checkedItems equal to items checked on load', function () {
-      expect(isolateScope.checkedItems.length).toEqual(2);
+  describe('ON selectedItems', function () {
+    it('should return all checked items', function() {
+      var checkedItems = isolateScope.selectedItems();
+      expect(checkedItems.length).toEqual(2);
     });
-
-    it('should add item to checkedItems if checked', function () {
-      isolateScope.items[2].checked = true;
-      isolateScope.updateDropDown(jasmine.any(Object), isolateScope.items[2]);
-      $timeout.flush();
-
-      expect(isolateScope.checkedItems.length).toEqual(3);
-    });
-
-    it('should not add item to checkedItems if not checked', function () {
-      isolateScope.items[1].checked = false;
-      isolateScope.updateDropDown(jasmine.any(Object), isolateScope.items[1]);
-      $timeout.flush();
-
-      expect(isolateScope.checkedItems.length).toEqual(1);
+    
+    it('should never break the $scope.checkedItems reference', function() {
+      var scopeCheckedItems = isolateScope.checkedItems;
+      var checkedItems = isolateScope.selectedItems();
+      expect(checkedItems).toBe(checkedItems);
     });
   });
   

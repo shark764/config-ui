@@ -1,31 +1,32 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('bulkActionExecutor', ['$q', '$timeout', 'Alert', 'Modal', '$translate', 'DirtyForms',
-    function ($q, $timeout, Alert, Modal, $translate, DirtyForms) {
+  .directive('bulkActionExecutor', ['$q', 'Alert', 'Modal', '$translate', 'DirtyForms',
+    function ($q, Alert, Modal, $translate, DirtyForms) {
       return {
         restrict: 'AE',
         scope: {
           items: '=',
           bulkActions: '=',
-          showBulkActions: '=',
-          selectedDisplay: '@'
+          showBulkActions: '='
         },
         transclude: true,
         templateUrl: 'app/shared/directives/bulkActionExecutor/bulkActionExecutor.html',
         link: function ($scope) {
-          $scope.checkedItems = [];
-
-          $scope.confirmExecute = function(){
+          $scope.checkedItems = []
+          
+          $scope.confirmExecute = function () {
             Modal.showConfirm({
               title: $translate.instant('bulkActions.confirm.title'),
-              message: $translate.instant('bulkActions.confirm.message', {numItems: $scope.checkedItems.length}),
+              message: $translate.instant('bulkActions.confirm.message', {
+                numItems: $scope.selectedItems().length
+              }),
               okCallback: $scope.execute
             });
           };
 
           $scope.closeBulk = function () {
-            DirtyForms.confirmIfDirty(function(){
+            DirtyForms.confirmIfDirty(function () {
               $scope.showBulkActions = false;
             });
           };
@@ -69,15 +70,15 @@ angular.module('liveopsConfigPanel')
             return selectedItems;
           };
 
-          $scope.updateDropDown = function (event, item) {
-            $timeout(function () {
-              if (item.checked && $scope.checkedItems.indexOf(item) < 0) {
+          $scope.selectedItems = function () {
+            $scope.checkedItems.clear();
+            angular.forEach($scope.items, function (item) {
+              if(item.checked) {
                 $scope.checkedItems.push(item);
-              } else {
-                $scope.checkedItems.removeItem(item);
               }
-              $scope.$apply();
-            }, 5);
+            });
+            
+            return $scope.checkedItems;
           };
 
           $scope.cancel = function () {
@@ -86,19 +87,16 @@ angular.module('liveopsConfigPanel')
             });
           };
 
-          $scope.resetForm = function() {
+          $scope.resetForm = function () {
             $scope.bulkActionForm.$setUntouched();
             $scope.bulkActionForm.$setPristine();
-            angular.forEach($scope.bulkActions, function(bulkAction) {
+            angular.forEach($scope.bulkActions, function (bulkAction) {
               bulkAction.reset();
             });
           };
 
-          $scope.$on('table:resource:checked', $scope.updateDropDown);
-          $scope.$on('dropdown:item:checked', $scope.updateDropDown);
-          
-          $scope.$watch('showBulkActions', function(newValue){
-            if (!newValue){
+          $scope.$watch('showBulkActions', function (newValue) {
+            if (!newValue) {
               $scope.resetForm();
             }
           });

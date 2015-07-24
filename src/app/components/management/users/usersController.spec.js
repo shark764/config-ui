@@ -46,7 +46,7 @@ describe('users controller', function () {
   it('should catch the on:click:create event', inject([ function () {
       $scope.$broadcast('table:on:click:create');
       expect($scope.selectedUser).toBeDefined();
-      expect($scope.selectedUser.status).toEqual(true);
+      expect($scope.selectedUser.status).toEqual('enabled');
     }]));
 
   describe('updateDisplayName function', function () {

@@ -10,6 +10,10 @@ angular.module('liveopsConfigPanel')
       {name: 'adminUserId'}
     ]);
     
+    Tenant.prototype.getDisplay = function () {
+      return this.name;
+    };
+    
     Tenant.resourceName = 'Tenant';
     return Tenant;
   }]);

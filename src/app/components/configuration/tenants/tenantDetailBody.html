@@ -13,7 +13,7 @@
 <div class="input-group">
   <label>{{'tenant.details.admin' | translate}}</label>
   <div>
-    <select ng-model="resource.adminUserId" ng-options="user.id as user.fullName() for user in users">
+    <select ng-model="resource.adminUserId" ng-options="user.id as user.getDisplay() for user in users">
     </select>
   </div>
 </div>
