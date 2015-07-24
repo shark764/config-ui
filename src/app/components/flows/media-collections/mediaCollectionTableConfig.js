@@ -11,8 +11,18 @@ angular.module('liveopsConfigPanel')
           'name': 'description'
         }, {
           'header': $translate.instant('value.identifier'),
-          'name': 'identifier',
-          'transclude': true
+          'resolve': function(collection) {
+            var identifiers = '';
+            for (var i = 0; i < collection.mediaMap.length; i++){
+              if (identifiers !== ''){
+                identifiers += ', ';
+              }
+
+             identifiers += collection.mediaMap[i].lookup;
+            }
+            
+            return identifiers;
+          }
         }],
         'searchOn' : ['name'],
         'orderBy' : ['name'],
