@@ -101,8 +101,6 @@
       link: function (scope, element) {
         scope.loading = true;
 
-        console.log('Scope in directive...', scope);
-
         var content = $compile(buildTemplate(scope.notation))(scope);
         angular.element(element[0].children[0]).append(content);
 

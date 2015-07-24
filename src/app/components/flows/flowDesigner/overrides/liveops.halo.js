@@ -17,7 +17,6 @@
     var blockHelperMissing = helpers.blockHelperMissing;
 
     function program1(depth0) {
-      console.log('Data', data);
       var buffer = '';
       buffer += 'style=\"background-image: url(' + escapeExpression((typeof depth0 === functionType ? depth0.apply(depth0) : depth0)) + ')\"';
       return buffer;
