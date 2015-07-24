@@ -101,6 +101,15 @@
       link: function (scope, element) {
         scope.loading = true;
 
+        function getThing () {
+          return scope.notation.model.attributes.activityType;
+        }
+
+        scope.$watch(getThing(), function (oldV, newV) {
+          console.log('Old', oldV);
+          console.log('Notation changed!', newV);
+        }, true);
+
         var content = $compile(buildTemplate(scope.notation))(scope);
         angular.element(element[0].children[0]).append(content);
 
