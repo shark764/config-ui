@@ -92,9 +92,9 @@ angular.module('liveopsConfigPanel')
             }
           });
           
-          Resource.cachedQuery = function(params, cacheKey) {
+          Resource.cachedQuery = function(params, cacheKey, invalidate) {
             var key = cacheKey ? cacheKey : this.resourceName;
-            if(!queryCache.get(key)) {
+            if(!queryCache.get(key) || invalidate) {
               var users = this.query(params);
               queryCache.put(key, users);
               return users;
