@@ -24,6 +24,18 @@ describe('The flows view', function() {
     shared.tearDown();
   });
 
+  it('should add new flow to table', function() {
+    var flowAdded = false;
+    randomFlow = Math.floor((Math.random() * 1000) + 1);
+    shared.createBtn.click();
+
+    flows.nameFormField.sendKeys('Flow ' + randomFlow);
+    flows.descriptionFormField.sendKeys('This is a new flow description');
+    flows.typeFormDropdown.all(by.css('option')).get((randomFlow % 3) + 1).click();
+    shared.submitFormBtn.click();
+    expect(shared.successMessage.isDisplayed()).toBeTruthy();
+  });
+
   it('should include flow management page components', function() {
     expect(shared.navBar.isDisplayed()).toBeTruthy();
 
@@ -50,7 +62,7 @@ describe('The flows view', function() {
 
   it('should allow the Flow fields to be updated', function() {
     shared.firstTableRow.click();
-    
+
     flows.versionsTableElements.count().then(function(curFlowVersionCount) {
       randomFlow = Math.floor((Math.random() * 1000) + 1);
 
@@ -84,7 +96,6 @@ describe('The flows view', function() {
 
     // Submit button is still disabled
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
-    shared.submitFormBtn.click();
 
     expect(shared.tableElements.count()).toBe(flowCount);
     expect(shared.successMessage.isPresent()).toBeFalsy();
@@ -215,7 +226,6 @@ describe('The flows view', function() {
     flows.versionDescriptionFormField.sendKeys('Description for flow version ' + randomFlow);
     expect(flows.createVersionFormBtn.getAttribute('disabled')).toBeTruthy();
 
-    flows.createVersionFormBtn.click();
     expect(flows.requiredErrors.get(3).isDisplayed()).toBeTruthy();
     expect(flows.requiredErrors.get(3).getText()).toBe('Field \"Name\" is required.');
 
@@ -247,7 +257,6 @@ describe('The flows view', function() {
 
     // Submit button is still disabled
     expect(flows.createVersionFormBtn.getAttribute('disabled')).toBeTruthy();
-    flows.createVersionFormBtn.click();
 
     expect(flows.requiredErrors.get(3).isDisplayed()).toBeTruthy();
     expect(flows.requiredErrors.get(3).getText()).toBe('Field \"Name\" is required.');

@@ -6,38 +6,12 @@ describe('The view navigation', function() {
     navigation = require('../navigation/navigation.po.js'),
     params = browser.params;
 
-  afterAll(function() {
+  beforeAll(function() {
     shared.tearDown();
   });
 
-  it('should allow the user to close the details panel', function () {
-    loginPage.login(params.login.user, params.login.password);
-
-    browser.get(shared.usersPageUrl);
-
-    shared.firstTableRow.click();
-
-    expect(shared.detailsPanel.isDisplayed()).toBeTruthy();
-
-    navigation.closePanelButton.click();
-
-    expect(shared.detailsPanel.isDisplayed()).toBeFalsy();
-  });
-
-  xit('should allow the user to close the bulk actions panel', function () {
-    // enable this test when Phil's PR for hiding and showing the bulk action goes in
-
-    loginPage.login(params.login.user, params.login.password);
-
-    browser.get(shared.usersPageUrl);
-
-    shared.actionsBtn.click();
-
-    expect(shared.detailsPanel.isDisplayed()).toBeTruthy();
-
-    navigation.closePanelButton.click();
-
-    expect(shared.detailsPanel.isDisplayed()).toBeFalsy();
+  afterEach(function() {
+    shared.tearDown();
   });
 
   it('should redirect to login page when not logged in', function() {
@@ -53,10 +27,42 @@ describe('The view navigation', function() {
     browser.get(shared.invitesPageUrl);
     expect(browser.getCurrentUrl()).toBe(shared.loginPageUrl);
   });
-
-  xit('should navigate to login page for unknown urls and not logged in', function() {
+  
+  it('should navigate to login page for unknown urls and not logged in', function() {
     browser.get(shared.mainUrl + 'unknownpage');
     expect(browser.getCurrentUrl()).toBe(shared.loginPageUrl);
+  });
+
+  it('should allow the user to close the details panel', function() {
+    loginPage.login(params.login.user, params.login.password);
+
+    browser.get(shared.usersPageUrl);
+
+    shared.firstTableRow.click();
+
+    expect(shared.detailsPanel.isDisplayed()).toBeTruthy();
+    expect(shared.rightPanel.isDisplayed()).toBeTruthy();
+
+    navigation.closePanelButton.click();
+
+    expect(shared.detailsPanel.isDisplayed()).toBeFalsy();
+    expect(shared.rightPanel.isDisplayed()).toBeFalsy();
+  });
+
+  it('should allow the user to close the bulk actions panel', function() {
+    loginPage.login(params.login.user, params.login.password);
+
+    browser.get(shared.usersPageUrl);
+
+    shared.actionsBtn.click();
+
+    expect(shared.bulkActionsPanel.isDisplayed()).toBeTruthy();
+    expect(shared.rightPanel.isDisplayed()).toBeTruthy();
+
+    navigation.closeBulkPanelButton.click();
+
+    expect(shared.bulkActionsPanel.isDisplayed()).toBeFalsy();
+    expect(shared.rightPanel.isDisplayed()).toBeFalsy();
   });
 
   it('should navigate to correct page when logged in', function() {
@@ -75,7 +81,8 @@ describe('The view navigation', function() {
     expect(browser.getCurrentUrl()).toBe(shared.invitesPageUrl);
   });
 
-  xit('should navigate to main page for unknown urls and logged in', function() {
+  it('should navigate to main page for unknown urls and logged in', function() {
+    loginPage.login(params.login.user, params.login.password);
     browser.get(shared.mainUrl + 'unknownpage');
     expect(browser.getCurrentUrl()).toContain(shared.usersPageUrl);
   });

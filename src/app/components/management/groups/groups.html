@@ -2,7 +2,7 @@
 <table-controls
     id="table-pane"
     config="tableConfig"
-    items="groups"
+    items="fetchGroups()"
     selected="selectedGroup"
     resource-name="group">
 
@@ -12,7 +12,7 @@
   </span>
 
   <span name="members">
-    {{item.members.length}}
+    {{item.fetchGroupUsers().length}}
   </span>
 
 </table-controls>
@@ -20,7 +20,7 @@
 <resize-handle
     ng-show="selectedGroup || showBulkActions"
     id="resize-pane"
-    right-element-id="details-pane"
+    right-element-id="right-panel"
     left-element-id="table-pane"
     left-min-width="600"
     right-min-width="300"></resize-handle>
@@ -36,6 +36,6 @@
       resource-name="group"></resource-details>
 
   <bulk-action-executor class="details-pane group-ba" ng-show="showBulkActions" items="groups" bulk-actions="bulkActions" show-bulk-actions="showBulkActions" selected-display="name">
-    <ba-set-group-status bulk-action="bulkActions.setGroupStatus"></ba-set-skill-status>
+    <ba-set-group-status bulk-action="bulkActions.setGroupStatus"></ba-set-group-status>
   </bulk-action-executor>
 </div>

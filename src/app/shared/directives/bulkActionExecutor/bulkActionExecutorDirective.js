@@ -26,7 +26,7 @@ angular.module('liveopsConfigPanel')
 
           $scope.closeBulk = function () {
             DirtyForms.confirmIfDirty(function(){
-              $scope.showBulkActions = false; // this will work when Phil pushes his PR.
+              $scope.showBulkActions = false;
             });
           };
 
@@ -96,6 +96,12 @@ angular.module('liveopsConfigPanel')
 
           $scope.$on('table:resource:checked', $scope.updateDropDown);
           $scope.$on('dropdown:item:checked', $scope.updateDropDown);
+          
+          $scope.$watch('showBulkActions', function(newValue){
+            if (!newValue){
+              $scope.resetForm();
+            }
+          });
         }
       };
     }

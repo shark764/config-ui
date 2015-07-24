@@ -7,7 +7,7 @@ textarea{
   resize: vertical;
 }
 
-input[type=password], input[type=text], input[type=email], input[type=tel], input[type=number], select, textarea{  background-color: #fff;
+input[type=password], input[type=text], input[type=email], input[type=tel], input[type=number], input[type=url], select, textarea{  background-color: #fff;
   border-radius: 3px;
   border: 1px solid transparent;
   box-shadow: 0 1px 2px rgba(0,0,0,0.2) inset, 0 -1px 0 rgba(0,0,0,0.05) inset;
@@ -40,6 +40,14 @@ input[type=password], input[type=text], input[type=email], input[type=tel], inpu
   
   &[disabled] {
     color: $grey;
+  }
+}
+
+select.default-selected {
+  color: $grey;
+  
+  option:not([disabled]){
+    color: $darkest-grey;
   }
 }
 

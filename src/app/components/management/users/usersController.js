@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('UsersController', ['$scope', '$window', 'userRoles', 'User', 'Session', 'AuthService', 'userTableConfig', 'Invite', 'Alert', 'flowSetup', 'BulkAction', 'DirtyForms',
-    function ($scope, $window, userRoles, User, Session, AuthService, userTableConfig, Invite, Alert, flowSetup, BulkAction, DirtyForms) {
+  .controller('UsersController', ['$scope', '$window', 'userRoles', 'User', 'Session', 'AuthService', 'userTableConfig', 'Invite', 'Alert', 'flowSetup', 'BulkAction',
+    function ($scope, $window, userRoles, User, Session, AuthService, userTableConfig, Invite, Alert, flowSetup, BulkAction) {
       var self = this;
       $scope.Session = Session;
 
@@ -53,12 +53,12 @@ angular.module('liveopsConfigPanel')
         return error;
       };
 
-      $scope.fetch = function () {
-        $scope.users = User.query({
+      $scope.fetchUsers = function () {
+        return User.cachedQuery({
           tenantId: Session.tenant.tenantId
         });
       };
-
+      
       $scope.create = function () {
         $scope.selectedUser = new User({
           status: true
@@ -90,16 +90,7 @@ angular.module('liveopsConfigPanel')
         }
       };
 
-      $scope.$watch('Session.tenant.tenantId', function (old, news) {
-        if (angular.equals(old, news)) {
-          return;
-        }
-
-        $scope.fetch();
-      }, true);
-
       $scope.tableConfig = userTableConfig;
-      $scope.fetch();
       $scope.bulkActions = {
         setStatus: new BulkAction(),
         resetPassword: new BulkAction(),

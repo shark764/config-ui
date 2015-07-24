@@ -1,13 +1,13 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('FlowManagementController', ['$scope', '$state', 'Session', 'Flow', 'flowTableConfig', 'flowTypes', 'FlowVersion',
-    function ($scope, $state, Session, Flow, flowTableConfig, flowTypes, FlowVersion) {
+  .controller('FlowManagementController', ['$scope', '$state', 'Session', 'Flow', 'flowTableConfig', 'flowTypes', 'FlowVersion', 'BulkAction',
+    function ($scope, $state, Session, Flow, flowTableConfig, flowTypes, FlowVersion, BulkAction) {
       $scope.redirectToInvites();
       $scope.versions = [];
 
-      $scope.fetch = function () {
-        $scope.flows = Flow.query({
+      $scope.fetchFlows = function () {
+        return Flow.cachedQuery({
           tenantId: Session.tenant.tenantId
         });
       };
@@ -36,17 +36,26 @@ angular.module('liveopsConfigPanel')
       };
 
       $scope.$on('table:on:click:create', function () {
+        $scope.showBulkActions = false;
         $scope.create();
       });
-
-      $scope.$watch('Session.tenant.tenantId', $scope.fetch, true);
 
       $scope.additional = {
         versions: $scope.versions,
         flowTypes: flowTypes
       };
 
-      $scope.fetch();
+      $scope.$on('table:resource:selected', function () {
+        $scope.showBulkActions = false;
+      });
+
+      $scope.$on('table:on:click:actions', function () {
+        $scope.showBulkActions = true;
+      });
+      
       $scope.tableConfig = flowTableConfig;
+      $scope.bulkActions = {
+          setFlowStatus: new BulkAction()
+        };
     }
   ]);

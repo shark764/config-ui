@@ -1,9 +1,10 @@
 <table-controls
   id="table-pane"
   config="tableConfig"
-  items="medias"
+  items="fetchMedias()"
   selected="selectedMedia"
-  resource-name="media"></table-controls>
+  resource-name="media"
+  hide-bulk-actions="true"></table-controls>
 
 <resize-handle
   ng-show="!! selectedMedia"

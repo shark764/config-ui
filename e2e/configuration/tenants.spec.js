@@ -58,7 +58,9 @@ describe('The tenants view', function() {
 
     tenants.nameFormField.clear();
     tenants.descriptionFormField.click();
-    shared.submitFormBtn.click();
+
+    // Submit button is still disabled
+    expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
 
     expect(tenants.nameRequiredError.get(0).isDisplayed()).toBeTruthy();
     expect(tenants.nameRequiredError.get(0).getText()).toBe('Please enter a name');
@@ -76,18 +78,17 @@ describe('The tenants view', function() {
     });
   });
 
-  xit('should not require admin when editing', function() {
-    // TODO Fails from existing bug
+  xit('should require admin when editing', function() {
     tenants.firstTableRow.click();
 
     // Edit fields
     tenants.adminFormDropDown.all(by.css('option')).get(0).click();
     tenants.descriptionFormField.click();
 
-    expect(tenants.adminFormDropDown.getAttribute('value')).toBe('');
-    shared.submitFormBtn.click().then(function() {
-      expect(shared.successMessage.isDisplayed()).toBeTruthy();
-    });
+    expect(tenants.adminFormDropDown.getAttribute('value')).toBe('?');
+
+    // Submit button is still disabled
+    expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
   });
 
   it('should reset fields after editing and selecting Cancel', function() {
@@ -100,7 +101,7 @@ describe('The tenants view', function() {
     // Edit fields
     tenants.nameFormField.sendKeys('Edit');
     tenants.descriptionFormField.sendKeys('Edit');
-    tenants.adminFormDropDown.all(by.css('option')).get(1).click();
+    tenants.adminFormDropDown.all(by.css('option')).get(0).click();
 
     shared.cancelFormBtn.click();
 
@@ -109,7 +110,7 @@ describe('The tenants view', function() {
     expect(alertDialog.accept).toBeDefined();
     expect(alertDialog.dismiss).toBeDefined();
     alertDialog.accept();
-    
+
     expect(shared.successMessage.isPresent()).toBeFalsy();
 
     // Fields reset to original values
@@ -124,7 +125,7 @@ describe('The tenants view', function() {
     // Edit fields
     tenants.nameFormField.sendKeys('Edit');
     tenants.descriptionFormField.sendKeys('Edit');
-    tenants.adminFormDropDown.all(by.css('option')).get(1).click();
+    tenants.adminFormDropDown.all(by.css('option')).get(0).click();
     shared.submitFormBtn.click().then(function() {
       expect(tenants.nameRequiredError.get(0).isDisplayed()).toBeFalsy();
       expect(shared.successMessage.isDisplayed()).toBeTruthy();

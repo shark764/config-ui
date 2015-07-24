@@ -70,7 +70,7 @@
     }
 
     li {
-      border-left: 3px solid #fff;
+      border-left: 5px solid #fff;
       color: $dark-grey;
       background: #FFFFFF;
       padding: 10px 6px 10px 5px;
@@ -84,7 +84,6 @@
     li:hover {
       color: $dark-grey;
       background: $accent-light;
-      background-color: $lightest-grey;
       border-left: 5px solid $accent1
     }
   }

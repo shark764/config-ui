@@ -8,18 +8,21 @@ exports.config = {
   sauceKey: process.env.SAUCE_ACCESS_KEY,
 
   capabilities: {
+    'platform': 'Windows 8',
     'browserName': 'chrome',
-    'version': '35',
-    'tunnelIdentifier': 'sauce-tunnel-1',
+    'version': '43',
+    'screenResolution': '1280x1024',
+    'tunnelIdentifier': process.env.SAUCE_TUNNEL,
     // Test Identifiers - For easier grouping and reference in Sauce Labs
-    'name': 'Sauce Labs Test2',
-    'build': '0000',
-    'tags': ['Blue_Spurs', 'E2E', 'regression'],
+    'name': 'Sauce Labs Test',
+    'build': '0001',
+    'tags': ['BlueSpurs', 'full-regression'],
+    'max-duration': '5400',
   },
 
   // Timeout time in milliseconds; prevents Protractor waiting to synchronize timeouts
   // Defaults to 11 seconds
-  allScriptsTimeout: 20000,
+  allScriptsTimeout: 30000,
 
   // This can be changed via the command line as:
   // --params.login.user 'ngrocks'
@@ -41,10 +44,10 @@ exports.config = {
   suites: {
     // Smoke test suite - Nothing added or edited
     smoke: [
-      paths.e2e + '/login/**/*.spec.js',
-      paths.e2e + '/navigation/**/*.spec.js',
-      paths.e2e + '/search.spec.js',
-      paths.e2e + '/userProfile/**/*.spec.js'
+      paths.e2e + '/login/*.spec.js',
+      paths.e2e + '/navigation/*.spec.js',
+      paths.e2e + '/tableControls/*.spec.js',
+      paths.e2e + '/userProfile/*.spec.js'
     ],
     regression: [paths.e2e + '/**/*.spec.js']
   },
@@ -53,6 +56,6 @@ exports.config = {
 
   jasmineNodeOpts: {
     showColors: true,
-    defaultTimeoutInterval: 30000
+    defaultTimeoutInterval: 100000
   }
 };

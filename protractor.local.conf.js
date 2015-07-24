@@ -11,7 +11,7 @@ exports.config = {
 
   // Timeout time in milliseconds; prevents Protractor waiting to synchronize timeouts
   // Defaults to 11 seconds
-  allScriptsTimeout: 20000,
+  allScriptsTimeout: 30000,
 
   // This can be changed via the command line as:
   // --params.login.user 'ngrocks'

@@ -30,6 +30,8 @@ var UserPage = function() {
   this.allUserStatus = this.statusTableDropDown.element(by.css('.all'));
   this.userStatuses = this.statusTableDropDown.all(by.repeater('option in options track by option[valuePath]'));
   this.userStatusInputs = this.statusTableDropDown.all(by.css('input'));
+  
+  this.statusBulkEnableCheck = element(by.id('user-status-bulk-enable-check'));
 };
 
 module.exports = new UserPage();

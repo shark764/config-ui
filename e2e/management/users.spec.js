@@ -273,7 +273,6 @@ describe('The users view', function() {
 
     // Submit button is still disabled
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
-    shared.submitFormBtn.click();
 
     // Error messages displayed
     expect(users.requiredErrors.get(0).isDisplayed()).toBeTruthy();
@@ -291,7 +290,6 @@ describe('The users view', function() {
 
     // Submit button is still disabled
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
-    shared.submitFormBtn.click();
 
     // Error messages displayed
     expect(users.requiredErrors.get(1).isDisplayed()).toBeTruthy();
@@ -309,7 +307,6 @@ describe('The users view', function() {
 
     // Submit button is still disabled
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
-    shared.submitFormBtn.click();
 
     // Error messages displayed
     expect(users.requiredErrors.get(2).isDisplayed()).toBeTruthy();
@@ -324,7 +321,6 @@ describe('The users view', function() {
     // Edit fields
     users.externalIdFormField.sendKeys('temp'); // Incase the field was already empty
     users.externalIdFormField.clear();
-    users.firstNameFormField.click();
     shared.submitFormBtn.click().then(function() {
       expect(shared.successMessage.isDisplayed()).toBeTruthy();
     });
@@ -373,7 +369,6 @@ describe('The users view', function() {
 
     // Submit button is still disabled
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
-    shared.submitFormBtn.click();
 
     // Error messages displayed
     expect(users.requiredErrors.get(5).isDisplayed()).toBeTruthy();
@@ -393,8 +388,6 @@ describe('The users view', function() {
     users.displayNameFormField.sendKeys(' ');
     users.externalIdFormField.clear();
 
-    // Select Okay with 'empty' fields, confirm error message displayed, no user is created
-    shared.submitFormBtn.click();
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
     expect(shared.tableElements.count()).toBe(userCount);
 
@@ -461,4 +454,21 @@ describe('The users view', function() {
       expect(visible).toBeFalsy();
     })
   });
+  
+  describe('bulk actions', function(){
+    //Regression test for TITAN2-2237
+    it('should only display confirm dialog once when switching selected elements', function() {
+      //Dirty the bulk action form
+      shared.actionsBtn.click();
+      users.statusBulkEnableCheck.click();
+      
+      //Select a table item and dismiss the expected alert
+      shared.firstTableRow.click();
+      shared.dismissChanges();
+      
+      //Select another table item and expect there not to be an alert
+      shared.secondTableRow.click();
+    });
+  });
+  
 });
