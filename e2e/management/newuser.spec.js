@@ -34,7 +34,6 @@ describe('The create new user form', function() {
     shared.createBtn.click();
     expect(users.firstNameFormField.isDisplayed()).toBeTruthy();
     expect(users.lastNameFormField.isDisplayed()).toBeTruthy();
-    expect(users.displayNameFormField.isDisplayed()).toBeTruthy();
     expect(users.emailFormField.isDisplayed()).toBeTruthy();
     expect(users.passwordFormField.isDisplayed()).toBeTruthy();
     expect(users.externalIdFormField.isDisplayed()).toBeTruthy();
@@ -60,7 +59,6 @@ describe('The create new user form', function() {
     expect(users.createNewUserHeader.getText()).toBe('Creating New User');
     expect(users.firstNameFormField.getAttribute('value')).toBe('');
     expect(users.lastNameFormField.getAttribute('value')).toBe('');
-    expect(users.displayNameFormField.getAttribute('value')).toBe('');
     expect(users.emailFormField.getAttribute('value')).toBe('');
     expect(users.externalIdFormField.getAttribute('value')).toBe('');
     expect(users.personalTelephoneFormField.getAttribute('value')).toBe('');
@@ -83,7 +81,6 @@ describe('The create new user form', function() {
     users.emailFormField.sendKeys(' ');
     users.firstNameFormField.sendKeys(' ');
     users.lastNameFormField.sendKeys(' ');
-    users.displayNameFormField.sendKeys(' ');
     users.personalTelephoneFormField.sendKeys(' ');
     users.externalIdFormField.sendKeys(' ');
 
@@ -109,7 +106,6 @@ describe('The create new user form', function() {
     
     users.firstNameFormField.sendKeys('First' + randomUser);
     users.lastNameFormField.sendKeys('Last' + randomUser);
-    users.displayNameFormField.sendKeys('Display' + randomUser);
     users.emailFormField.sendKeys('titantest' + randomUser + '@mailinator.com');
     users.passwordFormField.sendKeys('password');
     users.externalIdFormField.sendKeys(randomUser);
@@ -146,7 +142,6 @@ describe('The create new user form', function() {
     shared.createBtn.click();
     users.firstNameFormField.sendKeys('First' + randomUser);
     users.lastNameFormField.sendKeys('Last' + randomUser);
-    users.displayNameFormField.sendKeys('Display' + randomUser);
     users.emailFormField.sendKeys('titantest' + randomUser + '@mailinator.com');
     users.passwordFormField.sendKeys('password');
     users.externalIdFormField.sendKeys(randomUser);
@@ -164,7 +159,6 @@ describe('The create new user form', function() {
     // Fields are cleared
     expect(users.firstNameFormField.getAttribute('value')).toBe('');
     expect(users.lastNameFormField.getAttribute('value')).toBe('');
-    expect(users.displayNameFormField.getAttribute('value')).toBe('');
     expect(users.emailFormField.getAttribute('value')).toBe('');
     expect(users.externalIdFormField.getAttribute('value')).toBe('');
     expect(users.personalTelephoneFormField.getAttribute('value')).toBe('');
@@ -194,7 +188,6 @@ describe('The create new user form', function() {
     // First name field blank
     users.firstNameFormField.click();
     users.lastNameFormField.sendKeys('Last' + randomUser);
-    users.displayNameFormField.sendKeys('Display' + randomUser);
     users.emailFormField.sendKeys('titantest' + randomUser + '@mailinator.com');
     users.passwordFormField.sendKeys('password');
     users.externalIdFormField.sendKeys('12345');
@@ -215,7 +208,6 @@ describe('The create new user form', function() {
     // Last name field blank
     users.firstNameFormField.sendKeys('First' + randomUser);
     users.lastNameFormField.click();
-    users.displayNameFormField.sendKeys('Display' + randomUser);
     users.emailFormField.sendKeys('titantest' + randomUser + '@mailinator.com');
     users.passwordFormField.sendKeys('password');
     users.externalIdFormField.sendKeys('12345');
@@ -229,46 +221,6 @@ describe('The create new user form', function() {
     expect(users.requiredErrors.get(3).getText()).toBe('Please enter a last name');
   });
 
-  it('should require Display Name', function() {
-    randomUser = Math.floor((Math.random() * 1000) + 1);
-    shared.createBtn.click();
-
-    // Display name field blank
-    users.firstNameFormField.sendKeys('First' + randomUser);
-    users.lastNameFormField.sendKeys('Last' + randomUser);
-    users.displayNameFormField.clear();
-    users.emailFormField.sendKeys('titantest' + randomUser + '@mailinator.com');
-    users.passwordFormField.sendKeys('password');
-    users.externalIdFormField.sendKeys('12345');
-    users.personalTelephoneFormField.sendKeys('15062345678');
-
-    expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
-    expect(shared.tableElements.count()).toBe(userCount);
-    expect(shared.successMessage.isPresent()).toBeFalsy();
-
-    expect(users.requiredErrors.get(4).isDisplayed()).toBeTruthy;
-    expect(users.requiredErrors.get(4).getText()).toBe('Please enter a display name');
-  });
-
-  it('should use default Display Name', function() {
-    randomUser = Math.floor((Math.random() * 1000) + 1);
-    shared.createBtn.click();
-
-    // Display name field blank
-    users.firstNameFormField.sendKeys('First' + randomUser);
-    users.lastNameFormField.sendKeys('Last' + randomUser);
-    users.emailFormField.sendKeys('titantest' + randomUser + '@mailinator.com');
-    users.passwordFormField.sendKeys('password');
-    users.externalIdFormField.sendKeys('12345');
-    users.personalTelephoneFormField.sendKeys('15062345678');
-
-    expect(users.displayNameFormField.getAttribute('value')).toBe('First' + randomUser + ' Last' + randomUser);
-    shared.submitFormBtn.click().then(function () {
-      expect(shared.tableElements.count()).toBeGreaterThan(userCount);
-      expect(shared.successMessage.isDisplayed()).toBeTruthy();
-    });
-  });
-
   it('should require Email field', function() {
     randomUser = Math.floor((Math.random() * 1000) + 1);
     shared.createBtn.click();
@@ -277,7 +229,6 @@ describe('The create new user form', function() {
     users.emailFormField.click();
     users.firstNameFormField.sendKeys('First' + randomUser);
     users.lastNameFormField.sendKeys('Last' + randomUser);
-    users.displayNameFormField.sendKeys('Display' + randomUser);
     users.passwordFormField.sendKeys('password');
     users.externalIdFormField.sendKeys('12345');
     users.personalTelephoneFormField.sendKeys('15062345678');
@@ -297,7 +248,6 @@ describe('The create new user form', function() {
     // Email field blank
     users.firstNameFormField.sendKeys('First' + randomUser);
     users.lastNameFormField.sendKeys('Last' + randomUser);
-    users.displayNameFormField.sendKeys('Display' + randomUser);
     users.emailFormField.sendKeys('titantest' + randomUser + '@mailinator.com');
     users.passwordFormField.click();
     users.externalIdFormField.sendKeys('12345');
@@ -320,7 +270,6 @@ describe('The create new user form', function() {
     shared.createBtn.click();
     users.firstNameFormField.sendKeys('First' + randomUser);
     users.lastNameFormField.sendKeys('Last' + randomUser);
-    users.displayNameFormField.sendKeys('Display' + randomUser);
     users.emailFormField.sendKeys('titantest' + randomUser + '@mailinator.com');
     users.passwordFormField.sendKeys('password');
     shared.submitFormBtn.click().then(function() {
@@ -335,7 +284,6 @@ describe('The create new user form', function() {
 
     users.firstNameFormField.sendKeys('First' + randomUser);
     users.lastNameFormField.sendKeys('Last' + randomUser);
-    users.displayNameFormField.sendKeys('Display' + randomUser);
     users.passwordFormField.sendKeys('password');
     users.externalIdFormField.sendKeys('12345');
 
@@ -360,7 +308,6 @@ describe('The create new user form', function() {
     randomUser = Math.floor((Math.random() * 1000) + 1);
     users.firstNameFormField.sendKeys('First' + randomUser);
     users.lastNameFormField.sendKeys('Last' + randomUser);
-    users.displayNameFormField.sendKeys('Display' + randomUser);
     users.passwordFormField.sendKeys('password');
     users.externalIdFormField.sendKeys('12345');
     users.personalTelephoneFormField.sendKeys('15062345678');
@@ -384,7 +331,6 @@ describe('The create new user form', function() {
     randomUser = Math.floor((Math.random() * 1000) + 1);
     users.firstNameFormField.sendKeys('First' + randomUser);
     users.lastNameFormField.sendKeys('Last' + randomUser);
-    users.displayNameFormField.sendKeys('Display' + randomUser);
     users.passwordFormField.sendKeys('password');
     users.externalIdFormField.sendKeys('12345');
     users.personalTelephoneFormField.sendKeys('15062345678');
@@ -429,7 +375,6 @@ describe('The create new user form', function() {
     //Fill out all fields
     users.firstNameFormField.sendKeys('First' + randomUser);
     users.lastNameFormField.sendKeys('Last' + randomUser);
-    users.displayNameFormField.sendKeys('Display' + randomUser);
     users.emailFormField.sendKeys('titantest' + randomUser + '@mailinator.com');
     users.passwordFormField.sendKeys('password');
     users.externalIdFormField.sendKeys(randomUser);
@@ -442,7 +387,6 @@ describe('The create new user form', function() {
     //Expect all fields to have been cleared
     expect(users.firstNameFormField.getAttribute('value')).toBe('');
     expect(users.lastNameFormField.getAttribute('value')).toBe('');
-    expect(users.displayNameFormField.getAttribute('value')).toBe('');
     expect(users.emailFormField.getAttribute('value')).toBe('');
     expect(users.externalIdFormField.getAttribute('value')).toBe('');
     expect(users.personalTelephoneFormField.getAttribute('value')).toBe('')
