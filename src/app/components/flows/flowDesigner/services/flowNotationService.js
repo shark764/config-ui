@@ -62,7 +62,18 @@
 
             return memo;
           }, {});
-          return _.extend({params: params}, inputs);
+
+          var bindings = _.reduce(notation.bindings, function(memo, binding, index) {
+            memo[binding] = {
+              label: binding,
+              group: 'Bindings',
+              type: 'text'
+            }
+
+            return memo;
+          }, {});
+
+          return _.extend({params: params}, {bindings: bindings}, inputs);
         }
 
         //if we're dealing with an event

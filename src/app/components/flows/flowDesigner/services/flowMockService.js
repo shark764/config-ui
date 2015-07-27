@@ -79,7 +79,7 @@
               }
             }
           },
-          'bindings':{}
+          'bindings':[]
         },
         {
           'name':'collect-digits',
@@ -214,9 +214,7 @@
               }
             }
           },
-          'bindings':{
-            'digits':'string'
-          }
+          'bindings': ['digits']
         },
         {
           'name':'enqueue',
@@ -241,9 +239,7 @@
               'key': 'queue'
             }
           },
-          'bindings':{
-            'the-resource':'string'
-          },
+          'bindings':['resource']
         },
         {
           'name': 'add-participant',
@@ -331,7 +327,7 @@
               'default': ''
             }
           },
-          'bindings': {},
+          'bindings': [],
         },
         {
           'name': 'work-offer',
@@ -395,7 +391,7 @@
               'default': false
             }
           },
-          'bindings': {},
+          'bindings': [],
           'targeted': true,
           'target': 'client'
         },
@@ -420,7 +416,7 @@
               'mandatory':true
             }
           },
-          'bindings': {},
+          'bindings': [],
           'targeted': false
         },
 
