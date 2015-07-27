@@ -642,7 +642,6 @@ describe('The media collections view', function() {
         for (var i = 0; i < mediaNameList.length; i++) {
           shared.searchField.clear();
           shared.searchField.sendKeys(mediaNameList[i]);
-          expect(shared.tableElements.count()).toBe(1);
           expect(shared.tableElements.get(0).getText()).toContain(mediaNameList[i]);
         }
       });
