@@ -83,6 +83,7 @@ header {
     overflow-y: auto;
     display: table-cell;
     position: relative;
+    vertical-align: top; /* fixes scrollbar when two resource details panels are open */
 
     > .fa-remove {
       position: absolute;

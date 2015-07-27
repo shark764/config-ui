@@ -12,25 +12,71 @@
           'type':'task',
           'targeted': true,
           'target': 'twilio',
+          'ui': {
+            'participant': {
+              'label': 'Participant',
+              'type': 'select',
+              'options': [
+                {
+                  'value': undefined,
+                  'content': 'Please select one'
+                },
+                {
+                  'value': 'customer',
+                  'content': 'Customer'
+                },
+                { 
+                  'value': 'resource',
+                  'content': 'Resource'
+                }
+              ],
+              'group': 'params'
+            },
+            'media': {
+              'label': 'Media',
+              'type': 'entity',
+              'source': 'media',
+              'group': 'params'
+            },
+            'loop': {
+              'label': 'Loop',
+              'type': 'toggle',
+              'group': 'params'
+            }
+          },
           'params':{
             'media':{
               'source':'entity',
               'type':'media',
-              'label':'Media',
-              'desctiption':'',
-              'icon':'url',
-              'toolTip':'Select Media',
-              'dataSensitivity':'low',
-              'mandatory':true
+              'mandatory':true,
+              'key': 'media'
             },
             'loop':{
               'source':'expression',
               'type': 'boolean',
-              'label':'Loop',
-              'tooltip':'Number of times to loop',
-              'description':'',
               'mandatory':true,
-              'dataSensitivity':'low'
+              'default': false,
+              'key': 'loop'
+            },
+            'customer': {
+              'source': 'expression',
+              'type': 'variable',
+              'key': 'participant',
+              'when': {
+                'eq': {
+                  'params.participant': 'customer'
+                }
+              }
+            },
+            'resource': {
+              'source': 'expression',
+              'type': 'variable',
+              'key': 'participant',
+              'when': {
+                'ne': {
+                  'params.participant': 'customer'
+                }
+              }
             }
           },
           'bindings':{}
@@ -43,35 +89,83 @@
           'type':'task',
           'targeted': true,
           'target': 'twilio',
+          'ui': {
+            'participant': {
+              'label': 'Participant',
+              'type': 'select',
+              'options': [
+                {
+                  'value': undefined,
+                  'content': 'Please select one'
+                },
+                {
+                  'value': 'customer',
+                  'content': 'Customer'
+                },
+                {
+                  'value': 'resource',
+                  'content': 'Resource'
+                }
+              ],
+              'group': 'params'
+            },
+            'media': {
+              'label': 'Media',
+              'type': 'entity',
+              'source': 'media',
+              'group': 'params'
+            },
+            'digits': {
+              'label': 'Digits',
+              'type': 'text',
+              'group': 'params'
+            },
+            'terminator': {
+              'label': 'Terminator',
+              'type': 'text',
+              'group': 'params'
+            },
+          },
+
           'params':{
             'media':{
               'source':'entity',
               'type':'media',
-              'label':'Media',
-              'description':'',
-              'icon':'url',
-              'tooltip':'Select Media Collection',
-              'dataSensitivity':'low',
-              'mandatory':false
+              'mandatory':false,
+              'key': 'media'
             },
             'digits':{
               'source':'expression',
               'type': 'integer',
-              'label':'Number of digits',
-              'tooltip':'Number of digits',
-              'description':'',
               'mandatory':false,
-              'dataSensitivity':'low',
-              'default': 5
+              'default': 5,
+              'key': 'digits'
             },
             'terminator':{
               'source':'expression',
               'type':'string',
-              'label':'Terminator',
-              'tooltip':'Finish on key',
-              'description':'',
               'mandatory':false,
-              'dataSensitivity':'low'
+              'key': 'terminator'
+            },
+            'customer': {
+              'source': 'expression',
+              'type': 'variable',
+              'key': 'participant',
+              'when': {
+                'eq': {
+                  'params.participant': 'customer'
+                }
+              }
+            },
+            'resource': {
+              'source': 'expression',
+              'type': 'variable',
+              'key': 'participant',
+              'when': {
+                'ne': {
+                  'params.participant': 'customer'
+                }
+              }
             }
           },
           'bindings':{
@@ -85,16 +179,20 @@
           'description':'Stick the call in a queue',
           'type':'task',
           'targeted': false,
+          'ui': {
+            'queue': {
+              'label': 'Queue',
+              'type': 'entity',
+              'source': 'queue',
+              'group': 'params'
+            }
+          },
           'params':{
             'queue':{
               'source':'entity',
-              'type':'queue',
-              'label':'Queue',
-              'description':'',
-              'icon':'url',
-              'tooltip':'Select Queue',
-              'dataSensitivity':'low',
-              'mandatory':true
+              'type':'queues',
+              'mandatory':true,
+              'key': 'queue'
             }
           },
           'bindings':{
@@ -109,16 +207,82 @@
           'type': 'task',
           'targeted': true,
           'target': 'twilio',
+          'ui': {
+            'participant': {
+              'label': 'Participant',
+              'type': 'select',
+              'options': [
+                {
+                  'value': undefined,
+                  'content': 'Please select one'
+                },
+                {
+                  'value': 'customer',
+                  'content': 'Customer'
+                },
+                { 
+                  'value': 'resource',
+                  'content': 'Resource'
+                }
+              ],
+              'group': 'params'
+            },
+            'muted': {
+              'label': 'Muted',
+              'type': 'toggle',
+              'group': 'params'
+            },
+            'disconnectOn': {
+              'label': 'Disconnect On',
+              'type': 'select',
+              'options': [
+                {
+                  'value': '',
+                  'content': 'Don\'t disconnect'
+                },
+                {
+                  'value': '*',
+                  'content': '*'
+
+                }
+              ],
+              'group': 'params'
+            }
+          },
           'params': {
+            'customer': {
+              'source': 'expression',
+              'type': 'variable',
+              'key': 'participant',
+              'when': {
+                'eq': {
+                  'params.participant': 'customer'
+                }
+              }
+            },
             'resource': {
               'source': 'expression',
-              'type':'string',
-              'label':'Resource',
-              'description':'',
-              'icon':'url',
-              'tooltip':'Resource to add',
-              'dataSensitivity':'low',
-              'mandatory':true
+              'type': 'variable',
+              'key': 'participant',
+              'when': {
+                'ne': {
+                  'params.participant': 'customer'
+                }
+              }
+            },
+            'muted': {
+              'source': 'expression',
+              'type': 'boolean',
+              'key': 'muted',
+              'mandatory': false,
+              'default': false
+            },
+            'disconnectOn': {
+              'source': 'expression',
+              'type': 'string',
+              'key': 'disconnectOn',
+              'mandatory': false,
+              'default': ''
             }
           },
           'bindings': {},
@@ -129,55 +293,87 @@
           'label': 'Work Offer',
           'description': 'Offer some work',
           'type': 'task',
+          'ui': {
+            'resource': {
+              'label': 'Resource',
+              'type': 'select',
+              'group': 'params',
+              'options': [
+                {
+                  'value':'"resource.id',
+                  'content': 'Resource'
+                }
+              ]
+            },
+            'timeout': {
+              'label': 'Timeout',
+              'type': 'text',
+              'group': 'params'
+            },
+            'search': {
+              'label': 'Seach',
+              'type': 'text',
+              'group': 'params'
+            },
+            'force': {
+              'label': 'Force Accept',
+              'type': 'toggle',
+              'group': 'params'
+            }
+          },
           'params': {
             'resource-id': {
               'source': 'expression',
               'type':'string',
-              'label':'Resource ID',
-              'description':'',
-              'icon':'url',
-              'tooltip':'Resource to add',
-              'dataSensitivity':'low',
               'mandatory':true,
-              'hidden': true,
-              'default': '"resource.id"'
+              'default': '"resource.id"',
+              'key': 'resource'
             },
-            'expires': {
+            'timeout-end': {
               'source': 'expression',
               'type':'string',
-              'label':'Expires',
-              'description':'',
-              'icon':'url',
-              'tooltip':'How long work offer is valid',
-              'dataSensitivity':'low',
-              'mandatory':true
+              'mandatory':true,
+              'key': 'timeout'
+            },
+            'search-value': {
+              'source': 'expression',
+              'type': 'string',
+              'mandatory': false,
+              'key': 'search'
+            },
+            'force-accept': {
+              'source': 'expression',
+              'type': 'boolean',
+              'mandatory': false,
+              'key': 'force',
+              'default': false
             }
           },
           'bindings': {},
           'targeted': true,
           'target': 'client'
         },
-        {
-          'name': 'free-resource',
-          'entity': 'activity',
-          'label': 'Free Resource',
-          'description': 'Free Resource',
-          'type': 'task',
-          'params': {
-            'resource-id': {
-              'source': 'expression',
-              'type':'string',
-              'label':'Resource ID',
-              'description':'',
-              'icon':'url',
-              'tooltip':'Resource to free',
-              'dataSensitivity':'low',
-              'mandatory':true
-            }
-          },
-          'bindings': {},
-          'targeted': false
-        },
+        // {
+        //   'name': 'free-resource',
+        //   'entity': 'activity',
+        //   'label': 'Free Resource',
+        //   'description': 'Free Resource',
+        //   'type': 'task',
+        //   'params': {
+        //     'resource-id': {
+        //       'source': 'expression',
+        //       'type':'string',
+        //       'label':'Resource ID',
+        //       'description':'',
+        //       'icon':'url',
+        //       'tooltip':'Resource to free',
+        //       'dataSensitivity':'low',
+        //       'mandatory':true
+        //     }
+        //   },
+        //   'bindings': {},
+        //   'targeted': false
+        // },
 
         // RE-ADD FOR SUBFLOWS TO WORK
         // {
@@ -215,6 +411,18 @@
           meta: []
         },
         {
+          entity: 'start',
+          type: 'system-error',
+          props: [],
+          meta: []
+        },
+        {
+          entity: 'start',
+          type: 'flow-error',
+          props: [],
+          meta: []
+        },
+        {
           entity: 'catch',
           type: 'none',
           props: [],
@@ -228,8 +436,20 @@
         },
         {
           entity: 'catch',
-          type: 'error',
+          type: 'timer',
+          props: ['timer', 'interrupting', 'bindings'],
+          meta: []
+        },
+        {
+          entity: 'catch',
+          type: 'system-error',
           props: ['interrupting', 'bindings'],
+          meta: []
+        },
+        {
+          entity: 'catch',
+          type: 'flow-error',
+          props: [],
           meta: []
         },
         {
@@ -246,8 +466,8 @@
         },
         {
           entity: 'throw',
-          type: 'error',
-          props: ['terminate'],
+          type: 'flow-error',
+          props: ['terminate', 'error'],
           meta: ['mustTerminate']
         },
         {

@@ -24,8 +24,14 @@
 
 <div class="input-group">
   <label>{{'value.source' | translate}} *</label>
-  <form-error field="detailsForm.source" error-type-api="true" error-type-required="media.details.source.error"></form-error>
-  <div>
+  <ng-switch on="resource.type" ng-init="setupAudioSourceWatch(this)">
+    <div ng-switch-when="audio">
+      <form-error field="detailsForm.audiosource" error-type-api="true" error-type-required="media.details.source.error" error-type-url="media.details.source.url.error"></form-error>
+      <input type="url" ng-required="true" ng-model="resource.source" name="audiosource" required></input>
+    </div>
+    
+    <div ng-switch-default>
     <input type="text" ng-required="true" ng-model="resource.source" name="source" required></input>
   </div>
+  </ng-switch>
 </div>

@@ -39,12 +39,11 @@ angular.module('liveopsConfigPanel')
           return $scope.resource.save()
             .then($scope.handleSuccess, $scope.handleErrors)
             .then(function (result) {
+              $rootScope.$broadcast(successEventName, $scope.resource);
+
               if(angular.isDefined(extSuccessEventName)) {
                 $rootScope.$broadcast(extSuccessEventName, $scope.resource);
               }
-
-              $rootScope.$broadcast(successEventName, $scope.resource);
-
               return result;
 
             }, function (error) {
@@ -93,7 +92,14 @@ angular.module('liveopsConfigPanel')
         $scope.$watch('originalResource', function () {
           $scope.resource = angular.copy($scope.originalResource);
           $scope.resetForm();
-        }, true); //TODO: Deep watch can be removed when group API returns members list
+        }, true); //TODO: This deep watch can be removed when group API returns members list
+        
+        //Reference watch needed to catch when clicking "create" while already creating
+        //Because all original resource's fields will be the same, but it will be a new object
+        $scope.$watch('originalResource', function () {
+          $scope.resource = angular.copy($scope.originalResource);
+          $scope.resetForm();
+        });
 
         $scope.cancel = function () {
           DirtyForms.confirmIfDirty(function(){
@@ -110,6 +116,20 @@ angular.module('liveopsConfigPanel')
         };
 
         $scope.resetForm = function () {
+          //Workaround for fields with invalid text in them not being cleared when the model is updated to undefined
+          //E.g. http://stackoverflow.com/questions/18874019/angularjs-set-the-model-to-be-again-doesnt-clear-out-input-type-url
+          angular.forEach($scope.detailsForm, function (value, key) {
+            if (value && value.hasOwnProperty('$modelValue') && value.$invalid){
+              var displayValue = value.$modelValue;
+              if (displayValue === null){
+                displayValue = undefined;
+              }
+              
+              $scope.detailsForm[key].$setViewValue(displayValue);
+              $scope.detailsForm[key].$rollbackViewValue();
+            }
+          });
+          
           $scope.detailsForm.$setPristine();
           $scope.detailsForm.$setUntouched();
         };

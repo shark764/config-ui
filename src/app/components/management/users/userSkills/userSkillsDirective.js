@@ -2,27 +2,27 @@
 
 angular.module('liveopsConfigPanel')
   .directive('userSkills', ['TenantUserSkills', 'Skill', 'Session', 'Alert', 'lodash',
-    function(TenantUserSkills, Skill, Session, Alert, _) {
+    function (TenantUserSkills, Skill, Session, Alert, _) {
       return {
         restrict: 'E',
         scope: {
           user: '='
         },
         templateUrl: 'app/components/management/users/userSkills/userSkills.html',
-        link: function($scope) {
+        link: function ($scope) {
           $scope.selectedSkill = null;
 
-          $scope.remove = function(tsu) {
+          $scope.remove = function (tsu) {
             tsu.$delete({
               skillId: tsu.skillId
-            }, function() {
+            }, function () {
               $scope.userSkills.removeItem(tsu);
-            }, function() {
+            }, function () {
               Alert.error('Failed to remove skill');
             });
           };
 
-          $scope.fetch = function() {
+          $scope.fetch = function () {
             $scope.saving = false;
 
             if (!Session.tenant.tenantId) {
@@ -37,7 +37,7 @@ angular.module('liveopsConfigPanel')
             );
           };
 
-          $scope.reset = function() {
+          $scope.reset = function () {
             $scope.selectedSkill = null;
             if ($scope.skillsForm.name) {
               $scope.skillsForm.name.$setUntouched();
@@ -51,10 +51,10 @@ angular.module('liveopsConfigPanel')
             });
           };
 
-          $scope.save = function() {
-          if ($scope.selectedSkill === null){
-            return;
-          }
+          $scope.save = function () {
+            if ($scope.selectedSkill === null) {
+              return;
+            }
 
             $scope.saving = true;
 
@@ -65,7 +65,8 @@ angular.module('liveopsConfigPanel')
                 tenantId: Session.tenant.tenantId,
                 description: '',
                 status: true
-              }).save(function(result) {
+              }).save(function (result) {
+                $scope.fetchSkills().push(result);
                 $scope.selectedSkill = result;
                 $scope.saveUserSkill();
               });
@@ -74,7 +75,7 @@ angular.module('liveopsConfigPanel')
             }
           };
 
-          $scope.saveUserSkill = function() {
+          $scope.saveUserSkill = function () {
             $scope.newUserSkill.skillId = $scope.selectedSkill.id;
 
             if (!$scope.selectedSkill.hasProficiency) {
@@ -83,10 +84,12 @@ angular.module('liveopsConfigPanel')
               $scope.newUserSkill.proficiency = 1;
             }
 
-          var usc = angular.copy($scope.newUserSkill);
-          usc.name = $scope.selectedSkill.name;
+            var usc = angular.copy($scope.newUserSkill);
+            usc.name = $scope.selectedSkill.name;
 
-          var existing = _.find($scope.userSkills, { 'skillId' : usc.skillId });
+            var existing = _.find($scope.userSkills, {
+              'skillId': usc.skillId
+            });
 
             if (!existing) {
               $scope.userSkills.push(usc);
@@ -94,23 +97,28 @@ angular.module('liveopsConfigPanel')
               existing.proficiency = $scope.newUserSkill.proficiency;
             }
 
-            $scope.newUserSkill.save(function() {
+            $scope.newUserSkill.save(function () {
               $scope.reset();
               $scope.saving = false;
-            }, function() {
+            }, function () {
               $scope.fetch();
               Alert.error('Failed to save user skill');
             });
           };
-
+          
+          $scope.fetchSkills = function() {
+            return Skill.cachedQuery({
+              tenantId: Session.tenant.tenantId
+            });
+          };
+          
           $scope.$watch('user.id', function() {
             if (!Session.tenant.tenantId) {
               return;
             }
-
-            $scope.skills = Skill.query({
-              tenantId: Session.tenant.tenantId
-            }, $scope.fetch);
+            
+            $scope.reset();
+            $scope.fetch();
           });
         }
       };

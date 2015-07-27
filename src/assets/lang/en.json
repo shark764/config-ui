@@ -80,7 +80,7 @@
   "details.role.error": "Please select a role",
   "details.groups.none" : "There are no groups for the selected tenant.",
   "details.groups.select.placeholder" : "Select Group...",
-  "details.usergroups.none": "{{displayName}} is not assigned to any groups.",
+  "details.usergroups.none": "This user is not assigned to any groups.",
   "details.usergroups.remove": "Remove user from this group",
   "details.groups.showall": "Show all",
   "details.groups.hideextra": "Minimize",
@@ -164,6 +164,7 @@
   "media.details.mediaTypes.tts": "TTS",
   "media.details.creating": "Creating New Media",
   "media.table.title": "Media Management",
+  "media.details.source.url.error": "Audio source must be a URL",
 
   "media.collections.media.new" : "Create New Media",
   "media.collections.media.add": "Add Media...",
@@ -175,6 +176,7 @@
   "media.collections.mappingLookup.error": "Please enter an identifier for this media item",
   "media.collections.mapping.add": "Add media items with the plus button above.",
   "media.collections.defaultMediaKey": "Default Identifier",
+  "media.collections.mapping.search.placeholder": "Search existing media...",
 
   "tenant.details.title": "Tenants",
   "tenant.details.name": "Tenant Name",
@@ -212,7 +214,7 @@
   "dispatchMappings.table.interactionField": "Interaction Field",
   "dispatchMappings.table.channelType": "Channel Type",
   "dispatchmappings.table.title": "Dispatch Mapping Management",
-  
+
 
   "table.search.placeholder": "Search",
   "table.actions.button": "Actions",
@@ -253,7 +255,7 @@
   "bulkActions.enable.integrations": "Enable Integrations",
   "bulkActions.enable.flows": "Enable Flows",
   "bulkActions.enable.queues": "Enable Queues",
-  
+
   "user.profile.save.success": "Your details have been updated.",
   "user.profile.save.fail": "An error occured while updating your details."
 }

@@ -2,7 +2,7 @@
 <table-controls
     id="table-pane"
     config="tableConfig"
-    items="groups"
+    items="fetchGroups()"
     selected="selectedGroup"
     resource-name="group">
 
@@ -12,7 +12,7 @@
   </span>
 
   <span name="members">
-    {{item.members.length}}
+    {{item.fetchGroupUsers().length}}
   </span>
 
 </table-controls>
