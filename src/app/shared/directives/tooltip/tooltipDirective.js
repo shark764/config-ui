@@ -9,78 +9,97 @@ angular.module('liveopsConfigPanel')
         target: '='
       },
       link: function($scope, element){
+        $scope.targetPosition = $scope.target.offset();
+        $scope.tooltipWidth = 0;
+        $scope.tooltipHeight = 0;
+        
         $scope.setPosition = function(){
           element.find('div').removeClass('top left right bottom');
+          $scope.tooltipWidth = element.outerWidth();
+          $scope.tooltipHeight = element.outerHeight();
           
+          var tooltipPos = $scope.getPositionClass();
+          var absolutePosition = $scope.getAbsolutePosition(tooltipPos);
+          
+          element.find('div').addClass(tooltipPos);
+          
+          element.css('left', absolutePosition.left);
+          element.css('top', absolutePosition.top);
+        };
+        
+        $scope.getPositionClass = function(){
           var tooltipPos;
-
-          var tooltipWidth = element.outerWidth();
-          var tooltipHeight = element.outerHeight();
-          var arrowHeight = 15;
-          var arrowWidth = 13;
-          var arrowBase = 25;
             
           var documentWidth = $document.width();
           var documentHeight = $document.height();
           
-          var targetHeight = $scope.target.outerHeight();
-          var targetWidth = $scope.target.outerWidth();
+          var top = $scope.targetPosition.top;
+          var left = $scope.targetPosition.left;
           
-          var targetPosition = $scope.target.offset();
-          var offsetLeft = targetPosition.left;
-          var offsetTop = targetPosition.top;
-          
-        //Calculate the vertical position styling of the tooltip
-          var top = targetPosition.top;
-          var left = targetPosition.left;
-          
-          if (top - tooltipHeight < 0) {
-            if (left - tooltipWidth < 0){
+          if (top - $scope.tooltipHeight < 0) {
+            if (left - $scope.tooltipWidth < 0){
               tooltipPos = 'bottom right';
-              offsetLeft += targetWidth + arrowHeight;
-            } else if (left + tooltipWidth > documentWidth) {
+            } else if (left + $scope.tooltipWidth > documentWidth) {
               tooltipPos = 'bottom left';
-              offsetLeft += - tooltipWidth;
             } else {
               tooltipPos = 'bottom center';
-              offsetTop += targetHeight + arrowHeight
-              offsetLeft += - ((tooltipWidth - targetWidth) / 2);
             }
-          } else if (top + tooltipHeight > documentHeight){
-            if (left - tooltipWidth < 0){
+          } else if (top +$scope.tooltipHeight > documentHeight){
+            if (left - $scope.tooltipWidth < 0){
               tooltipPos = 'top right';
-              offsetLeft += targetWidth + arrowHeight;
-              offsetTop += - tooltipHeight + arrowBase;
-            } else if (left + tooltipWidth > documentWidth) {
+            } else if (left + $scope.tooltipWidth > documentWidth) {
               tooltipPos = 'top left';
-              offsetLeft += - tooltipWidth - arrowHeight;
-              offsetTop += - tooltipHeight + arrowBase;
             } else {
               tooltipPos = 'top center';
-              offsetTop += - (tooltipHeight + arrowHeight);
-              offsetLeft += - ((tooltipWidth - targetWidth) / 2);
             }
           } else {
-            if (left - tooltipWidth < 0){
+            if (left - $scope.tooltipWidth < 0){
               tooltipPos = 'center right';
-              offsetLeft += targetWidth + arrowWidth;
-              offsetTop += - (tooltipHeight / 2) + (targetHeight / 2);
-            } else if (left + tooltipWidth > documentWidth) {
+            } else if (left + $scope.tooltipWidth > documentWidth) {
               tooltipPos = 'center left';
-              offsetLeft += - tooltipWidth - arrowWidth;
-              offsetTop += - (tooltipHeight / 2) + (targetHeight / 2);
             } else {
               tooltipPos = 'top center';
-              offsetTop += - (tooltipHeight + arrowHeight);
-              offsetLeft += - ((tooltipWidth - targetWidth) / 2);
             }
           }
           
-          //set the position styling of the tool tip
-          element.find('div').addClass(tooltipPos);
+          return tooltipPos;
+        };
+        
+        $scope.getAbsolutePosition = function(tooltipPos){
+          var arrowHeight = 15;
+          var arrowWidth = 13;
+          var arrowBase = 25;
           
-          element.css('left', offsetLeft);
-          element.css('top', offsetTop);
+          var targetHeight = $scope.target.outerHeight();
+          var targetWidth = $scope.target.outerWidth();
+          
+          var offsetLeft = $scope.targetPosition.left;
+          var offsetTop = $scope.targetPosition.top;
+          
+          if (tooltipPos.indexOf('left') > -1){
+            offsetLeft += -$scope.tooltipWidth - arrowWidth;
+          };
+          
+          if (tooltipPos.indexOf('right') > -1){
+            offsetLeft += targetWidth + arrowWidth;
+          };
+          
+          if (tooltipPos === 'bottom center'){
+            offsetTop += targetHeight + arrowHeight;
+            offsetLeft += - (($scope.tooltipWidth - targetWidth) / 2);
+          } else if (tooltipPos === 'top center'){
+            offsetTop += - ($scope.tooltipHeight + arrowHeight);
+            offsetLeft += - (($scope.tooltipWidth - targetWidth) / 2);
+          } else if (tooltipPos === 'top right' || tooltipPos === 'top left'){
+            offsetTop += -$scope.tooltipHeight + arrowBase;
+          } else if (tooltipPos === 'center right' || tooltipPos === 'center left'){
+            offsetTop += - ($scope.tooltipHeight / 2) + (targetHeight / 2);
+          }
+          
+          return {
+            top: offsetTop,
+            left: offsetLeft
+          };
         };
         
         $timeout($scope.setPosition, 1);
