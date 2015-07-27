@@ -28,7 +28,7 @@ angular.module('liveopsConfigPanel')
       
       $scope.createMapping = function(){
         $scope.$emit('resource:details:create:mediaMapping', $scope.mapping);
-      }
+      };
     }
   };
 }]);

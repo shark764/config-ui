@@ -37,10 +37,6 @@ angular.module('liveopsConfigPanel')
         $scope.form.defaultMediaKey.$setTouched();
       };
 
-      $scope.$on('resource:details:media:canceled', function () {
-        $scope.selectedMedia = null;
-      });
-      
       $scope.$on('resource:details:create:mediaMapping', function () {
         $scope.form.mediaMapChanges.$setDirty();
       });

@@ -1,9 +1,8 @@
 'use strict';
 
-/* global spyOn: false */
 describe('MediaMappings directive', function () {
   var $scope,
-    $httpBackend,
+    $rootScope,
     element,
     isolateScope;
 
@@ -14,13 +13,15 @@ describe('MediaMappings directive', function () {
   beforeEach(module('liveopsConfigPanel.mock.content.media.collections'));
 
   beforeEach(inject(['$rootScope', '$compile', 'mockMediaCollections',
-    function ($rootScope, $compile, mockMediaCollections) {
+    function (_$rootScope_, $compile, mockMediaCollections) {
+      $rootScope = _$rootScope_;
       $scope = $rootScope.$new();
 
       $scope.collection = mockMediaCollections[0];
       $scope.form = {
         mediaMapChanges: {
-          $setDirty: jasmine.createSpy('dirtySpy')
+          $setDirty: jasmine.createSpy('dirtySpy'),
+          $setTouched: jasmine.createSpy('touchedSpy')
         }
       };
       
@@ -29,6 +30,24 @@ describe('MediaMappings directive', function () {
       isolateScope = element.isolateScope();
     }
   ]));
+  
+  it('should set mediaMapChanges dirty when a media mapping is added', function(){
+    $rootScope.$broadcast('resource:details:create:mediaMapping');
+    isolateScope.$digest();
+    expect($scope.form.mediaMapChanges.$setDirty).toHaveBeenCalled();
+  });
+  
+  it('should add the new resource when a media is created', inject(['Media', function(Media){
+    var newMedia = new Media({
+      id: 'Cool new media'
+    });
+    
+    var startMediaCount = isolateScope.medias.length;
+    $rootScope.$broadcast('resource:details:media:create:success', newMedia);
+    isolateScope.$digest();
+    expect(isolateScope.medias.length).toBe(startMediaCount + 1);
+    expect(isolateScope.medias[isolateScope.medias.length - 1].id).toEqual('Cool new media');
+  }]));
   
   describe('addMapping function', function () {
     it('should exist', function () {
@@ -80,15 +99,35 @@ describe('MediaMappings directive', function () {
         id: 'uuid-value'
       }];
 
-      var form = {
-        mediaMapChanges: {
-          $setDirty: jasmine.createSpy('dirtySpy')
-        }
-      };
-
       isolateScope.removeMapping(0);
 
       expect($scope.collection.mediaMap).toBeUndefined();
+    }));
+  });
+  
+  describe('resetDefaultMediaKey function', function () {
+    beforeEach(function(){
+      $scope.form.defaultMediaKey = {
+        $setDirty: jasmine.createSpy('dirtySpy'),
+        $setTouched: jasmine.createSpy('touchedSpy')
+      };
+    });
+    
+    it('should exist', function () {
+      expect(isolateScope.resetDefaultMediaKey).toBeDefined();
+      expect(isolateScope.resetDefaultMediaKey).toEqual(jasmine.any(Function));
+    });
+
+    it('should set defaultMediaKey to null', inject(function () {
+      $scope.collection.defaultMediaKey = 'exists!';
+      isolateScope.resetDefaultMediaKey();
+      expect($scope.collection.defaultMediaKey).toBeNull();
+    }));
+
+    it('should touch and dirty the defaultMediaKey field', inject(function () {
+      isolateScope.resetDefaultMediaKey();
+      expect($scope.form.defaultMediaKey.$setDirty).toHaveBeenCalled();
+      expect($scope.form.defaultMediaKey.$setTouched).toHaveBeenCalled();
     }));
   });
 });

@@ -75,16 +75,25 @@ describe('MediaCollectionController', function () {
     expect($scope.create).toHaveBeenCalled();
   }));
 
-  it('should have fetchMediaCollections function',
-    inject(function () {
-      expect($scope.fetchMediaCollections).toBeDefined();
-    }));
-
   it('should watch for media being added, and reset selectedMedia', inject(function () {
       $scope.selectedMedia = {id: 'existing'};
       $rootScope.$broadcast('resource:details:media:create:success');
       expect($scope.selectedMedia).toBeNull();
     }));
+  
+  describe('fetchMediaCollections function', function(){
+    it('should exist', inject(function () {
+      expect($scope.fetchMediaCollections).toBeDefined();
+    }));
+    
+    it('should return the list of media collections', inject(['mockMediaCollections', function (mockMediaCollections) {
+      var collection = $scope.fetchMediaCollections();
+      $httpBackend.flush();
+      expect(collection.length).toEqual(mockMediaCollections.length);
+      expect(collection[0].id).toEqual(mockMediaCollections[0].id);
+      expect(collection[1].id).toEqual(mockMediaCollections[1].id);
+    }]));
+  });
 
   describe('preCreate prototype function', function () {
     it('should call cleanMediaMap if mediaMap is defined', inject(function () {
