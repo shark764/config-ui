@@ -1,0 +1,18 @@
+<div class="modify-media-box" ng-class="{'edit': editMode === true}">
+  <div class="label-container" ng-click="editMode = !editMode;">
+    <input type="text" placeholder="{{'media.collections.media.add' | translate}}" name="{{fieldName}}"
+    class="label" ng-required="true" ng-model="mapping.name" readonly="true" border="0"/>
+    <i class="fa" ng-class="{'fa-caret-down': !editMode, 'fa-caret-up':editMode}"></i>
+  </div>
+
+  <div class="media-edit-box" ng-show="editMode">
+    <type-ahead
+      items="medias"
+      selected-item="selectedMedia"
+      name-field="name"
+      placeholder="{{'media.collections.mapping.search.placeholder' | translate}}"
+      on-select="onSelect(selectedMedia)"></type-ahead>
+    <input ng-click="createMapping()"
+      type="button" value="{{'media.collections.media.new' | translate}}" class="btn new-media-btn" />
+  </div>
+</div>
