@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('typeAhead', ['filterFilter', function(filterFilter) {
+  .directive('typeAhead', ['filterFilter', '$timeout', function(filterFilter, $timeout) {
     return {
       restrict: 'E',
       scope : {
@@ -36,7 +36,10 @@ angular.module('liveopsConfigPanel')
             $scope.selectedItem = null;
           } else if (filteredItems && filteredItems.length > 0){
             $scope.selectedItem = filteredItems[0];
-            $scope.onSelect();
+            
+            //Empty timeout forces onSelect to only be called after digest is complete, 
+            //so the variable bound to selectedItem will have been properly updated
+            $timeout($scope.onSelect);
           } else {
             $scope.selectedItem = {};
             $scope.selectedItem[$scope.nameField] = $scope.currentText;

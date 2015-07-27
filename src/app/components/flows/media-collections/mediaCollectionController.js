@@ -92,11 +92,18 @@ angular.module('liveopsConfigPanel')
         form.defaultMediaKey.$setTouched();
       };
 
+      $scope.onSelect = function(selectedMedia, mapping, childScope){
+        mapping.id = selectedMedia.id;
+        mapping.name = selectedMedia.name;
+        childScope.editMode = false;
+      };
+      
       $scope.additionalCollections = {
         fetchMedias: $scope.fetchMedias,
         addMapping: $scope.addMapping,
         removeMapping: $scope.removeMapping,
-        resetDefaultMediaKey: $scope.resetDefaultMediaKey
+        resetDefaultMediaKey: $scope.resetDefaultMediaKey,
+        onSelect: $scope.onSelect
       };
 
       $scope.$on('resource:details:create:mediaMapping', function (event, media) {
