@@ -81,9 +81,13 @@
         vertical-align: top;
       }
 
-      input, select {
-        width: calc(100% - #{$help-icon-width} - 2px);
-        margin: 0;
+
+      > div {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        justify-content: space-between;
+        align-items: center;
       }
 
       button, input[type=button] {
