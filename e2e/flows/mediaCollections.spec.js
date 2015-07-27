@@ -642,7 +642,6 @@ describe('The media collections view', function() {
         for (var i = 0; i < mediaNameList.length; i++) {
           shared.searchField.clear();
           shared.searchField.sendKeys(mediaNameList[i]);
-          expect(shared.tableElements.count()).toBe(1);
           expect(shared.tableElements.get(0).getText()).toContain(mediaNameList[i]);
         }
       });
@@ -832,8 +831,7 @@ describe('The media collections view', function() {
       expect(mediaCollections.mediaRequiredError.get(2).getText()).toBe('Audio source must be a URL');
     });
 
-    xit('should leave Media pane open when selecting Create & New', function() {
-      // TODO Existing bug
+    it('should leave Media pane open when selecting Create & New', function() {
       var randomMedia = Math.floor((Math.random() * 1000) + 1);
       shared.createBtn.click();
       mediaCollections.openCreateNewMedia();
