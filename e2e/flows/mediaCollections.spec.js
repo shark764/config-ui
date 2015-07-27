@@ -33,7 +33,7 @@ describe('The media collections view', function() {
 
     expect(shared.cancelFormBtn.isDisplayed()).toBeTruthy();
     expect(shared.submitFormBtn.isDisplayed()).toBeTruthy();
-    expect(mediaCollections.closeMediaCollection.isDisplayed()).toBeTruthy();
+    expect(mediaCollections.closemediaCollections.isDisplayed()).toBeTruthy();
 
     // Create New Media details are not displayed by default
     expect(mediaCollections.defaultIdDropdown.isPresent()).toBeFalsy();
@@ -498,7 +498,7 @@ describe('The media collections view', function() {
 
           // Table values are updated
           mediaCollections.mediaIdentifiers.each(function (mediaIdentifier) {
-            expect(shared.firstTableRow.element(by.css(mediaCollection.identifierColumn)).getText()).toContain(mediaIdentifier);
+            expect(shared.firstTableRow.element(by.css(mediaCollections.identifierColumn)).getText()).toContain(mediaIdentifier);
           });
         });
       }
@@ -551,10 +551,10 @@ describe('The media collections view', function() {
 
         expect(mediaCollections.defaultIdDropdown.isDisplayed()).toBeTruthy();
         expect(mediaCollections.mediaMappings.count()).toBeGreaterThan(mediaCount);
-        
+
         // Table values are updated
         mediaCollections.mediaIdentifiers.each(function (mediaIdentifier) {
-          expect(shared.firstTableRow.element(by.css(mediaCollection.identifierColumn)).getText()).toContain(mediaIdentifier);
+          expect(shared.firstTableRow.element(by.css(mediaCollections.identifierColumn)).getText()).toContain(mediaIdentifier);
         });
       });
     });
@@ -939,7 +939,7 @@ describe('The media collections view', function() {
       mediaCollections.mediaTypeDropdown.all(by.css('option')).get(2).click();
       mediaCollections.mediaSourceField.sendKeys('Close Source');
 
-      mediaCollections.closeMediaCollection.click();
+      mediaCollections.closemediaCollections.click();
 
       // Dismiss warning message
       shared.dismissChanges();
