@@ -12,6 +12,10 @@ angular.module('liveopsConfigPanel')
       {name: 'active'}
     ]);
     
+    Flow.prototype.getDisplay = function () {
+      return this.name;
+    };
+    
     Flow.resourceName = 'Flow';
     
     return Flow;

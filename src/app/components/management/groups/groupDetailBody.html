@@ -4,9 +4,8 @@
 
 <div class="input-group">
   <label>{{'value.name' | translate}}</label>
+  <form-error field="detailsForm.name" error-type-api="{{'details.name.error' | translate}}" error-type-required="{{'details.name.error' | translate}}"></form-error>
   <div>
-    <form-error field="detailsForm.name" error-type-api="{{'details.name.error' | translate}}"
-      error-type-required="{{'details.name.error' | translate}}"></form-error>
     <input required ng-model="resource.name" name="name" type="text"></input>
   </div>
 </div>
@@ -34,7 +33,7 @@
 <div ng-if="resource.id" class="input-group">
   <loading ng-if="originalResource.fetchGroupUsers().$resolved != undefined"
     ng-show="!originalResource.fetchGroupUsers().$resolved"></loading>
-  
+
   <label>&nbsp;</label>
   <table scroll-table max-height="300" class="table" ng-show="originalResource.fetchGroupUsers().length > 0">
     <thead>

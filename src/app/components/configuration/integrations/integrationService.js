@@ -9,6 +9,10 @@ angular.module('liveopsConfigPanel')
       {name: 'status'}
     ]);
     
+    Integration.prototype.getDisplay = function () {
+      return this.type;
+    };
+    
     Integration.resourceName = 'Integration';
     return Integration;
   }]);

@@ -9,6 +9,7 @@
 html, body {
   height: 100%;
   min-width: $min-body-width;
+  overflow: hidden; /*Required to prevent tooltips from brielfy creating a scrollbar */
 }
 
 body > .ng-view {
