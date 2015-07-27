@@ -1,10 +1,6 @@
-<div class="error" ng-messages="field.$error" role="alert" ng-show='field.$touched && field.$invalid'>
-  <div ng-message="required">{{errorTypes.required | translate}}</div>
-  <div ng-message="email">{{errorTypes.email | translate}}</div>
-  <div ng-message="api">{{field.$error.api}}</div>
-  <div ng-message="json">{{errorTypes.json | translate}}</div>
-  <div ng-message="maxlength">{{errorTypes.maxlength | translate}}</div>
-  <div ng-message="pattern">{{errorTypes.pattern | translate}}</div>
-  <div ng-message="phoneNumber">{{errorTypes.phone | translate}}</div>
-  <div ng-message="url">{{errorTypes.url | translate}}</div>
+<div class="error" role="alert" ng-if='field.$touched && field.$invalid' ng-messages="field.$error">
+  <div ng-repeat="(error, value) in field.$error" >
+    <span ng-message="{{error}}" ng-if="isString(value)">{{value}}</span>
+    <span ng-message="{{error}}" ng-if="value === true">{{errorTypes[error]}}</span>
+  </div>
 </div>

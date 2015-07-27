@@ -5,7 +5,9 @@
 <div ng-if="!resource.id">
   <div class="input-group">
     <label>{{'value.name' | translate}} *</label>
-    <form-error field="detailsForm.name" error-type-api="true" error-type-required="{{'value.error.name.required' | translate}}"></form-error>
+    <form-error field="detailsForm.name"
+      error-type-required="{{'value.error.name.required' | translate}}">
+    </form-error>
     <div>
       <input type="text" ng-model="resource.name" ng-required="true" name="name">
     </div>
@@ -21,7 +23,9 @@
 
 <div class="input-group">
   <label>{{'dispatchMappings.details.interactionType' | translate}} *</label>
-  <form-error field="detailsForm.channelType" error-type-api="true" error-type-required="{{'dispatchMappings.details.channelType.error' | translate}}"></form-error>
+  <form-error field="detailsForm.channelType"
+    error-type-required="{{'dispatchMappings.details.channelType.error' | translate}}">
+  </form-error>
   <div>
     <select ng-required="true" ng-model="resource.channelType" name="channelType"
       ng-options="channelType.value as channelType.display for channelType in dispatchMappingChannelTypes">
@@ -32,7 +36,9 @@
 
 <div class="input-group">
   <label>{{'dispatchMappings.details.channelType' | translate}} *</label>
-  <form-error field="detailsForm.interationField" error-type-api="true" error-type-required="{{'dispatchMappings.details.interactionType.error' | translate}}"></form-error>
+  <form-error field="detailsForm.interationField"
+    error-type-required="{{'dispatchMappings.details.interactionType.error' | translate}}">
+  </form-error>
   <div>
     <select id="integration-form-dropwdown" ng-required="true" ng-model="resource.interactionField" name="interactionField" ng-change="resource.value = ''"
       ng-options="interactionFields.value as interactionFields.display for interactionFields in dispatchMappingInteractionFields">
@@ -43,7 +49,10 @@
 
 <div class="input-group" ng-if="resource.interactionField === 'customer' || resource.interactionField === 'contact-point'">
   <label>{{'details.phoneNumber' | translate}} *</label>
-  <form-error field="detailsForm.value" error-type-api="true" error-type-required="{{'dispatchMappings.details.phone.error' | translate}}" error-type-phone="{{'details.phoneNumber.error' | translate}}"></form-error>
+    <form-error field="detailsForm.value"
+      error-type-required="{{'dispatchMappings.details.phone.error' | translate}}"
+      error-type-phone="{{'details.phoneNumber.error' | translate}}">
+    </form-error>
   <div>
     <input id="phone-form-field" ng-required="true" name="value" type="tel" ng-model="resource.value" api-error>
   </div>
@@ -51,7 +60,7 @@
 
 <div class="input-group" ng-if="resource.interactionField === 'integration'">
   <label>{{'integration.details' | translate}} *</label>
-  <form-error field="detailsForm.value" error-type-api="true"></form-error>
+  <form-error field="detailsForm.value"></form-error>
   <div>
     <select id="integration-form-dropdown" ng-required="true" ng-model="resource.value" name="value"
       ng-options="integration.type as integration.type for integration in fetchIntegrations()">
@@ -62,7 +71,9 @@
 
 <div class="input-group" ng-if="resource.interactionField === 'direction'">
   <label>{{'dispatchMappings.details.direction' | translate}} *</label>
-  <form-error field="detailsForm.value" error-type-api="true" error-type-required="{{'dispatchMappings.details.direction.error' | translate}}"></form-error>
+  <form-error field="detailsForm.value"
+    error-type-required="{{'dispatchMappings.details.direction.error' | translate}}">
+  </form-error>
   <div>
     <select id="direction-form-dropdown" ng-required="true" ng-model="resource.value" name="value" ng-init="resource.value = 'inbound'"
       ng-options="dispatchMappingDirection.value as dispatchMappingDirection.display for dispatchMappingDirection in dispatchMappingDirections">
@@ -73,7 +84,9 @@
 
 <div class="input-group">
   <label>{{'dispatchMappings.details.flow' | translate}} *</label>
-  <form-error field="detailsForm.interationField" error-type-api="true" error-type-required="{{'dispatchMappings.details.flow.error' | translate}}"></form-error>
+  <form-error field="detailsForm.interationField"
+    error-type-required="{{'dispatchMappings.details.flow.error' | translate}}">
+  </form-error>
   <div>
     <select ng-required="true" api-error ng-model="resource.flowId" name="flowId" ng-options="flow.id as flow.name for flow in fetchFlows()">
       <option value="" ng-disabled="true">{{'dispatchMappings.details.flow.select' | translate}}</option>

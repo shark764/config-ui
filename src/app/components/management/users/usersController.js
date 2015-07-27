@@ -36,8 +36,10 @@ angular.module('liveopsConfigPanel')
         }); //TEMPORARY roleId
       };
 
-      User.prototype.postCreateError = function (error) {
-        if (error.status === 400) {
+      User.prototype.postCreateError = function (response) {
+        var error = response.data.error;
+        if (error.code === 400 &&
+          error.attribute.email === 'Email address already exists in the system') {
           Alert.success('User already exists. Sending ' + this.email + ' an invite for ' + Session.tenant.name);
 
           Invite.save({
@@ -46,9 +48,9 @@ angular.module('liveopsConfigPanel')
             email: this.email,
             roleId: '00000000-0000-0000-0000-000000000000'
           }); //TEMPORARY roleId
+          
+          $scope.create();
         }
-
-        $scope.create();
 
         return error;
       };
