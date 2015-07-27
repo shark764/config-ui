@@ -353,27 +353,30 @@
           'targeted': true,
           'target': 'client'
         },
-        // {
-        //   'name': 'free-resource',
-        //   'entity': 'activity',
-        //   'label': 'Free Resource',
-        //   'description': 'Free Resource',
-        //   'type': 'task',
-        //   'params': {
-        //     'resource-id': {
-        //       'source': 'expression',
-        //       'type':'string',
-        //       'label':'Resource ID',
-        //       'description':'',
-        //       'icon':'url',
-        //       'tooltip':'Resource to free',
-        //       'dataSensitivity':'low',
-        //       'mandatory':true
-        //     }
-        //   },
-        //   'bindings': {},
-        //   'targeted': false
-        // },
+        {
+          'name': 'free-resource',
+          'entity': 'activity',
+          'label': 'Free Resource',
+          'description': 'Free Resource',
+          'type': 'task',
+          'ui': {
+            'resource': {
+              'label': 'Resource ID',
+              'type': 'text',
+              'group': 'params'
+            }
+          },
+          'params': {
+            'resource-id': {
+              'source': 'expression',
+              'type':'string',
+              'key': 'resource',
+              'mandatory':true
+            }
+          },
+          'bindings': {},
+          'targeted': false
+        },
 
         // RE-ADD FOR SUBFLOWS TO WORK
         // {
