@@ -3,15 +3,19 @@
 describe('The view navigation', function() {
   var loginPage = require('../login/login.po.js'),
     shared = require('../shared.po.js'),
-    navigation = require('../navigation/navigation.po.js'),
     params = browser.params;
 
   beforeAll(function() {
     shared.tearDown();
   });
 
-  afterEach(function() {
+  afterAll(function() {
     shared.tearDown();
+  });
+
+  it('should redirect to login page when not logged in and there is no page specified', function() {
+    browser.get(shared.root);
+    expect(browser.getCurrentUrl()).toBe(shared.loginPageUrl);
   });
 
   it('should redirect to login page when not logged in', function() {
@@ -27,42 +31,10 @@ describe('The view navigation', function() {
     browser.get(shared.invitesPageUrl);
     expect(browser.getCurrentUrl()).toBe(shared.loginPageUrl);
   });
-  
+
   it('should navigate to login page for unknown urls and not logged in', function() {
     browser.get(shared.mainUrl + 'unknownpage');
     expect(browser.getCurrentUrl()).toBe(shared.loginPageUrl);
-  });
-
-  it('should allow the user to close the details panel', function() {
-    loginPage.login(params.login.user, params.login.password);
-
-    browser.get(shared.usersPageUrl);
-
-    shared.firstTableRow.click();
-
-    expect(shared.detailsPanel.isDisplayed()).toBeTruthy();
-    expect(shared.rightPanel.isDisplayed()).toBeTruthy();
-
-    navigation.closePanelButton.click();
-
-    expect(shared.detailsPanel.isDisplayed()).toBeFalsy();
-    expect(shared.rightPanel.isDisplayed()).toBeFalsy();
-  });
-
-  it('should allow the user to close the bulk actions panel', function() {
-    loginPage.login(params.login.user, params.login.password);
-
-    browser.get(shared.usersPageUrl);
-
-    shared.actionsBtn.click();
-
-    expect(shared.bulkActionsPanel.isDisplayed()).toBeTruthy();
-    expect(shared.rightPanel.isDisplayed()).toBeTruthy();
-
-    navigation.closeBulkPanelButton.click();
-
-    expect(shared.bulkActionsPanel.isDisplayed()).toBeFalsy();
-    expect(shared.rightPanel.isDisplayed()).toBeFalsy();
   });
 
   it('should navigate to correct page when logged in', function() {
@@ -81,8 +53,12 @@ describe('The view navigation', function() {
     expect(browser.getCurrentUrl()).toBe(shared.invitesPageUrl);
   });
 
+  it('should redirect to User Management page when logged in when there is no page specified', function() {
+    browser.get(shared.root);
+    expect(browser.getCurrentUrl()).toBe(shared.loginPageUrl);
+  });
+
   it('should navigate to main page for unknown urls and logged in', function() {
-    loginPage.login(params.login.user, params.login.password);
     browser.get(shared.mainUrl + 'unknownpage');
     expect(browser.getCurrentUrl()).toContain(shared.usersPageUrl);
   });
