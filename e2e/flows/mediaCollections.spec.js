@@ -22,7 +22,7 @@ describe('The media collections view', function() {
     shared.tearDown();
   });
 
-  xit('should include valid fields when creating a new Media Collection', function() {
+  it('should include valid fields when creating a new Media Collection', function() {
     shared.createBtn.click();
     expect(mediaCollections.creatingMediaCollectionHeader.getText()).toContain('Creating New Media Collection');
     expect(mediaCollections.descriptionFormField.isDisplayed()).toBeTruthy();
@@ -42,7 +42,7 @@ describe('The media collections view', function() {
     expect(mediaCollections.createMediaForm.isDisplayed()).toBeFalsy();
   });
 
-  xit('should successfully create new Media Collection without Media', function() {
+  it('should successfully create new Media Collection without Media', function() {
     mediaCollectionCount = shared.tableElements.count();
     randomCollection = Math.floor((Math.random() * 1000) + 1);
     var mediaCollectionAdded = false;
