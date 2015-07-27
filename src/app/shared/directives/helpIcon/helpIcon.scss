@@ -1,0 +1,20 @@
+$help-icon-width: 2em;
+$help-icon-height: $help-icon-width;
+
+help-icon {
+  display: inline-block;
+  position: relative;
+  height: $help-icon-height;
+  width: $help-icon-width;
+}
+
+.help-icon {
+  color: $light-grey;
+  @include transition(color 0.3s ease);
+  text-align: center;
+}
+
+.help-icon:hover {
+  color: $accent1;
+  cursor: pointer;
+}

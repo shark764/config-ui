@@ -74,7 +74,6 @@
     },
 
     updateGroup: function(cell) {
-      console.log(cell);
       var terminate = cell.get('terminate'),
           entity = cell.get('entity')
       if (entity === 'start') {

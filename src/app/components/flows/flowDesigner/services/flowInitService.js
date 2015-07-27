@@ -105,8 +105,8 @@
           validateEmbedding: function(childView) {
             var validEventNames = ['message', 'signal', 'timer', 'conditional', 'escalation'];
             return (childView.model.get('type') === 'liveOps.event' &&
-              childView.model.get('eventType') === 'intermediate' &&
-              _.contains(validEventNames, childView.model.get('eventName')));
+              childView.model.get('entity') === 'catch' &&
+              _.contains(validEventNames, childView.model.get('name')));
           },
           validateConnection: function(cellViewS, magnetS, cellViewT, magnetT, end) {
             if (cellViewS === cellViewT) { return false; }

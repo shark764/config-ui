@@ -14,8 +14,7 @@
   <ng-form name="createVersionForm" seperate-validation>
     <div class="input-group">
       <label>{{'value.name' | translate}}</label>
-      <form-error field="createVersionForm.name"
-      error-type-required="{{'value.error.name.required' | translate}}"></form-error>
+      <form-error field="createVersionForm.name" error-type-required="{{'value.error.name.required' | translate}}"></form-error>
       <input ng-required="true" type="text" ng-model="version.name" name="name"></input>
     </div>
 

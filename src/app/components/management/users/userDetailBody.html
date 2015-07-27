@@ -5,16 +5,17 @@
 
   <div class="input-group">
     <label>{{'details.email' | translate}} *</label>
+    <form-error field="detailsForm.email" error-type-api="{{'details.email.error' | translate}}" error-type-required="{{'details.email.error' | translate}}" error-type-email="{{'details.email.invalid' | translate}}"></form-error>
     <div>
-      <form-error field="detailsForm.email" error-type-api="{{'details.email.error' | translate}}" error-type-required="{{'details.email.error' | translate}}" error-type-email="{{'details.email.invalid' | translate}}"></form-error>
       <input autocomplete="off" ng-model="resource.email" name="email" type="email" ng-required="true" api-error></input>
+      <help-icon text="Some fairly long sentence of text for the tooltip content"></help-icon>
     </div>
   </div>
 
   <div class="input-group">
     <label>{{'details.password' | translate}} *</label>
+    <form-error field="detailsForm.password" error-type-api="{{'details.password.error' | translate}}" error-type-required="{{'details.password.error' | translate}}"></form-error>
     <div>
-      <form-error field="detailsForm.password" error-type-api="{{'details.password.error' | translate}}" error-type-required="{{'details.password.error' | translate}}"></form-error>
       <input autocomplete="off" ng-model="resource.password" name="password" type="password" ng-required="true"></input>
     </div>
   </div>
@@ -27,32 +28,33 @@
 
   <div class="input-group">
     <label>{{'details.firstName' | translate}} *</label>
+    <form-error field="detailsForm.firstName" error-type-api="{{'details.firstName.error' | translate}}" error-type-required="{{'details.firstName.error' | translate}}"></form-error>
     <div>
-      <form-error field="detailsForm.firstName" error-type-api="{{'details.firstName.error' | translate}}" error-type-required="{{'details.firstName.error' | translate}}"></form-error>
       <input ng-required="true" ng-model="resource.firstName" name="firstName" type="text" ng-change="updateDisplayName(this)"></input>
     </div>
   </div>
 
   <div class="input-group">
     <label>{{'details.lastName' | translate}} *</label>
+    <form-error field="detailsForm.lastName" error-type-api="{{'details.lastName.error' | translate}}" error-type-required="{{'details.lastName.error' | translate}}"></form-error>
     <div>
-      <form-error field="detailsForm.lastName" error-type-api="{{'details.lastName.error' | translate}}" error-type-required="{{'details.lastName.error' | translate}}"></form-error>
       <input required ng-model="resource.lastName" name="lastName" type="text" ng-change="updateDisplayName(this)"></input>
     </div>
   </div>
 
   <div class="input-group">
     <label>{{'details.personalTelephone' | translate}}</label>
+    <form-error field="detailsForm.personalTelephone" error-type-api="true" error-type-phone="{{'details.phoneNumber.error' | translate}}"></form-error>
     <div>
-      <form-error field="detailsForm.personalTelephone" error-type-api="true" error-type-phone="{{'details.phoneNumber.error' | translate}}"></form-error>
       <input name="personalTelephone" type="tel" ng-model="resource.personalTelephone" api-error>
+      <help-icon text="Personal Telephone should be E.164 format"></help-icon>
     </div>
   </div>
 
   <div class="input-group">
     <label>{{'details.externalId' | translate}}</label>
+    <form-error field="detailsForm.externalId" error-type-api="Must be a String"></form-error>
     <div>
-      <form-error field="detailsForm.externalId" error-type-api="Must be a String"></form-error>
       <input ng-model="resource.externalId" name="externalId" type="text"></input>
     </div>
   </div>
@@ -72,9 +74,9 @@
 
   <div class="input-group">
     <label>{{'details.password' | translate}}</label>
+    <form-error field="detailsForm.password" error-type-api="{{'details.password.error' | translate}}" error-type-required="{{'details.password.error' | translate}}"></form-error>
     <div>
       <input type="button" class="btn" ng-hide="detailsForm.password.$dirty" ng-click="detailsForm.password.$setDirty()" value="{{'user.details.password.reset' | translate}}">
-      <form-error field="detailsForm.password" error-type-api="{{'details.password.error' | translate}}" error-type-required="{{'details.password.error' | translate}}"></form-error>
       <input ng-required="detailsForm.password.$dirty" autocomplete="off" ng-model="resource.password" name="password" type="password" ng-show="detailsForm.password.$dirty"></input>
     </div>
   </div>
