@@ -184,6 +184,10 @@ angular.module('liveopsConfigPanel')
             d.reject(errors);
             return d.promise;
           };
+          
+          Resource.prototype.getDisplay = function () {
+            return this.toString();
+          };
 
           Resource.prototype.isNew = function () {
             return !this.id;

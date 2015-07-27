@@ -37,7 +37,7 @@ describe('Session', function() {
     session.set(USER, [], TOKEN);
 
     expect(session.token).toBe(TOKEN);
-    expect(session.user.displayName).toBe(USER.fullName());
+    expect(session.user.displayName).toBe(USER.getDisplay());
     expect(session.isAuthenticated()).toBeTruthy(true);
 
     var stringifiedSession = localStorage.getItem(session.userSessionKey);
@@ -70,7 +70,7 @@ describe('Session', function() {
     session.restore();
 
     expect(session.token).toBe(TOKEN);
-    expect(session.user.displayName).toBe(USER.fullName());
+    expect(session.user.displayName).toBe(USER.getDisplay());
     expect(session.isAuthenticated()).toBeTruthy();
   });
 });

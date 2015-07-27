@@ -9,6 +9,10 @@ angular.module('liveopsConfigPanel')
       {name: 'status', optional: true}
     ]);
     
+    Skill.prototype.getDisplay = function () {
+      return this.name;
+    };
+    
     Skill.resourceName = 'Skill';
     return Skill;
   }]);

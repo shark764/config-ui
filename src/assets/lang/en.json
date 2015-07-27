@@ -13,6 +13,7 @@
   "value.disabled": "Disabled",
   "value.displayName": "{{displayName}}",
   "value.enabled" : "Enabled",
+  "value.pending" : "Pending",
   "value.email": "Email",
   "value.error.name.required" : "Field \"Name\" is required.",
   "value.identifier": "Identifier",
