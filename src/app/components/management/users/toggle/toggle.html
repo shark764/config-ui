@@ -1,9 +1,10 @@
-<label class="switch switch-green">
-  <input type="checkbox" class="switch-input" 
+<label class="switch switch-green" ng-disabled="ngModel === 'pending'">
+  <input type="checkbox" class="switch-input"
     ng-model="ngModel"
     ng-false-value="'disabled'"
     ng-true-value="'enabled'"
-    ng-disabled="ngDisabled">
-  <span class="switch-label" data-on="On" data-off="Off"></span>
-  <span class="switch-handle"></span>
+    ng-disabled="ngModel === 'pending'"
+    >
+  <span title="{{ngModel}}" ng-class="'pending'" class="switch-label" data-on="On" data-off="Off"></span>
+  <span title="{{ngModel}}" class="switch-handle"></span>
 </label>
