@@ -47,7 +47,7 @@ describe('The view navigation', function() {
       expect(browser.getCurrentUrl()).toContain(shared.tenantsPageUrl);
 
       browser.get(shared.profilePageUrl);
-      expect(browser.getCurrentUrl()).toBe(shared.profilePageUrl);
+      expect(browser.getCurrentUrl()).toContain(shared.profilePageUrl);
     });
 
     it('should redirect to User Management page when there is no page specified', function() {
