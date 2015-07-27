@@ -17,18 +17,24 @@ angular.module('liveopsConfigPanel')
         $scope.mapping.name = selectedMedia.name;
         $scope.onDirty();
         $scope.editMode = false;
+        $scope.createMode = false;
       };
       
       $scope.$on('resource:details:media:create:success',
         function (event, resource) {
-          if ($scope.editMode){
+          if ($scope.createMode){
             $scope.onSelect(resource);
           }
       });
       
-      $scope.createMapping = function(){
-        $scope.$emit('resource:details:create:mediaMapping', $scope.mapping);
+      $scope.createMedia = function(){
+        $scope.$emit('resource:details:create:media');
+        $scope.createMode = true;
       };
+      
+      $scope.$on('resource:details:media:canceled', function () {
+        $scope.createMode = false;
+      });
     }
   };
 }]);

@@ -29,7 +29,7 @@ angular.module('liveopsConfigPanel')
         }
       };
       
-      $scope.$on('resource:details:create:mediaMapping', function () {
+      $scope.$on('resource:details:create:media', function () {
         $scope.selectedMedia = new Media({
           properties: {},
           tenantId: Session.tenant.tenantId

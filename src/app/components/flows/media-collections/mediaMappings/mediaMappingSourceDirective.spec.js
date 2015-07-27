@@ -26,9 +26,9 @@ describe('MediaMappingsSource directive', function () {
     }
   ]));
   
-  it('should catch media create event and select the created resource, if in edit mode', inject(['Media', function (Media) {
+  it('should catch media create event and select the created resource, if in create mode', inject(['Media', function (Media) {
     var newMedia = new Media({id: 'new'});
-    isolateScope.editMode = true;
+    isolateScope.createMode = true;
     spyOn(isolateScope, 'onSelect');
     
     $rootScope.$broadcast('resource:details:media:create:success', newMedia);
@@ -37,8 +37,8 @@ describe('MediaMappingsSource directive', function () {
     expect(isolateScope.onSelect).toHaveBeenCalled();
   }]));
   
-  it('should catch media create event but do nothing if not in edit mode', function () {
-    isolateScope.editMode = false;
+  it('should catch media create event but do nothing if not in create mode', function () {
+    isolateScope.createMode = false;
     spyOn(isolateScope, 'onSelect');
     $rootScope.$broadcast('resource:details:media:create:success', {});
     isolateScope.$digest();
@@ -65,8 +65,9 @@ describe('MediaMappingsSource directive', function () {
       expect($scope.onDirty).toHaveBeenCalled();
     }));
 
-    it('should disable edit mode', inject(function () {
+    it('should disable edit and create modes', inject(function () {
       isolateScope.editMode = true;
+      isolateScope.createMode = true;
       
       isolateScope.onSelect({
         name: 'Some name',
@@ -74,19 +75,20 @@ describe('MediaMappingsSource directive', function () {
       });
       
       expect(isolateScope.editMode).toBeFalsy();
+      expect(isolateScope.createMode).toBeFalsy();
     }));
   });
 
-  describe('createMapping function', function () {
+  describe('createMedia function', function () {
     it('should exist', function () {
-      expect(isolateScope.createMapping).toBeDefined();
-      expect(isolateScope.createMapping).toEqual(jasmine.any(Function));
+      expect(isolateScope.createMedia).toBeDefined();
+      expect(isolateScope.createMedia).toEqual(jasmine.any(Function));
     });
 
-    it('should emit the createMapping event', inject(function () {
+    it('should emit the createMedia event', inject(function () {
       spyOn(isolateScope, '$emit');
-      isolateScope.createMapping();
-      expect(isolateScope.$emit).toHaveBeenCalledWith('resource:details:create:mediaMapping', jasmine.any(Object));
+      isolateScope.createMedia();
+      expect(isolateScope.$emit).toHaveBeenCalledWith('resource:details:create:media');
     }));
   });
 });

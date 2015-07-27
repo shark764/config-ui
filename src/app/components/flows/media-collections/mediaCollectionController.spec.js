@@ -50,12 +50,8 @@ describe('MediaCollectionController', function () {
     }));
   }]));
 
-  it('should have a function in the payload to collections details to create a new media mapping which sets the waiting media, and sets the selected media to new', inject(function (Media, Session) {
-    var newMedia = new Media({
-      id: 'abc'
-    });
-
-    $scope.$broadcast('resource:details:create:mediaMapping', newMedia);
+  it('should catch the create media event and set the selected media to new', inject(function (Media, Session) {
+    $scope.$broadcast('resource:details:create:media');
 
     expect($scope.selectedMedia.tenantId).toEqual(Session.tenant.tenantId);
     expect($scope.selectedMedia.properties).toEqual({});
