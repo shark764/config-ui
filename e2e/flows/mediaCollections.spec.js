@@ -495,6 +495,11 @@ describe('The media collections view', function() {
           expect(mediaCollections.defaultIdDropdown.$('option:checked').getText()).toBe(editedDefaultId);
           expect(mediaCollections.mediaIdentifiers.get(0).getAttribute('value')).toBe(mappingEditedId);
           expect(mediaCollections.mediaDropdowns.get(0).getAttribute('value')).toBe(mappingEditedMedia);
+
+          // Table values are updated
+          mediaCollections.mediaIdentifiers.each(function (mediaIdentifier) {
+            expect(shared.firstTableRow.element(by.css(mediaCollection.identifierColumn)).getText()).toContain(mediaIdentifier);
+          });
         });
       }
     });
@@ -546,6 +551,11 @@ describe('The media collections view', function() {
 
         expect(mediaCollections.defaultIdDropdown.isDisplayed()).toBeTruthy();
         expect(mediaCollections.mediaMappings.count()).toBeGreaterThan(mediaCount);
+        
+        // Table values are updated
+        mediaCollections.mediaIdentifiers.each(function (mediaIdentifier) {
+          expect(shared.firstTableRow.element(by.css(mediaCollection.identifierColumn)).getText()).toContain(mediaIdentifier);
+        });
       });
     });
   });
@@ -944,8 +954,7 @@ describe('The media collections view', function() {
       expect(mediaCollections.mediaSourceField.getAttribute('value')).toBe('Close Source');
     });
 
-    xit('should leave new Media fields and pane open on Media Collections create', function() {
-      // TODO Existing bug, feedback on expected flow required
+    it('should leave new Media fields and pane open on Media Collections create', function() {
       shared.createBtn.click();
       mediaCollections.openCreateNewMedia();
 
