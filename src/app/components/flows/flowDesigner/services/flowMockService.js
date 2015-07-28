@@ -122,7 +122,53 @@
             },
             'terminator': {
               'label': 'Terminator',
-              'type': 'text',
+              'type': 'select',
+              'options': [
+                {
+                  'value': '"#"',
+                  'content': '#'
+                },
+                {
+                  'value': '"0"',
+                  'content': '0'
+                },
+                {
+                  'value': '"1"',
+                  'content': '1'
+                },
+                {
+                  'value': '"2"',
+                  'content': '2'
+                },
+                {
+                  'value': '"3"',
+                  'content': '3'
+                },
+                {
+                  'value': '"4"',
+                  'content': '4'
+                },
+                {
+                  'value': '"5"',
+                  'content': '5'
+                },
+                {
+                  'value': '"6"',
+                  'content': '6'
+                },
+                {
+                  'value': '"7"',
+                  'content': '7'
+                },
+                {
+                  'value': '"8"',
+                  'content': '8'
+                },
+                {
+                  'value': '"9"',
+                  'content': '9'
+                }
+              ],
               'group': 'params'
             },
           },
@@ -353,27 +399,30 @@
           'targeted': true,
           'target': 'client'
         },
-        // {
-        //   'name': 'free-resource',
-        //   'entity': 'activity',
-        //   'label': 'Free Resource',
-        //   'description': 'Free Resource',
-        //   'type': 'task',
-        //   'params': {
-        //     'resource-id': {
-        //       'source': 'expression',
-        //       'type':'string',
-        //       'label':'Resource ID',
-        //       'description':'',
-        //       'icon':'url',
-        //       'tooltip':'Resource to free',
-        //       'dataSensitivity':'low',
-        //       'mandatory':true
-        //     }
-        //   },
-        //   'bindings': {},
-        //   'targeted': false
-        // },
+        {
+          'name': 'free-resource',
+          'entity': 'activity',
+          'label': 'Free Resource',
+          'description': 'Free Resource',
+          'type': 'task',
+          'ui': {
+            'resource': {
+              'label': 'Resource ID',
+              'type': 'text',
+              'group': 'params'
+            }
+          },
+          'params': {
+            'resource-id': {
+              'source': 'expression',
+              'type':'string',
+              'key': 'resource',
+              'mandatory':true
+            }
+          },
+          'bindings': {},
+          'targeted': false
+        },
 
         // RE-ADD FOR SUBFLOWS TO WORK
         // {

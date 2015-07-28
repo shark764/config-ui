@@ -495,6 +495,11 @@ describe('The media collections view', function() {
           expect(mediaCollections.defaultIdDropdown.$('option:checked').getText()).toBe(editedDefaultId);
           expect(mediaCollections.mediaIdentifiers.get(0).getAttribute('value')).toBe(mappingEditedId);
           expect(mediaCollections.mediaDropdowns.get(0).getAttribute('value')).toBe(mappingEditedMedia);
+
+          // Table values are updated
+          mediaCollections.mediaIdentifiers.each(function (mediaIdentifier) {
+            expect(shared.firstTableRow.element(by.css(mediaCollections.identifierColumn)).getText()).toContain(mediaIdentifier.getAttribute('value'));
+          });
         });
       }
     });
@@ -546,6 +551,11 @@ describe('The media collections view', function() {
 
         expect(mediaCollections.defaultIdDropdown.isDisplayed()).toBeTruthy();
         expect(mediaCollections.mediaMappings.count()).toBeGreaterThan(mediaCount);
+
+        // Table values are updated
+        mediaCollections.mediaIdentifiers.each(function (mediaIdentifier) {
+          expect(shared.firstTableRow.element(by.css(mediaCollections.identifierColumn)).getText()).toContain(mediaIdentifier.getAttribute('value'));
+        });
       });
     });
   });
@@ -674,7 +684,7 @@ describe('The media collections view', function() {
 
   describe('create new media pane', function() {
 
-    it('should create new Media to be included in Media Collection', function() {
+    xit('should create new Media to be included in Media Collection', function() {
       // TODO
       shared.createBtn.click();
       mediaCollections.openCreateNewMedia();
@@ -831,8 +841,7 @@ describe('The media collections view', function() {
       expect(mediaCollections.mediaRequiredError.get(2).getText()).toBe('Audio source must be a URL');
     });
 
-    xit('should leave Media pane open when selecting Create & New', function() {
-      // TODO Existing bug
+    it('should leave Media pane open when selecting Create & New', function() {
       var randomMedia = Math.floor((Math.random() * 1000) + 1);
       shared.createBtn.click();
       mediaCollections.openCreateNewMedia();
@@ -945,8 +954,7 @@ describe('The media collections view', function() {
       expect(mediaCollections.mediaSourceField.getAttribute('value')).toBe('Close Source');
     });
 
-    xit('should leave new Media fields and pane open on Media Collections create', function() {
-      // TODO Existing bug, feedback on expected flow required
+    it('should leave new Media fields and pane open on Media Collections create', function() {
       shared.createBtn.click();
       mediaCollections.openCreateNewMedia();
 
