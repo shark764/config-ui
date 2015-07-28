@@ -20,7 +20,7 @@ angular.module('liveopsConfigPanel')
         
         $scope.isString = function(value) {
           return angular.isString(value);
-        }
+        };
       }
     };
    });

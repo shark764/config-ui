@@ -5,14 +5,14 @@ angular.module('liveopsConfigPanel')
     return {
       require: 'ngModel',
       link: function (scope, elm, attrs, ctrl) {
-        ctrl.$validators.mediaMapDuplicate = function(modelValue, viewValue) {
+        ctrl.$validators.mediaMapDuplicate = function(modelValue) {
           var isValid = true;
           var resource = scope.$parent.$parent.resource;
           angular.forEach(resource.mediaMap, function(map) {
             isValid = isValid && (map.lookup !== modelValue);
           });
           return isValid;
-        };;
+        };
       }
     };
   }]);

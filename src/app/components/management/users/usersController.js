@@ -37,9 +37,12 @@ angular.module('liveopsConfigPanel')
       };
 
       User.prototype.postCreateError = function (response) {
+        if(response.status !== 400) {
+          return response;
+        }
+        
         var error = response.data.error;
-        if (error.code === 400 &&
-          error.attribute.email === 'Email address already exists in the system') {
+        if (error.attribute.email === 'Email address already exists in the system') {
           Alert.success('User already exists. Sending ' + this.email + ' an invite for ' + Session.tenant.name);
 
           Invite.save({
@@ -52,7 +55,7 @@ angular.module('liveopsConfigPanel')
           $scope.create();
         }
 
-        return error;
+        return response;
       };
 
       $scope.fetchUsers = function () {
