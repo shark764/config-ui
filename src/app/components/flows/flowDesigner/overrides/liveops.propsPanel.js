@@ -14,35 +14,38 @@
         return formSection;
       },
 
-      string: function (input) {
+      string: function (input, index) {
         var formSection = '<div class="input-group"><label>' + input.label + '</label><div>';
         formSection += '<input type="text" ng-model="notation.model.attributes.' + input.path + '"';
         if (input.disabled === true) { formSection += ' disabled="disabled"'; }
+        formSection += ' ng-change="onInputChange(notation.model, notation.model.attributes.' + input.path + ', notation.model.attributes.inputs[' + index + '].path)"';
         formSection += '></input></div></div>';
         return formSection;
       },
 
-      number: function (input) {
+      number: function (input, index) {
         var formSection = '<div class="input-group"><label>' + input.label + '</label><div>';
         formSection += '<input type="text" ng-model="notation.model.attributes.' + input.path + '"';
         if (input.disabled === true) { formSection += ' disabled="disabled"'; }
+        formSection += ' ng-change="onInputChange(notation.model, notation.model.attributes.' + input.path + ', notation.model.attributes.inputs[' + index + '].path)"';
         formSection += '></input></div></div>';
         return formSection;
       },
 
-      textarea: function (input) {
+      textarea: function (input, index) {
         var formSection = '<div class="input-group"><label>' + input.label + '</label><div>';
         formSection += '<textarea ng-model="notation.model.attributes.' + input.path + '"';
         if (input.disabled === true) { formSection += ' disabled="disabled"'; }
+        formSection += ' ng-change="onInputChange(notation.model, notation.model.attributes.' + input.path + ', notation.model.attributes.inputs[' + index + '].path)"';
         formSection += '></textarea></div></div>';
         return formSection;
       },
 
-      select: function (input) {
+      select: function (input, index) {
         var formSection = '<div class="input-group"><label>' + input.label + '</label><div>';
-        formSection += '<select ng-init="' + input.name + ' = \'\'" ng-model="notation.model.attributes.' + input.path + '"';
+        formSection += '<select ng-model="notation.model.attributes.' + input.path + '"';
         if (input.disabled === true) { formSection += ' disabled="disabled"'; }
-        if (input.path === 'activityType') { formSection += ' ng-change="activityTypeChanged(notation.model, notation.model.attributes.' + input.path + ')"'; }
+        formSection += ' ng-change="onInputChange(notation.model, notation.model.attributes.' + input.path + ', notation.model.attributes.inputs[' + index + '].path)"';
         formSection += '><option value="">Please select one...</option>';
         _.each(input.options, function (opt) {
           formSection += '<option value="' + opt.value + '">' + opt.content + '</option>';
@@ -82,8 +85,9 @@
     // Iterate over the inputs on the notation, inserting the
     // appropriate type at the appropriate location within
     // the template
-    _.each(notation.model.attributes.inputs, function (input) {
-      var formSection = formBuilder[input.type](input);
+    _.each(notation.model.attributes.inputs, function (input, index) {
+      console.log(notation);
+      var formSection = formBuilder[input.type](input, index);
       var groupIndex = tpl.indexOf(input.group) + input.group.length + 2;
       tpl = tpl.insert(groupIndex, formSection);
     });
@@ -102,8 +106,8 @@
       link: function (scope, element) {
         scope.loading = true;
 
-        scope.activityTypeChanged = function(model, type) {
-          scope.notation.model.onActivityTypeChange(model, type);
+        scope.onInputChange = function(model, value, path) {
+          scope.notation.model.onInputChange(model, value, path);
         };
 
         var content = $compile(buildTemplate(scope.notation))(scope);

@@ -43,11 +43,16 @@
           stroke: '#0090CC'
         },
         '.inner': {
+          visibility: 'hidden',
           transform: 'scale(0.9,0.9) translate(5,5)'
+        },
+        '.outer': {
+          'stroke-width': 1.5,
+          'stroke-dasharray': 'none'
         },
         path: {
           d: 'M 0 0 L 20 0 20 20 0 20 z M 10 4 L 10 16 M 4 10 L 16 10',
-          ref: '.inner',
+          ref: '.outer',
           'ref-x': 0.5,
           'ref-dy': -20,
           'x-alignment': 'middle',
@@ -55,7 +60,7 @@
           fill: 'transparent'
         },
         image: {
-          ref: '.inner',
+          ref: '.outer',
           'ref-x': 5,
           width: 20,
           height: 20
@@ -92,10 +97,6 @@
     }, joint.shapes.basic.TextBlock.prototype.defaults),
     initialize: function() {
       joint.shapes.basic.TextBlock.prototype.initialize.apply(this, arguments);
-      this.listenTo(this, 'change:subProcess', this.onSubProcessChange);
-      this.onSubProcessChange(this, this.get('subProcess'));
-      this.listenTo(this, 'change:activityType', this.onActivityTypeChange);
-      this.onActivityTypeChange(this, this.get('activityType'));
       this.listenTo(this, 'change:embeds', this.onEmbedsChange);
       this.onEmbedsChange(this, this.get('embeds'));
     },
@@ -138,63 +139,65 @@
         });
       }
     },
-    onActivityTypeChange: function(cell, type) {
-      console.log(cell);
-      console.log(type);
-      switch (type) {
-        case 'task':
-          cell.attr({
-            '.inner': {
-              visibility: 'hidden'
-            },
-            '.outer': {
-              'stroke-width': 1.5,
-              'stroke-dasharray': 'none'
-            },
-            path: {
-              ref: '.outer'
-            },
-            image: {
-              ref: '.outer'
-            }
-          });
-          break;
-        case 'event-sub-process':
-          cell.attr({
-            '.inner': {
-              visibility: 'hidden'
-            },
-            '.outer': {
-              'stroke-width': 1.5,
-              'stroke-dasharray': '1,2'
-            },
-            path: {
-              ref: '.outer'
-            },
-            image: {
-              ref: '.outer'
-            }
-          });
-          break;
-        case 'call-activity':
-          cell.attr({
-            '.inner': {
-              visibility: 'hidden'
-            },
-            '.outer': {
-              'stroke-width': 5,
-              'stroke-dasharray': 'none'
-            },
-            path: {
-              ref: '.outer'
-            },
-            image: {
-              ref: '.outer'
-            }
-          });
-          break;
-        default:
-          throw 'BPMN: Unknown Activity Type: ' + type;
+    onInputChange: function(model, value, path) {
+      if (path === 'activityType') {
+        switch (value) {
+          case 'task':
+            model.attr({
+              '.inner': {
+                visibility: 'hidden'
+              },
+              '.outer': {
+                'stroke-width': 1.5,
+                'stroke-dasharray': 'none'
+              },
+              path: {
+                ref: '.outer'
+              },
+              image: {
+                ref: '.outer'
+              }
+            });
+            break;
+          case 'event-sub-process':
+            model.attr({
+              '.inner': {
+                visibility: 'hidden'
+              },
+              '.outer': {
+                'stroke-width': 1.5,
+                'stroke-dasharray': '1,2'
+              },
+              path: {
+                ref: '.outer'
+              },
+              image: {
+                ref: '.outer'
+              }
+            });
+            break;
+          case 'call-activity':
+            model.attr({
+              '.inner': {
+                visibility: 'hidden'
+              },
+              '.outer': {
+                'stroke-width': 5,
+                'stroke-dasharray': 'none'
+              },
+              path: {
+                ref: '.outer'
+              },
+              image: {
+                ref: '.outer'
+              }
+            });
+            break;
+          default:
+            console.warn('BPMN: Unknown Activity Type: ' + value);
+        }
+      } else {
+        console.warn('This property is not hooked up to a UI listener.');
       }
     },
     onSubProcessChange: function(cell, subProcess) {
