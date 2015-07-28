@@ -139,6 +139,8 @@
       }
     },
     onActivityTypeChange: function(cell, type) {
+      console.log(cell);
+      console.log(type);
       switch (type) {
         case 'task':
           cell.attr({

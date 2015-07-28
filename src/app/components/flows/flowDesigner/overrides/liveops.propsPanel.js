@@ -42,7 +42,7 @@
         var formSection = '<div class="input-group"><label>' + input.label + '</label><div>';
         formSection += '<select ng-init="' + input.name + ' = \'\'" ng-model="notation.model.attributes.' + input.path + '"';
         if (input.disabled === true) { formSection += ' disabled="disabled"'; }
-        if (input.path === 'activityType') { formSection += ' ng-change="activityTypeChanged()"'; }
+        if (input.path === 'activityType') { formSection += ' ng-change="activityTypeChanged(notation.model, notation.model.attributes.' + input.path + ')"'; }
         formSection += '><option value="">Please select one...</option>';
         _.each(input.options, function (opt) {
           formSection += '<option value="' + opt.value + '">' + opt.content + '</option>';
@@ -92,7 +92,7 @@
     return tpl += '</div></div></form>';
   }
 
-  var flowPanel = function ($compile, $timeout) {
+  var propsPanel = function ($compile, $timeout) {
     return {
       scope: {
         notation: '=notation'
@@ -102,8 +102,8 @@
       link: function (scope, element) {
         scope.loading = true;
 
-        scope.activityTypeChanged = function() {
-          scope.notation.model.set('activityType', scope.notation.model.attributes.activityType);
+        scope.activityTypeChanged = function(model, type) {
+          scope.notation.model.onActivityTypeChange(scope.notation.model, scope.notation.model.attributes.activityType);
         };
 
         var content = $compile(buildTemplate(scope.notation))(scope);
@@ -116,5 +116,5 @@
     };
   };
 
-  angular.module('liveopsConfigPanel').directive('flowPanel', flowPanel);
+  angular.module('liveopsConfigPanel').directive('propsPanel', propsPanel);
 })();

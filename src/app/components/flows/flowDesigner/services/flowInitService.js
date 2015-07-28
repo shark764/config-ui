@@ -46,7 +46,7 @@
           graph.panelScope.$destroy();
           graph.panelScope = $rootScope.$new();
           graph.panelScope.notation = notation;
-          var compiledPanel = $compile('<flow-panel notation="notation"></flow-panel>')(graph.panelScope);
+          var compiledPanel = $compile('<props-panel notation="notation"></props-panel>')(graph.panelScope);
           graph.interfaces.inspectorContainer.append(compiledPanel);
         };
 
