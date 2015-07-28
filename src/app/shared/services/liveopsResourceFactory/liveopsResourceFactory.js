@@ -32,17 +32,21 @@ angular.module('liveopsConfigPanel')
           };
 
           var Resource = $resource(apiHostname + endpoint, requestUrlFields, {
-            query: {
+            getAll: {
               method: 'GET',
               isArray: true,
-              transformResponse: appendTransform($http.defaults.transformResponse, function (value) {
-                return getResult(value);
+              transformResponse: appendTransform($http.defaults.transformResponse, function (values) {
+                values = getResult(values);
+
+                return values;
               })
             },
-            get: {
+            getOne: {
               method: 'GET',
               transformResponse: appendTransform($http.defaults.transformResponse, function (value) {
-                return getResult(value);
+                value = getResult(value);
+
+                return value;
               })
             },
             update: {
@@ -83,7 +87,7 @@ angular.module('liveopsConfigPanel')
                 return getResult(value);
               })
             },
-            
+
             delete: {
               method: 'DELETE',
               transformResponse: appendTransform($http.defaults.transformResponse, function (value) {
@@ -91,7 +95,32 @@ angular.module('liveopsConfigPanel')
               })
             }
           });
-          
+
+          Resource.get = function(params, success, failure) {
+            var getResponse = this.getOne(params, success, failure);
+
+            getResponse.$promise.then(function(result) {
+              result.$original = angular.copy(result);
+              return result;
+            });
+
+            return getResponse;
+          };
+
+          Resource.query = function(params, success, failure) {
+            var getAllResponse = this.getAll(params, success, failure);
+
+            getAllResponse.$promise.then(function(results) {
+              angular.forEach(results, function(result) {
+                result.$original = angular.copy(result);
+              });
+
+              return results;
+            });
+
+            return getAllResponse;
+          };
+
           Resource.cachedQuery = function(params, cacheKey, invalidate) {
             var key = cacheKey ? cacheKey : this.resourceName;
             if(!queryCache.get(key) || invalidate) {
@@ -99,10 +128,10 @@ angular.module('liveopsConfigPanel')
               queryCache.put(key, users);
               return users;
             }
-            
+
             return queryCache.get(key);
           };
-          
+
           Resource.prototype.save = function (success, failure) {
             var self = this,
               action = this.isNew() ? this.$save : this.$update,
@@ -129,7 +158,7 @@ angular.module('liveopsConfigPanel')
                 return $q.reject(error);
               })
               .then(function (result) {
-                self.$busy = false;
+                self.$original = angular.copy(result);
 
                 if (success) {
                   return success.call(self, result);
@@ -137,14 +166,20 @@ angular.module('liveopsConfigPanel')
 
                 return result;
               }, function (error) {
-                self.$busy = false;
-
                 if (failure) {
                   return failure.call(self, error);
                 }
 
                 return $q.reject(error);
+              }).finally(function () {
+                self.$busy = false;
               });
+          };
+
+          Resource.prototype.reset = function () {
+            for(var prop in this.$original) {
+              this[prop] = this.$original[prop];
+            }
           };
 
           Resource.prototype.preCreate = function () {
@@ -184,7 +219,7 @@ angular.module('liveopsConfigPanel')
             d.reject(errors);
             return d.promise;
           };
-          
+
           Resource.prototype.getDisplay = function () {
             return this.toString();
           };
