@@ -24,6 +24,9 @@ var Navbar = function() {
   this.queuesLink = element(by.id('queue-management-link'));
   this.mediaLink = element(by.id('media-management-link'));
   this.dispatchMappingsLink = element(by.id('dispatch-mappings-configuration-link'));
+
+  this.userManagementNavDropdown = element(by.css('#users-nav-link > dropdown'));
+  this.downArrow = 'nav-dropdown-down-arrow';
 };
 
 module.exports = new Navbar();

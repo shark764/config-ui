@@ -11,8 +11,8 @@
 </div>
 <div class="input-group">
   <label class="textarea-label">{{'value.description' | translate}}</label>
+  <form-error field="detailsForm.description" error-type-api="{{'media.details.description.error' | translate}}"></form-error>
   <div>
-    <form-error field="detailsForm.description" error-type-api="{{'media.details.description.error' | translate}}"></form-error>
     <textarea ng-model="resource.description" name="description"></textarea>
   </div>
 </div>

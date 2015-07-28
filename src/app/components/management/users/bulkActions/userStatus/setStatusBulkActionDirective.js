@@ -23,8 +23,10 @@ angular.module('liveopsConfigPanel')
           
           $scope.bulkAction.reset = function() {
             $scope.bulkAction.checked = false;
-            $scope.status = false;
+            $scope.status = 'disabled';
           };
+          
+          $scope.bulkAction.reset();
         }
       };
     }

@@ -14,7 +14,7 @@ angular.module('liveopsConfigPanel')
         {name: 'personalTelephone', optional: true}
       ]);
       
-      User.prototype.fullName = function(){
+      User.prototype.getDisplay = function(){
         if (this.firstName || this.lastName){
           var name = (this.firstName ? this.firstName : '') + ' ' + (this.lastName ? this.lastName : '');
           return name.trim();

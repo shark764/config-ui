@@ -22,7 +22,6 @@ describe('The unsaved changes warning', function() {
     // Make changes to user form fields
     users.firstNameFormField.sendKeys('unsavedEdit');
     users.lastNameFormField.sendKeys('unsavedEdit');
-    users.displayNameFormField.sendKeys('unsavedEdit');
 
     // Select cancel
     shared.cancelFormBtn.click().then(function() {
@@ -46,11 +45,9 @@ describe('The unsaved changes warning', function() {
   it('should be closed after changing form fields, selecting cancel and dismissing warning', function() {
     users.firstNameFormField.sendKeys('unsavedEdit');
     users.lastNameFormField.sendKeys('unsavedEdit');
-    users.displayNameFormField.sendKeys('unsavedEdit');
 
     var updatedFirstName = users.firstNameFormField.getAttribute('value');
     var updatedLastName = users.lastNameFormField.getAttribute('value');
-    var updatedDisplayName = users.displayNameFormField.getAttribute('value');
 
     // Select cancel
     shared.cancelFormBtn.click();
@@ -62,7 +59,6 @@ describe('The unsaved changes warning', function() {
     // Fields remain unchanged
     expect(users.firstNameFormField.getAttribute('value')).toContain(updatedFirstName);
     expect(users.lastNameFormField.getAttribute('value')).toContain(updatedLastName);
-    expect(users.displayNameFormField.getAttribute('value')).toContain(updatedDisplayName);
   });
 
   it('should be displayed after changing form fields and selecting Create', function() {
@@ -82,7 +78,6 @@ describe('The unsaved changes warning', function() {
     // Fields remain unchanged
     expect(users.firstNameFormField.getAttribute('value')).toContain('unsavedEdit');
     expect(users.lastNameFormField.getAttribute('value')).toContain('unsavedEdit');
-    expect(users.displayNameFormField.getAttribute('value')).toContain('unsavedEdit');
   });
 
   it('should be closed after changing form fields, selecting Create and clear fields after accepting warning', function() {
@@ -96,7 +91,6 @@ describe('The unsaved changes warning', function() {
     // Create fields are displayed and empty
     expect(users.firstNameFormField.getAttribute('value')).toBe('');
     expect(users.lastNameFormField.getAttribute('value')).toBe('');
-    expect(users.displayNameFormField.getAttribute('value')).toBe('');
     expect(users.emailFormField.getAttribute('value')).toBe('');
     expect(users.externalIdFormField.getAttribute('value')).toBe('');
   });

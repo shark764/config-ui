@@ -7,7 +7,7 @@ angular.module('liveopsConfigPanel')
         'fields': [{
           'header': $translate.instant('value.name'),
           'resolve': function(user) {
-            return user.firstName + ' ' + user.lastName;
+            return user.getDisplay();
           }
         }, {
           'header': $translate.instant('value.email'),
