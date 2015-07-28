@@ -10,6 +10,10 @@ angular.module('liveopsConfigPanel')
       {name: 'status'}
     ]);
     
+    Queue.prototype.getDisplay = function () {
+      return this.name;
+    };
+    
     Queue.resourceName = 'Queue';
     return Queue;
   }]);

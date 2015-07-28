@@ -5,7 +5,6 @@ var UserPage = function() {
 
   this.firstNameFormField = element(by.model('resource.firstName'));
   this.lastNameFormField = element(by.model('resource.lastName'));
-  this.displayNameFormField = element(by.model('resource.displayName'));
   this.emailFormField = element(by.model('resource.email'));
   this.passwordFormField = element(by.model('resource.password'));
   this.externalIdFormField = element(by.model('resource.externalId'));

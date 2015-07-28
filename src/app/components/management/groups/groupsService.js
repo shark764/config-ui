@@ -10,6 +10,10 @@ angular.module('liveopsConfigPanel')
       {name: 'status', optional: true}
     ]);
     
+    Group.prototype.getDisplay = function () {
+      return this.name;
+    };
+    
     Group.resourceName = 'Group';
     return Group;
   }]);

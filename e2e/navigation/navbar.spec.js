@@ -58,6 +58,30 @@ describe('The navbar', function() {
     });
   });
 
+  it('should show dropdowns with downward arrows on hover', function() {
+    // Containes hovering attributes
+    expect(navbar.userManagementNavDropdown.getAttribute('hover-tracker')).toContain('hoverTracker');
+    expect(navbar.userManagementNavDropdown.getAttribute('hovering')).toContain('hovering');
+
+    // Down arrow class
+    expect(navbar.userManagementNavDropdown.getAttribute('collapse-icon')).toContain('fa-caret-down');
+  });
+
+  it('should show dropdowns with downward arrows on click', function() {
+    // No arrow displayed by default
+    expect(shared.usersNavButton.element(by.id(navbar.downArrow)).isDisplayed()).toBeFalsy();
+
+    // Down arrows displayed on click
+    shared.usersNavButton.click();
+    expect(shared.usersNavButton.element(by.id(navbar.downArrow)).isDisplayed()).toBeTruthy();
+
+    browser.actions().mouseMove(shared.siteNavLogo).perform();
+    expect(shared.usersNavButton.element(by.id(navbar.downArrow)).isDisplayed()).toBeTruthy();
+
+    // Down arrow class
+    expect(shared.usersNavButton.element(by.id(navbar.downArrow)).getAttribute('class')).toContain('fa-caret-down');
+  });
+
   describe('User management', function(){
     it('should open user management dropdown on click and list links', function() {
       shared.usersNavButton.click();
@@ -143,7 +167,7 @@ describe('The navbar', function() {
       shared.flowsNavButton.click();
       navbar.queuesLink.click().then(function () {
         expect(browser.getCurrentUrl()).toContain(shared.queuesPageUrl);
-      });      
+      });
     });
 
     it('should navigate to media page when flows link is selected', function() {

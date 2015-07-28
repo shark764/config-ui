@@ -14,7 +14,7 @@
   </ng-form>
 
   <p ng-hide="fetchGroups().$resolved && userGroups.$resolved && fetchGroups().length" class="null">{{'details.groups.none' | translate}}</p>
-  <p ng-show="userGroups.length === 0 && ! addNew" class="null" translate="details.usergroups.none" translate-value-display-name="{{user.fullName()}}"></p>
+  <p ng-show="userGroups.length === 0 && ! addNew" class="null" translate="details.usergroups.none" translate-value-display-name="{{user.getDisplay()}}"></p>
 
   <div ng-show="userGroups.length > 0">
     <div id="tag-wrapper" class=" clear" ng-class="{collapsed : collapsed}">

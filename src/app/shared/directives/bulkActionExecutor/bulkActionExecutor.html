@@ -3,9 +3,9 @@
 <form id="bulk-action-form" name="bulkActionForm" class="details-form" unsaved-changes-warning>
   <div class="detail-header-pane">
     <filter-dropdown
-      label="{{'bulkActions.selected' | translate}}({{checkedItems.length}})"
-      options="checkedItems"
-      display-path="{{selectedDisplay}}"
+      label="{{'bulkActions.selected' | translate}}({{selectedItems().length}})"
+      options="selectedItems()"
+      display-path="getDisplay"
       value-path="id">
     </filter-dropdown>
   </div>

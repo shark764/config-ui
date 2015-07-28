@@ -4,17 +4,17 @@
 
 <div class="input-group">
   <label>{{'value.name' | translate}} *</label>
+  <form-error field="detailsForm.name" error-type-api="true" error-type-required="value.error.name.required"></form-error>
   <div>
-    <form-error field="detailsForm.name" error-type-api="true" error-type-required="value.error.name.required"></form-error>
     <input ng-disabled="resource.id" type="text" ng-required="true" ng-model="resource.name" name="name" required></input>
   </div>
 </div>
 
 <div class="input-group">
   <label>{{'value.type' | translate}} *</label>
+  <form-error field="detailsForm.type" error-type-api="true" error-type-required="media.details.type.error"></form-error>
   <div>
-    <form-error field="detailsForm.type" error-type-api="true" error-type-required="media.details.type.error"></form-error>
-    <select ng-class="{'default-selected': !resource.type}" ng-disabled="resource.id" 
+    <select ng-change="text = ''" ng-disabled="resource.id"
       ng-required="!resource.id" ng-model="resource.type" name="type" required
       ng-options="type.value as type.display for type in mediaTypes">
       <option value="" disabled>{{'media.details.type.select' | translate}}</option>
@@ -29,10 +29,10 @@
       <form-error field="detailsForm.audiosource" error-type-api="true" error-type-required="media.details.source.error" error-type-url="media.details.source.url.error"></form-error>
       <input type="url" ng-required="true" ng-model="resource.source" name="audiosource" required></input>
     </div>
-    
+
     <div ng-switch-default>
       <form-error field="detailsForm.source" error-type-api="true" error-type-required="media.details.source.error"></form-error>
-      <input type="text" ng-required="true" ng-model="resource.source" name="source" required></input>
-    </div>
+    <input type="text" ng-required="true" ng-model="resource.source" name="source" required></input>
+  </div>
   </ng-switch>
 </div>

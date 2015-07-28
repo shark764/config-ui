@@ -36,15 +36,15 @@
       buildInputPanel: function(model) {
         var self = this;
         var modelType = model.get('type');
+        var inputs = model.get('inputs');
 
         //If we're dealing with an actrivity
         if (modelType === 'liveOps.activity') {
           var name = model.get('name');
-          var inputs = model.get('inputs');
           var notation = _.findWhere(self.activities, {name: name});
 
           var params = _.reduce(notation.ui, function(memo, param, name) {
-            if (param.type == 'entity') {
+            if (param.type === 'entity') {
               memo[name] = {
                 label: param.label,
                 group: 'params',
@@ -55,7 +55,7 @@
                     content: entity.source || entity.name
                   };
                 }))
-              }
+              };
             } else {
               memo[name] = param;
             }
@@ -78,9 +78,9 @@
 
         //if we're dealing with an event
         if (modelType === 'liveOps.event') {
-          var event = _.findWhere(self.events, {entity: model.get('entity'), type: model.get('name')})
+          var event = _.findWhere(self.events, {entity: model.get('entity'), type: model.get('name')});
 
-          var inputs = {
+          inputs = {
             entity: {
               type: 'select',
               group: 'general',
@@ -89,7 +89,7 @@
                 return {
                   value: def.entity,
                   content: def.entity
-                }
+                };
               })
             },
             name: {
@@ -100,10 +100,10 @@
                 return {
                   value: def.type,
                   content: def.type
-                }
+                };
               })
             }
-          }
+          };
 
           _.each(event.props, function(prop) {
             switch (prop){
@@ -112,14 +112,14 @@
                   type: 'text',
                   group: 'general',
                   label: 'Target'
-                }
+                };
                 break;
               case 'timer':
                 inputs[prop] = {
                   type: 'text',
                   group: 'general',
                   label: 'Time'
-                }
+                };
                 break;
               case 'bindings':
                 inputs[prop] = {
@@ -139,7 +139,7 @@
                       }
                     }
                   }
-                }
+                };
                 break;
               case 'error':
                 inputs[prop] = {
@@ -159,7 +159,7 @@
                       }
                     }
                   }
-                }
+                };
                 break;
               case 'event':
                 inputs[prop] = {
@@ -189,16 +189,16 @@
                       }
                     }
                   }
-                }
+                };
                 break;
               case 'terminate':
                 inputs[prop] = {
                   type: 'toggle',
                   group: 'general',
                   label: 'Terminate?'
-                }
+                };
             }
-          })
+          });
 
           //Handle any meta info
           _.each(event.meta, function(meta) {
@@ -206,7 +206,7 @@
               model.set('terminate', true);
               delete inputs.terminate;
             }
-          })
+          });
 
           return inputs;
         }
@@ -221,7 +221,7 @@
         params = _.reduce(activity.params, function(memo, param, key) {
 
           if (param.source === 'expression' && _.has(model.params, param.key)) {
-            
+
             if (!param.when || (expression.eval(param.when, model))) {
               memo[key] = {
                 source: 'expression',
@@ -248,9 +248,9 @@
 
         params = _.reduce(model.params, function(memo, param, key) {
           var paramDef = activity.params[key];
-          if (param.source == 'expression') {
-            if (paramDef.type == 'boolean') {
-              memo[paramDef.key] = (param.value == 'true');
+          if (param.source === 'expression') {
+            if (paramDef.type === 'boolean') {
+              memo[paramDef.key] = (param.value === 'true');
             } else {
               memo[paramDef.key] = param.value;
             }
@@ -303,9 +303,9 @@
 
           switch (operator) {
             case 'eq':
-              return condValue == val;
+              return condValue === val;
             case 'ne':
-              return condValue != val;
+              return condValue !== val;
             case 'regex':
               return (new RegExp(condValue)).test(val);
             case 'text':
@@ -330,14 +330,16 @@
       }, false, this);
     },
 
-    _evalExpression: function(expr, model) {
+    _evalExpression: function(expr) {
       if (this._isPrimitive(expr)) {
         return this._evalPrimitive(expr);
       }
 
       return _.reduce(expr, function(res, childExpr, operator) {
 
-        if (operator == 'not') return !this._evalExpression(childExpr);
+        if (operator === 'not') {
+          return !this._evalExpression(childExpr);
+        }
 
         var childExprRes = _.map(childExpr, this._evalExpression, this);
 
@@ -377,7 +379,7 @@
       expr = _.omit(expr, 'otherwise');
       return _.uniq(this._extractVariables(expr));
     }
-  }
+  };
 
   angular.module('liveopsConfigPanel').service('FlowNotationService', FlowNotationService);
 })();
