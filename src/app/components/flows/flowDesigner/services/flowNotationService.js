@@ -63,12 +63,12 @@
             return memo;
           }, {});
 
-          var bindings = _.reduce(notation.bindings, function(memo, binding, index) {
+          var bindings = _.reduce(notation.bindings, function(memo, binding) {
             memo[binding] = {
               label: binding,
               group: 'Bindings',
               type: 'text'
-            }
+            };
 
             return memo;
           }, {});
