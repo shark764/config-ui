@@ -32,7 +32,7 @@ angular.module('liveopsConfigPanel')
           };
 
           var Resource = $resource(apiHostname + endpoint, requestUrlFields, {
-            getAll: {
+            query: {
               method: 'GET',
               isArray: true,
               transformResponse: appendTransform($http.defaults.transformResponse, function (values) {
@@ -41,7 +41,7 @@ angular.module('liveopsConfigPanel')
                 return values;
               })
             },
-            getOne: {
+            get: {
               method: 'GET',
               transformResponse: appendTransform($http.defaults.transformResponse, function (value) {
                 value = getResult(value);
@@ -96,8 +96,10 @@ angular.module('liveopsConfigPanel')
             }
           });
 
+          var proxyGet = Resource.get;
+
           Resource.get = function(params, success, failure) {
-            var getResponse = this.getOne(params, success, failure);
+            var getResponse = proxyGet.call(this, params, success, failure);
 
             getResponse.$promise.then(function(result) {
               result.$original = angular.copy(result);
@@ -107,8 +109,10 @@ angular.module('liveopsConfigPanel')
             return getResponse;
           };
 
+          var proxyQuery = Resource.query;
+
           Resource.query = function(params, success, failure) {
-            var getAllResponse = this.getAll(params, success, failure);
+            var getAllResponse = proxyQuery.call(this, params, success, failure);
 
             getAllResponse.$promise.then(function(results) {
               angular.forEach(results, function(result) {
