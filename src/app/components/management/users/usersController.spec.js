@@ -15,6 +15,7 @@ describe('users controller', function () {
   beforeEach(module('gulpAngular'));
   beforeEach(module('liveopsConfigPanel'));
   beforeEach(module('liveopsConfigPanel.mock.content.management.users'));
+  beforeEach(module('liveopsConfigPanel.mock.content.management.tenantUsers'));
 
   beforeEach(inject(['$compile', '$rootScope', '$httpBackend', '$controller', 'apiHostname', 'mockUsers', 'Session', 'Invite', 'User',
     function ($compile, $rootScope, _$httpBackend, $controller, _apiHostname, _mockUsers, _Session_, _Invite_, _User_) {
@@ -34,8 +35,8 @@ describe('users controller', function () {
     }
   ]));
 
-  it('should have fetchUsers', inject(function () {
-    var users = $scope.fetchUsers();
+  it('should have fetchTenantUsers', inject(function () {
+    var users = $scope.fetchTenantUsers();
     
     $httpBackend.flush();
     
@@ -48,61 +49,6 @@ describe('users controller', function () {
       expect($scope.selectedUser).toBeDefined();
       expect($scope.selectedUser.status).toEqual('enabled');
     }]));
-
-  describe('updateDisplayName function', function () {
-    var childScope;
-
-    beforeEach(function () {
-      childScope = {
-        resource: {
-          firstName: 'first',
-          lastName: 'last',
-          displayName: ''
-        },
-
-        detailsForm: {
-          displayName: {
-            $untouched: true
-          }
-        }
-      };
-    });
-
-    it('should update the displayName with the first and last name if untouched', inject(function () {
-      $scope.additional.updateDisplayName(childScope);
-      expect(childScope.resource.displayName).toEqual('first last');
-    }));
-
-    it('should do nothing if the displayName field is touched', inject(function () {
-      childScope.detailsForm.displayName.$untouched = false;
-      $scope.additional.updateDisplayName(childScope);
-      expect(childScope.resource.displayName).toEqual('');
-    }));
-
-    it('should return different users on fetch if session.tenant.tenantId is changed', inject(function () {
-      var tempUsers = [{
-        'id': 'userId20',
-        'status': true,
-        'externalId': 80232,
-        'state': 'NOT_READY',
-        'lastName': 'Oliver',
-        'firstName': 'Michael',
-        'email': 'michael.oliver@ezent.io'
-      }];
-
-      $httpBackend.expect('GET', apiHostname + '/v1/users?tenantId=tenant').respond({
-        'result': tempUsers
-      });
-
-      Session.tenant.tenantId = 'tenant';
-      var users = $scope.fetchUsers();
-
-      $httpBackend.flush();
-
-      expect(users.length).toEqual(1);
-      expect(users[0].id).toEqual(tempUsers[0].id);
-    }));
-  });
 
   describe('postSave function', function () {
     it('should reset the session authentication token if user changes their own password',

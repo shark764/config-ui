@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('UsersController', ['$scope', '$window', 'userRoles', 'User', 'Session', 'AuthService', 'userTableConfig', 'Invite', 'Alert', 'flowSetup', 'BulkAction',
-    function ($scope, $window, userRoles, User, Session, AuthService, userTableConfig, Invite, Alert, flowSetup, BulkAction) {
+  .controller('UsersController', ['$scope', '$window', 'userRoles', 'User', 'Session', 'AuthService', 'userTableConfig', 'Invite', 'Alert', 'flowSetup', 'BulkAction', 'TenantUser',
+    function ($scope, $window, userRoles, User, Session, AuthService, userTableConfig, Invite, Alert, flowSetup, BulkAction, TenantUser) {
       var self = this;
       $scope.Session = Session;
 
@@ -53,8 +53,8 @@ angular.module('liveopsConfigPanel')
         return error;
       };
 
-      $scope.fetchUsers = function () {
-        return User.cachedQuery({
+      $scope.fetchTenantUsers = function () {
+        return TenantUser.cachedQuery({
           tenantId: Session.tenant.tenantId
         });
       };
