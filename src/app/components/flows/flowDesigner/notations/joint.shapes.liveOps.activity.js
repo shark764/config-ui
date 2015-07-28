@@ -72,24 +72,6 @@
           label: 'Type',
           group: 'general',
           index: 3
-        },
-        bindings: {
-          type: 'list',
-          label: 'Bindings',
-          group: 'bindings',
-          item: {
-            type: 'object',
-            properties: {
-              key: {
-                label: 'Key',
-                type: 'text'
-              },
-              value: {
-                label: 'Value',
-                type: 'text'
-              }
-            }
-          }
         }
       }
     }, joint.shapes.basic.TextBlock.prototype.defaults),

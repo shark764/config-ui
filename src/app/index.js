@@ -153,6 +153,9 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
 
             return deferred.promise;
           }],
+          notations: ['$http', function($http) {
+            return $http.get('/app/components/flows/flowDesigner/mocks/notations.json');
+          }],
           media: ['Media', 'Session', function(Media, Session) {
             return Media.query({tenantId : Session.tenant.tenantId});
           }],

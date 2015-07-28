@@ -8,10 +8,10 @@
 
     <div class="details">
       <div>
-        <user-toggle class="status-toggle" ng-model="resource.status">
-        </user-toggle>
+        <toggle class="status-toggle" ng-model="resource.status" true-value="enabled" false-value="disabled">
+        </toggle>
       </div>
-      
+
       <div>
         <b audit-text
           translation="value.createdby.time"

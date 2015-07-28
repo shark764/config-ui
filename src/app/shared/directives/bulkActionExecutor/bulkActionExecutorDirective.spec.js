@@ -22,7 +22,7 @@ describe('bulkActionExecutor directive', function () {
 
       $scope.bulkActions = mockBulkActions;
       $scope.showBulkActions = true;
-      
+
       var element = $compile('<bulk-action-executor items="items" bulk-actions="bulkActions" show-bulk-actions="showBulkActions"></bulk-action-executor>')($scope);
       $scope.$digest();
       isolateScope = element.isolateScope();
@@ -121,20 +121,19 @@ describe('bulkActionExecutor directive', function () {
       var checkedItems = isolateScope.selectedItems();
       expect(checkedItems.length).toEqual(2);
     });
-    
+
     it('should never break the $scope.checkedItems reference', function() {
-      var scopeCheckedItems = isolateScope.checkedItems;
       var checkedItems = isolateScope.selectedItems();
       expect(checkedItems).toBe(checkedItems);
     });
   });
-  
+
   describe('showBulkActions watch', function () {
     it('should call reset form is showBulkActions becomes false', function () {
       spyOn(isolateScope, 'resetForm');
       isolateScope.showBulkActions = false;
       isolateScope.$digest();
-      
+
       expect(isolateScope.resetForm).toHaveBeenCalled();
     });
 
@@ -142,7 +141,7 @@ describe('bulkActionExecutor directive', function () {
       spyOn(isolateScope, 'resetForm');
       isolateScope.showBulkActions = true;
       isolateScope.$digest();
-      
+
       expect(isolateScope.resetForm).not.toHaveBeenCalled();
     });
   });
