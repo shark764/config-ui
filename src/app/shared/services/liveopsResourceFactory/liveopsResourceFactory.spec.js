@@ -6,55 +6,60 @@ describe('LiveopsResourceFactory', function () {
   describe('queryCache function', function () {
     var LiveopsResourceFactory,
       apiHostname,
-      Resource;
+      Resource,
+      $httpBackend,
+      apiHostname;
 
     beforeEach(module('gulpAngular'));
     beforeEach(module('liveopsConfigPanel'));
     beforeEach(module('liveopsConfigPanel.mock.content.management.skills'));
 
-    beforeEach(inject(['LiveopsResourceFactory', function (LiveopsResourceFactory) {
-      Resource = LiveopsResourceFactory.create('/endpoint');
-    }]));
+    beforeEach(inject(['LiveopsResourceFactory', '$httpBackend', 'apiHostname',
+      function (LiveopsResourceFactory, _$httpBackend_, _apiHostname_) {
+        Resource = LiveopsResourceFactory.create('/endpoint');
+        $httpBackend = _$httpBackend_;
+        apiHostname = _apiHostname_;
+      }]));
 
     describe('$original copy', function () {
       it('should store a pristine copy of all objects returned on query', function () {
 
-          Resource.query = jasmine.createSpy().and.returnValue([{
-            id: 'id1'
-          }, {
-            id: 'id2'
-          }]);
+        $httpBackend.whenGET(apiHostname + '/endpoint').respond(200, [
+          {id: '1'}, {id: '2'}
+        ]);
 
-          var resources = Resource.query();
+        var resources = Resource.query();
 
-          expect(resources[0].$original.id).toEqual('id1');
-          expect(resources[1].$original.id).toEqual('id2');
+        $httpBackend.flush();
+
+        expect(resources[0].$original.id).toEqual('1');
+        expect(resources[1].$original.id).toEqual('2');
       });
 
       it('should store a pristine copy of the object returned on get', function () {
 
-          Resource.get = jasmine.createSpy().and.returnValue({
-            id: 'id1'
-          });
+          $httpBackend.whenGET(apiHostname + '/endpoint').respond(200, {id: '1'});
 
           var resource = Resource.get();
 
-          expect(resource.$original.id).toEqual('id1');
+          $httpBackend.flush();
+
+          expect(resource.$original.id).toEqual('1');
       });
 
       it('should have a function to reset an object back to its original state', function () {
 
-          Resource.get = jasmine.createSpy().and.returnValue({
-            id: 'id1'
-          });
+          $httpBackend.whenGET(apiHostname + '/endpoint').respond(200, {id: '1'});
 
           var resource = Resource.get();
+
+          $httpBackend.flush();
 
           resource.id = 'abc';
 
           resource.reset();
 
-          expect(resource.id).toEqual('id1');
+          expect(resource.id).toEqual('1');
       });
     });
 
