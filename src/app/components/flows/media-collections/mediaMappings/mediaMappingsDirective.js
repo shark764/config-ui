@@ -10,9 +10,11 @@ angular.module('liveopsConfigPanel')
     },
     templateUrl: 'app/components/flows/media-collections/mediaMappings/mediaMappings.html',
     link: function ($scope) {
-      $scope.medias = Media.cachedQuery({
-        tenantId: Session.tenant.tenantId
-      });
+      $scope.fetchMedias = function(){
+        return Media.cachedQuery({
+          tenantId: Session.tenant.tenantId
+        });
+      }
       
       $scope.addMapping = function(){
         if($scope.collection.mediaMap){
@@ -43,7 +45,7 @@ angular.module('liveopsConfigPanel')
       
       $scope.$on('resource:details:media:create:success',
         function (event, resource) {
-          $scope.medias.push(resource);
+          $scope.fetchMedias().push(resource);
         }
       );
     }

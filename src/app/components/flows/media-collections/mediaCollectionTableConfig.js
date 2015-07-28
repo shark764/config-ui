@@ -12,16 +12,12 @@ angular.module('liveopsConfigPanel')
         }, {
           'header': $translate.instant('value.identifier'),
           'resolve': function(collection) {
-            var identifiers = '';
+            var identifiers = [];
             for (var i = 0; i < collection.mediaMap.length; i++){
-              if (identifiers !== ''){
-                identifiers += ', ';
-              }
-
-             identifiers += collection.mediaMap[i].lookup;
+              identifiers.push(collection.mediaMap[i].lookup);
             }
             
-            return identifiers;
+            return identifiers.join(', ');
           }
         }],
         'searchOn' : ['name'],

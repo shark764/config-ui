@@ -42,11 +42,11 @@ describe('MediaMappings directive', function () {
       id: 'Cool new media'
     });
     
-    var startMediaCount = isolateScope.medias.length;
+    var startMediaCount = isolateScope.fetchMedias().length;
     $rootScope.$broadcast('resource:details:media:create:success', newMedia);
     isolateScope.$digest();
-    expect(isolateScope.medias.length).toBe(startMediaCount + 1);
-    expect(isolateScope.medias[isolateScope.medias.length - 1].id).toEqual('Cool new media');
+    expect(isolateScope.fetchMedias().length).toBe(startMediaCount + 1);
+    expect(isolateScope.fetchMedias()[isolateScope.fetchMedias().length - 1].id).toEqual('Cool new media');
   }]));
   
   describe('addMapping function', function () {
