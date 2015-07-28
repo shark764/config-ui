@@ -57,7 +57,7 @@
       typeahead: function (input, index) {
         var formSection = '<div class="input-group">';
         formSection += '<label>' + input.label + '</label><div>';
-        formSection += '<type-ahead hover="true" placeholder="Search..." items="notation.model.attributes.inputs[' + index + '].options" selected-item="notation.model.attributes.' + input.path + '" name-field="content" is-required="false">';
+        formSection += '<type-ahead hover="true" placeholder="Search..." items="notation.model.attributes.inputs[' + index + '].options" on-select="setEntityProp(' + index + ')" selected-item="selectedItem" name-field="content" is-required="false">';
         formSection += '</div></div>';
         return formSection;
       },
@@ -105,6 +105,14 @@
       restrict: 'E',
       link: function (scope, element) {
         scope.loading = true;
+
+        scope.selectedItem = null;
+        scope.setEntityProp = function(index) {
+          scope.notation.model.attributes.params[scope.notation.model.attributes.inputs[index].name] = {
+            id: scope.selectedItem.value
+          };
+          console.log(scope.notation);
+        };
 
         // Populate typeahead search collections with relevant API sources
         _.each(scope.notation.model.attributes.inputs, function (input, index) {

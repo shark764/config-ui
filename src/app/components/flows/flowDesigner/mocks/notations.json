@@ -1,0 +1,92 @@
+{
+  "activities": [
+    {
+      "name": "play-media",
+      "entity": "activity",
+      "label": "Play Media",
+      "targeted": true,
+      "target": "twilio",
+      "inputs": [{
+        "name": "participant",
+        "path": "params.participant",
+        "type": "select",
+        "label": "Participant:",
+        "group": "params",
+        "index": 0,
+        "disabled": false,
+        "required": true,
+        "placeholder": "Select a media...",
+        "defaultsTo": "",
+        "hidden": false,
+        "options": [{
+          "value": "customer",
+          "content": "Customer"
+        }, {
+          "value": "resource",
+          "content": "Resource"
+        }]
+      }, {
+        "name": "media",
+        "path": "params.media",
+        "type": "typeahead",
+        "label": "Media",
+        "group": "params",
+        "index": 1,
+        "disabled": false,
+        "required": true,
+        "placeholder": "Select a media...",
+        "defaultsTo": "",
+        "hidden": false,
+        "source": "media"
+      }, {
+        "name": "loop",
+        "path": "params.loop",
+        "type": "boolean",
+        "label": "Loop?",
+        "group": "params",
+        "index": 2,
+        "disabled": false,
+        "required": true,
+        "placeholder": null,
+        "defaultsTo": null,
+        "hidden": false
+      }],
+      "params": {
+        "media": {
+          "source": "entity",
+          "type": "media",
+          "mandatory": true,
+          "key": "media"
+        },
+        "loop": {
+          "source": "expression",
+          "type": "boolean",
+          "mandatory": true,
+          "default": false,
+          "key": "loop"
+        },
+        "customer": {
+          "source": "expression",
+          "type": "variable",
+          "key": "participant",
+          "when": {
+            "eq": {
+              "params.participant": "customer"
+            }
+          }
+        },
+        "resource": {
+          "source": "expression",
+          "type": "variable",
+          "key": "participant",
+          "when": {
+            "ne": {
+              "params.participant": "customer"
+            }
+          }
+        }
+      },
+      "bindings": []
+    }
+  ]
+}

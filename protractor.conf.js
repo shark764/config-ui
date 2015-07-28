@@ -14,10 +14,10 @@ exports.config = {
     'screenResolution': '1280x1024',
     'tunnelIdentifier': process.env.SAUCE_TUNNEL,
     // Test Identifiers - For easier grouping and reference in Sauce Labs
-    'name': 'Sauce Labs Test',
-    'build': '0001',
-    'tags': ['BlueSpurs', 'full-regression'],
-    'max-duration': '5400',
+    'name': '',
+    'build': '',
+    'tags': [''],
+    'max-duration': '5400'
   },
 
   // Timeout time in milliseconds; prevents Protractor waiting to synchronize timeouts
@@ -49,7 +49,14 @@ exports.config = {
       paths.e2e + '/tableControls/*.spec.js',
       paths.e2e + '/userProfile/*.spec.js'
     ],
-    regression: [paths.e2e + '/**/*.spec.js']
+    regression: [paths.e2e + '/**/*.spec.js'],
+    management: [paths.e2e + '/management/*.spec.js'],
+    configuration: [paths.e2e + '/configuration/*.spec.js'],
+    flows: [paths.e2e + '/flows/*.spec.js'],
+    login: [paths.e2e + '/login/*.spec.js'],
+    navigation: [paths.e2e + '/navigation/*.spec.js'],
+    tableControls: [paths.e2e + '/tableControls/*.spec.js'],
+    userProfile: [paths.e2e + '/userProfile/*.spec.js']
   },
 
   framework: 'jasmine2',
