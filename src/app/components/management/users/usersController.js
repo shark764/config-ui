@@ -5,14 +5,15 @@ angular.module('liveopsConfigPanel')
     function ($scope, $window, userRoles, User, Session, AuthService, userTableConfig, Invite, Alert, flowSetup, BulkAction) {
       var self = this;
       $scope.Session = Session;
+      $scope.roles = userRoles;
 
       $window.flowSetup = flowSetup;
 
-      this.newPassword = null;
+      $scope.newPassword = null;
 
       User.prototype.preUpdate = function () {
         if (this.password) {
-          self.newPassword = this.password;
+          $scope.newPassword = this.password;
         }
       };
 
@@ -54,15 +55,19 @@ angular.module('liveopsConfigPanel')
       };
 
       $scope.fetchUsers = function () {
-        return User.cachedQuery({
+        $scope.users = User.query({
           tenantId: Session.tenant.tenantId
         });
       };
-      
+
       $scope.create = function () {
         $scope.selectedUser = new User({
           status: 'enabled'
         });
+      };
+
+      $scope.reset = function () {
+        $scope.selectedUser.reset();
       };
 
       //Various navigation rules
@@ -79,23 +84,22 @@ angular.module('liveopsConfigPanel')
         $scope.showBulkActions = true;
       });
 
-      $scope.additional = {
-        roles: userRoles,
-        updateDisplayName: function ($childScope) {
-          if (!$childScope.resource.id && $childScope.detailsForm.displayName.$untouched) {
-            var first = $childScope.resource.firstName ? $childScope.resource.firstName : '';
-            var last = $childScope.resource.lastName ? $childScope.resource.lastName : '';
-            $childScope.resource.displayName = first + ' ' + last;
-          }
-        }
+      $scope.save = function () {
+        $scope.loading = true;
+        $scope.selectedUser.save().finally(function () {
+          $scope.loading = false;
+        });
       };
 
       $scope.tableConfig = userTableConfig;
+
       $scope.bulkActions = {
         setStatus: new BulkAction(),
         resetPassword: new BulkAction(),
         userSkills: new BulkAction(),
         userGroups: new BulkAction()
       };
+
+      $scope.$watch('Session.tenant.tenantId', $scope.fetchUsers);
     }
   ]);

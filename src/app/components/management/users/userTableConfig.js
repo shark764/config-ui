@@ -7,34 +7,34 @@ angular.module('liveopsConfigPanel')
         'fields': [{
           'header': $translate.instant('value.name'),
           'resolve': function(user) {
-            return user.getDisplay();
-          }
+            return user.$original.getDisplay();
+          },
         }, {
           'header': $translate.instant('value.email'),
-          'name': 'email'
+          'name': '$original.email'
         }, {
           'header': $translate.instant('user.table.externalId'),
-          'name': 'externalId'
+          'name': '$original.externalId'
         }, {
           'header': $translate.instant('user.table.state'),
-          'name': 'state',
+          'name': '$original.state',
           'transclude': true,
           'checked': false,
           'options': userStates
         }, {
           'header': $translate.instant('value.status'),
-          'name': 'status',
+          'name': '$original.status',
           'transclude': true,
           'checked': false,
           'options': statuses()
         }],
         'searchOn': ['firstName', 'lastName', {
-          path: 'skills',
+          path: '$original.skills',
           inner: {
             path: 'name'
           }
         }],
-        'orderBy': ['lastName'],
+        'orderBy': ['$original.lastName'],
         'title': $translate.instant('user.table.title')
       };
     }

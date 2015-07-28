@@ -2,10 +2,10 @@
 <table-controls
   id="table-pane"
   config="tableConfig"
-  items="fetchUsers()"
+  items="users"
   selected="selectedUser"
   resource-name="user">
-  
+
   <user-status name="status" ng-model="item.status"></user-status>
 
   <center name="state">
@@ -22,20 +22,32 @@
     right-min-width="300"></resize-handle>
 
 <div id="right-panel" class="right-panel" ng-show="selectedUser || showBulkActions">
-  <resource-details
-    ng-show="selectedUser && !showBulkActions"
-    id="details-pane"
-    extend-scope="additional"
-    header-template-url="app/components/management/users/userDetailHeader.html"
-    body-template-url="app/components/management/users/userDetailBody.html"
-    original-resource="selectedUser"
-    resource-name="user"/></resource-details>
 
-  <bulk-action-executor class="details-pane user-ba" ng-show="showBulkActions" items="fetchUsers()"
+  <div class="details-pane" ng-show="selectedUser && !showBulkActions">
+    <loading ng-if="! selectedUser"></loading>
+    <i id="close-details-button" class="fa fa-remove remove" ng-click="closeDetails()"></i>
+
+    <ng-form unsaved-changes-warning ng-show="selectedUser" class="details-form" name="detailsForm">
+
+      <div class="detail-header-pane" compiled-include="app/components/management/users/userDetailHeader.html">
+      </div>
+
+      <div class="detail-body-pane" compiled-include="app/components/management/users/userDetailBody.html">
+      </div>
+
+      <div class="detail-controls-pane">
+        <input id="cancel-details-btn" ng-disabled="loading" type="button" class="btn" ng-click="reset()" value="{{'value.cancel' | translate}}"></input>
+        <input id="submit-details-btn" ng-show="!loading" ng-click="save()" ng-disabled="detailsForm.$invalid || ! detailsForm.$dirty" class="btn btn-primary" type="submit" value="{{'value.submit' | translate}}" />
+        <a ng-disabled="true" ng-show="loading" class="btn btn-primary"><i class="fa fa-refresh fa-spin"></i></a>
+      </div>
+    </ng-form>
+  </div>
+
+  <bulk-action-executor class="details-pane user-ba" ng-show="showBulkActions" items="users"
     bulk-actions="bulkActions" show-bulk-actions="showBulkActions">
     <ba-set-status bulk-action="bulkActions.setStatus"></ba-set-status>
     <ba-reset-password bulk-action="bulkActions.resetPassword"></ba-reset-password>
-    <ba-user-skills bulk-action="bulkActions.userSkills" users="fetchUsers()"></ba-user-skills>
-    <ba-user-groups bulk-action="bulkActions.userGroups" users="fetchUsers()"></ba-user-groups>
+    <ba-user-skills bulk-action="bulkActions.userSkills" users="users"></ba-user-skills>
+    <ba-user-groups bulk-action="bulkActions.userGroups" users="users"></ba-user-groups>
   </bulk-action-executor>
 </div>

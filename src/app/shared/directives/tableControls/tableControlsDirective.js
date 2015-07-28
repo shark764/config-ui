@@ -29,7 +29,7 @@ angular.module('liveopsConfigPanel')
               $rootScope.$broadcast('table:on:click:create');
             });
           };
-          
+
           $scope.onActionsClick = function() {
             DirtyForms.confirmIfDirty(function(){
               $rootScope.$broadcast('table:on:click:actions');
@@ -59,8 +59,7 @@ angular.module('liveopsConfigPanel')
 
           $scope.parse = function (item, field) {
             if (field.name) {
-              var parseFunc = $parse(field.name);
-              return parseFunc(item);
+              return $parse(field.name)(item);
             } else if (field.resolve) {
               return field.resolve(item);
             }
