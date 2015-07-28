@@ -15,11 +15,9 @@ describe('LiveopsResourceFactory', function () {
     }]));
 
     describe('ON cachedQuery', function () {
-      beforeEach(inject(['apiHostname',
-        function () {
-          spyOn(Resource, 'query').and.returnValue([]);
-        }
-      ]));
+      beforeEach(function () {
+        spyOn(Resource, 'query').and.returnValue([]);
+      });
 
       it('should return api data on first call', inject(['queryCache',
         function (queryCache) {
