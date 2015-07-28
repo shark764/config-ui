@@ -18,7 +18,7 @@ describe('The unsaved changes warning', function() {
 
   it('should be displayed after changing form fields and selecting cancel', function() {
     shared.firstTableRow.click();
-    
+
     // Make changes to user form fields
     users.firstNameFormField.sendKeys('unsavedEdit');
     users.lastNameFormField.sendKeys('unsavedEdit');
@@ -114,7 +114,7 @@ describe('The unsaved changes warning', function() {
     // Accept warning message to clear changes
     alertDialog = browser.switchTo().alert();
     alertDialog.accept();
-    
+
     //Panel is hidden
     expect(shared.detailsForm.isDisplayed()).toBeFalsy();
   });
@@ -122,7 +122,7 @@ describe('The unsaved changes warning', function() {
   it('should be closed after selecting cancel and dismissing warning', function() {
     // Select create
     shared.createBtn.click();
-    
+
     users.firstNameFormField.sendKeys('First');
     users.lastNameFormField.sendKeys('Last');
     users.emailFormField.sendKeys('titantest@mailinator.com');
@@ -212,7 +212,7 @@ describe('The unsaved changes warning', function() {
     // Select Tenants nav button
     shared.tenantsNavButton.click();
     navbar.tenantsLink.click();
-    
+
     // Accept warning message to clear changes and change page
     alertDialog = browser.switchTo().alert();
     alertDialog.accept();
@@ -225,7 +225,7 @@ describe('The unsaved changes warning', function() {
     // Select Users nav button
     shared.usersNavButton.click();
     navbar.userLink.click();
-    
+
     var alertPresent;
 
     browser.switchTo().alert().then(
@@ -237,6 +237,64 @@ describe('The unsaved changes warning', function() {
       }
     ).then(function() {
       expect(alertPresent).toBeFalsy();
+    });
+  });
+
+  it('should be displayed after making changes to Bulk Actions when Cancel or X is selected', function() {
+    shared.actionsBtn.click();
+    expect(bulkActions.bulkActionsForm.isDisplayed()).toBeTruthy();
+    bulkActions.selectEnable.click();
+
+    // Unsaved changes warning on Cancel
+    bulkActions.cancelFormBtn.click();
+    alertDialog = browser.switchTo().alert();
+    alertDialog.accept();
+    expect(bulkActions.bulkActionsForm.isDisplayed()).toBeFalsy();
+
+    // Unsaved changes warning on X
+    shared.actionsBtn.click();
+    bulkActions.selectEnable.click();
+    bulkActions.closeFormBtn.click();
+    alertDialog = browser.switchTo().alert();
+    alertDialog.accept();
+    expect(bulkActions.bulkActionsForm.isDisplayed()).toBeFalsy();
+  });
+
+  it('should be displayed when switching between Create and Bulk Actions panels', function() {
+    bulkActions.selectEnable.click();
+    shared.createBtn.click();
+    alertDialog = browser.switchTo().alert();
+    alertDialog.accept();
+    expect(bulkActions.bulkActionsForm.isDisplayed()).toBeFalsy();
+    expect(shared.detailsForm.isDisplayed()).toBeTruthy();
+
+    shared.createBtn.click();
+    users.firstNameFormField.sendKeys('test');
+    shared.actionsBtn.click();
+    alertDialog = browser.switchTo().alert();
+    alertDialog.accept();
+    expect(bulkActions.bulkActionsForm.isDisplayed()).toBeTruthy();
+    expect(shared.detailsForm.isDisplayed()).toBeFalsy();
+  });
+
+  it('should be displayed when switching between Details and Bulk Actions panels', function() {
+    shared.tableElements.count().then(function(tableCount) {
+      if (tableCount > 0) {
+        bulkActions.selectEnable.click();
+        shared.firstTableRow.click();
+        alertDialog = browser.switchTo().alert();
+        alertDialog.accept();
+        expect(bulkActions.bulkActionsForm.isDisplayed()).toBeFalsy();
+        expect(shared.detailsForm.isDisplayed()).toBeTruthy();
+
+        shared.createBtn.click();
+        users.firstNameFormField.sendKeys('test');
+        shared.actionsBtn.click();
+        alertDialog = browser.switchTo().alert();
+        alertDialog.accept();
+        expect(bulkActions.bulkActionsForm.isDisplayed()).toBeTruthy();
+        expect(shared.detailsForm.isDisplayed()).toBeFalsy();
+      }
     });
   });
 });
