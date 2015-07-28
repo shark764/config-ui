@@ -24,7 +24,6 @@ var Shared = function() {
   this.dispatchMappingsPageUrl = this.flowsUrl + 'dispatchMappings';
 
   this.invitesPageUrl = this.mainUrl + 'invites';
-  this.skillsPageUrl = this.managementUrl + 'skills';
 
   // Navbar elements
   this.navBar = element(by.id('topnav'));
@@ -34,7 +33,9 @@ var Shared = function() {
   this.usersNavButton = element(by.id('users-nav-link'));
   this.tenantsNavButton = element(by.id('tenants-nav-link'));
   this.flowsNavButton = element(by.id('flows-nav-link'));
+  this.reportingNavButton = element(by.id('reporting-nav-link'));
   this.invitesNavButton = element(by.id('invites-nav-link'));
+  
   this.settingsDropdown = element(by.id('user-settings-dropdown'));
   this.settingsDropdownOptions = this.settingsDropdown.all(by.repeater('item in items'));
   this.userProfileButton = this.settingsDropdownOptions.get(1);
@@ -84,8 +85,10 @@ var Shared = function() {
   };
 
   this.tearDown = function() {
+    // Ignore unsaved changes warnings
+    browser.executeScript("window.onbeforeunload = function(){};");
     browser.get(this.loginPageUrl);
-    
+
     browser.executeScript('window.localStorage.clear()');
     browser.executeScript('window.sessionStorage.clear()');
     // Ignore unsaved changes warnings

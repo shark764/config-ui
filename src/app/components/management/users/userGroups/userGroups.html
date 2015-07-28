@@ -2,9 +2,9 @@
   <h4>{{'details.groups.title' | translate}} <span class="count" ng-show="userGroups.$resolved">({{userGroups.length}})</span></h4>
 </div>
 
-<loading ng-show="groups && !groups.$resolved && userGroups && !userGroups.$resolved"></loading>
+<loading ng-show="!fetchGroups().$resolved && userGroups && !userGroups.$resolved"></loading>
 
-<div ng-show="groups.$resolved && userGroups.$resolved" class="detail-group">
+<div ng-show="fetchGroups().$resolved && userGroups.$resolved" class="detail-group">
   <ng-form seperate-validation id="addGroup" name="addGroup">
     <type-ahead hover="true" placeholder="{{'details.groups.placeholder' | translate}}" items="filtered" selected-item="selectedGroup" is-required="true"></type-ahead>
     <div>
@@ -13,8 +13,8 @@
     </div>
   </ng-form>
 
-  <p ng-hide="groups && groups.$resolved && userGroups.$resolved && groups.length" class="null">{{'details.groups.none' | translate}}</p>
-  <p ng-show="userGroups.length === 0 && ! addNew" class="null" translate="details.usergroups.none" translate-value-display-name="{{user.fullName()}}"></p>
+  <p ng-hide="fetchGroups().$resolved && userGroups.$resolved && fetchGroups().length" class="null">{{'details.groups.none' | translate}}</p>
+  <p ng-show="userGroups.length === 0 && ! addNew" class="null" translate="details.usergroups.none" translate-value-display-name="{{user.getDisplay()}}"></p>
 
   <div ng-show="userGroups.length > 0">
     <div id="tag-wrapper" class=" clear" ng-class="{collapsed : collapsed}">

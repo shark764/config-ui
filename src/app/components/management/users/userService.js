@@ -1,7 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .factory('User', ['LiveopsResourceFactory', function (LiveopsResourceFactory) {
+  .factory('User', ['LiveopsResourceFactory',
+    function (LiveopsResourceFactory) {
       var User = LiveopsResourceFactory.create('/v1/users/:id', [
         {name: 'firstName'},
         {name: 'lastName'},
@@ -13,7 +14,7 @@ angular.module('liveopsConfigPanel')
         {name: 'personalTelephone', optional: true}
       ]);
       
-      User.prototype.fullName = function(){
+      User.prototype.getDisplay = function(){
         if (this.firstName || this.lastName){
           var name = (this.firstName ? this.firstName : '') + ' ' + (this.lastName ? this.lastName : '');
           return name.trim();
@@ -23,6 +24,8 @@ angular.module('liveopsConfigPanel')
           return '';
         }
       };
+      
+      User.resourceName = 'User';
       
       return User;
   }]);

@@ -98,10 +98,11 @@ describe('The media view', function() {
     //expect(shared.table.isDisplayed()).toBeTruthy();
     expect(shared.searchField.isDisplayed()).toBeTruthy();
     expect(shared.detailsForm.isDisplayed()).toBeFalsy(); //Hide by default
-    expect(shared.actionsBtn.isDisplayed()).toBeTruthy();
+    expect(shared.actionsBtn.isDisplayed()).toBeFalsy(); //Hide, since there are no bulk actions
     expect(shared.createBtn.isDisplayed()).toBeTruthy();
     expect(shared.tableColumnsDropDown.isDisplayed()).toBeTruthy();
     expect(shared.pageHeader.getText()).toBe('Media Management');
+    //TODO: verify that checkboxes are hidden in table
   });
 
   xit('should require field input when creating a new Media', function() {

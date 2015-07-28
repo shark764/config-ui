@@ -1,7 +1,7 @@
 <table-controls
   id="table-pane"
   config="tableConfig"
-  items="queues"
+  items="fetchQueues()"
   selected="selectedQueue"
   resource-name="queue">
   
@@ -32,7 +32,8 @@
     original-resource="selectedQueue"
     resource-name="queue"></resource-details>
 
-  <bulk-action-executor class="details-pane" ng-show="showBulkActions" items="queues" bulk-actions="bulkActions" show-bulk-actions="showBulkActions" selected-display="name">
+  <bulk-action-executor class="details-pane" ng-show="showBulkActions" items="fetchQueues()"
+    bulk-actions="bulkActions" show-bulk-actions="showBulkActions">
     <ba-set-queue-status bulk-action="bulkActions.setQueueStatus"></ba-set-queue-status>
   </bulk-action-executor>
 </div>

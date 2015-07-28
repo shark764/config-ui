@@ -50,8 +50,8 @@
                 targeted: notation.targeted,
                 target: notation.target,
                 params: _.reduce(notation.params, function(memo, value, key) {
-                  if (value.default) {
-                    memo[key] = value.default;
+                  if (_.has(value, 'default')) {
+                    memo[value.key] = value.default;
                   };
                   return memo;
                 }, {})

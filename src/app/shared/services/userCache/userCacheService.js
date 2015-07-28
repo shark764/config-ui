@@ -8,7 +8,7 @@ angular.module('liveopsConfigPanel')
         if (id) {
           var cached = UUIDCache.get(id);
           if (cached) {
-            var userObj = new User(cached); //So fullName function works
+            var userObj = new User(cached); //So getDisplay function works
             deferred.resolve(userObj);
 
             if(success) {

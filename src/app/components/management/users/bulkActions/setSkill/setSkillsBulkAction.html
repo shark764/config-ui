@@ -28,7 +28,7 @@
     <select
       ng-disabled="! bulkAction.checked"
       ng-model="userSkillsBulkAction.selectedSkill"
-      ng-options="skill as skill.name for skill in skills"
+      ng-options="skill as skill.name for skill in fetchSkills()"
       ng-change="onChange(userSkillsBulkAction)">
       <option disabled value="">{{'bulkActions.skills.defaultSkills' | translate}}</option>
     </select>
