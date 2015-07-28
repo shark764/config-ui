@@ -14,9 +14,9 @@ exports.config = {
     'screenResolution': '1280x1024',
     'tunnelIdentifier': process.env.SAUCE_TUNNEL,
     // Test Identifiers - For easier grouping and reference in Sauce Labs
-    'name': 'Navigation Redirect from Root URL',
-    'build': 'TITAN2-1152',
-    'tags': ['navigation', 'details-panel', 'bug-fix'],
+    'name': '',
+    'build': '',
+    'tags': [''],
     'max-duration': '5400',
   },
 
