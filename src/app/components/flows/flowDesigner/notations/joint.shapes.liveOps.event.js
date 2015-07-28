@@ -29,9 +29,9 @@
           'fill-opacity': 0.0
         },
         image: {
-          width: 40, 
-          height: 40, 
-          'xlink:href': '', 
+          width: 40,
+          height: 40,
+          'xlink:href': '',
           transform: 'translate(10,10)'
         },
         'image polygon': {
@@ -60,7 +60,7 @@
 
       this.listenTo(this, 'change:name', this.updateIcon);
       this.listenTo(this, 'change:entity', this.updateIcon);
-      
+
       this.updateIcon(this);
 
       this.listenTo(this, 'change:interrupting', this.onInterruptingChange);
@@ -75,7 +75,7 @@
 
     updateGroup: function(cell) {
       var terminate = cell.get('terminate'),
-          entity = cell.get('entity')
+          entity = cell.get('entity');
       if (entity === 'start') {
         cell.set('group', 'start');
       } else if (entity === 'catch' || (entity === 'throw' && !terminate)) {
@@ -88,7 +88,7 @@
     updateIcon: function(cell) {
       var entity = cell.get('entity');
       var name = cell.get('name');
-      if (entity == 'throw') {
+      if (entity === 'throw') {
         cell.set('icon', name + 'Throwing');
       } else {
         cell.set('icon', name);

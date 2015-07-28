@@ -13,8 +13,8 @@ angular.module('liveopsConfigPanel')
         transclude: true,
         templateUrl: 'app/shared/directives/bulkActionExecutor/bulkActionExecutor.html',
         link: function ($scope) {
-          $scope.checkedItems = []
-          
+          $scope.checkedItems = [];
+
           $scope.confirmExecute = function () {
             Modal.showConfirm({
               title: $translate.instant('bulkActions.confirm.title'),
@@ -77,7 +77,7 @@ angular.module('liveopsConfigPanel')
                 $scope.checkedItems.push(item);
               }
             });
-            
+
             return $scope.checkedItems;
           };
 

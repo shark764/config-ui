@@ -12,30 +12,30 @@ angular.module('liveopsConfigPanel')
         $scope.targetPosition = $scope.target.offset();
         $scope.tooltipWidth = 0;
         $scope.tooltipHeight = 0;
-        
+
         $scope.setPosition = function(){
           element.find('div').removeClass('top left right bottom');
           $scope.tooltipWidth = element.outerWidth();
           $scope.tooltipHeight = element.outerHeight();
-          
+
           var tooltipPos = $scope.getPositionClass();
           var absolutePosition = $scope.getAbsolutePosition(tooltipPos);
-          
+
           element.find('div').addClass(tooltipPos);
-          
+
           element.css('left', absolutePosition.left);
           element.css('top', absolutePosition.top);
         };
-        
+
         $scope.getPositionClass = function(){
           var tooltipPos;
-            
+
           var documentWidth = $document.width();
           var documentHeight = $document.height();
-          
+
           var top = $scope.targetPosition.top;
           var left = $scope.targetPosition.left;
-          
+
           if (top - $scope.tooltipHeight < 0) {
             if (left - $scope.tooltipWidth < 0){
               tooltipPos = 'bottom right';
@@ -61,29 +61,29 @@ angular.module('liveopsConfigPanel')
               tooltipPos = 'top center';
             }
           }
-          
+
           return tooltipPos;
         };
-        
+
         $scope.getAbsolutePosition = function(tooltipPos){
           var arrowHeight = 15;
           var arrowWidth = 13;
           var arrowBase = 25;
-          
+
           var targetHeight = $scope.target.outerHeight();
           var targetWidth = $scope.target.outerWidth();
-          
+
           var offsetLeft = $scope.targetPosition.left;
           var offsetTop = $scope.targetPosition.top;
-          
+
           if (tooltipPos.indexOf('left') > -1){
             offsetLeft += -$scope.tooltipWidth - arrowWidth;
-          };
-          
+          }
+
           if (tooltipPos.indexOf('right') > -1){
             offsetLeft += targetWidth + arrowWidth;
-          };
-          
+          }
+
           if (tooltipPos === 'bottom center'){
             offsetTop += targetHeight + arrowHeight;
             offsetLeft += - (($scope.tooltipWidth - targetWidth) / 2);
@@ -95,13 +95,13 @@ angular.module('liveopsConfigPanel')
           } else if (tooltipPos === 'center right' || tooltipPos === 'center left'){
             offsetTop += - ($scope.tooltipHeight / 2) + (targetHeight / 2);
           }
-          
+
           return {
             top: offsetTop,
             left: offsetLeft
           };
         };
-        
+
         $timeout($scope.setPosition, 1);
       }
     };

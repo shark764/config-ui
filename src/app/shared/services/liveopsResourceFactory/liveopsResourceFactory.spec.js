@@ -4,9 +4,7 @@
 
 describe('LiveopsResourceFactory', function () {
   describe('queryCache function', function () {
-    var LiveopsResourceFactory,
-      apiHostname,
-      Resource;
+    var Resource;
 
     beforeEach(module('gulpAngular'));
     beforeEach(module('liveopsConfigPanel'));
@@ -18,7 +16,7 @@ describe('LiveopsResourceFactory', function () {
 
     describe('ON cachedQuery', function () {
       beforeEach(inject(['apiHostname',
-        function (apiHostname) {
+        function () {
           spyOn(Resource, 'query').and.returnValue([]);
         }
       ]));
