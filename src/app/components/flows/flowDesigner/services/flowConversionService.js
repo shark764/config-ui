@@ -304,7 +304,7 @@
               timer: {
                 value: model.timer
               }
-            }
+            };
           }
         }
       }
