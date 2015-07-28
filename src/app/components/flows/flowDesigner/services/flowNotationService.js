@@ -45,7 +45,7 @@
           var notation = _.findWhere(self.activities, {name: name});
 
           var params = _.reduce(notation.ui, function(memo, param, name) {
-            if (param.type == 'entity') {
+            if (param.type === 'entity') {
               memo[name] = {
                 label: param.label,
                 group: 'params',
@@ -56,7 +56,7 @@
                     content: entity.source || entity.name
                   };
                 }))
-              }
+              };
             } else {
               memo[name] = param;
             }
@@ -109,7 +109,7 @@
                   type: 'text',
                   group: 'general',
                   label: 'Time'
-                }
+                };
                 break;
               case 'bindings':
                 inputs[prop] = {
@@ -149,7 +149,7 @@
                       }
                     }
                   }
-                }
+                };
                 break;
               case 'event':
                 inputs[prop] = {
@@ -211,7 +211,7 @@
         params = _.reduce(activity.params, function(memo, param, key) {
 
           if (param.source === 'expression' && _.has(model.params, param.key)) {
-            
+
             if (!param.when || (expression.eval(param.when, model))) {
               memo[key] = {
                 source: 'expression',
@@ -238,9 +238,9 @@
 
         params = _.reduce(model.params, function(memo, param, key) {
           var paramDef = activity.params[key];
-          if (param.source == 'expression') {
-            if (paramDef.type == 'boolean') {
-              memo[paramDef.key] = (param.value == 'true');
+          if (param.source === 'expression') {
+            if (paramDef.type === 'boolean') {
+              memo[paramDef.key] = (param.value === 'true');
             } else {
               memo[paramDef.key] = param.value;
             }
@@ -293,9 +293,9 @@
 
           switch (operator) {
             case 'eq':
-              return condValue == val;
+              return condValue === val;
             case 'ne':
-              return condValue != val;
+              return condValue !== val;
             case 'regex':
               return (new RegExp(condValue)).test(val);
             case 'text':
@@ -320,14 +320,16 @@
       }, false, this);
     },
 
-    _evalExpression: function(expr, model) {
+    _evalExpression: function(expr) {
       if (this._isPrimitive(expr)) {
         return this._evalPrimitive(expr);
       }
 
       return _.reduce(expr, function(res, childExpr, operator) {
 
-        if (operator == 'not') return !this._evalExpression(childExpr);
+        if (operator === 'not') {
+          return !this._evalExpression(childExpr);
+        }
 
         var childExprRes = _.map(childExpr, this._evalExpression, this);
 
@@ -367,7 +369,7 @@
       expr = _.omit(expr, 'otherwise');
       return _.uniq(this._extractVariables(expr));
     }
-  }
+  };
 
   angular.module('liveopsConfigPanel').service('FlowNotationService', FlowNotationService);
 })();
