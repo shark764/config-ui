@@ -16,6 +16,48 @@ describe('LiveopsResourceFactory', function () {
       Resource = LiveopsResourceFactory.create('/endpoint');
     }]));
 
+    describe('$original copy', function () {
+      it('should store a pristine copy of all objects returned on query', function () {
+
+          Resource.query = jasmine.createSpy().and.returnValue([{
+            id: 'id1'
+          }, {
+            id: 'id2'
+          }]);
+
+          var resources = Resource.query();
+
+          expect(resources[0].$original.id).toEqual('id1');
+          expect(resources[1].$original.id).toEqual('id2');
+      });
+
+      it('should store a pristine copy of the object returned on get', function () {
+
+          Resource.get = jasmine.createSpy().and.returnValue({
+            id: 'id1'
+          });
+
+          var resource = Resource.get();
+
+          expect(resource.$original.id).toEqual('id1');
+      });
+
+      it('should have a function to reset an object back to its original state', function () {
+
+          Resource.get = jasmine.createSpy().and.returnValue({
+            id: 'id1'
+          });
+
+          var resource = Resource.get();
+
+          resource.id = 'abc';
+
+          resource.reset();
+
+          expect(resource.id).toEqual('id1');
+      });
+    });
+
     describe('ON cachedQuery', function () {
       beforeEach(inject(['apiHostname',
         function (apiHostname) {
