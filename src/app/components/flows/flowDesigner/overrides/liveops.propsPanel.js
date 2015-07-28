@@ -103,7 +103,7 @@
         scope.loading = true;
 
         scope.activityTypeChanged = function(model, type) {
-          scope.notation.model.onActivityTypeChange(scope.notation.model, scope.notation.model.attributes.activityType);
+          scope.notation.model.onActivityTypeChange(model, type);
         };
 
         var content = $compile(buildTemplate(scope.notation))(scope);
