@@ -14,9 +14,9 @@ exports.config = {
     'screenResolution': '1280x1024',
     'tunnelIdentifier': process.env.SAUCE_TUNNEL,
     // Test Identifiers - For easier grouping and reference in Sauce Labs
-    'name': 'Sauce Labs Test',
-    'build': '0001',
-    'tags': ['BlueSpurs', 'full-regression'],
+    'name': 'Navigation Redirect from Root URL',
+    'build': 'TITAN2-1152',
+    'tags': ['navigation', 'details-panel', 'bug-fix'],
     'max-duration': '5400',
   },
 
@@ -30,7 +30,6 @@ exports.config = {
     login: {
       firstName: 'titan',
       lastName: 'user',
-      userDisplayName: 'titan',
       user: 'titan@liveops.com',
       password: 'gKVnfF9wrs6XPSYs'
     },
