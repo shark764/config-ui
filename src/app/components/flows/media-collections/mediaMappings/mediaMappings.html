@@ -4,7 +4,11 @@
   <a id="add-media-mapping-button" class="btn pull-right" ng-click="addMapping()"><i class="fa fa-plus"></i></a>
 </div>
 
-<table class="media-collection-table table" >
+<table
+  class="media-collection-table table"
+  resource="collection"
+  form="form"
+  media-map-duplicate>
   <thead>
     <th>{{'value.identifier' | translate}}</th>
     <th>{{'value.media' | translate}}</th>
@@ -15,7 +19,9 @@
     <tr ng-repeat="mapping in collection.mediaMap" ng-init="editMode = false">
       <td>
         <form-error ng-init="mappingFieldName='mapping' + $index" field="form[mappingFieldName]"
-          error-type-required="{{'media.collections.mappingLookup.error' | translate}}"></form-error>
+          error-type-required="{{'media.collections.mappingLookup.error.required' | translate}}"
+          error-type-media-map-duplicate="{{'media.collections.mappingLookup.error.duplicate' | translate}}">
+        </form-error>
         <input 
           ng-change="'{{mapping.lookup}}' == collection.defaultMediaKey ? resetDefaultMediaKey() : ''" 
           ng-required="true" 
