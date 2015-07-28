@@ -1,5 +1,9 @@
 <label class="switch switch-green">
-  <input type="checkbox" class="switch-input" ng-model="ngModel" ng-disabled="ngDisabled">
-  <span class="switch-label" data-on="On" data-off="Off"></span>
-  <span class="switch-handle"></span>
+ <input type="checkbox" class="switch-input" 
+   ng-model="ngModel"
+   ng-false-value="'disabled'"
+   ng-true-value="'enabled'"
+   ng-disabled="ngDisabled">
+ <span class="switch-label" data-on="On" data-off="Off"></span>
+ <span class="switch-handle"></span>
 </label>

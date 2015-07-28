@@ -8,7 +8,6 @@
     <form-error field="detailsForm.email" error-type-api="{{'details.email.error' | translate}}" error-type-required="{{'details.email.error' | translate}}" error-type-email="{{'details.email.invalid' | translate}}"></form-error>
     <div>
       <input autocomplete="off" ng-model="resource.email" name="email" type="email" ng-required="true" api-error></input>
-      <help-icon text="Some fairly long sentence of text for the tooltip content"></help-icon>
     </div>
   </div>
 
@@ -39,14 +38,6 @@
     <form-error field="detailsForm.lastName" error-type-api="{{'details.lastName.error' | translate}}" error-type-required="{{'details.lastName.error' | translate}}"></form-error>
     <div>
       <input required ng-model="resource.lastName" name="lastName" type="text" ng-change="updateDisplayName(this)"></input>
-    </div>
-  </div>
-
-  <div class="input-group">
-    <label>{{'details.displayName' | translate}} *</label>
-    <form-error field="detailsForm.displayName" error-type-api="{{'details.displayName.error' | translate}}" error-type-required="{{'details.displayName.error' | translate}}"></form-error>
-    <div>
-      <input required ng-model="resource.displayName" name="displayName" type="text"></input>
     </div>
   </div>
 

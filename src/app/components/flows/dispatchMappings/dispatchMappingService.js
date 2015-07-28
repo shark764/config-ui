@@ -13,6 +13,10 @@ angular.module('liveopsConfigPanel')
       {name: 'active', optional: true}
     ]);
     
+    DispatchMapping.prototype.getDisplay = function () {
+      return this.name;
+    };
+    
     DispatchMapping.resourceName = 'DispatchMapping';
     
     return DispatchMapping;
