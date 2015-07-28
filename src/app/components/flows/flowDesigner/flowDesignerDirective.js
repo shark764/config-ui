@@ -79,6 +79,10 @@ function flowDesigner() {
           $window.spitOutAlienese = function() {
             return FlowConversionService.convertToAlienese(graph.toJSON());
           };
+
+          $window.spitOutJoint = function() {
+            return graph.toJSON();
+          };
         }, 1000);
       }]
     };
