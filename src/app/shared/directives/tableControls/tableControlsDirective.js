@@ -58,11 +58,11 @@ angular.module('liveopsConfigPanel')
           };
 
           $scope.parse = function (item, field) {
-            if (field.name) {
+            if (field.resolve) {
+              return field.resolve(item);
+            } else if (field.name) {
               var parseFunc = $parse(field.name);
               return parseFunc(item);
-            } else if (field.resolve) {
-              return field.resolve(item);
             }
           };
 

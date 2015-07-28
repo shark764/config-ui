@@ -31,7 +31,7 @@ angular.module('liveopsConfigPanel')
             var parser = $parse($scope.displayPath);
             return parser(option);
           }
-        }
+        };
 
         // not ideal; we are adding a property to an object that will be used
         // in multiple places; however I cannot find a better way to do this.

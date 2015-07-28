@@ -16,6 +16,8 @@ describe('users controller', function () {
   beforeEach(module('liveopsConfigPanel'));
   beforeEach(module('liveopsConfigPanel.mock.content.management.users'));
   beforeEach(module('liveopsConfigPanel.mock.content.management.tenantUsers'));
+  beforeEach(module('liveopsConfigPanel.mock.content.management.skills'));
+  beforeEach(module('liveopsConfigPanel.mock.content.management.groups'));
 
   beforeEach(inject(['$compile', '$rootScope', '$httpBackend', '$controller', 'apiHostname', 'mockUsers', 'Session', 'Invite', 'User',
     function ($compile, $rootScope, _$httpBackend, $controller, _apiHostname, _mockUsers, _Session_, _Invite_, _User_) {
