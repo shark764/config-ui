@@ -16,7 +16,9 @@ angular.module('liveopsConfigPanel')
 
       templateUrl: 'app/shared/directives/typeAhead/typeAhead.html',
 
+
       link: function ($scope) {
+        console.log(JSON.stringify($scope.items, null, 2));
         $scope.nameField = $scope.nameField || 'name';
 
         $scope.currentText = '';
@@ -32,6 +34,9 @@ angular.module('liveopsConfigPanel')
           $scope.filterCriteria[$scope.nameField] = $scope.currentText;
 
           var filteredItems = filterFilter($scope.items, $scope.filterCriteria, true);
+
+          console.log(filteredItems);
+
           if (! $scope.currentText){
             $scope.selectedItem = null;
           } else if (filteredItems && filteredItems.length > 0){

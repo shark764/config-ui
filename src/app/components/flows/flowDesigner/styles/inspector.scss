@@ -30,6 +30,10 @@
 
 
 .propsPanel {
+  height: 100%;
+  #details-pane, .details-form {
+    height: 100%;
+  }
   .detail-body-pane {
     padding: 5px 10px;
   }

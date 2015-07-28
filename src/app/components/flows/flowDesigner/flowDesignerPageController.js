@@ -7,6 +7,7 @@ angular.module('liveopsConfigPanel')
       $scope.version = version;
 
       KeyboardJS.on('backspace', function(event) {
+        if ($('input:focus').length > 0) { return; }
         event.preventDefault();
       });
 

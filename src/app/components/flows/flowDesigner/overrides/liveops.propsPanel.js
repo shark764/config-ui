@@ -54,10 +54,10 @@
         return formSection;
       },
 
-      typeahead: function (input) {
+      typeahead: function (input, index) {
         var formSection = '<div class="input-group">';
         formSection += '<label>' + input.label + '</label><div>';
-        formSection += '<type-ahead hover="true" placeholder="Search..." items="skills" selected-item="selected' + input.name + '" is-required="false">';
+        formSection += '<type-ahead hover="true" placeholder="Search..." items="notation.model.attributes.inputs[' + index + '].options" selected-item="notation.model.attributes.' + input.path + '" name-field="content" is-required="false">';
         formSection += '</div></div>';
         return formSection;
       },
@@ -86,7 +86,6 @@
     // appropriate type at the appropriate location within
     // the template
     _.each(notation.model.attributes.inputs, function (input, index) {
-      console.log(notation);
       var formSection = formBuilder[input.type](input, index);
       var groupIndex = tpl.indexOf(input.group) + input.group.length + 2;
       tpl = tpl.insert(groupIndex, formSection);
@@ -96,15 +95,39 @@
     return tpl += '</div></div></form>';
   }
 
-  var propsPanel = function ($compile, $timeout) {
+  var propsPanel = function ($compile, $timeout, FlowNotationService) {
     return {
       scope: {
-        notation: '=notation'
+        notation: '=notation',
+        medias: '=medias'
       },
       template: '<div class="propsPanel"><h1 ng-show="loading"><i class="fa fa-spinner fa-spin"></i></h1></div>',
       restrict: 'E',
       link: function (scope, element) {
         scope.loading = true;
+
+        // Populate typeahead search collections with relevant API sources
+        _.each(scope.notation.model.attributes.inputs, function (input, index) {
+          if (input.type === 'typeahead' && input.source !== undefined) {
+            if (input.source === 'media') {
+              scope.notation.model.attributes.inputs[index].options = _.map(FlowNotationService.media, function(entity) {
+                return {
+                  value: entity.id,
+                  content: entity.source || entity.name
+                };
+              });
+            } else if (input.source === 'queue') {
+              scope.notation.model.attributes.inputs[index].options = _.map(FlowNotationService.queue, function(entity) {
+                return {
+                  value: entity.id,
+                  content: entity.source || entity.name
+                };
+              });
+            }
+          }
+        });
+
+        window.notation = scope.notation;
 
         scope.onInputChange = function(model, value, path) {
           scope.notation.model.onInputChange(model, value, path);
