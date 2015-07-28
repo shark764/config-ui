@@ -2,7 +2,7 @@
 
 var Shared = function() {
   // Page URLS
-  this.rootURL = 'localhost:3000';
+  this.rootURL = 'http://localhost:3000';
   this.mainUrl = 'http://localhost:3000/#/';
   this.loginPageUrl = this.mainUrl + 'login';
   this.profilePageUrl = this.mainUrl + 'userprofile';

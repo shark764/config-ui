@@ -36,7 +36,7 @@ describe('The details panel', function() {
   it('should adjust to ~ 1/4 of the screen size after resizing browser width', function() {
     browser.driver.manage().window().getSize().then(function(browserSize) {
       // resize browser width
-      browser.driver.manage().window().setSize(1000, browserSize.height);
+      browser.driver.manage().window().setSize(1200, browserSize.height);
 
       browser.get(shared.usersPageUrl);
       shared.firstTableRow.click();
@@ -45,8 +45,8 @@ describe('The details panel', function() {
       expect(shared.rightPanel.isDisplayed()).toBeTruthy();
 
       shared.rightPanel.getSize().then(function(rightPanelSize) {
-        rightPanelWidthRatio = 800 / rightPanelSize.width;
-        expect(rightPanelWidthRatio).toBeGreaterThan(3);
+        rightPanelWidthRatio = 1200 / rightPanelSize.width;
+        expect(rightPanelWidthRatio).toBeGreaterThan(2);
         expect(rightPanelWidthRatio).toBeLessThan(5);
       });
     }).then(function () {
@@ -55,7 +55,7 @@ describe('The details panel', function() {
     });
   });
 
-  xit('should be allow the user to close the details panel when viewing details', function() {
+  it('should be allow the user to close the details panel when viewing details', function() {
     browser.get(shared.usersPageUrl);
 
     shared.firstTableRow.click();
@@ -69,7 +69,7 @@ describe('The details panel', function() {
     expect(shared.rightPanel.isDisplayed()).toBeFalsy();
   });
 
-  xit('should allow the user to close the bulk actions panel', function() {
+  it('should allow the user to close the bulk actions panel', function() {
     browser.get(shared.usersPageUrl);
 
     shared.actionsBtn.click();
