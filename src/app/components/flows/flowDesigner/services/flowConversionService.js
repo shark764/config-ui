@@ -48,7 +48,7 @@
             notation.entity = 'activity';
             notation.name = n.name;
             notation.params = FlowNotationService.addActivityParams(n);
-            notation.bindings = FlowNotationService.addActivityBindings(n);
+            notation.bindings = n.bindings || {};
 
             if (n.targeted) {
               notation.target = n.target;
@@ -144,7 +144,6 @@
               }
             });
           } else if (notation.entity === 'activity') {
-            console.log(notation);
             var activity = {
               id: notation.id.toString(),
               type: 'liveOps.activity',
@@ -159,13 +158,7 @@
               params: FlowNotationService.extractActivityParams(notation),
               targeted: FlowNotationService.getActivityTargeted(notation),
               target: notation.target || '',
-              bindings: _.reduce(notation.bindings, function(memo, key, value) {
-                memo.push({
-                  key: key,
-                  value: value
-                });
-                return memo;
-              }, [])
+              bindings: notation.bindings || {}
             };
 
             memo.push(activity);
@@ -304,7 +297,7 @@
               timer: {
                 value: model.timer
               }
-            }
+            };
           }
         }
       }

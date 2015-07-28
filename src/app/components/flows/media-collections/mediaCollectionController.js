@@ -16,13 +16,13 @@ angular.module('liveopsConfigPanel')
           tenantId: Session.tenant.tenantId
         });
       };
-      
+
       MediaCollection.prototype.preCreate = function () {
         if (angular.isDefined(this.mediaMap)){
           $scope.cleanMediaMap(this);
         }
       };
-      
+
       MediaCollection.prototype.preUpdate = function () {
         if (angular.isDefined(this.mediaMap)){
           $scope.cleanMediaMap(this);
@@ -61,7 +61,7 @@ angular.module('liveopsConfigPanel')
           delete collection.mediaMap;
           return;
         }
-        
+
         var cleanedMediaMap = [];
         angular.forEach(collection.mediaMap, function(mapping){
           //Remove extra name property used to display the media name,
@@ -71,7 +71,7 @@ angular.module('liveopsConfigPanel')
         //angular.copy will strip the $$hashKey properties that are added by the ng-options
           cleanedMediaMap.push(angular.copy(mapping));
         });
-        
+
         collection.mediaMap = cleanedMediaMap;
       };
 
@@ -84,7 +84,7 @@ angular.module('liveopsConfigPanel')
           }
         });
       };
-      
+
       $scope.additionalMedia = {
         mediaTypes: mediaTypes,
         setupAudioSourceWatch: $scope.setupAudioSourceWatch

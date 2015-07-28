@@ -31,14 +31,14 @@ describe('The media view', function() {
     expect(media.typeFormDropdown.all(by.css('option')).get(2).getText()).toBe('TTS');
   });
 
-  xit('should successfully create new Media with Audio type', function() {
+  it('should successfully create new Media with Audio type', function() {
     randomMedia = Math.floor((Math.random() * 1000) + 1);
     var mediaAdded = false;
     var newMediaSource = 'http://www.example.com/' + randomMedia;
     shared.createBtn.click();
 
     // Edit required fields
-    media.nameFormField.sendKeys('Audio Media ' + newMediaSource);
+    media.nameFormField.sendKeys('Audio Media ' + randomMedia);
     media.sourceFormField.sendKeys(newMediaSource);
     media.typeFormDropdown.all(by.css('option')).get(1).click();
 
@@ -62,7 +62,7 @@ describe('The media view', function() {
     });
   });
 
-  xit('should successfully create new Media with Text-To-Speech type', function() {
+  it('should successfully create new Media with Text-To-Speech type', function() {
     randomMedia = Math.floor((Math.random() * 1000) + 1);
     var mediaAdded = false;
     var newMediaSource = 'Text-To-Speech Media Source ' + randomMedia;
@@ -95,17 +95,15 @@ describe('The media view', function() {
 
   it('should include media page components', function() {
     expect(shared.navBar.isDisplayed()).toBeTruthy();
-    //expect(shared.table.isDisplayed()).toBeTruthy();
     expect(shared.searchField.isDisplayed()).toBeTruthy();
     expect(shared.detailsForm.isDisplayed()).toBeFalsy(); //Hide by default
     expect(shared.actionsBtn.isDisplayed()).toBeFalsy(); //Hide, since there are no bulk actions
     expect(shared.createBtn.isDisplayed()).toBeTruthy();
     expect(shared.tableColumnsDropDown.isDisplayed()).toBeTruthy();
     expect(shared.pageHeader.getText()).toBe('Media Management');
-    //TODO: verify that checkboxes are hidden in table
   });
 
-  xit('should require field input when creating a new Media', function() {
+  it('should require field input when creating a new Media', function() {
     mediaCount = shared.tableElements.count();
     shared.createBtn.click();
 
@@ -209,6 +207,27 @@ describe('The media view', function() {
     expect(shared.tableElements.count()).toBe(mediaCount);
   });
 
+  it('should validate Source when creating a new Media with Audio type', function() {
+    randomMedia = Math.floor((Math.random() * 1000) + 1);
+    mediaCount = shared.tableElements.count();
+    shared.createBtn.click();
+
+    // Edit fields
+    media.nameFormField.sendKeys('Audio Media ' + randomMedia);
+    media.typeFormDropdown.all(by.css('option')).get(1).click();
+    media.sourceFormField.sendKeys('Not a valid a Audio Media Source');
+
+    // Submit button is still disabled
+    expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
+
+    // New Media is not saved
+    expect(shared.successMessage.isPresent()).toBeFalsy();
+    expect(shared.tableElements.count()).toBe(mediaCount);
+
+    expect(media.requiredError.get(2).isDisplayed()).toBeTruthy();
+    expect(media.requiredError.get(2).getText()).toBe('Audio source must be a URL');
+  });
+
   it('should require Source when creating a new Media with Text-To-Speech type', function() {
     randomMedia = Math.floor((Math.random() * 1000) + 1);
     mediaCount = shared.tableElements.count();
@@ -306,16 +325,15 @@ describe('The media view', function() {
     });
   });
 
-  xit('should include valid Media fields when editing an existing Media', function() {
+  it('should include valid Media fields when editing an existing Media', function() {
     shared.firstTableRow.click();
-    expect(media.sourceHeader.isDisplayed()).toBeTruthy();
     expect(media.nameFormField.isDisplayed()).toBeTruthy();
     expect(media.nameFormField.getAttribute('disabled')).toBeTruthy();
     expect(media.sourceFormField.isDisplayed()).toBeTruthy();
     expect(media.typeFormDropdown.getAttribute('disabled')).toBeTruthy();
   });
 
-  xit('should reset fields after editing Text-To-Speech media and selecting Cancel', function() {
+  it('should reset fields after editing Text-To-Speech media and selecting Cancel', function() {
     shared.searchField.sendKeys('Text-To-Speech');
     randomMedia = Math.floor((Math.random() * 1000) + 1);
     shared.firstTableRow.click();
@@ -335,7 +353,7 @@ describe('The media view', function() {
     expect(media.sourceFormField.getAttribute('value')).toBe(originalSource);
   });
 
-  xit('should reset fields after editing Audio media and selecting Cancel', function() {
+  it('should reset fields after editing Audio media and selecting Cancel', function() {
     shared.searchField.sendKeys('Audio');
     randomMedia = Math.floor((Math.random() * 1000) + 1);
     shared.firstTableRow.click();
@@ -345,19 +363,21 @@ describe('The media view', function() {
     // Edit fields
     media.sourceFormField.sendKeys('Edit');
 
-    shared.cancelFormBtn.click();
-    shared.dismissChanges();
+    shared.cancelFormBtn.click().then(function () {
+      shared.dismissChanges();
 
-    expect(media.requiredError.get(0).isDisplayed()).toBeFalsy();
-    expect(media.requiredError.get(1).isDisplayed()).toBeFalsy();
-    expect(media.requiredError.get(2).isDisplayed()).toBeFalsy();
-    expect(shared.successMessage.isPresent()).toBeFalsy();
+      expect(media.requiredError.get(0).isDisplayed()).toBeFalsy();
+      expect(media.requiredError.get(1).isDisplayed()).toBeFalsy();
+      expect(media.requiredError.get(2).isDisplayed()).toBeFalsy();
+      expect(shared.successMessage.isPresent()).toBeFalsy();
 
-    // Fields reset to original values
-    expect(media.sourceFormField.getAttribute('value')).toBe(originalSource);
+      // Fields reset to original values
+      expect(media.sourceFormField.getAttribute('value')).toBe(originalSource);
+    });
   });
 
   xit('should allow the Audio Media fields to be updated except Type', function() {
+    // TODO Current but where selecting Audio media dirties form
     shared.searchField.sendKeys('Audio');
     shared.firstTableRow.click();
 
@@ -367,9 +387,6 @@ describe('The media view', function() {
     var editedSource = media.sourceFormField.getAttribute('value');
 
     shared.submitFormBtn.click().then(function() {
-      expect(media.requiredError.get(0).isDisplayed()).toBeFalsy();
-      expect(media.requiredError.get(1).isDisplayed()).toBeFalsy();
-      expect(media.requiredError.get(2).isDisplayed()).toBeFalsy();
       expect(shared.successMessage.isDisplayed()).toBeTruthy();
 
       // Changes persist
@@ -380,7 +397,7 @@ describe('The media view', function() {
     });
   });
 
-  xit('should allow the Text-To-Speech Media fields to be updated except Type', function() {
+  it('should allow the Text-To-Speech Media fields to be updated except Type', function() {
     shared.searchField.sendKeys('Text-To-Speech');
     shared.firstTableRow.click();
 
@@ -390,9 +407,6 @@ describe('The media view', function() {
     var editedSource = media.sourceFormField.getAttribute('value');
 
     shared.submitFormBtn.click().then(function() {
-      expect(media.requiredError.get(0).isDisplayed()).toBeFalsy();
-      expect(media.requiredError.get(1).isDisplayed()).toBeFalsy();
-      expect(media.requiredError.get(2).isDisplayed()).toBeFalsy();
       expect(shared.successMessage.isDisplayed()).toBeTruthy();
 
       // Changes persist
@@ -403,7 +417,7 @@ describe('The media view', function() {
     });
   });
 
-  xit('should require source field when editing a Media', function() {
+  it('should require source field when editing a Media', function() {
     // Select first media from table
     shared.firstTableRow.click();
 
