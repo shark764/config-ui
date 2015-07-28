@@ -1,7 +1,7 @@
 (function() {
   'use strict';
 
-  var flowSetup = function($http, AuthService) {
+  var flowSetup = function($http, AuthService, $timeout) {
     return {
       seed: function(email, password) {
         var TITAN_REGION_ID;
@@ -27,8 +27,7 @@
             password: password,
             firstName: 'Test',
             lastName: 'User',
-            displayName: 'Test User',
-            status: true,
+            status: 'enabled',
             externalId: '00000000-0000-0000-000000000000'
           });
         }).then(function(data) {
@@ -45,21 +44,25 @@
           CREATED_INVITE_TOKEN = data.data.result.invitation.invitationToken;
           console.log('-- CREATED_INVITE_TOKEN --', CREATED_INVITE_TOKEN);
           console.log('-- LOG IN AS NEW USER --');
+          $timeout(function() {
+            AuthService.login(email, password)
+            .then(function() {
+              return $http.get('http://localhost:9080/v1/tenants/' + CREATED_TENANT_ID + '/invites/' + CREATED_USER_ID + '/accept?token=' + CREATED_INVITE_TOKEN);
+            }).then(function(data) {
+              ACCEPTED_INVITE_STATUS = data.data.result;
+              console.log('-- ACCEPTED_INVITE_STATUS --', ACCEPTED_INVITE_STATUS);
+              return $http.post('http://localhost:9080/v1/tenants/' + CREATED_TENANT_ID + '/flows', {createdBy: CREATED_USER_ID, description: 'Test flow description.', name: 'Test flow', tenantId: CREATED_TENANT_ID, type: 'customer'});
+            }).then(function(data) {
+              CREATED_FLOW_ID = data.data.result.id;
+              console.log('-- CREATED_FLOW_ID --', CREATED_FLOW_ID);
+              return $http.post('http://localhost:9080/v1/tenants/' + CREATED_TENANT_ID + '/flows/' + CREATED_FLOW_ID + '/versions', {createdBy: CREATED_USER_ID, description: 'Initial Version.', name: 'v1', flowId: CREATED_FLOW_ID, tenantId: CREATED_TENANT_ID, flow: '[]'});
+            }).then(function(data) {
+              CREATED_VERSION_ID = data.data.result.version;
+              console.log('-- CREATED VERSION ID --', CREATED_VERSION_ID);
+              console.log('\n\n Done seeding DB with all necessary data to access the flows screen. Log in as the user "' + email + '" with the password "' + password + '" and access the flows screen and go to town :)');
+            });
+          }, 5000);
           return AuthService.login(email, password);
-        }).then(function() {
-          return $http.get('http://localhost:9080/v1/tenants/' + CREATED_TENANT_ID + '/invites/' + CREATED_USER_ID + '/accept?token=' + CREATED_INVITE_TOKEN);
-        }).then(function(data) {
-          ACCEPTED_INVITE_STATUS = data.data.result;
-          console.log('-- ACCEPTED_INVITE_STATUS --', ACCEPTED_INVITE_STATUS);
-          return $http.post('http://localhost:9080/v1/tenants/' + CREATED_TENANT_ID + '/flows', {createdBy: CREATED_USER_ID, description: 'Test flow description.', name: 'Test flow', tenantId: CREATED_TENANT_ID, type: 'customer'});
-        }).then(function(data) {
-          CREATED_FLOW_ID = data.data.result.id;
-          console.log('-- CREATED_FLOW_ID --', CREATED_FLOW_ID);
-          return $http.post('http://localhost:9080/v1/tenants/' + CREATED_TENANT_ID + '/flows/' + CREATED_FLOW_ID + '/versions', {createdBy: CREATED_USER_ID, description: 'Initial Version.', name: 'v1', flowId: CREATED_FLOW_ID, tenantId: CREATED_TENANT_ID, flow: '[]'});
-        }).then(function(data) {
-          CREATED_VERSION_ID = data.data.result.version;
-          console.log('-- CREATED VERSION ID --', CREATED_VERSION_ID);
-          console.log('\n\n Done seeding DB with all necessary data to access the flows screen. Log in as the user "' + email + '" with the password "' + password + '" and access the flows screen and go to town :)');
         });
       }
     };

@@ -46,7 +46,15 @@
                 content: notation.label,
                 activityType: notation.type,
                 type: 'liveOps.activity',
-                name: notation.name
+                name: notation.name,
+                targeted: notation.targeted,
+                target: notation.target,
+                params: _.reduce(notation.params, function(memo, value) {
+                  if (_.has(value, 'default')) {
+                    memo[value.key] = value.default;
+                  }
+                  return memo;
+                }, {})
               });
               n.attributes.inputs = n.attributes.inputs.concat(notation.inputs);
               return n;

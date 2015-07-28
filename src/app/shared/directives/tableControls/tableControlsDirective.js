@@ -11,7 +11,8 @@ angular.module('liveopsConfigPanel')
           items: '=',
           selected: '=',
           extendScope: '=',
-          resourceName: '@'
+          resourceName: '@',
+          hideBulkActions: '='
         },
         templateUrl: 'app/shared/directives/tableControls/tableControls.html',
         transclude: true,

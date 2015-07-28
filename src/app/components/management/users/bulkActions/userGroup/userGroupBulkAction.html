@@ -15,7 +15,7 @@
     </select>
     <select ng-disabled="! bulkAction.checked"
       ng-model="action.selectedGroup"
-      ng-options="group as group.name for group in groups"
+      ng-options="group as group.name for group in fetchGroups()"
       ng-change="onChange(action)">
       <option disabled value="">{{'bulkActions.userGroups.placeholder' | translate}}</option>
     </select>

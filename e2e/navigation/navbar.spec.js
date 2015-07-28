@@ -58,103 +58,128 @@ describe('The navbar', function() {
     });
   });
 
+  it('should show dropdowns with downward arrows on hover', function() {
+    // Containes hovering attributes
+    expect(navbar.userManagementNavDropdown.getAttribute('hover-tracker')).toContain('hoverTracker');
+    expect(navbar.userManagementNavDropdown.getAttribute('hovering')).toContain('hovering');
+
+    // Down arrow class
+    expect(navbar.userManagementNavDropdown.getAttribute('collapse-icon')).toContain('fa-caret-down');
+  });
+
+  it('should show dropdowns with downward arrows on click', function() {
+    // No arrow displayed by default
+    expect(shared.usersNavButton.element(by.id(navbar.downArrow)).isDisplayed()).toBeFalsy();
+
+    // Down arrows displayed on click
+    shared.usersNavButton.click();
+    expect(shared.usersNavButton.element(by.id(navbar.downArrow)).isDisplayed()).toBeTruthy();
+
+    browser.actions().mouseMove(shared.siteNavLogo).perform();
+    expect(shared.usersNavButton.element(by.id(navbar.downArrow)).isDisplayed()).toBeTruthy();
+
+    // Down arrow class
+    expect(shared.usersNavButton.element(by.id(navbar.downArrow)).getAttribute('class')).toContain('fa-caret-down');
+  });
+
   describe('User management', function(){
     it('should open user management dropdown on click and list links', function() {
       shared.usersNavButton.click();
       expect(navbar.userManagementDropdown.isDisplayed()).toBeTruthy();
-  
+
       expect(navbar.userLink.isDisplayed()).toBeTruthy();
       expect(navbar.skillsLink.isDisplayed()).toBeTruthy();
       expect(navbar.groupsLink.isDisplayed()).toBeTruthy();
-      
+
       expect(navbar.managementOptions.get(0).getText()).toBe('Users');
       expect(navbar.managementOptions.get(1).getText()).toBe('Skills');
       expect(navbar.managementOptions.get(2).getText()).toBe('Groups');
     });
-    
+
     it('should navigate to users page when users link is selected', function() {
       shared.usersNavButton.click();
       navbar.userLink.click();
       expect(browser.getCurrentUrl()).toContain(shared.usersPageUrl);;
     });
-    
+
     it('should navigate to groups page when groups link is selected', function() {
       shared.usersNavButton.click()
       navbar.groupsLink.click();
       expect(browser.getCurrentUrl()).toContain(shared.groupsPageUrl);
     });
-    
+
     it('should navigate to skills page when skills link is selected', function() {
       shared.usersNavButton.click()
       navbar.skillsLink.click();
       expect(browser.getCurrentUrl()).toContain(shared.skillsPageUrl);
     });
   });
-  
+
   describe('Configuration', function(){
     it('should open configuration dropdown on click and list links', function() {
       shared.tenantsNavButton.click();
       expect(navbar.configurationDropdown.isDisplayed()).toBeTruthy();
-  
+
       expect(navbar.tenantsLink.isDisplayed()).toBeTruthy();
       expect(navbar.integrationsLink.isDisplayed()).toBeTruthy();
-      
+
       expect(navbar.configurationOptions.get(0).getText()).toBe('Tenants');
       expect(navbar.configurationOptions.get(1).getText()).toBe('Integrations');
     });
-    
+
     it('should navigate to tenants page when tenants link is selected', function() {
       shared.tenantsNavButton.click();
       navbar.tenantsLink.click();
       expect(browser.getCurrentUrl()).toContain(shared.tenantsPageUrl);;
     });
-    
+
     it('should navigate to integrations page when integrations link is selected', function() {
       shared.tenantsNavButton.click();
       navbar.integrationsLink.click();
       expect(browser.getCurrentUrl()).toContain(shared.integrationsPageUrl);
     });
   });
-  
+
   describe('Flows', function(){
     it('should open flows dropdown on click and list links', function() {
       shared.flowsNavButton.click();
       expect(navbar.flowsDropdown.isDisplayed()).toBeTruthy();
-  
+
       expect(navbar.flowsLink.isDisplayed()).toBeTruthy();
       expect(navbar.queuesLink.isDisplayed()).toBeTruthy();
       expect(navbar.mediaLink.isDisplayed()).toBeTruthy();
       expect(navbar.dispatchMappingsLink.isDisplayed()).toBeTruthy();
-      
+
       expect(navbar.flowsOptions.get(0).getText()).toBe('Flows');
       expect(navbar.flowsOptions.get(1).getText()).toBe('Queues');
       expect(navbar.flowsOptions.get(2).getText()).toBe('Media Collections');
       expect(navbar.flowsOptions.get(3).getText()).toBe('Media');
       expect(navbar.flowsOptions.get(4).getText()).toBe('Dispatch Mappings');
     });
-    
+
     it('should navigate to flows page when flows link is selected', function() {
       shared.flowsNavButton.click();
       navbar.flowsLink.click();
-      expect(browser.getCurrentUrl()).toContain(shared.flowsPageUrl);;
+      expect(browser.getCurrentUrl()).toContain(shared.flowsPageUrl);
     });
-    
+
     it('should navigate to queues page when queues link is selected', function() {
       shared.flowsNavButton.click();
-      navbar.queuesLink.click();
-      expect(browser.getCurrentUrl()).toContain(shared.queuesPageUrl);;
+      navbar.queuesLink.click().then(function () {
+        expect(browser.getCurrentUrl()).toContain(shared.queuesPageUrl);
+      });
     });
-    
+
     it('should navigate to media page when flows link is selected', function() {
       shared.flowsNavButton.click();
       navbar.mediaLink.click();
-      expect(browser.getCurrentUrl()).toContain(shared.mediaPageUrl);;
+      expect(browser.getCurrentUrl()).toContain(shared.mediaPageUrl);
     });
-    
+
     it('should navigate to dispatch mappings page when dispatch mappings link is selected', function() {
       shared.flowsNavButton.click();
       navbar.dispatchMappingsLink.click();
-      expect(browser.getCurrentUrl()).toContain(shared.dispatchMappingsPageUrl);;
+      expect(browser.getCurrentUrl()).toContain(shared.dispatchMappingsPageUrl);
     });
   });
 

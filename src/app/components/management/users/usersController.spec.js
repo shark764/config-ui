@@ -31,19 +31,22 @@ describe('users controller', function () {
       });
 
       $scope.user = mockUsers[0];
-      $httpBackend.flush();
     }
   ]));
 
-  it('should have users', inject(function () {
-    expect($scope.users).toBeDefined();
-    expect($scope.users.length).toEqual(3);
+  it('should have fetchUsers', inject(function () {
+    var users = $scope.fetchUsers();
+    
+    $httpBackend.flush();
+    
+    expect(users).toBeDefined();
+    expect(users.length).toEqual(3);
   }));
 
   it('should catch the on:click:create event', inject([ function () {
       $scope.$broadcast('table:on:click:create');
       expect($scope.selectedUser).toBeDefined();
-      expect($scope.selectedUser.status).toEqual(true);
+      expect($scope.selectedUser.status).toEqual('enabled');
     }]));
 
   describe('updateDisplayName function', function () {
@@ -76,7 +79,7 @@ describe('users controller', function () {
       expect(childScope.resource.displayName).toEqual('');
     }));
 
-    it('should call fetch if session.tenant.tenantId is changed', inject(function () {
+    it('should return different users on fetch if session.tenant.tenantId is changed', inject(function () {
       var tempUsers = [{
         'id': 'userId20',
         'status': true,
@@ -92,12 +95,12 @@ describe('users controller', function () {
       });
 
       Session.tenant.tenantId = 'tenant';
-      $scope.$digest();
+      var users = $scope.fetchUsers();
 
       $httpBackend.flush();
 
-      expect($scope.users.length).toEqual(1);
-      expect($scope.users[0].id).toEqual(tempUsers[0].id);
+      expect(users.length).toEqual(1);
+      expect(users[0].id).toEqual(tempUsers[0].id);
     }));
   });
 

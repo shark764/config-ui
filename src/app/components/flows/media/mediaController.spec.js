@@ -23,20 +23,27 @@ describe('MediaController', function () {
       mockMedias =  _mockMedias_;
     }
   ]));
+  
+  beforeEach(function() {
+    $controller('MediaController', {
+      '$scope': $scope
+    });
 
-  describe('when fetch returns results', function() {
-    beforeEach(function() {
-      $controller('MediaController', {
-        '$scope': $scope
-      });
-
-      $httpBackend.flush();
+    $httpBackend.flush();
+  });
+  
+  describe('ON fetchMedias', function() {
+    it('should be defined', function() {
+      expect($scope.fetchMedias).toBeDefined();
     });
 
     it('should populate $scope.medias when loaded', function() {
-      expect($scope.medias).toBeDefined();
-      expect($scope.medias[0].id).toEqual(mockMedias[0].id);
-      expect($scope.medias[1].id).toEqual(mockMedias[1].id);
+      var medias = $scope.fetchMedias();
+      
+      $httpBackend.flush();
+      
+      expect(medias[0].id).toEqual(mockMedias[0].id);
+      expect(medias[1].id).toEqual(mockMedias[1].id);
     });
 
     it('should call create when on:click:create event occurs', function () {

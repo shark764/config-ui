@@ -4,7 +4,6 @@
   var FlowMockService = function() {
     return {
       activities: [
-
         // Play Media
         {
           name: 'play-media',
@@ -173,7 +172,6 @@
             hidden: false
           }]
         }
-
       ],
 
       events: [
@@ -190,6 +188,18 @@
           meta: []
         },
         {
+          entity: 'start',
+          type: 'system-error',
+          props: [],
+          meta: []
+        },
+        {
+          entity: 'start',
+          type: 'flow-error',
+          props: [],
+          meta: []
+        },
+        {
           entity: 'catch',
           type: 'none',
           props: [],
@@ -203,8 +213,20 @@
         },
         {
           entity: 'catch',
-          type: 'error',
+          type: 'timer',
+          props: ['timer', 'interrupting', 'bindings'],
+          meta: []
+        },
+        {
+          entity: 'catch',
+          type: 'system-error',
           props: ['interrupting', 'bindings'],
+          meta: []
+        },
+        {
+          entity: 'catch',
+          type: 'flow-error',
+          props: [],
           meta: []
         },
         {
@@ -221,8 +243,8 @@
         },
         {
           entity: 'throw',
-          type: 'error',
-          props: ['terminate'],
+          type: 'flow-error',
+          props: ['terminate', 'error'],
           meta: ['mustTerminate']
         },
         {

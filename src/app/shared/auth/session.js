@@ -52,7 +52,7 @@ angular.module('liveopsConfigPanel')
       this.setUser = function (user) {
         this.user = {
           id: user.id,
-          displayName: user.fullName(),
+          displayName: user.getDisplay(),
           email: user.email
         };
         this.flush();

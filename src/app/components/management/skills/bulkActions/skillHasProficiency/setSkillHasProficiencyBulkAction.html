@@ -1,6 +1,8 @@
 <div class="bulk-action">
   <div><input type="checkbox" ng-model="bulkAction.checked"></div>
   <label><b>{{'bulkActions.skills.hasProficiency' | translate}}</b></label>
-  <toggle ng-disabled="! bulkAction.checked" ng-model="hasProficiency"
-    ng-init="hasProficiency=false"></toggle>
+  <select ng-disabled="! bulkAction.checked" ng-model="hasProficiency"
+    ng-init="hasProficiency=true">
+    <option value="true">{{'value.true' | translate}}</option>
+  </select>
 </div>

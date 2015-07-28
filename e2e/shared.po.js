@@ -24,7 +24,6 @@ var Shared = function() {
   this.dispatchMappingsPageUrl = this.flowsUrl + 'dispatchMappings';
 
   this.invitesPageUrl = this.mainUrl + 'invites';
-  this.skillsPageUrl = this.managementUrl + 'skills';
 
   // Navbar elements
   this.navBar = element(by.id('topnav'));
@@ -34,7 +33,9 @@ var Shared = function() {
   this.usersNavButton = element(by.id('users-nav-link'));
   this.tenantsNavButton = element(by.id('tenants-nav-link'));
   this.flowsNavButton = element(by.id('flows-nav-link'));
+  this.reportingNavButton = element(by.id('reporting-nav-link'));
   this.invitesNavButton = element(by.id('invites-nav-link'));
+  
   this.settingsDropdown = element(by.id('user-settings-dropdown'));
   this.settingsDropdownOptions = this.settingsDropdown.all(by.repeater('item in items'));
   this.userProfileButton = this.settingsDropdownOptions.get(1);
@@ -51,14 +52,16 @@ var Shared = function() {
   this.tableElements = element.all(by.repeater('item in (filtered = (items | selectedTableOptions:config.fields | search:config.searchOn:searchQuery | orderBy:config.orderBy))'));
   this.createBtn = element(by.id('create-btn'));
   this.searchField = element(by.model('searchQuery'));
-  this.actionsBtn = element(by.buttonText('Actions'));
+  this.actionsBtn = element(by.id('actions-btn'));
   this.tableColumnsDropDown = element(by.id('table-columns-dropdown'));
 
   // Shared Form elements
-  this.detailsPanel = element(by.css('.details-pane'));
-  this.detailsForm = element(by.css('.details-form'));
-  this.submitFormBtn = element(by.id('submit-details-btn'));
-  this.cancelFormBtn = element(by.id('cancel-details-btn'));
+  this.detailsPanel = element(by.id('details-pane'));
+  this.detailsForm = this.detailsPanel.element(by.css('.details-form'));
+  this.rightPanel = element(by.id('right-panel'));
+  this.bulkActionsPanel = element(by.css('bulk-action-executor.details-pane'));
+  this.submitFormBtn = this.detailsPanel.element(by.id('submit-details-btn'));
+  this.cancelFormBtn = this.detailsPanel.element(by.id('cancel-details-btn'));
   this.successMessage = element(by.css('.toast-success'));
   this.errorMessage = element(by.css('.toast-error'));
   this.closeMessageBtn = element(by.css('.toast-close-button'));
@@ -82,11 +85,14 @@ var Shared = function() {
   };
 
   this.tearDown = function() {
-    browser.executeScript('window.sessionStorage.clear()');
-    browser.executeScript('window.localStorage.clear()');
     // Ignore unsaved changes warnings
     browser.executeScript("window.onbeforeunload = function(){};");
     browser.get(this.loginPageUrl);
+
+    browser.executeScript('window.localStorage.clear()');
+    browser.executeScript('window.sessionStorage.clear()');
+    // Ignore unsaved changes warnings
+    browser.executeScript("window.onbeforeunload = function(){};");
   };
 };
 

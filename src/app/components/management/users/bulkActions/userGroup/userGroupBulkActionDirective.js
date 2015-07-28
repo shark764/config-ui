@@ -39,12 +39,8 @@ angular.module('liveopsConfigPanel')
             $scope.addUserGroupBulkAction();
           };
 
-          $scope.fetch = function () {
-            if (!Session.tenant.tenantId) {
-              return;
-            }
-
-            $scope.groups = Group.query({
+          $scope.fetchGroups = function () {
+            return Group.cachedQuery({
               tenantId: Session.tenant.tenantId
             });
           };
@@ -109,7 +105,6 @@ angular.module('liveopsConfigPanel')
           });
           
           $scope.userGroupBulkActionTypes = userGroupBulkActionTypes;
-          $scope.fetch();
         }
       };
     }

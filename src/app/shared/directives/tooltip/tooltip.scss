@@ -1,0 +1,147 @@
+$tooltip-color: $accent1;
+
+tooltip {
+  display: block;
+  position: absolute;
+  z-index: 30;
+  color: #ffffff;
+}
+
+.help-tooltip {
+  .tooltip-content {
+    background-color: $tooltip-color;
+    @include border-radius();
+    @include drop-shadow();
+    padding: 10px;
+    max-width: 200px;
+    max-height: 200px;
+    text-align: center;
+  }
+
+  .tooltip-arrow:after,
+  .tooltip-arrow:before {
+	border: solid transparent;
+	content: " ";
+	height: 0;
+	width: 0;
+	position: absolute;
+	pointer-events: none;
+  }
+
+  .tooltip-arrow:after {
+	border-width: 10px;
+  }
+  .tooltip-arrow:before {
+	border-width: 13px;
+  }
+}
+
+.help-tooltip.left {
+  .tooltip-arrow:after {
+    margin-top: -10px;
+    left: 100%;
+  }
+
+  .tooltip-arrow:before {
+    border-left-color: $tooltip-color;
+    margin-top: -13px;
+    left: 100%;
+  }
+}
+
+.help-tooltip.top.left {
+  .tooltip-content {
+    border-bottom-right-radius: 0;
+  }
+
+  .tooltip-arrow:after,
+  .tooltip-arrow:before {
+    bottom: 0;
+  }
+}
+
+.help-tooltip.center.left {
+  .tooltip-arrow:after,
+  .tooltip-arrow:before {
+    top: 50%;
+  }
+}
+
+.help-tooltip.bottom.left {
+  .tooltip-content {
+    border-top-right-radius: 0;
+  }
+
+  .tooltip-arrow:after,
+  .tooltip-arrow:before {
+    top: 13px;
+  }
+}
+
+.help-tooltip.right {
+  .tooltip-arrow:after,
+  .tooltip-arrow:before {
+    right: 100%;
+  }
+
+  .tooltip-arrow:before {
+    border-right-color: $tooltip-color;
+    margin-top: -13px;
+  }
+}
+
+.help-tooltip.top.right {
+  .tooltip-content {
+    border-bottom-left-radius: 0;
+  }
+
+  .tooltip-arrow:after,
+  .tooltip-arrow:before {
+    bottom: 0;
+  }
+}
+
+.help-tooltip.center.right {
+  .tooltip-arrow:after,
+  .tooltip-arrow:before {
+    top: 50%;
+  }
+}
+
+.help-tooltip.bottom.right {
+  .tooltip-content {
+    border-top-left-radius: 0;
+  }
+
+  .tooltip-arrow:after,
+  .tooltip-arrow:before {
+    right: 100%;
+    top: 13px;
+  }
+}
+
+.help-tooltip.bottom.center {
+  .tooltip-arrow:after,
+  .tooltip-arrow:before {
+    bottom: 100%;
+    left: 50%;
+  }
+
+  .tooltip-arrow:before {
+    border-bottom-color: $tooltip-color;
+    margin-left: -13px;
+  }
+}
+
+.help-tooltip.top.center {
+  .tooltip-arrow:after,
+  .tooltip-arrow:before {
+    top: 100%;
+    left: 50%;
+  }
+
+  .tooltip-arrow:before {
+    border-top-color: $tooltip-color;
+    margin-left: -13px;
+  }
+}

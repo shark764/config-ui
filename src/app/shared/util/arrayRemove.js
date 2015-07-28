@@ -6,3 +6,7 @@ Array.prototype.removeItem = function (item) {
     this.splice(idx, 1);
   }
 };
+
+Array.prototype.clear = function() {
+  this.splice(0,this.length);
+};

@@ -5,7 +5,6 @@ var UserPage = function() {
 
   this.firstNameFormField = element(by.model('resource.firstName'));
   this.lastNameFormField = element(by.model('resource.lastName'));
-  this.displayNameFormField = element(by.model('resource.displayName'));
   this.emailFormField = element(by.model('resource.email'));
   this.passwordFormField = element(by.model('resource.password'));
   this.externalIdFormField = element(by.model('resource.externalId'));
@@ -30,6 +29,8 @@ var UserPage = function() {
   this.allUserStatus = this.statusTableDropDown.element(by.css('.all'));
   this.userStatuses = this.statusTableDropDown.all(by.repeater('option in options track by option[valuePath]'));
   this.userStatusInputs = this.statusTableDropDown.all(by.css('input'));
+  
+  this.statusBulkEnableCheck = element(by.id('user-status-bulk-enable-check'));
 };
 
 module.exports = new UserPage();

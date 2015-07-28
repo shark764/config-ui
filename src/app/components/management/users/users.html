@@ -2,14 +2,11 @@
 <table-controls
   id="table-pane"
   config="tableConfig"
-  items="users"
+  items="fetchUsers()"
   selected="selectedUser"
   resource-name="user">
-
-  <span name="status">
-    <span ng-if="item.status">{{'value.enabled' | translate}}</span>
-    <span ng-if="!item.status" class="disabled">{{'value.disabled' | translate}}</span>
-  </span>
+  
+  <user-status name="status" ng-model="item.status"></user-status>
 
   <center name="state">
     <user-state state="{{item.state}}"></user-state>
@@ -34,10 +31,11 @@
     original-resource="selectedUser"
     resource-name="user"/></resource-details>
 
-  <bulk-action-executor class="details-pane user-ba" ng-show="showBulkActions" items="users" bulk-actions="bulkActions" show-bulk-actions="showBulkActions" selected-display="displayName">
+  <bulk-action-executor class="details-pane user-ba" ng-show="showBulkActions" items="fetchUsers()"
+    bulk-actions="bulkActions" show-bulk-actions="showBulkActions">
     <ba-set-status bulk-action="bulkActions.setStatus"></ba-set-status>
     <ba-reset-password bulk-action="bulkActions.resetPassword"></ba-reset-password>
-    <ba-user-skills bulk-action="bulkActions.userSkills" users="users"></ba-user-skills>
-    <ba-user-groups bulk-action="bulkActions.userGroups" users="users"></ba-user-groups>
+    <ba-user-skills bulk-action="bulkActions.userSkills" users="fetchUsers()"></ba-user-skills>
+    <ba-user-groups bulk-action="bulkActions.userGroups" users="fetchUsers()"></ba-user-groups>
   </bulk-action-executor>
 </div>
