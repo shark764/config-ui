@@ -4,9 +4,33 @@
             "name": "play-media",
             "entity": "activity",
             "label": "Play Media",
-            "targeted": true,
-            "target": "twilio",
             "inputs": [
+                {
+                    "name": "targeted",
+                    "path": "targeted",
+                    "type": "boolean",
+                    "label": "Targeted?:",
+                    "group": "params",
+                    "index": 0,
+                    "disabled": false,
+                    "required": false,
+                    "placeholder": null,
+                    "defaultsTo": true,
+                    "hidden": true
+                },
+                {
+                    "name": "target",
+                    "path": "target",
+                    "type": "string",
+                    "label": "Target:",
+                    "group": "params",
+                    "index": 0,
+                    "disabled": false,
+                    "required": false,
+                    "placeholder": "Enter a target...",
+                    "defaultsTo": "twilio",
+                    "hidden": true
+                },
                 {
                     "name": "participant",
                     "path": "params.participant",
@@ -17,7 +41,7 @@
                     "disabled": false,
                     "required": false,
                     "placeholder": null,
-                    "defaultsTo": null,
+                    "defaultsTo": "",
                     "hidden": false,
                     "options": [
                         {
@@ -36,7 +60,7 @@
                     "type": "typeahead",
                     "label": "Media:",
                     "group": "params",
-                    "index": 1,
+                    "index": 0,
                     "disabled": false,
                     "required": false,
                     "placeholder": "Search for a media...",
@@ -50,7 +74,7 @@
                     "type": "boolean",
                     "label": "Loop?:",
                     "group": "params",
-                    "index": 2,
+                    "index": 0,
                     "disabled": false,
                     "required": false,
                     "placeholder": null,
@@ -99,9 +123,33 @@
             "name": "collect-digits",
             "entity": "activity",
             "label": "Collect Digits",
-            "targeted": true,
-            "target": "twilio",
             "inputs": [
+                {
+                    "name": "targeted",
+                    "path": "targeted",
+                    "type": "boolean",
+                    "label": "Targeted?:",
+                    "group": "params",
+                    "index": 0,
+                    "disabled": false,
+                    "required": false,
+                    "placeholder": null,
+                    "defaultsTo": true,
+                    "hidden": true
+                },
+                {
+                    "name": "target",
+                    "path": "target",
+                    "type": "string",
+                    "label": "Target:",
+                    "group": "params",
+                    "index": 0,
+                    "disabled": false,
+                    "required": false,
+                    "placeholder": "Enter a target...",
+                    "defaultsTo": "twilio",
+                    "hidden": true
+                },
                 {
                     "name": "participant",
                     "path": "params.participant",
@@ -112,7 +160,7 @@
                     "disabled": false,
                     "required": false,
                     "placeholder": null,
-                    "defaultsTo": null,
+                    "defaultsTo": "",
                     "hidden": false,
                     "options": [
                         {
@@ -131,7 +179,7 @@
                     "type": "typeahead",
                     "label": "Media:",
                     "group": "params",
-                    "index": 1,
+                    "index": 0,
                     "disabled": false,
                     "required": false,
                     "placeholder": "Search for a media...",
@@ -162,7 +210,7 @@
                     "disabled": false,
                     "required": false,
                     "placeholder": null,
-                    "defaultsTo": null,
+                    "defaultsTo": "",
                     "hidden": false,
                     "options": [
                         {
@@ -261,8 +309,20 @@
             "name": "enqueue",
             "entity": "activity",
             "label": "Enqueue",
-            "targeted": false,
             "inputs": [
+                {
+                    "name": "targeted",
+                    "path": "targeted",
+                    "type": "boolean",
+                    "label": "Targeted?:",
+                    "group": "params",
+                    "index": 0,
+                    "disabled": false,
+                    "required": false,
+                    "placeholder": null,
+                    "defaultsTo": false,
+                    "hidden": true
+                },
                 {
                     "name": "queue",
                     "path": "params.queue",
@@ -294,9 +354,33 @@
             "name": "work-offer",
             "entity": "activity",
             "label": "Work Offer",
-            "targeted": true,
-            "target": "client",
             "inputs": [
+                {
+                    "name": "targeted",
+                    "path": "targeted",
+                    "type": "boolean",
+                    "label": "Targeted?:",
+                    "group": "params",
+                    "index": 0,
+                    "disabled": false,
+                    "required": false,
+                    "placeholder": null,
+                    "defaultsTo": true,
+                    "hidden": true
+                },
+                {
+                    "name": "target",
+                    "path": "target",
+                    "type": "string",
+                    "label": "Target:",
+                    "group": "params",
+                    "index": 0,
+                    "disabled": false,
+                    "required": false,
+                    "placeholder": "Enter a target...",
+                    "defaultsTo": "client",
+                    "hidden": true
+                },
                 {
                     "name": "resource",
                     "path": "params.resource",
@@ -307,7 +391,7 @@
                     "disabled": false,
                     "required": false,
                     "placeholder": null,
-                    "defaultsTo": null,
+                    "defaultsTo": "",
                     "hidden": false,
                     "options": [
                         {
@@ -392,6 +476,19 @@
             "label": "Free Resource",
             "inputs": [
                 {
+                    "name": "targeted",
+                    "path": "targeted",
+                    "type": "boolean",
+                    "label": "Targeted?:",
+                    "group": "params",
+                    "index": 0,
+                    "disabled": false,
+                    "required": false,
+                    "placeholder": null,
+                    "defaultsTo": false,
+                    "hidden": true
+                },
+                {
                     "name": "resourceid",
                     "path": "params.resourceid",
                     "type": "string",
@@ -411,18 +508,50 @@
                             "key": "resource",
                             "mandatory": true
                         }
-                    },
-                    "bindings": []
+                    }
                 }
-            ]
+            ],
+            "params": {
+              "resource-id": {
+                "source": "expression",
+                "type": "string",
+                "key": "resource",
+                "mandatory": true
+              }
+            },
+            "bindings": []
         },
         {
             "name": "add-participant",
             "entity": "activity",
             "label": "Add Participant",
-            "targeted": true,
-            "target": "twilio",
             "inputs": [
+                {
+                    "name": "targeted",
+                    "path": "targeted",
+                    "type": "boolean",
+                    "label": "Targeted?:",
+                    "group": "params",
+                    "index": 0,
+                    "disabled": false,
+                    "required": false,
+                    "placeholder": null,
+                    "defaultsTo": true,
+                    "hidden": true
+                },
+                {
+                    "name": "target",
+                    "path": "target",
+                    "type": "string",
+                    "label": "Target:",
+                    "group": "params",
+                    "index": 0,
+                    "disabled": false,
+                    "required": false,
+                    "placeholder": "Enter a target...",
+                    "defaultsTo": "twilio",
+                    "hidden": true
+                },
                 {
                     "name": "participant",
                     "path": "params.participant",
@@ -433,7 +562,7 @@
                     "disabled": false,
                     "required": false,
                     "placeholder": null,
-                    "defaultsTo": null,
+                    "defaultsTo": "",
                     "hidden": false,
                     "options": [
                         {
@@ -469,7 +598,7 @@
                     "disabled": false,
                     "required": false,
                     "placeholder": null,
-                    "defaultsTo": null,
+                    "defaultsTo": "",
                     "hidden": false,
                     "options": [
                         {
