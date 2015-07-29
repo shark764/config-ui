@@ -173,7 +173,7 @@
           "mandatory": false,
           "key": "media"
         },
-        "numDigits": {
+        "num-digits": {
           "source": "expression",
           "type": "integer", 
           "mandatory": false,
