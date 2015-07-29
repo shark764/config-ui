@@ -88,7 +88,11 @@ angular.module('liveopsConfigPanel')
 
           $scope.cancel = function () {
             DirtyForms.confirmIfDirty(function () {
-              $scope.resetForm();
+              if ($scope.bulkActionForm.$dirty){
+                $scope.resetForm();
+              } else {
+                $scope.showBulkActions = false;
+              }
             });
           };
 
