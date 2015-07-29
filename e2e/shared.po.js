@@ -2,6 +2,7 @@
 
 var Shared = function() {
   // Page URLS
+  this.rootURL = 'http://localhost:3000';
   this.mainUrl = 'http://localhost:3000/#/';
   this.loginPageUrl = this.mainUrl + 'login';
   this.profilePageUrl = this.mainUrl + 'userprofile';
@@ -35,7 +36,7 @@ var Shared = function() {
   this.flowsNavButton = element(by.id('flows-nav-link'));
   this.reportingNavButton = element(by.id('reporting-nav-link'));
   this.invitesNavButton = element(by.id('invites-nav-link'));
-  
+
   this.settingsDropdown = element(by.id('user-settings-dropdown'));
   this.settingsDropdownOptions = this.settingsDropdown.all(by.repeater('item in items'));
   this.userProfileButton = this.settingsDropdownOptions.get(1);
