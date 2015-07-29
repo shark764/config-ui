@@ -204,4 +204,42 @@ describe('The skills view bulk actions', function() {
       });
     });
   });
+
+  it('should only affect selected skills', function() {
+    shared.tableElements.then(function(originalSkills) {
+      // Select odd skills and leave even skills unselected
+      for (var i = 0; i < originalSkills.length; i++) {
+        if (i % 2 > 0) {
+          bulkActions.selectItemTableCells.get(i).click();
+        }
+      }
+      shared.actionsBtn.click();
+      bulkActions.selectAllTableHeader.click();
+
+      // Disable selected Skills
+      bulkActions.selectEnable.click();
+
+      bulkActions.submitFormBtn.click();
+
+      expect(bulkActions.confirmModal.isDisplayed()).toBeTruthy();
+      bulkActions.confirmOK.click().then(function() {
+        expect(shared.successMessage.isDisplayed()).toBeTruthy();
+
+        // Form reset
+        expect(bulkActions.submitFormBtn.getAttribute('disabled')).toBeTruthy();
+        expect(bulkActions.enableToggle.getAttribute('disabled')).toBeTruthy();
+
+        // Only selected skills are updated
+        for (var i = 0; i < originalSkills.length; i++) {
+          if (i % 2 > 0) {
+            // Skill was updated to Disabled
+            expect(shared.tableElements.get(i).getText()).toContain('Disabled');
+          } else {
+            // Skill status remains unchanged
+            expect(shared.tableElements.get(i).getText()).toBe(originalSkills[i].getText());
+          }
+        }
+      });
+    });
+  });
 });

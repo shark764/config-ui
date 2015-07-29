@@ -288,7 +288,7 @@ describe('The bulk actions', function() {
     expect(bulkActions.enableToggle.getAttribute('disabled')).toBeTruthy();
   });
 
-  it('should not complete changes when Confirm modal is not accepted', function() {
+  it('should display the correct number of selected users in the Confirm modal', function() {
     // Select items
     shared.tableElements.count().then(function(tableCount) {
       shared.tableElements.count().then(function(tableCount) {
@@ -316,7 +316,7 @@ describe('The bulk actions', function() {
         expect(bulkActions.confirmHeader.getText()).toBe('Confirm bulk edit');
 
         expect(bulkActions.confirmMessage.isDisplayed()).toBeTruthy();
-        expect(bulkActions.confirmMessage.getText()).toBe('This bulk action will affect ' + numSelected + ' items. Do you want to continue?');
+        expect(bulkActions.confirmMessage.getText()).toBe('You are about to make your specified changes to the ' + numSelected + ' users selected. Do you want to continue?');
       });
     });
   });
@@ -327,15 +327,15 @@ describe('The bulk actions', function() {
     shared.actionsBtn.click();
     bulkActions.userSelectEnable.click();
 
-    bulkActions.submitFormBtn.click();
+    bulkActions.submitFormBtn.click().then(function () {
+      expect(bulkActions.confirmModal.isDisplayed()).toBeTruthy();
+      bulkActions.confirmCancel.click();
 
-    expect(bulkActions.confirmModal.isDisplayed()).toBeTruthy();
-    bulkActions.confirmCancel.click();
-
-    // Modal is closed, bulk actions section remains unchanged
-    expect(bulkActions.confirmModal.isDisplayed()).toBeTruthy();
-    expect(shared.successMessage.isPresent()).toBeFalsy();
-    expect(bulkActions.submitFormBtn.getAttribute('disabled')).toBeFalsy();
+      // Modal is closed, bulk actions section remains unchanged
+      expect(bulkActions.confirmModal.isPresent()).toBeFalsy();
+      expect(shared.successMessage.isPresent()).toBeFalsy();
+      expect(bulkActions.submitFormBtn.getAttribute('disabled')).toBeFalsy();
+    });
   });
 
 });

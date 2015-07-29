@@ -1,12 +1,12 @@
 'use strict';
 
-describe('The groups view bulk actions', function() {
+describe('The flows view bulk actions', function() {
   var loginPage = require('../login/login.po.js'),
     bulkActions = require('../tableControls/bulkActions.po.js'),
     shared = require('../shared.po.js'),
-    groups = require('./groups.po.js'),
+    flows = require('./flows.po.js'),
     params = browser.params,
-    groupCount;
+    flowCount;
 
   beforeAll(function() {
     loginPage.login(params.login.user, params.login.password);
@@ -15,8 +15,8 @@ describe('The groups view bulk actions', function() {
   beforeEach(function() {
     // Ignore unsaved changes warnings
     browser.executeScript("window.onbeforeunload = function(){};");
-    browser.get(shared.groupsPageUrl);
-    groupCount = shared.tableElements.count();
+    browser.get(shared.flowsPageUrl);
+    flowCount = shared.tableElements.count();
   });
 
   afterAll(function() {
@@ -28,12 +28,12 @@ describe('The groups view bulk actions', function() {
     shared.actionsBtn.click();
     expect(bulkActions.bulkActionDivs.count()).toBe(1);
 
-    // Enable Groups
+    // Enable Flows
     expect(bulkActions.selectEnable.isDisplayed()).toBeTruthy();
     expect(bulkActions.enableToggle.isDisplayed()).toBeTruthy();
   });
 
-  it('should allow all selected group\'s status to be Disabled', function() {
+  it('should allow all selected flow\'s status to be Disabled', function() {
     // Update All bulk actions
     shared.actionsBtn.click();
     bulkActions.selectAllTableHeader.click();
@@ -51,12 +51,12 @@ describe('The groups view bulk actions', function() {
       expect(bulkActions.submitFormBtn.getAttribute('disabled')).toBeTruthy();
       expect(bulkActions.enableToggle.getAttribute('disabled')).toBeTruthy();
 
-      // All groups are set to disabled
+      // All flows are set to disabled
       // Select Disabled from Status drop down
       bulkActions.statusTableDropDown.click();
       bulkActions.statuses.get(0).click();
       shared.tableElements.count().then(function(disabledTotal) {
-        expect(disabledTotal).toBe(groupCount);
+        expect(disabledTotal).toBe(flowCount);
       });
 
       // Select Enabled from Status drop down
@@ -68,7 +68,7 @@ describe('The groups view bulk actions', function() {
     });
   });
 
-  it('should allow all selected group\'s status to be Enabled', function() {
+  it('should allow all selected flow\'s status to be Enabled', function() {
     // Update All bulk actions
     shared.actionsBtn.click();
     bulkActions.selectAllTableHeader.click();
@@ -87,7 +87,7 @@ describe('The groups view bulk actions', function() {
       expect(bulkActions.submitFormBtn.getAttribute('disabled')).toBeTruthy();
       expect(bulkActions.enableToggle.getAttribute('disabled')).toBeTruthy();
 
-      // All groups are set to enabled
+      // All flows are set to enabled
       // Select Disabled from Status drop down
       bulkActions.statusTableDropDown.click();
       bulkActions.statuses.get(0).click();
@@ -99,7 +99,7 @@ describe('The groups view bulk actions', function() {
       bulkActions.statuses.get(0).click();
       bulkActions.statuses.get(1).click();
       shared.tableElements.count().then(function(enabledTotal) {
-        expect(enabledTotal).toBe(groupCount);
+        expect(enabledTotal).toBe(flowCount);
       });
     });
   });
@@ -123,10 +123,10 @@ describe('The groups view bulk actions', function() {
     expect(shared.successMessage.isPresent()).toBeFalsy();
   });
 
-  it('should only affect selected groups', function() {
-    shared.tableElements.then(function(originalGroups) {
-      // Select odd groups and leave even groups unselected
-      for (var i = 0; i < originalGroups.length; i++) {
+  it('should only affect selected flows', function() {
+    shared.tableElements.then(function(originalFlows) {
+      // Select odd flows and leave even flows unselected
+      for (var i = 0; i < originalFlows.length; i++) {
         if (i % 2 > 0) {
           bulkActions.selectItemTableCells.get(i).click();
         }
@@ -134,7 +134,7 @@ describe('The groups view bulk actions', function() {
       shared.actionsBtn.click();
       bulkActions.selectAllTableHeader.click();
 
-      // Disable selected Groups
+      // Disable selected Flows
       bulkActions.selectEnable.click();
 
       bulkActions.submitFormBtn.click();
@@ -147,17 +147,18 @@ describe('The groups view bulk actions', function() {
         expect(bulkActions.submitFormBtn.getAttribute('disabled')).toBeTruthy();
         expect(bulkActions.enableToggle.getAttribute('disabled')).toBeTruthy();
 
-        // Only selected groups are updated
-        for (var i = 0; i < originalGroups.length; i++) {
+        // Only selected flows are updated
+        for (var i = 0; i < originalFlows.length; i++) {
           if (i % 2 > 0) {
-            // Group was updated to Disabled
+            // Flow was updated to Disabled
             expect(shared.tableElements.get(i).getText()).toContain('Disabled');
           } else {
-            // Group status remains unchanged
-            expect(shared.tableElements.get(i).getText()).toBe(originalGroups[i].getText());
+            // Flow status remains unchanged
+            expect(shared.tableElements.get(i).getText()).toBe(originalFlows[i].getText());
           }
         }
       });
     });
   });
+
 });
