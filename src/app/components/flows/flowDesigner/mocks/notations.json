@@ -173,9 +173,9 @@
           "mandatory": false,
           "key": "media"
         },
-        "digits": {
+        "numDigits": {
           "source": "expression",
-          "type": "integer",
+          "type": "integer", 
           "mandatory": false,
           "default": 5,
           "key": "digits"
