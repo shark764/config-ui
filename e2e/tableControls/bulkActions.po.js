@@ -55,6 +55,12 @@ var BulkActions = function() {
   this.confirmOK = this.confirmModal.element(by.id('modal-ok'));
   this.confirmCancel = this.confirmModal.element(by.id('modal-cancel'));
 
+  // Status table selectors
+  this.tableHeader = element(by.css('#table-pane > div:nth-child(3) > table:nth-child(1)'));
+  this.statusTableDropDown = this.tableHeader.element(by.css('filter-dropdown:nth-child(1)'));
+  this.allGroupStatus = this.statusTableDropDown.element(by.css('.all'));
+  this.groupStatuses = this.statusTableDropDown.all(by.repeater('option in options track by option[valuePath]'));
+  this.groupStatusInputs = this.statusTableDropDown.all(by.css('input'));
 };
 
 module.exports = new BulkActions();

@@ -40,8 +40,6 @@ describe('The groups view bulk actions', function() {
 
     bulkActions.selectEnable.click();
 
-    expect(bulkActions.enableToggle.getValue()).toBe('test');
-
     expect(bulkActions.submitFormBtn.getAttribute('disabled')).toBeFalsy();
     bulkActions.submitFormBtn.click();
 
@@ -51,20 +49,18 @@ describe('The groups view bulk actions', function() {
 
       // Form reset
       expect(bulkActions.submitFormBtn.getAttribute('disabled')).toBeTruthy();
-      expect(bulkActions.enableToggle.getAttribute('selected')).toBeFalsy();
       expect(bulkActions.enableToggle.getAttribute('disabled')).toBeTruthy();
 
       // All groups are set to disabled
       // Select Disabled from Status drop down
-      users.statusTableDropDown.click();
-      users.userStatuses.get(0).click();
+      bulkActions.statusTableDropDown.click();
+      bulkActions.groupStatuses.get(0).click();
       shared.tableElements.count().then(function(disabledTotal) {
         expect(disabledTotal).toBe(groupCount);
       });
 
       // Select Enabled from Status drop down
-      users.statusTableDropDown.click();
-      users.userStatuses.get(1).click();
+      bulkActions.groupStatuses.get(1).click();
       shared.tableElements.count().then(function(enabledTotal) {
         expect(enabledTotal).toBe(0);
       });
@@ -79,8 +75,6 @@ describe('The groups view bulk actions', function() {
     bulkActions.selectEnable.click();
     bulkActions.enableToggle.click();
 
-    expect(bulkActions.enableToggle.getValue()).toBe('test');
-
     expect(bulkActions.submitFormBtn.getAttribute('disabled')).toBeFalsy();
     bulkActions.submitFormBtn.click();
 
@@ -90,32 +84,40 @@ describe('The groups view bulk actions', function() {
 
       // Form reset
       expect(bulkActions.submitFormBtn.getAttribute('disabled')).toBeTruthy();
-      expect(bulkActions.enableToggle.getAttribute('selected')).toBeFalsy();
       expect(bulkActions.enableToggle.getAttribute('disabled')).toBeTruthy();
 
       // All groups are set to enabled
       // Select Disabled from Status drop down
-      users.statusTableDropDown.click();
-      users.userStatuses.get(0).click();
+      bulkActions.statusTableDropDown.click();
+      bulkActions.groupStatuses.get(0).click();
       shared.tableElements.count().then(function(disabledTotal) {
         expect(disabledTotal).toBe(0);
       });
 
       // Select Enabled from Status drop down
-      users.statusTableDropDown.click();
-      users.userStatuses.get(1).click();
+      bulkActions.groupStatuses.get(1).click();
       shared.tableElements.count().then(function(enabledTotal) {
         expect(enabledTotal).toBe(groupCount);
       });
     });
   });
 
+  it('should ignore disabled fields on update', function() {
+    shared.actionsBtn.click();
+    bulkActions.selectAllTableHeader.click();
 
+    bulkActions.selectEnable.click();
+    bulkActions.enableToggle.click();
 
-  xit('should update proficiency when adding a group for existing users with the group', function() {});
-  xit('should do nothing when setting proficiency for existing groups with proficiency', function() {});
+    // Disable Enable toggle
+    bulkActions.selectEnable.click();
+    expect(bulkActions.enableToggle.getAttribute('disabled')).toBeTruthy();
 
-  xit('should allow multiple fields to be updated at once for the selected groups', function() {});
-  xit('should allow all fields to be updated at once for the selected groups', function() {});
-  xit('should ignore disabled fields on update', function() {});
+    // No bulk actions to perform
+    expect(bulkActions.submitFormBtn.getAttribute('disabled')).toBeTruthy();
+    bulkActions.submitFormBtn.click();
+
+    expect(bulkActions.confirmModal.isPresent()).toBeFalsy();
+    expect(shared.successMessage.isPresent()).toBeFalsy();
+  });
 });
