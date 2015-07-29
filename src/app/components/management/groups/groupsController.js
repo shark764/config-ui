@@ -5,15 +5,15 @@ angular.module('liveopsConfigPanel')
     function ($scope, Session, Group, User, groupTableConfig, TenantGroupUsers, DirtyForms, BulkAction) {
       $scope.Session = Session;
       $scope.tableConfig = groupTableConfig;
-      
+
       //This is really awful and hopefully the API will update to accommodate this.
       Group.prototype.fetchGroupUsers = function() {
         return TenantGroupUsers.cachedQuery({
           tenantId: Session.tenant.tenantId,
           groupId: this.id
         }, 'groups/' + this.id + '/users');
-      }
-      
+      };
+
       $scope.fetchGroups = function () {
         return Group.cachedQuery({
           tenantId: Session.tenant.tenantId

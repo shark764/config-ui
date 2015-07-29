@@ -17,7 +17,7 @@ exports.config = {
     'name': '',
     'build': '',
     'tags': [''],
-    'max-duration': '5400',
+    'max-duration': '5400'
   },
 
   // Timeout time in milliseconds; prevents Protractor waiting to synchronize timeouts
@@ -48,7 +48,14 @@ exports.config = {
       paths.e2e + '/tableControls/*.spec.js',
       paths.e2e + '/userProfile/*.spec.js'
     ],
-    regression: [paths.e2e + '/**/*.spec.js']
+    regression: [paths.e2e + '/**/*.spec.js'],
+    management: [paths.e2e + '/management/*.spec.js'],
+    configuration: [paths.e2e + '/configuration/*.spec.js'],
+    flows: [paths.e2e + '/flows/*.spec.js'],
+    login: [paths.e2e + '/login/*.spec.js'],
+    navigation: [paths.e2e + '/navigation/*.spec.js'],
+    tableControls: [paths.e2e + '/tableControls/*.spec.js'],
+    userProfile: [paths.e2e + '/userProfile/*.spec.js']
   },
 
   framework: 'jasmine2',
