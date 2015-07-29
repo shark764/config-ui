@@ -4,14 +4,15 @@
 <div class="input-group">
   <label>{{'value.name' | translate}} *</label>
   <div>
-    <form-error field="detailsForm.collectionName" error-type-api="true"
-      error-type-required="{{'media.details.name.error' | translate}}"></form-error>
+    <form-error field="detailsForm.collectionName"
+      error-type-required="{{'media.details.name.error' | translate}}">
+    </form-error>
     <input type="text" ng-required="true" ng-model="resource.name" name="collectionName"></input>
   </div>
 </div>
 <div class="input-group">
   <label class="textarea-label">{{'value.description' | translate}}</label>
-  <form-error field="detailsForm.description" error-type-api="{{'media.details.description.error' | translate}}"></form-error>
+  <form-error field="detailsForm.description"></form-error>
   <div>
     <textarea ng-model="resource.description" name="description"></textarea>
   </div>
@@ -19,7 +20,7 @@
 <div ng-if="resource.mediaMap != undefined && resource.mediaMap.length > 0" class="input-group">
   <label>{{'media.collections.defaultMediaKey' | translate}} *</label>
   <div>
-    <form-error field="detailsForm.defaultMediaKey" error-type-api="true"
+    <form-error field="detailsForm.defaultMediaKey"
       error-type-required="{{'media.collections.defaultMediaKey.error' | translate}}"></form-error>
     <select ng-class="{'default-selected': ! resource.defaultMediaKey}" ng-required="true"
       name="defaultMediaKey" ng-model="resource.defaultMediaKey"
