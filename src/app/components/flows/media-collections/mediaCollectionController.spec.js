@@ -50,12 +50,8 @@ describe('MediaCollectionController', function () {
     }));
   }]));
 
-  it('should have a function in the payload to collections details to create a new media mapping which sets the waiting media, and sets the selected media to new', inject(function (Media, Session) {
-    var newMedia = new Media({
-      id: 'abc'
-    });
-
-    $scope.$broadcast('resource:details:create:mediaMapping', newMedia);
+  it('should catch the create media event and set the selected media to new', inject(function (Media, Session) {
+    $scope.$broadcast('resource:details:create:media');
 
     expect($scope.selectedMedia.tenantId).toEqual(Session.tenant.tenantId);
     expect($scope.selectedMedia.properties).toEqual({});
@@ -75,50 +71,25 @@ describe('MediaCollectionController', function () {
     expect($scope.create).toHaveBeenCalled();
   }));
 
-  it('should have fetchMedias passed down to additionalCollections',
-    inject(function () {
-      expect($scope.additionalCollections.fetchMedias).toBeDefined();
+  it('should watch for media being added, and reset selectedMedia', inject(function () {
+      $scope.selectedMedia = {id: 'existing'};
+      $rootScope.$broadcast('resource:details:media:create:success');
+      expect($scope.selectedMedia).toBeNull();
     }));
-
-  it('should have fetchMedias and fetchMediaCollections function and fetchMedias',
-    inject(function () {
-      expect($scope.fetchMedias).toBeDefined();
+  
+  describe('fetchMediaCollections function', function(){
+    it('should exist', inject(function () {
       expect($scope.fetchMediaCollections).toBeDefined();
     }));
-
-  it('should watch for media being added, add it to its own list and not update the waiting media if its not set', inject(function (mockMedias, Media) {
-    $scope.waitingMedia = null;
-
-    var newMedia = new Media({
-      id: 'abc'
-    });
-
-    spyOn($scope, 'fetchMedias').and.returnValue(mockMedias);
-
-    $rootScope.$broadcast('resource:details:media:create:success', newMedia);
-
-    var medias = $scope.fetchMedias();
-
-    expect(medias.length).toBe(3);
-    expect($scope.waitingMedia).toBeNull();
-  }));
-
-  it('should watch for media being added, add it to its own list and update the waiting media',
-    inject(function (mockMedias, Media) {
-      $scope.waitingMedia = new Media({});
-
-      var newMedia = new Media({
-        id: 'abc'
-      });
-
-      spyOn($scope, 'fetchMedias').and.returnValue(mockMedias);
-
-      $rootScope.$broadcast('resource:details:media:create:success', newMedia);
-
-      var medias = $scope.fetchMedias();
-
-      expect(medias.length).toBe(3);
-    }));
+    
+    it('should return the list of media collections', inject(['mockMediaCollections', function (mockMediaCollections) {
+      var collection = $scope.fetchMediaCollections();
+      $httpBackend.flush();
+      expect(collection.length).toEqual(mockMediaCollections.length);
+      expect(collection[0].id).toEqual(mockMediaCollections[0].id);
+      expect(collection[1].id).toEqual(mockMediaCollections[1].id);
+    }]));
+  });
 
   describe('preCreate prototype function', function () {
     it('should call cleanMediaMap if mediaMap is defined', inject(function () {
@@ -200,97 +171,6 @@ describe('MediaCollectionController', function () {
       myCollection.mediaMap = [];
 
       $scope.cleanMediaMap(myCollection);
-      expect(myCollection.mediaMap).toBeUndefined();
-    }));
-  });
-
-  describe('addMapping function', function () {
-    it('should exist', function () {
-      expect($scope.addMapping).toBeDefined();
-      expect($scope.addMapping).toEqual(jasmine.any(Function));
-    });
-
-    it('should add an empty object to the mediaMap array, if defined.', inject(function () {
-      var myCollection = new MediaCollection();
-      myCollection.mediaMap = [{
-        id: 'uuid-value'
-      }];
-
-      $scope.addMapping(myCollection);
-      expect(myCollection.mediaMap.length).toBe(2);
-      expect(myCollection.mediaMap[1]).toBeDefined();
-      expect(myCollection.mediaMap[1]).toEqual({});
-    }));
-
-    it('should create a mediaMap array with an empty object, if no mediaMap exists', inject(function () {
-      var myCollection = new MediaCollection();
-      $scope.addMapping(myCollection);
-      expect(myCollection.mediaMap).toBeDefined();
-      expect(myCollection.mediaMap).toEqual(jasmine.any(Array));
-      expect(myCollection.mediaMap.length).toBe(1);
-      expect(myCollection.mediaMap[0]).toEqual({});
-    }));
-  });
-
-  describe('removeMapping function', function () {
-    it('should exist', function () {
-      expect($scope.removeMapping).toBeDefined();
-      expect($scope.removeMapping).toEqual(jasmine.any(Function));
-    });
-
-    it('should remove the custom form elements and set dirty', inject(function () {
-      var myCollection = new MediaCollection();
-      myCollection.mediaMap = [{
-        id: 'uuid-value'
-      }, {
-        id: 'some other value'
-      }];
-
-      var form = {
-        mediaMapChanges: {
-          $setDirty: jasmine.createSpy('dirtySpy')
-        },
-        mapping1: {
-          id: 'mapping1'
-        },
-        source1: {
-          id: 'source1'
-        },
-        mapping0: {
-          id: 'mapping0'
-        },
-        source0: {
-          id: 'source0'
-        }
-      };
-
-      $scope.removeMapping(myCollection, form, 1);
-
-      expect(myCollection.mediaMap.length).toBe(1);
-      expect(form.mediaMapChanges.$setDirty).toHaveBeenCalled();
-    }));
-
-    it('should remove the mediaMap property if no mappings are left', inject(function () {
-      var myCollection = new MediaCollection();
-      myCollection.mediaMap = [{
-        id: 'uuid-value'
-      }];
-
-      var form = {
-        mediaMapChanges: {
-          $setDirty: jasmine.createSpy('dirtySpy')
-        },
-        $removeControl: jasmine.createSpy('formSpy'),
-        mapping0: {
-          id: 'mapping0'
-        },
-        source0: {
-          id: 'source0'
-        }
-      };
-
-      $scope.removeMapping(myCollection, form, 0);
-
       expect(myCollection.mediaMap).toBeUndefined();
     }));
   });
