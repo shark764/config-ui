@@ -9,17 +9,22 @@ angular.module('liveopsConfigPanel')
           items: '=',
           bulkActions: '=',
           showBulkActions: '=',
-          dropOrderBy: '@'
+          dropOrderBy: '@',
+          confirmMessageKey: '@'
         },
         transclude: true,
         templateUrl: 'app/shared/directives/bulkActionExecutor/bulkActionExecutor.html',
         link: function ($scope) {
+          if (! $scope.confirmMessageKey){
+            $scope.confirmMessageKey = 'bulkActions.confirm.message';
+          }
+          
           $scope.checkedItems = [];
 
           $scope.confirmExecute = function () {
             Modal.showConfirm({
               title: $translate.instant('bulkActions.confirm.title'),
-              message: $translate.instant('bulkActions.confirm.message', {
+              message: $translate.instant($scope.confirmMessageKey, {
                 numItems: $scope.selectedItems().length
               }),
               okCallback: $scope.execute
@@ -91,7 +96,11 @@ angular.module('liveopsConfigPanel')
 
           $scope.cancel = function () {
             DirtyForms.confirmIfDirty(function () {
-              $scope.resetForm();
+              if ($scope.bulkActionForm.$dirty){
+                $scope.resetForm();
+              } else {
+                $scope.showBulkActions = false;
+              }
             });
           };
 
