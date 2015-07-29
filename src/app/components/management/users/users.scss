@@ -6,24 +6,48 @@
     padding: 15px 20px;
     margin-right: 10px;
   }
-  
+
   toggle {
     position: static;
   }
-  
+
   .info {
     .user-state {
       display:inline-block;
       font-size: 0.7em;
       vertical-align: top;
     }
-    
+
     .details {
       display: table;
-      
+
       & > * {
         display: table-cell;
       }
     }
+  }
+}
+
+.new-user-email {
+
+  .input-group {
+
+    .email-exists-message {
+      display: table-cell;
+      vertical-align: middle;
+      text-align: center;
+      padding: 15px;
+      background-color: $accent1;
+      color: white;
+      @include border-radius(5px);
+      pointer-events: none;
+      font-size: 110%;
+    }
+  }
+
+  .email-verify-spinner {
+    position: absolute;
+    right: 5px;
+    top: 9px;
   }
 }

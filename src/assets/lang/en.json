@@ -73,6 +73,7 @@
   "details.email": "Email",
   "details.email.error": "Please enter an email address",
   "details.email.invalid": "Must be a valid email address",
+  "details.email.alreadyExists" : "This user already exists on the platform and they will be added to the tenant upon clicking \"Submit\"",
   "details.password": "Password",
   "details.password.error": "Please enter a password",
   "details.externalId": "External ID",
@@ -98,6 +99,8 @@
   "details.name.error": "Please enter a name",
   "details.personalTelephone": "Personal Telephone",
   "details.personalTelephone.error": "Personal Telephone must be E.164 format (+18005551234)",
+  "details.inviteNow": "Invite Now",
+  "details.inviteNow.help" : "<p>To invite this user now select, click \"Submit\" with \"Invite Now\" selected</p> <p>or</p> <p>To set this user to a pending invite status de-select \"Invite Now and click \"Submit\"</p>",
 
   "user.details.creating": "Creating New User",
   "user.details.password.reset": "Reset Password",

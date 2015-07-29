@@ -29,16 +29,16 @@
 
     <ng-form unsaved-changes-warning ng-show="selectedUser" class="details-form" name="detailsForm">
 
-      <div class="detail-header-pane" compiled-include="app/components/management/users/userDetailHeader.html">
+      <div class="detail-header-pane" ng-show="selectedUser.id" compiled-include="app/components/management/users/userDetailHeader.html">
       </div>
 
       <div class="detail-body-pane" compiled-include="app/components/management/users/userDetailBody.html">
       </div>
 
       <div class="detail-controls-pane">
-        <input id="cancel-details-btn" ng-disabled="loading" type="button" class="btn" ng-click="reset()" value="{{'value.cancel' | translate}}"></input>
-        <input id="submit-details-btn" ng-show="!loading" ng-click="save()" ng-disabled="detailsForm.$invalid || ! detailsForm.$dirty" class="btn btn-primary" type="submit" value="{{'value.submit' | translate}}" />
-        <a ng-disabled="true" ng-show="loading" class="btn btn-primary"><i class="fa fa-refresh fa-spin"></i></a>
+        <input id="cancel-details-btn" ng-disabled="selectedUser.$busy" type="button" class="btn" ng-click="reset()" value="{{'value.cancel' | translate}}"></input>
+        <input id="submit-details-btn" ng-show="!selectedUser.$busy" ng-click="save()" ng-disabled="(detailsForm.$pending || detailsForm.$invalid || ! detailsForm.$dirty) && !detailsForm.$error.duplicateUsername" class="btn btn-primary" type="submit" value="{{'value.submit' | translate}}" />
+        <a ng-disabled="true" ng-show="selectedUser.$busy" class="btn btn-primary"><i class="fa fa-refresh fa-spin"></i></a>
       </div>
     </ng-form>
   </div>

@@ -20,7 +20,7 @@
     toggle + * {
       padding-left: $toggle-width + 5px;
     }
-    
+
     h1 {
       word-break: break-all;
       padding: 0;
@@ -86,8 +86,9 @@
         display: flex;
         flex-direction: row;
         flex-wrap: nowrap;
-        justify-content: space-between;
+        justify-content: flex-start;
         align-items: center;
+        position: relative;
       }
 
       button, input[type=button] {

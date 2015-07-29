@@ -85,10 +85,11 @@ angular.module('liveopsConfigPanel')
       });
 
       $scope.save = function () {
-        $scope.loading = true;
-        $scope.selectedUser.save().finally(function () {
-          $scope.loading = false;
-        });
+        if($scope.detailsForm.email.$error.duplicateUsername){
+
+        }
+
+        $scope.selectedUser.save();
       };
 
       $scope.tableConfig = userTableConfig;
