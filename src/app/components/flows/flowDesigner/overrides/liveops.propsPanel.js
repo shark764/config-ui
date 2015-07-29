@@ -15,7 +15,9 @@
       },
 
       string: function (input, index) {
-        var formSection = '<div class="input-group"><label>' + input.label + '</label><div>';
+        var formSection = '<div class="input-group"';
+        formSection += ' ng-hide="' + input.hidden + '"';
+        formSection += '><label>' + input.label + '</label><div>';
         formSection += '<input type="text" ng-model="notation.model.attributes.' + input.path + '"';
         if (input.disabled === true) { formSection += ' disabled="disabled"'; }
         formSection += ' ng-change="onInputChange(notation.model, notation.model.attributes.' + input.path + ', notation.model.attributes.inputs[' + index + '].path)"';
@@ -24,7 +26,9 @@
       },
 
       number: function (input, index) {
-        var formSection = '<div class="input-group"><label>' + input.label + '</label><div>';
+        var formSection = '<div class="input-group"';
+        formSection += ' ng-hide="' + input.hidden + '"';
+        formSection += '><label>' + input.label + '</label><div>';
         formSection += '<input type="text" ng-model="notation.model.attributes.' + input.path + '"';
         if (input.disabled === true) { formSection += ' disabled="disabled"'; }
         formSection += ' ng-change="onInputChange(notation.model, notation.model.attributes.' + input.path + ', notation.model.attributes.inputs[' + index + '].path)"';
@@ -33,7 +37,9 @@
       },
 
       textarea: function (input, index) {
-        var formSection = '<div class="input-group"><label>' + input.label + '</label><div>';
+        var formSection = '<div class="input-group"';
+        formSection += ' ng-hide="' + input.hidden + '"';
+        formSection += '><label>' + input.label + '</label><div>';
         formSection += '<textarea ng-model="notation.model.attributes.' + input.path + '"';
         if (input.disabled === true) { formSection += ' disabled="disabled"'; }
         formSection += ' ng-change="onInputChange(notation.model, notation.model.attributes.' + input.path + ', notation.model.attributes.inputs[' + index + '].path)"';
@@ -42,7 +48,9 @@
       },
 
       select: function (input, index) {
-        var formSection = '<div class="input-group"><label>' + input.label + '</label><div>';
+        var formSection = '<div class="input-group"';
+        formSection += ' ng-hide="' + input.hidden + '"';
+        formSection += '><label>' + input.label + '</label><div>';
         formSection += '<select ng-model="notation.model.attributes.' + input.path + '"';
         if (input.disabled === true) { formSection += ' disabled="disabled"'; }
         formSection += ' ng-change="onInputChange(notation.model, notation.model.attributes.' + input.path + ', notation.model.attributes.inputs[' + index + '].path)"';
@@ -55,8 +63,9 @@
       },
 
       typeahead: function (input, index) {
-        var formSection = '<div class="input-group">';
-        formSection += '<label>' + input.label + '</label><div>';
+        var formSection = '<div class="input-group"';
+        formSection += ' ng-hide="' + input.hidden + '"';
+        formSection += '><label>' + input.label + '</label><div>';
         formSection += '<type-ahead hover="true" placeholder="Search..." items="notation.model.attributes.inputs[' + index + '].options" on-select="setEntityProp(' + index + ')" selected-item="selectedItem" name-field="content" is-required="false">';
         formSection += '</div></div>';
         return formSection;
