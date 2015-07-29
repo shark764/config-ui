@@ -4,7 +4,7 @@
   <div><a ng-disabled="! bulkAction.checked" ng-click="bulkAction.checked && addUserGroupBulkAction()" class="btn"><i class="fa fa-plus add"></i></a></div>
 </div>
 
-<p class="null action-wrapper" ng-show="userGroupBulkActions.length == 0 && bulkAction.checked">{{'bulkActions.userGroups.none' | translate}}</p>
+<p class="null action-wrapper" ng-show="bulkAction.userGroupBulkActions.length == 0 && bulkAction.checked">{{'bulkActions.userGroups.none' | translate}}</p>
 
 <div ng-repeat="action in bulkAction.userGroupBulkActions" class="action-wrapper">
   <fieldset>

@@ -4,7 +4,7 @@
   <div><a ng-disabled="! bulkAction.checked" ng-click="bulkAction.checked && addBulkSkill()" class="btn"><i class="fa fa-plus"></i></a></div>
 </div>
 
-<p class="null action-wrapper" ng-show="userSkillsBulkActions.length == 0 && bulkAction.checked">{{'bulkActions.skills.none' | translate}}</p>
+<p class="null action-wrapper" ng-show="bulkAction.userSkillsBulkActions.length == 0 && bulkAction.checked">{{'bulkActions.skills.none' | translate}}</p>
 
 <div class="action-wrapper skills-section" ng-repeat="userSkillsBulkAction in bulkAction.userSkillsBulkActions">
   <div>
