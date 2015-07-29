@@ -219,26 +219,26 @@
         var activity = _.find(self.activities, {name: model.name});
         var params = {};
 
-        // params = _.reduce(activity.params, function(memo, param, key) {
+        params = _.reduce(activity.params, function(memo, param, key) {
 
-        //   if (param.source === 'expression' && _.has(model.params, param.key)) {
+          if (param.source === 'expression' && _.has(model.params, param.key)) {
 
-        //     if (!param.when || (expression.eval(param.when, model))) {
-        //       memo[key] = {
-        //         source: 'expression',
-        //         value: model.params[param.key].toString()
-        //       };
-        //     }
-        //   } else if (param.source === 'entity') {
-        //     memo[key] = {
-        //       source: 'system',
-        //       store: param.type,
-        //       id: model.params[param.key].toString()
-        //     };
-        //   }
+            if (!param.when || (expression.eval(param.when, model))) {
+              memo[key] = {
+                source: 'expression',
+                value: model.params[param.key].toString()
+              };
+            }
+          } else if (param.source === 'entity') {
+            memo[key] = {
+              source: 'system',
+              store: param.type,
+              id: model.params[param.key].toString()
+            };
+          }
 
-        //   return memo;
-        // }, {});
+          return memo;
+        }, {});
         return params;
       },
 

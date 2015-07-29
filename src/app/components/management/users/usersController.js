@@ -6,7 +6,7 @@ angular.module('liveopsConfigPanel')
       var self = this;
       $scope.Session = Session;
 
-      window.flowSetup = flowSetup;
+      $window.flowSetup = flowSetup;
 
       this.newPassword = null;
 
@@ -58,7 +58,7 @@ angular.module('liveopsConfigPanel')
           tenantId: Session.tenant.tenantId
         });
       };
-      
+
       $scope.create = function () {
         $scope.selectedUser = new User({
           status: 'enabled'
