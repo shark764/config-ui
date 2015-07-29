@@ -8,5 +8,5 @@ Array.prototype.removeItem = function (item) {
 };
 
 Array.prototype.clear = function() {
-  this.splice(0,this.length)
-}
+  this.splice(0,this.length);
+};
