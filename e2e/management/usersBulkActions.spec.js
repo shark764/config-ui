@@ -34,27 +34,28 @@ describe('The users view bulk actions', function() {
     // Change Groups
   });
 
-  it('should allow selected user\'s status to be updated', function() {
+  xit('should allow selected user\'s status to be updated', function() {
   });
-  it('should allow selected user\'s password to be reset', function() {
+  xit('should allow selected user\'s password to be reset', function() {
   });
-  it('should allow selected user\'s skills to be updated', function() {
+  xit('should allow selected user\'s skills to be updated', function() {
   });
-  it('should allow multiple skills to be updates for the selected users', function() {
+  xit('should allow multiple skills to be updates for the selected users', function() {
   });
-  it('should update proficiency when adding a skill for existing users with the skill', function() {
-  });
-
-  it('should allow selected user\'s groups to be updated', function() {
-  });
-  it('should allow multiple groups to be updates for the selected users', function() {
-  });
-  it('should do nothing when adding a group for existing users with the group', function() {
+  xit('should update proficiency when adding a skill for existing users with the skill', function() {
   });
 
-  it('should allow multiple fields to be updated at once for the selected users', function() {
+  xit('should allow selected user\'s groups to be updated', function() {
   });
-  it('should allow all fields to be updated at once for the selected users', function() {
+  xit('should allow multiple groups to be updates for the selected users', function() {
+  });
+  xit('should do nothing when adding a group for existing users with the group', function() {
   });
 
+  xit('should allow multiple fields to be updated at once for the selected users', function() {
+  });
+  xit('should allow all fields to be updated at once for the selected users', function() {
+  });
+  xit('should ignore disabled fields on update', function() {
+  });
 });

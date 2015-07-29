@@ -24,25 +24,26 @@ describe('The skills view bulk actions', function() {
   });
 
 
-  it('should allow updates to supported bulk action fields', function() {
+  xit('should allow updates to supported bulk action fields', function() {
     // Enable Skills
 
     // Has Proficiency
 
   });
 
-  it('should allow selected skill\'s status to be updated', function() {
+  xit('should allow selected skill\'s status to be updated', function() {
   });
-  it('should allow selected skill\'s proficiency to be set to True only', function() {
+  xit('should allow selected skill\'s proficiency to be set to True only', function() {
   });
-  it('should update proficiency when adding a skill for existing users with the skill', function() {
+  xit('should update proficiency when adding a skill for existing users with the skill', function() {
   });
-  it('should do nothing when setting proficiency for existing skills with proficiency', function() {
-  });
-
-  it('should allow multiple fields to be updated at once for the selected skills', function() {
-  });
-  it('should allow all fields to be updated at once for the selected skills', function() {
+  xit('should do nothing when setting proficiency for existing skills with proficiency', function() {
   });
 
+  xit('should allow multiple fields to be updated at once for the selected skills', function() {
+  });
+  xit('should allow all fields to be updated at once for the selected skills', function() {
+  });
+  xit('should ignore disabled fields on update', function() {
+  });
 });

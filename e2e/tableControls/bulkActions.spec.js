@@ -22,7 +22,7 @@ describe('The bulk actions', function() {
     shared.tearDown();
   });
 
-  xit('should be displayed including checkboxes on supported Management pages', function() {
+  it('should be displayed including checkboxes on supported Management pages', function() {
     // User Management Page
     expect(shared.actionsBtn.isDisplayed()).toBeTruthy();
     shared.tableElements.count().then(function(numUsers) {
@@ -53,7 +53,7 @@ describe('The bulk actions', function() {
     });
   });
 
-  xit('should be displayed including checkboxes on supported Configuration pages', function() {
+  it('should be displayed including checkboxes on supported Configuration pages', function() {
     // Tenant Management Page
     browser.get(shared.tenantsPageUrl);
     expect(shared.actionsBtn.isDisplayed()).toBeTruthy();
@@ -75,7 +75,7 @@ describe('The bulk actions', function() {
     });
   });
 
-  xit('should be displayed including checkboxes on supported Flow pages', function() {
+  it('should be displayed including checkboxes on supported Flow pages', function() {
     // Flows Management Page
     browser.get(shared.flowsPageUrl);
     expect(shared.actionsBtn.isDisplayed()).toBeTruthy();
@@ -107,7 +107,7 @@ describe('The bulk actions', function() {
     });
   });
 
-  xit('should not be displayed and not have checkboxes on non-supported pages', function() {
+  it('should not be displayed and not have checkboxes on non-supported pages', function() {
     // Media Collection Management Page
     browser.get(shared.mediaCollectionsPageUrl)
     expect(shared.actionsBtn.isDisplayed()).toBeFalsy();
@@ -129,7 +129,7 @@ describe('The bulk actions', function() {
     });
   });
 
-  xit('should be displayed when Actions is selected', function() {
+  it('should be displayed when Actions is selected', function() {
     // Actions panel closed by default
     expect(bulkActions.bulkActionsForm.isDisplayed()).toBeFalsy();
 
@@ -149,7 +149,7 @@ describe('The bulk actions', function() {
     expect(bulkActions.cancelFormBtn.getAttribute('class')).toBe('btn');
   });
 
-  xit('should be closed when Cancel or X is selected', function() {
+  it('should be closed when Cancel or X is selected', function() {
     shared.actionsBtn.click();
     expect(bulkActions.bulkActionsForm.isDisplayed()).toBeTruthy();
 
@@ -164,7 +164,7 @@ describe('The bulk actions', function() {
     expect(bulkActions.bulkActionsForm.isDisplayed()).toBeFalsy();
   });
 
-  xit('should close details pane when Actions is selected and vise versa', function() {
+  it('should close details pane when Actions is selected and vise versa', function() {
     shared.tableElements.count().then(function(tableCount) {
       if (tableCount > 0) {
         shared.actionsBtn.click();
@@ -181,7 +181,7 @@ describe('The bulk actions', function() {
     });
   });
 
-  xit('should Create details pane when Actions is selected and vise versa', function() {
+  it('should Create details pane when Actions is selected and vise versa', function() {
     shared.actionsBtn.click();
     expect(bulkActions.bulkActionsForm.isDisplayed()).toBeTruthy();
 
@@ -275,23 +275,17 @@ describe('The bulk actions', function() {
     });
   });
 
+  it('should enable and disable bulk action fields when selected', function() {
+    shared.actionsBtn.click();
 
+    // User's enable field is disabled by default
+    expect(bulkActions.enableToggle.getAttribute('disabled')).toBeTruthy();
 
+    bulkActions.userSelectEnable.click();
+    expect(bulkActions.enableToggle.getAttribute('disabled')).toBeFalsy();
 
-
-
-
-
-
-  xit('should update number and names of selected items', function() {});
-
-  xit('should enable and disable bulk action fields when selected', function() {
-
+    bulkActions.userSelectEnable.click();
+    expect(bulkActions.enableToggle.getAttribute('disabled')).toBeTruthy();
   });
-
-  xit('should ignore disabled bulk action fields when unselected', function() {
-
-  });
-
 
 });
