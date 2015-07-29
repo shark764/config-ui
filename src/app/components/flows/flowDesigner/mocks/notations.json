@@ -1,92 +1,634 @@
 {
-  "activities": [
-    {
-      "name": "play-media",
-      "entity": "activity",
-      "label": "Play Media",
-      "targeted": true,
-      "target": "twilio",
-      "inputs": [{
-        "name": "participant",
-        "path": "params.participant",
-        "type": "select",
-        "label": "Participant:",
-        "group": "params",
-        "index": 0,
-        "disabled": false,
-        "required": true,
-        "placeholder": "Select a media...",
-        "defaultsTo": "",
-        "hidden": false,
-        "options": [{
-          "value": "customer",
-          "content": "Customer"
-        }, {
-          "value": "resource",
-          "content": "Resource"
-        }]
-      }, {
-        "name": "media",
-        "path": "params.media",
-        "type": "typeahead",
-        "label": "Media",
-        "group": "params",
-        "index": 1,
-        "disabled": false,
-        "required": true,
-        "placeholder": "Select a media...",
-        "defaultsTo": "",
-        "hidden": false,
-        "source": "media"
-      }, {
-        "name": "loop",
-        "path": "params.loop",
-        "type": "boolean",
-        "label": "Loop?",
-        "group": "params",
-        "index": 2,
-        "disabled": false,
-        "required": true,
-        "placeholder": null,
-        "defaultsTo": null,
-        "hidden": false
-      }],
-      "params": {
-        "media": {
-          "source": "entity",
-          "type": "media",
-          "mandatory": true,
-          "key": "media"
+    "activities": [
+        {
+            "name": "play-media",
+            "entity": "activity",
+            "label": "Play Media",
+            "targeted": true,
+            "target": "twilio",
+            "inputs": [
+                {
+                    "name": "participant",
+                    "path": "params.participant",
+                    "type": "select",
+                    "label": "Participant:",
+                    "group": "params",
+                    "index": 0,
+                    "disabled": false,
+                    "required": false,
+                    "placeholder": null,
+                    "defaultsTo": null,
+                    "hidden": false,
+                    "options": [
+                        {
+                            "value": "customer",
+                            "content": "Customer"
+                        },
+                        {
+                            "value": "resource",
+                            "content": "Resource"
+                        }
+                    ]
+                },
+                {
+                    "name": "media",
+                    "path": "params.media",
+                    "type": "typeahead",
+                    "label": "Media:",
+                    "group": "params",
+                    "index": 1,
+                    "disabled": false,
+                    "required": false,
+                    "placeholder": "Search for a media...",
+                    "defaultsTo": "",
+                    "hidden": false,
+                    "source": "media"
+                },
+                {
+                    "name": "loop",
+                    "path": "params.loop",
+                    "type": "boolean",
+                    "label": "Loop?:",
+                    "group": "params",
+                    "index": 2,
+                    "disabled": false,
+                    "required": false,
+                    "placeholder": null,
+                    "defaultsTo": null,
+                    "hidden": false
+                }
+            ],
+            "params": {
+                "media": {
+                    "source": "entity",
+                    "type": "media",
+                    "mandatory": true,
+                    "key": "media"
+                },
+                "loop": {
+                    "source": "expression",
+                    "type": "boolean",
+                    "mandatory": true,
+                    "default": false,
+                    "key": "loop"
+                },
+                "customer": {
+                    "source": "expression",
+                    "type": "variable",
+                    "key": "participant",
+                    "when": {
+                        "eq": {
+                            "params.participant": "customer"
+                        }
+                    }
+                },
+                "resource": {
+                    "source": "expression",
+                    "type": "variable",
+                    "key": "participant",
+                    "when": {
+                        "ne": {
+                            "params.participant": "customer"
+                        }
+                    }
+                }
+            },
+            "bindings": []
         },
-        "loop": {
-          "source": "expression",
-          "type": "boolean",
-          "mandatory": true,
-          "default": false,
-          "key": "loop"
+        {
+            "name": "collect-digits",
+            "entity": "activity",
+            "label": "Collect Digits",
+            "targeted": true,
+            "target": "twilio",
+            "inputs": [
+                {
+                    "name": "participant",
+                    "path": "params.participant",
+                    "type": "select",
+                    "label": "Participant:",
+                    "group": "params",
+                    "index": 0,
+                    "disabled": false,
+                    "required": false,
+                    "placeholder": null,
+                    "defaultsTo": null,
+                    "hidden": false,
+                    "options": [
+                        {
+                            "value": "customer",
+                            "content": "Customer"
+                        },
+                        {
+                            "value": "resource",
+                            "content": "Resource"
+                        }
+                    ]
+                },
+                {
+                    "name": "media",
+                    "path": "params.media",
+                    "type": "typeahead",
+                    "label": "Media:",
+                    "group": "params",
+                    "index": 1,
+                    "disabled": false,
+                    "required": false,
+                    "placeholder": "Search for a media...",
+                    "defaultsTo": "",
+                    "hidden": false,
+                    "source": "media"
+                },
+                {
+                    "name": "digits",
+                    "path": "params.digits",
+                    "type": "number",
+                    "label": "Number of digits to collect:",
+                    "group": "params",
+                    "index": 0,
+                    "disabled": false,
+                    "required": false,
+                    "placeholder": "Specify # of digits...",
+                    "defaultsTo": 7,
+                    "hidden": false
+                },
+                {
+                    "name": "terminator",
+                    "path": "params.terminator",
+                    "type": "select",
+                    "label": "Terminating digit:",
+                    "group": "params",
+                    "index": 0,
+                    "disabled": false,
+                    "required": false,
+                    "placeholder": null,
+                    "defaultsTo": null,
+                    "hidden": false,
+                    "options": [
+                        {
+                            "value": "\"#\"",
+                            "content": "#"
+                        },
+                        {
+                            "value": "\"0\"",
+                            "content": "0"
+                        },
+                        {
+                            "value": "\"1\"",
+                            "content": "1"
+                        },
+                        {
+                            "value": "\"2\"",
+                            "content": "2"
+                        },
+                        {
+                            "value": "\"3\"",
+                            "content": "3"
+                        },
+                        {
+                            "value": "\"4\"",
+                            "content": "4"
+                        },
+                        {
+                            "value": "\"5\"",
+                            "content": "5"
+                        },
+                        {
+                            "value": "\"6\"",
+                            "content": "6"
+                        },
+                        {
+                            "value": "\"7\"",
+                            "content": "7"
+                        },
+                        {
+                            "value": "\"8\"",
+                            "content": "8"
+                        },
+                        {
+                            "value": "\"9\"",
+                            "content": "9"
+                        }
+                    ]
+                }
+            ],
+            "params": {
+                "media": {
+                    "source": "entity",
+                    "type": "media",
+                    "mandatory": false,
+                    "key": "media"
+                },
+                "digits": {
+                    "source": "expression",
+                    "type": "integer",
+                    "mandatory": false,
+                    "default": 5,
+                    "key": "digits"
+                },
+                "terminator": {
+                    "source": "expression",
+                    "type": "string",
+                    "mandatory": false,
+                    "key": "terminator"
+                },
+                "customer": {
+                    "source": "expression",
+                    "type": "variable",
+                    "key": "participant",
+                    "when": {
+                        "eq": {
+                            "params.participant": "customer"
+                        }
+                    }
+                },
+                "resource": {
+                    "source": "expression",
+                    "type": "variable",
+                    "key": "participant",
+                    "when": {
+                        "ne": {
+                            "params.participant": "customer"
+                        }
+                    }
+                }
+            },
+            "bindings": [
+                "digits"
+            ]
         },
-        "customer": {
-          "source": "expression",
-          "type": "variable",
-          "key": "participant",
-          "when": {
-            "eq": {
-              "params.participant": "customer"
-            }
-          }
+        {
+            "name": "enqueue",
+            "entity": "activity",
+            "label": "Enqueue",
+            "targeted": false,
+            "inputs": [
+                {
+                    "name": "queue",
+                    "path": "params.queue",
+                    "type": "typeahead",
+                    "label": "Queue:",
+                    "group": "params",
+                    "index": 0,
+                    "disabled": false,
+                    "required": false,
+                    "placeholder": "Search for a queue...",
+                    "defaultsTo": null,
+                    "hidden": false,
+                    "source": "queue"
+                }
+            ],
+            "params": {
+                "queue": {
+                    "source": "entity",
+                    "type": "queues",
+                    "mandatory": true,
+                    "key": "queue"
+                }
+            },
+            "bindings": [
+                "resource"
+            ]
         },
-        "resource": {
-          "source": "expression",
-          "type": "variable",
-          "key": "participant",
-          "when": {
-            "ne": {
-              "params.participant": "customer"
-            }
-          }
+        {
+            "name": "work-offer",
+            "entity": "activity",
+            "label": "Work Offer",
+            "targeted": true,
+            "target": "client",
+            "inputs": [
+                {
+                    "name": "resource",
+                    "path": "params.resource",
+                    "type": "select",
+                    "label": "Resource:",
+                    "group": "params",
+                    "index": 0,
+                    "disabled": false,
+                    "required": false,
+                    "placeholder": null,
+                    "defaultsTo": null,
+                    "hidden": false,
+                    "options": [
+                        {
+                            "value": "resource.id",
+                            "content": "Resource"
+                        }
+                    ]
+                },
+                {
+                    "name": "timeout",
+                    "path": "params.timeout",
+                    "type": "string",
+                    "label": "Timeout:",
+                    "group": "params",
+                    "index": 0,
+                    "disabled": false,
+                    "required": false,
+                    "placeholder": "Enter a timeout...",
+                    "defaultsTo": "",
+                    "hidden": false
+                },
+                {
+                    "name": "search",
+                    "path": "params.search",
+                    "type": "string",
+                    "label": "Search:",
+                    "group": "params",
+                    "index": 0,
+                    "disabled": false,
+                    "required": false,
+                    "placeholder": "Enter a search...",
+                    "defaultsTo": "",
+                    "hidden": false
+                },
+                {
+                    "name": "force",
+                    "path": "params.force",
+                    "type": "boolean",
+                    "label": "Force Accept:",
+                    "group": "params",
+                    "index": 0,
+                    "disabled": false,
+                    "required": false,
+                    "placeholder": null,
+                    "defaultsTo": false,
+                    "hidden": false
+                }
+            ],
+            "params": {
+                "resource-id": {
+                    "source": "expression",
+                    "type": "string",
+                    "mandatory": true,
+                    "default": "\"resource.id\"",
+                    "key": "resource"
+                },
+                "timeout-end": {
+                    "source": "expression",
+                    "type": "string",
+                    "mandatory": true,
+                    "key": "timeout"
+                },
+                "search-value": {
+                    "source": "expression",
+                    "type": "string",
+                    "mandatory": false,
+                    "key": "search"
+                },
+                "force-accept": {
+                    "source": "expression",
+                    "type": "boolean",
+                    "mandatory": false,
+                    "key": "force",
+                    "default": false
+                }
+            },
+            "bindings": []
+        },
+        {
+            "name": "free-resource",
+            "entity": "activity",
+            "label": "Free Resource",
+            "inputs": [
+                {
+                    "name": "resourceid",
+                    "path": "params.resourceid",
+                    "type": "string",
+                    "label": "Resource ID",
+                    "group": "params",
+                    "index": 0,
+                    "disabled": false,
+                    "required": true,
+                    "placeholder": "Enter a resource ID...",
+                    "defaultsTo": null,
+                    "hidden": false,
+                    "targeted": false,
+                    "params": {
+                        "resource-id": {
+                            "source": "expression",
+                            "type": "string",
+                            "key": "resource",
+                            "mandatory": true
+                        }
+                    },
+                    "bindings": []
+                }
+            ]
+        },
+        {
+            "name": "add-participant",
+            "entity": "activity",
+            "label": "Add Participant",
+            "targeted": true,
+            "target": "twilio",
+            "inputs": [
+                {
+                    "name": "participant",
+                    "path": "params.participant",
+                    "type": "select",
+                    "label": "Participant:",
+                    "group": "params",
+                    "index": 0,
+                    "disabled": false,
+                    "required": false,
+                    "placeholder": null,
+                    "defaultsTo": null,
+                    "hidden": false,
+                    "options": [
+                        {
+                            "value": "customer",
+                            "content": "Customer"
+                        },
+                        {
+                            "value": "resource",
+                            "content": "Resource"
+                        }
+                    ]
+                },
+                {
+                    "name": "muted",
+                    "path": "params.muted",
+                    "type": "boolean",
+                    "label": "Muted Accept:",
+                    "group": "params",
+                    "index": 0,
+                    "disabled": false,
+                    "required": false,
+                    "placeholder": null,
+                    "defaultsTo": false,
+                    "hidden": false
+                },
+                {
+                    "name": "disconnectedOn",
+                    "path": "params.disconnectedOn",
+                    "type": "select",
+                    "label": "Disconnected On:",
+                    "group": "params",
+                    "index": 0,
+                    "disabled": false,
+                    "required": false,
+                    "placeholder": null,
+                    "defaultsTo": null,
+                    "hidden": false,
+                    "options": [
+                        {
+                            "value": "",
+                            "content": "Don't disconnect"
+                        },
+                        {
+                            "value": "*",
+                            "content": "*"
+                        }
+                    ]
+                }
+            ],
+            "params": {
+                "customer": {
+                    "source": "expression",
+                    "type": "variable",
+                    "key": "participant",
+                    "when": {
+                        "eq": {
+                            "params.participant": "customer"
+                        }
+                    }
+                },
+                "resource": {
+                    "source": "expression",
+                    "type": "variable",
+                    "key": "participant",
+                    "when": {
+                        "ne": {
+                            "params.participant": "customer"
+                        }
+                    }
+                },
+                "muted": {
+                    "source": "expression",
+                    "type": "boolean",
+                    "key": "muted",
+                    "mandatory": false,
+                    "default": false
+                },
+                "disconnectOn": {
+                    "source": "expression",
+                    "type": "string",
+                    "key": "disconnectOn",
+                    "mandatory": false,
+                    "default": ""
+                }
+            },
+            "bindings": []
         }
-      },
-      "bindings": []
-    }
-  ]
+    ],
+    "events": [
+        {
+            "entity": "start",
+            "type": "none",
+            "props": [],
+            "meta": []
+        },
+        {
+            "entity": "start",
+            "type": "signal",
+            "props": [
+                "target",
+                "interrupting",
+                "bindings"
+            ],
+            "meta": []
+        },
+        {
+            "entity": "start",
+            "type": "system-error",
+            "props": [],
+            "meta": []
+        },
+        {
+            "entity": "start",
+            "type": "flow-error",
+            "props": [],
+            "meta": []
+        },
+        {
+            "entity": "catch",
+            "type": "none",
+            "props": [],
+            "meta": []
+        },
+        {
+            "entity": "catch",
+            "type": "signal",
+            "props": [
+                "target",
+                "interrupting",
+                "bindings"
+            ],
+            "meta": []
+        },
+        {
+            "entity": "catch",
+            "type": "timer",
+            "props": [
+                "timer",
+                "interrupting",
+                "bindings"
+            ],
+            "meta": []
+        },
+        {
+            "entity": "catch",
+            "type": "system-error",
+            "props": [
+                "interrupting",
+                "bindings"
+            ],
+            "meta": []
+        },
+        {
+            "entity": "catch",
+            "type": "flow-error",
+            "props": [],
+            "meta": []
+        },
+        {
+            "entity": "throw",
+            "type": "none",
+            "props": [
+                "terminate"
+            ],
+            "meta": []
+        },
+        {
+            "entity": "throw",
+            "type": "signal",
+            "props": [
+                "terminate",
+                "event"
+            ],
+            "meta": []
+        },
+        {
+            "entity": "throw",
+            "type": "flow-error",
+            "props": [
+                "terminate",
+                "error"
+            ],
+            "meta": [
+                "mustTerminate"
+            ]
+        },
+        {
+            "entity": "throw",
+            "type": "terminate",
+            "props": [
+                "terminate"
+            ],
+            "meta": [
+                "mustTerminate"
+            ]
+        }
+    ]
 }

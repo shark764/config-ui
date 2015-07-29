@@ -82,7 +82,6 @@
         placeholder: null,
         defaultsTo: null,
         hidden: false,
-        dataSensitivity: 'low',
         options: [{
           value: 'task',
           content: 'Task'

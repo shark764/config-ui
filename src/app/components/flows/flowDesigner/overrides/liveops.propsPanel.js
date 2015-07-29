@@ -72,7 +72,7 @@
     };
 
     // Build the group containers
-    var groups = _.keys(_.groupBy(notation.model.attributes.inputs, 'group'));
+    var groups = _.keys(_.groupBy(notation.model.attributes.inputs, 'group')).sort();
     _.each(groups, function(group) {
       tpl += formBuilder.groupHeader(group);
     });
