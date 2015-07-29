@@ -9,7 +9,8 @@ angular.module('liveopsConfigPanel')
         ngDisabled : '=',
         trueValue: '@',
         falseValue: '@',
-        confirmMessage: '@'
+        confirmEnableMessage: '@',
+        confirmDisableMessage: '@'
       },
       link: function ($scope) {
         if (angular.isUndefined($scope.trueValue)){
@@ -21,15 +22,12 @@ angular.module('liveopsConfigPanel')
         }
         
         $scope.onClick = function(value){
-          if (value === $scope.falseValue && $scope.confirmMessage){
-            $scope.ngModel = $scope.trueValue; //Flip it back for display purposes
+          if (angular.isDefined($scope.confirmEnableMessage) && angular.isDefined($scope.confirmDisableMessage)){
+            $scope.ngModel = (value === $scope.trueValue ? $scope.falseValue : $scope.trueValue); //Flip it back for display purposes
             Modal.showConfirm({
-              message: $scope.confirmMessage,
-              cancelCallback: function(){
-                $scope.ngModel = $scope.trueValue;
-              },
+              message: (value === $scope.trueValue ? $scope.confirmEnableMessage : $scope.confirmDisableMessage),
               okCallback: function(){
-                $scope.ngModel = $scope.falseValue;
+                $scope.ngModel = value;
               }
             });
           }

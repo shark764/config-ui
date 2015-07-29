@@ -1,5 +1,7 @@
 <div ng-if="originalResource.id">
-  <toggle class="status-toggle" ng-model="resource.status" confirm-message="{{'skill.details.status.confirm' | translate}}">></toggle>
+  <toggle class="status-toggle" ng-model="resource.status" 
+    confirm-disable-message="{{'skill.details.disable.confirm' | translate}}"
+    confirm-enable-message="{{'skill.details.enable.confirm' | translate}}"></toggle>
 
   <div class="info">
     <h1 id="skill-details-name-header">{{originalResource.name}}</h1>

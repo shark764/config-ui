@@ -11,20 +11,18 @@ describe('toggleDirective', function(){
   beforeEach(inject(['$compile', '$rootScope', function($compile, $rootScope) {
     $scope = $rootScope.$new();
     
-    $scope.obj = {
-      prop: 'test1'
-    };
+    $scope.model = false;
     
     $scope.bool = false;
     
-    element = $compile('<toggle ng-model="obj" ng-disabled="bool"></toggle>')($scope);
+    element = $compile('<toggle ng-model="model" ng-disabled="bool"></toggle>')($scope);
     $scope.$digest();
     isolateScope = element.isolateScope();
   }]));
   
   it('should do something', function() {
     var isolateScope = element.isolateScope();
-    expect(isolateScope.ngModel).toBe($scope.obj);
+    expect(isolateScope.ngModel).toBe($scope.model);
     expect(isolateScope.ngDisabled).toBe($scope.bool);
   });
   
@@ -35,10 +33,20 @@ describe('toggleDirective', function(){
   
   describe('onClick function', function(){
     it('should show a confirm modal if toggled to false and confirmMessage is given', inject(['Modal', function(Modal) {
-      isolateScope.confirmMessage = 'Show the thing';
+      isolateScope.confirmEnableMessage = 'Show the thing';
+      isolateScope.confirmDisableMessage = 'Do not do the thing';
       spyOn(Modal, 'showConfirm');
       
       isolateScope.onClick(false);
+      expect(Modal.showConfirm).toHaveBeenCalled();
+    }]));
+    
+    it('should show a confirm modal if toggled to true and confirmMessage is given', inject(['Modal', function(Modal) {
+      isolateScope.confirmEnableMessage = 'Show the thing';
+      isolateScope.confirmDisableMessage = 'Do not do the thing';
+      spyOn(Modal, 'showConfirm');
+      
+      isolateScope.onClick(true);
       expect(Modal.showConfirm).toHaveBeenCalled();
     }]));
     
@@ -49,16 +57,9 @@ describe('toggleDirective', function(){
       expect(Modal.showConfirm).not.toHaveBeenCalled();
     }]));
     
-    it('should do nothing if toggled to true', inject(['Modal', function(Modal) {
-      isolateScope.confirmMessage = 'Show the thing';
-      spyOn(Modal, 'showConfirm');
-      
-      isolateScope.onClick(true);
-      expect(Modal.showConfirm).not.toHaveBeenCalled();
-    }]));
-    
-    it('should leave ngModel as false if user clicks ok on the modal', inject(['Modal', function(Modal) {
-      isolateScope.confirmMessage = 'Show the thing';
+    it('should toggle ngModel as false if user clicks ok on the modal', inject(['Modal', function(Modal) {
+      isolateScope.confirmEnableMessage = 'Show the thing';
+      isolateScope.confirmDisableMessage = 'Do not do the thing';
       spyOn(Modal, 'showConfirm').and.callFake(function(config){
         config.okCallback();
       });
@@ -68,10 +69,11 @@ describe('toggleDirective', function(){
       expect(isolateScope.ngModel).toBeFalsy();
     }]));
     
-    it('should set ngModel to true if user clicks cancel on the modal', inject(['Modal', function(Modal) {
-      isolateScope.confirmMessage = 'Show the thing';
-      spyOn(Modal, 'showConfirm').and.callFake(function(config){
-        config.cancelCallback();
+    it('should leave ngModel to true if user clicks cancel on the modal', inject(['Modal', function(Modal) {
+      isolateScope.confirmEnableMessage = 'Show the thing';
+      isolateScope.confirmDisableMessage = 'Do not do the thing';
+      spyOn(Modal, 'showConfirm').and.callFake(function(){
+        angular.noop();
       });
       
       isolateScope.ngModel = false;
