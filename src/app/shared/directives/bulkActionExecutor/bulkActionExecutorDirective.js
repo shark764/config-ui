@@ -1,14 +1,15 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('bulkActionExecutor', ['$q', 'Alert', 'Modal', '$translate', 'DirtyForms',
-    function ($q, Alert, Modal, $translate, DirtyForms) {
+  .directive('bulkActionExecutor', ['$q', 'Alert', 'Modal', '$translate', 'DirtyForms', '$filter',
+    function ($q, Alert, Modal, $translate, DirtyForms, $filter) {
       return {
         restrict: 'AE',
         scope: {
           items: '=',
           bulkActions: '=',
-          showBulkActions: '='
+          showBulkActions: '=',
+          dropOrderBy: '@'
         },
         transclude: true,
         templateUrl: 'app/shared/directives/bulkActionExecutor/bulkActionExecutor.html',
@@ -78,6 +79,13 @@ angular.module('liveopsConfigPanel')
               }
             });
 
+            if ($scope.dropOrderBy){
+              //Reorder elements while preserving original object reference to avoid infinite digest loop
+              var sorted = $filter('orderBy')($scope.checkedItems, $scope.dropOrderBy);
+              $scope.checkedItems.clear();
+              $scope.checkedItems.push.apply($scope.checkedItems, sorted);
+            }
+            
             return $scope.checkedItems;
           };
 
