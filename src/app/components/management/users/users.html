@@ -32,7 +32,8 @@
     resource-name="user"/></resource-details>
 
   <bulk-action-executor class="details-pane user-ba" ng-show="showBulkActions" items="fetchUsers()"
-    bulk-actions="bulkActions" show-bulk-actions="showBulkActions">
+    bulk-actions="bulkActions" show-bulk-actions="showBulkActions"
+    confirm-message-key="bulkActions.user.confirm.message">
     <ba-set-status bulk-action="bulkActions.setStatus"></ba-set-status>
     <ba-reset-password bulk-action="bulkActions.resetPassword"></ba-reset-password>
     <ba-user-skills bulk-action="bulkActions.userSkills" users="fetchUsers()"></ba-user-skills>
