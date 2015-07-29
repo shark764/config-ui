@@ -46,7 +46,15 @@ var BulkActions = function() {
   // Bulk Actions buttons
   this.submitFormBtn = this.bulkActionsForm.element(by.id('submit-bulk-actions-btn'));
   this.cancelFormBtn = this.bulkActionsForm.element(by.id('cancel-bulk-actions-btn'));
-  this.closeFormBtn = element(by.id('close-bulk-actions-btn'));
+  this.closeFormBtn = element(by.id('close-bulk-actions-btn'))
+
+  // Confirm bulk actions modal
+  this.confirmModal = element(by.css('.confirm'));
+  this.confirmHeader = this.confirmModal.element(by.css('.header'));
+  this.confirmMessage = this.confirmModal.element(by.css('p'));
+  this.confirmOK = this.confirmModal.element(by.id('modal-ok'));
+  this.confirmCancel = this.confirmModal.element(by.id('modal-cancel'));
+
 };
 
 module.exports = new BulkActions();
