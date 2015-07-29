@@ -64,7 +64,7 @@
 
       boolean: function (input) {
         var formSection = '<div class="input-group"';
-        formSection += ' ng-hide="' + input.disabled + '"';
+        formSection += ' ng-hide="' + input.hidden + '"';
         formSection += '><label>' + input.label + '</label>';
         formSection += '<toggle ng-model="notation.model.attributes.' + input.path + '" class="status-toggle"><label class="switch switch-green"><input type="checkbox" class="switch-input"';
         if (input.disabled === true) { formSection += ' disabled="disabled"'; }
