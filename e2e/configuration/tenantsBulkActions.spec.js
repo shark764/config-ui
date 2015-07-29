@@ -1,12 +1,12 @@
 'use strict';
 
-describe('The groups view bulk actions', function() {
+describe('The tenants view bulk actions', function() {
   var loginPage = require('../login/login.po.js'),
     bulkActions = require('../tableControls/bulkActions.po.js'),
     shared = require('../shared.po.js'),
-    groups = require('./groups.po.js'),
+    tenants = require('./tenants.po.js'),
     params = browser.params,
-    groupCount;
+    tenantCount;
 
   beforeAll(function() {
     loginPage.login(params.login.user, params.login.password);
@@ -15,8 +15,8 @@ describe('The groups view bulk actions', function() {
   beforeEach(function() {
     // Ignore unsaved changes warnings
     browser.executeScript("window.onbeforeunload = function(){};");
-    browser.get(shared.groupsPageUrl);
-    groupCount = shared.tableElements.count();
+    browser.get(shared.tenantsPageUrl);
+    tenantCount = shared.tableElements.count();
   });
 
   afterAll(function() {
@@ -28,12 +28,12 @@ describe('The groups view bulk actions', function() {
     shared.actionsBtn.click();
     expect(bulkActions.bulkActionDivs.count()).toBe(1);
 
-    // Enable Groups
+    // Enable Tenants
     expect(bulkActions.selectEnable.isDisplayed()).toBeTruthy();
     expect(bulkActions.enableToggle.isDisplayed()).toBeTruthy();
   });
 
-  it('should allow all selected group\'s status to be Disabled', function() {
+  it('should allow all selected tenant\'s status to be Disabled', function() {
     // Update All bulk actions
     shared.actionsBtn.click();
     bulkActions.selectAllTableHeader.click();
@@ -51,12 +51,12 @@ describe('The groups view bulk actions', function() {
       expect(bulkActions.submitFormBtn.getAttribute('disabled')).toBeTruthy();
       expect(bulkActions.enableToggle.getAttribute('disabled')).toBeTruthy();
 
-      // All groups are set to disabled
+      // All tenants are set to disabled
       // Select Disabled from Status drop down
       bulkActions.statusTableDropDown.click();
       bulkActions.statuses.get(0).click();
       shared.tableElements.count().then(function(disabledTotal) {
-        expect(disabledTotal).toBe(groupCount);
+        expect(disabledTotal).toBe(tenantCount);
       });
 
       // Select Enabled from Status drop down
@@ -68,7 +68,7 @@ describe('The groups view bulk actions', function() {
     });
   });
 
-  it('should allow all selected group\'s status to be Enabled', function() {
+  it('should allow all selected tenant\'s status to be Enabled', function() {
     // Update All bulk actions
     shared.actionsBtn.click();
     bulkActions.selectAllTableHeader.click();
@@ -87,7 +87,7 @@ describe('The groups view bulk actions', function() {
       expect(bulkActions.submitFormBtn.getAttribute('disabled')).toBeTruthy();
       expect(bulkActions.enableToggle.getAttribute('disabled')).toBeTruthy();
 
-      // All groups are set to enabled
+      // All tenants are set to enabled
       // Select Disabled from Status drop down
       bulkActions.statusTableDropDown.click();
       bulkActions.statuses.get(0).click();
@@ -99,7 +99,7 @@ describe('The groups view bulk actions', function() {
       bulkActions.statuses.get(0).click();
       bulkActions.statuses.get(1).click();
       shared.tableElements.count().then(function(enabledTotal) {
-        expect(enabledTotal).toBe(groupCount);
+        expect(enabledTotal).toBe(tenantCount);
       });
     });
   });
@@ -122,4 +122,43 @@ describe('The groups view bulk actions', function() {
     expect(bulkActions.confirmModal.isPresent()).toBeFalsy();
     expect(shared.successMessage.isPresent()).toBeFalsy();
   });
+
+  it('should only affect selected tenants', function() {
+    shared.tableElements.then(function(originalTenants) {
+      // Select odd tenants and leave even tenants unselected
+      for (var i = 0; i < originalTenants.length; i++) {
+        if (i % 2 > 0) {
+          bulkActions.selectItemTableCells.get(i).click();
+        }
+      }
+      shared.actionsBtn.click();
+      bulkActions.selectAllTableHeader.click();
+
+      // Disable selected Tenants
+      bulkActions.selectEnable.click();
+
+      bulkActions.submitFormBtn.click();
+
+      expect(bulkActions.confirmModal.isDisplayed()).toBeTruthy();
+      bulkActions.confirmOK.click().then(function() {
+        expect(shared.successMessage.isDisplayed()).toBeTruthy();
+
+        // Form reset
+        expect(bulkActions.submitFormBtn.getAttribute('disabled')).toBeTruthy();
+        expect(bulkActions.enableToggle.getAttribute('disabled')).toBeTruthy();
+
+        // Only selected tenants are updated
+        for (var i = 0; i < originalTenants.length; i++) {
+          if (i % 2 > 0) {
+            // Tenant was updated to Disabled
+            expect(shared.tableElements.get(i).getText()).toContain('Disabled');
+          } else {
+            // Tenant status remains unchanged
+            expect(shared.tableElements.get(i).getText()).toBe(originalTenants[i].getText());
+          }
+        }
+      });
+    });
+  });
+
 });

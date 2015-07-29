@@ -288,4 +288,54 @@ describe('The bulk actions', function() {
     expect(bulkActions.enableToggle.getAttribute('disabled')).toBeTruthy();
   });
 
+  it('should not complete changes when Confirm modal is not accepted', function() {
+    // Select items
+    shared.tableElements.count().then(function(tableCount) {
+      shared.tableElements.count().then(function(tableCount) {
+        var numSelected = 0;
+        for (var i = 0; i < tableCount; i++) {
+          if ((i % 2) > 0) {
+            // Select some but not all items
+            bulkActions.selectItemTableCells.get(i).click();
+            numSelected++;
+          }
+        }
+        // Expect selected number of items to be displayed in the confirm modal
+
+        shared.actionsBtn.click();
+        bulkActions.userSelectEnable.click();
+
+        bulkActions.submitFormBtn.click();
+
+        // Confirmation modal displayed with the same number of users selected
+        expect(bulkActions.confirmModal.isDisplayed()).toBeTruthy();
+        expect(bulkActions.confirmOK.isDisplayed()).toBeTruthy();
+        expect(bulkActions.confirmCancel.isDisplayed()).toBeTruthy();
+
+        expect(bulkActions.confirmHeader.isDisplayed()).toBeTruthy();
+        expect(bulkActions.confirmHeader.getText()).toBe('Confirm bulk edit');
+
+        expect(bulkActions.confirmMessage.isDisplayed()).toBeTruthy();
+        expect(bulkActions.confirmMessage.getText()).toBe('This bulk action will affect ' + numSelected + ' items. Do you want to continue?');
+      });
+    });
+  });
+
+  it('should not complete changes when Confirm modal is not accepted', function() {
+    bulkActions.selectAllTableHeader.click();
+
+    shared.actionsBtn.click();
+    bulkActions.userSelectEnable.click();
+
+    bulkActions.submitFormBtn.click();
+
+    expect(bulkActions.confirmModal.isDisplayed()).toBeTruthy();
+    bulkActions.confirmCancel.click();
+
+    // Modal is closed, bulk actions section remains unchanged
+    expect(bulkActions.confirmModal.isDisplayed()).toBeTruthy();
+    expect(shared.successMessage.isPresent()).toBeFalsy();
+    expect(bulkActions.submitFormBtn.getAttribute('disabled')).toBeFalsy();
+  });
+
 });

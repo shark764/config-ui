@@ -42,6 +42,7 @@ var BulkActions = function() {
   // Generic Management Bulk Actions
   this.selectEnable = element(by.id('select-enable-bulk-action'));
   this.enableToggle = element(by.id('bulk-action-enable-toggle'));
+  this.enableToggleClick = element(by.css('#bulk-action-enable-toggle > label:nth-child(2)'));
 
   // Bulk Actions buttons
   this.submitFormBtn = this.bulkActionsForm.element(by.id('submit-bulk-actions-btn'));
@@ -58,9 +59,9 @@ var BulkActions = function() {
   // Status table selectors
   this.tableHeader = element(by.css('#table-pane > div:nth-child(3) > table:nth-child(1)'));
   this.statusTableDropDown = this.tableHeader.element(by.css('filter-dropdown:nth-child(1)'));
-  this.allGroupStatus = this.statusTableDropDown.element(by.css('.all'));
-  this.groupStatuses = this.statusTableDropDown.all(by.repeater('option in options track by option[valuePath]'));
-  this.groupStatusInputs = this.statusTableDropDown.all(by.css('input'));
+  this.allStatus = this.statusTableDropDown.element(by.css('.all'));
+  this.statuses = this.statusTableDropDown.all(by.repeater('option in options track by option[valuePath]'));
+  this.statusInputs = this.statusTableDropDown.all(by.css('input'));
 };
 
 module.exports = new BulkActions();
