@@ -512,12 +512,12 @@
                 }
             ],
             "params": {
-              "resource-id": {
-                "source": "expression",
-                "type": "string",
-                "key": "resource",
-                "mandatory": true
-              }
+                "resource-id": {
+                    "source": "expression",
+                    "type": "string",
+                    "key": "resource",
+                    "mandatory": true
+                }
             },
             "bindings": []
         },
