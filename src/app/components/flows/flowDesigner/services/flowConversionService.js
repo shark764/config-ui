@@ -112,23 +112,18 @@
               event.event = {
                 name: notation.event.name,
                 params: _.reduce(notation.event.params, function(memo, value, key) {
-                  memo.push({
-                    key: key,
-                    value: value.value
-                  });
+                  memo = memo.concat(value.value);
                   return memo;
-                }, [])
+                }, '')
               };
+
             }
 
             if (notation.bindings) {
               event.bindings = _.reduce(notation.bindings, function(memo, value, key) {
-                memo.push({
-                  key: key,
-                  value: value
-                });
+                memo = memo.concat(value)
                 return memo;
-              }, []);
+              }, '');
             }
 
             event.inputs = _.findWhere(FlowNotationService.events, { entity: notation.entity, type: notation.type, terminate: notation.terminate  }).inputs;
@@ -213,8 +208,8 @@
               type: 'signal',
               target: model.target,
               interrupting: model.interrupting,
-              bindings: _.reduce(model.bindings, function(memo, param) {
-                memo[param.key] = param.value;
+              bindings: _.reduce([model.bindings], function(memo, param) {
+                memo[param] = param;
                 return memo;
               }, {})
             };
@@ -236,10 +231,10 @@
               terminate: model.terminate,
               event: {
                 name: model.event.name,
-                params: _.reduce(model.event.params, function(memo, param) {
-                  memo[param.key] = {
+                params: _.reduce([model.event.params], function(memo, param) {
+                  memo[param] = {
                     source: 'expression',
-                    value: param.value
+                    value: param
                   };
                   return memo;
                 }, {})
@@ -274,8 +269,8 @@
               type: 'signal',
               interrupting: model.interrupting,
               target: model.target,
-              bindings: _.reduce(model.bindings, function(memo, param) {
-                memo[param.key] = param.value;
+              bindings: _.reduce([model.bindings], function(memo, param) {
+                memo[param] = param;
                 return memo;
               }, {})
             };
