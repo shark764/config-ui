@@ -29,6 +29,13 @@ var DispatchMappingsPage = function() {
   this.integrationValues = element.all(by.repeater('integration.id as integration.type for integration in integrations'));
   this.directionFormDropdown = element(by.id('direction-form-dropdown'));
   this.directions = ('Outbound');
+
+  // Status table selectors
+  this.tableHeader = element(by.css('#table-pane > div:nth-child(3) > table:nth-child(1)'));
+  this.statusTableDropDown = this.tableHeader.element(by.css('tr:nth-child(1) > th:nth-child(7) > filter-dropdown:nth-child(1)'));
+  this.allStatus = this.statusTableDropDown.element(by.css('.all'));
+  this.statuses = this.statusTableDropDown.all(by.repeater('option in options track by option[valuePath]'));
+  this.statusInputs = this.statusTableDropDown.all(by.css('input'));
 };
 
 module.exports = new DispatchMappingsPage();
