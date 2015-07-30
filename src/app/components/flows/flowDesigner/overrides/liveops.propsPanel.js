@@ -75,7 +75,14 @@
         var formSection = '<div class="input-group"';
         formSection += ' ng-hide="' + input.hidden + '"';
         formSection += '><label>' + input.label + '</label>';
-        formSection += '<toggle ng-model="notation.model.attributes.' + input.path + '" class="status-toggle"><label class="switch switch-green"><input type="checkbox" class="switch-input"';
+        formSection += '<toggle ng-model="notation.model.attributes.' + input.path + '" ';
+        if (_.has(input, 'trueValue')) {
+          formSection += 'true-value="' + input.trueValue + '" ';
+        }
+        if (_.has(input, 'falseValue')) {
+          formSection += 'false-value="' + input.falseValue + '" ';
+        }
+        formSection += '"class="status-toggle"><label class="switch switch-green"><input type="checkbox" class="switch-input"';
         formSection += ' ng-disabled="' + input.disabled + '"';
         formSection += '><span class="switch-label" data-on="On" data-off="Off"></span><span class="switch-handle"></span></label></toggle></div>';
         return formSection;

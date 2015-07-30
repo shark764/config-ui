@@ -18,6 +18,8 @@ angular.module('liveopsConfigPanel')
         if(typeof $scope.falseValue === 'undefined') {
           $scope.falseValue = false;
         }
+
+        console.log($scope);
       }
     };
    });
