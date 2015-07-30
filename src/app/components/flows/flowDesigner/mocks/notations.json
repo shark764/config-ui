@@ -591,7 +591,7 @@
                     "placeholder": null,
                     "hidden": false,
                     "trueValue": "*",
-                    "falseValue": ""
+                    "falseValue": ","
                 }
             ],
             "params": {
@@ -627,7 +627,12 @@
                     "type": "string",
                     "key": "disconnectOn",
                     "mandatory": false,
-                    "default": ""
+                    "default": ",",
+                    "when": {
+                        "eq": {
+                            "params.disconnectOn": "*"
+                        }
+                    }
                 }
             }
         }
