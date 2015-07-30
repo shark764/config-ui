@@ -21,6 +21,14 @@
         }
       },
 
+      extractInputs: function(model) {
+        console.log('model were extracting inputs for', model);
+        var self = this;
+        var inputs = _.findWhere(self.activities, { name: model.name }).inputs;
+        console.log('inputs found', inputs);
+        return inputs;
+      },
+
       getActivityLabel: function(model) {
         var self = this;
         var activity = _.findWhere(self.activities, {name: model.name});

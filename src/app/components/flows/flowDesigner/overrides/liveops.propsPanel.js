@@ -19,7 +19,7 @@
         formSection += ' ng-hide="' + input.hidden + '"';
         formSection += '><label>' + input.label + '</label><div>';
         formSection += '<input type="text" ng-model="notation.model.attributes.' + input.path + '"';
-        if (input.disabled === true) { formSection += ' disabled="disabled"'; }
+        formSection += ' ng-disabled="' + input.disabled + '"';
         formSection += ' ng-change="onInputChange(notation.model, notation.model.attributes.' + input.path + ', notation.model.attributes.inputs[' + index + '].path)"';
         formSection += '></input></div></div>';
         return formSection;
@@ -30,7 +30,7 @@
         formSection += ' ng-hide="' + input.hidden + '"';
         formSection += '><label>' + input.label + '</label><div>';
         formSection += '<input type="text" ng-model="notation.model.attributes.' + input.path + '"';
-        if (input.disabled === true) { formSection += ' disabled="disabled"'; }
+        formSection += ' ng-disabled="' + input.disabled + '"';
         formSection += ' ng-change="onInputChange(notation.model, notation.model.attributes.' + input.path + ', notation.model.attributes.inputs[' + index + '].path)"';
         formSection += '></input></div></div>';
         return formSection;
@@ -41,7 +41,7 @@
         formSection += ' ng-hide="' + input.hidden + '"';
         formSection += '><label>' + input.label + '</label><div>';
         formSection += '<textarea ng-model="notation.model.attributes.' + input.path + '"';
-        if (input.disabled === true) { formSection += ' disabled="disabled"'; }
+        formSection += ' ng-disabled="' + input.disabled + '"';
         formSection += ' ng-change="onInputChange(notation.model, notation.model.attributes.' + input.path + ', notation.model.attributes.inputs[' + index + '].path)"';
         formSection += '></textarea></div></div>';
         return formSection;
@@ -52,7 +52,7 @@
         formSection += ' ng-hide="' + input.hidden + '"';
         formSection += '><label>' + input.label + '</label><div>';
         formSection += '<select ng-model="notation.model.attributes.' + input.path + '"';
-        if (input.disabled === true) { formSection += ' disabled="disabled"'; }
+        formSection += ' ng-disabled="' + input.disabled + '"';
         formSection += ' ng-change="onInputChange(notation.model, notation.model.attributes.' + input.path + ', notation.model.attributes.inputs[' + index + '].path)"';
         formSection += '><option value="">Please select one...</option>';
         _.each(input.options, function (opt) {
@@ -76,7 +76,7 @@
         formSection += ' ng-hide="' + input.hidden + '"';
         formSection += '><label>' + input.label + '</label>';
         formSection += '<toggle ng-model="notation.model.attributes.' + input.path + '" class="status-toggle"><label class="switch switch-green"><input type="checkbox" class="switch-input"';
-        if (input.disabled === true) { formSection += ' disabled="disabled"'; }
+        formSection += ' ng-disabled="' + input.disabled + '"';
         formSection += '><span class="switch-label" data-on="On" data-off="Off"></span><span class="switch-handle"></span></label></toggle></div>';
         return formSection;
       }
@@ -106,7 +106,7 @@
     return tpl += '</div></div></form>';
   }
 
-  var propsPanel = function ($compile, $timeout, FlowNotationService) {
+  var propsPanel = function ($compile, $timeout, $window, FlowNotationService) {
     return {
       scope: {
         notation: '=notation',
@@ -119,10 +119,7 @@
 
         scope.selectedItem = null;
         scope.setEntityProp = function(index) {
-          scope.notation.model.attributes.params[scope.notation.model.attributes.inputs[index].name] = {
-            id: scope.selectedItem.value
-          };
-          console.log(scope.notation);
+          scope.notation.model.attributes.params[scope.notation.model.attributes.inputs[index].name] = scope.selectedItem.value;
         };
 
         // Populate typeahead search collections with relevant API sources
@@ -146,7 +143,7 @@
           }
         });
 
-        window.notation = scope.notation;
+        $window.notation = scope.notation;
 
         scope.onInputChange = function(model, value, path) {
           scope.notation.model.onInputChange(model, value, path);

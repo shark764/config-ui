@@ -81,8 +81,9 @@
       },
 
       convertToJoint: function(alienese) {
-        var jointNotation = _.reduce(alienese, function(memo, notation) {
+        var self = this;
 
+        var jointNotation = _.reduce(alienese, function(memo, notation) {
           if (notation.entity === 'start' || notation.entity === 'catch' || notation.entity === 'throw') {
 
             var event = {
@@ -161,6 +162,15 @@
               bindings: notation.bindings || {}
             };
 
+            var inputs = [];
+            console.log('Matching activity notation:', _.findWhere(FlowNotationService.activities, { name: notation.name }).inputs);
+            inputs = inputs.concat(new joint.shapes.liveOps.activity().attributes.inputs);
+            inputs = inputs.concat(_.findWhere(FlowNotationService.activities, { name: notation.name }).inputs);
+
+            activity.inputs = inputs;
+
+            console.log('Activity after assembly', activity);
+
             memo.push(activity);
           }
 
@@ -175,7 +185,6 @@
             });
           }
           return memo;
-
         }, []);
 
         //Do another pass to set up decorations
@@ -187,7 +196,6 @@
             decoration.parent = notation.id;
           }
         });
-
         return {cells: jointNotation};
       },
 

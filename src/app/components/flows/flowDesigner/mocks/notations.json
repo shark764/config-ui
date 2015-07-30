@@ -4,6 +4,7 @@
             "name": "play-media",
             "entity": "activity",
             "label": "Play Media",
+            "bindings": [],
             "inputs": [
                 {
                     "name": "targeted",
@@ -116,14 +117,27 @@
                         }
                     }
                 }
-            },
-            "bindings": []
+            }
         },
         {
             "name": "collect-digits",
             "entity": "activity",
             "label": "Collect Digits",
+            "bindings": [],
             "inputs": [
+                {
+                    "name": "digits_binding",
+                    "path": "bindings[0]",
+                    "type": "string",
+                    "label": "Digits:",
+                    "group": "bindings",
+                    "index": 0,
+                    "disabled": false,
+                    "required": false,
+                    "placeholder": "Enter a name to bind to the digits returned...",
+                    "defaultsTo": "digits",
+                    "hidden": false
+                },
                 {
                     "name": "targeted",
                     "path": "targeted",
@@ -267,7 +281,7 @@
                     "mandatory": false,
                     "key": "media"
                 },
-                "digits": {
+                "num-digits": {
                     "source": "expression",
                     "type": "integer",
                     "mandatory": false,
@@ -300,16 +314,27 @@
                         }
                     }
                 }
-            },
-            "bindings": [
-                "digits"
-            ]
+            }
         },
         {
             "name": "enqueue",
             "entity": "activity",
             "label": "Enqueue",
+            "bindings": [],
             "inputs": [
+                {
+                    "name": "resource_binding",
+                    "path": "bindings[0]",
+                    "type": "string",
+                    "label": "Resource:",
+                    "group": "bindings",
+                    "index": 0,
+                    "disabled": false,
+                    "required": false,
+                    "placeholder": "Enter a name to bind to the resource returned...",
+                    "defaultsTo": "resource",
+                    "hidden": false
+                },
                 {
                     "name": "targeted",
                     "path": "targeted",
@@ -345,15 +370,13 @@
                     "mandatory": true,
                     "key": "queue"
                 }
-            },
-            "bindings": [
-                "resource"
-            ]
+            }
         },
         {
             "name": "work-offer",
             "entity": "activity",
             "label": "Work Offer",
+            "bindings": [],
             "inputs": [
                 {
                     "name": "targeted",
@@ -467,13 +490,13 @@
                     "key": "force",
                     "default": false
                 }
-            },
-            "bindings": []
+            }
         },
         {
             "name": "free-resource",
             "entity": "activity",
             "label": "Free Resource",
+            "bindings": [],
             "inputs": [
                 {
                     "name": "targeted",
@@ -518,13 +541,13 @@
                     "key": "resource",
                     "mandatory": true
                 }
-            },
-            "bindings": []
+            }
         },
         {
             "name": "add-participant",
             "entity": "activity",
             "label": "Add Participant",
+            "bindings": [],
             "inputs": [
                 {
                     "name": "targeted",
@@ -647,8 +670,7 @@
                     "mandatory": false,
                     "default": ""
                 }
-            },
-            "bindings": []
+            }
         }
     ],
     "events": [

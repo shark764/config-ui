@@ -15,5 +15,6 @@ angular.module('liveopsConfigPanel')
 
       FlowNotationService.media = media;
       FlowNotationService.queue = queue;
+      FlowNotationService.notationMocks = notations.data;
     }
   ]);
