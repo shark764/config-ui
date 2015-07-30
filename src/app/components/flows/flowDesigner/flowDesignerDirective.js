@@ -49,9 +49,26 @@ function flowDesigner() {
 
           $scope.publishNewFlowVersion = function() {
             if (graph.toJSON().cells.length === 0) { return; }
-            var alienese = JSON.stringify(FlowConversionService.convertToAlienese(graph.toJSON()));
+
+            //remove all error states
+            _.each(graph.getElements(), function(element) {
+              var view = element.findView(graph.interfaces.paper);
+              V(view.el).removeClass('error');
+            })
+
+            var alienese = FlowConversionService.convertToAlienese(graph.toJSON());
+
+            if (alienese.result === 'ERROR') {
+              _.each(alienese.errors, function(e) {
+                var cell = graph.getCell(e.model.id);
+                var view = cell.findView(graph.interfaces.paper);
+                V(view.el).addClass('error');
+              })
+              return;
+            }
+
             $scope.version = new FlowVersion({
-              flow: alienese,
+              flow: JSON.stringify(alienese.alienese),
               description: $scope.flowVersion.description || 'This needs to be fixed',
               name: $scope.flowVersion.name,
               tenantId: Session.tenant.tenantId,

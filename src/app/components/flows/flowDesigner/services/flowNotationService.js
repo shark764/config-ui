@@ -229,6 +229,14 @@
               };
             }
           } else if (param.source === 'entity') {
+            if(!model.params[param.key] || model.params[param.key].length == 0) {
+              throw {
+                model: model,
+                param: param.key,
+                message: 'Parameters either was not defined or was incorrect'
+              }
+            }
+
             memo[key] = {
               source: 'system',
               store: param.type,
