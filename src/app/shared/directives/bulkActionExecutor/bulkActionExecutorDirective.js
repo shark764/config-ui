@@ -1,24 +1,30 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('bulkActionExecutor', ['$q', 'Alert', 'Modal', '$translate', 'DirtyForms',
-    function ($q, Alert, Modal, $translate, DirtyForms) {
+  .directive('bulkActionExecutor', ['$q', 'Alert', 'Modal', '$translate', 'DirtyForms', '$filter',
+    function ($q, Alert, Modal, $translate, DirtyForms, $filter) {
       return {
         restrict: 'AE',
         scope: {
           items: '=',
           bulkActions: '=',
-          showBulkActions: '='
+          showBulkActions: '=',
+          dropOrderBy: '@',
+          confirmMessageKey: '@'
         },
         transclude: true,
         templateUrl: 'app/shared/directives/bulkActionExecutor/bulkActionExecutor.html',
         link: function ($scope) {
+          if (! $scope.confirmMessageKey){
+            $scope.confirmMessageKey = 'bulkActions.confirm.message';
+          }
+          
           $scope.checkedItems = [];
 
           $scope.confirmExecute = function () {
             Modal.showConfirm({
               title: $translate.instant('bulkActions.confirm.title'),
-              message: $translate.instant('bulkActions.confirm.message', {
+              message: $translate.instant($scope.confirmMessageKey, {
                 numItems: $scope.selectedItems().length
               }),
               okCallback: $scope.execute
@@ -78,12 +84,23 @@ angular.module('liveopsConfigPanel')
               }
             });
 
+            if ($scope.dropOrderBy){
+              //Reorder elements while preserving original object reference to avoid infinite digest loop
+              var sorted = $filter('orderBy')($scope.checkedItems, $scope.dropOrderBy);
+              $scope.checkedItems.clear();
+              $scope.checkedItems.push.apply($scope.checkedItems, sorted);
+            }
+            
             return $scope.checkedItems;
           };
 
           $scope.cancel = function () {
             DirtyForms.confirmIfDirty(function () {
-              $scope.resetForm();
+              if ($scope.bulkActionForm.$dirty){
+                $scope.resetForm();
+              } else {
+                $scope.showBulkActions = false;
+              }
             });
           };
 

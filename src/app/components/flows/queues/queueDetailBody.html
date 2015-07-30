@@ -4,7 +4,9 @@
 
 <div class="input-group">
   <label>{{'value.name' | translate}} *</label>
-  <form-error field="detailsForm.queuename" error-type-api="{{'queue.details.name.error' | translate}}" error-type-required="{{'value.error.name.required' | translate}}"></form-error>
+  <form-error field="detailsForm.queuename"
+    error-type-required="{{'value.error.name.required' | translate}}">
+  </form-error>
   <div>
     <input type="text" ng-required="true" ng-model="resource.name" name="queuename" api-error></input>
   </div>

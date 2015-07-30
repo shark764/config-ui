@@ -7,14 +7,18 @@ describe('typeAhead directive', function(){
     $compile,
     element,
     isolateScope,
-    doDefaultCompile;
+    doDefaultCompile,
+    $timeout;
 
   beforeEach(module('liveopsConfigPanel'));
   beforeEach(module('gulpAngular'));
+  beforeEach(module('liveopsConfigPanel.mock.content'));
 
-  beforeEach(inject(['$compile', '$rootScope', function(_$compile_, $rootScope) {
+  beforeEach(inject(['$compile', '$rootScope', '$timeout', function(_$compile_, $rootScope, _$timeout_) {
     $compile = _$compile_;
     $scope = $rootScope.$new();
+    $timeout = _$timeout_;
+    
     $scope.items = [{title : 'firstItem', extraProp: 'true'}, {title: 'secondItem'}, {title: 'secondItemAgain'}, {title: 'thirdItem'}];
     $scope.selectedItem = {id: '2'};
     $scope.selectFunction = function(){};
@@ -91,6 +95,8 @@ describe('typeAhead directive', function(){
       spyOn($scope, 'selectFunction');
       isolateScope.currentText = 'firstItem';
       isolateScope.$digest();
+      $timeout.flush();
+      
       expect($scope.selectFunction).toHaveBeenCalled();
     });
     

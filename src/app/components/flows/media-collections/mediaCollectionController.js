@@ -17,12 +17,6 @@ angular.module('liveopsConfigPanel')
         });
       };
 
-      $scope.fetchMedias = function() {
-        return Media.cachedQuery({
-          tenantId: Session.tenant.tenantId
-        });
-      };
-
       MediaCollection.prototype.preCreate = function () {
         if (angular.isDefined(this.mediaMap)){
           $scope.cleanMediaMap(this);
@@ -34,7 +28,34 @@ angular.module('liveopsConfigPanel')
           $scope.cleanMediaMap(this);
         }
       };
-
+      
+      $scope.$on('resource:details:create:media', function () {
+        $scope.selectedMedia = new Media({
+          properties: {},
+          tenantId: Session.tenant.tenantId
+        });
+      });
+      
+      $scope.$on('resource:details:media:create:success', function () {
+          $scope.selectedMedia = null;
+      });
+      
+      $scope.$on('resource:details:media:canceled', function () {
+        $scope.selectedMedia = null;
+      });
+      
+      $scope.$on('resource:details:media:savedAndNew', function () {
+        //Use a timeout so that we aren't changing a scoped variable within a digest cycle,
+        //Otherwise the change will not get picked up by watches
+        //(Because this is triggered by an event, there is already a digest cycle in progress)
+        $timeout(function(){
+          $scope.selectedMedia = new Media({
+            properties: {},
+            tenantId: Session.tenant.tenantId
+          });
+        });
+      });
+      
       $scope.cleanMediaMap = function(collection){
         if (collection.mediaMap.length === 0){
           delete collection.mediaMap;
@@ -69,62 +90,9 @@ angular.module('liveopsConfigPanel')
         setupAudioSourceWatch: $scope.setupAudioSourceWatch
       };
 
-      $scope.addMapping = function(collection){
-        if(collection.mediaMap){
-          collection.mediaMap.push({});
-        } else {
-          collection.mediaMap = [{}];
-        }
-      };
-
-      $scope.removeMapping = function(collection, form, index){
-        collection.mediaMap.splice(index, 1);
-        if (collection.mediaMap.length === 0){
-          delete collection.mediaMap;
-        }
-
-        form.mediaMapChanges.$setDirty();
-      };
-
-      $scope.additionalCollections = {
-        fetchMedias: $scope.fetchMedias,
-        addMapping: $scope.addMapping,
-        removeMapping: $scope.removeMapping
-      };
-
-      $scope.$on('resource:details:create:mediaMapping', function () {
-        $scope.selectedMedia = new Media({
-          properties: {},
-          tenantId: Session.tenant.tenantId
-        });
-      });
-
-      $scope.$on('resource:details:media:canceled', function () {
-        $scope.selectedMedia = null;
-      });
-
-      $scope.$on('resource:details:media:savedAndNew', function () {
-        //Use a very small timeout so that we aren't changing a scoped variable within a digest cycle,
-        //Otherwise the change will not get picked up by watches
-        //(Because this is triggered by an event, there is already a digest cycle in progress)
-        $timeout(function(){
-          $scope.selectedMedia = new Media({
-            properties: {},
-            tenantId: Session.tenant.tenantId
-          });
-        }, 2);
-      });
-
       $scope.$on('table:on:click:create', function () {
         $scope.create();
       });
-
-      $scope.$on('resource:details:media:create:success',
-        function (event, resource) {
-          $scope.fetchMedias().push(resource);
-
-          $scope.selectedMedia = null;
-        });
 
       $scope.tableConfig = mediaCollectionTableConfig;
     }
