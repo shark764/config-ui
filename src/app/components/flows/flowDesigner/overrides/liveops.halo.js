@@ -139,51 +139,51 @@
       linkAttributes: {},
       smoothLinks: undefined,
       handles: [
-        {
-          name: 'createEvent',
-          position: 'oneOclock',
-          events: {
-            pointerdown: 'startForking',
-            pointermove: 'doFork',
-            pointerup: 'stopForking'
-          }
-        },
-        {
-          name: 'createActivity',
-          position: 'twoOclock',
-          events: {
-            pointerdown: 'startForking',
-            pointermove: 'doFork',
-            pointerup: 'stopForking'
-          }
-        },
-        {
-          name: 'createGateway',
-          position: 'threeOclock',
-          events: {
-            pointerdown: 'startForking',
-            pointermove: 'doFork',
-            pointerup: 'stopForking'
-          }
-        },
-        {
-          name: 'propertiesPanel',
-          position: 'fourOclock',
-          events: {
-            pointerdown: 'startLinking',
-            pointermove: 'doLink',
-            pointerup: 'stopLinking'
-          }
-        },
-        {
-          name: 'contextMenu',
-          position: 'fiveOclock',
-          events: {
-            pointerdown: 'startLinking',
-            pointermove: 'doLink',
-            pointerup: 'stopLinking'
-          }
-        },
+        // {
+        //   name: 'createEvent',
+        //   position: 'oneOclock',
+        //   events: {
+        //     pointerdown: 'startForking',
+        //     pointermove: 'doFork',
+        //     pointerup: 'stopForking'
+        //   }
+        // },
+        // {
+        //   name: 'createActivity',
+        //   position: 'twoOclock',
+        //   events: {
+        //     pointerdown: 'startForking',
+        //     pointermove: 'doFork',
+        //     pointerup: 'stopForking'
+        //   }
+        // },
+        // {
+        //   name: 'createGateway',
+        //   position: 'threeOclock',
+        //   events: {
+        //     pointerdown: 'startForking',
+        //     pointermove: 'doFork',
+        //     pointerup: 'stopForking'
+        //   }
+        // },
+        // {
+        //   name: 'propertiesPanel',
+        //   position: 'fourOclock',
+        //   events: {
+        //     pointerdown: 'startLinking',
+        //     pointermove: 'doLink',
+        //     pointerup: 'stopLinking'
+        //   }
+        // },
+        // {
+        //   name: 'contextMenu',
+        //   position: 'fiveOclock',
+        //   events: {
+        //     pointerdown: 'startLinking',
+        //     pointermove: 'doLink',
+        //     pointerup: 'stopLinking'
+        //   }
+        // },
         {
           name: 'createLink',
           position: 'sixOclock',
