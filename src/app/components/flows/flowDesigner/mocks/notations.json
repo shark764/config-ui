@@ -638,7 +638,6 @@
         }
     ],
     "events": [
-
         {
             "entity": "start",
             "type": "none",
@@ -671,26 +670,60 @@
                 "hidden": false
             }]
         },
-
-
-
-
-
         {
             "entity": "catch",
             "type": "signal",
-            "inputs": []
+            "inputs": [{
+                "name": "target",
+                "path": "target",
+                "type": "string",
+                "label": "Target:",
+                "group": "general",
+                "index": 0,
+                "disabled": false,
+                "required": false,
+                "placeholder": "Enter a target...",
+                "hidden": false
+            }, {
+                "name": "binding",
+                "path": "event.bindings",
+                "type": "string",
+                "label": "Bindings:",
+                "group": "bindings",
+                "index": 0,
+                "disabled": false,
+                "required": false,
+                "placeholder": "Enter a name to bind to the resource returned...",
+                "hidden": false
+            }]
         },
         {
             "entity": "catch",
             "type": "timer",
-            "inputs": []
+            "inputs": [{
+                "name": "signal",
+                "path": "event.signal",
+                "type": "string",
+                "label": "Signal Name:",
+                "group": "general",
+                "index": 0,
+                "disabled": false,
+                "required": false,
+                "placeholder": "Enter a signal name to catch...",
+                "hidden": false
+            }, {
+                "name": "binding",
+                "path": "event.bindings",
+                "type": "string",
+                "label": "Param:",
+                "group": "bindings",
+                "index": 0,
+                "disabled": false,
+                "required": false,
+                "placeholder": "Enter a name to bind to the resource returned...",
+                "hidden": false
+            }]
         },
-
-
-
-
-
         {
             "entity": "throw",
             "type": "signal",
@@ -715,7 +748,7 @@
                 "index": 0,
                 "disabled": false,
                 "required": false,
-                "placeholder": "Enter a signal name...",
+                "placeholder": "Enter a signal name to catch...",
                 "hidden": false
             }, {
                 "name": "binding",
@@ -730,9 +763,6 @@
                 "hidden": false
             }]
         },
-
-
-
         {
             "entity": "throw",
             "type": "none",
