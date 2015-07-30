@@ -4,7 +4,7 @@
             "name": "play-media",
             "entity": "activity",
             "label": "Play Media",
-            "bindings": [],
+            "bindings": {},
             "inputs": [
                 {
                     "name": "targeted",
@@ -16,7 +16,6 @@
                     "disabled": false,
                     "required": false,
                     "placeholder": null,
-                    "defaultsTo": true,
                     "hidden": true
                 },
                 {
@@ -29,7 +28,6 @@
                     "disabled": false,
                     "required": false,
                     "placeholder": "Enter a target...",
-                    "defaultsTo": "twilio",
                     "hidden": true
                 },
                 {
@@ -42,7 +40,6 @@
                     "disabled": false,
                     "required": false,
                     "placeholder": null,
-                    "defaultsTo": "",
                     "hidden": false,
                     "options": [
                         {
@@ -65,7 +62,6 @@
                     "disabled": false,
                     "required": false,
                     "placeholder": "Search for a media...",
-                    "defaultsTo": "",
                     "hidden": false,
                     "source": "media"
                 },
@@ -79,7 +75,6 @@
                     "disabled": false,
                     "required": false,
                     "placeholder": null,
-                    "defaultsTo": null,
                     "hidden": false
                 }
             ],
@@ -123,11 +118,11 @@
             "name": "collect-digits",
             "entity": "activity",
             "label": "Collect Digits",
-            "bindings": [],
+            "bindings": {},
             "inputs": [
                 {
                     "name": "digits_binding",
-                    "path": "bindings[0]",
+                    "path": "bindings.digits",
                     "type": "string",
                     "label": "Digits:",
                     "group": "bindings",
@@ -135,7 +130,6 @@
                     "disabled": false,
                     "required": false,
                     "placeholder": "Enter a name to bind to the digits returned...",
-                    "defaultsTo": "digits",
                     "hidden": false
                 },
                 {
@@ -148,7 +142,6 @@
                     "disabled": false,
                     "required": false,
                     "placeholder": null,
-                    "defaultsTo": true,
                     "hidden": true
                 },
                 {
@@ -161,7 +154,6 @@
                     "disabled": false,
                     "required": false,
                     "placeholder": "Enter a target...",
-                    "defaultsTo": "twilio",
                     "hidden": true
                 },
                 {
@@ -174,7 +166,6 @@
                     "disabled": false,
                     "required": false,
                     "placeholder": null,
-                    "defaultsTo": "",
                     "hidden": false,
                     "options": [
                         {
@@ -197,7 +188,6 @@
                     "disabled": false,
                     "required": false,
                     "placeholder": "Search for a media...",
-                    "defaultsTo": "",
                     "hidden": false,
                     "source": "media"
                 },
@@ -211,7 +201,6 @@
                     "disabled": false,
                     "required": false,
                     "placeholder": "Specify # of digits...",
-                    "defaultsTo": 7,
                     "hidden": false
                 },
                 {
@@ -224,7 +213,6 @@
                     "disabled": false,
                     "required": false,
                     "placeholder": null,
-                    "defaultsTo": "",
                     "hidden": false,
                     "options": [
                         {
@@ -291,6 +279,7 @@
                 "terminator": {
                     "source": "expression",
                     "type": "string",
+                    "default": "\"#\"",
                     "mandatory": false,
                     "key": "terminator"
                 },
@@ -320,11 +309,11 @@
             "name": "enqueue",
             "entity": "activity",
             "label": "Enqueue",
-            "bindings": [],
+            "bindings": {},
             "inputs": [
                 {
                     "name": "resource_binding",
-                    "path": "bindings[0]",
+                    "path": "bindings.resource",
                     "type": "string",
                     "label": "Resource:",
                     "group": "bindings",
@@ -332,7 +321,6 @@
                     "disabled": false,
                     "required": false,
                     "placeholder": "Enter a name to bind to the resource returned...",
-                    "defaultsTo": "resource",
                     "hidden": false
                 },
                 {
@@ -345,7 +333,6 @@
                     "disabled": false,
                     "required": false,
                     "placeholder": null,
-                    "defaultsTo": false,
                     "hidden": true
                 },
                 {
@@ -358,7 +345,6 @@
                     "disabled": false,
                     "required": false,
                     "placeholder": "Search for a queue...",
-                    "defaultsTo": null,
                     "hidden": false,
                     "source": "queue"
                 }
@@ -376,7 +362,7 @@
             "name": "work-offer",
             "entity": "activity",
             "label": "Work Offer",
-            "bindings": [],
+            "bindings": {},
             "inputs": [
                 {
                     "name": "targeted",
@@ -388,7 +374,6 @@
                     "disabled": false,
                     "required": false,
                     "placeholder": null,
-                    "defaultsTo": true,
                     "hidden": true
                 },
                 {
@@ -401,7 +386,6 @@
                     "disabled": false,
                     "required": false,
                     "placeholder": "Enter a target...",
-                    "defaultsTo": "client",
                     "hidden": true
                 },
                 {
@@ -414,7 +398,6 @@
                     "disabled": false,
                     "required": false,
                     "placeholder": null,
-                    "defaultsTo": "",
                     "hidden": false,
                     "options": [
                         {
@@ -433,7 +416,6 @@
                     "disabled": false,
                     "required": false,
                     "placeholder": "Enter a timeout...",
-                    "defaultsTo": "",
                     "hidden": false
                 },
                 {
@@ -446,7 +428,6 @@
                     "disabled": false,
                     "required": false,
                     "placeholder": "Enter a search...",
-                    "defaultsTo": "",
                     "hidden": false
                 },
                 {
@@ -459,7 +440,6 @@
                     "disabled": false,
                     "required": false,
                     "placeholder": null,
-                    "defaultsTo": false,
                     "hidden": false
                 }
             ],
@@ -496,7 +476,7 @@
             "name": "free-resource",
             "entity": "activity",
             "label": "Free Resource",
-            "bindings": [],
+            "bindings": {},
             "inputs": [
                 {
                     "name": "targeted",
@@ -508,7 +488,6 @@
                     "disabled": false,
                     "required": false,
                     "placeholder": null,
-                    "defaultsTo": false,
                     "hidden": true
                 },
                 {
@@ -521,7 +500,6 @@
                     "disabled": false,
                     "required": true,
                     "placeholder": "Enter a resource ID...",
-                    "defaultsTo": null,
                     "hidden": false,
                     "targeted": false,
                     "params": {
@@ -547,7 +525,7 @@
             "name": "add-participant",
             "entity": "activity",
             "label": "Add Participant",
-            "bindings": [],
+            "bindings": {},
             "inputs": [
                 {
                     "name": "targeted",
@@ -559,7 +537,6 @@
                     "disabled": false,
                     "required": false,
                     "placeholder": null,
-                    "defaultsTo": true,
                     "hidden": true
                 },
                 {
@@ -572,7 +549,6 @@
                     "disabled": false,
                     "required": false,
                     "placeholder": "Enter a target...",
-                    "defaultsTo": "twilio",
                     "hidden": true
                 },
                 {
@@ -585,7 +561,6 @@
                     "disabled": false,
                     "required": false,
                     "placeholder": null,
-                    "defaultsTo": "",
                     "hidden": false,
                     "options": [
                         {
@@ -608,7 +583,6 @@
                     "disabled": false,
                     "required": false,
                     "placeholder": null,
-                    "defaultsTo": false,
                     "hidden": false
                 },
                 {
@@ -621,7 +595,6 @@
                     "disabled": false,
                     "required": false,
                     "placeholder": null,
-                    "defaultsTo": "",
                     "hidden": false,
                     "options": [
                         {

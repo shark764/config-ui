@@ -83,6 +83,8 @@
       convertToJoint: function(alienese) {
         var self = this;
 
+        console.log(alienese);
+
         var jointNotation = _.reduce(alienese, function(memo, notation) {
           if (notation.entity === 'start' || notation.entity === 'catch' || notation.entity === 'throw') {
 

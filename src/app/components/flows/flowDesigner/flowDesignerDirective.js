@@ -84,7 +84,7 @@ function flowDesigner() {
           };
 
           $window.spitOutJoint = function() {
-            return graph.toJSON();
+            return $scope.graph.toJSON();
           };
         }, 1000);
       }]
