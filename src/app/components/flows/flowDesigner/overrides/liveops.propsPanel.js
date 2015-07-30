@@ -68,7 +68,6 @@
         formSection += '><label>' + input.label + '</label><div>';
         formSection += '<type-ahead hover="true" placeholder="Search..."';
         if (notation.model.attributes.params[input.name]) {
-          console.log(_.findWhere(notation.model.attributes.inputs[index].options, { value: notation.model.attributes.params[input.name] }));
           formSection += ' prefill="\'' + _.findWhere(notation.model.attributes.inputs[index].options, { value: notation.model.attributes.params[input.name] }).content + '\'"';
         }
         formSection += ' items="notation.model.attributes.inputs[' + index + '].options" on-select="setEntityProp(' + index + ')" selected-item="selectedItem" name-field="content" is-required="false">';
@@ -94,6 +93,7 @@
     });
 
     // Sort by index
+    console.log(notation.model.attributes);
     notation.model.attributes.inputs.sort(function(a, b) {
       return parseFloat(a.index) + parseFloat(b.index);
     });
@@ -122,7 +122,6 @@
       link: function (scope, element) {
         scope.loading = true;
 
-        console.log('Truthy?', scope.notation.model.attributes);
 
         scope.selectedItem = null;
 

@@ -22,10 +22,8 @@
       },
 
       extractInputs: function(model) {
-        console.log('model were extracting inputs for', model);
         var self = this;
         var inputs = _.findWhere(self.activities, { name: model.name }).inputs;
-        console.log('inputs found', inputs);
         return inputs;
       },
 

@@ -45,37 +45,10 @@
           'x-alignment': 'middle', 'y-alignment': 'middle'
         }
       },
-      eventType: 'start',
       interrupting: true,
       throwing: false,
       terminate: false,
-      icon: 'none',
-      inputs: [{
-        name: 'type',
-        path: 'entity',
-        type: 'select',
-        label: 'Type:',
-        group: 'general',
-        index: 0,
-        disabled: false,
-        required: false,
-        placeholder: null,
-        hidden: false,
-        options: [
-            {
-                value: 'start',
-                content: 'start'
-            },
-            {
-                value: 'catch',
-                content: 'catch'
-            },
-            {
-                value: 'throw',
-                content: 'throw'
-            }
-        ]
-      }]
+      icon: 'none'
     }, joint.dia.Element.prototype.defaults),
     initialize: function() {
       joint.dia.Element.prototype.initialize.apply(this, arguments);
@@ -242,10 +215,6 @@
       }
     },
     onInputChange: function(model, value, path) {
-      console.log('On input change');
-      console.log(model);
-      console.log(value);
-      console.log(path);
       console.warn('This property is not hooked up to a UI listener.');
     }
   }).extend(joint.shapes.liveOps.IconInterface);

@@ -39,8 +39,9 @@
           graph.interfaces.inspectorContainer.css({'right': '-350px'});
         };
         graph.utils.renderPropertiesPanel = function(notation) {
-          if (notation.model.attributes.type === 'liveOps.gateway') { return graph.utils.hidePropertiesPanel(); }
           console.log('Notation clicked on:', notation);
+          if (notation.model.attributes.type === 'liveOps.gateway') { return graph.utils.hidePropertiesPanel(); }
+          if (notation.model.attributes.inputs.length === 0) { return graph.utils.hidePropertiesPanel(); }
           // if (notation.type === 'event') { notation.inputs = buildinputsfortheevent(); }
           graph.utils.showPropertiesPanel();
           // Don't re-render if the model is already opened in the props panel

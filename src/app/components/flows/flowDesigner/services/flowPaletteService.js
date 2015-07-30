@@ -23,21 +23,16 @@
 
       loadEvents: function(palette) {
         var self = this;
-        palette.load([
-          new joint.shapes.liveOps.event({
-            name: 'none',
-            entity: 'start'
-          }),
-          new joint.shapes.liveOps.event({
-            name: 'none',
-            entity: 'catch'
-          }),
-          new joint.shapes.liveOps.event({
-            name: 'none',
-            entity: 'throw',
-            terminate: true
-          })
-        ], 'events');
+
+        palette.load(_.map(self.data.events, function(event){
+          var evt = new joint.shapes.liveOps.event({
+            name: event.type,
+            entity: event.entity,
+            terminate: event.terminate || false,
+            inputs: event.inputs
+          });
+          return evt;
+        }), 'events');
 
         _.each(self.data.events, function(notation) {
           FlowNotationService.registerEvent(notation);

@@ -131,6 +131,8 @@
               }, []);
             }
 
+            event.inputs = _.findWhere(FlowNotationService.events, { entity: notation.entity, type: notation.type, terminate: notation.terminate  }).inputs;
+
             memo.push(event);
           } else if (notation.entity === 'gateway') {
             memo.push({

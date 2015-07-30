@@ -649,112 +649,118 @@
         }
     ],
     "events": [
+
         {
             "entity": "start",
             "type": "none",
-            "props": [],
-            "meta": []
+            "inputs": []
         },
         {
             "entity": "start",
             "type": "signal",
-            "props": [
-                "target",
-                "interrupting",
-                "bindings"
-            ],
-            "meta": []
+            "inputs": [{
+                "name": "target",
+                "path": "target",
+                "type": "string",
+                "label": "Target:",
+                "group": "general",
+                "index": 0,
+                "disabled": false,
+                "required": false,
+                "placeholder": "Enter a target...",
+                "hidden": false
+            }, {
+                "name": "binding",
+                "path": "event.bindings",
+                "type": "string",
+                "label": "Bindings:",
+                "group": "bindings",
+                "index": 0,
+                "disabled": false,
+                "required": false,
+                "placeholder": "Enter a name to bind to the resource returned...",
+                "hidden": false
+            }]
         },
-        {
-            "entity": "start",
-            "type": "system-error",
-            "props": [],
-            "meta": []
-        },
-        {
-            "entity": "start",
-            "type": "flow-error",
-            "props": [],
-            "meta": []
-        },
-        {
-            "entity": "catch",
-            "type": "none",
-            "props": [],
-            "meta": []
-        },
+
+
+
+
+
         {
             "entity": "catch",
             "type": "signal",
-            "props": [
-                "target",
-                "interrupting",
-                "bindings"
-            ],
-            "meta": []
+            "inputs": []
         },
         {
             "entity": "catch",
             "type": "timer",
-            "props": [
-                "timer",
-                "interrupting",
-                "bindings"
-            ],
-            "meta": []
+            "inputs": []
         },
+
+
+
+
+
         {
-            "entity": "catch",
-            "type": "system-error",
-            "props": [
-                "interrupting",
-                "bindings"
-            ],
-            "meta": []
+            "entity": "throw",
+            "type": "signal",
+            "terminate": false,
+            "inputs": [{
+                "name": "terminate",
+                "path": "terminate",
+                "type": "boolean",
+                "label": "Terminate:",
+                "group": "general",
+                "index": 0,
+                "disabled": false,
+                "required": false,
+                "placeholder": null,
+                "hidden": false
+            }, {
+                "name": "signal",
+                "path": "event.signal",
+                "type": "string",
+                "label": "Signal Name:",
+                "group": "general",
+                "index": 0,
+                "disabled": false,
+                "required": false,
+                "placeholder": "Enter a signal name...",
+                "hidden": false
+            }, {
+                "name": "binding",
+                "path": "event.bindings",
+                "type": "string",
+                "label": "Param:",
+                "group": "bindings",
+                "index": 0,
+                "disabled": false,
+                "required": false,
+                "placeholder": "Enter a name to bind to the resource returned...",
+                "hidden": false
+            }]
         },
-        {
-            "entity": "catch",
-            "type": "flow-error",
-            "props": [],
-            "meta": []
-        },
+
+
+
         {
             "entity": "throw",
             "type": "none",
-            "props": [
-                "terminate"
-            ],
-            "meta": []
+            "terminate": true,
+            "inputs": []
         },
         {
             "entity": "throw",
             "type": "signal",
-            "props": [
-                "terminate",
-                "event"
-            ],
-            "meta": []
-        },
-        {
-            "entity": "throw",
-            "type": "flow-error",
-            "props": [
-                "terminate",
-                "error"
-            ],
-            "meta": [
-                "mustTerminate"
-            ]
+            "terminate": true,
+            "inputs": []
         },
         {
             "entity": "throw",
             "type": "terminate",
-            "props": [
-                "terminate"
-            ],
-            "meta": [
-                "mustTerminate"
-            ]
+            "terminate": true,
+            "inputs": []
         }
     ]
 }
