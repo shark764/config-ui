@@ -6,11 +6,6 @@ angular.module('liveopsConfigPanel')
       $scope.flow = flow;
       $scope.version = version;
 
-      KeyboardJS.on('backspace', function(event) {
-        if ($('input:focus').length > 0) { return; }
-        event.preventDefault();
-      });
-
       FlowPaletteService.loadData(notations.data);
 
       FlowNotationService.media = media;

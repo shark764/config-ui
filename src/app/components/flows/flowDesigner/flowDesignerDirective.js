@@ -63,8 +63,7 @@ function flowDesigner() {
             $scope.version.save(function() {
               Alert.success('New flow version successfully created.');
               $scope.flowVersion.v = parseInt($scope.flowVersion.v) + 1;
-            },
-            function(error) {
+            }, function(error) {
               if (error.data.error.attribute === null) {
                 Alert.error('API rejected this flow -- likely invalid Alienese.', JSON.stringify(error, null, 2));
               } else {
