@@ -24,9 +24,7 @@ angular.module('liveopsConfigPanel')
 
         $scope.currentText = $scope.prefill || '';
 
-        $scope.$watch('selectedItem', function (oldValue, newValue) {
-          console.log('Old Value:', oldValue);
-          console.log('New Value:', newValue);
+        $scope.$watch('selectedItem', function () {
           if(angular.isUndefined($scope.selectedItem) || $scope.selectedItem === null){
             $scope.currentText = $scope.prefill || '';
           }
@@ -38,9 +36,7 @@ angular.module('liveopsConfigPanel')
 
           var filteredItems = filterFilter($scope.items, $scope.filterCriteria, true);
 
-          console.log(filteredItems);
-
-          if (! $scope.currentText){
+          if (!$scope.currentText){
             $scope.selectedItem = null;
           } else if (filteredItems && filteredItems.length === 1){
             $scope.selectedItem = filteredItems[0];

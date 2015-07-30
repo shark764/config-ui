@@ -186,7 +186,7 @@
         // },
         {
           name: 'createLink',
-          position: 'sixOclock',
+          position: 'threeOclock',
           events: {
             pointerdown: 'startLinking',
             pointermove: 'doLink',
