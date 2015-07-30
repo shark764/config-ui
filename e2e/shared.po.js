@@ -63,6 +63,7 @@ var Shared = function() {
   this.bulkActionsPanel = element(by.css('bulk-action-executor.details-pane'));
   this.submitFormBtn = this.detailsPanel.element(by.id('submit-details-btn'));
   this.cancelFormBtn = this.detailsPanel.element(by.id('cancel-details-btn'));
+  this.closeFormBtn = this.detailsPanel.element(by.id('close-details-button'));
   this.successMessage = element(by.css('.toast-success'));
   this.errorMessage = element(by.css('.toast-error'));
   this.closeMessageBtn = element(by.css('.toast-close-button'));
