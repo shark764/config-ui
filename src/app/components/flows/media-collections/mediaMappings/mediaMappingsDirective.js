@@ -14,7 +14,7 @@ angular.module('liveopsConfigPanel')
         return Media.cachedQuery({
           tenantId: Session.tenant.tenantId
         });
-      }
+      };
       
       $scope.addMapping = function(){
         if($scope.collection.mediaMap){

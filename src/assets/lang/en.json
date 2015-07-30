@@ -245,6 +245,7 @@
   "unsavedchanges.reload.warning": "You have unsaved changes that will be lost!",
 
   "bulkActions.enable.users": "Enable Users",
+  "bulkActions.enable.users.fail": "You cannot disable your own account.",
   "bulkActions.selected": "Selected ",
   "bulkActions.userGroups.add": "Add Group",
   "bulkActions.userGroups.remove": "Remove Group",
@@ -273,7 +274,8 @@
   "bulkActions.enable.integrations": "Enable Integrations",
   "bulkActions.enable.flows": "Enable Flows",
   "bulkActions.enable.queues": "Enable Queues",
-
+  "bulkAction.success": "Bulk action successful!",
+  
   "user.profile.save.success": "Your details have been updated.",
   "user.profile.save.fail": "An error occured while updating your details."
 }
