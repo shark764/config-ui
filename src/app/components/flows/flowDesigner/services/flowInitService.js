@@ -40,6 +40,19 @@
         };
         graph.utils.renderPropertiesPanel = function(notation) {
           console.log('Notation clicked on:', notation);
+
+          if (notation.model instanceof joint.dia.Element && !graph.interfaces.selector.contains(notation.model)) {
+            new joint.ui.FreeTransform({cellView: notation}).render();
+            new joint.ui.Halo({
+              cellView: notation,
+              boxContent: function(cellView) {
+                return cellView.model.get('type');
+              }
+            }).render();
+            graph.interfaces.selectorView.cancelSelection();
+            graph.interfaces.selector.reset([notation.model], {safe: true});
+          }
+
           if (notation.model.attributes.type === 'liveOps.gateway') { return graph.utils.hidePropertiesPanel(); }
           if (notation.model.attributes.inputs.length === 0) { return graph.utils.hidePropertiesPanel(); }
           // if (notation.type === 'event') { notation.inputs = buildinputsfortheevent(); }
