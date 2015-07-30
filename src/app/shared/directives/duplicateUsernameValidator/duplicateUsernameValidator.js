@@ -5,7 +5,7 @@ angular.module('liveopsConfigPanel')
   .directive('duplicateUsername', ['$q', 'User', function($q, User) {
     return {
       require: 'ngModel',
-      link: function($scope, elm, attrs, ctrl) {
+      link: function($scope, elem, attrs, ctrl) {
         ctrl.$asyncValidators.duplicateUsername = function(modelValue, viewValue) {
 
           if (ctrl.$isEmpty(modelValue)) {
@@ -21,8 +21,15 @@ angular.module('liveopsConfigPanel')
             }
 
             return def.resolve();
-          }, function () {
-            return def.resolve();
+          }, function (error) {
+
+            // If the request 404s, assume the email is unique
+            if(error.status === 404) {
+              return def.resolve();
+            }
+
+            // By default, on error, reject
+            return def.reject();
           });
 
           return def.promise;

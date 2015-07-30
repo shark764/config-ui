@@ -53,10 +53,10 @@
     </div>
   </div>
 
-  <div class="input-group">
+  <div class="input-group" ng-show="!selectedUser.id">
     <label>{{'details.inviteNow' | translate}}</label>
     <div>
-      <toggle ng-model="selectedUser.inviteNow" name="inviteNow" type="text"></toggle>
+      <toggle ng-model="inviteNow" name="inviteNow" type="text"></toggle>
       <help-icon translate-value="details.inviteNow.help"></help-icon>
     </div>
   </div>

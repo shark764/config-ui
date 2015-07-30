@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('UsersController', ['$scope', '$window', 'userRoles', 'User', 'Session', 'AuthService', 'userTableConfig', 'Invite', 'Alert', 'flowSetup', 'BulkAction',
-    function ($scope, $window, userRoles, User, Session, AuthService, userTableConfig, Invite, Alert, flowSetup, BulkAction) {
+  .controller('UsersController', ['$scope', '$window', 'userRoles', 'User', 'Session', 'AuthService', 'userTableConfig', 'Invite', 'Alert', 'flowSetup', 'BulkAction', '$q', '$location', 'lodash',
+    function ($scope, $window, userRoles, User, Session, AuthService, userTableConfig, Invite, Alert, flowSetup, BulkAction, $q, $location, _) {
       var self = this;
       $scope.Session = Session;
       $scope.roles = userRoles;
@@ -18,52 +18,55 @@ angular.module('liveopsConfigPanel')
       };
 
       User.prototype.postUpdate = function (result) {
-        if (this.id === Session.user.id && self.newPassword) {
-          var token = AuthService.generateToken(this.email, self.newPassword);
+        if (this.id === Session.user.id && $scope.newPassword) {
+          var token = AuthService.generateToken(this.email, $scope.newPassword);
           Session.setUser(this);
           Session.setToken(token);
-          self.newPassword = null;
+          $scope.newPassword = null;
         }
 
         return result;
       };
 
-      User.prototype.postCreate = function () {
-        Invite.save({
-          tenantId: Session.tenant.tenantId
-        }, {
-          email: this.email,
-          roleId: '00000000-0000-0000-0000-000000000000'
-        }); //TEMPORARY roleId
-      };
+      User.prototype.postCreate = function (result) {
+        $scope.sendInvite(this.email, $scope.inviteNow);
 
-      User.prototype.postCreateError = function (error) {
-        if (error.status === 400) {
-          Alert.success('User already exists. Sending ' + this.email + ' an invite for ' + Session.tenant.name);
-
-          Invite.save({
-            tenantId: Session.tenant.tenantId
-          }, {
-            email: this.email,
-            roleId: '00000000-0000-0000-0000-000000000000'
-          }); //TEMPORARY roleId
-        }
-
-        $scope.create();
-
-        return error;
+        return result;
       };
 
       $scope.fetchUsers = function () {
         $scope.users = User.query({
           tenantId: Session.tenant.tenantId
         });
+
+        return $scope.users;
       };
 
       $scope.create = function () {
         $scope.selectedUser = new User({
           status: 'enabled'
         });
+      };
+
+
+      // @TODO: Copy-pasta from resource details; remove with Phil's changes
+      $scope.resetForm = function () {
+        //Workaround for fields with invalid text in them not being cleared when the model is updated to undefined
+        //E.g. http://stackoverflow.com/questions/18874019/angularjs-set-the-model-to-be-again-doesnt-clear-out-input-type-url
+        angular.forEach($scope.detailsForm, function (value, key) {
+          if (value && value.hasOwnProperty('$modelValue') && value.$invalid){
+            var displayValue = value.$modelValue;
+            if (displayValue === null){
+              displayValue = undefined;
+            }
+
+            $scope.detailsForm[key].$setViewValue(displayValue);
+            $scope.detailsForm[key].$rollbackViewValue();
+          }
+        });
+
+        $scope.detailsForm.$setPristine();
+        $scope.detailsForm.$setUntouched();
       };
 
       $scope.reset = function () {
@@ -85,11 +88,50 @@ angular.module('liveopsConfigPanel')
       });
 
       $scope.save = function () {
-        if($scope.detailsForm.email.$error.duplicateUsername){
+        $scope.loading = true;
 
+        if(!$scope.selectedUser.id){
+          $scope.selectedUser.status = 'pending';
         }
 
-        $scope.selectedUser.save();
+        $scope.selectedUser.save().then(function (user) {
+          $scope.resetForm();
+          $scope.$broadcast('resource:details:user:create:success', user);
+        }).finally(function () {
+          $scope.loading = false;
+        });
+      };
+
+      $scope.inviteUser = function () {
+        $scope.loading = true;
+
+        $scope.sendInvite($scope.detailsForm.email.$viewValue, $scope.inviteNow).then(function (invite) {
+          $scope.resetForm();
+          $scope.loading = false;
+
+          var user = _.find($scope.users, {id: invite.invitation.userId})
+
+          if(user) {
+            $scope.selectedUser = user;
+          } else {
+            return User.get({id : invite.invitation.userId}).$promise.then(function (user) {
+              $scope.$broadcast('resource:details:user:create:success', user);
+            }).finally(function () {
+              $scope.loading = false;
+            });
+          }
+        });
+      };
+
+      $scope.sendInvite = function (email, inviteNow) {
+        var invite = new Invite({
+          email: email,
+          roleId: '00000000-0000-0000-0000-000000000000',
+          inviteNow: inviteNow,
+          tenantId: Session.tenant.tenantId
+        });
+
+        return invite.save();
       };
 
       $scope.tableConfig = userTableConfig;
