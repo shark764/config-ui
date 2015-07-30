@@ -49,8 +49,33 @@
       interrupting: true,
       throwing: false,
       terminate: false,
-      icon: 'none'
-
+      icon: 'none',
+      inputs: [{
+        name: 'type',
+        path: 'entity',
+        type: 'select',
+        label: 'Type:',
+        group: 'general',
+        index: 0,
+        disabled: false,
+        required: false,
+        placeholder: null,
+        hidden: false,
+        options: [
+            {
+                value: 'start',
+                content: 'start'
+            },
+            {
+                value: 'catch',
+                content: 'catch'
+            },
+            {
+                value: 'throw',
+                content: 'throw'
+            }
+        ]
+      }]
     }, joint.dia.Element.prototype.defaults),
     initialize: function() {
       joint.dia.Element.prototype.initialize.apply(this, arguments);
@@ -137,6 +162,7 @@
           break;
       }
     },
+
     onGroupChange: function(cell, type) {
       switch (type) {
         case 'start':
@@ -214,6 +240,13 @@
         default:
           throw 'BPMN: Unknown Event Type: ' + type;
       }
+    },
+    onInputChange: function(model, value, path) {
+      console.log('On input change');
+      console.log(model);
+      console.log(value);
+      console.log(path);
+      console.warn('This property is not hooked up to a UI listener.');
     }
   }).extend(joint.shapes.liveOps.IconInterface);
 })();

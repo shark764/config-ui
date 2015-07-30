@@ -81,10 +81,6 @@
       },
 
       convertToJoint: function(alienese) {
-        var self = this;
-
-        console.log(alienese);
-
         var jointNotation = _.reduce(alienese, function(memo, notation) {
           if (notation.entity === 'start' || notation.entity === 'catch' || notation.entity === 'throw') {
 
@@ -165,13 +161,12 @@
             };
 
             var inputs = [];
-            console.log('Matching activity notation:', _.findWhere(FlowNotationService.activities, { name: notation.name }).inputs);
+
             inputs = inputs.concat(new joint.shapes.liveOps.activity().attributes.inputs);
+
             inputs = inputs.concat(_.findWhere(FlowNotationService.activities, { name: notation.name }).inputs);
 
             activity.inputs = inputs;
-
-            console.log('Activity after assembly', activity);
 
             memo.push(activity);
           }

@@ -39,7 +39,8 @@
           graph.interfaces.inspectorContainer.css({'right': '-350px'});
         };
         graph.utils.renderPropertiesPanel = function(notation) {
-          console.log(notation);
+          if (notation.model.attributes.type === 'liveOps.gateway') { return graph.utils.hidePropertiesPanel(); }
+          console.log('Notation clicked on:', notation);
           // if (notation.type === 'event') { notation.inputs = buildinputsfortheevent(); }
           graph.utils.showPropertiesPanel();
           // Don't re-render if the model is already opened in the props panel
