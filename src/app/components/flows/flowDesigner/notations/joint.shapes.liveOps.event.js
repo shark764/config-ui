@@ -214,7 +214,7 @@
           throw 'BPMN: Unknown Event Type: ' + type;
       }
     },
-    onInputChange: function(model, value, path) {
+    onInputChange: function() {
       console.warn('This property is not hooked up to a UI listener.');
     }
   }).extend(joint.shapes.liveOps.IconInterface);

@@ -46,8 +46,6 @@ angular.module('liveopsConfigPanel')
       $scope.buildUrl = function() {
         var buildingUrl = BIRST_URL + '/SSO.aspx?';
 
-        var dashboardName = encodeURIComponent('Sample Dashboard 1');
-
         buildingUrl = buildingUrl + 'birst.SSOToken=' + $scope.birst.SSOToken + '&birst.embedded=true&birst.module=' + $scope.birst.module;
 
         if ($scope.birst.module === 'newDashboards'){

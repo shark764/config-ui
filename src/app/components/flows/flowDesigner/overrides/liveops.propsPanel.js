@@ -10,6 +10,7 @@
     var formBuilder = {
       groupHeader: function(groupName) {
         var formSection = '<div class="divider-header"><h4>'+ groupName.capitalize() + '</h4></div>';
+        console.log('GROUP NAME BEING ITERATED OVER:', groupName);
         formSection += '<div class="input-group-wrapper id="input-group-' + groupName + '"></div>';
         return formSection;
       },

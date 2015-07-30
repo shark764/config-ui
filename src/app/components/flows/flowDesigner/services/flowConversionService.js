@@ -111,7 +111,7 @@
             if (notation.event) {
               event.event = {
                 name: notation.event.name,
-                params: _.reduce(notation.event.params, function(memo, value, key) {
+                params: _.reduce(notation.event.params, function(memo, value) {
                   memo = memo.concat(value.value);
                   return memo;
                 }, '')
@@ -120,8 +120,8 @@
             }
 
             if (notation.bindings) {
-              event.bindings = _.reduce(notation.bindings, function(memo, value, key) {
-                memo = memo.concat(value)
+              event.bindings = _.reduce(notation.bindings, function(memo, value) {
+                memo = memo.concat(value);
                 return memo;
               }, '');
             }
