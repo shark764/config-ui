@@ -66,7 +66,12 @@
         var formSection = '<div class="input-group"';
         formSection += ' ng-hide="' + input.hidden + '"';
         formSection += '><label>' + input.label + '</label><div>';
-        formSection += '<type-ahead hover="true" placeholder="Search..." items="notation.model.attributes.inputs[' + index + '].options" on-select="setEntityProp(' + index + ')" selected-item="selectedItem" name-field="content" is-required="false">';
+        formSection += '<type-ahead hover="true" placeholder="Search..."';
+        if (notation.model.attributes.params[input.name]) {
+          console.log(_.findWhere(notation.model.attributes.inputs[index].options, { value: notation.model.attributes.params[input.name] }));
+          formSection += ' prefill="\'' + _.findWhere(notation.model.attributes.inputs[index].options, { value: notation.model.attributes.params[input.name] }).content + '\'"';
+        }
+        formSection += ' items="notation.model.attributes.inputs[' + index + '].options" on-select="setEntityProp(' + index + ')" selected-item="selectedItem" name-field="content" is-required="false">';
         formSection += '</div></div>';
         return formSection;
       },
@@ -117,7 +122,10 @@
       link: function (scope, element) {
         scope.loading = true;
 
+        console.log('Truthy?', scope.notation.model.attributes);
+
         scope.selectedItem = null;
+
         scope.setEntityProp = function(index) {
           scope.notation.model.attributes.params[scope.notation.model.attributes.inputs[index].name] = scope.selectedItem.value;
         };
@@ -132,6 +140,13 @@
                   content: entity.source || entity.name
                 };
               });
+              if (scope.notation.model.attributes.params.media) {
+                _.each(scope.notation.model.attributes.inputs[index].options, function (opt, optIndex) {
+                  if (input.path.indexOf('media') > -1) {
+                    scope.selectedItem = scope.notation.model.attributes.inputs[index].options[optIndex];
+                  }
+                });
+              }
             } else if (input.source === 'queue') {
               scope.notation.model.attributes.inputs[index].options = _.map(FlowNotationService.queue, function(entity) {
                 return {
@@ -139,6 +154,13 @@
                   content: entity.source || entity.name
                 };
               });
+              if (scope.notation.model.attributes.params.queue) {
+                _.each(scope.notation.model.attributes.inputs[index].options, function (opt, optIndex) {
+                  if (input.path.indexOf('queue') > -1) {
+                    scope.selectedItem = scope.notation.model.attributes.inputs[index].options[optIndex];
+                  }
+                });
+              }
             }
           }
         });

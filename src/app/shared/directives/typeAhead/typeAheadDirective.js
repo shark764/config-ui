@@ -11,7 +11,8 @@ angular.module('liveopsConfigPanel')
         onSelect: '&',
         isRequired: '=',
         placeholder: '@',
-        hover: '='
+        hover: '=',
+        prefill: '='
       },
 
       templateUrl: 'app/shared/directives/typeAhead/typeAhead.html',
@@ -21,11 +22,11 @@ angular.module('liveopsConfigPanel')
         console.log(JSON.stringify($scope.items, null, 2));
         $scope.nameField = $scope.nameField || 'name';
 
-        $scope.currentText = '';
+        $scope.currentText = $scope.prefill || '';
 
         $scope.$watch('selectedItem', function () {
           if($scope.selectedItem === null){
-            $scope.currentText = '';
+            $scope.currentText = $scope.prefill || '';
           }
         });
 
