@@ -19,6 +19,7 @@
         formSection += ' ng-hide="' + input.hidden + '"';
         formSection += '><label>' + input.label + '</label><div>';
         formSection += '<input type="text" ng-model="notation.model.attributes.' + input.path + '"';
+        formSection += ' placeholder="' + input.placeholder + '"';
         formSection += ' ng-disabled="' + input.disabled + '"';
         formSection += ' ng-change="onInputChange(notation.model, notation.model.attributes.' + input.path + ', notation.model.attributes.inputs[' + index + '].path)"';
         formSection += '></input></div></div>';
@@ -30,6 +31,7 @@
         formSection += ' ng-hide="' + input.hidden + '"';
         formSection += '><label>' + input.label + '</label><div>';
         formSection += '<input type="text" ng-model="notation.model.attributes.' + input.path + '"';
+        formSection += ' placeholder="' + input.placeholder + '"';
         formSection += ' ng-disabled="' + input.disabled + '"';
         formSection += ' ng-change="onInputChange(notation.model, notation.model.attributes.' + input.path + ', notation.model.attributes.inputs[' + index + '].path)"';
         formSection += '></input></div></div>';
@@ -41,6 +43,7 @@
         formSection += ' ng-hide="' + input.hidden + '"';
         formSection += '><label>' + input.label + '</label><div>';
         formSection += '<textarea ng-model="notation.model.attributes.' + input.path + '"';
+        formSection += ' placeholder="' + input.placeholder + '"';
         formSection += ' ng-disabled="' + input.disabled + '"';
         formSection += ' ng-change="onInputChange(notation.model, notation.model.attributes.' + input.path + ', notation.model.attributes.inputs[' + index + '].path)"';
         formSection += '></textarea></div></div>';
@@ -70,6 +73,7 @@
         if (notation.model.attributes.params[input.name]) {
           formSection += ' prefill="\'' + _.findWhere(notation.model.attributes.inputs[index].options, { value: notation.model.attributes.params[input.name] }).content + '\'"';
         }
+        formSection += ' placeholder="' + input.placeholder + '"';
         formSection += ' items="notation.model.attributes.inputs[' + index + '].options" on-select="setEntityProp(' + index + ')" selected-item="selectedItem" name-field="content" is-required="false">';
         formSection += '</div></div>';
         return formSection;

@@ -38,14 +38,40 @@
         graph.utils.hidePropertiesPanel = function() {
           graph.interfaces.inspectorContainer.css({'right': '-350px'});
         };
+        graph.utils.renderHaloMenu = function(notation) {
+          if (notation.model instanceof joint.dia.Element && !graph.interfaces.selector.contains(notation.model)) {
+            new joint.ui.FreeTransform({cellView: notation}).render();
+            new joint.ui.Halo({
+              cellView: notation,
+              boxContent: function(cellView) {
+                return cellView.model.get('type');
+              }
+            }).render();
+            graph.interfaces.selectorView.cancelSelection();
+            graph.interfaces.selector.reset([notation.model], {safe: true});
+          }
+        };
         graph.utils.renderPropertiesPanel = function(notation) {
           console.log('Notation clicked on:', notation);
+
+          // Don't render the properties panel if they clicked on a link
+          if (notation.model.attributes.type === 'liveOps.link') { return graph.utils.hidePropertiesPanel(); }
+
+          // Render the halo menu
+          graph.utils.renderHaloMenu(notation);
+
+          // Dont render the properties panel if they clicked on a gateway
           if (notation.model.attributes.type === 'liveOps.gateway') { return graph.utils.hidePropertiesPanel(); }
+
+          // Don't render the properties panel if there are no inputs on the thing they clicked on
           if (notation.model.attributes.inputs.length === 0) { return graph.utils.hidePropertiesPanel(); }
-          // if (notation.type === 'event') { notation.inputs = buildinputsfortheevent(); }
+
+          // Slide it out and render!
           graph.utils.showPropertiesPanel();
-          // Don't re-render if the model is already opened in the props panel
+
+          // Don't set up the inputs again if the model is already opened in the props panel
           if (graph.panelScope.notation !== undefined && notation.model.id === graph.panelScope.notation.model.id) { return; }
+
           graph.interfaces.inspectorContainer.empty();
           graph.panelScope.$destroy();
           graph.panelScope = $rootScope.$new();
