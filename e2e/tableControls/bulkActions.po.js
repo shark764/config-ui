@@ -18,21 +18,25 @@ var BulkActions = function() {
   this.selectResetPassword = element(by.id('user-password-bulk-enable-check'));
   this.resetPasswordInputField = element(by.id('user-password-bulk-input-field'));
 
-  this.changeSkills = element(by.id('user-skill-bulk'));
+  this.changeSkills = element(by.css('ba-user-skills'));
   this.selectChangeSkills = element(by.id('user-skill-bulk-enable-check'));
+  this.firstSkillDiv = this.changeSkills.element(by.css('.skills-section'));
   this.skillsAffectedUsers = this.changeSkills.element(by.css('.affected-banner'));
-  this.addNewSkillBtn = this.changeSkills.element(by.css('.btn'));
+  this.addNewSkillBtn = element(by.css('#user-skill-bulk > div:nth-child(3) > a:nth-child(1)'));
   this.addSkillDropdownFields = this.changeSkills.all(by.model('userSkillsBulkAction.selectedType'));
   this.selectSkillsInputFields = this.changeSkills.all(by.model('userSkillsBulkAction.selectedSkill'));
   this.removeSkillBtns = this.changeSkills.all(by.css('.remove'));
+  this.noSkillsMessage = this.changeSkills.element(by.css('p'));
 
-  this.changeGroups = element(by.id('user-group-bulk'));
+  this.changeGroups = element(by.css('ba-user-groups'));
   this.selectChangeGroups = element(by.id('user-group-bulk-enable-check'));
+  this.firstGroupDiv = this.changeSkills.element(by.css('ba-user-groups.ng-scope > div:nth-child(3)'));
   this.groupsAffectedUsers = this.changeGroups.element(by.css('.affected-banner'));
-  this.addNewGroupBtn = this.changeGroups.element(by.css('.btn'));
-  this.addGroupDropdownFields = this.changeGroups.all(by.model('userGroupsBulkAction.selectedType'));
-  this.selectGroupsInputFields = this.changeGroups.all(by.model('userGroupsBulkAction.selectedGroup'));
+  this.addNewGroupBtn = element(by.css('#user-group-bulk > div:nth-child(3) > a:nth-child(1)'));
+  this.addGroupDropdownFields = this.changeGroups.all(by.model('action.selectedType'));
+  this.selectGroupsInputFields = this.changeGroups.all(by.model('action.selectedGroup'));
   this.removeGroupBtns = this.changeGroups.all(by.css('.remove'));
+  this.noGroupsMessage = this.changeGroups.element(by.css('p'));
 
   // Skill Management Bulk Actions
   this.selectProficiency = element(by.id('skill-proficiency-bulk-enable-check'));
