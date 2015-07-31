@@ -86,8 +86,6 @@ angular.module('liveopsConfigPanel')
               //Reset cache of users for this group
               queryCache.remove('groups/' + $scope.selectedGroup.id + '/users');
               
-              groupUsers.push(new TenantGroupUsers(data));
-              
               $timeout(function () { //Timeout prevents simultaneous $digest cycles
                 $scope.updateCollapseState(tagWrapper.height());
               }, 200);
