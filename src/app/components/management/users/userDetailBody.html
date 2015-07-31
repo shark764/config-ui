@@ -12,8 +12,36 @@
     </div>
   </div>
   <div class="input-group" ng-show="detailsForm.email.$error.duplicateUsername">
-    <div class="email-exists-message">{{'details.email.alreadyExists' | translate}}</div>
+    <div class="message-block">{{'details.email.alreadyExists' | translate}}</div>
   </div>
+</div>
+
+<div class="logical-group" ng-show="selectedUser.id">
+  <div class="divider-header">
+    <h4>{{'details.tenantStatus' | translate}}</h4>
+  </div>
+
+  <div class="input-group">
+    <label>{{'details.inviteStatus' | translate}}</label>
+    <div>
+      <div class="tenant-status">test{{selectedUser.tenantStatus}}</div>
+      <help-icon translate-value="details.tenantStatus.help"></help-icon>
+    </div>
+  </div>
+
+  <div class="input-group">
+    <div>
+      <div class="message-block">{{'details.tenantStatus.notInvited' | translate}}</div>
+    </div>
+  </div>
+
+  <div class="input-group">
+    <label>{{'details.inviteNow' | translate}}</label>
+    <div>
+      <toggle ng-model="inviteNow" name="inviteNow" type="text"></toggle>
+    </div>
+  </div>
+
 </div>
 
 <div class="logical-group" disable-contents="detailsForm.email.$error.duplicateUsername">

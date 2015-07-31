@@ -29,7 +29,7 @@ angular.module('liveopsConfigPanel')
       };
 
       User.prototype.postCreate = function (result) {
-        $scope.sendInvite(this.email, $scope.inviteNow);
+        $scope.sendInvite(this.email);
 
         return result;
       };
@@ -105,7 +105,7 @@ angular.module('liveopsConfigPanel')
       $scope.inviteUser = function () {
         $scope.loading = true;
 
-        $scope.sendInvite($scope.detailsForm.email.$viewValue, $scope.inviteNow).then(function (invite) {
+        $scope.sendInvite($scope.detailsForm.email.$viewValue).then(function (invite) {
           $scope.resetForm();
           $scope.loading = false;
 
@@ -123,11 +123,10 @@ angular.module('liveopsConfigPanel')
         });
       };
 
-      $scope.sendInvite = function (email, inviteNow) {
+      $scope.sendInvite = function (email) {
         var invite = new Invite({
           email: email,
           roleId: '00000000-0000-0000-0000-000000000000',
-          inviteNow: inviteNow,
           tenantId: Session.tenant.tenantId
         });
 
