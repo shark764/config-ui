@@ -598,100 +598,111 @@
         {
             "entity": "start",
             "type": "signal",
-            "inputs": [{
-                "name": "target",
-                "path": "target",
-                "type": "string",
-                "label": "Target:",
-                "group": "general",
-                "index": 0,
-                "disabled": false,
-                "required": false,
-                "placeholder": "Enter a target...",
-                "hidden": false
-            }, {
-                "name": "binding",
-                "path": "bindings",
-                "type": "string",
-                "label": "Binding:",
-                "group": "bindings",
-                "index": 0,
-                "disabled": false,
-                "required": false,
-                "placeholder": "Enter a name to bind to the resource returned...",
-                "hidden": false
-            }]
+            "inputs": [
+                {
+                    "name": "target",
+                    "path": "target",
+                    "type": "string",
+                    "label": "Target:",
+                    "group": "general",
+                    "index": 0,
+                    "disabled": false,
+                    "required": false,
+                    "placeholder": "Enter a target...",
+                    "hidden": false
+                },
+                {
+                    "name": "binding",
+                    "path": "bindings",
+                    "type": "string",
+                    "label": "Binding:",
+                    "group": "bindings",
+                    "index": 0,
+                    "disabled": false,
+                    "required": false,
+                    "placeholder": "Enter a name to bind to the resource returned...",
+                    "hidden": false
+                }
+            ]
         },
         {
             "entity": "catch",
             "type": "signal",
-            "inputs": [{
-                "name": "target",
-                "path": "target",
-                "type": "string",
-                "label": "Target:",
-                "group": "general",
-                "index": 0,
-                "disabled": false,
-                "required": false,
-                "placeholder": "Enter a target...",
-                "hidden": false
-            }, {
-                "name": "binding",
-                "path": "bindings",
-                "type": "string",
-                "label": "Inputs:",
-                "group": "bindings",
-                "index": 0,
-                "disabled": false,
-                "required": false,
-                "placeholder": "Enter a name to bind to the resource returned...",
-                "hidden": false
-            }]
+            "inputs": [
+                {
+                    "name": "target",
+                    "path": "target",
+                    "type": "string",
+                    "label": "Target:",
+                    "group": "general",
+                    "index": 0,
+                    "disabled": false,
+                    "required": false,
+                    "placeholder": "Enter a target...",
+                    "hidden": false
+                },
+                {
+                    "name": "binding",
+                    "path": "bindings",
+                    "type": "string",
+                    "label": "Inputs:",
+                    "group": "bindings",
+                    "index": 0,
+                    "disabled": false,
+                    "required": false,
+                    "placeholder": "Enter a name to bind to the resource returned...",
+                    "hidden": false
+                }
+            ]
         },
         {
             "entity": "catch",
             "type": "timer",
-            "inputs": [{
-                "name": "timer",
-                "path": "timer",
-                "type": "string",
-                "label": "Timeout",
-                "group": "general",
-                "index": 0,
-                "disabled": false,
-                "required": false,
-                "placeholder": "Enter a signal name to catch...",
-                "hidden": false
-            }]
+            "inputs": [
+                {
+                    "name": "timer",
+                    "path": "timer",
+                    "type": "string",
+                    "label": "Timeout",
+                    "group": "general",
+                    "index": 0,
+                    "disabled": false,
+                    "required": false,
+                    "placeholder": "Enter a signal name to catch...",
+                    "hidden": false
+                }
+            ]
         },
         {
             "entity": "throw",
             "type": "signal",
             "terminate": false,
-            "inputs": [{
-                "name": "signal",
-                "path": "event.name",
-                "type": "string",
-                "label": "Signal Name:",
-                "group": "general",
-                "index": 0,
-                "disabled": false,
-                "required": false,
-                "placeholder": "Enter a signal name to catch...",
-                "hidden": false
-            }, {
-                "name": "binding",
-                "path": "event.params",
-                "type": "string",
-                "label": "Outputs:",
-                "group": "bindings",
-                "index": 0,
-                "disabled": false,
-                "required": false,
-                "placeholder": "Enter a name to bind to the resource returned...",
-                "hidden": false
-            }]
+            "inputs": [
+                {
+                    "name": "signal",
+                    "path": "event.name",
+                    "type": "string",
+                    "label": "Signal Name:",
+                    "group": "general",
+                    "index": 0,
+                    "disabled": false,
+                    "required": false,
+                    "placeholder": "Enter a signal name to catch...",
+                    "hidden": false
+                },
+                {
+                    "name": "binding",
+                    "path": "event.params",
+                    "type": "string",
+                    "label": "Outputs:",
+                    "group": "bindings",
+                    "index": 0,
+                    "disabled": false,
+                    "required": false,
+                    "placeholder": "Enter a name to bind to the resource returned...",
+                    "hidden": false
+                }
+            ]
         },
         {
             "entity": "throw",
@@ -703,29 +714,32 @@
             "entity": "throw",
             "type": "signal",
             "terminate": true,
-            "inputs": [{
-                "name": "signal",
-                "path": "event.name",
-                "type": "string",
-                "label": "Signal Name:",
-                "group": "general",
-                "index": 0,
-                "disabled": false,
-                "required": false,
-                "placeholder": "Enter a signal name to catch...",
-                "hidden": false
-            }, {
-                "name": "binding",
-                "path": "event.params",
-                "type": "string",
-                "label": "Param:",
-                "group": "bindings",
-                "index": 0,
-                "disabled": false,
-                "required": false,
-                "placeholder": "Enter a name to bind to the resource returned...",
-                "hidden": false
-            }]
+            "inputs": [
+                {
+                    "name": "signal",
+                    "path": "event.name",
+                    "type": "string",
+                    "label": "Signal Name:",
+                    "group": "general",
+                    "index": 0,
+                    "disabled": false,
+                    "required": false,
+                    "placeholder": "Enter a signal name to catch...",
+                    "hidden": false
+                },
+                {
+                    "name": "binding",
+                    "path": "event.params",
+                    "type": "string",
+                    "label": "Param:",
+                    "group": "bindings",
+                    "index": 0,
+                    "disabled": false,
+                    "required": false,
+                    "placeholder": "Enter a name to bind to the resource returned...",
+                    "hidden": false
+                }
+            ]
         },
         {
             "entity": "throw",
