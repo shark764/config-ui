@@ -5,7 +5,7 @@
 <div class="input-group">
   <label>{{'value.name' | translate}} *</label>
   <form-error field="detailsForm.name"
-    error-type-required="value.error.name.required">
+    error-type-required="{{'media.details.name.error' | translate}}">
   </form-error>
   <div>
     <input ng-disabled="resource.id" type="text" ng-required="true" ng-model="resource.name" name="name" required></input>
@@ -15,7 +15,7 @@
 <div class="input-group">
   <label>{{'value.type' | translate}} *</label>
   <form-error field="detailsForm.type"
-    error-type-required="media.details.type.error">
+    error-type-required="{{'media.details.type.error' | translate}}">
   </form-error>
   <div>
     <select ng-change="text = ''" ng-disabled="resource.id"
@@ -31,14 +31,14 @@
   <ng-switch on="resource.type" ng-init="setupAudioSourceWatch(this)">
     <div ng-switch-when="audio">
       <form-error field="detailsForm.audiosource"
-        error-type-required="media.details.source.error"
-        error-type-url="media.details.source.url.error">
+        error-type-required="{{'media.details.source.error' | translate}}"
+        error-type-url="{{'media.details.source.url.error' | translate}}">
       </form-error>
       <input type="url" ng-required="true" ng-model="resource.source" name="audiosource" required></input>
     </div>
 
     <div ng-switch-default>
-      <form-error field="detailsForm.source" error-type-api="true" error-type-required="media.details.source.error"></form-error>
+      <form-error field="detailsForm.source" error-type-api="true" error-type-required="{{'media.details.source.error' | translate}}"></form-error>
     <input type="text" ng-required="true" ng-model="resource.source" name="source" required></input>
   </div>
   </ng-switch>
