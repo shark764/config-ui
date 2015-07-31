@@ -527,7 +527,7 @@ describe('The media collections view', function() {
     mediaCollections.mediaMappings.count().then(function(mediaCount) {
       if (mediaCount > 0) {
         // Get current Default Identifier
-        mediaCollections.defaultIdDropdown.$('option:checked').getAttribute('value').then(function (defaultIdentifierValue) {
+        mediaCollections.defaultIdDropdown.$('option:checked').getAttribute('value').then(function(defaultIdentifierValue) {
           // Edit the media mappings identifier that's currently set to default
           mediaCollections.mediaIdentifiers.get(defaultIdentifierValue).sendKeys('Edit');
 
@@ -794,10 +794,81 @@ describe('The media collections view', function() {
 
   describe('create new media pane', function() {
 
-    xit('should create new Media to be included in Media Collection', function() {
-      // TODO
+    it('should create new Media to be included in Media Collection', function() {
       shared.createBtn.click();
       mediaCollections.openCreateNewMedia();
+
+      var randomMedia = Math.floor((Math.random() * 1000) + 1);
+      var mediaAdded = false;
+      var newMediaName = 'Text-To-Speech from Media Collections ' + randomMedia;
+
+      // Edit required fields
+      mediaCollections.mediaNameField.sendKeys(newMediaName);
+      mediaCollections.mediaTypeDropdown.all(by.css('option')).get(2).click();
+      mediaCollections.mediaSourceField.sendKeys('Text-To-Speech Source ' + randomMedia);
+
+      mediaCollections.mediaCreateBtn.click().then(function() {
+        expect(shared.successMessage.isDisplayed()).toBeTruthy();
+
+        // Media pane is closed
+        expect(mediaCollections.createMediaForm.isDisplayed()).toBeFalsy();
+        expect(mediaCollections.mediaCollectionsForm.isDisplayed()).toBeTruthy();
+
+        // Confirm media is selected in Media Collection
+        expect(mediaCollections.mediaDropdowns.get(0).getAttribute('value')).toBe(newMediaName);
+
+        // Continue to create new Media Collection
+        mediaCollections.nameFormField.sendKeys('Media Collection ' + randomMedia);
+        mediaCollections.defaultIdDropdown.all(by.css('option')).get(1).click();
+
+        shared.submitFormBtn.click().then(function() {
+          expect(shared.successMessage.isDisplayed()).toBeTruthy();
+        });
+      });
+    });
+
+    it('should create new Media to be included in Media Collection when adding to existing Collection', function() {
+      shared.firstTableRow.click();
+
+      mediaCollections.mediaDropdowns.then(function(mediaDropdowns) {
+        mediaCollections.addMediaMappingButton.click();
+        mediaCollections.mediaDropdowns.get(mediaDropdowns.length).click();
+        mediaCollections.openCreateMediaButton.get(mediaDropdowns.length).click();
+
+        var randomMedia = Math.floor((Math.random() * 1000) + 1);
+        var mediaAdded = false;
+        var newMediaName = 'Text-To-Speech from Media Collections ' + randomMedia;
+
+        // Edit required fields
+        mediaCollections.mediaNameField.sendKeys(newMediaName);
+        mediaCollections.mediaTypeDropdown.all(by.css('option')).get(2).click();
+        mediaCollections.mediaSourceField.sendKeys('Text-To-Speech Source ' + randomMedia);
+
+        mediaCollections.mediaCreateBtn.click().then(function() {
+          expect(shared.successMessage.isDisplayed()).toBeTruthy();
+
+          // Media pane is closed
+          expect(mediaCollections.createMediaForm.isDisplayed()).toBeFalsy();
+          expect(mediaCollections.mediaCollectionsForm.isDisplayed()).toBeTruthy();
+
+          // Confirm media is selected in New Media slot for Media Collection
+          expect(mediaCollections.mediaDropdowns.get(mediaDropdowns.length).getAttribute('value')).toBe(newMediaName);
+
+          // Ensure existing Media Mappings Remain unchanged
+          for (var i = 0; i < mediaDropdowns.length; i++) {
+            expect(mediaCollections.mediaDropdowns.get(i).getAttribute('value')).toBe(mediaDropdowns[i].getAttribute('value'));
+          }
+
+          // Continue to create new Media Collection
+          mediaCollections.nameFormField.sendKeys('Media Collection ' + randomMedia);
+          mediaCollections.mediaIdentifiers.get(mediaDropdowns.length).sendKeys('Identifier ' + randomMedia);
+          mediaCollections.defaultIdDropdown.all(by.css('option')).get(1).click();
+
+          shared.submitFormBtn.click().then(function() {
+            expect(shared.successMessage.isDisplayed()).toBeTruthy();
+          });
+        });
+      });
     });
 
     it('should be displayed when Create New Button is selected', function() {
@@ -1109,5 +1180,4 @@ describe('The media collections view', function() {
       });
     });
   });
-
 });
