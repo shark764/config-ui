@@ -257,6 +257,11 @@
 
         var metaKeys = ['super', 'ctrl'];
 
+        KeyboardJS.on('backspace', function(event) {
+          if ($('input:focus').length > 0) { return; }
+          event.preventDefault();
+        });
+
         _.each(metaKeys, function(key) {
           KeyboardJS.on(key + ' + z', function() {
             if (!self.graph.interfaces.commandManager.hasUndo()) {return;}
