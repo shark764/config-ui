@@ -42,6 +42,13 @@
     </div>
   </div>
 
+  <div class="input-group">
+    <label></label>
+    <div>
+      <button class="btn" translate="details.resendInvitation" ng-model="inviteNow" name="inviteNow" type="text"></toggle>
+    </div>
+  </div>
+
 </div>
 
 <div class="logical-group" disable-contents="detailsForm.email.$error.duplicateUsername">
@@ -92,7 +99,7 @@
 
 <div ng-if="selectedUser.id" class="logical-group">
   <div class="divider-header">
-    <h4>Login</h4>
+    <h4>{{'details.login' | translate}}</h4>
   </div>
 
   <div class="input-group">

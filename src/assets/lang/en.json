@@ -64,7 +64,9 @@
   "navbar.actions": "Actions",
 
   "details": "Details",
+  "details.login": "Login",
   "details.firstName": "First Name",
+  "details.resendInvitation": "Resend Invitation",
   "details.firstName.error": "Please enter a first name",
   "details.lastName": "Last Name",
   "details.lastName.error": "Please enter a last name",

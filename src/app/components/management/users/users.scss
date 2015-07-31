@@ -35,6 +35,8 @@
   margin-right: 0px;
   text-align: center;
   @include border-radius(3px);
+  margin-right: 10px;
+  pointer-events: none;
 }
 
 .message-block {
