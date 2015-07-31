@@ -121,5 +121,17 @@ table-controls {
     .disabled {
       color: $grey;
     }
+    
+    .sortable-header:hover {
+      background-color: $lightest-grey;
+    }
+    
+    .sort-icon {
+      color: $light-grey;
+    }
+    
+    .dropdown-label {
+      width: auto;
+    }
   }
 }

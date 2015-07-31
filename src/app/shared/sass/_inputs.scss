@@ -44,7 +44,7 @@ input[type=password], input[type=text], input[type=email], input[type=tel], inpu
 }
 
 select.default-selected {
-  color: $grey;
+  color: $dark-grey;
   
   option:not([disabled]){
     color: $darkest-grey;
