@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('typeAhead', ['filterFilter', function(filterFilter) {
+  .directive('typeAhead', ['filterFilter', '$timeout', function(filterFilter, $timeout) {
     return {
       restrict: 'E',
       scope : {
@@ -11,19 +11,22 @@ angular.module('liveopsConfigPanel')
         onSelect: '&',
         isRequired: '=',
         placeholder: '@',
-        hover: '='
+        hover: '=',
+        prefill: '='
       },
 
       templateUrl: 'app/shared/directives/typeAhead/typeAhead.html',
 
+
       link: function ($scope) {
+        console.log(JSON.stringify($scope.items, null, 2));
         $scope.nameField = $scope.nameField || 'name';
 
-        $scope.currentText = '';
+        $scope.currentText = $scope.prefill || '';
 
         $scope.$watch('selectedItem', function () {
-          if($scope.selectedItem === null){
-            $scope.currentText = '';
+          if(angular.isUndefined($scope.selectedItem) || $scope.selectedItem === null){
+            $scope.currentText = $scope.prefill || '';
           }
         });
 
@@ -32,11 +35,15 @@ angular.module('liveopsConfigPanel')
           $scope.filterCriteria[$scope.nameField] = $scope.currentText;
 
           var filteredItems = filterFilter($scope.items, $scope.filterCriteria, true);
-          if (! $scope.currentText){
+
+          if (!$scope.currentText){
             $scope.selectedItem = null;
-          } else if (filteredItems && filteredItems.length > 0){
+          } else if (filteredItems && filteredItems.length === 1){
             $scope.selectedItem = filteredItems[0];
-            $scope.onSelect();
+
+            //Empty timeout forces onSelect to only be called after digest is complete,
+            //so the variable bound to selectedItem will have been properly updated
+            $timeout($scope.onSelect, 1);
           } else {
             $scope.selectedItem = {};
             $scope.selectedItem[$scope.nameField] = $scope.currentText;

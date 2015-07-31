@@ -19,7 +19,6 @@ exports.config = {
     login: {
       firstName: 'titan',
       lastName: 'user',
-      userDisplayName: 'titan',
       user: 'titan@liveops.com',
       password: 'gKVnfF9wrs6XPSYs'
     },
@@ -39,7 +38,6 @@ exports.config = {
       paths.e2e + '/userProfile/**/*.spec.js'
     ],
     regression: [paths.e2e + '/**/*.spec.js'],
-    navigation: [paths.e2e + '/navigation/navigation.spec.js'],
     management: [paths.e2e + '/management/*.spec.js'],
     configuration: [paths.e2e + '/configuration/*.spec.js'],
     flows: [paths.e2e + '/flows/*.spec.js'],
