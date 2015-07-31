@@ -269,6 +269,7 @@
   "bulkActions.enable.skills": "Enable Skills",
   "bulkActions.skills.hasProficiency": "Set Has Proficiency",
   "bulkActions.enable.groups": "Enable Groups",
+  "bulkActions.enable.groups.fail": "Cannot disable the Everyone group.",
   "bulkActions.enable.tenants": "Enable Tenants",
   "bulkActions.enable.dispatchMappings": "Enable Dispatch Mappings",
   "bulkActions.enable.integrations": "Enable Integrations",
