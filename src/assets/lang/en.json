@@ -262,7 +262,7 @@
   "bulkActions.skills.add": "Add Skill",
   "bulkActions.skills.update": "Update Skill",
   "bulkActions.skills.remove": "Remove Skill",
-  "bulkActions.skills.none": "Click the plus button above to add a skill change",
+  "bulkActions.skills.none": "Click the plus button above to add a skill change.",
   "bulkActions.confirm.title": "Confirm bulk edit",
   "bulkActions.confirm.message": "This bulk action will affect {{numItems}} items. Do you want to continue?",
   "bulkActions.user.confirm.message": "You are about to make your specified changes to the {{numItems}} users selected. Do you want to continue?",

@@ -301,4 +301,27 @@ describe('The unsaved changes warning', function() {
       }
     });
   });
+
+  it('should only be displayed once after switching between Details and Bulk Actions panels', function() {
+    browser.get(shared.usersPageUrl);
+    shared.tableElements.count().then(function(tableCount) {
+      if (tableCount > 0) {
+        shared.actionsBtn.click();
+        bulkActions.userSelectEnable.click();
+        shared.firstTableRow.click();
+        alertDialog = browser.switchTo().alert();
+        alertDialog.accept();
+        expect(bulkActions.bulkActionsForm.isDisplayed()).toBeFalsy();
+        expect(shared.detailsForm.isDisplayed()).toBeTruthy();
+
+        // select another user
+        if (tableCount > 1) {
+          shared.secondTableRow.click();
+          // No unsaved changes warning
+          expect(bulkActions.bulkActionsForm.isDisplayed()).toBeFalsy();
+          expect(shared.detailsForm.isDisplayed()).toBeTruthy();
+        }
+      }
+    });
+  });
 });

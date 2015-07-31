@@ -288,7 +288,10 @@ describe('The bulk actions', function() {
     expect(bulkActions.enableToggle.getAttribute('disabled')).toBeTruthy();
   });
 
-  it('should display the correct number of selected users in the Confirm modal', function() {
+  it('should display the correct number of selected items and message in the Confirm modal', function() {
+    // Navigatge to Skills page
+    browser.get(shared.skillsPageUrl);
+
     // Select items
     shared.tableElements.count().then(function(tableCount) {
       shared.tableElements.count().then(function(tableCount) {
@@ -300,14 +303,13 @@ describe('The bulk actions', function() {
             numSelected++;
           }
         }
-        // Expect selected number of items to be displayed in the confirm modal
 
         shared.actionsBtn.click();
         bulkActions.userSelectEnable.click();
 
         bulkActions.submitFormBtn.click();
 
-        // Confirmation modal displayed with the same number of users selected
+        // Confirmation modal displayed with the same number of skills selected
         expect(bulkActions.confirmModal.isDisplayed()).toBeTruthy();
         expect(bulkActions.confirmOK.isDisplayed()).toBeTruthy();
         expect(bulkActions.confirmCancel.isDisplayed()).toBeTruthy();
@@ -316,7 +318,7 @@ describe('The bulk actions', function() {
         expect(bulkActions.confirmHeader.getText()).toBe('Confirm bulk edit');
 
         expect(bulkActions.confirmMessage.isDisplayed()).toBeTruthy();
-        expect(bulkActions.confirmMessage.getText()).toBe('You are about to make your specified changes to the ' + numSelected + ' users selected. Do you want to continue?');
+        expect(bulkActions.confirmMessage.getText()).toBe('This bulk action will affect ' + numSelected + ' items. Do you want to continue?');
       });
     });
   });
