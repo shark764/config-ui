@@ -1,23 +1,29 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('toggle', function() {
+  .directive('toggle', [function() {
     return {
       templateUrl : 'app/shared/directives/toggle/toggle.html',
       scope : {
         ngModel : '=',
         ngDisabled : '=',
         trueValue: '@',
-        falseValue: '@'
+        falseValue: '@',
+        confirmEnableMessage: '@',
+        confirmDisableMessage: '@'
       },
-      link: function ($scope) {
-        if (typeof $scope.trueValue === 'undefined'){
+      controller: function ($scope) {
+        if (angular.isUndefined($scope.trueValue)){
           $scope.trueValue = true;
         }
 
-        if(typeof $scope.falseValue === 'undefined') {
+        if(angular.isUndefined($scope.falseValue)) {
           $scope.falseValue = false;
+        }
+        
+        if (angular.isDefined($scope.confirmEnableMessage) && angular.isDefined($scope.confirmDisableMessage)){
+          $scope.confirmOnToggle = true;
         }
       }
     };
-   });
+   }]);
