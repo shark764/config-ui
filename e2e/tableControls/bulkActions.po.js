@@ -42,11 +42,26 @@ var BulkActions = function() {
   // Generic Management Bulk Actions
   this.selectEnable = element(by.id('select-enable-bulk-action'));
   this.enableToggle = element(by.id('bulk-action-enable-toggle'));
+  this.enableToggleClick = element(by.css('#bulk-action-enable-toggle > label:nth-child(2)'));
 
   // Bulk Actions buttons
   this.submitFormBtn = this.bulkActionsForm.element(by.id('submit-bulk-actions-btn'));
   this.cancelFormBtn = this.bulkActionsForm.element(by.id('cancel-bulk-actions-btn'));
-  this.closeFormBtn = element(by.id('close-bulk-actions-btn'));
+  this.closeFormBtn = element(by.id('close-bulk-actions-btn'))
+
+  // Confirm bulk actions modal
+  this.confirmModal = element(by.css('.confirm'));
+  this.confirmHeader = this.confirmModal.element(by.css('.header'));
+  this.confirmMessage = this.confirmModal.element(by.css('p'));
+  this.confirmOK = this.confirmModal.element(by.id('modal-ok'));
+  this.confirmCancel = this.confirmModal.element(by.id('modal-cancel'));
+
+  // Status table selectors
+  this.tableHeader = element(by.css('#table-pane > div:nth-child(3) > table:nth-child(1)'));
+  this.statusTableDropDown = this.tableHeader.element(by.css('filter-dropdown:nth-child(1)'));
+  this.allStatus = this.statusTableDropDown.element(by.css('.all'));
+  this.statuses = this.statusTableDropDown.all(by.repeater('option in options track by option[valuePath]'));
+  this.statusInputs = this.statusTableDropDown.all(by.css('input'));
 };
 
 module.exports = new BulkActions();

@@ -2,7 +2,7 @@
 
 describe('The users view bulk actions', function() {
   var loginPage = require('../login/login.po.js'),
-    bulkActions = require('../bulkActions.po.js'),
+    bulkActions = require('../tableControls/bulkActions.po.js'),
     shared = require('../shared.po.js'),
     users = require('./users.po.js'),
     params = browser.params,
@@ -24,7 +24,7 @@ describe('The users view bulk actions', function() {
   });
 
 
-  it('should allow updates to supported bulk action fields', function() {
+  xit('should allow updates to supported bulk action fields', function() {
     // Enable Users
 
     // Reset Password
