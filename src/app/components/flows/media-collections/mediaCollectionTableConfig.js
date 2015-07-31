@@ -18,7 +18,8 @@ angular.module('liveopsConfigPanel')
             }
             
             return identifiers.join(', ');
-          }
+          },
+          'sortOn': 'mediaMap[0].lookup'
         }],
         'searchOn' : ['name'],
         'orderBy' : ['name'],
