@@ -2,7 +2,7 @@
   'use strict';
 
   /* global document : false */
-  function FlowInitService (FlowPaletteService, FlowNotationService) {
+  function FlowInitService (FlowPaletteService, FlowNotationService, $compile, $rootScope) {
     return {
       initializeGraph: function(graphOptions) {
         var self = this;
@@ -22,6 +22,7 @@
         graph.interfaces.snapper = self.initializeSnapper(graph.interfaces.paper);
         graph.interfaces.flowPropertiesPanel = undefined;
         graph.interfaces.inspectorContainer = $(graphOptions.inspectorContainerId);
+        graph.panelScope = $rootScope.$new();
 
         // Default Listener Initializations
         self.initializeKeyboardListeners();
@@ -35,45 +36,48 @@
           graph.interfaces.inspectorContainer.css({'right': '0px'});
         };
         graph.utils.hidePropertiesPanel = function() {
-          graph.interfaces.inspectorContainer.css({'right': '-300px'});
+          graph.interfaces.inspectorContainer.css({'right': '-350px'});
         };
-        graph.utils.renderPropertiesPanel = function(cellView) {
-          if (!graph.interfaces.flowPropertiesPanel || graph.interfaces.flowPropertiesPanel.options.cellView !== cellView) {
-            graph.utils.showPropertiesPanel();
-            if (graph.interfaces.flowPropertiesPanel) {
-              graph.interfaces.flowPropertiesPanel.remove(); // Clean up the old properties panel if there was one
-            }
-            var type = cellView.model.get('type');
-            graph.interfaces.flowPropertiesPanel = new joint.ui.Inspector({
-              cell: cellView.model,
-              inputs: FlowNotationService.buildInputPanel(cellView.model),
-              groups: {
-                general: {label: type, index: 1},
-                params: {label: 'Params', index: 2},
-                bindings: {label: 'Bindings', index: 3}
-              }
-            });
-            graph.interfaces.flowPropertiesPanel.on('all', function(event) {
-              if (event !== 'render') {
-                graph.utils.renderPropertiesPanel(cellView);
-              }
-            });
-            $('#inspector-container').prepend(graph.interfaces.flowPropertiesPanel.render().el);
-          } else {
-            graph.utils.hidePropertiesPanel();
-          }
-
-          if (cellView.model instanceof joint.dia.Element && !graph.interfaces.selector.contains(cellView.model)) {
-            new joint.ui.FreeTransform({cellView: cellView}).render();
+        graph.utils.renderHaloMenu = function(notation) {
+          if (notation.model instanceof joint.dia.Element && !graph.interfaces.selector.contains(notation.model)) {
+            new joint.ui.FreeTransform({cellView: notation}).render();
             new joint.ui.Halo({
-              cellView: cellView,
+              cellView: notation,
               boxContent: function(cellView) {
                 return cellView.model.get('type');
               }
             }).render();
             graph.interfaces.selectorView.cancelSelection();
-            graph.interfaces.selector.reset([cellView.model], {safe: true});
+            graph.interfaces.selector.reset([notation.model], {safe: true});
           }
+        };
+        graph.utils.renderPropertiesPanel = function(notation) {
+          console.log('Notation clicked on:', notation);
+
+          // Don't render the properties panel if they clicked on a link
+          if (notation.model.attributes.type === 'liveOps.link') { return graph.utils.hidePropertiesPanel(); }
+
+          // Render the halo menu
+          graph.utils.renderHaloMenu(notation);
+
+          // Dont render the properties panel if they clicked on a gateway
+          if (notation.model.attributes.type === 'liveOps.gateway') { return graph.utils.hidePropertiesPanel(); }
+
+          // Don't render the properties panel if there are no inputs on the thing they clicked on
+          if (notation.model.attributes.inputs.length === 0) { return graph.utils.hidePropertiesPanel(); }
+
+          // Slide it out and render!
+          graph.utils.showPropertiesPanel();
+
+          // Don't set up the inputs again if the model is already opened in the props panel
+          if (graph.panelScope.notation !== undefined && notation.model.id === graph.panelScope.notation.model.id) { return; }
+
+          graph.interfaces.inspectorContainer.empty();
+          graph.panelScope.$destroy();
+          graph.panelScope = $rootScope.$new();
+          graph.panelScope.notation = notation;
+          var compiledPanel = $compile('<props-panel notation="notation"></props-panel>')(graph.panelScope);
+          graph.interfaces.inspectorContainer.append(compiledPanel);
         };
 
         return graph;
@@ -188,7 +192,6 @@
           //Hack to forece redraw :(
           paper.$el.hide().show(0);
         });
-        console.log(stencil);
 
         return stencil;
       },
@@ -215,8 +218,8 @@
               self.graph.interfaces.selectorView.createSelectionBox(cellView);
             }
           },
-          'cell:pointerup': function(cellView, evt, x, y) {
-            self.graph.utils.renderPropertiesPanel(cellView, evt, x, y);
+          'cell:pointerup': function(cellView) {
+            self.graph.utils.renderPropertiesPanel(cellView);
           }
         });
       },
@@ -253,6 +256,11 @@
         });
 
         var metaKeys = ['super', 'ctrl'];
+
+        KeyboardJS.on('backspace', function(event) {
+          if ($('input:focus').length > 0) { return; }
+          event.preventDefault();
+        });
 
         _.each(metaKeys, function(key) {
           KeyboardJS.on(key + ' + z', function() {

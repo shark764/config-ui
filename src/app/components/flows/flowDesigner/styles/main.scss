@@ -3,6 +3,14 @@
 @import 'toolbar.scss';
 @import 'customHalo.scss';
 
+.editor-page {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
+
 .paper-scroller {
   height: 100%;
   overflow: hidden;
