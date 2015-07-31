@@ -25,7 +25,7 @@ angular.module('liveopsConfigPanel')
         }
       };
       
-      User.resourceName = 'User';
+      User.prototype.resourceName = 'User';
       
       return User;
   }]);

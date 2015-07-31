@@ -15,7 +15,7 @@ angular.module('liveopsConfigPanel')
       return this.name;
     };
     
-    FlowVersion.resourceName = 'FlowVersion';
+    FlowVersion.prototype.resourceName = 'FlowVersion';
     return FlowVersion;
   }]);
 

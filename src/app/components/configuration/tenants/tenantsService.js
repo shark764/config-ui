@@ -14,7 +14,7 @@ angular.module('liveopsConfigPanel')
       return this.name;
     };
     
-    Tenant.resourceName = 'Tenant';
+    Tenant.prototype.resourceName = 'Tenant';
     return Tenant;
   }]);
 

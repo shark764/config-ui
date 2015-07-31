@@ -17,7 +17,7 @@ angular.module('liveopsConfigPanel')
       return this.name;
     };
     
-    DispatchMapping.resourceName = 'DispatchMapping';
+    DispatchMapping.prototype.resourceName = 'DispatchMapping';
     
     return DispatchMapping;
   }]);

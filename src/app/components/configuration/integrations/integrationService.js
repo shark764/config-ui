@@ -13,7 +13,7 @@ angular.module('liveopsConfigPanel')
       return this.type;
     };
     
-    Integration.resourceName = 'Integration';
+    Integration.prototype.resourceName = 'Integration';
     return Integration;
   }]);
 

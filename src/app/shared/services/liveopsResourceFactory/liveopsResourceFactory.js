@@ -9,7 +9,7 @@ angular.module('liveopsConfigPanel')
 
         // Append the new transformation to the defaults
         return defaults.concat(transform);
-      }
+      };
 
       function getResult(value) {
         if (value.result) {
@@ -17,7 +17,7 @@ angular.module('liveopsConfigPanel')
         }
 
         return value;
-      }
+      };
 
       return {
         create: function (endpoint, updateFields, requestUrlFields) {
@@ -126,7 +126,7 @@ angular.module('liveopsConfigPanel')
           };
 
           Resource.cachedQuery = function(params, cacheKey, invalidate) {
-            var key = cacheKey ? cacheKey : this.resourceName;
+            var key = cacheKey ? cacheKey : this.prototype.resourceName;
             if(!queryCache.get(key) || invalidate) {
               var users = this.query(params);
               queryCache.put(key, users);

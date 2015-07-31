@@ -66,23 +66,6 @@ angular.module('liveopsConfigPanel')
         return $scope.selectedMediaCollection.save();
       }, 0);
 
-      mediaCollectionSaveChain.register('alert', {
-        success: function (collection) {
-          Alert.success('Record ' + (self.wasNew ? 'saved' : 'updated'));
-          if (self.wasNew) {
-            $scope.fetchMediaCollections().push(collection);
-          }
-          $scope.selectedMediaCollection = collection;
-          return collection;
-        },
-        failure: function (error) {
-          var deferred = $q.defer();
-          Alert.error('Record failed to ' + (self.wasNew ? 'save' : 'update'));
-          deferred.reject(error)
-          return deferred.promise;
-        }
-      }, 5);
-
       // $scope.chains.saveMedia = [function () {
       //   $scope.selectedMedia = null;
       // }];

@@ -16,7 +16,7 @@ angular.module('liveopsConfigPanel')
       return this.name;
     };
     
-    Flow.resourceName = 'Flow';
+    Flow.prototype.resourceName = 'Flow';
     
     return Flow;
   }]);

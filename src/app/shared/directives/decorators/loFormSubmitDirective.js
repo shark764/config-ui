@@ -1,15 +1,15 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('loFormApiError', ['$parse', 'Chain',
+  .directive('loFormSubmit', ['$parse', 'Chain',
     function ($parse, Chain) {
       return {
         restrict: 'A',
         require: ['form'],
         link: function ($scope, $elem, $attrs) {
-          var chain = Chain.get($attrs.loFormApiError);
+          var chain = Chain.get($attrs.loFormSubmit);
           var form = $parse($attrs.name)($scope);
-
+          
           chain.register('form:error:api', {
             failure: function (error) {
               if (error.data.error) {
@@ -23,8 +23,19 @@ angular.module('liveopsConfigPanel')
                   form[key].$setTouched();
                 });
               }
+              
+              return error;
             }
-          });
+          }, 99);
+          
+          chain.register('emit:event', {
+            success: function() {
+              $scope.$emit('form:submit:success');
+            },
+            failure: function() {
+              $scope.$emit('form:submit:failure');
+            }
+          }, 100);
         }
       };
     }

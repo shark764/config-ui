@@ -14,6 +14,6 @@ angular.module('liveopsConfigPanel')
       return this.name;
     };
     
-    Group.resourceName = 'Group';
+    Group.prototype.resourceName = 'Group';
     return Group;
   }]);

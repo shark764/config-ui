@@ -10,7 +10,7 @@ angular.module('liveopsConfigPanel')
       {name: 'defaultMediaKey', optional: true}
     ]);
     
-    MediaCollection.resourceName = 'MediaCollection';
+    MediaCollection.prototype.resourceName = 'MediaCollection';
     return MediaCollection;
   }]);
 

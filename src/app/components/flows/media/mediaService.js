@@ -8,7 +8,7 @@ angular.module('liveopsConfigPanel')
       {name: 'properties', optional: true}
     ]);
     
-    Media.resourceName = 'Media';
+    Media.prototype.resourceName = 'Media';
     return Media;
   }]);
 

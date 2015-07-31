@@ -13,6 +13,6 @@ angular.module('liveopsConfigPanel')
       return this.name;
     };
     
-    Skill.resourceName = 'Skill';
+    Skill.prototype.resourceName = 'Skill';
     return Skill;
   }]);

@@ -14,7 +14,7 @@ angular.module('liveopsConfigPanel')
       return this.name;
     };
     
-    Queue.resourceName = 'Queue';
+    Queue.prototype.resourceName = 'Queue';
     return Queue;
   }]);
 

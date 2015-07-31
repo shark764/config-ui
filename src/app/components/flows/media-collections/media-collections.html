@@ -5,7 +5,8 @@
   items="fetchMediaCollections()"
   selected="selectedMediaCollection"
   resource-name="media-collection"
-  hide-bulk-actions="true">
+  hide-bulk-actions="true"
+  push-on-save-event="created:resource:MediaCollection">
 
 </table-controls>
 
@@ -26,8 +27,9 @@
     ng-show="selectedMediaCollection"
     ng-model="selectedMediaCollection"
     ng-resource="selectedMediaCollection"
-    lo-form-api-error="media:collection:save"
-    lo-form-cancel="media:collection:cancel">
+    lo-form-submit="media:collection:save"
+    lo-form-cancel="media:collection:cancel"
+    lo-form-alert>
     
     <div class="detail-header-pane"
       ng-include src="'app/components/flows/media-collections/mediaCollectionDetailHeader.html'">
