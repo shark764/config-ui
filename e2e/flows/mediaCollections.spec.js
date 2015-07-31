@@ -521,6 +521,32 @@ describe('The media collections view', function() {
     });
   });
 
+  it('should add required Default Identifier field when editing the Media Mapping', function() {
+    shared.firstTableRow.click();
+
+    mediaCollections.mediaMappings.count().then(function(mediaCount) {
+      if (mediaCount > 0) {
+        // Get current Default Identifier
+        mediaCollections.defaultIdDropdown.$('option:checked').getAttribute('value').then(function (defaultIdentifierValue) {
+          // Edit the media mappings identifier that's currently set to default
+          mediaCollections.mediaIdentifiers.get(defaultIdentifierValue).sendKeys('Edit');
+
+          // Default Identifer deselected
+          expect(mediaCollections.defaultIdDropdown.$('option:checked').getText()).toBe('Select default identifier...');
+
+          // Required field message displayed
+          expect(mediaCollections.requiredError.get(0).isDisplayed()).toBeTruthy();
+          expect(mediaCollections.requiredError.get(0).getText()).toBe('Please select a default identifier');
+
+          // Unable to save changes
+          expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
+          shared.submitFormBtn.click();
+          expect(shared.successMessage.isPresent()).toBeFalsy();
+        });
+      }
+    });
+  });
+
   it('should allow Media Mappings to be added when editing with existing Media Collection', function() {
     shared.firstTableRow.click();
     randomCollection = Math.floor((Math.random() * 1000) + 1);
