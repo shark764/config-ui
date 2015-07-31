@@ -12,10 +12,10 @@ angular.module('liveopsConfigPanel.config', [])
   return function(){
     return [{
       'display': 'Disabled',
-      'value': false
+      'value': 'disabled'
     }, {
       'display': 'Enabled',
-      'value': true
+      'value': 'enabled'
     }];
   };
 })
