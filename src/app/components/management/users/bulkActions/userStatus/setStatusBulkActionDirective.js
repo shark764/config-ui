@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('baSetStatus', ['User',
-    function (User) {
+  .directive('baSetStatus', ['User', 'Session', '$q', 'Alert', '$translate',
+    function (User, Session, $q, Alert, $translate) {
       return {
         restrict: 'AE',
         scope: {
@@ -11,6 +11,13 @@ angular.module('liveopsConfigPanel')
         templateUrl: 'app/components/management/users/bulkActions/userStatus/setStatusBulkAction.html',
         link: function ($scope) {
           $scope.bulkAction.apply = function(user) {
+            if ($scope.status === 'disabled' && user.id === Session.user.id){
+              Alert.error($translate.instant('bulkActions.enable.users.fail'));
+              var deferred = $q.defer();
+              deferred.reject('Cannot disable your own account');
+              return deferred.promise;
+            }
+            
             var userCopy = new User();
             userCopy.id = user.id;
             userCopy.status = $scope.status;

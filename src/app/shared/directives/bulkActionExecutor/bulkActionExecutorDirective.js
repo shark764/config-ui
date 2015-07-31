@@ -48,7 +48,7 @@ angular.module('liveopsConfigPanel')
             });
 
             var promise = $q.all(itemPromises).then(function () {
-              Alert.success('Bulk action successful!');
+              Alert.success($translate.instant('bulkAction.success'));
               $scope.resetForm();
             });
 

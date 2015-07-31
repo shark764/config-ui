@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('resourceDetails', ['Alert', '$rootScope', '$window', 'DirtyForms', '$q', '$location',
-    function(Alert, $rootScope, $window, DirtyForms, $q, $location) {
+  .directive('resourceDetails', ['Alert', '$rootScope', '$window', 'DirtyForms', '$q', '$location', 'Session',
+    function(Alert, $rootScope, $window, DirtyForms, $q, $location, Session) {
     return {
       restrict: 'E',
       scope: {
@@ -16,7 +16,7 @@ angular.module('liveopsConfigPanel')
       templateUrl: 'app/shared/directives/resourceDetails/resourceDetails.html',
 
       link: function ($scope, ele) {
-
+        $scope.Session = Session;
         ele.addClass('details-pane');
 
         angular.extend($scope, $scope.extendScope);

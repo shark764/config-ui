@@ -78,11 +78,11 @@ angular.module('liveopsConfigPanel')
 
           if (tooltipPos.indexOf('left') > -1) {
             offsetLeft += -$scope.tooltipWidth - arrowWidth;
-          };
+          }
 
           if (tooltipPos.indexOf('right') > -1) {
             offsetLeft += targetWidth + arrowWidth;
-          };
+          }
 
           if (tooltipPos === 'bottom center') {
             offsetTop += targetHeight + arrowHeight;
