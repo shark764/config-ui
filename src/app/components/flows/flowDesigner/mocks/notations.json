@@ -5,6 +5,8 @@
             "entity": "activity",
             "label": "Play Media",
             "bindings": {},
+            "targeted": true,
+            "target": "twilio",
             "inputs": [
                 {
                     "name": "targeted",
@@ -43,7 +45,7 @@
                     "hidden": false,
                     "options": [
                         {
-                            "value": "customer",
+                            "value": "titan/customer",
                             "content": "Customer"
                         },
                         {
@@ -99,7 +101,7 @@
                     "default": "customer",
                     "when": {
                         "eq": {
-                            "params.participant": "customer"
+                            "params.participant": "titan/customer"
                         }
                     }
                 },
@@ -110,7 +112,7 @@
                     "default": "participant",
                     "when": {
                         "ne": {
-                            "params.participant": "customer"
+                            "params.participant": "titan/customer"
                         }
                     }
                 }
@@ -121,6 +123,8 @@
             "entity": "activity",
             "label": "Collect Digits",
             "bindings": {},
+            "targeted": true,
+            "target": "twilio",
             "inputs": [
                 {
                     "name": "digits_binding",
@@ -171,7 +175,7 @@
                     "hidden": false,
                     "options": [
                         {
-                            "value": "customer",
+                            "value": "titan/customer",
                             "content": "Customer"
                         },
                         {
@@ -291,7 +295,7 @@
                     "key": "participant",
                     "when": {
                         "eq": {
-                            "params.participant": "customer"
+                            "params.participant": "titan/customer"
                         }
                     }
                 },
@@ -301,7 +305,7 @@
                     "key": "participant",
                     "when": {
                         "ne": {
-                            "params.participant": "customer"
+                            "params.participant": "titan/customer"
                         }
                     }
                 }
@@ -312,6 +316,7 @@
             "entity": "activity",
             "label": "Enqueue",
             "bindings": {},
+            "targeted": false,
             "inputs": [
                 {
                     "name": "resource_binding",
@@ -364,6 +369,8 @@
             "name": "work-offer",
             "entity": "activity",
             "label": "Work Offer",
+            "targeted": true,
+            "target": "client",
             "bindings": {},
             "inputs": [
                 {
@@ -479,6 +486,7 @@
             "entity": "activity",
             "label": "Free Resource",
             "bindings": {},
+            "targeted": false,
             "inputs": [
                 {
                     "name": "targeted",
@@ -519,6 +527,8 @@
             "name": "add-participant",
             "entity": "activity",
             "label": "Add Participant",
+            "targeted": true,
+            "target": "twilio",
             "bindings": {},
             "inputs": [
                 {
@@ -558,7 +568,7 @@
                     "hidden": false,
                     "options": [
                         {
-                            "value": "customer",
+                            "value": "titan/customer",
                             "content": "Customer"
                         },
                         {
@@ -601,7 +611,7 @@
                     "key": "participant",
                     "when": {
                         "eq": {
-                            "params.participant": "customer"
+                            "params.participant": "titan/customer"
                         }
                     }
                 },
@@ -611,7 +621,7 @@
                     "key": "participant",
                     "when": {
                         "ne": {
-                            "params.participant": "customer"
+                            "params.participant": "titan/customer"
                         }
                     }
                 },

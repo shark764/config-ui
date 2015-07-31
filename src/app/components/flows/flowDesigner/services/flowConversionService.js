@@ -209,7 +209,9 @@
               target: model.target,
               interrupting: model.interrupting,
               bindings: _.reduce([model.bindings], function(memo, param) {
-                memo[param] = param;
+                if (param !== '') {
+                  memo[param] = param;
+                }
                 return memo;
               }, {})
             };
@@ -270,7 +272,9 @@
               interrupting: model.interrupting,
               target: model.target,
               bindings: _.reduce([model.bindings], function(memo, param) {
-                memo[param] = param;
+                if (param !== '') {
+                  memo[param] = param;
+                }
                 return memo;
               }, {})
             };
