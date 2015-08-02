@@ -19,7 +19,6 @@ angular.module('liveopsConfigPanel')
 
 
       link: function ($scope) {
-        console.log(JSON.stringify($scope.items, null, 2));
         $scope.nameField = $scope.nameField || 'name';
 
         $scope.currentText = $scope.prefill || '';
