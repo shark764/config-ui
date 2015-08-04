@@ -75,13 +75,13 @@
         path: 'activityType',
         type: 'select',
         label: 'Task Type',
-        group: 'general',
+        group: 'params',
         index: 0,
         disabled: false,
         required: true,
         placeholder: null,
         defaultsTo: null,
-        hidden: false,
+        hidden: true,
         options: [{
           value: 'task',
           content: 'Task'
