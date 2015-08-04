@@ -58,7 +58,9 @@
           if (notation.model.attributes.type === 'liveOps.link') { return graph.utils.hidePropertiesPanel(); }
 
           // Render the halo menu
-          graph.utils.renderHaloMenu(notation);
+          if (notation.model.attributes.group !== 'end') {
+            graph.utils.renderHaloMenu(notation);
+          }
 
           // Dont render the properties panel if they clicked on a gateway
           if (notation.model.attributes.type === 'liveOps.gateway') { return graph.utils.hidePropertiesPanel(); }
