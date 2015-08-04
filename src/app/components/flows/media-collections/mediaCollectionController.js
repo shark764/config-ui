@@ -4,6 +4,7 @@ angular.module('liveopsConfigPanel')
   .controller('MediaCollectionController', ['$q', '$scope', 'MediaCollection', 'Media', 'Session', 'mediaCollectionTableConfig', 'mediaTypes', '$timeout', 'Alert', 'Chain',
     function ($q, $scope, MediaCollection, Media, Session, mediaCollectionTableConfig, mediaTypes, $timeout, Alert, Chain) {
       var self = this;
+      $scope.forms = {};
       $scope.Session = Session;
       $scope.redirectToInvites();
 
@@ -50,41 +51,39 @@ angular.module('liveopsConfigPanel')
       };
 
       //TODO: remove duplication from MediaController
-      $scope.setupAudioSourceWatch = function(childScope){
-        childScope.$parent.$watch('detailsForm.audiosource', function(newValue){
-          if (childScope.$parent.resource && childScope.$parent.resource.isNew() && angular.isDefined(newValue)){
-            childScope.$parent.detailsForm.audiosource.$setDirty();
-            childScope.$parent.detailsForm.audiosource.$setTouched();
-          }
-        });
-      };
+      $scope.$watch('forms.mediaForm.audiosource', function(newValue){
+        if ($scope.selectedMedia && $scope.selectedMedia.isNew() && angular.isDefined(newValue)){
+          $scope.forms.mediaForm.audiosource.$setDirty();
+          $scope.forms.mediaForm.audiosource.$setTouched();
+        }
+      });
 
       var mediaCollectionSaveChain = Chain.get('media:collection:save');
+      var mediaSaveChain = Chain.get('media:save');
+      var mediaSaveAndNewChain = Chain.get('media:save:and:new');
 
       mediaCollectionSaveChain.register('save', function () {
-        self.wasNew = $scope.selectedMediaCollection.isNew();
         return $scope.selectedMediaCollection.save();
       }, 0);
 
-      // $scope.chains.saveMedia = [function () {
-      //   $scope.selectedMedia = null;
-      // }];
-      // 
-      // $scope.chains.saveMediaAndNew = [function () {
-      //   //Use a timeout so that we aren't changing a scoped variable within a digest cycle,
-      //   //Otherwise the change will not get picked up by watches
-      //   //(Because this is triggered by an event, there is already a digest cycle in progress)
-      //   $timeout(function () {
-      //     $scope.selectedMedia = new Media({
-      //       properties: {},
-      //       tenantId: Session.tenant.tenantId
-      //     });
-      //   });
-      // }];
-      // 
-      // $scope.chains.cancelMediaChain = [function () {
-      //   $scope.selectedMedia = null;
-      // }];
+      mediaSaveChain.register('save', function () {
+        return $scope.selectedMedia.save();
+      }, 0);
+
+      mediaSaveAndNewChain.register('save', function () {
+        return $scope.selectedMedia.save();
+      }, 0);
+
+      mediaSaveChain.register('save', function () {
+        $scope.selectedMedia = null;
+      }, 1);
+
+      mediaSaveAndNewChain.register('and:new', function () {
+        $scope.selectedMedia = new Media({
+          properties: {},
+          tenantId: Session.tenant.tenantId
+        });
+      }, 1);
 
       $scope.$on('resource:details:create:media', function () {
         $scope.selectedMedia = new Media({

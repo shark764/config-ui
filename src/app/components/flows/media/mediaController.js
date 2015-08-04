@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('MediaController', ['$scope', 'Media', 'Session', 'mediaTableConfig', 'mediaTypes',
-    function ($scope, Media, Session, mediaTableConfig, mediaTypes) {
+  .controller('MediaController', ['$scope', 'Media', 'Session', 'mediaTableConfig', 'mediaTypes', 'Chain',
+    function ($scope, Media, Session, mediaTableConfig, mediaTypes, Chain) {
       $scope.Session = Session;
 
       $scope.create = function () {
@@ -17,25 +17,26 @@ angular.module('liveopsConfigPanel')
           tenantId: Session.tenant.tenantId
         });
       };
-
+      
+      $scope.forms = {};
+      $scope.$watch('forms.mediaForm.audiosource', function(newValue){
+        if ($scope.selectedMedia && $scope.selectedMedia.isNew() && angular.isDefined(newValue)){
+          $scope.forms.mediaForm.audiosource.$setDirty();
+          $scope.forms.mediaForm.audiosource.$setTouched();
+        }
+      }, true);
+      
+      var mediaSaveChain = Chain.get('media:save');
+      
+      mediaSaveChain.register('save', function() {
+        return $scope.selectedMedia.save();
+      });
+      
       $scope.$on('table:on:click:create', function () {
         $scope.create();
       });
-
+      
       $scope.tableConfig = mediaTableConfig;
-      
-      $scope.setupAudioSourceWatch = function(childScope){
-        childScope.$parent.$watch('detailsForm.audiosource', function(newValue){
-          if (childScope.$parent.resource && childScope.$parent.resource.isNew() && angular.isDefined(newValue)){
-            childScope.$parent.detailsForm.audiosource.$setDirty();
-            childScope.$parent.detailsForm.audiosource.$setTouched();
-          }
-        });
-      };
-      
-      $scope.additional = {
-        mediaTypes: mediaTypes,
-        setupAudioSourceWatch: $scope.setupAudioSourceWatch
-      };
+      $scope.mediaTypes = mediaTypes;
     }
   ]);

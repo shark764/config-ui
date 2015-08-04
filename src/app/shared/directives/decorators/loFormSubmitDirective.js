@@ -29,11 +29,11 @@ angular.module('liveopsConfigPanel')
           }, 99);
           
           chain.register('emit:event', {
-            success: function() {
-              $scope.$emit('form:submit:success');
+            success: function(resource) {
+              $scope.$emit('form:submit:success', resource);
             },
-            failure: function() {
-              $scope.$emit('form:submit:failure');
+            failure: function(error) {
+              $scope.$emit('form:submit:failure', error);
             }
           }, 100);
         }

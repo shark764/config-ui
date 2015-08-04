@@ -5,32 +5,31 @@
   items="fetchMediaCollections()"
   selected="selectedMediaCollection"
   resource-name="media-collection"
-  hide-bulk-actions="true"
-  push-on-save-event="created:resource:MediaCollection">
+  hide-bulk-actions="true">
 
 </table-controls>
 
 <resize-handle
   ng-show="!! selectedMediaCollection"
   id="resize-pane-1"
-  right-element-id="media-collection"
+  right-element-id="media-collection-pane"
   left-element-id="table-pane"
   left-min-width="600"
   right-min-width="300" ></resize-handle>
 
-<div id="media-collection-pane" class="details-pane" ng-show="!!selectedMediaCollection">
-  <loading ng-if="!selectedMediaCollection"></loading>
-  <i id="close-details-button" class="fa fa-remove remove" ng-click="closeDetails()"></i>
+<details-panel
+  id="media-collection-pane" class="details-pane"
+  ng-show="!!selectedMediaCollection"
+  ng-resource="selectedMediaCollection">
 
   <ng-form unsaved-changes-warning class="details-form"
-    name="mediaCollectionForm"
-    ng-show="selectedMediaCollection"
+    name="forms.mediaCollectionForm"
     ng-model="selectedMediaCollection"
     ng-resource="selectedMediaCollection"
     lo-form-submit="media:collection:save"
     lo-form-cancel="media:collection:cancel"
     lo-form-alert>
-    
+
     <div class="detail-header-pane"
       ng-include src="'app/components/flows/media-collections/mediaCollectionDetailHeader.html'">
     </div>
@@ -40,11 +39,11 @@
     </div>
 
     <div class="detail-controls-pane">
-      <input id="cancel-details-btn" ng-disabled="loading" type="button" class="btn" 
+      <input id="cancel-details-btn" ng-disabled="loading" type="button" class="btn"
         value="{{'value.cancel' | translate}}"
         chain-executor="media:collection:cancel">
       <input id="submit-details-btn" ng-show="!loading" class="btn btn-primary"
-        ng-disabled="mediaCollectionForm.$invalid || ! mediaCollectionForm.$dirty"
+        ng-disabled="forms.mediaCollectionForm.$invalid || ! forms.mediaCollectionForm.$dirty"
         type="submit" value="{{'value.submit' | translate}}"
         chain-executor="media:collection:save">
       <a ng-show="loading" ng-disabled="true" class="btn btn-primary">
@@ -52,7 +51,7 @@
       </a>
     </div>
   </ng-form>
-</div>
+</details-panel>
 
 <resize-handle
   id="resize-pane-2"
@@ -62,13 +61,18 @@
   left-min-width="600"
   right-min-width="300" ></resize-handle>
 
-<div id="media-pane" class="details-pane" ng-show="selectedMedia">
-  <loading ng-if="! selectedMedia"></loading>
-  <i id="close-details-button" class="fa fa-remove remove" ng-click="closeDetails()"></i>
+<details-panel id="media-pane" class="details-pane"
+  ng-show="selectedMedia"
+  ng-resource="selectedMedia">
 
   <ng-form unsaved-changes-warning class="details-form"
-    ng-show="selectedMedia" name="mediaForm"
-    ng-model="selectedMedia">
+    ng-show="selectedMedia" name="forms.mediaForm"
+    ng-model="selectedMedia"
+    ng-resource="selectedMedia"
+    lo-form-submit="media:save"
+    lo-form-cancel="media:cancel"
+    lo-form-alert>
+
     <div class="detail-header-pane"
       ng-include src="'app/components/flows/media/mediaDetailHeader.html'">
     </div>
@@ -78,14 +82,17 @@
     </div>
 
     <div class="detail-controls-pane">
-      <input id="cancel-media-btn" type="button" class="btn" ng-click="cancel()"
-        value="{{'value.cancel' | translate}}"></input>
+      <input id="cancel-media-btn" type="button" class="btn"
+        value="{{'value.cancel' | translate}}"
+        chain-executor="media:cancel"></input>
       <input id="create-media-btn" class="btn btn-primary" ng-hide="loading"
-        ng-disabled="mediaForm.$invalid || ! mediaForm.$dirty"
-        ng-click="save()" type="submit" value="{{'value.create' | translate}}" />
+        type="submit" value="{{'value.create' | translate}}"
+        ng-disabled="forms.mediaForm.$invalid || ! forms.mediaForm.$dirty"
+        chain-executor="media:save"></input>
       <input id="create-and-new-media-btn" class="btn btn-primary" ng-hide="loading"
-        ng-disabled="mediaForm.$invalid || ! mediaForm.$dirty" ng-click="save()" 
-        type="submit" value="{{'value.create.new' | translate}}" />
+        ng-disabled="forms.mediaForm.$invalid || ! forms.mediaForm.$dirty"
+        type="submit" value="{{'value.create.new' | translate}}"
+        chain-executor="media:save:and:new"></input>
       <a ng-show="loading" ng-disabled="true" class="btn btn-primary">
         <i class="fa fa-refresh fa-spin"></i>
       </a>
@@ -94,5 +101,4 @@
       </a>
     </div>
   </ng-form>
-</div>
-
+</details-panel>

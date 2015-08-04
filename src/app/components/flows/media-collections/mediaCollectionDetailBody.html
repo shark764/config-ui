@@ -4,7 +4,7 @@
 <div class="input-group">
   <label>{{'value.name' | translate}} *</label>
   <div>
-    <form-error field="mediaCollectionForm.name"
+    <form-error field="forms.mediaCollectionForm.name"
       error-type-required="{{'media.details.name.error' | translate}}">
     </form-error>
     <input type="text" ng-model="selectedMediaCollection.name"
@@ -13,7 +13,7 @@
 </div>
 <div class="input-group">
   <label class="textarea-label">{{'value.description' | translate}}</label>
-  <form-error field="mediaCollectionForm.description"></form-error>
+  <form-error field="forms.mediaCollectionForm.description"></form-error>
   <div>
     <textarea ng-model="selectedMediaCollection.description" name="description"></textarea>
   </div>
@@ -21,7 +21,7 @@
 <div ng-if="selectedMediaCollection.mediaMap != undefined && selectedMediaCollection.mediaMap.length > 0" class="input-group">
   <label>{{'media.collections.defaultMediaKey' | translate}} *</label>
   <div>
-    <form-error field="mediaCollectionForm.defaultMediaKey"
+    <form-error field="forms.mediaCollectionForm.defaultMediaKey"
       error-type-required="{{'media.collections.defaultMediaKey.error' | translate}}"></form-error>
     <select ng-class="{'default-selected': ! selectedMediaCollection.defaultMediaKey}" ng-required="true"
       name="defaultMediaKey" ng-model="selectedMediaCollection.defaultMediaKey"
@@ -35,4 +35,4 @@
   <h4>Media Mappings</h4>
 </div>
 
-<media-mappings collection="selectedMediaCollection" form="mediaCollectionForm"></media-mappings>
+<media-mappings collection="selectedMediaCollection" form="forms.mediaCollectionForm"></media-mappings>

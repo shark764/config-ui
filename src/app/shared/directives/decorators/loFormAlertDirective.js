@@ -8,11 +8,13 @@ angular.module('liveopsConfigPanel')
         require: ['form'],
         link: function ($scope, $elem, $attrs) {
           $scope.$on('form:submit:success', function(event, resource) {
-            Alert.success('Record saved.');
+            var action = resource.updated ? 'updated' : 'saved';
+            Alert.success('Record ' + action);
           });
           
           $scope.$on('form:submit:failure', function(event, resource) {
-            Alert.error('Record failed to save.');
+            var action = resource.updated ? 'update' : 'save';
+            Alert.error('Record failed to ' + action);
           });
         }
       };

@@ -128,9 +128,9 @@ angular.module('liveopsConfigPanel')
           Resource.cachedQuery = function(params, cacheKey, invalidate) {
             var key = cacheKey ? cacheKey : this.prototype.resourceName;
             if(!queryCache.get(key) || invalidate) {
-              var users = this.query(params);
-              queryCache.put(key, users);
-              return users;
+              var items = this.query(params);
+              queryCache.put(key, items);
+              return items;
             }
 
             return queryCache.get(key);
