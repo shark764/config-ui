@@ -170,8 +170,8 @@
 
 /* By default, unmatched elements are hidden. See below for making them opaque isntead. */
 .stencil .element.unmatched {
-    display: none;
+    display: block;
 }
 .stencil .group.unmatched {
-    display: none;
+    display: block;
 }

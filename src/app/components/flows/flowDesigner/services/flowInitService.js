@@ -154,7 +154,9 @@
           graph: graph,
           paper: paper,
           search: {
-            '*': ['content'],
+            'liveOps.activity': ['content'],
+            'liveOps.event': ['entity', 'name'],
+            'liveOps.gateway': ['gatewayType']
           },
           groups: {
             activity: {
