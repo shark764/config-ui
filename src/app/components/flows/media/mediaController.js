@@ -24,7 +24,7 @@ angular.module('liveopsConfigPanel')
           $scope.forms.mediaForm.audiosource.$setDirty();
           $scope.forms.mediaForm.audiosource.$setTouched();
         }
-      }, true);
+      });
       
       var mediaSaveChain = Chain.get('media:save');
       

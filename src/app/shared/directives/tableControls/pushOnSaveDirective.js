@@ -2,7 +2,7 @@
 
 angular.module('liveopsConfigPanel')
   .directive('pushOnSaveEvent', ['$parse',
-    function ($parse, Chain) {
+    function ($parse) {
       return {
         restrict: 'A',
         require: ['tableControls'],

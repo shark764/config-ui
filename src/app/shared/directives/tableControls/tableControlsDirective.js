@@ -16,7 +16,7 @@ angular.module('liveopsConfigPanel')
         },
         templateUrl: 'app/shared/directives/tableControls/tableControls.html',
         transclude: true,
-        controller: function ($scope) {},
+        controller: function () {},
         link: function ($scope) {
           angular.extend($scope, $scope.extendScope);
 

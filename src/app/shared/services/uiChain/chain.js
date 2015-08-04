@@ -36,7 +36,7 @@ angular.module('liveopsConfigPanel')
       angular.forEach(chain, function (link) {
         if (promise) {
           if (angular.isFunction(link.callback)) {
-            promise.then(link.callback)
+            promise.then(link.callback);
           } else if (angular.isObject(link.callback)) {
             promise.then(
               link.callback.success,

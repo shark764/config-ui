@@ -6,7 +6,7 @@ angular.module('liveopsConfigPanel')
       return {
         restrict: 'A',
         require: ['form'],
-        link: function ($scope, $elem, $attrs) {
+        link: function ($scope) {
           $scope.$on('form:submit:success', function(event, resource) {
             var action = resource.updated ? 'updated' : 'saved';
             Alert.success('Record ' + action);

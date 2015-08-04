@@ -3,7 +3,6 @@
 angular.module('liveopsConfigPanel')
   .controller('MediaCollectionController', ['$q', '$scope', 'MediaCollection', 'Media', 'Session', 'mediaCollectionTableConfig', 'mediaTypes', '$timeout', 'Alert', 'Chain',
     function ($q, $scope, MediaCollection, Media, Session, mediaCollectionTableConfig, mediaTypes, $timeout, Alert, Chain) {
-      var self = this;
       $scope.forms = {};
       $scope.Session = Session;
       $scope.redirectToInvites();

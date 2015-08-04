@@ -9,7 +9,7 @@ angular.module('liveopsConfigPanel')
 
         // Append the new transformation to the defaults
         return defaults.concat(transform);
-      };
+      }
 
       function getResult(value) {
         if (value.result) {
@@ -17,7 +17,7 @@ angular.module('liveopsConfigPanel')
         }
 
         return value;
-      };
+      }
 
       return {
         create: function (endpoint, updateFields, requestUrlFields) {
