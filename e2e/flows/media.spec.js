@@ -139,7 +139,7 @@ describe('The media view', function() {
 
     // Error messages displayed
     expect(media.requiredError.get(0).isDisplayed()).toBeTruthy();
-    expect(media.requiredError.get(0).getText()).toBe('Field "Name" is required.');
+    expect(media.requiredError.get(0).getText()).toBe('Please enter a name');
 
     // New Media is not saved
     expect(shared.tableElements.count()).toBe(mediaCount);

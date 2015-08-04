@@ -364,7 +364,6 @@ describe('The create new user form', function() {
     users.personalTelephoneFormField.sendKeys('15064704361');
 
     users.firstNameFormField.click();
-    expect(users.requiredErrors.get(0).isDisplayed()).toBeFalsy();
     expect(users.personalTelephoneFormField.getAttribute('value')).toBe('+1 506-470-4361');
   });
 

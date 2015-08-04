@@ -150,6 +150,7 @@ describe('The create new queues view', function() {
     queues.createVersionQueryFormField.click();
     queues.nameFormField.sendKeys('Queue ' + randomQueue);
     queues.descriptionFormField.sendKeys('This is the queue description for queue ' + randomQueue);
+    queues.createVersionQueryFormField.clear();
 
     // Submit button is disabled
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
@@ -199,6 +200,7 @@ describe('The create new queues view', function() {
     queueCount = shared.tableElements.count();
     shared.createBtn.click();
     queues.nameFormField.sendKeys(' ');
+    queues.createVersionQueryFormField.clear();
     queues.createVersionQueryFormField.sendKeys(' ');
     queues.descriptionFormField.sendKeys(' ');
 
