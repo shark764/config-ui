@@ -84,7 +84,7 @@
         var formSection = '<div class="input-group"';
         formSection += ' ng-hide="' + input.hidden + '"';
         formSection += '><label>' + input.label + '</label>';
-        formSection += '<toggle ng-model="notation.model.attributes.' + input.path + '" ';
+        formSection += '<toggle ng-model="$parent.notation.model.attributes.' + input.path + '" ';
         if (_.has(input, 'trueValue')) {
           formSection += 'true-value="' + input.trueValue + '" ';
         }
