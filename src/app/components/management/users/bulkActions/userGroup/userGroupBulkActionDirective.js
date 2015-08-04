@@ -65,7 +65,9 @@ angular.module('liveopsConfigPanel')
 
           $scope.onChange = function (action) {
             var group = action.selectedGroup;
-            $scope.fetchUserGroups(group);
+            if (angular.isDefined(group)){
+              $scope.fetchUserGroups(group);
+            }
           };
 
           $scope.findGroupForId = function (groups, id) {
