@@ -77,10 +77,10 @@ angular.module('liveopsConfigPanel')
 
       //TODO: remove duplication from MediaController
       $scope.setupAudioSourceWatch = function(childScope){
-        childScope.$watch('detailsForm.audiosource', function(newValue){
-          if (angular.isDefined(newValue)){
-            childScope.detailsForm.audiosource.$setDirty();
-            childScope.detailsForm.audiosource.$setTouched();
+        childScope.$parent.$watch('detailsForm.audiosource', function(newValue){
+          if (childScope.$parent.resource && childScope.$parent.resource.isNew() && angular.isDefined(newValue)){
+            childScope.$parent.detailsForm.audiosource.$setDirty();
+            childScope.$parent.detailsForm.audiosource.$setTouched();
           }
         });
       };
