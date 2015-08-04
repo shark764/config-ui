@@ -169,8 +169,8 @@ describe('The media view', function() {
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
 
     // Error messages displayed
-    expect(media.requiredError.get(1).isDisplayed()).toBeTruthy();
-    expect(media.requiredError.get(1).getText()).toBe('Please enter a type');
+    expect(media.requiredError.get(0).isDisplayed()).toBeTruthy();
+    expect(media.requiredError.get(0).getText()).toBe('Please enter a type');
 
     // New Media is not saved
     expect(shared.tableElements.count()).toBe(mediaCount);
@@ -200,8 +200,8 @@ describe('The media view', function() {
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
 
     // Error messages displayed
-    expect(media.requiredError.get(2).isDisplayed()).toBeTruthy();
-    expect(media.requiredError.get(2).getText()).toBe('Please enter a source');
+    expect(media.requiredError.get(0).isDisplayed()).toBeTruthy();
+    expect(media.requiredError.get(0).getText()).toBe('Please enter a source');
 
     // New Media is not saved
     expect(shared.tableElements.count()).toBe(mediaCount);
@@ -224,8 +224,8 @@ describe('The media view', function() {
     expect(shared.successMessage.isPresent()).toBeFalsy();
     expect(shared.tableElements.count()).toBe(mediaCount);
 
-    expect(media.requiredError.get(2).isDisplayed()).toBeTruthy();
-    expect(media.requiredError.get(2).getText()).toBe('Audio source must be a URL');
+    expect(media.requiredError.get(0).isDisplayed()).toBeTruthy();
+    expect(media.requiredError.get(0).getText()).toBe('Audio source must be a URL');
   });
 
   it('should require Source when creating a new Media with Text-To-Speech type', function() {
@@ -252,8 +252,8 @@ describe('The media view', function() {
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
 
     // Error messages displayed
-    expect(media.requiredError.get(2).isDisplayed()).toBeTruthy();
-    expect(media.requiredError.get(2).getText()).toBe('Please enter a source');
+    expect(media.requiredError.get(0).isDisplayed()).toBeTruthy();
+    expect(media.requiredError.get(0).getText()).toBe('Please enter a source');
 
     // New Media is not saved
     expect(shared.tableElements.count()).toBe(mediaCount);
@@ -346,7 +346,6 @@ describe('The media view', function() {
     shared.cancelFormBtn.click();
     shared.dismissChanges();
 
-    expect(media.requiredError.get(0).isDisplayed()).toBeFalsy();
     expect(shared.successMessage.isPresent()).toBeFalsy();
 
     // Fields reset to original values
@@ -366,9 +365,6 @@ describe('The media view', function() {
     shared.cancelFormBtn.click().then(function () {
       shared.dismissChanges();
 
-      expect(media.requiredError.get(0).isDisplayed()).toBeFalsy();
-      expect(media.requiredError.get(1).isDisplayed()).toBeFalsy();
-      expect(media.requiredError.get(2).isDisplayed()).toBeFalsy();
       expect(shared.successMessage.isPresent()).toBeFalsy();
 
       // Fields reset to original values
@@ -429,8 +425,8 @@ describe('The media view', function() {
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
 
    // Error messages displayed
-    expect(media.requiredError.get(2).isDisplayed()).toBeTruthy();
-    expect(media.requiredError.get(2).getText()).toBe('Please enter a source');
+    expect(media.requiredError.get(0).isDisplayed()).toBeTruthy();
+    expect(media.requiredError.get(0).getText()).toBe('Please enter a source');
     expect(shared.successMessage.isPresent()).toBeFalsy();
   });
 });

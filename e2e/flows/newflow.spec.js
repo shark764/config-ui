@@ -51,7 +51,6 @@ describe('The create new flows view', function() {
       }
     }).thenFinally(function() {
       // Verify new flow was found in the table
-      expect(flows.requiredErrors.get(0).isDisplayed()).toBeFalsy();
       expect(shared.successMessage.isDisplayed()).toBeTruthy();
       expect(flowAdded).toBeTruthy();
     });
@@ -66,7 +65,6 @@ describe('The create new flows view', function() {
     flows.typeFormDropdown.all(by.css('option')).get((randomFlow % 3) + 1).click();
 
     shared.submitFormBtn.click().then(function() {
-      expect(flows.requiredErrors.get(0).isDisplayed()).toBeFalsy();
       expect(shared.successMessage.isDisplayed()).toBeTruthy();
 
       expect(flows.activeVersionDropdown.getAttribute('value')).toBe('0');
@@ -135,8 +133,8 @@ describe('The create new flows view', function() {
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
 
     expect(shared.tableElements.count()).toBe(flowCount);
-    expect(flows.requiredErrors.get(1).isDisplayed()).toBeTruthy();
-    expect(flows.requiredErrors.get(1).getText()).toBe('Type is required');
+    expect(flows.requiredErrors.get(0).isDisplayed()).toBeTruthy();
+    expect(flows.requiredErrors.get(0).getText()).toBe('Type is required');
     expect(shared.successMessage.isPresent()).toBeFalsy();
   });
 

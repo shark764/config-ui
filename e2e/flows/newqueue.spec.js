@@ -78,7 +78,6 @@ describe('The create new queues view', function() {
     expect(queues.createVersionRateUnitDropdown.getAttribute('disabled')).toBeTruthy();
 
     shared.submitFormBtn.click().then(function() {
-      expect(queues.requiredErrors.get(0).isDisplayed()).toBeFalsy();
       expect(shared.successMessage.isDisplayed()).toBeTruthy();
 
       // Default v1 queue version added
@@ -155,8 +154,8 @@ describe('The create new queues view', function() {
     // Submit button is disabled
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
 
-    expect(queues.requiredErrors.get(1).isDisplayed()).toBeTruthy();
-    expect(queues.requiredErrors.get(1).getText()).toBe('Field "Query" is required.');
+    expect(queues.requiredErrors.get(0).isDisplayed()).toBeTruthy();
+    expect(queues.requiredErrors.get(0).getText()).toBe('Field "Query" is required.');
     expect(shared.tableElements.count()).toBe(queueCount);
     expect(shared.successMessage.isPresent()).toBeFalsy();
   });
@@ -175,8 +174,8 @@ describe('The create new queues view', function() {
     // Submit button is disabled
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
 
-    expect(queues.requiredErrors.get(2).isDisplayed()).toBeTruthy();
-    expect(queues.requiredErrors.get(2).getText()).toBe('.');
+    expect(queues.requiredErrors.get(0).isDisplayed()).toBeTruthy();
+    expect(queues.requiredErrors.get(0).getText()).toBe('.');
     expect(shared.tableElements.count()).toBe(queueCount);
     expect(shared.successMessage.isPresent()).toBeFalsy();
   });

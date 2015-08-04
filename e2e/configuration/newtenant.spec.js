@@ -55,7 +55,6 @@ describe('The create new tenants view', function() {
     }).thenFinally(function() {
       // Verify new tenant was found in the table
       expect(tenantAdded).toBeTruthy();
-      expect(tenants.nameRequiredError.get(0).isDisplayed()).toBeFalsy();
       expect(shared.successMessage.isDisplayed()).toBeTruthy();
       expect(shared.tableElements.count()).toBeGreaterThan(tenantCount);
     });
@@ -97,7 +96,6 @@ describe('The create new tenants view', function() {
 
     shared.submitFormBtn.click();
 
-    expect(tenants.nameRequiredError.get(0).isDisplayed()).toBeFalsy();
     expect(shared.successMessage.isPresent()).toBeTruthy();
     expect(shared.tableElements.count()).toBeGreaterThan(tenantCount);
   });
@@ -111,7 +109,6 @@ describe('The create new tenants view', function() {
 
     shared.submitFormBtn.click();
 
-    expect(tenants.nameRequiredError.get(0).isDisplayed()).toBeFalsy();
     expect(shared.successMessage.isPresent()).toBeTruthy();
     expect(shared.tableElements.count()).toBeGreaterThan(tenantCount);
   });
@@ -124,7 +121,6 @@ describe('The create new tenants view', function() {
 
     shared.submitFormBtn.click();
 
-    expect(tenants.nameRequiredError.get(0).isDisplayed()).toBeFalsy();
     expect(shared.successMessage.isPresent()).toBeTruthy();
     expect(shared.tableElements.count()).toBeGreaterThan(tenantCount);
 

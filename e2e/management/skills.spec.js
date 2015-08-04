@@ -35,7 +35,6 @@ describe('The skills view', function() {
     skills.proficiencyFormCheckbox.click();
     shared.submitFormBtn.click();
 
-    expect(skills.nameRequiredError.get(0).isDisplayed()).toBeFalsy();
     expect(shared.successMessage.isDisplayed()).toBeTruthy();
     expect(skills.skillElements.count()).toBeGreaterThan(skillCount);
 
@@ -231,7 +230,6 @@ describe('The skills view', function() {
     expect(alertDialog.dismiss).toBeDefined();
     alertDialog.accept();
 
-    expect(skills.nameRequiredError.get(0).isDisplayed()).toBeFalsy();
     expect(shared.successMessage.isPresent()).toBeFalsy();
     expect(skills.skillElements.count()).toBe(skillCount);
 
@@ -253,7 +251,6 @@ describe('The skills view', function() {
     var editedProficiency = skills.proficiencySwitch.isSelected();
     shared.submitFormBtn.click();
 
-    expect(skills.nameRequiredError.get(0).isDisplayed()).toBeFalsy();
     expect(shared.successMessage.isDisplayed()).toBeTruthy();
     expect(skills.skillElements.count()).toBe(skillCount);
 

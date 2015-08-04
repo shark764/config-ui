@@ -466,7 +466,7 @@ describe('The media collections view', function() {
     mediaCollections.mediaMappings.count().then(function(mediaCount) {
       if (mediaCount > 0) {
         mediaCollections.mediaIdentifiers.get(0).sendKeys('edit');
-        mediaCollections.defaultIdDropdown.all(by.css('option')).get(2).click();
+        mediaCollections.defaultIdDropdown.all(by.css('option')).get(1).click();
 
         // Select Media, assume at least one media exists
         mediaCollections.mediaDropdowns.get(0).click();
@@ -515,7 +515,7 @@ describe('The media collections view', function() {
 
         // Error messages displayed
         expect(mediaCollections.requiredError.get(0).isDisplayed()).toBeTruthy();
-        expect(mediaCollections.requiredError.get(0).getText()).toBe('Please enter an identifier for this media item');
+        expect(mediaCollections.requiredError.get(0).getText()).toBe('Please select a default identifier');
         expect(shared.successMessage.isPresent()).toBeFalsy();
       }
     });
