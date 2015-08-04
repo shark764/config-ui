@@ -75,7 +75,7 @@ describe('confirmToggleDirective', function(){
       $scope.ngModel = false;
       $scope.onToggle(false);
       $timeout.flush();
-      expect($scope.ngModel).toBeTruthy();
+      expect($scope.$parent.ngModel).toBeTruthy();
     }]));
   });
 });

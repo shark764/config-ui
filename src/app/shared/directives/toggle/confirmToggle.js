@@ -10,14 +10,14 @@ angular.module('liveopsConfigPanel')
         });
         
         $scope.onToggle = function(newValue){
-          $timeout(function(){
-            $scope.ngModel = (newValue === $scope.trueValue ? $scope.falseValue : $scope.trueValue);
+          $timeout(function(){ //For display until confirm dialog value is resolved
+            $scope.$parent.ngModel = (newValue === $scope.trueValue ? $scope.falseValue : $scope.trueValue);
           });
           
           return Modal.showConfirm({
             message: (newValue === $scope.trueValue ? $scope.confirmEnableMessage : $scope.confirmDisableMessage)
           }).then(function(){
-            $scope.ngModel = newValue;
+            $scope.$parent.ngModel = newValue;
           });
         };
       }
