@@ -79,6 +79,11 @@
         display: inline-block;
         padding: 4px 20px;
 
+        .btn {
+          line-height: 34px;
+          padding: 3px 15px;
+        }
+
         button.publish-btn {
           background: #1294F6;
           font-size: 17px;
