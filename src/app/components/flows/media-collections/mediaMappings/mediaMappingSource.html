@@ -1,5 +1,5 @@
 <div class="modify-media-box" ng-class="{'edit': editMode === true}">
-  <div class="label-container" ng-click="editMode = !editMode;">
+  <div class="label-container" ng-click="labelClick()">
     <input type="text" placeholder="{{'media.collections.media.add' | translate}}" name="{{fieldName}}"
     class="label" ng-required="true" ng-model="mapping.name" readonly="true" border="0"/>
     <i class="fa" ng-class="{'fa-caret-down': !editMode, 'fa-caret-up':editMode}"></i>

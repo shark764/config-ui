@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-.directive('mediaMappingSource', [function () {
+.directive('mediaMappingSource', ['$timeout', function ($timeout) {
   return {
     restrict: 'E',
     scope: {
@@ -11,7 +11,7 @@ angular.module('liveopsConfigPanel')
       onDirty: '&'
     },
     templateUrl: 'app/components/flows/media-collections/mediaMappings/mediaMappingSource.html',
-    link: function ($scope) {
+    link: function ($scope, ele) {
       $scope.onSelect = function(selectedMedia){
         $scope.mapping.id = selectedMedia.id;
         $scope.mapping.name = selectedMedia.name;
@@ -35,6 +35,16 @@ angular.module('liveopsConfigPanel')
       $scope.$on('resource:details:media:canceled', function () {
         $scope.createMode = false;
       });
+      
+      $scope.labelClick = function(){
+        $scope.editMode = !$scope.editMode;
+        if ($scope.editMode){
+          $timeout(function(){
+            var input = ele.find('type-ahead input');
+            input.focus();
+          });
+        }
+      };
     }
   };
 }]);
