@@ -14,7 +14,7 @@ angular.module('liveopsConfigPanel')
           $rootScope.$broadcast('created:resource' + eventPath, response.resource);
           
           if(!queryCache.get(proto.resourceName)) {
-            queryCache.put(key, []);
+            queryCache.put(proto.resourceName, []);
           }
           
           queryCache.get(proto.resourceName).push(response.resource);

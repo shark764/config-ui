@@ -30,27 +30,8 @@ describe('MediaCollectionController', function () {
     }
   ]));
 
-  it('should have a function in the payload to media details to cancel the save', inject(function (Media) {
-    $scope.selectedMedia = new Media({});
-    $scope.waitingMedia = new Media({});
-
-    $scope.$broadcast('resource:details:media:canceled');
-    
-    expect($scope.selectedMedia).toBeNull();
-  }));
-
-  it('should have a function in the payload to media details to save and set selected to a new media', inject(['Media', 'Session', '$timeout', function (Media, Session, $timeout) {
-    $scope.selectedMedia = new Media({});
-
-    $scope.$broadcast('resource:details:media:savedAndNew');
-    $timeout.flush();
-    expect($scope.selectedMedia).toEqual(new Media({
-      properties: {},
-      tenantId: Session.tenant.tenantId
-    }));
-  }]));
-
-  it('should catch the create media event and set the selected media to new', inject(function (Media, Session) {
+  it('should catch the create media event and set the selected media to new', 
+    inject(function (Media, Session) {
     $scope.$broadcast('resource:details:create:media');
 
     expect($scope.selectedMedia.tenantId).toEqual(Session.tenant.tenantId);
@@ -70,12 +51,6 @@ describe('MediaCollectionController', function () {
 
     expect($scope.create).toHaveBeenCalled();
   }));
-
-  it('should watch for media being added, and reset selectedMedia', inject(function () {
-      $scope.selectedMedia = {id: 'existing'};
-      $rootScope.$broadcast('resource:details:media:create:success');
-      expect($scope.selectedMedia).toBeNull();
-    }));
   
   describe('fetchMediaCollections function', function(){
     it('should exist', inject(function () {
