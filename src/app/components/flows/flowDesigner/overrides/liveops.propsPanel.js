@@ -10,7 +10,6 @@
     var formBuilder = {
       groupHeader: function(groupName) {
         var formSection = '<div class="divider-header"><h4>'+ groupName.capitalize() + '</h4></div>';
-        console.log('GROUP NAME BEING ITERATED OVER:', groupName);
         formSection += '<div class="input-group-wrapper id="input-group-' + groupName + '"></div>';
         return formSection;
       },
@@ -84,16 +83,19 @@
         var formSection = '<div class="input-group"';
         formSection += ' ng-hide="' + input.hidden + '"';
         formSection += '><label>' + input.label + '</label>';
-        formSection += '<toggle ng-model="notation.model.attributes.' + input.path + '" ';
-        if (_.has(input, 'trueValue')) {
-          formSection += 'true-value="' + input.trueValue + '" ';
-        }
-        if (_.has(input, 'falseValue')) {
-          formSection += 'false-value="' + input.falseValue + '" ';
-        }
-        formSection += '"class="status-toggle"><label class="switch switch-green"><input type="checkbox" class="switch-input"';
-        formSection += ' ng-disabled="' + input.disabled + '"';
-        formSection += '><span class="switch-label" data-on="On" data-off="Off"></span><span class="switch-handle"></span></label></toggle></div>';
+        // console.log('Path', 'notation.model.attributes.' + input.path);
+        // formSection += '<toggle ng-model="notation.model.attributes.' + input.path + '" ';
+        // if (_.has(input, 'trueValue')) {
+        //   console.log('True value present');
+        //   formSection += 'true-value="' + input.trueValue + '" ';
+        // }
+        // if (_.has(input, 'falseValue')) {
+        //   console.log('False value present');
+        //   formSection += 'false-value="' + input.falseValue + '" ';
+        // }
+        // formSection += '"class="status-toggle"></toggle>';
+        formSection += '<input type=checkbox ng-model="notation.model.attributes.' + input.path + '">';
+        formSection += '</div>';
         return formSection;
       }
     };
@@ -105,7 +107,6 @@
     });
 
     // Sort by index
-    console.log(notation.model.attributes);
     notation.model.attributes.inputs.sort(function(a, b) {
       return parseFloat(a.index) + parseFloat(b.index);
     });
@@ -133,7 +134,6 @@
       restrict: 'E',
       link: function (scope, element) {
         scope.loading = true;
-
 
         scope.selectedItem = null;
 

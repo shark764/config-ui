@@ -8,7 +8,7 @@ angular.module('liveopsConfigPanel.config', [])
 
 .constant('uuidcacheKey', 'LIVEOPS-CACHE-KEY')
 
-.factory('statuses', function() {
+.factory('userStatuses', function() {
   return function(){
     return [{
       'display': 'Disabled',
@@ -16,6 +16,21 @@ angular.module('liveopsConfigPanel.config', [])
     }, {
       'display': 'Enabled',
       'value': 'enabled'
+    }, {
+      'display': 'Pending',
+      'value': 'pending'
+    }];
+  };
+})
+
+.factory('statuses', function () {
+  return function(){
+    return [{
+      'display': 'Disabled',
+      'value': false
+    }, {
+      'display': 'Enabled',
+      'value': true
     }];
   };
 })
