@@ -7,13 +7,7 @@ angular.module('liveopsConfigPanel')
       $scope.Session = Session;
       $scope.redirectToInvites();
 
-      MediaCollection.prototype.preCreate = function () {
-        if (angular.isDefined(this.mediaMap)) {
-          $scope.cleanMediaMap(this);
-        }
-      };
-
-      MediaCollection.prototype.preUpdate = function () {
+      MediaCollection.prototype.preSave = function () {
         if (angular.isDefined(this.mediaMap)) {
           $scope.cleanMediaMap(this);
         }

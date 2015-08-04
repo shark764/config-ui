@@ -147,6 +147,7 @@ angular.module('liveopsConfigPanel')
 
             //TODO find out why preEvent didn't work in the chain
             preEvent.call(self);
+            self.preSave();
 
             return action.call(self)
               .then(function (result) {

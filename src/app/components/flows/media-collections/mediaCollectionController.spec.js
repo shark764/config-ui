@@ -66,14 +66,14 @@ describe('MediaCollectionController', function () {
     }]));
   });
 
-  describe('preCreate prototype function', function () {
+  describe('preSave prototype function', function () {
     it('should call cleanMediaMap if mediaMap is defined', inject(function () {
       var myCollection = new MediaCollection();
       myCollection.mediaMap = [];
 
       spyOn($scope, 'cleanMediaMap');
 
-      myCollection.preCreate();
+      myCollection.preSave();
       expect($scope.cleanMediaMap).toHaveBeenCalled();
     }));
 
@@ -84,28 +84,6 @@ describe('MediaCollectionController', function () {
       spyOn($scope, 'cleanMediaMap');
 
       myCollection.preCreate();
-      expect($scope.cleanMediaMap).not.toHaveBeenCalled();
-    }));
-  });
-
-  describe('preUpdate prototype function', function () {
-    it('should strip unneeded properties from mediaMap', inject(function () {
-      var myCollection = new MediaCollection();
-      myCollection.mediaMap = [];
-
-      spyOn($scope, 'cleanMediaMap');
-
-      myCollection.preUpdate();
-      expect($scope.cleanMediaMap).toHaveBeenCalled();
-    }));
-
-    it('should do nothing if mediaMap is not defined', inject(function () {
-      var myCollection = new MediaCollection({
-        name: 'A cool name'
-      });
-      spyOn($scope, 'cleanMediaMap');
-
-      myCollection.preUpdate();
       expect($scope.cleanMediaMap).not.toHaveBeenCalled();
     }));
   });
