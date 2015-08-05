@@ -211,9 +211,8 @@ describe('The bulk actions', function() {
         expect(bulkActions.selectedItemsDropdown.isDisplayed()).toBeTruthy();
         expect(bulkActions.selectedItemsDropdownElements.count()).toBe(i + 1);
 
-        // BUG: Ordering should be the same as the table
         // Adds newly selected item to the top of the list
-        //expect(shared.tableElements.get(i).getText()).toContain(bulkActions.selectedItemsDropdownElements.get(i).getText());
+        expect(shared.tableElements.get(i).getText()).toContain(bulkActions.selectedItemsDropdownElements.get(i).getText());
       }
       expect(bulkActions.selectedItemsDropdownHeaderLabel.getAttribute('label')).toBe('Selected (' + tableCount + ')');
     });
