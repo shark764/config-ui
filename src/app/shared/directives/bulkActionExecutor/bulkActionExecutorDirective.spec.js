@@ -126,6 +126,17 @@ describe('bulkActionExecutor directive', function () {
       var checkedItems = isolateScope.selectedItems();
       expect(checkedItems).toBe(checkedItems);
     });
+    
+    it('should return items in order, if given dropOrderBy', function() {
+      $scope.items[0].sortField = 2;
+      $scope.items[1].sortField = 1;
+      $scope.items[2].sortField = 3;
+      isolateScope.dropOrderBy = 'sortField';
+      var checkedItems = isolateScope.selectedItems();
+      
+      expect(checkedItems[0]).toBe($scope.items[1]);
+      expect(checkedItems[1]).toBe($scope.items[0]);
+    });
   });
 
   describe('showBulkActions watch', function () {

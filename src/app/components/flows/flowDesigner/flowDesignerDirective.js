@@ -12,6 +12,7 @@ function flowDesigner() {
       controller: ['$scope', '$element', '$attrs', '$window', '$timeout', 'FlowInitService', 'FlowConversionService', 'SubflowCommunicationService', 'FlowNotationService', 'FlowVersion', 'Session', 'Alert', '$state', function($scope, $element, $attrs, $window, $timeout, FlowInitService, FlowConversionService, SubflowCommunicationService, FlowNotationService, FlowVersion, Session, Alert, $state) {
 
         $timeout(function() {
+
           var graphOptions = {
             width: 2000,
             height: 2000,
@@ -27,19 +28,20 @@ function flowDesigner() {
             paperContainerId: '#paper-container',
             inspectorContainerId: '#inspector-container'
           };
-          var graph = FlowInitService.initializeGraph(graphOptions);
 
-          graph.interfaces.paper.on({
+          $scope.graph = FlowInitService.initializeGraph(graphOptions);
+
+          $scope.graph.interfaces.paper.on({
             'cell:pointerdblclick': function(cellView) {
               if (cellView.model.attributes.name !== 'subflow') { return; }
               $scope.redirectToSubflowEditor(cellView);
             }
           });
 
-          $scope.manuallyOpenPropertiesPanel = graph.utils.showPropertiesPanel;
+          $scope.manuallyOpenPropertiesPanel = $scope.graph.utils.showPropertiesPanel;
 
           $scope.redirectToSubflowEditor = function(cellView) {
-            SubflowCommunicationService.currentFlowContext = graph.toJSON();
+            SubflowCommunicationService.currentFlowContext = $scope.graph.toJSON();
             SubflowCommunicationService.currentVersionContext = $scope.flowVersion;
             SubflowCommunicationService.currentFlowNotationName = cellView.model.attributes.params.name || 'N/A';
             $state.go('content.flows.subflowEditor', {
@@ -48,6 +50,7 @@ function flowDesigner() {
           };
 
           $scope.publishNewFlowVersion = function() {
+<<<<<<< HEAD
             if (graph.toJSON().cells.length === 0) { return; }
 
             //remove all error states
@@ -67,6 +70,10 @@ function flowDesigner() {
               return;
             }
 
+=======
+            if ($scope.graph.toJSON().cells.length === 0) { return; }
+            var alienese = JSON.stringify(FlowConversionService.convertToAlienese($scope.graph.toJSON()));
+>>>>>>> master
             $scope.version = new FlowVersion({
               flow: JSON.stringify(alienese.alienese),
               description: $scope.flowVersion.description || 'This needs to be fixed',
@@ -88,17 +95,17 @@ function flowDesigner() {
           };
 
           if (SubflowCommunicationService.currentFlowContext !== '') {
-            graph.fromJSON(SubflowCommunicationService.currentFlowContext);
+            $scope.graph.fromJSON(SubflowCommunicationService.currentFlowContext);
             SubflowCommunicationService.currentFlowContext = '';
           } else {
-            graph.fromJSON(FlowConversionService.convertToJoint(JSON.parse($scope.flowVersion.flow)));
+            $scope.graph.fromJSON(FlowConversionService.convertToJoint(JSON.parse($scope.flowVersion.flow)));
           }
           $window.spitOutAlienese = function() {
-            return FlowConversionService.convertToAlienese(graph.toJSON());
+            return FlowConversionService.convertToAlienese($scope.graph.toJSON());
           };
 
           $window.spitOutJoint = function() {
-            return graph.toJSON();
+            return $scope.graph.toJSON();
           };
         }, 1000);
       }]

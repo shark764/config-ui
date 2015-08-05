@@ -30,7 +30,6 @@ exports.config = {
     login: {
       firstName: 'titan',
       lastName: 'user',
-      userDisplayName: 'titan',
       user: 'titan@liveops.com',
       password: 'gKVnfF9wrs6XPSYs'
     },

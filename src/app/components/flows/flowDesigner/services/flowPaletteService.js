@@ -23,21 +23,16 @@
 
       loadEvents: function(palette) {
         var self = this;
-        palette.load([
-          new joint.shapes.liveOps.event({
-            name: 'none',
-            entity: 'start'
-          }),
-          new joint.shapes.liveOps.event({
-            name: 'none',
-            entity: 'catch'
-          }),
-          new joint.shapes.liveOps.event({
-            name: 'none',
-            entity: 'throw',
-            terminate: true
-          })
-        ], 'events');
+
+        palette.load(_.map(self.data.events, function(event){
+          var evt = new joint.shapes.liveOps.event({
+            name: event.type,
+            entity: event.entity,
+            terminate: event.terminate || false,
+            inputs: event.inputs
+          });
+          return evt;
+        }), 'events');
 
         _.each(self.data.events, function(notation) {
           FlowNotationService.registerEvent(notation);
@@ -49,7 +44,7 @@
         _.each(_.groupBy(self.data.activities, 'entity'), function(notations, entity) {
           palette.load(
             _.map(notations, function(notation) {
-              return new joint.shapes.liveOps[entity]({
+              var n = new joint.shapes.liveOps[entity]({
                 content: notation.label,
                 activityType: notation.type,
                 type: 'liveOps.activity',
@@ -63,6 +58,8 @@
                   return memo;
                 }, {})
               });
+              n.attributes.inputs = n.attributes.inputs.concat(notation.inputs);
+              return n;
             }
           ), entity);
 

@@ -12,7 +12,7 @@ var MediaCollectionsPage = function() {
 
   this.mediaMappingsTable = element(by.css('.media-collection-table'));
   this.noMediaMappingsMessage = this.mediaMappingsTable.element(by.css('.null'));
-  this.mediaMappings = element.all(by.repeater('mapping in resource.mediaMap'));
+  this.mediaMappings = element.all(by.repeater('mapping in collection.mediaMap'));
   this.mediaIdentifiers = element.all(by.model('mapping.lookup'));
   this.mediaDropdownBoxes = element.all(by.css('.modify-media-box'));
   this.mediaDropdowns = element.all(by.model('mapping.name'));

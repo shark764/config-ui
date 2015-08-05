@@ -1,5 +1,8 @@
 <div ng-hide="! originalResource.id">
-  <toggle class="status-toggle" ng-model="resource.status" name="status"></toggle>
+  <toggle class="status-toggle" ng-model="resource.status" name="status" 
+  confirm-disable-message="{{'group.details.disable.confirm' | translate}}"
+  confirm-enable-message="{{'group.details.enable.confirm' | translate}}"
+  ng-disabled="originalResource.type == 'everyone'"></toggle>
 
   <div class="info">
      <h1 id="group-details-name-header">{{originalResource.name}}</h1>

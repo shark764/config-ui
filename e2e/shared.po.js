@@ -2,6 +2,7 @@
 
 var Shared = function() {
   // Page URLS
+  this.rootURL = 'http://localhost:3000';
   this.mainUrl = 'http://localhost:3000/#/';
   this.loginPageUrl = this.mainUrl + 'login';
   this.profilePageUrl = this.mainUrl + 'userprofile';
@@ -35,7 +36,7 @@ var Shared = function() {
   this.flowsNavButton = element(by.id('flows-nav-link'));
   this.reportingNavButton = element(by.id('reporting-nav-link'));
   this.invitesNavButton = element(by.id('invites-nav-link'));
-  
+
   this.settingsDropdown = element(by.id('user-settings-dropdown'));
   this.settingsDropdownOptions = this.settingsDropdown.all(by.repeater('item in items'));
   this.userProfileButton = this.settingsDropdownOptions.get(1);
@@ -62,9 +63,15 @@ var Shared = function() {
   this.bulkActionsPanel = element(by.css('bulk-action-executor.details-pane'));
   this.submitFormBtn = this.detailsPanel.element(by.id('submit-details-btn'));
   this.cancelFormBtn = this.detailsPanel.element(by.id('cancel-details-btn'));
+  this.closeFormBtn = this.detailsPanel.element(by.id('close-details-button'));
   this.successMessage = element(by.css('.toast-success'));
   this.errorMessage = element(by.css('.toast-error'));
   this.closeMessageBtn = element(by.css('.toast-close-button'));
+  
+  //Modal
+  this.confirmModal = element(by.css('#modal .confirm'));
+  this.confirmModalCancelBtn = element(by.id('modal-cancel'));
+  this.confirmModalOkBtn = element(by.id('modal-ok'));
 
   this.dismissChanges = function() {
     browser.switchTo().alert().then(

@@ -80,6 +80,10 @@ $switchHandleSize: 28px;
   }
 }
 
+.switch-input[disabled] ~ .switch-label{ 
+  background: lighten(#eceeef, 5%);
+}
+
 .switch-green > .switch-input:checked ~ .switch-label { 
   background: $succes-green; 
 }

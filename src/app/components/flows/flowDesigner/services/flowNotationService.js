@@ -21,6 +21,12 @@
         }
       },
 
+      extractInputs: function(model) {
+        var self = this;
+        var inputs = _.findWhere(self.activities, { name: model.name }).inputs;
+        return inputs;
+      },
+
       getActivityLabel: function(model) {
         var self = this;
         var activity = _.findWhere(self.activities, {name: model.name});
@@ -36,11 +42,12 @@
       buildInputPanel: function(model) {
         var self = this;
         var modelType = model.get('type');
-        var inputs = model.get('inputs');
+        var inputs;
 
         //If we're dealing with an actrivity
         if (modelType === 'liveOps.activity') {
           var name = model.get('name');
+          inputs = model.get('inputs');
           var notation = _.findWhere(self.activities, {name: name});
 
           var params = _.reduce(notation.ui, function(memo, param, name) {
