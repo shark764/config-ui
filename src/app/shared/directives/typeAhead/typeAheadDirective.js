@@ -12,7 +12,8 @@ angular.module('liveopsConfigPanel')
         isRequired: '=',
         placeholder: '@',
         hover: '=',
-        prefill: '='
+        prefill: '=',
+        keepExpanded: '='
       },
 
       templateUrl: 'app/shared/directives/typeAhead/typeAhead.html',
@@ -53,6 +54,12 @@ angular.module('liveopsConfigPanel')
           $scope.hovering = false;
           $scope.selectedItem = item;
           $scope.currentText = $scope.selectedItem[$scope.nameField];
+        };
+        
+        $scope.onBlur = function(){
+          if (!$scope.keepExpanded){ //Prevents the button in multibox from jumping around
+            $scope.showSuggestions=false;
+          }
         };
       }
     };
