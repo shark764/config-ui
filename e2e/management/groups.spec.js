@@ -31,28 +31,27 @@ describe('The groups view', function() {
     // Edit fields
     groups.nameFormField.sendKeys(newGroupName);
     groups.descriptionFormField.sendKeys('Group Description');
-    shared.submitFormBtn.click();
+    shared.submitFormBtn.click().then(function () {
+      expect(shared.successMessage.isDisplayed()).toBeTruthy();
 
-    expect(groups.nameRequiredError.get(0).isDisplayed()).toBeFalsy();
-    expect(shared.successMessage.isDisplayed()).toBeTruthy();
-    
-    expect(groups.groupMembersLoading.isPresent()).toBeFalsy();
-    expect(groups.groupMembersEmpty.isDisplayed()).toBeTruthy();
-    expect(groups.groupMembersEmpty.getText()).toEqual('There are no members assigned to this group.');
-    
-    // Confirm group is displayed in group list
-    shared.tableElements.then(function(rows) {
-      for (var i = 1; i <= rows.length; ++i) {
-        // Check if group name in table matches newly added group
-        element(by.css('tr.ng-scope:nth-child(' + i + ') > td:nth-child(2)')).getText().then(function(value) {
-          if (value == newGroupName) {
-            groupAdded = true;
-          }
-        });
-      }
-    }).thenFinally(function() {
-      // Verify new group was found in the group table
-      expect(groupAdded).toBeTruthy();
+      expect(groups.groupMembersLoading.isDisplayed()).toBeFalsy();
+      expect(groups.groupMembersEmpty.isDisplayed()).toBeTruthy();
+      expect(groups.groupMembersEmpty.getText()).toEqual('There are no members assigned to this group.');
+
+      // Confirm group is displayed in group list
+      shared.tableElements.then(function(rows) {
+        for (var i = 1; i <= rows.length; ++i) {
+          // Check if group name in table matches newly added group
+          element(by.css('tr.ng-scope:nth-child(' + i + ') > td:nth-child(2)')).getText().then(function(value) {
+            if (value == newGroupName) {
+              groupAdded = true;
+            }
+          });
+        }
+      }).thenFinally(function() {
+        // Verify new group was found in the group table
+        expect(groupAdded).toBeTruthy();
+      });
     });
   });
 
@@ -124,10 +123,9 @@ describe('The groups view', function() {
     groups.nameFormField.sendKeys('Group Name ' + randomGroup);
 
     shared.submitFormBtn.click().then(function() {
-      expect(groups.nameRequiredError.get(0).isDisplayed()).toBeFalsy();
       expect(shared.successMessage.isDisplayed()).toBeTruthy();
       expect(shared.tableElements.count()).toBeGreaterThan(groupCount);
-      expect(groups.groupMembersLoading.isPresent()).toBeFalsy();
+      expect(groups.groupMembersLoading.isDisplayed()).toBeFalsy();
       expect(groups.groupMembersEmpty.isDisplayed()).toBeTruthy();
     });
   });
@@ -148,7 +146,6 @@ describe('The groups view', function() {
     alertDialog.accept();
 
     // New group is not created
-    expect(groups.nameRequiredError.get(0).isDisplayed()).toBeFalsy();
     expect(shared.successMessage.isPresent()).toBeFalsy();
     expect(shared.tableElements.count()).toBe(groupCount);
 
@@ -206,7 +203,6 @@ describe('The groups view', function() {
     expect(alertDialog.dismiss).toBeDefined();
     alertDialog.accept();
 
-    expect(groups.nameRequiredError.get(0).isDisplayed()).toBeFalsy();
     expect(shared.successMessage.isPresent()).toBeFalsy();
 
     // Fields reset to original values
@@ -225,15 +221,13 @@ describe('The groups view', function() {
     var editedDescription = groups.descriptionFormField.getAttribute('value');
     var numMembers = parseInt(groups.detailsMemberCount.getText());
     shared.submitFormBtn.click().then(function () {
-      expect(groups.nameRequiredError.get(0).isDisplayed()).toBeFalsy();
       expect(shared.successMessage.isDisplayed()).toBeTruthy();
-      
-      expect(groups.groupMembersLoading.isPresent()).toBeFalsy();
-      
+
       if (numMembers > 0){
         expect(groups.groupMembersEmpty.isDisplayed()).toBeFalsy();
       }
-      
+      expect(groups.groupMembersLoading.isDisplayed()).toBeFalsy();
+
       // Changes persist
       browser.refresh();
       expect(groups.nameFormField.getAttribute('value')).toBe(editedName);

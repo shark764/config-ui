@@ -138,8 +138,8 @@ describe('The integrations view', function() {
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
 
     // Error messages displayed
-    expect(integrations.nameRequiredError.get(1).isDisplayed()).toBeTruthy();
-    expect(integrations.nameRequiredError.get(1).getText()).toBe('Field "Auth Token" is required');
+    expect(integrations.nameRequiredError.get(0).isDisplayed()).toBeTruthy();
+    expect(integrations.nameRequiredError.get(0).getText()).toBe('Field "Auth Token" is required');
 
     // New Integration is not saved
     expect(shared.tableElements.count()).toBe(integrationCount);
@@ -257,8 +257,6 @@ describe('The integrations view', function() {
     expect(alertDialog.dismiss).toBeDefined();
     alertDialog.accept();
 
-    // TODO
-    //expect(integrations.requiredError.get(0).isDisplayed()).toBeFalsy();
     expect(shared.successMessage.isPresent()).toBeFalsy();
     expect(shared.tableElements.count()).toBe(integrationCount);
 
@@ -280,7 +278,6 @@ describe('The integrations view', function() {
     var editWebRTC = integrations.webRTCFormSwitch.isSelected();
     shared.submitFormBtn.click();
 
-    expect(integrations.nameRequiredError.get(0).isDisplayed()).toBeFalsy();
     expect(shared.successMessage.isDisplayed()).toBeTruthy();
     expect(shared.tableElements.count()).toBe(integrationCount);
 
@@ -314,8 +311,8 @@ describe('The integrations view', function() {
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
 
     // Error messages displayed
-    expect(integrations.requiredError.get(1).isDisplayed()).toBeTruthy();
-    expect(integrations.requiredError.get(1).getText()).toBe('Field "Auth Token" is required');
+    expect(integrations.requiredError.get(0).isDisplayed()).toBeTruthy();
+    expect(integrations.requiredError.get(0).getText()).toBe('Field "Auth Token" is required');
     expect(shared.successMessage.isPresent()).toBeFalsy();
   });
 });
