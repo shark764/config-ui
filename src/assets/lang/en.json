@@ -278,5 +278,9 @@
   "bulkAction.success": "Bulk action successful!",
   
   "user.profile.save.success": "Your details have been updated.",
-  "user.profile.save.fail": "An error occured while updating your details."
+  "user.profile.save.fail": "An error occured while updating your details.",
+  
+  "multibox.add.placeholder": "Add Item...",
+  "multibox.search.placeholder": "Search...",
+  "multibox.create.btn": "Create New"
 }

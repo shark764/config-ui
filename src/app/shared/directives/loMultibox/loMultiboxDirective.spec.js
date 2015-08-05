@@ -133,14 +133,5 @@ describe('loMultibox directive', function(){
       isolateScope.labelClick();
       expect(isolateScope.selectedItem).toBeNull();
     }));
-    
-    it('should focus the input field when showing the dropdown', inject(['$timeout', function ($timeout) {
-      var inputSpy = jasmine.createSpyObj('input', ['focus']);
-      spyOn(element, 'find').and.returnValue(inputSpy);
-      isolateScope.labelClick();
-      $timeout.flush();
-      
-      expect(inputSpy.focus).toHaveBeenCalled();
-    }]));
   });
 });
