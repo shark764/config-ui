@@ -1,10 +1,17 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('MediaCollectionController', ['$scope', 'MediaCollection', 'Media', 'Session', 'mediaCollectionTableConfig', 'mediaTypes', '$timeout',
-    function ($scope, MediaCollection, Media, Session, mediaCollectionTableConfig, mediaTypes, $timeout) {
+  .controller('MediaCollectionController', ['$q', '$scope', 'MediaCollection', 'Media', 'Session', 'mediaCollectionTableConfig', 'mediaTypes', '$timeout', 'Alert', 'Chain',
+    function ($q, $scope, MediaCollection, Media, Session, mediaCollectionTableConfig, mediaTypes, $timeout, Alert, Chain) {
+      $scope.forms = {};
       $scope.Session = Session;
       $scope.redirectToInvites();
+
+      MediaCollection.prototype.preSave = function () {
+        if (angular.isDefined(this.mediaMap)) {
+          $scope.cleanMediaMap(this);
+        }
+      };
 
       $scope.create = function () {
         $scope.selectedMediaCollection = new MediaCollection({
@@ -17,58 +24,19 @@ angular.module('liveopsConfigPanel')
         });
       };
 
-      MediaCollection.prototype.preCreate = function () {
-        if (angular.isDefined(this.mediaMap)){
-          $scope.cleanMediaMap(this);
-        }
-      };
-
-      MediaCollection.prototype.preUpdate = function () {
-        if (angular.isDefined(this.mediaMap)){
-          $scope.cleanMediaMap(this);
-        }
-      };
-      
-      $scope.$on('resource:details:create:media', function () {
-        $scope.selectedMedia = new Media({
-          properties: {},
-          tenantId: Session.tenant.tenantId
-        });
-      });
-      
-      $scope.$on('resource:details:media:create:success', function () {
-          $scope.selectedMedia = null;
-      });
-      
-      $scope.$on('resource:details:media:canceled', function () {
-        $scope.selectedMedia = null;
-      });
-      
-      $scope.$on('resource:details:media:savedAndNew', function () {
-        //Use a timeout so that we aren't changing a scoped variable within a digest cycle,
-        //Otherwise the change will not get picked up by watches
-        //(Because this is triggered by an event, there is already a digest cycle in progress)
-        $timeout(function(){
-          $scope.selectedMedia = new Media({
-            properties: {},
-            tenantId: Session.tenant.tenantId
-          });
-        });
-      });
-      
-      $scope.cleanMediaMap = function(collection){
-        if (collection.mediaMap.length === 0){
+      $scope.cleanMediaMap = function (collection) {
+        if (collection.mediaMap.length === 0) {
           delete collection.mediaMap;
           return;
         }
 
         var cleanedMediaMap = [];
-        angular.forEach(collection.mediaMap, function(mapping){
+        angular.forEach(collection.mediaMap, function (mapping) {
           //Remove extra name property used to display the media name,
           //And description which is present when loading an existing media collection
           delete mapping.name;
           delete mapping.description;
-        //angular.copy will strip the $$hashKey properties that are added by the ng-options
+          //angular.copy will strip the $$hashKey properties that are added by the ng-options
           cleanedMediaMap.push(angular.copy(mapping));
         });
 
@@ -76,24 +44,52 @@ angular.module('liveopsConfigPanel')
       };
 
       //TODO: remove duplication from MediaController
-      $scope.setupAudioSourceWatch = function(childScope){
-        childScope.$parent.$watch('detailsForm.audiosource', function(newValue){
-          if (childScope.$parent.resource && childScope.$parent.resource.isNew() && angular.isDefined(newValue)){
-            childScope.$parent.detailsForm.audiosource.$setDirty();
-            childScope.$parent.detailsForm.audiosource.$setTouched();
-          }
-        });
-      };
+      $scope.$watch('forms.mediaForm.audiosource', function(newValue){
+        if ($scope.selectedMedia && $scope.selectedMedia.isNew() && angular.isDefined(newValue)){
+          $scope.forms.mediaForm.audiosource.$setDirty();
+          $scope.forms.mediaForm.audiosource.$setTouched();
+        }
+      });
 
-      $scope.additionalMedia = {
-        mediaTypes: mediaTypes,
-        setupAudioSourceWatch: $scope.setupAudioSourceWatch
-      };
+      var mediaCollectionSaveChain = Chain.get('media:collection:save');
+      var mediaSaveChain = Chain.get('media:save');
+      var mediaSaveAndNewChain = Chain.get('media:save:and:new');
+
+      mediaCollectionSaveChain.register('save', function () {
+        return $scope.selectedMediaCollection.save();
+      }, 0);
+
+      mediaSaveChain.register('save', function () {
+        return $scope.selectedMedia.save();
+      }, 0);
+
+      mediaSaveAndNewChain.register('save', function () {
+        return $scope.selectedMedia.save();
+      }, 0);
+
+      mediaSaveChain.register('save', function () {
+        $scope.selectedMedia = null;
+      }, 1);
+
+      mediaSaveAndNewChain.register('and:new', function () {
+        $scope.selectedMedia = new Media({
+          properties: {},
+          tenantId: Session.tenant.tenantId
+        });
+      }, 1);
+
+      $scope.$on('resource:details:create:media', function () {
+        $scope.selectedMedia = new Media({
+          properties: {},
+          tenantId: Session.tenant.tenantId
+        });
+      });
 
       $scope.$on('table:on:click:create', function () {
         $scope.create();
       });
 
       $scope.tableConfig = mediaCollectionTableConfig;
+      $scope.mediaTypes = mediaTypes;
     }
   ]);

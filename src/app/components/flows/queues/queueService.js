@@ -3,7 +3,7 @@
 angular.module('liveopsConfigPanel')
   .factory('Queue', ['LiveopsResourceFactory', function (LiveopsResourceFactory) {
 
-    var Queue = LiveopsResourceFactory.create('/v1/tenants/:tenantId/queues/:id', [
+    var Queue = LiveopsResourceFactory.create('/v1/tenants/:tenantId/queues/:id', 'Queue', [
       {name: 'name'},
       {name: 'description', optional: true},
       {name: 'activeVersion', optional: true},
@@ -14,7 +14,6 @@ angular.module('liveopsConfigPanel')
       return this.name;
     };
     
-    Queue.resourceName = 'Queue';
     return Queue;
   }]);
 

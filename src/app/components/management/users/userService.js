@@ -3,7 +3,7 @@
 angular.module('liveopsConfigPanel')
   .factory('User', ['LiveopsResourceFactory',
     function (LiveopsResourceFactory) {
-      var User = LiveopsResourceFactory.create('/v1/users/:id', [
+      var User = LiveopsResourceFactory.create('/v1/users/:id', 'User', [
         {name: 'firstName'},
         {name: 'lastName'},
         {name: 'role', optional: true},
@@ -24,8 +24,6 @@ angular.module('liveopsConfigPanel')
           return '';
         }
       };
-      
-      User.resourceName = 'User';
       
       return User;
   }]);
