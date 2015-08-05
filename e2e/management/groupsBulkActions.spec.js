@@ -33,7 +33,7 @@ describe('The groups view bulk actions', function() {
     expect(bulkActions.enableToggle.isDisplayed()).toBeTruthy();
   });
 
-  it('should allow all selected group\'s status to be Disabled', function() {
+  xit('should allow all selected group\'s status to be Disabled', function() {
     // Update All bulk actions
     shared.actionsBtn.click();
     bulkActions.selectAllTableHeader.click();
@@ -68,7 +68,7 @@ describe('The groups view bulk actions', function() {
     });
   });
 
-  it('should allow all selected group\'s status to be Enabled', function() {
+  xit('should allow all selected group\'s status to be Enabled', function() {
     // Update All bulk actions
     shared.actionsBtn.click();
     bulkActions.selectAllTableHeader.click();
@@ -123,7 +123,7 @@ describe('The groups view bulk actions', function() {
     expect(shared.successMessage.isPresent()).toBeFalsy();
   });
 
-  it('should only affect selected groups', function() {
+  xit('should only affect selected groups', function() {
     shared.tableElements.then(function(originalGroups) {
       // Select odd groups and leave even groups unselected
       for (var i = 0; i < originalGroups.length; i++) {
