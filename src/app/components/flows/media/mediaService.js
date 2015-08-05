@@ -3,12 +3,10 @@
 angular.module('liveopsConfigPanel')
   .factory('Media', ['LiveopsResourceFactory', function (LiveopsResourceFactory) {
 
-    var Media = LiveopsResourceFactory.create('/v1/tenants/:tenantId/media/:id', [
+    var Media = LiveopsResourceFactory.create('/v1/tenants/:tenantId/media/:id', 'Media', [
       {name: 'source'},
       {name: 'properties', optional: true}
     ]);
     
-    Media.prototype.resourceName = 'Media';
     return Media;
   }]);
-

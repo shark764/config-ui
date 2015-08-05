@@ -2,7 +2,7 @@
 
 angular.module('liveopsConfigPanel')
   .factory('Skill', ['LiveopsResourceFactory', function (LiveopsResourceFactory) {
-    var Skill = LiveopsResourceFactory.create('/v1/tenants/:tenantId/skills/:id', [
+    var Skill = LiveopsResourceFactory.create('/v1/tenants/:tenantId/skills/:id', 'Skill', [
       {name: 'name'},
       {name: 'description', optional: true},
       {name: 'hasProficiency'},
@@ -13,6 +13,5 @@ angular.module('liveopsConfigPanel')
       return this.name;
     };
     
-    Skill.prototype.resourceName = 'Skill';
     return Skill;
   }]);

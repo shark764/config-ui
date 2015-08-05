@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('chainExecutor', ['$parse', 'Chain', function ($parse, Chain) {
+  .directive('loChainExecutor', ['$parse', 'Chain', function ($parse, Chain) {
     return {
       restrict: 'A',
       link: function ($scope, $elem, $attrs) {
@@ -9,7 +9,7 @@ angular.module('liveopsConfigPanel')
         event = angular.isDefined(event) ? event : 'click';
         
         $elem.bind(event, function () {
-          var chainName = $attrs.chainExecutor;
+          var chainName = $attrs.loChainExecutor;
           Chain.get(chainName).execute();
           $scope.$apply();
         });

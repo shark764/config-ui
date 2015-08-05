@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('detailsPanel', ['$location', 'DirtyForms',
+  .directive('loDetailsPanel', ['$location', 'DirtyForms',
     function ($location, DirtyForms) {
       return {
         restrict: 'EA',

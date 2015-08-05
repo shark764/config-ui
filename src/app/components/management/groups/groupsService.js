@@ -3,7 +3,7 @@
 angular.module('liveopsConfigPanel')
   .factory('Group', ['LiveopsResourceFactory', function (LiveopsResourceFactory) {
 
-    var Group = LiveopsResourceFactory.create('/v1/tenants/:tenantId/groups/:id', [
+    var Group = LiveopsResourceFactory.create('/v1/tenants/:tenantId/groups/:id', 'Group', [
       {name: 'name'},
       {name: 'description', optional: true},
       {name: 'owner'},
@@ -14,6 +14,5 @@ angular.module('liveopsConfigPanel')
       return this.name;
     };
     
-    Group.prototype.resourceName = 'Group';
     return Group;
   }]);

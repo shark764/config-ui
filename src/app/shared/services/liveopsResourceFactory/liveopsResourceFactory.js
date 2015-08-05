@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .factory('LiveopsResourceFactory', ['$http', '$resource', '$q', 'apiHostname', 'Session', 'SaveInterceptor', 'queryCache',
-    function ($http, $resource, $q, apiHostname, Session, SaveInterceptor, queryCache) {
+  .factory('LiveopsResourceFactory', ['$http', '$resource', '$q', 'apiHostname', 'Session', 'SaveInterceptor', 'DeleteInterceptor', 'queryCache',
+    function ($http, $resource, $q, apiHostname, Session, SaveInterceptor, DeleteInterceptor, queryCache) {
       function appendTransform(defaults, transform) {
         // We can't guarantee that the default transformation is an array
         defaults = angular.isArray(defaults) ? defaults : [defaults];
@@ -20,7 +20,7 @@ angular.module('liveopsConfigPanel')
       }
 
       return {
-        create: function (endpoint, updateFields, requestUrlFields) {
+        create: function (endpoint, resourceName, updateFields, requestUrlFields) {
           requestUrlFields = typeof requestUrlFields !== 'undefined' ? requestUrlFields : {
             id: '@id',
             tenantId: '@tenantId',
@@ -92,9 +92,12 @@ angular.module('liveopsConfigPanel')
               method: 'DELETE',
               transformResponse: appendTransform($http.defaults.transformResponse, function (value) {
                 return getResult(value);
-              })
+              }),
+              interceptor: DeleteInterceptor
             }
           });
+          
+          Resource.prototype.resourceName = resourceName;
 
           var proxyGet = Resource.get;
 

@@ -3,7 +3,7 @@
 angular.module('liveopsConfigPanel')
   .factory('DispatchMapping', ['LiveopsResourceFactory', function (LiveopsResourceFactory) {
 
-    var DispatchMapping = LiveopsResourceFactory.create('/v1/tenants/:tenantId/dispatch-mappings/:id', [
+    var DispatchMapping = LiveopsResourceFactory.create('/v1/tenants/:tenantId/dispatch-mappings/:id', 'DispatchMapping', [
       {name: 'name'},
       {name: 'description', optional: true},
       {name: 'value', optional: true},
@@ -16,8 +16,6 @@ angular.module('liveopsConfigPanel')
     DispatchMapping.prototype.getDisplay = function () {
       return this.name;
     };
-    
-    DispatchMapping.prototype.resourceName = 'DispatchMapping';
     
     return DispatchMapping;
   }]);

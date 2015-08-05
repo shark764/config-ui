@@ -5,7 +5,7 @@ angular.module('liveopsConfigPanel')
     function ($parse, Chain, DirtyForms) {
       return {
         restrict: 'A',
-        require: ['ngResource', 'form', '^detailsPanel'],
+        require: ['ngResource', 'form', '^loDetailsPanel'],
         link: function ($scope, $elem, $attrs, $controllers) {
           var resetForm = function (form) {
             //Workaround for fields with invalid text in them not being cleared when the model is updated to undefined
@@ -28,16 +28,16 @@ angular.module('liveopsConfigPanel')
 
           var chain = Chain.get($attrs.loFormCancel);
           chain.register('cancel:form', function () {
-            DirtyForms.confirmIfDirty(function () {
-              var resource = $parse($attrs.ngResource)($scope);
-              var form = $parse($attrs.name)($scope);
-              if (resource.isNew() || !form.$dirty) {
-                $controllers[2].close();
-              } else {
+            var resource = $parse($attrs.ngResource)($scope);
+            var form = $parse($attrs.name)($scope);
+            if (resource.isNew() || !form.$dirty) {
+              $controllers[2].close();
+            } else {
+              DirtyForms.confirmIfDirty(function () {
                 resource.reset();
                 resetForm(form);
-              }
-            });
+              });
+            }
           });
         }
       };
