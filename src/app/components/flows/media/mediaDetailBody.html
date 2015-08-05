@@ -34,7 +34,7 @@
         error-type-required="{{'media.details.source.error' | translate}}"
         error-type-url="{{'media.details.source.url.error' | translate}}">
       </form-error>
-      <input type="url" ng-required="true" ng-model="resource.source" name="audiosource" required></input>
+      <input type="url" ng-model-options="{allowInvalid : true}" ng-required="true" ng-model="resource.source" name="audiosource" required></input>
     </div>
 
     <div ng-switch-default>
