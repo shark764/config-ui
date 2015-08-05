@@ -53,7 +53,7 @@ describe('QueueController', function() {
 
     expect($scope.selectedQueue).toBeDefined();
     expect($scope.selectedQueue.tenantId).toEqual(Session.tenant.tenantId);
-    expect($scope.additional.initialQuery).toEqual('');
+    expect($scope.additional.initialQuery).toEqual('{}');
   });
 
     it('should create a version if creating a new queue', function () {
@@ -83,7 +83,7 @@ describe('QueueController', function() {
       $scope.selectedQueue = new Queue();
       $scope.additional.initialQuery = 'somevalues';
       $rootScope.$broadcast('resource:details:queue:canceled');
-      expect($scope.additional.initialQuery).toEqual('');
+      expect($scope.additional.initialQuery).toEqual('{}');
     }]));
 
     it('should not reset if the selectedQueue is not a new queue', inject(['$rootScope', function($rootScope){

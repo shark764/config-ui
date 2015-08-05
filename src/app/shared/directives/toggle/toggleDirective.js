@@ -20,7 +20,7 @@ angular.module('liveopsConfigPanel')
         if(angular.isUndefined($scope.falseValue)) {
           $scope.falseValue = false;
         }
-        
+
         if (angular.isDefined($scope.confirmEnableMessage) && angular.isDefined($scope.confirmDisableMessage)){
           $scope.confirmOnToggle = true;
         }
