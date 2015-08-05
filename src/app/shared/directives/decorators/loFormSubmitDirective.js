@@ -6,11 +6,12 @@ angular.module('liveopsConfigPanel')
       return {
         restrict: 'A',
         require: ['form'],
+        controller: function () {},
         link: function ($scope, $elem, $attrs) {
           var chain = Chain.get($attrs.loFormSubmit);
           var form = $parse($attrs.name)($scope);
-          
-          chain.register('form:error:api', {
+
+          chain.hook('form:error:api', {
             failure: function (error) {
               if (error.data.error) {
                 var attributes = error.data.error.attribute;
@@ -23,12 +24,12 @@ angular.module('liveopsConfigPanel')
                   form[key].$setTouched();
                 });
               }
-              
+
               return error;
             }
           }, 99);
-          
-          chain.register('emit:event', {
+
+          chain.hook('emit:event', {
             success: function(resource) {
               $scope.$emit('form:submit:success', resource);
             },

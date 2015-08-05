@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('MediaCollectionController', ['$q', '$scope', 'MediaCollection', 'Media', 'Session', 'mediaCollectionTableConfig', 'mediaTypes', '$timeout', 'Alert', 'Chain',
-    function ($q, $scope, MediaCollection, Media, Session, mediaCollectionTableConfig, mediaTypes, $timeout, Alert, Chain) {
+  .controller('MediaCollectionController', ['$q', '$scope', 'MediaCollection', 'Media', 'Session', 'mediaCollectionTableConfig', 'mediaTypes', 'Alert', 'Chain',
+    function ($q, $scope, MediaCollection, Media, Session, mediaCollectionTableConfig, mediaTypes, Alert, Chain) {
       $scope.forms = {};
       $scope.Session = Session;
       $scope.redirectToInvites();
@@ -55,23 +55,23 @@ angular.module('liveopsConfigPanel')
       var mediaSaveChain = Chain.get('media:save');
       var mediaSaveAndNewChain = Chain.get('media:save:and:new');
 
-      mediaCollectionSaveChain.register('save', function () {
+      mediaCollectionSaveChain.hook('save', function () {
         return $scope.selectedMediaCollection.save();
       }, 0);
 
-      mediaSaveChain.register('save', function () {
+      mediaSaveChain.hook('save', function () {
         return $scope.selectedMedia.save();
       }, 0);
 
-      mediaSaveAndNewChain.register('save', function () {
+      mediaSaveAndNewChain.hook('save', function () {
         return $scope.selectedMedia.save();
       }, 0);
 
-      mediaSaveChain.register('save', function () {
+      mediaSaveChain.hook('save', function () {
         $scope.selectedMedia = null;
       }, 1);
 
-      mediaSaveAndNewChain.register('and:new', function () {
+      mediaSaveAndNewChain.hook('and:new', function () {
         $scope.selectedMedia = new Media({
           properties: {},
           tenantId: Session.tenant.tenantId

@@ -28,7 +28,7 @@ angular.module('liveopsConfigPanel')
       
       var mediaSaveChain = Chain.get('media:save');
       
-      mediaSaveChain.register('save', function() {
+      mediaSaveChain.hook('save', function() {
         return $scope.selectedMedia.save();
       });
       

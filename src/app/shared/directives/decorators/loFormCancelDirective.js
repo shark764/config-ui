@@ -27,7 +27,7 @@ angular.module('liveopsConfigPanel')
           };
 
           var chain = Chain.get($attrs.loFormCancel);
-          chain.register('cancel:form', function () {
+          chain.hook('cancel:form', function () {
             var resource = $parse($attrs.ngResource)($scope);
             var form = $parse($attrs.name)($scope);
             if (resource.isNew() || !form.$dirty) {

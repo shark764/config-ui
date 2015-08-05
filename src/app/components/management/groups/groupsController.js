@@ -43,13 +43,13 @@ angular.module('liveopsConfigPanel')
       $scope.bulkActions = {
         setGroupStatus: new BulkAction()
       };
-      
+
       $scope.additional = {
-          gotoUserPage: function(userId){
-            $state.transitionTo('content.management.users', {
-              id: userId
-            });
-          }
-      }
+        gotoUserPage: function(userId){
+          $state.transitionTo('content.management.users', {
+            id: userId
+          });
+        }
+      };
     }
   ]);
