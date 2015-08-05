@@ -31,20 +31,23 @@ describe('users controller', function () {
       });
 
       $scope.user = mockUsers[0];
-      $httpBackend.flush();
     }
   ]));
 
-  it('should have users', inject(function () {
-    expect($scope.users).toBeDefined();
-    expect($scope.users.length).toEqual(3);
+  it('should have fetchUsers', inject(function () {
+    var users = $scope.fetchUsers();
+
+    $httpBackend.flush();
+
+    expect(users).toBeDefined();
+    expect(users.length).toEqual(3);
   }));
 
-  it('should catch the on:click:create event', inject([ function () {
-      $scope.$broadcast('table:on:click:create');
-      expect($scope.selectedUser).toBeDefined();
-      expect($scope.selectedUser.status).toEqual(true);
-    }]));
+  it('should catch the on:click:create event', inject([function () {
+    $scope.$broadcast('table:on:click:create');
+    expect($scope.selectedUser).toBeDefined();
+    expect($scope.selectedUser.status).toEqual('enabled');
+  }]));
 
   describe('updateDisplayName function', function () {
     var childScope;
@@ -76,7 +79,7 @@ describe('users controller', function () {
       expect(childScope.resource.displayName).toEqual('');
     }));
 
-    it('should call fetch if session.tenant.tenantId is changed', inject(function () {
+    it('should return different users on fetch if session.tenant.tenantId is changed', inject(function () {
       var tempUsers = [{
         'id': 'userId20',
         'status': true,
@@ -92,12 +95,12 @@ describe('users controller', function () {
       });
 
       Session.tenant.tenantId = 'tenant';
-      $scope.$digest();
+      var users = $scope.fetchUsers();
 
       $httpBackend.flush();
 
-      expect($scope.users.length).toEqual(1);
-      expect($scope.users[0].id).toEqual(tempUsers[0].id);
+      expect(users.length).toEqual(1);
+      expect(users[0].id).toEqual(tempUsers[0].id);
     }));
   });
 
@@ -152,7 +155,9 @@ describe('users controller', function () {
     it('should create an invite for the new user after creation', function () {
       spyOn(Invite, 'save');
 
-      var user = new User({email:'joeblow@test.com'});
+      var user = new User({
+        email: 'joeblow@test.com'
+      });
 
       user.postCreate();
 
@@ -164,12 +169,26 @@ describe('users controller', function () {
       });
     });
 
-    it('should create an invite for the new user after creation has failed if it was a 400 error', function () {
+    it('should create an invite for the new user after creation has failed if it was a 400 error with email exists error', function () {
       spyOn(Invite, 'save');
 
-      var user = new User({email : 'joeblow@test.com'});
+      var user = new User({
+        email: 'joeblow@test.com'
+      });
 
-      user.postCreateError({status:400});
+      var response = {
+        status: 400,
+        data: {
+          error: {
+            code: 400,
+            attribute: {
+              email: 'Email address already exists in the system'
+            }
+          }
+        }
+      };
+
+      user.postCreateError(response);
 
       expect(Invite.save).toHaveBeenCalledWith({
         tenantId: Session.tenant.tenantId
@@ -183,7 +202,9 @@ describe('users controller', function () {
       spyOn(Invite, 'save');
 
       $scope.user.email = 'joeblow@test.com';
-      new User().postCreateError({status:401});
+      new User().postCreateError({
+        status: 401
+      });
 
       expect(Invite.save).not.toHaveBeenCalledWith();
     });
@@ -223,25 +244,5 @@ describe('users controller', function () {
       mockUsers[0].postCreateError(error);
       expect(Invite.save).not.toHaveBeenCalled();
     }));
-
-
-    it('should create an invite if error is 400 and method is POST', inject(function () {
-      var error = {
-        config: {
-          method: 'POST'
-        },
-        status: 400
-      };
-
-      spyOn(Invite, 'save');
-      mockUsers[0].postCreateError(error);
-      expect(Invite.save).toHaveBeenCalledWith({
-        tenantId: Session.tenant.tenantId
-      }, {
-        email: mockUsers[0].email,
-        roleId: '00000000-0000-0000-0000-000000000000'
-      });
-    }));
   });
-
 });

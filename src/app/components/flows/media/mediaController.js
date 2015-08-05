@@ -12,8 +12,8 @@ angular.module('liveopsConfigPanel')
         });
       };
 
-      $scope.fetch = function () {
-        $scope.medias = Media.query({
+      $scope.fetchMedias = function () {
+        return Media.cachedQuery({
           tenantId: Session.tenant.tenantId
         });
       };
@@ -22,13 +22,20 @@ angular.module('liveopsConfigPanel')
         $scope.create();
       });
 
-      $scope.$watch('Session.tenant.tenantId', $scope.fetch, true);
-
-      $scope.fetch();
       $scope.tableConfig = mediaTableConfig;
       
+      $scope.setupAudioSourceWatch = function(childScope){
+        childScope.$parent.$watch('detailsForm.audiosource', function(newValue){
+          if (childScope.$parent.resource && childScope.$parent.resource.isNew() && angular.isDefined(newValue)){
+            childScope.$parent.detailsForm.audiosource.$setDirty();
+            childScope.$parent.detailsForm.audiosource.$setTouched();
+          }
+        });
+      };
+      
       $scope.additional = {
-        mediaTypes: mediaTypes
+        mediaTypes: mediaTypes,
+        setupAudioSourceWatch: $scope.setupAudioSourceWatch
       };
     }
   ]);

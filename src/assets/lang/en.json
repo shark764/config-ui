@@ -13,6 +13,7 @@
   "value.disabled": "Disabled",
   "value.displayName": "{{displayName}}",
   "value.enabled" : "Enabled",
+  "value.pending" : "Pending",
   "value.email": "Email",
   "value.error.name.required" : "Field \"Name\" is required.",
   "value.identifier": "Identifier",
@@ -80,7 +81,7 @@
   "details.role.error": "Please select a role",
   "details.groups.none" : "There are no groups for the selected tenant.",
   "details.groups.select.placeholder" : "Select Group...",
-  "details.usergroups.none": "{{displayName}} is not assigned to any groups.",
+  "details.usergroups.none": "This user is not assigned to any groups.",
   "details.usergroups.remove": "Remove user from this group",
   "details.groups.showall": "Show all",
   "details.groups.hideextra": "Minimize",
@@ -98,6 +99,8 @@
   "details.personalTelephone": "Personal Telephone",
   "details.personalTelephone.error": "Personal Telephone must be E.164 format (+18005551234)",
 
+  "user.details.disable.confirm": "This will disable this user and prevent them from logging in. Do you want to continue?",
+  "user.details.enable.confirm": "This will enable this user and allow them to log in. Do you want to continue?",
   "user.details.creating": "Creating New User",
   "user.details.password.reset": "Reset Password",
   "user.table.displayName": "Display Name",
@@ -107,6 +110,8 @@
 
   "group.details.members.none": "There are no members assigned to this group.",
   "group.details.creating": "Creating Group",
+  "group.details.disable.confirm": "This will disable this group. Do you want to continue?",
+  "group.details.enable.confirm": "This will enable this group. Do you want to continue?",
   "group.table.members": "Members",
   "group.table.title": "Group Management",
 
@@ -119,6 +124,8 @@
   "skill.table.members": "Members",
   "skill.table.proficiency": "Proficiency",
   "skill.table.title": "Skill Management",
+  "skill.details.disable.confirm": "This will disable this skill. Do you want to continue?",
+  "skill.details.enable.confirm": "This will enable this skill. Do you want to continue?",
 
   "flow.type": "Type",
   "flow.type.choose": "Select a Type...",
@@ -132,6 +139,8 @@
   "flow.details.versions.create.title": "Create new version",
   "flowVersions.title": "Versions",
   "flow.details.creating": "Creating New Flow",
+  "flow.details.disable.confirm": "This will disable this flow. Do you want to continue?",
+  "flow.details.enable.confirm": "This will enable this flow. Do you want to continue?",
   "flow.table.title": "Flow Management",
 
   "queue.details.version.error" : "Active Version is required",
@@ -149,6 +158,8 @@
   "queue.details.priority": "Priority",
   "queue.details.queue.error" : "Field \"Query\" is required.",
   "queue.details.creating": "Creating New Queue",
+  "queue.details.disable.confirm": "This will disable this queue. Do you want to continue?",
+  "queue.details.enable.confirm": "This will enable this queue. Do you want to continue?",
   "queue.table.title": "Queue Management",
 
   "media.details": "Media",
@@ -164,6 +175,7 @@
   "media.details.mediaTypes.tts": "TTS",
   "media.details.creating": "Creating New Media",
   "media.table.title": "Media Management",
+  "media.details.source.url.error": "Audio source must be a URL",
 
   "media.collections.media.new" : "Create New Media",
   "media.collections.media.add": "Add Media...",
@@ -172,9 +184,11 @@
   "media.collections.defaultMediaKey.error": "Please select a default identifier",
   "media.collections.defaultMediaKey.select": "Select default identifier...",
   "media.collections.mappingId.error": "Please select a media item",
-  "media.collections.mappingLookup.error": "Please enter an identifier for this media item",
+  "media.collections.mappingLookup.error.required": "Please enter an identifier for this media item",
+  "media.collections.mappingLookup.error.duplicate": "This lookup value already exists for this media collection.",
   "media.collections.mapping.add": "Add media items with the plus button above.",
   "media.collections.defaultMediaKey": "Default Identifier",
+  "media.collections.mapping.search.placeholder": "Search existing media...",
 
   "tenant.details.title": "Tenants",
   "tenant.details.name": "Tenant Name",
@@ -183,6 +197,8 @@
   "tenant.details.region": "Region",
   "tenant.details.name.error": "Please enter a name",
   "tenant.details.creating": "Creating New Tenant",
+  "tenant.details.disable.confirm": "This will disable this tenant. Do you want to continue?",
+  "tenant.details.enable.confirm": "This will enable this tenant. Do you want to continue?",
   "tenant.table.title": "Tenant Management",
 
   "integration.details": "Integration",
@@ -190,6 +206,8 @@
   "integration.details.properties.authToken": "Auth Token",
   "integration.details.properties.webRTC": "WebRTC",
   "integration.details.creating": "Creating New Integration",
+  "integration.details.disable.confirm": "This will disable this integration. Do you want to continue?",
+  "integration.details.enable.confirm": "This will enable this integration. Do you want to continue?",
   "integration.table.account": "Account",
   "integration.table.webrtc": "WebRTC",
   "integration.table.title": "Integration Management",
@@ -209,10 +227,12 @@
   "dispatchMappings.details.direction.error": "Please select a direction",
   "dispatchMappings.details.integration.select": "Select Integration...",
   "dispatchMappings.details.creating": "Creating New Dispatch Mapping",
+  "dispatchMappings.details.disable.confirm": "This will disable this dispatch mapping. Do you want to continue?",
+  "dispatchMappings.details.enable.confirm": "This will enable this dispatch mapping. Do you want to continue?",
   "dispatchMappings.table.interactionField": "Interaction Field",
   "dispatchMappings.table.channelType": "Channel Type",
   "dispatchmappings.table.title": "Dispatch Mapping Management",
-  
+
 
   "table.search.placeholder": "Search",
   "table.actions.button": "Actions",
@@ -225,6 +245,7 @@
   "unsavedchanges.reload.warning": "You have unsaved changes that will be lost!",
 
   "bulkActions.enable.users": "Enable Users",
+  "bulkActions.enable.users.fail": "You cannot disable your own account.",
   "bulkActions.selected": "Selected ",
   "bulkActions.userGroups.add": "Add Group",
   "bulkActions.userGroups.remove": "Remove Group",
@@ -241,19 +262,25 @@
   "bulkActions.skills.add": "Add Skill",
   "bulkActions.skills.update": "Update Skill",
   "bulkActions.skills.remove": "Remove Skill",
-  "bulkActions.skills.none": "Click the plus button above to add a skill change",
+  "bulkActions.skills.none": "Click the plus button above to add a skill change.",
   "bulkActions.confirm.title": "Confirm bulk edit",
   "bulkActions.confirm.message": "This bulk action will affect {{numItems}} items. Do you want to continue?",
-
+  "bulkActions.user.confirm.message": "You are about to make your specified changes to the {{numItems}} users selected. Do you want to continue?",
   "bulkActions.enable.skills": "Enable Skills",
   "bulkActions.skills.hasProficiency": "Set Has Proficiency",
   "bulkActions.enable.groups": "Enable Groups",
+  "bulkActions.enable.groups.fail": "Cannot disable the Everyone group.",
   "bulkActions.enable.tenants": "Enable Tenants",
-  "bulkActions.enable.dispatchmappings": "Enable Dispatch Mappings",
+  "bulkActions.enable.dispatchMappings": "Enable Dispatch Mappings",
   "bulkActions.enable.integrations": "Enable Integrations",
   "bulkActions.enable.flows": "Enable Flows",
   "bulkActions.enable.queues": "Enable Queues",
+  "bulkAction.success": "Bulk action successful!",
   
   "user.profile.save.success": "Your details have been updated.",
-  "user.profile.save.fail": "An error occured while updating your details."
+  "user.profile.save.fail": "An error occured while updating your details.",
+  
+  "multibox.add.placeholder": "Add Item...",
+  "multibox.search.placeholder": "Search...",
+  "multibox.create.btn": "Create New"
 }

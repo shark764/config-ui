@@ -1,8 +1,13 @@
 (function() {
   'use strict';
 
-  function FlowPaletteService(FlowNotationService, FlowMockService) {
+  function FlowPaletteService(FlowNotationService) {
     return {
+
+      loadData: function(data) {
+        this.data = data;
+      },
+
       loadGateways: function(palette) {
         palette.load([
           new joint.shapes.liveOps.gateway({
@@ -17,47 +22,47 @@
       },
 
       loadEvents: function(palette) {
-        palette.load([
-          new joint.shapes.liveOps.event({
-            name: 'none',
-            entity: 'start'
-          }),
-          new joint.shapes.liveOps.event({
-            name: 'none',
-            entity: 'catch'
-          }),
-          new joint.shapes.liveOps.event({
-            name: 'none',
-            entity: 'throw',
-            terminate: true
-          })
-        ], 'events');
+        var self = this;
 
-        _.each(FlowMockService.events, function(notation, index) {
+        palette.load(_.map(self.data.events, function(event){
+          var evt = new joint.shapes.liveOps.event({
+            name: event.type,
+            entity: event.entity,
+            terminate: event.terminate || false,
+            inputs: event.inputs
+          });
+          return evt;
+        }), 'events');
+
+        _.each(self.data.events, function(notation) {
           FlowNotationService.registerEvent(notation);
-        })
+        });
       },
 
       loadActivities: function(palette) {
-        _.each(_.groupBy(FlowMockService.activities, 'entity'), function(notations, entity) {
+        var self = this;
+        _.each(_.groupBy(self.data.activities, 'entity'), function(notations, entity) {
           palette.load(
             _.map(notations, function(notation) {
-              return new joint.shapes.liveOps[entity]({
+              var n = new joint.shapes.liveOps[entity]({
                 content: notation.label,
                 activityType: notation.type,
                 type: 'liveOps.activity',
                 name: notation.name,
                 targeted: notation.targeted,
                 target: notation.target,
-                params: _.reduce(notation.params, function(memo, value, key) {
-                  if (value.default) {
-                    memo[key] = value.default;
-                  };
+                params: _.reduce(notation.params, function(memo, value) {
+                  if (_.has(value, 'default')) {
+                    memo[value.key] = value.default;
+                  }
                   return memo;
                 }, {})
               });
+              n.attributes.inputs = n.attributes.inputs.concat(notation.inputs);
+              return n;
             }
           ), entity);
+
           _.each(notations, function(notation) {
             FlowNotationService.registerActivity(notation);
           });

@@ -1,7 +1,7 @@
 <table-controls
   id="table-pane"
   config="tableConfig"
-  items="integrations"
+  items="fetchIntegrations()"
   selected="selectedIntegration"
   resource-name="integrations">
 
@@ -34,7 +34,8 @@
     body-template-url="app/components/configuration/integrations/integrationDetailBody.html"
     original-resource="selectedIntegration"></resource-details>
     
-    <bulk-action-executor class="details-pane" ng-show="showBulkActions" items="integrations" bulk-actions="bulkActions" show-bulk-actions="showBulkActions" selected-display="type">
+    <bulk-action-executor class="details-pane" ng-show="showBulkActions" items="fetchIntegrations()"
+      bulk-actions="bulkActions" show-bulk-actions="showBulkActions">
       <ba-set-integration-status bulk-action="bulkActions.setIntegrationStatus"></ba-set-integration-status>
     </bulk-action-executor>
 </div>

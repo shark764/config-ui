@@ -4,8 +4,10 @@
 
 <div class="input-group">
   <label>{{'value.name' | translate}}</label>
+  <form-error field="detailsForm.name"
+    error-type-required="{{'details.name.error' | translate}}">
+  </form-error>
   <div>
-    <form-error field="detailsForm.name" error-type-api="{{'details.name.error' | translate}}" error-type-required="{{'details.name.error' | translate}}"></form-error>
     <input required ng-model="resource.name" name="name" type="text"></input>
   </div>
 </div>
@@ -18,22 +20,30 @@
 </div>
 
 <div class="divider-header" ng-hide="! resource.id">
-  <h4>Members <b class="count" translate="value.numMembers" translate-value-number="{{resource.members ? resource.members.length : 0}}" ></b></h4>
+  <h4>Members
+    <b class="count" translate="value.numMembers"
+      translate-value-number="{{resource.fetchGroupUsers().length}}" >
+    </b>
+  </h4>
 </div>
 
-<p ng-if="! resource.isNew() && (originalResource.members.$resolved == undefined || originalResource.members.$resolved)" class="null" id="empty-members-message" ng-hide="resource.members.length">{{'group.details.members.none' | translate}}</p>
+<p ng-if="! resource.isNew() && originalResource.fetchGroupUsers().$resolved"
+  class="null" id="empty-members-message" ng-hide="resource.fetchGroupUsers().length">
+  {{'group.details.members.none' | translate}}
+</p>
 
 <div ng-if="resource.id" class="input-group">
-  <loading ng-if="originalResource.members.$resolved != undefined" ng-show="!originalResource.members.$resolved"></loading>
-  
+  <loading ng-if="originalResource.fetchGroupUsers().$resolved != undefined"
+    ng-show="!originalResource.fetchGroupUsers().$resolved"></loading>
+
   <label>&nbsp;</label>
-  <table scroll-table max-height="300" class="table" ng-hide="! originalResource.members.length > 0">
+  <table scroll-table max-height="300" class="table" ng-show="originalResource.fetchGroupUsers().length > 0">
     <thead>
       <tr><th>{{'value.name' | translate}}</th></tr>
     </thead>
     <tbody>
-      <tr ng-repeat="user in resource.members">
-        <td><audit-text translation="value.displayName" user-id="user.memberId"></audit-text></td>
+      <tr ng-repeat="user in resource.fetchGroupUsers()">
+        <td><a ng-click="gotoUserPage(user.memberId)"><audit-text translation="value.displayName" user-id="user.memberId"></audit-text></a></td>
       </tr>
     </tbody>
   </table>

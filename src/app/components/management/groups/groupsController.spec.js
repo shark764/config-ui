@@ -1,6 +1,6 @@
 'use strict';
 
-/* global spyOn, jasmine: false  */
+/* global jasmine: false  */
 
 describe('groups controller', function () {
   var $scope,
@@ -23,35 +23,17 @@ describe('groups controller', function () {
         '$scope': $scope
       });
       $scope.$digest();
-      $httpBackend.flush();
     }
   ]));
-
-  it('should have groups', inject(function () {
-    expect($scope.groups).toBeDefined();
-    expect($scope.groups.length).toEqual(3);
-  }));
-
-  it('should refetch groups when tenant changes', function () {
-    expect($scope.fetch).toBeDefined();
-    spyOn($scope, 'fetch');
-
-    $scope.Session.tenant = {
-      tenantId: 'tenant-id-2'
-    };
-
-    $scope.$digest();
-    expect($scope.fetch).toHaveBeenCalled();
-  });
-
+  
   describe('fetch function', function () {
     it('should be defined', inject(function () {
-      expect($scope.fetch).toBeDefined();
+      expect($scope.fetchGroups).toBeDefined();
     }));
 
     it('should query for groups', inject(['$httpBackend', 'apiHostname', function ($httpBackend, apiHostname) {
       $httpBackend.expectGET(apiHostname + '/v1/tenants/tenant-id/groups');
-      $scope.fetch();
+      $scope.fetchGroups();
       $httpBackend.flush();
     }]));
   });
@@ -71,16 +53,31 @@ describe('groups controller', function () {
     }));
   });
 
-  describe('updateMembers function', function () {
-    it('should be defined', inject(function () {
-      expect($scope.updateMembers).toBeDefined();
-      expect($scope.updateMembers).toEqual(jasmine.any(Function));
+  describe('Group.fetchGroupUsers function', function () {
+    it('should be defined', inject(function (Group) {
+      expect(Group.prototype.fetchGroupUsers).toBeDefined();
+      expect(Group.prototype.fetchGroupUsers).toEqual(jasmine.any(Function));
+      
+      expect(mockGroups[0].fetchGroupUsers).toBeDefined();
     }));
 
     it('should query for the members list', inject(['$httpBackend', 'apiHostname', function ($httpBackend, apiHostname) {
       $httpBackend.expectGET(apiHostname + '/v1/tenants/tenant-id/groups/groupId1/users');
-      $scope.updateMembers(mockGroups[0]);
+      mockGroups[0].fetchGroupUsers();
       $httpBackend.flush();
+    }]));
+  });
+  
+  describe('gotoUserPage function', function () {
+    it('should be defined', inject(function () {
+      expect($scope.additional.gotoUserPage).toBeDefined();
+      expect($scope.additional.gotoUserPage).toEqual(jasmine.any(Function));
+    }));
+    
+    it('should call $state transition to with the users page and given userId', inject(['$state', function ($state) {
+      spyOn($state, 'transitionTo');
+      $scope.additional.gotoUserPage('1234');
+      expect($state.transitionTo).toHaveBeenCalledWith('content.management.users', {id: '1234'});
     }]));
   });
 });

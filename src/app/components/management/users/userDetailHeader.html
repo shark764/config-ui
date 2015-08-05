@@ -8,9 +8,12 @@
 
     <div class="details">
       <div>
-        <toggle class="status-toggle" ng-model="resource.status"></toggle>
+        <toggle class="status-toggle" ng-model="resource.status" true-value="enabled" false-value="disabled" ng-disabled="Session.user.id === resource.id"
+          confirm-disable-message="{{'user.details.disable.confirm' | translate}}"
+          confirm-enable-message="{{'user.details.enable.confirm' | translate}}">
+        </toggle>
       </div>
-      
+
       <div>
         <b audit-text
           translation="value.createdby.time"

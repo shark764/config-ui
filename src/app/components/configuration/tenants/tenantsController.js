@@ -15,7 +15,7 @@ angular.module('liveopsConfigPanel')
         $scope.tenants = Tenant.query({
           regionId: Session.activeRegionId
         });
-
+        
         $scope.users = User.query({
           tenantId: Session.tenant.tenantId
         });

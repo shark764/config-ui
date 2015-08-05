@@ -9,6 +9,7 @@
     background-color: #fff;
     border-bottom: 1px solid #dadada;
     padding: 15px;
+    padding-right: 25px; /* add room for x button */
     position: relative;
 
     toggle {
@@ -21,15 +22,15 @@
       padding-left: $toggle-width + 5px;
     }
 
-    .info {
-      h1 {
-        word-break: break-all;
-        padding: 0;
-        padding-bottom: 5px;
-        line-height: 0.8em;
-        margin: 0;
-      }
+    h1 {
+      word-break: break-all;
+      padding: 0;
+      padding-bottom: 5px;
+      line-height: 0.8em;
+      margin: 0;
+    }
 
+    .info {
       b {
         font-size: .7em;
         color: $grey;
@@ -81,9 +82,13 @@
         vertical-align: top;
       }
 
-      input, select {
-        width: 100%;
-        margin: 0;
+
+      > div {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        justify-content: space-between;
+        align-items: center;
       }
 
       button, input[type=button] {

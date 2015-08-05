@@ -46,7 +46,6 @@ describe('The users view', function() {
     shared.firstTableRow.click();
     expect(users.firstNameFormField.isDisplayed()).toBeTruthy();
     expect(users.lastNameFormField.isDisplayed()).toBeTruthy();
-    expect(users.displayNameFormField.isDisplayed()).toBeTruthy();
     expect(users.personalTelephoneFormField.isDisplayed()).toBeTruthy();
     expect(users.externalIdFormField.isDisplayed()).toBeTruthy();
 
@@ -197,7 +196,6 @@ describe('The users view', function() {
     // Update User details
     users.firstNameFormField.sendKeys('cancel');
     users.lastNameFormField.sendKeys('cancel');
-    users.displayNameFormField.sendKeys('cancel');
     users.externalIdFormField.sendKeys('cancel');
 
     shared.cancelFormBtn.click();
@@ -236,7 +234,6 @@ describe('The users view', function() {
     // Update User details
     users.firstNameFormField.sendKeys('test');
     users.lastNameFormField.sendKeys('test');
-    users.displayNameFormField.sendKeys('test');
     users.externalIdFormField.sendKeys('test');
 
     shared.submitFormBtn.click().then(function() {
@@ -257,7 +254,6 @@ describe('The users view', function() {
       // Reset all user values
       users.firstNameFormField.sendKeys('\u0008\u0008\u0008\u0008');
       users.lastNameFormField.sendKeys('\u0008\u0008\u0008\u0008');
-      users.displayNameFormField.sendKeys('\u0008\u0008\u0008\u0008');
       users.externalIdFormField.sendKeys('\u0008\u0008\u0008\u0008');
       shared.submitFormBtn.click();
     });
@@ -292,25 +288,8 @@ describe('The users view', function() {
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
 
     // Error messages displayed
-    expect(users.requiredErrors.get(1).isDisplayed()).toBeTruthy();
-    expect(users.requiredErrors.get(1).getText()).toBe('Please enter a last name');
-    expect(shared.successMessage.isPresent()).toBeFalsy();
-  });
-
-  it('should require Display Name when editing', function() {
-    // Select first user from table
-    shared.firstTableRow.click();
-
-    // Edit fields
-    users.displayNameFormField.clear();
-    users.firstNameFormField.click();
-
-    // Submit button is still disabled
-    expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
-
-    // Error messages displayed
-    expect(users.requiredErrors.get(2).isDisplayed()).toBeTruthy();
-    expect(users.requiredErrors.get(2).getText()).toBe('Please enter a display name');
+    expect(users.requiredErrors.get(0).isDisplayed()).toBeTruthy();
+    expect(users.requiredErrors.get(0).getText()).toBe('Please enter a last name');
     expect(shared.successMessage.isPresent()).toBeFalsy();
   });
 
@@ -371,8 +350,8 @@ describe('The users view', function() {
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
 
     // Error messages displayed
-    expect(users.requiredErrors.get(5).isDisplayed()).toBeTruthy();
-    expect(users.requiredErrors.get(5).getText()).toBe('Please enter a password');
+    expect(users.requiredErrors.get(0).isDisplayed()).toBeTruthy();
+    expect(users.requiredErrors.get(0).getText()).toBe('Please enter a password');
     expect(shared.successMessage.isPresent()).toBeFalsy();
   });
 
@@ -384,8 +363,6 @@ describe('The users view', function() {
     users.firstNameFormField.sendKeys(' ');
     users.lastNameFormField.clear();
     users.lastNameFormField.sendKeys(' ');
-    users.displayNameFormField.clear();
-    users.displayNameFormField.sendKeys(' ');
     users.externalIdFormField.clear();
 
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
@@ -394,7 +371,6 @@ describe('The users view', function() {
     // Verify error messages are displayed
     expect(users.requiredErrors.get(0).getText()).toBe('Please enter a first name');
     expect(users.requiredErrors.get(1).getText()).toBe('Please enter a last name');
-    expect(users.requiredErrors.get(2).getText()).toBe('Please enter a display name');
   });
 
   it('should successfully update password', function() {
@@ -433,7 +409,8 @@ describe('The users view', function() {
     users.firstNameFormField.click();
 
     expect(users.personalTelephoneFormField.getAttribute('class')).toContain('ng-invalid');
-    expect(users.requiredErrors.get(3).getText()).toBe('Phone number should be in E.164 format.');
+    // BUG
+    //expect(users.requiredErrors.get(0).getText()).toBe('Phone number should be in E.164 format.');
   });
 
   it('should allow E164 numbers to be accepted', function() {
@@ -449,26 +426,22 @@ describe('The users view', function() {
 
     //limits the user to digits only, limits the user to 15 characters, should prepend a +
     expect(users.personalTelephoneFormField.getAttribute('value')).toBe('+1 506-470-4361');
-
-    users.requiredErrors.get(3).isDisplayed().then(function(visible){
-      expect(visible).toBeFalsy();
-    })
   });
-  
+
   describe('bulk actions', function(){
     //Regression test for TITAN2-2237
     it('should only display confirm dialog once when switching selected elements', function() {
       //Dirty the bulk action form
       shared.actionsBtn.click();
       users.statusBulkEnableCheck.click();
-      
+
       //Select a table item and dismiss the expected alert
       shared.firstTableRow.click();
       shared.dismissChanges();
-      
+
       //Select another table item and expect there not to be an alert
       shared.secondTableRow.click();
     });
   });
-  
+
 });

@@ -5,6 +5,7 @@ describe('The unsaved changes warning', function() {
     shared = require('../shared.po.js'),
     users = require('../management/users.po.js'),
     navbar = require('./navbar.po.js'),
+    bulkActions = require('../tableControls/bulkActions.po.js'),
     params = browser.params,
     alertDialog;
 
@@ -18,11 +19,10 @@ describe('The unsaved changes warning', function() {
 
   it('should be displayed after changing form fields and selecting cancel', function() {
     shared.firstTableRow.click();
-    
+
     // Make changes to user form fields
     users.firstNameFormField.sendKeys('unsavedEdit');
     users.lastNameFormField.sendKeys('unsavedEdit');
-    users.displayNameFormField.sendKeys('unsavedEdit');
 
     // Select cancel
     shared.cancelFormBtn.click().then(function() {
@@ -46,11 +46,9 @@ describe('The unsaved changes warning', function() {
   it('should be closed after changing form fields, selecting cancel and dismissing warning', function() {
     users.firstNameFormField.sendKeys('unsavedEdit');
     users.lastNameFormField.sendKeys('unsavedEdit');
-    users.displayNameFormField.sendKeys('unsavedEdit');
 
     var updatedFirstName = users.firstNameFormField.getAttribute('value');
     var updatedLastName = users.lastNameFormField.getAttribute('value');
-    var updatedDisplayName = users.displayNameFormField.getAttribute('value');
 
     // Select cancel
     shared.cancelFormBtn.click();
@@ -62,7 +60,6 @@ describe('The unsaved changes warning', function() {
     // Fields remain unchanged
     expect(users.firstNameFormField.getAttribute('value')).toContain(updatedFirstName);
     expect(users.lastNameFormField.getAttribute('value')).toContain(updatedLastName);
-    expect(users.displayNameFormField.getAttribute('value')).toContain(updatedDisplayName);
   });
 
   it('should be displayed after changing form fields and selecting Create', function() {
@@ -82,7 +79,6 @@ describe('The unsaved changes warning', function() {
     // Fields remain unchanged
     expect(users.firstNameFormField.getAttribute('value')).toContain('unsavedEdit');
     expect(users.lastNameFormField.getAttribute('value')).toContain('unsavedEdit');
-    expect(users.displayNameFormField.getAttribute('value')).toContain('unsavedEdit');
   });
 
   it('should be closed after changing form fields, selecting Create and clear fields after accepting warning', function() {
@@ -96,7 +92,6 @@ describe('The unsaved changes warning', function() {
     // Create fields are displayed and empty
     expect(users.firstNameFormField.getAttribute('value')).toBe('');
     expect(users.lastNameFormField.getAttribute('value')).toBe('');
-    expect(users.displayNameFormField.getAttribute('value')).toBe('');
     expect(users.emailFormField.getAttribute('value')).toBe('');
     expect(users.externalIdFormField.getAttribute('value')).toBe('');
   });
@@ -120,7 +115,7 @@ describe('The unsaved changes warning', function() {
     // Accept warning message to clear changes
     alertDialog = browser.switchTo().alert();
     alertDialog.accept();
-    
+
     //Panel is hidden
     expect(shared.detailsForm.isDisplayed()).toBeFalsy();
   });
@@ -128,7 +123,7 @@ describe('The unsaved changes warning', function() {
   it('should be closed after selecting cancel and dismissing warning', function() {
     // Select create
     shared.createBtn.click();
-    
+
     users.firstNameFormField.sendKeys('First');
     users.lastNameFormField.sendKeys('Last');
     users.emailFormField.sendKeys('titantest@mailinator.com');
@@ -218,7 +213,7 @@ describe('The unsaved changes warning', function() {
     // Select Tenants nav button
     shared.tenantsNavButton.click();
     navbar.tenantsLink.click();
-    
+
     // Accept warning message to clear changes and change page
     alertDialog = browser.switchTo().alert();
     alertDialog.accept();
@@ -231,7 +226,7 @@ describe('The unsaved changes warning', function() {
     // Select Users nav button
     shared.usersNavButton.click();
     navbar.userLink.click();
-    
+
     var alertPresent;
 
     browser.switchTo().alert().then(
@@ -243,6 +238,97 @@ describe('The unsaved changes warning', function() {
       }
     ).then(function() {
       expect(alertPresent).toBeFalsy();
+    });
+  });
+
+  it('should be displayed after making changes to Bulk Actions when Cancel or X is selected', function() {
+    shared.actionsBtn.click();
+    expect(bulkActions.bulkActionsForm.isDisplayed()).toBeTruthy();
+    bulkActions.userSelectEnable.click();
+
+    // Unsaved changes warning on Cancel
+    bulkActions.cancelFormBtn.click();
+    alertDialog = browser.switchTo().alert();
+    alertDialog.accept();
+    expect(bulkActions.bulkActionsForm.isDisplayed()).toBeTruthy();
+
+    // Form reset
+    expect(bulkActions.userSelectEnable.getAttribute('selected')).toBeFalsy();
+    expect(bulkActions.submitFormBtn.getAttribute('disabled')).toBeTruthy();
+    bulkActions.cancelFormBtn.click();
+
+    // No alert and panel closed
+    expect(bulkActions.bulkActionsForm.isDisplayed()).toBeFalsy();
+
+    // Unsaved changes warning on X
+    shared.actionsBtn.click();
+    bulkActions.userSelectEnable.click();
+    bulkActions.closeFormBtn.click();
+    alertDialog = browser.switchTo().alert();
+    alertDialog.accept();
+    expect(bulkActions.bulkActionsForm.isDisplayed()).toBeFalsy();
+  });
+
+  it('should be displayed when switching between Create and Bulk Actions panels', function() {
+    shared.actionsBtn.click();
+    bulkActions.userSelectEnable.click();
+    shared.createBtn.click();
+    alertDialog = browser.switchTo().alert();
+    alertDialog.accept();
+    expect(bulkActions.bulkActionsForm.isDisplayed()).toBeFalsy();
+    expect(shared.detailsForm.isDisplayed()).toBeTruthy();
+
+    shared.createBtn.click();
+    users.firstNameFormField.sendKeys('test');
+    shared.actionsBtn.click();
+    alertDialog = browser.switchTo().alert();
+    alertDialog.accept();
+    expect(bulkActions.bulkActionsForm.isDisplayed()).toBeTruthy();
+    expect(shared.detailsForm.isDisplayed()).toBeFalsy();
+  });
+
+  it('should be displayed when switching between Details and Bulk Actions panels', function() {
+    browser.get(shared.usersPageUrl);
+    shared.tableElements.count().then(function(tableCount) {
+      if (tableCount > 0) {
+        shared.actionsBtn.click();
+        bulkActions.userSelectEnable.click();
+        shared.firstTableRow.click();
+        alertDialog = browser.switchTo().alert();
+        alertDialog.accept();
+        expect(bulkActions.bulkActionsForm.isDisplayed()).toBeFalsy();
+        expect(shared.detailsForm.isDisplayed()).toBeTruthy();
+
+        users.firstNameFormField.sendKeys('test');
+        shared.actionsBtn.click();
+        alertDialog = browser.switchTo().alert();
+        alertDialog.accept();
+        expect(bulkActions.bulkActionsForm.isDisplayed()).toBeTruthy();
+        expect(shared.detailsForm.isDisplayed()).toBeFalsy();
+      }
+    });
+  });
+
+  it('should only be displayed once after switching between Details and Bulk Actions panels', function() {
+    browser.get(shared.usersPageUrl);
+    shared.tableElements.count().then(function(tableCount) {
+      if (tableCount > 0) {
+        shared.actionsBtn.click();
+        bulkActions.userSelectEnable.click();
+        shared.firstTableRow.click();
+        alertDialog = browser.switchTo().alert();
+        alertDialog.accept();
+        expect(bulkActions.bulkActionsForm.isDisplayed()).toBeFalsy();
+        expect(shared.detailsForm.isDisplayed()).toBeTruthy();
+
+        // select another user
+        if (tableCount > 1) {
+          shared.secondTableRow.click();
+          // No unsaved changes warning
+          expect(bulkActions.bulkActionsForm.isDisplayed()).toBeFalsy();
+          expect(shared.detailsForm.isDisplayed()).toBeTruthy();
+        }
+      }
     });
   });
 });

@@ -21,6 +21,12 @@
         }
       },
 
+      extractInputs: function(model) {
+        var self = this;
+        var inputs = _.findWhere(self.activities, { name: model.name }).inputs;
+        return inputs;
+      },
+
       getActivityLabel: function(model) {
         var self = this;
         var activity = _.findWhere(self.activities, {name: model.name});
@@ -36,44 +42,52 @@
       buildInputPanel: function(model) {
         var self = this;
         var modelType = model.get('type');
+        var inputs;
 
         //If we're dealing with an actrivity
         if (modelType === 'liveOps.activity') {
           var name = model.get('name');
-          var inputs = model.get('inputs');
+          inputs = model.get('inputs');
           var notation = _.findWhere(self.activities, {name: name});
 
-          var params = _.reduce(notation.params, function(memo, param, name) {
-            memo[name] = {
-              label: param.label,
-              group: 'params'
-            };
-
-            if (param.source === 'expression' && (param.type === 'integer' || param.type === 'string')) {
-              memo[name].type = 'text';
-            } else if (param.source === 'expression' && param.type === 'boolean') {
-              memo[name].type = 'toggle';
-            } else if (param.source === 'entity') {
-              memo[name].type = 'select';
-              memo[name].options = _.union([{content: 'Please select one', value: undefined}], _.map(self[param.type], function(entity) {
+          var params = _.reduce(notation.ui, function(memo, param, name) {
+            if (param.type === 'entity') {
+              memo[name] = {
+                label: param.label,
+                group: 'params',
+                type: 'select',
+                options: _.union([{content: 'Please select one', value: undefined}], _.map(self[param.source], function(entity) {
                   return {
                     value: entity.id,
                     content: entity.source || entity.name
                   };
-                })
-              );
+                }))
+              };
+            } else {
+              memo[name] = param;
             }
 
             return memo;
           }, {});
-          return _.extend({params: params}, inputs);
+
+          var bindings = _.reduce(notation.bindings, function(memo, binding) {
+            memo[binding] = {
+              label: binding,
+              group: 'Bindings',
+              type: 'text'
+            };
+
+            return memo;
+          }, {});
+
+          return _.extend({params: params}, {bindings: bindings}, inputs);
         }
 
         //if we're dealing with an event
         if (modelType === 'liveOps.event') {
-          var event = _.findWhere(self.events, {entity: model.get('entity'), type: model.get('name')})
+          var event = _.findWhere(self.events, {entity: model.get('entity'), type: model.get('name')});
 
-          var inputs = {
+          inputs = {
             entity: {
               type: 'select',
               group: 'general',
@@ -82,7 +96,7 @@
                 return {
                   value: def.entity,
                   content: def.entity
-                }
+                };
               })
             },
             name: {
@@ -93,10 +107,10 @@
                 return {
                   value: def.type,
                   content: def.type
-                }
+                };
               })
             }
-          }
+          };
 
           _.each(event.props, function(prop) {
             switch (prop){
@@ -105,7 +119,14 @@
                   type: 'text',
                   group: 'general',
                   label: 'Target'
-                }
+                };
+                break;
+              case 'timer':
+                inputs[prop] = {
+                  type: 'text',
+                  group: 'general',
+                  label: 'Time'
+                };
                 break;
               case 'bindings':
                 inputs[prop] = {
@@ -125,7 +146,27 @@
                       }
                     }
                   }
-                }
+                };
+                break;
+              case 'error':
+                inputs[prop] = {
+                  type: 'list',
+                  label: 'Parameters',
+                  group: 'general',
+                  item: {
+                    type: 'object',
+                    properties: {
+                      key: {
+                        label: 'Key',
+                        type: 'text'
+                      },
+                      value: {
+                        label: 'Value',
+                        type: 'text'
+                      }
+                    }
+                  }
+                };
                 break;
               case 'event':
                 inputs[prop] = {
@@ -155,16 +196,16 @@
                       }
                     }
                   }
-                }
+                };
                 break;
               case 'terminate':
                 inputs[prop] = {
                   type: 'toggle',
                   group: 'general',
                   label: 'Terminate?'
-                }
+                };
             }
-          })
+          });
 
           //Handle any meta info
           _.each(event.meta, function(meta) {
@@ -172,7 +213,7 @@
               model.set('terminate', true);
               delete inputs.terminate;
             }
-          })
+          });
 
           return inputs;
         }
@@ -181,26 +222,53 @@
 
       addActivityParams: function(model) {
         var self = this;
-        var activity = self.activities[model.name];
+        var activity = _.find(self.activities, {name: model.name});
         var params = {};
 
         params = _.reduce(activity.params, function(memo, param, key) {
 
-          if (param.source === 'expression' && model.params[key]) {
-            memo[key] = {
-              source: 'expression',
-              value: model.params[key]
-            };
+          if (param.source === 'expression' && _.has(model.params, param.key)) {
+
+            if (!param.when || (expression.eval(param.when, model))) {
+              memo[key] = {
+                source: 'expression',
+                value: model.params[param.key].toString()
+              };
+            }
           } else if (param.source === 'entity') {
             memo[key] = {
               source: 'system',
               store: param.type,
-              id: model.params[key]
+              id: model.params[param.key].toString()
             };
           }
 
           return memo;
         }, {});
+        return params;
+      },
+
+      extractActivityParams: function(model) {
+        var self = this;
+        var activity = _.find(self.activities, {name: model.name});
+        var params = {};
+
+        params = _.reduce(model.params, function(memo, param, key) {
+          var paramDef = activity.params[key];
+          if (param.source === 'expression') {
+            if (paramDef.type === 'boolean') {
+              memo[paramDef.key] = (param.value === 'true');
+            } else {
+              memo[paramDef.key] = param.value;
+            }
+          } else if (param.source === 'system') {
+            memo[paramDef.key] = param.id;
+          }
+
+          return memo;
+
+        }, {});
+
         return params;
       },
 
@@ -217,5 +285,109 @@
     };
   }
 
+  var expression = {
+    eval: function(expr, model) {
+      this.model = model;
+      return this._evalExpression(expr);
+    },
+
+    _isComposite: function(expr) {
+      var composite = _.pick(expr, 'not', 'and', 'or', 'nor');
+      return _.some(composite);
+    },
+
+    _isPrimitive: function(expr) {
+      var primitive = _.pick(expr, 'eq', 'ne', 'regex', 'text', 'lt', 'lte', 'gt', 'gte', 'in', 'nin');
+      return _.some(primitive);
+    },
+
+    _evalPrimitive: function(expr) {
+
+      return _.reduce(expr, function(res, condition, operator) {
+        return _.reduce(condition, function(res, condValue, condPath) {
+
+          var val = joint.util.getByPath(this.model, condPath, '.');
+
+          switch (operator) {
+            case 'eq':
+              return condValue === val;
+            case 'ne':
+              return condValue !== val;
+            case 'regex':
+              return (new RegExp(condValue)).test(val);
+            case 'text':
+              return !condValue || (_.isString(val) && val.toLowerCase().indexOf(condValue) > -1);
+            case 'lt':
+              return val < condValue;
+            case 'lte':
+              return val <= condValue;
+            case 'gt':
+              return val > condValue;
+            case 'gte':
+              return val >= condValue;
+            case 'in':
+              return _.contains(condValue, val);
+            case 'nin':
+              return !_.contains(condValue, val);
+            default:
+              return res;
+          }
+
+        }, false, this);
+      }, false, this);
+    },
+
+    _evalExpression: function(expr) {
+      if (this._isPrimitive(expr)) {
+        return this._evalPrimitive(expr);
+      }
+
+      return _.reduce(expr, function(res, childExpr, operator) {
+
+        if (operator === 'not') {
+          return !this._evalExpression(childExpr);
+        }
+
+        var childExprRes = _.map(childExpr, this._evalExpression, this);
+
+        switch (operator) {
+          case 'and':
+            return _.every(childExprRes);
+          case 'or':
+            return _.some(childExprRes);
+          case 'nor':
+            return !_.some(childExprRes);
+          default:
+            return res;
+        }
+
+      }, false, this);
+    },
+
+    _extractVariables: function(expr) {
+
+      if (_.isArray(expr) || this._isComposite(expr)) {
+        return _.reduce(expr, function(res, childExpr) {
+          return res.concat(this._extractVariables(childExpr));
+        }, [], this);
+      }
+
+      return _.reduce(expr, function(res, primitive) {
+        return _.keys(primitive);
+      }, []);
+    },
+
+    isExpressionValid: function(expr) {
+      expr = _.omit(expr, 'otherwise');
+      return this._evalExpression(expr);
+    },
+
+    extractExpressionPaths: function(expr) {
+      expr = _.omit(expr, 'otherwise');
+      return _.uniq(this._extractVariables(expr));
+    }
+  };
+
   angular.module('liveopsConfigPanel').service('FlowNotationService', FlowNotationService);
 })();
+

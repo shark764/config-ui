@@ -48,7 +48,7 @@
             notation.entity = 'activity';
             notation.name = n.name;
             notation.params = FlowNotationService.addActivityParams(n);
-            notation.bindings = FlowNotationService.addActivityBindings(n);
+            notation.bindings = n.bindings || {};
 
             if (n.targeted) {
               notation.target = n.target;
@@ -82,7 +82,6 @@
 
       convertToJoint: function(alienese) {
         var jointNotation = _.reduce(alienese, function(memo, notation) {
-
           if (notation.entity === 'start' || notation.entity === 'catch' || notation.entity === 'throw') {
 
             var event = {
@@ -101,28 +100,33 @@
               event.target = notation.target;
             }
 
+            if (notation.timer) {
+              event.timer = notation.timer.value;
+            }
+
+            if (notation.terminate) {
+              event.terminate = notation.terminate;
+            }
+
             if (notation.event) {
               event.event = {
                 name: notation.event.name,
-                params: _.reduce(notation.event.params, function(memo, value, key) {
-                  memo.push({
-                    key: key,
-                    value: value.value
-                  });
+                params: _.reduce(notation.event.params, function(memo, value) {
+                  memo = memo.concat(value.value);
                   return memo;
-                }, [])
+                }, '')
               };
+
             }
 
             if (notation.bindings) {
-              event.bindings = _.reduce(notation.bindings, function(memo, value, key) {
-                memo.push({
-                  key: key,
-                  value: value
-                });
+              event.bindings = _.reduce(notation.bindings, function(memo, value) {
+                memo = memo.concat(value);
                 return memo;
-              }, []);
+              }, '');
             }
+
+            event.inputs = _.findWhere(FlowNotationService.events, { entity: notation.entity, type: notation.type, terminate: notation.terminate  }).inputs;
 
             memo.push(event);
           } else if (notation.entity === 'gateway') {
@@ -147,26 +151,19 @@
                 y: (notation['rendering-data']) ? notation['rendering-data'].y : 0
               },
               embeds: notation.decorations,
-              params: {},
+              params: FlowNotationService.extractActivityParams(notation),
               targeted: FlowNotationService.getActivityTargeted(notation),
               target: notation.target || '',
-              bindings: _.reduce(notation.bindings, function(memo, key, value) {
-                memo.push({
-                  key: key,
-                  value: value
-                });
-                return memo;
-              }, [])
+              bindings: notation.bindings || {}
             };
 
-            _.each(notation.params, function(param, key) {
-              if (param.source === 'system') {
-                activity.params[key] = param.id;
-              } else if (param.source === 'expression') {
-                activity.params[key] = param.value;
-              }
+            var inputs = [];
 
-            });
+            inputs = inputs.concat(new joint.shapes.liveOps.activity().attributes.inputs);
+
+            inputs = inputs.concat(_.findWhere(FlowNotationService.activities, { name: notation.name }).inputs);
+
+            activity.inputs = inputs;
 
             memo.push(activity);
           }
@@ -182,7 +179,6 @@
             });
           }
           return memo;
-
         }, []);
 
         //Do another pass to set up decorations
@@ -194,7 +190,6 @@
             decoration.parent = notation.id;
           }
         });
-
         return {cells: jointNotation};
       },
 
@@ -213,8 +208,10 @@
               type: 'signal',
               target: model.target,
               interrupting: model.interrupting,
-              bindings: _.reduce(model.bindings, function(memo, param) {
-                memo[param.key] = param.value;
+              bindings: _.reduce([model.bindings], function(memo, param) {
+                if (param !== '') {
+                  memo[param] = param;
+                }
                 return memo;
               }, {})
             };
@@ -236,21 +233,27 @@
               terminate: model.terminate,
               event: {
                 name: model.event.name,
-                params: _.reduce(model.event.params, function(memo, param) {
-                  memo[param.key] = {
+                params: _.reduce([model.event.params], function(memo, param) {
+                  memo[param] = {
                     source: 'expression',
-                    value: param.value
+                    value: param
                   };
                   return memo;
                 }, {})
               }
             };
           },
-          error: function(model) {
+          'flow-error': function(model) {
             return {
               entity: 'throw',
-              type: 'error',
-              terminate: model.terminate
+              type: 'flow-error',
+              terminate: model.terminate,
+              error: {
+                params: _.reduce(model.error, function(memo, param) {
+                  memo[param.key] = param.value;
+                  return memo;
+                }, {})
+              }
             };
           },
           terminate: function(model) {
@@ -268,18 +271,38 @@
               type: 'signal',
               interrupting: model.interrupting,
               target: model.target,
-              bindings: _.reduce(model.bindings, function(memo, param) {
-                memo[param.key] = param.value;
+              bindings: _.reduce([model.bindings], function(memo, param) {
+                if (param !== '') {
+                  memo[param] = param;
+                }
                 return memo;
               }, {})
             };
           },
-          error: function(model) {
+          'flow-error': function(model) {
             return {
               entity: 'catch',
-              type: 'error',
+              type: 'flow-error',
               interrupting: true,
               bindings: model.bindings || {}
+            };
+          },
+          'system-error': function(model) {
+            return {
+              entity: 'catch',
+              type: 'system-error',
+              interrupting: true,
+              bindings: model.bindings || {}
+            };
+          },
+          timer: function(model) {
+            return {
+              entity: 'catch',
+              type: 'timer',
+              interrupting: model.interrupting,
+              timer: {
+                value: model.timer
+              }
             };
           }
         }

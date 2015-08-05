@@ -36,8 +36,13 @@ angular.module('liveopsConfigPanel')
         }); //TEMPORARY roleId
       };
 
-      User.prototype.postCreateError = function (error) {
-        if (error.status === 400) {
+      User.prototype.postCreateError = function (response) {
+        if(response.status !== 400) {
+          return response;
+        }
+        
+        var error = response.data.error;
+        if (error.attribute.email === 'Email address already exists in the system') {
           Alert.success('User already exists. Sending ' + this.email + ' an invite for ' + Session.tenant.name);
 
           Invite.save({
@@ -46,22 +51,22 @@ angular.module('liveopsConfigPanel')
             email: this.email,
             roleId: '00000000-0000-0000-0000-000000000000'
           }); //TEMPORARY roleId
+          
+          $scope.create();
         }
 
-        $scope.create();
-
-        return error;
+        return response;
       };
 
-      $scope.fetch = function () {
-        $scope.users = User.query({
+      $scope.fetchUsers = function () {
+        return User.cachedQuery({
           tenantId: Session.tenant.tenantId
         });
       };
 
       $scope.create = function () {
         $scope.selectedUser = new User({
-          status: true
+          status: 'enabled'
         });
       };
 
@@ -90,16 +95,7 @@ angular.module('liveopsConfigPanel')
         }
       };
 
-      $scope.$watch('Session.tenant.tenantId', function (old, news) {
-        if (angular.equals(old, news)) {
-          return;
-        }
-
-        $scope.fetch();
-      }, true);
-
       $scope.tableConfig = userTableConfig;
-      $scope.fetch();
       $scope.bulkActions = {
         setStatus: new BulkAction(),
         resetPassword: new BulkAction(),

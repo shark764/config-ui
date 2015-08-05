@@ -136,7 +136,7 @@ describe('userSkillsBulkAction directive', function () {
     });
 
     it('should fetch userSkills', inject(['$httpBackend', 'apiHostname', function ($httpBackend, apiHostname) {
-      isolateScope.bulkAction.userSkillsBulkActions[0].selectedSkill = isolateScope.skills[0];
+      isolateScope.bulkAction.userSkillsBulkActions[0].selectedSkill = isolateScope.fetchSkills()[0];
 
       $httpBackend.expectGET(apiHostname + '/v1/tenants/tenant-id/skills/skillId1/users');
 
@@ -146,89 +146,14 @@ describe('userSkillsBulkAction directive', function () {
     }]));
 
     it('should set action.params.skillId', inject(['$httpBackend', function ($httpBackend) {
-      isolateScope.bulkAction.userSkillsBulkActions[0].selectedSkill = isolateScope.skills[0];
+      isolateScope.bulkAction.userSkillsBulkActions[0].selectedSkill = isolateScope.fetchSkills()[0];
 
       isolateScope.onChange(isolateScope.bulkAction.userSkillsBulkActions[0]);
 
       $httpBackend.flush();
 
       expect(isolateScope.bulkAction.userSkillsBulkActions[0].params.skillId).toEqual(
-        isolateScope.skills[0].id);
+        isolateScope.fetchSkills()[0].id);
     }]));
-  });
-
-  describe('ON refreshAffectedUsers', function () {
-    it('should be defined', function () {
-      expect(isolateScope.refreshAffectedUsers).toBeDefined();
-    });
-
-    it('should have 2 usersAffected when they both qualify and both are checked', function () {
-      var theFuture = {
-        userId1: true,
-        userId2: true
-      };
-
-      var userSkillsBulkAction = isolateScope.bulkAction.userSkillsBulkActions[0];
-
-      spyOn(userSkillsBulkAction.selectedType, 'canExecute')
-        .and.returnValue(true);
-
-      spyOn(userSkillsBulkAction.selectedType, 'doesQualify')
-        .and.callFake(function (user) {
-          return theFuture[user.id];
-        });
-
-      isolateScope.users[0].checked = true;
-      isolateScope.users[1].checked = true;
-
-      var usersAffected = isolateScope.refreshAffectedUsers(userSkillsBulkAction);
-      expect(usersAffected.length).toEqual(2);
-    });
-
-    it('should have 1 usersAffected when one qualifies and both are checked', function () {
-      var theFuture = {
-        userId1: true,
-        userId2: false
-      };
-
-      var userSkillsBulkAction = isolateScope.bulkAction.userSkillsBulkActions[0];
-
-      spyOn(userSkillsBulkAction.selectedType, 'canExecute')
-        .and.returnValue(true);
-
-      spyOn(userSkillsBulkAction.selectedType, 'doesQualify')
-        .and.callFake(function (user) {
-          return theFuture[user.id];
-        });
-
-      isolateScope.users[0].checked = true;
-      isolateScope.users[1].checked = true;
-
-      var usersAffected = isolateScope.refreshAffectedUsers(userSkillsBulkAction);
-      expect(usersAffected.length).toEqual(1);
-    });
-
-    it('should have 1 usersAffected when they both qualify but one is checked', function () {
-      var theFuture = {
-        userId1: true,
-        userId2: true
-      };
-
-      var userSkillsBulkAction = isolateScope.bulkAction.userSkillsBulkActions[0];
-
-      spyOn(userSkillsBulkAction.selectedType, 'canExecute')
-        .and.returnValue(true);
-
-      spyOn(userSkillsBulkAction.selectedType, 'doesQualify')
-        .and.callFake(function (user) {
-          return theFuture[user.id];
-        });
-
-      isolateScope.users[0].checked = true;
-      isolateScope.users[1].checked = false;
-
-      var usersAffected = isolateScope.refreshAffectedUsers(userSkillsBulkAction);
-      expect(usersAffected.length).toEqual(1);
-    });
   });
 });

@@ -22,7 +22,7 @@ describe('bulkActionExecutor directive', function () {
 
       $scope.bulkActions = mockBulkActions;
       $scope.showBulkActions = true;
-      
+
       var element = $compile('<bulk-action-executor items="items" bulk-actions="bulkActions" show-bulk-actions="showBulkActions"></bulk-action-executor>')($scope);
       $scope.$digest();
       isolateScope = element.isolateScope();
@@ -116,45 +116,35 @@ describe('bulkActionExecutor directive', function () {
     });
   });
 
-  describe('ON updateDropDown', function () {
-    var $timeout;
-
-    beforeEach(inject(['$timeout', function (_$timeout) {
-      $timeout = _$timeout;
-
-      isolateScope.updateDropDown(jasmine.any(Object), isolateScope.items[0]);
-      isolateScope.updateDropDown(jasmine.any(Object), isolateScope.items[1]);
-      isolateScope.updateDropDown(jasmine.any(Object), isolateScope.items[2]);
-      $timeout.flush();
-    }]));
-
-    it('should have checkedItems equal to items checked on load', function () {
-      expect(isolateScope.checkedItems.length).toEqual(2);
+  describe('ON selectedItems', function () {
+    it('should return all checked items', function() {
+      var checkedItems = isolateScope.selectedItems();
+      expect(checkedItems.length).toEqual(2);
     });
 
-    it('should add item to checkedItems if checked', function () {
-      isolateScope.items[2].checked = true;
-      isolateScope.updateDropDown(jasmine.any(Object), isolateScope.items[2]);
-      $timeout.flush();
-
-      expect(isolateScope.checkedItems.length).toEqual(3);
+    it('should never break the $scope.checkedItems reference', function() {
+      var checkedItems = isolateScope.selectedItems();
+      expect(checkedItems).toBe(checkedItems);
     });
-
-    it('should not add item to checkedItems if not checked', function () {
-      isolateScope.items[1].checked = false;
-      isolateScope.updateDropDown(jasmine.any(Object), isolateScope.items[1]);
-      $timeout.flush();
-
-      expect(isolateScope.checkedItems.length).toEqual(1);
+    
+    it('should return items in order, if given dropOrderBy', function() {
+      $scope.items[0].sortField = 2;
+      $scope.items[1].sortField = 1;
+      $scope.items[2].sortField = 3;
+      isolateScope.dropOrderBy = 'sortField';
+      var checkedItems = isolateScope.selectedItems();
+      
+      expect(checkedItems[0]).toBe($scope.items[1]);
+      expect(checkedItems[1]).toBe($scope.items[0]);
     });
   });
-  
+
   describe('showBulkActions watch', function () {
     it('should call reset form is showBulkActions becomes false', function () {
       spyOn(isolateScope, 'resetForm');
       isolateScope.showBulkActions = false;
       isolateScope.$digest();
-      
+
       expect(isolateScope.resetForm).toHaveBeenCalled();
     });
 
@@ -162,7 +152,7 @@ describe('bulkActionExecutor directive', function () {
       spyOn(isolateScope, 'resetForm');
       isolateScope.showBulkActions = true;
       isolateScope.$digest();
-      
+
       expect(isolateScope.resetForm).not.toHaveBeenCalled();
     });
   });
