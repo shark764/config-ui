@@ -4,11 +4,10 @@
 <div class="input-group">
   <label>{{'value.name' | translate}} *</label>
   <div>
-    <form-error field="forms.mediaCollectionForm.name"
+    <form-error field="forms.mediaCollectionForm.mediacollectionname"
       error-type-required="{{'media.details.name.error' | translate}}">
     </form-error>
-    <input type="text" ng-model="selectedMediaCollection.name"
-      name="name"></input>
+    <input type="text" ng-model="selectedMediaCollection.name" name="mediacollectionname" required></input>
   </div>
 </div>
 <div class="input-group">
@@ -23,7 +22,7 @@
   <div>
     <form-error field="forms.mediaCollectionForm.defaultMediaKey"
       error-type-required="{{'media.collections.defaultMediaKey.error' | translate}}"></form-error>
-    <select ng-class="{'default-selected': ! selectedMediaCollection.defaultMediaKey}" ng-required="true"
+    <select ng-class="{'default-selected': ! selectedMediaCollection.defaultMediaKey}" required
       name="defaultMediaKey" ng-model="selectedMediaCollection.defaultMediaKey"
       ng-options="mapping.lookup as mapping.lookup for mapping in selectedMediaCollection.mediaMap">
       <option value="" ng-disabled="true">{{'media.collections.defaultMediaKey.select' | translate}}</option>
