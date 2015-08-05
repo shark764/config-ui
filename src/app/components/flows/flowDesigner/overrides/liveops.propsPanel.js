@@ -97,6 +97,9 @@
       }
     };
 
+    // Add resize dragger
+    tpl += '<resize-handle id="resize-pane" right-element-id="inspector-container" left-element-id="resize-placeholder" left-min-width="1" right-min-width="1" class="resize-pane designer-resize-pane"></resize-handle>';
+
     // Build the group containers
     var groups = _.keys(_.groupBy(notation.model.attributes.inputs, 'group')).sort();
     _.each(groups, function(group) {
