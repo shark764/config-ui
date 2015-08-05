@@ -22,7 +22,7 @@ angular.module('liveopsConfigPanel')
           'sortOn': 'mediaMap[0].lookup'
         }],
         'searchOn' : ['name'],
-        'orderBy' : ['name'],
+        'orderBy' : 'name',
         'title' : $translate.instant('media.collections.table.title')
       };
     }
