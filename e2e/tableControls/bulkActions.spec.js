@@ -255,23 +255,21 @@ describe('The bulk actions', function() {
   it('should maintain number of selected items when Bulk Actions selction is opened and closed', function() {
     // Select items
     shared.tableElements.count().then(function(tableCount) {
-      shared.tableElements.count().then(function(tableCount) {
-        var numSelected = 0;
-        for (var i = 0; i < tableCount; i++) {
-          if ((i % 2) > 0) {
-            // Select some but not all items
-            bulkActions.selectItemTableCells.get(i).click();
-            numSelected++;
-          }
+      var numSelected = 0;
+      for (var i = 0; i < tableCount; i++) {
+        if ((i % 2) > 0) {
+          // Select some but not all items
+          bulkActions.selectItemTableCells.get(i).click();
+          numSelected++;
         }
-        // Expect selected number of items to persist
-        shared.actionsBtn.click();
-        expect(bulkActions.selectedItemsDropdownHeaderLabel.getAttribute('label')).toBe('Selected (' + numSelected + ')');
+      }
+      // Expect selected number of items to persist
+      shared.actionsBtn.click();
+      expect(bulkActions.selectedItemsDropdownHeaderLabel.getAttribute('label')).toBe('Selected (' + numSelected + ')');
 
-        bulkActions.closeFormBtn.click();
-        shared.actionsBtn.click();
-        expect(bulkActions.selectedItemsDropdownHeaderLabel.getAttribute('label')).toBe('Selected (' + numSelected + ')');
-      });
+      bulkActions.closeFormBtn.click();
+      shared.actionsBtn.click();
+      expect(bulkActions.selectedItemsDropdownHeaderLabel.getAttribute('label')).toBe('Selected (' + numSelected + ')');
     });
   });
 
@@ -289,37 +287,35 @@ describe('The bulk actions', function() {
   });
 
   it('should display the correct number of selected items and message in the Confirm modal', function() {
-    // Navigatge to Skills page
+    // Navigate to Skills page
     browser.get(shared.skillsPageUrl);
 
     // Select items
     shared.tableElements.count().then(function(tableCount) {
-      shared.tableElements.count().then(function(tableCount) {
-        var numSelected = 0;
-        for (var i = 0; i < tableCount; i++) {
-          if ((i % 2) > 0) {
-            // Select some but not all items
-            bulkActions.selectItemTableCells.get(i).click();
-            numSelected++;
-          }
+      var numSelected = 0;
+      for (var i = 0; i < tableCount; i++) {
+        if ((i % 2) > 0) {
+          // Select some but not all items
+          bulkActions.selectItemTableCells.get(i).click();
+          numSelected++;
         }
+      }
 
-        shared.actionsBtn.click();
-        bulkActions.userSelectEnable.click();
+      shared.actionsBtn.click();
+      bulkActions.selectEnable.click();
 
-        bulkActions.submitFormBtn.click();
+      bulkActions.submitFormBtn.click();
 
-        // Confirmation modal displayed with the same number of skills selected
-        expect(bulkActions.confirmModal.isDisplayed()).toBeTruthy();
-        expect(bulkActions.confirmOK.isDisplayed()).toBeTruthy();
-        expect(bulkActions.confirmCancel.isDisplayed()).toBeTruthy();
+      // Confirmation modal displayed with the same number of skills selected
+      expect(bulkActions.confirmModal.isDisplayed()).toBeTruthy();
+      expect(bulkActions.confirmOK.isDisplayed()).toBeTruthy();
+      expect(bulkActions.confirmCancel.isDisplayed()).toBeTruthy();
 
-        expect(bulkActions.confirmHeader.isDisplayed()).toBeTruthy();
-        expect(bulkActions.confirmHeader.getText()).toBe('Confirm bulk edit');
+      expect(bulkActions.confirmHeader.isDisplayed()).toBeTruthy();
+      expect(bulkActions.confirmHeader.getText()).toBe('Confirm bulk edit');
 
-        expect(bulkActions.confirmMessage.isDisplayed()).toBeTruthy();
-        expect(bulkActions.confirmMessage.getText()).toBe('This bulk action will affect ' + numSelected + ' items. Do you want to continue?');
-      });
+      expect(bulkActions.confirmMessage.isDisplayed()).toBeTruthy();
+      expect(bulkActions.confirmMessage.getText()).toBe('This bulk action will affect ' + numSelected + ' items. Do you want to continue?');
     });
   });
 
@@ -329,7 +325,7 @@ describe('The bulk actions', function() {
     shared.actionsBtn.click();
     bulkActions.userSelectEnable.click();
 
-    bulkActions.submitFormBtn.click().then(function () {
+    bulkActions.submitFormBtn.click().then(function() {
       expect(bulkActions.confirmModal.isDisplayed()).toBeTruthy();
       bulkActions.confirmCancel.click();
 

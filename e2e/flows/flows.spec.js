@@ -226,8 +226,8 @@ describe('The flows view', function() {
     flows.versionDescriptionFormField.sendKeys('Description for flow version ' + randomFlow);
     expect(flows.createVersionFormBtn.getAttribute('disabled')).toBeTruthy();
 
-    expect(flows.requiredErrors.get(3).isDisplayed()).toBeTruthy();
-    expect(flows.requiredErrors.get(3).getText()).toBe('Field \"Name\" is required.');
+    expect(flows.requiredErrors.get(0).isDisplayed()).toBeTruthy();
+    expect(flows.requiredErrors.get(0).getText()).toBe('Field \"Name\" is required.');
 
     expect(flows.versionsTableElements.count()).toBe(flowVersionCount);
   });
@@ -258,8 +258,8 @@ describe('The flows view', function() {
     // Submit button is still disabled
     expect(flows.createVersionFormBtn.getAttribute('disabled')).toBeTruthy();
 
-    expect(flows.requiredErrors.get(3).isDisplayed()).toBeTruthy();
-    expect(flows.requiredErrors.get(3).getText()).toBe('Field \"Name\" is required.');
+    expect(flows.requiredErrors.get(0).isDisplayed()).toBeTruthy();
+    expect(flows.requiredErrors.get(0).getText()).toBe('Field \"Name\" is required.');
 
     expect(flows.versionsTableElements.count()).toBe(flowVersionCount);
     expect(shared.successMessage.isPresent()).toBeFalsy();
