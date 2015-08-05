@@ -4,7 +4,9 @@
 
 <div class="input-group">
   <label>{{'value.name' | translate}}</label>
-  <form-error field="detailsForm.name" error-type-api="{{'details.name.error' | translate}}" error-type-required="{{'details.name.error' | translate}}"></form-error>
+  <form-error field="detailsForm.name"
+    error-type-required="{{'details.name.error' | translate}}">
+  </form-error>
   <div>
     <input required ng-model="resource.name" name="name" type="text"></input>
   </div>
@@ -41,7 +43,7 @@
     </thead>
     <tbody>
       <tr ng-repeat="user in resource.fetchGroupUsers()">
-        <td><audit-text translation="value.displayName" user-id="user.memberId"></audit-text></td>
+        <td><a ng-click="gotoUserPage(user.memberId)"><audit-text translation="value.displayName" user-id="user.memberId"></audit-text></a></td>
       </tr>
     </tbody>
   </table>

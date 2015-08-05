@@ -43,7 +43,8 @@
   </div>
 
   <bulk-action-executor class="details-pane user-ba" ng-show="showBulkActions" items="users"
-    bulk-actions="bulkActions" show-bulk-actions="showBulkActions">
+    bulk-actions="bulkActions" show-bulk-actions="showBulkActions"
+    confirm-message-key="bulkActions.user.confirm.message" drop-order-by="lastName">
     <ba-set-status bulk-action="bulkActions.setStatus"></ba-set-status>
     <ba-reset-password bulk-action="bulkActions.resetPassword"></ba-reset-password>
     <ba-user-skills bulk-action="bulkActions.userSkills" users="users"></ba-user-skills>

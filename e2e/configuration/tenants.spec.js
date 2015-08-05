@@ -127,7 +127,6 @@ describe('The tenants view', function() {
     tenants.descriptionFormField.sendKeys('Edit');
     tenants.adminFormDropDown.all(by.css('option')).get(0).click();
     shared.submitFormBtn.click().then(function() {
-      expect(tenants.nameRequiredError.get(0).isDisplayed()).toBeFalsy();
       expect(shared.successMessage.isDisplayed()).toBeTruthy();
     });
   });

@@ -61,9 +61,9 @@
                 console.log('-- CREATED VERSION ID --', CREATED_VERSION_ID);
                 console.log('\n\n Done seeding DB with all necessary data to access the flows screen. Log in as the user "' + email + '" with the password "' + password + '" and access the flows screen and go to town :)');
               });
-            }, 5000)
+            }, 5000);
             return AuthService.login(email, password);
-          })
+          });
         }
       };
     };

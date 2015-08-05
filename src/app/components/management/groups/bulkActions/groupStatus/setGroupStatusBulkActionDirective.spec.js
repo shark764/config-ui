@@ -50,7 +50,7 @@ describe('setGroupStatusBulkAction directive', function() {
     }
   ]));
   
-  it('should should only have the attribute in the PUT payload',
+  it('should only have the attribute in the PUT payload',
     inject(['mockGroups', '$httpBackend', 'apiHostname',
       function (mockGroups, $httpBackend, apiHostname) {
         $httpBackend.expect('PUT', apiHostname + '/v1/tenants/tenant-id/groups/groupId1', {
@@ -63,4 +63,24 @@ describe('setGroupStatusBulkAction directive', function() {
         $httpBackend.flush();
       }
     ]));
+  
+  it('should reject the change if attempting to edit the Everyone group', inject(['Group', function (Group) {
+          var everyoneGroup = new Group({
+            type: 'everyone',
+            id: '123456',
+            status: true
+          });
+          
+          isolateScope.status = false;
+          var result = isolateScope.bulkAction.apply(everyoneGroup);
+
+          result.then(function() {
+            throw new Error('Promise should not be resolved');
+          }, function(reason) {
+            expect(reason.msg).toEqual('Cannot disable the Everyone group.');
+          });
+          
+          expect(everyoneGroup.status).toBeTruthy();
+        }
+      ]));
 });

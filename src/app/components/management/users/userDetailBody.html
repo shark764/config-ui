@@ -76,7 +76,9 @@
     <label>{{'details.personalTelephone' | translate}}</label>
     <form-error field="detailsForm.personalTelephone" error-type-api="true" error-type-phone="{{'details.phoneNumber.error' | translate}}"></form-error>
     <div>
-      <input name="personalTelephone" type="tel" ng-model="selectedUser.personalTelephone" api-error>
+      <help-icon text="Personal Telephone should be E.164 format"></help-icon>
+      <input name="personalTelephone" type="tel" ng-model="resource.personalTelephone" api-error>
+      <help-icon text="Personal Telephone should be E.164 format"></help-icon>
     </div>
   </div>
 

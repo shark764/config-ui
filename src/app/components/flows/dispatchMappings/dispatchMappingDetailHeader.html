@@ -1,5 +1,7 @@
 <div ng-if="originalResource.id">
-  <toggle class="status-toggle" ng-model="resource.active"></toggle>
+  <toggle class="status-toggle" ng-model="resource.active" 
+  confirm-disable-message="{{'dispatchMappings.details.disable.confirm' | translate}}"
+  confirm-enable-message="{{'dispatchMappings.details.enable.confirm' | translate}}"></toggle>
 
   <div class="info pull-left">
     <h1 id="dispatch-mappings-details-name-header">{{originalResource.name}}</h1>

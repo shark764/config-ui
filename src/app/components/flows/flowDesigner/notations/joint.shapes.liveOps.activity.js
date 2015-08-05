@@ -43,11 +43,16 @@
           stroke: '#0090CC'
         },
         '.inner': {
+          visibility: 'hidden',
           transform: 'scale(0.9,0.9) translate(5,5)'
+        },
+        '.outer': {
+          'stroke-width': 1.5,
+          'stroke-dasharray': 'none'
         },
         path: {
           d: 'M 0 0 L 20 0 20 20 0 20 z M 10 4 L 10 16 M 4 10 L 16 10',
-          ref: '.inner',
+          ref: '.outer',
           'ref-x': 0.5,
           'ref-dy': -20,
           'x-alignment': 'middle',
@@ -55,7 +60,7 @@
           fill: 'transparent'
         },
         image: {
-          ref: '.inner',
+          ref: '.outer',
           'ref-x': 5,
           width: 20,
           height: 20
@@ -65,45 +70,35 @@
       icon: 'none',
       name: '',
       params: {},
-      inputs: {
-        activityType: {
-          type: 'select',
-          options: ['task', 'event-sub-process', 'call-activity'],
-          label: 'Type',
-          group: 'general',
-          index: 3
-        },
-        bindings: {
-          type: 'list',
-          label: 'Bindings',
-          group: 'bindings',
-          item: {
-            type: 'object',
-            properties: {
-              key: {
-                label: 'Key',
-                type: 'text'
-              },
-              value: {
-                label: 'Value',
-                type: 'text'
-              }
-            }
-          }
-        }
-      }
+      inputs: [{
+        name: 'type',
+        path: 'activityType',
+        type: 'select',
+        label: 'Task Type',
+        group: 'params',
+        index: 0,
+        disabled: false,
+        required: true,
+        placeholder: null,
+        defaultsTo: null,
+        hidden: true,
+        options: [{
+          value: 'task',
+          content: 'Task'
+        }, {
+          value: 'event-sub-process',
+          content: 'Event-sub-process'
+        }, {
+          value: 'call-activity',
+          content: 'Call-activity'
+        }]
+      }]
     }, joint.shapes.basic.TextBlock.prototype.defaults),
     initialize: function() {
       joint.shapes.basic.TextBlock.prototype.initialize.apply(this, arguments);
-
-      this.listenTo(this, 'change:subProcess', this.onSubProcessChange);
-      this.onSubProcessChange(this, this.get('subProcess'));
-      this.listenTo(this, 'change:activityType', this.onActivityTypeChange);
-      this.onActivityTypeChange(this, this.get('activityType'));
       this.listenTo(this, 'change:embeds', this.onEmbedsChange);
       this.onEmbedsChange(this, this.get('embeds'));
     },
-
     onEmbedsChange: function(cell, embeds) {
       if (embeds) {
         // Position the embedded cells (since this is relative
@@ -141,105 +136,67 @@
             }
           });
         });
-
       }
     },
-
-    onActivityTypeChange: function(cell, type) {
-      switch (type) {
-        case 'task':
-          cell.attr({
-            '.inner': {
-              visibility: 'hidden'
-            },
-            '.outer': {
-              'stroke-width': 1.5,
-              'stroke-dasharray': 'none'
-            },
-            path: {
-              ref: '.outer'
-            },
-            image: {
-              ref: '.outer'
-            }
-          });
-          break;
-
-        case 'event-sub-process':
-          cell.attr({
-            '.inner': {
-              visibility: 'hidden'
-            },
-            '.outer': {
-              'stroke-width': 1.5,
-              'stroke-dasharray': '1,2'
-            },
-            path: {
-              ref: '.outer'
-            },
-            image: {
-              ref: '.outer'
-            }
-          });
-          break;
-
-        case 'call-activity':
-          cell.attr({
-            '.inner': {
-              visibility: 'hidden'
-            },
-            '.outer': {
-              'stroke-width': 5,
-              'stroke-dasharray': 'none'
-            },
-            path: {
-              ref: '.outer'
-            },
-            image: {
-              ref: '.outer'
-            }
-          });
-          break;
-
-        default:
-          throw 'BPMN: Unknown Activity Type: ' + type;
-      }
-    },
-    onSubProcessChange: function(cell, subProcess) {
-      // Although that displaying sub-process icon is implemented in the interface
-      // we want also to reposition text and image when sub-process is shown.
-      if (subProcess) {
-        cell.attr({
-          '.fobj div': {
-            style: {
-              verticalAlign: 'baseline',
-              paddingTop: 10
-            }
-          },
-          image: {
-            'ref-dy': -25,
-            'ref-y': ''
-          },
-          text: { // IE fallback only
-                'ref-y': 25
+    onInputChange: function(model, value, path) {
+      if (path === 'activityType') {
+        switch (value) {
+          case 'task':
+            model.attr({
+              '.inner': {
+                visibility: 'hidden'
+              },
+              '.outer': {
+                'stroke-width': 1.5,
+                'stroke-dasharray': 'none'
+              },
+              path: {
+                ref: '.outer'
+              },
+              image: {
+                ref: '.outer'
               }
-        });
+            });
+            break;
+          case 'event-sub-process':
+            model.attr({
+              '.inner': {
+                visibility: 'hidden'
+              },
+              '.outer': {
+                'stroke-width': 1.5,
+                'stroke-dasharray': '1,2'
+              },
+              path: {
+                ref: '.outer'
+              },
+              image: {
+                ref: '.outer'
+              }
+            });
+            break;
+          case 'call-activity':
+            model.attr({
+              '.inner': {
+                visibility: 'hidden'
+              },
+              '.outer': {
+                'stroke-width': 5,
+                'stroke-dasharray': 'none'
+              },
+              path: {
+                ref: '.outer'
+              },
+              image: {
+                ref: '.outer'
+              }
+            });
+            break;
+          default:
+            console.warn('BPMN: Unknown Activity Type: ' + value);
+        }
       } else {
-        cell.attr({
-          '.fobj div': {
-            style: {
-              verticalAlign: 'middle',
-              paddingTop: 0
-            }
-          },
-          image: {
-            'ref-dy': '',
-            'ref-y': 5
-          },
-          text: { // IE fallback only
-            'ref-y': 0.5
-          }
-        });
+        console.warn('This property is not hooked up to a UI listener.');
       }
     }
   }).extend(joint.shapes.liveOps.IconInterface).extend(joint.shapes.liveOps.SubProcessInterface);

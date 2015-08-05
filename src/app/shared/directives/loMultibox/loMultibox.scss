@@ -1,0 +1,53 @@
+lo-multibox {
+  border: 1px solid $light-grey;
+  display: block;
+  @include border-radius(5px);
+  margin-bottom: 5px;
+  width: 100%;
+  position:relative;
+  background-color: white;
+
+  .label{
+    border: none;
+    box-shadow: none;
+    border-color: transparent;
+    background: transparent;
+    padding: 0;
+    cursor: pointer;
+  }
+
+  .label-container {
+    padding: 0 10px;
+    position: relative;
+
+    i {
+      font-size: 18px;
+      position: absolute;
+      right: 7px;
+      top: 7px;
+      width: 10px;
+    }
+  }
+
+  .btn{
+    @include border-radius(0);
+    border:0;
+    height: 30px;
+    border-top: 1px solid $light-grey;
+    width: 100%;
+  }
+
+  &.edit {
+    .label-container {
+    }
+  }
+
+  .label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin: 0;
+    display: inline-block;
+    padding-right: 10px;
+  }
+}

@@ -1,8 +1,6 @@
 (function() {
   'use strict';
 
-  console.log('Overriding joint handlebars halo handle template');
-
   joint.templates = joint.templates || {};
   joint.templates.halo = joint.templates.halo || {};
   joint.templates.halo['handle.html'] = Handlebars.template(function (Handlebars, depth0, helpers, partials, data) {
@@ -19,7 +17,6 @@
     var blockHelperMissing = helpers.blockHelperMissing;
 
     function program1(depth0) {
-      console.log('Data', data);
       var buffer = '';
       buffer += 'style=\"background-image: url(' + escapeExpression((typeof depth0 === functionType ? depth0.apply(depth0) : depth0)) + ')\"';
       return buffer;
@@ -27,7 +24,8 @@
 
     buffer += '<div class=\"handle ';
 
-    if (stack1 = helpers.position) {
+    stack1 = helpers.position;
+    if (stack1) {
       stack1 = stack1.call(depth0, {
         hash: {},
         data: data
@@ -39,7 +37,8 @@
 
     buffer += escapeExpression(stack1) + ' ';
 
-    if (stack1 = helpers.name) {
+    stack1 = helpers.name;
+    if (stack1) {
       stack1 = stack1.call(depth0, {
         hash: {},
         data: data
@@ -51,7 +50,8 @@
 
     buffer += escapeExpression(stack1) + '\" draggable=\"false\" data-action=\"';
 
-    if (stack1 = helpers.name) {
+    stack1 = helpers.name;
+    if (stack1) {
       stack1 = stack1.call(depth0, {
         hash: {},
         data: data
@@ -70,7 +70,8 @@
       data: data
     };
 
-    if (stack1 = helpers.icon) {
+    stack1 = helpers.icon;
+    if (stack1) {
       stack1 = stack1.call(depth0, options);
     } else {
       stack1 = depth0.icon;
@@ -87,7 +88,8 @@
 
     buffer += '>\n    ';
 
-    if (stack1 = helpers.content) {
+    stack1 = helpers.content;
+    if (stack1) {
       stack1 = stack1.call(depth0, {
         hash: {},
         data: data
@@ -105,8 +107,6 @@
 
     return buffer;
   });
-
-  console.log('Overriding built-in halo.');
 
   joint.ui.Halo = Backbone.View.extend({
     className: 'halo',
@@ -139,54 +139,54 @@
       linkAttributes: {},
       smoothLinks: undefined,
       handles: [
-        {
-          name: 'createEvent',
-          position: 'oneOclock',
-          events: {
-            pointerdown: 'startForking',
-            pointermove: 'doFork',
-            pointerup: 'stopForking'
-          }
-        },
-        {
-          name: 'createActivity',
-          position: 'twoOclock',
-          events: {
-            pointerdown: 'startForking',
-            pointermove: 'doFork',
-            pointerup: 'stopForking'
-          }
-        },
-        {
-          name: 'createGateway',
-          position: 'threeOclock',
-          events: {
-            pointerdown: 'startForking',
-            pointermove: 'doFork',
-            pointerup: 'stopForking'
-          }
-        },
-        {
-          name: 'propertiesPanel',
-          position: 'fourOclock',
-          events: {
-            pointerdown: 'startLinking',
-            pointermove: 'doLink',
-            pointerup: 'stopLinking'
-          }
-        },
-        {
-          name: 'contextMenu',
-          position: 'fiveOclock',
-          events: {
-            pointerdown: 'startLinking',
-            pointermove: 'doLink',
-            pointerup: 'stopLinking'
-          }
-        },
+        // {
+        //   name: 'createEvent',
+        //   position: 'oneOclock',
+        //   events: {
+        //     pointerdown: 'startForking',
+        //     pointermove: 'doFork',
+        //     pointerup: 'stopForking'
+        //   }
+        // },
+        // {
+        //   name: 'createActivity',
+        //   position: 'twoOclock',
+        //   events: {
+        //     pointerdown: 'startForking',
+        //     pointermove: 'doFork',
+        //     pointerup: 'stopForking'
+        //   }
+        // },
+        // {
+        //   name: 'createGateway',
+        //   position: 'threeOclock',
+        //   events: {
+        //     pointerdown: 'startForking',
+        //     pointermove: 'doFork',
+        //     pointerup: 'stopForking'
+        //   }
+        // },
+        // {
+        //   name: 'propertiesPanel',
+        //   position: 'fourOclock',
+        //   events: {
+        //     pointerdown: 'startLinking',
+        //     pointermove: 'doLink',
+        //     pointerup: 'stopLinking'
+        //   }
+        // },
+        // {
+        //   name: 'contextMenu',
+        //   position: 'fiveOclock',
+        //   events: {
+        //     pointerdown: 'startLinking',
+        //     pointermove: 'doLink',
+        //     pointerup: 'stopLinking'
+        //   }
+        // },
         {
           name: 'createLink',
-          position: 'sixOclock',
+          position: 'threeOclock',
           events: {
             pointerdown: 'startLinking',
             pointermove: 'doLink',

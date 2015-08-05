@@ -8,7 +8,9 @@
 
     <div class="details">
       <div>
-        <toggle class="status-toggle" ng-model="selectedUser.status" true-value="enabled" false-value="disabled">
+        <toggle class="status-toggle" ng-model="selectedUser.status" true-value="enabled" false-value="disabled" ng-disabled="Session.user.id === selectedUser.id"
+          confirm-disable-message="{{'user.details.disable.confirm' | translate}}"
+          confirm-enable-message="{{'user.details.enable.confirm' | translate}}">
         </toggle>
       </div>
 
