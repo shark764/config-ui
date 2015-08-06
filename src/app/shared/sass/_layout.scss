@@ -1,7 +1,7 @@
 $main-content-left-margin: 15px;
 
-$right-pane-min-width: 450px;
-$right-pane-default-width: $right-pane-min-width + 150px;
+$right-pane-min-width: 300px;
+$right-pane-default-width: $right-pane-min-width + 250px;
 
 header {
   width: 100%;
@@ -46,7 +46,7 @@ header {
 
   #table-pane {
     display: table-cell;
-    min-width: 635px;
+    min-width: 500px;
     padding: 20px;
     box-sizing: border-box;
     vertical-align: top;
