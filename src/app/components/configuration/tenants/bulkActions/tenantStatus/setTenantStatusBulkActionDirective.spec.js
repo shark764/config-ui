@@ -31,22 +31,22 @@ describe('setTenantStatusBulkAction directive', function() {
     expect(isolateScope.bulkAction.apply).toBeDefined();
   });
 
-  it('should should set tenant.status on bulkAction.execute', inject(['mockTenants', '$httpBackend', 'apiHostname',
+  it('should should set tenant.active on bulkAction.execute', inject(['mockTenants', '$httpBackend', 'apiHostname',
     function(mockTenants, $httpBackend, apiHostname) {
       var returnTenant = angular.copy(mockTenants[0]);
-      returnTenant.status = true;
+      returnTenant.active = true;
 
       $httpBackend.when('PUT', apiHostname + '/v1/tenants/tenant-id').respond(200, {
         result: returnTenant
       });
       
-      expect(mockTenants[0].status).toBeFalsy();
-      isolateScope.status = true;
+      expect(mockTenants[0].active).toBeFalsy();
+      isolateScope.active = true;
       isolateScope.bulkAction.apply(mockTenants[0]);
 
       $httpBackend.flush();
 
-      expect(mockTenants[0].status).toEqual(true);
+      expect(mockTenants[0].active).toEqual(true);
     }
   ]));
   
@@ -54,10 +54,10 @@ describe('setTenantStatusBulkAction directive', function() {
     inject(['mockTenants', '$httpBackend', 'apiHostname',
       function (mockTenants, $httpBackend, apiHostname) {
         $httpBackend.expect('PUT', apiHostname + '/v1/tenants/tenant-id', {
-          status: true
+          active: true
         }).respond(200);
 
-        isolateScope.status = true;
+        isolateScope.active = true;
         isolateScope.bulkAction.apply(mockTenants[0]);
 
         $httpBackend.flush();

@@ -6,7 +6,7 @@ angular.module('liveopsConfigPanel')
       {name: 'name'},
       {name: 'description', optional: true},
       {name: 'hasProficiency'},
-      {name: 'status', optional: true}
+      {name: 'active', optional: true}
     ]);
     
     Skill.prototype.getDisplay = function () {

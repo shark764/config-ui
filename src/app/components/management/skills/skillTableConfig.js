@@ -22,7 +22,7 @@ angular.module('liveopsConfigPanel')
           'options': statuses(),
           'filter': 'selectedOptions',
           'transclude': true,
-          'name': 'status',
+          'name': 'active',
         }],
         'searchOn' : ['name', 'description'],
         'orderBy' : ['name'],
