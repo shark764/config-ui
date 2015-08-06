@@ -3,7 +3,7 @@
 
   function buildTemplate (notation) {
     // Start the template
-    var tpl = '<div id="details-pane"><form class="details-form"><div class="detail-body-pane" style="height: 100%;">';
+    var tpl = '<div id="details-pane" class="designer-details-pane"><form class="details-form"><div class="detail-body-pane" style="height: 100%;">';
 
     // Util object to build the various parts of the form
     // depending on what is needed
@@ -83,25 +83,22 @@
         var formSection = '<div class="input-group"';
         formSection += ' ng-hide="' + input.hidden + '"';
         formSection += '><label>' + input.label + '</label>';
-        // console.log('Path', 'notation.model.attributes.' + input.path);
-        // formSection += '<toggle ng-model="notation.model.attributes.' + input.path + '" ';
-        // if (_.has(input, 'trueValue')) {
-        //   console.log('True value present');
-        //   formSection += 'true-value="' + input.trueValue + '" ';
-        // }
-        // if (_.has(input, 'falseValue')) {
-        //   console.log('False value present');
-        //   formSection += 'false-value="' + input.falseValue + '" ';
-        // }
-        // formSection += '"class="status-toggle"></toggle>';
-        formSection += '<input type=checkbox ng-model="notation.model.attributes.' + input.path + '">';
+        formSection += '<toggle ng-model="notation.model.attributes.' + input.path + '"';
+        if (_.has(input, 'trueValue')) {
+          formSection += ' true-value="' + input.trueValue + '"';
+        }
+        if (_.has(input, 'falseValue')) {
+          formSection += ' false-value="' + input.falseValue + '"';
+        }
+        formSection += ' "class="status-toggle"></toggle>';
+        // formSection += '<input type=checkbox ng-model="notation.model.attributes.' + input.path + '">';
         formSection += '</div>';
         return formSection;
       }
     };
 
     // Add resize dragger
-    tpl += '<resize-handle id="resize-pane" right-element-id="inspector-container" left-element-id="resize-placeholder" left-min-width="1" right-min-width="1" class="resize-pane designer-resize-pane"></resize-handle>';
+    tpl += '<single-element-resize-handle id="resize-pane" element-id="inspector-container" min-width="350" max-width="520" class="resize-pane designer-resize-pane"></single-element-resize-handle>';
 
     // Build the group containers
     var groups = _.keys(_.groupBy(notation.model.attributes.inputs, 'group')).sort();

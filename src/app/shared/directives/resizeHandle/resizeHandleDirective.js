@@ -21,17 +21,12 @@ angular.module('liveopsConfigPanel')
           //Don't initiate resize on right click, because it's annoying
           if (event.button !== 2) {
             event.preventDefault();
-
-            console.log('Mouse Downed');
-
             $document.on('mousemove', mousemove);
             $document.on('mouseup', scope.mouseup);
           }
         });
 
         function mousemove(event) {
-          console.log('Mouse Moved');
-
           var leftWidth = scope.leftTargetElement[0].offsetWidth;
           var rightWidth = scope.rightTargetElement[0].offsetWidth;
 
@@ -45,8 +40,6 @@ angular.module('liveopsConfigPanel')
         }
 
         scope.resizeElements = function(currLeftWidth, currRightWidth, mouseX){
-          console.log('Resizing Elements');
-
           var delta = currLeftWidth - mouseX,
               newLeftWidth = currLeftWidth - delta,
               newRightWidth = currRightWidth + delta,
@@ -54,11 +47,9 @@ angular.module('liveopsConfigPanel')
               rightMinWidth = parseInt(scope.rightTargetElement.css('min-width'));
 
           if(newRightWidth < rightMinWidth || newLeftWidth < leftMinWidth){
-            console.log('Returning');
             return;
           }
 
-          console.log(scope.leftTargetElement.css('width', newLeftWidth + 'px'));
           scope.rightTargetElement.css('width', newRightWidth + 'px');
 
           var eventInfo = {
