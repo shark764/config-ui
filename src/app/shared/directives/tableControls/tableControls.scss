@@ -10,16 +10,14 @@ table-controls {
     width: 100%;
   
     > .col {
-      width: 50%;
-      padding-right: 10px;
-      display: inline-block;
       position:relative;
-  
-  
-      i {
-        background-color: $main-color;
-        color: white;
-      }
+      display: inline-flex;
+      width: 49%;
+    }
+    
+    .inner-addon i {
+      background-color: $main-color;
+      color: white;
     }
   
     &.top-row {
@@ -31,34 +29,18 @@ table-controls {
     }
   
     .action-container {
-      text-align: right;
-      display: inline-flex;
       justify-content: flex-end;
-      width: 49%;
   
-      .col {
-        text-align: left;
-        display: inline-flex;
-        padding-left: 5px;
-        padding-right: 5px;
-  
-        button, filter-dropdown {
-          width: 100%;
-          max-width: 200px;
-          padding: 7px 15px;
-        }
-  
-        filter-dropdown {
-          padding: 0;
-        }
-  
-        .dropdown-label {
-          padding: 7px 15px;
-        }
+      button, .dropdown-label {
+        padding: 7px 15px;
       }
-  
-      .col.action {
-        text-align: right;
+
+      filter-dropdown {
+        padding: 0;
+      }
+      
+      .btn + .btn {
+        margin-left: 10px;
       }
     }
   
