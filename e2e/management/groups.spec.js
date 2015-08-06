@@ -261,4 +261,16 @@ describe('The groups view', function() {
       expect(shared.successMessage.isPresent()).toBeTruthy();
     });
   });
+  
+  it('should not allow updates to Everyone group', function() {
+    shared.searchField.sendKeys('everyone');
+    shared.tableElements.then(function(groups) {
+	  if (groups.length > 0){
+	    shared.firstTableRow.click();
+	    expect(groups.activeFormToggle.getAttribute('disabled')).toBeTruthy();
+	    expect(groups.descriptionFormField.getAttribute('disabled')).toBeTruthy();
+	    expect(groups.nameFormField.getAttribute('disabled')).toBeTruthy();
+	  }
+    });
+  });
 });
