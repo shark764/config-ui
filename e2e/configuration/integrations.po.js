@@ -7,7 +7,7 @@ var IntegrationsPage = function() {
   this.webRTCFormSwitch = element(by.model('resource.properties.webRtc'));
 
   this.typeHeader = element(by.id('integration-details-type-header'));
-  this.statusSwitch = element(by.model('resource.status'));
+  this.statusSwitch = element(by.model('resource.active'));
 
   this.typeColumn = 'td:nth-child(2)';
   this.accountColumn = 'td:nth-child(3)';

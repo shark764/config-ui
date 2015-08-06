@@ -4,7 +4,7 @@ var GroupsPage = function() {
   this.creatingGroupHeader = element(by.css('h1.ng-binding:nth-child(2)'));
   this.nameFormField = element(by.model('resource.name'));
   this.descriptionFormField = element(by.model('resource.description'));
-  this.activeFormToggle = element(by.model('resource.status'));
+  this.activeFormToggle = element(by.model('resource.active'));
 
   this.nameHeader = element(by.id('group-details-name-header'));
   this.detailsMemberCount = element(by.css('.count'));

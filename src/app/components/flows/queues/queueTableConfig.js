@@ -15,12 +15,12 @@ angular.module('liveopsConfigPanel')
           'name': 'activeVersion'
         }, {
           'header': $translate.instant('value.status'),
-          'name': 'status',
+          'name': 'active',
           'transclude': true,
           'options': statuses()
         }],
         'searchOn' : ['name'],
-        'orderBy' : ['name'],
+        'orderBy' : 'name',
         'title' : $translate.instant('queue.table.title')
       };
     }

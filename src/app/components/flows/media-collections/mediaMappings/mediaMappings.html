@@ -22,11 +22,11 @@
           error-type-required="{{'media.collections.mappingLookup.error.required' | translate}}"
           error-type-media-map-duplicate="{{'media.collections.mappingLookup.error.duplicate' | translate}}">
         </form-error>
-        <input 
-          ng-change="'{{mapping.lookup}}' == collection.defaultMediaKey ? resetDefaultMediaKey() : ''" 
-          ng-required="true" 
-          type="text" 
-          name="{{mappingFieldName}}" 
+        <input
+          ng-change="'{{mapping.lookup}}' == collection.defaultMediaKey ? resetDefaultMediaKey() : ''"
+          ng-required="true"
+          type="text"
+          name="{{mappingFieldName}}"
           ng-model="mapping.lookup" />
       </td>
       <td>

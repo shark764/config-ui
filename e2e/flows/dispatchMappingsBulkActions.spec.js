@@ -56,8 +56,7 @@ describe('The dispatchMappings view bulk actions', function() {
       dispatchMappings.statusTableDropDown.click();
       dispatchMappings.statuses.get(0).click();
       shared.tableElements.count().then(function(disabledTotal) {
-        // BUG
-        //expect(disabledTotal).toBe(dispatchMappingCount);
+        expect(disabledTotal).toBe(dispatchMappingCount);
       });
 
       // Select Enabled from Status drop down
@@ -100,8 +99,7 @@ describe('The dispatchMappings view bulk actions', function() {
       dispatchMappings.statuses.get(0).click();
       dispatchMappings.statuses.get(1).click();
       shared.tableElements.count().then(function(enabledTotal) {
-        // BUG
-        // expect(enabledTotal).toBe(dispatchMappingCount);
+        expect(enabledTotal).toBe(dispatchMappingCount);
       });
     });
   });
