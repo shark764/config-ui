@@ -98,7 +98,6 @@
                     "source": "expression",
                     "type": "variable",
                     "key": "participant",
-                    "default": "customer",
                     "when": {
                         "eq": {
                             "params.participant": "titan/customer"
@@ -109,7 +108,6 @@
                     "source": "expression",
                     "type": "variable",
                     "key": "participant",
-                    "default": "participant",
                     "when": {
                         "ne": {
                             "params.participant": "titan/customer"
