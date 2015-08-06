@@ -1,5 +1,7 @@
 'use strict';
 
+/*global xit : false */
+
 describe('loDetailsPanel directive', function() {
   var $scope,
     element,
@@ -49,7 +51,7 @@ describe('loDetailsPanel directive', function() {
 
     describe('WHEN confirmIfDirty fails', function() {
       beforeEach(inject(['DirtyForms', function(DirtyForms) {
-        spyOn(DirtyForms, 'confirmIfDirty').and.callFake(function(callback) {
+        spyOn(DirtyForms, 'confirmIfDirty').and.callFake(function() {
           return;
         });
       }]));

@@ -6,8 +6,8 @@ angular.module('liveopsConfigPanel')
       return {
         restrict: 'A',
         require: ['ngResource', 'form', '^loDetailsPanel'],
-        link: function ($scope, $elem, $attrs, $controllers) {
-          var resetForm = function (form) {
+        controller: function() {
+          this.resetForm = function (form) {
             //Workaround for fields with invalid text in them not being cleared when the model is updated to undefined
             //E.g. http://stackoverflow.com/questions/18874019/angularjs-set-the-model-to-be-again-doesnt-clear-out-input-type-url
             angular.forEach(form, function (value, key) {
@@ -25,17 +25,21 @@ angular.module('liveopsConfigPanel')
             form.$setPristine();
             form.$setUntouched();
           };
-
+        },
+        link: function ($scope, $elem, $attrs, $controllers) {
           var chain = Chain.get($attrs.loFormCancel);
           chain.hook('cancel:form', function () {
             var resource = $parse($attrs.ngResource)($scope);
             var form = $parse($attrs.name)($scope);
+
             if (resource.isNew() || !form.$dirty) {
               $controllers[2].close();
             } else {
               DirtyForms.confirmIfDirty(function () {
+                var controller = $elem.data('$loFormCancelController');
+
                 resource.reset();
-                resetForm(form);
+                controller.resetForm(form);
               });
             }
           });

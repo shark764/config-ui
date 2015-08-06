@@ -14,7 +14,7 @@ describe('loChainExecutor directive', function() {
     chainExecuteSpy = jasmine.createSpy('chain execute');
     spyOn(Chain, 'get').and.returnValue({
       execute: chainExecuteSpy
-    })
+    });
   }]));
 
   describe('ON default event click', function() {
