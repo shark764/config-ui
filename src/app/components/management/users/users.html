@@ -42,29 +42,38 @@
       <div class="detail-body-pane" ng-include="'app/components/management/users/userDetailBody.html'">
       </div>
 
+        {{ invite }}
       <div class="detail-controls-pane">
-        <input lo-chain-executor="user:cancel" id="cancel-details-btn" ng-disabled="selectedUser.$busy" type="button" class="btn" ng-click="reset()" value="{{'value.cancel' | translate}}"></input>
+
+        <input
+          id="cancel-details-btn"
+          lo-chain-executor="user:cancel"
+          ng-disabled="selectedUser.$busy"
+          type="button"
+          class="btn"
+          ng-click="reset()"
+          value="{{'value.cancel' | translate}}"></input>
+
         <input
           id="submit-details-btn"
           lo-chain-executor="user:save"
           lo-submit-spinner
           lo-submit-spinner-status="selectedUser.$busy"
           ng-show="!forms.detailsForm.$error.duplicateUsername"
-          ng-click="save()"
           ng-disabled="forms.detailsForm.$pending || forms.detailsForm.$invalid || ! forms.detailsForm.$dirty"
           class="btn btn-primary"
           type="submit"
           value="{{'value.submit' | translate}}" />
 
-          <input
-            id="invite-btn"
-            lo-submit-spinner
-            lo-submit-spinner-status="invite.$busy"
-            ng-show="forms.detailsForm.$error.duplicateUsername"
-            ng-click="inviteUser()"
-            class="btn btn-primary"
-            type="submit"
-            value="{{'value.submit' | translate}}" />
+        <input
+          id="invite-btn"
+          lo-chain-executor="user:tenant:invite"
+          lo-submit-spinner
+          lo-submit-spinner-status="invite.$busy"
+          ng-show="forms.detailsForm.$error.duplicateUsername"
+          class="btn btn-primary"
+          type="button"
+          value="{{'value.submit' | translate}}" />
       </div>
     </ng-form>
   </div>

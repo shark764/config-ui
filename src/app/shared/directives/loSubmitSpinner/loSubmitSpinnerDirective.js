@@ -3,7 +3,6 @@
 angular.module('liveopsConfigPanel')
   .directive('loSubmitSpinner', [function() {
     return {
-      replace: false,
       scope : {
         loSubmitSpinnerStatus: '='
       },

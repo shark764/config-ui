@@ -7,6 +7,7 @@ angular.module('liveopsConfigPanel')
       $scope.forms = {};
       $scope.Session = Session;
       $scope.roles = userRoles;
+      $scope.invite = new Invite({})
 
       $window.flowSetup = flowSetup;
 
@@ -45,44 +46,20 @@ angular.module('liveopsConfigPanel')
 
 
       var userSaveChain = Chain.get('user:save');
+      var inviteChain = Chain.get('user:tenant:invite');
 
       userSaveChain.register('save', function () {
-        if ($scope.forms.detailsForm.$error.duplicateUsername) {
-          return $scope.inviteUser();
-        }
-
         return $scope.save();
+      }, 0);
+
+      inviteChain.register('invite', function () {
+        return $scope.inviteUser();
       }, 0);
 
       $scope.create = function () {
         $scope.selectedUser = new User({
           status: 'enabled'
         });
-      };
-
-
-      // @TODO: Copy-pasta from resource details; remove with Phil's changes
-      $scope.resetForm = function () {
-        //Workaround for fields with invalid text in them not being cleared when the model is updated to undefined
-        //E.g. http://stackoverflow.com/questions/18874019/angularjs-set-the-model-to-be-again-doesnt-clear-out-input-type-url
-        angular.forEach($scope.forms.detailsForm, function (value, key) {
-          if (value && value.hasOwnProperty('$modelValue') && value.$invalid){
-            var displayValue = value.$modelValue;
-            if (displayValue === null){
-              displayValue = undefined;
-            }
-
-            $scope.forms.detailsForm[key].$setViewValue(displayValue);
-            $scope.forms.detailsForm[key].$rollbackViewValue();
-          }
-        });
-
-        $scope.forms.detailsForm.$setPristine();
-        $scope.forms.detailsForm.$setUntouched();
-      };
-
-      $scope.reset = function () {
-        $scope.selectedUser.reset();
       };
 
       //Various navigation rules
@@ -112,26 +89,23 @@ angular.module('liveopsConfigPanel')
 
       $scope.inviteUser = function () {
         return $scope.sendInvite($scope.forms.detailsForm.email.$viewValue).then(function (invite) {
-          $scope.resetForm();
-
-          var user = _.find($scope.users, {id: invite.invitation.userId})
+          var user = _.find($scope.users, {id: invite.invitation.userId});
 
           if(user) {
-            return user;
+            $scope.selectedUser = user;
           } else {
             return User.get({id : invite.invitation.userId}).$promise.then(function (user) {
-              return user;
+              $scope.users.add(user);
+              $scope.selectedUser = user;
             });
           }
         });
       };
 
       $scope.sendInvite = function (email) {
-        $scope.invite = new Invite({
-          email: email,
-          roleId: '00000000-0000-0000-0000-000000000000',
-          tenantId: Session.tenant.tenantId
-        });
+        $scope.invite.email = email;
+        $scope.roleId = '00000000-0000-0000-0000-000000000000';
+        $scope.tenantId = Session.tenant.tenantId;
 
         return $scope.invite.save();
       };
