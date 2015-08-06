@@ -45,6 +45,10 @@
                     "hidden": false,
                     "options": [
                         {
+                            "value": null,
+                            "content": "Please Select One"
+                        },
+                        {
                             "value": "titan/customer",
                             "content": "Customer"
                         },
@@ -98,7 +102,6 @@
                     "source": "expression",
                     "type": "variable",
                     "key": "participant",
-                    "default": "customer",
                     "when": {
                         "eq": {
                             "params.participant": "titan/customer"
@@ -109,7 +112,6 @@
                     "source": "expression",
                     "type": "variable",
                     "key": "participant",
-                    "default": "participant",
                     "when": {
                         "ne": {
                             "params.participant": "titan/customer"

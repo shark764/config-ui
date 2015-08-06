@@ -51,17 +51,19 @@
       },
 
       select: function (input, index) {
+        console.log(notation);
         var formSection = '<div class="input-group"';
         formSection += ' ng-hide="' + input.hidden + '"';
         formSection += '><label>' + input.label + '</label><div>';
         formSection += '<select ng-model="notation.model.attributes.' + input.path + '"';
         formSection += ' ng-disabled="' + input.disabled + '"';
+        formSection += ' ng-options="item.value as item.content for item in notation.model.attributes.inputs[' + index + '].options"';
         formSection += ' ng-change="onInputChange(notation.model, notation.model.attributes.' + input.path + ', notation.model.attributes.inputs[' + index + '].path)"';
-        formSection += '><option value="">Please select one...</option>';
-        _.each(input.options, function (opt) {
-          formSection += '<option value="' + opt.value + '">' + opt.content + '</option>';
-        });
-        formSection += '</select></div></div>';
+        // formSection += '><option value="undefined">Please select one...</option>';
+        // _.each(input.options, function (opt) {
+        //   formSection += '<option value="' + opt.value + '">' + opt.content + '</option>';
+        // });
+        formSection += '></select></div></div>';
         return formSection;
       },
 

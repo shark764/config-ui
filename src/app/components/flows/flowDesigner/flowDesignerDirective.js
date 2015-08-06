@@ -49,31 +49,38 @@ function flowDesigner() {
             });
           };
 
-          $scope.publishNewFlowVersion = function() {
-<<<<<<< HEAD
-            if (graph.toJSON().cells.length === 0) { return; }
-
-            //remove all error states
+          function clearErrors() {
+            var graph = $scope.graph;
             _.each(graph.getElements(), function(element) {
               var view = element.findView(graph.interfaces.paper);
               V(view.el).removeClass('error');
             })
+          }
 
+          function addErrors(errors) {
+            var graph = $scope.graph;
+            _.each(errors, function(e) {
+              var cell = graph.getCell(e.model.id);
+              var view = cell.findView(graph.interfaces.paper);
+              V(view.el).addClass('error');
+            })
+          }
+
+          $scope.publishNewFlowVersion = function() {
+
+            var graph = $scope.graph;
+
+            if (graph.toJSON().cells.length === 0) { return; }
+
+            clearErrors();
+            
             var alienese = FlowConversionService.convertToAlienese(graph.toJSON());
 
             if (alienese.result === 'ERROR') {
-              _.each(alienese.errors, function(e) {
-                var cell = graph.getCell(e.model.id);
-                var view = cell.findView(graph.interfaces.paper);
-                V(view.el).addClass('error');
-              })
+              addErrors(alienese.errors)
               return;
             }
 
-=======
-            if ($scope.graph.toJSON().cells.length === 0) { return; }
-            var alienese = JSON.stringify(FlowConversionService.convertToAlienese($scope.graph.toJSON()));
->>>>>>> master
             $scope.version = new FlowVersion({
               flow: JSON.stringify(alienese.alienese),
               description: $scope.flowVersion.description || 'This needs to be fixed',
