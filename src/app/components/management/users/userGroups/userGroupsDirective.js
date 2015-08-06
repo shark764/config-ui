@@ -3,8 +3,8 @@
 /*jshint browser:true */
 
 angular.module('liveopsConfigPanel')
-  .directive('userGroups', ['TenantUserGroups', 'TenantGroupUsers', 'Group', 'Session', '$timeout', '$filter', 'Alert', '$q',
-    function (TenantUserGroups, TenantGroupUsers, Group, Session, $timeout, $filter, Alert, $q) {
+  .directive('userGroups', ['TenantUserGroups', 'TenantGroupUsers', 'Group', 'Session', '$timeout', '$filter', 'Alert', '$q', 'queryCache',
+    function (TenantUserGroups, TenantGroupUsers, Group, Session, $timeout, $filter, Alert, $q, queryCache) {
       return {
         restrict: 'E',
 
@@ -82,6 +82,10 @@ angular.module('liveopsConfigPanel')
               $scope.userGroups.push(newUserGroup);
               $scope.updateFiltered();
 
+              //TODO: remove once groups api returns members list
+              //Reset cache of users for this group
+              queryCache.remove('groups/' + $scope.selectedGroup.id + '/users');
+              
               $timeout(function () { //Timeout prevents simultaneous $digest cycles
                 $scope.updateCollapseState(tagWrapper.height());
               }, 200);
@@ -106,6 +110,10 @@ angular.module('liveopsConfigPanel')
               $timeout(function () {
                 $scope.updateCollapseState(tagWrapper.height());
               }, 200);
+              
+            //TODO: remove once groups api returns members list
+              //Reset cache of users for this group
+              queryCache.remove('groups/' + tgu.groupId + '/users');
             });
           };
 

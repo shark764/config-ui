@@ -12,9 +12,8 @@
   <div class="detail-controls-pane" ng-show="footerTemplateUrl" ng-include src="footerTemplateUrl">
 
   </div>
-  <div class="detail-controls-pane" ng-show"!!footerTemplateUrl" ng-hide="footerTemplateUrl">
+  <div class="detail-controls-pane" ng-show="!!footerTemplateUrl" ng-hide="footerTemplateUrl">
     <input id="cancel-details-btn" ng-disabled="loading" type="button" class="btn" ng-click="cancel()" value="{{'value.cancel' | translate}}"></input>
-    <input id="submit-details-btn" ng-show="!loading" ng-click="save()" ng-disabled="detailsForm.$invalid || ! detailsForm.$dirty" class="btn btn-primary" type="submit" value="{{'value.submit' | translate}}" />
-    <a ng-disabled="true" ng-show="loading" class="btn btn-primary"><i class="fa fa-refresh fa-spin"></i></a>
+    <input id="submit-details-btn" lo-submit-spinner lo-submit-spinner-status="loading" ng-click="save()" ng-disabled="detailsForm.$invalid || ! detailsForm.$dirty" class="btn btn-primary" type="submit" value="{{'value.submit' | translate}}" />
   </div>
 </ng-form>

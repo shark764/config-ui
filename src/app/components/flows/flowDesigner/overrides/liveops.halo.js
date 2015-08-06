@@ -1,8 +1,6 @@
 (function() {
   'use strict';
 
-  console.log('Overriding joint handlebars halo handle template');
-
   joint.templates = joint.templates || {};
   joint.templates.halo = joint.templates.halo || {};
   joint.templates.halo['handle.html'] = Handlebars.template(function (Handlebars, depth0, helpers, partials, data) {
@@ -19,7 +17,6 @@
     var blockHelperMissing = helpers.blockHelperMissing;
 
     function program1(depth0) {
-      console.log('Data', data);
       var buffer = '';
       buffer += 'style=\"background-image: url(' + escapeExpression((typeof depth0 === functionType ? depth0.apply(depth0) : depth0)) + ')\"';
       return buffer;
@@ -111,8 +108,6 @@
     return buffer;
   });
 
-  console.log('Overriding built-in halo.');
-
   joint.ui.Halo = Backbone.View.extend({
     className: 'halo',
     events: {
@@ -144,54 +139,54 @@
       linkAttributes: {},
       smoothLinks: undefined,
       handles: [
-        {
-          name: 'createEvent',
-          position: 'oneOclock',
-          events: {
-            pointerdown: 'startForking',
-            pointermove: 'doFork',
-            pointerup: 'stopForking'
-          }
-        },
-        {
-          name: 'createActivity',
-          position: 'twoOclock',
-          events: {
-            pointerdown: 'startForking',
-            pointermove: 'doFork',
-            pointerup: 'stopForking'
-          }
-        },
-        {
-          name: 'createGateway',
-          position: 'threeOclock',
-          events: {
-            pointerdown: 'startForking',
-            pointermove: 'doFork',
-            pointerup: 'stopForking'
-          }
-        },
-        {
-          name: 'propertiesPanel',
-          position: 'fourOclock',
-          events: {
-            pointerdown: 'startLinking',
-            pointermove: 'doLink',
-            pointerup: 'stopLinking'
-          }
-        },
-        {
-          name: 'contextMenu',
-          position: 'fiveOclock',
-          events: {
-            pointerdown: 'startLinking',
-            pointermove: 'doLink',
-            pointerup: 'stopLinking'
-          }
-        },
+        // {
+        //   name: 'createEvent',
+        //   position: 'oneOclock',
+        //   events: {
+        //     pointerdown: 'startForking',
+        //     pointermove: 'doFork',
+        //     pointerup: 'stopForking'
+        //   }
+        // },
+        // {
+        //   name: 'createActivity',
+        //   position: 'twoOclock',
+        //   events: {
+        //     pointerdown: 'startForking',
+        //     pointermove: 'doFork',
+        //     pointerup: 'stopForking'
+        //   }
+        // },
+        // {
+        //   name: 'createGateway',
+        //   position: 'threeOclock',
+        //   events: {
+        //     pointerdown: 'startForking',
+        //     pointermove: 'doFork',
+        //     pointerup: 'stopForking'
+        //   }
+        // },
+        // {
+        //   name: 'propertiesPanel',
+        //   position: 'fourOclock',
+        //   events: {
+        //     pointerdown: 'startLinking',
+        //     pointermove: 'doLink',
+        //     pointerup: 'stopLinking'
+        //   }
+        // },
+        // {
+        //   name: 'contextMenu',
+        //   position: 'fiveOclock',
+        //   events: {
+        //     pointerdown: 'startLinking',
+        //     pointermove: 'doLink',
+        //     pointerup: 'stopLinking'
+        //   }
+        // },
         {
           name: 'createLink',
-          position: 'sixOclock',
+          position: 'threeOclock',
           events: {
             pointerdown: 'startLinking',
             pointermove: 'doLink',

@@ -30,7 +30,7 @@ angular.module('liveopsConfigPanel')
 
       $scope.$on('table:on:click:create', function () {
         $scope.showBulkActions = false;
-        $scope.additional.initialQuery = '';
+        $scope.additional.initialQuery = '{}';
 
         $scope.selectedQueue = new Queue({
           tenantId: Session.tenant.tenantId
@@ -39,7 +39,7 @@ angular.module('liveopsConfigPanel')
 
       $scope.$on('resource:details:queue:canceled', function () {
         if ($scope.selectedQueue.isNew()) {
-          $scope.additional.initialQuery = '';
+          $scope.additional.initialQuery = '{}';
         }
       });
 
@@ -48,7 +48,7 @@ angular.module('liveopsConfigPanel')
       $scope.tableConfig = queueTableConfig;
 
       $scope.additional = {
-        initialQuery: ''
+        initialQuery: '{}'
       };
 
       $scope.$on('table:resource:selected', function () {

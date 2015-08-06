@@ -2,7 +2,8 @@
 
 describe('toggleDirective', function(){
   var $scope,
-    element;
+    element,
+    isolateScope;
 
   beforeEach(module('liveopsConfigPanel'));
   beforeEach(module('gulpAngular'));
@@ -10,19 +11,27 @@ describe('toggleDirective', function(){
   beforeEach(inject(['$compile', '$rootScope', function($compile, $rootScope) {
     $scope = $rootScope.$new();
     
-    $scope.obj = {
-      prop: 'test1'
-    };
+    $scope.model = false;
     
     $scope.bool = false;
     
-    element = $compile('<toggle ng-model="obj" ng-disabled="bool"></toggle>')($scope);
+    element = $compile('<toggle ng-model="model" ng-disabled="bool"></toggle>')($scope);
     $scope.$digest();
+    isolateScope = element.isolateScope();
   }]));
   
   it('should do something', function() {
-    var isolateScope = element.isolateScope();
-    expect(isolateScope.ngModel).toBe($scope.obj);
+    expect(isolateScope.ngModel).toBe($scope.model);
     expect(isolateScope.ngDisabled).toBe($scope.bool);
+  });
+  
+  it('should set a default falseValue and trueValue if none are given', function() {
+    expect(isolateScope.falseValue).toEqual(false);
+    expect(isolateScope.trueValue).toEqual(true);
+  });
+  
+  it('should set a default falseValue and trueValue if none are given', function() {
+    expect(isolateScope.falseValue).toEqual(false);
+    expect(isolateScope.trueValue).toEqual(true);
   });
 });
