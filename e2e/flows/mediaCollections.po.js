@@ -14,7 +14,7 @@ var MediaCollectionsPage = function() {
   this.noMediaMappingsMessage = this.mediaMappingsTable.element(by.css('.null'));
   this.mediaMappings = element.all(by.repeater('mapping in collection.mediaMap'));
   this.mediaIdentifiers = element.all(by.model('mapping.lookup'));
-  this.mediaDropdownBoxes = element.all(by.css('.modify-media-box'));
+  this.mediaDropdownBoxes = element.all(by.css('lo-multibox'));
   this.mediaDropdowns = element.all(by.model('model[displayField]'));
   this.mediaDropdownSearchFields = element.all(by.model('currentText'));
   this.mediaElementsSelector = 'item in filtered = (items | filter:filterCriteria | orderBy:nameField)';
