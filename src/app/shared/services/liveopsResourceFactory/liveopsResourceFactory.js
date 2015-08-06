@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .factory('LiveopsResourceFactory', ['$http', '$resource', '$q', 'apiHostname', 'Session', 'SaveInterceptor', 'DeleteInterceptor', 'queryCache',
-    function ($http, $resource, $q, apiHostname, Session, SaveInterceptor, DeleteInterceptor, queryCache) {
+  .factory('LiveopsResourceFactory', ['$http', '$resource', '$q', 'apiHostname', 'Session', 'SaveInterceptor', 'DeleteInterceptor', 'queryCache', 'lodash',
+    function ($http, $resource, $q, apiHostname, Session, SaveInterceptor, DeleteInterceptor, queryCache, _) {
       function appendTransform(defaults, transform) {
         // We can't guarantee that the default transformation is an array
         defaults = angular.isArray(defaults) ? defaults : [defaults];
@@ -19,9 +19,31 @@ angular.module('liveopsConfigPanel')
         return value;
       }
 
+      function createJsonReplacer(key, value) {
+        if(key === '$busy') return undefined
+        else return value;
+      }
+
       return {
         create: function (endpoint, resourceName, updateFields, requestUrlFields) {
-          requestUrlFields = typeof requestUrlFields !== 'undefined' ? requestUrlFields : {
+
+          var updateJsonReplacer = function  (key, value) {
+            // empty string indicates that its verifying if it should
+            // check any part; always return the value
+            if(key === ''){
+              return value;
+            }
+
+            var i = _.findIndex(updateFields, {'name' : key});
+
+            if(i >= 0 && (value !== null || !updateFields[i].optional)){
+              return value;
+            }
+
+            return undefined;
+          };
+
+          var requestUrlFields = typeof requestUrlFields !== 'undefined' ? requestUrlFields : {
             id: '@id',
             tenantId: '@tenantId',
             groupId: '@groupId',
@@ -36,37 +58,20 @@ angular.module('liveopsConfigPanel')
               method: 'GET',
               isArray: true,
               transformResponse: appendTransform($http.defaults.transformResponse, function (values) {
-                values = getResult(values);
-
-                return values;
+                return getResult(values);
               })
             },
             get: {
               method: 'GET',
               transformResponse: appendTransform($http.defaults.transformResponse, function (value) {
-                value = getResult(value);
-
-                return value;
+                return getResult(value);
               })
             },
             update: {
               method: 'PUT',
               interceptor: SaveInterceptor,
               transformRequest: function (data) {
-                var newData = {};
-
-                if (updateFields) {
-                  for (var i = 0; i < updateFields.length; i++) {
-                    var fieldName = updateFields[i].name;
-
-                    if (data[fieldName] !== null || !updateFields[i].optional) {
-                      newData[fieldName] = data[fieldName];
-                    }
-
-                  }
-                }
-
-                return JSON.stringify(newData);
+                return JSON.stringify(data, updateJsonReplacer);
               },
 
               transformResponse: appendTransform($http.defaults.transformResponse, function (value) {
@@ -77,11 +82,7 @@ angular.module('liveopsConfigPanel')
               method: 'POST',
               interceptor: SaveInterceptor,
               transformRequest: function (data) {
-                if (data && angular.isDefined(data.$busy)) {
-                  delete data.$busy;
-                }
-
-                return JSON.stringify(data);
+                return JSON.stringify(data, createJsonReplacer);
               },
               transformResponse: appendTransform($http.defaults.transformResponse, function (value) {
                 return getResult(value);
@@ -96,7 +97,7 @@ angular.module('liveopsConfigPanel')
               interceptor: DeleteInterceptor
             }
           });
-          
+
           Resource.prototype.resourceName = resourceName;
 
           var proxyGet = Resource.get;
@@ -146,11 +147,11 @@ angular.module('liveopsConfigPanel')
               postEvent = self.isNew() ? self.postCreate : self.postUpdate,
               postEventFail = self.isNew() ? self.postCreateError : self.postUpdateError;
 
-            self.$busy = true;
-
             //TODO find out why preEvent didn't work in the chain
             preEvent.call(self);
             self.preSave();
+
+            self.$busy = true;
 
             return action.call(self)
               .then(function (result) {

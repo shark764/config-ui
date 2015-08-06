@@ -13,7 +13,7 @@ angular.module('liveopsConfigPanel')
         {name: 'externalId', optional: true},
         {name: 'personalTelephone', optional: true}
       ]);
-      
+
       User.prototype.getDisplay = function(){
         if (this.firstName || this.lastName){
           var name = (this.firstName ? this.firstName : '') + ' ' + (this.lastName ? this.lastName : '');
@@ -24,6 +24,6 @@ angular.module('liveopsConfigPanel')
           return '';
         }
       };
-      
+
       return User;
   }]);

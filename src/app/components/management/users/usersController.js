@@ -7,7 +7,7 @@ angular.module('liveopsConfigPanel')
       $scope.forms = {};
       $scope.Session = Session;
       $scope.roles = userRoles;
-      $scope.invite = new Invite({})
+      $scope.invite = new Invite();
 
       $window.flowSetup = flowSetup;
 
@@ -81,10 +81,7 @@ angular.module('liveopsConfigPanel')
           $scope.selectedUser.status = 'pending';
         }
 
-        return $scope.selectedUser.save().then(function (user) {
-          $scope.resetForm();
-          return user;
-        });
+        return $scope.selectedUser.save();
       };
 
       $scope.inviteUser = function () {
@@ -95,17 +92,23 @@ angular.module('liveopsConfigPanel')
             $scope.selectedUser = user;
           } else {
             return User.get({id : invite.invitation.userId}).$promise.then(function (user) {
-              $scope.users.add(user);
+              $scope.users.push(user);
               $scope.selectedUser = user;
+
+              return invite;
             });
           }
+
+          return invite;
         });
       };
 
       $scope.sendInvite = function (email) {
+        $scope.invite = new Invite({});
+
         $scope.invite.email = email;
-        $scope.roleId = '00000000-0000-0000-0000-000000000000';
-        $scope.tenantId = Session.tenant.tenantId;
+        $scope.invite.roleId = '00000000-0000-0000-0000-000000000000';
+        $scope.invite.tenantId = Session.tenant.tenantId;
 
         return $scope.invite.save();
       };
