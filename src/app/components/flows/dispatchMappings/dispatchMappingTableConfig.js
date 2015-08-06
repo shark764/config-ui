@@ -32,7 +32,7 @@ angular.module('liveopsConfigPanel')
           'filter': 'selectedOptions'
         }],
         'searchOn': ['name'],
-        'orderBy': ['name'],
+        'orderBy': 'name',
         'title': $translate.instant('dispatchmappings.table.title')
       };
     }

@@ -19,7 +19,7 @@ angular.module('liveopsConfigPanel')
           'name': 'properties'
         }],
         'searchOn' : ['source', 'name'],
-        'orderBy' : ['name'],
+        'orderBy' : 'name',
         'title' : $translate.instant('media.table.title')
       };
     }]

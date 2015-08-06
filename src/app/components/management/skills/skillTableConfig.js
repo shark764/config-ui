@@ -11,9 +11,6 @@ angular.module('liveopsConfigPanel')
           'header': $translate.instant('value.description'),
           'name': 'description'
         }, {
-          'header': $translate.instant('skill.table.members'),
-          'name': 'members',
-        }, {
           'header': $translate.instant('skill.table.proficiency'),
           'transclude': true,
           'name': 'hasProficiency'
@@ -25,7 +22,7 @@ angular.module('liveopsConfigPanel')
           'name': 'active',
         }],
         'searchOn' : ['name', 'description'],
-        'orderBy' : ['name'],
+        'orderBy' : 'name',
         'title': $translate.instant('skill.table.title')
       };
     }
