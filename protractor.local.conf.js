@@ -32,10 +32,10 @@ exports.config = {
   suites: {
     // Smoke test suite - Nothing added or edited
     smoke: [
-      paths.e2e + '/login/**/*.spec.js',
-      paths.e2e + '/navigation/**/*.spec.js',
-      paths.e2e + '/search.spec.js',
-      paths.e2e + '/userProfile/**/*.spec.js'
+      paths.e2e + '/login/*.spec.js',
+      paths.e2e + '/navigation/*.spec.js',
+      paths.e2e + '/tableControls/*.spec.js',
+      paths.e2e + '/userProfile/*.spec.js'
     ],
     regression: [paths.e2e + '/**/*.spec.js'],
     management: [paths.e2e + '/management/*.spec.js'],

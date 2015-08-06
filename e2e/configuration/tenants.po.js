@@ -3,7 +3,7 @@
 var TenantsPage = function() {
   this.nameFormField = element(by.model('resource.name'));
   this.descriptionFormField = element(by.model('resource.description'));
-  this.statusFormToggle = element(by.model('resource.status'));
+  this.statusFormToggle = element(by.model('resource.active'));
   this.adminFormDropDown = element(by.model('resource.adminUserId'));
 
   this.region = element(by.id('tenant-details-region'));

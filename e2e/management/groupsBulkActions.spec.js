@@ -33,10 +33,40 @@ describe('The groups view bulk actions', function() {
     expect(bulkActions.enableToggle.isDisplayed()).toBeTruthy();
   });
 
-  xit('should allow all selected group\'s status to be Disabled', function() {
+  it('should not allow updates to Everyone group', function() {
+    shared.searchField.sendKeys('everyone');
+    bulkActions.selectAllTableHeader.click();
+
+    shared.actionsBtn.click();
+    bulkActions.selectEnable.click();
+
+    expect(bulkActions.submitFormBtn.getAttribute('disabled')).toBeFalsy();
+    bulkActions.submitFormBtn.click();
+
+    expect(bulkActions.confirmModal.isDisplayed()).toBeTruthy();
+    bulkActions.confirmOK.click().then(function() {
+      expect(shared.successMessage.isPresent()).toBeFalsy();
+      expect(shared.errorMessage.isDisplayed()).toBeTruthy();
+      expect(shared.errorMessage.getText()).toContain('Cannot disable the Everyone group.');
+
+      // Form not reset
+      expect(bulkActions.submitFormBtn.getAttribute('disabled')).toBeFalsy();
+      expect(bulkActions.enableToggle.getAttribute('disabled')).toBeFalsy();
+    });
+  });
+
+  it('should allow all selected group\'s status to be Disabled', function() {
     // Update All bulk actions
     shared.actionsBtn.click();
-    bulkActions.selectAllTableHeader.click();
+
+    // Hackily dont select the 'everyone' group
+    shared.tableElements.each(function(groupElement, elementIndex) {
+      groupElement.getText().then(function(groupText) {
+        if (groupText.indexOf('everyone') == -1) {
+          bulkActions.selectItemTableCells.get(elementIndex).click();
+        }
+      });
+    });
 
     bulkActions.selectEnable.click();
 
@@ -56,22 +86,30 @@ describe('The groups view bulk actions', function() {
       bulkActions.statusTableDropDown.click();
       bulkActions.statuses.get(0).click();
       shared.tableElements.count().then(function(disabledTotal) {
-        expect(disabledTotal).toBe(groupCount);
+        expect(disabledTotal).toBeLessThan(groupCount);
       });
 
       // Select Enabled from Status drop down
       bulkActions.statuses.get(0).click();
       bulkActions.statuses.get(1).click();
       shared.tableElements.count().then(function(enabledTotal) {
-        expect(enabledTotal).toBe(0);
+        expect(enabledTotal).toBe(1); // Account for everyone group
       });
     });
   });
 
-  xit('should allow all selected group\'s status to be Enabled', function() {
+  it('should allow all selected group\'s status to be Enabled', function() {
     // Update All bulk actions
     shared.actionsBtn.click();
-    bulkActions.selectAllTableHeader.click();
+
+    // Hackily dont select the 'everyone' group
+    shared.tableElements.each(function(groupElement, elementIndex) {
+      groupElement.getText().then(function(groupText) {
+        if (groupText.indexOf('everyone') == -1) {
+          bulkActions.selectItemTableCells.get(elementIndex).click();
+        }
+      });
+    });
 
     bulkActions.selectEnable.click();
     bulkActions.enableToggleClick.click();
@@ -123,20 +161,22 @@ describe('The groups view bulk actions', function() {
     expect(shared.successMessage.isPresent()).toBeFalsy();
   });
 
-  xit('should only affect selected groups', function() {
+  it('should only affect selected groups', function() {
     shared.tableElements.then(function(originalGroups) {
-      // Select odd groups and leave even groups unselected
-      for (var i = 0; i < originalGroups.length; i++) {
-        if (i % 2 > 0) {
-          bulkActions.selectItemTableCells.get(i).click();
-        }
-      }
+
+      // Select odd groups and leave even groups unselected, skip everyone group
+      shared.tableElements.each(function(groupElement, elementIndex) {
+        groupElement.getText().then(function(groupText) {
+          if (groupText.indexOf('everyone') == -1 && elementIndex % 2 > 0) {
+            bulkActions.selectItemTableCells.get(elementIndex).click();
+          }
+        });
+      });
+
       shared.actionsBtn.click();
-      bulkActions.selectAllTableHeader.click();
 
       // Disable selected Groups
       bulkActions.selectEnable.click();
-
       bulkActions.submitFormBtn.click();
 
       expect(bulkActions.confirmModal.isDisplayed()).toBeTruthy();
@@ -147,16 +187,18 @@ describe('The groups view bulk actions', function() {
         expect(bulkActions.submitFormBtn.getAttribute('disabled')).toBeTruthy();
         expect(bulkActions.enableToggle.getAttribute('disabled')).toBeTruthy();
 
-        // Only selected groups are updated
-        for (var i = 0; i < originalGroups.length; i++) {
-          if (i % 2 > 0) {
-            // Group was updated to Disabled
-            expect(shared.tableElements.get(i).getText()).toContain('Disabled');
-          } else {
-            // Group status remains unchanged
-            expect(shared.tableElements.get(i).getText()).toBe(originalGroups[i].getText());
-          }
-        }
+        shared.tableElements.each(function(groupElement, elementIndex) {
+          groupElement.getText().then(function(groupText) {
+            if (groupText.indexOf('everyone') == -1 && elementIndex % 2 > 0) {
+              // Group was updated to Disabled
+              expect(groupText).toContain('Disabled');
+            } else {
+              // Group status remains unchanged
+              expect(groupText).toBe(originalGroups[elementIndex].getText());
+            }
+          });
+        });
+
       });
     });
   });

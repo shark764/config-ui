@@ -208,6 +208,7 @@ describe('The skills view', function() {
     expect(skills.nameFormField.isDisplayed()).toBeTruthy();
     expect(skills.descriptionFormField.isDisplayed()).toBeTruthy();
     expect(skills.proficiencyFormCheckbox.isDisplayed()).toBeTruthy();
+    expect(skills.activeFormToggle.isDisplayed()).toBeTruthy();
   });
 
   it('should reset Skill fields after editing and selecting Cancel', function() {
