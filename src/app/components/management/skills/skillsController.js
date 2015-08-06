@@ -20,7 +20,7 @@ angular.module('liveopsConfigPanel')
 
         $scope.selectedSkill = new Skill({
           tenantId: Session.tenant.tenantId,
-          status: true,
+          active: true,
           hasProficiency: false,
           description: ''
         });

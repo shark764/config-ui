@@ -21,7 +21,7 @@ angular.module('liveopsConfigPanel')
             var groupCopy = new Group();
             groupCopy.id = group.id;
             groupCopy.tenantId = Session.tenant.tenantId;
-            groupCopy.status = $scope.status;
+            groupCopy.active = $scope.active;
             return groupCopy.save().then(function(groupCopy) {
               angular.copy(groupCopy, group);
               group.checked = true;
@@ -31,7 +31,7 @@ angular.module('liveopsConfigPanel')
           
           $scope.bulkAction.reset = function() {
             $scope.bulkAction.checked = false;
-            $scope.status = false;
+            $scope.active = false;
           };
         }
       };
