@@ -2,27 +2,26 @@
 
 angular.module('liveopsConfigPanel')
   .directive('loFormSubmit', ['$parse', 'Chain',
-    function ($parse, Chain) {
+    function($parse, Chain) {
       return {
         restrict: 'A',
         require: ['form'],
-        controller: function () {},
-        link: function ($scope, $elem, $attrs) {
+        controller: function() {},
+        link: function($scope, $elem, $attrs) {
           var chain = Chain.get($attrs.loFormSubmit);
           var form = $parse($attrs.name)($scope);
 
           chain.hook('form:error:api', {
-            failure: function (error) {
-              if (error.data.error) {
-                var attributes = error.data.error.attribute;
-
-                angular.forEach(attributes, function (value, key) {
-                  form[key].$setValidity('api', false);
-                  form[key].$error = {
-                    api: value
-                  };
-                  form[key].$setTouched();
-                });
+            failure: function(error) {
+              if ($parse('data.error')(error)) {
+                angular.forEach(error.data.error.attribute,
+                  function(value, key) {
+                    form[key].$setValidity('api', false);
+                    form[key].$error = {
+                      api: value
+                    };
+                    form[key].$setTouched();
+                  });
               }
 
               return error;

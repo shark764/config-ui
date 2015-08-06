@@ -70,7 +70,7 @@ describe('loFormCancel directive', function() {
     });
 
     it('should $setViewValue to displayValue and $rollbackViewValue if field is invalid', function() {
-      isolateScope.ngResource.email = 'test@'
+      isolateScope.ngResource.email = 'test@';
       isolateScope.$digest();
 
       loFormCancelController.resetForm(formController);
@@ -82,7 +82,7 @@ describe('loFormCancel directive', function() {
     });
 
     it('should $setViewValue to undefined if displayValue is null', function() {
-      isolateScope.ngResource.email = null
+      isolateScope.ngResource.email = null;
       isolateScope.$digest();
 
       loFormCancelController.resetForm(formController);
