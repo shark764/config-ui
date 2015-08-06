@@ -63,7 +63,7 @@ angular.module('liveopsConfigPanel')
           tenantId: Session.tenant.tenantId
         });
       };
-      
+
       $scope.create = function () {
         $scope.selectedUser = new User({
           status: 'enabled'

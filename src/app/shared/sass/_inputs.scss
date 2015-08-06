@@ -40,6 +40,7 @@ input[type=password], input[type=text], input[type=email], input[type=tel], inpu
   
   &[disabled] {
     color: $grey;
+    background-color: #fafafa;
   }
 }
 

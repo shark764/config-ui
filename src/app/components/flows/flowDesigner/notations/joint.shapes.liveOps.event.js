@@ -45,12 +45,10 @@
           'x-alignment': 'middle', 'y-alignment': 'middle'
         }
       },
-      eventType: 'start',
       interrupting: true,
       throwing: false,
       terminate: false,
       icon: 'none'
-
     }, joint.dia.Element.prototype.defaults),
     initialize: function() {
       joint.dia.Element.prototype.initialize.apply(this, arguments);
@@ -137,6 +135,7 @@
           break;
       }
     },
+
     onGroupChange: function(cell, type) {
       switch (type) {
         case 'start':
@@ -214,6 +213,9 @@
         default:
           throw 'BPMN: Unknown Event Type: ' + type;
       }
+    },
+    onInputChange: function() {
+      console.warn('This property is not hooked up to a UI listener.');
     }
   }).extend(joint.shapes.liveOps.IconInterface);
 })();

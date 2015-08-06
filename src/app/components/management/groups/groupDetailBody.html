@@ -43,7 +43,7 @@
     </thead>
     <tbody>
       <tr ng-repeat="user in resource.fetchGroupUsers()">
-        <td><audit-text translation="value.displayName" user-id="user.memberId"></audit-text></td>
+        <td><a ng-click="gotoUserPage(user.memberId)"><audit-text translation="value.displayName" user-id="user.memberId"></audit-text></a></td>
       </tr>
     </tbody>
   </table>

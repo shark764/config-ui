@@ -80,7 +80,7 @@ describe('The login view', function() {
     loginPage.login(params.login.user, params.login.password);
     expect(browser.getCurrentUrl()).toContain(shared.usersPageUrl);
 
-    expect(shared.welcomeMessage.getText()).toContain('Welcome back, ' + params.login.userDisplayName);
+    expect(shared.welcomeMessage.getText()).toContain('Welcome back, ' + params.login.firstName + ' ' + params.login.lastName);
   });
 
   it('should redirect to login page after logout', function() {
@@ -111,8 +111,10 @@ describe('The login view', function() {
   });
 
   it('should require correct password case input', function() {
+    var caseChangePassword = params.login.password.substring(0,4).toLowerCase() + params.login.password.substring(4,params.login.password.length).toUpperCase();
     loginPage.emailLoginField.sendKeys(params.login.user);
-    loginPage.passwordLoginField.sendKeys(params.login.password.toLowerCase());
+    loginPage.passwordLoginField.sendKeys(caseChangePassword);
+
     loginPage.loginButton.click();
 
     // Not logged in; error message displayed
@@ -122,8 +124,9 @@ describe('The login view', function() {
     loginPage.emailLoginField.clear();
     loginPage.passwordLoginField.clear();
 
+    caseChangePassword = params.login.password.substring(0,4).toUpperCase() + params.login.password.substring(4,params.login.password.length).toLowerCase();
     loginPage.emailLoginField.sendKeys(params.login.user);
-    loginPage.passwordLoginField.sendKeys(params.login.password.toUpperCase());
+    loginPage.passwordLoginField.sendKeys(caseChangePassword);
     loginPage.loginButton.click();
 
     // Not logged in; error message displayed

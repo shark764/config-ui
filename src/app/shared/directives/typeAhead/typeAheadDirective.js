@@ -11,19 +11,22 @@ angular.module('liveopsConfigPanel')
         onSelect: '&',
         isRequired: '=',
         placeholder: '@',
-        hover: '='
+        hover: '=',
+        prefill: '=',
+        keepExpanded: '='
       },
 
       templateUrl: 'app/shared/directives/typeAhead/typeAhead.html',
 
+
       link: function ($scope) {
         $scope.nameField = $scope.nameField || 'name';
 
-        $scope.currentText = '';
+        $scope.currentText = $scope.prefill || '';
 
         $scope.$watch('selectedItem', function () {
           if(angular.isUndefined($scope.selectedItem) || $scope.selectedItem === null){
-            $scope.currentText = '';
+            $scope.currentText = $scope.prefill || '';
           }
         });
 
@@ -32,12 +35,13 @@ angular.module('liveopsConfigPanel')
           $scope.filterCriteria[$scope.nameField] = $scope.currentText;
 
           var filteredItems = filterFilter($scope.items, $scope.filterCriteria, true);
-          if (! $scope.currentText){
+
+          if (!$scope.currentText){
             $scope.selectedItem = null;
           } else if (filteredItems && filteredItems.length === 1){
             $scope.selectedItem = filteredItems[0];
-            
-            //Empty timeout forces onSelect to only be called after digest is complete, 
+
+            //Empty timeout forces onSelect to only be called after digest is complete,
             //so the variable bound to selectedItem will have been properly updated
             $timeout($scope.onSelect, 1);
           } else {
@@ -50,6 +54,12 @@ angular.module('liveopsConfigPanel')
           $scope.hovering = false;
           $scope.selectedItem = item;
           $scope.currentText = $scope.selectedItem[$scope.nameField];
+        };
+        
+        $scope.onBlur = function(){
+          if (!$scope.keepExpanded){ //Prevents the button in multibox from jumping around
+            $scope.showSuggestions=false;
+          }
         };
       }
     };

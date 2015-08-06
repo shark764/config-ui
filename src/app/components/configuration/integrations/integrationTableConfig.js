@@ -24,8 +24,8 @@ angular.module('liveopsConfigPanel')
         'transclude': true,
         'filter': 'selectedOptions'
       }],
-      'searchOn': ['name'],
-      'orderBy': ['name'],
+      'searchOn': ['type'],
+      'orderBy': 'type',
       'title' : $translate.instant('integration.table.title')
     };
   }]);

@@ -67,6 +67,11 @@ var Shared = function() {
   this.successMessage = element(by.css('.toast-success'));
   this.errorMessage = element(by.css('.toast-error'));
   this.closeMessageBtn = element(by.css('.toast-close-button'));
+  
+  //Modal
+  this.confirmModal = element(by.css('#modal .confirm'));
+  this.confirmModalCancelBtn = element(by.id('modal-cancel'));
+  this.confirmModalOkBtn = element(by.id('modal-ok'));
 
   this.dismissChanges = function() {
     browser.switchTo().alert().then(

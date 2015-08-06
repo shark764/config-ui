@@ -15,10 +15,10 @@
     </select>
     <select ng-disabled="! bulkAction.checked"
       ng-model="action.selectedGroup"
-      ng-options="group as group.name for group in fetchGroups()"
+      ng-options="group as group.name for group in fetchGroups() | filter:{type: '!everyone'}"
       ng-change="onChange(action)">
       <option disabled value="">{{'bulkActions.userGroups.placeholder' | translate}}</option>
     </select>
-    <a ng-disabled="! bulkAction.checked" ng-click="bulkAction.checked && removeUserGroupBulkAction(action)"><i class="fa fa-times remove"></i></a>
+    <a ng-disabled="! bulkAction.checked" ng-click="bulkAction.checked && removeUserGroupBulkAction(action)" class="remove"><i class="fa fa-times"></i></a>
   </fieldset>
 </div>

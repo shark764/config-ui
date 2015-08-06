@@ -46,11 +46,11 @@ describe('The profile view', function() {
     //Clear and then blur the field
     profile.firstNameFormField.clear();
     profile.lastNameFormField.click();
-    
+
     //Submit button is disabled
     expect(profile.updateProfileBtn.getAttribute('disabled')).toBeTruthy();
     profile.updateProfileBtn.click();
-    
+
     //Error messages
     expect(profile.errors.get(0).isDisplayed()).toBeTruthy();
     expect(profile.errors.get(0).getText()).toBe('Please enter a first name');
@@ -60,14 +60,14 @@ describe('The profile view', function() {
     //Clear and then blur the field
     profile.lastNameFormField.clear();
     profile.firstNameFormField.click();
-    
+
     //Submit button is disabled
     expect(profile.updateProfileBtn.getAttribute('disabled')).toBeTruthy();
     profile.updateProfileBtn.click();
 
     //Error messages
-    expect(profile.errors.get(1).isDisplayed()).toBeTruthy();
-    expect(profile.errors.get(1).getText()).toBe('Please enter a last name');
+    expect(profile.errors.get(0).isDisplayed()).toBeTruthy();
+    expect(profile.errors.get(0).getText()).toBe('Please enter a last name');
   });
 
   it('should update user name', function() {
@@ -80,7 +80,7 @@ describe('The profile view', function() {
       expect(profile.lastNameFormField.getAttribute('value')).toBe(params.login.lastName + 'Update');
       expect(shared.welcomeMessage.getText()).toContain(params.login.firstName + 'Update');
       expect(shared.welcomeMessage.getText()).toContain(params.login.lastName + 'Update');
-      
+
       // Confirm user is updated
       // TODO Fails from user list not showing all users
       //shared.usersNavButton.click();
@@ -88,19 +88,19 @@ describe('The profile view', function() {
       //expect(shared.tableElements.count()).toBe(1);
     });
   });
-  
+
   it('should require password after reset password button is clicked', function() {
     profile.resetPasswordButton.click();
     profile.passwordFormField.clear();
     profile.firstNameFormField.click();
-    
+
     //Submit button is disabled
     expect(profile.updateProfileBtn.getAttribute('disabled')).toBeTruthy();
     profile.updateProfileBtn.click();
 
     //Error messages
-    expect(profile.errors.get(2).isDisplayed()).toBeTruthy();
-    expect(profile.errors.get(2).getText()).toBe('Please enter a password');
+    expect(profile.errors.get(0).isDisplayed()).toBeTruthy();
+    expect(profile.errors.get(0).getText()).toBe('Please enter a password');
   });
 
   it('should apply the new password', function() {
@@ -108,7 +108,7 @@ describe('The profile view', function() {
     profile.resetPasswordButton.click();
     profile.passwordFormField.clear();
     profile.passwordFormField.sendKeys(params.login.password + 'new');
-    
+
     //Log in with the new password
     profile.updateProfileBtn.click();
     shared.closeMessageBtn.click();
