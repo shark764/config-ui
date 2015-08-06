@@ -139,7 +139,7 @@ describe('The media view', function() {
 
     // Error messages displayed
     expect(media.requiredError.get(0).isDisplayed()).toBeTruthy();
-    expect(media.requiredError.get(0).getText()).toBe('Field "Name" is required.');
+    expect(media.requiredError.get(0).getText()).toBe('Please enter a name');
 
     // New Media is not saved
     expect(shared.tableElements.count()).toBe(mediaCount);
@@ -169,8 +169,8 @@ describe('The media view', function() {
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
 
     // Error messages displayed
-    expect(media.requiredError.get(1).isDisplayed()).toBeTruthy();
-    expect(media.requiredError.get(1).getText()).toBe('Please enter a type');
+    expect(media.requiredError.get(0).isDisplayed()).toBeTruthy();
+    expect(media.requiredError.get(0).getText()).toBe('Please enter a type');
 
     // New Media is not saved
     expect(shared.tableElements.count()).toBe(mediaCount);
@@ -200,8 +200,8 @@ describe('The media view', function() {
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
 
     // Error messages displayed
-    expect(media.requiredError.get(2).isDisplayed()).toBeTruthy();
-    expect(media.requiredError.get(2).getText()).toBe('Please enter a source');
+    expect(media.requiredError.get(0).isDisplayed()).toBeTruthy();
+    expect(media.requiredError.get(0).getText()).toBe('Please enter a source');
 
     // New Media is not saved
     expect(shared.tableElements.count()).toBe(mediaCount);
@@ -224,8 +224,8 @@ describe('The media view', function() {
     expect(shared.successMessage.isPresent()).toBeFalsy();
     expect(shared.tableElements.count()).toBe(mediaCount);
 
-    expect(media.requiredError.get(2).isDisplayed()).toBeTruthy();
-    expect(media.requiredError.get(2).getText()).toBe('Audio source must be a URL');
+    expect(media.requiredError.get(0).isDisplayed()).toBeTruthy();
+    expect(media.requiredError.get(0).getText()).toBe('Audio source must be a URL');
   });
 
   it('should require Source when creating a new Media with Text-To-Speech type', function() {
@@ -252,8 +252,8 @@ describe('The media view', function() {
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
 
     // Error messages displayed
-    expect(media.requiredError.get(2).isDisplayed()).toBeTruthy();
-    expect(media.requiredError.get(2).getText()).toBe('Please enter a source');
+    expect(media.requiredError.get(0).isDisplayed()).toBeTruthy();
+    expect(media.requiredError.get(0).getText()).toBe('Please enter a source');
 
     // New Media is not saved
     expect(shared.tableElements.count()).toBe(mediaCount);
@@ -284,42 +284,39 @@ describe('The media view', function() {
     expect(media.typeFormDropdown.getAttribute('value')).toBe('');
   });
 
-  xit('should display media details when Audio media is selected from table', function() {
-    // TODO Update based on expected display value of Properties in table
-    //TODO: Update for expected display of Type value in table
+  it('should display media details when Audio media is selected from table', function() {
     shared.searchField.sendKeys('Audio');
     // Select first media from table
     shared.firstTableRow.click();
 
     // Verify media details in table matches populated field
-    expect(media.sourceHeader.getText()).toContain(shared.firstTableRow.element(by.css(media.nameColumn)).getText());
+    expect(shared.detailsFormHeader.getText()).toContain(shared.firstTableRow.element(by.css(media.nameColumn)).getText());
     expect(shared.firstTableRow.element(by.css(media.sourceColumn)).getText()).toBe(media.sourceFormField.getAttribute('value'));
 
     // Change selected media and ensure details are updated
     shared.tableElements.count().then(function(curMediaCount) {
       if (curMediaCount > 1) {
         shared.secondTableRow.click();
-        expect(media.sourceHeader.getText()).toContain(shared.secondTableRow.element(by.css(media.nameColumn)).getText());
+        expect(shared.detailsFormHeader.getText()).toContain(shared.secondTableRow.element(by.css(media.nameColumn)).getText());
         expect(shared.secondTableRow.element(by.css(media.sourceColumn)).getText()).toBe(media.sourceFormField.getAttribute('value'));
       };
     });
   });
 
-  xit('should display media details when Text-To-Speech media is selected from table', function() {
-    // TODO Update based on expected display value of Properties in table
+  it('should display media details when Text-To-Speech media is selected from table', function() {
     shared.searchField.sendKeys('Text-To-Speech');
     // Select first media from table
     shared.firstTableRow.click();
 
     // Verify media details in table matches populated field
-    expect(media.sourceHeader.getText()).toContain(shared.firstTableRow.element(by.css(media.nameColumn)).getText());
+    expect(shared.detailsFormHeader.getText()).toContain(shared.firstTableRow.element(by.css(media.nameColumn)).getText());
     expect(shared.firstTableRow.element(by.css(media.sourceColumn)).getText()).toBe(media.sourceFormField.getAttribute('value'));
 
     // Change selected media and ensure details are updated
     shared.tableElements.count().then(function(curMediaCount) {
       if (curMediaCount > 1) {
         shared.secondTableRow.click();
-        expect(media.sourceHeader.getText()).toContain(shared.secondTableRow.element(by.css(media.nameColumn)).getText());
+        expect(shared.detailsFormHeader.getText()).toContain(shared.secondTableRow.element(by.css(media.nameColumn)).getText());
         expect(shared.secondTableRow.element(by.css(media.sourceColumn)).getText()).toBe(media.sourceFormField.getAttribute('value'));
       };
     });
@@ -346,7 +343,6 @@ describe('The media view', function() {
     shared.cancelFormBtn.click();
     shared.dismissChanges();
 
-    expect(media.requiredError.get(0).isDisplayed()).toBeFalsy();
     expect(shared.successMessage.isPresent()).toBeFalsy();
 
     // Fields reset to original values
@@ -366,9 +362,6 @@ describe('The media view', function() {
     shared.cancelFormBtn.click().then(function () {
       shared.dismissChanges();
 
-      expect(media.requiredError.get(0).isDisplayed()).toBeFalsy();
-      expect(media.requiredError.get(1).isDisplayed()).toBeFalsy();
-      expect(media.requiredError.get(2).isDisplayed()).toBeFalsy();
       expect(shared.successMessage.isPresent()).toBeFalsy();
 
       // Fields reset to original values
@@ -376,8 +369,7 @@ describe('The media view', function() {
     });
   });
 
-  xit('should allow the Audio Media fields to be updated except Type', function() {
-    // TODO Current but where selecting Audio media dirties form
+  it('should allow the Audio Media fields to be updated except Type', function() {
     shared.searchField.sendKeys('Audio');
     shared.firstTableRow.click();
 
@@ -429,8 +421,22 @@ describe('The media view', function() {
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
 
    // Error messages displayed
-    expect(media.requiredError.get(2).isDisplayed()).toBeTruthy();
-    expect(media.requiredError.get(2).getText()).toBe('Please enter a source');
+    expect(media.requiredError.get(0).isDisplayed()).toBeTruthy();
+    expect(media.requiredError.get(0).getText()).toBe('Please enter a source');
     expect(shared.successMessage.isPresent()).toBeFalsy();
   });
+
+  it('should not dirty the form when selecting Audio media types', function() {
+    shared.searchField.sendKeys('Audio');
+    shared.tableElements.count().then(function (audioCount) {
+      if (audioCount > 1) {
+        shared.firstTableRow.click();
+        expect(shared.detailsFormHeader.getText()).toContain(shared.firstTableRow.element(by.css(media.nameColumn)).getText());
+
+        shared.secondTableRow.click();
+        expect(shared.detailsFormHeader.getText()).toContain(shared.secondTableRow.element(by.css(media.nameColumn)).getText());
+      }
+    })
+  });
+
 });

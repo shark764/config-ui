@@ -5,9 +5,9 @@
   selected="selectedIntegration"
   resource-name="integrations">
 
-  <span name="status">
-    <span ng-if="item.status">{{'value.enabled' | translate}}</span>
-    <span ng-if="!item.status" class="disabled">{{'value.disabled' | translate}}</span>
+  <span name="active">
+    <span ng-if="item.active">{{'value.enabled' | translate}}</span>
+    <span ng-if="!item.active" class="disabled">{{'value.disabled' | translate}}</span>
   </span>
   
   <span name="properties.webRtc">

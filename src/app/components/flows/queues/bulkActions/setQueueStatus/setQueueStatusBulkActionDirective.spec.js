@@ -30,27 +30,27 @@ describe('setQueueStatusBulkAction directive', function() {
     expect(isolateScope.bulkAction.apply).toBeDefined();
   });
 
-  it('should should set queue.status on bulkAction.execute', inject(['$httpBackend', 'apiHostname',
+  it('should should set queue.active on bulkAction.execute', inject(['$httpBackend', 'apiHostname',
     function($httpBackend, apiHostname) {
     
       var mockQueue = {
         id: 'id1',
       };
       var returnQueue = angular.copy(mockQueue);
-      returnQueue.status = true;
+      returnQueue.active = true;
 
       $httpBackend.when('PUT', apiHostname + '/v1/tenants/tenant-id/queues/id1').respond(200, {
         result: returnQueue
       });
 
-      isolateScope.status = true;
+      isolateScope.active = true;
       isolateScope.bulkAction.apply(mockQueue);
 
-      expect(mockQueue.status).toBeFalsy();
+      expect(mockQueue.active).toBeFalsy();
 
       $httpBackend.flush();
 
-      expect(mockQueue.status).toEqual(true);
+      expect(mockQueue.active).toEqual(true);
     }
   ]));
   
@@ -61,10 +61,10 @@ describe('setQueueStatusBulkAction directive', function() {
             id: 'id1'
           };
         $httpBackend.expect('PUT', apiHostname + '/v1/tenants/tenant-id/queues/id1', {
-          status: true
+          active: true
         }).respond(200);
 
-        isolateScope.status = true;
+        isolateScope.active = true;
         isolateScope.bulkAction.apply(mockQueue);
 
         $httpBackend.flush();

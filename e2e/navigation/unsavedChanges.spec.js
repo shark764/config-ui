@@ -250,8 +250,15 @@ describe('The unsaved changes warning', function() {
     bulkActions.cancelFormBtn.click();
     alertDialog = browser.switchTo().alert();
     alertDialog.accept();
-    // TODO Bug with inconsistent result on Cancel
-    //expect(bulkActions.bulkActionsForm.isDisplayed()).toBeFalsy();
+    expect(bulkActions.bulkActionsForm.isDisplayed()).toBeTruthy();
+
+    // Form reset
+    expect(bulkActions.userSelectEnable.getAttribute('selected')).toBeFalsy();
+    expect(bulkActions.submitFormBtn.getAttribute('disabled')).toBeTruthy();
+    bulkActions.cancelFormBtn.click();
+
+    // No alert and panel closed
+    expect(bulkActions.bulkActionsForm.isDisplayed()).toBeFalsy();
 
     // Unsaved changes warning on X
     shared.actionsBtn.click();

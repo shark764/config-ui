@@ -7,7 +7,7 @@
     type="text"
     ng-model="currentText"
     ng-focus="showSuggestions=true"
-    ng-blur="showSuggestions=false"
+    ng-blur="onBlur()"
     placeholder="{{placeholder}}"></input>
     <i class="fa fa-search"></i>
     <ul ng-class="{'embeded' : !hover}" ng-show="filtered.length > 0 && (showSuggestions || hovering)" ng-mouseover="hovering=true" ng-mouseout="hovering=false">
