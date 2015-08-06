@@ -440,8 +440,8 @@ describe('The media view', function() {
   });
   
   it('should keep the same source text when switching between Audio and TTS types on create', function() {
-	//Regression test for TITAN2-2645
-	shared.createBtn.click();
+    //Regression test for TITAN2-2645
+    shared.createBtn.click();
     
     media.typeFormDropdown.all(by.css('option')).get(1).click(); //Select Audio type
     media.sourceFormField.sendKeys('This is not a URL');

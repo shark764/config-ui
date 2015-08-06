@@ -885,7 +885,7 @@ describe('The media collections view', function() {
       expect(mediaCollections.mediaTypeDropdown.isDisplayed()).toBeTruthy();
       expect(mediaCollections.mediaSourceField.isDisplayed()).toBeTruthy();
 
-      // Create Media Pane has it('s own Cancel, Create and Create & New buttons
+      // Create Media Pane has it's own Cancel, Create and Create & New buttons
       expect(mediaCollections.mediaCancelBtn.isDisplayed()).toBeTruthy();
       expect(mediaCollections.mediaCreateBtn.isDisplayed()).toBeTruthy();
       expect(mediaCollections.mediaCreateAndNewBtn.isDisplayed()).toBeTruthy();
