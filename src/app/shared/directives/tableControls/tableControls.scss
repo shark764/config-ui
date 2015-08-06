@@ -103,5 +103,18 @@ table-controls {
     .disabled {
       color: $grey;
     }
+    
+    .sortable-header:hover {
+      background-color: $lightest-grey;
+    }
+    
+    .sort-icon {
+      color: $light-grey;
+    }
+    
+    .dropdown-label {
+      display: inline-block;
+      width: auto;
+    }
   }
 }

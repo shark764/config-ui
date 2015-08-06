@@ -273,4 +273,61 @@ describe('tableControls directive', function() {
       expect(result).toBeUndefined();
     }));
   });
+  
+  describe('sortTable function', function(){
+    beforeEach(function(){
+      doCompile();
+    });
+
+    it('should exist', inject(function() {
+      expect(isolateScope.sortTable).toBeDefined();
+      expect(isolateScope.sortTable).toEqual(jasmine.any(Function));
+    }));
+
+    it('should toggle reverseSortOrder if the orderBy field is already the given field', inject(function() {
+      isolateScope.reverseSortOrder = true;
+      isolateScope.orderBy = 'theField';
+      
+      isolateScope.sortTable({
+        name: 'theField'
+      });
+      
+      expect(isolateScope.reverseSortOrder).toBeFalsy();
+    }));
+    
+    it('should toggle reverseSortOrder if the orderBy field is already the given field\'s sortOn value', inject(function() {
+      isolateScope.reverseSortOrder = true;
+      isolateScope.orderBy = 'theField';
+      
+      isolateScope.sortTable({
+        sortOn: 'theField'
+      });
+      
+      expect(isolateScope.reverseSortOrder).toBeFalsy();
+    }));
+    
+    it('should set orderBy and reset reverseSortOrder if it is a newly chosen field', inject(function() {
+      isolateScope.reverseSortOrder = true;
+      isolateScope.orderBy = 'anotherField';
+      
+      isolateScope.sortTable({
+        name: 'theField'
+      });
+      
+      expect(isolateScope.reverseSortOrder).toBeFalsy();
+      expect(isolateScope.orderBy).toEqual('theField');
+    }));
+    
+    it('should set orderBy to the field\'s sortOn value and reset reverseSortOrder if it is a newly chosen field', inject(function() {
+      isolateScope.reverseSortOrder = true;
+      isolateScope.orderBy = 'anotherField';
+      
+      isolateScope.sortTable({
+        sortOn: 'theField'
+      });
+      
+      expect(isolateScope.reverseSortOrder).toBeFalsy();
+      expect(isolateScope.orderBy).toEqual('theField');
+    }));
+  });
 });

@@ -14,6 +14,7 @@ angular.module('liveopsConfigPanel')
           'header': $translate.instant('group.table.members'),
           'name': 'members',
           'transclude': true,
+          'sortOn': 'members.length'
         }, {
           'header': $translate.instant('value.status'),
           'name': 'active',
@@ -21,7 +22,7 @@ angular.module('liveopsConfigPanel')
           'options': statuses()
         }],
         'searchOn' : ['name', 'description'],
-        'orderBy' : ['name'],
+        'orderBy' : 'name',
         'title' : $translate.instant('group.table.title')
       };
     }
