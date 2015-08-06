@@ -8,13 +8,12 @@ angular.module('liveopsConfigPanel')
 
       //This is really awful and hopefully the API will update to accommodate this.
       Group.prototype.fetchGroupUsers = function() {
-        var members = TenantGroupUsers.cachedQuery({
+        this.members = TenantGroupUsers.cachedQuery({
           tenantId: Session.tenant.tenantId,
           groupId: this.id
         }, 'groups/' + this.id + '/users');
         
-        this.members = members; //For table sorting
-        return members;
+        return this.members;
       };
 
       $scope.fetchGroups = function () {

@@ -131,7 +131,7 @@ describe('bulkActionExecutor directive', function () {
       $scope.items[0].sortField = 2;
       $scope.items[1].sortField = 1;
       $scope.items[2].sortField = 3;
-      isolateScope.dropOrderBy = 'sortField'
+      isolateScope.dropOrderBy = 'sortField';
       var checkedItems = isolateScope.selectedItems();
       
       expect(checkedItems[0]).toBe($scope.items[1]);

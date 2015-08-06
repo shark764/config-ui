@@ -139,9 +139,10 @@ angular.module('liveopsConfigPanel')
             if (fieldName === $scope.orderBy){
               $scope.reverseSortOrder = ! $scope.reverseSortOrder;
             } else {
-              $scope.orderBy = fieldName;
               $scope.reverseSortOrder = false;
             }
+            
+            $scope.orderBy = fieldName;
           };
         }
       };
