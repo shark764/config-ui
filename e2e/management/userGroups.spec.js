@@ -22,12 +22,12 @@ describe('The user groups component of User view', function() {
   });
 
   it('should add to the member count for an existing group', function() {
-	//Regression test for TITAN2-2533
+  //Regression test for TITAN2-2533
     
-	//Create a new group
-	browser.get(shared.groupsPageUrl);
-	shared.createBtn.click();
-	var randomGroup = Math.floor((Math.random() * 1000) + 1);
+  //Create a new group
+  browser.get(shared.groupsPageUrl);
+  shared.createBtn.click();
+  var randomGroup = Math.floor((Math.random() * 1000) + 1);
     var newGroupName = 'Group Name ' + randomGroup;
     groups.nameFormField.sendKeys(newGroupName);
     shared.submitFormBtn.click().then(function () {

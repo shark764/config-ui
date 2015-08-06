@@ -38,7 +38,7 @@ describe('The media collections view', function() {
     // Create New Media details are not displayed by default
     expect(mediaCollections.defaultIdDropdown.isPresent()).toBeFalsy();
     expect(mediaCollections.noMediaMappingsMessage.isDisplayed()).toBeTruthy();
-    expect(mediaCollections.noMediaMappingsMessage.getText()).toBeTruthy('Add media it(ems with the plus button above.');
+    expect(mediaCollections.noMediaMappingsMessage.getText()).toBeTruthy('Add media items with the plus button above.');
     expect(mediaCollections.createMediaForm.isDisplayed()).toBeFalsy();
   });
 
@@ -295,7 +295,7 @@ describe('The media collections view', function() {
       if (identifiers == '') {
         expect(mediaCollections.defaultIdDropdown.isPresent()).toBeFalsy();
         expect(mediaCollections.noMediaMappingsMessage.isDisplayed()).toBeTruthy();
-        expect(mediaCollections.noMediaMappingsMessage.getText()).toBeTruthy('Add media it(ems with the plus button above.');
+        expect(mediaCollections.noMediaMappingsMessage.getText()).toBeTruthy('Add media items with the plus button above.');
       } else {
         expect(mediaCollections.defaultIdDropdown.isDisplayed()).toBeTruthy();
         expect(mediaCollections.defaultIdDropdown.$('option:checked').getText()).not.toBe('');
@@ -321,7 +321,7 @@ describe('The media collections view', function() {
             if (identifiers == '') {
               expect(mediaCollections.defaultIdDropdown.isPresent()).toBeFalsy();
               expect(mediaCollections.noMediaMappingsMessage.isDisplayed()).toBeTruthy();
-              expect(mediaCollections.noMediaMappingsMessage.getText()).toBeTruthy('Add media it(ems with the plus button above.');
+              expect(mediaCollections.noMediaMappingsMessage.getText()).toBeTruthy('Add media items with the plus button above.');
             } else {
               expect(mediaCollections.defaultIdDropdown.isDisplayed()).toBeTruthy();
               expect(mediaCollections.defaultIdDropdown.$('option:checked').getText()).not.toBe('');
