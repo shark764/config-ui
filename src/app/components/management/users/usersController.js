@@ -1,9 +1,10 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('UsersController', ['$scope', '$window', 'userRoles', 'User', 'Session', 'AuthService', 'userTableConfig', 'Invite', 'Alert', 'flowSetup', 'BulkAction', '$q', '$location', 'lodash',
-    function ($scope, $window, userRoles, User, Session, AuthService, userTableConfig, Invite, Alert, flowSetup, BulkAction, $q, $location, _) {
+  .controller('UsersController', ['$scope', '$window', 'userRoles', 'User', 'Session', 'AuthService', 'userTableConfig', 'Invite', 'Alert', 'flowSetup', 'BulkAction', '$q', '$location', 'lodash', 'Chain',
+    function ($scope, $window, userRoles, User, Session, AuthService, userTableConfig, Invite, Alert, flowSetup, BulkAction, $q, $location, _, Chain) {
       var self = this;
+      $scope.forms = {};
       $scope.Session = Session;
       $scope.roles = userRoles;
 
@@ -42,6 +43,17 @@ angular.module('liveopsConfigPanel')
         return $scope.users;
       };
 
+
+      var userSaveChain = Chain.get('user:save');
+
+      userSaveChain.register('save', function () {
+        if ($scope.forms.detailsForm.$error.duplicateUsername) {
+          return $scope.inviteUser();
+        }
+
+        return $scope.save();
+      }, 0);
+
       $scope.create = function () {
         $scope.selectedUser = new User({
           status: 'enabled'
@@ -53,20 +65,20 @@ angular.module('liveopsConfigPanel')
       $scope.resetForm = function () {
         //Workaround for fields with invalid text in them not being cleared when the model is updated to undefined
         //E.g. http://stackoverflow.com/questions/18874019/angularjs-set-the-model-to-be-again-doesnt-clear-out-input-type-url
-        angular.forEach($scope.detailsForm, function (value, key) {
+        angular.forEach($scope.forms.detailsForm, function (value, key) {
           if (value && value.hasOwnProperty('$modelValue') && value.$invalid){
             var displayValue = value.$modelValue;
             if (displayValue === null){
               displayValue = undefined;
             }
 
-            $scope.detailsForm[key].$setViewValue(displayValue);
-            $scope.detailsForm[key].$rollbackViewValue();
+            $scope.forms.detailsForm[key].$setViewValue(displayValue);
+            $scope.forms.detailsForm[key].$rollbackViewValue();
           }
         });
 
-        $scope.detailsForm.$setPristine();
-        $scope.detailsForm.$setUntouched();
+        $scope.forms.detailsForm.$setPristine();
+        $scope.forms.detailsForm.$setUntouched();
       };
 
       $scope.reset = function () {
@@ -88,49 +100,40 @@ angular.module('liveopsConfigPanel')
       });
 
       $scope.save = function () {
-        $scope.loading = true;
-
         if(!$scope.selectedUser.id){
           $scope.selectedUser.status = 'pending';
         }
 
-        $scope.selectedUser.save().then(function (user) {
+        return $scope.selectedUser.save().then(function (user) {
           $scope.resetForm();
-          $scope.$broadcast('resource:details:user:create:success', user);
-        }).finally(function () {
-          $scope.loading = false;
+          return user;
         });
       };
 
       $scope.inviteUser = function () {
-        $scope.loading = true;
-
-        $scope.sendInvite($scope.detailsForm.email.$viewValue).then(function (invite) {
+        return $scope.sendInvite($scope.forms.detailsForm.email.$viewValue).then(function (invite) {
           $scope.resetForm();
-          $scope.loading = false;
 
           var user = _.find($scope.users, {id: invite.invitation.userId})
 
           if(user) {
-            $scope.selectedUser = user;
+            return user;
           } else {
             return User.get({id : invite.invitation.userId}).$promise.then(function (user) {
-              $scope.$broadcast('resource:details:user:create:success', user);
-            }).finally(function () {
-              $scope.loading = false;
+              return user;
             });
           }
         });
       };
 
       $scope.sendInvite = function (email) {
-        var invite = new Invite({
+        $scope.invite = new Invite({
           email: email,
           roleId: '00000000-0000-0000-0000-000000000000',
           tenantId: Session.tenant.tenantId
         });
 
-        return invite.save();
+        return $scope.invite.save();
       };
 
       $scope.tableConfig = userTableConfig;

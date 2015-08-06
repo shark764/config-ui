@@ -16,28 +16,55 @@
 <resize-handle
     ng-show="selectedUser || showBulkActions"
     id="resize-pane"
-    right-element-id="right-panel"
+    right-element-id="user-pane"
     left-element-id="table-pane"
     left-min-width="700"
     right-min-width="300"></resize-handle>
 
-<div id="right-panel" class="right-panel" ng-show="selectedUser || showBulkActions">
+<lo-details-panel
+  id="user-pane"
+  class="details-pane"
+  ng-show="selectedUser || showBulkActions"
+  ng-resource="selectedUser">
 
-  <div class="details-pane" ng-show="selectedUser && !showBulkActions">
-    <loading ng-if="! selectedUser"></loading>
-    <i id="close-details-button" class="fa fa-remove remove" ng-click="closeDetails()"></i>
+    <ng-form
+      unsaved-changes-warning
+      class="details-form"
+      name="forms.detailsForm"
+      ng-resource="selectedUser"
+      lo-form-submit="user:save"
+      lo-form-cancel="user:cancel"
+      lo-form-alert>
 
-    <ng-form unsaved-changes-warning ng-show="selectedUser" class="details-form" name="detailsForm">
-      <div class="detail-header-pane" ng-show="selectedUser.id" compiled-include="app/components/management/users/userDetailHeader.html">
+      <div class="detail-header-pane" ng-show="selectedUser.id" ng-include="'app/components/management/users/userDetailHeader.html'">
       </div>
 
-      <div class="detail-body-pane" compiled-include="app/components/management/users/userDetailBody.html">
+      <div class="detail-body-pane" ng-include="'app/components/management/users/userDetailBody.html'">
       </div>
 
       <div class="detail-controls-pane">
-        <input id="cancel-details-btn" ng-disabled="selectedUser.$busy" type="button" class="btn" ng-click="reset()" value="{{'value.cancel' | translate}}"></input>
-        <input id="submit-details-btn" ng-show="!loading" ng-click="detailsForm.$error.duplicateUsername ? inviteUser() : save()" ng-disabled="(detailsForm.$pending || detailsForm.$invalid || ! detailsForm.$dirty) && !detailsForm.$error.duplicateUsername" class="btn btn-primary" type="submit" value="{{'value.submit' | translate}}" />
-        <a ng-disabled="true" ng-show="loading" class="btn btn-primary"><i class="fa fa-refresh fa-spin"></i></a>
+        <input lo-chain-executor="user:cancel" id="cancel-details-btn" ng-disabled="selectedUser.$busy" type="button" class="btn" ng-click="reset()" value="{{'value.cancel' | translate}}"></input>
+        <input
+          id="submit-details-btn"
+          lo-chain-executor="user:save"
+          lo-submit-spinner
+          lo-submit-spinner-status="selectedUser.$busy"
+          ng-show="!forms.detailsForm.$error.duplicateUsername"
+          ng-click="save()"
+          ng-disabled="forms.detailsForm.$pending || forms.detailsForm.$invalid || ! forms.detailsForm.$dirty"
+          class="btn btn-primary"
+          type="submit"
+          value="{{'value.submit' | translate}}" />
+
+          <input
+            id="invite-btn"
+            lo-submit-spinner
+            lo-submit-spinner-status="invite.$busy"
+            ng-show="forms.detailsForm.$error.duplicateUsername"
+            ng-click="inviteUser()"
+            class="btn btn-primary"
+            type="submit"
+            value="{{'value.submit' | translate}}" />
       </div>
     </ng-form>
   </div>
@@ -50,4 +77,4 @@
     <ba-user-skills bulk-action="bulkActions.userSkills" users="users"></ba-user-skills>
     <ba-user-groups bulk-action="bulkActions.userGroups" users="users"></ba-user-groups>
   </bulk-action-executor>
-</div>
+</lo-details-panel>
