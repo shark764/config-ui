@@ -10,7 +10,7 @@ var UserPage = function() {
   this.externalIdFormField = element(by.model('resource.externalId'));
   this.passwordEditFormBtn = element(by.buttonText('Reset Password'));
   this.personalTelephoneFormField = element(by.model('resource.personalTelephone'));
-  this.activeFormToggle = element(by.model('resource.active'));
+  this.activeFormToggle = element(by.model('resource.status'));
 
   this.emailLabel = element(by.id('user-details-email'));
   this.error = element(by.css('.error'));
