@@ -11,7 +11,7 @@ angular.module('liveopsConfigPanel')
         'name': 'properties.accountSid'
       }, {
         'header': $translate.instant('value.status'),
-        'name': 'status',
+        'name': 'active',
         'sortable': true,
         'options': statuses(),
         'transclude': true,

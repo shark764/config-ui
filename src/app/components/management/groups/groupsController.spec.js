@@ -48,7 +48,7 @@ describe('groups controller', function () {
     it('should set selectedGroup to default values', inject(function () {
       $scope.$broadcast('table:on:click:create');
       expect($scope.selectedGroup.tenantId).toEqual('tenant-id');
-      expect($scope.selectedGroup.status).toBeTruthy();
+      expect($scope.selectedGroup.active).toBeTruthy();
       expect($scope.selectedGroup.owner).toEqual('userId1');
     }));
   });

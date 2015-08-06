@@ -57,7 +57,7 @@ angular.module('liveopsConfigPanel')
               name: groupName,
               tenantId: Session.tenant.tenantId,
               description: '',
-              status: true,
+              active: true,
               owner: Session.user.id
             }).save(function (result) {
               $scope.selectedGroup = result;

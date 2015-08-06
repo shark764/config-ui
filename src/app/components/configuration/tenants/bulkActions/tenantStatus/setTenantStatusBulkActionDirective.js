@@ -13,7 +13,7 @@ angular.module('liveopsConfigPanel')
           $scope.bulkAction.apply = function(tenant) {
             var tenantCopy = new Tenant();
             tenantCopy.id = tenant.id;
-            tenantCopy.status = $scope.status;
+            tenantCopy.active = $scope.active;
             return tenantCopy.save().then(function(tenantCopy) {
               angular.copy(tenantCopy, tenant);
               tenant.checked = true;
@@ -23,7 +23,7 @@ angular.module('liveopsConfigPanel')
           
           $scope.bulkAction.reset = function() {
             $scope.bulkAction.checked = false;
-            $scope.status = false;
+            $scope.active = false;
           };
         }
       };
