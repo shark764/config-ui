@@ -19,8 +19,8 @@ angular.module('liveopsConfigPanel')
         return value;
       }
 
-      function createJsonReplacer(key, value) {
-        if(key === '$busy') return undefined
+      function createJsonReplacer(key, value) { 
+        if(_.startsWith(key, '$')) return undefined
         else return value;
       }
 
@@ -28,6 +28,13 @@ angular.module('liveopsConfigPanel')
         create: function (endpoint, resourceName, updateFields, requestUrlFields) {
 
           var updateJsonReplacer = function  (key, value) {
+
+            // if the key starts with a $ then its a private field
+            // and should NOT be passed to the API
+            if (_.startsWith(key, '$')){
+              return undefined;
+            }
+
             // empty string indicates that its verifying if it should
             // check any part; always return the value
             if(key === ''){
