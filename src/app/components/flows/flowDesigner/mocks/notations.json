@@ -399,7 +399,7 @@
                     "type": "string",
                     "mandatory": false,
                     "key": "search",
-                    "default": "\"titan/customer\""
+                    "default": "titan/customer"
                 },
                 "search-value-action": {
                     "source": "expression",
