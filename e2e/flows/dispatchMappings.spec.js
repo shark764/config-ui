@@ -138,7 +138,7 @@ describe('The dispatch mappings view', function() {
     });
   });
 
-  //TODO: update once TITAN2-1829 is fixed
+  //TODO: enable when TITAN2-1487 is fixed
   xit('should successfully create new Dispatch Mapping with Integration Mapping', function() {
     randomDispatchMapping = Math.floor((Math.random() * 1000) + 1);
     var dispatchMappingAdded = false;
@@ -150,6 +150,7 @@ describe('The dispatch mappings view', function() {
     dispatchMappings.descriptionFormField.sendKeys('Description for dispatch mapping ' + randomDispatchMapping);
     // Select Integration Mapping
     dispatchMappings.mappingOptions.get(3).click();
+    dispatchMappings.valueFormField.all(by.css('option')).get(1).click();
     dispatchMappings.flowDropdown.all(by.css('option')).get(1).click();
     shared.submitFormBtn.click();
 
@@ -470,25 +471,6 @@ describe('The dispatch mappings view', function() {
       expect(dispatchMappings.mappingDropdown.$('option:checked').getAttribute('value')).toBe(originalMapping);
       expect(dispatchMappings.flowDropdown.$('option:checked').getAttribute('value')).toBe(originalFlow);
     });
-  });
-
-  it('should allow the Dispatch Mapping fields to be updated', function() {
-    shared.firstTableRow.click();
-
-    // Edit fields
-    dispatchMappings.phoneFormField.clear();
-    dispatchMappings.phoneFormField.sendKeys('15069876543');
-
-    var editStatus = dispatchMappings.statusSwitch.isSelected();
-    shared.submitFormBtn.click();
-
-    expect(shared.successMessage.isDisplayed()).toBeTruthy();
-    expect(shared.tableElements.count()).toBe(dispatchMappingCount);
-
-    // Changes persist
-    browser.refresh();
-    expect(dispatchMappings.phoneFormField.getAttribute('value')).toBe('+1 506-987-6543');
-    expect(dispatchMappings.statusSwitch.isSelected()).toBe(editStatus);
   });
 
   it('should format Phone field when creating a Dispatch Mapping', function() {
