@@ -20,6 +20,7 @@ var GroupsPage = function() {
 
   this.groupMembersLoading = element(by.css('#right-panel loading'));
   this.groupMembersEmpty = element(by.css('#right-panel #empty-members-message'));
+  this.groupMembersRows = element.all(by.repeater('user in resource.fetchGroupUsers()'))
 };
 
 module.exports = new GroupsPage();
