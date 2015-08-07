@@ -528,13 +528,17 @@ describe('The dispatch mappings view', function() {
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
 
     // Error messages displayed
-    // BUG
-    //expect(dispatchMappings.requiredErrors.get(0).isDisplayed()).toBeTruthy();
-    //expect(dispatchMappings.requiredErrors.get(0).getText()).toBe('Phone number should be in E.164 format.');
+    expect(dispatchMappings.requiredErrors.get(0).isDisplayed()).toBeTruthy();
+    expect(dispatchMappings.requiredErrors.get(0).getText()).toBe('Phone number should be in E.164 format.');
     expect(shared.successMessage.isPresent()).toBeFalsy();
   });
 
   it('should require Phone field when editing a Dispatch Mapping', function() {
+    // Filter table results so only dispatch Mappings with a phone number are visible
+    dispatchMappings.interactionFieldTableDropDown.click();
+    dispatchMappings.interactionFields.get(0).click();
+    dispatchMappings.interactionFields.get(1).click();
+
     shared.firstTableRow.click();
 
     // Edit fields
@@ -550,7 +554,12 @@ describe('The dispatch mappings view', function() {
     expect(shared.successMessage.isPresent()).toBeFalsy();
   });
 
-  xit('should require Valid Phone field when editing a Dispatch Mapping', function() {
+  it('should require Valid Phone field when editing a Dispatch Mapping', function() {
+    // Filter table results so only dispatch Mappings with a phone number are visible
+    dispatchMappings.interactionFieldTableDropDown.click();
+    dispatchMappings.interactionFields.get(0).click();
+    dispatchMappings.interactionFields.get(1).click();
+    
     shared.firstTableRow.click();
 
     // Edit fields
@@ -561,20 +570,25 @@ describe('The dispatch mappings view', function() {
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
 
     // Error messages displayed
-    // BUG
-    //expect(dispatchMappings.requiredErrors.get(0).isDisplayed()).toBeTruthy();
-    //expect(dispatchMappings.requiredErrors.get(0).getText()).toBe('Phone number should be in E.164 format.');
+    expect(dispatchMappings.requiredErrors.get(0).isDisplayed()).toBeTruthy();
+    expect(dispatchMappings.requiredErrors.get(0).getText()).toBe('Phone number should be in E.164 format.');
     expect(shared.successMessage.isPresent()).toBeFalsy();
   });
 
-  xit('should format Phone field when editing a Dispatch Mapping', function() {
+  it('should format Phone field when editing a Dispatch Mapping', function() {
+    // Filter table results so only dispatch Mappings with a phone number are visible
+    dispatchMappings.interactionFieldTableDropDown.click();
+    dispatchMappings.interactionFields.get(0).click();
+    dispatchMappings.interactionFields.get(1).click();
+    
     shared.firstTableRow.click();
 
+    //Edit fields
     dispatchMappings.phoneFormField.clear();
     dispatchMappings.phoneFormField.sendKeys('15062345678\t');
 
     // Error messages are not displayed
-    expect(dispatchMappings.requiredErrors.get(0).getText()).toBe('');
+    expect(dispatchMappings.requiredErrors.count()).toEqual(0);
 
     // Phone input is reformatted
     expect(dispatchMappings.phoneFormField.getAttribute('value')).toBe('+1 506-234-5678');
