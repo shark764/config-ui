@@ -2,7 +2,6 @@
 
 describe('loFormAlert directive', function() {
   var $scope,
-    element,
     isolateScope;
 
   beforeEach(module('gulpAngular'));
@@ -13,7 +12,13 @@ describe('loFormAlert directive', function() {
     function($compile, $rootScope) {
       $scope = $rootScope.$new();
       
-      var element = angular.element('<div><ng-form lo-form-submit="chain1" lo-form-cancel="" ng-resource="" lo-form-alert></ng-form></div>');
+      $scope.ngResource = {
+        isNew: jasmine.createSpy('ngResource.isNew'),
+        reset: jasmine.createSpy('ngResource.reset'),
+        email: 'test@tester.com'
+      };
+      
+      var element = angular.element('<div><ng-form name="form1" lo-form-submit="chain1" lo-form-cancel="" ng-resource="ngResource" lo-form-alert></ng-form></div>');
       element.data('$loDetailsPanelController', {
         close: jasmine.createSpy()
       });

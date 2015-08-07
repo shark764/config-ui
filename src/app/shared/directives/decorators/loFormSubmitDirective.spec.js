@@ -16,7 +16,9 @@ describe('loFormSubmit directive', function() {
       $scope = $rootScope.$new();
 
       $scope.ngResource = {
-        email: 'test@tester.com'
+        email: 'test@tester.com',
+        isNew: jasmine.createSpy('ngResource.isNew'),
+        reset: jasmine.createSpy('ngResource.reset')
       };
       
       elementString = '<div><ng-form ng-resource="ngResource" lo-form-submit="chain1"' +
