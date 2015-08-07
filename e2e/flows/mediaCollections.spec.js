@@ -150,7 +150,7 @@ describe('The media collections view', function() {
 
     shared.tableElements.then(function(mediaElements) {
       if (mediaElements.length > 0) {
-        mediaName = mediaElements[0].getText();
+        mediaName = mediaElements[0].element(by.css('td:nth-child(2)')).getText();
 
         browser.get(shared.mediaCollectionsPageUrl);
         shared.createBtn.click();
@@ -164,7 +164,7 @@ describe('The media collections view', function() {
         // Add Media Mapping with existing media
         mediaCollections.addMediaMappingButton.click();
         mediaCollections.mediaIdentifiers.get(0).sendKeys('Media Identifier ' + randomCollection);
-        mediaCollections.mediaDropdowns.get(0).click();
+        mediaCollections.mediaDropdownBoxes.get(0).click();
         mediaCollections.mediaDropdownSearchFields.get(0).sendKeys(mediaName);
 
         // Set default Identifier
@@ -198,8 +198,7 @@ describe('The media collections view', function() {
         // Add Media Mapping with existing media
         mediaCollections.addMediaMappingButton.click();
         mediaCollections.mediaIdentifiers.get(0).sendKeys('Media Identifier ' + randomCollection);
-        mediaCollections.mediaDropdowns.get(0).click();
-        mediaCollections.mediaDropdownSearchFields.get(0).click();
+        mediaCollections.mediaDropdownBoxes.get(0).click();
         mediaCollections.mediaDropdownBoxes.get(0).all(by.repeater(mediaCollections.mediaElementsSelector)).get(0).click();
 
         // Set default Identifier
@@ -744,6 +743,7 @@ describe('The media collections view', function() {
     });
 
     xit('should list each existing Media', function() {
+      //TODO
       shared.createBtn.click();
       mediaCollections.addMediaMappingButton.click();
       mediaCollections.mediaDropdowns.get(0).click();
@@ -1059,7 +1059,7 @@ describe('The media collections view', function() {
       expect(mediaCollections.mediaCollectionsForm.isDisplayed()).toBeTruthy();
 
       // Fields are cleared and reset to defaults
-      mediaCollections.openCreateMediaButton.get(0).click();
+      mediaCollections.openCreateNewMedia();
       expect(mediaCollections.mediaNameField.getAttribute('value')).toBe('');
       expect(mediaCollections.mediaTypeDropdown.$('option:checked').getText()).toBe('Select Type...');
       expect(mediaCollections.mediaSourceField.getAttribute('value')).toBe('');
@@ -1106,7 +1106,7 @@ describe('The media collections view', function() {
       expect(mediaCollections.mediaCollectionsForm.isDisplayed()).toBeTruthy();
 
       // Fields are cleared and reset to defaults
-      mediaCollections.openCreateMediaButton.get(0).click();
+      mediaCollections.openCreateNewMedia();
       expect(mediaCollections.mediaNameField.getAttribute('value')).toBe('');
       expect(mediaCollections.mediaTypeDropdown.$('option:checked').getText()).toBe('Select Type...');
       expect(mediaCollections.mediaSourceField.getAttribute('value')).toBe('');
@@ -1153,7 +1153,7 @@ describe('The media collections view', function() {
       });
     });
 
-    xit('should leave new Media fields and pane open on Media Collections create', function() {
+    it('should leave new Media fields and pane open on Media Collections create', function() {
       shared.createBtn.click();
       mediaCollections.openCreateNewMedia();
 
