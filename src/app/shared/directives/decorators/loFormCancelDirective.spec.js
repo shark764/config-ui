@@ -1,6 +1,6 @@
 'use strict';
 
-describe('loFormCancel directive', function() {
+describe('loFormCancel directive', function () {
   var $scope,
     element,
     isolateScope,
@@ -11,15 +11,15 @@ describe('loFormCancel directive', function() {
   beforeEach(module('liveopsConfigPanel.mock.content'));
 
   beforeEach(inject(['$compile', '$rootScope', 'DirtyForms',
-    function($compile, $rootScope, DirtyForms) {
+    function ($compile, $rootScope, DirtyForms) {
       $scope = $rootScope.$new();
-
+      
       $scope.ngResource = {
-        isNew: function() {},
-        reset: function() {},
-        email: 'test@tester.com'
+        email: 'test@tester.com',
+        isNew: jasmine.createSpy('ngResource.isNew').and.callThrough(),
+        reset: jasmine.createSpy('ngResource.isNew').and.callThrough()
       };
-
+      
       //http://stackoverflow.com/questions/19227036/testing-directives-that-require-controllers
       element = angular.element('<div><ng-form ng-resource="ngResource" lo-form-cancel="chain1" name="form1"><input ng-model="ngResource.email" name="email" type="email" required></ng-form></div>');
       element.data('$loDetailsPanelController', {
@@ -33,22 +33,47 @@ describe('loFormCancel directive', function() {
 
       loFormCancelController = element.find('ng-form').controller('loFormCancel');
 
-      spyOn(DirtyForms, 'confirmIfDirty').and.callFake(function(callback) {
+      spyOn(DirtyForms, 'confirmIfDirty').and.callFake(function (callback) {
         callback();
       });
     }
   ]));
-
-  it('should hook itself onto chain1', inject(['$cacheFactory', function($cacheFactory) {
+  
+  beforeEach(function() {
+    isolateScope.ngResource.isNew = jasmine.createSpy('ngResource.isNew');
+    isolateScope.ngResource.reset = jasmine.createSpy('ngResource.reset');
+  });
+  
+  it('should hook itself onto chain1', inject(['$cacheFactory', function ($cacheFactory) {
     var chain = $cacheFactory.get('chains').get('chain1');
     expect(chain).toBeDefined();
     expect(chain.length).toEqual(1);
   }]));
 
-  describe('ON controller.resetForm', function() {
+  describe('ON ngResource change', function () {
+    beforeEach(function () {
+      loFormCancelController.resetForm = jasmine.createSpy('loFormCancelController.resetForm');
+    });
+
+    it('should call resetForm on ngResource change', function () {
+      var oldResource = isolateScope.ngResource;
+      isolateScope.ngResource = {
+        isNew: jasmine.createSpy('new ngResource.isNew'),
+        reset: jasmine.createSpy('new ngResource.reset'),
+        email: 'new@tester.com'
+      };
+      
+      isolateScope.$digest();
+      
+      expect(loFormCancelController.resetForm).toHaveBeenCalled();
+      expect(oldResource.reset).toHaveBeenCalled();
+    });
+  });
+
+  describe('ON controller.resetForm', function () {
     var formController;
 
-    beforeEach(function() {
+    beforeEach(function () {
       formController = element.find('ng-form').controller('form');
       spyOn(formController, '$setPristine');
       spyOn(formController, '$setUntouched');
@@ -57,19 +82,19 @@ describe('loFormCancel directive', function() {
       spyOn(formController.email, '$rollbackViewValue');
     });
 
-    it('should always $setPristine and $setUntouched on call', function() {
+    it('should always $setPristine and $setUntouched on call', function () {
       loFormCancelController.resetForm(formController);
       expect(formController.$setPristine).toHaveBeenCalled();
       expect(formController.$setUntouched).toHaveBeenCalled();
     });
 
-    it('should not $setViewValue to displayValue and $rollbackViewValue if field is valid', function() {
+    it('should not $setViewValue to displayValue and $rollbackViewValue if field is valid', function () {
       loFormCancelController.resetForm(formController);
       expect(formController.email.$setViewValue).not.toHaveBeenCalled();
       expect(formController.email.$rollbackViewValue).not.toHaveBeenCalled();
     });
 
-    it('should $setViewValue to displayValue and $rollbackViewValue if field is invalid', function() {
+    it('should $setViewValue to displayValue and $rollbackViewValue if field is invalid', function () {
       isolateScope.ngResource.email = 'test@';
       isolateScope.$digest();
 
@@ -81,7 +106,7 @@ describe('loFormCancel directive', function() {
       expect(formController.email.$rollbackViewValue).toHaveBeenCalled();
     });
 
-    it('should $setViewValue to undefined if displayValue is null', function() {
+    it('should $setViewValue to undefined if displayValue is null', function () {
       isolateScope.ngResource.email = null;
       isolateScope.$digest();
 
@@ -94,25 +119,25 @@ describe('loFormCancel directive', function() {
     });
   });
 
-  describe('ON chain1.execute', function() {
-    beforeEach(function() {
+  describe('ON chain1.execute', function () {
+    beforeEach(function () {
       spyOn(loFormCancelController, 'resetForm');
-      spyOn(isolateScope.ngResource, 'reset');
     });
 
-    describe('WHERE ngResource is new', function() {
-      beforeEach(function() {
-        spyOn(isolateScope.ngResource, 'isNew').and.returnValue(true);
+    describe('WHERE ngResource is new', function () {
+      beforeEach(function () {
+        isolateScope.ngResource.isNew = jasmine.createSpy('ngReource.isNew').and.returnValue(true);
       });
 
-      it('should call detailsPanel.close when form is clean', inject(['Chain', function(Chain) {
+      it('should call detailsPanel.close when form is clean', inject(['Chain', function (Chain) {
+        expect(isolateScope.ngResource.reset).not.toHaveBeenCalled();
         Chain.get('chain1').execute();
         expect(element.controller('loDetailsPanel').close).toHaveBeenCalled();
         expect(loFormCancelController.resetForm).not.toHaveBeenCalled();
         expect(isolateScope.ngResource.reset).not.toHaveBeenCalled();
       }]));
 
-      it('should not call detailsPanel.close when form is dirty', inject(['Chain', function(Chain) {
+      it('should not call detailsPanel.close when form is dirty', inject(['Chain', function (Chain) {
         element.find('ng-form').controller('form').$setDirty();
         Chain.get('chain1').execute();
         expect(element.controller('loDetailsPanel').close).toHaveBeenCalled();
@@ -121,13 +146,13 @@ describe('loFormCancel directive', function() {
       }]));
     });
 
-    describe('WHERE ngResource is not new and form is dirty', function() {
-      beforeEach(function() {
-        // spyOn(isolateScope.ngResource, 'isNew').and.returnValue(false);
+    describe('WHERE ngResource is not new and form is dirty', function () {
+      beforeEach(function () {
+        isolateScope.ngResource.isNew = jasmine.createSpy('ngReource.isNew').and.returnValue(false);
         element.find('ng-form').controller('form').$setDirty();
       });
 
-      it('should call loFormCancel.resetForm and resource.reset', inject(['Chain', function(Chain) {
+      it('should call loFormCancel.resetForm and resource.reset', inject(['Chain', function (Chain) {
         Chain.get('chain1').execute();
         expect(loFormCancelController.resetForm).toHaveBeenCalled();
         expect(isolateScope.ngResource.reset).toHaveBeenCalled();
