@@ -48,11 +48,11 @@ angular.module('liveopsConfigPanel')
       var userSaveChain = Chain.get('user:save');
       var inviteChain = Chain.get('user:tenant:invite');
 
-      userSaveChain.register('save', function () {
+      userSaveChain.hook('save', function () {
         return $scope.save();
       }, 0);
 
-      inviteChain.register('invite', function () {
+      inviteChain.hook('invite', function () {
         return $scope.inviteUser();
       }, 0);
 
