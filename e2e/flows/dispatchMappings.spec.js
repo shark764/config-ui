@@ -472,16 +472,13 @@ describe('The dispatch mappings view', function() {
     });
   });
 
-  xit('should allow the Dispatch Mapping fields to be updated', function() {
-    // TODO Update once TITAN2-1827 bug is fixed
+  it('should allow the Dispatch Mapping fields to be updated', function() {
     shared.firstTableRow.click();
 
     // Edit fields
     dispatchMappings.phoneFormField.clear();
     dispatchMappings.phoneFormField.sendKeys('15069876543');
-    dispatchMappings.statusSwitch.click();
 
-    var editPhone = dispatchMappings.phoneFormField.getAttribute('value');
     var editStatus = dispatchMappings.statusSwitch.isSelected();
     shared.submitFormBtn.click();
 
@@ -490,7 +487,7 @@ describe('The dispatch mappings view', function() {
 
     // Changes persist
     browser.refresh();
-    expect(dispatchMappings.phoneFormField.getAttribute('value')).toBe(editPhone);
+    expect(dispatchMappings.phoneFormField.getAttribute('value')).toBe('+1 506-987-6543');
     expect(dispatchMappings.statusSwitch.isSelected()).toBe(editStatus);
   });
 
@@ -503,6 +500,22 @@ describe('The dispatch mappings view', function() {
 
     // Phone input is reformatted
     expect(dispatchMappings.phoneFormField.getAttribute('value')).toBe('+1 506-234-5678');
+  });
+
+  it('should require Phone field when creating a Dispatch Mapping', function() {
+    shared.createBtn.click();
+
+    dispatchMappings.mappingOptions.get(1).click();
+    dispatchMappings.phoneFormField.click('');
+    dispatchMappings.nameFormField.sendKeys('Name');
+
+    // Submit button is still disabled
+    expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
+
+    // Error messages displayed
+    expect(dispatchMappings.requiredErrors.get(0).isDisplayed()).toBeTruthy();
+    expect(dispatchMappings.requiredErrors.get(0).getText()).toBe('Phone number is required');
+    expect(shared.successMessage.isPresent()).toBeFalsy();
   });
 
   it('should require Valid Phone field when creating a Dispatch Mapping', function() {
@@ -518,6 +531,22 @@ describe('The dispatch mappings view', function() {
     // BUG
     //expect(dispatchMappings.requiredErrors.get(0).isDisplayed()).toBeTruthy();
     //expect(dispatchMappings.requiredErrors.get(0).getText()).toBe('Phone number should be in E.164 format.');
+    expect(shared.successMessage.isPresent()).toBeFalsy();
+  });
+
+  it('should require Phone field when editing a Dispatch Mapping', function() {
+    shared.firstTableRow.click();
+
+    // Edit fields
+    dispatchMappings.phoneFormField.clear();
+    dispatchMappings.phoneFormField.sendKeys('\t');
+
+    // Submit button is still disabled
+    expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
+
+    // Error messages displayed
+    expect(dispatchMappings.requiredErrors.get(0).isDisplayed()).toBeTruthy();
+    expect(dispatchMappings.requiredErrors.get(0).getText()).toBe('Phone number is required');
     expect(shared.successMessage.isPresent()).toBeFalsy();
   });
 

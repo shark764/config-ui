@@ -64,7 +64,7 @@ angular.module('liveopsConfigPanel')
                 hasProficiency: (typeof $scope.newUserSkill.proficiency === 'undefined' ? false : true),
                 tenantId: Session.tenant.tenantId,
                 description: '',
-                status: true
+                active: true
               }).save(function (result) {
                 $scope.fetchSkills().push(result);
                 $scope.selectedSkill = result;

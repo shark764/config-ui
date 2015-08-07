@@ -164,8 +164,12 @@
 
     input, .btn {
       max-width: 200px;
-      margin: 0 20px;
+      margin: 0;
       width: 45%;
+    }
+    
+    .btn + .btn{
+    	margin-left: 20px;
     }
   }
 }

@@ -34,27 +34,27 @@ describe('setSkillStatusBulkAction directive', function() {
   it('should override bulkAction.reset', function() {
     expect(isolateScope.bulkAction.reset).toBeDefined();
     
-    isolateScope.bulkAction.status = true;
+    isolateScope.bulkAction.active = true;
     isolateScope.bulkAction.reset();
-    expect(isolateScope.status).toBeFalsy();
+    expect(isolateScope.active).toBeFalsy();
     expect(isolateScope.bulkAction.checked).toBeFalsy();
   });
 
-  it('should should set skill.status on bulkAction.execute', inject(['mockSkills', '$httpBackend', 'apiHostname',
+  it('should should set skill.active on bulkAction.execute', inject(['mockSkills', '$httpBackend', 'apiHostname',
     function(mockSkills, $httpBackend, apiHostname) {
       var returnSkill = angular.copy(mockSkills[0]);
-      returnSkill.status = true;
+      returnSkill.active = true;
 
       $httpBackend.when('PUT', apiHostname + '/v1/tenants/tenant-id/skills/skillId1').respond(200, {
         result: returnSkill
       });
 
-      expect(mockSkills[0].status).toBeFalsy();
-      isolateScope.status = true;
+      expect(mockSkills[0].active).toBeFalsy();
+      isolateScope.active = true;
       isolateScope.bulkAction.apply(mockSkills[0]);
       $httpBackend.flush();
 
-      expect(mockSkills[0].status).toEqual(true);
+      expect(mockSkills[0].active).toEqual(true);
     }
   ]));
   
@@ -62,10 +62,10 @@ describe('setSkillStatusBulkAction directive', function() {
     inject(['mockSkills', '$httpBackend', 'apiHostname',
       function (mockSkills, $httpBackend, apiHostname) {
         $httpBackend.expect('PUT', apiHostname + '/v1/tenants/tenant-id/skills/skillId1', {
-          status: true
+          active: true
         }).respond(200);
 
-        isolateScope.status = true;
+        isolateScope.active = true;
         isolateScope.bulkAction.apply(mockSkills[0]);
 
         $httpBackend.flush();

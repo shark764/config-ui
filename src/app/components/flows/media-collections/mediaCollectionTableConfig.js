@@ -16,12 +16,13 @@ angular.module('liveopsConfigPanel')
             for (var i = 0; i < collection.$original.mediaMap.length; i++){
               identifiers.push(collection.$original.mediaMap[i].lookup);
             }
-            
+
             return identifiers.join(', ');
-          }
+          },
+          'sortOn': 'mediaMap[0].lookup'
         }],
         'searchOn' : ['$original.name'],
-        'orderBy' : ['$original.name'],
+        'orderBy' : '$original.name',
         'title' : $translate.instant('media.collections.table.title')
       };
     }

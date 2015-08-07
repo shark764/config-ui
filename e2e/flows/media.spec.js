@@ -284,42 +284,39 @@ describe('The media view', function() {
     expect(media.typeFormDropdown.getAttribute('value')).toBe('');
   });
 
-  xit('should display media details when Audio media is selected from table', function() {
-    // TODO Update based on expected display value of Properties in table
-    //TODO: Update for expected display of Type value in table
+  it('should display media details when Audio media is selected from table', function() {
     shared.searchField.sendKeys('Audio');
     // Select first media from table
     shared.firstTableRow.click();
 
     // Verify media details in table matches populated field
-    expect(media.sourceHeader.getText()).toContain(shared.firstTableRow.element(by.css(media.nameColumn)).getText());
+    expect(shared.detailsFormHeader.getText()).toContain(shared.firstTableRow.element(by.css(media.nameColumn)).getText());
     expect(shared.firstTableRow.element(by.css(media.sourceColumn)).getText()).toBe(media.sourceFormField.getAttribute('value'));
 
     // Change selected media and ensure details are updated
     shared.tableElements.count().then(function(curMediaCount) {
       if (curMediaCount > 1) {
         shared.secondTableRow.click();
-        expect(media.sourceHeader.getText()).toContain(shared.secondTableRow.element(by.css(media.nameColumn)).getText());
+        expect(shared.detailsFormHeader.getText()).toContain(shared.secondTableRow.element(by.css(media.nameColumn)).getText());
         expect(shared.secondTableRow.element(by.css(media.sourceColumn)).getText()).toBe(media.sourceFormField.getAttribute('value'));
       };
     });
   });
 
-  xit('should display media details when Text-To-Speech media is selected from table', function() {
-    // TODO Update based on expected display value of Properties in table
+  it('should display media details when Text-To-Speech media is selected from table', function() {
     shared.searchField.sendKeys('Text-To-Speech');
     // Select first media from table
     shared.firstTableRow.click();
 
     // Verify media details in table matches populated field
-    expect(media.sourceHeader.getText()).toContain(shared.firstTableRow.element(by.css(media.nameColumn)).getText());
+    expect(shared.detailsFormHeader.getText()).toContain(shared.firstTableRow.element(by.css(media.nameColumn)).getText());
     expect(shared.firstTableRow.element(by.css(media.sourceColumn)).getText()).toBe(media.sourceFormField.getAttribute('value'));
 
     // Change selected media and ensure details are updated
     shared.tableElements.count().then(function(curMediaCount) {
       if (curMediaCount > 1) {
         shared.secondTableRow.click();
-        expect(media.sourceHeader.getText()).toContain(shared.secondTableRow.element(by.css(media.nameColumn)).getText());
+        expect(shared.detailsFormHeader.getText()).toContain(shared.secondTableRow.element(by.css(media.nameColumn)).getText());
         expect(shared.secondTableRow.element(by.css(media.sourceColumn)).getText()).toBe(media.sourceFormField.getAttribute('value'));
       };
     });
@@ -372,8 +369,7 @@ describe('The media view', function() {
     });
   });
 
-  xit('should allow the Audio Media fields to be updated except Type', function() {
-    // TODO Current but where selecting Audio media dirties form
+  it('should allow the Audio Media fields to be updated except Type', function() {
     shared.searchField.sendKeys('Audio');
     shared.firstTableRow.click();
 
@@ -429,4 +425,18 @@ describe('The media view', function() {
     expect(media.requiredError.get(0).getText()).toBe('Please enter a source');
     expect(shared.successMessage.isPresent()).toBeFalsy();
   });
+
+  it('should not dirty the form when selecting Audio media types', function() {
+    shared.searchField.sendKeys('Audio');
+    shared.tableElements.count().then(function (audioCount) {
+      if (audioCount > 1) {
+        shared.firstTableRow.click();
+        expect(shared.detailsFormHeader.getText()).toContain(shared.firstTableRow.element(by.css(media.nameColumn)).getText());
+
+        shared.secondTableRow.click();
+        expect(shared.detailsFormHeader.getText()).toContain(shared.secondTableRow.element(by.css(media.nameColumn)).getText());
+      }
+    })
+  });
+
 });

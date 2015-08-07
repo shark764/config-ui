@@ -31,22 +31,22 @@ describe('setGroupStatusBulkAction directive', function() {
     expect(isolateScope.bulkAction.apply).toBeDefined();
   });
 
-  it('should should set group.status on bulkAction.execute', inject(['mockGroups', '$httpBackend', 'apiHostname',
+  it('should should set group.active on bulkAction.execute', inject(['mockGroups', '$httpBackend', 'apiHostname',
     function(mockGroups, $httpBackend, apiHostname) {
       var returnGroup = angular.copy(mockGroups[0]);
-      returnGroup.status = true;
+      returnGroup.active = true;
 
       $httpBackend.when('PUT', apiHostname + '/v1/tenants/tenant-id/groups/groupId1').respond(200, {
         result: returnGroup
       });
       
-      expect(mockGroups[0].status).toBeFalsy();
-      isolateScope.status = true;
+      expect(mockGroups[0].active).toBeFalsy();
+      isolateScope.active = true;
       isolateScope.bulkAction.apply(mockGroups[0]);
 
       $httpBackend.flush();
 
-      expect(mockGroups[0].status).toEqual(true);
+      expect(mockGroups[0].active).toEqual(true);
     }
   ]));
   
@@ -54,10 +54,10 @@ describe('setGroupStatusBulkAction directive', function() {
     inject(['mockGroups', '$httpBackend', 'apiHostname',
       function (mockGroups, $httpBackend, apiHostname) {
         $httpBackend.expect('PUT', apiHostname + '/v1/tenants/tenant-id/groups/groupId1', {
-          status: true
+          active: true
         }).respond(200);
 
-        isolateScope.status = true;
+        isolateScope.active = true;
         isolateScope.bulkAction.apply(mockGroups[0]);
 
         $httpBackend.flush();
@@ -68,10 +68,10 @@ describe('setGroupStatusBulkAction directive', function() {
           var everyoneGroup = new Group({
             type: 'everyone',
             id: '123456',
-            status: true
+            active: true
           });
           
-          isolateScope.status = false;
+          isolateScope.active = false;
           var result = isolateScope.bulkAction.apply(everyoneGroup);
 
           result.then(function() {
@@ -80,7 +80,7 @@ describe('setGroupStatusBulkAction directive', function() {
             expect(reason.msg).toEqual('Cannot disable the Everyone group.');
           });
           
-          expect(everyoneGroup.status).toBeTruthy();
+          expect(everyoneGroup.active).toBeTruthy();
         }
       ]));
 });

@@ -6,7 +6,7 @@ angular.module('liveopsConfigPanel')
     var Tenant = LiveopsResourceFactory.create('/v1/tenants/:id', 'Tenant', [
       {name: 'name'},
       {name: 'description', optional: true},
-      {name: 'status'},
+      {name: 'active'},
       {name: 'adminUserId'}
     ]);
     
