@@ -6,7 +6,7 @@ angular.module('liveopsConfigPanel')
       scope : {
         loSubmitSpinnerStatus: '='
       },
-      link: function($scope, ele, attr, ctrl) {
+      link: function($scope, ele) {
         $scope.spinnerElement = angular.element('<a disabled="true" class="btn btn-primary"><i class="fa fa-refresh fa-spin"></i></a>');
         ele.after($scope.spinnerElement);
         $scope.spinnerElement.addClass('ng-hide');
