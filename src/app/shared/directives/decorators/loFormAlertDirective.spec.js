@@ -12,10 +12,16 @@ describe('loFormAlert directive', function() {
   beforeEach(inject(['$compile', '$rootScope',
     function($compile, $rootScope) {
       $scope = $rootScope.$new();
+      
+      var element = angular.element('<div><ng-form lo-form-submit="chain1" lo-form-cancel="" ng-resource="" lo-form-alert></ng-form></div>');
+      element.data('$loDetailsPanelController', {
+        close: jasmine.createSpy()
+      });
 
-      element = $compile('<ng-form lo-form-submit="chain1" lo-form-alert></ng-form>')($scope);
+      $compile(element)($scope);
+      
       $scope.$digest();
-      isolateScope = element.isolateScope();
+      isolateScope = element.find('ng-form').scope();
     }
   ]));
 

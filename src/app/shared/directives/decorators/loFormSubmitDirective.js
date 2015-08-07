@@ -5,13 +5,16 @@ angular.module('liveopsConfigPanel')
     function($parse, Chain) {
       return {
         restrict: 'A',
-        require: ['form'],
+        require: ['form', 'loFormCancel'],
         controller: function() {},
-        link: function($scope, $elem, $attrs) {
+        link: function($scope, $elem, $attrs, $ctrl) {
           var chain = Chain.get($attrs.loFormSubmit);
           var form = $parse($attrs.name)($scope);
 
           chain.hook('form:error:api', {
+            success: function() {
+              $ctrl[1].resetForm(form);
+            },
             failure: function(error) {
               if ($parse('data.error')(error)) {
                 angular.forEach(error.data.error.attribute,

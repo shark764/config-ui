@@ -4,7 +4,8 @@ describe('loFormSubmit directive', function() {
   var $scope,
     element,
     isolateScope,
-    loFormSubmitController;
+    loFormSubmitController,
+    elementString;
 
   beforeEach(module('gulpAngular'));
   beforeEach(module('liveopsConfigPanel'));
@@ -17,12 +18,16 @@ describe('loFormSubmit directive', function() {
       $scope.ngResource = {
         email: 'test@tester.com'
       };
+      
+      elementString = '<div><ng-form ng-resource="ngResource" lo-form-submit="chain1"' +
+        'lo-form-cancel="chain-cancel" name="form1"><input ng-model="ngResource.email" ' +
+        'name="email" type="email" required></ng-form></div>';
     }
   ]));
 
   describe('directive.link', function() {
     it('should hook itself onto chain1', inject(['$compile', '$cacheFactory', function($compile, $cacheFactory) {
-      var element = angular.element('<div><ng-form ng-resource="ngResource" lo-form-submit="chain1" name="form1"><input ng-model="ngResource.email" name="email" type="email" required></ng-form></div>');
+      var element = angular.element(elementString);
       element.data('$loDetailsPanelController', {
         close: jasmine.createSpy()
       });
@@ -42,7 +47,7 @@ describe('loFormSubmit directive', function() {
         return $q.when();
       }, 1);
 
-      element = angular.element('<div><ng-form ng-resource="ngResource" lo-form-submit="chain1" name="form1"><input ng-model="ngResource.email" name="email" type="email" required></ng-form></div>');
+      element = angular.element(elementString);
       element.data('$loDetailsPanelController', {
         close: jasmine.createSpy()
       });
@@ -54,7 +59,19 @@ describe('loFormSubmit directive', function() {
 
       loFormSubmitController = element.find('ng-form').controller('loFormSubmit');
     }]));
+    
+    it('should reset the form', inject(['Chain', '$timeout', function(Chain, $timeout) {
+      var loFormCancelController = element.find('ng-form').controller('loFormCancel');
+      var formController = element.find('ng-form').controller('form');
+      
+      spyOn(loFormCancelController, 'resetForm');
 
+      Chain.get('chain1').execute();
+      $timeout.flush();
+
+      expect(loFormCancelController.resetForm).toHaveBeenCalledWith(formController);
+    }]));
+    
     it('should raise an event', inject(['Chain', '$timeout', function(Chain, $timeout) {
       spyOn(isolateScope, '$emit');
 
@@ -88,7 +105,7 @@ describe('loFormSubmit directive', function() {
         return deferred.promise;
       }, 1);
 
-      element = angular.element('<div><ng-form ng-resource="ngResource" lo-form-submit="chain1" name="form1"><input ng-model="ngResource.email" name="email" type="email" required></ng-form></div>');
+      element = angular.element(elementString);
       element.data('$loDetailsPanelController', {
         close: jasmine.createSpy()
       });
