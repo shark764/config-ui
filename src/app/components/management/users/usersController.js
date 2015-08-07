@@ -85,7 +85,7 @@ angular.module('liveopsConfigPanel')
       };
 
       $scope.inviteUser = function () {
-        return $scope.sendInvite($scope.forms.detailsForm.email.$viewValue).then(function (invite) {
+        return $scope.sendInvite($scope.selectedUser.email).then(function (invite) {
           var user = _.find($scope.users, {id: invite.invitation.userId});
 
           if(user) {

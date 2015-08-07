@@ -7,7 +7,7 @@
     <label>{{'details.email' | translate}} *</label>
     <form-error field="forms.detailsForm.email" error-type-api="{{'details.email.error' | translate}}" error-type-required="{{'details.email.error' | translate}}" error-type-email="{{'details.email.invalid' | translate}}"></form-error>
     <div>
-      <input autocomplete="off" ng-model="selectedUser.email" name="email" type="email" ng-required="true" api-error duplicate-username ng-model-options="{ updateOn: 'blur' }"></input>
+      <input autocomplete="off" ng-model="selectedUser.email" name="email" type="email" ng-required="true" api-error duplicate-username ng-model-options="{ updateOn: 'blur', allowInvalid: true }"></input>
       <i class="email-verify-spinner" ng-class="{'fa fa-spin fa-spinner' : forms.detailsForm.email.$pending.duplicateUsername}"></i>
     </div>
   </div>
