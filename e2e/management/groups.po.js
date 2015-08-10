@@ -10,17 +10,19 @@ var GroupsPage = function() {
   this.detailsMemberCount = element(by.css('.count'));
 
   this.tablePane = element(by.id('table-pane'));
+  this.headerRow = this.tablePane.element(by.css('.clone-header tr'));
   this.firstTableRow = this.tablePane.element(by.css('tr.ng-scope:nth-child(1)'));
   this.secondTableRow = this.tablePane.element(by.css('tr.ng-scope:nth-child(2)'));
   this.nameColumn = 'td:nth-child(2)';
   this.descriptionColumn = 'td:nth-child(3)';
   this.membersColumn = 'td:nth-child(4)';
-
+  this.statusColumn = 'td:nth-child(5)';
+  
   this.nameRequiredError = element.all(by.css('.error'));
 
   this.groupMembersLoading = element(by.css('#right-panel loading'));
   this.groupMembersEmpty = element(by.css('#right-panel #empty-members-message'));
-  this.groupMembersRows = element.all(by.repeater('user in resource.fetchGroupUsers()'))
+  this.groupMembersRows = element.all(by.repeater('user in resource.fetchGroupUsers()'));
 };
 
 module.exports = new GroupsPage();
