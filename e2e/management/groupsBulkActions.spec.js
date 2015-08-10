@@ -59,16 +59,18 @@ describe('The groups view bulk actions', function() {
     });
   });
 
-  xit('should allow all selected group\'s status to be Disabled', function() {
-    //TODO: Confirm if everyone group exists... this test fails if it is missing
+  it('should allow all selected group\'s status to be Disabled', function() {
     // Update All bulk actions
     shared.actionsBtn.click();
-
+    
+    var numEveryoneGroups = 0;
     // Hackily dont select the 'everyone' group
     shared.tableElements.each(function(groupElement, elementIndex) {
       groupElement.getText().then(function(groupText) {
         if (groupText.indexOf('everyone') == -1) {
           bulkActions.selectItemTableCells.get(elementIndex).click();
+        } else {
+          numEveryoneGroups++;
         }
       });
     });
@@ -85,20 +87,23 @@ describe('The groups view bulk actions', function() {
       // Form reset
       expect(bulkActions.submitFormBtn.getAttribute('disabled')).toBeTruthy();
       expect(bulkActions.enableToggle.getAttribute('disabled')).toBeTruthy();
-
-      // All groups are set to disabled
-      // Select Disabled from Status drop down
-      bulkActions.statusTableDropDown.click();
-      bulkActions.statuses.get(0).click();
+      
+      //Show only disabled groups
+      var statusColumnHeader = groups.headerRow.element(by.css('th:nth-child(5)'));
+      var statusColumnOptions = statusColumHeader.all(by.repeater('option in options track by option[valuePath]'));
+      
+      statusColumnHeader.click()
+      statusColumnOptions.get(0).click();
       shared.tableElements.count().then(function(disabledTotal) {
-        expect(disabledTotal).toBeLessThan(groupCount);
+        expect(disabledTotal).toBe(groupCount - numEveryoneGroups);
       });
 
       // Select Enabled from Status drop down
-      bulkActions.statuses.get(0).click();
-      bulkActions.statuses.get(1).click();
+      statusColumnHeader.click()
+      statusColumnOptions.get(0).click();
+      statusColumnOptions.get(1).click();
       shared.tableElements.count().then(function(enabledTotal) {
-        expect(enabledTotal).toBe(1); // Account for everyone group
+        expect(enabledTotal).toBe(numEveryoneGroups); // Account for everyone group
       });
     });
   });
