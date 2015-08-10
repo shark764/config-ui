@@ -4,21 +4,21 @@ angular.module('liveopsConfigPanel.mock.content.management.users', ['liveopsConf
   .service('mockUsers', function (User) {
     return [new User({
       'id': 'userId1',
-      'status': false,
+      'status': 'disabled',
       'externalId': 73795,
       'lastName': 'Lowe',
       'firstName': 'Munoz',
       'email': 'munoz.lowe@hivedom.org'
     }), new User({
       'id': 'userId2',
-      'status': true,
+      'status': 'enabled',
       'externalId': 80232,
       'lastName': 'Oliver',
       'firstName': 'Michael',
       'email': 'michael.oliver@ezent.io'
     }), new User({
       'id': 'userId3',
-      'status': true,
+      'status': 'enabled',
       'externalId': 80233,
       'lastName': 'Moon',
       'firstName': 'Jackie',
