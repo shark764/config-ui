@@ -675,6 +675,14 @@ describe('The media collections view', function() {
       }
     });
   });
+  
+  it('should immediately focus the multibox search box when adding a media to a new mapping', function() {
+    shared.createBtn.click();
+
+    mediaCollections.addMediaMappingButton.click();
+    mediaCollections.mediaDropdownBoxes.get(0).click();
+    expect(mediaCollections.mediaDropdownSearchFields.get(0).getAttribute('name')).toBe(browser.driver.switchTo().activeElement().getAttribute('name'));
+  });
 
   it('should allow a Media Mapping to be removed when editing', function() {
     shared.firstTableRow.click();
