@@ -1,7 +1,7 @@
 (function() {
   'use strict';
 
-  function buildTemplate (notation) {
+  function buildTemplate (inputs) {
     // Start the template
     var tpl = '<div id="details-pane"><form class="details-form"><div class="detail-body-pane" style="height: 100%;">';
 
@@ -101,20 +101,20 @@
     };
 
     // Build the group containers
-    var groups = _.keys(_.groupBy(notation.model.attributes.inputs, 'group')).sort();
+    var groups = _.keys(_.groupBy(inputs, 'group')).sort();
     _.each(groups, function(group) {
       tpl += formBuilder.groupHeader(group);
     });
 
     // Sort by index
-    notation.model.attributes.inputs.sort(function(a, b) {
+    inputs.sort(function(a, b) {
       return parseFloat(a.index) + parseFloat(b.index);
     });
 
     // Iterate over the inputs on the notation, inserting the
     // appropriate type at the appropriate location within
     // the template
-    _.each(notation.model.attributes.inputs, function (input, index) {
+    _.each(inputs, function (input, index) {
       var formSection = formBuilder[input.type](input, index);
       var groupIndex = tpl.indexOf(input.group) + input.group.length + 2;
       tpl = tpl.insert(groupIndex, formSection);
@@ -128,6 +128,7 @@
     return {
       scope: {
         notation: '=notation',
+        inputs: '=inputs',
         medias: '=medias'
       },
       template: '<div class="propsPanel"><h1 ng-show="loading"><i class="fa fa-spinner fa-spin"></i></h1></div>',
@@ -182,7 +183,7 @@
           scope.notation.model.onInputChange(model, value, path);
         };
 
-        var content = $compile(buildTemplate(scope.notation))(scope);
+        var content = $compile(buildTemplate(scope.inputs))(scope);
         angular.element(element[0].children[0]).append(content);
 
         $timeout(function() {
