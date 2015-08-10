@@ -523,7 +523,7 @@
                     "name": "muted",
                     "path": "params.muted",
                     "type": "boolean",
-                    "label": "Muted Accept:",
+                    "label": "Muted:",
                     "group": "params",
                     "index": 0,
                     "disabled": false,
