@@ -138,8 +138,7 @@ describe('The dispatch mappings view', function() {
     });
   });
 
-  //TODO: enable when TITAN2-1487 is fixed
-  xit('should successfully create new Dispatch Mapping with Integration Mapping', function() {
+  it('should successfully create new Dispatch Mapping with Integration Mapping', function() {
     randomDispatchMapping = Math.floor((Math.random() * 1000) + 1);
     var dispatchMappingAdded = false;
     newDispatchMappingName = 'DispatchMapping ' + randomDispatchMapping;
@@ -173,7 +172,7 @@ describe('The dispatch mappings view', function() {
       expect(dispatchMappingAdded).toBeTruthy();
 
       // Confirm correct Mapping type is selected after saving
-      expect(dispatchMappings.mappingOptions.get(2).isSelected()).toBeTruthy();
+      expect(dispatchMappings.mappingOptions.get(3).isSelected()).toBeTruthy();
       expect(dispatchMappings.mappingDropdown.$('option:checked').getText()).toBe('Integration');
     });
   });
