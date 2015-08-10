@@ -32,6 +32,11 @@ var UserPage = function() {
   this.userStatusInputs = this.statusTableDropDown.all(by.css('input'));
 
   this.statusBulkEnableCheck = element(by.id('user-status-bulk-enable-check'));
+  
+  //User Groups component
+  this.addGroup = element(by.id('addGroup'));
+  this.addGroupSearch = this.addGroup.element(by.css('input'));
+  this.addGroupBtn = this.addGroup.element(by.id('add-group-btn'));
 };
 
 module.exports = new UserPage();

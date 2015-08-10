@@ -13,7 +13,7 @@ angular.module('liveopsConfigPanel.config')
     value: 'contact-point'
   }, {
     display: 'Integration',
-    value: 'integration'
+    value: 'source'
   }, {
     display: 'Direction',
     value: 'direction'

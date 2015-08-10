@@ -20,7 +20,7 @@ angular.module('liveopsConfigPanel')
           'options': statuses()
         }],
         'searchOn' : ['name'],
-        'orderBy' : ['name'],
+        'orderBy' : 'name',
         'title' : $translate.instant('queue.table.title')
       };
     }

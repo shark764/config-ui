@@ -124,6 +124,26 @@ angular.module('liveopsConfigPanel')
               }
             });
           });
+          
+          $scope.reverseSortOrder = false;
+          $scope.orderBy = $scope.config.orderBy;
+          
+          $scope.sortTable = function(field){
+            var fieldName;
+            if (field.sortOn){
+              fieldName = field.sortOn;
+            } else if (field.name){
+              fieldName = field.name;
+            }
+            
+            if (fieldName === $scope.orderBy){
+              $scope.reverseSortOrder = ! $scope.reverseSortOrder;
+            } else {
+              $scope.reverseSortOrder = false;
+            }
+            
+            $scope.orderBy = fieldName;
+          };
         }
       };
     }
