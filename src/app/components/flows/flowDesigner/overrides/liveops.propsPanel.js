@@ -70,7 +70,7 @@
         formSection += ' ng-hide="' + input.hidden + '"';
         formSection += '><label>' + input.label + '</label><div>';
         formSection += '<type-ahead hover="true" placeholder="Search..."';
-        if (notation.model.attributes.params[input.name]) {
+        if (notation.model.attributes.params && notation.model.attributes.params[input.name]) {
           formSection += ' prefill="\'' + _.findWhere(notation.model.attributes.inputs[index].options, { value: notation.model.attributes.params[input.name] }).content + '\'"';
         }
         formSection += ' placeholder="' + input.placeholder + '"';
@@ -91,7 +91,6 @@
           formSection += ' false-value="' + input.falseValue + '"';
         }
         formSection += ' "class="status-toggle"></toggle>';
-        // formSection += '<input type=checkbox ng-model="notation.model.attributes.' + input.path + '">';
         formSection += '</div>';
         return formSection;
       }
