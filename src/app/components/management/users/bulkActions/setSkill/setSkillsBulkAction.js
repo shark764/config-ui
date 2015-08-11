@@ -88,9 +88,8 @@ angular.module('liveopsConfigPanel')
             for(var i = 0; i < user.skills.length; i++){
               if (user.skills[i].id === action.params.skillId){
                 user.skills.removeItem(user.skills[i]);
+                break;
               }
-              
-              break;
             }
           });
         },
