@@ -84,7 +84,7 @@ angular.module('liveopsConfigPanel')
                   id: $stateParams.id
                 }, true);
                 if (matchedItems.length > 0) {
-                  $scope.selected = matchedItems[0];
+                  $scope.selectItem(matchedItems[0]);
                   return;
                 } else {
                   $scope.selected = $scope.selectItem(null);

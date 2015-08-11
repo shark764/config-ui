@@ -160,7 +160,7 @@ describe('The users view', function() {
           expect(value.toLowerCase()).toContain('se');
         });
 
-        element(by.css('tr.ng-scope:nth-child(' + (i + 1) + ') > td:nth-child(8)')).getText().then(function(value) {
+        element(by.css('tr.ng-scope:nth-child(' + (i + 1) + ') > td:nth-child(7)')).getText().then(function(value) {
           expect(['Enabled', 'Disabled']).toContain(value);
         });
       };

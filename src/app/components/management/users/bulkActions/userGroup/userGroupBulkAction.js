@@ -38,7 +38,7 @@ angular.module('liveopsConfigPanel')
             user.groups.push({
               id: groupUser.groupId,
               name: groupUser.groupName
-            })
+            });
           });
         },
         canExecute: function (action) {

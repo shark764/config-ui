@@ -50,6 +50,6 @@ angular.module('liveopsConfigPanel')
               id: userId
             });
           }
-      }
+      };
     }
   ]);

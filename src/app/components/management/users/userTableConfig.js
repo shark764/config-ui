@@ -79,12 +79,7 @@ angular.module('liveopsConfigPanel')
           'checked': false,
           'options': userStatuses()
         }],
-        'searchOn': ['firstName', 'lastName', {
-          path: 'skills',
-          inner: {
-            path: 'name'
-          }
-        }],
+        'searchOn': ['firstName', 'lastName'],
         'orderBy': 'lastName',
         'title': $translate.instant('user.table.title')
       };

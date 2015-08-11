@@ -41,7 +41,7 @@ angular.module('liveopsConfigPanel')
             user.skills.push({
               id: userSkill.skillId,
               name: userSkill.name
-            })
+            });
           });
         },
         canExecute: function (action) {
