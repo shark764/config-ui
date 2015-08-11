@@ -6,7 +6,8 @@ angular.module('liveopsConfigPanel')
       return {
         restrict: 'A',
         require: ['ngResource', 'form', '^loDetailsPanel'],
-        controller: function() {
+        controller: function($scope) {
+          var self = this;
           //TODO: this function might make more sense to belong in a FormHelper service that we inject here.
           this.resetForm = function (form) {
             //Workaround for fields with invalid text in them not being cleared when the model is updated to undefined
@@ -26,35 +27,34 @@ angular.module('liveopsConfigPanel')
             form.$setPristine();
             form.$setUntouched();
           };
+
+          this.cancel = function () {
+            var resource = $parse(this.ngResource)($scope);
+            if (resource.isNew() || !this.formController.$dirty) {
+              this.loDetailsPanelController.close();
+            } else {
+              DirtyForms.confirmIfDirty(function () {
+                resource.reset();
+                self.resetForm(self.formController);
+              });
+            }
+          };
         },
-        link: function ($scope, $elem, $attrs, $controllers) {
-          var chain = Chain.get($attrs.loFormCancel);
-          
+        link: function ($scope, $elem, $attrs, $ctrl) {
           $scope.$watch($attrs.ngResource, function(newResource, oldResource) {
             if(oldResource) {
               oldResource.reset();
             }
-            
+
             var form = $parse($attrs.name)($scope);
             var controller = $elem.data('$loFormCancelController');
             controller.resetForm(form);
           });
-          
-          chain.hook('cancel:form', function () {
-            var resource = $parse($attrs.ngResource)($scope);
-            var form = $parse($attrs.name)($scope);
 
-            if (resource.isNew() || !form.$dirty) {
-              $controllers[2].close();
-            } else {
-              DirtyForms.confirmIfDirty(function () {
-                var controller = $elem.data('$loFormCancelController');
-
-                resource.reset();
-                controller.resetForm(form);
-              });
-            }
-          });
+          var controller = $elem.data('$loFormCancelController');
+          controller.ngResource = $attrs.ngResource;
+          controller.formController = $ctrl[1];
+          controller.loDetailsPanelController = $ctrl[2];
         }
       };
     }

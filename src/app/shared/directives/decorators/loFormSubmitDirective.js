@@ -1,44 +1,35 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('loFormSubmit', ['$parse', 'Chain',
-    function($parse, Chain) {
+  .directive('loFormSubmit', ['$parse', '$q', 'Chain',
+    function($parse, $q, Chain) {
       return {
         restrict: 'A',
         require: ['form', 'loFormCancel'],
-        controller: function() {},
+        controller: function($scope) {
+          this.resetForm = function() {
+            return this.formCancelController.resetForm(this.formController);
+          };
+
+          this.populateApiErrors = function(error) {
+            if ($parse('data.error')(error)) {
+              angular.forEach(error.data.error.attribute,
+                function(value, key) {
+                  this.formController[key].$setValidity('api', false);
+                  this.formController[key].$error = {
+                    api: value
+                  };
+                  this.formController[key].$setTouched();
+                });
+            }
+
+            return error;
+          }
+        },
         link: function($scope, $elem, $attrs, $ctrl) {
-          var chain = Chain.get($attrs.loFormSubmit);
-          var form = $parse($attrs.name)($scope);
-
-          chain.hook('form:error:api', {
-            success: function() {
-              $ctrl[1].resetForm(form);
-            },
-            failure: function(error) {
-              if ($parse('data.error')(error)) {
-                angular.forEach(error.data.error.attribute,
-                  function(value, key) {
-                    form[key].$setValidity('api', false);
-                    form[key].$error = {
-                      api: value
-                    };
-                    form[key].$setTouched();
-                  });
-              }
-
-              return error;
-            }
-          }, 99);
-
-          chain.hook('emit:event', {
-            success: function(resource) {
-              $scope.$emit('form:submit:success', resource);
-            },
-            failure: function(error) {
-              $scope.$emit('form:submit:failure', error);
-            }
-          }, 100);
+          var controller = $elem.data('$loFormSubmitController');
+          controller.formController = $ctrl[0];
+          controller.formCancelController = $ctrl[1];
         }
       };
     }
