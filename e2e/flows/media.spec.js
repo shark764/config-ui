@@ -439,4 +439,24 @@ describe('The media view', function() {
     })
   });
 
+  it('should keep the same source text when switching between Audio and TTS types on create', function() {
+    //Regression test for TITAN2-2645
+    shared.createBtn.click();
+
+    media.typeFormDropdown.all(by.css('option')).get(1).click(); //Select Audio type
+    media.sourceFormField.sendKeys('This is not a URL');
+
+    // Error messages displayed
+    expect(media.requiredError.get(0).isDisplayed()).toBeTruthy();
+    expect(media.requiredError.get(0).getText()).toBe('Audio source must be a URL');
+
+    media.typeFormDropdown.all(by.css('option')).get(2).click(); //Select TTS type
+
+    // Error messages are removed
+    media.requiredError.then(function(items){
+    	expect(items.length).toBe(0);
+    });
+
+    expect(media.sourceFormField.getAttribute('value')).toEqual('This is not a URL');
+  });
 });

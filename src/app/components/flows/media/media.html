@@ -33,10 +33,10 @@
     </div>
 
     <div class="detail-controls-pane">
-      <input id="cancel-media-btn" type="button" class="btn"
+      <input id="cancel-details-btn" type="button" class="btn"
         value="{{'value.cancel' | translate}}"
         lo-chain-executor="media:cancel"></input>
-      <input id="create-media-btn" class="btn btn-primary" ng-hide="loading"
+      <input id="submit-details-btn" class="btn btn-primary" ng-hide="loading"
         type="submit" value="{{'value.submit' | translate}}"
         ng-disabled="forms.mediaForm.$invalid || ! forms.mediaForm.$dirty"
         lo-chain-executor="media:save"></input>

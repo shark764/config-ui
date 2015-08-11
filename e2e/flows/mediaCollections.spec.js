@@ -31,8 +31,8 @@ describe('The media collections view', function() {
     expect(mediaCollections.mediaMappingsTable.isDisplayed()).toBeTruthy();
     expect(mediaCollections.noMediaMappingsMessage.isDisplayed()).toBeTruthy();
 
-    expect(shared.cancelFormBtn.isDisplayed()).toBeTruthy();
-    expect(shared.submitFormBtn.isDisplayed()).toBeTruthy();
+    expect(mediaCollections.cancelFormBtn.isDisplayed()).toBeTruthy();
+    expect(mediaCollections.submitFormBtn.isDisplayed()).toBeTruthy();
     expect(mediaCollections.closeMediaCollection.isDisplayed()).toBeTruthy();
 
     // Create New Media details are not displayed by default
@@ -53,7 +53,7 @@ describe('The media collections view', function() {
     mediaCollections.nameFormField.sendKeys(newMediaCollectionName);
     mediaCollections.descriptionFormField.sendKeys('Description for Media Collection');
 
-    shared.submitFormBtn.click().then(function() {
+    mediaCollections.submitFormBtn.click().then(function() {
       expect(shared.successMessage.isDisplayed()).toBeTruthy();
 
       // Confirm media is displayed in media list
@@ -78,7 +78,7 @@ describe('The media collections view', function() {
     expect(shared.navBar.isDisplayed()).toBeTruthy();
     expect(shared.table.isDisplayed()).toBeTruthy();
     expect(shared.searchField.isDisplayed()).toBeTruthy();
-    expect(shared.detailsForm.isDisplayed()).toBeFalsy(); //Hide by default
+    expect(mediaCollections.mediaCollectionForm.isDisplayed()).toBeFalsy(); //Hide by default
     //expect(shared.actionsBtn.isDisplayed()).toBeFalsy(); // No bulk actions
     expect(shared.createBtn.isDisplayed()).toBeTruthy();
     expect(shared.tableColumnsDropDown.isDisplayed()).toBeTruthy();
@@ -90,8 +90,8 @@ describe('The media collections view', function() {
     shared.createBtn.click();
 
     // Submit button is disabled
-    expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
-    shared.submitFormBtn.click();
+    expect(mediaCollections.submitFormBtn.getAttribute('disabled')).toBeTruthy();
+    mediaCollections.submitFormBtn.click();
 
     // New Media is not saved
     expect(shared.successMessage.isPresent()).toBeFalsy();
@@ -106,8 +106,8 @@ describe('The media collections view', function() {
     mediaCollections.descriptionFormField.sendKeys('Media Collection Description');
 
     // Submit button is still disabled
-    expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
-    shared.submitFormBtn.click();
+    expect(mediaCollections.submitFormBtn.getAttribute('disabled')).toBeTruthy();
+    mediaCollections.submitFormBtn.click();
 
     // New Media is not saved
     expect(shared.successMessage.isPresent()).toBeFalsy();
@@ -118,7 +118,7 @@ describe('The media collections view', function() {
     mediaCollections.descriptionFormField.click();
 
     // Submit button is still disabled
-    expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
+    expect(mediaCollections.submitFormBtn.getAttribute('disabled')).toBeTruthy();
 
     // Error messages displayed
     expect(mediaCollections.requiredError.get(0).isDisplayed()).toBeTruthy();
@@ -137,7 +137,7 @@ describe('The media collections view', function() {
     // Complete fields
     mediaCollections.nameFormField.sendKeys('Media Collection' + randomCollection);
 
-    shared.submitFormBtn.click().then(function() {
+    mediaCollections.submitFormBtn.click().then(function() {
       expect(shared.successMessage.isDisplayed()).toBeTruthy();
       expect(shared.tableElements.count()).toBeGreaterThan(mediaCollectionCount);
     });
@@ -150,7 +150,7 @@ describe('The media collections view', function() {
 
     shared.tableElements.then(function(mediaElements) {
       if (mediaElements.length > 0) {
-        mediaName = mediaElements[0].getText();
+        mediaName = mediaElements[0].element(by.css('td:nth-child(2)')).getText();
 
         browser.get(shared.mediaCollectionsPageUrl);
         shared.createBtn.click();
@@ -164,13 +164,13 @@ describe('The media collections view', function() {
         // Add Media Mapping with existing media
         mediaCollections.addMediaMappingButton.click();
         mediaCollections.mediaIdentifiers.get(0).sendKeys('Media Identifier ' + randomCollection);
-        mediaCollections.mediaDropdowns.get(0).click();
+        mediaCollections.mediaDropdownBoxes.get(0).click();
         mediaCollections.mediaDropdownSearchFields.get(0).sendKeys(mediaName);
 
         // Set default Identifier
         mediaCollections.defaultIdDropdown.all(by.css('option')).get(1).click();
 
-        shared.submitFormBtn.click().then(function() {
+        mediaCollections.submitFormBtn.click().then(function() {
           expect(shared.successMessage.isDisplayed()).toBeTruthy();
         });
       }
@@ -198,14 +198,13 @@ describe('The media collections view', function() {
         // Add Media Mapping with existing media
         mediaCollections.addMediaMappingButton.click();
         mediaCollections.mediaIdentifiers.get(0).sendKeys('Media Identifier ' + randomCollection);
-        mediaCollections.mediaDropdowns.get(0).click();
-        mediaCollections.mediaDropdownSearchFields.get(0).click();
+        mediaCollections.mediaDropdownBoxes.get(0).click();
         mediaCollections.mediaDropdownBoxes.get(0).all(by.repeater(mediaCollections.mediaElementsSelector)).get(0).click();
 
         // Set default Identifier
         mediaCollections.defaultIdDropdown.all(by.css('option')).get(1).click();
 
-        shared.submitFormBtn.click().then(function() {
+        mediaCollections.submitFormBtn.click().then(function() {
           expect(shared.successMessage.isDisplayed()).toBeTruthy();
         });
       }
@@ -219,7 +218,7 @@ describe('The media collections view', function() {
     // Edit fields
     mediaCollections.nameFormField.sendKeys('Media Collection Name');
     mediaCollections.descriptionFormField.sendKeys('Media Collection Description');
-    shared.cancelFormBtn.click();
+    mediaCollections.cancelFormBtn.click();
 
     // Warning message is displayed
     var alertDialog = browser.switchTo().alert();
@@ -245,7 +244,7 @@ describe('The media collections view', function() {
     mediaCollections.mediaIdentifiers.get(0).sendKeys('Media Identifier');
     mediaCollections.defaultIdDropdown.all(by.css('option')).get(1).click();
 
-    shared.cancelFormBtn.click();
+    mediaCollections.cancelFormBtn.click();
 
     // Warning message is displayed
     var alertDialog = browser.switchTo().alert();
@@ -279,8 +278,8 @@ describe('The media collections view', function() {
     expect(mediaCollections.addMediaMappingButton.isDisplayed()).toBeTruthy();
     expect(mediaCollections.mediaMappingsTable.isDisplayed()).toBeTruthy();
 
-    expect(shared.cancelFormBtn.isDisplayed()).toBeTruthy();
-    expect(shared.submitFormBtn.isDisplayed()).toBeTruthy();
+    expect(mediaCollections.cancelFormBtn.isDisplayed()).toBeTruthy();
+    expect(mediaCollections.submitFormBtn.isDisplayed()).toBeTruthy();
   });
 
   it('should display media collection details when selected from table', function() {
@@ -349,7 +348,7 @@ describe('The media collections view', function() {
     mediaCollections.nameFormField.sendKeys('Edit');
     mediaCollections.descriptionFormField.sendKeys('Edit');
 
-    shared.cancelFormBtn.click();
+    mediaCollections.cancelFormBtn.click();
     shared.dismissChanges();
 
     expect(shared.successMessage.isPresent()).toBeFalsy();
@@ -384,7 +383,7 @@ describe('The media collections view', function() {
       mediaCollections.addMediaMappingButton.click();
       mediaCollections.addMediaMappingButton.click();
 
-      shared.cancelFormBtn.click();
+      mediaCollections.cancelFormBtn.click();
       shared.dismissChanges();
 
       expect(shared.successMessage.isPresent()).toBeFalsy();
@@ -413,7 +412,7 @@ describe('The media collections view', function() {
     var editedName = mediaCollections.nameFormField.getAttribute('value');
     var editedDescription = mediaCollections.descriptionFormField.getAttribute('value');
 
-    shared.submitFormBtn.click().then(function() {
+    mediaCollections.submitFormBtn.click().then(function() {
       expect(shared.successMessage.isDisplayed()).toBeTruthy();
 
       // Changes persist
@@ -432,8 +431,8 @@ describe('The media collections view', function() {
     mediaCollections.nameFormField.sendKeys('\t');
 
     // Submit button is still disabled
-    expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
-    shared.submitFormBtn.click();
+    expect(mediaCollections.submitFormBtn.getAttribute('disabled')).toBeTruthy();
+    mediaCollections.submitFormBtn.click();
 
     // Error messages displayed
     expect(mediaCollections.requiredError.get(0).isDisplayed()).toBeTruthy();
@@ -449,7 +448,7 @@ describe('The media collections view', function() {
     mediaCollections.descriptionFormField.clear();
     mediaCollections.descriptionFormField.sendKeys('\t');
 
-    shared.submitFormBtn.click().then(function() {
+    mediaCollections.submitFormBtn.click().then(function() {
       expect(shared.successMessage.isDisplayed()).toBeTruthy();
 
       // Changes persist
@@ -477,7 +476,7 @@ describe('The media collections view', function() {
         var editedDefaultId = mediaCollections.defaultIdDropdown.$('option:checked').getText();
         var mappingEditedMedia = mediaCollections.mediaDropdowns.get(0).getAttribute('value');
 
-        shared.submitFormBtn.click().then(function() {
+        mediaCollections.submitFormBtn.click().then(function() {
           expect(shared.successMessage.isDisplayed()).toBeTruthy();
 
           // Changes persist
@@ -510,8 +509,8 @@ describe('The media collections view', function() {
         mediaCollections.mediaIdentifiers.get(0).sendKeys('\t');
 
         // Submit button is still disabled
-        expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
-        shared.submitFormBtn.click();
+        expect(mediaCollections.submitFormBtn.getAttribute('disabled')).toBeTruthy();
+        mediaCollections.submitFormBtn.click();
 
         // Error messages displayed
         expect(mediaCollections.requiredError.get(0).isDisplayed()).toBeTruthy();
@@ -539,8 +538,8 @@ describe('The media collections view', function() {
           expect(mediaCollections.requiredError.get(0).getText()).toBe('Please select a default identifier');
 
           // Unable to save changes
-          expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
-          shared.submitFormBtn.click();
+          expect(mediaCollections.submitFormBtn.getAttribute('disabled')).toBeTruthy();
+          mediaCollections.submitFormBtn.click();
           expect(shared.successMessage.isPresent()).toBeFalsy();
         });
       }
@@ -562,7 +561,7 @@ describe('The media collections view', function() {
 
       mediaCollections.defaultIdDropdown.all(by.css('option')).get(1).click();
 
-      shared.submitFormBtn.click().then(function() {
+      mediaCollections.submitFormBtn.click().then(function() {
         expect(shared.successMessage.isDisplayed()).toBeTruthy();
 
         // Changes persist
@@ -593,8 +592,8 @@ describe('The media collections view', function() {
           mediaCollections.defaultIdDropdown.all(by.css('option')).get(2).click();
 
           // Submit button is still disabled
-          expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
-          shared.submitFormBtn.click();
+          expect(mediaCollections.submitFormBtn.getAttribute('disabled')).toBeTruthy();
+          mediaCollections.submitFormBtn.click();
 
           // Error messages displayed
           expect(mediaCollections.requiredError.get(0).isDisplayed()).toBeTruthy();
@@ -634,8 +633,8 @@ describe('The media collections view', function() {
     mediaCollections.defaultIdDropdown.all(by.css('option')).get(1).click();
 
     // Submit button is disabled
-    expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
-    shared.submitFormBtn.click();
+    expect(mediaCollections.submitFormBtn.getAttribute('disabled')).toBeTruthy();
+    mediaCollections.submitFormBtn.click();
 
     // Error messages displayed
     expect(mediaCollections.requiredError.get(0).isDisplayed()).toBeTruthy();
@@ -664,8 +663,8 @@ describe('The media collections view', function() {
           mediaCollections.defaultIdDropdown.all(by.css('option')).get(2).click();
 
           // Submit button is still disabled
-          expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
-          shared.submitFormBtn.click();
+          expect(mediaCollections.submitFormBtn.getAttribute('disabled')).toBeTruthy();
+          mediaCollections.submitFormBtn.click();
 
           // Error messages displayed
           expect(mediaCollections.requiredError.get(0).isDisplayed()).toBeTruthy();
@@ -688,7 +687,7 @@ describe('The media collections view', function() {
 
         expect(mediaCollections.mediaMappings.count()).toBeLessThan(mediaCount);
 
-        shared.submitFormBtn.click();
+        mediaCollections.submitFormBtn.click();
         expect(shared.successMessage.isDisplayed()).toBeTruthy();
 
         // Changes persist
@@ -713,7 +712,7 @@ describe('The media collections view', function() {
         }
         expect(mediaCollections.mediaMappings.count()).toBe(0);
 
-        shared.submitFormBtn.click();
+        mediaCollections.submitFormBtn.click();
         expect(shared.successMessage.isDisplayed()).toBeTruthy();
 
         // Changes persist
@@ -744,6 +743,7 @@ describe('The media collections view', function() {
     });
 
     xit('should list each existing Media', function() {
+      //TODO
       shared.createBtn.click();
       mediaCollections.addMediaMappingButton.click();
       mediaCollections.mediaDropdowns.get(0).click();
@@ -812,7 +812,7 @@ describe('The media collections view', function() {
 
         // Media pane is closed
         expect(mediaCollections.createMediaForm.isDisplayed()).toBeFalsy();
-        expect(mediaCollections.mediaCollectionsForm.isDisplayed()).toBeTruthy();
+        expect(mediaCollections.mediaCollectionPane.isDisplayed()).toBeTruthy();
 
         // Confirm media is selected in Media Collection
         expect(mediaCollections.mediaDropdowns.get(0).getAttribute('value')).toBe(newMediaName);
@@ -821,7 +821,7 @@ describe('The media collections view', function() {
         mediaCollections.nameFormField.sendKeys('Media Collection ' + randomMedia);
         mediaCollections.defaultIdDropdown.all(by.css('option')).get(1).click();
 
-        shared.submitFormBtn.click().then(function() {
+        mediaCollections.submitFormBtn.click().then(function() {
           expect(shared.successMessage.isDisplayed()).toBeTruthy();
         });
       });
@@ -849,7 +849,7 @@ describe('The media collections view', function() {
 
           // Media pane is closed
           expect(mediaCollections.createMediaForm.isDisplayed()).toBeFalsy();
-          expect(mediaCollections.mediaCollectionsForm.isDisplayed()).toBeTruthy();
+          expect(mediaCollections.mediaCollectionPane.isDisplayed()).toBeTruthy();
 
           // Confirm media is selected in New Media slot for Media Collection
           expect(mediaCollections.mediaDropdowns.get(mediaDropdowns.length).getAttribute('value')).toBe(newMediaName);
@@ -864,7 +864,7 @@ describe('The media collections view', function() {
           mediaCollections.mediaIdentifiers.get(mediaDropdowns.length).sendKeys('Identifier ' + randomMedia);
           mediaCollections.defaultIdDropdown.all(by.css('option')).get(1).click();
 
-          shared.submitFormBtn.click().then(function() {
+          mediaCollections.submitFormBtn.click().then(function() {
             expect(shared.successMessage.isDisplayed()).toBeTruthy();
           });
         });
@@ -909,7 +909,7 @@ describe('The media collections view', function() {
 
         // Media pane is closed
         expect(mediaCollections.createMediaForm.isDisplayed()).toBeFalsy();
-        expect(mediaCollections.mediaCollectionsForm.isDisplayed()).toBeTruthy();
+        expect(mediaCollections.mediaCollectionPane.isDisplayed()).toBeTruthy();
 
         // Confirm media is displayed in media list
         browser.get(shared.mediaPageUrl);
@@ -948,7 +948,7 @@ describe('The media collections view', function() {
 
         // Media pane is closed
         expect(mediaCollections.createMediaForm.isDisplayed()).toBeFalsy();
-        expect(mediaCollections.mediaCollectionsForm.isDisplayed()).toBeTruthy();
+        expect(mediaCollections.mediaCollectionPane.isDisplayed()).toBeTruthy();
 
         // Confirm media is displayed in media list
         browser.get(shared.mediaPageUrl);
@@ -1037,7 +1037,7 @@ describe('The media collections view', function() {
 
         // Media pane remains open
         expect(mediaCollections.createMediaForm.isDisplayed()).toBeTruthy();
-        expect(mediaCollections.mediaCollectionsForm.isDisplayed()).toBeTruthy();
+        expect(mediaCollections.mediaCollectionPane.isDisplayed()).toBeTruthy();
       });
     });
 
@@ -1056,10 +1056,10 @@ describe('The media collections view', function() {
 
       // Media pane is closed
       expect(mediaCollections.createMediaForm.isDisplayed()).toBeFalsy();
-      expect(mediaCollections.mediaCollectionsForm.isDisplayed()).toBeTruthy();
+      expect(mediaCollections.mediaCollectionPane.isDisplayed()).toBeTruthy();
 
       // Fields are cleared and reset to defaults
-      mediaCollections.openCreateMediaButton.get(0).click();
+      mediaCollections.openCreateNewMedia();
       expect(mediaCollections.mediaNameField.getAttribute('value')).toBe('');
       expect(mediaCollections.mediaTypeDropdown.$('option:checked').getText()).toBe('Select Type...');
       expect(mediaCollections.mediaSourceField.getAttribute('value')).toBe('');
@@ -1073,14 +1073,14 @@ describe('The media collections view', function() {
       mediaCollections.mediaTypeDropdown.all(by.css('option')).get(2).click();
       mediaCollections.mediaSourceField.sendKeys('Cancel Source');
 
-      shared.cancelFormBtn.click();
+      mediaCollections.cancelFormBtn.click();
 
       // Dismiss warning message
       shared.dismissChanges();
 
       // Media pane remains open
       expect(mediaCollections.createMediaForm.isDisplayed()).toBeTruthy();
-      expect(mediaCollections.mediaCollectionsForm.isDisplayed()).toBeFalsy();
+      expect(mediaCollections.mediaCollectionPane.isDisplayed()).toBeFalsy();
 
       // Fields remain unchanged
       expect(mediaCollections.mediaNameField.getAttribute('value')).toBe('Cancel Media Collections');
@@ -1103,10 +1103,10 @@ describe('The media collections view', function() {
 
       // Media pane is closed
       expect(mediaCollections.createMediaForm.isDisplayed()).toBeFalsy();
-      expect(mediaCollections.mediaCollectionsForm.isDisplayed()).toBeTruthy();
+      expect(mediaCollections.mediaCollectionPane.isDisplayed()).toBeTruthy();
 
       // Fields are cleared and reset to defaults
-      mediaCollections.openCreateMediaButton.get(0).click();
+      mediaCollections.openCreateNewMedia();
       expect(mediaCollections.mediaNameField.getAttribute('value')).toBe('');
       expect(mediaCollections.mediaTypeDropdown.$('option:checked').getText()).toBe('Select Type...');
       expect(mediaCollections.mediaSourceField.getAttribute('value')).toBe('');
@@ -1127,7 +1127,7 @@ describe('The media collections view', function() {
 
       // Media pane remains open
       expect(mediaCollections.createMediaForm.isDisplayed()).toBeTruthy();
-      expect(mediaCollections.mediaCollectionsForm.isDisplayed()).toBeFalsy();
+      expect(mediaCollections.mediaCollectionPane.isDisplayed()).toBeFalsy();
 
       // Fields remain unchanged
       expect(mediaCollections.mediaNameField.getAttribute('value')).toBe('Close Media Collections');
@@ -1144,16 +1144,16 @@ describe('The media collections view', function() {
       mediaCollections.nameFormField.sendKeys('Media Collection' + randomCollection);
       mediaCollections.removeMedia.get(0).click();
 
-      shared.submitFormBtn.click().then(function() {
+      mediaCollections.submitFormBtn.click().then(function() {
         expect(shared.successMessage.isDisplayed()).toBeTruthy();
 
         // Media pane remains open
         expect(mediaCollections.createMediaForm.isDisplayed()).toBeTruthy();
-        expect(mediaCollections.mediaCollectionsForm.isDisplayed()).toBeTruthy();
+        expect(mediaCollections.mediaCollectionPane.isDisplayed()).toBeTruthy();
       });
     });
 
-    xit('should leave new Media fields and pane open on Media Collections create', function() {
+    it('should leave new Media fields and pane open on Media Collections create', function() {
       shared.createBtn.click();
       mediaCollections.openCreateNewMedia();
 
@@ -1166,12 +1166,12 @@ describe('The media collections view', function() {
       mediaCollections.nameFormField.sendKeys('Media Collection' + randomCollection);
       mediaCollections.removeMedia.get(0).click();
 
-      shared.submitFormBtn.click().then(function() {
+      mediaCollections.submitFormBtn.click().then(function() {
         expect(shared.successMessage.isDisplayed()).toBeTruthy();
 
         // Media pane remains open
         expect(mediaCollections.createMediaForm.isDisplayed()).toBeTruthy();
-        expect(mediaCollections.mediaCollectionsForm.isDisplayed()).toBeTruthy();
+        expect(mediaCollections.mediaCollectionPane.isDisplayed()).toBeTruthy();
 
         // Fields remain unchanged
         expect(mediaCollections.mediaNameField.getAttribute('value')).toBe('Create Media Collections');
