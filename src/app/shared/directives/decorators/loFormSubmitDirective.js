@@ -1,12 +1,13 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('loFormSubmit', ['$parse', '$q', 'Chain',
-    function($parse, $q, Chain) {
+  .directive('loFormSubmit', ['$parse', 'Chain',
+    function($parse, Chain) {
       return {
         restrict: 'A',
         require: ['form', 'loFormCancel'],
         controller: function($scope) {
+          var self = this;
           this.resetForm = function() {
             return this.formCancelController.resetForm(this.formController);
           };
@@ -15,16 +16,16 @@ angular.module('liveopsConfigPanel')
             if ($parse('data.error')(error)) {
               angular.forEach(error.data.error.attribute,
                 function(value, key) {
-                  this.formController[key].$setValidity('api', false);
-                  this.formController[key].$error = {
+                  self.formController[key].$setValidity('api', false);
+                  self.formController[key].$error = {
                     api: value
                   };
-                  this.formController[key].$setTouched();
+                  self.formController[key].$setTouched();
                 });
             }
 
             return error;
-          }
+          };
         },
         link: function($scope, $elem, $attrs, $ctrl) {
           var controller = $elem.data('$loFormSubmitController');

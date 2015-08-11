@@ -1,6 +1,6 @@
 'use strict';
 
-describe('loChainExecutor directive', function() {
+describe('loCancelChainExecutor directive', function() {
   var $scope,
     element,
     isolateScope;
@@ -9,12 +9,14 @@ describe('loChainExecutor directive', function() {
   beforeEach(module('liveopsConfigPanel'));
   beforeEach(module('liveopsConfigPanel.mock.content'));
 
-  var chainExecuteSpy;
+  var chain;
   beforeEach(inject(['Chain', function(Chain) {
-    chainExecuteSpy = jasmine.createSpy('chain execute');
-    spyOn(Chain, 'get').and.returnValue({
-      execute: chainExecuteSpy
-    });
+    chain = {
+      execute: jasmine.createSpy('chain execute'),
+      hook: jasmine.createSpy('chain hook')
+    };
+
+    spyOn(Chain, 'get').and.returnValue(chain);
   }]));
 
   describe('ON default event click', function() {
@@ -23,15 +25,15 @@ describe('loChainExecutor directive', function() {
         $scope = $rootScope.$new();
         $scope.event = undefined;
 
-        element = $compile('<a lo-chain-executor="chain1"></a>')($scope);
+        element = $compile('<lo-details-panel><ng-form name="form1" lo-form-cancel ng-resource><a lo-cancel-chain-executor="chain1"></a><ng-form></<lo-details-panel>')($scope);
         $scope.$digest();
         isolateScope = element.isolateScope();
       }
     ]));
 
     it('should execute on click', function() {
-      element.triggerHandler('click');
-      expect(chainExecuteSpy).toHaveBeenCalled();
+      element.find('a').triggerHandler('click');
+      expect(chain.execute).toHaveBeenCalled();
     });
   });
 
@@ -41,20 +43,20 @@ describe('loChainExecutor directive', function() {
         $scope = $rootScope.$new();
         $scope.event = undefined;
 
-        element = $compile('<a lo-chain-executor="chain1" event="dblclick"></a>')($scope);
+        element = $compile('<lo-details-panel><ng-form name="form1" lo-form-cancel ng-resource><a event="dblclick" lo-cancel-chain-executor="chain1"></a><ng-form></<lo-details-panel>')($scope);
         $scope.$digest();
         isolateScope = element.isolateScope();
       }
     ]));
 
     it('should execute on dblclick', function() {
-      element.triggerHandler('dblclick');
-      expect(chainExecuteSpy).toHaveBeenCalled();
+      element.find('a').triggerHandler('dblclick');
+      expect(chain.execute).toHaveBeenCalled();
     });
 
     it('should not execute on click', function() {
-      element.triggerHandler('click');
-      expect(chainExecuteSpy).not.toHaveBeenCalled();
+      element.find('a').triggerHandler('click');
+      expect(chain.execute).not.toHaveBeenCalled();
     });
   });
 });
