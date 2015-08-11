@@ -1,0 +1,67 @@
+<div class="divider-header">
+  <h4>Drafts</h4>
+</div>
+
+<div class="clear">
+  <a id="show-create-new-draft" ng-hide="createNewDraft" class="btn pull-right" ng-click="createNewDraft = true"><i class="fa fa-plus"></i></a>
+</div>
+
+<div ng-show="createNewDraft">
+  <div class="divider-header">
+    <h4>Create new draft</h4>
+  </div>
+
+  <ng-form name="createDraftForm" seperate-validation>
+    
+    <div class="input-group">
+      <label>{{'value.name' | translate}} *</label>
+      <form-error field="createDraftForm.name" error-type-required="{{'value.error.name.required' | translate}}"></form-error>
+      <input ng-required="true" type="text" ng-model="draft.name" name="name"></input>
+    </div>
+
+    <div class="input-group">
+      <label class="textarea-label">{{'value.description' | translate}}</label>
+      <textarea ng-model="draft.description" name="description"></textarea>
+    </div>
+    
+    <div class="input-group">
+      <label class="textarea-label">Base version</label>
+      <form-error field="createDraftForm.flow"></form-error>
+      <select ng-class="{'default-selected': !draft.version}" ng-model="draft.flow" name="version"
+        ng-options="version.flow as ('v' + version.v + ' ' + version.name) for version in versions | orderBy:'created':'reverse'">
+        <option disabled value="">Select base version (optional)...</option>
+      </select>
+    </div>
+    
+    <div class="flow-controls input-group">
+      <label></label>
+      <input id="cancel-flow-draft-btn" type="button" ng-click="createNewDraft = false" class="btn" value="{{'value.cancel' | translate}}" />
+      <input id="create-flow-draft-btn" ng-disabled="createDraftForm.$invalid || !createDraftForm.$dirty"
+        ng-click="saveDraft()" type="submit" class="btn btn-primary" value="{{ 'value.create' | translate }}"/>
+    </div>
+  </ng-form>
+</div>
+
+<loading ng-show="! drafts.$resolved"></loading>
+<p class="null" ng-show="drafts.$resolved && drafts.length == 0">There are no drafts saved for this flow. Create a draft with the plus button above.</p>
+
+<table class="table" id="flow-details-draft-table" ng-show="drafts.length > 0">
+  <thead>
+    <tr>
+      <th>{{'value.name' | translate}}</th>
+      <th>{{'value.createdOn' | translate}}</th>
+      <th>{{'value.createdBy' | translate}}</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tr ng-repeat="draft in drafts | orderBy:'created':'reverse'">
+    <td><a href="#">{{draft.name}}</a></td>
+    <td>{{draft.created | date:'medium'}}</td>
+    <td>
+      <audit-text translation="value.displayName" user-id="draft.createdBy"></audit-text>
+    </td>
+    <td>
+      <a class="remove" ng-click="deleteDraft(draft)" title="Delete this draft"><i class="fa fa-times"></i></a>
+    </td>
+  </tr>
+</table>
