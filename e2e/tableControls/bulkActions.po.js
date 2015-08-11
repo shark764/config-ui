@@ -62,7 +62,8 @@ var BulkActions = function() {
 
   // Status table selectors
   this.tableHeader = element(by.css('#table-pane > div:nth-child(3) > table:nth-child(1)'));
-  this.statusTableDropDown = this.tableHeader.element(by.css('filter-dropdown:nth-child(1)'));
+  this.statusTableDropDown = this.tableHeader.element(by.css('filter-dropdown:nth-child(2)'));
+  this.dispatchMappingsStatusTableDropDown = element(by.css('.clone-header > thead:nth-child(1) > tr:nth-child(1) > th:nth-child(7) > filter-dropdown:nth-child(2)'));
   this.allStatus = this.statusTableDropDown.element(by.css('.all'));
   this.statuses = this.statusTableDropDown.all(by.repeater('option in options track by option[valuePath]'));
   this.statusInputs = this.statusTableDropDown.all(by.css('input'));
