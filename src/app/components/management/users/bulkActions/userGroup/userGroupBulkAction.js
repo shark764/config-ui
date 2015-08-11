@@ -59,9 +59,8 @@ angular.module('liveopsConfigPanel')
             for(var i = 0; i < user.groups.length; i++){
               if (user.groups[i].id === action.selectedGroup.id){
                 user.groups.removeItem(user.groups[i]);
+                break;
               }
-              
-              break;
             }
           });
         },
