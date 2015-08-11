@@ -98,7 +98,6 @@
                     "source": "expression",
                     "type": "variable",
                     "key": "participant",
-                    "default": "customer",
                     "when": {
                         "eq": {
                             "params.participant": "titan/customer"
@@ -109,7 +108,6 @@
                     "source": "expression",
                     "type": "variable",
                     "key": "participant",
-                    "default": "participant",
                     "when": {
                         "ne": {
                             "params.participant": "titan/customer"
@@ -379,19 +377,7 @@
                     "disabled": false,
                     "required": false,
                     "placeholder": "Enter a search...",
-                    "hidden": false
-                },
-                {
-                    "name": "force",
-                    "path": "params.force",
-                    "type": "boolean",
-                    "label": "Force Accept:",
-                    "group": "params",
-                    "index": 0,
-                    "disabled": false,
-                    "required": false,
-                    "placeholder": null,
-                    "hidden": false
+                    "hidden": true
                 }
             ],
             "params": {
@@ -402,7 +388,7 @@
                     "default": "resource.id",
                     "key": "resource"
                 },
-                "timeout-end": {
+                "timeout": {
                     "source": "expression",
                     "type": "string",
                     "mandatory": true,
@@ -412,14 +398,15 @@
                     "source": "expression",
                     "type": "string",
                     "mandatory": false,
-                    "key": "search"
+                    "key": "search",
+                    "default": "titan/customer"
                 },
-                "force-accept": {
+                "search-value-action": {
                     "source": "expression",
-                    "type": "boolean",
+                    "type": "string",
                     "mandatory": false,
-                    "key": "force",
-                    "default": false
+                    "key": "search-action",
+                    "default": "\"immediate\""
                 }
             }
         },
@@ -523,7 +510,7 @@
                     "name": "muted",
                     "path": "params.muted",
                     "type": "boolean",
-                    "label": "Muted Accept:",
+                    "label": "Muted:",
                     "group": "params",
                     "index": 0,
                     "disabled": false,

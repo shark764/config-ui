@@ -2,7 +2,7 @@
 <table-controls
   id="table-pane"
   config="tableConfig"
-  items="users"
+  items="fetchTenantUsers()"
   selected="selectedUser"
   resource-name="user">
 
@@ -72,7 +72,7 @@
     </ng-form>
   </div>
 
-  <bulk-action-executor class="details-pane user-ba" ng-show="showBulkActions" items="users"
+  <bulk-action-executor class="details-pane user-ba" ng-show="showBulkActions" items="fetchTenantUsers()"
     bulk-actions="bulkActions" show-bulk-actions="showBulkActions"
     confirm-message-key="bulkActions.user.confirm.message" drop-order-by="lastName">
     <ba-set-status bulk-action="bulkActions.setStatus"></ba-set-status>

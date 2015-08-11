@@ -24,15 +24,19 @@ var UserPage = function() {
   this.nameColumn = 'td:nth-child(2)';
   this.emailColumn = 'td:nth-child(3)';
   this.externalIdColumn = 'td:nth-child(4)';
-  this.statusColumn = 'td:nth-child(5)';
+  this.skillsColumn = 'td:nth-child(5)';
+  this.groupsColumn = 'td:nth-child(6)';
+  this.stateColumn = 'td:nth-child(7)';
+  this.statusColumn = 'td:nth-child(8)';
 
-  this.statusTableDropDown = this.tableHeader.element(by.css('filter-dropdown:nth-child(2)'));
+  this.tableDropDowns = this.tableHeader.all(by.css('filter-dropdown'));
+  this.statusTableDropDown = this.tableDropDowns.get(2);
   this.allUserStatus = this.statusTableDropDown.element(by.css('.all'));
   this.userStatuses = this.statusTableDropDown.all(by.repeater('option in options track by option[valuePath]'));
   this.userStatusInputs = this.statusTableDropDown.all(by.css('input'));
 
   this.statusBulkEnableCheck = element(by.id('user-status-bulk-enable-check'));
-  
+
   //User Groups component
   this.addGroup = element(by.id('addGroup'));
   this.addGroupSearch = this.addGroup.element(by.css('input'));

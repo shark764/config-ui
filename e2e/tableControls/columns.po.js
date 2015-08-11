@@ -5,7 +5,7 @@ var Columns = function() {
   this.options = element.all(by.repeater('option in options track by option[valuePath]'));
   this.optionCheckboxes = this.dropdownFilter.all(by.css('input'));
 
-  this.users = ['Name', 'Email', 'ID', 'State', 'Status'];
+  this.users = ['Name', 'Email', 'ID', 'Skills', 'Groups', 'State', 'Status'];
   this.groups = ['Name', 'Description', 'Members', 'Status'];
   this.skills = ['Name', 'Description', 'Members', 'Proficiency', 'Status'];
   this.tenants = ['Name', 'Description', 'Status'];
@@ -16,7 +16,7 @@ var Columns = function() {
   this.mediaCollections = ['Name', 'Description', 'Identifier'];
   this.media = ['Name', 'Source', 'Type', 'Properties'];
 
-  this.userDefaults = ['Name', 'Display Name', 'Email', 'ID'];
+  this.userDefaults = ['Name', 'Email', 'ID', 'Skills', 'Groups'];
 
   this.selectAll = element(by.css('th.check-col > input:nth-child(1)'));
 

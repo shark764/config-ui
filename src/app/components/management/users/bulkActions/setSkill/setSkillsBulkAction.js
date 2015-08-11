@@ -37,6 +37,11 @@ angular.module('liveopsConfigPanel')
           return tenantUserSkill.$save({
             tenantId: Session.tenant.tenantId,
             userId: user.id
+          }, function(userSkill){
+            user.skills.push({
+              id: userSkill.skillId,
+              name: userSkill.name
+            });
           });
         },
         canExecute: function (action) {
@@ -79,6 +84,14 @@ angular.module('liveopsConfigPanel')
             skillId: action.params.skillId,
             tenantId: Session.tenant.tenantId,
             userId: user.id
+          }, function(){
+            for(var i = 0; i < user.skills.length; i++){
+              if (user.skills[i].id === action.params.skillId){
+                user.skills.removeItem(user.skills[i]);
+              }
+              
+              break;
+            }
           });
         },
         canExecute: function (action) {

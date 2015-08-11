@@ -13,7 +13,7 @@
       <input type="checkbox" ng-checked="all.checked"/>
       <label>All</label>
     </div>
-    <div ng-repeat="option in options track by option[valuePath]" class="dropdown-option" ng-click="checkItem(option)" >
+    <div ng-repeat="option in options | orderBy:orderBy track by option[valuePath]" class="dropdown-option" ng-click="checkItem(option)" >
       <input name="{{option[valuePath]}}" type="checkbox" ng-checked="option.checked"/>
       <label for="{{option[valuePath]}}">{{parseDisplay(option)}}</label>
     </div>
