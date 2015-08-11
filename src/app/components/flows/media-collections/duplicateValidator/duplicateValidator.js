@@ -7,7 +7,7 @@ angular.module('liveopsConfigPanel')
         form: '=',
         resource: '='
       },
-      link: function ($scope, $elm, $attrs, $ctrl) {
+      link: function ($scope) {
         $scope.$watch('resource.mediaMap', function(newMediaMap) {
           var mapValid = [];
           angular.forEach(newMediaMap, function(outterMap, outterIndex) {
@@ -27,7 +27,7 @@ angular.module('liveopsConfigPanel')
           });
           
           return true;
-        }, true)
+        }, true);
       }
     };
   }]);

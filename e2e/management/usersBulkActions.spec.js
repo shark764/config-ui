@@ -60,30 +60,41 @@ describe('The users view bulk actions', function() {
     expect(bulkActions.addGroupDropdownFields.count()).toBe(1);
   });
 
-  xit('should allow selected user\'s status to be updated', function() {
-  });
-  xit('should allow selected user\'s password to be reset', function() {
-  });
-  xit('should allow selected user\'s skills to be updated', function() {
-  });
-  xit('should allow multiple skills to be updates for the selected users', function() {
-  });
-  xit('should update proficiency when adding a skill for existing users with the skill', function() {
+  it('should not allow updates to current user', function() {
+    shared.searchField.sendKeys(params.login.firstName + ' ' + params.login.lastName);
+    bulkActions.selectAllTableHeader.click();
+
+    shared.actionsBtn.click();
+    bulkActions.userSelectEnable.click();
+
+    expect(bulkActions.submitFormBtn.getAttribute('disabled')).toBeFalsy();
+    bulkActions.submitFormBtn.click();
+
+    expect(bulkActions.confirmModal.isDisplayed()).toBeTruthy();
+    bulkActions.confirmOK.click().then(function() {
+      expect(shared.successMessage.isPresent()).toBeFalsy();
+      expect(shared.errorMessage.isDisplayed()).toBeTruthy();
+      expect(shared.errorMessage.getText()).toContain('You cannot disable your own account.');
+
+      // Form not reset
+      expect(bulkActions.submitFormBtn.getAttribute('disabled')).toBeFalsy();
+      expect(bulkActions.enableToggle.getAttribute('disabled')).toBeFalsy();
+    });
   });
 
-  xit('should allow selected user\'s groups to be updated', function() {
-  });
-  xit('should allow multiple groups to be updates for the selected users', function() {
-  });
-  xit('should do nothing when adding a group for existing users with the group', function() {
-  });
+  xit('should allow selected user\'s status to be updated', function() {});
+  xit('should allow selected user\'s password to be reset', function() {});
+  xit('should allow selected user\'s skills to be updated', function() {});
+  xit('should allow multiple skills to be updates for the selected users', function() {});
+  xit('should update proficiency when adding a skill for existing users with the skill', function() {});
 
-  xit('should allow multiple fields to be updated at once for the selected users', function() {
-  });
-  xit('should allow all fields to be updated at once for the selected users', function() {
-  });
-  xit('should ignore disabled fields on update', function() {
-  });
+  xit('should allow selected user\'s groups to be updated', function() {});
+  xit('should allow multiple groups to be updates for the selected users', function() {});
+  xit('should do nothing when adding a group for existing users with the group', function() {});
+
+  xit('should allow multiple fields to be updated at once for the selected users', function() {});
+  xit('should allow all fields to be updated at once for the selected users', function() {});
+  xit('should ignore disabled fields on update', function() {});
 
   it('should show message when all Groups or Skills have been removed', function() {
     shared.actionsBtn.click();
