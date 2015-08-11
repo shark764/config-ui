@@ -574,6 +574,74 @@
                     }
                 }
             }
+        },
+        {
+            "name": "dial",
+            "entity": "activity",
+            "label": "Dial",
+            "targeted": true,
+            "target": "twilio",
+            "bindings": {},
+            "inputs": [
+                {
+                    "name": "to",
+                    "path": "params.to",
+                    "type": "select",
+                    "label": "To:",
+                    "group": "params",
+                    "index": 0,
+                    "disabled": false,
+                    "required": false,
+                    "hidden": false,
+                    "options": [
+                        {
+                            "content": "resource",
+                            "value": "resource.extension"
+                        }
+                    ]
+                },
+                {
+                    "name": "timeout",
+                    "path": "params.timeout",
+                    "type": "string",
+                    "label": "Dial Timeout",
+                    "group": "params",
+                    "index": 0,
+                    "disabled": false,
+                    "required": true,
+                    "hidden": false
+                }
+            ],
+            "params": {
+                "from": {
+                    "source": "expression",
+                    "type": "variable",
+                    "key": "from",
+                    "mandatory": true,
+                    "default": "titan/customer"
+                },
+                "to": {
+                    "source": "expression",
+                    "type": "variable",
+                    "key": "to",
+                    "mandatory": true,
+                    "default": "resource.extension"
+                },
+                "timeout": {
+                    "source": "expression",
+                    "type": "string",
+                    "key": "timeout",
+                    "mandatory": true,
+                    "default": "\"30\""
+                },
+                "participant": {
+                    "source": "expression",
+                    "type": "string",
+                    "key": "participant",
+                    "mandatory": true,
+                    "default": "\"resource\""
+                }
+            }
         }
     ],
     "events": [
