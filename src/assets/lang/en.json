@@ -141,6 +141,8 @@
   "flow.details.creating": "Creating New Flow",
   "flow.details.disable.confirm": "This will disable this flow. Do you want to continue?",
   "flow.details.enable.confirm": "This will enable this flow. Do you want to continue?",
+  "flow.details.version.add.alt": "Create a new version for this flow",
+  "flow.details.mapping.add.alt": "Add a new media mapping",
   "flow.table.title": "Flow Management",
 
   "queue.details.version.error" : "Active Version is required",
