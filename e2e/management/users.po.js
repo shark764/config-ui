@@ -26,7 +26,7 @@ var UserPage = function() {
   this.externalIdColumn = 'td:nth-child(4)';
   this.statusColumn = 'td:nth-child(5)';
 
-  this.statusTableDropDown = this.tableHeader.element(by.css('filter-dropdown:nth-child(1)'));
+  this.statusTableDropDown = this.tableHeader.element(by.css('filter-dropdown:nth-child(2)'));
   this.allUserStatus = this.statusTableDropDown.element(by.css('.all'));
   this.userStatuses = this.statusTableDropDown.all(by.repeater('option in options track by option[valuePath]'));
   this.userStatusInputs = this.statusTableDropDown.all(by.css('input'));

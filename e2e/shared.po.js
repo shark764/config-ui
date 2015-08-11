@@ -50,7 +50,7 @@ var Shared = function() {
   this.table = element(by.id('items-table'));
   this.firstTableRow = this.table.element(by.css('tr.ng-scope:nth-child(1)'));
   this.secondTableRow = this.table.element(by.css('tr.ng-scope:nth-child(2)'));
-  this.tableElements = element.all(by.repeater('item in (filtered = (items | selectedTableOptions:config.fields | search:config.searchOn:searchQuery | orderBy:config.orderBy))'));
+  this.tableElements = element.all(by.repeater('item in (filtered = (items | selectedTableOptions:config.fields | search:config.searchOn:searchQuery | orderBy:orderBy:reverseSortOrder))'));
   this.createBtn = element(by.id('create-btn'));
   this.searchField = element(by.model('searchQuery'));
   this.actionsBtn = element(by.id('actions-btn'));
@@ -67,7 +67,7 @@ var Shared = function() {
   this.successMessage = element(by.css('.toast-success'));
   this.errorMessage = element(by.css('.toast-error'));
   this.closeMessageBtn = element(by.css('.toast-close-button'));
-  
+
   //Modal
   this.confirmModal = element(by.css('#modal .confirm'));
   this.confirmModalCancelBtn = element(by.id('modal-cancel'));
