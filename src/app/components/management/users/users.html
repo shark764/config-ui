@@ -29,7 +29,7 @@
     original-resource="selectedUser"
     resource-name="user"/></resource-details>
 
-  <bulk-action-executor class="details-pane user-ba" ng-show="showBulkActions" items="fetchUsers()"
+  <bulk-action-executor class="details-pane user-ba" ng-show="showBulkActions" items="fetchTenantUsers()"
     bulk-actions="bulkActions" show-bulk-actions="showBulkActions"
     confirm-message-key="bulkActions.user.confirm.message" drop-order-by="lastName">
     <ba-set-status bulk-action="bulkActions.setStatus"></ba-set-status>
