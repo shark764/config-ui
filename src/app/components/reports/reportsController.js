@@ -1,17 +1,14 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .constant('BIRST_URL', 'http://dev-birst.liveopslabs.com')
-  .controller('ReportsController', ['$scope', '$sce', '$http', '$state', 'BIRST_URL',
-    function($scope, $sce, $http, $state, BIRST_URL) {
+  .controller('ReportsController', ['$scope', '$sce', '$http', 'Session', '$state', 'BIRST_URL', 'SSO_PASSWORD', 'SPACE_ID',
+    function($scope, $sce, $http, Session, $state, BIRST_URL, SSO_PASSWORD, SPACE_ID) {
       $scope.birst = {};
 
       $scope.fetch = function() {
 
         var username = 'titan-product@liveops.com';
-        var ssopassword = 'JO4IIiv0vuzyhoYoyWpbip0QquoCQyGh';
-        var spaceId = '2846b565-23f8-4032-b563-21f8b7a01cc5';
-        var sessionVars = 'Birst$Groups=\'ExploreData\',\'ScheduleReports\',\'DownloadData\',\'43d0436d-356d-451a-ab73-d9a7e465e255\'';
+        var sessionVars = 'tenant-id=\''+ Session.tenant.tenantId +'\'';
 
         $http({
           url: BIRST_URL + '/TokenGenerator.aspx?',
@@ -19,8 +16,8 @@ angular.module('liveopsConfigPanel')
           data: null,
           params: {
             'birst.username': username,
-            'birst.ssopassword': ssopassword,
-            'birst.spaceId': spaceId,
+            'birst.ssopassword': SSO_PASSWORD,
+            'birst.spaceId': SPACE_ID,
             'birst.sessionVars': sessionVars
           },
           headers: {'Content-Type': 'application/x-www-form-urlencoded'}
@@ -40,16 +37,23 @@ angular.module('liveopsConfigPanel')
         }).error( function (data, status) {
           $scope.status = status;
         });
-        
+
       };
 
       $scope.buildUrl = function() {
         var buildingUrl = BIRST_URL + '/SSO.aspx?';
 
-        buildingUrl = buildingUrl + 'birst.SSOToken=' + $scope.birst.SSOToken + '&birst.embedded=true&birst.module=' + $scope.birst.module ;
+        var dashboardName = ''; // Name of the collection...
+        var pageName = '';  // Name of the Dashboard...  (Yes... variable naming fail by Birst.)
 
-        if ($scope.birst.module == 'newDashboards'){
+        buildingUrl = buildingUrl + 'birst.SSOToken=' + $scope.birst.SSOToken + '&birst.embedded=true&birst.module=' + $scope.birst.module;
+
+        if ($scope.birst.module === 'newDashboards'){
           buildingUrl = buildingUrl + '&birst.hideDashboardNavigation=true';
+        }
+
+        if ( dashboardName != '' && pageName != '' ){
+          buildingUrl = buildingUrl + '&birst.dashbaord=' + dashboardName + '&birst.page=' + pageName;
         }
 
         $scope.birstUrl = $sce.trustAsResourceUrl(buildingUrl);

@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('userTableConfig', ['statuses', 'userStates', '$translate', 'Skill', 'Group', 'Session',
-    function(statuses, userStates, $translate, Skill, Group, Session) {
+  .service('userTableConfig', ['userStatuses', 'userStates', '$translate', 'Skill', 'Group', 'Session',
+    function(userStatuses, userStates, $translate, Skill, Group, Session) {
       function getSkillOptions(){
         var options = [];
         
@@ -42,7 +42,8 @@ angular.module('liveopsConfigPanel')
           'header': $translate.instant('value.name'),
           'resolve': function(user) {
             return user.getDisplay();
-          }
+          },
+          'sortOn': 'lastName'
         }, {
           'header': $translate.instant('value.email'),
           'name': 'email'
@@ -74,10 +75,15 @@ angular.module('liveopsConfigPanel')
           'name': 'status',
           'transclude': true,
           'checked': false,
-          'options': statuses()
+          'options': userStatuses()
         }],
-        'searchOn': ['firstName', 'lastName'],
-        'orderBy': ['lastName'],
+        'searchOn': ['firstName', 'lastName', {
+          path: 'skills',
+          inner: {
+            path: 'name'
+          }
+        }],
+        'orderBy': 'lastName',
         'title': $translate.instant('user.table.title')
       };
     }

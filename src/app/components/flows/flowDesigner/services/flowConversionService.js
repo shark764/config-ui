@@ -48,7 +48,7 @@
             notation.entity = 'activity';
             notation.name = n.name;
             notation.params = FlowNotationService.addActivityParams(n);
-            notation.bindings = FlowNotationService.addActivityBindings(n);
+            notation.bindings = n.bindings || {};
 
             if (n.targeted) {
               notation.target = n.target;
@@ -82,7 +82,6 @@
 
       convertToJoint: function(alienese) {
         var jointNotation = _.reduce(alienese, function(memo, notation) {
-
           if (notation.entity === 'start' || notation.entity === 'catch' || notation.entity === 'throw') {
 
             var event = {
@@ -112,25 +111,22 @@
             if (notation.event) {
               event.event = {
                 name: notation.event.name,
-                params: _.reduce(notation.event.params, function(memo, value, key) {
-                  memo.push({
-                    key: key,
-                    value: value.value
-                  });
+                params: _.reduce(notation.event.params, function(memo, value) {
+                  memo = memo.concat(value.value);
                   return memo;
-                }, [])
+                }, '')
               };
+
             }
 
             if (notation.bindings) {
-              event.bindings = _.reduce(notation.bindings, function(memo, value, key) {
-                memo.push({
-                  key: key,
-                  value: value
-                });
+              event.bindings = _.reduce(notation.bindings, function(memo, value) {
+                memo = memo.concat(value);
                 return memo;
-              }, []);
+              }, '');
             }
+
+            event.inputs = _.findWhere(FlowNotationService.events, { entity: notation.entity, type: notation.type, terminate: notation.terminate  }).inputs;
 
             memo.push(event);
           } else if (notation.entity === 'gateway') {
@@ -144,7 +140,6 @@
               }
             });
           } else if (notation.entity === 'activity') {
-            console.log(notation);
             var activity = {
               id: notation.id.toString(),
               type: 'liveOps.activity',
@@ -159,14 +154,16 @@
               params: FlowNotationService.extractActivityParams(notation),
               targeted: FlowNotationService.getActivityTargeted(notation),
               target: notation.target || '',
-              bindings: _.reduce(notation.bindings, function(memo, key, value) {
-                memo.push({
-                  key: key,
-                  value: value
-                });
-                return memo;
-              }, [])
+              bindings: notation.bindings || {}
             };
+
+            var inputs = [];
+
+            inputs = inputs.concat(new joint.shapes.liveOps.activity().attributes.inputs);
+
+            inputs = inputs.concat(_.findWhere(FlowNotationService.activities, { name: notation.name }).inputs);
+
+            activity.inputs = inputs;
 
             memo.push(activity);
           }
@@ -182,7 +179,6 @@
             });
           }
           return memo;
-
         }, []);
 
         //Do another pass to set up decorations
@@ -194,7 +190,6 @@
             decoration.parent = notation.id;
           }
         });
-
         return {cells: jointNotation};
       },
 
@@ -213,8 +208,10 @@
               type: 'signal',
               target: model.target,
               interrupting: model.interrupting,
-              bindings: _.reduce(model.bindings, function(memo, param) {
-                memo[param.key] = param.value;
+              bindings: _.reduce([model.bindings], function(memo, param) {
+                if (param !== '') {
+                  memo[param] = param;
+                }
                 return memo;
               }, {})
             };
@@ -236,10 +233,10 @@
               terminate: model.terminate,
               event: {
                 name: model.event.name,
-                params: _.reduce(model.event.params, function(memo, param) {
-                  memo[param.key] = {
+                params: _.reduce([model.event.params], function(memo, param) {
+                  memo[param] = {
                     source: 'expression',
-                    value: param.value
+                    value: param
                   };
                   return memo;
                 }, {})
@@ -274,8 +271,10 @@
               type: 'signal',
               interrupting: model.interrupting,
               target: model.target,
-              bindings: _.reduce(model.bindings, function(memo, param) {
-                memo[param.key] = param.value;
+              bindings: _.reduce([model.bindings], function(memo, param) {
+                if (param !== '') {
+                  memo[param] = param;
+                }
                 return memo;
               }, {})
             };
@@ -304,7 +303,7 @@
               timer: {
                 value: model.timer
               }
-            }
+            };
           }
         }
       }

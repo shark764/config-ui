@@ -65,28 +65,9 @@ angular.module('liveopsConfigPanel')
 
           $scope.onChange = function (action) {
             var group = action.selectedGroup;
-            $scope.fetchUserGroups(group);
-          };
-          
-          //@bound: don't add anything expensive to this function!
-          $scope.refreshAffectedUsers = function (userGroupBulkAction) {
-            var usersAffected = [];
-            
-            if (!userGroupBulkAction.canExecute()) {
-              return usersAffected;
+            if (angular.isDefined(group)){
+              $scope.fetchUserGroups(group);
             }
-
-            angular.forEach($scope.users, function (user) {
-              if (!user.checked) {
-                return;
-              }
-
-              if (userGroupBulkAction.selectedType.doesQualify(user, userGroupBulkAction)) {
-                usersAffected.push(user);
-              }
-            });
-            
-            return usersAffected;
           };
 
           $scope.findGroupForId = function (groups, id) {

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('Modal', ['$document', '$rootScope', '$compile', function ($document, $rootScope, $compile) {
+  .service('Modal', ['$document', '$rootScope', '$compile', '$q', function ($document, $rootScope, $compile, $q) {
     var self = this;
     
     this.showConfirm = function(config){
@@ -12,6 +12,8 @@ angular.module('liveopsConfigPanel')
         cancelCallback: angular.noop
       };
       
+      var deferred = $q.defer();
+      
       var options = angular.extend(defaults, config);
       var newScope = $rootScope.$new();
       
@@ -21,15 +23,19 @@ angular.module('liveopsConfigPanel')
       newScope.message = options.message;
       newScope.okCallback = function(){
         self.close();
+        deferred.resolve('true');
         options.okCallback();
       };
       newScope.cancelCallback = function(){
         self.close();
+        deferred.reject('false');
         options.cancelCallback();
       };
       
       var element = $compile('<modal></modal>')(newScope);
       $document.find('body').append(element);
+      
+      return deferred.promise;
     };
     
     this.close = function(){

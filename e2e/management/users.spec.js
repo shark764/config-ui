@@ -290,8 +290,8 @@ describe('The users view', function() {
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
 
     // Error messages displayed
-    expect(users.requiredErrors.get(1).isDisplayed()).toBeTruthy();
-    expect(users.requiredErrors.get(1).getText()).toBe('Please enter a last name');
+    expect(users.requiredErrors.get(0).isDisplayed()).toBeTruthy();
+    expect(users.requiredErrors.get(0).getText()).toBe('Please enter a last name');
     expect(shared.successMessage.isPresent()).toBeFalsy();
   });
 
@@ -352,8 +352,8 @@ describe('The users view', function() {
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
 
     // Error messages displayed
-    expect(users.requiredErrors.get(4).isDisplayed()).toBeTruthy();
-    expect(users.requiredErrors.get(4).getText()).toBe('Please enter a password');
+    expect(users.requiredErrors.get(0).isDisplayed()).toBeTruthy();
+    expect(users.requiredErrors.get(0).getText()).toBe('Please enter a password');
     expect(shared.successMessage.isPresent()).toBeFalsy();
   });
 
@@ -373,6 +373,14 @@ describe('The users view', function() {
     // Verify error messages are displayed
     expect(users.requiredErrors.get(0).getText()).toBe('Please enter a first name');
     expect(users.requiredErrors.get(1).getText()).toBe('Please enter a last name');
+  });
+
+  it('should not allow user to update it\'s own status', function() {
+    // Select current user from table
+    shared.searchField.sendKeys(params.login.firstName + ' ' + params.login.lastName);
+    shared.firstTableRow.click();
+
+    expect(users.activeFormToggle.getAttribute('disabled')).toBeTruthy();
   });
 
   it('should successfully update password', function() {
@@ -411,7 +419,8 @@ describe('The users view', function() {
     users.firstNameFormField.click();
 
     expect(users.personalTelephoneFormField.getAttribute('class')).toContain('ng-invalid');
-    expect(users.requiredErrors.get(2).getText()).toBe('Phone number should be in E.164 format.');
+
+    expect(users.requiredErrors.get(0).getText()).toBe('Phone number should be in E.164 format.');
   });
 
   it('should allow E164 numbers to be accepted', function() {
@@ -427,26 +436,22 @@ describe('The users view', function() {
 
     //limits the user to digits only, limits the user to 15 characters, should prepend a +
     expect(users.personalTelephoneFormField.getAttribute('value')).toBe('+1 506-470-4361');
-
-    users.requiredErrors.get(2).isDisplayed().then(function(visible){
-      expect(visible).toBeFalsy();
-    })
   });
-  
+
   describe('bulk actions', function(){
     //Regression test for TITAN2-2237
     it('should only display confirm dialog once when switching selected elements', function() {
       //Dirty the bulk action form
       shared.actionsBtn.click();
       users.statusBulkEnableCheck.click();
-      
+
       //Select a table item and dismiss the expected alert
       shared.firstTableRow.click();
       shared.dismissChanges();
-      
+
       //Select another table item and expect there not to be an alert
       shared.secondTableRow.click();
     });
   });
-  
+
 });

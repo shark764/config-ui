@@ -11,14 +11,14 @@ angular.module('liveopsConfigPanel')
         'name': 'description'
       }, {
         'header': $translate.instant('value.status'),
-        'name': 'status',
+        'name': 'active',
         'sortable': true,
         'options': statuses(),
         'transclude': true,
         'filter': 'selectedOptions'
       }],
       'searchOn': ['name'],
-      'orderBy': ['name'],
+      'orderBy': 'name',
       'title' : $translate.instant('tenant.table.title')
     };
   }]);

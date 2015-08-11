@@ -28,6 +28,14 @@ describe('The create new queues view', function() {
     expect(queues.nameFormField.isDisplayed()).toBeTruthy();
     expect(queues.descriptionFormField.isDisplayed()).toBeTruthy();
     expect(shared.submitFormBtn.isDisplayed()).toBeTruthy();
+
+    // Query field with default input
+    expect(queues.createVersionQueryFormField.isDisplayed()).toBeTruthy();
+    expect(queues.createVersionQueryFormField.getAttribute('value')).toBe('{}');
+
+    expect(queues.createVersionNumberFormField.isDisplayed()).toBeTruthy();
+    expect(queues.createVersionNumberFormField.getAttribute('disabled')).toBeTruthy();
+    expect(queues.createVersionNumberFormField.getAttribute('value')).toBe('1');
   });
 
   it('should create a new queue and add to the queues lists', function() {
@@ -38,7 +46,6 @@ describe('The create new queues view', function() {
     // Complete queue form and submit
     queues.nameFormField.sendKeys('Queue ' + randomQueue);
     queues.descriptionFormField.sendKeys('This is the queue description for queue ' + randomQueue);
-    queues.createVersionQueryFormField.sendKeys('{}');
     shared.submitFormBtn.click();
 
     // Confirm queue is displayed in queue table with correct details
@@ -63,7 +70,6 @@ describe('The create new queues view', function() {
 
     queues.nameFormField.sendKeys('Queue ' + randomQueue);
     queues.descriptionFormField.sendKeys('This is a new queue description');
-    queues.createVersionQueryFormField.sendKeys('{}');
 
     // Version fields show defaults
     expect(queues.createVersionNumberFormField.getAttribute('value')).toBe('1');
@@ -78,7 +84,6 @@ describe('The create new queues view', function() {
     expect(queues.createVersionRateUnitDropdown.getAttribute('disabled')).toBeTruthy();
 
     shared.submitFormBtn.click().then(function() {
-      expect(queues.requiredErrors.get(0).isDisplayed()).toBeFalsy();
       expect(shared.successMessage.isDisplayed()).toBeTruthy();
 
       // Default v1 queue version added
@@ -95,7 +100,7 @@ describe('The create new queues view', function() {
 
     queues.nameFormField.sendKeys('Queue ' + randomQueue);
     queues.descriptionFormField.sendKeys('This is the queue description for queue ' + randomQueue);
-    queues.createVersionQueryFormField.sendKeys('{}');
+    queues.createVersionQueryFormField.sendKeys('Query');
 
     shared.cancelFormBtn.click();
 
@@ -107,6 +112,7 @@ describe('The create new queues view', function() {
       // Confirm fields are cleared and new queue is not added
       expect(queues.nameFormField.getAttribute('value')).toBe('');
       expect(queues.descriptionFormField.getAttribute('value')).toBe('');
+      expect(queues.createVersionQueryFormField.getAttribute('value')).toBe('{}');
       expect(shared.tableElements.count()).toBe(queueCount);
       expect(shared.successMessage.isPresent()).toBeFalsy();
     });
@@ -131,7 +137,6 @@ describe('The create new queues view', function() {
     // Complete queue form and submit without queue name
     queues.nameFormField.click();
     queues.descriptionFormField.sendKeys('This is the queue description for queue ' + randomQueue);
-    queues.createVersionQueryFormField.sendKeys('{}');
 
     // Submit button is disabled
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
@@ -147,21 +152,26 @@ describe('The create new queues view', function() {
     shared.createBtn.click();
     randomQueue = Math.floor((Math.random() * 100) + 1);
 
+    // Clear default value from query field
+    queues.createVersionQueryFormField.clear();
+
     // Complete queue form and submit without queue query
     queues.createVersionQueryFormField.click();
     queues.nameFormField.sendKeys('Queue ' + randomQueue);
     queues.descriptionFormField.sendKeys('This is the queue description for queue ' + randomQueue);
+    queues.createVersionQueryFormField.clear();
 
     // Submit button is disabled
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
 
-    expect(queues.requiredErrors.get(1).isDisplayed()).toBeTruthy();
-    expect(queues.requiredErrors.get(1).getText()).toBe('Field "Query" is required.');
+    expect(queues.requiredErrors.get(0).isDisplayed()).toBeTruthy();
+    expect(queues.requiredErrors.get(0).getText()).toBe('Field "Query" is required.');
     expect(shared.tableElements.count()).toBe(queueCount);
     expect(shared.successMessage.isPresent()).toBeFalsy();
   });
 
   xit('should validate query field', function() {
+    // BUG: Creates queue without active version
     queueCount = shared.tableElements.count();
     shared.createBtn.click();
     randomQueue = Math.floor((Math.random() * 100) + 1);
@@ -170,15 +180,16 @@ describe('The create new queues view', function() {
     queues.createVersionQueryFormField.click();
     queues.nameFormField.sendKeys('Queue ' + randomQueue);
     queues.descriptionFormField.sendKeys('This is the queue description for queue ' + randomQueue);
+    queues.createVersionQueryFormField.clear();
     queues.createVersionQueryFormField.sendKeys('This is not a valid query');
 
     // Submit button is disabled
-    expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
-
-    expect(queues.requiredErrors.get(2).isDisplayed()).toBeTruthy();
-    expect(queues.requiredErrors.get(2).getText()).toBe('.');
-    expect(shared.tableElements.count()).toBe(queueCount);
-    expect(shared.successMessage.isPresent()).toBeFalsy();
+    shared.submitFormBtn.click().then(function() {
+      expect(queues.requiredErrors.get(0).isDisplayed()).toBeTruthy();
+      expect(queues.requiredErrors.get(0).getText()).toContain('invalid query, reason: Value does not match schema: (not (map?');
+      expect(shared.tableElements.count()).toBe(queueCount);
+      expect(shared.successMessage.isPresent()).toBeFalsy();
+    });
   });
 
   it('should not require description', function() {
@@ -189,7 +200,7 @@ describe('The create new queues view', function() {
     // Complete queue form and submit without queue description
     queues.descriptionFormField.click();
     queues.nameFormField.sendKeys('Queue ' + randomQueue);
-    queues.createVersionQueryFormField.sendKeys('{}');
+
     shared.submitFormBtn.click().then(function() {
       expect(shared.tableElements.count()).toBeGreaterThan(queueCount);
       expect(shared.successMessage.isDisplayed()).toBeTruthy();
@@ -200,6 +211,7 @@ describe('The create new queues view', function() {
     queueCount = shared.tableElements.count();
     shared.createBtn.click();
     queues.nameFormField.sendKeys(' ');
+    queues.createVersionQueryFormField.clear();
     queues.createVersionQueryFormField.sendKeys(' ');
     queues.descriptionFormField.sendKeys(' ');
 

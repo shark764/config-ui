@@ -6,8 +6,6 @@
   selected="selectedMediaCollection"
   resource-name="media-collection"
   hide-bulk-actions="true">
-  
-  <concat-strings name="identifier" models="item.mediaMap" seperator="," field="lookup"></concat-strings>
 
 </table-controls>
 
@@ -15,14 +13,11 @@
   ng-show="!! selectedMediaCollection"
   id="resize-pane-1"
   right-element-id="details-pane"
-  left-element-id="table-pane"
-  left-min-width="600"
-  right-min-width="300" ></resize-handle>
+  left-element-id="table-pane"></resize-handle>
 
 <resource-details
   ng-show="!! selectedMediaCollection"
   id="details-pane"
-  extend-scope="additionalCollections"
   header-template-url="app/components/flows/media-collections/mediaCollectionDetailHeader.html"
   body-template-url="app/components/flows/media-collections/mediaCollectionDetailBody.html"
   original-resource="selectedMediaCollection"
@@ -32,9 +27,7 @@
   id="resize-pane-2"
   ng-show="selectedMedia"
   right-element-id="media-pane"
-  left-element-id="details-pane"
-  left-min-width="600"
-  right-min-width="300" ></resize-handle>
+  left-element-id="details-pane"></resize-handle>
 
 <resource-details
   id="media-pane"

@@ -9,6 +9,7 @@
     background-color: #fff;
     border-bottom: 1px solid #dadada;
     padding: 15px;
+    padding-right: 25px; /* add room for x button */
     position: relative;
 
     toggle {
@@ -20,7 +21,7 @@
     toggle + * {
       padding-left: $toggle-width + 5px;
     }
-    
+
     h1 {
       word-break: break-all;
       padding: 0;
@@ -162,8 +163,12 @@
 
     input, .btn {
       max-width: 200px;
-      margin: 0 20px;
+      margin: 0;
       width: 45%;
+    }
+    
+    .btn + .btn{
+    	margin-left: 20px;
     }
   }
 }

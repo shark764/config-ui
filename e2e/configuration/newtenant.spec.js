@@ -29,7 +29,10 @@ describe('The create new tenants view', function() {
     expect(tenants.descriptionFormField.isDisplayed()).toBeTruthy();
     expect(tenants.adminFormDropDown.isDisplayed()).toBeTruthy();
 
-    // Region is not displayed when adding a new user, defaults to current region
+    // Defaults to current user
+    expect(tenants.adminFormDropDown.$('option:checked').getText()).toBe(params.login.firstName + ' '+ params.login.lastName);
+
+    // Region is not displayed when adding a new tenant, defaults to current region
     expect(tenants.region.isPresent()).toBeFalsy();
   });
 
@@ -41,23 +44,23 @@ describe('The create new tenants view', function() {
     // Complete tenant form and submit
     tenants.nameFormField.sendKeys('Tenant ' + randomTenant);
     tenants.descriptionFormField.sendKeys('This is the tenant description for tenant ' + randomTenant);
-    shared.submitFormBtn.click();
-
-    // Confirm tenant is displayed in tenant table with correct details
-    shared.tableElements.then(function(rows) {
-      for (var i = 1; i <= rows.length; ++i) {
-        element(by.css('tr.ng-scope:nth-child(' + i + ') > td:nth-child(2) > span:nth-child(1)')).getText().then(function(value) {
-          if (value == 'Tenant ' + randomTenant) {
-            tenantAdded = true;
-          }
-        });
-      }
-    }).thenFinally(function() {
-      // Verify new tenant was found in the table
-      expect(tenantAdded).toBeTruthy();
-      expect(tenants.nameRequiredError.get(0).isDisplayed()).toBeFalsy();
+    shared.submitFormBtn.click().then(function () {
       expect(shared.successMessage.isDisplayed()).toBeTruthy();
-      expect(shared.tableElements.count()).toBeGreaterThan(tenantCount);
+
+      // Confirm tenant is displayed in tenant table with correct details
+      shared.tableElements.then(function(rows) {
+        for (var i = 1; i <= rows.length; ++i) {
+          element(by.css('tr.ng-scope:nth-child(' + i + ') > td:nth-child(2) > span:nth-child(1)')).getText().then(function(value) {
+            if (value == 'Tenant ' + randomTenant) {
+              tenantAdded = true;
+            }
+          });
+        }
+      }).thenFinally(function() {
+        // Verify new tenant was found in the table
+        expect(tenantAdded).toBeTruthy();
+        expect(shared.tableElements.count()).toBeGreaterThan(tenantCount);
+      });
     });
   });
 
@@ -97,7 +100,6 @@ describe('The create new tenants view', function() {
 
     shared.submitFormBtn.click();
 
-    expect(tenants.nameRequiredError.get(0).isDisplayed()).toBeFalsy();
     expect(shared.successMessage.isPresent()).toBeTruthy();
     expect(shared.tableElements.count()).toBeGreaterThan(tenantCount);
   });
@@ -111,7 +113,6 @@ describe('The create new tenants view', function() {
 
     shared.submitFormBtn.click();
 
-    expect(tenants.nameRequiredError.get(0).isDisplayed()).toBeFalsy();
     expect(shared.successMessage.isPresent()).toBeTruthy();
     expect(shared.tableElements.count()).toBeGreaterThan(tenantCount);
   });
@@ -124,7 +125,6 @@ describe('The create new tenants view', function() {
 
     shared.submitFormBtn.click();
 
-    expect(tenants.nameRequiredError.get(0).isDisplayed()).toBeFalsy();
     expect(shared.successMessage.isPresent()).toBeTruthy();
     expect(shared.tableElements.count()).toBeGreaterThan(tenantCount);
 

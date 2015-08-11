@@ -35,7 +35,6 @@ describe('The skills view', function() {
     skills.proficiencyFormCheckbox.click();
     shared.submitFormBtn.click();
 
-    expect(skills.nameRequiredError.get(0).isDisplayed()).toBeFalsy();
     expect(shared.successMessage.isDisplayed()).toBeTruthy();
     expect(skills.skillElements.count()).toBeGreaterThan(skillCount);
 
@@ -178,9 +177,9 @@ describe('The skills view', function() {
     expect(shared.firstTableRow.element(by.css(skills.descriptionColumn)).getText()).toBe(skills.descriptionFormField.getAttribute('value'));
     shared.firstTableRow.element(by.css(skills.proficiencyColumn)).getText().then(function (skillProficiency) {
       if(skillProficiency == 'Yes'){
-        expect(skills.proficiencySwitch.isSelected()).toBeTruthy();
+        expect(skills.proficiencySwitch.getAttribute('value')).toBe('on');
       } else if (skillProficiency == 'No'){
-        expect(skills.proficiencySwitch.isSelected()).toBeFalsy();
+        expect(skills.proficiencySwitch.getAttribute('value')).toBe('off');
       } else {
         // fail test
         expect(true).toBeFalsy();
@@ -194,9 +193,9 @@ describe('The skills view', function() {
     expect(shared.secondTableRow.element(by.css(skills.descriptionColumn)).getText()).toBe(skills.descriptionFormField.getAttribute('value'));
     shared.secondTableRow.element(by.css(skills.proficiencyColumn)).getText().then(function (skillProficiency) {
       if(skillProficiency == 'Yes'){
-        expect(skills.proficiencySwitch.isSelected()).toBeTruthy();
+        expect(skills.proficiencySwitch.getAttribute('value')).toBe('on');
       } else if (skillProficiency == 'No'){
-        expect(skills.proficiencySwitch.isSelected()).toBeFalsy();
+        expect(skills.proficiencySwitch.getAttribute('value')).toBe('off');
       } else {
         // fail test
         expect(true).toBeFalsy();
@@ -209,6 +208,7 @@ describe('The skills view', function() {
     expect(skills.nameFormField.isDisplayed()).toBeTruthy();
     expect(skills.descriptionFormField.isDisplayed()).toBeTruthy();
     expect(skills.proficiencyFormCheckbox.isDisplayed()).toBeTruthy();
+    expect(skills.activeFormToggle.isDisplayed()).toBeTruthy();
   });
 
   it('should reset Skill fields after editing and selecting Cancel', function() {
@@ -231,7 +231,6 @@ describe('The skills view', function() {
     expect(alertDialog.dismiss).toBeDefined();
     alertDialog.accept();
 
-    expect(skills.nameRequiredError.get(0).isDisplayed()).toBeFalsy();
     expect(shared.successMessage.isPresent()).toBeFalsy();
     expect(skills.skillElements.count()).toBe(skillCount);
 
@@ -253,7 +252,6 @@ describe('The skills view', function() {
     var editedProficiency = skills.proficiencySwitch.isSelected();
     shared.submitFormBtn.click();
 
-    expect(skills.nameRequiredError.get(0).isDisplayed()).toBeFalsy();
     expect(shared.successMessage.isDisplayed()).toBeTruthy();
     expect(skills.skillElements.count()).toBe(skillCount);
 
@@ -301,7 +299,7 @@ describe('The skills view', function() {
     skills.proficiencyFormCheckbox.click();
 
     shared.submitFormBtn.click().then(function () {
-      expect(skills.proficiencySwitch.isSelected()).toBeTruthy();
+      expect(skills.proficiencySwitch.getAttribute('value')).toBe('on');
 
       // Unable to edit skill to remove proficiency
       expect(skills.proficiencyFormCheckbox.getAttribute('disabled')).toBeTruthy();

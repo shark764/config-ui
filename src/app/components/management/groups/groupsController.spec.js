@@ -48,7 +48,7 @@ describe('groups controller', function () {
     it('should set selectedGroup to default values', inject(function () {
       $scope.$broadcast('table:on:click:create');
       expect($scope.selectedGroup.tenantId).toEqual('tenant-id');
-      expect($scope.selectedGroup.status).toBeTruthy();
+      expect($scope.selectedGroup.active).toBeTruthy();
       expect($scope.selectedGroup.owner).toEqual('userId1');
     }));
   });
@@ -65,6 +65,19 @@ describe('groups controller', function () {
       $httpBackend.expectGET(apiHostname + '/v1/tenants/tenant-id/groups/groupId1/users');
       mockGroups[0].fetchGroupUsers();
       $httpBackend.flush();
+    }]));
+  });
+  
+  describe('gotoUserPage function', function () {
+    it('should be defined', inject(function () {
+      expect($scope.additional.gotoUserPage).toBeDefined();
+      expect($scope.additional.gotoUserPage).toEqual(jasmine.any(Function));
+    }));
+    
+    it('should call $state transition to with the users page and given userId', inject(['$state', function ($state) {
+      spyOn($state, 'transitionTo');
+      $scope.additional.gotoUserPage('1234');
+      expect($state.transitionTo).toHaveBeenCalledWith('content.management.users', {id: '1234'});
     }]));
   });
 });

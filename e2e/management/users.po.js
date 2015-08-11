@@ -10,6 +10,7 @@ var UserPage = function() {
   this.externalIdFormField = element(by.model('resource.externalId'));
   this.passwordEditFormBtn = element(by.buttonText('Reset Password'));
   this.personalTelephoneFormField = element(by.model('resource.personalTelephone'));
+  this.activeFormToggle = element(by.model('resource.status'));
 
   this.emailLabel = element(by.id('user-details-email'));
   this.error = element(by.css('.error'));
@@ -33,8 +34,13 @@ var UserPage = function() {
   this.allUserStatus = this.statusTableDropDown.element(by.css('.all'));
   this.userStatuses = this.statusTableDropDown.all(by.repeater('option in options track by option[valuePath]'));
   this.userStatusInputs = this.statusTableDropDown.all(by.css('input'));
-  
+
   this.statusBulkEnableCheck = element(by.id('user-status-bulk-enable-check'));
+  
+  //User Groups component
+  this.addGroup = element(by.id('addGroup'));
+  this.addGroupSearch = this.addGroup.element(by.css('input'));
+  this.addGroupBtn = this.addGroup.element(by.id('add-group-btn'));
 };
 
 module.exports = new UserPage();

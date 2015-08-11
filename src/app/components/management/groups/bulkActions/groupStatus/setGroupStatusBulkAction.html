@@ -1,6 +1,6 @@
 <div class="bulk-action">
-  <div><input type="checkbox" ng-model="bulkAction.checked"></div>
+  <div><input id="select-enable-bulk-action" type="checkbox" ng-model="bulkAction.checked"></div>
   <label><b>{{'bulkActions.enable.groups' | translate}}</b></label>
-  <toggle ng-disabled="! bulkAction.checked" ng-model="status"
-    ng-init="status=false"></toggle>
+  <toggle id="bulk-action-enable-toggle" ng-disabled="! bulkAction.checked" ng-model="active"
+    ng-init="active=false"></toggle>
 </div>
