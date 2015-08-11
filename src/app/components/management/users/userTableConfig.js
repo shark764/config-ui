@@ -56,14 +56,16 @@ angular.module('liveopsConfigPanel')
           'resolve': function(user){
             return user.skills.length;
           },
-          'options': getSkillOptions()
+          'options': getSkillOptions(),
+          'sortOn': 'skills.length'
         }, {
           'header': $translate.instant('user.table.groups'),
           'name': 'groups:id',
           'resolve': function(user){
             return user.groups.length;
           },
-          'options': getGroupOptions()
+          'options': getGroupOptions(),
+          'sortOn': 'groups.length'
         }, {
           'header': $translate.instant('user.table.state'),
           'name': 'state',

@@ -76,8 +76,22 @@ angular.module('liveopsConfigPanel')
         $scope.create();
       });
 
-      $scope.$on('table:resource:selected', function () {
+      $scope.$on('table:resource:selected', function (event, selectedItem) {
         $scope.showBulkActions = false;
+        
+        //TODO: yuck! Remove when TITAN2-2413 branch (which changes user panel) is merged
+        $scope.selectedUser = new User(selectedItem);
+      });
+      
+      //TODO: Aurrgghhh
+      $scope.$on('resource:details:user:create:success', function (event, createdItem) {
+        event.defaultPrevented = true;
+          
+        var newTenantUser = new TenantUser(createdItem);
+        newTenantUser.skills = [];
+        newTenantUser.groups = [];
+        $scope.fetchTenantUsers().push(newTenantUser);
+        $scope.selectedUser = newTenantUser;
       });
 
       $scope.$on('table:on:click:actions', function () {
