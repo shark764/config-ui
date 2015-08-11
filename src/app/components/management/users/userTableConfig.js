@@ -57,7 +57,8 @@ angular.module('liveopsConfigPanel')
             return user.skills.length;
           },
           'options': getSkillOptions(),
-          'sortOn': 'skills.length'
+          'sortOn': 'skills.length',
+          'filterOrderBy': 'display'
         }, {
           'header': $translate.instant('user.table.groups'),
           'name': 'groups:id',
@@ -65,7 +66,8 @@ angular.module('liveopsConfigPanel')
             return user.groups.length;
           },
           'options': getGroupOptions(),
-          'sortOn': 'groups.length'
+          'sortOn': 'groups.length',
+          'filterOrderBy': 'display'
         }, {
           'header': $translate.instant('user.table.state'),
           'name': 'state',
