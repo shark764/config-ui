@@ -67,11 +67,19 @@ var Shared = function() {
   this.successMessage = element(by.css('.toast-success'));
   this.errorMessage = element(by.css('.toast-error'));
   this.closeMessageBtn = element(by.css('.toast-close-button'));
-  
+
   //Modal
   this.confirmModal = element(by.css('#modal .confirm'));
   this.confirmModalCancelBtn = element(by.id('modal-cancel'));
   this.confirmModalOkBtn = element(by.id('modal-ok'));
+
+  this.waitForSuccess = function () {
+    browser.driver.wait(function() {
+      return element(by.css('.toast-success')).isPresent().then(function (messageDisplayed) {
+          return messageDisplayed;
+      });
+    }, 5000);
+  };
 
   this.dismissChanges = function() {
     browser.switchTo().alert().then(
