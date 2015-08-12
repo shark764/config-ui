@@ -6,17 +6,16 @@ angular.module('liveopsConfigPanel')
       restrict: 'A',
       require: ['^loFormCancel'],
       link: function ($scope, $elem, $attrs, $ctrl) {
-        var chainName = $attrs.loCancelChainExecutor;
-        var chain = Chain.get(chainName);
-
-        chain.hook('cancel', function() {
-          return $ctrl[0].cancel();
-        });
-
         $attrs.event = angular.isDefined($attrs.event) ? $attrs.event : 'click';
 
         $elem.bind($attrs.event, function () {
-          Chain.get(chainName).execute();
+          var chain = Chain.get($attrs.loCancelChainExecutor);
+
+          chain.hook('cancel', function() {
+            return $ctrl[0].cancel();
+          });
+          
+          chain.execute();
           $scope.$apply();
         });
       }

@@ -48,8 +48,8 @@ describe('users controller', function () {
 
   it('should catch the on:click:create event', inject([ function () {
       $scope.$broadcast('table:on:click:create');
-      expect($scope.selectedUser).toBeDefined();
-      expect($scope.selectedUser.status).toEqual('enabled');
+      expect($scope.selectedTenantUser).toBeDefined();
+      expect($scope.selectedTenantUser.status).toEqual('enabled');
     }]));
 
   describe('postSave function', function () {
@@ -60,17 +60,17 @@ describe('users controller', function () {
         var AuthService = $injector.get('AuthService');
         var token = AuthService.generateToken(mockUsers[0].email, newPassword);
 
-        $scope.selectedUser = mockUsers[0];
-        $scope.selectedUser.password = newPassword;
+        $scope.selectedTenantUser = mockUsers[0];
+        $scope.selectedTenantUser.password = newPassword;
 
         spyOn(Session, 'setToken');
 
-        $scope.selectedUser.preUpdate($scope.selectedUser);
+        $scope.selectedTenantUser.preUpdate($scope.selectedTenantUser);
 
         expect(controller.newPassword).toBeDefined();
         expect(controller.newPassword).toEqual(newPassword);
 
-        $scope.selectedUser.postUpdate($scope.selectedUser);
+        $scope.selectedTenantUser.postUpdate($scope.selectedTenantUser);
 
         expect(Session.setToken).toHaveBeenCalledWith(token);
       }]));
@@ -82,19 +82,19 @@ describe('users controller', function () {
         var AuthService = $injector.get('AuthService');
         var token = AuthService.generateToken(mockUsers[0].email, newPassword);
 
-        $scope.selectedUser = mockUsers[0];
-        $scope.selectedUser.password = newPassword;
+        $scope.selectedTenantUser = mockUsers[0];
+        $scope.selectedTenantUser.password = newPassword;
 
         spyOn(Session, 'setToken');
 
-        $scope.selectedUser.preUpdate($scope.selectedUser);
+        $scope.selectedTenantUser.preUpdate($scope.selectedTenantUser);
 
         expect(controller.newPassword).toBeDefined();
         expect(controller.newPassword).toEqual(newPassword);
 
         Session.user.id = 'nope';
 
-        $scope.selectedUser.postUpdate($scope.selectedUser);
+        $scope.selectedTenantUser.postUpdate($scope.selectedTenantUser);
 
         expect(Session.setToken).not.toHaveBeenCalledWith(token);
       }]));

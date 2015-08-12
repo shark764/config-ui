@@ -3,8 +3,8 @@
   id="table-pane"
   config="tableConfig"
   items="fetchTenantUsers()"
-  selected="selectedUser"
-  resource-name="user">
+  selected="selectedTenantUser"
+  resource-name="tenantUserser">
 
   <user-status name="status" ng-model="item.status"></user-status>
 
@@ -14,7 +14,7 @@
 </table-controls>
 
 <resize-handle
-    ng-show="selectedUser || showBulkActions"
+    ng-show="selectedTenantUser || showBulkActions"
     id="resize-pane"
     right-element-id="user-pane"
     left-element-id="table-pane"></resize-handle>
@@ -22,17 +22,17 @@
 <lo-details-panel
   id="user-pane"
   class="details-pane"
-  ng-show="selectedUser || showBulkActions"
-  ng-resource="selectedUser">
+  ng-show="selectedTenantUser || showBulkActions"
+  ng-resource="selectedTenantUser">
 
     <ng-form
       unsaved-changes-warning
       class="details-form"
       name="detailsForm"
-      ng-resource="selectedUser"
+      ng-resource="selectedTenantUser"
       lo-form-submit lo-form-cancel lo-form-alert>
 
-      <div class="detail-header-pane" ng-show="selectedUser.id" ng-include="'app/components/management/users/userDetailHeader.html'">
+      <div class="detail-header-pane" ng-show="!selectedTenantUser.isNew()" ng-include="'app/components/management/users/userDetailHeader.html'">
       </div>
 
       <div class="detail-body-pane" ng-include="'app/components/management/users/userDetailBody.html'">
@@ -42,7 +42,7 @@
         <input
           id="cancel-details-btn"
           lo-cancel-chain-executor="user:cancel"
-          ng-disabled="selectedUser.$busy"
+          ng-disabled="selectedTenantUser.$busy"
           type="button"
           class="btn"
           ng-click="reset()"
@@ -50,23 +50,12 @@
 
         <input
           id="submit-details-btn"
-          lo-submit-chain-executor="user:save"
+          lo-submit-chain-executor="{{selectedTenantUser.isNew() ? 'user:save' : 'user:update'}}"
           lo-submit-spinner
-          lo-submit-spinner-status="selectedUser.$busy"
-          ng-show="!forms.detailsForm.$error.duplicateUsername"
-          ng-disabled="forms.detailsForm.$pending || forms.detailsForm.$invalid || ! forms.detailsForm.$dirty"
+          lo-submit-spinner-status="selectedTenantUser.$busy"
+          ng-disabled="detailsForm.$pending || detailsForm.$invalid || ! detailsForm.$dirty"
           class="btn btn-primary"
           type="submit"
-          value="{{'value.submit' | translate}}" />
-
-        <input
-          id="invite-btn"
-          lo-chain-executor="user:tenant:invite"
-          lo-submit-spinner
-          lo-submit-spinner-status="invite.$busy"
-          ng-show="forms.detailsForm.$error.duplicateUsername"
-          class="btn btn-primary"
-          type="button"
           value="{{'value.submit' | translate}}" />
       </div>
     </ng-form>

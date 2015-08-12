@@ -3,7 +3,7 @@
 angular.module('liveopsConfigPanel')
   .factory('TenantUser', ['LiveopsResourceFactory',
     function (LiveopsResourceFactory) {
-      var TenantUser = LiveopsResourceFactory.create('/v1/tenants/:tenantId/users/:id', [
+      var TenantUser = LiveopsResourceFactory.create('/v1/tenants/:tenantId/users/:id', 'TenantUser', [
         {name: 'status'}
       ]);
       

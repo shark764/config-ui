@@ -147,20 +147,26 @@ angular.module('liveopsConfigPanel')
             return queryCache.get(key);
           };
 
-          Resource.prototype.save = function (success, failure) {
+          Resource.prototype.save = function (params, success, failure) {
             var self = this,
               action = this.isNew() ? this.$save : this.$update,
               preEvent = self.isNew() ? self.preCreate : self.preUpdate,
               postEvent = self.isNew() ? self.postCreate : self.postUpdate,
               postEventFail = self.isNew() ? self.postCreateError : self.postUpdateError;
-
+            
+            
+            if(angular.isFunction(params)) {
+              success = params;
+              failure = success;
+            }
+            
             //TODO find out why preEvent didn't work in the chain
             preEvent.call(self);
             self.preSave();
 
             self.$busy = true;
 
-            return action.call(self)
+            return action.call(self, params)
               .then(function (result) {
                 return postEvent.call(self, result);
               }, function (error) {

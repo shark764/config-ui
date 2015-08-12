@@ -111,6 +111,7 @@
   "user.details.enable.confirm": "This will enable this user and allow them to log in. Do you want to continue?",
   "user.details.creating": "Creating New User",
   "user.details.password.reset": "Reset Password",
+  "users.details.role.select": "Select a role",
   "user.table.displayName": "Display Name",
   "user.table.externalId": "ID",
   "user.table.state": "State",
