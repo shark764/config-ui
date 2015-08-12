@@ -30,6 +30,15 @@ angular.module('liveopsConfigPanel')
 
         return result;
       };
+      
+      User.prototype.postCreate = function (result) {
+        var tenantUser = new TenantUser({
+          tenantId: Session.tenant.tenantId,
+          status: 'invited'
+        });
+        
+        tenantUser.save();
+      };
 
       $scope.fetchTenantUsers = function () {
         return TenantUser.cachedQuery({
