@@ -128,7 +128,7 @@ describe('The flows view bulk actions', function() {
     shared.tableElements.then(function(originalFlows) {
       // Select odd flows and leave even flows unselected
       for (var i = 0; i < originalFlows.length; i++) {
-        if (i % 2 > 0) {
+        if (i % 2 > 0 && i < 10) {
           bulkActions.selectItemTableCells.get(i).click();
         }
       }
@@ -150,7 +150,7 @@ describe('The flows view bulk actions', function() {
 
         // Only selected flows are updated
         for (var i = 0; i < originalFlows.length; i++) {
-          if (i % 2 > 0) {
+          if (i % 2 > 0 && i < 10) {
             // Flow was updated to Disabled
             expect(shared.tableElements.get(i).getText()).toContain('Disabled');
           } else {

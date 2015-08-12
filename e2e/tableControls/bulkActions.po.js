@@ -9,7 +9,7 @@ var BulkActions = function() {
   this.selectedItemsDropdownHeader = element(by.id('bulk-actions-selected-header'));
   this.selectedItemsDropdownHeaderLabel = element(by.css('#bulk-actions-selected-header > filter-dropdown:nth-child(1)'));
   this.selectedItemsDropdown = this.selectedItemsDropdownHeader.element(by.css('.dropdown'));
-  this.selectedItemsDropdownElements = this.selectedItemsDropdown.all(by.repeater('option in options track by option[valuePath]'));
+  this.selectedItemsDropdownElements = this.selectedItemsDropdown.all(by.repeater('option in options | orderBy:orderBy track by option[valuePath]'));
 
   this.bulkActionDivs = element.all(by.css('.bulk-action'));
 
@@ -64,7 +64,7 @@ var BulkActions = function() {
   this.tableHeader = element(by.css('#table-pane > div:nth-child(3) > table:nth-child(1)'));
   this.statusTableDropDown = this.tableHeader.element(by.css('filter-dropdown:nth-child(1)'));
   this.allStatus = this.statusTableDropDown.element(by.css('.all'));
-  this.statuses = this.statusTableDropDown.all(by.repeater('option in options track by option[valuePath]'));
+  this.statuses = this.statusTableDropDown.all(by.repeater('option in options | orderBy:orderBy track by option[valuePath]'));
   this.statusInputs = this.statusTableDropDown.all(by.css('input'));
 };
 

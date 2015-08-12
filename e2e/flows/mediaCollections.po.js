@@ -41,6 +41,8 @@ var MediaCollectionsPage = function() {
   this.descriptionColumn = 'td:nth-child(3)';
   this.identifierColumn = 'td:nth-child(4)';
 
+  this.submitFormBtn = this.mediaCollectionPane.element(by.id('submit-details-btn'));
+  this.cancelFormBtn = this.mediaCollectionPane.element(by.id('cancel-details-btn'));
   this.closeMediaCollection = this.mediaCollectionPane.element(by.id('close-details-button'));
   this.closeMedia = this.createMediaForm.element(by.id('close-details-button'));
 
