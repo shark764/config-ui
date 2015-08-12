@@ -1,9 +1,9 @@
 <div class="divider-header">
-  <h4>Drafts</h4>
+  <h4>{{'flow.draft.title' | translate}}</h4>
 </div>
 
 <loading ng-show="! drafts.$resolved"></loading>
-<p class="null" ng-show="drafts.$resolved && drafts.length == 0">There are no drafts saved for this flow. Drafts are created automatically from the Flow Designer.</p>
+<p class="null" ng-show="drafts.$resolved && drafts.length == 0">{{'flow.draft.none' | translate}}</p>
 
 <table class="table" id="flow-details-draft-table" ng-show="drafts.length > 0">
   <thead>
@@ -21,7 +21,7 @@
       <audit-text translation="value.displayName" user-id="draft.createdBy"></audit-text>
     </td>
     <td>
-      <a class="remove" ng-click="deleteDraft(draft)" title="Delete this draft"><i class="fa fa-times"></i></a>
+      <a class="remove" ng-click="deleteDraft(draft)" title="{{'flow.draft.delete.alt' | translate}}"><i class="fa fa-times"></i></a>
     </td>
   </tr>
 </table>
