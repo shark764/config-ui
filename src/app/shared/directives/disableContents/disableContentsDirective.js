@@ -10,7 +10,7 @@ angular.module('liveopsConfigPanel')
   .directive('disableContents', [function() {
     return {
       compile: function(tElem, tAttrs) {
-        var inputs = tElem.find('input');
+        var inputs = tElem.find('input, label');
         angular.forEach(inputs, function(el){
             el = angular.element(el);
             var prevVal = el.attr('ng-disabled');

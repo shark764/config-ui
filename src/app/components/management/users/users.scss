@@ -28,31 +28,7 @@
   }
 }
 
-.tenant-status {
-  border: 1px solid black;
-  padding: 5px;
-  min-width: 200px;
-  margin-right: 0px;
-  text-align: center;
-  @include border-radius(3px);
-  margin-right: 10px;
-  pointer-events: none;
-}
-
-.message-block {
-  display: table-cell;
-  vertical-align: middle;
-  text-align: center;
-  padding: 15px;
-  background-color: $accent1;
-  color: white;
-  @include border-radius(5px);
-  pointer-events: none;
-  width: $max-control-width;
-}
-
 .new-user-email {
-
   .email-verify-spinner {
     position: absolute;
     right: 5px;

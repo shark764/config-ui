@@ -1,11 +1,11 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('UsersController', ['$scope', '$window', 'User', 'Session', 'AuthService', 'userTableConfig', 'Alert', 'flowSetup', 'BulkAction', 'TenantUser', 'TenantRole',
-    function ($scope, $window, User, Session, AuthService, userTableConfig, Alert, flowSetup, BulkAction, TenantUser, TenantRole) {
+  .controller('UsersController', ['$scope', '$window', 'User', 'Session', 'AuthService', 'userTableConfig', 'Alert', 'flowSetup', 'BulkAction', 'TenantUser', 'TenantRole', 'Chain',
+    function ($scope, $window, User, Session, AuthService, userTableConfig, Alert, flowSetup, BulkAction, TenantUser, TenantRole, Chain) {
       var self = this;
       $scope.Session = Session;
-      $scope.roles = userRoles;
+
       $scope.tenantUserParams = {
         status: 'pending'
       };
@@ -28,17 +28,6 @@ angular.module('liveopsConfigPanel')
 
         return result;
       };
-      
-      User.prototype.postCreate = function (result) {
-        var tenantUser = new TenantUser({
-          tenantId: Session.tenant.tenantId,
-          status: 'invited',
-          email: result.email,
-          roleId: $scope.shared.selectedRoleId
-        });
-        
-        tenantUser.save();
-      };
 
       $scope.fetchTenantUsers = function () {
         return TenantUser.cachedQuery({
@@ -56,7 +45,6 @@ angular.module('liveopsConfigPanel')
         $scope.selectedTenantUser = new TenantUser({
           status: 'pending'
         });
-        $scope.shared.selectedRoleId = ''
       };
       
       Chain.create('user:save', function() {
@@ -68,7 +56,9 @@ angular.module('liveopsConfigPanel')
           var tenantUser = new TenantUser({
             email: user.email,
             status: $scope.tenantUserParams.status,
-            roleId: $scope.tenantUserParams.roleId
+            roleId: $scope.tenantUserParams.roleId,
+            skills: [],
+            groups: []
           });
           
           return tenantUser.save({

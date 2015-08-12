@@ -32,7 +32,7 @@
       ng-resource="selectedTenantUser"
       lo-form-submit lo-form-cancel lo-form-alert>
 
-      <div class="detail-header-pane" ng-show="!selectedTenantUser.isNew()" ng-include="'app/components/management/users/userDetailHeader.html'">
+      <div class="detail-header-pane" ng-include="'app/components/management/users/userDetailHeader.html'">
       </div>
 
       <div class="detail-body-pane" ng-include="'app/components/management/users/userDetailBody.html'">
@@ -53,7 +53,7 @@
           lo-submit-chain-executor="{{selectedTenantUser.isNew() ? 'user:save' : 'user:update'}}"
           lo-submit-spinner
           lo-submit-spinner-status="selectedTenantUser.$busy"
-          ng-disabled="detailsForm.$pending || detailsForm.$invalid || ! detailsForm.$dirty"
+          ng-disabled="detailsForm.$pending || (detailsForm.$invalid && (detailsForm.$error.length > 1 || ! detailsForm.$error.duplicateUsername)) || ! detailsForm.$dirty"
           class="btn btn-primary"
           type="submit"
           value="{{'value.submit' | translate}}" />
