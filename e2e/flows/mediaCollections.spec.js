@@ -1162,7 +1162,7 @@ describe('The media collections view', function() {
       });
     });
 
-    it('should leave new Media fields and pane open on Media Collections create', function() {
+    xit('should leave new Media fields and pane open on Media Collections create', function() {
       shared.createBtn.click();
       mediaCollections.openCreateNewMedia();
 
