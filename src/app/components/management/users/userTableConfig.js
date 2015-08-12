@@ -3,38 +3,30 @@
 angular.module('liveopsConfigPanel')
   .service('userTableConfig', ['userStatuses', 'userStates', '$translate', 'Skill', 'Group', 'Session',
     function(userStatuses, userStates, $translate, Skill, Group, Session) {
+      Skill.prototype.value = function () {
+        return this.id;
+      }
+      Skill.prototype.display = function () {
+        return this.name;
+      }
+
+      Group.prototype.value = function () {
+        return this.id;
+      }
+      Group.prototype.display = function () {
+        return this.name;
+      }
+
       function getSkillOptions(){
-        var options = [];
-
-        Skill.cachedQuery({
+        return Skill.cachedQuery({
           tenantId: Session.tenant.tenantId
-        }).$promise.then(function(skills){
-          angular.forEach(skills, function(skill){
-            options.push({
-              display: skill.name,
-              value: skill.id
-            });
-          });
         });
-
-        return options;
       }
 
       function getGroupOptions(){
-        var options = [];
-
-        Group.cachedQuery({
+        return Group.cachedQuery({
           tenantId: Session.tenant.tenantId
-        }).$promise.then(function(groups){
-          angular.forEach(groups, function(group){
-            options.push({
-              display: group.name,
-              value: group.id
-            });
-          });
         });
-
-        return options;
       }
 
       return {
@@ -56,7 +48,7 @@ angular.module('liveopsConfigPanel')
           'resolve': function(user){
             return user.skills.length;
           },
-          'options': getSkillOptions(),
+          'options': getSkillOptions,
           'sortOn': 'skills.length',
           'filterOrderBy': 'display'
         }, {
@@ -65,7 +57,7 @@ angular.module('liveopsConfigPanel')
           'resolve': function(user){
             return user.groups.length;
           },
-          'options': getGroupOptions(),
+          'options': getGroupOptions,
           'sortOn': 'groups.length',
           'filterOrderBy': 'display'
         }, {

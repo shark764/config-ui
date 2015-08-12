@@ -1,26 +1,40 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .filter('selectedTableOptions', ['selectedOptionsFilter',
-    function (selectedOptionsFilter) {
+  .filter('selectedTableOptions', ['$filter', 'selectedOptionsFilter',
+    function ($filter, selectedOptionsFilter) {
       return function (items, fields) {
-        var filtered = items;
+        var filtered = [];
 
-        angular.forEach(fields, function(field){
-          angular.forEach(field.options, function(option){
+        for(var i = 0; i < items.length; i++) {
+          filtered.push(items[i]);
+        }
 
-            // not ideal; this makes assumptions about how lists are going to be
-            // used (ie. no items selected = all selected) which may not be useful
-            // @TODO: find a better way to handle this entire flow
+        for(var fieldIndex = 0; fieldIndex < fields.length; fieldIndex++) {
+          var field = fields[fieldIndex];
+          var options = $filter('invoke')(field.options);
+          if(!options) {
+            continue;
+          }
 
-            // if any options are checked, we need to do a filter;
-            // assume non-checked = all selected; therefor no filter required
-            if(option.checked){
-              filtered = selectedOptionsFilter(items, field);
-              return;
+          for(var optionIndex = 0; optionIndex < options.length; optionIndex++) {
+            var option = options[optionIndex];
+            if(!option.checked){
+              continue;
             }
-          });
-        });
+
+            var value = $filter('invoke')(option.value, option);
+
+            for(var filteredIndex = 0; filteredIndex < filtered.length; filteredIndex) {
+              var item = filtered[filteredIndex];
+              if (!$filter('matchesField')(item, field.name, value)) {
+                filtered.removeItem(item)
+              } else {
+                filteredIndex++;
+              }
+            }
+          }
+        }
 
         return filtered;
       };

@@ -36,7 +36,9 @@
       <th ng-repeat="field in config.fields" ng-if="field.checked" ng-class="{'filter-header': !!field.options}" class="sortable-header" ng-click="sortTable(field)">
         <i ng-show="orderBy == field.name || orderBy == field.sortOn" ng-class="{'fa-arrow-up' : reverseSortOrder, 'fa-arrow-down': ! reverseSortOrder}" class="sort-icon fa pull-left"></i>
         <div ng-if="!field.options">{{field.header}}</div>
-        <filter-dropdown ng-if="!!field.options" ng-click="$event.stopPropagation()" show-all="true" label="{{field.header}}" options="field.options" order-by="{{field.filterOrderBy}}"></filter-dropdown>
+        <filter-dropdown ng-if="!!field.options" ng-click="$event.stopPropagation()" show-all="true"
+          label="{{field.header}}" options="field.options | invoke" order-by="{{field.filterOrderBy}}">
+        </filter-dropdown>
       </th>
     </tr>
   </thead>

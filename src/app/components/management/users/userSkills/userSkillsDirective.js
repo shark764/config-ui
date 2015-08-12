@@ -104,18 +104,18 @@ angular.module('liveopsConfigPanel')
               Alert.error('Failed to save user skill');
             });
           };
-          
+
           $scope.fetchSkills = function() {
             return Skill.cachedQuery({
               tenantId: Session.tenant.tenantId
             });
           };
-          
-          $scope.$watch('user.id', function() {
-            if (!Session.tenant.tenantId) {
+
+          $scope.$watch('user', function(news) {
+            if (!news || !Session.tenant.tenantId) {
               return;
             }
-            
+
             $scope.reset();
             $scope.fetch();
           });

@@ -1,4 +1,4 @@
-<div class="new-user-email" ng-if="!selectedUser.id">
+<div class="new-user-email" ng-if="selectedUser.isNew()">
   <div class="divider-header first-header">
     <h4>Login Information</h4>
   </div>
@@ -16,7 +16,7 @@
   </div>
 </div>
 
-<div class="logical-group" ng-show="selectedUser.id">
+<div class="logical-group" ng-show="!selectedUser.isNew()">
   <div class="divider-header">
     <h4>{{'details.tenantStatus' | translate}}</h4>
   </div>
@@ -52,7 +52,7 @@
 </div>
 
 <div class="logical-group" disable-contents="forms.detailsForm.email.$error.duplicateUsername">
-  <div class="divider-header" ng-class="{'first-header' : selectedUser.id}">
+  <div class="divider-header" ng-class="{'first-header' : !selectedUser.isNew()}">
     <h4>{{'details' | translate}}</h4>
   </div>
 
@@ -60,7 +60,7 @@
     <label>{{'details.firstName' | translate}} *</label>
     <form-error field="forms.detailsForm.firstName" error-type-required="{{'details.firstName.error' | translate}}" error-type-api="{{'details.firstName.error' | translate}}"></form-error>
     <div>
-      <input ng-model="selectedUser.firstName" ng-required="selectedUser.id" name="firstName" type="text" ng-change="updateDisplayName(this)"></input>
+      <input ng-model="selectedUser.firstName" ng-required="!selectedUser.isNew()" name="firstName" type="text" ng-change="updateDisplayName(this)"></input>
     </div>
   </div>
 
@@ -68,7 +68,7 @@
     <label>{{'details.lastName' | translate}} *</label>
     <form-error field="forms.detailsForm.lastName" error-type-required="{{'details.lastName.error' | translate}}" error-type-api="{{'details.lastName.error' | translate}}"></form-error>
     <div>
-      <input ng-model="selectedUser.lastName" ng-required="selectedUser.id"  name="lastName" type="text" ng-change="updateDisplayName(this)"></input>
+      <input ng-model="selectedUser.lastName" ng-required="!selectedUser.isNew()"  name="lastName" type="text" ng-change="updateDisplayName(this)"></input>
     </div>
   </div>
 
@@ -89,7 +89,7 @@
     </div>
   </div>
 
-  <div class="input-group" ng-show="!selectedUser.id">
+  <div class="input-group" ng-show="selectedUser.isNew()">
     <label>{{'details.inviteNow' | translate}}</label>
     <div>
       <toggle ng-model="inviteNow" name="inviteNow" type="text"></toggle>
@@ -98,7 +98,7 @@
   </div>
 </div>
 
-<div ng-if="selectedUser.id" class="logical-group">
+<div ng-if="!selectedUser.isNew()" class="logical-group">
   <div class="divider-header">
     <h4>{{'details.login' | translate}}</h4>
   </div>
@@ -122,7 +122,7 @@
 
 <div class="clear"></div>
 
-<div ng-if="selectedUser.original.id">
+<div ng-if="!selectedUser.original.isNew()">
   <user-skills user="selectedUser"></user-skills>
   <user-groups user="selectedUser"></user-groups>
 </div>

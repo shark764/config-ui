@@ -84,7 +84,7 @@ angular.module('liveopsConfigPanel')
               //TODO: remove once groups api returns members list
               //Reset cache of users for this group
               queryCache.remove('groups/' + $scope.selectedGroup.id + '/users');
-              
+
               $timeout(function () { //Timeout prevents simultaneous $digest cycles
                 $scope.updateCollapseState(tagWrapper.height());
               }, 200);
@@ -109,7 +109,7 @@ angular.module('liveopsConfigPanel')
               $timeout(function () {
                 $scope.updateCollapseState(tagWrapper.height());
               }, 200);
-              
+
             //TODO: remove once groups api returns members list
               //Reset cache of users for this group
               queryCache.remove('groups/' + tgu.groupId + '/users');
@@ -146,8 +146,8 @@ angular.module('liveopsConfigPanel')
             });
           };
 
-          $scope.$watch('user.id', function () {
-            if (!Session.tenant.tenantId) {
+          $scope.$watch('user', function (news) {
+            if (!news || !Session.tenant.tenantId) {
               return;
             }
 

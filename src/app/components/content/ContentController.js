@@ -15,5 +15,13 @@ angular.module('liveopsConfigPanel')
           queryCache.removeAll();
         }
       });
+
+      $scope.$on('table:on:click:create', function () {
+        $scope.showBulkActions = false;
+      });
+
+      $scope.$on('table:resource:selected', function (event, selectedItem) {
+        $scope.showBulkActions = false;
+      });
     }
   ]);
