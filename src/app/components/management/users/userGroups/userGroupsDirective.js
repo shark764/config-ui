@@ -3,8 +3,8 @@
 /*jshint browser:true */
 
 angular.module('liveopsConfigPanel')
-  .directive('userGroups', ['TenantUserGroups', 'TenantGroupUsers', 'Group', 'Session', '$timeout', '$filter', 'Alert', '$q', 'queryCache',
-    function (TenantUserGroups, TenantGroupUsers, Group, Session, $timeout, $filter, Alert, $q, queryCache) {
+  .directive('userGroups', ['TenantUserGroups', 'TenantGroupUsers', 'Group', 'Session', '$timeout', '$filter', 'Alert', '$q',
+    function (TenantUserGroups, TenantGroupUsers, Group, Session, $timeout, $filter, Alert, $q) {
       return {
         restrict: 'E',
 
@@ -78,12 +78,13 @@ angular.module('liveopsConfigPanel')
               var newUserGroup = new TenantUserGroups(data);
               newUserGroup.groupName = $scope.selectedGroup.name;
 
+              $scope.user.groups.push({
+                id: newUserGroup.groupId,
+                name: newUserGroup.groupName
+              });
+
               $scope.userGroups.push(newUserGroup);
               $scope.updateFiltered();
-
-              //TODO: remove once groups api returns members list
-              //Reset cache of users for this group
-              queryCache.remove('groups/' + $scope.selectedGroup.id + '/users');
 
               $timeout(function () { //Timeout prevents simultaneous $digest cycles
                 $scope.updateCollapseState(tagWrapper.height());
@@ -103,16 +104,20 @@ angular.module('liveopsConfigPanel')
               tenantId: userGroup.tenantId
             });
 
-            tgu.$delete(function () {
+            tgu.$delete(function (tenantGroupUser) {
+              for(var groupIndex in $scope.user.groups) {
+                var group = $scope.user.groups[groupIndex];
+                if(group.id === tenantGroupUser.groupId) {
+                  $scope.user.groups.removeItem(group);
+                  break;
+                }
+              }
+
               $scope.userGroups.removeItem(userGroup);
               $scope.updateFiltered();
               $timeout(function () {
                 $scope.updateCollapseState(tagWrapper.height());
               }, 200);
-
-            //TODO: remove once groups api returns members list
-              //Reset cache of users for this group
-              queryCache.remove('groups/' + tgu.groupId + '/users');
             });
           };
 

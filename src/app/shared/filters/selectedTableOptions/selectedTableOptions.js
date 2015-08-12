@@ -25,7 +25,7 @@ angular.module('liveopsConfigPanel')
 
             var value = $filter('invoke')(option.value, option);
 
-            for(var filteredIndex = 0; filteredIndex < filtered.length; filteredIndex) {
+            for(var filteredIndex = 0; filteredIndex < filtered.length; ) {
               var item = filtered[filteredIndex];
               if (!$filter('matchesField')(item, field.name, value)) {
                 filtered.removeItem(item)
