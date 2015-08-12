@@ -8,7 +8,6 @@ describe('users controller', function () {
     Session,
     controller,
     apiHostname,
-    Invite,
     User,
     mockUsers;
 
@@ -19,14 +18,13 @@ describe('users controller', function () {
   beforeEach(module('liveopsConfigPanel.mock.content.management.skills'));
   beforeEach(module('liveopsConfigPanel.mock.content.management.groups'));
 
-  beforeEach(inject(['$compile', '$rootScope', '$httpBackend', '$controller', 'apiHostname', 'mockUsers', 'Session', 'Invite', 'User',
-    function ($compile, $rootScope, _$httpBackend, $controller, _apiHostname, _mockUsers, _Session_, _Invite_, _User_) {
+  beforeEach(inject(['$compile', '$rootScope', '$httpBackend', '$controller', 'apiHostname', 'mockUsers', 'Session', 'User',
+    function ($compile, $rootScope, _$httpBackend, $controller, _apiHostname, _mockUsers, _Session_, _User_) {
       $scope = $rootScope.$new();
       $httpBackend = _$httpBackend;
       mockUsers = _mockUsers;
       apiHostname = _apiHostname;
       Session = _Session_;
-      Invite = _Invite_;
       User = _User_;
 
       controller = $controller('UsersController', {
@@ -98,99 +96,5 @@ describe('users controller', function () {
 
         expect(Session.setToken).not.toHaveBeenCalledWith(token);
       }]));
-
-
-    it('should create an invite for the new user after creation', function () {
-      spyOn(Invite, 'save');
-
-      var user = new User({
-        email: 'joeblow@test.com'
-      });
-
-      user.postCreate();
-
-      expect(Invite.save).toHaveBeenCalledWith({
-        tenantId: 'tenant-id'
-      }, {
-        email: 'joeblow@test.com',
-        roleId: '00000000-0000-0000-0000-000000000000'
-      });
-    });
-
-    it('should create an invite for the new user after creation has failed if it was a 400 error with email exists error', function () {
-      spyOn(Invite, 'save');
-
-      var user = new User({
-        email: 'joeblow@test.com'
-      });
-
-      var response = {
-        status: 400,
-        data: {
-          error: {
-            code: 400,
-            attribute: {
-              email: 'Email address already exists in the system'
-            }
-          }
-        }
-      };
-
-      user.postCreateError(response);
-
-      expect(Invite.save).toHaveBeenCalledWith({
-        tenantId: Session.tenant.tenantId
-      }, {
-        email: user.email,
-        roleId: '00000000-0000-0000-0000-000000000000'
-      });
-    });
-
-    it('should not send an invite if the save errored and the status was not 400', function () {
-      spyOn(Invite, 'save');
-
-      $scope.user.email = 'joeblow@test.com';
-      new User().postCreateError({
-        status: 401
-      });
-
-      expect(Invite.save).not.toHaveBeenCalledWith();
-    });
-
-    it('should not send an invite if editing an existing user', inject(function () {
-      spyOn(Invite, 'save');
-      mockUsers[0].save();
-      expect(Invite.save).not.toHaveBeenCalled();
-    }));
-  });
-
-  describe('postError function', function () {
-    it('should do nothing if error code is not 400', inject(function () {
-      var error = {
-        config: {
-          method: 'POST'
-        },
-        status: '500'
-      };
-
-      spyOn(Invite, 'save');
-
-      mockUsers[0].postCreateError(error);
-      expect(Invite.save).not.toHaveBeenCalled();
-    }));
-
-    it('should do nothing if error code is not 404', inject(function () {
-      var error = {
-        config: {
-          method: 'POST'
-        },
-        status: '404'
-      };
-
-      spyOn(Invite, 'save');
-
-      mockUsers[0].postCreateError(error);
-      expect(Invite.save).not.toHaveBeenCalled();
-    }));
   });
 });

@@ -201,12 +201,6 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
         controller: 'UserProfileController',
         secure: true
       })
-      .state('content.invites', {
-        url: '/invites?id',
-        templateUrl: 'app/components/invites/invites.html',
-        controller: 'InvitesController',
-        secure: true
-      })
       .state('content.reports', {
         url: '/reports?id',
         templateUrl: 'app/components/reports/reports.html',
@@ -218,21 +212,8 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
         controller: 'InviteAcceptController',
         isPublic: true,
         resolve: {
-          userInviteResult: ['InviteAccept', '$stateParams', '$q', 'Session', function(InviteAccept, $stateParams, $q, Session) {
+          userInviteResult: ['$stateParams', 'Session', function($stateParams, Session) {
             Session.setToken($stateParams.token);
-            var result = $q.defer();
-            var resource = InviteAccept.get({
-              userId: $stateParams.userId, 
-              tenantId: $stateParams.tenantId, 
-              token: $stateParams.token
-            }).$promise.then(function(){
-              result.resolve('true');
-            }, function(errorResponse){
-              result.resolve(errorResponse.data.error);
-              //result.resolve('true');
-            });
-            
-            return result.promise;
           }]
         }
       });
