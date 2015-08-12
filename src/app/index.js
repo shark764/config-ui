@@ -213,7 +213,7 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
         isPublic: true,
         resolve: {
           invitedUser: ['$stateParams', 'Session', 'User', function($stateParams, Session, User) {
-            Session.setToken($stateParams.token);
+            //Session.setToken($stateParams.token);
             
             return User.get({
               id: $stateParams.userId

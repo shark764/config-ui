@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('UsersController', ['$scope', '$window', 'userRoles', 'User', 'Session', 'AuthService', 'userTableConfig', 'Alert', 'flowSetup', 'BulkAction', '$q', '$location', 'lodash', 'Chain', 'TenantUser', 'TenantRole',
-    function($scope, $window, userRoles, User, Session, AuthService, userTableConfig, Alert, flowSetup, BulkAction, $q, $location, _, Chain, TenantUser, TenantRole) {
+  .controller('UsersController', ['$scope', '$window', 'User', 'Session', 'AuthService', 'userTableConfig', 'Alert', 'flowSetup', 'BulkAction', 'TenantUser', 'TenantRole',
+    function ($scope, $window, User, Session, AuthService, userTableConfig, Alert, flowSetup, BulkAction, TenantUser, TenantRole) {
       var self = this;
       $scope.Session = Session;
       $scope.roles = userRoles;
@@ -11,8 +11,6 @@ angular.module('liveopsConfigPanel')
       };
 
       $window.flowSetup = flowSetup;
-
-      $scope.newPassword = null;
 
       User.prototype.preUpdate = function() {
         if (this.password) {
@@ -34,7 +32,9 @@ angular.module('liveopsConfigPanel')
       User.prototype.postCreate = function (result) {
         var tenantUser = new TenantUser({
           tenantId: Session.tenant.tenantId,
-          status: 'invited'
+          status: 'invited',
+          email: result.email,
+          roleId: $scope.shared.selectedRoleId
         });
         
         tenantUser.save();
@@ -56,6 +56,7 @@ angular.module('liveopsConfigPanel')
         $scope.selectedTenantUser = new TenantUser({
           status: 'pending'
         });
+        $scope.shared.selectedRoleId = ''
       };
       
       Chain.create('user:save', function() {

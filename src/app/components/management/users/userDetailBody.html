@@ -71,6 +71,16 @@
       <button class="btn" translate="resendInvitation"></button>
     </div>
   </div>
+  
+  <div class="input-group">
+    <label>Role *</label>
+    <form-error field="detailsForm.roleId"></form-error>
+    <div>
+      <select ng-required="true" ng-model="shared.selectedRoleId" ng-options="role.id as role.name for role in roles">
+        <option value="" disabled>Select a role...</option>
+      </select>
+    </div>
+  </div>
 </div>
 
 <div class="logical-group" disable-contents="detailsForm.email.$error.duplicateUsername">

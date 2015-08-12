@@ -1,12 +1,13 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('InviteAcceptController', ['$scope', 'User', '$state', '$stateParams', 'invitedUser',
-    function ($scope, User, $state, $stateParams, invitedUser) {
+  .controller('InviteAcceptController', ['$scope', 'User', '$state', '$stateParams', 'invitedUser', 'AuthService', 'TenantUser', 'Alert',
+    function ($scope, User, $state, $stateParams, invitedUser, AuthService, TenantUser, Alert) {
       $scope.user = invitedUser;
       
       $scope.save = function(){
         $scope.loading = true;
+        $scope.newPassword = $scope.user.password;
         
         $scope.user.save()
           .then($scope.signupSuccess, $scope.signupFailure)
@@ -16,7 +17,7 @@ angular.module('liveopsConfigPanel')
       };
       
       $scope.signupSuccess = function(){
-        AuthService.login($scope.user.email, $scope.user.password).then($scope.loginSuccess, $scope.loginFailure);
+        AuthService.login($scope.user.email, $scope.newPassword).then($scope.loginSuccess, $scope.loginFailure);
       };
       
       $scope.signupFailure = function(){
@@ -26,10 +27,12 @@ angular.module('liveopsConfigPanel')
       $scope.loginSuccess = function(){
         TenantUser.update({
           tenantId: $stateParams.tenantId,
-          userId: $stateParams.userId,
+          id: $stateParams.userId,
           status: 'accepted'
         }, function(){
           $state.transitionTo('content.management.users', {id: $stateParams.userId});
+        }, function(){
+          Alert.error('Sorry, there was an error accepting your invitation');
         });
       };
       
