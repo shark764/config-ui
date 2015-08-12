@@ -1,15 +1,15 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .filter('selectedOptions', ['$parse', function ($parse) {
+  .filter('selectedOptions', ['$filter', function ($filter) {
     return function (items, field) {
       var filtered = [];
       angular.forEach(items, function (item) {
+        var wasAdded = false;
         angular.forEach(field.options, function (option) {
-          
-          var find = $parse(field.name);
-          if (option.checked && option.value === find(item)) {
-            return filtered.push(item);
+          if (!wasAdded && option.checked && $filter('matchesField')(item, field.name, option.value)) {
+            filtered.push(item);
+            wasAdded = true;
           }
         });
       });

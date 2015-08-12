@@ -33,22 +33,22 @@ describe('setStatusBulkAction directive', function() {
 
   it('should should set user.status on bulkAction.execute', inject(['mockUsers', '$httpBackend', 'apiHostname',
     function(mockUsers, $httpBackend, apiHostname) {
-      mockUsers[1].status = false;
+      mockUsers[1].status = 'disabled';
       var returnUser = angular.copy(mockUsers[1]);
-      returnUser.status = true;
+      returnUser.status = 'enabled';
 
       $httpBackend.when('PUT', apiHostname + '/v1/users/userId2').respond(200, {
         result: returnUser
       });
 
-      isolateScope.status = true;
+      isolateScope.status = 'enabled';
       isolateScope.bulkAction.apply(mockUsers[1]);
 
-      expect(mockUsers[1].status).toEqual(false);
+      expect(mockUsers[1].status).toEqual('disabled');
 
       $httpBackend.flush();
 
-      expect(mockUsers[1].status).toEqual(true);
+      expect(mockUsers[1].status).toEqual('enabled');
     }
   ]));
   
@@ -56,10 +56,10 @@ describe('setStatusBulkAction directive', function() {
     inject(['mockUsers', '$httpBackend', 'apiHostname',
       function (mockUsers, $httpBackend, apiHostname) {
         $httpBackend.expect('PUT', apiHostname + '/v1/users/userId2', {
-          status: true
+          status: 'enabled'
         }).respond(200);
 
-        isolateScope.status = true;
+        isolateScope.status = 'enabled';
         isolateScope.bulkAction.apply(mockUsers[1]);
 
         $httpBackend.flush();
@@ -68,8 +68,8 @@ describe('setStatusBulkAction directive', function() {
   
   it('should reject the change if user attempts to disable themselves',
       inject(['mockUsers', function (mockUsers) {
-          mockUsers[0].status = true;
-          isolateScope.status = false;
+          mockUsers[0].status = 'enabled';
+          isolateScope.status = 'disabled';
           
           var result = isolateScope.bulkAction.apply(mockUsers[0]);
 
@@ -79,7 +79,7 @@ describe('setStatusBulkAction directive', function() {
             expect(reason.msg).toEqual('Cannot disable your own account');
           });
           
-          expect(mockUsers[0].status).toBeTruthy();
+          expect(mockUsers[0].status).toEqual('enabled');
         }
       ]));
 });

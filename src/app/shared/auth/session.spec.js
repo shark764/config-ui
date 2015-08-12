@@ -27,7 +27,7 @@ describe('Session', function() {
       'extension': null,
       'externalId': null,
       'updatedBy': '00000000-0000-0000-0000-000000000000',
-      'status': true,
+      'status': 'enabled',
       'id': '6d094710-0901-11e5-87f2-b1d420920055',
       'lastName': 'user'
     });

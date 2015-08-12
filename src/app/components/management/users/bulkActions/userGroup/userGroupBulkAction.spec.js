@@ -6,23 +6,23 @@ describe('userGroupBulkAction', function () {
     UserGroupBulkAction,
     userGroupBulkActionTypes,
     userGroupBulkActionType,
-    mockUsers,
+    mockTenantUsers,
     mockGroups,
     mockUserGroups;
 
   beforeEach(module('gulpAngular'));
   beforeEach(module('liveopsConfigPanel'));
-  beforeEach(module('liveopsConfigPanel.mock.content.management.users'));
+  beforeEach(module('liveopsConfigPanel.mock.content.management.tenantUsers'));
   beforeEach(module('liveopsConfigPanel.mock.content.management.groups'));
   beforeEach(module('liveopsConfigPanel.mock.content.management.users.groups'));
 
-  beforeEach(inject(['$httpBackend', 'apiHostname', 'UserGroupBulkAction', 'userGroupBulkActionTypes', 'mockUsers', 'mockGroups', 'mockUserGroups',
-    function (_$httpBackend, _apiHostname, _UserGroupBulkAction, _userGroupBulkActionTypes, _mockUsers, _mockGroups, _mockUserGroups) {
+  beforeEach(inject(['$httpBackend', 'apiHostname', 'UserGroupBulkAction', 'userGroupBulkActionTypes', 'mockTenantUsers', 'mockGroups', 'mockUserGroups',
+    function (_$httpBackend, _apiHostname, _UserGroupBulkAction, _userGroupBulkActionTypes, _mockTenantUsers, _mockGroups, _mockUserGroups) {
       $httpBackend = _$httpBackend;
       apiHostname = _apiHostname;
       UserGroupBulkAction = _UserGroupBulkAction;
       userGroupBulkActionTypes = _userGroupBulkActionTypes;
-      mockUsers = _mockUsers;
+      mockTenantUsers = _mockTenantUsers;
       mockGroups = _mockGroups;
       mockUserGroups = _mockUserGroups;
     }
@@ -43,7 +43,7 @@ describe('userGroupBulkAction', function () {
 
       $httpBackend.expectPOST(apiHostname + '/v1/tenants/tenant-id/groups/groupId2/users');
 
-      userGroupBulkAction.execute(mockUsers[0]);
+      userGroupBulkAction.execute(mockTenantUsers[0]);
 
       $httpBackend.flush();
     });
@@ -67,7 +67,7 @@ describe('userGroupBulkAction', function () {
 
         $httpBackend.expectPOST(apiHostname + '/v1/tenants/tenant-id/groups/groupId2/users');
 
-        var tenantGroupUser = userGroupBulkActionType.execute(mockUsers[0], userGroupBulkAction);
+        var tenantGroupUser = userGroupBulkActionType.execute(mockTenantUsers[0], userGroupBulkAction);
 
         $httpBackend.flush();
 
@@ -95,7 +95,7 @@ describe('userGroupBulkAction', function () {
 
         $httpBackend.expectDELETE(apiHostname + '/v1/tenants/tenant-id/groups/groupId1/users/userId1');
 
-        userGroupBulkActionType.execute(mockUsers[0], userGroupBulkAction);
+        userGroupBulkActionType.execute(mockTenantUsers[0], userGroupBulkAction);
 
         $httpBackend.flush();
       });
