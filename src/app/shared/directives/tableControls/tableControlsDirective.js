@@ -20,8 +20,10 @@ angular.module('liveopsConfigPanel')
           angular.extend($scope, $scope.extendScope);
 
           $scope.$on('resource:details:' + $scope.resourceName + ':create:success', function(event, item) {
-            $scope.items.push(item);
-            $scope.selectItem(item);
+            if (!event.defaultPrevented){ //TODO: Can remove check once usersController gets itself sorted
+              $scope.items.push(item);
+              $scope.selectItem(item);
+            }
           });
 
           $scope.onCreateClick = function() {
@@ -58,11 +60,11 @@ angular.module('liveopsConfigPanel')
           };
 
           $scope.parse = function (item, field) {
-            if (field.name) {
+            if (field.resolve) {
+              return field.resolve(item);
+            } else if (field.name) {
               var parseFunc = $parse(field.name);
               return parseFunc(item);
-            } else if (field.resolve) {
-              return field.resolve(item);
             }
           };
 
@@ -82,7 +84,7 @@ angular.module('liveopsConfigPanel')
                   id: $stateParams.id
                 }, true);
                 if (matchedItems.length > 0) {
-                  $scope.selected = matchedItems[0];
+                  $scope.selectItem(matchedItems[0]);
                   return;
                 } else {
                   $scope.selected = $scope.selectItem(null);

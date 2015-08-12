@@ -5,22 +5,22 @@ describe('setSkillsBulkAction', function() {
     apiHostname,
     UserSkillsBulkAction,
     userSkillsBulkActionTypes,
-    mockUsers,
+    mockTenantUsers,
     mockSkills,
     mockUserSkills;
 
   beforeEach(module('gulpAngular'));
   beforeEach(module('liveopsConfigPanel'));
-  beforeEach(module('liveopsConfigPanel.mock.content.management.users'));
+  beforeEach(module('liveopsConfigPanel.mock.content.management.tenantUsers'));
   beforeEach(module('liveopsConfigPanel.mock.content.management.skills'));
 
-  beforeEach(inject(['$httpBackend', 'apiHostname', 'UserSkillsBulkAction', 'userSkillsBulkActionTypes', 'mockUsers', 'mockSkills', 'mockUserSkills',
-    function(_$httpBackend, _apiHostname, _UserSkillsBulkAction, _userSkillsBulkActionTypes, _mockUsers, _mockSkills, _mockUserSkills) {
+  beforeEach(inject(['$httpBackend', 'apiHostname', 'UserSkillsBulkAction', 'userSkillsBulkActionTypes', 'mockTenantUsers', 'mockSkills', 'mockUserSkills',
+    function(_$httpBackend, _apiHostname, _UserSkillsBulkAction, _userSkillsBulkActionTypes, _mockTenantUsers, _mockSkills, _mockUserSkills) {
       $httpBackend = _$httpBackend;
       apiHostname = _apiHostname;
       UserSkillsBulkAction = _UserSkillsBulkAction;
       userSkillsBulkActionTypes = _userSkillsBulkActionTypes;
-      mockUsers = _mockUsers;
+      mockTenantUsers = _mockTenantUsers;
       mockSkills = _mockSkills;
       mockUserSkills = _mockUserSkills;
     }
@@ -41,7 +41,7 @@ describe('setSkillsBulkAction', function() {
 
       $httpBackend.expectPOST(apiHostname + '/v1/tenants/tenant-id/users/userId1/skills');
 
-      userSkillBulkAction.execute(mockUsers[0]);
+      userSkillBulkAction.execute(mockTenantUsers[0]);
 
       $httpBackend.flush();
     });
@@ -67,7 +67,7 @@ describe('setSkillsBulkAction', function() {
 
         $httpBackend.expectPOST(apiHostname + '/v1/tenants/tenant-id/users/userId1/skills');
 
-        var tenantSkillUser = userSkillBulkAction.selectedType.execute(mockUsers[0], userSkillBulkAction);
+        var tenantSkillUser = userSkillBulkAction.selectedType.execute(mockTenantUsers[0], userSkillBulkAction);
 
         $httpBackend.flush();
 
@@ -92,11 +92,11 @@ describe('setSkillsBulkAction', function() {
 
     describe('ON doesQualify', function() {
       it('should return true if user does not have the skill', function() {
-        mockSkills[2].users = [mockUsers[1]];
+        mockSkills[2].users = [mockTenantUsers[1]];
         userSkillBulkAction.selectedSkill = mockSkills[2];
         userSkillBulkAction.params.proficiency = 0;
 
-        var doesQualify = userSkillBulkAction.selectedType.doesQualify(mockUsers[0],
+        var doesQualify = userSkillBulkAction.selectedType.doesQualify(mockTenantUsers[0],
           userSkillBulkAction);
 
         expect(doesQualify).toBeTruthy();
@@ -107,7 +107,7 @@ describe('setSkillsBulkAction', function() {
         userSkillBulkAction.selectedSkill = mockSkills[0];
         userSkillBulkAction.params.proficiency = mockUserSkills[0].proficiency + 1;
 
-        var doesQualify = userSkillBulkAction.selectedType.doesQualify(mockUsers[0],
+        var doesQualify = userSkillBulkAction.selectedType.doesQualify(mockTenantUsers[0],
           userSkillBulkAction);
 
         expect(doesQualify).toBeTruthy();
@@ -118,7 +118,7 @@ describe('setSkillsBulkAction', function() {
         userSkillBulkAction.selectedSkill = mockSkills[0];
         userSkillBulkAction.params.proficiency = mockUserSkills[0].proficiency;
 
-        var doesQualify = userSkillBulkAction.selectedType.doesQualify(mockUsers[0],
+        var doesQualify = userSkillBulkAction.selectedType.doesQualify(mockTenantUsers[0],
           userSkillBulkAction);
 
         expect(doesQualify).toBeFalsy();
@@ -146,7 +146,7 @@ describe('setSkillsBulkAction', function() {
 
         $httpBackend.expectPUT(apiHostname + '/v1/tenants/tenant-id/users/userId1/skills/skillId1');
 
-        var tenantSkillUser = userSkillBulkAction.selectedType.execute(mockUsers[0], userSkillBulkAction);
+        var tenantSkillUser = userSkillBulkAction.selectedType.execute(mockTenantUsers[0], userSkillBulkAction);
 
         $httpBackend.flush();
 
@@ -179,11 +179,11 @@ describe('setSkillsBulkAction', function() {
 
     describe('ON doesQualify', function() {
       it('should return false if user does not have the skill', function() {
-        mockSkills[2].users = [mockUsers[1]];
+        mockSkills[2].users = [mockTenantUsers[1]];
         userSkillBulkAction.selectedSkill = mockSkills[2];
         userSkillBulkAction.params.proficiency = 0;
 
-        var doesQualify = userSkillBulkAction.selectedType.doesQualify(mockUsers[0],
+        var doesQualify = userSkillBulkAction.selectedType.doesQualify(mockTenantUsers[0],
           userSkillBulkAction);
 
         expect(doesQualify).toBeFalsy();
@@ -194,7 +194,7 @@ describe('setSkillsBulkAction', function() {
         userSkillBulkAction.selectedSkill = mockSkills[0];
         userSkillBulkAction.params.proficiency = mockUserSkills[0].proficiency + 1;
 
-        var doesQualify = userSkillBulkAction.selectedType.doesQualify(mockUsers[0],
+        var doesQualify = userSkillBulkAction.selectedType.doesQualify(mockTenantUsers[0],
           userSkillBulkAction);
 
         expect(doesQualify).toBeTruthy();
@@ -205,7 +205,7 @@ describe('setSkillsBulkAction', function() {
         userSkillBulkAction.selectedSkill = mockSkills[0];
         userSkillBulkAction.params.proficiency = mockUserSkills[0].proficiency;
 
-        var doesQualify = userSkillBulkAction.selectedType.doesQualify(mockUsers[0],
+        var doesQualify = userSkillBulkAction.selectedType.doesQualify(mockTenantUsers[0],
           userSkillBulkAction);
 
         expect(doesQualify).toBeFalsy();
@@ -233,7 +233,7 @@ describe('setSkillsBulkAction', function() {
 
         $httpBackend.expectDELETE(apiHostname + '/v1/tenants/tenant-id/users/userId1/skills/skillId1');
 
-        userSkillBulkAction.selectedType.execute(mockUsers[0], userSkillBulkAction);
+        userSkillBulkAction.selectedType.execute(mockTenantUsers[0], userSkillBulkAction);
 
         $httpBackend.flush();
       });
@@ -255,10 +255,10 @@ describe('setSkillsBulkAction', function() {
 
     describe('ON doesQualify', function() {
       it('should return false if user does not have the skill', function() {
-        mockSkills[2].users = [mockUsers[1]];
+        mockSkills[2].users = [mockTenantUsers[1]];
         userSkillBulkAction.selectedSkill = mockSkills[2];
 
-        var doesQualify = userSkillBulkAction.selectedType.doesQualify(mockUsers[0],
+        var doesQualify = userSkillBulkAction.selectedType.doesQualify(mockTenantUsers[0],
           userSkillBulkAction);
 
         expect(doesQualify).toBeFalsy();
@@ -268,7 +268,7 @@ describe('setSkillsBulkAction', function() {
         mockSkills[0].users = [mockUserSkills[0]];
         userSkillBulkAction.selectedSkill = mockSkills[0];
 
-        var doesQualify = userSkillBulkAction.selectedType.doesQualify(mockUsers[0],
+        var doesQualify = userSkillBulkAction.selectedType.doesQualify(mockTenantUsers[0],
           userSkillBulkAction);
 
         expect(doesQualify).toBeTruthy();
@@ -284,12 +284,12 @@ describe('setSkillsBulkAction', function() {
     }]));
 
     it('should return userSkill userId1 skillId1', function() {
-      var userSkill = hasSkill(mockUsers[0], [mockUserSkills[0], mockUserSkills[1]]);
+      var userSkill = hasSkill(mockTenantUsers[0], [mockUserSkills[0], mockUserSkills[1]]);
       expect(userSkill.id).toEqual(mockUserSkills[0].id);
     });
 
     it('should return undefined since userId3 does not have skillId1', function() {
-      var userSkills = hasSkill(mockUsers[2], [mockUserSkills[0], mockUserSkills[1]]);
+      var userSkills = hasSkill(mockTenantUsers[2], [mockUserSkills[0], mockUserSkills[1]]);
       expect(userSkills).not.toBeDefined();
     });
   });

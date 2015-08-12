@@ -106,6 +106,8 @@
   "user.table.displayName": "Display Name",
   "user.table.externalId": "ID",
   "user.table.state": "State",
+  "user.table.skills": "Skills",
+  "user.table.groups": "Groups",
   "user.table.title": "User Management",
 
   "group.details.members.none": "There are no members assigned to this group.",
