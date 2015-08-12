@@ -52,7 +52,6 @@ angular.module('liveopsConfigPanel')
           token: invite.invitationToken
         }, function () {
           Alert.success('Succesfully removed invitation');
-          $scope.fetchInvites();
         }, function () {
           Alert.error('Failed to remove invitation');
         });

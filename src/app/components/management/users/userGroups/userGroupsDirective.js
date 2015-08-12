@@ -61,7 +61,6 @@ angular.module('liveopsConfigPanel')
               owner: Session.user.id
             }).save(function (result) {
               $scope.selectedGroup = result;
-              $scope.fetchGroups().push(result);
               if (typeof onComplete !== 'undefined' && onComplete !== null) {
                 onComplete();
               }

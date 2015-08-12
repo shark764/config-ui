@@ -540,7 +540,7 @@ describe('The dispatch mappings view', function() {
     dispatchMappings.interactionFieldTableDropDown.click();
     dispatchMappings.interactionFields.get(0).click();
     dispatchMappings.interactionFields.get(1).click();
-    
+
     shared.firstTableRow.click();
 
     // Edit fields
@@ -561,7 +561,7 @@ describe('The dispatch mappings view', function() {
     dispatchMappings.interactionFieldTableDropDown.click();
     dispatchMappings.interactionFields.get(0).click();
     dispatchMappings.interactionFields.get(1).click();
-    
+
     shared.firstTableRow.click();
 
     //Edit fields

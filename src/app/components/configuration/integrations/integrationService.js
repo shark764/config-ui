@@ -3,7 +3,7 @@
 angular.module('liveopsConfigPanel')
   .factory('Integration', ['LiveopsResourceFactory', function (LiveopsResourceFactory) {
 
-    var Integration = LiveopsResourceFactory.create('/v1/tenants/:tenantId/integrations/:id', [
+    var Integration = LiveopsResourceFactory.create('/v1/tenants/:tenantId/integrations/:id', 'Integration', [
       {name: 'properties'},
       // {name: 'type'},
       {name: 'active'}
@@ -13,7 +13,6 @@ angular.module('liveopsConfigPanel')
       return this.type;
     };
     
-    Integration.resourceName = 'Integration';
     return Integration;
   }]);
 
