@@ -9,26 +9,8 @@ angular.module('liveopsConfigPanel')
         });
       };
 
-      $scope.saveDraft = function () {
-        $scope.draft.save(function(draft) {
-          $scope.drafts.push(draft);
-          $scope.createDraft();
-          $scope.createDraftForm.$setPristine();
-          $scope.createDraftForm.$setUntouched();
-          $scope.createNewDraft = false;
-        });
-      };
-
-      $scope.createDraft = function () {
-        $scope.draft = new FlowDraft({
-          flowId: $scope.flow.id,
-          tenantId: Session.tenant.tenantId
-        });
-      };
-
       $scope.$watch('flow', function () {
         $scope.fetch();
-        $scope.createDraft();
       });
       
       $scope.deleteDraft = function(draft){
