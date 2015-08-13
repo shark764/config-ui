@@ -7,6 +7,8 @@ angular.module('liveopsConfigPanel')
       
       $scope.save = function(){
         $scope.loading = true;
+        
+        //Since password isn't returned from the API and would be clobbered after saving, need to store it explicitly
         $scope.newPassword = $scope.user.password;
         
         $scope.user.save()
@@ -36,11 +38,8 @@ angular.module('liveopsConfigPanel')
         });
       };
       
-      $scope.loginFailure = function(response){
-        if(response.status === 401) {
-          $scope.error = 'Invalid username and password';
-          return;
-        }
+      $scope.loginFailure = function(){
+        Alert.error('Sorry, there was an error signing you in.');
       };
     }
   ]);
