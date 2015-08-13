@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('userTableConfig', ['userStatuses', 'userStates', '$translate', 'Skill', 'Group', 'Session',
-    function(userStatuses, userStates, $translate, Skill, Group, Session) {
+  .service('userTableConfig', ['userStatuses', 'userStates', '$translate', 'Skill', 'Group', 'TenantRole', 'Session',
+    function (userStatuses, userStates, $translate, Skill, Group, TenantRole, Session) {
       Skill.prototype.value = function () {
         return this.id;
       };
@@ -19,61 +19,88 @@ angular.module('liveopsConfigPanel')
         return this.name;
       };
 
-      function getSkillOptions(){
+      function getSkillOptions() {
         return Skill.cachedQuery({
           tenantId: Session.tenant.tenantId
         });
-      }
+      };
 
-      function getGroupOptions(){
+      function getGroupOptions() {
         return Group.cachedQuery({
+          tenantId: Session.tenant.tenantId
+        });
+      };
+
+      function getRoleOptions() {
+        return TenantRole.cachedQuery({
           tenantId: Session.tenant.tenantId
         });
       }
 
       return {
         'fields': [{
-          'header': $translate.instant('value.name'),
-          'resolve': function(user) {
+          'header': {
+            'display': $translate.instant('value.name')
+          },
+          'resolve': function (user) {
             return user.$original.getDisplay();
           },
           'sortOn': '$original.lastName'
         }, {
-          'header': $translate.instant('value.email'),
+          'header': {
+            'display': $translate.instant('value.email')
+          },
           'name': '$original.email'
         }, {
-          'header': $translate.instant('user.table.externalId'),
+          'header': {
+            'display': $translate.instant('details.externalId')
+          },
           'name': '$original.externalId'
         }, {
-          'header': $translate.instant('user.table.skills'),
-          'name': 'skills:id',
-          'resolve': function(user){
+          'header': {
+            'display': $translate.instant('user.table.skills'),
+            'valuePath': 'id',
+            'displayPath': 'name',
+            'options': getSkillOptions,
+          },
+          'lookup': 'skills:id',
+          'resolve': function (user) {
             return user.skills.length;
           },
-          'options': getSkillOptions,
           'sortOn': 'skills.length',
-          'filterOrderBy': 'display'
+          'filterOrderBy': 'name'
         }, {
-          'header': $translate.instant('user.table.groups'),
-          'name': 'groups:id',
-          'resolve': function(user){
+          'header': {
+            'display': $translate.instant('user.table.groups'),
+            'valuePath': 'id',
+            'displayPath': 'name',
+            'options': getGroupOptions,
+          },
+          'lookup': 'groups:id',
+          'resolve': function (user) {
             return user.groups.length;
           },
-          'options': getGroupOptions,
           'sortOn': 'groups.length',
-          'filterOrderBy': 'display'
+          'filterOrderBy': 'name'
         }, {
-          'header': $translate.instant('user.table.state'),
-          'name': '$original.state',
-          'transclude': true,
-          'checked': false,
-          'options': userStates
+          'header': {
+            'display': $translate.instant('user.table.roles'),
+            'valuePath': 'id',
+            'displayPath': 'name',
+            'options': getRoleOptions,
+          },
+          'name': '$original.roleName',
+          'lookup': '$original:roleId',
+          'sortOn': '$original.roleName',
+          'filterOrderBy': 'name'
         }, {
-          'header': $translate.instant('value.status'),
+          'header': {
+            'display': $translate.instant('value.status'),
+            'options': userStatuses
+          },
           'name': '$original.status',
           'transclude': true,
-          'checked': false,
-          'options': userStatuses()
+          'checked': false
         }],
         'searchOn': ['firstName', 'lastName', {
           path: '$original.skills',

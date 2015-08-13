@@ -122,6 +122,7 @@
   "user.table.skills": "Skills",
   "user.table.groups": "Groups",
   "user.table.title": "User Management",
+  "user.table.roles": "Roles",
 
   "group.details.members.none": "There are no members assigned to this group.",
   "group.details.creating": "Creating Group",

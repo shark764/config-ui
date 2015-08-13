@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .filter('selectedTableOptions', ['$filter',
-    function ($filter) {
+  .filter('selectedTableOptions', ['$parse', '$filter',
+    function ($parse, $filter) {
       return function (items, fields) {
         var filtered = [];
         
@@ -16,7 +16,7 @@ angular.module('liveopsConfigPanel')
 
         for(var fieldIndex = 0; fieldIndex < fields.length; fieldIndex++) {
           var field = fields[fieldIndex];
-          var options = $filter('invoke')(field.options);
+          var options = $filter('invoke')(field.header.options);
           if(!options) {
             continue;
           }
@@ -26,13 +26,15 @@ angular.module('liveopsConfigPanel')
             if(!option.checked){
               continue;
             }
-
-            var value = $filter('invoke')(option.value, option);
+            
+            var parseValue = $parse(field.header.valuePath);
+            var value = $filter('invoke')(parseValue(option), option);
 
             for(var filteredIndex = 0; filteredIndex < filtered.length; ) {
               var item = filtered[filteredIndex];
-              if (!$filter('matchesField')(item, field.name, value)) {
-                filtered.removeItem(item);
+              var lookup = field.lookup ? field.lookup : field.nam;
+              if (!$filter('matchesField')(item, lookup, value)) {
+                filtered.removeItem(item)
               } else {
                 filteredIndex++;
               }
