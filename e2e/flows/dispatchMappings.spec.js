@@ -574,4 +574,23 @@ describe('The dispatch mappings view', function() {
     // Phone input is reformatted
     expect(dispatchMappings.phoneFormField.getAttribute('value')).toBe('+1 506-234-5678');
   });
+
+  it('should accept Euro phone number input in Phone field when editing a Dispatch Mapping', function() {
+    // Filter table results so only dispatch Mappings with a phone number are visible
+    dispatchMappings.interactionFieldTableDropDown.click();
+    dispatchMappings.interactionFields.get(0).click();
+    dispatchMappings.interactionFields.get(1).click();
+
+    shared.firstTableRow.click();
+
+    //Edit fields
+    dispatchMappings.phoneFormField.clear();
+    dispatchMappings.phoneFormField.sendKeys('442071838750\t');
+
+    // Error messages are not displayed
+    expect(dispatchMappings.requiredErrors.count()).toEqual(0);
+
+    // Phone input is reformatted
+    expect(dispatchMappings.phoneFormField.getAttribute('value')).toBe('+44 20 7182 8750');
+  });
 });
