@@ -1,19 +1,21 @@
 <loading ng-if="! resource"></loading>
 <i id="close-details-button" class="fa fa-remove remove" ng-click="closeDetails()"></i>
 
-<ng-form unsaved-changes-warning ng-show="resource" class="details-form" name="detailsForm">
-
-  <div ng-show="headerTemplateUrl" class="detail-header-pane" ng-include src="headerTemplateUrl">
-  </div>
-
-  <div ng-show="bodyTemplateUrl" class="detail-body-pane" ng-include src="bodyTemplateUrl">
-  </div>
-
-  <div class="detail-controls-pane" ng-show="footerTemplateUrl" ng-include src="footerTemplateUrl">
-
-  </div>
-  <div class="detail-controls-pane" ng-show="!!footerTemplateUrl" ng-hide="footerTemplateUrl">
-    <input id="cancel-details-btn" ng-disabled="loading" type="button" class="btn" ng-click="cancel()" value="{{'value.cancel' | translate}}"></input>
-    <input id="submit-details-btn" lo-submit-spinner lo-submit-spinner-status="loading" ng-click="save()" ng-disabled="detailsForm.$invalid || ! detailsForm.$dirty" class="btn btn-primary" type="submit" value="{{'value.submit' | translate}}" />
-  </div>
-</ng-form>
+<div class="details-content">
+  <ng-form unsaved-changes-warning ng-show="resource" class="details-form" name="detailsForm">
+  
+    <div ng-show="headerTemplateUrl" class="detail-header-pane" ng-include src="headerTemplateUrl">
+    </div>
+  
+    <div ng-show="bodyTemplateUrl" class="detail-body-pane" ng-include src="bodyTemplateUrl">
+    </div>
+  
+    <div class="detail-controls-pane" ng-show="footerTemplateUrl" ng-include src="footerTemplateUrl">
+  
+    </div>
+    <div class="detail-controls-pane" ng-show="!!footerTemplateUrl" ng-hide="footerTemplateUrl">
+      <input id="cancel-details-btn" ng-disabled="loading" type="button" class="btn" ng-click="cancel()" value="{{'value.cancel' | translate}}"></input>
+      <input id="submit-details-btn" lo-submit-spinner lo-submit-spinner-status="loading" ng-click="save()" ng-disabled="detailsForm.$invalid || ! detailsForm.$dirty" class="btn btn-primary" type="submit" value="{{'value.submit' | translate}}" />
+    </div>
+  </ng-form>
+</div>
