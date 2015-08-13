@@ -85,10 +85,6 @@ angular.module('liveopsConfigPanel')
         $scope.create();
       });
 
-      // $scope.$on('table:on:click:actions', function () {
-      //   $scope.showBulkActions = true;
-      // });
-
       $scope.tableConfig = userTableConfig;
 
       $scope.bulkActions = {
@@ -97,7 +93,5 @@ angular.module('liveopsConfigPanel')
         userSkills: new BulkAction(),
         userGroups: new BulkAction()
       };
-
-      $scope.$watch('Session.tenant.tenantId', $scope.fetchUsers);
     }
   ]);

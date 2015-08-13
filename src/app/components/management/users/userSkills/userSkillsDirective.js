@@ -124,8 +124,8 @@ angular.module('liveopsConfigPanel')
             });
           };
 
-          $scope.$watch('user', function(news) {
-            if (!news || !Session.tenant.tenantId) {
+          $scope.$watch('user', function(newSelection) {
+            if (!newSelection || !Session.tenant.tenantId) {
               return;
             }
 
