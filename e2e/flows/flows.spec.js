@@ -158,7 +158,7 @@ describe('The flows view', function() {
       };
     });
   });
-  
+
   it('should display the version number for each flow version, in reverse order', function() {
     shared.firstTableRow.click();
     flows.versionsTableElements.then(function(versions) {
@@ -168,7 +168,7 @@ describe('The flows view', function() {
       };
     });
   });
-  
+
   it('should display button to new flow version and correct fields', function() {
     shared.firstTableRow.click();
 
@@ -197,12 +197,13 @@ describe('The flows view', function() {
     expect(flows.createVersionFormBtn.isDisplayed()).toBeTruthy();
 
     // Create Flow version details no longer displayed after selecting Cancel
-    flows.cancelVersionFormBtn.click();
-    expect(flows.showCreateNewVersionBtn.isDisplayed()).toBeTruthy();
-    expect(flows.versionNameFormField.isDisplayed()).toBeFalsy();
-    expect(flows.versionDescriptionFormField.isDisplayed()).toBeFalsy();
-    expect(flows.cancelVersionFormBtn.isDisplayed()).toBeFalsy();
-    expect(flows.createVersionFormBtn.isDisplayed()).toBeFalsy();
+    flows.cancelVersionFormBtn.click().then(function() {
+      expect(flows.showCreateNewVersionBtn.isDisplayed()).toBeTruthy();
+      expect(flows.versionNameFormField.isDisplayed()).toBeFalsy();
+      expect(flows.versionDescriptionFormField.isDisplayed()).toBeFalsy();
+      expect(flows.cancelVersionFormBtn.isDisplayed()).toBeFalsy();
+      expect(flows.createVersionFormBtn.isDisplayed()).toBeFalsy();
+    });
   });
 
   it('should add new flow version', function() {

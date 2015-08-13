@@ -33,10 +33,10 @@ describe('The users view', function() {
 
     expect(shared.tableColumnsDropDown.getText()).toBe('Columns');
     expect(shared.table.isDisplayed()).toBeTruthy();
-    
+
     expect(users.tableDropDowns.get(0).isPresent()).toBeTruthy();
     expect(users.tableDropDowns.get(1).isPresent()).toBeTruthy();
-    
+
     // Status and State field not displayed by default
 
     //Hide the right panel by default
@@ -436,6 +436,21 @@ describe('The users view', function() {
 
     //limits the user to digits only, limits the user to 15 characters, should prepend a +
     expect(users.personalTelephoneFormField.getAttribute('value')).toBe('+1 506-470-4361');
+  });
+
+  it('should allow Euro numbers to be accepted', function() {
+    shared.firstTableRow.click();
+    expect(users.personalTelephoneFormField.isDisplayed()).toBeTruthy();
+
+    //ensure the field is empty
+    users.personalTelephoneFormField.clear();
+
+    users.personalTelephoneFormField.sendKeys('442071838750');
+
+    users.firstNameFormField.click();
+
+    //limits the user to digits only, limits the user to 15 characters, should prepend a +
+    expect(users.personalTelephoneFormField.getAttribute('value')).toBe('+44 20 7183 8750');
   });
 
   describe('bulk actions', function(){
