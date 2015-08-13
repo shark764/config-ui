@@ -1,11 +1,15 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .filter('selectedTableOptions', ['$filter', 'selectedOptionsFilter',
-    function ($filter, selectedOptionsFilter) {
+  .filter('selectedTableOptions', ['$filter',
+    function ($filter) {
       return function (items, fields) {
         var filtered = [];
-
+        
+        if (angular.isUndefined(items)){
+          return;
+        }
+        
         for(var i = 0; i < items.length; i++) {
           filtered.push(items[i]);
         }
@@ -28,7 +32,7 @@ angular.module('liveopsConfigPanel')
             for(var filteredIndex = 0; filteredIndex < filtered.length; ) {
               var item = filtered[filteredIndex];
               if (!$filter('matchesField')(item, field.name, value)) {
-                filtered.removeItem(item)
+                filtered.removeItem(item);
               } else {
                 filteredIndex++;
               }

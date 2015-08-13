@@ -86,6 +86,10 @@ a:hover {
   }
 }
 
+label[disabled], label.disabled {
+  color: $grey;
+}
+
 .btn:focus {
   outline: none;
 }

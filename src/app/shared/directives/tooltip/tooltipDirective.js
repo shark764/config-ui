@@ -6,7 +6,8 @@ angular.module('liveopsConfigPanel')
       templateUrl: 'app/shared/directives/tooltip/tooltip.html',
       scope: {
         text: '@',
-        target: '='
+        target: '=',
+        translateValue: '@'
       },
       link: function ($scope, element) {
         $scope.targetPosition = $scope.target.offset();

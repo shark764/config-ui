@@ -1,11 +1,11 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('UsersController', ['$scope', '$window', '$q', 'userRoles', 'User', 'Session', 'AuthService', 'userTableConfig', 'Invite', 'Alert', 'flowSetup', 'BulkAction', '$location', 'lodash', 'Chain', 'TenantUser', 'TenantRole', 'tenantUserConverter',
-    function ($scope, $window, $q, userRoles, User, Session, AuthService, userTableConfig, Invite, Alert, flowSetup, BulkAction, $location, _, Chain, TenantUser, TenantRole, tenantUserConverter) {
+  .controller('UsersController', ['$scope', '$window', 'User', 'Session', 'AuthService', 'userTableConfig', 'Alert', 'flowSetup', 'BulkAction', '$q', '$location', 'lodash', 'Chain', 'TenantUser', 'TenantRole', 'tenantUserConverter',
+    function ($scope, $window, User, Session, AuthService, userTableConfig, Alert, flowSetup, BulkAction, $q, $location, _, Chain, TenantUser, TenantRole, tenantUserConverter) {
       var self = this;
+    
       $scope.Session = Session;
-      $scope.roles = userRoles;
       $scope.forms = {};
       $scope.newPassword = null;
       $window.flowSetup = flowSetup;
@@ -51,7 +51,7 @@ angular.module('liveopsConfigPanel')
         return TenantRole.cachedQuery({
           tenantId: Session.tenant.tenantId
         });
-      }
+      };
 
       $scope.create = function () {
         $scope.selectedTenantUser = new TenantUser({
@@ -125,7 +125,5 @@ angular.module('liveopsConfigPanel')
         userSkills: new BulkAction(),
         userGroups: new BulkAction()
       };
-
-      $scope.$watch('Session.tenant.tenantId', $scope.fetchUsers);
     }
   ]);

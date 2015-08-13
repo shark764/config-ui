@@ -2,11 +2,11 @@
 
 angular.module('liveopsConfigPanel')
   .directive('loFormSubmit', ['$parse', 'Chain',
-    function($parse, Chain) {
+    function($parse) {
       return {
         restrict: 'A',
         require: ['form', 'loFormCancel'],
-        controller: function($scope) {
+        controller: function() {
           var self = this;
           this.resetForm = function() {
             return this.formCancelController.resetForm(this.formController);

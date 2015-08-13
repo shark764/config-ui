@@ -4,7 +4,7 @@
   config="tableConfig"
   items="fetchTenantUsers()"
   selected="selectedTenantUser"
-  resource-name="tenantUserser">
+  resource-name="tenantUser">
 
   <user-status name="$original.status" ng-model="item.$original.status"></user-status>
 
@@ -33,7 +33,7 @@
       ng-resource="selectedTenantUser"
       lo-form-submit lo-form-cancel lo-form-alert>
 
-      <div class="detail-header-pane" ng-show="!selectedTenantUser.isNew()" ng-include="'app/components/management/users/userDetailHeader.html'">
+      <div class="detail-header-pane" ng-include="'app/components/management/users/userDetailHeader.html'">
       </div>
 
       <div class="detail-body-pane" ng-include="'app/components/management/users/userDetailBody.html'">
@@ -54,7 +54,7 @@
           lo-submit="submit()"
           lo-submit-spinner
           lo-submit-spinner-status="selectedTenantUser.$busy"
-          ng-disabled="forms.detailsForm.$pending || (forms.detailsForm.$invalid && !forms.detailsForm.email.$error.duplicateUsername) || ! forms.detailsForm.$dirty"
+          ng-disabled="forms.detailsForm.$pending || (forms.detailsForm.$invalid && (forms.detailsForm.$error.length > 1 || ! forms.detailsForm.$error.duplicateUsername)) || ! formsdetailsForm.$dirty"
           class="btn btn-primary"
           type="submit"
           value="{{'value.submit' | translate}}" />

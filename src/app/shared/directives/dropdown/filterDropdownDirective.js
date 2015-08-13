@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('filterDropdown', ['$parse', function ($parse) {
+  .directive('filterDropdown', [function () {
     return {
       scope: {
         id: '@',
@@ -24,22 +24,6 @@ angular.module('liveopsConfigPanel')
           option.checked = !option.checked;
           $scope.$emit('dropdown:item:checked', option);
         };
-
-        // $scope.parseDisplay = function (option) {
-        //   if (angular.isFunction(option[$scope.displayPath])) {
-        //     return option[$scope.displayPath]();
-        //   } else {
-        //     return $parse($scope.displayPath)(option);
-        //   }
-        // };
-        //
-        // $scope.parseValue = function (option) {
-        //   if (angular.isFunction(option[$scope.valuePath])) {
-        //     return option[$scope.valuePath]();
-        //   } else {
-        //     return $parse(option[$scope.valuePath])(option);
-        //   }
-        // };
 
         // not ideal; we are adding a property to an object that will be used
         // in multiple places; however I cannot find a better way to do this.

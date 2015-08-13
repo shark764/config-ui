@@ -15,12 +15,12 @@ angular.module('liveopsConfigPanel')
           $scope.remove = function (tsu) {
             tsu.$delete({
               skillId: tsu.skillId
-            }, function (tenantSkillUser) {
+            }, function () {
               $scope.userSkills.removeItem(tsu);
 
               for(var skillIndex in $scope.user.skills) {
                 var skill = $scope.user.skills[skillIndex];
-                if(skill.id === tenantSkillUser.skillId) {
+                if(skill.id === tsu.skillId) {
                   $scope.user.skills.removeItem(skill);
                   break;
                 }
@@ -107,7 +107,7 @@ angular.module('liveopsConfigPanel')
             $scope.newUserSkill.save(function (tenantUserSkill) {
               $scope.user.skills.push({
                 id: tenantUserSkill.skillId,
-                name: $scope.selectedSkill.name
+                name: usc.name
               });
 
               $scope.reset();
@@ -124,8 +124,8 @@ angular.module('liveopsConfigPanel')
             });
           };
 
-          $scope.$watch('user', function(news) {
-            if (!news || !Session.tenant.tenantId) {
+          $scope.$watch('user', function(newSelection) {
+            if (!newSelection || !Session.tenant.tenantId) {
               return;
             }
 

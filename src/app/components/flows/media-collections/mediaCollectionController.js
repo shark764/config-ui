@@ -5,7 +5,6 @@ angular.module('liveopsConfigPanel')
     function ($q, $scope, MediaCollection, Media, Session, mediaCollectionTableConfig, mediaTypes, Alert, Chain) {
       $scope.forms = {};
       $scope.Session = Session;
-      $scope.redirectToInvites();
 
       MediaCollection.prototype.preSave = function () {
         if (angular.isDefined(this.mediaMap)) {

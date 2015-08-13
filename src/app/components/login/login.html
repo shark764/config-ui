@@ -4,19 +4,23 @@
       <loading></loading>
     </div>
 
-    <form id="login-form" name="login-form" ng-submit="login()" ng-show="loginStatus.$$state.status == 1 && !loggingIn">
+    <form id="login-form" name="loginForm" ng-submit="login()" ng-show="loginStatus.$$state.status == 1 && !loggingIn">
       <img ng-src="assets/images/liveops-logo.png" height="23" >
       <div id="glass-wrapper">
         <div class="blur-bg"></div>
         <div class="blur-over">
-          <div class="error" ng-if="error">
+          <div class="lo-alert error" ng-if="error">
             {{error}}
           </div>
           <div class='input-group'>
-            <input type="text" placeholder="{{'value.email' | translate}}" ng-model="username" ng-required="true" />
+            <form-error field="loginForm.email"
+            error-type-required="{{'details.email.error' | translate}}"></form-error>
+            <input type="text" placeholder="{{'value.email' | translate}}" ng-model="username" ng-required="true" name="email" />
           </div>
           <div class='input-group'>
-            <input type="password" placeholder="{{'value.password' | translate}}" ng-model="password" ng-required="true" />
+            <form-error field="loginForm.password"
+            error-type-required="{{'details.password.error' | translate}}"></form-error>
+            <input type="password" placeholder="{{'value.password' | translate}}" ng-model="password" ng-required="true" name="password"/>
           </div>
         </div>
       </div>

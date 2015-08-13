@@ -201,16 +201,25 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
         controller: 'UserProfileController',
         secure: true
       })
-      .state('content.invites', {
-        url: '/invites?id',
-        templateUrl: 'app/components/invites/invites.html',
-        controller: 'InvitesController',
-        secure: true
-      })
       .state('content.reports', {
         url: '/reports?id',
         templateUrl: 'app/components/reports/reports.html',
         controller: 'ReportsController'
+      })
+      .state('invite-accept', {
+        url: '/invite-accept?userId&tenantId&token',
+        templateUrl: 'app/components/inviteAccept/inviteAccept.html',
+        controller: 'InviteAcceptController',
+        isPublic: true,
+        resolve: {
+          invitedUser: ['$stateParams', 'Session', 'User', function($stateParams, Session, User) {
+            //Session.setToken($stateParams.token);
+            
+            return User.get({
+              id: $stateParams.userId
+            });
+          }]
+        }
       });
 
     angular.extend(toastrConfig, {

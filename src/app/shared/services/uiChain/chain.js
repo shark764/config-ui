@@ -12,7 +12,7 @@ angular.module('liveopsConfigPanel')
       var chain = Chain.get(name);
       chain.hook('init', callback, 0);
       return chain;
-    }
+    };
     
     Chain.get = function(name) {
       var chains = $cacheFactory.get('chains');
