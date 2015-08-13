@@ -68,7 +68,7 @@ header {
     display: table-cell;
     width: $right-pane-default-width;
     min-width: $right-pane-min-width;
-
+    
     .details-pane {
       display: block;
       height: 100%;
@@ -96,6 +96,13 @@ header {
     .details-content {
       display: block;
       height: 100%;
+      
+      > * {
+        height: 100%;
+        -ms-box-orient: vertical;
+        @include display-flex();
+        @include flex-box-direct(column);
+      }
     }
   }
 

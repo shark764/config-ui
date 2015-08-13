@@ -28,7 +28,8 @@
     <ng-form
       unsaved-changes-warning
       class="details-form"
-      name="detailsForm"
+      name="forms.detailsForm"
+      ng-show="!showBulkActions"
       ng-resource="selectedTenantUser"
       lo-form-submit lo-form-cancel lo-form-alert>
 
@@ -50,10 +51,10 @@
 
         <input
           id="submit-details-btn"
-          lo-submit-chain-executor="{{selectedTenantUser.isNew() ? 'user:save' : 'user:update'}}"
+          lo-submit="submit()"
           lo-submit-spinner
           lo-submit-spinner-status="selectedTenantUser.$busy"
-          ng-disabled="detailsForm.$pending || (detailsForm.$invalid && (detailsForm.$error.length > 1 || ! detailsForm.$error.duplicateUsername)) || ! detailsForm.$dirty"
+          ng-disabled="forms.detailsForm.$pending || (forms.detailsForm.$invalid && (forms.detailsForm.$error.length > 1 || ! forms.detailsForm.$error.duplicateUsername)) || ! formsdetailsForm.$dirty"
           class="btn btn-primary"
           type="submit"
           value="{{'value.submit' | translate}}" />

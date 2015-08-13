@@ -1,24 +1,39 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('UsersController', ['$scope', '$window', 'User', 'Session', 'AuthService', 'userTableConfig', 'Alert', 'flowSetup', 'BulkAction', 'TenantUser', 'TenantRole', 'Chain',
-    function ($scope, $window, User, Session, AuthService, userTableConfig, Alert, flowSetup, BulkAction, TenantUser, TenantRole, Chain) {
+  .controller('UsersController', ['$scope', '$window', 'User', 'Session', 'AuthService', 'userTableConfig', 'Alert', 'flowSetup', 'BulkAction', '$q', '$location', 'lodash', 'Chain', 'TenantUser', 'TenantRole',
+    function ($scope, $window, User, Session, AuthService, userTableConfig, Alert, flowSetup, BulkAction, $q, $location, _, Chain, TenantUser, TenantRole) {
       var self = this;
       $scope.Session = Session;
+      $scope.forms = {};
+      $scope.newPassword = null;
+      $window.flowSetup = flowSetup;
+
+      $scope.tableConfig = userTableConfig;
 
       $scope.tenantUserParams = {
         status: 'pending'
       };
 
-      $window.flowSetup = flowSetup;
+      $scope.scenario = function () {
+        if ($scope.selectedTenantUser.isNew()) {
+          if ($scope.forms.detailsForm.email.$error.duplicateUsername) {
+            return 'create:existing:user';
+          } else {
+            return 'create:new:user';
+          }
+        } else {
+          return 'update';
+        }
+      };
 
-      User.prototype.preUpdate = function() {
+      User.prototype.preUpdate = function () {
         if (this.password) {
           $scope.newPassword = this.password;
         }
       };
 
-      User.prototype.postUpdate = function(result) {
+      User.prototype.postUpdate = function (result) {
         if (this.id === Session.user.id && $scope.newPassword) {
           var token = AuthService.generateToken(this.email, $scope.newPassword);
           Session.setUser(this);
@@ -34,58 +49,67 @@ angular.module('liveopsConfigPanel')
           tenantId: Session.tenant.tenantId
         });
       };
-      
-      $scope.fetchTenantRoles = function() {
+
+      $scope.fetchTenantRoles = function () {
         return TenantRole.cachedQuery({
           tenantId: Session.tenant.tenantId
         });
       }
 
-      $scope.create = function() {
+      $scope.create = function () {
         $scope.selectedTenantUser = new TenantUser({
           status: 'pending'
         });
       };
-      
-      Chain.create('user:save', function() {
+
+      $scope.submit = function () {
         var user = new User($scope.selectedTenantUser);
-        
-        return user.save().then(function(user) {
-          angular.extend($scope.selectedTenantUser, user);
-          
-          var tenantUser = new TenantUser({
-            email: user.email,
-            status: $scope.tenantUserParams.status,
-            roleId: $scope.tenantUserParams.roleId,
-            skills: [],
-            groups: []
-          });
-          
-          return tenantUser.save({
-            tenantId: Session.tenant.tenantId,
-          });
+        var scenario = $scope.scenario();
+
+        if (scenario === 'create:existing:user') {
+          return $scope.saveTenantUser(user);
+        } else if (scenario === 'create:new:user') {
+          return $scope.saveNewUserTenantUser(user);
+        } else if (scenario === 'update') {
+          return $scope.updateUser(user);
+        }
+      };
+
+      $scope.saveTenantUser = function (user) {
+        var tenantUser = new TenantUser({
+          email: user.email,
+          status: $scope.tenantUserParams.status,
+          roleId: $scope.tenantUserParams.roleId
         });
-      });
-      
-      Chain.create('user:update', function() {
-        var user = new User($scope.selectedTenantUser);
-        
-        return user.save().then(function(user) {
+
+        return tenantUser.save({
+          tenantId: Session.tenant.tenantId,
+        }).then(function (tenantUser) {
+          angular.extend(tenantUser, user);
+          tenantUser.skills = [];
+          tenantUser.groups = [{}];
+          return tenantUser;
+        });
+      };
+
+      $scope.saveNewUserTenantUser = function (user) {
+        return user.save().then(function (user) {
+          angular.extend($scope.selectedTenantUser, user);
+          return $scope.saveTenantUser(user);
+        });
+      };
+
+      $scope.updateUser = function (user) {
+        return user.save().then(function (user) {
           angular.extend($scope.selectedTenantUser, user);
           return user;
         });
-      });
-      
-      Chain.create('tenant:user:save', function() {
-        return $scope.selectedTenantUser.save();
-      });
+      };
 
       //Various navigation rules
-      $scope.$on('table:on:click:create', function() {
+      $scope.$on('table:on:click:create', function () {
         $scope.create();
       });
-
-      $scope.tableConfig = userTableConfig;
 
       $scope.bulkActions = {
         setStatus: new BulkAction(),

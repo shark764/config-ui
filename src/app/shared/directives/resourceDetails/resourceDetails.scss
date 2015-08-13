@@ -1,10 +1,4 @@
 .details-form {
-
-   height: 100%;
-   -ms-box-orient: vertical;
-   @include display-flex();
-   @include flex-box-direct(column);
-
   .detail-header-pane {
     background-color: #fff;
     border-bottom: 1px solid #dadada;
