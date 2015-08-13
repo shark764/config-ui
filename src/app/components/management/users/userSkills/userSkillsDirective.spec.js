@@ -10,17 +10,17 @@ describe('userSkills directive', function(){
     isolateScope,
     mockSkills,
     mockUserSkills,
-    mockUsers,
+    mockTenantUsers,
     TenantUserSkills;
 
   beforeEach(module('gulpAngular'));
   beforeEach(module('liveopsConfigPanel'));
   beforeEach(module('liveopsConfigPanel.mock.content'));
-  beforeEach(module('liveopsConfigPanel.mock.content.management.users'));
+  beforeEach(module('liveopsConfigPanel.mock.content.management.tenantUsers'));
   beforeEach(module('liveopsConfigPanel.mock.content.management.skills'));
 
-  beforeEach(inject(['$compile', '$rootScope', '$httpBackend', 'Session', 'apiHostname', 'mockSkills', 'mockUserSkills', 'mockUsers', 'TenantUserSkills',
-    function($compile, $rootScope, _$httpBackend, _Session, _apiHostname, _mockSkills, _mockUserSkills, _mockUsers, _TenantUserSkills) {
+  beforeEach(inject(['$compile', '$rootScope', '$httpBackend', 'Session', 'apiHostname', 'mockSkills', 'mockUserSkills', 'mockTenantUsers', 'TenantUserSkills',
+    function($compile, $rootScope, _$httpBackend, _Session, _apiHostname, _mockSkills, _mockUserSkills, _mockTenantUsers, _TenantUserSkills) {
       $scope = $rootScope.$new();
 
       $httpBackend = _$httpBackend;
@@ -28,10 +28,10 @@ describe('userSkills directive', function(){
       apiHostname = _apiHostname;
       mockSkills = _mockSkills;
       mockUserSkills = _mockUserSkills;
-      mockUsers = _mockUsers;
+      mockTenantUsers = _mockTenantUsers;
       TenantUserSkills = _TenantUserSkills;
       
-      $scope.user = mockUsers[0];
+      $scope.user = mockTenantUsers[0];
 
       element = $compile('<user-skills user="user"></user-skills>')($scope);
       $scope.$digest();
@@ -179,10 +179,11 @@ describe('userSkills directive', function(){
     });
 
     it('should create a new skill if the user entered a new one', function() {
+      spyOn(isolateScope, 'saveUserSkill'); //Stub this out for this test
+      
       isolateScope.selectedSkill = {
         name: 'totally new skill'
       };
-      // $httpBackend.expectPOST(apiHostname + '/v1/tenants/tenant-id/skills');
       isolateScope.save();
       $httpBackend.flush();
     });
@@ -244,13 +245,6 @@ describe('userSkills directive', function(){
     });
 
     it('should not send proficiency if the selected skill doesn\'t have proficiency', function() {
-      isolateScope.saveUserSkill();
-      $httpBackend.expectPOST(apiHostname + '/v1/tenants/tenant-id/users/userId1/skills', function(requestBody) {
-        var data = JSON.parse(requestBody);
-        return data.proficiency === undefined;
-      });
-      $httpBackend.flush();
-
       isolateScope.selectedSkill = {
         id: 'skillthree',
         name: 'Three'
@@ -317,9 +311,12 @@ describe('userSkills directive', function(){
 
     it('should fetch on error', function() {
       spyOn(isolateScope, 'fetch');
-      $httpBackend.expectPOST(apiHostname + '/v1/tenants/tenant-id/users/userId1/skills').respond(500);
+      isolateScope.newUserSkill.userId='someuser';
+      
+      $httpBackend.expectPOST(apiHostname + '/v1/tenants/tenant-id/users/someuser/skills').respond(500);
       isolateScope.saveUserSkill();
       $httpBackend.flush();
+      
       expect(isolateScope.fetch).toHaveBeenCalled();
     });
   });

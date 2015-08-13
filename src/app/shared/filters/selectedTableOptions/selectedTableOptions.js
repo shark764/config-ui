@@ -5,7 +5,11 @@ angular.module('liveopsConfigPanel')
     function ($filter, selectedOptionsFilter) {
       return function (items, fields) {
         var filtered = [];
-
+        
+        if (angular.isUndefined(items)){
+          return;
+        }
+        
         for(var i = 0; i < items.length; i++) {
           filtered.push(items[i]);
         }

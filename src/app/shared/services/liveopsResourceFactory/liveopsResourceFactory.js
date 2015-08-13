@@ -156,8 +156,8 @@ angular.module('liveopsConfigPanel')
             
             
             if(angular.isFunction(params)) {
-              success = params;
               failure = success;
+              success = params;
             }
             
             //TODO find out why preEvent didn't work in the chain
