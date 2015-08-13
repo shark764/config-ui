@@ -4,11 +4,9 @@
 
 describe('LiveopsResourceFactory', function () {
   describe('queryCache function', function () {
-    var LiveopsResourceFactory,
-      apiHostname,
+    var apiHostname,
       Resource,
-      $httpBackend,
-      apiHostname;
+      $httpBackend;
 
     beforeEach(module('gulpAngular'));
     beforeEach(module('liveopsConfigPanel'));

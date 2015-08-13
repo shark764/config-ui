@@ -3,7 +3,6 @@
 angular.module('liveopsConfigPanel')
   .controller('UsersController', ['$scope', '$window', 'User', 'Session', 'AuthService', 'userTableConfig', 'Alert', 'flowSetup', 'BulkAction', '$q', '$location', 'lodash', 'Chain', 'TenantUser', 'TenantRole',
     function ($scope, $window, User, Session, AuthService, userTableConfig, Alert, flowSetup, BulkAction, $q, $location, _, Chain, TenantUser, TenantRole) {
-      var self = this;
       $scope.Session = Session;
       $scope.forms = {};
       $scope.newPassword = null;
@@ -54,7 +53,7 @@ angular.module('liveopsConfigPanel')
         return TenantRole.cachedQuery({
           tenantId: Session.tenant.tenantId
         });
-      }
+      };
 
       $scope.create = function () {
         $scope.selectedTenantUser = new TenantUser({

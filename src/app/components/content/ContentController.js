@@ -26,7 +26,7 @@ angular.module('liveopsConfigPanel')
         $scope.showBulkActions = true;
       });
 
-      $scope.$on('table:resource:selected', function (event, selectedItem) {
+      $scope.$on('table:resource:selected', function () {
         $scope.showBulkActions = false;
       });
     }

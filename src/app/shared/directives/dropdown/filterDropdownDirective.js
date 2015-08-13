@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('filterDropdown', ['$parse', function ($parse) {
+  .directive('filterDropdown', [function () {
     return {
       scope: {
         id: '@',

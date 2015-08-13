@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('loSubmit', ['$q', '$parse', 'Chain', function ($q, $parse, Chain) {
+  .directive('loSubmit', ['$q', function ($q) {
     return {
       restrict: 'A',
       require: ['^loFormSubmit'],

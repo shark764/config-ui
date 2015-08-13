@@ -15,7 +15,7 @@ angular.module('liveopsConfigPanel')
             el = angular.element(el);
             var prevVal = el.attr('ng-disabled');
             prevVal = prevVal ? prevVal +  ' || ': '';
-            prevVal += tAttrs['disableContents'];
+            prevVal += tAttrs.disableContents;
             el.attr('ng-disabled', prevVal);
         });
       }

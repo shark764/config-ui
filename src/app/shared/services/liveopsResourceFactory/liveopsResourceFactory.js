@@ -20,8 +20,11 @@ angular.module('liveopsConfigPanel')
       }
 
       function createJsonReplacer(key, value) { 
-        if(_.startsWith(key, '$')) return undefined
-        else return value;
+        if(_.startsWith(key, '$')) {
+          return undefined;
+        } else {
+          return value;
+        }
       }
 
       return {
@@ -50,7 +53,7 @@ angular.module('liveopsConfigPanel')
             return undefined;
           };
 
-          var requestUrlFields = typeof requestUrlFields !== 'undefined' ? requestUrlFields : {
+          requestUrlFields = typeof requestUrlFields !== 'undefined' ? requestUrlFields : {
             id: '@id',
             tenantId: '@tenantId',
             groupId: '@groupId',

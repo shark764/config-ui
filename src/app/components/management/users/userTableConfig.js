@@ -5,17 +5,19 @@ angular.module('liveopsConfigPanel')
     function(userStatuses, userStates, $translate, Skill, Group, Session) {
       Skill.prototype.value = function () {
         return this.id;
-      }
+      };
+      
       Skill.prototype.display = function () {
         return this.name;
-      }
+      };
 
       Group.prototype.value = function () {
         return this.id;
-      }
+      };
+      
       Group.prototype.display = function () {
         return this.name;
-      }
+      };
 
       function getSkillOptions(){
         return Skill.cachedQuery({

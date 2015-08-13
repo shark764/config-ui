@@ -6,7 +6,7 @@ angular.module('liveopsConfigPanel')
     return {
       require: 'ngModel',
       link: function ($scope, elem, attrs, ctrl) {
-        ctrl.$asyncValidators.duplicateUsername = function (modelValue, viewValue) {
+        ctrl.$asyncValidators.duplicateUsername = function (modelValue) {
 
           if (ctrl.$isEmpty(modelValue)) {
             // consider empty model valid
