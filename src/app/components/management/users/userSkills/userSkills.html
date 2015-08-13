@@ -13,12 +13,12 @@
     placeholder="{{'skill.details.proficiency' | translate}}" value="newUserSkill.proficiency"
     min-value="0" max-value="100" ></number-slider>
   <div>
-    <a ng-show="!saving" ng-disabled="!selectedSkill" ng-click="save()" class="btn"><i class="fa fa-plus"></i></a>
+    <a ng-show="!saving" id="add-skill-btn" ng-disabled="!selectedSkill" ng-click="save()" class="btn"><i class="fa fa-plus"></i></a>
     <a ng-show="saving" ng-disabled="true" class="btn btn-primary"><i class="fa fa-refresh fa-spin"></i></a>
   </div>
 </ng-form>
 
-  <p class="null" ng-if="userSkills.length == 0">{{'details.skills.none' | translate}}</p>
+  <p id="no-user-skills" class="null" ng-if="userSkills.length == 0">{{'details.skills.none' | translate}}</p>
   <table scroll-table max-height="300" class="table" ng-show="userSkills.length > 0">
     <thead>
       <tr>

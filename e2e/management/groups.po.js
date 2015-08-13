@@ -17,7 +17,7 @@ var GroupsPage = function() {
   this.descriptionColumn = 'td:nth-child(3)';
   this.membersColumn = 'td:nth-child(4)';
   this.statusColumn = 'td:nth-child(5)';
-  
+
   this.nameRequiredError = element.all(by.css('.error'));
 
   this.groupMembersLoading = element(by.css('#right-panel loading'));
