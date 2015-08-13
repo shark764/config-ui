@@ -82,7 +82,7 @@ describe('users controller', function () {
     it('should return different users on fetch if session.tenant.tenantId is changed', inject(function () {
       var tempUsers = [{
         'id': 'userId20',
-        'status': true,
+        'status': 'enabled',
         'externalId': 80232,
         'state': 'NOT_READY',
         'lastName': 'Oliver',

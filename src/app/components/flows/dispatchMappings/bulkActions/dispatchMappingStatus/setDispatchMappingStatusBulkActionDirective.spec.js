@@ -31,7 +31,7 @@ describe('setDispatchMappingStatusBulkAction directive', function() {
     expect(isolateScope.bulkAction.apply).toBeDefined();
   });
 
-  it('should should set dispatchMapping.status on bulkAction.execute', inject(['mockDispatchMappings', '$httpBackend', 'apiHostname',
+  it('should should set dispatchMapping.active on bulkAction.execute', inject(['mockDispatchMappings', '$httpBackend', 'apiHostname',
     function(mockDispatchMappings, $httpBackend, apiHostname) {
       var returnMapping = angular.copy(mockDispatchMappings[0]);
       returnMapping.active = true;

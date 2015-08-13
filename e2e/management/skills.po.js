@@ -4,6 +4,7 @@ var SkillsPage = function() {
   this.skillElements = element.all(by.repeater('item in (filtered = (items | selectedTableOptions:config.fields | search:config.searchOn:searchQuery | orderBy:config.orderBy))'));
 
   this.creatingSkillHeader = element(by.id('skill-details-create-header'));
+  this.activeFormToggle = element(by.model('resource.active'));
   this.nameFormField = element(by.model('resource.name'));
   this.descriptionFormField = element(by.model('resource.description'));
   this.proficiencyFormCheckbox = element(by.model('resource.hasProficiency'));

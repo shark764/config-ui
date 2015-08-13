@@ -14,7 +14,7 @@ angular.module('liveopsConfigPanel')
             var skillCopy = new Skill();
             skillCopy.id = skill.id;
             skillCopy.tenantId = Session.tenant.tenantId;
-            skillCopy.status = $scope.status;
+            skillCopy.active = $scope.active;
             return skillCopy.save().then(function(skillCopy) {
               angular.copy(skillCopy, skill);
               skill.checked = true;
@@ -24,7 +24,7 @@ angular.module('liveopsConfigPanel')
           
           $scope.bulkAction.reset = function() {
             $scope.bulkAction.checked = false;
-            $scope.status = false;
+            $scope.active = false;
           };
         }
       };

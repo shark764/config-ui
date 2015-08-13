@@ -7,7 +7,7 @@ angular.module('liveopsConfigPanel')
       {name: 'name'},
       {name: 'description', optional: true},
       {name: 'owner'},
-      {name: 'status', optional: true}
+      {name: 'active', optional: true}
     ]);
     
     Group.prototype.getDisplay = function () {

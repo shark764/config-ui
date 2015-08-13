@@ -14,7 +14,7 @@ angular.module('liveopsConfigPanel')
             var integrationCopy = new Integration();
             integrationCopy.id = integration.id;
             integrationCopy.tenantId = Session.tenant.tenantId;
-            integrationCopy.status = $scope.status;
+            integrationCopy.active = $scope.active;
             integrationCopy.properties = integration.properties;
             return integrationCopy.save().then(function(integrationCopy) {
               angular.copy(integrationCopy, integration);
@@ -25,7 +25,7 @@ angular.module('liveopsConfigPanel')
           
           $scope.bulkAction.reset = function() {
             $scope.bulkAction.checked = false;
-            $scope.status = false;
+            $scope.active = false;
           };
         }
       };

@@ -14,15 +14,15 @@ var MediaCollectionsPage = function() {
   this.noMediaMappingsMessage = this.mediaMappingsTable.element(by.css('.null'));
   this.mediaMappings = element.all(by.repeater('mapping in collection.mediaMap'));
   this.mediaIdentifiers = element.all(by.model('mapping.lookup'));
-  this.mediaDropdownBoxes = element.all(by.css('.modify-media-box'));
-  this.mediaDropdowns = element.all(by.model('mapping.name'));
+  this.mediaDropdownBoxes = element.all(by.css('lo-multibox'));
+  this.mediaDropdowns = element.all(by.model('model[displayField]'));
   this.mediaDropdownSearchFields = element.all(by.model('currentText'));
   this.mediaElementsSelector = 'item in filtered = (items | filter:filterCriteria | orderBy:nameField)';
   this.removeMedia = element.all(by.id('remove-media-mapping-button'));
 
   this.requiredError = this.mediaCollectionsForm.all(by.css('.error'));
 
-  this.openCreateMediaButton = element.all(by.css('.new-media-btn'));
+  this.openCreateMediaButton = element.all(by.id('show-create-new-item-btn'));
   this.createMediaForm = element(by.id('media-pane'));
   this.mediaNameField = this.createMediaForm.element(by.model('resource.name'));
   this.mediaTypeDropdown = this.createMediaForm.element(by.model('resource.type'));

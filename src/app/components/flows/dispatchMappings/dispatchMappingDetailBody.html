@@ -51,14 +51,14 @@
   <label>{{'details.phoneNumber' | translate}} *</label>
     <form-error field="detailsForm.value"
       error-type-required="{{'dispatchMappings.details.phone.error' | translate}}"
-      error-type-phone="{{'details.phoneNumber.error' | translate}}">
+      error-type-phone-number="{{'details.phoneNumber.error' | translate}}">
     </form-error>
   <div>
     <input id="phone-form-field" ng-required="true" name="value" type="tel" ng-model="resource.value" api-error>
   </div>
 </div>
 
-<div class="input-group" ng-if="resource.interactionField === 'integration'">
+<div class="input-group" ng-if="resource.interactionField === 'source'">
   <label>{{'integration.details' | translate}} *</label>
   <form-error field="detailsForm.value"></form-error>
   <div>

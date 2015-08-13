@@ -1,17 +1,19 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('GroupsController', ['$scope', 'Session', 'Group', 'User', 'groupTableConfig', 'TenantGroupUsers', 'DirtyForms', 'BulkAction',
-    function ($scope, Session, Group, User, groupTableConfig, TenantGroupUsers, DirtyForms, BulkAction) {
+  .controller('GroupsController', ['$scope', 'Session', 'Group', 'User', 'groupTableConfig', 'TenantGroupUsers', 'DirtyForms', 'BulkAction', '$state',
+    function ($scope, Session, Group, User, groupTableConfig, TenantGroupUsers, DirtyForms, BulkAction, $state) {
       $scope.Session = Session;
       $scope.tableConfig = groupTableConfig;
 
       //This is really awful and hopefully the API will update to accommodate this.
       Group.prototype.fetchGroupUsers = function() {
-        return TenantGroupUsers.cachedQuery({
+        this.members = TenantGroupUsers.cachedQuery({
           tenantId: Session.tenant.tenantId,
           groupId: this.id
         }, 'groups/' + this.id + '/users');
+        
+        return this.members;
       };
 
       $scope.fetchGroups = function () {
@@ -20,12 +22,20 @@ angular.module('liveopsConfigPanel')
         });
       };
 
+      Group.prototype.preCreate = function() {
+        delete this.members;
+      };
+      
+      Group.prototype.postCreate = function() {
+        this.fetchGroupUsers();
+      };
+      
       $scope.$on('table:on:click:create', function () {
         $scope.showBulkActions = false;
 
         $scope.selectedGroup = new Group({
           tenantId: Session.tenant.tenantId,
-          status: true,
+          active: true,
           owner: Session.user.id
         });
       });
@@ -41,5 +51,13 @@ angular.module('liveopsConfigPanel')
       $scope.bulkActions = {
         setGroupStatus: new BulkAction()
       };
+      
+      $scope.additional = {
+          gotoUserPage: function(userId){
+            $state.transitionTo('content.management.users', {
+              id: userId
+            });
+          }
+      }
     }
   ]);

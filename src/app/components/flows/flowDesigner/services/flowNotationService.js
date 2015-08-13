@@ -261,16 +261,24 @@
         var activity = _.find(self.activities, {name: model.name});
         var params = {};
 
-        params = _.reduce(model.params, function(memo, param, key) {
-          var paramDef = activity.params[key];
-          if (param.source === 'expression') {
-            if (paramDef.type === 'boolean') {
-              memo[paramDef.key] = (param.value === 'true');
-            } else {
-              memo[paramDef.key] = param.value;
+        params = _.reduce(activity.params, function(memo, param, key) {
+          
+          if(_.has(model.params, key)){
+
+            var _param = model.params[key];
+
+            if (param.source === 'expression') {
+              if (param.type === 'boolean') {
+                memo[param.key] = (_param.value === 'true');
+              } else {
+                memo[param.key] = _param.value;
+              }
+            } else if (param.source === 'entity') {
+              memo[param.key] = _param.id;
             }
-          } else if (param.source === 'system') {
-            memo[paramDef.key] = param.id;
+          }
+          else if(_.has(param, 'default')){
+            memo[param.key] = param.default;
           }
 
           return memo;

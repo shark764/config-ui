@@ -14,7 +14,7 @@ angular.module('liveopsConfigPanel')
             var queueCopy = new Queue();
             queueCopy.id = queue.id;
             queueCopy.tenantId = Session.tenant.tenantId;
-            queueCopy.status = $scope.status;
+            queueCopy.active = $scope.active;
             return queueCopy.save().then(function(queueCopy) {
               angular.copy(queueCopy, queue);
               queue.checked = true;
@@ -24,7 +24,7 @@ angular.module('liveopsConfigPanel')
           
           $scope.bulkAction.reset = function() {
             $scope.bulkAction.checked = false;
-            $scope.status = false;
+            $scope.active = false;
           };
         }
       };

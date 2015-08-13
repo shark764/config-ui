@@ -8,7 +8,8 @@ angular.module('liveopsConfigPanel')
           'header': $translate.instant('value.name'),
           'resolve': function(user) {
             return user.getDisplay();
-          }
+          },
+          'sortOn': 'lastName'
         }, {
           'header': $translate.instant('value.email'),
           'name': 'email'
@@ -34,7 +35,7 @@ angular.module('liveopsConfigPanel')
             path: 'name'
           }
         }],
-        'orderBy': ['lastName'],
+        'orderBy': 'lastName',
         'title': $translate.instant('user.table.title')
       };
     }

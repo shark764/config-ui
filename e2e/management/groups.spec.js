@@ -4,6 +4,7 @@ describe('The groups view', function() {
   var loginPage = require('../login/login.po.js'),
     shared = require('../shared.po.js'),
     groups = require('./groups.po.js'),
+    users = require('./users.po.js'),
     params = browser.params,
     groupCount,
     randomGroup;
@@ -259,6 +260,42 @@ describe('The groups view', function() {
     groups.descriptionFormField.clear();
     shared.submitFormBtn.click().then(function () {
       expect(shared.successMessage.isPresent()).toBeTruthy();
+    });
+  });
+  
+  it('should not allow updates to Everyone group', function() {
+    shared.searchField.sendKeys('everyone');
+    shared.tableElements.then(function(groups) {
+      if (groups.length > 0){
+        shared.firstTableRow.click();
+        expect(groups.activeFormToggle.getAttribute('disabled')).toBeTruthy();
+        expect(groups.descriptionFormField.getAttribute('disabled')).toBeTruthy();
+        expect(groups.nameFormField.getAttribute('disabled')).toBeTruthy();
+      }
+    });
+  });
+  
+  it('should link to the user details view in the members list', function() {
+    var groupWithMembersRow;
+    
+    // Order by group member count, descending
+    groups.headerRow.element(by.css('th:nth-child(4)')).click();
+    groups.headerRow.element(by.css('th:nth-child(4)')).click();
+    
+    shared.firstTableRow.element(by.css(groups.membersColumn)).getText().then(function(value) {
+      if (parseInt(value) > 0) {
+        shared.firstTableRow.click();
+        
+        //Save the member's name
+        var memberName = groups.groupMembersRows.get(0).getText();
+        
+        //Follow the link
+        groups.groupMembersRows.get(0).element(by.css('a')).click().then(function(){
+          expect(browser.getCurrentUrl()).toContain(shared.usersPageUrl);
+          expect(shared.detailsForm.isDisplayed()).toBeTruthy();
+          expect(users.userNameDetailsHeader.getText()).toContain(memberName);
+        });
+      }
     });
   });
 });
