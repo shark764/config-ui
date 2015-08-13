@@ -675,7 +675,7 @@ describe('The media collections view', function() {
       }
     });
   });
-  
+
   it('should immediately focus the multibox search box when adding a media to a new mapping', function() {
     shared.createBtn.click();
 
@@ -691,19 +691,20 @@ describe('The media collections view', function() {
     mediaCollections.mediaMappings.count().then(function(mediaCount) {
       if (mediaCount > 2) {
         mediaCollections.removeMedia.get(0).click();
-        mediaCollections.defaultIdDropdown.all(by.css('option')).get(2).click();
+        mediaCollections.defaultIdDropdown.all(by.css('option')).get(1).click();
 
         expect(mediaCollections.mediaMappings.count()).toBeLessThan(mediaCount);
 
-        mediaCollections.submitFormBtn.click();
-        expect(shared.successMessage.isDisplayed()).toBeTruthy();
+        mediaCollections.submitFormBtn.click().then(function() {
+          expect(shared.successMessage.isDisplayed()).toBeTruthy();
 
-        // Changes persist
-        browser.refresh();
-        shared.firstTableRow.click();
+          // Changes persist
+          browser.refresh();
+          shared.firstTableRow.click();
 
-        expect(mediaCollections.defaultIdDropdown.isDisplayed()).toBeTruthy();
-        expect(mediaCollections.mediaMappings.count()).toBeLessThan(mediaCount);
+          expect(mediaCollections.defaultIdDropdown.isDisplayed()).toBeTruthy();
+          expect(mediaCollections.mediaMappings.count()).toBeLessThan(mediaCount);
+        });
       }
     });
   });
@@ -1143,7 +1144,7 @@ describe('The media collections view', function() {
       expect(mediaCollections.mediaSourceField.getAttribute('value')).toBe('Close Source');
     });
 
-    it('should leave new Media pane open on Media Collections create', function() {
+    xit('should leave new Media pane open on Media Collections create', function() {
       shared.createBtn.click();
       mediaCollections.openCreateNewMedia();
 
@@ -1161,7 +1162,7 @@ describe('The media collections view', function() {
       });
     });
 
-    it('should leave new Media fields and pane open on Media Collections create', function() {
+    xit('should leave new Media fields and pane open on Media Collections create', function() {
       shared.createBtn.click();
       mediaCollections.openCreateNewMedia();
 

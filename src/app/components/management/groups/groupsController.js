@@ -20,6 +20,14 @@ angular.module('liveopsConfigPanel')
         });
       };
 
+      Group.prototype.preCreate = function() {
+        delete this.members;
+      };
+      
+      Group.prototype.postCreate = function() {
+        this.fetchGroupUsers();
+      };
+      
       $scope.$on('table:on:click:create', function () {
         $scope.showBulkActions = false;
 

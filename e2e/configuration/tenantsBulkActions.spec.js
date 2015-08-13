@@ -45,6 +45,7 @@ describe('The tenants view bulk actions', function() {
 
     expect(bulkActions.confirmModal.isDisplayed()).toBeTruthy();
     bulkActions.confirmOK.click().then(function() {
+      shared.waitForSuccess();
       expect(shared.successMessage.isDisplayed()).toBeTruthy();
 
       // Form reset
@@ -81,6 +82,7 @@ describe('The tenants view bulk actions', function() {
 
     expect(bulkActions.confirmModal.isDisplayed()).toBeTruthy();
     bulkActions.confirmOK.click().then(function() {
+      shared.waitForSuccess();
       expect(shared.successMessage.isDisplayed()).toBeTruthy();
 
       // Form reset
@@ -141,6 +143,7 @@ describe('The tenants view bulk actions', function() {
 
       expect(bulkActions.confirmModal.isDisplayed()).toBeTruthy();
       bulkActions.confirmOK.click().then(function() {
+        shared.waitForSuccess();
         expect(shared.successMessage.isDisplayed()).toBeTruthy();
 
         // Form reset

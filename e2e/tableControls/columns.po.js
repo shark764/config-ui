@@ -7,7 +7,7 @@ var Columns = function() {
 
   this.users = ['Name', 'Email', 'ID', 'Skills', 'Groups', 'State', 'Status'];
   this.groups = ['Name', 'Description', 'Members', 'Status'];
-  this.skills = ['Name', 'Description', 'Members', 'Proficiency', 'Status'];
+  this.skills = ['Name', 'Description', 'Proficiency', 'Status'];
   this.tenants = ['Name', 'Description', 'Status'];
   this.integrations = ['Type', 'Account', 'Status', 'WebRTC'];
   this.dispatchMappings = ['Name', 'Description', 'Value', 'Interaction Field', 'Channel Type', 'Status'];
