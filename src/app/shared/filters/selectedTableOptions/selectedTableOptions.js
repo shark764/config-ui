@@ -13,26 +13,27 @@ angular.module('liveopsConfigPanel')
         for(var i = 0; i < items.length; i++) {
           filtered.push(items[i]);
         }
-
+        
         for(var fieldIndex = 0; fieldIndex < fields.length; fieldIndex++) {
           var field = fields[fieldIndex];
-          var options = $filter('invoke')(field.header.options);
-          if(!options) {
+          if(!$parse('header.options')(field)) {
             continue;
           }
-
+          
+          var options = $filter('invoke')(field.header.options);
+          
           for(var optionIndex = 0; optionIndex < options.length; optionIndex++) {
             var option = options[optionIndex];
             if(!option.checked){
               continue;
             }
             
-            var parseValue = $parse(field.header.valuePath);
+            var parseValue = $parse(field.header.valuePath ? field.header.valuePath : 'value');
             var value = $filter('invoke')(parseValue(option), option);
-
+            
             for(var filteredIndex = 0; filteredIndex < filtered.length; ) {
               var item = filtered[filteredIndex];
-              var lookup = field.lookup ? field.lookup : field.nam;
+              var lookup = field.lookup ? field.lookup : field.name;
               if (!$filter('matchesField')(item, lookup, value)) {
                 filtered.removeItem(item)
               } else {
