@@ -283,6 +283,8 @@ describe('The skills view', function() {
 
       // Changes persist
       browser.refresh();
+      shared.searchField.sendKeys(newSkillName);
+      shared.firstTableRow.click();
       expect(skills.proficiencySwitch.isSelected()).toBeTruthy();
     });
   });
