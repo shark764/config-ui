@@ -6,7 +6,7 @@
   selected="selectedTenantUser"
   resource-name="tenantUserser">
 
-  <user-status name="status" ng-model="item.status"></user-status>
+  <user-status name="$original.status" ng-model="item.$original.status"></user-status>
 
   <center name="state">
     <user-state state="{{item.state}}"></user-state>

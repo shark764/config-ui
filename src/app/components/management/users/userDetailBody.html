@@ -27,7 +27,7 @@
   
   <div class="input-group" ng-if="selectedTenantUser.isNew()">
     <label>{{'details.role' | translate}} *</label>
-    <select ng-model="tenantUserParams.roleId" name="roleId" required
+    <select ng-model="selectedTenantUser.roleId" name="roleId" required
       ng-options="role.id as role.name for role in fetchTenantRoles()">
       <option value="" ng-disabled="true">
         {{'users.details.role.select' | translate}}
@@ -44,7 +44,9 @@
   <div class="input-group">
     <label>{{'details.inviteStatus' | translate}}</label>
     <div>
-      <div class="tenant-status">test{{selectedTenantUser.tenantStatus}}</div>
+      <div class="tenant-status">
+        {{selectedTenantUser.status}}
+      </div>
       <help-icon translate-value="details.tenantStatus.help"></help-icon>
     </div>
   </div>
@@ -54,16 +56,6 @@
       <div class="message-block">{{'details.tenantStatus.notInvited' | translate}}</div>
     </div>
   </div> -->
-
-  <div class="input-group">
-    <label>{{'details.inviteNow' | translate}}</label>
-    <div>
-      <toggle ng-model="tenantUserParams.status"
-        true-value="invited"
-        false-value="pending">
-      </toggle>
-    </div>
-  </div>
 
   <div class="input-group">
     <label></label>
@@ -86,7 +78,10 @@
       error-type-api="{{'details.firstName.error' | translate}}">
     </form-error>
     <div>
-      <input ng-model="selectedTenantUser.firstName" ng-required="!selectedTenantUser.isNew()" name="firstName" type="text" ng-change="updateDisplayName(this)"></input>
+      <input name="firstName" type="text"
+        ng-model="selectedTenantUser.firstName"
+        ng-required="!selectedTenantUser.isNew()"
+        ng-change="updateDisplayName(this)"></input>
     </div>
   </div>
 
@@ -131,7 +126,7 @@
   <div class="input-group" ng-show="selectedTenantUser.isNew()">
     <label>{{'details.inviteNow' | translate}}</label>
     <div>
-      <toggle ng-model="tenantUserParams.status"
+      <toggle ng-model="selectedTenantUser.status"
         true-value="invited"
         false-value="pending">
       </toggle>

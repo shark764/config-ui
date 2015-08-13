@@ -16,8 +16,10 @@ angular.module('liveopsConfigPanel')
             return resource;
           },
           function(error) {
+            var def = $q.defer();
             $ctrl[0].populateApiErrors(error);
-            return error;
+            def.reject(error);
+            return def.promise;
           });
           
           promise = promise.then(function(resource) {
