@@ -21,18 +21,17 @@
     </div>
   </div>
   
-  <div class="input-group" ng-show="forms.detailsForm.email.$error.duplicateUsername">
-    <div class="message-block">{{'details.email.alreadyExists' | translate}}</div>
-  </div>
-  
   <div class="input-group" ng-if="selectedTenantUser.isNew()">
     <label>{{'details.role' | translate}} *</label>
-    <select ng-model="selectedTenantUser.roleId" name="roleId" required
-      ng-options="role.id as role.name for role in fetchTenantRoles()">
-      <option value="" ng-disabled="true">
-        {{'users.details.role.select' | translate}}
-      </option>
-    </select>
+    <form-error field="forms.detailsForm.roleId" error-type-required="{{'details.role.error' | translate}}"></form-error>
+    <div>
+      <select ng-model="selectedTenantUser.roleId" name="roleId" required
+        ng-options="role.id as role.name for role in fetchTenantRoles()">
+        <option value="" ng-disabled="true">
+          {{'users.details.role.select' | translate}}
+        </option>
+      </select>
+    </div>
   </div>
 
   <div class="input-group" ng-show="selectedTenantUser.isNew()">
@@ -40,13 +39,14 @@
     <div>
       <toggle ng-model="tenantUserParams.status"
         true-value="invited"
-        false-value="pending">
+        false-value="pending"
+        ng-init="tenantUserParams.status = 'invited'">
       </toggle>
       <help-icon translate-value="details.inviteNow.help"></help-icon>
     </div>
   </div>
   
-  <div ng-if="selectedTenantUser.isNew()" class="input-group" ng-show="detailsForm.email.$error.duplicateUsername">
+  <div class="input-group" ng-show="forms.detailsForm.email.$error.duplicateUsername">
     <div class="lo-alert">{{'details.email.alreadyExists' | translate}}</div>
   </div>
 </div>
@@ -67,12 +67,12 @@
   <div ng-if="selectedTenantUser.status == 'pending' || selectedTenantUser.status == 'expired'" class="input-group">
     <label></label>
     <div>
-      <button class="btn" translate="resendInvitation"></button>
+      <button class="btn">{{'user.details.invitation.resend' | translate}}</button>
     </div>
   </div>
 </div>
 
-<div class="logical-group" disable-contents="selectedTenantUser.status == 'pending' || forms.detailsForm.email.$error.duplicateUsername">
+<div class="logical-group" disable-contents="forms.detailsForm.email.$invalid">
   <div class="divider-header">
     <h4>{{'details' | translate}}</h4>
   </div>
