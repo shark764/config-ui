@@ -27,14 +27,14 @@
   
   <div class="input-group" ng-if="selectedTenantUser.isNew()">
     <label>{{'details.role' | translate}} *</label>
-    <select ng-model="tenantUserParams.roleId" name="roleId" required
+    <select ng-model="selectedTenantUser.roleId" name="roleId" required
       ng-options="role.id as role.name for role in fetchTenantRoles()">
       <option value="" ng-disabled="true">
         {{'users.details.role.select' | translate}}
       </option>
     </select>
   </div>
-  
+
   <div class="input-group" ng-show="selectedTenantUser.isNew()">
     <label>{{'details.inviteNow' | translate}}</label>
     <div>
@@ -84,7 +84,10 @@
       error-type-api="{{'details.firstName.error' | translate}}">
     </form-error>
     <div>
-      <input ng-model="selectedTenantUser.firstName" ng-required="!selectedTenantUser.isNew()" name="firstName" type="text"></input>
+
+      <input name="firstName" type="text"
+        ng-model="selectedTenantUser.firstName" 
+        ng-required="!selectedTenantUser.isNew()"></input>
     </div>
   </div>
 

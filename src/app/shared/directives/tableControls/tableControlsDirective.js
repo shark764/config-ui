@@ -21,10 +21,8 @@ angular.module('liveopsConfigPanel')
           angular.extend($scope, $scope.extendScope);
 
           $scope.$on('resource:details:' + $scope.resourceName + ':create:success', function(event, item) {
-            if (!event.defaultPrevented){ //TODO: Can remove check once usersController gets itself sorted
               $scope.items.push(item);
               $scope.selectItem(item);
-            }
           });
 
           $scope.onCreateClick = function() {

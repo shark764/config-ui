@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('UsersController', ['$scope', '$window', 'User', 'Session', 'AuthService', 'userTableConfig', 'Alert', 'flowSetup', 'BulkAction', '$q', '$location', 'lodash', 'Chain', 'TenantUser', 'TenantRole',
-    function ($scope, $window, User, Session, AuthService, userTableConfig, Alert, flowSetup, BulkAction, $q, $location, _, Chain, TenantUser, TenantRole) {
+  .controller('UsersController', ['$scope', '$window', 'User', 'Session', 'AuthService', 'userTableConfig', 'Alert', 'flowSetup', 'BulkAction', '$q', '$location', 'lodash', 'Chain', 'TenantUser', 'TenantRole', 'tenantUserConveter',
+    function ($scope, $window, User, Session, AuthService, userTableConfig, Alert, flowSetup, BulkAction, $q, $location, _, Chain, TenantUser, TenantRole, tenantUserConverter) {
       $scope.Session = Session;
       $scope.forms = {};
       $scope.newPassword = null;
@@ -10,16 +10,12 @@ angular.module('liveopsConfigPanel')
 
       $scope.tableConfig = userTableConfig;
 
-      $scope.tenantUserParams = {
-        status: 'pending'
-      };
-
       $scope.scenario = function () {
         if ($scope.selectedTenantUser.isNew()) {
           if ($scope.forms.detailsForm.email.$error.duplicateUsername) {
-            return 'create:existing:user';
+            return 'invite:existing:user';
           } else {
-            return 'create:new:user';
+            return 'invite:new:user';
           }
         } else {
           return 'update';
@@ -62,23 +58,34 @@ angular.module('liveopsConfigPanel')
       };
 
       $scope.submit = function () {
-        var user = new User($scope.selectedTenantUser);
+        var user = tenantUserConverter.convert($scope.selectedTenantUser);
+        
         var scenario = $scope.scenario();
 
-        if (scenario === 'create:existing:user') {
-          return $scope.saveTenantUser(user);
-        } else if (scenario === 'create:new:user') {
-          return $scope.saveNewUserTenantUser(user);
+        if (scenario === 'invite:existing:user') {
+          return self.saveTenantUser(user);
+        } else if (scenario === 'invite:new:user') {
+          return self.saveNewUserTenantUser(user);
         } else if (scenario === 'update') {
-          return $scope.updateUser(user);
+          // var tenantUser = new TenantUser({
+          //   status: $scope.selectedTenantUser.status
+          // });
+          // 
+          // var update = tenantUser.$update({
+          //   tenantId: Session.tenant.tenantId,
+          //   id: $scope.selectedTenantUser.id
+          // });
+          // 
+          // return $q.all(update, self.updateUser(user));
+          return self.updateUser(user);
         }
       };
 
-      $scope.saveTenantUser = function (user) {
+      this.saveTenantUser = function (user) {
         var tenantUser = new TenantUser({
           email: user.email,
-          status: $scope.tenantUserParams.status,
-          roleId: $scope.tenantUserParams.roleId
+          status: $scope.selectedTenantUser.status,
+          roleId: $scope.selectedTenantUser.roleId
         });
 
         return tenantUser.save({
@@ -91,16 +98,16 @@ angular.module('liveopsConfigPanel')
         });
       };
 
-      $scope.saveNewUserTenantUser = function (user) {
+      this.saveNewUserTenantUser = function (user) {
         return user.save().then(function (user) {
-          angular.extend($scope.selectedTenantUser, user);
-          return $scope.saveTenantUser(user);
+          tenantUserConverter.convertBack(user, $scope.selectedTenantUser);
+          return self.saveTenantUser(user);
         });
       };
 
-      $scope.updateUser = function (user) {
+      this.updateUser = function (user) {
         return user.save().then(function (user) {
-          angular.extend($scope.selectedTenantUser, user);
+          tenantUserConverter.convertBack(user, $scope.selectedTenantUser);
           return user;
         });
       };
