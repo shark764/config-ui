@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('UsersController', ['$scope', '$window', 'User', 'Session', 'AuthService', 'userTableConfig', 'Alert', 'flowSetup', 'BulkAction', '$q', '$location', 'lodash', 'Chain', 'TenantUser', 'TenantRole', 'tenantUserConverter',
-    function ($scope, $window, User, Session, AuthService, userTableConfig, Alert, flowSetup, BulkAction, $q, $location, _, Chain, TenantUser, TenantRole, tenantUserConverter) {
+  .controller('UsersController', ['$scope', '$window', 'User', 'Session', 'AuthService', 'userTableConfig', 'Alert', 'flowSetup', 'BulkAction', '$q', '$location', 'lodash', 'Chain', 'TenantUser', 'TenantRole', 'tenantUserConverter', '$timeout',
+    function ($scope, $window, User, Session, AuthService, userTableConfig, Alert, flowSetup, BulkAction, $q, $location, _, Chain, TenantUser, TenantRole, tenantUserConverter, $timeout) {
       var self = this;
     
       $scope.Session = Session;
@@ -57,6 +57,7 @@ angular.module('liveopsConfigPanel')
       };
 
       $scope.submit = function () {
+        $scope.selectedTenantUser.$busy = true;
         var user = tenantUserConverter.convert($scope.selectedTenantUser);
         
         var scenario = $scope.scenario();
@@ -67,16 +68,6 @@ angular.module('liveopsConfigPanel')
         } else if (scenario === 'invite:new:user') {
           return self.saveNewUserTenantUser(user);
         } else if (scenario === 'update') {
-          // var tenantUser = new TenantUser({
-          //   status: $scope.selectedTenantUser.status
-          // });
-          // 
-          // var update = tenantUser.$update({
-          //   tenantId: Session.tenant.tenantId,
-          //   id: $scope.selectedTenantUser.id
-          // });
-          // 
-          // return $q.all(update, self.updateUser(user));
           return self.updateUser(user);
         }
       };
@@ -96,7 +87,9 @@ angular.module('liveopsConfigPanel')
 
       this.saveNewUserTenantUser = function (user) {
         return user.save().then(function (user) {
-          return self.saveTenantUser(user);
+          $timeout(function(){ //TODO: remove timeout once TITAN2-2881 is addressed
+            return self.saveTenantUser(user);
+          }, 3000);
         });
       };
 

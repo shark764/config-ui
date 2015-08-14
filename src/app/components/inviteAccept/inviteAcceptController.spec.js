@@ -155,51 +155,7 @@ describe('invite accept controller', function () {
     });
   });
   
-  describe('signupSuccess function', function(){
-    beforeEach(function(){
-      spyOn($scope, 'loginSuccess');
-      spyOn($scope, 'loginFailure');
-    });
-    
-    it('should exist', function(){
-      expect($scope.signupSuccess).toBeDefined();
-      expect($scope.signupSuccess).toEqual(jasmine.any(Function));
-    });
-    
-    it('should log the user in with their email and new password', inject(['AuthService', function(AuthService){
-      spyOn(AuthService, 'login').and.callThrough();
-      $scope.newPassword = 'newPassword';
-      $scope.signupSuccess();
-      expect(AuthService.login).toHaveBeenCalledWith(mockUsers[1].email, 'newPassword');
-    }]));
-    
-    it('should call loginSuccess if authentication succeeds', inject(['AuthService', '$q', function(AuthService, $q){
-      var deferred = $q.defer();
-      deferred.resolve('success');
-      spyOn(AuthService, 'login').and.returnValue(deferred.promise);
-      
-      $scope.signupSuccess();
-      $scope.$digest();
-      expect($scope.loginSuccess).toHaveBeenCalled();
-    }]));
-    
-    it('should call loginFailure if authentication fails', inject(['AuthService', '$q', function(AuthService, $q){
-      var deferred = $q.defer();
-      deferred.reject('failure');
-      spyOn(AuthService, 'login').and.returnValue(deferred.promise);
-      
-      $scope.signupSuccess();
-      $scope.$digest();
-      expect($scope.loginFailure).toHaveBeenCalled();
-    }]));
-  });
-  
   describe('signupFailure function', function(){
-    beforeEach(function(){
-      spyOn($scope, 'loginSuccess');
-      spyOn($scope, 'loginFailure');
-    });
-    
     it('should exist', function(){
       expect($scope.signupFailure).toBeDefined();
       expect($scope.signupFailure).toEqual(jasmine.any(Function));
@@ -212,53 +168,64 @@ describe('invite accept controller', function () {
     }]));
   });
   
-  describe('loginFailure function', function(){
+  describe('acceptFailure function', function(){
     it('should exist', function(){
-      expect($scope.loginFailure).toBeDefined();
-      expect($scope.loginFailure).toEqual(jasmine.any(Function));
+      expect($scope.acceptFailure).toBeDefined();
+      expect($scope.acceptFailure).toEqual(jasmine.any(Function));
     });
     
     it('should show an alert', inject(['Alert', function(Alert){
       spyOn(Alert, 'error');
-      $scope.loginFailure();
+      $scope.acceptFailure();
       expect(Alert.error).toHaveBeenCalled();
     }]));
   });
   
-  describe('loginSuccess function', function(){
-    beforeEach(inject(['$state', function($state){
-      spyOn($state, 'transitionTo');
+  describe('signupSuccess function', function(){
+    beforeEach(inject([function(){
+      spyOn($scope, 'acceptSuccess');
+      spyOn($scope, 'acceptFailure');
     }]));
     
     it('should exist', function(){
-      expect($scope.loginSuccess).toBeDefined();
-      expect($scope.loginSuccess).toEqual(jasmine.any(Function));
+      expect($scope.signupSuccess).toBeDefined();
+      expect($scope.signupSuccess).toEqual(jasmine.any(Function));
     });
     
     it('should update the tenant user', inject(['TenantUser', function(TenantUser){
       spyOn(TenantUser, 'update');
-      $scope.loginSuccess();
+      $scope.signupSuccess();
       expect(TenantUser.update).toHaveBeenCalled();
     }]));
+  });
+  
+  describe('acceptSuccess function', function(){
+    beforeEach(inject(['$state', function($state){
+      spyOn($state, 'transitionTo');
+    }]));
     
-    it('should redirect to users management on update success', inject(['TenantUser', '$state', '$stateParams', function(TenantUser, $state, $stateParams){
-      spyOn(TenantUser, 'update').and.callFake(function(params, success){
-        success();
-      });
+    it('should redirect to users management on login success', inject(['AuthService', '$stateParams', '$q', '$timeout', '$state', function(AuthService, $stateParams, $q, $timeout, $state){
+      var deferred = $q.defer();
+      deferred.resolve('success');
+      
+      spyOn(AuthService, 'login').and.returnValue(deferred.promise);
       
       $stateParams.userId = 'userId2';
-      $scope.loginSuccess();
+      $scope.acceptSuccess();
+      $timeout.flush();
+      $timeout.flush();
       expect($state.transitionTo).toHaveBeenCalledWith('content.management.users', {id: 'userId2'});
     }]));
     
-    it('should show an alert on update fail', inject(['TenantUser', 'Alert', function(TenantUser, Alert){
-      spyOn(TenantUser, 'update').and.callFake(function(params, success, failure){
-        failure();
-      });
+    it('should show an alert on update fail', inject(['AuthService', 'Alert', '$q', function(AuthService, Alert, $q){
+      var deferred = $q.defer();
+      deferred.reject('failure');
+      
+      spyOn(AuthService, 'login').and.returnValue(deferred.promise);
       spyOn(Alert, 'error');
       
       $scope.loginSuccess();
       expect(Alert.error).toHaveBeenCalled();
     }]));
-  });
+  })
 });

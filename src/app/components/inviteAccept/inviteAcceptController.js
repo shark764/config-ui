@@ -35,13 +35,12 @@ angular.module('liveopsConfigPanel')
           .then($scope.signupSuccess, $scope.signupFailure);
       };
       
-      $scope.acceptSuccess = function(){
-        AuthService.login($scope.user.email, $scope.newPassword).then(function(){
-          $state.transitionTo('content.management.users', {id: $stateParams.userId});
-        }, function(){
-          Alert.error('Sorry, there was an error logging you in!');
-          $scope.loading = false;
-        });
+      $scope.signupSuccess = function(){
+        TenantUser.update({
+          tenantId: $stateParams.tenantId,
+          id: $stateParams.userId,
+          status: 'accepted'
+        }, $scope.acceptSuccess, $scope.acceptFailure);
       };
       
       $scope.signupFailure = function(){
@@ -49,12 +48,17 @@ angular.module('liveopsConfigPanel')
         $scope.loading = false;
       };
       
-      $scope.signupSuccess = function(){
-        TenantUser.update({
-          tenantId: $stateParams.tenantId,
-          id: $stateParams.userId,
-          status: 'accepted'
-        }, $scope.acceptSuccess, $scope.acceptFailure);
+      $scope.acceptSuccess = function(){
+        $timeout(function(){ //TODO: remove timeout once TITAN2-2881 is addressed
+          AuthService.login($scope.user.email, $scope.newPassword).then(function(){
+            $timeout(function(){ //TODO: remove timeout once TITAN2-2881 is addressed
+              $state.transitionTo('content.management.users', {id: $stateParams.userId});
+            }, 1000);
+          }, function(){
+            Alert.error('Sorry, there was an error logging you in!');
+            $scope.loading = false;
+          });
+        }, 2000);
       };
       
       $scope.acceptFailure = function(){
