@@ -298,5 +298,8 @@
   
   "multibox.add.placeholder": "Add Item...",
   "multibox.search.placeholder": "Search...",
-  "multibox.create.btn": "Create New"
+  "multibox.create.btn": "Create New",
+  
+  "invite.accept.success": "Your invitation has been accepted! Please log in to view the new tenant.",
+  "invite.accept.alreadyAccepted": "This invitation has already been accepted! Please log in to view the tenant."
 }

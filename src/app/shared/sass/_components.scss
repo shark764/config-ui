@@ -1,6 +1,6 @@
 .lo-alert {
   background-color: $accent-light;
-  border: 1px solid $accent1;
+  border: 2px solid darken($accent-light, 5);
   @include border-radius();
   color: $main-color;
   margin: 10px 0;
