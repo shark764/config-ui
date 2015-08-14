@@ -1,23 +1,30 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('UsersController', ['$scope', '$window', 'User', 'Session', 'AuthService', 'userTableConfig', 'Alert', 'flowSetup', 'BulkAction', '$q', '$location', 'lodash', 'Chain', 'TenantUser', 'TenantRole', 'tenantUserConverter', '$timeout',
-    function ($scope, $window, User, Session, AuthService, userTableConfig, Alert, flowSetup, BulkAction, $q, $location, _, Chain, TenantUser, TenantRole, tenantUserConverter, $timeout) {
+  .controller('UsersController', ['$scope', '$window', '$parse', 'User', 'Session', 'AuthService', 'userTableConfig', 'Alert', 'flowSetup', 'BulkAction', '$q', '$location', 'lodash', 'Chain', 'TenantUser', 'TenantRole', 'tenantUserConverter', 'queryCache', '$timeout',
+    function ($scope, $window, $parse, User, Session, AuthService, userTableConfig, Alert, flowSetup, BulkAction, $q, $location, _, Chain, TenantUser, TenantRole, tenantUserConverter, queryCache, $timeout) {
       var self = this;
     
       $scope.Session = Session;
       $scope.forms = {};
+      $scope.ngModels = {};
       $scope.newPassword = null;
       $window.flowSetup = flowSetup;
       $scope.tableConfig = userTableConfig;
 
       $scope.scenario = function () {
+        if(!$scope.selectedTenantUser) {
+          return null;
+        }
+        
         if ($scope.selectedTenantUser.isNew()) {
-          if ($scope.forms.detailsForm.email.$error.duplicateUsername) {
-            return 'invite:existing:user';
+          if ($parse('forms.detailsForm.email.$error.duplicateUsername')($scope)) {
+            return 'invite:existing:user:not:in:tenant';
           } else {
             return 'invite:new:user';
           }
+        } else if($parse('forms.detailsForm.email.$error.newTenantUser')($scope)) {
+          return 'invite:existing:user:in:tenant';
         } else {
           return 'update';
         }
@@ -62,9 +69,8 @@ angular.module('liveopsConfigPanel')
         
         var scenario = $scope.scenario();
 
-        if (scenario === 'invite:existing:user') {
-          user.status = 'pending';
-          return self.saveTenantUser(user);
+        if (scenario.indexOf('invite:existing') === 0) {
+          return self.updateTenantUser(user);
         } else if (scenario === 'invite:new:user') {
           return self.saveNewUserTenantUser(user);
         } else if (scenario === 'update') {
@@ -72,23 +78,50 @@ angular.module('liveopsConfigPanel')
         }
       };
 
-      this.saveTenantUser = function (user) {
+      this.updateTenantUser = function (user) {
         $scope.selectedTenantUser.email = user.email;
         
-        return $scope.selectedTenantUser.save({
-          tenantId: Session.tenant.tenantId,
+        var tenantUser = new TenantUser({
+          email: user.email,
+          roleId: $scope.selectedTenantUser.roleId,
+          status: $scope.selectedTenantUser.status
+        });
+
+        return tenantUser.$save({
+          tenantId: Session.tenant.tenantId
         }).then(function (tenantUser) {
-          tenantUserConverter.convertBack(user, tenantUser);
-          tenantUser.skills = [];
-          tenantUser.groups = [{}];
+          $scope.selectedTenantUser.$original.roleId = tenantUser.roleId;
+          $scope.selectedTenantUser.$original.status = tenantUser.status;
+          
+          var role = TenantRole.cachedGet({
+            id: $scope.selectedTenantUser.roleId
+          });
+          
+          $scope.selectedTenantUser.$original.roleName = role.name;
+          
+          $scope.selectedTenantUser.reset();
+          
           return tenantUser;
         });
       };
 
       this.saveNewUserTenantUser = function (user) {
         return user.save().then(function (user) {
+          var tenantUser = new TenantUser();
+          tenantUser.email = user.email;
+          tenantUser.roleId = $scope.selectedTenantUser.roleId;
+          tenantUser.status = $scope.selectedTenantUser.status;
+          
           $timeout(function(){ //TODO: remove timeout once TITAN2-2881 is addressed
-            return self.saveTenantUser(user);
+            return tenantUser.$save({
+              tenantId: Session.tenant.tenantId
+            }).then(function (tenantUser) {
+              $scope.selectedTenantUser = tenantUser;
+              tenantUserConverter.convertBack(user, tenantUser);
+              tenantUser.skills = [];
+              tenantUser.groups = [{}];
+              return tenantUser;
+            });
           }, 3000);
         });
       };
@@ -99,8 +132,30 @@ angular.module('liveopsConfigPanel')
           return user;
         });
       };
-
-      //Various navigation rules
+      
+      $scope.$watch('ngModels.email', function(news) {
+        if(!news) {
+          return;
+        }
+        
+        news.$validators.newTenantUser = function(modelValue) {
+          var tenantUsers = $scope.fetchTenantUsers();
+          for(var tenantUserIndex = 0; tenantUserIndex < tenantUsers.length; tenantUserIndex++) {
+            var tenantUser = tenantUsers[tenantUserIndex];
+            if(tenantUser.email === modelValue) {
+              angular.copy(tenantUser, $scope.selectedTenantUser);
+              return false;
+            }
+          }
+          $scope.selectedTenantUser = new TenantUser({
+            email: modelValue,
+            roleId: $scope.selectedTenantUser.roleId,
+            status: $scope.selectedTenantUser.status
+          });
+          return false;
+        };
+      });
+      
       $scope.$on('table:on:click:create', function () {
         $scope.create();
       });
