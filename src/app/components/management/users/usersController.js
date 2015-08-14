@@ -152,7 +152,7 @@ angular.module('liveopsConfigPanel')
             roleId: $scope.selectedTenantUser.roleId,
             status: $scope.selectedTenantUser.status
           });
-          return false;
+          return true;
         };
       });
       
