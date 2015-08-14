@@ -5,7 +5,7 @@ angular.module('liveopsConfigPanel')
     function(userStatuses, userStates, $translate, Skill, Group, Session) {
       function getSkillOptions(){
         var options = [];
-        
+
         Skill.cachedQuery({
           tenantId: Session.tenant.tenantId
         }).$promise.then(function(skills){
@@ -16,13 +16,13 @@ angular.module('liveopsConfigPanel')
             });
           });
         });
-        
+
         return options;
       }
-      
+
       function getGroupOptions(){
         var options = [];
-        
+
         Group.cachedQuery({
           tenantId: Session.tenant.tenantId
         }).$promise.then(function(groups){
@@ -33,10 +33,10 @@ angular.module('liveopsConfigPanel')
             });
           });
         });
-        
+
         return options;
       }
-      
+
       return {
         'fields': [{
           'header': $translate.instant('value.name'),
@@ -53,6 +53,7 @@ angular.module('liveopsConfigPanel')
         }, {
           'header': $translate.instant('user.table.skills'),
           'name': 'skills:id',
+          'id': 'user-skills-table-column',
           'resolve': function(user){
             return user.skills.length;
           },
@@ -62,6 +63,7 @@ angular.module('liveopsConfigPanel')
         }, {
           'header': $translate.instant('user.table.groups'),
           'name': 'groups:id',
+          'id': 'user-groups-table-column',
           'resolve': function(user){
             return user.groups.length;
           },
@@ -73,13 +75,15 @@ angular.module('liveopsConfigPanel')
           'name': 'state',
           'transclude': true,
           'checked': false,
-          'options': userStates
+          'options': userStates,
+          'id': 'user-states-table-column'
         }, {
           'header': $translate.instant('value.status'),
           'name': 'status',
           'transclude': true,
           'checked': false,
-          'options': userStatuses()
+          'options': userStatuses(),
+          'id': 'user-status-table-column'
         }],
         'searchOn': ['firstName', 'lastName'],
         'orderBy': 'lastName',
