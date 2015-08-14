@@ -64,6 +64,7 @@ angular.module('liveopsConfigPanel')
             'options': getSkillOptions,
           },
           'lookup': 'skills:id',
+          'name': 'skills',
           'resolve': function (user) {
             return user.skills.length;
           },
@@ -77,6 +78,7 @@ angular.module('liveopsConfigPanel')
             'options': getGroupOptions,
           },
           'lookup': 'groups:id',
+          'name': 'groups',
           'resolve': function (user) {
             return user.groups.length;
           },
@@ -96,7 +98,9 @@ angular.module('liveopsConfigPanel')
         }, {
           'header': {
             'display': $translate.instant('value.status'),
-            'options': userStatuses
+            'valuePath': 'value',
+            'displayPath': 'display',
+            'options': userStatuses()
           },
           'name': '$original.status',
           'transclude': true,

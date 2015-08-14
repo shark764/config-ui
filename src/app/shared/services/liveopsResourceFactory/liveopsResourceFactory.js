@@ -203,6 +203,9 @@ angular.module('liveopsConfigPanel')
 
           Resource.prototype.reset = function () {
             for(var prop in this.$original) {
+              if(prop.match(/^\$.*/g)) {
+                continue;
+              }
               this[prop] = this.$original[prop];
             }
           };
@@ -250,7 +253,7 @@ angular.module('liveopsConfigPanel')
           };
 
           Resource.prototype.isNew = function () {
-            return !this.id;
+            return !this.hasOwnProperty('created');
           };
 
           Resource.prototype.$busy = false;

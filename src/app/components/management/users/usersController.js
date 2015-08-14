@@ -84,16 +84,12 @@ angular.module('liveopsConfigPanel')
       };
 
       this.saveTenantUser = function (user) {
-        var tenantUser = new TenantUser({
-          email: user.email,
-          status: $scope.selectedTenantUser.status,
-          roleId: $scope.selectedTenantUser.roleId
-        });
+        $scope.selectedTenantUser.email = user.email;
 
-        return tenantUser.save({
+        return $scope.selectedTenantUser.save({
           tenantId: Session.tenant.tenantId,
         }).then(function (tenantUser) {
-          angular.extend(tenantUser, user);
+          tenantUserConverter.convertBack(user, tenantUser);
           tenantUser.skills = [];
           tenantUser.groups = [{}];
           return tenantUser;
@@ -102,7 +98,6 @@ angular.module('liveopsConfigPanel')
 
       this.saveNewUserTenantUser = function (user) {
         return user.save().then(function (user) {
-          tenantUserConverter.convertBack(user, $scope.selectedTenantUser);
           return self.saveTenantUser(user);
         });
       };

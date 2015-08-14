@@ -13,9 +13,10 @@ angular.module('liveopsConfigPanel')
       this.convertBack = function(user, originalTenantUser) {
         var status = originalTenantUser.status;
         var roleId = originalTenantUser.roleId
-        angular.extend(originalTenantUser, user);
-        originalTenantUser.status = status;
-        originalTenantUser.roleId = roleId;
+        angular.extend(originalTenantUser.$original, user);
+        originalTenantUser.$original.status = status;
+        originalTenantUser.$original.roleId = roleId;
+        originalTenantUser.reset();
       };
     }
   ]);

@@ -3,6 +3,44 @@
 /*global jasmine : false */
 
 describe('LiveopsResourceFactory', function () {
+  describe('ON reset', function() {
+    var Resource;
+    
+    beforeEach(module('liveopsConfigPanel'));
+    
+    beforeEach(inject(['LiveopsResourceFactory',
+      function (LiveopsResourceFactory) {
+        Resource = LiveopsResourceFactory.create('/endpoint');
+      }]));
+    
+    it('should reset object back to $original', function () {
+      var resource = new Resource();
+      resource.$original = {
+        id: 'abc'
+      };
+      
+      resource.id = '123';
+
+      resource.reset();
+      
+      expect(resource.id).toEqual('abc');
+      
+    });
+    
+    it('should ignore $ members', function () {
+      var resource = new Resource();
+      resource.$original = {
+        $id: 'abc'
+      };
+      
+      resource.$id = '123';
+      
+      resource.reset();
+      
+      expect(resource.$id).toEqual('123');
+    });
+  });
+  
   describe('queryCache function', function () {
     var apiHostname,
       Resource,
@@ -60,7 +98,7 @@ describe('LiveopsResourceFactory', function () {
           expect(resource.id).toEqual('1');
       });
     });
-
+    
     describe('ON cachedQuery', function () {
       beforeEach(inject([
         function () {

@@ -1,4 +1,4 @@
-<div ng-if="selectedTenantUser.$original.id" id="user-detail-header">
+<div ng-if="!selectedTenantUser.isNew()" id="user-detail-header">
   <div class="mystery-man pull-left">
     <i class="fa fa-user"></i>
   </div>
@@ -34,5 +34,5 @@
   </div>
 </div>
 
-<h1 ng-if="! selectedTenantUser.$original.id">{{'user.details.creating' | translate}}</h1>
+<h1 ng-if="selectedTenantUser.isNew()">{{'user.details.creating' | translate}}</h1>
 

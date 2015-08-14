@@ -28,8 +28,6 @@ describe('selectedTableOptions filter', function () {
   }]));
 
   it('should return all users if the all values are checked', inject(function () {
-    console.log('here');
-    
     var fields = [{
       name: 'status',
       header: {
