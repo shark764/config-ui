@@ -9,7 +9,6 @@ angular.module('liveopsConfigPanel')
       $scope.forms = {};
       $scope.newPassword = null;
       $window.flowSetup = flowSetup;
-
       $scope.tableConfig = userTableConfig;
 
       $scope.scenario = function () {
@@ -54,9 +53,7 @@ angular.module('liveopsConfigPanel')
       };
 
       $scope.create = function () {
-        $scope.selectedTenantUser = new TenantUser({
-          status: 'pending'
-        });
+        $scope.selectedTenantUser = new TenantUser();
       };
 
       $scope.submit = function () {
@@ -65,6 +62,7 @@ angular.module('liveopsConfigPanel')
         var scenario = $scope.scenario();
 
         if (scenario === 'invite:existing:user') {
+          user.status = 'pending';
           return self.saveTenantUser(user);
         } else if (scenario === 'invite:new:user') {
           return self.saveNewUserTenantUser(user);
@@ -85,7 +83,7 @@ angular.module('liveopsConfigPanel')
 
       this.saveTenantUser = function (user) {
         $scope.selectedTenantUser.email = user.email;
-
+        
         return $scope.selectedTenantUser.save({
           tenantId: Session.tenant.tenantId,
         }).then(function (tenantUser) {

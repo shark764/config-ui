@@ -7,7 +7,7 @@ angular.module('liveopsConfigPanel')
       scope : {
         ngModel : '=',
         ngDisabled : '=',
-        name: '=',
+        name: '@',
         trueValue: '@',
         falseValue: '@',
         confirmEnableMessage: '@',

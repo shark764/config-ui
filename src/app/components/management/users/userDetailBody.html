@@ -37,10 +37,11 @@
   <div class="input-group" ng-show="selectedTenantUser.isNew()">
     <label>{{'details.inviteNow' | translate}}</label>
     <div>
-      <toggle ng-model="tenantUserParams.status"
+      <toggle ng-model="selectedTenantUser.status"
         true-value="invited"
         false-value="pending"
-        ng-init="tenantUserParams.status = 'invited'">
+        ng-init="selectedTenantUser.status = 'invited'"
+        name="inviteNow">
       </toggle>
       <help-icon translate-value="details.inviteNow.help"></help-icon>
     </div>
