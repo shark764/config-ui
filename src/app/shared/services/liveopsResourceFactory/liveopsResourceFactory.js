@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .factory('LiveopsResourceFactory', ['$http', '$resource', '$q', 'apiHostname', 'Session', 'SaveInterceptor', 'queryCache',
-    function ($http, $resource, $q, apiHostname, Session, SaveInterceptor, queryCache) {
+  .factory('LiveopsResourceFactory', ['$http', '$resource', '$q', 'apiHostname', 'Session', 'SaveInterceptor', 'DeleteInterceptor', 'queryCache',
+    function ($http, $resource, $q, apiHostname, Session, SaveInterceptor, DeleteInterceptor, queryCache) {
       function appendTransform(defaults, transform) {
         // We can't guarantee that the default transformation is an array
         defaults = angular.isArray(defaults) ? defaults : [defaults];
@@ -20,7 +20,7 @@ angular.module('liveopsConfigPanel')
       }
 
       return {
-        create: function (endpoint, updateFields, requestUrlFields) {
+        create: function (endpoint, resourceName, updateFields, requestUrlFields) {
           requestUrlFields = typeof requestUrlFields !== 'undefined' ? requestUrlFields : {
             id: '@id',
             tenantId: '@tenantId',
@@ -92,9 +92,12 @@ angular.module('liveopsConfigPanel')
               method: 'DELETE',
               transformResponse: appendTransform($http.defaults.transformResponse, function (value) {
                 return getResult(value);
-              })
+              }),
+              interceptor: DeleteInterceptor
             }
           });
+          
+          Resource.prototype.resourceName = resourceName;
 
           var proxyGet = Resource.get;
 
@@ -126,11 +129,11 @@ angular.module('liveopsConfigPanel')
           };
 
           Resource.cachedQuery = function(params, cacheKey, invalidate) {
-            var key = cacheKey ? cacheKey : this.resourceName;
+            var key = cacheKey ? cacheKey : this.prototype.resourceName;
             if(!queryCache.get(key) || invalidate) {
-              var users = this.query(params);
-              queryCache.put(key, users);
-              return users;
+              var items = this.query(params);
+              queryCache.put(key, items);
+              return items;
             }
 
             return queryCache.get(key);
@@ -147,6 +150,7 @@ angular.module('liveopsConfigPanel')
 
             //TODO find out why preEvent didn't work in the chain
             preEvent.call(self);
+            self.preSave();
 
             return action.call(self)
               .then(function (result) {

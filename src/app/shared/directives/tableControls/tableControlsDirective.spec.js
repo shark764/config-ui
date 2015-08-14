@@ -208,19 +208,6 @@ describe('tableControls directive', function() {
     }));
   });
 
-  describe('resource creation watch', function(){
-    beforeEach(function(){
-      doCompile();
-    });
-
-    it('should catch the created event and add new item to items', inject(['$rootScope', function($rootScope) {
-      $rootScope.$broadcast('resource:details:resource:create:success', {id: 'coolItem'});
-      isolateScope.$digest();
-      expect($scope.items.length).toEqual(1);
-      expect($scope.items[0].id).toEqual('coolItem');
-    }]));
-  });
-
   describe('parse function', function(){
     beforeEach(function(){
       doCompile();

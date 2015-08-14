@@ -238,16 +238,6 @@ describe('userGroups directive', function() {
         $httpBackend.flush();
         expect(failSpy).toHaveBeenCalled();
       }));
-
-      it('should add the group to $scope.groups', inject(function() {
-        var newGroup = {name: 'groupname'};
-        Session.tenant.tenantId = '2';
-        $httpBackend.when('POST', apiHostname + '/v1/tenants/2/groups').respond({result: newGroup});
-        isolateScope.createGroup(newGroup.name);
-        $httpBackend.flush();
-        expect(isolateScope.fetchGroups().length).toEqual(4);
-        expect(isolateScope.fetchGroups()[isolateScope.fetchGroups().length - 1].name).toEqual(newGroup.name);
-       }));
     });
     
     describe('saveUserGroup function', function() {

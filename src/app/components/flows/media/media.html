@@ -12,11 +12,37 @@
   right-element-id="details-pane"
   left-element-id="table-pane" ></resize-handle>
 
-<resource-details
-  ng-show="!! selectedMedia"
-  id="details-pane"
-  extend-scope="additional"
-  header-template-url="app/components/flows/media/mediaDetailHeader.html"
-  body-template-url="app/components/flows/media/mediaDetailBody.html"
-  original-resource="selectedMedia"
-  resource-name="media"></resource-details>
+<lo-details-panel id="details-pane" class="details-pane"
+  ng-show="selectedMedia"
+  ng-resource="selectedMedia">
+
+  <ng-form unsaved-changes-warning class="details-form"
+    ng-show="selectedMedia" name="forms.mediaForm"
+    ng-model="selectedMedia"
+    ng-resource="selectedMedia"
+    lo-form-submit="media:save"
+    lo-form-cancel="media:cancel"
+    lo-form-alert>
+
+    <div class="detail-header-pane"
+      ng-include src="'app/components/flows/media/mediaDetailHeader.html'">
+    </div>
+
+    <div class="detail-body-pane"
+      ng-include src="'app/components/flows/media/mediaDetailBody.html'">
+    </div>
+
+    <div class="detail-controls-pane">
+      <input id="cancel-details-btn" type="button" class="btn"
+        value="{{'value.cancel' | translate}}"
+        lo-cancel-chain-executor="media:cancel"></input>
+      <input id="submit-details-btn" class="btn btn-primary" ng-hide="loading"
+        type="submit" value="{{'value.submit' | translate}}"
+        ng-disabled="forms.mediaForm.$invalid || ! forms.mediaForm.$dirty"
+        lo-submit-chain-executor="media:save"></input>
+      <a ng-show="loading" ng-disabled="true" class="btn btn-primary">
+        <i class="fa fa-refresh fa-spin"></i>
+      </a>
+    </div>
+  </ng-form>
+</lo-details-panel>

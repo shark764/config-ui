@@ -8,12 +8,10 @@ angular.module('liveopsConfigPanel')
 
       //This is really awful and hopefully the API will update to accommodate this.
       Group.prototype.fetchGroupUsers = function() {
-        this.members = TenantGroupUsers.cachedQuery({
+        return TenantGroupUsers.cachedQuery({
           tenantId: Session.tenant.tenantId,
           groupId: this.id
         }, 'groups/' + this.id + '/users');
-        
-        return this.members;
       };
 
       $scope.fetchGroups = function () {
@@ -22,6 +20,14 @@ angular.module('liveopsConfigPanel')
         });
       };
 
+      Group.prototype.preCreate = function() {
+        delete this.members;
+      };
+      
+      Group.prototype.postCreate = function() {
+        this.fetchGroupUsers();
+      };
+      
       $scope.$on('table:on:click:create', function () {
         $scope.showBulkActions = false;
 
@@ -43,13 +49,13 @@ angular.module('liveopsConfigPanel')
       $scope.bulkActions = {
         setGroupStatus: new BulkAction()
       };
-      
+
       $scope.additional = {
-          gotoUserPage: function(userId){
-            $state.transitionTo('content.management.users', {
-              id: userId
-            });
-          }
-      }
+        gotoUserPage: function(userId){
+          $state.transitionTo('content.management.users', {
+            id: userId
+          });
+        }
+      };
     }
   ]);

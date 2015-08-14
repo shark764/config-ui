@@ -5,18 +5,18 @@ angular.module('liveopsConfigPanel')
       return {
         'fields': [{
           'header': $translate.instant('value.name'),
-          'name': 'name'
+          'name': '$original.name'
         }, {
           'header': $translate.instant('value.source'),
-          'name': 'source'
+          'name': '$original.source'
         }, {
           'header': $translate.instant('value.type'),
-          'name': 'type',
+          'name': '$original.type',
           'options': mediaTypes,
           'filter': 'selectedOptions'
         }, {
           'header': $translate.instant('value.properties'),
-          'name': 'properties'
+          'name': '$original.properties'
         }],
         'searchOn' : ['source', 'name'],
         'orderBy' : 'name',

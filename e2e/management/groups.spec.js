@@ -276,30 +276,26 @@ describe('The groups view', function() {
   });
   
   it('should link to the user details view in the members list', function() {
-    // Find a group with at least one member
-    shared.tableElements.then(function(rows) {
-      var foundGroupWithMembers = false;
-      
-      for (var i = 1; i <= rows.length; ++i) {
-        var row = element(by.css('tr.ng-scope:nth-child(' + i + ')'));
-        row.element(by.css(groups.membersColumn)).getText().then(function(value) {
-          // Check if member count is greater than 0
-          if (!foundGroupWithMembers && parseInt(value) > 0) {
-            foundGroupWithMembers = true; //Set flag so we only do this once
-            row.click();
-            
-            //Save the member's name
-            var memberName = groups.groupMembersRows.get(0).getText();
-            
-            //Follow the link
-            groups.groupMembersRows.get(0).element(by.css('a')).click().then(function(){
-              expect(browser.getCurrentUrl()).toContain(shared.usersPageUrl);
-              expect(shared.detailsForm.isDisplayed()).toBeTruthy();
-              expect(users.userNameDetailsHeader.getText()).toContain(memberName);
-            });
-          }
+    var groupWithMembersRow;
+    
+    // Order by group member count, descending
+    groups.headerRow.element(by.css('th:nth-child(4)')).click();
+    groups.headerRow.element(by.css('th:nth-child(4)')).click();
+    
+    shared.firstTableRow.element(by.css(groups.membersColumn)).getText().then(function(value) {
+      if (parseInt(value) > 0) {
+        shared.firstTableRow.click();
+        
+        //Save the member's name
+        var memberName = groups.groupMembersRows.get(0).getText();
+        
+        //Follow the link
+        groups.groupMembersRows.get(0).element(by.css('a')).click().then(function(){
+          expect(browser.getCurrentUrl()).toContain(shared.usersPageUrl);
+          expect(shared.detailsForm.isDisplayed()).toBeTruthy();
+          expect(users.userNameDetailsHeader.getText()).toContain(memberName);
         });
       }
-    })
+    });
   });
 });

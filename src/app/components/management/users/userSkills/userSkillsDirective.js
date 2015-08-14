@@ -66,7 +66,6 @@ angular.module('liveopsConfigPanel')
                 description: '',
                 active: true
               }).save(function (result) {
-                $scope.fetchSkills().push(result);
                 $scope.selectedSkill = result;
                 $scope.saveUserSkill();
               });

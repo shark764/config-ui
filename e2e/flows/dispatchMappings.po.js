@@ -32,11 +32,11 @@ var DispatchMappingsPage = function() {
 
   // Status table selectors
   this.tableHeader = element(by.css('#table-pane > div:nth-child(3) > table:nth-child(1)'));
-  this.statusTableDropDown = this.tableHeader.element(by.css('tr:nth-child(1) > th:nth-child(7) > filter-dropdown:nth-child(1)'));
+  this.statusTableDropDown = this.tableHeader.element(by.css('tr:nth-child(1) > th:nth-child(7) > filter-dropdown:nth-child(2)'));
   this.allStatus = this.statusTableDropDown.element(by.css('.all'));
   this.statuses = this.statusTableDropDown.all(by.repeater('option in options track by option[valuePath]'));
   this.statusInputs = this.statusTableDropDown.all(by.css('input'));
-  
+
   this.interactionFieldTableDropDown = this.tableHeader.element(by.css('th:nth-child(5) > filter-dropdown'));
   this.interactionFields = this.interactionFieldTableDropDown.all(by.repeater('option in options track by option[valuePath]'));
 };

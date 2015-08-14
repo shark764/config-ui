@@ -1,28 +1,28 @@
 'use strict';
 
-describe('userSkillsBulkAction directive', function () {
+describe('setSkillsBulkAction directive', function () {
   var $scope,
     $compile,
     element,
     isolateScope,
     BulkAction,
     mockSkills,
-    mockUsers,
+    mockTenantUsers,
     mockUserSkills,
     UserSkillsBulkAction;
 
   beforeEach(module('gulpAngular'));
   beforeEach(module('liveopsConfigPanel'));
-  beforeEach(module('liveopsConfigPanel.mock.content.management.users'));
+  beforeEach(module('liveopsConfigPanel.mock.content.management.tenantUsers'));
   beforeEach(module('liveopsConfigPanel.mock.content.management.skills'));
 
-  beforeEach(inject(['$compile', '$rootScope', 'BulkAction', 'mockSkills', 'mockUsers', 'mockUserSkills', 'UserSkillsBulkAction',
-    function (_$compile_, _$rootScope_, _BulkAction, _mockSkills, _mockUsers, _mockUserSkills, _UserSkillsBulkAction) {
+  beforeEach(inject(['$compile', '$rootScope', 'BulkAction', 'mockSkills', 'mockTenantUsers', 'mockUserSkills', 'UserSkillsBulkAction',
+    function (_$compile_, _$rootScope_, _BulkAction, _mockSkills, _mockTenantUsers, _mockUserSkills, _UserSkillsBulkAction) {
       $scope = _$rootScope_.$new();
       $compile = _$compile_;
       BulkAction = _BulkAction;
       mockSkills = _mockSkills;
-      mockUsers = _mockUsers;
+      mockTenantUsers = _mockTenantUsers;
       mockUserSkills = _mockUserSkills;
       UserSkillsBulkAction = _UserSkillsBulkAction;
     }
@@ -30,7 +30,7 @@ describe('userSkillsBulkAction directive', function () {
 
   beforeEach(inject(['$httpBackend', function ($httpBackend) {
     $scope.bulkAction = new BulkAction();
-    $scope.users = [mockUsers[0], mockUsers[1]];
+    $scope.users = [mockTenantUsers[0], mockTenantUsers[1]];
 
     element = $compile('<ba-user-skills users="users" bulk-action="bulkAction"></ba-user-skills>')($scope);
     $scope.$digest();
@@ -47,7 +47,7 @@ describe('userSkillsBulkAction directive', function () {
       spyOn(isolateScope.bulkAction.userSkillsBulkActions[0].selectedType, 'execute');
       spyOn(isolateScope.bulkAction.userSkillsBulkActions[0].selectedType, 'doesQualify').and.returnValue(true);
 
-      isolateScope.bulkAction.execute([mockUsers[0]]);
+      isolateScope.bulkAction.execute([mockTenantUsers[0]]);
 
       expect(isolateScope.bulkAction.userSkillsBulkActions[0].selectedType.execute).toHaveBeenCalled();
     }]));
@@ -56,7 +56,7 @@ describe('userSkillsBulkAction directive', function () {
       spyOn(isolateScope.bulkAction.userSkillsBulkActions[0].selectedType, 'execute');
       spyOn(isolateScope.bulkAction.userSkillsBulkActions[0].selectedType, 'doesQualify').and.returnValue(false);
 
-      isolateScope.bulkAction.execute([mockUsers[1]]);
+      isolateScope.bulkAction.execute([mockTenantUsers[1]]);
 
       expect(isolateScope.bulkAction.userSkillsBulkActions[0].selectedType.execute).not.toHaveBeenCalled();
     }]));
