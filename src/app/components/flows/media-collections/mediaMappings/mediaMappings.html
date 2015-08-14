@@ -1,8 +1,9 @@
-<input type="text" name="mediaMapChanges" ng-model="mediaMapChanges" ng-hide="true"/>
-
-<div class="clear">
-  <a id="add-media-mapping-button" class="btn pull-right" ng-click="addMapping()"><i class="fa fa-plus"></i></a>
+<div class="divider-header ">
+  <h4>Media Mappings</h4>
+  <a id="add-media-mapping-button" class="btn pull-right" ng-click="addMapping()" title="{{'flow.details.mapping.add.alt' | translate}}"><i class="fa fa-plus"></i></a>
 </div>
+
+<input type="text" name="mediaMapChanges" ng-model="mediaMapChanges" ng-hide="true"/>
 
 <table
   class="media-collection-table table"
