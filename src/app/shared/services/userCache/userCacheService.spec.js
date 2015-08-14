@@ -40,7 +40,6 @@ describe('UserCache service', function(){
 
       expect(successSpy).not.toHaveBeenCalled();
       expect(failSpy).toHaveBeenCalled();
-      $httpBackend.flush();
     }]));
 
     it('should check the cache for the given id', inject(function() {

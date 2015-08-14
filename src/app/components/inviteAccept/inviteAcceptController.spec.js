@@ -27,7 +27,8 @@ describe('invite accept controller', function () {
 
       controller = $controller('InviteAcceptController', {
         '$scope': $scope,
-        'invitedUser': mockUsers[1]
+        'invitedUser': mockUsers[1],
+        'invitedTenantUser': mockTenantUsers[1]
       });
     }
   ]));
