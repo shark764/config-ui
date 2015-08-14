@@ -48,7 +48,6 @@ var Shared = function() {
 
   // Table controls
   this.table = element(by.id('items-table'));
-  this.tableRows = this.table.all(by.css('tr'));
   this.firstTableRow = this.table.element(by.css('tr.ng-scope:nth-child(1)'));
   this.secondTableRow = this.table.element(by.css('tr.ng-scope:nth-child(2)'));
   this.tableRows = this.table.all(by.css('tr'));

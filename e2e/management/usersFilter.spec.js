@@ -26,7 +26,60 @@ describe('The users table filter', function() {
     shared.tearDown();
   });
 
-  xit('should display users based on the table Status filter', function() {
+  it('should display users based on the table Status filter', function() {
+    // Add Status Column
+    shared.tableColumnsDropDown.click();
+    shared.tableColumnsDropDown.all(by.repeater('option in options | orderBy:orderBy track by option[valuePath]')).get(6).click();
+    shared.tableColumnsDropDown.click().then(function() {
+
+      // Select Disabled from Status drop down
+      users.statusTableDropDown.click();
+      users.dropdownStatuses.get(0).click().then(function() {
+        // All input is unselected
+        expect(users.dropdownStatusInputs.get(0).isSelected()).toBeFalsy();
+        // Disabled input is selected
+        expect(users.dropdownStatusInputs.get(1).isSelected()).toBeTruthy();
+
+        users.statusTableDropDown.click().then(function() {
+          shared.tableElements.then(function(rows) {
+            for (var i = 0; i < rows.length; ++i) {
+              expect(rows[i].getText()).toContain('Disabled');
+            };
+          });
+        });
+      });
+    });
+  });
+
+  it('should display users based on the table Status filter with selection changed selected', function() {
+    // Add Status Column
+    shared.tableColumnsDropDown.click();
+    shared.tableColumnsDropDown.all(by.repeater('option in options | orderBy:orderBy track by option[valuePath]')).get(6).click();
+    shared.tableColumnsDropDown.click().then(function() {
+      // Select Enabled from Status drop down
+      users.statusTableDropDown.click();
+      users.dropdownStatuses.get(0).click();
+      users.dropdownStatuses.get(0).click();
+      users.dropdownStatuses.get(1).click();
+
+      // Enabled input is selected
+      expect(users.dropdownStatusInputs.get(2).isSelected()).toBeTruthy();
+
+      // Disabled and All inputs are unselected
+      expect(users.dropdownStatusInputs.get(1).isSelected()).toBeFalsy();
+      expect(users.dropdownStatusInputs.get(0).isSelected()).toBeFalsy();
+
+      users.statusTableDropDown.click().then(function() {
+        shared.tableElements.then(function(rows) {
+          for (var i = 0; i < rows.length; ++i) {
+            expect(rows[i].getText()).toContain('Enabled');
+          };
+        });
+      });
+    });
+  });
+
+  it('should display all users based on the table Status filter when All is selected', function() {
     // Add Status Column
     shared.tableColumnsDropDown.click();
     shared.tableColumnsDropDown.all(by.repeater('option in options | orderBy:orderBy track by option[valuePath]')).get(6).click();
@@ -35,54 +88,26 @@ describe('The users table filter', function() {
       // Select Disabled from Status drop down
       users.statusTableDropDown.click();
       users.dropdownStatuses.get(0).click();
-
-      // Disabled input is selected
-      expect(users.dropdownStatusInputs.get(1).isSelected()).toBeTruthy();
+      users.dropdownStatuses.get(1).click();
       // All input is unselected
       expect(users.dropdownStatusInputs.get(0).isSelected()).toBeFalsy();
+      // Disabled and Enabled inputs are selected
+      expect(users.dropdownStatusInputs.get(1).isSelected()).toBeTruthy();
+      expect(users.dropdownStatusInputs.get(2).isSelected()).toBeTruthy();
 
-      users.statusTableDropDown.click().then(function() {
-        shared.tableElements.then(function(rows) {
-          for (var i = 0; i < rows.length; ++i) {
-            expect(rows[i].getText()).toContain('Disabled');
-          };
-        });
-      }).then(function() {
-        // Select Enabled from Status drop down
-        users.statusTableDropDown.click();
-        users.dropdownStatuses.get(0).click();
-        users.dropdownStatuses.get(1).click();
+      // Select All from Status drop down
+      users.allUserStatus.click();
 
-        // Enabled input is selected
-        expect(users.dropdownStatusInputs.get(2).isSelected()).toBeTruthy();
+      // All input is selected
+      expect(users.dropdownStatusInputs.get(0).isSelected()).toBeTruthy();
 
-        // Disabled and All inputs are unselected
-        expect(users.dropdownStatusInputs.get(1).isSelected()).toBeFalsy();
-        expect(users.dropdownStatusInputs.get(0).isSelected()).toBeFalsy();
+      // Disabled and Enabled inputs are unselected
+      expect(users.dropdownStatusInputs.get(1).isSelected()).toBeFalsy();
+      expect(users.dropdownStatusInputs.get(2).isSelected()).toBeFalsy();
 
-        users.statusTableDropDown.click().then(function() {
-          shared.tableElements.then(function(rows) {
-            for (var i = 0; i < rows.length; ++i) {
-              expect(rows[i].getText()).toContain('Enabled');
-            };
-          });
-        }).then(function() {
-          // Select All from Status drop down
-          users.statusTableDropDown.click();
-          users.allUserStatus.click();
-
-          // All input is selected
-          expect(users.dropdownStatusInputs.get(0).isSelected()).toBeTruthy();
-
-          // Disabled and Enabled inputs are unselected
-          expect(users.dropdownStatusInputs.get(1).isSelected()).toBeFalsy();
-          expect(users.dropdownStatusInputs.get(2).isSelected()).toBeFalsy();
-
-          users.statusTableDropDown.click();
-          // Expect all users to be displayed
-          expect(shared.tableElements.count()).toBe(userCount);
-        });
-      });
+      users.statusTableDropDown.click();
+      // Expect all users to be displayed
+      expect(shared.tableElements.count()).toBe(userCount);
     });
   });
 
@@ -91,7 +116,6 @@ describe('The users table filter', function() {
     shared.tableColumnsDropDown.click();
     shared.tableColumnsDropDown.all(by.repeater('option in options | orderBy:orderBy track by option[valuePath]')).get(6).click();
     shared.tableColumnsDropDown.click().then(function() {
-
 
       // Search
       shared.searchField.sendKeys('a\t');
@@ -155,7 +179,7 @@ describe('The users table filter', function() {
     });
   });
 
-  it('should display users based on the table Group filter', function() {
+  xit('should display users based on the table Group filter', function() {
     // Select Group from Groups drop down
     users.groupsTableDropDown.click();
     users.dropdownGroups.get(0).click();
@@ -176,7 +200,6 @@ describe('The users table filter', function() {
             // Verify user has group
             users.userGroups.each(function(groupElement, index) {
               groupElement.getText().then(function(groupName) {
-                console.log(groupName);
                 if (groupName == selectedGroupName) {
                   userHasGroup = true;
                 }
