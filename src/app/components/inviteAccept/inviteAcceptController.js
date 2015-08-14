@@ -1,9 +1,10 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('InviteAcceptController', ['$scope', 'User', '$state', '$stateParams', 'invitedUser', 'invitedTenantUser', 'AuthService', 'TenantUser', 'Alert', 'Session',
-    function ($scope, User, $state, $stateParams, invitedUser, invitedTenantUser, AuthService, TenantUser, Alert, Session) {
+  .controller('InviteAcceptController', ['$scope', 'User', '$state', '$stateParams', 'invitedUser', 'invitedTenantUser', 'AuthService', 'TenantUser', 'Alert', 'Session', '$timeout',
+    function ($scope, User, $state, $stateParams, invitedUser, invitedTenantUser, AuthService, TenantUser, Alert, Session, $timeout) {
       $scope.user = invitedUser;
+      $scope.loading = false;
       
       if (invitedTenantUser.status != 'invited'){
         Session.setToken(null);
@@ -31,34 +32,34 @@ angular.module('liveopsConfigPanel')
         $scope.newPassword = $scope.user.password;
         
         $scope.user.save()
-          .then($scope.signupSuccess, $scope.signupFailure)
-          .finally(function(){
-            $scope.loading = false;
-          });
+          .then($scope.signupSuccess, $scope.signupFailure);
       };
       
-      $scope.signupSuccess = function(){
-        AuthService.login($scope.user.email, $scope.newPassword).then($scope.loginSuccess, $scope.loginFailure);
+      $scope.acceptSuccess = function(){
+        AuthService.login($scope.user.email, $scope.newPassword).then(function(){
+          $state.transitionTo('content.management.users', {id: $stateParams.userId});
+        }, function(){
+          Alert.error('Sorry, there was an error logging you in!');
+          $scope.loading = false;
+        });
       };
       
       $scope.signupFailure = function(){
         Alert.error('Sorry, your details could not be updated at this time');
+        $scope.loading = false;
       };
       
-      $scope.loginSuccess = function(){
+      $scope.signupSuccess = function(){
         TenantUser.update({
           tenantId: $stateParams.tenantId,
           id: $stateParams.userId,
           status: 'accepted'
-        }, function(){
-          $state.transitionTo('content.management.users', {id: $stateParams.userId});
-        }, function(){
-          Alert.error('Sorry, there was an error accepting your invitation');
-        });
+        }, $scope.acceptSuccess, $scope.acceptFailure);
       };
       
-      $scope.loginFailure = function(){
-        Alert.error('Sorry, there was an error signing you in.');
+      $scope.acceptFailure = function(){
+        Alert.error('Sorry, there was an error accepting your invitation.');
+        $scope.loading = false;
       };
     }
   ]);

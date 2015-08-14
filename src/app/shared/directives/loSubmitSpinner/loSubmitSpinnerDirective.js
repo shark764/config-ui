@@ -7,9 +7,9 @@ angular.module('liveopsConfigPanel')
         loSubmitSpinnerStatus: '='
       },
       link: function($scope, ele) {
-        $scope.spinnerElement = angular.element('<a disabled="true" class="btn btn-primary"><i class="fa fa-refresh fa-spin"></i></a>');
+        $scope.spinnerElement = angular.element('<a disabled="true"><i class="fa fa-refresh fa-spin"></i></a>');
+        $scope.spinnerElement.addClass(ele[0].className);
         ele.after($scope.spinnerElement);
-        $scope.spinnerElement.addClass('ng-hide');
 
         $scope.$watch('loSubmitSpinnerStatus', function (val) {
           if (angular.isDefined(val)) {
