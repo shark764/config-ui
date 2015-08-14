@@ -54,7 +54,7 @@
           lo-submit="submit()"
           lo-submit-spinner
           lo-submit-spinner-status="selectedTenantUser.$busy"
-          ng-disabled="forms.detailsForm.$pending || (forms.detailsForm.$invalid && (forms.detailsForm.$error.length > 1 || ! forms.detailsForm.$error.duplicateUsername)) || ! forms.detailsForm.$dirty"
+          ng-disabled="forms.detailsForm.$pending || (forms.detailsForm.$invalid && (forms.detailsForm.$error.length > 1 || scenario === 'update')) || ! forms.detailsForm.$dirty"
           class="btn btn-primary"
           type="submit"
           value="{{'value.submit' | translate}}" />

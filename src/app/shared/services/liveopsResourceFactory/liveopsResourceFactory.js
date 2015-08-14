@@ -138,7 +138,21 @@ angular.module('liveopsConfigPanel')
 
             return getAllResponse;
           };
+          
+          Resource.cachedGet = function(params, cacheKey, invalidate) {
+            var key = cacheKey ? cacheKey : this.prototype.resourceName;
+            
+            var cache = queryCache.get(key);
+            
+            if(!cache || invalidate) {
+              var item = this.get(params);
+              queryCache.put(key, [item]);
+              return item;
+            }
 
+            return _.find(cache, params);
+          };
+          
           Resource.cachedQuery = function(params, cacheKey, invalidate) {
             var key = cacheKey ? cacheKey : this.prototype.resourceName;
             if(!queryCache.get(key) || invalidate) {
