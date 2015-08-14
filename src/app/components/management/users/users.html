@@ -22,7 +22,7 @@
 <lo-details-panel
   id="user-pane"
   class="details-pane"
-  ng-show="selectedTenantUser || showBulkActions"
+  ng-if="selectedTenantUser || showBulkActions"
   ng-resource="selectedTenantUser">
 
     <ng-form

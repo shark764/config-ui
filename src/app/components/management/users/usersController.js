@@ -11,7 +11,7 @@ angular.module('liveopsConfigPanel')
       $scope.newPassword = null;
       $window.flowSetup = flowSetup;
       $scope.tableConfig = userTableConfig;
-
+      
       $scope.scenario = function () {
         if(!$scope.selectedTenantUser) {
           return null;
@@ -94,14 +94,14 @@ angular.module('liveopsConfigPanel')
           $scope.selectedTenantUser.$original.status = tenantUser.status;
           
           var role = TenantRole.cachedGet({
-            id: $scope.selectedTenantUser.roleId
+            id: tenantUser.roleId
           });
           
           $scope.selectedTenantUser.$original.roleName = role.name;
           
           $scope.selectedTenantUser.reset();
           
-          return tenantUser;
+          return $scope.selectedTenantUser;
         });
       };
 
@@ -112,7 +112,7 @@ angular.module('liveopsConfigPanel')
           tenantUser.roleId = $scope.selectedTenantUser.roleId;
           tenantUser.status = $scope.selectedTenantUser.status;
           
-          $timeout(function(){ //TODO: remove timeout once TITAN2-2881 is addressed
+          return $timeout(function(){ //TODO: remove timeout once TITAN2-2881 is addressed
             return tenantUser.$save({
               tenantId: Session.tenant.tenantId
             }).then(function (tenantUser) {
@@ -139,6 +139,10 @@ angular.module('liveopsConfigPanel')
         }
         
         news.$validators.newTenantUser = function(modelValue) {
+          if(!modelValue) {
+            return true;
+          }
+          
           var tenantUsers = $scope.fetchTenantUsers();
           for(var tenantUserIndex = 0; tenantUserIndex < tenantUsers.length; tenantUserIndex++) {
             var tenantUser = tenantUsers[tenantUserIndex];
