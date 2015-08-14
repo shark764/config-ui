@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('ContentController', ['$scope', '$state', 'Alert', 'Session', '$translate', 'queryCache',
-    function ($scope, $state, Alert, Session, $translate, queryCache) {
+  .controller('ContentController', ['$scope', '$state', 'Alert', 'Session', '$translate', 'queryCache', '$stateParams',
+    function ($scope, $state, Alert, Session, $translate, queryCache, $stateParams) {
       $scope.showBulkActions = false;
       
       $scope.redirectToInvites = function () {
@@ -29,5 +29,15 @@ angular.module('liveopsConfigPanel')
       $scope.$on('table:resource:selected', function () {
         $scope.showBulkActions = false;
       });
+      
+      if ($stateParams.messageKey){
+        Alert.info($translate.instant($stateParams.messageKey), '', {
+          closeButton: true,
+          showDuration: 0,
+          hideDuration: 0,
+          timeOut: 0,
+          extendedTimeOut: 0
+        });
+      }
     }
   ]);

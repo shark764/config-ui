@@ -15,6 +15,7 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
     $stateProvider
       .state('content', {
         abstract: true,
+        url: '/content?messageKey', //Needs URL so stateparams works for the controller
         templateUrl: 'app/components/content/content.html',
         controller: 'ContentController',
         resolve: {
@@ -190,7 +191,7 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
         }
       })
       .state('login', {
-        url: '/login',
+        url: '/login?messageKey',
         templateUrl: 'app/components/login/login.html',
         controller: 'LoginController',
         isPublic: true
@@ -213,7 +214,7 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
         isPublic: true,
         resolve: {
           invitedUser: ['$stateParams', 'Session', 'User', function($stateParams, Session, User) {
-            //Session.setToken($stateParams.token);
+            Session.setToken('Token ' + $stateParams.token);
             
             return User.get({
               id: $stateParams.userId
