@@ -53,7 +53,7 @@
 </div>
 
 <div class="logical-group">
-  <div ng-show="scenario() !== 'update'">
+  <div ng-show="scenario() === 'update'">
     <div class="divider-header first-header">
       <h4>{{'details.tenantStatus' | translate}}</h4>
     </div>
@@ -74,7 +74,7 @@
     </div>
   </div>
 
-  <div disable-contents="forms.detailsForm.email.$invalid">
+  <div disable-contents="scenario() === 'invite:existing:user:in:tenant'">
     <div class="divider-header">
       <h4>{{'details' | translate}}</h4>
     </div>

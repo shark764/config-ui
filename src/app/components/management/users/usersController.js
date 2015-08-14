@@ -116,10 +116,16 @@ angular.module('liveopsConfigPanel')
 
       this.saveNewUserTenantUser = function (user) {
         return user.save().then(function (user) {
-          $scope.selectedTenantUser.email = user.email;
-          return $scope.selectedTenantUser.$save({
+          
+          var tenantUser = new TenantUser();
+          tenantUser.email = user.email;
+          tenantUser.roleId = $scope.selectedTenantUser.roleId;
+          tenantUser.status = $scope.selectedTenantUser.status;
+          
+          return tenantUser.$save({
             tenantId: Session.tenant.tenantId
           }).then(function (tenantUser) {
+            $scope.selectedTenantUser = tenantUser;
             tenantUserConverter.convertBack(user, tenantUser);
             tenantUser.skills = [];
             tenantUser.groups = [{}];
@@ -145,12 +151,16 @@ angular.module('liveopsConfigPanel')
           for(var tenantUserIndex = 0; tenantUserIndex < tenantUsers.length; tenantUserIndex++) {
             var tenantUser = tenantUsers[tenantUserIndex];
             if(tenantUser.email === modelValue) {
-              $scope.selectedTenantUser = tenantUser;
+              angular.copy(tenantUser, $scope.selectedTenantUser);
               return false;
             }
           }
-          
-          return true;
+          $scope.selectedTenantUser = new TenantUser({
+            email: modelValue,
+            roleId: $scope.selectedTenantUser.roleId,
+            status: $scope.selectedTenantUser.status
+          });
+          return false;
         };
       });
       

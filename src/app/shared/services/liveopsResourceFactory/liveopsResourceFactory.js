@@ -139,6 +139,30 @@ angular.module('liveopsConfigPanel')
             return getAllResponse;
           };
           
+          var proxySave = Resource.prototype.$save;
+          Resource.prototype.$save = function(params, success, failure) {
+            var promise = proxySave.call(this, params, success, failure);
+            
+            promise.then(function(result) {
+              result.$original = angular.copy(result);
+              return result;
+            });
+
+            return promise;
+          };
+          
+          var proxyUpdate = Resource.prototype.$update;
+          Resource.prototype.$update = function(params, success, failure) {
+            var promise = proxyUpdate.call(this, params, success, failure);
+            
+            promise.then(function(result) {
+              result.$original = angular.copy(result);
+              return result;
+            });
+
+            return promise;
+          };
+          
           Resource.cachedGet = function(params, cacheKey, invalidate) {
             var key = cacheKey ? cacheKey : this.prototype.resourceName;
             
