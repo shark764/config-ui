@@ -4,11 +4,12 @@ angular.module('liveopsConfigPanel.mock.content.management.tenantUsers', ['liveo
   .service('mockTenantUsers', function (TenantUser) {
     return [new TenantUser({
       'id': 'userId1',
-      'status': 'disabled',
+      'status': 'pending',
       'externalId': 73795,
       'lastName': 'Lowe',
       'firstName': 'Munoz',
       'email': 'munoz.lowe@hivedom.org',
+      'tenantId': 'tenant-id',
       'skills': [],
       'groups': []
     }), new TenantUser({
@@ -18,6 +19,7 @@ angular.module('liveopsConfigPanel.mock.content.management.tenantUsers', ['liveo
       'lastName': 'Oliver',
       'firstName': 'Michael',
       'email': 'michael.oliver@ezent.io',
+      'tenantId': 'tenant-id',
       'skills': [],
       'groups': []
     }), new TenantUser({
@@ -27,6 +29,7 @@ angular.module('liveopsConfigPanel.mock.content.management.tenantUsers', ['liveo
       'lastName': 'Moon',
       'firstName': 'Jackie',
       'email': 'jackie.moon@liveops.com',
+      'tenantId': 'tenant-id',
       'displayName': 'Jackie Moon',
       'skills': [],
       'groups': []

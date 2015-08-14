@@ -30,8 +30,7 @@ describe('bulkActionExecutor directive', function () {
   ]));
 
   describe('ON execute', function () {
-    it('should call execute for all checked items', inject(['$httpBackend',
-      function ($httpBackend) {
+    it('should call execute for all checked items', inject([function () {
         isolateScope.execute();
 
         expect(isolateScope.bulkActions[0].execute).toHaveBeenCalledWith([
@@ -42,8 +41,7 @@ describe('bulkActionExecutor directive', function () {
       }
     ]));
 
-    it('should not call execute for unchecked bulkAction', inject(['$httpBackend',
-      function ($httpBackend) {
+    it('should not call execute for unchecked bulkAction', inject([function () {
         isolateScope.execute();
 
         expect(isolateScope.bulkActions[1].execute).not.toHaveBeenCalled();
