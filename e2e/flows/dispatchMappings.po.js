@@ -37,8 +37,8 @@ var DispatchMappingsPage = function() {
   this.statuses = this.statusTableDropDown.all(by.repeater('option in options track by option[valuePath]'));
   this.statusInputs = this.statusTableDropDown.all(by.css('input'));
 
-  this.interactionFieldTableDropDown = this.tableHeader.element(by.css('th:nth-child(5) > filter-dropdown'));
-  this.interactionFields = this.interactionFieldTableDropDown.all(by.repeater('option in options track by option[valuePath]'));
+  this.interactionFieldTableDropDown = this.tableHeader.element(by.css('tr:nth-child(1) > th:nth-child(5) > filter-dropdown:nth-child(2)'));
+  this.interactionFields = this.interactionFieldTableDropDown.all(by.repeater('option in options | orderBy:orderBy track by option[valuePath]'));
 };
 
 module.exports = new DispatchMappingsPage();
