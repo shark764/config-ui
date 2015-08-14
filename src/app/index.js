@@ -15,7 +15,7 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
     $stateProvider
       .state('content', {
         abstract: true,
-        url: '/content?messageKey', //Needs URL so stateparams works for the controller
+        url: '?messageKey', //Needs URL so stateparams works for the controller
         templateUrl: 'app/components/content/content.html',
         controller: 'ContentController',
         resolve: {
