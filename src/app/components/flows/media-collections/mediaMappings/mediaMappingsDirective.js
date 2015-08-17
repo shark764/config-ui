@@ -32,6 +32,7 @@ angular.module('liveopsConfigPanel')
           $scope.collection.mediaMap.splice(index, 1);
           if ($scope.collection.mediaMap.length === 0) {
             delete $scope.collection.mediaMap;
+            delete $scope.collection.defaultMediaKey;
           }
 
           $scope.form.mediaMapChanges.$setDirty();
