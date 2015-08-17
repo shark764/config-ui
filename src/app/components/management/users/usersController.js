@@ -23,7 +23,7 @@ angular.module('liveopsConfigPanel')
           }
         } else if ($parse('forms.detailsForm.email.$error.duplicateEmail')($scope)) {
           return 'invite:existing:user:in:tenant';
-        } else {
+        } else if(!$scope.selectedTenantUser.isNew()) {
           return 'update';
         }
       };
@@ -59,6 +59,7 @@ angular.module('liveopsConfigPanel')
 
       this.updateTenantUser = function() {
         var user = $scope.selectedTenantUser.$user;
+        var wasNew = $scope.selectedTenantUser.isNew();
         return $scope.selectedTenantUser.save({
           tenantId: Session.tenant.tenantId
         }).then(function(tenantUser) {
@@ -72,10 +73,12 @@ angular.module('liveopsConfigPanel')
             tenantUser.$user = user;
 
             tenantUser.$original.roleName = TenantRole.getName(tenantUser.roleId);
-
+            
             tenantUser.reset();
-
-            $scope.fetchTenantUsers().push(tenantUser);
+            
+            if(wasNew) {
+              $scope.fetchTenantUsers().push(tenantUser);
+            }
 
             return tenantUser;
           });
@@ -91,12 +94,15 @@ angular.module('liveopsConfigPanel')
               tenantId: Session.tenant.tenantId
             }).then(function(tenantUser) {
               tenantUser.$user = user;
+              tenantUser.id = user.id;
               tenantUser.$original.skills = [];
               tenantUser.$original.groups = [{}];
 
               tenantUser.$original.roleName = TenantRole.getName(tenantUser.roleId);
-
+              
               tenantUser.reset();
+
+              $scope.fetchTenantUsers().push(tenantUser);
 
               return tenantUser;
             });
