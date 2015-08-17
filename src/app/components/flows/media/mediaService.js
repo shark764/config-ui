@@ -12,5 +12,9 @@ angular.module('liveopsConfigPanel')
       ]
     });
     
+    Media.prototype.getDisplay = function (){
+      return this.name;
+    };
+    
     return Media;
   }]);
