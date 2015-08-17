@@ -97,6 +97,15 @@ angular.module('liveopsConfigPanel')
           'filterOrderBy': 'name'
         }, {
           'header': {
+            'display': $translate.instant('value.presence'),
+            'valuePath': 'value',
+            'displayPath': 'display',
+            'options': userStates
+          },
+          'name': '$original.state',
+          'checked': false
+        }, {
+          'header': {
             'display': $translate.instant('value.status'),
             'valuePath': 'value',
             'displayPath': 'display',

@@ -42,11 +42,14 @@ angular.module('liveopsConfigPanel.config', [])
   'display': 'Ready',
   'value': 'READY'
 }, {
-  'display': 'Not Ready',
+  'display': 'Not-Ready',
   'value': 'NOT_READY'
 }, {
-  'display': 'Wrap',
-  'value': 'WRAP'
+  'display': 'Allocated',
+  'value': 'ALLOCATED'
+}, {
+  'display': 'offline',
+  'value': 'offline'
 }])
 
 .constant('userRoles', [{
