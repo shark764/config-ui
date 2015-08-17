@@ -1,166 +1,124 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('UsersController', ['$scope', '$window', '$parse', 'User', 'Session', 'AuthService', 'userTableConfig', 'Alert', 'flowSetup', 'BulkAction', '$q', '$location', 'lodash', 'Chain', 'TenantUser', 'TenantRole', 'tenantUserConverter', 'queryCache', '$timeout',
-    function ($scope, $window, $parse, User, Session, AuthService, userTableConfig, Alert, flowSetup, BulkAction, $q, $location, _, Chain, TenantUser, TenantRole, tenantUserConverter, queryCache, $timeout) {
+  .controller('UsersController', ['$scope', '$window', '$parse', 'User', 'Session', 'AuthService', 'userTableConfig', 'Alert', 'flowSetup', 'BulkAction', '$q', '$location', 'lodash', 'Chain', 'TenantUser', 'TenantRole', 'queryCache', '$timeout',
+    function($scope, $window, $parse, User, Session, AuthService, userTableConfig, Alert, flowSetup, BulkAction, $q, $location, _, Chain, TenantUser, TenantRole, queryCache, $timeout) {
       var self = this;
-    
+
       $scope.Session = Session;
       $scope.forms = {};
-      $scope.ngModels = {};
-      $scope.newPassword = null;
       $window.flowSetup = flowSetup;
       $scope.tableConfig = userTableConfig;
-      
-      $scope.scenario = function () {
-        if(!$scope.selectedTenantUser) {
+
+      $scope.scenario = function() {
+        if (!$scope.selectedTenantUser) {
           return null;
         }
-        
-        if ($scope.selectedTenantUser.isNew()) {
-          if ($parse('forms.detailsForm.email.$error.duplicateUsername')($scope)) {
+
+        if ($scope.selectedTenantUser.$user.isNew()) {
+          if ($parse('forms.detailsForm.email.$error.duplicateEmail')($scope)) {
             return 'invite:existing:user:not:in:tenant';
           } else {
             return 'invite:new:user';
           }
-        } else if($parse('forms.detailsForm.email.$error.newTenantUser')($scope)) {
+        } else if ($parse('forms.detailsForm.email.$error.duplicateEmail')($scope)) {
           return 'invite:existing:user:in:tenant';
         } else {
           return 'update';
         }
       };
 
-      User.prototype.preUpdate = function () {
-        if (this.password) {
-          $scope.newPassword = this.password;
-        }
-      };
-
-      User.prototype.postUpdate = function (result) {
-        if (this.id === Session.user.id && $scope.newPassword) {
-          var token = AuthService.generateToken(this.email, $scope.newPassword);
-          Session.setUser(this);
-          Session.setToken(token);
-          $scope.newPassword = null;
-        }
-
-        return result;
-      };
-
-      $scope.fetchTenantUsers = function () {
+      $scope.fetchTenantUsers = function() {
         return TenantUser.cachedQuery({
           tenantId: Session.tenant.tenantId
         });
       };
 
-      $scope.fetchTenantRoles = function () {
+      $scope.fetchTenantRoles = function() {
         return TenantRole.cachedQuery({
           tenantId: Session.tenant.tenantId
         });
       };
 
-      $scope.create = function () {
+      $scope.create = function() {
         $scope.selectedTenantUser = new TenantUser();
+        $scope.selectedTenantUser.$user = new User();
       };
 
-      $scope.submit = function () {
-        $scope.selectedTenantUser.$busy = true;
-        var user = tenantUserConverter.convert($scope.selectedTenantUser);
-        
+      $scope.submit = function() {
         var scenario = $scope.scenario();
 
         if (scenario.indexOf('invite:existing') === 0) {
-          return self.updateTenantUser(user);
+          return self.updateTenantUser();
         } else if (scenario === 'invite:new:user') {
-          return self.saveNewUserTenantUser(user);
+          return self.saveNewUserTenantUser();
         } else if (scenario === 'update') {
-          return self.updateUser(user);
+          return self.updateUser();
         }
       };
 
-      this.updateTenantUser = function (user) {
-        $scope.selectedTenantUser.email = user.email;
-        
-        var tenantUser = new TenantUser({
-          email: user.email,
-          roleId: $scope.selectedTenantUser.roleId,
-          status: $scope.selectedTenantUser.status
-        });
-
-        return tenantUser.$save({
+      this.updateTenantUser = function() {
+        var user = $scope.selectedTenantUser.$user;
+        return $scope.selectedTenantUser.$save({
           tenantId: Session.tenant.tenantId
-        }).then(function (tenantUser) {
-          $scope.selectedTenantUser.$original.roleId = tenantUser.roleId;
-          $scope.selectedTenantUser.$original.status = tenantUser.status;
-          
-          var role = TenantRole.cachedGet({
-            id: tenantUser.roleId
+        }).then(function(tenantUser) {
+          tenantUser.$user = user;
+
+          //TODO log API bug where roleName isn't comming back on get
+          return TenantUser.get({
+            tenantId: Session.tenant.tenantId,
+            id: tenantUser.userId
+          }).$promise.then(function(tenantUser) {
+            tenantUser.$user = user;
+
+            tenantUser.$original.roleName = TenantRole.getName(tenantUser.roleId);
+
+            tenantUser.reset();
+
+            $scope.fetchTenantUsers().push(tenantUser);
+
+            return tenantUser;
           });
-          
-          $scope.selectedTenantUser.$original.roleName = role.name;
-          
-          $scope.selectedTenantUser.reset();
-          
-          return $scope.selectedTenantUser;
         });
       };
 
-      this.saveNewUserTenantUser = function (user) {
-        return user.save().then(function (user) {
-          var tenantUser = new TenantUser();
-          tenantUser.email = user.email;
-          tenantUser.roleId = $scope.selectedTenantUser.roleId;
-          tenantUser.status = $scope.selectedTenantUser.status;
-          
-          return $timeout(function(){ //TODO: remove timeout once TITAN2-2881 is addressed
-            return tenantUser.$save({
+      this.saveNewUserTenantUser = function() {
+        $scope.selectedTenantUser.$user.email = $scope.selectedTenantUser.email;
+        return $scope.selectedTenantUser.$user.$save().then(function(user) {
+
+          return $timeout(function() { //TODO: remove timeout once TITAN2-2881 is addressed
+            return $scope.selectedTenantUser.$save({
               tenantId: Session.tenant.tenantId
-            }).then(function (tenantUser) {
-              $scope.selectedTenantUser = tenantUser;
-              tenantUserConverter.convertBack(user, tenantUser);
-              tenantUser.skills = [];
-              tenantUser.groups = [{}];
+            }).then(function(tenantUser) {
+              tenantUser.$user = user;
+              tenantUser.$original.skills = [];
+              tenantUser.$original.groups = [{}];
+
+              tenantUser.$original.roleName = TenantRole.getName(tenantUser.roleId);
+
+              tenantUser.reset();
+
               return tenantUser;
             });
           }, 3000);
         });
       };
 
-      this.updateUser = function (user) {
-        return user.save().then(function (user) {
-          tenantUserConverter.convertBack(user, $scope.selectedTenantUser);
+      this.updateUser = function() {
+        var oldPassword = this.password;
+        return $scope.selectedTenantUser.$user.save().then(function(user) {
+          if (user.id === Session.user.id) {
+            var token = AuthService.generateToken(user.email, oldPassword);
+            Session.setUser(user);
+            Session.setToken(token);
+            $scope.newPassword = null;
+          }
+
           return user;
         });
       };
-      
-      $scope.$watch('ngModels.email', function(news) {
-        if(!news) {
-          return;
-        }
-        
-        news.$validators.newTenantUser = function(modelValue) {
-          if(!modelValue) {
-            return true;
-          }
-          
-          var tenantUsers = $scope.fetchTenantUsers();
-          for(var tenantUserIndex = 0; tenantUserIndex < tenantUsers.length; tenantUserIndex++) {
-            var tenantUser = tenantUsers[tenantUserIndex];
-            if(tenantUser.email === modelValue) {
-              angular.copy(tenantUser, $scope.selectedTenantUser);
-              return false;
-            }
-          }
-          $scope.selectedTenantUser = new TenantUser({
-            email: modelValue,
-            roleId: $scope.selectedTenantUser.roleId,
-            status: $scope.selectedTenantUser.status
-          });
-          return true;
-        };
-      });
-      
-      $scope.$on('table:on:click:create', function () {
+
+      $scope.$on('table:on:click:create', function() {
         $scope.create();
       });
 

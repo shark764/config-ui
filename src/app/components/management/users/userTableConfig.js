@@ -6,7 +6,7 @@ angular.module('liveopsConfigPanel')
       Skill.prototype.value = function () {
         return this.id;
       };
-      
+
       Skill.prototype.display = function () {
         return this.name;
       };
@@ -14,7 +14,7 @@ angular.module('liveopsConfigPanel')
       Group.prototype.value = function () {
         return this.id;
       };
-      
+
       Group.prototype.display = function () {
         return this.name;
       };
@@ -42,20 +42,20 @@ angular.module('liveopsConfigPanel')
           'header': {
             'display': $translate.instant('value.name')
           },
-          'resolve': function (user) {
-            return user.$original.getDisplay();
+          'resolve': function (tenantUser) {
+            return tenantUser.$user.$original.getDisplay();
           },
-          'sortOn': '$original.lastName'
+          'sortOn': '$user.$original.lastName'
         }, {
           'header': {
             'display': $translate.instant('value.email')
           },
-          'name': '$original.email'
+          'name': '$user.$original.email'
         }, {
           'header': {
             'display': $translate.instant('details.externalId')
           },
-          'name': '$original.externalId'
+          'name': '$user.$original.externalId'
         }, {
           'header': {
             'display': $translate.instant('user.table.skills'),
@@ -112,7 +112,7 @@ angular.module('liveopsConfigPanel')
             path: 'name'
           }
         }],
-        'orderBy': '$original.lastName',
+        'orderBy': '$user.$original.lastName',
         'title': $translate.instant('user.table.title')
       };
     }

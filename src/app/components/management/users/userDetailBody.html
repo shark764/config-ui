@@ -12,15 +12,16 @@
     </form-error>
     <div>
       <input autocomplete="off" name="email" type="email" ng-required="true"
-        ng-model="selectedTenantUser.email" 
+        ng-model="selectedTenantUser.email"
+        ng-resource="selectedTenantUser"
         ng-model-options="{ updateOn: 'blur', allowInvalid: true }"
-        duplicate-username
+        duplicate-email
         api-error>
       </input>
       <i class="email-verify-spinner" ng-class="{'fa fa-spin fa-spinner' : forms.detailsForm.email.$pending.duplicateUsername}"></i>
     </div>
   </div>
-  
+
   <div class="input-group">
     <label>{{'details.role' | translate}} *</label>
     <form-error field="forms.detailsForm.roleId" error-type-required="{{'details.role.error' | translate}}"></form-error>
@@ -46,7 +47,7 @@
       <help-icon translate-value="details.inviteNow.help"></help-icon>
     </div>
   </div>
-  
+
   <div class="input-group" ng-show="forms.detailsForm.email.$error.duplicateUsername || forms.detailsForm.email.$error.newTenantUser">
     <div class="lo-alert">{{'details.email.alreadyExists' | translate}}</div>
   </div>
@@ -57,7 +58,7 @@
     <div class="divider-header first-header">
       <h4>{{'details.tenantStatus' | translate}}</h4>
     </div>
-  
+
     <div class="input-group">
       <label>{{'details.inviteStatus' | translate}}</label>
       <div>
@@ -65,7 +66,7 @@
         <help-icon translate-value="details.tenantStatus.help"></help-icon>
       </div>
     </div>
-  
+
     <div ng-if="selectedTenantUser.status == 'pending' || selectedTenantUser.status == 'expired'" class="input-group">
       <label></label>
       <div>
@@ -78,7 +79,7 @@
     <div class="divider-header">
       <h4>{{'details' | translate}}</h4>
     </div>
-  
+
     <div class="input-group">
       <label>{{'details.firstName' | translate}} <span ng-if="scenario() !== 'update'">*</span></label>
       <form-error field="forms.detailsForm.firstName"
@@ -86,13 +87,13 @@
         error-type-api="{{'details.firstName.error' | translate}}">
       </form-error>
       <div>
-  
+
         <input name="firstName" type="text"
-          ng-model="selectedTenantUser.firstName" 
+          ng-model="selectedTenantUser.$user.firstName"
           ng-required="scenario() !== 'update'"></input>
       </div>
     </div>
-  
+
     <div class="input-group">
       <label>{{'details.lastName' | translate}} <span ng-if="scenario() !== 'update'">*</span></label>
       <form-error field="forms.detailsForm.lastName"
@@ -101,12 +102,12 @@
       </form-error>
       <div>
         <input name="lastName" type="text"
-          ng-model="selectedTenantUser.lastName"
+          ng-model="selectedTenantUser.$user.lastName"
           ng-required="scenario() !== 'update'">
       </input>
       </div>
     </div>
-  
+
     <div class="input-group">
       <label>{{'details.personalTelephone' | translate}}</label>
       <form-error field="forms.detailsForm.personalTelephone"
@@ -114,19 +115,19 @@
       </form-error>
       <div>
         <input name="personalTelephone" type="tel"
-          ng-model="selectedTenantUser.personalTelephone"
+          ng-model="selectedTenantUser.$user.personalTelephone"
           api-error>
         <help-icon text="Personal Telephone should be E.164 format"></help-icon>
       </div>
     </div>
-  
+
     <div class="input-group">
       <label>{{'details.externalId' | translate}}</label>
       <form-error field="forms.detailsForm.externalId"
         error-type-api="Must be a String">
       </form-error>
       <div>
-        <input ng-model="selectedTenantUser.externalId" name="externalId" type="text"></input>
+        <input ng-model="selectedTenantUser.$user.externalId" name="externalId" type="text"></input>
       </div>
     </div>
   </div>
@@ -157,7 +158,7 @@
         value="{{'user.details.password.reset' | translate}}">
       <input name="password" type="password"
         ng-required="forms.detailsForm.password.$dirty"
-        autocomplete="off" ng-model="selectedTenantUser.password"
+        autocomplete="off" ng-model="selectedTenantUser.$user.password"
         ng-show="forms.detailsForm.password.$dirty">
       </input>
     </div>

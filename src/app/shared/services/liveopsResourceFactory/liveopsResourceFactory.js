@@ -19,7 +19,7 @@ angular.module('liveopsConfigPanel')
         return value;
       }
 
-      function createJsonReplacer(key, value) { 
+      function createJsonReplacer(key, value) {
         if(_.startsWith(key, '$')) {
           return undefined;
         } else {
@@ -28,7 +28,7 @@ angular.module('liveopsConfigPanel')
       }
 
       return {
-        create: function (endpoint, resourceName, updateFields, requestUrlFields) {
+        create: function (params) {
 
           var updateJsonReplacer = function  (key, value) {
 
@@ -44,16 +44,16 @@ angular.module('liveopsConfigPanel')
               return value;
             }
 
-            var i = _.findIndex(updateFields, {'name' : key});
+            var i = _.findIndex(params.updateFields, {'name' : key});
 
-            if(i >= 0 && (value !== null || !updateFields[i].optional)){
+            if(i >= 0 && (value !== null || !params.updateFields[i].optional)){
               return value;
             }
 
             return undefined;
           };
 
-          requestUrlFields = typeof requestUrlFields !== 'undefined' ? requestUrlFields : {
+          params.requestUrlFields = angular.isDefined(params.requestUrlFields) ? params.requestUrlFields : {
             id: '@id',
             tenantId: '@tenantId',
             groupId: '@groupId',
@@ -63,23 +63,25 @@ angular.module('liveopsConfigPanel')
             memberId: '@memberId'
           };
 
-          var Resource = $resource(apiHostname + endpoint, requestUrlFields, {
+          var Resource = $resource(apiHostname + params.endpoint, params.requestUrlFields, {
             query: {
               method: 'GET',
               isArray: true,
               transformResponse: appendTransform($http.defaults.transformResponse, function (values) {
                 return getResult(values);
-              })
+              }),
+              interceptor: params.queryInterceptor
             },
             get: {
               method: 'GET',
               transformResponse: appendTransform($http.defaults.transformResponse, function (value) {
                 return getResult(value);
-              })
+              }),
+              interceptor: params.getInterceptor
             },
             update: {
               method: 'PUT',
-              interceptor: SaveInterceptor,
+              interceptor: angular.isDefined(params.updateInterceptor) ? params.updateInterceptor : SaveInterceptor,
               transformRequest: function (data) {
                 return JSON.stringify(data, updateJsonReplacer);
               },
@@ -90,7 +92,7 @@ angular.module('liveopsConfigPanel')
             },
             save: {
               method: 'POST',
-              interceptor: SaveInterceptor,
+              interceptor: angular.isDefined(params.saveInterceptor) ? params.saveInterceptor : SaveInterceptor,
               transformRequest: function (data) {
                 return JSON.stringify(data, createJsonReplacer);
               },
@@ -108,7 +110,7 @@ angular.module('liveopsConfigPanel')
             }
           });
 
-          Resource.prototype.resourceName = resourceName;
+          Resource.prototype.resourceName = params.resourceName;
 
           var proxyGet = Resource.get;
 
@@ -138,11 +140,11 @@ angular.module('liveopsConfigPanel')
 
             return getAllResponse;
           };
-          
+
           var proxySave = Resource.prototype.$save;
           Resource.prototype.$save = function(params, success, failure) {
             var promise = proxySave.call(this, params, success, failure);
-            
+
             promise.then(function(result) {
               result.$original = angular.copy(result);
               return result;
@@ -150,11 +152,11 @@ angular.module('liveopsConfigPanel')
 
             return promise;
           };
-          
+
           var proxyUpdate = Resource.prototype.$update;
           Resource.prototype.$update = function(params, success, failure) {
             var promise = proxyUpdate.call(this, params, success, failure);
-            
+
             promise.then(function(result) {
               result.$original = angular.copy(result);
               return result;
@@ -162,12 +164,12 @@ angular.module('liveopsConfigPanel')
 
             return promise;
           };
-          
+
           Resource.cachedGet = function(params, cacheKey, invalidate) {
             var key = cacheKey ? cacheKey : this.prototype.resourceName;
-            
+
             var cache = queryCache.get(key);
-            
+
             if(!cache || invalidate) {
               var item = this.get(params);
               queryCache.put(key, [item]);
@@ -176,7 +178,7 @@ angular.module('liveopsConfigPanel')
 
             return _.find(cache, params);
           };
-          
+
           Resource.cachedQuery = function(params, cacheKey, invalidate) {
             var key = cacheKey ? cacheKey : this.prototype.resourceName;
             if(!queryCache.get(key) || invalidate) {
@@ -194,13 +196,13 @@ angular.module('liveopsConfigPanel')
               preEvent = self.isNew() ? self.preCreate : self.preUpdate,
               postEvent = self.isNew() ? self.postCreate : self.postUpdate,
               postEventFail = self.isNew() ? self.postCreateError : self.postUpdateError;
-            
-            
+
+
             if(angular.isFunction(params)) {
               failure = success;
               success = params;
             }
-            
+
             //TODO find out why preEvent didn't work in the chain
             preEvent.call(self);
             self.preSave();

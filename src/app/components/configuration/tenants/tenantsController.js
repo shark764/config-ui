@@ -11,12 +11,14 @@ angular.module('liveopsConfigPanel')
         });
       };
 
-      $scope.fetch = function() {
-        $scope.tenants = Tenant.query({
+      $scope.fetchTenants = function() {
+        return Tenant.cachedQuery({
           regionId: Session.activeRegionId
         });
-        
-        $scope.users = User.query({
+      };
+
+      $scope.fetchUsers = function() {
+        return User.cachedQuery({
           tenantId: Session.tenant.tenantId
         });
       };
@@ -27,20 +29,19 @@ angular.module('liveopsConfigPanel')
       });
 
       $scope.tableConfig = tenantTableConfig;
-      $scope.fetch();
 
       $scope.additional = {
-        users: $scope.users
+        fetchUsers: $scope.fetchUsers
       };
-      
-      $scope.$on('table:resource:selected', function () {
+
+      $scope.$on('table:resource:selected', function() {
         $scope.showBulkActions = false;
       });
 
-      $scope.$on('table:on:click:actions', function () {
+      $scope.$on('table:on:click:actions', function() {
         $scope.showBulkActions = true;
       });
-      
+
       $scope.bulkActions = {
         setTenantStatus: new BulkAction()
       };

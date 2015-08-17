@@ -3,6 +3,9 @@
 angular.module('liveopsConfigPanel')
   .factory('TenantUserGroups', ['LiveopsResourceFactory', function (LiveopsResourceFactory) {
 
-    return LiveopsResourceFactory.create('/v1/tenants/:tenantId/users/:memberId/groups', 'TenantUserGroup', null);
+    return LiveopsResourceFactory.create({
+      endpoint: '/v1/tenants/:tenantId/users/:memberId/groups',
+      resourceName: 'TenantUserGroup'
+    });
 
   }]);

@@ -62,6 +62,10 @@ angular.module('liveopsConfigPanel')
             }
           };
 
+          $scope.isResolved = function(item) {
+            return angular.isUndefined(item.$resolved) || item.$resolved;
+          }
+
           $scope.toggleAll = function(checkedValue) {
             angular.forEach($scope.filtered, function(item) {
               $scope.checkItem(item, checkedValue);
