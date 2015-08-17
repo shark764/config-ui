@@ -278,10 +278,13 @@ describe('LiveopsResourceFactory', function () {
         }]));
 
         it('should include null data if its not optional', inject([function () {
-          LiveopsResourceFactory.create('/endpoint', 'Resource', [{
-            name: 'myfield',
-            optional: false
-          }]);
+          LiveopsResourceFactory.create({
+            endpoint: '/endpoint', 
+            updateFields: [{
+              name: 'myfield',
+              optional: false
+            }]
+          });
 
           var transformRequest = givenConfig.update.transformRequest;
           var result = transformRequest({

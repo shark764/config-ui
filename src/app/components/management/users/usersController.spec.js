@@ -47,50 +47,9 @@ describe('users controller', function () {
   it('should catch the on:click:create event', inject([ function () {
       $scope.$broadcast('table:on:click:create');
       expect($scope.selectedTenantUser).toBeDefined();
-      expect($scope.selectedTenantUser.status).toEqual('pending');
+      expect($scope.selectedTenantUser.isNew()).toBeTruthy();
+      
+      expect($scope.selectedTenantUser.$user).toBeDefined();
+      expect($scope.selectedTenantUser.$user.isNew()).toBeTruthy();
     }]));
-
-  describe('postUpdate function', function () {
-    it('should reset the session authentication token if user changes their own password',
-      inject(['$injector', 'Session', function ($injector, Session) {
-
-        var newPassword = 'anewpassword';
-        var AuthService = $injector.get('AuthService');
-        var token = AuthService.generateToken(mockUsers[0].email, newPassword);
-
-        $scope.selectedTenantUser = mockUsers[0];
-        $scope.selectedTenantUser.password = newPassword;
-
-        spyOn(Session, 'setToken');
-
-        $scope.selectedTenantUser.preUpdate($scope.selectedTenantUser);
-
-        expect($scope.newPassword).toBeDefined();
-        expect($scope.newPassword).toEqual(newPassword);
-
-        $scope.selectedTenantUser.postUpdate($scope.selectedTenantUser);
-
-        expect(Session.setToken).toHaveBeenCalledWith(token);
-      }]));
-
-    it('should reset the session authentication token if user changes their own password',
-      inject(['$injector', 'Session', function ($injector, Session) {
-
-        var newPassword = 'anewpassword';
-        $scope.newPassword = newPassword;
-        var AuthService = $injector.get('AuthService');
-        var token = AuthService.generateToken(mockTenantUsers[0].email, newPassword);
-
-        $scope.selectedTenantUser = mockTenantUsers[0];
-        $scope.selectedTenantUser.password = newPassword;
-
-        spyOn(Session, 'setToken');
-
-        Session.user.id = 'nope';
-
-        $scope.selectedTenantUser.postUpdate($scope.selectedTenantUser);
-
-        expect(Session.setToken).not.toHaveBeenCalledWith(token);
-      }]));
-  });
 });
