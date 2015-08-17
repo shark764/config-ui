@@ -1,7 +1,5 @@
 'use strict';
 
-/* global spyOn: false  */
-
 describe('users controller', function () {
   var $scope,
     $httpBackend,

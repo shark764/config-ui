@@ -7,13 +7,13 @@ angular.module('liveopsConfigPanel')
         return Skill.cachedQuery({
           tenantId: Session.tenant.tenantId
         });
-      };
+      }
 
       function getGroupOptions() {
         return Group.cachedQuery({
           tenantId: Session.tenant.tenantId
         });
-      };
+      }
 
       function getRoleOptions() {
         return TenantRole.cachedQuery({

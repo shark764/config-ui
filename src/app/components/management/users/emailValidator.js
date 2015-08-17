@@ -1,40 +1,13 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('duplicateEmail', ['$q', '$parse', 'User', 'TenantUser', 'Session',
-    function($q, $parse, User, TenantUser, Session) {
+  .directive('duplicateEmail', ['$q', '$parse', 'User',
+    function($q, $parse, User) {
       return {
         require: ['ngModel', 'ngResource'],
         link: function($scope, elem, attrs, ctrl) {
           var ngModelController = ctrl[0];
           var ngResource = $parse(attrs.ngResource)($scope);
-          // ngModelController.$validators.duplicateTenantEmail = function(modelValue) {
-          //   if (ngModelController.$isEmpty(modelValue)) {
-          //     // consider empty model valid
-          //     return true;
-          //   }
-          //
-          //   var tenantUsers = TenantUser.cachedQuery({
-          //     tenantId: Session.tenant.tenantId
-          //   });
-          //
-          //   for (var tenantUserIndex = 0; tenantUserIndex < tenantUsers.length; tenantUserIndex++) {
-          //     var tenantUser = tenantUsers[tenantUserIndex];
-          //     if (tenantUser.email === modelValue) {
-          //       angular.copy(tenantUser, ngResource);
-          //       return false;
-          //     }
-          //   }
-          //
-          //   $scope[attrs.ngResource] = new TenantUser({
-          //     email: modelValue,
-          //     roleId: ngResource.roleId,
-          //     status: ngResource.status
-          //   });
-          //
-          //   return true;
-          // };
-
           ngModelController.$asyncValidators.duplicateEmail = function(modelValue) {
             if (ngModelController.$isEmpty(modelValue)) {
               // consider empty model valid

@@ -18,7 +18,7 @@ describe('invite accept controller', function () {
 
   beforeEach(inject(['$compile', '$rootScope', '$httpBackend', '$controller', 'apiHostname', 'mockUsers', 'mockTenantUsers',
     function ($compile, _$rootScope, _$httpBackend, _$controller, _apiHostname, _mockUsers, _mockTenantUsers) {
-      $rootScope = _$rootScope
+      $rootScope = _$rootScope;
       $scope = $rootScope.$new();
       $httpBackend = _$httpBackend;
       $controller = _$controller;
@@ -227,5 +227,5 @@ describe('invite accept controller', function () {
       $timeout.flush();
       expect(Alert.error).toHaveBeenCalled();
     }]));
-  })
+  });
 });

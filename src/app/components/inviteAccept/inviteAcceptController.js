@@ -6,7 +6,7 @@ angular.module('liveopsConfigPanel')
       $scope.user = invitedUser;
       $scope.loading = false;
       
-      if (invitedTenantUser.status != 'invited'){
+      if (invitedTenantUser.status !== 'invited'){
         Session.setToken(null);
         $state.transitionTo('login', {messageKey: 'invite.accept.alreadyAccepted'});
       }
