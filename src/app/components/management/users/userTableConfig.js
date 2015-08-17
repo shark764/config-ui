@@ -49,8 +49,8 @@ angular.module('liveopsConfigPanel')
           },
           'lookup': 'skills:id',
           'name': 'skills',
-          'resolve': function (user) {
-            return user.skills.length;
+          'resolve': function (tenantUser) {
+            return tenantUser.skills.length;
           },
           'sortOn': 'skills.length',
           'filterOrderBy': 'name'
@@ -63,8 +63,8 @@ angular.module('liveopsConfigPanel')
           },
           'lookup': 'groups:id',
           'name': 'groups',
-          'resolve': function (user) {
-            return user.groups.length;
+          'resolve': function (tenantUser) {
+            return tenantUser.groups.length;
           },
           'sortOn': 'groups.length',
           'filterOrderBy': 'name'

@@ -6,24 +6,19 @@ angular.module('liveopsConfigPanel')
       var self = this;
 
       $scope.Session = Session;
-      $scope.forms = {};
       $window.flowSetup = flowSetup;
       $scope.tableConfig = userTableConfig;
 
       $scope.scenario = function() {
         if (!$scope.selectedTenantUser) {
-          return null;
+          return;
         }
 
         if ($scope.selectedTenantUser.$user.isNew()) {
-          if ($parse('forms.detailsForm.email.$error.duplicateEmail')($scope)) {
-            return 'invite:existing:user:not:in:tenant';
-          } else {
-            return 'invite:new:user';
-          }
-        } else if ($parse('forms.detailsForm.email.$error.duplicateEmail')($scope)) {
-          return 'invite:existing:user:in:tenant';
-        } else if(!$scope.selectedTenantUser.isNew()) {
+          return 'invite:new:user';
+        } else if ($scope.selectedTenantUser.isNew()) {
+          return 'invite:existing:user';
+        } else {
           return 'update';
         }
       };
@@ -65,7 +60,7 @@ angular.module('liveopsConfigPanel')
         }).then(function(tenantUser) {
           tenantUser.$user = user;
 
-          //TODO log API bug where roleName isn't comming back on get
+          //TODO remove once TITAN2-2890 is resolved
           return TenantUser.get({
             tenantId: Session.tenant.tenantId,
             id: tenantUser.userId
