@@ -5,34 +5,55 @@ angular.module('liveopsConfigPanel')
     function (statuses, dispatchMappingInteractionFields, dispatchMappingChannelTypes, $translate) {
       return {
         'fields': [{
-          'header': $translate.instant('value.name'),
-          'name': 'name'
+          'header': {
+            'display': $translate.instant('value.name')
+          },
+          'name': '$original.name'
         }, {
-          'header': $translate.instant('value.description'),
-          'name': 'description'
+          'header': {
+            'display': $translate.instant('value.description')
+          },
+          'name': '$original.description'
         }, {
-          'header': $translate.instant('value.value'),
-          'name': 'value'
+          'header': {
+            'display': $translate.instant('value.value')
+          },
+          'name': '$original.value'
         }, {
-          'header': $translate.instant('dispatchMappings.table.interactionField'),
-          'name': 'interactionField',
-          'options': dispatchMappingInteractionFields,
+          'header': {
+            'display': $translate.instant('dispatchMappings.table.interactionField'),
+            'valuePath': 'value',
+            'displayPath': 'display',
+            'options': dispatchMappingInteractionFields
+          },
+          'name': '$original.interactionField',
+          'lookup': '$original:interactionField',
           'filter': 'selectedOptions'
         }, {
-          'header': $translate.instant('dispatchMappings.table.channelType'),
-          'name': 'channelType',
-          'options': dispatchMappingChannelTypes,
+          'header': {
+            'display': $translate.instant('dispatchMappings.table.channelType'),
+            'valuePath': 'value',
+            'displayPath': 'display',
+            'options': dispatchMappingChannelTypes
+          },
+          'name': '$original.channelType',
+          'lookup': '$original:channelType',
           'filter': 'selectedOptions'
         }, {
-          'header': $translate.instant('value.status'),
-          'name': 'active',
+          'header': {
+            'display': $translate.instant('value.status'),
+            'valuePath': 'value',
+            'displayPath': 'display',
+            'options': statuses()
+          },
+          'name': '$original.active',
+          'lookup': '$original:active',
           'sortable': true,
-          'options': statuses(),
           'transclude': true,
           'filter': 'selectedOptions'
         }],
-        'searchOn': ['name'],
-        'orderBy': 'name',
+        'searchOn': ['$original.name'],
+        'orderBy': '$original.name',
         'title': $translate.instant('dispatchmappings.table.title')
       };
     }

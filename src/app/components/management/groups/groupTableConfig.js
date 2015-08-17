@@ -5,24 +5,35 @@ angular.module('liveopsConfigPanel')
     function (statuses, $translate) {
       return {
         'fields': [{
-          'header': $translate.instant('value.name'),
-          'name': 'name'
+          'header': {
+            'display': $translate.instant('value.name')
+          },
+          'name': '$original.name'
         }, {
-          'header': $translate.instant('value.description'),
-          'name': 'description'
+          'header': {
+            'display': $translate.instant('value.description')
+          },
+          'name': '$original.description'
         }, {
-          'header': $translate.instant('group.table.members'),
+          'header': {
+            'display': $translate.instant('group.table.members')
+          },
           'name': 'members',
           'transclude': true,
           'sortOn': 'members.length'
         }, {
-          'header': $translate.instant('value.status'),
-          'name': 'active',
+          'header': {
+            'display': $translate.instant('value.status'),
+            'valuePath': 'value',
+            'displayPath': 'display',
+            'options': statuses()
+          },
+          'name': '$original.active',
           'transclude': true,
-          'options': statuses()
+          
         }],
-        'searchOn' : ['name', 'description'],
-        'orderBy' : 'name',
+        'searchOn' : ['$original.name', '$original.description'],
+        'orderBy' : '$original.name',
         'title' : $translate.instant('group.table.title')
       };
     }

@@ -4,25 +4,36 @@ angular.module('liveopsConfigPanel')
   .service('flowTableConfig', ['$translate', 'statuses', function ($translate, statuses) {
       return {
         'fields': [{
-          'header': $translate.instant('value.name'),
-          'name': 'name'
+          'header': {
+            'display': $translate.instant('value.name')
+          },
+          'name': '$original.name'
         }, {
-          'header': $translate.instant('value.description'),
-          'name': 'description'
+          'header': {
+            'display': $translate.instant('value.description')
+          },
+          'name': '$original.description'
         }, {
-          'header': $translate.instant('value.details.activeVersion'),
-          'name': 'activeVersion',
+          'header': {
+            'display': $translate.instant('value.details.activeVersion')
+          },
+          'name': '$original.activeVersion',
           'transclude': true
         }, {
-          'header': $translate.instant('value.status'),
-          'name': 'active',
+          'header': {
+            'display': $translate.instant('value.status'),
+            'valuePath': 'value',
+            'displayPath': 'display',
+            'options': statuses()
+          },
+          'name': '$original.active',
+          'lookup': '$original:active',
           'sortable': true,
-          'options': statuses(),
           'transclude': true,
           'filter': 'selectedOptions'
         }],
-        'searchOn' : ['name'],
-        'orderBy' : 'name',
+        'searchOn' : ['$original.name'],
+        'orderBy' : '$original.name',
         'title' : $translate.instant('flow.table.title')
       };
     }]
