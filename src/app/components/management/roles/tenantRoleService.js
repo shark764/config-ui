@@ -22,7 +22,7 @@ angular.module('liveopsConfigPanel')
       };
 
       TenantRole.getName = function(roleId) {
-        return TenantRole.cachedQuery({
+        return TenantRole.cachedGet({
           id: roleId
         }).name;
       };
