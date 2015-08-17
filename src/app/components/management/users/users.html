@@ -53,7 +53,7 @@
           id="submit-details-btn"
           lo-submit="submit()"
           lo-submit-spinner
-          lo-submit-spinner-status="selectedTenantUser.$busy"
+          lo-submit-spinner-status="selectedTenantUser.$busy || selectedTenantUser.$user.$busy"
           ng-disabled="forms.detailsForm.$pending || (forms.detailsForm.$invalid && (forms.detailsForm.$error.length > 1 || scenario === 'update')) || ! forms.detailsForm.$dirty"
           class="btn btn-primary"
           type="submit"

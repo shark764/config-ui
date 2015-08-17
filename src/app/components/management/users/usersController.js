@@ -59,7 +59,7 @@ angular.module('liveopsConfigPanel')
 
       this.updateTenantUser = function() {
         var user = $scope.selectedTenantUser.$user;
-        return $scope.selectedTenantUser.$save({
+        return $scope.selectedTenantUser.save({
           tenantId: Session.tenant.tenantId
         }).then(function(tenantUser) {
           tenantUser.$user = user;
@@ -84,10 +84,10 @@ angular.module('liveopsConfigPanel')
 
       this.saveNewUserTenantUser = function() {
         $scope.selectedTenantUser.$user.email = $scope.selectedTenantUser.email;
-        return $scope.selectedTenantUser.$user.$save().then(function(user) {
-
+        return $scope.selectedTenantUser.$user.save().then(function(user) {
+          $scope.selectedTenantUser.$busy = true; //TODO: remove timeout once TITAN2-2881 is addressed
           return $timeout(function() { //TODO: remove timeout once TITAN2-2881 is addressed
-            return $scope.selectedTenantUser.$save({
+            return $scope.selectedTenantUser.save({
               tenantId: Session.tenant.tenantId
             }).then(function(tenantUser) {
               tenantUser.$user = user;
