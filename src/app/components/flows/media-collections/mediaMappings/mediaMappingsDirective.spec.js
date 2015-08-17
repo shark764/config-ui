@@ -91,6 +91,16 @@ describe('MediaMappings directive', function () {
 
       expect($scope.collection.mediaMap).toBeUndefined();
     }));
+    
+    it('should remove the defaultMediaKey property if no mappings are left', inject(function () {
+      $scope.collection.mediaMap = [{
+        id: 'uuid-value'
+      }];
+
+      isolateScope.removeMapping(0);
+
+      expect($scope.collection.defaultMediaKey).toBeUndefined();
+    }));
   });
   
   describe('resetDefaultMediaKey function', function () {
