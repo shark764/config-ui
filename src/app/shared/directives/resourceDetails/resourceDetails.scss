@@ -45,14 +45,6 @@
       width: 100%;
     }
 
-    .clear {
-      max-width: $max-control-width + 200px;
-    }
-
-    .clear .btn {
-      margin-bottom: 10px;
-    }
-
     .input-group {
       display: table;
       max-width: $max-control-width;
@@ -112,6 +104,10 @@
         display: inline-block;
         margin: 0;
         padding-right: 5px;
+      }
+      
+      .btn {
+        margin-bottom: 10px;
       }
     }
 

@@ -153,10 +153,12 @@
   "flow.details.type.error": "Type is required",
   "flow.details.activeVersion.error": "Active version is required",
   "flow.details.versions.create.title": "Create new version",
-  "flowVersions.title": "Versions",
+  "flowVersions.title": "Published Versions",
   "flow.details.creating": "Creating New Flow",
   "flow.details.disable.confirm": "This will disable this flow. Do you want to continue?",
   "flow.details.enable.confirm": "This will enable this flow. Do you want to continue?",
+  "flow.details.version.add.alt": "Create a new version for this flow",
+  "flow.details.mapping.add.alt": "Add a new media mapping",
   "flow.table.title": "Flow Management",
 
   "queue.details.version.error" : "Active Version is required",
@@ -292,14 +294,18 @@
   "bulkActions.enable.flows": "Enable Flows",
   "bulkActions.enable.queues": "Enable Queues",
   "bulkAction.success": "Bulk action successful!",
-  
+
   "user.profile.save.success": "Your details have been updated.",
   "user.profile.save.fail": "An error occured while updating your details.",
-  
+
   "multibox.add.placeholder": "Add Item...",
   "multibox.search.placeholder": "Search...",
   "multibox.create.btn": "Create New",
-  
+
   "invite.accept.success": "Your invitation has been accepted! Please log in to view the new tenant.",
-  "invite.accept.alreadyAccepted": "This invitation has already been accepted! Please log in to view the tenant."
+  "invite.accept.alreadyAccepted": "This invitation has already been accepted! Please log in to view the tenant.",
+  
+  "flow.draft.delete.alt": "Delete this draft",
+  "flow.draft.none": "There are no drafts saved for this flow. Drafts are created automatically from the Flow Designer.",
+  "flow.draft.title": "Drafts"
 }
