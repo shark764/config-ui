@@ -1,21 +1,14 @@
 #bulk-action-form {
-  
-  .details-form {
-    height: 100%;
-    display: block;
-  }
-  
-  .detail-header-pane {
+  .detail-header{
     .dropdown-label {
       font-weight: bold;
     }
   }
 
-  .detail-body-pane {
+  .detail-body {
     .bulk-action, .action-wrapper {
       width: 100%;
       max-width: $max-control-width;
-      height: 100%;
     }
 
     .bulk-action {
@@ -75,16 +68,6 @@
           @include transition(none);
         }
       }
-    }
-
-    .affected-banner {
-      background-color: $accent-light;
-      color: $accent1;
-      display: block;
-      padding: 5px;
-      text-align: center;
-      width: 100%;
-      clear: both;
     }
   }
 }

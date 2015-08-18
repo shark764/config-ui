@@ -21,25 +21,25 @@
 
 <lo-details-panel
   id="user-pane"
-  class="details-pane"
+  class="right-panel"
   ng-if="selectedTenantUser || showBulkActions"
   ng-resource="selectedTenantUser">
 
     <ng-form
+      class="details-pane"
       unsaved-changes-warning
-      class="details-form"
       name="forms.detailsForm"
       ng-show="!showBulkActions"
       ng-resource="selectedTenantUser"
       lo-form-submit lo-form-cancel lo-form-alert>
 
-      <div class="detail-header-pane" ng-include="'app/components/management/users/userDetailHeader.html'">
+      <div class="detail-header" ng-include="'app/components/management/users/userDetailHeader.html'">
       </div>
 
-      <div class="detail-body-pane" ng-include="'app/components/management/users/userDetailBody.html'">
+      <div class="detail-body" ng-include="'app/components/management/users/userDetailBody.html'">
       </div>
 
-      <div class="detail-controls-pane">
+      <div class="detail-controls">
         <input
           id="cancel-details-btn"
           lo-cancel-chain-executor="user:cancel"
@@ -62,7 +62,7 @@
     </ng-form>
   </div>
 
-  <bulk-action-executor class="details-pane user-ba" ng-show="showBulkActions" items="fetchTenantUsers()"
+  <bulk-action-executor class="right-panel user-ba" ng-show="showBulkActions" items="fetchTenantUsers()"
     bulk-actions="bulkActions" show-bulk-actions="showBulkActions"
     confirm-message-key="bulkActions.user.confirm.message" drop-order-by="lastName">
     <ba-set-status bulk-action="bulkActions.setStatus"></ba-set-status>

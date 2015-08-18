@@ -1,5 +1,5 @@
-<form id="bulk-action-form" name="bulkActionForm" class="details-form" unsaved-changes-warning>
-  <div id="bulk-actions-selected-header" class="detail-header-pane">
+<form id="bulk-action-form" name="bulkActionForm" class="details-pane" unsaved-changes-warning>
+  <div id="bulk-actions-selected-header" class="detail-header">
     <filter-dropdown
       label="{{'bulkActions.selected' | translate}}({{selectedItems().length}})"
       options="selectedItems()"
@@ -8,10 +8,10 @@
     </filter-dropdown>
   </div>
 
-  <div class="detail-body-pane" ng-transclude>
+  <div class="detail-body" ng-transclude>
   </div>
 
-  <div class="detail-controls-pane">
+  <div class="detail-controls">
     <input id="cancel-bulk-actions-btn"
       type="button"
       class="btn"

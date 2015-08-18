@@ -8,16 +8,10 @@
   }
 
   toggle {
-    position: static;
+    position: static !important;
   }
 
   .info {
-    .user-state {
-      display:inline-block;
-      font-size: 0.7em;
-      vertical-align: top;
-    }
-
     .details {
       display: table;
 

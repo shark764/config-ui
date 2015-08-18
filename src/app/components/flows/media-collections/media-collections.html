@@ -16,26 +16,26 @@
   left-element-id="table-pane"></resize-handle>
 
 <lo-details-panel
-  id="media-collection-pane" class="details-pane"
+  id="media-collection-pane" class="right-panel"
   ng-show="!!selectedMediaCollection"
   ng-resource="selectedMediaCollection">
 
   <ng-form unsaved-changes-warning
-    id="media-collection-form" class="details-form"
+    id="media-collection-form" class="details-pane"
     name="forms.mediaCollectionForm"
     ng-model="selectedMediaCollection"
     ng-resource="selectedMediaCollection"
     lo-form-submit lo-form-cancel lo-form-alert>
 
-    <div class="detail-header-pane"
+    <div class="detail-header"
       ng-include src="'app/components/flows/media-collections/mediaCollectionDetailHeader.html'">
     </div>
 
-    <div class="detail-body-pane"
+    <div class="detail-body"
       ng-include src="'app/components/flows/media-collections/mediaCollectionDetailBody.html'">
     </div>
 
-    <div class="detail-controls-pane">
+    <div class="detail-controls">
       <input id="cancel-details-btn" ng-disabled="loading" type="button" class="btn"
         value="{{'value.cancel' | translate}}"
         lo-cancel-chain-executor="media:collection:cancel">
@@ -56,25 +56,25 @@
   right-element-id="media-pane"
   left-element-id="details-pane"></resize-handle>
 
-<lo-details-panel id="media-pane" class="details-pane"
+<lo-details-panel id="media-pane" class="right-panel"
   ng-show="selectedMedia"
   ng-resource="selectedMedia">
 
-  <ng-form unsaved-changes-warning class="details-form"
+  <ng-form unsaved-changes-warning
     ng-show="selectedMedia" name="forms.mediaForm"
     ng-model="selectedMedia"
     ng-resource="selectedMedia"
     lo-form-submit lo-form-cancel lo-form-alert>
 
-    <div class="detail-header-pane"
+    <div class="detail-header"
       ng-include src="'app/components/flows/media/mediaDetailHeader.html'">
     </div>
 
-    <div class="detail-body-pane"
+    <div class="detail-body"
       ng-include src="'app/components/flows/media/mediaDetailBody.html'">
     </div>
 
-    <div class="detail-controls-pane">
+    <div class="detail-controls">
       <input id="cancel-media-btn" type="button" class="btn"
         value="{{'value.cancel' | translate}}"
         lo-cancel-chain-executor="media:cancel"></input>
