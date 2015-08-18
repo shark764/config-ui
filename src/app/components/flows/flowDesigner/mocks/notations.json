@@ -212,13 +212,13 @@
                 "media": {
                     "source": "entity",
                     "type": "media",
-                    "mandatory": false,
+                    "mandatory": true,
                     "key": "media"
                 },
                 "num-digits": {
                     "source": "expression",
                     "type": "integer",
-                    "mandatory": false,
+                    "mandatory": true,
                     "default": 5,
                     "key": "digits"
                 },
@@ -226,7 +226,7 @@
                     "source": "expression",
                     "type": "string",
                     "default": "\"#\"",
-                    "mandatory": false,
+                    "mandatory": true,
                     "key": "terminator"
                 },
                 "customer": {

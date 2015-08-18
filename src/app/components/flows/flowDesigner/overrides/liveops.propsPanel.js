@@ -57,7 +57,7 @@
         formSection += '><label>' + input.label + '</label><div>';
         formSection += '<select ng-model="notation.model.attributes.' + input.path + '"';
         formSection += ' ng-disabled="' + input.disabled + '"';
-        formSection += ' ng-options="item.value as item.content for item in notation.model.attributes.inputs[' + index + '].options"';
+        formSection += ' ng-options="item.value as item.content for item in inputs[' + index + '].options"';
         formSection += ' ng-change="onInputChange(notation.model, notation.model.attributes.' + input.path + ', notation.model.attributes.inputs[' + index + '].path)"';
         // formSection += '><option value="undefined">Please select one...</option>';
         // _.each(input.options, function (opt) {
@@ -73,10 +73,10 @@
         formSection += '><label>' + input.label + '</label><div>';
         formSection += '<type-ahead hover="true" placeholder="Search..."';
         if (notation.model.attributes.params[input.name]) {
-          formSection += ' prefill="\'' + _.findWhere(notation.model.attributes.inputs[index].options, { value: notation.model.attributes.params[input.name] }).content + '\'"';
+          formSection += ' prefill="\'' + _.findWhere(inputs[index].options, { value: notation.model.attributes.params[input.name] }).content + '\'"';
         }
         formSection += ' placeholder="' + input.placeholder + '"';
-        formSection += ' items="notation.model.attributes.inputs[' + index + '].options" on-select="setEntityProp(' + index + ')" selected-item="selectedItem" name-field="content" is-required="false">';
+        formSection += ' items="inputs[' + index + '].options" on-select="setEntityProp(' + index + ')" selected-item="selectedItem" name-field="content" is-required="false">';
         formSection += '</div></div>';
         return formSection;
       },
@@ -130,8 +130,8 @@
     return {
       scope: {
         notation: '=notation',
-        inputs: '=inputs',
-        medias: '=medias'
+        medias: '=medias',
+        inputs: '=inputs'
       },
       template: '<div class="propsPanel"><h1 ng-show="loading"><i class="fa fa-spinner fa-spin"></i></h1></div>',
       restrict: 'E',
@@ -141,37 +141,37 @@
         scope.selectedItem = null;
 
         scope.setEntityProp = function(index) {
-          scope.notation.model.attributes.params[scope.notation.model.attributes.inputs[index].name] = scope.selectedItem.value;
+          scope.notation.model.attributes.params[scope.inputs[index].name] = scope.selectedItem.value;
         };
 
         // Populate typeahead search collections with relevant API sources
-        _.each(scope.notation.model.attributes.inputs, function (input, index) {
+        _.each(scope.inputs, function (input, index) {
           if (input.type === 'typeahead' && input.source !== undefined) {
             if (input.source === 'media') {
-              scope.notation.model.attributes.inputs[index].options = _.map(FlowNotationService.media, function(entity) {
+              input.options = _.map(FlowNotationService.media, function(entity) {
                 return {
                   value: entity.id,
                   content: entity.source || entity.name
                 };
               });
               if (scope.notation.model.attributes.params.media) {
-                _.each(scope.notation.model.attributes.inputs[index].options, function (opt, optIndex) {
+                _.each(input.options, function (opt, optIndex) {
                   if (input.path.indexOf('media') > -1) {
-                    scope.selectedItem = scope.notation.model.attributes.inputs[index].options[optIndex];
+                    scope.selectedItem = input.options[optIndex];
                   }
                 });
               }
             } else if (input.source === 'queue') {
-              scope.notation.model.attributes.inputs[index].options = _.map(FlowNotationService.queue, function(entity) {
+              input.options = _.map(FlowNotationService.queue, function(entity) {
                 return {
                   value: entity.id,
                   content: entity.source || entity.name
                 };
               });
               if (scope.notation.model.attributes.params.queue) {
-                _.each(scope.notation.model.attributes.inputs[index].options, function (opt, optIndex) {
+                _.each(input.options, function (opt, optIndex) {
                   if (input.path.indexOf('queue') > -1) {
-                    scope.selectedItem = scope.notation.model.attributes.inputs[index].options[optIndex];
+                    scope.selectedItem = input.options[optIndex];
                   }
                 });
               }

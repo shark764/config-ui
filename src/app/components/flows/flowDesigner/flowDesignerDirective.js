@@ -63,7 +63,7 @@ function flowDesigner() {
           function addErrors(errors) {
             var graph = $scope.graph;
             _.each(errors, function(e) {
-              var cell = graph.getCell(e.model.id);
+              var cell = graph.getCell(e.step);
               var view = cell.findView(graph.interfaces.paper);
               V(view.el).addClass('error');
             })
@@ -76,7 +76,14 @@ function flowDesigner() {
             if (graph.toJSON().cells.length === 0) { return; }
 
             clearErrors();
-            
+
+            var errors = FlowConverter.validate(graph.toJSON());
+
+            if (errors.length > 0) {
+              addErrors(errors);
+              return;
+            }
+
             var alienese = FlowConverter.convertToAlienese(graph.toJSON());
 
             $scope.version = new FlowVersion({
@@ -112,6 +119,10 @@ function flowDesigner() {
           $window.spitOutJoint = function() {
             return $scope.graph.toJSON();
           };
+
+          $window.validate = function() {
+            return FlowConverter.validate($scope.graph.toJSON());
+          }
         }, 1000);
       }]
     };
