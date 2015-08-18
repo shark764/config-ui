@@ -35,3 +35,18 @@
     <ba-set-tenant-status bulk-action="bulkActions.setTenantStatus"></ba-set-tenant-status>
   </bulk-action-executor>
 </div>
+
+<resize-handle
+  ng-show="selectedTenantUser"
+  id="resize-pane-two"
+  right-element-id="user-pane"
+  left-element-id="right-panel"></resize-handle>
+
+<lo-details-panel
+  id="user-pane"
+  class="right-panel"
+  ng-if="selectedTenantUser"
+  ng-resource="selectedTenantUser">
+    
+  <user-detail-panel ng-show="selectedTenantUser" selected-tenant-user="selectedTenantUser"></user-detail-panel>
+</lo-details-panel>

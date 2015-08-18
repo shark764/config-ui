@@ -23,17 +23,23 @@ angular.module('liveopsConfigPanel')
           $scope.destinationPropertyName = 'id';
         }
         
-        $q.when($scope.items).then(function(){
-          //Set the display input to show the display name of the pre-existing value, if any.
-          if (angular.isDefined($scope.model[$scope.destinationPropertyName])){
-            var filterCriteria = {};
-            filterCriteria[$scope.sourcePropertyName] = $scope.model[$scope.destinationPropertyName];
-            var existingSelection = filterFilter($scope.items, filterCriteria, true);
-            if (angular.isDefined(existingSelection) && existingSelection.length === 1){
-              $scope.display = existingSelection[0].getDisplay();
-            }
-          }
+        $scope.$watch('model', function(modelValue){
+          $scope.updateDisplayField(modelValue);
         });
+        
+        $scope.updateDisplayField = function(modelValue){
+          $q.when($scope.items.$promise).then(function(){
+            //Set the display input to show the display name of the pre-existing value, if any.
+            if (modelValue && angular.isDefined(modelValue[$scope.destinationPropertyName])){
+              var filterCriteria = {};
+              filterCriteria[$scope.sourcePropertyName] = modelValue[$scope.destinationPropertyName];
+              var existingSelection = filterFilter($scope.items, filterCriteria, true);
+              if (angular.isDefined(existingSelection) && existingSelection.length === 1){
+                $scope.display = existingSelection[0].getDisplay();
+              }
+            }
+          });
+        };
         
         $scope.onSelect = function(selectedItem){
           $scope.model[$scope.destinationPropertyName] = selectedItem[$scope.sourcePropertyName];

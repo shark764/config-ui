@@ -14,8 +14,8 @@ angular.module('liveopsConfigPanel')
     this.transform = function(tenantUser) {
       tenantUser.$user = new User();
 
-      move(tenantUser, 'firstName');
-      move(tenantUser, 'lastName');
+      copy(tenantUser, 'firstName');
+      copy(tenantUser, 'lastName');
       move(tenantUser, 'externalId');
       move(tenantUser, 'personalTelephone');
       move(tenantUser, 'platformStatus', 'status');

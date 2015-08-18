@@ -89,7 +89,7 @@ angular.module('liveopsConfigPanel')
               tenantUser.reset();
 
               $scope.fetchTenantUsers().push(tenantUser);
-
+              $scope.$emit('resource:details:tenantUser:create:success', $scope.selectedTenantUser);
               return tenantUser;
             });
           }, 3000);

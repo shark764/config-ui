@@ -40,13 +40,14 @@ lo-multibox {
     border:0;
     height: 30px;
     border-top: 1px solid $light-grey;
-    width: 100%;
+    width: 100% !important;
   }
 
   .edit {
     @include border-radius(5px);
     border: 1px solid $light-grey;
     position: absolute;
+    width: 100%;
     z-index: 100;
     
     .label-container {
