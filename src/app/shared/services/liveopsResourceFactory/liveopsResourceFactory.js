@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .factory('LiveopsResourceFactory', ['$http', '$resource', '$q', 'apiHostname', 'Session', 'SaveInterceptor', 'DeleteInterceptor', 'queryCache', 'lodash',
-    function ($http, $resource, $q, apiHostname, Session, SaveInterceptor, DeleteInterceptor, queryCache, _) {
+  .factory('LiveopsResourceFactory', ['$http', '$resource', '$q', 'apiHostname', 'Session', 'queryCache', 'lodash',
+    function ($http, $resource, $q, apiHostname, Session, queryCache, _) {
       function appendTransform(defaults, transform) {
         // We can't guarantee that the default transformation is an array
         defaults = angular.isArray(defaults) ? defaults : [defaults];
@@ -81,7 +81,7 @@ angular.module('liveopsConfigPanel')
             },
             update: {
               method: 'PUT',
-              interceptor: angular.isDefined(params.updateInterceptor) ? params.updateInterceptor : SaveInterceptor,
+              interceptor: params.updateInterceptor,
               transformRequest: function (data) {
                 return JSON.stringify(data, updateJsonReplacer);
               },
@@ -92,7 +92,7 @@ angular.module('liveopsConfigPanel')
             },
             save: {
               method: 'POST',
-              interceptor: angular.isDefined(params.saveInterceptor) ? params.saveInterceptor : SaveInterceptor,
+              interceptor: params.saveInterceptor,
               transformRequest: function (data) {
                 return JSON.stringify(data, createJsonReplacer);
               },
@@ -106,7 +106,7 @@ angular.module('liveopsConfigPanel')
               transformResponse: appendTransform($http.defaults.transformResponse, function (value) {
                 return getResult(value);
               }),
-              interceptor: DeleteInterceptor
+              interceptor: params.deleteInterceptor
             }
           });
 
