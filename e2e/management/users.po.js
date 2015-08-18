@@ -27,7 +27,7 @@ var UserPage = function() {
   this.externalIdColumn = 'td:nth-child(4)';
   this.skillsColumn = 'td:nth-child(5)';
   this.groupsColumn = 'td:nth-child(6)';
-  this.stateColumn = 'td:nth-child(7)';
+  this.rolesColumn = 'td:nth-child(7)';
   this.statusColumn = 'td:nth-child(8)';
 
   this.tableDropDowns = this.tableHeader.all(by.css('filter-dropdown'));
@@ -35,25 +35,25 @@ var UserPage = function() {
   // Status Table Dropdowns
   this.statusTableDropDown = this.tableHeader.element(by.id('user-status-table-column'));
   this.allUserStatus = this.statusTableDropDown.element(by.css('.all'));
-  this.dropdownStatuses = this.statusTableDropDown.all(by.repeater('option in options | orderBy:orderBy track by option[valuePath]'));
+  this.dropdownStatuses = this.statusTableDropDown.all(by.repeater('option in options | orderBy:orderBy track by (option | parse:valuePath | invoke:option)'));
   this.dropdownStatusInputs = this.statusTableDropDown.all(by.css('input'));
 
-  // State Table Dropdowns
-  this.stateTableDropDown = this.tableHeader.element(by.id('user-state-table-column'));
-  this.allUserState = this.stateTableDropDown.element(by.css('.all'));
-  this.dropdownStates = this.stateTableDropDown.all(by.repeater('option in options | orderBy:orderBy track by option[valuePath]'));
-  this.dropdownStateInputs = this.stateTableDropDown.all(by.css('input'));
+  // Roles Table Dropdowns
+  this.rolesTableDropDown = this.tableHeader.element(by.id('user-state-table-column'));
+  this.allUserRoles = this.rolesTableDropDown.element(by.css('.all'));
+  this.dropdownRoles = this.rolesTableDropDown.all(by.repeater('option in options | orderBy:orderBy track by (option | parse:valuePath | invoke:option)'));
+  this.dropdownRolesInputs = this.rolesTableDropDown.all(by.css('input'));
 
   // Skills Table Dropdowns
   this.skillsTableDropDown = this.tableHeader.element(by.id('user-skills-table-column'));
   this.allUserSkills = this.skillsTableDropDown.element(by.css('.all'));
-  this.dropdownSkills = this.skillsTableDropDown.all(by.repeater('option in options | orderBy:orderBy track by option[valuePath]'));
+  this.dropdownSkills = this.skillsTableDropDown.all(by.repeater('option in options | orderBy:orderBy track by (option | parse:valuePath | invoke:option)'));
   this.dropdownSkillsInputs = this.skillsTableDropDown.all(by.css('input'));
 
   // Groups Table Dropdowns
   this.groupsTableDropDown = this.tableHeader.element(by.id('user-groups-table-column'));
   this.allUserGroups = this.groupsTableDropDown.element(by.css('.all'));
-  this.dropdownGroups = this.groupsTableDropDown.all(by.repeater('option in options | orderBy:orderBy track by option[valuePath]'));
+  this.dropdownGroups = this.groupsTableDropDown.all(by.repeater('option in options | orderBy:orderBy track by (option | parse:valuePath | invoke:option)'));
   this.dropdownGroupsInputs = this.groupsTableDropDown.all(by.css('input'));
 
   this.statusBulkEnableCheck = element(by.id('user-status-bulk-enable-check'));

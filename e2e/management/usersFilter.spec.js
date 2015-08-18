@@ -29,7 +29,7 @@ describe('The users table filter', function() {
   it('should display users based on the table Status filter', function() {
     // Add Status Column
     shared.tableColumnsDropDown.click();
-    shared.tableColumnsDropDown.all(by.repeater('option in options | orderBy:orderBy track by option[valuePath]')).get(6).click();
+    shared.tableColumnsDropDownOptions.get(6).click();
     shared.tableColumnsDropDown.click().then(function() {
 
       // Select Disabled from Status drop down
@@ -54,7 +54,7 @@ describe('The users table filter', function() {
   it('should display users based on the table Status filter with selection changed selected', function() {
     // Add Status Column
     shared.tableColumnsDropDown.click();
-    shared.tableColumnsDropDown.all(by.repeater('option in options | orderBy:orderBy track by option[valuePath]')).get(6).click();
+    shared.tableColumnsDropDownOptions.get(6).click();
     shared.tableColumnsDropDown.click().then(function() {
       // Select Enabled from Status drop down
       users.statusTableDropDown.click();
@@ -82,7 +82,7 @@ describe('The users table filter', function() {
   it('should display all users based on the table Status filter when All is selected', function() {
     // Add Status Column
     shared.tableColumnsDropDown.click();
-    shared.tableColumnsDropDown.all(by.repeater('option in options | orderBy:orderBy track by option[valuePath]')).get(6).click();
+    shared.tableColumnsDropDownOptions.get(6).click();
     shared.tableColumnsDropDown.click().then(function() {
 
       // Select Disabled from Status drop down
@@ -114,7 +114,7 @@ describe('The users table filter', function() {
   it('should display users based on the Search and Status filters', function() {
     // Add Status Column
     shared.tableColumnsDropDown.click();
-    shared.tableColumnsDropDown.all(by.repeater('option in options | orderBy:orderBy track by option[valuePath]')).get(6).click();
+    shared.tableColumnsDropDownOptions.get(6).click();
     shared.tableColumnsDropDown.click().then(function() {
 
       // Search

@@ -78,7 +78,7 @@ angular.module('liveopsConfigPanel')
             'options': getRoleOptions,
           },
           'name': '$original.roleName',
-          'id': 'user-states-table-column'
+          'id': 'user-roles-table-column',
           'lookup': '$original:roleId',
           'sortOn': '$original.roleName',
           'filterOrderBy': 'name'
@@ -90,6 +90,7 @@ angular.module('liveopsConfigPanel')
             'options': userStatuses()
           },
           'name': '$original.status',
+          'id': 'user-status-table-column',
           'transclude': true,
           'checked': false
         }],
@@ -100,7 +101,6 @@ angular.module('liveopsConfigPanel')
           }
         }],
         'orderBy': '$user.$original.lastName',
-        'id': 'user-status-table-column'
         'title': $translate.instant('user.table.title')
       };
     }
