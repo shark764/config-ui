@@ -14,6 +14,10 @@ angular.module('liveopsConfigPanel')
         saveInterceptor: null
       });
 
+      TenantUser.prototype.getDisplay = function(){
+        return this.$user.getDisplay();
+      };
+      
       return TenantUser;
     }
   ]);
