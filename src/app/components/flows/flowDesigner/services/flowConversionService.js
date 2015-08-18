@@ -2,6 +2,7 @@
   'use strict';
 
   function FlowConversionService (FlowNotationService) {
+
     return {
       convertToAlienese: function(jointJSON) {
         var self = this;

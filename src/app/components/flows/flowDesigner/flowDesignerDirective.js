@@ -3,15 +3,18 @@
 function flowDesigner() {
     return {
       scope: {
-        flowVersion: '=flowVersion'
+        flowVersion: '=flowVersion',
+        notations: '=notations'
       },
       restrict: 'E',
       templateUrl: 'app/components/flows/flowDesigner/flowDesignerDirective.html',
       replace: true,
       link: function() {},
-      controller: ['$scope', '$element', '$attrs', '$window', '$timeout', 'FlowInitService', 'FlowConversionService', 'SubflowCommunicationService', 'FlowNotationService', 'FlowVersion', 'Session', 'Alert', '$state', function($scope, $element, $attrs, $window, $timeout, FlowInitService, FlowConversionService, SubflowCommunicationService, FlowNotationService, FlowVersion, Session, Alert, $state) {
+      controller: ['$scope', '$element', '$attrs', '$window', '$timeout', 'FlowInitService', 'FlowConversionService', 'SubflowCommunicationService', 'FlowNotationService', 'FlowVersion', 'Session', 'Alert', '$state', 'flowLibrary', function($scope, $element, $attrs, $window, $timeout, FlowInitService, FlowConversionService, SubflowCommunicationService, FlowNotationService, FlowVersion, Session, Alert, $state, flowLibrary) {
 
         $timeout(function() {
+
+          var FlowConverter = new flowLibrary($scope.notations);
 
           var graphOptions = {
             width: 2000,
@@ -105,10 +108,10 @@ function flowDesigner() {
             $scope.graph.fromJSON(SubflowCommunicationService.currentFlowContext);
             SubflowCommunicationService.currentFlowContext = '';
           } else {
-            $scope.graph.fromJSON(FlowConversionService.convertToJoint(JSON.parse($scope.flowVersion.flow)));
+            $scope.graph.fromJSON(FlowConverter.convertToJoint($scope.graph.toJSON())(JSON.parse($scope.flowVersion.flow)));
           }
           $window.spitOutAlienese = function() {
-            return FlowConversionService.convertToAlienese($scope.graph.toJSON());
+            return FlowConverter.convertToAlienese($scope.graph.toJSON());
           };
 
           $window.spitOutJoint = function() {
