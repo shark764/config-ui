@@ -1,88 +1,102 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('userTableConfig', ['userStatuses', 'userStates', '$translate', 'Skill', 'Group', 'Session',
-    function(userStatuses, userStates, $translate, Skill, Group, Session) {
-      function getSkillOptions(){
-        var options = [];
-        
-        Skill.cachedQuery({
+  .service('userTableConfig', ['userStatuses', 'userStates', '$translate', 'Skill', 'Group', 'TenantRole', 'Session',
+    function (userStatuses, userStates, $translate, Skill, Group, TenantRole, Session) {
+      function getSkillOptions() {
+        return Skill.cachedQuery({
           tenantId: Session.tenant.tenantId
-        }).$promise.then(function(skills){
-          angular.forEach(skills, function(skill){
-            options.push({
-              display: skill.name,
-              value: skill.id
-            });
-          });
         });
-        
-        return options;
       }
-      
-      function getGroupOptions(){
-        var options = [];
-        
-        Group.cachedQuery({
+
+      function getGroupOptions() {
+        return Group.cachedQuery({
           tenantId: Session.tenant.tenantId
-        }).$promise.then(function(groups){
-          angular.forEach(groups, function(group){
-            options.push({
-              display: group.name,
-              value: group.id
-            });
-          });
         });
-        
-        return options;
       }
-      
+
+      function getRoleOptions() {
+        return TenantRole.cachedQuery({
+          tenantId: Session.tenant.tenantId
+        });
+      }
+
       return {
         'fields': [{
-          'header': $translate.instant('value.name'),
-          'resolve': function(user) {
-            return user.getDisplay();
+          'header': {
+            'display': $translate.instant('value.name')
           },
-          'sortOn': 'lastName'
-        }, {
-          'header': $translate.instant('value.email'),
-          'name': 'email'
-        }, {
-          'header': $translate.instant('user.table.externalId'),
-          'name': 'externalId'
-        }, {
-          'header': $translate.instant('user.table.skills'),
-          'name': 'skills:id',
-          'resolve': function(user){
-            return user.skills.length;
+          'resolve': function (tenantUser) {
+            return tenantUser.$user.$original.getDisplay();
           },
-          'options': getSkillOptions(),
+          'sortOn': '$user.$original.lastName'
+        }, {
+          'header': {
+            'display': $translate.instant('value.email')
+          },
+          'name': '$user.$original.email'
+        }, {
+          'header': {
+            'display': $translate.instant('details.externalId')
+          },
+          'name': '$user.$original.externalId'
+        }, {
+          'header': {
+            'display': $translate.instant('user.table.skills'),
+            'valuePath': 'id',
+            'displayPath': 'name',
+            'options': getSkillOptions,
+          },
+          'lookup': 'skills:id',
+          'name': 'skills',
+          'resolve': function (tenantUser) {
+            return tenantUser.skills.length;
+          },
           'sortOn': 'skills.length',
-          'filterOrderBy': 'display'
+          'filterOrderBy': 'name'
         }, {
-          'header': $translate.instant('user.table.groups'),
-          'name': 'groups:id',
-          'resolve': function(user){
-            return user.groups.length;
+          'header': {
+            'display': $translate.instant('user.table.groups'),
+            'valuePath': 'id',
+            'displayPath': 'name',
+            'options': getGroupOptions,
           },
-          'options': getGroupOptions(),
+          'lookup': 'groups:id',
+          'name': 'groups',
+          'resolve': function (tenantUser) {
+            return tenantUser.groups.length;
+          },
           'sortOn': 'groups.length',
-          'filterOrderBy': 'display'
+          'filterOrderBy': 'name'
         }, {
-          'header': $translate.instant('user.table.state'),
-          'name': 'state',
-          'transclude': true,
-          'checked': false,
-          'options': userStates
+          'header': {
+            'display': $translate.instant('user.table.roles'),
+            'valuePath': 'id',
+            'displayPath': 'name',
+            'options': getRoleOptions,
+          },
+          'name': '$original.roleName',
+          'lookup': '$original:roleId',
+          'sortOn': '$original.roleName',
+          'filterOrderBy': 'name'
         }, {
-          'header': $translate.instant('value.status'),
-          'name': 'status',
+          'header': {
+            'display': $translate.instant('value.status'),
+            'valuePath': 'value',
+            'displayPath': 'display',
+            'options': userStatuses()
+          },
+          'name': '$original.status',
           'transclude': true,
-          'checked': false,
-          'options': userStatuses()
+          'checked': false
         }],
-        'searchOn': ['firstName', 'lastName'],
-        'orderBy': 'lastName',
+        'searchOn': ['firstName', 'lastName', {
+          path: '$original.skills',
+          inner: {
+            path: 'name'
+          }
+        }],
+        'orderBy': '$user.$original.lastName',
         'title': $translate.instant('user.table.title')
       };
     }

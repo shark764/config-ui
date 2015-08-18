@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('filterDropdown', ['$parse', function ($parse) {
+  .directive('filterDropdown', [function () {
     return {
       scope: {
         id: '@',
@@ -19,19 +19,10 @@ angular.module('liveopsConfigPanel')
 
         $scope.valuePath = $scope.valuePath ? $scope.valuePath : 'value';
         $scope.displayPath = $scope.displayPath ? $scope.displayPath : 'display';
-
+        
         $scope.checkItem = function (option) {
           option.checked = !option.checked;
           $scope.$emit('dropdown:item:checked', option);
-        };
-
-        $scope.parseDisplay = function (option) {
-          if (angular.isFunction(option[$scope.displayPath])) {
-            return option[$scope.displayPath]();
-          } else {
-            var parser = $parse($scope.displayPath);
-            return parser(option);
-          }
         };
 
         // not ideal; we are adding a property to an object that will be used

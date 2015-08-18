@@ -66,7 +66,7 @@ describe('The user groups component of User view', function() {
       browser.get(shared.usersPageUrl);
       shared.searchField.sendKeys('e'); //Filter out users with blank first and last names, such as pending users
       shared.firstTableRow.click();
-      var selectedUserName = users.userNameDetailsHeader.getText();
+      var selectedTenantUserName = users.userNameDetailsHeader.getText();
       users.addGroupSearch.sendKeys(newGroupName);
       users.addGroupBtn.click();
 
@@ -77,7 +77,7 @@ describe('The user groups component of User view', function() {
 
       //Verify that the group members has increased
       expect(groups.groupMembersRows.count()).toEqual(1);
-      expect(groups.groupMembersRows.get(0).getText()).toContain(selectedUserName);
+      expect(groups.groupMembersRows.get(0).getText()).toContain(selectedTenantUserName);
       expect(shared.firstTableRow.element(by.css(groups.membersColumn)).getText()).toEqual('1');
     });
   });

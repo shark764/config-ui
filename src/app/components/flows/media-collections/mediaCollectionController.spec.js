@@ -20,13 +20,9 @@ describe('MediaCollectionController', function () {
       $httpBackend = _$httpBackend_;
       MediaCollection = _MediaCollection_;
 
-      $controller('ContentController', {
-        '$scope': $scope
-      });
       $controller('MediaCollectionController', {
         '$scope': $scope
       });
-      $httpBackend.flush();
     }
   ]));
 

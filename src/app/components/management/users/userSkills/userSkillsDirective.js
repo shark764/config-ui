@@ -17,6 +17,14 @@ angular.module('liveopsConfigPanel')
               skillId: tsu.skillId
             }, function () {
               $scope.userSkills.removeItem(tsu);
+
+              for(var skillIndex in $scope.user.skills) {
+                var skill = $scope.user.skills[skillIndex];
+                if(skill.id === tsu.skillId) {
+                  $scope.user.skills.removeItem(skill);
+                  break;
+                }
+              }
             }, function () {
               Alert.error('Failed to remove skill');
             });
@@ -96,7 +104,12 @@ angular.module('liveopsConfigPanel')
               existing.proficiency = $scope.newUserSkill.proficiency;
             }
 
-            $scope.newUserSkill.save(function () {
+            $scope.newUserSkill.save(function (tenantUserSkill) {
+              $scope.user.skills.push({
+                id: tenantUserSkill.skillId,
+                name: usc.name
+              });
+
               $scope.reset();
               $scope.saving = false;
             }, function () {
@@ -104,18 +117,18 @@ angular.module('liveopsConfigPanel')
               Alert.error('Failed to save user skill');
             });
           };
-          
+
           $scope.fetchSkills = function() {
             return Skill.cachedQuery({
               tenantId: Session.tenant.tenantId
             });
           };
-          
-          $scope.$watch('user.id', function() {
-            if (!Session.tenant.tenantId) {
+
+          $scope.$watch('user', function(newSelection) {
+            if (!newSelection || !Session.tenant.tenantId) {
               return;
             }
-            
+
             $scope.reset();
             $scope.fetch();
           });

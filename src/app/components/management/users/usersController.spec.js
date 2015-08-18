@@ -1,16 +1,15 @@
 'use strict';
 
-/* global spyOn: false  */
-
 describe('users controller', function () {
   var $scope,
     $httpBackend,
     Session,
     controller,
     apiHostname,
-    Invite,
     User,
-    mockUsers;
+    TenantUser,
+    mockUsers,
+    mockTenantUsers;
 
   beforeEach(module('gulpAngular'));
   beforeEach(module('liveopsConfigPanel'));
@@ -18,179 +17,175 @@ describe('users controller', function () {
   beforeEach(module('liveopsConfigPanel.mock.content.management.tenantUsers'));
   beforeEach(module('liveopsConfigPanel.mock.content.management.skills'));
   beforeEach(module('liveopsConfigPanel.mock.content.management.groups'));
+  beforeEach(module('liveopsConfigPanel.mock.content.management.roles'));
 
-  beforeEach(inject(['$compile', '$rootScope', '$httpBackend', '$controller', 'apiHostname', 'mockUsers', 'Session', 'Invite', 'User',
-    function ($compile, $rootScope, _$httpBackend, $controller, _apiHostname, _mockUsers, _Session_, _Invite_, _User_) {
+  beforeEach(inject(['$compile', '$rootScope', '$httpBackend', '$controller', 'apiHostname', 'mockUsers', 'Session', 'User', 'TenantUser', 'mockTenantUsers',
+    function ($compile, $rootScope, _$httpBackend, $controller, _apiHostname, _mockUsers, _Session_, _User_, _TenantUser, _mockTenantUsers) {
       $scope = $rootScope.$new();
       $httpBackend = _$httpBackend;
       mockUsers = _mockUsers;
+      mockTenantUsers = _mockTenantUsers;
       apiHostname = _apiHostname;
       Session = _Session_;
-      Invite = _Invite_;
       User = _User_;
+      TenantUser = _TenantUser;
 
       controller = $controller('UsersController', {
         '$scope': $scope
       });
-
-      $scope.user = mockUsers[0];
     }
   ]));
 
-  it('should have fetchTenantUsers', inject(function () {
-    var users = $scope.fetchTenantUsers();
-    
-    $httpBackend.flush();
+  it('should catch the on:click:create event', inject([function () {
+    $scope.$broadcast('table:on:click:create');
+    expect($scope.selectedTenantUser).toBeDefined();
+    expect($scope.selectedTenantUser.isNew()).toBeTruthy();
 
-    expect(users).toBeDefined();
-    expect(users.length).toEqual(3);
-  }));
+    expect($scope.selectedTenantUser.$user).toBeDefined();
+    expect($scope.selectedTenantUser.$user.isNew()).toBeTruthy();
+  }]));
 
-  it('should catch the on:click:create event', inject([ function () {
-      $scope.$broadcast('table:on:click:create');
-      expect($scope.selectedUser).toBeDefined();
-      expect($scope.selectedUser.status).toEqual('enabled');
-    }]));
+  describe('ON $scope.scenario', function () {
+    it('should return undefined when $scope.selectedTenantUser is undefined', function () {
+      expect($scope.selectedTenantUser).not.toBeDefined();
 
-  describe('postSave function', function () {
-    it('should reset the session authentication token if user changes their own password',
-      inject(['$injector', 'Session', function ($injector, Session) {
+      var scenario = $scope.scenario();
 
-        var newPassword = 'anewpassword';
-        var AuthService = $injector.get('AuthService');
-        var token = AuthService.generateToken(mockUsers[0].email, newPassword);
-
-        $scope.selectedUser = mockUsers[0];
-        $scope.selectedUser.password = newPassword;
-
-        spyOn(Session, 'setToken');
-
-        $scope.selectedUser.preUpdate($scope.selectedUser);
-
-        expect(controller.newPassword).toBeDefined();
-        expect(controller.newPassword).toEqual(newPassword);
-
-        $scope.selectedUser.postUpdate($scope.selectedUser);
-
-        expect(Session.setToken).toHaveBeenCalledWith(token);
-      }]));
-
-    it('should reset the session authentication token if user changes their own password',
-      inject(['$injector', 'Session', function ($injector, Session) {
-
-        var newPassword = 'anewpassword';
-        var AuthService = $injector.get('AuthService');
-        var token = AuthService.generateToken(mockUsers[0].email, newPassword);
-
-        $scope.selectedUser = mockUsers[0];
-        $scope.selectedUser.password = newPassword;
-
-        spyOn(Session, 'setToken');
-
-        $scope.selectedUser.preUpdate($scope.selectedUser);
-
-        expect(controller.newPassword).toBeDefined();
-        expect(controller.newPassword).toEqual(newPassword);
-
-        Session.user.id = 'nope';
-
-        $scope.selectedUser.postUpdate($scope.selectedUser);
-
-        expect(Session.setToken).not.toHaveBeenCalledWith(token);
-      }]));
-
-
-    it('should create an invite for the new user after creation', function () {
-      spyOn(Invite, 'save');
-
-      var user = new User({
-        email: 'joeblow@test.com'
-      });
-
-      user.postCreate();
-
-      expect(Invite.save).toHaveBeenCalledWith({
-        tenantId: 'tenant-id'
-      }, {
-        email: 'joeblow@test.com',
-        roleId: '00000000-0000-0000-0000-000000000000'
-      });
+      expect(scenario).not.toBeDefined();
     });
 
-    it('should create an invite for the new user after creation has failed if it was a 400 error with email exists error', function () {
-      spyOn(Invite, 'save');
+    it('should return \'invite:new:user\' when $scope.selectedTenantUser isNew and $user isNew', function () {
+      $scope.create();
 
-      var user = new User({
-        email: 'joeblow@test.com'
-      });
+      var scenario = $scope.scenario();
 
-      var response = {
-        status: 400,
-        data: {
-          error: {
-            code: 400,
-            attribute: {
-              email: 'Email address already exists in the system'
-            }
-          }
-        }
+      expect(scenario).toEqual('invite:new:user');
+    });
+
+    it('should return \'invite:existing:user\' when $scope.selectedTenantUser isNew and $user is existing', function () {
+      $scope.selectedTenantUser = {
+        isNew: jasmine.createSpy('$scope.selectedTenantUser.isNew()').and.returnValue(true),
+        $user: mockUsers[0]
       };
 
-      user.postCreateError(response);
+      var scenario = $scope.scenario();
 
-      expect(Invite.save).toHaveBeenCalledWith({
-        tenantId: Session.tenant.tenantId
-      }, {
-        email: user.email,
-        roleId: '00000000-0000-0000-0000-000000000000'
-      });
+      expect(scenario).toEqual('invite:existing:user');
     });
 
-    it('should not send an invite if the save errored and the status was not 400', function () {
-      spyOn(Invite, 'save');
+    it('should return \'invite:existing:user\' when $scope.selectedTenantUser isNew and $user is existing', function () {
+      $scope.selectedTenantUser = {
+        isNew: jasmine.createSpy('$scope.selectedTenantUser.isNew()').and.returnValue(false),
+        $user: mockUsers[0]
+      };
 
-      $scope.user.email = 'joeblow@test.com';
-      new User().postCreateError({
-        status: 401
-      });
+      var scenario = $scope.scenario();
 
-      expect(Invite.save).not.toHaveBeenCalledWith();
+      expect(scenario).toEqual('update');
+    });
+  });
+
+  describe('ON fetchTenantUsers', function () {
+    it('should be defined', function () {
+      expect($scope.fetchTenantUsers).toBeDefined();
     });
 
-    it('should not send an invite if editing an existing user', inject(function () {
-      spyOn(Invite, 'save');
-      mockUsers[0].save();
-      expect(Invite.save).not.toHaveBeenCalled();
+    it('should return tenant userStatuses', inject(function () {
+      var users = $scope.fetchTenantUsers();
+
+      $httpBackend.flush();
+
+      expect(users).toBeDefined();
+      expect(users.length).toEqual(3);
     }));
   });
 
-  describe('postError function', function () {
-    it('should do nothing if error code is not 400', inject(function () {
-      var error = {
-        config: {
-          method: 'POST'
-        },
-        status: '500'
-      };
+  describe('ON create', function () {
+    it('should be defined', function () {
+      expect($scope.create).toBeDefined();
+    });
 
-      spyOn(Invite, 'save');
+    it('should set $scope.selectedTenantUser to new TenantUser with new User as $user',
+      inject(function () {
+        expect($scope.selectedTenantUser).not.toBeDefined();
 
-      mockUsers[0].postCreateError(error);
-      expect(Invite.save).not.toHaveBeenCalled();
-    }));
+        $scope.create();
 
-    it('should do nothing if error code is not 404', inject(function () {
-      var error = {
-        config: {
-          method: 'POST'
-        },
-        status: '404'
-      };
+        expect($scope.selectedTenantUser).toBeDefined();
+        expect($scope.selectedTenantUser.$user).toBeDefined();
+      }));
+  });
 
-      spyOn(Invite, 'save');
+  describe('ON submit', function () {
+    beforeEach(function () {
+      controller.updateTenantUser = jasmine.createSpy('controller.updateTenantUser');
+      controller.saveNewUserTenantUser = jasmine.createSpy('controller.saveNewUserTenantUser');
+      controller.updateUser = jasmine.createSpy('controller.updateUser');
+    });
 
-      mockUsers[0].postCreateError(error);
-      expect(Invite.save).not.toHaveBeenCalled();
-    }));
+    it('should be defined', function () {
+      expect($scope.submit).toBeDefined();
+    });
+
+    it('should call controller.saveNewUserTenantUser WHEN $scope.selectedTenantUser isNew AND $scope.selectedTenantUser.$user.isNew',
+      inject(function () {
+        $scope.create();
+
+        $scope.submit();
+
+        expect(controller.saveNewUserTenantUser).toHaveBeenCalled();
+        expect(controller.updateTenantUser).not.toHaveBeenCalled();
+        expect(controller.updateUser).not.toHaveBeenCalled();
+      }));
+
+    it('should call controller.saveNewUserTenantUser WHEN $scope.selectedTenantUser isNew AND $scope.selectedTenantUser.$user exists',
+      inject(function () {
+        $scope.selectedTenantUser = {
+          isNew: jasmine.createSpy('$scope.selectedTenantUser.isNew()').and.returnValue(true),
+          $user: mockUsers[0]
+        };
+
+        $scope.submit();
+
+        expect(controller.saveNewUserTenantUser).not.toHaveBeenCalled();
+        expect(controller.updateTenantUser).toHaveBeenCalled();
+        expect(controller.updateUser).not.toHaveBeenCalled();
+      }));
+
+    it('should call controller.saveNewUserTenantUser WHEN $scope.selectedTenantUser exists AND $scope.selectedTenantUser.$user exists',
+      inject(function () {
+        $scope.selectedTenantUser = {
+          isNew: jasmine.createSpy('$scope.selectedTenantUser.isNew()').and.returnValue(false),
+          $user: mockUsers[0]
+        };
+
+        $scope.submit();
+
+        expect(controller.saveNewUserTenantUser).not.toHaveBeenCalled();
+        expect(controller.updateTenantUser).not.toHaveBeenCalled();
+        expect(controller.updateUser).toHaveBeenCalled();
+      }));
+  });
+
+  describe('ON controller.updateTenantUser', function () {
+    beforeEach(inject([function () {
+        $scope.selectedTenantUser = new TenantUser({
+          email: mockUsers[0].email
+        });
+        $scope.selectedTenantUser.$user = mockUsers[0];
+      }
+    ]));
+    
+    it('should attempt to save the tenantUser', function() {
+      var result = new TenantUser({
+        userId: mockUsers[0].id
+      });
+      
+      $httpBackend.expect('POST', apiHostname + '/v1/tenants/tenant-id/users').respond(result);
+      
+      controller.updateTenantUser();
+      
+      $httpBackend.flush();
+    });
   });
 });

@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .factory('LiveopsResourceFactory', ['$http', '$resource', '$q', 'apiHostname', 'Session', 'SaveInterceptor', 'DeleteInterceptor', 'queryCache',
-    function ($http, $resource, $q, apiHostname, Session, SaveInterceptor, DeleteInterceptor, queryCache) {
+  .factory('LiveopsResourceFactory', ['$http', '$resource', '$q', 'apiHostname', 'Session', 'SaveInterceptor', 'DeleteInterceptor', 'queryCache', 'lodash',
+    function ($http, $resource, $q, apiHostname, Session, SaveInterceptor, DeleteInterceptor, queryCache, _) {
       function appendTransform(defaults, transform) {
         // We can't guarantee that the default transformation is an array
         defaults = angular.isArray(defaults) ? defaults : [defaults];
@@ -19,9 +19,41 @@ angular.module('liveopsConfigPanel')
         return value;
       }
 
+      function createJsonReplacer(key, value) {
+        if(_.startsWith(key, '$')) {
+          return undefined;
+        } else {
+          return value;
+        }
+      }
+
       return {
-        create: function (endpoint, resourceName, updateFields, requestUrlFields) {
-          requestUrlFields = typeof requestUrlFields !== 'undefined' ? requestUrlFields : {
+        create: function (params) {
+
+          var updateJsonReplacer = function  (key, value) {
+
+            // if the key starts with a $ then its a private field
+            // and should NOT be passed to the API
+            if (_.startsWith(key, '$')){
+              return undefined;
+            }
+
+            // empty string indicates that its verifying if it should
+            // check any part; always return the value
+            if(key === ''){
+              return value;
+            }
+
+            var i = _.findIndex(params.updateFields, {'name' : key});
+
+            if(i >= 0 && (value !== null || !params.updateFields[i].optional)){
+              return value;
+            }
+
+            return undefined;
+          };
+
+          params.requestUrlFields = angular.isDefined(params.requestUrlFields) ? params.requestUrlFields : {
             id: '@id',
             tenantId: '@tenantId',
             groupId: '@groupId',
@@ -31,42 +63,27 @@ angular.module('liveopsConfigPanel')
             memberId: '@memberId'
           };
 
-          var Resource = $resource(apiHostname + endpoint, requestUrlFields, {
+          var Resource = $resource(apiHostname + params.endpoint, params.requestUrlFields, {
             query: {
               method: 'GET',
               isArray: true,
               transformResponse: appendTransform($http.defaults.transformResponse, function (values) {
-                values = getResult(values);
-
-                return values;
-              })
+                return getResult(values);
+              }),
+              interceptor: params.queryInterceptor
             },
             get: {
               method: 'GET',
               transformResponse: appendTransform($http.defaults.transformResponse, function (value) {
-                value = getResult(value);
-
-                return value;
-              })
+                return getResult(value);
+              }),
+              interceptor: params.getInterceptor
             },
             update: {
               method: 'PUT',
-              interceptor: SaveInterceptor,
+              interceptor: angular.isDefined(params.updateInterceptor) ? params.updateInterceptor : SaveInterceptor,
               transformRequest: function (data) {
-                var newData = {};
-
-                if (updateFields) {
-                  for (var i = 0; i < updateFields.length; i++) {
-                    var fieldName = updateFields[i].name;
-
-                    if (data[fieldName] !== null || !updateFields[i].optional) {
-                      newData[fieldName] = data[fieldName];
-                    }
-
-                  }
-                }
-
-                return JSON.stringify(newData);
+                return JSON.stringify(data, updateJsonReplacer);
               },
 
               transformResponse: appendTransform($http.defaults.transformResponse, function (value) {
@@ -75,13 +92,9 @@ angular.module('liveopsConfigPanel')
             },
             save: {
               method: 'POST',
-              interceptor: SaveInterceptor,
+              interceptor: angular.isDefined(params.saveInterceptor) ? params.saveInterceptor : SaveInterceptor,
               transformRequest: function (data) {
-                if (data && angular.isDefined(data.$busy)) {
-                  delete data.$busy;
-                }
-
-                return JSON.stringify(data);
+                return JSON.stringify(data, createJsonReplacer);
               },
               transformResponse: appendTransform($http.defaults.transformResponse, function (value) {
                 return getResult(value);
@@ -96,8 +109,8 @@ angular.module('liveopsConfigPanel')
               interceptor: DeleteInterceptor
             }
           });
-          
-          Resource.prototype.resourceName = resourceName;
+
+          Resource.prototype.resourceName = params.resourceName;
 
           var proxyGet = Resource.get;
 
@@ -128,6 +141,44 @@ angular.module('liveopsConfigPanel')
             return getAllResponse;
           };
 
+          var proxySave = Resource.prototype.$save;
+          Resource.prototype.$save = function(params, success, failure) {
+            var promise = proxySave.call(this, params, success, failure);
+
+            promise.then(function(result) {
+              result.$original = angular.copy(result);
+              return result;
+            });
+
+            return promise;
+          };
+
+          var proxyUpdate = Resource.prototype.$update;
+          Resource.prototype.$update = function(params, success, failure) {
+            var promise = proxyUpdate.call(this, params, success, failure);
+
+            promise.then(function(result) {
+              result.$original = angular.copy(result);
+              return result;
+            });
+
+            return promise;
+          };
+
+          Resource.cachedGet = function(params, cacheKey, invalidate) {
+            var key = cacheKey ? cacheKey : this.prototype.resourceName;
+
+            var cache = queryCache.get(key);
+
+            if(!cache || invalidate) {
+              var item = this.get(params);
+              queryCache.put(key, [item]);
+              return item;
+            }
+
+            return _.find(cache, params);
+          };
+
           Resource.cachedQuery = function(params, cacheKey, invalidate) {
             var key = cacheKey ? cacheKey : this.prototype.resourceName;
             if(!queryCache.get(key) || invalidate) {
@@ -139,20 +190,26 @@ angular.module('liveopsConfigPanel')
             return queryCache.get(key);
           };
 
-          Resource.prototype.save = function (success, failure) {
+          Resource.prototype.save = function (params, success, failure) {
             var self = this,
               action = this.isNew() ? this.$save : this.$update,
               preEvent = self.isNew() ? self.preCreate : self.preUpdate,
               postEvent = self.isNew() ? self.postCreate : self.postUpdate,
               postEventFail = self.isNew() ? self.postCreateError : self.postUpdateError;
 
-            self.$busy = true;
+
+            if(angular.isFunction(params)) {
+              failure = success;
+              success = params;
+            }
 
             //TODO find out why preEvent didn't work in the chain
             preEvent.call(self);
             self.preSave();
 
-            return action.call(self)
+            self.$busy = true;
+
+            return action.call(self, params)
               .then(function (result) {
                 return postEvent.call(self, result);
               }, function (error) {
@@ -186,6 +243,9 @@ angular.module('liveopsConfigPanel')
 
           Resource.prototype.reset = function () {
             for(var prop in this.$original) {
+              if(prop.match(/^\$.*/g)) {
+                continue;
+              }
               this[prop] = this.$original[prop];
             }
           };
@@ -233,7 +293,7 @@ angular.module('liveopsConfigPanel')
           };
 
           Resource.prototype.isNew = function () {
-            return !this.id;
+            return !(this.hasOwnProperty('created') || angular.isDefined(this.id));
           };
 
           Resource.prototype.$busy = false;

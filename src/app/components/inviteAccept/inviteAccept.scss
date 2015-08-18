@@ -1,0 +1,34 @@
+#invite-accept {
+  background: $main-color;
+  /* Background pattern from subtlepatterns.com */
+  background-image: url("/assets/images/square_bg.png"), linear-gradient(to bottom, lighten($main-color, 10%), $accent1);
+  box-sizing: content-box;
+  margin-top: -$navbar-height;
+  padding-top: $navbar-height;
+  height: 100%;
+  width: 100%;
+  
+  #invite-accept-wrapper {
+    max-width: 600px;
+    margin: auto auto;
+  }
+  
+  .details-form {
+    background-color: #ffffff;
+    box-sizing: border-box;
+    border: 1px solid $lightest-grey;
+    @include border-radius(3px);
+    @include drop-shadow();
+    height: auto;
+    
+    .detail-body-pane {
+      flex: none;
+      height: auto;
+    }
+  }
+  
+  .btn-primary {
+    margin-top: 20px;
+    width: 100px;
+  }
+}

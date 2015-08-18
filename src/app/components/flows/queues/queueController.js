@@ -5,8 +5,6 @@ angular.module('liveopsConfigPanel')
     function ($scope, Queue, Session, $stateParams, queueTableConfig, QueueVersion, BulkAction) {
       $scope.Session = Session;
 
-      $scope.redirectToInvites();
-
       Queue.prototype.postCreate = function (queue) {
         var qv = new QueueVersion({
           tenantId: Session.tenant.tenantId,

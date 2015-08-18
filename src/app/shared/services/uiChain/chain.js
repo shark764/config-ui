@@ -7,12 +7,18 @@ angular.module('liveopsConfigPanel')
     var Chain = function(name) {
       this.name = name;
     };
-
+    
+    Chain.create = function(name, callback) {
+      var chain = Chain.get(name);
+      chain.hook('init', callback, 0);
+      return chain;
+    };
+    
     Chain.get = function(name) {
       var chains = $cacheFactory.get('chains');
 
       if(!chains.get(name)) {
-        chains.put(name, []);
+        chains.put(name, {});
       }
 
       return new Chain(name);
@@ -20,12 +26,13 @@ angular.module('liveopsConfigPanel')
 
     Chain.prototype.hook = function(id, callback, priority) {
       var chains = $cacheFactory.get('chains');
-      var callbacks = chains.get(this.name);
-      callbacks.push({
+      var links = chains.get(this.name);
+      
+      links[id] = {
         id: id,
         callback: callback,
         priority: priority
-      });
+      };
     };
 
     Chain.prototype.execute = function(param) {

@@ -10,13 +10,12 @@ angular.module('liveopsConfigPanel')
         },
         templateUrl: 'app/components/management/users/bulkActions/resetPassword/resetPasswordBulkAction.html',
         link: function ($scope) {
-          $scope.bulkAction.apply = function(user) {
-            var copyUser = new User();
-            copyUser.id = user.id;
-            copyUser.password = $scope.password;
-            return copyUser.save().then(function(userCopy) {
-              angular.copy(userCopy, user);
-              user.checked = true;
+          $scope.bulkAction.apply = function(tenantUser) {
+            var newUser = new User();
+            newUser.id = tenantUser.id;
+            newUser.password = $scope.password;
+            return newUser.save().then(function(user) {
+              angular.copy(user, tenantUser.$user);
               return user;
             });
           };
