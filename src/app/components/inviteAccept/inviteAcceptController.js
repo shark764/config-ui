@@ -36,7 +36,10 @@ angular.module('liveopsConfigPanel')
       };
       
       $scope.signupSuccess = function(user){
-        user.password = 'KEYBOARDSMASH';
+        //resetting the password here since on save, user comes back without the password and
+        //later in this flow we're using a timeout to avoid API timing deficiencies 
+        //so the password field in behind would show as having a validation error (where password is null)
+        user.password = $scope.newPassword;
         
         TenantUser.update({
           tenantId: $stateParams.tenantId,
