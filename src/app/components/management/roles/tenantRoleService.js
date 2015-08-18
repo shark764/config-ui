@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .factory('TenantRole', ['LiveopsResourceFactory',
-    function(LiveopsResourceFactory) {
+  .factory('TenantRole', ['LiveopsResourceFactory', 'Session',
+    function(LiveopsResourceFactory, Session) {
       var TenantRole = LiveopsResourceFactory.create({
         endpoint: '/v1/tenants/:tenantId/roles/:roleId',
         resourceName: 'TenantRole',
@@ -22,8 +22,9 @@ angular.module('liveopsConfigPanel')
       };
 
       TenantRole.getName = function(roleId) {
-        return TenantRole.cachedQuery({
-          id: roleId
+        return TenantRole.cachedGet({
+          tenantId: Session.tenant.tenantId,
+          roleId: roleId
         }).name;
       };
 

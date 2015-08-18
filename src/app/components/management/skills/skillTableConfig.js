@@ -5,24 +5,35 @@ angular.module('liveopsConfigPanel')
     function (statuses, $translate) {
       return {
         'fields': [{
-          'header': $translate.instant('value.name'),
-          'name': 'name'
+          'header': {
+            'display': $translate.instant('value.name')
+          },
+          'name': '$original.name'
         }, {
-          'header': $translate.instant('value.description'),
-          'name': 'description'
+          'header': {
+            'display': $translate.instant('value.description')
+          },
+          'name': '$original.description'
         }, {
-          'header': $translate.instant('skill.table.proficiency'),
+          'header': {
+            'display': $translate.instant('skill.table.proficiency')
+          },
           'transclude': true,
-          'name': 'hasProficiency'
+          'name': '$original.hasProficiency'
         }, {
-          'header': $translate.instant('value.status'),
-          'options': statuses(),
+          'header': {
+            'display': $translate.instant('value.status'),
+            'valuePath': 'value',
+            'displayPath': 'display',
+            'options': statuses()
+          },
           'filter': 'selectedOptions',
           'transclude': true,
-          'name': 'active',
+          'name': '$original.active',
+          'lookup': '$original:active'
         }],
-        'searchOn' : ['name', 'description'],
-        'orderBy' : 'name',
+        'searchOn' : ['$original.name', '$original.description'],
+        'orderBy' : '$original.name',
         'title': $translate.instant('skill.table.title')
       };
     }

@@ -293,7 +293,7 @@ angular.module('liveopsConfigPanel')
           };
 
           Resource.prototype.isNew = function () {
-            return !this.hasOwnProperty('created');
+            return !(this.hasOwnProperty('created') || angular.isDefined(this.id));
           };
 
           Resource.prototype.$busy = false;

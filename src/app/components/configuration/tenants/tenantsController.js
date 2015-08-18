@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('TenantsController', ['$scope', '$stateParams', '$filter', 'Session', 'Tenant', 'User', 'tenantTableConfig', 'BulkAction',
-    function($scope, $stateParams, $filter, Session, Tenant, User, tenantTableConfig, BulkAction) {
+  .controller('TenantsController', ['$scope', '$stateParams', '$filter', 'Session', 'Tenant', 'TenantUser', 'tenantTableConfig', 'BulkAction',
+    function($scope, $stateParams, $filter, Session, Tenant, TenantUser, tenantTableConfig, BulkAction) {
 
       $scope.create = function() {
         $scope.selectedTenant = new Tenant({
@@ -18,7 +18,7 @@ angular.module('liveopsConfigPanel')
       };
 
       $scope.fetchUsers = function() {
-        return User.cachedQuery({
+        return TenantUser.cachedQuery({
           tenantId: Session.tenant.tenantId
         });
       };

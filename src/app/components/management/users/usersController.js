@@ -6,23 +6,18 @@ angular.module('liveopsConfigPanel')
       var self = this;
 
       $scope.Session = Session;
-      $scope.forms = {};
       $window.flowSetup = flowSetup;
       $scope.tableConfig = userTableConfig;
 
       $scope.scenario = function() {
         if (!$scope.selectedTenantUser) {
-          return null;
+          return;
         }
 
         if ($scope.selectedTenantUser.$user.isNew()) {
-          if ($parse('forms.detailsForm.email.$error.duplicateEmail')($scope)) {
-            return 'invite:existing:user:not:in:tenant';
-          } else {
-            return 'invite:new:user';
-          }
-        } else if ($parse('forms.detailsForm.email.$error.duplicateEmail')($scope)) {
-          return 'invite:existing:user:in:tenant';
+          return 'invite:new:user';
+        } else if ($scope.selectedTenantUser.isNew()) {
+          return 'invite:existing:user';
         } else {
           return 'update';
         }
@@ -59,12 +54,13 @@ angular.module('liveopsConfigPanel')
 
       this.updateTenantUser = function() {
         var user = $scope.selectedTenantUser.$user;
-        return $scope.selectedTenantUser.$save({
+        var wasNew = $scope.selectedTenantUser.isNew();
+        return $scope.selectedTenantUser.save({
           tenantId: Session.tenant.tenantId
         }).then(function(tenantUser) {
           tenantUser.$user = user;
 
-          //TODO log API bug where roleName isn't comming back on get
+          //TODO remove once TITAN2-2890 is resolved
           return TenantUser.get({
             tenantId: Session.tenant.tenantId,
             id: tenantUser.userId
@@ -72,10 +68,12 @@ angular.module('liveopsConfigPanel')
             tenantUser.$user = user;
 
             tenantUser.$original.roleName = TenantRole.getName(tenantUser.roleId);
-
+            
             tenantUser.reset();
-
-            $scope.fetchTenantUsers().push(tenantUser);
+            
+            if(wasNew) {
+              $scope.fetchTenantUsers().push(tenantUser);
+            }
 
             return tenantUser;
           });
@@ -84,19 +82,22 @@ angular.module('liveopsConfigPanel')
 
       this.saveNewUserTenantUser = function() {
         $scope.selectedTenantUser.$user.email = $scope.selectedTenantUser.email;
-        return $scope.selectedTenantUser.$user.$save().then(function(user) {
-
+        return $scope.selectedTenantUser.$user.save().then(function(user) {
+          $scope.selectedTenantUser.$busy = true; //TODO: remove timeout once TITAN2-2881 is addressed
           return $timeout(function() { //TODO: remove timeout once TITAN2-2881 is addressed
-            return $scope.selectedTenantUser.$save({
+            return $scope.selectedTenantUser.save({
               tenantId: Session.tenant.tenantId
             }).then(function(tenantUser) {
               tenantUser.$user = user;
+              tenantUser.id = user.id;
               tenantUser.$original.skills = [];
               tenantUser.$original.groups = [{}];
 
               tenantUser.$original.roleName = TenantRole.getName(tenantUser.roleId);
-
+              
               tenantUser.reset();
+
+              $scope.fetchTenantUsers().push(tenantUser);
 
               return tenantUser;
             });

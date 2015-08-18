@@ -3,33 +3,17 @@
 angular.module('liveopsConfigPanel')
   .service('userTableConfig', ['userStatuses', 'userStates', '$translate', 'Skill', 'Group', 'TenantRole', 'Session',
     function (userStatuses, userStates, $translate, Skill, Group, TenantRole, Session) {
-      Skill.prototype.value = function () {
-        return this.id;
-      };
-
-      Skill.prototype.display = function () {
-        return this.name;
-      };
-
-      Group.prototype.value = function () {
-        return this.id;
-      };
-
-      Group.prototype.display = function () {
-        return this.name;
-      };
-
       function getSkillOptions() {
         return Skill.cachedQuery({
           tenantId: Session.tenant.tenantId
         });
-      };
+      }
 
       function getGroupOptions() {
         return Group.cachedQuery({
           tenantId: Session.tenant.tenantId
         });
-      };
+      }
 
       function getRoleOptions() {
         return TenantRole.cachedQuery({
@@ -65,8 +49,8 @@ angular.module('liveopsConfigPanel')
           },
           'lookup': 'skills:id',
           'name': 'skills',
-          'resolve': function (user) {
-            return user.skills.length;
+          'resolve': function (tenantUser) {
+            return tenantUser.skills.length;
           },
           'sortOn': 'skills.length',
           'filterOrderBy': 'name'
@@ -79,8 +63,8 @@ angular.module('liveopsConfigPanel')
           },
           'lookup': 'groups:id',
           'name': 'groups',
-          'resolve': function (user) {
-            return user.groups.length;
+          'resolve': function (tenantUser) {
+            return tenantUser.groups.length;
           },
           'sortOn': 'groups.length',
           'filterOrderBy': 'name'

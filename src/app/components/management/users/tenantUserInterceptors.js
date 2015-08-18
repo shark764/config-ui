@@ -31,7 +31,7 @@ angular.module('liveopsConfigPanel')
       this.response = function(response) {
         var tenantUser = response.resource;
 
-        TenantUserTransformer.transform(tenantUser)
+        TenantUserTransformer.transform(tenantUser);
 
         return tenantUser;
       };
@@ -41,7 +41,7 @@ angular.module('liveopsConfigPanel')
     function(TenantUserTransformer) {
       this.response = function(response) {
         angular.forEach(response.resource, function(tenantUser) {
-          TenantUserTransformer.transform(tenantUser)
+          TenantUserTransformer.transform(tenantUser);
         });
 
         return response.resource;

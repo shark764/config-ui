@@ -18,7 +18,7 @@ describe('invite accept controller', function () {
 
   beforeEach(inject(['$compile', '$rootScope', '$httpBackend', '$controller', 'apiHostname', 'mockUsers', 'mockTenantUsers',
     function ($compile, _$rootScope, _$httpBackend, _$controller, _apiHostname, _mockUsers, _mockTenantUsers) {
-      $rootScope = _$rootScope
+      $rootScope = _$rootScope;
       $scope = $rootScope.$new();
       $httpBackend = _$httpBackend;
       $controller = _$controller;
@@ -213,19 +213,19 @@ describe('invite accept controller', function () {
       $stateParams.userId = 'userId2';
       $scope.acceptSuccess();
       $timeout.flush();
-      $timeout.flush();
       expect($state.transitionTo).toHaveBeenCalledWith('content.management.users', {id: 'userId2'});
     }]));
     
-    it('should show an alert on update fail', inject(['AuthService', 'Alert', '$q', function(AuthService, Alert, $q){
+    it('should show an alert on update fail', inject(['AuthService', 'Alert', '$q', '$timeout', function(AuthService, Alert, $q, $timeout){
       var deferred = $q.defer();
       deferred.reject('failure');
       
       spyOn(AuthService, 'login').and.returnValue(deferred.promise);
       spyOn(Alert, 'error');
       
-      $scope.loginSuccess();
+      $scope.acceptSuccess();
+      $timeout.flush();
       expect(Alert.error).toHaveBeenCalled();
     }]));
-  })
+  });
 });

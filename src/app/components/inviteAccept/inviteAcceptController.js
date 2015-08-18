@@ -6,7 +6,7 @@ angular.module('liveopsConfigPanel')
       $scope.user = invitedUser;
       $scope.loading = false;
       
-      if (invitedTenantUser.status != 'invited'){
+      if (invitedTenantUser.status !== 'invited'){
         Session.setToken(null);
         $state.transitionTo('login', {messageKey: 'invite.accept.alreadyAccepted'});
       }
@@ -50,15 +50,14 @@ angular.module('liveopsConfigPanel')
       
       $scope.acceptSuccess = function(){
         $timeout(function(){ //TODO: remove timeout once TITAN2-2881 is addressed
+          Session.setToken(null);
           AuthService.login($scope.user.email, $scope.newPassword).then(function(){
-            $timeout(function(){ //TODO: remove timeout once TITAN2-2881 is addressed
-              $state.transitionTo('content.management.users', {id: $stateParams.userId});
-            }, 1000);
+            $state.transitionTo('content.management.users', {id: $stateParams.userId});
           }, function(){
             Alert.error('Sorry, there was an error logging you in!');
             $scope.loading = false;
           });
-        }, 2000);
+        }, 3000);
       };
       
       $scope.acceptFailure = function(){

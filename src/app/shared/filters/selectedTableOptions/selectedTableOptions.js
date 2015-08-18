@@ -7,13 +7,14 @@ angular.module('liveopsConfigPanel')
         var filtered = [];
         
         if (angular.isUndefined(items)){
-          return;
+          return filtered;
         }
         
-        for(var i = 0; i < items.length; i++) {
-          filtered.push(items[i]);
-        }
+        // for(var i = 0; i < items.length; i++) {
+        //   filtered.push(items[i]);
+        // }
         
+        var nothingChecked = true;
         for(var fieldIndex = 0; fieldIndex < fields.length; fieldIndex++) {
           var field = fields[fieldIndex];
           if(!$parse('header.options')(field)) {
@@ -24,6 +25,7 @@ angular.module('liveopsConfigPanel')
           
           for(var optionIndex = 0; optionIndex < options.length; optionIndex++) {
             var option = options[optionIndex];
+            nothingChecked = nothingChecked && !option.checked;
             if(!option.checked){
               continue;
             }
@@ -31,19 +33,17 @@ angular.module('liveopsConfigPanel')
             var parseValue = $parse(field.header.valuePath ? field.header.valuePath : 'value');
             var value = $filter('invoke')(parseValue(option), option);
             
-            for(var filteredIndex = 0; filteredIndex < filtered.length; ) {
-              var item = filtered[filteredIndex];
+            for(var itemIndex = 0; itemIndex < items.length; itemIndex++) {
+              var item = items[itemIndex];
               var lookup = field.lookup ? field.lookup : field.name;
-              if (!$filter('matchesField')(item, lookup, value)) {
-                filtered.removeItem(item)
-              } else {
-                filteredIndex++;
+              if ($filter('matchesField')(item, lookup, value)) {
+                filtered.push(item);
               }
             }
           }
         }
 
-        return filtered;
+        return nothingChecked ? items : filtered;
       };
     }
   ]);
