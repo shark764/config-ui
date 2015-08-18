@@ -12,7 +12,7 @@
   right-element-id="details-pane"
   left-element-id="table-pane" ></resize-handle>
 
-<lo-details-panel id="details-pane" class="details-pane"
+<lo-details-panel id="details-pane" class="right-panel"
   ng-show="selectedMedia"
   ng-resource="selectedMedia">
 
@@ -24,15 +24,15 @@
     lo-form-cancel="media:cancel"
     lo-form-alert>
 
-    <div class="detail-header-pane"
+    <div class="detail-header"
       ng-include src="'app/components/flows/media/mediaDetailHeader.html'">
     </div>
 
-    <div class="detail-body-pane"
+    <div class="detail-body"
       ng-include src="'app/components/flows/media/mediaDetailBody.html'">
     </div>
 
-    <div class="detail-controls-pane">
+    <div class="detail-controls">
       <input id="cancel-details-btn" type="button" class="btn"
         value="{{'value.cancel' | translate}}"
         lo-cancel-chain-executor="media:cancel"></input>
