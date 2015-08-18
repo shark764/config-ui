@@ -85,14 +85,8 @@
     <div ng-if="selectedTenantUser.status !== 'accepted'" class="input-group">
       <label></label>
       <div>
-        <button class="btn" ng-click="sendInvite()">
-          <span ng-show="selectedTenantUser.status !== 'pending'">
-            {{'user.details.invitation.resend' | translate}}
-          </span>
-          <span ng-show="selectedTenantUser.status === 'pending'">
-            {{'user.details.invitation.send' | translate}}
-          </span>
-        </button>
+        <input type="button" class="btn" ng-click="sendInvite()"
+          value="{{'user.details.invitation.resend' | translate}}">
       </div>
     </div>
   </div>
