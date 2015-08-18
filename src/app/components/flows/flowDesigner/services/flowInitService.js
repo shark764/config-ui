@@ -54,9 +54,6 @@
         graph.utils.renderPropertiesPanel = function(notation) {
           console.log('Notation clicked on:', notation);
 
-          // Don't render the properties panel if they clicked on a link
-          if (notation.model.attributes.type === 'liveOps.link') { return graph.utils.hidePropertiesPanel(); }
-
           // Render the halo menu
           if (notation.model.attributes.group !== 'end') {
             graph.utils.renderHaloMenu(notation);
@@ -79,6 +76,7 @@
           graph.panelScope = $rootScope.$new();
           graph.panelScope.notation = notation;
           var compiledPanel = $compile('<props-panel notation="notation"></props-panel>')(graph.panelScope);
+          console.log(compiledPanel);
           graph.interfaces.inspectorContainer.append(compiledPanel);
         };
 
