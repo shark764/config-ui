@@ -111,7 +111,7 @@ describe('The users table filter', function() {
     });
   });
 
-  xit('should display users based on the Search and Status filters', function() {
+  it('should display users based on the Search and Status filters', function() {
     // Add Status Column
     shared.tableColumnsDropDown.click();
     shared.tableColumnsDropDown.all(by.repeater('option in options | orderBy:orderBy track by option[valuePath]')).get(6).click();
@@ -157,7 +157,7 @@ describe('The users table filter', function() {
     });
   });
 
-  xit('should display all tenant Groups in the user table Group filter', function() {
+  it('should display all tenant Groups in the user table Group filter', function() {
     // Select Group from Groups drop down
     users.groupsTableDropDown.click();
 
@@ -179,7 +179,7 @@ describe('The users table filter', function() {
     });
   });
 
-  xit('should display users based on the table Group filter', function() {
+  it('should display users based on the table Group filter', function() {
     // Select Group from Groups drop down
     users.groupsTableDropDown.click();
     users.dropdownGroups.get(0).click();
@@ -269,7 +269,7 @@ describe('The users table filter', function() {
     });
   });
 
-  xit('should display users based on the selected Groups on table filter', function() {
+  it('should display users based on the selected Groups on table filter', function() {
     // Select Group from Groups drop down
     users.groupsTableDropDown.click();
     users.dropdownGroups.get(0).click();
@@ -305,7 +305,7 @@ describe('The users table filter', function() {
     });
   });
 
-  xit('should display users based on the Search and Group filters', function() {
+  it('should display users based on the Search and Group filters', function() {
     // Search
     shared.searchField.sendKeys('a');
 
@@ -341,7 +341,7 @@ describe('The users table filter', function() {
     });
   });
 
-  xit('should display all tenant Skills in the user table Skill filter', function() {
+  it('should display all tenant Skills in the user table Skill filter', function() {
     // Select Skill from Skills drop down
     users.skillsTableDropDown.click();
 
@@ -363,7 +363,7 @@ describe('The users table filter', function() {
     });
   });
 
-  xit('should display users based on the table Skill filter', function() {
+  it('should display users based on the table Skill filter', function() {
     // Select Skill from Skills drop down
     users.skillsTableDropDown.click();
     users.dropdownSkills.get(0).click();
@@ -453,7 +453,7 @@ describe('The users table filter', function() {
     });
   });
 
-  xit('should display users based on the selected Skills on table filter', function() {
+  it('should display users based on the selected Skills on table filter', function() {
     // Select Skill from Skills drop down
     users.skillsTableDropDown.click();
     users.dropdownSkills.get(0).click();
@@ -489,7 +489,7 @@ describe('The users table filter', function() {
     });
   });
 
-  xit('should display users based on the Search and Skill filters', function() {
+  it('should display users based on the Search and Skill filters', function() {
     // Search
     shared.searchField.sendKeys('a');
 
