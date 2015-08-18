@@ -10,6 +10,7 @@ describe('setStatusBulkAction directive', function() {
   beforeEach(module('gulpAngular'));
   beforeEach(module('liveopsConfigPanel'));
   beforeEach(module('liveopsConfigPanel.mock.content.management.users'));
+  beforeEach(module('liveopsConfigPanel.mock.content.management.tenantUsers'));
 
   beforeEach(inject(['$compile', '$rootScope', 'BulkAction',
     function(_$compile_, _$rootScope_, _BulkAction) {
@@ -31,8 +32,8 @@ describe('setStatusBulkAction directive', function() {
     expect(isolateScope.bulkAction.apply).toBeDefined();
   });
 
-  it('should should set user.status on bulkAction.execute', inject(['mockUsers', '$httpBackend', 'apiHostname',
-    function(mockUsers, $httpBackend, apiHostname) {
+  it('should should set user.status on bulkAction.execute', inject(['mockUsers', 'mockTenantUsers', '$httpBackend', 'apiHostname',
+    function(mockUsers, mockTenantUsers, $httpBackend, apiHostname) {
       mockUsers[1].status = 'disabled';
       var returnUser = angular.copy(mockUsers[1]);
       returnUser.status = 'enabled';
@@ -40,9 +41,11 @@ describe('setStatusBulkAction directive', function() {
       $httpBackend.when('PUT', apiHostname + '/v1/users/userId2').respond(200, {
         result: returnUser
       });
-
+      
+      mockTenantUsers[1].$user = mockUsers[1];
+      
       isolateScope.status = 'enabled';
-      isolateScope.bulkAction.apply(mockUsers[1]);
+      isolateScope.bulkAction.apply(mockTenantUsers[1]);
 
       expect(mockUsers[1].status).toEqual('disabled');
 

@@ -5,12 +5,12 @@
   selected="selectedQueue"
   resource-name="queue">
   
-  <span name="active">
-    <span ng-if="item.active">{{'value.enabled' | translate}}</span>
-    <span ng-if="!item.active" class="disabled">{{'value.disabled' | translate}}</span>
+  <span name="$original.active">
+    <span ng-if="item.$original.active">{{'value.enabled' | translate}}</span>
+    <span ng-if="!item.$original.active" class="disabled">{{'value.disabled' | translate}}</span>
   </span>
   
-  <active-version name="activeVersion" queue="item"></active-version>
+  <active-version name="$original.activeVersion" queue="item"></active-version>
 
 </table-controls>
 

@@ -15,17 +15,17 @@ describe('Chain service', function () {
   ]));
 
   describe('ON Chain.get', function () {
-    it('should return an empty array on first get', function () {
+    it('should return an empty object on first get', function () {
       Chain.get('user:save');
       var chain = $cacheFactory.get('chains').get('user:save');
-      expect(chain.length).toEqual(0);
+      expect(chain).toEqual(jasmine.any(Object));
     });
 
     it('should cache the items I push to it', function () {
       Chain.get('user:save').hook('link1', function(){});
 
       var chain = $cacheFactory.get('chains').get('user:save');
-      expect(chain.length).toEqual(1);
+      expect(chain.hasOwnProperty('link1')).toBeTruthy();
     });
 
     it('should not create a new chain once already got', function () {
@@ -33,7 +33,7 @@ describe('Chain service', function () {
       Chain.get('user:save');
 
       var chain = $cacheFactory.get('chains').get('user:save');
-      expect(chain.length).toEqual(1);
+      expect(chain.hasOwnProperty('link1')).toBeTruthy();
     });
   });
 
@@ -44,9 +44,9 @@ describe('Chain service', function () {
 
       var chainCache = $cacheFactory.get('chains').get('chain1');
 
-      expect(chainCache.length).toEqual(1);
-      expect(chainCache[0].id).toEqual('link1');
-      expect(chainCache[0].priority).toEqual(100);
+      expect(chainCache.hasOwnProperty('link1')).toBeTruthy();
+      expect(chainCache.link1.id).toEqual('link1');
+      expect(chainCache.link1.priority).toEqual(100);
     });
 
     it('should push multiple callback onto the chain', function() {
@@ -56,12 +56,13 @@ describe('Chain service', function () {
 
       var chainCache = $cacheFactory.get('chains').get('chain1');
 
-      expect(chainCache.length).toEqual(2);
-      expect(chainCache[0].id).toEqual('link1');
-      expect(chainCache[0].priority).toEqual(100);
+      expect(chainCache.hasOwnProperty('link1')).toBeTruthy();
+      expect(chainCache.link1.id).toEqual('link1');
+      expect(chainCache.link1.priority).toEqual(100);
 
-      expect(chainCache[1].id).toEqual('link2');
-      expect(chainCache[1].priority).toEqual(50);
+      expect(chainCache.hasOwnProperty('link2')).toBeTruthy();
+      expect(chainCache.link2.id).toEqual('link2');
+      expect(chainCache.link2.priority).toEqual(50);
     });
   });
 

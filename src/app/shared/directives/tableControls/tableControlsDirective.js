@@ -25,7 +25,7 @@ angular.module('liveopsConfigPanel')
               $rootScope.$broadcast('table:on:click:create');
             });
           };
-          
+
           $scope.onActionsClick = function() {
             DirtyForms.confirmIfDirty(function(){
               $rootScope.$broadcast('table:on:click:actions');
@@ -60,6 +60,10 @@ angular.module('liveopsConfigPanel')
               var parseFunc = $parse(field.name);
               return parseFunc(item);
             }
+          };
+
+          $scope.isResolved = function(item) {
+            return angular.isUndefined(item.$resolved) || item.$resolved;
           };
 
           $scope.toggleAll = function(checkedValue) {
@@ -120,10 +124,10 @@ angular.module('liveopsConfigPanel')
               }
             });
           });
-          
+
           $scope.reverseSortOrder = false;
           $scope.orderBy = $scope.config.orderBy;
-          
+
           $scope.sortTable = function(field){
             var fieldName;
             if (field.sortOn){
@@ -131,13 +135,13 @@ angular.module('liveopsConfigPanel')
             } else if (field.name){
               fieldName = field.name;
             }
-            
+
             if (fieldName === $scope.orderBy){
               $scope.reverseSortOrder = ! $scope.reverseSortOrder;
             } else {
               $scope.reverseSortOrder = false;
             }
-            
+
             $scope.orderBy = fieldName;
           };
         }

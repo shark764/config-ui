@@ -3,5 +3,8 @@
 angular.module('liveopsConfigPanel')
   .factory('Login', ['LiveopsResourceFactory', function (LiveopsResourceFactory) {
 
-    return LiveopsResourceFactory.create('/v1/login', 'Login');
+    return LiveopsResourceFactory.create({
+      endpoint: '/v1/login',
+      resourceName: 'Login'
+    });
   }]);

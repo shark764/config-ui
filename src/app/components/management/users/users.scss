@@ -6,24 +6,26 @@
     padding: 15px 20px;
     margin-right: 10px;
   }
-  
+
   toggle {
-    position: static;
+    position: static !important;
   }
-  
+
   .info {
-    .user-state {
-      display:inline-block;
-      font-size: 0.7em;
-      vertical-align: top;
-    }
-    
     .details {
       display: table;
-      
+
       & > * {
         display: table-cell;
       }
     }
+  }
+}
+
+.new-user-email {
+  .email-verify-spinner {
+    position: absolute;
+    right: 5px;
+    top: 9px;
   }
 }

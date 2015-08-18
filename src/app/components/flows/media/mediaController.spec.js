@@ -28,8 +28,6 @@ describe('MediaController', function () {
     $controller('MediaController', {
       '$scope': $scope
     });
-
-    $httpBackend.flush();
   });
   
   describe('ON fetchMedias', function() {

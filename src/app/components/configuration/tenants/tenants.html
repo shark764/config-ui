@@ -1,15 +1,15 @@
 <table-controls
   id="table-pane"
   config="tableConfig"
-  items="tenants"
+  items="fetchTenants()"
   selected="selectedTenant"
   resource-name="tenants">
 
-  <span name="active">
-    <span ng-if="item.active">{{'value.enabled' | translate}}</span>
-    <span ng-if="!item.active" class="disabled">{{'value.disabled' | translate}}</span>
+  <span name="$original.active">
+    <span ng-if="item.$original.active">{{'value.enabled' | translate}}</span>
+    <span ng-if="!item.$original.active" class="disabled">{{'value.disabled' | translate}}</span>
   </span>
-  
+
 </table-controls>
 
 <resize-handle
@@ -29,7 +29,7 @@
     original-resource="selectedTenant"
     resource-name="tenants">
   </resource-details>
-  
+
   <bulk-action-executor class="details-pane" ng-show="showBulkActions" items="tenants"
     bulk-actions="bulkActions" show-bulk-actions="showBulkActions">
     <ba-set-tenant-status bulk-action="bulkActions.setTenantStatus"></ba-set-tenant-status>

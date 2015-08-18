@@ -10,11 +10,11 @@ describe('userGroups directive', function() {
     mockGroups,
     mockUserGroups,
     Session,
-    mockUsers;
+    mockTenantUsers;
 
   beforeEach(module('gulpAngular'));
   beforeEach(module('liveopsConfigPanel'));
-  beforeEach(module('liveopsConfigPanel.mock.content.management.users'));
+  beforeEach(module('liveopsConfigPanel.mock.content.management.tenantUsers'));
   beforeEach(module('liveopsConfigPanel.mock.content.management.groups'));
   beforeEach(module('liveopsConfigPanel.mock.content.management.users.groups'));
   
@@ -28,21 +28,21 @@ describe('userGroups directive', function() {
     spyOn(isolateScope, 'updateCollapseState'); //Stub this out so we dont trigger digests in the tests
   };
   
-  beforeEach(inject(['$compile', '$rootScope', '$httpBackend', 'apiHostname', 'mockUsers', 'mockGroups', 'mockUserGroups', 'Session',
-    function(_$compile, _$rootScope_, _$httpBackend_, _apiHostname_, _mockUsers, _mockGroups, _mockUserGroups, _Session_) {
+  beforeEach(inject(['$compile', '$rootScope', '$httpBackend', 'apiHostname', 'mockTenantUsers', 'mockGroups', 'mockUserGroups', 'Session',
+    function(_$compile, _$rootScope_, _$httpBackend_, _apiHostname_, _mockTenantUsers, _mockGroups, _mockUserGroups, _Session_) {
       $compile = _$compile;
       $scope = _$rootScope_.$new();
       $httpBackend = _$httpBackend_;
       apiHostname = _apiHostname_;
       mockGroups = _mockGroups;
       mockUserGroups = _mockUserGroups;
-      mockUsers = _mockUsers;
+      mockTenantUsers = _mockTenantUsers;
       Session = _Session_;
     }
   ]));
   
   beforeEach(function() {
-    $scope.user = mockUsers[1];
+    $scope.user = mockTenantUsers[1];
   });
   
   describe('USING defaultCompile', function() {
@@ -237,6 +237,7 @@ describe('userGroups directive', function() {
         isolateScope.createGroup('groupname', successSpy, failSpy);
         $httpBackend.flush();
         expect(failSpy).toHaveBeenCalled();
+        expect(successSpy).not.toHaveBeenCalled();
       }));
     });
     

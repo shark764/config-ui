@@ -18,8 +18,11 @@
 
     <div class="col action-container">
       <button id="actions-btn" ng-hide="hideBulkActions" class="btn" ng-click="onActionsClick()">{{'table.actions.button' | translate}}</button>
-      <filter-dropdown id="table-columns-dropdown" class="btn" label="{{'table.columns.button' | translate}}"
-        options="config.fields" display-path="header" value-path="name"></filter-dropdown>
+      <filter-dropdown id="table-columns-dropdown" class="btn"
+        label="{{'table.columns.button' | translate}}"
+        options="config.fields"
+        display-path="header.display"
+        value-path="name"></filter-dropdown>
     </div>
   </div>
 </div>
@@ -33,10 +36,17 @@
       <th id="bulk-actions-select-table-header" ng-hide="hideBulkActions" class="check-col">
         <input type="checkbox" ng-model="checkAll" ng-change="toggleAll(checkAll)" />
       </th>
-      <th ng-repeat="field in config.fields" ng-if="field.checked" ng-class="{'filter-header': !!field.options}" class="sortable-header" ng-click="sortTable(field)">
-        <i ng-show="orderBy == field.name || orderBy == field.sortOn" ng-class="{'fa-arrow-up' : reverseSortOrder, 'fa-arrow-down': ! reverseSortOrder}" class="sort-icon fa pull-left"></i>
-        <div ng-if="!field.options">{{field.header}}</div>
-        <filter-dropdown id="{{field.id}}" ng-if="!!field.options" ng-click="$event.stopPropagation()" show-all="true" label="{{field.header}}" options="field.options" order-by="{{field.filterOrderBy}}"></filter-dropdown>
+      <th ng-repeat="field in config.fields" ng-if="field.checked" ng-class="{'filter-header': !!field.header.options}" class="sortable-header" ng-click="sortTable(field)">
+        <i ng-show="orderBy == field.header.name || orderBy == field.sortOn" ng-class="{'fa-arrow-up' : reverseSortOrder, 'fa-arrow-down': ! reverseSortOrder}" class="sort-icon fa pull-left"></i>
+        <div ng-if="!field.header.options">{{field.header.display}}</div>
+        <filter-dropdown id="{{field.id}}" ng-if="!!field.header.options" show-all="true"
+          ng-click="$event.stopPropagation()"
+          label="{{field.header.display}}"
+          options="field.header.options | invoke"
+          value-path="{{field.header.valuePath}}"
+          display-path="{{field.header.displayPath}}"
+          order-by="{{field.filterOrderBy}}">
+        </filter-dropdown>
       </th>
     </tr>
   </thead>

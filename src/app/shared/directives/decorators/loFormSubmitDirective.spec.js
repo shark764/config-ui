@@ -28,7 +28,7 @@ describe('loFormSubmit directive', function() {
   ]));
 
   describe('ON resetForm', function() {
-    beforeEach(inject(['$compile', '$q', function($compile, $q) {
+    beforeEach(inject(['$compile', function($compile) {
       element = angular.element(elementString);
       element.data('$loDetailsPanelController', {
         close: jasmine.createSpy()
@@ -59,7 +59,7 @@ describe('loFormSubmit directive', function() {
     var error,
       formController;
 
-    beforeEach(inject(['$compile', '$q', '$timeout', function($compile, $q, $timeout) {
+    beforeEach(inject(['$compile', function($compile) {
       error = {
         data: {
           error: {

@@ -3,10 +3,10 @@
   id="table-pane"
   config="tableConfig"
   items="fetchTenantUsers()"
-  selected="selectedUser"
-  resource-name="user">
-  
-  <user-status name="status" ng-model="item.status"></user-status>
+  selected="selectedTenantUser"
+  resource-name="tenantUser">
+
+  <user-status name="$original.status" ng-model="item.$original.status"></user-status>
 
   <center name="state">
     <user-state state="{{item.state}}"></user-state>
@@ -14,27 +14,60 @@
 </table-controls>
 
 <resize-handle
-    ng-show="selectedUser || showBulkActions"
+    ng-show="selectedTenantUser || showBulkActions"
     id="resize-pane"
-    right-element-id="right-panel"
+    right-element-id="user-pane"
     left-element-id="table-pane"></resize-handle>
 
-<div id="right-panel" class="right-panel" ng-show="selectedUser || showBulkActions">
-  <resource-details
-    ng-show="selectedUser && !showBulkActions"
-    id="details-pane"
-    extend-scope="additional"
-    header-template-url="app/components/management/users/userDetailHeader.html"
-    body-template-url="app/components/management/users/userDetailBody.html"
-    original-resource="selectedUser"
-    resource-name="user"/></resource-details>
+<lo-details-panel
+  id="user-pane"
+  class="right-panel"
+  ng-if="selectedTenantUser || showBulkActions"
+  ng-resource="selectedTenantUser">
 
-  <bulk-action-executor class="details-pane user-ba" ng-show="showBulkActions" items="fetchTenantUsers()"
+    <ng-form
+      class="details-pane"
+      unsaved-changes-warning
+      name="forms.detailsForm"
+      ng-show="!showBulkActions"
+      ng-resource="selectedTenantUser"
+      lo-form-submit lo-form-cancel lo-form-alert>
+
+      <div class="detail-header" ng-include="'app/components/management/users/userDetailHeader.html'">
+      </div>
+
+      <div class="detail-body" ng-include="'app/components/management/users/userDetailBody.html'">
+      </div>
+
+      <div class="detail-controls">
+        <input
+          id="cancel-details-btn"
+          lo-cancel-chain-executor="user:cancel"
+          ng-disabled="selectedTenantUser.$busy"
+          type="button"
+          class="btn"
+          ng-click="reset()"
+          value="{{'value.cancel' | translate}}"></input>
+
+        <input
+          id="submit-details-btn"
+          lo-submit="submit()"
+          lo-submit-spinner
+          lo-submit-spinner-status="selectedTenantUser.$busy || selectedTenantUser.$user.$busy"
+          ng-disabled="forms.detailsForm.$pending || (forms.detailsForm.$invalid && (forms.detailsForm.$error.length > 1 || scenario === 'update')) || ! forms.detailsForm.$dirty"
+          class="btn btn-primary"
+          type="submit"
+          value="{{'value.submit' | translate}}" />
+      </div>
+    </ng-form>
+  </div>
+
+  <bulk-action-executor class="right-panel user-ba" ng-show="showBulkActions" items="fetchTenantUsers()"
     bulk-actions="bulkActions" show-bulk-actions="showBulkActions"
     confirm-message-key="bulkActions.user.confirm.message" drop-order-by="lastName">
     <ba-set-status bulk-action="bulkActions.setStatus"></ba-set-status>
     <ba-reset-password bulk-action="bulkActions.resetPassword"></ba-reset-password>
-    <ba-user-skills bulk-action="bulkActions.userSkills" users="fetchUsers()"></ba-user-skills>
-    <ba-user-groups bulk-action="bulkActions.userGroups" users="fetchUsers()"></ba-user-groups>
+    <ba-user-skills bulk-action="bulkActions.userSkills" users="fetchTenantUsers()"></ba-user-skills>
+    <ba-user-groups bulk-action="bulkActions.userGroups" users="fetchTenantUsers()"></ba-user-groups>
   </bulk-action-executor>
-</div>
+</lo-details-panel>

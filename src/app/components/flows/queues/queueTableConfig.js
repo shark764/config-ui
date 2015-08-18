@@ -4,23 +4,34 @@ angular.module('liveopsConfigPanel')
   .service('queueTableConfig', ['statuses', '$translate', function (statuses, $translate) {
       return {
         'fields': [{
-          'header': $translate.instant('value.name'),
-          'name': 'name'
+          'header': {
+            'display': $translate.instant('value.name')
+          },
+          'name': '$original.name'
         }, {
-          'header': $translate.instant('value.description'),
-          'name': 'description'
+          'header': {
+            'display': $translate.instant('value.description')
+          },
+          'name': '$original.description'
         }, {
-          'header': $translate.instant('value.details.activeVersion'),
+          'header': {
+            'display': $translate.instant('value.details.activeVersion')
+          },
           'transclude': true,
-          'name': 'activeVersion'
+          'name': '$original.activeVersion'
         }, {
-          'header': $translate.instant('value.status'),
-          'name': 'active',
+          'header': {
+            'display': $translate.instant('value.status'),
+            'valuePath': 'value',
+            'displayPath': 'display',
+            'options': statuses()
+          },
+          'name': '$original.active',
+          'lookup': '$original:active',
           'transclude': true,
-          'options': statuses()
         }],
-        'searchOn' : ['name'],
-        'orderBy' : 'name',
+        'searchOn' : ['$original.name'],
+        'orderBy' : '$original.name',
         'title' : $translate.instant('queue.table.title')
       };
     }

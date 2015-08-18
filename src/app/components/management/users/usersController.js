@@ -1,130 +1,128 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('UsersController', ['$scope', '$window', 'userRoles', 'User', 'Session', 'AuthService', 'userTableConfig', 'Invite', 'Alert', 'flowSetup', 'BulkAction', 'TenantUser',
-    function ($scope, $window, userRoles, User, Session, AuthService, userTableConfig, Invite, Alert, flowSetup, BulkAction, TenantUser) {
+  .controller('UsersController', ['$scope', '$window', '$parse', 'User', 'Session', 'AuthService', 'userTableConfig', 'Alert', 'flowSetup', 'BulkAction', '$q', '$location', 'lodash', 'Chain', 'TenantUser', 'TenantRole', 'queryCache', '$timeout',
+    function($scope, $window, $parse, User, Session, AuthService, userTableConfig, Alert, flowSetup, BulkAction, $q, $location, _, Chain, TenantUser, TenantRole, queryCache, $timeout) {
       var self = this;
+
       $scope.Session = Session;
-
       $window.flowSetup = flowSetup;
+      $scope.tableConfig = userTableConfig;
 
-      this.newPassword = null;
+      $scope.scenario = function() {
+        if (!$scope.selectedTenantUser) {
+          return;
+        }
 
-      User.prototype.preUpdate = function () {
-        if (this.password) {
-          self.newPassword = this.password;
+        if ($scope.selectedTenantUser.$user.isNew()) {
+          return 'invite:new:user';
+        } else if ($scope.selectedTenantUser.isNew()) {
+          return 'invite:existing:user';
+        } else {
+          return 'update';
         }
       };
 
-      User.prototype.postUpdate = function (result) {
-        if (this.id === Session.user.id && self.newPassword) {
-          var token = AuthService.generateToken(this.email, self.newPassword);
-          Session.setUser(this);
-          Session.setToken(token);
-          self.newPassword = null;
-        }
-
-        return result;
-      };
-
-      User.prototype.postCreate = function () {
-        Invite.save({
-          tenantId: Session.tenant.tenantId
-        }, {
-          email: this.email,
-          roleId: '00000000-0000-0000-0000-000000000000'
-        }); //TEMPORARY roleId
-      };
-
-      User.prototype.postCreateError = function (response) {
-        if(response.status !== 400) {
-          return response;
-        }
-        
-        var error = response.data.error;
-        if (error.attribute.email === 'Email address already exists in the system') {
-          Alert.success('User already exists. Sending ' + this.email + ' an invite for ' + Session.tenant.name);
-
-          Invite.save({
-            tenantId: Session.tenant.tenantId
-          }, {
-            email: this.email,
-            roleId: '00000000-0000-0000-0000-000000000000'
-          }); //TEMPORARY roleId
-          
-          $scope.create();
-        }
-
-        return response;
-      };
-
-      $scope.fetchTenantUsers = function () {
+      $scope.fetchTenantUsers = function() {
         return TenantUser.cachedQuery({
           tenantId: Session.tenant.tenantId
         });
       };
 
-      $scope.create = function () {
-        $scope.selectedUser = new User({
-          status: 'enabled'
+      $scope.fetchTenantRoles = function() {
+        return TenantRole.cachedQuery({
+          tenantId: Session.tenant.tenantId
         });
       };
 
-      //Various navigation rules
-      $scope.$on('table:on:click:create', function () {
-        $scope.showBulkActions = false;
-        $scope.create();
-      });
+      $scope.create = function() {
+        $scope.selectedTenantUser = new TenantUser();
+        $scope.selectedTenantUser.$user = new User();
+      };
 
-      $scope.$on('table:resource:selected', function (event, selectedItem) {
-        $scope.showBulkActions = false;
-        
-        if (selectedItem !== null && angular.isDefined(selectedItem)){
-        //TODO: yuck! Remove when TITAN2-2413 branch (which changes user panel) is merged
-          $scope.selectedUser = new User(selectedItem);
-        }
-      });
-      
-      //TODO: Aurrgghhh
-      $scope.$on('resource:details:user:create:success', function (event, createdItem) {
-        event.defaultPrevented = true;
-          
-        var newTenantUser = new TenantUser(createdItem);
-        newTenantUser.skills = [];
-        newTenantUser.groups = [];
-        $scope.fetchTenantUsers().push(newTenantUser);
-        $scope.selectedUser = newTenantUser;
-      });
-      
-      //TODO: FFFFFFFFUUUUU
-      $scope.$on('resource:details:user:update:success', function (event, updatedItem) {
-        event.defaultPrevented = true;
-        var users = $scope.fetchTenantUsers();
-        
-        for (var i = 0; i < users.length; i++){
-          if (users[i].id === updatedItem.id){
-            angular.copy(updatedItem, users[i]);
-            break;
-          }
-        }
-      });
+      $scope.submit = function() {
+        var scenario = $scope.scenario();
 
-      $scope.$on('table:on:click:actions', function () {
-        $scope.showBulkActions = true;
-      });
-
-      $scope.additional = {
-        roles: userRoles,
-        updateDisplayName: function ($childScope) {
-          if (!$childScope.resource.id && $childScope.detailsForm.displayName.$untouched) {
-            var first = $childScope.resource.firstName ? $childScope.resource.firstName : '';
-            var last = $childScope.resource.lastName ? $childScope.resource.lastName : '';
-            $childScope.resource.displayName = first + ' ' + last;
-          }
+        if (scenario.indexOf('invite:existing') === 0) {
+          return self.updateTenantUser();
+        } else if (scenario === 'invite:new:user') {
+          return self.saveNewUserTenantUser();
+        } else if (scenario === 'update') {
+          return self.updateUser();
         }
       };
 
-      $scope.tableConfig = userTableConfig;
+      this.updateTenantUser = function() {
+        var user = $scope.selectedTenantUser.$user;
+        var wasNew = $scope.selectedTenantUser.isNew();
+        return $scope.selectedTenantUser.save({
+          tenantId: Session.tenant.tenantId
+        }).then(function(tenantUser) {
+          tenantUser.$user = user;
+
+          //TODO remove once TITAN2-2890 is resolved
+          return TenantUser.get({
+            tenantId: Session.tenant.tenantId,
+            id: tenantUser.userId
+          }).$promise.then(function(tenantUser) {
+            tenantUser.$user = user;
+
+            tenantUser.$original.roleName = TenantRole.getName(tenantUser.roleId);
+            
+            tenantUser.reset();
+            
+            if(wasNew) {
+              $scope.fetchTenantUsers().push(tenantUser);
+            }
+
+            return tenantUser;
+          });
+        });
+      };
+
+      this.saveNewUserTenantUser = function() {
+        $scope.selectedTenantUser.$user.email = $scope.selectedTenantUser.email;
+        return $scope.selectedTenantUser.$user.save().then(function(user) {
+          $scope.selectedTenantUser.$busy = true; //TODO: remove timeout once TITAN2-2881 is addressed
+          return $timeout(function() { //TODO: remove timeout once TITAN2-2881 is addressed
+            return $scope.selectedTenantUser.save({
+              tenantId: Session.tenant.tenantId
+            }).then(function(tenantUser) {
+              tenantUser.$user = user;
+              tenantUser.id = user.id;
+              tenantUser.$original.skills = [];
+              tenantUser.$original.groups = [{}];
+
+              tenantUser.$original.roleName = TenantRole.getName(tenantUser.roleId);
+              
+              tenantUser.reset();
+
+              $scope.fetchTenantUsers().push(tenantUser);
+
+              return tenantUser;
+            });
+          }, 3000);
+        });
+      };
+
+      this.updateUser = function() {
+        var oldPassword = this.password;
+        return $scope.selectedTenantUser.$user.save().then(function(user) {
+          if (user.id === Session.user.id) {
+            var token = AuthService.generateToken(user.email, oldPassword);
+            Session.setUser(user);
+            Session.setToken(token);
+            $scope.newPassword = null;
+          }
+
+          return user;
+        });
+      };
+
+      $scope.$on('table:on:click:create', function() {
+        $scope.create();
+      });
+
       $scope.bulkActions = {
         setStatus: new BulkAction(),
         resetPassword: new BulkAction(),
