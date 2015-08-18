@@ -42,6 +42,13 @@
   "value.select.group": "Select Group",
   "value.select.action": "Select Action",
   "value.presence": "Presence",
+  "value.offline": "Offline",
+  "value.notready": "Not Ready",
+  "value.ready": "Ready",
+  "value.allocated": "Allocated",
+  "value.busy": "Busy",
+
+
 
   "loading": "Loading",
 

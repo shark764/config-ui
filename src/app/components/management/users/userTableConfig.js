@@ -103,6 +103,8 @@ angular.module('liveopsConfigPanel')
             'options': userStates
           },
           'name': '$original.state',
+          'lookup': '$original:state',
+          'transclude': true,
           'checked': false
         }, {
           'header': {
@@ -112,6 +114,7 @@ angular.module('liveopsConfigPanel')
             'options': userStatuses()
           },
           'name': '$original.status',
+          'lookup': '$original:status',
           'transclude': true,
           'checked': false
         }],
