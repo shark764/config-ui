@@ -7,18 +7,18 @@ angular.module('liveopsConfigPanel')
           'header': {
             'display': $translate.instant('value.name')
           },
-          'name': '$original.name'
+          'name': 'name'
         }, {
           'header': {
             'display': $translate.instant('value.description')
           },
-          'name': '$original.description'
+          'name': 'description'
         }, {
           'header': {
             'display': $translate.instant('value.details.activeVersion')
           },
           'transclude': true,
-          'name': '$original.activeVersion'
+          'name': 'activeVersion'
         }, {
           'header': {
             'display': $translate.instant('value.status'),
@@ -26,12 +26,12 @@ angular.module('liveopsConfigPanel')
             'displayPath': 'display',
             'options': statuses()
           },
-          'name': '$original.active',
+          'name': 'active',
           'lookup': '$original:active',
           'transclude': true,
         }],
-        'searchOn' : ['$original.name'],
-        'orderBy' : '$original.name',
+        'searchOn' : ['name'],
+        'orderBy' : 'name',
         'title' : $translate.instant('queue.table.title')
       };
     }

@@ -5,14 +5,14 @@
   selected="selectedIntegration"
   resource-name="integrations">
 
-  <span name="$original.active">
-    <span ng-if="item.$original.active">{{'value.enabled' | translate}}</span>
-    <span ng-if="!item.$original.active" class="disabled">{{'value.disabled' | translate}}</span>
+  <span name="active">
+    <span ng-if="item.active">{{'value.enabled' | translate}}</span>
+    <span ng-if="!item.active" class="disabled">{{'value.disabled' | translate}}</span>
   </span>
   
-  <span name="$original.properties.webRtc">
-    <span ng-if="item.$original.properties.webRtc">{{'value.enabled' | translate}}</span>
-    <span ng-if="!item.$original.properties.webRtc">{{'value.disabled' | translate}}</span>
+  <span name="properties.webRtc">
+    <span ng-if="item.properties.webRtc">{{'value.enabled' | translate}}</span>
+    <span ng-if="!item.properties.webRtc">{{'value.disabled' | translate}}</span>
   </span>
   
 </table-controls>

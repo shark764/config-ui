@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .factory('TenantUser', ['LiveopsResourceFactory', 'tenantUserInterceptor', 'tenantUserQueryInterceptor',
-    function(LiveopsResourceFactory, tenantUserInterceptor, tenantUserQueryInterceptor) {
+  .factory('TenantUser', ['LiveopsResourceFactory', 'tenantUserInterceptor', 'tenantUserQueryInterceptor', 'cacheAddInterceptor',
+    function(LiveopsResourceFactory, tenantUserInterceptor, tenantUserQueryInterceptor, cacheAddInterceptor) {
       var TenantUser = LiveopsResourceFactory.create({
         endpoint: '/v1/tenants/:tenantId/users/:id',
         resourceName: 'TenantUser',
@@ -13,7 +13,7 @@ angular.module('liveopsConfigPanel')
         }],
         getInterceptor: tenantUserInterceptor,
         queryInterceptor: tenantUserQueryInterceptor,
-        saveInterceptor: null
+        saveInterceptor: cacheAddInterceptor
       });
 
       TenantUser.prototype.getDisplay = function(){
