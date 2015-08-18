@@ -227,7 +227,8 @@ angular.module('liveopsConfigPanel')
 
           Resource.prototype.reset = function () {
             for(var prop in this.$original) {
-              if(prop.match(/^\$.*/g)) {
+              if(prop.match(/^\$.*/g) ||
+                angular.isFunction(this.$original[prop])) {
                 continue;
               }
               this[prop] = this.$original[prop];
