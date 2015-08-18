@@ -134,7 +134,7 @@ angular.module('liveopsConfigPanel')
       };
 
       this.updateUser = function() {
-        var oldPassword = this.password;
+        var newPassword = $scope.selectedTenantUser.$user.password;
         
         var promises = [];
         if($scope.forms.detailsForm.roleId &&
@@ -155,10 +155,9 @@ angular.module('liveopsConfigPanel')
         
         promises.push($scope.selectedTenantUser.$user.save().then(function(user) {
           if (user.id === Session.user.id) {
-            var token = AuthService.generateToken(user.email, oldPassword);
+            var token = AuthService.generateToken(user.email, newPassword);
             Session.setUser(user);
             Session.setToken(token);
-            $scope.newPassword = null;
           }
 
           return user;
