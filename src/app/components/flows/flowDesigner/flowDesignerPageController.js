@@ -6,6 +6,8 @@ angular.module('liveopsConfigPanel')
       $scope.flow = flow;
       $scope.version = version;
 
+      $scope.notations = notations.data;
+
       FlowPaletteService.loadData(notations.data);
 
       FlowNotationService.media = media;

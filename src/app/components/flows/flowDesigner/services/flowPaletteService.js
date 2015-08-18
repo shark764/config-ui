@@ -55,6 +55,9 @@
                   if (_.has(value, 'default')) {
                     memo[value.key] = value.default;
                   }
+                  else {
+                    memo[value.key] = null;
+                  }
                   return memo;
                 }, {})
               });

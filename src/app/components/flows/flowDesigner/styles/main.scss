@@ -78,6 +78,10 @@ body {
     outline: 4px double #3498db;
 }
 
+.error {
+  outline: 2px solid red;
+}
+
 .link .marker-arrowhead, .link .marker-vertex {
     fill: #2c88c5;
 }

@@ -2,6 +2,7 @@
   'use strict';
 
   function FlowConversionService (FlowNotationService) {
+
     return {
       convertToAlienese: function(jointJSON) {
         var self = this;
@@ -18,50 +19,60 @@
           return notation.type !== 'liveOps.link';
         });
 
+        var errors = [];
+
         var alienese = _.map(notations, function(n) {
-          var notation = {
-            'rendering-data': {},
-            children: [],
-            parents: []
-          };
+          var notation = {}
+          
+          try {
+            notation = {
+              'rendering-data': {},
+              children: [],
+              parents: []
+            };
 
-          // UUIDs of notations from JointJS and activity
-          notation.id = n.id;
+            // UUIDs of notations from JointJS and activity
+            notation.id = n.id;
 
-          // Positional metadata
-          notation['rendering-data'].x = n.position.x;
-          notation['rendering-data'].y = n.position.y;
+            // Positional metadata
+            notation['rendering-data'].x = n.position.x;
+            notation['rendering-data'].y = n.position.y;
 
-          if (n.embeds) {
-            notation.decorations = n.embeds;
-          }
+            if (n.embeds) {
+              notation.decorations = n.embeds;
+            }
 
-          _.each(links, function(link) {
-            // Add parents
-            if (link.target.id === n.id) {notation.parents.push(link.source.id);}
-            // Add children
-            if (link.source.id === n.id) {notation.children.push(link.target.id);}
-          });
+            _.each(links, function(link) {
+              // Add parents
+              if (link.target.id === n.id) {notation.parents.push(link.source.id);}
+              // Add children
+              if (link.source.id === n.id) {notation.children.push(link.target.id);}
+            });
 
-          if (n.type === 'liveOps.activity') {
-            notation.type = n.activityType;
-            notation.entity = 'activity';
-            notation.name = n.name;
-            notation.params = FlowNotationService.addActivityParams(n);
-            notation.bindings = n.bindings || {};
+            if (n.type === 'liveOps.activity') {
+              notation.type = n.activityType;
+              notation.entity = 'activity';
+              notation.name = n.name;
+              notation.params = FlowNotationService.addActivityParams(n);
+              notation.bindings = n.bindings || {};
 
-            if (n.targeted) {
-              notation.target = n.target;
+              if (n.targeted) {
+                notation.target = n.target;
+              }
+            }
+
+            if (n.type === 'liveOps.gateway') {
+              notation.type = n.gatewayType;
+              notation.entity = 'gateway';
+            }
+
+            if (n.type === 'liveOps.event') {
+              notation = _.extend(notation, self.events[n.entity][n.name](n));
             }
           }
-
-          if (n.type === 'liveOps.gateway') {
-            notation.type = n.gatewayType;
-            notation.entity = 'gateway';
-          }
-
-          if (n.type === 'liveOps.event') {
-            notation = _.extend(notation, self.events[n.entity][n.name](n));
+          catch (e) {
+            errors.push(e);
+            return {}
           }
 
           return notation;
@@ -77,7 +88,17 @@
           }
         });
 
-        return alienese;
+        if (errors.length > 0) {
+          return {
+            result: 'ERROR',
+            errors: errors
+          }
+        }else {
+          return {
+            result: 'OK',
+            alienese: alienese
+          };
+        }
       },
 
       convertToJoint: function(alienese) {
