@@ -1,0 +1,35 @@
+<ng-form
+  class="details-pane"
+  unsaved-changes-warning
+  name="forms.detailsForm"
+  ng-show="!showBulkActions"
+  ng-resource="selectedTenantUser"
+  lo-form-submit lo-form-cancel lo-form-alert>
+
+  <div class="detail-header" ng-include="'app/components/management/users/userDetailPanel/userDetailHeader.html'">
+  </div>
+
+  <div class="detail-body" ng-include="'app/components/management/users/userDetailPanel/userDetailBody.html'">
+  </div>
+
+  <div class="detail-controls">
+    <input
+      id="cancel-details-btn"
+      lo-cancel-chain-executor="user:cancel"
+      ng-disabled="selectedTenantUser.$busy"
+      type="button"
+      class="btn"
+      ng-click="reset()"
+      value="{{'value.cancel' | translate}}"></input>
+
+    <input
+      id="submit-details-btn"
+      lo-submit="submit()"
+      lo-submit-spinner
+      lo-submit-spinner-status="selectedTenantUser.$busy || selectedTenantUser.$user.$busy"
+      ng-disabled="forms.detailsForm.$pending || (forms.detailsForm.$invalid && (forms.detailsForm.$error.length > 1 || scenario === 'update')) || ! forms.detailsForm.$dirty"
+      class="btn btn-primary"
+      type="submit"
+      value="{{'value.submit' | translate}}" />
+  </div>
+</ng-form>
