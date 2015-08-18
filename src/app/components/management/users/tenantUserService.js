@@ -15,7 +15,9 @@ angular.module('liveopsConfigPanel')
       });
 
       TenantUser.prototype.getDisplay = function(){
-        return this.$user.getDisplay();
+        if (this.$user){ //TODO: update unit tests and mocks to all have $user
+          return this.$user.getDisplay();
+        }
       };
       
       return TenantUser;
