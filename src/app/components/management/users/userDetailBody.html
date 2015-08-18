@@ -62,7 +62,7 @@
     <div class="input-group">
       <label>{{'details.inviteStatus' | translate}}</label>
       <div>
-        <div>{{selectedTenantUser.status}}</div>
+        <tenant-user-status ng-model="selectedTenantUser.status"></tenant-user-status>
         <help-icon translate-value="details.tenantStatus.help"></help-icon>
       </div>
     </div>
