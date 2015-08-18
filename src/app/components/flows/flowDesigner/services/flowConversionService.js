@@ -43,7 +43,6 @@
           }
 
           if (n.type === 'liveOps.link') {
-            console.log(n);
             notation.linkType = n.linkType;
             notation.entity = 'link';
             notation.parents.push(n.source.id);

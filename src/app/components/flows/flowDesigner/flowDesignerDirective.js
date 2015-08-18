@@ -52,7 +52,6 @@ function flowDesigner() {
           $scope.publishNewFlowVersion = function() {
             if ($scope.graph.toJSON().cells.length === 0) { return; }
             var alienese = JSON.stringify(FlowConversionService.convertToAlienese($scope.graph.toJSON()));
-            console.log(alienese);
             $scope.version = new FlowVersion({
               flow: alienese,
               description: $scope.flowVersion.description || 'This needs to be fixed',
