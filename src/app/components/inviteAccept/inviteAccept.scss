@@ -13,15 +13,16 @@
     margin: auto auto;
   }
   
-  .details-form {
+  .details-pane {
     background-color: #ffffff;
     box-sizing: border-box;
     border: 1px solid $lightest-grey;
     @include border-radius(3px);
     @include drop-shadow();
     height: auto;
+    padding: 10px;
     
-    .detail-body-pane {
+    .detail-body {
       flex: none;
       height: auto;
     }
