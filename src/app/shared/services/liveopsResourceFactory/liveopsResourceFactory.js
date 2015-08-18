@@ -197,12 +197,6 @@ angular.module('liveopsConfigPanel')
               postEvent = self.isNew() ? self.postCreate : self.postUpdate,
               postEventFail = self.isNew() ? self.postCreateError : self.postUpdateError;
 
-
-            // if(angular.isFunction(params)) {
-            //   failure = success;
-            //   success = params;
-            // }
-
             //TODO find out why preEvent didn't work in the chain
             preEvent.call(self);
             self.preSave();
@@ -225,17 +219,7 @@ angular.module('liveopsConfigPanel')
               .then(function (result) {
                 self.$original = angular.copy(result);
 
-                // if (success) {
-                //   return success.call(self, result);
-                // }
-
                 return result;
-              }, function (error) {
-                // if (failure) {
-                //   return failure.call(self, error);
-                // }
-
-                return $q.reject(error);
               }).finally(function () {
                 self.$busy = false;
               });
