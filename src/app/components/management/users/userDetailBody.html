@@ -24,7 +24,10 @@
 
   <div class="input-group">
     <label>{{'details.role' | translate}} *</label>
-    <form-error field="forms.detailsForm.roleId" error-type-required="{{'details.role.error' | translate}}"></form-error>
+    <form-error
+      field="forms.detailsForm.roleId"
+      error-type-required="{{'details.role.error' | translate}}">
+    </form-error>
     <div>
       <select ng-model="selectedTenantUser.roleId" name="roleId" required
         ng-options="role.id as role.name for role in fetchTenantRoles()">
@@ -48,13 +51,13 @@
     </div>
   </div>
 
-  <div class="input-group" ng-show="forms.detailsForm.email.$error.duplicateUsername || forms.detailsForm.email.$error.newTenantUser">
+  <div class="input-group" ng-show="forms.detailsForm.email.$error.duplicateEmail">
     <div class="lo-alert">{{'details.email.alreadyExists' | translate}}</div>
   </div>
 </div>
 
 <div class="logical-group">
-  <div ng-show="scenario() === 'update'">
+  <div ng-if="scenario() === 'update'">
     <div class="divider-header first-header">
       <h4>{{'details.tenantStatus' | translate}}</h4>
     </div>

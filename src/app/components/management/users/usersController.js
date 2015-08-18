@@ -52,7 +52,8 @@ angular.module('liveopsConfigPanel')
           return self.updateUser();
         }
       };
-
+      
+      //TODO cleanup these functions. Lots of room to combine code.
       $scope.sendInvite = function () {
         $scope.selectedTenantUser.status = 'invited';
         
@@ -70,6 +71,7 @@ angular.module('liveopsConfigPanel')
           tenantUser.$original.roleName = TenantRole.getName(tenantUser.roleId);
           tenantUser.$original.skills = backup.skills;
           tenantUser.$original.groups = backup.groups;
+          tenantUser.$original.id = tenantUser.userId;
           
           tenantUser.reset();
           return tenantUser;
@@ -82,27 +84,20 @@ angular.module('liveopsConfigPanel')
       
       this.updateTenantUser = function() {
         var user = $scope.selectedTenantUser.$user;
-        var wasNew = $scope.selectedTenantUser.isNew();
+        
         return $scope.selectedTenantUser.save({
           tenantId: Session.tenant.tenantId
         }).then(function(tenantUser) {
           tenantUser.$user = user;
-
-          //TODO remove once TITAN2-2890 is resolved
           return TenantUser.get({
             tenantId: Session.tenant.tenantId,
             id: tenantUser.userId
           }).$promise.then(function(tenantUser) {
-            tenantUser.$user = user;
-
+            $scope.selectedTenantUser = tenantUser;
+            $scope.fetchTenantUsers().push(tenantUser);
             tenantUser.$original.roleName = TenantRole.getName(tenantUser.roleId);
-            
             tenantUser.reset();
             
-            if(wasNew) {
-              $scope.fetchTenantUsers().push(tenantUser);
-            }
-
             return tenantUser;
           });
         });
@@ -168,6 +163,11 @@ angular.module('liveopsConfigPanel')
 
       $scope.$on('table:on:click:create', function() {
         $scope.create();
+      });
+      
+      //TODO revisit this.
+      $scope.$on('email:validator:found', function(event, tenantUser) {
+        $scope.selectedTenantUser = tenantUser;
       });
 
       $scope.bulkActions = {

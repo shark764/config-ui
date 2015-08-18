@@ -8,6 +8,20 @@ angular.module('liveopsConfigPanel')
         link: function($scope, elem, attrs, ctrl) {
           var ngModelController = ctrl[0];
           var ngResource = $parse(attrs.ngResource)($scope);
+          
+          ngModelController.$validators.duplicateEmail = function(modelValue) {
+            var tenantUsers = $scope.fetchTenantUsers();
+            for(var tenantUserIndex = 0; tenantUserIndex < tenantUsers.length; tenantUserIndex++) {
+              var tenantUser = tenantUsers[tenantUserIndex];
+              if(tenantUser.email === modelValue) {
+                $scope.$emit('email:validator:found', tenantUser);
+                return false;
+              }
+            }
+
+            return true;
+          };
+          
           ngModelController.$asyncValidators.duplicateEmail = function(modelValue) {
             if (ngModelController.$isEmpty(modelValue)) {
               // consider empty model valid
