@@ -90,7 +90,11 @@ angular.module('liveopsConfigPanel')
           'transclude': true,
           'checked': false
         }],
-        'searchOn': ['firstName', 'lastName', {
+        'searchOn': [{
+          path: '$user.lastName'
+        }, {
+          path: '$user.firstName'
+        }, {
           path: '$original.skills',
           inner: {
             path: 'name'
