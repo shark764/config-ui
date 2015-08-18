@@ -77,15 +77,10 @@ function flowDesigner() {
 
             clearErrors();
             
-            var alienese = FlowConversionService.convertToAlienese(graph.toJSON());
-
-            if (alienese.result === 'ERROR') {
-              addErrors(alienese.errors)
-              return;
-            }
+            var alienese = FlowConverter.convertToAlienese(graph.toJSON());
 
             $scope.version = new FlowVersion({
-              flow: JSON.stringify(alienese.alienese),
+              flow: JSON.stringify(alienese),
               description: $scope.flowVersion.description || 'This needs to be fixed',
               name: $scope.flowVersion.name,
               tenantId: Session.tenant.tenantId,
@@ -108,7 +103,7 @@ function flowDesigner() {
             $scope.graph.fromJSON(SubflowCommunicationService.currentFlowContext);
             SubflowCommunicationService.currentFlowContext = '';
           } else {
-            $scope.graph.fromJSON(FlowConverter.convertToJoint($scope.graph.toJSON())(JSON.parse($scope.flowVersion.flow)));
+            $scope.graph.fromJSON(FlowConverter.convertToJoint(JSON.parse($scope.flowVersion.flow)));
           }
           $window.spitOutAlienese = function() {
             return FlowConverter.convertToAlienese($scope.graph.toJSON());

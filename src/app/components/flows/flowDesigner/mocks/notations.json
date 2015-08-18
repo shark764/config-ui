@@ -45,10 +45,6 @@
                     "hidden": false,
                     "options": [
                         {
-                            "value": null,
-                            "content": "Please Select One"
-                        },
-                        {
                             "value": "titan/customer",
                             "content": "Customer"
                         },
@@ -608,7 +604,7 @@
                     "name": "timeout",
                     "path": "params.timeout",
                     "type": "string",
-                    "label": "Dial Timeout",
+                    "label": "Timeout",
                     "group": "params",
                     "index": 0,
                     "disabled": false,
@@ -633,17 +629,32 @@
                 },
                 "timeout": {
                     "source": "expression",
-                    "type": "string",
+                    "type": "integer",
                     "key": "timeout",
                     "mandatory": true,
-                    "default": "\"30\""
+                    "default": "30"
                 },
-                "participant": {
+                "resource": {
                     "source": "expression",
-                    "type": "string",
-                    "key": "participant",
-                    "mandatory": true,
-                    "default": "\"resource\""
+                    "type": "variable",
+                    "key": "resource",
+                    "default": "resource",
+                    "when": {
+                        "ne": {
+                            "params.to": "titan/customer"
+                        }
+                    }
+                },
+                "customer": {
+                    "source": "expression",
+                    "type": "variable",
+                    "key": "customer",
+                    "default": "titan/customer",
+                    "when": {
+                        "eq": {
+                            "params.to": "titan/customer"
+                        }
+                    }
                 }
             }
         }
@@ -652,7 +663,8 @@
         {
             "entity": "start",
             "type": "none",
-            "inputs": []
+            "inputs": [],
+            "props": []
         },
         {
             "entity": "start",
@@ -682,7 +694,8 @@
                     "placeholder": "Enter a name to bind to the resource returned...",
                     "hidden": false
                 }
-            ]
+            ],
+            "props": ["target", "interrupting", "bindings"]
         },
         {
             "entity": "catch",
@@ -712,7 +725,8 @@
                     "placeholder": "Enter a name to bind to the resource returned...",
                     "hidden": false
                 }
-            ]
+            ],
+            "props": ["target", "interrupting", "bindings"]
         },
         {
             "entity": "catch",
@@ -730,7 +744,8 @@
                     "placeholder": "Enter a signal name to catch...",
                     "hidden": false
                 }
-            ]
+            ],
+            "props": ["timer", "interrupting"]
         },
         {
             "entity": "throw",
@@ -761,13 +776,15 @@
                     "placeholder": "Enter a name to bind to the resource returned...",
                     "hidden": false
                 }
-            ]
+            ],
+            "props": ["terminate", "event"] 
         },
         {
             "entity": "throw",
             "type": "none",
             "terminate": true,
-            "inputs": []
+            "inputs": [],
+            "props": ["terminate"]
         },
         {
             "entity": "throw",
@@ -798,13 +815,15 @@
                     "placeholder": "Enter a name to bind to the resource returned...",
                     "hidden": false
                 }
-            ]
+            ],
+            "props": ["terminate", "event"] 
         },
         {
             "entity": "throw",
             "type": "terminate",
             "terminate": true,
-            "inputs": []
+            "inputs": [],
+            "props": ["terminate"] 
         }
     ]
 }
