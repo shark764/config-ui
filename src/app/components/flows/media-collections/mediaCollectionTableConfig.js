@@ -4,25 +4,31 @@ angular.module('liveopsConfigPanel')
   .service('mediaCollectionTableConfig', ['$translate', function ($translate) {
       return {
         'fields': [{
-          'header': $translate.instant('value.name'),
-          'name': 'name'
+          'header': {
+            'display': $translate.instant('value.name')
+          },
+          'name': '$original.name'
         }, {
-          'header': $translate.instant('value.description'),
-          'name': 'description'
+          'header': {
+            'display': $translate.instant('value.description')
+          },
+          'name': '$original.description'
         }, {
-          'header': $translate.instant('value.identifier'),
+          'header': {
+            'display': $translate.instant('value.identifier')
+          },
           'resolve': function(collection) {
             var identifiers = [];
-            for (var i = 0; i < collection.mediaMap.length; i++){
-              identifiers.push(collection.mediaMap[i].lookup);
+            for (var i = 0; i < collection.$original.mediaMap.length; i++){
+              identifiers.push(collection.$original.mediaMap[i].lookup);
             }
-            
+
             return identifiers.join(', ');
           },
-          'sortOn': 'mediaMap[0].lookup'
+          'sortOn': '$original.mediaMap[0].lookup'
         }],
-        'searchOn' : ['name'],
-        'orderBy' : 'name',
+        'searchOn' : ['$original.name'],
+        'orderBy' : '$original.name',
         'title' : $translate.instant('media.collections.table.title')
       };
     }

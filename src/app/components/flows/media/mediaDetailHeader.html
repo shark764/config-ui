@@ -1,18 +1,18 @@
-<div ng-show="originalResource.id" class="info">
-  <h1>{{originalResource.name}}</h1>
+<div ng-show="selectedMedia.$original.id" class="info">
+  <h1>{{selectedMedia.$original.name}}</h1>
   <div class="details">
     <b audit-text
       translation="value.createdby.time"
-      user-id="originalResource.createdBy"
-      date="originalResource.created">
+      user-id="selectedMedia.$original.createdBy"
+      date="selectedMedia.$original.created">
     </b>
     <br/>
-    <b audit-text ng-if="!!originalResource.updatedBy"
+    <b audit-text ng-if="!!selectedMedia.$original.updatedBy"
       translation="value.updatedby"
-      user-id="originalResource.updatedBy"
-      date="originalResource.updated">
+      user-id="selectedMedia.$original.updatedBy"
+      date="selectedMedia.$original.updated">
     </b>
   </div>
 </div>
 
-<h1 ng-show="!originalResource.id">{{'media.details.creating' | translate}}</h1>
+<h1 ng-show="!selectedMedia.$original.id">{{'media.details.creating' | translate}}</h1>

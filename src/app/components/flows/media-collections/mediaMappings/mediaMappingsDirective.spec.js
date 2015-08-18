@@ -37,18 +37,6 @@ describe('MediaMappings directive', function () {
     expect($scope.form.mediaMapChanges.$setDirty).toHaveBeenCalled();
   });
   
-  it('should add the new resource when a media is created', inject(['Media', function(Media){
-    var newMedia = new Media({
-      id: 'Cool new media'
-    });
-    
-    var startMediaCount = isolateScope.fetchMedias().length;
-    $rootScope.$broadcast('resource:details:media:create:success', newMedia);
-    isolateScope.$digest();
-    expect(isolateScope.fetchMedias().length).toBe(startMediaCount + 1);
-    expect(isolateScope.fetchMedias()[isolateScope.fetchMedias().length - 1].id).toEqual('Cool new media');
-  }]));
-  
   describe('addMapping function', function () {
     it('should exist', function () {
       expect(isolateScope.addMapping).toBeDefined();
@@ -102,6 +90,16 @@ describe('MediaMappings directive', function () {
       isolateScope.removeMapping(0);
 
       expect($scope.collection.mediaMap).toBeUndefined();
+    }));
+    
+    it('should remove the defaultMediaKey property if no mappings are left', inject(function () {
+      $scope.collection.mediaMap = [{
+        id: 'uuid-value'
+      }];
+
+      isolateScope.removeMapping(0);
+
+      expect($scope.collection.defaultMediaKey).toBeUndefined();
     }));
   });
   

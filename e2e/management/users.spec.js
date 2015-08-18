@@ -34,8 +34,10 @@ describe('The users view', function() {
     expect(shared.tableColumnsDropDown.getText()).toBe('Columns');
     expect(shared.table.isDisplayed()).toBeTruthy();
 
-    // Status field not displayed by default
-    expect(users.statusTableDropDown.isPresent()).toBeFalsy();
+    expect(users.tableDropDowns.get(0).isPresent()).toBeTruthy();
+    expect(users.tableDropDowns.get(1).isPresent()).toBeTruthy();
+
+    // Status and State field not displayed by default
 
     //Hide the right panel by default
     expect(shared.detailsForm.isDisplayed()).toBeFalsy();
@@ -61,108 +63,6 @@ describe('The users view', function() {
     expect(shared.submitFormBtn.isDisplayed()).toBeTruthy();
 
     expect(shared.detailsFormHeader.getText()).not.toBe('Creating New User');
-  });
-
-  it('should display users based on the table Status filter', function() {
-    // Add Status Column
-    shared.tableColumnsDropDown.click();
-    shared.tableColumnsDropDown.all(by.repeater('option in options track by option[valuePath]')).get(4).click();
-    shared.tableColumnsDropDown.click();
-
-    // Select Disabled from Status drop down
-    users.statusTableDropDown.click();
-    users.userStatuses.get(0).click();
-
-    // Disabled input is selected
-    expect(users.userStatusInputs.get(1).isSelected()).toBeTruthy();
-    // All input is unselected
-    expect(users.userStatusInputs.get(0).isSelected()).toBeFalsy();
-
-    users.statusTableDropDown.click();
-    shared.tableElements.then(function(rows) {
-      for (var i = 0; i < rows.length; ++i) {
-        expect(rows[i].getText()).toContain('Disabled');
-      };
-    });
-
-    // Select Enabled from Status drop down
-    users.statusTableDropDown.click();
-    users.userStatuses.get(0).click();
-    users.userStatuses.get(1).click();
-
-    // Enabled input is selected
-    expect(users.userStatusInputs.get(2).isSelected()).toBeTruthy();
-
-    // Disabled and All inputs are unselected
-    expect(users.userStatusInputs.get(1).isSelected()).toBeFalsy();
-    expect(users.userStatusInputs.get(0).isSelected()).toBeFalsy();
-
-    users.statusTableDropDown.click();
-    shared.tableElements.then(function(rows) {
-      for (var i = 0; i < rows.length; ++i) {
-        expect(rows[i].getText()).toContain('Enabled');
-      };
-    });
-
-    // Select All from Status drop down
-    users.statusTableDropDown.click();
-    users.allUserStatus.click();
-
-    // All input is selected
-    expect(users.userStatusInputs.get(0).isSelected()).toBeTruthy();
-
-    // Disabled and Enabled inputs are unselected
-    expect(users.userStatusInputs.get(1).isSelected()).toBeFalsy();
-    expect(users.userStatusInputs.get(2).isSelected()).toBeFalsy();
-
-    users.statusTableDropDown.click();
-    // Expect all users to be displayed
-    expect(shared.tableElements.count()).toBe(userCount);
-  });
-
-  it('should display users based on the Search and Status filters', function() {
-    // Add Status Column
-    shared.tableColumnsDropDown.click();
-    shared.tableColumnsDropDown.all(by.repeater('option in options track by option[valuePath]')).get(4).click();
-    shared.tableColumnsDropDown.click();
-
-    // Search
-    shared.searchField.sendKeys('a');
-
-    // Select Status filter
-    users.statusTableDropDown.click(); // Open
-    users.userStatuses.get(1).click();
-    users.statusTableDropDown.click(); // Close
-
-    shared.tableElements.then(function(rows) {
-      for (var i = 0; i < rows.length; ++i) {
-        rows[i].getText().then(function(value) {
-          expect(value.toLowerCase()).toContain('a');
-        });
-        expect(rows[i].getText()).toContain('Enabled');
-      };
-    });
-
-    // Update Search & add filter options
-    shared.searchField.clear();
-    shared.searchField.sendKeys('se');
-
-    // Select Status filter
-    users.statusTableDropDown.click(); // Open
-    users.userStatuses.get(0).click();
-    users.statusTableDropDown.click(); // Close
-
-    shared.tableElements.then(function(rows) {
-      for (var i = 0; i < rows.length; ++i) {
-        rows[i].getText().then(function(value) {
-          expect(value.toLowerCase()).toContain('se');
-        });
-
-        element(by.css('tr.ng-scope:nth-child(' + (i + 1) + ') > td:nth-child(5)')).getText().then(function(value) {
-          expect(['Enabled', 'Disabled']).toContain(value);
-        });
-      };
-    });
   });
 
   it('should display the selected user details in the user details section', function() {
@@ -417,8 +317,8 @@ describe('The users view', function() {
     users.firstNameFormField.click();
 
     expect(users.personalTelephoneFormField.getAttribute('class')).toContain('ng-invalid');
-    // BUG
-    //expect(users.requiredErrors.get(0).getText()).toBe('Phone number should be in E.164 format.');
+
+    expect(users.requiredErrors.get(0).getText()).toBe('Phone number should be in E.164 format.');
   });
 
   it('should allow E164 numbers to be accepted', function() {
@@ -434,6 +334,21 @@ describe('The users view', function() {
 
     //limits the user to digits only, limits the user to 15 characters, should prepend a +
     expect(users.personalTelephoneFormField.getAttribute('value')).toBe('+1 506-470-4361');
+  });
+
+  it('should allow Euro numbers to be accepted', function() {
+    shared.firstTableRow.click();
+    expect(users.personalTelephoneFormField.isDisplayed()).toBeTruthy();
+
+    //ensure the field is empty
+    users.personalTelephoneFormField.clear();
+
+    users.personalTelephoneFormField.sendKeys('442071838750');
+
+    users.firstNameFormField.click();
+
+    //limits the user to digits only, limits the user to 15 characters, should prepend a +
+    expect(users.personalTelephoneFormField.getAttribute('value')).toBe('+44 20 7183 8750');
   });
 
   describe('bulk actions', function(){

@@ -10,20 +10,19 @@ angular.module('liveopsConfigPanel')
         },
         templateUrl: 'app/components/management/users/bulkActions/userStatus/setStatusBulkAction.html',
         link: function ($scope) {
-          $scope.bulkAction.apply = function(user) {
-            if ($scope.status === 'disabled' && user.id === Session.user.id){
+          $scope.bulkAction.apply = function(tenantUser) {
+            if ($scope.status === 'disabled' && tenantUser.id === Session.user.id){
               Alert.error($translate.instant('bulkActions.enable.users.fail'));
               var deferred = $q.defer();
               deferred.reject('Cannot disable your own account');
               return deferred.promise;
             }
             
-            var userCopy = new User();
-            userCopy.id = user.id;
-            userCopy.status = $scope.status;
-            return userCopy.save().then(function(userCopy) {
-              angular.copy(userCopy, user);
-              user.checked = true;
+            var newUser = new User();
+            newUser.id = tenantUser.id;
+            newUser.status = $scope.status;
+            return newUser.save().then(function(user) {
+              angular.copy(user, tenantUser.$user);
               return user;
             });
           };

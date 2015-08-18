@@ -29,13 +29,9 @@ describe('FlowManagementController', function () {
   ]));
 
   beforeEach(function () {
-    $controller('ContentController', {
-      '$scope': $scope
-    });
     $controller('FlowManagementController', {
       '$scope': $scope
     });
-    $httpBackend.flush();
   });
   
   describe('ON fetchFlows', function() {

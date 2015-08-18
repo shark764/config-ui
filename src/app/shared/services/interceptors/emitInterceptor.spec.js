@@ -2,14 +2,14 @@
 
 /*global spyOn : false */
 
-describe('Save Interceptor service', function(){
-  var SaveInterceptor,
+describe('emitInterceptor service', function(){
+  var emitInterceptor,
     $rootScope;
   
   beforeEach(module('liveopsConfigPanel'));
   
-  beforeEach(inject(['SaveInterceptor', '$rootScope', function(_SaveInterceptor, _$rootScope) {
-    SaveInterceptor = _SaveInterceptor;
+  beforeEach(inject(['emitInterceptor', '$rootScope', function(_emitSaveInterceptor, _$rootScope) {
+    emitInterceptor = _emitSaveInterceptor;
     $rootScope = _$rootScope;
   }]));
   
@@ -17,7 +17,7 @@ describe('Save Interceptor service', function(){
     it('should broadcast created resource on 201 status', inject(function() {
       spyOn($rootScope, '$broadcast');
       
-      SaveInterceptor.response({
+      emitInterceptor.response({
         config : {
           url: '/test'
         },
@@ -31,7 +31,7 @@ describe('Save Interceptor service', function(){
     it('should broadcast updated resource on 200 status', inject(function() {
       spyOn($rootScope, '$broadcast');
       
-      SaveInterceptor.response({
+      emitInterceptor.response({
         config : {
           url: '/test/123'
         },
@@ -45,7 +45,7 @@ describe('Save Interceptor service', function(){
     it('should do nothing on a status other than 200 and 201', inject(function() {
       spyOn($rootScope, '$broadcast');
       
-      SaveInterceptor.response({
+      emitInterceptor.response({
         config : {
           url: '/test'
         },

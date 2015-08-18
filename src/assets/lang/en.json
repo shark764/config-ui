@@ -13,7 +13,6 @@
   "value.disabled": "Disabled",
   "value.displayName": "{{displayName}}",
   "value.enabled" : "Enabled",
-  "value.pending" : "Pending",
   "value.email": "Email",
   "value.error.name.required" : "Field \"Name\" is required.",
   "value.identifier": "Identifier",
@@ -64,7 +63,9 @@
   "navbar.actions": "Actions",
 
   "details": "Details",
+  "details.login": "Login",
   "details.firstName": "First Name",
+  "details.resendInvitation": "Resend Invitation",
   "details.firstName.error": "Please enter a first name",
   "details.lastName": "Last Name",
   "details.lastName.error": "Please enter a last name",
@@ -73,6 +74,7 @@
   "details.email": "Email",
   "details.email.error": "Please enter an email address",
   "details.email.invalid": "Must be a valid email address",
+  "details.email.alreadyExists" : "This user already exists on the platform and they will be added to the tenant upon clicking \"Submit\"",
   "details.password": "Password",
   "details.password.error": "Please enter a password",
   "details.externalId": "External ID",
@@ -98,15 +100,32 @@
   "details.name.error": "Please enter a name",
   "details.personalTelephone": "Personal Telephone",
   "details.personalTelephone.error": "Personal Telephone must be E.164 format (+18005551234)",
-
+  "details.inviteNow": "Invite Now",
+  "details.inviteStatus": "Invite Status",
+  "details.tenantStatus": "Tenant Status",
+  "details.tenantStatus.help": "Tenant Status <ul><li>Pending Invitation</li><li>Pending Acceptance</li><li>Accepted</li><li>Removed</li><li>Expired Invitation</li></ul>",
+  "details.inviteNow.help" : "<center><p>To invite this user now select, click \"Submit\" with \"Invite Now\" selected</p> <p>or</p> <p>To set this user to a pending invite status de-select \"Invite Now and click \"Submit\"</p></center>",
+  "details.tenantStatus.notInvited" : "This user has not been invited to join the tenant, to invite them now select \"Invite Now\" and click \"Submit\"",
   "user.details.disable.confirm": "This will disable this user and prevent them from logging in. Do you want to continue?",
   "user.details.enable.confirm": "This will enable this user and allow them to log in. Do you want to continue?",
   "user.details.creating": "Creating New User",
   "user.details.password.reset": "Reset Password",
+  "user.details.invitation.resend": "Resend Invitation",
+  "user.details.invitation.send": "Send Invitation",
+  "users.details.role.select": "Select a role",
   "user.table.displayName": "Display Name",
   "user.table.externalId": "ID",
   "user.table.state": "State",
+  "user.table.skills": "Skills",
+  "user.table.groups": "Groups",
   "user.table.title": "User Management",
+  "user.table.roles": "Roles",
+  
+  "tenant.user.details.status.pending": "Pending Invitation",
+  "tenant.user.details.status.invited": "Pending Acceptance",
+  "tenant.user.details.status.accepted": "Accepted",
+  "tenant.user.details.status.removed": "Removed",
+  "tenant.user.details.status.expired": "Expired Invitation",
 
   "group.details.members.none": "There are no members assigned to this group.",
   "group.details.creating": "Creating Group",
@@ -137,10 +156,12 @@
   "flow.details.type.error": "Type is required",
   "flow.details.activeVersion.error": "Active version is required",
   "flow.details.versions.create.title": "Create new version",
-  "flowVersions.title": "Versions",
+  "flowVersions.title": "Published Versions",
   "flow.details.creating": "Creating New Flow",
   "flow.details.disable.confirm": "This will disable this flow. Do you want to continue?",
   "flow.details.enable.confirm": "This will enable this flow. Do you want to continue?",
+  "flow.details.version.add.alt": "Create a new version for this flow",
+  "flow.details.mapping.add.alt": "Add a new media mapping",
   "flow.table.title": "Flow Management",
 
   "queue.details.version.error" : "Active Version is required",
@@ -276,11 +297,18 @@
   "bulkActions.enable.flows": "Enable Flows",
   "bulkActions.enable.queues": "Enable Queues",
   "bulkAction.success": "Bulk action successful!",
-  
+
   "user.profile.save.success": "Your details have been updated.",
   "user.profile.save.fail": "An error occured while updating your details.",
-  
+
   "multibox.add.placeholder": "Add Item...",
   "multibox.search.placeholder": "Search...",
-  "multibox.create.btn": "Create New"
+  "multibox.create.btn": "Create New",
+
+  "invite.accept.success": "Your invitation has been accepted! Please log in to view the new tenant.",
+  "invite.accept.alreadyAccepted": "This invitation has already been accepted! Please log in to view the tenant.",
+  
+  "flow.draft.delete.alt": "Delete this draft",
+  "flow.draft.none": "There are no drafts saved for this flow. Drafts are created automatically from the Flow Designer.",
+  "flow.draft.title": "Drafts"
 }

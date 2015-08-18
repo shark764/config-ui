@@ -12,16 +12,43 @@
 <resize-handle
   ng-show="!! selectedMediaCollection"
   id="resize-pane-1"
-  right-element-id="details-pane"
+  right-element-id="media-collection-pane"
   left-element-id="table-pane"></resize-handle>
 
-<resource-details
-  ng-show="!! selectedMediaCollection"
-  id="details-pane"
-  header-template-url="app/components/flows/media-collections/mediaCollectionDetailHeader.html"
-  body-template-url="app/components/flows/media-collections/mediaCollectionDetailBody.html"
-  original-resource="selectedMediaCollection"
-  resource-name="media-collection"></resource-details>
+<lo-details-panel
+  id="media-collection-pane" class="right-panel"
+  ng-show="!!selectedMediaCollection"
+  ng-resource="selectedMediaCollection">
+
+  <ng-form unsaved-changes-warning
+    id="media-collection-form" class="details-pane"
+    name="forms.mediaCollectionForm"
+    ng-model="selectedMediaCollection"
+    ng-resource="selectedMediaCollection"
+    lo-form-submit lo-form-cancel lo-form-alert>
+
+    <div class="detail-header"
+      ng-include src="'app/components/flows/media-collections/mediaCollectionDetailHeader.html'">
+    </div>
+
+    <div class="detail-body"
+      ng-include src="'app/components/flows/media-collections/mediaCollectionDetailBody.html'">
+    </div>
+
+    <div class="detail-controls">
+      <input id="cancel-details-btn" ng-disabled="loading" type="button" class="btn"
+        value="{{'value.cancel' | translate}}"
+        lo-cancel-chain-executor="media:collection:cancel">
+      <input id="submit-details-btn" ng-show="!loading" class="btn btn-primary"
+        ng-disabled="forms.mediaCollectionForm.$invalid || ! forms.mediaCollectionForm.$dirty"
+        type="submit" value="{{'value.submit' | translate}}"
+        lo-submit-chain-executor="media:collection:save">
+      <a ng-show="loading" ng-disabled="true" class="btn btn-primary">
+        <i class="fa fa-refresh fa-spin"></i>
+      </a>
+    </div>
+  </ng-form>
+</lo-details-panel>
 
 <resize-handle
   id="resize-pane-2"
@@ -29,12 +56,42 @@
   right-element-id="media-pane"
   left-element-id="details-pane"></resize-handle>
 
-<resource-details
-  id="media-pane"
+<lo-details-panel id="media-pane" class="right-panel"
   ng-show="selectedMedia"
-  extend-scope="additionalMedia"
-  header-template-url="app/components/flows/media/mediaDetailHeader.html"
-  body-template-url="app/components/flows/media/mediaDetailBody.html"
-  footer-template-url="app/components/flows/media/mediaDetailFooter.html"
-  original-resource="selectedMedia"
-  resource-name="media"></resource-details>
+  ng-resource="selectedMedia">
+
+  <ng-form unsaved-changes-warning
+    ng-show="selectedMedia" name="forms.mediaForm"
+    ng-model="selectedMedia"
+    ng-resource="selectedMedia"
+    lo-form-submit lo-form-cancel lo-form-alert>
+
+    <div class="detail-header"
+      ng-include src="'app/components/flows/media/mediaDetailHeader.html'">
+    </div>
+
+    <div class="detail-body"
+      ng-include src="'app/components/flows/media/mediaDetailBody.html'">
+    </div>
+
+    <div class="detail-controls">
+      <input id="cancel-media-btn" type="button" class="btn"
+        value="{{'value.cancel' | translate}}"
+        lo-cancel-chain-executor="media:cancel"></input>
+      <input id="create-media-btn" class="btn btn-primary" ng-hide="loading"
+        type="submit" value="{{'value.create' | translate}}"
+        ng-disabled="forms.mediaForm.$invalid || ! forms.mediaForm.$dirty"
+        lo-submit-chain-executor="media:save"></input>
+      <input id="create-and-new-media-btn" class="btn btn-primary" ng-hide="loading"
+        ng-disabled="forms.mediaForm.$invalid || ! forms.mediaForm.$dirty"
+        type="submit" value="{{'value.create.new' | translate}}"
+        lo-submit-chain-executor="media:save:and:new"></input>
+      <a ng-show="loading" ng-disabled="true" class="btn btn-primary">
+        <i class="fa fa-refresh fa-spin"></i>
+      </a>
+      <a ng-show="loading" ng-disabled="true" class="btn btn-primary">
+        <i class="fa fa-refresh fa-spin"></i>
+      </a>
+    </div>
+  </ng-form>
+</lo-details-panel>

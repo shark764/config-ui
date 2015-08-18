@@ -36,17 +36,17 @@ describe('flowVersionNameDirective directive', function(){
     doCompile = function(){
       element = $compile('<flow-version-name flow="item"></flow-version-name>')($scope);
       $scope.$digest();
-      $httpBackend.flush();
       isolateScope = element.isolateScope();
     };
   }]));
 
 
-  it('should get the version name based on the version id', inject(function() {
+  it('should get the version name based on the version id', inject(['$httpBackend', function($httpBackend) {
     Session.tenant = { tenantId: '1' };
     doCompile();
+    $httpBackend.flush();
     expect(isolateScope.name).toEqual($scope.version.name);
-  }));
+  }]));
 
   it('should passing in a queue without an active version means the queue active version is not defined', inject(function(){
     $scope.item = {

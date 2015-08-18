@@ -61,7 +61,6 @@ angular.module('liveopsConfigPanel')
               owner: Session.user.id
             }).save(function (result) {
               $scope.selectedGroup = result;
-              $scope.fetchGroups().push(result);
               if (typeof onComplete !== 'undefined' && onComplete !== null) {
                 onComplete();
               }
@@ -79,13 +78,18 @@ angular.module('liveopsConfigPanel')
               var newUserGroup = new TenantUserGroups(data);
               newUserGroup.groupName = $scope.selectedGroup.name;
 
+              $scope.user.groups.push({
+                id: newUserGroup.groupId,
+                name: newUserGroup.groupName
+              });
+
               $scope.userGroups.push(newUserGroup);
               $scope.updateFiltered();
-
+              
               //TODO: remove once groups api returns members list
               //Reset cache of users for this group
               queryCache.remove('groups/' + $scope.selectedGroup.id + '/users');
-              
+
               $timeout(function () { //Timeout prevents simultaneous $digest cycles
                 $scope.updateCollapseState(tagWrapper.height());
               }, 200);
@@ -104,14 +108,22 @@ angular.module('liveopsConfigPanel')
               tenantId: userGroup.tenantId
             });
 
-            tgu.$delete(function () {
+            tgu.$delete(function (tenantGroupUser) {
+              for(var groupIndex in $scope.user.groups) {
+                var group = $scope.user.groups[groupIndex];
+                if(group.id === tenantGroupUser.groupId) {
+                  $scope.user.groups.removeItem(group);
+                  break;
+                }
+              }
+
               $scope.userGroups.removeItem(userGroup);
               $scope.updateFiltered();
               $timeout(function () {
                 $scope.updateCollapseState(tagWrapper.height());
               }, 200);
               
-            //TODO: remove once groups api returns members list
+              //TODO: remove once groups api returns members list
               //Reset cache of users for this group
               queryCache.remove('groups/' + tgu.groupId + '/users');
             });
@@ -147,8 +159,8 @@ angular.module('liveopsConfigPanel')
             });
           };
 
-          $scope.$watch('user.id', function () {
-            if (!Session.tenant.tenantId) {
+          $scope.$watch('user', function (newSelection) {
+            if (!newSelection || !Session.tenant.tenantId) {
               return;
             }
 

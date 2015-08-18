@@ -5,6 +5,7 @@ angular.module('liveopsConfigPanel')
     function ($q, Alert, Modal, $translate, DirtyForms, $filter) {
       return {
         restrict: 'AE',
+        replace: true,
         scope: {
           items: '=',
           bulkActions: '=',

@@ -50,11 +50,13 @@ var Shared = function() {
   this.table = element(by.id('items-table'));
   this.firstTableRow = this.table.element(by.css('tr.ng-scope:nth-child(1)'));
   this.secondTableRow = this.table.element(by.css('tr.ng-scope:nth-child(2)'));
+  this.tableRows = this.table.all(by.css('tr'));
   this.tableElements = element.all(by.repeater('item in (filtered = (items | selectedTableOptions:config.fields | search:config.searchOn:searchQuery | orderBy:orderBy:reverseSortOrder))'));
   this.createBtn = element(by.id('create-btn'));
   this.searchField = element(by.model('searchQuery'));
   this.actionsBtn = element(by.id('actions-btn'));
   this.tableColumnsDropDown = element(by.id('table-columns-dropdown'));
+  this.tableColumnsDropDownOptions = this.tableColumnsDropDown.all(by.repeater('option in options | orderBy:orderBy track by (option | parse:valuePath | invoke:option)'))
 
   // Shared Form elements
   this.detailsPanel = element(by.id('details-pane'));
@@ -67,11 +69,19 @@ var Shared = function() {
   this.successMessage = element(by.css('.toast-success'));
   this.errorMessage = element(by.css('.toast-error'));
   this.closeMessageBtn = element(by.css('.toast-close-button'));
-  
+
   //Modal
   this.confirmModal = element(by.css('#modal .confirm'));
   this.confirmModalCancelBtn = element(by.id('modal-cancel'));
   this.confirmModalOkBtn = element(by.id('modal-ok'));
+
+  this.waitForSuccess = function () {
+    browser.driver.wait(function() {
+      return element(by.css('.toast-success')).isPresent().then(function (messageDisplayed) {
+          return messageDisplayed;
+      });
+    }, 5000);
+  };
 
   this.dismissChanges = function() {
     browser.switchTo().alert().then(
