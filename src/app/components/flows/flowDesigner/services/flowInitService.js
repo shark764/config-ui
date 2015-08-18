@@ -76,7 +76,6 @@
           graph.panelScope = $rootScope.$new();
           graph.panelScope.notation = notation;
           var compiledPanel = $compile('<props-panel notation="notation"></props-panel>')(graph.panelScope);
-          console.log(compiledPanel);
           graph.interfaces.inspectorContainer.append(compiledPanel);
         };
 
