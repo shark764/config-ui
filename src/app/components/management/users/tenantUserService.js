@@ -14,6 +14,12 @@ angular.module('liveopsConfigPanel')
         saveInterceptor: null
       });
 
+      TenantUser.prototype.getDisplay = function(){
+        if (this.$user){ //TODO: update unit tests and mocks to all have $user
+          return this.$user.getDisplay();
+        }
+      };
+      
       return TenantUser;
     }
   ]);
