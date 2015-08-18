@@ -115,6 +115,7 @@
   "user.details.creating": "Creating New User",
   "user.details.password.reset": "Reset Password",
   "user.details.invitation.resend": "Resend Invitation",
+  "user.details.invitation.send": "Send Invitation",
   "users.details.role.select": "Select a role",
   "user.table.displayName": "Display Name",
   "user.table.externalId": "ID",

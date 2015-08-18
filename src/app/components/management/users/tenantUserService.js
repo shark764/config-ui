@@ -8,6 +8,8 @@ angular.module('liveopsConfigPanel')
         resourceName: 'TenantUser',
         updateFields: [{
           name: 'status'
+        }, {
+          name: 'roleId'
         }],
         getInterceptor: tenantUserInterceptor,
         queryInterceptor: tenantUserQueryInterceptor,
