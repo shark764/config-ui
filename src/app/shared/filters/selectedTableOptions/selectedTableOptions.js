@@ -10,10 +10,6 @@ angular.module('liveopsConfigPanel')
           return filtered;
         }
         
-        // for(var i = 0; i < items.length; i++) {
-        //   filtered.push(items[i]);
-        // }
-        
         var nothingChecked = true;
         for(var fieldIndex = 0; fieldIndex < fields.length; fieldIndex++) {
           var field = fields[fieldIndex];

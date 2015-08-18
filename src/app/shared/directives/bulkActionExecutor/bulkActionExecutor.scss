@@ -1,4 +1,10 @@
-bulk-action-executor {
+#bulk-action-form {
+  
+  .details-form {
+    height: 100%;
+    display: block;
+  }
+  
   .detail-header-pane {
     .dropdown-label {
       font-weight: bold;
@@ -9,6 +15,7 @@ bulk-action-executor {
     .bulk-action, .action-wrapper {
       width: 100%;
       max-width: $max-control-width;
+      height: 100%;
     }
 
     .bulk-action {

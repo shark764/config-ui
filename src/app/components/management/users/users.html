@@ -67,7 +67,7 @@
     confirm-message-key="bulkActions.user.confirm.message" drop-order-by="lastName">
     <ba-set-status bulk-action="bulkActions.setStatus"></ba-set-status>
     <ba-reset-password bulk-action="bulkActions.resetPassword"></ba-reset-password>
-    <ba-user-skills bulk-action="bulkActions.userSkills" users="users"></ba-user-skills>
-    <ba-user-groups bulk-action="bulkActions.userGroups" users="users"></ba-user-groups>
+    <ba-user-skills bulk-action="bulkActions.userSkills" users="fetchTenantUsers()"></ba-user-skills>
+    <ba-user-groups bulk-action="bulkActions.userGroups" users="fetchTenantUsers()"></ba-user-groups>
   </bulk-action-executor>
 </lo-details-panel>

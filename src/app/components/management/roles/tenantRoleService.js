@@ -4,7 +4,7 @@ angular.module('liveopsConfigPanel')
   .factory('TenantRole', ['LiveopsResourceFactory', 'Session',
     function(LiveopsResourceFactory, Session) {
       var TenantRole = LiveopsResourceFactory.create({
-        endpoint: '/v1/tenants/:tenantId/roles/:roleId',
+        endpoint: '/v1/tenants/:tenantId/roles/:id',
         resourceName: 'TenantRole',
         updateFields: [{
           name: 'name'
@@ -24,7 +24,7 @@ angular.module('liveopsConfigPanel')
       TenantRole.getName = function(roleId) {
         return TenantRole.cachedGet({
           tenantId: Session.tenant.tenantId,
-          roleId: roleId
+          id: roleId
         }).name;
       };
 
