@@ -4,7 +4,8 @@ angular.module('liveopsConfigPanel')
   .controller('UsersController', ['$scope', '$window', '$parse', 'User', 'Session', 'AuthService', 'userTableConfig', 'Alert', 'flowSetup', 'BulkAction', '$q', '$location', 'lodash', 'Chain', 'TenantUser', 'TenantRole', 'queryCache', '$timeout',
     function($scope, $window, $parse, User, Session, AuthService, userTableConfig, Alert, flowSetup, BulkAction, $q, $location, _, Chain, TenantUser, TenantRole, queryCache, $timeout) {
       var self = this;
-
+      
+      $scope.forms = {};
       $scope.Session = Session;
       $window.flowSetup = flowSetup;
       $scope.tableConfig = userTableConfig;
@@ -52,6 +53,33 @@ angular.module('liveopsConfigPanel')
         }
       };
 
+      $scope.sendInvite = function () {
+        $scope.selectedTenantUser.status = 'invited';
+        
+        var backup = {
+          $user: $scope.selectedTenantUser.$user,
+          skills: $scope.selectedTenantUser.skills,
+          groups: $scope.selectedTenantUser.groups
+        } 
+        
+        return $scope.selectedTenantUser.save({
+          tenantId: Session.tenant.tenantId
+        }).then(function(tenantUser) {
+          tenantUser.$user = backup.$user;
+          
+          tenantUser.$original.roleName = TenantRole.getName(tenantUser.roleId);
+          tenantUser.$original.skills = backup.skills;
+          tenantUser.$original.groups = backup.groups;
+          
+          tenantUser.reset();
+          return tenantUser;
+        }).then(function() {
+          Alert.success('Invite Sent');
+        }, function() {
+          Alert.success('Error occured. Invite not sent.');
+        });
+      }
+      
       this.updateTenantUser = function() {
         var user = $scope.selectedTenantUser.$user;
         var wasNew = $scope.selectedTenantUser.isNew();
@@ -107,7 +135,25 @@ angular.module('liveopsConfigPanel')
 
       this.updateUser = function() {
         var oldPassword = this.password;
-        return $scope.selectedTenantUser.$user.save().then(function(user) {
+        
+        var promises = [];
+        if($scope.forms.detailsForm.roleId &&
+          $scope.forms.detailsForm.roleId.$dirty) {
+          var tenantUser = new TenantUser({
+            id: $scope.selectedTenantUser.id,
+            roleId: $scope.selectedTenantUser.roleId
+          });
+          
+          promises.push(tenantUser.save({
+            tenantId: Session.tenant.tenantId
+          }).then(function(tenantUser) {
+            $scope.selectedTenantUser.$original.roleId = tenantUser.roleId;
+            $scope.selectedTenantUser.$original.roleName = TenantRole.getName(tenantUser.roleId);
+            $scope.selectedTenantUser.reset();
+          }));
+        }
+        
+        promises.push($scope.selectedTenantUser.$user.save().then(function(user) {
           if (user.id === Session.user.id) {
             var token = AuthService.generateToken(user.email, oldPassword);
             Session.setUser(user);
@@ -116,7 +162,9 @@ angular.module('liveopsConfigPanel')
           }
 
           return user;
-        });
+        }));
+        
+        return $q.all(promises);
       };
 
       $scope.$on('table:on:click:create', function() {
