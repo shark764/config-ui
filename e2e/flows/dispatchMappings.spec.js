@@ -356,6 +356,8 @@ describe('The dispatch mappings view', function() {
     dispatchMappings.mappingDropdown.$('option:checked').getText().then(function(value) {
       if (value == 'Contact Point') {
         expect(shared.firstTableRow.element(by.css(dispatchMappings.interactionFieldColumn)).getText()).toBe('contact-point');
+      } else if (value == 'Integration') {
+        expect(shared.firstTableRow.element(by.css(dispatchMappings.interactionFieldColumn)).getText()).toBe('source');
       } else {
         expect(shared.firstTableRow.element(by.css(dispatchMappings.interactionFieldColumn)).getText()).toBe(value.toLowerCase());
       }
@@ -382,6 +384,8 @@ describe('The dispatch mappings view', function() {
       dispatchMappings.mappingDropdown.$('option:checked').getText().then(function(value) {
         if (value == 'Contact Point') {
           expect(shared.secondTableRow.element(by.css(dispatchMappings.interactionFieldColumn)).getText()).toBe('contact-point');
+        } else if (value == 'Integration') {
+          expect(shared.firstTableRow.element(by.css(dispatchMappings.interactionFieldColumn)).getText()).toBe('source');
         } else {
           expect(shared.secondTableRow.element(by.css(dispatchMappings.interactionFieldColumn)).getText()).toBe(value.toLowerCase());
         }
@@ -585,7 +589,7 @@ describe('The dispatch mappings view', function() {
 
     //Edit fields
     dispatchMappings.phoneFormField.clear();
-    dispatchMappings.phoneFormField.sendKeys('442071838750\t');
+    dispatchMappings.phoneFormField.sendKeys('442071828750\t');
 
     // Error messages are not displayed
     expect(dispatchMappings.requiredErrors.count()).toEqual(0);

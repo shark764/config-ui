@@ -11,8 +11,6 @@ angular.module('liveopsConfigPanel')
       };
 
       $scope.$on('table:on:click:create', function() {
-        $scope.showBulkActions = false;
-        
         $scope.selectedIntegration = new Integration({
           tenantId: Session.tenant.tenantId,
           properties: {
@@ -22,14 +20,6 @@ angular.module('liveopsConfigPanel')
       });
 
       $scope.tableConfig = integrationTableConfig;
-      
-      $scope.$on('table:resource:selected', function () {
-        $scope.showBulkActions = false;
-      });
-
-      $scope.$on('table:on:click:actions', function () {
-        $scope.showBulkActions = true;
-      });
       
       $scope.bulkActions = {
         setIntegrationStatus: new BulkAction()

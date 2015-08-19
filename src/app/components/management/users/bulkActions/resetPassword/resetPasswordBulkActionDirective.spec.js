@@ -10,6 +10,7 @@ describe('resetPasswordBulkAction directive', function () {
   beforeEach(module('gulpAngular'));
   beforeEach(module('liveopsConfigPanel'));
   beforeEach(module('liveopsConfigPanel.mock.content.management.users'));
+  beforeEach(module('liveopsConfigPanel.mock.content.management.tenantUsers'));
 
   beforeEach(inject(['$compile', '$rootScope', 'BulkAction',
     function (_$compile_, _$rootScope_, _BulkAction) {
@@ -31,17 +32,19 @@ describe('resetPasswordBulkAction directive', function () {
     expect(isolateScope.bulkAction.apply).toBeDefined();
   });
 
-  it('should should set user.password on bulkAction.execute', inject(['mockUsers', '$httpBackend', 'apiHostname',
-    function (mockUsers, $httpBackend, apiHostname) {
+  it('should should set user.password on bulkAction.execute', inject(['mockUsers', 'mockTenantUsers', '$httpBackend', 'apiHostname',
+    function (mockUsers, mockTenantUsers, $httpBackend, apiHostname) {
       var returnUser = angular.copy(mockUsers[0]);
       returnUser.password = 'blah';
 
       $httpBackend.when('PUT', apiHostname + '/v1/users/userId1').respond(200, {
         result: returnUser
       });
-
+      
+      mockTenantUsers[0].$user = mockUsers[0];
+      
       isolateScope.password = 'blah';
-      isolateScope.bulkAction.apply(mockUsers[0]);
+      isolateScope.bulkAction.apply(mockTenantUsers[0]);
 
       expect(mockUsers[0].password).not.toBeDefined();
 

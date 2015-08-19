@@ -2,7 +2,8 @@
 /*jslint browser:true */
 
 angular.module('liveopsConfigPanel')
-  .directive('resizeHandle', ['$window', '$document', '$rootScope', 'lodash', function($window, $document, $rootScope, _) {
+  .directive('resizeHandle', ['$window', '$document', '$rootScope', 'lodash',
+    function($window, $document, $rootScope, _) {
     return {
       restrict : 'E',
       scope : {
@@ -14,8 +15,8 @@ angular.module('liveopsConfigPanel')
       link : function(scope, element) {
         element.addClass('resize-pane');
 
-        scope.leftTargetElement = angular.element(document.getElementById(scope.leftElementId));
-        scope.rightTargetElement = angular.element(document.getElementById(scope.rightElementId));
+        scope.leftTargetElement = angular.element($('#'+scope.leftElementId));
+        scope.rightTargetElement = angular.element($('#'+scope.rightElementId));
 
         element.on('mousedown', function(event) {
           //Don't initiate resize on right click, because it's annoying

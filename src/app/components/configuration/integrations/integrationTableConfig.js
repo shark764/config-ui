@@ -7,12 +7,12 @@ angular.module('liveopsConfigPanel')
         'header': {
           'display': $translate.instant('value.type')
         },
-        'name': '$original.type'
+        'name': 'type'
       }, {
         'header': {
           'display': $translate.instant('integration.table.account')
         },
-        'name': '$original.properties.accountSid'
+        'name': 'properties.accountSid'
       }, {
         'header': {
           'display': $translate.instant('value.status'),
@@ -20,7 +20,7 @@ angular.module('liveopsConfigPanel')
           'displayPath': 'display',
           'options': statuses()
         },
-        'name': '$original.active',
+        'name': 'active',
         'lookup': '$original:active',
         'sortable': true,
         'transclude': true,
@@ -32,14 +32,14 @@ angular.module('liveopsConfigPanel')
           'displayPath': 'display',
           'options': statuses()
         },
-        'name': '$original.properties.webRtc',
+        'name': 'properties.webRtc',
         'lookup': '$original:properties:webRtc',
         'sortable': true,
         'transclude': true,
         'filter': 'selectedOptions'
       }],
-      'searchOn': ['$original.type'],
-      'orderBy': '$original.type',
+      'searchOn': ['type'],
+      'orderBy': 'type',
       'title' : $translate.instant('integration.table.title')
     };
   }]);

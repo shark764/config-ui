@@ -222,14 +222,6 @@ describe('LiveopsResourceFactory', function () {
     }));
 
     describe('update config', function () {
-      it('should set the interceptor', inject(['SaveInterceptor', function (SaveInterceptor) {
-        LiveopsResourceFactory.create({
-          endpoint: '/endpoint'
-        });
-
-        expect(givenConfig.update.interceptor).toEqual(SaveInterceptor);
-      }]));
-
       describe('transformRequest function', function () {
         it('should return empty object when not given any updatefields', inject([function () {
           LiveopsResourceFactory.create({

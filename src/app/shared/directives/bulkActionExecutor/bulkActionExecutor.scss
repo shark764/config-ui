@@ -1,11 +1,11 @@
-bulk-action-executor {
-  .detail-header-pane {
+#bulk-action-form {
+  .detail-header{
     .dropdown-label {
       font-weight: bold;
     }
   }
 
-  .detail-body-pane {
+  .detail-body {
     .bulk-action, .action-wrapper {
       width: 100%;
       max-width: $max-control-width;
@@ -68,16 +68,6 @@ bulk-action-executor {
           @include transition(none);
         }
       }
-    }
-
-    .affected-banner {
-      background-color: $accent-light;
-      color: $accent1;
-      display: block;
-      padding: 5px;
-      text-align: center;
-      width: 100%;
-      clear: both;
     }
   }
 }
