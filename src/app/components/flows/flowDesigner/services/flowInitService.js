@@ -54,9 +54,6 @@
         graph.utils.renderPropertiesPanel = function(notation) {
           console.log('Notation clicked on:', notation);
 
-          // Don't render the properties panel if they clicked on a link
-          if (notation.model.attributes.type === 'liveOps.link') { return graph.utils.hidePropertiesPanel(); }
-
           // Render the halo menu
           if (notation.model.attributes.group !== 'end') {
             graph.utils.renderHaloMenu(notation);

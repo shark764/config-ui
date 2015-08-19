@@ -53,7 +53,11 @@
         if (modelType === 'liveOps.event') {
           var event = _.findWhere(self.events, {entity: model.get('entity'), type: model.get('name')});
           return event.inputs;
-         
+        }
+
+        //if we're dealing with a link
+        if (modelType === 'liveOps.link') {
+          return model.get('inputs');
         }
       },
 
