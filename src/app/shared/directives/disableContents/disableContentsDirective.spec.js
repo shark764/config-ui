@@ -3,8 +3,7 @@
 describe('disableContents directive', function(){
   var $scope,
     $compile,
-    element,
-    isolateScope;
+    element;
 
   beforeEach(module('liveopsConfigPanel'));
   beforeEach(module('gulpAngular'));
