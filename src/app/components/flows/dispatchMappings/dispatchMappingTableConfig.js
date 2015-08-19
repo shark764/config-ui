@@ -8,17 +8,17 @@ angular.module('liveopsConfigPanel')
           'header': {
             'display': $translate.instant('value.name')
           },
-          'name': '$original.name'
+          'name': 'name'
         }, {
           'header': {
             'display': $translate.instant('value.description')
           },
-          'name': '$original.description'
+          'name': 'description'
         }, {
           'header': {
             'display': $translate.instant('value.value')
           },
-          'name': '$original.value'
+          'name': 'value'
         }, {
           'header': {
             'display': $translate.instant('dispatchMappings.table.interactionField'),
@@ -26,7 +26,7 @@ angular.module('liveopsConfigPanel')
             'displayPath': 'display',
             'options': dispatchMappingInteractionFields
           },
-          'name': '$original.interactionField',
+          'name': 'interactionField',
           'lookup': '$original:interactionField',
           'filter': 'selectedOptions'
         }, {
@@ -36,7 +36,7 @@ angular.module('liveopsConfigPanel')
             'displayPath': 'display',
             'options': dispatchMappingChannelTypes
           },
-          'name': '$original.channelType',
+          'name': 'channelType',
           'lookup': '$original:channelType',
           'filter': 'selectedOptions'
         }, {
@@ -46,14 +46,14 @@ angular.module('liveopsConfigPanel')
             'displayPath': 'display',
             'options': statuses()
           },
-          'name': '$original.active',
+          'name': 'active',
           'lookup': '$original:active',
           'sortable': true,
           'transclude': true,
           'filter': 'selectedOptions'
         }],
-        'searchOn': ['$original.name'],
-        'orderBy': '$original.name',
+        'searchOn': ['name'],
+        'orderBy': 'name',
         'title': $translate.instant('dispatchmappings.table.title')
       };
     }

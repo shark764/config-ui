@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .factory('User', ['LiveopsResourceFactory',
-    function(LiveopsResourceFactory) {
+  .factory('User', ['LiveopsResourceFactory', 'cacheAddInterceptor',
+    function(LiveopsResourceFactory, cacheAddInterceptor) {
       var User = LiveopsResourceFactory.create({
         endpoint: '/v1/users/:id',
         resourceName: 'User',
@@ -25,7 +25,8 @@ angular.module('liveopsConfigPanel')
         }, {
           name: 'personalTelephone',
           optional: true
-        }]
+        }],
+        saveInterceptor: cacheAddInterceptor
       });
 
       User.prototype.getDisplay = function() {

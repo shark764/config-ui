@@ -1,20 +1,25 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .factory('Media', ['LiveopsResourceFactory', function (LiveopsResourceFactory) {
+  .factory('Media', ['LiveopsResourceFactory', 'cacheAddInterceptor',
+    function (LiveopsResourceFactory, cacheAddInterceptor) {
 
-    var Media = LiveopsResourceFactory.create({
-      endpoint: '/v1/tenants/:tenantId/media/:id',
-      resourceName: 'Media',
-      updateFields: [
-        {name: 'source'},
-        {name: 'properties', optional: true}
-      ]
-    });
+      var Media = LiveopsResourceFactory.create({
+        endpoint: '/v1/tenants/:tenantId/media/:id',
+        resourceName: 'Media',
+        updateFields: [{
+          name: 'source'
+        }, {
+          name: 'properties',
+          optional: true
+        }],
+        saveInterceptor: cacheAddInterceptor
+      });
+
+       Media.prototype.getDisplay = function (){
+       return this.name;
+      };
     
-    Media.prototype.getDisplay = function (){
-      return this.name;
-    };
-    
-    return Media;
-  }]);
+      return Media;
+    }
+  ]);

@@ -8,14 +8,17 @@ angular.module('liveopsConfigPanel')
         resourceName: 'TenantUser',
         updateFields: [{
           name: 'status'
+        }, {
+          name: 'roleId'
         }],
         getInterceptor: tenantUserInterceptor,
-        queryInterceptor: tenantUserQueryInterceptor,
-        saveInterceptor: null
+        queryInterceptor: tenantUserQueryInterceptor
       });
 
       TenantUser.prototype.getDisplay = function(){
-        return this.$user.getDisplay();
+        if (this.$user){ //TODO: update unit tests and mocks to all have $user
+          return this.$user.getDisplay();
+        }
       };
       
       return TenantUser;

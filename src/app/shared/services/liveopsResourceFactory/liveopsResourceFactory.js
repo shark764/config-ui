@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .factory('LiveopsResourceFactory', ['$http', '$resource', '$q', 'apiHostname', 'Session', 'SaveInterceptor', 'DeleteInterceptor', 'queryCache', 'lodash',
-    function ($http, $resource, $q, apiHostname, Session, SaveInterceptor, DeleteInterceptor, queryCache, _) {
+  .factory('LiveopsResourceFactory', ['$http', '$resource', '$q', 'apiHostname', 'Session', 'queryCache', 'lodash',
+    function ($http, $resource, $q, apiHostname, Session, queryCache, _) {
       function appendTransform(defaults, transform) {
         // We can't guarantee that the default transformation is an array
         defaults = angular.isArray(defaults) ? defaults : [defaults];
@@ -81,7 +81,7 @@ angular.module('liveopsConfigPanel')
             },
             update: {
               method: 'PUT',
-              interceptor: angular.isDefined(params.updateInterceptor) ? params.updateInterceptor : SaveInterceptor,
+              interceptor: params.updateInterceptor,
               transformRequest: function (data) {
                 return JSON.stringify(data, updateJsonReplacer);
               },
@@ -92,7 +92,7 @@ angular.module('liveopsConfigPanel')
             },
             save: {
               method: 'POST',
-              interceptor: angular.isDefined(params.saveInterceptor) ? params.saveInterceptor : SaveInterceptor,
+              interceptor: params.saveInterceptor,
               transformRequest: function (data) {
                 return JSON.stringify(data, createJsonReplacer);
               },
@@ -106,7 +106,7 @@ angular.module('liveopsConfigPanel')
               transformResponse: appendTransform($http.defaults.transformResponse, function (value) {
                 return getResult(value);
               }),
-              interceptor: DeleteInterceptor
+              interceptor: params.deleteInterceptor
             }
           });
 
@@ -197,19 +197,13 @@ angular.module('liveopsConfigPanel')
               postEvent = self.isNew() ? self.postCreate : self.postUpdate,
               postEventFail = self.isNew() ? self.postCreateError : self.postUpdateError;
 
-
-            if(angular.isFunction(params)) {
-              failure = success;
-              success = params;
-            }
-
             //TODO find out why preEvent didn't work in the chain
             preEvent.call(self);
             self.preSave();
 
             self.$busy = true;
 
-            return action.call(self, params)
+            return action.call(self, params, success, failure)
               .then(function (result) {
                 return postEvent.call(self, result);
               }, function (error) {
@@ -225,17 +219,7 @@ angular.module('liveopsConfigPanel')
               .then(function (result) {
                 self.$original = angular.copy(result);
 
-                if (success) {
-                  return success.call(self, result);
-                }
-
                 return result;
-              }, function (error) {
-                if (failure) {
-                  return failure.call(self, error);
-                }
-
-                return $q.reject(error);
               }).finally(function () {
                 self.$busy = false;
               });
@@ -243,7 +227,8 @@ angular.module('liveopsConfigPanel')
 
           Resource.prototype.reset = function () {
             for(var prop in this.$original) {
-              if(prop.match(/^\$.*/g)) {
+              if(prop.match(/^\$.*/g) ||
+                angular.isFunction(this.$original[prop])) {
                 continue;
               }
               this[prop] = this.$original[prop];

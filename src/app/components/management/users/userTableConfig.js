@@ -49,6 +49,7 @@ angular.module('liveopsConfigPanel')
           },
           'lookup': 'skills:id',
           'name': 'skills',
+          'id': 'user-skills-table-column',
           'resolve': function (tenantUser) {
             return tenantUser.skills.length;
           },
@@ -63,6 +64,7 @@ angular.module('liveopsConfigPanel')
           },
           'lookup': 'groups:id',
           'name': 'groups',
+          'id': 'user-groups-table-column',
           'resolve': function (tenantUser) {
             return tenantUser.groups.length;
           },
@@ -76,6 +78,7 @@ angular.module('liveopsConfigPanel')
             'options': getRoleOptions,
           },
           'name': '$original.roleName',
+          'id': 'user-roles-table-column',
           'lookup': '$original:roleId',
           'sortOn': '$original.roleName',
           'filterOrderBy': 'name'
@@ -87,10 +90,15 @@ angular.module('liveopsConfigPanel')
             'options': userStatuses()
           },
           'name': '$original.status',
+          'id': 'user-status-table-column',
           'transclude': true,
           'checked': false
         }],
-        'searchOn': ['firstName', 'lastName', {
+        'searchOn': [{
+          path: '$user.lastName'
+        }, {
+          path: '$user.firstName'
+        }, {
           path: '$original.skills',
           inner: {
             path: 'name'

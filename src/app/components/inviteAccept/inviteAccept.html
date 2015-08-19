@@ -3,8 +3,8 @@
     <img ng-src="assets/images/liveops-logo.png" height="23" >
     
     <ng-form ng-show="showSignupForm" name="detailsForm">
-      <div class="details-form">
-        <div class="detail-body-pane">
+      <div class="details-pane">
+        <div class="detail-body clear">
           <div class="lo-alert">
             <p>To set up your account, please:</p>
             <ol>
@@ -75,9 +75,9 @@
             </div>
           </div>
         
-        <input id="submit-invite-accept" lo-submit-spinner lo-submit-spinner-status="loading" 
-          ng-click="save()" ng-disabled="detailsForm.$invalid || ! detailsForm.$dirty" 
-          class="btn btn-primary pull-right" type="submit" value="{{'value.submit' | translate}}" />
+          <input id="submit-invite-accept" lo-submit-spinner lo-submit-spinner-status="loading" 
+            ng-click="save()" ng-disabled="detailsForm.$invalid || ! detailsForm.$dirty" 
+           class="btn btn-primary pull-right" type="submit" value="{{'value.submit' | translate}}" />
         </div>
       </div>
     </ng-form>

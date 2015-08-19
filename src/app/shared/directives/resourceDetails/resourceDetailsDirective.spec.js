@@ -60,8 +60,8 @@ describe('resource details directive', function() {
   it('should not render the body or header if no body or header templates were provided', inject(function() {
     doDefaultCompile();
 
-    var body = element.find('#detail-body-pane');
-    var header = element.find('#detail-header-pane');
+    var body = element.find('.detail-body');
+    var header = element.find('.detail-header');
 
     expect(body.length).toBe(0);
     expect(header.length).toBe(0);
@@ -73,13 +73,13 @@ describe('resource details directive', function() {
     });
     $httpBackend.expectGET(apiHostname + '/v1/tenants/' + Session.tenant.tenantId + '/skills');
 
-    $templateCache.put('body.html', '<detail-body-pane></detail-body-pane>');
-    $templateCache.put('header.html', '<detail-header-pane></detail-header-pane>');
+    $templateCache.put('body.html', '<detail-body></detail-body>');
+    $templateCache.put('header.html', '<detail-header></detail-header>');
     var ele = $compile('<resource-details original-resource="user" header-template-url="header.html" body-template-url="body.html"></resource-details>')($scope);
     $scope.$digest();
 
-    var body = ele.find('detail-body-pane');
-    var header = ele.find('detail-header-pane');
+    var body = ele.find('detail-body');
+    var header = ele.find('detail-header');
 
     expect(body.length).toBe(1);
     expect(header.length).toBe(1);

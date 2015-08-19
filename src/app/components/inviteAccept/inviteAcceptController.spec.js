@@ -194,7 +194,7 @@ describe('invite accept controller', function () {
     
     it('should update the tenant user', inject(['TenantUser', function(TenantUser){
       spyOn(TenantUser, 'update');
-      $scope.signupSuccess();
+      $scope.signupSuccess(mockUsers[0]);
       expect(TenantUser.update).toHaveBeenCalled();
     }]));
   });

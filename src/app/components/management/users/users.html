@@ -6,7 +6,9 @@
   selected="selectedTenantUser"
   resource-name="tenantUser">
 
-  <user-status name="$original.status" ng-model="item.$original.status"></user-status>
+  <tenant-user-status name="$original.status"
+    ng-model="item.$original.status">
+  </user-status>
 
   <center name="state">
     <user-state state="{{item.state}}"></user-state>
@@ -22,7 +24,7 @@
 <lo-details-panel
   id="user-pane"
   class="right-panel"
-  ng-if="selectedTenantUser || showBulkActions"
+  ng-show="selectedTenantUser || showBulkActions"
   ng-resource="selectedTenantUser">
     
   <user-detail-panel ng-show="selectedTenantUser && !showBulkActions" selected-tenant-user="selectedTenantUser"></user-detail-panel>
