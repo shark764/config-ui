@@ -212,13 +212,13 @@
                 "media": {
                     "source": "entity",
                     "type": "media",
-                    "mandatory": false,
+                    "mandatory": true,
                     "key": "media"
                 },
                 "num-digits": {
                     "source": "expression",
                     "type": "integer",
-                    "mandatory": false,
+                    "mandatory": true,
                     "default": 5,
                     "key": "digits"
                 },
@@ -226,7 +226,7 @@
                     "source": "expression",
                     "type": "string",
                     "default": "\"#\"",
-                    "mandatory": false,
+                    "mandatory": true,
                     "key": "terminator"
                 },
                 "customer": {
@@ -663,7 +663,8 @@
         {
             "entity": "start",
             "type": "none",
-            "inputs": []
+            "inputs": [],
+            "props": []
         },
         {
             "entity": "start",
@@ -693,7 +694,8 @@
                     "placeholder": "Enter a name to bind to the resource returned...",
                     "hidden": false
                 }
-            ]
+            ],
+            "props": ["target", "interrupting", "bindings"]
         },
         {
             "entity": "catch",
@@ -723,7 +725,8 @@
                     "placeholder": "Enter a name to bind to the resource returned...",
                     "hidden": false
                 }
-            ]
+            ],
+            "props": ["target", "interrupting", "bindings"]
         },
         {
             "entity": "catch",
@@ -741,7 +744,8 @@
                     "placeholder": "Enter a signal name to catch...",
                     "hidden": false
                 }
-            ]
+            ],
+            "props": ["timer", "interrupting"]
         },
         {
             "entity": "throw",
@@ -772,13 +776,15 @@
                     "placeholder": "Enter a name to bind to the resource returned...",
                     "hidden": false
                 }
-            ]
+            ],
+            "props": ["terminate", "event"] 
         },
         {
             "entity": "throw",
             "type": "none",
             "terminate": true,
-            "inputs": []
+            "inputs": [],
+            "props": ["terminate"]
         },
         {
             "entity": "throw",
@@ -809,13 +815,15 @@
                     "placeholder": "Enter a name to bind to the resource returned...",
                     "hidden": false
                 }
-            ]
+            ],
+            "props": ["terminate", "event"] 
         },
         {
             "entity": "throw",
             "type": "terminate",
             "terminate": true,
-            "inputs": []
+            "inputs": [],
+            "props": ["terminate"] 
         }
     ]
 }

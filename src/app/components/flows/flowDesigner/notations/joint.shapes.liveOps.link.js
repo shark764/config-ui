@@ -30,34 +30,27 @@
         }
       },
 
+      labels: [],
+
       linkType: 'normal',
 
-      inputs: {
-        linkType: {
-          type: 'select',
-          label: 'Type',
-          options: [
-            {value: 'conditional', content: 'Conditional'},
-            {value: 'default', content: 'Default'}
-          ],
-          index: 1,
-          group: 'general'
-        },
-        condition: {
-          type: 'text',
-          label: 'Condition',
+      inputs: [
+        {
+          name: 'label',
+          path: 'label',
+          type: 'string',
+          label: 'Label',
           group: 'general',
-          when: {
-            eq: {
-              linkType: 'conditional'
-            }
-          }
+          index: 0,
+          disabled: false,
+          required: false,
+          placeholder: 'Enter a label...',
+          hidden: false
         }
-      }
+      ]
     },
 
     initialize: function() {
-
       joint.dia.Link.prototype.initialize.apply(this, arguments);
 
       this.listenTo(this, 'change:source', this.onSourceChange);
@@ -177,7 +170,16 @@
       }
 
       cell.attr(_.merge({}, this.defaults.attrs, attrs));
-    }
-  });
+    },
 
+    onInputChange: function(cell, value, path) {
+      cell.label(0, {
+        position: .5,
+        attrs: {
+          rect: {fill: 'white'},
+          text: {text: value}
+        }
+      });
+    }
+  })
 })();
