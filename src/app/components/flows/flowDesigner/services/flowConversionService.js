@@ -15,32 +15,21 @@
           return notation.type === 'liveOps.link';
         });
 
-        var notations = _.filter(jjs, function(notation) {
-          return notation.type !== 'liveOps.link';
-        });
-
-        var errors = [];
-
-        var alienese = _.map(notations, function(n) {
-          var notation = {}
-          
-          try {
-            notation = {
-              'rendering-data': {},
-              children: [],
-              parents: []
-            };
+        var alienese = _.map(jjs, function(n) {
+          var notation = {};
 
             // UUIDs of notations from JointJS and activity
             notation.id = n.id;
 
+          notation.children = [];
+          notation.parents = [];
+
+          if (n.type !== 'liveOps.link') {
+            notation['rendering-data'] = {};
+
             // Positional metadata
             notation['rendering-data'].x = n.position.x;
             notation['rendering-data'].y = n.position.y;
-
-            if (n.embeds) {
-              notation.decorations = n.embeds;
-            }
 
             _.each(links, function(link) {
               // Add parents
@@ -48,17 +37,49 @@
               // Add children
               if (link.source.id === n.id) {notation.children.push(link.target.id);}
             });
+          }
 
-            if (n.type === 'liveOps.activity') {
-              notation.type = n.activityType;
-              notation.entity = 'activity';
-              notation.name = n.name;
-              notation.params = FlowNotationService.addActivityParams(n);
-              notation.bindings = n.bindings || {};
 
-              if (n.targeted) {
-                notation.target = n.target;
-              }
+          if (n.embeds) {
+            notation.decorations = n.embeds;
+          }
+
+          _.each(links, function(link) {
+            // Add parents
+            if (link.target.id === n.id) {notation.parents.push(link.source.id);}
+            // Add children
+            if (link.source.id === n.id) {notation.children.push(link.target.id);}
+          });
+
+          if (n.type === 'liveOps.activity') {
+            notation.type = n.activityType;
+            notation.entity = 'activity';
+            notation.name = n.name;
+            notation.params = FlowNotationService.addActivityParams(n);
+            notation.bindings = n.bindings || {};
+          }
+
+          if (n.type === 'liveOps.link') {
+            notation.linkType = n.linkType;
+            notation.entity = 'link';
+            notation.parents.push(n.source.id);
+            notation.children.push(n.target.id);
+            notation.vertices = n.vertices;
+
+            if (n.labels.length > 0) {
+              notation.label = n.labels[0].attrs.text.text.toString();
+            }
+          }
+
+          if (n.type === 'liveOps.activity') {
+            notation.type = n.activityType;
+            notation.entity = 'activity';
+            notation.name = n.name;
+            notation.params = FlowNotationService.addActivityParams(n);
+            notation.bindings = n.bindings || {};
+
+            if (n.targeted) {
+              notation.target = n.target;
             }
 
             if (n.type === 'liveOps.gateway') {
@@ -69,10 +90,6 @@
             if (n.type === 'liveOps.event') {
               notation = _.extend(notation, self.events[n.entity][n.name](n));
             }
-          }
-          catch (e) {
-            errors.push(e);
-            return {}
           }
 
           return notation;
@@ -137,7 +154,6 @@
                   return memo;
                 }, '')
               };
-
             }
 
             if (notation.bindings) {
@@ -176,7 +192,7 @@
               targeted: FlowNotationService.getActivityTargeted(notation),
               target: notation.target || '',
               bindings: notation.bindings || {}
-            };
+            }
 
             var inputs = [];
 
@@ -187,18 +203,28 @@
             activity.inputs = inputs;
 
             memo.push(activity);
+          } else if (notation.entity === 'link') {
+            var label = ((notation.label) ? notation.label.toString() : '');
+
+            var link = {
+              id: notation.id.toString(),
+              type: 'liveOps.link',
+              source: {id: notation.parents[0].toString()},
+              target: {id: notation.children[0].toString()},
+              label: label,
+              labels: [{
+                position: 0.5,
+                attrs: {
+                  rect: {fill: 'white'},
+                  text: {text: label}
+                }}],
+              vertices: notation.vertices,
+              linkType: notation.linkType.toString()
+            }
+
+            memo.push(link);
           }
 
-          if (notation.children) {
-            _.each(notation.children, function(child, index) {
-              memo.push({
-                id: 'link-' + index + '-' + notation.id,
-                type: 'liveOps.link',
-                source: {id: notation.id.toString()},
-                target: {id: child.toString()}
-              });
-            });
-          }
           return memo;
         }, []);
 
