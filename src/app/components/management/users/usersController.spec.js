@@ -45,6 +45,46 @@ describe('users controller', function () {
     expect($scope.selectedTenantUser.$user.isNew()).toBeTruthy();
   }]));
 
+  describe('ON $scope.scenario', function () {
+    it('should return undefined when $scope.selectedTenantUser is undefined', function () {
+      expect($scope.selectedTenantUser).not.toBeDefined();
+
+      var scenario = $scope.scenario();
+
+      expect(scenario).not.toBeDefined();
+    });
+
+    it('should return \'invite:new:user\' when $scope.selectedTenantUser isNew and $user isNew', function () {
+      $scope.create();
+
+      var scenario = $scope.scenario();
+
+      expect(scenario).toEqual('invite:new:user');
+    });
+
+    it('should return \'invite:existing:user\' when $scope.selectedTenantUser isNew and $user is existing', function () {
+      $scope.selectedTenantUser = {
+        isNew: jasmine.createSpy('$scope.selectedTenantUser.isNew()').and.returnValue(true),
+        $user: mockUsers[0]
+      };
+
+      var scenario = $scope.scenario();
+
+      expect(scenario).toEqual('invite:existing:user');
+    });
+
+    it('should return \'invite:existing:user\' when $scope.selectedTenantUser isNew and $user is existing', function () {
+      $scope.selectedTenantUser = {
+        isNew: jasmine.createSpy('$scope.selectedTenantUser.isNew()').and.returnValue(false),
+        $user: mockUsers[0]
+      };
+
+      var scenario = $scope.scenario();
+
+      expect(scenario).toEqual('update');
+    });
+  });
+
   describe('ON fetchTenantUsers', function () {
     it('should be defined', function () {
       expect($scope.fetchTenantUsers).toBeDefined();
@@ -74,5 +114,78 @@ describe('users controller', function () {
         expect($scope.selectedTenantUser).toBeDefined();
         expect($scope.selectedTenantUser.$user).toBeDefined();
       }));
+  });
+
+  describe('ON submit', function () {
+    beforeEach(function () {
+      controller.updateTenantUser = jasmine.createSpy('controller.updateTenantUser');
+      controller.saveNewUserTenantUser = jasmine.createSpy('controller.saveNewUserTenantUser');
+      controller.updateUser = jasmine.createSpy('controller.updateUser');
+    });
+
+    it('should be defined', function () {
+      expect($scope.submit).toBeDefined();
+    });
+
+    it('should call controller.saveNewUserTenantUser WHEN $scope.selectedTenantUser isNew AND $scope.selectedTenantUser.$user.isNew',
+      inject(function () {
+        $scope.create();
+
+        $scope.submit();
+
+        expect(controller.saveNewUserTenantUser).toHaveBeenCalled();
+        expect(controller.updateTenantUser).not.toHaveBeenCalled();
+        expect(controller.updateUser).not.toHaveBeenCalled();
+      }));
+
+    it('should call controller.saveNewUserTenantUser WHEN $scope.selectedTenantUser isNew AND $scope.selectedTenantUser.$user exists',
+      inject(function () {
+        $scope.selectedTenantUser = {
+          isNew: jasmine.createSpy('$scope.selectedTenantUser.isNew()').and.returnValue(true),
+          $user: mockUsers[0]
+        };
+
+        $scope.submit();
+
+        expect(controller.saveNewUserTenantUser).not.toHaveBeenCalled();
+        expect(controller.updateTenantUser).toHaveBeenCalled();
+        expect(controller.updateUser).not.toHaveBeenCalled();
+      }));
+
+    it('should call controller.saveNewUserTenantUser WHEN $scope.selectedTenantUser exists AND $scope.selectedTenantUser.$user exists',
+      inject(function () {
+        $scope.selectedTenantUser = {
+          isNew: jasmine.createSpy('$scope.selectedTenantUser.isNew()').and.returnValue(false),
+          $user: mockUsers[0]
+        };
+
+        $scope.submit();
+
+        expect(controller.saveNewUserTenantUser).not.toHaveBeenCalled();
+        expect(controller.updateTenantUser).not.toHaveBeenCalled();
+        expect(controller.updateUser).toHaveBeenCalled();
+      }));
+  });
+
+  describe('ON controller.updateTenantUser', function () {
+    beforeEach(inject([function () {
+        $scope.selectedTenantUser = new TenantUser({
+          email: mockUsers[0].email
+        });
+        $scope.selectedTenantUser.$user = mockUsers[0];
+      }
+    ]));
+    
+    it('should attempt to save the tenantUser', function() {
+      var result = new TenantUser({
+        userId: mockUsers[0].id
+      });
+      
+      $httpBackend.expect('POST', apiHostname + '/v1/tenants/tenant-id/users').respond(result);
+      
+      controller.updateTenantUser();
+      
+      $httpBackend.flush();
+    });
   });
 });

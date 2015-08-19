@@ -10,8 +10,28 @@ angular.module('liveopsConfigPanel')
       $window.flowSetup = flowSetup;
       $scope.tableConfig = userTableConfig;
 
+      $scope.scenario = function() {
+        if (!$scope.selectedTenantUser) {
+          return;
+        }
+
+        if ($scope.selectedTenantUser.$user.isNew()) {
+          return 'invite:new:user';
+        } else if ($scope.selectedTenantUser.isNew()) {
+          return 'invite:existing:user';
+        } else {
+          return 'update';
+        }
+      };
+
       $scope.fetchTenantUsers = function() {
         return TenantUser.cachedQuery({
+          tenantId: Session.tenant.tenantId
+        });
+      };
+
+      $scope.fetchTenantRoles = function() {
+        return TenantRole.cachedQuery({
           tenantId: Session.tenant.tenantId
         });
       };
@@ -139,7 +159,6 @@ angular.module('liveopsConfigPanel')
         }));
         
         return $q.all(promises);
->>>>>>> refs/remotes/origin/stageing
       };
 
       $scope.$on('table:on:click:create', function() {
