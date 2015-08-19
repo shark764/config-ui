@@ -28,7 +28,12 @@ angular.module('liveopsConfigPanel')
         });
         
         $scope.updateDisplayField = function(modelValue){
-          $q.when($scope.items.$promise).then(function(){
+          var promise = $scope.items.$promise;
+          if (angular.isUndefined(promise)){
+            promise = $q.when($scope.items);
+          }
+          
+          promise.then(function(){
             //Set the display input to show the display name of the pre-existing value, if any.
             if (modelValue && angular.isDefined(modelValue[$scope.destinationPropertyName])){
               var filterCriteria = {};

@@ -10,28 +10,30 @@ describe('loMultibox directive', function(){
   beforeEach(module('gulpAngular'));
   beforeEach(module('liveopsConfigPanel.mock.content'));
 
-  beforeEach(inject(['$compile', '$rootScope', function($compile, _$rootScope_) {
+  beforeEach(inject(['$compile', '$rootScope', '$q', function($compile, _$rootScope_, $q) {
     $scope = _$rootScope_.$new();
     $rootScope = _$rootScope_;
 
     $scope.items = [{
       displayname: 'the first',
       id: '123',
-      otherprop: 'Red'
+      otherprop: 'Red',
+      getDisplay: jasmine.createSpy('getDisplay')
     }, {
       displayname: 'second',
       id: '456',
-      otherprop: 'Blue'
+      otherprop: 'Blue',
+      getDisplay: jasmine.createSpy('getDisplay')
     }, {
       displayname: '3',
       id: '789',
-      otherprop: 'Yellow'
+      otherprop: 'Yellow',
+      getDisplay: jasmine.createSpy('getDisplay')
     }];
-
+    
     $scope.model = {importantprop: 'important value'};
 
-
-    element = $compile('<lo-multibox item="items" model="model" resource-name="myresource" name="myinput" display-field="displayname"></lo-multibox>')($scope);
+    element = $compile('<lo-multibox items="items" model="model" resource-name="myresource" name="myinput" display-field="displayname"></lo-multibox>')($scope);
     $scope.$digest();
     isolateScope = element.isolateScope();
   }]));
