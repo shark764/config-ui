@@ -60,7 +60,7 @@ var Shared = function() {
 
   // Shared Form elements
   this.detailsPanel = element(by.id('details-pane'));
-  this.detailsForm = this.detailsPanel.element(by.css('.details-form'));
+  this.detailsForm = this.detailsPanel.element(by.css('.details-pane'));
   this.rightPanel = element(by.id('right-panel'));
   this.bulkActionsPanel = element(by.css('bulk-action-executor.details-pane'));
   this.submitFormBtn = this.detailsPanel.element(by.id('submit-details-btn'));

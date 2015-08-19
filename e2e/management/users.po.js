@@ -3,13 +3,22 @@
 var UserPage = function() {
   this.loadingMessage = element(by.id('.table-message > div:nth-child(1)'));
 
+  this.emailFormField = element(by.model('resource.email'));
+  this.roleFormDropdown = element(by.model('selectedTenantUser.roleId'));
+  this.roleFormDropdownOptions = this.roleFormDropdown.all(by.css('option'));
+  this.roles = ['Administrator', 'Supervisor', 'Agent'];
+  
+  this.inviteNowFormToggle = element(by.model('selectedTenantUser.status'));
+  this.inviteNowHelp = element(by.id('invite-now-help'));
+  this.tenantStatusHelp = element(by.id('tenant-status-help'));
+
   this.firstNameFormField = element(by.model('resource.firstName'));
   this.lastNameFormField = element(by.model('resource.lastName'));
-  this.emailFormField = element(by.model('resource.email'));
   this.passwordFormField = element(by.model('resource.password'));
   this.externalIdFormField = element(by.model('resource.externalId'));
   this.passwordEditFormBtn = element(by.buttonText('Reset Password'));
   this.personalTelephoneFormField = element(by.model('resource.personalTelephone'));
+  this.personalTelephoneHelp = element(by.id('personal-telephone-help'));
   this.activeFormToggle = element(by.model('resource.status'));
 
   this.emailLabel = element(by.id('user-details-email'));
