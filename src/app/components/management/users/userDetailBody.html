@@ -160,7 +160,7 @@
     </div>
   </div>
 
-  <div class="input-group">
+  <div class="input-group" ng-show="'EDIT_STUFF' | hasPermission">
     <label>{{'details.password' | translate}}</label>
     <form-error field="forms.detailsForm.password"
       error-type-api="{{'details.password.error' | translate}}"

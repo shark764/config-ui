@@ -5,7 +5,7 @@
 <loading ng-show="!fetchGroups().$resolved && userGroups && !userGroups.$resolved"></loading>
 
 <div ng-show="fetchGroups().$resolved && userGroups.$resolved" class="detail-group">
-  <ng-form seperate-validation id="addGroup" name="addGroup">
+  <ng-form seperate-validation id="addGroup" name="addGroup" ng-show="'EDIT_STUFF' | hasPermission">
     <type-ahead hover="true" placeholder="{{'details.groups.placeholder' | translate}}" items="filtered" selected-item="selectedGroup" is-required="true"></type-ahead>
     <div>
       <a ng-hide="saving" id="add-group-btn" ng-disabled="!selectedGroup" class="btn" ng-click="save()" title="{{'value.save' | translate}}"><i class="fa fa-plus"></i></a>

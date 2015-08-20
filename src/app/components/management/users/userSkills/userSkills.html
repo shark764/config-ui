@@ -5,7 +5,7 @@
 <loading ng-if="!fetchSkills().$resolved"></loading>
 
 <div ng-show="fetchSkills().$resolved" class="detail-group">
-<ng-form seperate-validation ng-disabled="saving" id="skillsForm" name="skillsForm" ng-show="fetchSkills().$resolved">
+<ng-form seperate-validation ng-disabled="saving" id="skillsForm" name="skillsForm" ng-show="fetchSkills().$resolved && 'EDIT_STUFF' | hasPermission">
   <type-ahead hover="true" placeholder="{{'details.skills.placeholder' | translate}}"
     items="fetchSkills()" selected-item="selectedSkill" is-required="true"></type-ahead>
   <number-slider
