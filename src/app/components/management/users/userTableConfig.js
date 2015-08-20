@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('userTableConfig', ['userStatuses', 'userStates', '$translate', 'Skill', 'Group', 'TenantRole', 'Session', 'UserPermissions'
+  .service('userTableConfig', ['userStatuses', 'userStates', '$translate', 'Skill', 'Group', 'TenantRole', 'Session', 'UserPermissions',
     function (userStatuses, userStates, $translate, Skill, Group, TenantRole, Session, UserPermissions) {
       function getSkillOptions() {
         return Skill.cachedQuery({
