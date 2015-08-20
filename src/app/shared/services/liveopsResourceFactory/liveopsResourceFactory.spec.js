@@ -3,10 +3,50 @@
 /*global jasmine : false */
 
 describe('LiveopsResourceFactory', function () {
+  describe('ON reset', function() {
+    var Resource;
+    
+    beforeEach(module('liveopsConfigPanel'));
+    
+    beforeEach(inject(['LiveopsResourceFactory',
+      function (LiveopsResourceFactory) {
+        Resource = LiveopsResourceFactory.create({
+          endpoint: '/endpoint'
+        });
+      }]));
+    
+    it('should reset object back to $original', function () {
+      var resource = new Resource();
+      resource.$original = {
+        id: 'abc'
+      };
+      
+      resource.id = '123';
+
+      resource.reset();
+      
+      expect(resource.id).toEqual('abc');
+      
+    });
+    
+    it('should ignore $ members', function () {
+      var resource = new Resource();
+      resource.$original = {
+        $id: 'abc'
+      };
+      
+      resource.$id = '123';
+      
+      resource.reset();
+      
+      expect(resource.$id).toEqual('123');
+    });
+  });
+  
   describe('queryCache function', function () {
-    var Resource,
-      $httpBackend,
-      apiHostname;
+    var apiHostname,
+      Resource,
+      $httpBackend;
 
     beforeEach(module('gulpAngular'));
     beforeEach(module('liveopsConfigPanel'));
@@ -14,7 +54,9 @@ describe('LiveopsResourceFactory', function () {
 
     beforeEach(inject(['LiveopsResourceFactory', '$httpBackend', 'apiHostname',
       function (LiveopsResourceFactory, _$httpBackend_, _apiHostname_) {
-        Resource = LiveopsResourceFactory.create('/endpoint');
+        Resource = LiveopsResourceFactory.create({
+          endpoint: '/endpoint'
+        });
         $httpBackend = _$httpBackend_;
         apiHostname = _apiHostname_;
       }]));
@@ -36,7 +78,7 @@ describe('LiveopsResourceFactory', function () {
 
       it('should store a pristine copy of the object returned on get', function () {
 
-          $httpBackend.whenGET(apiHostname + '/endpoint').respond(200, {id: '1'});
+          $httpBackend.expectGET(apiHostname + '/endpoint').respond(200, {id: '1'});
 
           var resource = Resource.get();
 
@@ -47,7 +89,7 @@ describe('LiveopsResourceFactory', function () {
 
       it('should have a function to reset an object back to its original state', function () {
 
-          $httpBackend.whenGET(apiHostname + '/endpoint').respond(200, {id: '1'});
+          $httpBackend.expectGET(apiHostname + '/endpoint').respond(200, {id: '1'});
 
           var resource = Resource.get();
 
@@ -60,7 +102,7 @@ describe('LiveopsResourceFactory', function () {
           expect(resource.id).toEqual('1');
       });
     });
-
+    
     describe('ON cachedQuery', function () {
       beforeEach(inject([
         function () {
@@ -147,7 +189,9 @@ describe('LiveopsResourceFactory', function () {
     ]));
 
     it('should call the $resource constructor', inject(function () {
-      Resource = LiveopsResourceFactory.create('/endpoint');
+      Resource = LiveopsResourceFactory.create({
+        endpoint: '/endpoint'
+      });
 
       expect(resourceSpy).toHaveBeenCalledWith(apiHostname + '/endpoint', jasmine.any(Object), {
         query: jasmine.any(Object),
@@ -159,8 +203,11 @@ describe('LiveopsResourceFactory', function () {
     }));
 
     it('should use given requestUrlFields if defined', inject(function () {
-      Resource = LiveopsResourceFactory.create('/endpoint', undefined, {
-        title: '@title'
+      Resource = LiveopsResourceFactory.create({
+        endpoint: '/endpoint', 
+        requestUrlFields: {
+          title: '@title'
+        }
       });
 
       expect(resourceSpy).toHaveBeenCalledWith(apiHostname + '/endpoint', {
@@ -175,15 +222,11 @@ describe('LiveopsResourceFactory', function () {
     }));
 
     describe('update config', function () {
-      it('should set the interceptor', inject(['SaveInterceptor', function (SaveInterceptor) {
-        LiveopsResourceFactory.create('/endpoint');
-
-        expect(givenConfig.update.interceptor).toEqual(SaveInterceptor);
-      }]));
-
       describe('transformRequest function', function () {
         it('should return empty object when not given any updatefields', inject([function () {
-          LiveopsResourceFactory.create('/endpoint');
+          LiveopsResourceFactory.create({
+            endpoint: '/endpoint'
+          });
           var transformRequest = givenConfig.update.transformRequest;
           var result = transformRequest({
             someProp: 'someValue',
@@ -193,11 +236,13 @@ describe('LiveopsResourceFactory', function () {
         }]));
 
         it('should only return fields given by updatefields', inject([function () {
-          LiveopsResourceFactory.create('/endpoint', [{
-            name: 'myfield'
-          }, {
-            name: 'coolfield'
-          }]);
+          LiveopsResourceFactory.create({
+            endpoint: '/endpoint', 
+            updateFields: [
+              {name: 'myfield'}, 
+              {name: 'coolfield'}
+            ]
+          });
 
           var transformRequest = givenConfig.update.transformRequest;
           var result = transformRequest({
@@ -209,10 +254,13 @@ describe('LiveopsResourceFactory', function () {
         }]));
 
         it('should not include null data if its optional', inject([function () {
-          LiveopsResourceFactory.create('/endpoint', [{
-            name: 'myfield',
-            optional: true
-          }]);
+          LiveopsResourceFactory.create({
+              endpoint: '/endpoint', 
+              updateFields: [{
+                name: 'myfield',
+                optional: true
+              }]
+          });
 
           var transformRequest = givenConfig.update.transformRequest;
           var result = transformRequest({
@@ -222,10 +270,13 @@ describe('LiveopsResourceFactory', function () {
         }]));
 
         it('should include null data if its not optional', inject([function () {
-          LiveopsResourceFactory.create('/endpoint', [{
-            name: 'myfield',
-            optional: false
-          }]);
+          LiveopsResourceFactory.create({
+            endpoint: '/endpoint', 
+            updateFields: [{
+              name: 'myfield',
+              optional: false
+            }]
+          });
 
           var transformRequest = givenConfig.update.transformRequest;
           var result = transformRequest({
@@ -237,7 +288,9 @@ describe('LiveopsResourceFactory', function () {
 
       describe('transformResponse', function () {
         it('should append a function to the transformResponse array to return data from the result object', inject([function () {
-          LiveopsResourceFactory.create('/endpoint');
+          LiveopsResourceFactory.create({
+            endpoint: '/endpoint'
+          });
           var transformResponse = givenConfig.update.transformResponse[givenConfig.update.transformResponse.length - 1];
           var result = transformResponse({
             result: {
@@ -263,7 +316,9 @@ describe('LiveopsResourceFactory', function () {
 
     describe('query config', function () {
       it('should set isArray to true', inject([function () {
-        LiveopsResourceFactory.create('/endpoint');
+        LiveopsResourceFactory.create({
+          endpoint: '/endpoint'
+        });
 
         expect(givenConfig.query.isArray).toBeTruthy();
       }]));
@@ -271,7 +326,9 @@ describe('LiveopsResourceFactory', function () {
 
     describe('prototype save function', function () {
       it('should call $update if the object exists', inject(['$q', function ($q) {
-        Resource = LiveopsResourceFactory.create('/endpoint');
+        Resource = LiveopsResourceFactory.create({
+          endpoint: '/endpoint'
+        });
 
         var resource = new Resource();
         resource.id = 'id1';
@@ -282,7 +339,9 @@ describe('LiveopsResourceFactory', function () {
       }]));
 
       it('should call $save if the object if new', inject(['$q', function ($q) {
-        Resource = LiveopsResourceFactory.create('/endpoint');
+        Resource = LiveopsResourceFactory.create({
+          endpoint: '/endpoint'
+        });
 
         var resource = new Resource();
 
@@ -294,7 +353,9 @@ describe('LiveopsResourceFactory', function () {
 
     describe('prototype postUpdateError function', function () {
       it('should return a promise that is rejected with the given error', inject(function () {
-        Resource = LiveopsResourceFactory.create('/endpoint');
+        Resource = LiveopsResourceFactory.create({
+          endpoint: '/endpoint'
+        });
 
         var resource = new Resource();
         var promise = resource.postUpdateError('some err');

@@ -6,8 +6,8 @@ describe('LoginController', function () {
   beforeEach(module('liveopsConfigPanel'));
   beforeEach(module('gulpAngular'));
 
-  beforeEach(inject(['$q', '$timeout', '$rootScope', '$controller', '$state', '$httpBackend', 'apiHostname',
-    function ($q, $timeout, _$rootScope_, _$controller_, _$state, _$httpBackend_, _apiHostname_) {
+  beforeEach(inject(['$q', '$rootScope', '$controller', '$state', '$httpBackend', 'apiHostname',
+    function ($q, _$rootScope_, _$controller_, _$state, _$httpBackend_, _apiHostname_) {
       $scope = _$rootScope_;
       $state = _$state;
       $httpBackend = _$httpBackend_;

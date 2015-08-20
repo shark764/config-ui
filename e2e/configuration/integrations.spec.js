@@ -181,9 +181,9 @@ describe('The integrations view', function() {
     expect(shared.firstTableRow.element(by.css(integrations.accountColumn)).getText()).toBe(integrations.accountSIDFormField.getAttribute('value'));
     shared.firstTableRow.element(by.css(integrations.statusColumn)).getText().then(function(integrationStatus) {
       if (integrationStatus == 'Enabled') {
-        expect(integrations.statusSwitch.isSelected()).toBeTruthy();
+        expect(integrations.statusSwitchToggle.isSelected()).toBeTruthy();
       } else if (integrationStatus == 'Disabled') {
-        expect(integrations.statusSwitch.isSelected()).toBeFalsy();
+        expect(integrations.statusSwitchToggle.isSelected()).toBeFalsy();
       } else {
         // fail test
         expect(true).toBeFalsy();
@@ -191,26 +191,24 @@ describe('The integrations view', function() {
     });
     shared.firstTableRow.element(by.css(integrations.webRTCColumn)).getText().then(function(integrationWebRTC) {
       if (integrationWebRTC == 'Enabled') {
-        expect(integrations.webRTCFormSwitch.isSelected()).toBeTruthy();
+        expect(integrations.webRTCFormSwitchToggle.isSelected()).toBeTruthy();
       } else if (integrationWebRTC == 'Disabled') {
-        expect(integrations.webRTCFormSwitch.isSelected()).toBeFalsy();
+        expect(integrations.webRTCFormSwitchToggle.isSelected()).toBeFalsy();
       } else {
         // fail test
         expect(true).toBeFalsy();
       };
     });
 
-    // TODO Once integrations can be added
-    // Change selected queue and ensure details are updated
-    /*
+    // Change selected integration and ensure details are updated
     shared.secondTableRow.click();
     expect(integrations.typeHeader.getText()).toContain(shared.secondTableRow.element(by.css(integrations.typeColumn)).getText());
     expect(shared.secondTableRow.element(by.css(integrations.accountColumn)).getText()).toBe(integrations.accountSIDFormField.getAttribute('value'));
     shared.secondTableRow.element(by.css(integrations.statusColumn)).getText().then(function(integrationStatus) {
       if (integrationStatus == 'Enabled') {
-        expect(integrations.statusSwitch.isSelected()).toBeTruthy();
+        expect(integrations.statusSwitchToggle.isSelected()).toBeTruthy();
       } else if (integrationStatus == 'Disabled') {
-        expect(integrations.statusSwitch.isSelected()).toBeFalsy();
+        expect(integrations.statusSwitchToggle.isSelected()).toBeFalsy();
       } else {
         // fail test
         expect(true).toBeFalsy();
@@ -218,15 +216,14 @@ describe('The integrations view', function() {
     });
     shared.secondTableRow.element(by.css(integrations.webRTCColumn)).getText().then(function(integrationWebRTC) {
       if (integrationWebRTC == 'Enabled') {
-        expect(integrations.webRTCFormSwitch.isSelected()).toBeTruthy();
+        expect(integrations.webRTCFormSwitchToggle.isSelected()).toBeTruthy();
       } else if (integrationWebRTC == 'Disabled') {
-        expect(integrations.webRTCFormSwitch.isSelected()).toBeFalsy();
+        expect(integrations.webRTCFormSwitchToggle.isSelected()).toBeFalsy();
       } else {
         // fail test
         expect(true).toBeFalsy();
       };
     });
-    */
   });
 
   it('should include valid Integration fields when editing an existing Integration', function() {

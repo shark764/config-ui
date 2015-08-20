@@ -34,6 +34,11 @@ angular.module('liveopsConfigPanel')
           return tenantGroupUser.$save({
             groupId: action.selectedGroup.id,
             tenantId: Session.tenant.tenantId
+          }, function(groupUser){
+            user.groups.push({
+              id: groupUser.groupId,
+              name: groupUser.groupName
+            });
           });
         },
         canExecute: function (action) {
@@ -50,6 +55,13 @@ angular.module('liveopsConfigPanel')
             groupId: action.selectedGroup.id,
             tenantId: Session.tenant.tenantId,
             memberId: user.id
+          }, function(){
+            for(var i = 0; i < user.groups.length; i++){
+              if (user.groups[i].id === action.selectedGroup.id){
+                user.groups.removeItem(user.groups[i]);
+                break;
+              }
+            }
           });
         },
         canExecute: function (action) {

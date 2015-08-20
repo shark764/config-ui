@@ -27,9 +27,7 @@ describe('QueueController', function() {
 
       $httpBackend = $injector.get('$httpBackend');
       
-      $controller('ContentController', {'$scope': $scope});
       $controller('QueueController', {'$scope': $scope, '$stateParams' : routeParams});
-      $httpBackend.flush();
     }]));
     
     

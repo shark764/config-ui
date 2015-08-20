@@ -1,28 +1,45 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .filter('selectedTableOptions', ['selectedOptionsFilter',
-    function (selectedOptionsFilter) {
+  .filter('selectedTableOptions', ['$parse', '$filter',
+    function ($parse, $filter) {
       return function (items, fields) {
-        var filtered = items;
-
-        angular.forEach(fields, function(field){
-          angular.forEach(field.options, function(option){
-
-            // not ideal; this makes assumptions about how lists are going to be
-            // used (ie. no items selected = all selected) which may not be useful
-            // @TODO: find a better way to handle this entire flow
-
-            // if any options are checked, we need to do a filter;
-            // assume non-checked = all selected; therefor no filter required
-            if(option.checked){
-              filtered = selectedOptionsFilter(items, field);
-              return;
+        var filtered = [];
+        
+        if (angular.isUndefined(items)){
+          return filtered;
+        }
+        
+        var nothingChecked = true;
+        for(var fieldIndex = 0; fieldIndex < fields.length; fieldIndex++) {
+          var field = fields[fieldIndex];
+          if(!$parse('header.options')(field)) {
+            continue;
+          }
+          
+          var options = $filter('invoke')(field.header.options);
+          
+          for(var optionIndex = 0; optionIndex < options.length; optionIndex++) {
+            var option = options[optionIndex];
+            nothingChecked = nothingChecked && !option.checked;
+            if(!option.checked){
+              continue;
             }
-          });
-        });
+            
+            var parseValue = $parse(field.header.valuePath ? field.header.valuePath : 'value');
+            var value = $filter('invoke')(parseValue(option), option);
+            
+            for(var itemIndex = 0; itemIndex < items.length; itemIndex++) {
+              var item = items[itemIndex];
+              var lookup = field.lookup ? field.lookup : field.name;
+              if ($filter('matchesField')(item, lookup, value)) {
+                filtered.push(item);
+              }
+            }
+          }
+        }
 
-        return filtered;
+        return nothingChecked ? items : filtered;
       };
     }
   ]);

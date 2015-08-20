@@ -1,14 +1,17 @@
-<div ng-if="originalResource.id" id="user-detail-header">
+<div ng-if="!selectedTenantUser.isNew()" id="user-detail-header">
   <div class="mystery-man pull-left">
     <i class="fa fa-user"></i>
   </div>
 
   <div class="info">
-    <h1>{{originalResource.firstName}} {{originalResource.lastName}}</h1>
+    <h1>{{selectedTenantUser.$user.$original.getDisplay()}}</h1>
 
     <div class="details">
       <div>
-        <toggle class="status-toggle" ng-model="resource.status" true-value="enabled" false-value="disabled" ng-disabled="Session.user.id === resource.id"
+        <toggle class="status-toggle" name="status"
+          ng-model="selectedTenantUser.status"
+          true-value="accepted" false-value="removed"
+          ng-disabled="Session.user.id === selectedTenantUser.id || (selectedTenantUser.status !== 'accepted' && selectedTenantUser.status !== 'removed')"
           confirm-disable-message="{{'user.details.disable.confirm' | translate}}"
           confirm-enable-message="{{'user.details.enable.confirm' | translate}}">
         </toggle>
@@ -17,19 +20,19 @@
       <div>
         <b audit-text
           translation="value.createdby.time"
-          user-id="originalResource.createdBy"
-          date="originalResource.created">
+          user-id="selectedTenantUser.$original.createdBy"
+          date="selectedTenantUser.$original.created">
         </b>
         <br/>
-        <b audit-text ng-if="!!originalResource.updatedBy"
+        <b audit-text ng-if="!!selectedTenantUser.$original.updatedBy"
           translation="value.updatedby"
-          user-id="originalResource.updatedBy"
-          date="originalResource.updated">
+          user-id="selectedTenantUser.$original.updatedBy"
+          date="selectedTenantUser.$original.updated">
         </b>
       </div>
     </div>
   </div>
 </div>
 
-<h1 ng-if="! originalResource.id">{{'user.details.creating' | translate}}</h1>
+<h1 ng-if="selectedTenantUser.isNew()">{{'user.details.creating' | translate}}</h1>
 

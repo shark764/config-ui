@@ -1,97 +1,188 @@
-<div ng-if="! resource.id">
+<div class="new-user-email" ng-if="scenario().indexOf('invite') === 0">
   <div class="divider-header first-header">
-    <h4>Login</h4>
+    <h4>Login Information</h4>
   </div>
 
   <div class="input-group">
     <label>{{'details.email' | translate}} *</label>
-    <form-error field="detailsForm.email"
+    <form-error field="forms.detailsForm.email"
+      error-type-api="{{'details.email.error' | translate}}"
       error-type-required="{{'details.email.error' | translate}}"
       error-type-email="{{'details.email.invalid' | translate}}">
-      </form-error>
+    </form-error>
     <div>
-      <input autocomplete="off" ng-model="resource.email" name="email" type="email" ng-required="true" api-error></input>
+      <input autocomplete="off" name="email" type="email" ng-required="true"
+        ng-model="selectedTenantUser.email"
+        ng-resource="selectedTenantUser"
+        ng-model-options="{ updateOn: 'blur', allowInvalid: true }"
+        duplicate-email
+        api-error>
+      </input>
+      <i class="email-verify-spinner" ng-class="{'fa fa-spin fa-spinner' : forms.detailsForm.email.$pending.duplicateUsername}"></i>
     </div>
   </div>
 
   <div class="input-group">
-    <label>{{'details.password' | translate}} *</label>
-    <form-error field="detailsForm.password"
-      error-type-required="{{'details.password.error' | translate}}"></form-error>
+    <label>{{'details.role' | translate}} *</label>
+    <form-error
+      field="forms.detailsForm.roleId"
+      error-type-required="{{'details.role.error' | translate}}">
+    </form-error>
     <div>
-      <input autocomplete="off" ng-model="resource.password" name="password" type="password" ng-required="true"></input>
+      <select ng-model="selectedTenantUser.roleId" name="roleId" required
+        ng-options="role.id as role.name for role in fetchTenantRoles()">
+        <option value="" ng-disabled="true">
+          {{'users.details.role.select' | translate}}
+        </option>
+      </select>
     </div>
+  </div>
+
+  <div class="input-group">
+    <label>{{'details.inviteNow' | translate}}</label>
+    <div>
+      <toggle ng-model="selectedTenantUser.status"
+        true-value="invited"
+        false-value="pending"
+        ng-init="selectedTenantUser.status = 'invited'"
+        name="inviteNow">
+      </toggle>
+      <help-icon translate-value="details.inviteNow.help"></help-icon>
+    </div>
+  </div>
+
+  <div class="input-group" ng-show="forms.detailsForm.email.$error.duplicateEmail">
+    <div class="lo-alert">{{'details.email.alreadyExists' | translate}}</div>
   </div>
 </div>
 
 <div class="logical-group">
-  <div class="divider-header" ng-class="{'first-header' : resource.id}">
-    <h4>{{'details' | translate}}</h4>
-  </div>
+  <div ng-if="scenario() === 'update'">
+    <div class="divider-header first-header">
+      <h4>{{'details.tenantStatus' | translate}}</h4>
+    </div>
 
-  <div class="input-group">
-    <label>{{'details.firstName' | translate}} *</label>
-    <form-error field="detailsForm.firstName"
-      error-type-required="{{'details.firstName.error' | translate}}"></form-error>
-    <div>
-      <input ng-required="true" ng-model="resource.firstName" name="firstName" type="text"></input>
+    <div class="input-group">
+      <label>{{'details.inviteStatus' | translate}}</label>
+      <div>
+        <tenant-user-status ng-model="selectedTenantUser.status"></tenant-user-status>
+        <help-icon translate-value="details.tenantStatus.help"></help-icon>
+      </div>
+    </div>
+    
+    <div class="input-group">
+      <label>{{'details.role' | translate}} *</label>
+      <form-error field="forms.detailsForm.roleId"
+        error-type-required="{{'details.role.error' | translate}}">
+      </form-error>
+      <div>
+        <select ng-model="selectedTenantUser.roleId" name="roleId" required
+          ng-options="role.id as role.name for role in fetchTenantRoles()">
+          <option value="" ng-disabled="true">
+            {{'users.details.role.select' | translate}}
+          </option>
+        </select>
+      </div>
+    </div>
+    
+    <div ng-if="selectedTenantUser.status !== 'accepted'" class="input-group">
+      <label></label>
+      <div>
+        <input type="button" class="btn" ng-click="sendInvite()"
+          value="{{'user.details.invitation.resend' | translate}}">
+      </div>
     </div>
   </div>
 
-  <div class="input-group">
-    <label>{{'details.lastName' | translate}} *</label>
-    <form-error field="detailsForm.lastName"
-      error-type-required="{{'details.lastName.error' | translate}}"></form-error>
-    <div>
-      <input required ng-model="resource.lastName" name="lastName" type="text"></input>
+  <div disable-contents="scenario() === 'invite:existing:user'">
+    <div class="divider-header">
+      <h4>{{'details' | translate}}</h4>
     </div>
-  </div>
 
-  <div class="input-group">
-    <label>{{'details.personalTelephone' | translate}}</label>
-      <form-error field="detailsForm.personalTelephone"
-        error-type-phone-number="{{'details.phoneNumber.error' | translate}}"></form-error>
-    <div>
-      <input name="personalTelephone" type="tel" ng-model="resource.personalTelephone" api-error>
-      <help-icon text="Personal Telephone should be E.164 format"></help-icon>
+    <div class="input-group">
+      <label>{{'details.firstName' | translate}}</label>
+      <form-error field="forms.detailsForm.firstName"
+        error-type-api="{{'details.firstName.error' | translate}}">
+      </form-error>
+      <div>
+
+        <input name="firstName" type="text"
+          ng-model="selectedTenantUser.$user.firstName"></input>
+      </div>
     </div>
-  </div>
 
-  <div class="input-group">
-    <label>{{'details.externalId' | translate}}</label>
-    <form-error field="detailsForm.externalId"></form-error>
-    <div>
-      <input ng-model="resource.externalId" name="externalId" type="text"></input>
+    <div class="input-group">
+      <label>{{'details.lastName' | translate}}</label>
+      <form-error field="forms.detailsForm.lastName"
+        error-type-api="{{'details.lastName.error' | translate}}">
+      </form-error>
+      <div>
+        <input name="lastName" type="text"
+          ng-model="selectedTenantUser.$user.lastName">
+      </input>
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label>{{'details.personalTelephone' | translate}}</label>
+      <form-error field="forms.detailsForm.personalTelephone"
+        error-type-phone-number="{{'details.phoneNumber.error' | translate}}">
+      </form-error>
+      <div>
+        <input name="personalTelephone" type="tel"
+          ng-model="selectedTenantUser.$user.personalTelephone"
+          api-error>
+        <help-icon text="Personal Telephone should be E.164 format"></help-icon>
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label>{{'details.externalId' | translate}}</label>
+      <form-error field="forms.detailsForm.externalId"
+        error-type-api="Must be a String">
+      </form-error>
+      <div>
+        <input ng-model="selectedTenantUser.$user.externalId" name="externalId" type="text"></input>
+      </div>
     </div>
   </div>
 </div>
 
-<div ng-if="resource.id" class="logical-group">
+<div ng-if="scenario() === 'update'" class="logical-group">
   <div class="divider-header">
-    <h4>Login</h4>
+    <h4>{{'details.login' | translate}}</h4>
   </div>
 
   <div class="input-group">
     <label>{{'details.email' | translate}}</label>
     <div>
-      <span id="user-details-email">{{resource.email}}</span>
+      <span id="user-details-email">{{selectedTenantUser.email}}</span>
     </div>
   </div>
 
   <div class="input-group">
     <label>{{'details.password' | translate}}</label>
-    <form-error field="detailsForm.password"
-      error-type-required="{{'details.password.error' | translate}}"></form-error>
+    <form-error field="forms.detailsForm.password"
+      error-type-api="{{'details.password.error' | translate}}"
+      error-type-required="{{'details.password.error' | translate}}">
+    </form-error>
     <div>
-      <input type="button" class="btn" ng-hide="detailsForm.password.$dirty" ng-click="detailsForm.password.$setDirty()" value="{{'user.details.password.reset' | translate}}">
-      <input ng-required="detailsForm.password.$dirty" autocomplete="off" ng-model="resource.password" name="password" type="password" ng-show="detailsForm.password.$dirty"></input>
+      <input type="button" class="btn"
+        ng-hide="forms.detailsForm.password.$dirty"
+        ng-click="forms.detailsForm.password.$setDirty()"
+        value="{{'user.details.password.reset' | translate}}">
+      <input name="password" type="password"
+        ng-required="forms.detailsForm.password.$dirty"
+        autocomplete="off" ng-model="selectedTenantUser.$user.password"
+        ng-show="forms.detailsForm.password.$dirty">
+      </input>
     </div>
   </div>
 </div>
 
 <div class="clear"></div>
 
-<div ng-if="resource.id">
-  <user-skills user="resource"></user-skills>
-  <user-groups user="resource"></user-groups>
+<div ng-if="scenario() === 'update'">
+  <user-skills user="selectedTenantUser"></user-skills>
+  <user-groups user="selectedTenantUser"></user-groups>
 </div>

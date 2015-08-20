@@ -1,0 +1,15 @@
+.lo-alert {
+  background-color: $accent-light;
+  border: 2px solid darken($accent-light, 5);
+  @include border-radius();
+  color: $main-color;
+  margin: 10px 0;
+  padding: 10px;
+  width: 100%;
+}
+
+.lo-alert.error {
+  background-color: #FFBBBB;
+  border: 1px solid #D72727;
+  color: #D72727;
+}

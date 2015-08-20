@@ -3,9 +3,9 @@
 var MediaPage = function() {
   this.creatingMediaHeader = element(by.css('.detail-header-pane'));
 
-  this.nameFormField = element(by.model('resource.name'));
-  this.sourceFormField = element(by.model('resource.source'));
-  this.typeFormDropdown = element(by.model('resource.type'));
+  this.nameFormField = element(by.model('selectedMedia.name'));
+  this.sourceFormField = element(by.model('selectedMedia.source'));
+  this.typeFormDropdown = element(by.model('selectedMedia.type'));
   this.requiredError = element.all(by.css('.error'));
 
   this.nameColumn = 'td:nth-child(2)';

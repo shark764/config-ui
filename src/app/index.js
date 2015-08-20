@@ -2,7 +2,7 @@
 
 angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigPanel.config', 'pascalprecht.translate', 'ngCookies', 'ngMessages', 'ngSanitize', 'toastr', 'ngLodash', 'teljs', 'flow-library'])
   .config(['$stateProvider', '$urlRouterProvider', '$translateProvider', 'toastrConfig', function($stateProvider, $urlRouterProvider, $translateProvider, toastrConfig) {
-    
+
     $urlRouterProvider.otherwise(function($injector){
       var Session = $injector.get('Session');
       if (Session.isAuthenticated()){
@@ -15,6 +15,7 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
     $stateProvider
       .state('content', {
         abstract: true,
+        url: '?messageKey', //Needs URL so stateparams works for the controller
         templateUrl: 'app/components/content/content.html',
         controller: 'ContentController',
         resolve: {
@@ -190,7 +191,7 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
         }
       })
       .state('login', {
-        url: '/login',
+        url: '/login?messageKey',
         templateUrl: 'app/components/login/login.html',
         controller: 'LoginController',
         isPublic: true
@@ -201,16 +202,33 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
         controller: 'UserProfileController',
         secure: true
       })
-      .state('content.invites', {
-        url: '/invites?id',
-        templateUrl: 'app/components/invites/invites.html',
-        controller: 'InvitesController',
-        secure: true
-      })
       .state('content.reports', {
         url: '/reports?id',
         templateUrl: 'app/components/reports/reports.html',
         controller: 'ReportsController'
+      })
+      .state('invite-accept', {
+        url: '/invite-accept?userId&tenantId&token',
+        templateUrl: 'app/components/inviteAccept/inviteAccept.html',
+        controller: 'InviteAcceptController',
+        isPublic: true,
+        resolve: {
+          invitedUser: ['$stateParams', 'Session', 'User', function($stateParams, Session, User) {
+            Session.setToken('Token ' + $stateParams.token);
+            
+            return User.get({
+              id: $stateParams.userId
+            }).$promise;
+          }],
+          invitedTenantUser: ['$stateParams', 'Session', 'TenantUser', function($stateParams, Session, TenantUser) {
+            Session.setToken('Token ' + $stateParams.token);
+            
+            return TenantUser.get({
+              id: $stateParams.userId,
+              tenantId: $stateParams.tenantId
+            }).$promise;
+          }]
+        }
       });
 
     angular.extend(toastrConfig, {
