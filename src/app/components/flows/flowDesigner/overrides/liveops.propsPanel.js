@@ -113,8 +113,6 @@
       return parseFloat(a.index) < parseFloat(b.index);
     });
 
-    console.log(inputs);
-
     // Iterate over the inputs on the notation, inserting the
     // appropriate type at the appropriate location within
     // the template
@@ -187,7 +185,6 @@
           scope.notation.model.onInputChange(model, value, input.path);
 
           if (input.refresh) {
-            console.log('emmiting rebuild');
             scope.$emit('rebuild')
           }
         };

@@ -158,7 +158,6 @@
     },
 
     onInputChange: function(cell, value, path) {
-      console.log(path)
       if (path === 'label') {
         cell.label(0, {
           position: .5,
