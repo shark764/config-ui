@@ -62,6 +62,7 @@
           // Dont render the properties panel if they clicked on a gateway
           if (notation.model.attributes.type === 'liveOps.gateway') { return graph.utils.hidePropertiesPanel(); }
 
+
           // Don't render the properties panel if there are no inputs on the thing they clicked on
           if (FlowNotationService.buildInputPanel(notation.model).length === 0) { return graph.utils.hidePropertiesPanel(); }
 
@@ -156,7 +157,8 @@
           search: {
             'liveOps.activity': ['content'],
             'liveOps.event': ['entity', 'name'],
-            'liveOps.gateway': ['gatewayType']
+            'liveOps.gateway': ['gatewayType'],
+            'liveOps.template': ['content']
           },
           groups: {
             activity: {
@@ -171,6 +173,10 @@
               label: 'Gateways',
               index: 3
             },
+            templates: {
+              label: 'Templates',
+              index: 4
+            }
           }
         });
 
@@ -179,6 +185,7 @@
         FlowPaletteService.loadGateways(stencil);
         FlowPaletteService.loadEvents(stencil);
         FlowPaletteService.loadActivities(stencil);
+        FlowPaletteService.loadTemplates(stencil);
         _.each(stencil.graphs, function(graph) {
           joint.layout.GridLayout.layout(graph, {
             columns: 3,

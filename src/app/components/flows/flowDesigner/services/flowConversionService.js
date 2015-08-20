@@ -44,21 +44,6 @@
             notation.decorations = n.embeds;
           }
 
-          _.each(links, function(link) {
-            // Add parents
-            if (link.target.id === n.id) {notation.parents.push(link.source.id);}
-            // Add children
-            if (link.source.id === n.id) {notation.children.push(link.target.id);}
-          });
-
-          if (n.type === 'liveOps.activity') {
-            notation.type = n.activityType;
-            notation.entity = 'activity';
-            notation.name = n.name;
-            notation.params = FlowNotationService.addActivityParams(n);
-            notation.bindings = n.bindings || {};
-          }
-
           if (n.type === 'liveOps.link') {
             notation.linkType = n.linkType;
             notation.entity = 'link';

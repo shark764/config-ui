@@ -6,6 +6,14 @@
       activities: [],
       events: [],
       gateways: [],
+      templates: [],
+
+      registerTemplate: function(alieneseJSON) {
+        var self = this;
+        if (!_.contains(self.templates, alieneseJSON)) {
+          self.templates.push(alieneseJSON);
+        }
+      },
 
       registerActivity: function(alieneseJSON) {
         var self = this;
@@ -58,6 +66,14 @@
         //if we're dealing with a link
         if (modelType === 'liveOps.link') {
           return model.get('inputs');
+        }
+
+        //if we're dealing with a template
+        if (modelType === 'liveOps.template') {
+          var template = _.findWhere(self.templates, {name: model.get('name')});
+          console.log(model);
+          console.log(self.templates);
+          return template.inputs;
         }
       },
 

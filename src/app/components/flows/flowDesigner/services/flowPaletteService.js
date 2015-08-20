@@ -70,6 +70,33 @@
             FlowNotationService.registerActivity(notation);
           });
         });
+      },
+
+      loadTemplates: function(palette) {
+        var self = this;
+        
+        palette.load(_.map(self.data.templates, function(template){
+          var tmp = new joint.shapes.liveOps.template({
+            content: template.label,
+            type: 'liveOps.template',
+            name: template.name,
+            params: _.reduce(template.params, function(memo, value) {
+              if (_.has(value, 'default')) {
+                memo[value.key] = value.default;
+              }
+              else {
+                memo[value.key] = null;
+              }
+              return memo;
+            }, {})
+          });
+          tmp.attributes.inputs = tmp.attributes.inputs.concat(template.inputs);
+          return tmp;
+        }), 'templates');
+
+        _.each(self.data.templates, function(notation) {
+          FlowNotationService.registerTemplate(notation);
+        });
       }
     };
   }
