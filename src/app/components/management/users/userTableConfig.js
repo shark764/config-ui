@@ -105,7 +105,10 @@ angular.module('liveopsConfigPanel')
           }
         }],
         'orderBy': '$user.$original.lastName',
-        'title': $translate.instant('user.table.title')
+        'title': $translate.instant('user.table.title'),
+        'showBulkActions': Session.hasPermission('VIEW_STUFF'),
+        'showCreate': Session.hasPermission('VIEW_STUFF')
+        //'showCreate': Session.hasPermissionInList(['PLATFORM_CREATE_USERS', 'PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'MANAGE_TENANT_ENROLLMENT'])
       };
     }
   ]);

@@ -31,7 +31,8 @@ angular.module('liveopsConfigPanel')
         }],
         'searchOn' : ['$original.source', '$original.name'],
         'orderBy' : '$original.name',
-        'title' : $translate.instant('media.table.title')
+        'title' : $translate.instant('media.table.title'),
+        'showBulkActions': false
       };
     }]
   );

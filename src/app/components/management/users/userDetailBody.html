@@ -57,7 +57,7 @@
 </div>
 
 <div class="logical-group">
-  <div ng-if="scenario() === 'update'">
+  <div ng-if="scenario() === 'update'" disable-contents="! (['VIEW_STUFF'] | hasPermission)" readonly>
     <div class="divider-header first-header">
       <h4>{{'details.tenantStatus' | translate}}</h4>
     </div>

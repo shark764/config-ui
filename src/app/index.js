@@ -44,7 +44,25 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
         url: '/users?id',
         templateUrl: 'app/components/management/users/users.html',
         controller: 'UsersController',
-        reloadOnSearch: false
+        reloadOnSearch: false,
+        resolve: {
+          hasPermission: ['Session', '$state', '$q', '$timeout', function(Session, $state, $q, $timeout) {
+            var deferred = $q.defer();
+            
+            $timeout(function(){
+              if (! Session.hasPermissionInList(['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'VIEW_ALL_USERS', 'MANAGE_ALL_USER_EXTENSIONS', 'MANAGE_ALL_GROUP_USERS', 'MANAGE_ALL_USER_SKILLS', 'MANAGE_ALL_USER_LOCATIONS', 'MANAGE_TENANT_ENROLLMENT'])){
+                $state.go('content.userprofile', {
+                  messageKey: 'permissions.unauthorized.message'
+                }); 
+                deferred.reject();
+              } else {
+                deferred.resolve();
+              }
+            });
+            
+            return deferred.promise;
+          }]
+        }
       })
       .state('content.management.skills', {
         url: '/skills?id',
