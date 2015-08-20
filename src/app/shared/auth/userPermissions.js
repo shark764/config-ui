@@ -1,7 +1,9 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('UserPermissions', ['Session', function (Session) {
+  .service('UserPermissions', ['Session', '$state', '$q', '$timeout', function (Session, $state, $q, $timeout) {
+      var self = this;
+    
       this.hasPermission = function(permissionKey){
         var permissions = [];
         permissions.push.apply(permissions, Session.platformPermissions);
@@ -25,5 +27,22 @@ angular.module('liveopsConfigPanel')
         
         return false;
       };
+      
+      this.resolvePermissions = function(permissionList){
+        var deferred = $q.defer();
+        
+        $timeout(function(){
+          if (! self.hasPermissionInList(permissionList)){
+            $state.go('content.userprofile', {
+              messageKey: 'permissions.unauthorized.message'
+            }); 
+            deferred.reject();
+          } else {
+            deferred.resolve();
+          }
+        });
+        
+        return deferred.promise;
+      }
     }
   ]);

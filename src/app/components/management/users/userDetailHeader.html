@@ -14,7 +14,7 @@
           ng-disabled="(Session.user.id === selectedTenantUser.id || (selectedTenantUser.status !== 'accepted' && selectedTenantUser.status !== 'disabled'))"
           confirm-disable-message="{{'user.details.disable.confirm' | translate}}"
           confirm-enable-message="{{'user.details.enable.confirm' | translate}}"
-          disable-contents="! (['VIEW_STUFF'] | hasPermission)">
+          disable-contents="! (['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'MANAGE_TENANT_ENROLLMENT'] | hasPermission)">
         </toggle>
       </div>
 

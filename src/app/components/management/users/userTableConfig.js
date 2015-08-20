@@ -106,7 +106,7 @@ angular.module('liveopsConfigPanel')
         }],
         'orderBy': '$user.$original.lastName',
         'title': $translate.instant('user.table.title'),
-        //'showBulkActions': UserPermissions.hasPermission('EDIT_STUFF'),
+        'showBulkActions': UserPermissions.hasPermission('PLATFORM_MANAGE_ALL_USERS'),
         'showCreate': UserPermissions.hasPermissionInList(['PLATFORM_CREATE_USERS', 'PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'MANAGE_TENANT_ENROLLMENT'])
       };
     }

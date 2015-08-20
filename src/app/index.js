@@ -46,21 +46,8 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
         controller: 'UsersController',
         reloadOnSearch: false,
         resolve: {
-          hasPermission: ['UserPermissions', '$state', '$q', '$timeout', function(UserPermissions, $state, $q, $timeout) {
-            var deferred = $q.defer();
-            
-            $timeout(function(){
-              if (! UserPermissions.hasPermissionInList(['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'VIEW_ALL_USERS', 'MANAGE_ALL_USER_EXTENSIONS', 'MANAGE_ALL_GROUP_USERS', 'MANAGE_ALL_USER_SKILLS', 'MANAGE_ALL_USER_LOCATIONS', 'MANAGE_TENANT_ENROLLMENT'])){
-                $state.go('content.userprofile', {
-                  messageKey: 'permissions.unauthorized.message'
-                }); 
-                deferred.reject();
-              } else {
-                deferred.resolve();
-              }
-            });
-            
-            return deferred.promise;
+          hasPermission: ['UserPermissions', function(UserPermissions) {
+            return UserPermissions.resolvePermissions(['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'VIEW_ALL_USERS', 'MANAGE_ALL_USER_EXTENSIONS', 'MANAGE_ALL_GROUP_USERS', 'MANAGE_ALL_USER_SKILLS', 'MANAGE_ALL_USER_LOCATIONS', 'MANAGE_TENANT_ENROLLMENT']);
           }]
         }
       })
@@ -68,13 +55,23 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
         url: '/skills?id',
         templateUrl: 'app/components/management/skills/skills.html',
         controller: 'SkillsController',
-        reloadOnSearch: false
+        reloadOnSearch: false,
+        resolve: {
+          hasPermission: ['UserPermissions', function(UserPermissions) {
+            return UserPermissions.resolvePermissions(['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'VIEW_ALL_SKILLS', 'MANAGE_ALL_SKILLS', 'MANAGE_ALL_USER_SKILLS', 'MANAGE_TENANT_ENROLLMENT']);
+          }]
+        }
       })
       .state('content.management.groups', {
         url: '/groups?id',
         templateUrl: 'app/components/management/groups/groups.html',
         controller: 'GroupsController',
-        reloadOnSearch: false
+        reloadOnSearch: false,
+        resolve: {
+          hasPermission: ['UserPermissions', function(UserPermissions) {
+            return UserPermissions.resolvePermissions(['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'VIEW_ALL_GROUPS', 'MANAGE_ALL_GROUPS', 'MANAGE_ALL_GROUP_USERS', 'MANAGE_ALL_GROUP_OWNERS', 'MANAGE_TENANT_ENROLLMENT']);
+          }]
+        }
       })
       .state('content.configuration', {
         abstract: true,
