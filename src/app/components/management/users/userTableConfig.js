@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('userTableConfig', ['userStatuses', 'userStates', '$translate', 'Skill', 'Group', 'TenantRole', 'Session',
-    function (userStatuses, userStates, $translate, Skill, Group, TenantRole, Session) {
+  .service('userTableConfig', ['userStatuses', 'userStates', '$translate', 'Skill', 'Group', 'TenantRole', 'Session', 'UserPermissions'
+    function (userStatuses, userStates, $translate, Skill, Group, TenantRole, Session, UserPermissions) {
       function getSkillOptions() {
         return Skill.cachedQuery({
           tenantId: Session.tenant.tenantId
@@ -106,8 +106,8 @@ angular.module('liveopsConfigPanel')
         }],
         'orderBy': '$user.$original.lastName',
         'title': $translate.instant('user.table.title'),
-        //'showBulkActions': Session.hasPermission('EDIT_STUFF'),
-        'showCreate': Session.hasPermissionInList(['PLATFORM_CREATE_USERS', 'PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'MANAGE_TENANT_ENROLLMENT'])
+        //'showBulkActions': UserPermissions.hasPermission('EDIT_STUFF'),
+        'showCreate': UserPermissions.hasPermissionInList(['PLATFORM_CREATE_USERS', 'PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'MANAGE_TENANT_ENROLLMENT'])
       };
     }
   ]);

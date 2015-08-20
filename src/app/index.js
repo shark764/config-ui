@@ -46,11 +46,11 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
         controller: 'UsersController',
         reloadOnSearch: false,
         resolve: {
-          hasPermission: ['Session', '$state', '$q', '$timeout', function(Session, $state, $q, $timeout) {
+          hasPermission: ['UserPermissions', '$state', '$q', '$timeout', function(UserPermissions, $state, $q, $timeout) {
             var deferred = $q.defer();
             
             $timeout(function(){
-              if (! Session.hasPermissionInList(['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'VIEW_ALL_USERS', 'MANAGE_ALL_USER_EXTENSIONS', 'MANAGE_ALL_GROUP_USERS', 'MANAGE_ALL_USER_SKILLS', 'MANAGE_ALL_USER_LOCATIONS', 'MANAGE_TENANT_ENROLLMENT'])){
+              if (! UserPermissions.hasPermissionInList(['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'VIEW_ALL_USERS', 'MANAGE_ALL_USER_EXTENSIONS', 'MANAGE_ALL_GROUP_USERS', 'MANAGE_ALL_USER_SKILLS', 'MANAGE_ALL_USER_LOCATIONS', 'MANAGE_TENANT_ENROLLMENT'])){
                 $state.go('content.userprofile', {
                   messageKey: 'permissions.unauthorized.message'
                 }); 
