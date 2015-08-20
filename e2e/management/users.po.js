@@ -3,23 +3,25 @@
 var UserPage = function() {
   this.loadingMessage = element(by.id('.table-message > div:nth-child(1)'));
 
-  this.emailFormField = element(by.model('resource.email'));
+  this.emailFormField = element(by.model('selectedTenantUser.email'));
   this.roleFormDropdown = element(by.model('selectedTenantUser.roleId'));
   this.roleFormDropdownOptions = this.roleFormDropdown.all(by.css('option'));
   this.roles = ['Administrator', 'Supervisor', 'Agent'];
-  
+
   this.inviteNowFormToggle = element(by.model('selectedTenantUser.status'));
   this.inviteNowHelp = element(by.id('invite-now-help'));
+  this.tenantStatus = element(by.model('selectedTenantUser.status'));
   this.tenantStatusHelp = element(by.id('tenant-status-help'));
+  this.resendInvitationBtn = element(by.id('resend-invitation-btn'));
 
-  this.firstNameFormField = element(by.model('resource.firstName'));
-  this.lastNameFormField = element(by.model('resource.lastName'));
-  this.passwordFormField = element(by.model('resource.password'));
-  this.externalIdFormField = element(by.model('resource.externalId'));
+  this.firstNameFormField = element(by.model('selectedTenantUser.$user.firstName'));
+  this.lastNameFormField = element(by.model('selectedTenantUser.$user.lastName'));
+  this.passwordFormField = element(by.model('selectedTenantUser.$user.password'));
+  this.externalIdFormField = element(by.model('selectedTenantUser.$user.externalId'));
   this.passwordEditFormBtn = element(by.buttonText('Reset Password'));
-  this.personalTelephoneFormField = element(by.model('resource.personalTelephone'));
+  this.personalTelephoneFormField = element(by.model('selectedTenantUser.$user.personalTelephone'));
   this.personalTelephoneHelp = element(by.id('personal-telephone-help'));
-  this.activeFormToggle = element(by.model('resource.status'));
+  this.activeFormToggle = element(by.model('selectedTenantUser.status'));
 
   this.emailLabel = element(by.id('user-details-email'));
   this.error = element(by.css('.error'));
@@ -28,6 +30,14 @@ var UserPage = function() {
   this.userNameDetailsHeader = element(by.css('h1.ng-binding'));
   this.userStateDetailsHeader = element(by.css('h1.ng-binding > user-state:nth-child(1) > div:nth-child(1)'));
   this.createNewUserHeader = element(by.css('h1.ng-scope'));
+
+  this.userPanel = element(by.id('user-pane'));
+  this.detailsForm = this.userPanel.element(by.css('ng-form'));
+  this.rightPanel = element(by.id('right-panel'));
+  this.bulkActionsPanel = element(by.css('bulk-action-executor.details-pane'));
+  this.submitFormBtn = this.userPanel.element(by.id('submit-details-btn'));
+  this.cancelFormBtn = this.userPanel.element(by.id('cancel-details-btn'));
+  this.closeFormBtn = this.userPanel.element(by.id('close-details-button'));
 
   this.tablePane = element(by.id('table-pane'));
   this.tableHeader = this.tablePane.element(by.css('.clone-header'));
