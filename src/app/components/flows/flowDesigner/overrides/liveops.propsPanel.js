@@ -21,7 +21,7 @@
         formSection += '<input type="text" ng-model="notation.model.attributes.' + input.path + '"';
         formSection += ' placeholder="' + input.placeholder + '"';
         formSection += ' ng-disabled="' + input.disabled + '"';
-        formSection += ' ng-change="onInputChange(notation.model, notation.model.attributes.' + input.path + ', notation.model.attributes.inputs[' + index + '].path)"';
+        formSection += ' ng-change="onInputChange(notation.model, notation.model.attributes.' + input.path + ', inputs[' + index + '])"';
         formSection += '></input></div></div>';
         return formSection;
       },
@@ -33,7 +33,7 @@
         formSection += '<input type="text" ng-model="notation.model.attributes.' + input.path + '"';
         formSection += ' placeholder="' + input.placeholder + '"';
         formSection += ' ng-disabled="' + input.disabled + '"';
-        formSection += ' ng-change="onInputChange(notation.model, notation.model.attributes.' + input.path + ', notation.model.attributes.inputs[' + index + '].path)"';
+        formSection += ' ng-change="onInputChange(notation.model, notation.model.attributes.' + input.path + ', inputs[' + index + '])"';
         formSection += '></input></div></div>';
         return formSection;
       },
@@ -45,7 +45,7 @@
         formSection += '<textarea ng-model="notation.model.attributes.' + input.path + '"';
         formSection += ' placeholder="' + input.placeholder + '"';
         formSection += ' ng-disabled="' + input.disabled + '"';
-        formSection += ' ng-change="onInputChange(notation.model, notation.model.attributes.' + input.path + ', notation.model.attributes.inputs[' + index + '].path)"';
+        formSection += ' ng-change="onInputChange(notation.model, notation.model.attributes.' + input.path + ', inputs[' + index + '])"';
         formSection += '></textarea></div></div>';
         return formSection;
       },
@@ -58,7 +58,7 @@
         formSection += '<select ng-model="notation.model.attributes.' + input.path + '"';
         formSection += ' ng-disabled="' + input.disabled + '"';
         formSection += ' ng-options="item.value as item.content for item in inputs[' + index + '].options"';
-        formSection += ' ng-change="onInputChange(notation.model, notation.model.attributes.' + input.path + ', notation.model.attributes.inputs[' + index + '].path)"';
+        formSection += ' ng-change="onInputChange(notation.model, notation.model.attributes.' + input.path + ', inputs[' + index + '])"';
         // formSection += '><option value="undefined">Please select one...</option>';
         // _.each(input.options, function (opt) {
         //   formSection += '<option value="' + opt.value + '">' + opt.content + '</option>';
@@ -110,8 +110,10 @@
 
     // Sort by index
     inputs.sort(function(a, b) {
-      return parseFloat(a.index) + parseFloat(b.index);
+      return parseFloat(a.index) < parseFloat(b.index);
     });
+
+    console.log(inputs);
 
     // Iterate over the inputs on the notation, inserting the
     // appropriate type at the appropriate location within
@@ -181,8 +183,13 @@
 
         $window.notation = scope.notation;
 
-        scope.onInputChange = function(model, value, path) {
-          scope.notation.model.onInputChange(model, value, path);
+        scope.onInputChange = function(model, value, input) {
+          scope.notation.model.onInputChange(model, value, input.path);
+
+          if (input.refresh) {
+            console.log('emmiting rebuild');
+            scope.$emit('rebuild')
+          }
         };
 
         var content = $compile(buildTemplate(scope.inputs))(scope);

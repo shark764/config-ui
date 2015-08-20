@@ -6,6 +6,7 @@
       activities: [],
       events: [],
       gateways: [],
+      links: [],
 
       registerActivity: function(alieneseJSON) {
         var self = this;
@@ -21,9 +22,16 @@
         }
       },
 
+      registerLink: function(alieneseJSON) {
+        var self = this;
+        if (!_.contains(self.links, alieneseJSON)) {
+          self.links.push(alieneseJSON);
+        }
+      },
+
       extractInputs: function(model) {
         var self = this;
-        var inputs = _.findWhere(self.activities, { name: model.name }).inputs;
+        var inputs = _.findWhere(self.activities, {name: model.name}).inputs;
         return inputs;
       },
 
@@ -57,7 +65,8 @@
 
         //if we're dealing with a link
         if (modelType === 'liveOps.link') {
-          return model.get('inputs');
+          var link = _.findWhere(self.links, {type: model.get('linkType')})
+          return link.inputs;
         }
       },
 
