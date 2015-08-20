@@ -7,6 +7,7 @@ describe('The user invitation', function() {
     invites = require('./invites.po.js'),
     params = browser.params,
     userCount,
+    userAdded,
     randomUser,
     newUserName;
 
@@ -25,6 +26,10 @@ describe('The user invitation', function() {
   afterAll(function() {
     shared.tearDown();
   });
+
+  // NOTE Tests will fail is Mailinator.com is unreponsive
+  // OR if invite emails are not redirected to the mailbox specified in invites.mailinatorInbox
+  // Default inbox for receiving invitiation emails is titantest@mailinator.com
 
   describe('email', function() {
       it('should be sent when creating a new user', function() {
@@ -51,7 +56,7 @@ describe('The user invitation', function() {
         shared.tableElements.then(function(users) {
           for (var i = 1; i <= users.length; ++i) {
             // Check if user name in table matches newly added user
-            element(by.css('tr.ng-scope:nth-child(' + i + ') > ' + users.nameColumn)).getText().then(function(value) {
+            element(by.css('tr.ng-scope:nth-child(' + i + ') > td:nth-child(2)')).getText().then(function(value) {
               if (value == newUserName) {
                 userAdded = true;
               }
@@ -64,13 +69,17 @@ describe('The user invitation', function() {
           expect(users.userNameDetailsHeader.getText()).toBe(newUserName);
 
           // Verify tenant status
-          expect(users.tenantStatus.getText()).toBe('Pending Acceptance');
+          expect(users.tenantStatus.getAttribute('value')).toBe('Pending Acceptance');
           expect(users.resendInvitationBtn.isDisplayed()).toBeFalsy();
 
         }).then(function() {
           // Verify user invitation email was sent
           browser.get(invites.mailinatorInbox);
 
+          expect(invites.emails.count()).toBeGreaterThan(1);
+          expect(invites.firstEmailRow.getText()).toContain('titan.noreply@liveops.com');
+          expect(invites.firstEmailRow.getText()).toContain('Welcome to Titan');
+          expect(invites.firstEmailRow.getText()).toContain('less than a minute ago');
         });
       });
 
@@ -117,7 +126,14 @@ describe('The user invitation', function() {
         }).then(function() {
           // Verify user invitation email was NOT sent
           browser.get(invites.mailinatorInbox);
-          // TODO
+
+          invites.emails.count().then(function (emailCount) {
+            // if there are emails, verify the newest email is not from the new user
+            if(emailCount > 0){
+              expect(invites.firstEmailRow.getText()).not.toContain('less than a minute ago');
+              // TODO Could fail... add checks to verify email content does not have the new users name/email
+            }
+          });
         });
       });
 
