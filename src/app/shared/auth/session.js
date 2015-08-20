@@ -101,7 +101,7 @@ angular.module('liveopsConfigPanel')
       };
       
       this.hasPermission = function(permissionKey){
-        if (permissionKey === 'VIEW_STUFF'){
+        if (permissionKey === 'VIEW_STUFF' || permissionKey === 'EDIT_STUFF'){
           return false;
         } else {
           return true;
