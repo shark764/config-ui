@@ -1,13 +1,19 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('UserPermissions', [function () {
+  .service('UserPermissions', ['Session', function (Session) {
       this.hasPermission = function(permissionKey){
-        if (permissionKey === 'VIEW_STUFF' || permissionKey === 'EDIT_STUFF'){
-          return false;
-        } else {
-          return true;
+        var permissions = [];
+        permissions.push.apply(permissions, Session.platformPermissions);
+        permissions.push.apply(permissions, Session.tenant.tenantPermissions);
+        
+        for (var i = 0; i < permissions.length; i++){
+          if (permissions[i] === permissionKey){
+            return true;
+          }
         }
+        
+        return false;
       };
       
       this.hasPermissionInList = function(permissionList){

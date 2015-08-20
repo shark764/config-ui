@@ -24,12 +24,14 @@ angular.module('liveopsConfigPanel')
       this.tenants = null;
       this.tenant = null;
       this.activeRegionId = null;
+      this.platformPermissions = null;
 
-      this.set = function (user, tenants, token) {
+      this.set = function (user, tenants, token, platformPermissions) {
         this.token = token;
         this.setUser(user);
         this.setTenants(tenants);
-
+        this.setPlatformPermissions(platformPermissions);
+        
         this.flush();
       };
 
@@ -62,6 +64,11 @@ angular.module('liveopsConfigPanel')
         this.token = token;
         this.flush();
       };
+      
+      this.setPlatformPermissions = function(platformPermissions){
+        this.platformPermissions = platformPermissions;
+        this.flush();
+      }
 
       this.destroy = function () {
         this.token = null;
@@ -73,7 +80,41 @@ angular.module('liveopsConfigPanel')
       this.setTenant = function (tenant) {
         self.tenant = {
           tenantId: tenant.tenantId,
-          name: tenant.name
+          name: tenant.name,
+          //TODO: temporary for development
+          tenantPermissions: [
+            "MANAGE_ALL_ROLES",
+            "VIEW_ALL_USERS",
+            "VIEW_ALL_LOCATIONS",
+            "MANAGE_ALL_USER_EXTENSIONS",
+            "VIEW_ALL_QUEUES",
+            "VIEW_ALL_PROVIDERS",
+            "MANAGE_ALL_GROUPS",
+            "VIEW_ALL_CONTACT_POINTS",
+            "MANAGE_ALL_GROUP_OWNERS",
+            "MANAGE_TENANT_DEFAULTS",
+            "VIEW_ALL_RESOURCE_SELECTION",
+            "VIEW_ALL_ROLES",
+            "VIEW_ALL_FLOWS",
+            "MANAGE_ALL_GROUP_USERS",
+            "MANAGE_ALL_QUEUES",
+            "MAP_ALL_CONTACT_POINTS",
+            "MANAGE_ALL_USER_LOCATIONS",
+            "MANAGE_ALL_FLOWS",
+            "MANAGE_ALL_USER_SKILLS",
+            "MANAGE_ALL_RESOURCE_SELECTION",
+            "MANAGE_TENANT_LOOK_AND_FEEL",
+            "VIEW_ALL_MEDIA",
+            "MANAGE_ALL_PROVIDERS",
+            "MANAGE_ALL_SKILLS",
+            "PURCHASE_CONTACT_POINTS",
+            "MANAGE_ALL_LOCATIONS",
+            "VIEW_ALL_GROUPS",
+            "MANAGE_ALL_REPORTS",
+            "VIEW_ALL_REPORTS",
+            "MANAGE_ALL_MEDIA",
+            "VIEW_ALL_SKILLS"
+          ]
         };
         self.flush();
       };
@@ -83,7 +124,8 @@ angular.module('liveopsConfigPanel')
         this.tenant = null;
         this.activeRegionId = null;
         this.lang = 'en';
-
+        this.platformPermissions = null;
+        
         localStorage.removeItem(this.userPreferenceKey);
       };
 
@@ -104,7 +146,8 @@ angular.module('liveopsConfigPanel')
         localStorage.setItem(self.userSessionKey, JSON.stringify({
           token: self.token,
           user: self.user,
-          tenants: self.tenants
+          tenants: self.tenants,
+          platformPermissions: self.platformPermissions
         }));
 
         localStorage.setItem(self.userPreferenceKey, JSON.stringify({
