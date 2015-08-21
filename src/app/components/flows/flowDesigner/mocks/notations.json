@@ -954,7 +954,7 @@
         {
             "name": "enqueue-interaction",
             "entity": "template",
-            "label": "Enqueue Interaction",
+            "label": "Queue Interaction",
             "start": "t15521",
             "end": "t15520",
             "inputs": [
