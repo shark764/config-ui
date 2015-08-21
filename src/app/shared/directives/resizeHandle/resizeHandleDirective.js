@@ -22,6 +22,7 @@ angular.module('liveopsConfigPanel')
           //Don't initiate resize on right click, because it's annoying
           if (event.button !== 2) {
             event.preventDefault();
+
             $document.on('mousemove', mousemove);
             $document.on('mouseup', scope.mouseup);
           }
@@ -51,6 +52,7 @@ angular.module('liveopsConfigPanel')
             return;
           }
 
+          scope.leftTargetElement.css('width', newLeftWidth + 'px');
           scope.rightTargetElement.css('width', newRightWidth + 'px');
 
           var eventInfo = {
