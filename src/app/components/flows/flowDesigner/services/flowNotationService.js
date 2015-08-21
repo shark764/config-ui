@@ -80,8 +80,6 @@
         //if we're dealing with a template
         if (modelType === 'liveOps.template') {
           var template = _.findWhere(self.templates, {name: model.get('name')});
-          console.log(model);
-          console.log(self.templates);
           return template.inputs;
         }
       },
