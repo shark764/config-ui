@@ -21,22 +21,13 @@ angular.module('liveopsConfigPanel')
         var request = this.fetchUserInfo(token);
 
         return request.then(function(response) {
-
-          var user = new User(response.data.result.user);
-          var tenants = response.data.result.tenants;
+          var user = new User({
+            id: response.data.result.userId,
+            email: response.data.result.username
+          });
           
-          //TODO: Temporary for development
-          var platformPermissions = [
-            "PLATFORM_MANAGE_USER_ACCOUNT",
-            "PLATFORM_CREATE_ALL_TENANTS",
-            "PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT",
-            "PLATFORM_VIEW_USER_ACCOUNT",
-            "PLATFORM_MANAGE_ALL_USERS",
-            "VIEW_ALL_USERS",
-            "PLATFORM_MANAGE_ALL_TENANTS",
-            "PLATFORM_CREATE_USERS",
-            "PLATFORM_VIEW_ALL_TENANTS"
-          ];
+          var tenants = response.data.result.tenants;
+          var platformPermissions = response.data.result.platformPermissions;
           
           Session.set(user, tenants, token, platformPermissions);
 

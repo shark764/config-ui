@@ -10,18 +10,12 @@ angular.module('liveopsConfigPanel')
 
         $scope.loginStatus = AuthService.login($scope.username, $scope.password)
           .then(function () {
-
             $scope.loggingIn = true;
-
-            $state.go('content.management.users').finally(function () {
-              $scope.loggingIn = false;
-            });
-
+            $state.go('content.management.users');
             $rootScope.$broadcast('login:success');
           }, function(response){
             if(response.status === 401) {
               $scope.error = 'Invalid username and password';
-              return;
             }
           });
       };

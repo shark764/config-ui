@@ -8,13 +8,16 @@ var PASSWORD = 'gKVnfF9wrs6XPSYs';
 var TENANTS = [
   {
     tenantId: 1,
-    name: 'test1'
+    name: 'test1',
+    tenantPermissions: []
   },
   {
     tenantId: 2,
-    name: 'test2'
+    name: 'test2',
+    tenantPermissions: []
   }
 ];
+var platformPermissions = [];
 
 var LOGIN_RESPONSE;
 
@@ -36,8 +39,10 @@ describe('AuthService', function () {
       
       LOGIN_RESPONSE = {
         result : {
-          user: mockUsers[0],
-          tenants: TENANTS
+          userId: mockUsers[0].id,
+          username: mockUsers[0].email,
+          tenants: TENANTS,
+          platformPermissions: platformPermissions
         }
       };
     }
@@ -67,7 +72,7 @@ describe('AuthService', function () {
       $httpBackend.flush();
 
       expect(Session.set).toHaveBeenCalledWith(
-        mockUsers[0], TENANTS, AuthService.generateToken(USERNAME, PASSWORD));
+        jasmine.any(Object), TENANTS, AuthService.generateToken(USERNAME, PASSWORD), platformPermissions);
     }]));
 
 

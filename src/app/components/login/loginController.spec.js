@@ -6,8 +6,8 @@ describe('LoginController', function () {
   beforeEach(module('liveopsConfigPanel'));
   beforeEach(module('gulpAngular'));
 
-  beforeEach(inject(['$q', '$rootScope', '$controller', '$state', '$httpBackend', 'apiHostname',
-    function ($q, _$rootScope_, _$controller_, _$state, _$httpBackend_, _apiHostname_) {
+  beforeEach(inject(['$q', '$rootScope', '$controller', '$state', '$httpBackend', 'apiHostname', 'UserPermissions',
+    function ($q, _$rootScope_, _$controller_, _$state, _$httpBackend_, _apiHostname_, UserPermissions) {
       $scope = _$rootScope_;
       $state = _$state;
       $httpBackend = _$httpBackend_;
@@ -26,28 +26,20 @@ describe('LoginController', function () {
   ]));
 
   describe('LoginController login success', function () {
-
-    it('should redirect me to root on success', function () {
+    it('should redirect me to root on success', inject(['$q', 'AuthService', function ($q, AuthService) {
       $scope.username = 'username';
       $scope.password = 'password';
 
-      $httpBackend.when('POST', apiHostname + '/v1/login').respond(200,
-        {
-          result : {
-            user: {
-
-            },
-            tenants: []
-          }
-        }
-      );
+      var deferred = $q.defer();
+      deferred.resolve();
+      spyOn(AuthService, 'login').and.returnValue(deferred.promise);
+      spyOn($state, 'go');
 
       $scope.login();
-      $httpBackend.flush();
-
-
-      expect($state.current.name).toBe('content.management.users');
-    });
+      $scope.$digest();
+      
+      expect($state.go).toHaveBeenCalledWith('content.management.users');
+    }]));
   });
 
   describe('LoginController login fail', function () {
