@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('TenantsController', ['$scope', '$stateParams', '$filter', 'Session', 'Tenant', 'User', 'tenantTableConfig', 'BulkAction',
-    function($scope, $stateParams, $filter, Session, Tenant, User, tenantTableConfig, BulkAction) {
+  .controller('TenantsController', ['$scope', '$stateParams', '$filter', 'Session', 'Tenant', 'TenantUser', 'tenantTableConfig', 'BulkAction',
+    function($scope, $stateParams, $filter, Session, Tenant, TenantUser, tenantTableConfig, BulkAction) {
 
       $scope.create = function() {
         $scope.selectedTenant = new Tenant({
@@ -11,12 +11,14 @@ angular.module('liveopsConfigPanel')
         });
       };
 
-      $scope.fetch = function() {
-        $scope.tenants = Tenant.query({
+      $scope.fetchTenants = function() {
+        return Tenant.cachedQuery({
           regionId: Session.activeRegionId
         });
-        
-        $scope.users = User.query({
+      };
+
+      $scope.fetchUsers = function() {
+        return TenantUser.cachedQuery({
           tenantId: Session.tenant.tenantId
         });
       };
@@ -27,20 +29,19 @@ angular.module('liveopsConfigPanel')
       });
 
       $scope.tableConfig = tenantTableConfig;
-      $scope.fetch();
 
       $scope.additional = {
-        users: $scope.users
+        fetchUsers: $scope.fetchUsers
       };
-      
-      $scope.$on('table:resource:selected', function () {
+
+      $scope.$on('table:resource:selected', function() {
         $scope.showBulkActions = false;
       });
 
-      $scope.$on('table:on:click:actions', function () {
+      $scope.$on('table:on:click:actions', function() {
         $scope.showBulkActions = true;
       });
-      
+
       $scope.bulkActions = {
         setTenantStatus: new BulkAction()
       };

@@ -4,16 +4,25 @@ angular.module('liveopsConfigPanel')
   .service('tenantTableConfig', ['statuses', '$translate', function (statuses, $translate) {
     return {
       'fields': [{
-        'header': $translate.instant('value.name'),
+        'header': {
+          'display': $translate.instant('value.name')
+        },
         'name': 'name'
       }, {
-        'header': $translate.instant('value.description'),
+        'header': {
+          'display': $translate.instant('value.description')
+        },
         'name': 'description'
       }, {
-        'header': $translate.instant('value.status'),
+        'header': {
+          'display': $translate.instant('value.status'),
+          'valuePath': 'value',
+          'displayPath': 'display',
+          'options': statuses()
+        },
         'name': 'active',
+        'lookup': '$original:active',
         'sortable': true,
-        'options': statuses(),
         'transclude': true,
         'filter': 'selectedOptions'
       }],

@@ -19,6 +19,12 @@ angular.module('liveopsConfigPanel.config', [])
     }, {
       'display': 'Pending',
       'value': 'pending'
+    }, {
+      'display': 'Accepted',
+      'value': 'accepted'
+    }, {
+      'display': 'Invited',
+      'value': 'invited'
     }];
   };
 })
@@ -37,16 +43,19 @@ angular.module('liveopsConfigPanel.config', [])
 
 .constant('userStates', [{
   'display': 'Busy',
-  'value': 'BUSY'
+  'value': 'busy'
 }, {
   'display': 'Ready',
-  'value': 'READY'
+  'value': 'ready'
 }, {
   'display': 'Not Ready',
-  'value': 'NOT_READY'
+  'value': 'not-ready'
 }, {
-  'display': 'Wrap',
-  'value': 'WRAP'
+  'display': 'Allocated',
+  'value': 'allocated'
+}, {
+  'display': 'Offline',
+  'value': 'offline'
 }])
 
 .constant('userRoles', [{

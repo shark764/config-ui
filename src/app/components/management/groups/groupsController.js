@@ -7,19 +7,25 @@ angular.module('liveopsConfigPanel')
       $scope.tableConfig = groupTableConfig;
 
       //This is really awful and hopefully the API will update to accommodate this.
-      Group.prototype.fetchGroupUsers = function() {
-        this.members = TenantGroupUsers.cachedQuery({
+      Group.prototype.fetchGroupUsers = function () {
+        return TenantGroupUsers.cachedQuery({
           tenantId: Session.tenant.tenantId,
           groupId: this.id
         }, 'groups/' + this.id + '/users');
-        
-        return this.members;
       };
 
       $scope.fetchGroups = function () {
         return Group.cachedQuery({
           tenantId: Session.tenant.tenantId
         });
+      };
+
+      Group.prototype.preCreate = function () {
+        delete this.members;
+      };
+
+      Group.prototype.postCreate = function () {
+        this.fetchGroupUsers();
       };
 
       $scope.$on('table:on:click:create', function () {
@@ -32,24 +38,16 @@ angular.module('liveopsConfigPanel')
         });
       });
 
-      $scope.$on('table:resource:selected', function () {
-        $scope.showBulkActions = false;
-      });
-
-      $scope.$on('table:on:click:actions', function () {
-        $scope.showBulkActions = true;
-      });
-
       $scope.bulkActions = {
         setGroupStatus: new BulkAction()
       };
-      
+
       $scope.additional = {
-          gotoUserPage: function(userId){
-            $state.transitionTo('content.management.users', {
-              id: userId
-            });
-          }
-      }
+        gotoUserPage: function (userId) {
+          $state.transitionTo('content.management.users', {
+            id: userId
+          });
+        }
+      };
     }
   ]);

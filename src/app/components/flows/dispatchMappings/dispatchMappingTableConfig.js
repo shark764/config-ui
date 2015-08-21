@@ -5,29 +5,50 @@ angular.module('liveopsConfigPanel')
     function (statuses, dispatchMappingInteractionFields, dispatchMappingChannelTypes, $translate) {
       return {
         'fields': [{
-          'header': $translate.instant('value.name'),
+          'header': {
+            'display': $translate.instant('value.name')
+          },
           'name': 'name'
         }, {
-          'header': $translate.instant('value.description'),
+          'header': {
+            'display': $translate.instant('value.description')
+          },
           'name': 'description'
         }, {
-          'header': $translate.instant('value.value'),
+          'header': {
+            'display': $translate.instant('value.value')
+          },
           'name': 'value'
         }, {
-          'header': $translate.instant('dispatchMappings.table.interactionField'),
+          'header': {
+            'display': $translate.instant('dispatchMappings.table.interactionField'),
+            'valuePath': 'value',
+            'displayPath': 'display',
+            'options': dispatchMappingInteractionFields
+          },
           'name': 'interactionField',
-          'options': dispatchMappingInteractionFields,
+          'lookup': '$original:interactionField',
           'filter': 'selectedOptions'
         }, {
-          'header': $translate.instant('dispatchMappings.table.channelType'),
+          'header': {
+            'display': $translate.instant('dispatchMappings.table.channelType'),
+            'valuePath': 'value',
+            'displayPath': 'display',
+            'options': dispatchMappingChannelTypes
+          },
           'name': 'channelType',
-          'options': dispatchMappingChannelTypes,
+          'lookup': '$original:channelType',
           'filter': 'selectedOptions'
         }, {
-          'header': $translate.instant('value.status'),
+          'header': {
+            'display': $translate.instant('value.status'),
+            'valuePath': 'value',
+            'displayPath': 'display',
+            'options': statuses()
+          },
           'name': 'active',
+          'lookup': '$original:active',
           'sortable': true,
-          'options': statuses(),
           'transclude': true,
           'filter': 'selectedOptions'
         }],

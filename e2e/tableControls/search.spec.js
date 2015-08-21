@@ -194,7 +194,7 @@ describe('The table search', function() {
 
   /*
    * USER TABLE SEARCH
-   * Search on First Name, Last Name, Skills, Groups
+   * Search on First Name, Last Name
    */
 
   it('should display Users based on the Search on First and Last Name', function() {
@@ -263,40 +263,6 @@ describe('The table search', function() {
       for (var i = 0; i < rows.length; ++i) {
         rows[i].getText().then(function(value) {
           expect(value.toLowerCase()).toContain('n u');
-        });
-      };
-    });
-
-    shared.searchField.clear();
-    expect(shared.tableElements.count()).toBe(elementCount);
-  });
-
-  it('should display Users based on the Search on Group Name', function() {
-    elementCount = shared.tableElements.count();
-    // TODO
-
-    shared.searchField.sendKeys('Group');
-    shared.tableElements.then(function(rows) {
-      for (var i = 0; i < rows.length; ++i) {
-        rows[i].getText().then(function(value) {
-          expect(value.toLowerCase()).toContain('group');
-        });
-      };
-    });
-
-    shared.searchField.clear();
-    expect(shared.tableElements.count()).toBe(elementCount);
-  });
-
-  it('should display Users based on the Search on Skill Name', function() {
-    elementCount = shared.tableElements.count();
-    // TODO
-
-    shared.searchField.sendKeys('Skill');
-    shared.tableElements.then(function(rows) {
-      for (var i = 0; i < rows.length; ++i) {
-        rows[i].getText().then(function(value) {
-          expect(value.toLowerCase()).toContain('skill');
         });
       };
     });

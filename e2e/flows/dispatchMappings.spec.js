@@ -138,8 +138,7 @@ describe('The dispatch mappings view', function() {
     });
   });
 
-  //TODO: enable when TITAN2-1487 is fixed
-  xit('should successfully create new Dispatch Mapping with Integration Mapping', function() {
+  it('should successfully create new Dispatch Mapping with Integration Mapping', function() {
     randomDispatchMapping = Math.floor((Math.random() * 1000) + 1);
     var dispatchMappingAdded = false;
     newDispatchMappingName = 'DispatchMapping ' + randomDispatchMapping;
@@ -173,7 +172,7 @@ describe('The dispatch mappings view', function() {
       expect(dispatchMappingAdded).toBeTruthy();
 
       // Confirm correct Mapping type is selected after saving
-      expect(dispatchMappings.mappingOptions.get(2).isSelected()).toBeTruthy();
+      expect(dispatchMappings.mappingOptions.get(3).isSelected()).toBeTruthy();
       expect(dispatchMappings.mappingDropdown.$('option:checked').getText()).toBe('Integration');
     });
   });
@@ -357,6 +356,8 @@ describe('The dispatch mappings view', function() {
     dispatchMappings.mappingDropdown.$('option:checked').getText().then(function(value) {
       if (value == 'Contact Point') {
         expect(shared.firstTableRow.element(by.css(dispatchMappings.interactionFieldColumn)).getText()).toBe('contact-point');
+      } else if (value == 'Integration') {
+        expect(shared.firstTableRow.element(by.css(dispatchMappings.interactionFieldColumn)).getText()).toBe('source');
       } else {
         expect(shared.firstTableRow.element(by.css(dispatchMappings.interactionFieldColumn)).getText()).toBe(value.toLowerCase());
       }
@@ -383,6 +384,8 @@ describe('The dispatch mappings view', function() {
       dispatchMappings.mappingDropdown.$('option:checked').getText().then(function(value) {
         if (value == 'Contact Point') {
           expect(shared.secondTableRow.element(by.css(dispatchMappings.interactionFieldColumn)).getText()).toBe('contact-point');
+        } else if (value == 'Integration') {
+          expect(shared.firstTableRow.element(by.css(dispatchMappings.interactionFieldColumn)).getText()).toBe('source');
         } else {
           expect(shared.secondTableRow.element(by.css(dispatchMappings.interactionFieldColumn)).getText()).toBe(value.toLowerCase());
         }
@@ -541,7 +544,7 @@ describe('The dispatch mappings view', function() {
     dispatchMappings.interactionFieldTableDropDown.click();
     dispatchMappings.interactionFields.get(0).click();
     dispatchMappings.interactionFields.get(1).click();
-    
+
     shared.firstTableRow.click();
 
     // Edit fields
@@ -562,7 +565,7 @@ describe('The dispatch mappings view', function() {
     dispatchMappings.interactionFieldTableDropDown.click();
     dispatchMappings.interactionFields.get(0).click();
     dispatchMappings.interactionFields.get(1).click();
-    
+
     shared.firstTableRow.click();
 
     //Edit fields
@@ -574,5 +577,24 @@ describe('The dispatch mappings view', function() {
 
     // Phone input is reformatted
     expect(dispatchMappings.phoneFormField.getAttribute('value')).toBe('+1 506-234-5678');
+  });
+
+  it('should accept Euro phone number input in Phone field when editing a Dispatch Mapping', function() {
+    // Filter table results so only dispatch Mappings with a phone number are visible
+    dispatchMappings.interactionFieldTableDropDown.click();
+    dispatchMappings.interactionFields.get(0).click();
+    dispatchMappings.interactionFields.get(1).click();
+
+    shared.firstTableRow.click();
+
+    //Edit fields
+    dispatchMappings.phoneFormField.clear();
+    dispatchMappings.phoneFormField.sendKeys('442071828750\t');
+
+    // Error messages are not displayed
+    expect(dispatchMappings.requiredErrors.count()).toEqual(0);
+
+    // Phone input is reformatted
+    expect(dispatchMappings.phoneFormField.getAttribute('value')).toBe('+44 20 7182 8750');
   });
 });

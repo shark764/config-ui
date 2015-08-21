@@ -6,23 +6,20 @@ describe('TenantsController', function () {
     $httpBackend,
     apiHostname,
     Session,
-    mockUsers,
     mockTenants;
   
   beforeEach(module('gulpAngular'));
   beforeEach(module('liveopsConfigPanel'));
   beforeEach(module('liveopsConfigPanel.mock.content.configuration.tenants'));
-  beforeEach(module('liveopsConfigPanel.mock.content.management.users'));
 
-  beforeEach(inject(['$rootScope', '$controller', '$httpBackend', 'apiHostname', 'Session', 'mockTenants', 'mockUsers',
-    function ($rootScope, _$controller_, _$httpBackend, _apiHostname_, _Session_, _mockTenants, _mockUsers) {
+  beforeEach(inject(['$rootScope', '$controller', '$httpBackend', 'apiHostname', 'Session', 'mockTenants',
+    function ($rootScope, _$controller_, _$httpBackend, _apiHostname_, _Session_, _mockTenants) {
       $scope = $rootScope.$new();
       $controller = _$controller_;
       $httpBackend = _$httpBackend;
       
       apiHostname = _apiHostname_;
       mockTenants = _mockTenants;
-      mockUsers = _mockUsers;
       Session = _Session_;
 
       $controller('TenantsController', {
@@ -32,30 +29,32 @@ describe('TenantsController', function () {
     }
   ]));
 
-  it('should fetch the list of tenants on create', function () {
-    expect($scope.tenants).toBeDefined();
-    expect($scope.tenants[0].id).toEqual(mockTenants[0].id);
-    expect($scope.tenants[1].id).toEqual(mockTenants[1].id);
+  describe('fetchTenants function', function(){
+    it('should fetch the list of tenants', inject(['queryCache', function (queryCache) {
+      queryCache.removeAll();
+      
+      $httpBackend.expectGET(apiHostname + '/v1/tenants?regionId=regionId2').respond({
+          'result': []
+        });
+
+      Session.activeRegionId = 'regionId2';
+
+      $scope.tenants = null;
+      $scope.fetchTenants();
+      $httpBackend.flush();
+    }]));
   });
+  
+  describe('fetchUsers function', function(){
+    it('should fetch the list of users', inject(['queryCache', function (queryCache) {
+      queryCache.removeAll();
+      $httpBackend.expectGET(apiHostname + '/v1/tenants/tenant-id/users').respond({
+          'result': []
+        });
 
-  it('should fetch the list of tenants on create', function () {
-    $httpBackend.when('GET', apiHostname + '/v1/tenants?regionId=regionId2').respond({
-        'result': []
-      });
-
-    Session.activeRegionId = 'regionId2';
-
-    $scope.tenants = null;
-    $scope.fetch();
-    $httpBackend.flush();
-
-    expect($scope.tenants).toBeDefined();
-  });
-
-  it('should fetch the list of users on create', function () {
-    expect($scope.users).toBeDefined();
-    expect($scope.users[0].id).toEqual(mockUsers[0].id);
-    expect($scope.users[1].id).toEqual(mockUsers[1].id);
+      $scope.fetchUsers();
+      $httpBackend.flush();
+    }]));
   });
 
   it('should have a function to create a new tenant and set it as selected', function () {

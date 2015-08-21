@@ -1,19 +1,25 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .factory('Integration', ['LiveopsResourceFactory', function (LiveopsResourceFactory) {
+  .factory('Integration', ['LiveopsResourceFactory', 'emitInterceptor',
+    function (LiveopsResourceFactory, emitInterceptor) {
 
-    var Integration = LiveopsResourceFactory.create('/v1/tenants/:tenantId/integrations/:id', [
-      {name: 'properties'},
-      // {name: 'type'},
-      {name: 'active'}
-    ]);
-    
-    Integration.prototype.getDisplay = function () {
-      return this.type;
-    };
-    
-    Integration.resourceName = 'Integration';
-    return Integration;
-  }]);
+      var Integration = LiveopsResourceFactory.create({
+        endpoint: '/v1/tenants/:tenantId/integrations/:id',
+        resourceName: 'Integration',
+        updateFields: [{
+          name: 'properties'
+        }, {
+          name: 'active'
+        }],
+        saveInterceptor: emitInterceptor,
+        updateInterceptor: emitInterceptor
+      });
 
+      Integration.prototype.getDisplay = function () {
+        return this.type;
+      };
+
+      return Integration;
+    }
+  ]);

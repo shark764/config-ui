@@ -4,23 +4,37 @@ angular.module('liveopsConfigPanel')
   .service('integrationTableConfig', ['statuses', '$translate', function (statuses, $translate) {
     return {
       'fields': [{
-        'header': $translate.instant('value.type'),
+        'header': {
+          'display': $translate.instant('value.type')
+        },
         'name': 'type'
       }, {
-        'header': $translate.instant('integration.table.account'),
+        'header': {
+          'display': $translate.instant('integration.table.account')
+        },
         'name': 'properties.accountSid'
       }, {
-        'header': $translate.instant('value.status'),
+        'header': {
+          'display': $translate.instant('value.status'),
+          'valuePath': 'value',
+          'displayPath': 'display',
+          'options': statuses()
+        },
         'name': 'active',
+        'lookup': '$original:active',
         'sortable': true,
-        'options': statuses(),
         'transclude': true,
         'filter': 'selectedOptions'
       }, {
-        'header': $translate.instant('integration.table.webrtc'),
+        'header': {
+          'display': $translate.instant('integration.table.webrtc'),
+          'valuePath': 'value',
+          'displayPath': 'display',
+          'options': statuses()
+        },
         'name': 'properties.webRtc',
+        'lookup': '$original:properties:webRtc',
         'sortable': true,
-        'options': statuses(),
         'transclude': true,
         'filter': 'selectedOptions'
       }],

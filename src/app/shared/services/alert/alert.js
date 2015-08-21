@@ -25,4 +25,8 @@ angular.module('liveopsConfigPanel')
     this.error = function(){
       toastr.error.apply(this, arguments);
     };
+    
+    this.info = function(){
+      toastr.info.apply(this, arguments);
+    };
   }]);
