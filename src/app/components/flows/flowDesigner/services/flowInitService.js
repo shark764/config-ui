@@ -36,7 +36,7 @@
           graph.interfaces.inspectorContainer.css({'right': '0px'});
         };
         graph.utils.hidePropertiesPanel = function() {
-          graph.interfaces.inspectorContainer.css({'right': '-350px'});
+          graph.interfaces.inspectorContainer.css({'right': '-1000px'});
         };
         graph.utils.renderHaloMenu = function(notation) {
           if (notation.model instanceof joint.dia.Element && !graph.interfaces.selector.contains(notation.model)) {
