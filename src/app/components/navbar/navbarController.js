@@ -153,7 +153,7 @@ angular.module('liveopsConfigPanel')
         });
       }
       
-      if (UserPermissions.hasPermissionInList([])){
+      if (UserPermissions.hasPermissionInList(['VIEW_ALL_CONTACT_POINTS', 'MAP_ALL_CONTACT_POINTS'])){
         flowsConfig.push({
           label: 'Dispatch Mappings',
           onClick: function(){$state.transitionTo('content.flows.dispatchMappings');},

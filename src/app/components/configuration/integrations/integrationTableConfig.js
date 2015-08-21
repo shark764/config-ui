@@ -42,6 +42,6 @@ angular.module('liveopsConfigPanel')
       'orderBy': 'type',
       'title' : $translate.instant('integration.table.title'),
       'showCreate': false,
-      'showBulkActions': UserPermissions.hasPermission('VIEW_ALL_PROVIDERS')
+      'showBulkActions': UserPermissions.hasPermission('MANAGE_ALL_PROVIDERS')
     };
   }]);
