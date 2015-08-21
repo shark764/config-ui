@@ -19,7 +19,7 @@ angular.module('liveopsConfigPanel')
         var tenantDropdownItems = [];
         angular.forEach(Session.tenants, function(tenant) {
           tenantDropdownItems.push({
-            label: tenant.name,
+            label: tenant.tenantName,
             onClick: function(){
               DirtyForms.confirmIfDirty(function(){
                 Session.setTenant(tenant);
