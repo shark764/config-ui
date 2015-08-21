@@ -229,6 +229,19 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
             }).$promise;
           }]
         }
+      })
+      .state('realtime-dashboards', {
+        url: '/realtime-dashboards',
+        templateUrl: 'app/components/realtimeDashboards/demo.html',
+        controller: 'RealtimeDashboardsController',
+        isPublic: false,
+        resolve: {
+          dashboard: function() {
+            return {
+              thing: 'other thing'
+            };
+          }
+        }
       });
 
     angular.extend(toastrConfig, {
