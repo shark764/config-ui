@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigPanel.config', 'pascalprecht.translate', 'ngCookies', 'ngMessages', 'ngSanitize', 'toastr', 'ngLodash', 'teljs'])
+angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigPanel.config', 'pascalprecht.translate', 'ngCookies', 'ngMessages', 'ngSanitize', 'toastr', 'ngLodash', 'teljs', 'realtime-dashboards'])
   .config(['$stateProvider', '$urlRouterProvider', '$translateProvider', 'toastrConfig', function($stateProvider, $urlRouterProvider, $translateProvider, toastrConfig) {
 
     $urlRouterProvider.otherwise(function($injector){
@@ -215,14 +215,14 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
         resolve: {
           invitedUser: ['$stateParams', 'Session', 'User', function($stateParams, Session, User) {
             Session.setToken('Token ' + $stateParams.token);
-            
+
             return User.get({
               id: $stateParams.userId
             }).$promise;
           }],
           invitedTenantUser: ['$stateParams', 'Session', 'TenantUser', function($stateParams, Session, TenantUser) {
             Session.setToken('Token ' + $stateParams.token);
-            
+
             return TenantUser.get({
               id: $stateParams.userId,
               tenantId: $stateParams.tenantId
