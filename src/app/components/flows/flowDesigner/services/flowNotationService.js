@@ -7,6 +7,14 @@
       events: [],
       gateways: [],
       links: [],
+      templates: [],
+
+      registerTemplate: function(alieneseJSON) {
+        var self = this;
+        if (!_.contains(self.templates, alieneseJSON)) {
+          self.templates.push(alieneseJSON);
+        }
+      },
 
       registerActivity: function(alieneseJSON) {
         var self = this;
@@ -67,6 +75,12 @@
         if (modelType === 'liveOps.link') {
           var link = _.findWhere(self.links, {type: model.get('linkType')})
           return link.inputs;
+        }
+
+        //if we're dealing with a template
+        if (modelType === 'liveOps.template') {
+          var template = _.findWhere(self.templates, {name: model.get('name')});
+          return template.inputs;
         }
       },
 
