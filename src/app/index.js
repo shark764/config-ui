@@ -230,7 +230,7 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
           }]
         }
       })
-      .state('realtime-dashboards', {
+      .state('content.realtime-dashboards', {
         url: '/realtime-dashboards',
         templateUrl: 'app/components/realtimeDashboards/demo.html',
         controller: 'RealtimeDashboardsController',
@@ -238,7 +238,42 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
         resolve: {
           dashboard: function() {
             return {
-              thing: 'other thing'
+              name: 'Dashboard A',
+              order: 0,
+              id: '00000000-0000-0000-000000000000',
+              widgets: [{
+                  title: {
+                    enabled: true,
+                    text: 'Widget A'
+                  },
+                  size: {
+                      width: 3,
+                      height: 2
+                  },
+                  position: {
+                      row: 0,
+                      col: 0
+                  },
+                  chart: {
+                      type: 'line'
+                  }
+              }, {
+                  title: {
+                    enabled: false,
+                    text: 'Widget B'
+                  },
+                  size: {
+                      width: 3,
+                      height: 2
+                  },
+                  position: {
+                      row: 0,
+                      col: 0
+                  },
+                  chart: {
+                      type: 'statistic'
+                  }
+              }]
             };
           }
         }
