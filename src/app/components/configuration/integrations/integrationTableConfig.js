@@ -21,7 +21,6 @@ angular.module('liveopsConfigPanel')
           'options': statuses()
         },
         'name': 'active',
-        'lookup': '$original:active',
         'sortable': true,
         'transclude': true,
         'filter': 'selectedOptions'
@@ -33,7 +32,6 @@ angular.module('liveopsConfigPanel')
           'options': statuses()
         },
         'name': 'properties.webRtc',
-        'lookup': '$original:properties:webRtc',
         'sortable': true,
         'transclude': true,
         'filter': 'selectedOptions'
