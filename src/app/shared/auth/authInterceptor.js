@@ -21,10 +21,6 @@ angular.module('liveopsConfigPanel')
         };
 
         this.responseError = function (response) {
-          if (response.status === 401) {
-            Session.destroy();
-            $injector.get('$state').transitionTo('login');
-          }
           return $q.reject(response);
         };
       };
