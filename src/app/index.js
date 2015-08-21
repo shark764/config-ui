@@ -83,13 +83,23 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
         url: '/tenants?id',
         templateUrl: 'app/components/configuration/tenants/tenants.html',
         controller: 'TenantsController',
-        reloadOnSearch: false
+        reloadOnSearch: false,
+        resolve: {
+          hasPermission: ['UserPermissions', function(UserPermissions) {
+            return UserPermissions.resolvePermissions(['PLATFORM_VIEW_ALL_TENANTS', 'PLATFORM_MANAGE_ALL_TENANTS', 'PLATFORM_CREATE_ALL_TENANTS', 'PLATFORM_CREATE_TENANT_ROLES', 'PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT']);
+          }]
+        }
       })
       .state('content.configuration.integrations', {
         url: '/integrations?id',
         templateUrl: 'app/components/configuration/integrations/integrations.html',
         controller: 'IntegrationsController',
-        reloadOnSearch: false
+        reloadOnSearch: false,
+        resolve: {
+          hasPermission: ['UserPermissions', function(UserPermissions) {
+            return UserPermissions.resolvePermissions(['VIEW_ALL_PROVIDERS', 'MANAGE_ALL_PROVIDERS']);
+          }]
+        }
       })
       .state('content.flows', {
         abstract: true,
