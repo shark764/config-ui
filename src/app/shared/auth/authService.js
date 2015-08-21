@@ -44,7 +44,7 @@ angular.module('liveopsConfigPanel')
       };
 
       this.logout = function () {
-        Session.destroy();
+        Session.destroyAll();
       };
 
       this.fetchUserInfo = function (token) {
