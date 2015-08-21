@@ -826,6 +826,130 @@
             "props": ["terminate"] 
         }
     ],
+    "links": [
+        {
+            "entity": "link",
+            "type": "normal",
+            "inputs": [
+                {
+                  "name": "label",
+                  "path": "label",
+                  "type": "string",
+                  "label": "Label:",
+                  "group": "general",
+                  "index": 0,
+                  "disabled": false,
+                  "required": false,
+                  "placeholder": "Enter a label...",
+                  "hidden": false
+                }
+            ]
+        },
+        {
+            "entity": "link",
+            "type": "default",
+            "inputs": [
+                {
+                  "name": "label",
+                  "path": "label",
+                  "type": "string",
+                  "label": "Label:",
+                  "group": "general",
+                  "index": 0,
+                  "disabled": false,
+                  "required": false,
+                  "placeholder": "Enter a label...",
+                  "hidden": false
+                },
+                {
+                  "name": "type",
+                  "path": "linkType",
+                  "type": "select",
+                  "label": "Type:",
+                  "group": "general",
+                  "index": 1,
+                  "disabled": false,
+                  "required": false,
+                  "hidden": false,
+                  "options": [
+                    {
+                        "content": "Default",
+                        "value": "default"
+                    },
+                    {
+                        "content": "Conditional",
+                        "value": "conditional"
+                    }
+                  ],
+                  "refresh": true
+                },
+                {
+                  "name": "condition",
+                  "path": "condition",
+                  "type": "string",
+                  "label": "Condition:",
+                  "group": "general",
+                  "index": 2,
+                  "disabled": false,
+                  "required": false,
+                  "placeholder": "Enter a condition...",
+                  "hidden": false
+                }
+            ]
+        },
+        {
+            "entity": "link",
+            "type": "conditional",
+            "inputs": [
+                {
+                  "name": "label",
+                  "path": "label",
+                  "type": "string",
+                  "label": "Label:",
+                  "group": "general",
+                  "index": 0,
+                  "disabled": false,
+                  "required": false,
+                  "placeholder": "Enter a label...",
+                  "hidden": false
+                },
+                {
+                  "name": "type",
+                  "path": "linkType",
+                  "type": "select",
+                  "label": "Type:",
+                  "group": "general",
+                  "index": 1,
+                  "disabled": false,
+                  "required": false,
+                  "hidden": false,
+                  "options": [
+                    {
+                        "content": "Default",
+                        "value": "default"
+                    },
+                    {
+                        "content": "Conditional",
+                        "value": "conditional"
+                    }
+                  ],
+                  "refresh": true
+                },
+                {
+                  "name": "condition",
+                  "path": "condition",
+                  "type": "string",
+                  "label": "Condition:",
+                  "group": "general",
+                  "index": 2,
+                  "disabled": false,
+                  "required": false,
+                  "placeholder": "Enter a condition...",
+                  "hidden": false
+                }
+            ]
+        }
+    ],
     "templates": [
         {
             "name": "enqueue-interaction",

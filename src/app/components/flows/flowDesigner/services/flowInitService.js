@@ -70,7 +70,7 @@
           graph.utils.showPropertiesPanel();
 
           // Don't set up the inputs again if the model is already opened in the props panel
-          if (graph.panelScope.notation !== undefined && notation.model.id === graph.panelScope.notation.model.id) { return; }
+          //if (graph.panelScope.notation !== undefined && notation.model.id === graph.panelScope.notation.model.id) { return; }
 
           graph.interfaces.inspectorContainer.empty();
           graph.panelScope.$destroy();
@@ -79,6 +79,10 @@
           graph.panelScope.notation = notation;
           var compiledPanel = $compile('<props-panel notation="notation" inputs="inputs"></props-panel>')(graph.panelScope);
           graph.interfaces.inspectorContainer.append(compiledPanel);
+
+          graph.panelScope.$on('rebuild', function(){
+            graph.utils.renderPropertiesPanel(notation);
+          });
         };
 
         return graph;
@@ -185,7 +189,9 @@
         FlowPaletteService.loadGateways(stencil);
         FlowPaletteService.loadEvents(stencil);
         FlowPaletteService.loadActivities(stencil);
+        FlowPaletteService.loadLinks();
         FlowPaletteService.loadTemplates(stencil);
+        
         _.each(stencil.graphs, function(graph) {
           joint.layout.GridLayout.layout(graph, {
             columns: 3,

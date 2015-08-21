@@ -8,6 +8,13 @@
         this.data = data;
       },
 
+      loadLinks: function() {
+        var self = this;
+        _.each(self.data.links, function(notation) {
+          FlowNotationService.registerLink(notation);
+        })
+      },
+
       loadGateways: function(palette) {
         palette.load([
           new joint.shapes.liveOps.gateway({
