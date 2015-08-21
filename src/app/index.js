@@ -111,31 +111,56 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
         url: '/management?id',
         templateUrl: 'app/components/flows/flowManagement/flowManagement.html',
         controller: 'FlowManagementController',
-        reloadOnSearch: false
+        reloadOnSearch: false,
+        resolve: {
+          hasPermission: ['UserPermissions', function(UserPermissions) {
+            return UserPermissions.resolvePermissions(['VIEW_ALL_FLOWS', 'MANAGE_ALL_FLOWS', 'MAP_ALL_CONTACT_POINTS']);
+          }]
+        }
       })
       .state('content.flows.queues', {
         url: '/queues?id',
         templateUrl: 'app/components/flows/queues/queues.html',
         controller: 'QueueController',
-        reloadOnSearch: false
+        reloadOnSearch: false,
+        resolve: {
+          hasPermission: ['UserPermissions', function(UserPermissions) {
+            return UserPermissions.resolvePermissions(['VIEW_ALL_FLOWS', 'MANAGE_ALL_FLOWS', 'VIEW_ALL_QUEUES', 'MANAGE_ALL_QUEUES']);
+          }]
+        }
       })
       .state('content.flows.media', {
         url: '/media?id',
         templateUrl: 'app/components/flows/media/media.html',
         controller: 'MediaController',
-        reloadOnSearch: false
+        reloadOnSearch: false,
+        resolve: {
+          hasPermission: ['UserPermissions', function(UserPermissions) {
+            return UserPermissions.resolvePermissions(['VIEW_ALL_MEDIA', 'VIEW_ALL_FLOWS', 'MANAGE_ALL_FLOWS']);
+          }]
+        }
       })
       .state('content.flows.media-collections', {
         url: '/media-collections',
         templateUrl: 'app/components/flows/media-collections/media-collections.html',
         controller: 'MediaCollectionController',
-        reloadOnSearch: false
+        reloadOnSearch: false,
+        resolve: {
+          hasPermission: ['UserPermissions', function(UserPermissions) {
+            return UserPermissions.resolvePermissions(['VIEW_ALL_MEDIA', 'VIEW_ALL_FLOWS', 'MANAGE_ALL_FLOWS']);
+          }]
+        }
       })
       .state('content.flows.dispatchMappings', {
         url: '/dispatchMappings?id',
         templateUrl: 'app/components/flows/dispatchMappings/dispatchMappings.html',
         controller: 'DispatchMappingsController',
-        reloadOnSearch: false
+        reloadOnSearch: false,
+        resolve: {
+          hasPermission: ['UserPermissions', function(UserPermissions) {
+            return UserPermissions.resolvePermissions(['VIEW_ALL_CONTACT_POINTS', 'MAP_ALL_CONTACT_POINTS']);
+          }]
+        }
       })
       .state('content.flows.versions', {
         url: '/versions?id',

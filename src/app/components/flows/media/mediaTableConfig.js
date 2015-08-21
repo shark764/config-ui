@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('mediaTableConfig', ['mediaTypes', '$translate', function (mediaTypes, $translate) {
+  .service('mediaTableConfig', ['mediaTypes', '$translate', 'UserPermissions', function (mediaTypes, $translate, UserPermissions) {
       return {
         'fields': [{
           'header': {
@@ -32,7 +32,8 @@ angular.module('liveopsConfigPanel')
         'searchOn' : ['$original.source', '$original.name'],
         'orderBy' : '$original.name',
         'title' : $translate.instant('media.table.title'),
-        'showBulkActions': false
+        'showBulkActions': false,
+        'showCreate': UserPermissions.hasPermission('MANAGE_ALL_MEDIA')
       };
     }]
   );

@@ -1,32 +1,37 @@
 <div class="divider-header first-header">
   <h4>Details</h4>
 </div>
-<div class="input-group">
-  <label>{{'value.name' | translate}} *</label>
-  <div>
-    <form-error field="forms.mediaCollectionForm.mediacollectionname"
-      error-type-required="{{'media.details.name.error' | translate}}">
-    </form-error>
-    <input type="text" ng-model="selectedMediaCollection.name" name="mediacollectionname" required></input>
+
+<div disable-contents="!('MANAGE_ALL_MEDIA' | hasPermission)">
+  <div class="input-group">
+    <label>{{'value.name' | translate}} *</label>
+    <div>
+      <form-error field="forms.mediaCollectionForm.mediacollectionname"
+        error-type-required="{{'media.details.name.error' | translate}}">
+      </form-error>
+      <input type="text" ng-model="selectedMediaCollection.name" name="mediacollectionname" required></input>
+    </div>
   </div>
-</div>
-<div class="input-group">
-  <label class="textarea-label">{{'value.description' | translate}}</label>
-  <form-error field="forms.mediaCollectionForm.description"></form-error>
-  <div>
-    <textarea ng-model="selectedMediaCollection.description" name="description"></textarea>
+  
+  <div class="input-group">
+    <label class="textarea-label">{{'value.description' | translate}}</label>
+    <form-error field="forms.mediaCollectionForm.description"></form-error>
+    <div>
+      <textarea ng-model="selectedMediaCollection.description" name="description"></textarea>
+    </div>
   </div>
-</div>
-<div ng-if="selectedMediaCollection.mediaMap != undefined && selectedMediaCollection.mediaMap.length > 0" class="input-group">
-  <label>{{'media.collections.defaultMediaKey' | translate}} *</label>
-  <div>
-    <form-error field="forms.mediaCollectionForm.defaultMediaKey"
-      error-type-required="{{'media.collections.defaultMediaKey.error' | translate}}"></form-error>
-    <select ng-class="{'default-selected': ! selectedMediaCollection.defaultMediaKey}" required
-      name="defaultMediaKey" ng-model="selectedMediaCollection.defaultMediaKey"
-      ng-options="mapping.lookup as mapping.lookup for mapping in selectedMediaCollection.mediaMap">
-      <option value="" ng-disabled="true">{{'media.collections.defaultMediaKey.select' | translate}}</option>
-    </select>
+  
+  <div ng-if="selectedMediaCollection.mediaMap != undefined && selectedMediaCollection.mediaMap.length > 0" class="input-group">
+    <label>{{'media.collections.defaultMediaKey' | translate}} *</label>
+    <div>
+      <form-error field="forms.mediaCollectionForm.defaultMediaKey"
+        error-type-required="{{'media.collections.defaultMediaKey.error' | translate}}"></form-error>
+      <select ng-class="{'default-selected': ! selectedMediaCollection.defaultMediaKey}" required
+        name="defaultMediaKey" ng-model="selectedMediaCollection.defaultMediaKey"
+        ng-options="mapping.lookup as mapping.lookup for mapping in selectedMediaCollection.mediaMap">
+        <option value="" ng-disabled="true">{{'media.collections.defaultMediaKey.select' | translate}}</option>
+      </select>
+    </div>
   </div>
 </div>
 

@@ -49,7 +49,7 @@
   <h4>{{'queue.details.createAdditionalVersions' | translate}}</h4>
 </div>
 
-<div id="createVersion" ng-show="createNewVersion">
+<div id="createVersion" ng-show="createNewVersion && ('MANAGE_ALL_QUEUES' | hasPermission)">
   <div class="divider-header">
     <h4>{{'queue.details.queryPriority' | translate}}</h4>
   </div>
@@ -104,7 +104,7 @@
     </thead>
     <tr ng-repeat-start="version in versions | orderBy:'created':'reverse'" id="version-row-{{version.name}}">
       <td>
-        <i class="fa" ng-class="{'fa-plus' : !version.viewing, 'fa-minus': version.viewing}" ng-click="toggleDetails(version);"></i>
+        <i class="fa" ng-class="{'fa-plus' : !version.viewing, 'fa-minus': version.viewing}" ng-click="toggleDetails(version);" title="{{'queue.details.version.expand' | translate}}"></i>
         &nbsp;
         {{version.name}}
       </td>
@@ -114,7 +114,7 @@
       </td>
     </tr>
     <tr ng-repeat-end class="view-version" id="view-version-{{version.name}}">
-      <td colspan="4" ng-show="version.viewing">
+      <td colspan="4" ng-show="version.viewing" disable-contents="! ('MANAGE_ALL_QUEUES' | hasPermission)">
         <div class="input-group">
           <label class="textarea-label disabled">{{'value.details.query' | translate}}</label>
           <textarea ng-disabled="true" type="text" ng-model="version.query" name="query"></textarea>
@@ -142,7 +142,7 @@
         <div class="queue-controls input-group">
           <label></label>
           <input id="close-version-btn" type="button" ng-click="version.viewing = false;" class="btn" value="{{'value.close' | translate}}" />
-          <input id="copy-version-btn" ng-click="createVersionCopy(version)" type="submit" class="btn btn-primary" value="{{'queue.details.createNewVersion' | translate}}" />
+          <input id="copy-version-btn" ng-show="'MANAGE_ALL_QUEUES' | hasPermission" ng-click="createVersionCopy(version)" type="submit" class="btn btn-primary" value="{{'queue.details.createNewVersion' | translate}}" />
         </div>
       </td>
     </tr>

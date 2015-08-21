@@ -21,7 +21,7 @@
       <audit-text translation="value.displayName" user-id="draft.createdBy"></audit-text>
     </td>
     <td>
-      <a class="remove" ng-click="deleteDraft(draft)" title="{{'flow.draft.delete.alt' | translate}}"><i class="fa fa-times"></i></a>
+      <a ng-show="'MANAGE_ALL_FLOWS' | hasPermission" class="remove" ng-click="deleteDraft(draft)" title="{{'flow.draft.delete.alt' | translate}}"><i class="fa fa-times"></i></a>
     </td>
   </tr>
 </table>
