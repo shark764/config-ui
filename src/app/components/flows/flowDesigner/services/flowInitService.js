@@ -224,6 +224,7 @@
           },
           'cell:pointerup': function(cellView) {
             self.graph.utils.renderPropertiesPanel(cellView);
+            self.graph.interfaces.selector.add(cellView.model);
           }
         });
       },
