@@ -68,7 +68,7 @@ angular.module('liveopsConfigPanel')
       this.setPlatformPermissions = function(platformPermissions){
         this.platformPermissions = platformPermissions;
         this.flush();
-      }
+      };
 
       this.destroy = function () {
         this.token = null;

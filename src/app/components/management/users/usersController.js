@@ -61,7 +61,7 @@ angular.module('liveopsConfigPanel')
           $user: $scope.selectedTenantUser.$user,
           skills: $scope.selectedTenantUser.skills,
           groups: $scope.selectedTenantUser.groups
-        } 
+        };
         
         return $scope.selectedTenantUser.save({
           tenantId: Session.tenant.tenantId
@@ -80,7 +80,7 @@ angular.module('liveopsConfigPanel')
         }, function() {
           Alert.success('Error occured. Invite not sent.');
         });
-      }
+      };
       
       this.updateTenantUser = function() {
         var user = $scope.selectedTenantUser.$user;

@@ -59,7 +59,7 @@ describe('AuthService', function () {
   });
 
   describe('ON login', function() {
-    it('should set the session when successful', inject(['mockUsers', function (mockUsers) {
+    it('should set the session when successful', function () {
       $httpBackend.expectPOST(apiHostname + '/v1/login').respond(LOGIN_RESPONSE);
 
       spyOn(Session, 'set');
@@ -69,7 +69,7 @@ describe('AuthService', function () {
 
       expect(Session.set).toHaveBeenCalledWith(
         jasmine.any(Object), TENANTS, AuthService.generateToken(USERNAME, PASSWORD), platformPermissions);
-    }]));
+    });
 
 
     it('should validate on failure', function () {
@@ -77,7 +77,7 @@ describe('AuthService', function () {
 
       spyOn(Session, 'set');
 
-      var promise = AuthService.login(USERNAME, PASSWORD);
+      AuthService.login(USERNAME, PASSWORD);
       $httpBackend.flush();
 
       expect(Session.set).not.toHaveBeenCalled();

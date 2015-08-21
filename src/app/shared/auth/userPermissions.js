@@ -10,11 +10,6 @@ angular.module('liveopsConfigPanel')
         permissions.push.apply(permissions, Session.tenant.tenantPermissions);
         
         for (var i = 0; i < permissions.length; i++){
-          //TODO: remove testing conditional :)
-          if (permissionKey === 'VIEW_ALL_FLOWS' || permissionKey === 'MAP_ALL_CONTACT_POINTS' || permissionKey === 'MANAGE_ALL_FLOWS' || permissionKey === 'MANAGE_ALL_QUEUES'){
-            return false;
-          }
-          
           if (permissions[i] === permissionKey){
             return true;
           }
@@ -48,6 +43,6 @@ angular.module('liveopsConfigPanel')
         });
         
         return deferred.promise;
-      }
+      };
     }
   ]);
