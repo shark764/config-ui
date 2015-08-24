@@ -10,9 +10,7 @@
     ng-model="item.$original.status">
   </user-status>
 
-  <center name="state">
-    <user-state state="{{item.state}}"></user-state>
-  </center>
+  <user-state name="$original.state" ng-model="item.$original.state"></user-state>
 </table-controls>
 
 <resize-handle
@@ -55,7 +53,9 @@
           lo-submit="submit()"
           lo-submit-spinner
           lo-submit-spinner-status="selectedTenantUser.$busy || selectedTenantUser.$user.$busy"
-          ng-disabled="forms.detailsForm.$pending || (forms.detailsForm.$invalid && (forms.detailsForm.$error.length > 1 || scenario === 'update')) || ! forms.detailsForm.$dirty"
+          ng-disabled="forms.detailsForm.$pending ||
+            (forms.detailsForm.$invalid && ! forms.detailsForm.$error.duplicateEmail) ||
+            ! forms.detailsForm.$dirty"
           class="btn btn-primary"
           type="submit"
           value="{{'value.submit' | translate}}" />

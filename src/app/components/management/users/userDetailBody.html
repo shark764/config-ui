@@ -88,7 +88,7 @@
     <div ng-if="selectedTenantUser.status != 'accepted' && selectedTenantUser.status != 'disabled' && ['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'MANAGE_TENANT_ENROLLMENT'] | hasPermission" class="input-group">
       <label></label>
       <div>
-        <input type="button" class="btn" ng-click="sendInvite()"
+        <input type="button" class="btn" ng-click="saveTenantUser()"
           value="{{'user.details.invitation.resend' | translate}}">
       </div>
     </div>

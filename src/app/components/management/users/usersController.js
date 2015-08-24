@@ -45,7 +45,7 @@ angular.module('liveopsConfigPanel')
         var scenario = $scope.scenario();
 
         if (scenario.indexOf('invite:existing') === 0) {
-          return self.updateTenantUser();
+          return self.saveNewTenantUser();
         } else if (scenario === 'invite:new:user') {
           return self.saveNewUserTenantUser();
         } else if (scenario === 'update') {
@@ -54,7 +54,7 @@ angular.module('liveopsConfigPanel')
       };
       
       //TODO cleanup these functions. Lots of room to combine code.
-      $scope.sendInvite = function () {
+      this.saveTenantUser = function () {
         $scope.selectedTenantUser.status = 'invited';
         
         var backup = {
@@ -78,11 +78,11 @@ angular.module('liveopsConfigPanel')
         }).then(function() {
           Alert.success('Invite Sent');
         }, function() {
-          Alert.success('Error occured. Invite not sent.');
+          Alert.failure('Error occured. Invite not sent.');
         });
       };
       
-      this.updateTenantUser = function() {
+      this.saveNewTenantUser = function() {
         var user = $scope.selectedTenantUser.$user;
         
         return $scope.selectedTenantUser.save({
@@ -95,6 +95,8 @@ angular.module('liveopsConfigPanel')
           }).$promise.then(function(tenantUser) {
             $scope.selectedTenantUser = tenantUser;
             $scope.fetchTenantUsers().push(tenantUser);
+            
+            //TODO remove once roleName comes back on GET /v1/tenants/tenant-id/users/user-id
             tenantUser.$original.roleName = TenantRole.getName(tenantUser.roleId);
             tenantUser.reset();
             
@@ -151,7 +153,9 @@ angular.module('liveopsConfigPanel')
         
         return $q.all(promises);
       };
-
+      
+      $scope.saveTenantUser = this.saveTenantUser;
+      
       $scope.$on('table:on:click:create', function() {
         $scope.create();
       });

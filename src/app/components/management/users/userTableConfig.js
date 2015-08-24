@@ -120,12 +120,24 @@ angular.module('liveopsConfigPanel')
         
         defaultConfig.fields.push({
           'header': {
+            'display': $translate.instant('value.presence'),
+            'valuePath': 'value',
+            'displayPath': 'display',
+            'options': userStates
+          },
+          'name': '$original.state',
+          'lookup': '$original:state',
+          'transclude': true,
+          'checked': false
+        }, {
+          'header': {
             'display': $translate.instant('value.status'),
             'valuePath': 'value',
             'displayPath': 'display',
             'options': userStatuses()
           },
           'name': '$original.status',
+          'lookup': '$original:status',
           'id': 'user-status-table-column',
           'transclude': true,
           'checked': false
