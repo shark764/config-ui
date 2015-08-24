@@ -1,6 +1,6 @@
 'use strict';
 
-describe('auditText directive', function(){
+describe('auditText directive', function () {
   var $scope,
     $compile,
     element,
@@ -8,64 +8,52 @@ describe('auditText directive', function(){
 
   beforeEach(module('liveopsConfigPanel'));
   beforeEach(module('gulpAngular'));
+  beforeEach(module('liveopsConfigPanel.mock.content.management.users'));
 
-  beforeEach(module('pascalprecht.translate', function($translateProvider){
+  beforeEach(module('pascalprecht.translate', function ($translateProvider) {
     $translateProvider.translations('en', {
       'value.displayName': '{{displayName}}',
       'plain.value': 'A string'
     });
-    
+
     $translateProvider.preferredLanguage('en');
   }));
-  
-  beforeEach(inject(['$compile', '$rootScope', function(_$compile, $rootScope) {
-    $scope = $rootScope.$new();
-    $compile = _$compile;
-  }]));
-  
-  describe('getAttributes function', function(){
-    it('should return a list of all the attributes if its an element', function() {
-      element = $compile('<audit-text attr-one another-attribute="value"></audit-text>')($scope);
-      $scope.$digest();
-      
-      var attrs = element.isolateScope().getAttributes();
-      expect(attrs).toEqual({attrOne: '', anotherAttribute: 'value'});
-    });
-    
-    it('should return a list of all the attributes if its an attribute', function() {
-      element = $compile('<span audit-text attr-one another-attribute="value"></span>')($scope);
-      $scope.$digest();
-      
-      var attrs = element.isolateScope().getAttributes();
-      expect(attrs).toEqual({auditText: '', attrOne: '', anotherAttribute: 'value'});
-    });
-  });
-  
-  describe('refresh function', function(){
-    it('should do a plain translate if not given a userId', function() {
+
+  beforeEach(inject(['$compile', '$rootScope', 'mockUsers',
+    function (_$compile, $rootScope, mockUsers) {
+      $scope = $rootScope.$new();
+      $compile = _$compile;
+
+      $scope.user = mockUsers[0];
+    }
+  ]));
+
+  describe('refresh function', function () {
+    it('should do a plain translate if not given a userId', function () {
       element = $compile('<audit-text translation="plain.value"></audit-text>')($scope);
       $scope.$digest();
       isolateScope = element.isolateScope();
-      
-      isolateScope.refresh();
-      expect(element.text()).toEqual('A string');
+
+      var text = isolateScope.get();
+      expect(text).toEqual('A string');
     });
-    
-    it('should translate the displayname with the one returned by usercache', inject(['$q', 'UserCache', 'User', function($q, UserCache, User) {
-      var deferred = $q.defer();
-      deferred.resolve(new User({id: 1,  firstName: 'bob'}));
-      var cacheResult = angular.extend({
-        $promise: deferred.promise,
-      }, new User({id: 1, firstName: 'bob'}));
-      spyOn(UserCache, 'get').and.returnValue(cacheResult);
-      
-      element = $compile('<audit-text translation="value.displayName" user-id="1"></audit-text>')($scope);
-      $scope.$digest();
-      isolateScope = element.isolateScope();
-      
-      isolateScope.refresh();
-      expect(element.text()).toEqual('bob');
-    }]));
+
+    it('should translate the displayname with the one returned by usercache',
+      inject(['$httpBackend', '$q', 'User', 'apiHostname', 'mockUsers',
+        function ($httpBackend, $q, User, apiHostname, mockUsers) {
+          $httpBackend.expect('GET', apiHostname + '/v1/users/userId1').respond(mockUsers[0]);
+
+          element = $compile('<audit-text translation="value.displayName" user-id="user.id"></audit-text>')($scope);
+          $scope.$digest();
+          isolateScope = element.isolateScope();
+
+          isolateScope.get();
+
+          $httpBackend.flush();
+
+          expect(isolateScope.text).toEqual('Munoz Lowe');
+        }
+      ]));
   });
-  
+
 });
