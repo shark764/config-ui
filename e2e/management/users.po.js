@@ -10,7 +10,7 @@ var UserPage = function() {
 
   this.inviteNowFormToggle = element(by.model('selectedTenantUser.status'));
   this.inviteNowHelp = element(by.id('invite-now-help'));
-  this.tenantStatus = element(by.model('selectedTenantUser.status'));
+  this.tenantStatus = element(by.css('tenant-user-status'));
   this.tenantStatusHelp = element(by.id('tenant-status-help'));
   this.resendInvitationBtn = element(by.id('resend-invitation-btn'));
 

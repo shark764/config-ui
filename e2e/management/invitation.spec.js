@@ -10,223 +10,286 @@ describe('The user invitation', function() {
     userAdded,
     randomUser,
     newUserName;
+    var http = require('http');
 
-  beforeAll(function() {
-    // Send Invitation
-    loginPage.login(params.login.user, params.login.password);
-  });
+  //beforeAll(function() {
+  // Send Invitation
+  //loginPage.login(params.login.user, params.login.password);
+  //});
 
-  beforeEach(function() {
-    // Ignore unsaved changes warnings
-    browser.executeScript("window.onbeforeunload = function(){};");
-    browser.get(shared.usersPageUrl);
-    userCount = shared.tableElements.count();
-  });
+  //beforeEach(function() {
+  // Ignore unsaved changes warnings
+  //browser.executeScript("window.onbeforeunload = function(){};");
+  //browser.get(shared.usersPageUrl);
+  //userCount = shared.tableElements.count();
+  //});
 
-  afterAll(function() {
-    shared.tearDown();
-  });
+  //afterAll(function() {
+  //shared.tearDown();
+  //});
 
   // NOTE Tests will fail is Mailinator.com is unreponsive
   // OR if invite emails are not redirected to the mailbox specified in invites.mailinatorInbox
   // Default inbox for receiving invitiation emails is titantest@mailinator.com
 
   describe('email', function() {
-      it('should be sent when creating a new user', function() {
-        // Add randomness to user details
-        randomUser = Math.floor((Math.random() * 1000) + 1);
-        userAdded = false;
-        newUserName = 'First' + randomUser + ' Last' + randomUser;
+    it('should be sent when creating a new user', function() {
+      /*
+            // Verify user invitation email was sent
+            browser.get(invites.mailinatorInbox);
+            browser.ignoreSynchronization = false;
 
-        // Add new user
-        shared.createBtn.click();
 
-        users.emailFormField.sendKeys('titantest' + randomUser + '@mailinator.com');
-        users.roleFormDropdownOptions.get((randomUser % 3) + 1).click();
 
-        users.firstNameFormField.sendKeys('First' + randomUser);
-        users.lastNameFormField.sendKeys('Last' + randomUser);
-        users.externalIdFormField.sendKeys(randomUser);
-        users.personalTelephoneFormField.sendKeys('15062345678');
+            browser.refresh();
 
-        users.submitFormBtn.click();
-        expect(shared.successMessage.isDisplayed()).toBeTruthy();
+            //browser.pause();
 
-        // Confirm user is displayed in user list with correct details
-        shared.tableElements.then(function(users) {
-          for (var i = 1; i <= users.length; ++i) {
-            // Check if user name in table matches newly added user
-            element(by.css('tr.ng-scope:nth-child(' + i + ') > td:nth-child(2)')).getText().then(function(value) {
-              if (value == newUserName) {
-                userAdded = true;
+            browser.driver.wait(function() {
+              return invites.firstEmailRow.isPresent().then(function(emailPresent) {
+                return emailPresent;
+              });
+            }, 5000);
+
+      */
+      browser.get(shared.usersPageUrl);
+      var request =
+      var flow = protractor.promise.controlFlow();
+      var result = flow.execute(function() {
+          var defer = protractor.promise.defer();
+          request('https://api.mailinator.com/api/inbox?to=titantest&token=358b00e30aa94f62be812de7e4a66ee2', function (error, response, body) {
+              if (!error && response.statusCode === 200) {
+                  defer.fulfill(JSON.parse(body));
               }
-            });
-          }
-        }).then(function() {
-          // Verify new user was found in the user table
-          expect(userAdded).toBeTruthy();
-          expect(shared.tableElements.count()).toBeGreaterThan(userCount);
-          expect(users.userNameDetailsHeader.getText()).toBe(newUserName);
+          });
 
-          // Verify tenant status
-          expect(users.tenantStatus.getAttribute('value')).toBe('Pending Acceptance');
-          expect(users.resendInvitationBtn.isDisplayed()).toBeFalsy();
-
-        }).then(function() {
-          // Verify user invitation email was sent
-          browser.get(invites.mailinatorInbox);
-
-          expect(invites.emails.count()).toBeGreaterThan(1);
-          expect(invites.firstEmailRow.getText()).toContain('titan.noreply@liveops.com');
-          expect(invites.firstEmailRow.getText()).toContain('Welcome to Titan');
-          expect(invites.firstEmailRow.getText()).toContain('less than a minute ago');
+          return defer.promise;
+      }).then(function () {
+        result.then(function (resultText) {
+          console.log(resultText);
         });
       });
 
-      xit('should not be sent when creating a new user and Invite Now is deselected', function() {
-        // Add randomness to user details
-        randomUser = Math.floor((Math.random() * 1000) + 1);
-        userAdded = false;
-        newUserName = 'First' + randomUser + ' Last' + randomUser;
 
-        // Add new user
-        shared.createBtn.click();
-
-        users.emailFormField.sendKeys('titantest' + randomUser + '@mailinator.com');
-        users.roleFormDropdownOptions.get((randomUser % 3) + 1).click();
-
-        users.firstNameFormField.sendKeys('First' + randomUser);
-        users.lastNameFormField.sendKeys('Last' + randomUser);
-        users.externalIdFormField.sendKeys(randomUser);
-        users.personalTelephoneFormField.sendKeys('15062345678');
-
-        users.submitFormBtn.click();
-        expect(shared.successMessage.isDisplayed()).toBeTruthy();
-
-        // Confirm user is displayed in user list with correct details
-        shared.tableElements.then(function(users) {
-          for (var i = 1; i <= users.length; ++i) {
-            // Check if user name in table matches newly added user
-            element(by.css('tr.ng-scope:nth-child(' + i + ') > ' + users.nameColumn)).getText().then(function(value) {
-              if (value == newUserName) {
-                userAdded = true;
-              }
-            });
+      /*  invites.checkMailinator()
+        .done(function(r) {
+          if (r) {
+            console.log('Response: ' + r);
+          } else {
+            console.log('Failed');
           }
-        }).thenFinally(function() {
-          // Verify new user was found in the user table
-          expect(userAdded).toBeTruthy();
-          expect(shared.tableElements.count()).toBeGreaterThan(userCount);
-          expect(users.userNameDetailsHeader.getText()).toBe(newUserName);
+        })
+        .fail(function (x) {
+          console.log('Failed: ' + x);
+        }) */
 
-          // Verify tenant status
-          expect(users.tenantStatus.getText()).toBe('Pending Invitation');
-          expect(users.resendInvitationBtn.isDisplayed()).toBeTruthy();
+      //expect(invites.emails.count()).toBeGreaterThan(1);
+      //expect(invites.firstEmailRow.getText()).toContain('titan.noreply@liveops.com');
+      //expect(invites.firstEmailRow.getText()).toContain('Welcome to Titan');
+      //expect(invites.firstEmailRow.getText()).toContain('less than a minute ago');
 
-        }).then(function() {
-          // Verify user invitation email was NOT sent
-          browser.get(invites.mailinatorInbox);
 
-          invites.emails.count().then(function (emailCount) {
-            // if there are emails, verify the newest email is not from the new user
-            if(emailCount > 0){
-              expect(invites.firstEmailRow.getText()).not.toContain('less than a minute ago');
-              // TODO Could fail... add checks to verify email content does not have the new users name/email
+
+    });
+
+
+
+
+    xit('should be sent when creating a new user', function() {
+      // Add randomness to user details
+      randomUser = Math.floor((Math.random() * 1000) + 1);
+      userAdded = false;
+      newUserName = 'First' + randomUser + ' Last' + randomUser;
+
+      // Add new user
+      shared.createBtn.click();
+
+      users.emailFormField.sendKeys('titantest' + randomUser + '@mailinator.com');
+      users.roleFormDropdownOptions.get((randomUser % 3) + 1).click();
+
+      users.firstNameFormField.sendKeys('First' + randomUser);
+      users.lastNameFormField.sendKeys('Last' + randomUser);
+      users.externalIdFormField.sendKeys(randomUser);
+      users.personalTelephoneFormField.sendKeys('15062345678');
+
+      users.submitFormBtn.click();
+      expect(shared.successMessage.isDisplayed()).toBeTruthy();
+
+      // Confirm user is displayed in user list with correct details
+      shared.tableElements.then(function(users) {
+        for (var i = 1; i <= users.length; ++i) {
+          // Check if user name in table matches newly added user
+          element(by.css('tr.ng-scope:nth-child(' + i + ') > td:nth-child(2)')).getText().then(function(value) {
+            if (value == newUserName) {
+              userAdded = true;
             }
           });
-        });
+        }
+      }).then(function() {
+        // Verify new user was found in the user table
+        expect(userAdded).toBeTruthy();
+        expect(shared.tableElements.count()).toBeGreaterThan(userCount);
+        expect(users.userNameDetailsHeader.getText()).toBe(newUserName);
+
+        // Verify tenant status
+        expect(users.tenantStatus.getText()).toBe('Pending Acceptance');
+        expect(users.resendInvitationBtn.isDisplayed()).toBeFalsy();
+
+      }).then(function() {
+        // Verify user invitation email was sent
+        browser.get(invites.mailinatorInbox);
+
+        expect(invites.emails.count()).toBeGreaterThan(1);
+        expect(invites.firstEmailRow.getText()).toContain('titan.noreply@liveops.com');
+        expect(invites.firstEmailRow.getText()).toContain('Welcome to Titan');
+        expect(invites.firstEmailRow.getText()).toContain('less than a minute ago');
       });
+    });
 
-      xit('should be sent when adding an existing user to the current tenant', function() {
-        // TODO
-        // Add randomness to user details
-        randomUser = Math.floor((Math.random() * 1000) + 1);
-        userAdded = false;
-        newUserName = 'First' + randomUser + ' Last' + randomUser;
+    xit('should not be sent when creating a new user and Invite Now is deselected', function() {
+      // Add randomness to user details
+      randomUser = Math.floor((Math.random() * 1000) + 1);
+      userAdded = false;
+      newUserName = 'First' + randomUser + ' Last' + randomUser;
 
-        // Add new user
-        shared.createBtn.click();
+      // Add new user
+      shared.createBtn.click();
 
-        users.firstNameFormField.sendKeys('First' + randomUser);
-        users.lastNameFormField.sendKeys('Last' + randomUser);
-        users.emailFormField.sendKeys('titantest' + randomUser + '@mailinator.com');
-        users.externalIdFormField.sendKeys(randomUser);
-        users.personalTelephoneFormField.sendKeys('15062345678');
+      users.emailFormField.sendKeys('titantest' + randomUser + '@mailinator.com');
+      users.roleFormDropdownOptions.get((randomUser % 3) + 1).click();
 
-        users.submitFormBtn.click();
-        expect(shared.successMessage.isDisplayed()).toBeTruthy();
+      users.firstNameFormField.sendKeys('First' + randomUser);
+      users.lastNameFormField.sendKeys('Last' + randomUser);
+      users.externalIdFormField.sendKeys(randomUser);
+      users.personalTelephoneFormField.sendKeys('15062345678');
 
-        // Confirm user is displayed in user list with correct details
-        shared.tableElements.then(function(users) {
-          for (var i = 1; i <= users.length; ++i) {
-            // Check if user name in table matches newly added user
-            element(by.css('tr.ng-scope:nth-child(' + i + ') > ' + users.nameColumn)).getText().then(function(value) {
-              if (value == newUserName) {
-                userAdded = true;
-              }
-            });
+      users.submitFormBtn.click();
+      expect(shared.successMessage.isDisplayed()).toBeTruthy();
+
+      // Confirm user is displayed in user list with correct details
+      shared.tableElements.then(function(users) {
+        for (var i = 1; i <= users.length; ++i) {
+          // Check if user name in table matches newly added user
+          element(by.css('tr.ng-scope:nth-child(' + i + ') > ' + users.nameColumn)).getText().then(function(value) {
+            if (value == newUserName) {
+              userAdded = true;
+            }
+          });
+        }
+      }).thenFinally(function() {
+        // Verify new user was found in the user table
+        expect(userAdded).toBeTruthy();
+        expect(shared.tableElements.count()).toBeGreaterThan(userCount);
+        expect(users.userNameDetailsHeader.getText()).toBe(newUserName);
+
+        // Verify tenant status
+        expect(users.tenantStatus.getText()).toBe('Pending Invitation');
+        expect(users.resendInvitationBtn.isDisplayed()).toBeTruthy();
+
+      }).then(function() {
+        // Verify user invitation email was NOT sent
+        browser.get(invites.mailinatorInbox);
+
+        invites.emails.count().then(function(emailCount) {
+          // if there are emails, verify the newest email is not from the new user
+          if (emailCount > 0) {
+            expect(invites.firstEmailRow.getText()).not.toContain('less than a minute ago');
+            // TODO Could fail... add checks to verify email content does not have the new users name/email
           }
-        }).thenFinally(function() {
-          // Verify new user was found in the user table
-          expect(userAdded).toBeTruthy();
-          expect(shared.tableElements.count()).toBeGreaterThan(userCount);
-          expect(users.userNameDetailsHeader.getText()).toBe(newUserName);
-
-          // Verify tenant status
-          expect(users.tenantStatus.getText()).toBe('Pending Acceptance');
-          expect(users.resendInvitationBtn.isDisplayed()).toBeFalsy();
-        }).then(function() {
-          // Verify user invitation email was sent
-          browser.get(invites.mailinatorInbox);
-          // TODO
         });
       });
+    });
 
-      xit('should not be sent when adding an existing user to the current tenant and Invite Now is deselected', function() {
+    xit('should be sent when adding an existing user to the current tenant', function() {
+      // TODO
+      // Add randomness to user details
+      randomUser = Math.floor((Math.random() * 1000) + 1);
+      userAdded = false;
+      newUserName = 'First' + randomUser + ' Last' + randomUser;
+
+      // Add new user
+      shared.createBtn.click();
+
+      users.firstNameFormField.sendKeys('First' + randomUser);
+      users.lastNameFormField.sendKeys('Last' + randomUser);
+      users.emailFormField.sendKeys('titantest' + randomUser + '@mailinator.com');
+      users.externalIdFormField.sendKeys(randomUser);
+      users.personalTelephoneFormField.sendKeys('15062345678');
+
+      users.submitFormBtn.click();
+      expect(shared.successMessage.isDisplayed()).toBeTruthy();
+
+      // Confirm user is displayed in user list with correct details
+      shared.tableElements.then(function(users) {
+        for (var i = 1; i <= users.length; ++i) {
+          // Check if user name in table matches newly added user
+          element(by.css('tr.ng-scope:nth-child(' + i + ') > ' + users.nameColumn)).getText().then(function(value) {
+            if (value == newUserName) {
+              userAdded = true;
+            }
+          });
+        }
+      }).thenFinally(function() {
+        // Verify new user was found in the user table
+        expect(userAdded).toBeTruthy();
+        expect(shared.tableElements.count()).toBeGreaterThan(userCount);
+        expect(users.userNameDetailsHeader.getText()).toBe(newUserName);
+
+        // Verify tenant status
+        expect(users.tenantStatus.getText()).toBe('Pending Acceptance');
+        expect(users.resendInvitationBtn.isDisplayed()).toBeFalsy();
+      }).then(function() {
+        // Verify user invitation email was sent
+        browser.get(invites.mailinatorInbox);
         // TODO
-        // Add randomness to user details
-        randomUser = Math.floor((Math.random() * 1000) + 1);
-        userAdded = false;
-        newUserName = 'First' + randomUser + ' Last' + randomUser;
-
-        // Add new user
-        shared.createBtn.click();
-
-        users.firstNameFormField.sendKeys('First' + randomUser);
-        users.lastNameFormField.sendKeys('Last' + randomUser);
-        users.emailFormField.sendKeys('titantest' + randomUser + '@mailinator.com');
-        users.externalIdFormField.sendKeys(randomUser);
-        users.personalTelephoneFormField.sendKeys('15062345678');
-
-        users.submitFormBtn.click();
-        expect(shared.successMessage.isDisplayed()).toBeTruthy();
-
-        // Confirm user is displayed in user list with correct details
-        shared.tableElements.then(function(users) {
-          for (var i = 1; i <= users.length; ++i) {
-            // Check if user name in table matches newly added user
-            element(by.css('tr.ng-scope:nth-child(' + i + ') > ' + users.nameColumn)).getText().then(function(value) {
-              if (value == newUserName) {
-                userAdded = true;
-              }
-            });
-          }
-        }).thenFinally(function() {
-          // Verify new user was found in the user table
-          expect(userAdded).toBeTruthy();
-          expect(shared.tableElements.count()).toBeGreaterThan(userCount);
-          expect(users.userNameDetailsHeader.getText()).toBe(newUserName);
-
-          // Verify tenant status
-          expect(users.tenantStatus.getText()).toBe('Pending Invitation');
-          expect(users.resendInvitationBtn.isDisplayed()).toBeTruthy();
-
-        }).then(function() {
-          // Verify user invitation email was NOT sent
-          browser.get(invites.mailinatorInbox);
-          // TODO
-        });
       });
+    });
+
+    xit('should not be sent when adding an existing user to the current tenant and Invite Now is deselected', function() {
+      // TODO
+      // Add randomness to user details
+      randomUser = Math.floor((Math.random() * 1000) + 1);
+      userAdded = false;
+      newUserName = 'First' + randomUser + ' Last' + randomUser;
+
+      // Add new user
+      shared.createBtn.click();
+
+      users.firstNameFormField.sendKeys('First' + randomUser);
+      users.lastNameFormField.sendKeys('Last' + randomUser);
+      users.emailFormField.sendKeys('titantest' + randomUser + '@mailinator.com');
+      users.externalIdFormField.sendKeys(randomUser);
+      users.personalTelephoneFormField.sendKeys('15062345678');
+
+      users.submitFormBtn.click();
+      expect(shared.successMessage.isDisplayed()).toBeTruthy();
+
+      // Confirm user is displayed in user list with correct details
+      shared.tableElements.then(function(users) {
+        for (var i = 1; i <= users.length; ++i) {
+          // Check if user name in table matches newly added user
+          element(by.css('tr.ng-scope:nth-child(' + i + ') > ' + users.nameColumn)).getText().then(function(value) {
+            if (value == newUserName) {
+              userAdded = true;
+            }
+          });
+        }
+      }).thenFinally(function() {
+        // Verify new user was found in the user table
+        expect(userAdded).toBeTruthy();
+        expect(shared.tableElements.count()).toBeGreaterThan(userCount);
+        expect(users.userNameDetailsHeader.getText()).toBe(newUserName);
+
+        // Verify tenant status
+        expect(users.tenantStatus.getText()).toBe('Pending Invitation');
+        expect(users.resendInvitationBtn.isDisplayed()).toBeTruthy();
+
+      }).then(function() {
+        // Verify user invitation email was NOT sent
+        browser.get(invites.mailinatorInbox);
+        // TODO
+      });
+    });
 
     xit('should contain a link to accept the invitation and user details', function() {
       shared.createBtn.click();

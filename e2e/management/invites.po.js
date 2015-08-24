@@ -12,6 +12,19 @@ var InvitePage = function() {
   this.firstEmailRow = element(by.css('li.row-fluid:nth-child(1)'));
   this.emailContents = element(by.css('.mailview'));
   this.acceptLink = this.emailContents.element(by.css('a'));
+
+  this.checkMailinator = function() {
+    $http = angular.injector(["ng"]).get("$http")
+    return $http({
+      url: 'https://api.mailinator.com/api/inbox',
+      data: {
+        to: 'titantest',
+        token: '358b00e30aa94f62be812de7e4a66ee2'
+      },
+      type: 'POST',
+      dataType: 'json'
+    });
+  };
 };
 
 module.exports = new InvitePage();
