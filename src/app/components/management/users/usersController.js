@@ -61,7 +61,7 @@ angular.module('liveopsConfigPanel')
           $user: $scope.selectedTenantUser.$user,
           skills: $scope.selectedTenantUser.skills,
           groups: $scope.selectedTenantUser.groups
-        } 
+        }; 
         
         return $scope.selectedTenantUser.save({
           tenantId: Session.tenant.tenantId
