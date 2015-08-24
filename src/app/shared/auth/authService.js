@@ -21,10 +21,15 @@ angular.module('liveopsConfigPanel')
         var request = this.fetchUserInfo(token);
 
         return request.then(function(response) {
-
-          var user = new User(response.data.result.user);
+          var user = new User({
+            id: response.data.result.userId,
+            email: response.data.result.username
+          });
+          
           var tenants = response.data.result.tenants;
-          Session.set(user, tenants, token);
+          var platformPermissions = response.data.result.platformPermissions;
+          
+          Session.set(user, tenants, token, platformPermissions);
 
           return response;
         }, function(response) {
@@ -39,7 +44,7 @@ angular.module('liveopsConfigPanel')
       };
 
       this.logout = function () {
-        Session.destroy();
+        Session.destroyAll();
       };
 
       this.fetchUserInfo = function (token) {

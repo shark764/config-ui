@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('integrationTableConfig', ['statuses', '$translate', function (statuses, $translate) {
+  .service('integrationTableConfig', ['statuses', '$translate', 'UserPermissions', function (statuses, $translate, UserPermissions) {
     return {
       'fields': [{
         'header': {
@@ -38,6 +38,8 @@ angular.module('liveopsConfigPanel')
       }],
       'searchOn': ['type'],
       'orderBy': 'type',
-      'title' : $translate.instant('integration.table.title')
+      'title' : $translate.instant('integration.table.title'),
+      'showCreate': false,
+      'showBulkActions': UserPermissions.hasPermission('MANAGE_ALL_PROVIDERS')
     };
   }]);

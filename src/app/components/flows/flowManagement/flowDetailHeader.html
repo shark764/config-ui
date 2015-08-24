@@ -1,7 +1,8 @@
 <div ng-if="originalResource.id">
   <toggle class="status-toggle" ng-model="resource.active" 
   confirm-disable-message="{{'flow.details.disable.confirm' | translate}}"
-  confirm-enable-message="{{'flow.details.enable.confirm' | translate}}"></toggle>
+  confirm-enable-message="{{'flow.details.enable.confirm' | translate}}"
+  ng-disabled="! ('MANAGE_ALL_FLOWS' | hasPermission)"></toggle>
 
   <div class="info">
     <h1>{{originalResource.name}}</h1>

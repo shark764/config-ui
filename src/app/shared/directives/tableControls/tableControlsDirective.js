@@ -11,13 +11,15 @@ angular.module('liveopsConfigPanel')
           items: '=',
           selected: '=',
           extendScope: '=',
-          resourceName: '@',
-          hideBulkActions: '='
+          resourceName: '@'
         },
         templateUrl: 'app/shared/directives/tableControls/tableControls.html',
         transclude: true,
         controller: function () {},
         link: function ($scope) {
+          $scope.showBulkActions = angular.isDefined($scope.config.showBulkActions) ? $scope.config.showBulkActions : true;
+          $scope.showCreate = angular.isDefined($scope.config.showCreate) ? $scope.config.showCreate : true;
+          
           angular.extend($scope, $scope.extendScope);
 
           $scope.$on('resource:details:' + $scope.resourceName + ':create:success',

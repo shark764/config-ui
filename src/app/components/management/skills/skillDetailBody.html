@@ -2,7 +2,7 @@
   <h4>{{'details' | translate}}</h4>
 </div>
 
-<div class="input-group">
+<div class="input-group" disable-contents="! ('MANAGE_ALL_SKILLS' | hasPermission)">
   <label>{{'value.name' | translate}}</label>
   <form-error field="detailsForm.name"
     error-type-required="{{'skill.details.name.error' | translate}}">
@@ -13,17 +13,17 @@
 
 </div>
 
-<div class="input-group">
+<div class="input-group" disable-contents="! ('MANAGE_ALL_SKILLS' | hasPermission)">
   <label class="textarea-label">{{'value.description' | translate}}</label>
   <div>
     <textarea ng-model="resource.description" name="description"></textarea>
   </div>
 </div>
 
-<div class="input-group">
+<div class="input-group" disable-contents="! ('MANAGE_ALL_SKILLS' | hasPermission)">
   <label>{{'skill.details.hasProficiency' | translate}}</label>
   <div>
     <div class="error" ng-show="detailsForm.hasProficiency.$touched && detailsForm.hasProficiency.$invalid">{{'skill.details.hasProficiency.error' | translate}}</div>
-    <toggle ng-disabled="originalResource.id && originalResource.hasProficiency" class="status-toggle" name="hasProficiency" ng-model="resource.hasProficiency"></toggle>
+    <toggle ng-disabled="! ('MANAGE_ALL_SKILLS' | hasPermission) || (originalResource.id && originalResource.hasProficiency)" class="status-toggle" name="hasProficiency" ng-model="resource.hasProficiency"></toggle>
   </div>
 </div>

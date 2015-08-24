@@ -59,23 +59,4 @@ describe('loSubmitChainExecutor directive', function() {
       expect(chain.execute).not.toHaveBeenCalled();
     });
   });
-
-  //TODO re-add these
-  xit('should raise an event', inject(['$timeout', function($timeout) {
-    spyOn(isolateScope, '$emit');
-
-    loFormSubmitController.resetForm();
-    $timeout.flush();
-
-    expect(isolateScope.$emit).toHaveBeenCalledWith('form:submit:success', undefined);
-  }]));
-
-  xit('should raise an event', inject(['$timeout', function($timeout) {
-    spyOn(isolateScope, '$emit');
-
-    loFormSubmitController.populateApiErrors(error);
-    $timeout.flush();
-
-    expect(isolateScope.$emit).toHaveBeenCalledWith('form:submit:failure', error);
-  }]));
 });

@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('dispatchMappingTableConfig', ['statuses', 'dispatchMappingInteractionFields', 'dispatchMappingChannelTypes', '$translate',
-    function (statuses, dispatchMappingInteractionFields, dispatchMappingChannelTypes, $translate) {
+  .service('dispatchMappingTableConfig', ['statuses', 'dispatchMappingInteractionFields', 'dispatchMappingChannelTypes', '$translate', 'UserPermissions',
+    function (statuses, dispatchMappingInteractionFields, dispatchMappingChannelTypes, $translate, UserPermissions) {
       return {
         'fields': [{
           'header': {
@@ -54,7 +54,9 @@ angular.module('liveopsConfigPanel')
         }],
         'searchOn': ['name'],
         'orderBy': 'name',
-        'title': $translate.instant('dispatchmappings.table.title')
+        'title': $translate.instant('dispatchmappings.table.title'),
+        'showCreate': UserPermissions.hasPermission('MAP_ALL_CONTACT_POINTS'),
+        'showBulkActions': UserPermissions.hasPermission('MAP_ALL_CONTACT_POINTS')
       };
     }
   ]);

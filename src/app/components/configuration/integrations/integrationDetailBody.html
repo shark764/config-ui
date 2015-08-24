@@ -1,24 +1,26 @@
-<div class="divider-header first-header">
-  <h4>{{'details' | translate}}</h4>
-</div>
-
-<div class="input-group">
-  <label>{{'integration.details.properties.accountSid' | translate}} *</label>
-  <div>
-    <input type="text" ng-model="resource.properties.accountSid">
+<div disable-contents="!('MANAGE_ALL_PROVIDERS' | hasPermission)">
+  <div class="divider-header first-header">
+    <h4>{{'details' | translate}}</h4>
   </div>
-</div>
-
-<div class="input-group">
-  <label>{{'integration.details.properties.authToken' | translate}} *</label>
-  <div>
-    <input type="password" ng-model="resource.properties.authToken">
+  
+  <div class="input-group">
+    <label>{{'integration.details.properties.accountSid' | translate}} *</label>
+    <div>
+      <input type="text" ng-model="resource.properties.accountSid">
+    </div>
   </div>
-</div>
-
-<div class="input-group">
-  <label>{{'integration.details.properties.webRTC' | translate}}</label>
-  <div>
-    <toggle ng-model="resource.properties.webRtc" />
+  
+  <div class="input-group">
+    <label>{{'integration.details.properties.authToken' | translate}} *</label>
+    <div>
+      <input type="password" ng-model="resource.properties.authToken">
+    </div>
+  </div>
+  
+  <div class="input-group">
+    <label>{{'integration.details.properties.webRTC' | translate}}</label>
+    <div>
+      <toggle ng-model="resource.properties.webRtc" ng-disabled="!('MANAGE_ALL_PROVIDERS' | hasPermission)"/>
+    </div>
   </div>
 </div>

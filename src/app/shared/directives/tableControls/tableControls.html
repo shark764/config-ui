@@ -4,7 +4,7 @@
       <h2 ng-if="config.title">{{config.title}}</h2>
     </div>
     <div class="col action-container">
-      <button id="create-btn" class="btn btn-create btn-primary" ng-click="onCreateClick()">{{'value.create' | translate}}</button>
+      <button id="create-btn" ng-show="showCreate" class="btn btn-create btn-primary" ng-click="onCreateClick()">{{'value.create' | translate}}</button>
     </div>
   </div>
 
@@ -17,7 +17,7 @@
     </div>
 
     <div class="col action-container">
-      <button id="actions-btn" ng-hide="hideBulkActions" class="btn" ng-click="onActionsClick()">{{'table.actions.button' | translate}}</button>
+      <button id="actions-btn" ng-show="showBulkActions" class="btn" ng-click="onActionsClick()">{{'table.actions.button' | translate}}</button>
       <filter-dropdown id="table-columns-dropdown" class="btn"
         label="{{'table.columns.button' | translate}}"
         options="config.fields"
@@ -33,7 +33,7 @@
 <table scroll-table class="table" ng-show="items.length" id="items-table">
   <thead>
     <tr>
-      <th id="bulk-actions-select-table-header" ng-hide="hideBulkActions" class="check-col">
+      <th id="bulk-actions-select-table-header" ng-show="showBulkActions" class="check-col">
         <input type="checkbox" ng-model="checkAll" ng-change="toggleAll(checkAll)" />
       </th>
       <th ng-repeat="field in config.fields" ng-if="field.checked" ng-class="{'filter-header': !!field.header.options}" class="sortable-header" ng-click="sortTable(field)">
@@ -54,7 +54,7 @@
   <tbody>
     <tr ng-repeat="item in (filtered = (items | selectedTableOptions:config.fields | search:config.searchOn:searchQuery | orderBy:orderBy:reverseSortOrder))"
       ng-class="{selected: item.id === selected.id}">
-      <td id="bulk-actions-select-table-cell" ng-hide="hideBulkActions" class="check-col" ng-click="checkItem(item)">
+      <td id="bulk-actions-select-table-cell" ng-show="showBulkActions" class="check-col" ng-click="checkItem(item)">
         <input type="checkbox" ng-checked="item.checked"/>
       </td>
 

@@ -61,7 +61,7 @@ angular.module('liveopsConfigPanel')
           $user: $scope.selectedTenantUser.$user,
           skills: $scope.selectedTenantUser.skills,
           groups: $scope.selectedTenantUser.groups
-        }; 
+        };
         
         return $scope.selectedTenantUser.save({
           tenantId: Session.tenant.tenantId
@@ -128,8 +128,7 @@ angular.module('liveopsConfigPanel')
       };
 
       this.updateUser = function() {
-        var newPassword = $scope.selectedTenantUser.$user.password;
-        
+     
         var promises = [];
         if($scope.forms.detailsForm.roleId &&
           $scope.forms.detailsForm.roleId.$dirty) {
@@ -147,15 +146,7 @@ angular.module('liveopsConfigPanel')
           }));
         }
         
-        promises.push($scope.selectedTenantUser.$user.save().then(function(user) {
-          if (user.id === Session.user.id) {
-            var token = AuthService.generateToken(user.email, newPassword);
-            Session.setUser(user);
-            Session.setToken(token);
-          }
-
-          return user;
-        }));
+        promises.push($scope.selectedTenantUser.$user.save());
         
         return $q.all(promises);
       };

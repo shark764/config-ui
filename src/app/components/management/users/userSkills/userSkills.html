@@ -5,7 +5,8 @@
 <loading ng-if="!fetchSkills().$resolved"></loading>
 
 <div ng-show="fetchSkills().$resolved" class="detail-group">
-<ng-form seperate-validation ng-disabled="saving" id="skillsForm" name="skillsForm" ng-show="fetchSkills().$resolved">
+<ng-form seperate-validation ng-disabled="saving" id="skillsForm" name="skillsForm" 
+  ng-show="fetchSkills().$resolved && ['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'MANAGE_ALL_USER_SKILLS', 'MANAGE_TENANT_ENROLLMENT'] | hasPermission">
   <type-ahead hover="true" placeholder="{{'details.skills.placeholder' | translate}}"
     items="fetchSkills()" selected-item="selectedSkill" is-required="true"></type-ahead>
   <number-slider
