@@ -1,8 +1,8 @@
 <div class="dropdown-label" ng-click="showDrop = ! showDrop">
   <span>{{label}}</span>
-  <div ng-if="showAll">
-    <span ng-if="all.checked">: All</span>
-    <span ng-if="!all.checked">: (...)</span>
+  <div ng-if="showAll" class="all-label">
+    <span ng-if="all.checked"><span ng-if="label">:</span> All</span>
+    <span ng-if="!all.checked"><span ng-if="label">:</span> (...)</span>
   </div>
   <span><i class="fa" ng-class="{'fa-caret-up' : showDrop, 'fa-caret-down' : ! showDrop}"></i></span>
 </div>

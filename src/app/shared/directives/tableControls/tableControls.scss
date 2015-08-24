@@ -71,10 +71,35 @@ table-controls {
     }
   
     th.filter-header {
-      white-space: nowrap;
-  
+      overflow: visible;
+      
       a:not(:hover) {
         color: #474747;
+      }
+      
+      .filter-header-content {
+        align-items: center;
+        @include display-flex();
+        white-space: nowrap;
+      }
+      
+      .filter-header-name {
+        flex: 1 auto;
+        overflow: hidden;
+      }
+      
+      filter-dropdown {
+        justify-content: flex-end;
+        text-align: right;
+        flex: 1 auto;
+      }
+      
+      .dropdown-label {
+        color: $grey;
+      }
+      
+      .dropdown-label:hover {
+        color: $darkest-grey;
       }
     }
     th:last-child {
