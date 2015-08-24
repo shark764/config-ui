@@ -17,7 +17,7 @@ angular.module('liveopsConfigPanel.mock.content.management.users', ['liveopsConf
       'firstName': 'Michael',
       'email': 'michael.oliver@ezent.io'
     }), new User({
-      'id': 'userId3',
+      'id': 'userId100',
       'status': 'enabled',
       'externalId': 80233,
       'lastName': 'Moon',
@@ -35,15 +35,21 @@ angular.module('liveopsConfigPanel.mock.content.management.users', ['liveopsConf
       $httpBackend.when('GET', apiHostname + '/v1/users/userId2?tenantId=tenant-id').respond({
         'result': mockUsers[1]
       });
+      
+      $httpBackend.when('GET', apiHostname + '/v1/users/userId100?tenantId=tenant-id').respond({
+        'result': mockUsers[2]
+      });
 
       $httpBackend.when('GET', apiHostname + '/v1/users?tenantId=tenant-id').respond({
         'result': mockUsers
       });
 
       $httpBackend.when('GET', apiHostname + '/v1/users').respond({
-        'result': mockUsers
+        'result': [mockUsers[0], mockUsers[1]]
       });
 
-      $httpBackend.when('GET', apiHostname + '/v1/userId0?tenantId=tenant-id').respond(404);
+      $httpBackend.when('GET', apiHostname + '/v1/users/userId0?tenantId=tenant-id').respond(404);
+      
+      $httpBackend.when('POST', apiHostname + '/v1/users').respond(mockUsers[2]);
     }
   ]);
