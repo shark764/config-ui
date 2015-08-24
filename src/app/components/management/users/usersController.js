@@ -108,25 +108,22 @@ angular.module('liveopsConfigPanel')
       this.saveNewUserTenantUser = function() {
         $scope.selectedTenantUser.$user.email = $scope.selectedTenantUser.email;
         return $scope.selectedTenantUser.$user.save().then(function(user) {
-          $scope.selectedTenantUser.$busy = true; //TODO: remove timeout once TITAN2-2881 is addressed
-          return $timeout(function() { //TODO: remove timeout once TITAN2-2881 is addressed
-            return $scope.selectedTenantUser.save({
-              tenantId: Session.tenant.tenantId
-            }).then(function(tenantUser) {
-              tenantUser.$user = user;
-              tenantUser.id = user.id;
-              tenantUser.$original.skills = [];
-              tenantUser.$original.groups = [{}];
+          return $scope.selectedTenantUser.save({
+            tenantId: Session.tenant.tenantId
+          }).then(function(tenantUser) {
+            tenantUser.$user = user;
+            tenantUser.id = user.id;
+            tenantUser.$original.skills = [];
+            tenantUser.$original.groups = [{}];
 
-              tenantUser.$original.roleName = TenantRole.getName(tenantUser.roleId);
-              
-              tenantUser.reset();
+            tenantUser.$original.roleName = TenantRole.getName(tenantUser.roleId);
+            
+            tenantUser.reset();
 
-              $scope.fetchTenantUsers().push(tenantUser);
+            $scope.fetchTenantUsers().push(tenantUser);
 
-              return tenantUser;
-            });
-          }, 3000);
+            return tenantUser;
+          });
         });
       };
 
