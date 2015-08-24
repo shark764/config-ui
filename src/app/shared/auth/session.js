@@ -106,7 +106,12 @@ angular.module('liveopsConfigPanel')
       };
 
       this.isAuthenticated = function () {
-        return !!this.token;
+        if (! this.token){
+          return false;
+        } else {
+          return this.token.indexOf('Token') < 0; //Prevent page load error when still authenticated with temp token
+        }
+
       };
 
       this.flush = function () {
