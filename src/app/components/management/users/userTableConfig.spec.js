@@ -1,6 +1,6 @@
 'use strict';
 
-describe('users controller', function () {
+describe('usersTableConfig', function () {
   var userTableConfig;
   
   beforeEach(module('gulpAngular'));
@@ -77,7 +77,7 @@ describe('users controller', function () {
       return false;
     });
     
-    expect(userTableConfig.getConfig().fields.length).toBe(6);
+    expect(userTableConfig.getConfig().fields.length).toBe(7);
   }]));
   
   it('should return all tenant groups if the user has permission', inject(['$httpBackend', 'UserPermissions', function($httpBackend, UserPermissions) {
@@ -100,7 +100,7 @@ describe('users controller', function () {
       return false;
     });
     
-    expect(userTableConfig.getConfig().fields.length).toBe(6);
+    expect(userTableConfig.getConfig().fields.length).toBe(7);
   }]));
   
   it('should return all tenant roles if the user has permission', inject(['$httpBackend', 'UserPermissions', function($httpBackend, UserPermissions) {
@@ -123,6 +123,6 @@ describe('users controller', function () {
       return false;
     });
     
-    expect(userTableConfig.getConfig().fields.length).toBe(6);
+    expect(userTableConfig.getConfig().fields.length).toBe(7);
   }]));
 });
