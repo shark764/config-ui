@@ -266,12 +266,7 @@ describe('users controller', function () {
 
     it('should attempt to save the tenantUser', function () {
       controller.saveNewUserTenantUser();
-
-      $httpBackend.flush();
-      
       $httpBackend.expect('POST', apiHostname + '/v1/tenants/tenant-id/users');
-      
-      $timeout.flush();
       $httpBackend.flush();
     });
   });

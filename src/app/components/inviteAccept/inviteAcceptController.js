@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('InviteAcceptController', ['$scope', 'User', '$state', '$stateParams', 'invitedUser', 'invitedTenantUser', 'AuthService', 'TenantUser', 'Alert', 'Session', '$timeout',
-    function ($scope, User, $state, $stateParams, invitedUser, invitedTenantUser, AuthService, TenantUser, Alert, Session, $timeout) {
+  .controller('InviteAcceptController', ['$scope', 'User', '$state', '$stateParams', 'invitedUser', 'invitedTenantUser', 'AuthService', 'TenantUser', 'Alert', 'Session',
+    function ($scope, User, $state, $stateParams, invitedUser, invitedTenantUser, AuthService, TenantUser, Alert, Session) {
       $scope.user = invitedUser;
       $scope.loading = false;
       
