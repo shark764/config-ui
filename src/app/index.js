@@ -242,37 +242,31 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
               order: 0,
               id: '00000000-0000-0000-000000000000',
               widgets: [{
-                  title: {
-                    enabled: true,
-                    text: 'Widget A'
-                  },
-                  size: {
-                      width: 3,
-                      height: 2
-                  },
-                  position: {
-                      row: 0,
-                      col: 0
-                  },
-                  chart: {
-                      type: 'line'
+                title: {
+                  enabled: true,
+                  text: 'Widget A'
+                },
+                size: {
+                  width: 3,
+                  height: 2
+                },
+                position: {
+                  row: 0,
+                  col: 0
+                },
+                chart: {
+                  type: 'line',
+                  data: {
+                    columns: [
+                      ['data1', 30, 200, 100, 400, 150, 5],
+                      ['data2', 50, 20, 10, 40, 15, 25]
+                    ],
+                    regions: {
+                      'data1': [{'start':1, 'end':2, 'style':'dashed'},{'start':3}], // currently 'dashed' style only
+                      'data2': [{'end':3}]
+                    }
                   }
-              }, {
-                  title: {
-                    enabled: false,
-                    text: 'Widget B'
-                  },
-                  size: {
-                      width: 3,
-                      height: 2
-                  },
-                  position: {
-                      row: 0,
-                      col: 0
-                  },
-                  chart: {
-                      type: 'statistic'
-                  }
+                }
               }]
             };
           }
