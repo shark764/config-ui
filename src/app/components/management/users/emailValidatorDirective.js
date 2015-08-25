@@ -11,6 +11,7 @@ angular.module('liveopsConfigPanel')
           
           ngModelController.$validators.duplicateEmail = function(modelValue) {
             var tenantUsers = $scope.fetchTenantUsers();
+            
             for(var tenantUserIndex = 0; tenantUserIndex < tenantUsers.length; tenantUserIndex++) {
               var tenantUser = tenantUsers[tenantUserIndex];
               if(tenantUser.email === modelValue) {
@@ -33,12 +34,9 @@ angular.module('liveopsConfigPanel')
             User.query({
               email: modelValue
             }).$promise.then(function(result) {
-              if (result.length > 0) {
-                ngResource.$user = result[0];
-                return def.reject();
-              }
-
-              return def.resolve();
+              ngResource.$user = result[0];
+              return def.reject();
+              
             }, function(error) {
 
               // If the request 404s, assume the email is unique
