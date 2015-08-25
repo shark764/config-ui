@@ -77,7 +77,7 @@ describe('usersTableConfig', function () {
       return false;
     });
     
-    expect(userTableConfig.getConfig().fields.length).toBe(7);
+    expect(userTableConfig.getConfig().fields.length).toBe(8);
   }]));
   
   it('should return all tenant groups if the user has permission', inject(['$httpBackend', 'UserPermissions', function($httpBackend, UserPermissions) {
@@ -100,7 +100,7 @@ describe('usersTableConfig', function () {
       return false;
     });
     
-    expect(userTableConfig.getConfig().fields.length).toBe(7);
+    expect(userTableConfig.getConfig().fields.length).toBe(8);
   }]));
   
   it('should return all tenant roles if the user has permission', inject(['$httpBackend', 'UserPermissions', function($httpBackend, UserPermissions) {
@@ -123,6 +123,6 @@ describe('usersTableConfig', function () {
       return false;
     });
     
-    expect(userTableConfig.getConfig().fields.length).toBe(7);
+    expect(userTableConfig.getConfig().fields.length).toBe(8);
   }]));
 });
