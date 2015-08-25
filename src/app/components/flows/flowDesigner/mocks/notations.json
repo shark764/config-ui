@@ -1067,6 +1067,87 @@
             "inputs": [],
             "params": {},
             "flow": "[{\"children\":[\"tag/t15483\"],\"bindings\":{},\"name\":\"add-participant\",\"params\":{\"customer\":{\"source\":\"expression\",\"value\":\"titan/customer\"},\"muted\":{\"source\":\"expression\",\"value\":\"false\"}},\"type\":\"task\",\"id\":\"tag/t15482\",\"parents\":[],\"decorations\":[],\"target\":\"twilio\",\"entity\":\"activity\"},{\"children\":[],\"bindings\":{},\"interrupting\":true,\"type\":\"signal\",\"id\":\"tag/t15483\",\"parents\":[\"tag/t15482\"],\"target\":\"customer-conversation-end\",\"entity\":\"catch\"}]"
+        },
+        {
+            "name": "handle-customer-hangups",
+            "entity": "template",
+            "label": "Customer Disconnect",
+            "start": "t15474",
+            "end": "t15477",
+            "inputs": [
+                {
+                    "name": "resource",
+                    "path": "params.resource",
+                    "type": "string",
+                    "label": "Resource ID",
+                    "group": "params",
+                    "index": 0,
+                    "disabled": false,
+                    "required": true,
+                    "hidden": false,
+                    "placeholder": "Enter a resource ID...",
+                    "targeted": false
+                }
+            ],
+            "params": {
+                "resource": {
+                    "source": "entity",
+                    "type": "string",
+                    "key": "resource",
+                    "mandatory": true
+                }
+            },
+            "flow": "[{\"id\":\"tag/t15474\",\"target\":\"target\",\"children\":[\"tag/t15475\"],\"parents\":[],\"entity\":\"start\",\"type\":\"signal\",\"target\":\"customer-disconnect\",\"interrupting\":true,\"bindings\":{}},{\"id\":\"tag/t15475\",\"children\":[\"tag/t15477\",\"tag/t15476\"],\"parents\":[\"tag/t15474\"],\"default\":\"tag/t15477\",\"conditionals\":[[\"tag/t15476\",\"{{resource}}\"],[\"tag/t15476\",\"false\"]],\"type\":\"exclusive\",\"entity\":\"gateway\"},{\"id\":\"tag/t15477\",\"children\":[],\"parents\":[\"tag/t15475\"],\"entity\":\"throw\",\"type\":\"terminate\",\"terminate\":true},{\"id\":\"tag/t15476\",\"children\":[],\"parents\":[\"tag/t15475\"],\"entity\":\"throw\",\"type\":\"none\",\"terminate\":true}]"
+        },
+        {
+            "name": "resource-flow",
+            "entity": "template",
+            "label": "Resource Flow",
+            "start": "t21959",
+            "end": "t21962",
+            "inputs": [
+                {
+                    "name": "resource",
+                    "path": "params.resource",
+                    "type": "string",
+                    "label": "Resource ID",
+                    "group": "params",
+                    "index": 0,
+                    "disabled": false,
+                    "required": true,
+                    "hidden": false,
+                    "placeholder": "Enter a resource ID...",
+                    "targeted": false
+                },
+                {
+                    "name": "timeout",
+                    "path": "params.timeout",
+                    "type": "string",
+                    "label": "Timeout:",
+                    "group": "params",
+                    "index": 1,
+                    "disabled": false,
+                    "required": true,
+                    "placeholder": "Enter a timeout...",
+                    "hidden": false
+                }
+            ],
+            "params": {
+                "resource": {
+                    "source": "entity",
+                    "type": "string",
+                    "key": "resource",
+                    "mandatory": true
+                },
+                "timeout": {
+                    "source": "expression",
+                    "type": "integer",
+                    "key": "timeout",
+                    "mandatory": true,
+                    "default": "30"
+                }
+            },
+            "flow": "[{\"children\":[\"tag/t21955\"],\"bindings\":{},\"interrupting\":true,\"type\":\"signal\",\"id\":\"tag/t21959\",\"parents\":[],\"target\":\"resource-acquired\",\"entity\":\"start\"},{\"children\":[\"tag/t21957\"],\"bindings\":{},\"interrupting\":true,\"type\":\"signal\",\"id\":\"tag/t21961\",\"parents\":[],\"target\":\"customer-disconnect\",\"entity\":\"catch\"},{\"children\":[\"tag/t21958\"],\"bindings\":{},\"name\":\"work-offer\",\"params\":{\"resource-id\":{\"source\":\"expression\",\"value\":\"resource.id\"},\"timeout\":{\"source\":\"expression\",\"value\":\"{{timeout}}\"},\"search-value\":{\"source\":\"expression\",\"value\":\"titan/customer\"},\"search-value-action\":{\"source\":\"expression\",\"value\":\"\\\"immediate\\\"\"}},\"type\":\"task\",\"id\":\"tag/t21955\",\"parents\":[\"tag/t21959\"],\"decorations\":[],\"target\":\"client\",\"entity\":\"activity\"},{\"children\":[\"tag/t21965\"],\"bindings\":{},\"name\":\"dial\",\"params\":{\"from\":{\"source\":\"expression\",\"value\":\"titan/customer\"},\"to\":{\"source\":\"expression\",\"value\":\"{{resource}}.extension\"},\"timeout\":{\"source\":\"expression\",\"value\":\"{{timeout}}\"},\"resource\":{\"source\":\"expression\",\"value\":\"{{resource}}\"}},\"type\":\"task\",\"id\":\"tag/t21958\",\"parents\":[\"tag/t21955\"],\"decorations\":[\"tag/t21964\",\"tag/t21963\"],\"target\":\"twilio\",\"entity\":\"activity\"},{\"children\":[\"tag/t21956\"],\"bindings\":{},\"interrupting\":true,\"type\":\"signal\",\"id\":\"tag/t21964\",\"parents\":[\"tag/t21958\"],\"target\":\"customer-disconnect\",\"entity\":\"catch\"},{\"children\":[\"tag/t21967\"],\"bindings\":{},\"interrupting\":true,\"type\":\"signal\",\"id\":\"tag/t21963\",\"parents\":[\"tag/t21958\"],\"target\":\"resource-disconnect\",\"entity\":\"catch\"},{\"id\":\"tag/t21967\",\"children\":[\"tag/t21960\"],\"parents\":[\"tag/t21963\"],\"entity\":\"throw\",\"type\":\"signal\",\"terminate\":false,\"event\":{\"name\":\"work-rejected\",\"params\":{}}},{\"children\":[\"tag/t21968\"],\"bindings\":{},\"name\":\"free-resource\",\"params\":{\"resource-id\":{\"source\":\"expression\",\"value\":\"{{resource}}\"}},\"type\":\"task\",\"id\":\"tag/t21957\",\"parents\":[\"tag/t21961\",\"tag/t21956\"],\"decorations\":[],\"entity\":\"activity\"},{\"children\":[\"tag/t21957\"],\"bindings\":{},\"name\":\"disconnect\",\"params\":{\"to\":{\"source\":\"expression\",\"value\":\"{{resource}}.extension\"},\"resource\":{\"source\":\"expression\",\"value\":\"{{resource}}\"}},\"type\":\"task\",\"id\":\"tag/t21956\",\"parents\":[\"tag/t21964\"],\"decorations\":[],\"target\":\"twilio\",\"entity\":\"activity\"},{\"children\":[\"tag/t21968\"],\"bindings\":{},\"name\":\"free-resource\",\"params\":{\"resource-id\":{\"source\":\"expression\",\"value\":\"{{resource}}\"}},\"type\":\"task\",\"id\":\"tag/t21960\",\"parents\":[\"tag/t21967\"],\"decorations\":[],\"entity\":\"activity\"},{\"id\":\"tag/t21968\",\"children\":[],\"parents\":[\"tag/t21957\",\"tag/t21960\"],\"entity\":\"throw\",\"type\":\"none\",\"terminate\":true},{\"id\":\"tag/t21965\",\"children\":[\"tag/t21966\"],\"parents\":[\"tag/t21958\"],\"entity\":\"throw\",\"type\":\"signal\",\"terminate\":false,\"event\":{\"name\":\"work-accepted\",\"params\":{\"resource\":{\"source\":\"expression\",\"value\":\"{{resource}}\"}}}},{\"children\":[\"tag/t21962\"],\"bindings\":{},\"name\":\"add-participant\",\"params\":{\"resource\":{\"source\":\"expression\",\"value\":\"{{resource}}\"},\"muted\":{\"source\":\"expression\",\"value\":\"false\"}},\"type\":\"task\",\"id\":\"tag/t21966\",\"parents\":[\"tag/t21965\"],\"decorations\":[],\"target\":\"twilio\",\"entity\":\"activity\"},{\"children\":[\"tag/t21954\"],\"bindings\":{},\"interrupting\":true,\"type\":\"signal\",\"id\":\"tag/t21962\",\"parents\":[\"tag/t21966\"],\"target\":\"agent-conversation-end\",\"entity\":\"catch\"},{\"id\":\"tag/t21954\",\"children\":[],\"parents\":[\"tag/t21962\"],\"entity\":\"throw\",\"type\":\"none\",\"terminate\":true}]"
         }
     ]
 }
