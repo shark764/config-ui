@@ -24,6 +24,10 @@
           new joint.shapes.liveOps.gateway({
             gatewayType: 'exclusive',
             content: 'derp2'
+          }),
+          new joint.shapes.liveOps.gateway({
+            gatewayType: 'event',
+            content: 'derp3'
           })
         ], 'gateways');
       },
