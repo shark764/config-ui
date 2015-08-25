@@ -2,27 +2,29 @@
   <h4>{{'details' | translate}}</h4>
 </div>
 
-<div class="input-group">
-  <label>{{'value.name' | translate}} *</label>
-  <form-error field="detailsForm.queuename"
-    error-type-required="{{'value.error.name.required' | translate}}">
-  </form-error>
-  <div>
-    <input type="text" ng-required="true" ng-model="resource.name" name="queuename" api-error></input>
+<div disable-contents="! ('MANAGE_ALL_QUEUES' | hasPermission)">
+  <div class="input-group">
+    <label>{{'value.name' | translate}} *</label>
+    <form-error field="detailsForm.queuename"
+      error-type-required="{{'value.error.name.required' | translate}}">
+    </form-error>
+    <div>
+      <input type="text" ng-required="true" ng-model="resource.name" name="queuename" api-error></input>
+    </div>
   </div>
-</div>
-
-<div class="input-group">
-  <label class="textarea-label">{{'value.description' | translate}}</label>
-  <div>
-    <textarea ng-model="resource.description"></textarea>
+  
+  <div class="input-group">
+    <label class="textarea-label">{{'value.description' | translate}}</label>
+    <div>
+      <textarea ng-model="resource.description"></textarea>
+    </div>
   </div>
-</div>
-
-<div ng-if="!resource.id" class="input-group">
-  <label class="disabled">{{'queue.details.activeVersion' | translate}}</label>
-  <div>
-    <input id="create-version-number" type="number" disabled value="1"></input>
+  
+  <div ng-if="!resource.id" class="input-group">
+    <label class="disabled">{{'queue.details.activeVersion' | translate}}</label>
+    <div>
+      <input id="create-version-number" type="number" ng-disabled="true" value="1"></input>
+    </div>
   </div>
 </div>
 
@@ -45,17 +47,17 @@
   <div class="input-group">
     <label class="disabled">{{'queue.details.startingpriority' | translate}}</label>
     <div>
-      <input id="create-version-priority-input" type="number" disabled value="75"></input>
+      <input id="create-version-priority-input" type="number" ng-disabled="true" value="75"></input>
     </div>
   </div>
 
   <div class="input-group">
     <label class="disabled">{{'queue.details.rateofincrease' | translate}}</label>
     <div>
-      <input id="create-version-rate-input" type="number" disabled value="2"></input>
+      <input id="create-version-rate-input" type="number" ng-disabled="true" value="2"></input>
     </div>
     <div>
-      <select id="create-version-rate-units-input" disabled>
+      <select id="create-version-rate-units-input" ng-disabled="true">
         <option disabled>mins</option>
       </select>
     </div>

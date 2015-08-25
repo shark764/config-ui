@@ -24,12 +24,14 @@ angular.module('liveopsConfigPanel')
       this.tenants = null;
       this.tenant = null;
       this.activeRegionId = null;
+      this.platformPermissions = null;
 
-      this.set = function (user, tenants, token) {
+      this.set = function (user, tenants, token, platformPermissions) {
         this.token = token;
         this.setUser(user);
         this.setTenants(tenants);
-
+        this.setPlatformPermissions(platformPermissions);
+        
         this.flush();
       };
 
@@ -62,6 +64,11 @@ angular.module('liveopsConfigPanel')
         this.token = token;
         this.flush();
       };
+      
+      this.setPlatformPermissions = function(platformPermissions){
+        this.platformPermissions = platformPermissions;
+        this.flush();
+      };
 
       this.destroy = function () {
         this.token = null;
@@ -73,7 +80,8 @@ angular.module('liveopsConfigPanel')
       this.setTenant = function (tenant) {
         self.tenant = {
           tenantId: tenant.tenantId,
-          name: tenant.name
+          tenantName: tenant.tenantName,
+          tenantPermissions: tenant.tenantPermissions
         };
         self.flush();
       };
@@ -83,7 +91,8 @@ angular.module('liveopsConfigPanel')
         this.tenant = null;
         this.activeRegionId = null;
         this.lang = 'en';
-
+        this.platformPermissions = null;
+        
         localStorage.removeItem(this.userPreferenceKey);
       };
 
@@ -97,14 +106,20 @@ angular.module('liveopsConfigPanel')
       };
 
       this.isAuthenticated = function () {
-        return !!this.token;
+        if (! this.token){
+          return false;
+        } else {
+          return this.token.indexOf('Token') < 0; //Prevent page load error when still authenticated with temp token
+        }
+
       };
 
       this.flush = function () {
         localStorage.setItem(self.userSessionKey, JSON.stringify({
           token: self.token,
           user: self.user,
-          tenants: self.tenants
+          tenants: self.tenants,
+          platformPermissions: self.platformPermissions
         }));
 
         localStorage.setItem(self.userPreferenceKey, JSON.stringify({

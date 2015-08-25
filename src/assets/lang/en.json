@@ -49,7 +49,8 @@
   "loading": "Loading",
 
   "api.error": "The API could not be contacted. Please reload the page to try again. If this error persists, please contact your systems administrator",
-
+  "permissions.unauthorized.message": "Sorry, your account does not have the correct permissions to view that page.",
+  
   "login.button": "Login",
   "login.error": "Invalid username or password.",
 
@@ -189,6 +190,7 @@
   "queue.details.creating": "Creating New Queue",
   "queue.details.disable.confirm": "This will disable this queue. Do you want to continue?",
   "queue.details.enable.confirm": "This will enable this queue. Do you want to continue?",
+  "queue.details.version.expand": "Show/hide Details",
   "queue.table.title": "Queue Management",
 
   "media.details": "Media",

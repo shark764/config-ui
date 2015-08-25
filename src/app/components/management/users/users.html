@@ -24,7 +24,6 @@
   class="right-panel"
   ng-show="selectedTenantUser || showBulkActions"
   ng-resource="selectedTenantUser">
-
     <ng-form
       class="details-pane"
       unsaved-changes-warning
@@ -54,7 +53,9 @@
           lo-submit="submit()"
           lo-submit-spinner
           lo-submit-spinner-status="selectedTenantUser.$busy || selectedTenantUser.$user.$busy"
-          ng-disabled="forms.detailsForm.$pending || (forms.detailsForm.$invalid && (forms.detailsForm.$error.length > 1 || scenario === 'update')) || ! forms.detailsForm.$dirty"
+          ng-disabled="forms.detailsForm.$pending ||
+            (forms.detailsForm.$invalid && ! forms.detailsForm.$error.duplicateEmail) ||
+            ! forms.detailsForm.$dirty"
           class="btn btn-primary"
           type="submit"
           value="{{'value.submit' | translate}}" />

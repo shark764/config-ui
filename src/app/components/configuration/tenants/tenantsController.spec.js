@@ -25,7 +25,6 @@ describe('TenantsController', function () {
       $controller('TenantsController', {
         '$scope': $scope
       });
-      $httpBackend.flush();
     }
   ]));
 

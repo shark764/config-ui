@@ -28,7 +28,7 @@ input[type=password], input[type=text], input[type=email], input[type=tel], inpu
     color: $grey;
   }
 
-  &:focus{
+  &:not([readonly]):focus{
     border-color: $accent1;
     outline: 0;
     @include box-shadow-2(inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px $input-border-shadow);
