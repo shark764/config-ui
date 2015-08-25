@@ -1,6 +1,6 @@
 'use strict';
 
-describe('users controller', function () {
+describe('usersTableConfig', function () {
   var userTableConfig;
   
   beforeEach(module('gulpAngular'));
@@ -17,10 +17,11 @@ describe('users controller', function () {
   ]));
 
   it('should have required fields', inject(function () {
-    expect(userTableConfig.fields).toBeDefined();
-    expect(userTableConfig.searchOn).toBeDefined();
-    expect(userTableConfig.orderBy).toBeDefined();
-    expect(userTableConfig.title).toBeDefined();
+    var config = userTableConfig.getConfig();
+    expect(config.fields).toBeDefined();
+    expect(config.searchOn).toBeDefined();
+    expect(config.orderBy).toBeDefined();
+    expect(config.title).toBeDefined();
   }));
   
   it('should return $user.getDisplay', function() {
@@ -32,49 +33,96 @@ describe('users controller', function () {
       }
     };
     
-    userTableConfig.fields[0].resolve(tenantUser);
+    userTableConfig.getConfig().fields[0].resolve(tenantUser);
     expect(tenantUser.$user.$original.getDisplay).toHaveBeenCalled();
   });
   
-  it('should return skills.length', function() {
+  it('should return skills.length', inject(['UserPermissions', function(UserPermissions) {
     var tenantUser = {
       skills: [{}]
     };
     
-    var length = userTableConfig.fields[3].resolve(tenantUser);
+    spyOn(UserPermissions, 'hasPermissionInList').and.returnValue(true);
+    var length = userTableConfig.getConfig().fields[3].resolve(tenantUser);
     expect(length).toEqual(1);
-  });
+  }]));
   
-  it('should return groups.length', function() {
+  it('should return groups.length', inject(['UserPermissions', function(UserPermissions) {
     var tenantUser = {
       groups: [{}, {}]
     };
     
-    var length = userTableConfig.fields[4].resolve(tenantUser);
+    spyOn(UserPermissions, 'hasPermissionInList').and.returnValue(true);
+    var length = userTableConfig.getConfig().fields[4].resolve(tenantUser);
     expect(length).toEqual(2);
-  });
+  }]));
   
-  it('should return all tenant skills', inject(['$httpBackend', function($httpBackend) {
-    var skills = userTableConfig.fields[3].header.options();
+  it('should return all tenant skills if the user has permission', inject(['$httpBackend', 'UserPermissions', function($httpBackend, UserPermissions) {
+    spyOn(UserPermissions, 'hasPermissionInList').and.returnValue(true);
+    var skills = userTableConfig.getConfig().fields[3].header.options();
     
     $httpBackend.flush();
     
     expect(skills.length).toEqual(2);
   }]));
   
-  it('should return all tenant groups', inject(['$httpBackend', function($httpBackend) {
-    var groups = userTableConfig.fields[4].header.options();
+  it('should not have tenant skills if the user does not have permission', inject(['$httpBackend', 'UserPermissions', function($httpBackend, UserPermissions) {
+    spyOn(UserPermissions, 'hasPermissionInList').and.callFake(function(arr){
+      for (var i = 0; i < arr.length; i++){
+        if (arr[i] !== 'PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT' && arr[i] !== 'VIEW_ALL_SKILLS' && arr[i] !==  'MANAGE_ALL_SKILLS' && arr[i] !==  'MANAGE_ALL_USER_SKILLS' && arr[i] !==  'MANAGE_TENANT_ENROLLMENT'){
+          return true;
+        }
+      }
+      
+      return false;
+    });
+    
+    expect(userTableConfig.getConfig().fields.length).toBe(7);
+  }]));
+  
+  it('should return all tenant groups if the user has permission', inject(['$httpBackend', 'UserPermissions', function($httpBackend, UserPermissions) {
+    spyOn(UserPermissions, 'hasPermissionInList').and.returnValue(true);
+    var groups = userTableConfig.getConfig().fields[4].header.options();
     
     $httpBackend.flush();
     
     expect(groups.length).toEqual(3);
   }]));
   
-  it('should return all tenant roles', inject(['$httpBackend', function($httpBackend) {
-    var roles = userTableConfig.fields[5].header.options();
+  it('should not have tenant groups if the user does not have permission', inject(['$httpBackend', 'UserPermissions', function($httpBackend, UserPermissions) {
+    spyOn(UserPermissions, 'hasPermissionInList').and.callFake(function(arr){
+      for (var i = 0; i < arr.length; i++){
+        if (arr[i] !== 'PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT' && arr[i] !== 'VIEW_ALL_GROUPS' && arr[i] !==  'MANAGE_ALL_GROUPS' && arr[i] !==  'MANAGE_ALL_GROUP_USERS' && arr[i] !==  'MANAGE_TENANT_ENROLLMENT' && arr[i] !== 'MANAGE_ALL_GROUP_OWNERS'){
+          return true;
+        }
+      }
+      
+      return false;
+    });
+    
+    expect(userTableConfig.getConfig().fields.length).toBe(7);
+  }]));
+  
+  it('should return all tenant roles if the user has permission', inject(['$httpBackend', 'UserPermissions', function($httpBackend, UserPermissions) {
+    spyOn(UserPermissions, 'hasPermissionInList').and.returnValue(true);
+    var roles = userTableConfig.getConfig().fields[5].header.options();
     
     $httpBackend.flush();
     
     expect(roles.length).toEqual(2);
+  }]));
+  
+  it('should not have tenant roles if the user does not have permission', inject(['$httpBackend', 'UserPermissions', function($httpBackend, UserPermissions) {
+    spyOn(UserPermissions, 'hasPermissionInList').and.callFake(function(arr){
+      for (var i = 0; i < arr.length; i++){
+        if (arr[i] !== 'PLATFORM_CREATE_TENANT_ROLES' && arr[i] !== 'PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT' && arr[i] !==  'VIEW_ALL_ROLES' && arr[i] !==  'MANAGE_ALL_ROLES' && arr[i] !==  'MANAGE_TENANT_ENROLLMENT'){
+          return true;
+        }
+      }
+      
+      return false;
+    });
+    
+    expect(userTableConfig.getConfig().fields.length).toBe(7);
   }]));
 });
