@@ -760,52 +760,14 @@
                 {
                     "name": "target",
                     "path": "target",
-                    "type": "typeahead",
+                    "type": "string",
                     "label": "Target:",
                     "group": "general",
                     "index": 0,
                     "disabled": false,
                     "required": false,
                     "placeholder": "Enter a target...",
-                    "hidden": false,
-                    "options": [
-                        {
-                            "value": "agent-conversation-start",
-                            "content": "agent-conversation-start"
-                        },
-                        {
-                            "value": "agent-conversation-end",
-                            "content": "agent-conversation-end"
-                        },
-                        {
-                            "value": "customer-conversation-start",
-                            "content": "customer-conversation-start"
-                        },
-                        {
-                            "value": "customer-conversation-end",
-                            "content": "customer-conversation-end"
-                        },
-                        {
-                            "value": "customer-disconnect",
-                            "content": "customer-disconnect"
-                        },
-                        {
-                            "value": "agent-disconnect",
-                            "content": "agent-disconnect"
-                        },
-                        {
-                            "value": "customer-abandon",
-                            "content": "customer-abandon"
-                        },
-                        {
-                            "value": "work-accepted",
-                            "content": "work-accepted"
-                        },
-                        {
-                            "value": "work-rejected",
-                            "content": "work-rejected"
-                        }
-                    ]
+                    "hidden": false
                 },
                 {
                     "name": "binding",
