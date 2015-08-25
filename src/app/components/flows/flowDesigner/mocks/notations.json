@@ -661,7 +661,7 @@
         {
             "name": "disconnect",
             "entity": "activity",
-            "label": "Disconnect:",
+            "label": "Disconnect",
             "targeted": true,
             "target": "twilio",
             "bindings": {},
