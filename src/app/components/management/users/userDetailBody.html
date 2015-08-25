@@ -94,7 +94,7 @@
     </div>
   </div>
 
-  <div disable-contents="forms.detailsForm.email.$invalid || scenario() == 'invite:existing:user' || ! ('PLATFORM_MANAGE_ALL_USERS' | hasPermission)">
+  <div disable-contents="forms.detailsForm.email.$invalid || scenario() == 'invite:existing:user' || ! (('PLATFORM_MANAGE_ALL_USERS' | hasPermission) || (('PLATFORM_MANAGE_USER_ACCOUNT' | hasPermission) && Session.user.id == selectedTenantUser.$user.id))">
     <div class="divider-header">
       <h4>{{'details' | translate}}</h4>
     </div>
