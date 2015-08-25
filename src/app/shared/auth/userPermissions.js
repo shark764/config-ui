@@ -5,6 +5,10 @@ angular.module('liveopsConfigPanel')
       var self = this;
     
       this.hasPermission = function(permissionKey){
+        if (! Session.isAuthenticated()){
+          return false;
+        }
+        
         var permissions = [];
         permissions.push.apply(permissions, Session.platformPermissions);
         permissions.push.apply(permissions, Session.tenant.tenantPermissions);

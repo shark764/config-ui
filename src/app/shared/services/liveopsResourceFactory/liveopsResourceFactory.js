@@ -171,12 +171,23 @@ angular.module('liveopsConfigPanel')
             var cache = queryCache.get(key);
 
             if(!cache || invalidate) {
-              var item = this.get(params);
-              queryCache.put(key, [item]);
-              return item;
+              queryCache.put(key, []);
+              cache = queryCache.get(key);
             }
 
-            return _.find(cache, params);
+            var item = _.find(cache, params);
+              
+            if(!item) {
+              item = this.get(params);
+              
+              for(var index in params) {
+                item[index] = params[index];
+              }
+              
+              cache.push(item);
+            }
+            
+            return item;
           };
 
           Resource.cachedQuery = function(params, cacheKey, invalidate) {

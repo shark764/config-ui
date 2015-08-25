@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('UsersController', ['$scope', '$window', '$parse', 'User', 'Session', 'AuthService', 'userTableConfig', 'Alert', 'flowSetup', 'BulkAction', '$q', '$location', 'lodash', 'Chain', 'TenantUser', 'TenantRole', 'queryCache', '$timeout',
-    function($scope, $window, $parse, User, Session, AuthService, userTableConfig, Alert, flowSetup, BulkAction, $q, $location, _, Chain, TenantUser, TenantRole, queryCache, $timeout) {
+  .controller('UsersController', ['$scope', '$window', '$parse', 'User', 'Session', 'AuthService', 'userTableConfig', 'Alert', 'flowSetup', 'BulkAction', '$q', '$location', 'lodash', 'Chain', 'TenantUser', 'TenantRole', 'queryCache',
+    function($scope, $window, $parse, User, Session, AuthService, userTableConfig, Alert, flowSetup, BulkAction, $q, $location, _, Chain, TenantUser, TenantRole, queryCache) {
       var self = this;
       
       $scope.forms = {};
@@ -45,7 +45,7 @@ angular.module('liveopsConfigPanel')
         var scenario = $scope.scenario();
 
         if (scenario.indexOf('invite:existing') === 0) {
-          return self.updateTenantUser();
+          return self.saveNewTenantUser();
         } else if (scenario === 'invite:new:user') {
           return self.saveNewUserTenantUser();
         } else if (scenario === 'update') {
@@ -54,7 +54,7 @@ angular.module('liveopsConfigPanel')
       };
       
       //TODO cleanup these functions. Lots of room to combine code.
-      $scope.sendInvite = function () {
+      this.saveTenantUser = function () {
         $scope.selectedTenantUser.status = 'invited';
         
         var backup = {
@@ -78,11 +78,11 @@ angular.module('liveopsConfigPanel')
         }).then(function() {
           Alert.success('Invite Sent');
         }, function() {
-          Alert.success('Error occured. Invite not sent.');
+          Alert.failure('Error occured. Invite not sent.');
         });
       };
       
-      this.updateTenantUser = function() {
+      this.saveNewTenantUser = function() {
         var user = $scope.selectedTenantUser.$user;
         
         return $scope.selectedTenantUser.save({
@@ -95,6 +95,8 @@ angular.module('liveopsConfigPanel')
           }).$promise.then(function(tenantUser) {
             $scope.selectedTenantUser = tenantUser;
             $scope.fetchTenantUsers().push(tenantUser);
+            
+            //TODO remove once roleName comes back on GET /v1/tenants/tenant-id/users/user-id
             tenantUser.$original.roleName = TenantRole.getName(tenantUser.roleId);
             tenantUser.reset();
             
@@ -106,25 +108,22 @@ angular.module('liveopsConfigPanel')
       this.saveNewUserTenantUser = function() {
         $scope.selectedTenantUser.$user.email = $scope.selectedTenantUser.email;
         return $scope.selectedTenantUser.$user.save().then(function(user) {
-          $scope.selectedTenantUser.$busy = true; //TODO: remove timeout once TITAN2-2881 is addressed
-          return $timeout(function() { //TODO: remove timeout once TITAN2-2881 is addressed
-            return $scope.selectedTenantUser.save({
-              tenantId: Session.tenant.tenantId
-            }).then(function(tenantUser) {
-              tenantUser.$user = user;
-              tenantUser.id = user.id;
-              tenantUser.$original.skills = [];
-              tenantUser.$original.groups = [{}];
+          return $scope.selectedTenantUser.save({
+            tenantId: Session.tenant.tenantId
+          }).then(function(tenantUser) {
+            tenantUser.$user = user;
+            tenantUser.id = user.id;
+            tenantUser.$original.skills = [];
+            tenantUser.$original.groups = [{}];
 
-              tenantUser.$original.roleName = TenantRole.getName(tenantUser.roleId);
-              
-              tenantUser.reset();
+            tenantUser.$original.roleName = TenantRole.getName(tenantUser.roleId);
+            
+            tenantUser.reset();
 
-              $scope.fetchTenantUsers().push(tenantUser);
+            $scope.fetchTenantUsers().push(tenantUser);
 
-              return tenantUser;
-            });
-          }, 3000);
+            return tenantUser;
+          });
         });
       };
 
@@ -151,7 +150,9 @@ angular.module('liveopsConfigPanel')
         
         return $q.all(promises);
       };
-
+      
+      $scope.saveTenantUser = this.saveTenantUser;
+      
       $scope.$on('table:on:click:create', function() {
         $scope.create();
       });

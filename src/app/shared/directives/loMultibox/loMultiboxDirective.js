@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('loMultibox', ['$timeout', function($timeout){
+  .directive('loMultibox', ['$timeout', 'filterFilter', '$q', function($timeout, filterFilter, $q){
     return {
       restrict: 'E',
       scope: {
@@ -9,15 +9,47 @@ angular.module('liveopsConfigPanel')
         resourceName: '@',
         model: '=',
         name: '@',
-        displayField: '@'
+        sourcePropertyName: '@',
+        destinationPropertyName: '@'
       },
       templateUrl: 'app/shared/directives/loMultibox/loMultibox.html',
       controller: 'DropdownController', //To handle auto collapsing on click!
       link: function($scope, ele, $attrs, dropCtrl) {
+        if (angular.isUndefined($scope.sourcePropertyName)){
+          $scope.sourcePropertyName = 'id';
+        }
+        
+        if (angular.isUndefined($scope.destinationPropertyName)){
+          $scope.destinationPropertyName = 'id';
+        }
+        
+        $scope.$watch('model', function(modelValue){
+          $scope.updateDisplayField(modelValue);
+        });
+        
+        $scope.updateDisplayField = function(modelValue){
+          var promise = $scope.items.$promise;
+          if (angular.isUndefined(promise)){
+            promise = $q.when($scope.items);
+          }
+          
+          promise.then(function(){
+            //Set the display input to show the display name of the pre-existing value, if any.
+            if (modelValue && angular.isDefined(modelValue[$scope.destinationPropertyName])){
+              var filterCriteria = {};
+              filterCriteria[$scope.sourcePropertyName] = modelValue[$scope.destinationPropertyName];
+              var existingSelection = filterFilter($scope.items, filterCriteria, true);
+              if (angular.isDefined(existingSelection) && existingSelection.length === 1){
+                $scope.display = existingSelection[0].getDisplay();
+              }
+            }
+          });
+        };
+        
         $scope.onSelect = function(selectedItem){
-          $scope.model.id = selectedItem.id;
-          $scope.model[$scope.displayField] = selectedItem[$scope.displayField];
-
+          $scope.model[$scope.destinationPropertyName] = selectedItem[$scope.sourcePropertyName];
+          $scope.display = selectedItem.getDisplay();
+          
           dropCtrl.setShowDrop(false);
           $scope.createMode = false;
           $scope.selectedItem = null;
