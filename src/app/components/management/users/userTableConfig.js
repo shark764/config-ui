@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('userTableConfig', ['userStatuses', 'userStates', '$translate', 'Skill', 'Group', 'TenantRole', 'Session', 'UserPermissions', 'queryCache',
-    function (userStatuses, userStates, $translate, Skill, Group, TenantRole, Session, UserPermissions, queryCache) {
+  .service('userTableConfig', ['userStatuses', 'userStates', '$translate', 'Skill', 'Group', 'TenantRole', 'Session', 'UserPermissions', 'tenantStatuses', 'queryCache',
+    function (userStatuses, userStates, $translate, Skill, Group, TenantRole, Session, UserPermissions, tenantStatuses, queryCache) {
       function getSkillOptions() {
         return Skill.cachedQuery({
           tenantId: Session.tenant.tenantId
@@ -45,7 +45,8 @@ angular.module('liveopsConfigPanel')
             'header': {
               'display': $translate.instant('details.externalId')
             },
-            'name': '$user.$original.externalId'
+            'name': '$user.$original.externalId',
+            'checked': false
           }],
           'orderBy': '$user.$original.lastName',
           'title': $translate.instant('user.table.title'),
@@ -127,8 +128,8 @@ angular.module('liveopsConfigPanel')
           },
           'name': '$original.state',
           'lookup': '$original:state',
-          'transclude': true,
-          'checked': false
+          'id': 'user-presence-table-column',
+          'transclude': true
         }, {
           'header': {
             'display': $translate.instant('value.status'),
@@ -136,11 +137,22 @@ angular.module('liveopsConfigPanel')
             'displayPath': 'display',
             'options': userStatuses()
           },
-          'name': '$original.status',
-          'lookup': '$original:status',
+          'name': '$original.$user.status',
+          'lookup': '$original:$user:status',
           'id': 'user-status-table-column',
           'transclude': true,
           'checked': false
+        }, {
+          'header': {
+            'display': $translate.instant('value.tenantStatus'),
+            'valuePath': 'value',
+            'displayPath': 'display',
+            'options': tenantStatuses()
+          },
+          'name': '$original.status',
+          'lookup': '$original:status',
+          'id': 'tenant-status-table-column',
+          'transclude': true
         });
         
         queryCache.put('userTableConfig', defaultConfig);
