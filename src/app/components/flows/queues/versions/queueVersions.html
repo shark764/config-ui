@@ -100,7 +100,9 @@
     <thead>
       <th>{{'value.version' | translate}}</th>
       <th>{{'value.createdOn' | translate}}</th>
-      <th>{{'queue.details.createdBy' | translate}}</th>
+      <th ng-if="['PLATFORM_VIEW_ALL_USERS', 'PLATFORM_CREATE_USERS', 'PLATFORM_MANAGE_ALL_USERS', 'PLATFORM_MANAGE_ALL_TENANTS', 'PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT'] | hasPermission">
+        {{'queue.details.createdBy' | translate}}
+      </th>
     </thead>
     <tr ng-repeat-start="version in versions | orderBy:'created':'reverse'" id="version-row-{{version.name}}">
       <td>
@@ -109,7 +111,7 @@
         {{version.name}}
       </td>
       <td>{{version.created | date:'medium'}}</td>
-      <td>
+      <td ng-if="['PLATFORM_VIEW_ALL_USERS', 'PLATFORM_CREATE_USERS', 'PLATFORM_MANAGE_ALL_USERS', 'PLATFORM_MANAGE_ALL_TENANTS', 'PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT'] | hasPermission">
         <audit-text translation="value.displayName" user-id="version.createdBy"></audit-text>
       </td>
     </tr>
