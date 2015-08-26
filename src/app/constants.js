@@ -34,7 +34,17 @@ angular.module('liveopsConfigPanel.config', [])
     }];
   };
 })
-
+.factory('ynStatuses', function () {
+  return function(){
+    return [{
+      'display': 'No',
+      'value': false
+    }, {
+      'display': 'Yes',
+      'value': true
+    }];
+  };
+})
 .factory('tenantStatuses', function() {
   return function(){
     return [{
