@@ -220,6 +220,10 @@ header {
     position: relative;
   }
 
+  > .timestamp input[type=text] {
+    width: 60px;
+  }
+
   button, input[type=button] {
     width: 175px;
   }

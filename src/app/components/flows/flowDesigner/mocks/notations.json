@@ -358,7 +358,7 @@
                 {
                     "name": "timeout",
                     "path": "params.timeout",
-                    "type": "string",
+                    "type": "timestamp",
                     "label": "Timeout:",
                     "group": "params",
                     "index": 0,
@@ -390,9 +390,13 @@
                 },
                 "timeout": {
                     "source": "expression",
-                    "type": "string",
+                    "type": "timestamp",
                     "mandatory": true,
-                    "key": "timeout"
+                    "key": "timeout",
+                    "default": {
+                        "value": 30,
+                        "measurement": "seconds"
+                    }
                 },
                 "search-value": {
                     "source": "expression",
