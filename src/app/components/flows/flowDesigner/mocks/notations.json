@@ -713,6 +713,137 @@
                     }
                 }
             }
+        },
+        {
+            "name": "hold",
+            "entity": "activity",
+            "label": "Hold",
+            "targeted": true,
+            "target": "twilio",
+            "bindings": {},
+            "inputs": [
+                {
+                    "name": "participant",
+                    "path": "params.participant",
+                    "type": "select",
+                    "label": "Participant:",
+                    "group": "params",
+                    "index": 0,
+                    "disabled": false,
+                    "required": true,
+                    "placeholder": null,
+                    "hidden": false,
+                    "options": [
+                        {
+                            "value": "titan/customer",
+                            "content": "Customer"
+                        },
+                        {
+                            "value": "resource",
+                            "content": "Resource"
+                        }
+                    ]
+                },
+                {
+                    "name": "media",
+                    "path": "params.media",
+                    "type": "typeahead",
+                    "label": "Media:",
+                    "group": "params",
+                    "index": 0,
+                    "disabled": false,
+                    "required": false,
+                    "placeholder": "Search for a media...",
+                    "hidden": false,
+                    "source": "media"
+                }
+            ],
+            "params": {
+                "customer": {
+                    "source": "expression",
+                    "type": "variable",
+                    "key": "participant",
+                    "mandatory": true,
+                    "when": {
+                        "eq": {
+                            "params.participant": "titan/customer"
+                        }
+                    }
+                },
+                "resource": {
+                    "source": "expression",
+                    "type": "variable",
+                    "key": "participant",
+                    "mandatory": true,
+                    "when": {
+                        "ne": {
+                            "params.participant": "titan/customer"
+                        }
+                    }
+                },
+                "media": {
+                    "source": "entity",
+                    "type": "media",
+                    "mandatory": true,
+                    "key": "media"
+                }
+            }
+        },
+        {
+            "name": "resume",
+            "entity": "activity",
+            "label": "Resume",
+            "targeted": true,
+            "target": "twilio",
+            "bindings": {},
+            "inputs": [
+                {
+                    "name": "participant",
+                    "path": "params.participant",
+                    "type": "select",
+                    "label": "Participant:",
+                    "group": "params",
+                    "index": 0,
+                    "disabled": false,
+                    "required": true,
+                    "placeholder": null,
+                    "hidden": false,
+                    "options": [
+                        {
+                            "value": "titan/customer",
+                            "content": "Customer"
+                        },
+                        {
+                            "value": "resource",
+                            "content": "Resource"
+                        }
+                    ]
+                }
+            ],
+            "params": {
+                "customer": {
+                    "source": "expression",
+                    "type": "variable",
+                    "key": "participant",
+                    "mandatory": true,
+                    "when": {
+                        "eq": {
+                            "params.participant": "titan/customer"
+                        }
+                    }
+                },
+                "resource": {
+                    "source": "expression",
+                    "type": "variable",
+                    "key": "participant",
+                    "mandatory": true,
+                    "when": {
+                        "ne": {
+                            "params.participant": "titan/customer"
+                        }
+                    }
+                }
+            }
         }
     ],
     "events": [
@@ -1166,6 +1297,37 @@
                 }
             },
             "flow": "[{\"children\":[\"tag/t21955\"],\"bindings\":{},\"interrupting\":true,\"type\":\"signal\",\"id\":\"tag/t21959\",\"parents\":[],\"target\":\"resource-acquired\",\"entity\":\"start\"},{\"children\":[\"tag/t21957\"],\"bindings\":{},\"interrupting\":true,\"type\":\"signal\",\"id\":\"tag/t21961\",\"parents\":[],\"target\":\"customer-disconnect\",\"entity\":\"catch\"},{\"children\":[\"tag/t21958\"],\"bindings\":{},\"name\":\"work-offer\",\"params\":{\"resource-id\":{\"source\":\"expression\",\"value\":\"resource.id\"},\"timeout\":{\"source\":\"expression\",\"value\":\"{{timeout}}\"},\"search-value\":{\"source\":\"expression\",\"value\":\"titan/customer\"},\"search-value-action\":{\"source\":\"expression\",\"value\":\"\\\"immediate\\\"\"}},\"type\":\"task\",\"id\":\"tag/t21955\",\"parents\":[\"tag/t21959\"],\"decorations\":[],\"target\":\"client\",\"entity\":\"activity\"},{\"children\":[\"tag/t21965\"],\"bindings\":{},\"name\":\"dial\",\"params\":{\"from\":{\"source\":\"expression\",\"value\":\"titan/customer\"},\"to\":{\"source\":\"expression\",\"value\":\"{{resource}}.extension\"},\"timeout\":{\"source\":\"expression\",\"value\":\"{{timeout}}\"},\"resource\":{\"source\":\"expression\",\"value\":\"{{resource}}\"}},\"type\":\"task\",\"id\":\"tag/t21958\",\"parents\":[\"tag/t21955\"],\"decorations\":[\"tag/t21964\",\"tag/t21963\"],\"target\":\"twilio\",\"entity\":\"activity\"},{\"children\":[\"tag/t21956\"],\"bindings\":{},\"interrupting\":true,\"type\":\"signal\",\"id\":\"tag/t21964\",\"parents\":[\"tag/t21958\"],\"target\":\"customer-disconnect\",\"entity\":\"catch\"},{\"children\":[\"tag/t21967\"],\"bindings\":{},\"interrupting\":true,\"type\":\"signal\",\"id\":\"tag/t21963\",\"parents\":[\"tag/t21958\"],\"target\":\"resource-disconnect\",\"entity\":\"catch\"},{\"id\":\"tag/t21967\",\"children\":[\"tag/t21960\"],\"parents\":[\"tag/t21963\"],\"entity\":\"throw\",\"type\":\"signal\",\"terminate\":false,\"event\":{\"name\":\"work-rejected\",\"params\":{}}},{\"children\":[\"tag/t21968\"],\"bindings\":{},\"name\":\"free-resource\",\"params\":{\"resource-id\":{\"source\":\"expression\",\"value\":\"{{resource}}\"}},\"type\":\"task\",\"id\":\"tag/t21957\",\"parents\":[\"tag/t21961\",\"tag/t21956\"],\"decorations\":[],\"entity\":\"activity\"},{\"children\":[\"tag/t21957\"],\"bindings\":{},\"name\":\"disconnect\",\"params\":{\"to\":{\"source\":\"expression\",\"value\":\"{{resource}}.extension\"},\"resource\":{\"source\":\"expression\",\"value\":\"{{resource}}\"}},\"type\":\"task\",\"id\":\"tag/t21956\",\"parents\":[\"tag/t21964\"],\"decorations\":[],\"target\":\"twilio\",\"entity\":\"activity\"},{\"children\":[\"tag/t21968\"],\"bindings\":{},\"name\":\"free-resource\",\"params\":{\"resource-id\":{\"source\":\"expression\",\"value\":\"{{resource}}\"}},\"type\":\"task\",\"id\":\"tag/t21960\",\"parents\":[\"tag/t21967\"],\"decorations\":[],\"entity\":\"activity\"},{\"id\":\"tag/t21968\",\"children\":[],\"parents\":[\"tag/t21957\",\"tag/t21960\"],\"entity\":\"throw\",\"type\":\"none\",\"terminate\":true},{\"id\":\"tag/t21965\",\"children\":[\"tag/t21966\"],\"parents\":[\"tag/t21958\"],\"entity\":\"throw\",\"type\":\"signal\",\"terminate\":false,\"event\":{\"name\":\"work-accepted\",\"params\":{\"resource\":{\"source\":\"expression\",\"value\":\"{{resource}}\"}}}},{\"children\":[\"tag/t21962\"],\"bindings\":{},\"name\":\"add-participant\",\"params\":{\"resource\":{\"source\":\"expression\",\"value\":\"{{resource}}\"},\"muted\":{\"source\":\"expression\",\"value\":\"false\"}},\"type\":\"task\",\"id\":\"tag/t21966\",\"parents\":[\"tag/t21965\"],\"decorations\":[],\"target\":\"twilio\",\"entity\":\"activity\"},{\"children\":[\"tag/t21954\"],\"bindings\":{},\"interrupting\":true,\"type\":\"signal\",\"id\":\"tag/t21962\",\"parents\":[\"tag/t21966\"],\"target\":\"agent-conversation-end\",\"entity\":\"catch\"},{\"id\":\"tag/t21954\",\"children\":[],\"parents\":[\"tag/t21962\"],\"entity\":\"throw\",\"type\":\"none\",\"terminate\":true}]"
+        },
+        {
+            "name": "customer-hold-resume",
+            "entity": "template",
+            "label": "Customer Hold/ Resume",
+            "start": "t22080",
+            "end": "t22078",
+            "inputs": [
+                {
+                    "name": "media",
+                    "path": "params.media",
+                    "type": "typeahead",
+                    "label": "Media:",
+                    "group": "params",
+                    "index": 2,
+                    "disabled": false,
+                    "required": true,
+                    "hidden": false,
+                    "source": "media",
+                    "placeholder": "Search for media..."
+                }
+            ],
+            "params": {
+                "media": {
+                    "source": "entity",
+                    "type": "media",
+                    "key": "media",
+                    "mandatory": true
+                }
+            },
+            "flow": "[{\"children\":[\"tag/t22084\"],\"bindings\":{\"resource-id\":\"resource-id\"},\"interrupting\":true,\"type\":\"signal\",\"id\":\"tag/t22080\",\"parents\":[],\"target\":\"customer-hold\",\"entity\":\"start\"},{\"children\":[\"tag/t22082\"],\"bindings\":{},\"name\":\"hold\",\"params\":{\"customer\":{\"source\":\"expression\",\"value\":\"titan/customer\"},\"media\":{\"source\":\"system\",\"store\":\"media\",\"id\":\"{{media}}\"}},\"type\":\"task\",\"id\":\"tag/t22084\",\"parents\":[\"tag/t22080\"],\"decorations\":[],\"target\":\"twilio\",\"entity\":\"activity\"},{\"id\":\"tag/t22082\",\"children\":[\"tag/t22081\"],\"parents\":[\"tag/t22084\"],\"entity\":\"throw\",\"type\":\"signal\",\"terminate\":false,\"event\":{\"name\":\"customer-hold-start\",\"params\":{}}},{\"children\":[\"tag/t22079\"],\"bindings\":{\"resource-id\":\"resource-id\"},\"interrupting\":true,\"type\":\"signal\",\"id\":\"tag/t22081\",\"parents\":[\"tag/t22082\"],\"target\":\"customer-resume\",\"entity\":\"start\"},{\"children\":[\"tag/t22085\"],\"bindings\":{},\"name\":\"resume\",\"params\":{\"customer\":{\"source\":\"expression\",\"value\":\"titan/customer\"}},\"type\":\"task\",\"id\":\"tag/t22079\",\"parents\":[\"tag/t22081\"],\"decorations\":[],\"target\":\"twilio\",\"entity\":\"activity\"},{\"id\":\"tag/t22085\",\"children\":[\"tag/t22078\"],\"parents\":[\"tag/t22079\"],\"entity\":\"throw\",\"type\":\"signal\",\"terminate\":false,\"event\":{\"name\":\"customer-hold-end\",\"params\":{}}},{\"id\":\"tag/t22078\",\"children\":[],\"parents\":[\"tag/t22085\"],\"entity\":\"throw\",\"type\":\"terminate\",\"terminate\":true}]"
         }
     ]
 }
