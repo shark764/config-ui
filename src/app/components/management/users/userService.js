@@ -11,8 +11,7 @@ angular.module('liveopsConfigPanel')
         }, {
           name: 'lastName'
         }, {
-          name: 'role',
-          optional: true
+          name: 'roleId'
         }, {
           name: 'displayName'
         }, {

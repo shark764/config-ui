@@ -34,7 +34,9 @@ angular.module('liveopsConfigPanel')
             User.query({
               email: modelValue
             }).$promise.then(function(result) {
-              ngResource.$user = new User();
+              ngResource.$user = new User({
+                created: true
+              });
               return def.reject();
               
             }, function(error) {
