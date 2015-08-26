@@ -6,7 +6,7 @@ angular.module('liveopsConfigPanel')
       restrict: 'E',
       scope : {
         items: '=',
-        selectedItem: '=',
+        selectedItem: '=?',
         nameField: '@',
         onSelect: '&',
         isRequired: '=',
@@ -43,7 +43,12 @@ angular.module('liveopsConfigPanel')
 
             //Empty timeout forces onSelect to only be called after digest is complete,
             //so the variable bound to selectedItem will have been properly updated
-            $timeout($scope.onSelect, 1);
+            //$timeout($scope.onSelect, 1);
+            $timeout(function(){
+              $scope.onSelect({selectedItem: filteredItems[0]});
+            })
+            
+
           } else {
             $scope.selectedItem = {};
             $scope.selectedItem[$scope.nameField] = $scope.currentText;
