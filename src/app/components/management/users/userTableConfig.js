@@ -64,7 +64,7 @@ angular.module('liveopsConfigPanel')
           }]
         };
 
-        defaultConfig.showBulkActions = UserPermissions.hasPermission('PLATFORM_MANAGE_ALL_USERS');
+        defaultConfig.showBulkActions = UserPermissions.hasPermissionInList(['PLATFORM_MANAGE_ALL_USERS', 'MANAGE_TENANT_ENROLLMENT', 'MANAGE_ALL_USER_SKILLS', 'PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT']);
         defaultConfig.showCreate = UserPermissions.hasPermissionInList(['PLATFORM_CREATE_USERS', 'PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'MANAGE_TENANT_ENROLLMENT']);
         
         if (UserPermissions.hasPermissionInList(['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'VIEW_ALL_SKILLS', 'MANAGE_ALL_SKILLS', 'MANAGE_ALL_USER_SKILLS', 'MANAGE_TENANT_ENROLLMENT'])){
