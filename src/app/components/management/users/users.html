@@ -61,6 +61,7 @@
           lo-submit-spinner-status="selectedTenantUser.$busy || selectedTenantUser.$user.$busy"
           ng-disabled="forms.detailsForm.$pending ||
             (forms.detailsForm.$invalid && ! forms.detailsForm.$error.duplicateEmail) ||
+            (forms.detailsForm.$error | keysCount) > 1 ||
             ! forms.detailsForm.$dirty"
           class="btn btn-primary"
           type="submit"
