@@ -225,7 +225,7 @@ header {
   }
 }
 
-div[disable-contents] + .input-group {
+div[disable-contents] + .input-group, .input-group + div[disable-contents] {
   padding-top: 10px;
 }
 
