@@ -32,6 +32,7 @@ angular.module('liveopsConfigPanel')
         $scope.newPassword = $scope.user.password;
         
         delete $scope.user.status; //Users don't have permission to update their own status
+        delete $scope.user.roleId; //Users cannot update their own roles
         $scope.user.save()
           .then($scope.signupSuccess, $scope.signupFailure);
       };
