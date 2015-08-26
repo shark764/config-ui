@@ -159,16 +159,6 @@ describe('The flows view', function() {
     });
   });
 
-  it('should display the version number for each flow version, in reverse order', function() {
-    shared.firstTableRow.click();
-    flows.versionsTableElements.then(function(versions) {
-      for (var i = 1; i < versions.length; ++i) {
-        var currVersion = versions.length - i + 1;
-        expect(flows.versionsTableElements.get(i - 1).element(by.css('td:nth-child(1)')).getText()).toContain('v' + currVersion);
-      };
-    });
-  });
-
   it('should display button to new flow version and correct fields', function() {
     shared.firstTableRow.click();
 

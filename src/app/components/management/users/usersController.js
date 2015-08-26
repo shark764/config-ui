@@ -8,7 +8,7 @@ angular.module('liveopsConfigPanel')
       $scope.forms = {};
       $scope.Session = Session;
       $window.flowSetup = flowSetup;
-      $scope.tableConfig = userTableConfig;
+      $scope.userTableConfig = userTableConfig;
 
       $scope.scenario = function() {
         if (!$scope.selectedTenantUser) {

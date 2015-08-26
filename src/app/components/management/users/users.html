@@ -1,16 +1,22 @@
 
 <table-controls
   id="table-pane"
-  config="tableConfig"
+  config="userTableConfig.getConfig()"
   items="fetchTenantUsers()"
   selected="selectedTenantUser"
   resource-name="tenantUser">
 
   <tenant-user-status name="$original.status"
     ng-model="item.$original.status">
-  </user-status>
+  </tenant-user-status>
 
   <user-state name="$original.state" ng-model="item.$original.state"></user-state>
+  
+  <div name="$original.$user.status">
+    <span ng-show="item.$user.status === 'enabled'">{{'value.enabled' | translate}}</span>
+    <span ng-show="item.$user.status === 'pending'">{{'value.pending' | translate}}</span>
+    <span ng-show="item.$user.status === 'disabled'" class="disabled">{{'value.disabled' | translate}}</span>
+  </div>
 </table-controls>
 
 <resize-handle
