@@ -96,7 +96,7 @@ describe('The create new user form', function() {
     expect(shared.successMessage.isPresent()).toBeFalsy();
   });
 
-  it('should not accept spaces as valid input for required fields', function() {
+  xit('should not accept spaces as valid input for required fields', function() {
     shared.createBtn.click();
 
     // Enter a space into each field, select required dropdown field
@@ -127,9 +127,9 @@ describe('The create new user form', function() {
     // Add new user
     shared.createBtn.click();
 
+    users.emailFormField.sendKeys('titantest' + randomUser + '@mailinator.com\t');
     users.firstNameFormField.sendKeys('First' + randomUser);
     users.lastNameFormField.sendKeys('Last' + randomUser);
-    users.emailFormField.sendKeys('titantest' + randomUser + '@mailinator.com');
     users.roleFormDropdownOptions.get((randomUser % 3) + 1).click();
     users.externalIdFormField.sendKeys(randomUser);
     users.personalTelephoneFormField.sendKeys('15062345678');
@@ -163,9 +163,9 @@ describe('The create new user form', function() {
 
     // Add new user
     shared.createBtn.click();
+    users.emailFormField.sendKeys('titantest' + randomUser + '@mailinator.com\t');
     users.firstNameFormField.sendKeys('First' + randomUser);
     users.lastNameFormField.sendKeys('Last' + randomUser);
-    users.emailFormField.sendKeys('titantest' + randomUser + '@mailinator.com');
     users.roleFormDropdownOptions.get((randomUser % 3) + 1).click();
     users.externalIdFormField.sendKeys(randomUser);
     users.personalTelephoneFormField.sendKeys('15062345678');
@@ -214,11 +214,13 @@ describe('The create new user form', function() {
 
     // Email field blank
     users.emailFormField.click();
-    users.firstNameFormField.sendKeys('First' + randomUser);
-    users.lastNameFormField.sendKeys('Last' + randomUser);
     users.roleFormDropdownOptions.get((randomUser % 3) + 1).click();
-    users.externalIdFormField.sendKeys(randomUser);
-    users.personalTelephoneFormField.sendKeys('15062345678');
+
+    // Fields remain disabled
+    expect(users.firstNameFormField.getAttribute('disabled')).toBeTruthy();
+    expect(users.lastNameFormField.getAttribute('disabled')).toBeTruthy();
+    expect(users.personalTelephoneFormField.getAttribute('disabled')).toBeTruthy();
+    expect(users.externalIdFormField.getAttribute('disabled')).toBeTruthy();
 
     expect(users.submitFormBtn.getAttribute('disabled')).toBeTruthy();
 
@@ -230,30 +232,28 @@ describe('The create new user form', function() {
     expect(users.requiredErrors.get(0).getText()).toBe('Please enter an email address');
   });
 
-  xit('should require Role field', function() {
+  it('should require Role field', function() {
     randomUser = Math.floor((Math.random() * 1000) + 1);
     shared.createBtn.click();
 
-    users.emailFormField.sendKeys('titantest' + randomUser + '@mailinator.com');
+    users.emailFormField.sendKeys('titantest' + randomUser + '@mailinator.com\t');
     users.roleFormDropdown.click();
     users.firstNameFormField.sendKeys('First' + randomUser);
     users.lastNameFormField.sendKeys('Last' + randomUser);
     users.externalIdFormField.sendKeys('12345');
     users.personalTelephoneFormField.sendKeys('15062345678');
 
-    // TODO Bug TITAN2-2969
-    //expect(users.submitFormBtn.getAttribute('disabled')).toBeTruthy();
+    expect(users.submitFormBtn.getAttribute('disabled')).toBeTruthy();
 
     users.submitFormBtn.click();
     expect(shared.tableElements.count()).toBe(userCount);
     expect(shared.successMessage.isPresent()).toBeFalsy();
 
     expect(users.requiredErrors.get(0).isDisplayed()).toBeTruthy;
-    // TODO Will pass after TITAN2-2969 is resolved
-    //expect(users.requiredErrors.get(0).getText()).toBe('Please select a role');
+    expect(users.requiredErrors.get(0).getText()).toBe('Please select a role');
   });
 
-  xit('should not require First Name, Last Name, External Id or Personal Telephone', function() {
+  it('should not require First Name, Last Name, External Id or Personal Telephone', function() {
     // Add randomness to user details
     randomUser = Math.floor((Math.random() * 1000) + 1);
     var newUserEmail = 'titantest' + randomUser + '@mailinator.com'
@@ -261,7 +261,7 @@ describe('The create new user form', function() {
 
     // Add new user
     shared.createBtn.click();
-    users.emailFormField.sendKeys(newUserEmail);
+    users.emailFormField.sendKeys(newUserEmail + '\t');
     users.roleFormDropdownOptions.get((randomUser % 3) + 1).click();
 
     users.submitFormBtn.click().then(function() {
@@ -285,27 +285,37 @@ describe('The create new user form', function() {
     });
   });
 
-  xit('should require valid Email field input', function() {
+  it('should require valid Email field input', function() {
     randomUser = Math.floor((Math.random() * 1000) + 1);
     shared.createBtn.click();
 
     users.roleFormDropdownOptions.get((randomUser % 3) + 1).click();
 
     users.emailFormField.sendKeys(randomUser + '\t');
-    // TODO Bug TITAN2-2969
-    //expect(users.submitFormBtn.getAttribute('disabled')).toBeTruthy();
+    expect(users.submitFormBtn.getAttribute('disabled')).toBeTruthy();
     expect(users.requiredErrors.get(0).isDisplayed()).toBeTruthy;
     expect(users.requiredErrors.get(0).getText()).toBe('Must be a valid email address');
+
+    // Fields remain disabled
+    expect(users.firstNameFormField.getAttribute('disabled')).toBeTruthy();
+    expect(users.lastNameFormField.getAttribute('disabled')).toBeTruthy();
+    expect(users.personalTelephoneFormField.getAttribute('disabled')).toBeTruthy();
+    expect(users.externalIdFormField.getAttribute('disabled')).toBeTruthy();
 
     users.emailFormField.clear();
     users.emailFormField.sendKeys(randomUser + '.' + randomUser + '\t');
-    // TODO Bug TITAN2-2969
-    //expect(users.submitFormBtn.getAttribute('disabled')).toBeTruthy();
+    expect(users.submitFormBtn.getAttribute('disabled')).toBeTruthy();
     expect(users.requiredErrors.get(0).isDisplayed()).toBeTruthy;
     expect(users.requiredErrors.get(0).getText()).toBe('Must be a valid email address');
+
+    // Fields remain disabled
+    expect(users.firstNameFormField.getAttribute('disabled')).toBeTruthy();
+    expect(users.lastNameFormField.getAttribute('disabled')).toBeTruthy();
+    expect(users.personalTelephoneFormField.getAttribute('disabled')).toBeTruthy();
+    expect(users.externalIdFormField.getAttribute('disabled')).toBeTruthy();
   });
 
-  xit('should show user details when entering existing tenant user email', function() {
+  it('should show user details when entering existing tenant user email', function() {
     shared.createBtn.click();
 
     // Change sort order to list user's without First or Last names at the bottom
@@ -435,8 +445,10 @@ describe('The create new user form', function() {
     });
   });
 
-  xit('should prevent invalid E164 numbers from being accepted', function() {
+  it('should prevent invalid E164 numbers from being accepted', function() {
     shared.createBtn.click();
+    randomUser = Math.floor((Math.random() * 1000) + 1);
+    users.emailFormField.sendKeys('titantest' + randomUser + '@mailinator.com\t');
     expect(users.personalTelephoneFormField.isDisplayed()).toBeTruthy();
 
     // Ensure the field is empty
@@ -447,12 +459,13 @@ describe('The create new user form', function() {
     expect(users.personalTelephoneFormField.getAttribute('class')).toContain('ng-invalid');
     expect(users.requiredErrors.get(0).getText()).toBe('Phone number should be in E.164 format.');
 
-    // TODO Bug TITAN2-2969
-    //expect(users.submitFormBtn.getAttribute('disabled')).toBeTruthy();
+    expect(users.submitFormBtn.getAttribute('disabled')).toBeTruthy();
   });
 
-  xit('should allow E164 numbers to be accepted and format the input', function() {
+  it('should allow E164 numbers to be accepted and format the input', function() {
     shared.createBtn.click();
+    randomUser = Math.floor((Math.random() * 1000) + 1);
+    users.emailFormField.sendKeys('titantest' + randomUser + '@mailinator.com\t');
     expect(users.personalTelephoneFormField.isDisplayed()).toBeTruthy();
 
     // Complete field with valid input
@@ -463,14 +476,14 @@ describe('The create new user form', function() {
   });
 
   //Regression test for TITAN2-2267
-  xit('should reset the form when clicking Create while already Creating', function() {
+  it('should reset the form when clicking Create while already Creating', function() {
     shared.createBtn.click();
 
     //Fill out all fields
     randomUser = Math.floor((Math.random() * 1000) + 1);
+    users.emailFormField.sendKeys('titantest' + randomUser + '@mailinator.com\t');
     users.firstNameFormField.sendKeys('First' + randomUser);
     users.lastNameFormField.sendKeys('Last' + randomUser);
-    users.emailFormField.sendKeys('titantest' + randomUser + '@mailinator.com');
     users.roleFormDropdownOptions.get((randomUser % 3) + 1).click();
     users.externalIdFormField.sendKeys(randomUser);
     users.personalTelephoneFormField.sendKeys('15062345678');
@@ -488,11 +501,27 @@ describe('The create new user form', function() {
     expect(users.personalTelephoneFormField.getAttribute('value')).toBe('')
   });
 
-  xit('should reset invalid fields after clicking Create while already Creating', function() {
+  it('should reset invalid Email field after clicking Create while already Creating', function() {
     shared.createBtn.click();
 
     //Fill in invalid values
     users.emailFormField.sendKeys('not an email');
+
+    //Click Create button again
+    shared.createBtn.click();
+    shared.dismissChanges();
+
+    //Expect all fields to have been cleared
+    expect(users.emailFormField.getAttribute('value')).toBe('');
+  });
+
+  it('should reset invalid Phone field after clicking Create while already Creating', function() {
+    shared.createBtn.click();
+
+    randomUser = Math.floor((Math.random() * 1000) + 1);
+    users.emailFormField.sendKeys('titantest' + randomUser + '@mailinator.com\t');
+
+    //Fill in invalid values
     users.personalTelephoneFormField.sendKeys('not a phone number');
 
     //Click Create button again
