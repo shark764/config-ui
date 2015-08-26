@@ -81,7 +81,7 @@
         return formSection;
       },
 
-      boolean: function (input) {
+      boolean: function (input, index) {
         var formSection = '<div class="input-group"';
         formSection += ' ng-hide="' + input.hidden + '"';
         formSection += '><label>' + input.label + '</label>';
@@ -94,6 +94,25 @@
         }
         formSection += ' "class="status-toggle"></toggle>';
         formSection += '</div>';
+        return formSection;
+      },
+
+      timestamp: function(input, index) {
+        var formSection = '<div class="input-group"';
+        formSection += ' ng-hide="' + input.hidden + '"';
+        formSection += '><label>' + input.label + '</label>';
+        formSection += '<div class="timestamp">'
+        formSection += '<input type="text" ng-model="notation.model.attributes.' + input.path + '.value"';
+        formSection += ' ng-change="onInputChange(notation.model, notation.model.attributes.' + input.path + ', inputs[' + index + '])"';
+        formSection += '></input>'
+        formSection += '<select ng-model="notation.model.attributes.' + input.path + '.measurement"';
+        formSection += ' ng-change="onInputChange(notation.model, notation.model.attributes.' + input.path + ', inputs[' + index + '])"';
+        formSection += '>'
+        formSection += '<option value="seconds">Seconds</option>';
+        formSection += '<option value="minutes">Minutes</option>';
+        formSection += '<option value="hours">Hours</option>';
+        formSection += "</select>"
+        formSection += '</div></div>';
         return formSection;
       }
     };
