@@ -12,28 +12,28 @@ describe('The user invitation', function() {
     newUserName;
     var http = require('http');
 
-  //beforeAll(function() {
+  beforeAll(function() {
   // Send Invitation
-  //loginPage.login(params.login.user, params.login.password);
-  //});
+  loginPage.login(params.login.user, params.login.password);
+  });
 
-  //beforeEach(function() {
+  beforeEach(function() {
   // Ignore unsaved changes warnings
-  //browser.executeScript("window.onbeforeunload = function(){};");
-  //browser.get(shared.usersPageUrl);
-  //userCount = shared.tableElements.count();
-  //});
+  browser.executeScript("window.onbeforeunload = function(){};");
+  browser.get(shared.usersPageUrl);
+  userCount = shared.tableElements.count();
+  });
 
-  //afterAll(function() {
-  //shared.tearDown();
-  //});
+  afterAll(function() {
+  shared.tearDown();
+  });
 
   // NOTE Tests will fail is Mailinator.com is unreponsive
   // OR if invite emails are not redirected to the mailbox specified in invites.mailinatorInbox
   // Default inbox for receiving invitiation emails is titantest@mailinator.com
 
   describe('email', function() {
-    it('should be sent when creating a new user', function() {
+    xit('should be sent when creating a new user', function() {
       /*
             // Verify user invitation email was sent
             browser.get(invites.mailinatorInbox);
@@ -91,9 +91,6 @@ describe('The user invitation', function() {
 
 
     });
-
-
-
 
     xit('should be sent when creating a new user', function() {
       // Add randomness to user details

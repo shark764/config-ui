@@ -26,12 +26,12 @@ describe('The create new user form', function() {
     shared.tearDown();
   });
 
-  it('should display Create New User section', function() {
+  xit('should display Create New User section', function() {
     shared.createBtn.click();
     expect(users.detailsForm.isDisplayed()).toBeTruthy();
   });
 
-  it('should include supported fields for creating a new user', function() {
+  xit('should include supported fields for creating a new user', function() {
     shared.createBtn.click();
 
     expect(users.createNewUserHeader.isDisplayed()).toBeTruthy();
@@ -62,7 +62,7 @@ describe('The create new user form', function() {
     expect(users.submitFormBtn.isDisplayed()).toBeTruthy();
   });
 
-  it('should clear user details section when Create button is selected', function() {
+  xit('should clear user details section when Create button is selected', function() {
     // Select User from table
     shared.firstTableRow.click();
 
@@ -76,9 +76,16 @@ describe('The create new user form', function() {
     expect(users.emailFormField.getAttribute('value')).toBe('');
     expect(users.externalIdFormField.getAttribute('value')).toBe('');
     expect(users.personalTelephoneFormField.getAttribute('value')).toBe('');
+
+    // Fields disabled by default
+    expect(users.firstNameFormField.getAttribute('disabled')).toBeTruthy();
+    expect(users.lastNameFormField.getAttribute('disabled')).toBeTruthy();
+    expect(users.personalTelephoneFormField.getAttribute('disabled')).toBeTruthy();
+    expect(users.externalIdFormField.getAttribute('disabled')).toBeTruthy();
+
   });
 
-  it('should require completed fields in Create New User section', function() {
+  xit('should require completed fields in Create New User section', function() {
     shared.createBtn.click();
     expect(users.detailsForm.isDisplayed()).toBeTruthy();
 
@@ -95,19 +102,20 @@ describe('The create new user form', function() {
     // Enter a space into each field, select required dropdown field
     users.emailFormField.sendKeys(' ');
     users.roleFormDropdownOptions.get(1).click();
-    users.firstNameFormField.sendKeys(' ');
-    users.lastNameFormField.sendKeys(' ');
-    users.personalTelephoneFormField.sendKeys(' ');
-    users.externalIdFormField.sendKeys(' ');
 
-    // TODO Bug TITAN2-2985
-    //expect(users.submitFormBtn.getAttribute('disabled')).toBeTruthy();
+    // Remaining fields remain disabled
+    expect(users.firstNameFormField.getAttribute('disabled')).toBeTruthy();
+    expect(users.lastNameFormField.getAttribute('disabled')).toBeTruthy();
+    expect(users.personalTelephoneFormField.getAttribute('disabled')).toBeTruthy();
+    expect(users.externalIdFormField.getAttribute('disabled')).toBeTruthy();
+
+    expect(users.submitFormBtn.getAttribute('disabled')).toBeTruthy();
     users.submitFormBtn.click();
     expect(shared.tableElements.count()).toBe(userCount);
     expect(shared.successMessage.isPresent()).toBeFalsy();
 
     // Verify error messages are displayed
-    expect(users.requiredErrors.get(0).getText()).toBe('Invalid email address');
+    expect(users.requiredErrors.get(0).getText()).toBe('Please enter an email address');
   });
 
   it('should display new user in table and display user details with correct Tenant Status', function() {
@@ -212,19 +220,17 @@ describe('The create new user form', function() {
     users.externalIdFormField.sendKeys(randomUser);
     users.personalTelephoneFormField.sendKeys('15062345678');
 
-    // TODO Bug TITAN2-2969
-    //expect(users.submitFormBtn.getAttribute('disabled')).toBeTruthy();
+    expect(users.submitFormBtn.getAttribute('disabled')).toBeTruthy();
 
     users.submitFormBtn.click();
     expect(shared.tableElements.count()).toBe(userCount);
     expect(shared.successMessage.isPresent()).toBeFalsy();
 
     expect(users.requiredErrors.get(0).isDisplayed()).toBeTruthy;
-    // TODO Will pass after TITAN2-2969 is resolved
-    //expect(users.requiredErrors.get(0).getText()).toBe('Please enter an email address');
+    expect(users.requiredErrors.get(0).getText()).toBe('Please enter an email address');
   });
 
-  it('should require Role field', function() {
+  xit('should require Role field', function() {
     randomUser = Math.floor((Math.random() * 1000) + 1);
     shared.createBtn.click();
 
@@ -247,7 +253,7 @@ describe('The create new user form', function() {
     //expect(users.requiredErrors.get(0).getText()).toBe('Please select a role');
   });
 
-  it('should not require First Name, Last Name, External Id or Personal Telephone', function() {
+  xit('should not require First Name, Last Name, External Id or Personal Telephone', function() {
     // Add randomness to user details
     randomUser = Math.floor((Math.random() * 1000) + 1);
     var newUserEmail = 'titantest' + randomUser + '@mailinator.com'
@@ -279,7 +285,7 @@ describe('The create new user form', function() {
     });
   });
 
-  it('should require valid Email field input', function() {
+  xit('should require valid Email field input', function() {
     randomUser = Math.floor((Math.random() * 1000) + 1);
     shared.createBtn.click();
 
@@ -299,7 +305,7 @@ describe('The create new user form', function() {
     expect(users.requiredErrors.get(0).getText()).toBe('Must be a valid email address');
   });
 
-  it('should show user details when entering existing tenant user email', function() {
+  xit('should show user details when entering existing tenant user email', function() {
     shared.createBtn.click();
 
     // Change sort order to list user's without First or Last names at the bottom
@@ -429,7 +435,7 @@ describe('The create new user form', function() {
     });
   });
 
-  it('should prevent invalid E164 numbers from being accepted', function() {
+  xit('should prevent invalid E164 numbers from being accepted', function() {
     shared.createBtn.click();
     expect(users.personalTelephoneFormField.isDisplayed()).toBeTruthy();
 
@@ -445,7 +451,7 @@ describe('The create new user form', function() {
     //expect(users.submitFormBtn.getAttribute('disabled')).toBeTruthy();
   });
 
-  it('should allow E164 numbers to be accepted and format the input', function() {
+  xit('should allow E164 numbers to be accepted and format the input', function() {
     shared.createBtn.click();
     expect(users.personalTelephoneFormField.isDisplayed()).toBeTruthy();
 
@@ -457,7 +463,7 @@ describe('The create new user form', function() {
   });
 
   //Regression test for TITAN2-2267
-  it('should reset the form when clicking Create while already Creating', function() {
+  xit('should reset the form when clicking Create while already Creating', function() {
     shared.createBtn.click();
 
     //Fill out all fields
@@ -482,7 +488,7 @@ describe('The create new user form', function() {
     expect(users.personalTelephoneFormField.getAttribute('value')).toBe('')
   });
 
-  it('should reset invalid fields after clicking Create while already Creating', function() {
+  xit('should reset invalid fields after clicking Create while already Creating', function() {
     shared.createBtn.click();
 
     //Fill in invalid values
