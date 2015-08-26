@@ -157,8 +157,6 @@
         scope.loading = true;
 
         scope.setEntityProp = function(selectedItem, index) {
-          console.log('Selected Item', selectedItem);
-          console.log('Index', index);
           scope.notation.model.attributes.params[scope.inputs[index].name] = selectedItem.value;
         };
 
