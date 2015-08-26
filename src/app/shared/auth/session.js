@@ -73,7 +73,9 @@ angular.module('liveopsConfigPanel')
       this.destroy = function () {
         this.token = null;
         this.user = null;
-
+        this.tenants = null;
+        this.platformPermissions = null;
+        
         localStorage.removeItem(this.userSessionKey);
       };
 
@@ -88,11 +90,9 @@ angular.module('liveopsConfigPanel')
 
       this.destroyAll = function () {
         this.destroy();
-        this.tenant = null;
         this.activeRegionId = null;
         this.lang = 'en';
-        this.platformPermissions = null;
-        
+        this.tenant = null;
         localStorage.removeItem(this.userPreferenceKey);
       };
 
