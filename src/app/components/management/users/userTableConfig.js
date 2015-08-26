@@ -50,10 +50,12 @@ angular.module('liveopsConfigPanel')
           }],
           'orderBy': '$user.$original.lastName',
           'title': $translate.instant('user.table.title'),
-          'searchOn': [{
-            path: '$user.lastName'
-          }, {
+          'searchOn': [{ 
+            //Property order is significant, as it is the order that the fields get concat'd before being compared
+            //So they should match the display order of "firstName lastName"
             path: '$user.firstName'
+          }, {
+            path: '$user.lastName'
           }, {
             path: '$original.skills',
             inner: {

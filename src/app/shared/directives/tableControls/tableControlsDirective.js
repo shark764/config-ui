@@ -17,8 +17,13 @@ angular.module('liveopsConfigPanel')
         transclude: true,
         controller: function () {},
         link: function ($scope) {
-          $scope.showBulkActions = angular.isDefined($scope.config.showBulkActions) ? $scope.config.showBulkActions : true;
-          $scope.showCreate = angular.isDefined($scope.config.showCreate) ? $scope.config.showCreate : true;
+          $scope.$watch('config', function(){
+            $scope.showBulkActions = angular.isDefined($scope.config.showBulkActions) ? $scope.config.showBulkActions : true;
+            $scope.showCreate = angular.isDefined($scope.config.showCreate) ? $scope.config.showCreate : true;
+            
+            $scope.reverseSortOrder = false;
+            $scope.orderBy = $scope.config.orderBy;
+          });
           
           angular.extend($scope, $scope.extendScope);
 
@@ -82,6 +87,7 @@ angular.module('liveopsConfigPanel')
             });
           };
 
+          //TODO: Run this again if the selected tenant changes?
           if ($scope.items) {
             $scope.items.$promise.then(function () {
               if ($scope.items.length === 0) {
@@ -134,9 +140,6 @@ angular.module('liveopsConfigPanel')
               }
             });
           });
-
-          $scope.reverseSortOrder = false;
-          $scope.orderBy = $scope.config.orderBy;
 
           $scope.sortTable = function (field) {
             var fieldName;

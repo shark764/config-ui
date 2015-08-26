@@ -31,6 +31,7 @@ angular.module('liveopsConfigPanel')
         //Since password isn't returned from the API and would be clobbered after saving, need to store it explicitly
         $scope.newPassword = $scope.user.password;
         
+        delete $scope.user.status; //Users don't have permission to update their own status
         $scope.user.save()
           .then($scope.signupSuccess, $scope.signupFailure);
       };

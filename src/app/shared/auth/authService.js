@@ -3,8 +3,8 @@
 /* global  window: false */
 
 angular.module('liveopsConfigPanel')
-  .service('AuthService', ['$resource', '$http', '$q', 'Session', 'apiHostname', 'User',
-    function ($resource, $http, $q, Session, apiHostname, User) {
+  .service('AuthService', ['$resource', '$http', '$q', 'Session', 'apiHostname', 'User', '$state',
+    function ($resource, $http, $q, Session, apiHostname, User, $state) {
 
       var self = this;
 
@@ -45,6 +45,7 @@ angular.module('liveopsConfigPanel')
 
       this.logout = function () {
         Session.destroyAll();
+        $state.transitionTo('login');
       };
 
       this.fetchUserInfo = function (token) {
