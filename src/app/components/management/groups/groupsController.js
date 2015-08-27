@@ -29,8 +29,6 @@ angular.module('liveopsConfigPanel')
       };
 
       $scope.$on('table:on:click:create', function () {
-        $scope.showBulkActions = false;
-
         $scope.selectedGroup = new Group({
           tenantId: Session.tenant.tenantId,
           active: true,
