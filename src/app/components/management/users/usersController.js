@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('UsersController', ['$scope', '$window', '$parse', 'User', 'Session', 'AuthService', 'userTableConfig', 'Alert', 'flowSetup', 'BulkAction', '$q', '$location', 'lodash', 'Chain', 'TenantUser', 'TenantRole', 'queryCache', 'PlatformRole',
-    function($scope, $window, $parse, User, Session, AuthService, userTableConfig, Alert, flowSetup, BulkAction, $q, $location, _, Chain, TenantUser, TenantRole, queryCache, PlatformRole) {
+  .controller('UsersController', ['$scope', '$window', '$parse', 'User', 'Session', 'AuthService', 'userTableConfig', 'Alert', 'flowSetup', 'BulkAction', '$q', '$location', 'lodash', 'Chain', 'TenantUser', 'TenantRole', 'queryCache', 'UserPermissions', 'PlatformRole',
+    function($scope, $window, $parse, User, Session, AuthService, userTableConfig, Alert, flowSetup, BulkAction, $q, $location, _, Chain, TenantUser, TenantRole, queryCache, UserPermissions, PlatformRole) {
       var self = this;
       
       $scope.forms = {};
@@ -134,23 +134,28 @@ angular.module('liveopsConfigPanel')
       this.updateUser = function() {
      
         var promises = [];
-        if($scope.forms.detailsForm.roleId &&
-          $scope.forms.detailsForm.roleId.$dirty) {
-          var tenantUser = new TenantUser({
-            id: $scope.selectedTenantUser.id,
-            roleId: $scope.selectedTenantUser.roleId
-          });
-          
-          promises.push(tenantUser.save({
-            tenantId: Session.tenant.tenantId
-          }).then(function(tenantUser) {
-            $scope.selectedTenantUser.$original.roleId = tenantUser.roleId;
-            $scope.selectedTenantUser.$original.roleName = TenantRole.getName(tenantUser.roleId);
-            $scope.selectedTenantUser.reset();
-          }));
+        
+        if (UserPermissions.hasPermissionInList(['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'MANAGE_TENANT_ENROLLMENT'])){
+          if($scope.forms.detailsForm.roleId &&
+            $scope.forms.detailsForm.roleId.$dirty) {
+            var tenantUser = new TenantUser({
+              id: $scope.selectedTenantUser.id,
+              roleId: $scope.selectedTenantUser.roleId
+            });
+            
+            promises.push(tenantUser.save({
+              tenantId: Session.tenant.tenantId
+            }).then(function(tenantUser) {
+              $scope.selectedTenantUser.$original.roleId = tenantUser.roleId;
+              $scope.selectedTenantUser.$original.roleName = TenantRole.getName(tenantUser.roleId);
+              $scope.selectedTenantUser.reset();
+            }));
+          }
         }
         
-        promises.push($scope.selectedTenantUser.$user.save());
+        if (UserPermissions.hasPermission('PLATFORM_MANAGE_ALL_USERS') || (UserPermissions.hasPermission('PLATFORM_MANAGE_USER_ACCOUNT') && Session.user.id === $scope.selectedTenantUser.$user.id)){
+          promises.push($scope.selectedTenantUser.$user.save());
+        }
         
         return $q.all(promises);
       };
@@ -168,7 +173,6 @@ angular.module('liveopsConfigPanel')
 
       $scope.bulkActions = {
         setStatus: new BulkAction(),
-        resetPassword: new BulkAction(),
         userSkills: new BulkAction(),
         userGroups: new BulkAction()
       };

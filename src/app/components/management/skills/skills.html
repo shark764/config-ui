@@ -5,9 +5,9 @@
   selected="selectedSkill"
   resource-name="skill">
 
-  <div name="$original.hasProficiency">
-    <span ng-if="item.hasProficiency">{{'value.enabled' | translate}}</span>
-    <span ng-if="!item.hasProficiency">{{'value.disabled' | translate}}</span>
+  <div name="hasProficiency">
+    <span ng-if="item.hasProficiency">{{'value.yes' | translate}}</span>
+    <span ng-if="!item.hasProficiency" class="disabled">{{'value.no' | translate}}</span>
   </div>
 
   <span name="active">

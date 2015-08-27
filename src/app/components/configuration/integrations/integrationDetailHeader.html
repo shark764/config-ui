@@ -7,17 +7,30 @@
   <div class="info">
     <h1 id="integration-details-type-header">{{originalResource.type}}</h1>
     <div class="details">
-      <b audit-text
-        translation="value.createdby.time"
-        user-id="originalResource.createdBy"
-        date="originalResource.created">
-      </b>
-      <br/>
-      <b audit-text ng-if="!!originalResource.updatedBy"
-        translation="value.updatedby"
-        user-id="originalResource.updatedBy"
-        date="originalResource.updated">
-      </b>
+      <div ng-if="! (['PLATFORM_VIEW_ALL_USERS', 'PLATFORM_CREATE_USERS', 'PLATFORM_MANAGE_ALL_USERS', 'PLATFORM_MANAGE_ALL_TENANTS', 'PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT'] | hasPermission)">
+        <b audit-text
+          translation="value.createdon.time"
+          date="originalResource.created">
+        </b>
+        <br/>
+        <b audit-text ng-if="!!originalResource.updated"
+          translation="value.updatedon"
+          date="originalResource.updated">
+        </b>
+      </div>
+      <div ng-if="['PLATFORM_VIEW_ALL_USERS', 'PLATFORM_CREATE_USERS', 'PLATFORM_MANAGE_ALL_USERS', 'PLATFORM_MANAGE_ALL_TENANTS', 'PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT'] | hasPermission">
+        <b audit-text
+          translation="value.createdby.time"
+          user-id="originalResource.createdBy"
+          date="originalResource.created">
+        </b>
+        <br/>
+        <b audit-text ng-if="!!originalResource.updatedBy"
+          translation="value.updatedby"
+          user-id="originalResource.updatedBy"
+          date="originalResource.updated">
+        </b>
+      </div>
     </div>
   </div>
 </div>
