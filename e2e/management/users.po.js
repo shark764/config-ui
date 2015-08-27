@@ -4,9 +4,12 @@ var UserPage = function() {
   this.loadingMessage = element(by.id('.table-message > div:nth-child(1)'));
 
   this.emailFormField = element(by.model('selectedTenantUser.email'));
-  this.roleFormDropdown = element(by.model('selectedTenantUser.roleId'));
-  this.roleFormDropdownOptions = this.roleFormDropdown.all(by.css('option'));
-  this.roles = ['Administrator', 'Supervisor', 'Agent'];
+  this.tenantRoleFormDropdown = element(by.model('selectedTenantUser.roleId'));
+  this.tenantRoleFormDropdownOptions = this.tenantRoleFormDropdown.all(by.css('option'));
+  this.tenantRoles = ['Administrator', 'Supervisor', 'Agent'];
+  this.platformRoleFormDropdown = element(by.name('platformRoleId'));
+  this.platformRoleFormDropdownOptions = this.platformRoleFormDropdown.all(by.css('option'));
+  this.platformRoles = ['Platform User', 'Platform Administrator'];
 
   this.inviteNowFormToggle = element(by.model('selectedTenantUser.status'));
   this.inviteNowHelp = element(by.id('invite-now-help'));

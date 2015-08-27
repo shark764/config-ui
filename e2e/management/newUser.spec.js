@@ -26,23 +26,27 @@ describe('The create new user form', function() {
     shared.tearDown();
   });
 
-  xit('should display Create New User section', function() {
+  it('should display Create New User section', function() {
     shared.createBtn.click();
     expect(users.detailsForm.isDisplayed()).toBeTruthy();
   });
 
-  xit('should include supported fields for creating a new user', function() {
+  it('should include supported fields for creating a new user', function() {
     shared.createBtn.click();
 
     expect(users.createNewUserHeader.isDisplayed()).toBeTruthy();
 
     expect(users.emailFormField.isDisplayed()).toBeTruthy();
 
-    // Role dropdown dispayed with expected roles
-    expect(users.roleFormDropdown.isDisplayed()).toBeTruthy();
-    expect(users.roleFormDropdownOptions.get(1).getText()).toBe(users.roles[0]);
-    expect(users.roleFormDropdownOptions.get(2).getText()).toBe(users.roles[1]);
-    expect(users.roleFormDropdownOptions.get(3).getText()).toBe(users.roles[2]);
+    // Tenant role dropdown displayed with expected roles
+    expect(users.tenantRoleFormDropdown.isDisplayed()).toBeTruthy();
+    expect(users.tenantRoleFormDropdownOptions.get(1).getText()).toBe(users.tenantRoles[0]);
+    expect(users.tenantRoleFormDropdownOptions.get(2).getText()).toBe(users.tenantRoles[1]);
+    expect(users.tenantRoleFormDropdownOptions.get(3).getText()).toBe(users.tenantRoles[2]);
+
+    // Platform role dropdown displayed with expected roles
+    expect(users.platformRoleFormDropdown.isDisplayed()).toBeTruthy();
+    expect(users.platformRoleFormDropdownOptions.get(1).getText()).toBe(users.platformRoles[0]);
 
     // Invite now toggle displayed, selected by default with help icon
     expect(users.inviteNowFormToggle.isDisplayed()).toBeTruthy();
@@ -62,7 +66,7 @@ describe('The create new user form', function() {
     expect(users.submitFormBtn.isDisplayed()).toBeTruthy();
   });
 
-  xit('should clear user details section when Create button is selected', function() {
+  it('should clear user details section when Create button is selected', function() {
     // Select User from table
     shared.firstTableRow.click();
 
@@ -85,7 +89,7 @@ describe('The create new user form', function() {
 
   });
 
-  xit('should require completed fields in Create New User section', function() {
+  it('should require completed fields in Create New User section', function() {
     shared.createBtn.click();
     expect(users.detailsForm.isDisplayed()).toBeTruthy();
 
@@ -96,12 +100,13 @@ describe('The create new user form', function() {
     expect(shared.successMessage.isPresent()).toBeFalsy();
   });
 
-  xit('should not accept spaces as valid input for required fields', function() {
+  it('should not accept spaces as valid input for required fields', function() {
     shared.createBtn.click();
 
     // Enter a space into each field, select required dropdown field
     users.emailFormField.sendKeys(' ');
-    users.roleFormDropdownOptions.get(1).click();
+    users.tenantRoleFormDropdownOptions.get(1).click();
+    users.platformRoleFormDropdownOptions.get(1).click();
 
     // Remaining fields remain disabled
     expect(users.firstNameFormField.getAttribute('disabled')).toBeTruthy();
@@ -128,9 +133,11 @@ describe('The create new user form', function() {
     shared.createBtn.click();
 
     users.emailFormField.sendKeys('titantest' + randomUser + '@mailinator.com\t');
+    users.tenantRoleFormDropdownOptions.get((randomUser % 3) + 1).click();
+    users.platformRoleFormDropdownOptions.get(1).click();
+
     users.firstNameFormField.sendKeys('First' + randomUser);
     users.lastNameFormField.sendKeys('Last' + randomUser);
-    users.roleFormDropdownOptions.get((randomUser % 3) + 1).click();
     users.externalIdFormField.sendKeys(randomUser);
     users.personalTelephoneFormField.sendKeys('15062345678');
 
@@ -164,9 +171,11 @@ describe('The create new user form', function() {
     // Add new user
     shared.createBtn.click();
     users.emailFormField.sendKeys('titantest' + randomUser + '@mailinator.com\t');
+    users.tenantRoleFormDropdownOptions.get((randomUser % 3) + 1).click();
+    users.platformRoleFormDropdownOptions.get(1).click();
+
     users.firstNameFormField.sendKeys('First' + randomUser);
     users.lastNameFormField.sendKeys('Last' + randomUser);
-    users.roleFormDropdownOptions.get((randomUser % 3) + 1).click();
     users.externalIdFormField.sendKeys(randomUser);
     users.personalTelephoneFormField.sendKeys('15062345678');
     users.cancelFormBtn.click();
@@ -187,7 +196,8 @@ describe('The create new user form', function() {
     expect(users.firstNameFormField.getAttribute('value')).toBe('');
     expect(users.lastNameFormField.getAttribute('value')).toBe('');
     expect(users.emailFormField.getAttribute('value')).toBe('');
-    expect(users.roleFormDropdown.getAttribute('value')).toBe('');
+    expect(users.tenantRoleFormDropdown.getAttribute('value')).toBe('');
+    expect(users.platformRoleFormDropdown.getAttribute('value')).toBe('');
     expect(users.externalIdFormField.getAttribute('value')).toBe('');
     expect(users.personalTelephoneFormField.getAttribute('value')).toBe('');
 
@@ -213,10 +223,11 @@ describe('The create new user form', function() {
     shared.createBtn.click();
 
     // Email field blank
-    users.emailFormField.click();
-    users.roleFormDropdownOptions.get((randomUser % 3) + 1).click();
+    users.emailFormField.sendKeys('\t');
 
     // Fields remain disabled
+    expect(users.tenantRoleFormDropdown.getAttribute('disabled')).toBeTruthy();
+    expect(users.platformRoleFormDropdown.getAttribute('disabled')).toBeTruthy();
     expect(users.firstNameFormField.getAttribute('disabled')).toBeTruthy();
     expect(users.lastNameFormField.getAttribute('disabled')).toBeTruthy();
     expect(users.personalTelephoneFormField.getAttribute('disabled')).toBeTruthy();
@@ -232,16 +243,14 @@ describe('The create new user form', function() {
     expect(users.requiredErrors.get(0).getText()).toBe('Please enter an email address');
   });
 
-  it('should require Role field', function() {
+  it('should require Role fields', function() {
     randomUser = Math.floor((Math.random() * 1000) + 1);
     shared.createBtn.click();
 
     users.emailFormField.sendKeys('titantest' + randomUser + '@mailinator.com\t');
-    users.roleFormDropdown.click();
-    users.firstNameFormField.sendKeys('First' + randomUser);
-    users.lastNameFormField.sendKeys('Last' + randomUser);
-    users.externalIdFormField.sendKeys('12345');
-    users.personalTelephoneFormField.sendKeys('15062345678');
+    users.tenantRoleFormDropdown.click();
+    users.platformRoleFormDropdown.click();
+    users.tenantRoleFormDropdown.click();
 
     expect(users.submitFormBtn.getAttribute('disabled')).toBeTruthy();
 
@@ -251,6 +260,8 @@ describe('The create new user form', function() {
 
     expect(users.requiredErrors.get(0).isDisplayed()).toBeTruthy;
     expect(users.requiredErrors.get(0).getText()).toBe('Please select a role');
+    expect(users.requiredErrors.get(1).isDisplayed()).toBeTruthy;
+    expect(users.requiredErrors.get(1).getText()).toBe('Please select a role');
   });
 
   it('should not require First Name, Last Name, External Id or Personal Telephone', function() {
@@ -262,7 +273,14 @@ describe('The create new user form', function() {
     // Add new user
     shared.createBtn.click();
     users.emailFormField.sendKeys(newUserEmail + '\t');
-    users.roleFormDropdownOptions.get((randomUser % 3) + 1).click();
+    users.tenantRoleFormDropdownOptions.get((randomUser % 3) + 1).click();
+    users.platformRoleFormDropdownOptions.get(1).click();
+
+    // Fields enabled
+    expect(users.firstNameFormField.getAttribute('disabled')).toBeFalsy();
+    expect(users.lastNameFormField.getAttribute('disabled')).toBeFalsy();
+    expect(users.personalTelephoneFormField.getAttribute('disabled')).toBeFalsy();
+    expect(users.externalIdFormField.getAttribute('disabled')).toBeFalsy();
 
     users.submitFormBtn.click().then(function() {
       expect(shared.successMessage.isDisplayed()).toBeTruthy();
@@ -289,14 +307,14 @@ describe('The create new user form', function() {
     randomUser = Math.floor((Math.random() * 1000) + 1);
     shared.createBtn.click();
 
-    users.roleFormDropdownOptions.get((randomUser % 3) + 1).click();
-
     users.emailFormField.sendKeys(randomUser + '\t');
     expect(users.submitFormBtn.getAttribute('disabled')).toBeTruthy();
     expect(users.requiredErrors.get(0).isDisplayed()).toBeTruthy;
     expect(users.requiredErrors.get(0).getText()).toBe('Must be a valid email address');
 
     // Fields remain disabled
+    expect(users.tenantRoleFormDropdown.getAttribute('disabled')).toBeTruthy();
+    expect(users.platformRoleFormDropdown.getAttribute('disabled')).toBeTruthy();
     expect(users.firstNameFormField.getAttribute('disabled')).toBeTruthy();
     expect(users.lastNameFormField.getAttribute('disabled')).toBeTruthy();
     expect(users.personalTelephoneFormField.getAttribute('disabled')).toBeTruthy();
@@ -309,6 +327,8 @@ describe('The create new user form', function() {
     expect(users.requiredErrors.get(0).getText()).toBe('Must be a valid email address');
 
     // Fields remain disabled
+    expect(users.tenantRoleFormDropdown.getAttribute('disabled')).toBeTruthy();
+    expect(users.platformRoleFormDropdown.getAttribute('disabled')).toBeTruthy();
     expect(users.firstNameFormField.getAttribute('disabled')).toBeTruthy();
     expect(users.lastNameFormField.getAttribute('disabled')).toBeTruthy();
     expect(users.personalTelephoneFormField.getAttribute('disabled')).toBeTruthy();
@@ -323,14 +343,14 @@ describe('The create new user form', function() {
 
     // Attempt to create a new User with the email of an existing user
     shared.firstTableRow.element(by.css(users.emailColumn)).getText().then(function(existingUserEmail) {
-      users.emailFormField.sendKeys(existingUserEmail + '\t').then(function () {
+      users.emailFormField.sendKeys(existingUserEmail + '\t').then(function() {
         // User details form displayed instead of creating a new user
         expect(users.createNewUserHeader.isPresent()).toBeFalsy();
         expect(users.userNameDetailsHeader.isDisplayed()).toBeTruthy();
 
         // Required details are populated
         expect(users.emailLabel.getText()).toBe(existingUserEmail);
-        expect(users.roleFormDropdown.getAttribute('value')).not.toBeNull();
+        expect(users.tenantRoleFormDropdown.getAttribute('value')).not.toBeNull();
       });
     });
   });
@@ -355,93 +375,7 @@ describe('The create new user form', function() {
 
       // Required details are populated
       expect(users.emailLabel.getText()).toBe(existingUserEmail);
-      expect(users.roleFormDropdown.getAttribute('value')).not.toBeNull();
-    });
-  });
-
-  xit('should populate and disable uneditable fields for existing user not in the current tenant', function() {
-    // TODO
-    shared.createBtn.click();
-
-    // Attempt to create a new User with the email of an existing user
-    users.emailFormField.sendKeys(params.login.user);
-
-    randomUser = Math.floor((Math.random() * 1000) + 1);
-    users.firstNameFormField.sendKeys('First' + randomUser);
-    users.lastNameFormField.sendKeys('Last' + randomUser);
-    users.externalIdFormField.sendKeys('12345');
-    users.personalTelephoneFormField.sendKeys('15062345678');
-    users.submitFormBtn.click().then(function() {
-      // New user not added, invite sent to existing user
-      expect(shared.tableElements.count()).toBe(userCount);
-      expect(shared.successMessage.getText()).toContain('User already exists. Sending ' + params.login.user + ' an invite for');
-      shared.closeMessageBtn.click().then(function() {
-        expect(shared.errorMessage.getText()).toContain('Record failed to save');
-      });
-    });
-  });
-
-  xit('should should populate and disable uneditable fields for existing user with case insensitive email', function() {
-    // TODO Existing bug; this test fails
-    shared.createBtn.click();
-
-    // Attempt to create a new User with the email of an existing user
-    users.emailFormField.sendKeys(params.login.user.toUpperCase());
-
-    randomUser = Math.floor((Math.random() * 1000) + 1);
-    users.firstNameFormField.sendKeys('First' + randomUser);
-    users.lastNameFormField.sendKeys('Last' + randomUser);
-    users.externalIdFormField.sendKeys('12345');
-    users.personalTelephoneFormField.sendKeys('15062345678');
-    users.submitFormBtn.click();
-
-    // New user not added, invite sent to existing user
-    expect(shared.tableElements.count()).toBe(userCount);
-    expect(shared.errorMessage.getText()).toContain('Record failed to save');
-    expect(shared.successMessage.getText()).toContain('User already exists. Sending ' + params.login.user.toUpperCase() + ' an invite for');
-  });
-
-  xit('should reset uneditable fields for existing user not in tenant when email is removed', function() {
-    // TODO
-    shared.createBtn.click();
-
-    // Attempt to create a new User with the email of an existing user
-    users.emailFormField.sendKeys(params.login.user);
-
-    randomUser = Math.floor((Math.random() * 1000) + 1);
-    users.firstNameFormField.sendKeys('First' + randomUser);
-    users.lastNameFormField.sendKeys('Last' + randomUser);
-    users.externalIdFormField.sendKeys('12345');
-    users.personalTelephoneFormField.sendKeys('15062345678');
-    users.submitFormBtn.click().then(function() {
-      // New user not added, invite sent to existing user
-      expect(shared.tableElements.count()).toBe(userCount);
-      expect(shared.successMessage.getText()).toContain('User already exists. Sending ' + params.login.user + ' an invite for');
-      shared.closeMessageBtn.click().then(function() {
-        expect(shared.errorMessage.getText()).toContain('Record failed to save');
-      });
-    });
-  });
-
-  xit('should require role field for existing user not in the tenant', function() {
-    // TODO
-    shared.createBtn.click();
-
-    // Attempt to create a new User with the email of an existing user
-    users.emailFormField.sendKeys(params.login.user);
-
-    randomUser = Math.floor((Math.random() * 1000) + 1);
-    users.firstNameFormField.sendKeys('First' + randomUser);
-    users.lastNameFormField.sendKeys('Last' + randomUser);
-    users.externalIdFormField.sendKeys('12345');
-    users.personalTelephoneFormField.sendKeys('15062345678');
-    users.submitFormBtn.click().then(function() {
-      // New user not added, invite sent to existing user
-      expect(shared.tableElements.count()).toBe(userCount);
-      expect(shared.successMessage.getText()).toContain('User already exists. Sending ' + params.login.user + ' an invite for');
-      shared.closeMessageBtn.click().then(function() {
-        expect(shared.errorMessage.getText()).toContain('Record failed to save');
-      });
+      expect(users.tenantRoleFormDropdown.getAttribute('value')).not.toBeNull();
     });
   });
 
@@ -449,6 +383,9 @@ describe('The create new user form', function() {
     shared.createBtn.click();
     randomUser = Math.floor((Math.random() * 1000) + 1);
     users.emailFormField.sendKeys('titantest' + randomUser + '@mailinator.com\t');
+    users.tenantRoleFormDropdownOptions.get((randomUser % 3) + 1).click();
+    users.platformRoleFormDropdownOptions.get(1).click();
+
     expect(users.personalTelephoneFormField.isDisplayed()).toBeTruthy();
 
     // Ensure the field is empty
@@ -466,6 +403,9 @@ describe('The create new user form', function() {
     shared.createBtn.click();
     randomUser = Math.floor((Math.random() * 1000) + 1);
     users.emailFormField.sendKeys('titantest' + randomUser + '@mailinator.com\t');
+    users.tenantRoleFormDropdownOptions.get((randomUser % 3) + 1).click();
+    users.platformRoleFormDropdownOptions.get(1).click();
+
     expect(users.personalTelephoneFormField.isDisplayed()).toBeTruthy();
 
     // Complete field with valid input
@@ -482,9 +422,12 @@ describe('The create new user form', function() {
     //Fill out all fields
     randomUser = Math.floor((Math.random() * 1000) + 1);
     users.emailFormField.sendKeys('titantest' + randomUser + '@mailinator.com\t');
+    users.tenantRoleFormDropdownOptions.get((randomUser % 3) + 1).click();
+    users.platformRoleFormDropdownOptions.get(1).click();
+
     users.firstNameFormField.sendKeys('First' + randomUser);
     users.lastNameFormField.sendKeys('Last' + randomUser);
-    users.roleFormDropdownOptions.get((randomUser % 3) + 1).click();
+    users.tenantRoleFormDropdownOptions.get((randomUser % 3) + 1).click();
     users.externalIdFormField.sendKeys(randomUser);
     users.personalTelephoneFormField.sendKeys('15062345678');
 
@@ -496,7 +439,7 @@ describe('The create new user form', function() {
     expect(users.firstNameFormField.getAttribute('value')).toBe('');
     expect(users.lastNameFormField.getAttribute('value')).toBe('');
     expect(users.emailFormField.getAttribute('value')).toBe('');
-    expect(users.roleFormDropdown.getAttribute('value')).toBe('');
+    expect(users.tenantRoleFormDropdown.getAttribute('value')).toBe('');
     expect(users.externalIdFormField.getAttribute('value')).toBe('');
     expect(users.personalTelephoneFormField.getAttribute('value')).toBe('')
   });
@@ -520,6 +463,8 @@ describe('The create new user form', function() {
 
     randomUser = Math.floor((Math.random() * 1000) + 1);
     users.emailFormField.sendKeys('titantest' + randomUser + '@mailinator.com\t');
+    users.tenantRoleFormDropdownOptions.get((randomUser % 3) + 1).click();
+    users.platformRoleFormDropdownOptions.get(1).click();
 
     //Fill in invalid values
     users.personalTelephoneFormField.sendKeys('not a phone number');
@@ -531,5 +476,94 @@ describe('The create new user form', function() {
     //Expect all fields to have been cleared
     expect(users.emailFormField.getAttribute('value')).toBe('');
     expect(users.personalTelephoneFormField.getAttribute('value')).toBe('')
+  });
+
+  describe('for an existing user not in the current tenant', function() {
+    // TODO Get user name that is in another but not the current tenant
+    xit('should not populate fields and should disable uneditable fields', function() {
+      // TODO
+      shared.createBtn.click();
+
+      // Attempt to create a new User with the email of an existing user
+      users.emailFormField.sendKeys(params.login.user);
+
+      randomUser = Math.floor((Math.random() * 1000) + 1);
+      users.firstNameFormField.sendKeys('First' + randomUser);
+      users.lastNameFormField.sendKeys('Last' + randomUser);
+      users.externalIdFormField.sendKeys('12345');
+      users.personalTelephoneFormField.sendKeys('15062345678');
+      users.submitFormBtn.click().then(function() {
+        // New user not added, invite sent to existing user
+        expect(shared.tableElements.count()).toBe(userCount);
+        expect(shared.successMessage.getText()).toContain('User already exists. Sending ' + params.login.user + ' an invite for');
+        shared.closeMessageBtn.click().then(function() {
+          expect(shared.errorMessage.getText()).toContain('Record failed to save');
+        });
+      });
+    });
+
+    xit('should should not populate fields and should disable uneditable fields', function() {
+      // TODO Existing bug; this test fails
+      shared.createBtn.click();
+
+      // Attempt to create a new User with the email of an existing user
+      users.emailFormField.sendKeys(params.login.user.toUpperCase());
+
+      randomUser = Math.floor((Math.random() * 1000) + 1);
+      users.firstNameFormField.sendKeys('First' + randomUser);
+      users.lastNameFormField.sendKeys('Last' + randomUser);
+      users.externalIdFormField.sendKeys('12345');
+      users.personalTelephoneFormField.sendKeys('15062345678');
+      users.submitFormBtn.click();
+
+      // New user not added, invite sent to existing user
+      expect(shared.tableElements.count()).toBe(userCount);
+      expect(shared.errorMessage.getText()).toContain('Record failed to save');
+      expect(shared.successMessage.getText()).toContain('User already exists. Sending ' + params.login.user.toUpperCase() + ' an invite for');
+    });
+
+    xit('should reset uneditable fields when email is removed', function() {
+      // TODO
+      shared.createBtn.click();
+
+      // Attempt to create a new User with the email of an existing user
+      users.emailFormField.sendKeys(params.login.user);
+
+      randomUser = Math.floor((Math.random() * 1000) + 1);
+      users.firstNameFormField.sendKeys('First' + randomUser);
+      users.lastNameFormField.sendKeys('Last' + randomUser);
+      users.externalIdFormField.sendKeys('12345');
+      users.personalTelephoneFormField.sendKeys('15062345678');
+      users.submitFormBtn.click().then(function() {
+        // New user not added, invite sent to existing user
+        expect(shared.tableElements.count()).toBe(userCount);
+        expect(shared.successMessage.getText()).toContain('User already exists. Sending ' + params.login.user + ' an invite for');
+        shared.closeMessageBtn.click().then(function() {
+          expect(shared.errorMessage.getText()).toContain('Record failed to save');
+        });
+      });
+    });
+
+    xit('should require role fields', function() {
+      // TODO
+      shared.createBtn.click();
+
+      // Attempt to create a new User with the email of an existing user
+      users.emailFormField.sendKeys(params.login.user);
+
+      randomUser = Math.floor((Math.random() * 1000) + 1);
+      users.firstNameFormField.sendKeys('First' + randomUser);
+      users.lastNameFormField.sendKeys('Last' + randomUser);
+      users.externalIdFormField.sendKeys('12345');
+      users.personalTelephoneFormField.sendKeys('15062345678');
+      users.submitFormBtn.click().then(function() {
+        // New user not added, invite sent to existing user
+        expect(shared.tableElements.count()).toBe(userCount);
+        expect(shared.successMessage.getText()).toContain('User already exists. Sending ' + params.login.user + ' an invite for');
+        shared.closeMessageBtn.click().then(function() {
+          expect(shared.errorMessage.getText()).toContain('Record failed to save');
+        });
+      });
+    });
   });
 });
