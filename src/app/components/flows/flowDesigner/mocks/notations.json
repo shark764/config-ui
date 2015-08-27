@@ -306,6 +306,48 @@
             }
         },
         {
+            "name": "dequeue",
+            "entity": "activity",
+            "label": "Dequeue",
+            "bindings": {},
+            "targeted": false,
+            "inputs": [
+                {
+                    "name": "targeted",
+                    "path": "targeted",
+                    "type": "boolean",
+                    "label": "Targeted:",
+                    "group": "params",
+                    "index": 0,
+                    "disabled": false,
+                    "required": false,
+                    "placeholder": null,
+                    "hidden": true
+                },
+                {
+                    "name": "queue",
+                    "path": "params.queue",
+                    "type": "typeahead",
+                    "label": "Queue:",
+                    "group": "params",
+                    "index": 0,
+                    "disabled": false,
+                    "required": true,
+                    "placeholder": "Search for a queue...",
+                    "hidden": false,
+                    "source": "queue"
+                }
+            ],
+            "params": {
+                "queue": {
+                    "source": "entity",
+                    "type": "queues",
+                    "mandatory": true,
+                    "key": "queue"
+                }
+            }
+        },
+        {
             "name": "work-offer",
             "entity": "activity",
             "label": "Work Offer",
@@ -358,7 +400,7 @@
                 {
                     "name": "timeout",
                     "path": "params.timeout",
-                    "type": "string",
+                    "type": "timestamp",
                     "label": "Timeout:",
                     "group": "params",
                     "index": 0,
@@ -390,9 +432,13 @@
                 },
                 "timeout": {
                     "source": "expression",
-                    "type": "string",
+                    "type": "timestamp",
                     "mandatory": true,
-                    "key": "timeout"
+                    "key": "timeout",
+                    "default": {
+                        "value": 30,
+                        "measurement": "seconds"
+                    }
                 },
                 "search-value": {
                     "source": "expression",
@@ -433,7 +479,7 @@
                     "name": "resourceid",
                     "path": "params.resource",
                     "type": "string",
-                    "label": "Resource ID",
+                    "label": "Resource:",
                     "group": "params",
                     "index": 0,
                     "disabled": false,
@@ -1142,27 +1188,27 @@
             "name": "enqueue-interaction",
             "entity": "template",
             "label": "Queue Interaction",
-            "start": "t15521",
-            "end": "t15520",
+            "start": "t21776",
+            "end": "t21772",
             "inputs": [
                 {
                     "name": "resource",
                     "path": "params.resource",
                     "type": "string",
-                    "label": "Resource ID",
+                    "label": "Resource:",
                     "group": "params",
                     "index": 0,
                     "disabled": false,
                     "required": true,
                     "hidden": false,
-                    "placeholder": "Enter a resource ID...",
+                    "placeholder": "Enter a resource...",
                     "targeted": false
                 },
                 {
                     "name": "queue",
                     "path": "params.queue",
                     "type": "typeahead",
-                    "label": "Queue ID:",
+                    "label": "Queue:",
                     "group": "params",
                     "index": 1,
                     "disabled": false,
@@ -1175,7 +1221,7 @@
                     "name": "media",
                     "path": "params.media",
                     "type": "typeahead",
-                    "label": "Media ID:",
+                    "label": "Media:",
                     "group": "params",
                     "index": 2,
                     "disabled": false,
@@ -1205,7 +1251,7 @@
                     "mandatory": true
                 }
             },
-            "flow": "[{\"id\":\"tag/t15521\",\"children\":[\"tag/t15513\",\"tag/t15518\"],\"parents\":[],\"type\":\"parallel\",\"entity\":\"gateway\"},{\"children\":[],\"bindings\":{},\"name\":\"play-media\",\"params\":{\"media\":{\"source\":\"system\",\"store\":\"media\",\"id\":\"{{media}}\"},\"loop\":{\"source\":\"expression\",\"value\":\"true\"},\"customer\":{\"source\":\"expression\",\"value\":\"titan/customer\"}},\"type\":\"task\",\"id\":\"tag/t15513\",\"parents\":[\"tag/t15521\"],\"decorations\":[\"tag/t15510\"],\"target\":\"twilio\",\"entity\":\"activity\"},{\"children\":[\"tag/t15520\"],\"bindings\":{},\"interrupting\":true,\"type\":\"signal\",\"id\":\"tag/t15510\",\"parents\":[\"tag/t15513\"],\"target\":\"work-accepted\",\"entity\":\"catch\"},{\"id\":\"tag/t15520\",\"children\":[],\"parents\":[\"tag/t15510\",\"tag/t15522\"],\"type\":\"parallel\",\"entity\":\"gateway\"},{\"children\":[\"tag/t15509\"],\"bindings\":{\"resource\":\"{{resource}}\"},\"name\":\"enqueue\",\"params\":{\"queue\":{\"source\":\"system\",\"store\":\"queues\",\"id\":\"{{queue}}\"}},\"type\":\"task\",\"id\":\"tag/t15518\",\"parents\":[\"tag/t15521\"],\"decorations\":[],\"entity\":\"activity\"},{\"id\":\"tag/t15509\",\"children\":[\"tag/t15522\"],\"parents\":[\"tag/t15518\"],\"entity\":\"throw\",\"type\":\"signal\",\"terminate\":false,\"event\":{\"name\":\"resource-acquired\",\"params\":{\"resource\":{\"source\":\"expression\",\"value\":\"{{resource}}\"}}}},{\"children\":[\"tag/t15520\"],\"bindings\":{},\"interrupting\":true,\"type\":\"signal\",\"id\":\"tag/t15522\",\"parents\":[\"tag/t15509\"],\"target\":\"work-accepted\",\"entity\":\"catch\"},{\"children\":[\"tag/t15512\"],\"bindings\":{},\"interrupting\":true,\"type\":\"signal\",\"id\":\"tag/t15519\",\"parents\":[],\"target\":\"customer-disconnect\",\"entity\":\"start\"},{\"id\":\"tag/t15508\",\"children\":[],\"parents\":[\"tag/t15512\"],\"entity\":\"throw\",\"type\":\"none\",\"terminate\":true},{\"id\":\"tag/t15517\",\"children\":[\"tag/t15511\",\"tag/t15523\"],\"parents\":[\"tag/t15512\"],\"type\":\"parallel\",\"entity\":\"gateway\"},{\"children\":[\"tag/t15516\"],\"bindings\":{\"resource\":\"{{resource}}\"},\"name\":\"dequeue\",\"params\":{\"queue\":{\"source\":\"system\",\"store\":\"queues\",\"id\":\"{{queue}}\"}},\"type\":\"task\",\"id\":\"tag/t15511\",\"parents\":[\"tag/t15517\"],\"decorations\":[],\"entity\":\"activity\"},{\"id\":\"tag/t15523\",\"children\":[\"tag/t15516\"],\"parents\":[\"tag/t15517\"],\"entity\":\"throw\",\"type\":\"signal\",\"terminate\":false,\"event\":{\"name\":\"abandon-queue\",\"params\":{}}},{\"id\":\"tag/t15516\",\"children\":[\"tag/t15515\"],\"parents\":[\"tag/t15511\",\"tag/t15523\"],\"type\":\"parallel\",\"entity\":\"gateway\"},{\"id\":\"tag/t15515\",\"children\":[],\"parents\":[\"tag/t15516\"],\"entity\":\"throw\",\"type\":\"terminate\",\"terminate\":true},{\"id\":\"tag/t15512\",\"children\":[\"tag/t15508\",\"tag/t15517\"],\"parents\":[\"tag/t15519\"],\"default\":\"tag/t15508\",\"conditionals\":[[\"tag/t15517\",\"{{resource}}\"]],\"type\":\"exclusive\",\"entity\":\"gateway\"}]"
+            "flow": "[{\"id\":\"tag/t21776\",\"children\":[\"tag/t21777\",\"tag/t21769\"],\"parents\":[],\"entity\":\"gateway\",\"type\":\"parallel\"},{\"id\":\"tag/t21775\",\"children\":[\"tag/t21764\"],\"parents\":[\"tag/t21769\"],\"entity\":\"throw\",\"type\":\"signal\",\"terminate\":false,\"event\":{\"name\":\"resource-acquired\",\"params\":{\"resource\":{\"source\":\"expression\",\"value\":\"{{resource}}\"}}}},{\"children\":[\"tag/t21772\"],\"bindings\":{},\"interrupting\":true,\"type\":\"signal\",\"id\":\"tag/t21764\",\"parents\":[\"tag/t21775\"],\"target\":\"work-accepted\",\"entity\":\"catch\"},{\"id\":\"tag/t21773\",\"children\":[],\"parents\":[\"tag/t21778\"],\"entity\":\"throw\",\"type\":\"none\",\"terminate\":true},{\"id\":\"tag/t21778\",\"children\":[\"tag/t21773\",\"tag/t21771\"],\"parents\":[\"tag/t21767\"],\"entity\":\"gateway\",\"type\":\"exclusive\",\"conditionals\":[[\"tag/t21773\",\"false\"],[\"tag/t21771\",\"{{resource}}\"]],\"default\":\"tag/t21773\"},{\"id\":\"tag/t21771\",\"children\":[\"tag/t21770\",\"tag/t21774\"],\"parents\":[\"tag/t21778\"],\"entity\":\"gateway\",\"type\":\"parallel\"},{\"id\":\"tag/t21770\",\"children\":[\"tag/t21779\"],\"parents\":[\"tag/t21771\"],\"entity\":\"throw\",\"type\":\"signal\",\"terminate\":false,\"event\":{\"name\":\"abandon-queue\",\"params\":{}}},{\"id\":\"tag/t21779\",\"children\":[\"tag/t21763\"],\"parents\":[\"tag/t21770\",\"tag/t21774\"],\"entity\":\"gateway\",\"type\":\"parallel\"},{\"id\":\"tag/t21763\",\"children\":[],\"parents\":[\"tag/t21779\"],\"entity\":\"throw\",\"type\":\"terminate\",\"terminate\":true},{\"id\":\"tag/t21772\",\"children\":[],\"parents\":[\"tag/t21765\",\"tag/t21764\"],\"entity\":\"gateway\",\"type\":\"parallel\"},{\"children\":[\"tag/t21778\"],\"bindings\":{},\"interrupting\":true,\"type\":\"signal\",\"id\":\"tag/t21767\",\"parents\":[],\"target\":\"customer-disconnect\",\"entity\":\"start\"},{\"children\":[],\"bindings\":{},\"name\":\"play-media\",\"params\":{\"media\":{\"source\":\"system\",\"store\":\"media\",\"id\":\"{{media}}\"},\"loop\":{\"source\":\"expression\",\"value\":\"true\"},\"customer\":{\"source\":\"expression\",\"value\":\"titan/customer\"}},\"type\":\"task\",\"id\":\"tag/t21777\",\"parents\":[\"tag/t21776\"],\"decorations\":[\"tag/t21765\"],\"target\":\"twilio\",\"entity\":\"activity\"},{\"children\":[\"tag/t21775\"],\"bindings\":{\"resource\":\"{{resource}}\"},\"name\":\"enqueue\",\"params\":{\"queue\":{\"source\":\"system\",\"store\":\"queues\",\"id\":\"{{queue}}\"}},\"type\":\"task\",\"id\":\"tag/t21769\",\"parents\":[\"tag/t21776\"],\"decorations\":[],\"entity\":\"activity\"},{\"children\":[\"tag/t21772\"],\"bindings\":{},\"interrupting\":true,\"type\":\"signal\",\"id\":\"tag/t21765\",\"parents\":[\"tag/t21777\"],\"target\":\"work-accepted\",\"entity\":\"catch\"},{\"children\":[\"tag/t21779\"],\"bindings\":{\"resource\":\"{{resource}}\"},\"name\":\"dequeue\",\"params\":{\"queue\":{\"source\":\"system\",\"store\":\"queues\",\"id\":\"{{queue}}\"}},\"type\":\"task\",\"id\":\"tag/t21774\",\"parents\":[\"tag/t21771\"],\"decorations\":[],\"entity\":\"activity\"}]"
         },
         {
             "name": "add-customer",
@@ -1228,13 +1274,13 @@
                     "name": "resource",
                     "path": "params.resource",
                     "type": "string",
-                    "label": "Resource ID",
+                    "label": "Resource:",
                     "group": "params",
                     "index": 0,
                     "disabled": false,
                     "required": true,
                     "hidden": false,
-                    "placeholder": "Enter a resource ID...",
+                    "placeholder": "Enter a resource...",
                     "targeted": false
                 }
             ],
@@ -1259,13 +1305,13 @@
                     "name": "resource",
                     "path": "params.resource",
                     "type": "string",
-                    "label": "Resource ID",
+                    "label": "Resource:",
                     "group": "params",
                     "index": 0,
                     "disabled": false,
                     "required": true,
                     "hidden": false,
-                    "placeholder": "Enter a resource ID...",
+                    "placeholder": "Enter a resource...",
                     "targeted": false
                 },
                 {
@@ -1311,7 +1357,7 @@
                     "type": "typeahead",
                     "label": "Media:",
                     "group": "params",
-                    "index": 2,
+                    "index": 0,
                     "disabled": false,
                     "required": true,
                     "hidden": false,

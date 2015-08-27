@@ -6,7 +6,7 @@ angular.module('liveopsConfigPanel')
       restrict: 'E',
       scope : {
         items: '=',
-        selectedItem: '=',
+        selectedItem: '=?',
         nameField: '@',
         onSelect: '&',
         isRequired: '=',
@@ -24,16 +24,9 @@ angular.module('liveopsConfigPanel')
 
         $scope.currentText = $scope.prefill || '';
 
-        $scope.$watch('selectedItem', function () {
-          if(angular.isUndefined($scope.selectedItem) || $scope.selectedItem === null){
-            $scope.currentText = $scope.prefill || '';
-          }
-        });
-
         $scope.$watch('currentText', function () {
           $scope.filterCriteria = {};
           $scope.filterCriteria[$scope.nameField] = $scope.currentText;
-
           var filteredItems = filterFilter($scope.items, $scope.filterCriteria, true);
 
           if (!$scope.currentText){
@@ -43,7 +36,12 @@ angular.module('liveopsConfigPanel')
 
             //Empty timeout forces onSelect to only be called after digest is complete,
             //so the variable bound to selectedItem will have been properly updated
-            $timeout($scope.onSelect, 1);
+            //$timeout($scope.onSelect, 1);
+            $timeout(function(){
+              $scope.onSelect({selectedItem: filteredItems[0]});
+            })
+            
+
           } else {
             $scope.selectedItem = {};
             $scope.selectedItem[$scope.nameField] = $scope.currentText;
