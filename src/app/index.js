@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigPanel.config', 'pascalprecht.translate', 'ngCookies', 'ngMessages', 'ngSanitize', 'toastr', 'ngLodash', 'teljs'])
+angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigPanel.config', 'pascalprecht.translate', 'ngCookies', 'ngMessages', 'ngSanitize', 'toastr', 'ngLodash', 'teljs', 'realtime-dashboards'])
   .config(['$stateProvider', '$urlRouterProvider', '$translateProvider', 'toastrConfig', function($stateProvider, $urlRouterProvider, $translateProvider, toastrConfig) {
 
     $urlRouterProvider.otherwise(function($injector){
@@ -265,20 +265,91 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
         resolve: {
           invitedUser: ['$stateParams', 'Session', 'User', function($stateParams, Session, User) {
             Session.setToken('Token ' + $stateParams.token);
-            
+
             return User.get({
               id: $stateParams.userId
             }).$promise;
-          }]//,
+          }],
+          //,
           //TODO: re-enable when TITAN2-3042 is fixed
-//          invitedTenantUser: ['$stateParams', 'Session', 'TenantUser', function($stateParams, Session, TenantUser) {
-//            Session.setToken('Token ' + $stateParams.token);
-//            
-//            return TenantUser.get({
-//              id: $stateParams.userId,
-//              tenantId: $stateParams.tenantId
-//            }).$promise;
-//          }]
+          //          invitedTenantUser: ['$stateParams', 'Session', 'TenantUser', function($stateParams, Session, TenantUser) {
+          //            Session.setToken('Token ' + $stateParams.token);
+          //
+          //            return TenantUser.get({
+          //              id: $stateParams.userId,
+          //              tenantId: $stateParams.tenantId
+          //            }).$promise;
+          //          }]
+        }
+      })
+      .state('content.realtime-dashboards', {
+        url: '/realtime-dashboards',
+        templateUrl: 'app/components/realtimeDashboards/demo.html',
+        controller: 'RealtimeDashboardsController',
+        isPublic: false,
+        resolve: {
+          dashboard: function() {
+            return {
+              name: 'Dashboard A',
+              order: 0,
+              id: '00000000-0000-0000-000000000000',
+              widgets: [{
+                title: {
+                  enabled: true,
+                  text: 'Widget A'
+                },
+                size: {
+                  width: 3,
+                  height: 2
+                },
+                position: {
+                  row: 0,
+                  col: 0
+                },
+                chart: {
+                  type: 'line',
+                  data: {
+                    columns: [
+                      ['data1', 30, 200, 100, 400, 150, 5],
+                      ['data2', 50, 20, 10, 40, 15, 25]
+                    ],
+                    regions: {
+                      'data1': [{'start':1, 'end':2, 'style':'dashed'},{'start':3}], // currently 'dashed' style only
+                      'data2': [{'end':3}]
+                    }
+                  }
+                }
+              }, {
+                title: {
+                  enabled: true,
+                  text: 'Widget B'
+                },
+                size: {
+                  width: 2,
+                  height: 2
+                },
+                position: {
+                  row: 0,
+                  col: 0
+                },
+                chart: {
+                  type: 'line',
+                  data: {
+                    columns: [
+                      ['data1', 5, 10, 20, 12, 13, 7],
+                      ['data2', 6, 6, 77, 46, 23, 25],
+                      ['data3', 3, 3, 255, 46, 77, 36]
+                    ],
+                    regions: {
+                      'data1': [{'start':1, 'end':2, 'style':'dashed'},{'start':3}],
+                      'data2': [{'end':3}],
+                      'data3': [{'end':2}]
+                    }
+                  }
+                }
+              }]
+            };
+          }
         }
       });
 

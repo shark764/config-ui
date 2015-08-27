@@ -36,7 +36,7 @@
           graph.interfaces.inspectorContainer.css({'right': '0px'});
         };
         graph.utils.hidePropertiesPanel = function() {
-          graph.interfaces.inspectorContainer.css({'right': '-350px'});
+          graph.interfaces.inspectorContainer.css({'right': '-1000px'});
         };
         graph.utils.renderHaloMenu = function(notation) {
           if (notation.model instanceof joint.dia.Element && !graph.interfaces.selector.contains(notation.model)) {
@@ -224,6 +224,7 @@
           },
           'cell:pointerup': function(cellView) {
             self.graph.utils.renderPropertiesPanel(cellView);
+            self.graph.interfaces.selector.add(cellView.model);
           }
         });
       },
