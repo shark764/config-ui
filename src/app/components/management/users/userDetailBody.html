@@ -96,7 +96,8 @@
       </form-error>
       <div>
         <select ng-model="selectedTenantUser.roleId" name="roleId" required
-          ng-options="role.id as role.name for role in fetchTenantRoles()">
+          ng-options="role.id as role.name for role in fetchTenantRoles()"
+          ng-disabled="Session.user.id == selectedTenantUser.$user.id">
           <option value="" ng-disabled="true">
             {{'users.details.role.select' | translate}}
           </option>
