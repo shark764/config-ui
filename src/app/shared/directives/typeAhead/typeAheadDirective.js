@@ -20,8 +20,6 @@ angular.module('liveopsConfigPanel')
 
 
       link: function ($scope) {
-        $scope.nameField = $scope.nameField || 'name';
-
         $scope.currentText = $scope.prefill || '';
 
         $scope.$watch('selectedItem', function () {
@@ -31,10 +29,17 @@ angular.module('liveopsConfigPanel')
         });
 
         $scope.$watch('currentText', function () {
-          $scope.filterCriteria = {};
-          $scope.filterCriteria[$scope.nameField] = $scope.currentText;
-
-          var filteredItems = filterFilter($scope.items, $scope.filterCriteria, true);
+          var filteredItems;
+          
+          if ($scope.nameField){
+            var filterCriteria = {};
+            filterCriteria[$scope.nameField] = $scope.currentText;
+            filteredItems = filterFilter($scope.items, filterCriteria, true);
+          } else {
+            filteredItems = filterFilter($scope.items, function(item){
+              return item.getDisplay() === $scope.currentText;
+            }, true);
+          }
 
           if (!$scope.currentText){
             $scope.selectedItem = null;
@@ -58,7 +63,7 @@ angular.module('liveopsConfigPanel')
         $scope.select = function (item){
           $scope.hovering = false;
           $scope.selectedItem = item;
-          $scope.currentText = $scope.selectedItem[$scope.nameField];
+          $scope.currentText = $scope.nameField ? $scope.selectedItem[$scope.nameField] : $scope.selectedItem.getDisplay();
         };
         
         $scope.onBlur = function(){

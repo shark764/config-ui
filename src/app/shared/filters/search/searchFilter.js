@@ -41,7 +41,7 @@ angular.module('liveopsConfigPanel')
           if (typeof (field) === 'string') {
             itemString += item[field] + ' ';
           } else if (typeof (field) === 'object') {
-            itemString += findFields(field, item).join(' ');
+            itemString += findFields(field, item).join(' ') + ' ';
           }
         });
 
