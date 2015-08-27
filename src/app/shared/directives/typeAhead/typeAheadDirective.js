@@ -18,41 +18,33 @@ angular.module('liveopsConfigPanel')
 
       templateUrl: 'app/shared/directives/typeAhead/typeAhead.html',
 
-
-      link: function ($scope) {
+      link: function($scope) {
         $scope.currentText = $scope.prefill || '';
 
-        $scope.$watch('selectedItem', function () {
-          if(angular.isUndefined($scope.selectedItem) || $scope.selectedItem === null){
-            $scope.currentText = $scope.prefill || '';
-          }
-        });
-
-        $scope.$watch('currentText', function () {
+        $scope.$watch('currentText', function() {
           var filteredItems;
-          
-          if ($scope.nameField){
+
+          if ($scope.nameField) {
             var filterCriteria = {};
             filterCriteria[$scope.nameField] = $scope.currentText;
             filteredItems = filterFilter($scope.items, filterCriteria, true);
           } else {
-            filteredItems = filterFilter($scope.items, function(item){
+            filteredItems = filterFilter($scope.items, function(item) {
               return item.getDisplay() === $scope.currentText;
             }, true);
           }
 
-          if (!$scope.currentText){
+          if (!$scope.currentText) {
             $scope.selectedItem = null;
-          } else if (filteredItems && filteredItems.length === 1){
+          } else if (filteredItems && filteredItems.length === 1) {
             $scope.selectedItem = filteredItems[0];
 
             //Empty timeout forces onSelect to only be called after digest is complete,
             //so the variable bound to selectedItem will have been properly updated
             //$timeout($scope.onSelect, 1);
-            $timeout(function(){
+            $timeout(function() {
               $scope.onSelect({selectedItem: filteredItems[0]});
-            })
-            
+            });
 
           } else {
             $scope.selectedItem = {};
@@ -60,15 +52,15 @@ angular.module('liveopsConfigPanel')
           }
         });
 
-        $scope.select = function (item){
+        $scope.select = function(item) {
           $scope.hovering = false;
           $scope.selectedItem = item;
           $scope.currentText = $scope.nameField ? $scope.selectedItem[$scope.nameField] : $scope.selectedItem.getDisplay();
         };
-        
-        $scope.onBlur = function(){
-          if (!$scope.keepExpanded){ //Prevents the button in multibox from jumping around
-            $scope.showSuggestions=false;
+
+        $scope.onBlur = function() {
+          if (!$scope.keepExpanded) { //Prevents the button in multibox from jumping around
+            $scope.showSuggestions = false;
           }
         };
       }
