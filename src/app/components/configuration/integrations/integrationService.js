@@ -10,6 +10,12 @@ angular.module('liveopsConfigPanel')
         updateFields: [{
           name: 'properties'
         }, {
+          name: 'accountSid'
+        }, {
+          name: 'authToken'
+        }, {
+          name: 'webRtc'
+        }, {
           name: 'active'
         }],
         saveInterceptor: emitInterceptor,

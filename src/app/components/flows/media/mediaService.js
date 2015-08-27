@@ -16,6 +16,10 @@ angular.module('liveopsConfigPanel')
         saveInterceptor: cacheAddInterceptor
       });
 
+       Media.prototype.getDisplay = function (){
+       return this.name;
+      };
+    
       return Media;
     }
   ]);

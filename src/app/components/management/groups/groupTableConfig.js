@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('groupTableConfig', ['statuses', '$translate',
-    function (statuses, $translate) {
+  .service('groupTableConfig', ['statuses', '$translate', 'UserPermissions',
+    function (statuses, $translate, UserPermissions) {
       return {
         'fields': [{
           'header': {
@@ -34,7 +34,10 @@ angular.module('liveopsConfigPanel')
         }],
         'searchOn' : ['name', 'description'],
         'orderBy' : 'name',
-        'title' : $translate.instant('group.table.title')
+        'title' : $translate.instant('group.table.title'),
+        'showBulkActions': UserPermissions.hasPermission('MANAGE_ALL_GROUPS'),
+        'showCreate': UserPermissions.hasPermission('MANAGE_ALL_GROUPS')
+      
       };
     }
   ]);

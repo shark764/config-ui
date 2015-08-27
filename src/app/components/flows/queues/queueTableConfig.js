@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('queueTableConfig', ['statuses', '$translate', function (statuses, $translate) {
+  .service('queueTableConfig', ['statuses', '$translate', 'UserPermissions', function (statuses, $translate, UserPermissions) {
       return {
         'fields': [{
           'header': {
@@ -32,7 +32,9 @@ angular.module('liveopsConfigPanel')
         }],
         'searchOn' : ['name'],
         'orderBy' : 'name',
-        'title' : $translate.instant('queue.table.title')
+        'title' : $translate.instant('queue.table.title'),
+        'showBulkActions': UserPermissions.hasPermission('MANAGE_ALL_QUEUES'),
+        'showCreate': UserPermissions.hasPermission('MANAGE_ALL_QUEUES')
       };
     }
   ]);

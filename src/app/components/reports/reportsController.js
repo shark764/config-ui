@@ -1,47 +1,31 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('ReportsController', ['$scope', '$sce', '$http', 'Session', '$state', 'BIRST_URL', 'SSO_PASSWORD', 'SPACE_ID',
-    function($scope, $sce, $http, Session, $state, BIRST_URL, SSO_PASSWORD, SPACE_ID) {
+  .controller('ReportsController', ['$scope', '$sce', '$http', 'Session', 'Report', '$state', 'BIRST_URL', 'SSO_PASSWORD', 'SPACE_ID',
+    function($scope, $sce, $http, Session, Report, $state, BIRST_URL, SSO_PASSWORD, SPACE_ID) {
       $scope.birst = {};
 
       $scope.fetch = function() {
 
-        var username = 'titan-product@liveops.com';
-        var sessionVars = 'tenant-id=\''+ Session.tenant.tenantId +'\'';
-
-        $http({
-          url: BIRST_URL + '/TokenGenerator.aspx?',
-          method: 'POST',
-          data: null,
-          params: {
-            'birst.username': username,
-            'birst.ssopassword': SSO_PASSWORD,
-            'birst.spaceId': SPACE_ID,
-            'birst.sessionVars': sessionVars
-          },
-          headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-        }).success( function (data) {
-          $scope.birst.SSOToken = data;
-
-          if ( $state.params.id === 'historical-dashboards' ) {
-            $scope.birst.module = 'newDashboards';
-          } else if ( $state.params.id === 'reporting-designer' ) {
-            $scope.birst.module = 'designer';
-          } else if ( $state.params.id === 'chart-designer' ) {
-            $scope.birst.module = 'visualizer';
-          }
-
+        Report.get({
+          tenantId: Session.tenant.tenantId
+        }, function (data) {
+          $scope.birst.SSOToken = data.reportToken;
           $scope.buildUrl();
-
-        }).error( function (data, status) {
-          $scope.status = status;
         });
 
       };
 
       $scope.buildUrl = function() {
         var buildingUrl = BIRST_URL + '/SSO.aspx?';
+
+        if ( $state.params.id === 'historical-dashboards' ) {
+          $scope.birst.module = 'newDashboards';
+        } else if ( $state.params.id === 'reporting-designer' ) {
+          $scope.birst.module = 'designer';
+        } else if ( $state.params.id === 'chart-designer' ) {
+          $scope.birst.module = 'visualizer';
+        }
 
         var dashboardName = ''; // Name of the collection...
         var pageName = '';  // Name of the Dashboard...  (Yes... variable naming fail by Birst.)

@@ -1,11 +1,23 @@
 <div ng-if="originalResource.id">
   <toggle class="status-toggle" ng-model="resource.active" 
   confirm-disable-message="{{'dispatchMappings.details.disable.confirm' | translate}}"
-  confirm-enable-message="{{'dispatchMappings.details.enable.confirm' | translate}}"></toggle>
+  confirm-enable-message="{{'dispatchMappings.details.enable.confirm' | translate}}"
+  ng-disabled="! ('MAP_ALL_CONTACT_POINTS' | hasPermission)"></toggle>
 
   <div class="info pull-left">
     <h1 id="dispatch-mappings-details-name-header">{{originalResource.name}}</h1>
-    <div class="details">
+    <div class="details" ng-if="! (['PLATFORM_VIEW_ALL_USERS', 'PLATFORM_CREATE_USERS', 'PLATFORM_MANAGE_ALL_USERS', 'PLATFORM_MANAGE_ALL_TENANTS', 'PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT'] | hasPermission)">
+      <b audit-text
+        translation="value.createdon.time"
+        date="originalResource.created">
+      </b>
+      <br/>
+      <b audit-text ng-if="!!originalResource.updated"
+        translation="value.updatedon"
+        date="originalResource.updated">
+      </b>
+    </div>
+    <div class="details" ng-if="['PLATFORM_VIEW_ALL_USERS', 'PLATFORM_CREATE_USERS', 'PLATFORM_MANAGE_ALL_USERS', 'PLATFORM_MANAGE_ALL_TENANTS', 'PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT'] | hasPermission">
       <b audit-text
         translation="value.createdby.time"
         user-id="originalResource.createdBy"

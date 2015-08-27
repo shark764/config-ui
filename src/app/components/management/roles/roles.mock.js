@@ -32,4 +32,28 @@ angular.module('liveopsConfigPanel.mock.content.management.roles', ['liveopsConf
         'result': mockRoles[1]
       });
     }
+  ])
+  .service('mockPlatformRoles', function(PlatformRole) {
+    return [new PlatformRole({
+      'id': 'roleId1',
+      'name': 'roleName1'
+    }), new PlatformRole({
+      'id': 'roleId2',
+      'name': 'roleName2'
+    })];
+  })
+  .run(['$httpBackend', 'apiHostname', 'mockPlatformRoles',
+    function($httpBackend, apiHostname, mockPlatformRoles) {
+      $httpBackend.when('GET', apiHostname + '/v1/roles').respond({
+        'result': [mockPlatformRoles[0], mockPlatformRoles[1]]
+      });
+
+      $httpBackend.when('GET', apiHostname + '/v1/roles/roleId1').respond({
+        'result': mockPlatformRoles[0]
+      });
+
+      $httpBackend.when('GET', apiHostname + '/v1/roles/roleId2').respond({
+        'result': mockPlatformRoles[1]
+      });
+    }
   ]);

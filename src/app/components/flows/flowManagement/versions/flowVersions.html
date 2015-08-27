@@ -1,6 +1,6 @@
 <div class="divider-header">
   <h4>{{'flowVersions.title' | translate}}</h4>
-  <a id="show-create-new-version" ng-hide="createNewVersion" class="btn pull-right" ng-click="createNewVersion = true" title="{{'flow.details.version.add.alt' | translate}}"><i class="fa fa-plus"></i></a>
+  <a id="show-create-new-version" ng-hide="createNewVersion || ! ('MANAGE_ALL_FLOWS' | hasPermission)" class="btn pull-right" ng-click="createNewVersion = true" title="{{'flow.details.version.add.alt' | translate}}"><i class="fa fa-plus"></i></a>
 </div>
 
 <div ng-show="createNewVersion">
@@ -35,13 +35,15 @@
     <tr>
       <th>{{'value.name' | translate}}</th>
       <th>{{'value.createdOn' | translate}}</th>
-      <th>{{'value.createdBy' | translate}}</th>
+      <th ng-if="['PLATFORM_VIEW_ALL_USERS', 'PLATFORM_CREATE_USERS', 'PLATFORM_MANAGE_ALL_USERS', 'PLATFORM_MANAGE_ALL_TENANTS', 'PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT'] | hasPermission">
+        {{'value.createdBy' | translate}}
+      </th>
     </tr>
   </thead>
   <tr ng-repeat="version in versions | orderBy:'created':'reverse'">
-    <td><a href="#/flows/editor/{{version.flowId}}/{{version.version}}?v={{version.v}}">v{{version.v}}</a>&nbsp;{{version.name}}</td>
+    <td><a href="#/flows/editor/{{version.flowId}}/{{version.version}}?v={{version.v}}">{{version.name}}</a></td>
     <td>{{version.created | date:'medium'}}</td>
-    <td>
+    <td ng-if="['PLATFORM_VIEW_ALL_USERS', 'PLATFORM_CREATE_USERS', 'PLATFORM_MANAGE_ALL_USERS', 'PLATFORM_MANAGE_ALL_TENANTS', 'PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT'] | hasPermission">
       <audit-text translation="value.displayName" user-id="version.createdBy"></audit-text>
     </td>
   </tr>

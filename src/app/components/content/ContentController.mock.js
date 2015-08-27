@@ -7,14 +7,20 @@ angular.module('liveopsConfigPanel.mock.content', [])
     'name': 'us-east-1'
   }])
   .value('mockLogin', {
-    user: {},
+    userId: 'userId1',
+    username: 'username',
+    platformPermissions: [],
     tenants: []
   })
   .run(function ($httpBackend, apiHostname, mockRegions, mockLogin, Session) {
-    Session.tenant.tenantId = 'tenant-id';
+    Session.tenant = {
+        tenantId: 'tenant-id'
+    };
+    
     Session.user = {
       id: 'userId1'
     };
+    
     Session.activeRegionId = mockRegions[0].id;
     $httpBackend.when('GET', apiHostname + '/v1/regions').respond({
       'result': mockRegions

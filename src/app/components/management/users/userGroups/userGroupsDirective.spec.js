@@ -149,9 +149,14 @@ describe('userGroups directive', function() {
       }));
 
       it('should reset the context', inject(function() {
+        isolateScope.addGroup.name = {
+          $setUntouched : jasmine.createSpy('$setUntouched'),
+          $setPristine : jasmine.createSpy('$setPristine')
+        };
+
         isolateScope.reset();
         expect(isolateScope.selectedgroup).toBeUndefined();
-        expect(isolateScope.addGroup.name.$touched).toBeFalsy();
+        expect(isolateScope.addGroup.name.$setUntouched).toHaveBeenCalled();
         expect(isolateScope.newGroupUser.groupId).toBeNull();
         expect(isolateScope.newGroupUser.userId).toEqual('userId2');
         expect(isolateScope.saving).toBeFalsy();

@@ -44,19 +44,34 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
         url: '/users?id',
         templateUrl: 'app/components/management/users/users.html',
         controller: 'UsersController',
-        reloadOnSearch: false
+        reloadOnSearch: false,
+        resolve: {
+          hasPermission: ['UserPermissions', function(UserPermissions) {
+            return UserPermissions.resolvePermissions(['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'VIEW_ALL_USERS', 'MANAGE_ALL_USER_EXTENSIONS', 'MANAGE_ALL_GROUP_USERS', 'MANAGE_ALL_USER_SKILLS', 'MANAGE_ALL_USER_LOCATIONS', 'MANAGE_TENANT_ENROLLMENT']);
+          }]
+        }
       })
       .state('content.management.skills', {
         url: '/skills?id',
         templateUrl: 'app/components/management/skills/skills.html',
         controller: 'SkillsController',
-        reloadOnSearch: false
+        reloadOnSearch: false,
+        resolve: {
+          hasPermission: ['UserPermissions', function(UserPermissions) {
+            return UserPermissions.resolvePermissions(['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'VIEW_ALL_SKILLS', 'MANAGE_ALL_SKILLS', 'MANAGE_ALL_USER_SKILLS', 'MANAGE_TENANT_ENROLLMENT']);
+          }]
+        }
       })
       .state('content.management.groups', {
         url: '/groups?id',
         templateUrl: 'app/components/management/groups/groups.html',
         controller: 'GroupsController',
-        reloadOnSearch: false
+        reloadOnSearch: false,
+        resolve: {
+          hasPermission: ['UserPermissions', function(UserPermissions) {
+            return UserPermissions.resolvePermissions(['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'VIEW_ALL_GROUPS', 'MANAGE_ALL_GROUPS', 'MANAGE_ALL_GROUP_USERS', 'MANAGE_ALL_GROUP_OWNERS', 'MANAGE_TENANT_ENROLLMENT']);
+          }]
+        }
       })
       .state('content.configuration', {
         abstract: true,
@@ -68,13 +83,23 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
         url: '/tenants?id',
         templateUrl: 'app/components/configuration/tenants/tenants.html',
         controller: 'TenantsController',
-        reloadOnSearch: false
+        reloadOnSearch: false,
+        resolve: {
+          hasPermission: ['UserPermissions', function(UserPermissions) {
+            return UserPermissions.resolvePermissions(['PLATFORM_VIEW_ALL_TENANTS', 'PLATFORM_MANAGE_ALL_TENANTS', 'PLATFORM_CREATE_ALL_TENANTS', 'PLATFORM_CREATE_TENANT_ROLES', 'PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'MANAGE_TENANT']);
+          }]
+        }
       })
       .state('content.configuration.integrations', {
         url: '/integrations?id',
         templateUrl: 'app/components/configuration/integrations/integrations.html',
         controller: 'IntegrationsController',
-        reloadOnSearch: false
+        reloadOnSearch: false,
+        resolve: {
+          hasPermission: ['UserPermissions', function(UserPermissions) {
+            return UserPermissions.resolvePermissions(['VIEW_ALL_PROVIDERS', 'MANAGE_ALL_PROVIDERS']);
+          }]
+        }
       })
       .state('content.flows', {
         abstract: true,
@@ -86,31 +111,56 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
         url: '/management?id',
         templateUrl: 'app/components/flows/flowManagement/flowManagement.html',
         controller: 'FlowManagementController',
-        reloadOnSearch: false
+        reloadOnSearch: false,
+        resolve: {
+          hasPermission: ['UserPermissions', function(UserPermissions) {
+            return UserPermissions.resolvePermissions(['VIEW_ALL_FLOWS', 'MANAGE_ALL_FLOWS', 'MAP_ALL_CONTACT_POINTS']);
+          }]
+        }
       })
       .state('content.flows.queues', {
         url: '/queues?id',
         templateUrl: 'app/components/flows/queues/queues.html',
         controller: 'QueueController',
-        reloadOnSearch: false
+        reloadOnSearch: false,
+        resolve: {
+          hasPermission: ['UserPermissions', function(UserPermissions) {
+            return UserPermissions.resolvePermissions(['VIEW_ALL_FLOWS', 'MANAGE_ALL_FLOWS', 'VIEW_ALL_QUEUES', 'MANAGE_ALL_QUEUES']);
+          }]
+        }
       })
       .state('content.flows.media', {
         url: '/media?id',
         templateUrl: 'app/components/flows/media/media.html',
         controller: 'MediaController',
-        reloadOnSearch: false
+        reloadOnSearch: false,
+        resolve: {
+          hasPermission: ['UserPermissions', function(UserPermissions) {
+            return UserPermissions.resolvePermissions(['VIEW_ALL_MEDIA', 'VIEW_ALL_FLOWS', 'MANAGE_ALL_FLOWS']);
+          }]
+        }
       })
       .state('content.flows.media-collections', {
         url: '/media-collections',
         templateUrl: 'app/components/flows/media-collections/media-collections.html',
         controller: 'MediaCollectionController',
-        reloadOnSearch: false
+        reloadOnSearch: false,
+        resolve: {
+          hasPermission: ['UserPermissions', function(UserPermissions) {
+            return UserPermissions.resolvePermissions(['VIEW_ALL_MEDIA', 'VIEW_ALL_FLOWS', 'MANAGE_ALL_FLOWS']);
+          }]
+        }
       })
       .state('content.flows.dispatchMappings', {
         url: '/dispatchMappings?id',
         templateUrl: 'app/components/flows/dispatchMappings/dispatchMappings.html',
         controller: 'DispatchMappingsController',
-        reloadOnSearch: false
+        reloadOnSearch: false,
+        resolve: {
+          hasPermission: ['UserPermissions', function(UserPermissions) {
+            return UserPermissions.resolvePermissions(['VIEW_ALL_CONTACT_POINTS', 'MAP_ALL_CONTACT_POINTS']);
+          }]
+        }
       })
       .state('content.flows.versions', {
         url: '/versions?id',

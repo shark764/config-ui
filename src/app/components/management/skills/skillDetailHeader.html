@@ -1,11 +1,12 @@
 <div ng-if="originalResource.id">
   <toggle class="status-toggle" ng-model="resource.active" 
     confirm-disable-message="{{'skill.details.disable.confirm' | translate}}"
-    confirm-enable-message="{{'skill.details.enable.confirm' | translate}}"></toggle>
+    confirm-enable-message="{{'skill.details.enable.confirm' | translate}}"
+    ng-disabled="! ('MANAGE_ALL_SKILLS' | hasPermission)"></toggle>
 
   <div class="info">
     <h1 id="skill-details-name-header">{{originalResource.name}}</h1>
-    <div class="details">
+    <div class="details" ng-if="['PLATFORM_VIEW_ALL_USERS', 'PLATFORM_CREATE_USERS', 'PLATFORM_MANAGE_ALL_USERS', 'PLATFORM_MANAGE_ALL_TENANTS', 'PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT'] | hasPermission">
       <b audit-text
         translation="value.createdby.time"
         user-id="originalResource.createdBy"
@@ -15,6 +16,17 @@
       <b audit-text ng-if="!!originalResource.updatedBy"
         translation="value.updatedby"
         user-id="originalResource.updatedBy"
+        date="originalResource.updated">
+      </b>
+    </div>
+    <div class="details" ng-if="!(['PLATFORM_VIEW_ALL_USERS', 'PLATFORM_CREATE_USERS', 'PLATFORM_MANAGE_ALL_USERS', 'PLATFORM_MANAGE_ALL_TENANTS', 'PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT'] | hasPermission)">
+      <b audit-text
+        translation="value.createdon.time"
+        date="originalResource.created">
+      </b>
+      <br/>
+      <b audit-text ng-if="!!originalResource.updated"
+        translation="value.updatedon"
         date="originalResource.updated">
       </b>
     </div>

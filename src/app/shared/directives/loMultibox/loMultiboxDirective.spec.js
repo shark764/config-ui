@@ -10,28 +10,30 @@ describe('loMultibox directive', function(){
   beforeEach(module('gulpAngular'));
   beforeEach(module('liveopsConfigPanel.mock.content'));
 
-  beforeEach(inject(['$compile', '$rootScope', function($compile, _$rootScope_) {
+  beforeEach(inject(['$compile', '$rootScope', '$q', function($compile, _$rootScope_, $q) {
     $scope = _$rootScope_.$new();
     $rootScope = _$rootScope_;
 
     $scope.items = [{
       displayname: 'the first',
       id: '123',
-      otherprop: 'Red'
+      otherprop: 'Red',
+      getDisplay: jasmine.createSpy('getDisplay')
     }, {
       displayname: 'second',
       id: '456',
-      otherprop: 'Blue'
+      otherprop: 'Blue',
+      getDisplay: jasmine.createSpy('getDisplay')
     }, {
       displayname: '3',
       id: '789',
-      otherprop: 'Yellow'
+      otherprop: 'Yellow',
+      getDisplay: jasmine.createSpy('getDisplay')
     }];
-
+    
     $scope.model = {importantprop: 'important value'};
 
-
-    element = $compile('<lo-multibox item="items" model="model" resource-name="myresource" name="myinput" display-field="displayname"></lo-multibox>')($scope);
+    element = $compile('<lo-multibox items="items" model="model" resource-name="myresource" name="myinput" display-field="displayname"></lo-multibox>')($scope);
     $scope.$digest();
     isolateScope = element.isolateScope();
   }]));
@@ -72,14 +74,13 @@ describe('loMultibox directive', function(){
   });
 
   describe('onSelect function', function () {
-    it('should copy selected display and id into model but leave other properties untouched', function () {
+    it('should copy selected id into model but leave other properties untouched', function () {
       isolateScope.onSelect({
-        displayname: 'Some name',
         id: '1234',
-        otherprop: 'NO'
+        otherprop: 'NO',
+        getDisplay: jasmine.createSpy('getDisplay')
       });
 
-      expect($scope.model.displayname).toEqual('Some name');
       expect($scope.model.id).toEqual('1234');
       expect($scope.model.otherprop).toBeUndefined();
       expect($scope.model.importantprop).toEqual('important value');
@@ -90,7 +91,7 @@ describe('loMultibox directive', function(){
       isolateScope.createMode = true;
 
       isolateScope.onSelect({
-        displayname: 'Some name',
+        getDisplay: jasmine.createSpy('getDisplay'),
         id: '1234'
       });
       $scope.$digest();
