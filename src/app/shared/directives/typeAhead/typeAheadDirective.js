@@ -24,16 +24,9 @@ angular.module('liveopsConfigPanel')
 
         $scope.currentText = $scope.prefill || '';
 
-        $scope.$watch('selectedItem', function () {
-          if(angular.isUndefined($scope.selectedItem) || $scope.selectedItem === null){
-            $scope.currentText = $scope.prefill || '';
-          }
-        });
-
         $scope.$watch('currentText', function () {
           $scope.filterCriteria = {};
           $scope.filterCriteria[$scope.nameField] = $scope.currentText;
-
           var filteredItems = filterFilter($scope.items, $scope.filterCriteria, true);
 
           if (!$scope.currentText){
