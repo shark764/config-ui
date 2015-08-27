@@ -2,7 +2,7 @@
 
 var Columns = function() {
   this.dropdownFilter = element(by.css('#table-columns-dropdown  > div:nth-child(2) > div:nth-child(1)'));
-  this.options = element.all(by.repeater('option in options track by option[valuePath]'));
+  this.options = element.all(by.repeater('option in options | orderBy:orderBy'));
   this.optionCheckboxes = this.dropdownFilter.all(by.css('input'));
 
   this.users = ['Name', 'Email', 'ID', 'Skills', 'Groups', 'State', 'Status'];

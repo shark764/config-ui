@@ -15,8 +15,6 @@ var BulkActions = function() {
 
   // User Management Bulk Actions
   this.userSelectEnable = element(by.id('user-status-bulk-enable-check'));
-  this.selectResetPassword = element(by.id('user-password-bulk-enable-check'));
-  this.resetPasswordInputField = element(by.id('user-password-bulk-input-field'));
 
   this.changeSkills = element(by.css('ba-user-skills'));
   this.selectChangeSkills = element(by.id('user-skill-bulk-enable-check'));

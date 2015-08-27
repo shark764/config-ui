@@ -46,11 +46,12 @@ var UserPage = function() {
   this.tableHeader = this.tablePane.element(by.css('.clone-header'));
   this.nameColumn = 'td:nth-child(2)';
   this.emailColumn = 'td:nth-child(3)';
-  this.externalIdColumn = 'td:nth-child(4)';
-  this.skillsColumn = 'td:nth-child(5)';
-  this.groupsColumn = 'td:nth-child(6)';
-  this.rolesColumn = 'td:nth-child(7)';
-  this.statusColumn = 'td:nth-child(8)';
+  this.externalIdColumn = 'td:nth-child(4)'; // Not displayed by default
+  this.skillsColumn = 'td:nth-child(4)';
+  this.groupsColumn = 'td:nth-child(5)';
+  this.rolesColumn = 'td:nth-child(6)';
+  this.presenceColumn = 'td:nth-child(7)';
+  this.tenantStatusColumn = 'td:nth-child(8)';
 
   this.tableDropDowns = this.tableHeader.all(by.css('filter-dropdown'));
 
