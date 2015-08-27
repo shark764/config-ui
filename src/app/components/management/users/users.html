@@ -1,16 +1,22 @@
 
 <table-controls
   id="table-pane"
-  config="tableConfig"
+  config="userTableConfig.getConfig()"
   items="fetchTenantUsers()"
   selected="selectedTenantUser"
   resource-name="tenantUser">
 
   <tenant-user-status name="$original.status"
     ng-model="item.$original.status">
-  </user-status>
+  </tenant-user-status>
 
   <user-state name="$original.state" ng-model="item.$original.state"></user-state>
+  
+  <div name="$original.$user.status">
+    <span ng-show="item.$user.status === 'enabled'">{{'value.enabled' | translate}}</span>
+    <span ng-show="item.$user.status === 'pending'">{{'value.pending' | translate}}</span>
+    <span ng-show="item.$user.status === 'disabled'" class="disabled">{{'value.disabled' | translate}}</span>
+  </div>
 </table-controls>
 
 <resize-handle
@@ -55,6 +61,7 @@
           lo-submit-spinner-status="selectedTenantUser.$busy || selectedTenantUser.$user.$busy"
           ng-disabled="forms.detailsForm.$pending ||
             (forms.detailsForm.$invalid && ! forms.detailsForm.$error.duplicateEmail) ||
+            (forms.detailsForm.$error | keysCount) > 1 ||
             ! forms.detailsForm.$dirty"
           class="btn btn-primary"
           type="submit"
@@ -66,9 +73,8 @@
   <bulk-action-executor class="right-panel user-ba" ng-show="showBulkActions" items="fetchTenantUsers()"
     bulk-actions="bulkActions" show-bulk-actions="showBulkActions"
     confirm-message-key="bulkActions.user.confirm.message" drop-order-by="lastName">
-    <ba-set-status bulk-action="bulkActions.setStatus"></ba-set-status>
-    <ba-reset-password bulk-action="bulkActions.resetPassword"></ba-reset-password>
-    <ba-user-skills bulk-action="bulkActions.userSkills" users="fetchTenantUsers()"></ba-user-skills>
-    <ba-user-groups bulk-action="bulkActions.userGroups" users="fetchTenantUsers()"></ba-user-groups>
+    <ba-set-status ng-if="['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'MANAGE_TENANT_ENROLLMENT'] | hasPermission" bulk-action="bulkActions.setStatus"></ba-set-status>
+    <ba-user-skills ng-if="['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'MANAGE_ALL_USER_SKILLS', 'MANAGE_TENANT_ENROLLMENT'] | hasPermission" bulk-action="bulkActions.userSkills" users="fetchTenantUsers()"></ba-user-skills>
+    <ba-user-groups ng-if="['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'MANAGE_ALL_GROUP_USERS', 'MANAGE_TENANT_ENROLLMENT'] | hasPermission" bulk-action="bulkActions.userGroups" users="fetchTenantUsers()"></ba-user-groups>
   </bulk-action-executor>
 </lo-details-panel>

@@ -64,8 +64,10 @@ angular.module('liveopsConfigPanel')
             }
           });
         } else {
-          angular.forEach($scope.options, function (option) {
-            option.checked = (typeof option.checked === 'undefined' ? true : option.checked);
+          $scope.$watch('options', function () {
+            angular.forEach($scope.options, function (option) {
+              option.checked = (typeof option.checked === 'undefined' ? true : option.checked);
+            });
           });
         }
       }

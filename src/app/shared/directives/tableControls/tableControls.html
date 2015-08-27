@@ -39,14 +39,17 @@
       <th ng-repeat="field in config.fields" ng-if="field.checked" ng-class="{'filter-header': !!field.header.options}" class="sortable-header" ng-click="sortTable(field)">
         <i ng-show="orderBy == field.name || orderBy == field.sortOn" ng-class="{'fa-arrow-up' : reverseSortOrder, 'fa-arrow-down': ! reverseSortOrder}" class="sort-icon fa pull-left"></i>
         <div ng-if="!field.header.options">{{field.header.display}}</div>
-        <filter-dropdown id="{{field.id}}" ng-if="!!field.header.options" show-all="true"
-          ng-click="$event.stopPropagation()"
-          label="{{field.header.display}}"
-          options="field.header.options | invoke"
-          value-path="{{field.header.valuePath}}"
-          display-path="{{field.header.displayPath}}"
-          order-by="{{field.filterOrderBy}}">
-        </filter-dropdown>
+        <div ng-if="!!field.header.options" class="filter-header-content">
+          <div class="filter-header-name">{{field.header.display}}</div>
+          <filter-dropdown id="{{field.id}}" ng-if="(field.header.options | invoke).length" show-all="true"
+            style="vertical-align:middle;text-align:right"
+            ng-click="$event.stopPropagation()"
+            options="field.header.options | invoke"
+            value-path="{{field.header.valuePath}}"
+            display-path="{{field.header.displayPath}}"
+            order-by="{{field.filterOrderBy}}">
+          </filter-dropdown>
+        </div>
       </th>
     </tr>
   </thead>

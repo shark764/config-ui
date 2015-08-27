@@ -37,7 +37,8 @@
     <loading ng-if="originalResource.fetchGroupUsers().$resolved != undefined"
       ng-show="!originalResource.fetchGroupUsers().$resolved"></loading>
   
-    <table scroll-table max-height="300" class="table" ng-show="originalResource.fetchGroupUsers().length > 0">
+    <table ng-if="['PLATFORM_VIEW_ALL_USERS', 'PLATFORM_CREATE_USERS', 'PLATFORM_MANAGE_ALL_USERS', 'PLATFORM_MANAGE_ALL_TENANTS', 'PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT'] | hasPermission" 
+      scroll-table max-height="300" class="table" ng-show="originalResource.fetchGroupUsers().length > 0">
       <thead>
         <tr><th>{{'value.name' | translate}}</th></tr>
       </thead>

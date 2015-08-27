@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('skillTableConfig', ['statuses', '$translate', 'UserPermissions', function (statuses, $translate, UserPermissions) {
+  .service('skillTableConfig', ['statuses', '$translate', 'UserPermissions', 'ynStatuses', function (statuses, $translate, UserPermissions, ynStatuses) {
      return {
         'fields': [{
           'header': {
@@ -16,7 +16,7 @@ angular.module('liveopsConfigPanel')
         }, {
           'header': {
             'display': $translate.instant('skill.table.proficiency'),
-            'options': statuses(),
+            'options': ynStatuses(),
             'valuePath': 'value',
             'displayPath': 'display',
           },
