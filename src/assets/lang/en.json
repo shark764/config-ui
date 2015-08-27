@@ -62,9 +62,6 @@
 
   "session.tenants.none": "No tenants available",
 
-  "sidebar.dock": "Dock sidebar",
-  "sidebar.undock": "Undock sidebar",
-
   "navbar.users.title": "User Management",
   "navbar.reports.title": "Reporting",
   "navbar.tenants.title": "Tenants",
@@ -316,7 +313,7 @@
   "bulkAction.success": "Bulk action successful!",
 
   "user.profile.save.success": "Your details have been updated.",
-  "user.profile.save.fail": "An error occured while updating your details.",
+  "user.profile.save.fail": "An error occurred while updating your details.",
 
   "multibox.add.placeholder": "Add Item...",
   "multibox.search.placeholder": "Search...",
@@ -324,6 +321,8 @@
 
   "invite.accept.success": "Your invitation has been accepted! Please log in to view the new tenant.",
   "invite.accept.alreadyAccepted": "This invitation has already been accepted! Please log in to view the tenant.",
+  "invite.accept.autologin.success": "Your invitation has been accepted!",
+  "invite.accept.autologin.fail": "Sorry, there was an error while logging you in. Please enter your email and new password to log in.",
   
   "flow.draft.delete.alt": "Delete this draft",
   "flow.draft.none": "There are no drafts saved for this flow. Drafts are created automatically from the Flow Designer.",

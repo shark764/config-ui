@@ -269,15 +269,16 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
             return User.get({
               id: $stateParams.userId
             }).$promise;
-          }],
-          invitedTenantUser: ['$stateParams', 'Session', 'TenantUser', function($stateParams, Session, TenantUser) {
-            Session.setToken('Token ' + $stateParams.token);
-            
-            return TenantUser.get({
-              id: $stateParams.userId,
-              tenantId: $stateParams.tenantId
-            }).$promise;
-          }]
+          }]//,
+          //TODO: re-enable when TITAN2-3042 is fixed
+//          invitedTenantUser: ['$stateParams', 'Session', 'TenantUser', function($stateParams, Session, TenantUser) {
+//            Session.setToken('Token ' + $stateParams.token);
+//            
+//            return TenantUser.get({
+//              id: $stateParams.userId,
+//              tenantId: $stateParams.tenantId
+//            }).$promise;
+//          }]
         }
       });
 
