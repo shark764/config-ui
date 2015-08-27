@@ -46,6 +46,7 @@ describe('UserProfileController', function() {
       beforeEach(function(){
         $controller('UserProfileController', {'$scope': $scope});
         $httpBackend.flush();
+        $scope.detailsForm = jasmine.createSpyObj('detailsForm', ['$setPristine', '$setUntouched']);
       });
       
       it('should call user save', function() {
