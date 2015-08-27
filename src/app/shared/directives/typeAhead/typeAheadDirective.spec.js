@@ -19,7 +19,21 @@ describe('typeAhead directive', function(){
     $scope = $rootScope.$new();
     $timeout = _$timeout_;
     
-    $scope.items = [{title : 'firstItem', extraProp: 'true'}, {title: 'secondItem'}, {title: 'secondItemAgain'}, {title: 'thirdItem'}];
+    $scope.items = [{
+      title : 'firstItem', 
+      extraProp: 'true',
+      getDisplay: jasmine.createSpy('getDisplay').and.returnValue('firstItem')
+    }, {
+      title: 'secondItem',
+      getDisplay: jasmine.createSpy('getDisplay').and.returnValue('secondItem')
+    }, {
+      title: 'secondItemAgain',
+      getDisplay: jasmine.createSpy('getDisplay').and.returnValue('secondItemAgain')
+    }, {
+      title: 'thirdItem',
+      getDisplay: jasmine.createSpy('getDisplay').and.returnValue('thirdItem')
+    }];
+    
     $scope.selectedItem = {id: '2'};
     $scope.selectFunction = function(){};
     
@@ -29,13 +43,6 @@ describe('typeAhead directive', function(){
       isolateScope = element.isolateScope();
     };
   }]));
-  
-  it('should default to "name" as the name field if none is given', function() {
-    element = $compile('<type-ahead items="items" selected-item="selected" on-select="selectFunction()" is-required="required" placeholder="Type here" hover="hover"></type-ahead>')($scope);
-    $scope.$digest();
-    var isolateScope = element.isolateScope();
-    expect(isolateScope.nameField).toEqual('name');
-  });
   
   it('should set text to empty if the selected item changes to null', function() {
     doDefaultCompile();
@@ -64,14 +71,6 @@ describe('typeAhead directive', function(){
     $scope.selectedItem = {id : '5'};
     $scope.$digest();
     expect(isolateScope.currentText).toEqual('some text');
-  });
-  
-  it('should add the highlight class to the first match', function() {
-    doDefaultCompile();
-    isolateScope.currentText = 'secondItem';
-    isolateScope.$digest();
-    var firstEle = angular.element(element.find('li')[0]);
-    expect(firstEle.hasClass('highlight')).toBeTruthy();
   });
   
   describe('currentText watch', function(){

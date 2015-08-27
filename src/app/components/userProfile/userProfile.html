@@ -4,7 +4,7 @@
     <i id="user-profile-pic" class="fa fa-user"></i>
   </div>
 
-  <div class="pull-left wrapper">
+  <div class="pull-left wrapper" disable-contents="! ('PLATFORM_MANAGE_USER_ACCOUNT' | hasPermission)">
     <form ng-submit="save()" name="detailsForm" id="detailsForm">
       <div id="user-profile-email"><label>Email:</label> {{user.email}}</div>
       <div>

@@ -6,7 +6,7 @@ angular.module('liveopsConfigPanel')
       $scope.showBulkActions = false;
       $scope.Session = Session;
       
-      $scope.$watch('Session.tenant', function(news) {
+      $scope.$watch('Session.tenant', function() {
         queryCache.removeAll();
       });
 

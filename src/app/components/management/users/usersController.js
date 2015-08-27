@@ -1,14 +1,14 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('UsersController', ['$scope', '$window', '$parse', 'User', 'Session', 'AuthService', 'userTableConfig', 'Alert', 'flowSetup', 'BulkAction', '$q', '$location', 'lodash', 'Chain', 'TenantUser', 'TenantRole', 'queryCache', '$timeout',
-    function($scope, $window, $parse, User, Session, AuthService, userTableConfig, Alert, flowSetup, BulkAction, $q, $location, _, Chain, TenantUser, TenantRole, queryCache, $timeout) {
+  .controller('UsersController', ['$scope', '$window', '$parse', 'User', 'Session', 'AuthService', 'userTableConfig', 'Alert', 'flowSetup', 'BulkAction', '$q', '$location', 'lodash', 'Chain', 'TenantUser', 'TenantRole', 'queryCache', 'UserPermissions', 'PlatformRole',
+    function($scope, $window, $parse, User, Session, AuthService, userTableConfig, Alert, flowSetup, BulkAction, $q, $location, _, Chain, TenantUser, TenantRole, queryCache, UserPermissions, PlatformRole) {
       var self = this;
       
       $scope.forms = {};
       $scope.Session = Session;
       $window.flowSetup = flowSetup;
-      $scope.tableConfig = userTableConfig;
+      $scope.userTableConfig = userTableConfig;
 
       $scope.scenario = function() {
         if (!$scope.selectedTenantUser) {
@@ -34,6 +34,10 @@ angular.module('liveopsConfigPanel')
         return TenantRole.cachedQuery({
           tenantId: Session.tenant.tenantId
         });
+      };
+      
+      $scope.fetchPlatformRoles = function() {
+        return PlatformRole.cachedQuery();
       };
 
       $scope.create = function() {
@@ -61,7 +65,7 @@ angular.module('liveopsConfigPanel')
           $user: $scope.selectedTenantUser.$user,
           skills: $scope.selectedTenantUser.skills,
           groups: $scope.selectedTenantUser.groups
-        } 
+        };
         
         return $scope.selectedTenantUser.save({
           tenantId: Session.tenant.tenantId
@@ -108,57 +112,50 @@ angular.module('liveopsConfigPanel')
       this.saveNewUserTenantUser = function() {
         $scope.selectedTenantUser.$user.email = $scope.selectedTenantUser.email;
         return $scope.selectedTenantUser.$user.save().then(function(user) {
-          $scope.selectedTenantUser.$busy = true; //TODO: remove timeout once TITAN2-2881 is addressed
-          return $timeout(function() { //TODO: remove timeout once TITAN2-2881 is addressed
-            return $scope.selectedTenantUser.save({
-              tenantId: Session.tenant.tenantId
-            }).then(function(tenantUser) {
-              tenantUser.$user = user;
-              tenantUser.id = user.id;
-              tenantUser.$original.skills = [];
-              tenantUser.$original.groups = [{}];
+          return $scope.selectedTenantUser.save({
+            tenantId: Session.tenant.tenantId
+          }).then(function(tenantUser) {
+            tenantUser.$user = user;
+            tenantUser.id = user.id;
+            tenantUser.$original.skills = [];
+            tenantUser.$original.groups = [{}];
 
-              tenantUser.$original.roleName = TenantRole.getName(tenantUser.roleId);
-              
-              tenantUser.reset();
+            tenantUser.$original.roleName = TenantRole.getName(tenantUser.roleId);
+            
+            tenantUser.reset();
 
-              $scope.fetchTenantUsers().push(tenantUser);
+            $scope.fetchTenantUsers().push(tenantUser);
 
-              return tenantUser;
-            });
-          }, 3000);
+            return tenantUser;
+          });
         });
       };
 
       this.updateUser = function() {
-        var newPassword = $scope.selectedTenantUser.$user.password;
-        
+     
         var promises = [];
-        if($scope.forms.detailsForm.roleId &&
-          $scope.forms.detailsForm.roleId.$dirty) {
-          var tenantUser = new TenantUser({
-            id: $scope.selectedTenantUser.id,
-            roleId: $scope.selectedTenantUser.roleId
-          });
-          
-          promises.push(tenantUser.save({
-            tenantId: Session.tenant.tenantId
-          }).then(function(tenantUser) {
-            $scope.selectedTenantUser.$original.roleId = tenantUser.roleId;
-            $scope.selectedTenantUser.$original.roleName = TenantRole.getName(tenantUser.roleId);
-            $scope.selectedTenantUser.reset();
-          }));
+        
+        if (UserPermissions.hasPermissionInList(['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'MANAGE_TENANT_ENROLLMENT'])){
+          if($scope.forms.detailsForm.roleId &&
+            $scope.forms.detailsForm.roleId.$dirty) {
+            var tenantUser = new TenantUser({
+              id: $scope.selectedTenantUser.id,
+              roleId: $scope.selectedTenantUser.roleId
+            });
+            
+            promises.push(tenantUser.save({
+              tenantId: Session.tenant.tenantId
+            }).then(function(tenantUser) {
+              $scope.selectedTenantUser.$original.roleId = tenantUser.roleId;
+              $scope.selectedTenantUser.$original.roleName = TenantRole.getName(tenantUser.roleId);
+              $scope.selectedTenantUser.reset();
+            }));
+          }
         }
         
-        promises.push($scope.selectedTenantUser.$user.save().then(function(user) {
-          if (user.id === Session.user.id) {
-            var token = AuthService.generateToken(user.email, newPassword);
-            Session.setUser(user);
-            Session.setToken(token);
-          }
-
-          return user;
-        }));
+        if (UserPermissions.hasPermission('PLATFORM_MANAGE_ALL_USERS') || (UserPermissions.hasPermission('PLATFORM_MANAGE_USER_ACCOUNT') && Session.user.id === $scope.selectedTenantUser.$user.id)){
+          promises.push($scope.selectedTenantUser.$user.save());
+        }
         
         return $q.all(promises);
       };
@@ -176,7 +173,6 @@ angular.module('liveopsConfigPanel')
 
       $scope.bulkActions = {
         setStatus: new BulkAction(),
-        resetPassword: new BulkAction(),
         userSkills: new BulkAction(),
         userGroups: new BulkAction()
       };

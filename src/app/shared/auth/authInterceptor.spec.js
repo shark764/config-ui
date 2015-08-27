@@ -45,11 +45,4 @@ describe('AuthInterceptor', function() {
 
       expect(config.headers.Authorization).not.toBeDefined();
     });
-
-    it('should destroy the session if any API call returns 401', function () {
-      var promise = AuthInterceptor.responseError({ status: 401 });
-
-      expect(promise.$$state.status).toEqual(2);
-      expect(promise.$$state.value.status).toEqual(401);
-    });
 });

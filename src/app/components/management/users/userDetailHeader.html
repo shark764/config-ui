@@ -10,21 +10,35 @@
       <div>
         <toggle class="status-toggle" name="status"
           ng-model="selectedTenantUser.status"
-          true-value="accepted" false-value="removed"
-          ng-disabled="Session.user.id === selectedTenantUser.id || (selectedTenantUser.status !== 'accepted' && selectedTenantUser.status !== 'removed')"
+          true-value="accepted" false-value="disabled"
+          ng-disabled="(Session.user.id === selectedTenantUser.id || (selectedTenantUser.status !== 'accepted' && selectedTenantUser.status !== 'disabled'))"
           confirm-disable-message="{{'user.details.disable.confirm' | translate}}"
-          confirm-enable-message="{{'user.details.enable.confirm' | translate}}">
+          confirm-enable-message="{{'user.details.enable.confirm' | translate}}"
+          disable-contents="! (['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'MANAGE_TENANT_ENROLLMENT'] | hasPermission)">
         </toggle>
       </div>
 
-      <div>
+      <div ng-if="! (['PLATFORM_VIEW_ALL_USERS', 'PLATFORM_CREATE_USERS', 'PLATFORM_MANAGE_ALL_USERS', 'PLATFORM_MANAGE_ALL_TENANTS', 'PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT'] | hasPermission)">
+        <b audit-text
+          translation="value.createdon.time"
+          date="selectedTenantUser.$original.created">
+        </b>
+        <br/>
+        <b audit-text 
+          ng-show="!!selectedTenantUser.$original.updated"
+          translation="value.updatedon"
+          date="selectedTenantUser.$original.updated">
+        </b>
+      </div>
+      <div ng-if="['PLATFORM_VIEW_ALL_USERS', 'PLATFORM_CREATE_USERS', 'PLATFORM_MANAGE_ALL_USERS', 'PLATFORM_MANAGE_ALL_TENANTS', 'PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT'] | hasPermission">
         <b audit-text
           translation="value.createdby.time"
           user-id="selectedTenantUser.$original.createdBy"
           date="selectedTenantUser.$original.created">
         </b>
         <br/>
-        <b audit-text ng-if="!!selectedTenantUser.$original.updatedBy"
+        <b audit-text 
+          ng-show="!!selectedTenantUser.$original.updatedBy"
           translation="value.updatedby"
           user-id="selectedTenantUser.$original.updatedBy"
           date="selectedTenantUser.$original.updated">

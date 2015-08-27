@@ -2,32 +2,34 @@
   <h4>{{'details' | translate}}</h4>
 </div>
 
-<div class="input-group">
-  <label>{{'tenant.details.name' | translate}} *</label>
-  <form-error field="detailsForm.name"
-    error-type-required="{{'tenant.details.name.error' | translate}}" >
-  </form-error>
-  <div>
-    <input required ng-model="resource.name" name="name" type="text" api-error></input>
+<div disable-contents="! (['PLATFORM_MANAGE_ALL_TENANTS', 'MANAGE_TENANT'] | hasPermission)">
+  <div class="input-group">
+    <label>{{'tenant.details.name' | translate}} *</label>
+    <form-error field="detailsForm.name"
+      error-type-required="{{'tenant.details.name.error' | translate}}" >
+    </form-error>
+    <div>
+      <input required ng-model="resource.name" name="name" type="text" api-error></input>
+    </div>
   </div>
-</div>
-
-<div class="input-group">
-  <label>{{'tenant.details.admin' | translate}}</label>
-  <div>
-    <select ng-model="resource.adminUserId" ng-options="user.id as user.getDisplay() for user in fetchUsers()">
-    </select>
+  
+  <div class="input-group">
+    <label>{{'tenant.details.admin' | translate}}</label>
+    <div>
+      <select ng-model="resource.adminUserId" ng-options="user.id as user.getDisplay() for user in fetchUsers()">
+      </select>
+    </div>
   </div>
-</div>
-
-<div class="input-group">
-  <label class="textarea-label">{{'tenant.details.description' | translate}}</label>
-  <div>
-    <textarea ng-required="false" ng-model="resource.description"></textarea>
+  
+  <div class="input-group">
+    <label class="textarea-label">{{'tenant.details.description' | translate}}</label>
+    <div>
+      <textarea ng-model="resource.description"></textarea>
+    </div>
   </div>
-</div>
-
-<div class="input-group" ng-if="resource.id">
-  <label class="textarea-label">{{'tenant.details.region' | translate}}</label>
-  <p id="tenant-details-region">{{resource.regionId}}</p>
+  
+  <div class="input-group" ng-if="resource.id">
+    <label class="textarea-label">{{'tenant.details.region' | translate}}</label>
+    <p id="tenant-details-region">{{resource.regionId}}</p>
+  </div>
 </div>
