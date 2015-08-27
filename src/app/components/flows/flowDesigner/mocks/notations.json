@@ -1302,8 +1302,8 @@
             "name": "customer-hold-resume",
             "entity": "template",
             "label": "Customer Hold/ Resume",
-            "start": "t22080",
-            "end": "t22078",
+            "start": "t22093",
+            "end": "t22089",
             "inputs": [
                 {
                     "name": "media",
@@ -1327,7 +1327,7 @@
                     "mandatory": true
                 }
             },
-            "flow": "[{\"children\":[\"tag/t22084\"],\"bindings\":{\"resource-id\":\"resource-id\"},\"interrupting\":true,\"type\":\"signal\",\"id\":\"tag/t22080\",\"parents\":[],\"target\":\"customer-hold\",\"entity\":\"start\"},{\"children\":[\"tag/t22082\"],\"bindings\":{},\"name\":\"hold\",\"params\":{\"customer\":{\"source\":\"expression\",\"value\":\"titan/customer\"},\"media\":{\"source\":\"system\",\"store\":\"media\",\"id\":\"{{media}}\"}},\"type\":\"task\",\"id\":\"tag/t22084\",\"parents\":[\"tag/t22080\"],\"decorations\":[],\"target\":\"twilio\",\"entity\":\"activity\"},{\"id\":\"tag/t22082\",\"children\":[\"tag/t22081\"],\"parents\":[\"tag/t22084\"],\"entity\":\"throw\",\"type\":\"signal\",\"terminate\":false,\"event\":{\"name\":\"customer-hold-start\",\"params\":{}}},{\"children\":[\"tag/t22079\"],\"bindings\":{\"resource-id\":\"resource-id\"},\"interrupting\":true,\"type\":\"signal\",\"id\":\"tag/t22081\",\"parents\":[\"tag/t22082\"],\"target\":\"customer-resume\",\"entity\":\"start\"},{\"children\":[\"tag/t22085\"],\"bindings\":{},\"name\":\"resume\",\"params\":{\"customer\":{\"source\":\"expression\",\"value\":\"titan/customer\"}},\"type\":\"task\",\"id\":\"tag/t22079\",\"parents\":[\"tag/t22081\"],\"decorations\":[],\"target\":\"twilio\",\"entity\":\"activity\"},{\"id\":\"tag/t22085\",\"children\":[\"tag/t22078\"],\"parents\":[\"tag/t22079\"],\"entity\":\"throw\",\"type\":\"signal\",\"terminate\":false,\"event\":{\"name\":\"customer-hold-end\",\"params\":{}}},{\"id\":\"tag/t22078\",\"children\":[],\"parents\":[\"tag/t22085\"],\"entity\":\"throw\",\"type\":\"terminate\",\"terminate\":true}]"
+            "flow": "[{\"children\":[\"tag/t22091\"],\"bindings\":{\"resource-id\":\"resource-id\"},\"interrupting\":true,\"type\":\"signal\",\"id\":\"tag/t22093\",\"parents\":[],\"target\":\"customer-hold\",\"entity\":\"start\"},{\"children\":[\"tag/t22092\"],\"bindings\":{},\"name\":\"hold\",\"params\":{\"customer\":{\"source\":\"expression\",\"value\":\"titan/customer\"},\"media\":{\"source\":\"system\",\"store\":\"media\",\"id\":\"{{media}}\"}},\"type\":\"task\",\"id\":\"tag/t22091\",\"parents\":[\"tag/t22093\"],\"decorations\":[],\"target\":\"twilio\",\"entity\":\"activity\"},{\"children\":[\"tag/t22090\"],\"bindings\":{\"resource-id\":\"resource-id\"},\"interrupting\":true,\"type\":\"signal\",\"id\":\"tag/t22092\",\"parents\":[\"tag/t22091\"],\"target\":\"customer-resume\",\"entity\":\"start\"},{\"children\":[\"tag/t22089\"],\"bindings\":{},\"name\":\"resume\",\"params\":{\"customer\":{\"source\":\"expression\",\"value\":\"titan/customer\"}},\"type\":\"task\",\"id\":\"tag/t22090\",\"parents\":[\"tag/t22092\"],\"decorations\":[],\"target\":\"twilio\",\"entity\":\"activity\"},{\"id\":\"tag/t22089\",\"children\":[],\"parents\":[\"tag/t22090\"],\"entity\":\"throw\",\"type\":\"none\",\"terminate\":true}]"
         }
     ]
 }
