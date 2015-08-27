@@ -306,6 +306,48 @@
             }
         },
         {
+            "name": "dequeue",
+            "entity": "activity",
+            "label": "Dequeue",
+            "bindings": {},
+            "targeted": false,
+            "inputs": [
+                {
+                    "name": "targeted",
+                    "path": "targeted",
+                    "type": "boolean",
+                    "label": "Targeted:",
+                    "group": "params",
+                    "index": 0,
+                    "disabled": false,
+                    "required": false,
+                    "placeholder": null,
+                    "hidden": true
+                },
+                {
+                    "name": "queue",
+                    "path": "params.queue",
+                    "type": "typeahead",
+                    "label": "Queue:",
+                    "group": "params",
+                    "index": 0,
+                    "disabled": false,
+                    "required": true,
+                    "placeholder": "Search for a queue...",
+                    "hidden": false,
+                    "source": "queue"
+                }
+            ],
+            "params": {
+                "queue": {
+                    "source": "entity",
+                    "type": "queues",
+                    "mandatory": true,
+                    "key": "queue"
+                }
+            }
+        },
+        {
             "name": "work-offer",
             "entity": "activity",
             "label": "Work Offer",
