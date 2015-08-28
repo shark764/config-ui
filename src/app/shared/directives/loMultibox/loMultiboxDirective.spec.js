@@ -10,7 +10,7 @@ describe('loMultibox directive', function(){
   beforeEach(module('gulpAngular'));
   beforeEach(module('liveopsConfigPanel.mock.content'));
 
-  beforeEach(inject(['$compile', '$rootScope', '$q', function($compile, _$rootScope_, $q) {
+  beforeEach(inject(['$compile', '$rootScope', function($compile, _$rootScope_) {
     $scope = _$rootScope_.$new();
     $rootScope = _$rootScope_;
 

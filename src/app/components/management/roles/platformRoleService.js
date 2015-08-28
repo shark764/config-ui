@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .factory('PlatformRole', ['LiveopsResourceFactory', 'Session',
-    function(LiveopsResourceFactory, Session) {
+  .factory('PlatformRole', ['LiveopsResourceFactory',
+    function(LiveopsResourceFactory) {
       var PlatformRole = LiveopsResourceFactory.create({
         endpoint: '/v1/roles:id',
         resourceName: 'PlatformRole',

@@ -36,7 +36,7 @@ describe('Tenant service', function(){
       spyOn(queryCache, 'get').and.returnValue(undefined);
       spyOn(queryCache, 'put');
       
-      var result = Tenant.prototype.getAsArray('tenant-id');
+      Tenant.prototype.getAsArray('tenant-id');
       $httpBackend.flush();
       
       expect(queryCache.put).toHaveBeenCalledWith('tenant-idarr', jasmine.any(Array));
