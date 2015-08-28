@@ -46,7 +46,6 @@
         }
       },
       interrupting: true,
-      throwing: false,
       terminate: false,
       icon: 'none'
     }, joint.dia.Element.prototype.defaults),
@@ -97,7 +96,6 @@
       if (parent) {
         this.resize(30, 30);
         this.set('z', 20);
-        this.set('throwing', false);
         //remove connecting links
         if (cell.collection) {
           var links = cell.collection.getConnectedLinks(cell, {inbound: true});

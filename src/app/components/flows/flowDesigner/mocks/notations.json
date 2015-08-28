@@ -212,13 +212,13 @@
                 "media": {
                     "source": "entity",
                     "type": "media",
-                    "mandatory": false,
+                    "mandatory": true,
                     "key": "media"
                 },
                 "num-digits": {
                     "source": "expression",
                     "type": "integer",
-                    "mandatory": false,
+                    "mandatory": true,
                     "default": 5,
                     "key": "digits"
                 },
@@ -226,7 +226,7 @@
                     "source": "expression",
                     "type": "string",
                     "default": "\"#\"",
-                    "mandatory": false,
+                    "mandatory": true,
                     "key": "terminator"
                 },
                 "customer": {
@@ -306,6 +306,48 @@
             }
         },
         {
+            "name": "dequeue",
+            "entity": "activity",
+            "label": "Dequeue",
+            "bindings": {},
+            "targeted": false,
+            "inputs": [
+                {
+                    "name": "targeted",
+                    "path": "targeted",
+                    "type": "boolean",
+                    "label": "Targeted:",
+                    "group": "params",
+                    "index": 0,
+                    "disabled": false,
+                    "required": false,
+                    "placeholder": null,
+                    "hidden": true
+                },
+                {
+                    "name": "queue",
+                    "path": "params.queue",
+                    "type": "typeahead",
+                    "label": "Queue:",
+                    "group": "params",
+                    "index": 0,
+                    "disabled": false,
+                    "required": true,
+                    "placeholder": "Search for a queue...",
+                    "hidden": false,
+                    "source": "queue"
+                }
+            ],
+            "params": {
+                "queue": {
+                    "source": "entity",
+                    "type": "queues",
+                    "mandatory": true,
+                    "key": "queue"
+                }
+            }
+        },
+        {
             "name": "work-offer",
             "entity": "activity",
             "label": "Work Offer",
@@ -358,7 +400,7 @@
                 {
                     "name": "timeout",
                     "path": "params.timeout",
-                    "type": "string",
+                    "type": "timestamp",
                     "label": "Timeout:",
                     "group": "params",
                     "index": 0,
@@ -390,9 +432,13 @@
                 },
                 "timeout": {
                     "source": "expression",
-                    "type": "string",
+                    "type": "timestamp",
                     "mandatory": true,
-                    "key": "timeout"
+                    "key": "timeout",
+                    "default": {
+                        "value": 30,
+                        "measurement": "seconds"
+                    }
                 },
                 "search-value": {
                     "source": "expression",
@@ -433,7 +479,7 @@
                     "name": "resourceid",
                     "path": "params.resource",
                     "type": "string",
-                    "label": "Resource ID",
+                    "label": "Resource:",
                     "group": "params",
                     "index": 0,
                     "disabled": false,
@@ -604,7 +650,7 @@
                     "name": "timeout",
                     "path": "params.timeout",
                     "type": "string",
-                    "label": "Dial Timeout",
+                    "label": "Timeout",
                     "group": "params",
                     "index": 0,
                     "disabled": false,
@@ -629,17 +675,219 @@
                 },
                 "timeout": {
                     "source": "expression",
-                    "type": "string",
+                    "type": "integer",
                     "key": "timeout",
                     "mandatory": true,
-                    "default": "\"30\""
+                    "default": "30"
                 },
-                "participant": {
+                "resource": {
                     "source": "expression",
-                    "type": "string",
+                    "type": "variable",
+                    "key": "resource",
+                    "default": "resource",
+                    "when": {
+                        "ne": {
+                            "params.to": "titan/customer"
+                        }
+                    }
+                },
+                "customer": {
+                    "source": "expression",
+                    "type": "variable",
+                    "key": "customer",
+                    "default": "titan/customer",
+                    "when": {
+                        "eq": {
+                            "params.to": "titan/customer"
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "name": "disconnect",
+            "entity": "activity",
+            "label": "Disconnect",
+            "targeted": true,
+            "target": "twilio",
+            "bindings": {},
+            "inputs": [
+                {
+                    "name": "participant",
+                    "path": "params.participant",
+                    "type": "select",
+                    "label": "Participant:",
+                    "group": "params",
+                    "index": 0,
+                    "disabled": false,
+                    "required": true,
+                    "placeholder": null,
+                    "hidden": false,
+                    "options": [
+                        {
+                            "value": "titan/customer",
+                            "content": "Customer"
+                        },
+                        {
+                            "value": "resource",
+                            "content": "Resource"
+                        }
+                    ]
+                }
+            ],
+            "params": {
+                "customer": {
+                    "source": "expression",
+                    "type": "variable",
                     "key": "participant",
                     "mandatory": true,
-                    "default": "\"resource\""
+                    "when": {
+                        "eq": {
+                            "params.participant": "titan/customer"
+                        }
+                    }
+                },
+                "resource": {
+                    "source": "expression",
+                    "type": "variable",
+                    "key": "participant",
+                    "mandatory": true,
+                    "when": {
+                        "ne": {
+                            "params.participant": "titan/customer"
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "name": "hold",
+            "entity": "activity",
+            "label": "Hold",
+            "targeted": true,
+            "target": "twilio",
+            "bindings": {},
+            "inputs": [
+                {
+                    "name": "participant",
+                    "path": "params.participant",
+                    "type": "select",
+                    "label": "Participant:",
+                    "group": "params",
+                    "index": 0,
+                    "disabled": false,
+                    "required": true,
+                    "placeholder": null,
+                    "hidden": false,
+                    "options": [
+                        {
+                            "value": "titan/customer",
+                            "content": "Customer"
+                        },
+                        {
+                            "value": "resource",
+                            "content": "Resource"
+                        }
+                    ]
+                },
+                {
+                    "name": "media",
+                    "path": "params.media",
+                    "type": "typeahead",
+                    "label": "Media:",
+                    "group": "params",
+                    "index": 0,
+                    "disabled": false,
+                    "required": false,
+                    "placeholder": "Search for a media...",
+                    "hidden": false,
+                    "source": "media"
+                }
+            ],
+            "params": {
+                "customer": {
+                    "source": "expression",
+                    "type": "variable",
+                    "key": "participant",
+                    "mandatory": true,
+                    "when": {
+                        "eq": {
+                            "params.participant": "titan/customer"
+                        }
+                    }
+                },
+                "resource": {
+                    "source": "expression",
+                    "type": "variable",
+                    "key": "participant",
+                    "mandatory": true,
+                    "when": {
+                        "ne": {
+                            "params.participant": "titan/customer"
+                        }
+                    }
+                },
+                "media": {
+                    "source": "entity",
+                    "type": "media",
+                    "mandatory": true,
+                    "key": "media"
+                }
+            }
+        },
+        {
+            "name": "resume",
+            "entity": "activity",
+            "label": "Resume",
+            "targeted": true,
+            "target": "twilio",
+            "bindings": {},
+            "inputs": [
+                {
+                    "name": "participant",
+                    "path": "params.participant",
+                    "type": "select",
+                    "label": "Participant:",
+                    "group": "params",
+                    "index": 0,
+                    "disabled": false,
+                    "required": true,
+                    "placeholder": null,
+                    "hidden": false,
+                    "options": [
+                        {
+                            "value": "titan/customer",
+                            "content": "Customer"
+                        },
+                        {
+                            "value": "resource",
+                            "content": "Resource"
+                        }
+                    ]
+                }
+            ],
+            "params": {
+                "customer": {
+                    "source": "expression",
+                    "type": "variable",
+                    "key": "participant",
+                    "mandatory": true,
+                    "when": {
+                        "eq": {
+                            "params.participant": "titan/customer"
+                        }
+                    }
+                },
+                "resource": {
+                    "source": "expression",
+                    "type": "variable",
+                    "key": "participant",
+                    "mandatory": true,
+                    "when": {
+                        "ne": {
+                            "params.participant": "titan/customer"
+                        }
+                    }
                 }
             }
         }
@@ -648,7 +896,8 @@
         {
             "entity": "start",
             "type": "none",
-            "inputs": []
+            "inputs": [],
+            "props": []
         },
         {
             "entity": "start",
@@ -678,7 +927,8 @@
                     "placeholder": "Enter a name to bind to the resource returned...",
                     "hidden": false
                 }
-            ]
+            ],
+            "props": ["target", "interrupting", "bindings"]
         },
         {
             "entity": "catch",
@@ -687,52 +937,14 @@
                 {
                     "name": "target",
                     "path": "target",
-                    "type": "typeahead",
+                    "type": "string",
                     "label": "Target:",
                     "group": "general",
                     "index": 0,
                     "disabled": false,
                     "required": false,
                     "placeholder": "Enter a target...",
-                    "hidden": false,
-                    "options": [
-                        {
-                            "value": "agent-conversation-start",
-                            "content": "agent-conversation-start"
-                        },
-                        {
-                            "value": "agent-conversation-end",
-                            "content": "agent-conversation-end"
-                        },
-                        {
-                            "value": "customer-conversation-start",
-                            "content": "customer-conversation-start"
-                        },
-                        {
-                            "value": "customer-conversation-end",
-                            "content": "customer-conversation-end"
-                        },
-                        {
-                            "value": "customer-disconnect",
-                            "content": "customer-disconnect"
-                        },
-                        {
-                            "value": "agent-disconnect",
-                            "content": "agent-disconnect"
-                        },
-                        {
-                            "value": "customer-abandon",
-                            "content": "customer-abandon"
-                        },
-                        {
-                            "value": "work-accepted",
-                            "content": "work-accepted"
-                        },
-                        {
-                            "value": "work-rejected",
-                            "content": "work-rejected"
-                        }
-                    ]
+                    "hidden": false
                 },
                 {
                     "name": "binding",
@@ -746,7 +958,8 @@
                     "placeholder": "Enter a name to bind to the resource returned...",
                     "hidden": false
                 }
-            ]
+            ],
+            "props": ["target", "interrupting", "bindings"]
         },
         {
             "entity": "catch",
@@ -764,7 +977,8 @@
                     "placeholder": "Enter a signal name to catch...",
                     "hidden": false
                 }
-            ]
+            ],
+            "props": ["timer", "interrupting"]
         },
         {
             "entity": "throw",
@@ -795,13 +1009,15 @@
                     "placeholder": "Enter a name to bind to the resource returned...",
                     "hidden": false
                 }
-            ]
+            ],
+            "props": ["terminate", "event"] 
         },
         {
             "entity": "throw",
             "type": "none",
             "terminate": true,
-            "inputs": []
+            "inputs": [],
+            "props": ["terminate"]
         },
         {
             "entity": "throw",
@@ -832,13 +1048,389 @@
                     "placeholder": "Enter a name to bind to the resource returned...",
                     "hidden": false
                 }
-            ]
+            ],
+            "props": ["terminate", "event"] 
         },
         {
             "entity": "throw",
             "type": "terminate",
             "terminate": true,
-            "inputs": []
+            "inputs": [],
+            "props": ["terminate"] 
+        }
+    ],
+    "links": [
+        {
+            "entity": "link",
+            "type": "normal",
+            "inputs": [
+                {
+                  "name": "label",
+                  "path": "label",
+                  "type": "string",
+                  "label": "Label:",
+                  "group": "general",
+                  "index": 0,
+                  "disabled": false,
+                  "required": false,
+                  "placeholder": "Enter a label...",
+                  "hidden": false
+                }
+            ]
+        },
+        {
+            "entity": "link",
+            "type": "default",
+            "inputs": [
+                {
+                  "name": "label",
+                  "path": "label",
+                  "type": "string",
+                  "label": "Label:",
+                  "group": "general",
+                  "index": 0,
+                  "disabled": false,
+                  "required": false,
+                  "placeholder": "Enter a label...",
+                  "hidden": false
+                },
+                {
+                  "name": "type",
+                  "path": "linkType",
+                  "type": "select",
+                  "label": "Type:",
+                  "group": "general",
+                  "index": 1,
+                  "disabled": false,
+                  "required": false,
+                  "hidden": false,
+                  "options": [
+                    {
+                        "content": "Default",
+                        "value": "default"
+                    },
+                    {
+                        "content": "Conditional",
+                        "value": "conditional"
+                    }
+                  ],
+                  "refresh": true
+                },
+                {
+                  "name": "condition",
+                  "path": "condition",
+                  "type": "string",
+                  "label": "Condition:",
+                  "group": "general",
+                  "index": 2,
+                  "disabled": false,
+                  "required": false,
+                  "placeholder": "Enter a condition...",
+                  "hidden": false
+                }
+            ]
+        },
+        {
+            "entity": "link",
+            "type": "conditional",
+            "inputs": [
+                {
+                  "name": "label",
+                  "path": "label",
+                  "type": "string",
+                  "label": "Label:",
+                  "group": "general",
+                  "index": 0,
+                  "disabled": false,
+                  "required": false,
+                  "placeholder": "Enter a label...",
+                  "hidden": false
+                },
+                {
+                  "name": "type",
+                  "path": "linkType",
+                  "type": "select",
+                  "label": "Type:",
+                  "group": "general",
+                  "index": 1,
+                  "disabled": false,
+                  "required": false,
+                  "hidden": false,
+                  "options": [
+                    {
+                        "content": "Default",
+                        "value": "default"
+                    },
+                    {
+                        "content": "Conditional",
+                        "value": "conditional"
+                    }
+                  ],
+                  "refresh": true
+                },
+                {
+                  "name": "condition",
+                  "path": "condition",
+                  "type": "string",
+                  "label": "Condition:",
+                  "group": "general",
+                  "index": 2,
+                  "disabled": false,
+                  "required": false,
+                  "placeholder": "Enter a condition...",
+                  "hidden": false
+                }
+            ]
+        }
+    ],
+    "templates": [
+        {
+            "name": "enqueue-interaction",
+            "entity": "template",
+            "label": "Queue Interaction",
+            "start": "t21917",
+            "end": "t21704",
+            "inputs": [
+                {
+                    "name": "resource",
+                    "path": "params.resource",
+                    "type": "string",
+                    "label": "Resource:",
+                    "group": "params",
+                    "index": 0,
+                    "disabled": false,
+                    "required": true,
+                    "hidden": false,
+                    "placeholder": "Enter a resource...",
+                    "targeted": false
+                },
+                {
+                    "name": "queue",
+                    "path": "params.queue",
+                    "type": "typeahead",
+                    "label": "Queue:",
+                    "group": "params",
+                    "index": 1,
+                    "disabled": false,
+                    "required": true,
+                    "hidden": false,
+                    "source": "queue",
+                    "placeholder": "Search for a queue..."
+                },
+                {
+                    "name": "media",
+                    "path": "params.media",
+                    "type": "typeahead",
+                    "label": "Media:",
+                    "group": "params",
+                    "index": 2,
+                    "disabled": false,
+                    "required": true,
+                    "hidden": false,
+                    "source": "media",
+                    "placeholder": "Search for media..."
+                }
+            ],
+            "params": {
+                "resource": {
+                    "source": "entity",
+                    "type": "string",
+                    "key": "resource",
+                    "mandatory": true
+                },
+                "queue": {
+                    "source": "entity",
+                    "type": "queues",
+                    "key": "queue",
+                    "mandatory": true
+                },
+                "media": {
+                    "source": "entity",
+                    "type": "media",
+                    "key": "media",
+                    "mandatory": true
+                }
+            },      
+            "flow": "[{\"id\":\"tag/t21917\",\"children\":[\"tag/t21910\",\"tag/t21904\"],\"parents\":[],\"entity\":\"gateway\",\"type\":\"parallel\"},{\"children\":[],\"bindings\":{},\"name\":\"play-media\",\"params\":{\"media\":{\"source\":\"system\",\"store\":\"media\",\"id\":\"{{media}}\"},\"loop\":{\"source\":\"expression\",\"value\":\"true\"},\"customer\":{\"source\":\"expression\",\"value\":\"titan/customer\"}},\"type\":\"task\",\"id\":\"tag/t21904\",\"parents\":[\"tag/t21917\"],\"decorations\":[\"tag/t21902\"],\"target\":\"twilio\",\"entity\":\"activity\"},{\"children\":[\"tag/t21913\"],\"bindings\":{},\"interrupting\":true,\"type\":\"signal\",\"id\":\"tag/t21902\",\"parents\":[\"tag/t21904\"],\"target\":\"work-accepted\",\"entity\":\"catch\"},{\"children\":[\"tag/t21914\"],\"bindings\":{\"resource\":\"resource\"},\"name\":\"enqueue\",\"params\":{\"queue\":{\"source\":\"system\",\"store\":\"queues\",\"id\":\"{{queue}}\"}},\"type\":\"task\",\"id\":\"tag/t21910\",\"parents\":[\"tag/t21917\"],\"decorations\":[],\"entity\":\"activity\"},{\"id\":\"tag/t21915\",\"children\":[\"tag/t21913\"],\"parents\":[\"tag/t21914\"],\"entity\":\"throw\",\"type\":\"signal\",\"terminate\":false,\"event\":{\"name\":\"resource-acquired\",\"params\":{\"resource\":{\"source\":\"expression\",\"value\":\"{{resource}}\"}}}},{\"id\":\"tag/t21913\",\"children\":[],\"parents\":[\"tag/t21915\",\"tag/t21902\"],\"entity\":\"gateway\",\"type\":\"parallel\"},{\"children\":[\"tag/t21903\"],\"bindings\":{},\"interrupting\":true,\"type\":\"signal\",\"id\":\"tag/t21918\",\"parents\":[],\"target\":\"customer-disconnect\",\"entity\":\"start\"},{\"id\":\"tag/t21903\",\"children\":[\"tag/t21909\",\"tag/t21905\"],\"parents\":[\"tag/t21918\"],\"entity\":\"gateway\",\"type\":\"exclusive\",\"conditionals\":[[\"tag/t21909\",\"(= nil {{resource}})\"],[\"tag/t21905\",\"false\"]],\"default\":\"tag/t21905\"},{\"id\":\"tag/t21909\",\"children\":[\"tag/t21901\",\"tag/t21908\"],\"parents\":[\"tag/t21903\"],\"entity\":\"gateway\",\"type\":\"parallel\"},{\"children\":[\"tag/t21907\"],\"bindings\":{},\"name\":\"dequeue\",\"params\":{\"queue\":{\"source\":\"system\",\"store\":\"queues\",\"id\":\"{{queue}}\"}},\"type\":\"task\",\"id\":\"tag/t21901\",\"parents\":[\"tag/t21909\"],\"decorations\":[],\"entity\":\"activity\"},{\"id\":\"tag/t21908\",\"children\":[\"tag/t21907\"],\"parents\":[\"tag/t21909\"],\"entity\":\"throw\",\"type\":\"signal\",\"terminate\":false,\"event\":{\"name\":\"abandon-queue\",\"params\":{}}},{\"id\":\"tag/t21907\",\"children\":[\"tag/t21916\"],\"parents\":[\"tag/t21908\",\"tag/t21901\"],\"entity\":\"gateway\",\"type\":\"parallel\"},{\"id\":\"tag/t21916\",\"children\":[],\"parents\":[\"tag/t21907\"],\"entity\":\"throw\",\"type\":\"terminate\",\"terminate\":true},{\"id\":\"tag/t21905\",\"children\":[],\"parents\":[\"tag/t21903\"],\"entity\":\"throw\",\"type\":\"none\",\"terminate\":true},{\"children\":[\"tag/t21915\"],\"bindings\":{},\"name\":\"set-global-attribute\",\"params\":{\"resource\":{\"source\":\"expression\",\"value\":\"{{resource}}\"}},\"type\":\"task\",\"id\":\"tag/t21914\",\"parents\":[\"tag/t21910\"],\"decorations\":[],\"target\":\"twilio\",\"entity\":\"activity\"}]"
+        },
+        {
+            "name": "add-customer",
+            "entity": "template",
+            "label": "Add Customer",
+            "start": "t21716",
+            "end": "t21714",
+            "inputs": [],
+            "params": {},
+            "flow": "[{\"children\":[\"tag/t21715\"],\"bindings\":{},\"name\":\"add-participant\",\"params\":{\"customer\":{\"source\":\"expression\",\"value\":\"titan/customer\"},\"muted\":{\"source\":\"expression\",\"value\":\"false\"}},\"type\":\"task\",\"id\":\"tag/t21716\",\"parents\":[],\"decorations\":[],\"target\":\"twilio\",\"entity\":\"activity\"},{\"children\":[\"tag/t21714\"],\"bindings\":{},\"interrupting\":true,\"type\":\"signal\",\"id\":\"tag/t21715\",\"parents\":[\"tag/t21716\"],\"target\":\"customer-disconnect\",\"entity\":\"catch\"},{\"id\":\"tag/t21714\",\"children\":[],\"parents\":[\"tag/t21715\"],\"entity\":\"throw\",\"type\":\"signal\",\"terminate\":false,\"event\":{\"name\":\"remove-participant\",\"params\":{}}}]"
+        },
+        {
+            "name": "add-resource",
+            "entity": "template",
+            "label": "Add Resource",
+            "start": "t21721",
+            "end": "t21723",
+            "inputs": [
+                {
+                    "name": "muted",
+                    "path": "params.muted",
+                    "type": "boolean",
+                    "label": "Muted:",
+                    "group": "params",
+                    "index": 0,
+                    "disabled": false,
+                    "required": false,
+                    "placeholder": null,
+                    "hidden": false
+                }
+            ],
+            "params": {
+                "muted": {
+                    "source": "expression",
+                    "type": "boolean",
+                    "key": "muted",
+                    "mandatory": false,
+                    "default": false
+                }
+            },
+            "flow": "[{\"id\":\"tag/t21723\",\"children\":[],\"parents\":[\"tag/t21722\"],\"entity\":\"throw\",\"type\":\"signal\",\"terminate\":false,\"event\":{\"name\":\"remove-participant\",\"params\":{}}},{\"children\":[\"tag/t21722\"],\"bindings\":{},\"name\":\"add-participant\",\"params\":{\"resource\":{\"source\":\"expression\",\"value\":\"resource\"},\"muted\":{\"source\":\"expression\",\"value\":\"{{muted}}\"},\"disconnectOn\":{\"source\":\"expression\",\"value\":\"*\"}},\"type\":\"task\",\"id\":\"tag/t21721\",\"parents\":[],\"decorations\":[],\"target\":\"twilio\",\"entity\":\"activity\"},{\"children\":[\"tag/t21723\"],\"bindings\":{},\"interrupting\":true,\"type\":\"signal\",\"id\":\"tag/t21722\",\"parents\":[\"tag/t21721\"],\"target\":\"resource-disconnect\",\"entity\":\"catch\"}]"
+        },
+        {
+            "name": "handle-customer-hangups",
+            "entity": "template",
+            "label": "Customer Disconnect",
+            "start": "t21924",
+            "end": "t21927",
+            "inputs": [
+                {
+                    "name": "resource",
+                    "path": "params.resource",
+                    "type": "string",
+                    "label": "Resource:",
+                    "group": "params",
+                    "index": 0,
+                    "disabled": false,
+                    "required": true,
+                    "hidden": false,
+                    "placeholder": "Enter a resource...",
+                    "targeted": false
+                }
+            ],
+            "params": {
+                "resource": {
+                    "source": "entity",
+                    "type": "string",
+                    "key": "resource",
+                    "mandatory": true
+                }
+            },
+            "flow": "[{\"children\":[\"tag/t21926\"],\"bindings\":{},\"interrupting\":true,\"type\":\"signal\",\"id\":\"tag/t21924\",\"parents\":[],\"target\":\"customer-disconnect\",\"entity\":\"start\"},{\"id\":\"tag/t21926\",\"children\":[\"tag/t21925\",\"tag/t21927\"],\"parents\":[\"tag/t21924\"],\"entity\":\"gateway\",\"type\":\"exclusive\",\"conditionals\":[[\"tag/t21925\",\"false\"],[\"tag/t21927\",\"(not (= nil {{resource}}))\"]],\"default\":\"tag/t21925\"},{\"id\":\"tag/t21925\",\"children\":[],\"parents\":[\"tag/t21926\"],\"entity\":\"throw\",\"type\":\"none\",\"terminate\":true},{\"id\":\"tag/t21927\",\"children\":[],\"parents\":[\"tag/t21926\"],\"entity\":\"throw\",\"type\":\"terminate\",\"terminate\":true}]"
+        },
+        {
+            "name": "resource-flow",
+            "entity": "template",
+            "label": "Resource Flow",
+            "start": "t21693",
+            "end": "t21692",
+            "inputs": [
+                {
+                    "name": "resource",
+                    "path": "params.resource",
+                    "type": "string",
+                    "label": "Resource:",
+                    "group": "params",
+                    "index": 0,
+                    "disabled": false,
+                    "required": true,
+                    "hidden": false,
+                    "placeholder": "Enter a resource...",
+                    "targeted": false
+                },
+                {
+                    "name": "timeout",
+                    "path": "params.timeout",
+                    "type": "string",
+                    "label": "Timeout:",
+                    "group": "params",
+                    "index": 1,
+                    "disabled": false,
+                    "required": true,
+                    "placeholder": "Enter a timeout...",
+                    "hidden": false
+                },
+                {
+                    "name": "disconnectedOn",
+                    "path": "params.disconnectOn",
+                    "type": "boolean",
+                    "label": "Disconnect On *",
+                    "group": "params",
+                    "index": 0,
+                    "disabled": false,
+                    "required": false,
+                    "placeholder": null,
+                    "hidden": false,
+                    "trueValue": "*",
+                    "falseValue": ","
+                }
+            ],
+            "params": {
+                "resource": {
+                    "source": "entity",
+                    "type": "string",
+                    "key": "resource",
+                    "mandatory": true
+                },
+                "timeout": {
+                    "source": "expression",
+                    "type": "integer",
+                    "key": "timeout",
+                    "mandatory": true,
+                    "default": "30"
+                },
+                "disconnectOn": {
+                    "source": "expression",
+                    "type": "string",
+                    "key": "disconnectOn",
+                    "mandatory": false,
+                    "default": ",",
+                    "when": {
+                        "eq": {
+                            "params.disconnectOn": "*"
+                        }
+                    }
+                }
+            },
+            "flow": "[{\"children\":[\"tag/t21690\"],\"bindings\":{},\"interrupting\":true,\"type\":\"signal\",\"id\":\"tag/t21693\",\"parents\":[],\"target\":\"resource-acquired\",\"entity\":\"start\"},{\"id\":\"tag/t21701\",\"children\":[\"tag/t21699\"],\"parents\":[\"tag/t21697\"],\"entity\":\"throw\",\"type\":\"signal\",\"terminate\":false,\"event\":{\"name\":\"work-rejected\",\"params\":{}}},{\"children\":[\"tag/t21700\"],\"bindings\":{},\"interrupting\":true,\"type\":\"signal\",\"id\":\"tag/t21702\",\"parents\":[],\"target\":\"customer-disconnect\",\"entity\":\"start\"},{\"id\":\"tag/t21700\",\"children\":[\"tag/t21689\",\"tag/t21705\"],\"parents\":[\"tag/t21702\"],\"entity\":\"gateway\",\"type\":\"exclusive\",\"conditionals\":[[\"tag/t21689\",\"false\"],[\"tag/t21705\",\"(= dialed true)\"]],\"default\":\"tag/t21689\"},{\"id\":\"tag/t21704\",\"children\":[],\"parents\":[\"tag/t21689\"],\"entity\":\"throw\",\"type\":\"none\",\"terminate\":true},{\"id\":\"tag/t21703\",\"children\":[\"tag/t21707\"],\"parents\":[\"tag/t21695\"],\"entity\":\"throw\",\"type\":\"signal\",\"terminate\":false,\"event\":{\"name\":\"work-accepted\",\"params\":{}}},{\"id\":\"tag/t21696\",\"children\":[\"tag/t21692\"],\"parents\":[\"tag/t21694\"],\"entity\":\"throw\",\"type\":\"signal\",\"terminate\":false,\"event\":{\"name\":\"remove-participant\",\"params\":{}}},{\"id\":\"tag/t21692\",\"children\":[],\"parents\":[\"tag/t21696\"],\"entity\":\"throw\",\"type\":\"none\",\"terminate\":true},{\"id\":\"tag/t21698\",\"children\":[],\"parents\":[\"tag/t21699\"],\"entity\":\"throw\",\"type\":\"none\",\"terminate\":true},{\"children\":[\"tag/t21703\"],\"bindings\":{},\"name\":\"dial\",\"params\":{\"from\":{\"source\":\"expression\",\"value\":\"titan/customer\"},\"to\":{\"source\":\"expression\",\"value\":\"{{resource}}.extension\"},\"timeout\":{\"source\":\"expression\",\"value\":\"{{timeout}}\"},\"resource\":{\"source\":\"expression\",\"value\":\"{{resource}}\"}},\"type\":\"task\",\"id\":\"tag/t21695\",\"parents\":[\"tag/t21691\"],\"decorations\":[\"tag/t21697\"],\"target\":\"twilio\",\"entity\":\"activity\"},{\"children\":[\"tag/t21691\"],\"bindings\":{},\"name\":\"work-offer\",\"params\":{\"resource-id\":{\"source\":\"expression\",\"value\":\"{{resource}}.id\"},\"timeout\":{\"source\":\"expression\",\"value\":\"(timestamp (from-now (seconds {{timeout}})))\"},\"search-value\":{\"source\":\"expression\",\"value\":\"titan/customer\"},\"search-value-action\":{\"source\":\"expression\",\"value\":\"\\\"immediate\\\"\"}},\"type\":\"task\",\"id\":\"tag/t21690\",\"parents\":[\"tag/t21693\"],\"decorations\":[],\"target\":\"client\",\"entity\":\"activity\"},{\"children\":[\"tag/t21695\"],\"bindings\":{},\"name\":\"set-global-attribute\",\"params\":{\"dialed\":{\"source\":\"expression\",\"value\":\"true\"}},\"type\":\"task\",\"id\":\"tag/t21691\",\"parents\":[\"tag/t21690\"],\"decorations\":[],\"entity\":\"activity\"},{\"children\":[\"tag/t21698\"],\"bindings\":{},\"name\":\"free-resource\",\"params\":{\"resource-id\":{\"source\":\"expression\",\"value\":\"{{resource}}\"},\"state\":{\"source\":\"expression\",\"value\":\"ready\"}},\"type\":\"task\",\"id\":\"tag/t21699\",\"parents\":[\"tag/t21701\"],\"decorations\":[],\"entity\":\"activity\"},{\"children\":[\"tag/t21704\"],\"bindings\":{},\"name\":\"free-resource\",\"params\":{\"resource-id\":{\"source\":\"expression\",\"value\":\"{{resource}}\"},\"state\":{\"source\":\"expression\",\"value\":\"ready\"}},\"type\":\"task\",\"id\":\"tag/t21689\",\"parents\":[\"tag/t21700\",\"tag/t21705\"],\"decorations\":[],\"entity\":\"activity\"},{\"children\":[\"tag/t21689\"],\"bindings\":{},\"name\":\"disconnect\",\"params\":{\"resource\":{\"source\":\"expression\",\"value\":\"{{resource}}\"}},\"type\":\"task\",\"id\":\"tag/t21705\",\"parents\":[\"tag/t21700\"],\"decorations\":[],\"target\":\"twilio\",\"entity\":\"activity\"},{\"children\":[\"tag/t21694\"],\"bindings\":{},\"name\":\"add-participant\",\"params\":{\"resource\":{\"source\":\"expression\",\"value\":\"{{resource}}\"},\"muted\":{\"source\":\"expression\",\"value\":\"false\"},\"disconnectOn\":{\"source\":\"expression\",\"value\":\"{{disconnectOn}}\"}},\"type\":\"task\",\"id\":\"tag/t21707\",\"parents\":[\"tag/t21703\"],\"decorations\":[],\"target\":\"twilio\",\"entity\":\"activity\"},{\"children\":[\"tag/t21701\"],\"bindings\":{},\"interrupting\":true,\"type\":\"signal\",\"id\":\"tag/t21697\",\"parents\":[\"tag/t21695\"],\"target\":\"resource-disconnect\",\"entity\":\"catch\"},{\"children\":[\"tag/t21696\"],\"bindings\":{},\"interrupting\":true,\"type\":\"signal\",\"id\":\"tag/t21694\",\"parents\":[\"tag/t21707\"],\"target\":\"resource-disconnect\",\"entity\":\"catch\"}]"
+        },
+        {
+            "name": "customer-hold-resume",
+            "entity": "template",
+            "label": "Customer Hold/ Resume",
+            "start": "t21730",
+            "end": "t21729",
+            "inputs": [
+                {
+                    "name": "media",
+                    "path": "params.media",
+                    "type": "typeahead",
+                    "label": "Media:",
+                    "group": "params",
+                    "index": 0,
+                    "disabled": false,
+                    "required": true,
+                    "hidden": false,
+                    "source": "media",
+                    "placeholder": "Search for media..."
+                }
+            ],
+            "params": {
+                "media": {
+                    "source": "entity",
+                    "type": "media",
+                    "key": "media",
+                    "mandatory": true
+                }
+            },
+            "flow": "[{\"children\":[\"tag/t21728\"],\"bindings\":{\"resource-id\":\"resource-id\"},\"interrupting\":true,\"type\":\"signal\",\"id\":\"tag/t21730\",\"parents\":[],\"target\":\"customer-hold\",\"entity\":\"start\"},{\"children\":[\"tag/t21733\"],\"bindings\":{},\"name\":\"hold\",\"params\":{\"customer\":{\"source\":\"expression\",\"value\":\"titan/customer\"},\"media\":{\"source\":\"system\",\"store\":\"media\",\"id\":\"{{media}}\"}},\"type\":\"task\",\"id\":\"tag/t21728\",\"parents\":[\"tag/t21730\"],\"decorations\":[],\"target\":\"twilio\",\"entity\":\"activity\"},{\"children\":[\"tag/t21732\"],\"bindings\":{\"resource-id\":\"resource-id\"},\"interrupting\":true,\"type\":\"signal\",\"id\":\"tag/t21733\",\"parents\":[\"tag/t21728\"],\"target\":\"customer-resume\",\"entity\":\"catch\"},{\"children\":[\"tag/t21729\"],\"bindings\":{},\"name\":\"resume\",\"params\":{\"customer\":{\"source\":\"expression\",\"value\":\"titan/customer\"}},\"type\":\"task\",\"id\":\"tag/t21732\",\"parents\":[\"tag/t21733\"],\"decorations\":[],\"target\":\"twilio\",\"entity\":\"activity\"},{\"id\":\"tag/t21729\",\"children\":[],\"parents\":[\"tag/t21732\"],\"entity\":\"throw\",\"type\":\"none\",\"terminate\":true}]"
         }
     ]
 }
