@@ -476,25 +476,59 @@
                     "hidden": true
                 },
                 {
-                    "name": "resourceid",
-                    "path": "params.resource",
-                    "type": "string",
-                    "label": "Resource:",
+                    "name": "resource.id",
+                    "path": "params.participant",
+                    "type": "select",
+                    "label": "Participant:",
                     "group": "params",
                     "index": 0,
                     "disabled": false,
                     "required": true,
-                    "placeholder": "Enter a resource ID...",
                     "hidden": false,
-                    "targeted": false
+                    "options": [
+                        {
+                            "content": "Resource",
+                            "value": "resource.id"
+                        }
+                    ]
+                },
+                {
+                    "name": "state",
+                    "path": "params.state",
+                    "type": "select",
+                    "label": "Set Presence:",
+                    "group": "params",
+                    "index": 1,
+                    "disabled": false,
+                    "required": false,
+                    "placeholder": null,
+                    "hidden": false,
+                    "options": [
+                        {
+                            "value": "ready",
+                            "content": "Ready"
+                        },
+                        {
+                            "value": "not-ready",
+                            "content": "Not Ready"
+                        }
+                    ]
                 }
             ],
             "params": {
-                "resource-id": {
+                "resource.id": {
                     "source": "expression",
-                    "type": "string",
-                    "key": "resource",
-                    "mandatory": true
+                    "type": "variable",
+                    "key": "resource.id",
+                    "mandatory": true,
+                    "default": "resource.id"
+                },
+                "state": {
+                    "source": "expression",
+                    "type": "variable",
+                    "key": "state",
+                    "mandatory": true,
+                    "default": "ready"
                 }
             }
         },
