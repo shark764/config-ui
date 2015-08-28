@@ -34,7 +34,7 @@ angular.module('liveopsConfigPanel')
 
           $scope.closeBulk = function () {
             DirtyForms.confirmIfDirty(function () {
-              $scope.showBulkActions = false;
+              $scope.$emit('details:panel:close');
             });
           };
 
@@ -100,7 +100,7 @@ angular.module('liveopsConfigPanel')
               if ($scope.bulkActionForm.$dirty){
                 $scope.resetForm();
               } else {
-                $scope.showBulkActions = false;
+                $scope.closeBulk();
               }
             });
           };

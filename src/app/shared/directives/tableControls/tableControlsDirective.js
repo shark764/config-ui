@@ -41,6 +41,7 @@ angular.module('liveopsConfigPanel')
 
           $scope.onActionsClick = function () {
             DirtyForms.confirmIfDirty(function () {
+              $scope.selected = undefined;
               $rootScope.$broadcast('table:on:click:actions');
             });
           };

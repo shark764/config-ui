@@ -22,6 +22,10 @@ angular.module('liveopsConfigPanel')
         $scope.showBulkActions = false;
       });
       
+      $scope.$on('details:panel:close', function () {
+        $scope.showBulkActions = false;
+      });
+      
       if ($stateParams.messageKey){
         Alert.info($translate.instant($stateParams.messageKey), '', {
           closeButton: true,
