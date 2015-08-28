@@ -35,7 +35,6 @@ angular.module('liveopsConfigPanel')
       };
 
       $scope.$on('table:on:click:create', function () {
-        $scope.showBulkActions = false;
         $scope.create();
       });
 
@@ -43,14 +42,6 @@ angular.module('liveopsConfigPanel')
         versions: $scope.versions,
         flowTypes: flowTypes
       };
-
-      $scope.$on('table:resource:selected', function () {
-        $scope.showBulkActions = false;
-      });
-
-      $scope.$on('table:on:click:actions', function () {
-        $scope.showBulkActions = true;
-      });
       
       $scope.tableConfig = flowTableConfig;
       $scope.bulkActions = {

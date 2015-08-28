@@ -27,7 +27,6 @@ angular.module('liveopsConfigPanel')
       };
 
       $scope.$on('table:on:click:create', function () {
-        $scope.showBulkActions = false;
         $scope.additional.initialQuery = '{}';
 
         $scope.selectedQueue = new Queue({
@@ -48,14 +47,6 @@ angular.module('liveopsConfigPanel')
       $scope.additional = {
         initialQuery: '{}'
       };
-
-      $scope.$on('table:resource:selected', function () {
-        $scope.showBulkActions = false;
-      });
-
-      $scope.$on('table:on:click:actions', function () {
-        $scope.showBulkActions = true;
-      });
 
       $scope.bulkActions = {
         setQueueStatus: new BulkAction()

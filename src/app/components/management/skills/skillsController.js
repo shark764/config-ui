@@ -16,22 +16,12 @@ angular.module('liveopsConfigPanel')
 
       //Various navigation rules
       $scope.$on('table:on:click:create', function () {
-        $scope.showBulkActions = false;
-
         $scope.selectedSkill = new Skill({
           tenantId: Session.tenant.tenantId,
           active: true,
           hasProficiency: false,
           description: ''
         });
-      });
-
-      $scope.$on('table:resource:selected', function () {
-        $scope.showBulkActions = false;
-      });
-
-      $scope.$on('table:on:click:actions', function () {
-        $scope.showBulkActions = true;
       });
 
       $scope.bulkActions = {
