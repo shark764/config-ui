@@ -96,24 +96,22 @@ angular.module('liveopsConfigPanel')
       }
 
       var configurationConfig = [];
-      if (UserPermissions.hasPermissionInList(['PLATFORM_VIEW_ALL_TENANTS', 'PLATFORM_MANAGE_ALL_TENANTS', 'PLATFORM_CREATE_ALL_TENANTS', 'PLATFORM_CREATE_TENANT_ROLES', 'PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT'])){
-        if (UserPermissions.hasPermissionInList(['PLATFORM_VIEW_ALL_TENANTS', 'PLATFORM_MANAGE_ALL_TENANTS', 'PLATFORM_CREATE_ALL_TENANTS', 'PLATFORM_CREATE_TENANT_ROLES', 'PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'MANAGE_TENANT'])){
-          configurationConfig.push({
-            label: 'Tenants',
-            onClick: function(){$state.transitionTo('content.configuration.tenants');},
-            id: 'tenants-configuration-link',
-            order: 1
-          });
-        }
-        
-        if (UserPermissions.hasPermissionInList(['VIEW_ALL_PROVIDERS', 'MANAGE_ALL_PROVIDERS'])){
-          configurationConfig.push({
-            label: 'Integrations',
-            onClick: function(){$state.transitionTo('content.configuration.integrations');},
-            id: 'integrations-configuration-link',
-            order: 2
-          });
-        }
+      if (UserPermissions.hasPermissionInList(['PLATFORM_VIEW_ALL_TENANTS', 'PLATFORM_MANAGE_ALL_TENANTS', 'PLATFORM_CREATE_ALL_TENANTS', 'PLATFORM_CREATE_TENANT_ROLES', 'PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'MANAGE_TENANT'])){
+        configurationConfig.push({
+          label: 'Tenants',
+          onClick: function(){$state.transitionTo('content.configuration.tenants');},
+          id: 'tenants-configuration-link',
+          order: 1
+        });
+      }
+      
+      if (UserPermissions.hasPermissionInList(['VIEW_ALL_PROVIDERS', 'MANAGE_ALL_PROVIDERS'])){
+        configurationConfig.push({
+          label: 'Integrations',
+          onClick: function(){$state.transitionTo('content.configuration.integrations');},
+          id: 'integrations-configuration-link',
+          order: 2
+        });
       }
       
       if (configurationConfig.length > 0){
