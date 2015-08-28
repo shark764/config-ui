@@ -56,9 +56,10 @@ describe('The create new user form', function() {
     expect(users.firstNameFormField.isDisplayed()).toBeTruthy();
     expect(users.lastNameFormField.isDisplayed()).toBeTruthy();
     expect(users.externalIdFormField.isDisplayed()).toBeTruthy();
-    expect(users.personalTelephoneFormField.isDisplayed()).toBeTruthy();
-    expect(users.personalTelephoneHelp.isDisplayed()).toBeTruthy();
 
+    // Password and Telephone fields are not displayed
+    expect(users.personalTelephoneFormField.isPresent()).toBeFalsy();
+    expect(users.personalTelephoneHelp.isPresent()).toBeFalsy();
     expect(users.passwordEditFormBtn.isPresent()).toBeFalsy();
     expect(users.passwordFormField.isPresent()).toBeFalsy();
 
@@ -79,12 +80,10 @@ describe('The create new user form', function() {
     expect(users.lastNameFormField.getAttribute('value')).toBe('');
     expect(users.emailFormField.getAttribute('value')).toBe('');
     expect(users.externalIdFormField.getAttribute('value')).toBe('');
-    expect(users.personalTelephoneFormField.getAttribute('value')).toBe('');
 
     // Fields disabled by default
     expect(users.firstNameFormField.getAttribute('disabled')).toBeTruthy();
     expect(users.lastNameFormField.getAttribute('disabled')).toBeTruthy();
-    expect(users.personalTelephoneFormField.getAttribute('disabled')).toBeTruthy();
     expect(users.externalIdFormField.getAttribute('disabled')).toBeTruthy();
 
   });
@@ -111,7 +110,6 @@ describe('The create new user form', function() {
     // Remaining fields remain disabled
     expect(users.firstNameFormField.getAttribute('disabled')).toBeTruthy();
     expect(users.lastNameFormField.getAttribute('disabled')).toBeTruthy();
-    expect(users.personalTelephoneFormField.getAttribute('disabled')).toBeTruthy();
     expect(users.externalIdFormField.getAttribute('disabled')).toBeTruthy();
 
     expect(users.submitFormBtn.getAttribute('disabled')).toBeTruthy();
@@ -139,7 +137,6 @@ describe('The create new user form', function() {
     users.firstNameFormField.sendKeys('First' + randomUser);
     users.lastNameFormField.sendKeys('Last' + randomUser);
     users.externalIdFormField.sendKeys(randomUser);
-    users.personalTelephoneFormField.sendKeys('15062345678');
 
     users.submitFormBtn.click();
     expect(shared.successMessage.isDisplayed()).toBeTruthy();
@@ -177,7 +174,6 @@ describe('The create new user form', function() {
     users.firstNameFormField.sendKeys('First' + randomUser);
     users.lastNameFormField.sendKeys('Last' + randomUser);
     users.externalIdFormField.sendKeys(randomUser);
-    users.personalTelephoneFormField.sendKeys('15062345678');
     users.cancelFormBtn.click();
 
     // Warning message is displayed
@@ -199,7 +195,6 @@ describe('The create new user form', function() {
     expect(users.tenantRoleFormDropdown.getAttribute('value')).toBe('');
     expect(users.platformRoleFormDropdown.getAttribute('value')).toBe('');
     expect(users.externalIdFormField.getAttribute('value')).toBe('');
-    expect(users.personalTelephoneFormField.getAttribute('value')).toBe('');
 
     // Confirm user is not displayed in user list with correct details
     shared.tableElements.then(function(users) {
@@ -230,7 +225,6 @@ describe('The create new user form', function() {
     expect(users.platformRoleFormDropdown.getAttribute('disabled')).toBeTruthy();
     expect(users.firstNameFormField.getAttribute('disabled')).toBeTruthy();
     expect(users.lastNameFormField.getAttribute('disabled')).toBeTruthy();
-    expect(users.personalTelephoneFormField.getAttribute('disabled')).toBeTruthy();
     expect(users.externalIdFormField.getAttribute('disabled')).toBeTruthy();
 
     expect(users.submitFormBtn.getAttribute('disabled')).toBeTruthy();
@@ -264,7 +258,7 @@ describe('The create new user form', function() {
     expect(users.requiredErrors.get(1).getText()).toBe('Please select a role');
   });
 
-  it('should not require First Name, Last Name, External Id or Personal Telephone', function() {
+  it('should not require First Name, Last Name, External Id', function() {
     // Add randomness to user details
     randomUser = Math.floor((Math.random() * 1000) + 1);
     var newUserEmail = 'titantest' + randomUser + '@mailinator.com'
@@ -279,7 +273,6 @@ describe('The create new user form', function() {
     // Fields enabled
     expect(users.firstNameFormField.getAttribute('disabled')).toBeFalsy();
     expect(users.lastNameFormField.getAttribute('disabled')).toBeFalsy();
-    expect(users.personalTelephoneFormField.getAttribute('disabled')).toBeFalsy();
     expect(users.externalIdFormField.getAttribute('disabled')).toBeFalsy();
 
     users.submitFormBtn.click().then(function() {
@@ -317,7 +310,6 @@ describe('The create new user form', function() {
     expect(users.platformRoleFormDropdown.getAttribute('disabled')).toBeTruthy();
     expect(users.firstNameFormField.getAttribute('disabled')).toBeTruthy();
     expect(users.lastNameFormField.getAttribute('disabled')).toBeTruthy();
-    expect(users.personalTelephoneFormField.getAttribute('disabled')).toBeTruthy();
     expect(users.externalIdFormField.getAttribute('disabled')).toBeTruthy();
 
     users.emailFormField.clear();
@@ -331,7 +323,6 @@ describe('The create new user form', function() {
     expect(users.platformRoleFormDropdown.getAttribute('disabled')).toBeTruthy();
     expect(users.firstNameFormField.getAttribute('disabled')).toBeTruthy();
     expect(users.lastNameFormField.getAttribute('disabled')).toBeTruthy();
-    expect(users.personalTelephoneFormField.getAttribute('disabled')).toBeTruthy();
     expect(users.externalIdFormField.getAttribute('disabled')).toBeTruthy();
   });
 
@@ -379,42 +370,6 @@ describe('The create new user form', function() {
     });
   });
 
-  it('should prevent invalid E164 numbers from being accepted', function() {
-    shared.createBtn.click();
-    randomUser = Math.floor((Math.random() * 1000) + 1);
-    users.emailFormField.sendKeys('titantest' + randomUser + '@mailinator.com\t');
-    users.tenantRoleFormDropdownOptions.get((randomUser % 3) + 1).click();
-    users.platformRoleFormDropdownOptions.get(1).click();
-
-    expect(users.personalTelephoneFormField.isDisplayed()).toBeTruthy();
-
-    // Ensure the field is empty
-    users.personalTelephoneFormField.clear();
-    users.personalTelephoneFormField.sendKeys('a15064704361');
-
-    users.firstNameFormField.click();
-    expect(users.personalTelephoneFormField.getAttribute('class')).toContain('ng-invalid');
-    expect(users.requiredErrors.get(0).getText()).toBe('Phone number should be in E.164 format.');
-
-    expect(users.submitFormBtn.getAttribute('disabled')).toBeTruthy();
-  });
-
-  it('should allow E164 numbers to be accepted and format the input', function() {
-    shared.createBtn.click();
-    randomUser = Math.floor((Math.random() * 1000) + 1);
-    users.emailFormField.sendKeys('titantest' + randomUser + '@mailinator.com\t');
-    users.tenantRoleFormDropdownOptions.get((randomUser % 3) + 1).click();
-    users.platformRoleFormDropdownOptions.get(1).click();
-
-    expect(users.personalTelephoneFormField.isDisplayed()).toBeTruthy();
-
-    // Complete field with valid input
-    users.personalTelephoneFormField.sendKeys('15064704361');
-
-    users.firstNameFormField.click();
-    expect(users.personalTelephoneFormField.getAttribute('value')).toBe('+1 506-470-4361');
-  });
-
   //Regression test for TITAN2-2267
   it('should reset the form when clicking Create while already Creating', function() {
     shared.createBtn.click();
@@ -429,7 +384,6 @@ describe('The create new user form', function() {
     users.lastNameFormField.sendKeys('Last' + randomUser);
     users.tenantRoleFormDropdownOptions.get((randomUser % 3) + 1).click();
     users.externalIdFormField.sendKeys(randomUser);
-    users.personalTelephoneFormField.sendKeys('15062345678');
 
     //Click Create button again
     shared.createBtn.click();
@@ -441,7 +395,6 @@ describe('The create new user form', function() {
     expect(users.emailFormField.getAttribute('value')).toBe('');
     expect(users.tenantRoleFormDropdown.getAttribute('value')).toBe('');
     expect(users.externalIdFormField.getAttribute('value')).toBe('');
-    expect(users.personalTelephoneFormField.getAttribute('value')).toBe('')
   });
 
   it('should reset invalid Email field after clicking Create while already Creating', function() {
@@ -458,26 +411,6 @@ describe('The create new user form', function() {
     expect(users.emailFormField.getAttribute('value')).toBe('');
   });
 
-  it('should reset invalid Phone field after clicking Create while already Creating', function() {
-    shared.createBtn.click();
-
-    randomUser = Math.floor((Math.random() * 1000) + 1);
-    users.emailFormField.sendKeys('titantest' + randomUser + '@mailinator.com\t');
-    users.tenantRoleFormDropdownOptions.get((randomUser % 3) + 1).click();
-    users.platformRoleFormDropdownOptions.get(1).click();
-
-    //Fill in invalid values
-    users.personalTelephoneFormField.sendKeys('not a phone number');
-
-    //Click Create button again
-    shared.createBtn.click();
-    shared.dismissChanges();
-
-    //Expect all fields to have been cleared
-    expect(users.emailFormField.getAttribute('value')).toBe('');
-    expect(users.personalTelephoneFormField.getAttribute('value')).toBe('')
-  });
-
   describe('for an existing user not in the current tenant', function() {
     // TODO Get user name that is in another but not the current tenant
     xit('should not populate fields and should disable uneditable fields', function() {
@@ -491,7 +424,6 @@ describe('The create new user form', function() {
       users.firstNameFormField.sendKeys('First' + randomUser);
       users.lastNameFormField.sendKeys('Last' + randomUser);
       users.externalIdFormField.sendKeys('12345');
-      users.personalTelephoneFormField.sendKeys('15062345678');
       users.submitFormBtn.click().then(function() {
         // New user not added, invite sent to existing user
         expect(shared.tableElements.count()).toBe(userCount);
@@ -513,7 +445,6 @@ describe('The create new user form', function() {
       users.firstNameFormField.sendKeys('First' + randomUser);
       users.lastNameFormField.sendKeys('Last' + randomUser);
       users.externalIdFormField.sendKeys('12345');
-      users.personalTelephoneFormField.sendKeys('15062345678');
       users.submitFormBtn.click();
 
       // New user not added, invite sent to existing user
@@ -533,7 +464,6 @@ describe('The create new user form', function() {
       users.firstNameFormField.sendKeys('First' + randomUser);
       users.lastNameFormField.sendKeys('Last' + randomUser);
       users.externalIdFormField.sendKeys('12345');
-      users.personalTelephoneFormField.sendKeys('15062345678');
       users.submitFormBtn.click().then(function() {
         // New user not added, invite sent to existing user
         expect(shared.tableElements.count()).toBe(userCount);
@@ -555,7 +485,6 @@ describe('The create new user form', function() {
       users.firstNameFormField.sendKeys('First' + randomUser);
       users.lastNameFormField.sendKeys('Last' + randomUser);
       users.externalIdFormField.sendKeys('12345');
-      users.personalTelephoneFormField.sendKeys('15062345678');
       users.submitFormBtn.click().then(function() {
         // New user not added, invite sent to existing user
         expect(shared.tableElements.count()).toBe(userCount);
