@@ -476,25 +476,59 @@
                     "hidden": true
                 },
                 {
-                    "name": "resourceid",
-                    "path": "params.resource",
-                    "type": "string",
-                    "label": "Resource:",
+                    "name": "resource.id",
+                    "path": "params.participant",
+                    "type": "select",
+                    "label": "Participant:",
                     "group": "params",
                     "index": 0,
                     "disabled": false,
                     "required": true,
-                    "placeholder": "Enter a resource ID...",
                     "hidden": false,
-                    "targeted": false
+                    "options": [
+                        {
+                            "content": "Resource",
+                            "value": "resource.id"
+                        }
+                    ]
+                },
+                {
+                    "name": "state",
+                    "path": "params.state",
+                    "type": "select",
+                    "label": "Set Presence:",
+                    "group": "params",
+                    "index": 1,
+                    "disabled": false,
+                    "required": false,
+                    "placeholder": null,
+                    "hidden": false,
+                    "options": [
+                        {
+                            "value": "ready",
+                            "content": "Ready"
+                        },
+                        {
+                            "value": "not-ready",
+                            "content": "Not Ready"
+                        }
+                    ]
                 }
             ],
             "params": {
-                "resource-id": {
+                "resource.id": {
                     "source": "expression",
-                    "type": "string",
-                    "key": "resource",
-                    "mandatory": true
+                    "type": "variable",
+                    "key": "resource.id",
+                    "mandatory": true,
+                    "default": "resource.id"
+                },
+                "state": {
+                    "source": "expression",
+                    "type": "variable",
+                    "key": "state",
+                    "mandatory": true,
+                    "default": "ready"
                 }
             }
         },
@@ -931,6 +965,12 @@
             "props": ["target", "interrupting", "bindings"]
         },
         {
+            "entity": "start",
+            "type": "flow-error",
+            "inputs": [],
+            "props": []
+        },
+        {
             "entity": "catch",
             "type": "signal",
             "inputs": [
@@ -981,6 +1021,12 @@
             "props": ["timer", "interrupting"]
         },
         {
+            "entity": "catch",
+            "type": "flow-error",
+            "inputs": [],
+            "props": []
+        },
+        {
             "entity": "throw",
             "type": "signal",
             "terminate": false,
@@ -1011,6 +1057,13 @@
                 }
             ],
             "props": ["terminate", "event"] 
+        },
+        {
+            "entity": "throw",
+            "type": "flow-error",
+            "terminate": false,
+            "inputs": [],
+            "props": []
         },
         {
             "entity": "throw",
@@ -1057,6 +1110,13 @@
             "terminate": true,
             "inputs": [],
             "props": ["terminate"] 
+        },
+        {
+            "entity": "throw",
+            "type": "flow-error",
+            "terminate": true,
+            "inputs": [],
+            "props": ["terminate"]
         }
     ],
     "links": [
