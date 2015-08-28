@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('NavbarController', ['$rootScope', '$scope', '$state', 'AuthService', 'Session', 'DirtyForms', '$translate',
-    function($rootScope, $scope, $state, AuthService, Session, DirtyForms, $translate) {
+  .controller('NavbarController', ['$rootScope', '$scope', '$state', 'AuthService', 'Session', 'DirtyForms', '$translate', 'UserPermissions',
+    function($rootScope, $scope, $state, AuthService, Session, DirtyForms, $translate, UserPermissions) {
       $scope.hovering = false;
 
       $scope.Session = Session;
@@ -19,7 +19,7 @@ angular.module('liveopsConfigPanel')
         var tenantDropdownItems = [];
         angular.forEach(Session.tenants, function(tenant) {
           tenantDropdownItems.push({
-            label: tenant.name,
+            label: tenant.tenantName,
             onClick: function(){
               DirtyForms.confirmIfDirty(function(){
                 Session.setTenant(tenant);
@@ -62,62 +62,109 @@ angular.module('liveopsConfigPanel')
       $scope.$on('resource:actions', $scope.onActionsClick);
 
       $scope.$watch('Session.tenants', $scope.populateTenantsHandler);
-
-      $scope.managementDropConfig = [{
+      
+      var managementConfig = [];
+      if (UserPermissions.hasPermissionInList(['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'VIEW_ALL_USERS', 'MANAGE_ALL_USER_EXTENSIONS', 'MANAGE_ALL_GROUP_USERS', 'MANAGE_ALL_USER_SKILLS', 'MANAGE_ALL_USER_LOCATIONS', 'MANAGE_TENANT_ENROLLMENT'])){
+        managementConfig.push({
           label: 'Users',
           onClick: function(){$state.transitionTo('content.management.users');},
           id: 'user-management-link',
           order: 1
-        }, {
+        });
+      }
+      
+      if (UserPermissions.hasPermissionInList(['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'VIEW_ALL_SKILLS', 'MANAGE_ALL_SKILLS', 'MANAGE_ALL_USER_SKILLS', 'MANAGE_TENANT_ENROLLMENT'])){
+        managementConfig.push({
           label: 'Skills',
           onClick: function(){$state.transitionTo('content.management.skills');},
           id: 'skill-management-link',
           order: 2
-        }, {
+        });
+      }
+      
+      if (UserPermissions.hasPermissionInList(['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'VIEW_ALL_GROUPS', 'MANAGE_ALL_GROUPS', 'MANAGE_ALL_GROUP_USERS', 'MANAGE_ALL_GROUP_OWNERS', 'MANAGE_TENANT_ENROLLMENT'])){
+        managementConfig.push({
           label: 'Groups',
           onClick: function(){$state.transitionTo('content.management.groups');},
           id: 'group-management-link',
           order: 3
-      }];
+        });
+      }
+      
+      if (managementConfig.length > 0){
+        $scope.managementDropConfig = managementConfig;
+      }
 
-      $scope.configurationDropConfig = [{
+      var configurationConfig = [];
+      if (UserPermissions.hasPermissionInList(['PLATFORM_VIEW_ALL_TENANTS', 'PLATFORM_MANAGE_ALL_TENANTS', 'PLATFORM_CREATE_ALL_TENANTS', 'PLATFORM_CREATE_TENANT_ROLES', 'PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'MANAGE_TENANT'])){
+        configurationConfig.push({
           label: 'Tenants',
           onClick: function(){$state.transitionTo('content.configuration.tenants');},
           id: 'tenants-configuration-link',
           order: 1
-        }, {
+        });
+      }
+      
+      if (UserPermissions.hasPermissionInList(['VIEW_ALL_PROVIDERS', 'MANAGE_ALL_PROVIDERS'])){
+        configurationConfig.push({
           label: 'Integrations',
           onClick: function(){$state.transitionTo('content.configuration.integrations');},
           id: 'integrations-configuration-link',
           order: 2
-        }];
-
-      $scope.flowsDropConfig = [{
+        });
+      }
+      
+      if (configurationConfig.length > 0){
+        $scope.configurationDropConfig = configurationConfig;
+      }
+      
+      var flowsConfig = [];
+      if (UserPermissions.hasPermissionInList(['VIEW_ALL_FLOWS', 'MANAGE_ALL_FLOWS', 'MAP_ALL_CONTACT_POINTS'])){
+        flowsConfig.push({
           label: 'Flows',
           onClick: function(){$state.transitionTo('content.flows.flowManagement');},
           id: 'flow-management-link',
           order: 1
-        }, {
+        });
+      }
+      
+      if (UserPermissions.hasPermissionInList(['VIEW_ALL_FLOWS', 'MANAGE_ALL_FLOWS', 'VIEW_ALL_QUEUES', 'MANAGE_ALL_QUEUES'])){
+        flowsConfig.push({
           label: 'Queues',
           onClick: function(){$state.transitionTo('content.flows.queues');},
           id: 'queue-management-link',
           order: 2
-        }, {
+        });
+      }
+      
+      if (UserPermissions.hasPermissionInList(['VIEW_ALL_MEDIA', 'VIEW_ALL_FLOWS', 'MANAGE_ALL_FLOWS'])){
+        flowsConfig.push({
           label: 'Media Collections',
           onClick: function(){$state.transitionTo('content.flows.media-collections');},
           id: 'media-collection-management-link',
           order: 3
-        }, {
+        });
+        
+        flowsConfig.push({
           label: 'Media',
           onClick: function(){$state.transitionTo('content.flows.media');},
           id: 'media-management-link',
           order: 4
-        }, {
+        });
+      }
+      
+      if (UserPermissions.hasPermissionInList(['VIEW_ALL_CONTACT_POINTS', 'MAP_ALL_CONTACT_POINTS'])){
+        flowsConfig.push({
           label: 'Dispatch Mappings',
           onClick: function(){$state.transitionTo('content.flows.dispatchMappings');},
           id: 'dispatch-mappings-configuration-link',
           order: 5
-      }];
+        });
+      }
+
+      if (flowsConfig.length > 0){
+        $scope.flowsDropConfig = flowsConfig;
+      }
 
       $scope.reportingDropConfig = [{
           label: 'Historical Dashboards',

@@ -8,13 +8,16 @@
   width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
+  
+  .all-label {
+    padding-right: 5px;
+  }
 }
 
 .filter-dropdown {
   border: 1px solid $light-grey;
   color: $darkest-grey;
   max-height: 300px;
-  min-width: 140px;
   overflow: auto;
   text-align: left;
   top: 0;

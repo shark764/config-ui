@@ -6,6 +6,7 @@
   "value.createdBy": "Created By",
   "value.createdOn" : "Created On",
   "value.createdby.time": "Created by {{displayName}} on {{date}}",
+  "value.createdon.time": "Created on {{date}}",
   "value.description": "Description",
   "value.designerLink": "Designer Link",
   "value.details.activeVersion": "Active Version",
@@ -18,6 +19,7 @@
   "value.identifier": "Identifier",
   "value.media": "Media",
   "value.name": "Name",
+  "value.no": "No",
   "value.numMembers": "({{number}})",
   "value.openInDesigner": "Open in designer",
   "value.ok": "OK",
@@ -28,20 +30,33 @@
   "value.source": "Source",
   "value.status": "Status",
   "value.submit": "Submit",
+  "value.tenantStatus": "Tenant Status",
   "value.true": "True",
   "value.type": "Type",
   "value.unknown": "unknown",
   "value.update": "Update",
   "value.updatedby": "Last updated by {{displayName}} on {{date}}",
+  "value.updatedon": "Last updated on {{date}}",
   "value.value": "Value",
   "value.version": "Version",
+  "value.yes": "Yes",
   "value.select.group": "Select Group",
   "value.select.action": "Select Action",
+  "value.pending": "Pending",
+  "value.presence": "Presence",
+  "value.offline": "Offline",
+  "value.notready": "Not Ready",
+  "value.ready": "Ready",
+  "value.allocated": "Allocated",
+  "value.busy": "Busy",
+
+
 
   "loading": "Loading",
 
   "api.error": "The API could not be contacted. Please reload the page to try again. If this error persists, please contact your systems administrator",
-
+  "permissions.unauthorized.message": "Sorry, your account does not have the correct permissions to view that page.",
+  
   "login.button": "Login",
   "login.error": "Invalid username or password.",
 
@@ -78,7 +93,8 @@
   "details.password": "Password",
   "details.password.error": "Please enter a password",
   "details.externalId": "External ID",
-  "details.role": "Role",
+  "details.role": "Tenant Role",
+  "details.platformRole": "Platform Role",
   "details.role.placeholder": "Select Role",
   "details.role.error": "Please select a role",
   "details.groups.none" : "There are no groups for the selected tenant.",
@@ -181,6 +197,7 @@
   "queue.details.creating": "Creating New Queue",
   "queue.details.disable.confirm": "This will disable this queue. Do you want to continue?",
   "queue.details.enable.confirm": "This will enable this queue. Do you want to continue?",
+  "queue.details.version.expand": "Show/hide Details",
   "queue.table.title": "Queue Management",
 
   "media.details": "Media",

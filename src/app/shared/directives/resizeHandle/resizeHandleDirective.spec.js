@@ -95,14 +95,14 @@ describe('resizeHandle directive', function(){
       element.isolateScope().resizeElements(200, 600, 500);
       expect(rightSpy).toHaveBeenCalledWith('width', '300px');
     }));
-    
+
     it('should do nothing if the new right width is less than the min width of the right element', inject(function() {
       element.isolateScope().rightTargetElement.css = jasmine.createSpy('css').and.returnValue('700px');
       element.isolateScope().resizeElements(200, 600, 500);
       expect(rightSpy).not.toHaveBeenCalledWith('width', jasmine.any(String));
       expect(leftSpy).not.toHaveBeenCalledWith('width', jasmine.any(String));
     }));
-    
+
     it('should do nothing if the new left width is less than the min width of the left element', inject(function() {
       element.isolateScope().leftTargetElement.css = jasmine.createSpy('css').and.returnValue('700px');
       element.isolateScope().resizeElements(200, 600, 100);
@@ -147,14 +147,14 @@ describe('resizeHandle directive', function(){
       expect(ele.hasClass('compact-view')).toBeFalsy();
     }));
   });
-  
+
   describe ('mouseUp function', function(){
     it('should unbind the mousemove listener', inject(['$document', function($document) {
       spyOn($document, 'unbind');
       isolateScope.mouseup();
       expect($document.unbind).toHaveBeenCalledWith('mousemove', jasmine.any(Function));
     }]));
-    
+
     it('should unbind the mouseup listener', inject(['$document', function($document) {
       spyOn($document, 'unbind');
       isolateScope.mouseup();

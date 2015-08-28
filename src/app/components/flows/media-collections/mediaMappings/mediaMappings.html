@@ -1,6 +1,6 @@
 <div class="divider-header ">
   <h4>Media Mappings</h4>
-  <a id="add-media-mapping-button" class="btn pull-right" ng-click="addMapping()" title="{{'flow.details.mapping.add.alt' | translate}}"><i class="fa fa-plus"></i></a>
+  <a ng-hide="!('MANAGE_ALL_MEDIA' | hasPermission)" id="add-media-mapping-button" class="btn pull-right" ng-click="addMapping()" title="{{'flow.details.mapping.add.alt' | translate}}"><i class="fa fa-plus"></i></a>
 </div>
 
 <input type="text" name="mediaMapChanges" ng-model="mediaMapChanges" ng-hide="true"/>
@@ -24,6 +24,7 @@
           error-type-media-map-duplicate="{{'media.collections.mappingLookup.error.duplicate' | translate}}">
         </form-error>
         <input
+          ng-disabled="!('MANAGE_ALL_MEDIA' | hasPermission)"
           ng-change="'{{mapping.lookup}}' == collection.defaultMediaKey ? resetDefaultMediaKey() : ''"
           ng-required="true"
           type="text"
@@ -33,10 +34,10 @@
       <td>
         <form-error ng-init="fieldName='source' + $index" field="form[fieldName]"
           error-type-required="{{'media.collections.mappingId.error' | translate}}"></form-error>
-        <lo-multibox model="mapping" field-name="{{fieldName}}" items="fetchMedias()" resource-name="media" display-field="name"></lo-multibox>
+        <lo-multibox ng-disabled="!('MANAGE_ALL_MEDIA' | hasPermission)" model="mapping" items="fetchMedias()" resource-name="media" name="{{fieldName}}"></lo-multibox>
       </td>
       <td class='remove-col'>
-        <i id="remove-media-mapping-button" class="fa fa-times remove" ng-click="removeMapping($index)"></i>
+        <i ng-hide="!('MANAGE_ALL_MEDIA' | hasPermission)" id="remove-media-mapping-button" class="fa fa-times remove" ng-click="removeMapping($index)"></i>
       </td>
     </tr>
   </tbody>

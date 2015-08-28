@@ -8,13 +8,16 @@ var PASSWORD = 'gKVnfF9wrs6XPSYs';
 var TENANTS = [
   {
     tenantId: 1,
-    name: 'test1'
+    name: 'test1',
+    tenantPermissions: []
   },
   {
     tenantId: 2,
-    name: 'test2'
+    name: 'test2',
+    tenantPermissions: []
   }
 ];
+var platformPermissions = [];
 
 var LOGIN_RESPONSE;
 
@@ -36,8 +39,10 @@ describe('AuthService', function () {
       
       LOGIN_RESPONSE = {
         result : {
-          user: mockUsers[0],
-          tenants: TENANTS
+          userId: mockUsers[0].id,
+          username: mockUsers[0].email,
+          tenants: TENANTS,
+          platformPermissions: platformPermissions
         }
       };
     }
@@ -49,16 +54,12 @@ describe('AuthService', function () {
   });
 
   it('should have a method to logout which destroys the session', function () {
-    spyOn(Session, 'destroy');
-
     AuthService.logout();
-
-    expect(Session.destroy).toHaveBeenCalled();
     expect(Session.token).toBeNull();
   });
 
   describe('ON login', function() {
-    it('should set the session when successful', inject(['mockUsers', function (mockUsers) {
+    it('should set the session when successful', function () {
       $httpBackend.expectPOST(apiHostname + '/v1/login').respond(LOGIN_RESPONSE);
 
       spyOn(Session, 'set');
@@ -67,8 +68,8 @@ describe('AuthService', function () {
       $httpBackend.flush();
 
       expect(Session.set).toHaveBeenCalledWith(
-        mockUsers[0], TENANTS, AuthService.generateToken(USERNAME, PASSWORD));
-    }]));
+        jasmine.any(Object), TENANTS, AuthService.generateToken(USERNAME, PASSWORD), platformPermissions);
+    });
 
 
     it('should validate on failure', function () {
@@ -76,12 +77,8 @@ describe('AuthService', function () {
 
       spyOn(Session, 'set');
 
-      var promise = AuthService.login(USERNAME, PASSWORD);
+      AuthService.login(USERNAME, PASSWORD);
       $httpBackend.flush();
-
-      expect(promise.$$state.status).toEqual(2); //rejected
-      expect(promise.$$state.value.status).toEqual(500);
-      expect(promise.$$state.value.data).toEqual('');
 
       expect(Session.set).not.toHaveBeenCalled();
       expect(Session.token).toBeNull();

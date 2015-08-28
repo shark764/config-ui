@@ -3,7 +3,7 @@
 
   function buildTemplate (inputs) {
     // Start the template
-    var tpl = '<div id="details-pane"><form class="details-form"><div class="detail-body-pane" style="height: 100%;">';
+    var tpl = '<div id="details-pane" class="designer-details-pane"><form class="details-form"><div class="detail-body-pane" style="height: 100%;">';
 
     // Util object to build the various parts of the form
     // depending on what is needed
@@ -72,35 +72,53 @@
         formSection += ' ng-hide="' + input.hidden + '"';
         formSection += '><label>' + input.label + '</label><div>';
         formSection += '<type-ahead hover="true" placeholder="Search..."';
-        if (notation.model.attributes.params[input.name]) {
+        if (notation.model.attributes.params && notation.model.attributes.params[input.name]) {
           formSection += ' prefill="\'' + _.findWhere(inputs[index].options, { value: notation.model.attributes.params[input.name] }).content + '\'"';
         }
         formSection += ' placeholder="' + input.placeholder + '"';
-        formSection += ' items="inputs[' + index + '].options" on-select="setEntityProp(' + index + ')" selected-item="selectedItem" name-field="content" is-required="false">';
+        formSection += ' items="inputs[' + index + '].options" on-select="setEntityProp(selectedItem, ' + index + ')" name-field="content" is-required="false">';
         formSection += '</div></div>';
         return formSection;
       },
 
-      boolean: function (input) {
+      boolean: function (input, index) {
         var formSection = '<div class="input-group"';
         formSection += ' ng-hide="' + input.hidden + '"';
         formSection += '><label>' + input.label + '</label>';
-        // console.log('Path', 'notation.model.attributes.' + input.path);
-        // formSection += '<toggle ng-model="notation.model.attributes.' + input.path + '" ';
-        // if (_.has(input, 'trueValue')) {
-        //   console.log('True value present');
-        //   formSection += 'true-value="' + input.trueValue + '" ';
-        // }
-        // if (_.has(input, 'falseValue')) {
-        //   console.log('False value present');
-        //   formSection += 'false-value="' + input.falseValue + '" ';
-        // }
-        // formSection += '"class="status-toggle"></toggle>';
-        formSection += '<input type=checkbox ng-model="notation.model.attributes.' + input.path + '">';
+        formSection += '<toggle ng-model="notation.model.attributes.' + input.path + '"';
+        if (_.has(input, 'trueValue')) {
+          formSection += ' true-value="' + input.trueValue + '"';
+        }
+        if (_.has(input, 'falseValue')) {
+          formSection += ' false-value="' + input.falseValue + '"';
+        }
+        formSection += ' "class="status-toggle"></toggle>';
         formSection += '</div>';
+        return formSection;
+      },
+
+      timestamp: function(input, index) {
+        var formSection = '<div class="input-group"';
+        formSection += ' ng-hide="' + input.hidden + '"';
+        formSection += '><label>' + input.label + '</label>';
+        formSection += '<div class="timestamp">'
+        formSection += '<input type="text" ng-model="notation.model.attributes.' + input.path + '.value"';
+        formSection += ' ng-change="onInputChange(notation.model, notation.model.attributes.' + input.path + ', inputs[' + index + '])"';
+        formSection += '></input>'
+        formSection += '<select ng-model="notation.model.attributes.' + input.path + '.measurement"';
+        formSection += ' ng-change="onInputChange(notation.model, notation.model.attributes.' + input.path + ', inputs[' + index + '])"';
+        formSection += '>'
+        formSection += '<option value="seconds">Seconds</option>';
+        formSection += '<option value="minutes">Minutes</option>';
+        formSection += '<option value="hours">Hours</option>';
+        formSection += "</select>"
+        formSection += '</div></div>';
         return formSection;
       }
     };
+
+    // Add resize dragger
+    tpl += '<single-element-resize-handle id="resize-pane" element-id="inspector-container" min-width="350" max-width="520" class="resize-pane designer-resize-pane"></single-element-resize-handle>';
 
     // Build the group containers
     var groups = _.keys(_.groupBy(inputs, 'group')).sort();
@@ -138,10 +156,8 @@
       link: function (scope, element) {
         scope.loading = true;
 
-        scope.selectedItem = null;
-
-        scope.setEntityProp = function(index) {
-          scope.notation.model.attributes.params[scope.inputs[index].name] = scope.selectedItem.value;
+        scope.setEntityProp = function(selectedItem, index) {
+          scope.notation.model.attributes.params[scope.inputs[index].name] = selectedItem.value;
         };
 
         // Populate typeahead search collections with relevant API sources
@@ -151,7 +167,7 @@
               input.options = _.map(FlowNotationService.media, function(entity) {
                 return {
                   value: entity.id,
-                  content: entity.source || entity.name
+                  content: entity.name
                 };
               });
               if (scope.notation.model.attributes.params.media) {
@@ -165,7 +181,7 @@
               input.options = _.map(FlowNotationService.queue, function(entity) {
                 return {
                   value: entity.id,
-                  content: entity.source || entity.name
+                  content: entity.name
                 };
               });
               if (scope.notation.model.attributes.params.queue) {

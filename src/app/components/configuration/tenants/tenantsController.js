@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('TenantsController', ['$scope', '$stateParams', '$filter', 'Session', 'Tenant', 'TenantUser', 'tenantTableConfig', 'BulkAction',
-    function($scope, $stateParams, $filter, Session, Tenant, TenantUser, tenantTableConfig, BulkAction) {
+  .controller('TenantsController', ['$scope', '$stateParams', '$filter', 'Session', 'Tenant', 'TenantUser', 'tenantTableConfig', 'BulkAction', 'UserPermissions', '$q',
+    function($scope, $stateParams, $filter, Session, Tenant, TenantUser, tenantTableConfig, BulkAction, UserPermissions, $q) {
 
       $scope.create = function() {
         $scope.selectedTenant = new Tenant({
@@ -12,9 +12,13 @@ angular.module('liveopsConfigPanel')
       };
 
       $scope.fetchTenants = function() {
-        return Tenant.cachedQuery({
-          regionId: Session.activeRegionId
-        });
+        if (UserPermissions.hasPermissionInList(['PLATFORM_VIEW_ALL_TENANTS', 'PLATFORM_MANAGE_ALL_TENANTS', 'PLATFORM_CREATE_ALL_TENANTS', 'PLATFORM_CREATE_TENANT_ROLES', 'PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT'])){
+          return Tenant.cachedQuery({
+            regionId: Session.activeRegionId
+          });
+        } else if (UserPermissions.hasPermission('MANAGE_TENANT')){
+          return Tenant.prototype.getAsArray(Session.tenant.tenantId);
+        }
       };
 
       $scope.fetchUsers = function() {

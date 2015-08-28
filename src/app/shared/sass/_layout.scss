@@ -220,9 +220,17 @@ header {
     position: relative;
   }
 
+  > .timestamp input[type=text] {
+    width: 60px;
+  }
+
   button, input[type=button] {
     width: 175px;
   }
+}
+
+div[disable-contents] + .input-group, .input-group + div[disable-contents] {
+  padding-top: 10px;
 }
 
 .divider-header {

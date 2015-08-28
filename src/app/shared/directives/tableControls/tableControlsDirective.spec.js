@@ -119,7 +119,16 @@ describe('tableControls directive', function () {
     $scope.config.fields.push({
       name: 'color',
       header: {
-        options: []
+        options: [{
+          'display': 'Disabled',
+          'value': 'disabled'
+        }, {
+          'display': 'Enabled',
+          'value': 'enabled'
+        }, {
+          'display': 'Pending',
+          'value': 'pending'
+        }]
       }
     });
     doCompile();

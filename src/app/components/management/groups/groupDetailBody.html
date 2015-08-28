@@ -2,48 +2,51 @@
   <h4>{{'details' | translate}}</h4>
 </div>
 
-<div class="input-group">
-  <label>{{'value.name' | translate}} *</label>
-  <form-error field="detailsForm.name"
-    error-type-required="{{'details.name.error' | translate}}">
-  </form-error>
-  <div>
-    <input required ng-model="resource.name" name="name" type="text"></input>
+<div disable-contents="! ('MANAGE_ALL_GROUPS' | hasPermission)">
+  <div class="input-group">
+    <label>{{'value.name' | translate}} *</label>
+    <form-error field="detailsForm.name"
+      error-type-required="{{'details.name.error' | translate}}">
+    </form-error>
+    <div>
+      <input required ng-model="resource.name" name="name" type="text"></input>
+    </div>
   </div>
-</div>
-
-<div class="input-group">
-  <label class="textarea-label">{{'value.description' | translate}}</label>
-  <div>
-    <textarea ng-model="resource.description" name="description"></textarea>
-  </div>
-</div>
-
-<div ng-if="!resource.isNew()" class="input-group">
-  <div class="divider-header">
-    <h4>Members
-      <b class="count" translate="value.numMembers"
-        translate-value-number="{{resource.fetchGroupUsers().length}}" >
-      </b>
-    </h4>
-  </div>
-
-  <p ng-if="originalResource.fetchGroupUsers().$resolved"
-    class="null" id="empty-members-message" ng-hide="resource.fetchGroupUsers().length">
-    {{'group.details.members.none' | translate}}
-  </p>
   
-  <loading ng-if="originalResource.fetchGroupUsers().$resolved != undefined"
-    ng-show="!originalResource.fetchGroupUsers().$resolved"></loading>
-
-  <table scroll-table max-height="300" class="table" ng-show="originalResource.fetchGroupUsers().length > 0">
-    <thead>
-      <tr><th>{{'value.name' | translate}}</th></tr>
-    </thead>
-    <tbody>
-      <tr ng-repeat="user in resource.fetchGroupUsers()">
-        <td><a ng-click="gotoUserPage(user.memberId)"><audit-text translation="value.displayName" user-id="user.memberId"></audit-text></a></td>
-      </tr>
-    </tbody>
-  </table>
+  <div class="input-group">
+    <label class="textarea-label">{{'value.description' | translate}}</label>
+    <div>
+      <textarea ng-model="resource.description" name="description"></textarea>
+    </div>
+  </div>
+  
+  <div ng-if="!resource.isNew()" class="input-group">
+    <div class="divider-header">
+      <h4>Members
+        <b class="count" translate="value.numMembers"
+          translate-value-number="{{resource.fetchGroupUsers().length}}" >
+        </b>
+      </h4>
+    </div>
+  
+    <p ng-if="originalResource.fetchGroupUsers().$resolved"
+      class="null" id="empty-members-message" ng-hide="resource.fetchGroupUsers().length">
+      {{'group.details.members.none' | translate}}
+    </p>
+    
+    <loading ng-if="originalResource.fetchGroupUsers().$resolved != undefined"
+      ng-show="!originalResource.fetchGroupUsers().$resolved"></loading>
+  
+    <table ng-if="['PLATFORM_VIEW_ALL_USERS', 'PLATFORM_CREATE_USERS', 'PLATFORM_MANAGE_ALL_USERS', 'PLATFORM_MANAGE_ALL_TENANTS', 'PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT'] | hasPermission" 
+      scroll-table max-height="300" class="table" ng-show="originalResource.fetchGroupUsers().length > 0">
+      <thead>
+        <tr><th>{{'value.name' | translate}}</th></tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="user in resource.fetchGroupUsers()">
+          <td><a ng-click="gotoUserPage(user.memberId)"><audit-text translation="value.displayName" user-id="user.memberId"></audit-text></a></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>

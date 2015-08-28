@@ -25,12 +25,11 @@ describe('TenantsController', function () {
       $controller('TenantsController', {
         '$scope': $scope
       });
-      $httpBackend.flush();
     }
   ]));
 
   describe('fetchTenants function', function(){
-    it('should fetch the list of tenants', inject(['queryCache', function (queryCache) {
+    it('should fetch the list of tenants', inject(['queryCache', 'UserPermissions', function (queryCache, UserPermissions) {
       queryCache.removeAll();
       
       $httpBackend.expectGET(apiHostname + '/v1/tenants?regionId=regionId2').respond({
@@ -38,7 +37,8 @@ describe('TenantsController', function () {
         });
 
       Session.activeRegionId = 'regionId2';
-
+      spyOn(UserPermissions, 'hasPermissionInList').and.returnValue(true);
+      
       $scope.tenants = null;
       $scope.fetchTenants();
       $httpBackend.flush();

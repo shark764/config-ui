@@ -34,19 +34,56 @@ angular.module('liveopsConfigPanel.config', [])
     }];
   };
 })
+.factory('ynStatuses', function () {
+  return function(){
+    return [{
+      'display': 'No',
+      'value': false
+    }, {
+      'display': 'Yes',
+      'value': true
+    }];
+  };
+})
+.factory('tenantStatuses', function() {
+  return function(){
+    return [{
+      'display': 'Disabled',
+      'value': 'disabled'
+    }, {
+      'display': 'Expired Invitation',
+      'value': 'expired'
+    }, {
+      'display': 'Pending Invitation',
+      'value': 'pending'
+    }, {
+      'display': 'Accepted',
+      'value': 'accepted'
+    }, {
+      'display': 'Pending Acceptance',
+      'value': 'invited'
+    }, {
+      'display': 'Removed',
+      'value': 'removed'
+    }];
+  };
+})
 
 .constant('userStates', [{
   'display': 'Busy',
-  'value': 'BUSY'
+  'value': 'busy'
 }, {
   'display': 'Ready',
-  'value': 'READY'
+  'value': 'ready'
 }, {
   'display': 'Not Ready',
-  'value': 'NOT_READY'
+  'value': 'not-ready'
 }, {
-  'display': 'Wrap',
-  'value': 'WRAP'
+  'display': 'Allocated',
+  'value': 'allocated'
+}, {
+  'display': 'Offline',
+  'value': 'offline'
 }])
 
 .constant('userRoles', [{
