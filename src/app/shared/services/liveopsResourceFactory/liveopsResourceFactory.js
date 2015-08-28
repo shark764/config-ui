@@ -43,6 +43,11 @@ angular.module('liveopsConfigPanel')
             if(key === ''){
               return value;
             }
+            
+            //If the key is an array index, return the value
+            if (String(Number(key)) === key){
+              return value;
+            }
 
             var i = _.findIndex(params.updateFields, {'name' : key});
 
@@ -83,7 +88,8 @@ angular.module('liveopsConfigPanel')
               method: 'PUT',
               interceptor: params.updateInterceptor,
               transformRequest: function (data) {
-                return JSON.stringify(data, updateJsonReplacer);
+                var result = JSON.stringify(data, updateJsonReplacer);
+                return result;
               },
 
               transformResponse: appendTransform($http.defaults.transformResponse, function (value) {

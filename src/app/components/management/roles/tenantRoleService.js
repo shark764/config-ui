@@ -12,8 +12,7 @@ angular.module('liveopsConfigPanel')
           name: 'description',
           optional: true
         }, {
-          name: 'permissions',
-          optional: true
+          name: 'permissions'
         }]
       });
 

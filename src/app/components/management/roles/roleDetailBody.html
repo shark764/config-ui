@@ -1,0 +1,24 @@
+<div class="divider-header first-header">
+  <h4>{{'details' | translate}}</h4>
+</div>
+
+<div disable-contents="selectedTenantRole.type == 'system'">
+  <div class="input-group">
+    <label>{{'value.name' | translate}}</label>
+    <form-error field="detailsForm.name"
+      error-type-required="{{'role.details.name.error' | translate}}">
+    </form-error>
+    <div>
+      <input required ng-model="selectedTenantRole.name" name="name" type="text"></input>
+    </div>
+  </div>
+  
+  <div class="input-group">
+    <label class="textarea-label">{{'value.description' | translate}}</label>
+    <div>
+      <textarea ng-model="selectedTenantRole.description" name="description"></textarea>
+    </div>
+  </div>
+</div>
+
+<role-permissions role="selectedTenantRole"></role-permissions>

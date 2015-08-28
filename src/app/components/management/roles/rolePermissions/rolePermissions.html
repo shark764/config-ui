@@ -1,0 +1,34 @@
+<div class="divider-header">
+  <h4>
+    {{'role.permissions.title' | translate}}
+    <b class="count" translate="value.numMembers"
+      translate-value-number="{{role.permissions.length}}" >
+    </b>
+ </h4>
+</div>
+
+<ng-form ng-show="role.type != 'system'" id="addPermission" name="addPermission">
+  <type-ahead hover="true" placeholder="{{'role.details.permission.placeholder' | translate}}" items="filtered" selected-item="selectedPermission"></type-ahead>
+  <div>
+    <a id="add-permission-btn" ng-disabled="!selectedPermission" class="btn" ng-click="save()" title="{{'value.save' | translate}}"><i class="fa fa-plus"></i></a>
+  </div>
+</ng-form>
+
+<p class="null" ng-show="role.permissions.length == 0">This role has no permissions assigned to it.</p>
+
+<table class="table" ng-show="rolePermissions.length > 0">
+  <thead>
+    <tr>
+      <th>{{'value.name' | translate}}</th>
+      <th>{{'value.description' | translate}}</th>
+      <th ng-if="role.type != 'system'" style="width: 30px;"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="permission in rolePermissions">
+      <td>{{permission.name}}</td>
+      <td>{{permission.description}}</td>
+      <td ng-if="role.type != 'system'"><a class="remove" title="Remove permission from role" ng-click="remove(permission)"><i class="fa fa-times"></i></a></td>
+    </tr>
+  </tbody>
+</table>

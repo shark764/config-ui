@@ -51,6 +51,12 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
           }]
         }
       })
+      .state('content.management.roles', {
+        url: '/roles?id',
+        templateUrl: 'app/components/management/roles/roles.html',
+        controller: 'RolesController',
+        reloadOnSearch: false
+      })
       .state('content.management.skills', {
         url: '/skills?id',
         templateUrl: 'app/components/management/skills/skills.html',
