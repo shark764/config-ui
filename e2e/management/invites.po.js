@@ -6,25 +6,16 @@ var InvitePage = function() {
   this.submitInviteBtn = element(by.css('.btn'));
   this.error = element(by.css('.error'));
 
-  // Mailinator
-  this.mailinatorInbox = 'https://mailinator.com/inbox.jsp?to=titantest';
-  this.emails = element.all(by.repeater('email in emails'));
-  this.firstEmailRow = element(by.css('li.row-fluid:nth-child(1)'));
-  this.emailContents = element(by.css('.mailview'));
-  this.acceptLink = this.emailContents.element(by.css('a'));
-
-  this.checkMailinator = function() {
-    $http = angular.injector(["ng"]).get("$http")
-    return $http({
-      url: 'https://api.mailinator.com/api/inbox',
-      data: {
-        to: 'titantest',
-        token: '358b00e30aa94f62be812de7e4a66ee2'
-      },
-      type: 'POST',
-      dataType: 'json'
-    });
-  };
+  // Accept Page details
+  this.acceptForm = element(by.id('invite-accept'));
+  this.logo = this.acceptForm.element(by.css('img'));
+  this.alertMessage = this.acceptForm.element(by.css('lo-alert'));
+  this.userEmail = this.acceptForm.element(by.id('user-details-email'));
+  this.passwordFormField = this.acceptForm.element(by.model('user.password'));
+  this.firstNameFormField = this.acceptForm.element(by.model('user.firstName'));
+  this.lastNameFormField = this.acceptForm.element(by.model('user.lastName'));
+  this.externalIdFormField = this.acceptForm.element(by.model('user.externalId'));
+  this.submitFormBtn = this.acceptForm.element(by.id('submit-invite-accept'));
 };
 
 module.exports = new InvitePage();
