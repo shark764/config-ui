@@ -7,13 +7,13 @@ angular.module('liveopsConfigPanel')
         endpoint: '/v1/users/:id',
         resourceName: 'User',
         updateFields: [{
-          name: 'firstName'
+          name: 'firstName',
+          optional: true
         }, {
-          name: 'lastName'
+          name: 'lastName',
+          optional: true
         }, {
           name: 'roleId'
-        }, {
-          name: 'displayName'
         }, {
           name: 'status'
         }, {
