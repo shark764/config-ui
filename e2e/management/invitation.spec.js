@@ -17,7 +17,6 @@ describe('The user invitation', function() {
   var req,
     jar;
 
-
   beforeAll(function() {
     loginPage.login(params.login.user, params.login.password);
   });
@@ -76,38 +75,39 @@ describe('The user invitation', function() {
       newUserEmail = 'titantest' + randomUser + '@mailinator.com';
 
       // Add new user
-      shared.createBtn.click();
+      shared.createBtn.click().then(function() {
+        users.emailFormField.sendKeys('titantest' + randomUser + '@mailinator.com\t');
+        users.tenantRoleFormDropdownOptions.get((randomUser % 3) + 1).click();
+        users.platformRoleFormDropdownOptions.get(1).click();
 
-      users.emailFormField.sendKeys('titantest' + randomUser + '@mailinator.com\t');
-      users.roleFormDropdownOptions.get((randomUser % 3) + 1).click();
+        users.submitFormBtn.click().then(function() {
+          expect(shared.successMessage.isDisplayed()).toBeTruthy();
 
-      users.submitFormBtn.click().then(function() {
-        expect(shared.successMessage.isDisplayed()).toBeTruthy();
+          // Verify user invitation email was sent
+          req.get('https://api.mailinator.com/api/inbox?to=' + params.mailinator.inbox + '&token=' + params.mailinator.token, '', function(error, response, body) {
+            var newestMessage = JSON.parse(body).messages[JSON.parse(body).messages.length - 1];
 
-        // Verify user invitation email was sent
-        req.get('https://api.mailinator.com/api/inbox?to=' + params.mailinator.inbox + '&token=' + params.mailinator.token, '', function(error, response, body) {
-          var newestMessage = JSON.parse(body).messages[JSON.parse(body).messages.length - 1];
+            // Verify the newest message details
+            expect(newestMessage.seconds_ago).toBeGreaterThan(60);
+            expect(newestMessage.subject).toBe(params.mailinator.subject);
+            expect(newestMessage.been_read).toBeFalsy();
+            expect(newestMessage.from).toBe(params.mailinator.from);
+            console.log(newestMessage.id);
 
-          // Verify the newest message details
-          expect(newestMessage.seconds_ago).toBeGreaterThan(60);
-          expect(newestMessage.subject).toBe(params.mailinator.subject);
-          expect(newestMessage.been_read).toBeFalsy();
-          expect(newestMessage.from).toBe(params.mailinator.from);
-          var newestMessageID = newestMessage.id;
+            // Get the newest message content
+            req.get('https://api.mailinator.com/api/email?msgid=' + newestMessage.id + '&token=' + params.mailinator.token, '', function(error, response, body) {
+              var newestMessageContents = JSON.parse(body).data.parts[0].body;
 
-          // Get the newest message content
-          req.get('https://api.mailinator.com/api/email?msgid=' + newestMessageID + '&token=' + params.mailinator.token, '', function(error, response, body) {
-            var newestMessageContents = JSON.parse(body).data.parts[0].body;
+              // Verify the email contains the expected content
+              expect(newestMessageContents).toContain('User Name: ' + newUserEmail);
+              expect(newestMessageContents).toContain('Password: Set the first time you login');
+              expect(newestMessageContents).toContain('Log in automatically by clicking');
 
-            // Verify the email contains the expected content
-            expect(newestMessageContents).toContain('User Name: ' + newUserEmail);
-            expect(newestMessageContents).toContain('Password: Set the first time you login');
-            expect(newestMessageContents).toContain('Log in automatically by clicking');
-
-            // Verify link is correct
-            var acceptInvitationLink = newestMessageContents.split('Log in automatically by clicking ')[1].split('\n')[0];
-            browser.get(acceptInvitationLink);
-            expect(invites.acceptForm.isDisplayed()).toBeTruthy();
+              // Verify link is correct
+              var acceptInvitationLink = newestMessageContents.split('Log in automatically by clicking ')[1].split('\n')[0];
+              browser.get(acceptInvitationLink);
+              expect(invites.acceptForm.isDisplayed()).toBeTruthy();
+            });
           });
         });
       });
