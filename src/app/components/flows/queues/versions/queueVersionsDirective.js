@@ -5,6 +5,7 @@ angular.module('liveopsConfigPanel')
     function ($scope, Session, QueueVersion) {
       $scope.saving = false;
       $scope.versions = [];
+      $scope.queryType = 'basic';
 
       $scope.fetch = function () {
 

@@ -9,13 +9,23 @@
     </div>
   </div>
 
+  <div>
+    <label><input type="radio" ng-model="queryType" value="basic">Basic</label>
+    <label><input type="radio" ng-model="queryType" value="advanced">Advanced</label>
+  </div>
+
   <div class="divider-header">
     <h4>{{'queue.details.activequery' | translate}}</h4>
   </div>
 
   <div class="input-group">
     <form-error field="$parent.detailsForm.query"></form-error>
-    <div>
+
+    <div ng-if="queryType=='basic'">
+      <a href="#"><label>+ Edit query</label></a>
+    </div> 
+
+    <div ng-if="queryType!='basic'">
       <textarea name="query" ng-disabled="true" ng-model="currVersion.query">
       </textarea>
     </div>
@@ -117,10 +127,16 @@
     </tr>
     <tr ng-repeat-end class="view-version" id="view-version-{{version.name}}">
       <td colspan="4" ng-show="version.viewing">
+        <div>
+          <label><input type="radio" ng-model="queryType" value="basic">Basic</label>
+          <label><input type="radio" ng-model="queryType" value="advanced">Advanced</label>
+        </div>
+
         <div disable-contents="! ('MANAGE_ALL_QUEUES' | hasPermission)">
           <div class="input-group">
             <label class="textarea-label disabled">{{'value.details.query' | translate}}</label>
-            <textarea ng-disabled="true" type="text" ng-model="version.query" name="query"></textarea>
+            <a href="#" ng-if="queryType=='basic'"><label>+ Edit query</label></a>
+            <textarea ng-if="queryType!='basic'" ng-disabled="true" type="text" ng-model="version.query" name="query"></textarea>
           </div>
   
           <div class="input-group">
