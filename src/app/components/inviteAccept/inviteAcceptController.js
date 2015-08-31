@@ -22,7 +22,7 @@ angular.module('liveopsConfigPanel')
         }, function(){
           $state.transitionTo('login', {messageKey: 'invite.accept.success'});
         }, function(){
-          $scope.error = 'Sorry, there was an error accepting your invitation';
+          $state.transitionTo('login', {messageKey: 'invite.accept.fail'});
         });
       } else if (invitedUser.status === 'pending'){
         $scope.showSignupForm = true;
