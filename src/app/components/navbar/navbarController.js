@@ -3,7 +3,6 @@
 angular.module('liveopsConfigPanel')
   .controller('NavbarController', ['$rootScope', '$scope', '$state', 'AuthService', 'Session', 'DirtyForms', '$translate', 'UserPermissions',
     function($rootScope, $scope, $state, AuthService, Session, DirtyForms, $translate, UserPermissions) {
-      var self = this;
       $scope.hovering = false;
 
       $scope.Session = Session;
