@@ -3,6 +3,7 @@
 angular.module('liveopsConfigPanel')
   .controller('NavbarController', ['$rootScope', '$scope', '$state', 'AuthService', 'Session', 'DirtyForms', '$translate', 'UserPermissions',
     function($rootScope, $scope, $state, AuthService, Session, DirtyForms, $translate, UserPermissions) {
+      var self = this;
       $scope.hovering = false;
 
       $scope.Session = Session;
@@ -23,6 +24,7 @@ angular.module('liveopsConfigPanel')
             onClick: function(){
               DirtyForms.confirmIfDirty(function(){
                 Session.setTenant(tenant);
+                $state.go($state.current, {messageKey: ''}, {reload: true});
               });
             }
           });
@@ -30,7 +32,6 @@ angular.module('liveopsConfigPanel')
 
         $scope.tenantDropdownItems = tenantDropdownItems;
       };
-
 
       $scope.hoverTracker = [];
 
@@ -62,7 +63,7 @@ angular.module('liveopsConfigPanel')
       $scope.$on('resource:actions', $scope.onActionsClick);
 
       $scope.$watch('Session.tenants', $scope.populateTenantsHandler);
-      
+        
       var managementConfig = [];
       if (UserPermissions.hasPermissionInList(['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'VIEW_ALL_USERS', 'MANAGE_ALL_USER_EXTENSIONS', 'MANAGE_ALL_GROUP_USERS', 'MANAGE_ALL_USER_SKILLS', 'MANAGE_ALL_USER_LOCATIONS', 'MANAGE_TENANT_ENROLLMENT'])){
         managementConfig.push({
@@ -187,6 +188,6 @@ angular.module('liveopsConfigPanel')
           id: 'reports-management-link',
           order: 3
         }*/
-        ];
+      ];
     }
   ]);
