@@ -34,47 +34,47 @@ describe('setStatusBulkAction directive', function() {
 
   it('should should set user.status on bulkAction.execute', inject(['mockUsers', 'mockTenantUsers', '$httpBackend', 'apiHostname',
     function(mockUsers, mockTenantUsers, $httpBackend, apiHostname) {
-      mockUsers[1].status = 'disabled';
-      var returnUser = angular.copy(mockUsers[1]);
-      returnUser.status = 'enabled';
+      mockTenantUsers[1].status = 'disabled';
+      var returnUser = angular.copy(mockTenantUsers[1]);
+      returnUser.status = 'accepted';
 
-      $httpBackend.when('PUT', apiHostname + '/v1/users/userId2').respond(200, {
+      $httpBackend.when('PUT', apiHostname + '/v1/tenants/tenant-id/users/userId2').respond(200, {
         result: returnUser
       });
       
       mockTenantUsers[1].$user = mockUsers[1];
       
-      isolateScope.status = 'enabled';
+      isolateScope.status = 'accepted';
       isolateScope.bulkAction.apply(mockTenantUsers[1]);
 
-      expect(mockUsers[1].status).toEqual('disabled');
+      expect(mockTenantUsers[1].status).toEqual('disabled');
 
       $httpBackend.flush();
 
-      expect(mockUsers[1].status).toEqual('enabled');
+      expect(mockTenantUsers[1].status).toEqual('accepted');
     }
   ]));
   
   it('should should only have the attribute in the PUT payload',
-    inject(['mockUsers', '$httpBackend', 'apiHostname',
-      function (mockUsers, $httpBackend, apiHostname) {
-        $httpBackend.expect('PUT', apiHostname + '/v1/users/userId2', {
-          status: 'enabled'
+    inject(['mockTenantUsers', '$httpBackend', 'apiHostname',
+      function (mockTenantUsers, $httpBackend, apiHostname) {
+        $httpBackend.expect('PUT', apiHostname + '/v1/tenants/tenant-id/users/userId2', {
+          status: 'accepted'
         }).respond(200);
 
-        isolateScope.status = 'enabled';
-        isolateScope.bulkAction.apply(mockUsers[1]);
+        isolateScope.status = 'accepted';
+        isolateScope.bulkAction.apply(mockTenantUsers[1]);
 
         $httpBackend.flush();
       }
     ]));
   
   it('should reject the change if user attempts to disable themselves',
-      inject(['mockUsers', function (mockUsers) {
-          mockUsers[0].status = 'enabled';
+      inject(['mockTenantUsers', function (mockTenantUsers) {
+          mockTenantUsers[0].status = 'accepted';
           isolateScope.status = 'disabled';
           
-          var result = isolateScope.bulkAction.apply(mockUsers[0]);
+          var result = isolateScope.bulkAction.apply(mockTenantUsers[0]);
 
           result.then(function() {
             throw new Error('Promise should not be resolved');
@@ -82,7 +82,7 @@ describe('setStatusBulkAction directive', function() {
             expect(reason.msg).toEqual('Cannot disable your own account');
           });
           
-          expect(mockUsers[0].status).toEqual('enabled');
+          expect(mockTenantUsers[0].status).toEqual('accepted');
         }
       ]));
 });

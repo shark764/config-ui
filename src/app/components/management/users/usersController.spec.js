@@ -288,24 +288,6 @@ describe('users controller', function () {
         }
       };
     }]));
-
-    it('should attempt to save the user and not tenantUser', inject(['UserPermissions', function (UserPermissions) {
-      spyOn(UserPermissions, 'hasPermissionInList').and.returnValue(true);
-      spyOn(UserPermissions, 'hasPermission').and.returnValue(true);
-      var result = angular.copy(mockUsers[1]);
-      result.firstName = 'Fred';
-      
-      $httpBackend.expect('PUT', apiHostname + '/v1/users/userId2').respond({
-        result: result
-      });
-      
-      controller.updateUser();
-      
-      $scope.$apply();
-      $httpBackend.flush();
-      
-      expect($scope.selectedTenantUser.$user.firstName).toEqual('Fred');
-    }]));
     
     it('should not attempt to save the user if the user doesn\'t have permission', inject(['UserPermissions', function (UserPermissions) {
       spyOn(UserPermissions, 'hasPermissionInList').and.returnValue(false);
@@ -321,9 +303,11 @@ describe('users controller', function () {
       spyOn(UserPermissions, 'hasPermission').and.returnValue(true);
       $scope.selectedTenantUser = mockTenantUsers[0];
       $scope.selectedTenantUser.$user = mockUsers[0];
+      $scope.selectedTenantUser.$original = mockTenantUsers[0];
       Session.setUser = jasmine.createSpy('setUser');
       Session.setToken = jasmine.createSpy('setToken');
       
+      $httpBackend.expect('PUT', apiHostname + '/v1/tenants/tenant-id/users/userId1').respond(200);
       $httpBackend.expect('PUT', apiHostname + '/v1/users/userId1').respond(200);
       
       controller.updateUser();
@@ -335,7 +319,6 @@ describe('users controller', function () {
     it('should attempt to save the tenantUser', inject(['UserPermissions', function (UserPermissions) {
       spyOn(UserPermissions, 'hasPermissionInList').and.returnValue(true);
       spyOn(UserPermissions, 'hasPermission').and.returnValue(true);
-      $scope.forms.detailsForm.roleId.$dirty = true;
       
       $httpBackend.expect('PUT', apiHostname + '/v1/tenants/tenant-id/users/userId2').respond(200);
       $httpBackend.expect('PUT', apiHostname + '/v1/users/userId2').respond(200);
@@ -349,7 +332,6 @@ describe('users controller', function () {
     it('should not attempt to save the tenantUser if the user doesn\'t have permission', inject(['UserPermissions', function (UserPermissions) {
       spyOn(UserPermissions, 'hasPermissionInList').and.returnValue(false);
       spyOn(UserPermissions, 'hasPermission').and.returnValue(false);
-      $scope.forms.detailsForm.roleId.$dirty = true;
       
       controller.updateUser();
       
