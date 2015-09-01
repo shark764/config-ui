@@ -21,10 +21,10 @@ angular.module('liveopsConfigPanel')
             var newUser = new TenantUser();
             newUser.id = tenantUser.id;
             newUser.status = $scope.status;
-            newUser.tenantId = tenantUser.tenantId;
+            newUser.tenantId = Session.tenant.tenantId;
             return newUser.save().then(function(userCopy){
-              angular.copy(userCopy, tenantUser);
-              tenantUser.checked = true;
+              tenantUser.status = userCopy.status;
+              tenantUser.$original.status = userCopy.status;
               return tenantUser;
             });
           };
