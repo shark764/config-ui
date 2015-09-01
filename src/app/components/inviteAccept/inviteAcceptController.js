@@ -26,6 +26,8 @@ angular.module('liveopsConfigPanel')
         });
       } else if (invitedUser.status === 'pending'){
         $scope.showSignupForm = true;
+      } else {
+        $scope.error = 'Sorry, your account is disabled. Please contact your account administrator.';
       }
       
       $scope.save = function(){

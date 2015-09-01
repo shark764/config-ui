@@ -324,6 +324,7 @@
   "invite.accept.alreadyAccepted": "This invitation has already been accepted! Please log in to view the tenant.",
   "invite.accept.autologin.success": "Your invitation has been accepted!",
   "invite.accept.autologin.fail": "Sorry, there was an error while logging you in. Please enter your email and new password to log in.",
+  "invite.accept.expired": "Sorry, this invitation has expired. Please contact your account administrator.",
   
   "flow.draft.delete.alt": "Delete this draft",
   "flow.draft.none": "There are no drafts saved for this flow. Drafts are created automatically from the Flow Designer.",
