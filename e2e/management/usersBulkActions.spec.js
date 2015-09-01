@@ -27,8 +27,6 @@ describe('The users view bulk actions', function() {
   xit('should allow updates to supported bulk action fields', function() {
     // Enable Users
 
-    // Reset Password
-
     // Change Skills
 
     // Change Groups
@@ -83,7 +81,6 @@ describe('The users view bulk actions', function() {
   });
 
   xit('should allow selected user\'s status to be updated', function() {});
-  xit('should allow selected user\'s password to be reset', function() {});
   xit('should allow selected user\'s skills to be updated', function() {});
   xit('should allow multiple skills to be updates for the selected users', function() {});
   xit('should update proficiency when adding a skill for existing users with the skill', function() {});
