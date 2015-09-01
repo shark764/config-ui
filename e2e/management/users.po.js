@@ -3,6 +3,14 @@
 var UserPage = function() {
   this.loadingMessage = element(by.id('.table-message > div:nth-child(1)'));
 
+  this.userPanel = element(by.id('user-pane'));
+  this.detailsForm = this.userPanel.element(by.css('ng-form'));
+  this.rightPanel = element(by.id('right-panel'));
+  this.bulkActionsPanel = element(by.css('bulk-action-executor.details-pane'));
+  this.submitFormBtn = this.userPanel.element(by.id('submit-details-btn'));
+  this.cancelFormBtn = this.userPanel.element(by.id('cancel-details-btn'));
+  this.closeFormBtn = this.userPanel.element(by.id('close-details-button'));
+
   this.emailFormField = element(by.model('selectedTenantUser.email'));
   this.tenantRoleFormDropdown = element(by.model('selectedTenantUser.roleId'));
   this.tenantRoleFormDropdownOptions = this.tenantRoleFormDropdown.all(by.css('option'));
@@ -13,7 +21,7 @@ var UserPage = function() {
 
   this.inviteNowFormToggle = element(by.model('selectedTenantUser.status'));
   this.inviteNowHelp = element(by.id('invite-now-help'));
-  this.tenantStatus = element(by.css('tenant-user-status'));
+  this.tenantStatus = this.userPanel.element(by.css('tenant-user-status'));
   this.tenantStatusHelp = element(by.id('tenant-status-help'));
   this.resendInvitationBtn = element(by.id('resend-invitation-btn'));
 
@@ -33,14 +41,6 @@ var UserPage = function() {
   this.userNameDetailsHeader = element(by.css('h1.ng-binding'));
   this.userStateDetailsHeader = element(by.css('h1.ng-binding > user-state:nth-child(1) > div:nth-child(1)'));
   this.createNewUserHeader = element(by.css('h1.ng-scope'));
-
-  this.userPanel = element(by.id('user-pane'));
-  this.detailsForm = this.userPanel.element(by.css('ng-form'));
-  this.rightPanel = element(by.id('right-panel'));
-  this.bulkActionsPanel = element(by.css('bulk-action-executor.details-pane'));
-  this.submitFormBtn = this.userPanel.element(by.id('submit-details-btn'));
-  this.cancelFormBtn = this.userPanel.element(by.id('cancel-details-btn'));
-  this.closeFormBtn = this.userPanel.element(by.id('close-details-button'));
 
   this.tablePane = element(by.id('table-pane'));
   this.tableHeader = this.tablePane.element(by.css('.clone-header'));

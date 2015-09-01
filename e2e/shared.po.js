@@ -2,8 +2,8 @@
 
 var Shared = function() {
   // Page URLS
-  this.rootURL = 'http://localhost:3002';
-  this.mainUrl = 'http://localhost:3002/#/';
+  this.rootURL = 'http://localhost:3000';
+  this.mainUrl = 'http://localhost:3000/#/';
   this.loginPageUrl = this.mainUrl + 'login';
   this.profilePageUrl = this.mainUrl + 'userprofile';
 
@@ -66,6 +66,7 @@ var Shared = function() {
   this.submitFormBtn = this.detailsPanel.element(by.id('submit-details-btn'));
   this.cancelFormBtn = this.detailsPanel.element(by.id('cancel-details-btn'));
   this.closeFormBtn = this.detailsPanel.element(by.id('close-details-button'));
+  this.message = element(by.css('.toast-message'));
   this.successMessage = element(by.css('.toast-success'));
   this.errorMessage = element(by.css('.toast-error'));
   this.closeMessageBtn = element(by.css('.toast-close-button'));
