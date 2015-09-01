@@ -241,7 +241,7 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
         }
       })
       .state('login', {
-        url: '/login?messageKey',
+        url: '/login?messageKey&tenantId',
         templateUrl: 'app/components/login/login.html',
         controller: 'LoginController',
         isPublic: true
@@ -270,20 +270,10 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
               id: $stateParams.userId
             }, angular.noop, function(){
               $state.go('login', {messageKey: 'invite.accept.expired'});
-            })
+            });
             
             return userResult.$promise;
-          }],
-          //,
-          //TODO: re-enable when TITAN2-3042 is fixed
-          //          invitedTenantUser: ['$stateParams', 'Session', 'TenantUser', function($stateParams, Session, TenantUser) {
-          //            Session.setToken('Token ' + $stateParams.token);
-          //
-          //            return TenantUser.get({
-          //              id: $stateParams.userId,
-          //              tenantId: $stateParams.tenantId
-          //            }).$promise;
-          //          }]
+          }]
         }
       })
       .state('content.realtime-dashboards', {

@@ -136,21 +136,20 @@ angular.module('liveopsConfigPanel')
         var promises = [];
         
         if (UserPermissions.hasPermissionInList(['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'MANAGE_TENANT_ENROLLMENT'])){
-          if($scope.forms.detailsForm.roleId &&
-            $scope.forms.detailsForm.roleId.$dirty) {
-            var tenantUser = new TenantUser({
-              id: $scope.selectedTenantUser.id,
-              roleId: $scope.selectedTenantUser.roleId
-            });
-            
-            promises.push(tenantUser.save({
-              tenantId: Session.tenant.tenantId
-            }).then(function(tenantUser) {
-              $scope.selectedTenantUser.$original.roleId = tenantUser.roleId;
-              $scope.selectedTenantUser.$original.roleName = TenantRole.getName(tenantUser.roleId);
-              $scope.selectedTenantUser.reset();
-            }));
-          }
+          var tenantUser = new TenantUser({
+            id: $scope.selectedTenantUser.id,
+            roleId: $scope.selectedTenantUser.roleId,
+            status: $scope.selectedTenantUser.status
+          });
+          
+          promises.push(tenantUser.save({
+            tenantId: Session.tenant.tenantId
+          }).then(function(tenantUser) {
+            $scope.selectedTenantUser.$original.roleId = tenantUser.roleId;
+            $scope.selectedTenantUser.$original.roleName = TenantRole.getName(tenantUser.roleId);
+            $scope.selectedTenantUser.$original.status = tenantUser.status;
+            $scope.selectedTenantUser.reset();
+          }));
         }
         
         if (UserPermissions.hasPermission('PLATFORM_MANAGE_ALL_USERS')){

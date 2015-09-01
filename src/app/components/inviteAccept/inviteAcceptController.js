@@ -1,35 +1,13 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('InviteAcceptController', ['$scope', 'User', '$state', '$stateParams', 'invitedUser', //'invitedTenantUser', 
-                                         'AuthService', 'TenantUser', 'Alert', 'Session', 'UserPermissions',
-    function ($scope, User, $state, $stateParams, invitedUser, //invitedTenantUser,
-        AuthService, TenantUser, Alert, Session, UserPermissions) {
+  .controller('InviteAcceptController', ['$scope', 'User', '$state', '$stateParams', 'invitedUser', 'AuthService', 'TenantUser', 'Alert', 'Session', 'UserPermissions',
+    function ($scope, User, $state, $stateParams, invitedUser, AuthService, TenantUser, Alert, Session, UserPermissions) {
       $scope.user = invitedUser;
       $scope.loading = false;
-      
-      //TODO: Reenable when TITAN2-3042 is addressed, and add messages for other states (removed, expired)
-//      if (invitedTenantUser.status !== 'invited'){
-//        Session.setToken(null);
-//        $state.transitionTo('login', {messageKey: 'invite.accept.alreadyAccepted'});
-//      }
-      
-      if (invitedUser.status === 'enabled'){
-        TenantUser.update({
-          tenantId: $stateParams.tenantId,
-          id: $stateParams.userId,
-          status: 'accepted'
-        }, function(){
-          $state.transitionTo('login', {messageKey: 'invite.accept.success'});
-        }, function(){
-          $state.transitionTo('login', {messageKey: 'invite.accept.fail'});
-        });
-      } else if (invitedUser.status === 'pending'){
-        $scope.showSignupForm = true;
-      } else {
-        $scope.error = 'Sorry, your account is disabled. Please contact your account administrator.';
-      }
-      
+
+      $scope.showSignupForm = true;
+
       $scope.save = function(){
         $scope.loading = true;
         

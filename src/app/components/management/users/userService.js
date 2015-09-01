@@ -15,8 +15,6 @@ angular.module('liveopsConfigPanel')
         }, {
           name: 'roleId'
         }, {
-          name: 'status'
-        }, {
           name: 'password'
         }, {
           name: 'externalId',
