@@ -31,15 +31,9 @@ angular.module('liveopsConfigPanel')
         $scope.save = function (extSuccessEventName, extFailureEventName) {
           $scope.loading = true;
 
-          //var eventName = 'resource:details:' + $scope.resourceName + ':' + ($scope.resource.isNew() ? 'create' : 'update');
-
-          //var successEventName =  eventName + ':success',
-          //    failureEventName = eventName + ':fail';
-
           return $scope.resource.save()
             .then($scope.handleSuccess, $scope.handleErrors)
             .then(function (result) {
-              //$rootScope.$broadcast(successEventName, $scope.resource);
 
               if(angular.isDefined(extSuccessEventName)) {
                 $rootScope.$broadcast(extSuccessEventName, $scope.resource);
@@ -50,8 +44,6 @@ angular.module('liveopsConfigPanel')
               if(angular.isDefined(extFailureEventName)) {
                 $rootScope.$broadcast(extFailureEventName, $scope.resource);
               }
-
-              //$rootScope.$broadcast(failureEventName, $scope.resource);
 
               return $q.reject(error);
             }).finally(function () {
