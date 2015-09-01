@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('TenantsController', ['$scope', '$stateParams', '$filter', 'Session', 'Tenant', 'TenantUser', 'tenantTableConfig', 'BulkAction', 'UserPermissions', '$q',
-    function($scope, $stateParams, $filter, Session, Tenant, TenantUser, tenantTableConfig, BulkAction, UserPermissions, $q) {
+  .controller('TenantsController', ['$scope', '$stateParams', '$filter', 'Session', 'Tenant', 'TenantUser', 'tenantTableConfig', 'BulkAction', 'UserPermissions', 'AuthService',
+    function($scope, $stateParams, $filter, Session, Tenant, TenantUser, tenantTableConfig, BulkAction, UserPermissions, AuthService) {
 
       $scope.create = function() {
         $scope.selectedTenant = new Tenant({
@@ -28,8 +28,20 @@ angular.module('liveopsConfigPanel')
       };
 
       $scope.$on('table:on:click:create', function() {
-        $scope.showBulkActions = false;
         $scope.create();
+      });
+      
+      $scope.$on('resource:details:tenants:create:success', function(event, newTenant) {
+        if (newTenant.adminUserId === Session.user.id){
+          AuthService.refreshTenants();
+        }
+      });
+      
+      $scope.$on('resource:details:tenants:update:success', function(event, updatedTenant) {
+        //TODO: What happens if user was an admin on the tenant, then changed it to someone else?
+        if (updatedTenant.adminUserId === Session.user.id){
+          AuthService.refreshTenants();
+        }
       });
 
       $scope.tableConfig = tenantTableConfig;
@@ -37,14 +49,6 @@ angular.module('liveopsConfigPanel')
       $scope.additional = {
         fetchUsers: $scope.fetchUsers
       };
-
-      $scope.$on('table:resource:selected', function() {
-        $scope.showBulkActions = false;
-      });
-
-      $scope.$on('table:on:click:actions', function() {
-        $scope.showBulkActions = true;
-      });
 
       $scope.bulkActions = {
         setTenantStatus: new BulkAction()

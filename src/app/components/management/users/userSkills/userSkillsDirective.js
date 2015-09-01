@@ -105,10 +105,17 @@ angular.module('liveopsConfigPanel')
             }
 
             $scope.newUserSkill.save(function (tenantUserSkill) {
-              $scope.user.skills.push({
-                id: tenantUserSkill.skillId,
-                name: usc.name
-              });
+              if (!existing){
+                $scope.user.skills.push({
+                  id: tenantUserSkill.skillId,
+                  name: usc.name
+                });
+              } else {
+                var existingUserSkill = _.find($scope.user.skills, {
+                  'id': tenantUserSkill.skillId
+                });
+                existingUserSkill.proficiency = tenantUserSkill.proficiency;
+              }
 
               $scope.reset();
               $scope.saving = false;
