@@ -138,7 +138,7 @@ describe('The integrations view', function() {
     var editAccountSID = integrations.accountSIDFormField.getAttribute('value');
     var editAuthToken = integrations.authTokenFormField.getAttribute('value');
     var editWebRTC = integrations.webRTCFormSwitchToggle.isSelected();
-    shared.submitFormBtn.click().then(function () {
+    shared.submitFormBtn.click().then(function() {
       expect(shared.successMessage.isDisplayed()).toBeTruthy();
       expect(shared.tableElements.count()).toBe(integrationCount);
 
@@ -148,6 +148,15 @@ describe('The integrations view', function() {
       expect(integrations.authTokenFormField.getAttribute('value')).toBe(editAuthToken);
       // TODO Bug TITAN2-3324
       //expect(integrations.webRTCFormSwitchToggle.isSelected()).toBe(editWebRTC);
+
+      // Reset values
+      integrations.accountSIDFormField.sendKeys('\u0008\u0008\u0008\u0008');
+      integrations.authTokenFormField.sendKeys('\u0008\u0008\u0008\u0008');
+      integrations.webRTCFormSwitch.click();
+
+      shared.submitFormBtn.click().then(function() {
+        expect(shared.successMessage.isDisplayed()).toBeTruthy();
+      });
     });
   });
 
