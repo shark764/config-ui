@@ -320,6 +320,7 @@
   "multibox.create.btn": "Create New",
 
   "invite.accept.success": "Your invitation has been accepted! Please log in to view the new tenant.",
+  "invite.accept.fail": "Sorry, there was an error accepting your invitation. This invitation may have already been used.",
   "invite.accept.alreadyAccepted": "This invitation has already been accepted! Please log in to view the tenant.",
   "invite.accept.autologin.success": "Your invitation has been accepted!",
   "invite.accept.autologin.fail": "Sorry, there was an error while logging you in. Please enter your email and new password to log in.",

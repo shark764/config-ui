@@ -8,21 +8,17 @@
     <form ng-submit="save()" name="detailsForm" id="detailsForm">
       <div id="user-profile-email"><label>Email:</label> {{user.email}}</div>
       <div>
-        <label>{{'details.firstName' | translate}} *</label>
+        <label>{{'details.firstName' | translate}}</label>
         <div>
-          <form-error field="detailsForm.firstName" 
-            error-type-required="{{'details.firstName.error' | translate}}">
-          </form-error>
-          <input ng-model="user.firstName" name="firstName" type="text" ng-required="true"></input>
+          <form-error field="detailsForm.firstName"></form-error>
+          <input ng-model="user.firstName" name="firstName" type="text"></input>
         </div>
       </div>
       <div>
-        <label>{{'details.lastName' | translate}} *</label>
+        <label>{{'details.lastName' | translate}}</label>
         <div>
-          <form-error field="detailsForm.lastName" 
-            error-type-required="{{'details.lastName.error' | translate}}">
-          </form-error>
-          <input ng-model="user.lastName" name="lastName" type="text" ng-required="true"></input>
+          <form-error field="detailsForm.lastName" error-type-required="{{'details.lastName.error' | translate}}"></form-error>
+          <input ng-model="user.lastName" name="lastName" type="text"></input>
         </div>
       </div>
       <div>

@@ -83,7 +83,9 @@ describe('invite accept controller', function () {
       expect($state.transitionTo).toHaveBeenCalledWith('login', {messageKey: 'invite.accept.success'});
     }]));
     
-    it('should show an error if accepting an invite for an existing user fails', inject(['$stateParams', function($stateParams){
+    it('should redirect to login and show an error if accepting an invite for an existing user fails', inject(['$state', '$stateParams', function($state, $stateParams){
+      spyOn($state, 'transitionTo');
+      
       var mockUser = mockUsers[1];
       mockUser.status = 'enabled';
       
@@ -103,7 +105,7 @@ describe('invite accept controller', function () {
       });
       
       $httpBackend.flush();
-      expect($scope.error).toBeDefined();
+      expect($state.transitionTo).toHaveBeenCalledWith('login', {messageKey: 'invite.accept.fail'});
     }]));
   });
   
