@@ -24,6 +24,8 @@ angular.module('liveopsConfigPanel')
             
             if (! $scope.role.isNew()){
               $scope.role.$update();
+            } else {
+              $scope.addPermission.permissionchanges.$setDirty();
             }
           };
           
@@ -56,6 +58,18 @@ angular.module('liveopsConfigPanel')
               });
             });
           });
+          
+          $scope.remove = function(permission){
+            $scope.filtered.push(permission);
+            $scope.role.permissions.removeItem(permission.id);
+            $scope.rolePermissions.removeItem(permission);
+            
+            if (! $scope.role.isNew()){
+              $scope.role.$update();
+            } else {
+              $scope.addPermission.permissionchanges.$setDirty();
+            }
+          };
         }
       };
     }

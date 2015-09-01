@@ -328,5 +328,14 @@
   
   "flow.draft.delete.alt": "Delete this draft",
   "flow.draft.none": "There are no drafts saved for this flow. Drafts are created automatically from the Flow Designer.",
-  "flow.draft.title": "Drafts"
+  "flow.draft.title": "Drafts",
+  
+  "role.details.creating": "Creating new role",
+  "role.table.title": "Role Management",
+  "role.table.permissions": "Permissions",
+  "role.permissions.title": "Permissions",
+  "role.details.permission.placeholder": "Add permission...",
+  "role.permissions.none": "This role has no permissions assigned to it.",
+  "role.permissions.remove.alt": "Remove permission from role"
+  
 }

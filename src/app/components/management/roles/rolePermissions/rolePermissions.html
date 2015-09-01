@@ -12,9 +12,10 @@
   <div>
     <a id="add-permission-btn" ng-disabled="!selectedPermission" class="btn" ng-click="save()" title="{{'value.save' | translate}}"><i class="fa fa-plus"></i></a>
   </div>
+  <input type="hidden" name="permissionchanges" ng-model="permissionchanges"/>
 </ng-form>
 
-<p class="null" ng-show="role.permissions.length == 0">This role has no permissions assigned to it.</p>
+<p class="null" ng-show="role.permissions.length == 0">{{'role.permissions.none' | translate}}</p>
 
 <table class="table" ng-show="rolePermissions.length > 0">
   <thead>
@@ -28,7 +29,7 @@
     <tr ng-repeat="permission in rolePermissions">
       <td>{{permission.name}}</td>
       <td>{{permission.description}}</td>
-      <td ng-if="role.type != 'system'"><a class="remove" title="Remove permission from role" ng-click="remove(permission)"><i class="fa fa-times"></i></a></td>
+      <td ng-if="role.type != 'system'"><a class="remove" title="{{'role.permissions.remove.alt' | translate}}" ng-click="remove(permission)"><i class="fa fa-times"></i></a></td>
     </tr>
   </tbody>
 </table>
