@@ -1295,37 +1295,6 @@
             "flow": "[{\"id\":\"tag/t21497\",\"children\":[],\"parents\":[\"tag/t21496\"],\"entity\":\"throw\",\"type\":\"signal\",\"terminate\":false,\"event\":{\"name\":\"remove-participant\",\"params\":{\"resource\":{\"source\":\"expression\",\"value\":\"{{resource}}\"}}}},{\"children\":[\"tag/t21497\"],\"bindings\":{},\"interrupting\":true,\"type\":\"signal\",\"id\":\"tag/t21496\",\"parents\":[\"tag/t21495\"],\"target\":\"resource-disconnect\",\"entity\":\"catch\"},{\"children\":[\"tag/t21496\"],\"bindings\":{},\"name\":\"add-participant\",\"params\":{\"resource\":{\"source\":\"expression\",\"value\":\"{{resource}}\"},\"muted\":{\"source\":\"expression\",\"value\":\"{{muted}}\"},\"disconnectOn\":{\"source\":\"expression\",\"value\":\"*\"}},\"type\":\"task\",\"id\":\"tag/t21495\",\"parents\":[],\"decorations\":[],\"target\":\"twilio\",\"entity\":\"activity\"}]"
         },
         {
-            "name": "handle-customer-hangups",
-            "entity": "template",
-            "label": "Customer Disconnect",
-            "start": "t21924",
-            "end": "t21927",
-            "inputs": [
-                {
-                    "name": "resource",
-                    "path": "params.resource",
-                    "type": "string",
-                    "label": "Resource:",
-                    "group": "params",
-                    "index": 0,
-                    "disabled": false,
-                    "required": true,
-                    "hidden": false,
-                    "placeholder": "Enter a resource...",
-                    "targeted": false
-                }
-            ],
-            "params": {
-                "resource": {
-                    "source": "entity",
-                    "type": "string",
-                    "key": "resource",
-                    "mandatory": true
-                }
-            },
-            "flow": "[{\"children\":[\"tag/t21926\"],\"bindings\":{},\"interrupting\":true,\"type\":\"signal\",\"id\":\"tag/t21924\",\"parents\":[],\"target\":\"customer-disconnect\",\"entity\":\"start\"},{\"id\":\"tag/t21926\",\"children\":[\"tag/t21925\",\"tag/t21927\"],\"parents\":[\"tag/t21924\"],\"entity\":\"gateway\",\"type\":\"exclusive\",\"conditionals\":[[\"tag/t21925\",\"false\"],[\"tag/t21927\",\"{{resource}}\"]],\"default\":\"tag/t21925\"},{\"id\":\"tag/t21925\",\"children\":[],\"parents\":[\"tag/t21926\"],\"entity\":\"throw\",\"type\":\"none\",\"terminate\":true},{\"id\":\"tag/t21927\",\"children\":[],\"parents\":[\"tag/t21926\"],\"entity\":\"throw\",\"type\":\"terminate\",\"terminate\":true}]"
-        },
-        {
             "name": "resource-flow",
             "entity": "template",
             "label": "Resource Flow",
