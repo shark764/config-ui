@@ -270,7 +270,7 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
               id: $stateParams.userId
             }, angular.noop, function(){
               $state.go('login', {messageKey: 'invite.accept.expired'});
-            })
+            });
             
             return userResult.$promise;
           }]

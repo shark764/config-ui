@@ -53,7 +53,7 @@ describe('TenantsController', function () {
         }
         
         return false;
-      })
+      });
       
       Session.tenant.tenantId = 'tenant-id';
       var result = $scope.fetchTenants();

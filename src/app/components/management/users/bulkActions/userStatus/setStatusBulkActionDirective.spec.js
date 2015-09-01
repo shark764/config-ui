@@ -43,6 +43,7 @@ describe('setStatusBulkAction directive', function() {
       });
       
       mockTenantUsers[1].$user = mockUsers[1];
+      mockTenantUsers[1].$original = mockTenantUsers[1];
       
       isolateScope.status = 'accepted';
       isolateScope.bulkAction.apply(mockTenantUsers[1]);
@@ -63,6 +64,7 @@ describe('setStatusBulkAction directive', function() {
         }).respond(200);
 
         isolateScope.status = 'accepted';
+        mockTenantUsers[1].$original = mockTenantUsers[1];
         isolateScope.bulkAction.apply(mockTenantUsers[1]);
 
         $httpBackend.flush();
