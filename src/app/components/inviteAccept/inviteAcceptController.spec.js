@@ -83,7 +83,9 @@ describe('invite accept controller', function () {
       expect($state.transitionTo).toHaveBeenCalledWith('login', {messageKey: 'invite.accept.success'});
     }]));
     
-    it('should show an error if accepting an invite for an existing user fails', inject(['$stateParams', function($stateParams){
+    it('should redirect to login and show an error if accepting an invite for an existing user fails', inject(['$state', '$stateParams', function($state, $stateParams){
+      spyOn($state, 'transitionTo');
+      
       var mockUser = mockUsers[1];
       mockUser.status = 'enabled';
       
@@ -103,7 +105,21 @@ describe('invite accept controller', function () {
       });
       
       $httpBackend.flush();
-      expect($scope.error).toBeDefined();
+      expect($state.transitionTo).toHaveBeenCalledWith('login', {messageKey: 'invite.accept.fail'});
+    }]));
+    
+    it('should set the error if the account is disabled', inject(['$state', '$stateParams', function($state, $stateParams){
+      var mockUser = mockUsers[1];
+      mockUser.status = 'disabled';
+      $scope = $rootScope.$new();
+      
+      $controller('InviteAcceptController', {
+        '$scope': $scope,
+        'invitedUser': mockUser,
+        'invitedTenantUser': mockTenantUsers[1]
+      });
+
+      expect($scope.error).toEqual('Sorry, your account is disabled. Please contact your account administrator.');
     }]));
   });
   
@@ -216,6 +232,19 @@ describe('invite accept controller', function () {
       $scope.acceptSuccess();
       $scope.$digest();
       expect($state.transitionTo).toHaveBeenCalledWith('content.management.users', {id: 'userId2', messageKey: 'invite.accept.autologin.success'});
+    }]));
+    
+    it('should redirect to user profile page on login success if user has permissions', inject(['AuthService', '$stateParams', '$q', '$state', 'UserPermissions', function(AuthService, $stateParams, $q, $state, UserPermissions){
+      var deferred = $q.defer();
+      deferred.resolve('success');
+      
+      spyOn(AuthService, 'login').and.returnValue(deferred.promise);
+      spyOn(UserPermissions, 'hasPermissionInList').and.returnValue(false);
+      
+      $stateParams.userId = 'userId2';
+      $scope.acceptSuccess();
+      $scope.$digest();
+      expect($state.transitionTo).toHaveBeenCalledWith('content.userprofile', {messageKey: 'invite.accept.autologin.success'});
     }]));
     
     it('should show an alert on login fail', inject(['AuthService', '$state', '$q', function(AuthService, $state, $q){

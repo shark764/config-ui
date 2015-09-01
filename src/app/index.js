@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigPanel.config', 'pascalprecht.translate', 'ngCookies', 'ngMessages', 'ngSanitize', 'toastr', 'ngLodash', 'teljs', 'realtime-dashboards'])
+angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigPanel.config', 'pascalprecht.translate', 'ngCookies', 'ngMessages', 'ngSanitize', 'toastr', 'ngLodash', 'teljs', 'flow-library', 'realtime-dashboards'])
   .config(['$stateProvider', '$urlRouterProvider', '$translateProvider', 'toastrConfig', function($stateProvider, $urlRouterProvider, $translateProvider, toastrConfig) {
 
     $urlRouterProvider.otherwise(function($injector){
@@ -269,12 +269,16 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
         controller: 'InviteAcceptController',
         isPublic: true,
         resolve: {
-          invitedUser: ['$stateParams', 'Session', 'User', function($stateParams, Session, User) {
+          invitedUser: ['$stateParams', 'Session', 'User', '$q', '$state', function($stateParams, Session, User, $q, $state) {
             Session.setToken('Token ' + $stateParams.token);
-
-            return User.get({
+            
+            var userResult = User.get({
               id: $stateParams.userId
-            }).$promise;
+            }, angular.noop, function(){
+              $state.go('login', {messageKey: 'invite.accept.expired'});
+            })
+            
+            return userResult.$promise;
           }],
           //,
           //TODO: re-enable when TITAN2-3042 is fixed

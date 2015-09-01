@@ -19,6 +19,7 @@
     "angular-ui-router": "~0.2.15",
     "angular-toastr": "~1.4.1",
     "rappid": "git@github.com:liveops/rappid.git",
+    "flow-library": "git@github.com:liveops/flow-library.git",
     "MouseWheelJS": "*",
     "KeyboardJS": "git@github.com:Latros/KeyboardJS.git#Testing-Package-JSON",
     "teljs": "git@github.com:john-benson/tel.js.git#master",

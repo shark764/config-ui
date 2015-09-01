@@ -30,34 +30,12 @@
         }
       },
 
-      linkType: 'normal',
+      labels: [],
 
-      inputs: {
-        linkType: {
-          type: 'select',
-          label: 'Type',
-          options: [
-            {value: 'conditional', content: 'Conditional'},
-            {value: 'default', content: 'Default'}
-          ],
-          index: 1,
-          group: 'general'
-        },
-        condition: {
-          type: 'text',
-          label: 'Condition',
-          group: 'general',
-          when: {
-            eq: {
-              linkType: 'conditional'
-            }
-          }
-        }
-      }
+      linkType: 'normal'
     },
 
     initialize: function() {
-
       joint.dia.Link.prototype.initialize.apply(this, arguments);
 
       this.listenTo(this, 'change:source', this.onSourceChange);
@@ -177,7 +155,74 @@
       }
 
       cell.attr(_.merge({}, this.defaults.attrs, attrs));
-    }
-  });
+    },
 
+    onInputChange: function(cell, value, path) {
+      if (path === 'label') {
+        cell.label(0, {
+          position: .5,
+          attrs: {
+            rect: {fill: 'white'},
+            text: {text: value}
+          }
+        });
+      } else if (path === 'linkType') {
+        var attrs;
+        switch (value) {
+        case 'default':
+          attrs = {
+            '.marker-source': {
+              d: 'M 0 5 L 20 5 M 20 0 L 10 10',
+              fill: 'none'
+            },
+            '.tool-options': {
+              visibility: 'visible'
+            }
+          };
+          break;
+        case 'conditional':
+          attrs = {
+            '.marker-source': {
+              d: 'M 20 8 L 10 0 L 0 8 L 10 16 z',
+              fill: '#FFF'
+            },
+            '.tool-options': {
+              visibility: 'visible'
+            }
+          };
+
+          break;
+        case 'normal':
+          attrs = {};
+          break;
+        case 'message':
+          attrs = {
+            '.marker-target': {
+              fill: '#FFF'
+            },
+            '.connection': {
+              'stroke-dasharray': '4,4'
+            }
+          };
+          break;
+        case 'association':
+          attrs = {
+            '.marker-target': {
+              d: 'M 0 0'
+            },
+            '.connection': {
+              'stroke-dasharray': '4,4'
+            }
+          };
+          break;
+        default:
+          throw 'BPMN: Unknown Flow Type: ' + type;
+        }
+
+        cell.attr(_.merge({}, this.defaults.attrs, attrs));
+      } else {
+        console.warn('This property is not hooked up to a UI listener.');
+      }
+    }
+  })
 })();

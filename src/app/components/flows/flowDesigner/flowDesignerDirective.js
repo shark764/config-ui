@@ -3,15 +3,18 @@
 function flowDesigner() {
     return {
       scope: {
-        flowVersion: '=flowVersion'
+        flowVersion: '=flowVersion',
+        notations: '=notations'
       },
       restrict: 'E',
       templateUrl: 'app/components/flows/flowDesigner/flowDesignerDirective.html',
       replace: true,
       link: function() {},
-      controller: ['$scope', '$element', '$attrs', '$window', '$timeout', 'FlowInitService', 'FlowConversionService', 'SubflowCommunicationService', 'FlowNotationService', 'FlowVersion', 'Session', 'Alert', '$state', function($scope, $element, $attrs, $window, $timeout, FlowInitService, FlowConversionService, SubflowCommunicationService, FlowNotationService, FlowVersion, Session, Alert, $state) {
+      controller: ['$scope', '$element', '$attrs', '$window', '$timeout', 'FlowInitService', 'FlowConversionService', 'SubflowCommunicationService', 'FlowNotationService', 'FlowVersion', 'Session', 'Alert', '$state', 'flowLibrary', function($scope, $element, $attrs, $window, $timeout, FlowInitService, FlowConversionService, SubflowCommunicationService, FlowNotationService, FlowVersion, Session, Alert, $state, flowLibrary) {
 
         $timeout(function() {
+
+          var FlowConverter = new flowLibrary($scope.notations);
 
           var graphOptions = {
             width: 2000,
@@ -49,11 +52,42 @@ function flowDesigner() {
             });
           };
 
+          function clearErrors() {
+            var graph = $scope.graph;
+            _.each(graph.getElements(), function(element) {
+              var view = element.findView(graph.interfaces.paper);
+              V(view.el).removeClass('error');
+            })
+          }
+
+          function addErrors(errors) {
+            var graph = $scope.graph;
+            _.each(errors, function(e) {
+              var cell = graph.getCell(e.step);
+              var view = cell.findView(graph.interfaces.paper);
+              V(view.el).addClass('error');
+            })
+          }
+
           $scope.publishNewFlowVersion = function() {
-            if ($scope.graph.toJSON().cells.length === 0) { return; }
-            var alienese = JSON.stringify(FlowConversionService.convertToAlienese($scope.graph.toJSON()));
+
+            var graph = $scope.graph;
+
+            if (graph.toJSON().cells.length === 0) { return; }
+
+            clearErrors();
+
+            var errors = FlowConverter.validate(graph.toJSON());
+
+            if (errors.length > 0) {
+              addErrors(errors);
+              return;
+            }
+
+            var alienese = FlowConverter.convertToAlienese(graph.toJSON());
+
             $scope.version = new FlowVersion({
-              flow: alienese,
+              flow: JSON.stringify(alienese),
               description: $scope.flowVersion.description || 'This needs to be fixed',
               name: $scope.flowVersion.name,
               tenantId: Session.tenant.tenantId,
@@ -76,15 +110,19 @@ function flowDesigner() {
             $scope.graph.fromJSON(SubflowCommunicationService.currentFlowContext);
             SubflowCommunicationService.currentFlowContext = '';
           } else {
-            $scope.graph.fromJSON(FlowConversionService.convertToJoint(JSON.parse($scope.flowVersion.flow)));
+            $scope.graph.fromJSON(FlowConverter.convertToJoint(JSON.parse($scope.flowVersion.flow)));
           }
           $window.spitOutAlienese = function() {
-            return FlowConversionService.convertToAlienese($scope.graph.toJSON());
+            return FlowConverter.convertToAlienese($scope.graph.toJSON());
           };
 
           $window.spitOutJoint = function() {
             return $scope.graph.toJSON();
           };
+
+          $window.validate = function() {
+            return FlowConverter.validate($scope.graph.toJSON());
+          }
         }, 1000);
       }]
     };

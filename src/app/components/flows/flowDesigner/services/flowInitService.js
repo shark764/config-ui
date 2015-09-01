@@ -54,9 +54,6 @@
         graph.utils.renderPropertiesPanel = function(notation) {
           console.log('Notation clicked on:', notation);
 
-          // Don't render the properties panel if they clicked on a link
-          if (notation.model.attributes.type === 'liveOps.link') { return graph.utils.hidePropertiesPanel(); }
-
           // Render the halo menu
           if (notation.model.attributes.group !== 'end') {
             graph.utils.renderHaloMenu(notation);
@@ -65,21 +62,27 @@
           // Dont render the properties panel if they clicked on a gateway
           if (notation.model.attributes.type === 'liveOps.gateway') { return graph.utils.hidePropertiesPanel(); }
 
+
           // Don't render the properties panel if there are no inputs on the thing they clicked on
-          if (notation.model.attributes.inputs.length === 0) { return graph.utils.hidePropertiesPanel(); }
+          if (FlowNotationService.buildInputPanel(notation.model).length === 0) { return graph.utils.hidePropertiesPanel(); }
 
           // Slide it out and render!
           graph.utils.showPropertiesPanel();
 
           // Don't set up the inputs again if the model is already opened in the props panel
-          if (graph.panelScope.notation !== undefined && notation.model.id === graph.panelScope.notation.model.id) { return; }
+          //if (graph.panelScope.notation !== undefined && notation.model.id === graph.panelScope.notation.model.id) { return; }
 
           graph.interfaces.inspectorContainer.empty();
           graph.panelScope.$destroy();
           graph.panelScope = $rootScope.$new();
+          graph.panelScope.inputs = FlowNotationService.buildInputPanel(notation.model);
           graph.panelScope.notation = notation;
-          var compiledPanel = $compile('<props-panel notation="notation"></props-panel>')(graph.panelScope);
+          var compiledPanel = $compile('<props-panel notation="notation" inputs="inputs"></props-panel>')(graph.panelScope);
           graph.interfaces.inspectorContainer.append(compiledPanel);
+
+          graph.panelScope.$on('rebuild', function(){
+            graph.utils.renderPropertiesPanel(notation);
+          });
         };
 
         return graph;
@@ -158,7 +161,8 @@
           search: {
             'liveOps.activity': ['content'],
             'liveOps.event': ['entity', 'name'],
-            'liveOps.gateway': ['gatewayType']
+            'liveOps.gateway': ['gatewayType'],
+            'liveOps.template': ['content']
           },
           groups: {
             activity: {
@@ -173,6 +177,10 @@
               label: 'Gateways',
               index: 3
             },
+            templates: {
+              label: 'Templates',
+              index: 4
+            }
           }
         });
 
@@ -181,6 +189,9 @@
         FlowPaletteService.loadGateways(stencil);
         FlowPaletteService.loadEvents(stencil);
         FlowPaletteService.loadActivities(stencil);
+        FlowPaletteService.loadLinks();
+        FlowPaletteService.loadTemplates(stencil);
+        
         _.each(stencil.graphs, function(graph) {
           joint.layout.GridLayout.layout(graph, {
             columns: 3,

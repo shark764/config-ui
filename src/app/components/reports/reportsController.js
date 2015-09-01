@@ -36,7 +36,7 @@ angular.module('liveopsConfigPanel')
           buildingUrl = buildingUrl + '&birst.hideDashboardNavigation=true';
         }
 
-        if ( dashboardName != '' && pageName != '' ){
+        if ( dashboardName !== '' && pageName !== '' ){
           buildingUrl = buildingUrl + '&birst.dashbaord=' + dashboardName + '&birst.page=' + pageName;
         }
 

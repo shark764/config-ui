@@ -96,7 +96,8 @@
       </form-error>
       <div>
         <select ng-model="selectedTenantUser.roleId" name="roleId" required
-          ng-options="role.id as role.name for role in fetchTenantRoles()">
+          ng-options="role.id as role.name for role in fetchTenantRoles()"
+          ng-disabled="Session.user.id == selectedTenantUser.$user.id">
           <option value="" ng-disabled="true">
             {{'users.details.role.select' | translate}}
           </option>
@@ -120,8 +121,7 @@
 
     <div class="input-group">
       <label>{{'details.firstName' | translate}}</label>
-      <form-error field="forms.detailsForm.firstName"
-        error-type-api="{{'details.firstName.error' | translate}}">
+      <form-error field="forms.detailsForm.firstName">
       </form-error>
       <div>
 
@@ -132,8 +132,7 @@
 
     <div class="input-group">
       <label>{{'details.lastName' | translate}}</label>
-      <form-error field="forms.detailsForm.lastName"
-        error-type-api="{{'details.lastName.error' | translate}}">
+      <form-error field="forms.detailsForm.lastName">
       </form-error>
       <div>
         <input name="lastName" type="text"
@@ -143,22 +142,8 @@
     </div>
 
     <div class="input-group">
-      <label>{{'details.personalTelephone' | translate}}</label>
-      <form-error field="forms.detailsForm.personalTelephone"
-        error-type-phone-number="{{'details.phoneNumber.error' | translate}}">
-      </form-error>
-      <div>
-        <input name="personalTelephone" type="tel"
-          ng-model="selectedTenantUser.$user.personalTelephone"
-          api-error>
-        <help-icon text="Personal Telephone should be E.164 format"></help-icon>
-      </div>
-    </div>
-
-    <div class="input-group">
       <label>{{'details.externalId' | translate}}</label>
-      <form-error field="forms.detailsForm.externalId"
-        error-type-api="Must be a String">
+      <form-error field="forms.detailsForm.externalId">
       </form-error>
       <div>
         <input ng-model="selectedTenantUser.$user.externalId" name="externalId" type="text"></input>
