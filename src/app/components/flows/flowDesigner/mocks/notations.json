@@ -476,14 +476,15 @@
                     "hidden": true
                 },
                 {
-                    "name": "resource.id",
-                    "path": "params.participant",
+                    "name": "resource",
+                    "path": "params.resource",
                     "type": "select",
                     "label": "Participant:",
                     "group": "params",
-                    "index": 0,
+                    "index": 1,
                     "disabled": false,
-                    "required": true,
+                    "required": false,
+                    "placeholder": null,
                     "hidden": false,
                     "options": [
                         {
@@ -498,7 +499,7 @@
                     "type": "select",
                     "label": "Set Presence:",
                     "group": "params",
-                    "index": 1,
+                    "index": 2,
                     "disabled": false,
                     "required": false,
                     "placeholder": null,
@@ -516,10 +517,10 @@
                 }
             ],
             "params": {
-                "resource.id": {
+                "resource-id": {
                     "source": "expression",
-                    "type": "variable",
-                    "key": "resource.id",
+                    "type": "string",
+                    "key": "resource",
                     "mandatory": true,
                     "default": "resource.id"
                 },
