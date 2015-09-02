@@ -523,57 +523,139 @@ describe('The table search', function() {
   });
 
   /*
-   * MEDIA TABLE SEARCH
-   * Search on Name
+   * REMAINING PAGES
    */
 
-  it('should display Media based on the Search on Name', function() {
-    browser.get(shared.mediaPageUrl);
-    elementCount = shared.tableElements.count();
-    // TODO
+  describe('when exact element name is input', function() {
+    it('should result in at least one element in the User table', function() {
+      browser.get(shared.userPageUrl);
+      elementCount = shared.tableElements.count();
 
-    shared.searchField.sendKeys('car');
-    shared.tableElements.then(function(rows) {
-      for (var i = 0; i < rows.length; ++i) {
-        rows[i].getText().then(function(value) {
-          expect(value.toLowerCase()).toContain('car');
+      shared.firstTableRow.element(by.css(columns.columnTwo)).getText().then(function(firstUserName) {
+        shared.searchField.sendKeys(firstUserName);
+        shared.tableElements.then(function(rows) {
+          expect(rows.length).toBeGreaterThan(0);
+          expect(rows[0].getText().toLowerCase()).toContain(firstUserName);
         });
-      };
+      });
+    });
+    it('should result in at least one element in the Skills table', function() {
+      browser.get(shared.skillsPageUrl);
+      elementCount = shared.tableElements.count();
+
+      shared.firstTableRow.element(by.css(columns.columnTwo)).getText().then(function(firstSkillName) {
+        shared.searchField.sendKeys(firstSkillName);
+        shared.tableElements.then(function(rows) {
+          expect(rows.length).toBeGreaterThan(0);
+          expect(rows[0].getText().toLowerCase()).toContain(firstSkillName);
+        });
+      });
     });
 
-    shared.searchField.clear();
-    shared.searchField.sendKeys('test');
-    shared.tableElements.then(function(rows) {
-      for (var i = 0; i < rows.length; ++i) {
-        rows[i].getText().then(function(value) {
-          expect(value.toLowerCase()).toContain('test');
+    it('should result in at least one element in the Groups table', function() {
+      browser.get(shared.userPageUrl);
+      elementCount = shared.tableElements.count();
+
+      shared.firstTableRow.element(by.css(columns.columnTwo)).getText().then(function(firstGroupName) {
+        shared.searchField.sendKeys(firstGroupName);
+        shared.tableElements.then(function(rows) {
+          expect(rows.length).toBeGreaterThan(0);
+          expect(rows[0].getText().toLowerCase()).toContain(firstGroupName);
         });
-      };
+      });
     });
 
-    shared.searchField.clear();
-    shared.searchField.sendKeys('New*ia');
-    shared.tableElements.then(function(rows) {
-      for (var i = 0; i < rows.length; ++i) {
-        rows[i].getText().then(function(value) {
-          expect(value.toLowerCase()).toContain('new');
-          expect(value.toLowerCase()).toContain('ia');
-          expect(value.toLowerCase()).toMatch(/.*new.*ia.*/);
+    it('should result in at least one element in the Tenants table', function() {
+      browser.get(shared.tenantsPageUrl);
+      elementCount = shared.tableElements.count();
+
+      shared.firstTableRow.element(by.css(columns.columnTwo)).getText().then(function(firstTenantName) {
+        shared.searchField.sendKeys(firstTenantName);
+        shared.tableElements.then(function(rows) {
+          expect(rows.length).toBeGreaterThan(0);
+          expect(rows[0].getText().toLowerCase()).toContain(firstTenantName);
         });
-      };
+      });
     });
 
-    shared.searchField.clear();
-    shared.searchField.sendKeys('edia');
-    shared.tableElements.then(function(rows) {
-      for (var i = 0; i < rows.length; ++i) {
-        rows[i].getText().then(function(value) {
-          expect(value.toLowerCase()).toContain('edia');
+    it('should result in at least one element in the Integrations table', function() {
+      browser.get(shared.integrationsPageUrl);
+      elementCount = shared.tableElements.count();
+
+      shared.firstTableRow.element(by.css(columns.columnTwo)).getText().then(function(firstIntegrationName) {
+        shared.searchField.sendKeys(firstIntegrationName);
+        shared.tableElements.then(function(rows) {
+          expect(rows.length).toBeGreaterThan(0);
+          expect(rows[0].getText().toLowerCase()).toContain(firstIntegrationName);
         });
-      };
+      });
     });
 
-    shared.searchField.clear();
-    expect(shared.tableElements.count()).toBe(elementCount);
+    it('should result in at least one element in the Flow table', function() {
+      browser.get(shared.flowsPageUrl);
+      elementCount = shared.tableElements.count();
+
+      shared.firstTableRow.element(by.css(columns.columnTwo)).getText().then(function(firstFlowName) {
+        shared.searchField.sendKeys(firstFlowName);
+        shared.tableElements.then(function(rows) {
+          expect(rows.length).toBeGreaterThan(0);
+          expect(rows[0].getText().toLowerCase()).toContain(firstFlowName);
+        });
+      });
+    });
+
+    it('should result in at least one element in the Queue table', function() {
+      browser.get(shared.queuesPageUrl);
+      elementCount = shared.tableElements.count();
+
+      shared.firstTableRow.element(by.css(columns.columnTwo)).getText().then(function(firstQueueName) {
+        shared.searchField.sendKeys(firstQueueName);
+        shared.tableElements.then(function(rows) {
+          expect(rows.length).toBeGreaterThan(0);
+          expect(rows[0].getText().toLowerCase()).toContain(firstQueueName);
+        });
+      });
+    });
+
+    it('should result in at least one element in the Dispatch Mappings table', function() {
+      browser.get(shared.dispatchMappingsPageUrl);
+      elementCount = shared.tableElements.count();
+
+      shared.firstTableRow.element(by.css(columns.columnTwo)).getText().then(function(firstDispatchMappingName) {
+        shared.searchField.sendKeys(firstDispatchMappingName);
+        shared.tableElements.then(function(rows) {
+          expect(rows.length).toBeGreaterThan(0);
+          expect(rows[0].getText().toLowerCase()).toContain(firstDispatchMappingName);
+        });
+      });
+    });
+
+    it('should result in at least one element in the Media Collections table', function() {
+      browser.get(shared.mediaCollectionsPageUrl);
+      elementCount = shared.tableElements.count();
+
+      shared.firstTableRow.element(by.css(columns.columnTwo)).getText().then(function(firstMediaCollectionName) {
+        shared.searchField.sendKeys(firstMediaCollectionName);
+        shared.tableElements.then(function(rows) {
+          expect(rows.length).toBeGreaterThan(0);
+          expect(rows[0].getText().toLowerCase()).toContain(firstMediaCollectionName);
+        });
+      });
+    });
+
+
+    it('should result in at least one element in the Media table', function() {
+      browser.get(shared.mediaPageUrl);
+      elementCount = shared.tableElements.count();
+
+      shared.firstTableRow.element(by.css(columns.columnTwo)).getText().then(function(firstMediaName) {
+        shared.searchField.sendKeys(firstMediaName);
+        shared.tableElements.then(function(rows) {
+          expect(rows.length).toBeGreaterThan(0);
+          expect(rows[0].getText().toLowerCase()).toContain(firstMediaName);
+        });
+      });
+    });
+
   });
 });
