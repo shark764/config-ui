@@ -18,17 +18,17 @@ describe('loMultibox directive', function(){
       displayname: 'the first',
       id: '123',
       otherprop: 'Red',
-      getDisplay: jasmine.createSpy('getDisplay')
+      getDisplay: jasmine.createSpy('getDisplay').and.returnValue('the first')
     }, {
       displayname: 'second',
       id: '456',
       otherprop: 'Blue',
-      getDisplay: jasmine.createSpy('getDisplay')
+      getDisplay: jasmine.createSpy('getDisplay').and.returnValue('second')
     }, {
       displayname: '3',
       id: '789',
       otherprop: 'Yellow',
-      getDisplay: jasmine.createSpy('getDisplay')
+      getDisplay: jasmine.createSpy('getDisplay').and.returnValue('3')
     }];
     
     $scope.model = {importantprop: 'important value'};
@@ -78,7 +78,7 @@ describe('loMultibox directive', function(){
       isolateScope.onSelect({
         id: '1234',
         otherprop: 'NO',
-        getDisplay: jasmine.createSpy('getDisplay')
+        getDisplay: jasmine.createSpy('getDisplay').and.returnValue('1234')
       });
 
       expect($scope.model.id).toEqual('1234');
@@ -91,7 +91,7 @@ describe('loMultibox directive', function(){
       isolateScope.createMode = true;
 
       isolateScope.onSelect({
-        getDisplay: jasmine.createSpy('getDisplay'),
+        getDisplay: jasmine.createSpy('getDisplay').and.returnValue('1234'),
         id: '1234'
       });
       $scope.$digest();

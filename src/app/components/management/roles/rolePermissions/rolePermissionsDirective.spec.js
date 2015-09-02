@@ -99,13 +99,11 @@ describe('rolePermissions directive', function() {
       expect(isolateScope.fetchPermissions).toHaveBeenCalled();
     }]));
     
-    it('should fetch the role permissions', inject(['mockRoles', '$q', function(mockRoles, $q) {
-      var deferred = $q.defer();
-      deferred.resolve();
-      spyOn(isolateScope, 'fetchPermissions').and.returnValue({$promise: deferred.promise});
+    it('should fetch the role permissions', inject(['mockRoles', '$q', '$httpBackend', function(mockRoles, $q, $httpBackend) {
       spyOn(isolateScope, 'fetchRolePermissions');
       
       $scope.role = mockRoles[1];
+      $httpBackend.flush();
       $scope.$digest();
       $scope.$digest();
       expect(isolateScope.fetchRolePermissions).toHaveBeenCalled();
