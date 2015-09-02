@@ -63,7 +63,7 @@ var BulkActions = function() {
   this.statusColumnDropDown = this.tableHeader.element(by.id('status-column-dropdown'));
   this.statusColumnDropDownLabel = this.statusColumnDropDown.element(by.css('.dropdown-label'));
   this.allStatus = this.statusColumnDropDown.element(by.css('.all'));
-  this.statuses = this.statusColumnDropDown.all(by.repeater('option in options | orderBy:orderBy track by option[valuePath]'));
+  this.statuses = this.statusColumnDropDown.all(by.repeater('option in options | orderBy:orderBy'));
   this.statusInputs = this.statusColumnDropDown.all(by.css('input'));
 };
 
