@@ -27,6 +27,7 @@ angular.module('liveopsConfigPanel')
             'options': dispatchMappingInteractionFields
           },
           'name': 'interactionField',
+          'id': 'integration-column-dropdown',
           'lookup': '$original:interactionField',
           'filter': 'selectedOptions'
         }, {
