@@ -30,7 +30,6 @@ angular.module('liveopsConfigPanel')
       };
 
       $scope.$on('table:on:click:create', function() {
-        $scope.showBulkActions = false;
         $scope.create();
       });
 
@@ -43,14 +42,6 @@ angular.module('liveopsConfigPanel')
         dispatchMappingChannelTypes: dispatchMappingChannelTypes,
         dispatchMappingDirections: dispatchMappingDirections
       };
-      
-      $scope.$on('table:resource:selected', function () {
-        $scope.showBulkActions = false;
-      });
-
-      $scope.$on('table:on:click:actions', function () {
-        $scope.showBulkActions = true;
-      });
       
       $scope.bulkActions = {
         setDispatchMappingStatus: new BulkAction()

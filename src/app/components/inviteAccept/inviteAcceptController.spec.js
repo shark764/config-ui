@@ -41,7 +41,8 @@ describe('invite accept controller', function () {
   ]));
 
   describe('init', function(){
-    it('should redirect to login with a message if the invite was already accepted', inject(['$state', function($state){
+    //TODO: re-enable when TITAN2-3042 is addressed
+    xit('should redirect to login with a message if the invite was already accepted', inject(['$state', function($state){
       spyOn($state, 'transitionTo');
       
       var mockUser = mockUsers[1];
@@ -204,28 +205,28 @@ describe('invite accept controller', function () {
       spyOn($state, 'transitionTo');
     }]));
     
-    it('should redirect to users management on login success', inject(['AuthService', '$stateParams', '$q', '$timeout', '$state', function(AuthService, $stateParams, $q, $timeout, $state){
+    it('should redirect to users management on login success if user has permissions', inject(['AuthService', '$stateParams', '$q', '$state', 'UserPermissions', function(AuthService, $stateParams, $q, $state, UserPermissions){
       var deferred = $q.defer();
       deferred.resolve('success');
       
       spyOn(AuthService, 'login').and.returnValue(deferred.promise);
+      spyOn(UserPermissions, 'hasPermissionInList').and.returnValue(true);
       
       $stateParams.userId = 'userId2';
       $scope.acceptSuccess();
-      $timeout.flush();
-      expect($state.transitionTo).toHaveBeenCalledWith('content.management.users', {id: 'userId2'});
+      $scope.$digest();
+      expect($state.transitionTo).toHaveBeenCalledWith('content.management.users', {id: 'userId2', messageKey: 'invite.accept.autologin.success'});
     }]));
     
-    it('should show an alert on update fail', inject(['AuthService', 'Alert', '$q', '$timeout', function(AuthService, Alert, $q, $timeout){
+    it('should show an alert on login fail', inject(['AuthService', '$state', '$q', function(AuthService, $state, $q){
       var deferred = $q.defer();
       deferred.reject('failure');
       
       spyOn(AuthService, 'login').and.returnValue(deferred.promise);
-      spyOn(Alert, 'error');
       
       $scope.acceptSuccess();
-      $timeout.flush();
-      expect(Alert.error).toHaveBeenCalled();
+      $scope.$digest();
+      expect($state.transitionTo).toHaveBeenCalledWith('login', {messageKey: 'invite.accept.autologin.fail'});
     }]));
   });
 });
