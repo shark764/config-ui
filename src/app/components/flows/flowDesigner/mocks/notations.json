@@ -967,8 +967,21 @@
         {
             "entity": "start",
             "type": "flow-error",
-            "inputs": [],
-            "props": []
+            "inputs": [
+                {
+                    "name": "binding",
+                    "path": "bindings",
+                    "type": "string",
+                    "label": "Binding:",
+                    "group": "bindings",
+                    "index": 0,
+                    "disabled": false,
+                    "required": false,
+                    "placeholder": "Enter a name to bind to the resource returned...",
+                    "hidden": false
+                }
+            ],
+            "props": ["interrupting", "bindings"]
         },
         {
             "entity": "catch",
@@ -1023,8 +1036,21 @@
         {
             "entity": "catch",
             "type": "flow-error",
-            "inputs": [],
-            "props": []
+            "inputs": [
+                {
+                    "name": "binding",
+                    "path": "bindings",
+                    "type": "string",
+                    "label": "Inputs:",
+                    "group": "bindings",
+                    "index": 0,
+                    "disabled": false,
+                    "required": false,
+                    "placeholder": "Enter a name to bind to the resource returned...",
+                    "hidden": false
+                }
+            ],
+            "props": ["interrupting", "bindings"]
         },
         {
             "entity": "throw",
@@ -1062,8 +1088,21 @@
             "entity": "throw",
             "type": "flow-error",
             "terminate": false,
-            "inputs": [],
-            "props": []
+            "inputs": [
+                {
+                    "name": "binding",
+                    "path": "error.params",
+                    "type": "string",
+                    "label": "Error Message:",
+                    "group": "bindings",
+                    "index": 0,
+                    "disabled": false,
+                    "required": false,
+                    "placeholder": "Enter an error message...",
+                    "hidden": false
+                }
+            ],
+            "props": ["terminate", "error"]
         },
         {
             "entity": "throw",
@@ -1115,8 +1154,21 @@
             "entity": "throw",
             "type": "flow-error",
             "terminate": true,
-            "inputs": [],
-            "props": ["terminate"]
+            "inputs": [
+                {
+                    "name": "binding",
+                    "path": "error.params",
+                    "type": "string",
+                    "label": "Error Message:",
+                    "group": "bindings",
+                    "index": 0,
+                    "disabled": false,
+                    "required": false,
+                    "placeholder": "Enter an error message...",
+                    "hidden": false
+                }
+            ],
+            "props": ["terminate", "error"]
         }
     ],
     "links": [
