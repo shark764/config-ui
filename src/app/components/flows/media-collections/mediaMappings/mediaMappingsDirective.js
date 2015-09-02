@@ -43,6 +43,10 @@ angular.module('liveopsConfigPanel')
           $scope.form.defaultMediaKey.$setDirty();
           $scope.form.defaultMediaKey.$setTouched();
         };
+        
+        $scope.onSelect = function(){
+          $scope.form.mediaMapChanges.$setDirty();
+        };
 
         //TODO: review
         $scope.$on('resource:details:create:mediaMapping', function() {
