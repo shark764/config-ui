@@ -528,40 +528,34 @@ describe('The table search', function() {
 
   describe('when exact element name is input', function() {
     it('should result in at least one element in the User table', function() {
-      browser.get(shared.userPageUrl);
+      browser.get(shared.usersPageUrl);
       elementCount = shared.tableElements.count();
 
-      shared.firstTableRow.element(by.css(columns.columnTwo)).getText().then(function(firstUserName) {
+      shared.firstTableRow.element(by.css('td:nth-child(2)')).getText().then(function(firstUserName) {
         shared.searchField.sendKeys(firstUserName);
-        shared.tableElements.then(function(rows) {
-          expect(rows.length).toBeGreaterThan(0);
-          expect(rows[0].getText().toLowerCase()).toContain(firstUserName);
-        });
+        expect(shared.tableElements.count()).toBeGreaterThan(0);
+        expect(shared.firstTableRow.getText()).toContain(firstUserName);
       });
     });
     it('should result in at least one element in the Skills table', function() {
       browser.get(shared.skillsPageUrl);
       elementCount = shared.tableElements.count();
 
-      shared.firstTableRow.element(by.css(columns.columnTwo)).getText().then(function(firstSkillName) {
+      shared.firstTableRow.element(by.css('td:nth-child(2)')).getText().then(function(firstSkillName) {
         shared.searchField.sendKeys(firstSkillName);
-        shared.tableElements.then(function(rows) {
-          expect(rows.length).toBeGreaterThan(0);
-          expect(rows[0].getText().toLowerCase()).toContain(firstSkillName);
-        });
+        expect(shared.tableElements.count()).toBeGreaterThan(0);
+        expect(shared.firstTableRow.getText()).toContain(firstSkillName);
       });
     });
 
     it('should result in at least one element in the Groups table', function() {
-      browser.get(shared.userPageUrl);
+      browser.get(shared.groupsPageUrl);
       elementCount = shared.tableElements.count();
 
-      shared.firstTableRow.element(by.css(columns.columnTwo)).getText().then(function(firstGroupName) {
+      shared.firstTableRow.element(by.css('td:nth-child(2)')).getText().then(function(firstGroupName) {
         shared.searchField.sendKeys(firstGroupName);
-        shared.tableElements.then(function(rows) {
-          expect(rows.length).toBeGreaterThan(0);
-          expect(rows[0].getText().toLowerCase()).toContain(firstGroupName);
-        });
+        expect(shared.tableElements.count()).toBeGreaterThan(0);
+        expect(shared.firstTableRow.getText()).toContain(firstGroupName);
       });
     });
 
@@ -569,12 +563,10 @@ describe('The table search', function() {
       browser.get(shared.tenantsPageUrl);
       elementCount = shared.tableElements.count();
 
-      shared.firstTableRow.element(by.css(columns.columnTwo)).getText().then(function(firstTenantName) {
+      shared.firstTableRow.element(by.css('td:nth-child(2)')).getText().then(function(firstTenantName) {
         shared.searchField.sendKeys(firstTenantName);
-        shared.tableElements.then(function(rows) {
-          expect(rows.length).toBeGreaterThan(0);
-          expect(rows[0].getText().toLowerCase()).toContain(firstTenantName);
-        });
+        expect(shared.tableElements.count()).toBeGreaterThan(0);
+        expect(shared.firstTableRow.getText()).toContain(firstTenantName);
       });
     });
 
@@ -582,12 +574,10 @@ describe('The table search', function() {
       browser.get(shared.integrationsPageUrl);
       elementCount = shared.tableElements.count();
 
-      shared.firstTableRow.element(by.css(columns.columnTwo)).getText().then(function(firstIntegrationName) {
+      shared.firstTableRow.element(by.css('td:nth-child(2)')).getText().then(function(firstIntegrationName) {
         shared.searchField.sendKeys(firstIntegrationName);
-        shared.tableElements.then(function(rows) {
-          expect(rows.length).toBeGreaterThan(0);
-          expect(rows[0].getText().toLowerCase()).toContain(firstIntegrationName);
-        });
+        expect(shared.tableElements.count()).toBeGreaterThan(0);
+        expect(shared.firstTableRow.getText()).toContain(firstIntegrationName);
       });
     });
 
@@ -595,12 +585,10 @@ describe('The table search', function() {
       browser.get(shared.flowsPageUrl);
       elementCount = shared.tableElements.count();
 
-      shared.firstTableRow.element(by.css(columns.columnTwo)).getText().then(function(firstFlowName) {
+      shared.firstTableRow.element(by.css('td:nth-child(2)')).getText().then(function(firstFlowName) {
         shared.searchField.sendKeys(firstFlowName);
-        shared.tableElements.then(function(rows) {
-          expect(rows.length).toBeGreaterThan(0);
-          expect(rows[0].getText().toLowerCase()).toContain(firstFlowName);
-        });
+        expect(shared.tableElements.count()).toBeGreaterThan(0);
+        expect(shared.firstTableRow.getText()).toContain(firstFlowName);
       });
     });
 
@@ -608,12 +596,10 @@ describe('The table search', function() {
       browser.get(shared.queuesPageUrl);
       elementCount = shared.tableElements.count();
 
-      shared.firstTableRow.element(by.css(columns.columnTwo)).getText().then(function(firstQueueName) {
+      shared.firstTableRow.element(by.css('td:nth-child(2)')).getText().then(function(firstQueueName) {
         shared.searchField.sendKeys(firstQueueName);
-        shared.tableElements.then(function(rows) {
-          expect(rows.length).toBeGreaterThan(0);
-          expect(rows[0].getText().toLowerCase()).toContain(firstQueueName);
-        });
+        expect(shared.tableElements.count()).toBeGreaterThan(0);
+        expect(shared.firstTableRow.getText()).toContain(firstQueueName);
       });
     });
 
@@ -621,12 +607,10 @@ describe('The table search', function() {
       browser.get(shared.dispatchMappingsPageUrl);
       elementCount = shared.tableElements.count();
 
-      shared.firstTableRow.element(by.css(columns.columnTwo)).getText().then(function(firstDispatchMappingName) {
+      shared.firstTableRow.element(by.css('td:nth-child(2)')).getText().then(function(firstDispatchMappingName) {
         shared.searchField.sendKeys(firstDispatchMappingName);
-        shared.tableElements.then(function(rows) {
-          expect(rows.length).toBeGreaterThan(0);
-          expect(rows[0].getText().toLowerCase()).toContain(firstDispatchMappingName);
-        });
+        expect(shared.tableElements.count()).toBeGreaterThan(0);
+        expect(shared.firstTableRow.getText()).toContain(firstDispatchMappingName);
       });
     });
 
@@ -634,26 +618,21 @@ describe('The table search', function() {
       browser.get(shared.mediaCollectionsPageUrl);
       elementCount = shared.tableElements.count();
 
-      shared.firstTableRow.element(by.css(columns.columnTwo)).getText().then(function(firstMediaCollectionName) {
+      shared.firstTableRow.element(by.css('td:nth-child(2)')).getText().then(function(firstMediaCollectionName) {
         shared.searchField.sendKeys(firstMediaCollectionName);
-        shared.tableElements.then(function(rows) {
-          expect(rows.length).toBeGreaterThan(0);
-          expect(rows[0].getText().toLowerCase()).toContain(firstMediaCollectionName);
-        });
+        expect(shared.tableElements.count()).toBeGreaterThan(0);
+        expect(shared.firstTableRow.getText()).toContain(firstMediaCollectionName);
       });
     });
-
 
     it('should result in at least one element in the Media table', function() {
       browser.get(shared.mediaPageUrl);
       elementCount = shared.tableElements.count();
 
-      shared.firstTableRow.element(by.css(columns.columnTwo)).getText().then(function(firstMediaName) {
+      shared.firstTableRow.element(by.css('td:nth-child(2)')).getText().then(function(firstMediaName) {
         shared.searchField.sendKeys(firstMediaName);
-        shared.tableElements.then(function(rows) {
-          expect(rows.length).toBeGreaterThan(0);
-          expect(rows[0].getText().toLowerCase()).toContain(firstMediaName);
-        });
+        expect(shared.tableElements.count()).toBeGreaterThan(0);
+        expect(shared.firstTableRow.getText()).toContain(firstMediaName);
       });
     });
 
