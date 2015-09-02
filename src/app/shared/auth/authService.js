@@ -17,6 +17,7 @@ angular.module('liveopsConfigPanel')
 
       // this will suffice in beta however.
       this.login = function (username, password) {
+        Session.token = null; //Destroy any previous token so that the AuthInterceptor doesn't trigger
         var token = this.generateToken(username, password);
         var request = this.fetchUserInfo(token);
 
