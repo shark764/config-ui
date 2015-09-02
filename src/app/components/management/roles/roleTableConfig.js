@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('roleTableConfig', ['$translate', function ($translate) {
+  .service('roleTableConfig', ['$translate', 'UserPermissions', function ($translate, UserPermissions) {
      return {
         'fields': [{
           'header': {
@@ -23,7 +23,8 @@ angular.module('liveopsConfigPanel')
         'searchOn' : ['name'],
         'orderBy' : 'name',
         'title': $translate.instant('role.table.title'),
-        'showBulkActions': false
+        'showBulkActions': false,
+        'showCreate': UserPermissions.hasPermission(['PLATFORM_CREATE_TENANT_ROLES', 'MANAGE_ALL_ROLES'])
       };
     }
   ]);
