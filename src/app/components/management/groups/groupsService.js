@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .factory('Group', ['LiveopsResourceFactory', 'cacheAddInterceptor',
-    function (LiveopsResourceFactory, cacheAddInterceptor) {
+  .factory('Group', ['LiveopsResourceFactory', 'cacheAddInterceptor', 'emitInterceptor',
+    function (LiveopsResourceFactory, cacheAddInterceptor, emitInterceptor) {
 
       var Group = LiveopsResourceFactory.create({
         endpoint: '/v1/tenants/:tenantId/groups/:id',
@@ -19,7 +19,7 @@ angular.module('liveopsConfigPanel')
           optional: true
         }],
         saveInterceptor: cacheAddInterceptor,
-        updateInterceptor: cacheAddInterceptor
+        updateInterceptor: emitInterceptor
       });
 
       Group.prototype.getDisplay = function () {

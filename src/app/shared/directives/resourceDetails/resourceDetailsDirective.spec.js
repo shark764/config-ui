@@ -186,21 +186,9 @@ describe('resource details directive', function() {
         
         spyOn($rootScope, '$broadcast').and.callThrough();
     }]));
+
       
-      it('should broadcast event when creating', inject(['$rootScope', function($rootScope) {
-        isolateScope.save();
-        isolateScope.$digest();
-        expect($rootScope.$broadcast).toHaveBeenCalledWith('resource:details:myresource:create:success', jasmine.any(Object));
-      }]));
-      
-      it('should broadcast event when updating', inject(['$rootScope', function($rootScope) {
-        spyOn(isolateScope.resource, 'isNew').and.returnValue(false);
-        isolateScope.save();
-        isolateScope.$digest();
-        expect($rootScope.$broadcast).toHaveBeenCalledWith('resource:details:myresource:update:success', jasmine.any(Object));
-      }]));
-      
-      it('should broadcast the given extra event, if defined', inject(['$rootScope', function($rootScope) {
+      it('should broadcast the given event, if defined', inject(['$rootScope', function($rootScope) {
         isolateScope.save('successEventName');
         isolateScope.$digest();
         expect($rootScope.$broadcast).toHaveBeenCalledWith('successEventName', jasmine.any(Object));
@@ -222,20 +210,7 @@ describe('resource details directive', function() {
         });
       }]));
       
-      it('should broadcast event when creating', inject(['$rootScope', function($rootScope) {
-        isolateScope.save();
-        isolateScope.$digest();
-        expect($rootScope.$broadcast).toHaveBeenCalledWith('resource:details:myresource:create:fail', jasmine.any(Object));
-      }]));
-      
-      it('should broadcast event when updating', inject(['$rootScope', function($rootScope) {
-        spyOn(isolateScope.resource, 'isNew').and.returnValue(false);
-        isolateScope.save();
-        isolateScope.$digest();
-        expect($rootScope.$broadcast).toHaveBeenCalledWith('resource:details:myresource:update:fail', jasmine.any(Object));
-      }]));
-      
-      it('should broadcast the given extra event, if defined', inject(['$rootScope', function($rootScope) {
+      it('should broadcast the given event, if defined', inject(['$rootScope', function($rootScope) {
         isolateScope.save('successEventName', 'failEventName');
         isolateScope.$digest();
         expect($rootScope.$broadcast).toHaveBeenCalledWith('failEventName', jasmine.any(Object));
