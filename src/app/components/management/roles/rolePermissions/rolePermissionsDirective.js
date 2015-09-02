@@ -33,8 +33,9 @@ angular.module('liveopsConfigPanel')
             return TenantPermission.cachedQuery({
               tenantId: Session.tenant.tenantId
             });
-          }
+          };
           
+          //TODO: remove when API returns list of permission objects
           $scope.fetchRolePermissions = function(){
             $scope.rolePermissions.length = 0;
             if ($scope.role){
@@ -44,7 +45,7 @@ angular.module('liveopsConfigPanel')
             }
             
             return $scope.rolePermissions;
-          }
+          };
           
           $scope.updateFiltered = function () {
             $scope.filtered = $filter('objectNegation')($scope.fetchPermissions(), 'id', $scope.rolePermissions, 'id');
