@@ -10,7 +10,7 @@ function flowDesigner() {
       templateUrl: 'app/components/flows/flowDesigner/flowDesignerDirective.html',
       replace: true,
       link: function() {},
-      controller: ['$scope', '$element', '$attrs', '$window', '$timeout', 'FlowInitService', 'FlowConversionService', 'SubflowCommunicationService', 'FlowNotationService', 'FlowVersion', 'Session', 'Alert', '$state', 'flowLibrary', function($scope, $element, $attrs, $window, $timeout, FlowInitService, FlowConversionService, SubflowCommunicationService, FlowNotationService, FlowVersion, Session, Alert, $state, flowLibrary) {
+      controller: ['$scope', '$element', '$attrs', '$window', '$timeout', 'FlowInitService', 'SubflowCommunicationService', 'FlowVersion', 'Session', 'Alert', '$state', 'flowLibrary', function($scope, $element, $attrs, $window, $timeout, FlowInitService, SubflowCommunicationService, FlowVersion, Session, Alert, $state, flowLibrary) {
 
         $timeout(function() {
 
@@ -120,9 +120,17 @@ function flowDesigner() {
             return $scope.graph.toJSON();
           };
 
+          $window.loadFlow = function(alienese){
+            $scope.graph.fromJSON(FlowConverter.convertToJoint(alienese));
+          };
+
           $window.validate = function() {
             return FlowConverter.validate($scope.graph.toJSON());
           }
+
+          $window.search = function(target) {
+            return FlowConverter.search($scope.graph, target);
+          };
         }, 1000);
       }]
     };
