@@ -93,7 +93,7 @@ describe('The groups view bulk actions', function() {
       bulkActions.statusColumnDropDownLabel.click();
       bulkActions.statuses.get(0).click();
       shared.tableElements.count().then(function(disabledTotal) {
-        expect(disabledTotal).toBe(numEveryoneGroups);
+        expect(disabledTotal).toBe(groupCount);
       });
 
       // Select Enabled from Status drop down
