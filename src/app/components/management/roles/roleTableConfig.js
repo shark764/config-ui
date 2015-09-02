@@ -1,7 +1,13 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('roleTableConfig', ['$translate', 'UserPermissions', function ($translate, UserPermissions) {
+  .service('roleTableConfig', ['$translate', 'UserPermissions', 'TenantPermission', 'Session', function ($translate, UserPermissions, TenantPermission, Session) {
+    function getPermissionOptions() {
+      return TenantPermission.cachedQuery({
+        tenantId: Session.tenant.tenantId
+      });
+    }
+    
      return {
         'fields': [{
           'header': {
@@ -15,9 +21,17 @@ angular.module('liveopsConfigPanel')
           'name': 'description'
         }, {
           'header': {
-            'display': $translate.instant('role.table.permissions'),
+            'display': $translate.instant('role.table.permissions')//,
+            //TODO: enable when API returns list of permissions object instead of just ids
+            //'valuePath': 'id',
+            //'displayPath': 'name',
+            //'options': getPermissionOptions
           },
-          'transclude': true,
+          //'lookup': 'permissions:id',
+          'resolve': function (tenantRole) {
+            return tenantRole.permissions.length;
+          },
+          'sortOn': 'permissions.length',
           'name': 'permissions'
         }],
         'searchOn' : ['name'],
