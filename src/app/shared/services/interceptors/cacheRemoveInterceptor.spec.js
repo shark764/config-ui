@@ -17,7 +17,7 @@ describe('cacheRemoveInterceptor service', function(){
     it('should remove the resource from the stored array in the cache', inject(['queryCache', function(queryCache) {
       var MyResource = function(id){
         this.id = id;
-      }
+      };
       MyResource.prototype.resourceName = 'myResource';
       var myResource = new MyResource('myid');
       
@@ -33,7 +33,7 @@ describe('cacheRemoveInterceptor service', function(){
     it('should do nothing if there is no cached array', inject(['queryCache', function(queryCache) {
       var MyResource = function(id){
         this.id = id;
-      }
+      };
       MyResource.prototype.resourceName = 'myResource';
       var myResource = new MyResource('myid');
 
