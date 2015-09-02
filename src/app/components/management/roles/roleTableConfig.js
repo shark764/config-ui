@@ -38,7 +38,7 @@ angular.module('liveopsConfigPanel')
         'orderBy' : 'name',
         'title': $translate.instant('role.table.title'),
         'showBulkActions': false,
-        'showCreate': UserPermissions.hasPermission(['PLATFORM_CREATE_TENANT_ROLES', 'MANAGE_ALL_ROLES'])
+        'showCreate': UserPermissions.hasPermissionInList(['PLATFORM_CREATE_TENANT_ROLES', 'MANAGE_ALL_ROLES'])
       };
     }
   ]);
