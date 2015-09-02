@@ -59,12 +59,12 @@ var BulkActions = function() {
   this.confirmCancel = this.confirmModal.element(by.id('modal-cancel'));
 
   // Status table selectors
-  this.tableHeader = element(by.css('#table-pane > div:nth-child(3) > table:nth-child(1)'));
-  this.statusTableDropDown = this.tableHeader.element(by.css('filter-dropdown:nth-child(2)'));
-  this.dispatchMappingsStatusTableDropDown = element(by.css('.clone-header > thead:nth-child(1) > tr:nth-child(1) > th:nth-child(7) > filter-dropdown:nth-child(2)'));
-  this.allStatus = this.statusTableDropDown.element(by.css('.all'));
-  this.statuses = this.statusTableDropDown.all(by.repeater('option in options | orderBy:orderBy track by option[valuePath]'));
-  this.statusInputs = this.statusTableDropDown.all(by.css('input'));
+  this.tableHeader = element(by.css('.clone-header > thead:nth-child(1)'));
+  this.statusColumnDropDown = this.tableHeader.element(by.id('status-column-dropdown'));
+  this.statusColumnDropDownLabel = this.statusColumnDropDown.element(by.css('.dropdown-label'));
+  this.allStatus = this.statusColumnDropDown.element(by.css('.all'));
+  this.statuses = this.statusColumnDropDown.all(by.repeater('option in options | orderBy:orderBy track by option[valuePath]'));
+  this.statusInputs = this.statusColumnDropDown.all(by.css('input'));
 };
 
 module.exports = new BulkActions();
