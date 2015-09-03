@@ -26,12 +26,15 @@ angular.module('liveopsConfigPanel')
           });
           
           angular.extend($scope, $scope.extendScope);
-
-          $scope.$on('resource:details:' + $scope.resourceName + ':create:success',
+          
+          $scope.$on('created:resource:' + $scope.resourceName,
             function (event, item) {
               $scope.items.push(item);
-              $scope.selectItem(item);
-            });
+              $scope.selected = item;
+              $location.search({
+                id: item.id
+              });
+          });
 
           $scope.onCreateClick = function () {
             DirtyForms.confirmIfDirty(function () {

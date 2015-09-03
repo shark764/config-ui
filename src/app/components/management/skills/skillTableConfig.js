@@ -32,7 +32,8 @@ angular.module('liveopsConfigPanel')
           },
           'filter': 'selectedOptions',
           'transclude': true,
-          'name': 'active'
+          'name': 'active',
+          'id': 'status-column-dropdown'
         }],
         'searchOn' : ['name', 'description'],
         'orderBy' : 'name',

@@ -39,7 +39,7 @@ angular.module('liveopsConfigPanel')
       };
 
       this.refreshTenants = function () {
-        self.fetchUserInfo(Session.token).then( function (response ) {
+        return self.fetchUserInfo(Session.token).then( function (response ) {
           Session.setTenants(response.data.result.tenants);
         });
       };

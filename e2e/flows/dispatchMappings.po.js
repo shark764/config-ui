@@ -31,14 +31,16 @@ var DispatchMappingsPage = function() {
   this.directions = ('Outbound');
 
   // Status table selectors
-  this.tableHeader = element(by.css('#table-pane > div:nth-child(3) > table:nth-child(1)'));
-  this.statusTableDropDown = this.tableHeader.element(by.css('tr:nth-child(1) > th:nth-child(7) > filter-dropdown:nth-child(2)'));
+  this.tableHeader = element(by.css('.clone-header > thead:nth-child(1)'));
+  this.statusTableDropDown = this.tableHeader.element(by.id('status-column-dropdown'));
+  this.statusTableDropDownLabel = this.statusTableDropDown.element(by.css('.dropdown-label'));
   this.allStatus = this.statusTableDropDown.element(by.css('.all'));
-  this.statuses = this.statusTableDropDown.all(by.repeater('option in options track by option[valuePath]'));
+  this.statuses = this.statusTableDropDown.all(by.repeater('option in options | orderBy:orderBy'));
   this.statusInputs = this.statusTableDropDown.all(by.css('input'));
 
-  this.interactionFieldTableDropDown = this.tableHeader.element(by.css('tr:nth-child(1) > th:nth-child(5) > filter-dropdown:nth-child(2)'));
-  this.interactionFields = this.interactionFieldTableDropDown.all(by.repeater('option in options | orderBy:orderBy track by option[valuePath]'));
+  this.interactionFieldTableDropDown = this.tableHeader.element(by.id('integration-column-dropdown'));
+  this.interactionFieldDropDownLabel = this.interactionFieldTableDropDown.element(by.css('.dropdown-label'));
+  this.interactionFields = this.interactionFieldTableDropDown.all(by.repeater('option in options | orderBy:orderBy'));
 };
 
 module.exports = new DispatchMappingsPage();

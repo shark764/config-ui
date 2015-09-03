@@ -56,7 +56,7 @@ describe('The skills view bulk actions', function() {
 
       // All skills are set to disabled
       // Select Disabled from Status drop down
-      bulkActions.statusTableDropDown.click();
+      bulkActions.statusColumnDropDownLabel.click();
       bulkActions.statuses.get(0).click();
       shared.tableElements.count().then(function(disabledTotal) {
         expect(disabledTotal).toBe(skillCount);
@@ -92,7 +92,7 @@ describe('The skills view bulk actions', function() {
 
       // All skills are set to enabled
       // Select Disabled from Status drop down
-      bulkActions.statusTableDropDown.click();
+      bulkActions.statusColumnDropDownLabel.click();
       bulkActions.statuses.get(0).click();
       shared.tableElements.count().then(function(disabledTotal) {
         expect(disabledTotal).toBe(0);

@@ -4,7 +4,7 @@
     config="tableConfig"
     items="fetchGroups()"
     selected="selectedGroup"
-    resource-name="group">
+    resource-name="Group">
 
   <span name="active">
     <span ng-if="item.active">{{'value.enabled' | translate}}</span>
@@ -31,7 +31,7 @@
       header-template-url="app/components/management/groups/groupDetailHeader.html"
       body-template-url="app/components/management/groups/groupDetailBody.html"
       original-resource="selectedGroup"
-      resource-name="group"></resource-details>
+      resource-name="Group"></resource-details>
 
   <bulk-action-executor class="details-pane group-ba" ng-show="showBulkActions" items="fetchGroups()"
     bulk-actions="bulkActions" show-bulk-actions="showBulkActions">

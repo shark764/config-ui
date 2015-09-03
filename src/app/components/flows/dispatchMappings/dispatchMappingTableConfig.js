@@ -27,6 +27,7 @@ angular.module('liveopsConfigPanel')
             'options': dispatchMappingInteractionFields
           },
           'name': 'interactionField',
+          'id': 'integration-column-dropdown',
           'lookup': '$original:interactionField',
           'filter': 'selectedOptions'
         }, {
@@ -47,6 +48,7 @@ angular.module('liveopsConfigPanel')
             'options': statuses()
           },
           'name': 'active',
+          'id': 'status-column-dropdown',
           'lookup': '$original:active',
           'sortable': true,
           'transclude': true,

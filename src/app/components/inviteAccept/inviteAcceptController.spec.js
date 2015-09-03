@@ -39,73 +39,6 @@ describe('invite accept controller', function () {
       });
     }
   ]));
-
-  describe('init', function(){
-    //TODO: re-enable when TITAN2-3042 is addressed
-    xit('should redirect to login with a message if the invite was already accepted', inject(['$state', function($state){
-      spyOn($state, 'transitionTo');
-      
-      var mockUser = mockUsers[1];
-      mockUser.status = 'pending';
-      
-      var mockTenantUser = mockTenantUsers[1];
-      mockTenantUser.status = 'accepted';
-      
-      $controller('InviteAcceptController', {
-        '$scope': $rootScope.$new(),
-        'invitedUser': mockUser,
-        'invitedTenantUser': mockTenantUser
-      });
-      
-      expect($state.transitionTo).toHaveBeenCalledWith('login', {messageKey: 'invite.accept.alreadyAccepted'});
-    }]));
-    
-    it('should accept the invite and redirect to login if the user already exists', inject(['$state', '$stateParams', function($state, $stateParams){
-      spyOn($state, 'transitionTo');
-      
-      var mockUser = mockUsers[1];
-      mockUser.status = 'enabled';
-      
-      $stateParams.tenantId = 'tenant-id';
-      $stateParams.userId = 'userId2';
-      
-      $httpBackend.expectPUT( apiHostname + '/v1/tenants/tenant-id/users/userId2').respond({
-        'result': mockTenantUsers[1]
-      });
-      
-      $controller('InviteAcceptController', {
-        '$scope': $rootScope.$new(),
-        'invitedUser': mockUser,
-        'invitedTenantUser': mockTenantUsers[1]
-      });
-      
-      $httpBackend.flush();
-      expect($state.transitionTo).toHaveBeenCalledWith('login', {messageKey: 'invite.accept.success'});
-    }]));
-    
-    it('should show an error if accepting an invite for an existing user fails', inject(['$stateParams', function($stateParams){
-      var mockUser = mockUsers[1];
-      mockUser.status = 'enabled';
-      
-      var mockTenantUser = mockTenantUsers[1];
-      mockTenantUser.status = 'invited';
-      
-      $stateParams.tenantId = 'tenant-id';
-      $stateParams.userId = 'userId2';
-      
-      $httpBackend.expectPUT( apiHostname + '/v1/tenants/tenant-id/users/userId2').respond(500);
-      $scope = $rootScope.$new();
-      
-      $controller('InviteAcceptController', {
-        '$scope': $scope,
-        'invitedUser': mockUser,
-        'invitedTenantUser': mockTenantUser
-      });
-      
-      $httpBackend.flush();
-      expect($scope.error).toBeDefined();
-    }]));
-  });
   
   describe('save function', function(){
     beforeEach(function(){
@@ -216,6 +149,19 @@ describe('invite accept controller', function () {
       $scope.acceptSuccess();
       $scope.$digest();
       expect($state.transitionTo).toHaveBeenCalledWith('content.management.users', {id: 'userId2', messageKey: 'invite.accept.autologin.success'});
+    }]));
+    
+    it('should redirect to user profile page on login success if user has permissions', inject(['AuthService', '$stateParams', '$q', '$state', 'UserPermissions', function(AuthService, $stateParams, $q, $state, UserPermissions){
+      var deferred = $q.defer();
+      deferred.resolve('success');
+      
+      spyOn(AuthService, 'login').and.returnValue(deferred.promise);
+      spyOn(UserPermissions, 'hasPermissionInList').and.returnValue(false);
+      
+      $stateParams.userId = 'userId2';
+      $scope.acceptSuccess();
+      $scope.$digest();
+      expect($state.transitionTo).toHaveBeenCalledWith('content.userprofile', {messageKey: 'invite.accept.autologin.success'});
     }]));
     
     it('should show an alert on login fail', inject(['AuthService', '$state', '$q', function(AuthService, $state, $q){

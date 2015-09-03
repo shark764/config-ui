@@ -8,7 +8,8 @@
     ng-model="currentText"
     ng-focus="showSuggestions=true"
     ng-blur="onBlur()"
-    placeholder="{{placeholder}}"></input>
+    placeholder="{{placeholder}}"
+    ng-keypress="($event.which === 13) ? onEnter() : 0"></input>
     <i class="fa fa-search"></i>
     <ul ng-class="{'embeded' : !hover}" ng-show="filtered.length > 0 && (showSuggestions || hovering)" ng-mouseover="hovering=true" ng-mouseout="hovering=false">
       <li ng-class="{'highlight' : selectedItem == item}" ng-click="select(item)" ng-repeat="item in filtered = (items | filter:filterCriteria | orderBy:nameField)">{{item[nameField] || item.getDisplay()}}</li>
