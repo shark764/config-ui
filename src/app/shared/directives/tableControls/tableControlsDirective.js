@@ -161,6 +161,17 @@ angular.module('liveopsConfigPanel')
 
             $scope.orderBy = fieldName;
           };
+          
+          $scope.clearAllFilters = function(){
+            angular.forEach($scope.config.fields, function(field){
+              if (field.header.options){
+                var options = $filter('invoke')(field.header.options);
+                angular.forEach(options, function(option){
+                  option.checked = false;
+                });
+              }
+            });
+          };
         }
       };
     }

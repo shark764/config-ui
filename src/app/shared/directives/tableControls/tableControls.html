@@ -30,6 +30,8 @@
 <loading ng-if="items && !items.$resolved"></loading>
 <p class="null" ng-show="!items || (items.$resolved && !items.length)">{{'table.results.none' | translate}}</p>
 
+<p class="filtered" ng-show="filtered.length != items.length">Showing {{filtered.length}} of {{items.length}} items <a ng-click="clearAllFilters()">(Clear all filters)</a></p>
+
 <table scroll-table class="table" ng-show="items.length" id="items-table">
   <thead>
     <tr>
