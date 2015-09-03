@@ -1086,26 +1086,6 @@
         },
         {
             "entity": "throw",
-            "type": "flow-error",
-            "terminate": false,
-            "inputs": [
-                {
-                    "name": "binding",
-                    "path": "error.params",
-                    "type": "string",
-                    "label": "Error Message:",
-                    "group": "bindings",
-                    "index": 0,
-                    "disabled": false,
-                    "required": false,
-                    "placeholder": "Enter an error message...",
-                    "hidden": false
-                }
-            ],
-            "props": ["terminate", "error"]
-        },
-        {
-            "entity": "throw",
             "type": "none",
             "terminate": true,
             "inputs": [],
@@ -1149,26 +1129,6 @@
             "terminate": true,
             "inputs": [],
             "props": ["terminate"] 
-        },
-        {
-            "entity": "throw",
-            "type": "flow-error",
-            "terminate": true,
-            "inputs": [
-                {
-                    "name": "binding",
-                    "path": "error.params",
-                    "type": "string",
-                    "label": "Error Message:",
-                    "group": "bindings",
-                    "index": 0,
-                    "disabled": false,
-                    "required": false,
-                    "placeholder": "Enter an error message...",
-                    "hidden": false
-                }
-            ],
-            "props": ["terminate", "error"]
         }
     ],
     "links": [
