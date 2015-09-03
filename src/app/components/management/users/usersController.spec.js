@@ -255,20 +255,22 @@ describe('users controller', function () {
       $scope.selectedTenantUser.$user = new User({});
     }]));
 
-    it('should attempt to save the user', function () {
+    it('should attempt to save the user', inject(function (TenantUserGroups) {
       $httpBackend.expect('POST', apiHostname + '/v1/users');
-
+      spyOn(TenantUserGroups, 'query');
+      
       controller.saveNewUserTenantUser();
 
       $httpBackend.flush();
       $timeout.flush();
-    });
+    }));
 
-    it('should attempt to save the tenantUser', function () {
+    it('should attempt to save the tenantUser', inject(function (TenantUserGroups) {
+      spyOn(TenantUserGroups, 'query');
       controller.saveNewUserTenantUser();
       $httpBackend.expect('POST', apiHostname + '/v1/tenants/tenant-id/users');
       $httpBackend.flush();
-    });
+    }));
   });
   
   describe('ON controller.updateUser', function () {
