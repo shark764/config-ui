@@ -517,7 +517,7 @@
                 }
             ],
             "params": {
-                "resource.id": {
+                "resource-id": {
                     "source": "expression",
                     "type": "string",
                     "key": "resource",
