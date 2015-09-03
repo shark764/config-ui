@@ -30,7 +30,7 @@
     resource-name="Tenant">
   </resource-details>
 
-  <bulk-action-executor class="details-pane" ng-show="showBulkActions" items="tenants"
+  <bulk-action-executor class="details-pane" ng-show="showBulkActions" items="fetchTenants()"
     bulk-actions="bulkActions" show-bulk-actions="showBulkActions">
     <ba-set-tenant-status bulk-action="bulkActions.setTenantStatus"></ba-set-tenant-status>
   </bulk-action-executor>
