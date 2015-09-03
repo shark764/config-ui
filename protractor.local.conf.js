@@ -22,6 +22,13 @@ exports.config = {
       user: 'titan@liveops.com',
       password: 'gKVnfF9wrs6XPSYs'
     },
+
+    mailinator: {
+      inbox: 'titantest',
+      token: '358b00e30aa94f62be812de7e4a66ee2',
+      subject: 'Welcome to Titan',
+      from: 'titan.noreply@liveops.com'
+    },
   },
 
   onPrepare: function() {

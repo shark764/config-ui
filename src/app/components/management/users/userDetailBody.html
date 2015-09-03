@@ -38,7 +38,7 @@
         </select>
       </div>
     </div>
-    
+
     <div class="input-group">
       <label>{{'details.role' | translate}} *</label>
       <form-error
@@ -54,7 +54,7 @@
         </select>
       </div>
     </div>
-  
+
     <div class="input-group">
       <label>{{'details.inviteNow' | translate}}</label>
       <div>
@@ -65,11 +65,11 @@
           ng-init="selectedTenantUser.status = 'invited'"
           name="inviteNow">
         </toggle>
-        <help-icon translate-value="details.inviteNow.help"></help-icon>
+        <help-icon id="invite-now-help" translate-value="details.inviteNow.help"></help-icon>
       </div>
     </div>
   </div>
-  
+
   <div class="input-group" ng-show="forms.detailsForm.email.$error.duplicateEmail">
     <div class="lo-alert">{{'details.email.alreadyExists' | translate}}</div>
   </div>
@@ -85,10 +85,10 @@
       <label>{{'details.inviteStatus' | translate}}</label>
       <div>
         <tenant-user-status ng-model="selectedTenantUser.status"></tenant-user-status>
-        <help-icon translate-value="details.tenantStatus.help"></help-icon>
+        <help-icon id="tenant-status-help" translate-value="details.tenantStatus.help"></help-icon>
       </div>
     </div>
-    
+
     <div class="input-group" disable-contents="! (['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'MANAGE_TENANT_ENROLLMENT']  | hasPermission)">
       <label>{{'details.role' | translate}} *</label>
       <form-error field="forms.detailsForm.roleId"
@@ -104,11 +104,11 @@
         </select>
       </div>
     </div>
-    
+
     <div ng-if="selectedTenantUser.status != 'accepted' && selectedTenantUser.status != 'disabled' && ['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'MANAGE_TENANT_ENROLLMENT'] | hasPermission" class="input-group">
       <label></label>
       <div>
-        <input type="button" class="btn" ng-click="saveTenantUser()"
+        <input id="resend-invitation-btn" type="button" class="btn" ng-click="saveTenantUser()"
           value="{{'user.details.invitation.resend' | translate}}">
       </div>
     </div>

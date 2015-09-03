@@ -38,25 +38,20 @@ angular.module('liveopsConfigPanel')
               return undefined;
             }
 
-            // empty string indicates that its verifying if it should
-            // check any part; always return the value
-            if(key === ''){
-              return value;
-            }
-            
-            //If the key is an array index, return the value
-            if (String(Number(key)) === key){
-              return value;
-            }
-
-            var i = _.findIndex(params.updateFields, {'name' : key});
-
-            if(i >= 0 && (value !== null || !params.updateFields[i].optional)){
-              return value;
-            }
-
-            return undefined;
+            return value;
           };
+          
+          var cleanUpdateFields = function(data){
+            var cleanedData = angular.copy(data);
+            angular.forEach(cleanedData, function(value, key){
+              var i = _.findIndex(params.updateFields, {'name' : key});
+              if (i < 0 || (value === null && params.updateFields[i].optional)){
+                delete cleanedData[key];
+              }
+            });
+            
+            return cleanedData;
+          }
 
           params.requestUrlFields = angular.isDefined(params.requestUrlFields) ? params.requestUrlFields : {
             id: '@id',
@@ -88,8 +83,8 @@ angular.module('liveopsConfigPanel')
               method: 'PUT',
               interceptor: params.updateInterceptor,
               transformRequest: function (data) {
-                var result = JSON.stringify(data, updateJsonReplacer);
-                return result;
+                var validUpdateFields = cleanUpdateFields(data);
+                return JSON.stringify(validUpdateFields, updateJsonReplacer);
               },
 
               transformResponse: appendTransform($http.defaults.transformResponse, function (value) {
