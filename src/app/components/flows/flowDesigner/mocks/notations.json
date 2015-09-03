@@ -7,6 +7,7 @@
             "bindings": {},
             "targeted": true,
             "target": "twilio",
+            "signals": [],
             "inputs": [
                 {
                     "name": "targeted",
@@ -120,9 +121,15 @@
             "name": "collect-digits",
             "entity": "activity",
             "label": "Collect Digits",
-            "bindings": {},
+            "bindings": {
+              "digits": {
+                "type": "string",
+                "path": "digits"
+              }
+            },
             "targeted": true,
             "target": "twilio",
+            "signals": [],
             "inputs": [
                 {
                     "name": "digits_binding",
@@ -255,8 +262,14 @@
             "name": "enqueue",
             "entity": "activity",
             "label": "Enqueue",
-            "bindings": {},
+            "bindings": {
+              "resource": {
+                "type": "resource",
+                "path": "resource"
+              }
+            },
             "targeted": false,
+            "signals": [],
             "inputs": [
                 {
                     "name": "resource_binding",
@@ -311,6 +324,7 @@
             "label": "Dequeue",
             "bindings": {},
             "targeted": false,
+            "signals": [],
             "inputs": [
                 {
                     "name": "targeted",
@@ -354,6 +368,7 @@
             "targeted": true,
             "target": "client",
             "bindings": {},
+            "signals": [],
             "inputs": [
                 {
                     "name": "targeted",
@@ -462,6 +477,7 @@
             "label": "Free Resource",
             "bindings": {},
             "targeted": false,
+            "signals": [],
             "inputs": [
                 {
                     "name": "targeted",
@@ -505,6 +521,7 @@
             "targeted": true,
             "target": "twilio",
             "bindings": {},
+            "signals": [],
             "inputs": [
                 {
                     "name": "targeted",
@@ -628,6 +645,7 @@
             "targeted": true,
             "target": "twilio",
             "bindings": {},
+            "signals": ["customer-disconnect", "resource-disconnect"],
             "inputs": [
                 {
                     "name": "to",
@@ -711,6 +729,7 @@
             "targeted": true,
             "target": "twilio",
             "bindings": {},
+            "signals": [],
             "inputs": [
                 {
                     "name": "participant",
@@ -767,6 +786,7 @@
             "targeted": true,
             "target": "twilio",
             "bindings": {},
+            "signals": [],
             "inputs": [
                 {
                     "name": "participant",
@@ -842,6 +862,7 @@
             "targeted": true,
             "target": "twilio",
             "bindings": {},
+            "signals": [],
             "inputs": [
                 {
                     "name": "participant",
@@ -1010,7 +1031,7 @@
                     "hidden": false
                 }
             ],
-            "props": ["terminate", "event"] 
+            "props": ["terminate", "event"]
         },
         {
             "entity": "throw",
@@ -1049,14 +1070,14 @@
                     "hidden": false
                 }
             ],
-            "props": ["terminate", "event"] 
+            "props": ["terminate", "event"]
         },
         {
             "entity": "throw",
             "type": "terminate",
             "terminate": true,
             "inputs": [],
-            "props": ["terminate"] 
+            "props": ["terminate"]
         }
     ],
     "links": [

@@ -129,7 +129,7 @@ function flowDesigner() {
           }
 
           $window.search = function(target) {
-            return FlowConverter.search($scope.graph, target);
+            return FlowConverter.search($scope.graph.toJSON(), target);
           };
         }, 1000);
       }]
