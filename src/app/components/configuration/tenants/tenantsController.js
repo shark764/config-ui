@@ -31,13 +31,13 @@ angular.module('liveopsConfigPanel')
         $scope.create();
       });
       
-      $scope.$on('resource:details:tenants:create:success', function(event, newTenant) {
+      $scope.$on('created:resource:Tenant', function(event, newTenant) {
         if (newTenant.adminUserId === Session.user.id){
           AuthService.refreshTenants();
         }
       });
       
-      $scope.$on('resource:details:tenants:update:success', function(event, updatedTenant) {
+      $scope.$on('updated:resource:Tenant', function(event, updatedTenant) {
         //TODO: What happens if user was an admin on the tenant, then changed it to someone else?
         if (updatedTenant.adminUserId === Session.user.id){
           AuthService.refreshTenants();

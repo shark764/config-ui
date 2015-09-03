@@ -64,7 +64,7 @@ angular.module('liveopsConfigPanel')
 
       mediaSaveChain.hook('post save', function (media) {
         $scope.selectedMedia = null;
-        $rootScope.$broadcast('resource:details:Media:create:success', media);
+        $rootScope.$broadcast('created:resource:Media', media);
       }, 1);
 
       mediaSaveAndNewChain.hook('save', function () {

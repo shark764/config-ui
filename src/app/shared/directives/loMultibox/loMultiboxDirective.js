@@ -57,7 +57,7 @@ angular.module('liveopsConfigPanel')
           $scope.selectedItem = null;
         };
 
-        $scope.$on('resource:details:' + $scope.resourceName + ':create:success',
+        $scope.$on('created:resource:' + $scope.resourceName,
           function (event, resource) {
             if ($scope.createMode){
               $scope.onSelect(resource);
