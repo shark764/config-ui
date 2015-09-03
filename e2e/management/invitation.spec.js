@@ -91,23 +91,17 @@ describe('The user invitation', function() {
       req.get('https://api.mailinator.com/api/inbox?to=' + params.mailinator.inbox + '&token=' + params.mailinator.token, '', function(error, response, body) {
         var newestMessage = JSON.parse(body).messages[JSON.parse(body).messages.length - 1];
 
-        expect(newestMessage.seconds_ago).toBeLessThan(600);
         expect(newestMessage.subject).toBe(params.mailinator.subject);
         expect(newestMessage.been_read).toBeFalsy();
         expect(newestMessage.from).toBe(params.mailinator.from);
-        console.log(newestMessage.id);
 
         req.get('https://api.mailinator.com/api/email?msgid=' + newestMessage.id + '&token=' + params.mailinator.token, '', function(error, response, body) {
-          console.log(JSON.parse(body).data);
           var newestMessageContents = JSON.parse(body).data.parts[0].body;
-          console.log(newestMessageContents);
           expect(newestMessageContents).toContain('User Name: ');
           expect(newestMessageContents).toContain('Password: Set the first time you login');
           expect(newestMessageContents).toContain('Log in automatically by clicking');
 
           acceptInvitationLink = newestMessageContents.split('Log in automatically by clicking ')[1].split('\n')[0];
-          browser.get(acceptInvitationLink);
-        }).then(function () {
           browser.get(acceptInvitationLink);
         });
       });
@@ -154,7 +148,6 @@ describe('The user invitation', function() {
             });
           });
         });
-
       });
     });
 
@@ -178,6 +171,11 @@ describe('The user invitation', function() {
             // Verify user invitation email was sent
             req.get('https://api.mailinator.com/api/inbox?to=' + params.mailinator.inbox + '&token=' + params.mailinator.token, '', function(error, response, body) {
               var newestMessage = JSON.parse(body).messages[JSON.parse(body).messages.length - 1];
+
+              expect(newestMessage.seconds_ago).toBeLessThan(60);
+              expect(newestMessage.subject).toBe(params.mailinator.subject);
+              expect(newestMessage.been_read).toBeFalsy();
+              expect(newestMessage.from).toBe(params.mailinator.from);
 
               // Get the newest message content
               req.get('https://api.mailinator.com/api/email?msgid=' + newestMessage.id + '&token=' + params.mailinator.token, '', function(error, response, body) {
@@ -223,6 +221,11 @@ describe('The user invitation', function() {
             // Verify user invitation email was sent
             req.get('https://api.mailinator.com/api/inbox?to=' + params.mailinator.inbox + '&token=' + params.mailinator.token, '', function(error, response, body) {
               var newestMessage = JSON.parse(body).messages[JSON.parse(body).messages.length - 1];
+
+              expect(newestMessage.seconds_ago).toBeLessThan(60);
+              expect(newestMessage.subject).toBe(params.mailinator.subject);
+              expect(newestMessage.been_read).toBeFalsy();
+              expect(newestMessage.from).toBe(params.mailinator.from);
 
               // Get the newest message content
               req.get('https://api.mailinator.com/api/email?msgid=' + newestMessage.id + '&token=' + params.mailinator.token, '', function(error, response, body) {
@@ -286,6 +289,11 @@ describe('The user invitation', function() {
             req.get('https://api.mailinator.com/api/inbox?to=' + params.mailinator.inbox + '&token=' + params.mailinator.token, '', function(error, response, body) {
               var newestMessage = JSON.parse(body).messages[JSON.parse(body).messages.length - 1];
 
+              expect(newestMessage.seconds_ago).toBeLessThan(60);
+              expect(newestMessage.subject).toBe(params.mailinator.subject);
+              expect(newestMessage.been_read).toBeFalsy();
+              expect(newestMessage.from).toBe(params.mailinator.from);
+
               // Get the newest message content
               req.get('https://api.mailinator.com/api/email?msgid=' + newestMessage.id + '&token=' + params.mailinator.token, '', function(error, response, body) {
                 var newestMessageContents = JSON.parse(body).data.parts[0].body;
@@ -346,7 +354,7 @@ describe('The user invitation', function() {
       expect(invites.errors.get(0).getText()).toBe('Please enter a password');
     });
 
-    xit('should not require first, last name or external id field input', function() {
+    it('should not require first, last name or external id field input', function() {
       browser.get(acceptInvitationLink);
 
       invites.passwordFormField.sendKeys('password\t');

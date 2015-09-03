@@ -24,7 +24,7 @@ describe('The media collections view', function() {
 
   it('should include valid fields when creating a new Media Collection', function() {
     shared.createBtn.click();
-    expect(mediaCollections.creatingMediaCollectionHeader.getText()).toContain('Creating New Media Collection');
+    expect(mediaCollections.createFormHeader.getText()).toContain('Creating New Media Collection');
     expect(mediaCollections.descriptionFormField.isDisplayed()).toBeTruthy();
 
     expect(mediaCollections.addMediaMappingButton.isDisplayed()).toBeTruthy();
@@ -78,9 +78,9 @@ describe('The media collections view', function() {
     expect(shared.navBar.isDisplayed()).toBeTruthy();
     expect(shared.table.isDisplayed()).toBeTruthy();
     expect(shared.searchField.isDisplayed()).toBeTruthy();
-    expect(mediaCollections.mediaCollectionForm.isDisplayed()).toBeFalsy(); //Hide by default
-    expect(shared.detailsForm.isDisplayed()).toBeFalsy(); //Hide by default
-    //expect(shared.actionsBtn.isDisplayed()).toBeFalsy(); // No bulk actions
+    expect(mediaCollections.mediaCollectionForm.isDisplayed()).toBeFalsy(); // Hide by default
+    expect(mediaCollections.createMediaForm.isDisplayed()).toBeFalsy(); // Hide by default
+    expect(shared.actionsBtn.isDisplayed()).toBeFalsy(); // No bulk actions
     expect(shared.createBtn.isDisplayed()).toBeTruthy();
     expect(shared.tableColumnsDropDown.isDisplayed()).toBeTruthy();
     expect(shared.pageHeader.getText()).toBe('Media Collection Management');
@@ -91,8 +91,8 @@ describe('The media collections view', function() {
     shared.createBtn.click();
 
     // Submit button is disabled
-    expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
-    shared.submitFormBtn.click();
+    expect(mediaCollections.submitFormBtn.getAttribute('disabled')).toBeTruthy();
+    mediaCollections.submitFormBtn.click();
 
     // New Media is not saved
     expect(shared.successMessage.isPresent()).toBeFalsy();
@@ -107,8 +107,8 @@ describe('The media collections view', function() {
     mediaCollections.descriptionFormField.sendKeys('Media Collection Description');
 
     // Submit button is still disabled
-    expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
-    shared.submitFormBtn.click();
+    expect(mediaCollections.submitFormBtn.getAttribute('disabled')).toBeTruthy();
+    mediaCollections.submitFormBtn.click();
 
     // New Media is not saved
     expect(shared.successMessage.isPresent()).toBeFalsy();
@@ -119,7 +119,7 @@ describe('The media collections view', function() {
     mediaCollections.descriptionFormField.click();
 
     // Submit button is still disabled
-    expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
+    expect(mediaCollections.submitFormBtn.getAttribute('disabled')).toBeTruthy();
 
     // Error messages displayed
     expect(mediaCollections.requiredError.get(0).isDisplayed()).toBeTruthy();
@@ -138,13 +138,13 @@ describe('The media collections view', function() {
     // Complete fields
     mediaCollections.nameFormField.sendKeys('Media Collection' + randomCollection);
 
-    shared.submitFormBtn.click().then(function() {
+    mediaCollections.submitFormBtn.click().then(function() {
       expect(shared.successMessage.isDisplayed()).toBeTruthy();
       expect(shared.tableElements.count()).toBeGreaterThan(mediaCollectionCount);
     });
   });
 
-  xit('should successfully create new Media Collection with existing Media when name is input', function() {
+  it('should successfully create new Media Collection with existing Media when name is input', function() {
     // TODO Existing bug
     // Get existing media details
     browser.get(shared.mediaPageUrl);
@@ -172,7 +172,7 @@ describe('The media collections view', function() {
         // Set default Identifier
         mediaCollections.defaultIdDropdown.all(by.css('option')).get(1).click();
 
-        shared.submitFormBtn.click().then(function() {
+        mediaCollections.submitFormBtn.click().then(function() {
           expect(shared.successMessage.isDisplayed()).toBeTruthy();
         });
       }
@@ -207,7 +207,7 @@ describe('The media collections view', function() {
         // Set default Identifier
         mediaCollections.defaultIdDropdown.all(by.css('option')).get(1).click();
 
-        shared.submitFormBtn.click().then(function() {
+        mediaCollections.submitFormBtn.click().then(function() {
           expect(shared.successMessage.isDisplayed()).toBeTruthy();
         });
       }
@@ -221,7 +221,7 @@ describe('The media collections view', function() {
     // Edit fields
     mediaCollections.nameFormField.sendKeys('Media Collection Name');
     mediaCollections.descriptionFormField.sendKeys('Media Collection Description');
-    shared.cancelFormBtn.click();
+    mediaCollections.cancelFormBtn.click();
 
     // Warning message is displayed
     var alertDialog = browser.switchTo().alert();
@@ -247,7 +247,7 @@ describe('The media collections view', function() {
     mediaCollections.mediaIdentifiers.get(0).sendKeys('Media Identifier');
     mediaCollections.defaultIdDropdown.all(by.css('option')).get(1).click();
 
-    shared.cancelFormBtn.click();
+    mediaCollections.cancelFormBtn.click();
 
     // Warning message is displayed
     var alertDialog = browser.switchTo().alert();
@@ -266,7 +266,7 @@ describe('The media collections view', function() {
 
   it('should include valid fields when editing an existing Media Collection', function() {
     shared.firstTableRow.click();
-    expect(mediaCollections.editingMediaCollectionHeader.isDisplayed()).toBeTruthy();
+    expect(mediaCollections.editFormHeader.isDisplayed()).toBeTruthy();
     expect(mediaCollections.nameFormField.isDisplayed()).toBeTruthy();
     expect(mediaCollections.descriptionFormField.isDisplayed()).toBeTruthy();
 
@@ -281,8 +281,8 @@ describe('The media collections view', function() {
     expect(mediaCollections.addMediaMappingButton.isDisplayed()).toBeTruthy();
     expect(mediaCollections.mediaMappingsTable.isDisplayed()).toBeTruthy();
 
-    expect(shared.cancelFormBtn.isDisplayed()).toBeTruthy();
-    expect(shared.submitFormBtn.isDisplayed()).toBeTruthy();
+    expect(mediaCollections.cancelFormBtn.isDisplayed()).toBeTruthy();
+    expect(mediaCollections.submitFormBtn.isDisplayed()).toBeTruthy();
   });
 
   it('should display media collection details when selected from table', function() {
@@ -290,7 +290,7 @@ describe('The media collections view', function() {
     shared.firstTableRow.click();
 
     // Verify media collections details in table matches populated field
-    expect(mediaCollections.editingMediaCollectionHeader.getText()).toContain(shared.firstTableRow.element(by.css(mediaCollections.nameColumn)).getText());
+    expect(mediaCollections.editFormHeader.getText()).toContain(shared.firstTableRow.element(by.css(mediaCollections.nameColumn)).getText());
     expect(shared.firstTableRow.element(by.css(mediaCollections.nameColumn)).getText()).toBe(mediaCollections.nameFormField.getAttribute('value'));
     expect(shared.firstTableRow.element(by.css(mediaCollections.descriptionColumn)).getText()).toBe(mediaCollections.descriptionFormField.getAttribute('value'));
 
@@ -316,7 +316,7 @@ describe('The media collections view', function() {
           shared.secondTableRow.click();
 
           // Verify media collections details in table matches populated field
-          expect(mediaCollections.editingMediaCollectionHeader.getText()).toContain(shared.secondTableRow.element(by.css(mediaCollections.nameColumn)).getText());
+          expect(mediaCollections.editFormHeader.getText()).toContain(shared.secondTableRow.element(by.css(mediaCollections.nameColumn)).getText());
           expect(shared.secondTableRow.element(by.css(mediaCollections.nameColumn)).getText()).toBe(mediaCollections.nameFormField.getAttribute('value'));
           expect(shared.secondTableRow.element(by.css(mediaCollections.descriptionColumn)).getText()).toBe(mediaCollections.descriptionFormField.getAttribute('value'));
 
@@ -351,10 +351,9 @@ describe('The media collections view', function() {
     mediaCollections.nameFormField.sendKeys('Edit');
     mediaCollections.descriptionFormField.sendKeys('Edit');
 
-    shared.cancelFormBtn.click();
+    mediaCollections.cancelFormBtn.click();
     shared.dismissChanges();
 
-    expect(mediaCollections.requiredError.get(0).isDisplayed()).toBeFalsy();
     expect(shared.successMessage.isPresent()).toBeFalsy();
 
     // Fields reset to original values
@@ -387,10 +386,9 @@ describe('The media collections view', function() {
       mediaCollections.addMediaMappingButton.click();
       mediaCollections.addMediaMappingButton.click();
 
-      shared.cancelFormBtn.click();
+      mediaCollections.cancelFormBtn.click();
       shared.dismissChanges();
 
-      expect(mediaCollections.requiredError.get(0).isDisplayed()).toBeFalsy();
       expect(shared.successMessage.isPresent()).toBeFalsy();
 
       // Fields reset to original values
@@ -415,10 +413,7 @@ describe('The media collections view', function() {
     var editedName = mediaCollections.nameFormField.getAttribute('value');
     var editedDescription = mediaCollections.descriptionFormField.getAttribute('value');
 
-    shared.submitFormBtn.click().then(function() {
-      expect(mediaCollections.requiredError.get(0).isDisplayed()).toBeFalsy();
-      expect(mediaCollections.requiredError.get(1).isDisplayed()).toBeFalsy();
-      expect(mediaCollections.requiredError.get(2).isDisplayed()).toBeFalsy();
+    mediaCollections.submitFormBtn.click().then(function() {
       expect(shared.successMessage.isDisplayed()).toBeTruthy();
 
       // Changes persist
@@ -437,13 +432,12 @@ describe('The media collections view', function() {
     mediaCollections.nameFormField.sendKeys('\t');
 
     // Submit button is still disabled
-    expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
-    shared.submitFormBtn.click();
+    expect(mediaCollections.submitFormBtn.getAttribute('disabled')).toBeTruthy();
+    mediaCollections.submitFormBtn.click();
 
-    // Error messages displayed
-    // TODO
-    //expect(mediaCollections.requiredError.get(0).isDisplayed()).toBeTruthy();
-    //expect(mediaCollections.requiredError.get(0).getText()).toBe('Please enter a name');
+    // Error message displayed
+    expect(mediaCollections.requiredError.get(0).isDisplayed()).toBeTruthy();
+    expect(mediaCollections.requiredError.get(0).getText()).toBe('Please enter a name');
     expect(shared.successMessage.isPresent()).toBeFalsy();
   });
 
@@ -455,7 +449,7 @@ describe('The media collections view', function() {
     mediaCollections.descriptionFormField.clear();
     mediaCollections.descriptionFormField.sendKeys('\t');
 
-    shared.submitFormBtn.click().then(function() {
+    mediaCollections.submitFormBtn.click().then(function() {
       expect(shared.successMessage.isDisplayed()).toBeTruthy();
 
       // Changes persist
@@ -472,7 +466,7 @@ describe('The media collections view', function() {
     mediaCollections.mediaMappings.count().then(function(mediaCount) {
       if (mediaCount > 0) {
         mediaCollections.mediaIdentifiers.get(0).sendKeys('edit');
-        mediaCollections.defaultIdDropdown.all(by.css('option')).get(2).click();
+        mediaCollections.defaultIdDropdown.all(by.css('option')).get(1).click();
 
         // Select Media, assume at least one media exists
         mediaCollections.mediaDropdowns.get(0).click();
@@ -483,7 +477,7 @@ describe('The media collections view', function() {
         var editedDefaultId = mediaCollections.defaultIdDropdown.$('option:checked').getText();
         var mappingEditedMedia = mediaCollections.mediaDropdowns.get(0).getAttribute('value');
 
-        shared.submitFormBtn.click().then(function() {
+        mediaCollections.submitFormBtn.click().then(function() {
           expect(shared.successMessage.isDisplayed()).toBeTruthy();
 
           // Changes persist
@@ -511,12 +505,12 @@ describe('The media collections view', function() {
         mediaCollections.mediaIdentifiers.get(0).sendKeys('\t');
 
         // Submit button is still disabled
-        expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
-        shared.submitFormBtn.click();
+        expect(mediaCollections.submitFormBtn.getAttribute('disabled')).toBeTruthy();
+        mediaCollections.submitFormBtn.click();
 
         // Error messages displayed
-        expect(mediaCollections.requiredError.get(4).isDisplayed()).toBeTruthy();
-        expect(mediaCollections.requiredError.get(4).getText()).toBe('Please enter an identifier for this media item');
+        expect(mediaCollections.requiredError.get(0).isDisplayed()).toBeTruthy();
+        expect(mediaCollections.requiredError.get(0).getText()).toBe('Please enter an identifier for this media item');
         expect(shared.successMessage.isPresent()).toBeFalsy();
       }
     });
@@ -538,7 +532,7 @@ describe('The media collections view', function() {
 
       mediaCollections.defaultIdDropdown.all(by.css('option')).get(1).click();
 
-      shared.submitFormBtn.click().then(function() {
+      mediaCollections.submitFormBtn.click().then(function() {
         expect(shared.successMessage.isDisplayed()).toBeTruthy();
 
         // Changes persist
@@ -552,11 +546,11 @@ describe('The media collections view', function() {
   });
 
   // TODO Existing bug to verify TITAN2-2291
-  xit('should require unique identifier field when editing a Media Mapping', function() {});
+  it('should require unique identifier field when editing a Media Mapping', function() {});
 
-  xit('should require unique identifier field on create when adding a Media Mapping', function() {});
+  it('should require unique identifier field on create when adding a Media Mapping', function() {});
 
-  xit('should require unique identifier field on edit when adding a new Media Mapping', function() {});
+  it('should require unique identifier field on edit when adding a new Media Mapping', function() {});
 
   it('should allow a Media Mapping to be removed when editing', function() {
     shared.firstTableRow.click();
@@ -569,7 +563,7 @@ describe('The media collections view', function() {
 
         expect(mediaCollections.mediaMappings.count()).toBeLessThan(mediaCount);
 
-        shared.submitFormBtn.click();
+        mediaCollections.submitFormBtn.click();
         expect(shared.successMessage.isDisplayed()).toBeTruthy();
 
         // Changes persist
@@ -582,7 +576,7 @@ describe('The media collections view', function() {
     });
   });
 
-  xit('should allow all Media Mappings to be removed when editing', function() {
+  it('should allow all Media Mappings to be removed when editing', function() {
     // TODO
     shared.firstTableRow.click();
 
@@ -594,7 +588,7 @@ describe('The media collections view', function() {
         }
         expect(mediaCollections.mediaMappings.count()).toBe(0);
 
-        shared.submitFormBtn.click();
+        mediaCollections.submitFormBtn.click();
         expect(shared.successMessage.isDisplayed()).toBeTruthy();
 
         // Changes persist
@@ -833,7 +827,7 @@ describe('The media collections view', function() {
       expect(mediaCollections.mediaRequiredError.get(2).getText()).toBe('Audio source must be a URL');
     });
 
-    xit('should leave Media pane open when selecting Create & New', function() {
+    it('should leave Media pane open when selecting Create & New', function() {
       // TODO Existing bug
       var randomMedia = Math.floor((Math.random() * 1000) + 1);
       shared.createBtn.click();
@@ -885,7 +879,7 @@ describe('The media collections view', function() {
       mediaCollections.mediaTypeDropdown.all(by.css('option')).get(2).click();
       mediaCollections.mediaSourceField.sendKeys('Cancel Source');
 
-      shared.cancelFormBtn.click();
+      mediaCollections.cancelFormBtn.click();
 
       // Dismiss warning message
       shared.dismissChanges();
@@ -947,7 +941,7 @@ describe('The media collections view', function() {
       expect(mediaCollections.mediaSourceField.getAttribute('value')).toBe('Close Source');
     });
 
-    xit('should leave new Media fields and pane open on Media Collections create', function() {
+    it('should leave new Media fields and pane open on Media Collections create', function() {
       // TODO Existing bug, feedback on expected flow required
       shared.createBtn.click();
       mediaCollections.openCreateNewMedia();
@@ -961,7 +955,7 @@ describe('The media collections view', function() {
       mediaCollections.nameFormField.sendKeys('Media Collection' + randomCollection);
       mediaCollections.removeMedia.get(0).click();
 
-      shared.submitFormBtn.click().then(function() {
+      mediaCollections.submitFormBtn.click().then(function() {
         expect(shared.successMessage.isDisplayed()).toBeTruthy();
 
         // Media pane remains open

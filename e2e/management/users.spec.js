@@ -25,7 +25,7 @@ describe('The users view', function() {
     shared.tearDown();
   });
 
-  xit('should include users management page components', function() {
+  it('should include users management page components', function() {
     expect(shared.navBar.isDisplayed()).toBeTruthy();
 
     expect(shared.searchField.getAttribute('placeholder')).toBe('Search');
@@ -42,7 +42,7 @@ describe('The users view', function() {
     expect(users.detailsForm.isDisplayed()).toBeFalsy();
   });
 
-  xit('should display supported fields for editing a user', function() {
+  it('should display supported fields for editing a user', function() {
     // Select user row
     shared.firstTableRow.click();
     expect(users.firstNameFormField.isDisplayed()).toBeTruthy();
@@ -63,7 +63,7 @@ describe('The users view', function() {
     expect(users.userNameDetailsHeader.getText()).not.toBe('Creating New User');
   });
 
-  xit('should restrict editing user detail fields for others', function() {
+  it('should restrict editing user detail fields for others', function() {
     // Select user row
     shared.firstTableRow.click();
     expect(users.firstNameFormField.isDisplayed()).toBeTruthy();
@@ -92,7 +92,7 @@ describe('The users view', function() {
     });
   });
 
-  xit('should display the selected user details in the user details section', function() {
+  it('should display the selected user details in the user details section', function() {
     // Select External Id column
     shared.tableColumnsDropDown.click();
     columns.options.get(2).click();
@@ -122,7 +122,7 @@ describe('The users view', function() {
     });
   });
 
-  xit('should not update table when user details are changed and cancelled', function() {
+  it('should not update table when user details are changed and cancelled', function() {
     // Select External Id column
     shared.tableColumnsDropDown.click();
     columns.options.get(2).click();
@@ -286,7 +286,7 @@ describe('The users view', function() {
     });
   });
 
-  xit('should not accept spaces as valid input when editing', function() {
+  it('should not accept spaces as valid input when editing', function() {
     // TODO Fails
     shared.searchField.sendKeys(params.login.firstName + ' ' + params.login.lastName);
     shared.firstTableRow.click();
@@ -316,7 +316,7 @@ describe('The users view', function() {
 
   describe('bulk actions', function(){
     //Regression test for TITAN2-2237
-    xit('should only display confirm dialog once when switching selected elements', function() {
+    it('should only display confirm dialog once when switching selected elements', function() {
       //Dirty the bulk action form
       shared.actionsBtn.click();
       users.statusBulkEnableCheck.click();

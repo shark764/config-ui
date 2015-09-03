@@ -21,17 +21,20 @@ describe('The user groups component of User view', function() {
     shared.tearDown();
   });
 
-  xit('should add to the group count for a user', function() {
+  it('should add to the group count for a user', function() {
     //Create a new user
     shared.createBtn.click();
     var randomUser = Math.floor((Math.random() * 1000) + 1);
     var newUserFirstName = 'First ' + randomUser;
+
+    users.emailFormField.sendKeys('titantest' + randomUser + '@mailinator.com\t');
+    users.tenantRoleFormDropdownOptions.get((randomUser % 3) + 1).click();
+    users.platformRoleFormDropdownOptions.get(1).click();
+
     users.firstNameFormField.sendKeys(newUserFirstName);
     users.lastNameFormField.sendKeys('Last' + randomUser);
-    users.emailFormField.sendKeys('titantest' + randomUser + '@mailinator.com');
-    users.passwordFormField.sendKeys('password');
 
-    shared.submitFormBtn.click().then(function() {
+    users.submitFormBtn.click().then(function() {
       expect(shared.successMessage.isDisplayed()).toBeTruthy();
 
       //Add a group to the new user
@@ -43,7 +46,7 @@ describe('The user groups component of User view', function() {
         users.addGroupBtn.click();
 
         //Verify that the users group count has increased and the new group is displayed
-        expect(shared.firstTableRow.element(by.css(users.skillsColumn)).getText()).toBe('1');
+        expect(shared.firstTableRow.element(by.css(users.groupsColumn)).getText()).toBe('1');
         expect(users.userGroups.count()).toBe(1);
         expect(users.userGroups.get(0).getText()).toBe(newUserGroup);
       });
@@ -66,23 +69,24 @@ describe('The user groups component of User view', function() {
       browser.get(shared.usersPageUrl);
       shared.searchField.sendKeys('e'); //Filter out users with blank first and last names, such as pending users
       shared.firstTableRow.click();
-      var selectedTenantUserName = users.userNameDetailsHeader.getText();
-      users.addGroupSearch.sendKeys(newGroupName);
-      users.addGroupBtn.click();
+      users.userNameDetailsHeader.getText().then(function (selectedTenantUserName) {
+        users.addGroupSearch.sendKeys(newGroupName);
+        users.addGroupBtn.click();
 
-      //View the group again
-      browser.get(shared.groupsPageUrl);
-      shared.searchField.sendKeys(newGroupName);
-      shared.firstTableRow.click();
+        //View the group again
+        browser.get(shared.groupsPageUrl);
+        shared.searchField.sendKeys(newGroupName);
+        shared.firstTableRow.click();
 
-      //Verify that the group members has increased
-      expect(groups.groupMembersRows.count()).toEqual(1);
-      expect(groups.groupMembersRows.get(0).getText()).toContain(selectedTenantUserName);
-      expect(shared.firstTableRow.element(by.css(groups.membersColumn)).getText()).toEqual('1');
+        //Verify that the group members has increased
+        expect(groups.groupMembersRows.count()).toEqual(1);
+        expect(groups.groupMembersRows.get(0).getText()).toContain(selectedTenantUserName);
+        expect(shared.firstTableRow.element(by.css(groups.membersColumn)).getText()).toEqual('1');
+      });
     });
   });
 
-  xit('should create new group and add user', function() {
+  it('should create new group and add user', function() {
     shared.searchField.sendKeys('e'); //Filter out users with blank first and last names, such as pending users
     shared.firstTableRow.click();
 
@@ -90,22 +94,23 @@ describe('The user groups component of User view', function() {
     var newGroupName = 'Group Name from User Page ' + randomGroup;
 
     //Assign a user to a group that doesn't exist
-    var selectedUserName = users.userNameDetailsHeader.getText();
-    users.addGroupSearch.sendKeys(newGroupName);
-    users.addGroupBtn.click();
+    users.userNameDetailsHeader.getText().then(function (selectedUserName) {
+      users.addGroupSearch.sendKeys(newGroupName);
+      users.addGroupBtn.click();
 
-    //View the group page
-    browser.get(shared.groupsPageUrl);
-    shared.searchField.sendKeys(newGroupName);
-    shared.firstTableRow.click(); // group exists
+      //View the group page
+      browser.get(shared.groupsPageUrl);
+      shared.searchField.sendKeys(newGroupName);
+      shared.firstTableRow.click(); // group exists
 
-    //Verify that the group members has increased
-    expect(groups.groupMembersRows.count()).toEqual(1);
-    expect(groups.groupMembersRows.get(0).getText()).toContain(selectedUserName);
-    expect(shared.firstTableRow.element(by.css(groups.membersColumn)).getText()).toEqual('1');
+      //Verify that the group members has increased
+      expect(groups.groupMembersRows.count()).toEqual(1);
+      expect(groups.groupMembersRows.get(0).getText()).toContain(selectedUserName);
+      expect(shared.firstTableRow.element(by.css(groups.membersColumn)).getText()).toEqual('1');
+    });
   });
 
-  xit('should update group count when removing a user group', function() {
+  it('should update group count when removing a user group', function() {
     shared.searchField.sendKeys('e'); //Filter out users with blank first and last names, such as pending users
     shared.firstTableRow.click();
 
@@ -122,51 +127,53 @@ describe('The user groups component of User view', function() {
         expect(users.userGroups.count()).toBe(0);
         expect(users.noUserGroupsMessage.isDisplayed()).toBeTruthy();
         expect(users.noUserGroupsMessage.getText()).toBe('This user is not assigned to any groups.');
-        // TODO
-        //expect(shared.firstTableRow.element(by.css(users.groupsColumn)).getText()).toEqual('0');
+        expect(shared.firstTableRow.element(by.css(users.groupsColumn)).getText()).toEqual('0');
       });
     });
   });
 
-  xit('should update member count for an existing group when removing a user group', function() {
+  it('should update member count for an existing group when removing a user group', function() {
     shared.searchField.sendKeys('e'); //Filter out users with blank first and last names, such as pending users
     shared.firstTableRow.click();
 
-    var selectedUserName = users.userNameDetailsHeader.getText();
+    users.userNameDetailsHeader.getText().then(function (selectedUserName) {
+      users.addGroupBtn.click();
+      users.addGroupSearch.click();
+      users.groupDropdownItems.get(0).click();
+      users.addGroupBtn.click();
 
-    users.addGroupBtn.click();
-    users.addGroupSearch.click();
-    users.groupDropdownItems.get(0).click();
-    users.addGroupBtn.click();
+      // Remove user Group
+      users.userGroups.get(0).getText().then(function(currentUserGroup) {
+        users.userGroups.get(0).element(by.css('a')).click();
+        var removedUserGroupName = currentUserGroup;
 
-    // Remove user Group
-    users.userGroups.get(0).getText().then(function(currentUserGroup) {
-      users.userGroups.get(0).element(by.css('a')).click();
-      var removedUserGroupName = currentUserGroup;
+        //View the group again
+        browser.get(shared.groupsPageUrl);
+        shared.searchField.sendKeys(removedUserGroupName);
+        shared.firstTableRow.click();
 
-      //View the group again
-      browser.get(shared.groupsPageUrl);
-      shared.searchField.sendKeys(removedUserGroupName);
-      shared.firstTableRow.click();
-
-      //Verify that the group members has been updated to remove user
-      groups.groupMembersRows.each(function(groupUser) {
-        expect(groupUser.getText()).not.toContain(selectedUserName);
+        //Verify that the group members has been updated to remove user
+        groups.groupMembersRows.each(function(groupUser) {
+          expect(groupUser.getText()).not.toContain(selectedUserName);
+        });
       });
     });
   });
 
-  xit('should allow the user to be added to each group once', function() {
+  it('should allow the user to be added to each group once', function() {
     //Create a new user
     shared.createBtn.click();
     var randomUser = Math.floor((Math.random() * 1000) + 1);
     var newUserName = 'First ' + randomUser + ' Last' + randomUser;
+
+    users.emailFormField.sendKeys('titantest' + randomUser + '@mailinator.com\t');
+    users.tenantRoleFormDropdownOptions.get((randomUser % 3) + 1).click();
+    users.platformRoleFormDropdownOptions.get(1).click();
+
     users.firstNameFormField.sendKeys('First ' + randomUser);
     users.lastNameFormField.sendKeys('Last' + randomUser);
-    users.emailFormField.sendKeys('titantest' + randomUser + '@mailinator.com');
-    users.passwordFormField.sendKeys('password');
 
-    shared.submitFormBtn.click().then(function() {
+    users.submitFormBtn.click().then(function() {
       expect(shared.successMessage.isDisplayed()).toBeTruthy();
 
       //Add all groups to the new user
@@ -242,7 +249,7 @@ describe('The user groups component of User view', function() {
     users.groupDropdownItems.count().then(function(groupListCount) {
       totalGroups = groupListCount;
     }).then(function () {
-      user.userGroups.count().then(function (userGroupsCount) {
+      users.userGroups.count().then(function (userGroupsCount) {
         totalGroups = totalGroups + userGroupsCount;
       });
     }).thenFinally(function () {
@@ -264,7 +271,7 @@ describe('The user groups component of User view', function() {
         groupNameList.push(groupName);
       });
     }).then(function() {
-      browser.get(shared.groupPageUrl);
+      browser.get(shared.groupsPageUrl);
 
       // Group list on Users page should contain each of the same Group records
       for (var i = 0; i < groupNameList.length; i++) {
@@ -285,7 +292,7 @@ describe('The user groups component of User view', function() {
         groupNameList.push(groupName);
       });
     }).then(function() {
-      browser.get(shared.groupPageUrl);
+      browser.get(shared.groupsPageUrl);
 
       // Group list on Users page should contain each of the same Group records
       for (var i = 0; i < groupNameList.length; i++) {
@@ -297,7 +304,7 @@ describe('The user groups component of User view', function() {
   });
 
   it('should search list of all existing Groups by Group name', function() {
-    browser.get(shared.groupPageUrl);
+    browser.get(shared.groupsPageUrl);
 
     // Get list of groups from Group page
     var groupNameList = [];

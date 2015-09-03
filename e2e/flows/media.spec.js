@@ -24,7 +24,7 @@ describe('The media view', function() {
 
   it('should include valid Media fields when creating a new Media', function() {
     shared.createBtn.click();
-    expect(media.creatingMediaHeader.getText()).toContain('Creating New Media');
+    expect(shared.detailsFormHeader.getText()).toContain('Creating New Media');
     expect(media.sourceFormField.isDisplayed()).toBeTruthy();
     expect(media.typeFormDropdown.isDisplayed()).toBeTruthy();
     expect(media.typeFormDropdown.all(by.css('option')).get(1).getText()).toBe('Audio');

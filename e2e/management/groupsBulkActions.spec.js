@@ -62,7 +62,7 @@ describe('The groups view bulk actions', function() {
   it('should allow all selected group\'s status to be Disabled', function() {
     // Update All bulk actions
     shared.actionsBtn.click();
-    
+
     var numEveryoneGroups = 0;
     // Hackily dont select the 'everyone' group
     shared.tableElements.each(function(groupElement, elementIndex) {
@@ -87,23 +87,20 @@ describe('The groups view bulk actions', function() {
       // Form reset
       expect(bulkActions.submitFormBtn.getAttribute('disabled')).toBeTruthy();
       expect(bulkActions.enableToggle.getAttribute('disabled')).toBeTruthy();
-      
-      //Show only disabled groups
-      var statusColumnHeader = groups.headerRow.element(by.css('th:nth-child(5)'));
-      var statusColumnOptions = statusColumHeader.all(by.repeater('option in options track by option[valuePath]'));
-      
-      statusColumnHeader.click()
-      statusColumnOptions.get(0).click();
+
+      // All groups are set to disabled
+      // Select Disabled from Status drop down
+      bulkActions.statusColumnDropDownLabel.click();
+      bulkActions.statuses.get(0).click();
       shared.tableElements.count().then(function(disabledTotal) {
-        expect(disabledTotal).toBe(groupCount - numEveryoneGroups);
+        expect(disabledTotal).toBe(groupCount);
       });
 
       // Select Enabled from Status drop down
-      statusColumnHeader.click()
-      statusColumnOptions.get(0).click();
-      statusColumnOptions.get(1).click();
+      bulkActions.statuses.get(0).click();
+      bulkActions.statuses.get(1).click();
       shared.tableElements.count().then(function(enabledTotal) {
-        expect(enabledTotal).toBe(numEveryoneGroups); // Account for everyone group
+        expect(enabledTotal).toBe(0);
       });
     });
   });
@@ -137,7 +134,7 @@ describe('The groups view bulk actions', function() {
 
       // All groups are set to enabled
       // Select Disabled from Status drop down
-      bulkActions.statusTableDropDown.click();
+      bulkActions.statusColumnDropDownLabel.click();
       bulkActions.statuses.get(0).click();
       shared.tableElements.count().then(function(disabledTotal) {
         expect(disabledTotal).toBe(0);

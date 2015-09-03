@@ -173,11 +173,13 @@ describe('The queues view', function() {
     expect(queues.selectedVersionRate.getAttribute('value')).toBe('2');
     expect(queues.selectedVersionRateUnit.getAttribute('value')).toBe('min');
 
-    // Version details should be disabled
+    // Version query should be disabled
     expect(queues.selectedVersionQuery.getAttribute('disabled')).toBeTruthy();
-    expect(queues.selectedVersionPriority.getAttribute('disabled')).toBeTruthy();
-    expect(queues.selectedVersionRate.getAttribute('disabled')).toBeTruthy();
-    expect(queues.selectedVersionRateUnit.getAttribute('disabled')).toBeTruthy();
+
+    // Other version details enabled
+    expect(queues.selectedVersionPriority.getAttribute('disabled')).toBeNull();
+    expect(queues.selectedVersionRate.getAttribute('disabled')).toBeNull();
+    expect(queues.selectedVersionRateUnit.getAttribute('disabled')).toBeNull();
 
     // Close and copy buttons displayed
     expect(queues.closeVersionBtn.isDisplayed()).toBeTruthy();

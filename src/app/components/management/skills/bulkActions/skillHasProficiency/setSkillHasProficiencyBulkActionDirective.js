@@ -21,10 +21,10 @@ angular.module('liveopsConfigPanel')
               return skill;
             });
           };
-          
+
           $scope.bulkAction.reset = function() {
             $scope.bulkAction.checked = false;
-            $scope.hasProficiency = true;
+            $scope.hasProficiency = 'true';
           };
         }
       };
