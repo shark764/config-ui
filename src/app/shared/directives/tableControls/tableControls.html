@@ -30,7 +30,7 @@
 <loading ng-if="items && !items.$resolved"></loading>
 <p class="null" ng-show="!items || (items.$resolved && !items.length)">{{'table.results.none' | translate}}</p>
 
-<p class="filtered" ng-show="filtered.length != items.length">Showing {{filtered.length}} of {{items.length}} items <a ng-click="clearAllFilters()">(Clear all filters)</a></p>
+<p class="filtered" ng-show="filtered.length != items.length"><span translate="table.filtered.status" translate-value-count="{{filtered.length}}" translate-value-total="{{items.length}}"></span> <a ng-click="clearAllFilters()">{{'table.clear.link' | translate}}</a></p>
 
 <table scroll-table class="table" ng-show="items.length" id="items-table">
   <thead>

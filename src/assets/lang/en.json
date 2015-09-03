@@ -275,6 +275,8 @@
   "table.actions.button": "Actions",
   "table.columns.button": "Columns",
   "table.results.none": "No results were found.",
+  "table.filtered.status": "Showing {{count}} of {{total}} items",
+  "table.clear.link": "(Clear all filters)",
 
   "content.notenants.warning": "You have no tenants assigned to you. Invite yourself to one!",
 
