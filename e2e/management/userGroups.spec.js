@@ -32,7 +32,7 @@ describe('The user groups component of User view', function() {
     users.platformRoleFormDropdownOptions.get(1).click();
 
     users.firstNameFormField.sendKeys(newUserFirstName);
-    users.lastNameFormField.sendKeys('Last' + randomUser);
+    users.lastNameFormField.sendKeys('Last ' + randomUser);
 
     users.submitFormBtn.click().then(function() {
       expect(shared.successMessage.isDisplayed()).toBeTruthy();
@@ -97,6 +97,32 @@ describe('The user groups component of User view', function() {
     users.userNameDetailsHeader.getText().then(function (selectedUserName) {
       users.addGroupSearch.sendKeys(newGroupName);
       users.addGroupBtn.click();
+
+      //View the group page
+      browser.get(shared.groupsPageUrl);
+      shared.searchField.sendKeys(newGroupName);
+      shared.firstTableRow.click(); // group exists
+
+      //Verify that the group members has increased
+      expect(groups.groupMembersRows.count()).toEqual(1);
+      expect(groups.groupMembersRows.get(0).getText()).toContain(selectedUserName);
+      expect(shared.firstTableRow.element(by.css(groups.membersColumn)).getText()).toEqual('1');
+    });
+  });
+
+  it('should create new group and add user after pressing Enter key', function() {
+    shared.searchField.sendKeys('e'); //Filter out users with blank first and last names, such as pending users
+    shared.firstTableRow.click();
+
+    var randomGroup = Math.floor((Math.random() * 1000) + 1);
+    var newGroupName = 'Group Name from User Page ' + randomGroup;
+
+    //Assign a user to a group that doesn't exist
+    users.userNameDetailsHeader.getText().then(function (selectedUserName) {
+      users.addGroupSearch.sendKeys(newGroupName);
+
+      // Send Enter key instead of pressing Add button
+      users.addSkillSearch.sendKeys(protractor.Key.ENTER);
 
       //View the group page
       browser.get(shared.groupsPageUrl);
@@ -298,7 +324,7 @@ describe('The user groups component of User view', function() {
       for (var i = 0; i < groupNameList.length; i++) {
         shared.searchField.clear();
         shared.searchField.sendKeys(groupNameList[i]);
-        expect(shared.tableElements.get(0).getText()).toContain(groupNameList[i]);
+        expect(shared.tableElements.count()).toBeGreaterThan(0);
       }
     });
   });

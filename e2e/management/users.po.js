@@ -83,7 +83,7 @@ var UserPage = function() {
 
   //User Groups component
   this.addGroup = element(by.id('addGroup'));
-  this.addGroupSearch = this.addGroup.element(by.css('input'));
+  this.addGroupSearch = this.addGroup.element(by.id('typeahead-container'));
   this.groupDropdownItems = this.addGroup.all(by.repeater('item in filtered = (items | filter:filterCriteria | orderBy:nameField)'));
   this.addGroupBtn = this.addGroup.element(by.id('add-group-btn'));
   this.noUserGroupsMessage = element(by.id('no-user-groups'));
@@ -92,7 +92,7 @@ var UserPage = function() {
   //User Skills component
   this.userSkills = element.all(by.css('user-skills'));
   this.addSkill = element(by.id('skillsForm'));
-  this.addSkillSearch = this.addSkill.element(by.css('input'));
+  this.addSkillSearch = this.addSkill.element(by.id('typeahead-container'));
   this.skillDropdownItems = this.addSkill.all(by.repeater('item in filtered = (items | filter:filterCriteria | orderBy:nameField)'));
   this.skillProficiency = this.addSkill.element(by.css('.number-slider > input:nth-child(1)'))
   this.proficiencyCounterUp = this.addSkill.element(by.css('.top'))
