@@ -1,0 +1,26 @@
+.queue-query{
+  display: block;
+  margin: 10px;
+
+  .toolbar-container{
+    height: 60px;
+    color: #efefef;
+    width: 100%;
+    margin-top: 30;
+  }
+
+  h1{
+    display: inline-block;
+  }
+
+  .squeeze {
+    display: inline-block;
+    width:100%
+  }
+
+  .queue-btn{
+    float:right;
+    display:inline-block;
+    margin-top: 20px;
+  }
+}

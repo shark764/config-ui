@@ -1,3 +1,27 @@
-<div>
-  Place to put content!
+<div class="queue-query">
+  <div style="margin-top:-20px;">
+    <h1>HERRO!</h1>
+    <button id="create-btn"  class="btn btn-create btn-primary queue-btn" ng-click="onCreateClick()">{{'value.publish' | translate}}</button>
+  </div>
+  <div style="width:50%">
+    <type-ahead hover="true" placeholder="Type query" items="queryTypes()" name-field="label"></type-ahead>
+
+    <div style="margin-left: 60px;">
+
+      <label>
+        All of these:
+      </label>
+      <a ng-hide="!('MANAGE_ALL_MEDIA' | hasPermission)" id="add-media-mapping-button" class="btn pull-left" ng-click="addMapping()" title="{{'flow.details.mapping.add.alt' | translate}}"><i class="fa fa-plus"></i></a>
+      <type-ahead class="squeeze" hover="true" placeholder="Type query" items="queryTypes()" name-field="label"></type-ahead>
+    </div>
+
+    <div style="margin-left: 60px;">
+      <label style="display:block">
+        Some of these:
+      </label>
+      <a ng-hide="!('MANAGE_ALL_MEDIA' | hasPermission)" id="add-media-mapping-button" class="btn pull-left" ng-click="addMapping()" title="{{'flow.details.mapping.add.alt' | translate}}"><i class="fa fa-plus"></i></a>
+      <type-ahead class="squeeze" hover="true" placeholder="Type query" items="queryTypes()" name-field="label"></type-ahead>
+    </div>
+
+  </div>
 </div>

@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('QueueVersionsController', ['$scope', 'Session', 'QueueVersion',
-    function ($scope, Session, QueueVersion) {
+  .controller('QueueVersionsController', ['$scope', '$state', 'Session', 'QueueVersion',
+    function ($scope, $state, Session, QueueVersion) {
       $scope.saving = false;
       $scope.versions = [];
       $scope.queryType = 'basic';
@@ -31,6 +31,7 @@ angular.module('liveopsConfigPanel')
         $scope.updateCurrentVersion();
       });
 
+
       $scope.updateCurrentVersion = function () {
         if ($scope.queue.activeVersion !== null){
           for(var i = 0; i < $scope.versions.length; i++){
@@ -41,6 +42,10 @@ angular.module('liveopsConfigPanel')
         } else {
           $scope.currVersion = null;
         }
+      };
+
+      $scope.openBasicQuery = function () {
+        $state.go('content.flows.query');
       };
 
       $scope.currVersionChanged = function(){

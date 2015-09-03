@@ -129,6 +129,11 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
           }]
         }
       })
+      .state('content.flows.query', {
+        url: '/query-builder?id',
+        templateUrl: 'app/components/flows/queues/queueQueryCreator/queueQueryCreator.html',
+        controller: 'QueueQueryCreatorController'
+      })
       .state('content.flows.media', {
         url: '/media?id',
         templateUrl: 'app/components/flows/media/media.html',

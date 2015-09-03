@@ -1,15 +1,17 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-.controller('QueueQueryCreatorController', ['$scope', 'Session', 'QueueVersion',
+.controller('QueueQueryCreatorController', ['$scope', 'Session', 'QueueVersion', function($scope, Session, QueueVersion){
+  var queryBuilder = [{}];
+  $scope.querytypes = [{'label': 'Skills', 'value': 'skills'}, {'label': 'Groups', 'value': 'groups'}];
 
-  ])
-.directive('queueCreator', [function () {
-  return {
-    scope: {
-      queue: '='
-    },
-    templateUrl: 'app/components/flows/queues/queueQueryCreator/queueQueryCreator.html',
-    controller: 'QueueQueryCreatorController'
+
+  $scope.fetch = function() {
+
   };
+
+  $scope.queryTypes = function(){
+    return $scope.querytypes;
+  };
+
 }]);
