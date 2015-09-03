@@ -16,6 +16,12 @@ var InvitePage = function() {
   this.lastNameFormField = this.acceptForm.element(by.model('user.lastName'));
   this.externalIdFormField = this.acceptForm.element(by.model('user.externalId'));
   this.submitFormBtn = this.acceptForm.element(by.id('submit-invite-accept'));
+
+  this.copyrightLabel = this.acceptForm.element(by.id('p.copyright:nth-child(3)'));
+  this.signupLegalLabel = this.acceptForm.element(by.id('p.copyright:nth-child(4)'));
+
+  this.copyrightText = 'Copyright © 2015 LiveOps, Inc. All rights reserved.';
+  this.legalText = 'Access to this site requires separate permission from LiveOps. This site contains confidential information, and may also contain content and enable interaction with users from third-party sites subject to different terms that are outside of LiveOps control. By using or accessing this site, you have agreed to the Terms of Service as outlined in the Beta Service Agreement ("Agreement"). A copy of this Agreement is available from your LiveOps contact.';
 };
 
 module.exports = new InvitePage();

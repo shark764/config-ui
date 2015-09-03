@@ -308,8 +308,18 @@ describe('The user invitation', function() {
       });
     });
 
-    it('should require completed fields', function() {
+    it('should include Copyright and Legal information', function() {
       // NOTE: This test uses the acceptInvitationLink from the previous test
+      browser.get(acceptInvitationLink);
+
+      expect(invites.copyrightMessage.isDisplayed()).toBeTruthy();
+      expect(invites.legalMessage.isDisplayed()).toBeTruthy();
+
+      expect(invites.copyrightLabel.getText()).toBe(invites.copyrightText);
+      expect(invites.signupLegalLabel.getText()).toBe(invites.legalText);
+    });
+
+    it('should require completed fields', function() {
       browser.get(acceptInvitationLink);
 
       invites.passwordFormField.sendKeys('temp');
