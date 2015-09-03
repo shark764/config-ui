@@ -5,7 +5,11 @@ angular.module('liveopsConfigPanel')
 
     return LiveopsResourceFactory.create({
       endpoint: '/v1/tenants/:tenantId/users/:memberId/groups',
-      resourceName: 'TenantUserGroup'
+      resourceName: 'TenantUserGroup',
+      requestUrlFields: {
+        tenantId: '@tenantId',
+        memberId: '@memberId'
+      }
     });
 
   }]);

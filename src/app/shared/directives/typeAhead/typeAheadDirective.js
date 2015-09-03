@@ -13,7 +13,8 @@ angular.module('liveopsConfigPanel')
         placeholder: '@',
         hover: '=',
         prefill: '=',
-        keepExpanded: '='
+        keepExpanded: '=',
+        onEnter: '&'
       },
 
       templateUrl: 'app/shared/directives/typeAhead/typeAhead.html',
@@ -63,6 +64,12 @@ angular.module('liveopsConfigPanel')
             $scope.showSuggestions = false;
           }
         };
+        
+        $scope.$watch('selectedItem', function(newValue){
+          if (newValue === null){
+            $scope.currentText = '';
+          }
+        });
       }
     };
   }]);
