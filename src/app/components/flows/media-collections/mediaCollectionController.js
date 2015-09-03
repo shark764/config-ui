@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('MediaCollectionController', ['$q', '$scope', 'MediaCollection', 'Media', 'Session', 'mediaCollectionTableConfig', 'mediaTypes', 'Alert', 'Chain',
-    function ($q, $scope, MediaCollection, Media, Session, mediaCollectionTableConfig, mediaTypes, Alert, Chain) {
+  .controller('MediaCollectionController', ['$q', '$scope', 'MediaCollection', 'Media', 'Session', 'mediaCollectionTableConfig', 'mediaTypes', 'Alert', 'Chain', '$rootScope',
+    function ($q, $scope, MediaCollection, Media, Session, mediaCollectionTableConfig, mediaTypes, Alert, Chain, $rootScope) {
       $scope.forms = {};
       $scope.Session = Session;
 
@@ -42,16 +42,6 @@ angular.module('liveopsConfigPanel')
         collection.mediaMap = cleanedMediaMap;
       };
 
-      $scope.setCurrentMediaMap = function(media) {
-        if($scope.currentMediaMap) {
-          $scope.currentMediaMap.id = media.id;
-          $scope.currentMediaMap.name = media.name;
-          $scope.currentMediaMap.description = media.description;
-
-          $scope.forms.mediaCollectionForm.$setDirty();
-        }
-      };
-
       //TODO: remove duplication from MediaController
       $scope.$watch('forms.mediaForm.audiosource', function(newValue){
         if ($scope.selectedMedia && $scope.selectedMedia.isNew() && angular.isDefined(newValue)){
@@ -74,7 +64,7 @@ angular.module('liveopsConfigPanel')
 
       mediaSaveChain.hook('post save', function (media) {
         $scope.selectedMedia = null;
-        $scope.setCurrentMediaMap(media);
+        $rootScope.$broadcast('resource:details:Media:create:success', media);
       }, 1);
 
       mediaSaveAndNewChain.hook('save', function () {
@@ -90,7 +80,7 @@ angular.module('liveopsConfigPanel')
         $scope.setCurrentMediaMap(media);
       }, 1);
 
-      $scope.$on('resource:details:create:media', function (event, mediaMap) {
+      $scope.$on('resource:details:create:Media', function (event, mediaMap) {
         $scope.currentMediaMap = mediaMap;
         $scope.selectedMedia = new Media({
           properties: {},

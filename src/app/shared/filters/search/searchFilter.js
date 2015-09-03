@@ -39,7 +39,7 @@ angular.module('liveopsConfigPanel')
 
         angular.forEach(fields, function (field) {
           if (typeof (field) === 'string') {
-            itemString += item[field] + ' ';
+            itemString += $parse(field)(item) + ' ';
           } else if (typeof (field) === 'object') {
             itemString += findFields(field, item).join(' ') + ' ';
           }

@@ -31,12 +31,6 @@ describe('MediaMappings directive', function () {
     }
   ]));
   
-  it('should set mediaMapChanges dirty when a media mapping is added', function(){
-    $rootScope.$broadcast('resource:details:create:mediaMapping');
-    isolateScope.$digest();
-    expect($scope.form.mediaMapChanges.$setDirty).toHaveBeenCalled();
-  });
-  
   describe('addMapping function', function () {
     it('should exist', function () {
       expect(isolateScope.addMapping).toBeDefined();

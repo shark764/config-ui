@@ -43,11 +43,10 @@ angular.module('liveopsConfigPanel')
           $scope.form.defaultMediaKey.$setDirty();
           $scope.form.defaultMediaKey.$setTouched();
         };
-
-        //TODO: review
-        $scope.$on('resource:details:create:mediaMapping', function() {
+        
+        $scope.onSelect = function(){
           $scope.form.mediaMapChanges.$setDirty();
-        });
+        };
       }
     };
   }]);
