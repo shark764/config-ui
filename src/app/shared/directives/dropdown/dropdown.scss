@@ -9,9 +9,11 @@
   border-top: none;
   font-weight: normal;
   right: 0;
+  overflow-y: auto;
   position: absolute;
   padding: 6px 0;
   top: -5px;
+  max-height: 300px;
   min-width: 200px;
   width: 100%;
   z-index: 10;
