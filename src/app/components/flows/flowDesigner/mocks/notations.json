@@ -966,6 +966,25 @@
             "props": ["target", "interrupting", "bindings"]
         },
         {
+            "entity": "start",
+            "type": "flow-error",
+            "inputs": [
+                {
+                    "name": "binding",
+                    "path": "bindings",
+                    "type": "string",
+                    "label": "Binding:",
+                    "group": "bindings",
+                    "index": 0,
+                    "disabled": false,
+                    "required": false,
+                    "placeholder": "Enter a name to bind to the resource returned...",
+                    "hidden": false
+                }
+            ],
+            "props": ["interrupting", "bindings"]
+        },
+        {
             "entity": "catch",
             "type": "signal",
             "inputs": [
@@ -1014,6 +1033,25 @@
                 }
             ],
             "props": ["timer", "interrupting"]
+        },
+        {
+            "entity": "catch",
+            "type": "flow-error",
+            "inputs": [
+                {
+                    "name": "binding",
+                    "path": "bindings",
+                    "type": "string",
+                    "label": "Inputs:",
+                    "group": "bindings",
+                    "index": 0,
+                    "disabled": false,
+                    "required": false,
+                    "placeholder": "Enter a name to bind to the resource returned...",
+                    "hidden": false
+                }
+            ],
+            "props": ["interrupting", "bindings"]
         },
         {
             "entity": "throw",
