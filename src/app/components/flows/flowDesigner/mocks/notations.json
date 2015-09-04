@@ -1284,6 +1284,7 @@
             "label": "Queue Interaction",
             "start": "t21657",
             "end": "t21654",
+            "signals": ["resource-acquired", "abandon-queue"],
             "inputs": [
                 {
                     "name": "resource",
@@ -1353,6 +1354,7 @@
             "label": "Add Customer",
             "start": "t21504",
             "end": "t21502",
+            "signals": ["remove-participant"],
             "inputs": [],
             "params": {},
             "flow": "[{\"id\":\"tag/t21502\",\"children\":[],\"parents\":[\"tag/t21503\"],\"entity\":\"throw\",\"type\":\"signal\",\"terminate\":false,\"event\":{\"name\":\"remove-participant\",\"params\":{\"customer\":{\"source\":\"expression\",\"value\":\"titan/customer\"}}}},{\"children\":[\"tag/t21502\"],\"bindings\":{},\"interrupting\":true,\"type\":\"signal\",\"id\":\"tag/t21503\",\"parents\":[\"tag/t21504\"],\"target\":\"resource-disconnect\",\"entity\":\"catch\"},{\"children\":[\"tag/t21503\"],\"bindings\":{},\"name\":\"add-participant\",\"params\":{\"customer\":{\"source\":\"expression\",\"value\":\"titan/customer\"},\"muted\":{\"source\":\"expression\",\"value\":\"false\"}},\"type\":\"task\",\"id\":\"tag/t21504\",\"parents\":[],\"decorations\":[],\"target\":\"twilio\",\"entity\":\"activity\"}]"
@@ -1363,6 +1365,7 @@
             "label": "Add Resource",
             "start": "t21495",
             "end": "t21497",
+            "signals": ["remove-participant"],
             "inputs": [
                 {
                     "name": "resource",
@@ -1439,6 +1442,7 @@
             "label": "Voice Work Offer",
             "start": "t21683",
             "end": "t21686",
+            "signals": ["work-rejected", "work-accepted"],
             "inputs": [
                 {
                     "name": "resource",
@@ -1489,6 +1493,7 @@
             "label": "Resource Flow",
             "start": "t21600",
             "end": "t21599",
+            "signals": ["work-rejected", "work-accepted", "remove-participant"],
             "inputs": [
                 {
                     "name": "resource",
@@ -1565,6 +1570,7 @@
             "label": "Customer Hold/ Resume",
             "start": "t21730",
             "end": "t21729",
+            "signals": ["work-rejected", "work-accepted", "remove-participant"],
             "inputs": [
                 {
                     "name": "media",
