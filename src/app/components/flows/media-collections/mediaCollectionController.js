@@ -64,7 +64,6 @@ angular.module('liveopsConfigPanel')
 
       mediaSaveChain.hook('post save', function (media) {
         $scope.selectedMedia = null;
-        $rootScope.$broadcast('created:resource:Media', media);
       }, 1);
 
       mediaSaveAndNewChain.hook('save', function () {
@@ -76,8 +75,6 @@ angular.module('liveopsConfigPanel')
           properties: {},
           tenantId: Session.tenant.tenantId
         });
-
-        $scope.setCurrentMediaMap(media);
       }, 1);
 
       $scope.$on('resource:details:create:Media', function (event, mediaMap) {

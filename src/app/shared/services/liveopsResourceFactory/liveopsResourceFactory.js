@@ -113,7 +113,7 @@ angular.module('liveopsConfigPanel')
             },
             save: {
               method: 'POST',
-              interceptor: params.saveInterceptor,
+              interceptor: getInterceptor(params.saveInterceptor),
               transformRequest: function (data) {
                 return JSON.stringify(data, createJsonReplacer);
               },
