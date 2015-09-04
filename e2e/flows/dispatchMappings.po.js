@@ -19,7 +19,7 @@ var DispatchMappingsPage = function() {
   this.channelTypeColumn = 'td:nth-child(6)';
   this.statusColumn = 'td:nth-child(7)';
 
-  this.requiredErrors = element.all(by.css('.error'));
+  this.requiredErrors = element.all(by.css('.lo-error'));
 
   this.interactionTypes = ('Voice');
 

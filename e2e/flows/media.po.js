@@ -6,7 +6,7 @@ var MediaPage = function() {
   this.nameFormField = element(by.model('selectedMedia.name'));
   this.sourceFormField = element(by.model('selectedMedia.source'));
   this.typeFormDropdown = element(by.model('selectedMedia.type'));
-  this.requiredError = element.all(by.css('.error'));
+  this.requiredError = element.all(by.css('.lo-error'));
 
   this.nameColumn = 'td:nth-child(2)';
   this.sourceColumn = 'td:nth-child(3)';
