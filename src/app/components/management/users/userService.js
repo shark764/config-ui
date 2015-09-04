@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .factory('User', ['LiveopsResourceFactory', 'cacheAddInterceptor', 'emitInterceptor', 'cacheRemoveInterceptor',
-    function(LiveopsResourceFactory, cacheAddInterceptor, emitInterceptor, cacheRemoveInterceptor) {
+  .factory('User', ['LiveopsResourceFactory', 'cacheAddInterceptor', 'emitInterceptor',
+    function(LiveopsResourceFactory, cacheAddInterceptor, emitInterceptor) {
       var User = LiveopsResourceFactory.create({
         endpoint: '/v1/users/:id',
         resourceName: 'User',
