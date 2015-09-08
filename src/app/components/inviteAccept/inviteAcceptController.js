@@ -1,15 +1,18 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('InviteAcceptController', ['$scope', 'User', '$state', '$stateParams', 'invitedUser', 'invitedTenantUser', 'AuthService', 'TenantUser', 'Alert', 'Session',
-    function ($scope, User, $state, $stateParams, invitedUser, invitedTenantUser, AuthService, TenantUser, Alert, Session) {
+  .controller('InviteAcceptController', ['$scope', 'User', '$state', '$stateParams', 'invitedUser', //'invitedTenantUser', 
+                                         'AuthService', 'TenantUser', 'Alert', 'Session', 'UserPermissions',
+    function ($scope, User, $state, $stateParams, invitedUser, //invitedTenantUser,
+        AuthService, TenantUser, Alert, Session, UserPermissions) {
       $scope.user = invitedUser;
       $scope.loading = false;
       
-      if (invitedTenantUser.status !== 'invited'){
-        Session.setToken(null);
-        $state.transitionTo('login', {messageKey: 'invite.accept.alreadyAccepted'});
-      }
+      //TODO: Reenable when TITAN2-3042 is addressed, and add messages for other states (removed, expired)
+//      if (invitedTenantUser.status !== 'invited'){
+//        Session.setToken(null);
+//        $state.transitionTo('login', {messageKey: 'invite.accept.alreadyAccepted'});
+//      }
       
       if (invitedUser.status === 'enabled'){
         TenantUser.update({
@@ -39,8 +42,7 @@ angular.module('liveopsConfigPanel')
       
       $scope.signupSuccess = function(user){
         //resetting the password here since on save, user comes back without the password and
-        //later in this flow we're using a timeout to avoid API timing deficiencies 
-        //so the password field in behind would show as having a validation error (where password is null)
+        //the password field on the form would show as having a validation error (where password is null)
         user.password = $scope.newPassword;
         
         TenantUser.update({
@@ -58,10 +60,13 @@ angular.module('liveopsConfigPanel')
       $scope.acceptSuccess = function(){
         Session.setToken(null);
         AuthService.login($scope.user.email, $scope.newPassword).then(function(){
-          $state.transitionTo('content.management.users', {id: $stateParams.userId});
+          if (UserPermissions.hasPermissionInList(['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'VIEW_ALL_USERS', 'MANAGE_ALL_USER_EXTENSIONS', 'MANAGE_ALL_GROUP_USERS', 'MANAGE_ALL_USER_SKILLS', 'MANAGE_ALL_USER_LOCATIONS', 'MANAGE_TENANT_ENROLLMENT'])){
+            $state.transitionTo('content.management.users', {id: $stateParams.userId, messageKey: 'invite.accept.autologin.success'});
+          } else {
+            $state.transitionTo('content.userprofile', {messageKey: 'invite.accept.autologin.success'});
+          }
         }, function(){
-          Alert.error('Sorry, there was an error logging you in!');
-          $scope.loading = false;
+          $state.transitionTo('login', {messageKey: 'invite.accept.autologin.fail'});
         });
       };
       

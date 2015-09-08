@@ -16,6 +16,7 @@ angular.module('liveopsConfigPanel')
             DirtyForms.confirmIfDirty(function(){
               $location.search({id : null});
               $scope.ngResource = null;
+              $scope.$emit('details:panel:close');
             });
           };
 
