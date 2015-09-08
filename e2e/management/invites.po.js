@@ -4,7 +4,7 @@ var InvitePage = function() {
   this.emailFormField = element(by.name('email'));
   this.tenantFormField = element(by.name('tenantId'));
   this.submitInviteBtn = element(by.css('.btn'));
-  this.errors = element.all(by.css('.error'));
+  this.errors = element.all(by.css('.lo-error'));
 
   // Accept Page details
   this.acceptForm = element(by.id('invite-accept'));

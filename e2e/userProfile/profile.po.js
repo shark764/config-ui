@@ -10,7 +10,7 @@ var ProfilePage = function() {
   this.resetPasswordButton = element(by.id('reset-password-button'));
   this.passwordFormField = element(by.model('user.password'));
 
-  this.errors = element.all(by.css('.error'));
+  this.errors = element.all(by.css('.lo-error'));
 
   this.updateProfileBtn = element(by.buttonText('Update'));
 };

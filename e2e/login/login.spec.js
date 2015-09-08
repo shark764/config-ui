@@ -85,7 +85,7 @@ describe('The login view', function() {
     expect(browser.getCurrentUrl()).toBe(shared.loginPageUrl);
   });
 
-  it('should login successfully using all uppercase email', function() {
+  xit('should login successfully using all uppercase email', function() {
     loginPage.emailLoginField.sendKeys(params.login.user.toUpperCase());
     loginPage.passwordLoginField.sendKeys(params.login.password);
     loginPage.loginButton.click();
