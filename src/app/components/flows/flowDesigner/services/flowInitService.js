@@ -51,9 +51,23 @@
             graph.interfaces.selector.reset([notation.model], {safe: true});
           }
         };
+        graph.utils.unselectCell = function(){
+          var nodes = document.querySelectorAll(graphOptions.paperContainerId + ' .selected');
+          _.each(nodes, function(node){
+            V(node).removeClass('selected');
+          })
+        }
+        graph.utils.updateSelectedCell = function(cellView){
+          //remove previously highlighted class
+          graph.utils.unselectCell();
+          //highlight current cell if it is not a link
+          if(cellView.model.get('type') !== 'liveOps.link'){
+            V(cellView.el).addClass('selected');
+          }
+        };
         graph.utils.renderPropertiesPanel = function(notation) {
-          console.log('Notation clicked on:', notation);
-
+          //console.log('Notation clicked on:', notation);
+          graph.utils.updateSelectedCell(notation);
           // Render the halo menu
           if (notation.model.attributes.group !== 'end') {
             graph.utils.renderHaloMenu(notation);
@@ -191,7 +205,7 @@
         FlowPaletteService.loadActivities(stencil);
         FlowPaletteService.loadLinks();
         FlowPaletteService.loadTemplates(stencil);
-        
+
         _.each(stencil.graphs, function(graph) {
           joint.layout.GridLayout.layout(graph, {
             columns: 3,
@@ -220,6 +234,7 @@
         self.graph.interfaces.paper.on({
           'blank:pointerdown': function(evt, x, y) {
             self.graph.utils.hidePropertiesPanel();
+            self.graph.utils.unselectCell();
             if (_.contains(KeyboardJS.activeKeys(), 'shift')) {
               self.graph.interfaces.selectorView.startSelecting(evt, x, y);
             } else {
