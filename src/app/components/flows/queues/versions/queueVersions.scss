@@ -1,17 +1,6 @@
 queue-versions {
   .bordered-section {
-    background-color: lighten($lightest-grey, 2%);
-    border: 1px solid $light-grey;
-    @include border-radius();
-    display:block;
-    margin-top: 10px;
-    padding: 10px;
-    width: 100%;
     max-width: $max-control-width + 200px;
-    
-    .divider-header > *{
-      background-color: lighten($lightest-grey, 2%) !important;
-    }
   }
   
   .queue-controls{

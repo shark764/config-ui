@@ -1,27 +1,26 @@
 <div class="queue-query">
-  <div style="margin-top:-20px;">
-    <h1>HERRO!</h1>
+  <div>
+    <h1>Building query for version {{version.name}} of {{queue.name}}</h1>
     <button id="create-btn"  class="btn btn-create btn-primary queue-btn" ng-click="onCreateClick()">{{'value.publish' | translate}}</button>
   </div>
-  <div style="width:50%">
-    <type-ahead hover="true" placeholder="Type query" items="queryTypes()" name-field="label"></type-ahead>
-
-    <div style="margin-left: 60px;">
-
+  <div>
+  
+  <div ng-repeat="(groupName, componentList) in queryComponents">
+    <h4 class="divider-header">{{'queues.query.builder.' + groupName | translate}}</h4>
+    <div ng-repeat="component in componentList" class="input-group" ng-class="{'has-elements': component.list.length}">
       <label>
-        All of these:
+        {{ component.labelKey | translate}}
       </label>
-      <a ng-hide="!('MANAGE_ALL_MEDIA' | hasPermission)" id="add-media-mapping-button" class="btn pull-left" ng-click="addMapping()" title="{{'flow.details.mapping.add.alt' | translate}}"><i class="fa fa-plus"></i></a>
-      <type-ahead class="squeeze" hover="true" placeholder="Type query" items="queryTypes()" name-field="label"></type-ahead>
+      <div>
+        <div ng-repeat="selected in component.list" class="tag">
+          {{selected.getDisplay()}}
+          <a ng-click="remove(component, selected)"><i class="fa fa-times"></i></a>
+        </div>
+      </div>
+      <div>
+        <type-ahead hover="true" placeholder="{{component.placeholderKey | translate}}" items="component.dropItems" selected-item="component.selected"></type-ahead>
+        <a class="add btn" ng-click="add(component)"><i class="fa fa-plus"></i></a>
+      </div>
     </div>
-
-    <div style="margin-left: 60px;">
-      <label style="display:block">
-        Some of these:
-      </label>
-      <a ng-hide="!('MANAGE_ALL_MEDIA' | hasPermission)" id="add-media-mapping-button" class="btn pull-left" ng-click="addMapping()" title="{{'flow.details.mapping.add.alt' | translate}}"><i class="fa fa-plus"></i></a>
-      <type-ahead class="squeeze" hover="true" placeholder="Type query" items="queryTypes()" name-field="label"></type-ahead>
-    </div>
-
   </div>
 </div>

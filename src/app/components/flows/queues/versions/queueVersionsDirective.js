@@ -45,7 +45,8 @@ angular.module('liveopsConfigPanel')
       };
 
       $scope.openBasicQuery = function () {
-        $state.go('content.flows.query');
+        var queueVersion = JSON.stringify($scope.versionCopy);
+        $state.go('content.flows.query', {queueVersion: queueVersion, queueId: $scope.queue.id});
       };
 
       $scope.currVersionChanged = function(){
