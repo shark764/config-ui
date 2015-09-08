@@ -37,28 +37,10 @@
         }
       },
 
-      extractInputs: function(model) {
-        var self = this;
-        var inputs = _.findWhere(self.activities, {name: model.name}).inputs;
-        return inputs;
-      },
-
-      getActivityLabel: function(model) {
-        var self = this;
-        var activity = _.findWhere(self.activities, {name: model.name});
-        return activity.label;
-      },
-
-      getActivityTargeted: function(model) {
-        var self = this;
-        var activity = _.findWhere(self.activities, {name: model.name});
-        return activity.targeted;
-      },
-
       buildInputPanel: function(model) {
         var self = this;
         var modelType = model.get('type');
-        
+
         //If we're dealing with an actrivity
         if (modelType === 'liveOps.activity') {
           var activity = _.findWhere(self.activities, {name: model.get('name')});
@@ -118,48 +100,6 @@
           return memo;
         }, {});
         return params;
-      },
-
-      extractActivityParams: function(model) {
-        var self = this;
-        var activity = _.find(self.activities, {name: model.name});
-        var params = {};
-
-        params = _.reduce(activity.params, function(memo, param, key) {
-          
-          if(_.has(model.params, key)){
-
-            var _param = model.params[key];
-
-            if (param.source === 'expression') {
-              if (param.type === 'boolean') {
-                memo[param.key] = (_param.value === 'true');
-              } else {
-                memo[param.key] = _param.value;
-              }
-            } else if (param.source === 'entity') {
-              memo[param.key] = _param.id;
-            }
-          }
-          else if(_.has(param, 'default')){
-            memo[param.key] = param.default;
-          }
-
-          return memo;
-
-        }, {});
-
-        return params;
-      },
-
-      addActivityBindings: function(model) {
-        var bindings = {};
-
-        bindings = _.reduce(model.bindings, function(memo, binding) {
-          memo[binding.key] = binding.value;
-          return memo;
-        }, {});
-        return bindings;
       }
 
     };
@@ -270,4 +210,3 @@
 
   angular.module('liveopsConfigPanel').service('FlowNotationService', FlowNotationService);
 })();
-
