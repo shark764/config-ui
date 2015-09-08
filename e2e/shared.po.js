@@ -56,7 +56,8 @@ var Shared = function() {
   this.searchField = element(by.model('searchQuery'));
   this.actionsBtn = element(by.id('actions-btn'));
   this.tableColumnsDropDown = element(by.id('table-columns-dropdown'));
-  this.tableColumnsDropDownOptions = this.tableColumnsDropDown.all(by.repeater('option in options | orderBy:orderBy track by (option | parse:valuePath | invoke:option)'))
+  this.tableColumnsDropDownOptions = this.tableColumnsDropDown.all(by.repeater('option in options | orderBy:orderBy'));
+  this.tableColumnsDropDownInputs = this.tableColumnsDropDown.all(by.css('input'));
 
   // Shared Form elements
   this.detailsPanel = element(by.id('details-pane'));
