@@ -495,8 +495,25 @@ describe('The table filters', function() {
         });
       });
     });
+    // TODO with TITAN2-2433
+    // Select option from WebRTC filter
+    columns.webRTCTableDropDownLabel.click();
+    columns.dropdownWebRTCOptions.get(1).click();
+    columns.webRTCTableDropDownLabel.click();
 
-    it('should filter by multiple columns', function() {});
+    // Select Enabled from Status filter
+    columns.statusTableDropDownLabel.click();
+    columns.dropdownStatuses.get(0).click();
+    columns.statusTableDropDownLabel.click().then(function() {
+
+      // Ensure only rows that meet both filters are displayed
+      shared.tableElements.then(function(rows) {
+        for (var i = 0; i < rows.length; ++i) {
+          expect(rows[i].getText()).toContain('Enabled'); // WebRTC
+          expect(rows[i].getText()).toContain('Disabled'); // Status
+        };
+      });
+    });
   });
 
   describe('on the Flow Management Page', function() {
@@ -952,6 +969,30 @@ describe('The table filters', function() {
 
     it('should filter by multiple columns', function() {
       // TODO with TITAN2-2433
+      // Select option from Interaction filter
+      columns.interactionTableDropDownLabel.click();
+      columns.dropdownInteractions.get(1).click();
+      columns.interactionTableDropDownLabel.click();
+
+      // Select option from Channel Type filter
+      columns.channelTypeTableDropDownLabel.click();
+      columns.dropdownChannelTypes.get(0).click();
+      columns.channelTypeTableDropDownLabel.click();
+
+      // Select Enabled from Status filter
+      columns.statusTableDropDownLabel.click();
+      columns.dropdownStatuses.get(0).click();
+      columns.statusTableDropDownLabel.click().then(function() {
+
+        // Ensure only rows that meet both filters are displayed
+        shared.tableElements.then(function(rows) {
+          for (var i = 0; i < rows.length; ++i) {
+            expect(rows[i].getText()).toContain('contact point');
+            expect(rows[i].getText()).toContain('Disabled');
+            expect(rows[i].getText()).toContain('voice');
+          };
+        });
+      });
     });
   });
 
