@@ -39,7 +39,7 @@ angular.module('liveopsConfigPanel')
           
           var interceptor = {
               response: interceptorFunc
-          }
+          };
           
           return interceptor;
         } else {
@@ -71,7 +71,7 @@ angular.module('liveopsConfigPanel')
             });
             
             return cleanedData;
-          }
+          };
 
           params.requestUrlFields = angular.isDefined(params.requestUrlFields) ? params.requestUrlFields : {
             id: '@id',

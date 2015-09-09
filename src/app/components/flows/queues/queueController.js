@@ -32,7 +32,7 @@ angular.module('liveopsConfigPanel')
           priorityRate: 10,
           priorityUnit: 'seconds'
         });
-      }
+      };
 
       $scope.$on('table:on:click:create', function () {
         $scope.additional.initialVersion = $scope.getDefaultVersion();
