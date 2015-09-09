@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('loFormCancel', ['$parse', 'Chain', 'DirtyForms',
-    function ($parse, Chain, DirtyForms) {
+  .directive('loFormCancel', ['$parse', 'Chain', 'DirtyForms', '$timeout',
+    function ($parse, Chain, DirtyForms, $timeout) {
       return {
         restrict: 'A',
         require: ['ngResource', 'form', '^loDetailsPanel'],
@@ -35,7 +35,9 @@ angular.module('liveopsConfigPanel')
             } else {
               DirtyForms.confirmIfDirty(function () {
                 resource.reset();
-                self.resetForm(self.formController);
+                $timeout(function(){
+                  self.resetForm(self.formController);
+                });
               });
             }
           };

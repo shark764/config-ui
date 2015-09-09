@@ -54,6 +54,7 @@ describe('The tenants view', function() {
   });
 
   it('should require name field when editing', function() {
+    shared.searchField.sendKeys('Tenant'); // Ensure Platform tenant is not selected
     tenants.firstTableRow.click();
 
     tenants.nameFormField.clear();
@@ -68,6 +69,7 @@ describe('The tenants view', function() {
   });
 
   it('should not require description when editing', function() {
+    shared.searchField.sendKeys('Tenant'); // Ensure Platform tenant is not selected
     tenants.firstTableRow.click();
 
     // Edit fields
@@ -76,19 +78,6 @@ describe('The tenants view', function() {
     shared.submitFormBtn.click().then(function() {
       expect(shared.successMessage.isDisplayed()).toBeTruthy();
     });
-  });
-
-  xit('should require admin when editing', function() {
-    tenants.firstTableRow.click();
-
-    // Edit fields
-    tenants.adminFormDropDown.all(by.css('option')).get(0).click();
-    tenants.descriptionFormField.click();
-
-    expect(tenants.adminFormDropDown.getAttribute('value')).toBe('?');
-
-    // Submit button is still disabled
-    expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
   });
 
   it('should reset fields after editing and selecting Cancel', function() {
@@ -120,6 +109,7 @@ describe('The tenants view', function() {
   });
 
   it('should allow the tenant name, description and admin fields to be updated', function() {
+    shared.searchField.sendKeys('Tenant'); // Ensure Platform tenant is not selected
     tenants.firstTableRow.click();
 
     // Edit fields

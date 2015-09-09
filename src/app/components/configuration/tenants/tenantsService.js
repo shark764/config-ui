@@ -41,7 +41,7 @@ angular.module('liveopsConfigPanel')
         }
 
         return cached;
-      }
+      };
 
       return Tenant;
     }

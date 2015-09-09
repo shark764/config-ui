@@ -42,16 +42,6 @@ angular.module('liveopsConfigPanel')
         collection.mediaMap = cleanedMediaMap;
       };
 
-      $scope.setCurrentMediaMap = function(media) {
-        if($scope.currentMediaMap) {
-          $scope.currentMediaMap.id = media.id;
-          $scope.currentMediaMap.name = media.name;
-          $scope.currentMediaMap.description = media.description;
-
-          $scope.forms.mediaCollectionForm.$setDirty();
-        }
-      };
-
       //TODO: remove duplication from MediaController
       $scope.$watch('forms.mediaForm.audiosource', function(newValue){
         if ($scope.selectedMedia && $scope.selectedMedia.isNew() && angular.isDefined(newValue)){
@@ -72,25 +62,22 @@ angular.module('liveopsConfigPanel')
         return $scope.selectedMedia.save();
       }, 0);
 
-      mediaSaveChain.hook('post save', function (media) {
+      mediaSaveChain.hook('post save', function () {
         $scope.selectedMedia = null;
-        $scope.setCurrentMediaMap(media);
       }, 1);
 
       mediaSaveAndNewChain.hook('save', function () {
         return $scope.selectedMedia.save();
       }, 0);
 
-      mediaSaveAndNewChain.hook('and:new', function (media) {
+      mediaSaveAndNewChain.hook('and:new', function () {
         $scope.selectedMedia = new Media({
           properties: {},
           tenantId: Session.tenant.tenantId
         });
-
-        $scope.setCurrentMediaMap(media);
       }, 1);
 
-      $scope.$on('resource:details:create:media', function (event, mediaMap) {
+      $scope.$on('resource:details:create:Media', function (event, mediaMap) {
         $scope.currentMediaMap = mediaMap;
         $scope.selectedMedia = new Media({
           properties: {},

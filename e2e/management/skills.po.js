@@ -16,7 +16,7 @@ var SkillsPage = function() {
   this.proficiencyColumn = 'td:nth-child(4)';
   this.statusColumn = 'td:nth-child(5)';
 
-  this.nameRequiredError = element.all(by.css('.error'));
+  this.nameRequiredError = element.all(by.css('.lo-error'));
 };
 
 module.exports = new SkillsPage();

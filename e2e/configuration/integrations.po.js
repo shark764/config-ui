@@ -16,7 +16,7 @@ var IntegrationsPage = function() {
   this.statusColumn = 'td:nth-child(4)';
   this.webRTCColumn = 'td:nth-child(5)';
 
-  this.requiredErrors = element.all(by.css('.error'));
+  this.requiredErrors = element.all(by.css('.lo-error'));
 };
 
 module.exports = new IntegrationsPage();

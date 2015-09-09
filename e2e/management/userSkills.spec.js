@@ -21,17 +21,20 @@ describe('The user skills component of User view', function() {
     shared.tearDown();
   });
 
-  xit('should add to the skill count for a user', function() {
+  it('should add to the skill count for a user', function() {
     //Create a new user
     shared.createBtn.click();
     var randomUser = Math.floor((Math.random() * 1000) + 1);
     var newUserFirstName = 'First ' + randomUser;
-    users.firstNameFormField.sendKeys(newUserFirstName);
-    users.lastNameFormField.sendKeys('Last' + randomUser);
-    users.emailFormField.sendKeys('titantest' + randomUser + '@mailinator.com');
-    users.passwordFormField.sendKeys('password');
 
-    shared.submitFormBtn.click().then(function() {
+    users.emailFormField.sendKeys('titantest' + randomUser + '@mailinator.com\t');
+    users.tenantRoleFormDropdownOptions.get((randomUser % 3) + 1).click();
+    users.platformRoleFormDropdownOptions.get(1).click();
+
+    users.firstNameFormField.sendKeys(newUserFirstName);
+    users.lastNameFormField.sendKeys('Last ' + randomUser);
+
+    users.submitFormBtn.click().then(function() {
       expect(shared.successMessage.isDisplayed()).toBeTruthy();
 
       //Add a skill to the new user
@@ -46,7 +49,7 @@ describe('The user skills component of User view', function() {
         //Verify that the users skill count has increased and the new skill is displayed
         expect(shared.firstTableRow.element(by.css(users.skillsColumn)).getText()).toBe('1');
         expect(users.userSkills.count()).toBe(1);
-        expect(users.userSkills.get(0).getText()).toBe(newUserSkill);
+        expect(users.userSkills.get(0).getText()).toContain(newUserSkill);
       });
     });
   });
@@ -70,11 +73,11 @@ describe('The user skills component of User view', function() {
       users.addSkillSearch.sendKeys(newSkillName);
       expect(users.skillProficiency.isDisplayed()).toBeTruthy();
       users.skillProficiency.sendKeys('50');
-      users.addSkillBtn.click().then(function () {
+      users.addSkillBtn.click().then(function() {
         // Skill is added with proficiency
         var skillAdded = false;
         users.userSkillTableRows.each(function(currentUserSkill) {
-          currentUserSkill.getText().then(function (currentSkill) {
+          currentUserSkill.getText().then(function(currentSkill) {
             if (currentSkill.indexOf(newSkillName) > -1) {
               skillAdded = true;
               expect(currentSkill).toContain('50');
@@ -107,11 +110,11 @@ describe('The user skills component of User view', function() {
       users.addSkillSearch.sendKeys(newSkillName);
       expect(users.skillProficiency.isDisplayed()).toBeTruthy();
 
-      users.addSkillBtn.click().then(function () {
+      users.addSkillBtn.click().then(function() {
         // Skill is added with proficiency
         var skillAdded = false;
         users.userSkillTableRows.each(function(currentUserSkill) {
-          currentUserSkill.getText().then(function (currentSkill) {
+          currentUserSkill.getText().then(function(currentSkill) {
             if (currentSkill.indexOf(newSkillName) > -1) {
               skillAdded = true;
               expect(currentSkill).toContain('1');
@@ -140,14 +143,14 @@ describe('The user skills component of User view', function() {
       shared.searchField.sendKeys('e'); //Filter out users with blank first and last names, such as pending users
       shared.firstTableRow.click();
       var selectedUserName = users.userNameDetailsHeader.getText();
-      users.addSkillSearch.sendKeys(newSkillName);
+      users.addSkillSearch.sendKeys(newSkillName + '\t');
       expect(users.skillProficiency.isPresent()).toBeFalsy();
 
-      users.addSkillBtn.click().then(function () {
+      users.addSkillBtn.click().then(function() {
         // Skill is added with proficiency
         var skillAdded = false;
         users.userSkillTableRows.each(function(currentUserSkill) {
-          currentUserSkill.getText().then(function (currentSkill) {
+          currentUserSkill.getText().then(function(currentSkill) {
             if (currentSkill.indexOf(newSkillName) > -1) {
               skillAdded = true;
               expect(currentSkill).toContain('-');
@@ -208,7 +211,7 @@ describe('The user skills component of User view', function() {
     });
   });
 
-  it('should create new skill and add user', function() {
+  it('should create new skill and add to user', function() {
     shared.searchField.sendKeys('e'); //Filter out users with blank first and last names, such as pending users
     shared.firstTableRow.click();
     var previousUserSkillCount = users.userSkills.count();
@@ -232,7 +235,33 @@ describe('The user skills component of User view', function() {
     expect(skills.proficiencySwitch.isSelected()).toBeFalsy();
   });
 
-  it('should create new skill with proficiency and add user', function() {
+  it('should create new skill and add to user after pressing Enter key', function() {
+    shared.searchField.sendKeys('e'); //Filter out users with blank first and last names, such as pending users
+    shared.firstTableRow.click();
+    var previousUserSkillCount = users.userSkills.count();
+
+    var randomSkill = Math.floor((Math.random() * 1000) + 1);
+    var newSkillName = 'Skill Name from User Page ' + randomSkill;
+
+    //Assign a user to a skill that doesn't exist
+    var selectedUserName = users.userNameDetailsHeader.getText();
+    users.addSkillSearch.sendKeys(newSkillName);
+
+    // Send Enter key instead of pressing Add button
+    users.addSkillSearch.sendKeys(protractor.Key.ENTER);
+
+    expect(users.userSkills.count()).toBeGreaterThan(previousUserSkillCount);
+
+    //View the skill page
+    browser.get(shared.skillsPageUrl);
+    shared.searchField.sendKeys(newSkillName);
+    shared.firstTableRow.click(); // skill exists
+
+    expect(skills.nameHeader.getText()).toBe(newSkillName);
+    expect(skills.proficiencySwitch.isSelected()).toBeFalsy();
+  });
+
+  it('should create new skill with proficiency and add to user', function() {
     shared.searchField.sendKeys('e'); //Filter out users with blank first and last names, such as pending users
     shared.firstTableRow.click();
     var previousUserSkillCount = users.userSkills.count();
@@ -276,8 +305,7 @@ describe('The user skills component of User view', function() {
         expect(users.userSkills.count()).toBe(0);
         expect(users.noUserSkillsMessage.isDisplayed()).toBeTruthy();
         expect(users.noUserSkillsMessage.getText()).toBe('This user has not been assigned any skills');
-        // TODO
-        //expect(shared.firstTableRow.element(by.css(users.skillsColumn)).getText()).toEqual('0');
+        expect(shared.firstTableRow.element(by.css(users.skillsColumn)).getText()).toEqual('0');
       });
     });
   });
@@ -285,50 +313,48 @@ describe('The user skills component of User view', function() {
   it('should update skill proficiency when re-adding existing skill', function() {
     shared.searchField.sendKeys('e'); //Filter out users with blank first and last names, such as pending users
     shared.firstTableRow.click();
-    var previousUserSkillCount = users.userSkills.count();
+    users.userSkills.count().then(function(previousUserSkillCount) {
+      var randomSkill = Math.floor((Math.random() * 1000) + 1);
+      var newSkillName = 'Skill Name from User Page ' + randomSkill;
+      var skillAdded = 0;
 
-    var randomSkill = Math.floor((Math.random() * 1000) + 1);
-    var newSkillName = 'Skill Name from User Page ' + randomSkill;
-    var skillAdded = 0;
-
-    //Add skill that doesn't exist with proficiency
-    users.addSkillSearch.sendKeys(newSkillName);
-    users.skillProficiency.sendKeys(50);
-    users.addSkillBtn.click().then(function () {
-      // Skill is added with proficiency
-      users.userSkillTableRows.each(function(currentUserSkill) {
-        currentUserSkill.getText().then(function (currentSkill) {
-          if (currentSkill.indexOf(newSkillName) > -1) {
-            skillAdded = skillAdded + 1;
-            expect(currentSkill).toContain('50');
-          }
-        });
-      }).thenFinally(function() {
-        // Verify new skill was found
-        expect(skillAdded).toBe(1);
-      });
-    }).then(function () {
-      skillAdded = 0;
-      expect(users.userSkills.count()).toBeGreaterThan(previousUserSkillCount);
-
-      previousUserSkillCount = users.userSkills.count();
-
-      // Readd the same Skill with a different proficiency
+      //Add skill that doesn't exist with proficiency
       users.addSkillSearch.sendKeys(newSkillName);
-      users.skillProficiency.sendKeys(25);
-      users.addSkillBtn.click().then(function () {
-        // Skill is updated with new proficiency
+      users.skillProficiency.sendKeys(50);
+      users.addSkillBtn.click().then(function() {
+        // Skill is added with proficiency
         users.userSkillTableRows.each(function(currentUserSkill) {
-          currentUserSkill.getText().then(function (currentSkill) {
+          currentUserSkill.getText().then(function(currentSkill) {
             if (currentSkill.indexOf(newSkillName) > -1) {
               skillAdded = skillAdded + 1;
-              expect(currentSkill).toContain('25');
+              expect(currentSkill).toContain('50');
             }
           });
         }).thenFinally(function() {
           // Verify new skill was found
-          expect(skillAdded).toBe(1); // Skill only found once
-          expect(users.userSkills.count()).toBe(previousUserSkillCount);
+          expect(skillAdded).toBe(1);
+          expect(users.userSkills.count()).toBe(previousUserSkillCount + 1);
+        });
+      }).then(function() {
+        skillAdded = 0;
+
+        // Readd the same Skill with a different proficiency
+        users.addSkillSearch.sendKeys(newSkillName);
+        users.skillProficiency.sendKeys(25);
+        users.addSkillBtn.click().then(function() {
+          // Skill is updated with new proficiency
+          users.userSkillTableRows.each(function(currentUserSkill) {
+            currentUserSkill.getText().then(function(currentSkill) {
+              if (currentSkill.indexOf(newSkillName) > -1) {
+                skillAdded = skillAdded + 1;
+                expect(currentSkill).toContain('25');
+              }
+            });
+          }).thenFinally(function() {
+            // Verify new skill was found
+            expect(skillAdded).toBe(1); // Skill only found once
+            expect(users.userSkills.count()).toBe(previousUserSkillCount + 1);
+          });
         });
       });
     });
@@ -368,7 +394,7 @@ describe('The user skills component of User view', function() {
       for (var i = 0; i < skillNameList.length; i++) {
         shared.searchField.clear();
         shared.searchField.sendKeys(skillNameList[i]);
-        expect(shared.tableElements.get(0).getText()).toContain(skillNameList[i]);
+        expect(shared.tableElements.count()).toBeGreaterThan(0);
       }
     });
   });
@@ -398,6 +424,23 @@ describe('The user skills component of User view', function() {
       for (var i = 0; i < skillNameList.length; i++) {
         expect(skillNameList[i]).toContain(users.skillDropdownItems.get(i).getText());
       }
+    });
+  });
+
+  it('should update skill count when adding and removing a user skill', function() {
+    shared.searchField.sendKeys('e'); //Filter out users with blank first and last names, such as pending users
+    shared.firstTableRow.click();
+
+    shared.firstTableRow.element(by.css(users.skillsColumn)).getText().then(function(userSkillCount) {
+      //Add a skill to the user
+      users.addSkillSearch.click();
+      users.skillDropdownItems.get(0).click();
+      users.addSkillBtn.click();
+      expect(shared.firstTableRow.element(by.css(users.skillsColumn)).getText()).toEqual(parseInt(userSkillCount) + 1 + '');
+
+      // Remove a user Skill
+      users.userSkillTableRows.get(0).element(by.css('i')).click();
+      expect(shared.firstTableRow.element(by.css(users.skillsColumn)).getText()).toEqual(userSkillCount);
     });
   });
 });

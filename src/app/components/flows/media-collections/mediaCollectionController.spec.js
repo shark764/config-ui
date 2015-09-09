@@ -26,14 +26,6 @@ describe('MediaCollectionController', function () {
     }
   ]));
 
-  it('should catch the create media event and set the selected media to new', 
-    inject(function (Media, Session) {
-    $scope.$broadcast('resource:details:create:media');
-
-    expect($scope.selectedMedia.tenantId).toEqual(Session.tenant.tenantId);
-    expect($scope.selectedMedia.properties).toEqual({});
-  }));
-
   it('should have a function to create a blank MediaCollection and set it as selected', inject(function (MediaCollection, Session) {
     $scope.create();
 

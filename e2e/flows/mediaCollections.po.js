@@ -7,8 +7,8 @@ var MediaCollectionsPage = function() {
   this.submitFormBtn = this.mediaCollectionPane.element(by.id('submit-details-btn'));
   this.cancelFormBtn = this.mediaCollectionPane.element(by.id('cancel-details-btn'));
   this.closeFormBtn = this.mediaCollectionPane.element(by.id('close-details-button'));
-  this.creatingMediaCollectionHeader = this.mediaCollectionPane.element(by.css('.detail-header-pane'));
-  this.editingMediaCollectionHeader = this.mediaCollectionPane.element(by.css('h1'));
+  this.createFormHeader = this.mediaCollectionPane.element(by.css('h1:nth-child(2)'));
+  this.editFormHeader = this.mediaCollectionPane.element(by.css('h1:nth-child(1)'));
   this.nameFormField = this.mediaCollectionPane.element(by.model('selectedMediaCollection.name'));
   this.descriptionFormField = this.mediaCollectionPane.element(by.model('selectedMediaCollection.description'));
   this.defaultIdDropdown = this.mediaCollectionPane.element(by.model('selectedMediaCollection.defaultMediaKey'));
@@ -19,12 +19,12 @@ var MediaCollectionsPage = function() {
   this.mediaMappings = element.all(by.repeater('mapping in collection.mediaMap'));
   this.mediaIdentifiers = element.all(by.model('mapping.lookup'));
   this.mediaDropdownBoxes = element.all(by.css('lo-multibox'));
-  this.mediaDropdowns = element.all(by.model('model[displayField]'));
+  this.mediaDropdowns = element.all(by.model('display'));
   this.mediaDropdownSearchFields = element.all(by.model('currentText'));
   this.mediaElementsSelector = 'item in filtered = (items | filter:filterCriteria | orderBy:nameField)';
   this.removeMedia = element.all(by.id('remove-media-mapping-button'));
 
-  this.requiredError = this.mediaCollectionPane.all(by.css('.error'));
+  this.requiredError = this.mediaCollectionPane.all(by.css('.lo-error'));
 
   this.openCreateMediaButton = element.all(by.id('show-create-new-item-btn'));
   this.createMediaForm = element(by.id('media-pane'));
@@ -35,7 +35,7 @@ var MediaCollectionsPage = function() {
   this.mediaCreateBtn = this.createMediaForm.element(by.id('create-media-btn'));
   this.mediaCreateAndNewBtn = this.createMediaForm.element(by.id('create-and-new-media-btn'));
 
-  this.mediaRequiredError = this.createMediaForm.all(by.css('.error'));
+  this.mediaRequiredError = this.createMediaForm.all(by.css('.lo-error'));
 
   this.nameColumn = 'td:nth-child(2)';
   this.descriptionColumn = 'td:nth-child(3)';

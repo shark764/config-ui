@@ -34,6 +34,8 @@ describe('The tenants view bulk actions', function() {
   });
 
   it('should allow all selected tenant\'s status to be Disabled', function() {
+    shared.searchField.sendKeys('Tenant'); // Ensure Platform tenant is not selected
+
     // Update All bulk actions
     shared.actionsBtn.click();
     bulkActions.selectAllTableHeader.click();
@@ -70,6 +72,8 @@ describe('The tenants view bulk actions', function() {
   });
 
   it('should allow all selected tenant\'s status to be Enabled', function() {
+    shared.searchField.sendKeys('Tenant'); // Ensure Platform tenant is not selected
+
     // Update All bulk actions
     shared.actionsBtn.click();
     bulkActions.selectAllTableHeader.click();
@@ -107,6 +111,8 @@ describe('The tenants view bulk actions', function() {
   });
 
   it('should ignore disabled fields on update', function() {
+    shared.searchField.sendKeys('Tenant'); // Ensure Platform tenant is not selected
+
     shared.actionsBtn.click();
     bulkActions.selectAllTableHeader.click();
 
@@ -126,6 +132,8 @@ describe('The tenants view bulk actions', function() {
   });
 
   it('should only affect selected tenants', function() {
+    shared.searchField.sendKeys('Tenant'); // Ensure Platform tenant is not selected
+
     shared.tableElements.then(function(originalTenants) {
       // Select odd tenants and leave even tenants unselected
       for (var i = 0; i < originalTenants.length; i++) {

@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .factory('Skill', ['LiveopsResourceFactory', 'cacheAddInterceptor',
-    function (LiveopsResourceFactory, cacheAddInterceptor) {
+  .factory('Skill', ['LiveopsResourceFactory', 'cacheAddInterceptor', 'emitInterceptor',
+    function (LiveopsResourceFactory, cacheAddInterceptor, emitInterceptor) {
       var Skill = LiveopsResourceFactory.create({
         endpoint: '/v1/tenants/:tenantId/skills/:id',
         resourceName: 'Skill',
@@ -17,8 +17,8 @@ angular.module('liveopsConfigPanel')
           name: 'active',
           optional: true
         }],
-        saveInterceptor: cacheAddInterceptor,
-        updateInterceptor: cacheAddInterceptor
+        saveInterceptor: [cacheAddInterceptor, emitInterceptor],
+        updateInterceptor: emitInterceptor
       });
 
       Skill.prototype.getDisplay = function () {

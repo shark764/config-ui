@@ -5,19 +5,12 @@ describe('The login view', function() {
     shared = require('../shared.po.js'),
     params = browser.params;
 
-  beforeEach(function() {
+  beforeAll(function() {
     // Ensure user is logged out initially
-    browser.get(shared.loginPageUrl);
-    browser.executeScript('window.sessionStorage.clear()');
-    browser.executeScript('window.localStorage.clear()');
-    browser.get(shared.loginPageUrl);
-  });
-
-  afterEach(function() {
     shared.tearDown();
   });
 
-  afterAll(function() {
+  afterEach(function() {
     shared.tearDown();
   });
 
@@ -93,7 +86,6 @@ describe('The login view', function() {
   });
 
   xit('should login successfully using all uppercase email', function() {
-    // TODO Test fails due to existing bug
     loginPage.emailLoginField.sendKeys(params.login.user.toUpperCase());
     loginPage.passwordLoginField.sendKeys(params.login.password);
     loginPage.loginButton.click();
@@ -101,8 +93,7 @@ describe('The login view', function() {
     expect(browser.getCurrentUrl()).toContain(shared.usersPageUrl);
   });
 
-  xit('should login successfully using all lowercase email', function() {
-    // TODO Test fails due to existing bug
+  it('should login successfully using all lowercase email', function() {
     loginPage.emailLoginField.sendKeys(params.login.user.toLowerCase());
     loginPage.passwordLoginField.sendKeys(params.login.password);
     loginPage.loginButton.click();
@@ -111,7 +102,7 @@ describe('The login view', function() {
   });
 
   it('should require correct password case input', function() {
-    var caseChangePassword = params.login.password.substring(0,4).toLowerCase() + params.login.password.substring(4,params.login.password.length).toUpperCase();
+    var caseChangePassword = params.login.password.substring(0, 4).toLowerCase() + params.login.password.substring(4, params.login.password.length).toUpperCase();
     loginPage.emailLoginField.sendKeys(params.login.user);
     loginPage.passwordLoginField.sendKeys(caseChangePassword);
 
@@ -124,7 +115,7 @@ describe('The login view', function() {
     loginPage.emailLoginField.clear();
     loginPage.passwordLoginField.clear();
 
-    caseChangePassword = params.login.password.substring(0,4).toUpperCase() + params.login.password.substring(4,params.login.password.length).toLowerCase();
+    caseChangePassword = params.login.password.substring(0, 4).toUpperCase() + params.login.password.substring(4, params.login.password.length).toLowerCase();
     loginPage.emailLoginField.sendKeys(params.login.user);
     loginPage.passwordLoginField.sendKeys(caseChangePassword);
     loginPage.loginButton.click();

@@ -186,8 +186,6 @@
   "queue.details.createNewVersion" : "Create New Version",
   "queue.details.name.error": "Please enter a name",
   "queue.details.activeVersion": "Active Version",
-  "queue.details.startingpriority": "Starting Priority",
-  "queue.details.rateofincrease": "Rate of Increase",
   "queue.details.activepriority": "Active Priority",
   "queue.details.activequery": "Active Query",
   "queue.details.priority": "Priority",
@@ -206,6 +204,22 @@
   "queue.query.builder.skills.or": "Any of these skills:",
   "queue.query.builder.skills.and": "All of these skills:",
   "queue.query.builder.skills.placeholder": "Select Skill...",
+  "queue.details.minPriority": "Min Priority",
+  "queue.details.minPriority.error.min": "The minimum priority must be greater than 0",
+  "queue.details.minPriority.error.max": "The minimum priority cannot be greater than the maximum priority",
+  "queue.details.maxPriority": "Max Priority",
+  "queue.details.maxPriority.error.min": "The maximum priority cannot be less than the minimum priority",
+  "queue.details.maxPriority.error.max": "The maximum priority cannot be greater than 1000",
+  "queue.details.priorityValue": "Priority Value",
+  "queue.details.priorityValue.error.min": "The priority value must be greater than 0",
+  "queue.details.priorityValue.error.max": "The priority value cannot be greater than 1000",
+  "queue.details.priorityRate": "Priority Rate",
+  "queue.details.priorityRate.error.min": "The priority rate must be greater than 0",
+  "queue.details.priorityUnit": "Priority Unit",
+  "queue.details.priorityUnit.seconds": "seconds",
+  "queue.details.priorityUnit.minutes": "minutes",
+  "queue.details.priorityUnit.hours": "hours",
+  "queue.details.priorityUnit.days": "days",
 
   "media.details": "Media",
   "media.details.source.error": "Please enter a source",
@@ -256,6 +270,8 @@
   "integration.table.account": "Account",
   "integration.table.webrtc": "WebRTC",
   "integration.table.title": "Integration Management",
+  "integration.accountsid.error": "Please enter the account SID",
+  "integration.authtoken.error": "Please enter the auth token",
 
   "dispatchMappings.details.interactionType": "Interaction Type",
   "dispatchMappings.details.interactionType.select": "Select Interaction Type...",
@@ -283,6 +299,8 @@
   "table.actions.button": "Actions",
   "table.columns.button": "Columns",
   "table.results.none": "No results were found.",
+  "table.filtered.status": "Showing {{count}} of {{total}} items",
+  "table.clear.link": "(Clear all filters)",
 
   "content.notenants.warning": "You have no tenants assigned to you. Invite yourself to one!",
 
@@ -329,12 +347,26 @@
   "multibox.search.placeholder": "Search...",
   "multibox.create.btn": "Create New",
 
-  "invite.accept.success": "Your invitation has been accepted! Please log in to view the new tenant.",
+  "invite.accept.fail": "Sorry, there was an error accepting your invitation. This invitation may have already been used.",
+  "invite.accept.success": "Your invitation has been accepted!",
   "invite.accept.alreadyAccepted": "This invitation has already been accepted! Please log in to view the tenant.",
+  "invite.accept.existing.fail": "Sorry, your invitation could not be accepted.",
   "invite.accept.autologin.success": "Your invitation has been accepted!",
   "invite.accept.autologin.fail": "Sorry, there was an error while logging you in. Please enter your email and new password to log in.",
+  "invite.accept.expired": "Sorry, this invitation has expired. Please contact your account administrator.",
+  "copyright": "Copyright © 2015 LiveOps, Inc. All rights reserved.",
+  "signup.legal": "Access to this site requires separate permission from LiveOps. This site contains confidential information, and may also contain content and enable interaction with users from third-party sites subject to different terms that are outside of LiveOps control. By using or accessing this site, you have agreed to the Terms of Service as outlined in the Beta Service Agreement (\"Agreement\"). A copy of this Agreement is available from your LiveOps contact.",
   
   "flow.draft.delete.alt": "Delete this draft",
   "flow.draft.none": "There are no drafts saved for this flow. Drafts are created automatically from the Flow Designer.",
-  "flow.draft.title": "Drafts"
+  "flow.draft.title": "Drafts",
+  
+  "role.details.creating": "Creating new role",
+  "role.table.title": "Role Management",
+  "role.table.permissions": "Permissions",
+  "role.permissions.title": "Permissions",
+  "role.details.permission.placeholder": "Add permission...",
+  "role.permissions.none": "This role has no permissions assigned to it.",
+  "role.permissions.remove.alt": "Remove permission from role"
+  
 }

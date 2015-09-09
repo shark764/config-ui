@@ -23,6 +23,7 @@ angular.module('liveopsConfigPanel')
             onClick: function(){
               DirtyForms.confirmIfDirty(function(){
                 Session.setTenant(tenant);
+                $state.go($state.current, {messageKey: ''}, {reload: true});
               });
             }
           });
@@ -30,7 +31,6 @@ angular.module('liveopsConfigPanel')
 
         $scope.tenantDropdownItems = tenantDropdownItems;
       };
-
 
       $scope.hoverTracker = [];
 
@@ -62,7 +62,7 @@ angular.module('liveopsConfigPanel')
       $scope.$on('resource:actions', $scope.onActionsClick);
 
       $scope.$watch('Session.tenants', $scope.populateTenantsHandler);
-      
+        
       var managementConfig = [];
       if (UserPermissions.hasPermissionInList(['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'VIEW_ALL_USERS', 'MANAGE_ALL_USER_EXTENSIONS', 'MANAGE_ALL_GROUP_USERS', 'MANAGE_ALL_USER_SKILLS', 'MANAGE_ALL_USER_LOCATIONS', 'MANAGE_TENANT_ENROLLMENT'])){
         managementConfig.push({
@@ -73,12 +73,21 @@ angular.module('liveopsConfigPanel')
         });
       }
       
+      if (UserPermissions.hasPermissionInList(['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', '"PLATFORM_CREATE_TENANT_ROLES', 'VIEW_ALL_ROLES', 'MANAGE_ALL_ROLES', 'MANAGE_TENANT_ENROLLMENT'])){
+        managementConfig.push({
+          label: 'Roles',
+          onClick: function(){$state.transitionTo('content.management.roles');},
+          id: 'role-management-link',
+          order: 2
+        });
+      }
+      
       if (UserPermissions.hasPermissionInList(['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'VIEW_ALL_SKILLS', 'MANAGE_ALL_SKILLS', 'MANAGE_ALL_USER_SKILLS', 'MANAGE_TENANT_ENROLLMENT'])){
         managementConfig.push({
           label: 'Skills',
           onClick: function(){$state.transitionTo('content.management.skills');},
           id: 'skill-management-link',
-          order: 2
+          order: 3
         });
       }
       
@@ -87,7 +96,7 @@ angular.module('liveopsConfigPanel')
           label: 'Groups',
           onClick: function(){$state.transitionTo('content.management.groups');},
           id: 'group-management-link',
-          order: 3
+          order: 4
         });
       }
       
@@ -187,6 +196,6 @@ angular.module('liveopsConfigPanel')
           id: 'reports-management-link',
           order: 3
         }*/
-        ];
+      ];
     }
   ]);

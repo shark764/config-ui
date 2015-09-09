@@ -50,7 +50,7 @@ var Shared = function() {
   this.table = element(by.id('items-table'));
   this.firstTableRow = this.table.element(by.css('tr.ng-scope:nth-child(1)'));
   this.secondTableRow = this.table.element(by.css('tr.ng-scope:nth-child(2)'));
-  this.tableRows = this.table.all(by.css('tr'));
+  this.tableRows = this.table.all(by.css('tr.ng-scope'));
   this.tableElements = element.all(by.repeater('item in (filtered = (items | selectedTableOptions:config.fields | search:config.searchOn:searchQuery | orderBy:orderBy:reverseSortOrder))'));
   this.createBtn = element(by.id('create-btn'));
   this.searchField = element(by.model('searchQuery'));
@@ -60,12 +60,13 @@ var Shared = function() {
 
   // Shared Form elements
   this.detailsPanel = element(by.id('details-pane'));
-  this.detailsForm = this.detailsPanel.element(by.css('.details-form'));
+  this.detailsForm = this.detailsPanel.element(by.css('.details-pane'));
   this.rightPanel = element(by.id('right-panel'));
   this.bulkActionsPanel = element(by.css('bulk-action-executor.details-pane'));
   this.submitFormBtn = this.detailsPanel.element(by.id('submit-details-btn'));
   this.cancelFormBtn = this.detailsPanel.element(by.id('cancel-details-btn'));
   this.closeFormBtn = this.detailsPanel.element(by.id('close-details-button'));
+  this.message = element(by.css('.toast-message'));
   this.successMessage = element(by.css('.toast-success'));
   this.errorMessage = element(by.css('.toast-error'));
   this.closeMessageBtn = element(by.css('.toast-close-button'));
