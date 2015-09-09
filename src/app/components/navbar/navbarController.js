@@ -73,12 +73,21 @@ angular.module('liveopsConfigPanel')
         });
       }
       
+      if (UserPermissions.hasPermissionInList(['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', '"PLATFORM_CREATE_TENANT_ROLES', 'VIEW_ALL_ROLES', 'MANAGE_ALL_ROLES', 'MANAGE_TENANT_ENROLLMENT'])){
+        managementConfig.push({
+          label: 'Roles',
+          onClick: function(){$state.transitionTo('content.management.roles');},
+          id: 'role-management-link',
+          order: 2
+        });
+      }
+      
       if (UserPermissions.hasPermissionInList(['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'VIEW_ALL_SKILLS', 'MANAGE_ALL_SKILLS', 'MANAGE_ALL_USER_SKILLS', 'MANAGE_TENANT_ENROLLMENT'])){
         managementConfig.push({
           label: 'Skills',
           onClick: function(){$state.transitionTo('content.management.skills');},
           id: 'skill-management-link',
-          order: 2
+          order: 3
         });
       }
       
@@ -87,7 +96,7 @@ angular.module('liveopsConfigPanel')
           label: 'Groups',
           onClick: function(){$state.transitionTo('content.management.groups');},
           id: 'group-management-link',
-          order: 3
+          order: 4
         });
       }
       
