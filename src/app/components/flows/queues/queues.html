@@ -42,11 +42,32 @@
   right-element-id="queue-version-panel"
   left-element-id="right-panel" ></resize-handle>
 
-<div id="queue-version-panel" class="right-panel" ng-show="selectedQueueVersion">
-  <resource-details
-    id="version-pane"
-    header-template-url="app/components/flows/queues/versions/versionDetailHeader.html"
-    body-template-url="app/components/flows/queues/versions/versionDetailBody.html"
-    original-resource="selectedQueueVersion"
-    resource-name="QueueVersion"></resource-details>
-</div>
+<lo-details-panel id="queue-version-panel" class="right-panel"
+  ng-show="selectedQueueVersion"
+  ng-resource="selectedQueueVersion">
+
+  <ng-form unsaved-changes-warning name="forms.versionForm"
+    class="details-pane"
+    ng-model="selectedQueueVersion"
+    ng-resource="selectedQueueVersion"
+    lo-form-submit lo-form-cancel lo-form-alert>
+
+    <div class="detail-header"
+      ng-include src="'app/components/flows/queues/versions/versionDetailHeader.html'">
+    </div>
+
+    <div class="detail-body"
+      ng-include src="'app/components/flows/queues/versions/versionDetailBody.html'">
+    </div>
+
+    <div class="detail-controls">
+      <input id="cancel-version-btn" type="button" class="btn"
+        value="{{'value.cancel' | translate}}"
+        lo-cancel-chain-executor="version:cancel"></input>
+      <input id="create-version-btn" class="btn btn-primary" ng-hide="loading"
+        type="submit" value="{{'value.create' | translate}}"
+        ng-disabled="formsversionForm.$invalid || ! forms.versionForm.$dirty"
+        lo-submit-chain-executor="version:save"></input>
+    </div>
+  </ng-form>
+</lo-details-panel>

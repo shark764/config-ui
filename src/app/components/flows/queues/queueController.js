@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('QueueController', ['$scope', 'Queue', 'Session', '$stateParams', 'queueTableConfig', 'QueueVersion', 'BulkAction',
-    function ($scope, Queue, Session, $stateParams, queueTableConfig, QueueVersion, BulkAction) {
+  .controller('QueueController', ['$scope', 'Queue', 'Session', '$stateParams', 'queueTableConfig', 'QueueVersion', 'BulkAction', 'Chain',
+    function ($scope, Queue, Session, $stateParams, queueTableConfig, QueueVersion, BulkAction, Chain) {
       $scope.Session = Session;
 
       Queue.prototype.postCreate = function (queue) {
@@ -46,17 +46,43 @@ angular.module('liveopsConfigPanel')
 
       $scope.additional = {
         initialQuery: '{}',
-        addQueueVersion: $scope.addQueueVersion
+        selectedQueueVersion: $scope.selectedQueueVersion
       };
 
       $scope.bulkActions = {
         setQueueStatus: new BulkAction()
       };
       
-      $scope.addQueueVersion = function(){
+      $scope.$on('create:queue:version', function () {
         $scope.selectedQueueVersion = new QueueVersion({
-          queueId: $scope.selectedQueue.id
+          queueId: $scope.selectedQueue.id,
+          tenantId: Session.tenant.tenantId,
+          name: 'v' + ($scope.fetchVersions().length + 1)
         });
-      }
+      });
+      
+      var versionSaveChain = Chain.get('version:save');
+      
+      versionSaveChain.hook('save', function() {
+        return $scope.selectedQueueVersion.save();
+      });
+      
+      $scope.fetchVersions = function(){
+        if (! $scope.selectedQueue){
+          return [];
+        } else {
+          return QueueVersion.cachedQuery({
+            tenantId: Session.tenant.tenantId,
+            queueId: $scope.selectedQueue.id
+          });
+        }
+      };
+      
+      $scope.copySelectedVersion = function(selected){
+        var oldName = $scope.selectedQueueVersion.name;
+        $scope.selectedQueueVersion = angular.copy(selected);
+        delete $scope.selectedQueueVersion.id;
+        $scope.selectedQueueVersion.name = oldName;
+      };
     }
   ]);

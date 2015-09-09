@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .factory('QueueVersion', ['LiveopsResourceFactory', 'emitInterceptor',
-    function (LiveopsResourceFactory, emitInterceptor) {
+  .factory('QueueVersion', ['LiveopsResourceFactory', 'emitInterceptor', 'cacheAddInterceptor',
+    function (LiveopsResourceFactory, emitInterceptor, cacheAddInterceptor) {
 
       var QueueVersion = LiveopsResourceFactory.create({
         endpoint: '/v1/tenants/:tenantId/queues/:queueId/versions/:id',
@@ -17,7 +17,7 @@ angular.module('liveopsConfigPanel')
           {name: 'priorityRate', optional: true},
           {name: 'priorityUnit', optional: true}
         ],
-        saveInterceptor: emitInterceptor,
+        saveInterceptor: [emitInterceptor, cacheAddInterceptor],
         updateInterceptor: emitInterceptor
       });
 

@@ -25,7 +25,7 @@
       <th></th>
     </thead>
     <tr ng-repeat-start="version in versions | orderBy:'created':'reverse'" id="version-row-{{version.name}}">
-      <td><i ng-if="version.id == currVersion.id" class="fa fa-circle" title="Currently active version"></i></td>
+      <td><i ng-if="version == currVersion" class="fa fa-circle" title="Currently active version"></i></td>
       <td>
         {{version.name}}
       </td>
@@ -35,9 +35,9 @@
       </td>
       <td><i class="fa" ng-class="{'fa-caret-down' : !version.viewing, 'fa-caret-up': version.viewing}" ng-click="toggleDetails(version);" title="{{'queue.details.version.expand' | translate}}"></i></td>
     </tr>
-    <tr ng-repeat-end id="view-version-{{version.name}}">
+    <tr ng-repeat-end id="view-version-{{version.name}}" ng-show="version.viewing">
       <td></td>
-      <td colspan="5" ng-show="version.viewing">
+      <td colspan="5">
         <div disable-contents="! ('MANAGE_ALL_QUEUES' | hasPermission)">
           <div class="input-group">
             <label class="textarea-label disabled">{{'value.details.query' | translate}}</label>

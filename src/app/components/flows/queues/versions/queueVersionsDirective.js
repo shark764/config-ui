@@ -116,6 +116,10 @@ angular.module('liveopsConfigPanel')
         }
 
       });
+      
+      $scope.addQueueVersion = function(){
+        $scope.$emit('create:queue:version');
+      }
     }
   ])
   .directive('queueVersions', [function () {
