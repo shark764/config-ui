@@ -306,7 +306,7 @@ describe('The users table filter', function() {
     // Search
     shared.searchField.sendKeys('a');
 
-    // Select Status filter
+    // Select Groups filter
     users.groupsTableDropDownLabel.click(); // Open
     users.dropdownGroups.get(1).click();
     users.dropdownGroups.get(1).getText().then(function(selectedGroupName) {

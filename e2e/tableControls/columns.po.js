@@ -39,6 +39,11 @@ var Columns = function() {
   this.columnSevenHeader = this.tableHeader.element(by.css('th.ng-scope:nth-child(7)'));
   this.columnEightHeader = this.tableHeader.element(by.css('th.ng-scope:nth-child(8)'));
 
+  this.displayedSortIcons = this.tableHeader.all(by.css('.sort-icon:not(.ng-hide)'));
+  this.sortableHeaders = this.tableHeader.all(by.css('.sortable-headers'));
+  this.sortIconArrowDown = '.sort-icon.fa-arrow-down';
+  this.sortIconArrowUp = '.sort-icon.fa-arrow-up';
+
   this.allFilterDropDowns = this.tableHeader.all(by.css('filter-dropdown'));
 
   // Status Table Dropdowns
