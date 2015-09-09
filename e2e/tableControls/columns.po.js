@@ -40,7 +40,7 @@ var Columns = function() {
   this.columnEightHeader = this.tableHeader.element(by.css('th.ng-scope:nth-child(8)'));
 
   this.displayedSortIcons = this.tableHeader.all(by.css('.sort-icon:not(.ng-hide)'));
-  this.sortableHeaders = this.tableHeader.all(by.css('.sortable-headers'));
+  this.sortableHeaders = this.tableHeader.all(by.css('.sortable-header'));
   this.sortIconArrowDown = '.sort-icon.fa-arrow-down';
   this.sortIconArrowUp = '.sort-icon.fa-arrow-up';
 
