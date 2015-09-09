@@ -22,6 +22,9 @@
           }),
           new joint.shapes.liveOps.gateway({
             gatewayType: 'exclusive'
+          }),
+          new joint.shapes.liveOps.gateway({
+            gatewayType: 'event'
           })
         ], 'gateways');
       },

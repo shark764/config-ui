@@ -94,6 +94,10 @@ body {
     fill: #000;
 }
 
+foreignobject > body {
+  min-width: 0px;
+}
+
 /* SCROLLBARS */
 
 ::-webkit-scrollbar {

@@ -51,7 +51,8 @@
             type: 'select',
             options: [
               {value: 'parallel', content: 'Parallel'},
-              {value: 'exclusive', content: 'Exclusive'}
+              {value: 'exclusive', content: 'Exclusive'},
+              {value: 'event', content: 'Event'}
             ],
             label: 'Type',
             group: 'general',
@@ -72,6 +73,15 @@
         case 'exclusive':
           cell.set('icon', 'cross');
           break;
+        case 'event':
+          cell.set('icon', 'event');
+          cell.attr({
+            image: {
+              width:  50, height: 50, 
+              transform: 'translate(15,15)'
+            }
+          })
+          break;
         default:
           throw 'BPMN: Unknown Gateway Type: ' + type;
       }
@@ -91,6 +101,11 @@
             }
           });
         } else if (type === 'inclusive') {
+          links = cell.collection.getConnectedLinks(cell, {outbound: true});
+          _.each(links, function(link) {
+            link.set('linkType', 'normal');
+          });
+        } else if (type === 'event') {
           links = cell.collection.getConnectedLinks(cell, {outbound: true});
           _.each(links, function(link) {
             link.set('linkType', 'normal');
