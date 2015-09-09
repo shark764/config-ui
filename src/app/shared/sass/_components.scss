@@ -8,7 +8,7 @@
   width: 100%;
 }
 
-.lo-alert.error {
+.lo-alert.lo-error {
   background-color: #FFBBBB;
   border: 1px solid #D72727;
   color: #D72727;
@@ -51,4 +51,9 @@
   .divider-header > *{
     background-color: lighten($lightest-grey, 2%) !important;
   }
+
+.copyright {
+  color: #fff;
+  margin-top: 20px;
+  text-align: center;
 }

@@ -29,15 +29,15 @@ angular.module('liveopsConfigPanel')
             'options': statuses()
           },
           'name': 'active',
-          'transclude': true,
-          
+          'id': 'status-column-dropdown',
+          'transclude': true,          
         }],
         'searchOn' : ['name', 'description'],
         'orderBy' : 'name',
         'title' : $translate.instant('group.table.title'),
         'showBulkActions': UserPermissions.hasPermission('MANAGE_ALL_GROUPS'),
         'showCreate': UserPermissions.hasPermission('MANAGE_ALL_GROUPS')
-      
+
       };
     }
   ]);

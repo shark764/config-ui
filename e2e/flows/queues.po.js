@@ -28,7 +28,7 @@ var QueuePage = function() {
   this.createVersionRateFormField = element(by.id('create-version-rate-input'));
   this.createVersionRateUnitDropdown = element(by.id('create-version-rate-units-input'));
 
-  this.requiredErrors = element.all(by.css('.error'));
+  this.requiredErrors = element.all(by.css('.lo-error'));
 
   this.selectedVersionQuery = this.versionRowDetailsV1.element(by.model('version.query'));
   this.selectedVersionPriority = this.versionRowDetailsV1.element(by.id('selected-version-priority'));

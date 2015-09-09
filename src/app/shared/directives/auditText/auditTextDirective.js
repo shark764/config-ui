@@ -11,9 +11,7 @@ angular.module('liveopsConfigPanel')
           date: '='
         },
         template: '{{get()}}',
-        link: function ($scope, element, attributes) {
-          $scope.text;
-          
+        link: function ($scope) {
           $scope.get = function () {
             if (!$scope.userId) {
               return  $filter('translate')($scope.translation, {
@@ -26,7 +24,7 @@ angular.module('liveopsConfigPanel')
             });
 
             if(user.$resolved) {
-              return $scope.text = $filter('translate')($scope.translation, {
+              $scope.text = $filter('translate')($scope.translation, {
                 displayName: user.getDisplay(),
                 date: $filter('date')($scope.date, 'medium')
               });

@@ -53,7 +53,7 @@ describe('The dispatchMappings view bulk actions', function() {
 
       // All dispatchMappings are set to disabled
       // Select Disabled from Status drop down
-      bulkActions.dispatchMappingsStatusTableDropDown.click();
+      bulkActions.statusColumnDropDownLabel.click();
       dispatchMappings.statuses.get(0).click();
       shared.tableElements.count().then(function(disabledTotal) {
         expect(disabledTotal).toBe(dispatchMappingCount);
@@ -89,7 +89,7 @@ describe('The dispatchMappings view bulk actions', function() {
 
       // All dispatchMappings are set to enabled
       // Select Disabled from Status drop down
-      bulkActions.dispatchMappingsStatusTableDropDown.click();
+      bulkActions.statusColumnDropDownLabel.click();
       dispatchMappings.statuses.get(0).click();
       shared.tableElements.count().then(function(disabledTotal) {
         expect(disabledTotal).toBe(0);

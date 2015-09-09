@@ -13,7 +13,8 @@ angular.module('liveopsConfigPanel')
         placeholder: '@',
         hover: '=',
         prefill: '=',
-        keepExpanded: '='
+        keepExpanded: '=',
+        onEnter: '&'
       },
 
       templateUrl: 'app/shared/directives/typeAhead/typeAhead.html',
@@ -29,9 +30,18 @@ angular.module('liveopsConfigPanel')
             filterCriteria[$scope.nameField] = $scope.currentText;
             filteredItems = filterFilter($scope.items, filterCriteria, true);
           } else {
+            //Capitalization doesn't matter for the purpose of matching
+            $scope.filterCriteria = function(item) {
+              return item.getDisplay().toLowerCase().contains($scope.currentText.toLowerCase());
+            };
+            
             filteredItems = filterFilter($scope.items, function(item) {
-              return item.getDisplay() === $scope.currentText;
+              return item.getDisplay().toLowerCase() === $scope.currentText.toLowerCase();
             }, true);
+            
+            if (filteredItems && filteredItems.length === 1) {
+              $scope.currentText = filteredItems[0].getDisplay(); //Force capitalization to be the same as the item display
+            }
           }
 
           if (!$scope.currentText) {
@@ -47,8 +57,11 @@ angular.module('liveopsConfigPanel')
             });
 
           } else {
-            $scope.selectedItem = {};
-            $scope.selectedItem[$scope.nameField] = $scope.currentText;
+            delete $scope.selectedItem;
+            if ($scope.nameField){
+              $scope.selectedItem = {};
+              $scope.selectedItem[$scope.nameField] = $scope.currentText;
+            }
           }
         });
 
@@ -63,6 +76,12 @@ angular.module('liveopsConfigPanel')
             $scope.showSuggestions = false;
           }
         };
+        
+        $scope.$watch('selectedItem', function(newValue){
+          if (newValue === null){
+            $scope.currentText = '';
+          }
+        });
       }
     };
   }]);

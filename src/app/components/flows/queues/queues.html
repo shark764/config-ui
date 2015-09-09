@@ -3,7 +3,7 @@
   config="tableConfig"
   items="fetchQueues()"
   selected="selectedQueue"
-  resource-name="queue">
+  resource-name="Queue">
   
   <span name="active">
     <span ng-if="item.active">{{'value.enabled' | translate}}</span>
@@ -28,7 +28,7 @@
     header-template-url="app/components/flows/queues/queueDetailHeader.html"
     body-template-url="app/components/flows/queues/queueDetailBody.html"
     original-resource="selectedQueue"
-    resource-name="queue"></resource-details>
+    resource-name="Queue"></resource-details>
 
   <bulk-action-executor class="details-pane" ng-show="showBulkActions" items="fetchQueues()"
     bulk-actions="bulkActions" show-bulk-actions="showBulkActions">

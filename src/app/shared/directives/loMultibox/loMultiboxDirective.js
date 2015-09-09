@@ -10,7 +10,8 @@ angular.module('liveopsConfigPanel')
         model: '=',
         name: '@',
         sourcePropertyName: '@',
-        destinationPropertyName: '@'
+        destinationPropertyName: '@',
+        onItemSelect: '&'
       },
       templateUrl: 'app/shared/directives/loMultibox/loMultibox.html',
       controller: 'DropdownController', //To handle auto collapsing on click!
@@ -49,13 +50,14 @@ angular.module('liveopsConfigPanel')
         $scope.onSelect = function(selectedItem){
           $scope.model[$scope.destinationPropertyName] = selectedItem[$scope.sourcePropertyName];
           $scope.display = selectedItem.getDisplay();
+          $scope.onItemSelect();
           
           dropCtrl.setShowDrop(false);
           $scope.createMode = false;
           $scope.selectedItem = null;
         };
 
-        $scope.$on('resource:details:' + $scope.resourceName + ':create:success',
+        $scope.$on('created:resource:' + $scope.resourceName,
           function (event, resource) {
             if ($scope.createMode){
               $scope.onSelect(resource);

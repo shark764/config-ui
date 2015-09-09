@@ -26,6 +26,26 @@ angular.module('liveopsConfigPanel')
           return value;
         }
       }
+      
+      function getInterceptor(interceptorParam){
+        if (angular.isArray(interceptorParam)){
+          var interceptorFunc = function(response){
+            angular.forEach(interceptorParam, function(interceptor){
+              interceptor.response(response);
+            });
+            
+            return response.resource;
+          };
+          
+          var interceptor = {
+              response: interceptorFunc
+          }
+          
+          return interceptor;
+        } else {
+          return interceptorParam;
+        }
+      }
 
       return {
         create: function (params) {
@@ -38,20 +58,20 @@ angular.module('liveopsConfigPanel')
               return undefined;
             }
 
-            // empty string indicates that its verifying if it should
-            // check any part; always return the value
-            if(key === ''){
-              return value;
-            }
-
-            var i = _.findIndex(params.updateFields, {'name' : key});
-
-            if(i >= 0 && (value !== null || !params.updateFields[i].optional)){
-              return value;
-            }
-
-            return undefined;
+            return value;
           };
+          
+          var cleanUpdateFields = function(data){
+            var cleanedData = angular.copy(data);
+            angular.forEach(cleanedData, function(value, key){
+              var i = _.findIndex(params.updateFields, {'name' : key});
+              if (i < 0 || (value === null && params.updateFields[i].optional)){
+                delete cleanedData[key];
+              }
+            });
+            
+            return cleanedData;
+          }
 
           params.requestUrlFields = angular.isDefined(params.requestUrlFields) ? params.requestUrlFields : {
             id: '@id',
@@ -62,7 +82,7 @@ angular.module('liveopsConfigPanel')
             userId: '@userId',
             memberId: '@memberId'
           };
-
+          
           var Resource = $resource(apiHostname + params.endpoint, params.requestUrlFields, {
             query: {
               method: 'GET',
@@ -81,9 +101,10 @@ angular.module('liveopsConfigPanel')
             },
             update: {
               method: 'PUT',
-              interceptor: params.updateInterceptor,
+              interceptor: getInterceptor(params.updateInterceptor),
               transformRequest: function (data) {
-                return JSON.stringify(data, updateJsonReplacer);
+                var validUpdateFields = cleanUpdateFields(data);
+                return JSON.stringify(validUpdateFields, updateJsonReplacer);
               },
 
               transformResponse: appendTransform($http.defaults.transformResponse, function (value) {
@@ -92,7 +113,7 @@ angular.module('liveopsConfigPanel')
             },
             save: {
               method: 'POST',
-              interceptor: params.saveInterceptor,
+              interceptor: getInterceptor(params.saveInterceptor),
               transformRequest: function (data) {
                 return JSON.stringify(data, createJsonReplacer);
               },

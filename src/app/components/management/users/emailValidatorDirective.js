@@ -33,7 +33,7 @@ angular.module('liveopsConfigPanel')
 
             User.query({
               email: modelValue
-            }).$promise.then(function(result) {
+            }).$promise.then(function() {
               ngResource.$user = new User({
                 created: true
               });

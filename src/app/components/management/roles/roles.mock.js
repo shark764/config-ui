@@ -5,16 +5,19 @@ angular.module('liveopsConfigPanel.mock.content.management.roles', ['liveopsConf
     return [new TenantRole({
       'id': 'roleId1',
       'name': 'roleName1',
-      'tenantId': 'tenant-id'
+      'tenantId': 'tenant-id',
+      'permissions': []
     }), new TenantRole({
       'id': 'roleId2',
       'name': 'roleName2',
-      'tenantId': 'tenant-id'
+      'tenantId': 'tenant-id',
+      'permissions': []
     }), new TenantRole({
       'id': 'roleId3',
       'name': 'roleName3',
       'description': 'Does not exist yet!',
-      'tenantId': 'tenant-id'
+      'tenantId': 'tenant-id',
+      'permissions': []
     })];
   })
   .run(['$httpBackend', 'apiHostname', 'mockRoles',
@@ -36,10 +39,12 @@ angular.module('liveopsConfigPanel.mock.content.management.roles', ['liveopsConf
   .service('mockPlatformRoles', function(PlatformRole) {
     return [new PlatformRole({
       'id': 'roleId1',
-      'name': 'roleName1'
+      'name': 'roleName1',
+      'permissions': []
     }), new PlatformRole({
       'id': 'roleId2',
-      'name': 'roleName2'
+      'name': 'roleName2',
+      'permissions': []
     })];
   })
   .run(['$httpBackend', 'apiHostname', 'mockPlatformRoles',

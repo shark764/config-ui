@@ -3,7 +3,7 @@
   config="tableConfig"
   items="fetchIntegrations()"
   selected="selectedIntegration"
-  resource-name="integrations">
+  resource-name="Integration">
 
   <span name="active">
     <span ng-if="item.active">{{'value.enabled' | translate}}</span>
@@ -30,7 +30,8 @@
     extend-scope="additional"
     header-template-url="app/components/configuration/integrations/integrationDetailHeader.html"
     body-template-url="app/components/configuration/integrations/integrationDetailBody.html"
-    original-resource="selectedIntegration"></resource-details>
+    original-resource="selectedIntegration"
+    resource-name="Integration"></resource-details>
     
     <bulk-action-executor class="details-pane" ng-show="showBulkActions" items="fetchIntegrations()"
       bulk-actions="bulkActions" show-bulk-actions="showBulkActions">

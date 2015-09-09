@@ -332,10 +332,7 @@ describe('The dispatch mappings view', function() {
     shared.cancelFormBtn.click();
 
     // Warning message is displayed
-    var alertDialog = browser.switchTo().alert();
-    expect(alertDialog.accept).toBeDefined();
-    expect(alertDialog.dismiss).toBeDefined();
-    alertDialog.accept();
+    shared.dismissChanges();
 
     // New dispatch mapping is not created
     expect(shared.successMessage.isPresent()).toBeFalsy();
@@ -462,10 +459,7 @@ describe('The dispatch mappings view', function() {
       shared.cancelFormBtn.click();
 
       // Warning message is displayed
-      var alertDialog = browser.switchTo().alert();
-      expect(alertDialog.accept).toBeDefined();
-      expect(alertDialog.dismiss).toBeDefined();
-      alertDialog.accept();
+      shared.dismissChanges();
 
       expect(shared.successMessage.isPresent()).toBeFalsy();
       expect(shared.tableElements.count()).toBe(dispatchMappingCount);
@@ -520,9 +514,10 @@ describe('The dispatch mappings view', function() {
 
   it('should require Phone field when editing a Dispatch Mapping', function() {
     // Filter table results so only dispatch Mappings with a phone number are visible
-    dispatchMappings.interactionFieldTableDropDown.click();
+    dispatchMappings.interactionFieldDropDownLabel.click();
     dispatchMappings.interactionFields.get(0).click();
     dispatchMappings.interactionFields.get(1).click();
+    dispatchMappings.interactionFieldDropDownLabel.click();
 
     shared.firstTableRow.click();
 
@@ -541,7 +536,7 @@ describe('The dispatch mappings view', function() {
 
   it('should require Valid Phone field when editing a Dispatch Mapping', function() {
     // Filter table results so only dispatch Mappings with a phone number are visible
-    dispatchMappings.interactionFieldTableDropDown.click();
+    dispatchMappings.interactionFieldDropDownLabel.click();
     dispatchMappings.interactionFields.get(0).click();
     dispatchMappings.interactionFields.get(1).click();
 
@@ -562,7 +557,7 @@ describe('The dispatch mappings view', function() {
 
   it('should format Phone field when editing a Dispatch Mapping', function() {
     // Filter table results so only dispatch Mappings with a phone number are visible
-    dispatchMappings.interactionFieldTableDropDown.click();
+    dispatchMappings.interactionFieldDropDownLabel.click();
     dispatchMappings.interactionFields.get(0).click();
     dispatchMappings.interactionFields.get(1).click();
 
@@ -581,7 +576,7 @@ describe('The dispatch mappings view', function() {
 
   it('should accept Euro phone number input in Phone field when editing a Dispatch Mapping', function() {
     // Filter table results so only dispatch Mappings with a phone number are visible
-    dispatchMappings.interactionFieldTableDropDown.click();
+    dispatchMappings.interactionFieldDropDownLabel.click();
     dispatchMappings.interactionFields.get(0).click();
     dispatchMappings.interactionFields.get(1).click();
 

@@ -12,7 +12,7 @@ var FlowPage = function() {
   this.versionNameFormField = element(by.model('version.name'));
   this.versionDescriptionFormField = element(by.model('version.description'));
 
-  this.requiredErrors = element.all(by.css('.error'));
+  this.requiredErrors = element.all(by.css('.lo-error'));
 
   this.firstTableRow = element(by.css('#items-table > tbody:nth-child(2) > tr:nth-child(1)'));
   this.secondTableRow = element(by.css('#items-table > tbody:nth-child(2) > tr:nth-child(2)'));

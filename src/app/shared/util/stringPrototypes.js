@@ -11,3 +11,9 @@ String.prototype.insert = function (index, string) {
 String.prototype.capitalize = function () {
   return this.charAt(0).toUpperCase() + this.slice(1);
 };
+
+if (!String.prototype.contains) {
+  String.prototype.contains = function(s) {
+      return this.indexOf(s) > -1
+  };
+}

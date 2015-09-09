@@ -65,10 +65,10 @@ describe('NavbarController', function () {
   });
 
   describe('initialized with tenants', function() {
-    beforeEach(function() {
+    beforeEach(inject(function($state) {
       Session.token = 'abc';
       Session.tenants = mockTenants;
-
+      spyOn($state, 'go');
       $controller('NavbarController', {
         '$scope': $scope,
       });
@@ -77,7 +77,7 @@ describe('NavbarController', function () {
 
       expect(Session.tenants).toBeDefined();
       expect(Session.tenants.length).toEqual(2);
-    });
+    }));
 
     it('should select the first tenant retrieved as the active tenant if no tenant is set in the Session', function () {
       expect(Session.tenant.tenantId).toBe(mockTenants[0].id);

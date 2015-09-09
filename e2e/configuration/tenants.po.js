@@ -15,7 +15,7 @@ var TenantsPage = function() {
   this.descriptionColumn = 'td:nth-child(3)';
   this.statusColumn = 'td:nth-child(4)';
 
-  this.nameRequiredError = element.all(by.css('.error'));
+  this.nameRequiredError = element.all(by.css('.lo-error'));
 };
 
 module.exports = new TenantsPage();
