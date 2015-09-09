@@ -5,7 +5,7 @@ var Columns = function() {
   this.options = element.all(by.repeater('option in options | orderBy:orderBy'));
   this.optionCheckboxes = this.dropdownFilter.all(by.css('input'));
 
-  this.users = ['Name', 'Email', 'ID', 'Skills', 'Groups', 'State', 'Status'];
+  this.users = ['Name', 'Email', 'External ID', 'Skills', 'Groups', 'Roles', 'Presence', 'Status', 'Tenant Status'];
   this.groups = ['Name', 'Description', 'Members', 'Status'];
   this.skills = ['Name', 'Description', 'Proficiency', 'Status'];
   this.tenants = ['Name', 'Description', 'Status'];
@@ -16,7 +16,7 @@ var Columns = function() {
   this.mediaCollections = ['Name', 'Description', 'Identifier'];
   this.media = ['Name', 'Source', 'Type', 'Properties'];
 
-  this.userDefaults = ['Name', 'Email', 'ID', 'Skills', 'Groups'];
+  this.userDefaults = ['Name', 'Email', 'Skills', 'Groups', 'Roles', 'Presence', 'Tenant Status'];
 
   this.selectAll = element(by.css('th.check-col > input:nth-child(1)'));
 
@@ -29,6 +29,8 @@ var Columns = function() {
   this.columnSix = this.itemTable.element(by.css('tr.ng-scope:nth-child(2) > td:nth-child(6)'));
   this.columnSeven = this.itemTable.element(by.css('tr.ng-scope:nth-child(2) > td:nth-child(7)'));
   this.columnEight = this.itemTable.element(by.css('tr.ng-scope:nth-child(2) > td:nth-child(8)'));
+  this.columnNine = this.itemTable.element(by.css('tr.ng-scope:nth-child(2) > td:nth-child(9)'));
+  this.columnTen = this.itemTable.element(by.css('tr.ng-scope:nth-child(2) > td:nth-child(10)'));
 
   this.tableHeader = this.tablePane.element(by.css('.clone-header'));
   this.columnTwoHeader = this.tableHeader.element(by.css('th.ng-scope:nth-child(2)'));
@@ -38,6 +40,9 @@ var Columns = function() {
   this.columnSixHeader = this.tableHeader.element(by.css('th.ng-scope:nth-child(6)'));
   this.columnSevenHeader = this.tableHeader.element(by.css('th.ng-scope:nth-child(7)'));
   this.columnEightHeader = this.tableHeader.element(by.css('th.ng-scope:nth-child(8)'));
+  this.columnNineHeader = this.tableHeader.element(by.css('th.ng-scope:nth-child(9)'));
+  this.columnTenHeader = this.tableHeader.element(by.css('th.ng-scope:nth-child(10)'));
+  this.columnElevenHeader = this.tableHeader.element(by.css('th.ng-scope:nth-child(11)'));
 
   this.displayedSortIcons = this.tableHeader.all(by.css('.sort-icon:not(.ng-hide)'));
   this.sortableHeaders = this.tableHeader.all(by.css('.sortable-header'));
