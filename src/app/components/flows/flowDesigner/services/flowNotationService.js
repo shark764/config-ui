@@ -1,7 +1,7 @@
 (function() {
   'use strict';
 
-  function FlowNotationService() {
+  function FlowNotationService(FlowLibrary) {
     return {
       activities: [],
       events: [],
@@ -40,6 +40,7 @@
       buildInputPanel: function(model) {
         var self = this;
         var modelType = model.get('type');
+        console.log(FlowLibrary.search({cells: model.collection.toJSON()}, 'resource'));
 
         //If we're dealing with an actrivity
         if (modelType === 'liveOps.activity') {
