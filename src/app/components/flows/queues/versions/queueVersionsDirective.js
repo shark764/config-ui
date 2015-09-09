@@ -11,10 +11,10 @@ angular.module('liveopsConfigPanel')
 
         if($scope.queue && $scope.queue.id) {
 
-          QueueVersion.query({
+          QueueVersion.cachedQuery({
             tenantId: Session.tenant.tenantId,
             queueId: $scope.queue.id
-          }, function (versions) {
+          }, 'QueueVersion' + $scope.queue.id).$promise.then(function (versions) {
 
             $scope.versions.length = 0;
 
@@ -54,22 +54,7 @@ angular.module('liveopsConfigPanel')
       };
 
       $scope.createVersionCopy = function(version) {
-        version.viewing = false;
-
-        $scope.versionCopy = new QueueVersion({
-          query: version.query,
-          name: 'v' + ($scope.versions.length + 1),
-          tenantId: version.tenantId,
-          queueId: version.queueId,
-          minPriority: version.minPriority,
-          maxPriority: version.maxPriority,
-          priorityValue: version.priorityValue,
-          priorityRate: version.priorityRate,
-          priorityUnit: version.priorityUnit
-        });
-        
-        $scope.newVersionNumber = ($scope.versions.length + 1);
-        $scope.createNewVersion = true;
+        $scope.$emit('copy:queue:version', version);
       };
 
       $scope.saveVersion = function () {

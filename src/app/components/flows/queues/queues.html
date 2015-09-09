@@ -66,7 +66,7 @@
         lo-cancel-chain-executor="version:cancel"></input>
       <input id="create-version-btn" class="btn btn-primary" ng-hide="loading"
         type="submit" value="{{'value.create' | translate}}"
-        ng-disabled="formsversionForm.$invalid || ! forms.versionForm.$dirty"
+        ng-disabled="forms.versionForm.$invalid"
         lo-submit-chain-executor="version:save"></input>
     </div>
   </ng-form>

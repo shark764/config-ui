@@ -1,19 +1,5 @@
 <div>
   <div class="divider-header first-header">
-    <h4>Base Version</h4>
-  </div>
-  
-  <div class="input-group">
-    <label>Copy values from</label>
-    <div>
-      <select ng-options="version as version.getDisplay() for version in fetchVersions()" ng-model="selectedBaseVersion">
-        <option ng-disabled="true" value="">Select version...</option>
-      </select>
-      <a class="btn btn-primary" ng-click="copySelectedVersion(selectedBaseVersion)">Copy</a>
-    </div>
-  </div>
-  
-  <div class="divider-header">
     <h4>Query</h4>
     <a class="pull-right">
       <span ng-show="queryType != 'advanced'" ng-click="queryType = 'advanced'">(Show advanced query editor)</span>

@@ -5,6 +5,7 @@ angular.module('liveopsConfigPanel')
     function ($scope, Queue, Session, $stateParams, queueTableConfig, QueueVersion, BulkAction, Chain) {
       $scope.Session = Session;
 
+      //Create default first queue version
       Queue.prototype.postCreate = function (queue) {
         var qv = new QueueVersion({
           tenantId: Session.tenant.tenantId,
@@ -46,7 +47,7 @@ angular.module('liveopsConfigPanel')
 
       $scope.additional = {
         initialQuery: '{}',
-        selectedQueueVersion: $scope.selectedQueueVersion
+        copySelectedVersion: $scope.copySelectedVersion
       };
 
       $scope.bulkActions = {
@@ -59,6 +60,14 @@ angular.module('liveopsConfigPanel')
           tenantId: Session.tenant.tenantId,
           name: 'v' + ($scope.fetchVersions().length + 1)
         });
+      });
+      
+      $scope.$on('copy:queue:version', function (event, version) {
+        $scope.copySelectedVersion(version);
+      });
+      
+      $scope.$on('table:resource:selected', function () {
+        $scope.selectedQueueVersion = null;
       });
       
       var versionSaveChain = Chain.get('version:save');
@@ -74,15 +83,22 @@ angular.module('liveopsConfigPanel')
           return QueueVersion.cachedQuery({
             tenantId: Session.tenant.tenantId,
             queueId: $scope.selectedQueue.id
-          });
+          }, 'QueueVersion' + $scope.selectedQueue.id);
         }
       };
       
-      $scope.copySelectedVersion = function(selected){
-        var oldName = $scope.selectedQueueVersion.name;
-        $scope.selectedQueueVersion = angular.copy(selected);
-        delete $scope.selectedQueueVersion.id;
-        $scope.selectedQueueVersion.name = oldName;
+      $scope.copySelectedVersion = function(version){
+        $scope.selectedQueueVersion = new QueueVersion({
+          query: version.query,
+          name: 'v' + ($scope.fetchVersions().length + 1),
+          tenantId: version.tenantId,
+          queueId: version.queueId,
+          minPriority: version.minPriority,
+          maxPriority: version.maxPriority,
+          priorityValue: version.priorityValue,
+          priorityRate: version.priorityRate,
+          priorityUnit: version.priorityUnit
+        });
       };
     }
   ]);

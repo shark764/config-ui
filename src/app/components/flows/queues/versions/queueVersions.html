@@ -46,6 +46,7 @@
   
           <version-priority queue-version="version" ng-disabled="true"></version-priority>
         </div>
+        <a class="btn pull-right copy-version-btn" ng-if="'MANAGE_ALL_QUEUES' | hasPermission" ng-click="createVersionCopy(version)">Create Copy</a>
       </td>
     </tr>
   </table>
