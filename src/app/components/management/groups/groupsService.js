@@ -18,7 +18,7 @@ angular.module('liveopsConfigPanel')
           name: 'active',
           optional: true
         }],
-        saveInterceptor: cacheAddInterceptor,
+        saveInterceptor: [cacheAddInterceptor, emitInterceptor],
         updateInterceptor: emitInterceptor
       });
 

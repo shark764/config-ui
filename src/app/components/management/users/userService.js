@@ -23,7 +23,7 @@ angular.module('liveopsConfigPanel')
           name: 'personalTelephone',
           optional: true
         }],
-        saveInterceptor: cacheAddInterceptor,
+        saveInterceptor: [cacheAddInterceptor, emitInterceptor],
         updateInterceptor: emitInterceptor
       });
 

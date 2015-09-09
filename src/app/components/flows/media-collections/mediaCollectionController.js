@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('MediaCollectionController', ['$q', '$scope', 'MediaCollection', 'Media', 'Session', 'mediaCollectionTableConfig', 'mediaTypes', 'Alert', 'Chain', '$rootScope',
-    function ($q, $scope, MediaCollection, Media, Session, mediaCollectionTableConfig, mediaTypes, Alert, Chain, $rootScope) {
+  .controller('MediaCollectionController', ['$q', '$scope', 'MediaCollection', 'Media', 'Session', 'mediaCollectionTableConfig', 'mediaTypes', 'Alert', 'Chain',
+    function ($q, $scope, MediaCollection, Media, Session, mediaCollectionTableConfig, mediaTypes, Alert, Chain) {
       $scope.forms = {};
       $scope.Session = Session;
 
@@ -62,22 +62,19 @@ angular.module('liveopsConfigPanel')
         return $scope.selectedMedia.save();
       }, 0);
 
-      mediaSaveChain.hook('post save', function (media) {
+      mediaSaveChain.hook('post save', function () {
         $scope.selectedMedia = null;
-        $rootScope.$broadcast('created:resource:Media', media);
       }, 1);
 
       mediaSaveAndNewChain.hook('save', function () {
         return $scope.selectedMedia.save();
       }, 0);
 
-      mediaSaveAndNewChain.hook('and:new', function (media) {
+      mediaSaveAndNewChain.hook('and:new', function () {
         $scope.selectedMedia = new Media({
           properties: {},
           tenantId: Session.tenant.tenantId
         });
-
-        $scope.setCurrentMediaMap(media);
       }, 1);
 
       $scope.$on('resource:details:create:Media', function (event, mediaMap) {
