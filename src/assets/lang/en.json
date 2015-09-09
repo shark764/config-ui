@@ -197,6 +197,15 @@
   "queue.details.enable.confirm": "This will enable this queue. Do you want to continue?",
   "queue.details.version.expand": "Show/hide Details",
   "queue.table.title": "Queue Management",
+  
+  "queues.query.builder.groups": "Agent Groups",
+  "queue.query.builder.groups.or": "Any of these groups:",
+  "queue.query.builder.groups.and": "All of these groups:",
+  "queue.query.builder.groups.placeholder": "Select Group...",
+  "queues.query.builder.skills": "Agent Skills",
+  "queue.query.builder.skills.or": "Any of these skills:",
+  "queue.query.builder.skills.and": "All of these skills:",
+  "queue.query.builder.skills.placeholder": "Select Skill...",
 
   "media.details": "Media",
   "media.details.source.error": "Please enter a source",

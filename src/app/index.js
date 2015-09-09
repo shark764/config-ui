@@ -130,9 +130,20 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
         }
       })
       .state('content.flows.query', {
-        url: '/query-builder?id',
+        url: '/query-builder?queueVersion&queueId',
         templateUrl: 'app/components/flows/queues/queueQueryCreator/queueQueryCreator.html',
-        controller: 'QueueQueryCreatorController'
+        controller: 'QueueQueryCreatorController',
+        resolve: {
+          version: ['$stateParams', function($stateParams) {
+            return JSON.parse($stateParams.queueVersion);
+          }],
+          queue: ['$stateParams', 'Queue', 'Session', function($stateParams, Queue, Session) {
+            return Queue.cachedGet({
+              id: $stateParams.queueId,
+              tenantId: Session.tenant.tenantId
+            });
+          }]
+        }
       })
       .state('content.flows.media', {
         url: '/media?id',
