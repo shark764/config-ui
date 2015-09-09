@@ -8,6 +8,7 @@ describe('The table filters', function() {
     elementCount;
 
   beforeEach(function() {
+    // Ensure user is logged out initially
     loginPage.login(params.login.user, params.login.password);
   });
 
@@ -267,6 +268,17 @@ describe('The table filters', function() {
     });
   });
 
+  describe('on the Role Management Page', function() {
+    beforeEach(function() {
+      browser.get(shared.rolesPageUrl);
+      elementCount = shared.tableElements.count();
+    });
+
+    it('should not have any column filters', function() {
+      expect(columns.allFilterDropDowns.count()).toBe(0);
+    });
+  });
+
   describe('on the Tenant Management Page', function() {
     beforeEach(function() {
       browser.get(shared.tenantsPageUrl);
@@ -346,9 +358,9 @@ describe('The table filters', function() {
     });
   });
 
-  describe('on the Interaction Management Page', function() {
+  describe('on the Integration Management Page', function() {
     beforeEach(function() {
-      browser.get(shared.interactionsPageUrl);
+      browser.get(shared.integrationsPageUrl);
       elementCount = shared.tableElements.count();
     });
 
@@ -495,23 +507,26 @@ describe('The table filters', function() {
         });
       });
     });
-    // TODO with TITAN2-2433
-    // Select option from WebRTC filter
-    columns.webRTCTableDropDownLabel.click();
-    columns.dropdownWebRTCOptions.get(1).click();
-    columns.webRTCTableDropDownLabel.click();
 
-    // Select Enabled from Status filter
-    columns.statusTableDropDownLabel.click();
-    columns.dropdownStatuses.get(0).click();
-    columns.statusTableDropDownLabel.click().then(function() {
+    it('should filter by multiple columns', function() {
+      // TODO with TITAN2-2433
+      // Select option from WebRTC filter
+      columns.webRTCTableDropDownLabel.click();
+      columns.dropdownWebRTCOptions.get(1).click();
+      columns.webRTCTableDropDownLabel.click();
 
-      // Ensure only rows that meet both filters are displayed
-      shared.tableElements.then(function(rows) {
-        for (var i = 0; i < rows.length; ++i) {
-          expect(rows[i].getText()).toContain('Enabled'); // WebRTC
-          expect(rows[i].getText()).toContain('Disabled'); // Status
-        };
+      // Select Enabled from Status filter
+      columns.statusTableDropDownLabel.click();
+      columns.dropdownStatuses.get(0).click();
+      columns.statusTableDropDownLabel.click().then(function() {
+
+        // Ensure only rows that meet both filters are displayed
+        shared.tableElements.then(function(rows) {
+          for (var i = 0; i < rows.length; ++i) {
+            expect(rows[i].getText()).toContain('Enabled'); // WebRTC
+            expect(rows[i].getText()).toContain('Disabled'); // Status
+          };
+        });
       });
     });
   });
