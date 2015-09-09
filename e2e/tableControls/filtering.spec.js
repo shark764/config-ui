@@ -22,7 +22,7 @@ describe('The table filters', function() {
       elementCount = shared.tableElements.count();
     });
 
-    it('should display all of the Proficiency options', function() {
+    xit('should display all of the Proficiency options', function() {
       columns.proficiencyTableDropDownLabel.click();
 
       // All options listed
@@ -37,7 +37,7 @@ describe('The table filters', function() {
       expect(columns.dropdownProficiencyInputs.get(2).isSelected()).toBeFalsy();
     });
 
-    it('should display rows based on the Proficiency', function() {
+    xit('should display rows based on the Proficiency', function() {
       columns.proficiencyTableDropDownLabel.click();
 
       // Select No from Role drop down
@@ -94,7 +94,7 @@ describe('The table filters', function() {
       });
     });
 
-    it('should display all of the Status options', function() {
+    xit('should display all of the Status options', function() {
       columns.statusTableDropDownLabel.click();
 
       // All options listed
@@ -109,7 +109,7 @@ describe('The table filters', function() {
       expect(columns.dropdownStatusInputs.get(2).isSelected()).toBeFalsy();
     });
 
-    it('should display rows by Status', function() {
+    xit('should display rows by Status', function() {
       columns.statusTableDropDownLabel.click();
 
       // Select input from drop down
@@ -166,8 +166,7 @@ describe('The table filters', function() {
       });
     });
 
-    it('should filter by multiple columns', function() {
-      // TODO with TITAN2-2433
+    xit('should filter by multiple columns', function() {
       // Select No from Proficiency filter
       columns.proficiencyTableDropDownLabel.click();
       columns.dropdownProficiencies.get(0).click();
@@ -187,6 +186,37 @@ describe('The table filters', function() {
         });
       });
     });
+
+    it('should display filtered message and Clear Filters link', function() {
+      expect(shared.filteredResultsMessage.isDisplayed()).toBeFalsy();
+      expect(shared.clearAllResultsLink.isDisplayed()).toBeFalsy();
+
+      columns.statusTableDropDownLabel.click();
+
+      // Select input from drop down
+      columns.dropdownStatuses.get(0).click().then(function() {
+        expect(shared.filteredResultsMessage.isDisplayed()).toBeTruthy();
+        expect(shared.clearAllResultsLink.isDisplayed()).toBeTruthy();
+
+        shared.filteredResultsMessage.getText().then(function (resultsMessage) {
+          var messageWords = resultsMessage.split(' ');
+          expect(messageWords[0]).toBe('Showing');
+          expect(parseInt(messageWords[1])).toBe(shared.tableElements.count());
+          expect(messageWords[2]).toBe('of');
+          expect(parseInt(messageWords[3])).toBe(elementCount);
+          expect(messageWords[4]).toBe('items');
+        });
+
+        expect(shared.clearAllResultsLink.getText()).toBe('(Clear all filters)');
+
+        shared.clearAllResultsLink.click().then(function () {
+          expect(shared.filteredResultsMessage.isDisplayed()).toBeFalsy();
+          expect(shared.clearAllResultsLink.isDisplayed()).toBeFalsy();
+
+          expect(shared.tableElements.count()).toBe(elementCount);
+        });
+      });
+    });
   });
 
   describe('on the Group Management Page', function() {
@@ -195,7 +225,7 @@ describe('The table filters', function() {
       elementCount = shared.tableElements.count();
     });
 
-    it('should display all of the Status options', function() {
+    xit('should display all of the Status options', function() {
       columns.statusTableDropDownLabel.click();
 
       // All options listed
@@ -210,7 +240,7 @@ describe('The table filters', function() {
       expect(columns.dropdownStatusInputs.get(2).isSelected()).toBeFalsy();
     });
 
-    it('should display rows by Status', function() {
+    xit('should display rows by Status', function() {
       columns.statusTableDropDownLabel.click();
 
       // Select input from drop down
@@ -266,6 +296,37 @@ describe('The table filters', function() {
         });
       });
     });
+
+    it('should display filtered message and Clear Filters link', function() {
+      expect(shared.filteredResultsMessage.isDisplayed()).toBeFalsy();
+      expect(shared.clearAllResultsLink.isDisplayed()).toBeFalsy();
+
+      columns.statusTableDropDownLabel.click();
+
+      // Select input from drop down
+      columns.dropdownStatuses.get(0).click().then(function() {
+        expect(shared.filteredResultsMessage.isDisplayed()).toBeTruthy();
+        expect(shared.clearAllResultsLink.isDisplayed()).toBeTruthy();
+
+        shared.filteredResultsMessage.getText().then(function (resultsMessage) {
+          var messageWords = resultsMessage.split(' ');
+          expect(messageWords[0]).toBe('Showing');
+          expect(parseInt(messageWords[1])).toBe(shared.tableElements.count());
+          expect(messageWords[2]).toBe('of');
+          expect(parseInt(messageWords[3])).toBe(elementCount);
+          expect(messageWords[4]).toBe('items');
+        });
+
+        expect(shared.clearAllResultsLink.getText()).toBe('(Clear all filters)');
+
+        shared.clearAllResultsLink.click().then(function () {
+          expect(shared.filteredResultsMessage.isDisplayed()).toBeFalsy();
+          expect(shared.clearAllResultsLink.isDisplayed()).toBeFalsy();
+
+          expect(shared.tableElements.count()).toBe(elementCount);
+        });
+      });
+    });
   });
 
   describe('on the Role Management Page', function() {
@@ -274,7 +335,7 @@ describe('The table filters', function() {
       elementCount = shared.tableElements.count();
     });
 
-    it('should not have any column filters', function() {
+    xit('should not have any column filters', function() {
       expect(columns.allFilterDropDowns.count()).toBe(0);
     });
   });
@@ -285,7 +346,7 @@ describe('The table filters', function() {
       elementCount = shared.tableElements.count();
     });
 
-    it('should display all of the Status options', function() {
+    xit('should display all of the Status options', function() {
       columns.statusTableDropDownLabel.click();
 
       // All options listed
@@ -300,7 +361,7 @@ describe('The table filters', function() {
       expect(columns.dropdownStatusInputs.get(2).isSelected()).toBeFalsy();
     });
 
-    it('should display rows by Status', function() {
+    xit('should display rows by Status', function() {
       columns.statusTableDropDownLabel.click();
 
       // Select input from drop down
@@ -356,6 +417,37 @@ describe('The table filters', function() {
         });
       });
     });
+
+    it('should display filtered message and Clear Filters link', function() {
+      expect(shared.filteredResultsMessage.isDisplayed()).toBeFalsy();
+      expect(shared.clearAllResultsLink.isDisplayed()).toBeFalsy();
+
+      columns.statusTableDropDownLabel.click();
+
+      // Select input from drop down
+      columns.dropdownStatuses.get(0).click().then(function() {
+        expect(shared.filteredResultsMessage.isDisplayed()).toBeTruthy();
+        expect(shared.clearAllResultsLink.isDisplayed()).toBeTruthy();
+
+        shared.filteredResultsMessage.getText().then(function (resultsMessage) {
+          var messageWords = resultsMessage.split(' ');
+          expect(messageWords[0]).toBe('Showing');
+          expect(parseInt(messageWords[1])).toBe(shared.tableElements.count());
+          expect(messageWords[2]).toBe('of');
+          expect(parseInt(messageWords[3])).toBe(elementCount);
+          expect(messageWords[4]).toBe('items');
+        });
+
+        expect(shared.clearAllResultsLink.getText()).toBe('(Clear all filters)');
+
+        shared.clearAllResultsLink.click().then(function () {
+          expect(shared.filteredResultsMessage.isDisplayed()).toBeFalsy();
+          expect(shared.clearAllResultsLink.isDisplayed()).toBeFalsy();
+
+          expect(shared.tableElements.count()).toBe(elementCount);
+        });
+      });
+    });
   });
 
   describe('on the Integration Management Page', function() {
@@ -364,7 +456,7 @@ describe('The table filters', function() {
       elementCount = shared.tableElements.count();
     });
 
-    it('should display all of the WebRTC options', function() {
+    xit('should display all of the WebRTC options', function() {
       columns.webRTCTableDropDownLabel.click();
 
       // All options listed
@@ -379,7 +471,7 @@ describe('The table filters', function() {
       expect(columns.dropdownWebRTCInputs.get(2).isSelected()).toBeFalsy();
     });
 
-    it('should display rows by WebRTC', function() {
+    xit('should display rows by WebRTC', function() {
       columns.webRTCTableDropDownLabel.click();
 
       // Select input from drop down
@@ -436,7 +528,7 @@ describe('The table filters', function() {
       });
     });
 
-    it('should display all of the Status options', function() {
+    xit('should display all of the Status options', function() {
       columns.statusTableDropDownLabel.click();
 
       // All options listed
@@ -451,7 +543,7 @@ describe('The table filters', function() {
       expect(columns.dropdownStatusInputs.get(2).isSelected()).toBeFalsy();
     });
 
-    it('should display rows by Status', function() {
+    xit('should display rows by Status', function() {
       columns.statusTableDropDownLabel.click();
 
       // Select input from drop down
@@ -508,8 +600,7 @@ describe('The table filters', function() {
       });
     });
 
-    it('should filter by multiple columns', function() {
-      // TODO with TITAN2-2433
+    xit('should filter by multiple columns', function() {
       // Select option from WebRTC filter
       columns.webRTCTableDropDownLabel.click();
       columns.dropdownWebRTCOptions.get(1).click();
@@ -529,6 +620,37 @@ describe('The table filters', function() {
         });
       });
     });
+
+    it('should display filtered message and Clear Filters link', function() {
+      expect(shared.filteredResultsMessage.isDisplayed()).toBeFalsy();
+      expect(shared.clearAllResultsLink.isDisplayed()).toBeFalsy();
+
+      columns.statusTableDropDownLabel.click();
+
+      // Select input from drop down
+      columns.dropdownStatuses.get(0).click().then(function() {
+        expect(shared.filteredResultsMessage.isDisplayed()).toBeTruthy();
+        expect(shared.clearAllResultsLink.isDisplayed()).toBeTruthy();
+
+        shared.filteredResultsMessage.getText().then(function (resultsMessage) {
+          var messageWords = resultsMessage.split(' ');
+          expect(messageWords[0]).toBe('Showing');
+          expect(parseInt(messageWords[1])).toBe(shared.tableElements.count());
+          expect(messageWords[2]).toBe('of');
+          expect(parseInt(messageWords[3])).toBe(elementCount);
+          expect(messageWords[4]).toBe('items');
+        });
+
+        expect(shared.clearAllResultsLink.getText()).toBe('(Clear all filters)');
+
+        shared.clearAllResultsLink.click().then(function () {
+          expect(shared.filteredResultsMessage.isDisplayed()).toBeFalsy();
+          expect(shared.clearAllResultsLink.isDisplayed()).toBeFalsy();
+
+          expect(shared.tableElements.count()).toBe(elementCount);
+        });
+      });
+    });
   });
 
   describe('on the Flow Management Page', function() {
@@ -537,7 +659,7 @@ describe('The table filters', function() {
       elementCount = shared.tableElements.count();
     });
 
-    it('should display all of the Status options', function() {
+    xit('should display all of the Status options', function() {
       columns.statusTableDropDownLabel.click();
 
       // All options listed
@@ -552,7 +674,7 @@ describe('The table filters', function() {
       expect(columns.dropdownStatusInputs.get(2).isSelected()).toBeFalsy();
     });
 
-    it('should display elements by Status', function() {
+    xit('should display elements by Status', function() {
       columns.statusTableDropDownLabel.click();
 
       // Select input from drop down
@@ -605,6 +727,37 @@ describe('The table filters', function() {
           columns.statusTableDropDownLabel.click().then(function() {
             expect(shared.tableElements.count()).toBe(elementCount)
           });
+        });
+      });
+    });
+
+    it('should display filtered message and Clear Filters link', function() {
+      expect(shared.filteredResultsMessage.isDisplayed()).toBeFalsy();
+      expect(shared.clearAllResultsLink.isDisplayed()).toBeFalsy();
+
+      columns.statusTableDropDownLabel.click();
+
+      // Select input from drop down
+      columns.dropdownStatuses.get(0).click().then(function() {
+        expect(shared.filteredResultsMessage.isDisplayed()).toBeTruthy();
+        expect(shared.clearAllResultsLink.isDisplayed()).toBeTruthy();
+
+        shared.filteredResultsMessage.getText().then(function (resultsMessage) {
+          var messageWords = resultsMessage.split(' ');
+          expect(messageWords[0]).toBe('Showing');
+          expect(parseInt(messageWords[1])).toBe(shared.tableElements.count());
+          expect(messageWords[2]).toBe('of');
+          expect(parseInt(messageWords[3])).toBe(elementCount);
+          expect(messageWords[4]).toBe('items');
+        });
+
+        expect(shared.clearAllResultsLink.getText()).toBe('(Clear all filters)');
+
+        shared.clearAllResultsLink.click().then(function () {
+          expect(shared.filteredResultsMessage.isDisplayed()).toBeFalsy();
+          expect(shared.clearAllResultsLink.isDisplayed()).toBeFalsy();
+
+          expect(shared.tableElements.count()).toBe(elementCount);
         });
       });
     });
@@ -616,7 +769,7 @@ describe('The table filters', function() {
       elementCount = shared.tableElements.count();
     });
 
-    it('should display all of the Status options', function() {
+    xit('should display all of the Status options', function() {
       columns.statusTableDropDownLabel.click();
 
       // All options listed
@@ -631,7 +784,7 @@ describe('The table filters', function() {
       expect(columns.dropdownStatusInputs.get(2).isSelected()).toBeFalsy();
     });
 
-    it('should display rows by Status', function() {
+    xit('should display rows by Status', function() {
       columns.statusTableDropDownLabel.click();
 
       // Select input from drop down
@@ -687,6 +840,37 @@ describe('The table filters', function() {
         });
       });
     });
+
+    it('should display filtered message and Clear Filters link', function() {
+      expect(shared.filteredResultsMessage.isDisplayed()).toBeFalsy();
+      expect(shared.clearAllResultsLink.isDisplayed()).toBeFalsy();
+
+      columns.statusTableDropDownLabel.click();
+
+      // Select input from drop down
+      columns.dropdownStatuses.get(0).click().then(function() {
+        expect(shared.filteredResultsMessage.isDisplayed()).toBeTruthy();
+        expect(shared.clearAllResultsLink.isDisplayed()).toBeTruthy();
+
+        shared.filteredResultsMessage.getText().then(function (resultsMessage) {
+          var messageWords = resultsMessage.split(' ');
+          expect(messageWords[0]).toBe('Showing');
+          expect(parseInt(messageWords[1])).toBe(shared.tableElements.count());
+          expect(messageWords[2]).toBe('of');
+          expect(parseInt(messageWords[3])).toBe(elementCount);
+          expect(messageWords[4]).toBe('items');
+        });
+
+        expect(shared.clearAllResultsLink.getText()).toBe('(Clear all filters)');
+
+        shared.clearAllResultsLink.click().then(function () {
+          expect(shared.filteredResultsMessage.isDisplayed()).toBeFalsy();
+          expect(shared.clearAllResultsLink.isDisplayed()).toBeFalsy();
+
+          expect(shared.tableElements.count()).toBe(elementCount);
+        });
+      });
+    });
   });
 
   describe('on the Media Collection Management Page', function() {
@@ -695,7 +879,7 @@ describe('The table filters', function() {
       elementCount = shared.tableElements.count();
     });
 
-    it('should not have any column filters', function() {
+    xit('should not have any column filters', function() {
       expect(columns.allFilterDropDowns.count()).toBe(0);
     });
   });
@@ -706,7 +890,7 @@ describe('The table filters', function() {
       elementCount = shared.tableElements.count();
     });
 
-    it('should display all of the Type options', function() {
+    xit('should display all of the Type options', function() {
       columns.typeTableDropDownLabel.click();
 
       // All listed
@@ -721,7 +905,7 @@ describe('The table filters', function() {
       expect(columns.dropdownTypeInputs.get(2).isSelected()).toBeFalsy();
     });
 
-    it('should display rows by Type', function() {
+    xit('should display rows by Type', function() {
       columns.typeTableDropDownLabel.click();
 
       // Select input from drop down
@@ -777,6 +961,37 @@ describe('The table filters', function() {
         });
       });
     });
+
+    it('should display filtered message and Clear Filters link', function() {
+      expect(shared.filteredResultsMessage.isDisplayed()).toBeFalsy();
+      expect(shared.clearAllResultsLink.isDisplayed()).toBeFalsy();
+
+      columns.statusTableDropDownLabel.click();
+
+      // Select input from drop down
+      columns.dropdownStatuses.get(0).click().then(function() {
+        expect(shared.filteredResultsMessage.isDisplayed()).toBeTruthy();
+        expect(shared.clearAllResultsLink.isDisplayed()).toBeTruthy();
+
+        shared.filteredResultsMessage.getText().then(function (resultsMessage) {
+          var messageWords = resultsMessage.split(' ');
+          expect(messageWords[0]).toBe('Showing');
+          expect(parseInt(messageWords[1])).toBe(shared.tableElements.count());
+          expect(messageWords[2]).toBe('of');
+          expect(parseInt(messageWords[3])).toBe(elementCount);
+          expect(messageWords[4]).toBe('items');
+        });
+
+        expect(shared.clearAllResultsLink.getText()).toBe('(Clear all filters)');
+
+        shared.clearAllResultsLink.click().then(function () {
+          expect(shared.filteredResultsMessage.isDisplayed()).toBeFalsy();
+          expect(shared.clearAllResultsLink.isDisplayed()).toBeFalsy();
+
+          expect(shared.tableElements.count()).toBe(elementCount);
+        });
+      });
+    });
   });
 
   describe('on the Dispatch Mapping Management Page', function() {
@@ -785,7 +1000,7 @@ describe('The table filters', function() {
       elementCount = shared.tableElements.count();
     });
 
-    it('should display all of the Interaction options', function() {
+    xit('should display all of the Interaction options', function() {
       columns.interactionTableDropDownLabel.click();
 
       // All options listed
@@ -804,7 +1019,7 @@ describe('The table filters', function() {
       expect(columns.dropdownInteractionInputs.get(4).isSelected()).toBeFalsy();
     });
 
-    it('should display rows by Interaction', function() {
+    xit('should display rows by Interaction', function() {
       columns.interactionTableDropDownLabel.click();
 
       // Select input from drop down
@@ -861,7 +1076,7 @@ describe('The table filters', function() {
       });
     });
 
-    it('should display all of the Channel Type options', function() {
+    xit('should display all of the Channel Type options', function() {
       columns.channelTypeTableDropDownLabel.click();
 
       // All options listed
@@ -874,7 +1089,7 @@ describe('The table filters', function() {
       expect(columns.dropdownChannelTypeInputs.get(1).isSelected()).toBeFalsy();
     });
 
-    it('should display rows by Channel Type', function() {
+    xit('should display rows by Channel Type', function() {
       columns.channelTypeTableDropDownLabel.click();
 
       // Select input from drop down
@@ -910,7 +1125,7 @@ describe('The table filters', function() {
       });
     });
 
-    it('should display all of the Status options', function() {
+    xit('should display all of the Status options', function() {
       columns.statusTableDropDownLabel.click();
 
       // All options listed
@@ -925,7 +1140,7 @@ describe('The table filters', function() {
       expect(columns.dropdownStatusInputs.get(2).isSelected()).toBeFalsy();
     });
 
-    it('should display rows by Status', function() {
+    xit('should display rows by Status', function() {
       columns.statusTableDropDownLabel.click();
 
       // Select input from drop down
@@ -982,8 +1197,7 @@ describe('The table filters', function() {
       });
     });
 
-    it('should filter by multiple columns', function() {
-      // TODO with TITAN2-2433
+    xit('should filter by multiple columns', function() {
       // Select option from Interaction filter
       columns.interactionTableDropDownLabel.click();
       columns.dropdownInteractions.get(1).click();
@@ -1006,6 +1220,37 @@ describe('The table filters', function() {
             expect(rows[i].getText()).toContain('Disabled');
             expect(rows[i].getText()).toContain('voice');
           };
+        });
+      });
+    });
+
+    it('should display filtered message and Clear Filters link', function() {
+      expect(shared.filteredResultsMessage.isDisplayed()).toBeFalsy();
+      expect(shared.clearAllResultsLink.isDisplayed()).toBeFalsy();
+
+      columns.statusTableDropDownLabel.click();
+
+      // Select input from drop down
+      columns.dropdownStatuses.get(0).click().then(function() {
+        expect(shared.filteredResultsMessage.isDisplayed()).toBeTruthy();
+        expect(shared.clearAllResultsLink.isDisplayed()).toBeTruthy();
+
+        shared.filteredResultsMessage.getText().then(function (resultsMessage) {
+          var messageWords = resultsMessage.split(' ');
+          expect(messageWords[0]).toBe('Showing');
+          expect(parseInt(messageWords[1])).toBe(shared.tableElements.count());
+          expect(messageWords[2]).toBe('of');
+          expect(parseInt(messageWords[3])).toBe(elementCount);
+          expect(messageWords[4]).toBe('items');
+        });
+
+        expect(shared.clearAllResultsLink.getText()).toBe('(Clear all filters)');
+
+        shared.clearAllResultsLink.click().then(function () {
+          expect(shared.filteredResultsMessage.isDisplayed()).toBeFalsy();
+          expect(shared.clearAllResultsLink.isDisplayed()).toBeFalsy();
+
+          expect(shared.tableElements.count()).toBe(elementCount);
         });
       });
     });

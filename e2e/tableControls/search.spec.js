@@ -192,6 +192,37 @@ describe('The table search', function() {
     expect(shared.tableElements.count()).toBe(elementCount);
   });
 
+  it('should display results message and Clear Filters link', function() {
+    expect(shared.filteredResultsMessage.isDisplayed()).toBeFalsy();
+    expect(shared.clearAllResultsLink.isDisplayed()).toBeFalsy();
+
+    shared.searchField.sendKeys('t\t').then(function() {
+      expect(shared.filteredResultsMessage.isDisplayed()).toBeTruthy();
+      expect(shared.clearAllResultsLink.isDisplayed()).toBeTruthy();
+
+      shared.filteredResultsMessage.getText().then(function (resultsMessage) {
+        var messageWords = resultsMessage.split(' ');
+        expect(messageWords[0]).toBe('Showing');
+        expect(parseInt(messageWords[1])).toBe(shared.tableElements.count());
+        expect(messageWords[2]).toBe('of');
+        expect(parseInt(messageWords[3])).toBe(elementCount);
+        expect(messageWords[4]).toBe('items');
+      });
+
+      expect(shared.clearAllResultsLink.getText()).toBe('(Clear all filters)');
+
+      shared.clearAllResultsLink.click().then(function () {
+        expect(shared.filteredResultsMessage.isDisplayed()).toBeFalsy();
+        expect(shared.clearAllResultsLink.isDisplayed()).toBeFalsy();
+
+        // Search field is cleared
+        expect(shared.searchField.getAttribute('value')).toBe('');
+
+        expect(shared.tableElements.count()).toBe(elementCount);
+      });
+    });
+  });
+
   /*
    * USER TABLE SEARCH
    * Search on First Name, Last Name
