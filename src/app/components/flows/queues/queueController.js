@@ -45,11 +45,18 @@ angular.module('liveopsConfigPanel')
       $scope.tableConfig = queueTableConfig;
 
       $scope.additional = {
-        initialQuery: '{}'
+        initialQuery: '{}',
+        addQueueVersion: $scope.addQueueVersion
       };
 
       $scope.bulkActions = {
         setQueueStatus: new BulkAction()
       };
+      
+      $scope.addQueueVersion = function(){
+        $scope.selectedQueueVersion = new QueueVersion({
+          queueId: $scope.selectedQueue.id
+        });
+      }
     }
   ]);

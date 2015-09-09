@@ -35,3 +35,18 @@
     <ba-set-queue-status bulk-action="bulkActions.setQueueStatus"></ba-set-queue-status>
   </bulk-action-executor>
 </div>
+
+<resize-handle
+  ng-show="selectedQueueVersion"
+  id="resize-pane"
+  right-element-id="queue-version-panel"
+  left-element-id="right-panel" ></resize-handle>
+
+<div id="queue-version-panel" class="right-panel" ng-show="selectedQueueVersion">
+  <resource-details
+    id="version-pane"
+    header-template-url="app/components/flows/queues/versions/versionDetailHeader.html"
+    body-template-url="app/components/flows/queues/versions/versionDetailBody.html"
+    original-resource="selectedQueueVersion"
+    resource-name="QueueVersion"></resource-details>
+</div>

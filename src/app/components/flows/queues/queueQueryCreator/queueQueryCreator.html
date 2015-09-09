@@ -1,10 +1,4 @@
 <div class="queue-query">
-  <div>
-    <h1>Building query for version {{version.name}} of {{queue.name}}</h1>
-    <button id="create-btn"  class="btn btn-create btn-primary queue-btn" ng-click="onCreateClick()">{{'value.publish' | translate}}</button>
-  </div>
-  <div>
-  
   <div ng-repeat="(groupName, componentList) in queryComponents">
     <h4 class="divider-header">{{'queues.query.builder.' + groupName | translate}}</h4>
     <div ng-repeat="component in componentList" class="input-group" ng-class="{'has-elements': component.list.length}">

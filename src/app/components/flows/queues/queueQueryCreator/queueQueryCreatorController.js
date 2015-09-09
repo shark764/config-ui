@@ -1,10 +1,7 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-.controller('QueueQueryCreatorController', ['$scope', 'Session', 'version', 'queue', 'Group', 'Skill', '$q', function($scope, Session, version, queue, Group, Skill, $q){
-  $scope.version = version;
-  $scope.queue = queue;
-  
+.controller('QueueQueryCreatorController', ['$scope', 'Session', 'Group', 'Skill', '$q', function($scope, Session, Group, Skill, $q){
   $scope.fetchGroups = function(){
     return Group.cachedQuery({
       tenantId: Session.tenant.tenantId

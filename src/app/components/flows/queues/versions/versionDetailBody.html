@@ -1,0 +1,53 @@
+<div>
+  <div class="input-group">
+    <label>Base Version</label>
+    <select></select>
+  </div>
+  
+  <div class="divider-header">
+    <h4>Query</h4>
+    <a class="pull-right">
+      <span ng-show="queryType == 'basic'" ng-click="queryType = 'advanced'">(Show advanced query editor)</span>
+      <span ng-show="queryType == 'advanced'" ng-click="queryType = 'basic'">(Show basic query builder)</span>
+    </a>
+  </div>
+
+  <div class="input-group" ng-if="queryType!='basic'">
+    <label class="textarea-label">{{'value.details.query' | translate}}</label>
+    <form-error field="createVersionForm.query"
+    error-type-required="{{'queue.details.queue.error' | translate}}"></form-error>
+    <textarea ng-required="true" type="text" ng-model="versionCopy.query" name="query"></textarea>
+  </div>
+
+  <queue-query-creator ng-if="queryType=='basic'" version="versionCopy" queue="queue"></queue-query-creator>
+
+  <div class="divider-header">
+    <h4>Priority</h4>
+  </div>
+
+  <div class="input-group">
+    <label class="disabled">{{'queue.details.startingpriority' | translate}}</label>
+    <div>
+      <input id="copy-version-priority-input" type="number" disabled value="75"></input>
+    </div>
+  </div>
+
+  <div class="input-group">
+    <label class="disabled">{{'queue.details.rateofincrease' | translate}}</label>
+    <div>
+      <input id="copy-version-rate-input" type="number" disabled value="2"></input>
+    </div>
+    <div>
+      <select id="copy-version-rate-units-dropdown" disabled>
+        <option disabled value="min">mins</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="queue-controls input-group">
+    <label></label>
+    <input id='cancel-queue-version-btn' type="button" ng-click="createNewVersion = false" ng-disabled="saving" class="btn" value="{{'value.cancel' | translate}}" />
+    <input id='create-queue-version-btn' ng-click="saveVersion()" ng-show="!saving" ng-disabled="createVersionForm.$invalid || !createVersionForm.$dirty" type="submit" class="btn btn-primary" value="{{'queue.details.saveNewVersion' | translate}}" />
+    <a ng-show="saving" ng-disabled="true" class="btn btn-primary"><i class="fa fa-refresh fa-spin"></i></a>
+  </div>
+</div>

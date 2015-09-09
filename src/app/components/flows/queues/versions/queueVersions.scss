@@ -31,12 +31,4 @@ queue-versions {
   tr.view-version:hover {
     background-color: #ffffff !important;
   }
-  
-  #createVersion {
-    display: block;
-    border: 1px solid $light-grey;
-    @include border-radius();
-    padding: 0 10px 10px;
-    margin-bottom: 10px;
-  }
 }
