@@ -14,8 +14,7 @@ angular.module('liveopsConfigPanel')
         }, {
           name: 'permissions'
         }],
-        saveInterceptor: emitInterceptor,
-        createInterceptor: cacheAddInterceptor
+        saveInterceptor: [cacheAddInterceptor, emitInterceptor]
       });
 
       TenantRole.prototype.getDisplay = function() {
