@@ -60,6 +60,9 @@ var Shared = function() {
   this.tableColumnsDropDownOptions = this.tableColumnsDropDown.all(by.repeater('option in options | orderBy:orderBy'));
   this.tableColumnsDropDownInputs = this.tableColumnsDropDown.all(by.css('input'));
 
+  this.filteredResultsMessage = element(by.css('.filtered > span:nth-child(1)'));
+  this.clearAllResultsLink = element(by.css('.filtered > a.ng-binding'));
+
   // Shared Form elements
   this.detailsPanel = element(by.id('details-pane'));
   this.detailsForm = this.detailsPanel.element(by.css('.details-pane'));
