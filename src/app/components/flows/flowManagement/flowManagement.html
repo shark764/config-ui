@@ -5,7 +5,9 @@
   selected="selectedFlow"
   resource-name="Flow">
   
-  <flow-version-name name="activeVersion" flow="item" ></flow-version-name>
+  <span name="activeVersion">
+    {{item.activeFlow.name}}
+  </span>
   
   <span name="active">
     <span ng-if="item.active">{{'value.enabled' | translate}}</span>
