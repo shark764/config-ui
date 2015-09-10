@@ -29,7 +29,7 @@ describe('The create new tenants view', function() {
     expect(tenants.descriptionFormField.isDisplayed()).toBeTruthy();
     expect(tenants.adminFormDropDown.isDisplayed()).toBeTruthy();
 
-    // Defaults to current user
+    // Defaults admin to current user
     expect(tenants.adminFormDropDown.$('option:checked').getText()).toBe(params.login.firstName + ' '+ params.login.lastName);
 
     // Region is not displayed when adding a new tenant, defaults to current region
@@ -90,13 +90,13 @@ describe('The create new tenants view', function() {
     expect(shared.tableElements.count()).toBe(tenantCount);
   });
 
-  it('should not require a description or admin', function() {
+  it('should not require a description', function() {
     shared.createBtn.click();
     randomTenant = Math.floor((Math.random() * 1000) + 1);
 
     tenants.nameFormField.sendKeys('Tenant ' + randomTenant);
     tenants.descriptionFormField.click();
-    tenants.adminFormDropDown.click();
+    tenants.adminFormDropDown.click(); // Defaults to current user
 
     shared.submitFormBtn.click();
 
@@ -104,7 +104,7 @@ describe('The create new tenants view', function() {
     expect(shared.tableElements.count()).toBeGreaterThan(tenantCount);
   });
 
-  it('should allow admin to be added', function() {
+  it('should allow admin to be selected', function() {
     shared.createBtn.click();
     randomTenant = Math.floor((Math.random() * 1000) + 1);
 
@@ -115,20 +115,6 @@ describe('The create new tenants view', function() {
 
     expect(shared.successMessage.isPresent()).toBeTruthy();
     expect(shared.tableElements.count()).toBeGreaterThan(tenantCount);
-  });
-
-  xit('should not require an admin', function() {
-    shared.createBtn.click();
-    randomTenant = Math.floor((Math.random() * 1000) + 1);
-
-    tenants.nameFormField.sendKeys('Tenant ' + randomTenant);
-
-    shared.submitFormBtn.click();
-
-    expect(shared.successMessage.isPresent()).toBeTruthy();
-    expect(shared.tableElements.count()).toBeGreaterThan(tenantCount);
-
-    expect(tenants.adminFormDropDown.getAttribute('value')).toBe("");
   });
 
   it('should not accept spaces only as valid field input', function() {
