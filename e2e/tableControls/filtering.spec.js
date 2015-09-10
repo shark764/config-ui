@@ -456,78 +456,6 @@ describe('The table filters', function() {
       elementCount = shared.tableElements.count();
     });
 
-    it('should display all of the WebRTC options', function() {
-      columns.webRTCTableDropDownLabel.click();
-
-      // All options listed
-      expect(columns.dropdownWebRTCOptions.get(0).getText()).toBe('Disabled');
-      expect(columns.dropdownWebRTCOptions.get(1).getText()).toBe('Enabled');
-
-      // All input is selected by default
-      expect(columns.dropdownWebRTCInputs.get(0).isSelected()).toBeTruthy();
-
-      // Remaining inputs are unselected by default
-      expect(columns.dropdownWebRTCInputs.get(1).isSelected()).toBeFalsy();
-      expect(columns.dropdownWebRTCInputs.get(2).isSelected()).toBeFalsy();
-    });
-
-    it('should display rows by WebRTC', function() {
-      columns.webRTCTableDropDownLabel.click();
-
-      // Select input from drop down
-      columns.dropdownWebRTCOptions.get(0).click().then(function() {
-        // All input is unselected
-        expect(columns.dropdownWebRTCInputs.get(0).isSelected()).toBeFalsy();
-        // Input is selected
-        expect(columns.dropdownWebRTCInputs.get(1).isSelected()).toBeTruthy();
-
-        columns.webRTCTableDropDownLabel.click().then(function() {
-          shared.tableElements.then(function(rows) {
-            for (var i = 0; i < rows.length; ++i) {
-              expect(rows[i].getText()).toContain('Disabled');
-            };
-          });
-        });
-      }).then(function() {
-        columns.webRTCTableDropDownLabel.click();
-
-        // Select other input from drop down
-        columns.dropdownWebRTCOptions.get(1).click().then(function() {
-
-          // All input is unselected
-          expect(columns.dropdownWebRTCInputs.get(0).isSelected()).toBeFalsy();
-          // Both inputs are selected
-          expect(columns.dropdownWebRTCInputs.get(1).isSelected()).toBeTruthy();
-          expect(columns.dropdownWebRTCInputs.get(2).isSelected()).toBeTruthy();
-
-          columns.webRTCTableDropDownLabel.click().then(function() {
-            shared.tableElements.then(function(rows) {
-              for (var i = 0; i < rows.length; ++i) {
-                expect(['Enabled', 'Disabled']).toContain(rows[i].element(by.css('td:nth-child(4)')).getText());
-              };
-            });
-          });
-        });
-      }).thenFinally(function() {
-        columns.webRTCTableDropDownLabel.click();
-
-        // Select All from Role drop down
-        columns.allWebRTCs.click().then(function() {
-
-          // All input is selected
-          expect(columns.dropdownWebRTCInputs.get(0).isSelected()).toBeTruthy();
-
-          // Other inputs are unselected
-          expect(columns.dropdownWebRTCInputs.get(1).isSelected()).toBeFalsy();
-          expect(columns.dropdownWebRTCInputs.get(2).isSelected()).toBeFalsy();
-
-          columns.webRTCTableDropDownLabel.click().then(function() {
-            expect(shared.tableElements.count()).toBe(elementCount)
-          });
-        });
-      });
-    });
-
     it('should display all of the Status options', function() {
       columns.statusTableDropDownLabel.click();
 
@@ -596,27 +524,6 @@ describe('The table filters', function() {
           columns.statusTableDropDownLabel.click().then(function() {
             expect(shared.tableElements.count()).toBe(elementCount)
           });
-        });
-      });
-    });
-
-    it('should filter by multiple columns', function() {
-      // Select option from WebRTC filter
-      columns.webRTCTableDropDownLabel.click();
-      columns.dropdownWebRTCOptions.get(1).click();
-      columns.webRTCTableDropDownLabel.click();
-
-      // Select Enabled from Status filter
-      columns.statusTableDropDownLabel.click();
-      columns.dropdownStatuses.get(0).click();
-      columns.statusTableDropDownLabel.click().then(function() {
-
-        // Ensure only rows that meet both filters are displayed
-        shared.tableElements.then(function(rows) {
-          for (var i = 0; i < rows.length; ++i) {
-            expect(rows[i].getText()).toContain('Enabled'); // WebRTC
-            expect(rows[i].getText()).toContain('Disabled'); // Status
-          };
         });
       });
     });
