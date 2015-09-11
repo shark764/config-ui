@@ -37,6 +37,7 @@
                     "name": "participant",
                     "path": "params.participant",
                     "type": "select",
+                    "source": "graph",
                     "label": "Participant:",
                     "group": "params",
                     "index": 0,
@@ -48,10 +49,6 @@
                         {
                             "value": "titan/customer",
                             "content": "Customer"
-                        },
-                        {
-                            "value": "resource",
-                            "content": "Resource"
                         }
                     ]
                 },
@@ -171,6 +168,7 @@
                     "name": "participant",
                     "path": "params.participant",
                     "type": "select",
+                    "source": "graph",
                     "label": "Participant:",
                     "group": "params",
                     "index": 0,
@@ -182,10 +180,6 @@
                         {
                             "value": "titan/customer",
                             "content": "Customer"
-                        },
-                        {
-                            "value": "resource",
-                            "content": "Resource"
                         }
                     ]
                 },
@@ -265,7 +259,7 @@
             "bindings": {
               "resource": {
                 "type": "resource",
-                "path": "resource"
+                "path": "bindings.resource"
               }
             },
             "targeted": false,
@@ -398,6 +392,7 @@
                     "name": "resource",
                     "path": "params.resource",
                     "type": "select",
+                    "source": "graph",
                     "label": "Resource:",
                     "group": "params",
                     "index": 0,
@@ -405,12 +400,7 @@
                     "required": false,
                     "placeholder": null,
                     "hidden": false,
-                    "options": [
-                        {
-                            "value": "resource.id",
-                            "content": "Resource"
-                        }
-                    ]
+                    "options": []
                 },
                 {
                     "name": "timeout",
@@ -440,9 +430,8 @@
             "params": {
                 "resource-id": {
                     "source": "expression",
-                    "type": "string",
+                    "type": "resourceId",
                     "mandatory": true,
-                    "default": "resource.id",
                     "key": "resource"
                 },
                 "timeout": {
@@ -495,6 +484,7 @@
                     "name": "resource",
                     "path": "params.resource",
                     "type": "select",
+                    "source": "graph",
                     "label": "Participant:",
                     "group": "params",
                     "index": 1,
@@ -502,12 +492,7 @@
                     "required": false,
                     "placeholder": null,
                     "hidden": false,
-                    "options": [
-                        {
-                            "content": "Resource",
-                            "value": "resource.id"
-                        }
-                    ]
+                    "options": []
                 },
                 {
                     "name": "state",
@@ -535,10 +520,9 @@
             "params": {
                 "resource-id": {
                     "source": "expression",
-                    "type": "string",
+                    "type": "resourceId",
                     "key": "resource",
-                    "mandatory": true,
-                    "default": "resource.id"
+                    "mandatory": true
                 },
                 "state": {
                     "source": "expression",
@@ -586,6 +570,7 @@
                     "name": "participant",
                     "path": "params.participant",
                     "type": "select",
+                    "source": "graph",
                     "label": "Participant:",
                     "group": "params",
                     "index": 0,
@@ -597,10 +582,6 @@
                         {
                             "value": "titan/customer",
                             "content": "Customer"
-                        },
-                        {
-                            "value": "resource",
-                            "content": "Resource"
                         }
                     ]
                 },
@@ -686,18 +667,14 @@
                     "name": "to",
                     "path": "params.to",
                     "type": "select",
+                    "source": "graph",
                     "label": "To:",
                     "group": "params",
                     "index": 0,
                     "disabled": false,
                     "required": false,
                     "hidden": false,
-                    "options": [
-                        {
-                            "content": "resource",
-                            "value": "resource.extension"
-                        }
-                    ]
+                    "options": []
                 },
                 {
                     "name": "timeout",
@@ -721,10 +698,9 @@
                 },
                 "to": {
                     "source": "expression",
-                    "type": "variable",
+                    "type": "extension",
                     "key": "to",
-                    "mandatory": true,
-                    "default": "resource.extension"
+                    "mandatory": true
                 },
                 "timeout": {
                     "source": "expression",
@@ -770,6 +746,7 @@
                     "name": "participant",
                     "path": "params.participant",
                     "type": "select",
+                    "source": "graph",
                     "label": "Participant:",
                     "group": "params",
                     "index": 0,
@@ -781,10 +758,6 @@
                         {
                             "value": "titan/customer",
                             "content": "Customer"
-                        },
-                        {
-                            "value": "resource",
-                            "content": "Resource"
                         }
                     ]
                 }
@@ -827,6 +800,7 @@
                     "name": "participant",
                     "path": "params.participant",
                     "type": "select",
+                    "source": "graph",
                     "label": "Participant:",
                     "group": "params",
                     "index": 0,
@@ -838,10 +812,6 @@
                         {
                             "value": "titan/customer",
                             "content": "Customer"
-                        },
-                        {
-                            "value": "resource",
-                            "content": "Resource"
                         }
                     ]
                 },
@@ -903,6 +873,7 @@
                     "name": "participant",
                     "path": "params.participant",
                     "type": "select",
+                    "source": "graph",
                     "label": "Participant:",
                     "group": "params",
                     "index": 0,
@@ -914,10 +885,6 @@
                         {
                             "value": "titan/customer",
                             "content": "Customer"
-                        },
-                        {
-                            "value": "resource",
-                            "content": "Resource"
                         }
                     ]
                 }
@@ -1285,6 +1252,12 @@
             "start": "t21657",
             "end": "t21654",
             "signals": ["resource-acquired", "abandon-queue"],
+            "bindings": {
+              "resource": {
+                "type": "resource",
+                "path": "params.resource"
+              }
+            },
             "inputs": [
                 {
                     "name": "resource",

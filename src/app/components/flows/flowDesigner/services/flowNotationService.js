@@ -40,31 +40,44 @@
       buildInputPanel: function(model) {
         var self = this;
         var modelType = model.get('type');
-        console.log(FlowLibrary.search({cells: model.collection.toJSON()}, 'resource'));
+        var inputs = [];
 
         //If we're dealing with an actrivity
         if (modelType === 'liveOps.activity') {
           var activity = _.findWhere(self.activities, {name: model.get('name')});
-          return activity.inputs;
+          inputs = activity.inputs;
         }
 
         //if we're dealing with an event
         if (modelType === 'liveOps.event') {
           var event = _.findWhere(self.events, {entity: model.get('entity'), type: model.get('name')});
-          return event.inputs;
+          inputs = event.inputs;
         }
 
         //if we're dealing with a link
         if (modelType === 'liveOps.link') {
           var link = _.findWhere(self.links, {type: model.get('linkType')})
-          return link.inputs;
+          inputs = link.inputs;
         }
 
         //if we're dealing with a template
         if (modelType === 'liveOps.template') {
           var template = _.findWhere(self.templates, {name: model.get('name')});
-          return template.inputs;
+          inputs = template.inputs;
         }
+
+        return _.map(inputs, function(input){
+          input = _.clone(input);
+          if (input.source == 'graph') {
+            input.options = _.union(input.options, _.map(FlowLibrary.search({cells: model.collection.toJSON()}, 'resource'), function(item){
+              return {
+                content: item,
+                value: item
+              }
+            }));
+          }
+          return input;
+        });
       },
 
       addActivityParams: function(model) {
