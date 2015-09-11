@@ -10,11 +10,11 @@ function flowDesigner() {
       templateUrl: 'app/components/flows/flowDesigner/flowDesignerDirective.html',
       replace: true,
       link: function() {},
-      controller: ['$scope', '$element', '$attrs', '$window', '$timeout', 'FlowInitService', 'SubflowCommunicationService', 'FlowVersion', 'Session', 'Alert', '$state', 'flowLibrary', function($scope, $element, $attrs, $window, $timeout, FlowInitService, SubflowCommunicationService, FlowVersion, Session, Alert, $state, flowLibrary) {
+      controller: ['$scope', '$element', '$attrs', '$window', '$timeout', 'FlowInitService', 'SubflowCommunicationService', 'FlowVersion', 'Session', 'Alert', '$state', 'FlowLibrary', function($scope, $element, $attrs, $window, $timeout, FlowInitService, SubflowCommunicationService, FlowVersion, Session, Alert, $state, FlowLibrary) {
 
         $timeout(function() {
 
-          var FlowConverter = new flowLibrary($scope.notations);
+          FlowLibrary.loadData($scope.notations);
 
           var graphOptions = {
             width: 2000,
@@ -77,14 +77,14 @@ function flowDesigner() {
 
             clearErrors();
 
-            var errors = FlowConverter.validate(graph.toJSON());
+            var errors = FlowLibrary.validate(graph.toJSON());
 
             if (errors.length > 0) {
               addErrors(errors);
               return;
             }
 
-            var alienese = FlowConverter.convertToAlienese(graph.toJSON());
+            var alienese = FlowLibrary.convertToAlienese(graph.toJSON());
 
             $scope.version = new FlowVersion({
               flow: JSON.stringify(alienese),
@@ -110,10 +110,10 @@ function flowDesigner() {
             $scope.graph.fromJSON(SubflowCommunicationService.currentFlowContext);
             SubflowCommunicationService.currentFlowContext = '';
           } else {
-            $scope.graph.fromJSON(FlowConverter.convertToJoint(JSON.parse($scope.flowVersion.flow)));
+            $scope.graph.fromJSON(FlowLibrary.convertToJoint(JSON.parse($scope.flowVersion.flow)));
           }
           $window.spitOutAlienese = function() {
-            return FlowConverter.convertToAlienese($scope.graph.toJSON());
+            return FlowLibrary.convertToAlienese($scope.graph.toJSON());
           };
 
           $window.spitOutJoint = function() {
@@ -121,15 +121,15 @@ function flowDesigner() {
           };
 
           $window.loadFlow = function(alienese){
-            $scope.graph.fromJSON(FlowConverter.convertToJoint(alienese));
+            $scope.graph.fromJSON(FlowLibrary.convertToJoint(alienese));
           };
 
           $window.validate = function() {
-            return FlowConverter.validate($scope.graph.toJSON());
+            return FlowLibrary.validate($scope.graph.toJSON());
           }
 
           $window.search = function(target) {
-            return FlowConverter.search($scope.graph.toJSON(), target);
+            return FlowLibrary.search($scope.graph.toJSON(), target);
           };
         }, 1000);
       }]
