@@ -55,7 +55,7 @@ angular.module('liveopsConfigPanel')
 
       $scope.additional = {
         initialQuery: '{}',
-        copySelectedVersion: $scope.copySelectedVersion
+        copySelectedVersion: $scope.copySelectedVersion,
         initialVersion: $scope.getDefaultVersion()
       };
 
@@ -64,11 +64,9 @@ angular.module('liveopsConfigPanel')
       };
       
       $scope.$on('create:queue:version', function () {
-        $scope.selectedQueueVersion = new QueueVersion({
-          queueId: $scope.selectedQueue.id,
-          tenantId: Session.tenant.tenantId,
-          name: 'v' + ($scope.fetchVersions().length + 1)
-        });
+        $scope.selectedQueueVersion = $scope.getDefaultVersion();
+        $scope.selectedQueueVersion.queueId= $scope.selectedQueue.id;
+        $scope.selectedQueueVersion.name= 'v' + ($scope.fetchVersions().length + 1);
       });
       
       $scope.$on('copy:queue:version', function (event, version) {
