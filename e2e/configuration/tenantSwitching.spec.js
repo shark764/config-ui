@@ -7,6 +7,10 @@ describe('When switching tenants', function() {
     users = require('../management/users.po.js'),
     skills = require('../management/skills.po.js'),
     groups = require('../management/groups.po.js'),
+    roles = require('../management/roles.po.js'),
+    flows = require('../flows/flows.po.js'),
+    mediaCollections = require('../flows/mediaCollections.po.js'),
+    media = require('../flows/media.po.js'),
     params = browser.params,
     elementCount,
     defaultTenantName,
@@ -28,13 +32,13 @@ describe('When switching tenants', function() {
     loginPage.login(params.login.user, params.login.password);
 
     browser.get(shared.tenantsPageUrl);
-    shared.tenantsNavDropdown.getText().then(function (selectTenantNav) {
+    shared.tenantsNavDropdown.getText().then(function(selectTenantNav) {
       defaultTenantName = selectTenantNav;
     });
 
     // Create new Tenant that all tests will use; admin defaults to current user
     //newTenantName = tenants.createTenant();
-    newTenantName = 'Tenant 991';
+    newTenantName = 'Tenant 218';
     tenants.selectTenant(newTenantName);
   });
 
@@ -120,7 +124,55 @@ describe('When switching tenants', function() {
 
     xit('should display the correct User Tenant Status and Role for the current tenant for mutual users', function() {});
 
-    xit('should create a new User in one and not the previous', function() {});
+    xit('should create a new User in one and not the previous', function() {
+      // Create User in new tenant
+      var randomUser = Math.floor((Math.random() * 1000) + 1);
+      var newTenantEmail = 'NewTenantUser' + randomUser + '@mailinator.com';
+      shared.createBtn.click();
+      users.emailFormField.sendKeys(newTenantEmail + '\t');
+      users.tenantRoleFormDropdownOptions.get((randomUser % 3) + 1).click();
+      users.platformRoleFormDropdownOptions.get(1).click();
+
+      users.firstNameFormField.sendKeys('New Tenant');
+      users.lastNameFormField.sendKeys('User');
+      users.submitFormBtn.click();
+
+      expect(shared.successMessage.isDisplayed()).toBeTruthy();
+      expect(shared.tableElements.count()).toBe(2);
+
+      // Verify user is not added in previous tenant
+      tenants.selectTenant(defaultTenantName);
+      shared.tableElements.then(function(rows) {
+        for (var i = 1; i <= rows.length; ++i) {
+          // Check if user email in table matches newly added user
+          expect(element(by.css('tr.ng-scope:nth-child(' + i + ') > td:nth-child(3)')).getText()).not.toBe(newTenantEmail);
+        }
+      });
+
+      // Create user in previous tenant
+      randomUser = Math.floor((Math.random() * 1000) + 1);
+      var previousTenantEmail = 'PreviousTenantUser' + randomUser + '@mailinator.com';
+      shared.createBtn.click();
+      users.emailFormField.sendKeys(previousTenantEmail + '\t');
+      users.tenantRoleFormDropdownOptions.get((randomUser % 3) + 1).click();
+      users.platformRoleFormDropdownOptions.get(1).click();
+
+      users.firstNameFormField.sendKeys('Previous Tenant');
+      users.lastNameFormField.sendKeys('User');
+      users.submitFormBtn.click();
+
+      expect(shared.successMessage.isDisplayed()).toBeTruthy();
+
+      // Verify user is not added in new tenant
+      tenants.selectTenant(newTenantName);
+      expect(shared.tableElements.count()).toBe(2);
+      shared.tableElements.then(function(rows) {
+        for (var i = 1; i <= rows.length; ++i) {
+          // Check if user email in table matches newly added user
+          expect(element(by.css('tr.ng-scope:nth-child(' + i + ') > td:nth-child(3)')).getText()).not.toBe(previousTenantEmail);
+        }
+      });
+    });
 
     xit('should update details for mutual users', function() {});
 
@@ -183,9 +235,10 @@ describe('When switching tenants', function() {
   describe('Groups Management page', function() {
     beforeAll(function() {
       browser.get(shared.groupsPageUrl);
+      elementCount = shared.tableElements.count();
     });
 
-    it('should display the correct Groups for the current tenant', function() {
+    xit('should display the correct Groups for the current tenant', function() {
       // everyone group added to the new tenant by default
       expect(elementCount).toBe(1);
       expect(shared.firstTableRow.getText()).toContain('everyone');
@@ -199,7 +252,7 @@ describe('When switching tenants', function() {
       */
     });
 
-    it('should create a new Group in one and not the previous', function() {
+    xit('should create a new Group in one and not the previous', function() {
       // Create Group in new tenant
       var newTenantGroup = 'New Tenant Group ' + Math.floor((Math.random() * 1000) + 1);
       shared.createBtn.click();
@@ -243,60 +296,184 @@ describe('When switching tenants', function() {
   describe('Roles Management page', function() {
     beforeAll(function() {
       browser.get(shared.rolesPageUrl);
+      elementCount = shared.tableElements.count();
     });
 
-    it('should display the correct Roles for the current tenant', function() {
+    xit('should display the correct Roles for the current tenant', function() {
       expect(elementCount).toBe(3);
 
-      expect(shared.tableRow.get(0).getText()).toContain('everyone');
-      expect(shared.tableRow.get(1).getText()).toContain('everyone');
-      expect(shared.tableRow.get(2).getText()).toContain('everyone');
-
-      // One member by default
-      /* TODO
-      expect(shared.firstTableRow.getText()).toContain('1');
-      shared.firstTableRow.click();
-      expect(groups.groupMembersRows.count()).toBe(1);
-      expect(groups.groupMembersRows.get(0).getText()).toBe(params.login.firstName + ' ' + params.login.lastName);
-      */
+      expect(shared.tableRows.get(0).getText()).toContain('Administrator tenant administrator 33');
+      expect(shared.tableRows.get(1).getText()).toContain('Agent tenant agent 0');
+      expect(shared.tableRows.get(2).getText()).toContain('Supervisor tenant supervisor 4');
     });
 
-    xit('should create a new Role in one and not the previous', function() {});
+    xit('should create a new Role in one and not the previous', function() {
+      // Create Role in new tenant
+      var newTenantRole = 'New Tenant Role ' + Math.floor((Math.random() * 1000) + 1);
+      shared.createBtn.click();
+      roles.nameFormField.sendKeys(newTenantRole);
+      roles.descriptionFormField.sendKeys('Role Description');
+      roles.submitFormBtn.click();
+
+      expect(shared.successMessage.isDisplayed()).toBeTruthy();
+      expect(shared.tableElements.count()).toBe(4);
+
+      // Verify role is not added in previous tenant
+      tenants.selectTenant(defaultTenantName);
+      shared.tableElements.then(function(rows) {
+        for (var i = 1; i <= rows.length; ++i) {
+          // Check if role name in table matches newly added role
+          expect(element(by.css('tr.ng-scope:nth-child(' + i + ') > td:nth-child(2)')).getText()).not.toBe(newTenantRole);
+        }
+      });
+
+      // Create role in previous tenant
+      var previousTenantRole = 'Previous Tenant Role ' + Math.floor((Math.random() * 1000) + 1);
+      shared.createBtn.click();
+      roles.nameFormField.sendKeys(previousTenantRole);
+      roles.descriptionFormField.sendKeys('Role Description');
+      roles.submitFormBtn.click();
+
+      expect(shared.successMessage.isDisplayed()).toBeTruthy();
+
+      // Verify role is not added in new tenant
+      tenants.selectTenant(newTenantName);
+      expect(shared.tableElements.count()).toBe(4);
+      shared.tableElements.then(function(rows) {
+        for (var i = 1; i <= rows.length; ++i) {
+          // Check if role name in table matches newly added role
+          expect(element(by.css('tr.ng-scope:nth-child(' + i + ') > td:nth-child(2)')).getText()).not.toBe(previousTenantRole);
+        }
+      });
+    });
   });
 
   describe('Integration Management page', function() {
     beforeEach(function() {
       browser.get(shared.integrationsPageUrl);
+      elementCount = shared.tableElements.count();
     });
 
-    xit('should display the correct Integrations for the current tenant', function() {});
+    it('should display the correct Integrations for the current tenant', function() {
+      // TODO Determine which Integrations should be added by default
+      expect(elementCount).toBe(1);
+
+      expect(shared.tableRows.get(0).getText()).toBe('twilio Disabled');
+    });
 
     xit('should edit details for an Integration in one and not the previous', function() {});
   });
 
   describe('Flow Management page', function() {
-    beforeEach(function() {
+    beforeAll(function() {
       browser.get(shared.flowsPageUrl);
+      elementCount = shared.tableElements.count();
     });
 
-    xit('should display the correct Flows for the current tenant', function() {});
+    xit('should display the correct Flows for the current tenant', function() {
+      expect(elementCount).toBe(0);
+    });
 
-    xit('should create a new Flow in one and not the previous', function() {});
+    xit('should create a new Flow in one and not the previous', function() {
+      // Create Flow in new tenant
+      var randomFlow = Math.floor((Math.random() * 1000) + 1);
+      var newTenantFlow = 'New Tenant Flow ' + randomFlow;
+      shared.createBtn.click();
+      flows.nameFormField.sendKeys(newTenantFlow);
+      flows.typeFormDropdown.all(by.css('option')).get((randomFlow % 3) + 1).click();
+      shared.submitFormBtn.click();
+
+      expect(shared.successMessage.isDisplayed()).toBeTruthy();
+      expect(shared.tableElements.count()).toBe(1);
+
+      // Verify flow is not added in previous tenant
+      tenants.selectTenant(defaultTenantName);
+      shared.tableElements.then(function(rows) {
+        for (var i = 1; i <= rows.length; ++i) {
+          // Check if flow name in table matches newly added flow
+          expect(element(by.css('tr.ng-scope:nth-child(' + i + ') > td:nth-child(2)')).getText()).not.toBe(newTenantFlow);
+        }
+      });
+
+      // Create flow in previous tenant
+      randomFlow = Math.floor((Math.random() * 1000) + 1);
+      var previousTenantFlow = 'Previous Tenant Flow ' + randomFlow;
+      shared.createBtn.click();
+      flows.nameFormField.sendKeys(previousTenantFlow);
+      flows.typeFormDropdown.all(by.css('option')).get((randomFlow % 3) + 1).click();
+      shared.submitFormBtn.click();
+
+      expect(shared.successMessage.isDisplayed()).toBeTruthy();
+
+      // Verify flow is not added in new tenant
+      tenants.selectTenant(newTenantName);
+      expect(shared.tableElements.count()).toBe(1);
+      shared.tableElements.then(function(rows) {
+        for (var i = 1; i <= rows.length; ++i) {
+          // Check if flow name in table matches newly added flow
+          expect(element(by.css('tr.ng-scope:nth-child(' + i + ') > td:nth-child(2)')).getText()).not.toBe(previousTenantFlow);
+        }
+      });
+    });
   });
 
   describe('Media Collection Management page', function() {
-    beforeEach(function() {
+    beforeAll(function() {
       browser.get(shared.mediaCollectionsPageUrl);
+      elementCount = shared.tableElements.count();
     });
 
-    xit('should display the correct Media Collections for the current tenant', function() {});
+    it('should display the correct Media Collections for the current tenant', function() {
+      expect(elementCount).toBe(0);
+    });
 
-    xit('should create a new Media Collection in one and not the previous', function() {});
+    xit('should create a new Media Collection in one and not the previous', function() {
+      // Create Flow in new tenant
+      var randomFlow = Math.floor((Math.random() * 1000) + 1);
+      var newTenantFlow = 'New Tenant Flow ' + randomFlow;
+      shared.createBtn.click();
+      flows.nameFormField.sendKeys(newTenantFlow);
+      flows.typeFormDropdown.all(by.css('option')).get((randomFlow % 3) + 1).click();
+      shared.submitFormBtn.click();
+
+      expect(shared.successMessage.isDisplayed()).toBeTruthy();
+      expect(shared.tableElements.count()).toBe(1);
+
+      // Verify flow is not added in previous tenant
+      tenants.selectTenant(defaultTenantName);
+      shared.tableElements.then(function(rows) {
+        for (var i = 1; i <= rows.length; ++i) {
+          // Check if flow name in table matches newly added flow
+          expect(element(by.css('tr.ng-scope:nth-child(' + i + ') > td:nth-child(2)')).getText()).not.toBe(newTenantFlow);
+        }
+      });
+
+      // Create flow in previous tenant
+      randomFlow = Math.floor((Math.random() * 1000) + 1);
+      var previousTenantFlow = 'Previous Tenant Flow ' + randomFlow;
+      shared.createBtn.click();
+      flows.nameFormField.sendKeys(previousTenantFlow);
+      flows.typeFormDropdown.all(by.css('option')).get((randomFlow % 3) + 1).click();
+      shared.submitFormBtn.click();
+
+      expect(shared.successMessage.isDisplayed()).toBeTruthy();
+
+      // Verify flow is not added in new tenant
+      tenants.selectTenant(newTenantName);
+      expect(shared.tableElements.count()).toBe(1);
+      shared.tableElements.then(function(rows) {
+        for (var i = 1; i <= rows.length; ++i) {
+          // Check if flow name in table matches newly added flow
+          expect(element(by.css('tr.ng-scope:nth-child(' + i + ') > td:nth-child(2)')).getText()).not.toBe(previousTenantFlow);
+        }
+      });
+    });
   });
 
   describe('Media Management page', function() {
-    beforeEach(function() {
+    beforeAll(function() {
       browser.get(shared.mediaPageUrl);
+      elementCount = shared.tableElements.count();
     });
 
     xit('should display the correct Media for the current tenant', function() {});
@@ -305,8 +482,9 @@ describe('When switching tenants', function() {
   });
 
   describe('Dispatch Mapping page', function() {
-    beforeEach(function() {
+    beforeAll(function() {
       browser.get(shared.dispatchMappingsPageUrl);
+      elementCount = shared.tableElements.count();
     });
 
     xit('should display the correct Dispatch Mappings for the current tenant', function() {});
