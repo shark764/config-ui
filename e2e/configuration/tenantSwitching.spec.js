@@ -4,20 +4,38 @@ describe('When switching tenants', function() {
   var loginPage = require('../login/login.po.js'),
     tenants = require('./tenants.po.js'),
     shared = require('../shared.po.js'),
+    users = require('../management/users.po.js'),
+    skills = require('../management/skills.po.js'),
+    groups = require('../management/groups.po.js'),
     params = browser.params,
-    tenantCount,
-    defaultTenantName;
+    elementCount,
+    defaultTenantName,
+    defaultTenantDropdownItem,
+    defaultTenantElementList = [],
+    newTenantName;
+
+  /*
+  // Get list of Groups
+  var groupNameList = [];
+  users.groupDropdownItems.each(function(groupElement, index) {
+    groupElement.getText().then(function(groupName) {
+      groupNameList.push(groupName);
+    });
+  })
+  */
 
   beforeAll(function() {
     loginPage.login(params.login.user, params.login.password);
-  });
 
-  beforeEach(function() {
-    // Ignore unsaved changes warnings
-    browser.executeScript("window.onbeforeunload = function(){};");
     browser.get(shared.tenantsPageUrl);
-    tenantCount = shared.tableElements.count();
-    defaultTenantName = shared.tenantsNavDropdown.getText();
+    shared.tenantsNavDropdown.getText().then(function (selectTenantNav) {
+      defaultTenantName = selectTenantNav;
+    });
+
+    // Create new Tenant that all tests will use; admin defaults to current user
+    //newTenantName = tenants.createTenant();
+    newTenantName = 'Tenant 991';
+    tenants.selectTenant(newTenantName);
   });
 
   afterAll(function() {
@@ -41,155 +59,259 @@ describe('When switching tenants', function() {
     });
   });
 
-  xit('should display tenants available to the current user corresponding with the Tenants Navigation dropdown', function() {
-    // Confirm tenant added to tenant dropdown
-    shared.tenantsNavDropdown.click();
-    expect(shared.tenantsNavDropdownContents.count()).toBe(tenantCount);
-
-    tenantCount.then(function(numTenants) {
-      for (var i = 0; i < numTenants; i++) {
-        // Each table row should should match a tenant in the nav dropdown
-        expect(shared.tableElements.get(i).getText()).toContain(shared.tenantsNavDropdownContents.get(i).getText());
-      }
-    })
-  });
-
-  xit('should display tenant details when selected from table', function() {
-    tenants.firstTableRow.click();
-
-    // Verify tenant name in table matches populated field
-    expect(tenants.firstTableRow.element(by.css(tenants.nameColumn)).getText()).toContain(tenants.nameFormField.getAttribute('value'));
-    expect(tenants.region.isDisplayed()).toBeTruthy();
-
-    tenants.secondTableRow.isPresent().then(function(secondRowExists) {
-      if (secondRowExists) {
-        // Change selected tenant and ensure details are updated
-        tenants.secondTableRow.click();
-
-        expect(tenants.secondTableRow.element(by.css(tenants.nameColumn)).getText()).toContain(tenants.nameFormField.getAttribute('value'));
-        expect(tenants.region.isDisplayed()).toBeTruthy();
-      }
+  describe('Users Management page', function() {
+    beforeAll(function() {
+      browser.get(shared.usersPageUrl);
+      elementCount = shared.tableElements.count();
     });
+
+    it('should display the correct users for the current tenant', function() {
+      // New tenant should only have 1 user by default
+      expect(elementCount).toBe(1);
+
+      // User should be the current user add as the tenant Admin by default
+      expect(shared.firstTableRow.getText()).toContain(params.login.firstName + ' ' + params.login.lastName);
+      expect(shared.firstTableRow.getText()).toContain(params.login.user);
+    });
+
+    xit('should display the correct User Details for the Current user for the new tenant', function() {
+      // Current user should default to Administrator role in the new tenant and be Accepted by default
+      expect(shared.firstTableRow.getText()).toContain('Administrator');
+      expect(shared.firstTableRow.getText()).toContain('Accepted');
+
+      // No Skills or Groups by default
+      expect(shared.firstTableRow.getText()).toContain('0 0');
+      shared.firstTableRow.click();
+      expect(users.userSkills.count()).toBe(0);
+      expect(users.noUserSkillsMessage.isDisplayed()).toBeTruthy();
+
+      // TODO Exception for everyone group?
+      expect(users.userGroups.count()).toBe(0);
+      expect(users.noUserGroupsMessage.isDisplayed()).toBeTruthy();
+
+      // Correct email displayed
+      expect(users.emailLabel.getText()).toBe(params.login.user);
+    });
+
+    xit('should display the correct Skills and Groups available for the current tenant', function() {
+      // There should be no Skills or Groups available for the new tenant
+      users.addSkillSearch.click();
+      expect(users.skillDropdownItems.count()).toBe(0);
+
+      // Only 'everyone' group is added to the tenant by default
+      users.addGroupSearch.click();
+      expect(users.groupDropdownItems.count()).toBe(1);
+      expect(users.groupDropdownItems.get(0).getText()).toBe('everyone');
+    });
+
+    xit('should display the correct Roles available for the current tenant', function() {
+      shared.createBtn.click();
+
+      // Only the default roles are displayed
+      users.tenantRoleFormDropdown.click();
+      expect(users.tenantRoleFormDropdownOptions.count()).toBe(4);
+      expect(users.tenantRoleFormDropdownOptions.get(0).getText()).toContain('Select a role');
+      expect(users.tenantRoleFormDropdownOptions.get(1).getText()).toBe('Administrator');
+      expect(users.tenantRoleFormDropdownOptions.get(2).getText()).toBe('Supervisor');
+      expect(users.tenantRoleFormDropdownOptions.get(3).getText()).toBe('Agent');
+    });
+
+    xit('should display the correct User Skills and Groups for the current tenant for mutual users', function() {});
+
+    xit('should display the correct User Tenant Status and Role for the current tenant for mutual users', function() {});
+
+    xit('should create a new User in one and not the previous', function() {});
+
+    xit('should update details for mutual users', function() {});
+
+    xit('should not update Role details for mutual users', function() {});
+
+    xit('should not update Skills and Groups for mutual users', function() {});
   });
 
-  xit('should require name field when editing', function() {
-    shared.searchField.sendKeys('Tenant'); // Ensure Platform tenant is not selected
-    tenants.firstTableRow.click();
+  describe('Skills Management page', function() {
+    beforeAll(function() {
+      browser.get(shared.skillsPageUrl);
+      elementCount = shared.tableElements.count();
+    });
 
-    tenants.nameFormField.clear();
-    tenants.descriptionFormField.click();
+    xit('should display the correct Skills for the current tenant', function() {
+      expect(elementCount).toBe(0);
+    });
 
-    // Submit button is still disabled
-    expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
+    xit('should create a new Skill in one and not the previous', function() {
+      // Create skill in new tenant
+      var newTenantSkill = 'New Tenant Skill ' + Math.floor((Math.random() * 1000) + 1);
+      shared.createBtn.click();
+      skills.nameFormField.sendKeys(newTenantSkill);
+      skills.proficiencyFormCheckbox.click();
+      shared.submitFormBtn.click();
 
-    expect(tenants.nameRequiredError.get(0).isDisplayed()).toBeTruthy();
-    expect(tenants.nameRequiredError.get(0).getText()).toBe('Please enter a name');
-    expect(shared.successMessage.isPresent()).toBeFalsy();
-  });
-
-  xit('should not require description when editing', function() {
-    shared.searchField.sendKeys('Tenant'); // Ensure Platform tenant is not selected
-    tenants.firstTableRow.click();
-
-    // Edit fields
-    tenants.descriptionFormField.sendKeys('Edit');
-    tenants.descriptionFormField.clear();
-    shared.submitFormBtn.click().then(function() {
       expect(shared.successMessage.isDisplayed()).toBeTruthy();
-    });
-  });
+      expect(shared.tableElements.count()).toBe(1);
 
-  xit('should reset fields after editing and selecting Cancel', function() {
-    tenants.firstTableRow.click();
+      // Verify skill is not added in previous tenant
+      tenants.selectTenant(defaultTenantName);
+      shared.tableElements.then(function(rows) {
+        for (var i = 1; i <= rows.length; ++i) {
+          // Check if skill name in table matches newly added skill
+          expect(element(by.css('tr.ng-scope:nth-child(' + i + ') > td:nth-child(2)')).getText()).not.toBe(newTenantSkill);
+        }
+      });
 
-    var originalName = tenants.nameFormField.getAttribute('value');
-    var originalDescription = tenants.descriptionFormField.getAttribute('value');
-    var originalAdmin = tenants.adminFormDropDown.getAttribute('value');
+      // Create skill in previous tenant
+      var previousTenantSkill = 'Previous Tenant Skill ' + Math.floor((Math.random() * 1000) + 1);
+      shared.createBtn.click();
+      skills.nameFormField.sendKeys(previousTenantSkill);
+      skills.proficiencyFormCheckbox.click();
+      shared.submitFormBtn.click();
 
-    // Edit fields
-    tenants.nameFormField.sendKeys('Edit');
-    tenants.descriptionFormField.sendKeys('Edit');
-    tenants.adminFormDropDown.all(by.css('option')).get(0).click();
-
-    shared.cancelFormBtn.click();
-
-    // Warning message is displayed
-    var alertDialog = browser.switchTo().alert();
-    expect(alertDialog.accept).toBeDefined();
-    expect(alertDialog.dismiss).toBeDefined();
-    alertDialog.accept();
-
-    expect(shared.successMessage.isPresent()).toBeFalsy();
-
-    // Fields reset to original values
-    expect(tenants.nameFormField.getAttribute('value')).toBe(originalName);
-    expect(tenants.descriptionFormField.getAttribute('value')).toBe(originalDescription);
-    expect(tenants.adminFormDropDown.getAttribute('value')).toBe(originalAdmin);
-  });
-
-  xit('should allow the tenant name, and description fields to be updated', function() {
-    shared.searchField.sendKeys('Tenant'); // Ensure Platform tenant is not selected
-    tenants.firstTableRow.click();
-
-    // Edit fields
-    tenants.nameFormField.sendKeys('Edit');
-    tenants.descriptionFormField.sendKeys('Edit');
-    shared.submitFormBtn.click().then(function() {
       expect(shared.successMessage.isDisplayed()).toBeTruthy();
-    });
-  });
 
-  xit('should allow tenant admin to be updated and update user permissions for new and previous admin', function() {
-    // TODO Expected result to be determined
-  });
-
-  xit('should update tenant name in table and nav dropdown when edited', function() {
-    var tenantUpdated = false;
-
-    shared.searchField.sendKeys('Tenant'); // Ensure Platform tenant is not selected
-    tenants.firstTableRow.click();
-
-    tenants.nameFormField.getAttribute('value').then(function(previousTenantName) {
-      // Edit fields
-      tenants.nameFormField.sendKeys('Edit');
-      shared.submitFormBtn.click().then(function(newTenantName) {
-        expect(shared.successMessage.isDisplayed()).toBeTruthy();
-
-        // Confirm tenant is displayed in tenant table with new name
-        shared.tableElements.then(function(rows) {
-          for (var i = 1; i <= rows.length; ++i) {
-            element(by.css('tr.ng-scope:nth-child(' + i + ') > td:nth-child(2) > span:nth-child(1)')).getText().then(function(value) {
-              expect(value).not.toBe(previousTenantName);
-              if (value == (previousTenantName + 'Edit')) {
-                tenantUpdated = true;
-              }
-            });
-          }
-        }).then(function() {
-          // Verify tenants updated name was found in the table
-          expect(tenantUpdated).toBeTruthy();
-        }).then(function() {
-          // Reset flag
-          tenantUpdated = false;
-
-          // Confirm tenant is lsited in nav dropdown with new name
-          shared.tenantsNavDropdown.click();
-
-          shared.tenantsNavDropdownContents.then(function(tenants) {
-            for (var i = 0; i < tenants.length; ++i) {
-              tenants[i].getText().then(function(value) {
-                expect(value).not.toBe(previousTenantName);
-                if (value == (previousTenantName + 'Edit')) {
-                  tenantUpdated = true;
-                }
-              });
-            }
-          }).then(function() {
-            // Verify tenants new name was found in the tenant dropdown
-            expect(tenantUpdated).toBeTruthy();
-          });
-        });
+      // Verify skill is not added in new tenant
+      tenants.selectTenant(newTenantName);
+      expect(shared.tableElements.count()).toBe(1);
+      shared.tableElements.then(function(rows) {
+        for (var i = 1; i <= rows.length; ++i) {
+          // Check if skill name in table matches newly added skill
+          expect(element(by.css('tr.ng-scope:nth-child(' + i + ') > td:nth-child(2)')).getText()).not.toBe(previousTenantSkill);
+        }
       });
     });
   });
+
+  describe('Groups Management page', function() {
+    beforeAll(function() {
+      browser.get(shared.groupsPageUrl);
+    });
+
+    it('should display the correct Groups for the current tenant', function() {
+      // everyone group added to the new tenant by default
+      expect(elementCount).toBe(1);
+      expect(shared.firstTableRow.getText()).toContain('everyone');
+
+      // One member by default
+      /* TODO
+      expect(shared.firstTableRow.getText()).toContain('1');
+      shared.firstTableRow.click();
+      expect(groups.groupMembersRows.count()).toBe(1);
+      expect(groups.groupMembersRows.get(0).getText()).toBe(params.login.firstName + ' ' + params.login.lastName);
+      */
+    });
+
+    it('should create a new Group in one and not the previous', function() {
+      // Create Group in new tenant
+      var newTenantGroup = 'New Tenant Group ' + Math.floor((Math.random() * 1000) + 1);
+      shared.createBtn.click();
+      groups.nameFormField.sendKeys(newTenantGroup);
+      groups.descriptionFormField.sendKeys('Group Description');
+      shared.submitFormBtn.click();
+
+      expect(shared.successMessage.isDisplayed()).toBeTruthy();
+      expect(shared.tableElements.count()).toBe(2);
+
+      // Verify group is not added in previous tenant
+      tenants.selectTenant(defaultTenantName);
+      shared.tableElements.then(function(rows) {
+        for (var i = 1; i <= rows.length; ++i) {
+          // Check if group name in table matches newly added group
+          expect(element(by.css('tr.ng-scope:nth-child(' + i + ') > td:nth-child(2)')).getText()).not.toBe(newTenantGroup);
+        }
+      });
+
+      // Create group in previous tenant
+      var previousTenantGroup = 'Previous Tenant Group ' + Math.floor((Math.random() * 1000) + 1);
+      shared.createBtn.click();
+      groups.nameFormField.sendKeys(previousTenantGroup);
+      groups.descriptionFormField.sendKeys('Group Description');
+      shared.submitFormBtn.click();
+
+      expect(shared.successMessage.isDisplayed()).toBeTruthy();
+
+      // Verify group is not added in new tenant
+      tenants.selectTenant(newTenantName);
+      expect(shared.tableElements.count()).toBe(2);
+      shared.tableElements.then(function(rows) {
+        for (var i = 1; i <= rows.length; ++i) {
+          // Check if group name in table matches newly added group
+          expect(element(by.css('tr.ng-scope:nth-child(' + i + ') > td:nth-child(2)')).getText()).not.toBe(previousTenantGroup);
+        }
+      });
+    });
+  });
+
+  describe('Roles Management page', function() {
+    beforeAll(function() {
+      browser.get(shared.rolesPageUrl);
+    });
+
+    it('should display the correct Roles for the current tenant', function() {
+      expect(elementCount).toBe(3);
+
+      expect(shared.tableRow.get(0).getText()).toContain('everyone');
+      expect(shared.tableRow.get(1).getText()).toContain('everyone');
+      expect(shared.tableRow.get(2).getText()).toContain('everyone');
+
+      // One member by default
+      /* TODO
+      expect(shared.firstTableRow.getText()).toContain('1');
+      shared.firstTableRow.click();
+      expect(groups.groupMembersRows.count()).toBe(1);
+      expect(groups.groupMembersRows.get(0).getText()).toBe(params.login.firstName + ' ' + params.login.lastName);
+      */
+    });
+
+    xit('should create a new Role in one and not the previous', function() {});
+  });
+
+  describe('Integration Management page', function() {
+    beforeEach(function() {
+      browser.get(shared.integrationsPageUrl);
+    });
+
+    xit('should display the correct Integrations for the current tenant', function() {});
+
+    xit('should edit details for an Integration in one and not the previous', function() {});
+  });
+
+  describe('Flow Management page', function() {
+    beforeEach(function() {
+      browser.get(shared.flowsPageUrl);
+    });
+
+    xit('should display the correct Flows for the current tenant', function() {});
+
+    xit('should create a new Flow in one and not the previous', function() {});
+  });
+
+  describe('Media Collection Management page', function() {
+    beforeEach(function() {
+      browser.get(shared.mediaCollectionsPageUrl);
+    });
+
+    xit('should display the correct Media Collections for the current tenant', function() {});
+
+    xit('should create a new Media Collection in one and not the previous', function() {});
+  });
+
+  describe('Media Management page', function() {
+    beforeEach(function() {
+      browser.get(shared.mediaPageUrl);
+    });
+
+    xit('should display the correct Media for the current tenant', function() {});
+
+    xit('should create a new Media in one and not the previous', function() {});
+  });
+
+  describe('Dispatch Mapping page', function() {
+    beforeEach(function() {
+      browser.get(shared.dispatchMappingsPageUrl);
+    });
+
+    xit('should display the correct Dispatch Mappings for the current tenant', function() {});
+
+    xit('should create a new Dispatch Mapping in one and not the previous', function() {});
+  });
+
 });
