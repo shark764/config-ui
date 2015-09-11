@@ -4,7 +4,7 @@ angular.module('liveopsConfigPanel')
   .controller('FlowVersionsController', ['$scope', 'Session', 'FlowVersion',
     function ($scope, Session, FlowVersion) {
       $scope.getVersions = function(){
-        if (angular.isUndefined($scope.flow)){
+        if (! $scope.flow || $scope.flow.isNew()){
           return [];
         }
         
@@ -37,6 +37,10 @@ angular.module('liveopsConfigPanel')
       };
 
       $scope.$watch('flow', function () {
+        if (! $scope.flow){
+          return;
+        }
+        
         $scope.createVersion();
 
         if($scope.cleanHandler){

@@ -4,7 +4,7 @@ angular.module('liveopsConfigPanel')
   .controller('FlowManagementController', ['$scope', '$state', 'Session', 'Flow', 'flowTableConfig', 'flowTypes', 'FlowVersion', 'BulkAction',
     function ($scope, $state, Session, Flow, flowTableConfig, flowTypes, FlowVersion, BulkAction) {
       $scope.getVersions = function(){
-        if (angular.isUndefined($scope.selectedFlow)){
+        if (! $scope.selectedFlow || $scope.selectedFlow.isNew()){
           return [];
         }
         
@@ -20,14 +20,7 @@ angular.module('liveopsConfigPanel')
         });
       };
       
-      $scope.create = function() {
-        $scope.selectedFlow = new Flow({
-          tenantId: Session.tenant.tenantId,
-          active: true
-        });
-      };
-      
-      Flow.prototype.postCreate = function () {
+      Flow.prototype.postCreate = function(){
         var flow = this;
         var initialVersion = new FlowVersion({
           flowId: flow.id,
@@ -36,21 +29,26 @@ angular.module('liveopsConfigPanel')
           name: 'v1'
         });
 
-        return initialVersion.$save().then(function(versionResult) {
+        initialVersion.$save().then(function(versionResult) {
           flow.activeVersion = versionResult.version;
-          return flow.save();
+          flow.save();
         });
+        
+        return flow;
+      };
+      
+      $scope.submit = function() {
+        return $scope.selectedFlow.save();
       };
 
       $scope.$on('table:on:click:create', function () {
-        $scope.create();
+        $scope.selectedFlow = new Flow({
+          tenantId: Session.tenant.tenantId,
+          active: true
+        });
       });
 
-      $scope.additional = {
-        flowTypes: flowTypes,
-        getVersions: $scope.getVersions
-      };
-      
+      $scope.flowTypes = flowTypes;
       $scope.tableConfig = flowTableConfig;
       $scope.bulkActions = {
         setFlowStatus: new BulkAction()
