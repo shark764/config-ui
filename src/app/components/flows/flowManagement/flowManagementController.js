@@ -29,6 +29,7 @@ angular.module('liveopsConfigPanel')
         var promise = initialVersion.$save();
         promise = promise.then(function(versionResult) {
           flow.activeVersion = versionResult.version;
+          flow.activeFlow = versionResult;
           return flow.save();
         });
         return promise;
