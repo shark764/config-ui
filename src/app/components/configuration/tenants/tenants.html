@@ -3,7 +3,7 @@
   config="tableConfig"
   items="fetchTenants()"
   selected="selectedTenant"
-  resource-name="tenants">
+  resource-name="Tenant">
 
   <span name="active">
     <span ng-if="item.active">{{'value.enabled' | translate}}</span>
@@ -27,10 +27,10 @@
     header-template-url="app/components/configuration/tenants/tenantDetailHeader.html"
     body-template-url="app/components/configuration/tenants/tenantDetailBody.html"
     original-resource="selectedTenant"
-    resource-name="tenants">
+    resource-name="Tenant">
   </resource-details>
 
-  <bulk-action-executor class="details-pane" ng-show="showBulkActions" items="tenants"
+  <bulk-action-executor class="details-pane" ng-show="showBulkActions" items="fetchTenants()"
     bulk-actions="bulkActions" show-bulk-actions="showBulkActions">
     <ba-set-tenant-status bulk-action="bulkActions.setTenantStatus"></ba-set-tenant-status>
   </bulk-action-executor>

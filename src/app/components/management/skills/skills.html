@@ -3,7 +3,7 @@
   config="tableConfig"
   items="fetchSkills()"
   selected="selectedSkill"
-  resource-name="skill">
+  resource-name="Skill">
 
   <div name="hasProficiency">
     <span ng-if="item.hasProficiency">{{'value.yes' | translate}}</span>
@@ -31,7 +31,7 @@
     header-template-url="app/components/management/skills/skillDetailHeader.html"
     body-template-url="app/components/management/skills/skillDetailBody.html"
     original-resource="selectedSkill"
-    resource-name="skill"></resource-details>
+    resource-name="Skill"></resource-details>
 
   <bulk-action-executor class="details-pane skill-ba" ng-show="showBulkActions" items="fetchSkills()"
     bulk-actions="bulkActions" show-bulk-actions="showBulkActions">

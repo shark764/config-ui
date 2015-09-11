@@ -78,8 +78,12 @@ body {
     outline: 4px double #3498db;
 }
 
+#paper-container .selected {
+  outline: 2px solid green;
+}
+
 .error {
-  outline: 2px solid red;
+    outline: 2px solid red;
 }
 
 .link .marker-arrowhead, .link .marker-vertex {

@@ -1,6 +1,10 @@
 'use strict';
 
-var $scope, $state, $httpBackend, apiHostname;
+var $scope, 
+  $state, 
+  $httpBackend, 
+  apiHostname,
+  controller;
 
 describe('LoginController', function () {
   beforeEach(module('liveopsConfigPanel'));
@@ -13,7 +17,7 @@ describe('LoginController', function () {
       $httpBackend = _$httpBackend_;
       apiHostname = _apiHostname_;
 
-      _$controller_('LoginController', {
+      controller = _$controller_('LoginController', {
         '$scope': $scope
       });
 
@@ -26,10 +30,8 @@ describe('LoginController', function () {
   ]));
 
   describe('LoginController login success', function () {
-    it('should redirect me to root on success', inject(['$q', 'AuthService', function ($q, AuthService) {
-      $scope.username = 'username';
-      $scope.password = 'password';
-
+    it('should redirect to root on success if user has permissions', inject(['$q', 'AuthService', 'UserPermissions', function ($q, AuthService, UserPermissions) {
+      spyOn(UserPermissions, 'hasPermission').and.returnValue(true);
       var deferred = $q.defer();
       deferred.resolve();
       spyOn(AuthService, 'login').and.returnValue(deferred.promise);
@@ -39,6 +41,39 @@ describe('LoginController', function () {
       $scope.$digest();
       
       expect($state.go).toHaveBeenCalledWith('content.management.users');
+    }]));
+    
+    it('should redirect to user profile page on success if user doesn\'t have permissions', inject(['$q', 'AuthService', 'UserPermissions', function ($q, AuthService, UserPermissions) {
+      spyOn(UserPermissions, 'hasPermission').and.returnValue(false);
+      var deferred = $q.defer();
+      deferred.resolve();
+      spyOn(AuthService, 'login').and.returnValue(deferred.promise);
+      spyOn($state, 'go');
+
+      $scope.login();
+      $scope.$digest();
+      
+      expect($state.go).toHaveBeenCalledWith('content.userprofile');
+    }]));
+    
+    it('should accept the invite if tenantid is specified in url', inject(['$q', 'AuthService', '$stateParams', 'apiHostname', '$httpBackend', function ($q, AuthService, $stateParams, apiHostname, $httpBackend) {
+      $stateParams.tenantId = 'tenant-id';
+      var deferred = $q.defer();
+      deferred.resolve({
+        data: {
+          result: {
+            userId: 'userId1'
+          }
+        }
+      });
+      spyOn(AuthService, 'login').and.returnValue(deferred.promise);
+      spyOn($state, 'go');
+      spyOn(controller, 'inviteAcceptSuccess');
+
+      $httpBackend.expectPUT(apiHostname + '/v1/tenants/tenant-id/users/userId1').respond(200);
+      $scope.login();
+      $scope.$digest();
+      $httpBackend.flush();
     }]));
   });
 
@@ -71,5 +106,82 @@ describe('LoginController', function () {
 
       expect($state.current.name).toBe('login');
     });
+  });
+  
+  describe('inviteAcceptSuccess function', function () {
+    it('should be called when invite accept succeeds', inject(['$q', 'AuthService', '$stateParams', 'apiHostname', '$httpBackend', function ($q, AuthService, $stateParams, apiHostname, $httpBackend) {
+      $stateParams.tenantId = 'tenant-id';
+      var deferred = $q.defer();
+      deferred.resolve({
+        data: {
+          result: {
+            userId: 'userId1'
+          }
+        }
+      });
+      spyOn(AuthService, 'login').and.returnValue(deferred.promise);
+      spyOn($state, 'go');
+      spyOn(controller, 'inviteAcceptSuccess');
+
+      $httpBackend.expectPUT(apiHostname + '/v1/tenants/tenant-id/users/userId1').respond(200);
+      $scope.login();
+      $scope.$digest();
+      $httpBackend.flush();
+      
+      expect(controller.inviteAcceptSuccess).toHaveBeenCalled();
+    }]));
+    
+    it('should refresh the tenants list', inject(['$q', 'AuthService', function ($q, AuthService) {
+      var deferred = $q.defer();
+      deferred.resolve();
+      spyOn(AuthService, 'refreshTenants').and.returnValue(deferred.promise);
+      
+      controller.inviteAcceptSuccess();
+      expect(AuthService.refreshTenants).toHaveBeenCalled();
+    }]));
+    
+    it('should select the tenant that corresponds to the invite', inject(['$q', 'AuthService', 'Session', '$stateParams', function ($q, AuthService, Session, $stateParams) {
+      var deferred = $q.defer();
+      deferred.resolve();
+      spyOn(AuthService, 'refreshTenants').and.returnValue(deferred.promise);
+      
+      
+      $stateParams.tenantId = 'tenant-id';
+      Session.tenants = [{
+        tenantId: '1'
+      }, {
+        tenantId: '2'
+      }, {
+        tenantId: 'tenant-id'
+      }];
+      
+      controller.inviteAcceptSuccess();
+      $scope.$digest();
+      expect(Session.tenant.tenantId).toEqual('tenant-id');
+    }]));
+    
+    it('should forward to the root page if user has permissions', inject(['$q', 'AuthService', 'UserPermissions', '$state', function ($q, AuthService, UserPermissions, $state) {
+      var deferred = $q.defer();
+      deferred.reject();
+      spyOn(AuthService, 'refreshTenants').and.returnValue(deferred.promise);
+      spyOn(UserPermissions, 'hasPermission').and.returnValue(true);
+      spyOn($state, 'go');
+      
+      controller.inviteAcceptSuccess();
+      $scope.$digest();
+      expect($state.go).toHaveBeenCalledWith('content.management.users', {messageKey: 'invite.accept.success'});
+    }]));
+    
+    it('should forward to the root page if user has permissions', inject(['$q', 'AuthService', 'UserPermissions', '$state', function ($q, AuthService, UserPermissions, $state) {
+      var deferred = $q.defer();
+      deferred.reject();
+      spyOn(AuthService, 'refreshTenants').and.returnValue(deferred.promise);
+      spyOn(UserPermissions, 'hasPermission').and.returnValue(false);
+      spyOn($state, 'go');
+      
+      controller.inviteAcceptSuccess();
+      $scope.$digest();
+      expect($state.go).toHaveBeenCalledWith('content.userprofile', {messageKey: 'invite.accept.success'});
+    }]));
   });
 });

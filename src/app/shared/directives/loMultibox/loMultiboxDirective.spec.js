@@ -10,7 +10,7 @@ describe('loMultibox directive', function(){
   beforeEach(module('gulpAngular'));
   beforeEach(module('liveopsConfigPanel.mock.content'));
 
-  beforeEach(inject(['$compile', '$rootScope', '$q', function($compile, _$rootScope_, $q) {
+  beforeEach(inject(['$compile', '$rootScope', function($compile, _$rootScope_) {
     $scope = _$rootScope_.$new();
     $rootScope = _$rootScope_;
 
@@ -52,7 +52,7 @@ describe('loMultibox directive', function(){
     isolateScope.createMode = true;
     spyOn(isolateScope, 'onSelect');
 
-    $rootScope.$broadcast('resource:details:myresource:create:success', newItem);
+    $rootScope.$broadcast('created:resource:myresource', newItem);
 
     isolateScope.$digest();
     expect(isolateScope.onSelect).toHaveBeenCalledWith(newItem);
@@ -61,7 +61,7 @@ describe('loMultibox directive', function(){
   it('should catch create event but do nothing if not in create mode', function () {
     isolateScope.createMode = false;
     spyOn(isolateScope, 'onSelect');
-    $rootScope.$broadcast('resource:details:myresource:create:success', {});
+    $rootScope.$broadcast('created:resource:myresource', {});
     isolateScope.$digest();
     expect(isolateScope.onSelect).not.toHaveBeenCalled();
   });

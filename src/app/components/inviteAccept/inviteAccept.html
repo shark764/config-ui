@@ -33,30 +33,23 @@
             </div>
           </div>
         
-        
-        
           <div class="divider-header" ng-class="{'first-header' : resource.id}">
             <h4>{{'details' | translate}}</h4>
           </div>
         
           <div class="input-group">
-            <label>{{'details.firstName' | translate}} *</label>
-            <form-error field="detailsForm.firstName"
-              error-type-required="{{'details.firstName.error' | translate}}"></form-error>
+            <label>{{'details.firstName' | translate}} </label>
             <div>
-              <input ng-required="true" ng-model="user.firstName" name="firstName" type="text"></input>
+              <input ng-model="user.firstName" name="firstName" type="text"></input>
             </div>
           </div>
         
           <div class="input-group">
-            <label>{{'details.lastName' | translate}} *</label>
-            <form-error field="detailsForm.lastName"
-              error-type-required="{{'details.lastName.error' | translate}}"></form-error>
+            <label>{{'details.lastName' | translate}}</label>
             <div>
-              <input required ng-model="user.lastName" name="lastName" type="text"></input>
+              <input ng-model="user.lastName" name="lastName" type="text"></input>
             </div>
           </div>
-        
        
           <div class="input-group">
             <label>{{'details.externalId' | translate}}</label>
@@ -72,5 +65,7 @@
         </div>
       </div>
     </ng-form>
+    <p class="copyright">{{'copyright' | translate}}</p>
+    <p class="copyright">{{'signup.legal' | translate}}</p>
   </div>
 </div>

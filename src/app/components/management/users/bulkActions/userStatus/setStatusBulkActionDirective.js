@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('baSetStatus', ['User', 'Session', '$q', 'Alert', '$translate',
-    function (User, Session, $q, Alert, $translate) {
+  .directive('baSetStatus', ['TenantUser', 'Session', '$q', 'Alert', '$translate',
+    function (TenantUser, Session, $q, Alert, $translate) {
       return {
         restrict: 'AE',
         scope: {
@@ -18,12 +18,14 @@ angular.module('liveopsConfigPanel')
               return deferred.promise;
             }
             
-            var newUser = new User();
+            var newUser = new TenantUser();
             newUser.id = tenantUser.id;
             newUser.status = $scope.status;
-            return newUser.save().then(function(user) {
-              angular.copy(user, tenantUser.$user);
-              return user;
+            newUser.tenantId = Session.tenant.tenantId;
+            return newUser.save().then(function(userCopy){
+              tenantUser.status = userCopy.status;
+              tenantUser.$original.status = userCopy.status;
+              return tenantUser;
             });
           };
           

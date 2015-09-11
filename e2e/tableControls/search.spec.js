@@ -523,57 +523,118 @@ describe('The table search', function() {
   });
 
   /*
-   * MEDIA TABLE SEARCH
-   * Search on Name
+   * REMAINING PAGES
    */
 
-  it('should display Media based on the Search on Name', function() {
-    browser.get(shared.mediaPageUrl);
-    elementCount = shared.tableElements.count();
-    // TODO
+  describe('when exact element name is input', function() {
+    it('should result in at least one element in the User table', function() {
+      browser.get(shared.usersPageUrl);
+      elementCount = shared.tableElements.count();
 
-    shared.searchField.sendKeys('car');
-    shared.tableElements.then(function(rows) {
-      for (var i = 0; i < rows.length; ++i) {
-        rows[i].getText().then(function(value) {
-          expect(value.toLowerCase()).toContain('car');
-        });
-      };
+      shared.firstTableRow.element(by.css('td:nth-child(2)')).getText().then(function(firstUserName) {
+        shared.searchField.sendKeys(firstUserName);
+        expect(shared.tableElements.count()).toBeGreaterThan(0);
+        expect(shared.firstTableRow.getText()).toContain(firstUserName);
+      });
+    });
+    it('should result in at least one element in the Skills table', function() {
+      browser.get(shared.skillsPageUrl);
+      elementCount = shared.tableElements.count();
+
+      shared.firstTableRow.element(by.css('td:nth-child(2)')).getText().then(function(firstSkillName) {
+        shared.searchField.sendKeys(firstSkillName);
+        expect(shared.tableElements.count()).toBeGreaterThan(0);
+        expect(shared.firstTableRow.getText()).toContain(firstSkillName);
+      });
     });
 
-    shared.searchField.clear();
-    shared.searchField.sendKeys('test');
-    shared.tableElements.then(function(rows) {
-      for (var i = 0; i < rows.length; ++i) {
-        rows[i].getText().then(function(value) {
-          expect(value.toLowerCase()).toContain('test');
-        });
-      };
+    it('should result in at least one element in the Groups table', function() {
+      browser.get(shared.groupsPageUrl);
+      elementCount = shared.tableElements.count();
+
+      shared.firstTableRow.element(by.css('td:nth-child(2)')).getText().then(function(firstGroupName) {
+        shared.searchField.sendKeys(firstGroupName);
+        expect(shared.tableElements.count()).toBeGreaterThan(0);
+        expect(shared.firstTableRow.getText()).toContain(firstGroupName);
+      });
     });
 
-    shared.searchField.clear();
-    shared.searchField.sendKeys('New*ia');
-    shared.tableElements.then(function(rows) {
-      for (var i = 0; i < rows.length; ++i) {
-        rows[i].getText().then(function(value) {
-          expect(value.toLowerCase()).toContain('new');
-          expect(value.toLowerCase()).toContain('ia');
-          expect(value.toLowerCase()).toMatch(/.*new.*ia.*/);
-        });
-      };
+    it('should result in at least one element in the Tenants table', function() {
+      browser.get(shared.tenantsPageUrl);
+      elementCount = shared.tableElements.count();
+
+      shared.firstTableRow.element(by.css('td:nth-child(2)')).getText().then(function(firstTenantName) {
+        shared.searchField.sendKeys(firstTenantName);
+        expect(shared.tableElements.count()).toBeGreaterThan(0);
+        expect(shared.firstTableRow.getText()).toContain(firstTenantName);
+      });
     });
 
-    shared.searchField.clear();
-    shared.searchField.sendKeys('edia');
-    shared.tableElements.then(function(rows) {
-      for (var i = 0; i < rows.length; ++i) {
-        rows[i].getText().then(function(value) {
-          expect(value.toLowerCase()).toContain('edia');
-        });
-      };
+    it('should result in at least one element in the Integrations table', function() {
+      browser.get(shared.integrationsPageUrl);
+      elementCount = shared.tableElements.count();
+
+      shared.firstTableRow.element(by.css('td:nth-child(2)')).getText().then(function(firstIntegrationName) {
+        shared.searchField.sendKeys(firstIntegrationName);
+        expect(shared.tableElements.count()).toBeGreaterThan(0);
+        expect(shared.firstTableRow.getText()).toContain(firstIntegrationName);
+      });
     });
 
-    shared.searchField.clear();
-    expect(shared.tableElements.count()).toBe(elementCount);
+    it('should result in at least one element in the Flow table', function() {
+      browser.get(shared.flowsPageUrl);
+      elementCount = shared.tableElements.count();
+
+      shared.firstTableRow.element(by.css('td:nth-child(2)')).getText().then(function(firstFlowName) {
+        shared.searchField.sendKeys(firstFlowName);
+        expect(shared.tableElements.count()).toBeGreaterThan(0);
+        expect(shared.firstTableRow.getText()).toContain(firstFlowName);
+      });
+    });
+
+    it('should result in at least one element in the Queue table', function() {
+      browser.get(shared.queuesPageUrl);
+      elementCount = shared.tableElements.count();
+
+      shared.firstTableRow.element(by.css('td:nth-child(2)')).getText().then(function(firstQueueName) {
+        shared.searchField.sendKeys(firstQueueName);
+        expect(shared.tableElements.count()).toBeGreaterThan(0);
+        expect(shared.firstTableRow.getText()).toContain(firstQueueName);
+      });
+    });
+
+    it('should result in at least one element in the Dispatch Mappings table', function() {
+      browser.get(shared.dispatchMappingsPageUrl);
+      elementCount = shared.tableElements.count();
+
+      shared.firstTableRow.element(by.css('td:nth-child(2)')).getText().then(function(firstDispatchMappingName) {
+        shared.searchField.sendKeys(firstDispatchMappingName);
+        expect(shared.tableElements.count()).toBeGreaterThan(0);
+        expect(shared.firstTableRow.getText()).toContain(firstDispatchMappingName);
+      });
+    });
+
+    it('should result in at least one element in the Media Collections table', function() {
+      browser.get(shared.mediaCollectionsPageUrl);
+      elementCount = shared.tableElements.count();
+
+      shared.firstTableRow.element(by.css('td:nth-child(2)')).getText().then(function(firstMediaCollectionName) {
+        shared.searchField.sendKeys(firstMediaCollectionName);
+        expect(shared.tableElements.count()).toBeGreaterThan(0);
+        expect(shared.firstTableRow.getText()).toContain(firstMediaCollectionName);
+      });
+    });
+
+    it('should result in at least one element in the Media table', function() {
+      browser.get(shared.mediaPageUrl);
+      elementCount = shared.tableElements.count();
+
+      shared.firstTableRow.element(by.css('td:nth-child(2)')).getText().then(function(firstMediaName) {
+        shared.searchField.sendKeys(firstMediaName);
+        expect(shared.tableElements.count()).toBeGreaterThan(0);
+        expect(shared.firstTableRow.getText()).toContain(firstMediaName);
+      });
+    });
+
   });
 });

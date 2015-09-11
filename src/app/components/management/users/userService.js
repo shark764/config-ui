@@ -1,21 +1,19 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .factory('User', ['LiveopsResourceFactory', 'cacheAddInterceptor',
-    function(LiveopsResourceFactory, cacheAddInterceptor) {
+  .factory('User', ['LiveopsResourceFactory', 'cacheAddInterceptor', 'emitInterceptor',
+    function(LiveopsResourceFactory, cacheAddInterceptor, emitInterceptor) {
       var User = LiveopsResourceFactory.create({
         endpoint: '/v1/users/:id',
         resourceName: 'User',
         updateFields: [{
-          name: 'firstName'
+          name: 'firstName',
+          optional: true
         }, {
-          name: 'lastName'
+          name: 'lastName',
+          optional: true
         }, {
           name: 'roleId'
-        }, {
-          name: 'displayName'
-        }, {
-          name: 'status'
         }, {
           name: 'password'
         }, {
@@ -25,7 +23,8 @@ angular.module('liveopsConfigPanel')
           name: 'personalTelephone',
           optional: true
         }],
-        saveInterceptor: cacheAddInterceptor
+        saveInterceptor: cacheAddInterceptor,
+        updateInterceptor: emitInterceptor
       });
 
       User.prototype.getDisplay = function() {

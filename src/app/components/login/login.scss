@@ -39,7 +39,7 @@ $form-height: 300px;
   .blur-over {
     padding: 20px 40px;
 
-    & > .error {
+    & > .lo-error {
       margin-bottom: 20px;
     }
     
@@ -47,7 +47,7 @@ $form-height: 300px;
       margin-top: 20px;
     }
     
-    .input-group .error {
+    .input-group .lo-error {
       @extend .lo-alert
     }
   }

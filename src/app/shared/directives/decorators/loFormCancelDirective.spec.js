@@ -146,8 +146,9 @@ describe('loFormCancel directive', function() {
         element.find('ng-form').controller('form').$setDirty();
       });
 
-      it('should call loFormCancel.resetForm and resource.reset', inject([function() {
+      it('should call loFormCancel.resetForm and resource.reset', inject(['$timeout', function($timeout) {
         loFormCancelController.cancel();
+        $timeout.flush();
         expect(loFormCancelController.resetForm).toHaveBeenCalled();
         expect(isolateScope.ngResource.reset).toHaveBeenCalled();
       }]));

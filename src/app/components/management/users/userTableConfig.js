@@ -159,6 +159,6 @@ angular.module('liveopsConfigPanel')
         
         queryCache.put('userTableConfig', defaultConfig);
         return defaultConfig;
-      }
+      };
     }
   ]);

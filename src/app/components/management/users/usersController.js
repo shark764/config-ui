@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('UsersController', ['$scope', '$window', '$parse', 'User', 'Session', 'AuthService', 'userTableConfig', 'Alert', 'flowSetup', 'BulkAction', '$q', '$location', 'lodash', 'Chain', 'TenantUser', 'TenantRole', 'queryCache', 'UserPermissions', 'PlatformRole', 'DirtyForms',
-    function($scope, $window, $parse, User, Session, AuthService, userTableConfig, Alert, flowSetup, BulkAction, $q, $location, _, Chain, TenantUser, TenantRole, queryCache, UserPermissions, PlatformRole, DirtyForms) {
+  .controller('UsersController', ['$scope', '$window', '$parse', 'User', 'Session', 'AuthService', 'userTableConfig', 'Alert', 'flowSetup', 'BulkAction', '$q', '$location', 'lodash', 'Chain', 'TenantUser', 'TenantRole', 'queryCache', 'UserPermissions', 'PlatformRole', 'TenantUserGroups',
+    function($scope, $window, $parse, User, Session, AuthService, userTableConfig, Alert, flowSetup, BulkAction, $q, $location, _, Chain, TenantUser, TenantRole, queryCache, UserPermissions, PlatformRole, TenantUserGroups) {
       var self = this;
       
       $scope.forms = {};
@@ -118,7 +118,10 @@ angular.module('liveopsConfigPanel')
             tenantUser.$user = user;
             tenantUser.id = user.id;
             tenantUser.$original.skills = [];
-            tenantUser.$original.groups = [{}];
+            tenantUser.$original.groups = TenantUserGroups.query({
+              memberId: user.id, 
+              tenantId: Session.tenant.tenantId
+            });
 
             tenantUser.$original.roleName = TenantRole.getName(tenantUser.roleId);
             
@@ -136,11 +139,12 @@ angular.module('liveopsConfigPanel')
         var promises = [];
         
         if (UserPermissions.hasPermissionInList(['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'MANAGE_TENANT_ENROLLMENT'])){
-          if($scope.forms.detailsForm.roleId &&
-            $scope.forms.detailsForm.roleId.$dirty) {
+          if ($scope.selectedTenantUser.roleId !== $scope.selectedTenantUser.$original.roleId ||
+              $scope.selectedTenantUser.status !== $scope.selectedTenantUser.$original.status){
             var tenantUser = new TenantUser({
               id: $scope.selectedTenantUser.id,
-              roleId: $scope.selectedTenantUser.roleId
+              roleId: $scope.selectedTenantUser.roleId,
+              status: $scope.selectedTenantUser.status
             });
             
             promises.push(tenantUser.save({
@@ -148,6 +152,7 @@ angular.module('liveopsConfigPanel')
             }).then(function(tenantUser) {
               $scope.selectedTenantUser.$original.roleId = tenantUser.roleId;
               $scope.selectedTenantUser.$original.roleName = TenantRole.getName(tenantUser.roleId);
+              $scope.selectedTenantUser.$original.status = tenantUser.status;
               $scope.selectedTenantUser.reset();
             }));
           }

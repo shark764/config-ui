@@ -27,7 +27,7 @@ angular.module('liveopsConfigPanel')
         reset.call(this);
         
         this.$user.reset();
-      }
+      };
 
       return TenantUser;
     }
