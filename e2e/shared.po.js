@@ -14,6 +14,7 @@ var Shared = function() {
   this.usersPageUrl = this.managementUrl + 'users';
   this.groupsPageUrl = this.managementUrl + 'groups';
   this.skillsPageUrl = this.managementUrl + 'skills';
+  this.rolesPageUrl = this.managementUrl + 'roles';
 
   this.tenantsPageUrl = this.configurationUrl + 'tenants';
   this.integrationsPageUrl = this.configurationUrl + 'integrations';
@@ -56,7 +57,11 @@ var Shared = function() {
   this.searchField = element(by.model('searchQuery'));
   this.actionsBtn = element(by.id('actions-btn'));
   this.tableColumnsDropDown = element(by.id('table-columns-dropdown'));
-  this.tableColumnsDropDownOptions = this.tableColumnsDropDown.all(by.repeater('option in options | orderBy:orderBy track by (option | parse:valuePath | invoke:option)'))
+  this.tableColumnsDropDownOptions = this.tableColumnsDropDown.all(by.repeater('option in options | orderBy:orderBy'));
+  this.tableColumnsDropDownInputs = this.tableColumnsDropDown.all(by.css('input'));
+
+  this.filteredResultsMessage = element(by.css('.filtered > span:nth-child(1)'));
+  this.clearAllResultsLink = element(by.css('.filtered > a.ng-binding'));
 
   // Shared Form elements
   this.detailsPanel = element(by.id('details-pane'));
