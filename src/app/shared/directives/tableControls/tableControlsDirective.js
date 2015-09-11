@@ -162,6 +162,8 @@ angular.module('liveopsConfigPanel')
           };
           
           $scope.clearAllFilters = function(){
+            $scope.searchQuery = null;
+            
             angular.forEach($scope.config.fields, function(field){
               if (field.header.options){
                 var options = $filter('invoke')(field.header.options);

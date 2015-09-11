@@ -7,13 +7,8 @@ angular.module('liveopsConfigPanel')
 
       //Create default first queue version
       Queue.prototype.postCreate = function (queue) {
-        var qv = new QueueVersion({
-          tenantId: Session.tenant.tenantId,
-          query: $scope.additional.initialQuery,
-          name: 'v1',
-          queueId: queue.id
-        });
-
+        var qv = $scope.additional.initialVersion;
+        qv.queueId = queue.id;
         return qv.save()
           .then(function (versionResult) {
             queue.activeVersion = versionResult.version;
@@ -26,9 +21,22 @@ angular.module('liveopsConfigPanel')
           tenantId: Session.tenant.tenantId
         });
       };
+      
+      $scope.getDefaultVersion = function(){
+        return new QueueVersion({
+          query: '{}',
+          tenantId: Session.tenant.tenantId,
+          name: 'v1',
+          maxPriority: 1000,
+          minPriority: 1,
+          priorityValue: 1,
+          priorityRate: 10,
+          priorityUnit: 'seconds'
+        });
+      };
 
       $scope.$on('table:on:click:create', function () {
-        $scope.additional.initialQuery = '{}';
+        $scope.additional.initialVersion = $scope.getDefaultVersion();
 
         $scope.selectedQueue = new Queue({
           tenantId: Session.tenant.tenantId
@@ -37,7 +45,7 @@ angular.module('liveopsConfigPanel')
 
       $scope.$on('resource:details:queue:canceled', function () {
         if ($scope.selectedQueue.isNew()) {
-          $scope.additional.initialQuery = '{}';
+          $scope.additional.initialVersion = $scope.getDefaultVersion();
         }
       });
 
@@ -48,6 +56,7 @@ angular.module('liveopsConfigPanel')
       $scope.additional = {
         initialQuery: '{}',
         copySelectedVersion: $scope.copySelectedVersion
+        initialVersion: $scope.getDefaultVersion()
       };
 
       $scope.bulkActions = {

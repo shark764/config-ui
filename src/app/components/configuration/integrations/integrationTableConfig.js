@@ -10,28 +10,12 @@ angular.module('liveopsConfigPanel')
         'name': 'type'
       }, {
         'header': {
-          'display': $translate.instant('integration.table.account')
-        },
-        'name': 'properties.accountSid'
-      }, {
-        'header': {
           'display': $translate.instant('value.status'),
           'valuePath': 'value',
           'displayPath': 'display',
           'options': statuses()
         },
         'name': 'active',
-        'sortable': true,
-        'transclude': true,
-        'filter': 'selectedOptions'
-      }, {
-        'header': {
-          'display': $translate.instant('integration.table.webrtc'),
-          'valuePath': 'value',
-          'displayPath': 'display',
-          'options': statuses()
-        },
-        'name': 'properties.webRtc',
         'sortable': true,
         'transclude': true,
         'filter': 'selectedOptions'
