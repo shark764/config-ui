@@ -32,8 +32,6 @@ describe('Versions directive controller', function () {
         $setUntouched: angular.noop
       };
 
-      $scope.versions = [];
-
       $controller('FlowVersionsController', {
         '$scope': $scope
       });
@@ -42,30 +40,16 @@ describe('Versions directive controller', function () {
     }
   ]));
 
-  it('should have versions defined', function () {
-    expect($scope.versions).toBeDefined();
-    expect($scope.versions[0].id).toEqual(mockFlowVersions[0].id);
-    expect($scope.versions[1].id).toEqual(mockFlowVersions[1].id);
-  });
-
-  describe('fetch function', function () {
+  describe('getVersions function', function () {
     it('should be defined', function () {
-      expect($scope.fetch).toBeDefined();
-      expect($scope.fetch).toEqual(jasmine.any(Function));
+      expect($scope.getVersions).toBeDefined();
+      expect($scope.getVersions).toEqual(jasmine.any(Function));
     });
 
     it('should query for flow versions', function () {
       $httpBackend.expectGET('fakendpoint.com/v1/tenants/tenant-id/flows/flowId1/versions');
-      $scope.fetch();
+      $scope.getVersions();
       $httpBackend.flush();
-    });
-
-    it('should set the v property', function () {
-      $scope.fetch();
-      $httpBackend.flush();
-
-      expect($scope.versions[0].v).toEqual(2);
-      expect($scope.versions[1].v).toEqual(1);
     });
   });
 
@@ -76,26 +60,16 @@ describe('Versions directive controller', function () {
       $httpBackend.when('POST', 'fakendpoint.com/v1/tenants/tenant-id/flows/flowId1/versions').respond(201, {
         'result': mockFlowVersions[0]
       });
+      
+      $httpBackend.when('GET', 'fakendpoint.com/v1/tenants/tenant-id/flows/flowId1/versions').respond(200, {
+        'result': [mockFlowVersions[0], mockFlowVersions[1]]
+      });
     });
 
     it('should have a function to create a new version', function () {
       expect($scope.version).toBeDefined();
       expect($scope.version.flow).toBe(mockFlowVersions[0].flow);
       expect($scope.version.flowId).toBe(mockFlowVersions[0].flowId);
-    });
-
-    it('should succeed on save and push new item to list', function () {
-      spyOn($scope, 'createVersion');
-
-      $scope.saveVersion();
-
-      expect($scope.versions.length).toEqual(2);
-
-      $httpBackend.flush();
-
-      expect($scope.versions.length).toEqual(3);
-
-      expect($scope.createVersion).toHaveBeenCalled();
     });
 
     it('should clean listener when switching flow id', function () {

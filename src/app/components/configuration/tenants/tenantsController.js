@@ -38,7 +38,7 @@ angular.module('liveopsConfigPanel')
       });
       
       $scope.$on('updated:resource:Tenant', function(event, updatedTenant) {
-        $timeout(AuthService.refreshTenants, 5000);
+        AuthService.refreshTenants();
       });
 
       $scope.tableConfig = tenantTableConfig;
