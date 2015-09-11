@@ -112,19 +112,11 @@ describe('TenantsController', function () {
     expect(AuthService.refreshTenants).not.toHaveBeenCalled();
   }]));
   
-  it('should refresh the tenants if user updates a tenant with themselves as admin', inject(['AuthService', 'Tenant', function (AuthService, Tenant) {
+  it('should refresh the tenants if user updates a tenant', inject(['AuthService', 'Tenant', function (AuthService, Tenant) {
     spyOn(AuthService, 'refreshTenants');
-    $scope.$broadcast('updated:resource:Tenant', new Tenant({adminUserId: Session.user.id}));
+    $scope.$broadcast('updated:resource:Tenant');
     $scope.$digest();
     
     expect(AuthService.refreshTenants).toHaveBeenCalled();
-  }]));
-  
-  it('should not refresh the tenants if user updates a tenant with someone else as admin', inject(['AuthService', 'Tenant', function (AuthService, Tenant) {
-    spyOn(AuthService, 'refreshTenants');
-    $scope.$broadcast('updated:resource:Tenant', new Tenant({adminUserId: 'someoneelse'}));
-    $scope.$digest();
-    
-    expect(AuthService.refreshTenants).not.toHaveBeenCalled();
   }]));
 });
