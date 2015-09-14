@@ -118,34 +118,42 @@ describe('The integrations view', function() {
     });
 
 
-    xit('should allow the Integration fields to be updated', function() {
+    it('should allow the Integration fields to be updated', function() {
       shared.tableElements.count().then(function(integrationCount) {
         if (integrationCount == 0) {
           shared.firstTableRow.click();
 
           // Edit fields
-          integrations.accountSIDFormField.sendKeys('Edit');
-          integrations.authTokenFormField.sendKeys('Edit');
-          integrations.webRTCFormSwitch.click();
+          integrations.spaceIdFormField.sendKeys('Edit');
+          integrations.ssoPasswordFormField.sendKeys('Edit');
+          integrations.baseURLFormField.sendKeys('Edit');
+          integrations.adminPasswordFormField.sendKeys('Edit');
+          integrations.adminUsernameFormField.sendKeys('Edit');
 
-          var editAccountSID = integrations.accountSIDFormField.getAttribute('value');
-          var editAuthToken = integrations.authTokenFormField.getAttribute('value');
-          var editWebRTC = integrations.webRTCFormSwitchToggle.isSelected();
+          var editSpaceId = integrations.spaceIdFormField.getAttribute('value');
+          var editSsoPassword = integrations.ssoPasswordFormField.getAttribute('value');
+          var editBaseUrl = integrations.baseURLFormField.getAttribute('value');
+          var editAdminPassword = integrations.adminPasswordFormField.getAttribute('value');
+          var editAdminUsername = integrations.adminUsernameFormField.getAttribute('value');
+
           shared.submitFormBtn.click().then(function() {
             expect(shared.successMessage.isDisplayed()).toBeTruthy();
             expect(shared.tableElements.count()).toBe(integrationCount);
 
             // Changes persist
             browser.refresh();
-            expect(integrations.accountSIDFormField.getAttribute('value')).toBe(editAccountSID);
-            expect(integrations.authTokenFormField.getAttribute('value')).toBe(editAuthToken);
-            // TODO Bug TITAN2-3324
-            //expect(integrations.webRTCFormSwitchToggle.isSelected()).toBe(editWebRTC);
+            expect(integrations.spaceIdFormField.getAttribute('value')).toBe(editSpaceId);
+            expect(integrations.ssoPasswordFormField.getAttribute('value')).toBe(editSsoPassword);
+            expect(integrations.baseURLFormField.getAttribute('value')).toBe(editBaseUrl);
+            expect(integrations.adminPasswordFormField.getAttribute('value')).toBe(editAdminPassword);
+            expect(integrations.adminUsernameFormField.getAttribute('value')).toBe(editAdminUsername);
 
             // Reset values
-            integrations.accountSIDFormField.sendKeys('\u0008\u0008\u0008\u0008');
-            integrations.authTokenFormField.sendKeys('\u0008\u0008\u0008\u0008');
-            integrations.webRTCFormSwitch.click();
+            integrations.spaceIdFormField.sendKeys('\u0008\u0008\u0008\u0008');
+            integrations.ssoPasswordFormField.sendKeys('\u0008\u0008\u0008\u0008');
+            integrations.baseURLFormField.sendKeys('\u0008\u0008\u0008\u0008');
+            integrations.adminPasswordFormField.sendKeys('\u0008\u0008\u0008\u0008');
+            integrations.adminUsernameFormField.sendKeys('\u0008\u0008\u0008\u0008');
 
             shared.submitFormBtn.click().then(function() {
               expect(shared.successMessage.isDisplayed()).toBeTruthy();
@@ -155,50 +163,29 @@ describe('The integrations view', function() {
       });
     });
 
-
-
-
-
-
-
-
-    xit('should require Account SID field when editing a Integration', function() {
+    it('should require all fields when editing', function() {
       // TODO After TITAN2-3323 All fields or none are required
       shared.firstTableRow.click();
 
-      // Edit fields
-      integrations.accountSIDFormField.sendKeys('temp');
-      integrations.accountSIDFormField.clear();
-      integrations.authTokenFormField.click();
+      // Clear fields
+      integrations.spaceIdFormField.clear();
+      integrations.ssoPasswordFormField.clear();
+      integrations.baseURLFormField.clear();
+      integrations.adminPasswordFormField.clear();
+      integrations.adminUsernameFormField.clear();
 
       // Submit button is still disabled
       expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
+      shared.submitFormBtn.click();
 
       // Error messages displayed
-      expect(integrations.requiredErrors.get(0).isDisplayed()).toBeTruthy();
-      expect(integrations.requiredErrors.get(0).getText()).toBe('Field "Account SID" is required');
+      expect(integrations.requiredErrors.get(0).getText()).toBe('Please enter the Birst space ID');
+      expect(integrations.requiredErrors.get(1).getText()).toBe('Please enter the Birst SSO Password');
+      expect(integrations.requiredErrors.get(2).getText()).toBe('Please enter the Birst base URL');
+      expect(integrations.requiredErrors.get(3).getText()).toBe('Please enter the Birst admin password');
+      expect(integrations.requiredErrors.get(4).getText()).toBe('Please enter the Birst admin username');
       expect(shared.successMessage.isPresent()).toBeFalsy();
     });
-
-    xit('should require Auth Token field when editing a Integration', function() {
-      // TODO After TITAN2-3323 All fields or none are required
-      shared.firstTableRow.click();
-
-      // Edit fields
-      integrations.authTokenFormField.sendKeys('temp');
-      integrations.authTokenFormField.clear();
-      integrations.accountSIDFormField.click();
-
-      // Submit button is still disabled
-      expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
-
-      // Error messages displayed
-      expect(integrations.requiredErrors.get(0).isDisplayed()).toBeTruthy();
-      expect(integrations.requiredErrors.get(0).getText()).toBe('Field "Auth Token" is required');
-      expect(shared.successMessage.isPresent()).toBeFalsy();
-    });
-
-
   });
 
   describe('client integration', function() {
