@@ -1,9 +1,9 @@
 'use strict';
 
 var FlowPage = function() {
-  this.nameFormField = element(by.model('resource.name'));
-  this.descriptionFormField = element(by.model('resource.description'));
-  this.typeFormDropdown = element(by.model('resource.type'));
+  this.nameFormField = element(by.model('selectedFlow.name'));
+  this.descriptionFormField = element(by.model('selectedFlow.description'));
+  this.typeFormDropdown = element(by.model('selectedFlow.type'));
   this.activeFormToggle = element(by.model('resource.active'));
   this.activeVersionDropdown = element(by.model('resource.activeVersion'));
 

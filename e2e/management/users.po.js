@@ -32,7 +32,7 @@ var UserPage = function() {
   this.passwordEditFormBtn = element(by.buttonText('Reset Password'));
   this.personalTelephoneFormField = element(by.model('selectedTenantUser.$user.personalTelephone'));
   this.personalTelephoneHelp = element(by.id('personal-telephone-help'));
-  this.activeFormToggle = element(by.model('selectedTenantUser.status'));
+  this.activeFormToggle = element(by.css('.status-toggle'));
 
   this.emailLabel = element(by.id('user-details-email'));
   this.error = element(by.css('.lo-error'));

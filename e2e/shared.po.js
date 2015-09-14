@@ -30,6 +30,7 @@ var Shared = function() {
   this.welcomeMessage = element(by.id('user-settings-dropdown'));
   this.siteNavLogo = element(by.id('logo'));
   this.tenantsNavDropdown = element(by.id('tenant-dropdown'));
+  this.tenantsNavDropdownContents = this.tenantsNavDropdown.all(by.repeater('item in items | orderBy:orderBy'));
   this.usersNavButton = element(by.id('users-nav-link'));
   this.tenantsNavButton = element(by.id('tenants-nav-link'));
   this.flowsNavButton = element(by.id('flows-nav-link'));
@@ -61,7 +62,7 @@ var Shared = function() {
   this.clearAllResultsLink = element(by.css('.filtered > a.ng-binding'));
 
   // Shared Form elements
-  this.detailsPanel = element(by.id('details-pane'));
+  this.detailsPanel = element(by.css('.right-panel'));
   this.detailsForm = this.detailsPanel.element(by.css('.details-pane'));
   this.rightPanel = element(by.id('right-panel'));
   this.bulkActionsPanel = element(by.id('bulk-action-form'));
