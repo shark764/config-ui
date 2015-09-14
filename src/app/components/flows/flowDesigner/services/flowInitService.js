@@ -24,8 +24,6 @@
         graph.interfaces.inspectorContainer = $(graphOptions.inspectorContainerId);
         graph.panelScope = $rootScope.$new();
 
-
-
         // Default Listener Initializations
         self.initializeKeyboardListeners();
         self.initializeSelectorViewListeners();
