@@ -4,7 +4,7 @@ var UserPage = function() {
   this.loadingMessage = element(by.id('.table-message > div:nth-child(1)'));
 
   this.userPanel = element(by.id('user-pane'));
-  this.detailsForm = this.userPanel.element(by.css('ng-form'));
+  this.detailsForm = this.userPanel;
   this.rightPanel = element(by.id('right-panel'));
   this.bulkActionsPanel = element(by.css('bulk-action-executor.details-pane'));
   this.submitFormBtn = this.userPanel.element(by.id('submit-details-btn'));
