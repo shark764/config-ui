@@ -42,34 +42,6 @@ describe('The profile view', function() {
     expect(profile.updateProfileBtn.isDisplayed()).toBeTruthy();
   });
 
-  it('should require First Name when editing', function() {
-    //Clear and then blur the field
-    profile.firstNameFormField.clear();
-    profile.lastNameFormField.click();
-
-    //Submit button is disabled
-    expect(profile.updateProfileBtn.getAttribute('disabled')).toBeTruthy();
-    profile.updateProfileBtn.click();
-
-    //Error messages
-    expect(profile.errors.get(0).isDisplayed()).toBeTruthy();
-    expect(profile.errors.get(0).getText()).toBe('Please enter a first name');
-  });
-
-  it('should require Last Name when editing', function() {
-    //Clear and then blur the field
-    profile.lastNameFormField.clear();
-    profile.firstNameFormField.click();
-
-    //Submit button is disabled
-    expect(profile.updateProfileBtn.getAttribute('disabled')).toBeTruthy();
-    profile.updateProfileBtn.click();
-
-    //Error messages
-    expect(profile.errors.get(0).isDisplayed()).toBeTruthy();
-    expect(profile.errors.get(0).getText()).toBe('Please enter a last name');
-  });
-
   it('should update user name', function() {
     profile.firstNameFormField.sendKeys('Update');
     profile.lastNameFormField.sendKeys('Update');

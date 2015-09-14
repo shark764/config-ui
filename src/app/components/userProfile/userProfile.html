@@ -31,7 +31,7 @@
           <input ng-required="detailsForm.password.$dirty" autocomplete="off" ng-model="user.password" name="password" type="password" ng-show="detailsForm.password.$dirty"></input>
         </div>
       </div>
-      <div><label>&nbsp;</label><input ng-disabled="detailsForm.$invalid && detailsForm.$dirty" type="submit" class="btn btn-primary" value="{{'value.update' | translate}}"/></div>
+      <div><label>&nbsp;</label><input ng-disabled="detailsForm.$invalid || ! detailsForm.$dirty" type="submit" class="btn btn-primary" value="{{'value.update' | translate}}"/></div>
     </form>
   </div>
 </div>

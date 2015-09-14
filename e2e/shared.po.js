@@ -25,8 +25,6 @@ var Shared = function() {
   this.mediaPageUrl = this.flowsUrl + 'media';
   this.dispatchMappingsPageUrl = this.flowsUrl + 'dispatchMappings';
 
-  this.invitesPageUrl = this.mainUrl + 'invites';
-
   // Navbar elements
   this.navBar = element(by.id('topnav'));
   this.welcomeMessage = element(by.id('user-settings-dropdown'));
@@ -36,7 +34,6 @@ var Shared = function() {
   this.tenantsNavButton = element(by.id('tenants-nav-link'));
   this.flowsNavButton = element(by.id('flows-nav-link'));
   this.reportingNavButton = element(by.id('reporting-nav-link'));
-  this.invitesNavButton = element(by.id('invites-nav-link'));
 
   this.settingsDropdown = element(by.id('user-settings-dropdown'));
   this.settingsDropdownOptions = this.settingsDropdown.all(by.repeater('item in items'));
@@ -67,9 +64,9 @@ var Shared = function() {
   this.detailsPanel = element(by.id('details-pane'));
   this.detailsForm = this.detailsPanel.element(by.css('.details-pane'));
   this.rightPanel = element(by.id('right-panel'));
-  this.bulkActionsPanel = element(by.css('bulk-action-executor.details-pane'));
-  this.submitFormBtn = this.detailsPanel.element(by.id('submit-details-btn'));
-  this.cancelFormBtn = this.detailsPanel.element(by.id('cancel-details-btn'));
+  this.bulkActionsPanel = element(by.id('bulk-action-form'));
+  this.submitFormBtn = this.rightPanel.element(by.id('submit-details-btn'));
+  this.cancelFormBtn = this.rightPanel.element(by.id('cancel-details-btn'));
   this.closeFormBtn = this.detailsPanel.element(by.id('close-details-button'));
   this.message = element(by.css('.toast-message'));
   this.successMessage = element(by.css('.toast-success'));

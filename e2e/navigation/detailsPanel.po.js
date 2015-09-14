@@ -2,10 +2,10 @@
 var DetailsPanel = function() {
 
   // Details Panel
-  this.closePanelButton = element(by.css('#details-pane .fa-remove'));
+  this.closePanelButton = element(by.id('close-details-button'));
 
   //Bulk Actions
-  this.closeBulkPanelButton = element(by.css('bulk-action-executor .fa-remove'));
+  this.closeBulkPanelButton = element(by.id('close-bulk-button'));
 }
 
 module.exports = new DetailsPanel();
