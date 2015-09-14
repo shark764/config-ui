@@ -288,9 +288,9 @@
 
         var metaKeys = ['super', 'ctrl'];
 
-        KeyboardJS.on('backspace', function(event) {
+        KeyboardJS.on('backspace', function(evt) {
           if ($('input:focus').length > 0) { return; }
-          event.preventDefault();
+          evt.preventDefault();
         });
 
         _.each(metaKeys, function(key) {

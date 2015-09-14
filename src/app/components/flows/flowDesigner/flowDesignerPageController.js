@@ -12,5 +12,23 @@ angular.module('liveopsConfigPanel')
 
       FlowNotationService.media = media;
       FlowNotationService.queue = queue;
+
+      $scope.$on('$destroy', function() {
+        var designerKeys = [
+          'delete',
+          'super',
+          'ctrl',
+          'backspace',
+          'z',
+          'y',
+          'c',
+          'v',
+          '=',
+          '-'
+        ];
+
+        //Unbind Flow Designer keys
+        designerKeys.forEach(function(key) { KeyboardJS.clear(key); });
+      });
     }
   ]);
