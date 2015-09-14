@@ -607,40 +607,41 @@ describe('When switching tenants', function() {
       var newTenantMedia = 'New Tenant Media ' + Math.floor((Math.random() * 1000) + 1);
       shared.createBtn.click();
       media.nameFormField.sendKeys(newTenantMedia);
-      media.sourceFormField.sendKeys('http://www.example.com/');
       media.typeFormDropdown.all(by.css('option')).get(1).click();
-      shared.submitFormBtn.click();
-
-      expect(shared.successMessage.isDisplayed()).toBeTruthy();
-      expect(shared.tableElements.count()).toBe(1);
-
-      // Verify media is not added in previous tenant
-      tenants.selectTenant(defaultTenantName);
-      shared.tableElements.then(function(rows) {
-        for (var i = 1; i <= rows.length; ++i) {
-          // Check if media name in table matches newly added media
-          expect(element(by.css('tr.ng-scope:nth-child(' + i + ') > td:nth-child(2)')).getText()).not.toBe(newTenantMedia);
-        }
-      });
-
-      // Create media in previous tenant
-      var previousTenantMedia = 'Previous Tenant Media ' + Math.floor((Math.random() * 1000) + 1);
-      shared.createBtn.click();
-      media.nameFormField.sendKeys(previousTenantMedia);
       media.sourceFormField.sendKeys('http://www.example.com/');
-      media.typeFormDropdown.all(by.css('option')).get(1).click();
-      shared.submitFormBtn.click();
+      media.submitFormBtn.click().then(function() {
+        expect(shared.successMessage.isDisplayed()).toBeTruthy();
+        expect(shared.tableElements.count()).toBe(1);
 
-      expect(shared.successMessage.isDisplayed()).toBeTruthy();
+        // Verify media is not added in previous tenant
+        tenants.selectTenant(defaultTenantName);
+        shared.tableElements.then(function(rows) {
+          for (var i = 1; i <= rows.length; ++i) {
+            // Check if media name in table matches newly added media
+            expect(element(by.css('tr.ng-scope:nth-child(' + i + ') > td:nth-child(2)')).getText()).not.toBe(newTenantMedia);
+          }
+        });
 
-      // Verify media is not added in new tenant
-      tenants.selectTenant(newTenantName);
-      expect(shared.tableElements.count()).toBe(1);
-      shared.tableElements.then(function(rows) {
-        for (var i = 1; i <= rows.length; ++i) {
-          // Check if media name in table matches newly added media
-          expect(element(by.css('tr.ng-scope:nth-child(' + i + ') > td:nth-child(2)')).getText()).not.toBe(previousTenantMedia);
-        }
+
+        // Create media in previous tenant
+        var previousTenantMedia = 'Previous Tenant Media ' + Math.floor((Math.random() * 1000) + 1);
+        shared.createBtn.click();
+        media.nameFormField.sendKeys(previousTenantMedia);
+        media.typeFormDropdown.all(by.css('option')).get(1).click();
+        media.sourceFormField.sendKeys('http://www.example.com/');
+        media.submitFormBtn.click().then(function() {
+          expect(shared.successMessage.isDisplayed()).toBeTruthy();
+
+          // Verify media is not added in new tenant
+          tenants.selectTenant(newTenantName);
+          expect(shared.tableElements.count()).toBe(1);
+          shared.tableElements.then(function(rows) {
+            for (var i = 1; i <= rows.length; ++i) {
+              // Check if media name in table matches newly added media
+              expect(element(by.css('tr.ng-scope:nth-child(' + i + ') > td:nth-child(2)')).getText()).not.toBe(previousTenantMedia);
+            }
+          });
+        });
       });
     });
   });
