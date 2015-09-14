@@ -25,8 +25,6 @@ var Shared = function() {
   this.mediaPageUrl = this.flowsUrl + 'media';
   this.dispatchMappingsPageUrl = this.flowsUrl + 'dispatchMappings';
 
-  this.invitesPageUrl = this.mainUrl + 'invites';
-
   // Navbar elements
   this.navBar = element(by.id('topnav'));
   this.welcomeMessage = element(by.id('user-settings-dropdown'));
@@ -36,7 +34,6 @@ var Shared = function() {
   this.tenantsNavButton = element(by.id('tenants-nav-link'));
   this.flowsNavButton = element(by.id('flows-nav-link'));
   this.reportingNavButton = element(by.id('reporting-nav-link'));
-  this.invitesNavButton = element(by.id('invites-nav-link'));
 
   this.settingsDropdown = element(by.id('user-settings-dropdown'));
   this.settingsDropdownOptions = this.settingsDropdown.all(by.repeater('item in items'));
