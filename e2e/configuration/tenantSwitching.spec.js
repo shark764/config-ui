@@ -12,12 +12,15 @@ describe('When switching tenants', function() {
     mediaCollections = require('../flows/mediaCollections.po.js'),
     media = require('../flows/media.po.js'),
     dispatchMappings = require('../flows/dispatchMappings.po.js'),
+    integrations = require('./integrations.po.js'),
     params = browser.params,
     elementCount,
     defaultTenantName,
     defaultTenantDropdownItem,
     defaultTenantElementList = [],
-    newTenantName;
+    newTenantName,
+    mutualUserFirstName,
+    mutualUserEmail;
 
   /*
   // Get list of Groups
@@ -120,10 +123,6 @@ describe('When switching tenants', function() {
       expect(users.tenantRoleFormDropdownOptions.get(3).getText()).toBe('Agent');
     });
 
-    it('should display the correct User Skills and Groups for the current tenant for mutual users', function() {});
-
-    it('should display the correct User Tenant Status and Role for the current tenant for mutual users', function() {});
-
     it('should create a new User in one and not the previous', function() {
       // Create User in new tenant
       var randomUser = Math.floor((Math.random() * 1000) + 1);
@@ -174,11 +173,115 @@ describe('When switching tenants', function() {
       });
     });
 
-    it('should update details for mutual users', function() {});
+    describe('with mutual users', function() {
+      beforeAll(function() {
+        shared.createBtn.click();
 
-    it('should not update Role details for mutual users', function() {});
+        // Create new user and add to both tenants
+        var randomUser = Math.floor((Math.random() * 1000) + 1);
+        mutualUserFirstName = 'Mutual ' + randomUser;
+        mutualUserEmail = 'MutualUser' + randomUser + '@mailinator.com';
 
-    it('should not update Skills and Groups for mutual users', function() {});
+        shared.createBtn.click();
+        users.emailFormField.sendKeys(mutualUserEmail + '\t');
+        users.tenantRoleFormDropdownOptions.get(1).click();
+        users.platformRoleFormDropdownOptions.get(1).click();
+
+        users.firstNameFormField.sendKeys('Mutual ' + randomUser);
+        users.lastNameFormField.sendKeys('User ' + randomUser);
+        users.submitFormBtn.click().then(function() {
+          expect(shared.successMessage.isDisplayed()).toBeTruthy();
+
+          // Add new user to Default tenant
+          tenants.selectTenant(defaultTenantName);
+
+          shared.createBtn.click();
+          users.emailFormField.sendKeys(mutualUserEmail + '\t');
+          users.tenantRoleFormDropdownOptions.get(1).click();
+          users.submitFormBtn.click().then(function() {
+            expect(shared.successMessage.isDisplayed()).toBeTruthy();
+
+            // Switch back to new tenant
+            tenants.selectTenant(newTenantName);
+          });
+        });
+      });
+
+      it('should update details for both tenants', function() {
+        // Select new user in new tenant
+        shared.searchField.sendKeys(mutualUserFirstName);
+        shared.firstTableRow.click();
+
+        users.firstNameFormField.sendKeys('Edit');
+        users.lastNameFormField.sendKeys('Edit');
+        users.externalIdFormField.sendKeys('12345');
+
+        users.submitFormBtn.click().then(function() {
+          expect(shared.successMessage.isDisplayed()).toBeTruthy();
+
+          // Verify changes to user in Default tenant
+          tenants.selectTenant(defaultTenantName);
+          shared.searchField.sendKeys(mutualUserFirstName);
+          shared.firstTableRow.click();
+
+          expect(users.firstNameFormField.getAttribute('value')).toBe(mutualUserFirstName + 'Edit');
+          expect(users.lastNameFormField.getAttribute('value')).toContain('Edit');
+          expect(users.externalIdFormField.getAttribute('value')).toBe('12345');
+
+          // Switch back to new tenant
+          tenants.selectTenant(newTenantName);
+        });
+      });
+
+      xit('should not update Role details for both tenants', function() {
+        // TODO Bug unable to edit user role before saving invitation
+
+        // Select new user in new tenant
+        shared.searchField.sendKeys(mutualUserFirstName);
+        shared.firstTableRow.click();
+
+        // Change user role
+        users.tenantRoleFormDropdownOptions.get(3).click();
+
+
+        users.submitFormBtn.click().then(function() {
+          expect(shared.successMessage.isDisplayed()).toBeTruthy();
+
+          tenants.selectTenant(defaultTenantName);
+
+          shared.searchField.sendKeys(mutualUserFirstName);
+          shared.firstTableRow.click();
+
+          expect(users.tenantRoleFormDropdown.getAttribute('value')).not.toBe(3);
+
+          // Switch back to new tenant
+          tenants.selectTenant(newTenantName);
+        });
+      });
+
+      it('should not update Skills and Groups for both tenants', function() {
+        // Select new user in default tenant
+        tenants.selectTenant(defaultTenantName);
+        shared.searchField.sendKeys(mutualUserFirstName);
+        shared.firstTableRow.click();
+
+        // Add user groups and skills
+        users.addGroupSearch.sendKeys('New Default Tenant Group');
+        users.addGroupBtn.click();
+        users.addSkillSearch.sendKeys('New Default Tenant Skill');
+        users.addSkillBtn.click();
+
+
+        // Verify changes to user role were not made to the new tenant
+        tenants.selectTenant(newTenantName);
+        shared.searchField.sendKeys(mutualUserFirstName);
+        shared.firstTableRow.click();
+
+        expect(users.userGroups.count()).toBe(1); // everyone group
+        expect(users.userSkills.count()).toBe(0);
+        expect(users.noUserSkillsMessage.isDisplayed()).toBeTruthy();
+      });
+    });
   });
 
   describe('Skills Management page', function() {
@@ -197,7 +300,7 @@ describe('When switching tenants', function() {
       shared.createBtn.click();
       skills.nameFormField.sendKeys(newTenantSkill);
       skills.proficiencyFormCheckbox.click();
-      shared.submitFormBtn.click().then(function () {
+      shared.submitFormBtn.click().then(function() {
         expect(shared.successMessage.isDisplayed()).toBeTruthy();
         expect(shared.tableElements.count()).toBe(1);
 
@@ -351,7 +454,7 @@ describe('When switching tenants', function() {
   });
 
   describe('Integration Management page', function() {
-    beforeEach(function() {
+    beforeAll(function() {
       browser.get(shared.integrationsPageUrl);
       elementCount = shared.tableElements.count();
     });
@@ -363,7 +466,28 @@ describe('When switching tenants', function() {
       expect(shared.tableRows.get(0).getText()).toBe('twilio Disabled');
     });
 
-    it('should edit details for an Integration in one and not the previous', function() {});
+    it('should edit details for an Integration in one and not the previous', function() {
+      shared.searchField.sendKeys('twilio');
+      shared.firstTableRow.click();
+
+      // Edit twilio integration for the new tenant
+      integrations.accountSIDFormField.sendKeys('NewTenantSID');
+      integrations.authTokenFormField.sendKeys('NewTenantAuthToken');
+      shared.submitFormBtn.click().then(function() {
+        expect(shared.successMessage.isDisplayed()).toBeTruthy();
+
+        // Verify changes are not made to twilio integration in default tenant
+        tenants.selectTenant(defaultTenantName);
+        shared.searchField.sendKeys('twilio');
+        shared.firstTableRow.click();
+
+        expect(integrations.accountSIDFormField.getAttribute('value')).not.toContain('NewTenantSID');
+        expect(integrations.authTokenFormField.getAttribute('value')).not.toContain('NewTenantAuthToken');
+
+        // Switch back to new tenant
+        tenants.selectTenant(newTenantName);
+      });
+    });
   });
 
   describe('Flow Management page', function() {
