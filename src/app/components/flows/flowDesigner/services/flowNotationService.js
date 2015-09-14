@@ -68,7 +68,7 @@
 
         return _.map(inputs, function(input){
           input = _.clone(input);
-          if (input.source == 'graph') {
+          if (input.source == 'resource') {
             input.options = _.union(input.options, _.map(FlowLibrary.search({cells: model.collection.toJSON()}, 'resource'), function(item){
               return {
                 content: item,
