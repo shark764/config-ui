@@ -49,7 +49,7 @@ var BulkActions = function() {
   // Bulk Actions buttons
   this.submitFormBtn = this.bulkActionsForm.element(by.id('submit-bulk-actions-btn'));
   this.cancelFormBtn = this.bulkActionsForm.element(by.id('cancel-bulk-actions-btn'));
-  this.closeFormBtn = element(by.id('close-bulk-actions-btn'))
+  this.closeFormBtn = element(by.id('close-bulk-button'))
 
   // Confirm bulk actions modal
   this.confirmModal = element(by.css('.confirm'));
