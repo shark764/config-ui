@@ -197,37 +197,37 @@ describe('When switching tenants', function() {
       shared.createBtn.click();
       skills.nameFormField.sendKeys(newTenantSkill);
       skills.proficiencyFormCheckbox.click();
-      shared.submitFormBtn.click();
+      shared.submitFormBtn.click().then(function () {
+        expect(shared.successMessage.isDisplayed()).toBeTruthy();
+        expect(shared.tableElements.count()).toBe(1);
 
-      expect(shared.successMessage.isDisplayed()).toBeTruthy();
-      expect(shared.tableElements.count()).toBe(1);
+        // Verify skill is not added in previous tenant
+        tenants.selectTenant(defaultTenantName);
+        shared.tableElements.then(function(rows) {
+          for (var i = 1; i <= rows.length; ++i) {
+            // Check if skill name in table matches newly added skill
+            expect(element(by.css('tr.ng-scope:nth-child(' + i + ') > td:nth-child(2)')).getText()).not.toBe(newTenantSkill);
+          }
+        });
 
-      // Verify skill is not added in previous tenant
-      tenants.selectTenant(defaultTenantName);
-      shared.tableElements.then(function(rows) {
-        for (var i = 1; i <= rows.length; ++i) {
-          // Check if skill name in table matches newly added skill
-          expect(element(by.css('tr.ng-scope:nth-child(' + i + ') > td:nth-child(2)')).getText()).not.toBe(newTenantSkill);
-        }
-      });
+        // Create skill in previous tenant
+        var previousTenantSkill = 'Previous Tenant Skill ' + Math.floor((Math.random() * 1000) + 1);
+        shared.createBtn.click();
+        skills.nameFormField.sendKeys(previousTenantSkill);
+        skills.proficiencyFormCheckbox.click();
+        shared.submitFormBtn.click();
 
-      // Create skill in previous tenant
-      var previousTenantSkill = 'Previous Tenant Skill ' + Math.floor((Math.random() * 1000) + 1);
-      shared.createBtn.click();
-      skills.nameFormField.sendKeys(previousTenantSkill);
-      skills.proficiencyFormCheckbox.click();
-      shared.submitFormBtn.click();
+        expect(shared.successMessage.isDisplayed()).toBeTruthy();
 
-      expect(shared.successMessage.isDisplayed()).toBeTruthy();
-
-      // Verify skill is not added in new tenant
-      tenants.selectTenant(newTenantName);
-      expect(shared.tableElements.count()).toBe(1);
-      shared.tableElements.then(function(rows) {
-        for (var i = 1; i <= rows.length; ++i) {
-          // Check if skill name in table matches newly added skill
-          expect(element(by.css('tr.ng-scope:nth-child(' + i + ') > td:nth-child(2)')).getText()).not.toBe(previousTenantSkill);
-        }
+        // Verify skill is not added in new tenant
+        tenants.selectTenant(newTenantName);
+        expect(shared.tableElements.count()).toBe(1);
+        shared.tableElements.then(function(rows) {
+          for (var i = 1; i <= rows.length; ++i) {
+            // Check if skill name in table matches newly added skill
+            expect(element(by.css('tr.ng-scope:nth-child(' + i + ') > td:nth-child(2)')).getText()).not.toBe(previousTenantSkill);
+          }
+        });
       });
     });
   });
@@ -538,7 +538,7 @@ describe('When switching tenants', function() {
       dispatchMappings.nameFormField.sendKeys(newTenantDispatchMapping);
       dispatchMappings.mappingOptions.get(1).click();
       dispatchMappings.phoneFormField.sendKeys('15062345678');
-      dispatchMappings.flowDropdown.all(by.css('option')).get(0).click();
+      dispatchMappings.flowDropdown.all(by.css('option')).get(1).click();
       shared.submitFormBtn.click();
 
       expect(shared.successMessage.isDisplayed()).toBeTruthy();
@@ -559,7 +559,7 @@ describe('When switching tenants', function() {
       dispatchMappings.nameFormField.sendKeys(previousTenantDispatchMapping);
       dispatchMappings.mappingOptions.get(1).click();
       dispatchMappings.phoneFormField.sendKeys('15062345678');
-      dispatchMappings.flowDropdown.all(by.css('option')).get(0).click();
+      dispatchMappings.flowDropdown.all(by.css('option')).get(1).click();
       shared.submitFormBtn.click();
 
       expect(shared.successMessage.isDisplayed()).toBeTruthy();

@@ -62,7 +62,7 @@ var Shared = function() {
   this.clearAllResultsLink = element(by.css('.filtered > a.ng-binding'));
 
   // Shared Form elements
-  this.detailsPanel = element(by.id('details-pane'));
+  this.detailsPanel = element(by.css('.right-panel'));
   this.detailsForm = this.detailsPanel.element(by.css('.details-pane'));
   this.rightPanel = element(by.id('right-panel'));
   this.bulkActionsPanel = element(by.id('bulk-action-form'));
