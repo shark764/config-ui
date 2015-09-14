@@ -21,7 +21,6 @@ describe('The details panel', function() {
 
     shared.firstTableRow.click();
 
-    expect(shared.detailsPanel.isDisplayed()).toBeTruthy();
     expect(shared.rightPanel.isDisplayed()).toBeTruthy();
 
     browser.driver.manage().window().getSize().then(function(browserSize) {
@@ -41,7 +40,6 @@ describe('The details panel', function() {
       browser.get(shared.usersPageUrl);
       shared.firstTableRow.click();
 
-      expect(shared.detailsPanel.isDisplayed()).toBeTruthy();
       expect(shared.rightPanel.isDisplayed()).toBeTruthy();
 
       shared.rightPanel.getSize().then(function(rightPanelSize) {
@@ -60,12 +58,10 @@ describe('The details panel', function() {
 
     shared.firstTableRow.click();
 
-    expect(shared.detailsPanel.isDisplayed()).toBeTruthy();
     expect(shared.rightPanel.isDisplayed()).toBeTruthy();
 
     detailsPanel.closePanelButton.click();
 
-    expect(shared.detailsPanel.isDisplayed()).toBeFalsy();
     expect(shared.rightPanel.isDisplayed()).toBeFalsy();
   });
 
