@@ -33,6 +33,7 @@ var Columns = function() {
   this.columnTen = this.itemTable.element(by.css('tr.ng-scope:nth-child(2) > td:nth-child(10)'));
 
   this.tableHeader = this.tablePane.element(by.css('.clone-header'));
+  this.columnOneHeader = this.tableHeader.element(by.css('th.ng-scope:nth-child(1)'));
   this.columnTwoHeader = this.tableHeader.element(by.css('th.ng-scope:nth-child(2)'));
   this.columnThreeHeader = this.tableHeader.element(by.css('th.ng-scope:nth-child(3)'));
   this.columnFourHeader = this.tableHeader.element(by.css('th.ng-scope:nth-child(4)'));
@@ -45,6 +46,7 @@ var Columns = function() {
   this.columnElevenHeader = this.tableHeader.element(by.css('th.ng-scope:nth-child(11)'));
 
   this.displayedSortIcons = this.tableHeader.all(by.css('.sort-icon:not(.ng-hide)'));
+  this.allHeaders = this.tableHeader.all(by.css('th'));
   this.sortableHeaders = this.tableHeader.all(by.css('.sortable-header'));
   this.sortIconArrowDown = '.sort-icon.fa-arrow-down';
   this.sortIconArrowUp = '.sort-icon.fa-arrow-up';
