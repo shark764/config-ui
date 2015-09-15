@@ -19,7 +19,7 @@ describe('MediaMappings directive', function () {
 
       $scope.collection = mockMediaCollections[0];
       $scope.form = {
-        mediaMapChanges: {
+        mediaMap: {
           $setDirty: jasmine.createSpy('dirtySpy'),
           $setTouched: jasmine.createSpy('touchedSpy')
         }
@@ -73,7 +73,7 @@ describe('MediaMappings directive', function () {
       isolateScope.removeMapping(1);
 
       expect($scope.collection.mediaMap.length).toBe(1);
-      expect($scope.form.mediaMapChanges.$setDirty).toHaveBeenCalled();
+      expect($scope.form.mediaMap.$setDirty).toHaveBeenCalled();
     }));
 
     it('should remove the mediaMap property if no mappings are left', inject(function () {
