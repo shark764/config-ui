@@ -22,16 +22,6 @@ describe('When switching tenants', function() {
     mutualUserFirstName,
     mutualUserEmail;
 
-  /*
-  // Get list of Groups
-  var groupNameList = [];
-  users.groupDropdownItems.each(function(groupElement, index) {
-    groupElement.getText().then(function(groupName) {
-      groupNameList.push(groupName);
-    });
-  })
-  */
-
   beforeAll(function() {
     loginPage.login(params.login.user, params.login.password);
 
