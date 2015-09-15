@@ -9,12 +9,13 @@ var BulkActions = function() {
   this.selectedItemsDropdownHeader = element(by.id('bulk-actions-selected-header'));
   this.selectedItemsDropdownHeaderLabel = element(by.css('#bulk-actions-selected-header > filter-dropdown:nth-child(1)'));
   this.selectedItemsDropdown = this.selectedItemsDropdownHeader.element(by.css('.dropdown'));
-  this.selectedItemsDropdownElements = this.selectedItemsDropdown.all(by.repeater('option in options | orderBy:orderBy track by option[valuePath]'));
+  this.selectedItemsDropdownElements = this.selectedItemsDropdown.all(by.repeater('option in options | orderBy:orderBy'));
 
   this.bulkActionDivs = element.all(by.css('.bulk-action'));
 
   // User Management Bulk Actions
   this.userSelectEnable = element(by.id('user-status-bulk-enable-check'));
+  this.userDetailsPanel = element(by.id('user-pane'));
 
   this.changeSkills = element(by.css('ba-user-skills'));
   this.selectChangeSkills = element(by.id('user-skill-bulk-enable-check'));
