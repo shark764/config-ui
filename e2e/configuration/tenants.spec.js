@@ -9,6 +9,8 @@ describe('The tenants view', function() {
 
   beforeAll(function() {
     loginPage.login(params.login.user, params.login.password);
+    browser.get(shared.tenantsPageUrl);
+    tenants.createTenant();
   });
 
   beforeEach(function() {
@@ -68,6 +70,7 @@ describe('The tenants view', function() {
 
   it('should require name field when editing', function() {
     shared.searchField.sendKeys('Tenant'); // Ensure Platform tenant is not selected
+
     tenants.firstTableRow.click();
 
     tenants.nameFormField.clear();
