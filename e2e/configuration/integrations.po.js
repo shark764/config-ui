@@ -10,15 +10,15 @@ var IntegrationsPage = function() {
   this.ssoPasswordFormField = element(by.model('resource.properties.birstSsoPassword'));
   this.baseURLFormField = element(by.model('resource.properties.birstBaseUrl'));
   this.adminPasswordFormField = element(by.model('resource.properties.birstAdminPassword'));
-  this.adminUsernameFormField = element(by.model('esource.properties.birstAdminUsername'));
+  this.adminUsernameFormField = element(by.model('resource.properties.birstAdminUsername'));
 
   // client fields
   this.accessKeyFormField = element(by.model('resource.properties.accessKey'));
   this.secretKeyFormField = element(by.model('resource.properties.secretKey'));
 
   // twilio fields
-  this.accountSIDFormField = element(by.model('resource.properties.authToken'));
-  this.authTokenFormField = element(by.model('resource.properties.accountSid'));
+  this.accountSIDFormField = element(by.model('resource.properties.accountSid'));
+  this.authTokenFormField = element(by.model('resource.properties.authToken'));
   this.webRTCFormSwitch = element(by.model('resource.properties.webRtc'));
   this.webRTCFormSwitchToggle = this.webRTCFormSwitch.element(by.css('label:nth-child(2) > input:nth-child(1)'));
 
