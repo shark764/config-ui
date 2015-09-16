@@ -18,7 +18,8 @@ angular.module('liveopsConfigPanel')
             'display': $translate.instant('value.details.activeVersion')
           },
           'transclude': true,
-          'name': 'activeQueue'
+          'name': 'activeQueue',
+          'sortOn': 'activeQueue.name'
         }, {
           'header': {
             'display': $translate.instant('value.status'),
