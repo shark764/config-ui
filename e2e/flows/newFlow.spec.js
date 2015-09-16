@@ -38,7 +38,8 @@ describe('The create new flows view', function() {
     flows.descriptionFormField.sendKeys('This is a new flow description');
     flows.typeFormDropdown.all(by.css('option')).get((randomFlow % 3) + 1).click();
     shared.submitFormBtn.click();
-
+    expect(shared.successMessage.isDisplayed()).toBeTruthy();
+    
     // Confirm flow is displayed in flow list with correct details
     shared.tableElements.then(function(flowsList) {
       for (var i = 1; i <= flowsList.length; ++i) {
@@ -51,7 +52,6 @@ describe('The create new flows view', function() {
       }
     }).thenFinally(function() {
       // Verify new flow was found in the table
-      expect(shared.successMessage.isDisplayed()).toBeTruthy();
       expect(flowAdded).toBeTruthy();
     });
   });
@@ -154,7 +154,7 @@ describe('The create new flows view', function() {
     expect(shared.successMessage.isPresent()).toBeFalsy();
   });
 
-  xit('should clear fields on Cancel', function() {
+  it('should clear fields on Cancel', function() {
     flowCount = shared.tableElements.count();
     shared.createBtn.click();
 
@@ -165,18 +165,12 @@ describe('The create new flows view', function() {
     shared.cancelFormBtn.click();
 
     // Warning message is displayed
-    var alertDialog = browser.switchTo().alert();
-    expect(alertDialog.accept).toBeDefined();
-    expect(alertDialog.dismiss).toBeDefined();
-    alertDialog.accept();
+    shared.dismissChanges()
 
-    // New skill is not created
-    expect(shared.successMessage.isPresent()).toBeFalsy();
+    // New flow is not created
     expect(shared.tableElements.count()).toBe(flowCount);
 
-    // Form fields are cleared and reset to default
-    expect(flows.nameFormField.getAttribute('value')).toBe('');
-    expect(flows.descriptionFormField.getAttribute('value')).toBe('');
-    expect(flows.typeFormDropdown.getAttribute('value')).toBe('');
+    //Side panel is closed
+    expect(shared.rightPanel.isDisplayed()).toBeFalsy();
   });
 });
