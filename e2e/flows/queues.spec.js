@@ -159,7 +159,7 @@ describe('The queues view', function() {
     });
   });
 
-  it('should toggle showing version details with defaults and disabled fields', function() {
+  xit('should toggle showing version details with defaults and disabled fields', function() {
     queues.firstTableRow.click();
     queues.versionRowV1Plus.click();
 
@@ -202,7 +202,7 @@ describe('The queues view', function() {
     });
   });
 
-  it('should close selected version details after selected close button', function() {
+  xit('should close selected version details after selected close button', function() {
     queues.firstTableRow.click();
     queues.versionRowV1Plus.click();
 
@@ -237,7 +237,7 @@ describe('The queues view', function() {
     });
   });
 
-  it('should copy version details when copy is selected', function() {
+  xit('should copy version details when copy is selected', function() {
     queues.firstTableRow.click();
 
     queues.activeVersionDropdown.all(by.css('option')).count().then(function(dropdownVersions) {
