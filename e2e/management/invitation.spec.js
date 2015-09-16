@@ -320,8 +320,8 @@ describe('The user invitation', function() {
       // NOTE: This test uses the acceptInvitationLink from the previous test
       browser.get(acceptInvitationLink);
 
-      expect(invites.copyrightMessage.isDisplayed()).toBeTruthy();
-      expect(invites.legalMessage.isDisplayed()).toBeTruthy();
+      expect(invites.copyrightLabel.isDisplayed()).toBeTruthy();
+      expect(invites.signupLegalLabel.isDisplayed()).toBeTruthy();
 
       expect(invites.copyrightLabel.getText()).toBe(invites.copyrightText);
       expect(invites.signupLegalLabel.getText()).toBe(invites.legalText);

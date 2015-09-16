@@ -521,20 +521,27 @@ describe('The users table filter', function() {
   });
 
   it('should display all of the user Role options', function() {
+    // Select Roles from drop down
     users.rolesTableDropDownLabel.click();
 
-    // All roles listed
-    expect(users.dropdownRoles.get(0).getText()).toBe('Administrator');
-    expect(users.dropdownRoles.get(1).getText()).toBe('Agent');
-    expect(users.dropdownRoles.get(2).getText()).toBe('Supervisor');
+    // Get list of Roles
+    var roleNameList = [];
+    users.dropdownRoles.each(function(roleElement, index) {
+      roleElement.getText().then(function(roleName) {
+        roleNameList.push(roleName);
+      });
+    }).then(function() {
+      browser.get(shared.rolesPageUrl);
 
-    // All input is selected by default
-    expect(users.dropdownRolesInputs.get(0).isSelected()).toBeTruthy();
-    // Remaining inputs are unselected by default
-    expect(users.dropdownRolesInputs.get(1).isSelected()).toBeFalsy();
-    expect(users.dropdownRolesInputs.get(2).isSelected()).toBeFalsy();
-    expect(users.dropdownRolesInputs.get(3).isSelected()).toBeFalsy();
+      // Role list from Users page filter dropdown should contain each of the same Role records
+      for (var i = 0; i < roleNameList.length; i++) {
+        shared.searchField.clear();
+        shared.searchField.sendKeys(roleNameList[i]);
+        expect(shared.tableElements.get(0).getText()).toContain(roleNameList[i]);
+      }
+    });
   });
+
 
   it('should display users based on the table Roles filter', function() {
     users.rolesTableDropDownLabel.click();
