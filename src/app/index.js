@@ -169,7 +169,7 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
         reloadOnSearch: false
       })
       .state('content.flows.editor', {
-        url: '/editor/:flowId/:versionId?v=:version',
+        url: '/editor/:flowId/:draftId',
         templateUrl: 'app/components/flows/flowDesigner/flowDesignerPage.html',
         controller: 'DesignerPageController',
         reloadOnSearch: false,
@@ -188,17 +188,16 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
 
             return deferred.promise;
           }],
-          version: ['$stateParams', 'FlowVersion', 'Session', '$q', function($stateParams, FlowVersion, Session, $q) {
+          draft: ['$stateParams', 'FlowDraft', 'Session', '$q', function($stateParams, FlowDraft, Session, $q) {
             var deferred = $q.defer();
             var version;
 
-            FlowVersion.get({
+            FlowDraft.get({
               flowId: $stateParams.flowId,
-              version: $stateParams.versionId,
+              id: $stateParams.draftId,
               tenantId: Session.tenant.tenantId
             }, function(data) {
               version = data;
-              version.v = $stateParams.v;
               deferred.resolve(version);
             });
 
@@ -265,13 +264,13 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
         resolve: {
           invitedUser: ['$stateParams', 'Session', 'User', '$q', '$state', function($stateParams, Session, User, $q, $state) {
             Session.setToken('Token ' + $stateParams.token);
-            
+
             var userResult = User.get({
               id: $stateParams.userId
             }, angular.noop, function(){
               $state.go('login', {messageKey: 'invite.accept.expired'});
             });
-            
+
             return userResult.$promise;
           }]
         }

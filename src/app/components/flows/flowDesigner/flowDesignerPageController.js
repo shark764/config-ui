@@ -1,10 +1,10 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('DesignerPageController', ['$scope', 'flow', 'notations', 'version', 'media', 'queue', 'FlowNotationService', 'FlowPaletteService',
-    function($scope, flow, notations, version, media, queue, FlowNotationService, FlowPaletteService) {
+  .controller('DesignerPageController', ['$scope', 'flow', 'notations', 'draft', 'media', 'queue', 'FlowNotationService', 'FlowPaletteService',
+    function($scope, flow, notations, draft, media, queue, FlowNotationService, FlowPaletteService) {
       $scope.flow = flow;
-      $scope.version = version;
+      $scope.draft = draft;
 
       $scope.notations = notations.data;
 

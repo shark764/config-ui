@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('FlowManagementController', ['$scope', '$state', 'Session', 'Flow', 'flowTableConfig', 'flowTypes', 'FlowVersion', 'BulkAction',
-    function ($scope, $state, Session, Flow, flowTableConfig, flowTypes, FlowVersion, BulkAction) {
+  .controller('FlowManagementController', ['$scope', '$state', 'Session', 'Flow', 'flowTableConfig', 'flowTypes', 'FlowDraft', 'BulkAction',
+    function ($scope, $state, Session, Flow, flowTableConfig, flowTypes, FlowDraft, BulkAction) {
       $scope.versions = [];
 
       $scope.fetchFlows = function () {
@@ -10,28 +10,31 @@ angular.module('liveopsConfigPanel')
           tenantId: Session.tenant.tenantId
         });
       };
-      
+
       $scope.create = function() {
-        $scope.selectedFlow = new Flow({
+        new Flow({
           tenantId: Session.tenant.tenantId,
-          active: true
-        });
+          active: true,
+          name: 'Untitled Flow',
+          type: 'customer'
+        }).save();
       };
-      
+
       Flow.prototype.postCreate = function (flow) {
-        var initialVersion = new FlowVersion({
+        var initialDraft = new FlowDraft({
           flowId: flow.id,
           flow: '[]',
           tenantId: Session.tenant.tenantId,
-          name: 'v1'
+          name: 'Initial Draft'
         });
 
-        var promise = initialVersion.$save();
-        promise = promise.then(function(versionResult) {
-          flow.activeVersion = versionResult.version;
-          return flow.save();
+        var promise = initialDraft.save();
+        return promise.then(function(draft){
+          $state.go('content.flows.editor', {
+            flowId: flow.id,
+            draftId: draft.id
+          })
         });
-        return promise;
       };
 
       $scope.$on('table:on:click:create', function () {
@@ -42,7 +45,7 @@ angular.module('liveopsConfigPanel')
         versions: $scope.versions,
         flowTypes: flowTypes
       };
-      
+
       $scope.tableConfig = flowTableConfig;
       $scope.bulkActions = {
           setFlowStatus: new BulkAction()
