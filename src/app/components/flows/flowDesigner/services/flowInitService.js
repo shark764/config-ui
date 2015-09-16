@@ -60,9 +60,10 @@
         graph.utils.updateSelectedCell = function(cellView){
           //remove previously highlighted class
           graph.utils.unselectCell();
+
           //highlight current cell if it is not a link
           if(cellView.model.get('type') !== 'liveOps.link'){
-            V(cellView.el).addClass('selected');
+            V(cellView.el.getElementsByClassName('border')[0]).addClass('selected');
           }
         };
         graph.utils.renderPropertiesPanel = function(notation) {
