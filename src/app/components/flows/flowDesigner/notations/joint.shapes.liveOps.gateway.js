@@ -6,7 +6,9 @@
     markup: ['<g class="rotatable">',
              '<g class="scalable">',
              '<polygon class="body"/>',
-             '<image/></g></g><text class="label"/>'].join(''),
+             '<image/>',
+             '<rect class="border" />',
+             '</g></g><text class="label"/>'].join(''),
     defaults: joint.util.deepSupplement({
       type: 'liveOps.gateway',
       size: {width: 80, height: 80},
@@ -28,6 +30,12 @@
             },
             stroke: '#E693E5',
             'stroke-width': 1.5
+          },
+          '.border': {
+            fill: 'none',
+            stroke: 'none',
+            width: 80,
+            height: 80
           },
           '.label': {
             text: '',
@@ -77,7 +85,7 @@
           cell.set('icon', 'event');
           cell.attr({
             image: {
-              width:  50, height: 50, 
+              width:  50, height: 50,
               transform: 'translate(15,15)'
             }
           })
