@@ -69,6 +69,36 @@ function flowDesigner() {
             })
           }
 
+          function validate(graph) {
+            var errors = FlowLibrary.validate(graph.toJSON());
+            if(errors){
+              addErrors(errors);
+              return false;
+            }
+            else { return true };
+          }
+
+          $scope.graph.on('change', function(){
+            console.log('grapgh changed');
+            $scope.$broadcast('update:draft');
+          })
+
+          var update = function(){
+            console.log('updating')
+            clearErrors();
+            validate($scope.graph);
+
+            $scope.flowDraft.$update({
+              flow: JSON.stringify(FlowLibrary.convertToAlienese($scope.graph.toJSON())),
+              name: $scope.flowDraft.name
+            });
+          };
+
+          var lazyUpdate = _.debounce(update, 2000);
+
+          $scope.$on('update:draft', lazyUpdate);
+
+
           $scope.publishNewFlowVersion = function() {
 
             var graph = $scope.graph;
@@ -77,12 +107,7 @@ function flowDesigner() {
 
             clearErrors();
 
-            var errors = FlowLibrary.validate(graph.toJSON());
-
-            if (errors.length > 0) {
-              addErrors(errors);
-              return;
-            }
+            if(!validate) return;
 
             var alienese = FlowLibrary.convertToAlienese(graph.toJSON());
 
@@ -110,7 +135,9 @@ function flowDesigner() {
             $scope.graph.fromJSON(SubflowCommunicationService.currentFlowContext);
             SubflowCommunicationService.currentFlowContext = '';
           } else {
-            $scope.graph.fromJSON(FlowLibrary.convertToJoint(JSON.parse($scope.flowDraft.flow)));
+            var graphJSON = JSON.parse($scope.flowDraft.flow);
+            var jjs = FlowLibrary.convertToJoint(graphJSON);
+            $scope.graph.fromJSON(jjs);
           }
           $window.spitOutAlienese = function() {
             return FlowLibrary.convertToAlienese($scope.graph.toJSON());

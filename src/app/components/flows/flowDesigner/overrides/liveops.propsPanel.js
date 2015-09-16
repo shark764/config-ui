@@ -205,6 +205,11 @@
           }
         };
 
+        scope.$watch('notation.model.attributes.params', function(){
+          console.log('params updated');
+          scope.$broadcast('update:draft');
+        }, true)
+
         var content = $compile(buildTemplate(scope.inputs))(scope);
         angular.element(element[0].children[0]).append(content);
 
