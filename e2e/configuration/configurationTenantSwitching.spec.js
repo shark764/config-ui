@@ -76,9 +76,6 @@ describe('When switching tenants', function() {
 
         expect(integrations.accountSIDFormField.getAttribute('value')).not.toContain('NewTenantSID');
         expect(integrations.authTokenFormField.getAttribute('value')).not.toContain('NewTenantAuthToken');
-
-        // Switch back to new tenant
-        tenants.selectTenant(newTenantName);
       });
     });
   });
