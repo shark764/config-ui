@@ -432,9 +432,9 @@ describe('The user skills component of User view', function() {
     shared.firstTableRow.click();
 
     shared.firstTableRow.element(by.css(users.skillsColumn)).getText().then(function(userSkillCount) {
-      //Add a skill to the user
+      // Add a skill to the user
       users.addSkillSearch.click();
-      users.skillDropdownItems.get(0).click();
+      users.addSkillSearch.sendKeys('New Skill');
       users.addSkillBtn.click();
       expect(shared.firstTableRow.element(by.css(users.skillsColumn)).getText()).toEqual(parseInt(userSkillCount) + 1 + '');
 

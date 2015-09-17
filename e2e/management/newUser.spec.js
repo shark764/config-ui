@@ -318,9 +318,11 @@ describe('The create new user form', function() {
     expect(users.requiredErrors.get(0).isDisplayed()).toBeTruthy;
     expect(users.requiredErrors.get(0).getText()).toBe('Must be a valid email address');
 
+
+    expect(users.tenantRoleFormDropdown.getAttribute('disabled')).toBeNull();
+    expect(users.platformRoleFormDropdown.getAttribute('disabled')).toBeNull();
+
     // Fields remain disabled
-    expect(users.tenantRoleFormDropdown.getAttribute('disabled')).toBeTruthy();
-    expect(users.platformRoleFormDropdown.getAttribute('disabled')).toBeTruthy();
     expect(users.firstNameFormField.getAttribute('disabled')).toBeTruthy();
     expect(users.lastNameFormField.getAttribute('disabled')).toBeTruthy();
     expect(users.externalIdFormField.getAttribute('disabled')).toBeTruthy();

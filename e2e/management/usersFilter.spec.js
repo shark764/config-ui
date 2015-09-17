@@ -174,7 +174,11 @@ describe('The users table filter', function() {
       for (var i = 0; i < groupNameList.length; i++) {
         shared.searchField.clear();
         shared.searchField.sendKeys(groupNameList[i]);
-        expect(shared.tableElements.get(0).getText()).toContain(groupNameList[i]);
+        groupNameList[i].then(function (groupName) {
+          shared.tableElements.get(0).getText().then(function (tableRow) {
+            expect(tableRow.toLowerCase()).toContain(groupName.toLowerCase());
+          });
+        });
       }
     });
   });
@@ -355,7 +359,11 @@ describe('The users table filter', function() {
       for (var i = 0; i < skillNameList.length; i++) {
         shared.searchField.clear();
         shared.searchField.sendKeys(skillNameList[i]);
-        expect(shared.tableElements.get(0).getText()).toContain(skillNameList[i]);
+        skillNameList[i].then(function (skillName) {
+          shared.tableElements.get(0).getText().then(function (tableRow) {
+            expect(tableRow.toLowerCase()).toContain(skillName.toLowerCase());
+          });
+        });
       }
     });
   });

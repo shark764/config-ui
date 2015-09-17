@@ -111,11 +111,11 @@ describe('The users view', function() {
         expect(shared.firstTableRow.element(by.css(users.externalIdColumn)).getText()).toBe(users.externalIdFormField.getAttribute('value'));
         expect(shared.firstTableRow.element(by.css(users.nameColumn)).getText()).toBe(users.userNameDetailsHeader.getText());
       } else {
-        expect(users.firstNameFormField.getAttribute('value')).toBeNull();
-        expect(users.lastNameFormField.getAttribute('value')).toBeNull();
+        expect(users.firstNameFormField.getAttribute('value')).toBe('');
+        expect(users.lastNameFormField.getAttribute('value')).toBe('');
         expect(shared.firstTableRow.element(by.css(users.emailColumn)).getText()).toBe(users.emailLabel.getText());
         expect(shared.firstTableRow.element(by.css(users.externalIdColumn)).getText()).toBe(users.externalIdFormField.getAttribute('value'));
-        expect(shared.firstTableRow.element(by.css(users.nameColumn)).getText()).toBe(users.userNameDetailsHeader.getText());
+        expect(users.userNameDetailsHeader.getText()).toBe('');
       }
     }).then(function() {
       // Change user and verify all fields are updated
@@ -123,7 +123,7 @@ describe('The users view', function() {
         if (numUsers > 1) {
           shared.secondTableRow.click();
 
-          shared.firstTableRow.element(by.css(users.nameColumn)).getText().then(function(secondRowUserName) {
+          shared.secondTableRow.element(by.css(users.nameColumn)).getText().then(function(secondRowUserName) {
             if (secondRowUserName) {
               expect(shared.secondTableRow.element(by.css(users.nameColumn)).getText()).toContain(users.firstNameFormField.getAttribute('value'));
               expect(shared.secondTableRow.element(by.css(users.nameColumn)).getText()).toContain(users.lastNameFormField.getAttribute('value'));
@@ -131,11 +131,11 @@ describe('The users view', function() {
               expect(shared.secondTableRow.element(by.css(users.externalIdColumn)).getText()).toBe(users.externalIdFormField.getAttribute('value'));
               expect(shared.secondTableRow.element(by.css(users.nameColumn)).getText()).toBe(users.userNameDetailsHeader.getText());
             } else {
-              expect(users.firstNameFormField.getAttribute('value')).toBeNull();
-              expect(users.lastNameFormField.getAttribute('value')).toBeNull();
+              expect(users.firstNameFormField.getAttribute('value')).toBe('');
+              expect(users.lastNameFormField.getAttribute('value')).toBe('');
               expect(shared.secondTableRow.element(by.css(users.emailColumn)).getText()).toBe(users.emailLabel.getText());
               expect(shared.secondTableRow.element(by.css(users.externalIdColumn)).getText()).toBe(users.externalIdFormField.getAttribute('value'));
-              expect(shared.secondTableRow.element(by.css(users.nameColumn)).getText()).toBe(users.userNameDetailsHeader.getText());
+              expect(users.userNameDetailsHeader.getText()).toBe('');
             }
           });
         }
@@ -252,6 +252,7 @@ describe('The users view', function() {
     shared.firstTableRow.click();
 
     // Edit fields
+    users.firstNameFormField.sendKeys('not required');
     users.firstNameFormField.clear();
     users.lastNameFormField.click();
 
@@ -275,6 +276,7 @@ describe('The users view', function() {
     shared.firstTableRow.click();
 
     // Edit fields
+    users.lastNameFormField.sendKeys('not required');
     users.lastNameFormField.clear();
     users.firstNameFormField.click();
 
@@ -298,7 +300,7 @@ describe('The users view', function() {
     shared.firstTableRow.click();
 
     // Edit fields
-    users.externalIdFormField.sendKeys('temp'); // Incase the field was already empty
+    users.externalIdFormField.sendKeys('not required'); // Incase the field was already empty
     users.externalIdFormField.clear();
     users.submitFormBtn.click().then(function() {
       expect(shared.successMessage.isDisplayed()).toBeTruthy();

@@ -64,7 +64,6 @@ describe('The users view bulk actions', function() {
     shared.actionsBtn.click();
     bulkActions.userSelectEnable.click();
 
-    expect(bulkActions.submitFormBtn.getAttribute('disabled')).toBeFalsy();
     bulkActions.submitFormBtn.click();
 
     expect(bulkActions.confirmModal.isDisplayed()).toBeTruthy();
