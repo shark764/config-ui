@@ -34,8 +34,9 @@ angular.module('liveopsConfigPanel')
             delete $scope.collection.mediaMap;
             delete $scope.collection.defaultMediaKey;
           }
-
-          $scope.form.mediaMapChanges.$setDirty();
+          
+          $scope.form.mediaMap.$setDirty();
+          $scope.form.mediaMap.$setTouched();
         };
 
         $scope.resetDefaultMediaKey = function() {
@@ -45,7 +46,8 @@ angular.module('liveopsConfigPanel')
         };
         
         $scope.onSelect = function(){
-          $scope.form.mediaMapChanges.$setDirty();
+          $scope.form.mediaMap.$setDirty();
+          $scope.form.mediaMap.$setTouched();
         };
       }
     };

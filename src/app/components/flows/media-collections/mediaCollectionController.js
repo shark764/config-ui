@@ -6,42 +6,19 @@ angular.module('liveopsConfigPanel')
       $scope.forms = {};
       $scope.Session = Session;
 
-      MediaCollection.prototype.preSave = function () {
-        if (angular.isDefined(this.mediaMap)) {
-          $scope.cleanMediaMap(this);
-        }
-      };
-
       $scope.create = function () {
         $scope.selectedMediaCollection = new MediaCollection({
-          tenantId: Session.tenant.tenantId
+          tenantId: Session.tenant.tenantId,
+          mediaMap: [{}]
         });
       };
+      
       $scope.fetchMediaCollections = function () {
         return MediaCollection.cachedQuery({
           tenantId: Session.tenant.tenantId
         });
       };
-
-      $scope.cleanMediaMap = function (collection) {
-        if (collection.mediaMap.length === 0) {
-          delete collection.mediaMap;
-          return;
-        }
-
-        var cleanedMediaMap = [];
-        angular.forEach(collection.mediaMap, function (mapping) {
-          //Remove extra name property used to display the media name,
-          //And description which is present when loading an existing media collection
-          delete mapping.name;
-          delete mapping.description;
-          //angular.copy will strip the $$hashKey properties that are added by the ng-options
-          cleanedMediaMap.push(angular.copy(mapping));
-        });
-
-        collection.mediaMap = cleanedMediaMap;
-      };
-
+      
       //TODO: remove duplication from MediaController
       $scope.$watch('forms.mediaForm.audiosource', function(newValue){
         if ($scope.selectedMedia && $scope.selectedMedia.isNew() && angular.isDefined(newValue)){

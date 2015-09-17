@@ -3,7 +3,10 @@
   <a ng-hide="!('MANAGE_ALL_MEDIA' | hasPermission)" id="add-media-mapping-button" class="btn pull-right" ng-click="addMapping()" title="{{'flow.details.mapping.add.alt' | translate}}"><i class="fa fa-plus"></i></a>
 </div>
 
-<input type="text" name="mediaMapChanges" ng-model="mediaMapChanges" ng-hide="true"/>
+<form-error field="form.mediaMap"
+  error-type-required="{{'media.collections.mapping.error.required' | translate}}">
+</form-error>
+<input type="hidden" name="mediaMap" ng-model="collection.mediaMap" ng-required="true"/>
 
 <table
   class="media-collection-table table"
@@ -17,7 +20,7 @@
   </thead>
   <tbody>
     <tr ng-show="! collection.mediaMap.length"><td colspan="3"><p class="null">{{'media.collections.mapping.add' | translate}}</p></td></tr>
-    <tr ng-repeat="mapping in collection.mediaMap" ng-init="editMode = false">
+    <tr ng-repeat="mapping in collection.mediaMap">
       <td>
         <form-error ng-init="mappingFieldName='mapping' + $index" field="form[mappingFieldName]"
           error-type-required="{{'media.collections.mappingLookup.error.required' | translate}}"
