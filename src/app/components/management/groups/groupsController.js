@@ -25,10 +25,12 @@ angular.module('liveopsConfigPanel')
 
       Group.prototype.preCreate = function () {
         delete this.members;
+        return this;
       };
 
       Group.prototype.postCreate = function () {
         this.fetchGroupUsers();
+        return this;
       };
 
       $scope.$on('table:on:click:create', function () {

@@ -40,7 +40,7 @@ describe('The user invitation', function() {
   // Default inbox for receiving invitiation emails is titantest@mailinator.com
 
   describe('email', function() {
-    xit('should not be sent when creating a new user and Invite Now is deselected', function() {
+    it('should not be sent when creating a new user and Invite Now is deselected', function() {
       // Add randomness to user details
       randomUser = Math.floor((Math.random() * 1000) + 1);
       newUserEmail = 'titantest' + randomUser + '@mailinator.com';
@@ -133,7 +133,7 @@ describe('The user invitation', function() {
       });
     });
 
-    xit('contain user information and accept link', function() {
+    it('contain user information and accept link', function() {
       req.get('https://api.mailinator.com/api/inbox?to=' + params.mailinator.inbox + '&token=' + params.mailinator.token, '', function(error, response, body) {
         var newestMessage = JSON.parse(body).messages[JSON.parse(body).messages.length - 1];
 
@@ -153,7 +153,7 @@ describe('The user invitation', function() {
       });
     });
 
-    xit('should link to the invitation accept form', function() {
+    it('should link to the invitation accept form', function() {
       // Add randomness to user details
       randomUser = Math.floor((Math.random() * 1000) + 1);
       userAdded = false;
@@ -201,7 +201,7 @@ describe('The user invitation', function() {
       browser.executeScript("window.onbeforeunload = function(){};");
     });
 
-    xit('should include supported fields and user details', function() {
+    it('should include supported fields and user details', function() {
       loginPage.login(params.login.user, params.login.password);
       browser.get(shared.usersPageUrl);
 
@@ -264,7 +264,7 @@ describe('The user invitation', function() {
       });
     });
 
-    xit('should include non-required fields when provided ', function() {
+    it('should include non-required fields when provided ', function() {
       loginPage.login(params.login.user, params.login.password);
       browser.get(shared.usersPageUrl);
 
@@ -318,7 +318,7 @@ describe('The user invitation', function() {
       });
     });
 
-    xit('should include Copyright and Legal information', function() {
+    it('should include Copyright and Legal information', function() {
       // NOTE: This test uses the acceptInvitationLink from the previous test
       browser.get(acceptInvitationLink);
 
@@ -329,7 +329,7 @@ describe('The user invitation', function() {
       expect(invites.signupLegalLabel.getText()).toBe(invites.legalText);
     });
 
-    xit('should require completed fields', function() {
+    it('should require completed fields', function() {
       browser.get(acceptInvitationLink);
 
       invites.passwordFormField.sendKeys('temp');
@@ -345,7 +345,7 @@ describe('The user invitation', function() {
       expect(invites.submitFormBtn.getAttribute('disabled')).toBeTruthy();
     });
 
-    xit('should require password field input', function() {
+    it('should require password field input', function() {
       browser.get(acceptInvitationLink);
 
       invites.passwordFormField.sendKeys('temp');
@@ -356,7 +356,7 @@ describe('The user invitation', function() {
       expect(invites.errors.get(0).getText()).toBe('Please enter a password');
     });
 
-    xit('should not require first, last name or external id field input', function() {
+    it('should not require first, last name or external id field input', function() {
       browser.get(acceptInvitationLink);
 
       invites.passwordFormField.sendKeys('password\t');
@@ -364,7 +364,7 @@ describe('The user invitation', function() {
       expect(invites.submitFormBtn.getAttribute('disabled')).toBeNull();
     });
 
-    xit('should not accept spaces as valid input', function() {
+    it('should not accept spaces as valid input', function() {
       browser.get(acceptInvitationLink);
 
       invites.passwordFormField.sendKeys(' \t');
@@ -380,7 +380,7 @@ describe('The user invitation', function() {
       expect(invites.errors.get(0).getText()).toBe('Please enter an external id');
     });
 
-    xit('should accept invitation', function() {
+    it('should accept invitation', function() {
       browser.get(acceptInvitationLink);
 
       invites.passwordFormField.sendKeys('password');
@@ -392,7 +392,7 @@ describe('The user invitation', function() {
       });
     });
 
-    xit('should redirect to login page when invitation is already accepted', function() {
+    it('should redirect to login page when invitation is already accepted', function() {
       // TODO Enable after TITAN2-3299
       browser.get(acceptInvitationLink);
 
