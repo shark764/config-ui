@@ -43,7 +43,7 @@ var Shared = function() {
 
   // Shared page elements
   this.pageHeader = element(by.css('h2.ng-binding'));
-  this.detailsFormHeader = element(by.css('.info > h1:nth-child(1)'));
+  this.detailsFormHeader = element(by.css('.detail-header  h1'));
 
   // Table controls
   this.table = element(by.id('items-table'));

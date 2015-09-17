@@ -72,16 +72,11 @@ describe('The create new queues view', function() {
     queues.descriptionFormField.sendKeys('This is a new queue description');
 
     // Version fields show defaults
-    expect(queues.createVersionNumberFormField.getAttribute('value')).toBe('1');
-    expect(queues.createVersionPriorityFormField.getAttribute('value')).toBe('75');
-    expect(queues.createVersionRateFormField.getAttribute('value')).toBe('2');
-    expect(queues.createVersionRateUnitDropdown.getAttribute('value')).toBe('mins');
-
-    // Version fields with default should be disabled
-    expect(queues.createVersionNumberFormField.getAttribute('disabled')).toBeTruthy();
-    expect(queues.createVersionPriorityFormField.getAttribute('disabled')).toBeTruthy();
-    expect(queues.createVersionRateFormField.getAttribute('disabled')).toBeTruthy();
-    expect(queues.createVersionRateUnitDropdown.getAttribute('disabled')).toBeTruthy();
+    expect(queues.createVersionMinPriorityFormField.getAttribute('value')).toBe('1');
+    expect(queues.createVersionMaxPriorityFormField.getAttribute('value')).toBe('1000');
+    expect(queues.createVersionPriorityValueFormField.getAttribute('value')).toBe('1');
+    expect(queues.createVersionRateFormField.getAttribute('value')).toBe('10');
+    expect(queues.createVersionRateUnitDropdown.getAttribute('value')).toBe('seconds');
 
     shared.submitFormBtn.click().then(function() {
       expect(shared.successMessage.isDisplayed()).toBeTruthy();
@@ -93,7 +88,7 @@ describe('The create new queues view', function() {
     });
   });
 
-  it('should clear fields on cancel', function() {
+  it('should close the panel on cancel', function() {
     queueCount = shared.tableElements.count();
     randomQueue = Math.floor((Math.random() * 100) + 1);
     shared.createBtn.click();
@@ -104,18 +99,8 @@ describe('The create new queues view', function() {
 
     shared.cancelFormBtn.click();
 
-    // Warning message is displayed
-    var alertDialog = browser.switchTo().alert();
-    expect(alertDialog.accept).toBeDefined();
-    expect(alertDialog.dismiss).toBeDefined();
-    alertDialog.accept().then(function() {
-      // Confirm fields are cleared and new queue is not added
-      expect(queues.nameFormField.getAttribute('value')).toBe('');
-      expect(queues.descriptionFormField.getAttribute('value')).toBe('');
-      expect(queues.createVersionQueryFormField.getAttribute('value')).toBe('{}');
-      expect(shared.tableElements.count()).toBe(queueCount);
-      expect(shared.successMessage.isPresent()).toBeFalsy();
-    });
+    shared.dismissChanges();
+    expect(shared.rightPanel.isDisplayed()).toBeFalsy();
   });
 
   it('should require field inputs', function() {
@@ -170,8 +155,8 @@ describe('The create new queues view', function() {
     expect(shared.successMessage.isPresent()).toBeFalsy();
   });
 
+  //TODO: bug, see TITAN2-3765
   xit('should validate query field', function() {
-    // BUG: Creates queue without active version
     queueCount = shared.tableElements.count();
     shared.createBtn.click();
     randomQueue = Math.floor((Math.random() * 100) + 1);
@@ -183,7 +168,6 @@ describe('The create new queues view', function() {
     queues.createVersionQueryFormField.clear();
     queues.createVersionQueryFormField.sendKeys('This is not a valid query');
 
-    // Submit button is disabled
     shared.submitFormBtn.click().then(function() {
       expect(queues.requiredErrors.get(0).isDisplayed()).toBeTruthy();
       expect(queues.requiredErrors.get(0).getText()).toContain('invalid query, reason: Value does not match schema: (not (map?');
