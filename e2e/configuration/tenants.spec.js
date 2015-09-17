@@ -9,6 +9,8 @@ describe('The tenants view', function() {
 
   beforeAll(function() {
     loginPage.login(params.login.user, params.login.password);
+    browser.get(shared.tenantsPageUrl);
+    tenants.createTenant();
   });
 
   beforeEach(function() {
@@ -28,7 +30,7 @@ describe('The tenants view', function() {
 
     expect(shared.table.isDisplayed()).toBeTruthy();
     expect(shared.searchField.isDisplayed()).toBeTruthy();
-    expect(shared.detailsForm.isDisplayed()).toBeFalsy(); //Hide side panel by default
+    expect(shared.rightPanel.isDisplayed()).toBeFalsy(); //Hide side panel by default
     expect(shared.actionsBtn.isDisplayed()).toBeTruthy();
     expect(shared.createBtn.isDisplayed()).toBeTruthy();
     expect(shared.tableColumnsDropDown.isDisplayed()).toBeTruthy();
@@ -68,6 +70,7 @@ describe('The tenants view', function() {
 
   it('should require name field when editing', function() {
     shared.searchField.sendKeys('Tenant'); // Ensure Platform tenant is not selected
+
     tenants.firstTableRow.click();
 
     tenants.nameFormField.clear();
@@ -137,7 +140,8 @@ describe('The tenants view', function() {
     // TODO Expected result to be determined
   });
 
-  it('should update tenant name in table and nav dropdown when edited', function() {
+  xit('should update tenant name in table and nav dropdown when edited', function() {
+    // TODO Bug TITAN2-3527
     var tenantUpdated = false;
 
     shared.searchField.sendKeys('Tenant'); // Ensure Platform tenant is not selected
@@ -166,7 +170,7 @@ describe('The tenants view', function() {
           // Reset flag
           tenantUpdated = false;
 
-          // Confirm tenant is lsited in nav dropdown with new name
+          // Confirm tenant is listed in nav dropdown with new name
           shared.tenantsNavDropdown.click();
 
           shared.tenantsNavDropdownContents.then(function(tenants) {

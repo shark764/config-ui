@@ -112,8 +112,6 @@ var Shared = function() {
 
     browser.executeScript('window.localStorage.clear()');
     browser.executeScript('window.sessionStorage.clear()');
-    // Ignore unsaved changes warnings
-    browser.executeScript("window.onbeforeunload = function(){};");
   };
 };
 
