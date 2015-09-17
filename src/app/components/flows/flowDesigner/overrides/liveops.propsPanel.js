@@ -51,7 +51,6 @@
       },
 
       select: function (input, index) {
-        console.log(notation);
         var formSection = '<div class="input-group"';
         formSection += ' ng-hide="' + input.hidden + '"';
         formSection += '><label>' + input.label + '</label><div>';
@@ -144,7 +143,7 @@
     return tpl += '</div></div></form>';
   }
 
-  var propsPanel = function ($compile, $timeout, $window, FlowNotationService) {
+  var propsPanel = function ($compile, $timeout, $window, $rootScope, FlowNotationService) {
     return {
       scope: {
         notation: '=notation',
@@ -205,9 +204,16 @@
           }
         };
 
-        scope.$watch('notation.model.attributes.params', function(){
-          console.log('params updated');
-          scope.$broadcast('update:draft');
+        scope.$watch(function(scope){
+          return _.reduce(scope.inputs, function(memo, input){
+            memo[input.path] = joint.util.getByPath(scope.notation.model.attributes, input.path, '.');
+            return memo;
+          }, {})
+        }, function(newValue, oldValue){
+          if(newValue != oldValue){
+            console.log('params updated');
+            $rootScope.$broadcast('update:draft');
+          }
         }, true)
 
         var content = $compile(buildTemplate(scope.inputs))(scope);

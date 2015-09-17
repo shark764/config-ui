@@ -221,7 +221,7 @@
 
         cell.attr(_.merge({}, this.defaults.attrs, attrs));
       } else {
-        console.warn('This property is not hooked up to a UI listener.');
+        // console.warn('This property is not hooked up to a UI listener.');
       }
     }
   })

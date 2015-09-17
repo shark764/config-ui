@@ -196,7 +196,7 @@
             console.warn('BPMN: Unknown Activity Type: ' + value);
         }
       } else {
-        console.warn('This property is not hooked up to a UI listener.');
+        // console.warn('This property is not hooked up to a UI listener.');
       }
     }
   }).extend(joint.shapes.liveOps.IconInterface).extend(joint.shapes.liveOps.SubProcessInterface);

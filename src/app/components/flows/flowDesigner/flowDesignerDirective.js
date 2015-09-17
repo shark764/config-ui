@@ -79,7 +79,14 @@ function flowDesigner() {
           }
 
           $scope.graph.on('change', function(){
-            console.log('grapgh changed');
+            $scope.$broadcast('update:draft');
+          })
+
+          $scope.graph.on('add', function(){
+            $scope.$broadcast('update:draft');
+          })
+
+          $scope.graph.on('remove', function(){
             $scope.$broadcast('update:draft');
           })
 
@@ -94,7 +101,7 @@ function flowDesigner() {
             });
           };
 
-          var lazyUpdate = _.debounce(update, 2000);
+          var lazyUpdate = _.debounce(update, 1000);
 
           $scope.$on('update:draft', lazyUpdate);
 
