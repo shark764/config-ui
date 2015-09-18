@@ -1,6 +1,5 @@
 <div class="queue-query">
   <div ng-repeat="(groupName, componentList) in queryComponents" class="query-component">
-
     <div ng-repeat="component in componentList" class="input-group" ng-class="{'has-elements': component.list.length}">
       <label>
         {{ component.labelKey | translate}}
