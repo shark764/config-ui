@@ -14,7 +14,7 @@
     <textarea ng-required="true" type="text" ng-model="selectedQueueVersion.query" name="query"></textarea>
   </div>
 
-  <queue-query-creator ng-if="queryType!='advanced'" version="versionCopy" queue="queue"></queue-query-creator>
+  <queue-query-creator ng-if="queryType!='advanced'" version="selectedQueueVersion" queue="queue"></queue-query-creator>
 
   <div class="divider-header">
     <h4>Priority</h4>

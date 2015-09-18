@@ -31,12 +31,12 @@ angular.module('liveopsConfigPanel')
         $scope.updateCurrentVersion();
       });
 
-
       $scope.updateCurrentVersion = function () {
         if ($scope.queue.activeVersion !== null){
           for(var i = 0; i < $scope.versions.length; i++){
             if ($scope.versions[i].version === $scope.queue.activeVersion){
               $scope.currVersion = $scope.versions[i];
+              $scope.toggleDetails($scope.currVersion);
             }
           }
         } else {
@@ -55,18 +55,6 @@ angular.module('liveopsConfigPanel')
 
       $scope.createVersionCopy = function(version) {
         $scope.$emit('copy:queue:version', version);
-      };
-
-      $scope.saveVersion = function () {
-        $scope.saving = true;
-
-        $scope.versionCopy.save(function (){
-          $scope.createVersionForm.$setPristine();
-          $scope.createVersionForm.$setUntouched();
-          $scope.createNewVersion = false;
-        }).finally(function () {
-          $scope.saving = false;
-        });
       };
 
       $scope.toggleDetails = function (version) {

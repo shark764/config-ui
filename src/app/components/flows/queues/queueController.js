@@ -4,19 +4,11 @@ angular.module('liveopsConfigPanel')
   .controller('QueueController', ['$scope', 'Queue', 'Session', '$stateParams', 'queueTableConfig', 'QueueVersion', 'BulkAction', 'Chain',
     function ($scope, Queue, Session, $stateParams, queueTableConfig, QueueVersion, BulkAction, Chain) {
       $scope.Session = Session;
-
-      //Create default first queue version
-      Queue.prototype.postCreate = function (queue) {
-        var qv = $scope.additional.initialVersion;
-        qv.queueId = queue.id;
-        return qv.save()
-          .then(function (versionResult) {
-            queue.activeVersion = versionResult.version;
-            queue.activeQueue = versionResult;
-            return queue.save();
-          });
+      $scope.tableConfig = queueTableConfig;
+      $scope.bulkActions = {
+        setQueueStatus: new BulkAction()
       };
-
+      
       $scope.fetchQueues = function () {
         return Queue.cachedQuery({
           tenantId: Session.tenant.tenantId
@@ -35,6 +27,18 @@ angular.module('liveopsConfigPanel')
           priorityUnit: 'seconds'
         });
       };
+      
+      //Create default first queue version
+      Queue.prototype.postCreate = function (queue) {
+        var qv = $scope.additional.initialVersion;
+        qv.queueId = queue.id;
+        return qv.save()
+          .then(function (versionResult) {
+            queue.activeVersion = versionResult.version;
+            queue.activeQueue = versionResult;
+            return queue.save();
+          });
+      };
 
       $scope.$on('table:on:click:create', function () {
         $scope.additional.initialVersion = $scope.getDefaultVersion();
@@ -50,40 +54,6 @@ angular.module('liveopsConfigPanel')
         }
       });
 
-      $scope.$watch('Session.tenant.tenantId', $scope.fetch, true);
-
-      $scope.tableConfig = queueTableConfig;
-
-      $scope.additional = {
-        initialQuery: '{}',
-        copySelectedVersion: $scope.copySelectedVersion,
-        initialVersion: $scope.getDefaultVersion()
-      };
-
-      $scope.bulkActions = {
-        setQueueStatus: new BulkAction()
-      };
-      
-      $scope.$on('create:queue:version', function () {
-        $scope.selectedQueueVersion = $scope.getDefaultVersion();
-        $scope.selectedQueueVersion.queueId= $scope.selectedQueue.id;
-        $scope.selectedQueueVersion.name= 'v' + ($scope.fetchVersions().length + 1);
-      });
-      
-      $scope.$on('copy:queue:version', function (event, version) {
-        $scope.copySelectedVersion(version);
-      });
-      
-      $scope.$on('table:resource:selected', function () {
-        $scope.selectedQueueVersion = null;
-      });
-      
-      var versionSaveChain = Chain.get('version:save');
-      
-      versionSaveChain.hook('save', function() {
-        return $scope.selectedQueueVersion.save();
-      });
-      
       $scope.fetchVersions = function(){
         if (! $scope.selectedQueue){
           return [];
@@ -93,6 +63,12 @@ angular.module('liveopsConfigPanel')
             queueId: $scope.selectedQueue.id
           }, 'QueueVersion' + $scope.selectedQueue.id);
         }
+      };
+      
+      $scope.additional = {
+        copySelectedVersion: $scope.copySelectedVersion,
+        initialVersion: $scope.getDefaultVersion(),
+        fetchVersions: $scope.fetchVersions
       };
       
       $scope.copySelectedVersion = function(version){
@@ -108,5 +84,26 @@ angular.module('liveopsConfigPanel')
           priorityUnit: version.priorityUnit
         });
       };
+      
+      $scope.$on('table:resource:selected', function () {
+        $scope.selectedQueueVersion = null;
+      });
+      
+      $scope.$on('create:queue:version', function () {
+        $scope.selectedQueueVersion = $scope.getDefaultVersion();
+        $scope.selectedQueueVersion.queueId= $scope.selectedQueue.id;
+        $scope.selectedQueueVersion.name= 'v' + ($scope.fetchVersions().length + 1);
+      });
+      
+      $scope.$on('copy:queue:version', function (event, version) {
+        $scope.copySelectedVersion(version);
+      });
+      
+      var versionSaveChain = Chain.get('version:save');
+      versionSaveChain.hook('save', function() {
+        return $scope.selectedQueueVersion.save().then(function(){
+          $scope.selectedQueueVersion = null;
+        });
+      });
     }
   ]);

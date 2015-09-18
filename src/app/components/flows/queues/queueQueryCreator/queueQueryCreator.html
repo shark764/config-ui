@@ -4,7 +4,7 @@
       <label>
         {{ component.labelKey | translate}}
       </label>
-      <div>
+      <div class="tag-wrapper clear">
         <div ng-repeat="selected in component.list" class="tag">
           {{selected.getDisplay()}}
           <a ng-click="remove(component, selected)"><i class="fa fa-times"></i></a>
@@ -12,7 +12,7 @@
       </div>
       <div>
         <type-ahead hover="true" placeholder="{{component.placeholderKey | translate}}" items="component.dropItems" selected-item="component.selected"></type-ahead>
-        <a class="add btn" ng-click="add(component)"><i class="fa fa-plus"></i></a>
+        <a class="add btn" ng-disabled="! component.selected" ng-click="add(component)"><i class="fa fa-plus"></i></a>
       </div>
     </div>
   </div>

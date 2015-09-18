@@ -1,13 +1,3 @@
-<div class="input-group">
-  <label>{{'queue.details.activeVersion' | translate}}</label>
-  <div>
-    <form-error field="detailsForm.activeVersion"
-    error-type-required="{{'queue.details.version.error' | translate}}"></form-error>
-    <select ng-disabled="! ('MANAGE_ALL_QUEUES' | hasPermission)" api-error ng-required="true" ng-model="currVersion" ng-change="currVersionChanged()" ng-options="version.name for version in versions | orderBy:'created':'reverse'">
-    </select>
-  </div>
-</div>
-
 <div class="divider-header">
   <h4>Versions</h4>
   <a class="btn pull-right" title="Create new version" ng-click="addQueueVersion()"><i class="fa fa-plus"></i></a>
@@ -24,7 +14,9 @@
       </th>
       <th></th>
     </thead>
-    <tr ng-repeat-start="version in versions | orderBy:'created':'reverse'" id="version-row-{{version.name}}">
+    <tr ng-repeat-start="version in versions | orderBy:'created':'reverse'" 
+      id="version-row-{{version.name}}"
+      ng-click="toggleDetails(version);">
       <td><i ng-if="version == currVersion" class="fa fa-circle" title="Currently active version"></i></td>
       <td>
         {{version.name}}

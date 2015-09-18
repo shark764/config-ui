@@ -1,7 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-.controller('QueueQueryCreatorController', ['$scope', 'Session', 'Group', 'Skill', '$q', 'jsedn', function($scope, Session, Group, Skill, $q, jsedn){
+.controller('QueueQueryCreatorController', ['$scope', 'Session', 'Group', 'Skill', '$q', 'jsedn',
+                                            function($scope, Session, Group, Skill, $q, jsedn){
   $scope.fetchGroups = function(){
     return Group.cachedQuery({
       tenantId: Session.tenant.tenantId
@@ -14,8 +15,6 @@ angular.module('liveopsConfigPanel')
     });
   };
   
-  $scope.queryComponents = {};
-
   $scope.publish = function (){
     var ednGroups = null;
     var ednSkills = null;
@@ -47,6 +46,7 @@ angular.module('liveopsConfigPanel')
       ednTest = null;
     }
 
+    $scope.version.query = jsedn.encode(ednTest);
     
   };
 
@@ -142,20 +142,29 @@ angular.module('liveopsConfigPanel')
     $scope.queryComponents[type].push(componentData);
   };
   
-  $scope.createComponentTracker('groups', 'or', $scope.fetchGroups());
-  $scope.createComponentTracker('groups', 'and', $scope.fetchGroups());
-  $scope.createComponentTracker('skills', 'or', $scope.fetchSkills());
-  $scope.createComponentTracker('skills', 'and', $scope.fetchSkills());
+  $scope.initQueryComponents = function(){
+    $scope.queryComponents = {};
+    $scope.createComponentTracker('groups', 'or', $scope.fetchGroups());
+    $scope.createComponentTracker('groups', 'and', $scope.fetchGroups());
+    $scope.createComponentTracker('skills', 'or', $scope.fetchSkills());
+    $scope.createComponentTracker('skills', 'and', $scope.fetchSkills());
+  };
+  
+  $scope.$watch('version', $scope.initQueryComponents);
 
   $scope.add = function(queryComponent){
-    queryComponent.list.push(queryComponent.selected);
-    queryComponent.dropItems.removeItem(queryComponent.selected);
-    queryComponent.selected = null;
+    if (queryComponent.selected){
+      queryComponent.list.push(queryComponent.selected);
+      queryComponent.dropItems.removeItem(queryComponent.selected);
+      queryComponent.selected = null;
+      $scope.publish();
+    }
   };
   
   $scope.remove = function(queryComponent, item){
     queryComponent.list.removeItem(item);
     queryComponent.dropItems.push(item);
+    $scope.publish();
   };
   
 }]);
