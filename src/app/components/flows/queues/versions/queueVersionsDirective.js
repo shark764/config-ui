@@ -15,6 +15,10 @@ angular.module('liveopsConfigPanel')
       };
 
       $scope.toggleDetails = function (version) {
+        if (! version){
+          return;
+        }
+        
         if (version.viewing){
           version.viewing = false;
           return;

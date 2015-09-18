@@ -24,7 +24,7 @@ describe('Versions directive controller', function () {
         new QueueVersion({
           name: 'q1',
           description: 'A pretty good version',
-          id: 'q1',
+          version: 'q1',
           query: 'query 1',
           queueId: '1',
           tenantId: '1'
@@ -32,7 +32,7 @@ describe('Versions directive controller', function () {
         new QueueVersion({
           name: 'q2',
           description: 'Not as cool as the other version',
-          id: 'q2',
+          version: 'q2',
           query: 'query 2',
           queueId: '1',
           tenantId: '1'
@@ -82,8 +82,8 @@ describe('Versions directive controller', function () {
 
   it('should properly use the directive', function () {
     var element;
-
-    element = $compile('<queue-versions queue="queue" versions="versions"></queue-versions>')($scope);
+    $scope.version = versions[0];
+    element = $compile('<queue-versions queue="queue" version="version"></queue-versions>')($scope);
     $scope.$digest();
     isolateScope = element.isolateScope();
   });
