@@ -38,7 +38,7 @@ var DispatchMappingsPage = function() {
   this.statuses = this.statusTableDropDown.all(by.repeater('option in options | orderBy:orderBy'));
   this.statusInputs = this.statusTableDropDown.all(by.css('input'));
 
-  this.interactionFieldTableDropDown = this.tableHeader.element(by.id('integration-column-dropdown'));
+  this.interactionFieldTableDropDown = this.tableHeader.element(by.id('interaction-column-dropdown'));
   this.interactionFieldDropDownLabel = this.interactionFieldTableDropDown.element(by.css('.dropdown-label'));
   this.interactionFields = this.interactionFieldTableDropDown.all(by.repeater('option in options | orderBy:orderBy'));
 };

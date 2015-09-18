@@ -12,6 +12,7 @@ angular.module('liveopsConfigPanel')
         return qv.save()
           .then(function (versionResult) {
             queue.activeVersion = versionResult.version;
+            queue.activeQueue = versionResult;
             return queue.save();
           });
       };

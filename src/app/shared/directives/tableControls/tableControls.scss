@@ -5,32 +5,32 @@ table-controls {
     position: relative;
     height: $action-container-height;
   }
-  
+
   .table-controls {
     width: 100%;
-  
+
     > .col {
       position:relative;
       display: inline-flex;
       width: 49%;
     }
-    
+
     .inner-addon i {
       background-color: $main-color;
       color: white;
     }
-  
+
     &.top-row {
       margin-bottom: 20px;
-  
+
       h1, h2 {
         margin: 0;
       }
     }
-  
+
     .action-container {
       justify-content: flex-end;
-  
+
       button, .dropdown-label {
         padding: 7px 15px;
       }
@@ -38,66 +38,65 @@ table-controls {
       filter-dropdown {
         padding: 0;
       }
-      
+
       .btn + .btn {
         margin-left: 10px;
       }
     }
-  
+
     .col.actions {
       text-align: right;
     }
-  
+
     .dropdown-container {
       top: -3px;
     }
   }
-  
+
   .scrollable-table-container {
     height: calc(100% - #{$action-container-height} + 40px);
   }
-  
+
   .table {
     border-collapse: collapse;
-    
+
     th, td {
       padding: 8px;
     }
-  
+
     th {
       font-weight: bold;
       text-align: left;
       border-right: 1px solid #dadada;
     }
-  
+
     th.filter-header {
       overflow: visible;
-      
+
       a:not(:hover) {
         color: #474747;
       }
-      
+
       .filter-header-content {
         align-items: center;
         @include display-flex();
         white-space: nowrap;
       }
-      
+
       .filter-header-name {
         flex: 1 auto;
         overflow: hidden;
       }
-      
+
       filter-dropdown {
         justify-content: flex-end;
         text-align: right;
-        flex: 1 auto;
       }
-      
+
       .dropdown-label {
         color: $grey;
       }
-      
+
       .dropdown-label:hover {
         color: $darkest-grey;
       }
@@ -105,44 +104,44 @@ table-controls {
     th:last-child {
       border-right: none;
     }
-  
+
     td {
       border-top: 1px solid #ddd;
       text-overflow: ellipsis;
       overflow: hidden;
       white-space: nowrap;
     }
-  
+
     tr:last-child td{
       border-bottom: 1px solid #ddd;
     }
-  
+
     tbody tr:hover, tr.selected {
       background-color: $accent-light;
     }
-  
+
     .check-col {
       width: 40px;
     }
-    
+
     .disabled {
       color: $grey;
     }
-    
+
     .sortable-header:hover {
       background-color: $lightest-grey;
     }
-    
+
     .sort-icon {
       color: $light-grey;
     }
-    
+
     .dropdown-label {
       display: inline-block;
       width: auto;
     }
   }
-  
+
   .filtered {
     color: $grey;
     margin: 0;

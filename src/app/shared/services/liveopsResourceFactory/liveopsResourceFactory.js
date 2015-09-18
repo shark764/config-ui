@@ -250,7 +250,8 @@ angular.module('liveopsConfigPanel')
               })
               .then(function (result) {
                 self.$original = angular.copy(result);
-
+                delete self.$original.$original; //Prevent the object from keeping a history, if $original is present on result
+                
                 return result;
               }).finally(function () {
                 self.$busy = false;

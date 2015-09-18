@@ -28,9 +28,9 @@
   </ng-form>
 </div>
 
-<loading ng-show="versions.length == 0"></loading>
+<loading ng-show="! getVersions().$resolved"></loading>
 
-<table class="table" id="flow-details-versions-table" ng-show="versions.length > 0">
+<table class="table" id="flow-details-versions-table" ng-show="getVersions().length > 0">
   <thead>
     <tr>
       <th>{{'value.name' | translate}}</th>
@@ -40,8 +40,8 @@
       </th>
     </tr>
   </thead>
-  <tr ng-repeat="version in versions | orderBy:'created':'reverse'">
-    <td><a href="#/flows/editor/{{version.flowId}}/{{version.version}}?v={{version.v}}">{{version.name}}</a></td>
+  <tr ng-repeat="version in getVersions() | orderBy:'created':'reverse'">
+    <td><a href="#/flows/editor/{{version.flowId}}/{{version.version}}?v={{($index - getVersions().length) * -1}}">{{version.name}}</a></td>
     <td>{{version.created | date:'medium'}}</td>
     <td ng-if="['PLATFORM_VIEW_ALL_USERS', 'PLATFORM_CREATE_USERS', 'PLATFORM_MANAGE_ALL_USERS', 'PLATFORM_MANAGE_ALL_TENANTS', 'PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT'] | hasPermission">
       <audit-text translation="value.displayName" user-id="version.createdBy"></audit-text>

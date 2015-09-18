@@ -10,7 +10,9 @@
     <span ng-if="!item.active" class="disabled">{{'value.disabled' | translate}}</span>
   </span>
   
-  <active-version name="activeVersion" queue="item"></active-version>
+  <span name="activeQueue">
+    {{item.activeQueue.name}}
+  </span>
 
 </table-controls>
 

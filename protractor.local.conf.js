@@ -11,7 +11,7 @@ exports.config = {
 
   // Timeout time in milliseconds; prevents Protractor waiting to synchronize timeouts
   // Defaults to 11 seconds
-  allScriptsTimeout: 30000,
+  allScriptsTimeout: 300000,
 
   // This can be changed via the command line as:
   // --params.login.user 'ngrocks'
@@ -28,7 +28,7 @@ exports.config = {
       token: '358b00e30aa94f62be812de7e4a66ee2',
       subject: 'Welcome to Titan',
       from: 'titan.noreply@liveops.com'
-    },
+    }
   },
 
   onPrepare: function() {
@@ -58,6 +58,6 @@ exports.config = {
 
   jasmineNodeOpts: {
     showColors: true,
-    defaultTimeoutInterval: 30000
+    defaultTimeoutInterval: 300000
   }
 };

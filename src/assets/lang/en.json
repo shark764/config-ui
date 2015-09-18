@@ -242,6 +242,7 @@
   "media.collections.defaultMediaKey.error": "Please select a default identifier",
   "media.collections.defaultMediaKey.select": "Select default identifier...",
   "media.collections.mappingId.error": "Please select a media item",
+  "media.collections.mapping.error.required": "You must include at least one media mapping",
   "media.collections.mappingLookup.error.required": "Please enter an identifier for this media item",
   "media.collections.mappingLookup.error.duplicate": "This lookup value already exists for this media collection.",
   "media.collections.mapping.add": "Add media items with the plus button above.",
