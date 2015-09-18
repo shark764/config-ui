@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('TenantsController', ['$scope', '$stateParams', '$filter', 'Session', 'Tenant', 'TenantUser', 'tenantTableConfig', 'BulkAction', 'UserPermissions', 'AuthService', '$timeout',
-    function($scope, $stateParams, $filter, Session, Tenant, TenantUser, tenantTableConfig, BulkAction, UserPermissions, AuthService, $timeout) {
+  .controller('TenantsController', ['$scope', '$stateParams', '$filter', 'Session', 'Tenant', 'TenantUser', 'tenantTableConfig', 'BulkAction', 'UserPermissions', 'AuthService',
+    function($scope, $stateParams, $filter, Session, Tenant, TenantUser, tenantTableConfig, BulkAction, UserPermissions, AuthService) {
 
       $scope.create = function() {
         $scope.selectedTenant = new Tenant({
@@ -37,7 +37,7 @@ angular.module('liveopsConfigPanel')
         }
       });
       
-      $scope.$on('updated:resource:Tenant', function(event, updatedTenant) {
+      $scope.$on('updated:resource:Tenant', function() {
         AuthService.refreshTenants();
       });
 

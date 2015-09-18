@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-.directive('queueQueryCreator', ['QueueVersion', function (QueueVersion) {
+.directive('queueQueryCreator', [function () {
   return {
     restrict: 'E',
     scope: {

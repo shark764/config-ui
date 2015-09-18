@@ -1,5 +1,3 @@
-/* global spyOn: false  */
-
 'use strict';
 
 describe('Versions directive controller', function () {
