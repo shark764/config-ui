@@ -24,6 +24,10 @@ angular.module('liveopsConfigPanel')
       QueueVersion.prototype.getDisplay = function () {
         return this.name;
       };
+      
+      QueueVersion.prototype.cacheKey = function () {
+        return 'QueueVersion' + this.queueId;
+      };
 
       return QueueVersion;
     }
