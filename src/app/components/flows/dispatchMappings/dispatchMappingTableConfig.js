@@ -27,7 +27,7 @@ angular.module('liveopsConfigPanel')
             'options': dispatchMappingInteractionFields
           },
           'name': 'interactionField',
-          'id': 'integration-column-dropdown',
+          'id': 'interaction-column-dropdown',
           'lookup': '$original:interactionField',
           'filter': 'selectedOptions'
         }, {
@@ -38,6 +38,7 @@ angular.module('liveopsConfigPanel')
             'options': dispatchMappingChannelTypes
           },
           'name': 'channelType',
+          'id': 'channelType-column-dropdown',
           'lookup': '$original:channelType',
           'filter': 'selectedOptions'
         }, {

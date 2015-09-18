@@ -35,6 +35,7 @@ describe('The tenants view bulk actions', function() {
 
   it('should allow all selected tenant\'s status to be Disabled', function() {
     shared.searchField.sendKeys('Tenant'); // Ensure Platform tenant is not selected
+    tenantCount = shared.tableElements.count();
 
     // Update All bulk actions
     shared.actionsBtn.click();
@@ -56,7 +57,7 @@ describe('The tenants view bulk actions', function() {
 
       // All tenants are set to disabled
       // Select Disabled from Status drop down
-      bulkActions.statusTableDropDown.click();
+      bulkActions.statusColumnDropDown.click();
       bulkActions.statuses.get(0).click();
       shared.tableElements.count().then(function(disabledTotal) {
         expect(disabledTotal).toBe(tenantCount);
@@ -73,6 +74,7 @@ describe('The tenants view bulk actions', function() {
 
   it('should allow all selected tenant\'s status to be Enabled', function() {
     shared.searchField.sendKeys('Tenant'); // Ensure Platform tenant is not selected
+    tenantCount = shared.tableElements.count();
 
     // Update All bulk actions
     shared.actionsBtn.click();
@@ -95,7 +97,7 @@ describe('The tenants view bulk actions', function() {
 
       // All tenants are set to enabled
       // Select Disabled from Status drop down
-      bulkActions.statusTableDropDown.click();
+      bulkActions.statusColumnDropDown.click();
       bulkActions.statuses.get(0).click();
       shared.tableElements.count().then(function(disabledTotal) {
         expect(disabledTotal).toBe(0);
@@ -112,6 +114,7 @@ describe('The tenants view bulk actions', function() {
 
   it('should ignore disabled fields on update', function() {
     shared.searchField.sendKeys('Tenant'); // Ensure Platform tenant is not selected
+    tenantCount = shared.tableElements.count();
 
     shared.actionsBtn.click();
     bulkActions.selectAllTableHeader.click();
@@ -133,6 +136,7 @@ describe('The tenants view bulk actions', function() {
 
   it('should only affect selected tenants', function() {
     shared.searchField.sendKeys('Tenant'); // Ensure Platform tenant is not selected
+    tenantCount = shared.tableElements.count();
 
     shared.tableElements.then(function(originalTenants) {
       // Select odd tenants and leave even tenants unselected

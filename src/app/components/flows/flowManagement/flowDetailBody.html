@@ -1,37 +1,37 @@
-<div ng-if="resource.id" class="divider-header first-header">
+<div class="divider-header first-header">
   <h4>{{'details' | translate}}</h4>
 </div>
 
 <div disable-contents="! ('MANAGE_ALL_FLOWS' | hasPermission)">
   <div class="input-group">
     <label>{{'value.name' | translate}} *</label>
-    <form-error field="detailsForm.name"
+    <form-error field="forms.detailsForm.name"
       error-type-required="{{'flow.details.name.error' | translate}}">
     </form-error>
     <div>
-      <input type="text" ng-required="true" ng-model="resource.name" name="name"></input>
+      <input type="text" ng-required="true" ng-model="selectedFlow.name" name="name"></input>
     </div>
   </div>
   
   <div class="input-group">
-    <label>{{'value.type' | translate}} <span ng-if="! resource.id">*</span></label>
-    <form-error field="detailsForm.type" error-type-required="{{'flow.details.type.error' | translate}}"></form-error>
+    <label>{{'value.type' | translate}} <span ng-if="selectedFlow.isNew()">*</span></label>
+    <form-error field="forms.detailsForm.type" error-type-required="{{'flow.details.type.error' | translate}}"></form-error>
     <div>
-      <select ng-required="! resource.id" name="type" ng-model="resource.type"
+      <select ng-required="selectedFlow.isNew()" name="type" ng-model="selectedFlow.type"
         ng-options="type.value as type.display for type in flowTypes">
         <option disabled value="">{{'flow.type.choose' | translate}}</option>
       </select>
     </div>
   </div>
   
-  <div ng-if="resource.id" class="input-group">
+  <div ng-if="! selectedFlow.isNew()" class="input-group">
     <label>{{'value.version' | translate}} *</label>
-    <form-error field="detailsForm.activeVersion"
+    <form-error field="forms.detailsForm.activeVersion"
       error-type-required="{{'flow.details.activeVersion.error' | translate}}">
     </form-error>
     <div>
-      <select ng-required="true" api-error ng-model="resource.activeVersion" name="activeVersion"
-        ng-options="version.version as version.name for version in versions | orderBy:'created':'reverse'">
+      <select ng-required="true" api-error ng-model="selectedFlow.activeVersion" name="activeVersion"
+        ng-options="version.version as version.name for version in getVersions() | orderBy:'created':'reverse'">
         <option disabled value="">{{'flow.details.version.choose' | translate}}</option>
       </select>
     </div>
@@ -40,12 +40,12 @@
   <div class="input-group">
     <label class="textarea-label">{{'value.description' | translate}}</label>
     <div>
-      <textarea ng-model="resource.description"></textarea>
+      <textarea ng-model="selectedFlow.description"></textarea>
     </div>
   </div>
 </div>
 
-<div ng-if="resource.id" class="details-group">
-  <flow-versions flow="resource" versions="versions"></flow-versions>
-  <flow-drafts flow="resource" drafts="drafts"></flow-drafts>
+<div ng-if="! selectedFlow.isNew()" class="details-group">
+  <flow-versions flow="selectedFlow"></flow-versions>
+  <flow-drafts flow="selectedFlow" drafts="drafts"></flow-drafts>
 </div>

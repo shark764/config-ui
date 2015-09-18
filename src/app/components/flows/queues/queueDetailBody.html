@@ -37,31 +37,14 @@
     <label class="textarea-label">{{'value.details.query' | translate}} *</label>
     <form-error field="detailsForm.query"
     error-type-required="{{'queue.details.queue.error' | translate}}"></form-error>
-    <textarea ng-required="true" type="text" ng-model="extendScope.initialQuery" name="query"></textarea>
+    <textarea ng-required="true" type="text" ng-model="extendScope.initialVersion.query" name="query"></textarea>
   </div>
 
   <div class="divider-header">
     <h4>{{'queue.details.priority' | translate}}</h4>
   </div>
 
-  <div class="input-group">
-    <label class="disabled">{{'queue.details.startingpriority' | translate}}</label>
-    <div>
-      <input id="create-version-priority-input" type="number" ng-disabled="true" value="75"></input>
-    </div>
-  </div>
-
-  <div class="input-group">
-    <label class="disabled">{{'queue.details.rateofincrease' | translate}}</label>
-    <div>
-      <input id="create-version-rate-input" type="number" ng-disabled="true" value="2"></input>
-    </div>
-    <div>
-      <select id="create-version-rate-units-input" ng-disabled="true">
-        <option disabled>mins</option>
-      </select>
-    </div>
-  </div>
+  <version-priority queue-version="extendScope.initialVersion""></version-priority>
 </div>
 
 <div ng-if="resource.id">

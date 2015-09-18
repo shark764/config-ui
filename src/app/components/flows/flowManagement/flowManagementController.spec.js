@@ -55,7 +55,7 @@ describe('FlowManagementController', function () {
     expect($scope.selectedFlow.tenantId).toBe(Session.tenant.tenantId);
   });
 
-  describe('resource.postCreate function', function () {
+  describe('Flow.postCreate prototype function', function () {
     it('should create a version if creating a new flow', function () {
       var newFlow = new Flow(mockFlows[2]);
       

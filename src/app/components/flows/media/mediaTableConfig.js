@@ -21,6 +21,7 @@ angular.module('liveopsConfigPanel')
             'options': mediaTypes
           },
           'name': '$original.type',
+          'id': 'type-column-dropdown',
           'lookup': '$original:type',
           'filter': 'selectedOptions'
         }, {

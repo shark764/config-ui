@@ -66,6 +66,14 @@ describe('groups controller', function () {
       mockGroups[0].fetchGroupUsers();
       $httpBackend.flush();
     }]));
+    
+    it('should set the member property on the item', inject(['$httpBackend', 'apiHostname', 'mockGroupUsers', function ($httpBackend, apiHostname, mockGroupUsers) {
+      $httpBackend.expectGET(apiHostname + '/v1/tenants/tenant-id/groups/groupId1/users').respond(200, mockGroupUsers);
+      expect(mockGroups[0].members).toBeUndefined();
+      mockGroups[0].fetchGroupUsers();
+      $httpBackend.flush();
+      expect(mockGroups[0].members.length).toBe(3);
+    }]));
   });
   
   describe('gotoUserPage function', function () {

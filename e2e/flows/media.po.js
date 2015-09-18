@@ -8,6 +8,8 @@ var MediaPage = function() {
   this.typeFormDropdown = element(by.model('selectedMedia.type'));
   this.requiredError = element.all(by.css('.lo-error'));
 
+  this.submitFormBtn = element(by.id('submit-details-btn'));
+  
   this.nameColumn = 'td:nth-child(2)';
   this.sourceColumn = 'td:nth-child(3)';
   this.typeColumn = 'td:nth-child(4)';

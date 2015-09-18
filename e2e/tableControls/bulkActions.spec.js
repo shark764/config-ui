@@ -171,11 +171,11 @@ describe('The bulk actions', function() {
 
         shared.firstTableRow.click();
         expect(bulkActions.bulkActionsForm.isDisplayed()).toBeFalsy();
-        expect(shared.detailsForm.isDisplayed()).toBeTruthy();
+        expect(bulkActions.userDetailsPanel.isDisplayed()).toBeTruthy();
 
         shared.actionsBtn.click();
         expect(bulkActions.bulkActionsForm.isDisplayed()).toBeTruthy();
-        expect(shared.detailsForm.isDisplayed()).toBeFalsy();
+        expect(bulkActions.userDetailsPanel.isDisplayed()).toBeFalsy();
       }
     });
   });
@@ -186,11 +186,11 @@ describe('The bulk actions', function() {
 
     shared.createBtn.click();
     expect(bulkActions.bulkActionsForm.isDisplayed()).toBeFalsy();
-    expect(shared.detailsForm.isDisplayed()).toBeTruthy();
+    expect(bulkActions.userDetailsPanel.isDisplayed()).toBeTruthy();
 
     shared.actionsBtn.click();
     expect(bulkActions.bulkActionsForm.isDisplayed()).toBeTruthy();
-    expect(shared.detailsForm.isDisplayed()).toBeFalsy();
+    expect(bulkActions.userDetailsPanel.isDisplayed()).toBeFalsy();
   });
 
   it('should show number and names of selected items', function() {

@@ -18,7 +18,6 @@ angular.module('liveopsConfigPanel')
         }, {
           name: 'active'
         }],
-        saveInterceptor: emitInterceptor,
         updateInterceptor: emitInterceptor
       });
 

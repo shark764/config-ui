@@ -2,11 +2,12 @@
 
 angular.module('liveopsConfigPanel')
   .service('roleTableConfig', ['$translate', 'UserPermissions', 'TenantPermission', 'Session', function ($translate, UserPermissions, TenantPermission, Session) {
-    function getPermissionOptions() {
-      return TenantPermission.cachedQuery({
-        tenantId: Session.tenant.tenantId
-      });
-    }
+    //TODO: enable when API returns list of permissions object instead of just ids
+    //function getPermissionOptions() {
+    //  return TenantPermission.cachedQuery({
+    //    tenantId: Session.tenant.tenantId
+    //  });
+    //}
     
      return {
         'fields': [{
