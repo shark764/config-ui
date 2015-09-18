@@ -14,10 +14,10 @@
       </th>
       <th></th>
     </thead>
-    <tr ng-repeat-start="version in versions | orderBy:'created':'reverse'" 
+    <tr ng-repeat-start="version in fetchVersions() | orderBy:'created':'reverse'" 
       id="version-row-{{version.name}}"
       ng-click="toggleDetails(version);">
-      <td><i ng-if="version == currVersion" class="fa fa-circle" title="Currently active version"></i></td>
+      <td><i ng-if="version.version == queue.activeVersion" class="fa fa-circle" title="Currently active version"></i></td>
       <td>
         {{version.name}}
       </td>

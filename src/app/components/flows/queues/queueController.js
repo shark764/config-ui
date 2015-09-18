@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('QueueController', ['$scope', 'Queue', 'Session', '$stateParams', 'queueTableConfig', 'QueueVersion', 'BulkAction', 'Chain',
-    function ($scope, Queue, Session, $stateParams, queueTableConfig, QueueVersion, BulkAction, Chain) {
+  .controller('QueueController', ['$scope', 'Queue', 'Session', '$stateParams', 'queueTableConfig', 'QueueVersion', 'BulkAction',
+    function ($scope, Queue, Session, $stateParams, queueTableConfig, QueueVersion, BulkAction) {
       $scope.Session = Session;
       $scope.tableConfig = queueTableConfig;
       $scope.bulkActions = {
@@ -99,11 +99,10 @@ angular.module('liveopsConfigPanel')
         $scope.copySelectedVersion(version);
       });
       
-      var versionSaveChain = Chain.get('version:save');
-      versionSaveChain.hook('save', function() {
-        return $scope.selectedQueueVersion.save().then(function(){
+      $scope.saveVersion = function() {
+        $scope.selectedQueueVersion.save().then(function(){
           $scope.selectedQueueVersion = null;
         });
-      });
+      };
     }
   ]);

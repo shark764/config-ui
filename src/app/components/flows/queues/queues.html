@@ -69,7 +69,7 @@
       <input id="create-version-btn" class="btn btn-primary" ng-hide="loading"
         type="submit" value="{{'value.create' | translate}}"
         ng-disabled="forms.versionForm.$invalid"
-        lo-submit-chain-executor="version:save"></input>
+        ng-click="saveVersion()"></input>
     </div>
   </ng-form>
 </lo-details-panel>
