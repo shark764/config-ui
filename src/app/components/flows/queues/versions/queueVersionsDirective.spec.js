@@ -80,12 +80,6 @@ describe('Versions directive controller', function () {
     }
   ]));
 
-  it('should have versions defined', function () {
-    expect($scope.versions).toBeDefined();
-    expect($scope.versions[0].id).toEqual(versions[0].id);
-    expect($scope.versions[1].id).toEqual(versions[1].id);
-  });
-
   it('should properly use the directive', function () {
     var element;
 
