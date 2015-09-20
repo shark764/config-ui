@@ -16,7 +16,9 @@ describe('The groups view bulk actions', function() {
     // Ignore unsaved changes warnings
     browser.executeScript("window.onbeforeunload = function(){};");
     browser.get(shared.groupsPageUrl);
-    groupCount = shared.tableElements.count();
+    shared.tableElements.count().then(function(count){
+      groupCount = count;
+    });
   });
 
   afterAll(function() {
@@ -74,7 +76,7 @@ describe('The groups view bulk actions', function() {
         }
       });
     });
-
+    
     bulkActions.selectEnable.click();
 
     expect(bulkActions.submitFormBtn.getAttribute('disabled')).toBeFalsy();
@@ -93,14 +95,14 @@ describe('The groups view bulk actions', function() {
       bulkActions.statusColumnDropDownLabel.click();
       bulkActions.statuses.get(0).click();
       shared.tableElements.count().then(function(disabledTotal) {
-        expect(disabledTotal).toBe(groupCount);
+        expect(disabledTotal).toBe(groupCount - numEveryoneGroups);
       });
 
       // Select Enabled from Status drop down
       bulkActions.statuses.get(0).click();
       bulkActions.statuses.get(1).click();
       shared.tableElements.count().then(function(enabledTotal) {
-        expect(enabledTotal).toBe(0);
+        expect(enabledTotal).toBe(numEveryoneGroups);
       });
     });
   });

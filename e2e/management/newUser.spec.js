@@ -28,7 +28,7 @@ describe('The create new user form', function() {
 
   it('should display Create New User section', function() {
     shared.createBtn.click();
-    expect(users.detailsForm.isDisplayed()).toBeTruthy();
+    expect(users.rightPanel.isDisplayed()).toBeTruthy();
   });
 
   it('should include supported fields for creating a new user', function() {
@@ -90,7 +90,7 @@ describe('The create new user form', function() {
 
   it('should require completed fields in Create New User section', function() {
     shared.createBtn.click();
-    expect(users.detailsForm.isDisplayed()).toBeTruthy();
+    expect(users.rightPanel.isDisplayed()).toBeTruthy();
 
     expect(users.submitFormBtn.getAttribute('disabled')).toBeTruthy();
 
@@ -185,7 +185,7 @@ describe('The create new user form', function() {
     expect(shared.successMessage.isPresent()).toBeFalsy();
 
     // Create new User form is closed
-    expect(users.detailsForm.isDisplayed()).toBeFalsy();
+    expect(users.rightPanel.isDisplayed()).toBeFalsy();
 
     // Fields are cleared
     shared.createBtn.click();
@@ -219,10 +219,10 @@ describe('The create new user form', function() {
 
     // Email field blank
     users.emailFormField.sendKeys('\t');
+    expect(users.tenantRoleFormDropdown.getAttribute('disabled')).toBeNull();
+    expect(users.platformRoleFormDropdown.getAttribute('disabled')).toBeNull();
 
     // Fields remain disabled
-    expect(users.tenantRoleFormDropdown.getAttribute('disabled')).toBeTruthy();
-    expect(users.platformRoleFormDropdown.getAttribute('disabled')).toBeTruthy();
     expect(users.firstNameFormField.getAttribute('disabled')).toBeTruthy();
     expect(users.lastNameFormField.getAttribute('disabled')).toBeTruthy();
     expect(users.externalIdFormField.getAttribute('disabled')).toBeTruthy();
@@ -304,10 +304,10 @@ describe('The create new user form', function() {
     expect(users.submitFormBtn.getAttribute('disabled')).toBeTruthy();
     expect(users.requiredErrors.get(0).isDisplayed()).toBeTruthy;
     expect(users.requiredErrors.get(0).getText()).toBe('Must be a valid email address');
+    expect(users.tenantRoleFormDropdown.getAttribute('disabled')).toBeNull();
+    expect(users.platformRoleFormDropdown.getAttribute('disabled')).toBeNull();
 
     // Fields remain disabled
-    expect(users.tenantRoleFormDropdown.getAttribute('disabled')).toBeTruthy();
-    expect(users.platformRoleFormDropdown.getAttribute('disabled')).toBeTruthy();
     expect(users.firstNameFormField.getAttribute('disabled')).toBeTruthy();
     expect(users.lastNameFormField.getAttribute('disabled')).toBeTruthy();
     expect(users.externalIdFormField.getAttribute('disabled')).toBeTruthy();
@@ -318,9 +318,11 @@ describe('The create new user form', function() {
     expect(users.requiredErrors.get(0).isDisplayed()).toBeTruthy;
     expect(users.requiredErrors.get(0).getText()).toBe('Must be a valid email address');
 
+
+    expect(users.tenantRoleFormDropdown.getAttribute('disabled')).toBeNull();
+    expect(users.platformRoleFormDropdown.getAttribute('disabled')).toBeNull();
+
     // Fields remain disabled
-    expect(users.tenantRoleFormDropdown.getAttribute('disabled')).toBeTruthy();
-    expect(users.platformRoleFormDropdown.getAttribute('disabled')).toBeTruthy();
     expect(users.firstNameFormField.getAttribute('disabled')).toBeTruthy();
     expect(users.lastNameFormField.getAttribute('disabled')).toBeTruthy();
     expect(users.externalIdFormField.getAttribute('disabled')).toBeTruthy();
@@ -446,8 +448,8 @@ describe('The create new user form', function() {
 
         // All fields updated
         expect(users.firstNameFormField.getAttribute('value')).toBe('First' + randomUser + 'NewUserEdit');
-        expect(users.firstNameFormField.getAttribute('value')).toBe('Last' + randomUser + 'NewUserEdit');
-        expect(users.firstNameFormField.getAttribute('value')).toBe(randomUser + 'NewUserEdit');
+        expect(users.lastNameFormField.getAttribute('value')).toBe('Last' + randomUser + 'NewUserEdit');
+        expect(users.externalIdFormField.getAttribute('value')).toBe(randomUser + 'NewUserEdit');
       });
     });
   });

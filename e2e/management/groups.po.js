@@ -11,6 +11,7 @@ var GroupsPage = function() {
 
   this.tablePane = element(by.id('table-pane'));
   this.headerRow = this.tablePane.element(by.css('.clone-header tr'));
+  this.membersHeader = this.headerRow.element(by.css('th:nth-child(4'));
   this.firstTableRow = this.tablePane.element(by.css('tr.ng-scope:nth-child(1)'));
   this.secondTableRow = this.tablePane.element(by.css('tr.ng-scope:nth-child(2)'));
   this.nameColumn = 'td:nth-child(2)';

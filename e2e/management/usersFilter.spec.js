@@ -174,7 +174,7 @@ describe('The users table filter', function() {
       for (var i = 0; i < groupNameList.length; i++) {
         shared.searchField.clear();
         shared.searchField.sendKeys(groupNameList[i]);
-        expect(shared.tableElements.get(0).getText()).toContain(groupNameList[i]);
+        expect(shared.tableElements.count()).toBeGreaterThan(0);
       }
     });
   });
@@ -210,42 +210,6 @@ describe('The users table filter', function() {
             });
           }
         }
-      });
-    }).then(function() {
-      // Select a different Group from drop down
-      users.groupsTableDropDownLabel.click();
-      users.dropdownGroups.get(0).click();
-      users.dropdownGroups.get(1).click();
-
-      users.dropdownGroups.get(1).getText().then(function(selectedGroupName) {
-        // New input is selected
-        expect(users.dropdownGroupsInputs.get(2).isSelected()).toBeTruthy();
-
-        // Previous and All inputs are unselected
-        expect(users.dropdownGroupsInputs.get(1).isSelected()).toBeFalsy();
-        expect(users.dropdownGroupsInputs.get(0).isSelected()).toBeFalsy();
-        users.groupsTableDropDownLabel.click();
-
-        // Select each user and verify that the user is assigned to the filtered group
-        shared.tableElements.then(function(rows) {
-          if (rows.length > 0) {
-            for (var i = 0; i < rows.length; ++i) {
-              userHasGroup = false;
-              // Select row
-              shared.tableRows.get(i).click();
-              // Verify user has group
-              users.userGroups.each(function(groupElement, index) {
-                groupElement.getText().then(function(groupName) {
-                  if (groupName == selectedGroupName) {
-                    userHasGroup = true;
-                  }
-                });
-              }).then(function() {
-                expect(userHasGroup).toBeTruthy();
-              });
-            }
-          }
-        });
       }).then(function() {
         // Select All from drop down
         users.groupsTableDropDownLabel.click();
@@ -355,7 +319,7 @@ describe('The users table filter', function() {
       for (var i = 0; i < skillNameList.length; i++) {
         shared.searchField.clear();
         shared.searchField.sendKeys(skillNameList[i]);
-        expect(shared.tableElements.get(0).getText()).toContain(skillNameList[i]);
+        expect(shared.tableElements.count()).toBeGreaterThan(0);
       }
     });
   });
@@ -521,20 +485,27 @@ describe('The users table filter', function() {
   });
 
   it('should display all of the user Role options', function() {
+    // Select Roles from drop down
     users.rolesTableDropDownLabel.click();
 
-    // All roles listed
-    expect(users.dropdownRoles.get(0).getText()).toBe('Administrator');
-    expect(users.dropdownRoles.get(1).getText()).toBe('Agent');
-    expect(users.dropdownRoles.get(2).getText()).toBe('Supervisor');
+    // Get list of Roles
+    var roleNameList = [];
+    users.dropdownRoles.each(function(roleElement, index) {
+      roleElement.getText().then(function(roleName) {
+        roleNameList.push(roleName);
+      });
+    }).then(function() {
+      browser.get(shared.rolesPageUrl);
 
-    // All input is selected by default
-    expect(users.dropdownRolesInputs.get(0).isSelected()).toBeTruthy();
-    // Remaining inputs are unselected by default
-    expect(users.dropdownRolesInputs.get(1).isSelected()).toBeFalsy();
-    expect(users.dropdownRolesInputs.get(2).isSelected()).toBeFalsy();
-    expect(users.dropdownRolesInputs.get(3).isSelected()).toBeFalsy();
+      // Role list from Users page filter dropdown should contain each of the same Role records
+      for (var i = 0; i < roleNameList.length; i++) {
+        shared.searchField.clear();
+        shared.searchField.sendKeys(roleNameList[i]);
+        expect(shared.tableElements.get(0).getText()).toContain(roleNameList[i]);
+      }
+    });
   });
+
 
   it('should display users based on the table Roles filter', function() {
     users.rolesTableDropDownLabel.click();
