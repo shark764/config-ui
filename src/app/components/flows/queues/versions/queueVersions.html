@@ -1,95 +1,35 @@
-<div class="bordered-section" disable-contents="! ('MANAGE_ALL_QUEUES' | hasPermission)">
-  <div class="input-group" style="margin-left: 0;">
-    <label>{{'queue.details.activeVersion' | translate}}</label>
-    <div>
-      <form-error field="detailsForm.activeVersion"
-      error-type-required="{{'queue.details.version.error' | translate}}"></form-error>
-      <select api-error ng-required="true" ng-model="currVersion" ng-change="currVersionChanged()" ng-options="version.name for version in versions | orderBy:'created':'reverse'">
-      </select>
-    </div>
-  </div>
-
-  <div class="divider-header">
-    <h4>{{'queue.details.activequery' | translate}}</h4>
-  </div>
-
-  <div class="input-group">
-    <form-error field="$parent.detailsForm.query"></form-error>
-
-    <div>
-      <textarea name="query" ng-disabled="true" ng-model="currVersion.query">
-      </textarea>
-    </div>
-  </div>
-
-  <div class="divider-header">
-    <h4>{{'queue.details.activepriority' | translate}}</h4>
-  </div>
-
-  <version-priority queue-version="currVersion" ng-disabled="true"></version-priority>
-
 <div class="divider-header">
-  <h4>{{'queue.details.createAdditionalVersions' | translate}}</h4>
-</div>
-
-<div id="createVersion" ng-show="createNewVersion && ('MANAGE_ALL_QUEUES' | hasPermission)">
-  <div class="divider-header">
-    <h4>{{'queue.details.queryPriority' | translate}}</h4>
-  </div>
-
-  <ng-form id="createVersionForm" name="createVersionForm" seperate-validation>
-    <div class="input-group">
-      <label class="disabled">{{'value.version' | translate}}</label>
-      <input id="copy-version-number" ng-disabled="true" type="number" value="{{newVersionNumber}}"></input>
-    </div>
-
-    <div>
-      <label><input type="radio" ng-model="queryType" value="basic">Basic</label>
-      <label><input type="radio" ng-model="queryType" value="advanced">Advanced</label>
-    </div>
-
-    <div class="input-group">
-      <label class="textarea-label">{{'value.details.query' | translate}}</label>
-      <form-error field="createVersionForm.query"
-      error-type-required="{{'queue.details.queue.error' | translate}}"></form-error>
-      <textarea ng-if="queryType!='basic'" ng-required="true" type="text" ng-model="versionCopy.query" name="query"></textarea>
-      <label ng-if="queryType=='basic'"><a ng-click="openBasicQuery()">+ Create Basic Query</a></label>
-      <!--<queue-creator ng-if="queryType=='basic'" placeholder="test"></query-creator>-->
-    </div>
-
-    <version-priority queue-version="versionCopy" form="createVersionForm"></version-priority>
-
-    <div class="queue-controls input-group">
-      <label></label>
-      <input id='cancel-queue-version-btn' type="button" ng-click="createNewVersion = false" ng-disabled="saving" class="btn" value="{{'value.cancel' | translate}}" />
-      <input lo-submit-spinner lo-submit-spinner-status="saving" id='create-queue-version-btn' ng-click="saveVersion()" ng-disabled="createVersionForm.$invalid || !createVersionForm.$dirty" type="submit" class="btn btn-primary" value="{{'queue.details.saveNewVersion' | translate}}" />
-    </div>
-  </ng-form>
+  <h4>Versions</h4>
+  <a class="btn pull-right" title="Create new version" ng-click="addQueueVersion()"><i class="fa fa-plus"></i></a>
 </div>
 
 <div class="queue-version-table">
   <table class="table">
     <thead>
+      <th></th>
       <th>{{'value.version' | translate}}</th>
       <th>{{'value.createdOn' | translate}}</th>
       <th ng-if="['PLATFORM_VIEW_ALL_USERS', 'PLATFORM_CREATE_USERS', 'PLATFORM_MANAGE_ALL_USERS', 'PLATFORM_MANAGE_ALL_TENANTS', 'PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT'] | hasPermission">
         {{'queue.details.createdBy' | translate}}
       </th>
+      <th></th>
     </thead>
-    <tr ng-repeat-start="version in versions | orderBy:'created':'reverse'" id="version-row-{{version.name}}">
+    <tr ng-repeat-start="version in fetchVersions() | orderBy:'created':'reverse'" 
+      id="version-row-{{version.name}}"
+      ng-click="toggleDetails(version);">
+      <td><i ng-if="version.version == queue.activeVersion" class="fa fa-circle" title="Currently active version"></i></td>
       <td>
-        <i class="fa" ng-class="{'fa-plus' : !version.viewing, 'fa-minus': version.viewing}" ng-click="toggleDetails(version);" title="{{'queue.details.version.expand' | translate}}"></i>
-        &nbsp;
         {{version.name}}
       </td>
       <td>{{version.created | date:'medium'}}</td>
       <td ng-if="['PLATFORM_VIEW_ALL_USERS', 'PLATFORM_CREATE_USERS', 'PLATFORM_MANAGE_ALL_USERS', 'PLATFORM_MANAGE_ALL_TENANTS', 'PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT'] | hasPermission">
         <audit-text translation="value.displayName" user-id="version.createdBy"></audit-text>
       </td>
+      <td><i class="fa" ng-class="{'fa-caret-down' : !version.viewing, 'fa-caret-up': version.viewing}" ng-click="toggleDetails(version);" title="{{'queue.details.version.expand' | translate}}"></i></td>
     </tr>
-    <tr ng-repeat-end class="view-version" id="view-version-{{version.name}}">
-      <td colspan="4" ng-show="version.viewing">
-
+    <tr ng-repeat-end id="view-version-{{version.name}}" ng-show="version.viewing">
+      <td></td>
+      <td colspan="5">
         <div disable-contents="! ('MANAGE_ALL_QUEUES' | hasPermission)">
           <div class="input-group">
             <label class="textarea-label disabled">{{'value.details.query' | translate}}</label>
@@ -98,12 +38,7 @@
   
           <version-priority queue-version="version" ng-disabled="true"></version-priority>
         </div>
-        
-        <div class="queue-controls input-group">
-          <label></label>
-          <input id="close-version-btn" type="button" ng-click="version.viewing = false;" class="btn" value="{{'value.close' | translate}}" />
-          <input id="copy-version-btn" ng-show="'MANAGE_ALL_QUEUES' | hasPermission" ng-click="createVersionCopy(version)" type="submit" class="btn btn-primary" value="{{'queue.details.createNewVersion' | translate}}" />
-        </div>
+        <a class="btn pull-right copy-version-btn" ng-if="'MANAGE_ALL_QUEUES' | hasPermission" ng-click="createVersionCopy(version)">Create Copy</a>
       </td>
     </tr>
   </table>

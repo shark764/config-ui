@@ -3,118 +3,49 @@
 angular.module('liveopsConfigPanel')
   .controller('QueueVersionsController', ['$scope', '$state', 'Session', 'QueueVersion',
     function ($scope, $state, Session, QueueVersion) {
-      $scope.saving = false;
-      $scope.versions = [];
-      $scope.queryType = 'basic';
-
-      $scope.fetch = function () {
-
-        if($scope.queue && $scope.queue.id) {
-
-          QueueVersion.query({
+      $scope.fetchVersions = function () {
+        if ($scope.queue && $scope.queue.id) {
+          return QueueVersion.cachedQuery({
             tenantId: Session.tenant.tenantId,
             queueId: $scope.queue.id
-          }, function (versions) {
-
-            $scope.versions.length = 0;
-
-            for(var i = 0; i < versions.length; i++){
-              $scope.versions.push(versions[i]);
-            }
-
-            $scope.updateCurrentVersion();
-          });
-        }
-      };
-
-      $scope.$watch('queue.activeVersion', function () {
-        $scope.updateCurrentVersion();
-      });
-
-
-      $scope.updateCurrentVersion = function () {
-        if ($scope.queue.activeVersion !== null){
-          for(var i = 0; i < $scope.versions.length; i++){
-            if ($scope.versions[i].version === $scope.queue.activeVersion){
-              $scope.currVersion = $scope.versions[i];
-            }
-          }
+          }, 'QueueVersion' + $scope.queue.id);
         } else {
-          $scope.currVersion = null;
+          return [];
         }
-      };
-
-      $scope.openBasicQuery = function () {
-        var queueVersion = JSON.stringify($scope.versionCopy);
-        $state.go('content.flows.query', {queueVersion: queueVersion, queueId: $scope.queue.id});
-      };
-
-      $scope.currVersionChanged = function(){
-        $scope.queue.activeVersion = $scope.currVersion.version;
-      };
-
-      $scope.createVersionCopy = function(version) {
-        version.viewing = false;
-
-        $scope.versionCopy = new QueueVersion({
-          query: version.query,
-          name: 'v' + ($scope.versions.length + 1),
-          tenantId: version.tenantId,
-          queueId: version.queueId,
-          minPriority: version.minPriority,
-          maxPriority: version.maxPriority,
-          priorityValue: version.priorityValue,
-          priorityRate: version.priorityRate,
-          priorityUnit: version.priorityUnit
-        });
-        
-        $scope.newVersionNumber = ($scope.versions.length + 1);
-        $scope.createNewVersion = true;
-      };
-
-      $scope.saveVersion = function () {
-        $scope.saving = true;
-
-        $scope.versionCopy.save(function (){
-          $scope.createVersionForm.$setPristine();
-          $scope.createVersionForm.$setUntouched();
-          $scope.createNewVersion = false;
-        }).finally(function () {
-          $scope.saving = false;
-        });
       };
 
       $scope.toggleDetails = function (version) {
-        if(version.viewing){
+        if (! version){
+          return;
+        }
+        
+        if (version.viewing){
           version.viewing = false;
           return;
         }
 
-        for(var i = 0; i < $scope.versions.length; i++){
-          $scope.versions[i].viewing = false;
+        for(var i = 0; i < $scope.fetchVersions().length; i++){
+          $scope.fetchVersions()[i].viewing = false;
+          if ($scope.fetchVersions()[i].version === version.version){
+            $scope.fetchVersions()[i].viewing = true;
+          }
         }
-
-        version.viewing = true;
       };
-
-      $scope.pushNewItem = function (event, item) {
-        $scope.versions.push(item);
-        $scope.selectedVersion = item;
+      
+      $scope.addQueueVersion = function(){
+        $scope.$emit('create:queue:version');
       };
-
-      $scope.$watch('queue', function () {
-        $scope.fetch();
-
-        if ($scope.cleanHandler) {
-          $scope.cleanHandler();
+      
+      $scope.createVersionCopy = function(version) {
+        $scope.$emit('copy:queue:version', version);
+      };
+      
+      $scope.$watch('queue', function(){
+        if ($scope.queue){
+          $scope.fetchVersions().$promise.then(function(){
+            $scope.toggleDetails($scope.queue.activeQueue);
+          });
         }
-
-        if($scope.queue && $scope.queue.id){
-          $scope.cleanHandler = $scope.$on(
-            'created:resource:tenants:' + Session.tenant.tenantId + ':queues:' + $scope.queue.id + ':versions',
-            $scope.pushNewItem);
-        }
-
       });
     }
   ])

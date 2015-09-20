@@ -22,6 +22,10 @@ queue-versions {
     i {
       color: $accent1;
     }
+    
+    tr:nth-child(4n), tr:nth-child(4n-1) {
+      background-color: $lightest-grey;
+    }
   }
   
   tr.view-version td {
@@ -33,11 +37,7 @@ queue-versions {
     background-color: #ffffff !important;
   }
   
-  #createVersion {
-    display: block;
-    border: 1px solid $light-grey;
-    @include border-radius();
-    padding: 0 10px 10px;
-    margin-bottom: 10px;
+  .copy-version-btn {
+    margin-top: 10px;
   }
 }

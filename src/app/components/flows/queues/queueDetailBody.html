@@ -20,6 +20,16 @@
     </div>
   </div>
   
+  <div ng-if="!resource.isNew()" class="input-group">
+    <label>{{'queue.details.activeVersion' | translate}}</label>
+    <div>
+      <form-error field="detailsForm.activeVersion"
+      error-type-required="{{'queue.details.version.error' | translate}}"></form-error>
+      <select name="activeVersion" ng-required="true" ng-model="resource.activeVersion" ng-options="version.version as version.name for version in fetchVersions() | orderBy:'created':'reverse'">
+      </select>
+    </div>
+  </div>
+  
   <div ng-if="!resource.id" class="input-group">
     <label class="disabled">{{'queue.details.activeVersion' | translate}}</label>
     <div>
