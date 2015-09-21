@@ -39,7 +39,7 @@ describe('When switching tenants', function() {
       elementCount = shared.tableElements.count();
     });
 
-    it('should create a new Flow in one and not the previous', function() {
+    xit('should create a new Flow in one and not the previous', function() {
       // Create Flow in new tenant
       var randomFlow = Math.floor((Math.random() * 1000) + 1);
       var newTenantFlow = 'New Tenant Flow ' + randomFlow;
@@ -88,7 +88,7 @@ describe('When switching tenants', function() {
       elementCount = shared.tableElements.count();
     });
 
-    it('should display the correct Media Collections for the current tenant', function() {
+    xit('should display the correct Media Collections for the current tenant', function() {
       expect(elementCount).toBe(0);
     });
 
@@ -196,7 +196,7 @@ describe('When switching tenants', function() {
       expect(elementCount).toBe(0);
     });
 
-    it('should create a new Dispatch Mapping in one and not the previous', function() {
+    xit('should create a new Dispatch Mapping in one and not the previous', function() {
       // Create DispatchMapping in new tenant
       var newTenantDispatchMapping = 'New Tenant DispatchMapping ' + Math.floor((Math.random() * 1000) + 1);
       shared.createBtn.click();
