@@ -1,9 +1,29 @@
 <div class="queue-query">
-  <div ng-repeat="(groupName, componentList) in queryComponents" class="query-component">
-    <div ng-repeat="component in componentList" 
-        class="input-group" 
-        ng-class="{'has-elements': component.list.length}"
-        ng-include="component.template">
+  <div class="input-group"
+    ng-class="{'has-elements': modifier.operands.length}"
+    ng-repeat="modifier in modifiers">
+    <label>
+      {{ modifier.labelKey | translate}}
+    </label>
+    <div class="tag-wrapper clear">
+      <div ng-repeat="operand in modifier.operands" class="tag">
+        {{operand.getDisplay()}}
+        <a ng-click="remove(modifier, operand)">
+          <i class="fa fa-times"></i>
+        </a>
+      </div>
+    </div>
+    <div>
+      <type-ahead hover="true"
+        placeholder="{{modifier.placeholderKey | translate}}"
+        items="modifier.options | invoke"
+        selected-item="selected">
+      </type-ahead>
+      <a class="add btn"
+        ng-disabled="! selected"
+        ng-click="add(modifier, selected)">
+        <i class="fa fa-plus"></i>
+      </a>
     </div>
   </div>
 </div>
