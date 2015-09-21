@@ -66,10 +66,11 @@
       <input id="cancel-version-btn" type="button" class="btn"
         value="{{'value.cancel' | translate}}"
         lo-cancel-chain-executor="version:cancel"></input>
-      <input id="create-version-btn" class="btn btn-primary" ng-hide="loading"
+      <input id="create-version-btn" class="btn btn-primary"
         type="submit" value="{{'value.create' | translate}}"
         ng-disabled="forms.versionForm.$invalid"
-        ng-click="saveVersion()"></input>
+        ng-click="saveVersion()"
+        lo-submit-spinner lo-submit-spinner-status="selectedQueueVersion.$busy"></input>
     </div>
   </ng-form>
 </lo-details-panel>

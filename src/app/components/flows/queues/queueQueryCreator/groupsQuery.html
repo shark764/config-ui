@@ -1,0 +1,13 @@
+<label>
+  {{ component.labelKey | translate}}
+</label>
+<div class="tag-wrapper clear">
+  <div ng-repeat="selected in component.list" class="tag">
+    {{selected.getDisplay()}}
+    <a ng-click="removeGroup(component, selected)"><i class="fa fa-times"></i></a>
+  </div>
+</div>
+<div>
+  <type-ahead hover="true" placeholder="{{component.placeholderKey | translate}}" items="component.dropItems" selected-item="component.selected"></type-ahead>
+  <a class="add btn" ng-disabled="! component.selected" ng-click="addGroup(component)"><i class="fa fa-plus"></i></a>
+</div>

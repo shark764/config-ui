@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-.controller('QueueQueryCreatorController', ['$scope', 'Session', 'Group', 'Skill', '$q', 'jsedn',
-                                            function($scope, Session, Group, Skill, $q, jsedn){
+.controller('QueueQueryCreatorController', ['$scope', 'Session', 'Group', 'Skill', '$q', 'jsedn', 'filterFilter',
+                                            function($scope, Session, Group, Skill, $q, jsedn, filterFilter){
   $scope.fetchGroups = function(){
     return Group.cachedQuery({
       tenantId: Session.tenant.tenantId
@@ -47,6 +47,9 @@ angular.module('liveopsConfigPanel')
     }
 
     $scope.version.query = jsedn.encode(ednTest);
+    if ($scope.version.query === 'nil'){
+      $scope.version.query = {};
+    }
     
   };
 
@@ -120,7 +123,7 @@ angular.module('liveopsConfigPanel')
     }
   };
   
-  $scope.createComponentTracker = function(type, operator, items){
+  $scope.createComponentTracker = function(type, operator, template, items){
     var componentData = {
       list: [],
       selected: null,
@@ -128,7 +131,8 @@ angular.module('liveopsConfigPanel')
       operator: operator,
       labelKey: 'queue.query.builder.' + type + '.' + operator,
       placeholderKey: 'queue.query.builder.' + type + '.placeholder',
-      dropItems : []
+      dropItems : [],
+      template: template
     };
     
     items.$promise.then(function(originalItems){
@@ -144,15 +148,15 @@ angular.module('liveopsConfigPanel')
   
   $scope.initQueryComponents = function(){
     $scope.queryComponents = {};
-    $scope.createComponentTracker('groups', 'or', $scope.fetchGroups());
-    $scope.createComponentTracker('groups', 'and', $scope.fetchGroups());
-    $scope.createComponentTracker('skills', 'or', $scope.fetchSkills());
-    $scope.createComponentTracker('skills', 'and', $scope.fetchSkills());
+    $scope.createComponentTracker('groups', 'or', 'app/components/flows/queues/queueQueryCreator/groupsQuery.html', $scope.fetchGroups());
+    $scope.createComponentTracker('groups', 'and', 'app/components/flows/queues/queueQueryCreator/groupsQuery.html', $scope.fetchGroups());
+    $scope.createComponentTracker('skills', 'or', 'app/components/flows/queues/queueQueryCreator/skillsQuery.html', $scope.fetchSkills());
+    $scope.createComponentTracker('skills', 'and', 'app/components/flows/queues/queueQueryCreator/skillsQuery.html', $scope.fetchSkills());
   };
   
   $scope.$watch('version', $scope.initQueryComponents);
 
-  $scope.add = function(queryComponent){
+  $scope.addGroup = function(queryComponent){
     if (queryComponent.selected){
       queryComponent.list.push(queryComponent.selected);
       queryComponent.dropItems.removeItem(queryComponent.selected);
@@ -161,8 +165,37 @@ angular.module('liveopsConfigPanel')
     }
   };
   
-  $scope.remove = function(queryComponent, item){
+  $scope.removeGroup = function(queryComponent, item){
     queryComponent.list.removeItem(item);
+    queryComponent.dropItems.push(item);
+    $scope.publish();
+  };
+  
+  $scope.addSkill = function(queryComponent){
+    if (queryComponent.selected){
+      queryComponent.selected.proficiencyOperatorDisplay = function(item){
+        if (item.proficiencyOperator){
+          if (item.proficiencyOperator === 'gt'){
+            return ' of at least ';
+          } else if (item.proficiencyOperator === 'lt'){
+            return ' of at most ';
+          } else if (item.proficiencyOperator === 'equal'){
+            return ' of exactly ';
+          }
+        }
+      };
+      
+      queryComponent.list.push(queryComponent.selected);
+      queryComponent.dropItems.removeItem(queryComponent.selected);
+      queryComponent.selected = null;
+      $scope.publish();
+    }
+  };
+  
+  $scope.removeSkill = function(queryComponent, item){
+    queryComponent.list.removeItem(item);
+    delete item.proficiency;
+    delete item.proficiencyOperator;
     queryComponent.dropItems.push(item);
     $scope.publish();
   };
