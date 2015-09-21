@@ -4,7 +4,7 @@ angular.module('liveopsConfigPanel')
   .controller('QueueQueryCreatorController', ['$scope', 'Session', 'basicExpressionModifierConfig', 'skillExpressionModifierConfig', 'BasicExpressionModifier',
     function($scope, Session, basicExpressionModifierConfig, skillExpressionModifierConfig, BasicExpressionModifier) {
       var self = this;
-      
+
       $scope.$watch('rootMap', function(newMap) {
         if(!newMap || !$scope.version) {
           return;
