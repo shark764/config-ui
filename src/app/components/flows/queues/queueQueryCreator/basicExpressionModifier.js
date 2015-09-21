@@ -61,6 +61,10 @@ angular.module('liveopsConfigPanel')
             if(this.parentMap.at(this.keyword).exists(jsedn.sym(this.operator))) {
               var set = this.parentMap.at(this.keyword).at(jsedn.sym(this.operator))
               set.val.removeItem(item.id);
+              
+              if(set.val.length === 0) {
+                this.parentMap.remove(this.keyword);
+              }
             }
           }
         };
