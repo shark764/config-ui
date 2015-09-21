@@ -10,7 +10,7 @@ function flowDesigner() {
       templateUrl: 'app/components/flows/flowDesigner/flowDesignerDirective.html',
       replace: true,
       link: function() {},
-      controller: ['$scope', '$element', '$attrs', '$window', '$timeout', 'FlowInitService', 'SubflowCommunicationService', 'FlowDraft', 'FlowVersion', 'Session', 'Alert', '$state', 'FlowLibrary', function($scope, $element, $attrs, $window, $timeout, FlowInitService, SubflowCommunicationService, FlowDraft, FlowVersion, Session, Alert, $state, FlowLibrary) {
+      controller: ['$scope', '$element', '$attrs', '$window', '$document', '$compile', '$timeout', 'FlowInitService', 'SubflowCommunicationService', 'FlowDraft', 'FlowVersion', 'Session', 'Alert', '$state', 'FlowLibrary', function($scope, $element, $attrs, $window, $document, $compile, $timeout, FlowInitService, SubflowCommunicationService, FlowDraft, FlowVersion, Session, Alert, $state, FlowLibrary) {
 
         $timeout(function() {
 
@@ -107,35 +107,67 @@ function flowDesigner() {
 
 
           $scope.publishNewFlowVersion = function() {
-
             var graph = $scope.graph;
-
             if (graph.toJSON().cells.length === 0) { return; }
-
             clearErrors();
-
             if(!validate) return;
 
-            var alienese = FlowLibrary.convertToAlienese(graph.toJSON());
 
-            $scope.version = new FlowVersion({
-              flow: JSON.stringify(alienese),
-              description: $scope.flowVersion.description || 'This needs to be fixed',
-              name: $scope.flowVersion.name,
-              tenantId: Session.tenant.tenantId,
-              flowId: $scope.flowVersion.flowId
-            });
+            var newScope = $scope.$new();
 
-            $scope.version.save(function() {
-              Alert.success('New flow version successfully created.');
-              $scope.flowVersion.v = parseInt($scope.flowVersion.v) + 1;
-            }, function(error) {
-              if (error.data.error.attribute === null) {
-                Alert.error('API rejected this flow -- likely invalid Alienese.', JSON.stringify(error, null, 2));
-              } else {
-                Alert.error('API rejected this flow -- some other reason...', JSON.stringify(error, null, 2));
-              }
-            });
+            newScope.modalBody = 'app/components/flows/flowDesigner/publishModalTemplate.html';
+            newScope.title = "Publish";
+
+            newScope.okCallback = function(version){
+              var alienese = FlowLibrary.convertToAlienese(graph.toJSON()),
+                  version = new FlowVersion({
+                    flow: JSON.stringify(alienese),
+                    description: version.description,
+                    name: version.name,
+                    tenantId: Session.tenant.tenantId,
+                    flowId: $scope.flowDraft.flowId
+                  })
+
+              version.save(function(){
+                $document.find('modal').remove();
+                Alert.success('New flow version successfully created.');
+              }, function(error) {
+                if (error.data.error.attribute === null) {
+                  Alert.error('API rejected this flow -- likely invalid Alienese.', JSON.stringify(error, null, 2));
+                } else {
+                  Alert.error('API rejected this flow -- some other reason...', JSON.stringify(error, null, 2));
+                }
+              });
+            };
+            newScope.cancelCallback = function(){
+              $document.find('modal').remove();
+            };
+
+            var element = $compile('<modal></modal>')(newScope);
+            $document.find('html > body').append(element);
+
+            function closeModal(){
+              $document.find('html > modal').remove();
+            }
+
+            // $scope.version = new FlowVersion({
+            //   flow: JSON.stringify(alienese),
+            //   description: $scope.flowVersion.description || 'This needs to be fixed',
+            //   name: $scope.flowVersion.name,
+            //   tenantId: Session.tenant.tenantId,
+            //   flowId: $scope.flowVersion.flowId
+            // });
+            //
+            // $scope.version.save(function() {
+            //   Alert.success('New flow version successfully created.');
+            //   $scope.flowVersion.v = parseInt($scope.flowVersion.v) + 1;
+            // }, function(error) {
+            //   if (error.data.error.attribute === null) {
+            //     Alert.error('API rejected this flow -- likely invalid Alienese.', JSON.stringify(error, null, 2));
+            //   } else {
+            //     Alert.error('API rejected this flow -- some other reason...', JSON.stringify(error, null, 2));
+            //   }
+            // });
           };
 
           if (SubflowCommunicationService.currentFlowContext !== '') {

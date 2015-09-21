@@ -169,7 +169,7 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
         reloadOnSearch: false
       })
       .state('content.flows.editor', {
-        url: '/editor/:flowId/:draftId',
+        url: '/editor/:flowId/d/:draftId',
         templateUrl: 'app/components/flows/flowDesigner/flowDesignerPage.html',
         controller: 'DesignerPageController',
         reloadOnSearch: false,
@@ -211,6 +211,9 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
           }],
           queue: ['Queue', 'Session', function(Queue, Session) {
             return Queue.query({tenantId : Session.tenant.tenantId});
+          }],
+          readOnly: [function(){
+            return false;
           }]
         }
       })
