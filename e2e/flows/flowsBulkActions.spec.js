@@ -124,7 +124,7 @@ describe('The flows view bulk actions', function() {
     expect(shared.successMessage.isPresent()).toBeFalsy();
   });
 
-  it('should only affect selected flows', function() {
+  xit('should only affect selected flows', function() {
     shared.tableElements.then(function(originalFlows) {
       // Select odd flows and leave even flows unselected
       for (var i = 0; i < originalFlows.length; i++) {

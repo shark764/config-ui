@@ -7,7 +7,7 @@ var Login = function() {
   this.loginButton = element(by.css('.btn'));
 
   this.logo = element(by.css('img'));
-  this.errorMessage = element(by.css('.error'));
+  this.errorMessage = element(by.css('.lo-error'));
 
   this.login = function(email, password) {
     // Ensure user is logged out before trying to login

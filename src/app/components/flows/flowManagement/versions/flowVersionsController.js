@@ -3,18 +3,15 @@
 angular.module('liveopsConfigPanel')
   .controller('FlowVersionsController', ['$scope', 'Session', 'FlowVersion',
     function ($scope, Session, FlowVersion) {
-      $scope.fetch = function () {
-        angular.copy([], $scope.versions);
-
-        FlowVersion.query({
+      $scope.getVersions = function(){
+        if (! $scope.flow || $scope.flow.isNew()){
+          return [];
+        }
+        
+        return FlowVersion.cachedQuery({
           tenantId: Session.tenant.tenantId,
           flowId: $scope.flow.id
-        }, function (versions) {
-          angular.forEach(versions, function(version, index) {
-            version.v = Math.abs((index - versions.length));
-          });
-          angular.copy(versions, $scope.versions);
-        });
+        }, 'FlowVersion' + $scope.flow.id);
       };
 
       $scope.saveVersion = function () {
@@ -35,13 +32,15 @@ angular.module('liveopsConfigPanel')
       };
 
       $scope.pushNewItem = function(event, item) {
-        item.v = $scope.versions.length + 1;
-        $scope.versions.unshift(item);
+        $scope.getVersions().unshift(item);
         $scope.selectedVersion = item;
       };
 
       $scope.$watch('flow', function () {
-        $scope.fetch();
+        if (! $scope.flow){
+          return;
+        }
+        
         $scope.createVersion();
 
         if($scope.cleanHandler){

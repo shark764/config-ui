@@ -29,7 +29,6 @@ angular.module('liveopsConfigPanel')
           
           $scope.$on('created:resource:' + $scope.resourceName,
             function (event, item) {
-              $scope.items.push(item);
               $scope.selected = item;
               $location.search({
                 id: item.id
@@ -160,6 +159,19 @@ angular.module('liveopsConfigPanel')
             }
 
             $scope.orderBy = fieldName;
+          };
+          
+          $scope.clearAllFilters = function(){
+            $scope.searchQuery = null;
+            
+            angular.forEach($scope.config.fields, function(field){
+              if (field.header.options){
+                var options = $filter('invoke')(field.header.options);
+                angular.forEach(options, function(option){
+                  option.checked = false;
+                });
+              }
+            });
           };
         }
       };

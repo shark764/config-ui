@@ -8,10 +8,13 @@ angular.module('liveopsConfigPanel')
 
       //This is really awful and hopefully the API will update to accommodate this.
       Group.prototype.fetchGroupUsers = function () {
-        return TenantGroupUsers.cachedQuery({
+        var result = TenantGroupUsers.cachedQuery({
           tenantId: Session.tenant.tenantId,
           groupId: this.id
         }, 'groups/' + this.id + '/users');
+        
+        this.members = result;
+        return result;
       };
 
       $scope.fetchGroups = function () {
@@ -22,10 +25,12 @@ angular.module('liveopsConfigPanel')
 
       Group.prototype.preCreate = function () {
         delete this.members;
+        return this;
       };
 
       Group.prototype.postCreate = function () {
         this.fetchGroupUsers();
+        return this;
       };
 
       $scope.$on('table:on:click:create', function () {

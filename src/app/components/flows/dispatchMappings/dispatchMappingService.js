@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .factory('DispatchMapping', ['LiveopsResourceFactory', 'emitInterceptor',
-    function (LiveopsResourceFactory, emitInterceptor) {
+  .factory('DispatchMapping', ['LiveopsResourceFactory', 'emitInterceptor', 'cacheAddInterceptor',
+    function (LiveopsResourceFactory, emitInterceptor, cacheAddInterceptor) {
 
       var DispatchMapping = LiveopsResourceFactory.create({
         endpoint: '/v1/tenants/:tenantId/dispatch-mappings/:id',
@@ -28,7 +28,7 @@ angular.module('liveopsConfigPanel')
           name: 'active',
           optional: true
         }],
-        saveInterceptor: emitInterceptor,
+        saveInterceptor: [emitInterceptor, cacheAddInterceptor],
         updateInterceptor: emitInterceptor
       });
 

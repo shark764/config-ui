@@ -53,7 +53,12 @@ angular.module('liveopsConfigPanel')
           query: version.query,
           name: 'v' + ($scope.versions.length + 1),
           tenantId: version.tenantId,
-          queueId: version.queueId
+          queueId: version.queueId,
+          minPriority: version.minPriority,
+          maxPriority: version.maxPriority,
+          priorityValue: version.priorityValue,
+          priorityRate: version.priorityRate,
+          priorityUnit: version.priorityUnit
         });
         
         $scope.newVersionNumber = ($scope.versions.length + 1);

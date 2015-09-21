@@ -28,23 +28,14 @@ angular.module('liveopsConfigPanel')
           });
         };
 
-        $scope.save = function (extSuccessEventName, extFailureEventName) {
+        $scope.save = function () {
           $scope.loading = true;
 
           return $scope.resource.save()
             .then($scope.handleSuccess, $scope.handleErrors)
             .then(function (result) {
-
-              if(angular.isDefined(extSuccessEventName)) {
-                $rootScope.$broadcast(extSuccessEventName, $scope.resource);
-              }
               return result;
-
             }, function (error) {
-              if(angular.isDefined(extFailureEventName)) {
-                $rootScope.$broadcast(extFailureEventName, $scope.resource);
-              }
-
               return $q.reject(error);
             }).finally(function () {
               $scope.loading = false;

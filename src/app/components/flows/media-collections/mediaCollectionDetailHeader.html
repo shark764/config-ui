@@ -1,7 +1,6 @@
-<div class="info">
+<div class="info" ng-show="selectedMediaCollection.$original.id">
   <div class="details">
-    <h1 ng-show="selectedMediaCollection.$original.id">{{selectedMediaCollection.$original.name}}</h1>
-    <h1 ng-show="!selectedMediaCollection.$original.id">{{'media.collection.details.creating' | translate}}</h1>
+    <h1>{{selectedMediaCollection.$original.name}}</h1>
     <div ng-if="['PLATFORM_VIEW_ALL_USERS', 'PLATFORM_CREATE_USERS', 'PLATFORM_MANAGE_ALL_USERS', 'PLATFORM_MANAGE_ALL_TENANTS', 'PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT'] | hasPermission">
       <b audit-text
         ng-if="!!selectedMediaCollection.$original.createdBy"
@@ -29,3 +28,5 @@
     </div>
   </div>
 </div>
+
+<h1 ng-show="!selectedMediaCollection.$original.id">{{'media.collection.details.creating' | translate}}</h1>

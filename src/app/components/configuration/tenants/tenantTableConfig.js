@@ -21,6 +21,7 @@ angular.module('liveopsConfigPanel')
           'options': statuses()
         },
         'name': 'active',
+        'id': 'status-column-dropdown',
         'lookup': '$original:active',
         'sortable': true,
         'transclude': true,

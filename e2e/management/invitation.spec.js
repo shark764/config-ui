@@ -18,94 +18,26 @@ describe('The user invitation', function() {
   var req,
     jar;
 
-  beforeEach(function() {
-    // Ignore unsaved changes warnings
-    browser.executeScript("window.onbeforeunload = function(){};");
+    beforeEach(function() {
+      // Ignore unsaved changes warnings
+      browser.executeScript("window.onbeforeunload = function(){};");
+      loginPage.login(params.login.user, params.login.password);
+      browser.get(shared.usersPageUrl);
 
-    loginPage.login(params.login.user, params.login.password);
-    browser.get(shared.usersPageUrl);
-
-    jar = request.jar();
-    req = request.defaults({
-      jar: jar
+      jar = request.jar();
+      req = request.defaults({
+        jar: jar
+      });
     });
-  });
 
   afterAll(function() {
     shared.tearDown();
   });
 
   // NOTE Tests are dependant on Mailinator API
-  // and invite emails being redirected to the mailbox specified in protractor params
-  // Default inbox for receiving invitiation emails is titantest@mailinator.com
+  // and invite emails being sent to the email specified when creating the user
 
   describe('email', function() {
-    it('should be sent when creating a new user', function() {
-      // Add randomness to user details
-      randomUser = Math.floor((Math.random() * 1000) + 1);
-      userAdded = false;
-      newUserEmail = 'titantest' + randomUser + '@mailinator.com';
-
-      // Add new user
-      shared.createBtn.click().then(function() {
-        users.emailFormField.sendKeys('titantest' + randomUser + '@mailinator.com\t');
-        users.tenantRoleFormDropdownOptions.get((randomUser % 3) + 1).click();
-        users.platformRoleFormDropdownOptions.get(1).click();
-
-        users.submitFormBtn.click().then(function() {
-          expect(shared.successMessage.isDisplayed()).toBeTruthy();
-
-          // Wait to allow the API to send and Mailinator to receive the email
-          browser.sleep(1000).then(function() {
-            // Verify user invitation email was sent
-            req.get('https://api.mailinator.com/api/inbox?to=' + params.mailinator.inbox + '&token=' + params.mailinator.token, '', function(error, response, body) {
-              var newestMessage = JSON.parse(body).messages[JSON.parse(body).messages.length - 1];
-
-              // Verify the newest message details
-              expect(newestMessage.seconds_ago).toBeLessThan(60);
-              expect(newestMessage.subject).toBe(params.mailinator.subject);
-              expect(newestMessage.been_read).toBeFalsy();
-              expect(newestMessage.from).toBe(params.mailinator.from);
-
-              // Get the newest message content
-              req.get('https://api.mailinator.com/api/email?msgid=' + newestMessage.id + '&token=' + params.mailinator.token, '', function(error, response, body) {
-                var newestMessageContents = JSON.parse(body).data.parts[0].body;
-
-                // Verify the email contains the expected content
-                expect(newestMessageContents).toContain('User Name: ' + newUserEmail);
-                expect(newestMessageContents).toContain('Password: Set the first time you login');
-                expect(newestMessageContents).toContain('Log in automatically by clicking');
-
-                // Verify link is correct
-                acceptInvitationLink = newestMessageContents.split('Log in automatically by clicking ')[1].split('\n')[0];
-                browser.get(acceptInvitationLink);
-              });
-
-            });
-          });
-        });
-      });
-    });
-
-    it('contain user information and accept link', function() {
-      req.get('https://api.mailinator.com/api/inbox?to=' + params.mailinator.inbox + '&token=' + params.mailinator.token, '', function(error, response, body) {
-        var newestMessage = JSON.parse(body).messages[JSON.parse(body).messages.length - 1];
-
-        expect(newestMessage.subject).toBe(params.mailinator.subject);
-        expect(newestMessage.been_read).toBeFalsy();
-        expect(newestMessage.from).toBe(params.mailinator.from);
-
-        req.get('https://api.mailinator.com/api/email?msgid=' + newestMessage.id + '&token=' + params.mailinator.token, '', function(error, response, body) {
-          var newestMessageContents = JSON.parse(body).data.parts[0].body;
-          expect(newestMessageContents).toContain('User Name: ');
-          expect(newestMessageContents).toContain('Password: Set the first time you login');
-          expect(newestMessageContents).toContain('Log in automatically by clicking');
-
-          acceptInvitationLink = newestMessageContents.split('Log in automatically by clicking ')[1].split('\n')[0];
-          browser.get(acceptInvitationLink);
-        });
-      });
-    });
 
     it('should not be sent when creating a new user and Invite Now is deselected', function() {
       // Add randomness to user details
@@ -132,21 +64,88 @@ describe('The user invitation', function() {
         // Wait to allow the API to send and Mailinator to receive the email
         browser.sleep(1000).then(function() {
           // Verify user invitation email was NOT sent
-          req.get('https://api.mailinator.com/api/inbox?to=' + params.mailinator.inbox + '&token=' + params.mailinator.token, '', function(error, response, body) {
-            var newestMessage = JSON.parse(body).messages[JSON.parse(body).messages.length - 1];
+          req.get('https://api.mailinator.com/api/inbox?to=titantest' + randomUser + '&token=' + params.mailinator.token, '', function(error, response, body) {
+            if (JSON.parse(body).messages.length > 0) {
+              var newestMessage1 = JSON.parse(body).messages[JSON.parse(body).messages.length - 1];
 
-            // Get the newest message content
-            req.get('https://api.mailinator.com/api/email?msgid=' + newestMessage.id + '&token=' + params.mailinator.token, '', function(error, response, body) {
-              var newestMessageContents = JSON.parse(body).data.parts[0].body;
+              // Get the newest message content
+              req.get('https://api.mailinator.com/api/email?msgid=' + newestMessage1.id + '&token=' + params.mailinator.token, '', function(error, response, body) {
+                var newestMessage1Contents = JSON.parse(body).data.parts[0].body;
 
-              // Verify the email is NOT from the latest user created
-              expect(newestMessageContents).not.toContain('User Name: ' + newUserEmail);
+                // Verify the email is NOT from the latest user created
+                expect(newestMessage1Contents).not.toContain('User Name: ' + newUserEmail);
+              });
+            }
+          });
+        });
+      });
+    });
 
-              // Verify link is correct
-              acceptInvitationLink = newestMessageContents.split('Log in automatically by clicking ')[1].split('\n')[0];
-              browser.get(acceptInvitationLink);
+    it('should be sent when creating a new user', function() {
+      // Add randomness to user details
+      randomUser = Math.floor((Math.random() * 1000) + 1);
+      userAdded = false;
+      newUserEmail = 'titantest' + randomUser + '@mailinator.com';
+
+      // Add new user
+      shared.createBtn.click().then(function() {
+        users.emailFormField.sendKeys('titantest' + randomUser + '@mailinator.com\t');
+        users.tenantRoleFormDropdownOptions.get((randomUser % 3) + 1).click();
+        users.platformRoleFormDropdownOptions.get(1).click();
+
+        users.submitFormBtn.click().then(function() {
+          expect(shared.successMessage.isDisplayed()).toBeTruthy();
+
+          // Wait to allow the API to send and Mailinator to receive the email
+          browser.sleep(1000).then(function() {
+            // Verify user invitation email was sent
+            req.get('https://api.mailinator.com/api/inbox?to=titantest' + randomUser + '&token=' + params.mailinator.token, '', function(error, response, body) {
+              if (JSON.parse(body).messages.length > 0) {
+                var newestMessage2 = JSON.parse(body).messages[JSON.parse(body).messages.length - 1];
+
+                // Verify the newest message details
+                expect(newestMessage2.seconds_ago).toBeLessThan(60);
+                expect(newestMessage2.subject).toBe(params.mailinator.subject);
+                expect(newestMessage2.been_read).toBeFalsy();
+                expect(newestMessage2.from).toBe(params.mailinator.from);
+
+                // Get the newest message content
+                req.get('https://api.mailinator.com/api/email?msgid=' + newestMessage2.id + '&token=' + params.mailinator.token, '', function(error, response, body) {
+                  var newestMessage2Contents = JSON.parse(body).data.parts[0].body;
+
+                  // Verify the email contains the expected content
+                  expect(newestMessage2Contents).toContain('User Name: ' + newUserEmail);
+                  expect(newestMessage2Contents).toContain('Password: Set the first time you login');
+                  expect(newestMessage2Contents).toContain('Log in automatically by clicking');
+
+                  // Verify link is correct
+                  acceptInvitationLink = newestMessage2Contents.split('Log in automatically by clicking ')[1].split('\n')[0];
+                  browser.get(acceptInvitationLink);
+                });
+              } else { // Fail test
+                expect(true).toBeFalsy();
+              }
             });
           });
+        });
+      });
+    });
+
+    it('contain user information and accept link', function() {
+      req.get('https://api.mailinator.com/api/inbox?to=titantest' + randomUser + '&token=' + params.mailinator.token, '', function(error, response, body) {
+        var newestMessage = JSON.parse(body).messages[JSON.parse(body).messages.length - 1];
+
+        expect(newestMessage.subject).toBe(params.mailinator.subject);
+        expect(newestMessage.been_read).toBeFalsy();
+        expect(newestMessage.from).toBe(params.mailinator.from);
+
+        req.get('https://api.mailinator.com/api/email?msgid=' + newestMessage.id + '&token=' + params.mailinator.token, '', function(error, response, body) {
+          var newestMessageContents = JSON.parse(body).data.parts[0].body;
+          expect(newestMessageContents).toContain('User Name: ');
+          expect(newestMessageContents).toContain('Password: Set the first time you login');
+          expect(newestMessageContents).toContain('Log in automatically by clicking');
+
+          acceptInvitationLink = newestMessageContents.split('Log in automatically by clicking ')[1].split('\n')[0];
         });
       });
     });
@@ -169,7 +168,7 @@ describe('The user invitation', function() {
           // Wait to allow the API to send and Mailinator to receive the email
           browser.sleep(1000).then(function() {
             // Verify user invitation email was sent
-            req.get('https://api.mailinator.com/api/inbox?to=' + params.mailinator.inbox + '&token=' + params.mailinator.token, '', function(error, response, body) {
+            req.get('https://api.mailinator.com/api/inbox?to=titantest' + randomUser + '&token=' + params.mailinator.token, '', function(error, response, body) {
               var newestMessage = JSON.parse(body).messages[JSON.parse(body).messages.length - 1];
 
               expect(newestMessage.seconds_ago).toBeLessThan(60);
@@ -194,10 +193,6 @@ describe('The user invitation', function() {
   });
 
   describe('acceptance form', function() {
-    beforeEach(function() {
-      // Ignore unsaved changes warnings
-      browser.executeScript("window.onbeforeunload = function(){};");
-    });
 
     it('should include supported fields and user details', function() {
       loginPage.login(params.login.user, params.login.password);
@@ -219,7 +214,7 @@ describe('The user invitation', function() {
           // Wait to allow the API to send and Mailinator to receive the email
           browser.sleep(1000).then(function() {
             // Verify user invitation email was sent
-            req.get('https://api.mailinator.com/api/inbox?to=' + params.mailinator.inbox + '&token=' + params.mailinator.token, '', function(error, response, body) {
+            req.get('https://api.mailinator.com/api/inbox?to=titantest' + randomUser + '&token=' + params.mailinator.token, '', function(error, response, body) {
               var newestMessage = JSON.parse(body).messages[JSON.parse(body).messages.length - 1];
 
               expect(newestMessage.seconds_ago).toBeLessThan(60);
@@ -286,7 +281,7 @@ describe('The user invitation', function() {
           // Wait to allow the API to send and Mailinator to receive the email
           browser.sleep(1000).then(function() {
             // Verify user invitation email was sent
-            req.get('https://api.mailinator.com/api/inbox?to=' + params.mailinator.inbox + '&token=' + params.mailinator.token, '', function(error, response, body) {
+            req.get('https://api.mailinator.com/api/inbox?to=titantest' + randomUser + '&token=' + params.mailinator.token, '', function(error, response, body) {
               var newestMessage = JSON.parse(body).messages[JSON.parse(body).messages.length - 1];
 
               expect(newestMessage.seconds_ago).toBeLessThan(60);
@@ -320,8 +315,8 @@ describe('The user invitation', function() {
       // NOTE: This test uses the acceptInvitationLink from the previous test
       browser.get(acceptInvitationLink);
 
-      expect(invites.copyrightMessage.isDisplayed()).toBeTruthy();
-      expect(invites.legalMessage.isDisplayed()).toBeTruthy();
+      expect(invites.copyrightLabel.isDisplayed()).toBeTruthy();
+      expect(invites.signupLegalLabel.isDisplayed()).toBeTruthy();
 
       expect(invites.copyrightLabel.getText()).toBe(invites.copyrightText);
       expect(invites.signupLegalLabel.getText()).toBe(invites.legalText);
@@ -363,6 +358,7 @@ describe('The user invitation', function() {
     });
 
     xit('should not accept spaces as valid input', function() {
+      // TODO Fails
       browser.get(acceptInvitationLink);
 
       invites.passwordFormField.sendKeys(' \t');
@@ -373,9 +369,9 @@ describe('The user invitation', function() {
       expect(invites.submitFormBtn.getAttribute('disabled')).toBeTruthy();
 
       expect(invites.errors.get(0).getText()).toBe('Please enter a password');
-      expect(invites.errors.get(0).getText()).toBe('Please enter a first name');
-      expect(invites.errors.get(0).getText()).toBe('Please enter a last name');
-      expect(invites.errors.get(0).getText()).toBe('Please enter an external id');
+      expect(invites.errors.get(1).getText()).toBe('Please enter a first name');
+      expect(invites.errors.get(2).getText()).toBe('Please enter a last name');
+      expect(invites.errors.get(3).getText()).toBe('Please enter an external id');
     });
 
     it('should accept invitation', function() {
@@ -385,24 +381,23 @@ describe('The user invitation', function() {
 
       expect(invites.submitFormBtn.getAttribute('disabled')).toBeNull();
       invites.submitFormBtn.click().then(function() {
-        expect(browser.getCurrentUrl()).toContain(shared.usersPageUrl);
-
         expect(shared.message.isDisplayed()).toBeTruthy();
         expect(shared.message.getText()).toBe('Your invitation has been accepted!');
       });
     });
 
-    xit('should redirect to login page when invitation is already accepted', function() {
-      // TODO Enable after TITAN2-3299
+    it('should redirect to login page when invitation is already accepted', function() {
+      // TODO Update expected flow after TITAN2-3299
       browser.get(acceptInvitationLink);
 
-      expect(browser.getCurrentUrl()).toContain(shared.loginPageUrl);
+      invites.passwordFormField.sendKeys('not the same password');
 
-      expect(shared.errorMessage.isDisplayed()).toBeTruthy();
-      expect(shared.errorMessage.getText()).toBe('Accept token invalid.');
+      invites.submitFormBtn.click().then(function() {
+        expect(shared.errorMessage.isDisplayed()).toBeTruthy();
+        expect(shared.errorMessage.getText()).toContain('Sorry, there was an error accepting your invitation.');
+      });
     });
   });
-
 
   xit('should expire after 24 hours', function() {});
 

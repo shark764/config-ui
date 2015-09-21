@@ -26,6 +26,26 @@ angular.module('liveopsConfigPanel')
           return value;
         }
       }
+      
+      function getInterceptor(interceptorParam){
+        if (angular.isArray(interceptorParam)){
+          var interceptorFunc = function(response){
+            angular.forEach(interceptorParam, function(interceptor){
+              interceptor.response(response);
+            });
+            
+            return response.resource;
+          };
+          
+          var interceptor = {
+              response: interceptorFunc
+          };
+          
+          return interceptor;
+        } else {
+          return interceptorParam;
+        }
+      }
 
       return {
         create: function (params) {
@@ -51,7 +71,7 @@ angular.module('liveopsConfigPanel')
             });
             
             return cleanedData;
-          }
+          };
 
           params.requestUrlFields = angular.isDefined(params.requestUrlFields) ? params.requestUrlFields : {
             id: '@id',
@@ -62,7 +82,7 @@ angular.module('liveopsConfigPanel')
             userId: '@userId',
             memberId: '@memberId'
           };
-
+          
           var Resource = $resource(apiHostname + params.endpoint, params.requestUrlFields, {
             query: {
               method: 'GET',
@@ -81,7 +101,7 @@ angular.module('liveopsConfigPanel')
             },
             update: {
               method: 'PUT',
-              interceptor: params.updateInterceptor,
+              interceptor: getInterceptor(params.updateInterceptor),
               transformRequest: function (data) {
                 var validUpdateFields = cleanUpdateFields(data);
                 return JSON.stringify(validUpdateFields, updateJsonReplacer);
@@ -93,7 +113,7 @@ angular.module('liveopsConfigPanel')
             },
             save: {
               method: 'POST',
-              interceptor: params.saveInterceptor,
+              interceptor: getInterceptor(params.saveInterceptor),
               transformRequest: function (data) {
                 return JSON.stringify(data, createJsonReplacer);
               },
@@ -230,7 +250,8 @@ angular.module('liveopsConfigPanel')
               })
               .then(function (result) {
                 self.$original = angular.copy(result);
-
+                delete self.$original.$original; //Prevent the object from keeping a history, if $original is present on result
+                
                 return result;
               }).finally(function () {
                 self.$busy = false;

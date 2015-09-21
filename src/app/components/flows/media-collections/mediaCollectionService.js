@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .factory('MediaCollection', ['LiveopsResourceFactory', 'cacheAddInterceptor',
-    function (LiveopsResourceFactory, cacheAddInterceptor) {
+  .factory('MediaCollection', ['LiveopsResourceFactory', 'cacheAddInterceptor', 'emitInterceptor',
+    function (LiveopsResourceFactory, cacheAddInterceptor, emitInterceptor) {
 
       var MediaCollection = LiveopsResourceFactory.create({
         endpoint: '/v1/tenants/:tenantId/media-collections/:id',
@@ -19,7 +19,7 @@ angular.module('liveopsConfigPanel')
           name: 'defaultMediaKey',
           optional: true
         }],
-        saveInterceptor: cacheAddInterceptor
+        saveInterceptor: [cacheAddInterceptor, emitInterceptor]
       });
 
       return MediaCollection;
