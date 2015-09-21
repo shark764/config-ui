@@ -362,7 +362,7 @@ describe('The user groups component of User view', function() {
     });
   });
 
-  it('should search list of all existing Groups by Group name', function() {
+  xit('should search list of all existing Groups by Group name', function() {
     browser.get(shared.groupsPageUrl);
 
     // Get list of groups from Group page

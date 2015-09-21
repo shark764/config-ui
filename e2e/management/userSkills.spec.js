@@ -54,7 +54,7 @@ describe('The user skills component of User view', function() {
     });
   });
 
-  it('should add skill with proficiency', function() {
+  xit('should add skill with proficiency', function() {
     //Create a new skill
     browser.get(shared.skillsPageUrl);
     shared.createBtn.click();
@@ -91,7 +91,7 @@ describe('The user skills component of User view', function() {
     });
   });
 
-  it('should add skill with default proficiency', function() {
+  xit('should add skill with default proficiency', function() {
     //Create a new skill
     browser.get(shared.skillsPageUrl);
     shared.createBtn.click();
@@ -128,7 +128,7 @@ describe('The user skills component of User view', function() {
     });
   });
 
-  it('should add skill without proficiency', function() {
+  xit('should add skill without proficiency', function() {
     //Create a new skill
     browser.get(shared.skillsPageUrl);
     shared.createBtn.click();
@@ -310,7 +310,7 @@ describe('The user skills component of User view', function() {
     });
   });
 
-  it('should update skill proficiency when re-adding existing skill', function() {
+  xit('should update skill proficiency when re-adding existing skill', function() {
     shared.searchField.sendKeys('e'); //Filter out users with blank first and last names, such as pending users
     shared.firstTableRow.click();
     users.userSkills.count().then(function(previousUserSkillCount) {
@@ -399,7 +399,7 @@ describe('The user skills component of User view', function() {
     });
   });
 
-  it('should search list of all existing Skills by Skill name', function() {
+  xit('should search list of all existing Skills by Skill name', function() {
     browser.get(shared.skillsPageUrl);
 
     // Get list of skills from Skill page
