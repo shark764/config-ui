@@ -65,22 +65,21 @@ describe('setGroupStatusBulkAction directive', function() {
     ]));
   
   it('should reject the change if attempting to edit the Everyone group', inject(['Group', function (Group) {
-          var everyoneGroup = new Group({
-            type: 'everyone',
-            id: '123456',
-            active: true
-          });
-          
-          isolateScope.active = false;
-          var result = isolateScope.bulkAction.apply(everyoneGroup);
+      var everyoneGroup = new Group({
+        type: 'everyone',
+        id: '123456',
+        active: true
+      });
+      
+      isolateScope.active = false;
+      var result = isolateScope.bulkAction.apply(everyoneGroup);
 
-          result.then(function() {
-            throw new Error('Promise should not be resolved');
-          }, function(reason) {
-            expect(reason.msg).toEqual('Cannot disable the Everyone group.');
-          });
-          
-          expect(everyoneGroup.active).toBeTruthy();
-        }
-      ]));
+      result.then(angular.noop, function(reason) {
+        expect(reason).toEqual('Cannot disable the Everyone group');
+      });
+      
+      $scope.$digest();
+      expect(everyoneGroup.active).toBeTruthy();
+    }
+  ]));
 });
