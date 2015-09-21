@@ -1,12 +1,12 @@
 <div class="queue-query">
   <div class="input-group"
-    ng-class="{'has-elements': modifier.operands.length}"
+    ng-class="{'has-elements': modifier.operands().length}"
     ng-repeat="modifier in modifiers">
     <label>
       {{ modifier.labelKey | translate}}
     </label>
     <div class="tag-wrapper clear">
-      <div ng-repeat="operand in modifier.operands" class="tag">
+      <div ng-repeat="operand in modifier.operands()" class="tag">
         {{operand.getDisplay()}}
         <a ng-click="remove(modifier, operand)">
           <i class="fa fa-times"></i>
