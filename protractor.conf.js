@@ -17,7 +17,7 @@ exports.config = {
     'name': '',
     'build': '',
     'tags': [''],
-    'max-duration': '5400'
+    'max-duration': '8000'
   },
 
   // Timeout time in milliseconds; prevents Protractor waiting to synchronize timeouts
