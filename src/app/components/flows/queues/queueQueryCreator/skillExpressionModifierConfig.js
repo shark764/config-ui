@@ -13,17 +13,17 @@ angular.module('liveopsConfigPanel')
       return [{
           keyword: ':skills',
           options: fetchSkills,
-          operator: 'every',
+          operator: 'and',
           labelKey: 'queue.query.builder.skills.all',
           placeholderKey: 'queue.query.builder.skills.placeholder',
-          template: 'app/components/flows/queues/queueQueryCreator/skillsQuery.html'
+          template: 'app/components/flows/queues/queueQueryCreator/queryModifierTemplates/skillsQuery.html'
         }, {
           keyword: ':skills',
           options: fetchSkills,
-          operator: 'some',
+          operator: 'or',
           labelKey: 'queue.query.builder.skills.some',
           placeholderKey: 'queue.query.builder.skills.placeholder',
-          template: 'app/components/flows/queues/queueQueryCreator/skillsQuery.html'
+          template: 'app/components/flows/queues/queueQueryCreator/queryModifierTemplates/skillsQuery.html'
         }];
     }
   ]);

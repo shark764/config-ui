@@ -13,11 +13,11 @@
   <type-ahead hover="true"
     placeholder="{{modifier.placeholderKey | translate}}"
     items="modifier.options | invoke"
-    selected-item="selected">
+    selected-item="modifier.selected">
   </type-ahead>
   <a class="add btn"
-    ng-disabled="! selected"
-    ng-click="modifier.add(selected)">
+    ng-disabled="! modifier.selected"
+    ng-click="modifier.add(modifier.selected)">
     <i class="fa fa-plus"></i>
   </a>
 </div>

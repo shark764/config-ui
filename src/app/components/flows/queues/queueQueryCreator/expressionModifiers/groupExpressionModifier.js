@@ -1,9 +1,9 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('BasicExpressionModifier', ['jsedn',
+  .service('GroupExpressionModifier', ['jsedn',
       function (jsedn) {
-        var BasicExpressionModifier = function(parentMap, params) {
+        var GroupExpressionModifier = function(parentMap, params) {
           this.parentMap = parentMap;
           this.keyword = params.keyword;
           this.operator = params.operator;
@@ -14,7 +14,7 @@ angular.module('liveopsConfigPanel')
           this.template = params.template;
         };
         
-        BasicExpressionModifier.prototype.operands = function() {
+        GroupExpressionModifier.prototype.operands = function() {
           var operands = [];
           if(this.parentMap.exists(this.keyword)) {
             if(this.parentMap.at(this.keyword).exists(jsedn.sym(this.operator))) {
@@ -39,7 +39,7 @@ angular.module('liveopsConfigPanel')
           return operands;
         }
         
-        BasicExpressionModifier.prototype.add = function(item) {
+        GroupExpressionModifier.prototype.add = function(item) {
           if(this.parentMap.exists(this.keyword)) {
             if(this.parentMap.at(this.keyword).exists(jsedn.sym(this.operator))) {
               var set = this.parentMap.at(this.keyword).at(jsedn.sym(this.operator))
@@ -53,11 +53,11 @@ angular.module('liveopsConfigPanel')
             var set = new jsedn.Set([item.id]);
             var map = new jsedn.Map([jsedn.sym(this.operator), set]);
             
-            this.parentMap.set(this.keyword, map);
+            this.parentMap.set(jsedn.kw(this.keyword), map);
           }
         };
 
-        BasicExpressionModifier.prototype.remove = function(item) {
+        GroupExpressionModifier.prototype.remove = function(item) {
           if(this.parentMap.exists(this.keyword)) {
             if(this.parentMap.at(this.keyword).exists(jsedn.sym(this.operator))) {
               var set = this.parentMap.at(this.keyword).at(jsedn.sym(this.operator))
@@ -70,6 +70,6 @@ angular.module('liveopsConfigPanel')
           }
         };
         
-        return BasicExpressionModifier;
+        return GroupExpressionModifier;
       }
     ]);
