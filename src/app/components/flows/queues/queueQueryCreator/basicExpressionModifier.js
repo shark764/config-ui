@@ -11,6 +11,7 @@ angular.module('liveopsConfigPanel')
           this.options = params.options;
           this.labelKey = params.labelKey;
           this.placeholderKey = params.placeholderKey;
+          this.template = params.template;
         };
         
         BasicExpressionModifier.prototype.operands = function() {

@@ -1,25 +1,28 @@
 <label>
-  {{ component.labelKey | translate}}
+  {{ modifier.labelKey | translate}}
 </label>
 <div class="tag-wrapper clear">
-  <div ng-repeat="selected in component.list" class="tag">
-    {{selected.getDisplay()}} {{selected.proficiencyOperatorDisplay(selected)}} {{selected.proficiency}}
-    <a ng-click="removeSkill(component, selected)"><i class="fa fa-times"></i></a>
+  <div ng-repeat="operand in modifier.operands()" class="tag">
+    {{operand.getDisplay()}}
+    <a ng-click="modifier.remove(operand)"><i class="fa fa-times"></i></a>
   </div>
 </div>
 <div>
   <div>
     <div>
-      <type-ahead hover="true" placeholder="{{component.placeholderKey | translate}}" items="component.dropItems" selected-item="component.selected"></type-ahead>
+      <type-ahead hover="true" 
+        placeholder="{{modifier.placeholderKey | translate}}" 
+        items="modifier.options | invoke" 
+        selected-item="selected"></type-ahead>
     </div>
-    <div ng-if="component.selected.hasProficiency" ng-init="component.selected.proficiencyOperator = 'gt'; component.selected.proficiency = 0;">
-      <select ng-model="component.selected.proficiencyOperator" class="pull-left" style="width: 65%;">
+    <div ng-if="selected.hasProficiency" ng-init="selected.proficiencyOperator = 'gt'; selected.proficiency = 0;">
+      <select ng-model="selected.proficiencyOperator" class="pull-left" style="width: 65%;">
         <option value="gt">Proficiency at Least</option>
         <option value="lt">Proficiency at Most</option>
         <option value="equal">Proficiency Exactly</option>
       </select>
-      <number-slider value="component.selected.proficiency" min-value="0" max-value="100" class="pull-left" style="display:block;width: 35%;"></number-slider>
+      <number-slider value="selected.proficiency" min-value="0" max-value="100" class="pull-left" style="display:block;width: 35%;"></number-slider>
     </div>
   </div>
-  <a class="add btn" ng-disabled="! component.selected" ng-click="addSkill(component)"><i class="fa fa-plus"></i></a>
+  <a class="add btn" ng-disabled="! selected" ng-click="modifier.add(component)"><i class="fa fa-plus"></i></a>
 </div>

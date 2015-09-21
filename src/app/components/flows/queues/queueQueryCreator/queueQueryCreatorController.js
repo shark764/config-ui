@@ -1,17 +1,9 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('QueueQueryCreatorController', ['$scope', 'Session', 'basicExpressionModifierConfig', 'BasicExpressionModifier',
-    function($scope, Session, basicExpressionModifierConfig, BasicExpressionModifier) {
+  .controller('QueueQueryCreatorController', ['$scope', 'Session', 'basicExpressionModifierConfig', 'skillExpressionModifierConfig', 'BasicExpressionModifier',
+    function($scope, Session, basicExpressionModifierConfig, skillExpressionModifierConfig, BasicExpressionModifier) {
       var self = this;
-
-      $scope.add = function(modifier, operand) {
-        modifier.add(operand);
-      };
-      
-      $scope.remove = function(modifier, operand) {
-        modifier.remove(operand);
-      };
       
       $scope.$watch('rootMap', function(newMap) {
         if(!newMap || !$scope.version) {
@@ -28,9 +20,14 @@ angular.module('liveopsConfigPanel')
         
         $scope.rootMap = jsedn.parse(newQuery);
         
-        $scope.modifiers = [];
+        $scope.groupModifiers = [];
         angular.forEach(basicExpressionModifierConfig, function(modifierParams) {
-          $scope.modifiers.push(new BasicExpressionModifier($scope.rootMap, modifierParams));
+          $scope.groupModifiers.push(new BasicExpressionModifier($scope.rootMap, modifierParams));
+        });
+        
+        $scope.skillModifiers = [];
+        angular.forEach(skillExpressionModifierConfig, function(modifierParams) {
+          $scope.skillModifiers.push(new BasicExpressionModifier($scope.rootMap, modifierParams));
         });
       });
     }

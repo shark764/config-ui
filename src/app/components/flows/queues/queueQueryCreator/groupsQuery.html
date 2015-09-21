@@ -4,7 +4,7 @@
 <div class="tag-wrapper clear">
   <div ng-repeat="operand in modifier.operands()" class="tag">
     {{operand.getDisplay()}}
-    <a ng-click="remove(modifier, operand)">
+    <a ng-click="modifier.remove(operand)">
       <i class="fa fa-times"></i>
     </a>
   </div>
@@ -17,7 +17,7 @@
   </type-ahead>
   <a class="add btn"
     ng-disabled="! selected"
-    ng-click="add(modifier, selected)">
+    ng-click="modifier.add(selected)">
     <i class="fa fa-plus"></i>
   </a>
 </div>

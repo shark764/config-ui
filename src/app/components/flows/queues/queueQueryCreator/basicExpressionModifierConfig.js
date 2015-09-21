@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('basicExpressionModifierConfig', ['Session', 'Group', 'Skill', 'jsedn',
-    function (Session, Group, Skill, jsedn) {
+  .service('basicExpressionModifierConfig', ['Session', 'Group', 'jsedn',
+    function (Session, Group, jsedn) {
 
       var fetchGroups = function(){
         return Group.cachedQuery({
@@ -10,36 +10,20 @@ angular.module('liveopsConfigPanel')
         });
       };
 
-      var fetchSkills = function(){
-        return Skill.cachedQuery({
-          tenantId: Session.tenant.tenantId
-        });
-      };
-
       return [{
-          keyword: ':skills',
-          options: fetchSkills,
-          operator: 'every',
-          labelKey: 'queue.query.builder.skills.all',
-          placeholderKey: 'queue.query.builder.skills.placeholder'
-        }, {
-          keyword: ':skills',
-          options: fetchSkills,
-          operator: 'some',
-          labelKey: 'queue.query.builder.skills.some',
-          placeholderKey: 'queue.query.builder.skills.placeholder'
-        }, {
           keyword: ':groups',
           options: fetchGroups,
           operator: 'every',
           labelKey: 'queue.query.builder.groups.all',
-          placeholderKey: 'queue.query.builder.groups.placeholder'
+          placeholderKey: 'queue.query.builder.groups.placeholder',
+          template: 'app/components/flows/queues/queueQueryCreator/groupsQuery.html'
         }, {
           keyword: ':groups',
           options: fetchGroups,
           operator: 'some',
           labelKey: 'queue.query.builder.groups.some',
-          placeholderKey: 'queue.query.builder.groups.placeholder'
+          placeholderKey: 'queue.query.builder.groups.placeholder',
+          template: 'app/components/flows/queues/queueQueryCreator/groupsQuery.html'
         }
       ];
     }
