@@ -9,16 +9,29 @@ angular.module('liveopsConfigPanel')
         modifier.add(operand);
       };
       
-      $scope.remove = function(expression, operand) {
+      $scope.remove = function(modifier, operand) {
         modifier.remove(operand);
       };
       
-      $scope.rootMap = new jsedn.Map();
+      $scope.$watch('rootMap', function(newMap) {
+        if(!newMap || !$scope.version) {
+          return;
+        }
+        
+        $scope.version.query = jsedn.encode(newMap);
+      }, true);
       
-      $scope.modifiers = [];
-      
-      angular.forEach(basicExpressionModifierConfig, function(modifierParams) {
-        $scope.modifiers.push(new BasicExpressionModifier($scope.rootMap, modifierParams));
+      $scope.$watch('version.query', function(newQuery) {
+        if(!newQuery) {
+          return;
+        }
+        
+        $scope.rootMap = jsedn.parse(newQuery);
+        
+        $scope.modifiers = [];
+        angular.forEach(basicExpressionModifierConfig, function(modifierParams) {
+          $scope.modifiers.push(new BasicExpressionModifier($scope.rootMap, modifierParams));
+        });
       });
     }
   ]);
