@@ -1,8 +1,8 @@
 <div class="queue-query">
   <div ng-repeat="(groupName, componentList) in queryComponents" class="query-component">
-    <div ng-repeat="component in componentList" 
+    <div ng-repeat="modifier in modifiers" 
         class="input-group" 
-        ng-class="{'has-elements': component.list.length}"
+        ng-class="{'has-elements': modifier.operands().length}"
         ng-include="component.template">
     </div>
   </div>
