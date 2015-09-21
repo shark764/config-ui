@@ -33,7 +33,7 @@ describe('The tenants view bulk actions', function() {
     expect(bulkActions.enableToggle.isDisplayed()).toBeTruthy();
   });
 
-  it('should allow all selected tenant\'s status to be Disabled', function() {
+  xit('should allow all selected tenant\'s status to be Disabled', function() {
     shared.searchField.sendKeys('Tenant'); // Ensure Platform tenant is not selected
     tenantCount = shared.tableElements.count();
 
@@ -72,7 +72,7 @@ describe('The tenants view bulk actions', function() {
     });
   });
 
-  it('should allow all selected tenant\'s status to be Enabled', function() {
+  xit('should allow all selected tenant\'s status to be Enabled', function() {
     shared.searchField.sendKeys('Tenant'); // Ensure Platform tenant is not selected
     tenantCount = shared.tableElements.count();
 
@@ -134,7 +134,7 @@ describe('The tenants view bulk actions', function() {
     expect(shared.successMessage.isPresent()).toBeFalsy();
   });
 
-  it('should only affect selected tenants', function() {
+  xit('should only affect selected tenants', function() {
     shared.searchField.sendKeys('Tenant'); // Ensure Platform tenant is not selected
     tenantCount = shared.tableElements.count();
 

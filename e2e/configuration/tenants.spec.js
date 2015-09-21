@@ -37,7 +37,7 @@ describe('The tenants view', function() {
     expect(shared.pageHeader.getText()).toBe('Tenant Management');
   });
 
-  it('should display tenants available to the current user corresponding with the Tenants Navigation dropdown', function() {
+  xit('should display tenants available to the current user corresponding with the Tenants Navigation dropdown', function() {
     // Confirm tenant added to tenant dropdown
     shared.tenantsNavDropdown.click();
     expect(shared.tenantsNavDropdownContents.count()).toBe(tenantCount);

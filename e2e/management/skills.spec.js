@@ -326,6 +326,7 @@ describe('The skills view', function() {
     shared.firstTableRow.click();
 
     // Edit fields
+    skills.descriptionFormField.sendKeys('not required');
     skills.descriptionFormField.clear();
     shared.submitFormBtn.click().then(function() {
       expect(shared.successMessage.isPresent()).toBeTruthy();

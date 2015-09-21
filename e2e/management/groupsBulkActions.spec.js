@@ -76,7 +76,7 @@ describe('The groups view bulk actions', function() {
         }
       });
     });
-    
+
     bulkActions.selectEnable.click();
 
     expect(bulkActions.submitFormBtn.getAttribute('disabled')).toBeFalsy();
@@ -170,7 +170,7 @@ describe('The groups view bulk actions', function() {
     expect(shared.successMessage.isPresent()).toBeFalsy();
   });
 
-  it('should only affect selected groups', function() {
+  xit('should only affect selected groups', function() {
     shared.tableElements.then(function(originalGroups) {
 
       // Select odd groups and leave even groups unselected, skip everyone group
