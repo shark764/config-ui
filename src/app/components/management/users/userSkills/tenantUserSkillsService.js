@@ -9,7 +9,12 @@ angular.module('liveopsConfigPanel')
         resourceName: 'TenantUserSkill',
         updateFields: [{
           name: 'proficiency'
-        }]
+        }],
+        requestUrlFields: {
+          tenantId: '@tenantId',
+          userId: '@userId',
+          skillId: '@skillId'
+        }
       });
 
     }

@@ -20,23 +20,32 @@
 </ng-form>
 
   <p id="no-user-skills" class="null" ng-if="userSkills.length == 0">{{'details.skills.none' | translate}}</p>
-  <table scroll-table max-height="300" class="table" ng-show="userSkills.length > 0">
-    <thead>
-      <tr>
-        <th>{{'value.name' | translate}}</th>
-        <th style="text-align:right">{{'skill.details.proficiency' | translate}}</th>
-        <th>&nbsp;</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr ng-repeat="userSkill in userSkills | orderBy:'name'">
-        <td>{{userSkill.name}}</td>
-        <td style="text-align:right;padding:0">
-          <input ng-blur="updateUserSkill(userSkill)" style="width: 50%;" ng-if="userSkill.proficiency > 0" type="number" min="1" max="100" ng-model="userSkill.proficiency"/>
-        </td>
-        <td style="text-align:right"><i class="fa fa-times remove" ng-click="remove(userSkill)"
-          title="{{'value.remove' | translate}}"></i></td>
-      </tr>
-    </tbody>
-  </table>
+  <ng-form seperate-validation name="userSkills">
+    <table scroll-table max-height="300" class="table" ng-show="userSkills.length > 0">
+      <thead>
+        <tr>
+          <th>{{'value.name' | translate}}</th>
+          <th style="text-align:right">{{'skill.details.proficiency' | translate}}</th>
+          <th>&nbsp;</th>
+          <th class="control-col">&nbsp;</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="userSkill in userSkills | orderBy:'name'">
+          <td>{{userSkill.name}}</td>
+          <td style="text-align:right;padding:0">
+            <input ng-if="userSkill.proficiency > 0" type="number" min="1" max="100" ng-model="userSkill.proficiency"/>
+          </td>
+          <td>
+            <a ng-show="userSkill.proficiency != userSkill.$original.proficiency" class="btn btn-primary" ng-click="updateUserSkill(userSkill)">{{'value.save' | translate}}</a>
+            <a ng-show="userSkill.proficiency != userSkill.$original.proficiency" class="btn" ng-click="userSkill.reset()">{{'value.cancel'| translate}}</a>
+          </td>
+          <td style="text-align:right">
+            <i class="fa fa-times remove" ng-click="remove(userSkill)"
+            title="{{'value.remove' | translate}}"></i>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </ng-form>
 </div>
