@@ -147,7 +147,7 @@ angular.module('liveopsConfigPanel')
               TenantUserSkills.update({
                 userId: userSkill.userId, 
                 tenantId: userSkill.tenantId, 
-                skillId: userSkill.skillId
+                id: userSkill.skillId
               }, {
                 proficiency: userSkill.proficiency
               }, function(){

@@ -13,7 +13,7 @@ angular.module('liveopsConfigPanel')
         requestUrlFields: {
           tenantId: '@tenantId',
           userId: '@userId',
-          skillId: '@skillId'
+          skillId: '@id'
         }
       });
 
