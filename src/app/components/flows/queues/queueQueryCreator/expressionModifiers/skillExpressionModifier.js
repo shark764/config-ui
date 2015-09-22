@@ -1,14 +1,16 @@
 'use strict';
 
-var operatorMap = {
-  gt: '>',
-  lt: '<',
-  equal: '='
-}
+
 
 angular.module('liveopsConfigPanel')
   .service('SkillExpressionModifier', ['jsedn',
       function (jsedn) {
+        var operatorMap = {
+          gt: '>',
+          lt: '<',
+          equal: '='
+        }
+        
         var SkillExpressionModifier = function(parentMap, params) {
           this.parentMap = parentMap;
           this.keyword = jsedn.kw(params.keyword);
@@ -25,18 +27,18 @@ angular.module('liveopsConfigPanel')
           var operands = [];
           
           if(this.parentMap.exists(this.keyword)) {
-            var operatorList = this.parentMap.at(this.keyword);
-            if(operatorList.val.length) {
-              if(operatorList.val[0] !== this.operator) {
+            var operationList = this.parentMap.at(this.keyword);
+            if(operationList.val.length) {
+              if(operationList.val[0] !== this.operator) {
                 return;
               }
               
-              for(var operatorListIndex = 1; operatorListIndex < operatorList.val.length; operatorListIndex++) {
+              for(var operationListIndex = 1; operationListIndex < operationList.val.length; operationListIndex++) {
                 
-                var skillMap = operatorList.val[operatorListIndex];
+                var skillMap = operationList.val[operationListIndex];
                 
-                var skillKeyword = skillMap.keys[0].val;
-                skillKeyword = skillKeyword.substring(1, skillKeyword.length);
+                var skillKeyword = skillMap.keys[0];
+                skillKeyword.id = skillKeyword.val.substring(1, skillKeyword.length);
                 
                 var skillExpression = skillMap.vals[0];
                 
@@ -46,10 +48,18 @@ angular.module('liveopsConfigPanel')
                 }
                 
                 for(var optionIndex = 0; optionIndex < options.length; optionIndex++) {
-                  if(skillKeyword === options[optionIndex].id) {
-                    var skillOperator = skillExpression.at(0);
-                    var skillOperand = skillExpression.at(1);
-                    operands.push([options[optionIndex].name, skillOperator, skillOperand].join(' '));
+                  if(skillKeyword.id === options[optionIndex].id) {
+                    if(options[optionIndex].hasProficiency) {
+                      var skillOperator = skillExpression.at(0);
+                      var skillOperand = skillExpression.at(1);
+                    
+                      skillKeyword.display =
+                        [options[optionIndex].name, skillOperator, skillOperand].join(' ');
+                    } else {
+                      skillKeyword.display = options[optionIndex].name;
+                    }
+                    
+                    operands.push(skillKeyword);
                     break;
                   }
                 }
@@ -61,29 +71,52 @@ angular.module('liveopsConfigPanel')
         }
         
         SkillExpressionModifier.prototype.add = function(item) {
-          if(this.parentMap.exists(this.keyword)) {
-            if(this.parentMap.at(this.keyword).exists(this.operator)) {
+          if(this.parentMap.exists(this.keyword) && this.parentMap.at(this.keyword).val.length > 1) {
+            var operationList = this.parentMap.at(this.keyword);
+            if(operationList.val[0] !== this.operation) {
+              //TODO throw error
+            }
+            
+            for(var operationListIndex = 1; operationListIndex < operationList.val.length; operationListIndex++) {
+              var skillMap = operationList.val[operationListIndex];
               
+              if(skillMap.exists(jsedn.kw(':' + item.id))) {
+                return;
+              }
+            }
+            
+            if(item.hasProficiency) {
+              var proficiencyList = new jsedn.List([operatorMap[item.proficiencyOperator], item.proficiency]);
+              operationList.val.push(new jsedn.Map([jsedn.kw(':' + item.id), proficiencyList]));
             } else {
-              
+              operationList.val.push(new jsedn.Map([jsedn.kw(':' + item.id), true]));
             }
           } else {
-            var proficiencyList = new jsedn.List([operatorMap[item.proficiencyOperator], item.proficiency]);
-            var skillProficiencyMap = new jsedn.Map([jsedn.kw(':' + item.id), proficiencyList]);
+            if(item.hasProficiency) {
+              var proficiencyList = new jsedn.List([operatorMap[item.proficiencyOperator], item.proficiency]);
+              var skillProficiencyMap = new jsedn.Map([jsedn.kw(':' + item.id), proficiencyList]);
+            } else {
+              var skillProficiencyMap = new jsedn.Map([jsedn.kw(':' + item.id), true]);
+            }
+            
             var operationList = new jsedn.List([this.operator, skillProficiencyMap]);
             
             this.parentMap.set(this.keyword, operationList);
           }
         };
 
-        SkillExpressionModifier.prototype.remove = function(item) {
+        SkillExpressionModifier.prototype.remove = function(operand) {
           if(this.parentMap.exists(this.keyword)) {
-            if(this.parentMap.at(this.keyword).exists(this.operator)) {
-              var set = this.parentMap.at(this.keyword).at(this.operator)
-              set.val.removeItem(item.id);
+            var operationList = this.parentMap.at(this.keyword);
+            for(var operationListIndex = 1; operationListIndex < operationList.val.length; operationListIndex++) {
+              var skillMap = operationList.val[operationListIndex];
               
-              if(set.val.length === 0) {
-                this.parentMap.remove(this.keyword);
+              if(skillMap.exists(jsedn.kw(':' + operand.id))) {
+                operationList.val.splice(operationListIndex, 1);
+                
+                if(operationList.val.length <= 1) {
+                  this.parentMap.remove(this.keyword);
+                }
               }
             }
           }

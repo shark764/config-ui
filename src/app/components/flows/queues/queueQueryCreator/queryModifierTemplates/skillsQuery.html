@@ -3,7 +3,7 @@
 </label>
 <div class="tag-wrapper clear">
   <div ng-repeat="operand in modifier.operands()" class="tag">
-    {{operand}}
+    {{operand.display}}
     <a ng-click="modifier.remove(operand)"><i class="fa fa-times"></i></a>
   </div>
 </div>
