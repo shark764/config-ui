@@ -5,8 +5,8 @@ angular.module('liveopsConfigPanel')
       function (jsedn) {
         var GroupExpressionModifier = function(parentMap, params) {
           this.parentMap = parentMap;
-          this.keyword = params.keyword;
-          this.operator = params.operator;
+          this.keyword = jsedn.kw(params.keyword);
+          this.operator = jsedn.sym(params.operator);
           
           this.options = params.options;
           this.labelKey = params.labelKey;
