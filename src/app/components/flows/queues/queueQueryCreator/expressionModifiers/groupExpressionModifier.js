@@ -16,21 +16,31 @@ angular.module('liveopsConfigPanel')
         
         GroupExpressionModifier.prototype.operands = function() {
           var operands = [];
-          if(this.parentMap.exists(this.keyword)) {
-            if(this.parentMap.at(this.keyword).exists(jsedn.sym(this.operator))) {
-              var set = this.parentMap.at(this.keyword).at(jsedn.sym(this.operator));
+          var andList, operationList, groupSet;
+          if(this.parentMap.exists(this.keyword) &&
+            (andList = this.parentMap.at(this.keyword)).val.length > 1) {
+            
+            var groupSet;
+            for(var andListIndex = 1; andListIndex < andList.val.length; andListIndex++) {
+              if(andList.val[andListIndex].val.length > 1 &&
+                andList.val[andListIndex].val[0] === this.operator) {
+                groupSet = andList.val[andListIndex].val[1];
+              }
+            }
+            
+            if(!groupSet) {
+              return;
+            }
               
-              for(var setIndex = 0; setIndex < set.val.length; setIndex++) {
-                
-                var options = this.options
-                if(angular.isFunction(this.options)) {
-                  options = options.call(options);
-                }
-                
-                for(var optionIndex = 0; optionIndex < options.length; optionIndex++) {
-                  if(set.val[setIndex] === options[optionIndex].id) {
-                    operands.push(options[optionIndex]);
-                  }
+            var options = this.options
+            if(angular.isFunction(this.options)) {
+              options = options.call(options);
+            }
+            
+            for(var groupSetIndex = 0; groupSetIndex < groupSet.val.length; groupSetIndex++) {
+              for(var optionIndex = 0; optionIndex < options.length; optionIndex++) {
+                if(groupSet.val[groupSetIndex] === options[optionIndex].id) {
+                  operands.push(options[optionIndex]);
                 }
               }
             }
@@ -40,31 +50,53 @@ angular.module('liveopsConfigPanel')
         }
         
         GroupExpressionModifier.prototype.add = function(item) {
-          if(this.parentMap.exists(this.keyword)) {
-            if(this.parentMap.at(this.keyword).exists(jsedn.sym(this.operator))) {
-              var set = this.parentMap.at(this.keyword).at(jsedn.sym(this.operator))
-              set.val.push(item.id);
+          if(this.parentMap.exists(this.keyword) &&
+            (andList = this.parentMap.at(this.keyword)).val.length > 1) {
+            
+            var groupSet;
+            for(var andListIndex = 1; andListIndex < andList.val.length; andListIndex++) {
+              if(andList.val[andListIndex].val.length &&
+                andList.val[andListIndex].val[0] === this.operator) {
+                groupSet = andList.val[andListIndex].val[1];
+              }
+            }
+            
+            if(!groupSet) {
+              var groupSet = new jsedn.Set([item.id]);
+              var operationList = new jsedn.List([this.operator, groupSet]);
+              andList.val.push(operationList);
             } else {
-              var set = new jsedn.Set([item.id]);
-              
-              this.parentMap.at(this.keyword).set(jsedn.sym(this.operator), set);
+              groupSet.val.push(item.id);
             }
           } else {
-            var set = new jsedn.Set([item.id]);
-            var map = new jsedn.Map([jsedn.sym(this.operator), set]);
+            var groupSet = new jsedn.Set([item.id]);
+            var operationList = new jsedn.List([this.operator, groupSet]);
+            var andList = new jsedn.List([jsedn.sym('and'), operationList]);
             
-            this.parentMap.set(jsedn.kw(this.keyword), map);
+            this.parentMap.set(jsedn.kw(this.keyword), andList);
           }
         };
 
         GroupExpressionModifier.prototype.remove = function(item) {
-          if(this.parentMap.exists(this.keyword)) {
-            if(this.parentMap.at(this.keyword).exists(jsedn.sym(this.operator))) {
-              var set = this.parentMap.at(this.keyword).at(jsedn.sym(this.operator))
-              set.val.removeItem(item.id);
-              
-              if(set.val.length === 0) {
-                this.parentMap.remove(this.keyword);
+          var andList;
+          if(this.parentMap.exists(this.keyword) &&
+            (andList = this.parentMap.at(this.keyword)).val.length > 1) {
+            
+            var groupSet;
+            for(var andListIndex = 1; andListIndex < andList.val.length; andListIndex++) {
+              if(andList.val[andListIndex].val.length &&
+                andList.val[andListIndex].val[0] === this.operator) {
+                groupSet = andList.val[andListIndex].val[1];
+                
+                groupSet.val.removeItem(item.id);
+                
+                if(groupSet.val.length === 0) {
+                  andList.val.splice(andListIndex, 1);
+                  
+                  if(andList.val.length <= 1) {
+                    this.parentMap.remove(this.keyword);
+                  }
+                }
               }
             }
           }

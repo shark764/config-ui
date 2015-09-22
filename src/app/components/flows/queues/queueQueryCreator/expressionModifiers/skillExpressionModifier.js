@@ -75,6 +75,7 @@ angular.module('liveopsConfigPanel')
             var operationList = this.parentMap.at(this.keyword);
             if(operationList.val[0] !== this.operation) {
               //TODO throw error
+              return;
             }
             
             for(var operationListIndex = 1; operationListIndex < operationList.val.length; operationListIndex++) {
