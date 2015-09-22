@@ -25,7 +25,7 @@ describe('Versions directive controller', function () {
           name: 'q1',
           description: 'A pretty good version',
           version: 'q1',
-          query: 'query 1',
+          query: '{}',
           queueId: '1',
           tenantId: '1'
         }),
@@ -33,7 +33,7 @@ describe('Versions directive controller', function () {
           name: 'q2',
           description: 'Not as cool as the other version',
           version: 'q2',
-          query: 'query 2',
+          query: '{}',
           queueId: '1',
           tenantId: '1'
         })
