@@ -285,10 +285,8 @@ describe('userGroups directive', function() {
       
       it('should add the group to the user object on success', inject(function() {
         expect(isolateScope.user.groups.length).toBe(0);
-        expect(isolateScope.user.$original.groups.length).toBe(0);
         isolateScope.saveUserGroup();
         expect(isolateScope.user.groups.length).toBe(1);
-        expect(isolateScope.user.$original.groups.length).toBe(1);
       }));
 
       it('should not reset on failure', inject(function() {
