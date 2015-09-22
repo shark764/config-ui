@@ -5,9 +5,9 @@ set -e
 export E2E_LOG_FILE="$( cd "$(dirname "${BASH_SOURCE}")" ; pwd -P )"/../e2e_log.txt
 cd "$( cd "$(dirname "${BASH_SOURCE}")" ; pwd -P )"
 
-export SAUCE_USERNAME=$argv[0]
-export SAUCE_ACCESS_KEY=$argv[1]
-export SAUCE_TUNNEL=$argv[2]
+export SAUCE_USERNAME=$1
+export SAUCE_ACCESS_KEY=$2
+export SAUCE_TUNNEL=$3
 
 export SAUCE_BUILD=stageing
 export SAUCE_TAG=regression
