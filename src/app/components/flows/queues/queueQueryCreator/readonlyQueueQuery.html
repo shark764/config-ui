@@ -1,0 +1,15 @@
+<div class="query-component">
+  <div ng-repeat="modifier in groupModifiers" 
+      class="input-group" 
+      ng-show="modifier.operands().length"
+      ng-include="modifier.template">
+  </div>
+</div>
+
+<div class="query-component">
+  <div ng-repeat="modifier in skillModifiers" 
+      class="input-group" 
+      ng-show="modifier.operands().length"
+      ng-include="modifier.template">
+  </div>
+</div>

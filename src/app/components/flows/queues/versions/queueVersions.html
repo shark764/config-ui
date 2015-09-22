@@ -32,7 +32,11 @@
       <td colspan="5">
         <div disable-contents="! ('MANAGE_ALL_QUEUES' | hasPermission)">
           <div class="input-group">
-            <label class="textarea-label disabled">{{'value.details.query' | translate}}</label>
+            <label class="textarea-label disabled">Basic Query</label>
+            <readonly-queue-query version="version" queue="queue"></readonly-queue-query>
+          </div>
+          <div class="input-group">
+            <label class="textarea-label disabled">Advanced Query</label>
             <textarea ng-disabled="true" type="text" ng-model="version.query" name="query"></textarea>
           </div>
   
