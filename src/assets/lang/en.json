@@ -110,6 +110,8 @@
   "details.skills.none": "This user has not been assigned any skills",
   "details.skills.title": "Skills",
   "details.skills.placeholder": "Add Skill...",
+  "details.skills.update.proficiency.success": "Skill proficiency updated",
+  "details.skills.update.proficiency.fail": "Couldn't update skill proficiency",
   "details.name.error": "Please enter a name",
   "details.personalTelephone": "Personal Telephone",
   "details.personalTelephone.error": "Personal Telephone must be E.164 format (+18005551234)",

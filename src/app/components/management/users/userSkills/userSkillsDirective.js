@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('userSkills', ['TenantUserSkills', 'Skill', 'Session', 'Alert', 'lodash',
-    function (TenantUserSkills, Skill, Session, Alert, _) {
+  .directive('userSkills', ['TenantUserSkills', 'Skill', 'Session', 'Alert', 'lodash', '$translate',
+    function (TenantUserSkills, Skill, Session, Alert, _, $translate) {
       return {
         restrict: 'E',
         scope: {
@@ -139,6 +139,20 @@ angular.module('liveopsConfigPanel')
             $scope.reset();
             $scope.fetch();
           });
+          
+          $scope.updateUserSkill = function(userSkill){
+            TenantUserSkills.update({
+                userId: userSkill.userId, 
+                tenantId: userSkill.tenantId, 
+                skillId: userSkill.skillId
+              }, {
+                proficiency: userSkill.proficiency
+              }, function(){
+                Alert.success($translate.instant('details.skills.update.proficiency.success'));
+              }, function(){
+                Alert.error($translate.instant('details.skills.update.proficiency.fail'));
+              });
+          };
         }
       };
     }
