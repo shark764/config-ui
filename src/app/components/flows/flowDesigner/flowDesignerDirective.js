@@ -182,10 +182,13 @@ function flowDesigner() {
               version.save(function(version){
                 $document.find('modal').remove();
                 Alert.success('New flow version successfully created.');
-                $state.go('content.flows.view', {
-                  flowId: $scope.flowData.flowId,
-                  versionId: version.version
+                $scope.flowData.$delete().then(function(){
+                  $state.go('content.flows.view', {
+                    flowId: version.flowId,
+                    versionId: version.version
+                  })
                 })
+
               }, function(error) {
                 if (error.data.error.attribute === null) {
                   Alert.error('API rejected this flow -- likely invalid Alienese.', JSON.stringify(error, null, 2));
