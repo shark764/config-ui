@@ -37,17 +37,23 @@ describe('The tenants view', function() {
     expect(shared.pageHeader.getText()).toBe('Tenant Management');
   });
 
-  xit('should display tenants available to the current user corresponding with the Tenants Navigation dropdown', function() {
-    // Confirm tenant added to tenant dropdown
-    shared.tenantsNavDropdown.click();
-    expect(shared.tenantsNavDropdownContents.count()).toBe(tenantCount);
 
-    tenantCount.then(function(numTenants) {
-      for (var i = 0; i < numTenants; i++) {
-        // Each table row should should match a tenant in the nav dropdown
-        expect(shared.tableElements.get(i).getText()).toContain(shared.tenantsNavDropdownContents.get(i).getText());
+  it('should display all users in the admin dropdown', function() {
+    var adminUserList = [];
+    users.skillDropdownItems.each(function(skillElement, index) {
+      skillElement.getText().then(function(skillName) {
+        adminUserList.push(skillName);
+      });
+    }).then(function() {
+      browser.get(shared.usersPageUrl);
+
+      // Skill list on Users page should contain each of the same Skill records
+      for (var i = 0; i < adminUserList.length; i++) {
+        shared.searchField.clear();
+        shared.searchField.sendKeys(adminUserList[i]);
+        expect(shared.tableElements.count()).toBeGreaterThan(0);
       }
-    })
+    });
   });
 
   it('should display tenant details when selected from table', function() {
