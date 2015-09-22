@@ -54,10 +54,32 @@ describe('The profile view', function() {
       expect(shared.welcomeMessage.getText()).toContain(params.login.lastName + 'Update');
 
       // Confirm user is updated
-      // TODO Fails from user list not showing all users
-      //shared.usersNavButton.click();
-      //shared.searchField.sendKeys(params.login.firstName + 'Update ' + params.login.lastName + 'Update');
-      //expect(shared.tableElements.count()).toBe(1);
+      browser.get(shared.usersPageUrl);
+      shared.searchField.sendKeys(params.login.firstName + 'Update ' + params.login.lastName + 'Update');
+      expect(shared.tableElements.count()).toBe(1);
+    });
+  });
+
+  it('should not require first or last name', function() {
+    profile.firstNameFormField.clear();
+    profile.lastNameFormField.clear();
+
+    profile.updateProfileBtn.click().then(function() {
+      expect(shared.successMessage.isPresent()).toBeTruthy();
+      expect(profile.firstNameFormField.getAttribute('value')).toBe('');
+      expect(profile.lastNameFormField.getAttribute('value')).toBe('');
+
+      // Welcome message shows user email
+      expect(shared.welcomeMessage.getText()).toContain('Welcome back, ' + params.login.user);
+      expect(shared.welcomeMessage.getText()).not.toContain(params.login.firstName + 'Update');
+      expect(shared.welcomeMessage.getText()).not.toContain(params.login.lastName + 'Update');
+
+      // Confirm user is updated
+      shared.welcomeMessage.click();
+      shared.logoutButton.click();
+
+      loginPage.login(params.login.user, params.login.password);
+      expect(shared.welcomeMessage.getText()).toContain('Welcome back, ' + params.login.user);
     });
   });
 
