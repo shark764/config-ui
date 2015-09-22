@@ -14,9 +14,9 @@ exports.config = {
     'screenResolution': '1280x1024',
     'tunnelIdentifier': process.env.SAUCE_TUNNEL,
     // Test Identifiers - For easier grouping and reference in Sauce Labs
-    'name': '',
-    'build': '',
-    'tags': [''],
+    'name': process.env.SAUCE_SUITE_NAME,
+    'build': process.env.SAUCE_BUILD,
+    'tags': [process.env.SAUCE_TAG],
     'max-duration': '10000'
   },
 
