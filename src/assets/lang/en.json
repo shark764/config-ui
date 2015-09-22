@@ -269,6 +269,7 @@
   "integration.secretKey.error": "Please enter your secret key",
   "integration.details.properties.birstSpaceId": "Space ID",
   "integration.birstSpaceId.error": "Please enter the Birst space ID",
+  "integration.birstSpaceId.uuid.error": "Space ID must be a valid UUID",
   "integration.details.properties.birstSsoPassword": "SSO Password",
   "integration.birstSsoPassword.error": "Please enter the Birst SSO Password",
   "integration.details.properties.birstBaseUrl": "Base URL",
