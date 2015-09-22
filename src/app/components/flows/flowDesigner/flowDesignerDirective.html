@@ -3,15 +3,18 @@
   <div id="stencil-container"></div>
   <div id="toolbar-container">
     <div class="flow-title-wrapper">
-      <input type="text" highlight-on-click ng-focus="nameActive = true;" ng-blur="nameActive = false;" class="version-name" ng-model="flowDraft.name" ng-class="{'active': nameActive}" />
+      <input type="text" highlight-on-click ng-focus="nameActive = true;" ng-blur="nameActive = false;" class="version-name" ng-model="flowData.name" ng-class="{'active': nameActive}" />
     </div>
     <div class="right-side-tools-wrapper">
       <div class="right-side-tools">
         <div class="version-wrapper">
           <!-- <h4><span>v {{flowVersion.v}}</span></h4> -->
         </div>
-        <div class="publish-wrapper">
+        <div class="publish-wrapper" ng-hide="readOnly">
           <button ng-click="publishNewFlowVersion()" class="btn btn-primary">Publish</button>
+        </div>
+        <div class="publish-wrapper" ng-show="readOnly">
+          <button ng-click="publishNewFlowDraft()" class="btn btn-primary">New Draft</button>
         </div>
         <div class="tools-wrapper">
           <div class="props-panel-gear">

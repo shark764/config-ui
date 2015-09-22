@@ -3,8 +3,9 @@
 function flowDesigner() {
     return {
       scope: {
-        flowDraft: '=flowDraft',
-        notations: '=notations'
+        flowData: '=flowData',
+        notations: '=notations',
+        readOnly: '=readOnly'
       },
       restrict: 'E',
       templateUrl: 'app/components/flows/flowDesigner/flowDesignerDirective.html',
@@ -13,6 +14,8 @@ function flowDesigner() {
       controller: ['$scope', '$element', '$attrs', '$window', '$document', '$compile', '$timeout', 'FlowInitService', 'SubflowCommunicationService', 'FlowDraft', 'FlowVersion', 'Session', 'Alert', '$state', 'FlowLibrary', function($scope, $element, $attrs, $window, $document, $compile, $timeout, FlowInitService, SubflowCommunicationService, FlowDraft, FlowVersion, Session, Alert, $state, FlowLibrary) {
 
         $timeout(function() {
+
+          console.log($scope.readOnly)
 
           FlowLibrary.loadData($scope.notations);
 
@@ -29,7 +32,8 @@ function flowDesigner() {
             selectorFilterArray: [],
             stencilContainerId: '#stencil-container',
             paperContainerId: '#paper-container',
-            inspectorContainerId: '#inspector-container'
+            inspectorContainerId: '#inspector-container',
+            readOnly: $scope.readOnly
           };
 
           $scope.graph = FlowInitService.initializeGraph(graphOptions);
@@ -92,12 +96,16 @@ function flowDesigner() {
 
           var update = function(){
             console.log('updating')
+            if($scope.readOnly){
+              console.log('readOnly');
+              return;
+            }
             clearErrors();
             validate($scope.graph);
 
-            $scope.flowDraft.$update({
+            $scope.flowData.$update({
               flow: JSON.stringify(FlowLibrary.convertToAlienese($scope.graph.toJSON())),
-              name: $scope.flowDraft.name
+              name: $scope.flowData.name
             });
           };
 
@@ -105,6 +113,49 @@ function flowDesigner() {
 
           $scope.$on('update:draft', lazyUpdate);
 
+          $scope.publishNewFlowDraft = function() {
+            console.log('New Draft');
+
+            var graph = $scope.graph;
+            if (graph.toJSON().cells.length === 0) { return; }
+            clearErrors();
+            if(!validate) return;
+
+            var newScope = $scope.$new();
+
+            newScope.modalBody = 'app/components/flows/flowDesigner/newDraftModalTemplate.html';
+            newScope.title = "New Draft";
+            newScope.draft = {
+              name: $scope.flowData.name + " draft",
+              description: ''
+            }
+
+            newScope.okCallback = function(draft) {
+              var alienese = FlowLibrary.convertToAlienese(graph.toJSON()),
+                  draft = new FlowDraft({
+                    flow: JSON.stringify(alienese),
+                    description: draft.description,
+                    name: draft.name,
+                    tenantId: Session.tenant.tenantId,
+                    flowId: $scope.flowData.flowId
+                  })
+
+              draft.save().then(function(draft){
+                $state.go('content.flows.editor', {
+                  flowId: draft.flowId,
+                  draftId: draft.id
+                });
+              })
+              $document.find('modal').remove();
+            }
+
+            newScope.cancelCallback = function() {
+              $document.find('modal').remove();
+            }
+
+            var element = $compile('<modal></modal>')(newScope);
+            $document.find('html > body').append(element);
+          }
 
           $scope.publishNewFlowVersion = function() {
             var graph = $scope.graph;
@@ -125,12 +176,16 @@ function flowDesigner() {
                     description: version.description,
                     name: version.name,
                     tenantId: Session.tenant.tenantId,
-                    flowId: $scope.flowDraft.flowId
+                    flowId: $scope.flowData.flowId
                   })
 
-              version.save(function(){
+              version.save(function(version){
                 $document.find('modal').remove();
                 Alert.success('New flow version successfully created.');
+                $state.go('content.flows.view', {
+                  flowId: $scope.flowData.flowId,
+                  versionId: version.version
+                })
               }, function(error) {
                 if (error.data.error.attribute === null) {
                   Alert.error('API rejected this flow -- likely invalid Alienese.', JSON.stringify(error, null, 2));
@@ -149,32 +204,13 @@ function flowDesigner() {
             function closeModal(){
               $document.find('html > modal').remove();
             }
-
-            // $scope.version = new FlowVersion({
-            //   flow: JSON.stringify(alienese),
-            //   description: $scope.flowVersion.description || 'This needs to be fixed',
-            //   name: $scope.flowVersion.name,
-            //   tenantId: Session.tenant.tenantId,
-            //   flowId: $scope.flowVersion.flowId
-            // });
-            //
-            // $scope.version.save(function() {
-            //   Alert.success('New flow version successfully created.');
-            //   $scope.flowVersion.v = parseInt($scope.flowVersion.v) + 1;
-            // }, function(error) {
-            //   if (error.data.error.attribute === null) {
-            //     Alert.error('API rejected this flow -- likely invalid Alienese.', JSON.stringify(error, null, 2));
-            //   } else {
-            //     Alert.error('API rejected this flow -- some other reason...', JSON.stringify(error, null, 2));
-            //   }
-            // });
           };
 
           if (SubflowCommunicationService.currentFlowContext !== '') {
             $scope.graph.fromJSON(SubflowCommunicationService.currentFlowContext);
             SubflowCommunicationService.currentFlowContext = '';
           } else {
-            var graphJSON = JSON.parse($scope.flowDraft.flow);
+            var graphJSON = JSON.parse($scope.flowData.flow);
             var jjs = FlowLibrary.convertToJoint(graphJSON);
             $scope.graph.fromJSON(jjs);
           }

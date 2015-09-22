@@ -188,13 +188,62 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
 
             return deferred.promise;
           }],
-          draft: ['$stateParams', 'FlowDraft', 'Session', '$q', function($stateParams, FlowDraft, Session, $q) {
+          data: ['$stateParams', 'FlowDraft', 'Session', '$q', function($stateParams, FlowDraft, Session, $q) {
             var deferred = $q.defer();
-            var version;
+            var draft;
 
             FlowDraft.get({
               flowId: $stateParams.flowId,
               id: $stateParams.draftId,
+              tenantId: Session.tenant.tenantId
+            }, function(data) {
+              draft = data;
+              deferred.resolve(draft);
+            });
+
+            return deferred.promise;
+          }],
+          notations: ['$http', function($http) {
+            return $http.get('/app/components/flows/flowDesigner/mocks/notations.json');
+          }],
+          media: ['Media', 'Session', function(Media, Session) {
+            return Media.query({tenantId : Session.tenant.tenantId});
+          }],
+          queue: ['Queue', 'Session', function(Queue, Session) {
+            return Queue.query({tenantId : Session.tenant.tenantId});
+          }],
+          readOnly: [function(){
+            return false;
+          }]
+        }
+      })
+      .state('content.flows.view', {
+        url: '/editor/:flowId/v/:versionId',
+        templateUrl: 'app/components/flows/flowDesigner/flowDesignerPage.html',
+        controller: 'DesignerPageController',
+        reloadOnSearch: false,
+        resolve: {
+          flow: ['$stateParams', 'Session', 'Flow', '$q', function($stateParams, Session, Flow, $q) {
+            var deferred = $q.defer();
+            var flow;
+
+            Flow.get({
+              tenantId: Session.tenant.tenantId,
+              id: $stateParams.flowId
+            }, function(data) {
+              flow = data;
+              deferred.resolve(flow);
+            });
+
+            return deferred.promise;
+          }],
+          data: ['$stateParams', 'FlowVersion', 'Session', '$q', function($stateParams, FlowVersion, Session, $q) {
+            var deferred = $q.defer();
+            var version;
+
+            FlowVersion.get({
+              flowId: $stateParams.flowId,
+              version: $stateParams.versionId,
               tenantId: Session.tenant.tenantId
             }, function(data) {
               version = data;
@@ -213,7 +262,7 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
             return Queue.query({tenantId : Session.tenant.tenantId});
           }],
           readOnly: [function(){
-            return false;
+            return true;
           }]
         }
       })
