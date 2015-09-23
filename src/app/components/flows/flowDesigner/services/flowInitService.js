@@ -60,9 +60,10 @@
         graph.utils.updateSelectedCell = function(cellView){
           //remove previously highlighted class
           graph.utils.unselectCell();
+
           //highlight current cell if it is not a link
           if(cellView.model.get('type') !== 'liveOps.link'){
-            new V(cellView.el).addClass('selected');
+            new V(cellView.el.getElementsByClassName('border')[0]).addClass('selected');
           }
         };
         graph.utils.renderPropertiesPanel = function(notation) {
@@ -289,9 +290,9 @@
 
         var metaKeys = ['super', 'ctrl'];
 
-        KeyboardJS.on('backspace', function(event) {
+        KeyboardJS.on('backspace', function(evt) {
           if ($('input:focus').length > 0) { return; }
-          event.preventDefault();
+          evt.preventDefault();
         });
 
         _.each(metaKeys, function(key) {

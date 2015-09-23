@@ -7,7 +7,9 @@
              '<g class="scalable">',
              '<circle class="body outer"/>',
              '<circle class="body inner"/>',
-             '<image/></g><text class="label"/></g>'].join(''),
+             '<image/>',
+             '<rect class="border" />',
+             '</g><text class="label"/></g>'].join(''),
     defaults: joint.util.deepSupplement({
       type: 'liveOps.event',
       size: {width: 60, height: 60},
@@ -27,6 +29,12 @@
           transform: 'translate(30,30)',
           'stroke': '#F2C208',
           'fill-opacity': 0.0
+        },
+        '.border': {
+          fill: 'none',
+          stroke: 'none',
+          width: 60,
+          height: 60
         },
         image: {
           width: 40,

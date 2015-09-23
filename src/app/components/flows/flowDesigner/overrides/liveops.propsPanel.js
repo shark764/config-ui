@@ -72,7 +72,7 @@
         formSection += '><label>' + input.label + '</label><div>';
         formSection += '<type-ahead hover="true" placeholder="Search..."';
         if (notation.model.attributes.params && notation.model.attributes.params[input.name] &&  _.findWhere(inputs[index].options, { value: notation.model.attributes.params[input.name] })) {
-          formSection += ' prefill="\'' + _.findWhere(inputs[index].options, { value: notation.model.attributes.params[input.name] }).content + '\'"';
+          formSection += ' prefill="inputs[' + index + '].options['+ _.findIndex(inputs[index].options, { value: notation.model.attributes.params[input.name] }) +'].content"';
         }
         formSection += ' placeholder="' + input.placeholder + '"';
         formSection += ' items="inputs[' + index + '].options" on-select="setEntityProp(selectedItem, ' + index + ')" name-field="content" is-required="false">';

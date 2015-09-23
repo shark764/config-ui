@@ -79,7 +79,10 @@ body {
 }
 
 #paper-container .selected {
-  outline: 2px solid green;
+  stroke-width: 2px;
+  stroke: #006600;
+  rx: 0;
+  ry: 0;
 }
 
 .error {
