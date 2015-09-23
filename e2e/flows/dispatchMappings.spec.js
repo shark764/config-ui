@@ -365,9 +365,9 @@ describe('The dispatch mappings view', function() {
 
     shared.firstTableRow.element(by.css(dispatchMappings.statusColumn)).getText().then(function(dispatchMappingStatus) {
       if (dispatchMappingStatus == 'Enabled') {
-        expect(dispatchMappings.statusSwitch.isSelected()).toBeTruthy();
+        expect(dispatchMappings.statusSwitchInput.getAttribute('value')).toBeTruthy();
       } else if (dispatchMappingStatus == 'Disabled') {
-        expect(dispatchMappings.statusSwitch.isSelected()).toBeFalsy();
+        expect(dispatchMappings.statusSwitchInput.getAttribute('value')).toBeFalsy();
       } else {
         // fail test
         expect(true).toBeFalsy();
@@ -393,9 +393,9 @@ describe('The dispatch mappings view', function() {
 
       shared.secondTableRow.element(by.css(dispatchMappings.statusColumn)).getText().then(function(dispatchMappingStatus) {
         if (dispatchMappingStatus == 'Enabled') {
-          expect(dispatchMappings.statusSwitch.isSelected()).toBeTruthy();
+          expect(dispatchMappings.statusSwitchInput.getAttribute('value')).toBeTruthy();
         } else if (dispatchMappingStatus == 'Disabled') {
-          expect(dispatchMappings.statusSwitch.isSelected()).toBeFalsy();
+          expect(dispatchMappings.statusSwitchInput.getAttribute('value')).toBeFalsy();
         } else {
           // fail test
           expect(true).toBeFalsy();

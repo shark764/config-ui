@@ -11,6 +11,7 @@ var DispatchMappingsPage = function() {
 
   this.nameHeader = element(by.id('dispatch-mappings-details-name-header'));
   this.statusSwitch = element(by.model('resource.active'));
+  this.statusSwitchInput = this.statusSwitch.element(by.css('label:nth-child(2) > input:nth-child(1)'));
 
   this.nameColumn = 'td:nth-child(2)';
   this.descriptionColumn = 'td:nth-child(3)';
