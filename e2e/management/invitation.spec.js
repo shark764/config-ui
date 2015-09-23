@@ -64,7 +64,9 @@ describe('The user invitation', function() {
         // Wait to allow the API to send and Mailinator to receive the email
         browser.sleep(1000).then(function() {
           // Verify user invitation email was NOT sent
-          req.get('https://api.mailinator.com/api/inbox?to=titantest' + randomUser + '&token=' + params.mailinator.token, '', function(error, response, body) {
+          // NOTE: Add randomUser when emails are sent to the user email and not redirected
+          //req.get('https://api.mailinator.com/api/inbox?to=titantest' + randomUser + '&token=' + params.mailinator.token, '', function(error, response, body) {
+          req.get('https://api.mailinator.com/api/inbox?to=titantest&token=' + params.mailinator.token, '', function(error, response, body) {
             if (JSON.parse(body).messages.length > 0) {
               var newestMessage1 = JSON.parse(body).messages[JSON.parse(body).messages.length - 1];
 
@@ -99,7 +101,9 @@ describe('The user invitation', function() {
           // Wait to allow the API to send and Mailinator to receive the email
           browser.sleep(1000).then(function() {
             // Verify user invitation email was sent
-            req.get('https://api.mailinator.com/api/inbox?to=titantest' + randomUser + '&token=' + params.mailinator.token, '', function(error, response, body) {
+            // NOTE: Add randomUser when emails are sent to the user email and not redirected
+            //req.get('https://api.mailinator.com/api/inbox?to=titantest' + randomUser + '&token=' + params.mailinator.token, '', function(error, response, body) {
+            req.get('https://api.mailinator.com/api/inbox?to=titantest&token=' + params.mailinator.token, '', function(error, response, body) {
               if (JSON.parse(body).messages.length > 0) {
                 var newestMessage2 = JSON.parse(body).messages[JSON.parse(body).messages.length - 1];
 
@@ -132,7 +136,9 @@ describe('The user invitation', function() {
     });
 
     it('contain user information and accept link', function() {
-      req.get('https://api.mailinator.com/api/inbox?to=titantest' + randomUser + '&token=' + params.mailinator.token, '', function(error, response, body) {
+      // NOTE: Add randomUser when emails are sent to the user email and not redirected
+      //req.get('https://api.mailinator.com/api/inbox?to=titantest' + randomUser + '&token=' + params.mailinator.token, '', function(error, response, body) {
+      req.get('https://api.mailinator.com/api/inbox?to=titantest&token=' + params.mailinator.token, '', function(error, response, body) {
         if (JSON.parse(body).messages.length > 0) {
           var newestMessage = JSON.parse(body).messages[JSON.parse(body).messages.length - 1];
 
@@ -173,7 +179,9 @@ describe('The user invitation', function() {
           // Wait to allow the API to send and Mailinator to receive the email
           browser.sleep(1000).then(function() {
             // Verify user invitation email was sent
-            req.get('https://api.mailinator.com/api/inbox?to=titantest' + randomUser + '&token=' + params.mailinator.token, '', function(error, response, body) {
+            // NOTE: Add randomUser when emails are sent to the user email and not redirected
+            //req.get('https://api.mailinator.com/api/inbox?to=titantest' + randomUser + '&token=' + params.mailinator.token, '', function(error, response, body) {
+            req.get('https://api.mailinator.com/api/inbox?to=titantest&token=' + params.mailinator.token, '', function(error, response, body) {
               if (JSON.parse(body).messages.length > 0) {
                 var newestMessage = JSON.parse(body).messages[JSON.parse(body).messages.length - 1];
 
@@ -224,7 +232,9 @@ describe('The user invitation', function() {
           // Wait to allow the API to send and Mailinator to receive the email
           browser.sleep(1000).then(function() {
             // Verify user invitation email was sent
-            req.get('https://api.mailinator.com/api/inbox?to=titantest' + randomUser + '&token=' + params.mailinator.token, '', function(error, response, body) {
+            // NOTE: Add randomUser when emails are sent to the user email and not redirected
+            //req.get('https://api.mailinator.com/api/inbox?to=titantest' + randomUser + '&token=' + params.mailinator.token, '', function(error, response, body) {
+            req.get('https://api.mailinator.com/api/inbox?to=titantest&token=' + params.mailinator.token, '', function(error, response, body) {
               if (JSON.parse(body).messages.length > 0) {
                 var newestMessage = JSON.parse(body).messages[JSON.parse(body).messages.length - 1];
 
@@ -296,7 +306,9 @@ describe('The user invitation', function() {
           // Wait to allow the API to send and Mailinator to receive the email
           browser.sleep(1000).then(function() {
             // Verify user invitation email was sent
-            req.get('https://api.mailinator.com/api/inbox?to=titantest' + randomUser + '&token=' + params.mailinator.token, '', function(error, response, body) {
+            // NOTE: Add randomUser when emails are sent to the user email and not redirected
+            //req.get('https://api.mailinator.com/api/inbox?to=titantest' + randomUser + '&token=' + params.mailinator.token, '', function(error, response, body) {
+            req.get('https://api.mailinator.com/api/inbox?to=titantest&token=' + params.mailinator.token, '', function(error, response, body) {
               if (JSON.parse(body).messages.length > 0) {
                 var newestMessage = JSON.parse(body).messages[JSON.parse(body).messages.length - 1];
 
