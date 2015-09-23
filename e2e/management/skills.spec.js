@@ -259,7 +259,7 @@ describe('The skills view', function() {
     expect(skills.proficiencySwitch.isSelected()).toBe(editedProficiency);
   });
 
-  it('should allow the Skill to be update to have proficiency', function() {
+  it('should allow the Skill to be updated to have proficiency', function() {
     // Create new skill without proficiency
     randomSkill = Math.floor((Math.random() * 1000) + 1);
     var newSkillName = 'Skill Name ' + randomSkill;
@@ -277,7 +277,7 @@ describe('The skills view', function() {
       shared.submitFormBtn.click();
 
       expect(shared.successMessage.isDisplayed()).toBeTruthy();
-
+    }).then(function () {
       // Changes persist
       browser.refresh();
       shared.searchField.sendKeys(newSkillName);
