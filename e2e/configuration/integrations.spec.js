@@ -194,8 +194,7 @@ describe('The integrations view', function() {
       });
     });
 
-    xit('should require valid UUID input for Space Id', function() {
-      // TODO Bug fix TITAN2-3732
+    it('should require valid UUID input for Space Id', function() {
       shared.tableElements.count().then(function(integrationCount) {
         if (integrationCount == 1) {
           shared.firstTableRow.click();
@@ -209,7 +208,7 @@ describe('The integrations view', function() {
           shared.submitFormBtn.click();
 
           // Error message displayed
-          expect(integrations.requiredErrors.get(0).getText()).toBe('Birst space ID must be a valid UUID');
+          expect(integrations.requiredErrors.get(0).getText()).toBe('Space ID must be a valid UUID');
           expect(shared.successMessage.isPresent()).toBeFalsy();
 
           // Complete field with valid UUID
@@ -218,9 +217,6 @@ describe('The integrations view', function() {
 
           // Submit button is enabled
           expect(shared.submitFormBtn.getAttribute('disabled')).toBeNull();
-
-          // Error message removed displayed
-          expect(integrations.requiredErrors.get(0).isPresent()).toBeFalsy();
         }
       });
     });
