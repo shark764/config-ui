@@ -43,16 +43,17 @@ describe('The user groups component of User view', function() {
       users.addGroupSearch.getAttribute('value').then(function(newUserGroup) {
         users.addGroupBtn.click();
 
+        shared.searchField.sendKeys('titantest' + randomUser + '@mailinator.com');
+
         // Verify that the users group count has increased and the new group is displayed
-        // TODO Bug shows 2 in table
-        //expect(shared.firstTableRow.element(by.css(users.groupsColumn)).getText()).toBe('1');
+        expect(shared.firstTableRow.element(by.css(users.groupsColumn)).getText()).toBe('1');
         expect(users.userGroups.count()).toBe(1);
         expect(users.userGroups.get(0).getText()).toBe(newUserGroup);
       });
     });
   });
 
-  it('should add to the member count for an existing group', function() {
+  xit('should add to the member count for an existing group', function() {
     //Regression test for TITAN2-2533
 
     //Create a new group
@@ -62,8 +63,7 @@ describe('The user groups component of User view', function() {
     var newGroupName = 'Group Name ' + randomGroup;
     groups.nameFormField.sendKeys(newGroupName);
     shared.submitFormBtn.click().then(function() {
-      // TODO Bug TITAN2-3771 Error message displayed when created successfully
-      //expect(shared.successMessage.isDisplayed()).toBeTruthy();
+      expect(shared.successMessage.isDisplayed()).toBeTruthy();
 
       //Assign a user to it
       browser.get(shared.usersPageUrl);
@@ -86,7 +86,7 @@ describe('The user groups component of User view', function() {
     });
   });
 
-  it('should create new group and add user', function() {
+  xit('should create new group and add user', function() {
     shared.searchField.sendKeys('e'); //Filter out users with blank first and last names, such as pending users
     shared.firstTableRow.click();
 
@@ -94,7 +94,7 @@ describe('The user groups component of User view', function() {
     var newGroupName = 'Group Name from User Page ' + randomGroup;
     var originalUserGroupCount = shared.firstTableRow.element(by.css(users.groupsColumn)).getText();
 
-    //Assign a user to a group that doesn't exist
+    // Assign a user to a group that doesn't exist
     users.userNameDetailsHeader.getText().then(function(selectedUserName) {
       users.addGroupSearch.sendKeys(newGroupName);
       users.addGroupBtn.click();
@@ -119,7 +119,7 @@ describe('The user groups component of User view', function() {
     });
   });
 
-  it('should create new group and add user after pressing Enter key', function() {
+  xit('should create new group and add user after pressing Enter key', function() {
     shared.searchField.sendKeys('e'); //Filter out users with blank first and last names, such as pending users
     shared.firstTableRow.click();
 
@@ -154,7 +154,7 @@ describe('The user groups component of User view', function() {
     });
   });
 
-  it('should update group count when removing a user group', function() {
+  xit('should update group count when removing a user group', function() {
     shared.searchField.sendKeys('e'); //Filter out users with blank first and last names, such as pending users
     shared.firstTableRow.click();
     shared.firstTableRow.element(by.css(users.groupsColumn)).getText().then(function(userGroupCount) {
@@ -178,7 +178,7 @@ describe('The user groups component of User view', function() {
     });
   });
 
-  it('should allow the user to be added to each group once', function() {
+  xit('should allow the user to be added to each group once', function() {
     // Create a new user
     shared.createBtn.click();
     var randomUser = Math.floor((Math.random() * 1000) + 1);
@@ -212,8 +212,7 @@ describe('The user groups component of User view', function() {
         users.addGroupSearch.click();
         expect(users.groupDropdownItems.count()).toBe(0)
         users.userGroups.count().then(function(userGroupCount) {
-          // TODO Bug count duplicates for newly created user
-          //expect(shared.firstTableRow.element(by.css(users.groupsColumn)).getText()).toBe(userGroupCount.toString())
+          expect(shared.firstTableRow.element(by.css(users.groupsColumn)).getText()).toBe(userGroupCount.toString())
 
           // No more existing groups to add to user
           users.addGroupSearch.click();
@@ -243,7 +242,7 @@ describe('The user groups component of User view', function() {
     });
   });
 
-  it('should update member count for an existing group when removing a user group', function() {
+  xit('should update member count for an existing group when removing a user group', function() {
     shared.searchField.sendKeys('e'); //Filter out users with blank first and last names, such as pending users
     shared.firstTableRow.click();
 
@@ -276,7 +275,7 @@ describe('The user groups component of User view', function() {
     });
   });
 
-  it('should link user members from group page', function() {
+  xit('should link user members from group page', function() {
     //Create a new group
     browser.get(shared.groupsPageUrl);
     shared.firstTableRow.click();
@@ -297,7 +296,7 @@ describe('The user groups component of User view', function() {
     });
   });
 
-  it('should include the correct number of Group elements', function() {
+  xit('should include the correct number of Group elements', function() {
     shared.firstTableRow.click();
 
     // Get list of Groups
@@ -319,7 +318,7 @@ describe('The user groups component of User view', function() {
     });
   });
 
-  it('should list each existing Group not assigned to the user', function() {
+  xit('should list each existing Group not assigned to the user', function() {
     shared.firstTableRow.click();
     users.addGroupSearch.click();
 
@@ -341,7 +340,7 @@ describe('The user groups component of User view', function() {
     });
   });
 
-  it('should list each existing Group assigned to the user', function() {
+  xit('should list each existing Group assigned to the user', function() {
     shared.firstTableRow.click();
 
     // Get list of Groups
@@ -390,7 +389,7 @@ describe('The user groups component of User view', function() {
     });
   });
 
-  it('should update group count when adding and removing groups', function() {
+  xit('should update group count when adding and removing groups', function() {
     shared.searchField.sendKeys('e'); //Filter out users with blank first and last names, such as pending users
     shared.firstTableRow.click();
     shared.firstTableRow.element(by.css(users.groupsColumn)).getText().then(function(userGroupCount) {
