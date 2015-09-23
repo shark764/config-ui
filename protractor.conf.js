@@ -17,12 +17,12 @@ exports.config = {
     'name': process.env.SAUCE_SUITE_NAME,
     'build': process.env.SAUCE_BUILD,
     'tags': [process.env.SAUCE_TAG],
-    'max-duration': '10000'
+    'max-duration': '100000'
   },
 
   // Timeout time in milliseconds; prevents Protractor waiting to synchronize timeouts
   // Defaults to 11 seconds
-  allScriptsTimeout: 30000,
+  allScriptsTimeout: 60000,
 
   // This can be changed via the command line as:
   // --params.login.user 'ngrocks'
