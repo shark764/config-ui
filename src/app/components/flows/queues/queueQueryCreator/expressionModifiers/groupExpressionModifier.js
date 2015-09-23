@@ -61,12 +61,18 @@ angular.module('liveopsConfigPanel')
               }
             }
             
-            if(!groupSet) {
+            if(groupSet) {
+              for(var groupSetIndex = 0; groupSetIndex < groupSet.val.length; groupSetIndex++) {
+                if(groupSet.val[groupSetIndex] === item.id) {
+                  return;
+                }
+              }
+              
+              groupSet.val.push(item.id);
+            } else {
               var groupSet = new jsedn.Set([item.id]);
               var operationList = new jsedn.List([this.operator, groupSet]);
               andList.val.push(operationList);
-            } else {
-              groupSet.val.push(item.id);
             }
           } else {
             var groupSet = new jsedn.Set([item.id]);
