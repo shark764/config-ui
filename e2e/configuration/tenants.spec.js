@@ -3,6 +3,7 @@
 describe('The tenants view', function() {
   var loginPage = require('../login/login.po.js'),
     tenants = require('./tenants.po.js'),
+    profile = require('../userProfile/profile.po.js'),
     shared = require('../shared.po.js'),
     params = browser.params,
     tenantCount;
@@ -39,20 +40,45 @@ describe('The tenants view', function() {
 
 
   it('should display all users in the admin dropdown', function() {
+    shared.createBtn.click();
+
     var adminUserList = [];
-    users.skillDropdownItems.each(function(skillElement, index) {
-      skillElement.getText().then(function(skillName) {
-        adminUserList.push(skillName);
+    tenants.adminDropDownItems.each(function(adminElement, index) {
+      adminElement.getText().then(function(adminName) {
+        adminUserList.push(adminName);
       });
     }).then(function() {
       browser.get(shared.usersPageUrl);
 
-      // Skill list on Users page should contain each of the same Skill records
+      // Admin list on Tenants page should contain all Users
       for (var i = 0; i < adminUserList.length; i++) {
         shared.searchField.clear();
         shared.searchField.sendKeys(adminUserList[i]);
         expect(shared.tableElements.count()).toBeGreaterThan(0);
       }
+    });
+  });
+
+  it('should users email in the admin dropdown when name is blank', function() {
+    // Remove current user's first and last name
+    browser.get(shared.profilePageUrl);
+    profile.firstNameFormField.clear();
+    profile.lastNameFormField.clear();
+
+    profile.updateProfileBtn.click().then(function() {
+      expect(shared.successMessage.isPresent()).toBeTruthy();
+
+      // Verify that the user's email is displayed in the admin dropdown
+      browser.get(shared.tenantsPageUrl);
+      shared.createBtn.click();
+
+      expect(tenants.adminFormDropDown.$('option:checked').getText()).toBe(params.login.user);
+    }).then(function() {
+      // Reset users name
+      browser.get(shared.profilePageUrl);
+      profile.firstNameFormField.sendKeys(params.login.firstName);
+      profile.lastNameFormField.sendKeys(params.login.lastName);
+      profile.updateProfileBtn.click();
     });
   });
 
