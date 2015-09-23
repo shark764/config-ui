@@ -100,17 +100,17 @@
         var formSection = '<div class="input-group"';
         formSection += ' ng-hide="' + input.hidden + '"';
         formSection += '><label>' + input.label + '</label>';
-        formSection += '<div class="timestamp">'
+        formSection += '<div class="timestamp">';
         formSection += '<input type="text" ng-model="notation.model.attributes.' + input.path + '.value"';
         formSection += ' ng-change="onInputChange(notation.model, notation.model.attributes.' + input.path + ', inputs[' + index + '])"';
-        formSection += '></input>'
+        formSection += '></input>';
         formSection += '<select ng-model="notation.model.attributes.' + input.path + '.measurement"';
         formSection += ' ng-change="onInputChange(notation.model, notation.model.attributes.' + input.path + ', inputs[' + index + '])"';
-        formSection += '>'
+        formSection += '>';
         formSection += '<option value="seconds">Seconds</option>';
         formSection += '<option value="minutes">Minutes</option>';
         formSection += '<option value="hours">Hours</option>';
-        formSection += "</select>"
+        formSection += '</select>';
         formSection += '</div></div>';
         return formSection;
       }
@@ -200,7 +200,7 @@
           scope.notation.model.onInputChange(model, value, input.path);
 
           if (input.refresh) {
-            scope.$emit('rebuild')
+            scope.$emit('rebuild');
           }
         };
 
@@ -208,13 +208,13 @@
           return _.reduce(scope.inputs, function(memo, input){
             memo[input.path] = joint.util.getByPath(scope.notation.model.attributes, input.path, '.');
             return memo;
-          }, {})
+          }, {});
         }, function(newValue, oldValue){
-          if(newValue != oldValue){
+          if(newValue !== oldValue){
             console.log('params updated');
             $rootScope.$broadcast('update:draft');
           }
-        }, true)
+        }, true);
 
         var content = $compile(buildTemplate(scope.inputs))(scope);
         angular.element(element[0].children[0]).append(content);

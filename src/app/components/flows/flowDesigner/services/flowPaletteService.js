@@ -12,7 +12,7 @@
         var self = this;
         _.each(self.data.links, function(notation) {
           FlowNotationService.registerLink(notation);
-        })
+        });
       },
 
       loadGateways: function(palette) {

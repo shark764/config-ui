@@ -15,8 +15,6 @@ function flowDesigner() {
 
         $timeout(function() {
 
-          console.log($scope.readOnly)
-
           FlowLibrary.loadData($scope.notations);
 
           var graphOptions = {
@@ -126,7 +124,7 @@ function flowDesigner() {
             newScope.modalBody = 'app/components/flows/flowDesigner/newDraftModalTemplate.html';
             newScope.title = "New Draft";
             newScope.draft = {
-              name: $scope.flowData.name + " draft",
+              name: 'Draft - ' + $scope.flowData.name,
               description: ''
             }
 

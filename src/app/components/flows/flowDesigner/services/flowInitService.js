@@ -55,8 +55,8 @@
           var nodes = document.querySelectorAll(graphOptions.paperContainerId + ' .selected');
           _.each(nodes, function(node){
             V(node).removeClass('selected');
-          })
-        }
+          });
+        };
         graph.utils.updateSelectedCell = function(cellView){
           //remove previously highlighted class
           graph.utils.unselectCell();
@@ -116,7 +116,6 @@
         return clipboard;
       },
       initializePaper: function(graph, width, height, gridSize, perpendicularLinks, embeddingMode, frontParentOnly, defaultLink, readOnly) {
-        console.log(readOnly)
         return new joint.dia.Paper({
           width: width,
           height: height,
@@ -126,7 +125,7 @@
           embeddingMode: embeddingMode,
           frontParentOnly: frontParentOnly,
           defaultLink: defaultLink,
-          interactive: (readOnly == false),
+          interactive: (readOnly === false),
           validateEmbedding: function(childView) {
             var validEventNames = ['message', 'signal', 'timer', 'conditional', 'escalation'];
             return (childView.model.get('type') === 'liveOps.event' &&
