@@ -6,6 +6,7 @@ var TenantsPage = function() {
   this.descriptionFormField = element(by.model('resource.description'));
   this.statusFormToggle = element(by.model('resource.active'));
   this.adminFormDropDown = element(by.model('resource.adminUserId'));
+  this.adminDropDownItems = this.adminFormDropDown.all(by.css('option'));
 
   this.region = element(by.id('tenant-details-region'));
 

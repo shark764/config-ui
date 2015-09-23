@@ -148,6 +148,10 @@ header {
         tbody tr:hover {
           background-color: $accent-light;
         }
+        
+        .control-col {
+          width: 40px;
+        }
       }
   
       .scrollable-table-container {
