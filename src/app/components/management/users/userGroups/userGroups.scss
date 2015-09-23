@@ -42,27 +42,6 @@ user-groups {
     overflow: hidden;
   }
 
-  .tag {
-    border: 1px solid $light-grey;
-    @include border-radius();
-    display: inline-block;
-    float: left;
-    line-height: 2.5ex;
-    margin: 0 5px $tag-row-margin 5px;
-    height: $tag-row-height;
-    background-color: $lightest-grey;
-    color: $darkest-grey;
-    padding: 3px 7px;
-
-    a {
-      color: $grey;
-    }
-
-    a:hover {
-      color: $dark-grey;
-    }
-  }
-
   .expander {
     height: 5px;
     margin: 5px auto;
