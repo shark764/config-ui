@@ -225,14 +225,14 @@ describe('The table search', function() {
 
   /*
    * USER TABLE SEARCH
-   * Search on First Name, Last Name
+   * Search on First Name, Last Name, Email
    */
 
   it('should display Users based on the Search on First and Last Name', function() {
     elementCount = shared.tableElements.count();
 
     shared.searchField.sendKeys('Titan');
-    //expect(shared.tableElements.count()).toBeGreaterThan(0);
+    expect(shared.tableElements.count()).toBeGreaterThan(0);
     shared.tableElements.then(function(rows) {
       for (var i = 0; i < rows.length; ++i) {
         rows[i].getText().then(function(value) {
@@ -243,7 +243,7 @@ describe('The table search', function() {
 
     shared.searchField.clear();
     shared.searchField.sendKeys('tan');
-    //expect(shared.tableElements.count()).toBeGreaterThan(0);
+    expect(shared.tableElements.count()).toBeGreaterThan(0);
     shared.tableElements.then(function(rows) {
       for (var i = 0; i < rows.length; ++i) {
         rows[i].getText().then(function(value) {
@@ -254,7 +254,7 @@ describe('The table search', function() {
 
     shared.searchField.clear();
     shared.searchField.sendKeys('USER');
-    //expect(shared.tableElements.count()).toBeGreaterThan(0);
+    expect(shared.tableElements.count()).toBeGreaterThan(0);
     shared.tableElements.then(function(rows) {
       for (var i = 0; i < rows.length; ++i) {
         rows[i].getText().then(function(value) {
@@ -265,7 +265,7 @@ describe('The table search', function() {
 
     shared.searchField.clear();
     shared.searchField.sendKeys('Ti*er');
-    //expect(shared.tableElements.count()).toBeGreaterThan(0);
+    expect(shared.tableElements.count()).toBeGreaterThan(0);
     shared.tableElements.then(function(rows) {
       for (var i = 0; i < rows.length; ++i) {
         rows[i].getText().then(function(value) {
@@ -278,7 +278,7 @@ describe('The table search', function() {
 
     shared.searchField.clear();
     shared.searchField.sendKeys('Titan User');
-    //expect(shared.tableElements.count()).toBeGreaterThan(0);
+    expect(shared.tableElements.count()).toBeGreaterThan(0);
     shared.tableElements.then(function(rows) {
       for (var i = 0; i < rows.length; ++i) {
         rows[i].getText().then(function(value) {
@@ -300,6 +300,43 @@ describe('The table search', function() {
 
     shared.searchField.clear();
     expect(shared.tableElements.count()).toBe(elementCount);
+  });
+
+  it('should display current User based on the Search on First Name, Last Name and Email', function() {
+    // First name
+    shared.searchField.sendKeys(params.login.firstName);
+    expect(shared.tableElements.count()).toBeGreaterThan(0);
+    expect(shared.firstTableRow.getText()).toContain(params.login.firstName);
+
+    // Last name
+    shared.searchField.clear();
+    shared.searchField.sendKeys(params.login.lastName);
+    expect(shared.tableElements.count()).toBeGreaterThan(0);
+    expect(shared.firstTableRow.getText()).toContain(params.login.lastName);
+
+    // Email
+    shared.searchField.clear();
+    shared.searchField.sendKeys(params.login.user);
+    expect(shared.tableElements.count()).toBeGreaterThan(0);
+    expect(shared.firstTableRow.getText()).toContain(params.login.user);
+
+    // First, Last
+    shared.searchField.clear();
+    shared.searchField.sendKeys(params.login.lastName + ' ' + params.login.lastName);
+    expect(shared.tableElements.count()).toBeGreaterThan(0);
+    expect(shared.firstTableRow.getText()).toContain(params.login.lastName + ' ' + params.login.lastName);
+
+    // First, Last, Email
+    shared.searchField.clear();
+    shared.searchField.sendKeys(params.login.lastName + ' ' + params.login.lastName + ' ' + params.login.user);
+    expect(shared.tableElements.count()).toBeGreaterThan(0);
+    expect(shared.firstTableRow.getText()).toContain(params.login.lastName + ' ' + params.login.lastName + ' ' + params.login.user);
+
+    // Last, Email
+    shared.searchField.clear();
+    shared.searchField.sendKeys(params.login.lastName + ' ' + params.login.user);
+    expect(shared.tableElements.count()).toBeGreaterThan(0);
+    expect(shared.firstTableRow.getText()).toContain(params.login.lastName + ' ' + params.login.user);
   });
 
   /*

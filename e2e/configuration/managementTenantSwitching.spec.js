@@ -286,18 +286,18 @@ describe('When switching tenants', function() {
         shared.createBtn.click();
         skills.nameFormField.sendKeys(previousTenantSkill);
         skills.proficiencyFormCheckbox.click();
-        shared.submitFormBtn.click();
+        shared.submitFormBtn.click().then(function () {
+          expect(shared.successMessage.isDisplayed()).toBeTruthy();
 
-        expect(shared.successMessage.isDisplayed()).toBeTruthy();
-
-        // Verify skill is not added in new tenant
-        tenants.selectTenant(newTenantName);
-        expect(shared.tableElements.count()).toBe(1);
-        shared.tableElements.then(function(rows) {
-          for (var i = 1; i <= rows.length; ++i) {
-            // Check if skill name in table matches newly added skill
-            expect(element(by.css('tr.ng-scope:nth-child(' + i + ') > td:nth-child(2)')).getText()).not.toBe(previousTenantSkill);
-          }
+          // Verify skill is not added in new tenant
+          tenants.selectTenant(newTenantName);
+          expect(shared.tableElements.count()).toBe(1);
+          shared.tableElements.then(function(rows) {
+            for (var i = 1; i <= rows.length; ++i) {
+              // Check if skill name in table matches newly added skill
+              expect(element(by.css('tr.ng-scope:nth-child(' + i + ') > td:nth-child(2)')).getText()).not.toBe(previousTenantSkill);
+            }
+          });
         });
       });
     });
