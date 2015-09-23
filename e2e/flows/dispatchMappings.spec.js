@@ -219,7 +219,7 @@ describe('The dispatch mappings view', function() {
     expect(shared.navBar.isDisplayed()).toBeTruthy();
     expect(shared.table.isDisplayed()).toBeTruthy();
     expect(shared.searchField.isDisplayed()).toBeTruthy();
-    expect(shared.detailsForm.isDisplayed()).toBeFalsy(); //Right panel is hidden
+    expect(shared.rightPanel.isDisplayed()).toBeFalsy(); //Right panel is hidden
     expect(shared.actionsBtn.isDisplayed()).toBeTruthy();
     expect(shared.createBtn.isDisplayed()).toBeTruthy();
     expect(shared.tableColumnsDropDown.isDisplayed()).toBeTruthy();
@@ -365,9 +365,9 @@ describe('The dispatch mappings view', function() {
 
     shared.firstTableRow.element(by.css(dispatchMappings.statusColumn)).getText().then(function(dispatchMappingStatus) {
       if (dispatchMappingStatus == 'Enabled') {
-        expect(dispatchMappings.statusSwitchInput.getAttribute('value')).toBeTruthy();
+        expect(dispatchMappings.statusSwitchInput.isSelected()).toBeTruthy();
       } else if (dispatchMappingStatus == 'Disabled') {
-        expect(dispatchMappings.statusSwitchInput.getAttribute('value')).toBeFalsy();
+        expect(dispatchMappings.statusSwitchInput.isSelected()).toBeFalsy();
       } else {
         // fail test
         expect(true).toBeFalsy();
@@ -393,9 +393,9 @@ describe('The dispatch mappings view', function() {
 
       shared.secondTableRow.element(by.css(dispatchMappings.statusColumn)).getText().then(function(dispatchMappingStatus) {
         if (dispatchMappingStatus == 'Enabled') {
-          expect(dispatchMappings.statusSwitchInput.getAttribute('value')).toBeTruthy();
+          expect(dispatchMappings.statusSwitchInput.isSelected()).toBeTruthy();
         } else if (dispatchMappingStatus == 'Disabled') {
-          expect(dispatchMappings.statusSwitchInput.getAttribute('value')).toBeFalsy();
+          expect(dispatchMappings.statusSwitchInput.isSelected()).toBeFalsy();
         } else {
           // fail test
           expect(true).toBeFalsy();
