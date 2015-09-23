@@ -15,6 +15,7 @@
     vertical-align: top;
     height: 100%;
     display: inline-block;
+    padding-top: 5px;
 
     input {
       color: #505050;
@@ -29,6 +30,7 @@
       padding: 0 0 0 10px;
       margin: 0;
       line-height: 40px;
+      height: 40px;
 
       &.active {
         cursor: default;

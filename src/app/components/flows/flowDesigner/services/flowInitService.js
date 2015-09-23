@@ -15,7 +15,7 @@
         graph.interfaces.commandManager = self.initializeCommandManager(graph);
         graph.interfaces.selector = self.initializeSelector();
         graph.interfaces.clipboard = self.initializeClipboard();
-        graph.interfaces.paper = self.initializePaper(graph, graphOptions.width, graphOptions.height, graphOptions.gridSize, graphOptions.perpendicularLinks, graphOptions.embeddingMode, graphOptions.frontParentOnly, graphOptions.defaultLink);
+        graph.interfaces.paper = self.initializePaper(graph, graphOptions.width, graphOptions.height, graphOptions.gridSize, graphOptions.perpendicularLinks, graphOptions.embeddingMode, graphOptions.frontParentOnly, graphOptions.defaultLink, graphOptions.readOnly);
         graph.interfaces.scroller = self.initializeScroller(graph.interfaces.paper, graphOptions.scrollerPadding, graphOptions.autoResizePaper, graphOptions.paperContainerId);
         graph.interfaces.selectorView = self.initializeSelectorView(graph, graph.interfaces.paper, graph.interfaces.selector, graphOptions.selectorFilterArray);
         graph.interfaces.palette = self.initializePalette(graph, graph.interfaces.paper, graphOptions.stencilContainerId);
@@ -54,16 +54,16 @@
         graph.utils.unselectCell = function(){
           var nodes = document.querySelectorAll(graphOptions.paperContainerId + ' .selected');
           _.each(nodes, function(node){
-            V(node).removeClass('selected');
-          })
-        }
+            new V(node).removeClass('selected');
+          });
+        };
         graph.utils.updateSelectedCell = function(cellView){
           //remove previously highlighted class
           graph.utils.unselectCell();
 
           //highlight current cell if it is not a link
           if(cellView.model.get('type') !== 'liveOps.link'){
-            V(cellView.el.getElementsByClassName('border')[0]).addClass('selected');
+            new V(cellView.el.getElementsByClassName('border')[0]).addClass('selected');
           }
         };
         graph.utils.renderPropertiesPanel = function(notation) {
@@ -116,7 +116,7 @@
         var clipboard = new joint.ui.Clipboard();
         return clipboard;
       },
-      initializePaper: function(graph, width, height, gridSize, perpendicularLinks, embeddingMode, frontParentOnly, defaultLink) {
+      initializePaper: function(graph, width, height, gridSize, perpendicularLinks, embeddingMode, frontParentOnly, defaultLink, readOnly) {
         return new joint.dia.Paper({
           width: width,
           height: height,
@@ -126,6 +126,7 @@
           embeddingMode: embeddingMode,
           frontParentOnly: frontParentOnly,
           defaultLink: defaultLink,
+          interactive: (readOnly === false),
           validateEmbedding: function(childView) {
             var validEventNames = ['message', 'signal', 'timer', 'conditional', 'escalation'];
             return (childView.model.get('type') === 'liveOps.event' &&

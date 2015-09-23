@@ -40,7 +40,7 @@ angular.module('liveopsConfigPanel')
 
             return value;
           };
-          
+
           var cleanUpdateFields = function(data){
             var cleanedData = angular.copy(data);
             angular.forEach(cleanedData, function(value, key){
@@ -49,9 +49,9 @@ angular.module('liveopsConfigPanel')
                 delete cleanedData[key];
               }
             });
-            
+
             return cleanedData;
-          }
+          };
 
           params.requestUrlFields = angular.isDefined(params.requestUrlFields) ? params.requestUrlFields : {
             id: '@id',
@@ -177,17 +177,17 @@ angular.module('liveopsConfigPanel')
             }
 
             var item = _.find(cache, params);
-              
+
             if(!item) {
               item = this.get(params);
-              
+
               for(var index in params) {
                 item[index] = params[index];
               }
-              
+
               cache.push(item);
             }
-            
+
             return item;
           };
 
