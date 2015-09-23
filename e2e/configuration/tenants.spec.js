@@ -173,7 +173,7 @@ describe('The tenants view', function() {
   });
 
   xit('should update tenant name in table and nav dropdown when edited', function() {
-    // TODO Bug TITAN2-3527
+    // Fails; tenant name is not updated in dropdown due to caching
     var tenantUpdated = false;
 
     shared.searchField.sendKeys('Tenant'); // Ensure Platform tenant is not selected

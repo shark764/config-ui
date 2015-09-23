@@ -337,9 +337,10 @@ describe('The create new user form', function() {
     // Attempt to create a new User with the email of an existing user
     shared.firstTableRow.element(by.css(users.emailColumn)).getText().then(function(existingUserEmail) {
       users.emailFormField.sendKeys(existingUserEmail + '\t').then(function() {
+
         // User details form displayed instead of creating a new user
-        expect(users.createNewUserHeader.isPresent()).toBeFalsy();
-        expect(users.userNameDetailsHeader.isDisplayed()).toBeTruthy();
+        expect(shared.detailsFormHeader.getText()).toContain(users.firstNameFormField.getAttribute('value'));
+        expect(shared.detailsFormHeader.getText()).toContain(users.lastNameFormField.getAttribute('value'));
 
         // Required details are populated
         expect(users.emailLabel.getText()).toBe(existingUserEmail);
@@ -349,7 +350,7 @@ describe('The create new user form', function() {
   });
 
   xit('should show user details when entering existing tenant user email; case insensitive', function() {
-    // TODO API Email is currently case sensitive
+    // TODO Out check for user's being in the current tenant is not case insensitive
     var caseChangeExistingEmail;
     shared.createBtn.click();
 
@@ -363,8 +364,8 @@ describe('The create new user form', function() {
       users.emailFormField.sendKeys(caseChangeExistingEmail + '\t');
 
       // User details form displayed instead of creating a new user
-      expect(shared.createNewUserHeader.isPresent()).toBeFalsy();
-      expect(shared.userNameDetailsHeader.isDisplayed()).toBeTruthy();
+      expect(shared.detailsFormHeader.getText()).toContain(users.firstNameFormField.getAttribute('value'));
+      expect(shared.detailsFormHeader.getText()).toContain(users.lastNameFormField.getAttribute('value'));
 
       // Required details are populated
       expect(users.emailLabel.getText()).toBe(existingUserEmail);
@@ -402,15 +403,21 @@ describe('The create new user form', function() {
   it('should reset invalid Email field after clicking Create while already Creating', function() {
     shared.createBtn.click();
 
-    //Fill in invalid values
-    users.emailFormField.sendKeys('not an email');
+    //Fill out all fields
+    users.emailFormField.sendKeys('not a valid email');
+    users.tenantRoleFormDropdownOptions.get(1).click();
+    users.platformRoleFormDropdownOptions.get(1).click();
 
     //Click Create button again
     shared.createBtn.click();
     shared.dismissChanges();
 
     //Expect all fields to have been cleared
+    expect(users.firstNameFormField.getAttribute('value')).toBe('');
+    expect(users.lastNameFormField.getAttribute('value')).toBe('');
     expect(users.emailFormField.getAttribute('value')).toBe('');
+    expect(users.tenantRoleFormDropdown.getAttribute('value')).toBe('');
+    expect(users.externalIdFormField.getAttribute('value')).toBe('');
   });
 
   it('should allow newly added user to be edited', function() {
@@ -430,14 +437,14 @@ describe('The create new user form', function() {
     users.lastNameFormField.sendKeys('Last' + randomUser);
     users.externalIdFormField.sendKeys(randomUser);
 
-    users.submitFormBtn.click().then(function () {
+    users.submitFormBtn.click().then(function() {
       expect(shared.successMessage.isDisplayed()).toBeTruthy();
 
       // Edit user details
       users.firstNameFormField.sendKeys('NewUserEdit');
       users.lastNameFormField.sendKeys('NewUserEdit');
       users.externalIdFormField.sendKeys('NewUserEdit');
-      users.submitFormBtn.click().then(function () {
+      users.submitFormBtn.click().then(function() {
         expect(shared.successMessage.isDisplayed()).toBeTruthy();
 
         // User found in table by updated name
