@@ -43,9 +43,10 @@ describe('The user groups component of User view', function() {
       users.addGroupSearch.getAttribute('value').then(function(newUserGroup) {
         users.addGroupBtn.click();
 
+        shared.searchField.sendKeys('titantest' + randomUser + '@mailinator.com');
+
         // Verify that the users group count has increased and the new group is displayed
-        // TODO Bug shows 2 in table
-        //expect(shared.firstTableRow.element(by.css(users.groupsColumn)).getText()).toBe('1');
+        expect(shared.firstTableRow.element(by.css(users.groupsColumn)).getText()).toBe('1');
         expect(users.userGroups.count()).toBe(1);
         expect(users.userGroups.get(0).getText()).toBe(newUserGroup);
       });
@@ -62,8 +63,7 @@ describe('The user groups component of User view', function() {
     var newGroupName = 'Group Name ' + randomGroup;
     groups.nameFormField.sendKeys(newGroupName);
     shared.submitFormBtn.click().then(function() {
-      // TODO Bug TITAN2-3771 Error message displayed when created successfully
-      //expect(shared.successMessage.isDisplayed()).toBeTruthy();
+      expect(shared.successMessage.isDisplayed()).toBeTruthy();
 
       //Assign a user to it
       browser.get(shared.usersPageUrl);
@@ -94,7 +94,7 @@ describe('The user groups component of User view', function() {
     var newGroupName = 'Group Name from User Page ' + randomGroup;
     var originalUserGroupCount = shared.firstTableRow.element(by.css(users.groupsColumn)).getText();
 
-    //Assign a user to a group that doesn't exist
+    // Assign a user to a group that doesn't exist
     users.userNameDetailsHeader.getText().then(function(selectedUserName) {
       users.addGroupSearch.sendKeys(newGroupName);
       users.addGroupBtn.click();
@@ -212,8 +212,7 @@ describe('The user groups component of User view', function() {
         users.addGroupSearch.click();
         expect(users.groupDropdownItems.count()).toBe(0)
         users.userGroups.count().then(function(userGroupCount) {
-          // TODO Bug count duplicates for newly created user
-          //expect(shared.firstTableRow.element(by.css(users.groupsColumn)).getText()).toBe(userGroupCount.toString())
+          expect(shared.firstTableRow.element(by.css(users.groupsColumn)).getText()).toBe(userGroupCount.toString())
 
           // No more existing groups to add to user
           users.addGroupSearch.click();
@@ -362,7 +361,7 @@ describe('The user groups component of User view', function() {
     });
   });
 
-  xit('should search list of all existing Groups by Group name', function() {
+  it('should search list of all existing Groups by Group name', function() {
     browser.get(shared.groupsPageUrl);
 
     // Get list of groups from Group page
