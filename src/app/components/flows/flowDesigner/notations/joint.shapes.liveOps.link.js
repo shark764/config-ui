@@ -160,7 +160,7 @@
     onInputChange: function(cell, value, path) {
       if (path === 'label') {
         cell.label(0, {
-          position: .5,
+          position: 0.5,
           attrs: {
             rect: {fill: 'white'},
             text: {text: value}
@@ -216,7 +216,7 @@
           };
           break;
         default:
-          throw 'BPMN: Unknown Flow Type: ' + type;
+          throw 'BPMN: Unknown link Type: ' + value;
         }
 
         cell.attr(_.merge({}, this.defaults.attrs, attrs));
@@ -224,5 +224,5 @@
         // console.warn('This property is not hooked up to a UI listener.');
       }
     }
-  })
+  });
 })();

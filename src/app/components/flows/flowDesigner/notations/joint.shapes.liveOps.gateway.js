@@ -77,10 +77,10 @@
           cell.set('icon', 'event');
           cell.attr({
             image: {
-              width:  50, height: 50, 
+              width:  50, height: 50,
               transform: 'translate(15,15)'
             }
-          })
+          });
           break;
         default:
           throw 'BPMN: Unknown Gateway Type: ' + type;

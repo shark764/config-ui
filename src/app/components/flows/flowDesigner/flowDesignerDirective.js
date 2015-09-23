@@ -58,8 +58,8 @@ function flowDesigner() {
             var graph = $scope.graph;
             _.each(graph.getElements(), function(element) {
               var view = element.findView(graph.interfaces.paper);
-              V(view.el).removeClass('error');
-            })
+              new V(view.el).removeClass('error');
+            });
           }
 
           function addErrors(errors) {
@@ -67,8 +67,8 @@ function flowDesigner() {
             _.each(errors, function(e) {
               var cell = graph.getCell(e.step);
               var view = cell.findView(graph.interfaces.paper);
-              V(view.el).addClass('error');
-            })
+              new V(view.el).addClass('error');
+            });
           }
 
           function validate(graph) {
@@ -77,25 +77,23 @@ function flowDesigner() {
               addErrors(errors);
               return false;
             }
-            else { return true };
+            else { return true; }
           }
 
           $scope.graph.on('change', function(){
             $scope.$broadcast('update:draft');
-          })
+          });
 
           $scope.graph.on('add', function(){
             $scope.$broadcast('update:draft');
-          })
+          });
 
           $scope.graph.on('remove', function(){
             $scope.$broadcast('update:draft');
-          })
+          });
 
           var update = function(){
-            console.log('updating')
             if($scope.readOnly){
-              console.log('readOnly');
               return;
             }
             clearErrors();
@@ -112,80 +110,79 @@ function flowDesigner() {
           $scope.$on('update:draft', lazyUpdate);
 
           $scope.publishNewFlowDraft = function() {
-            console.log('New Draft');
 
             var graph = $scope.graph;
             if (graph.toJSON().cells.length === 0) { return; }
             clearErrors();
-            if(!validate) return;
+            if(!validate) {return;}
 
             var newScope = $scope.$new();
 
             newScope.modalBody = 'app/components/flows/flowDesigner/newDraftModalTemplate.html';
-            newScope.title = "New Draft";
+            newScope.title = 'New Draft';
             newScope.draft = {
               name: 'Draft - ' + $scope.flowData.name,
               description: ''
-            }
+            };
 
             newScope.okCallback = function(draft) {
               var alienese = FlowLibrary.convertToAlienese(graph.toJSON()),
-                  draft = new FlowDraft({
+                  _draft = new FlowDraft({
                     flow: JSON.stringify(alienese),
                     description: draft.description,
                     name: draft.name,
                     tenantId: Session.tenant.tenantId,
                     flowId: $scope.flowData.flowId
-                  })
+                  });
 
-              draft.save().then(function(draft){
+              _draft.save().then(function(d){
                 $state.go('content.flows.editor', {
-                  flowId: draft.flowId,
-                  draftId: draft.id
+                  flowId: d.flowId,
+                  draftId: d.id
                 });
-              })
+              });
               $document.find('modal').remove();
-            }
+            };
 
             newScope.cancelCallback = function() {
               $document.find('modal').remove();
-            }
+            };
 
             var element = $compile('<modal></modal>')(newScope);
             $document.find('html > body').append(element);
-          }
+          };
 
           $scope.publishNewFlowVersion = function() {
             var graph = $scope.graph;
             if (graph.toJSON().cells.length === 0) { return; }
             clearErrors();
-            if(!validate) return;
+            if(!validate) {return;}
 
 
             var newScope = $scope.$new();
 
             newScope.modalBody = 'app/components/flows/flowDesigner/publishModalTemplate.html';
-            newScope.title = "Publish";
+            newScope.title = 'Publish';
 
             newScope.okCallback = function(version){
               var alienese = FlowLibrary.convertToAlienese(graph.toJSON()),
-                  version = new FlowVersion({
+                  _version = new FlowVersion({
                     flow: JSON.stringify(alienese),
                     description: version.description,
                     name: version.name,
                     tenantId: Session.tenant.tenantId,
                     flowId: $scope.flowData.flowId
-                  })
+                  });
 
-              version.save(function(version){
+              _version.save(function(v){
                 $document.find('modal').remove();
                 Alert.success('New flow version successfully created.');
                 $scope.flowData.$delete().then(function(){
                   $state.go('content.flows.view', {
-                    flowId: version.flowId,
-                    versionId: version.version
-                  })
-                })
+                    flowId: v.flowId,
+                    versionId: v.version
+                  });
+                });
 
               }, function(error) {
                 if (error.data.error.attribute === null) {
@@ -202,9 +199,6 @@ function flowDesigner() {
             var element = $compile('<modal></modal>')(newScope);
             $document.find('html > body').append(element);
 
-            function closeModal(){
-              $document.find('html > modal').remove();
-            }
           };
 
           if (SubflowCommunicationService.currentFlowContext !== '') {
@@ -229,7 +223,7 @@ function flowDesigner() {
 
           $window.validate = function() {
             return FlowLibrary.validate($scope.graph.toJSON());
-          }
+          };
 
           $window.search = function(target) {
             return FlowLibrary.search($scope.graph.toJSON(), target);

@@ -54,7 +54,7 @@
         graph.utils.unselectCell = function(){
           var nodes = document.querySelectorAll(graphOptions.paperContainerId + ' .selected');
           _.each(nodes, function(node){
-            V(node).removeClass('selected');
+            new V(node).removeClass('selected');
           });
         };
         graph.utils.updateSelectedCell = function(cellView){
@@ -62,7 +62,7 @@
           graph.utils.unselectCell();
           //highlight current cell if it is not a link
           if(cellView.model.get('type') !== 'liveOps.link'){
-            V(cellView.el).addClass('selected');
+            new V(cellView.el).addClass('selected');
           }
         };
         graph.utils.renderPropertiesPanel = function(notation) {

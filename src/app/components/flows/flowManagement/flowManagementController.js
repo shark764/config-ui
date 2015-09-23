@@ -33,7 +33,7 @@ angular.module('liveopsConfigPanel')
           $state.go('content.flows.editor', {
             flowId: flow.id,
             draftId: draft.id
-          })
+          });
         });
       };
 

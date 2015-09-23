@@ -1,7 +1,7 @@
 (function() {
   'use strict';
 
-  function buildTemplate (inputs) {
+  function buildTemplate (inputs, notation) {
     // Start the template
     var tpl = '<div id="details-pane" class="designer-details-pane"><form class="details-form"><div class="detail-body-pane" style="height: 100%;">';
 
@@ -80,7 +80,7 @@
         return formSection;
       },
 
-      boolean: function (input, index) {
+      boolean: function (input) {
         var formSection = '<div class="input-group"';
         formSection += ' ng-hide="' + input.hidden + '"';
         formSection += '><label>' + input.label + '</label>';
@@ -160,7 +160,7 @@
         };
 
         // Populate typeahead search collections with relevant API sources
-        _.each(scope.inputs, function (input, index) {
+        _.each(scope.inputs, function (input) {
           if (input.type === 'typeahead' && input.source !== undefined) {
             if (input.source === 'media') {
               input.options = _.map(FlowNotationService.media, function(entity) {
@@ -194,8 +194,6 @@
           }
         });
 
-        $window.notation = scope.notation;
-
         scope.onInputChange = function(model, value, input) {
           scope.notation.model.onInputChange(model, value, input.path);
 
@@ -216,7 +214,7 @@
           }
         }, true);
 
-        var content = $compile(buildTemplate(scope.inputs))(scope);
+        var content = $compile(buildTemplate(scope.inputs, scope.notation))(scope);
         angular.element(element[0].children[0]).append(content);
 
         $timeout(function() {
