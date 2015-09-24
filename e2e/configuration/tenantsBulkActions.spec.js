@@ -10,6 +10,15 @@ describe('The tenants view bulk actions', function() {
 
   beforeAll(function() {
     loginPage.login(params.login.user, params.login.password);
+
+    // Ensure tenant exists that can be edited
+    browser.get(shared.tenantsPageUrl);
+    shared.createBtn.click();
+    var randomTenant = Math.floor((Math.random() * 1000) + 1);
+    tenants.nameFormField.sendKeys('Tenant ' + randomTenant);
+    shared.submitFormBtn.click().then(function() {
+      expect(shared.successMessage.isDisplayed()).toBeTruthy();
+    });
   });
 
   beforeEach(function() {
@@ -33,7 +42,7 @@ describe('The tenants view bulk actions', function() {
     expect(bulkActions.enableToggle.isDisplayed()).toBeTruthy();
   });
 
-  xit('should allow all selected tenant\'s status to be Disabled', function() {
+  it('should allow all selected tenant\'s status to be Disabled', function() {
     shared.searchField.sendKeys('Tenant'); // Ensure Platform tenant is not selected
     tenantCount = shared.tableElements.count();
 
@@ -72,7 +81,7 @@ describe('The tenants view bulk actions', function() {
     });
   });
 
-  xit('should allow all selected tenant\'s status to be Enabled', function() {
+  it('should allow all selected tenant\'s status to be Enabled', function() {
     shared.searchField.sendKeys('Tenant'); // Ensure Platform tenant is not selected
     tenantCount = shared.tableElements.count();
 
@@ -134,9 +143,8 @@ describe('The tenants view bulk actions', function() {
     expect(shared.successMessage.isPresent()).toBeFalsy();
   });
 
-  xit('should only affect selected tenants', function() {
+  it('should only affect selected tenants', function() {
     shared.searchField.sendKeys('Tenant'); // Ensure Platform tenant is not selected
-    tenantCount = shared.tableElements.count();
 
     shared.tableElements.then(function(originalTenants) {
       // Select odd tenants and leave even tenants unselected
@@ -156,22 +164,23 @@ describe('The tenants view bulk actions', function() {
       expect(bulkActions.confirmModal.isDisplayed()).toBeTruthy();
       bulkActions.confirmOK.click().then(function() {
         shared.waitForSuccess();
-        expect(shared.successMessage.isDisplayed()).toBeTruthy();
 
         // Form reset
         expect(bulkActions.submitFormBtn.getAttribute('disabled')).toBeTruthy();
         expect(bulkActions.enableToggle.getAttribute('disabled')).toBeTruthy();
 
         // Only selected tenants are updated
-        for (var i = 0; i < originalTenants.length; i++) {
-          if (i % 2 > 0) {
-            // Tenant was updated to Disabled
-            expect(shared.tableElements.get(i).getText()).toContain('Disabled');
-          } else {
-            // Tenant status remains unchanged
-            expect(shared.tableElements.get(i).getText()).toBe(originalTenants[i].getText());
+        shared.tableElements.then(function(updatedTenants) {
+          for (var i = 0; i < originalTenants.length; i++) {
+            if (i % 2 > 0) {
+              // Tenant was updated to Disabled
+              expect(shared.tableElements.get(i).getText()).toContain('Disabled');
+            } else {
+              // Tenant status remains unchanged
+              expect(shared.tableElements.get(i).getText()).toBe(updatedTenants[i].getText());
+            }
           }
-        }
+        });
       });
     });
   });
