@@ -19,21 +19,21 @@ angular.module('liveopsConfigPanel')
         if (angular.isUndefined($scope.sourcePropertyName)){
           $scope.sourcePropertyName = 'id';
         }
-        
+
         if (angular.isUndefined($scope.destinationPropertyName)){
           $scope.destinationPropertyName = 'id';
         }
-        
+
         $scope.$watch('model', function(modelValue){
           $scope.updateDisplayField(modelValue);
         });
-        
+
         $scope.updateDisplayField = function(modelValue){
           var promise = $scope.items.$promise;
           if (angular.isUndefined(promise)){
             promise = $q.when($scope.items);
           }
-          
+
           promise.then(function(){
             //Set the display input to show the display name of the pre-existing value, if any.
             if (modelValue && angular.isDefined(modelValue[$scope.destinationPropertyName])){
@@ -46,12 +46,12 @@ angular.module('liveopsConfigPanel')
             }
           });
         };
-        
+
         $scope.onSelect = function(selectedItem){
           $scope.model[$scope.destinationPropertyName] = selectedItem[$scope.sourcePropertyName];
           $scope.display = selectedItem.getDisplay();
           $scope.onItemSelect();
-          
+
           dropCtrl.setShowDrop(false);
           $scope.createMode = false;
           $scope.selectedItem = null;

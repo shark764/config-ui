@@ -42,7 +42,7 @@
         var modelType = model.get('type');
         var inputs = [];
 
-        //If we're dealing with an actrivity
+        //If we're dealing with an activity
         if (modelType === 'liveOps.activity') {
           var activity = _.findWhere(self.activities, {name: model.get('name')});
           inputs = activity.inputs;
@@ -70,6 +70,13 @@
           input = _.clone(input);
           if (input.source === 'resource') {
             input.options = _.union(input.options, _.map(FlowLibrary.search({cells: model.collection.toJSON()}, 'resource'), function(item){
+              return {
+                content: item,
+                value: item
+              };
+            }));
+          } else if (input.source === 'catch' || input.source === 'throw') {
+            input.options = _.union(input.options, _.map(FlowLibrary.search({cells: model.collection.toJSON()}, input.source), function(item){
               return {
                 content: item,
                 value: item
