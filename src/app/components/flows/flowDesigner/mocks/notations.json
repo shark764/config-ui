@@ -1029,7 +1029,8 @@
                 {
                     "name": "target",
                     "path": "target",
-                    "type": "string",
+                    "type": "autocomplete",
+                    "source": "throw",
                     "label": "Target:",
                     "group": "general",
                     "index": 0,
@@ -1079,7 +1080,8 @@
                 {
                     "name": "target",
                     "path": "target",
-                    "type": "string",
+                    "type": "autocomplete",
+                    "source": "throw",
                     "label": "Target:",
                     "group": "general",
                     "index": 0,
@@ -1149,13 +1151,14 @@
                 {
                     "name": "signal",
                     "path": "event.name",
-                    "type": "string",
+                    "type": "autocomplete",
+                    "source": "catch",
                     "label": "Signal Name:",
                     "group": "general",
                     "index": 0,
                     "disabled": false,
                     "required": false,
-                    "placeholder": "Enter a signal name to catch...",
+                    "placeholder": "Enter a signal name to throw...",
                     "hidden": false
                 },
                 {
@@ -1189,6 +1192,7 @@
                     "name": "signal",
                     "path": "event.name",
                     "type": "string",
+                    "source": "catch",
                     "label": "Signal Name:",
                     "group": "general",
                     "index": 0,

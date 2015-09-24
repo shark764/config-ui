@@ -51,7 +51,6 @@
       },
 
       select: function (input, index) {
-        console.log(notation);
         var formSection = '<div class="input-group"';
         formSection += ' ng-hide="' + input.hidden + '"';
         formSection += '><label>' + input.label + '</label><div>';
@@ -78,6 +77,18 @@
         formSection += ' placeholder="' + input.placeholder + '"';
         formSection += ' items="inputs[' + index + '].options" on-select="setEntityProp(selectedItem, ' + index + ')" name-field="content" is-required="false">';
         formSection += '</div></div>';
+        return formSection;
+      },
+
+      autocomplete: function (input, index) {
+        var formSection = '<div class="input-group"';
+        formSection += ' ng-hide="' + input.hidden + '"';
+        formSection += '><label>' + input.label + '</label><div>';
+        formSection += '<autocomplete hover="true"';
+        formSection += ' prefill="notation.model.attributes.' + input.path + '"';
+        formSection += ' placeholder="' + input.placeholder + '"';
+        formSection += ' items="inputs[' + index + '].options" on-select="assignAttribute(currentText, \'' + input.path + '\')" name-field="content" is-required="false"';
+        formSection += ' ></div></div>';
         return formSection;
       },
 
@@ -159,6 +170,13 @@
         scope.setEntityProp = function(selectedItem, index) {
           scope.notation.model.attributes.params[scope.inputs[index].name] = selectedItem.value;
         };
+
+        scope.assignAttribute = function(value, path) {
+          if(path == 'event.name' && !scope.notation.model.attributes.event) {
+            scope.notation.model.attributes.event = {};
+          }
+          joint.util.setByPath(scope.notation.model.attributes, path, value, '.');
+        }
 
         // Populate typeahead search collections with relevant API sources
         _.each(scope.inputs, function (input, index) {

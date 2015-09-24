@@ -64,7 +64,7 @@ angular.module('liveopsConfigPanel')
             $scope.showSuggestions = false;
           }
         };
-        
+
         $scope.$watch('selectedItem', function(newValue){
           if (newValue === null){
             $scope.currentText = '';
