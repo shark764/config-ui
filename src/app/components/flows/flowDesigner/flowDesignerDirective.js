@@ -3,6 +3,7 @@
 function flowDesigner() {
     return {
       scope: {
+        flow: '=flow',
         flowData: '=flowData',
         notations: '=notations',
         readOnly: '=readOnly'
@@ -163,8 +164,11 @@ function flowDesigner() {
 
             newScope.modalBody = 'app/components/flows/flowDesigner/publishModalTemplate.html';
             newScope.title = 'Publish';
+            newScope.flow = {
+              name: $scope.flow.name
+            };
 
-            newScope.okCallback = function(version){
+            newScope.okCallback = function(flow, version){
               var alienese = FlowLibrary.convertToAlienese(graph.toJSON()),
                   _version = new FlowVersion({
                     flow: JSON.stringify(alienese),
@@ -178,9 +182,11 @@ function flowDesigner() {
                 $document.find('modal').remove();
                 Alert.success('New flow version successfully created.');
                 $scope.flowData.$delete().then(function(){
-                  $state.go('content.flows.view', {
-                    flowId: v.flowId,
-                    versionId: v.version
+                  $scope.flow.$update({
+                    name: flow.name,
+                    activeVersion: v.version
+                  }).then(function(){
+                    $state.go('content.flows.flowManagement', {}, {reload: true});
                   });
                 });
 

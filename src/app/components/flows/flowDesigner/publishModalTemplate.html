@@ -2,7 +2,15 @@
   <h3 class="header">{{title}}</h3>
   <div class="form">
     <div class="input-group">
-      <label>Name</label>
+      <label>Flow Name</label>
+      <input type="text" ng-model="flow.name"/>
+    </div>
+    <div class="input-group">
+      <label>Make active</label>
+      <toggle ng-model="flow.active"></toggle>
+    </div>
+    <div class="input-group">
+      <label>Version name</label>
       <input type="text" ng-model="version.name"/>
     </div>
     <div class="input-group">
@@ -12,6 +20,6 @@
   </div>
   <div class="footer">
     <a id="modal-cancel" class="btn" ng-click="cancelCallback()">{{'value.cancel' | translate}}</a>
-    <a ng-click="okCallback(version)" class="btn btn-primary" id="modal-ok">{{'value.ok' | translate}}</a>
+    <a ng-click="okCallback(flow, version)" class="btn btn-primary" id="modal-ok">{{'value.ok' | translate}}</a>
   </div>
 </div>
