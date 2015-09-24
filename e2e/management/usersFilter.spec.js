@@ -179,7 +179,7 @@ describe('The users table filter', function() {
     });
   });
 
-  xit('should display users based on the table Group filter', function() {
+  it('should display users based on the table Group filter', function() {
     // Select Group from Groups drop down
     users.groupsTableDropDownLabel.click();
     users.dropdownGroups.get(0).click();
