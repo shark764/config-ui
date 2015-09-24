@@ -56,7 +56,7 @@
 
         //if we're dealing with a link
         if (modelType === 'liveOps.link') {
-          var link = _.findWhere(self.links, {type: model.get('linkType')})
+          var link = _.findWhere(self.links, {type: model.get('linkType')});
           inputs = link.inputs;
         }
 
@@ -68,12 +68,12 @@
 
         return _.map(inputs, function(input){
           input = _.clone(input);
-          if (input.source == 'resource') {
+          if (input.source === 'resource') {
             input.options = _.union(input.options, _.map(FlowLibrary.search({cells: model.collection.toJSON()}, 'resource'), function(item){
               return {
                 content: item,
                 value: item
-              }
+              };
             }));
           } else if (input.source == 'catch' || input.source == 'throw') {
             input.options = _.union(input.options, _.map(FlowLibrary.search({cells: model.collection.toJSON()}, input.source), function(item){
@@ -103,12 +103,12 @@
               };
             }
           } else if (param.source === 'entity') {
-            if(!model.params[param.key] || model.params[param.key].length == 0) {
+            if(!model.params[param.key] || model.params[param.key].length === 0) {
               throw {
                 model: model,
                 param: param.key,
                 message: 'Parameters either was not defined or was incorrect'
-              }
+              };
             }
 
             memo[key] = {

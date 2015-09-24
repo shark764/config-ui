@@ -1,7 +1,7 @@
 (function() {
   'use strict';
 
-  function buildTemplate (inputs) {
+  function buildTemplate (inputs, notation) {
     // Start the template
     var tpl = '<div id="details-pane" class="designer-details-pane"><form class="details-form"><div class="detail-body-pane" style="height: 100%;">';
 
@@ -92,7 +92,7 @@
         return formSection;
       },
 
-      boolean: function (input, index) {
+      boolean: function (input) {
         var formSection = '<div class="input-group"';
         formSection += ' ng-hide="' + input.hidden + '"';
         formSection += '><label>' + input.label + '</label>';
@@ -112,17 +112,17 @@
         var formSection = '<div class="input-group"';
         formSection += ' ng-hide="' + input.hidden + '"';
         formSection += '><label>' + input.label + '</label>';
-        formSection += '<div class="timestamp">'
+        formSection += '<div class="timestamp">';
         formSection += '<input type="text" ng-model="notation.model.attributes.' + input.path + '.value"';
         formSection += ' ng-change="onInputChange(notation.model, notation.model.attributes.' + input.path + ', inputs[' + index + '])"';
-        formSection += '></input>'
+        formSection += '></input>';
         formSection += '<select ng-model="notation.model.attributes.' + input.path + '.measurement"';
         formSection += ' ng-change="onInputChange(notation.model, notation.model.attributes.' + input.path + ', inputs[' + index + '])"';
-        formSection += '>'
+        formSection += '>';
         formSection += '<option value="seconds">Seconds</option>';
         formSection += '<option value="minutes">Minutes</option>';
         formSection += '<option value="hours">Hours</option>';
-        formSection += "</select>"
+        formSection += '</select>';
         formSection += '</div></div>';
         return formSection;
       }
@@ -155,7 +155,7 @@
     return tpl += '</div></div></form>';
   }
 
-  var propsPanel = function ($compile, $timeout, $window, FlowNotationService) {
+  var propsPanel = function ($compile, $timeout, $window, $rootScope, FlowNotationService) {
     return {
       scope: {
         notation: '=notation',
@@ -179,7 +179,7 @@
         }
 
         // Populate typeahead search collections with relevant API sources
-        _.each(scope.inputs, function (input, index) {
+        _.each(scope.inputs, function (input) {
           if (input.type === 'typeahead' && input.source !== undefined) {
             if (input.source === 'media') {
               input.options = _.map(FlowNotationService.media, function(entity) {
@@ -213,17 +213,26 @@
           }
         });
 
-        $window.notation = scope.notation;
-
         scope.onInputChange = function(model, value, input) {
           scope.notation.model.onInputChange(model, value, input.path);
 
           if (input.refresh) {
-            scope.$emit('rebuild')
+            scope.$emit('rebuild');
           }
         };
 
-        var content = $compile(buildTemplate(scope.inputs))(scope);
+        scope.$watch(function(scope){
+          return _.reduce(scope.inputs, function(memo, input){
+            memo[input.path] = joint.util.getByPath(scope.notation.model.attributes, input.path, '.');
+            return memo;
+          }, {});
+        }, function(newValue, oldValue){
+          if(newValue !== oldValue){
+            $rootScope.$broadcast('update:draft');
+          }
+        }, true);
+
+        var content = $compile(buildTemplate(scope.inputs, scope.notation))(scope);
         angular.element(element[0].children[0]).append(content);
 
         $timeout(function() {
