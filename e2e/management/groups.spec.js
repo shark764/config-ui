@@ -272,8 +272,7 @@ describe('The groups view', function() {
     });
   });
 
-  //TODO: failing for unknown reason
-  xit('should not allow updates to Everyone group', function() {
+  it('should not allow updates to Everyone group', function() {
     shared.searchField.sendKeys('everyone');
     shared.tableElements.then(function(groups) {
       if (groups.length > 0){

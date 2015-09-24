@@ -4,6 +4,8 @@ describe('The users table filter', function() {
   var loginPage = require('../login/login.po.js'),
     shared = require('../shared.po.js'),
     users = require('./users.po.js'),
+    skills = require('./skills.po.js'),
+    groups = require('./groups.po.js'),
     params = browser.params,
     userQueryText,
     statusFilterText,
