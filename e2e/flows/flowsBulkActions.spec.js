@@ -10,6 +10,14 @@ describe('The flows view bulk actions', function() {
 
   beforeAll(function() {
     loginPage.login(params.login.user, params.login.password);
+
+    // Create new flow
+    browser.get(shared.flowsPageUrl);
+    var randomFlow = Math.floor((Math.random() * 1000) + 1);
+    shared.createBtn.click();
+    flows.nameFormField.sendKeys('Flow ' + randomFlow);
+    flows.typeFormDropdown.all(by.css('option')).get((randomFlow % 3) + 1).click();
+    shared.submitFormBtn.click()
   });
 
   beforeEach(function() {
@@ -124,7 +132,7 @@ describe('The flows view bulk actions', function() {
     expect(shared.successMessage.isPresent()).toBeFalsy();
   });
 
-  xit('should only affect selected flows', function() {
+  it('should only affect selected flows', function() {
     shared.tableElements.then(function(originalFlows) {
       // Select odd flows and leave even flows unselected
       for (var i = 0; i < originalFlows.length; i++) {
