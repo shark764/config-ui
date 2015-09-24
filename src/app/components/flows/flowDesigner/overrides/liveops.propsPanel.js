@@ -172,11 +172,11 @@
         };
 
         scope.assignAttribute = function(value, path) {
-          if(path == 'event.name' && !scope.notation.model.attributes.event) {
+          if(path === 'event.name' && !scope.notation.model.attributes.event) {
             scope.notation.model.attributes.event = {};
           }
           joint.util.setByPath(scope.notation.model.attributes, path, value, '.');
-        }
+        };
 
         // Populate typeahead search collections with relevant API sources
         _.each(scope.inputs, function (input) {

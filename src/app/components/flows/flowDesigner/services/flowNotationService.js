@@ -75,13 +75,13 @@
                 value: item
               };
             }));
-          } else if (input.source == 'catch' || input.source == 'throw') {
+          } else if (input.source === 'catch' || input.source === 'throw') {
             input.options = _.union(input.options, _.map(FlowLibrary.search({cells: model.collection.toJSON()}, input.source), function(item){
               return {
                 content: item,
                 value: item
-              }
-            }))
+              };
+            }));
           }
           return input;
         });
