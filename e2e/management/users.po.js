@@ -118,7 +118,9 @@ var UserPage = function() {
   this.addSkillBtn = this.addSkill.element(by.id('add-skill-btn'));
   this.noUserSkillsMessage = element(by.id('no-user-skills'));
   this.userSkills = element.all(by.repeater('userSkill in userSkills | orderBy:\'name\''));
-  this.userSkillTableRows = element.all(by.css('div.scrollable-table-container:nth-child(2) > div:nth-child(2) > div:nth-child(1) > table:nth-child(1) > tbody:nth-child(2) > tr'));
+  this.userSkillsTable = element(by.css('[name=userSkills]'));
+  this.userSkillTableRows = element.all(by.repeater('userSkill in userSkills | orderBy:\'name\''));//this.userSkillsTable.all(by.css('tr'));
+  this.editSkillProficiency = 'userSkill.proficiency';
 };
 
 module.exports = new UserPage();
