@@ -184,7 +184,7 @@ function flowDesigner() {
                 $scope.flowData.$delete().then(function(){
                   $scope.flow.$update({
                     name: flow.name,
-                    activeVersion: v.version
+                    activeVersion: (flow.active) ? v.version : flow.activeVersion
                   }).then(function(){
                     $state.go('content.flows.flowManagement', {}, {reload: true});
                   });
