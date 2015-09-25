@@ -107,6 +107,13 @@ var Shared = function() {
 
   this.tearDown = function() {
     // Ignore unsaved changes warnings
+    browser.switchTo().alert().then(
+      function(alert) {
+        alert.accept();
+      },
+      function(err) {}
+    );
+
     browser.executeScript("window.onbeforeunload = function(){};");
     browser.get(this.loginPageUrl);
 

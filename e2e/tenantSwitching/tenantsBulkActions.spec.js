@@ -4,7 +4,7 @@ describe('The tenants view bulk actions', function() {
   var loginPage = require('../login/login.po.js'),
     bulkActions = require('../tableControls/bulkActions.po.js'),
     shared = require('../shared.po.js'),
-    tenants = require('./tenants.po.js'),
+    tenants = require('../configuration/tenants.po.js'),
     params = browser.params,
     tenantCount;
 

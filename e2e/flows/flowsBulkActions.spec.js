@@ -90,7 +90,7 @@ describe('The flows view bulk actions', function() {
 
     expect(bulkActions.confirmModal.isDisplayed()).toBeTruthy();
     bulkActions.confirmOK.click().then(function() {
-      //expect(shared.successMessage.isDisplayed()).toBeTruthy();
+      shared.waitForSuccess();
 
       // Form reset
       expect(bulkActions.submitFormBtn.getAttribute('disabled')).toBeTruthy();

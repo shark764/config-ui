@@ -196,7 +196,7 @@ describe('The table search', function() {
     expect(shared.filteredResultsMessage.isDisplayed()).toBeFalsy();
     expect(shared.clearAllResultsLink.isDisplayed()).toBeFalsy();
 
-    shared.searchField.sendKeys('t\t').then(function() {
+    shared.searchField.sendKeys('sta\t').then(function() {
       expect(shared.filteredResultsMessage.isDisplayed()).toBeTruthy();
       expect(shared.clearAllResultsLink.isDisplayed()).toBeTruthy();
 
@@ -231,6 +231,7 @@ describe('The table search', function() {
   it('should display Users based on the Search on First and Last Name', function() {
     elementCount = shared.tableElements.count();
 
+    shared.searchField.clear();
     shared.searchField.sendKeys('Titan');
     expect(shared.tableElements.count()).toBeGreaterThan(0);
     shared.tableElements.then(function(rows) {
@@ -304,15 +305,20 @@ describe('The table search', function() {
 
   it('should display current User based on the Search on First Name, Last Name and Email', function() {
     // First name
+    shared.searchField.clear();
     shared.searchField.sendKeys(params.login.firstName);
     expect(shared.tableElements.count()).toBeGreaterThan(0);
-    expect(shared.firstTableRow.getText()).toContain(params.login.firstName);
+    shared.firstTableRow.getText().then(function (firstRowString) {
+      expect(firstRowString.toLowerCase()).toContain(params.login.firstName);
+    });
 
     // Last name
     shared.searchField.clear();
     shared.searchField.sendKeys(params.login.lastName);
     expect(shared.tableElements.count()).toBeGreaterThan(0);
-    expect(shared.firstTableRow.getText()).toContain(params.login.lastName);
+    shared.firstTableRow.getText().then(function (firstRowString) {
+      expect(firstRowString.toLowerCase()).toContain(params.login.lastName);
+    });
 
     // Email
     shared.searchField.clear();
