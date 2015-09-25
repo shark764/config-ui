@@ -328,13 +328,13 @@ describe('The table search', function() {
 
     // First, Last
     shared.searchField.clear();
-    shared.searchField.sendKeys(params.login.lastName + ' ' + params.login.lastName);
+    shared.searchField.sendKeys(params.login.firstName + ' ' + params.login.lastName);
     expect(shared.tableElements.count()).toBeGreaterThan(0);
     expect(shared.firstTableRow.getText()).toContain(params.login.lastName + ' ' + params.login.lastName);
 
     // First, Last, Email
     shared.searchField.clear();
-    shared.searchField.sendKeys(params.login.lastName + ' ' + params.login.lastName + ' ' + params.login.user);
+    shared.searchField.sendKeys(params.login.firstName + ' ' + params.login.lastName + ' ' + params.login.user);
     expect(shared.tableElements.count()).toBeGreaterThan(0);
     expect(shared.firstTableRow.getText()).toContain(params.login.lastName + ' ' + params.login.lastName + ' ' + params.login.user);
 
