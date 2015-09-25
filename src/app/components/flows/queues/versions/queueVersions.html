@@ -33,7 +33,23 @@
         <div disable-contents="! ('MANAGE_ALL_QUEUES' | hasPermission)">
           <div class="input-group">
             <label class="textarea-label disabled">Basic Query</label>
-            <readonly-queue-query version="version" queue="queue"></readonly-queue-query>
+            <skill-query query="version.query"
+              label-key="queue.query.builder.skills.all"
+              operator="and">
+            </skill-query>
+            <skill-query query="version.query"
+              label-key="queue.query.builder.skills.some"
+              operator="or">
+            </skill-query>
+            
+            <group-query query="version.query"
+              label-key="queue.query.builder.groups.all"
+              operator="every">
+            </group-query>
+            <group-query query="version.query"
+              label-key="queue.query.builder.groups.some"
+              operator="some">
+            </group-query>
           </div>
           <div class="input-group">
             <label class="textarea-label disabled">Advanced Query</label>

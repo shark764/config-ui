@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('QueueQueryCreatorController', ['$scope', 'Session', 'groupExpressionModifierConfig', 'skillExpressionModifierConfig', 'GroupExpressionModifier', 'SkillExpressionModifier',
-    function($scope, Session, groupExpressionModifierConfig, skillExpressionModifierConfig, GroupExpressionModifier, SkillExpressionModifier) {
+  .controller('QueueQueryCreatorController', ['$scope',
+    function($scope) {
       var self = this;
 
       $scope.$watch('rootMap', function(newMap) {
@@ -19,16 +19,6 @@ angular.module('liveopsConfigPanel')
         }
         
         $scope.rootMap = jsedn.parse(newQuery);
-        
-        $scope.groupModifiers = [];
-        angular.forEach(groupExpressionModifierConfig, function(modifierParams) {
-          $scope.groupModifiers.push(new GroupExpressionModifier($scope.rootMap, modifierParams));
-        });
-        
-        $scope.skillModifiers = [];
-        angular.forEach(skillExpressionModifierConfig, function(modifierParams) {
-          $scope.skillModifiers.push(new SkillExpressionModifier($scope.rootMap, modifierParams));
-        });
       });
     }
   ]);
