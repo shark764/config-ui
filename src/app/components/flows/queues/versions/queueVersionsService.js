@@ -8,9 +8,14 @@ angular.module('liveopsConfigPanel')
         endpoint: '/v1/tenants/:tenantId/queues/:queueId/versions/:id',
         resourceName: 'QueueVersion',
         updateFields: [
-          'name',
-          'description',
-          'query'
+          {name: 'name', optional: true},
+          {name: 'description', optional: true},
+          {name: 'query', optional: true},
+          {name: 'minPriority', optional: true},
+          {name: 'maxPriority', optional: true},
+          {name: 'priorityValue', optional: true},
+          {name: 'priorityRate', optional: true},
+          {name: 'priorityUnit', optional: true}
         ],
         saveInterceptor: emitInterceptor,
         updateInterceptor: emitInterceptor

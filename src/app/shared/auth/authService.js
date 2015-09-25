@@ -24,7 +24,9 @@ angular.module('liveopsConfigPanel')
         return request.then(function(response) {
           var user = new User({
             id: response.data.result.userId,
-            email: response.data.result.username
+            email: response.data.result.username,
+            firstName: response.data.result.firstName,
+            lastName: response.data.result.lastName
           });
           
           var tenants = response.data.result.tenants;

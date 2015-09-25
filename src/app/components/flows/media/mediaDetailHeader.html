@@ -1,4 +1,4 @@
-<div ng-show="selectedMedia.$original.id" class="info">
+<div ng-if="selectedMedia.$original.id" class="info">
   <h1>{{selectedMedia.$original.name}}</h1>
   <div class="details" ng-if="['PLATFORM_VIEW_ALL_USERS', 'PLATFORM_CREATE_USERS', 'PLATFORM_MANAGE_ALL_USERS', 'PLATFORM_MANAGE_ALL_TENANTS', 'PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT'] | hasPermission">
     <b audit-text
@@ -26,4 +26,4 @@
   </div>
 </div>
 
-<h1 ng-show="!selectedMedia.$original.id">{{'media.details.creating' | translate}}</h1>
+<h1 ng-if="!selectedMedia.$original.id">{{'media.details.creating' | translate}}</h1>

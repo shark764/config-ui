@@ -1,0 +1,45 @@
+<div disable-contents="ngDisabled">
+  <div class="input-group">
+    <label>{{'queue.details.minPriority' | translate}}</label>
+    <form-error field="form.minPriority" error-type-min="{{'queue.details.minPriority.error.min' | translate}}" error-type-max="{{'queue.details.minPriority.error.max' | translate}}"></form-error>
+    <div>
+      <input id="curr-version-min-priority" type="number" name="minPriority" ng-model="queueVersion.minPriority" min="1" max="{{queueVersion.maxPriority ? queueVersion.maxPriority : 1000}}"></input>
+    </div>
+  </div>
+  
+  <div class="input-group">
+    <label>{{'queue.details.maxPriority' | translate}}</label>
+    <form-error field="form.maxPriority" error-type-min="{{'queue.details.maxPriority.error.min' | translate}}" error-type-max="{{'queue.details.maxPriority.error.max' | translate}}"></form-error>
+    <div>
+      <input id="curr-version-max-priority" type="number" name="maxPriority" ng-model="queueVersion.maxPriority" min="{{queueVersion.minPriority ? queueVersion.minPriority : 1}}" max="1000"></input>
+    </div>
+  </div>
+  
+  <div class="input-group">
+    <label>{{'queue.details.priorityValue' | translate}}</label>
+    <form-error field="form.priorityValue" error-type-min="{{'queue.details.priorityValue.error.min' | translate}}" error-type-max="{{'queue.details.priorityValue.error.max' | translate}}"></form-error>
+    <div>
+      <input id="curr-version-priority-value" type="number" name="priorityValue" ng-model="queueVersion.priorityValue" min="1" max="1000"></input>
+    </div>
+  </div>
+  
+  <div class="input-group">
+    <label>{{'queue.details.priorityRate' | translate}}</label>
+    <form-error field="form.priorityRate" error-type-min="{{'queue.details.priorityRate.error.min' | translate}}"></form-error>
+    <div>
+      <input id="curr-version-priority-rate" type="number" name="priorityRate" ng-model="queueVersion.priorityRate" min="1"></input>
+    </div>
+  </div>
+  
+  <div class="input-group">
+    <label>{{'queue.details.priorityUnit' | translate}}</label>
+    <div>
+      <select ng-model="queueVersion.priorityUnit" name="priorityUnit" id="create-version-rate-units-input">
+        <option value="seconds">{{'queue.details.priorityUnit.seconds' | translate}}</option>
+        <option value="minutes">{{'queue.details.priorityUnit.minutes' | translate}}</option>
+        <option value="hours">{{'queue.details.priorityUnit.hours' | translate}}</option>
+        <option value="days">{{'queue.details.priorityUnit.days' | translate}}</option>
+      </select>
+    </div>
+  </div>
+</div>

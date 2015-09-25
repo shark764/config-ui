@@ -22,58 +22,56 @@
     </div>
   </div>
 
- <div disable-contents="forms.detailsForm.email.$invalid && ! forms.detailsForm.$error.duplicateEmail">
-    <div class="input-group" ng-if="! forms.detailsForm.$error.duplicateEmail">
-      <label>{{'details.platformRole' | translate}} *</label>
-      <form-error
-        field="forms.detailsForm.platformRoleId"
-        error-type-required="{{'details.role.error' | translate}}">
-      </form-error>
-      <div>
-        <select ng-model="selectedTenantUser.$user.roleId" name="platformRoleId" required
-          ng-options="role.id as role.name for role in fetchPlatformRoles()">
-          <option value="" ng-disabled="true">
-            {{'users.details.role.select' | translate}}
-          </option>
-        </select>
-      </div>
+  <div class="input-group" ng-if="! forms.detailsForm.$error.duplicateEmail">
+    <label>{{'details.platformRole' | translate}} *</label>
+    <form-error
+      field="forms.detailsForm.platformRoleId"
+      error-type-required="{{'details.role.error' | translate}}">
+    </form-error>
+    <div>
+      <select ng-model="selectedTenantUser.$user.roleId" name="platformRoleId" required
+        ng-options="role.id as role.name for role in fetchPlatformRoles()">
+        <option value="" ng-disabled="true">
+          {{'users.details.role.select' | translate}}
+        </option>
+      </select>
     </div>
-
-    <div class="input-group">
-      <label>{{'details.role' | translate}} *</label>
-      <form-error
-        field="forms.detailsForm.roleId"
-        error-type-required="{{'details.role.error' | translate}}">
-      </form-error>
-      <div>
-        <select ng-model="selectedTenantUser.roleId" name="roleId" required
-          ng-options="role.id as role.name for role in fetchTenantRoles()">
-          <option value="" ng-disabled="true">
-            {{'users.details.role.select' | translate}}
-          </option>
-        </select>
-      </div>
-    </div>
-
-    <div class="input-group">
-      <label>{{'details.inviteNow' | translate}}</label>
-      <div>
-        <toggle ng-model="selectedTenantUser.status"
-          ng-disabled="forms.detailsForm.email.$invalid && ! forms.detailsForm.$error.duplicateEmail"
-          true-value="invited"
-          false-value="pending"
-          ng-init="selectedTenantUser.status = 'invited'"
-          name="inviteNow">
-        </toggle>
-        <help-icon id="invite-now-help" translate-value="details.inviteNow.help"></help-icon>
-      </div>
+  </div>
+  
+  <div class="input-group">
+    <label>{{'details.role' | translate}} *</label>
+    <form-error
+      field="forms.detailsForm.roleId"
+      error-type-required="{{'details.role.error' | translate}}">
+    </form-error>
+    <div>
+      <select ng-model="selectedTenantUser.roleId" name="roleId" required
+        ng-options="role.id as role.name for role in fetchTenantRoles()">
+        <option value="" ng-disabled="true">
+          {{'users.details.role.select' | translate}}
+        </option>
+      </select>
     </div>
   </div>
 
-  <div class="input-group" ng-show="forms.detailsForm.email.$error.duplicateEmail">
-    <div class="lo-alert">{{'details.email.alreadyExists' | translate}}</div>
+  <div class="input-group">
+    <label>{{'details.inviteNow' | translate}}</label>
+    <div>
+      <toggle ng-model="selectedTenantUser.status"
+        true-value="invited"
+        false-value="pending"
+        ng-init="selectedTenantUser.status = 'invited'"
+        name="inviteNow">
+      </toggle>
+      <help-icon id="invite-now-help" translate-value="details.inviteNow.help"></help-icon>
+    </div>
   </div>
 </div>
+
+<div class="input-group" ng-show="forms.detailsForm.email.$error.duplicateEmail">
+  <div class="lo-alert">{{'details.email.alreadyExists' | translate}}</div>
+</div>
+
 
 <div class="logical-group">
   <div ng-if="scenario() === 'update'">

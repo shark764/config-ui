@@ -3,6 +3,10 @@
 angular.module('liveopsConfigPanel')
   .controller('FlowDraftsController', ['$scope', 'Session', 'FlowDraft', 'Alert', function ($scope, Session, FlowDraft, Alert) {
       $scope.fetch = function () {
+        if (! $scope.flow || $scope.flow.isNew()){
+          return [];
+        }
+
         $scope.drafts = FlowDraft.query({
           tenantId: Session.tenant.tenantId,
           flowId: $scope.flow.id
@@ -39,6 +43,8 @@ angular.module('liveopsConfigPanel')
       };
 
       $scope.$watch('flow', function () {
+        if(!$scope.flow) {return;}
+
         $scope.fetch();
         $scope.createDraft();
 

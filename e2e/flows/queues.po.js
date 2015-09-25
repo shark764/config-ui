@@ -23,12 +23,14 @@ var QueuePage = function() {
   this.versionRowDetailsV2 = element(by.id('view-version-v2'));
 
   this.createVersionNumberFormField = element(by.id('create-version-number'));
-  this.createVersionQueryFormField = element(by.model('extendScope.initialQuery'));
-  this.createVersionPriorityFormField = element(by.id('create-version-priority-input'));
-  this.createVersionRateFormField = element(by.id('create-version-rate-input'));
+  this.createVersionQueryFormField = element(by.model('extendScope.initialVersion.query'));
+  this.createVersionMinPriorityFormField = element(by.id('curr-version-min-priority'));
+  this.createVersionMaxPriorityFormField = element(by.id('curr-version-max-priority'));
+  this.createVersionPriorityValueFormField = element(by.id('curr-version-priority-value'));
+  this.createVersionRateFormField = element(by.id('curr-version-priority-rate'));
   this.createVersionRateUnitDropdown = element(by.id('create-version-rate-units-input'));
 
-  this.requiredErrors = element.all(by.css('.error'));
+  this.requiredErrors = element.all(by.css('.lo-error'));
 
   this.selectedVersionQuery = this.versionRowDetailsV1.element(by.model('version.query'));
   this.selectedVersionPriority = this.versionRowDetailsV1.element(by.id('selected-version-priority'));

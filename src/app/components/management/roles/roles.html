@@ -1,0 +1,58 @@
+
+<table-controls
+  id="table-pane"
+  config="roleTableConfig"
+  items="fetchTenantRoles()"
+  selected="selectedTenantRole"
+  resource-name="TenantRole">
+
+</table-controls>
+
+<resize-handle
+    ng-show="selectedTenantRole || showBulkActions"
+    id="resize-pane"
+    right-element-id="role-pane"
+    left-element-id="table-pane"></resize-handle>
+
+<lo-details-panel
+  id="role-pane"
+  class="right-panel"
+  ng-show="selectedTenantRole || showBulkActions"
+  ng-resource="selectedTenantRole">
+    <ng-form
+      class="details-pane"
+      unsaved-changes-warning
+      name="forms.detailsForm"
+      ng-show="!showBulkActions"
+      ng-resource="selectedTenantRole"
+      lo-form-submit lo-form-cancel lo-form-alert>
+
+      <div class="detail-header" ng-include="'app/components/management/roles/roleDetailHeader.html'">
+      </div>
+
+      <div class="detail-body" ng-include="'app/components/management/roles/roleDetailBody.html'">
+      </div>
+
+      <div class="detail-controls">
+        <input
+          id="cancel-details-btn"
+          lo-cancel-chain-executor="role:cancel"
+          ng-disabled="selectedTenantRole.$busy"
+          type="button"
+          class="btn"
+          ng-click="reset()"
+          value="{{'value.cancel' | translate}}"></input>
+
+        <input
+          id="submit-details-btn"
+          lo-submit="submit()"
+          lo-submit-spinner
+          lo-submit-spinner-status="selectedTenantRole.$busy"
+          ng-disabled="forms.detailsForm.$pending || ! forms.detailsForm.$dirty"
+          class="btn btn-primary"
+          type="submit"
+          value="{{'value.submit' | translate}}" />
+      </div>
+    </ng-form>
+  </div>
+</lo-details-panel>

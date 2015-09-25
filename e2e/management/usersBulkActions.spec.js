@@ -37,7 +37,6 @@ describe('The users view bulk actions', function() {
 
     // User's bulk actions fields are disabled by default
     expect(bulkActions.enableToggle.getAttribute('disabled')).toBeTruthy();
-    expect(bulkActions.resetPasswordInputField.getAttribute('disabled')).toBeTruthy();
 
     // Skill fields disabled
     expect(bulkActions.addNewSkillBtn.getAttribute('disabled')).toBeTruthy();
@@ -65,7 +64,6 @@ describe('The users view bulk actions', function() {
     shared.actionsBtn.click();
     bulkActions.userSelectEnable.click();
 
-    expect(bulkActions.submitFormBtn.getAttribute('disabled')).toBeFalsy();
     bulkActions.submitFormBtn.click();
 
     expect(bulkActions.confirmModal.isDisplayed()).toBeTruthy();
