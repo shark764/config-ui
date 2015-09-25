@@ -23,7 +23,7 @@ angular.module('liveopsConfigPanel')
           name: 'personalTelephone',
           optional: true
         }],
-        saveInterceptor: cacheAddInterceptor,
+        saveInterceptor: [cacheAddInterceptor, emitInterceptor],
         updateInterceptor: emitInterceptor
       });
 
@@ -31,10 +31,8 @@ angular.module('liveopsConfigPanel')
         if (this.firstName || this.lastName) {
           var name = (this.firstName ? this.firstName : '') + ' ' + (this.lastName ? this.lastName : '');
           return name.trim();
-        } else if (this.displayName) {
-          return this.displayName;
         } else {
-          return '';
+          return this.email;
         }
       };
 

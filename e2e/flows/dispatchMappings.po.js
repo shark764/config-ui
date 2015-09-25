@@ -19,7 +19,7 @@ var DispatchMappingsPage = function() {
   this.channelTypeColumn = 'td:nth-child(6)';
   this.statusColumn = 'td:nth-child(7)';
 
-  this.requiredErrors = element.all(by.css('.error'));
+  this.requiredErrors = element.all(by.css('.lo-error'));
 
   this.interactionTypes = ('Voice');
 
@@ -38,7 +38,7 @@ var DispatchMappingsPage = function() {
   this.statuses = this.statusTableDropDown.all(by.repeater('option in options | orderBy:orderBy'));
   this.statusInputs = this.statusTableDropDown.all(by.css('input'));
 
-  this.interactionFieldTableDropDown = this.tableHeader.element(by.id('integration-column-dropdown'));
+  this.interactionFieldTableDropDown = this.tableHeader.element(by.id('interaction-column-dropdown'));
   this.interactionFieldDropDownLabel = this.interactionFieldTableDropDown.element(by.css('.dropdown-label'));
   this.interactionFields = this.interactionFieldTableDropDown.all(by.repeater('option in options | orderBy:orderBy'));
 };

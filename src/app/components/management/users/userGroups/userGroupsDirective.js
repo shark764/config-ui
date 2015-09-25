@@ -78,6 +78,11 @@ angular.module('liveopsConfigPanel')
               var newUserGroup = new TenantUserGroups(data);
               newUserGroup.groupName = $scope.selectedGroup.name;
 
+              $scope.user.$original.groups.push({
+                id: newUserGroup.groupId,
+                name: newUserGroup.groupName
+              });
+              
               $scope.user.groups.push({
                 id: newUserGroup.groupId,
                 name: newUserGroup.groupName

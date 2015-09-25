@@ -1,0 +1,23 @@
+role-permissions {
+  #addPermission{
+    width: 100%;
+    display: table;
+    margin-bottom: 10px;
+    padding-right: 0;
+
+    .btn {
+      height: $input-height;
+      line-height: $input-height - 8px;
+      width: $input-height;
+    }
+
+    type-ahead {
+      padding-right: 8px;
+      width: $details-table-width - $input-height;
+    }
+
+    & > * {
+      display: table-cell;
+    }
+  }
+}

@@ -175,26 +175,6 @@ describe('resource details directive', function() {
       expect(isolateScope.resource.firstName).toBe('Fred');
     }]));
     
-    describe('on success', function(){
-      beforeEach(inject(['$q', '$rootScope', function($q, $rootScope){
-        spyOn(isolateScope.resource, 'save').and.callFake(function(){
-          var deferred = $q.defer();
-          deferred.resolve('success');
-          var promise = deferred.promise;
-          return promise;
-      });
-        
-        spyOn($rootScope, '$broadcast').and.callThrough();
-    }]));
-
-      
-      it('should broadcast the given event, if defined', inject(['$rootScope', function($rootScope) {
-        isolateScope.save('successEventName');
-        isolateScope.$digest();
-        expect($rootScope.$broadcast).toHaveBeenCalledWith('successEventName', jasmine.any(Object));
-      }]));
-    });
-    
     describe('on failure', function(){
       beforeEach(inject(['$q', '$rootScope', function($q, $rootScope){
         spyOn(isolateScope.resource, 'save').and.callFake(function(){
@@ -208,12 +188,6 @@ describe('resource details directive', function() {
         spyOn(isolateScope, 'handleErrors').and.callFake(function(error){
           return $q.reject(error);
         });
-      }]));
-      
-      it('should broadcast the given event, if defined', inject(['$rootScope', function($rootScope) {
-        isolateScope.save('successEventName', 'failEventName');
-        isolateScope.$digest();
-        expect($rootScope.$broadcast).toHaveBeenCalledWith('failEventName', jasmine.any(Object));
       }]));
     });
   });

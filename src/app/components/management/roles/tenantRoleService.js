@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .factory('TenantRole', ['LiveopsResourceFactory', 'Session',
-    function(LiveopsResourceFactory, Session) {
+  .factory('TenantRole', ['LiveopsResourceFactory', 'Session', 'cacheAddInterceptor', 'emitInterceptor',
+    function(LiveopsResourceFactory, Session, cacheAddInterceptor, emitInterceptor) {
       var TenantRole = LiveopsResourceFactory.create({
         endpoint: '/v1/tenants/:tenantId/roles/:id',
         resourceName: 'TenantRole',
@@ -12,9 +12,9 @@ angular.module('liveopsConfigPanel')
           name: 'description',
           optional: true
         }, {
-          name: 'permissions',
-          optional: true
-        }]
+          name: 'permissions'
+        }],
+        saveInterceptor: [cacheAddInterceptor, emitInterceptor]
       });
 
       TenantRole.prototype.getDisplay = function() {

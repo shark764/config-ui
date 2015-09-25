@@ -24,7 +24,7 @@ var MediaCollectionsPage = function() {
   this.mediaElementsSelector = 'item in filtered = (items | filter:filterCriteria | orderBy:nameField)';
   this.removeMedia = element.all(by.id('remove-media-mapping-button'));
 
-  this.requiredError = this.mediaCollectionPane.all(by.css('.error'));
+  this.requiredError = this.mediaCollectionPane.all(by.css('.lo-error'));
 
   this.openCreateMediaButton = element.all(by.id('show-create-new-item-btn'));
   this.createMediaForm = element(by.id('media-pane'));
@@ -35,7 +35,7 @@ var MediaCollectionsPage = function() {
   this.mediaCreateBtn = this.createMediaForm.element(by.id('create-media-btn'));
   this.mediaCreateAndNewBtn = this.createMediaForm.element(by.id('create-and-new-media-btn'));
 
-  this.mediaRequiredError = this.createMediaForm.all(by.css('.error'));
+  this.mediaRequiredError = this.createMediaForm.all(by.css('.lo-error'));
 
   this.nameColumn = 'td:nth-child(2)';
   this.descriptionColumn = 'td:nth-child(3)';

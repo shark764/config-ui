@@ -11,8 +11,8 @@
 
 // this will suffice in beta however.
 angular.module('liveopsConfigPanel')
-  .service('Session', ['$rootScope', 'sessionKey', 'preferenceKey', '$translate',
-    function ($rootScope, sessionKey, preferenceKey, $translate) {
+  .service('Session', ['$rootScope', 'sessionKey', 'preferenceKey', '$translate', '$filter',
+    function ($rootScope, sessionKey, preferenceKey, $translate, $filter) {
       var self = this;
 
       this.userSessionKey = sessionKey;
@@ -46,7 +46,17 @@ angular.module('liveopsConfigPanel')
           }];
         }
 
-        this.tenant = this.tenants[0];
+        if (this.tenant){
+          //Keep the previously selected tenant
+          var matches = $filter('filter')(this.tenants, {tenantId: this.tenant.tenantId});
+          if (matches.length > 0){
+            this.tenant = matches[0];
+          } else {
+            this.tenant = this.tenants[0];
+          }
+        } else {
+          this.tenant = this.tenants[0];
+        }
 
         this.flush();
       };

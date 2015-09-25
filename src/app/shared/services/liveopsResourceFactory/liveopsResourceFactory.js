@@ -27,6 +27,26 @@ angular.module('liveopsConfigPanel')
         }
       }
 
+      function getInterceptor(interceptorParam){
+        if (angular.isArray(interceptorParam)){
+          var interceptorFunc = function(response){
+            angular.forEach(interceptorParam, function(interceptor){
+              interceptor.response(response);
+            });
+
+            return response.resource;
+          };
+
+          var interceptor = {
+              response: interceptorFunc
+          };
+
+          return interceptor;
+        } else {
+          return interceptorParam;
+        }
+      }
+
       return {
         create: function (params) {
 
@@ -81,7 +101,7 @@ angular.module('liveopsConfigPanel')
             },
             update: {
               method: 'PUT',
-              interceptor: params.updateInterceptor,
+              interceptor: getInterceptor(params.updateInterceptor),
               transformRequest: function (data) {
                 var validUpdateFields = cleanUpdateFields(data);
                 return JSON.stringify(validUpdateFields, updateJsonReplacer);
@@ -93,7 +113,7 @@ angular.module('liveopsConfigPanel')
             },
             save: {
               method: 'POST',
-              interceptor: params.saveInterceptor,
+              interceptor: getInterceptor(params.saveInterceptor),
               transformRequest: function (data) {
                 return JSON.stringify(data, createJsonReplacer);
               },
@@ -230,7 +250,9 @@ angular.module('liveopsConfigPanel')
               })
               .then(function (result) {
                 self.$original = angular.copy(result);
-
+                if(self.$original && self.$original.$original) {
+                  delete self.$original.$original; //Prevent the object from keeping a history, if $original is present on result
+                }
                 return result;
               }).finally(function () {
                 self.$busy = false;

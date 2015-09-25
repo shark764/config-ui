@@ -28,7 +28,7 @@ describe('The create new user form', function() {
 
   it('should display Create New User section', function() {
     shared.createBtn.click();
-    expect(users.detailsForm.isDisplayed()).toBeTruthy();
+    expect(users.rightPanel.isDisplayed()).toBeTruthy();
   });
 
   it('should include supported fields for creating a new user', function() {
@@ -90,7 +90,7 @@ describe('The create new user form', function() {
 
   it('should require completed fields in Create New User section', function() {
     shared.createBtn.click();
-    expect(users.detailsForm.isDisplayed()).toBeTruthy();
+    expect(users.rightPanel.isDisplayed()).toBeTruthy();
 
     expect(users.submitFormBtn.getAttribute('disabled')).toBeTruthy();
 
@@ -185,7 +185,7 @@ describe('The create new user form', function() {
     expect(shared.successMessage.isPresent()).toBeFalsy();
 
     // Create new User form is closed
-    expect(users.detailsForm.isDisplayed()).toBeFalsy();
+    expect(users.rightPanel.isDisplayed()).toBeFalsy();
 
     // Fields are cleared
     shared.createBtn.click();
@@ -219,10 +219,10 @@ describe('The create new user form', function() {
 
     // Email field blank
     users.emailFormField.sendKeys('\t');
+    expect(users.tenantRoleFormDropdown.getAttribute('disabled')).toBeNull();
+    expect(users.platformRoleFormDropdown.getAttribute('disabled')).toBeNull();
 
     // Fields remain disabled
-    expect(users.tenantRoleFormDropdown.getAttribute('disabled')).toBeTruthy();
-    expect(users.platformRoleFormDropdown.getAttribute('disabled')).toBeTruthy();
     expect(users.firstNameFormField.getAttribute('disabled')).toBeTruthy();
     expect(users.lastNameFormField.getAttribute('disabled')).toBeTruthy();
     expect(users.externalIdFormField.getAttribute('disabled')).toBeTruthy();
@@ -304,10 +304,10 @@ describe('The create new user form', function() {
     expect(users.submitFormBtn.getAttribute('disabled')).toBeTruthy();
     expect(users.requiredErrors.get(0).isDisplayed()).toBeTruthy;
     expect(users.requiredErrors.get(0).getText()).toBe('Must be a valid email address');
+    expect(users.tenantRoleFormDropdown.getAttribute('disabled')).toBeNull();
+    expect(users.platformRoleFormDropdown.getAttribute('disabled')).toBeNull();
 
     // Fields remain disabled
-    expect(users.tenantRoleFormDropdown.getAttribute('disabled')).toBeTruthy();
-    expect(users.platformRoleFormDropdown.getAttribute('disabled')).toBeTruthy();
     expect(users.firstNameFormField.getAttribute('disabled')).toBeTruthy();
     expect(users.lastNameFormField.getAttribute('disabled')).toBeTruthy();
     expect(users.externalIdFormField.getAttribute('disabled')).toBeTruthy();
@@ -318,9 +318,11 @@ describe('The create new user form', function() {
     expect(users.requiredErrors.get(0).isDisplayed()).toBeTruthy;
     expect(users.requiredErrors.get(0).getText()).toBe('Must be a valid email address');
 
+
+    expect(users.tenantRoleFormDropdown.getAttribute('disabled')).toBeNull();
+    expect(users.platformRoleFormDropdown.getAttribute('disabled')).toBeNull();
+
     // Fields remain disabled
-    expect(users.tenantRoleFormDropdown.getAttribute('disabled')).toBeTruthy();
-    expect(users.platformRoleFormDropdown.getAttribute('disabled')).toBeTruthy();
     expect(users.firstNameFormField.getAttribute('disabled')).toBeTruthy();
     expect(users.lastNameFormField.getAttribute('disabled')).toBeTruthy();
     expect(users.externalIdFormField.getAttribute('disabled')).toBeTruthy();
@@ -409,6 +411,47 @@ describe('The create new user form', function() {
 
     //Expect all fields to have been cleared
     expect(users.emailFormField.getAttribute('value')).toBe('');
+  });
+
+  it('should allow newly added user to be edited', function() {
+    // Add randomness to user details
+    randomUser = Math.floor((Math.random() * 1000) + 1);
+    userAdded = false;
+    newUserName = 'First' + randomUser + ' Last' + randomUser;
+
+    // Add new user
+    shared.createBtn.click();
+
+    users.emailFormField.sendKeys('titantest' + randomUser + '@mailinator.com\t');
+    users.tenantRoleFormDropdownOptions.get((randomUser % 3) + 1).click();
+    users.platformRoleFormDropdownOptions.get(1).click();
+
+    users.firstNameFormField.sendKeys('First' + randomUser);
+    users.lastNameFormField.sendKeys('Last' + randomUser);
+    users.externalIdFormField.sendKeys(randomUser);
+
+    users.submitFormBtn.click().then(function () {
+      expect(shared.successMessage.isDisplayed()).toBeTruthy();
+
+      // Edit user details
+      users.firstNameFormField.sendKeys('NewUserEdit');
+      users.lastNameFormField.sendKeys('NewUserEdit');
+      users.externalIdFormField.sendKeys('NewUserEdit');
+      users.submitFormBtn.click().then(function () {
+        expect(shared.successMessage.isDisplayed()).toBeTruthy();
+
+        // User found in table by updated name
+        shared.searchField.sendKeys('First' + randomUser + 'NewUserEdit');
+        expect(shared.tableElements.count()).toBeGreaterThan(0);
+
+        shared.firstTableRow.click();
+
+        // All fields updated
+        expect(users.firstNameFormField.getAttribute('value')).toBe('First' + randomUser + 'NewUserEdit');
+        expect(users.lastNameFormField.getAttribute('value')).toBe('Last' + randomUser + 'NewUserEdit');
+        expect(users.externalIdFormField.getAttribute('value')).toBe(randomUser + 'NewUserEdit');
+      });
+    });
   });
 
   describe('for an existing user not in the current tenant', function() {

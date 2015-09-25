@@ -22,7 +22,8 @@ angular.module('liveopsConfigPanel')
           },
           'filter': 'selectedOptions',
           'transclude': true,
-          'name': 'hasProficiency'
+          'name': 'hasProficiency',
+          'id': 'proficiency-column-dropdown'
         }, {
           'header': {
             'display': $translate.instant('value.status'),
