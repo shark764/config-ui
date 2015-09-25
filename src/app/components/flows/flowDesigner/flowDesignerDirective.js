@@ -81,6 +81,10 @@ function flowDesigner() {
             else { return true; }
           }
 
+          $scope.$watch('flowData.name', function(newValue, oldValue){
+            if(newValue !== oldValue) {$scope.$broadcast('update:draft');}
+          });
+
           $scope.graph.on('change', function(){
             $scope.$broadcast('update:draft');
           });
