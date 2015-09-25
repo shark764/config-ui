@@ -88,7 +88,7 @@
               width:  50, height: 50,
               transform: 'translate(15,15)'
             }
-          })
+          });
           break;
         default:
           throw 'BPMN: Unknown Gateway Type: ' + type;

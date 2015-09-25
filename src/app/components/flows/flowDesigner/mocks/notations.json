@@ -917,6 +917,102 @@
                     }
                 }
             }
+        },
+        {
+            "name": "set-attribute",
+            "entity": "activity",
+            "label": "Set Attribute",
+            "bindings": {},
+            "signals": [],
+            "targeted": false,
+            "inputs": [
+                {
+                    "name": "name",
+                    "path": "params.name",
+                    "type": "string",
+                    "label": "Name:",
+                    "group": "params",
+                    "index": 0,
+                    "disabled": false,
+                    "required": true,
+                    "placeholder": "Enter the attribute name...",
+                    "hidden": false
+                },
+                {
+                    "name": "value",
+                    "path": "params.value",
+                    "type": "string",
+                    "label": "Value:",
+                    "group": "params",
+                    "index": 1,
+                    "disabled": false,
+                    "required": true,
+                    "placeholder": "Enter the attribute value...",
+                    "hidden": false
+                }
+            ],
+            "params": {
+                "name": {
+                    "source": "expression",
+                    "type": "string",
+                    "key": "name",
+                    "mandatory": true
+                },
+                "value": {
+                    "source": "expression",
+                    "type": "string",
+                    "key": "value",
+                    "mandatory": true
+                }
+            }
+        },
+        {
+            "name": "set-global-attribute",
+            "entity": "activity",
+            "label": "Set Global Attribute",
+            "bindings": {},
+            "signals": [],
+            "targeted": false,
+            "inputs": [
+                {
+                    "name": "name",
+                    "path": "params.name",
+                    "type": "string",
+                    "label": "Name:",
+                    "group": "params",
+                    "index": 0,
+                    "disabled": false,
+                    "required": true,
+                    "placeholder": "Enter the attribute name...",
+                    "hidden": false
+                },
+                {
+                    "name": "value",
+                    "path": "params.value",
+                    "type": "string",
+                    "label": "Value:",
+                    "group": "params",
+                    "index": 1,
+                    "disabled": false,
+                    "required": true,
+                    "placeholder": "Enter the attribute value...",
+                    "hidden": false
+                }
+            ],
+            "params": {
+                "name": {
+                    "source": "expression",
+                    "type": "string",
+                    "key": "name",
+                    "mandatory": true
+                },
+                "value": {
+                    "source": "expression",
+                    "type": "string",
+                    "key": "value",
+                    "mandatory": true
+                }
+            }
         }
     ],
     "events": [
@@ -933,7 +1029,8 @@
                 {
                     "name": "target",
                     "path": "target",
-                    "type": "string",
+                    "type": "autocomplete",
+                    "source": "throw",
                     "label": "Target:",
                     "group": "general",
                     "index": 0,
@@ -983,7 +1080,8 @@
                 {
                     "name": "target",
                     "path": "target",
-                    "type": "string",
+                    "type": "autocomplete",
+                    "source": "throw",
                     "label": "Target:",
                     "group": "general",
                     "index": 0,
@@ -1053,13 +1151,14 @@
                 {
                     "name": "signal",
                     "path": "event.name",
-                    "type": "string",
+                    "type": "autocomplete",
+                    "source": "catch",
                     "label": "Signal Name:",
                     "group": "general",
                     "index": 0,
                     "disabled": false,
                     "required": false,
-                    "placeholder": "Enter a signal name to catch...",
+                    "placeholder": "Enter a signal name to throw...",
                     "hidden": false
                 },
                 {
@@ -1093,6 +1192,7 @@
                     "name": "signal",
                     "path": "event.name",
                     "type": "string",
+                    "source": "catch",
                     "label": "Signal Name:",
                     "group": "general",
                     "index": 0,

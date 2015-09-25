@@ -26,21 +26,21 @@ angular.module('liveopsConfigPanel')
           return value;
         }
       }
-      
+
       function getInterceptor(interceptorParam){
         if (angular.isArray(interceptorParam)){
           var interceptorFunc = function(response){
             angular.forEach(interceptorParam, function(interceptor){
               interceptor.response(response);
             });
-            
+
             return response.resource;
           };
-          
+
           var interceptor = {
               response: interceptorFunc
           };
-          
+
           return interceptor;
         } else {
           return interceptorParam;
@@ -60,7 +60,7 @@ angular.module('liveopsConfigPanel')
 
             return value;
           };
-          
+
           var cleanUpdateFields = function(data){
             var cleanedData = angular.copy(data);
             angular.forEach(cleanedData, function(value, key){
@@ -69,7 +69,7 @@ angular.module('liveopsConfigPanel')
                 delete cleanedData[key];
               }
             });
-            
+
             return cleanedData;
           };
 
@@ -82,7 +82,7 @@ angular.module('liveopsConfigPanel')
             userId: '@userId',
             memberId: '@memberId'
           };
-          
+
           var Resource = $resource(apiHostname + params.endpoint, params.requestUrlFields, {
             query: {
               method: 'GET',
@@ -197,17 +197,17 @@ angular.module('liveopsConfigPanel')
             }
 
             var item = _.find(cache, params);
-              
+
             if(!item) {
               item = this.get(params);
-              
+
               for(var index in params) {
                 item[index] = params[index];
               }
-              
+
               cache.push(item);
             }
-            
+
             return item;
           };
 
@@ -250,8 +250,9 @@ angular.module('liveopsConfigPanel')
               })
               .then(function (result) {
                 self.$original = angular.copy(result);
-                delete self.$original.$original; //Prevent the object from keeping a history, if $original is present on result
-                
+                if(self.$original && self.$original.$original) {
+                  delete self.$original.$original; //Prevent the object from keeping a history, if $original is present on result
+                }
                 return result;
               }).finally(function () {
                 self.$busy = false;

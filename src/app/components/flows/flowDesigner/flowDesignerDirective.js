@@ -3,14 +3,16 @@
 function flowDesigner() {
     return {
       scope: {
-        flowVersion: '=flowVersion',
-        notations: '=notations'
+        flow: '=flow',
+        flowData: '=flowData',
+        notations: '=notations',
+        readOnly: '=readOnly'
       },
       restrict: 'E',
       templateUrl: 'app/components/flows/flowDesigner/flowDesignerDirective.html',
       replace: true,
       link: function() {},
-      controller: ['$scope', '$element', '$attrs', '$window', '$timeout', 'FlowInitService', 'SubflowCommunicationService', 'FlowVersion', 'Session', 'Alert', '$state', 'FlowLibrary', function($scope, $element, $attrs, $window, $timeout, FlowInitService, SubflowCommunicationService, FlowVersion, Session, Alert, $state, FlowLibrary) {
+      controller: ['$scope', '$element', '$attrs', '$window', '$document', '$compile', '$timeout', 'FlowInitService', 'SubflowCommunicationService', 'FlowDraft', 'FlowVersion', 'Session', 'Alert', '$state', 'FlowLibrary', function($scope, $element, $attrs, $window, $document, $compile, $timeout, FlowInitService, SubflowCommunicationService, FlowDraft, FlowVersion, Session, Alert, $state, FlowLibrary) {
 
         $timeout(function() {
 
@@ -29,7 +31,8 @@ function flowDesigner() {
             selectorFilterArray: [],
             stencilContainerId: '#stencil-container',
             paperContainerId: '#paper-container',
-            inspectorContainerId: '#inspector-container'
+            inspectorContainerId: '#inspector-container',
+            readOnly: $scope.readOnly
           };
 
           $scope.graph = FlowInitService.initializeGraph(graphOptions);
@@ -56,8 +59,8 @@ function flowDesigner() {
             var graph = $scope.graph;
             _.each(graph.getElements(), function(element) {
               var view = element.findView(graph.interfaces.paper);
-              V(view.el).removeClass('error');
-            })
+              new V(view.el).removeClass('error');
+            });
           }
 
           function addErrors(errors) {
@@ -65,52 +68,152 @@ function flowDesigner() {
             _.each(errors, function(e) {
               var cell = graph.getCell(e.step);
               var view = cell.findView(graph.interfaces.paper);
-              V(view.el).addClass('error');
-            })
+              new V(view.el).addClass('error');
+            });
           }
 
-          $scope.publishNewFlowVersion = function() {
-
-            var graph = $scope.graph;
-
-            if (graph.toJSON().cells.length === 0) { return; }
-
-            clearErrors();
-
+          function validate(graph) {
             var errors = FlowLibrary.validate(graph.toJSON());
-
-            if (errors.length > 0) {
+            if(errors){
               addErrors(errors);
+              return false;
+            }
+            else { return true; }
+          }
+
+          $scope.graph.on('change', function(){
+            $scope.$broadcast('update:draft');
+          });
+
+          $scope.graph.on('add', function(){
+            $scope.$broadcast('update:draft');
+          });
+
+          $scope.graph.on('remove', function(){
+            $scope.$broadcast('update:draft');
+          });
+
+          var update = function(){
+            if($scope.readOnly){
               return;
             }
+            clearErrors();
+            validate($scope.graph);
 
-            var alienese = FlowLibrary.convertToAlienese(graph.toJSON());
-
-            $scope.version = new FlowVersion({
-              flow: JSON.stringify(alienese),
-              description: $scope.flowVersion.description || 'This needs to be fixed',
-              name: $scope.flowVersion.name,
-              tenantId: Session.tenant.tenantId,
-              flowId: $scope.flowVersion.flowId
+            $scope.flowData.$update({
+              flow: JSON.stringify(FlowLibrary.convertToAlienese($scope.graph.toJSON())),
+              name: $scope.flowData.name
             });
+          };
 
-            $scope.version.save(function() {
-              Alert.success('New flow version successfully created.');
-              $scope.flowVersion.v = parseInt($scope.flowVersion.v) + 1;
-            }, function(error) {
-              if (error.data.error.attribute === null) {
-                Alert.error('API rejected this flow -- likely invalid Alienese.', JSON.stringify(error, null, 2));
-              } else {
-                Alert.error('API rejected this flow -- some other reason...', JSON.stringify(error, null, 2));
-              }
-            });
+          var lazyUpdate = _.debounce(update, 1000);
+
+          $scope.$on('update:draft', lazyUpdate);
+
+          $scope.publishNewFlowDraft = function() {
+
+            var graph = $scope.graph;
+            if (graph.toJSON().cells.length === 0) { return; }
+            clearErrors();
+            if(!validate) {return;}
+
+            var newScope = $scope.$new();
+
+            newScope.modalBody = 'app/components/flows/flowDesigner/newDraftModalTemplate.html';
+            newScope.title = 'New Draft';
+            newScope.draft = {
+              name: 'Draft - ' + $scope.flowData.name,
+              description: ''
+            };
+
+            newScope.okCallback = function(draft) {
+              var alienese = FlowLibrary.convertToAlienese(graph.toJSON()),
+                  _draft = new FlowDraft({
+                    flow: JSON.stringify(alienese),
+                    description: draft.description,
+                    name: draft.name,
+                    tenantId: Session.tenant.tenantId,
+                    flowId: $scope.flowData.flowId
+                  });
+
+              _draft.save().then(function(d){
+                $state.go('content.flows.editor', {
+                  flowId: d.flowId,
+                  draftId: d.id
+                });
+              });
+              $document.find('modal').remove();
+            };
+
+            newScope.cancelCallback = function() {
+              $document.find('modal').remove();
+            };
+
+            var element = $compile('<modal></modal>')(newScope);
+            $document.find('html > body').append(element);
+          };
+
+          $scope.publishNewFlowVersion = function() {
+            var graph = $scope.graph;
+            if (graph.toJSON().cells.length === 0) { return; }
+            clearErrors();
+            if(!validate) {return;}
+
+
+            var newScope = $scope.$new();
+
+            newScope.modalBody = 'app/components/flows/flowDesigner/publishModalTemplate.html';
+            newScope.title = 'Publish';
+            newScope.flow = {
+              name: $scope.flow.name
+            };
+
+            newScope.okCallback = function(flow, version){
+              var alienese = FlowLibrary.convertToAlienese(graph.toJSON()),
+                  _version = new FlowVersion({
+                    flow: JSON.stringify(alienese),
+                    description: version.description,
+                    name: version.name,
+                    tenantId: Session.tenant.tenantId,
+                    flowId: $scope.flowData.flowId
+                  });
+
+              _version.save(function(v){
+                $document.find('modal').remove();
+                Alert.success('New flow version successfully created.');
+                $scope.flowData.$delete().then(function(){
+                  $scope.flow.$update({
+                    name: flow.name,
+                    activeVersion: (flow.active) ? v.version : flow.activeVersion
+                  }).then(function(){
+                    $state.go('content.flows.flowManagement', {}, {reload: true});
+                  });
+                });
+
+              }, function(error) {
+                if (error.data.error.attribute === null) {
+                  Alert.error('API rejected this flow -- likely invalid Alienese.', JSON.stringify(error, null, 2));
+                } else {
+                  Alert.error('API rejected this flow -- some other reason...', JSON.stringify(error, null, 2));
+                }
+              });
+            };
+            newScope.cancelCallback = function(){
+              $document.find('modal').remove();
+            };
+
+            var element = $compile('<modal></modal>')(newScope);
+            $document.find('html > body').append(element);
+
           };
 
           if (SubflowCommunicationService.currentFlowContext !== '') {
             $scope.graph.fromJSON(SubflowCommunicationService.currentFlowContext);
             SubflowCommunicationService.currentFlowContext = '';
           } else {
-            $scope.graph.fromJSON(FlowLibrary.convertToJoint(JSON.parse($scope.flowVersion.flow)));
+            var graphJSON = JSON.parse($scope.flowData.flow);
+            var jjs = FlowLibrary.convertToJoint(graphJSON);
+            $scope.graph.fromJSON(jjs);
           }
           $window.spitOutAlienese = function() {
             return FlowLibrary.convertToAlienese($scope.graph.toJSON());
@@ -126,7 +229,7 @@ function flowDesigner() {
 
           $window.validate = function() {
             return FlowLibrary.validate($scope.graph.toJSON());
-          }
+          };
 
           $window.search = function(target) {
             return FlowLibrary.search($scope.graph.toJSON(), target);

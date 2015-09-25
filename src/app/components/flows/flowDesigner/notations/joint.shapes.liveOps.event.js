@@ -221,7 +221,7 @@
       }
     },
     onInputChange: function() {
-      console.warn('This property is not hooked up to a UI listener.');
+      // console.warn('This property is not hooked up to a UI listener.');
     }
   }).extend(joint.shapes.liveOps.IconInterface);
 })();

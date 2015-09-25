@@ -81,8 +81,8 @@
     initialize: function() {
       joint.shapes.basic.TextBlock.prototype.initialize.apply(this, arguments);
     },
-    onInputChange: function(model, value, path) {
-      console.warn('This property is not hooked up to a UI listener.');
+    onInputChange: function() {
+      // console.warn('This property is not hooked up to a UI listener.');
     }
   }).extend(joint.shapes.liveOps.IconInterface).extend(joint.shapes.liveOps.SubProcessInterface);
 })();
