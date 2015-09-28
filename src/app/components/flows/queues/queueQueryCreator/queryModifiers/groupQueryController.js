@@ -2,19 +2,33 @@
 
 angular.module('liveopsConfigPanel')
   .controller('groupQueryController', ['$scope', '$q', 'Session', 'Group', 'jsedn',
-    function ($scope, $q, Session, Group, jsedn) {
+    function($scope, $q, Session, Group, jsedn) {
       var self = this;
-      
+
       $scope.keyword = jsedn.kw(':groups');
       $scope.operatorSymbol = jsedn.sym($scope.operator);
 
-      $scope.fetchGroups = function () {
+      $scope.fetchGroups = function() {
         return Group.cachedQuery({
           tenantId: Session.tenant.tenantId
         });
       }
 
-      this.parseOperands = function () {
+      $scope.filterGroups = function(item, text) {
+        if(!$scope.operands) {
+          return;
+        }
+
+        for(var operandIndex = 0; operandIndex < $scope.operands.length; operandIndex++) {
+          var operand = $scope.operands[operandIndex];
+          if(operand.id === item.id) {
+            return false;
+          }
+        }
+        return true;
+      };
+
+      this.parseOperands = function() {
         var andList, operationList, groupSet;
         if (!$scope.parentMap ||
           !$scope.parentMap.exists($scope.keyword) ||
@@ -43,14 +57,14 @@ angular.module('liveopsConfigPanel')
               }
             }
           }
-          
+
           return operands;
         });
 
         return operands;
       }
 
-      $scope.add = function (item) {
+      $scope.add = function(item) {
         if ($scope.parentMap.exists($scope.keyword) &&
           (andList = $scope.parentMap.at($scope.keyword)).val.length > 1) {
 
@@ -82,9 +96,11 @@ angular.module('liveopsConfigPanel')
 
           $scope.parentMap.set($scope.keyword, andList);
         }
+
+        $scope.selected = null;
       };
 
-      $scope.remove = function (item) {
+      $scope.remove = function(item) {
         var andList;
         if ($scope.parentMap.exists($scope.keyword) &&
           (andList = $scope.parentMap.at($scope.keyword)).val.length > 1) {

@@ -14,6 +14,21 @@ angular.module('liveopsConfigPanel')
         equal: '='
       };
 
+      $scope.filterSkills = function(item, text) {
+        if(!$scope.operands) {
+          return;
+        }
+
+        for(var operandIndex = 0; operandIndex < $scope.operands.length; operandIndex++) {
+          var operand = $scope.operands[operandIndex];
+          if(operand.id === item.id) {
+            return false;
+          }
+        }
+        return true;
+      };
+
+
       this.parseOperands = function () {
         var andList;
         if (!$scope.parentMap ||
@@ -34,7 +49,7 @@ angular.module('liveopsConfigPanel')
         if (!operationList) {
           return $q.when();
         }
-        
+
         var operands = [];
         operands.$promise = $scope.fetchSkills().$promise.then(function(options) {
           for (var operationListIndex = 1; operationListIndex < operationList.val.length; operationListIndex++) {
@@ -44,7 +59,7 @@ angular.module('liveopsConfigPanel')
             skillKeyword.id = skillKeyword.val.substring(1, skillKeyword.length);
 
             var skillExpression = skillMap.vals[0];
-            
+
             for (var optionIndex = 0; optionIndex < options.length; optionIndex++) {
               if (skillKeyword.id === options[optionIndex].id) {
                 if (options[optionIndex].hasProficiency) {
@@ -61,10 +76,10 @@ angular.module('liveopsConfigPanel')
               }
             }
           }
-          
+
           return operands;
         });
-        
+
         return operands;
       };
 
@@ -132,6 +147,8 @@ angular.module('liveopsConfigPanel')
 
           $scope.parentMap.set(jsedn.kw($scope.keyword), andList);
         }
+
+        $scope.selected = null;
       };
 
       $scope.remove = function (operand) {

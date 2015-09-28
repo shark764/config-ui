@@ -10,10 +10,12 @@
 <div>
   <div>
     <div>
-      <type-ahead hover="true" 
-        placeholder="{{placeholderKey | translate}}" 
-        items="fetchSkills()" 
-        selected-item="selected"></type-ahead>
+      <type-ahead hover="true"
+        placeholder="{{placeholderKey | translate}}"
+        items="fetchSkills()"
+        selected-item="selected"
+        filters="filterSkills">
+      </type-ahead>
     </div>
     <div ng-if="selected.hasProficiency"
       ng-init="selected.proficiencyOperator = 'gt'; selected.proficiency = 0;">
@@ -31,7 +33,7 @@
   <a class="add btn"
     ng-disabled="! selected"
     ng-click="add(selected)">
-    
+
     <i class="fa fa-plus"></i>
   </a>
 </div>

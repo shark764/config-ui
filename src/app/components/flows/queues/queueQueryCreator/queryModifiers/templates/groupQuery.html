@@ -13,7 +13,8 @@
   <type-ahead hover="true"
     placeholder="{{placeholderKey | translate}}"
     items="fetchGroups()"
-    selected-item="selected">
+    selected-item="selected"
+    filters="filterGroups">
   </type-ahead>
   <a class="add btn"
     ng-disabled="! selected"
