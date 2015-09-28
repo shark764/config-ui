@@ -10,6 +10,7 @@ angular.module('liveopsConfigPanel')
         },
         templateUrl: 'app/components/management/users/userSkills/userSkills.html',
         link: function ($scope) {
+
           $scope.fetchSkills = function() {
             return Skill.cachedQuery({
               tenantId: Session.tenant.tenantId
@@ -57,33 +58,32 @@ angular.module('liveopsConfigPanel')
             });
           };
 
-          $scope.save = function () {
-            if ($scope.selectedSkill === null) {
+          $scope.save = function (selectedSkill) {
+            if (selectedSkill === null) {
               return;
             }
 
             $scope.saving = true;
 
-            if (! $scope.selectedSkill.id) {
+            if (angular.isString(selectedSkill)) {
               new Skill({
-                name: $scope.selectedSkill.name,
-                hasProficiency: angular.isDefined($scope.newUserSkill.proficiency),
+                name: selectedSkill,
+                hasProficiency: (typeof $scope.newUserSkill.proficiency === 'undefined' ? false : true),
                 tenantId: Session.tenant.tenantId,
                 description: '',
                 active: true
               }).save(function (result) {
-                $scope.selectedSkill = result;
-                $scope.saveUserSkill();
+                $scope.saveUserSkill(result);
               });
             } else {
-              $scope.saveUserSkill();
+              $scope.saveUserSkill(selectedSkill);
             }
           };
 
-          $scope.saveUserSkill = function () {
-            $scope.newUserSkill.skillId = $scope.selectedSkill.id;
+          $scope.saveUserSkill = function (selectedSkill) {
+            $scope.newUserSkill.skillId = selectedSkill.id;
 
-            if (!$scope.selectedSkill.hasProficiency) {
+            if (!selectedSkill.hasProficiency) {
               delete $scope.newUserSkill.proficiency;
             } else if (!$scope.newUserSkill.proficiency) {
               $scope.newUserSkill.proficiency = 1;
@@ -117,6 +117,14 @@ angular.module('liveopsConfigPanel')
             }, function(){
               Alert.error('Failed to update user skill');
             });
+          };
+          
+          $scope.filterSkills = function(item) {
+            var matchingSkills = filterFilter($scope.user.skills, {
+              'id': item.id
+            }, true);
+            
+            return matchingSkills.length === 0;
           };
           
           $scope.filterSkills = function(item) {

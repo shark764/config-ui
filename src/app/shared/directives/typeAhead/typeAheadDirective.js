@@ -1,116 +1,166 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('typeAhead', ['filterFilter', '$timeout',
-    function(filterFilter, $timeout) {
-      return {
-        restrict: 'E',
-        scope: {
-          items: '=',
-          selectedItem: '=?',
-          onSelect: '&',
-          isRequired: '=',
-          placeholder: '@',
-          hover: '=',
-          prefill: '=',
-          keepExpanded: '=',
-          onEnter: '&',
-          nameField: '@',
-          filters: '=?'
-        },
+  .directive('typeAhead', ['$filter', '$timeout', function($filter, $timeout) {
+    return {
+      restrict: 'E',
+      scope : {
+        items: '=',
+        nameField: '@',
+        onSelect: '&',
+        placeholder: '@',
+        prefill: '=',
+        keepExpanded: '=',
+        onEnter: '&',
+        filters: '=?',
+        selectedItem: '='
+      },
 
-        templateUrl: 'app/shared/directives/typeAhead/typeAhead.html',
+      templateUrl: 'app/shared/directives/typeAhead/typeAhead.html',
 
-        controller: function($scope) {
-          var self = this;
-          $scope.currentText = $scope.prefill || '';
+      controller: function($scope) {
+        var self = this;
+        
+        $scope.currentText = $scope.prefill || '';
 
-          this.defaultTextFilter = function defaultTextFilter(item, text) {
-            return item.getDisplay().toLowerCase().contains(text.toLowerCase());
-          };
+        this.defaultTextFilter = function defaultTextFilter(item, text) {
+          return item.getDisplay().toLowerCase().contains(text.toLowerCase());
+        };
 
-          //TODO make this go away
-          this.nameFieldTextFilter = function nameFieldTextFilter(item, text) {
-            return item[$scope.nameField].toLowerCase().contains(text.toLowerCase());
-          };
+        $scope.filterCriteria = function(item) {
+          if (!$scope.filterArray) {
+            return;
+          }
 
-          $scope.filterCriteria = function(item) {
-            if (!$scope.filterArray) {
-              return;
+          var include = true;
+          for (var filterIndex = 0; filterIndex < $scope.filterArray.length; filterIndex++) {
+            var filter = $scope.filterArray[filterIndex];
+            include = include && filter.call(filter, item, $scope.currentText, $scope.items);
+          }
+          return include;
+        };
+
+        $scope.$watch('filters', function(newCriteria, oldCriteria) {
+          $scope.filterArray = [];
+          
+          if (newCriteria && angular.isArray(newCriteria)) {
+            $scope.filterArray = angular.copy(newCriteria);
+          } else if(newCriteria && !angular.isArray(newCriteria)) {
+            $scope.filterArray = [newCriteria];
+          }
+          
+          $scope.filterArray.push(self.defaultTextFilter);
+        }, true);
+        
+        $scope.updateHighlight = function(){
+          var filteredItems = $filter('filter')($scope.items, $scope.filterCriteria, true);
+
+          if (filteredItems && filteredItems.length > 0){
+            //If previously highlighted item is filtered out, reset the highlight
+            var highlightedIndex = filteredItems.indexOf($scope.highlightedItem);
+            if (highlightedIndex < 0){
+              $scope.highlightedItem = null;
+              $scope.selectedItem = $scope.currentText;
             }
-
-            var include = true;
-            for (var filterIndex = 0; filterIndex < $scope.filterArray.length; filterIndex++) {
-              var filter = $scope.filterArray[filterIndex];
-              include = include && filter.call(filter, item, $scope.currentText, $scope.items);
-            }
-            return include;
-          };
-
-          $scope.$watch('filters', function(newCriteria, oldCriteria) {
-            $scope.filterArray = [];
             
-            if (newCriteria && angular.isArray(newCriteria)) {
-              $scope.filterArray = angular.copy(newCriteria);
-            } else if(newCriteria && !angular.isArray(newCriteria)) {
-              $scope.filterArray = [newCriteria];
-            }
-            
-            if($scope.nameField) {
-              $scope.filterArray.push(self.nameFieldTextFilter);
-            } else {
-              $scope.filterArray.push(self.defaultTextFilter);
-            }
-          }, true);
-
-          $scope.$watch('currentText', function() {
-            var filteredItems = filterFilter($scope.items, $scope.filterCriteria);
-
-            if (filteredItems && filteredItems.length === 1) {
-              $scope.currentText = filteredItems[0].getDisplay(); //Force capitalization to be the same as the item display
-            }
-
-            if (!$scope.currentText) {
-              $scope.selectedItem = null;
-            } else if (filteredItems && filteredItems.length === 1) {
+            if (angular.isDefined(filteredItems[0].getDisplay) && filteredItems[0].getDisplay() === $scope.currentText){
+              //If the input exactly matches a result
+              $scope.highlightedItem = filteredItems[0];
               $scope.selectedItem = filteredItems[0];
-
-              //Empty timeout forces onSelect to only be called after digest is complete,
-              //so the variable bound to selectedItem will have been properly updated
-              //$timeout($scope.onSelect, 1);
-              $timeout(function() {
-                $scope.onSelect({
-                  selectedItem: filteredItems[0]
-                });
-              });
-
-            } else {
-              delete $scope.selectedItem;
-              if ($scope.nameField) {
-                $scope.selectedItem = {};
-                $scope.selectedItem[$scope.nameField] = $scope.currentText;
-              }
             }
-          });
+          } else {
+            $scope.highlightedItem = null;
+            $scope.selectedItem = $scope.currentText;
+          }
+        };
+        
+        $scope.$watch('currentText', function() {
+          $scope.updateHighlight();
+        });
+        
+        $scope.$watch('selectedItem', function(newVal) {
+          if (newVal === null){
+            $scope.currentText = '';
+          }
+        });
+        
+        $scope.$watch('items', function(items) {
+          if (angular.isDefined(items)){
+            $scope.updateHighlight();
+          }
+        }, true);
 
-          $scope.select = function(item) {
-            $scope.hovering = false;
-            $scope.selectedItem = item;
-            $scope.currentText = $scope.nameField ? $scope.selectedItem[$scope.nameField] : $scope.selectedItem.getDisplay();
-          };
+        $scope.select = function(item) {
+          if (! angular.isString(item)){
+            $scope.currentText = item.getDisplay();
+          }
+          
+          $scope.selectedItem = item;
+          $scope.onSelect({selectedItem: item});
 
-          $scope.onBlur = function() {
-            if (!$scope.keepExpanded) { //Prevents the button in multibox from jumping around
-              $scope.showSuggestions = false;
-            }
-          };
+          $scope.showSuggestions = false;
+        };
 
-          $scope.$watch('selectedItem', function(newValue) {
-            if (newValue === null) {
-              $scope.currentText = '';
-            }
-          });
+        $scope.onBlur = function() {
+          if (!$scope.keepExpanded) { //Prevents the button in multibox from jumping around
+            $scope.showSuggestions = false;
+          }
+        };
+        
+        $scope.orderByFunction = function(item){
+          var displayString = item.getDisplay();
+          
+          return displayString? displayString : item[nameField];
         }
-      };
-    }
-  ]);
+      },
+      link: function($scope, element) {
+        element.find('input').bind('keydown keypress', function(event){
+          if (event.which === 13) { //Enter key
+            $timeout(function(){
+              var selected = $scope.highlightedItem ? $scope.highlightedItem : $scope.currentText;
+              $scope.select(selected);
+              $scope.onEnter({item: selected});
+            });
+            
+            event.preventDefault();
+          } else if(event.which === 40){ //Down arrow key
+            var highlightedIndex = $scope.filtered.indexOf($scope.highlightedItem);
+
+            if (highlightedIndex + 1 < $scope.filtered.length){
+              $timeout(function(){
+                $scope.highlightedItem = $scope.filtered[highlightedIndex + 1];
+                
+                var li = element.find('li:nth-child(' + (highlightedIndex + 2) + ')');
+                var elementTop = li.get(0).offsetTop;
+                var elementHeight = li.get(0).offsetHeight;
+                var elementBottom = elementTop + elementHeight;
+                var containerHeight = element.find('ul').get(0).offsetHeight;
+                
+                if (elementBottom > containerHeight){
+                  element.find('ul').get(0).scrollTop += elementHeight;
+                }
+              });
+            }
+          } else if(event.which === 38){ //Up arrow key
+            var highlightedIndex = $scope.filtered.indexOf($scope.highlightedItem);
+
+            if (highlightedIndex - 1 >= 0){
+              $timeout(function(){
+                $scope.highlightedItem = $scope.filtered[highlightedIndex - 1];
+                
+                //Scroll to this element in the dropdown
+                var li = element.find('li:nth-child(' + highlightedIndex + ')');
+                var elementTop = li.get(0).offsetTop;
+                var container = element.find('ul');
+                var scrollTop = container.get(0).scrollTop;
+                
+                if (elementTop < scrollTop){
+                  container.get(0).scrollTop = elementTop;
+                }
+              });
+            }
+          }
+        });
+      }
+    };
+  }]);

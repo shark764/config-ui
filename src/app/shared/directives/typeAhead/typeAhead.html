@@ -4,22 +4,18 @@
     placeholder="{{placeholder}}"
     name="{{nameField}}"
     id="typeahead-container"
-    ng-required="isRequired"
     type="text"
     ng-model="currentText"
     ng-focus="showSuggestions=true"
-    ng-blur="onBlur()"
-    placeholder="{{placeholder}}"
-    ng-keypress="($event.which === 13) ? onEnter() : 0"></input>
+    ng-blur="onBlur()"></input>
     <i class="fa fa-search"></i>
-    <ul ng-class="{'embeded' : !hover}"
-      ng-show="filtered.length > 0 && (showSuggestions || hovering)"
-      ng-mouseover="hovering=true"
+    <ul ng-show="filtered.length > 0 && (showSuggestions || hovering)" 
+      ng-mouseover="hovering=true" 
       ng-mouseout="hovering=false">
-      <li ng-class="{'highlight' : selectedItem == item}"
-        ng-click="select(item)"
-        ng-repeat="item in filtered = (items | filter:filterCriteria | orderBy:nameField)">
-        {{item[nameField] || item.getDisplay()}}
-      </li>
+       <li ng-repeat="item in filtered = (items | filter:filterCriteria | orderBy:orderByFunction)"
+         ng-class="{'highlight' : highlightedItem == item}"  
+         ng-click="select(item)" >
+           {{item.getDisplay() || item[nameField]}}
+       </li>
     </ul>
 </div>

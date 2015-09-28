@@ -7,10 +7,10 @@
   <div class="edit-box" ng-show="showDrop">
     <type-ahead
       items="items"
-      selected-item="selectedItem"
       placeholder="{{'multibox.search.placeholder' | translate}}"
       on-select="onSelect(selectedItem)"
-      keep-expanded="true"></type-ahead>
+      keep-expanded="true"
+      selected-item="selectedItem"></type-ahead>
     <input id="show-create-new-item-btn" ng-click="createItem()" type="button" value="{{'multibox.create.btn' | translate}}" class="btn" />
   </div>
 </div>
