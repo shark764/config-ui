@@ -34,18 +34,41 @@ describe('FlowManagementController', function () {
     });
   });
   
-  describe('ON fetchFlows', function() {
+  describe('getVersions function', function() {
     it('should be defined', function () {
-      expect($scope.fetchFlows).toBeDefined();
+      expect($scope.getVersions).toBeDefined();
+      expect($scope.getVersions).toEqual(jasmine.any(Function));
     });
     
-    it('should return flows on call', function () {
-      var flows = $scope.fetchFlows();
+    it('should query for the versions', function () {
+      $scope.selectedFlow = mockFlows[0];
+      $httpBackend.expectGET(apiHostname + '/v1/tenants/tenant-id/flows/flowId1/versions');
       
+      $scope.getVersions();
       $httpBackend.flush();
+    });
+    
+    it('should do nothing if there is no selected flow', inject(['FlowVersion',function (FlowVersion) {
+      spyOn(FlowVersion, 'cachedQuery');
+      $scope.selectedFlow = null;
       
-      expect(flows[0].id).toEqual(mockFlows[0].id);
-      expect(flows[1].id).toEqual(mockFlows[1].id);
+      $scope.getVersions();
+      expect(FlowVersion.cachedQuery).not.toHaveBeenCalled();
+    }]));
+  });
+  
+  describe('fetchFlows function', function() {
+    it('should be defined', function () {
+      expect($scope.fetchFlows).toBeDefined();
+      expect($scope.fetchFlows).toEqual(jasmine.any(Function));
+    });
+    
+    it('should query for the flows', function () {
+      $httpBackend.expectGET(apiHostname + '/v1/tenants/tenant-id/flows');
+      Session.tenant.tenantId = 'tenant-id';
+      
+      $scope.fetchFlows();
+      $httpBackend.flush();
     });
   });
 

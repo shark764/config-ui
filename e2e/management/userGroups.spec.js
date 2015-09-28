@@ -22,7 +22,7 @@ describe('The user groups component of User view', function() {
   });
 
   it('should add to the group count for a user', function() {
-    //Create a new user
+    // Create a new user
     shared.createBtn.click();
     var randomUser = Math.floor((Math.random() * 1000) + 1);
     var newUserFirstName = 'First ' + randomUser;
@@ -37,15 +37,15 @@ describe('The user groups component of User view', function() {
     users.submitFormBtn.click().then(function() {
       expect(shared.successMessage.isDisplayed()).toBeTruthy();
 
-      //Add a group to the new user
-      shared.searchField.sendKeys(newUserFirstName);
-      shared.firstTableRow.click();
+      // Add a group to the new user
       users.addGroupSearch.click();
       users.groupDropdownItems.get(0).click();
       users.addGroupSearch.getAttribute('value').then(function(newUserGroup) {
         users.addGroupBtn.click();
 
-        //Verify that the users group count has increased and the new group is displayed
+        shared.searchField.sendKeys('titantest' + randomUser + '@mailinator.com');
+
+        // Verify that the users group count has increased and the new group is displayed
         expect(shared.firstTableRow.element(by.css(users.groupsColumn)).getText()).toBe('1');
         expect(users.userGroups.count()).toBe(1);
         expect(users.userGroups.get(0).getText()).toBe(newUserGroup);
@@ -94,7 +94,7 @@ describe('The user groups component of User view', function() {
     var newGroupName = 'Group Name from User Page ' + randomGroup;
     var originalUserGroupCount = shared.firstTableRow.element(by.css(users.groupsColumn)).getText();
 
-    //Assign a user to a group that doesn't exist
+    // Assign a user to a group that doesn't exist
     users.userNameDetailsHeader.getText().then(function(selectedUserName) {
       users.addGroupSearch.sendKeys(newGroupName);
       users.addGroupBtn.click();

@@ -51,9 +51,47 @@ describe('Versions directive controller', function () {
       $scope.getVersions();
       $httpBackend.flush();
     });
+    
+    it('should do nothing if the flow is new', inject(['Flow', function (Flow) {
+      spyOn(FlowVersion, 'cachedQuery');
+      $scope.flow = new Flow();
+      $scope.getVersions();
+      expect(FlowVersion.cachedQuery).not.toHaveBeenCalled();
+    }]));
+  });
+  
+  describe('saveVersion function', function () {
+    it('should be defined', function () {
+      expect($scope.saveVersion).toBeDefined();
+      expect($scope.saveVersion).toEqual(jasmine.any(Function));
+    });
+
+    it('should save the version', function () {
+      $httpBackend.expectPOST('fakendpoint.com/v1/tenants/tenant-id/flows/flowId1/versions').respond(201, {
+        'result': mockFlowVersions[0]
+      });
+      $scope.saveVersion();
+      $httpBackend.flush();
+    });
+    
+    it('should reset the controller after creating', function () {
+      $httpBackend.expectPOST('fakendpoint.com/v1/tenants/tenant-id/flows/flowId1/versions').respond(201, {
+        'result': mockFlowVersions[0]
+      });
+      
+      spyOn($scope.createVersionForm, '$setPristine');
+      spyOn($scope.createVersionForm, '$setUntouched');
+      spyOn($scope, 'createVersion');
+      $scope.saveVersion();
+      $httpBackend.flush();
+      
+      expect($scope.createVersionForm.$setPristine).toHaveBeenCalled();
+      expect($scope.createVersionForm.$setUntouched).toHaveBeenCalled();
+      expect($scope.createVersion).toHaveBeenCalled();
+    });
   });
 
-  describe('on new version creation', function () {
+  describe('flow watch', function () {
     beforeEach(function () {
       $scope.createVersion();
 
@@ -89,6 +127,13 @@ describe('Versions directive controller', function () {
 
       expect(cleanHandler).not.toBe($scope.cleanHandler);
       expect(cleanHandler).toHaveBeenCalled();
+    });
+    
+    it('should do nothing if the new flow is null', function () {
+      spyOn($scope, 'createVersion');
+      $scope.flow = null;
+      $scope.$digest();
+      expect($scope.createVersion).not.toHaveBeenCalled();
     });
   });
 });

@@ -40,8 +40,15 @@ describe('The unsaved changes warning', function() {
     alertDialog.accept();
 
     // Fields are reset
-    expect(shared.firstTableRow.element(by.css(users.nameColumn)).getText()).toContain(users.firstNameFormField.getAttribute('value'));
-    expect(shared.firstTableRow.element(by.css(users.nameColumn)).getText()).toContain(users.lastNameFormField.getAttribute('value'));
+    shared.firstTableRow.element(by.css(users.nameColumn)).getText().then(function (firstRowName) {
+      if(firstRowName){
+        expect(shared.firstTableRow.element(by.css(users.nameColumn)).getText()).toContain(users.firstNameFormField.getAttribute('value'));
+        expect(shared.firstTableRow.element(by.css(users.nameColumn)).getText()).toContain(users.lastNameFormField.getAttribute('value'));
+      } else {
+        expect(users.firstNameFormField.getAttribute('value')).toBe('');
+        expect(users.lastNameFormField.getAttribute('value')).toBe('');
+      }
+    });
   });
 
   it('should be closed after changing form fields, selecting cancel and dismissing warning', function() {
@@ -165,10 +172,19 @@ describe('The unsaved changes warning', function() {
     alertDialog.accept();
 
     // Fields show selected user values
-    expect(shared.firstTableRow.element(by.css(users.nameColumn)).getText()).toContain(users.firstNameFormField.getAttribute('value'));
-    expect(shared.firstTableRow.element(by.css(users.nameColumn)).getText()).toContain(users.lastNameFormField.getAttribute('value'));
-    expect(shared.firstTableRow.element(by.css(users.emailColumn)).getText()).toBe(users.emailLabel.getText());
-    expect(shared.firstTableRow.element(by.css(users.nameColumn)).getText()).toBe(shared.detailsFormHeader.getText());
+    shared.firstTableRow.element(by.css(users.nameColumn)).getText().then(function (firstRowName) {
+      if(firstRowName){
+        expect(shared.firstTableRow.element(by.css(users.nameColumn)).getText()).toContain(users.firstNameFormField.getAttribute('value'));
+        expect(shared.firstTableRow.element(by.css(users.nameColumn)).getText()).toContain(users.lastNameFormField.getAttribute('value'));
+        expect(shared.firstTableRow.element(by.css(users.emailColumn)).getText()).toBe(users.emailLabel.getText());
+        expect(shared.firstTableRow.element(by.css(users.nameColumn)).getText()).toBe(shared.detailsFormHeader.getText());
+      } else {
+        expect(users.firstNameFormField.getAttribute('value')).toBe('');
+        expect(users.lastNameFormField.getAttribute('value')).toBe('');
+        expect(shared.firstTableRow.element(by.css(users.emailColumn)).getText()).toBe(users.emailLabel.getText());
+        expect(shared.detailsFormHeader.getText()).toBe('');
+      }
+    });
   });
 
   it('should be closed after selecting row and dismissing warning', function() {

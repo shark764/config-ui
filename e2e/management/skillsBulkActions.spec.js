@@ -205,7 +205,7 @@ describe('The skills view bulk actions', function() {
     });
   });
 
-  it('should only affect selected skills', function() {
+  xit('should only affect selected skills', function() {
     shared.tableElements.then(function(originalSkills) {
       // Select odd skills and leave even skills unselected
       for (var i = 0; i < originalSkills.length; i++) {
