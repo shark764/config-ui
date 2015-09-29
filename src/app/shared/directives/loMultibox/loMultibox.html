@@ -1,6 +1,10 @@
 <div ng-class="{'edit': showDrop === true}">
   <div class="label-container" ng-click="labelClick()" ng-hide="showDrop && !display">
-    <input type="text" placeholder="{{'multibox.add.placeholder' | translate}}" name="{{name + '-display'}}" class="label" ng-required="true" ng-model="display" readonly="true" border="0"/>
+    <input type="text" name="{{name + '-display'}}"
+      placeholder="{{'multibox.add.placeholder' | translate}}"
+      readonly="true" border="0"  class="label"
+      ng-required="true"
+      ng-model="display" />
     <i class="fa" ng-class="{'fa-caret-down': !showDrop, 'fa-caret-up':showDrop}"></i>
   </div>
 
@@ -11,6 +15,8 @@
       placeholder="{{'multibox.search.placeholder' | translate}}"
       on-select="onSelect(selectedItem)"
       keep-expanded="true"></type-ahead>
-    <input id="show-create-new-item-btn" ng-click="createItem()" type="button" value="{{'multibox.create.btn' | translate}}" class="btn" />
+    <input id="show-create-new-item-btn" class="btn" type="button"
+      ng-click="createItem()" 
+      value="{{'multibox.create.btn' | translate}}" />
   </div>
 </div>
