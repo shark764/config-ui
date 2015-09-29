@@ -6,7 +6,9 @@
 
   <div class="pull-left wrapper" disable-contents="! ('PLATFORM_MANAGE_USER_ACCOUNT' | hasPermission)">
     <form ng-submit="save()" name="detailsForm" id="detailsForm">
-      <div id="user-profile-email"><label>Email:</label> {{user.email}}</div>
+      <div id="user-profile-email">
+        <label>Email:</label> {{user.email}}
+      </div>
       <div>
         <label>{{'details.firstName' | translate}}</label>
         <div>
@@ -24,14 +26,47 @@
       <div>
         <label>{{'details.password' | translate}}</label>
         <div>
-          <input id="reset-password-button" type="button" class="btn" ng-hide="detailsForm.password.$dirty" ng-click="detailsForm.password.$setDirty()" value="{{'user.details.password.reset' | translate}}">
+          <input id="reset-password-button" type="button" class="btn" ng-hide="detailsForm.password.$dirty"
+          ng-click="detailsForm.password.$setDirty()" value="{{'user.details.password.reset' | translate}}">
           <form-error field="detailsForm.password"
-            error-type-required="{{'details.password.error' | translate}}">
-          </form-error>
-          <input ng-required="detailsForm.password.$dirty" autocomplete="off" ng-model="user.password" name="password" type="password" ng-show="detailsForm.password.$dirty"></input>
-        </div>
+          error-type-required="{{'details.password.error' | translate}}">
+        </form-error>
+        <input ng-required="detailsForm.password.$dirty" autocomplete="off" ng-model="user.password" name="password" type="password" ng-show="detailsForm.password.$dirty"></input>
       </div>
-      <div><label>&nbsp;</label><input ng-disabled="detailsForm.$invalid || ! detailsForm.$dirty" type="submit" class="btn btn-primary" value="{{'value.update' | translate}}"/></div>
-    </form>
+    </div>
+    <div>
+      <label>&nbsp;</label>
+      <input ng-disabled="detailsForm.$invalid || ! detailsForm.$dirty" type="submit" class="btn btn-primary" value="{{'value.update' | translate}}"/>
+    </div>
+  </form>
+
+  <div class="divider-header first-header">
+    <h4>Skills</h4>
   </div>
+  <table max-height="300" class="table" ng-show="userSkills.length > 0">
+    <thead>
+      <tr>
+        <th>{{'value.name' | translate}}</th>
+        <th style="text-align:right">{{'skill.details.proficiency' | translate}}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="userSkill in userSkills | orderBy:'name'">
+        <td>{{userSkill.name}}</td>
+        <td style="text-align:right">{{userSkill.proficiency > 0 ? userSkill.proficiency : "-"}}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="divider-header first-header">
+    <h4>Groups</h4>
+  </div>
+  <div id="tag-wrapper" class="clear" ng-class="{collapsed : collapsed}">
+    <div id="tags-inside" class="clear">
+      <div ng-repeat="userGroup in userGroups" class="tag">
+        {{userGroup.groupName}}
+      </div>
+    </div>
+  </div>
+
 </div>

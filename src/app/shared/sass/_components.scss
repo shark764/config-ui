@@ -19,3 +19,23 @@
   margin-top: 20px;
   text-align: center;
 }
+
+.tag {
+  border: 1px solid $light-grey;
+  @include border-radius();
+  display: inline-block;
+  float: left;
+  line-height: 2.5ex;
+  margin: 0 5px 0 5px;
+  background-color: $lightest-grey;
+  color: $darkest-grey;
+  padding: 3px 7px;
+
+  a {
+    color: $grey;
+  }
+
+  a:hover {
+    color: $dark-grey;
+  }
+}
