@@ -42,7 +42,7 @@ describe('The navbar', function() {
     expect(browser.getCurrentUrl()).toContain(shared.usersPageUrl);
   });
 
-  xit('should change current Tenant when tenant drop down is altered', function() {
+  it('should change current Tenant when different tenant drop down is selected', function() {
     shared.tenantsNavDropdown.click();
     shared.tenantsNavDropdown.all(by.repeater('item in items')).then(function(tenants) {
       var randomTenant = Math.floor((Math.random() * tenants.length) + 1);
@@ -102,7 +102,7 @@ describe('The navbar', function() {
       navbar.userLink.click();
       expect(browser.getCurrentUrl()).toContain(shared.usersPageUrl);;
     });
-    
+
     it('should navigate to roles page when groups link is selected', function() {
       shared.usersNavButton.click()
       navbar.rolesLink.click();

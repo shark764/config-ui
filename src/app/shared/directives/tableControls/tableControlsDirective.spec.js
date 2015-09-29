@@ -134,6 +134,15 @@ describe('tableControls directive', function () {
     doCompile();
     expect(element.find('table').find('filter-dropdown').length).toBe(2); //Doubled due to scroll-table directive
   }));
+  
+  it('should catch the created:resource event and select the newly created item', inject(['$rootScope', function ($rootScope) {
+    doCompile();
+    var newItem = {id: 'myNewItem'};
+    $rootScope.$broadcast('created:resource:resource', newItem);
+    
+    isolateScope.$digest();
+    expect(isolateScope.selected).toEqual(newItem);
+  }]));
 
   describe('selectItem function', function () {
     beforeEach(function () {
@@ -190,6 +199,52 @@ describe('tableControls directive', function () {
       expect($rootScope.$broadcast).toHaveBeenCalledWith('table:resource:selected', {
         name: 'my item'
       });
+    }]));
+  });
+  
+  describe('onCreateClick function', function () {
+    beforeEach(function () {
+      doCompile();
+    });
+
+    it('should be defined', inject(function () {
+      expect(isolateScope.onCreateClick).toBeDefined();
+      expect(isolateScope.onCreateClick).toEqual(jasmine.any(Function));
+    }));
+
+    it('should check DirtyForms.confirmIfDirty', inject(['DirtyForms', function (DirtyForms) {
+      spyOn(DirtyForms, 'confirmIfDirty');
+      isolateScope.onCreateClick();
+      expect(DirtyForms.confirmIfDirty).toHaveBeenCalled();
+    }]));
+
+    it('should emit the table create click event', inject(['$rootScope', function ($rootScope) {
+      spyOn($rootScope, '$broadcast');
+      isolateScope.onCreateClick();
+      expect($rootScope.$broadcast).toHaveBeenCalledWith('table:on:click:create');
+    }]));
+  });
+  
+  describe('onActionsClick function', function () {
+    beforeEach(function () {
+      doCompile();
+    });
+
+    it('should be defined', inject(function () {
+      expect(isolateScope.onActionsClick).toBeDefined();
+      expect(isolateScope.onActionsClick).toEqual(jasmine.any(Function));
+    }));
+
+    it('should check DirtyForms.confirmIfDirty', inject(['DirtyForms', function (DirtyForms) {
+      spyOn(DirtyForms, 'confirmIfDirty');
+      isolateScope.onActionsClick();
+      expect(DirtyForms.confirmIfDirty).toHaveBeenCalled();
+    }]));
+
+    it('should emit the table actions click event', inject(['$rootScope', function ($rootScope) {
+      spyOn($rootScope, '$broadcast');
+      isolateScope.onActionsClick();
+      expect($rootScope.$broadcast).toHaveBeenCalledWith('table:on:click:actions');
     }]));
   });
 
@@ -345,6 +400,19 @@ describe('tableControls directive', function () {
       result = isolateScope.parse(item, field);
       expect(result).toBeUndefined();
     }));
+    
+    it('should call resolve function if it is defined', inject(function () {
+      var item = {
+        bob: 'yes'
+      };
+
+      var field = {
+        resolve: jasmine.createSpy('resolve').and.returnValue('spyResult')
+      };
+      var result = isolateScope.parse(item, field);
+      expect(field.resolve).toHaveBeenCalledWith(item);
+      expect(result).toEqual('spyResult');
+    }));
   });
 
   describe('sortTable function', function () {
@@ -402,5 +470,46 @@ describe('tableControls directive', function () {
       expect(isolateScope.reverseSortOrder).toBeFalsy();
       expect(isolateScope.orderBy).toEqual('theField');
     }));
+  });
+  
+  describe('clearAllFilters function', function () {
+    beforeEach(function () {
+      doCompile();
+      
+      $scope.config.fields = [{
+        header: {id: 'one'}
+      }, {
+        header: {id: 'two'}
+      }];
+    });
+
+    it('should exist', inject(function () {
+      expect(isolateScope.clearAllFilters).toBeDefined();
+      expect(isolateScope.clearAllFilters).toEqual(jasmine.any(Function));
+    }));
+
+    it('should clear the search field', inject(function () {
+      isolateScope.clearAllFilters();
+      expect(isolateScope.searchQuery).toBeNull();
+    }));
+    
+    it('should deselect all filters, if provided', inject(function () {
+      isolateScope.config.fields[0].header.options = [{
+        id: 'option1',
+        checked: true
+      }, {
+        id: 'option2'
+      }, {
+        id: 'option3',
+        checked: false
+      }];
+      
+      isolateScope.clearAllFilters();
+      
+      expect(isolateScope.config.fields[0].header.options[0].checked).toBeFalsy();
+      expect(isolateScope.config.fields[0].header.options[1].checked).toBeFalsy();
+      expect(isolateScope.config.fields[0].header.options[2].checked).toBeFalsy();
+    }));
+
   });
 });

@@ -14,15 +14,16 @@ exports.config = {
     'screenResolution': '1280x1024',
     'tunnelIdentifier': process.env.SAUCE_TUNNEL,
     // Test Identifiers - For easier grouping and reference in Sauce Labs
-    'name': '',
-    'build': '',
-    'tags': [''],
-    'max-duration': '5400'
+    'name': process.env.SAUCE_SUITE_NAME,
+    'build': process.env.SAUCE_BUILD,
+    'tags': [process.env.SAUCE_TAG],
+    // Max duration of entire suite in seconds; defaults to 30m
+    'max-duration': '5400' // 1h 30m
   },
 
   // Timeout time in milliseconds; prevents Protractor waiting to synchronize timeouts
   // Defaults to 11 seconds
-  allScriptsTimeout: 30000,
+  allScriptsTimeout: 60000,
 
   // This can be changed via the command line as:
   // --params.login.user 'ngrocks'
@@ -69,6 +70,6 @@ exports.config = {
 
   jasmineNodeOpts: {
     showColors: true,
-    defaultTimeoutInterval: 100000
+    defaultTimeoutInterval: 60000
   }
 };

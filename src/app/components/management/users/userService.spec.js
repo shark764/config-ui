@@ -22,18 +22,9 @@ describe('User service', function(){
       expect(myuser.getDisplay()).toEqual('smada');
     }));
     
-    it('should return the display name only if no name parts are is present', inject(function() {
-      var myuser = new User({firstName: 'douglas', lastName: 'adams', displayName: 'display'});
-      expect(myuser.getDisplay()).toEqual('douglas adams');
-      
-      delete myuser.firstName;
-      delete myuser.lastName;
-      expect(myuser.getDisplay()).toEqual('display');
-    }));
-    
-    it('should return empty string if there are no names on the pbject', inject(function() {
-      var myuser = new User({something: 'else'});
-      expect(myuser.getDisplay()).toEqual('');
+    it('should return the email if there are no names on the object', inject(function() {
+      var myuser = new User({email: 'theemail'});
+      expect(myuser.getDisplay()).toEqual('theemail');
     }));
   });
 });

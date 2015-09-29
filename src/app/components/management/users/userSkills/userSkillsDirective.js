@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('userSkills', ['TenantUserSkills', 'Skill', 'Session', 'Alert', 'lodash',
-    function (TenantUserSkills, Skill, Session, Alert, _) {
+  .directive('userSkills', ['TenantUserSkills', 'Skill', 'Session', 'Alert', 'lodash', '$translate',
+    function (TenantUserSkills, Skill, Session, Alert, _, $translate) {
       return {
         restrict: 'E',
         scope: {
@@ -139,6 +139,25 @@ angular.module('liveopsConfigPanel')
             $scope.reset();
             $scope.fetch();
           });
+          
+          $scope.updateUserSkill = function(userSkill){
+            if (userSkill.proficiency != userSkill.$original.proficiency){
+              //Need to call update on the Resource so that the original userSkill object doesn't get replaced
+              //Since the return from the PUT doesn't contain all the required info
+              TenantUserSkills.update({
+                userId: userSkill.userId, 
+                tenantId: userSkill.tenantId, 
+                id: userSkill.skillId
+              }, {
+                proficiency: userSkill.proficiency
+              }, function(){
+                userSkill.$original.proficiency = userSkill.proficiency;
+                Alert.success($translate.instant('details.skills.update.proficiency.success'));
+              }, function(){
+                Alert.error($translate.instant('details.skills.update.proficiency.fail'));
+              });
+            }
+          };
         }
       };
     }

@@ -36,10 +36,10 @@ describe('loDetailsPanel directive', function() {
         });
       }]));
 
-      xit('should nullify the $location search id', inject(['$stateParams', function($stateParams) {
-        expect($stateParams.id).not.toBeNull();
+      it('should nullify the $location search id', inject(['$location', function($location) {
+        spyOn($location, 'search');
         isolateScope.close();
-        expect($stateParams.id).toBeNull();
+        expect($location.search).toHaveBeenCalledWith({id: null});
       }]));
 
       it('should nullify the ngResource', function() {
