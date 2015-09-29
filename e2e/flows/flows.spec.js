@@ -32,15 +32,19 @@ describe('The flows view', function() {
     flows.nameFormField.sendKeys('Flow ' + randomFlow);
     flows.descriptionFormField.sendKeys('This is a new flow description');
     flows.typeFormDropdown.all(by.css('option')).get((randomFlow % 3) + 1).click();
-    shared.submitFormBtn.click();
-    expect(shared.successMessage.isDisplayed()).toBeTruthy();
+    shared.submitFormBtn.click().then(function() {
+      expect(shared.successMessage.isDisplayed()).toBeTruthy();
+      shared.searchField.sendKeys('Flow ' + randomFlow);
+
+      expect(shared.tableElements.count()).toBeGreaterThan(0);
+    });
   });
 
   it('should include flow management page components', function() {
     expect(shared.navBar.isDisplayed()).toBeTruthy();
 
     //Right panel is hidden by default
-    expect(shared.detailsForm.isDisplayed()).toBeFalsy();
+    expect(shared.rightPanel.isDisplayed()).toBeFalsy();
   });
 
 
@@ -264,5 +268,23 @@ describe('The flows view', function() {
 
     expect(flows.versionsTableElements.count()).toBe(flowVersionCount);
     expect(shared.successMessage.isPresent()).toBeFalsy();
+  });
+
+  it('should create version and select as default version', function() {
+    var flowAdded = false;
+    randomFlow = Math.floor((Math.random() * 1000) + 1);
+    shared.createBtn.click();
+
+    flows.nameFormField.sendKeys('Flow ' + randomFlow);
+    flows.descriptionFormField.sendKeys('This is a new flow description');
+    flows.typeFormDropdown.all(by.css('option')).get((randomFlow % 3) + 1).click();
+    shared.submitFormBtn.click().then(function() {
+      expect(shared.successMessage.isDisplayed()).toBeTruthy();
+      shared.searchField.sendKeys('Flow ' + randomFlow);
+
+      shared.firstTableRow.click();
+      expect(flows.activeVersionDropdown.all(by.css('option')).count()).toBe(2); // Includes disabled 'Select a version' option
+      expect(flows.activeVersionDropdown.$('option:checked').getText()).toBe('v1');
+    });
   });
 });

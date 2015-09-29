@@ -17,12 +17,13 @@ exports.config = {
     'name': process.env.SAUCE_SUITE_NAME,
     'build': process.env.SAUCE_BUILD,
     'tags': [process.env.SAUCE_TAG],
-    'max-duration': '10000'
+    // Max duration of entire suite in seconds; defaults to 30m
+    'max-duration': '5400' // 1h 30m
   },
 
   // Timeout time in milliseconds; prevents Protractor waiting to synchronize timeouts
   // Defaults to 11 seconds
-  allScriptsTimeout: 30000,
+  allScriptsTimeout: 60000,
 
   // This can be changed via the command line as:
   // --params.login.user 'ngrocks'
@@ -69,6 +70,6 @@ exports.config = {
 
   jasmineNodeOpts: {
     showColors: true,
-    defaultTimeoutInterval: 100000
+    defaultTimeoutInterval: 60000
   }
 };

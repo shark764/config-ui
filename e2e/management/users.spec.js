@@ -360,12 +360,13 @@ describe('The users view', function() {
     expect(users.requiredErrors.get(1).getText()).toBe('Please enter a last name');
   });
 
-  it('should not allow user to update it\'s own status', function() {
+  it('should not allow user to update it\'s own status or role', function() {
     // Select current user from table
     shared.searchField.sendKeys(params.login.firstName + ' ' + params.login.lastName);
     shared.firstTableRow.click();
 
     expect(users.activeFormToggle.getAttribute('disabled')).toBeTruthy();
+    expect(users.tenantRoleFormDropdown.getAttribute('disabled')).toBeTruthy();
   });
 
   describe('bulk actions', function() {

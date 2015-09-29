@@ -198,7 +198,7 @@ describe('The table filters', function() {
         expect(shared.filteredResultsMessage.isDisplayed()).toBeTruthy();
         expect(shared.clearAllResultsLink.isDisplayed()).toBeTruthy();
 
-        shared.filteredResultsMessage.getText().then(function (resultsMessage) {
+        shared.filteredResultsMessage.getText().then(function(resultsMessage) {
           var messageWords = resultsMessage.split(' ');
           expect(messageWords[0]).toBe('Showing');
           expect(parseInt(messageWords[1])).toBe(shared.tableElements.count());
@@ -209,7 +209,7 @@ describe('The table filters', function() {
 
         expect(shared.clearAllResultsLink.getText()).toBe('(Clear all filters)');
 
-        shared.clearAllResultsLink.click().then(function () {
+        shared.clearAllResultsLink.click().then(function() {
           expect(shared.filteredResultsMessage.isDisplayed()).toBeFalsy();
           expect(shared.clearAllResultsLink.isDisplayed()).toBeFalsy();
 
@@ -308,7 +308,7 @@ describe('The table filters', function() {
         expect(shared.filteredResultsMessage.isDisplayed()).toBeTruthy();
         expect(shared.clearAllResultsLink.isDisplayed()).toBeTruthy();
 
-        shared.filteredResultsMessage.getText().then(function (resultsMessage) {
+        shared.filteredResultsMessage.getText().then(function(resultsMessage) {
           var messageWords = resultsMessage.split(' ');
           expect(messageWords[0]).toBe('Showing');
           expect(parseInt(messageWords[1])).toBe(shared.tableElements.count());
@@ -319,7 +319,7 @@ describe('The table filters', function() {
 
         expect(shared.clearAllResultsLink.getText()).toBe('(Clear all filters)');
 
-        shared.clearAllResultsLink.click().then(function () {
+        shared.clearAllResultsLink.click().then(function() {
           expect(shared.filteredResultsMessage.isDisplayed()).toBeFalsy();
           expect(shared.clearAllResultsLink.isDisplayed()).toBeFalsy();
 
@@ -429,7 +429,7 @@ describe('The table filters', function() {
         expect(shared.filteredResultsMessage.isDisplayed()).toBeTruthy();
         expect(shared.clearAllResultsLink.isDisplayed()).toBeTruthy();
 
-        shared.filteredResultsMessage.getText().then(function (resultsMessage) {
+        shared.filteredResultsMessage.getText().then(function(resultsMessage) {
           var messageWords = resultsMessage.split(' ');
           expect(messageWords[0]).toBe('Showing');
           expect(parseInt(messageWords[1])).toBe(shared.tableElements.count());
@@ -440,7 +440,7 @@ describe('The table filters', function() {
 
         expect(shared.clearAllResultsLink.getText()).toBe('(Clear all filters)');
 
-        shared.clearAllResultsLink.click().then(function () {
+        shared.clearAllResultsLink.click().then(function() {
           expect(shared.filteredResultsMessage.isDisplayed()).toBeFalsy();
           expect(shared.clearAllResultsLink.isDisplayed()).toBeFalsy();
 
@@ -538,11 +538,11 @@ describe('The table filters', function() {
 
       // Select input from drop down
       columns.dropdownStatuses.get(0).click().then(function() {
-        if (shared.tableRows.count() < initialItemsCount){
+        if (shared.tableRows.count() < initialItemsCount) {
           expect(shared.filteredResultsMessage.isDisplayed()).toBeTruthy();
           expect(shared.clearAllResultsLink.isDisplayed()).toBeTruthy();
 
-          shared.filteredResultsMessage.getText().then(function (resultsMessage) {
+          shared.filteredResultsMessage.getText().then(function(resultsMessage) {
             var messageWords = resultsMessage.split(' ');
             expect(messageWords[0]).toBe('Showing');
             expect(parseInt(messageWords[1])).toBe(shared.tableElements.count());
@@ -553,7 +553,7 @@ describe('The table filters', function() {
 
           expect(shared.clearAllResultsLink.getText()).toBe('(Clear all filters)');
 
-          shared.clearAllResultsLink.click().then(function () {
+          shared.clearAllResultsLink.click().then(function() {
             expect(shared.filteredResultsMessage.isDisplayed()).toBeFalsy();
             expect(shared.clearAllResultsLink.isDisplayed()).toBeFalsy();
 
@@ -653,7 +653,7 @@ describe('The table filters', function() {
         expect(shared.filteredResultsMessage.isDisplayed()).toBeTruthy();
         expect(shared.clearAllResultsLink.isDisplayed()).toBeTruthy();
 
-        shared.filteredResultsMessage.getText().then(function (resultsMessage) {
+        shared.filteredResultsMessage.getText().then(function(resultsMessage) {
           var messageWords = resultsMessage.split(' ');
           expect(messageWords[0]).toBe('Showing');
           expect(parseInt(messageWords[1])).toBe(shared.tableElements.count());
@@ -664,7 +664,7 @@ describe('The table filters', function() {
 
         expect(shared.clearAllResultsLink.getText()).toBe('(Clear all filters)');
 
-        shared.clearAllResultsLink.click().then(function () {
+        shared.clearAllResultsLink.click().then(function() {
           expect(shared.filteredResultsMessage.isDisplayed()).toBeFalsy();
           expect(shared.clearAllResultsLink.isDisplayed()).toBeFalsy();
 
@@ -752,33 +752,37 @@ describe('The table filters', function() {
       });
     });
 
-    xit('should display filtered message and Clear Filters link', function() {
+    it('should display filtered message and Clear Filters link', function() {
       expect(shared.filteredResultsMessage.isDisplayed()).toBeFalsy();
       expect(shared.clearAllResultsLink.isDisplayed()).toBeFalsy();
 
       columns.statusTableDropDownLabel.click();
 
       // Select input from drop down
-      columns.dropdownStatuses.get(0).click().then(function() {
-        expect(shared.filteredResultsMessage.isDisplayed()).toBeTruthy();
-        expect(shared.clearAllResultsLink.isDisplayed()).toBeTruthy();
+      columns.dropdownStatuses.get(1).click().then(function() {
+        shared.tableElements.count().then(function(tableCount) {
+          if (tableCount > 0) {
+            expect(shared.filteredResultsMessage.isDisplayed()).toBeTruthy();
+            expect(shared.clearAllResultsLink.isDisplayed()).toBeTruthy();
 
-        shared.filteredResultsMessage.getText().then(function (resultsMessage) {
-          var messageWords = resultsMessage.split(' ');
-          expect(messageWords[0]).toBe('Showing');
-          expect(parseInt(messageWords[1])).toBe(shared.tableElements.count());
-          expect(messageWords[2]).toBe('of');
-          expect(parseInt(messageWords[3])).toBe(elementCount);
-          expect(messageWords[4]).toBe('items');
-        });
+            shared.filteredResultsMessage.getText().then(function(resultsMessage) {
+              var messageWords = resultsMessage.split(' ');
+              expect(messageWords[0]).toBe('Showing');
+              expect(parseInt(messageWords[1])).toBe(shared.tableElements.count());
+              expect(messageWords[2]).toBe('of');
+              expect(parseInt(messageWords[3])).toBe(elementCount);
+              expect(messageWords[4]).toBe('items');
+            });
 
-        expect(shared.clearAllResultsLink.getText()).toBe('(Clear all filters)');
+            expect(shared.clearAllResultsLink.getText()).toBe('(Clear all filters)');
 
-        shared.clearAllResultsLink.click().then(function () {
-          expect(shared.filteredResultsMessage.isDisplayed()).toBeFalsy();
-          expect(shared.clearAllResultsLink.isDisplayed()).toBeFalsy();
+            shared.clearAllResultsLink.click().then(function() {
+              expect(shared.filteredResultsMessage.isDisplayed()).toBeFalsy();
+              expect(shared.clearAllResultsLink.isDisplayed()).toBeFalsy();
 
-          expect(shared.tableElements.count()).toBe(elementCount);
+              expect(shared.tableElements.count()).toBe(elementCount);
+            });
+          }
         });
       });
     });
@@ -882,11 +886,11 @@ describe('The table filters', function() {
 
       // Select input from drop down
       columns.dropdownTypes.get(0).click().then(function() {
-        if (shared.tableRows.count() < initialItemsCount){
+        if (shared.tableRows.count() < initialItemsCount) {
           expect(shared.filteredResultsMessage.isDisplayed()).toBeTruthy();
           expect(shared.clearAllResultsLink.isDisplayed()).toBeTruthy();
 
-          shared.filteredResultsMessage.getText().then(function (resultsMessage) {
+          shared.filteredResultsMessage.getText().then(function(resultsMessage) {
             var messageWords = resultsMessage.split(' ');
             expect(messageWords[0]).toBe('Showing');
             expect(parseInt(messageWords[1])).toBe(shared.tableElements.count());
@@ -897,7 +901,7 @@ describe('The table filters', function() {
 
           expect(shared.clearAllResultsLink.getText()).toBe('(Clear all filters)');
 
-          shared.clearAllResultsLink.click().then(function () {
+          shared.clearAllResultsLink.click().then(function() {
             expect(shared.filteredResultsMessage.isDisplayed()).toBeFalsy();
             expect(shared.clearAllResultsLink.isDisplayed()).toBeFalsy();
 
@@ -1111,7 +1115,7 @@ describe('The table filters', function() {
       });
     });
 
-    xit('should filter by multiple columns', function() {
+    it('should filter by multiple columns', function() {
       // Select option from Interaction filter
       columns.interactionTableDropDownLabel.click();
       columns.dropdownInteractions.get(1).click();
@@ -1129,11 +1133,13 @@ describe('The table filters', function() {
 
         // Ensure only rows that meet both filters are displayed
         shared.tableElements.then(function(rows) {
-          for (var i = 0; i < rows.length; ++i) {
-            expect(rows[i].getText()).toContain('contact point');
-            expect(rows[i].getText()).toContain('Disabled');
-            expect(rows[i].getText()).toContain('voice');
-          };
+          if (rows > 0) {
+            for (var i = 0; i < rows.length; ++i) {
+              expect(rows[i].getText()).toContain('contact point');
+              expect(rows[i].getText()).toContain('Disabled');
+              expect(rows[i].getText()).toContain('voice');
+            };
+          }
         });
       });
     });
@@ -1147,11 +1153,11 @@ describe('The table filters', function() {
 
       // Select input from drop down
       columns.dropdownStatuses.get(0).click().then(function() {
-        if (shared.tableRows.count() < initialItemsCount){
+        if (shared.tableRows.count() < initialItemsCount) {
           expect(shared.filteredResultsMessage.isDisplayed()).toBeTruthy();
           expect(shared.clearAllResultsLink.isDisplayed()).toBeTruthy();
 
-          shared.filteredResultsMessage.getText().then(function (resultsMessage) {
+          shared.filteredResultsMessage.getText().then(function(resultsMessage) {
             var messageWords = resultsMessage.split(' ');
             expect(messageWords[0]).toBe('Showing');
             expect(parseInt(messageWords[1])).toBe(shared.tableElements.count());
@@ -1162,7 +1168,7 @@ describe('The table filters', function() {
 
           expect(shared.clearAllResultsLink.getText()).toBe('(Clear all filters)');
 
-          shared.clearAllResultsLink.click().then(function () {
+          shared.clearAllResultsLink.click().then(function() {
             expect(shared.filteredResultsMessage.isDisplayed()).toBeFalsy();
             expect(shared.clearAllResultsLink.isDisplayed()).toBeFalsy();
 

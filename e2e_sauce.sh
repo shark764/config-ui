@@ -25,7 +25,7 @@ export E2E_TEST_SUITE=/navigation/*.spec.js
 gulp protractor | tee -a ${E2E_LOG_FILE}
 
 echo "***** TABLE CONTROLS *****" | tee -a ${E2E_LOG_FILE}
-export SAUCE_SUITE_NAME=Table Controls
+export SAUCE_SUITE_NAME=TableControls
 export E2E_TEST_SUITE=/tableControls/*.spec.js
 gulp protractor | tee -a ${E2E_LOG_FILE}
 
@@ -47,4 +47,9 @@ gulp protractor | tee -a ${E2E_LOG_FILE}
 echo "***** USER PROFILE *****" | tee -a ${E2E_LOG_FILE}
 export SAUCE_SUITE_NAME=UserProfile
 export E2E_TEST_SUITE=/userProfile/*.spec.js
+gulp protractor | tee -a ${E2E_LOG_FILE}
+
+echo "***** TENANT SWITCHING *****" | tee -a ${E2E_LOG_FILE}
+export SAUCE_SUITE_NAME=TenantSwitching
+export E2E_TEST_SUITE=/tenantSwitching/*.spec.js
 gulp protractor | tee -a ${E2E_LOG_FILE}
