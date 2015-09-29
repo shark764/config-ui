@@ -222,6 +222,10 @@ header {
     justify-content: flex-start;
     align-items: center;
     position: relative;
+    
+    * + .btn {
+      margin-left: 10px;
+    }
   }
 
   > .timestamp input[type=text] {

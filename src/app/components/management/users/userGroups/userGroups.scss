@@ -42,6 +42,11 @@ user-groups {
     overflow: hidden;
   }
 
+  .tag {
+    margin: 0 5px $tag-row-margin 5px;
+    height: $tag-row-height;
+  }
+  
   .expander {
     height: 5px;
     margin: 5px auto;

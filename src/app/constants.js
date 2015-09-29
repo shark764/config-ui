@@ -2,6 +2,8 @@
 
 angular.module('liveopsConfigPanel.config', [])
 
+.constant('jsedn', window.jsedn)
+
 .constant('preferenceKey', 'LIVEOPS-PREFERENCE-KEY')
 
 .constant('sessionKey', 'LIVEOPS-SESSION-KEY')

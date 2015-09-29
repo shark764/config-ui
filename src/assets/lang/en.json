@@ -49,6 +49,7 @@
   "value.ready": "Ready",
   "value.allocated": "Allocated",
   "value.busy": "Busy",
+  "value.publish": "Publish",
 
 
 
@@ -56,7 +57,7 @@
 
   "api.error": "The API could not be contacted. Please reload the page to try again. If this error persists, please contact your systems administrator",
   "permissions.unauthorized.message": "Sorry, your account does not have the correct permissions to view that page.",
-  
+
   "login.button": "Login",
   "login.error": "Invalid username or password.",
 
@@ -135,7 +136,7 @@
   "user.table.groups": "Groups",
   "user.table.title": "User Management",
   "user.table.roles": "Roles",
-  
+
   "tenant.user.details.status.pending": "Pending Invitation",
   "tenant.user.details.status.invited": "Pending Acceptance",
   "tenant.user.details.status.accepted": "Accepted",
@@ -196,6 +197,14 @@
   "queue.details.enable.confirm": "This will enable this queue. Do you want to continue?",
   "queue.details.version.expand": "Show/hide Details",
   "queue.table.title": "Queue Management",
+  "queues.query.builder.groups": "Agent Groups",
+  "queue.query.builder.groups.some": "Any of these groups:",
+  "queue.query.builder.groups.all": "All of these groups:",
+  "queue.query.builder.groups.placeholder": "Select Group...",
+  "queues.query.builder.skills": "Agent Skills",
+  "queue.query.builder.skills.some": "Any of these skills:",
+  "queue.query.builder.skills.all": "All of these skills:",
+  "queue.query.builder.skills.placeholder": "Select Skill...",
   "queue.details.minPriority": "Min Priority",
   "queue.details.minPriority.error.min": "The minimum priority must be greater than 0",
   "queue.details.minPriority.error.max": "The minimum priority cannot be greater than the maximum priority",
@@ -364,11 +373,11 @@
   "invite.accept.expired": "Sorry, this invitation has expired. Please contact your account administrator.",
   "copyright": "Copyright © 2015 LiveOps, Inc. All rights reserved.",
   "signup.legal": "Access to this site requires separate permission from LiveOps. This site contains confidential information, and may also contain content and enable interaction with users from third-party sites subject to different terms that are outside of LiveOps control. By using or accessing this site, you have agreed to the Terms of Service as outlined in the Beta Service Agreement (\"Agreement\"). A copy of this Agreement is available from your LiveOps contact.",
-  
+
   "flow.draft.delete.alt": "Delete this draft",
   "flow.draft.none": "There are no drafts saved for this flow. Drafts are created automatically from the Flow Designer.",
   "flow.draft.title": "Drafts",
-  
+
   "role.details.creating": "Creating new role",
   "role.table.title": "Role Management",
   "role.table.permissions": "Permissions",
@@ -376,5 +385,5 @@
   "role.details.permission.placeholder": "Add permission...",
   "role.permissions.none": "This role has no permissions assigned to it.",
   "role.permissions.remove.alt": "Remove permission from role"
-  
+
 }
