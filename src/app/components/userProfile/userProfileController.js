@@ -26,7 +26,7 @@ angular.module('liveopsConfigPanel')
     $scope.userSkills = TenantUserSkills.query({
       tenantId: Session.tenant.tenantId,
       userId: Session.user.id
-    }, $scope.reset);
+    });
   };
 
   $scope.fetchGroups = function () {
@@ -37,7 +37,7 @@ angular.module('liveopsConfigPanel')
     $scope.userGroups = TenantUserGroups.query({
       tenantId: Session.tenant.tenantId,
       memberId: Session.user.id
-    }, $scope.reset);
+    });
   };
 
   $scope.fetchSkills();
