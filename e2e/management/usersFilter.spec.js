@@ -4,6 +4,8 @@ describe('The users table filter', function() {
   var loginPage = require('../login/login.po.js'),
     shared = require('../shared.po.js'),
     users = require('./users.po.js'),
+    skills = require('./skills.po.js'),
+    groups = require('./groups.po.js'),
     params = browser.params,
     userQueryText,
     statusFilterText,
@@ -13,6 +15,23 @@ describe('The users table filter', function() {
 
   beforeAll(function() {
     loginPage.login(params.login.user, params.login.password);
+
+    // Ensure groups and skills are added
+    var random = Math.floor((Math.random() * 1000) + 1);
+    browser.get(shared.groupsPageUrl);
+    shared.createBtn.click();
+    groups.nameFormField.sendKeys('Group Name ' + random);
+    shared.submitFormBtn.click().then(function() {
+      expect(shared.successMessage.isDisplayed()).toBeTruthy();
+    }).then(function() {
+      browser.get(shared.skillsPageUrl);
+      shared.createBtn.click();
+      skills.nameFormField.sendKeys('Skill Name ' + random);
+
+      shared.submitFormBtn.click().then(function() {
+        expect(shared.successMessage.isDisplayed()).toBeTruthy();
+      });
+    });
   });
 
   beforeEach(function() {
@@ -179,7 +198,7 @@ describe('The users table filter', function() {
     });
   });
 
-  xit('should display users based on the table Group filter', function() {
+  it('should display users based on the table Group filter', function() {
     // Select Group from Groups drop down
     users.groupsTableDropDownLabel.click();
     users.dropdownGroups.get(0).click();
@@ -220,8 +239,6 @@ describe('The users table filter', function() {
 
         // Previous inputs are unselected
         expect(users.dropdownGroupsInputs.get(1).isSelected()).toBeFalsy();
-        expect(users.dropdownGroupsInputs.get(2).isSelected()).toBeFalsy();
-
         users.groupsTableDropDownLabel.click();
 
         // Expect all users to be displayed

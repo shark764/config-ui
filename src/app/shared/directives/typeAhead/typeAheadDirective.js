@@ -21,16 +21,16 @@ angular.module('liveopsConfigPanel')
 
         templateUrl: 'app/shared/directives/typeAhead/typeAhead.html',
 
-        link: function($scope) {
+        controller: function($scope) {
           var self = this;
           $scope.currentText = $scope.prefill || '';
 
-          var defaultTextFilter = function(item, text) {
+          this.defaultTextFilter = function defaultTextFilter(item, text) {
             return item.getDisplay().toLowerCase().contains(text.toLowerCase());
           };
 
           //TODO make this go away
-          var nameFieldTextFilter = function(item, text) {
+          this.nameFieldTextFilter = function nameFieldTextFilter(item, text) {
             return item[$scope.nameField].toLowerCase().contains(text.toLowerCase());
           };
 
@@ -42,20 +42,24 @@ angular.module('liveopsConfigPanel')
             var include = true;
             for (var filterIndex = 0; filterIndex < $scope.filterArray.length; filterIndex++) {
               var filter = $scope.filterArray[filterIndex];
-              include = include && filter.call(filter, item, $scope.currentText);
+              include = include && filter.call(filter, item, $scope.currentText, $scope.items);
             }
             return include;
           };
 
           $scope.$watch('filters', function(newCriteria, oldCriteria) {
-            if (newCriteria) {
-              if(!angular.isArray(newCriteria)) {
-                $scope.filterArray = [newCriteria, defaultTextFilter];
-              }
-            } else if($scope.nameField) {
-              $scope.filterArray = [nameFieldTextFilter];
+            $scope.filterArray = [];
+            
+            if (newCriteria && angular.isArray(newCriteria)) {
+              $scope.filterArray = angular.copy(newCriteria);
+            } else if(newCriteria && !angular.isArray(newCriteria)) {
+              $scope.filterArray = [newCriteria];
+            }
+            
+            if($scope.nameField) {
+              $scope.filterArray.push(self.nameFieldTextFilter);
             } else {
-              $scope.filterArray = [defaultTextFilter];
+              $scope.filterArray.push(self.defaultTextFilter);
             }
           }, true);
 
