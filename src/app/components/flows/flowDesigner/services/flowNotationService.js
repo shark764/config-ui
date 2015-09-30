@@ -1,7 +1,7 @@
 (function() {
   'use strict';
 
-  function FlowNotationService() {
+  function FlowNotationService(FlowLibrary) {
     return {
       activities: [],
       events: [],
@@ -37,51 +37,54 @@
         }
       },
 
-      extractInputs: function(model) {
-        var self = this;
-        var inputs = _.findWhere(self.activities, {name: model.name}).inputs;
-        return inputs;
-      },
-
-      getActivityLabel: function(model) {
-        var self = this;
-        var activity = _.findWhere(self.activities, {name: model.name});
-        return activity.label;
-      },
-
-      getActivityTargeted: function(model) {
-        var self = this;
-        var activity = _.findWhere(self.activities, {name: model.name});
-        return activity.targeted;
-      },
-
       buildInputPanel: function(model) {
         var self = this;
         var modelType = model.get('type');
-        
-        //If we're dealing with an actrivity
+        var inputs = [];
+
+        //If we're dealing with an activity
         if (modelType === 'liveOps.activity') {
           var activity = _.findWhere(self.activities, {name: model.get('name')});
-          return activity.inputs;
+          inputs = activity.inputs;
         }
 
         //if we're dealing with an event
         if (modelType === 'liveOps.event') {
           var event = _.findWhere(self.events, {entity: model.get('entity'), type: model.get('name')});
-          return event.inputs;
+          inputs = event.inputs;
         }
 
         //if we're dealing with a link
         if (modelType === 'liveOps.link') {
-          var link = _.findWhere(self.links, {type: model.get('linkType')})
-          return link.inputs;
+          var link = _.findWhere(self.links, {type: model.get('linkType')});
+          inputs = link.inputs;
         }
 
         //if we're dealing with a template
         if (modelType === 'liveOps.template') {
           var template = _.findWhere(self.templates, {name: model.get('name')});
-          return template.inputs;
+          inputs = template.inputs;
         }
+
+        return _.map(inputs, function(input){
+          input = _.clone(input);
+          if (input.source === 'resource') {
+            input.options = _.union(input.options, _.map(FlowLibrary.search({cells: model.collection.toJSON()}, 'resource'), function(item){
+              return {
+                content: item,
+                value: item
+              };
+            }));
+          } else if (input.source === 'catch' || input.source === 'throw') {
+            input.options = _.union(input.options, _.map(FlowLibrary.search({cells: model.collection.toJSON()}, input.source), function(item){
+              return {
+                content: item,
+                value: item
+              };
+            }));
+          }
+          return input;
+        });
       },
 
       addActivityParams: function(model) {
@@ -100,12 +103,12 @@
               };
             }
           } else if (param.source === 'entity') {
-            if(!model.params[param.key] || model.params[param.key].length == 0) {
+            if(!model.params[param.key] || model.params[param.key].length === 0) {
               throw {
                 model: model,
                 param: param.key,
                 message: 'Parameters either was not defined or was incorrect'
-              }
+              };
             }
 
             memo[key] = {
@@ -118,48 +121,6 @@
           return memo;
         }, {});
         return params;
-      },
-
-      extractActivityParams: function(model) {
-        var self = this;
-        var activity = _.find(self.activities, {name: model.name});
-        var params = {};
-
-        params = _.reduce(activity.params, function(memo, param, key) {
-          
-          if(_.has(model.params, key)){
-
-            var _param = model.params[key];
-
-            if (param.source === 'expression') {
-              if (param.type === 'boolean') {
-                memo[param.key] = (_param.value === 'true');
-              } else {
-                memo[param.key] = _param.value;
-              }
-            } else if (param.source === 'entity') {
-              memo[param.key] = _param.id;
-            }
-          }
-          else if(_.has(param, 'default')){
-            memo[param.key] = param.default;
-          }
-
-          return memo;
-
-        }, {});
-
-        return params;
-      },
-
-      addActivityBindings: function(model) {
-        var bindings = {};
-
-        bindings = _.reduce(model.bindings, function(memo, binding) {
-          memo[binding.key] = binding.value;
-          return memo;
-        }, {});
-        return bindings;
       }
 
     };
@@ -270,4 +231,3 @@
 
   angular.module('liveopsConfigPanel').service('FlowNotationService', FlowNotationService);
 })();
-

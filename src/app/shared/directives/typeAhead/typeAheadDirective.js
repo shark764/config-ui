@@ -2,7 +2,7 @@
 
 angular.module('liveopsConfigPanel')
   .directive('typeAhead', ['filterFilter', '$timeout',
-    function(filterFilter, $timeout) {
+    function (filterFilter, $timeout) {
       return {
         restrict: 'E',
         scope: {
@@ -21,7 +21,7 @@ angular.module('liveopsConfigPanel')
 
         templateUrl: 'app/shared/directives/typeAhead/typeAhead.html',
 
-        controller: function($scope) {
+        controller: function ($scope) {
           var self = this;
           $scope.currentText = $scope.prefill || '';
 
@@ -34,7 +34,7 @@ angular.module('liveopsConfigPanel')
             return item[$scope.nameField].toLowerCase().contains(text.toLowerCase());
           };
 
-          $scope.filterCriteria = function(item) {
+          $scope.filterCriteria = function (item) {
             if (!$scope.filterArray) {
               return;
             }
@@ -47,23 +47,23 @@ angular.module('liveopsConfigPanel')
             return include;
           };
 
-          $scope.$watch('filters', function(newCriteria, oldCriteria) {
+          $scope.$watch('filters', function (newCriteria, oldCriteria) {
             $scope.filterArray = [];
-            
+
             if (newCriteria && angular.isArray(newCriteria)) {
               $scope.filterArray = angular.copy(newCriteria);
-            } else if(newCriteria && !angular.isArray(newCriteria)) {
+            } else if (newCriteria && !angular.isArray(newCriteria)) {
               $scope.filterArray = [newCriteria];
             }
-            
-            if($scope.nameField) {
+
+            if ($scope.nameField) {
               $scope.filterArray.push(self.nameFieldTextFilter);
             } else {
               $scope.filterArray.push(self.defaultTextFilter);
             }
           }, true);
 
-          $scope.$watch('currentText', function() {
+          $scope.$watch('currentText', function () {
             var filteredItems = filterFilter($scope.items, $scope.filterCriteria);
 
             if (filteredItems && filteredItems.length === 1) {
@@ -78,7 +78,7 @@ angular.module('liveopsConfigPanel')
               //Empty timeout forces onSelect to only be called after digest is complete,
               //so the variable bound to selectedItem will have been properly updated
               //$timeout($scope.onSelect, 1);
-              $timeout(function() {
+              $timeout(function () {
                 $scope.onSelect({
                   selectedItem: filteredItems[0]
                 });
@@ -93,19 +93,37 @@ angular.module('liveopsConfigPanel')
             }
           });
 
-          $scope.select = function(item) {
+          $scope.select = function (item) {
             $scope.hovering = false;
             $scope.selectedItem = item;
             $scope.currentText = $scope.nameField ? $scope.selectedItem[$scope.nameField] : $scope.selectedItem.getDisplay();
           };
 
-          $scope.onBlur = function() {
+          $scope.onBlur = function () {
             if (!$scope.keepExpanded) { //Prevents the button in multibox from jumping around
               $scope.showSuggestions = false;
             }
           };
 
-          $scope.$watch('selectedItem', function(newValue) {
+          $scope.$watch('selectedItem', function (newValue) {
+            if (newValue === null) {
+              $scope.currentText = '';
+            }
+          });
+
+          $scope.select = function (item) {
+            $scope.hovering = false;
+            $scope.selectedItem = item;
+            $scope.currentText = $scope.nameField ? $scope.selectedItem[$scope.nameField] : $scope.selectedItem.getDisplay();
+          };
+
+          $scope.onBlur = function () {
+            if (!$scope.keepExpanded) { //Prevents the button in multibox from jumping around
+              $scope.showSuggestions = false;
+            }
+          };
+
+          $scope.$watch('selectedItem', function (newValue) {
             if (newValue === null) {
               $scope.currentText = '';
             }

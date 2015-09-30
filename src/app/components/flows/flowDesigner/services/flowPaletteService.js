@@ -12,18 +12,19 @@
         var self = this;
         _.each(self.data.links, function(notation) {
           FlowNotationService.registerLink(notation);
-        })
+        });
       },
 
       loadGateways: function(palette) {
         palette.load([
           new joint.shapes.liveOps.gateway({
-            gatewayType: 'parallel',
-            content: 'derp'
+            gatewayType: 'parallel'
           }),
           new joint.shapes.liveOps.gateway({
-            gatewayType: 'exclusive',
-            content: 'derp2'
+            gatewayType: 'exclusive'
+          }),
+          new joint.shapes.liveOps.gateway({
+            gatewayType: 'event'
           })
         ], 'gateways');
       },
@@ -81,7 +82,7 @@
 
       loadTemplates: function(palette) {
         var self = this;
-        
+
         palette.load(_.map(self.data.templates, function(template){
           var tmp = new joint.shapes.liveOps.template({
             content: template.label,
