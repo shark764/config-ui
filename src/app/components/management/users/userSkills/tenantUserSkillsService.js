@@ -1,10 +1,10 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .factory('TenantUserSkills', ['LiveopsResourceFactory',
-    function (LiveopsResourceFactory) {
+  .factory('TenantUserSkill', ['LiveopsResourceFactory', 'emitInterceptor', 'cacheAddInterceptor', 'userSkillCacheRemoveInterceptor', 'setSkillNameInterceptor', 'removeDefaultProficiencyInterceptor',
+    function (LiveopsResourceFactory, emitInterceptor, cacheAddInterceptor, userSkillCacheRemoveInterceptor, setSkillNameInterceptor, removeDefaultProficiencyInterceptor) {
 
-      return LiveopsResourceFactory.create({
+      var TenantUserSkill =  LiveopsResourceFactory.create({
         endpoint: '/v1/tenants/:tenantId/users/:userId/skills/:skillId',
         resourceName: 'TenantUserSkill',
         updateFields: [{
@@ -13,9 +13,17 @@ angular.module('liveopsConfigPanel')
         requestUrlFields: {
           tenantId: '@tenantId',
           userId: '@userId',
-          skillId: '@id'
-        }
+          skillId: '@id' //POST requires skillId in the request, which causes POST requests to go to /skills/:skillId, unless that param is renamed
+        },
+        saveInterceptor: [emitInterceptor, setSkillNameInterceptor, removeDefaultProficiencyInterceptor, cacheAddInterceptor],
+        updateInterceptor: [emitInterceptor, setSkillNameInterceptor],
+        deleteInterceptor: userSkillCacheRemoveInterceptor
       });
+      
+      TenantUserSkill.prototype.cacheKey = function () {
+        return 'TenantUserSkill' + this.userId;
+      };
 
+      return TenantUserSkill;
     }
   ]);
