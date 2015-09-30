@@ -26,8 +26,6 @@ angular.module('liveopsConfigPanel')
         this.defaultTextFilter = function defaultTextFilter(item, text) {
           return item.getDisplay().toLowerCase().contains(text.toLowerCase());
         };
-        
-        //TODO: readd name filter here to support typeahead in flow designer..??
 
         $scope.filterCriteria = function(item) {
           if (!$scope.filterArray) {
