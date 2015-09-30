@@ -5,12 +5,13 @@ angular.module('liveopsConfigPanel')
     function (queryCache) {
       this.response = function (response) {
         var proto = Object.getPrototypeOf(response.resource);
-
-        if(!queryCache.get(proto.resourceName)) {
-          queryCache.put(proto.resourceName, []);
+        var keyName = response.resource.cacheKey ? response.resource.cacheKey() : proto.resourceName;
+        
+        if (!queryCache.get(keyName)) {
+          queryCache.put(keyName, []);
         }
         
-        queryCache.get(proto.resourceName).push(response.resource);
+        queryCache.get(keyName).push(response.resource);
 
         return response.resource;
       };

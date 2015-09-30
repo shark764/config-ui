@@ -20,7 +20,17 @@
     </div>
   </div>
   
-  <div ng-if="!resource.id" class="input-group">
+  <div ng-if="!resource.isNew()" class="input-group">
+    <label>{{'queue.details.activeVersion' | translate}}</label>
+    <div>
+      <form-error field="detailsForm.activeVersion"
+      error-type-required="{{'queue.details.version.error' | translate}}"></form-error>
+      <select name="activeVersion" ng-required="true" ng-model="resource.activeVersion" ng-options="version.version as version.name for version in fetchVersions() | orderBy:'created':'reverse'">
+      </select>
+    </div>
+  </div>
+  
+  <div ng-if="resource.isNew()" class="input-group">
     <label class="disabled">{{'queue.details.activeVersion' | translate}}</label>
     <div>
       <input id="create-version-number" type="number" ng-disabled="true" value="1"></input>
@@ -28,17 +38,23 @@
   </div>
 </div>
 
-<div ng-if="!resource.id">
+<div ng-if="resource.isNew()">
   <div class="divider-header first-header">
-    <h4>{{'value.details.query' | translate}}</h4>
+    <h4>Query</h4>
+    <a class="pull-right">
+      <span ng-show="queryType != 'advanced'" ng-click="queryType = 'advanced'">(Show advanced query editor)</span>
+      <span ng-show="queryType == 'advanced'" ng-click="queryType = 'basic'">(Show basic query builder)</span>
+    </a>
   </div>
 
-  <div class="input-group">
+  <div class="input-group" ng-if="queryType=='advanced'">
     <label class="textarea-label">{{'value.details.query' | translate}} *</label>
-    <form-error field="detailsForm.query"
+    <form-error field="forms.versionForm.query"
     error-type-required="{{'queue.details.queue.error' | translate}}"></form-error>
     <textarea ng-required="true" type="text" ng-model="extendScope.initialVersion.query" name="query"></textarea>
   </div>
+
+  <queue-query-creator ng-if="queryType!='advanced'" version="extendScope.initialVersion" queue="resource"></queue-query-creator>
 
   <div class="divider-header">
     <h4>{{'queue.details.priority' | translate}}</h4>

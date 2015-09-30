@@ -37,3 +37,40 @@
     <ba-set-queue-status bulk-action="bulkActions.setQueueStatus"></ba-set-queue-status>
   </bulk-action-executor>
 </div>
+
+<resize-handle
+  ng-show="selectedQueueVersion"
+  id="resize-pane"
+  right-element-id="queue-version-panel"
+  left-element-id="right-panel" ></resize-handle>
+
+<lo-details-panel id="queue-version-panel" class="right-panel"
+  ng-show="selectedQueueVersion"
+  ng-resource="selectedQueueVersion">
+
+  <ng-form unsaved-changes-warning name="forms.versionForm"
+    class="details-pane"
+    ng-model="selectedQueueVersion"
+    ng-resource="selectedQueueVersion"
+    lo-form-submit lo-form-cancel lo-form-alert>
+
+    <div class="detail-header"
+      ng-include src="'app/components/flows/queues/versions/versionDetailHeader.html'">
+    </div>
+
+    <div class="detail-body"
+      ng-include src="'app/components/flows/queues/versions/versionDetailBody.html'">
+    </div>
+
+    <div class="detail-controls">
+      <input id="cancel-version-btn" type="button" class="btn"
+        value="{{'value.cancel' | translate}}"
+        lo-cancel-chain-executor="version:cancel"></input>
+      <input id="create-version-btn" class="btn btn-primary"
+        type="submit" value="{{'value.create' | translate}}"
+        ng-disabled="forms.versionForm.$invalid"
+        ng-click="saveVersion()"
+        lo-submit-spinner lo-submit-spinner-status="selectedQueueVersion.$busy"></input>
+    </div>
+  </ng-form>
+</lo-details-panel>

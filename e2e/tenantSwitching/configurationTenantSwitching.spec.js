@@ -2,7 +2,7 @@
 
 describe('When switching tenants', function() {
   var loginPage = require('../login/login.po.js'),
-    tenants = require('./tenants.po.js'),
+    tenants = require('../configuration/tenants.po.js'),
     shared = require('../shared.po.js'),
     integrations = require('./integrations.po.js'),
     params = browser.params,

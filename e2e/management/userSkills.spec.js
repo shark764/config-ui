@@ -54,7 +54,7 @@ describe('The user skills component of User view', function() {
     });
   });
 
-  xit('should add skill with proficiency', function() {
+  it('should add skill with proficiency', function() {
     //Create a new skill
     browser.get(shared.skillsPageUrl);
     shared.createBtn.click();
@@ -67,20 +67,20 @@ describe('The user skills component of User view', function() {
 
       //Assign a user to it
       browser.get(shared.usersPageUrl);
-      shared.searchField.sendKeys('e'); //Filter out users with blank first and last names, such as pending users
       shared.firstTableRow.click();
-      var selectedUserName = users.userNameDetailsHeader.getText();
+
       users.addSkillSearch.sendKeys(newSkillName);
       expect(users.skillProficiency.isDisplayed()).toBeTruthy();
       users.skillProficiency.sendKeys('50');
+
+      var skillAdded = false;
       users.addSkillBtn.click().then(function() {
         // Skill is added with proficiency
-        var skillAdded = false;
         users.userSkillTableRows.each(function(currentUserSkill) {
           currentUserSkill.getText().then(function(currentSkill) {
             if (currentSkill.indexOf(newSkillName) > -1) {
               skillAdded = true;
-              expect(currentSkill).toContain('50');
+              expect(currentUserSkill.element(by.model(users.editSkillProficiency)).getAttribute('value')).toBe('50');
             }
           });
         }).thenFinally(function() {
@@ -91,7 +91,7 @@ describe('The user skills component of User view', function() {
     });
   });
 
-  xit('should add skill with default proficiency', function() {
+  it('should add skill with default proficiency', function() {
     //Create a new skill
     browser.get(shared.skillsPageUrl);
     shared.createBtn.click();
@@ -104,20 +104,18 @@ describe('The user skills component of User view', function() {
 
       //Assign a user to it
       browser.get(shared.usersPageUrl);
-      shared.searchField.sendKeys('e'); //Filter out users with blank first and last names, such as pending users
       shared.firstTableRow.click();
-      var selectedUserName = users.userNameDetailsHeader.getText();
       users.addSkillSearch.sendKeys(newSkillName);
       expect(users.skillProficiency.isDisplayed()).toBeTruthy();
 
+      var skillAdded = false;
       users.addSkillBtn.click().then(function() {
         // Skill is added with proficiency
-        var skillAdded = false;
         users.userSkillTableRows.each(function(currentUserSkill) {
           currentUserSkill.getText().then(function(currentSkill) {
             if (currentSkill.indexOf(newSkillName) > -1) {
               skillAdded = true;
-              expect(currentSkill).toContain('1');
+              expect(currentUserSkill.element(by.model(users.editSkillProficiency)).getAttribute('value')).toBe('1');
             }
           });
         }).thenFinally(function() {
@@ -128,7 +126,7 @@ describe('The user skills component of User view', function() {
     });
   });
 
-  xit('should add skill without proficiency', function() {
+  it('should add skill without proficiency', function() {
     //Create a new skill
     browser.get(shared.skillsPageUrl);
     shared.createBtn.click();
@@ -140,20 +138,18 @@ describe('The user skills component of User view', function() {
 
       //Assign a user to it
       browser.get(shared.usersPageUrl);
-      shared.searchField.sendKeys('e'); //Filter out users with blank first and last names, such as pending users
       shared.firstTableRow.click();
-      var selectedUserName = users.userNameDetailsHeader.getText();
       users.addSkillSearch.sendKeys(newSkillName + '\t');
       expect(users.skillProficiency.isPresent()).toBeFalsy();
 
+      var skillAdded = false;
       users.addSkillBtn.click().then(function() {
         // Skill is added with proficiency
-        var skillAdded = false;
         users.userSkillTableRows.each(function(currentUserSkill) {
           currentUserSkill.getText().then(function(currentSkill) {
             if (currentSkill.indexOf(newSkillName) > -1) {
               skillAdded = true;
-              expect(currentSkill).toContain('-');
+              expect(currentUserSkill.element(by.model(users.editSkillProficiency)).isPresent()).toBeFalsy();
             }
           });
         }).thenFinally(function() {
@@ -287,7 +283,6 @@ describe('The user skills component of User view', function() {
   });
 
   it('should update skill count when removing a user skill', function() {
-    shared.searchField.sendKeys('e'); //Filter out users with blank first and last names, such as pending users
     shared.firstTableRow.click();
 
     //Add a skill to the user
@@ -310,7 +305,7 @@ describe('The user skills component of User view', function() {
     });
   });
 
-  xit('should update skill proficiency when re-adding existing skill', function() {
+  it('should update skill proficiency when re-adding existing skill', function() {
     shared.searchField.sendKeys('e'); //Filter out users with blank first and last names, such as pending users
     shared.firstTableRow.click();
     users.userSkills.count().then(function(previousUserSkillCount) {
@@ -327,7 +322,7 @@ describe('The user skills component of User view', function() {
           currentUserSkill.getText().then(function(currentSkill) {
             if (currentSkill.indexOf(newSkillName) > -1) {
               skillAdded = skillAdded + 1;
-              expect(currentSkill).toContain('50');
+              expect(currentUserSkill.element(by.model(users.editSkillProficiency)).getAttribute('value')).toBe('50');
             }
           });
         }).thenFinally(function() {
@@ -347,7 +342,7 @@ describe('The user skills component of User view', function() {
             currentUserSkill.getText().then(function(currentSkill) {
               if (currentSkill.indexOf(newSkillName) > -1) {
                 skillAdded = skillAdded + 1;
-                expect(currentSkill).toContain('25');
+                expect(currentUserSkill.element(by.model(users.editSkillProficiency)).getAttribute('value')).toBe('25');
               }
             });
           }).thenFinally(function() {
@@ -399,7 +394,7 @@ describe('The user skills component of User view', function() {
     });
   });
 
-  xit('should search list of all existing Skills by Skill name', function() {
+  it('should search list of all existing Skills by Skill name', function() {
     browser.get(shared.skillsPageUrl);
 
     // Get list of skills from Skill page
