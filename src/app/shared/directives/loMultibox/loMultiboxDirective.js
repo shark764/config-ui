@@ -17,19 +17,24 @@ angular.module('liveopsConfigPanel')
         
         $scope.onSelect = function(selectedItem){
           $scope.display = selectedItem.getDisplay();
-          $scope.onItemSelect(selectedItem);
+          
+          if(angular.isFunction($scope.onItemSelect)) {
+            $scope.onItemSelect(selectedItem);
+          }
 
           dropCtrl.setShowDrop(false);
           $scope.createMode = false;
         };
 
         $scope.createItem = function(){
-          // $scope.$emit('resource:details:create:' + $scope.resourceName, $scope.model);
+          $scope.$emit('resource:details:create:' + $scope.resourceName, $scope.selectedItem);
           $scope.createMode = true;
         };
 
         $scope.labelClick = function(){
           dropCtrl.setShowDrop(!$scope.showDrop);
+          
+          $scope.selectedItem = null;
 
           if ($scope.showDrop){
             $timeout(function(){
@@ -40,12 +45,10 @@ angular.module('liveopsConfigPanel')
         };
 
         $scope.$watch('selectedItem', function(item) {
-          if(item) {
-            if(item.getDisplay) {
-              $scope.display = item.getDisplay();
-            } else {
-              $scope.display = item;
-            }
+          if(item && angular.isFunction(item.getDisplay)) {
+            $scope.display = item.getDisplay();
+          } else if(angular.isString(item)) {
+            $scope.display = item;
           }
         }, true);
 
