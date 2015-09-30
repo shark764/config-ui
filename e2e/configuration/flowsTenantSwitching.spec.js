@@ -138,11 +138,11 @@ describe('When switching tenants', function() {
       elementCount = shared.tableElements.count();
     });
 
-    it('should display the correct Media for the current tenant', function() {
+    xit('should display the correct Media for the current tenant', function() {
       expect(elementCount).toBe(0);
     });
 
-    it('should create a new Media in one and not the previous', function() {
+    xit('should create a new Media in one and not the previous', function() {
       // Create Media in new tenant
       var newTenantMedia = 'New Tenant Media ' + Math.floor((Math.random() * 1000) + 1);
       shared.createBtn.click();
@@ -161,7 +161,6 @@ describe('When switching tenants', function() {
             expect(element(by.css('tr.ng-scope:nth-child(' + i + ') > td:nth-child(2)')).getText()).not.toBe(newTenantMedia);
           }
         });
-
 
         // Create media in previous tenant
         var previousTenantMedia = 'Previous Tenant Media ' + Math.floor((Math.random() * 1000) + 1);
@@ -192,7 +191,7 @@ describe('When switching tenants', function() {
       elementCount = shared.tableElements.count();
     });
 
-    it('should display the correct Dispatch Mappings for the current tenant', function() {
+    xit('should display the correct Dispatch Mappings for the current tenant', function() {
       expect(elementCount).toBe(0);
     });
 
@@ -247,11 +246,11 @@ describe('When switching tenants', function() {
       elementCount = shared.tableElements.count();
     });
 
-    it('should display the correct Queues for the current tenant', function() {
+    xit('should display the correct Queues for the current tenant', function() {
       expect(elementCount).toBe(0);
     });
 
-    it('should create a new Queue in one and not the previous', function() {
+    xit('should create a new Queue in one and not the previous', function() {
       // Create Queue in new tenant
       var newTenantQueue = 'New Tenant Queue ' + Math.floor((Math.random() * 1000) + 1);
       shared.createBtn.click();

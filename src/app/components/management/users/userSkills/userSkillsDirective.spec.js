@@ -60,15 +60,6 @@ describe('userSkills directive', function(){
     expect(isolateScope.userSkills.length).toEqual(2);
   });
 
-  it('should not have skills or userSkill defined if no tenant is selected', inject(['$compile', function($compile) {
-    Session.tenant = {};
-    element = $compile('<user-skills user="user"></user-skills>')($scope);
-    $scope.$digest();
-    isolateScope = element.isolateScope();
-    expect(isolateScope.userSkills).toBeUndefined();
-    expect(isolateScope.skills).toBeUndefined();
-  }]));
-
   describe('remove function', function() {
     it('should exist', function() {
       expect(isolateScope.remove).toBeDefined();
