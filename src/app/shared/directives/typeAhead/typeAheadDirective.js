@@ -110,24 +110,6 @@ angular.module('liveopsConfigPanel')
               $scope.currentText = '';
             }
           });
-
-          $scope.select = function (item) {
-            $scope.hovering = false;
-            $scope.selectedItem = item;
-            $scope.currentText = $scope.nameField ? $scope.selectedItem[$scope.nameField] : $scope.selectedItem.getDisplay();
-          };
-
-          $scope.onBlur = function () {
-            if (!$scope.keepExpanded) { //Prevents the button in multibox from jumping around
-              $scope.showSuggestions = false;
-            }
-          };
-
-          $scope.$watch('selectedItem', function (newValue) {
-            if (newValue === null) {
-              $scope.currentText = '';
-            }
-          });
         }
       };
     }
