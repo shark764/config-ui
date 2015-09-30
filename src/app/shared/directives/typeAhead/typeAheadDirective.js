@@ -26,6 +26,8 @@ angular.module('liveopsConfigPanel')
         this.defaultTextFilter = function defaultTextFilter(item, text) {
           return item.getDisplay().toLowerCase().contains(text.toLowerCase());
         };
+        
+        //TODO: readd name filter here to support typeahead in flow designer..??
 
         $scope.filterCriteria = function(item) {
           if (!$scope.filterArray) {
@@ -54,8 +56,11 @@ angular.module('liveopsConfigPanel')
         
         $scope.updateHighlight = function(){
           var filteredItems = $filter('filter')($scope.items, $scope.filterCriteria, true);
-
-          if (filteredItems && filteredItems.length > 0){
+          
+          if ($scope.currentText === ''){
+            $scope.highlightedItem = null;
+            $scope.selectedItem = null;
+          } else if (filteredItems && filteredItems.length > 0){
             //If previously highlighted item is filtered out, reset the highlight
             var highlightedIndex = filteredItems.indexOf($scope.highlightedItem);
             if (highlightedIndex < 0){
@@ -74,7 +79,7 @@ angular.module('liveopsConfigPanel')
           }
         };
         
-        $scope.$watch('currentText', function() {
+        $scope.$watch('currentText', function(newVal) {
           $scope.updateHighlight();
         });
         
@@ -92,12 +97,13 @@ angular.module('liveopsConfigPanel')
 
         $scope.select = function(item) {
           if (! angular.isString(item)){
-            $scope.currentText = item.getDisplay();
+            $scope.currentText = angular.isDefined(item.getDisplay) ? item.getDisplay() : item[$scope.nameField];
           }
           
           $scope.selectedItem = item;
           $scope.onSelect({selectedItem: item});
-
+          
+          $scope.hovering = false;
           $scope.showSuggestions = false;
         };
 

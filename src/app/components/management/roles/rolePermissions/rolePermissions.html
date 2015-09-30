@@ -8,7 +8,7 @@
 </div>
 
 <ng-form ng-show="role.type != 'system' && (['PLATFORM_CREATE_TENANT_ROLES', 'MANAGE_ALL_ROLES'] | hasPermission)" id="addPermission" name="addPermission">
-  <type-ahead hover="true" placeholder="{{'role.details.permission.placeholder' | translate}}" items="filtered" on-select="onPermissionSelect"></type-ahead>
+  <type-ahead hover="true" placeholder="{{'role.details.permission.placeholder' | translate}}" items="filtered" selected-item="selectedPermission"></type-ahead>
   <div>
     <a id="add-permission-btn" ng-disabled="!selectedPermission" class="btn" ng-click="save()" title="{{'value.save' | translate}}"><i class="fa fa-plus"></i></a>
   </div>

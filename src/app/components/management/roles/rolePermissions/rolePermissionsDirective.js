@@ -71,10 +71,6 @@ angular.module('liveopsConfigPanel')
               $scope.addPermission.permissionchanges.$setDirty();
             }
           };
-          
-          $scope.onPermissionSelect = function(selectedItem){
-            $scope.selectedPermission = selectedItem;
-          }
         }
       };
     }

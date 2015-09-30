@@ -76,11 +76,11 @@ describe('typeAhead directive', function(){
   });
   
   describe('currentText watch', function(){
-    it('should prepare a new object if currentText has no matches', function() {
+    it('should set selectedItem to the search string if currentText has no matches', function() {
       doDefaultCompile();
       isolateScope.currentText = 'typing some stuff';
       isolateScope.$digest();
-      expect(isolateScope.selectedItem).toEqual({title : 'typing some stuff'});
+      expect(isolateScope.selectedItem).toEqual('typing some stuff');
     });
     
     it('should set selectedItem to the first exact matching item', function() {
@@ -88,37 +88,6 @@ describe('typeAhead directive', function(){
       isolateScope.currentText = 'firstItem';
       isolateScope.$digest();
       expect(angular.equals(isolateScope.selectedItem, {title : 'firstItem', extraProp: 'true'})).toBeTruthy();
-    });
-    
-    it('should call onSelect if given', function() {
-      doDefaultCompile();
-      
-      spyOn($scope, 'selectFunction');
-      isolateScope.currentText = 'firstItem';
-      isolateScope.$digest();
-      $timeout.flush();
-      
-      expect($scope.selectFunction).toHaveBeenCalled();
-    });
-    
-    it('should not call onSelect if not given', function() {
-      element = $compile('<type-ahead items="items" name-field="title" selected-item="selected" is-required="required" placeholder="Type here" hover="hover"></type-ahead>')($scope);
-      $scope.$digest();
-      isolateScope = element.isolateScope();
-      
-      spyOn($scope, 'selectFunction');
-      isolateScope.currentText = 'firstItem';
-      isolateScope.$digest();
-      expect($scope.selectFunction).not.toHaveBeenCalled();
-    });
-    
-    it('should not call onSelect if no match', function() {
-      doDefaultCompile();
-      
-      spyOn($scope, 'selectFunction');
-      isolateScope.currentText = 'A weird entry';
-      isolateScope.$digest();
-      expect($scope.selectFunction).not.toHaveBeenCalled();
     });
   });
   
@@ -137,7 +106,7 @@ describe('typeAhead directive', function(){
       expect(isolateScope.hovering).toEqual(false);
     });
     
-    it('should set the current text to the proper field value', function() {
+    it('should set the current text to the proper field value is getDisplay is not defined on the selected item', function() {
       doDefaultCompile();
       
       isolateScope.select({title : 'new item', anotherProp : 'Blah'});
@@ -166,24 +135,24 @@ describe('typeAhead directive', function(){
       });
     });
     
-    describe('WHEN nameField supplied filters not supplied', function() {
-      beforeEach(function() {
-        element = $compile('<type-ahead items="items" name-field="title" ' +
-          'selected-item="selected"></type-ahead>')($scope);
-        $scope.$digest();
-        isolateScope = element.isolateScope();
-        
-        controller = element.data('$typeAheadController');
-        
-      });
-      
-      it('should have only the nameFieldTextFilter in fitlerArray', function() {
-        expect(isolateScope.filterArray).toBeDefined();
-        expect(isolateScope.filterArray.length).toEqual(1);
-        
-        expect(isolateScope.filterArray[0]).toBe(controller.nameFieldTextFilter);
-      });
-    });
+//    describe('WHEN nameField supplied filters not supplied', function() {
+//      beforeEach(function() {
+//        element = $compile('<type-ahead items="items" name-field="title" ' +
+//          'selected-item="selected"></type-ahead>')($scope);
+//        $scope.$digest();
+//        isolateScope = element.isolateScope();
+//        
+//        controller = element.data('$typeAheadController');
+//        
+//      });
+//      
+//      it('should have only the nameFieldTextFilter in fitlerArray', function() {
+//        expect(isolateScope.filterArray).toBeDefined();
+//        expect(isolateScope.filterArray.length).toEqual(1);
+//        
+//        expect(isolateScope.filterArray[0]).toBe(controller.nameFieldTextFilter);
+//      });
+//    });
     
     describe('WHEN filters supplied and is a function', function() {
       var func1 = function() {
@@ -194,26 +163,26 @@ describe('typeAhead directive', function(){
         $scope.filters = func1;
       });
       
-      describe('WHEN nameField is supplied', function() {
-        it('should create array with $scope.filters and nameFieldTextFilter in fitlerArray', function() {
-          element = $compile('<type-ahead items="items" name-field="title" ' +
-            'selected-item="selected" filters="filters"></type-ahead>')($scope);
-          $scope.$digest();
-          isolateScope = element.isolateScope();
-          
-          controller = element.data('$typeAheadController');
-          
-          expect(isolateScope.filterArray).toBeDefined();
-          expect(isolateScope.filterArray.length).toEqual(2);
-          
-          expect(isolateScope.filterArray.indexOf(func1)).not.toEqual(-1);
-          expect(isolateScope.filterArray.indexOf(controller.defaultTextFilter)).toEqual(-1);
-          expect(isolateScope.filterArray.indexOf(controller.nameFieldTextFilter)).not.toEqual(-1);
-        });
-      });
-      
-      describe('WHEN nameField is not supplied', function() {
-        it('should create array with $scope.filters and nameFieldTextFilter in fitlerArray', function() {
+//      describe('WHEN nameField is supplied', function() {
+//        it('should create array with $scope.filters and nameFieldTextFilter in fitlerArray', function() {
+//          element = $compile('<type-ahead items="items" name-field="title" ' +
+//            'selected-item="selected" filters="filters"></type-ahead>')($scope);
+//          $scope.$digest();
+//          isolateScope = element.isolateScope();
+//          
+//          controller = element.data('$typeAheadController');
+//          
+//          expect(isolateScope.filterArray).toBeDefined();
+//          expect(isolateScope.filterArray.length).toEqual(2);
+//          
+//          expect(isolateScope.filterArray.indexOf(func1)).not.toEqual(-1);
+//          expect(isolateScope.filterArray.indexOf(controller.defaultTextFilter)).toEqual(-1);
+//          expect(isolateScope.filterArray.indexOf(controller.nameFieldTextFilter)).not.toEqual(-1);
+//        });
+//      });
+//      
+//      describe('WHEN nameField is not supplied', function() {
+        it('should create array with $scope.filters and defaultTextFilter in fitlerArray', function() {
           element = $compile('<type-ahead items="items" ' +
             'selected-item="selected" filters="filters"></type-ahead>')($scope);
           $scope.$digest();
@@ -228,7 +197,7 @@ describe('typeAhead directive', function(){
           expect(isolateScope.filterArray.indexOf(controller.defaultTextFilter)).not.toEqual(-1);
           expect(isolateScope.filterArray.indexOf(controller.nameFieldTextFilter)).toEqual(-1);
         });
-      });
+//      });
     });
     
     describe('WHEN filters is supplied is and array', function() {
@@ -244,27 +213,27 @@ describe('typeAhead directive', function(){
         $scope.filters = [func1, func2];
       });
       
-      describe('WHEN nameField is supplied', function() {
-        it('should create array with $scope.filters merged with nameFieldTextFilter in fitlerArray', function() {
-          element = $compile('<type-ahead items="items" name-field="title" ' +
-            'selected-item="selected" filters="filters"></type-ahead>')($scope);
-          $scope.$digest();
-          isolateScope = element.isolateScope();
-          
-          controller = element.data('$typeAheadController');
-          
-          expect(isolateScope.filterArray).toBeDefined();
-          expect(isolateScope.filterArray.length).toEqual(3);
-          
-          expect(isolateScope.filterArray.indexOf(func1)).not.toEqual(-1);
-          expect(isolateScope.filterArray.indexOf(func2)).not.toEqual(-1);
-          expect(isolateScope.filterArray.indexOf(controller.defaultTextFilter)).toEqual(-1);
-          expect(isolateScope.filterArray.indexOf(controller.nameFieldTextFilter)).not.toEqual(-1);
-        });
-      });
+//      describe('WHEN nameField is supplied', function() {
+//        it('should create array with $scope.filters merged with nameFieldTextFilter in fitlerArray', function() {
+//          element = $compile('<type-ahead items="items" name-field="title" ' +
+//            'selected-item="selected" filters="filters"></type-ahead>')($scope);
+//          $scope.$digest();
+//          isolateScope = element.isolateScope();
+//          
+//          controller = element.data('$typeAheadController');
+//          
+//          expect(isolateScope.filterArray).toBeDefined();
+//          expect(isolateScope.filterArray.length).toEqual(3);
+//          
+//          expect(isolateScope.filterArray.indexOf(func1)).not.toEqual(-1);
+//          expect(isolateScope.filterArray.indexOf(func2)).not.toEqual(-1);
+//          expect(isolateScope.filterArray.indexOf(controller.defaultTextFilter)).toEqual(-1);
+//          expect(isolateScope.filterArray.indexOf(controller.nameFieldTextFilter)).not.toEqual(-1);
+//        });
+//      });
       
-      describe('WHEN nameField is not supplied', function() {
-        it('should create array with $scope.filters merged with nameFieldTextFilter in fitlerArray', function() {
+      //describe('WHEN nameField is not supplied', function() {
+        it('should create array with $scope.filters merged with defaultTextFilter in fitlerArray', function() {
           element = $compile('<type-ahead items="items" ' +
             'selected-item="selected" filters="filters"></type-ahead>')($scope);
           $scope.$digest();
@@ -280,7 +249,7 @@ describe('typeAhead directive', function(){
           expect(isolateScope.filterArray.indexOf(controller.defaultTextFilter)).not.toEqual(-1);
           expect(isolateScope.filterArray.indexOf(controller.nameFieldTextFilter)).toEqual(-1);
         });
-      });
+      //});
     });
   });
 });
