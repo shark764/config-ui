@@ -43,6 +43,7 @@ describe('The dispatch mappings view', function() {
 
         // Add flow as a prereq
         shared.cancelFormBtn.click();
+        shared.waitForAlert();
         var alertDialog = browser.switchTo().alert();
         expect(alertDialog.accept).toBeDefined();
         expect(alertDialog.dismiss).toBeDefined();
@@ -332,6 +333,7 @@ describe('The dispatch mappings view', function() {
     shared.cancelFormBtn.click();
 
     // Warning message is displayed
+    shared.waitForAlert();
     shared.dismissChanges();
 
     // New dispatch mapping is not created
@@ -382,7 +384,7 @@ describe('The dispatch mappings view', function() {
         if (value == 'Contact Point') {
           expect(shared.secondTableRow.element(by.css(dispatchMappings.interactionFieldColumn)).getText()).toBe('contact-point');
         } else if (value == 'Integration') {
-          expect(shared.firstTableRow.element(by.css(dispatchMappings.interactionFieldColumn)).getText()).toBe('source');
+          expect(shared.secondTableRow.element(by.css(dispatchMappings.interactionFieldColumn)).getText()).toBe('source');
         } else {
           expect(shared.secondTableRow.element(by.css(dispatchMappings.interactionFieldColumn)).getText()).toBe(value.toLowerCase());
         }
@@ -459,6 +461,7 @@ describe('The dispatch mappings view', function() {
       shared.cancelFormBtn.click();
 
       // Warning message is displayed
+      shared.waitForAlert();
       shared.dismissChanges();
 
       expect(shared.successMessage.isPresent()).toBeFalsy();
