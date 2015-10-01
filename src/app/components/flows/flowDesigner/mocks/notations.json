@@ -926,6 +926,37 @@
             }
         },
         {
+            "name": "agent-notification",
+            "entity": "activity",
+            "label": "Agent Notification",
+            "bindings": {},
+            "signals": [],
+            "targeted": false,
+            "inputs": [
+                {
+                    "name": "notification",
+                    "path": "params.notification",
+                    "type": "autocomplete",
+                    "source": "signal",
+                    "label": "Notification:",
+                    "group": "general",
+                    "index": 0,
+                    "disabled": false,
+                    "required": true,
+                    "placeholder": "Enter a notification...",
+                    "hidden": false
+                }
+            ],
+            "params": {
+                "notification": {
+                    "source": "expression",
+                    "type": "string",
+                    "key": "notification",
+                    "mandatory": true
+                }
+            }
+        },
+        {
             "name": "set-attribute",
             "entity": "activity",
             "label": "Set Attribute",
