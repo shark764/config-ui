@@ -45,7 +45,7 @@
           ng-init="onSelectCallback = onSelect(mapping); initMapping(mapping)"
           ng-disabled="!('MANAGE_ALL_MEDIA' | hasPermission)"
           items="fetchMedias()"
-          resource-name="media"
+          resource-name="Media"
           selected-item="mapping.$media"
           on-item-select="onSelectCallback">
         </lo-multibox>

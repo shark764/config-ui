@@ -34,7 +34,7 @@ describe('loMultibox directive', function(){
     $scope.selectedItem = $scope.items[1];
 
     element = $compile('<lo-multibox items="items" selected-item="selectedItem" ' +
-      'resource-name="myresource" name="myinput"></lo-multibox>')($scope);
+      'resource-name="myresource"></lo-multibox>')($scope);
     $scope.$digest();
     isolateScope = element.isolateScope();
   }]));
@@ -75,18 +75,6 @@ describe('loMultibox directive', function(){
   });
 
   describe('onSelect function', function () {
-    xit('should copy selected id into selectedItem but leave other properties untouched', function () {
-      isolateScope.onSelect({
-        id: '1234',
-        otherprop: 'NO',
-        getDisplay: jasmine.createSpy('getDisplay').and.returnValue('1234')
-      });
-
-      expect($scope.selectedItem.id).toEqual('1234');
-      expect($scope.selectedItem.otherprop).toBeUndefined();
-      expect($scope.selectedItem.importantprop).toEqual('important value');
-    });
-
     it('should disable edit and showDrop modes', inject(function () {
       isolateScope.showDrop = true;
       isolateScope.createMode = true;

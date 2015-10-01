@@ -101,8 +101,10 @@ angular.module('liveopsConfigPanel')
           $scope.selectedItem = item;
           $scope.onSelect({selectedItem: item});
           
-          $scope.hovering = false;
-          $scope.showSuggestions = false;
+          if (!$scope.keepExpanded) {
+            $scope.hovering = false;
+            $scope.showSuggestions = false;
+          }
         };
 
         $scope.onBlur = function() {
