@@ -1,10 +1,11 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('DesignerPageController', ['$scope', 'flow', 'notations', 'version', 'media', 'queue', 'FlowNotationService', 'FlowPaletteService',
-    function($scope, flow, notations, version, media, queue, FlowNotationService, FlowPaletteService) {
+  .controller('DesignerPageController', ['$scope', 'flow', 'notations', 'data', 'media', 'queue', 'FlowNotationService', 'FlowPaletteService', 'readOnly',
+    function($scope, flow, notations, data, media, queue, FlowNotationService, FlowPaletteService, readOnly) {
       $scope.flow = flow;
-      $scope.version = version;
+      $scope.flowData = data;
+      $scope.readOnly = readOnly;
 
       $scope.notations = notations.data;
 
@@ -12,5 +13,23 @@ angular.module('liveopsConfigPanel')
 
       FlowNotationService.media = media;
       FlowNotationService.queue = queue;
+
+      $scope.$on('$destroy', function() {
+        var designerKeys = [
+          'delete',
+          'super',
+          'ctrl',
+          'backspace',
+          'z',
+          'y',
+          'c',
+          'v',
+          '=',
+          '-'
+        ];
+
+        //Unbind Flow Designer keys
+        designerKeys.forEach(function(key) { KeyboardJS.clear(key); });
+      });
     }
   ]);

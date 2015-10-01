@@ -8,7 +8,11 @@ angular.module('liveopsConfigPanel')
         endpoint: '/v1/tenants/:tenantId/media/:id',
         resourceName: 'Media',
         updateFields: [{
+          name: 'name'
+        }, {
           name: 'source'
+        }, {
+          name: 'type'
         }, {
           name: 'properties',
           optional: true

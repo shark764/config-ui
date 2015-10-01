@@ -78,8 +78,15 @@ body {
     outline: 4px double #3498db;
 }
 
+#paper-container .selected {
+  stroke-width: 2px;
+  stroke: #006600;
+  rx: 0;
+  ry: 0;
+}
+
 .error {
-  outline: 2px solid red;
+    outline: 2px solid red;
 }
 
 .link .marker-arrowhead, .link .marker-vertex {
@@ -88,6 +95,10 @@ body {
 
 .link .tool-remove circle{
     fill: #000;
+}
+
+foreignobject > body {
+  min-width: 0px;
 }
 
 /* SCROLLBARS */
