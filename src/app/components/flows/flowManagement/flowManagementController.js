@@ -14,6 +14,10 @@ angular.module('liveopsConfigPanel')
         }, 'FlowVersion' + $scope.selectedFlow.id);
       };
 
+      $scope.submit = function() {
+        return $scope.selectedFlow.save();
+      }
+
 
       $scope.fetchFlows = function () {
         return Flow.cachedQuery({
@@ -23,12 +27,13 @@ angular.module('liveopsConfigPanel')
 
 
       $scope.create = function() {
-        new Flow({
+        $scope.selectedFlow = new Flow({
           tenantId: Session.tenant.tenantId,
           active: true,
           name: 'Untitled Flow',
           type: 'customer'
-        }).save();
+        });
+        $scope.submit();
       };
 
       Flow.prototype.postCreate = function (flow) {
