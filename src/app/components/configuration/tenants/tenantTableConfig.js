@@ -15,6 +15,11 @@ angular.module('liveopsConfigPanel')
         'name': 'description'
       }, {
         'header': {
+          'display': $translate.instant('value.identifier')
+        },
+        'name': 'id'
+      }, {
+        'header': {
           'display': $translate.instant('value.status'),
           'valuePath': 'value',
           'displayPath': 'display',

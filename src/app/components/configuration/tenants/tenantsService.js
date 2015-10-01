@@ -16,6 +16,8 @@ angular.module('liveopsConfigPanel')
           name: 'active'
         }, {
           name: 'adminUserId'
+        }, {
+          name: 'id'
         }],
         saveInterceptor: [emitInterceptor, cacheAddInterceptor],
         updateInterceptor: emitInterceptor
