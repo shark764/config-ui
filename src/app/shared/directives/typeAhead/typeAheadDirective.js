@@ -137,14 +137,7 @@ angular.module('liveopsConfigPanel')
                 $scope.highlightedItem = $scope.filtered[highlightedIndex + 1];
                 
                 var li = element.find('li:nth-child(' + (highlightedIndex + 2) + ')');
-                var elementTop = li.get(0).offsetTop;
-                var elementHeight = li.get(0).offsetHeight;
-                var elementBottom = elementTop + elementHeight;
-                var containerHeight = element.find('ul').get(0).offsetHeight;
-                
-                if (elementBottom > containerHeight){
-                  element.find('ul').get(0).scrollTop += elementHeight;
-                }
+                $scope.showListElement(li)
               });
             }
           } else if(event.which === 38){ //Up arrow key
@@ -156,17 +149,25 @@ angular.module('liveopsConfigPanel')
                 
                 //Scroll to this element in the dropdown
                 var li = element.find('li:nth-child(' + highlightedIndex + ')');
-                var elementTop = li.get(0).offsetTop;
-                var container = element.find('ul');
-                var scrollTop = container.get(0).scrollTop;
-                
-                if (elementTop < scrollTop){
-                  container.get(0).scrollTop = elementTop;
-                }
+                $scope.showListElement(li);
               });
             }
           }
         });
+        
+        $scope.showListElement = function(li){
+          var elementTop = li.get(0).offsetTop;
+          var elementHeight = li.get(0).offsetHeight;
+          var elementBottom = elementTop + elementHeight;
+          var containerHeight = element.find('ul').get(0).offsetHeight;
+          var scrollTop = element.find('ul').get(0).scrollTop;
+          
+          if (elementBottom > (scrollTop + containerHeight)){
+            element.find('ul').get(0).scrollTop = elementBottom - containerHeight;
+          } else if (elementTop < scrollTop){
+            element.find('ul').get(0).scrollTop = elementTop;
+          }
+        };
       }
     };
   }]);
