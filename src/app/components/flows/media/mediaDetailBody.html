@@ -42,18 +42,20 @@
   <div class="input-group">
     <label>{{'media.details.source.upload.file' | translate}} *</label>
     
-    <input type="text"
-      name="audiosourcefile"
-      ng-model="selectedMedia.$sourceAudioFile.name" 
-      ng-required="selectedMedia.type === 'audio' && !selectedMedia.source"
-      ng-disabled="true">
-    
-    <div type="button" class="btn"
-      ngf-select="mediaDetailsController.onSelect()"
-      ngf-max-size="100MB"
-      ng-model="selectedMedia.$sourceAudioFile"
-      accept="audio/*">
-      <i class="fa fa-upload" />
+    <div>
+      <input type="text"
+        name="audiosourcefile"
+        ng-model="selectedMedia.$sourceAudioFile.name" 
+        ng-required="selectedMedia.type === 'audio' && !selectedMedia.source"
+        ng-disabled="true">
+      
+      <div type="button" class="btn"
+        ngf-select="mediaDetailsController.onSelect()"
+        ngf-max-size="100MB"
+        ng-model="selectedMedia.$sourceAudioFile"
+        accept="audio/*">
+        <i class="fa fa-upload" />
+      </div>
     </div>
   </div>
   
