@@ -41,8 +41,9 @@
   </form>
 
   <div class="divider-header first-header">
-    <h4>Skills</h4>
+    <h4 id="user-skills-header">{{'details.skills.title' | translate}}</h4>
   </div>
+  <p id="no-user-skills" class="null" ng-if="userSkills.length == 0">{{'profile.skills.none' | translate}}</p>
   <table max-height="300" class="table" ng-show="userSkills.length > 0">
     <thead>
       <tr>
@@ -59,8 +60,9 @@
   </table>
 
   <div class="divider-header first-header">
-    <h4>Groups</h4>
+    <h4 id="user-groups-header">{{'details.groups.title' | translate}}</h4>
   </div>
+  <p id="no-user-groups" ng-show="userGroups.length === 0" class="null" translate="profile.usergroups.none" translate-value-display-name="{{user.getDisplay()}}"></p>
   <div id="tag-wrapper" class="clear" ng-class="{collapsed : collapsed}">
     <div id="tags-inside" class="clear">
       <div ng-repeat="userGroup in userGroups" class="tag">

@@ -360,6 +360,8 @@
 
   "user.profile.save.success": "Your details have been updated.",
   "user.profile.save.fail": "An error occurred while updating your details.",
+  "profile.usergroups.none": "You have not been assigned to any groups.",
+  "profile.skills.none": "You have not been assigned any skills.",
 
   "multibox.add.placeholder": "Add Item...",
   "multibox.search.placeholder": "Search...",
