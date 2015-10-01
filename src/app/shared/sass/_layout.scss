@@ -239,10 +239,6 @@ header {
   > .timestamp input[type=text] {
     width: 60px;
   }
-
-  button, input[type=button] {
-    // width: 175px;
-  }
 }
 
 div[disable-contents] + .input-group, .input-group + div[disable-contents] {
@@ -297,14 +293,14 @@ div[disable-contents] + .input-group, .input-group + div[disable-contents] {
     margin-left: 5px;
   }
 
-  // .input-group > div {
-  //   display: block;
-  // }
+  .input-group > div {
+    display: block;
+  }
 
-  // .input-group label, .detail-group label {
-  //   display: block;
-  //   margin: 5px 0 5px 0;
-  // }
+  .input-group label, .detail-group label {
+    display: block;
+    margin: 5px 0 5px 0;
+  }
 
   .divider-header+.input-group label, .divider-header+.detail-group label {
     margin-top: 5px;
