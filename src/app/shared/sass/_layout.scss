@@ -12,6 +12,10 @@ header {
   min-width: $min-body-width;
 }
 
+.center {
+  text-align: center;
+}
+
 .container {
   height: 100%;
   width: 100%;
@@ -186,6 +190,10 @@ header {
   }
 }
 
+.tile + .tile {
+  padding-top: 10px;
+}
+
 .detail-group, .input-group {
   margin-left: 10px;
   padding-right: 10px;
@@ -204,7 +212,7 @@ header {
     display: table-cell;
   }
 
-  > label {
+  label {
     width: $controls-label-width;
     padding-right: 10px;
     vertical-align: middle;
@@ -215,25 +223,25 @@ header {
     vertical-align: top;
   }
 
-  > div {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    justify-content: flex-start;
-    align-items: center;
-    position: relative;
-    
-    * + .btn {
-      margin-left: 10px;
-    }
-  }
+  // > div {
+  //   display: flex;
+  //   flex-direction: row;
+  //   flex-wrap: nowrap;
+  //   justify-content: flex-start;
+  //   align-items: center;
+  //   position: relative;
+  //   
+  //   * + .btn {
+  //     margin-left: 10px;
+  //   }
+  // }
 
   > .timestamp input[type=text] {
     width: 60px;
   }
 
   button, input[type=button] {
-    width: 175px;
+    // width: 175px;
   }
 }
 
@@ -289,14 +297,14 @@ div[disable-contents] + .input-group, .input-group + div[disable-contents] {
     margin-left: 5px;
   }
 
-  .input-group > div {
-    display: block;
-  }
+  // .input-group > div {
+  //   display: block;
+  // }
 
-  .input-group label, .detail-group label {
-    display: block;
-    margin: 5px 0 5px 0;
-  }
+  // .input-group label, .detail-group label {
+  //   display: block;
+  //   margin: 5px 0 5px 0;
+  // }
 
   .divider-header+.input-group label, .divider-header+.detail-group label {
     margin-top: 5px;

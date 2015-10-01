@@ -52,8 +52,6 @@
   "value.busy": "Busy",
   "value.publish": "Publish",
 
-
-
   "loading": "Loading",
 
   "api.error": "The API could not be contacted. Please reload the page to try again. If this error persists, please contact your systems administrator",
@@ -107,6 +105,7 @@
   "details.channelType": "Channel Type",
   "details.flow": "Flow",
   "details.value": "Value",
+  "details.or" : "-OR-",
   "details.phoneNumber": "Phone Number",
   "details.phoneNumber.error": "Phone number should be in E.164 format.",
   "details.skills.none": "This user has not been assigned any skills",
@@ -123,6 +122,7 @@
   "details.tenantStatus.help": "Tenant Status <ul><li>Pending Invitation</li><li>Pending Acceptance</li><li>Accepted</li><li>Removed</li><li>Expired Invitation</li></ul>",
   "details.inviteNow.help" : "<center><p>To invite this user now select, click \"Submit\" with \"Invite Now\" selected</p> <p>or</p> <p>To set this user to a pending invite status de-select \"Invite Now and click \"Submit\"</p></center>",
   "details.tenantStatus.notInvited" : "This user has not been invited to join the tenant, to invite them now select \"Invite Now\" and click \"Submit\"",
+  
   "user.details.disable.confirm": "This will disable this user and prevent them from logging in. Do you want to continue?",
   "user.details.enable.confirm": "This will enable this user and allow them to log in. Do you want to continue?",
   "user.details.creating": "Creating New User",
@@ -237,6 +237,9 @@
   "media.details.creating": "Creating New Media",
   "media.table.title": "Media Management",
   "media.details.source.url.error": "Audio source must be a URL",
+  "media.details.source.upload.file": "Upload Audio File",
+  "media.details.source.upload.url": "Audio File URL",
+  "media.details.source.tts": "Text-to-Speech",
 
   "media.collections.media.new" : "Create New Media",
   "media.collections.media.add": "Add Media...",

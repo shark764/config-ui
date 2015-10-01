@@ -14,7 +14,7 @@ angular.module('liveopsConfigPanel')
               request.headers.Authorization = 'Basic ' + Session.token;
             }
             
-            request.headers['Content-Type'] = 'application/json';
+            // request.headers['Content-Type'] = 'application/json';
           }
 
           return request;

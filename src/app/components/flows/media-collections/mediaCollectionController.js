@@ -24,27 +24,22 @@ angular.module('liveopsConfigPanel')
       };
 
       $scope.submitMedia = function() {
-        return $scope.selectedMedia.save().then(function() {
+        return $scope.mediaDetailsController.submit().then(function (media) {
           $scope.selectedMedia = null;
+          return media;
         });
       };
       
       $scope.submitMediaAndNew = function() {
-        return $scope.selectedMedia.save().then(function() {
+        return $scope.selectedMedia.save().then(function(media) {
           $scope.selectedMedia = new Media({
             properties: {},
             tenantId: Session.tenant.tenantId
           });
+          
+          return media;
         });
       };
-      
-      //TODO: remove duplication from MediaController
-      $scope.$watch('forms.mediaForm.audiosource', function(newValue){
-        if ($scope.selectedMedia && $scope.selectedMedia.isNew() && angular.isDefined(newValue)){
-          $scope.forms.mediaForm.audiosource.$setDirty();
-          $scope.forms.mediaForm.audiosource.$setTouched();
-        }
-      });
       
       $scope.$on('resource:details:create:Media', function (event, mediaMap) {
         $scope.currentMediaMap = mediaMap;
