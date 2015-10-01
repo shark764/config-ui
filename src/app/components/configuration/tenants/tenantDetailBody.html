@@ -32,4 +32,9 @@
     <label class="textarea-label">{{'tenant.details.region' | translate}}</label>
     <p id="tenant-details-region">{{resource.regionId}}</p>
   </div>
+
+  <div class="input-group" ng-if="resource.id">
+    <label class="textarea-label">{{'tenant.details.id' | translate}}</label>
+    <p id="tenant-details-id">{{resource.id}}</p>
+  </div>
 </div>

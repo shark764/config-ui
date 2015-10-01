@@ -247,6 +247,7 @@
   "tenant.details.region": "Region",
   "tenant.details.name.error": "Please enter a name",
   "tenant.details.creating": "Creating New Tenant",
+  "tenant.details.id": "Tenant ID",
   "tenant.details.disable.confirm": "This will disable this tenant. Do you want to continue?",
   "tenant.details.enable.confirm": "This will enable this tenant. Do you want to continue?",
   "tenant.table.title": "Tenant Management",
