@@ -192,4 +192,138 @@ describe('typeAhead directive', function(){
       });
     });
   });
+  
+  describe('keypress event handler', function(){
+    it('should call select with highlightedItem on pressing the enter key', inject(function($timeout) {
+      doDefaultCompile();
+      
+      spyOn(isolateScope, 'select');
+      var highlightedItem = {id: 'highlight'};
+      isolateScope.highlightedItem = highlightedItem;
+      
+      var event = jQuery.Event('keydown');
+      event.which = 13;
+      element.find('input').trigger(event);
+      $timeout.flush();
+      expect(isolateScope.select).toHaveBeenCalledWith(highlightedItem);
+    }));
+    
+    it('should call select with currenttext on pressing the enter key if nothing is highlighted', inject(function($timeout) {
+      doDefaultCompile();
+      
+      spyOn(isolateScope, 'select');
+      isolateScope.currentText = 'some text';
+      
+      var event = jQuery.Event('keydown');
+      event.which = 13;
+      element.find('input').trigger(event);
+      $timeout.flush();
+      expect(isolateScope.select).toHaveBeenCalledWith('some text');
+    }));
+    
+    it('should call onEnter with the highlighted item on pressing the enter key', inject(function($timeout) {
+      doDefaultCompile();
+      
+      spyOn(isolateScope, 'select');
+      spyOn(isolateScope, 'onEnter');
+      var highlightedItem = {id: 'highlight'};
+      isolateScope.highlightedItem = highlightedItem;
+      
+      var event = jQuery.Event('keydown');
+      event.which = 13;
+      element.find('input').trigger(event);
+      $timeout.flush();
+      expect(isolateScope.onEnter).toHaveBeenCalledWith({item: highlightedItem});
+    }));
+    
+    it('should call onEnter with the current text on pressing the enter key if nothing is selected', inject(function($timeout) {
+      doDefaultCompile();
+      
+      spyOn(isolateScope, 'select');
+      spyOn(isolateScope, 'onEnter');
+      isolateScope.currentText = 'some text';
+      
+      var event = jQuery.Event('keydown');
+      event.which = 13;
+      element.find('input').trigger(event);
+      $timeout.flush();
+      expect(isolateScope.onEnter).toHaveBeenCalledWith({item: 'some text'});
+    }));
+    
+    it('should highlight the next item on down arrow key, if there are more items', inject(function($timeout) {
+      doDefaultCompile();
+      
+      isolateScope.highlightedItem = $scope.items[0];
+      
+      var event = jQuery.Event('keydown');
+      event.which = 40;
+      element.find('input').trigger(event);
+      
+      $timeout.flush();
+      expect(isolateScope.highlightedItem).toEqual($scope.items[1]);
+    }));
+    
+    it('should do nothing on down arrow if the current highlight is the last', inject(function($timeout) {
+      doDefaultCompile();
+      
+      isolateScope.highlightedItem = $scope.items[3];
+      
+      var event = jQuery.Event('keydown');
+      event.which = 40;
+      element.find('input').trigger(event);
+      
+      $timeout.flush();
+      expect(isolateScope.highlightedItem).toEqual($scope.items[3]);
+    }));
+    
+    it('should highlight the previous item on up arrow key, if there are any', inject(function($timeout) {
+      doDefaultCompile();
+      
+      isolateScope.highlightedItem = $scope.items[3];
+      
+      var event = jQuery.Event('keydown');
+      event.which = 38;
+      element.find('input').trigger(event);
+      
+      $timeout.flush();
+      expect(isolateScope.highlightedItem).toEqual($scope.items[2]);
+    }));
+    
+    it('should do nothing on up arrow if the current highlight is the first', inject(function($timeout) {
+      doDefaultCompile();
+      
+      isolateScope.highlightedItem = $scope.items[0];
+      
+      var event = jQuery.Event('keydown');
+      event.which = 38;
+      element.find('input').trigger(event);
+      
+      $timeout.flush();
+      expect(isolateScope.highlightedItem).toEqual($scope.items[0]);
+    }));
+  });
+  
+  describe('onBlur function', function(){
+    it('should set showSuggestions to false', inject(function($timeout) {
+      doDefaultCompile();
+      
+      isolateScope.showSuggestions = true;
+      isolateScope.keepExpanded = false;
+      
+      isolateScope.onBlur();
+      
+      expect(isolateScope.showSuggestions).toBeFalsy();
+    }));
+    
+    it('should do nothing if keeyExpanded is true', inject(function($timeout) {
+      doDefaultCompile();
+      
+      isolateScope.showSuggestions = true;
+      isolateScope.keepExpanded = true;
+      
+      isolateScope.onBlur();
+      
+      expect(isolateScope.showSuggestions).toBeTruthy();
+    }));
+  });
 });
