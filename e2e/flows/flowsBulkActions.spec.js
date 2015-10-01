@@ -77,7 +77,7 @@ describe('The flows view bulk actions', function() {
     });
   });
 
-  it('should allow all selected flow\'s status to be Enabled', function() {
+  xit('should allow all selected flow\'s status to be Enabled', function() {
     // Update All bulk actions
     shared.actionsBtn.click();
     bulkActions.selectAllTableHeader.click();

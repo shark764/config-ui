@@ -162,6 +162,7 @@ describe('The users view', function() {
     users.cancelFormBtn.click();
 
     // Warning message is displayed
+    shared.waitForAlert();
     shared.dismissChanges();
 
     expect(shared.successMessage.isPresent()).toBeFalsy();

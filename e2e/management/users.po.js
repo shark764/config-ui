@@ -24,6 +24,7 @@ var UserPage = function() {
   this.tenantStatus = this.userPanel.element(by.css('tenant-user-status'));
   this.tenantStatusHelp = element(by.id('tenant-status-help'));
   this.resendInvitationBtn = element(by.id('resend-invitation-btn'));
+  this.userAlreadyExistsAlert = element(by.id('user-exists-alert'));
 
   this.firstNameFormField = element(by.model('selectedTenantUser.$user.firstName'));
   this.lastNameFormField = element(by.model('selectedTenantUser.$user.lastName'));

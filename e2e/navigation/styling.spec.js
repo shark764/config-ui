@@ -53,7 +53,7 @@ describe('The styling', function() {
       expect(mediaCollections.mediaCancelBtn.getAttribute('class')).toBe('btn');
     });
 
-    it('should be the same when creating a version', function() {
+    xit('should be the same when creating a version', function() {
       browser.get(shared.queuesPageUrl);
 
       shared.tableElements.count().then(function(elementCount) {
