@@ -42,7 +42,7 @@
       <input id="submit-details-btn" ng-show="!loading" class="btn btn-primary"
         ng-disabled="forms.mediaCollectionForm.$invalid || ! forms.mediaCollectionForm.$dirty"
         type="submit" value="{{'value.submit' | translate}}"
-        lo-submit-chain-executor="media:collection:save">
+        lo-submit="submitMediaCollection()">
       <a ng-show="loading" ng-disabled="true" class="btn btn-primary">
         <i class="fa fa-refresh fa-spin"></i>
       </a>
@@ -82,11 +82,11 @@
       <input id="create-media-btn" class="btn btn-primary" ng-hide="loading"
         type="submit" value="{{'value.create' | translate}}"
         ng-disabled="forms.mediaForm.$invalid || ! forms.mediaForm.$dirty"
-        lo-submit-chain-executor="media:save"></input>
+        lo-submit="submitMedia()"></input>
       <input id="create-and-new-media-btn" class="btn btn-primary" ng-hide="loading"
         ng-disabled="forms.mediaForm.$invalid || ! forms.mediaForm.$dirty"
         type="submit" value="{{'value.create.new' | translate}}"
-        lo-submit-chain-executor="media:save:and:new"></input>
+        lo-submit="submitMediaAndNew()"></input>
       <a ng-show="loading" ng-disabled="true" class="btn btn-primary">
         <i class="fa fa-refresh fa-spin"></i>
       </a>
