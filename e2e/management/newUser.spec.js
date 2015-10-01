@@ -177,6 +177,7 @@ describe('The create new user form', function() {
     users.cancelFormBtn.click();
 
     // Warning message is displayed
+    shared.waitForAlert();
     var alertDialog = browser.switchTo().alert();
     expect(alertDialog.accept).toBeDefined();
     expect(alertDialog.dismiss).toBeDefined();
@@ -390,6 +391,7 @@ describe('The create new user form', function() {
 
     //Click Create button again
     shared.createBtn.click();
+    shared.waitForAlert();
     shared.dismissChanges();
 
     //Expect all fields to have been cleared
@@ -410,6 +412,7 @@ describe('The create new user form', function() {
 
     //Click Create button again
     shared.createBtn.click();
+    shared.waitForAlert();
     shared.dismissChanges();
 
     //Expect all fields to have been cleared

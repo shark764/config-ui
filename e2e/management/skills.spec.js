@@ -149,6 +149,7 @@ describe('The skills view', function() {
     shared.cancelFormBtn.click();
 
     // Warning message is displayed
+    shared.waitForAlert();
     var alertDialog = browser.switchTo().alert();
     expect(alertDialog.accept).toBeDefined();
     expect(alertDialog.dismiss).toBeDefined();
@@ -223,6 +224,7 @@ describe('The skills view', function() {
     shared.cancelFormBtn.click();
 
     // Warning message is displayed
+    shared.waitForAlert();
     var alertDialog = browser.switchTo().alert();
     expect(alertDialog.accept).toBeDefined();
     expect(alertDialog.dismiss).toBeDefined();
