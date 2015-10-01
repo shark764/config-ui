@@ -1047,6 +1047,18 @@
                     "hidden": false
                 },
                 {
+                  "name": "conditional",
+                  "path": "conditional",
+                  "type": "string",
+                  "label": "Condition:",
+                  "group": "general",
+                  "index": 1,
+                  "disabled": false,
+                  "required": false,
+                  "placeholder": "Enter a condition...",
+                  "hidden": false
+                },
+                {
                     "name": "binding",
                     "path": "bindings",
                     "type": "string",
@@ -1059,7 +1071,7 @@
                     "hidden": false
                 }
             ],
-            "props": ["target", "interrupting", "bindings"]
+            "props": ["target", "interrupting", "bindings", "conditional"]
         },
         {
             "entity": "start",
@@ -1098,6 +1110,18 @@
                     "hidden": false
                 },
                 {
+                  "name": "conditional",
+                  "path": "conditional",
+                  "type": "string",
+                  "label": "Condition:",
+                  "group": "general",
+                  "index": 1,
+                  "disabled": false,
+                  "required": false,
+                  "placeholder": "Enter a condition...",
+                  "hidden": false
+                },
+                {
                     "name": "binding",
                     "path": "bindings",
                     "type": "string",
@@ -1110,7 +1134,7 @@
                     "hidden": false
                 }
             ],
-            "props": ["target", "interrupting", "bindings"]
+            "props": ["target", "interrupting", "bindings", "conditional"]
         },
         {
             "entity": "catch",
