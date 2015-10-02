@@ -9,14 +9,19 @@
       error-type-required="{{'value.error.name.required' | translate}}">
     </form-error>
     <div>
-      <input type="text" ng-model="resource.name" ng-required="true" name="name">
+      <input type="text" name="name"
+        ng-model="selectedDispatchMapping.name"
+        ng-required="true">
     </div>
   </div>
 
   <div class="input-group">
     <label class="textarea-label">{{'value.description' | translate}}</label>
     <div>
-      <textarea ng-required="false" ng-model="resource.description" name="description"></textarea>
+      <textarea name="description"
+        ng-required="false"
+        ng-model="selectedDispatchMapping.description" >
+      </textarea>
     </div>
   </div>
 </div>
@@ -28,9 +33,13 @@
       error-type-required="{{'dispatchMappings.details.channelType.error' | translate}}">
     </form-error>
     <div>
-      <select ng-required="true" ng-model="resource.channelType" name="channelType"
+      <select name="channelType"
+        ng-required="true"
+        ng-model="selectedDispatchMapping.channelType"
         ng-options="channelType.value as channelType.display for channelType in dispatchMappingChannelTypes">
-        <option value="" ng-disabled="true">{{'dispatchMappings.details.interactionType.select' | translate}}</option>
+        <option value="" ng-disabled="true">
+          {{'dispatchMappings.details.interactionType.select' | translate}}
+        </option>
       </select>
     </div>
   </div>
@@ -41,44 +50,61 @@
       error-type-required="{{'dispatchMappings.details.interactionType.error' | translate}}">
     </form-error>
     <div>
-      <select id="integration-form-dropwdown" ng-required="true" ng-model="resource.interactionField" name="interactionField" ng-change="resource.value = ''"
+      <select id="integration-form-dropwdown" name="interactionField"
+        ng-model="selectedDispatchMapping.interactionField"
+        ng-required="true"
+        ng-change="selectedDispatchMapping.value = ''"
         ng-options="interactionFields.value as interactionFields.display for interactionFields in dispatchMappingInteractionFields">
-        <option value="" ng-disabled="true">{{'dispatchMappings.details.channelType.select' | translate}}</option>
+        <option value="" ng-disabled="true">
+          {{'dispatchMappings.details.channelType.select' | translate}}
+        </option>
       </select>
     </div>
   </div>
   
-  <div class="input-group" ng-if="resource.interactionField === 'customer' || resource.interactionField === 'contact-point'">
+  <div class="input-group"
+    ng-if="selectedDispatchMapping.interactionField === 'customer' || selectedDispatchMapping.interactionField === 'contact-point'">
     <label>{{'details.phoneNumber' | translate}} *</label>
       <form-error field="detailsForm.value"
         error-type-required="{{'dispatchMappings.details.phone.error' | translate}}"
         error-type-phone-number="{{'details.phoneNumber.error' | translate}}">
       </form-error>
     <div>
-      <input id="phone-form-field" ng-required="true" name="value" type="tel" ng-model="resource.value" api-error>
+      <input id="phone-form-field" name="value" type="tel"
+        ng-required="true"
+        ng-model="selectedDispatchMapping.value">
     </div>
   </div>
   
-  <div class="input-group" ng-if="resource.interactionField === 'source'">
+  <div class="input-group" ng-show="selectedDispatchMapping.interactionField === 'source'">
     <label>{{'integration.details' | translate}} *</label>
     <form-error field="detailsForm.value"></form-error>
     <div>
-      <select id="integration-form-dropdown" ng-required="true" ng-model="resource.value" name="value"
+      <select id="integration-form-dropdown" name="value"
+        ng-required="true"
+        ng-model="selectedDispatchMapping.value"
         ng-options="integration.type as integration.type for integration in fetchIntegrations()">
-        <option value="" ng-disabled="true">{{'dispatchMappings.details.integration.select' | translate}}</option>
+        <option value="" ng-disabled="true">
+          {{'dispatchMappings.details.integration.select' | translate}}
+        </option>
       </select>
     </div>
   </div>
   
-  <div class="input-group" ng-if="resource.interactionField === 'direction'">
+  <div class="input-group" ng-if="selectedDispatchMapping.interactionField === 'direction'">
     <label>{{'dispatchMappings.details.direction' | translate}} *</label>
     <form-error field="detailsForm.value"
       error-type-required="{{'dispatchMappings.details.direction.error' | translate}}">
     </form-error>
     <div>
-      <select id="direction-form-dropdown" ng-required="true" ng-model="resource.value" name="value" ng-init="resource.value = 'inbound'"
+      <select id="direction-form-dropdown" name="value"
+        ng-required="true"
+        ng-model="selectedDispatchMapping.value"
+        ng-init="selectedDispatchMapping.value = 'inbound'"
         ng-options="dispatchMappingDirection.value as dispatchMappingDirection.display for dispatchMappingDirection in dispatchMappingDirections">
-        <option value="" ng-disabled="true">{{'dispatchMappings.details.direction.select' | translate}}</option>
+        <option value="" ng-disabled="true">
+          {{'dispatchMappings.details.direction.select' | translate}}
+        </option>
       </select>
     </div>
   </div>
@@ -89,8 +115,13 @@
       error-type-required="{{'dispatchMappings.details.flow.error' | translate}}">
     </form-error>
     <div>
-      <select ng-required="true" api-error ng-model="resource.flowId" name="flowId" ng-options="flow.id as flow.name for flow in fetchFlows()">
-        <option value="" ng-disabled="true">{{'dispatchMappings.details.flow.select' | translate}}</option>
+      <select name="flowId"
+        ng-required="true" 
+        ng-model="selectedDispatchMapping.flowId"
+        ng-options="flow.id as flow.name for flow in fetchFlows()">
+        <option value="" ng-disabled="true">
+          {{'dispatchMappings.details.flow.select' | translate}}
+        </option>
       </select>
     </div>
   </div>
