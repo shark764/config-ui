@@ -67,7 +67,6 @@ describe('The user groups component of User view', function() {
 
       //Assign a user to it
       browser.get(shared.usersPageUrl);
-      shared.searchField.sendKeys('e'); //Filter out users with blank first and last names, such as pending users
       shared.firstTableRow.click();
       users.userNameDetailsHeader.getText().then(function(selectedTenantUserName) {
         users.addGroupSearch.sendKeys(newGroupName);
@@ -87,7 +86,6 @@ describe('The user groups component of User view', function() {
   });
 
   it('should create new group and add user', function() {
-    shared.searchField.sendKeys('e'); //Filter out users with blank first and last names, such as pending users
     shared.firstTableRow.click();
 
     var randomGroup = Math.floor((Math.random() * 1000) + 1);
@@ -120,7 +118,6 @@ describe('The user groups component of User view', function() {
   });
 
   it('should create new group and add user after pressing Enter key', function() {
-    shared.searchField.sendKeys('e'); //Filter out users with blank first and last names, such as pending users
     shared.firstTableRow.click();
 
     var randomGroup = Math.floor((Math.random() * 1000) + 1);
@@ -155,7 +152,6 @@ describe('The user groups component of User view', function() {
   });
 
   it('should update group count when removing a user group', function() {
-    shared.searchField.sendKeys('e'); //Filter out users with blank first and last names, such as pending users
     shared.firstTableRow.click();
     shared.firstTableRow.element(by.css(users.groupsColumn)).getText().then(function(userGroupCount) {
       if (userGroupCount == 0) {
@@ -243,7 +239,6 @@ describe('The user groups component of User view', function() {
   });
 
   it('should update member count for an existing group when removing a user group', function() {
-    shared.searchField.sendKeys('e'); //Filter out users with blank first and last names, such as pending users
     shared.firstTableRow.click();
 
     users.userNameDetailsHeader.getText().then(function(selectedUserName) {
@@ -390,13 +385,14 @@ describe('The user groups component of User view', function() {
   });
 
   it('should update group count when adding and removing groups', function() {
-    shared.searchField.sendKeys('e'); //Filter out users with blank first and last names, such as pending users
+    var randomGroup = Math.floor((Math.random() * 1000) + 1);
     shared.firstTableRow.click();
     shared.firstTableRow.element(by.css(users.groupsColumn)).getText().then(function(userGroupCount) {
       //Add a group to the user
       users.addGroupSearch.click();
-      users.addSkillSearch.sendKeys('New Group');
+      users.addGroupSearch.sendKeys('New Group ' + randomGroup);
       users.addGroupBtn.click();
+
       expect(shared.firstTableRow.element(by.css(users.groupsColumn)).getText()).toEqual(parseInt(userGroupCount) + 1 + '');
 
       // Remove a user Group

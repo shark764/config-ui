@@ -81,7 +81,7 @@ var UserPage = function() {
   this.skillsTableDropDown = this.tableHeader.element(by.id('user-skills-table-column'));
   this.skillsTableDropDownLabel = this.skillsTableDropDown.element(by.css('.dropdown-label'));
   this.allUserSkills = this.skillsTableDropDown.element(by.css('.all'));
-  this.dropdownSkills = this.skillsTableDropDown.all(by.repeater('option in options | orderBy:orderBy'));
+  this.dropdownSkills = this.skillsTableDropDown.all(by.repeater('item in filtered = (items | filter:filterCriteria | orderBy:orderByFunction)'));
   this.dropdownSkillsInputs = this.skillsTableDropDown.all(by.css('input'));
 
   // Groups Table Dropdowns
@@ -95,7 +95,7 @@ var UserPage = function() {
   this.presenceTableDropDown = this.tableHeader.element(by.id('user-presence-table-column'));
   this.presenceTableDropDownLabel = this.presenceTableDropDown.element(by.css('.dropdown-label'));
   this.allUserPresence = this.presenceTableDropDown.element(by.css('.all'));
-  this.dropdownPresence = this.presenceTableDropDown.all(by.repeater('option in options | orderBy:orderBy'));
+  this.dropdownPresence = this.presenceTableDropDown.all(by.repeater('item in filtered = (items | filter:filterCriteria | orderBy:orderByFunction)'));
   this.dropdownPresenceInputs = this.presenceTableDropDown.all(by.css('input'));
 
   this.statusBulkEnableCheck = element(by.id('user-status-bulk-enable-check'));
@@ -103,7 +103,7 @@ var UserPage = function() {
   //User Groups component
   this.addGroup = element(by.id('addGroup'));
   this.addGroupSearch = this.addGroup.element(by.id('typeahead-container'));
-  this.groupDropdownItems = this.addGroup.all(by.repeater('item in filtered = (items | filter:filterCriteria | orderBy:nameField)'));
+  this.groupDropdownItems = this.addGroup.all(by.repeater('item in filtered = (items | filter:filterCriteria | orderBy:orderByFunction)'));
   this.addGroupBtn = this.addGroup.element(by.id('add-group-btn'));
   this.noUserGroupsMessage = element(by.id('no-user-groups'));
   this.userGroups = element.all(by.repeater('userGroup in userGroups'));
@@ -112,16 +112,20 @@ var UserPage = function() {
   this.userSkills = element.all(by.css('user-skills'));
   this.addSkill = element(by.id('skillsForm'));
   this.addSkillSearch = this.addSkill.element(by.id('typeahead-container'));
-  this.skillDropdownItems = this.addSkill.all(by.repeater('item in filtered = (items | filter:filterCriteria | orderBy:nameField)'));
-  this.skillProficiency = this.addSkill.element(by.css('.number-slider > input:nth-child(1)'))
-  this.proficiencyCounterUp = this.addSkill.element(by.css('.top'))
-  this.proficiencyCounterDown = this.addSkill.element(by.css('.bottom'))
+  this.skillDropdownItems = this.addSkill.all(by.repeater('item in filtered = (items | filter:filterCriteria | orderBy:orderByFunction)'));
+  this.skillProficiency = this.addSkill.element(by.css('#new-user-skill-proficiency input'));
+  this.proficiencyCounterUp = this.addSkill.element(by.css('.top'));
+  this.proficiencyCounterDown = this.addSkill.element(by.css('.bottom'));
   this.addSkillBtn = this.addSkill.element(by.id('add-skill-btn'));
   this.noUserSkillsMessage = element(by.id('no-user-skills'));
   this.userSkills = element.all(by.repeater('userSkill in userSkills | orderBy:\'name\''));
   this.userSkillsTable = element(by.css('[name=userSkills]'));
-  this.userSkillTableRows = element.all(by.repeater('userSkill in userSkills | orderBy:\'name\''));//this.userSkillsTable.all(by.css('tr'));
+  this.userSkillTableRows = element.all(by.repeater('userSkill in userSkills | orderBy:\'name\''));
   this.editSkillProficiency = 'userSkill.proficiency';
+  this.editCounterUp = 'userSkill.proficiency';
+  this.editCounterDown = 'userSkill.proficiency';
+  this.editProficiencySave = element(by.id('save-proficiency-edit-btn'));
+  this.editProficiencyCancel = element(by.id('cancel-proficiency-edit-btn'));
 };
 
 module.exports = new UserPage();
