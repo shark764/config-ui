@@ -229,7 +229,7 @@ describe('The user groups component of User view', function() {
           userAdded = false; // Reset
           shared.tableElements.get(i).click();
 
-          // Verify that the group members has been updated to remove user
+          // Verify that the group members has been updated
           groups.groupMembersRows.each(function(groupUser) {
             if (groupUser.getText() == newUserName) {
               userAdded = true;
@@ -395,7 +395,7 @@ describe('The user groups component of User view', function() {
     shared.firstTableRow.element(by.css(users.groupsColumn)).getText().then(function(userGroupCount) {
       //Add a group to the user
       users.addGroupSearch.click();
-      users.groupDropdownItems.get(0).click();
+      users.addSkillSearch.sendKeys('New Group');
       users.addGroupBtn.click();
       expect(shared.firstTableRow.element(by.css(users.groupsColumn)).getText()).toEqual(parseInt(userGroupCount) + 1 + '');
 
