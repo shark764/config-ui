@@ -16,7 +16,7 @@ angular.module('liveopsConfigPanel')
         },
         controller: 'skillQueryController',
         link: function($scope, elem, attr, controller) {
-          $scope.$watch('query', function (newQuery, oldQuery) {
+          $scope.$watch('query', function (newQuery) {
             if (!newQuery) {
               return;
             }

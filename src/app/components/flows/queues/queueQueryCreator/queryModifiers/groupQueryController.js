@@ -3,8 +3,6 @@
 angular.module('liveopsConfigPanel')
   .controller('groupQueryController', ['$scope', '$q', 'Session', 'Group', 'jsedn',
     function($scope, $q, Session, Group, jsedn) {
-      var self = this;
-
       $scope.keyword = jsedn.kw(':groups');
       $scope.operatorSymbol = jsedn.sym($scope.operator);
 
@@ -12,9 +10,9 @@ angular.module('liveopsConfigPanel')
         return Group.cachedQuery({
           tenantId: Session.tenant.tenantId
         });
-      }
+      };
 
-      $scope.filterGroups = function(item, text) {
+      $scope.filterGroups = function(item) {
         if(!$scope.operands) {
           return;
         }
@@ -36,7 +34,6 @@ angular.module('liveopsConfigPanel')
           return $q.when();
         }
 
-        var groupSet;
         for (var andListIndex = 1; andListIndex < andList.val.length; andListIndex++) {
           if (andList.val[andListIndex].val.length > 1 &&
             andList.val[andListIndex].val[0] === $scope.operatorSymbol) {

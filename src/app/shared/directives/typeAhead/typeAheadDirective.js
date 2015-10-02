@@ -40,7 +40,7 @@ angular.module('liveopsConfigPanel')
           return include;
         };
 
-        $scope.$watch('filters', function(newCriteria, oldCriteria) {
+        $scope.$watch('filters', function(newCriteria) {
           $scope.filterArray = [];
           
           if (newCriteria && angular.isArray(newCriteria)) {
@@ -77,7 +77,7 @@ angular.module('liveopsConfigPanel')
           }
         };
         
-        $scope.$watch('currentText', function(newVal) {
+        $scope.$watch('currentText', function() {
           $scope.updateHighlight();
         });
         
@@ -116,8 +116,8 @@ angular.module('liveopsConfigPanel')
         $scope.orderByFunction = function(item){
           var displayString = item.getDisplay();
           
-          return displayString? displayString : item[nameField];
-        }
+          return displayString? displayString : item[$scope.nameField];
+        };
       },
       link: function($scope, element) {
         element.find('input').bind('keydown keypress', function(event){
@@ -137,7 +137,7 @@ angular.module('liveopsConfigPanel')
                 $scope.highlightedItem = $scope.filtered[highlightedIndex + 1];
                 
                 var li = element.find('li:nth-child(' + (highlightedIndex + 2) + ')');
-                $scope.showListElement(li)
+                $scope.showListElement(li);
               });
             }
           } else if(event.which === 38){ //Up arrow key

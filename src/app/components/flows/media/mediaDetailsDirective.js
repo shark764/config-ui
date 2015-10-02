@@ -6,7 +6,6 @@ angular.module('liveopsConfigPanel')
       return {
         restrict: 'EA',
         controller: function ($scope) {
-          var self = this;
           $scope.mediaTypes = mediaTypes;
 
           this.onSelect = function () {
@@ -32,7 +31,7 @@ angular.module('liveopsConfigPanel')
 
               return upload;
             } else {
-              return $scope.selectedMedia.save()
+              return $scope.selectedMedia.save();
             }
           };
 

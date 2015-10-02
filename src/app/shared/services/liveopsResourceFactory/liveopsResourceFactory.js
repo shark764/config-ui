@@ -37,7 +37,7 @@ angular.module('liveopsConfigPanel')
         } else {
           return interceptorParam;
         }
-      };
+      }
 
       function updateJsonReplacer(key, value) {
         // if the key starts with a $ then its a private field
@@ -47,7 +47,7 @@ angular.module('liveopsConfigPanel')
         }
 
         return value;
-      };
+      }
 
       return {
         create: function(params) {
@@ -63,16 +63,16 @@ angular.module('liveopsConfigPanel')
             });
 
             return cleanedData;
-          };
+          }
 
           function defaultUpdateRequestTransformer(data) {
             var validUpdateFields = filterUpdateFieldTransformer(data);
             return JSON.stringify(validUpdateFields, updateJsonReplacer);
-          };
+          }
 
           function defaultSaveRequestTransformer(data) {
             return JSON.stringify(data, createJsonReplacer);
-          };
+          }
           
           params.requestUrlFields = angular.isDefined(params.requestUrlFields) ? params.requestUrlFields : {
             id: '@id',
@@ -118,7 +118,7 @@ angular.module('liveopsConfigPanel')
           
           var defaultHeaders = {
             'Content-Type': 'application/json'
-          }
+          };
           
           var Resource = $resource(apiHostname + params.endpoint, params.requestUrlFields, {
             query: {
