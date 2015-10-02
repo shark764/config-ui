@@ -212,7 +212,7 @@ header {
     display: table-cell;
   }
 
-  label {
+  > label {
     width: $controls-label-width;
     padding-right: 10px;
     vertical-align: middle;
@@ -238,6 +238,10 @@ header {
 
   > .timestamp input[type=text] {
     width: 60px;
+  }
+  
+  button, input[type=button] {
+    width: 175px;
   }
 }
 
