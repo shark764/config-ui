@@ -66,7 +66,7 @@
   "navbar.reports.title": "Reporting",
   "navbar.tenants.title": "Tenants",
   "navbar.flows.title": "Flows",
-  "navbar.welcome": "Welcome back, {{displayName}}",
+  "navbar.welcome": "Hello, {{displayName}}",
   "navbar.configuration.title": "Configuration",
   "navbar.logout": "Log Out",
   "navbar.profile": "User Profile",

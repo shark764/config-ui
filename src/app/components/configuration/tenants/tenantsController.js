@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('TenantsController', ['$scope', '$stateParams', '$filter', 'Session', 'Tenant', 'TenantUser', 'tenantTableConfig', 'BulkAction', 'UserPermissions', 'AuthService',
-    function($scope, $stateParams, $filter, Session, Tenant, TenantUser, tenantTableConfig, BulkAction, UserPermissions, AuthService) {
+  .controller('TenantsController', ['$scope', '$stateParams', '$filter', 'Session', 'Tenant', 'TenantUser', 'tenantTableConfig', 'BulkAction', 'UserPermissions', 'AuthService', 'Region',
+    function($scope, $stateParams, $filter, Session, Tenant, TenantUser, tenantTableConfig, BulkAction, UserPermissions, AuthService, Region) {
 
       $scope.create = function() {
         $scope.selectedTenant = new Tenant({
@@ -43,12 +43,22 @@ angular.module('liveopsConfigPanel')
 
       $scope.tableConfig = tenantTableConfig;
 
-      $scope.additional = {
-        fetchUsers: $scope.fetchUsers
-      };
-
       $scope.bulkActions = {
         setTenantStatus: new BulkAction()
+      };
+      
+      $scope.$watch('selectedTenant', function(newVal){
+        if (newVal){
+          newVal.$promise.then(function(tenant){
+            tenant.region = Region.cachedGet({
+              id: tenant.regionId
+            });
+          });
+        }
+      });
+      
+      $scope.submit = function() {
+        return $scope.selectedTenant.save();
       };
     }
   ]);

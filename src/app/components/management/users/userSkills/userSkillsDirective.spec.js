@@ -139,7 +139,7 @@ describe('userSkills directive', function(){
             $setPristine : jasmine.createSpy('$setPristine'),
             $setUntouched : jasmine.createSpy('$setUntouched')
           }
-      }
+      };
 
       isolateScope.reset();
       expect(isolateScope.skillsForm.name.$setPristine).toHaveBeenCalled();

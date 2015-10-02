@@ -224,14 +224,14 @@ describe('users controller', function () {
       $httpBackend.flush();
     });
 
-    //TODO this should work
-    xit('should have roleName', function () {
+    it('should set up the roleName', inject(['TenantRole', function (TenantRole) {
       controller.saveNewTenantUser();
-
+      spyOn(TenantRole, 'getName');
+      
       $httpBackend.flush();
 
-      expect($scope.selectedTenantUser.roleName).toBeDefined();
-    });
+      expect(TenantRole.getName).toHaveBeenCalled();
+    }]));
 
     it('should call reset', function () {
       mockTenantUsers[2].reset = jasmine.createSpy('reset');

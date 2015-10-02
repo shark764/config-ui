@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('mediaMappings', ['Media', 'Session', 'lodash',
-    function(Media, Session, _) {
+  .directive('mediaMappings', ['Media', 'Session',
+    function(Media, Session) {
       return {
         restrict: 'E',
         scope: {
@@ -52,8 +52,8 @@ angular.module('liveopsConfigPanel')
 
               $scope.form.mediaMap.$setDirty();
               $scope.form.mediaMap.$setTouched();
-            }
-          }
+            };
+          };
 
           $scope.initMapping = function(mediaMap) {
             if (!mediaMap.id) {
