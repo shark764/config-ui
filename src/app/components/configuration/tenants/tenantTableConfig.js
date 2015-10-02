@@ -17,7 +17,8 @@ angular.module('liveopsConfigPanel')
         'header': {
           'display': $translate.instant('value.identifier')
         },
-        'name': 'id'
+        'name': 'id',
+        'checked': false
       }, {
         'header': {
           'display': $translate.instant('value.status'),
