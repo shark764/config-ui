@@ -38,7 +38,7 @@ describe('The user skills component of User view', function() {
       expect(shared.successMessage.isDisplayed()).toBeTruthy();
 
       //Add a skill to the new user
-      shared.searchField.sendKeys(newUserFirstName);
+      shared.searchField.sendKeys('titantest' + randomUser + '@mailinator.com\t');
       shared.firstTableRow.click();
       users.addSkillSearch.click();
       users.skillDropdownItems.get(0).click();
@@ -98,29 +98,31 @@ describe('The user skills component of User view', function() {
     var randomSkill = Math.floor((Math.random() * 1000) + 1);
     var newSkillName = 'Skill Name ' + randomSkill;
     skills.nameFormField.sendKeys(newSkillName);
-    skills.proficiencyFormCheckbox.click();
-    shared.submitFormBtn.click().then(function() {
-      expect(shared.successMessage.isDisplayed()).toBeTruthy();
+    skills.proficiencyFormCheckbox.click().then(function() {
+      shared.submitFormBtn.click().then(function() {
+        shared.waitForSuccess();
+        expect(shared.successMessage.isDisplayed()).toBeTruthy();
 
-      //Assign a user to it
-      browser.get(shared.usersPageUrl);
-      shared.firstTableRow.click();
-      users.addSkillSearch.sendKeys(newSkillName);
-      expect(users.skillProficiency.isDisplayed()).toBeTruthy();
+        //Assign a user to it
+        browser.get(shared.usersPageUrl);
+        shared.firstTableRow.click();
+        users.addSkillSearch.sendKeys(newSkillName);
+        expect(users.skillProficiency.isDisplayed()).toBeTruthy();
 
-      var skillAdded = false;
-      users.addSkillBtn.click().then(function() {
-        // Skill is added with proficiency
-        users.userSkillTableRows.each(function(currentUserSkill) {
-          currentUserSkill.getText().then(function(currentSkill) {
-            if (currentSkill.indexOf(newSkillName) > -1) {
-              skillAdded = true;
-              expect(currentUserSkill.element(by.model(users.editSkillProficiency)).getAttribute('value')).toBe('1');
-            }
+        var skillAdded = false;
+        users.addSkillBtn.click().then(function() {
+          // Skill is added with proficiency
+          users.userSkillTableRows.each(function(currentUserSkill) {
+            currentUserSkill.getText().then(function(currentSkill) {
+              if (currentSkill.indexOf(newSkillName) > -1) {
+                skillAdded = true;
+                expect(currentUserSkill.element(by.model(users.editSkillProficiency)).getAttribute('value')).toBe('1');
+              }
+            });
+          }).thenFinally(function() {
+            // Verify new skill was found
+            expect(skillAdded).toBeTruthy();
           });
-        }).thenFinally(function() {
-          // Verify new skill was found
-          expect(skillAdded).toBeTruthy();
         });
       });
     });
@@ -134,6 +136,7 @@ describe('The user skills component of User view', function() {
     var newSkillName = 'Skill Name ' + randomSkill;
     skills.nameFormField.sendKeys(newSkillName);
     shared.submitFormBtn.click().then(function() {
+      shared.waitForSuccess();
       expect(shared.successMessage.isDisplayed()).toBeTruthy();
 
       //Assign a user to it
@@ -149,7 +152,7 @@ describe('The user skills component of User view', function() {
           currentUserSkill.getText().then(function(currentSkill) {
             if (currentSkill.indexOf(newSkillName) > -1) {
               skillAdded = true;
-              expect(currentUserSkill.element(by.model(users.editSkillProficiency)).isPresent()).toBeFalsy();
+              expect(currentUserSkill.element(by.model(users.editSkillProficiency)).isDisplayed()).toBeFalsy();
             }
           });
         }).thenFinally(function() {
@@ -167,48 +170,63 @@ describe('The user skills component of User view', function() {
     var randomSkill = Math.floor((Math.random() * 1000) + 1);
     var newSkillName = 'Skill Name ' + randomSkill;
     skills.nameFormField.sendKeys(newSkillName);
-    skills.proficiencyFormCheckbox.click();
-    shared.submitFormBtn.click().then(function() {
-      expect(shared.successMessage.isDisplayed()).toBeTruthy();
+    skills.proficiencyFormCheckbox.click().then(function() {
+      shared.submitFormBtn.click().then(function() {
+        shared.waitForSuccess();
+        expect(shared.successMessage.isDisplayed()).toBeTruthy();
 
-      //Assign a user to it
-      browser.get(shared.usersPageUrl);
-      shared.searchField.sendKeys('e'); //Filter out users with blank first and last names, such as pending users
-      shared.firstTableRow.click();
-      var selectedUserName = users.userNameDetailsHeader.getText();
-      users.addSkillSearch.sendKeys(newSkillName);
-      expect(users.skillProficiency.isDisplayed()).toBeTruthy();
+        //Assign a user to it
+        browser.get(shared.usersPageUrl);
+        shared.firstTableRow.click();
+        var selectedUserName = users.userNameDetailsHeader.getText();
+        users.addSkillSearch.sendKeys(newSkillName);
+        expect(users.skillProficiency.isDisplayed()).toBeTruthy();
 
-      // Decrement proficiency counter to Minimum
-      users.proficiencyCounterDown.click();
-      expect(users.skillProficiency.getAttribute('value')).toBe('0');
-      expect(users.proficiencyCounterDown.getAttribute('class')).toContain('disabled');
-      expect(users.proficiencyCounterUp.getAttribute('class')).not.toContain('disabled');
+        // Set proficiency below Minimum
+        users.skillProficiency.clear();
+        users.skillProficiency.sendKeys(0);
+        expect(users.skillProficiency.getAttribute('value')).toBe('1');
+        expect(users.proficiencyCounterDown.getAttribute('class')).toContain('disabled');
+        expect(users.proficiencyCounterUp.getAttribute('class')).not.toContain('disabled');
 
-      // Increment proficiency counter
-      users.proficiencyCounterUp.click();
-      expect(users.skillProficiency.getAttribute('value')).toBe('1');
-      expect(users.proficiencyCounterDown.getAttribute('class')).not.toContain('disabled');
-      expect(users.proficiencyCounterUp.getAttribute('class')).not.toContain('disabled');
+        // Decrement proficiency counter to Minimum
+        users.proficiencyCounterDown.click();
+        expect(users.skillProficiency.getAttribute('value')).toBe('1');
+        expect(users.proficiencyCounterDown.getAttribute('class')).toContain('disabled');
+        expect(users.proficiencyCounterUp.getAttribute('class')).not.toContain('disabled');
 
-      // Increment proficiency counter to max
-      users.skillProficiency.clear();
-      users.skillProficiency.sendKeys('99');
-      users.proficiencyCounterUp.click();
-      expect(users.skillProficiency.getAttribute('value')).toBe('100');
-      expect(users.proficiencyCounterDown.getAttribute('class')).not.toContain('disabled');
-      expect(users.proficiencyCounterUp.getAttribute('class')).toContain('disabled');
+        // Increment proficiency counter
+        users.proficiencyCounterUp.click();
+        expect(users.skillProficiency.getAttribute('value')).toBe('2');
+        expect(users.proficiencyCounterDown.getAttribute('class')).not.toContain('disabled');
+        expect(users.proficiencyCounterUp.getAttribute('class')).not.toContain('disabled');
 
-      // Decrement proficiency counter
-      users.proficiencyCounterDown.click();
-      expect(users.skillProficiency.getAttribute('value')).toBe('99');
-      expect(users.proficiencyCounterDown.getAttribute('class')).not.toContain('disabled');
-      expect(users.proficiencyCounterUp.getAttribute('class')).not.toContain('disabled');
+        // Increment proficiency counter to max
+        users.skillProficiency.clear();
+        users.skillProficiency.sendKeys('99');
+        users.proficiencyCounterUp.click();
+        expect(users.skillProficiency.getAttribute('value')).toBe('100');
+        expect(users.proficiencyCounterDown.getAttribute('class')).not.toContain('disabled');
+        expect(users.proficiencyCounterUp.getAttribute('class')).toContain('disabled');
+
+        // Decrement proficiency counter
+        users.proficiencyCounterDown.click();
+        expect(users.skillProficiency.getAttribute('value')).toBe('99');
+        expect(users.proficiencyCounterDown.getAttribute('class')).not.toContain('disabled');
+        expect(users.proficiencyCounterUp.getAttribute('class')).not.toContain('disabled');
+
+        // Set proficiency above max
+        users.skillProficiency.clear();
+        users.skillProficiency.sendKeys('101');
+        users.proficiencyCounterUp.click();
+        expect(users.skillProficiency.getAttribute('value')).toBe('100');
+        expect(users.proficiencyCounterDown.getAttribute('class')).not.toContain('disabled');
+        expect(users.proficiencyCounterUp.getAttribute('class')).toContain('disabled');
+      });
     });
   });
 
   it('should create new skill and add to user', function() {
-    shared.searchField.sendKeys('e'); //Filter out users with blank first and last names, such as pending users
     shared.firstTableRow.click();
     var previousUserSkillCount = users.userSkills.count();
 
@@ -232,7 +250,6 @@ describe('The user skills component of User view', function() {
   });
 
   it('should create new skill and add to user after pressing Enter key', function() {
-    shared.searchField.sendKeys('e'); //Filter out users with blank first and last names, such as pending users
     shared.firstTableRow.click();
     var previousUserSkillCount = users.userSkills.count();
 
@@ -258,7 +275,6 @@ describe('The user skills component of User view', function() {
   });
 
   it('should create new skill with proficiency and add to user', function() {
-    shared.searchField.sendKeys('e'); //Filter out users with blank first and last names, such as pending users
     shared.firstTableRow.click();
     var previousUserSkillCount = users.userSkills.count();
 
@@ -293,8 +309,9 @@ describe('The user skills component of User view', function() {
 
       // Remove all user Skills
       users.userSkillTableRows.count().then(function(userSkillCount) {
-        for (var i = 0; i < userSkillCount; i++) {
-          users.userSkillTableRows.get(0).element(by.css('i')).click();
+        for (var i = 1; i <= userSkillCount; i++) {
+          users.userSkillTableRows.get(userSkillCount - i).element(by.css('i')).click();
+          shared.waitForSuccess();
         }
       }).then(function() {
         expect(users.userSkills.count()).toBe(0);
@@ -305,51 +322,40 @@ describe('The user skills component of User view', function() {
     });
   });
 
-  it('should update skill proficiency when re-adding existing skill', function() {
-    shared.searchField.sendKeys('e'); //Filter out users with blank first and last names, such as pending users
-    shared.firstTableRow.click();
-    users.userSkills.count().then(function(previousUserSkillCount) {
-      var randomSkill = Math.floor((Math.random() * 1000) + 1);
-      var newSkillName = 'Skill Name from User Page ' + randomSkill;
-      var skillAdded = 0;
+  it('should allow the user to be added to each skill once', function() {
+    // Create a new user
+    shared.createBtn.click();
+    var randomUser = Math.floor((Math.random() * 1000) + 1);
+    var newUserName = 'First ' + randomUser + ' Last ' + randomUser;
 
-      //Add skill that doesn't exist with proficiency
-      users.addSkillSearch.sendKeys(newSkillName);
-      users.skillProficiency.sendKeys(50);
-      users.addSkillBtn.click().then(function() {
-        // Skill is added with proficiency
-        users.userSkillTableRows.each(function(currentUserSkill) {
-          currentUserSkill.getText().then(function(currentSkill) {
-            if (currentSkill.indexOf(newSkillName) > -1) {
-              skillAdded = skillAdded + 1;
-              expect(currentUserSkill.element(by.model(users.editSkillProficiency)).getAttribute('value')).toBe('50');
-            }
-          });
-        }).thenFinally(function() {
-          // Verify new skill was found
-          expect(skillAdded).toBe(1);
-          expect(users.userSkills.count()).toBe(previousUserSkillCount + 1);
-        });
+    users.emailFormField.sendKeys('titantest' + randomUser + '@mailinator.com\t');
+    users.tenantRoleFormDropdownOptions.get((randomUser % 3) + 1).click();
+    users.platformRoleFormDropdownOptions.get(1).click();
+
+    users.firstNameFormField.sendKeys('First ' + randomUser);
+    users.lastNameFormField.sendKeys('Last ' + randomUser);
+
+    users.submitFormBtn.click().then(function() {
+      expect(shared.successMessage.isDisplayed()).toBeTruthy();
+
+      shared.searchField.sendKeys('titantest' + randomUser + '@mailinator.com');
+      users.addSkillSearch.click();
+
+      users.skillDropdownItems.count().then(function(skillCount) {
+        // In turn, add each skill to the current user
+        for (var i = 0; i < skillCount; i++) {
+          users.skillDropdownItems.get(0).click(); // Skills are removed from the dropdown as they are added to the user
+          users.addSkillBtn.click();
+          users.addSkillSearch.click();
+        }
       }).then(function() {
-        skillAdded = 0;
+        users.addSkillSearch.click();
+        users.userSkills.count().then(function(userSkillCount) {
+          expect(shared.firstTableRow.element(by.css(users.skillsColumn)).getText()).toBe(userSkillCount.toString())
 
-        // Readd the same Skill with a different proficiency
-        users.addSkillSearch.sendKeys(newSkillName);
-        users.skillProficiency.sendKeys(25);
-        users.addSkillBtn.click().then(function() {
-          // Skill is updated with new proficiency
-          users.userSkillTableRows.each(function(currentUserSkill) {
-            currentUserSkill.getText().then(function(currentSkill) {
-              if (currentSkill.indexOf(newSkillName) > -1) {
-                skillAdded = skillAdded + 1;
-                expect(currentUserSkill.element(by.model(users.editSkillProficiency)).getAttribute('value')).toBe('25');
-              }
-            });
-          }).thenFinally(function() {
-            // Verify new skill was found
-            expect(skillAdded).toBe(1); // Skill only found once
-            expect(users.userSkills.count()).toBe(previousUserSkillCount + 1);
-          });
+          // No more existing skills to add to user
+          users.addSkillSearch.click();
+          expect(users.skillDropdownItems.count()).toBe(0);
         });
       });
     });
@@ -361,9 +367,14 @@ describe('The user skills component of User view', function() {
     // Get list of Skills
     var totalSkills = 0;
 
+    // Get skills not assigned to the current user
     users.addSkillSearch.click();
     users.skillDropdownItems.count().then(function(skillListCount) {
       totalSkills = skillListCount;
+    }).then(function() {
+      users.userSkills.count().then(function(userSkillsCount) {
+        totalSkills = totalSkills + userSkillsCount;
+      });
     }).thenFinally(function() {
       browser.get(shared.skillsPageUrl);
 
@@ -372,13 +383,34 @@ describe('The user skills component of User view', function() {
     });
   });
 
-  it('should list each existing Skill', function() {
+  it('should list each existing Skill not assigned to the user', function() {
     shared.firstTableRow.click();
     users.addSkillSearch.click();
 
     // Get list of Skills
     var skillNameList = [];
     users.skillDropdownItems.each(function(skillElement, index) {
+      skillElement.getText().then(function(skillName) {
+        skillNameList.push(skillName);
+      });
+    }).then(function() {
+      browser.get(shared.skillsPageUrl);
+
+      // Skill list on Users page should contain each of the same Skill records
+      for (var i = 0; i < skillNameList.length; i++) {
+        shared.searchField.clear();
+        shared.searchField.sendKeys(skillNameList[i]);
+        expect(shared.tableElements.count()).toBeGreaterThan(0);
+      }
+    });
+  });
+
+  it('should list each existing Skill assigned to the user', function() {
+    shared.firstTableRow.click();
+
+    // Get list of Skills
+    var skillNameList = [];
+    users.userSkills.each(function(skillElement, index) {
       skillElement.getText().then(function(skillName) {
         skillNameList.push(skillName);
       });
@@ -407,29 +439,42 @@ describe('The user skills component of User view', function() {
       browser.get(shared.usersPageUrl);
       shared.firstTableRow.click();
 
-      // Remove all user Skills
-      users.userSkills.each(function(currentUserSkill) {
-        currentUserSkill.element(by.css('i')).click();
+      shared.firstTableRow.element(by.css(users.skillsColumn)).getText().then(function(userSkillCountColumn) {
+        if (userSkillCountColumn != '0') {
+          browser.driver.wait(function() {
+            return users.userSkills.count().then(function(userSkillCount) {
+              return userSkillCount;
+            });
+          }, 5000);
+        }
+      }).then(function() {
+        // Remove all user Skills
+        users.userSkills.count().then(function(userSkillCount) {
+          for (var i = 1; i <= userSkillCount; i++) {
+            users.userSkillTableRows.get(userSkillCount - i).element(by.css('i')).click();
+            shared.waitForSuccess();
+          }
+        }).then(function() {
+          users.addSkillSearch.click();
+          expect(users.skillDropdownItems.count()).toBe(skillNameList.length);
+
+          // Search Skills for each skill element
+          for (var i = 0; i < skillNameList.length; i++) {
+            expect(skillNameList[i]).toContain(users.skillDropdownItems.get(i).getText());
+          }
+        });
       });
-
-      users.addSkillSearch.click();
-      expect(users.skillDropdownItems.count()).toBe(skillNameList.length);
-
-      // Search Skills for each skill element
-      for (var i = 0; i < skillNameList.length; i++) {
-        expect(skillNameList[i]).toContain(users.skillDropdownItems.get(i).getText());
-      }
     });
   });
 
   it('should update skill count when adding and removing a user skill', function() {
-    shared.searchField.sendKeys('e'); //Filter out users with blank first and last names, such as pending users
+    var randomSkill = Math.floor((Math.random() * 1000) + 1);
     shared.firstTableRow.click();
 
     shared.firstTableRow.element(by.css(users.skillsColumn)).getText().then(function(userSkillCount) {
       // Add a skill to the user
       users.addSkillSearch.click();
-      users.addSkillSearch.sendKeys('New Skill');
+      users.addSkillSearch.sendKeys('New Skill ' + randomSkill);
       users.addSkillBtn.click();
       expect(shared.firstTableRow.element(by.css(users.skillsColumn)).getText()).toEqual(parseInt(userSkillCount) + 1 + '');
 
@@ -438,4 +483,99 @@ describe('The user skills component of User view', function() {
       expect(shared.firstTableRow.element(by.css(users.skillsColumn)).getText()).toEqual(userSkillCount);
     });
   });
+
+  it('should edit skill proficiency', function() {
+    var randomSkill = Math.floor((Math.random() * 1000) + 1);
+    shared.firstTableRow.click();
+    users.addSkillSearch.sendKeys('New Skill ' + randomSkill);
+    users.addSkill.click();
+
+    users.userSkillTableRows.each(function(currentUserSkill) {
+      currentUserSkill.getText().then(function(currentSkill) {
+        if (currentSkill.indexOf('New Skill ' + randomSkill) > -1) {
+          // Verify skill proficiency validation
+          expect(currentUserSkill.element(by.model(users.editSkillProficiency)).isDisplayed()).toBeTruthy();
+          expect(currentUserSkill.element(by.model(users.editSkillProficiency)).getAttribute('value')).toBe('1');
+          expect(users.editProficiencySave.isDisplayed()).toBeFalsy();
+          expect(users.editProficiencyCancel.isDisplayed()).toBeFalsy();
+
+          currentUserSkill.element(by.model(users.editSkillProficiency)).click();
+          expect(currentUserSkill.element(by.css(users.editCounterUp)).isDisplayed()).toBeTruthy();
+          expect(currentUserSkill.element(by.css(users.editCounterDown)).isDisplayed()).toBeTruthy();
+
+          // Increment proficiency counter to max
+          currentUserSkill.element(by.model(users.editSkillProficiency)).clear();
+          expect(users.editProficiencySave.isDisplayed()).toBeTruthy();
+          expect(users.editProficiencyCancel.isDisplayed()).toBeTruthy();
+
+          currentUserSkill.element(by.model(users.editSkillProficiency)).sendKeys('55');
+          users.editProficiencySave.click();
+
+          expect(shared.successMessage.isDisplayed()).toBeTruthy();
+          expect(currentUserSkill.element(by.model(users.editSkillProficiency)).getAttribute('value')).toBe('55');
+        }
+      });
+    });
+  });
+
+  it('should valid skill proficiency when editing', function() {
+    var randomSkill = Math.floor((Math.random() * 1000) + 1);
+    shared.firstTableRow.click();
+    users.addSkillSearch.sendKeys('New Skill ' + randomSkill);
+    users.addSkill.click();
+
+    users.userSkillTableRows.each(function(currentUserSkill) {
+      currentUserSkill.getText().then(function(currentSkill) {
+        if (currentSkill.indexOf('New Skill ' + randomSkill) > -1) {
+          // Verify skill proficiency validation
+          currentUserSkill.element(by.model(users.editSkillProficiency)).click();
+
+          // Set proficiency below Minimum
+          currentUserSkill.element(by.model(users.editSkillProficiency)).clear();
+          expect(users.editProficiencySave.isEnabled()).toBeFalsy();
+          expect(users.editProficiencyCancel.isEnabled()).toBeTruthy();
+
+          currentUserSkill.element(by.model(users.editSkillProficiency)).sendKeys(0);
+          expect(users.editProficiencySave.isEnabled()).toBeFalsy();
+
+          // Decrement proficiency counter to Minimum
+          currentUserSkill.element(by.model(users.editSkillProficiency)).clear();
+          currentUserSkill.element(by.model(users.editSkillProficiency)).sendKeys(1);
+          currentUserSkill.element(by.css(users.editCounterDown)).click();
+          expect(users.skillProficiency.getAttribute('value')).toBe('1');
+          expect(users.editProficiencySave.isEnabled()).toBeTruthy();
+
+          // Increment proficiency counter
+          currentUserSkill.element(by.css(users.editCounterUp)).click();
+          expect(currentUserSkill.element(by.model(users.editSkillProficiency)).getAttribute('value')).toBe('2');
+          expect(users.editProficiencySave.isEnabled()).toBeTruthy();
+
+          // Increment proficiency counter to max
+          currentUserSkill.element(by.model(users.editSkillProficiency)).clear();
+          currentUserSkill.element(by.model(users.editSkillProficiency)).sendKeys('99');
+          expect(users.editProficiencySave.isEnabled()).toBeTruthy();
+
+          currentUserSkill.element(by.css(users.editCounterUp)).click();
+          expect(currentUserSkill.element(by.model(users.editSkillProficiency)).getAttribute('value')).toBe('100');
+          expect(users.editProficiencySave.isEnabled()).toBeTruthy();
+
+          // Decrement proficiency counter
+          currentUserSkill.element(by.css(users.editCounterDown)).click();
+          expect(currentUserSkill.element(by.model(users.editSkillProficiency)).getAttribute('value')).toBe('99');
+          expect(users.editProficiencySave.isEnabled()).toBeTruthy();
+
+          // Set proficiency above max
+          currentUserSkill.element(by.model(users.editSkillProficiency)).clear();
+          currentUserSkill.element(by.model(users.editSkillProficiency)).sendKeys('101');
+          expect(users.editProficiencySave.isEnabled()).toBeFalsy();
+
+          currentUserSkill.element(by.css(users.editCounterDown)).click();
+          currentUserSkill.element(by.css(users.editCounterUp)).click();
+          expect(currentUserSkill.element(by.model(users.editSkillProficiency)).getAttribute('value')).toBe('100');
+          expect(users.editProficiencySave.isEnabled()).toBeTruthy();
+        }
+      });
+    });
+  });
+
 });
