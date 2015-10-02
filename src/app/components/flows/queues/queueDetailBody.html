@@ -5,7 +5,7 @@
 <div disable-contents="! ('MANAGE_ALL_QUEUES' | hasPermission)">
   <div class="input-group">
     <label>{{'value.name' | translate}} *</label>
-    <form-error field="detailsForm.queuename"
+    <form-error field="forms.versionForm.queuename"
       error-type-required="{{'value.error.name.required' | translate}}">
     </form-error>
     <div>
@@ -23,7 +23,7 @@
   <div ng-if="!resource.isNew()" class="input-group">
     <label>{{'queue.details.activeVersion' | translate}}</label>
     <div>
-      <form-error field="detailsForm.activeVersion"
+      <form-error field="forms.versionForm.activeVersion"
       error-type-required="{{'queue.details.version.error' | translate}}"></form-error>
       <select name="activeVersion" ng-required="true" ng-model="resource.activeVersion" ng-options="version.version as version.name for version in fetchVersions() | orderBy:'created':'reverse'">
       </select>
@@ -60,9 +60,9 @@
     <h4>{{'queue.details.priority' | translate}}</h4>
   </div>
 
-  <version-priority queue-version="extendScope.initialVersion""></version-priority>
+  <version-priority queue-version="extendScope.initialVersion"></version-priority>
 </div>
 
-<div ng-if="resource.id">
+<div ng-if="!resource.isNew()">
   <queue-versions queue="resource"></queue-versions>
 </div>
