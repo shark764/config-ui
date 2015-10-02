@@ -1,7 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('rolePermissions', ['TenantPermission', '$filter', '$q', 'Session', function (TenantPermission, $filter, $q, Session) {
+  .directive('rolePermissions', ['TenantPermission', '$filter', '$q', 'Session', 'Alert', '$translate',
+                                 function (TenantPermission, $filter, $q, Session, Alert, $translate) {
       return {
         restrict: 'E',
         scope: {
@@ -12,7 +13,7 @@ angular.module('liveopsConfigPanel')
           $scope.rolePermissions = [];
           
           $scope.save = function () {
-            if (! $scope.selectedPermission) {
+            if (! $scope.selectedPermission || ! $scope.selectedPermission.id) {
               return;
             }
             
@@ -23,7 +24,11 @@ angular.module('liveopsConfigPanel')
             
             
             if (! $scope.role.isNew()){
-              $scope.role.$update();
+              $scope.role.$update().then(function(){
+                Alert.success($translate.instant('role.permission.add.success'));
+              }, function(){
+                Alert.error($translate.instant('role.permission.add.fail'));
+              });
             } else {
               $scope.addPermission.permissionchanges.$setDirty();
             }
@@ -66,7 +71,11 @@ angular.module('liveopsConfigPanel')
             $scope.rolePermissions.removeItem(permission);
             
             if (! $scope.role.isNew()){
-              $scope.role.$update();
+              $scope.role.$update().then(function(){
+                Alert.success($translate.instant('role.permission.remove.success'));
+              }, function(){
+                Alert.error($translate.instant('role.permission.remove.fail'));
+              });
             } else {
               $scope.addPermission.permissionchanges.$setDirty();
             }

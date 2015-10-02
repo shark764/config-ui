@@ -387,6 +387,9 @@
   "role.permissions.title": "Permissions",
   "role.details.permission.placeholder": "Add permission...",
   "role.permissions.none": "This role has no permissions assigned to it.",
-  "role.permissions.remove.alt": "Remove permission from role"
-
+  "role.permissions.remove.alt": "Remove permission from role",
+  "role.permission.remove.success": "Removed permission!",
+  "role.permission.remove.fail": "Sorry, there was an error removing that permission",
+  "role.permission.add.success": "Added permission!",
+  "role.permission.add.fail": "Sorry, there was an error adding that permission"
 }

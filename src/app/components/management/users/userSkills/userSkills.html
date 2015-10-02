@@ -7,20 +7,18 @@
 <div ng-show="fetchSkills().$resolved" class="detail-group">
 <ng-form seperate-validation ng-disabled="saving" id="skillsForm" name="skillsForm" 
   ng-show="fetchSkills().$resolved && ['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'MANAGE_ALL_USER_SKILLS', 'MANAGE_TENANT_ENROLLMENT'] | hasPermission">
-  <type-ahead 
-    hover="true" 
-    placeholder="{{'details.skills.placeholder' | translate}}"
-    items="fetchSkills()" 
-    selected-item="selectedSkill" 
-    name-field="name" 
-    on-enter="save()"
-    filters="filterSkills"></type-ahead>
+  <type-ahead placeholder="{{'details.skills.placeholder' | translate}}"
+      items="fetchSkills()"
+      name-field="name" 
+      on-enter="save(item)"
+      selected-item="selectedSkill"
+      filters="filterSkills"></type-ahead>
   <number-slider
     ng-if="selectedSkill.hasProficiency || (skillsForm.name.$dirty && ! selectedSkill.id)"
     placeholder="{{'skill.details.proficiency' | translate}}" value="newUserSkill.proficiency"
     min-value="1" max-value="100" ></number-slider>
   <div>
-    <a ng-show="!saving" id="add-skill-btn" ng-disabled="!selectedSkill" ng-click="save()" class="btn"><i class="fa fa-plus"></i></a>
+    <a ng-show="!saving" id="add-skill-btn" ng-disabled="!selectedSkill" ng-click="save(selectedSkill)" class="btn"><i class="fa fa-plus"></i></a>
     <a ng-show="saving" ng-disabled="true" class="btn btn-primary"><i class="fa fa-refresh fa-spin"></i></a>
   </div>
 </ng-form>

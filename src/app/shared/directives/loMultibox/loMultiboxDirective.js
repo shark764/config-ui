@@ -16,6 +16,10 @@ angular.module('liveopsConfigPanel')
       link: function($scope, ele, $attrs, dropCtrl) {
         
         $scope.onSelect = function(selectedItem){
+          if (angular.isString(selectedItem)){
+            return;
+          }
+          
           $scope.display = selectedItem.getDisplay();
           
           if(angular.isFunction($scope.onItemSelect)) {
@@ -45,10 +49,10 @@ angular.module('liveopsConfigPanel')
         };
 
         $scope.$watch('selectedItem', function(item) {
-          if(item && angular.isFunction(item.getDisplay)) {
+          if (angular.isString(item)){
+            return;
+          } else if(item && angular.isFunction(item.getDisplay)) {
             $scope.display = item.getDisplay();
-          } else if(angular.isString(item)) {
-            $scope.display = item;
           }
         }, true);
 
