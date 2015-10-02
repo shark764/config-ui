@@ -12,6 +12,10 @@ header {
   min-width: $min-body-width;
 }
 
+.center {
+  text-align: center;
+}
+
 .container {
   height: 100%;
   width: 100%;
@@ -186,6 +190,10 @@ header {
   }
 }
 
+.tile + .tile {
+  padding-top: 10px;
+}
+
 .detail-group, .input-group {
   margin-left: 10px;
   padding-right: 10px;
@@ -204,7 +212,7 @@ header {
     display: table-cell;
   }
 
-  > label {
+  label {
     width: $controls-label-width;
     padding-right: 10px;
     vertical-align: middle;
@@ -230,10 +238,6 @@ header {
 
   > .timestamp input[type=text] {
     width: 60px;
-  }
-
-  button, input[type=button] {
-    width: 175px;
   }
 }
 

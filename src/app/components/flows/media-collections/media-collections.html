@@ -39,9 +39,10 @@
       <input id="cancel-details-btn" ng-disabled="loading" type="button" class="btn"
         value="{{'value.cancel' | translate}}"
         lo-cancel-chain-executor="media:collection:cancel">
-      <input id="submit-details-btn" ng-show="!loading" class="btn btn-primary"
+      <input id="submit-details-btn" class="btn btn-primary" type="submit"
+        ng-show="!loading"
         ng-disabled="forms.mediaCollectionForm.$invalid || ! forms.mediaCollectionForm.$dirty"
-        type="submit" value="{{'value.submit' | translate}}"
+        value="{{'value.submit' | translate}}"
         lo-submit="submitMediaCollection()">
       <a ng-show="loading" ng-disabled="true" class="btn btn-primary">
         <i class="fa fa-refresh fa-spin"></i>
@@ -56,9 +57,11 @@
   right-element-id="media-pane"
   left-element-id="details-pane"></resize-handle>
 
-<lo-details-panel id="media-pane" class="right-panel"
+<lo-details-panel lo-media id="media-pane" class="right-panel"
+  name="mediaDetailsController"
   ng-show="selectedMedia"
-  ng-resource="selectedMedia">
+  ng-resource="selectedMedia"
+  lo-media-details>
 
   <ng-form unsaved-changes-warning
     ng-show="selectedMedia" name="forms.mediaForm"
@@ -78,15 +81,18 @@
     <div class="detail-controls">
       <input id="cancel-media-btn" type="button" class="btn"
         value="{{'value.cancel' | translate}}"
-        lo-cancel-chain-executor="media:cancel"></input>
+        lo-cancel-chain-executor="media:cancel">
+      </input>
       <input id="create-media-btn" class="btn btn-primary" ng-hide="loading"
         type="submit" value="{{'value.create' | translate}}"
         ng-disabled="forms.mediaForm.$invalid || ! forms.mediaForm.$dirty"
-        lo-submit="submitMedia()"></input>
+        lo-submit="submitMedia()">
+      </input>
       <input id="create-and-new-media-btn" class="btn btn-primary" ng-hide="loading"
         ng-disabled="forms.mediaForm.$invalid || ! forms.mediaForm.$dirty"
         type="submit" value="{{'value.create.new' | translate}}"
-        lo-submit="submitMediaAndNew()"></input>
+        lo-submit="submitMediaAndNew()">
+      </input>
       <a ng-show="loading" ng-disabled="true" class="btn btn-primary">
         <i class="fa fa-refresh fa-spin"></i>
       </a>

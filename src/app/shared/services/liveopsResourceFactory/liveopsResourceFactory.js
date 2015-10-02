@@ -116,10 +116,15 @@ angular.module('liveopsConfigPanel')
             Array.prototype.concat(params.deleteResponseTransformer, defaultResponseTransformer) :
             defaultResponseTransformer;
           
+          var defaultHeaders = {
+            'Content-Type': 'application/json'
+          }
+          
           var Resource = $resource(apiHostname + params.endpoint, params.requestUrlFields, {
             query: {
               method: 'GET',
               isArray: true,
+              headers: defaultHeaders,
               transformRequest: queryRequestTransformer,
               transformResponse: queryResponseTransformer,
               interceptor: getInterceptor(params.queryInterceptor)
@@ -127,6 +132,7 @@ angular.module('liveopsConfigPanel')
             
             get: {
               method: 'GET',
+              headers: defaultHeaders,
               transformRequest: getRequestTransformer,
               transformResponse: getResponseTransformer,
               interceptor: getInterceptor(params.getInterceptor)
@@ -134,6 +140,7 @@ angular.module('liveopsConfigPanel')
 
             update: {
               method: 'PUT',
+              headers: defaultHeaders,
               transformRequest: putRequestTransformer,
               transformResponse: putResponseTransformer,
               interceptor: getInterceptor(params.updateInterceptor),
@@ -141,6 +148,7 @@ angular.module('liveopsConfigPanel')
 
             save: {
               method: 'POST',
+              headers: defaultHeaders,
               transformRequest: postRequestTransformer,
               transformResponse: postResponseTransformer,
               interceptor: getInterceptor(params.saveInterceptor),
@@ -148,6 +156,7 @@ angular.module('liveopsConfigPanel')
 
             delete: {
               method: 'DELETE',
+              headers: defaultHeaders,
               transformRequest: deleteRequestTransformer,
               transformResponse: deleteResponseTransformer,
               interceptor: getInterceptor(params.saveInterceptor)
