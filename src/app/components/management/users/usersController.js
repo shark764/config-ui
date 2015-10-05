@@ -174,7 +174,7 @@ angular.module('liveopsConfigPanel')
         Modal.showConfirm({
           message: 'This will prevent the user from accepting their invitation. Continue?',
           okCallback: function(){
-            $scope.selectedTenantUser.status = 'expired';
+            $scope.selectedTenantUser.status = 'pending';
             
             $scope.selectedTenantUser.save({
               tenantId: Session.tenant.tenantId
