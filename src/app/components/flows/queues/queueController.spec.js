@@ -51,43 +51,44 @@ describe('QueueController', function() {
 
     expect($scope.selectedQueue).toBeDefined();
     expect($scope.selectedQueue.tenantId).toEqual(Session.tenant.tenantId);
-    expect($scope.additional.initialVersion.query).toEqual('{}');
+    expect($scope.initialVersion.query).toEqual('{}');
   });
 
-    it('should create a version if creating a new queue', function () {
-      var newQueue = new Queue({
-        name: 'q3',
-        description: 'super uncool queue',
-        id: 'q3',
-        tenantId: Session.tenant.tenantId
-      });
-      
-      $httpBackend.expectPOST(apiHostname + '/v1/tenants/tenant-id/queues/q3/versions').respond({});
-      var result = angular.extend({}, newQueue, {
-        activeVersion: 'queueVersion1'
-      });
-      
-      
-      $httpBackend.expectPUT(apiHostname + '/v1/tenants/tenant-id/queues/q3').respond({'result': result});
-      
-      newQueue.postCreate(newQueue);
-      
-      $httpBackend.flush();
-      
-      expect(newQueue.activeVersion).toEqual('queueVersion1');
+  it('should create a version if creating a new queue', function () {
+    var newQueue = new Queue({
+      name: 'q3',
+      description: 'super uncool queue',
+      tenantId: Session.tenant.tenantId
     });
     
-    it('should reset the query on create cancel', inject(['$rootScope', function($rootScope){
-      $scope.selectedQueue = new Queue();
-      $scope.additional.initialVersion = {query: 'somevalues'};
-      $rootScope.$broadcast('resource:details:queue:canceled');
-      expect($scope.additional.initialVersion.query).toEqual('{}');
-    }]));
+    $httpBackend.expectPOST(apiHostname + '/v1/tenants/tenant-id/queues/queueId3/versions').respond({});
+    var result = angular.extend({}, newQueue, {
+      activeVersion: 'queueVersion1'
+    });
+    
+    
+    $httpBackend.expectPUT(apiHostname + '/v1/tenants/tenant-id/queues/queueId3').respond({'result': result});
+    
+    $scope.initialVersion = $scope.getDefaultVersion();
+    $scope.selectedQueue = newQueue;
+    $scope.submit();
+    
+    $httpBackend.flush();
+    
+    expect(newQueue.activeVersion).toEqual('queueVersion1');
+  });
+    
+  it('should reset the query on create cancel', inject(['$rootScope', function($rootScope){
+    $scope.selectedQueue = new Queue();
+    $scope.initialVersion = {query: 'somevalues'};
+    $rootScope.$broadcast('resource:details:queue:canceled');
+    expect($scope.initialVersion.query).toEqual('{}');
+  }]));
 
-    it('should not reset if the selectedQueue is not a new queue', inject(['$rootScope', function($rootScope){
-      $scope.selectedQueue = mockQueues[0];
-      $scope.additional.initialVersion = {query: 'somevalues'};
-      $rootScope.$broadcast('resource:details:queue:canceled');
-      expect($scope.additional.initialVersion.query).toEqual('somevalues');
-    }]));
+  it('should not reset if the selectedQueue is not a new queue', inject(['$rootScope', function($rootScope){
+    $scope.selectedQueue = mockQueues[0];
+    $scope.initialVersion = {query: 'somevalues'};
+    $rootScope.$broadcast('resource:details:queue:canceled');
+    expect($scope.initialVersion.query).toEqual('somevalues');
+  }]));
 });
