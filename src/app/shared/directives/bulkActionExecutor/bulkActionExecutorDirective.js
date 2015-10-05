@@ -60,7 +60,7 @@ angular.module('liveopsConfigPanel')
             var selectedBulkActions = $scope.getSelectedItems($scope.bulkActions);
             var canExecute = !!selectedBulkActions.length;
 
-            if( $scope.selectedItems().length == 0 ){
+            if( $scope.selectedItems().length === 0 ){
               return false;
             }
 

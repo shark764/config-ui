@@ -14,7 +14,7 @@ angular.module('liveopsConfigPanel')
         equal: '='
       };
 
-      $scope.filterSkills = function(item, text) {
+      $scope.filterSkills = function(item) {
         if(!$scope.operands) {
           return;
         }
@@ -104,15 +104,16 @@ angular.module('liveopsConfigPanel')
           }
 
           if (!operationList || operationList.length <= 1) {
+            var skillProficiencyMap;
             if (item.hasProficiency) {
               var proficiencyOperator = jsedn.sym(self.operatorMap[item.proficiencyOperator]);
               var proficiencyList = new jsedn.List([proficiencyOperator, item.proficiency]);
-              var skillProficiencyMap = new jsedn.Map([jsedn.kw(':' + item.id), proficiencyList]);
+              skillProficiencyMap = new jsedn.Map([jsedn.kw(':' + item.id), proficiencyList]);
             } else {
-              var skillProficiencyMap = new jsedn.Map([jsedn.kw(':' + item.id), true]);
+              skillProficiencyMap = new jsedn.Map([jsedn.kw(':' + item.id), true]);
             }
 
-            var operationList = new jsedn.List([$scope.operatorSymbol, skillProficiencyMap]);
+            operationList = new jsedn.List([$scope.operatorSymbol, skillProficiencyMap]);
 
             andList.val.push(operationList);
             return;
@@ -134,12 +135,13 @@ angular.module('liveopsConfigPanel')
             operationList.val.push(new jsedn.Map([jsedn.kw(':' + item.id), true]));
           }
         } else {
+          var skillProficiencyMap;
           if (item.hasProficiency) {
             var proficiencyOperator = jsedn.sym(self.operatorMap[item.proficiencyOperator]);
             var proficiencyList = new jsedn.List([proficiencyOperator, item.proficiency]);
-            var skillProficiencyMap = new jsedn.Map([jsedn.kw(':' + item.id), proficiencyList]);
+            skillProficiencyMap = new jsedn.Map([jsedn.kw(':' + item.id), proficiencyList]);
           } else {
-            var skillProficiencyMap = new jsedn.Map([jsedn.kw(':' + item.id), true]);
+            skillProficiencyMap = new jsedn.Map([jsedn.kw(':' + item.id), true]);
           }
 
           var operationList = new jsedn.List([$scope.operatorSymbol, skillProficiencyMap]);

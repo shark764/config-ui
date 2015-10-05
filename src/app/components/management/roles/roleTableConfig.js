@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('roleTableConfig', ['$translate', 'UserPermissions', 'TenantPermission', 'Session', function ($translate, UserPermissions, TenantPermission, Session) {
+  .service('roleTableConfig', ['$translate', 'UserPermissions', function ($translate, UserPermissions) {
     //TODO: enable when API returns list of permissions object instead of just ids
     //function getPermissionOptions() {
     //  return TenantPermission.cachedQuery({

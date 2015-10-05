@@ -1,5 +1,7 @@
 'use strict';
 
+/*global jQuery : false */
+
 describe('numberSlider directive', function(){
   var $scope,
     element,

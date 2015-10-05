@@ -17,21 +17,21 @@ angular.module('liveopsConfigPanel')
 
         $scope.minValue = $scope.minValue ? Number($scope.minValue) : null;
         $scope.maxValue = $scope.maxValue ? Number($scope.maxValue) : null;
-        
+
         $scope.$watch('value', function () {
           if($scope.value){
             if(typeof($scope.value) === 'string'){
               $scope.value = Number($scope.value.replace(/[^0-9\\.\\-]/g, ''));
             }
 
-            if($scope.maxValue !== null && $scope.value > $scope.maxValue){
+            if ($scope.maxValue !== null && $scope.value > $scope.maxValue) {
               $scope.value = $scope.maxValue;
             }
 
-            if($scope.minValue !== null && $scope.value < $scope.minValue){
+            if ($scope.minValue !== null && $scope.value < $scope.minValue) {
               $scope.value = $scope.minValue;
             }
-            
+
             $scope.ngChanged($scope.value);
           }
         });
@@ -42,7 +42,7 @@ angular.module('liveopsConfigPanel')
             $scope.ngChanged();
             return;
           }
-          
+
           if($scope.maxValue === null || $scope.value < $scope.maxValue){
             $scope.value = Number($scope.value) + 1;
             $scope.ngChanged();
@@ -61,7 +61,7 @@ angular.module('liveopsConfigPanel')
             $scope.ngChanged();
           }
         };
-        
+
         element.find('input').bind('keydown keypress', function(event){
           if(event.which === 40){ //Down arrow key
             $timeout($scope.decrement);

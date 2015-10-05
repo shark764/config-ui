@@ -5,16 +5,16 @@
 <loading ng-if="!fetchSkills().$resolved"></loading>
 
 <div ng-show="fetchSkills().$resolved" class="detail-group">
-<ng-form seperate-validation ng-disabled="saving" id="skillsForm" name="skillsForm" 
+<ng-form seperate-validation ng-disabled="saving" id="skillsForm" name="skillsForm"
   ng-show="fetchSkills().$resolved && ['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'MANAGE_ALL_USER_SKILLS', 'MANAGE_TENANT_ENROLLMENT'] | hasPermission">
   <type-ahead placeholder="{{'details.skills.placeholder' | translate}}"
       items="fetchSkills()"
-      name-field="name" 
+      name-field="name"
       on-enter="save(item)"
       selected-item="selectedSkill"
       filters="filterSkills"></type-ahead>
   <number-slider
-    ng-if="selectedSkill.hasProficiency || (skillsForm.name.$dirty && ! selectedSkill.id)"
+    id="new-user-skill-proficiency" ng-if="selectedSkill.hasProficiency || (skillsForm.name.$dirty && ! selectedSkill.id)"
     placeholder="{{'skill.details.proficiency' | translate}}" value="newUserSkill.proficiency"
     min-value="1" max-value="100" ></number-slider>
   <div>
@@ -41,8 +41,8 @@
             <input id="proficiency{{$index}}" name="proficiency{{$index}}" ng-show="userSkill.proficiency > 0 || userSkillsForm['proficiency' + $index].$dirty" ng-required="true" type="number" min="1" max="100" ng-model="userSkill.proficiency"/>
           </td>
           <td>
-            <a ng-show="userSkill.proficiency != userSkill.$original.proficiency" class="btn" ng-click="userSkill.reset()">{{'value.cancel'| translate}}</a>
-            <button ng-show="userSkill.proficiency != userSkill.$original.proficiency" ng-disabled="userSkillsForm['proficiency' + $index].$invalid" class="btn btn-primary" ng-click="updateUserSkill(userSkill)">{{'value.save' | translate}}</button>
+            <a id="cancel-proficiency-edit-btn"ng-show="userSkill.proficiency != userSkill.$original.proficiency" class="btn" ng-click="userSkill.reset()">{{'value.cancel'| translate}}</a>
+            <button id="save-proficiency-edit-btn" ng-show="userSkill.proficiency != userSkill.$original.proficiency" ng-disabled="userSkillsForm['proficiency' + $index].$invalid" class="btn btn-primary" ng-click="updateUserSkill(userSkill)">{{'value.save' | translate}}</button>
           </td>
           <td style="text-align:right">
             <i class="fa fa-times remove" ng-click="remove(userSkill)"

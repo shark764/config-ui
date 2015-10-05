@@ -1,6 +1,6 @@
 'use strict';
 
-/* global spyOn: false */
+/* global spyOn, jQuery: false */
 
 describe('typeAhead directive', function(){
   var $scope,
@@ -304,7 +304,7 @@ describe('typeAhead directive', function(){
   });
   
   describe('onBlur function', function(){
-    it('should set showSuggestions to false', inject(function($timeout) {
+    it('should set showSuggestions to false', inject(function() {
       doDefaultCompile();
       
       isolateScope.showSuggestions = true;
@@ -315,7 +315,7 @@ describe('typeAhead directive', function(){
       expect(isolateScope.showSuggestions).toBeFalsy();
     }));
     
-    it('should do nothing if keeyExpanded is true', inject(function($timeout) {
+    it('should do nothing if keeyExpanded is true', inject(function() {
       doDefaultCompile();
       
       isolateScope.showSuggestions = true;

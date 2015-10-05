@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('loMultibox', ['$timeout', 'filterFilter', '$q', function($timeout, filterFilter, $q){
+  .directive('loMultibox', ['$timeout', function($timeout){
     return {
       restrict: 'E',
       scope: {

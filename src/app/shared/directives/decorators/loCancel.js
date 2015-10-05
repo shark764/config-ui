@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('loCancel', ['$q', '$parse', 'Chain',
-    function ($q, $parse, Chain) {
+  .directive('loCancel', ['$q',
+    function ($q) {
       return {
         restrict: 'A',
         require: ['^loFormCancel'],

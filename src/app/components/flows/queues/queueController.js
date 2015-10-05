@@ -100,8 +100,9 @@ angular.module('liveopsConfigPanel')
       });
       
       $scope.saveVersion = function() {
-        $scope.selectedQueueVersion.save().then(function(){
+        return $scope.selectedQueueVersion.save().then(function(version){
           $scope.selectedQueueVersion = null;
+          return version;
         });
       };
     }

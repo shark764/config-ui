@@ -20,7 +20,7 @@
     </div>
   </div>
   
-  <div ng-if="!selectedGroup.isNew()" class="input-group">
+  <div ng-if="!selectedGroup.isNew() && ['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'MANAGE_ALL_GROUP_USERS', 'MANAGE_TENANT_ENROLLMENT'] | hasPermission" class="input-group">
     <div class="divider-header">
       <h4>Members
         <b class="count" translate="value.numMembers"
@@ -37,8 +37,11 @@
     <loading ng-if="selectedGroup.fetchGroupUsers().$resolved != undefined"
       ng-show="!selectedGroup.fetchGroupUsers().$resolved"></loading>
   
-    <table ng-if="['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'MANAGE_ALL_GROUP_USERS', 'MANAGE_TENANT_ENROLLMENT'] | hasPermission" 
-      scroll-table max-height="300" class="table" ng-show="selectedGroup.fetchGroupUsers().length > 0">
+    <table 
+      scroll-table 
+      max-height="300" 
+      class="table" 
+      ng-show="selectedGroup.fetchGroupUsers().length > 0">
       <thead>
         <tr><th>{{'value.name' | translate}}</th></tr>
       </thead>
