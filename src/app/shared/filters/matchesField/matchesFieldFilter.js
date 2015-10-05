@@ -5,7 +5,7 @@ angular.module('liveopsConfigPanel')
   //If no match, returns undefined.
   //Allows matching/search through arrays; use colons in fieldPath to separate layers
   //e.g. "skills:id" will search an object like {name: "name", skills: [{id: "id"}, {id: "other"}]}
-  .filter('matchesField', [function () {
+  .filter('matchesField', ['$filter', function ($filter) {
     return function (item, fieldPath, value) {
       var findFields = function (item, fieldPath, value) {
         if (angular.isUndefined(item) || angular.isUndefined(fieldPath) || fieldPath === '' || angular.isUndefined(value)){
@@ -27,7 +27,7 @@ angular.module('liveopsConfigPanel')
             }
           }
         } else {
-          if (item[fieldPath] === value) {
+          if ($filter('parse')(item, fieldPath) === value) {
             return item;
           }
         }
