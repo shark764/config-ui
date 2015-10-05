@@ -8,12 +8,12 @@ angular.module('liveopsConfigPanel')
           'header': {
             'display': $translate.instant('value.name')
           },
-          'name': 'name'
+          'name': '$original.name'
         }, {
           'header': {
             'display': $translate.instant('value.description')
           },
-          'name': 'description'
+          'name': '$original.description'
         }, {
           'header': {
             'display': $translate.instant('group.table.members')
@@ -28,12 +28,12 @@ angular.module('liveopsConfigPanel')
             'displayPath': 'display',
             'options': statuses()
           },
-          'name': 'active',
+          'name': '$original.active',
           'id': 'status-column-dropdown',
           'transclude': true,          
         }],
-        'searchOn' : ['name', 'description'],
-        'orderBy' : 'name',
+        'searchOn' : ['$original.name', '$original.description'],
+        'orderBy' : '$original.name',
         'title' : $translate.instant('group.table.title'),
         'showBulkActions': UserPermissions.hasPermission('MANAGE_ALL_GROUPS'),
         'showCreate': UserPermissions.hasPermission('MANAGE_ALL_GROUPS')
