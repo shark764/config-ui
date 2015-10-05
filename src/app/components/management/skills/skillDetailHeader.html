@@ -1,36 +1,36 @@
-<div ng-if="originalResource.id">
-  <toggle class="status-toggle" ng-model="resource.active" 
+<div ng-if="! selectedSkill.isNew()">
+  <toggle class="status-toggle" ng-model="selectedSkill.active" 
     confirm-disable-message="{{'skill.details.disable.confirm' | translate}}"
     confirm-enable-message="{{'skill.details.enable.confirm' | translate}}"
     ng-disabled="! ('MANAGE_ALL_SKILLS' | hasPermission)"></toggle>
 
   <div class="info">
-    <h1 id="skill-details-name-header">{{originalResource.name}}</h1>
+    <h1 id="skill-details-name-header">{{selectedSkill.$original.name}}</h1>
     <div class="details" ng-if="['PLATFORM_VIEW_ALL_USERS', 'PLATFORM_CREATE_USERS', 'PLATFORM_MANAGE_ALL_USERS', 'PLATFORM_MANAGE_ALL_TENANTS', 'PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT'] | hasPermission">
       <b audit-text
         translation="value.createdby.time"
-        user-id="originalResource.createdBy"
-        date="originalResource.created">
+        user-id="selectedSkill.$original.createdBy"
+        date="selectedSkill.$original.created">
       </b>
       <br/>
-      <b audit-text ng-if="!!originalResource.updatedBy"
+      <b audit-text ng-if="!!selectedSkill.$original.updatedBy"
         translation="value.updatedby"
-        user-id="originalResource.updatedBy"
-        date="originalResource.updated">
+        user-id="selectedSkill.$original.updatedBy"
+        date="selectedSkill.$original.updated">
       </b>
     </div>
     <div class="details" ng-if="!(['PLATFORM_VIEW_ALL_USERS', 'PLATFORM_CREATE_USERS', 'PLATFORM_MANAGE_ALL_USERS', 'PLATFORM_MANAGE_ALL_TENANTS', 'PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT'] | hasPermission)">
       <b audit-text
         translation="value.createdon.time"
-        date="originalResource.created">
+        date="selectedSkill.$original.created">
       </b>
       <br/>
-      <b audit-text ng-if="!!originalResource.updated"
+      <b audit-text ng-if="!!selectedSkill.$original.updated"
         translation="value.updatedon"
-        date="originalResource.updated">
+        date="selectedSkill.$original.updated">
       </b>
     </div>
   </div>
 </div>
 
-<h1 id="skill-details-create-header" ng-hide="originalResource.id">{{'skill.details.creating' | translate}}</h1>
+<h1 id="skill-details-create-header" ng-hide="! selectedSkill.isNew()">{{'skill.details.creating' | translate}}</h1>

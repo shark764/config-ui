@@ -5,14 +5,14 @@
   selected="selectedSkill"
   resource-name="Skill">
 
-  <div name="hasProficiency">
-    <span ng-if="item.hasProficiency">{{'value.yes' | translate}}</span>
-    <span ng-if="!item.hasProficiency" class="disabled">{{'value.no' | translate}}</span>
+  <div name="$original.hasProficiency">
+    <span ng-if="item.$original.hasProficiency">{{'value.yes' | translate}}</span>
+    <span ng-if="!item.$original.hasProficiency" class="disabled">{{'value.no' | translate}}</span>
   </div>
 
-  <span name="active">
-    <span ng-if="item.active">{{'value.enabled' | translate}}</span>
-    <span ng-if="!item.active" class="disabled">{{'value.disabled' | translate}}</span>
+  <span name="$original.active">
+    <span ng-if="item.$original.active">{{'value.enabled' | translate}}</span>
+    <span ng-if="!item.$original.active" class="disabled">{{'value.disabled' | translate}}</span>
   </span>
 
 </table-controls>
@@ -23,19 +23,45 @@
   right-element-id="right-panel"
   left-element-id="table-pane"></resize-handle>
 
-<div id="right-panel" class="right-panel" ng-show="selectedSkill || showBulkActions">
-  <resource-details
-    ng-show="selectedSkill && !showBulkActions"
-    id="details-pane"
-    extend-scope="additional"
-    header-template-url="app/components/management/skills/skillDetailHeader.html"
-    body-template-url="app/components/management/skills/skillDetailBody.html"
-    original-resource="selectedSkill"
-    resource-name="Skill"></resource-details>
+<lo-details-panel id="right-panel" 
+  class="right-panel"
+  ng-show="selectedSkill || showBulkActions"
+  ng-resource="selectedSkill">
+  
+  <ng-form unsaved-changes-warning class="details-pane"
+    ng-show="selectedSkill && !showBulkActions" name="forms.detailsForm"
+    ng-model="selectedSkill"
+    ng-resource="selectedSkill"
+    lo-form-submit
+    lo-form-cancel
+    lo-form-alert>
 
+    <div class="detail-header"
+      ng-include src="'app/components/management/skills/skillDetailHeader.html'">
+    </div>
+
+    <div class="detail-body"
+      ng-include src="'app/components/management/skills/skillDetailBody.html'">
+    </div>
+
+    <div class="detail-controls">
+      <input id="cancel-details-btn" type="button" class="btn"
+        value="{{'value.cancel' | translate}}"
+        lo-cancel>
+      </input>
+      <input id="submit-details-btn" class="btn btn-primary"
+        type="submit" value="{{'value.submit' | translate}}"
+        ng-disabled="forms.detailsForm.$invalid || ! forms.detailsForm.$dirty"
+        lo-submit="submit()"
+        lo-submit-spinner
+        lo-submit-spinner-status="selectedSkill.$busy">
+      </input>
+    </div>
+  </ng-form>
+  
   <bulk-action-executor class="details-pane skill-ba" ng-show="showBulkActions" items="fetchSkills()"
     bulk-actions="bulkActions" show-bulk-actions="showBulkActions">
     <ba-set-skill-status bulk-action="bulkActions.setStatus"></ba-set-skill-status>
     <ba-set-skill-has-proficiency bulk-action="bulkActions.setHasProficiency"></ba-set-skill-has-proficiency>
   </bulk-action-executor>
-</div>
+</lo-details-panel>
