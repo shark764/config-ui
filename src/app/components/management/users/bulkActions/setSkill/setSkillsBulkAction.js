@@ -24,6 +24,7 @@ angular.module('liveopsConfigPanel')
     function ($filter, hasSkill, Session, TenantUserSkills) {
       return [{
         display: $filter('translate')('bulkActions.skills.add'),
+        value: 'add',
         doesQualify: function (user, action) {
           var userSkill = hasSkill(user, action.selectedSkill.users);
           if (userSkill) {
@@ -50,6 +51,7 @@ angular.module('liveopsConfigPanel')
         }
       }, {
         display: $filter('translate')('bulkActions.skills.update'),
+        value: 'update',
         doesQualify: function (user, action) {
           var userSkill = hasSkill(user, action.selectedSkill.users);
           if (userSkill) {
@@ -74,6 +76,7 @@ angular.module('liveopsConfigPanel')
         }
       }, {
         display: $filter('translate')('bulkActions.skills.remove'),
+        value: 'remove',
         doesQualify: function (user, action) {
           return angular.isDefined(hasSkill(user, action.selectedSkill.users));
         },
