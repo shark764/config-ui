@@ -7,7 +7,7 @@ angular.module('liveopsConfigPanel')
         'header': {
           'display': $translate.instant('value.type')
         },
-        'name': 'type'
+        'name': '$original.type'
       }, {
         'header': {
           'display': $translate.instant('value.status'),
@@ -15,14 +15,14 @@ angular.module('liveopsConfigPanel')
           'displayPath': 'display',
           'options': statuses()
         },
-        'name': 'active',
+        'name': '$original.active',
         'id': 'status-column-dropdown',
         'sortable': true,
         'transclude': true,
         'filter': 'selectedOptions'
       }],
-      'searchOn': ['type'],
-      'orderBy': 'type',
+      'searchOn': ['$original.type'],
+      'orderBy': '$original.type',
       'title' : $translate.instant('integration.table.title'),
       'showCreate': false,
       'showBulkActions': UserPermissions.hasPermission('MANAGE_ALL_PROVIDERS')
