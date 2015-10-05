@@ -55,8 +55,9 @@ angular.module('liveopsConfigPanel')
         };
 
         $scope.fetchUsersSkills = function() {
-          console.log("Here is a skilled user");
-          console.log($q);
+          console.log("Get list of users");
+          console.log("From there find subset of skills which at least one selected user is a part of.");
+          
         };
 
         $scope.removeBulkSkill = function(item) {
@@ -68,12 +69,14 @@ angular.module('liveopsConfigPanel')
             new UserSkillsBulkAction());
         };
 
-        $scope.onChange = function(action) {
-
+        $scope.onChangeType = function(action) {
           if (action.selectedType.value == 'update'){
             $scope.fetchUsersSkills();
           }
 
+        };
+
+        $scope.onChangeSkill = function(action) {
           if(action.selectedSkill) {
             $scope.fetchSkillUsers(action.selectedSkill);
 
