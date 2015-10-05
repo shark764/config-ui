@@ -28,5 +28,9 @@ angular.module('liveopsConfigPanel')
         setStatus: new BulkAction(),
         setHasProficiency: new BulkAction()
       };
+      
+      $scope.submit = function(){
+        return $scope.selectedSkill.save();
+      };
     }
   ]);

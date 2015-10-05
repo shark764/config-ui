@@ -96,7 +96,7 @@ describe('The media view', function() {
   it('should include media page components', function() {
     expect(shared.navBar.isDisplayed()).toBeTruthy();
     expect(shared.searchField.isDisplayed()).toBeTruthy();
-    expect(shared.detailsForm.isDisplayed()).toBeFalsy(); //Hide by default
+    expect(shared.rightPanel.isDisplayed()).toBeFalsy(); //Hide by default
     expect(shared.actionsBtn.isDisplayed()).toBeFalsy(); //Hide, since there are no bulk actions
     expect(shared.createBtn.isDisplayed()).toBeTruthy();
     expect(shared.tableColumnsDropDown.isDisplayed()).toBeTruthy();
@@ -270,6 +270,7 @@ describe('The media view', function() {
     shared.cancelFormBtn.click();
 
     // Warning message is displayed
+    shared.waitForAlert();
     var alertDialog = browser.switchTo().alert();
     expect(alertDialog.accept).toBeDefined();
     expect(alertDialog.dismiss).toBeDefined();
@@ -341,6 +342,7 @@ describe('The media view', function() {
     media.sourceFormField.sendKeys('Edit');
 
     shared.cancelFormBtn.click();
+    shared.waitForAlert();
     shared.dismissChanges();
 
     expect(shared.successMessage.isPresent()).toBeFalsy();
@@ -360,6 +362,7 @@ describe('The media view', function() {
     media.sourceFormField.sendKeys('Edit');
 
     shared.cancelFormBtn.click().then(function () {
+      shared.waitForAlert();
       shared.dismissChanges();
 
       expect(shared.successMessage.isPresent()).toBeFalsy();

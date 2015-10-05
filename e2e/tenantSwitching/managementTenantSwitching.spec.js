@@ -239,7 +239,6 @@ describe('When switching tenants', function() {
         users.addSkillSearch.sendKeys('New Default Tenant Skill');
         users.addSkillBtn.click();
 
-
         // Verify changes to user role were not made to the new tenant
         tenants.selectTenant(newTenantName);
         shared.searchField.sendKeys(mutualUserFirstName);

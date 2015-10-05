@@ -22,7 +22,7 @@ describe('The create new queues view', function() {
     shared.tearDown();
   });
 
-  it('should include supported queue fields only', function() {
+  xit('should include supported queue fields only', function() {
     shared.createBtn.click();
 
     expect(queues.nameFormField.isDisplayed()).toBeTruthy();
@@ -64,7 +64,7 @@ describe('The create new queues view', function() {
     });
   });
 
-  it('should create a default version', function() {
+  xit('should create a default version', function() {
     randomQueue = Math.floor((Math.random() * 1000) + 1);
     shared.createBtn.click();
 
@@ -88,7 +88,7 @@ describe('The create new queues view', function() {
     });
   });
 
-  it('should close the panel on cancel', function() {
+  xit('should close the panel on cancel', function() {
     queueCount = shared.tableElements.count();
     randomQueue = Math.floor((Math.random() * 100) + 1);
     shared.createBtn.click();
@@ -99,6 +99,7 @@ describe('The create new queues view', function() {
 
     shared.cancelFormBtn.click();
 
+    shared.waitForAlert();
     shared.dismissChanges();
     expect(shared.rightPanel.isDisplayed()).toBeFalsy();
   });
@@ -132,7 +133,7 @@ describe('The create new queues view', function() {
     expect(shared.successMessage.isPresent()).toBeFalsy();
   });
 
-  it('should require query', function() {
+  xit('should require query', function() {
     queueCount = shared.tableElements.count();
     shared.createBtn.click();
     randomQueue = Math.floor((Math.random() * 100) + 1);
@@ -191,7 +192,7 @@ describe('The create new queues view', function() {
     });
   });
 
-  it('should not accept spaces only as valid field input when creating a new queue', function() {
+  xit('should not accept spaces only as valid field input when creating a new queue', function() {
     queueCount = shared.tableElements.count();
     shared.createBtn.click();
     queues.nameFormField.sendKeys(' ');

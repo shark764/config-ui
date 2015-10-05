@@ -2,14 +2,17 @@
   <h4>{{'details' | translate}}</h4>
 </div>
 
-<div disable-contents="!('MANAGE_ALL_MEDIA' | hasPermission)">
+<div class="tile" disable-contents="!('MANAGE_ALL_MEDIA' | hasPermission)">
   <div class="input-group">
     <label>{{'value.name' | translate}} *</label>
     <form-error field="forms.mediaForm.name"
       error-type-required="{{'media.details.name.error' | translate}}">
     </form-error>
     <div>
-      <input ng-disabled="selectedMedia.id" type="text" ng-required="true" ng-model="selectedMedia.name" name="name" required></input>
+      <input type="text" name="name"
+        ng-required="true"
+        ng-model="selectedMedia.name">
+      </input>
     </div>
   </div>
   
@@ -19,8 +22,11 @@
       error-type-required="{{'media.details.type.error' | translate}}">
     </form-error>
     <div>
-      <select ng-change="text = ''" ng-disabled="selectedMedia.id"
-        ng-required="!selectedMedia.id" ng-model="selectedMedia.type" name="type" required
+      <select name="type"
+        ng-change="text = ''"
+        ng-required="true"
+        ng-disabled="!selectedMedia.isNew()"
+        ng-model="selectedMedia.type" 
         ng-options="type.value as type.display for type in mediaTypes">
         <option value="" disabled>{{'media.details.type.select' | translate}}</option>
       </select>
@@ -28,23 +34,61 @@
   </div>
 </div>
 
-<div class="input-group">
-  <label>{{'value.source' | translate}} *</label>
-  <ng-switch on="selectedMedia.type" ng-init="setupAudioSourceWatch(this)">
-    <div ng-switch-when="audio">
-      <form-error field="forms.mediaForm.audiosource"
-        error-type-required="{{'media.details.source.error' | translate}}"
-        error-type-url="{{'media.details.source.url.error' | translate}}">
-      </form-error>
-      <input ng-disabled="!('MANAGE_ALL_MEDIA' | hasPermission)" type="url" name="audiosource"
-        ng-model-options="{allowInvalid : true}"
-        ng-model="selectedMedia.source"
-        required></input>
-    </div>
+<div class="divider-header">
+  <h4>{{'value.source' | translate}}</h4>
+</div>
 
-    <div ng-switch-default>
-      <form-error field="forms.mediaForm.source" error-type-api="true" error-type-required="{{'media.details.source.error' | translate}}"></form-error>
-    <input ng-disabled="!('MANAGE_ALL_MEDIA' | hasPermission)" type="text" ng-required="true" ng-model="selectedMedia.source" name="source" required></input>
+<div class="tile audio-source" ng-show="selectedMedia.type === 'audio'">
+  <div class="input-group">
+    <label>{{'media.details.source.upload.file' | translate}} *</label>
+    
+    <div>
+      <input type="text"
+        name="audiosourcefile"
+        ng-model="selectedMedia.$sourceAudioFile.name" 
+        ng-required="selectedMedia.type === 'audio' && !selectedMedia.source"
+        ng-disabled="true">
+      
+      <div type="button" class="btn"
+        ngf-select="mediaDetailsController.onSelect()"
+        ngf-max-size="100MB"
+        ng-model="selectedMedia.$sourceAudioFile"
+        accept="audio/*">
+        <i class="fa fa-upload" />
+      </div>
+    </div>
   </div>
-  </ng-switch>
+  
+  <div class="input-group center">
+    <label></label>
+    {{ 'details.or' | translate }}
+  </div>
+  
+  <div class="input-group">
+    <label>{{'media.details.source.upload.url' | translate}} *</label>
+    <form-error field="forms.mediaForm.audiosourceurl"
+      error-type-required="{{'media.details.source.error' | translate}}"
+      error-type-url="{{'media.details.source.url.error' | translate}}">
+    </form-error>
+    <input name="audiosourceurl" type="url"
+      ng-disabled="!('MANAGE_ALL_MEDIA' | hasPermission)" 
+      ng-model-options="{allowInvalid : true}"
+      ng-model="selectedMedia.source"
+      ng-required="selectedMedia.type === 'audio' && !selectedMedia.$sourceAudioFile"
+      lo-validate="selectedMedia.type === 'audio'">
+    </input>
+  </div>
+</div>
+
+<div class="input-group" ng-show="selectedMedia.type !== 'audio'">
+  <label>{{'media.details.source.tts' | translate}} *</label>
+  <form-error
+    field="forms.mediaForm.sourcetts"
+    error-type-required="{{'media.details.source.error' | translate}}">
+  </form-error>
+  <input type="text" name="sourcetts"
+    ng-required="selectedMedia.type !== 'audio'"
+    ng-disabled="!('MANAGE_ALL_MEDIA' | hasPermission)"
+    ng-model="selectedMedia.source">
+  </input>
 </div>

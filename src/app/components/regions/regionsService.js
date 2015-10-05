@@ -5,7 +5,7 @@ angular.module('liveopsConfigPanel')
     function (LiveopsResourceFactory) {
 
       return LiveopsResourceFactory.create({
-        endpoint: '/v1/regions',
+        endpoint: '/v1/regions/:id',
         resourceName: 'Region'
       });
     }

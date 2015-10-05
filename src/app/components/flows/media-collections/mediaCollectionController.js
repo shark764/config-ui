@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('MediaCollectionController', ['$q', '$scope', 'MediaCollection', 'Media', 'Session', 'mediaCollectionTableConfig', 'mediaTypes', 'Alert', 'Chain',
-    function ($q, $scope, MediaCollection, Media, Session, mediaCollectionTableConfig, mediaTypes, Alert, Chain) {
+  .controller('MediaCollectionController', ['$q', '$scope', 'MediaCollection', 'Media', 'Session', 'mediaCollectionTableConfig', 'mediaTypes',
+    function ($q, $scope, MediaCollection, Media, Session, mediaCollectionTableConfig, mediaTypes) {
       $scope.forms = {};
       $scope.Session = Session;
 
@@ -19,41 +19,37 @@ angular.module('liveopsConfigPanel')
         });
       };
       
-      //TODO: remove duplication from MediaController
-      $scope.$watch('forms.mediaForm.audiosource', function(newValue){
-        if ($scope.selectedMedia && $scope.selectedMedia.isNew() && angular.isDefined(newValue)){
-          $scope.forms.mediaForm.audiosource.$setDirty();
-          $scope.forms.mediaForm.audiosource.$setTouched();
-        }
-      });
-
-      var mediaCollectionSaveChain = Chain.get('media:collection:save');
-      var mediaSaveChain = Chain.get('media:save');
-      var mediaSaveAndNewChain = Chain.get('media:save:and:new');
-
-      mediaCollectionSaveChain.hook('save', function () {
+      $scope.submitMediaCollection = function() {
         return $scope.selectedMediaCollection.save();
-      }, 0);
+      };
 
-      mediaSaveChain.hook('save', function () {
-        return $scope.selectedMedia.save();
-      }, 0);
-
-      mediaSaveChain.hook('post save', function () {
-        $scope.selectedMedia = null;
-      }, 1);
-
-      mediaSaveAndNewChain.hook('save', function () {
-        return $scope.selectedMedia.save();
-      }, 0);
-
-      mediaSaveAndNewChain.hook('and:new', function () {
-        $scope.selectedMedia = new Media({
-          properties: {},
-          tenantId: Session.tenant.tenantId
+      $scope.submitMedia = function() {
+        return $scope.mediaDetailsController.submit().then(function (media) {
+          $scope.selectedMedia = null;
+          return media;
         });
-      }, 1);
-
+      };
+      
+      $scope.submitMediaAndNew = function() {
+        return $scope.mediaDetailsController.submit().then(function (media) {
+          $scope.selectedMedia = new Media({
+            properties: {},
+            tenantId: Session.tenant.tenantId
+          });
+          
+          return media;
+        });
+        
+        return $scope.selectedMedia.save().then(function(media) {
+          $scope.selectedMedia = new Media({
+            properties: {},
+            tenantId: Session.tenant.tenantId
+          });
+          
+          return media;
+        });
+      };
+      
       $scope.$on('resource:details:create:Media', function (event, mediaMap) {
         $scope.currentMediaMap = mediaMap;
         $scope.selectedMedia = new Media({

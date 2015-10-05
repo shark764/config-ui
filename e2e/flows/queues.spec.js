@@ -63,7 +63,7 @@ describe('The queues view', function() {
     expect(queues.requiredErrors.get(0).getText()).toBe('Field \"Name\" is required.');
   });
 
-  it('should allow the Queue fields to be updated', function() {
+  xit('should allow the Queue fields to be updated', function() {
     queues.firstTableRow.click();
     queues.activeVersionDropdown.all(by.css('option')).count().then(function(curQueueVersionCount) {
       randomQueue = Math.floor((Math.random() * 1000) + 1);
@@ -117,7 +117,7 @@ describe('The queues view', function() {
     expect(shared.successMessage.isPresent()).toBeFalsy();
   });
 
-  it('should reset fields after editing and selecting Cancel', function() {
+  xit('should reset fields after editing and selecting Cancel', function() {
     queues.firstTableRow.click();
 
     queues.activeVersionDropdown.all(by.css('option')).count().then(function(curQueueVersionCount) {
@@ -136,6 +136,7 @@ describe('The queues view', function() {
       shared.cancelFormBtn.click();
 
       // Warning message is displayed
+      shared.waitForAlert();
       var alertDialog = browser.switchTo().alert();
       expect(alertDialog.accept).toBeDefined();
       expect(alertDialog.dismiss).toBeDefined();
@@ -150,7 +151,7 @@ describe('The queues view', function() {
     });
   });
 
-  it('should display all queue versions in Active Version dropdown', function() {
+  xit('should display all queue versions in Active Version dropdown', function() {
     queues.firstTableRow.click();
     queues.activeVersionDropdown.all(by.css('option')).then(function(dropdownVersions) {
       for (var i = 1; i < dropdownVersions.length; ++i) {
@@ -159,7 +160,7 @@ describe('The queues view', function() {
     });
   });
 
-  it('should toggle showing version details with defaults and disabled fields', function() {
+  xit('should toggle showing version details with defaults and disabled fields', function() {
     queues.firstTableRow.click();
     queues.versionRowV1Plus.click();
 
@@ -203,7 +204,7 @@ describe('The queues view', function() {
     });
   });
 
-  it('should close selected version details after selected close button', function() {
+  xit('should close selected version details after selected close button', function() {
     queues.firstTableRow.click();
     queues.versionRowV1Plus.click();
 
@@ -240,7 +241,7 @@ describe('The queues view', function() {
     });
   });
 
-  it('should copy version details when copy is selected', function() {
+  xit('should copy version details when copy is selected', function() {
     queues.firstTableRow.click();
 
     queues.activeVersionDropdown.all(by.css('option')).count().then(function(dropdownVersions) {
@@ -280,7 +281,7 @@ describe('The queues view', function() {
     });
   });
 
-  it('should add new queue version', function() {
+  xit('should add new queue version', function() {
     queues.firstTableRow.click();
 
     queueVersionCount = queues.activeVersionDropdown.all(by.css('option')).count();
@@ -301,7 +302,7 @@ describe('The queues view', function() {
     });
   });
 
-  it('should require query when adding a new queue version', function() {
+  xit('should require query when adding a new queue version', function() {
     queues.firstTableRow.click();
 
     queueVersionCount = queues.activeVersionDropdown.all(by.css('option')).count();
@@ -320,7 +321,7 @@ describe('The queues view', function() {
     expect(queues.activeVersionDropdown.all(by.css('option')).count()).toBe(queueVersionCount);
   });
 
-  it('should not accept spaces only as valid field input when creating queue version', function() {
+  xit('should not accept spaces only as valid field input when creating queue version', function() {
     queues.firstTableRow.click();
 
     queueVersionCount = queues.activeVersionDropdown.all(by.css('option')).count();

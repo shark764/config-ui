@@ -2,48 +2,51 @@
   <h4>{{'details' | translate}}</h4>
 </div>
 
-<div disable-contents="! ('MANAGE_ALL_GROUPS' | hasPermission) || resource.type == 'everyone'">
+<div disable-contents="! ('MANAGE_ALL_GROUPS' | hasPermission) || selectedGroup.type == 'everyone'">
   <div class="input-group">
     <label>{{'value.name' | translate}} *</label>
-    <form-error field="detailsForm.name"
+    <form-error field="forms.detailsForm.name"
       error-type-required="{{'details.name.error' | translate}}">
     </form-error>
     <div>
-      <input required ng-model="resource.name" name="name" type="text"></input>
+      <input required ng-model="selectedGroup.name" name="name" type="text"></input>
     </div>
   </div>
   
   <div class="input-group">
     <label class="textarea-label">{{'value.description' | translate}}</label>
     <div>
-      <textarea ng-model="resource.description" name="description"></textarea>
+      <textarea ng-model="selectedGroup.description" name="description"></textarea>
     </div>
   </div>
   
-  <div ng-if="!resource.isNew()" class="input-group">
+  <div ng-if="!selectedGroup.isNew() && ['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'MANAGE_ALL_GROUP_USERS', 'MANAGE_TENANT_ENROLLMENT'] | hasPermission" class="input-group">
     <div class="divider-header">
       <h4>Members
         <b class="count" translate="value.numMembers"
-          translate-value-number="{{resource.fetchGroupUsers().length}}" >
+          translate-value-number="{{selectedGroup.fetchGroupUsers().length}}" >
         </b>
       </h4>
     </div>
   
-    <p ng-if="resource.fetchGroupUsers().$resolved"
-      class="null" id="empty-members-message" ng-hide="resource.fetchGroupUsers().length">
+    <p ng-if="selectedGroup.fetchGroupUsers().$resolved"
+      class="null" id="empty-members-message" ng-hide="selectedGroup.fetchGroupUsers().length">
       {{'group.details.members.none' | translate}}
     </p>
     
-    <loading ng-if="resource.fetchGroupUsers().$resolved != undefined"
-      ng-show="!originalResource.fetchGroupUsers().$resolved"></loading>
+    <loading ng-if="selectedGroup.fetchGroupUsers().$resolved != undefined"
+      ng-show="!selectedGroup.fetchGroupUsers().$resolved"></loading>
   
-    <table ng-if="['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'MANAGE_ALL_GROUP_USERS', 'MANAGE_TENANT_ENROLLMENT'] | hasPermission" 
-      scroll-table max-height="300" class="table" ng-show="resource.fetchGroupUsers().length > 0">
+    <table 
+      scroll-table 
+      max-height="300" 
+      class="table" 
+      ng-show="selectedGroup.fetchGroupUsers().length > 0">
       <thead>
         <tr><th>{{'value.name' | translate}}</th></tr>
       </thead>
       <tbody>
-        <tr ng-repeat="user in resource.fetchGroupUsers()">
+        <tr ng-repeat="user in selectedGroup.fetchGroupUsers()">
           <td><a ng-click="gotoUserPage(user.memberId)"><audit-text translation="value.displayName" user-id="user.memberId"></audit-text></a></td>
         </tr>
       </tbody>

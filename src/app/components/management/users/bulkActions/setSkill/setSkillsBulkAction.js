@@ -20,8 +20,8 @@ angular.module('liveopsConfigPanel')
       return UserSkillsBulkAction;
     }
   ])
-  .service('userSkillsBulkActionTypes', ['$filter', 'hasSkill', 'Session', 'TenantUserSkills',
-    function ($filter, hasSkill, Session, TenantUserSkills) {
+  .service('userSkillsBulkActionTypes', ['$filter', 'hasSkill', 'Session', 'TenantUserSkill',
+    function ($filter, hasSkill, Session, TenantUserSkill) {
       return [{
         display: $filter('translate')('bulkActions.skills.add'),
         value: 'add',
@@ -33,7 +33,7 @@ angular.module('liveopsConfigPanel')
           return true;
         },
         execute: function (user, action) {
-          var tenantUserSkill = new TenantUserSkills(action.params);
+          var tenantUserSkill = new TenantUserSkill(action.params);
 
           return tenantUserSkill.$save({
             tenantId: Session.tenant.tenantId,
@@ -60,7 +60,7 @@ angular.module('liveopsConfigPanel')
           return false;
         },
         execute: function (user, action) {
-          var tenantUserSkill = new TenantUserSkills(action.params);
+          var tenantUserSkill = new TenantUserSkill(action.params);
 
           return tenantUserSkill.$update({
             skillId: action.params.skillId,
@@ -81,7 +81,7 @@ angular.module('liveopsConfigPanel')
           return angular.isDefined(hasSkill(user, action.selectedSkill.users));
         },
         execute: function (user, action) {
-          var tenantUserSkill = new TenantUserSkills();
+          var tenantUserSkill = new TenantUserSkill();
 
           return tenantUserSkill.$delete({
             skillId: action.params.skillId,

@@ -15,7 +15,7 @@
         graph.interfaces.commandManager = self.initializeCommandManager(graph);
         graph.interfaces.selector = self.initializeSelector();
         graph.interfaces.clipboard = self.initializeClipboard();
-        graph.interfaces.paper = self.initializePaper(graph, graphOptions.width, graphOptions.height, graphOptions.gridSize, graphOptions.perpendicularLinks, graphOptions.embeddingMode, graphOptions.frontParentOnly, graphOptions.defaultLink);
+        graph.interfaces.paper = self.initializePaper(graph, graphOptions.width, graphOptions.height, graphOptions.gridSize, graphOptions.perpendicularLinks, graphOptions.embeddingMode, graphOptions.frontParentOnly, graphOptions.defaultLink, graphOptions.readOnly);
         graph.interfaces.scroller = self.initializeScroller(graph.interfaces.paper, graphOptions.scrollerPadding, graphOptions.autoResizePaper, graphOptions.paperContainerId);
         graph.interfaces.selectorView = self.initializeSelectorView(graph, graph.interfaces.paper, graph.interfaces.selector, graphOptions.selectorFilterArray);
         graph.interfaces.palette = self.initializePalette(graph, graph.interfaces.paper, graphOptions.stencilContainerId);
@@ -51,9 +51,24 @@
             graph.interfaces.selector.reset([notation.model], {safe: true});
           }
         };
-        graph.utils.renderPropertiesPanel = function(notation) {
-          console.log('Notation clicked on:', notation);
+        graph.utils.unselectCell = function(){
+          var nodes = document.querySelectorAll(graphOptions.paperContainerId + ' .selected');
+          _.each(nodes, function(node){
+            new V(node).removeClass('selected');
+          });
+        };
+        graph.utils.updateSelectedCell = function(cellView){
+          //remove previously highlighted class
+          graph.utils.unselectCell();
 
+          //highlight current cell if it is not a link
+          if(cellView.model.get('type') !== 'liveOps.link'){
+            new V(cellView.el.getElementsByClassName('border')[0]).addClass('selected');
+          }
+        };
+        graph.utils.renderPropertiesPanel = function(notation) {
+          //console.log('Notation clicked on:', notation);
+          graph.utils.updateSelectedCell(notation);
           // Render the halo menu
           if (notation.model.attributes.group !== 'end') {
             graph.utils.renderHaloMenu(notation);
@@ -101,7 +116,7 @@
         var clipboard = new joint.ui.Clipboard();
         return clipboard;
       },
-      initializePaper: function(graph, width, height, gridSize, perpendicularLinks, embeddingMode, frontParentOnly, defaultLink) {
+      initializePaper: function(graph, width, height, gridSize, perpendicularLinks, embeddingMode, frontParentOnly, defaultLink, readOnly) {
         return new joint.dia.Paper({
           width: width,
           height: height,
@@ -111,6 +126,7 @@
           embeddingMode: embeddingMode,
           frontParentOnly: frontParentOnly,
           defaultLink: defaultLink,
+          interactive: (readOnly === false),
           validateEmbedding: function(childView) {
             var validEventNames = ['message', 'signal', 'timer', 'conditional', 'escalation'];
             return (childView.model.get('type') === 'liveOps.event' &&
@@ -191,7 +207,7 @@
         FlowPaletteService.loadActivities(stencil);
         FlowPaletteService.loadLinks();
         FlowPaletteService.loadTemplates(stencil);
-        
+
         _.each(stencil.graphs, function(graph) {
           joint.layout.GridLayout.layout(graph, {
             columns: 3,
@@ -220,6 +236,7 @@
         self.graph.interfaces.paper.on({
           'blank:pointerdown': function(evt, x, y) {
             self.graph.utils.hidePropertiesPanel();
+            self.graph.utils.unselectCell();
             if (_.contains(KeyboardJS.activeKeys(), 'shift')) {
               self.graph.interfaces.selectorView.startSelecting(evt, x, y);
             } else {
@@ -273,9 +290,9 @@
 
         var metaKeys = ['super', 'ctrl'];
 
-        KeyboardJS.on('backspace', function(event) {
+        KeyboardJS.on('backspace', function(evt) {
           if ($('input:focus').length > 0) { return; }
-          event.preventDefault();
+          evt.preventDefault();
         });
 
         _.each(metaKeys, function(key) {
