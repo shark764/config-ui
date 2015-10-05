@@ -3,54 +3,75 @@
 var QueuePage = function() {
   this.nameFormField = element(by.model('resource.name'));
   this.descriptionFormField = element(by.model('resource.description'));
-  this.activeVersionDropdown = element(by.model('currVersion'));
+  this.activeVersionDropdown = element(by.id('active-version-field'));
   this.activeFormToggle = element(by.model('resource.status'));
+  this.createdByAudit = element(by.id('created-by-audit'));
+  this.updatedByAudit = element(by.id('updated-by-audit'));
 
-  this.activeVersionQuery = element(by.model('curr-version.query'));
-  this.activeVersionPriority = element(by.id('curr-version-priority'));
-  this.activeVersionRate = element(by.id('curr-version-rate'));
-  this.activeVersionRateUnit = element(by.id('curr-version-rate-units'));
+  // Query Fields
+  this.showAdvancedQueryLink = element(by.id('show-advanced-query'));
+  this.showBasicQueryLink = element(by.id('show-basic-query'));
 
-  this.versionsTable = element(by.css('.queue-version-table'));
-  this.versionRowV1 = element(by.id('version-row-v1'));
-  this.versionRowDetailsV1 = element(by.id('view-version-v1'));
-  this.versionRowV1Plus = this.versionRowV1.element(by.css('.fa-plus'));
-  this.versionRowV1Minus = this.versionRowV1.element(by.css('.fa-minus'));
-  this.copyVersionBtn = this.versionRowDetailsV1.element(by.id('copy-version-btn'));
-  this.closeVersionBtn = this.versionRowDetailsV1.element(by.id('close-version-btn'));
+  this.advancedQueryFormField = element(by.id('advanced-query-field'));
 
-  this.versionRowV2 = element(by.id('version-row-v2'));
-  this.versionRowDetailsV2 = element(by.id('view-version-v2'));
+  this.basicQueryAllGroups = element(by.id('basic-query-all-groups'));
+  this.allGroupsTypeAhead = this.basicQueryAllGroups.element(by.id('typeahead-container'));
+  this.allGroupsDropdownGroups = this.basicQueryAllGroups.all(by.repeater('item in filtered = (items | filter:filterCriteria | orderBy:orderByFunction)'));
+  this.allGroupsAdd = this.basicQueryAllGroups.element(by.css('.fa .fa-plus'));
+  this.allGroupsSelected = this.basicQueryAllGroups.all(by.repeater('operand in operands'));
 
-  this.createVersionNumberFormField = element(by.id('create-version-number'));
-  this.createVersionQueryFormField = element(by.model('extendScope.initialVersion.query'));
-  this.createVersionMinPriorityFormField = element(by.id('curr-version-min-priority'));
-  this.createVersionMaxPriorityFormField = element(by.id('curr-version-max-priority'));
-  this.createVersionPriorityValueFormField = element(by.id('curr-version-priority-value'));
-  this.createVersionRateFormField = element(by.id('curr-version-priority-rate'));
-  this.createVersionRateUnitDropdown = element(by.id('create-version-rate-units-input'));
+  this.basicQueryAnyGroups = element(by.id('basic-query-any-groups'));
+  this.anyGroupsTypeAhead = this.basicQueryAnyGroups.element(by.id('typeahead-container'));
+  this.anyGroupsDropdownGroups = this.basicQueryAnyGroups.all(by.repeater('item in filtered = (items | filter:filterCriteria | orderBy:orderByFunction)'));
+  this.anyGroupsAdd = this.basicQueryAnyGroups.element(by.css('.fa .fa-plus'));
+  this.anyGroupsSelected = this.basicQueryAnyGroups.all(by.repeater('operand in operands'));
+
+  this.basicQueryAllSkills = element(by.id('basic-query-all-skills'));
+  this.allSkillsTypeAhead = this.basicQueryAllSkills.element(by.id('typeahead-container'));
+  this.allSkillsDropdownGroups = this.basicQueryAllSkills.all(by.repeater('item in filtered = (items | filter:filterCriteria | orderBy:orderByFunction)'));
+  this.allSkillsProficiencyOperator = this.basicQueryAllSkills.element(by.id('proficiency-operator-dropdown'));
+  this.allSkillsProficiencyValue = this.basicQueryAllSkills.element(by.id('proficiency-value'));
+  this.allSkillsAdd = this.basicQueryAllSkills.element(by.css('.fa .fa-plus'));
+  this.allSkillsSelected = this.basicQueryAllSkills.all(by.repeater('operand in operands'));
+
+  this.basicQueryAnySkills = element(by.id('basic-query-any-skills'));
+  this.anySkillsTypeAhead = this.basicQueryAnySkills.element(by.id('typeahead-container'));
+  this.anySkillsDropdownGroups = this.basicQueryAnySkills.all(by.repeater('item in filtered = (items | filter:filterCriteria | orderBy:orderByFunction)'));
+  this.anySkillsProficiencyOperator = this.basicQueryAnySkills.element(by.id('proficiency-operator-dropdown'));
+  this.anySkillsProficiencyValue = this.basicQueryAnySkills.element(by.id('proficiency-value'));
+  this.anySkillsAdd = this.basicQueryAnySkills.element(by.css('.fa .fa-plus'));
+  this.anySkillsSelected = this.basicQueryAnySkills.all(by.repeater('operand in operands'));
+
+  // Priority Fields
+  this.minPriorityInputField = element(by.id('version-min-priority'));
+  this.minPriorityDefault = '1';
+  this.maxPriorityInputField = element(by.id('version-max-priority'));
+  this.maxPriorityDefault = '1000';
+  this.priorityValueInputField = element(by.id('version-priority-value'));
+  this.priorityValueDefault = '1';
+  this.priorityRateInputField = element(by.id('version-priority-rate'));
+  this.priorityRateDefault = '10';
+  this.priorityRateUnitField = element(by.id('version-rate-units-input'));
+  this.priorityRateUnitDefault = 'seconds';
+
+  // Queue Versions
+  this.queueVersionsTable = element(by.id('queue-version-table'));
+  this.queueVersions = this.queueVersionsTable.all(by.repeater('version in fetchVersions() | orderBy:\'created\':\'reverse\''));
+  this.activeVersion = this.queueVersionsTable.element(by.css('.fa .fa-circle'));
+  this.copyVersionBtn = element(by.css('create-version-copy-btn'));
+
+  // Queue Version Copy
+  this.newQueueVersionPanel = element(by.id('queue-version-panel'));
+  this.createVersionHeader = this.newQueueVersionPanel.element(by.id('create-new-queue-version-header'));
+  this.createVersionBtn = this.newQueueVersionPanel.element(by.id('create-version-btn'));
+  this.cancelVersionBtn = this.newQueueVersionPanel.element(by.id('cancel-version-btn'));
 
   this.requiredErrors = element.all(by.css('.lo-error'));
 
-  this.selectedVersionQuery = this.versionRowDetailsV1.element(by.model('version.query'));
-  this.selectedVersionMinPriority = this.versionRowDetailsV1.element(by.id('curr-version-min-priority'));
-  this.selectedVersionMaxPriority = this.versionRowDetailsV1.element(by.id('curr-version-max-priority'));
-  this.selectedVersionRate = this.versionRowDetailsV1.element(by.id('curr-version-priority-rate'));
-  this.selectedVersionRateUnit = this.versionRowDetailsV1.element(by.id('create-version-rate-units-input'));
-
-  this.copyVersionNumberFormField = element(by.id('copy-version-number'));
-  this.copyVersionQueryFormField = element(by.model('versionCopy.query'));
-  this.copyVersionMinPriorityFormField = element(by.id('curr-version-min-priority'));
-  this.copyVersionMaxPriorityFormField = element(by.id('curr-version-max-priority'));
-  this.copyVersionRateFormField = element(by.id('curr-version-priority-rate'));
-  this.copyVersionRateUnitDropdown = element(by.id('create-version-rate-units-input'));
-  this.createVersionBtn = element(by.id('create-queue-version-btn'));
-  this.cancelVersionBtn = element(by.id('cancel-queue-version-btn'));
-
-  this.firstTableRow = element(by.css('#items-table > tbody:nth-child(2) > tr:nth-child(1)'));
-  this.secondTableRow = element(by.css('#items-table > tbody:nth-child(2) > tr:nth-child(2)'));
   this.nameColumn = 'td:nth-child(2)';
   this.descriptionColumn = 'td:nth-child(3)';
+  this.activeVersionColumn = 'td:nth-child(4)';
+  this.statusColumn = 'td:nth-child(5)';
 };
 
 module.exports = new QueuePage();
