@@ -12,6 +12,10 @@ header {
   min-width: $min-body-width;
 }
 
+.center {
+  text-align: center;
+}
+
 .container {
   height: 100%;
   width: 100%;
@@ -148,6 +152,10 @@ header {
         tbody tr:hover {
           background-color: $accent-light;
         }
+        
+        .control-col {
+          width: 40px;
+        }
       }
   
       .scrollable-table-container {
@@ -180,6 +188,10 @@ header {
       font-size: 1.5em;
     }
   }
+}
+
+.tile + .tile {
+  padding-top: 10px;
 }
 
 .detail-group, .input-group {
@@ -218,12 +230,16 @@ header {
     justify-content: flex-start;
     align-items: center;
     position: relative;
+    
+    * + .btn {
+      margin-left: 10px;
+    }
   }
 
   > .timestamp input[type=text] {
     width: 60px;
   }
-
+  
   button, input[type=button] {
     width: 175px;
   }

@@ -22,15 +22,16 @@
 <resize-handle
     ng-show="selectedTenantUser || showBulkActions"
     id="resize-pane"
-    right-element-id="user-pane"
+    right-element-id="right-panel"
     left-element-id="table-pane"></resize-handle>
 
 <lo-details-panel
-  id="user-pane"
+  id="right-panel"
   class="right-panel"
   ng-show="selectedTenantUser || showBulkActions"
   ng-resource="selectedTenantUser">
     <ng-form
+      id="user-pane"
       class="details-pane"
       unsaved-changes-warning
       name="forms.detailsForm"
@@ -46,13 +47,10 @@
 
       <div class="detail-controls">
         <input
-          id="cancel-details-btn"
-          lo-cancel-chain-executor="user:cancel"
+          id="cancel-details-btn" class="btn" type="button"
           ng-disabled="selectedTenantUser.$busy"
-          type="button"
-          class="btn"
-          ng-click="cancel()"
-          value="{{'value.cancel' | translate}}"></input>
+          value="{{'value.cancel' | translate}}"
+          lo-cancel></input>
 
         <input
           id="submit-details-btn"
@@ -68,7 +66,6 @@
           value="{{'value.submit' | translate}}" />
       </div>
     </ng-form>
-  </div>
 
   <bulk-action-executor class="right-panel user-ba" ng-show="showBulkActions" items="fetchTenantUsers()"
     bulk-actions="bulkActions" show-bulk-actions="showBulkActions"

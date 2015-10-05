@@ -10,6 +10,14 @@ describe('The flows view bulk actions', function() {
 
   beforeAll(function() {
     loginPage.login(params.login.user, params.login.password);
+
+    // Create new flow
+    browser.get(shared.flowsPageUrl);
+    var randomFlow = Math.floor((Math.random() * 1000) + 1);
+    shared.createBtn.click();
+    flows.nameFormField.sendKeys('Flow ' + randomFlow);
+    flows.typeFormDropdown.all(by.css('option')).get((randomFlow % 3) + 1).click();
+    shared.submitFormBtn.click()
   });
 
   beforeEach(function() {
@@ -69,7 +77,7 @@ describe('The flows view bulk actions', function() {
     });
   });
 
-  it('should allow all selected flow\'s status to be Enabled', function() {
+  xit('should allow all selected flow\'s status to be Enabled', function() {
     // Update All bulk actions
     shared.actionsBtn.click();
     bulkActions.selectAllTableHeader.click();
@@ -82,7 +90,7 @@ describe('The flows view bulk actions', function() {
 
     expect(bulkActions.confirmModal.isDisplayed()).toBeTruthy();
     bulkActions.confirmOK.click().then(function() {
-      //expect(shared.successMessage.isDisplayed()).toBeTruthy();
+      shared.waitForSuccess();
 
       // Form reset
       expect(bulkActions.submitFormBtn.getAttribute('disabled')).toBeTruthy();

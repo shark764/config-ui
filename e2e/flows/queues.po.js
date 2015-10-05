@@ -23,23 +23,27 @@ var QueuePage = function() {
   this.versionRowDetailsV2 = element(by.id('view-version-v2'));
 
   this.createVersionNumberFormField = element(by.id('create-version-number'));
-  this.createVersionQueryFormField = element(by.model('extendScope.initialQuery'));
-  this.createVersionPriorityFormField = element(by.id('create-version-priority-input'));
-  this.createVersionRateFormField = element(by.id('create-version-rate-input'));
+  this.createVersionQueryFormField = element(by.model('extendScope.initialVersion.query'));
+  this.createVersionMinPriorityFormField = element(by.id('curr-version-min-priority'));
+  this.createVersionMaxPriorityFormField = element(by.id('curr-version-max-priority'));
+  this.createVersionPriorityValueFormField = element(by.id('curr-version-priority-value'));
+  this.createVersionRateFormField = element(by.id('curr-version-priority-rate'));
   this.createVersionRateUnitDropdown = element(by.id('create-version-rate-units-input'));
 
   this.requiredErrors = element.all(by.css('.lo-error'));
 
   this.selectedVersionQuery = this.versionRowDetailsV1.element(by.model('version.query'));
-  this.selectedVersionPriority = this.versionRowDetailsV1.element(by.id('selected-version-priority'));
-  this.selectedVersionRate = this.versionRowDetailsV1.element(by.id('selected-version-rate'));
-  this.selectedVersionRateUnit = this.versionRowDetailsV1.element(by.id('selected-version-rate-units'));
+  this.selectedVersionMinPriority = this.versionRowDetailsV1.element(by.id('curr-version-min-priority'));
+  this.selectedVersionMaxPriority = this.versionRowDetailsV1.element(by.id('curr-version-max-priority'));
+  this.selectedVersionRate = this.versionRowDetailsV1.element(by.id('curr-version-priority-rate'));
+  this.selectedVersionRateUnit = this.versionRowDetailsV1.element(by.id('create-version-rate-units-input'));
 
   this.copyVersionNumberFormField = element(by.id('copy-version-number'));
   this.copyVersionQueryFormField = element(by.model('versionCopy.query'));
-  this.copyVersionPriorityFormField = element(by.id('copy-version-priority-input'));
-  this.copyVersionRateFormField = element(by.id('copy-version-rate-input'));
-  this.copyVersionRateUnitDropdown = element(by.id('copy-version-rate-units-dropdown'));
+  this.copyVersionMinPriorityFormField = element(by.id('curr-version-min-priority'));
+  this.copyVersionMaxPriorityFormField = element(by.id('curr-version-max-priority'));
+  this.copyVersionRateFormField = element(by.id('curr-version-priority-rate'));
+  this.copyVersionRateUnitDropdown = element(by.id('create-version-rate-units-input'));
   this.createVersionBtn = element(by.id('create-queue-version-btn'));
   this.cancelVersionBtn = element(by.id('cancel-queue-version-btn'));
 

@@ -7,7 +7,8 @@ angular.module('liveopsConfigPanel')
       $scope.create = function() {
         $scope.selectedDispatchMapping = new DispatchMapping({
           tenantId: Session.tenant.tenantId,
-          channelType: 'voice'
+          channelType: 'voice',
+          active: true
         });
       };
 

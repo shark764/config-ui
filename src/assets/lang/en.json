@@ -31,6 +31,7 @@
   "value.status": "Status",
   "value.submit": "Submit",
   "value.tenantStatus": "Tenant Status",
+  "value.text": "Text",
   "value.true": "True",
   "value.type": "Type",
   "value.unknown": "unknown",
@@ -49,14 +50,13 @@
   "value.ready": "Ready",
   "value.allocated": "Allocated",
   "value.busy": "Busy",
-
-
+  "value.publish": "Publish",
 
   "loading": "Loading",
 
   "api.error": "The API could not be contacted. Please reload the page to try again. If this error persists, please contact your systems administrator",
   "permissions.unauthorized.message": "Sorry, your account does not have the correct permissions to view that page.",
-  
+
   "login.button": "Login",
   "login.error": "Invalid username or password.",
 
@@ -66,7 +66,7 @@
   "navbar.reports.title": "Reporting",
   "navbar.tenants.title": "Tenants",
   "navbar.flows.title": "Flows",
-  "navbar.welcome": "Welcome back, {{displayName}}",
+  "navbar.welcome": "Hello, {{displayName}}",
   "navbar.configuration.title": "Configuration",
   "navbar.logout": "Log Out",
   "navbar.profile": "User Profile",
@@ -105,11 +105,14 @@
   "details.channelType": "Channel Type",
   "details.flow": "Flow",
   "details.value": "Value",
+  "details.or" : "-OR-",
   "details.phoneNumber": "Phone Number",
   "details.phoneNumber.error": "Phone number should be in E.164 format.",
   "details.skills.none": "This user has not been assigned any skills",
   "details.skills.title": "Skills",
   "details.skills.placeholder": "Add Skill...",
+  "details.skills.update.proficiency.success": "Skill proficiency updated",
+  "details.skills.update.proficiency.fail": "Couldn't update skill proficiency",
   "details.name.error": "Please enter a name",
   "details.personalTelephone": "Personal Telephone",
   "details.personalTelephone.error": "Personal Telephone must be E.164 format (+18005551234)",
@@ -119,6 +122,7 @@
   "details.tenantStatus.help": "Tenant Status <ul><li>Pending Invitation</li><li>Pending Acceptance</li><li>Accepted</li><li>Removed</li><li>Expired Invitation</li></ul>",
   "details.inviteNow.help" : "<center><p>To invite this user now select, click \"Submit\" with \"Invite Now\" selected</p> <p>or</p> <p>To set this user to a pending invite status de-select \"Invite Now and click \"Submit\"</p></center>",
   "details.tenantStatus.notInvited" : "This user has not been invited to join the tenant, to invite them now select \"Invite Now\" and click \"Submit\"",
+  
   "user.details.disable.confirm": "This will disable this user and prevent them from logging in. Do you want to continue?",
   "user.details.enable.confirm": "This will enable this user and allow them to log in. Do you want to continue?",
   "user.details.creating": "Creating New User",
@@ -134,7 +138,7 @@
   "user.table.groups": "Groups",
   "user.table.title": "User Management",
   "user.table.roles": "Roles",
-  
+
   "tenant.user.details.status.pending": "Pending Invitation",
   "tenant.user.details.status.invited": "Pending Acceptance",
   "tenant.user.details.status.accepted": "Accepted",
@@ -195,6 +199,14 @@
   "queue.details.enable.confirm": "This will enable this queue. Do you want to continue?",
   "queue.details.version.expand": "Show/hide Details",
   "queue.table.title": "Queue Management",
+  "queues.query.builder.groups": "Agent Groups",
+  "queue.query.builder.groups.some": "Any of these groups:",
+  "queue.query.builder.groups.all": "All of these groups:",
+  "queue.query.builder.groups.placeholder": "Select Group...",
+  "queues.query.builder.skills": "Agent Skills",
+  "queue.query.builder.skills.some": "Any of these skills:",
+  "queue.query.builder.skills.all": "All of these skills:",
+  "queue.query.builder.skills.placeholder": "Select Skill...",
   "queue.details.minPriority": "Min Priority",
   "queue.details.minPriority.error.min": "The minimum priority must be greater than 0",
   "queue.details.minPriority.error.max": "The minimum priority cannot be greater than the maximum priority",
@@ -222,10 +234,13 @@
   "media.details.text.error" : "Text-to-Speech text is required",
   "media.details.description.error": "Description is required",
   "media.details.mediaTypes.audio": "Audio",
-  "media.details.mediaTypes.tts": "TTS",
+  "media.details.mediaTypes.tts": "Text-to-Speech",
   "media.details.creating": "Creating New Media",
   "media.table.title": "Media Management",
   "media.details.source.url.error": "Audio source must be a URL",
+  "media.details.source.upload.file": "Upload Audio File",
+  "media.details.source.upload.url": "Audio File URL",
+  "media.details.source.tts": "Text-to-Speech",
 
   "media.collections.media.new" : "Create New Media",
   "media.collections.media.add": "Add Media...",
@@ -234,6 +249,7 @@
   "media.collections.defaultMediaKey.error": "Please select a default identifier",
   "media.collections.defaultMediaKey.select": "Select default identifier...",
   "media.collections.mappingId.error": "Please select a media item",
+  "media.collections.mapping.error.required": "You must include at least one media mapping",
   "media.collections.mappingLookup.error.required": "Please enter an identifier for this media item",
   "media.collections.mappingLookup.error.duplicate": "This lookup value already exists for this media collection.",
   "media.collections.mapping.add": "Add media items with the plus button above.",
@@ -247,6 +263,7 @@
   "tenant.details.region": "Region",
   "tenant.details.name.error": "Please enter a name",
   "tenant.details.creating": "Creating New Tenant",
+  "tenant.details.id": "Tenant ID",
   "tenant.details.disable.confirm": "This will disable this tenant. Do you want to continue?",
   "tenant.details.enable.confirm": "This will enable this tenant. Do you want to continue?",
   "tenant.table.title": "Tenant Management",
@@ -269,6 +286,7 @@
   "integration.secretKey.error": "Please enter your secret key",
   "integration.details.properties.birstSpaceId": "Space ID",
   "integration.birstSpaceId.error": "Please enter the Birst space ID",
+  "integration.birstSpaceId.uuid.error": "Space ID must be a valid UUID",
   "integration.details.properties.birstSsoPassword": "SSO Password",
   "integration.birstSsoPassword.error": "Please enter the Birst SSO Password",
   "integration.details.properties.birstBaseUrl": "Base URL",
@@ -347,6 +365,8 @@
 
   "user.profile.save.success": "Your details have been updated.",
   "user.profile.save.fail": "An error occurred while updating your details.",
+  "profile.usergroups.none": "You have not been assigned to any groups.",
+  "profile.skills.none": "You have not been assigned any skills.",
 
   "multibox.add.placeholder": "Add Item...",
   "multibox.search.placeholder": "Search...",
@@ -361,17 +381,20 @@
   "invite.accept.expired": "Sorry, this invitation has expired. Please contact your account administrator.",
   "copyright": "Copyright © 2015 LiveOps, Inc. All rights reserved.",
   "signup.legal": "Access to this site requires separate permission from LiveOps. This site contains confidential information, and may also contain content and enable interaction with users from third-party sites subject to different terms that are outside of LiveOps control. By using or accessing this site, you have agreed to the Terms of Service as outlined in the Beta Service Agreement (\"Agreement\"). A copy of this Agreement is available from your LiveOps contact.",
-  
+
   "flow.draft.delete.alt": "Delete this draft",
   "flow.draft.none": "There are no drafts saved for this flow. Drafts are created automatically from the Flow Designer.",
   "flow.draft.title": "Drafts",
-  
+
   "role.details.creating": "Creating new role",
   "role.table.title": "Role Management",
   "role.table.permissions": "Permissions",
   "role.permissions.title": "Permissions",
   "role.details.permission.placeholder": "Add permission...",
   "role.permissions.none": "This role has no permissions assigned to it.",
-  "role.permissions.remove.alt": "Remove permission from role"
-  
+  "role.permissions.remove.alt": "Remove permission from role",
+  "role.permission.remove.success": "Removed permission!",
+  "role.permission.remove.fail": "Sorry, there was an error removing that permission",
+  "role.permission.add.success": "Added permission!",
+  "role.permission.add.fail": "Sorry, there was an error adding that permission"
 }

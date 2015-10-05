@@ -5,18 +5,18 @@
 <div disable-contents="! (['PLATFORM_MANAGE_ALL_TENANTS', 'MANAGE_TENANT'] | hasPermission)">
   <div class="input-group">
     <label>{{'tenant.details.name' | translate}} *</label>
-    <form-error field="detailsForm.name"
+    <form-error field="forms.detailsForm.name"
       error-type-required="{{'tenant.details.name.error' | translate}}" >
     </form-error>
     <div>
-      <input required ng-model="resource.name" name="name" type="text" api-error></input>
+      <input required ng-model="selectedTenant.name" name="name" type="text" api-error></input>
     </div>
   </div>
   
   <div class="input-group">
     <label>{{'tenant.details.admin' | translate}}</label>
     <div>
-      <select ng-model="resource.adminUserId" ng-options="user.id as user.getDisplay() for user in fetchUsers()">
+      <select ng-model="selectedTenant.adminUserId" ng-options="user.id as user.getDisplay() for user in fetchUsers()">
       </select>
     </div>
   </div>
@@ -24,12 +24,17 @@
   <div class="input-group">
     <label class="textarea-label">{{'tenant.details.description' | translate}}</label>
     <div>
-      <textarea ng-model="resource.description"></textarea>
+      <textarea ng-model="selectedTenant.description"></textarea>
     </div>
   </div>
   
-  <div class="input-group" ng-if="resource.id">
+  <div class="input-group" ng-show="! selectedTenant.isNew()">
     <label class="textarea-label">{{'tenant.details.region' | translate}}</label>
-    <p id="tenant-details-region">{{resource.regionId}}</p>
+    <p id="tenant-details-region">{{selectedTenant.region.name}}</p>
+  </div>
+
+  <div class="input-group" ng-if="! selectedTenant.isNew()">
+    <label class="textarea-label">{{'tenant.details.id' | translate}}</label>
+    <p id="tenant-details-id">{{selectedTenant.id}}</p>
   </div>
 </div>

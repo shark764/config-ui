@@ -20,13 +20,13 @@ angular.module('liveopsConfigPanel')
           tenantId: Session.tenant.tenantId
         });
       }
-      
+
       this.getConfig = function() {
         var cached = queryCache.get('userTableConfig');
         if (cached){
           return cached;
         }
-        
+
         var defaultConfig = {
           'fields' : [{
             'header': {
@@ -50,23 +50,20 @@ angular.module('liveopsConfigPanel')
           }],
           'orderBy': '$user.$original.lastName',
           'title': $translate.instant('user.table.title'),
-          'searchOn': [{ 
+          'searchOn': [{
             //Property order is significant, as it is the order that the fields get concat'd before being compared
             //So they should match the display order of "firstName lastName"
             path: '$user.firstName'
           }, {
             path: '$user.lastName'
           }, {
-            path: '$original.skills',
-            inner: {
-              path: 'name'
-            }
+            path: '$user.email'
           }]
         };
 
         defaultConfig.showBulkActions = UserPermissions.hasPermissionInList(['PLATFORM_MANAGE_ALL_USERS', 'MANAGE_TENANT_ENROLLMENT', 'MANAGE_ALL_USER_SKILLS', 'PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT']);
         defaultConfig.showCreate = UserPermissions.hasPermissionInList(['PLATFORM_CREATE_USERS', 'PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'MANAGE_TENANT_ENROLLMENT']);
-        
+
         if (UserPermissions.hasPermissionInList(['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'VIEW_ALL_SKILLS', 'MANAGE_ALL_SKILLS', 'MANAGE_ALL_USER_SKILLS', 'MANAGE_TENANT_ENROLLMENT'])){
           defaultConfig.fields.push({
             'header': {
@@ -85,7 +82,7 @@ angular.module('liveopsConfigPanel')
             'filterOrderBy': 'name'
           });
         }
-        
+
         if (UserPermissions.hasPermissionInList(['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'VIEW_ALL_GROUPS', 'MANAGE_ALL_GROUPS', 'MANAGE_ALL_GROUP_USERS', 'MANAGE_ALL_GROUP_OWNERS', 'MANAGE_TENANT_ENROLLMENT'])){
           defaultConfig.fields.push({
             'header': {
@@ -104,7 +101,7 @@ angular.module('liveopsConfigPanel')
             'filterOrderBy': 'name'
           });
         }
-        
+
         if (UserPermissions.hasPermissionInList(['PLATFORM_CREATE_TENANT_ROLES', 'PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'VIEW_ALL_ROLES', 'MANAGE_ALL_ROLES', 'MANAGE_TENANT_ENROLLMENT'])){
           defaultConfig.fields.push({
             'header': {
@@ -120,7 +117,7 @@ angular.module('liveopsConfigPanel')
             'filterOrderBy': 'name'
           });
         }
-        
+
         defaultConfig.fields.push({
           'header': {
             'display': $translate.instant('value.presence'),
@@ -156,7 +153,7 @@ angular.module('liveopsConfigPanel')
           'id': 'tenant-status-table-column',
           'transclude': true
         });
-        
+
         queryCache.put('userTableConfig', defaultConfig);
         return defaultConfig;
       };

@@ -2,7 +2,7 @@
   <h4>{{'details' | translate}}</h4>
 </div>
 
-<div disable-contents="! ('MANAGE_ALL_GROUPS' | hasPermission)">
+<div disable-contents="! ('MANAGE_ALL_GROUPS' | hasPermission) || resource.type == 'everyone'">
   <div class="input-group">
     <label>{{'value.name' | translate}} *</label>
     <form-error field="detailsForm.name"
@@ -20,7 +20,7 @@
     </div>
   </div>
   
-  <div ng-if="!resource.isNew()" class="input-group">
+  <div ng-if="!resource.isNew() && ['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'MANAGE_ALL_GROUP_USERS', 'MANAGE_TENANT_ENROLLMENT'] | hasPermission" class="input-group">
     <div class="divider-header">
       <h4>Members
         <b class="count" translate="value.numMembers"
@@ -29,16 +29,19 @@
       </h4>
     </div>
   
-    <p ng-if="originalResource.fetchGroupUsers().$resolved"
+    <p ng-if="resource.fetchGroupUsers().$resolved"
       class="null" id="empty-members-message" ng-hide="resource.fetchGroupUsers().length">
       {{'group.details.members.none' | translate}}
     </p>
     
-    <loading ng-if="originalResource.fetchGroupUsers().$resolved != undefined"
+    <loading ng-if="resource.fetchGroupUsers().$resolved != undefined"
       ng-show="!originalResource.fetchGroupUsers().$resolved"></loading>
   
-    <table ng-if="['PLATFORM_VIEW_ALL_USERS', 'PLATFORM_CREATE_USERS', 'PLATFORM_MANAGE_ALL_USERS', 'PLATFORM_MANAGE_ALL_TENANTS', 'PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT'] | hasPermission" 
-      scroll-table max-height="300" class="table" ng-show="originalResource.fetchGroupUsers().length > 0">
+    <table 
+      scroll-table 
+      max-height="300" 
+      class="table" 
+      ng-show="resource.fetchGroupUsers().length > 0">
       <thead>
         <tr><th>{{'value.name' | translate}}</th></tr>
       </thead>

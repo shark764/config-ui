@@ -4,12 +4,21 @@ describe('The tenants view bulk actions', function() {
   var loginPage = require('../login/login.po.js'),
     bulkActions = require('../tableControls/bulkActions.po.js'),
     shared = require('../shared.po.js'),
-    tenants = require('./tenants.po.js'),
+    tenants = require('../configuration/tenants.po.js'),
     params = browser.params,
     tenantCount;
 
   beforeAll(function() {
     loginPage.login(params.login.user, params.login.password);
+
+    // Ensure tenant exists that can be edited
+    browser.get(shared.tenantsPageUrl);
+    shared.createBtn.click();
+    var randomTenant = Math.floor((Math.random() * 1000) + 1);
+    tenants.nameFormField.sendKeys('Tenant ' + randomTenant);
+    shared.submitFormBtn.click().then(function() {
+      expect(shared.successMessage.isDisplayed()).toBeTruthy();
+    });
   });
 
   beforeEach(function() {
@@ -35,6 +44,7 @@ describe('The tenants view bulk actions', function() {
 
   it('should allow all selected tenant\'s status to be Disabled', function() {
     shared.searchField.sendKeys('Tenant'); // Ensure Platform tenant is not selected
+    tenantCount = shared.tableElements.count();
 
     // Update All bulk actions
     shared.actionsBtn.click();
@@ -56,7 +66,7 @@ describe('The tenants view bulk actions', function() {
 
       // All tenants are set to disabled
       // Select Disabled from Status drop down
-      bulkActions.statusTableDropDown.click();
+      bulkActions.statusColumnDropDown.click();
       bulkActions.statuses.get(0).click();
       shared.tableElements.count().then(function(disabledTotal) {
         expect(disabledTotal).toBe(tenantCount);
@@ -73,6 +83,7 @@ describe('The tenants view bulk actions', function() {
 
   it('should allow all selected tenant\'s status to be Enabled', function() {
     shared.searchField.sendKeys('Tenant'); // Ensure Platform tenant is not selected
+    tenantCount = shared.tableElements.count();
 
     // Update All bulk actions
     shared.actionsBtn.click();
@@ -95,7 +106,7 @@ describe('The tenants view bulk actions', function() {
 
       // All tenants are set to enabled
       // Select Disabled from Status drop down
-      bulkActions.statusTableDropDown.click();
+      bulkActions.statusColumnDropDown.click();
       bulkActions.statuses.get(0).click();
       shared.tableElements.count().then(function(disabledTotal) {
         expect(disabledTotal).toBe(0);
@@ -112,6 +123,7 @@ describe('The tenants view bulk actions', function() {
 
   it('should ignore disabled fields on update', function() {
     shared.searchField.sendKeys('Tenant'); // Ensure Platform tenant is not selected
+    tenantCount = shared.tableElements.count();
 
     shared.actionsBtn.click();
     bulkActions.selectAllTableHeader.click();
@@ -152,22 +164,23 @@ describe('The tenants view bulk actions', function() {
       expect(bulkActions.confirmModal.isDisplayed()).toBeTruthy();
       bulkActions.confirmOK.click().then(function() {
         shared.waitForSuccess();
-        expect(shared.successMessage.isDisplayed()).toBeTruthy();
 
         // Form reset
         expect(bulkActions.submitFormBtn.getAttribute('disabled')).toBeTruthy();
         expect(bulkActions.enableToggle.getAttribute('disabled')).toBeTruthy();
 
         // Only selected tenants are updated
-        for (var i = 0; i < originalTenants.length; i++) {
-          if (i % 2 > 0) {
-            // Tenant was updated to Disabled
-            expect(shared.tableElements.get(i).getText()).toContain('Disabled');
-          } else {
-            // Tenant status remains unchanged
-            expect(shared.tableElements.get(i).getText()).toBe(originalTenants[i].getText());
+        shared.tableElements.then(function(updatedTenants) {
+          for (var i = 0; i < originalTenants.length; i++) {
+            if (i % 2 > 0) {
+              // Tenant was updated to Disabled
+              expect(shared.tableElements.get(i).getText()).toContain('Disabled');
+            } else {
+              // Tenant status remains unchanged
+              expect(shared.tableElements.get(i).getText()).toBe(updatedTenants[i].getText());
+            }
           }
-        }
+        });
       });
     });
   });

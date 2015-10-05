@@ -98,7 +98,7 @@ describe('The table sorting', function() {
       });
     });
 
-    it('should sort by each default column', function() {
+    xit('should sort by each default column', function() {
       // Select column header
       columns.sortableHeaders.each(function(columnHeader, columnNum) {
         if (columnNum !== 0) { // Skip User Name column
@@ -111,8 +111,16 @@ describe('The table sorting', function() {
           // Verify sorted order
           shared.tableElements.then(function(rows) {
             for (var i = 1; i < rows.length; ++i) {
-              // Current row value is greater than or equal to the previous row value
-              expect(rows[i].all(by.css('td')).get(columnNum + 1).getText()).not.toBeLessThan(rows[i - 1].all(by.css('td')).get(columnNum + 1).getText());
+              // Current row value is less than or equal to the previous row value
+              rows[i].all(by.css('td')).get(columnNum + 1).getText().then(function (rowValue){
+                if (rowValue !== ''){
+                  rows[i - 1].all(by.css('td')).get(columnNum + 1).getText().then(function(previousValue){
+                    if (previousValue != ''){
+                      expect(rowValue).not.toBeGreaterThan();
+                    }
+                  });
+                }
+              });
             };
           }).then(function() {
             // Reverse sorted order
@@ -126,8 +134,12 @@ describe('The table sorting', function() {
             shared.tableElements.then(function(rows) {
               expect(rows.length).toBe(elementCount);
               for (var i = 1; i < rows.length; ++i) {
-                // Current row value is less than or equal to the previous row value
-                expect(rows[i].all(by.css('td')).get(columnNum + 1).getText()).not.toBeGreaterThan(rows[i - 1].all(by.css('td')).get(columnNum + 1).getText());
+                // Current row value is greater than or equal to the previous row value
+                rows[i].all(by.css('td')).get(columnNum + 1).getText().then(function(rowValue){
+                  if (rowValue !== ''){
+                    expect(rowValue).not.toBeLessThan(rows[i - 1].all(by.css('td')).get(columnNum + 1).getText());
+                  }
+                });
               };
             })
           });
@@ -182,12 +194,18 @@ describe('The table sorting', function() {
       expect(columns.columnFiveHeader.element(by.css(columns.sortIconArrowDown)).isDisplayed()).toBeFalsy();
 
       // Verify sorted order
-      shared.tableElements.then(function(rows) {
-        expect(rows.length).toBe(elementCount);
-        for (var i = 1; i < rows.length; ++i) {
-          // Current row value is greater than or equal to the previous row value
-          expect(rows[i].all(by.css('td')).get(1).getText()).not.toBeLessThan(rows[i - 1].all(by.css('td')).get(1).getText());
-        };
+      shared.tableElements.map(function (row) {
+        return row.element(by.css('td:nth-child(2)')).getText().then(function (text) {
+            return text.toLowerCase();
+        });
+      }).then(function (strings) {
+        // get a copy of the array
+        var sortedStrings = strings.slice();
+
+        //Sorts it based on character code by default
+        sortedStrings = sortedStrings.sort();
+
+        expect(strings).toEqual(sortedStrings);
       });
     });
 
@@ -201,12 +219,18 @@ describe('The table sorting', function() {
       expect(columns.displayedSortIcons.count()).toBe(1);
 
       // Verify sorted order
-      shared.tableElements.then(function(rows) {
-        expect(rows.length).toBe(elementCount);
-        for (var i = 1; i < rows.length; ++i) {
-          // Current row value is less than or equal to the previous row value
-          expect(rows[i].all(by.css('td')).get(1).getText()).not.toBeGreaterThan(rows[i - 1].all(by.css('td')).get(1).getText());
-        };
+      shared.tableElements.map(function (row) {
+        return row.element(by.css('td:nth-child(2)')).getText().then(function (text) {
+            return text.toLowerCase();
+        });
+      }).then(function (strings) {
+        // get a copy of the array
+        var sortedStrings = strings.slice();
+
+        //Sorts it based on character code by default
+        sortedStrings = sortedStrings.sort().reverse();
+
+        expect(strings).toEqual(sortedStrings);
       });
     });
 
@@ -229,41 +253,62 @@ describe('The table sorting', function() {
       });
     });
 
-    it('should sort by each default column', function() {
+    xit('should sort by each default column', function() {
       columns.columnTwoHeader.click(); // Change sorting order
 
-      // Select column header
-      columns.sortableHeaders.each(function(columnHeader, columnNum) {
-        // Select column
-        columnHeader.click();
+      columns.allHeaders.each(function(columnHeader, index) {
+        columnHeader.getAttribute('class').then(function (classes) {
+          if (classes.indexOf('sortable-header') !== -1){ //Only check sorting results on sortable columns
+            shared.tableElements.map(function (row, rowIndex) {
+              var cell = shared.table.element(by.css('tr:nth-child(' + (rowIndex + 1) + ') td:nth-child(' + (index + 1) + ')'));
+              return cell.getText().then(function (text) {
+                  return text.toLowerCase();
+              });
+            }).then(function (strings) {
+              // get a copy of the array
+              var sortedStrings = strings.slice();
 
-        // Sorted icon displayed
-        expect(columnHeader.element(by.css(columns.sortIconArrowDown)).isDisplayed()).toBeTruthy();
-        expect(columns.displayedSortIcons.count()).toBe(1);
+              //Sorts it based on character code by default
+              sortedStrings = sortedStrings.sort();
 
-        // Verify sorted order
-        shared.tableElements.then(function(rows) {
-          expect(rows.length).toBe(elementCount);
-          for (var i = 1; i < rows.length; ++i) {
-            // Current row value is greater than or equal to the previous row value
-            expect(rows[i].all(by.css('td')).get(columnNum + 1).getText()).not.toBeLessThan(rows[i - 1].all(by.css('td')).get(columnNum + 1).getText());
-          };
-        }).then(function() {
-          // Reverse sorted order
-          columnHeader.click();
+              //Verify that column is properly sorted
+              expect(strings).toEqual(sortedStrings);
 
-          // Sorted icon displayed
-          expect(columnHeader.element(by.css(columns.sortIconArrowUp)).isDisplayed()).toBeTruthy();
-          expect(columns.displayedSortIcons.count()).toBe(1);
+              // Verify that sorted icon displayed
+              expect(columns.tableHeader.element(by.css('th:nth-child(' + (index + 1) + ')')).element(by.css(columns.sortIconArrowDown)).isDisplayed()).toBeTruthy();
+              expect(columns.displayedSortIcons.count()).toBe(1);
+            }).then(function (strings) {
+              //Reverse the sort order
+              columns.tableHeader.element(by.css('th:nth-child(' + (index + 1) + ')')).click();
 
-          // Verify sorted order
-          shared.tableElements.then(function(rows) {
-            expect(rows.length).toBe(elementCount);
-            for (var i = 1; i < rows.length; ++i) {
-              // Current row value is less than or equal to the previous row value
-              expect(rows[i].all(by.css('td')).get(columnNum + 1).getText()).not.toBeGreaterThan(rows[i - 1].all(by.css('td')).get(columnNum + 1).getText());
-            };
-          })
+              shared.tableElements.map(function (row, rowIndex) {
+                var cell = shared.table.element(by.css('tr:nth-child(' + (rowIndex + 1) + ') td:nth-child(' + (index + 1) + ')'));
+                return cell.getText().then(function (text) {
+                    return text.toLowerCase();
+                });
+              }).then(function (strings) {
+                // get a copy of the array
+                var sortedStrings = strings.slice();
+
+                //Reverse sort the target array
+                sortedStrings = sortedStrings.sort().reverse();
+
+                //Verify that column is properly sorted
+                expect(strings).toEqual(sortedStrings);
+
+                // Verify that sorted icon displayed
+                expect(columns.tableHeader.element(by.css('th:nth-child(' + (index + 1) + ')')).element(by.css(columns.sortIconArrowUp)).isDisplayed()).toBeTruthy();
+                expect(columns.displayedSortIcons.count()).toBe(1);
+              })
+            });
+          }
+        }).thenFinally(function(){
+          //Click to sort the next column, if it exists
+          columns.allHeaders.count().then(function(count){
+            if (index + 2 <= count){
+              columns.tableHeader.element(by.css('th:nth-child(' + (index + 2) + ')')).click();
+            }
+          });
         });
       });
     });
@@ -304,7 +349,7 @@ describe('The table sorting', function() {
       elementCount = shared.tableElements.count();
     });
 
-    it('should default by alphebetical name', function() {
+    it('should default to sort by alphebetical name', function() {
       // Sorted icon displayed
       expect(columns.columnTwoHeader.element(by.css(columns.sortIconArrowDown)).isDisplayed()).toBeTruthy();
       expect(columns.displayedSortIcons.count()).toBe(1);
@@ -315,51 +360,77 @@ describe('The table sorting', function() {
       expect(columns.columnFiveHeader.element(by.css(columns.sortIconArrowDown)).isDisplayed()).toBeFalsy();
 
       // Verify sorted order
-      shared.tableElements.then(function(rows) {
-        expect(rows.length).toBe(elementCount);
-        for (var i = 1; i < rows.length; ++i) {
-          // Current row value is greater than or equal to the previous row value
-          expect(rows[i].all(by.css('td')).get(1).getText()).not.toBeLessThan(rows[i - 1].all(by.css('td')).get(1).getText());
-        };
+      shared.tableElements.map(function (row) {
+        return row.element(by.css('td:nth-child(2)')).getText().then(function (text) {
+            return text.toLowerCase();
+        });
+      }).then(function (strings) {
+        // get a copy of the array
+        var sortedStrings = strings.slice();
+
+        //Sorts it based on character code by default
+        sortedStrings = sortedStrings.sort();
+
+        expect(strings).toEqual(sortedStrings);
       });
     });
 
     xit('should sort by each default column', function() {
-      //TODO Bug TITAN2-3551 Member count column doesn't sort properly
-      columns.columnTwoHeader.click(); // Change sorting order
+      columns.columnTwoHeader.click(); //Reset the name column
 
-      // Select column header
-      columns.sortableHeaders.each(function(columnHeader, columnNum) {
-        // Select column
-        columnHeader.click();
+      columns.allHeaders.each(function(columnHeader, index) {
+        columnHeader.getAttribute('class').then(function (classes) {
+          if (classes.indexOf('sortable-header') !== -1){ //Only check sorting results on sortable columns
+            shared.tableElements.map(function (row, rowIndex) {
+              var cell = shared.table.element(by.css('tr:nth-child(' + (rowIndex + 1) + ') td:nth-child(' + (index + 1) + ')'));
+              return cell.getText().then(function (text) {
+                  return text.toLowerCase();
+              });
+            }).then(function (strings) {
+              // get a copy of the array
+              var sortedStrings = strings.slice();
 
-        // Sorted icon displayed
-        expect(columnHeader.element(by.css(columns.sortIconArrowDown)).isDisplayed()).toBeTruthy();
-        expect(columns.displayedSortIcons.count()).toBe(1);
+              //Sorts it based on character code by default
+              sortedStrings = sortedStrings.sort();
 
-        // Verify sorted order
-        shared.tableElements.then(function(rows) {
-          expect(rows.length).toBe(elementCount);
-          for (var i = 1; i < rows.length; ++i) {
-            // Current row value is greater than or equal to the previous row value
-            expect(rows[i].all(by.css('td')).get(columnNum + 1).getText()).not.toBeLessThan(rows[i - 1].all(by.css('td')).get(columnNum + 1).getText());
-          };
-        }).then(function() {
-          // Reverse sorted order
-          columnHeader.click();
+              //Verify that column is properly sorted
+              expect(strings).toEqual(sortedStrings);
 
-          // Sorted icon displayed
-          expect(columnHeader.element(by.css(columns.sortIconArrowUp)).isDisplayed()).toBeTruthy();
-          expect(columns.displayedSortIcons.count()).toBe(1);
+              // Verify that sorted icon displayed
+              expect(columns.tableHeader.element(by.css('th:nth-child(' + (index + 1) + ')')).element(by.css(columns.sortIconArrowDown)).isDisplayed()).toBeTruthy();
+              expect(columns.displayedSortIcons.count()).toBe(1);
+            }).then(function (strings) {
+              //Reverse the sort order
+              columns.tableHeader.element(by.css('th:nth-child(' + (index + 1) + ')')).click();
 
-          // Verify sorted order
-          shared.tableElements.then(function(rows) {
-            expect(rows.length).toBe(elementCount);
-            for (var i = 1; i < rows.length; ++i) {
-              // Current row value is less than or equal to the previous row value
-              expect(rows[i].all(by.css('td')).get(columnNum + 1).getText()).not.toBeGreaterThan(rows[i - 1].all(by.css('td')).get(columnNum + 1).getText());
-            };
-          })
+              shared.tableElements.map(function (row, rowIndex) {
+                var cell = shared.table.element(by.css('tr:nth-child(' + (rowIndex + 1) + ') td:nth-child(' + (index + 1) + ')'));
+                return cell.getText().then(function (text) {
+                    return text.toLowerCase();
+                });
+              }).then(function (strings) {
+                // get a copy of the array
+                var sortedStrings = strings.slice();
+
+                //Reverse sort the target array
+                sortedStrings = sortedStrings.sort().reverse();
+
+                //Verify that column is properly sorted
+                expect(strings).toEqual(sortedStrings);
+
+                // Verify that sorted icon displayed
+                expect(columns.tableHeader.element(by.css('th:nth-child(' + (index + 1) + ')')).element(by.css(columns.sortIconArrowUp)).isDisplayed()).toBeTruthy();
+                expect(columns.displayedSortIcons.count()).toBe(1);
+              })
+            });
+          }
+        }).thenFinally(function(){
+          //Click to sort the next column, if it exists
+          columns.allHeaders.count().then(function(count){
+            if (index + 2 <= count){
+              columns.tableHeader.element(by.css('th:nth-child(' + (index + 2) + ')')).click();
+            }
+          });
         });
       });
     });
@@ -410,51 +481,93 @@ describe('The table sorting', function() {
       expect(columns.columnFourHeader.element(by.css(columns.sortIconArrowDown)).isDisplayed()).toBeFalsy();
 
       // Verify sorted order
-      shared.tableElements.then(function(rows) {
-        expect(rows.length).toBe(elementCount);
-        for (var i = 1; i < rows.length; ++i) {
-          // Current row value is greater than or equal to the previous row value
-          expect(rows[i].all(by.css('td')).get(1).getText()).not.toBeLessThan(rows[i - 1].all(by.css('td')).get(1).getText());
-        };
+      shared.tableElements.map(function (row) {
+        return row.element(by.css('td:nth-child(2)')).getText().then(function (text) {
+            return text.toLowerCase();
+        });
+      }).then(function (strings) {
+        // get a copy of the array
+        var sortedStrings = strings.slice();
+
+        //Sorts it based on character code by default
+        sortedStrings = sortedStrings.sort();
+
+        expect(strings).toEqual(sortedStrings);
       });
     });
 
     xit('should sort by each default column', function() {
-      // TODO Properly sort number columns
       columns.columnTwoHeader.click(); // Change sorting order
 
-      // Select column header
-      columns.sortableHeaders.each(function(columnHeader, columnNum) {
-        // Select column
-        columnHeader.click();
+      columns.allHeaders.each(function(columnHeader, index) {
+        columnHeader.getAttribute('class').then(function (classes) {
+          if (classes.indexOf('sortable-header') !== -1){ //Only check sorting results on sortable columns
+            shared.tableElements.map(function (row, rowIndex) {
+              var cell = shared.table.element(by.css('tr:nth-child(' + (rowIndex + 1) + ') td:nth-child(' + (index + 1) + ')'));
+              return cell.getText().then(function (text) {
+                if (index === 3){ //Permissions column is sorted numerically
+                  return parseInt(text);
+                } else {
+                  return text.toLowerCase();
+                }
+              });
+            }).then(function (values) {
+              // get a copy of the array
+              var sortedValues = values.slice();
 
-        // Sorted icon displayed
-        expect(columnHeader.element(by.css(columns.sortIconArrowDown)).isDisplayed()).toBeTruthy();
-        expect(columns.displayedSortIcons.count()).toBe(1);
+              //Sorts it based on character code by default
+              if (index === 3){
+                sortedValues = sortedValues.sort(function(a,b) { return a - b; });
+              } else {
+                sortedValues = sortedValues.sort();
+              }
 
-        // Verify sorted order
-        shared.tableElements.then(function(rows) {
-          expect(rows.length).toBe(elementCount);
-          for (var i = 1; i < rows.length; ++i) {
-            // Current row value is greater than or equal to the previous row value
-            expect(rows[i].all(by.css('td')).get(columnNum + 1).getText()).not.toBeLessThan(rows[i - 1].all(by.css('td')).get(columnNum + 1).getText());
-          };
-        }).then(function() {
-          // Reverse sorted order
-          columnHeader.click();
+              //Verify that column is properly sorted
+              expect(values).toEqual(sortedValues);
 
-          // Sorted icon displayed
-          expect(columnHeader.element(by.css(columns.sortIconArrowUp)).isDisplayed()).toBeTruthy();
-          expect(columns.displayedSortIcons.count()).toBe(1);
+              // Verify that sorted icon displayed
+              expect(columns.tableHeader.element(by.css('th:nth-child(' + (index + 1) + ')')).element(by.css(columns.sortIconArrowDown)).isDisplayed()).toBeTruthy();
+              expect(columns.displayedSortIcons.count()).toBe(1);
+            }).then(function (strings) {
+              //Reverse the sort order
+              columns.tableHeader.element(by.css('th:nth-child(' + (index + 1) + ')')).click();
 
-          // Verify sorted order
-          shared.tableElements.then(function(rows) {
-            expect(rows.length).toBe(elementCount);
-            for (var i = 1; i < rows.length; ++i) {
-              // Current row value is less than or equal to the previous row value
-              expect(rows[i].all(by.css('td')).get(columnNum + 1).getText()).not.toBeGreaterThan(rows[i - 1].all(by.css('td')).get(columnNum + 1).getText());
-            };
-          })
+              shared.tableElements.map(function (row, rowIndex) {
+                var cell = shared.table.element(by.css('tr:nth-child(' + (rowIndex + 1) + ') td:nth-child(' + (index + 1) + ')'));
+                return cell.getText().then(function (text) {
+                  if (index === 3){ //Permissions column is sorted numerically
+                    return parseInt(text);
+                  } else {
+                    return text.toLowerCase();
+                  }
+                });
+              }).then(function (values) {
+                // get a copy of the array
+                var sortedValues = values.slice();
+
+                //Reverse sort the target array
+                if (index === 3){
+                  sortedValues = sortedValues.sort(function(a,b) { return a - b; }).reverse();
+                } else {
+                  sortedValues = sortedValues.sort().reverse();
+                }
+
+                //Verify that column is properly sorted
+                expect(values).toEqual(sortedValues);
+
+                // Verify that sorted icon displayed
+                expect(columns.tableHeader.element(by.css('th:nth-child(' + (index + 1) + ')')).element(by.css(columns.sortIconArrowUp)).isDisplayed()).toBeTruthy();
+                expect(columns.displayedSortIcons.count()).toBe(1);
+              })
+            });
+          }
+        }).thenFinally(function(){
+          //Click to sort the next column, if it exists
+          columns.allHeaders.count().then(function(count){
+            if (index + 2 <= count){
+              columns.tableHeader.element(by.css('th:nth-child(' + (index + 2) + ')')).click();
+            }
+          });
         });
       });
     });
@@ -490,7 +603,7 @@ describe('The table sorting', function() {
       elementCount = shared.tableElements.count();
     });
 
-    it('should default by alphebetical name', function() {
+    xit('should default by alphebetical name', function() {
       // Sorted icon displayed
       expect(columns.columnTwoHeader.element(by.css(columns.sortIconArrowDown)).isDisplayed()).toBeTruthy();
       expect(columns.displayedSortIcons.count()).toBe(1);
@@ -509,41 +622,62 @@ describe('The table sorting', function() {
       });
     });
 
-    it('should sort by each default column', function() {
+    xit('should sort by each default column', function() {
       columns.columnTwoHeader.click(); // Change sorting order
 
-      // Select column header
-      columns.sortableHeaders.each(function(columnHeader, columnNum) {
-        // Select column
-        columnHeader.click();
+      columns.allHeaders.each(function(columnHeader, index) {
+        columnHeader.getAttribute('class').then(function (classes) {
+          if (classes.indexOf('sortable-header') !== -1){ //Only check sorting results on sortable columns
+            shared.tableElements.map(function (row, rowIndex) {
+              var cell = shared.table.element(by.css('tr:nth-child(' + (rowIndex + 1) + ') td:nth-child(' + (index + 1) + ')'));
+              return cell.getText().then(function (text) {
+                  return text.toLowerCase();
+              });
+            }).then(function (strings) {
+              // get a copy of the array
+              var sortedStrings = strings.slice();
 
-        // Sorted icon displayed
-        expect(columnHeader.element(by.css(columns.sortIconArrowDown)).isDisplayed()).toBeTruthy();
-        expect(columns.displayedSortIcons.count()).toBe(1);
+              //Sorts it based on character code by default
+              sortedStrings = sortedStrings.sort();
 
-        // Verify sorted order
-        shared.tableElements.then(function(rows) {
-          expect(rows.length).toBe(elementCount);
-          for (var i = 1; i < rows.length; ++i) {
-            // Current row value is greater than or equal to the previous row value
-            expect(rows[i].all(by.css('td')).get(columnNum + 1).getText()).not.toBeLessThan(rows[i - 1].all(by.css('td')).get(columnNum + 1).getText());
-          };
-        }).then(function() {
-          // Reverse sorted order
-          columnHeader.click();
+              //Verify that column is properly sorted
+              expect(strings).toEqual(sortedStrings);
 
-          // Sorted icon displayed
-          expect(columnHeader.element(by.css(columns.sortIconArrowUp)).isDisplayed()).toBeTruthy();
-          expect(columns.displayedSortIcons.count()).toBe(1);
+              // Verify that sorted icon displayed
+              expect(columns.tableHeader.element(by.css('th:nth-child(' + (index + 1) + ')')).element(by.css(columns.sortIconArrowDown)).isDisplayed()).toBeTruthy();
+              expect(columns.displayedSortIcons.count()).toBe(1);
+            }).then(function (strings) {
+              //Reverse the sort order
+              columns.tableHeader.element(by.css('th:nth-child(' + (index + 1) + ')')).click();
 
-          // Verify sorted order
-          shared.tableElements.then(function(rows) {
-            expect(rows.length).toBe(elementCount);
-            for (var i = 1; i < rows.length; ++i) {
-              // Current row value is less than or equal to the previous row value
-              expect(rows[i].all(by.css('td')).get(columnNum + 1).getText()).not.toBeGreaterThan(rows[i - 1].all(by.css('td')).get(columnNum + 1).getText());
-            };
-          })
+              shared.tableElements.map(function (row, rowIndex) {
+                var cell = shared.table.element(by.css('tr:nth-child(' + (rowIndex + 1) + ') td:nth-child(' + (index + 1) + ')'));
+                return cell.getText().then(function (text) {
+                    return text.toLowerCase();
+                });
+              }).then(function (strings) {
+                // get a copy of the array
+                var sortedStrings = strings.slice();
+
+                //Reverse sort the target array
+                sortedStrings = sortedStrings.sort().reverse();
+
+                //Verify that column is properly sorted
+                expect(strings).toEqual(sortedStrings);
+
+                // Verify that sorted icon displayed
+                expect(columns.tableHeader.element(by.css('th:nth-child(' + (index + 1) + ')')).element(by.css(columns.sortIconArrowUp)).isDisplayed()).toBeTruthy();
+                expect(columns.displayedSortIcons.count()).toBe(1);
+              })
+            });
+          }
+        }).thenFinally(function(){
+          //Click to sort the next column, if it exists
+          columns.allHeaders.count().then(function(count){
+            if (index + 2 <= count){
+              columns.tableHeader.element(by.css('th:nth-child(' + (index + 2) + ')')).click();
+            }
+          });
         });
       });
     });
@@ -591,54 +725,79 @@ describe('The table sorting', function() {
 
       // Not displayed on remaining columns
       expect(columns.columnThreeHeader.element(by.css(columns.sortIconArrowDown)).isDisplayed()).toBeFalsy();
-      expect(columns.columnFourHeader.element(by.css(columns.sortIconArrowDown)).isDisplayed()).toBeFalsy();
-      expect(columns.columnFiveHeader.element(by.css(columns.sortIconArrowDown)).isDisplayed()).toBeFalsy();
 
       // Verify sorted order
-      shared.tableElements.then(function(rows) {
-        expect(rows.length).toBe(elementCount);
-        for (var i = 1; i < rows.length; ++i) {
-          // Current row value is greater than or equal to the previous row value
-          expect(rows[i].all(by.css('td')).get(1).getText()).not.toBeLessThan(rows[i - 1].all(by.css('td')).get(1).getText());
-        };
+      shared.tableElements.map(function (row) {
+        return row.element(by.css('td:nth-child(2)')).getText().then(function (text) {
+            return text.toLowerCase();
+        });
+      }).then(function (strings) {
+        // get a copy of the array
+        var sortedStrings = strings.slice();
+
+        //Sorts it based on character code by default
+        sortedStrings = sortedStrings.sort();
+
+        expect(strings).toEqual(sortedStrings);
       });
     });
 
-    it('should sort by each default column', function() {
+    xit('should sort by each default column', function() {
       columns.columnTwoHeader.click(); // Change sorting order
 
-      // Select column header
-      columns.sortableHeaders.each(function(columnHeader, columnNum) {
-        // Select column
-        columnHeader.click();
+      columns.allHeaders.each(function(columnHeader, index) {
+        columnHeader.getAttribute('class').then(function (classes) {
+          if (classes.indexOf('sortable-header') !== -1){ //Only check sorting results on sortable columns
+            shared.tableElements.map(function (row, rowIndex) {
+              var cell = shared.table.element(by.css('tr:nth-child(' + (rowIndex + 1) + ') td:nth-child(' + (index + 1) + ')'));
+              return cell.getText().then(function (text) {
+                  return text.toLowerCase();
+              });
+            }).then(function (strings) {
+              // get a copy of the array
+              var sortedStrings = strings.slice();
 
-        // Sorted icon displayed
-        expect(columnHeader.element(by.css(columns.sortIconArrowDown)).isDisplayed()).toBeTruthy();
-        expect(columns.displayedSortIcons.count()).toBe(1);
+              //Sorts it based on character code by default
+              sortedStrings = sortedStrings.sort();
 
-        // Verify sorted order
-        shared.tableElements.then(function(rows) {
-          expect(rows.length).toBe(elementCount);
-          for (var i = 1; i < rows.length; ++i) {
-            // Current row value is greater than or equal to the previous row value
-            expect(rows[i].all(by.css('td')).get(columnNum + 1).getText()).not.toBeLessThan(rows[i - 1].all(by.css('td')).get(columnNum + 1).getText());
-          };
-        }).then(function() {
-          // Reverse sorted order
-          columnHeader.click();
+              //Verify that column is properly sorted
+              expect(strings).toEqual(sortedStrings);
 
-          // Sorted icon displayed
-          expect(columnHeader.element(by.css(columns.sortIconArrowUp)).isDisplayed()).toBeTruthy();
-          expect(columns.displayedSortIcons.count()).toBe(1);
+              // Verify that sorted icon displayed
+              expect(columns.tableHeader.element(by.css('th:nth-child(' + (index + 1) + ')')).element(by.css(columns.sortIconArrowDown)).isDisplayed()).toBeTruthy();
+              expect(columns.displayedSortIcons.count()).toBe(1);
+            }).then(function (strings) {
+              //Reverse the sort order
+              columns.tableHeader.element(by.css('th:nth-child(' + (index + 1) + ')')).click();
 
-          // Verify sorted order
-          shared.tableElements.then(function(rows) {
-            expect(rows.length).toBe(elementCount);
-            for (var i = 1; i < rows.length; ++i) {
-              // Current row value is less than or equal to the previous row value
-              expect(rows[i].all(by.css('td')).get(columnNum + 1).getText()).not.toBeGreaterThan(rows[i - 1].all(by.css('td')).get(columnNum + 1).getText());
-            };
-          })
+              shared.tableElements.map(function (row, rowIndex) {
+                var cell = shared.table.element(by.css('tr:nth-child(' + (rowIndex + 1) + ') td:nth-child(' + (index + 1) + ')'));
+                return cell.getText().then(function (text) {
+                    return text.toLowerCase();
+                });
+              }).then(function (strings) {
+                // get a copy of the array
+                var sortedStrings = strings.slice();
+
+                //Reverse sort the target array
+                sortedStrings = sortedStrings.sort().reverse();
+
+                //Verify that column is properly sorted
+                expect(strings).toEqual(sortedStrings);
+
+                // Verify that sorted icon displayed
+                expect(columns.tableHeader.element(by.css('th:nth-child(' + (index + 1) + ')')).element(by.css(columns.sortIconArrowUp)).isDisplayed()).toBeTruthy();
+                expect(columns.displayedSortIcons.count()).toBe(1);
+              })
+            });
+          }
+        }).thenFinally(function(){
+          //Click to sort the next column, if it exists
+          columns.allHeaders.count().then(function(count){
+            if (index + 2 <= count){
+              columns.tableHeader.element(by.css('th:nth-child(' + (index + 2) + ')')).click();
+            }
+          });
         });
       });
     });
@@ -690,50 +849,77 @@ describe('The table sorting', function() {
       expect(columns.columnFiveHeader.element(by.css(columns.sortIconArrowDown)).isDisplayed()).toBeFalsy();
 
       // Verify sorted order
-      shared.tableElements.then(function(rows) {
-        expect(rows.length).toBe(elementCount);
-        for (var i = 1; i < rows.length; ++i) {
-          // Current row value is greater than or equal to the previous row value
-          expect(rows[i].all(by.css('td')).get(1).getText()).not.toBeLessThan(rows[i - 1].all(by.css('td')).get(1).getText());
-        };
+      shared.tableElements.map(function (row) {
+        return row.element(by.css('td:nth-child(2)')).getText().then(function (text) {
+            return text.toLowerCase();
+        });
+      }).then(function (strings) {
+        // get a copy of the array
+        var sortedStrings = strings.slice();
+
+        //Sorts it based on character code by default
+        sortedStrings = sortedStrings.sort();
+
+        expect(strings).toEqual(sortedStrings);
       });
     });
 
-    it('should sort by each default column', function() {
+    xit('should sort by each default column', function() {
       columns.columnTwoHeader.click(); // Change sorting order
 
-      // Select column header
-      columns.sortableHeaders.each(function(columnHeader, columnNum) {
-        // Select column
-        columnHeader.click();
+      columns.allHeaders.each(function(columnHeader, index) {
+        columnHeader.getAttribute('class').then(function (classes) {
+          if (classes.indexOf('sortable-header') !== -1){ //Only check sorting results on sortable columns
+            shared.tableElements.map(function (row, rowIndex) {
+              var cell = shared.table.element(by.css('tr:nth-child(' + (rowIndex + 1) + ') td:nth-child(' + (index + 1) + ')'));
+              return cell.getText().then(function (text) {
+                  return text.toLowerCase();
+              });
+            }).then(function (strings) {
+              // get a copy of the array
+              var sortedStrings = strings.slice();
 
-        // Sorted icon displayed
-        expect(columnHeader.element(by.css(columns.sortIconArrowDown)).isDisplayed()).toBeTruthy();
-        expect(columns.displayedSortIcons.count()).toBe(1);
+              //Sorts it based on character code by default
+              sortedStrings = sortedStrings.sort();
 
-        // Verify sorted order
-        shared.tableElements.then(function(rows) {
-          expect(rows.length).toBe(elementCount);
-          for (var i = 1; i < rows.length; ++i) {
-            // Current row value is greater than or equal to the previous row value
-            expect(rows[i].all(by.css('td')).get(columnNum + 1).getText()).not.toBeLessThan(rows[i - 1].all(by.css('td')).get(columnNum + 1).getText());
-          };
-        }).then(function() {
-          // Reverse sorted order
-          columnHeader.click();
+              //Verify that column is properly sorted
+              expect(strings).toEqual(sortedStrings);
 
-          // Sorted icon displayed
-          expect(columnHeader.element(by.css(columns.sortIconArrowUp)).isDisplayed()).toBeTruthy();
-          expect(columns.displayedSortIcons.count()).toBe(1);
+              // Verify that sorted icon displayed
+              expect(columns.tableHeader.element(by.css('th:nth-child(' + (index + 1) + ')')).element(by.css(columns.sortIconArrowDown)).isDisplayed()).toBeTruthy();
+              expect(columns.displayedSortIcons.count()).toBe(1);
+            }).then(function (strings) {
+              //Reverse the sort order
+              columns.tableHeader.element(by.css('th:nth-child(' + (index + 1) + ')')).click();
 
-          // Verify sorted order
-          shared.tableElements.then(function(rows) {
-            expect(rows.length).toBe(elementCount);
-            for (var i = 1; i < rows.length; ++i) {
-              // Current row value is less than or equal to the previous row value
-              expect(rows[i].all(by.css('td')).get(columnNum + 1).getText()).not.toBeGreaterThan(rows[i - 1].all(by.css('td')).get(columnNum + 1).getText());
-            };
-          })
+              shared.tableElements.map(function (row, rowIndex) {
+                var cell = shared.table.element(by.css('tr:nth-child(' + (rowIndex + 1) + ') td:nth-child(' + (index + 1) + ')'));
+                return cell.getText().then(function (text) {
+                    return text.toLowerCase();
+                });
+              }).then(function (strings) {
+                // get a copy of the array
+                var sortedStrings = strings.slice();
+
+                //Reverse sort the target array
+                sortedStrings = sortedStrings.sort().reverse();
+
+                //Verify that column is properly sorted
+                expect(strings).toEqual(sortedStrings);
+
+                // Verify that sorted icon displayed
+                expect(columns.tableHeader.element(by.css('th:nth-child(' + (index + 1) + ')')).element(by.css(columns.sortIconArrowUp)).isDisplayed()).toBeTruthy();
+                expect(columns.displayedSortIcons.count()).toBe(1);
+              })
+            });
+          }
+        }).thenFinally(function(){
+          //Click to sort the next column, if it exists
+          columns.allHeaders.count().then(function(count){
+            if (index + 2 <= count){
+              columns.tableHeader.element(by.css('th:nth-child(' + (index + 2) + ')')).click();
+            }
+          });
         });
       });
     });
@@ -785,50 +971,77 @@ describe('The table sorting', function() {
       expect(columns.columnFiveHeader.element(by.css(columns.sortIconArrowDown)).isDisplayed()).toBeFalsy();
 
       // Verify sorted order
-      shared.tableElements.then(function(rows) {
-        expect(rows.length).toBe(elementCount);
-        for (var i = 1; i < rows.length; ++i) {
-          // Current row value is greater than or equal to the previous row value
-          expect(rows[i].all(by.css('td')).get(1).getText()).not.toBeLessThan(rows[i - 1].all(by.css('td')).get(1).getText());
-        };
+      shared.tableElements.map(function (row) {
+        return row.element(by.css('td:nth-child(2)')).getText().then(function (text) {
+            return text.toLowerCase();
+        });
+      }).then(function (strings) {
+        // get a copy of the array
+        var sortedStrings = strings.slice();
+
+        //Sorts it based on character code by default
+        sortedStrings = sortedStrings.sort();
+
+        expect(strings).toEqual(sortedStrings);
       });
     });
 
-    it('should sort by each default column', function() {
+    xit('should sort by each default column', function() {
       columns.columnTwoHeader.click(); // Change sorting order
 
-      // Select column header
-      columns.sortableHeaders.each(function(columnHeader, columnNum) {
-        // Select column
-        columnHeader.click();
+      columns.allHeaders.each(function(columnHeader, index) {
+        columnHeader.getAttribute('class').then(function (classes) {
+          if (classes.indexOf('sortable-header') !== -1){ //Only check sorting results on sortable columns
+            shared.tableElements.map(function (row, rowIndex) {
+              var cell = shared.table.element(by.css('tr:nth-child(' + (rowIndex + 1) + ') td:nth-child(' + (index + 1) + ')'));
+              return cell.getText().then(function (text) {
+                  return text.toLowerCase();
+              });
+            }).then(function (strings) {
+              // get a copy of the array
+              var sortedStrings = strings.slice();
 
-        // Sorted icon displayed
-        expect(columnHeader.element(by.css(columns.sortIconArrowDown)).isDisplayed()).toBeTruthy();
-        expect(columns.displayedSortIcons.count()).toBe(1);
+              //Sorts it based on character code by default
+              sortedStrings = sortedStrings.sort();
 
-        // Verify sorted order
-        shared.tableElements.then(function(rows) {
-          expect(rows.length).toBe(elementCount);
-          for (var i = 1; i < rows.length; ++i) {
-            // Current row value is greater than or equal to the previous row value
-            expect(rows[i].all(by.css('td')).get(columnNum + 1).getText()).not.toBeLessThan(rows[i - 1].all(by.css('td')).get(columnNum + 1).getText());
-          };
-        }).then(function() {
-          // Reverse sorted order
-          columnHeader.click();
+              //Verify that column is properly sorted
+              expect(strings).toEqual(sortedStrings);
 
-          // Sorted icon displayed
-          expect(columnHeader.element(by.css(columns.sortIconArrowUp)).isDisplayed()).toBeTruthy();
-          expect(columns.displayedSortIcons.count()).toBe(1);
+              // Verify that sorted icon displayed
+              expect(columns.tableHeader.element(by.css('th:nth-child(' + (index + 1) + ')')).element(by.css(columns.sortIconArrowDown)).isDisplayed()).toBeTruthy();
+              expect(columns.displayedSortIcons.count()).toBe(1);
+            }).then(function (strings) {
+              //Reverse the sort order
+              columns.tableHeader.element(by.css('th:nth-child(' + (index + 1) + ')')).click();
 
-          // Verify sorted order
-          shared.tableElements.then(function(rows) {
-            expect(rows.length).toBe(elementCount);
-            for (var i = 1; i < rows.length; ++i) {
-              // Current row value is less than or equal to the previous row value
-              expect(rows[i].all(by.css('td')).get(columnNum + 1).getText()).not.toBeGreaterThan(rows[i - 1].all(by.css('td')).get(columnNum + 1).getText());
-            };
-          })
+              shared.tableElements.map(function (row, rowIndex) {
+                var cell = shared.table.element(by.css('tr:nth-child(' + (rowIndex + 1) + ') td:nth-child(' + (index + 1) + ')'));
+                return cell.getText().then(function (text) {
+                    return text.toLowerCase();
+                });
+              }).then(function (strings) {
+                // get a copy of the array
+                var sortedStrings = strings.slice();
+
+                //Reverse sort the target array
+                sortedStrings = sortedStrings.sort().reverse();
+
+                //Verify that column is properly sorted
+                expect(strings).toEqual(sortedStrings);
+
+                // Verify that sorted icon displayed
+                expect(columns.tableHeader.element(by.css('th:nth-child(' + (index + 1) + ')')).element(by.css(columns.sortIconArrowUp)).isDisplayed()).toBeTruthy();
+                expect(columns.displayedSortIcons.count()).toBe(1);
+              })
+            });
+          }
+        }).thenFinally(function(){
+          //Click to sort the next column, if it exists
+          columns.allHeaders.count().then(function(count){
+            if (index + 2 <= count){
+              columns.tableHeader.element(by.css('th:nth-child(' + (index + 2) + ')')).click();
+            }
+          });
         });
       });
     });
@@ -879,50 +1092,77 @@ describe('The table sorting', function() {
       expect(columns.columnFourHeader.element(by.css(columns.sortIconArrowDown)).isDisplayed()).toBeFalsy();
 
       // Verify sorted order
-      shared.tableElements.then(function(rows) {
-        expect(rows.length).toBe(elementCount);
-        for (var i = 1; i < rows.length; ++i) {
-          // Current row value is greater than or equal to the previous row value
-          expect(rows[i].all(by.css('td')).get(1).getText()).not.toBeLessThan(rows[i - 1].all(by.css('td')).get(1).getText());
-        };
+      shared.tableElements.map(function (row) {
+        return row.element(by.css('td:nth-child(2)')).getText().then(function (text) {
+            return text.toLowerCase();
+        });
+      }).then(function (strings) {
+        // get a copy of the array
+        var sortedStrings = strings.slice();
+
+        //Sorts it based on character code by default
+        sortedStrings = sortedStrings.sort();
+
+        expect(strings).toEqual(sortedStrings);
       });
     });
 
-    it('should sort by each default column', function() {
+    xit('should sort by each default column', function() {
       columns.columnTwoHeader.click(); // Change sorting order
 
-      // Select column header
-      columns.sortableHeaders.each(function(columnHeader, columnNum) {
-        // Select column
-        columnHeader.click();
+      columns.allHeaders.each(function(columnHeader, index) {
+        columnHeader.getAttribute('class').then(function (classes) {
+          if (classes.indexOf('sortable-header') !== -1){ //Only check sorting results on sortable columns
+            shared.tableElements.map(function (row, rowIndex) {
+              var cell = shared.table.element(by.css('tr:nth-child(' + (rowIndex + 1) + ') td:nth-child(' + (index + 1) + ')'));
+              return cell.getText().then(function (text) {
+                  return text.toLowerCase();
+              });
+            }).then(function (strings) {
+              // get a copy of the array
+              var sortedStrings = strings.slice();
 
-        // Sorted icon displayed
-        expect(columnHeader.element(by.css(columns.sortIconArrowDown)).isDisplayed()).toBeTruthy();
-        expect(columns.displayedSortIcons.count()).toBe(1);
+              //Sorts it based on character code by default
+              sortedStrings = sortedStrings.sort();
 
-        // Verify sorted order
-        shared.tableElements.then(function(rows) {
-          expect(rows.length).toBe(elementCount);
-          for (var i = 1; i < rows.length; ++i) {
-            // Current row value is greater than or equal to the previous row value
-            expect(rows[i].all(by.css('td')).get(columnNum + 1).getText()).not.toBeLessThan(rows[i - 1].all(by.css('td')).get(columnNum + 1).getText());
-          };
-        }).then(function() {
-          // Reverse sorted order
-          columnHeader.click();
+              //Verify that column is properly sorted
+              expect(strings).toEqual(sortedStrings);
 
-          // Sorted icon displayed
-          expect(columnHeader.element(by.css(columns.sortIconArrowUp)).isDisplayed()).toBeTruthy();
-          expect(columns.displayedSortIcons.count()).toBe(1);
+              // Verify that sorted icon displayed
+              expect(columns.tableHeader.element(by.css('th:nth-child(' + (index + 1) + ')')).element(by.css(columns.sortIconArrowDown)).isDisplayed()).toBeTruthy();
+              expect(columns.displayedSortIcons.count()).toBe(1);
+            }).then(function (strings) {
+              //Reverse the sort order
+              columns.tableHeader.element(by.css('th:nth-child(' + (index + 1) + ')')).click();
 
-          // Verify sorted order
-          shared.tableElements.then(function(rows) {
-            expect(rows.length).toBe(elementCount);
-            for (var i = 1; i < rows.length; ++i) {
-              // Current row value is less than or equal to the previous row value
-              expect(rows[i].all(by.css('td')).get(columnNum + 1).getText()).not.toBeGreaterThan(rows[i - 1].all(by.css('td')).get(columnNum + 1).getText());
-            };
-          })
+              shared.tableElements.map(function (row, rowIndex) {
+                var cell = shared.table.element(by.css('tr:nth-child(' + (rowIndex + 1) + ') td:nth-child(' + (index + 1) + ')'));
+                return cell.getText().then(function (text) {
+                    return text.toLowerCase();
+                });
+              }).then(function (strings) {
+                // get a copy of the array
+                var sortedStrings = strings.slice();
+
+                //Reverse sort the target array
+                sortedStrings = sortedStrings.sort().reverse();
+
+                //Verify that column is properly sorted
+                expect(strings).toEqual(sortedStrings);
+
+                // Verify that sorted icon displayed
+                expect(columns.tableHeader.element(by.css('th:nth-child(' + (index + 1) + ')')).element(by.css(columns.sortIconArrowUp)).isDisplayed()).toBeTruthy();
+                expect(columns.displayedSortIcons.count()).toBe(1);
+              })
+            });
+          }
+        }).thenFinally(function(){
+          //Click to sort the next column, if it exists
+          columns.allHeaders.count().then(function(count){
+            if (index + 2 <= count){
+              columns.tableHeader.element(by.css('th:nth-child(' + (index + 2) + ')')).click();
+            }
+          });
         });
       });
     });
@@ -969,55 +1209,82 @@ describe('The table sorting', function() {
       expect(columns.columnFiveHeader.element(by.css(columns.sortIconArrowDown)).isDisplayed()).toBeFalsy();
 
       // Verify sorted order
-      shared.tableElements.then(function(rows) {
-        expect(rows.length).toBe(elementCount);
-        for (var i = 1; i < rows.length; ++i) {
-          // Current row value is greater than or equal to the previous row value
-          expect(rows[i].all(by.css('td')).get(1).getText()).not.toBeLessThan(rows[i - 1].all(by.css('td')).get(1).getText());
-        };
+      shared.tableElements.map(function (row) {
+        return row.element(by.css('td:nth-child(2)')).getText().then(function (text) {
+            return text.toLowerCase();
+        });
+      }).then(function (strings) {
+        // get a copy of the array
+        var sortedStrings = strings.slice();
+
+        //Sorts it based on character code by default
+        sortedStrings = sortedStrings.sort();
+
+        expect(strings).toEqual(sortedStrings);
       });
     });
 
-    it('should sort by each default column', function() {
+    xit('should sort by each default column', function() {
       columns.columnTwoHeader.click(); // Change sorting order
 
-      // Select column header
-      columns.sortableHeaders.each(function(columnHeader, columnNum) {
-        // Select column
-        columnHeader.click();
+      columns.allHeaders.each(function(columnHeader, index) {
+        columnHeader.getAttribute('class').then(function (classes) {
+          if (classes.indexOf('sortable-header') !== -1){ //Only check sorting results on sortable columns
+            shared.tableElements.map(function (row, rowIndex) {
+              var cell = shared.table.element(by.css('tr:nth-child(' + (rowIndex + 1) + ') td:nth-child(' + (index + 1) + ')'));
+              return cell.getText().then(function (text) {
+                  return text.toLowerCase();
+              });
+            }).then(function (strings) {
+              // get a copy of the array
+              var sortedStrings = strings.slice();
 
-        // Sorted icon displayed
-        expect(columnHeader.element(by.css(columns.sortIconArrowDown)).isDisplayed()).toBeTruthy();
-        expect(columns.displayedSortIcons.count()).toBe(1);
+              //Sorts it based on character code by default
+              sortedStrings = sortedStrings.sort();
 
-        // Verify sorted order
-        shared.tableElements.then(function(rows) {
-          expect(rows.length).toBe(elementCount);
-          for (var i = 1; i < rows.length; ++i) {
-            // Current row value is greater than or equal to the previous row value
-            expect(rows[i].all(by.css('td')).get(columnNum + 1).getText()).not.toBeLessThan(rows[i - 1].all(by.css('td')).get(columnNum + 1).getText());
-          };
-        }).then(function() {
-          // Reverse sorted order
-          columnHeader.click();
+              //Verify that column is properly sorted
+              expect(strings).toEqual(sortedStrings);
 
-          // Sorted icon displayed
-          expect(columnHeader.element(by.css(columns.sortIconArrowUp)).isDisplayed()).toBeTruthy();
-          expect(columns.displayedSortIcons.count()).toBe(1);
+              // Verify that sorted icon displayed
+              expect(columns.tableHeader.element(by.css('th:nth-child(' + (index + 1) + ')')).element(by.css(columns.sortIconArrowDown)).isDisplayed()).toBeTruthy();
+              expect(columns.displayedSortIcons.count()).toBe(1);
+            }).then(function (strings) {
+              //Reverse the sort order
+              columns.tableHeader.element(by.css('th:nth-child(' + (index + 1) + ')')).click();
 
-          // Verify sorted order
-          shared.tableElements.then(function(rows) {
-            expect(rows.length).toBe(elementCount);
-            for (var i = 1; i < rows.length; ++i) {
-              // Current row value is less than or equal to the previous row value
-              expect(rows[i].all(by.css('td')).get(columnNum + 1).getText()).not.toBeGreaterThan(rows[i - 1].all(by.css('td')).get(columnNum + 1).getText());
-            };
-          })
+              shared.tableElements.map(function (row, rowIndex) {
+                var cell = shared.table.element(by.css('tr:nth-child(' + (rowIndex + 1) + ') td:nth-child(' + (index + 1) + ')'));
+                return cell.getText().then(function (text) {
+                    return text.toLowerCase();
+                });
+              }).then(function (strings) {
+                // get a copy of the array
+                var sortedStrings = strings.slice();
+
+                //Reverse sort the target array
+                sortedStrings = sortedStrings.sort().reverse();
+
+                //Verify that column is properly sorted
+                expect(strings).toEqual(sortedStrings);
+
+                // Verify that sorted icon displayed
+                expect(columns.tableHeader.element(by.css('th:nth-child(' + (index + 1) + ')')).element(by.css(columns.sortIconArrowUp)).isDisplayed()).toBeTruthy();
+                expect(columns.displayedSortIcons.count()).toBe(1);
+              })
+            });
+          }
+        }).thenFinally(function(){
+          //Click to sort the next column, if it exists
+          columns.allHeaders.count().then(function(count){
+            if (index + 2 <= count){
+              columns.tableHeader.element(by.css('th:nth-child(' + (index + 2) + ')')).click();
+            }
+          });
         });
       });
     });
 
-    it('should update sorted order of table search results', function() {
+    xit('should update sorted order of table search results', function() {
       // Search
       shared.searchField.sendKeys('a').then(function() {
         elementCount = shared.tableElements.count();
@@ -1061,50 +1328,77 @@ describe('The table sorting', function() {
       expect(columns.columnSevenHeader.element(by.css(columns.sortIconArrowDown)).isDisplayed()).toBeFalsy();
 
       // Verify sorted order
-      shared.tableElements.then(function(rows) {
-        expect(rows.length).toBe(elementCount);
-        for (var i = 1; i < rows.length; ++i) {
-          // Current row value is greater than or equal to the previous row value
-          expect(rows[i].all(by.css('td')).get(1).getText()).not.toBeLessThan(rows[i - 1].all(by.css('td')).get(1).getText());
-        };
+      shared.tableElements.map(function (row) {
+        return row.element(by.css('td:nth-child(2)')).getText().then(function (text) {
+            return text.toLowerCase();
+        });
+      }).then(function (strings) {
+        // get a copy of the array
+        var sortedStrings = strings.slice();
+
+        //Sorts it based on character code by default
+        sortedStrings = sortedStrings.sort();
+
+        expect(strings).toEqual(sortedStrings);
       });
     });
 
-    it('should sort by each default column', function() {
+    xit('should sort by each default column', function() {
       columns.columnTwoHeader.click(); // Change sorting order
 
-      // Select column header
-      columns.sortableHeaders.each(function(columnHeader, columnNum) {
-        // Select column
-        columnHeader.click();
+      columns.allHeaders.each(function(columnHeader, index) {
+        columnHeader.getAttribute('class').then(function (classes) {
+          if (classes.indexOf('sortable-header') !== -1){ //Only check sorting results on sortable columns
+            shared.tableElements.map(function (row, rowIndex) {
+              var cell = shared.table.element(by.css('tr:nth-child(' + (rowIndex + 1) + ') td:nth-child(' + (index + 1) + ')'));
+              return cell.getText().then(function (text) {
+                  return text.toLowerCase();
+              });
+            }).then(function (strings) {
+              // get a copy of the array
+              var sortedStrings = strings.slice();
 
-        // Sorted icon displayed
-        expect(columnHeader.element(by.css(columns.sortIconArrowDown)).isDisplayed()).toBeTruthy();
-        expect(columns.displayedSortIcons.count()).toBe(1);
+              //Sorts it based on character code by default
+              sortedStrings = sortedStrings.sort();
 
-        // Verify sorted order
-        shared.tableElements.then(function(rows) {
-          expect(rows.length).toBe(elementCount);
-          for (var i = 1; i < rows.length; ++i) {
-            // Current row value is greater than or equal to the previous row value
-            expect(rows[i].all(by.css('td')).get(columnNum + 1).getText()).not.toBeLessThan(rows[i - 1].all(by.css('td')).get(columnNum + 1).getText());
-          };
-        }).then(function() {
-          // Reverse sorted order
-          columnHeader.click();
+              //Verify that column is properly sorted
+              expect(strings).toEqual(sortedStrings);
 
-          // Sorted icon displayed
-          expect(columnHeader.element(by.css(columns.sortIconArrowUp)).isDisplayed()).toBeTruthy();
-          expect(columns.displayedSortIcons.count()).toBe(1);
+              // Verify that sorted icon displayed
+              expect(columns.tableHeader.element(by.css('th:nth-child(' + (index + 1) + ')')).element(by.css(columns.sortIconArrowDown)).isDisplayed()).toBeTruthy();
+              expect(columns.displayedSortIcons.count()).toBe(1);
+            }).then(function (strings) {
+              //Reverse the sort order
+              columns.tableHeader.element(by.css('th:nth-child(' + (index + 1) + ')')).click();
 
-          // Verify sorted order
-          shared.tableElements.then(function(rows) {
-            expect(rows.length).toBe(elementCount);
-            for (var i = 1; i < rows.length; ++i) {
-              // Current row value is less than or equal to the previous row value
-              expect(rows[i].all(by.css('td')).get(columnNum + 1).getText()).not.toBeGreaterThan(rows[i - 1].all(by.css('td')).get(columnNum + 1).getText());
-            };
-          })
+              shared.tableElements.map(function (row, rowIndex) {
+                var cell = shared.table.element(by.css('tr:nth-child(' + (rowIndex + 1) + ') td:nth-child(' + (index + 1) + ')'));
+                return cell.getText().then(function (text) {
+                    return text.toLowerCase();
+                });
+              }).then(function (strings) {
+                // get a copy of the array
+                var sortedStrings = strings.slice();
+
+                //Reverse sort the target array
+                sortedStrings = sortedStrings.sort().reverse();
+
+                //Verify that column is properly sorted
+                expect(strings).toEqual(sortedStrings);
+
+                // Verify that sorted icon displayed
+                expect(columns.tableHeader.element(by.css('th:nth-child(' + (index + 1) + ')')).element(by.css(columns.sortIconArrowUp)).isDisplayed()).toBeTruthy();
+                expect(columns.displayedSortIcons.count()).toBe(1);
+              })
+            });
+          }
+        }).thenFinally(function(){
+          //Click to sort the next column, if it exists
+          columns.allHeaders.count().then(function(count){
+            if (index + 2 <= count){
+              columns.tableHeader.element(by.css('th:nth-child(' + (index + 2) + ')')).click();
+            }
+          });
         });
       });
     });

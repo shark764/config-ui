@@ -10,6 +10,13 @@ describe('The queues view bulk actions', function() {
 
   beforeAll(function() {
     loginPage.login(params.login.user, params.login.password);
+
+    // Create new queue
+    browser.get(shared.queuesPageUrl);
+    var randomQueue = Math.floor((Math.random() * 100) + 1);
+    shared.createBtn.click();
+    queues.nameFormField.sendKeys('Queue ' + randomQueue);
+    shared.submitFormBtn.click();
   });
 
   beforeEach(function() {
@@ -68,7 +75,7 @@ describe('The queues view bulk actions', function() {
     });
   });
 
-  it('should allow all selected queue\'s status to be Enabled', function() {
+  xit('should allow all selected queue\'s status to be Enabled', function() {
     // Update All bulk actions
     shared.actionsBtn.click();
     bulkActions.selectAllTableHeader.click();

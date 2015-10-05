@@ -10,6 +10,16 @@ describe('The skills view bulk actions', function() {
 
   beforeAll(function() {
     loginPage.login(params.login.user, params.login.password);
+
+    // Ensure skill exists
+    var random = Math.floor((Math.random() * 1000) + 1);
+    browser.get(shared.skillsPageUrl);
+    shared.createBtn.click();
+    skills.nameFormField.sendKeys('Skill Name ' + random);
+
+    shared.submitFormBtn.click().then(function() {
+      expect(shared.successMessage.isDisplayed()).toBeTruthy();
+    });
   });
 
   beforeEach(function() {

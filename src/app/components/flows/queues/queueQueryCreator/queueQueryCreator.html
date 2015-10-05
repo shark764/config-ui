@@ -1,0 +1,41 @@
+<div class="query-component">
+  <group-query-modifier
+    class="input-group"
+    ng-class="{'has-elements': modifier.operands().length}"
+    parent-map="rootMap"
+    query="version.query"
+    label-key="queue.query.builder.groups.all"
+    placeholder-key="queue.query.builder.groups.placeholder"
+    operator="every">
+  </group-query-modifier>
+
+  <group-query-modifier
+    class="input-group"
+    ng-class="{'has-elements': modifier.operands().length}"
+    parent-map="rootMap"
+    query="version.query"
+    label-key="queue.query.builder.groups.some"
+    placeholder-key="queue.query.builder.groups.placeholder"
+    operator="some">
+  </group-query-modifier>
+
+  <skill-query-modifier
+    class="input-group"
+    ng-class="{'has-elements': modifier.operands().length}"
+    parent-map="rootMap"
+    query="version.query"
+    label-key="queue.query.builder.skills.all"
+    placeholder-key="queue.query.builder.skills.placeholder"
+    operator="and">
+  </skill-query-modifier>
+
+  <skill-query-modifier
+    class="input-group"
+    ng-class="{'has-elements': modifier.operands().length}"
+    parent-map="rootMap"
+    query="version.query"
+    label-key="queue.query.builder.skills.some"
+    placeholder-key="queue.query.builder.skills.placeholder"
+    operator="or">
+  </skill-query-modifier>
+</div>

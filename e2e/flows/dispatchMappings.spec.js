@@ -43,6 +43,7 @@ describe('The dispatch mappings view', function() {
 
         // Add flow as a prereq
         shared.cancelFormBtn.click();
+        shared.waitForAlert();
         var alertDialog = browser.switchTo().alert();
         expect(alertDialog.accept).toBeDefined();
         expect(alertDialog.dismiss).toBeDefined();
@@ -219,7 +220,7 @@ describe('The dispatch mappings view', function() {
     expect(shared.navBar.isDisplayed()).toBeTruthy();
     expect(shared.table.isDisplayed()).toBeTruthy();
     expect(shared.searchField.isDisplayed()).toBeTruthy();
-    expect(shared.detailsForm.isDisplayed()).toBeFalsy(); //Right panel is hidden
+    expect(shared.rightPanel.isDisplayed()).toBeFalsy(); //Right panel is hidden
     expect(shared.actionsBtn.isDisplayed()).toBeTruthy();
     expect(shared.createBtn.isDisplayed()).toBeTruthy();
     expect(shared.tableColumnsDropDown.isDisplayed()).toBeTruthy();
@@ -332,6 +333,7 @@ describe('The dispatch mappings view', function() {
     shared.cancelFormBtn.click();
 
     // Warning message is displayed
+    shared.waitForAlert();
     shared.dismissChanges();
 
     // New dispatch mapping is not created
@@ -365,9 +367,9 @@ describe('The dispatch mappings view', function() {
 
     shared.firstTableRow.element(by.css(dispatchMappings.statusColumn)).getText().then(function(dispatchMappingStatus) {
       if (dispatchMappingStatus == 'Enabled') {
-        expect(dispatchMappings.statusSwitch.isSelected()).toBeTruthy();
+        expect(dispatchMappings.statusSwitchInput.isSelected()).toBeTruthy();
       } else if (dispatchMappingStatus == 'Disabled') {
-        expect(dispatchMappings.statusSwitch.isSelected()).toBeFalsy();
+        expect(dispatchMappings.statusSwitchInput.isSelected()).toBeFalsy();
       } else {
         // fail test
         expect(true).toBeFalsy();
@@ -382,7 +384,7 @@ describe('The dispatch mappings view', function() {
         if (value == 'Contact Point') {
           expect(shared.secondTableRow.element(by.css(dispatchMappings.interactionFieldColumn)).getText()).toBe('contact-point');
         } else if (value == 'Integration') {
-          expect(shared.firstTableRow.element(by.css(dispatchMappings.interactionFieldColumn)).getText()).toBe('source');
+          expect(shared.secondTableRow.element(by.css(dispatchMappings.interactionFieldColumn)).getText()).toBe('source');
         } else {
           expect(shared.secondTableRow.element(by.css(dispatchMappings.interactionFieldColumn)).getText()).toBe(value.toLowerCase());
         }
@@ -393,9 +395,9 @@ describe('The dispatch mappings view', function() {
 
       shared.secondTableRow.element(by.css(dispatchMappings.statusColumn)).getText().then(function(dispatchMappingStatus) {
         if (dispatchMappingStatus == 'Enabled') {
-          expect(dispatchMappings.statusSwitch.isSelected()).toBeTruthy();
+          expect(dispatchMappings.statusSwitchInput.isSelected()).toBeTruthy();
         } else if (dispatchMappingStatus == 'Disabled') {
-          expect(dispatchMappings.statusSwitch.isSelected()).toBeFalsy();
+          expect(dispatchMappings.statusSwitchInput.isSelected()).toBeFalsy();
         } else {
           // fail test
           expect(true).toBeFalsy();
@@ -459,6 +461,7 @@ describe('The dispatch mappings view', function() {
       shared.cancelFormBtn.click();
 
       // Warning message is displayed
+      shared.waitForAlert();
       shared.dismissChanges();
 
       expect(shared.successMessage.isPresent()).toBeFalsy();

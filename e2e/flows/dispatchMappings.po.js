@@ -11,6 +11,7 @@ var DispatchMappingsPage = function() {
 
   this.nameHeader = element(by.id('dispatch-mappings-details-name-header'));
   this.statusSwitch = element(by.model('resource.active'));
+  this.statusSwitchInput = this.statusSwitch.element(by.css('label:nth-child(2) > input:nth-child(1)'));
 
   this.nameColumn = 'td:nth-child(2)';
   this.descriptionColumn = 'td:nth-child(3)';
@@ -38,7 +39,7 @@ var DispatchMappingsPage = function() {
   this.statuses = this.statusTableDropDown.all(by.repeater('option in options | orderBy:orderBy'));
   this.statusInputs = this.statusTableDropDown.all(by.css('input'));
 
-  this.interactionFieldTableDropDown = this.tableHeader.element(by.id('integration-column-dropdown'));
+  this.interactionFieldTableDropDown = this.tableHeader.element(by.id('interaction-column-dropdown'));
   this.interactionFieldDropDownLabel = this.interactionFieldTableDropDown.element(by.css('.dropdown-label'));
   this.interactionFields = this.interactionFieldTableDropDown.all(by.repeater('option in options | orderBy:orderBy'));
 };

@@ -4,7 +4,10 @@
   joint.shapes.liveOps = joint.shapes.liveOps || {};
   joint.shapes.liveOps.template = joint.shapes.basic.TextBlock.extend({
     markup: ['<g class="rotatable">',
-             '<g class="scalable"><rect class="body outer"/><rect class="body inner"/></g>',
+             '<g class="scalable">',
+             '<rect class="body outer"/>',
+             '<rect class="body inner"/>',
+             '<rect class="border" /></g>',
              '<switch>',
              // if foreignObject supported
              '<foreignObject requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" class="fobj">',
@@ -50,6 +53,10 @@
           'stroke-width': 1.5,
           'stroke-dasharray': 'none'
         },
+        '.border': {
+          fill: 'none',
+          stroke: 'none'
+        },
         path: {
           d: 'M 0 0 L 20 0 20 20 0 20 z M 10 4 L 10 16 M 4 10 L 16 10',
           ref: '.outer',
@@ -74,8 +81,8 @@
     initialize: function() {
       joint.shapes.basic.TextBlock.prototype.initialize.apply(this, arguments);
     },
-    onInputChange: function(model, value, path) {
-      console.warn('This property is not hooked up to a UI listener.');
+    onInputChange: function() {
+      // console.warn('This property is not hooked up to a UI listener.');
     }
   }).extend(joint.shapes.liveOps.IconInterface).extend(joint.shapes.liveOps.SubProcessInterface);
 })();

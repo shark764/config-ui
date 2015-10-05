@@ -25,18 +25,16 @@ var Shared = function() {
   this.mediaPageUrl = this.flowsUrl + 'media';
   this.dispatchMappingsPageUrl = this.flowsUrl + 'dispatchMappings';
 
-  this.invitesPageUrl = this.mainUrl + 'invites';
-
   // Navbar elements
   this.navBar = element(by.id('topnav'));
   this.welcomeMessage = element(by.id('user-settings-dropdown'));
   this.siteNavLogo = element(by.id('logo'));
   this.tenantsNavDropdown = element(by.id('tenant-dropdown'));
+  this.tenantsNavDropdownContents = this.tenantsNavDropdown.all(by.repeater('item in items | orderBy:orderBy'));
   this.usersNavButton = element(by.id('users-nav-link'));
   this.tenantsNavButton = element(by.id('tenants-nav-link'));
   this.flowsNavButton = element(by.id('flows-nav-link'));
   this.reportingNavButton = element(by.id('reporting-nav-link'));
-  this.invitesNavButton = element(by.id('invites-nav-link'));
 
   this.settingsDropdown = element(by.id('user-settings-dropdown'));
   this.settingsDropdownOptions = this.settingsDropdown.all(by.repeater('item in items'));
@@ -45,7 +43,7 @@ var Shared = function() {
 
   // Shared page elements
   this.pageHeader = element(by.css('h2.ng-binding'));
-  this.detailsFormHeader = element(by.css('.info > h1:nth-child(1)'));
+  this.detailsFormHeader = element(by.css('.detail-header  h1'));
 
   // Table controls
   this.table = element(by.id('items-table'));
@@ -64,12 +62,12 @@ var Shared = function() {
   this.clearAllResultsLink = element(by.css('.filtered > a.ng-binding'));
 
   // Shared Form elements
-  this.detailsPanel = element(by.id('details-pane'));
+  this.detailsPanel = element(by.css('.right-panel'));
   this.detailsForm = this.detailsPanel.element(by.css('.details-pane'));
   this.rightPanel = element(by.id('right-panel'));
-  this.bulkActionsPanel = element(by.css('bulk-action-executor.details-pane'));
-  this.submitFormBtn = this.detailsPanel.element(by.id('submit-details-btn'));
-  this.cancelFormBtn = this.detailsPanel.element(by.id('cancel-details-btn'));
+  this.bulkActionsPanel = element(by.id('bulk-action-form'));
+  this.submitFormBtn = this.rightPanel.element(by.id('submit-details-btn'));
+  this.cancelFormBtn = this.rightPanel.element(by.id('cancel-details-btn'));
   this.closeFormBtn = this.detailsPanel.element(by.id('close-details-button'));
   this.message = element(by.css('.toast-message'));
   this.successMessage = element(by.css('.toast-success'));
@@ -89,8 +87,21 @@ var Shared = function() {
     }, 5000);
   };
 
+  this.waitForAlert = function () {
+    browser.driver.wait(function() {
+      return browser.driver.switchTo().alert().then(
+        function() {
+          return true;
+        },
+        function() {
+          return false;
+        }
+      );
+    }, 5000);
+  };
+
   this.dismissChanges = function() {
-    browser.switchTo().alert().then(
+    browser.driver.switchTo().alert().then(
       function(alert) {
         alert.accept();
       },
@@ -99,7 +110,7 @@ var Shared = function() {
   };
 
   this.cancelNavigation = function() {
-    browser.switchTo().alert().then(
+    browser.driver.switchTo().alert().then(
       function(alert) {
         alert.dismiss();
       },
@@ -109,13 +120,18 @@ var Shared = function() {
 
   this.tearDown = function() {
     // Ignore unsaved changes warnings
+    browser.switchTo().alert().then(
+      function(alert) {
+        alert.accept();
+      },
+      function(err) {}
+    );
+
     browser.executeScript("window.onbeforeunload = function(){};");
     browser.get(this.loginPageUrl);
 
     browser.executeScript('window.localStorage.clear()');
     browser.executeScript('window.sessionStorage.clear()');
-    // Ignore unsaved changes warnings
-    browser.executeScript("window.onbeforeunload = function(){};");
   };
 };
 

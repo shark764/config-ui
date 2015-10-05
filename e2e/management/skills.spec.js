@@ -58,7 +58,7 @@ describe('The skills view', function() {
     expect(shared.navBar.isDisplayed()).toBeTruthy();
     expect(shared.table.isDisplayed()).toBeTruthy();
     expect(shared.searchField.isDisplayed()).toBeTruthy();
-    expect(shared.detailsForm.isDisplayed()).toBeFalsy(); //Hide side panel by default
+    expect(shared.rightPanel.isDisplayed()).toBeFalsy(); //Hide side panel by default
     expect(shared.actionsBtn.isDisplayed()).toBeTruthy();
     expect(shared.createBtn.isDisplayed()).toBeTruthy();
     expect(shared.tableColumnsDropDown.isDisplayed()).toBeTruthy();
@@ -122,7 +122,6 @@ describe('The skills view', function() {
     skills.proficiencyFormCheckbox.click();
     shared.submitFormBtn.click();
 
-    expect(skills.nameRequiredError.get(0).isDisplayed()).toBeFalsy();
     expect(shared.successMessage.isDisplayed()).toBeTruthy();
     expect(shared.tableElements.count()).toBeGreaterThan(skillCount);
   });
@@ -136,7 +135,6 @@ describe('The skills view', function() {
     skills.descriptionFormField.sendKeys('Skill Description');
     shared.submitFormBtn.click();
 
-    expect(skills.nameRequiredError.get(0).isDisplayed()).toBeFalsy();
     expect(shared.successMessage.isDisplayed()).toBeTruthy();
     expect(shared.tableElements.count()).toBeGreaterThan(skillCount);
   });
@@ -151,13 +149,13 @@ describe('The skills view', function() {
     shared.cancelFormBtn.click();
 
     // Warning message is displayed
+    shared.waitForAlert();
     var alertDialog = browser.switchTo().alert();
     expect(alertDialog.accept).toBeDefined();
     expect(alertDialog.dismiss).toBeDefined();
     alertDialog.accept();
 
     // New skill is not created
-    expect(skills.nameRequiredError.get(0).isDisplayed()).toBeFalsy();
     expect(shared.successMessage.isPresent()).toBeFalsy();
     expect(shared.tableElements.count()).toBe(skillCount);
 
@@ -226,6 +224,7 @@ describe('The skills view', function() {
     shared.cancelFormBtn.click();
 
     // Warning message is displayed
+    shared.waitForAlert();
     var alertDialog = browser.switchTo().alert();
     expect(alertDialog.accept).toBeDefined();
     expect(alertDialog.dismiss).toBeDefined();
@@ -262,7 +261,7 @@ describe('The skills view', function() {
     expect(skills.proficiencySwitch.isSelected()).toBe(editedProficiency);
   });
 
-  it('should allow the Skill to be update to have proficiency', function() {
+  it('should allow the Skill to be updated to have proficiency', function() {
     // Create new skill without proficiency
     randomSkill = Math.floor((Math.random() * 1000) + 1);
     var newSkillName = 'Skill Name ' + randomSkill;
@@ -280,7 +279,7 @@ describe('The skills view', function() {
       shared.submitFormBtn.click();
 
       expect(shared.successMessage.isDisplayed()).toBeTruthy();
-
+    }).then(function () {
       // Changes persist
       browser.refresh();
       shared.searchField.sendKeys(newSkillName);
@@ -329,6 +328,7 @@ describe('The skills view', function() {
     shared.firstTableRow.click();
 
     // Edit fields
+    skills.descriptionFormField.sendKeys('not required');
     skills.descriptionFormField.clear();
     shared.submitFormBtn.click().then(function() {
       expect(shared.successMessage.isPresent()).toBeTruthy();

@@ -11,7 +11,7 @@ describe('The navbar', function() {
   });
 
   beforeEach(function() {
-    browser.get(shared.mainUrl);
+    browser.get(shared.rootURL);
   });
 
   afterAll(function() {
@@ -25,7 +25,7 @@ describe('The navbar', function() {
     expect(shared.usersNavButton.isDisplayed()).toBeTruthy();
     expect(shared.tenantsNavButton.isDisplayed()).toBeTruthy();
     expect(shared.flowsNavButton.isDisplayed()).toBeTruthy();
-    expect(shared.invitesNavButton.isDisplayed()).toBeTruthy();
+    expect(shared.reportingNavButton.isDisplayed()).toBeTruthy();
     expect(shared.welcomeMessage.isDisplayed()).toBeTruthy();
   });
 
@@ -42,7 +42,7 @@ describe('The navbar', function() {
     expect(browser.getCurrentUrl()).toContain(shared.usersPageUrl);
   });
 
-  xit('should change current Tenant when tenant drop down is altered', function() {
+  it('should change current Tenant when different tenant drop down is selected', function() {
     shared.tenantsNavDropdown.click();
     shared.tenantsNavDropdown.all(by.repeater('item in items')).then(function(tenants) {
       var randomTenant = Math.floor((Math.random() * tenants.length) + 1);
@@ -92,14 +92,21 @@ describe('The navbar', function() {
       expect(navbar.groupsLink.isDisplayed()).toBeTruthy();
 
       expect(navbar.managementOptions.get(0).getText()).toBe('Users');
-      expect(navbar.managementOptions.get(1).getText()).toBe('Skills');
-      expect(navbar.managementOptions.get(2).getText()).toBe('Groups');
+      expect(navbar.managementOptions.get(1).getText()).toBe('Roles');
+      expect(navbar.managementOptions.get(2).getText()).toBe('Skills');
+      expect(navbar.managementOptions.get(3).getText()).toBe('Groups');
     });
 
     it('should navigate to users page when users link is selected', function() {
       shared.usersNavButton.click();
       navbar.userLink.click();
       expect(browser.getCurrentUrl()).toContain(shared.usersPageUrl);;
+    });
+
+    it('should navigate to roles page when groups link is selected', function() {
+      shared.usersNavButton.click()
+      navbar.rolesLink.click();
+      expect(browser.getCurrentUrl()).toContain(shared.rolesPageUrl);
     });
 
     it('should navigate to groups page when groups link is selected', function() {
@@ -180,12 +187,6 @@ describe('The navbar', function() {
       shared.flowsNavButton.click();
       navbar.dispatchMappingsLink.click();
       expect(browser.getCurrentUrl()).toContain(shared.dispatchMappingsPageUrl);
-    });
-  });
-
-  it('should navigate to Invites page when buttons are selected', function() {
-    shared.invitesNavButton.click().then(function() {
-      expect(browser.getCurrentUrl()).toContain(shared.invitesPageUrl);
     });
   });
 

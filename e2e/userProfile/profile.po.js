@@ -13,6 +13,14 @@ var ProfilePage = function() {
   this.errors = element.all(by.css('.lo-error'));
 
   this.updateProfileBtn = element(by.buttonText('Update'));
+
+  this.userSkillsSectionHeader = element(by.id('user-skills-header'));
+  this.userSkills = element.all(by.repeater('userSkill in userSkills | orderBy:\'name\''));
+  this.noUserSkillsMessage = element(by.id('no-user-skills'));
+
+  this.userGroupsSectionHeader = element(by.id('user-groups-header'));
+  this.userGroups = element.all(by.repeater('userGroup in userGroups'));
+  this.noUserGroupsMessage = element(by.id('no-user-groups'));
 };
 
 module.exports = new ProfilePage();
