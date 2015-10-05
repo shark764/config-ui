@@ -27,21 +27,9 @@ angular.module('liveopsConfigPanel')
           priorityUnit: 'seconds'
         });
       };
-      
-      //Create default first queue version
-      Queue.prototype.postCreate = function (queue) {
-        var qv = $scope.additional.initialVersion;
-        qv.queueId = queue.id;
-        return qv.save()
-          .then(function (versionResult) {
-            queue.activeVersion = versionResult.version;
-            queue.activeQueue = versionResult;
-            return queue.save();
-          });
-      };
 
       $scope.$on('table:on:click:create', function () {
-        $scope.additional.initialVersion = $scope.getDefaultVersion();
+        $scope.initialVersion = $scope.getDefaultVersion();
 
         $scope.selectedQueue = new Queue({
           tenantId: Session.tenant.tenantId
@@ -50,10 +38,26 @@ angular.module('liveopsConfigPanel')
 
       $scope.$on('resource:details:queue:canceled', function () {
         if ($scope.selectedQueue.isNew()) {
-          $scope.additional.initialVersion = $scope.getDefaultVersion();
+          $scope.initialVersion = $scope.getDefaultVersion();
         }
       });
-
+      
+      $scope.submit = function(){
+        var createInitialVersion = $scope.selectedQueue.isNew();
+        return $scope.selectedQueue.save(function(queue){
+          if (createInitialVersion){
+            var qv = $scope.initialVersion;
+            qv.queueId = queue.id;
+            qv.save()
+              .then(function (versionResult) {
+                queue.activeVersion = versionResult.version;
+                queue.activeQueue = versionResult;
+                queue.save();
+              });
+          }
+        });
+      };
+      
       $scope.fetchVersions = function(){
         if (! $scope.selectedQueue){
           return [];
@@ -63,12 +67,6 @@ angular.module('liveopsConfigPanel')
             queueId: $scope.selectedQueue.id
           }, 'QueueVersion' + $scope.selectedQueue.id);
         }
-      };
-      
-      $scope.additional = {
-        copySelectedVersion: $scope.copySelectedVersion,
-        initialVersion: $scope.getDefaultVersion(),
-        fetchVersions: $scope.fetchVersions
       };
       
       $scope.copySelectedVersion = function(version){
