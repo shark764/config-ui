@@ -76,11 +76,12 @@
     </div>
   </div>
   
-  <div class="input-group" ng-show="selectedDispatchMapping.interactionField === 'source'">
+  <div class="input-group" ng-if="selectedDispatchMapping.interactionField === 'source'">
     <label>{{'integration.details' | translate}} *</label>
     <form-error field="detailsForm.value"></form-error>
     <div>
       <select id="integration-form-dropdown" name="value"
+        ng-if="fetchIntegrations().$resolved"
         ng-required="true"
         ng-model="selectedDispatchMapping.value"
         ng-options="integration.type as integration.type for integration in fetchIntegrations()">
