@@ -1,4 +1,4 @@
-#userProfile {
+#user-profile {
   padding: 10px 30px;
   
   .mystery-man {
@@ -25,29 +25,29 @@
     &.clone-header {
         @include border-radius-complex(4px, 0, 0, 4px);
         border-bottom: 0;
-  }
+    }
 
-  td, th {
-    padding: 10px;
-  }
+    td, th {
+      padding: 10px;
+    }
 
-  th {
-    border-bottom: $light-grey solid 1px;
-    color: $dark-grey;
-    text-align: left;
-    font-weight: 600;
-  }
+    th {
+      border-bottom: $light-grey solid 1px;
+      color: $dark-grey;
+      text-align: left;
+      font-weight: 600;
+    }
 
-  tbody tr:hover {
-    background-color: $accent-light;
-  }
+    tbody tr:hover {
+      background-color: $accent-light;
+    }
 
-  .scrollable-table-container {
-    max-width: $max-control-width + 200px;
+    .scrollable-table-container {
+      max-width: $max-control-width + 200px;
+    }
   }
-}
   
-  #detailsForm {
+  #user-form {
     & > div {
       width: 100%;
       margin: 10px 0;

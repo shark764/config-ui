@@ -1,0 +1,67 @@
+<input type="hidden" name="extensions" ng-model="extensions"></input>
+
+<div class="lo-extension-table">
+  <div class="lo-extension-table-header">
+    <div class="lo-extension-table-row">
+      <div class="lo-extension-table-col">
+        <select name="type"
+          ng-class="{'default-selected': ! newExtension.type}"
+          ng-model="newExtension.type"
+          ng-options="type.value as type.display for type in loExtensionTypes">
+          <option class="disabled" value="" ng-disabled="true">
+            {{'details.extension.type' | translate}}
+          </option>
+        </select>
+      </div>
+      <div class="lo-extension-table-col">
+        <select name="provider"
+          ng-class="{'default-selected': ! newExtension.provider}"
+          ng-model="newExtension.provider"
+          ng-options="provider.value as provider.display for provider in loExtensionProviders">
+          <option class="disabled" value="" ng-disabled="true">
+            {{'details.extension.provider' | translate}}
+          </option>
+        </select>
+      </div>
+      <div class="lo-extension-table-col">
+        <input type="text" name="value"
+          placeholder="{{'details.extension.value' | translate}}"
+          ng-model="newExtension.value">
+        </input>
+      </div>
+    
+      <div class="lo-extension-table-col">
+        <button class="btn" type="button"
+          ng-click="add()"
+          ng-disabled="extensionForm.type.$invalid || extensionForm.provider.$invalid || extensionForm.value.$invalid">
+          <i class="fa fa-plus"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+  
+  <div class="lo-extension-table-body"
+    dnd-list="extensions">
+    <div class="lo-extension-table-row"
+      ng-repeat="extension in extensions"
+      dnd-draggable="extension"
+      dnd-effect-allowed="move"
+      dnd-moved="extensions.splice($index, 1)"
+      dnd-selected="extensions.selected = extension">
+      
+      <div class="lo-extension-table-col">
+        <div class="handle">:::</div>
+        <span dnd-nodrag>{{extension.type}}</span>
+      </div>
+      <div class="lo-extension-table-col" dnd-nodrag>{{extension.provider}}</div>
+      <div class="lo-extension-table-col" dnd-nodrag>{{extension.value}}</div>
+      <div class="lo-extension-table-col" dnd-nodrag>
+        <i class="fa fa-close"
+          ng-click="remove(extension)"></i>
+      </div>
+    </div>
+    <div class="dndPlaceholder">
+      Place here.
+    </div>
+  </div>
+</div>

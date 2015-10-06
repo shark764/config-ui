@@ -1,0 +1,56 @@
+.lo-extension-table {
+  
+  // .dndDragging {
+  //   display: none;
+  // }
+  
+  .dndPlaceholder {
+    background-color: $accent-light;
+  }
+  
+  .dndDraggingSource {
+    display: none;
+  }
+  
+  .lo-extension-table-header {
+  }
+  
+  .lo-extension-table-row {
+    .lo-extension-table-col {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      
+      display: inline-block;
+      width: 29%;
+    }
+    
+    .lo-extension-table-col:last-child {
+      width: 35px;
+      margin-bottom: 4px;
+    }
+  }
+  
+  .lo-extension-table-body {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    
+    .lo-extension-table-row {
+      padding-top: 15px;
+      padding-bottom: 5px;
+      border-top: 1px dashed;
+      
+      .lo-extension-table-col:first-child > .handle {
+        cursor: grab;
+        display: inline-block;
+        margin-right: 10px;
+        font-weight: bold;
+      }
+    }
+    
+    .lo-extension-table-row:first-child {
+      border-top: None;
+    }
+  }
+  
+}

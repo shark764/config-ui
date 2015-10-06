@@ -1,46 +1,37 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-.controller('UserProfileController', ['$scope', 'Session', 'User', 'TenantUserSkill', 'TenantUserGroups', 'Alert', '$translate', function ($scope, Session, User, TenantUserSkill, TenantUserGroups, Alert, $translate) {
-  $scope.user = User.get({id : Session.user.id});
+  .controller('UserProfileController', ['$scope', 'Session', 'User', 'TenantUserProfile', 'TenantUserSkill', 'TenantUserGroups', 'Alert', '$translate',
+    function ($scope, Session, User, UserProfile, TenantUserSkill, TenantUserGroups, Alert, $translate) {
 
-  $scope.save = function() {
-    delete $scope.user.status; //User cannot edit their own status
-    delete $scope.user.roleId; //User cannot edit their own platform roleId
-    
-    $scope.user.save(function(result){
-      Alert.success($translate.instant('user.profile.save.success'));
-      Session.setUser(result);
-      $scope.detailsForm.$setPristine();
-      $scope.detailsForm.$setUntouched();
-    }, function(){
-      Alert.error($translate.instant('user.profile.save.fail'));
-    });
-  };
-
-  $scope.fetchSkills = function () {
-    if (!Session.tenant.tenantId) {
-      return;
+      $scope.tenantUser = UserProfile.get({
+        id: Session.user.id,
+        tenantId: Session.tenant.tenantId
+      });
+      
+      $scope.submit = function () {
+        var promise;
+        if($scope.extensionForm.$dirty) {
+          var user = $scope.tenantUser.$user;
+          promise = $scope.tenantUser.save({
+            tenantId: Session.tenant.tenantId
+          }).then(function(tenantUser) {
+            tenantUser.$user = user;
+            tenantUser.id = user.id;
+            return tenantUser.$user.save();
+          });
+        } else {
+          promise = $scope.tenantUser.$user.save();
+        }
+        
+        promise.then(function(user) {
+          Alert.success($translate.instant('user.profile.save.success'));
+          // $scope.tenantUserForm.$setPristine();
+          // $scope.tenantUserForm.$setUntouched();
+          Session.setUser(user);
+        }, function() {
+          Alert.error($translate.instant('user.profile.save.fail'));
+        });
+      };
     }
-
-    $scope.userSkills = TenantUserSkill.query({
-      tenantId: Session.tenant.tenantId,
-      userId: Session.user.id
-    });
-  };
-
-  $scope.fetchGroups = function () {
-    if (!Session.tenant.tenantId) {
-      return;
-    }
-
-    $scope.userGroups = TenantUserGroups.query({
-      tenantId: Session.tenant.tenantId,
-      memberId: Session.user.id
-    });
-  };
-
-  $scope.fetchSkills();
-  $scope.fetchGroups();
-
-}]);
+  ]);

@@ -108,6 +108,7 @@
   "details.or" : "-OR-",
   "details.phoneNumber": "Phone Number",
   "details.phoneNumber.error": "Phone number should be in E.164 format.",
+  "details.extensions": "Extensions",
   "details.skills.none": "This user has not been assigned any skills",
   "details.skills.title": "Skills",
   "details.skills.placeholder": "Add Skill...",
@@ -366,7 +367,14 @@
   "user.profile.save.fail": "An error occurred while updating your details.",
   "profile.usergroups.none": "You have not been assigned to any groups.",
   "profile.skills.none": "You have not been assigned any skills.",
-
+  
+  "details.extension.type.required": "Extension Type required",
+  "details.extension.type": "Extension Type",
+  "details.extension.provider": "Provider",
+  "details.extension.provider.required": "Extension provider required",
+  "details.extension.value": "Enter Extension",
+  "details.extension.value.required": "Extension value required",
+  
   "multibox.add.placeholder": "Add Item...",
   "multibox.search.placeholder": "Search...",
   "multibox.create.btn": "Create New",
