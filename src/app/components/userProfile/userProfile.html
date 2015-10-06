@@ -44,23 +44,22 @@
           </input>
         </div>
       </div>
+      
+      <div>
+        <label>&nbsp;</label>
+        <input type="submit" class="btn btn-primary"
+          ng-disabled="userForm.$invalid || ! userForm.$dirty"
+          value="{{'value.update' | translate}}" />
+      </div>
     </form>
     
-      
     <div class="divider-header first-header">
       <h4>{{'details.extensions' | translate}}</h4>
     </div>
     
     <lo-extensions 
-      ng-model="tenantUser.extensions">
+      tenant-user="tenantUser">
     </lo-extensions>
-    
-    <div>
-      <label>&nbsp;</label>
-      <input type="submit" class="btn btn-primary"
-        ng-disabled="userForm.$invalid || ! userForm.$dirty || tenantUserForm.$invalid || ! tenantUserForm.$dirty"
-        value="{{'value.update' | translate}}" />
-    </div>
 
     <div class="divider-header first-header">
       <h4 id="user-skills-header">{{'details.skills.title' | translate}}</h4>

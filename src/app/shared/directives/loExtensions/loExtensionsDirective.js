@@ -1,11 +1,13 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('loExtensions', ['$parse', 'loExtensionProviders', 'loExtensionTypes',
-    function ($parse, loExtensionProviders, loExtensionTypes) {
+  .directive('loExtensions', ['$parse', 'Session', 'loExtensionProviders', 'loExtensionTypes',
+    function ($parse, Session, loExtensionProviders, loExtensionTypes) {
       return {
         restrict: 'E',
-        require: ['ngModel', '^form'],
+        scope: {
+          tenantUser: '='
+        },
         templateUrl: 'app/shared/directives/loExtensions/loExtensions.html',
         link: function ($scope, elem, attrs, controllers) {
           $scope.loExtensionProviders = loExtensionProviders;
@@ -13,26 +15,31 @@ angular.module('liveopsConfigPanel')
           
           $scope.newExtension = {};
           
-          var tenantUserForm = controllers[1];
-          
           $scope.add = function() {
-            $scope.extensions.push($scope.newExtension);
-            $scope.newExtension = {};
-            
-            tenantUserForm.extensions.$setDirty();
-            tenantUserForm.extensions.$setTouched();
+            $scope.tenantUser.extensions.push($scope.newExtension);
+            save();
           };
           
           $scope.remove = function(extension) {
-            $scope.extensions.removeItem(extension);
-            
-            tenantUserForm.extensions.$setDirty();
-            tenantUserForm.extensions.$setTouched();
+            $scope.tenantUser.extensions.removeItem(extension);
+            save();
           };
           
-          $scope.$watch(attrs.ngModel, function(newExtension) {
-            $scope.extensions = newExtension
-          });
+          var save = function() {
+            var user = $scope.tenantUser.$user;
+            return $scope.tenantUser.save({
+              tenantId: Session.tenant.tenantId
+            }).then(function(tenantUser) {
+              $scope.newExtension = {};
+              tenantUser.$user = user;
+              tenantUser.id = user.id;
+              
+              angular.forEach(['type', 'provider', 'value'], function(field) {
+                $scope.userTenantExtensionForm[field].$setPristine();
+                $scope.userTenantExtensionForm[field].$setUntouched();
+              });
+            });
+          }
         }
       };
     }

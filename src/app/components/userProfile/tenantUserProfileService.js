@@ -9,7 +9,6 @@ angular.module('liveopsConfigPanel')
         updateFields: [{
           name: 'extensions'
         }],
-        putRequestTransformer: userProfileUpdateRequestTransformer,
         getInterceptor: tenantUserInterceptor
       });
 
