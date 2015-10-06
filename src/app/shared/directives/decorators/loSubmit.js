@@ -4,21 +4,27 @@ angular.module('liveopsConfigPanel')
   .directive('loSubmit', ['$q', function ($q) {
     return {
       restrict: 'A',
-      require: ['^loFormSubmit'],
+      require: ['^loFormSubmit', '?^loFormCancel'],
       link: function ($scope, $elem, $attrs, $ctrl) {
         $attrs.event = angular.isDefined($attrs.event) ? $attrs.event : 'click';
-
+        
+        var loFormSubmit = $ctrl[0];
+        var loFormCancel = $ctrl[1];
+        
         $elem.bind($attrs.event, function () {
           //TODO check if $attrs.loSubmit is actually a thing that return resource
           var promise = $q.when($scope.$eval($attrs.loSubmit));
           
           promise = promise.then(function(resource) {
-            $ctrl[0].resetForm();
+            if(loFormCancel) {
+              loFormCancel.resetForm();
+            }
+            
             return resource;
           },
           function(error) {
             var def = $q.defer();
-            $ctrl[0].populateApiErrors(error);
+            loFormSubmit.populateApiErrors(error);
             def.reject(error);
             return def.promise;
           });

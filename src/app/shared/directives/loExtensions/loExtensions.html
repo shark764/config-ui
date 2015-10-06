@@ -1,5 +1,12 @@
-<form name="userTenantExtensionForm">
-  <input type="hidden" name="extensions" ng-model="tenantUser.extensions"></input>
+<form name="userTenantExtensionForm"
+  lo-form-submit>
+  
+  <form-error field="userTenantExtensionForm.extensions"
+    error-type-required="{{'details.extension.type.required' | translate}}" >
+  </form-error>
+  <input type="hidden" name="extensions"
+    ng-model="tenantUser.extensions">
+  </input>
   
   <div class="lo-extension-table">
     <div class="lo-extension-table-header">
@@ -45,7 +52,7 @@
       
         <div class="lo-extension-table-col">
           <button class="btn" type="button"
-            ng-click="add()"
+            lo-submit="add()"
             ng-disabled="userTenantExtensionForm.type.$invalid || userTenantExtensionForm.provider.$invalid || userTenantExtensionForm.value.$invalid">
             <i class="fa fa-plus"></i>
           </button>
@@ -54,13 +61,13 @@
     </div>
     
     <div class="lo-extension-table-body"
-      dnd-list="tenantUser.extensions">
+      dnd-list="tenantUser.$original.extensions">
       <div class="lo-extension-table-row"
-        ng-repeat="extension in tenantUser.extensions"
+        ng-repeat="extension in tenantUser.$original.extensions"
         dnd-draggable="extension"
         dnd-effect-allowed="move"
-        dnd-moved="tenantUser.extensions.splice($index, 1)"
-        dnd-selected="tenantUser.extensions.selected = extension">
+        dnd-moved="tenantUser.$original.extensions.splice($index, 1)"
+        dnd-selected="tenantUser.$original.extensions.selected = extension">
         
         <div class="lo-extension-table-col">
           <div class="handle">:::</div>
@@ -70,7 +77,7 @@
         <div class="lo-extension-table-col" dnd-nodrag>{{extension.value}}</div>
         <div class="lo-extension-table-col" dnd-nodrag>
           <i class="fa fa-close"
-            ng-click="remove(extension)"></i>
+            lo-submit="remove(extension)"></i>
         </div>
       </div>
       <div class="dndPlaceholder">

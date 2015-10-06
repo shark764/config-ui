@@ -5,12 +5,9 @@ angular.module('liveopsConfigPanel')
     function($parse) {
       return {
         restrict: 'A',
-        require: ['form', 'loFormCancel'],
+        require: ['form'],
         controller: function() {
           var self = this;
-          this.resetForm = function() {
-            return this.formCancelController.resetForm(this.formController);
-          };
 
           this.populateApiErrors = function(error) {
             if ($parse('data.error')(error)) {

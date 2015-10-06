@@ -17,12 +17,12 @@ angular.module('liveopsConfigPanel')
           
           $scope.add = function() {
             $scope.tenantUser.extensions.push($scope.newExtension);
-            save();
+            return save();
           };
           
           $scope.remove = function(extension) {
             $scope.tenantUser.extensions.removeItem(extension);
-            save();
+            return save();
           };
           
           var save = function() {
