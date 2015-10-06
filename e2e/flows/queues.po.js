@@ -12,6 +12,12 @@ var QueuePage = function() {
   this.showAdvancedQueryLink = element(by.id('show-advanced-query'));
   this.showBasicQueryLink = element(by.id('show-basic-query'));
 
+  this.basicQueryDetailsAll = element.all(by.repeater('operand in operands'));
+  this.basicQueryAllGroupDetails = $('.group-query[operator=every]');
+  this.basicQueryAnyGroupDetails = $('.group-query[operator=some]');
+  this.basicQueryAllSkillDetails = $('.skill-query[operator=and]');
+  this.basicQueryAnySkillDetails = $('.skill-query[operator=or]');
+
   this.advancedQueryFormField = element(by.id('advanced-query-field'));
 
   this.basicQueryAllGroups = element(by.id('basic-query-all-groups'));
