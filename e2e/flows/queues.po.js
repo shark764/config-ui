@@ -50,14 +50,14 @@ var QueuePage = function() {
 
   // Priority Fields
   this.minPriorityInputField = element(by.id('version-min-priority'));
-  this.minPriorityDefault = '1';
   this.maxPriorityInputField = element(by.id('version-max-priority'));
-  this.maxPriorityDefault = '1000';
   this.priorityValueInputField = element(by.id('version-priority-value'));
-  this.priorityValueDefault = '1';
   this.priorityRateInputField = element(by.id('version-priority-rate'));
-  this.priorityRateDefault = '10';
   this.priorityRateUnitField = element(by.id('version-rate-units-input'));
+  this.minPriorityDefault = '1';
+  this.maxPriorityDefault = '1000';
+  this.priorityValueDefault = '1';
+  this.priorityRateDefault = '10';
   this.priorityRateUnitDefault = 'seconds';
 
   // Queue Versions

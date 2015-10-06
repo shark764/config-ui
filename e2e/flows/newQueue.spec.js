@@ -118,7 +118,7 @@ describe('The create new queues view', function() {
       expect(shared.tableElements.count()).toBeGreaterThan(queueCount);
 
       shared.searchField.sendKeys('Queue ' + randomQueue);
-      expect(sahred.tableElements.count()).toBeGreaterThan(0);
+      expect(shared.tableElements.count()).toBeGreaterThan(0);
 
       // Default version created
       expect(queues.activeVersionDropdown.$('option:checked').getText()).toBe('v1');
@@ -128,7 +128,6 @@ describe('The create new queues view', function() {
   });
 
   it('should close the panel on cancel', function() {
-    queueCount = shared.tableElements.count();
     randomQueue = Math.floor((Math.random() * 100) + 1);
     shared.createBtn.click();
 
@@ -173,38 +172,34 @@ describe('The create new queues view', function() {
 
   it('should require advanced query input', function() {
     shared.createBtn.click();
-    randomQueue = Math.floor((Math.random() * 100) + 1);
+    queues.nameFormField.sendKeys('New Queue');
 
-    // Clear default value from query field
-    queues.createVersionQueryFormField.clear();
-
-    // Complete queue form and submit without queue query
-    queues.createVersionQueryFormField.click();
-    queues.nameFormField.sendKeys('Queue ' + randomQueue);
-    queues.descriptionFormField.sendKeys('This is the queue description for queue ' + randomQueue);
-    queues.createVersionQueryFormField.clear();
+    queues.showAdvancedQueryLink.click();
+    queues.advancedQueryFormField.clear();
 
     // Submit button is disabled
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
+    shared.submitFormBtn.click();
 
-    expect(queues.requiredErrors.get(0).isDisplayed()).toBeTruthy();
-    expect(queues.requiredErrors.get(0).getText()).toBe('Field "Query" is required.');
+    // TODO TITAN2-4097
+    //expect(queues.requiredErrors.get(0).isDisplayed()).toBeTruthy();
+    //expect(queues.requiredErrors.get(0).getText()).toBe('Field "Query" is required.');
     expect(shared.tableElements.count()).toBe(queueCount);
     expect(shared.successMessage.isPresent()).toBeFalsy();
   });
 
   //TODO: bug, see TITAN2-3765
   xit('should validate query field', function() {
-    queueCount = shared.tableElements.count();
     shared.createBtn.click();
     randomQueue = Math.floor((Math.random() * 100) + 1);
+    queues.showAdvancedQueryLink.click();
 
-    // Complete queue form and submit without queue query
+    // Complete queue form and submit without valid query
     queues.createVersionQueryFormField.click();
     queues.nameFormField.sendKeys('Queue ' + randomQueue);
     queues.descriptionFormField.sendKeys('This is the queue description for queue ' + randomQueue);
-    queues.createVersionQueryFormField.clear();
-    queues.createVersionQueryFormField.sendKeys('This is not a valid query');
+    queues.advancedQueryFormField.clear();
+    queues.advancedQueryFormField.sendKeys('This is not a valid query');
 
     shared.submitFormBtn.click().then(function() {
       expect(queues.requiredErrors.get(0).isDisplayed()).toBeTruthy();
@@ -215,7 +210,6 @@ describe('The create new queues view', function() {
   });
 
   it('should not require description', function() {
-    queueCount = shared.tableElements.count();
     shared.createBtn.click();
     randomQueue = Math.floor((Math.random() * 100) + 1);
 
@@ -229,23 +223,296 @@ describe('The create new queues view', function() {
     });
   });
 
-  xit('should not accept spaces only as valid field input when creating a new queue', function() {
-    queueCount = shared.tableElements.count();
+  it('should not accept spaces only as valid field input when creating a new queue', function() {
     shared.createBtn.click();
     queues.nameFormField.sendKeys(' ');
-    queues.createVersionQueryFormField.clear();
-    queues.createVersionQueryFormField.sendKeys(' ');
     queues.descriptionFormField.sendKeys(' ');
 
     // Submit button is disabled
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
+    shared.submitFormBtn.click();
 
-    expect(queues.requiredErrors.get(0).isDisplayed()).toBeTruthy();
-    expect(queues.requiredErrors.get(0).getText()).toBe('Field "Name" is required.');
-    expect(queues.requiredErrors.get(1).isDisplayed()).toBeTruthy();
-    expect(queues.requiredErrors.get(1).getText()).toBe('Field "Query" is required.');
+    // TODO TITAN2-4097
+    //expect(queues.requiredErrors.get(0).isDisplayed()).toBeTruthy();
+    //expect(queues.requiredErrors.get(0).getText()).toBe('Field "Name" is required.');
+    //expect(queues.requiredErrors.get(1).isDisplayed()).toBeTruthy();
+    //expect(queues.requiredErrors.get(1).getText()).toBe('Field "Query" is required.');
 
     expect(shared.successMessage.isPresent()).toBeFalsy();
     expect(shared.tableElements.count()).toBe(queueCount);
   });
+
+  it('should require priority values', function() {
+    shared.createBtn.click();
+    randomQueue = Math.floor((Math.random() * 100) + 1);
+
+    queues.nameFormField.sendKeys('Queue ' + randomQueue);
+    queues.minPriorityInputField.clear();
+    queues.maxPriorityInputField.clear();
+    queues.priorityValueInputField.clear();
+    queues.priorityRateInputField.clear();
+
+    // Submit button is disabled
+    expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
+    shared.submitFormBtn.click().then(function() {
+      // TODO TITAN2-4097
+      //expect(queues.requiredErrors.get(0).getText()).toBe('Field "Min Priority" is required.');
+      //expect(queues.requiredErrors.get(1).getText()).toBe('Field "Max Priority" is required.');
+      //expect(queues.requiredErrors.get(2).getText()).toBe('Field "Priority Value" is required.');
+      //expect(queues.requiredErrors.get(3).getText()).toBe('Field "Priority Rate" is required.');
+
+      expect(shared.tableElements.count()).toBe(queueCount);
+      expect(shared.successMessage.isPresent()).toBeFalsy();
+    });
+  });
+
+  describe('basic query builder', function() {
+    it('should display all tenant groups', function() {
+      shared.createBtn.click();
+
+      // Get list of Groups from 'All' query dropdown
+      var groupNameList = [];
+      queues.allGroupsTypeAhead.click();
+      queues.allGroupsDropdownGroups.each(function(groupElement, index) {
+        groupElement.getText().then(function(groupName) {
+          groupNameList.push(groupName);
+        });
+      }).then(function() {
+        // Verify groups from 'Any' query dropdown matches
+        queues.allGroupsTypeAhead.sendKeys('\t'); // Switch to 'Any' dropdown
+        queues.anyGroupsDropdownGroups.each(function(groupElement, index) {
+          expect(groupNameList[index]).toBe(groupElement.getText());
+        });
+
+        // Verify all tenant groups are listed
+        browser.get(shared.groupsPageUrl);
+        expect(groupNameList.length).toBe(shaerd.tableElements.count());
+
+        for (var i = 0; i < groupNameList.length; i++) {
+          shared.searchField.clear();
+          shared.searchField.sendKeys(groupNameList[i]);
+          expect(shared.tableElements.count()).toBeGreaterThan(0);
+        }
+      });
+    });
+
+    it('should display all tenant skills', function() {
+      shared.createBtn.click();
+
+      // Get list of Skills from 'All' query dropdown
+      var skillNameList = [];
+      queues.allSkillsTypeAhead.click();
+      queues.allSkillsDropdownSkills.each(function(skillElement, index) {
+        skillElement.getText().then(function(skillName) {
+          skillNameList.push(skillName);
+        });
+      }).then(function() {
+        // Verify skills from 'Any' query dropdown matches
+        queues.allSkillsTypeAhead.sendKeys('\t'); // Switch to 'Any' dropdown
+        queues.anySkillsDropdownSkills.each(function(skillElement, index) {
+          expect(skillNameList[index]).toBe(skillElement.getText());
+        });
+
+        // Verify all tenant skills are listed
+        browser.get(shared.skillsPageUrl);
+        expect(skillNameList.length).toBe(shaerd.tableElements.count());
+
+        for (var i = 0; i < skillNameList.length; i++) {
+          shared.searchField.clear();
+          shared.searchField.sendKeys(skillNameList[i]);
+          expect(shared.tableElements.count()).toBeGreaterThan(0);
+        }
+      });
+    });
+
+    it('should add groups and skills when selected', function() {
+      shared.createBtn.click();
+
+      // Select group from 'All' query dropdown
+      queues.allGroupsTypeAhead.click();
+      queues.allGroupsDropdownSkills.get(0).click();
+      queues.allGroupsTypeAhead.getAttribute('value').then(function(selectedGroupName) {
+        queues.allGroupsAdd.click();
+        expect(queues.allGroupsSelected.count()).toBe(1);
+        expect(queues.allGroupsSelected.get(0).getText()).toBe(selectedGroupName);
+      });
+
+      // Select Group from 'Any' query dropdown
+      queues.anyGroupsTypeAhead.click();
+      queues.anyGroupsDropdownSkills.get(0).click();
+      queues.anyGroupsTypeAhead.getAttribute('value').then(function(selectedGroupName) {
+        queues.anyGroupsAdd.click();
+        expect(queues.anyGroupsSelected.count()).toBe(1);
+        expect(queues.anyGroupsSelected.get(0).getText()).toBe(selectedGroupName);
+      });
+
+      // Select Skill from 'All' query dropdown
+      queues.allSkillsTypeAhead.click();
+      queues.allSkillsDropdownSkills.get(0).click();
+      queues.allSkillsTypeAhead.getAttribute('value').then(function(selectedSkillName) {
+        queues.allSkillsAdd.click();
+        expect(queues.allSkillsSelected.count()).toBe(1);
+        expect(queues.allSkillsSelected.get(0).getText()).toBe(selectedSkillName);
+      });
+
+      // Select Skill from 'Any' query dropdown
+      queues.anySkillsTypeAhead.click();
+      queues.anySkillsDropdownSkills.get(0).click();
+      queues.anySkillsTypeAhead.getAttribute('value').then(function(selectedSkillName) {
+        queues.anySkillsAdd.click();
+        expect(queues.anySkillsSelected.count()).toBe(1);
+        expect(queues.anySkillsSelected.get(0).getText()).toBe(selectedSkillName);
+      });
+    });
+
+    it('should remove group from \'All\' and leave other selected groups/skills', function() {
+      shared.createBtn.click();
+
+      // Select group from 'All' query dropdown
+      queues.allGroupsTypeAhead.click();
+      queues.allGroupsDropdownSkills.get(0).click();
+      queues.allGroupsAdd.click();
+      expect(queues.allGroupsSelected.count()).toBe(1);
+
+      // Select Group from 'Any' query dropdown
+      queues.anyGroupsTypeAhead.click();
+      queues.anyGroupsDropdownSkills.get(0).click();
+      queues.anyGroupsAdd.click();
+      expect(queues.anyGroupsSelected.count()).toBe(1);
+
+      // Select Skill from 'All' query dropdown
+      queues.allSkillsTypeAhead.click();
+      queues.allSkillsDropdownSkills.get(0).click();
+      queues.allSkillsAdd.click();
+      expect(queues.allSkillsSelected.count()).toBe(1);
+
+      // Select Skill from 'Any' query dropdown
+      queues.anySkillsTypeAhead.click();
+      queues.anySkillsDropdownSkills.get(0).click();
+      queues.anySkillsAdd.click();
+      expect(queues.anySkillsSelected.count()).toBe(1);
+
+      // Remove group from 'All'
+      queues.allGroupsSelected.get(0).element(by.css('a')).click().then(function() {
+        // Only the 'All' group is removed
+        expect(queues.allGroupsSelected.count()).toBe(0);
+        expect(queues.anyGroupsSelected.count()).toBe(1);
+        expect(queues.allSkillsSelected.count()).toBe(1);
+        expect(queues.anySkillsSelected.count()).toBe(1);
+      });
+    });
+
+    it('should remove group from \'Any\' and leave other selected groups/skills', function() {
+      shared.createBtn.click();
+
+      // Select group from 'All' query dropdown
+      queues.allGroupsTypeAhead.click();
+      queues.allGroupsDropdownSkills.get(0).click();
+      queues.allGroupsAdd.click();
+      expect(queues.allGroupsSelected.count()).toBe(1);
+
+      // Select Group from 'Any' query dropdown
+      queues.anyGroupsTypeAhead.click();
+      queues.anyGroupsDropdownSkills.get(0).click();
+      queues.anyGroupsAdd.click();
+      expect(queues.anyGroupsSelected.count()).toBe(1);
+
+      // Select Skill from 'All' query dropdown
+      queues.allSkillsTypeAhead.click();
+      queues.allSkillsDropdownSkills.get(0).click();
+      queues.allSkillsAdd.click();
+      expect(queues.allSkillsSelected.count()).toBe(1);
+
+      // Select Skill from 'Any' query dropdown
+      queues.anySkillsTypeAhead.click();
+      queues.anySkillsDropdownSkills.get(0).click();
+      queues.anySkillsAdd.click();
+      expect(queues.anySkillsSelected.count()).toBe(1);
+
+      // Remove group from 'Any'
+      queues.anyGroupsSelected.get(0).element(by.css('a')).click().then(function() {
+        // Only the 'Any' group is removed
+        expect(queues.allGroupsSelected.count()).toBe(1);
+        expect(queues.anyGroupsSelected.count()).toBe(0);
+        expect(queues.allSkillsSelected.count()).toBe(1);
+        expect(queues.anySkillsSelected.count()).toBe(1);
+      });
+    });
+
+    it('should remove skill from \'All\' and leave other selected groups/skills', function() {
+      shared.createBtn.click();
+
+      // Select group from 'All' query dropdown
+      queues.allGroupsTypeAhead.click();
+      queues.allGroupsDropdownSkills.get(0).click();
+      queues.allGroupsAdd.click();
+      expect(queues.allGroupsSelected.count()).toBe(1);
+
+      // Select Group from 'Any' query dropdown
+      queues.anyGroupsTypeAhead.click();
+      queues.anyGroupsDropdownSkills.get(0).click();
+      queues.anyGroupsAdd.click();
+      expect(queues.anyGroupsSelected.count()).toBe(1);
+
+      // Select Skill from 'All' query dropdown
+      queues.allSkillsTypeAhead.click();
+      queues.allSkillsDropdownSkills.get(0).click();
+      queues.allSkillsAdd.click();
+      expect(queues.allSkillsSelected.count()).toBe(1);
+
+      // Select Skill from 'Any' query dropdown
+      queues.anySkillsTypeAhead.click();
+      queues.anySkillsDropdownSkills.get(0).click();
+      queues.anySkillsAdd.click();
+      expect(queues.anySkillsSelected.count()).toBe(1);
+
+      // Remove skill from 'All'
+      queues.allSkillsSelected.get(0).element(by.css('a')).click().then(function() {
+        // Only the 'All' skill is removed
+        expect(queues.allGroupsSelected.count()).toBe(1);
+        expect(queues.anyGroupsSelected.count()).toBe(1);
+        expect(queues.allSkillsSelected.count()).toBe(0);
+        expect(queues.anySkillsSelected.count()).toBe(1);
+      });
+    });
+
+    it('should remove skill from \'Any\' and leave other selected groups/skills', function() {
+      shared.createBtn.click();
+
+      // Select group from 'All' query dropdown
+      queues.allGroupsTypeAhead.click();
+      queues.allGroupsDropdownSkills.get(0).click();
+      queues.allGroupsAdd.click();
+      expect(queues.allGroupsSelected.count()).toBe(1);
+
+      // Select Group from 'Any' query dropdown
+      queues.anyGroupsTypeAhead.click();
+      queues.anyGroupsDropdownSkills.get(0).click();
+      queues.anyGroupsAdd.click();
+      expect(queues.anyGroupsSelected.count()).toBe(1);
+
+      // Select Skill from 'All' query dropdown
+      queues.allSkillsTypeAhead.click();
+      queues.allSkillsDropdownSkills.get(0).click();
+      queues.allSkillsAdd.click();
+      expect(queues.allSkillsSelected.count()).toBe(1);
+
+      // Select Skill from 'Any' query dropdown
+      queues.anySkillsTypeAhead.click();
+      queues.anySkillsDropdownSkills.get(0).click();
+      queues.anySkillsAdd.click();
+      expect(queues.anySkillsSelected.count()).toBe(1);
+
+      // Remove skill from 'Any'
+      queues.anySkillsSelected.get(0).element(by.css('a')).click().then(function() {
+        // Only the 'Any' skill is removed
+        expect(queues.allGroupsSelected.count()).toBe(1);
+        expect(queues.anyGroupsSelected.count()).toBe(1);
+        expect(queues.allSkillsSelected.count()).toBe(1);
+        expect(queues.anySkillsSelected.count()).toBe(0);
+      });
+    });
+
+  });
+
 });
