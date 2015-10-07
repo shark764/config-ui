@@ -42,17 +42,23 @@
             </option>
           </select>
         </div>
-        <div class="lo-extension-table-col">
+        <div class="lo-extension-table-col" id="phone-number-col">
           <form-error field="userTenantExtensionForm.value"
             error-type-required="{{'details.extension.value.required' | translate}}" >
           </form-error>
-          <input type="text" name="value"
+          <input type="tel" name="value"
             ng-required="true"
             placeholder="{{'details.extension.value' | translate}}"
             ng-model="newExtension.value">
           </input>
+          <input type="text" 
+            name="phoneExtension"
+            pattern="\d*"
+            placeholder="{{'details.phone.extension.value' | translate}}"
+            ng-model="phoneExtension">
+          </input>
         </div>
-      
+        
         <div class="lo-extension-table-col">
           <button class="btn" type="button"
             lo-submit="add()"

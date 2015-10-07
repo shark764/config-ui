@@ -9,10 +9,6 @@
     margin-right: 0.5em;
     padding: 15px 20px;
   }
-  
-  .wrapper {
-    width: 500px;
-  }
 
   .table {
     border: $light-grey solid 1px;
@@ -45,6 +41,10 @@
     .scrollable-table-container {
       max-width: $max-control-width + 200px;
     }
+  }
+  
+  .divider-header {
+    margin-left: -10px;
   }
   
   #user-form {

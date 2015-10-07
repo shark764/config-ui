@@ -5,6 +5,10 @@
   </div>
 
   <div class="pull-left wrapper" disable-contents="! ('PLATFORM_MANAGE_USER_ACCOUNT' | hasPermission)">
+    <div class="divider-header first-header">
+      <h4>{{'details' | translate}}</h4>
+    </div>
+    
     <form id="user-form" name="userForm"
       ng-submit="submit()"
       seperate-validation>
@@ -53,7 +57,7 @@
       </div>
     </form>
     
-    <div class="divider-header first-header">
+    <div class="divider-header">
       <h4>{{'details.extensions' | translate}}</h4>
     </div>
     
@@ -61,7 +65,7 @@
       tenant-user="tenantUser">
     </lo-extensions>
 
-    <div class="divider-header first-header">
+    <div class="divider-header">
       <h4 id="user-skills-header">{{'details.skills.title' | translate}}</h4>
     </div>
     <p id="no-user-skills" class="null" ng-if="tenantUser.skills.length == 0">{{'profile.skills.none' | translate}}</p>
@@ -80,7 +84,7 @@
       </tbody>
     </table>
 
-    <div class="divider-header first-header">
+    <div class="divider-header">
       <h4 id="user-groups-header">{{'details.groups.title' | translate}}</h4>
     </div>
     <p id="no-user-groups" ng-show="tenantUser.groups.length === 0" class="null"
