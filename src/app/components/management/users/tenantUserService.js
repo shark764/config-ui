@@ -4,7 +4,7 @@ angular.module('liveopsConfigPanel')
   .factory('TenantUser', ['LiveopsResourceFactory', 'tenantUserInterceptor', 'tenantUserQueryInterceptor', 'tenantUserUpdateTransformer',
     function (LiveopsResourceFactory, tenantUserInterceptor, tenantUserQueryInterceptor, tenantUserUpdateTransformer) {
       var TenantUser = LiveopsResourceFactory.create({
-        endpoint: '/v1/tenants/:tenantId/users/:id',
+        endpoint: '/v1/tenants/:tenantId/users/:userId',
         resourceName: 'TenantUser',
         updateFields: [{
           name: 'status'

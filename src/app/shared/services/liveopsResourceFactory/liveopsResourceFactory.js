@@ -207,11 +207,21 @@ angular.module('liveopsConfigPanel')
           };
 
           var proxyUpdate = Resource.prototype.$update;
-          Resource.prototype.$update = function(params, success, failure) {
-            var promise = proxyUpdate.call(this, params, success, failure);
-
+          Resource.prototype.$update = function(queryParams, success, failure) {
+            var promise = proxyUpdate.call(this, queryParams, success, failure);
+            
+            var backup = {};
+            angular.forEach(this, function(value, key) {
+              if (key.match(/^\$[^$].*/g) &&
+                !angular.isFunction(value) &&
+                (['$original', '$busy', '$resolved'].indexOf(key) < 0)) {
+                backup[key] = value;
+              }
+            });
+            
             promise.then(function(result) {
               result.$original = angular.copy(result);
+              angular.extend(result, backup);
               return result;
             });
 

@@ -160,7 +160,7 @@ angular.module('liveopsConfigPanel')
         
         if (UserPermissions.hasPermission('PLATFORM_MANAGE_ALL_USERS')){
           promises.push($scope.selectedTenantUser.$user.save());
-        } else if (UserPermissions.hasPermission('PLATFORM_MANAGE_USER_ACCOUNT') && Session.user.id === $scope.selectedTenantUser.$user.id){
+        } else if (UserPermissions.hasPermission('PLATFORM_MANAGE_USER_ACCOUNT') && Session.user.id === $scope.selectedTenantUser.userId){
           delete $scope.selectedTenantUser.$user.status; //User cannot edit their own status
           delete $scope.selectedTenantUser.$user.roleId; //User cannot edit their own platform roleId
           

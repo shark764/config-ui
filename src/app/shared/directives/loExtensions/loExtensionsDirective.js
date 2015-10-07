@@ -46,14 +46,6 @@ angular.module('liveopsConfigPanel')
               $scope.newExtension = {};
               $scope.phoneExtension = null;
               
-              //TODO find a better way to do this
-              tenantUser.$user = user;
-              tenantUser.id = user.id;
-              tenantUser.groups = groups;
-              tenantUser.skills = skills;
-              tenantUser.$original.roleName = roleName;
-              ///
-              
               angular.forEach(['type', 'provider', 'value'], function(field) {
                 $scope.userTenantExtensionForm[field].$setPristine();
                 $scope.userTenantExtensionForm[field].$setUntouched();

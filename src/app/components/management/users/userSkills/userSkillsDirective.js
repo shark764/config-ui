@@ -20,7 +20,7 @@ angular.module('liveopsConfigPanel')
           $scope.fetchUserSkills = function () {
             $scope.userSkills = TenantUserSkill.query({
                 tenantId: Session.tenant.tenantId,
-                userId: $scope.user.id
+                userId: $scope.user.userId
               });
           };
 
@@ -31,12 +31,12 @@ angular.module('liveopsConfigPanel')
               Alert.success('Removed skill from user!');
               
               $scope.userSkills.removeItem(tsu);
-              var userSkill = filterFilter($scope.user.skills, {
+              var userSkill = filterFilter($scope.user.$skills, {
                 'id': tsu.skillId
               }, true);
               
               if (userSkill.length){
-                $scope.user.skills.removeItem(userSkill[0]);
+                $scope.user.$skills.removeItem(userSkill[0]);
               }
             }, function () {
               Alert.error('Failed to remove skill');
@@ -54,7 +54,7 @@ angular.module('liveopsConfigPanel')
             $scope.newUserSkill = new TenantUserSkill({
               skillId: null,
               tenantId: Session.tenant.tenantId,
-              userId: $scope.user.id
+              userId: $scope.user.userId
             });
           };
 
@@ -91,7 +91,7 @@ angular.module('liveopsConfigPanel')
 
             $scope.newUserSkill.save(function (tenantUserSkill) {
               $scope.userSkills.push(tenantUserSkill);
-              $scope.user.skills.push({
+              $scope.user.$skills.push({
                 id: tenantUserSkill.skillId,
                 name: tenantUserSkill.name
               });
@@ -120,7 +120,7 @@ angular.module('liveopsConfigPanel')
           };
           
           $scope.filterSkills = function(item) {
-            var matchingSkills = filterFilter($scope.user.skills, {
+            var matchingSkills = filterFilter($scope.user.$skills, {
               'id': item.id
             }, true);
             
@@ -128,7 +128,7 @@ angular.module('liveopsConfigPanel')
           };
           
           $scope.filterSkills = function(item) {
-            var matchingSkills = filterFilter($scope.user.skills, {
+            var matchingSkills = filterFilter($scope.user.$skills, {
               'id': item.id
             }, true);
             

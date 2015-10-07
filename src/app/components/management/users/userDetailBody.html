@@ -97,7 +97,7 @@
       <div>
         <select ng-model="selectedTenantUser.roleId" name="roleId" required
           ng-options="role.id as role.name for role in fetchTenantRoles()"
-          ng-disabled="Session.user.id == selectedTenantUser.$user.id">
+          ng-disabled="Session.user.id == selectedTenantUser.userId">
           <option value="" ng-disabled="true">
             {{'users.details.role.select' | translate}}
           </option>
@@ -114,7 +114,7 @@
     </div>
   </div>
 
-  <div disable-contents="forms.detailsForm.email.$invalid || scenario() == 'invite:existing:user' || ! (('PLATFORM_MANAGE_ALL_USERS' | hasPermission) || (('PLATFORM_MANAGE_USER_ACCOUNT' | hasPermission) && Session.user.id == selectedTenantUser.$user.id))">
+  <div disable-contents="forms.detailsForm.email.$invalid || scenario() == 'invite:existing:user' || ! (('PLATFORM_MANAGE_ALL_USERS' | hasPermission) || (('PLATFORM_MANAGE_USER_ACCOUNT' | hasPermission) && Session.user.id == selectedTenantUser.userId))">
     <div class="divider-header">
       <h4>{{'details' | translate}}</h4>
     </div>

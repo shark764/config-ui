@@ -17,6 +17,9 @@ angular.module('liveopsConfigPanel')
         transclude: true,
         controller: function () {},
         link: function ($scope) {
+          $scope.primaryKey = $scope.config.primaryKey ?
+            $scope.config.primaryKey : 'id';
+          
           $scope.$watch('config', function(){
             $scope.showBulkActions = angular.isDefined($scope.config.showBulkActions) ? $scope.config.showBulkActions : true;
             $scope.showCreate = angular.isDefined($scope.config.showCreate) ? $scope.config.showCreate : true;
