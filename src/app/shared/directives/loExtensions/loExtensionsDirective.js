@@ -32,12 +32,22 @@ angular.module('liveopsConfigPanel')
           
           var save = function() {
             var user = $scope.tenantUser.$user;
+            var skills = $scope.tenantUser.skills;
+            var groups = $scope.tenantUser.groups;
+            var roleName = $scope.tenantUser.roleName;
+            
             return $scope.tenantUser.save({
               tenantId: Session.tenant.tenantId
             }).then(function(tenantUser) {
               $scope.newExtension = {};
+              
+              //TODO find a better way to do this
               tenantUser.$user = user;
               tenantUser.id = user.id;
+              tenantUser.groups = groups;
+              tenantUser.skills = skills;
+              tenantUser.$original.roleName = roleName;
+              ///
               
               angular.forEach(['type', 'provider', 'value'], function(field) {
                 $scope.userTenantExtensionForm[field].$setPristine();
