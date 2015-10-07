@@ -5,7 +5,7 @@ angular.module('liveopsConfigPanel')
     function($parse) {
       return {
         restrict: 'A',
-        require: ['form'],
+        require: 'form',
         controller: function() {
           var self = this;
 
@@ -24,10 +24,9 @@ angular.module('liveopsConfigPanel')
             return error;
           };
         },
-        link: function($scope, $elem, $attrs, $ctrl) {
+        link: function($scope, $elem, $attrs, form) {
           var controller = $elem.data('$loFormSubmitController');
-          controller.formController = $ctrl[0];
-          controller.formCancelController = $ctrl[1];
+          controller.formController = form;
         }
       };
     }

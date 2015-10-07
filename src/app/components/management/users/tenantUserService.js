@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .factory('TenantUser', ['LiveopsResourceFactory', 'tenantUserInterceptor', 'tenantUserQueryInterceptor',
-    function (LiveopsResourceFactory, tenantUserInterceptor, tenantUserQueryInterceptor) {
+  .factory('TenantUser', ['LiveopsResourceFactory', 'tenantUserInterceptor', 'tenantUserQueryInterceptor', 'tenantUserUpdateTransformer',
+    function (LiveopsResourceFactory, tenantUserInterceptor, tenantUserQueryInterceptor, tenantUserUpdateTransformer) {
       var TenantUser = LiveopsResourceFactory.create({
         endpoint: '/v1/tenants/:tenantId/users/:id',
         resourceName: 'TenantUser',
@@ -10,9 +10,12 @@ angular.module('liveopsConfigPanel')
           name: 'status'
         }, {
           name: 'roleId'
+        }, {
+          name: 'extensions'
         }],
         getInterceptor: tenantUserInterceptor,
-        queryInterceptor: tenantUserQueryInterceptor
+        queryInterceptor: tenantUserQueryInterceptor,
+        putRequestTransformer: tenantUserUpdateTransformer
       });
 
       TenantUser.prototype.getDisplay = function () {
@@ -31,4 +34,23 @@ angular.module('liveopsConfigPanel')
 
       return TenantUser;
     }
-  ]);
+  ])
+  .service('tenantUserUpdateTransformer', ['Session', function(Session) {
+    return function(tenantUser) {
+      if(tenantUser.isNew()) {
+        return tenantUser;
+      }
+      
+      if(tenantUser.id === Session.user.id) {
+        if(tenantUser.status === 'accepted') {
+          delete tenantUser.status;
+        }
+        
+        delete tenantUser.roleId;
+      } else {
+        delete tenantUser.status;
+      }
+      
+      return tenantUser;
+    }
+  }]);
