@@ -1,5 +1,7 @@
 lo-extensions {
+  display: block;
   width: 100%;
+  max-width: 700px;
   
   .lo-extension-table {
     .dndPlaceholder {
@@ -17,16 +19,15 @@ lo-extensions {
         text-overflow: ellipsis;
         
         display: inline-block;
-        width: 29%;
+        width: 20%;
       }
       
-      .lo-extension-table-col:last-child {
-        width: 35px;
-        margin-bottom: 4px;
+      .lo-extension-table-col.phone-number-col {
+        width: 50%;
       }
     }
     
-    #phone-number-col input {
+    .phone-number-col input {
       width: 50%;
     }
     
@@ -49,6 +50,10 @@ lo-extensions {
       
       .lo-extension-table-row:first-child {
         border-top: None;
+      }
+      
+      .remove-col {
+        width: 35px;
       }
     }
   }

@@ -16,6 +16,10 @@ angular.module('liveopsConfigPanel')
           $scope.newExtension = {};
           
           $scope.add = function() {
+            if ($scope.phoneExtension){
+              $scope.newExtension.value += 'x' + $scope.phoneExtension;
+            }
+            
             $scope.tenantUser.extensions.push($scope.newExtension);
             return save();
           };
@@ -40,6 +44,7 @@ angular.module('liveopsConfigPanel')
               tenantId: Session.tenant.tenantId
             }).then(function(tenantUser) {
               $scope.newExtension = {};
+              $scope.phoneExtension = null;
               
               //TODO find a better way to do this
               tenantUser.$user = user;

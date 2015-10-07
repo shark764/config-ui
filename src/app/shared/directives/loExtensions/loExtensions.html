@@ -42,7 +42,7 @@
             </option>
           </select>
         </div>
-        <div class="lo-extension-table-col" id="phone-number-col">
+        <div class="lo-extension-table-col phone-number-col">
           <form-error field="userTenantExtensionForm.value"
             error-type-required="{{'details.extension.value.required' | translate}}" >
           </form-error>
@@ -52,15 +52,14 @@
             ng-model="newExtension.value">
           </input>
           <input type="text" 
+            style="width: 85px"
             name="phoneExtension"
             pattern="\d*"
             placeholder="{{'details.phone.extension.value' | translate}}"
             ng-model="phoneExtension">
           </input>
-        </div>
-        
-        <div class="lo-extension-table-col">
           <button class="btn" type="button"
+            style="width: 35px;"
             lo-submit="add()"
             ng-disabled="userTenantExtensionForm.type.$invalid || userTenantExtensionForm.provider.$invalid || userTenantExtensionForm.value.$invalid">
             <i class="fa fa-plus"></i>
@@ -87,12 +86,12 @@
         <div class="lo-extension-table-col" dnd-nodrag>
           {{extension.provider | translate}}
         </div>
-        <div class="lo-extension-table-col" dnd-nodrag>
+        <div class="lo-extension-table-col lo-extension-table-col phone-number-col" dnd-nodrag>
           <span ng-show="extension.type !== 'webrtc'">{{extension.value}}</span>
           <span ng-show="$index === 0">({{'details.primary' | translate}})</span>
         </div>
-        <div class="lo-extension-table-col" dnd-nodrag>
-          <i class="fa fa-close"
+        <div class="lo-extension-table-col remove-col" dnd-nodrag>
+          <i class="fa fa-close remove"
             lo-submit="remove(extension)">
           </i>
         </div>

@@ -376,6 +376,7 @@
   "details.extension.value": "Enter Extension",
   "details.extension.value.required": "Extension value required",
   "details.extension.drop": "Drop extension here",
+  "details.phone.extension.value": "Ext.",
   
   "multibox.add.placeholder": "Add Item...",
   "multibox.search.placeholder": "Search...",

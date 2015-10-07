@@ -6,8 +6,23 @@
     background-color: #eee;
     font-size: 10em;
     height: 170px;
-    margin-right: 0.5em;
     padding: 15px 20px;
+    position: absolute;
+    width: 160px;
+  }
+  
+  .wrapper {
+   display: inline-block;
+   width: 100%;
+   padding-left: 200px;
+  }
+  
+  .submit-wrapper {
+    text-align: right;
+  }
+  
+  #save-user-details-btn {
+    width: 200px !important;
   }
 
   .table {
@@ -48,6 +63,8 @@
   }
   
   #user-form {
+    max-width: 500px;
+    
     & > div {
       width: 100%;
       margin: 10px 0;

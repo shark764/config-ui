@@ -1,10 +1,10 @@
 <div id="user-profile" name="tenantUserForm">
   <h2>User Profile</h2>
-  <div class="mystery-man pull-left">
+  <div class="mystery-man">
     <i id="user-profile-pic" class="fa fa-user"></i>
   </div>
 
-  <div class="pull-left wrapper" disable-contents="! ('PLATFORM_MANAGE_USER_ACCOUNT' | hasPermission)">
+  <div class="wrapper" disable-contents="! ('PLATFORM_MANAGE_USER_ACCOUNT' | hasPermission)">
     <div class="divider-header first-header">
       <h4>{{'details' | translate}}</h4>
     </div>
@@ -49,12 +49,13 @@
         </div>
       </div>
       
-      <div>
-        <label>&nbsp;</label>
-        <input type="submit" class="btn btn-primary"
-          ng-disabled="userForm.$invalid || ! userForm.$dirty"
-          value="{{'value.update' | translate}}" />
+      <div class="submit-wrapper">
+        <input type="submit" id="save-user-details-btn" class="btn btn-primary"
+        ng-disabled="userForm.$invalid || ! userForm.$dirty"
+        value="{{'value.update' | translate}}" />
       </div>
+      
+
     </form>
     
     <div class="divider-header">
