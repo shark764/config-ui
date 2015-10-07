@@ -39,11 +39,11 @@ angular.module('liveopsConfigPanel')
           };
 
           $scope.execute = function () {
-            var selectedBulkActions = $scope.getSelectedItems($scope.bulkActions);
+            var selectedBulkActions = $scope.getSelectedBulkActions($scope.bulkActions);
             var itemPromises = [];
             angular.forEach(selectedBulkActions, function (bulkAction) {
               if (bulkAction.canExecute()) {
-                var selectedItems = $scope.getSelectedItems($scope.items);
+                var selectedItems = $scope.getSelectedBulkActions($scope.items);
                 itemPromises.push($q.when(bulkAction.execute(selectedItems)));
               }
             });
@@ -57,7 +57,7 @@ angular.module('liveopsConfigPanel')
           };
 
           $scope.canExecute = function () {
-            var selectedBulkActions = $scope.getSelectedItems($scope.bulkActions);
+            var selectedBulkActions = $scope.getSelectedBulkActions($scope.bulkActions);
             var canExecute = !!selectedBulkActions.length;
 
             if( $scope.selectedItems().length === 0 ){
@@ -71,7 +71,7 @@ angular.module('liveopsConfigPanel')
             return canExecute;
           };
 
-          $scope.getSelectedItems = function (items) {
+          $scope.getSelectedBulkActions = function (items) {
             var selectedItems = [];
             angular.forEach(items, function (item) {
               if (item.checked) {

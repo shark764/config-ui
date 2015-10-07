@@ -55,8 +55,21 @@ angular.module('liveopsConfigPanel')
         };
 
         $scope.fetchUsersSkills = function() {
-          console.log("Get list of users");
-          console.log("From there find subset of skills which at least one selected user is a part of.");
+          var availableSkills = [];
+
+          angular.forEach($scope.users, function (user) {
+            if (user.checked){
+              angular.forEach(user.skills, function (skill){
+                if (availableSkills.length == 0){
+                  availableSkills.push(skill);
+                } else {
+                  if (availableSkills.map(function(e) { return e.id; }).indexOf(skill.id) < 0){
+                    availableSkills.push(skill);
+                  }
+                }
+              });
+            }
+          });
           
         };
 
