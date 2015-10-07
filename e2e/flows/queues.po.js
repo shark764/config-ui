@@ -61,10 +61,11 @@ var QueuePage = function() {
   this.priorityRateUnitDefault = 'seconds';
 
   // Queue Versions
-  this.queueVersionsTable = element(by.id('queue-version-table'));
-  this.queueVersions = this.queueVersionsTable.all(by.repeater('version in fetchVersions() | orderBy:\'created\':\'reverse\''));
-  this.activeVersion = this.queueVersionsTable.element(by.css('.fa .fa-circle'));
+  this.versionsTable = element(by.css('.queue-version-table'));
+  this.queueVersions = this.versionsTable.all(by.repeater('version in fetchVersions() | orderBy:\'created\':\'reverse\''));
+  this.activeVersion = this.versionsTable.element(by.css('.fa .fa-circle'));
   this.copyVersionBtn = element(by.css('create-version-copy-btn'));
+  this.basicQueryDetails = element(by.id('version-basic-query-details'));
 
   // Queue Version Copy
   this.newQueueVersionPanel = element(by.id('queue-version-panel'));

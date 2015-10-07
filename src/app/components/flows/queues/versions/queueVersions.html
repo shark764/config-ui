@@ -31,7 +31,7 @@
       <td></td>
       <td colspan="5">
         <div disable-contents="! ('MANAGE_ALL_QUEUES' | hasPermission)">
-          <div class="input-group">
+          <div id="version-basic-query-details" class="input-group">
             <label class="textarea-label disabled">Basic Query</label>
             <skill-query query="version.query"
               label-key="queue.query.builder.skills.all"
@@ -53,7 +53,7 @@
           </div>
           <div class="input-group">
             <label class="textarea-label disabled">Advanced Query</label>
-            <textarea ng-disabled="true" type="text" ng-model="version.query" name="query"></textarea>
+            <textarea id="advanced-query-field" ng-disabled="true" type="text" ng-model="version.query" name="query"></textarea>
           </div>
 
           <version-priority queue-version="version" ng-disabled="true"></version-priority>
