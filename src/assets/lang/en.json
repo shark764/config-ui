@@ -106,6 +106,7 @@
   "details.flow": "Flow",
   "details.value": "Value",
   "details.or" : "-OR-",
+  "details.primary": "primary",
   "details.phoneNumber": "Phone Number",
   "details.phoneNumber.error": "Phone number should be in E.164 format.",
   "details.extensions": "Extensions",
@@ -374,6 +375,7 @@
   "details.extension.provider.required": "Extension provider required",
   "details.extension.value": "Enter Extension",
   "details.extension.value.required": "Extension value required",
+  "details.extension.drop": "Drop extension here",
   
   "multibox.add.placeholder": "Add Item...",
   "multibox.search.placeholder": "Search...",
@@ -403,5 +405,11 @@
   "role.permission.remove.success": "Removed permission!",
   "role.permission.remove.fail": "Sorry, there was an error removing that permission",
   "role.permission.add.success": "Added permission!",
-  "role.permission.add.fail": "Sorry, there was an error adding that permission"
+  "role.permission.add.fail": "Sorry, there was an error adding that permission",
+  
+  "webrtc": "WebRTC",
+  "twilio": "Twilio",
+  "pstn": "PSTN",
+  "pilvo": "Pilvo",
+  "sip": "SIP"
 }

@@ -298,7 +298,7 @@ angular.module('liveopsConfigPanel')
                 angular.isFunction(this.$original[prop])) {
                 continue;
               }
-              this[prop] = this.$original[prop];
+              this[prop] = angular.copy(this.$original[prop]);
             }
           };
 
