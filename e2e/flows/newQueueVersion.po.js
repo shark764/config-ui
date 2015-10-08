@@ -11,8 +11,6 @@ var NewQueueVersion = function() {
 
   // Query Fields
   this.newQueueQuerySection = this.newQueueVersionPanel.element(by.id('selected-queue-version-section'));
-  this.showAdvancedQueryLink = this.newQueueVersionPanel.element(by.id('show-advanced-query'));
-  this.showBasicQueryLink = this.newQueueVersionPanel.element(by.id('show-basic-query'));
 
   this.basicQueryDetails = this.newQueueVersionPanel.element(by.id('version-basic-query-details'));
   this.basicQueryDetailsAll = this.newQueueVersionPanel.all(by.repeater('operand in operands'));
@@ -33,7 +31,7 @@ var NewQueueVersion = function() {
 
   this.basicQueryAllSkills = this.newQueueVersionPanel.element(by.id('basic-query-all-skills'));
   this.allSkillsTypeAhead = this.basicQueryAllSkills.element(by.id('typeahead-container'));
-  this.allSkillsDropdownGroups = this.basicQueryAllSkills.all(by.repeater('item in filtered = (items | filter:filterCriteria | orderBy:orderByFunction)'));
+  this.allSkillsDropdownSkills = this.basicQueryAllSkills.all(by.repeater('item in filtered = (items | filter:filterCriteria | orderBy:orderByFunction)'));
   this.allSkillsProficiencyOperator = this.basicQueryAllSkills.element(by.id('proficiency-operator-dropdown'));
   this.allSkillsProficiencyValue = this.basicQueryAllSkills.element(by.id('proficiency-value'));
   this.allSkillsAdd = this.basicQueryAllSkills.element(by.css('.fa-plus'));
@@ -41,7 +39,7 @@ var NewQueueVersion = function() {
 
   this.basicQueryAnySkills = this.newQueueVersionPanel.element(by.id('basic-query-any-skills'));
   this.anySkillsTypeAhead = this.basicQueryAnySkills.element(by.id('typeahead-container'));
-  this.anySkillsDropdownGroups = this.basicQueryAnySkills.all(by.repeater('item in filtered = (items | filter:filterCriteria | orderBy:orderByFunction)'));
+  this.anySkillsDropdownSkills = this.basicQueryAnySkills.all(by.repeater('item in filtered = (items | filter:filterCriteria | orderBy:orderByFunction)'));
   this.anySkillsProficiencyOperator = this.basicQueryAnySkills.element(by.id('proficiency-operator-dropdown'));
   this.anySkillsProficiencyValue = this.basicQueryAnySkills.element(by.id('proficiency-value'));
   this.anySkillsAdd = this.basicQueryAnySkills.element(by.css('.fa-plus'));

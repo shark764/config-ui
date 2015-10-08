@@ -10,6 +10,8 @@ var QueuePage = function() {
   this.queueDetailsPane = element(by.id('details-pane'));
 
   this.requiredErrors = element.all(by.css('.lo-error'));
+  this.showAdvancedQueryLink = this.queueDetailsPane.element(by.id('show-advanced-query'));
+  this.showBasicQueryLink = this.queueDetailsPane.element(by.id('show-basic-query'));
 
   this.nameColumn = 'td:nth-child(2)';
   this.descriptionColumn = 'td:nth-child(3)';
@@ -31,10 +33,10 @@ var QueuePage = function() {
   this.copyVersionBtn = element.all(by.id('create-version-copy-btn'));
   this.basicQueryDetails = element.all(by.id('version-basic-query-details'));
 
-  this.basicQueryAllGroupDetails = this.versionsTable.all(by.css('.group-query[operator=every]'));
-  this.basicQueryAnyGroupDetails = this.versionsTable.all(by.css('.group-query[operator=some]'));
-  this.basicQueryAllSkillDetails = this.versionsTable.all(by.css('.skill-query[operator=and]'));
-  this.basicQueryAnySkillDetails = this.versionsTable.all(by.css('.skill-query[operator=or]'));
+  this.basicQueryAllGroupDetails = this.versionsTable.all(by.css('[operator=every]'));
+  this.basicQueryAnyGroupDetails = this.versionsTable.all(by.css('[operator=some]'));
+  this.basicQueryAllSkillDetails = this.versionsTable.all(by.css('[operator=and]'));
+  this.basicQueryAnySkillDetails = this.versionsTable.all(by.css('[operator=or]'));
 
   this.advancedQueryFormField = this.versionsTable.all(by.id('advanced-query-field'));
 

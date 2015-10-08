@@ -404,7 +404,7 @@ describe('The queues view', function() {
   });
 
   xit('should not require basic query details when adding a new queue version from copy', function() {
-    // TODO Fails from more than one benig removed at a time
+    // TODO Fails from more than one being removed at a time
     shared.firstTableRow.click();
     queues.activeVersionDropdown.all(by.css('option')).count().then(function(originalVersionCount) {
       queues.activeVersionDropdown.$('option:checked').getAttribute('value').then(function(activeVersionValue) {
