@@ -1,7 +1,7 @@
 'use strict';
 
 var QueuePage = function() {
-  this.nameFormField = element(by.model('resource.name'));
+  this.nameFormField = element(by.model('selectedQueue.name'));
   this.descriptionFormField = element(by.model('resource.description'));
   this.activeVersionDropdown = element(by.id('active-version-field'));
   this.activeFormToggle = element(by.model('selectedQueue.active'));
