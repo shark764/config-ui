@@ -224,14 +224,14 @@ describe('users controller', function () {
       $httpBackend.flush();
     });
 
-    //TODO this should work
-    xit('should have roleName', function () {
+    it('should set up the roleName', inject(['TenantRole', function (TenantRole) {
       controller.saveNewTenantUser();
-
+      spyOn(TenantRole, 'getName');
+      
       $httpBackend.flush();
 
-      expect($scope.selectedTenantUser.roleName).toBeDefined();
-    });
+      expect(TenantRole.getName).toHaveBeenCalled();
+    }]));
 
     it('should call reset', function () {
       mockTenantUsers[2].reset = jasmine.createSpy('reset');
@@ -419,5 +419,31 @@ describe('users controller', function () {
     $scope.$broadcast('email:validator:found', mockTenantUsers[0]);
     
     expect($scope.selectedTenantUser).toBeDefined();
+  });
+  
+  describe('expireTenantUser function', function () {
+    it('should show a confirm modal', inject(['Modal', function (Modal) {
+      spyOn(Modal, 'showConfirm');
+      $scope.expireTenantUser();
+      expect(Modal.showConfirm).toHaveBeenCalled();
+    }]));
+    
+    it('should set the user status to pending', inject(['Modal', function (Modal) {
+      $scope.selectedTenantUser = mockTenantUsers[2];
+      expect($scope.selectedTenantUser.status).toEqual('invited');
+      
+      $httpBackend.expectPUT(apiHostname + '/v1/tenants/tenant-id/users/userId100', function(requestBody) {
+        var data = JSON.parse(requestBody);
+        return data.status === 'pending';
+      }).respond(200);
+      
+      spyOn(Modal, 'showConfirm').and.callFake(function(config){
+        config.okCallback();
+      });
+      
+      $scope.expireTenantUser();
+      $httpBackend.flush();
+      expect($scope.selectedTenantUser.status).toEqual('pending');
+    }]));
   });
 });

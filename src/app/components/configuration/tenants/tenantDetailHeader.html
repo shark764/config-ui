@@ -1,36 +1,36 @@
-<div ng-if="originalResource.id">
-  <toggle class="status-toggle" ng-model="resource.active" 
+<div ng-if="! selectedTenant.isNew()">
+  <toggle class="status-toggle" ng-model="selectedTenant.active" 
   confirm-disable-message="{{'tenant.details.disable.confirm' | translate}}"
   confirm-enable-message="{{'tenant.details.enable.confirm' | translate}}"
   ng-disabled="! (['PLATFORM_MANAGE_ALL_TENANTS', 'MANAGE_TENANT'] | hasPermission)"></toggle>
   
   <div class="info">
-    <h1>{{originalResource.name}}</h1>
+    <h1>{{selectedTenant.$original.name}}</h1>
     <div class="details" ng-if="['PLATFORM_VIEW_ALL_USERS', 'PLATFORM_CREATE_USERS', 'PLATFORM_MANAGE_ALL_USERS', 'PLATFORM_MANAGE_ALL_TENANTS', 'PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT'] | hasPermission">
       <b audit-text
         translation="value.createdby.time"
-        user-id="originalResource.createdBy"
-        date="originalResource.created">
+        user-id="selectedTenant.$original.createdBy"
+        date="selectedTenant.$original.created">
       </b>
       <br/>
-      <b audit-text ng-if="!!originalResource.updatedBy"
+      <b audit-text ng-if="!!selectedTenant.$original.updatedBy"
         translation="value.updatedby"
-        user-id="originalResource.updatedBy"
-        date="originalResource.updated">
+        user-id="selectedTenant.$original.updatedBy"
+        date="selectedTenant.$original.updated">
       </b>
     </div>
     <div class="details" ng-if="!(['PLATFORM_VIEW_ALL_USERS', 'PLATFORM_CREATE_USERS', 'PLATFORM_MANAGE_ALL_USERS', 'PLATFORM_MANAGE_ALL_TENANTS', 'PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT'] | hasPermission)">
       <b audit-text
         translation="value.createdon.time"
-        date="originalResource.created">
+        date="selectedTenant.$original.created">
       </b>
       <br/>
-      <b audit-text ng-if="!!originalResource.updated"
+      <b audit-text ng-if="!!selectedTenant.$original.updated"
         translation="value.updatedon"
-        date="originalResource.updated">
+        date="selectedTenant.$original.updated">
       </b>
     </div>
   </div>
 </div>
 
-<h1 ng-if="! originalResource.id">{{'tenant.details.creating' | translate}}</h1>
+<h1 ng-if="selectedTenant.isNew()">{{'tenant.details.creating' | translate}}</h1>

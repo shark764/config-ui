@@ -1,10 +1,10 @@
 'use strict';
 
+/*global jsedn: false */
+
 angular.module('liveopsConfigPanel')
   .controller('QueueQueryCreatorController', ['$scope',
     function($scope) {
-      var self = this;
-
       $scope.$watch('rootMap', function(newMap) {
         if(!newMap || !$scope.version) {
           return;

@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('MediaCollectionController', ['$q', '$scope', 'MediaCollection', 'Media', 'Session', 'mediaCollectionTableConfig', 'mediaTypes', 'Alert',
-    function ($q, $scope, MediaCollection, Media, Session, mediaCollectionTableConfig, mediaTypes, Alert) {
+  .controller('MediaCollectionController', ['$q', '$scope', 'MediaCollection', 'Media', 'Session', 'mediaCollectionTableConfig', 'mediaTypes',
+    function ($q, $scope, MediaCollection, Media, Session, mediaCollectionTableConfig, mediaTypes) {
       $scope.forms = {};
       $scope.Session = Session;
 
@@ -32,15 +32,6 @@ angular.module('liveopsConfigPanel')
       
       $scope.submitMediaAndNew = function() {
         return $scope.mediaDetailsController.submit().then(function (media) {
-          $scope.selectedMedia = new Media({
-            properties: {},
-            tenantId: Session.tenant.tenantId
-          });
-          
-          return media;
-        });
-        
-        return $scope.selectedMedia.save().then(function(media) {
           $scope.selectedMedia = new Media({
             properties: {},
             tenantId: Session.tenant.tenantId

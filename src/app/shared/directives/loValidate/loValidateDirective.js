@@ -9,8 +9,12 @@ angular.module('liveopsConfigPanel')
         controller.$disabledValidators = {};
         controller.$disabledFormatters = {};
         
-        $scope.$watch(attrs.loValidate, function(newValidate, oldValidate) {
-          newValidate ? enable() : disable();
+        $scope.$watch(attrs.loValidate, function(newValidate) {
+          if (newValidate){
+            enable();
+          } else {
+            disable();
+          }
         }, true);
         
         function disable() {
@@ -23,7 +27,7 @@ angular.module('liveopsConfigPanel')
           for(var validator in controller.$disabledValidators) {
             controller.$setValidity(validator, true);
           }
-        };
+        }
         
         function enable() {
           angular.extend(controller.$validators, controller.$disabledValidators);

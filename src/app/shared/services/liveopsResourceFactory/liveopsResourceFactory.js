@@ -37,7 +37,7 @@ angular.module('liveopsConfigPanel')
         } else {
           return interceptorParam;
         }
-      };
+      }
 
       function updateJsonReplacer(key, value) {
         // if the key starts with a $ then its a private field
@@ -47,7 +47,7 @@ angular.module('liveopsConfigPanel')
         }
 
         return value;
-      };
+      }
 
       return {
         create: function(params) {
@@ -63,16 +63,16 @@ angular.module('liveopsConfigPanel')
             });
 
             return cleanedData;
-          };
+          }
 
           function defaultUpdateRequestTransformer(data) {
             var validUpdateFields = filterUpdateFieldTransformer(data);
             return JSON.stringify(validUpdateFields, updateJsonReplacer);
-          };
+          }
 
           function defaultSaveRequestTransformer(data) {
             return JSON.stringify(data, createJsonReplacer);
-          };
+          }
           
           params.requestUrlFields = angular.isDefined(params.requestUrlFields) ? params.requestUrlFields : {
             id: '@id',
@@ -118,7 +118,7 @@ angular.module('liveopsConfigPanel')
           
           var defaultHeaders = {
             'Content-Type': 'application/json'
-          }
+          };
           
           var Resource = $resource(apiHostname + params.endpoint, params.requestUrlFields, {
             query: {
@@ -256,30 +256,11 @@ angular.module('liveopsConfigPanel')
 
           Resource.prototype.save = function(params, success, failure) {
             var self = this,
-              action = this.isNew() ? this.$save : this.$update,
-              preEvent = self.isNew() ? self.preCreate : self.preUpdate,
-              postEvent = self.isNew() ? self.postCreate : self.postUpdate,
-              postEventFail = self.isNew() ? self.postCreateError : self.postUpdateError;
-
-            //TODO find out why preEvent didn't work in the chain
-            preEvent.call(self);
-            self.preSave();
+                action = this.isNew() ? this.$save : this.$update;
 
             self.$busy = true;
 
             return action.call(self, params, success, failure)
-              .then(function(result) {
-                return postEvent.call(self, result);
-              }, function(error) {
-                postEventFail.call(self, error);
-                return $q.reject(error);
-              })
-              .then(function(result) {
-                return self.postSave.call(self, result);
-              }, function(error) {
-                self.postSaveError.call(self, error);
-                return $q.reject(error);
-              })
               .then(function(result) {
                 self.$original = angular.copy(result);
                 if(self.$original && self.$original.$original) {
@@ -300,44 +281,6 @@ angular.module('liveopsConfigPanel')
               }
               this[prop] = this.$original[prop];
             }
-          };
-
-          Resource.prototype.preCreate = function() {
-            return {};
-          };
-
-          Resource.prototype.postCreate = function(resource) {
-            return resource;
-          };
-          Resource.prototype.postCreateError = function(errors) {
-            var d = $q.defer();
-            d.reject(errors);
-            return d.promise;
-          };
-
-          Resource.prototype.preUpdate = function() {
-            return {};
-          };
-
-          Resource.prototype.postUpdate = function(resource) {
-            return resource;
-          };
-          Resource.prototype.postUpdateError = function(errors) {
-            var d = $q.defer();
-            d.reject(errors);
-            return d.promise;
-          };
-
-          Resource.prototype.preSave = function(params) {
-            return params;
-          };
-          Resource.prototype.postSave = function(resource) {
-            return resource;
-          };
-          Resource.prototype.postSaveError = function(errors) {
-            var d = $q.defer();
-            d.reject(errors);
-            return d.promise;
           };
 
           Resource.prototype.getDisplay = function() {

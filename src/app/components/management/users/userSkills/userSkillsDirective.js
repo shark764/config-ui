@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('userSkills', ['TenantUserSkill', 'Skill', 'Session', 'Alert', 'filterFilter', '$translate',
-    function (TenantUserSkill, Skill, Session, Alert, filterFilter, $translate) {
+  .directive('userSkills', ['TenantUserSkill', 'Skill', 'Session', 'Alert', 'filterFilter',
+    function (TenantUserSkill, Skill, Session, Alert, filterFilter) {
       return {
         restrict: 'E',
         scope: {
