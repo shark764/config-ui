@@ -1,15 +1,16 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('DesignerPageController', ['$scope', 'flow', 'notations', 'data', 'media', 'queue', 'FlowNotationService', 'FlowPaletteService', 'readOnly',
-    function($scope, flow, notations, data, media, queue, FlowNotationService, FlowPaletteService, readOnly) {
+  .controller('DesignerPageController', ['$scope', 'flow', 'notations', 'data', 'media', 'queue', 'FlowNotationService', 'FlowPaletteService', 'readOnly', 'FlowLibrary',
+    function($scope, flow, notations, data, media, queue, FlowNotationService, FlowPaletteService, readOnly, FlowLibrary) {
       $scope.flow = flow;
       $scope.flowData = data;
       $scope.readOnly = readOnly;
 
-      $scope.notations = notations.data;
+      var parsedNotations = FlowLibrary.parseNotations(notations);
 
-      FlowPaletteService.loadData(notations.data);
+      $scope.notations = parsedNotations;
+      FlowPaletteService.loadData(parsedNotations);
 
       FlowNotationService.media = media;
       FlowNotationService.queue = queue;
