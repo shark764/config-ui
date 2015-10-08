@@ -17,11 +17,15 @@ angular.module('liveopsConfigPanel')
           
           $scope.add = function() {
             if ($scope.phoneExtension){
-              $scope.newExtension.value += 'x' + $scope.phoneExtension;
+              $scope.newExtension.value =
+                $scope.phoneNumber + 'x' + $scope.phoneExtension;
             }
             
             $scope.tenantUser.extensions.push($scope.newExtension);
-            return save();
+            return save().then(function() {
+              $scope.phoneNumber = null;
+              $scope.phoneExtension = null;
+            });
           };
           
           $scope.remove = function(extension) {
@@ -35,16 +39,13 @@ angular.module('liveopsConfigPanel')
           };
           
           var save = function() {
-            var user = $scope.tenantUser.$user;
-            var skills = $scope.tenantUser.skills;
-            var groups = $scope.tenantUser.groups;
-            var roleName = $scope.tenantUser.roleName;
+            delete $scope.tenantUser.status;
+            delete $scope.tenantUser.roleId;
             
             return $scope.tenantUser.save({
               tenantId: Session.tenant.tenantId
             }).then(function(tenantUser) {
               $scope.newExtension = {};
-              $scope.phoneExtension = null;
               
               angular.forEach(['type', 'provider', 'value'], function(field) {
                 $scope.userTenantExtensionForm[field].$setPristine();

@@ -97,7 +97,7 @@
       <div>
         <select ng-model="selectedTenantUser.roleId" name="roleId" required
           ng-options="role.id as role.name for role in fetchTenantRoles()"
-          ng-disabled="Session.user.id == selectedTenantUser.userId">
+          ng-disabled="Session.user.id == selectedTenantUser.id">
           <option value="" ng-disabled="true">
             {{'users.details.role.select' | translate}}
           </option>
@@ -105,16 +105,20 @@
       </div>
     </div>
 
-    <div ng-if="selectedTenantUser.status != 'accepted' && selectedTenantUser.status != 'disabled' && ['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'MANAGE_TENANT_ENROLLMENT'] | hasPermission" class="input-group">
+    <div ng-if="selectedTenantUser.status != 'accepted' && selectedTenantUser.status != 'disabled' &&
+      ['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'MANAGE_TENANT_ENROLLMENT'] | hasPermission" class="input-group">
       <label></label>
       <div>
-        <input id="resend-invitation-btn" type="button" class="btn" ng-click="saveTenantUser()"
+        <input id="resend-invitation-btn" type="button" class="btn" ng-click="resend()"
           value="{{'user.details.invitation.resend' | translate}}">
       </div>
     </div>
   </div>
 
-  <div disable-contents="forms.detailsForm.email.$invalid || scenario() == 'invite:existing:user' || ! (('PLATFORM_MANAGE_ALL_USERS' | hasPermission) || (('PLATFORM_MANAGE_USER_ACCOUNT' | hasPermission) && Session.user.id == selectedTenantUser.userId))">
+  <div disable-contents="forms.detailsForm.email.$invalid || scenario() === 'invite:existing:user' || 
+    ! (('PLATFORM_MANAGE_ALL_USERS' | hasPermission) ||
+    (('PLATFORM_MANAGE_USER_ACCOUNT' | hasPermission) &&
+    Session.user.id === selectedTenantUser.id))">
     <div class="divider-header">
       <h4>{{'details' | translate}}</h4>
     </div>

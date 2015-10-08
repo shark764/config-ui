@@ -15,11 +15,14 @@ angular.module('liveopsConfigPanel')
             $scope.loggingIn = true;
             $rootScope.$broadcast('login:success');
             if ($stateParams.tenantId){
-              TenantUser.update({
-                tenantId: $stateParams.tenantId,
-                id: response.data.result.userId,
-                status: 'accepted'
-              }, self.inviteAcceptSuccess, self.inviteAcceptFail);
+              var tenantUser = new TenantUser({
+                status: 'accepted',
+                userId: response.data.result.userId
+              });
+              
+              tenantUser.save({
+                tenantId: $stateParams.tenantId
+              }).then(self.inviteAcceptSuccess, self.inviteAcceptFail);
             } else {
               if (UserPermissions.hasPermissionInList(['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'VIEW_ALL_USERS', 'MANAGE_ALL_USER_EXTENSIONS', 'MANAGE_ALL_GROUP_USERS', 'MANAGE_ALL_USER_SKILLS', 'MANAGE_ALL_USER_LOCATIONS', 'MANAGE_TENANT_ENROLLMENT'])){
                 $state.go('content.management.users');

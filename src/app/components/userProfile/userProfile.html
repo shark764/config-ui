@@ -11,7 +11,7 @@
     
     <form id="user-form" name="userForm"
       ng-submit="submit()"
-      seperate-validation>
+      separate-validation>
       
       <div id="user-profile-email">
         <label>Email:</label> {{tenantUser.$user.email}}
@@ -54,8 +54,6 @@
         ng-disabled="userForm.$invalid || ! userForm.$dirty"
         value="{{'value.update' | translate}}" />
       </div>
-      
-
     </form>
     
     <div class="divider-header">
@@ -69,8 +67,8 @@
     <div class="divider-header">
       <h4 id="user-skills-header">{{'details.skills.title' | translate}}</h4>
     </div>
-    <p id="no-user-skills" class="null" ng-if="tenantUser.skills.length == 0">{{'profile.skills.none' | translate}}</p>
-    <table max-height="300" class="table" ng-show="tenantUser.skills.length > 0">
+    <p id="no-user-skills" class="null" ng-if="tenantUser.$skills.length == 0">{{'profile.skills.none' | translate}}</p>
+    <table max-height="300" class="table" ng-show="tenantUser.$skills.length > 0">
       <thead>
         <tr>
           <th>{{'value.name' | translate}}</th>
@@ -78,7 +76,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr ng-repeat="userSkill in tenantUser.skills | orderBy:'name'">
+        <tr ng-repeat="userSkill in tenantUser.$skills | orderBy:'name'">
           <td>{{userSkill.name}}</td>
           <td style="text-align:right">{{userSkill.proficiency > 0 ? userSkill.proficiency : "-"}}</td>
         </tr>
@@ -88,13 +86,13 @@
     <div class="divider-header">
       <h4 id="user-groups-header">{{'details.groups.title' | translate}}</h4>
     </div>
-    <p id="no-user-groups" ng-show="tenantUser.groups.length === 0" class="null"
+    <p id="no-user-groups" ng-show="tenantUser.$groups.length === 0" class="null"
       translate="profile.usergroups.none"
       translate-value-display-name="{{tenantUser.getDisplay()}}">
     </p>
     <div id="tag-wrapper" class="clear" ng-class="{collapsed : collapsed}">
       <div id="tags-inside" class="clear">
-        <div ng-repeat="userGroup in tenantUser.groups" class="tag">
+        <div ng-repeat="userGroup in tenantUser.$groups" class="tag">
           {{userGroup.name}}
         </div>
       </div>

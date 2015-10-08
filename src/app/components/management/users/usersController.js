@@ -43,134 +43,59 @@ angular.module('liveopsConfigPanel')
       $scope.create = function() {
         $scope.selectedTenantUser = new TenantUser();
         $scope.selectedTenantUser.$user = new User();
+        
+        $scope.selectedTenantUser.$skills = [];
+        $scope.selectedTenantUser.$groups = [{}];
       };
-
-      $scope.submit = function() {
-        var scenario = $scope.scenario();
-
-        if (scenario.indexOf('invite:existing') === 0) {
-          return self.saveNewTenantUser();
-        } else if (scenario === 'invite:new:user') {
-          return self.saveNewUserTenantUser();
-        } else if (scenario === 'update') {
-          return self.updateUser();
+      
+      var dirty = function(fields) {
+        var isDirty = false;
+        if(!angular.isArray(fields)) {
+          fields = [fields];
         }
-      };
+        
+        angular.forEach(fields, function(field) {
+          if(field in $scope.forms.detailsForm){
+            isDirty = isDirty || $scope.forms.detailsForm[field].$dirty
+          }
+        });
+        
+        return isDirty;
+      }
       
-      //TODO cleanup these functions. Lots of room to combine code.
-      this.saveTenantUser = function () {
-        $scope.selectedTenantUser.status = 'invited';
-        
-        var backup = {
-          $user: $scope.selectedTenantUser.$user,
-          skills: $scope.selectedTenantUser.skills,
-          groups: $scope.selectedTenantUser.groups
-        };
-        
-        return $scope.selectedTenantUser.save({
-          tenantId: Session.tenant.tenantId
-        }).then(function(tenantUser) {
-          tenantUser.$user = backup.$user;
-          
-          tenantUser.$original.roleName = TenantRole.getName(tenantUser.roleId);
-          tenantUser.$original.skills = backup.skills;
-          tenantUser.$original.groups = backup.groups;
-          tenantUser.$original.id = tenantUser.userId;
-          
-          tenantUser.reset();
-          return tenantUser;
-        }).then(function() {
-          Alert.success('Invite Sent');
-        }, function() {
-          Alert.failure('Error occured. Invite not sent.');
-        });
-      };
-      
-      this.saveNewTenantUser = function() {
-        var user = $scope.selectedTenantUser.$user;
-        
-        return $scope.selectedTenantUser.save({
-          tenantId: Session.tenant.tenantId
-        }).then(function(tenantUser) {
-          tenantUser.$user = user;
-          return TenantUser.get({
-            tenantId: Session.tenant.tenantId,
-            id: tenantUser.userId
-          }).$promise.then(function(tenantUser) {
-            $scope.selectedTenantUser = tenantUser;
-            $scope.fetchTenantUsers().push(tenantUser);
-            
-            //TODO remove once roleName comes back on GET /v1/tenants/tenant-id/users/user-id
-            tenantUser.$original.roleName = TenantRole.getName(tenantUser.roleId);
-            tenantUser.reset();
-            
-            return tenantUser;
-          });
-        });
-      };
-
-      this.saveNewUserTenantUser = function() {
-        $scope.selectedTenantUser.$user.email = $scope.selectedTenantUser.email;
-        return $scope.selectedTenantUser.$user.save().then(function(user) {
-          return $scope.selectedTenantUser.save({
-            tenantId: Session.tenant.tenantId
-          }).then(function(tenantUser) {
-            tenantUser.$user = user;
-            tenantUser.id = user.id;
-            tenantUser.$original.skills = [];
-            tenantUser.$original.groups = TenantUserGroups.query({
-              memberId: user.id, 
-              tenantId: Session.tenant.tenantId
-            });
-
-            tenantUser.$original.roleName = TenantRole.getName(tenantUser.roleId);
-            
-            tenantUser.reset();
-
-            $scope.fetchTenantUsers().push(tenantUser);
-
-            return tenantUser;
-          });
-        });
-      };
-
-      this.updateUser = function() {
-     
+      $scope.submit = function() {
         var promises = [];
         
-        if (UserPermissions.hasPermissionInList(['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'MANAGE_TENANT_ENROLLMENT'])){
-          if ($scope.selectedTenantUser.roleId !== $scope.selectedTenantUser.$original.roleId ||
-              $scope.selectedTenantUser.status !== $scope.selectedTenantUser.$original.status){
-            var tenantUser = new TenantUser({
-              id: $scope.selectedTenantUser.id,
-              roleId: $scope.selectedTenantUser.roleId,
-              status: $scope.selectedTenantUser.status
-            });
-            
-            promises.push(tenantUser.save({
-              tenantId: Session.tenant.tenantId
-            }).then(function(tenantUser) {
-              $scope.selectedTenantUser.$original.roleId = tenantUser.roleId;
-              $scope.selectedTenantUser.$original.roleName = TenantRole.getName(tenantUser.roleId);
-              $scope.selectedTenantUser.$original.status = tenantUser.status;
-              $scope.selectedTenantUser.reset();
-            }));
+        if($scope.selectedTenantUser.isNew() || dirty(['status', 'roleId'])) {
+          if(!$scope.selectedTenantUser.isNew()) {
+            delete $scope.selectedTenantUser.status;
           }
+          
+          promises.push($scope.selectedTenantUser.save({
+            tenantId: Session.tenant.tenantId
+          }));
         }
         
-        if (UserPermissions.hasPermission('PLATFORM_MANAGE_ALL_USERS')){
-          promises.push($scope.selectedTenantUser.$user.save());
-        } else if (UserPermissions.hasPermission('PLATFORM_MANAGE_USER_ACCOUNT') && Session.user.id === $scope.selectedTenantUser.userId){
-          delete $scope.selectedTenantUser.$user.status; //User cannot edit their own status
-          delete $scope.selectedTenantUser.$user.roleId; //User cannot edit their own platform roleId
-          
+        if($scope.selectedTenantUser.isNew() ||
+          dirty(['firstName', 'lastName', 'externalId'])) {
+          $scope.selectedTenantUser.$user.email = $scope.selectedTenantUser.email;
           promises.push($scope.selectedTenantUser.$user.save());
         }
         
         return $q.all(promises);
       };
       
-      $scope.saveTenantUser = this.saveTenantUser;
+      $scope.resend = function() {
+        $scope.selectedTenantUser.status = 'invited';
+        
+        return $scope.selectedTenantUser.save({
+          tenantId: Session.tenant.tenantId
+        }).then(function() {
+          Alert.success('Invite Sent');
+        }, function() {
+          Alert.failure('Error occured. Invite not sent.');
+        });
+      };
       
       $scope.$on('table:on:click:create', function() {
         $scope.create();

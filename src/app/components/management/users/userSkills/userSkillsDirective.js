@@ -20,7 +20,7 @@ angular.module('liveopsConfigPanel')
           $scope.fetchUserSkills = function () {
             $scope.userSkills = TenantUserSkill.query({
                 tenantId: Session.tenant.tenantId,
-                userId: $scope.user.userId
+                userId: $scope.user.id
               });
           };
 
@@ -54,7 +54,7 @@ angular.module('liveopsConfigPanel')
             $scope.newUserSkill = new TenantUserSkill({
               skillId: null,
               tenantId: Session.tenant.tenantId,
-              userId: $scope.user.userId
+              userId: $scope.user.id
             });
           };
 

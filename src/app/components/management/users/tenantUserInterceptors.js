@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('tenantUserTransformer', ['User', function(User) {
+  .service('tenantUserTransformer', ['User', 'TenantRole', function(User, TenantRole) {
     var rename = function(tenantUser, fieldName, newFieldName) {
       tenantUser[newFieldName] = tenantUser[fieldName];
       delete tenantUser[fieldName];
@@ -15,10 +15,14 @@ angular.module('liveopsConfigPanel')
     var copyToUser = function(tenantUser, member) {
       tenantUser.$user[member] = tenantUser[member];
     };
-
+    
     this.transform = function(tenantUser) {
       tenantUser.$user = new User();
-
+      
+      if(tenantUser.userId) {
+        rename(tenantUser, 'userId', 'id');
+      }
+      
       moveToUser(tenantUser, 'firstName');
       moveToUser(tenantUser, 'lastName');
       moveToUser(tenantUser, 'externalId');
@@ -30,8 +34,12 @@ angular.module('liveopsConfigPanel')
       
       rename(tenantUser, 'groups', '$groups');
       rename(tenantUser, 'skills', '$skills');
-      rename(tenantUser, 'roleName', '$roleName');
-      rename(tenantUser, 'id', 'userId');
+      
+      if(tenantUser.roleName) {
+        rename(tenantUser, 'roleName', '$roleName');
+      } else {
+        tenantUser.$roleName = TenantRole.getName(tenantUser.roleId)
+      }
 
       tenantUser.$user.$original = angular.copy(tenantUser.$user);
     };

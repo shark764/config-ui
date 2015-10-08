@@ -1,5 +1,6 @@
 <form name="userTenantExtensionForm"
   ng-resource="tenantUser"
+  separate-validation
   lo-form-submit
   lo-form-reset
   lo-form-alert>
@@ -44,12 +45,13 @@
         </div>
         <div class="lo-extension-table-col phone-number-col">
           <form-error field="userTenantExtensionForm.value"
-            error-type-required="{{'details.extension.value.required' | translate}}" >
+            error-type-required="{{'details.extension.value.required' | translate}}"
+            error-type-phone-number="{{'details.phoneNumber.error' | translate}}" >
           </form-error>
           <input type="tel" name="value"
             ng-required="true"
             placeholder="{{'details.extension.value' | translate}}"
-            ng-model="newExtension.value">
+            ng-model="phoneNumber">
           </input>
           <input type="text" 
             style="width: 85px"

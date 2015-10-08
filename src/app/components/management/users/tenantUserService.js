@@ -1,10 +1,10 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .factory('TenantUser', ['LiveopsResourceFactory', 'tenantUserInterceptor', 'tenantUserQueryInterceptor', 'tenantUserUpdateTransformer',
-    function (LiveopsResourceFactory, tenantUserInterceptor, tenantUserQueryInterceptor, tenantUserUpdateTransformer) {
+  .factory('TenantUser', ['LiveopsResourceFactory', 'tenantUserInterceptor', 'tenantUserQueryInterceptor', 'cacheAddInterceptor',
+    function (LiveopsResourceFactory, tenantUserInterceptor, tenantUserQueryInterceptor, cacheAddInterceptor) {
       var TenantUser = LiveopsResourceFactory.create({
-        endpoint: '/v1/tenants/:tenantId/users/:userId',
+        endpoint: '/v1/tenants/:tenantId/users/:id',
         resourceName: 'TenantUser',
         updateFields: [{
           name: 'status'
@@ -15,7 +15,8 @@ angular.module('liveopsConfigPanel')
         }],
         getInterceptor: tenantUserInterceptor,
         queryInterceptor: tenantUserQueryInterceptor,
-        putRequestTransformer: tenantUserUpdateTransformer
+        saveInterceptor: [tenantUserInterceptor, cacheAddInterceptor],
+        updateInterceptor: tenantUserInterceptor
       });
 
       TenantUser.prototype.getDisplay = function () {
@@ -31,26 +32,11 @@ angular.module('liveopsConfigPanel')
         
         this.$user.reset();
       };
-
+      
+      TenantUser.prototype.isNew = function() {
+        return !this.id;
+      };
+      
       return TenantUser;
     }
-  ])
-  .service('tenantUserUpdateTransformer', ['Session', function(Session) {
-    return function(tenantUser) {
-      if(tenantUser.isNew()) {
-        return tenantUser;
-      }
-      
-      if(tenantUser.id === Session.user.id) {
-        if(tenantUser.status === 'accepted') {
-          delete tenantUser.status;
-        }
-        
-        delete tenantUser.roleId;
-      } else {
-        delete tenantUser.status;
-      }
-      
-      return tenantUser;
-    }
-  }]);
+  ]);

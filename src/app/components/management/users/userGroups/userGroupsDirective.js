@@ -27,7 +27,7 @@ angular.module('liveopsConfigPanel')
             $scope.newGroupUser = new TenantGroupUsers({
               groupId: null,
               tenantId: Session.tenant.tenantId,
-              userId: $scope.user.userId
+              userId: $scope.user.id
             });
           };
 
@@ -87,7 +87,7 @@ angular.module('liveopsConfigPanel')
 
           $scope.remove = function (userGroup) {
             var tgu = new TenantGroupUsers({
-              memberId: $scope.user.userId,
+              memberId: $scope.user.id,
               groupId: userGroup.groupId,
               tenantId: userGroup.tenantId
             });
@@ -119,7 +119,7 @@ angular.module('liveopsConfigPanel')
 
             $scope.userGroups = TenantUserGroups.query({
               tenantId: Session.tenant.tenantId,
-              memberId: $scope.user.userId
+              memberId: $scope.user.id
             }, $scope.reset);
 
             $q.all([$scope.fetchGroups().$promise, $scope.userGroups.$promise]).then(function () {

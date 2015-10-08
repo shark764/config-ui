@@ -1,6 +1,6 @@
 'use strict';
 
-describe('seperateValidation directive', function(){
+describe('separateValidation directive', function(){
   var $scope,
     $compile,
     element,
@@ -19,7 +19,7 @@ describe('seperateValidation directive', function(){
     element = null;
     
     doDefaultCompile = function(){
-      element = $compile('<ng-form name="first-form"><input name="input-one"></input><ng-form name="inner-form" seperate-validation><input name="innerInput" ng-required="true" ng-model="innerInput"></input></ng-form></ng-form>')($scope);
+      element = $compile('<ng-form name="first-form"><input name="input-one"></input><ng-form name="inner-form" separate-validation><input name="innerInput" ng-required="true" ng-model="innerInput"></input></ng-form></ng-form>')($scope);
       controller = angular.element(element.find('ng-form')[0]).controller('form');
     };
   }]));
@@ -29,13 +29,13 @@ describe('seperateValidation directive', function(){
     var normalController = normalElement.controller('form');
     expect(normalController['inner-form']).toBeDefined();
     
-    element = $compile('<ng-form name="first-form"><input name="input-one"></input><ng-form name="inner-form" seperate-validation><input name="inner-input"></input></ng-form></ng-form>')($scope);
-    var seperatedController = element.controller('form');
-    expect(seperatedController['inner-form']).not.toBeDefined();
+    element = $compile('<ng-form name="first-form"><input name="input-one"></input><ng-form name="inner-form" separate-validation><input name="inner-input"></input></ng-form></ng-form>')($scope);
+    var separatedController = element.controller('form');
+    expect(separatedController['inner-form']).not.toBeDefined();
   });
   
   it('should do nothing if not applied to a form', function() {
-    element = $compile('<ng-form name="first-form"><input seperate-validation name="input-one"></input></ng-form>')($scope);
+    element = $compile('<ng-form name="first-form"><input separate-validation name="input-one"></input></ng-form>')($scope);
     var formController = element.controller('form');
     expect(formController.$addControl).not.toEqual(angular.noop);
     expect(formController.$removeControl).not.toEqual(angular.noop);
