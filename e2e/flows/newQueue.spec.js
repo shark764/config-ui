@@ -34,7 +34,7 @@ describe('The create new queues view', function() {
     expect(shared.submitFormBtn.isDisplayed()).toBeTruthy();
 
     expect(queues.showAdvancedQueryLink.isDisplayed()).toBeTruthy();
-    expect(queues.advancedQueryFormField.isDisplayed()).toBeFalsy();
+    expect(queues.advancedQueryFormField.count()).toBe(0);
 
     // Query fields
     expect(queues.allGroupsTypeAhead.isDisplayed()).toBeTruthy();
@@ -48,17 +48,17 @@ describe('The create new queues view', function() {
     expect(queues.anySkillsAdd.isDisplayed()).toBeTruthy();
 
     // Priority fields with defaults
-    expect(queues.minPriorityInputField.isDisplayed()).toBeTruthy();
-    expect(queues.maxPriorityInputField.isDisplayed()).toBeTruthy();
-    expect(queues.priorityValueInputField.isDisplayed()).toBeTruthy();
-    expect(queues.priorityRateInputField.isDisplayed()).toBeTruthy();
-    expect(queues.priorityRateUnitField.isDisplayed()).toBeTruthy();
+    expect(queues.minPriorityInputField.get(0).isDisplayed()).toBeTruthy();
+    expect(queues.maxPriorityInputField.get(0).isDisplayed()).toBeTruthy();
+    expect(queues.priorityValueInputField.get(0).isDisplayed()).toBeTruthy();
+    expect(queues.priorityRateInputField.get(0).isDisplayed()).toBeTruthy();
+    expect(queues.priorityRateUnitField.get(0).isDisplayed()).toBeTruthy();
 
-    expect(queues.minPriorityInputField.getAttribute('value')).toBe(queues.minPriorityDefault);
-    expect(queues.maxPriorityInputField.getAttribute('value')).toBe(queues.maxPriorityDefault);
-    expect(queues.priorityValueInputField.getAttribute('value')).toBe(queues.priorityValueDefault);
-    expect(queues.priorityRateInputField.getAttribute('value')).toBe(queues.priorityRateDefault);
-    expect(queues.priorityRateUnitField.getAttribute('value')).toBe(queues.priorityRateUnitDefault);
+    expect(queues.minPriorityInputField.get(0).getAttribute('value')).toBe(queues.minPriorityDefault);
+    expect(queues.maxPriorityInputField.get(0).getAttribute('value')).toBe(queues.maxPriorityDefault);
+    expect(queues.priorityValueInputField.get(0).getAttribute('value')).toBe(queues.priorityValueDefault);
+    expect(queues.priorityRateInputField.get(0).getAttribute('value')).toBe(queues.priorityRateDefault);
+    expect(queues.priorityRateUnitField.get(0).getAttribute('value')).toBe(queues.priorityRateUnitDefault);
   });
 
   it('should toggle between showing advanced and basic query fields', function() {
@@ -67,7 +67,7 @@ describe('The create new queues view', function() {
     expect(queues.showBasicQueryLink.isDisplayed()).toBeFalsy();
 
     // Advanced query field is not displayed
-    expect(queues.advancedQueryFormField.isDisplayed()).toBeFalsy();
+    expect(queues.advancedQueryFormField.count()).toBe(0);
 
     // Basic Query fields are displayed
     expect(queues.allGroupsTypeAhead.isDisplayed()).toBeTruthy();
@@ -80,8 +80,8 @@ describe('The create new queues view', function() {
       expect(queues.showBasicQueryLink.isDisplayed()).toBeTruthy();
 
       // Advanced query field is displayed
-      expect(queues.advancedQueryFormField.isDisplayed()).toBeTruthy();
-      expect(queues.advancedQueryFormField.getAttribute('value')).toBe('{}');
+      expect(queues.advancedQueryFormField.get(0).isDisplayed()).toBeTruthy();
+      expect(queues.advancedQueryFormField.get(0).getAttribute('value')).toBe('{}');
 
       // Basic Query fields are not displayed
       expect(queues.allGroupsTypeAhead.isDisplayed()).toBeTruthy();
@@ -94,7 +94,7 @@ describe('The create new queues view', function() {
         expect(queues.showBasicQueryLink.isDisplayed()).toBeFalsy();
 
         // Advanced query field is not displayed
-        expect(queues.advancedQueryFormField.isDisplayed()).toBeFalsy();
+        expect(queues.advancedQueryFormField.count()).toBe(0);
 
         // Basic Query fields are displayed
         expect(queues.allGroupsTypeAhead.isDisplayed()).toBeTruthy();
@@ -175,7 +175,7 @@ describe('The create new queues view', function() {
     queues.nameFormField.sendKeys('New Queue');
 
     queues.showAdvancedQueryLink.click();
-    queues.advancedQueryFormField.clear();
+    queues.advancedQueryFormField.get(0).clear();
 
     // Submit button is disabled
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
@@ -198,8 +198,8 @@ describe('The create new queues view', function() {
     queues.createVersionQueryFormField.click();
     queues.nameFormField.sendKeys('Queue ' + randomQueue);
     queues.descriptionFormField.sendKeys('This is the queue description for queue ' + randomQueue);
-    queues.advancedQueryFormField.clear();
-    queues.advancedQueryFormField.sendKeys('This is not a valid query');
+    queues.advancedQueryFormField.get(0).clear();
+    queues.advancedQueryFormField.get(0).sendKeys('This is not a valid query');
 
     shared.submitFormBtn.click().then(function() {
       expect(queues.requiredErrors.get(0).isDisplayed()).toBeTruthy();
@@ -247,10 +247,10 @@ describe('The create new queues view', function() {
     randomQueue = Math.floor((Math.random() * 100) + 1);
 
     queues.nameFormField.sendKeys('Queue ' + randomQueue);
-    queues.minPriorityInputField.clear();
-    queues.maxPriorityInputField.clear();
-    queues.priorityValueInputField.clear();
-    queues.priorityRateInputField.clear();
+    queues.minPriorityInputField.get(0).clear();
+    queues.maxPriorityInputField.get(0).clear();
+    queues.priorityValueInputField.get(0).clear();
+    queues.priorityRateInputField.get(0).clear();
 
     // Submit button is disabled
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();

@@ -38,12 +38,12 @@
   </div>
 </div>
 
-<div ng-if="resource.isNew()">
+<div id="create-new-queue-query-details" ng-if="resource.isNew()">
   <div class="divider-header first-header">
     <h4>Query</h4>
     <a class="pull-right">
       <span id="show-advanced-query" ng-show="queryType != 'advanced'" ng-click="queryType = 'advanced'">(Show advanced query editor)</span>
-      <span id="show-basic-query"ng-show="queryType == 'advanced'" ng-click="queryType = 'basic'">(Show basic query builder)</span>
+      <span id="show-basic-query" ng-show="queryType == 'advanced'" ng-click="queryType = 'basic'">(Show basic query builder)</span>
     </a>
   </div>
 
