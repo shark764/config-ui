@@ -2,7 +2,7 @@
 
 var QueuePage = function() {
   this.nameFormField = element(by.model('selectedQueue.name'));
-  this.descriptionFormField = element(by.model('resource.description'));
+  this.descriptionFormField = element(by.model('selectedQueue.description'));
   this.activeVersionDropdown = element(by.id('active-version-field'));
   this.activeFormToggle = element(by.model('selectedQueue.active'));
   this.createdByAudit = element(by.id('created-by-audit'));
