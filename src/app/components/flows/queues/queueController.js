@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('QueueController', ['$scope', 'Queue', 'Session', '$stateParams', 'queueTableConfig', 'QueueVersion', 'BulkAction',
-    function ($scope, Queue, Session, $stateParams, queueTableConfig, QueueVersion, BulkAction) {
+  .controller('QueueController', ['$scope', 'Queue', 'Session', '$stateParams', 'queueTableConfig', 'QueueVersion', 'BulkAction', 'Alert', '$translate',
+    function ($scope, Queue, Session, $stateParams, queueTableConfig, QueueVersion, BulkAction, Alert, $translate) {
       $scope.Session = Session;
       $scope.tableConfig = queueTableConfig;
       $scope.bulkActions = {
@@ -53,6 +53,8 @@ angular.module('liveopsConfigPanel')
                 queue.activeVersion = versionResult.version;
                 queue.activeQueue = versionResult;
                 queue.save();
+              }, function(){
+                Alert.error($translate.instant('queue.create.invalid.query'));
               });
           }
         });

@@ -198,6 +198,8 @@
   "queue.details.disable.confirm": "This will disable this queue. Do you want to continue?",
   "queue.details.enable.confirm": "This will enable this queue. Do you want to continue?",
   "queue.details.version.expand": "Show/hide Details",
+  "queue.details.version.none": "No query versions for this queue. Create one with the plus button above.",
+  "queue.create.invalid.query": "Sorry, the initial query for this queue was invalid. Please create a new query version.",
   "queue.table.title": "Queue Management",
   "queues.query.builder.groups": "Agent Groups",
   "queue.query.builder.groups.some": "Any of these groups:",
