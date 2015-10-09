@@ -1,10 +1,5 @@
-<<<<<<< HEAD
-<div ng-if="originalResource.id">
-  <toggle class="status-toggle" ng-model="resource.active"
-=======
 <div ng-if="! selectedQueue.isNew()">
   <toggle class="status-toggle" ng-model="selectedQueue.active"
->>>>>>> stageing
   confirm-disable-message="{{'queue.details.disable.confirm' | translate}}"
   confirm-enable-message="{{'queue.details.enable.confirm' | translate}}"
   ng-disabled="! ('MANAGE_ALL_QUEUES' | hasPermission)"></toggle>
