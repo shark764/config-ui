@@ -1,5 +1,5 @@
 <div ng-if="! selectedQueue.isNew()">
-  <toggle class="status-toggle" ng-model="selectedQueue.active" 
+  <toggle class="status-toggle" ng-model="selectedQueue.active"
   confirm-disable-message="{{'queue.details.disable.confirm' | translate}}"
   confirm-enable-message="{{'queue.details.enable.confirm' | translate}}"
   ng-disabled="! ('MANAGE_ALL_QUEUES' | hasPermission)"></toggle>
@@ -7,13 +7,13 @@
   <div class="info">
     <h1>{{selectedQueue.$original.getDisplay()}}</h1>
     <div class="details" ng-if="['PLATFORM_VIEW_ALL_USERS', 'PLATFORM_CREATE_USERS', 'PLATFORM_MANAGE_ALL_USERS', 'PLATFORM_MANAGE_ALL_TENANTS', 'PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT'] | hasPermission">
-      <b audit-text
+      <b audit-text id="created-by-audit"
         translation="value.createdby.time"
         user-id="selectedQueue.$original.createdBy"
         date="selectedQueue.$original.created">
       </b>
       <br/>
-      <b audit-text ng-if="!!selectedQueue.$original.updatedBy"
+      <b audit-text ng-if="!!selectedQueue.$original.updatedBy" id="updated-by-audit"
         translation="value.updatedby"
         user-id="selectedQueue.$original.updatedBy"
         date="selectedQueue.$original.updated">

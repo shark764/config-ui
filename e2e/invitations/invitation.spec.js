@@ -3,7 +3,7 @@
 describe('The user invitation', function() {
   var loginPage = require('../login/login.po.js'),
     shared = require('../shared.po.js'),
-    users = require('./users.po.js'),
+    users = require('../management/users.po.js'),
     tenants = require('../configuration/tenants.po.js'),
     invites = require('./invites.po.js'),
     request = require('request'),

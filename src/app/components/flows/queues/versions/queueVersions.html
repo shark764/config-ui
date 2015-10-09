@@ -1,6 +1,6 @@
 <div class="divider-header">
   <h4>Versions</h4>
-  <a class="btn pull-right" title="Create new version" ng-click="addQueueVersion()"><i class="fa fa-plus"></i></a>
+  <a id="add-queue-version-btn" class="btn pull-right" title="Create new version" ng-click="addQueueVersion()"><i class="fa fa-plus"></i></a>
 </div>
 
 <p ng-show="fetchVersions().length < 1" class="null">{{'queue.details.version.none' | translate}}</p>
@@ -16,7 +16,7 @@
       </th>
       <th></th>
     </thead>
-    <tr ng-repeat-start="version in fetchVersions() | orderBy:'created':'reverse'" 
+    <tr ng-repeat-start="version in fetchVersions() | orderBy:'created':'reverse'"
       id="version-row-{{version.name}}"
       ng-click="toggleDetails(version);">
       <td><i ng-if="version.version == queue.activeVersion" class="fa fa-circle" title="Currently active version"></i></td>
@@ -33,7 +33,7 @@
       <td></td>
       <td colspan="5">
         <div disable-contents="! ('MANAGE_ALL_QUEUES' | hasPermission)">
-          <div class="input-group">
+          <div id="version-basic-query-details" class="input-group">
             <label class="textarea-label disabled">Basic Query</label>
             <skill-query query="version.query"
               label-key="queue.query.builder.skills.all"
@@ -43,7 +43,7 @@
               label-key="queue.query.builder.skills.some"
               operator="or">
             </skill-query>
-            
+
             <group-query query="version.query"
               label-key="queue.query.builder.groups.all"
               operator="every">
@@ -55,12 +55,12 @@
           </div>
           <div class="input-group">
             <label class="textarea-label disabled">Advanced Query</label>
-            <textarea ng-disabled="true" type="text" ng-model="version.query" name="query"></textarea>
+            <textarea id="advanced-query-field" ng-disabled="true" type="text" ng-model="version.query" name="query"></textarea>
           </div>
-  
+
           <version-priority queue-version="version" ng-disabled="true"></version-priority>
         </div>
-        <a class="btn pull-right copy-version-btn" ng-if="'MANAGE_ALL_QUEUES' | hasPermission" ng-click="createVersionCopy(version)">Create Copy</a>
+        <a id="create-version-copy-btn" class="btn pull-right copy-version-btn" ng-if="'MANAGE_ALL_QUEUES' | hasPermission" ng-click="createVersionCopy(version)">Create Copy</a>
       </td>
     </tr>
   </table>

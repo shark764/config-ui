@@ -19,12 +19,12 @@
     </div>
     <div ng-if="selected.hasProficiency"
       ng-init="selected.proficiencyOperator = 'gt'; selected.proficiency = 1;">
-      <select ng-model="selected.proficiencyOperator" class="pull-left" style="width: 65%;">
+      <select id="proficiency-operator-dropdown" ng-model="selected.proficiencyOperator" class="pull-left" style="width: 65%;">
         <option value="gt">Proficiency at Least</option>
         <option value="lt">Proficiency at Most</option>
         <option value="equal">Proficiency Exactly</option>
       </select>
-      <number-slider value="selected.proficiency"
+      <number-slider id="proficiency-value" value="selected.proficiency"
         min-value="1" max-value="100" class="pull-left"
         style="display:block;width: 35%;">
       </number-slider>
