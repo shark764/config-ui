@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('filterDropdown', [function () {
+  .directive('filterDropdown', ['Session', function (Session) {
     return {
       scope: {
         id: '@',
@@ -22,7 +22,12 @@ angular.module('liveopsConfigPanel')
         
         $scope.checkItem = function (option) {
           option.checked = !option.checked;
+
           $scope.$emit('dropdown:item:checked', option);
+
+          var columnPreferences = Session.columnPreferences;
+          columnPreferences[$scope.$parent.config.title] = $scope.options;
+          Session.setColumnPreferences(columnPreferences);
         };
 
         // not ideal; we are adding a property to an object that will be used
@@ -64,9 +69,19 @@ angular.module('liveopsConfigPanel')
             }
           });
         } else {
+
           $scope.$watch('options', function () {
             angular.forEach($scope.options, function (option) {
-              option.checked = (typeof option.checked === 'undefined' ? true : option.checked);
+
+              if (Session.columnPreferences[$scope.$parent.config.title]) {
+                angular.forEach(Session.columnPreferences[$scope.$parent.config.title], function (storedOption) {
+                  if (option.header.display === storedOption.header.display) {
+                    option.checked = (typeof storedOption.checked === 'undefined' ? true : storedOption.checked);
+                  }
+                });
+              } else {
+                option.checked = (typeof option.checked === 'undefined' ? true : option.checked);
+              }
             });
           });
         }
