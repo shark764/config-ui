@@ -46,7 +46,7 @@ angular.module('liveopsConfigPanel')
         
         return $scope.selectedGroup.save(function(result){
           result.fetchGroupUsers();
-        })
+        });
       };
     }
   ]);

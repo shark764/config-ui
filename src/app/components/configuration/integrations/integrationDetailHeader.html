@@ -1,38 +1,38 @@
-<div ng-if="originalResource.id">
-  <toggle class="status-toggle" ng-model="resource.active" 
+<div ng-if="! selectedIntegration.isNew()">
+  <toggle class="status-toggle" ng-model="selectedIntegration.active" 
   confirm-disable-message="{{'integration.details.disable.confirm' | translate}}"
   confirm-enable-message="{{'integration.details.enable.confirm' | translate}}"
   ng-disabled="!('MANAGE_ALL_PROVIDERS' | hasPermission)"></toggle>
 
   <div class="info">
-    <h1 id="integration-details-type-header">{{originalResource.type}}</h1>
+    <h1 id="integration-details-type-header">{{selectedIntegration.$original.type}}</h1>
     <div class="details">
       <div ng-if="! (['PLATFORM_VIEW_ALL_USERS', 'PLATFORM_CREATE_USERS', 'PLATFORM_MANAGE_ALL_USERS', 'PLATFORM_MANAGE_ALL_TENANTS', 'PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT'] | hasPermission)">
         <b audit-text
           translation="value.createdon.time"
-          date="originalResource.created">
+          date="selectedIntegration.$original.created">
         </b>
         <br/>
-        <b audit-text ng-if="!!originalResource.updated"
+        <b audit-text ng-if="!!selectedIntegration.$original.updated"
           translation="value.updatedon"
-          date="originalResource.updated">
+          date="selectedIntegration.$original.updated">
         </b>
       </div>
       <div ng-if="['PLATFORM_VIEW_ALL_USERS', 'PLATFORM_CREATE_USERS', 'PLATFORM_MANAGE_ALL_USERS', 'PLATFORM_MANAGE_ALL_TENANTS', 'PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT'] | hasPermission">
         <b audit-text
           translation="value.createdby.time"
-          user-id="originalResource.createdBy"
-          date="originalResource.created">
+          user-id="selectedIntegration.$original.createdBy"
+          date="selectedIntegration.$original.created">
         </b>
         <br/>
-        <b audit-text ng-if="!!originalResource.updatedBy"
+        <b audit-text ng-if="!!selectedIntegration.$original.updatedBy"
           translation="value.updatedby"
-          user-id="originalResource.updatedBy"
-          date="originalResource.updated">
+          user-id="selectedIntegration.$original.updatedBy"
+          date="selectedIntegration.$original.updated">
         </b>
       </div>
     </div>
   </div>
 </div>
 
-<h1 id="integration-details-create-header" ng-if="! originalResource.id">{{'integration.details.creating' | translate}}</h1>
+<h1 id="integration-details-create-header" ng-if="selectedIntegration.isNew()">{{'integration.details.creating' | translate}}</h1>

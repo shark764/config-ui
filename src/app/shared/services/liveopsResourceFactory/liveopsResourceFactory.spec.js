@@ -350,17 +350,5 @@ describe('LiveopsResourceFactory', function () {
         expect(protoSaveSpy).toHaveBeenCalled();
       }]));
     });
-
-    describe('prototype postUpdateError function', function () {
-      it('should return a promise that is rejected with the given error', inject(function () {
-        Resource = LiveopsResourceFactory.create({
-          endpoint: '/endpoint'
-        });
-
-        var resource = new Resource();
-        var promise = resource.postUpdateError('some err');
-        expect(promise.$$state.value).toEqual('some err');
-      }));
-    });
   });
 });

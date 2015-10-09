@@ -44,21 +44,12 @@ describe('Versions directive controller', function () {
       };
 
       $httpBackend = $injector.get('$httpBackend');
-      $httpBackend.when('GET', 'fakendpoint.com/v1/tenants/1/queues/1/versions').respond({
+      $httpBackend.when('GET', apiHostname + '/v1/tenants/1/queues/1/versions').respond({
         'result': versions
       });
-      $httpBackend.when('GET', 'fakendpoint.com/v1/tenants/tenant-id/queues/1/versions').respond({
+      $httpBackend.when('GET', apiHostname + '/v1/tenants/tenant-id/queues/1/versions').respond({
         'result': versions
       });
-      $httpBackend.when('POST', apiHostname + '/v1/login').respond({'result' : {
-        'tenants': []
-      }});
-
-      $httpBackend.when('GET', apiHostname + '/v1/regions').respond({'result' : [{
-        'id': 'c98f5fc0-f91a-11e4-a64e-7f6e9992be1f',
-        'description': 'US East (N. Virginia)',
-        'name': 'us-east-1'
-      }]});
 
       $scope.createVersionForm = {
         $setPristine: angular.noop,
@@ -74,8 +65,6 @@ describe('Versions directive controller', function () {
         }
       });
 
-
-
       $httpBackend.flush();
     }
   ]));
@@ -86,5 +75,50 @@ describe('Versions directive controller', function () {
     element = $compile('<queue-versions queue="queue" version="version"></queue-versions>')($scope);
     $scope.$digest();
     isolateScope = element.isolateScope();
+  });
+  
+  describe('toggleDetails function', function(){
+    it('should exist', function () {
+      expect($scope.toggleDetails).toBeDefined();
+    });
+    
+    it('should toggle the viewing param to false if it is true', function () {
+      var version = new QueueVersion({
+        viewing: true
+      });
+      
+      $scope.toggleDetails(version);
+      expect(version.viewing).toBeFalsy();
+    });
+    
+    it('should set all other versions viewing property to false if toggling to true', function () {
+      $scope.toggleDetails(versions[0]);
+      expect($scope.fetchVersions()[0].viewing).toBeTruthy();
+      expect($scope.fetchVersions()[1].viewing).toBeFalsy();
+    });
+  });
+  
+  describe('addQueueVersion function', function(){
+    it('should exist', function () {
+      expect($scope.addQueueVersion).toBeDefined();
+    });
+    
+    it('should emit the queue add event', function () {
+      spyOn($scope, '$emit').and.callThrough();
+      $scope.addQueueVersion();
+      expect($scope.$emit).toHaveBeenCalledWith('create:queue:version');
+    });
+  });
+  
+  describe('createVersionCopy function', function(){
+    it('should exist', function () {
+      expect($scope.createVersionCopy).toBeDefined();
+    });
+    
+    it('should emit the copy version event', function () {
+      spyOn($scope, '$emit').and.callThrough();
+      $scope.createVersionCopy({id: 'myid'});
+      expect($scope.$emit).toHaveBeenCalledWith('copy:queue:version', {id: 'myid'});
+    });
   });
 });

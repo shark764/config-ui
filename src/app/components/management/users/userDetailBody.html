@@ -72,7 +72,6 @@
   <div class="lo-alert">{{'details.email.alreadyExists' | translate}}</div>
 </div>
 
-
 <div class="logical-group">
   <div ng-if="scenario() === 'update'">
     <div class="divider-header first-header">
@@ -108,6 +107,8 @@
       <div>
         <input id="resend-invitation-btn" type="button" class="btn" ng-click="saveTenantUser()"
           value="{{'user.details.invitation.resend' | translate}}">
+          <a ng-if="selectedTenantUser.status == 'invited'" id="expire-invitation-link" ng-click="expireTenantUser()">
+          {{'user.details.invitation.expire' | translate}}</a>
       </div>
     </div>
   </div>

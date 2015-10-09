@@ -1,5 +1,7 @@
 'use strict';
 
+/*global jsedn: false */
+
 angular.module('liveopsConfigPanel')
   .controller('QueueQueryCreatorController', ['$scope',
     function($scope) {

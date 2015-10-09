@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('ReportsController', ['$scope', '$sce', '$http', 'Session', 'Report', '$state', 'BIRST_URL', 'SSO_PASSWORD', 'SPACE_ID',
-    function($scope, $sce, $http, Session, Report, $state, BIRST_URL, SSO_PASSWORD, SPACE_ID) {
+  .controller('ReportsController', ['$scope', '$sce', '$http', 'Session', 'Report', '$state', 'BIRST_URL',
+    function($scope, $sce, $http, Session, Report, $state, BIRST_URL) {
       $scope.birst = {};
 
       $scope.fetch = function() {

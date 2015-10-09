@@ -121,6 +121,8 @@ angular.module('liveopsConfigPanel')
       },
       link: function($scope, element) {
         element.find('input').bind('keydown keypress', function(event){
+          var highlightedIndex;
+          
           if (event.which === 13) { //Enter key
             $timeout(function(){
               var selected = $scope.highlightedItem ? $scope.highlightedItem : $scope.currentText;
@@ -130,7 +132,7 @@ angular.module('liveopsConfigPanel')
             
             event.preventDefault();
           } else if(event.which === 40){ //Down arrow key
-            var highlightedIndex = $scope.filtered.indexOf($scope.highlightedItem);
+           highlightedIndex = $scope.filtered.indexOf($scope.highlightedItem);
 
             if (highlightedIndex + 1 < $scope.filtered.length){
               $timeout(function(){
@@ -141,7 +143,7 @@ angular.module('liveopsConfigPanel')
               });
             }
           } else if(event.which === 38){ //Up arrow key
-            var highlightedIndex = $scope.filtered.indexOf($scope.highlightedItem);
+            highlightedIndex = $scope.filtered.indexOf($scope.highlightedItem);
 
             if (highlightedIndex - 1 >= 0){
               $timeout(function(){
