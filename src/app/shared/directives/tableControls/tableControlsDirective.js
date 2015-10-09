@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('tableControls', ['$rootScope', '$filter', '$location', '$stateParams', '$parse', 'DirtyForms',
-    function ($rootScope, $filter, $location, $stateParams, $parse, DirtyForms) {
+  .directive('tableControls', ['$rootScope', '$filter', '$location', '$stateParams', '$parse', 'DirtyForms', 'Session',
+    function ($rootScope, $filter, $location, $stateParams, $parse, DirtyForms, Session) {
       return {
         restrict: 'E',
         scope: {
@@ -33,6 +33,12 @@ angular.module('liveopsConfigPanel')
               $location.search({
                 id: item.id
               });
+          });
+
+          $scope.$on('dropdown:item:checked', function (option){
+            var columnPreferences = Session.columnPreferences;
+            columnPreferences[$scope.config.title] = $scope.config.fields;
+            Session.setColumnPreferences(columnPreferences);
           });
 
           $scope.onCreateClick = function () {
@@ -169,6 +175,21 @@ angular.module('liveopsConfigPanel')
               }
             });
           };
+
+          $scope.getFields = function(){
+            angular.forEach($scope.config.fields, function (option) {
+
+              if (Session.columnPreferences[$scope.config.title]) {
+                angular.forEach(Session.columnPreferences[$scope.config.title], function (storedOption) {
+                  if (option.header.display === storedOption.header.display) {
+                    option.checked = (typeof storedOption.checked === 'undefined' ? true : storedOption.checked);
+                  }
+                });
+              }
+            });
+
+            return $scope.config.fields;
+          }
         }
       };
     }

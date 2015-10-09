@@ -24,16 +24,11 @@ angular.module('liveopsConfigPanel')
           option.checked = !option.checked;
 
           $scope.$emit('dropdown:item:checked', option);
-
-          var columnPreferences = Session.columnPreferences;
-          columnPreferences[$scope.$parent.config.title] = $scope.options;
-          Session.setColumnPreferences(columnPreferences);
         };
 
         // not ideal; we are adding a property to an object that will be used
         // in multiple places; however I cannot find a better way to do this.
         if ($scope.showAll) {
-
 
           // if an option has been selected; if any option was checked, set
           // all to false. if no options are checked, set all to true
@@ -69,19 +64,9 @@ angular.module('liveopsConfigPanel')
             }
           });
         } else {
-
           $scope.$watch('options', function () {
             angular.forEach($scope.options, function (option) {
-
-              if (Session.columnPreferences[$scope.$parent.config.title]) {
-                angular.forEach(Session.columnPreferences[$scope.$parent.config.title], function (storedOption) {
-                  if (option.header.display === storedOption.header.display) {
-                    option.checked = (typeof storedOption.checked === 'undefined' ? true : storedOption.checked);
-                  }
-                });
-              } else {
-                option.checked = (typeof option.checked === 'undefined' ? true : option.checked);
-              }
+              option.checked = (typeof option.checked === 'undefined' ? true : option.checked);
             });
           });
         }
