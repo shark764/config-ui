@@ -177,16 +177,16 @@ angular.module('liveopsConfigPanel')
           };
 
           $scope.getFields = function(){
-            angular.forEach($scope.config.fields, function (option) {
 
+            for (var i = 0; i < $scope.config.fields.length; i++) {
               if (Session.columnPreferences[$scope.config.title]) {
                 angular.forEach(Session.columnPreferences[$scope.config.title], function (storedOption) {
-                  if (option.header.display === storedOption.header.display) {
-                    option.checked = (typeof storedOption.checked === 'undefined' ? true : storedOption.checked);
+                  if ($scope.config.fields[i].header.display === storedOption.header.display) {
+                    $scope.config.fields[i].checked = (angular.isUndefined(storedOption.checked) ? true : storedOption.checked);
                   }
                 });
               }
-            });
+            };
 
             return $scope.config.fields;
           }
