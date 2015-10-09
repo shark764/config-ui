@@ -23,10 +23,11 @@
   left-element-id="table-pane" ></resize-handle>
 
 <lo-details-panel id="right-panel" class="right-panel"
-  ng-show="!! selectedQueue && !showBulkActions"
+  ng-show="selectedQueue || showBulkActions"
   ng-resource="selectedQueue">
   
   <ng-form unsaved-changes-warning name="forms.detailsForm"
+    ng-show="selectedQueue"
     class="details-pane"
     ng-model="selectedQueue"
     ng-resource="selectedQueue"
@@ -46,7 +47,7 @@
         lo-cancel-chain-executor="version:cancel"></input>
       <input id="submit-details-btn" class="btn btn-primary"
         type="submit" value="{{'value.submit' | translate}}"
-        ng-disabled="forms.detailsForm.$invalid"
+        ng-disabled="forms.detailsForm.$invalid || ! forms.detailsForm.$dirty"
         lo-submit="submit()"
         lo-submit-spinner lo-submit-spinner-status="selectedQueue.$busy"></input>
     </div>
