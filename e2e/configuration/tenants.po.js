@@ -24,6 +24,7 @@ var TenantsPage = function() {
     shared.createBtn.click();
     this.nameFormField.sendKeys(newTenantName);
     shared.submitFormBtn.click();
+    shared.waitForSuccess();
     return newTenantName;
   };
 
