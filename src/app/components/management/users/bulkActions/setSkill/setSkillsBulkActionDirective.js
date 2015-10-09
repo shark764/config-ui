@@ -40,9 +40,33 @@ angular.module('liveopsConfigPanel')
         };
 
         $scope.fetchSkills = function () {
-          return Skill.cachedQuery({
-            tenantId: Session.tenant.tenantId
-          });
+
+          console.log("Doing things");
+          console.log($scope.selectedTypeHere);
+          $scope.tehSkills = [];
+
+            if ($scope.selectedTypeHere == 'update'){
+
+
+              angular.forEach($scope.users, function (user) {
+                if (user.checked){
+                  angular.forEach(user.skills, function (skill){
+                    if ($scope.tehSkills.length == 0){
+                      $scope.tehSkills.push(skill);
+                    } else {
+                      if ($scope.tehSkills.map(function(e) { return e.id; }).indexOf(skill.id) < 0){
+                        $scope.tehSkills.push(skill);
+                      }
+                    }
+                  });
+                }
+              });
+            } else {
+              $scope.tehSkills = Skill.cachedQuery({
+                tenantId: Session.tenant.tenantId
+              });
+            }
+
         };
 
         $scope.fetchSkillUsers = function(skill) {
@@ -83,9 +107,8 @@ angular.module('liveopsConfigPanel')
         };
 
         $scope.onChangeType = function(action) {
-          if (action.selectedType.value == 'update'){
-            $scope.fetchUsersSkills();
-          }
+
+          $scope.selectedTypeHere = action.selectedType.value;
 
         };
 
