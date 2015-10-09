@@ -29,17 +29,17 @@ angular.module('liveopsConfigPanel')
       };
 
       $scope.$on('table:on:click:create', function () {
+        $scope.selectedQueueVersion = null;
+        
         $scope.initialVersion = $scope.getDefaultVersion();
 
         $scope.selectedQueue = new Queue({
           tenantId: Session.tenant.tenantId
         });
       });
-
-      $scope.$on('resource:details:queue:canceled', function () {
-        if ($scope.selectedQueue.isNew()) {
-          $scope.initialVersion = $scope.getDefaultVersion();
-        }
+      
+      $scope.$on('details:panel:close', function () {
+        $scope.selectedQueueVersion = null;
       });
       
       $scope.submit = function(){
