@@ -4,7 +4,7 @@ angular.module('liveopsConfigPanel')
   .controller('UsersController', ['$scope', '$window', '$parse', 'User', 'Session', 'AuthService', 'userTableConfig', 'Alert', 'flowSetup', 'BulkAction', '$q', '$location', 'lodash', 'Chain', 'TenantUser', 'TenantRole', 'queryCache', 'UserPermissions', 'PlatformRole', 'TenantUserGroups',
     function($scope, $window, $parse, User, Session, AuthService, userTableConfig, Alert, flowSetup, BulkAction, $q, $location, _, Chain, TenantUser, TenantRole, queryCache, UserPermissions, PlatformRole, TenantUserGroups) {
       var self = this;
-      
+
       $scope.forms = {};
       $scope.Session = Session;
       $window.flowSetup = flowSetup;
@@ -35,7 +35,7 @@ angular.module('liveopsConfigPanel')
           tenantId: Session.tenant.tenantId
         });
       };
-      
+
       $scope.fetchPlatformRoles = function() {
         return PlatformRole.cachedQuery();
       };
@@ -43,51 +43,51 @@ angular.module('liveopsConfigPanel')
       $scope.create = function() {
         $scope.selectedTenantUser = new TenantUser();
         $scope.selectedTenantUser.$user = new User();
-        
+
         $scope.selectedTenantUser.$skills = [];
         $scope.selectedTenantUser.$groups = [{}];
       };
-      
+
       var dirty = function(fields) {
         var isDirty = false;
         if(!angular.isArray(fields)) {
           fields = [fields];
         }
-        
+
         angular.forEach(fields, function(field) {
           if(field in $scope.forms.detailsForm){
             isDirty = isDirty || $scope.forms.detailsForm[field].$dirty
           }
         });
-        
+
         return isDirty;
       }
-      
+
       $scope.submit = function() {
         var promises = [];
-        
+
         if($scope.selectedTenantUser.isNew() || dirty(['status', 'roleId'])) {
           if(!$scope.selectedTenantUser.isNew()) {
             delete $scope.selectedTenantUser.status;
           }
-          
+
           promises.push($scope.selectedTenantUser.save({
             tenantId: Session.tenant.tenantId
           }));
         }
-        
+
         if($scope.selectedTenantUser.isNew() ||
           dirty(['firstName', 'lastName', 'externalId'])) {
           $scope.selectedTenantUser.$user.email = $scope.selectedTenantUser.email;
           promises.push($scope.selectedTenantUser.$user.save());
         }
-        
+
         return $q.all(promises);
       };
-      
+
       $scope.resend = function() {
         $scope.selectedTenantUser.status = 'invited';
-        
+
         return $scope.selectedTenantUser.save({
           tenantId: Session.tenant.tenantId
         }).then(function() {
@@ -96,11 +96,11 @@ angular.module('liveopsConfigPanel')
           Alert.failure('Error occured. Invite not sent.');
         });
       };
-      
+
       $scope.$on('table:on:click:create', function() {
         $scope.create();
       });
-      
+
       //TODO revisit this.
       $scope.$on('email:validator:found', function(event, tenantUser) {
         $scope.selectedTenantUser = tenantUser;
