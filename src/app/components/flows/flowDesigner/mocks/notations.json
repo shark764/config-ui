@@ -933,26 +933,79 @@
             "signals": [],
             "targeted": false,
             "inputs": [
-                {
-                    "name": "notification",
-                    "path": "params.notification",
-                    "type": "autocomplete",
-                    "source": "signal",
-                    "label": "Notification:",
-                    "group": "general",
-                    "index": 0,
-                    "disabled": false,
-                    "required": true,
-                    "placeholder": "Enter a notification...",
-                    "hidden": false
-                }
+              {
+                  "name": "notification-type",
+                  "path": "params.notificationType",
+                  "type": "autocomplete",
+                  "source": "signal",
+                  "label": "Notification:",
+                  "group": "general",
+                  "index": 0,
+                  "disabled": false,
+                  "required": true,
+                  "placeholder": "Enter the attribute name...",
+                  "hidden": false
+              },
+              {
+                  "name": "resource",
+                  "path": "params.resource",
+                  "type": "select",
+                  "source": "resource",
+                  "label": "Resource:",
+                  "group": "general",
+                  "index": 1,
+                  "disabled": false,
+                  "required": false,
+                  "placeholder": null,
+                  "hidden": false,
+                  "options": []
+              },
+              {
+                  "name": "customer",
+                  "path": "params.customer",
+                  "type": "select",
+                  "source": "resource",
+                  "label": "Customer:",
+                  "group": "general",
+                  "index": 0,
+                  "disabled": false,
+                  "required": true,
+                  "placeholder": null,
+                  "hidden": true,
+                  "options": [
+                      {
+                          "value": "titan/customer",
+                          "content": "Customer"
+                      }
+                  ]
+              }
             ],
             "params": {
-                "notification": {
+                "notification-type": {
                     "source": "expression",
                     "type": "string",
-                    "key": "notification",
+                    "key": "notificationType",
                     "mandatory": true
+                },
+                "resource-id": {
+                    "source": "expression",
+                    "type": "resourceId",
+                    "mandatory": true,
+                    "key": "resource"
+                },
+                "resource": {
+                    "source": "expression",
+                    "type": "variable",
+                    "mandatory": true,
+                    "key": "resource",
+                    "default": "resource"
+                },
+                "customer": {
+                    "source": "expression",
+                    "type": "variable",
+                    "key": "participant",
+                    "mandatory": true,
+                    "default": "titan/customer"
                 }
             }
         },
