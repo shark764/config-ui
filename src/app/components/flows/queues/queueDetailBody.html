@@ -12,38 +12,38 @@
       <input type="text" ng-required="true" ng-model="selectedQueue.name" name="queuename" api-error></input>
     </div>
   </div>
-  
+
   <div class="input-group">
     <label class="textarea-label">{{'value.description' | translate}}</label>
     <div>
       <textarea ng-model="selectedQueue.description"></textarea>
     </div>
   </div>
-  
+
   <div ng-if="! selectedQueue.isNew()" class="input-group">
     <label>{{'queue.details.activeVersion' | translate}}</label>
     <div>
       <form-error field="forms.detailsForm.activeVersion"
       error-type-required="{{'queue.details.version.error' | translate}}"></form-error>
-      <select name="activeVersion" ng-required="true" ng-model="selectedQueue.activeVersion" ng-options="version.version as version.name for version in fetchVersions() | orderBy:'created':'reverse'">
+      <select id="active-version-field" name="activeVersion" ng-required="true" ng-model="selectedQueue.activeVersion" ng-options="version.version as version.name for version in fetchVersions() | orderBy:'created':'reverse'">
       </select>
     </div>
   </div>
-  
+
   <div ng-if="selectedQueue.isNew()" class="input-group">
     <label class="disabled">{{'queue.details.activeVersion' | translate}}</label>
     <div>
-      <input id="create-version-number" type="number" ng-disabled="true" value="1"></input>
+      <input id="active-version-field" type="number" ng-disabled="true" value="1"></input>
     </div>
   </div>
 </div>
 
-<div ng-if="selectedQueue.isNew()">
+<div id="create-new-queue-query-details" ng-if="selectedQueue.isNew()">
   <div class="divider-header">
     <h4>Query</h4>
     <a class="pull-right">
-      <span ng-show="queryType != 'advanced'" ng-click="queryType = 'advanced'">(Show advanced query editor)</span>
-      <span ng-show="queryType == 'advanced'" ng-click="queryType = 'basic'">(Show basic query builder)</span>
+      <span id="show-advanced-query" ng-show="queryType != 'advanced'" ng-click="queryType = 'advanced'">(Show advanced query editor)</span>
+      <span id="show-basic-query" ng-show="queryType == 'advanced'" ng-click="queryType = 'basic'">(Show basic query builder)</span>
     </a>
   </div>
 
@@ -51,7 +51,7 @@
     <label class="textarea-label">{{'value.details.query' | translate}} *</label>
     <form-error field="forms.versionForm.query"
     error-type-required="{{'queue.details.queue.error' | translate}}"></form-error>
-    <textarea ng-required="true" type="text" ng-model="initialVersion.query" name="query"></textarea>
+    <textarea id="advanced-query-field" ng-required="true" type="text" ng-model="initialVersion.query" name="query"></textarea>
   </div>
 
   <queue-query-creator ng-if="queryType!='advanced'" version="initialVersion" queue="selectedQueue"></queue-query-creator>
