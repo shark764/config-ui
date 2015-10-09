@@ -80,20 +80,6 @@ describe('QueueController', function() {
     
     expect(newQueue.activeVersion).toEqual('queueVersion1');
   });
-    
-  it('should reset the query on create cancel', inject(['$rootScope', function($rootScope){
-    $scope.selectedQueue = new Queue();
-    $scope.initialVersion = {query: 'somevalues'};
-    $rootScope.$broadcast('resource:details:queue:canceled');
-    expect($scope.initialVersion.query).toEqual('{}');
-  }]));
-
-  it('should not reset if the selectedQueue is not a new queue', inject(['$rootScope', function($rootScope){
-    $scope.selectedQueue = mockQueues[0];
-    $scope.initialVersion = {query: 'somevalues'};
-    $rootScope.$broadcast('resource:details:queue:canceled');
-    expect($scope.initialVersion.query).toEqual('somevalues');
-  }]));
   
   describe('fetchVersions function', function() {
     it('should be defined', function() {

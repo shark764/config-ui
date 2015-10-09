@@ -1,4 +1,4 @@
-<label>
+<label ng-class="{'has-elements': operands.length}">
   {{ labelKey | translate}}
 </label>
 <div class="tag-wrapper clear">
@@ -13,7 +13,7 @@
       <type-ahead hover="true"
         placeholder="{{placeholderKey | translate}}"
         items="fetchSkills()"
-        selected-item="selected"
+        selected-item="typeaheadItem"
         filters="filterSkills">
       </type-ahead>
     </div>

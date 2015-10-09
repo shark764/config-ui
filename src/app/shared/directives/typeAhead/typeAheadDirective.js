@@ -70,6 +70,9 @@ angular.module('liveopsConfigPanel')
               //If the input exactly matches a result
               $scope.highlightedItem = filteredItems[0];
               $scope.selectedItem = filteredItems[0];
+            } else {
+              $scope.highlightedItem = filteredItems[0];
+              $scope.selectedItem = $scope.currentText;
             }
           } else {
             $scope.highlightedItem = null;

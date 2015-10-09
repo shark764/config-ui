@@ -3,8 +3,10 @@
   <a id="add-queue-version-btn" class="btn pull-right" title="Create new version" ng-click="addQueueVersion()"><i class="fa fa-plus"></i></a>
 </div>
 
+<p ng-show="fetchVersions().length < 1" class="null">{{'queue.details.version.none' | translate}}</p>
+
 <div class="queue-version-table">
-  <table class="table">
+  <table class="table" ng-show="fetchVersions().length">
     <thead>
       <th></th>
       <th>{{'value.version' | translate}}</th>
