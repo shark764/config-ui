@@ -32,6 +32,7 @@ describe('userSkills directive', function(){
       TenantUserSkill = _TenantUserSkill;
 
       $scope.user = mockTenantUsers[0];
+      $scope.user.$skills = mockTenantUsers[0].skills;
 
       element = $compile('<user-skills user="user"></user-skills>')($scope);
       $scope.$digest();
@@ -287,7 +288,6 @@ describe('userSkills directive', function(){
       $httpBackend.expectPUT(apiHostname + '/v1/tenants/tenant-id/users/userId1/skills/skillId1').respond(200);
       isolateScope.updateUserSkill(mockUserSkills[0]);
       $httpBackend.flush();
-
     });
   });
 });

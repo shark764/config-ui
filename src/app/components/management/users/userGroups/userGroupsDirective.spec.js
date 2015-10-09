@@ -44,6 +44,8 @@ describe('userGroups directive', function() {
   beforeEach(function() {
     $scope.user = mockTenantUsers[1];
     $scope.user.$original = angular.copy(mockTenantUsers[1]);
+    
+    $scope.user.$groups = mockTenantUsers[1].groups;
   });
   
   describe('USING defaultCompile', function() {
