@@ -25,6 +25,10 @@ describe('setSkillsBulkAction', function() {
       mockUserSkills = _mockUserSkills;
     }
   ]));
+  
+  beforeEach(inject(['tenantUserTransformer', function(tenantUserTransformer) {
+    tenantUserTransformer.transform(mockTenantUsers[0]);
+  }]));
 
   describe('canExecute', function() {
     it('should return false when no skill is selected', function() {
@@ -39,7 +43,7 @@ describe('setSkillsBulkAction', function() {
       var userSkillBulkAction = new UserSkillsBulkAction();
       userSkillBulkAction.selectedSkill = mockSkills[1];
 
-      $httpBackend.expectPOST(apiHostname + '/v1/tenants/tenant-id/users/userId1/skills');
+      $httpBackend.expectPOST(apiHostname + '/v1/tenants/tenant-id/users/userId1/skills').respond(200, mockTenantUsers[0]);
 
       userSkillBulkAction.execute(mockTenantUsers[0]);
 

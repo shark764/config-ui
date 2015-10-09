@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('UsersController', ['$scope', '$window', '$parse', 'User', 'Session', 'AuthService', 'userTableConfig', 'Alert', 'flowSetup', 'BulkAction', '$q', '$location', 'lodash', 'Chain', 'TenantUser', 'TenantRole', 'queryCache', 'UserPermissions', 'PlatformRole', 'TenantUserGroups',
-    function($scope, $window, $parse, User, Session, AuthService, userTableConfig, Alert, flowSetup, BulkAction, $q, $location, _, Chain, TenantUser, TenantRole, queryCache, UserPermissions, PlatformRole, TenantUserGroups) {
+  .controller('UsersController', ['$scope', '$window', '$parse', 'User', 'Session', 'AuthService', 'userTableConfig', 'Alert', 'flowSetup', 'BulkAction', '$q', '$location', 'lodash', 'Chain', 'TenantUser', 'TenantRole', 'queryCache', 'UserPermissions', 'PlatformRole', 'TenantUserGroups', 'Modal',
+    function ($scope, $window, $parse, User, Session, AuthService, userTableConfig, Alert, flowSetup, BulkAction, $q, $location, _, Chain, TenantUser, TenantRole, queryCache, UserPermissions, PlatformRole, TenantUserGroups, Modal) {
       var self = this;
 
       $scope.forms = {};
@@ -10,7 +10,7 @@ angular.module('liveopsConfigPanel')
       $window.flowSetup = flowSetup;
       $scope.userTableConfig = userTableConfig;
 
-      $scope.scenario = function() {
+      $scope.scenario = function () {
         if (!$scope.selectedTenantUser) {
           return;
         }
@@ -24,23 +24,23 @@ angular.module('liveopsConfigPanel')
         }
       };
 
-      $scope.fetchTenantUsers = function() {
+      $scope.fetchTenantUsers = function () {
         return TenantUser.cachedQuery({
           tenantId: Session.tenant.tenantId
         });
       };
 
-      $scope.fetchTenantRoles = function() {
+      $scope.fetchTenantRoles = function () {
         return TenantRole.cachedQuery({
           tenantId: Session.tenant.tenantId
         });
       };
 
-      $scope.fetchPlatformRoles = function() {
+      $scope.fetchPlatformRoles = function () {
         return PlatformRole.cachedQuery();
       };
 
-      $scope.create = function() {
+      $scope.create = function () {
         $scope.selectedTenantUser = new TenantUser();
         $scope.selectedTenantUser.$user = new User();
 
@@ -48,14 +48,14 @@ angular.module('liveopsConfigPanel')
         $scope.selectedTenantUser.$groups = [{}];
       };
 
-      var dirty = function(fields) {
+      var dirty = function (fields) {
         var isDirty = false;
-        if(!angular.isArray(fields)) {
+        if (!angular.isArray(fields)) {
           fields = [fields];
         }
 
-        angular.forEach(fields, function(field) {
-          if(field in $scope.forms.detailsForm){
+        angular.forEach(fields, function (field) {
+          if (field in $scope.forms.detailsForm) {
             isDirty = isDirty || $scope.forms.detailsForm[field].$dirty
           }
         });
@@ -63,11 +63,13 @@ angular.module('liveopsConfigPanel')
         return isDirty;
       }
 
-      $scope.submit = function() {
+      $scope.submit = function () {
         var promises = [];
 
-        if($scope.selectedTenantUser.isNew() || dirty(['status', 'roleId'])) {
-          if(!$scope.selectedTenantUser.isNew()) {
+        if (($scope.selectedTenantUser.isNew() || dirty(['status', 'roleId'])) &&
+          UserPermissions.hasPermissionInList(['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'MANAGE_TENANT_ENROLLMENT'])) {
+
+          if (!$scope.selectedTenantUser.isNew()) {
             delete $scope.selectedTenantUser.status;
           }
 
@@ -76,33 +78,57 @@ angular.module('liveopsConfigPanel')
           }));
         }
 
-        if($scope.selectedTenantUser.isNew() ||
-          dirty(['firstName', 'lastName', 'externalId'])) {
-          $scope.selectedTenantUser.$user.email = $scope.selectedTenantUser.email;
-          promises.push($scope.selectedTenantUser.$user.save());
+        if (dirty(['firstName', 'lastName', 'externalId'])) {
+          if (UserPermissions.hasPermission('PLATFORM_MANAGE_ALL_USERS')) {
+            promises.push($scope.selectedTenantUser.$user.save());
+          } else if (UserPermissions.hasPermission('PLATFORM_MANAGE_USER_ACCOUNT') &&
+            Session.user.id === $scope.selectedTenantUser.$user.id) {
+              
+            delete $scope.selectedTenantUser.$user.status; //User cannot edit their own status		
+            delete $scope.selectedTenantUser.$user.roleId; //User cannot edit their own platform roleId		
+
+            promises.push($scope.selectedTenantUser.$user.save());
+          }
         }
 
         return $q.all(promises);
       };
 
-      $scope.resend = function() {
+      $scope.resend = function () {
         $scope.selectedTenantUser.status = 'invited';
 
         return $scope.selectedTenantUser.save({
           tenantId: Session.tenant.tenantId
-        }).then(function() {
+        }).then(function () {
           Alert.success('Invite Sent');
-        }, function() {
+        }, function () {
           Alert.failure('Error occured. Invite not sent.');
         });
       };
 
-      $scope.$on('table:on:click:create', function() {
+      $scope.expireTenantUser = function () {
+        Modal.showConfirm({
+          message: 'This will prevent the user from accepting their invitation. Continue?',
+          okCallback: function () {
+            $scope.selectedTenantUser.status = 'pending';
+
+            $scope.selectedTenantUser.save({
+              tenantId: Session.tenant.tenantId
+            }).then(function () {
+              Alert.success('Invitation revoked');
+            }, function () {
+              Alert.error('An error occured. Invite remains active.');
+            });
+          }
+        });
+      };
+
+      $scope.$on('table:on:click:create', function () {
         $scope.create();
       });
 
       //TODO revisit this.
-      $scope.$on('email:validator:found', function(event, tenantUser) {
+      $scope.$on('email:validator:found', function (event, tenantUser) {
         $scope.selectedTenantUser = tenantUser;
       });
 

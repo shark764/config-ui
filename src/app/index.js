@@ -412,7 +412,7 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
     angular.extend(toastrConfig, {
       closeButton: true,
       timeout: 10000,
-      maxOpened: 1,
+      maxOpened: 3,
       positionClass: 'toast-top-right',
       preventOpenDuplicates: true,
       newestOnTop: true,

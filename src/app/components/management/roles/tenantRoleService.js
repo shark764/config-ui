@@ -22,7 +22,6 @@ angular.module('liveopsConfigPanel')
       };
 
       TenantRole.getName = function(roleId) {
-        console.log(roleId);
         return TenantRole.cachedGet({
           tenantId: Session.tenant.tenantId,
           id: roleId

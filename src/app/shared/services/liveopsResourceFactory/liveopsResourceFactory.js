@@ -280,14 +280,7 @@ angular.module('liveopsConfigPanel')
 
           Resource.prototype.save = function(params, success, failure) {
             var self = this,
-              action = this.isNew() ? this.$save : this.$update,
-              preEvent = self.isNew() ? self.preCreate : self.preUpdate,
-              postEvent = self.isNew() ? self.postCreate : self.postUpdate,
-              postEventFail = self.isNew() ? self.postCreateError : self.postUpdateError;
-
-            //TODO find out why preEvent didn't work in the chain
-            preEvent.call(self);
-            self.preSave();
+                action = this.isNew() ? this.$save : this.$update;
 
             self.$busy = true;
             
@@ -295,18 +288,6 @@ angular.module('liveopsConfigPanel')
             var backup = this.$$backupSudoProperties();
 
             return action.call(self, params, success, failure)
-              .then(function(result) {
-                return postEvent.call(self, result);
-              }, function(error) {
-                postEventFail.call(self, error);
-                return $q.reject(error);
-              })
-              .then(function(result) {
-                return self.postSave.call(self, result);
-              }, function(error) {
-                self.postSaveError.call(self, error);
-                return $q.reject(error);
-              })
               .then(function(result) {
                 self.$original = angular.copy(result);
                 if(self.$original && self.$original.$original) {
@@ -331,44 +312,6 @@ angular.module('liveopsConfigPanel')
               }
               this[prop] = angular.copy(this.$original[prop]);
             }
-          };
-
-          Resource.prototype.preCreate = function() {
-            return {};
-          };
-
-          Resource.prototype.postCreate = function(resource) {
-            return resource;
-          };
-          Resource.prototype.postCreateError = function(errors) {
-            var d = $q.defer();
-            d.reject(errors);
-            return d.promise;
-          };
-
-          Resource.prototype.preUpdate = function() {
-            return {};
-          };
-
-          Resource.prototype.postUpdate = function(resource) {
-            return resource;
-          };
-          Resource.prototype.postUpdateError = function(errors) {
-            var d = $q.defer();
-            d.reject(errors);
-            return d.promise;
-          };
-
-          Resource.prototype.preSave = function(params) {
-            return params;
-          };
-          Resource.prototype.postSave = function(resource) {
-            return resource;
-          };
-          Resource.prototype.postSaveError = function(errors) {
-            var d = $q.defer();
-            d.reject(errors);
-            return d.promise;
           };
 
           Resource.prototype.getDisplay = function() {

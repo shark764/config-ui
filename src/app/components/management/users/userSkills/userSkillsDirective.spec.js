@@ -19,8 +19,8 @@ describe('userSkills directive', function(){
   beforeEach(module('liveopsConfigPanel.mock.content.management.tenantUsers'));
   beforeEach(module('liveopsConfigPanel.mock.content.management.skills'));
 
-  beforeEach(inject(['$compile', '$rootScope', '$httpBackend', 'Session', 'apiHostname', 'mockSkills', 'mockUserSkills', 'mockTenantUsers', 'TenantUserSkill',
-    function($compile, $rootScope, _$httpBackend, _Session, _apiHostname, _mockSkills, _mockUserSkills, _mockTenantUsers, _TenantUserSkill) {
+  beforeEach(inject(['$compile', '$rootScope', '$httpBackend', 'Session', 'apiHostname', 'mockSkills', 'mockUserSkills', 'mockTenantUsers', 'TenantUserSkill', 'tenantUserTransformer',
+    function($compile, $rootScope, _$httpBackend, _Session, _apiHostname, _mockSkills, _mockUserSkills, _mockTenantUsers, _TenantUserSkill, tenantUserTransformer) {
       $scope = $rootScope.$new();
 
       $httpBackend = _$httpBackend;
@@ -30,9 +30,9 @@ describe('userSkills directive', function(){
       mockUserSkills = _mockUserSkills;
       mockTenantUsers = _mockTenantUsers;
       TenantUserSkill = _TenantUserSkill;
-
+      
+      tenantUserTransformer.transform(mockTenantUsers[0]);
       $scope.user = mockTenantUsers[0];
-      $scope.user.$skills = mockTenantUsers[0].skills;
 
       element = $compile('<user-skills user="user"></user-skills>')($scope);
       $scope.$digest();

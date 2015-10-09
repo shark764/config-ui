@@ -39,15 +39,6 @@ angular.module('liveopsConfigPanel')
           
           return media;
         });
-        
-        return $scope.selectedMedia.save().then(function(media) {
-          $scope.selectedMedia = new Media({
-            properties: {},
-            tenantId: Session.tenant.tenantId
-          });
-          
-          return media;
-        });
       };
       
       $scope.$on('resource:details:create:Media', function (event, mediaMap) {

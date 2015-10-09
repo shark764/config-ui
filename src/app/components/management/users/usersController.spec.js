@@ -166,12 +166,32 @@ describe('users controller', function() {
           externalId: {$dirty: false}
         }
       });
+      
+      describe('WHEN permissions are sufficient', function() {
+        beforeEach(inject(['UserPermissions', function(UserPermissions) {
+          UserPermissions.hasPermissionInList = jasmine.createSpy().and.returnValue(true);
+          UserPermissions.hasPermission = jasmine.createSpy().and.returnValue(true);
+        }]));
+        
+        it('should PUT to /tenants/users', function() {
+          $scope.submit()
 
-      it('should PUT to /tenants/users', function() {
-        $scope.submit()
+          expect($scope.selectedTenantUser.save).toHaveBeenCalled();
+          expect($scope.selectedTenantUser.status).not.toBeDefined();
+        });
+      });
+      
+      describe('WHEN permissions are insufficient', function() {
+        beforeEach(inject(['UserPermissions', function(UserPermissions) {
+          UserPermissions.hasPermissionInList = jasmine.createSpy().and.returnValue(false);
+          UserPermissions.hasPermission = jasmine.createSpy().and.returnValue(false);
+        }]));
+        
+        it('should not call selectedTenantUser.save', function() {
+          $scope.submit()
 
-        expect($scope.selectedTenantUser.save).toHaveBeenCalled();
-        expect($scope.selectedTenantUser.status).not.toBeDefined();
+          expect($scope.selectedTenantUser.save).not.toHaveBeenCalled();
+        });
       });
     });
 
@@ -185,14 +205,59 @@ describe('users controller', function() {
           externalId: {$dirty: false}
         }
       });
+      
+      describe('WHEN permissions are sufficient', function() {
+        beforeEach(inject(['UserPermissions', function(UserPermissions) {
+          UserPermissions.hasPermissionInList = jasmine.createSpy().and.returnValue(true);
+          UserPermissions.hasPermission = jasmine.createSpy().and.returnValue(true);
+        }]));
+        
+        it('should PUT to /tenants/users', function() {
+          $scope.submit()
 
-      it('should PUT to /tenants/users', function() {
-        $scope.submit()
+          expect($scope.selectedTenantUser.$user.save).toHaveBeenCalled();
+          expect($scope.selectedTenantUser.$user.email).toEqual($scope.selectedTenantUser.email);
+        });
+      });
+      
+      describe('WHEN permissions are insufficient', function() {
+        beforeEach(inject(['UserPermissions', function(UserPermissions) {
+          UserPermissions.hasPermissionInList = jasmine.createSpy().and.returnValue(false);
+          UserPermissions.hasPermission = jasmine.createSpy().and.returnValue(false);
+        }]));
+        
+        it('should PUT to /tenants/users', function() {
+          $scope.submit()
 
-        expect($scope.selectedTenantUser.$user.save).toHaveBeenCalled();
-        expect($scope.selectedTenantUser.$user.email).toEqual($scope.selectedTenantUser.email);
+          expect($scope.selectedTenantUser.$user.save).not.toHaveBeenCalled();
+        });
       });
     });
   });
-
+  
+  describe('expireTenantUser function', function () {
+    it('should show a confirm modal', inject(['Modal', function (Modal) {
+      spyOn(Modal, 'showConfirm');
+      $scope.expireTenantUser();
+      expect(Modal.showConfirm).toHaveBeenCalled();
+    }]));
+    
+    it('should set the user status to pending', inject(['Modal', function (Modal) {
+      $scope.selectedTenantUser = mockTenantUsers[2];
+      expect($scope.selectedTenantUser.status).toEqual('invited');
+      
+      $httpBackend.expectPUT(apiHostname + '/v1/tenants/tenant-id/users/userId100', function(requestBody) {
+        var data = JSON.parse(requestBody);
+        return data.status === 'pending';
+      }).respond(200);
+      
+      spyOn(Modal, 'showConfirm').and.callFake(function(config){
+        config.okCallback();
+      });
+      
+      $scope.expireTenantUser();
+      $httpBackend.flush();
+      expect($scope.selectedTenantUser.status).toEqual('pending');
+    }]));
+  });
 });

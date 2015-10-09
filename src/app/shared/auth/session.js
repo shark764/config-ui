@@ -24,6 +24,7 @@ angular.module('liveopsConfigPanel')
       this.tenants = null;
       this.tenant = null;
       this.activeRegionId = null;
+      this.columnPreferences = {};
       this.platformPermissions = null;
 
       this.set = function (user, tenants, token, platformPermissions) {
@@ -59,7 +60,7 @@ angular.module('liveopsConfigPanel')
         }
 
         this.flush();
-      };
+      };  
 
       this.setUser = function (user) {
         this.user = {
@@ -77,6 +78,11 @@ angular.module('liveopsConfigPanel')
       
       this.setPlatformPermissions = function(platformPermissions){
         this.platformPermissions = platformPermissions;
+        this.flush();
+      };
+
+      this.setColumnPreferences = function(columnPreferences){
+        this.columnPreferences = columnPreferences;
         this.flush();
       };
 
@@ -135,7 +141,8 @@ angular.module('liveopsConfigPanel')
         localStorage.setItem(self.userPreferenceKey, JSON.stringify({
           lang: self.lang,
           activeRegionId: self.activeRegionId,
-          tenant: self.tenant
+          tenant: self.tenant,
+          columnPreferences: self.columnPreferences
         }));
       };
 

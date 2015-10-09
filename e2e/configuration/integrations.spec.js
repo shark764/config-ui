@@ -103,6 +103,7 @@ describe('The integrations view', function() {
           shared.cancelFormBtn.click();
 
           // Warning message is displayed
+          shared.waitForAlert();
           shared.dismissChanges();
 
           expect(shared.successMessage.isPresent()).toBeFalsy();
@@ -265,6 +266,7 @@ describe('The integrations view', function() {
           shared.cancelFormBtn.click();
 
           // Warning message is displayed
+          shared.waitForAlert();
           shared.dismissChanges();
 
           expect(shared.successMessage.isPresent()).toBeFalsy();
@@ -379,6 +381,7 @@ describe('The integrations view', function() {
           shared.cancelFormBtn.click();
 
           // Warning message is displayed
+          shared.waitForAlert();
           shared.dismissChanges();
 
           expect(shared.successMessage.isPresent()).toBeFalsy();

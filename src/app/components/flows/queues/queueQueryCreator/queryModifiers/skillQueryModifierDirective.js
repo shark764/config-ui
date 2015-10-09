@@ -23,6 +23,15 @@ angular.module('liveopsConfigPanel')
 
             $scope.operands = controller.parseOperands();
           });
+          
+          $scope.$watch('typeaheadItem', function (item) {
+            if (angular.isString(item)) {
+              $scope.selected = null;
+              return;
+            }
+            
+            $scope.selected = item;
+          });
         }
       };
     }

@@ -8,7 +8,9 @@ angular.module('liveopsConfigPanel')
         require: 'form',
         controller: function() {
           var self = this;
-
+          
+          self.errorInputWatchesUnbinds = {};
+          
           this.populateApiErrors = function(error) {
             if ($parse('data.error')(error)) {
               angular.forEach(error.data.error.attribute,
@@ -18,6 +20,17 @@ angular.module('liveopsConfigPanel')
                     api: value
                   };
                   self.formController[key].$setTouched();
+                  self.formController[key].$setPristine();
+                  
+                  self.errorInputWatchesUnbinds[key] = $scope.$watch(function(){
+                    return self.formController[key].$dirty;
+                  }, function(dirtyValue){
+                    if (dirtyValue){
+                      self.formController[key].$setValidity('api', true);
+                      self.errorInputWatchesUnbinds[key]();
+                      delete self.errorInputWatchesUnbinds[key];
+                    }
+                  })
                 });
             }
 
