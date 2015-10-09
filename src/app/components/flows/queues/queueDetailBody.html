@@ -49,7 +49,7 @@
 
   <div class="input-group" ng-if="queryType=='advanced'">
     <label class="textarea-label">{{'value.details.query' | translate}} *</label>
-    <form-error field="forms.versionForm.query"
+    <form-error field="forms.detailsForm.query"
     error-type-required="{{'queue.details.queue.error' | translate}}"></form-error>
     <textarea ng-required="true" type="text" ng-model="initialVersion.query" name="query"></textarea>
   </div>
