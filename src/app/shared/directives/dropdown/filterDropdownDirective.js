@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('filterDropdown', ['Session', function (Session) {
+  .directive('filterDropdown', [function () {
     return {
       scope: {
         id: '@',
