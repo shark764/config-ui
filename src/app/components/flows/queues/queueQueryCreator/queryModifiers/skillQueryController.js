@@ -116,6 +116,7 @@ angular.module('liveopsConfigPanel')
             operationList = new jsedn.List([$scope.operatorSymbol, skillProficiencyMap]);
 
             andList.val.push(operationList);
+            $scope.selected = null;
             return;
           }
 
