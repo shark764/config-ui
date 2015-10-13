@@ -116,6 +116,10 @@ angular.module('liveopsConfigPanel')
         $scope.$watch('bulkAction.params', function() {
           $scope.bulkAction.reset();
         });
+
+        $scope.$on('table:resource:checked', function(){
+          $scope.fetchSkills();
+        });
           
         $scope.userSkillsBulkActionTypes = userSkillsBulkActionTypes;
         $scope.fetchSkills();
