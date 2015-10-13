@@ -63,42 +63,54 @@ angular.module('liveopsConfigPanel')
         return operands;
       };
 
-      $scope.add = function(item) {
-        var groupSet,
-            operationList,
-            andList;
+      $scope.add = function (item) {
+        var andList,
+          groupProficiencyMap,
+          operationList;
         
         $scope.typeaheadItem = null;
-        
+          
+        //if root "and" exists and is followed up with something we dub thee andList
         if ($scope.parentMap.exists($scope.keyword) &&
           (andList = $scope.parentMap.at($scope.keyword)).val.length > 1) {
-
+            
+          //look in andList for the scope's operator (and/or) and dub thee operationList
           for (var andListIndex = 1; andListIndex < andList.val.length; andListIndex++) {
-            if (andList.val[andListIndex].val.length &&
+            if (andList.val[andListIndex].val.length > 1 &&
               andList.val[andListIndex].val[0] === $scope.operatorSymbol) {
-              groupSet = andList.val[andListIndex].val[1];
+              operationList = andList.val[andListIndex];
+              break;
             }
           }
+          
+          //if the operationList doesn't exist or is followed up by nothing
+          if (!operationList || operationList.length <= 1) {
+            groupProficiencyMap = new jsedn.Map([jsedn.sym('#uuid "' + item.id + '"'), true]);
+            operationList = new jsedn.List([$scope.operatorSymbol, groupProficiencyMap]);
 
-          if (groupSet) {
-            for (var groupSetIndex = 0; groupSetIndex < groupSet.val.length; groupSetIndex++) {
-              if (groupSet.val[groupSetIndex] === item.id) {
-                return;
-              }
-            }
-
-            groupSet.val.push(item.id);
-          } else {
-            groupSet = new jsedn.Set([item.id]);
-            operationList = new jsedn.List([$scope.operatorSymbol, groupSet]);
             andList.val.push(operationList);
+            $scope.selected = null;
+            return;
           }
+          
+          //check if the group id has already been added
+          for (var operationListIndex = 1; operationListIndex < operationList.val.length; operationListIndex++) {
+            var groupMap = operationList.val[operationListIndex];
+
+            if (groupMap.exists(jsedn.sym('#uuid "' + item.id + '"'))) {
+              return;
+            }
+          }
+
+          groupProficiencyMap = new jsedn.Map([jsedn.sym('#uuid "' + item.id + '"'), true]);
+          operationList.val.push(groupProficiencyMap);
         } else {
-          groupSet = new jsedn.Set([item.id]);
-          operationList = new jsedn.List([$scope.operatorSymbol, groupSet]);
+          groupProficiencyMap = new jsedn.Map([jsedn.sym('#uuid "' + item.id + '"'), true]);
+
+          operationList = new jsedn.List([$scope.operatorSymbol, groupProficiencyMap]);
           andList = new jsedn.List([jsedn.sym('and'), operationList]);
 
-          $scope.parentMap.set($scope.keyword, andList);
+          $scope.parentMap.set(jsedn.kw($scope.keyword), andList);
         }
 
         $scope.selected = null;

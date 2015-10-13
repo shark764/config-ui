@@ -10,18 +10,20 @@ angular.module('liveopsConfigPanel')
 
       this.operatorMap = {
         gt: '>',
+        gte: '>=',
         lt: '<',
+        lte: '<=',
         equal: '='
       };
 
-      $scope.filterSkills = function(item) {
-        if(!$scope.operands) {
+      $scope.filterSkills = function (item) {
+        if (!$scope.operands) {
           return;
         }
 
-        for(var operandIndex = 0; operandIndex < $scope.operands.length; operandIndex++) {
+        for (var operandIndex = 0; operandIndex < $scope.operands.length; operandIndex++) {
           var operand = $scope.operands[operandIndex];
-          if(operand.id === item.id) {
+          if (operand.id === item.id) {
             return false;
           }
         }
@@ -51,7 +53,7 @@ angular.module('liveopsConfigPanel')
         }
 
         var operands = [];
-        operands.$promise = $scope.fetchSkills().$promise.then(function(options) {
+        operands.$promise = $scope.fetchSkills().$promise.then(function (options) {
           for (var operationListIndex = 1; operationListIndex < operationList.val.length; operationListIndex++) {
             var skillMap = operationList.val[operationListIndex];
 
@@ -88,19 +90,37 @@ angular.module('liveopsConfigPanel')
           tenantId: Session.tenant.tenantId
         });
       };
-
+      
+      var generateProficiencyMap = function generateProficiencyMap(item) {
+        var skillProficiencyMap,
+          proficiencyList,
+          proficiencyOperator;
+          
+        if (item.hasProficiency) {
+          proficiencyOperator = jsedn.sym(self.operatorMap[item.proficiencyOperator]);
+          proficiencyList = new jsedn.List([proficiencyOperator, item.proficiency]);
+          skillProficiencyMap = new jsedn.Map([jsedn.sym('#uuid "' + item.id + '"'), proficiencyList]);
+        } else {
+          proficiencyOperator = jsedn.sym(self.operatorMap.gte);
+          proficiencyList = new jsedn.List([proficiencyOperator, 1]);
+          skillProficiencyMap = new jsedn.Map([jsedn.sym('#uuid "' + item.id + '"'), proficiencyList]);
+        }
+        
+        return skillProficiencyMap;
+      };
+      
       $scope.add = function (item) {
-        var andList, 
-            proficiencyOperator, 
-            proficiencyList,
-            skillProficiencyMap,
-            operationList;
-        
+        var andList,
+          skillProficiencyMap,
+          operationList;
+          
         $scope.typeaheadItem = null;
-        
+          
+        //if root "and" exists and is followed up with something we dub thee andList
         if ($scope.parentMap.exists($scope.keyword) &&
           (andList = $scope.parentMap.at($scope.keyword)).val.length > 1) {
-
+            
+          //look in andList for the scope's operator (and/or) and dub thee operationList
           for (var andListIndex = 1; andListIndex < andList.val.length; andListIndex++) {
             if (andList.val[andListIndex].val.length > 1 &&
               andList.val[andListIndex].val[0] === $scope.operatorSymbol) {
@@ -108,46 +128,30 @@ angular.module('liveopsConfigPanel')
               break;
             }
           }
-
+          
+          //if the operationList doesn't exist or is followed up by nothing
           if (!operationList || operationList.length <= 1) {
-            if (item.hasProficiency) {
-              proficiencyOperator = jsedn.sym(self.operatorMap[item.proficiencyOperator]);
-              proficiencyList = new jsedn.List([proficiencyOperator, item.proficiency]);
-              skillProficiencyMap = new jsedn.Map([jsedn.kw(':' + item.id), proficiencyList]);
-            } else {
-              skillProficiencyMap = new jsedn.Map([jsedn.kw(':' + item.id), true]);
-            }
-
+            skillProficiencyMap = generateProficiencyMap(item);
             operationList = new jsedn.List([$scope.operatorSymbol, skillProficiencyMap]);
 
             andList.val.push(operationList);
             $scope.selected = null;
             return;
           }
-
+          
+          //check if the skill id has already been added
           for (var operationListIndex = 1; operationListIndex < operationList.val.length; operationListIndex++) {
             var skillMap = operationList.val[operationListIndex];
 
-            if (skillMap.exists(jsedn.kw(':' + item.id))) {
+            if (skillMap.exists(jsedn.sym('#uuid "' + item.id + '"'))) {
               return;
             }
           }
 
-          if (item.hasProficiency) {
-            proficiencyOperator = jsedn.sym(self.operatorMap[item.proficiencyOperator]);
-            proficiencyList = new jsedn.List([proficiencyOperator, item.proficiency]);
-            operationList.val.push(new jsedn.Map([jsedn.kw(':' + item.id), proficiencyList]));
-          } else {
-            operationList.val.push(new jsedn.Map([jsedn.kw(':' + item.id), true]));
-          }
+          skillProficiencyMap = generateProficiencyMap(item);
+          operationList.val.push(skillProficiencyMap);
         } else {
-          if (item.hasProficiency) {
-            proficiencyOperator = jsedn.sym(self.operatorMap[item.proficiencyOperator]);
-            proficiencyList = new jsedn.List([proficiencyOperator, item.proficiency]);
-            skillProficiencyMap = new jsedn.Map([jsedn.kw(':' + item.id), proficiencyList]);
-          } else {
-            skillProficiencyMap = new jsedn.Map([jsedn.kw(':' + item.id), true]);
-          }
+          skillProficiencyMap = generateProficiencyMap(item);
 
           operationList = new jsedn.List([$scope.operatorSymbol, skillProficiencyMap]);
           andList = new jsedn.List([jsedn.sym('and'), operationList]);
