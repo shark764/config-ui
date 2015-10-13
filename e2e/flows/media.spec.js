@@ -42,7 +42,7 @@ describe('The media view', function() {
     media.audioSourceFormField.sendKeys(newMediaSource);
     media.typeFormDropdown.all(by.css('option')).get(1).click();
 
-    shared.submitFormBtn.click().then(function () {
+    shared.submitFormBtn.click().then(function() {
       expect(shared.successMessage.isDisplayed()).toBeTruthy();
 
       // Confirm media is displayed in media list
@@ -73,7 +73,7 @@ describe('The media view', function() {
     media.typeFormDropdown.all(by.css('option')).get(2).click();
     media.ttsSourceFormField.sendKeys(newMediaSource);
 
-    shared.submitFormBtn.click().then(function () {
+    shared.submitFormBtn.click().then(function() {
       expect(shared.successMessage.isDisplayed()).toBeTruthy();
 
       // Confirm media is displayed in media list
@@ -294,8 +294,11 @@ describe('The media view', function() {
 
   it('should include valid Media fields when editing an existing Media', function() {
     shared.firstTableRow.click();
+
     expect(media.nameFormField.isDisplayed()).toBeTruthy();
-    //expect(media.sourceFormField.isDisplayed()).toBeTruthy();
+    expect(media.nameFormField.isEnabled()).toBeTruthy();
+
+    expect(media.typeFormDropdown.isDisplayed()).toBeTruthy();
     expect(media.typeFormDropdown.getAttribute('disabled')).toBeTruthy();
   });
 
@@ -304,9 +307,11 @@ describe('The media view', function() {
     randomMedia = Math.floor((Math.random() * 1000) + 1);
     shared.firstTableRow.click();
 
+    var originalName = media.nameFormField.getAttribute('value');
     var originalSource = media.ttsSourceFormField.getAttribute('value');
 
     // Edit editable fields
+    media.nameFormField.sendKeys('Edit');
     media.ttsSourceFormField.sendKeys('Edit');
 
     shared.cancelFormBtn.click();
@@ -316,6 +321,7 @@ describe('The media view', function() {
     expect(shared.successMessage.isPresent()).toBeFalsy();
 
     // Fields reset to original values
+    expect(media.nameFormField.getAttribute('value')).toBe(originalName);
     expect(media.ttsSourceFormField.getAttribute('value')).toBe(originalSource);
   });
 
@@ -324,18 +330,21 @@ describe('The media view', function() {
     randomMedia = Math.floor((Math.random() * 1000) + 1);
     shared.firstTableRow.click();
 
+    var originalName = media.nameFormField.getAttribute('value');
     var originalSource = media.audioSourceFormField.getAttribute('value');
 
     // Edit fields
+    media.nameFormField.sendKeys('Edit');
     media.audioSourceFormField.sendKeys('Edit');
 
-    shared.cancelFormBtn.click().then(function () {
+    shared.cancelFormBtn.click().then(function() {
       shared.waitForAlert();
       shared.dismissChanges();
 
       expect(shared.successMessage.isPresent()).toBeFalsy();
 
       // Fields reset to original values
+      expect(media.nameFormField.getAttribute('value')).toBe(originalName);
       expect(media.audioSourceFormField.getAttribute('value')).toBe(originalSource);
     });
   });
@@ -345,8 +354,10 @@ describe('The media view', function() {
     shared.firstTableRow.click();
 
     // Edit fields
-    media.audioSourceFormField.sendKeys('Edit');
+    media.nameFormField.sendKeys('Edit');
+    media.audioSourceFormField.sendKeys('/Edit');
 
+    var editedName = media.nameFormField.getAttribute('value');
     var editedSource = media.ttsSourceFormField.getAttribute('value');
 
     shared.submitFormBtn.click().then(function() {
@@ -354,8 +365,7 @@ describe('The media view', function() {
 
       // Changes persist
       browser.refresh();
-      shared.searchField.sendKeys('Audio');
-      shared.firstTableRow.click();
+      expect(media.nameFormField.getAttribute('value')).toBe(editedName);
       expect(media.ttsSourceFormField.getAttribute('value')).toBe(editedSource);
     });
   });
@@ -365,8 +375,10 @@ describe('The media view', function() {
     shared.firstTableRow.click();
 
     // Edit fields
+    media.nameFormField.sendKeys('Edit');
     media.ttsSourceFormField.sendKeys('Edit');
 
+    var editedName = media.nameFormField.getAttribute('value');
     var editedSource = media.ttsSourceFormField.getAttribute('value');
 
     shared.submitFormBtn.click().then(function() {
@@ -374,24 +386,60 @@ describe('The media view', function() {
 
       // Changes persist
       browser.refresh();
-      shared.searchField.sendKeys('Text-To-Speech');
-      shared.firstTableRow.click();
+      expect(media.nameFormField.getAttribute('value')).toBe(editedName);
       expect(media.ttsSourceFormField.getAttribute('value')).toBe(editedSource);
     });
   });
 
-  xit('should require source field when editing a Media', function() {
+  it('should require name field when editing', function() {
     // Select first media from table
     shared.firstTableRow.click();
 
     // Edit fields
-    media.sourceFormField.clear();
-    media.sourceFormField.sendKeys('\t');
+    media.nameFormField.clear();
+    media.nameFormField.sendKeys('\t');
+
+    // Submit button is still disabled
+    expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
+    shared.submitFormBtn.click();
+
+    // Error messages displayed
+    expect(media.requiredError.get(0).isDisplayed()).toBeTruthy();
+    expect(media.requiredError.get(0).getText()).toBe('Please enter a name');
+    expect(shared.successMessage.isPresent()).toBeFalsy();
+  });
+
+  it('should require source field when editing a Text-To-Speech Media', function() {
+    // Select first media from table
+    shared.searchField.sendKeys('Text-To-Speech');
+    shared.firstTableRow.click();
+
+    // Edit fields
+    media.ttsSourceFormField.clear();
+    media.ttsSourceFormField.sendKeys('\t');
 
     // Submit button is still disabled
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
 
-   // Error messages displayed
+    // Error messages displayed
+    expect(media.requiredError.get(0).isDisplayed()).toBeTruthy();
+    expect(media.requiredError.get(0).getText()).toBe('Please enter a source');
+    expect(shared.successMessage.isPresent()).toBeFalsy();
+  });
+
+  it('should require source field when editing an Audio Media', function() {
+    // Select first media from table
+    shared.searchField.sendKeys('Audio');
+    shared.firstTableRow.click();
+
+    // Edit fields
+    media.audioSourceFormField.clear();
+    media.audioSourceFormField.sendKeys('\t');
+
+    // Submit button is still disabled
+    expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
+
+    // Error messages displayed
     expect(media.requiredError.get(0).isDisplayed()).toBeTruthy();
     expect(media.requiredError.get(0).getText()).toBe('Please enter a source');
     expect(shared.successMessage.isPresent()).toBeFalsy();
@@ -399,7 +447,7 @@ describe('The media view', function() {
 
   it('should not dirty the form when selecting Audio media types', function() {
     shared.searchField.sendKeys('Audio');
-    shared.tableElements.count().then(function (audioCount) {
+    shared.tableElements.count().then(function(audioCount) {
       if (audioCount > 1) {
         shared.firstTableRow.click();
         expect(shared.detailsFormHeader.getText()).toContain(shared.firstTableRow.element(by.css(media.nameColumn)).getText());
@@ -410,24 +458,24 @@ describe('The media view', function() {
     })
   });
 
-  xit('should keep the same source text when switching between Audio and TTS types on create', function() {
+  it('should keep the same source text when switching between Audio and TTS types on create', function() {
     //Regression test for TITAN2-2645
     shared.createBtn.click();
 
     media.typeFormDropdown.all(by.css('option')).get(1).click(); //Select Audio type
-    media.audioSourceFormField.sendKeys('This is not a URL');
+    media.audioSourceFormField.sendKeys('This is not a URL\t');
 
     // Error messages displayed
     expect(media.requiredError.get(0).isDisplayed()).toBeTruthy();
     expect(media.requiredError.get(0).getText()).toBe('Audio source must be a URL');
 
-    media.typeFormDropdown.all(by.css('option')).get(2).click(); //Select TTS type
+    media.typeFormDropdown.all(by.css('option')).get(2).click().then(function () { //Select TTS type
+      // Error messages are removed
+      media.requiredError.then(function(items) {
+        expect(items.length).toBe(0);
+      });
 
-    // Error messages are removed
-    media.requiredError.then(function(items){
-    	expect(items.length).toBe(0);
+      expect(media.ttsSourceFormField.getAttribute('value')).toEqual('This is not a URL');
     });
-
-    expect(media.sourceFormField.getAttribute('value')).toEqual('This is not a URL');
   });
 });
