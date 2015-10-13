@@ -18,10 +18,10 @@
 
     <number-slider
       ng-disabled="! bulkAction.checked" class="pull-right"
-      ng-if="userSkillsBulkAction.selectedSkill.hasProficiency && userSkillsBulkAction.selectedType != 'remove'"
+      ng-if="userSkillsBulkAction.selectedSkill.hasProficiency && userSkillsBulkAction.selectedType.value != 'remove'"
       placeholder="{{'skill.details.proficiency' | translate}}"
       value="userSkillsBulkAction.params.proficiency"
-      min-value="0" max-value="100"
+      min-value="1" max-value="100"
       required="true"
       ng-changed="onChange(userSkillsBulkAction)" >
     </number-slider>

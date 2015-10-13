@@ -20,13 +20,13 @@ angular.module('liveopsConfigPanel')
       return UserSkillsBulkAction;
     }
   ])
-  .service('userSkillsBulkActionTypes', ['$filter', 'hasSkill', 'Session', 'TenantUserSkill',
-    function ($filter, hasSkill, Session, TenantUserSkill) {
+  .service('userSkillsBulkActionTypes', ['$filter', 'hasSkill', 'Session', 'TenantUserSkill', 'Skill',
+    function ($filter, hasSkill, Session, TenantUserSkill, Skill) {
       return [{
         display: $filter('translate')('bulkActions.skills.add'),
         value: 'add',
         doesQualify: function (user, action) {
-          var userSkill = hasSkill(user, action.selectedSkill.users);
+          var userSkill = hasSkill(user, action.params.skillId);
           if (userSkill) {
             return userSkill.proficiency !== action.params.proficiency;
           }
@@ -53,9 +53,10 @@ angular.module('liveopsConfigPanel')
         display: $filter('translate')('bulkActions.skills.update'),
         value: 'update',
         doesQualify: function (user, action) {
-          var userSkill = hasSkill(user, action.selectedSkill.users);
-          if (userSkill) {
-            return userSkill.proficiency !== action.params.proficiency;
+          var userHasSkill = hasSkill(user, action.params.skillId);
+          if (userHasSkill) {
+            var skill = Skill.cachedGet({id: action.params.skillId});
+            return skill.proficiency !== action.params.proficiency;
           }
           return false;
         },
@@ -78,7 +79,7 @@ angular.module('liveopsConfigPanel')
         display: $filter('translate')('bulkActions.skills.remove'),
         value: 'remove',
         doesQualify: function (user, action) {
-          return angular.isDefined(hasSkill(user, action.selectedSkill.users));
+          return hasSkill(user, action.selectedSkill.users);
         },
         execute: function (user, action) {
           var tenantUserSkill = new TenantUserSkill();
@@ -105,14 +106,14 @@ angular.module('liveopsConfigPanel')
     }
   ])
   .service('hasSkill', function () {
-    return function (user, skillUsers) {
-      var thisSkillUser;
-      angular.forEach(skillUsers, function (userSkill) {
-        if (userSkill.userId === user.id) {
-          thisSkillUser = userSkill;
+    return function (user, skillId) {
+      var hasSkill;
+      angular.forEach(user.skills, function (userSkill) {
+        if (userSkill.id === skillId) {
+          hasSkill = true;
         }
       });
 
-      return thisSkillUser;
+      return hasSkill;
     };
   });
