@@ -518,6 +518,36 @@ describe('The dispatch mappings view', function() {
     expect(shared.successMessage.isPresent()).toBeFalsy();
   });
 
+  it('should require name field when editing a Dispatch Mapping', function() {
+    shared.firstTableRow.click();
+
+    // Edit fields
+    dispatchMappings.nameFormField.clear();
+    dispatchMappings.nameFormField.sendKeys('\t');
+
+    // Submit button is still disabled
+    expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
+
+    // Error messages displayed
+    expect(dispatchMappings.requiredErrors.get(0).isDisplayed()).toBeTruthy();
+    expect(dispatchMappings.requiredErrors.get(0).getText()).toBe('Field "Name" is required.');
+    expect(shared.successMessage.isPresent()).toBeFalsy();
+  });
+
+  it('should allow name field to be edited', function() {
+    shared.firstTableRow.click();
+    expect(dispatchMappings.nameFormField.isEnabled()).toBeTruthy();
+
+    // Edit fields
+    dispatchMappings.nameFormField.sendKeys('Edit');
+    var newDispatchMappingName = dispatchMappings.nameFormField.getAttribute('value');
+
+    shared.submitFormBtn.click().then(function () {
+      expect(shared.successMessage.isDisplayed()).toBeTruthy();
+      expect(dispatchMappings.nameHeader.getText()).toBe(newDispatchMappingName);
+    });
+  });
+
   it('should require Phone field when editing a Dispatch Mapping', function() {
     // Filter table results so only dispatch Mappings with a phone number are visible
     dispatchMappings.interactionFieldDropDownLabel.click();
