@@ -43,9 +43,6 @@ angular.module('liveopsConfigPanel')
       $scope.create = function () {
         $scope.selectedTenantUser = new TenantUser();
         $scope.selectedTenantUser.$user = new User();
-
-        $scope.selectedTenantUser.$skills = [];
-        $scope.selectedTenantUser.$groups = [{}];
       };
 
       var dirty = function (fields) {
@@ -75,6 +72,12 @@ angular.module('liveopsConfigPanel')
 
           promises.push($scope.selectedTenantUser.save({
             tenantId: Session.tenant.tenantId
+          }).then(function(tenantUser) {
+            tenantUser.$skills = [];
+            tenantUser.$groups = TenantUserGroups.query({
+              memberId: tenantUser.id,
+              tenantId: Session.tenant.tenantId
+            });
           }));
         }
 
@@ -83,7 +86,7 @@ angular.module('liveopsConfigPanel')
             promises.push($scope.selectedTenantUser.$user.save());
           } else if (UserPermissions.hasPermission('PLATFORM_MANAGE_USER_ACCOUNT') &&
             Session.user.id === $scope.selectedTenantUser.$user.id) {
-              
+
             delete $scope.selectedTenantUser.$user.status; //User cannot edit their own status		
             delete $scope.selectedTenantUser.$user.roleId; //User cannot edit their own platform roleId		
 
