@@ -295,7 +295,7 @@ describe('The basic query builder', function() {
     });
   });
 
-  xit('should add all skills', function() {
+  it('should add all skills', function() {
     shared.createBtn.click();
 
     newQueue.anySkillsTypeAhead.click();
@@ -306,16 +306,13 @@ describe('The basic query builder', function() {
         newQueue.anySkillsAdd.click();
       }
 
-      /*
-       TODO Bug where fields aren't reset
       for (var i = 0; i < skillCount; i++) {
         newQueue.allSkillsTypeAhead.click();
         newQueue.allSkillsDropdownSkills.get(0).click();
         newQueue.allSkillsAdd.click();
       }
-      */
 
-      //expect(newQueue.allSkillsSelected.count()).toBe(skillCount);
+      expect(newQueue.allSkillsSelected.count()).toBe(skillCount);
       expect(newQueue.anySkillsSelected.count()).toBe(skillCount);
     });
   });
