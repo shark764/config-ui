@@ -51,6 +51,7 @@ angular.module('liveopsConfigPanel')
                     if ($scope.availableSkills.length == 0){
                       $scope.availableSkills.push(skill);
                     } else {
+                      // Checks if the current user skills is already in the list, if it is, we skip.  If not we add it to the list.
                       if ($scope.availableSkills.map(function(e) { return e.id; }).indexOf(skill.id) < 0){
                         $scope.availableSkills.push(skill);
                       }
