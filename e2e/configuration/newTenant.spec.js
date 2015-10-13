@@ -33,7 +33,7 @@ describe('The create new tenants view', function() {
     expect(tenants.adminFormDropDown.$('option:checked').getText()).toBe(params.login.firstName + ' ' + params.login.lastName);
 
     // Region is not displayed when adding a new tenant, defaults to current region
-    expect(tenants.region.isPresent()).toBeFalsy();
+    //expect(tenants.region.isPresent()).toBeFalsy();
   });
 
   it('should successfully create a new tenant and add to the tenants table and dropdown', function() {

@@ -27,7 +27,9 @@ angular.module('liveopsConfigPanel')
       };
 
       this.parseOperands = function() {
-        var andList, operationList, groupSet;
+        var andList,
+            groupSet;
+        
         if (!$scope.parentMap ||
           !$scope.parentMap.exists($scope.keyword) ||
           (andList = $scope.parentMap.at($scope.keyword)).val.length <= 1) {
@@ -59,13 +61,16 @@ angular.module('liveopsConfigPanel')
         });
 
         return operands;
-      }
+      };
 
       $scope.add = function(item) {
+        var groupSet,
+            operationList,
+            andList;
+        
         if ($scope.parentMap.exists($scope.keyword) &&
           (andList = $scope.parentMap.at($scope.keyword)).val.length > 1) {
 
-          var groupSet;
           for (var andListIndex = 1; andListIndex < andList.val.length; andListIndex++) {
             if (andList.val[andListIndex].val.length &&
               andList.val[andListIndex].val[0] === $scope.operatorSymbol) {
@@ -82,14 +87,14 @@ angular.module('liveopsConfigPanel')
 
             groupSet.val.push(item.id);
           } else {
-            var groupSet = new jsedn.Set([item.id]);
-            var operationList = new jsedn.List([$scope.operatorSymbol, groupSet]);
+            groupSet = new jsedn.Set([item.id]);
+            operationList = new jsedn.List([$scope.operatorSymbol, groupSet]);
             andList.val.push(operationList);
           }
         } else {
-          var groupSet = new jsedn.Set([item.id]);
-          var operationList = new jsedn.List([$scope.operatorSymbol, groupSet]);
-          var andList = new jsedn.List([jsedn.sym('and'), operationList]);
+          groupSet = new jsedn.Set([item.id]);
+          operationList = new jsedn.List([$scope.operatorSymbol, groupSet]);
+          andList = new jsedn.List([jsedn.sym('and'), operationList]);
 
           $scope.parentMap.set($scope.keyword, andList);
         }

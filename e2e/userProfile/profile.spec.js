@@ -74,7 +74,7 @@ describe('The profile view', function() {
       expect(profile.lastNameFormField.getAttribute('value')).toBe('');
 
       // Welcome message shows user email
-      expect(shared.welcomeMessage.getText()).toContain('Welcome back, ' + params.login.user);
+      expect(shared.welcomeMessage.getText()).toContain('Hello, ' + params.login.user);
       expect(shared.welcomeMessage.getText()).not.toContain(params.login.firstName + 'Update');
       expect(shared.welcomeMessage.getText()).not.toContain(params.login.lastName + 'Update');
 
@@ -83,7 +83,7 @@ describe('The profile view', function() {
       shared.logoutButton.click();
 
       loginPage.login(params.login.user, params.login.password);
-      expect(shared.welcomeMessage.getText()).toContain('Welcome back, ' + params.login.user);
+      expect(shared.welcomeMessage.getText()).toContain('Hello, ' + params.login.user);
     });
   });
 

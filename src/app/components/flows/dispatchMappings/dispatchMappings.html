@@ -5,7 +5,7 @@
   selected="selectedDispatchMapping"
   resource-name="{{'tenants:' + Session.tenant.tenantId + ':dispatch-mappings'}}">
 
-  <span name="active">
+  <span name="$original.active">
     <span ng-if="item.$original.active">{{'value.enabled' | translate}}</span>
     <span ng-if="!item.$original.active" class="disabled">{{'value.disabled' | translate}}</span>
   </span>
@@ -20,7 +20,7 @@
 
 <lo-details-panel id="right-panel" class="right-panel"
   name="mediaDetailsController"
-  ng-show="selectedDispatchMapping"
+  ng-show="selectedDispatchMapping || showBulkActions"
   ng-resource="selectedDispatchMapping"
   lo-media-details>
 
