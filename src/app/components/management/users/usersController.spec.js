@@ -13,6 +13,7 @@ describe('users controller', function() {
 
   beforeEach(module('gulpAngular'));
   beforeEach(module('liveopsConfigPanel'));
+  beforeEach(module('liveopsConfigPanel.mock.content'));
   beforeEach(module('liveopsConfigPanel.mock.content.management.users'));
   beforeEach(module('liveopsConfigPanel.mock.content.management.tenantUsers'));
   beforeEach(module('liveopsConfigPanel.mock.content.management.skills'));
@@ -148,7 +149,10 @@ describe('users controller', function() {
       $scope.selectedTenantUser = mockTenantUsers[0];
       $scope.selectedTenantUser.$user = mockUsers[0]
 
-      $scope.selectedTenantUser.save = jasmine.createSpy('save');
+      //TODO use $httpBackend or something so the promise resolves
+      $scope.selectedTenantUser.save = jasmine.createSpy('save').and.returnValue({
+        then: jasmine.createSpy('then')
+      });
       $scope.selectedTenantUser.$user.save = jasmine.createSpy('$user.save');
     });
 
@@ -175,7 +179,7 @@ describe('users controller', function() {
         
         it('should PUT to /tenants/users', function() {
           $scope.submit()
-
+          
           expect($scope.selectedTenantUser.save).toHaveBeenCalled();
           expect($scope.selectedTenantUser.status).not.toBeDefined();
         });

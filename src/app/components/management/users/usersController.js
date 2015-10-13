@@ -69,7 +69,7 @@ angular.module('liveopsConfigPanel')
           if (!$scope.selectedTenantUser.isNew()) {
             delete $scope.selectedTenantUser.status;
           }
-
+          
           promises.push($scope.selectedTenantUser.save({
             tenantId: Session.tenant.tenantId
           }).then(function(tenantUser) {
