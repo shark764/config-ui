@@ -53,7 +53,7 @@ describe('The user groups component of User view', function() {
     });
   });
 
-  it('should add to the member count for an existing group', function() {
+  xit('should add to the member count for an existing group', function() {
     //Regression test for TITAN2-2533
 
     //Create a new group
@@ -85,7 +85,7 @@ describe('The user groups component of User view', function() {
     });
   });
 
-  it('should create new group and add user', function() {
+  xit('should create new group and add user', function() {
     shared.firstTableRow.click();
 
     var randomGroup = Math.floor((Math.random() * 1000) + 1);
@@ -117,7 +117,7 @@ describe('The user groups component of User view', function() {
     });
   });
 
-  it('should create new group and add user after pressing Enter key', function() {
+  xit('should create new group and add user after pressing Enter key', function() {
     shared.firstTableRow.click();
 
     var randomGroup = Math.floor((Math.random() * 1000) + 1);

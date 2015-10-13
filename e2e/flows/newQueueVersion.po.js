@@ -9,6 +9,9 @@ var NewQueueVersion = function() {
   this.createVersionBtn = this.newQueueVersionPanel.element(by.id('create-version-btn'));
   this.cancelVersionBtn = this.newQueueVersionPanel.element(by.id('cancel-version-btn'));
 
+  this.showAdvancedQueryLink = this.newQueueVersionPanel.element(by.id('show-advanced-query'));
+  this.showBasicQueryLink = this.newQueueVersionPanel.element(by.id('show-basic-query'));
+
   // Query Fields
   this.newQueueQuerySection = this.newQueueVersionPanel.element(by.id('selected-queue-version-section'));
 
