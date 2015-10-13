@@ -810,7 +810,7 @@ describe('The table filters', function() {
 
       // All listed
       expect(columns.dropdownTypes.get(0).getText()).toBe('Audio');
-      expect(columns.dropdownTypes.get(1).getText()).toBe('TTS');
+      expect(columns.dropdownTypes.get(1).getText()).toBe('Text-to-Speech');
 
       // All input is selected by default
       expect(columns.dropdownTypeInputs.get(0).isSelected()).toBeTruthy();
@@ -1058,7 +1058,8 @@ describe('The table filters', function() {
       expect(columns.dropdownStatusInputs.get(2).isSelected()).toBeFalsy();
     });
 
-    it('should display rows by Status', function() {
+    xit('should display rows by Status', function() {
+      // TODO Bug TITAN2-4238
       columns.statusTableDropDownLabel.click();
 
       // Select input from drop down

@@ -5,8 +5,7 @@ angular.module('liveopsConfigPanel')
     return {
       scope: {
         queueVersion: '=',
-        ngDisabled: '=',
-        form: '='
+        ngDisabled: '='
       },
       templateUrl: 'app/components/flows/queues/versions/versionPriority.html'
     };

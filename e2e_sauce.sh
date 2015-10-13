@@ -49,6 +49,11 @@ export SAUCE_SUITE_NAME=UserProfile
 export E2E_TEST_SUITE=/userProfile/*.spec.js
 gulp protractor | tee -a ${E2E_LOG_FILE}
 
+echo "***** INVITATIONS *****" | tee -a ${E2E_LOG_FILE}
+export SAUCE_SUITE_NAME=Invitations
+export E2E_TEST_SUITE=/invitations/*.spec.js
+gulp protractor | tee -a ${E2E_LOG_FILE}
+
 echo "***** TENANT SWITCHING *****" | tee -a ${E2E_LOG_FILE}
 export SAUCE_SUITE_NAME=TenantSwitching
 export E2E_TEST_SUITE=/tenantSwitching/*.spec.js

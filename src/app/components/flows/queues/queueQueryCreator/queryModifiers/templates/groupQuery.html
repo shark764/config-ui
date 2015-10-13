@@ -1,4 +1,4 @@
-<label>
+<label ng-class="{'has-elements': operands.length}">
   {{ labelKey | translate}}
 </label>
 <div class="tag-wrapper clear">
@@ -13,7 +13,7 @@
   <type-ahead hover="true"
     placeholder="{{placeholderKey | translate}}"
     items="fetchGroups()"
-    selected-item="selected"
+    selected-item="typeaheadItem"
     filters="filterGroups">
   </type-ahead>
   <a class="add btn"

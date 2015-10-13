@@ -81,7 +81,7 @@ describe('The login view', function() {
     loginPage.login(params.login.user, params.login.password);
     expect(browser.getCurrentUrl()).toContain(shared.usersPageUrl);
 
-    expect(shared.welcomeMessage.getText()).toContain('Welcome back, ' + params.login.firstName + ' ' + params.login.lastName);
+    expect(shared.welcomeMessage.getText()).toContain('Hello, ' + params.login.firstName + ' ' + params.login.lastName);
   });
 
   it('should redirect to login page after logout', function() {
