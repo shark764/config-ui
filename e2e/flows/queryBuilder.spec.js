@@ -274,7 +274,7 @@ describe('The basic query builder', function() {
     });
   });
 
-  it('should add all groups', function() {
+  xit('should add all groups', function() {
     shared.createBtn.click();
 
     newQueue.allGroupsTypeAhead.click();
@@ -295,7 +295,7 @@ describe('The basic query builder', function() {
     });
   });
 
-  it('should add all skills', function() {
+  xit('should add all skills', function() {
     shared.createBtn.click();
 
     newQueue.anySkillsTypeAhead.click();
@@ -456,7 +456,7 @@ describe('The basic query builder', function() {
     });
   });
 
-  it('should be saved with new queue', function() {
+  xit('should be saved with new queue', function() {
     shared.createBtn.click();
     randomQueue = Math.floor((Math.random() * 100) + 1);
 
