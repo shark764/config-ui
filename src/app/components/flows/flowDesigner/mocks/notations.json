@@ -1122,12 +1122,12 @@
                     "path": "target",
                     "type": "autocomplete",
                     "source": "throw",
-                    "label": "Target:",
+                    "label": "Signal Name:",
                     "group": "general",
                     "index": 0,
                     "disabled": false,
                     "required": false,
-                    "placeholder": "Enter a target...",
+                    "placeholder": "Enter a signal name...",
                     "hidden": false
                 },
                 {
@@ -1185,12 +1185,12 @@
                     "path": "target",
                     "type": "autocomplete",
                     "source": "throw",
-                    "label": "Target:",
+                    "label": "Signal Name:",
                     "group": "general",
                     "index": 0,
                     "disabled": false,
                     "required": false,
-                    "placeholder": "Enter a target...",
+                    "placeholder": "Enter a signal name...",
                     "hidden": false
                 },
                 {
@@ -1233,7 +1233,7 @@
                     "index": 0,
                     "disabled": false,
                     "required": false,
-                    "placeholder": "Enter a signal name to catch...",
+                    "placeholder": "Enter a signal name...",
                     "hidden": false
                 }
             ],
@@ -1273,7 +1273,7 @@
                     "index": 0,
                     "disabled": false,
                     "required": false,
-                    "placeholder": "Enter a signal name to throw...",
+                    "placeholder": "Enter a signal name...",
                     "hidden": false
                 },
                 {
