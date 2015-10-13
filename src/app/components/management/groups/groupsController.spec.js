@@ -78,13 +78,13 @@ describe('groups controller', function () {
   
   describe('gotoUserPage function', function () {
     it('should be defined', inject(function () {
-      expect($scope.additional.gotoUserPage).toBeDefined();
-      expect($scope.additional.gotoUserPage).toEqual(jasmine.any(Function));
+      expect($scope.gotoUserPage).toBeDefined();
+      expect($scope.gotoUserPage).toEqual(jasmine.any(Function));
     }));
     
     it('should call $state transition to with the users page and given userId', inject(['$state', function ($state) {
       spyOn($state, 'transitionTo');
-      $scope.additional.gotoUserPage('1234');
+      $scope.gotoUserPage('1234');
       expect($state.transitionTo).toHaveBeenCalledWith('content.management.users', {id: '1234'});
     }]));
   });

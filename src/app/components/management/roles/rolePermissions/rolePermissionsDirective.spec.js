@@ -27,7 +27,7 @@ describe('rolePermissions directive', function() {
   
   describe('save function', function() {
     it('should remove the added permission from the dropdown list', inject(function() {
-      spyOn($scope.role, '$update');
+      spyOn($scope.role, '$update').and.callThrough();
       isolateScope.selectedPermission = mockTenantPermissions[0];
       isolateScope.filtered = mockTenantPermissions;
       expect(isolateScope.filtered.length).toBe(3);
@@ -45,7 +45,7 @@ describe('rolePermissions directive', function() {
     }));
     
     it('should add the selected permission to the permission arrays', inject(function() {
-      spyOn($scope.role, '$update');
+      spyOn($scope.role, '$update').and.callThrough();
       isolateScope.filtered = mockTenantPermissions;
       isolateScope.selectedPermission = mockTenantPermissions[0];
       expect($scope.role.permissions.length).toBe(0);
@@ -57,7 +57,7 @@ describe('rolePermissions directive', function() {
     }));
     
     it('should update the role if the role exists', inject(function() {
-      spyOn($scope.role, '$update');
+      spyOn($scope.role, '$update').and.callThrough();
       isolateScope.filtered = mockTenantPermissions;
       isolateScope.selectedPermission = mockTenantPermissions[0];
       
@@ -112,7 +112,7 @@ describe('rolePermissions directive', function() {
   
   describe('remove function', function() {
     it('should add the permission to the filtered list', inject([function() {
-      spyOn($scope.role, '$update');
+      spyOn($scope.role, '$update').and.callThrough();
       isolateScope.filtered = [mockTenantPermissions[1], mockTenantPermissions[2]];
       expect(isolateScope.filtered.length).toBe(2);
       
@@ -122,7 +122,7 @@ describe('rolePermissions directive', function() {
     }]));
     
     it('should remove the permission from the permission arrays', inject([function() {
-      spyOn($scope.role, '$update');
+      spyOn($scope.role, '$update').and.callThrough();
       isolateScope.filtered = [];
       isolateScope.role.permissions = [mockTenantPermissions[0].id, mockTenantPermissions[1].id, mockTenantPermissions[2].id];
       isolateScope.rolePermissions = mockTenantPermissions;
@@ -133,7 +133,7 @@ describe('rolePermissions directive', function() {
     }]));
     
     it('should update the role if the role exists', inject(function() {
-      spyOn($scope.role, '$update');
+      spyOn($scope.role, '$update').and.callThrough();
       isolateScope.filtered = [];
       isolateScope.role.permissions = [mockTenantPermissions[0].id, mockTenantPermissions[1].id, mockTenantPermissions[2].id];
       isolateScope.rolePermissions = mockTenantPermissions;

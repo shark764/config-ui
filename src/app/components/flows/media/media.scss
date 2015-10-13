@@ -1,0 +1,12 @@
+.audio-source .btn {
+  margin-left: 4px;
+}
+
+.input-group {
+  > div {
+    * + .btn {
+      height: 30px;
+      padding-top: 5px;
+    }
+  }
+}

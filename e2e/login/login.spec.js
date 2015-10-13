@@ -30,6 +30,14 @@ describe('The login view', function() {
     expect(loginPage.errorMessage.isPresent()).toBeFalsy();
   });
 
+  it('should include Copyright and Legal information', function() {
+    expect(loginPage.copyrightLabel.isDisplayed()).toBeTruthy();
+    expect(loginPage.signupLegalLabel.isDisplayed()).toBeTruthy();
+
+    expect(loginPage.copyrightLabel.getText()).toBe(loginPage.copyrightText);
+    expect(loginPage.signupLegalLabel.getText()).toBe(loginPage.legalText);
+  });
+
   it('should not display nav bar links when not logged in', function() {
     expect(shared.navBar.isPresent()).toBeFalsy();
     expect(shared.siteNavLogo.isPresent()).toBeFalsy();
@@ -73,7 +81,7 @@ describe('The login view', function() {
     loginPage.login(params.login.user, params.login.password);
     expect(browser.getCurrentUrl()).toContain(shared.usersPageUrl);
 
-    expect(shared.welcomeMessage.getText()).toContain('Welcome back, ' + params.login.firstName + ' ' + params.login.lastName);
+    expect(shared.welcomeMessage.getText()).toContain('Hello, ' + params.login.firstName + ' ' + params.login.lastName);
   });
 
   it('should redirect to login page after logout', function() {
@@ -85,7 +93,7 @@ describe('The login view', function() {
     expect(browser.getCurrentUrl()).toBe(shared.loginPageUrl);
   });
 
-  xit('should login successfully using all uppercase email', function() {
+  it('should login successfully using all uppercase email', function() {
     loginPage.emailLoginField.sendKeys(params.login.user.toUpperCase());
     loginPage.passwordLoginField.sendKeys(params.login.password);
     loginPage.loginButton.click();

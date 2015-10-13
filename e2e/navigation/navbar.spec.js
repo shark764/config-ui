@@ -42,7 +42,7 @@ describe('The navbar', function() {
     expect(browser.getCurrentUrl()).toContain(shared.usersPageUrl);
   });
 
-  xit('should change current Tenant when tenant drop down is altered', function() {
+  it('should change current Tenant when different tenant drop down is selected', function() {
     shared.tenantsNavDropdown.click();
     shared.tenantsNavDropdown.all(by.repeater('item in items')).then(function(tenants) {
       var randomTenant = Math.floor((Math.random() * tenants.length) + 1);
@@ -59,7 +59,7 @@ describe('The navbar', function() {
   });
 
   it('should show dropdowns with downward arrows on hover', function() {
-    // Containes hovering attributes
+    // Contains hovering attributes
     expect(navbar.userManagementNavDropdown.getAttribute('hover-tracker')).toContain('hoverTracker');
     expect(navbar.userManagementNavDropdown.getAttribute('hovering')).toContain('hovering');
 
@@ -67,12 +67,12 @@ describe('The navbar', function() {
     expect(navbar.userManagementNavDropdown.getAttribute('collapse-icon')).toContain('fa-caret-down');
   });
 
-  it('should show dropdowns with downward arrows on click', function() {
+  it('should show dropdowns with downward arrows on hover', function() {
     // No arrow displayed by default
     expect(shared.usersNavButton.element(by.id(navbar.downArrow)).isDisplayed()).toBeFalsy();
 
-    // Down arrows displayed on click
-    shared.usersNavButton.click();
+    // Down arrows displayed on hover
+    browser.actions().mouseMove(shared.usersNavButton).perform();
     expect(shared.usersNavButton.element(by.id(navbar.downArrow)).isDisplayed()).toBeTruthy();
 
     browser.actions().mouseMove(shared.siteNavLogo).perform();
@@ -82,9 +82,67 @@ describe('The navbar', function() {
     expect(shared.usersNavButton.element(by.id(navbar.downArrow)).getAttribute('class')).toContain('fa-caret-down');
   });
 
-  describe('User management', function(){
-    it('should open user management dropdown on click and list links', function() {
-      shared.usersNavButton.click();
+  it('should show dropdowns on hover of each button', function() {
+    // No dropdowns displayed by default
+    expect(navbar.userManagementDropdown.isDisplayed()).toBeFalsy();
+    expect(navbar.configurationDropdown.isDisplayed()).toBeFalsy();
+    expect(navbar.flowsDropdown.isDisplayed()).toBeFalsy();
+
+    // User dropdown displayed on hover
+    browser.actions().mouseMove(shared.usersNavButton).perform();
+    expect(navbar.userManagementDropdown.isDisplayed()).toBeTruthy();
+    expect(navbar.configurationDropdown.isDisplayed()).toBeFalsy();
+    expect(navbar.flowsDropdown.isDisplayed()).toBeFalsy();
+
+    // Configuration dropdown displayed on hover, user dropdown closes
+    browser.actions().mouseMove(shared.tenantsNavButton).perform();
+    expect(navbar.userManagementDropdown.isDisplayed()).toBeFalsy();
+    expect(navbar.configurationDropdown.isDisplayed()).toBeTruthy();
+    expect(navbar.flowsDropdown.isDisplayed()).toBeFalsy();
+
+    // Flows dropdown displayed on hover, tenants dropdown closes
+    browser.actions().mouseMove(shared.flowsNavButton).perform();
+    expect(navbar.userManagementDropdown.isDisplayed()).toBeFalsy();
+    expect(navbar.configurationDropdown.isDisplayed()).toBeFalsy();
+    expect(navbar.flowsDropdown.isDisplayed()).toBeTruthy();
+  });
+
+  it('should leave dropdowns open on hover off', function() {
+    // User dropdown displayed on hover
+    browser.actions().mouseMove(shared.usersNavButton).perform();
+    expect(navbar.userManagementDropdown.isDisplayed()).toBeTruthy();
+
+    // user dropdown remains open when hovering off
+    browser.actions().mouseMove(shared.siteNavLogo).perform();
+    expect(navbar.userManagementDropdown.isDisplayed()).toBeTruthy();
+  });
+
+  it('should close dropdowns on hover then click', function() {
+    // No dropdowns displayed by default
+    expect(navbar.userManagementDropdown.isDisplayed()).toBeFalsy();
+    expect(navbar.configurationDropdown.isDisplayed()).toBeFalsy();
+    expect(navbar.flowsDropdown.isDisplayed()).toBeFalsy();
+
+    // User dropdown displayed on hover
+    browser.actions().mouseMove(shared.usersNavButton).perform();
+    expect(navbar.userManagementDropdown.isDisplayed()).toBeTruthy();
+
+    shared.usersNavButton.click().then(function() {
+      expect(navbar.userManagementDropdown.isDisplayed()).toBeFalsy();
+      expect(navbar.configurationDropdown.isDisplayed()).toBeFalsy();
+      expect(navbar.flowsDropdown.isDisplayed()).toBeFalsy();
+    }).then(function() {
+      // Hover off and back, dropdowns open again
+      browser.actions().mouseMove(shared.siteNavLogo).perform();
+      browser.actions().mouseMove(shared.usersNavButton).perform();
+      expect(navbar.userManagementDropdown.isDisplayed()).toBeTruthy();
+    });
+  });
+
+  describe('User management', function() {
+    it('should open user management dropdown on hover and list links', function() {
+      browser.actions().mouseMove(shared.usersNavButton).perform();
+
       expect(navbar.userManagementDropdown.isDisplayed()).toBeTruthy();
 
       expect(navbar.userLink.isDisplayed()).toBeTruthy();
@@ -98,33 +156,33 @@ describe('The navbar', function() {
     });
 
     it('should navigate to users page when users link is selected', function() {
-      shared.usersNavButton.click();
+      browser.actions().mouseMove(shared.usersNavButton).perform();
       navbar.userLink.click();
       expect(browser.getCurrentUrl()).toContain(shared.usersPageUrl);;
     });
-    
+
     it('should navigate to roles page when groups link is selected', function() {
-      shared.usersNavButton.click()
+      browser.actions().mouseMove(shared.usersNavButton).perform();
       navbar.rolesLink.click();
       expect(browser.getCurrentUrl()).toContain(shared.rolesPageUrl);
     });
 
     it('should navigate to groups page when groups link is selected', function() {
-      shared.usersNavButton.click()
+      browser.actions().mouseMove(shared.usersNavButton).perform();
       navbar.groupsLink.click();
       expect(browser.getCurrentUrl()).toContain(shared.groupsPageUrl);
     });
 
     it('should navigate to skills page when skills link is selected', function() {
-      shared.usersNavButton.click()
+      browser.actions().mouseMove(shared.usersNavButton).perform();
       navbar.skillsLink.click();
       expect(browser.getCurrentUrl()).toContain(shared.skillsPageUrl);
     });
   });
 
-  describe('Configuration', function(){
+  describe('Configuration', function() {
     it('should open configuration dropdown on click and list links', function() {
-      shared.tenantsNavButton.click();
+      browser.actions().mouseMove(shared.tenantsNavButton).perform();
       expect(navbar.configurationDropdown.isDisplayed()).toBeTruthy();
 
       expect(navbar.tenantsLink.isDisplayed()).toBeTruthy();
@@ -135,21 +193,21 @@ describe('The navbar', function() {
     });
 
     it('should navigate to tenants page when tenants link is selected', function() {
-      shared.tenantsNavButton.click();
+      browser.actions().mouseMove(shared.tenantsNavButton).perform();
       navbar.tenantsLink.click();
       expect(browser.getCurrentUrl()).toContain(shared.tenantsPageUrl);;
     });
 
     it('should navigate to integrations page when integrations link is selected', function() {
-      shared.tenantsNavButton.click();
+      browser.actions().mouseMove(shared.tenantsNavButton).perform();
       navbar.integrationsLink.click();
       expect(browser.getCurrentUrl()).toContain(shared.integrationsPageUrl);
     });
   });
 
-  describe('Flows', function(){
+  describe('Flows', function() {
     it('should open flows dropdown on click and list links', function() {
-      shared.flowsNavButton.click();
+      browser.actions().mouseMove(shared.flowsNavButton).perform();
       expect(navbar.flowsDropdown.isDisplayed()).toBeTruthy();
 
       expect(navbar.flowsLink.isDisplayed()).toBeTruthy();
@@ -165,26 +223,26 @@ describe('The navbar', function() {
     });
 
     it('should navigate to flows page when flows link is selected', function() {
-      shared.flowsNavButton.click();
+      browser.actions().mouseMove(shared.flowsNavButton).perform();
       navbar.flowsLink.click();
       expect(browser.getCurrentUrl()).toContain(shared.flowsPageUrl);
     });
 
     it('should navigate to queues page when queues link is selected', function() {
-      shared.flowsNavButton.click();
-      navbar.queuesLink.click().then(function () {
+      browser.actions().mouseMove(shared.flowsNavButton).perform();
+      navbar.queuesLink.click().then(function() {
         expect(browser.getCurrentUrl()).toContain(shared.queuesPageUrl);
       });
     });
 
     it('should navigate to media page when flows link is selected', function() {
-      shared.flowsNavButton.click();
+      browser.actions().mouseMove(shared.flowsNavButton).perform();
       navbar.mediaLink.click();
       expect(browser.getCurrentUrl()).toContain(shared.mediaPageUrl);
     });
 
     it('should navigate to dispatch mappings page when dispatch mappings link is selected', function() {
-      shared.flowsNavButton.click();
+      browser.actions().mouseMove(shared.flowsNavButton).perform();
       navbar.dispatchMappingsLink.click();
       expect(browser.getCurrentUrl()).toContain(shared.dispatchMappingsPageUrl);
     });

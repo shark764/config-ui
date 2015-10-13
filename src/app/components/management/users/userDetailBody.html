@@ -37,7 +37,7 @@
       </select>
     </div>
   </div>
-  
+
   <div class="input-group">
     <label>{{'details.role' | translate}} *</label>
     <form-error
@@ -68,10 +68,9 @@
   </div>
 </div>
 
-<div class="input-group" ng-show="forms.detailsForm.email.$error.duplicateEmail">
+<div id="user-exists-alert" class="input-group" ng-show="forms.detailsForm.email.$error.duplicateEmail">
   <div class="lo-alert">{{'details.email.alreadyExists' | translate}}</div>
 </div>
-
 
 <div class="logical-group">
   <div ng-if="scenario() === 'update'">
@@ -108,6 +107,8 @@
       <div>
         <input id="resend-invitation-btn" type="button" class="btn" ng-click="saveTenantUser()"
           value="{{'user.details.invitation.resend' | translate}}">
+          <a ng-if="selectedTenantUser.status == 'invited'" id="expire-invitation-link" ng-click="expireTenantUser()">
+          {{'user.details.invitation.expire' | translate}}</a>
       </div>
     </div>
   </div>
