@@ -20,8 +20,8 @@ angular.module('liveopsConfigPanel')
       return UserSkillsBulkAction;
     }
   ])
-  .service('userSkillsBulkActionTypes', ['$filter', 'hasSkill', 'Session', 'TenantUserSkill', 'Skill',
-    function ($filter, hasSkill, Session, TenantUserSkill, Skill) {
+  .service('userSkillsBulkActionTypes', ['$filter', 'hasSkill', 'Session', 'TenantUserSkill',
+    function ($filter, hasSkill, Session, TenantUserSkill) {
       return [{
         display: $filter('translate')('bulkActions.skills.add'),
         value: 'add',
@@ -53,10 +53,9 @@ angular.module('liveopsConfigPanel')
         display: $filter('translate')('bulkActions.skills.update'),
         value: 'update',
         doesQualify: function (user, action) {
-          var userHasSkill = hasSkill(user, action.params.skillId);
-          if (userHasSkill) {
-            var skill = Skill.cachedGet({id: action.params.skillId});
-            return skill.proficiency !== action.params.proficiency;
+          var userSkill = hasSkill(user, action.params.skillId);
+          if (userSkill) {
+            return userSkill.proficiency !== action.params.proficiency;
           }
           return false;
         },
@@ -79,7 +78,7 @@ angular.module('liveopsConfigPanel')
         display: $filter('translate')('bulkActions.skills.remove'),
         value: 'remove',
         doesQualify: function (user, action) {
-          return hasSkill(user, action.selectedSkill.users);
+          return angular.isDefined(hasSkill(user, action.params.skillId));
         },
         execute: function (user, action) {
           var tenantUserSkill = new TenantUserSkill();
@@ -107,13 +106,13 @@ angular.module('liveopsConfigPanel')
   ])
   .service('hasSkill', function () {
     return function (user, skillId) {
-      var hasSkill;
+      var matchingSkill;
       angular.forEach(user.skills, function (userSkill) {
         if (userSkill.id === skillId) {
-          hasSkill = true;
+          matchingSkill = userSkill;
         }
       });
 
-      return hasSkill;
+      return matchingSkill;
     };
   });

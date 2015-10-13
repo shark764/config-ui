@@ -92,8 +92,7 @@ describe('setSkillsBulkAction', function() {
 
     describe('ON doesQualify', function() {
       it('should return true if user does not have the skill', function() {
-        mockSkills[2].users = [mockTenantUsers[1]];
-        userSkillBulkAction.selectedSkill = mockSkills[2];
+        userSkillBulkAction.params.skillId = mockSkills[2].id;
         userSkillBulkAction.params.proficiency = 0;
 
         var doesQualify = userSkillBulkAction.selectedType.doesQualify(mockTenantUsers[0],
@@ -103,22 +102,24 @@ describe('setSkillsBulkAction', function() {
       });
 
       it('should return true if user has the skill but different proficiency', function() {
-        mockSkills[0].users = [mockUserSkills[0]];
-        userSkillBulkAction.selectedSkill = mockSkills[0];
-        userSkillBulkAction.params.proficiency = mockUserSkills[0].proficiency + 1;
+        var user = mockTenantUsers[0];
+        user.skills = [{id: mockSkills[0].id, proficiency: 5}];
+        userSkillBulkAction.params.skillId = mockSkills[0].id;
+        userSkillBulkAction.params.proficiency = 10;
 
-        var doesQualify = userSkillBulkAction.selectedType.doesQualify(mockTenantUsers[0],
+        var doesQualify = userSkillBulkAction.selectedType.doesQualify(user,
           userSkillBulkAction);
 
         expect(doesQualify).toBeTruthy();
       });
 
       it('should return false if user has the skill and same proficiency', function() {
-        mockSkills[0].users = [mockUserSkills[0]];
-        userSkillBulkAction.selectedSkill = mockSkills[0];
-        userSkillBulkAction.params.proficiency = mockUserSkills[0].proficiency;
+        var user = mockTenantUsers[0];
+        user.skills = [{id: mockSkills[0].id, proficiency: 10}];
+        userSkillBulkAction.params.skillId = mockSkills[0].id;
+        userSkillBulkAction.params.proficiency = 10;
 
-        var doesQualify = userSkillBulkAction.selectedType.doesQualify(mockTenantUsers[0],
+        var doesQualify = userSkillBulkAction.selectedType.doesQualify(user,
           userSkillBulkAction);
 
         expect(doesQualify).toBeFalsy();
@@ -179,33 +180,36 @@ describe('setSkillsBulkAction', function() {
 
     describe('ON doesQualify', function() {
       it('should return false if user does not have the skill', function() {
-        mockSkills[2].users = [mockTenantUsers[1]];
-        userSkillBulkAction.selectedSkill = mockSkills[2];
+        var user = mockTenantUsers[0];
+        user.skills = [{id: mockSkills[2].id, proficiency: 5}];
+        userSkillBulkAction.params.skillId = mockSkills[0].id;
         userSkillBulkAction.params.proficiency = 0;
 
-        var doesQualify = userSkillBulkAction.selectedType.doesQualify(mockTenantUsers[0],
+        var doesQualify = userSkillBulkAction.selectedType.doesQualify(user,
           userSkillBulkAction);
 
         expect(doesQualify).toBeFalsy();
       });
 
       it('should return true if user has the skill but different proficiency', function() {
-        mockSkills[0].users = [mockUserSkills[0]];
-        userSkillBulkAction.selectedSkill = mockSkills[0];
-        userSkillBulkAction.params.proficiency = mockUserSkills[0].proficiency + 1;
+        var user = mockTenantUsers[0];
+        user.skills = [{id: mockSkills[0].id, proficiency: 5}];
+        userSkillBulkAction.params.skillId = mockSkills[0].id;
+        userSkillBulkAction.params.proficiency = 10;
 
-        var doesQualify = userSkillBulkAction.selectedType.doesQualify(mockTenantUsers[0],
+        var doesQualify = userSkillBulkAction.selectedType.doesQualify(user,
           userSkillBulkAction);
 
         expect(doesQualify).toBeTruthy();
       });
 
       it('should return false if user has the skill and same proficiency', function() {
-        mockSkills[0].users = [mockUserSkills[0]];
-        userSkillBulkAction.selectedSkill = mockSkills[0];
-        userSkillBulkAction.params.proficiency = mockUserSkills[0].proficiency;
+        var user = mockTenantUsers[0];
+        user.skills = [{id: mockSkills[0].id, proficiency: 10}];
+        userSkillBulkAction.params.skillId = mockSkills[0].id;
+        userSkillBulkAction.params.proficiency = 10;
 
-        var doesQualify = userSkillBulkAction.selectedType.doesQualify(mockTenantUsers[0],
+        var doesQualify = userSkillBulkAction.selectedType.doesQualify(user,
           userSkillBulkAction);
 
         expect(doesQualify).toBeFalsy();
@@ -255,20 +259,23 @@ describe('setSkillsBulkAction', function() {
 
     describe('ON doesQualify', function() {
       it('should return false if user does not have the skill', function() {
-        mockSkills[2].users = [mockTenantUsers[1]];
-        userSkillBulkAction.selectedSkill = mockSkills[2];
+        var user = mockTenantUsers[0];
+        user.skills = [{id: mockSkills[1].id}];
+        userSkillBulkAction.params.skillId = mockSkills[2].id;
 
-        var doesQualify = userSkillBulkAction.selectedType.doesQualify(mockTenantUsers[0],
+        var doesQualify = userSkillBulkAction.selectedType.doesQualify(user,
           userSkillBulkAction);
 
         expect(doesQualify).toBeFalsy();
       });
 
       it('should return true if user has the skill', function() {
-        mockSkills[0].users = [mockUserSkills[0]];
-        userSkillBulkAction.selectedSkill = mockSkills[0];
+        var user = mockTenantUsers[0];
+        user.skills = [{id: mockSkills[0].id}];
+        
+        userSkillBulkAction.params.skillId = mockSkills[0].id;
 
-        var doesQualify = userSkillBulkAction.selectedType.doesQualify(mockTenantUsers[0],
+        var doesQualify = userSkillBulkAction.selectedType.doesQualify(user,
           userSkillBulkAction);
 
         expect(doesQualify).toBeTruthy();
@@ -283,14 +290,20 @@ describe('setSkillsBulkAction', function() {
       hasSkill = _hasSkill;
     }]));
 
-    it('should return userSkill userId1 skillId1', function() {
-      var userSkill = hasSkill(mockTenantUsers[0], [mockUserSkills[0], mockUserSkills[1]]);
-      expect(userSkill.id).toEqual(mockUserSkills[0].id);
+    it('should return true if the user has the skill matching the given id', function() {
+      var user = mockTenantUsers[0];
+      user.skills = [{id: mockUserSkills[0].skillId}, {id: mockUserSkills[1].skillId}];
+      
+      var result = hasSkill(user, mockUserSkills[0].skillId);
+      expect(result).toBeTruthy();
     });
 
-    it('should return undefined since userId3 does not have skillId1', function() {
-      var userSkills = hasSkill(mockTenantUsers[2], [mockUserSkills[0], mockUserSkills[1]]);
-      expect(userSkills).not.toBeDefined();
+    it('should return false if the user doesn\'t have a skill matching the given id', function() {
+      var user = mockTenantUsers[0];
+      user.skills = [{id: mockUserSkills[0].skillId}, {id: mockUserSkills[1].skillId}];
+      
+      var result = hasSkill(user, mockUserSkills[3].skillId);
+      expect(result).toBeFalsy();
     });
   });
 
