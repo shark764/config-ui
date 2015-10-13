@@ -41,28 +41,25 @@ angular.module('liveopsConfigPanel')
 
         $scope.fetchSkills = function () {
 
-          console.log("Doing things");
-          console.log($scope.selectedTypeHere);
-          $scope.tehSkills = [];
+          $scope.availableSkills = [];
 
-            if ($scope.selectedTypeHere == 'update'){
-
+            if ($scope.currSelectedType == 'update' || $scope.currSelectedType == 'remove'){
 
               angular.forEach($scope.users, function (user) {
                 if (user.checked){
                   angular.forEach(user.skills, function (skill){
-                    if ($scope.tehSkills.length == 0){
-                      $scope.tehSkills.push(skill);
+                    if ($scope.availableSkills.length == 0){
+                      $scope.availableSkills.push(skill);
                     } else {
-                      if ($scope.tehSkills.map(function(e) { return e.id; }).indexOf(skill.id) < 0){
-                        $scope.tehSkills.push(skill);
+                      if ($scope.availableSkills.map(function(e) { return e.id; }).indexOf(skill.id) < 0){
+                        $scope.availableSkills.push(skill);
                       }
                     }
                   });
                 }
               });
             } else {
-              $scope.tehSkills = Skill.cachedQuery({
+              $scope.availableSkills = Skill.cachedQuery({
                 tenantId: Session.tenant.tenantId
               });
             }
@@ -78,25 +75,6 @@ angular.module('liveopsConfigPanel')
           return skill.users;
         };
 
-        $scope.fetchUsersSkills = function() {
-          var availableSkills = [];
-
-          angular.forEach($scope.users, function (user) {
-            if (user.checked){
-              angular.forEach(user.skills, function (skill){
-                if (availableSkills.length == 0){
-                  availableSkills.push(skill);
-                } else {
-                  if (availableSkills.map(function(e) { return e.id; }).indexOf(skill.id) < 0){
-                    availableSkills.push(skill);
-                  }
-                }
-              });
-            }
-          });
-          
-        };
-
         $scope.removeBulkSkill = function(item) {
           $scope.bulkAction.userSkillsBulkActions.removeItem(item);
         };
@@ -108,7 +86,8 @@ angular.module('liveopsConfigPanel')
 
         $scope.onChangeType = function(action) {
 
-          $scope.selectedTypeHere = action.selectedType.value;
+          $scope.currSelectedType = action.selectedType.value;
+          $scope.fetchSkills();
 
         };
 
@@ -138,6 +117,7 @@ angular.module('liveopsConfigPanel')
         });
           
         $scope.userSkillsBulkActionTypes = userSkillsBulkActionTypes;
+        $scope.fetchSkills();
       }
     };
   }
