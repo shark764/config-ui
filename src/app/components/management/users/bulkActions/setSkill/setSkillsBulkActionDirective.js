@@ -43,12 +43,12 @@ angular.module('liveopsConfigPanel')
 
           $scope.availableSkills = [];
 
-            if ($scope.currSelectedType == 'update' || $scope.currSelectedType == 'remove'){
+            if ($scope.currSelectedType === 'update' || $scope.currSelectedType === 'remove'){
 
               angular.forEach($scope.users, function (user) {
                 if (user.checked){
                   angular.forEach(user.skills, function (skill){
-                    if ($scope.availableSkills.length == 0){
+                    if ($scope.availableSkills.length === 0){
                       $scope.availableSkills.push(skill);
                     } else {
                       // Checks if the current user skills is already in the list, if it is, we skip.  If not we add it to the list.
