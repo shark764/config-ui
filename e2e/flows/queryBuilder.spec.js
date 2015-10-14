@@ -4,6 +4,7 @@ describe('The basic query builder', function() {
   var loginPage = require('../login/login.po.js'),
     queues = require('./queues.po.js'),
     newQueue = require('./newQueue.po.js'),
+    newVersion = require('./newQueueVersion.po.js'),
     shared = require('../shared.po.js'),
     params = browser.params,
     queueCount,
@@ -295,7 +296,7 @@ describe('The basic query builder', function() {
     });
   });
 
-  it('should add all skills', function() {
+  xit('should add all skills', function() {
     shared.createBtn.click();
 
     newQueue.anySkillsTypeAhead.click();
@@ -546,18 +547,32 @@ describe('The basic query builder', function() {
     randomQueue = Math.floor((Math.random() * 100) + 1);
 
     newQueue.showAdvancedQueryLink.click();
+    newQueue.advancedQueryFormField.clear();
     newQueue.advancedQueryFormField.sendKeys('Not a valid query');
 
     // Complete required queue fields
     queues.nameFormField.sendKeys('New Queue ' + randomQueue);
     shared.submitFormBtn.click().then(function() {
       shared.waitForSuccess();
-      expect(shared.successMessage.isDisplayed()).toBeTruthy();
+      shared.waitForError();
       expect(shared.errorMessage.isDisplayed()).toBeTruthy();
       expect(shared.errorMessage.getText()).toContain("Sorry, the initial query for this queue was invalid. Please create a new query version.");
 
       expect(shared.tableElements.count()).toBeGreaterThan(queueCount);
       expect(queues.noVersionsMsg.isDisplayed()).toBeTruthy();
+
+      // Add version and select as default
+      queue.addNewVersionBtn.click();
+      newVersion.createVersionBtn.click().then(function() {
+        shared.waitForSuccess();
+        expect(shared.successMessage.isDisplayed()).toBeTruthy();
+
+        queues.activeVersionDropdown.all(by.css('option')).get(1).click();
+        shared.submitFormBtn.click().then(function() {
+          shared.waitForSuccess();
+          expect(shared.successMessage.isDisplayed()).toBeTruthy();
+        });
+      });
     });
   });
 
