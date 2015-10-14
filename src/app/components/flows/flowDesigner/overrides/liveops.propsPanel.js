@@ -185,7 +185,10 @@
               input.options = _.map(FlowNotationService.media, function(entity) {
                 return {
                   value: entity.id,
-                  content: entity.name
+                  content: entity.name,
+                  getDisplay: function(){
+                    return this.content;
+                  }
                 };
               });
               if (scope.notation.model.attributes.params.media) {
@@ -199,7 +202,10 @@
               input.options = _.map(FlowNotationService.queue, function(entity) {
                 return {
                   value: entity.id,
-                  content: entity.name
+                  content: entity.name,
+                  getDisplay: function(){
+                    return this.content;
+                  }
                 };
               });
               if (scope.notation.model.attributes.params.queue) {
