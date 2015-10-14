@@ -26,7 +26,7 @@ describe('The users view bulk actions', function() {
   });
 
 
-  xit('should allow updates to supported bulk action fields', function() {
+  it('should allow updates to supported bulk action fields', function() {
     shared.actionsBtn.click();
     expect(bulkActions.bulkActionDivs.count()).toBe(3);
 
@@ -57,7 +57,7 @@ describe('The users view bulk actions', function() {
     expect(bulkActions.removeGroupBtns.count()).toBe(1);
   });
 
-  xit('should have disabled bulk action fields by default', function() {
+  it('should have disabled bulk action fields by default', function() {
     shared.actionsBtn.click();
 
     // User's bulk actions fields are disabled by default
@@ -82,7 +82,7 @@ describe('The users view bulk actions', function() {
     expect(bulkActions.addGroupDropdownFields.count()).toBe(1);
   });
 
-  xit('should not allow updates to current user status', function() {
+  it('should not allow updates to current user status', function() {
     shared.searchField.sendKeys(params.login.firstName + ' ' + params.login.lastName);
     bulkActions.selectAllTableHeader.click();
 
@@ -105,7 +105,6 @@ describe('The users view bulk actions', function() {
 
   xit('should allow selected user\'s status to be set to disabled', function() {
     // TODO Fails when no users are edited, ie all pending
-    // Update All bulk actions
     shared.actionsBtn.click();
 
     // Select all users, except current user
@@ -158,7 +157,6 @@ describe('The users view bulk actions', function() {
 
   xit('should allow selected user\'s status to be set to enabled', function() {
     // TODO Fails when no users are edited, ie all pending
-    // Update All bulk actions
     shared.actionsBtn.click();
 
     // Select all users, except current user
@@ -209,8 +207,7 @@ describe('The users view bulk actions', function() {
     });
   });
 
-  xit('should allow selected user\'s skills to be added', function() {
-    // Update All bulk actions
+  it('should allow selected user\'s skills to be added', function() {
     shared.actionsBtn.click();
 
     // Select first three users; ASSUMPTION three exist
@@ -268,7 +265,6 @@ describe('The users view bulk actions', function() {
   xit('should allow selected user\'s skills to be removed', function() {
     // TODO Fails TITAN2-4396
     // NOTE depends on previous test: users must have the same skill added
-    // Update All bulk actions
     shared.actionsBtn.click();
 
     // Select first three users; ASSUMPTION three exist
@@ -305,8 +301,7 @@ describe('The users view bulk actions', function() {
     });
   });
 
-  xit('should allow multiple skills to be added to the selected users', function() {
-    // Update All bulk actions
+  it('should allow multiple skills to be added to the selected users', function() {
     shared.actionsBtn.click();
 
     // Select first three users; ASSUMPTION three exist
@@ -355,7 +350,6 @@ describe('The users view bulk actions', function() {
 
   xit('should allow multiple skills to be removed for the selected users', function() {
     // TODO Fails TITAN2-4396
-    // Update All bulk actions
     shared.actionsBtn.click();
 
     // Select first three users; ASSUMPTION three exist
@@ -396,7 +390,7 @@ describe('The users view bulk actions', function() {
     });
   });
 
-  xit('should not add a new skill when updating', function() {
+  it('should not add a new skill when updating', function() {
     // Create new skill to ensure the skill isn't already added to a user
     browser.get(shared.skillsPageUrl);
     var randomSkill = Math.floor((Math.random() * 1000) + 1);
@@ -429,7 +423,8 @@ describe('The users view bulk actions', function() {
     });
   });
 
-  it('should update proficiency when updating a skill for existing users with the skill', function() {
+  xit('should update proficiency when updating a skill for existing users with the skill', function() {
+    // TODO Enable after Titan2-4351 is in stageing
     // Create new skill to ensure the skill isn't already added to a user
     browser.get(shared.skillsPageUrl);
     var randomSkill = Math.floor((Math.random() * 1000) + 1);
@@ -522,8 +517,7 @@ describe('The users view bulk actions', function() {
     });
   });
 
-  xit('should allow selected user\'s groups to be added', function() {
-    // Update All bulk actions
+  it('should allow selected user\'s groups to be added', function() {
     shared.actionsBtn.click();
 
     // Select first three users; ASSUMPTION three exist
@@ -572,8 +566,8 @@ describe('The users view bulk actions', function() {
   });
 
   xit('should allow selected user\'s groups to be removed', function() {
+    // TODO Fails from TITAN2-4396
     // NOTE depends on previous test: users must have the same group added
-    // Update All bulk actions
     shared.actionsBtn.click();
 
     // Select first three users; ASSUMPTION three exist
@@ -608,8 +602,7 @@ describe('The users view bulk actions', function() {
     });
   });
 
-  xit('should allow multiple groups to be added to the selected users', function() {
-    // Update All bulk actions
+  it('should allow multiple groups to be added to the selected users', function() {
     shared.actionsBtn.click();
 
     // Select first three users; ASSUMPTION three exist
@@ -651,7 +644,7 @@ describe('The users view bulk actions', function() {
   });
 
   xit('should allow multiple groups to be removed for the selected users', function() {
-    // Update All bulk actions
+    // TODO Fails from TITAN2-4396
     shared.actionsBtn.click();
 
     // Select first three users; ASSUMPTION three exist
@@ -724,7 +717,7 @@ describe('The users view bulk actions', function() {
     expect(bulkActions.noGroupsMessage.isDisplayed()).toBeFalsy();
   });
 
-  xit('should not display number of affected users below Skills and Groups', function() {
+  it('should not display number of affected users below Skills and Groups', function() {
     shared.actionsBtn.click();
 
     // Enable Skills and Groups bulk actions
@@ -748,7 +741,7 @@ describe('The users view bulk actions', function() {
     expect(bulkActions.groupsAffectedUsers.isPresent()).toBeFalsy();
   });
 
-  xit('should display the correct number of selected users and message in the Confirm modal', function() {
+  it('should display the correct number of selected users and message in the Confirm modal', function() {
     // Select items
     shared.tableElements.count().then(function(tableCount) {
       shared.tableElements.count().then(function(tableCount) {
