@@ -109,7 +109,6 @@ var UserPage = function() {
   this.userGroups = element.all(by.repeater('userGroup in userGroups'));
 
   //User Skills component
-  this.userSkills = element.all(by.css('user-skills'));
   this.addSkill = element(by.id('skillsForm'));
   this.addSkillSearch = this.addSkill.element(by.id('typeahead-container'));
   this.skillDropdownItems = this.addSkill.all(by.repeater('item in filtered = (items | filter:filterCriteria | orderBy:orderByFunction)'));

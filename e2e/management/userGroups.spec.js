@@ -400,4 +400,49 @@ describe('The user groups component of User view', function() {
       expect(shared.firstTableRow.element(by.css(users.groupsColumn)).getText()).toEqual(userGroupCount);
     });
   });
+
+  it('should autocomplete group dropdown when arrow buttons are selected', function() {
+    //Create a new user
+    shared.createBtn.click();
+    var randomUser = Math.floor((Math.random() * 1000) + 1);
+    var newUserFirstName = 'First ' + randomUser;
+
+    users.emailFormField.sendKeys('titantest' + randomUser + '@mailinator.com\t');
+    users.tenantRoleFormDropdownOptions.get((randomUser % 3) + 1).click();
+    users.platformRoleFormDropdownOptions.get(1).click();
+
+    users.firstNameFormField.sendKeys(newUserFirstName);
+    users.lastNameFormField.sendKeys('Last ' + randomUser);
+
+    users.submitFormBtn.click().then(function() {
+      expect(shared.successMessage.isDisplayed()).toBeTruthy();
+
+      //Add a group to the new user
+      users.addGroupSearch.click();
+      browser.driver.actions().sendKeys(protractor.Key.ARROW_DOWN).perform().then(function() {
+        // Expect first group to be highlighted
+        expect(users.groupDropdownItems.get(0).getAttribute('class')).toContain('highlight');
+        expect(users.groupDropdownItems.get(1).getAttribute('class')).not.toContain('highlight');
+
+        browser.driver.actions().sendKeys(protractor.Key.ARROW_DOWN).perform().then(function() {
+          // Expect second group to be highlighted
+          expect(users.groupDropdownItems.get(0).getAttribute('class')).not.toContain('highlight');
+          expect(users.groupDropdownItems.get(1).getAttribute('class')).toContain('highlight');
+
+          browser.driver.actions().sendKeys(protractor.Key.ARROW_UP).perform().then(function() {
+            // Expect first group to be highlighted again
+            expect(users.groupDropdownItems.get(0).getAttribute('class')).toContain('highlight');
+            expect(users.groupDropdownItems.get(1).getAttribute('class')).not.toContain('highlight');
+
+            users.groupDropdownItems.get(0).getText().then(function(firstGroupName) {
+              users.addGroupSearch.sendKeys('\n');
+
+              // Expect first group to be selected
+              expect(users.userGroups.get(0).getText()).toContain(firstGroupName);
+            });
+          });
+        });
+      });
+    });
+  });
 });

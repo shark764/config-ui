@@ -312,10 +312,9 @@ describe('The dispatch mappings view', function() {
     // Submit button is still disabled
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
 
-    // TODO Bug TITAN2-4320
     // Error messages displayed
-    //expect(dispatchMappings.requiredErrors.get(0).isDisplayed()).toBeTruthy();
-    //expect(dispatchMappings.requiredErrors.get(0).getText()).toBe('Field "Name" is required.');
+    expect(dispatchMappings.requiredErrors.get(0).isDisplayed()).toBeTruthy();
+    expect(dispatchMappings.requiredErrors.get(0).getText()).toBe('Field "Name" is required.');
 
     // New DispatchMapping is not saved
     expect(shared.tableElements.count()).toBe(dispatchMappingCount);
@@ -449,10 +448,12 @@ describe('The dispatch mappings view', function() {
   it('should reset Dispatch Mapping fields after editing and selecting Cancel', function() {
     shared.firstTableRow.click();
     randomDispatchMapping = Math.floor((Math.random() * 1000) + 1);
+    var originalName = dispatchMappings.nameFormField.getAttribute('value');
     var originalMapping = dispatchMappings.mappingDropdown.$('option:checked').getAttribute('value');
     var originalFlow = dispatchMappings.flowDropdown.$('option:checked').getAttribute('value');
 
     // Edit fields
+    dispatchMappings.nameFormField.sendKeys('Edit');
     dispatchMappings.mappingOptions.get(0).click();
     dispatchMappings.mappingOptions.get((randomDispatchMapping % 3) + 1).click();
     dispatchMappings.mappingOptions.get(randomDispatchMapping % 4).click();
@@ -469,6 +470,7 @@ describe('The dispatch mappings view', function() {
       expect(shared.tableElements.count()).toBe(dispatchMappingCount);
 
       // Fields reset to original values
+      expect(dispatchMappings.nameFormField.getAttribute('value')).toBe(originalName);
       expect(dispatchMappings.mappingDropdown.$('option:checked').getAttribute('value')).toBe(originalMapping);
       expect(dispatchMappings.flowDropdown.$('option:checked').getAttribute('value')).toBe(originalFlow);
     });
@@ -495,10 +497,9 @@ describe('The dispatch mappings view', function() {
     // Submit button is still disabled
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
 
-    // TODO Bug TITAN2-4320
     // Error messages displayed
-    //expect(dispatchMappings.requiredErrors.get(0).isDisplayed()).toBeTruthy();
-    //expect(dispatchMappings.requiredErrors.get(0).getText()).toBe('Phone number is required');
+    expect(dispatchMappings.requiredErrors.get(0).isDisplayed()).toBeTruthy();
+    expect(dispatchMappings.requiredErrors.get(0).getText()).toBe('Phone number is required');
     expect(shared.successMessage.isPresent()).toBeFalsy();
   });
 
@@ -511,11 +512,40 @@ describe('The dispatch mappings view', function() {
     // Submit button is still disabled
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
 
-    // TODO Bug TITAN2-4320
     // Error messages displayed
-    //expect(dispatchMappings.requiredErrors.get(0).isDisplayed()).toBeTruthy();
-    //expect(dispatchMappings.requiredErrors.get(0).getText()).toBe('Phone number should be in E.164 format.');
+    expect(dispatchMappings.requiredErrors.get(0).isDisplayed()).toBeTruthy();
+    expect(dispatchMappings.requiredErrors.get(0).getText()).toBe('Phone number should be in E.164 format.');
     expect(shared.successMessage.isPresent()).toBeFalsy();
+  });
+
+  it('should require name field when editing a Dispatch Mapping', function() {
+    shared.firstTableRow.click();
+
+    // Edit fields
+    dispatchMappings.nameFormField.clear();
+    dispatchMappings.nameFormField.sendKeys('\t');
+
+    // Submit button is still disabled
+    expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
+
+    // Error messages displayed
+    expect(dispatchMappings.requiredErrors.get(0).isDisplayed()).toBeTruthy();
+    expect(dispatchMappings.requiredErrors.get(0).getText()).toBe('Field "Name" is required.');
+    expect(shared.successMessage.isPresent()).toBeFalsy();
+  });
+
+  it('should allow name field to be edited', function() {
+    shared.firstTableRow.click();
+    expect(dispatchMappings.nameFormField.isEnabled()).toBeTruthy();
+
+    // Edit fields
+    dispatchMappings.nameFormField.sendKeys('Edit');
+    var newDispatchMappingName = dispatchMappings.nameFormField.getAttribute('value');
+
+    shared.submitFormBtn.click().then(function () {
+      expect(shared.successMessage.isDisplayed()).toBeTruthy();
+      expect(dispatchMappings.nameHeader.getText()).toBe(newDispatchMappingName);
+    });
   });
 
   it('should require Phone field when editing a Dispatch Mapping', function() {
@@ -534,10 +564,9 @@ describe('The dispatch mappings view', function() {
     // Submit button is still disabled
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
 
-    // TODO Bug TITAN2-4320
     // Error messages displayed
-    //expect(dispatchMappings.requiredErrors.get(0).isDisplayed()).toBeTruthy();
-    //expect(dispatchMappings.requiredErrors.get(0).getText()).toBe('Phone number is required');
+    expect(dispatchMappings.requiredErrors.get(0).isDisplayed()).toBeTruthy();
+    expect(dispatchMappings.requiredErrors.get(0).getText()).toBe('Phone number is required');
     expect(shared.successMessage.isPresent()).toBeFalsy();
   });
 
@@ -556,10 +585,9 @@ describe('The dispatch mappings view', function() {
     // Submit button is still disabled
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
 
-    // TODO Bug TITAN2-4320
     // Error messages displayed
-    //expect(dispatchMappings.requiredErrors.get(0).isDisplayed()).toBeTruthy();
-    //expect(dispatchMappings.requiredErrors.get(0).getText()).toBe('Phone number should be in E.164 format.');
+    expect(dispatchMappings.requiredErrors.get(0).isDisplayed()).toBeTruthy();
+    expect(dispatchMappings.requiredErrors.get(0).getText()).toBe('Phone number should be in E.164 format.');
     expect(shared.successMessage.isPresent()).toBeFalsy();
   });
 
@@ -575,9 +603,8 @@ describe('The dispatch mappings view', function() {
     dispatchMappings.phoneFormField.clear();
     dispatchMappings.phoneFormField.sendKeys('15062345678\t');
 
-    // TODO Bug TITAN2-4320
     // Error messages are not displayed
-    //expect(dispatchMappings.requiredErrors.count()).toEqual(0);
+    expect(dispatchMappings.requiredErrors.count()).toEqual(0);
 
     // Phone input is reformatted
     expect(dispatchMappings.phoneFormField.getAttribute('value')).toBe('+1 506-234-5678');
