@@ -22,11 +22,6 @@ angular.module('liveopsConfigPanel')
             $scope.parentMap = jsedn.parse($scope.query);
             $scope.operands = controller.parseOperands();
           });
-          
-          $scope.add = controller.add;
-          $scope.remove = controller.remove;
-          $scope.fetchGroups = controller.fetchGroups;
-          $scope.filterGroups = controller.filterGroups;
         }
       };
     }

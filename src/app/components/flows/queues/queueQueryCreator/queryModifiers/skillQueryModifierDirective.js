@@ -36,6 +36,7 @@ angular.module('liveopsConfigPanel')
           $scope.add = controller.add;
           $scope.remove = controller.remove;
           $scope.filterSkills = controller.filterSkills;
+          $scope.fetchSkills = controller.fetchSkills;
         }
       };
     }
