@@ -136,22 +136,10 @@ describe('setSkillsBulkAction directive', function () {
       expect(isolateScope.onChangeType).toBeDefined();
     });
 
-    it('should fetch userSkills', inject(['$httpBackend', 'apiHostname', function ($httpBackend, apiHostname) {
-      isolateScope.bulkAction.userSkillsBulkActions[0].selectedSkill = isolateScope.availableSkills[0];
-
-      $httpBackend.expectGET(apiHostname + '/v1/tenants/tenant-id/skills/skillId1/users');
-
-      isolateScope.onChangeSkill(isolateScope.bulkAction.userSkillsBulkActions[0]);
-
-      $httpBackend.flush();
-    }]));
-
-    it('should set action.params.skillId', inject(['$httpBackend', function ($httpBackend) {
+    it('should set action.params.skillId', inject([function () {
       isolateScope.bulkAction.userSkillsBulkActions[0].selectedSkill = isolateScope.availableSkills[0];
 
       isolateScope.onChangeSkill(isolateScope.bulkAction.userSkillsBulkActions[0]);
-
-      $httpBackend.flush();
 
       expect(isolateScope.bulkAction.userSkillsBulkActions[0].params.skillId).toEqual(
         isolateScope.availableSkills[0].id);

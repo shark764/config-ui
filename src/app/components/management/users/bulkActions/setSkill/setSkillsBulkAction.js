@@ -26,7 +26,7 @@ angular.module('liveopsConfigPanel')
         display: $filter('translate')('bulkActions.skills.add'),
         value: 'add',
         doesQualify: function (user, action) {
-          var userSkill = hasSkill(user, action.selectedSkill.users);
+          var userSkill = hasSkill(user, action.params.skillId);
           if (userSkill) {
             return userSkill.proficiency !== action.params.proficiency;
           }
@@ -53,7 +53,7 @@ angular.module('liveopsConfigPanel')
         display: $filter('translate')('bulkActions.skills.update'),
         value: 'update',
         doesQualify: function (user, action) {
-          var userSkill = hasSkill(user, action.selectedSkill.users);
+          var userSkill = hasSkill(user, action.params.skillId);
           if (userSkill) {
             return userSkill.proficiency !== action.params.proficiency;
           }
@@ -78,7 +78,7 @@ angular.module('liveopsConfigPanel')
         display: $filter('translate')('bulkActions.skills.remove'),
         value: 'remove',
         doesQualify: function (user, action) {
-          return angular.isDefined(hasSkill(user, action.selectedSkill.users));
+          return angular.isDefined(hasSkill(user, action.params.skillId));
         },
         execute: function (user, action) {
           var tenantUserSkill = new TenantUserSkill();
@@ -105,14 +105,14 @@ angular.module('liveopsConfigPanel')
     }
   ])
   .service('hasSkill', function () {
-    return function (user, skillUsers) {
-      var thisSkillUser;
-      angular.forEach(skillUsers, function (userSkill) {
-        if (userSkill.userId === user.id) {
-          thisSkillUser = userSkill;
+    return function (user, skillId) {
+      var matchingSkill;
+      angular.forEach(user.skills, function (userSkill) {
+        if (userSkill.id === skillId) {
+          matchingSkill = userSkill;
         }
       });
 
-      return thisSkillUser;
+      return matchingSkill;
     };
   });

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .factory('TenantSkillUsers', ['LiveopsResourceFactory',
+  .factory('TenantSkillUser', ['LiveopsResourceFactory',
     function (LiveopsResourceFactory) {
 
       return LiveopsResourceFactory.create({
