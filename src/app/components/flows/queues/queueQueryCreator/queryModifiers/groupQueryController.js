@@ -68,6 +68,8 @@ angular.module('liveopsConfigPanel')
             operationList,
             andList;
         
+        $scope.typeaheadItem = null;
+        
         if ($scope.parentMap.exists($scope.keyword) &&
           (andList = $scope.parentMap.at($scope.keyword)).val.length > 1) {
 
