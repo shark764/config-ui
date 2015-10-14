@@ -23,13 +23,14 @@ var BulkActions = function() {
   this.skillsAffectedUsers = this.changeSkills.element(by.css('.affected-banner'));
   this.addNewSkillBtn = element(by.css('#user-skill-bulk > div:nth-child(3) > a:nth-child(1)'));
   this.addSkillDropdownFields = this.changeSkills.all(by.model('userSkillsBulkAction.selectedType'));
+  this.skillProficiencyFields = this.changeSkills.all(by.id('user-skill-bulk-proficiency-field'));
   this.selectSkillsInputFields = this.changeSkills.all(by.model('userSkillsBulkAction.selectedSkill'));
   this.removeSkillBtns = this.changeSkills.all(by.css('.remove'));
   this.noSkillsMessage = this.changeSkills.element(by.css('p'));
 
   this.changeGroups = element(by.css('ba-user-groups'));
   this.selectChangeGroups = element(by.id('user-group-bulk-enable-check'));
-  this.firstGroupDiv = this.changeSkills.element(by.css('ba-user-groups.ng-scope > div:nth-child(3)'));
+  this.firstGroupDiv = this.changeGroups.element(by.css('ba-user-groups.ng-scope > div:nth-child(3)'));
   this.groupsAffectedUsers = this.changeGroups.element(by.css('.affected-banner'));
   this.addNewGroupBtn = element(by.css('#user-group-bulk > div:nth-child(3) > a:nth-child(1)'));
   this.addGroupDropdownFields = this.changeGroups.all(by.model('action.selectedType'));

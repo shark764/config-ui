@@ -4,6 +4,8 @@ describe('The users view bulk actions', function() {
   var loginPage = require('../login/login.po.js'),
     bulkActions = require('../tableControls/bulkActions.po.js'),
     shared = require('../shared.po.js'),
+    skills = require('./skills.po.js'),
+    columns = require('../tableControls/columns.po.js'),
     users = require('./users.po.js'),
     params = browser.params,
     userCount;
@@ -25,14 +27,37 @@ describe('The users view bulk actions', function() {
 
 
   xit('should allow updates to supported bulk action fields', function() {
+    shared.actionsBtn.click();
+    expect(bulkActions.bulkActionDivs.count()).toBe(3);
+
     // Enable Users
+    expect(bulkActions.userSelectEnable.isDisplayed()).toBeTruthy();
+    expect(bulkActions.enableToggle.isDisplayed()).toBeTruthy();
 
     // Change Skills
+    expect(bulkActions.selectChangeSkills.isDisplayed()).toBeTruthy();
+    expect(bulkActions.addNewSkillBtn.isDisplayed()).toBeTruthy();
+    expect(bulkActions.firstSkillDiv.isDisplayed()).toBeTruthy();
+    expect(bulkActions.addSkillDropdownFields.get(0).isDisplayed()).toBeTruthy();
+    expect(bulkActions.selectSkillsInputFields.get(0).isDisplayed()).toBeTruthy();
+    expect(bulkActions.removeSkillBtns.get(0).isDisplayed()).toBeTruthy();
+    expect(bulkActions.addSkillDropdownFields.count()).toBe(1);
+    expect(bulkActions.selectSkillsInputFields.count()).toBe(1);
+    expect(bulkActions.removeSkillBtns.count()).toBe(1);
 
     // Change Groups
+    expect(bulkActions.selectChangeGroups.isDisplayed()).toBeTruthy();
+    expect(bulkActions.addNewGroupBtn.isDisplayed()).toBeTruthy();
+    expect(bulkActions.firstGroupDiv.isDisplayed()).toBeTruthy();
+    expect(bulkActions.addGroupDropdownFields.get(0).isDisplayed()).toBeTruthy();
+    expect(bulkActions.selectGroupsInputFields.get(0).isDisplayed()).toBeTruthy();
+    expect(bulkActions.removeGroupBtns.get(0).isDisplayed()).toBeTruthy();
+    expect(bulkActions.addGroupDropdownFields.count()).toBe(1);
+    expect(bulkActions.selectGroupsInputFields.count()).toBe(1);
+    expect(bulkActions.removeGroupBtns.count()).toBe(1);
   });
 
-  it('should have disabled bulk action fields by default', function() {
+  xit('should have disabled bulk action fields by default', function() {
     shared.actionsBtn.click();
 
     // User's bulk actions fields are disabled by default
@@ -57,7 +82,7 @@ describe('The users view bulk actions', function() {
     expect(bulkActions.addGroupDropdownFields.count()).toBe(1);
   });
 
-  it('should not allow updates to current user', function() {
+  xit('should not allow updates to current user status', function() {
     shared.searchField.sendKeys(params.login.firstName + ' ' + params.login.lastName);
     bulkActions.selectAllTableHeader.click();
 
@@ -78,20 +103,596 @@ describe('The users view bulk actions', function() {
     });
   });
 
-  xit('should allow selected user\'s status to be updated', function() {});
-  xit('should allow selected user\'s skills to be updated', function() {});
-  xit('should allow multiple skills to be updates for the selected users', function() {});
-  xit('should update proficiency when adding a skill for existing users with the skill', function() {});
+  xit('should allow selected user\'s status to be set to disabled', function() {
+    // TODO Fails when no users are edited, ie all pending
+    // Update All bulk actions
+    shared.actionsBtn.click();
 
-  xit('should allow selected user\'s groups to be updated', function() {});
-  xit('should allow multiple groups to be updates for the selected users', function() {});
-  xit('should do nothing when adding a group for existing users with the group', function() {});
+    // Select all users, except current user
+    shared.tableElements.each(function(userElement, elementIndex) {
+      userElement.getText().then(function(userText) {
+        if (userText.indexOf(params.login.user) == -1) {
+          bulkActions.selectItemTableCells.get(elementIndex).click();
+        }
+      });
+    });
 
-  xit('should allow multiple fields to be updated at once for the selected users', function() {});
-  xit('should allow all fields to be updated at once for the selected users', function() {});
-  xit('should ignore disabled fields on update', function() {});
+    bulkActions.userSelectEnable.click();
 
-  it('should show message when all Groups or Skills have been removed', function() {
+    expect(bulkActions.submitFormBtn.getAttribute('disabled')).toBeFalsy();
+    bulkActions.submitFormBtn.click();
+
+    expect(bulkActions.confirmModal.isDisplayed()).toBeTruthy();
+    bulkActions.confirmOK.click().then(function() {
+      shared.waitForSuccess();
+      expect(shared.successMessage.isDisplayed()).toBeTruthy();
+
+      // Form reset
+      expect(bulkActions.submitFormBtn.getAttribute('disabled')).toBeTruthy();
+      expect(bulkActions.enableToggle.getAttribute('disabled')).toBeTruthy();
+
+      // Add status column
+      shared.tableColumnsDropDown.click();
+      columns.options.get(7).click().then(function() {
+        shared.tableColumnsDropDown.click();
+
+        // All users are set to disabled
+        // Select Disabled from Status drop down
+        bulkActions.statusColumnDropDownLabel.click();
+        bulkActions.statuses.get(0).click();
+        bulkActions.statuses.get(2).click(); // And Pending which aren't updated
+        shared.tableElements.count().then(function(disabledTotal) {
+          expect(disabledTotal).toBe(userCount - 1);
+        });
+
+        // Select Enabled from Status drop down
+        bulkActions.statuses.get(0).click();
+        bulkActions.statuses.get(2).click();
+        bulkActions.statuses.get(1).click();
+        shared.tableElements.count().then(function(enabledTotal) {
+          expect(enabledTotal).toBe(1);
+        });
+      });
+    });
+  });
+
+  xit('should allow selected user\'s status to be set to enabled', function() {
+    // TODO Fails when no users are edited, ie all pending
+    // Update All bulk actions
+    shared.actionsBtn.click();
+
+    // Select all users, except current user
+    shared.tableElements.each(function(userElement, elementIndex) {
+      userElement.getText().then(function(userText) {
+        if (userText.indexOf(params.login.user) == -1) {
+          bulkActions.selectItemTableCells.get(elementIndex).click();
+        }
+      });
+    });
+
+    bulkActions.userSelectEnable.click();
+    bulkActions.enableToggle.click();
+
+    bulkActions.submitFormBtn.click();
+
+    expect(bulkActions.confirmModal.isDisplayed()).toBeTruthy();
+    bulkActions.confirmOK.click().then(function() {
+      shared.waitForSuccess();
+      expect(shared.successMessage.isDisplayed()).toBeTruthy();
+
+      // Form reset
+      expect(bulkActions.submitFormBtn.getAttribute('disabled')).toBeTruthy();
+      expect(bulkActions.enableToggle.getAttribute('disabled')).toBeTruthy();
+
+      // Add status column
+      shared.tableColumnsDropDown.click();
+      columns.options.get(7).click().then(function() {
+        shared.tableColumnsDropDown.click();
+
+        // All users are set to disabled
+        // Select Disabled from Status drop down
+        bulkActions.statusColumnDropDownLabel.click();
+        bulkActions.statuses.get(0).click();
+        bulkActions.statuses.get(2).click();
+        shared.tableElements.count().then(function(disabledTotal) {
+          expect(disabledTotal).toBe(0);
+        });
+
+        // Select Enabled from Status drop down
+        bulkActions.statuses.get(0).click();
+        bulkActions.statuses.get(2).click(); // And Pending which aren't updated
+        bulkActions.statuses.get(1).click();
+        shared.tableElements.count().then(function(enabledTotal) {
+          expect(enabledTotal).toBe(userCount);
+        });
+      });
+    });
+  });
+
+  xit('should allow selected user\'s skills to be added', function() {
+    // Update All bulk actions
+    shared.actionsBtn.click();
+
+    // Select first three users; ASSUMPTION three exist
+    bulkActions.selectItemTableCells.get(0).click();
+    bulkActions.selectItemTableCells.get(1).click();
+    bulkActions.selectItemTableCells.get(2).click();
+
+    // Add skill
+    bulkActions.selectChangeSkills.click();
+
+    expect(bulkActions.addNewSkillBtn.isEnabled()).toBeTruthy();
+    expect(bulkActions.addSkillDropdownFields.get(0).isEnabled()).toBeTruthy();
+    expect(bulkActions.selectSkillsInputFields.get(0).isEnabled()).toBeTruthy();
+    expect(bulkActions.removeSkillBtns.get(0).isEnabled()).toBeTruthy();
+
+    expect(bulkActions.addSkillDropdownFields.get(0).$('option:checked').getText()).toBe('Add Skill');
+
+    // Select skill to add to users
+    bulkActions.selectSkillsInputFields.get(0).click();
+    browser.driver.actions().sendKeys(protractor.Key.ARROW_DOWN).perform();
+    bulkActions.selectSkillsInputFields.get(0).sendKeys('\t');
+
+    bulkActions.selectSkillsInputFields.get(0).$('option:checked').getText().then(function(addedSkillName) {
+      bulkActions.submitFormBtn.click();
+      expect(bulkActions.confirmModal.isDisplayed()).toBeTruthy();
+      bulkActions.confirmOK.click().then(function() {
+        shared.waitForSuccess();
+        expect(shared.successMessage.isDisplayed()).toBeTruthy();
+
+        // Verify skill is added to each user
+        var skillAdded;
+        for (var i = 0; i < 3; i++) {
+          skillAdded = false;
+          shared.tableElements.get(i).click();
+          // Wait for skills to be populated
+          browser.driver.wait(function() {
+            return users.userSkills.count().then(function(userSkillCount) {
+              return userSkillCount;
+            });
+          }, 5000);
+          users.userSkills.each(function(userSkillElement) {
+            userSkillElement.getText().then(function(userSkillText) {
+              if (userSkillText.indexOf(addedSkillName) > -1) {
+                skillAdded = true;
+              }
+            });
+          }).then(function() {
+            expect(skillAdded).toBeTruthy();
+          });
+        }
+      });
+    });
+  });
+
+  xit('should allow selected user\'s skills to be removed', function() {
+    // TODO Fails TITAN2-4396
+    // NOTE depends on previous test: users must have the same skill added
+    // Update All bulk actions
+    shared.actionsBtn.click();
+
+    // Select first three users; ASSUMPTION three exist
+    bulkActions.selectItemTableCells.get(0).click();
+    bulkActions.selectItemTableCells.get(1).click();
+    bulkActions.selectItemTableCells.get(2).click();
+
+    // Remove skill
+    bulkActions.selectChangeSkills.click();
+    bulkActions.addSkillDropdownFields.get(0).all(by.css('option')).get(3).click();
+    expect(bulkActions.addSkillDropdownFields.get(0).$('option:checked').getText()).toBe('Remove Skill');
+
+    // Select skill to add to users
+    bulkActions.selectSkillsInputFields.get(0).click();
+    browser.driver.actions().sendKeys(protractor.Key.ARROW_DOWN).perform();
+    bulkActions.selectSkillsInputFields.get(0).sendKeys('\t');
+
+    bulkActions.selectSkillsInputFields.get(0).$('option:checked').getText().then(function(removedSkillName) {
+      bulkActions.submitFormBtn.click();
+      expect(bulkActions.confirmModal.isDisplayed()).toBeTruthy();
+      bulkActions.confirmOK.click().then(function() {
+        shared.waitForSuccess().then(function() {
+          expect(shared.successMessage.isDisplayed()).toBeTruthy();
+
+          // Verify skill is removed from each user
+          for (var i = 0; i < 3; i++) {
+            shared.tableElements.get(i).click();
+            users.userSkills.each(function(userSkillElement) {
+              expect(userSkillElement.getText()).not.toContain(removedSkillName);
+            });
+          }
+        });
+      });
+    });
+  });
+
+  xit('should allow multiple skills to be added to the selected users', function() {
+    // Update All bulk actions
+    shared.actionsBtn.click();
+
+    // Select first three users; ASSUMPTION three exist
+    bulkActions.selectItemTableCells.get(0).click();
+    bulkActions.selectItemTableCells.get(1).click();
+    bulkActions.selectItemTableCells.get(2).click();
+
+    bulkActions.selectChangeSkills.click();
+
+    // Remove all Skills
+    bulkActions.selectSkillsInputFields.get(0).click();
+    bulkActions.selectSkillsInputFields.get(0).all(by.css('option')).count().then(function(skillCount) {
+      bulkActions.removeSkillBtns.get(0).click().then(function() {
+        for (var i = 0; i < (skillCount - 1); i++) {
+          // Add skill bulk action
+          bulkActions.addNewSkillBtn.click();
+
+          // Add skill
+          expect(bulkActions.addSkillDropdownFields.get(i).$('option:checked').getText()).toBe('Add Skill');
+
+          // Select skill to add to users
+          bulkActions.selectSkillsInputFields.get(i).click();
+          bulkActions.selectSkillsInputFields.get(i).all(by.css('option')).get(i + 1).click();
+        }
+      }).then(function() {
+        bulkActions.submitFormBtn.click();
+        expect(bulkActions.confirmModal.isDisplayed()).toBeTruthy();
+        bulkActions.confirmOK.click().then(function() {
+          expect(shared.successMessage.isDisplayed()).toBeTruthy();
+
+          // Verify skills are added to each user
+          for (var i = 0; i < 3; i++) {
+            shared.tableElements.get(i).click();
+            // Wait for skills to be populated
+            browser.driver.wait(function() {
+              return users.userSkills.count().then(function(userSkillCount) {
+                return userSkillCount;
+              });
+            }, 5000);
+            expect(users.userSkills.count()).toBe(skillCount-1);
+          }
+        });
+      });
+    });
+  });
+
+  xit('should allow multiple skills to be removed for the selected users', function() {
+    // TODO Fails TITAN2-4396
+    // Update All bulk actions
+    shared.actionsBtn.click();
+
+    // Select first three users; ASSUMPTION three exist
+    bulkActions.selectItemTableCells.get(0).click();
+    bulkActions.selectItemTableCells.get(1).click();
+    bulkActions.selectItemTableCells.get(2).click();
+
+    bulkActions.selectChangeSkills.click();
+
+    // Remove all Skills
+    bulkActions.selectSkillsInputFields.get(0).click();
+    bulkActions.selectSkillsInputFields.get(0).all(by.css('option')).count().then(function(skillCount) {
+      bulkActions.removeSkillBtns.get(0).click();
+      for (var i = 0; i < (skillCount - 1); i++) {
+        // Add skill bulk action
+        bulkActions.addNewSkillBtn.click();
+
+        // Remove skill
+        bulkActions.addSkillDropdownFields.get(i).all(by.css('option')).get(3).click();
+        expect(bulkActions.addSkillDropdownFields.get(i).$('option:checked').getText()).toBe('Remove Skill');
+
+        // Select skill to add to users
+        bulkActions.selectSkillsInputFields.get(i).click();
+        bulkActions.selectSkillsInputFields.get(i).all(by.css('option')).get(i + 1).click();
+      }
+    }).then(function() {
+      bulkActions.submitFormBtn.click();
+      expect(bulkActions.confirmModal.isDisplayed()).toBeTruthy();
+      bulkActions.confirmOK.click().then(function() {
+        expect(shared.successMessage.isDisplayed()).toBeTruthy();
+
+        // Verify skills are removed for each user
+        for (var i = 0; i < 3; i++) {
+          shared.tableElements.get(i).click();
+          expect(users.noUserSkillsMessage.isDisplayed()).toBeTruthy();
+        }
+      });
+    });
+  });
+
+  xit('should not add a new skill when updating', function() {
+    // Create new skill to ensure the skill isn't already added to a user
+    browser.get(shared.skillsPageUrl);
+    var randomSkill = Math.floor((Math.random() * 1000) + 1);
+    var newSkillName = 'Update Skill Name ' + randomSkill;
+    shared.createBtn.click();
+
+    // Edit fields
+    skills.nameFormField.sendKeys(newSkillName);
+    shared.submitFormBtn.click().then(function() {
+      shared.waitForSuccess();
+      expect(shared.successMessage.isDisplayed()).toBeTruthy();
+    }).then(function() {
+      browser.get(shared.usersPageUrl);
+      shared.actionsBtn.click();
+
+      // Select first three users; ASSUMPTION three exist
+      bulkActions.selectItemTableCells.get(0).click();
+      bulkActions.selectItemTableCells.get(1).click();
+      bulkActions.selectItemTableCells.get(2).click();
+
+      bulkActions.selectChangeSkills.click();
+
+      // Select 'Update Skill' and select newly added skill
+      bulkActions.addSkillDropdownFields.get(0).all(by.css('option')).get(2).click();
+      expect(bulkActions.addSkillDropdownFields.get(0).$('option:checked').getText()).toBe('Update Skill');
+
+      // Select skill to 'update' for users
+      bulkActions.selectSkillsInputFields.get(0).sendKeys(newSkillName + '\t');
+      expect(bulkActions.submitFormBtn.isEnabled()).toBeFalsy();
+    });
+  });
+
+  it('should update proficiency when updating a skill for existing users with the skill', function() {
+    // Create new skill to ensure the skill isn't already added to a user
+    browser.get(shared.skillsPageUrl);
+    var randomSkill = Math.floor((Math.random() * 1000) + 1);
+    var newSkillName = 'Update Proficiency Skill Name ' + randomSkill;
+    shared.createBtn.click();
+
+    // Edit fields
+    skills.nameFormField.sendKeys(newSkillName);
+    skills.proficiencyFormCheckbox.click();
+    shared.submitFormBtn.click().then(function() {
+      shared.waitForSuccess();
+      expect(shared.successMessage.isDisplayed()).toBeTruthy();
+    }).then(function() {
+      browser.get(shared.usersPageUrl);
+      shared.actionsBtn.click();
+      bulkActions.selectItemTableCells.get(0).click();
+      bulkActions.selectChangeSkills.click();
+
+      // Add newly created skill
+      expect(bulkActions.addSkillDropdownFields.get(0).$('option:checked').getText()).toBe('Add Skill');
+
+      // Select skill to 'update' for users
+      bulkActions.selectSkillsInputFields.get(0).sendKeys(newSkillName + '\t');
+
+      bulkActions.submitFormBtn.click();
+      expect(bulkActions.confirmModal.isDisplayed()).toBeTruthy();
+      bulkActions.confirmOK.click().then(function() {
+        expect(shared.successMessage.isDisplayed()).toBeTruthy();
+
+        // Verify skill is added to user with default proficiency
+        shared.firstTableRow.click();
+        var skillAdded = false
+          // Wait for skills to be populated
+        browser.driver.wait(function() {
+          return users.userSkills.count().then(function(userSkillCount) {
+            return userSkillCount;
+          });
+        }, 5000);
+        users.userSkills.each(function(userSkillElement, skillIndex) {
+          userSkillElement.getText().then(function(userSkillText) {
+            if (userSkillText.indexOf(newSkillName) > -1) {
+              skillAdded = true;
+              expect(users.editSkillProficiencyTds.get(skillIndex).getAttribute('value')).toBe('1');
+            }
+          });
+        }).then(function() {
+          expect(skillAdded).toBeTruthy();
+        });
+      });
+    }).then(function() {
+      // Update proficiency
+      shared.actionsBtn.click().then(function () {
+        bulkActions.selectChangeSkills.click();
+
+        // Update newly added skill proficiency
+        bulkActions.addSkillDropdownFields.get(0).all(by.css('option')).get(2).click();
+        expect(bulkActions.addSkillDropdownFields.get(0).$('option:checked').getText()).toBe('Update Skill');
+
+        // Select skill to 'update' for users
+        bulkActions.selectSkillsInputFields.get(0).sendKeys(newSkillName + '\t');
+        bulkActions.skillProficiencyFields.get(0).click();
+        bulkActions.skillProficiencyFields.get(0).element(by.css('input')).sendKeys('55\t');
+
+        bulkActions.submitFormBtn.click();
+        expect(bulkActions.confirmModal.isDisplayed()).toBeTruthy();
+        bulkActions.confirmOK.click().then(function() {
+          expect(shared.successMessage.isDisplayed()).toBeTruthy();
+
+          // Verify skill is added to user with default proficiency
+          shared.firstTableRow.click();
+          // Wait for skills to be populated
+          browser.driver.wait(function() {
+            return users.userSkills.count().then(function(userSkillCount) {
+              return userSkillCount;
+            });
+          }, 5000);
+          var skillUpdated = false
+          users.userSkills.each(function(userSkillElement, skillIndex) {
+            userSkillElement.getText().then(function(userSkillText) {
+              if (userSkillText.indexOf(newSkillName) > -1) {
+                skillUpdated = true;
+                expect(users.editSkillProficiencyTds.get(skillIndex).getAttribute('value')).toBe('55');
+              }
+            });
+          }).then(function() {
+            expect(skillUpdated).toBeTruthy();
+          });
+        });
+      });
+    });
+  });
+
+  xit('should allow selected user\'s groups to be added', function() {
+    // Update All bulk actions
+    shared.actionsBtn.click();
+
+    // Select first three users; ASSUMPTION three exist
+    bulkActions.selectItemTableCells.get(0).click();
+    bulkActions.selectItemTableCells.get(1).click();
+    bulkActions.selectItemTableCells.get(2).click();
+
+    // Add group
+    bulkActions.selectChangeGroups.click();
+
+    expect(bulkActions.addNewGroupBtn.isEnabled()).toBeTruthy();
+    expect(bulkActions.addGroupDropdownFields.get(0).isEnabled()).toBeTruthy();
+    expect(bulkActions.selectGroupsInputFields.get(0).isEnabled()).toBeTruthy();
+    expect(bulkActions.removeGroupBtns.get(0).isEnabled()).toBeTruthy();
+
+    expect(bulkActions.addGroupDropdownFields.get(0).$('option:checked').getText()).toBe('Add Group');
+
+    // Select group to add to users
+    bulkActions.selectGroupsInputFields.get(0).click();
+    browser.driver.actions().sendKeys(protractor.Key.ARROW_DOWN).perform();
+    bulkActions.selectGroupsInputFields.get(0).sendKeys('\t');
+
+    bulkActions.selectGroupsInputFields.get(0).$('option:checked').getText().then(function(addedGroupName) {
+      bulkActions.submitFormBtn.click();
+      expect(bulkActions.confirmModal.isDisplayed()).toBeTruthy();
+      bulkActions.confirmOK.click().then(function() {
+        expect(shared.successMessage.isDisplayed()).toBeTruthy();
+
+        // Verify group is added to each user
+        var groupAdded;
+        for (var i = 0; i < 3; i++) {
+          groupAdded = false;
+          shared.tableElements.get(i).click();
+          users.userGroups.each(function(userGroupElement) {
+            userGroupElement.getText().then(function(userGroupText) {
+              if (userGroupText.indexOf(addedGroupName) > -1) {
+                groupAdded = true;
+              }
+            });
+          }).then(function() {
+            expect(groupAdded).toBeTruthy();
+          });
+        }
+      });
+    });
+  });
+
+  xit('should allow selected user\'s groups to be removed', function() {
+    // NOTE depends on previous test: users must have the same group added
+    // Update All bulk actions
+    shared.actionsBtn.click();
+
+    // Select first three users; ASSUMPTION three exist
+    bulkActions.selectItemTableCells.get(0).click();
+    bulkActions.selectItemTableCells.get(1).click();
+    bulkActions.selectItemTableCells.get(2).click();
+
+    // Remove group
+    bulkActions.selectChangeGroups.click();
+    bulkActions.addGroupDropdownFields.get(0).all(by.css('option')).get(1).click();
+    expect(bulkActions.addGroupDropdownFields.get(0).$('option:checked').getText()).toBe('Remove Group');
+
+    // Select group to add to users
+    bulkActions.selectGroupsInputFields.get(0).click();
+    browser.driver.actions().sendKeys(protractor.Key.ARROW_DOWN).perform();
+    bulkActions.selectGroupsInputFields.get(0).sendKeys('\t');
+
+    bulkActions.selectGroupsInputFields.get(0).$('option:checked').getText().then(function(removedGroupName) {
+      bulkActions.submitFormBtn.click();
+      expect(bulkActions.confirmModal.isDisplayed()).toBeTruthy();
+      bulkActions.confirmOK.click().then(function() {
+        expect(shared.successMessage.isDisplayed()).toBeTruthy();
+
+        // Verify group is removed from each user
+        for (var i = 0; i < 3; i++) {
+          shared.tableElements.get(i).click();
+          users.userGroups.each(function(userGroupElement) {
+            expect(userGroupElement.getText()).not.toContain(removedGroupName);
+          });
+        }
+      });
+    });
+  });
+
+  xit('should allow multiple groups to be added to the selected users', function() {
+    // Update All bulk actions
+    shared.actionsBtn.click();
+
+    // Select first three users; ASSUMPTION three exist
+    bulkActions.selectItemTableCells.get(0).click();
+    bulkActions.selectItemTableCells.get(1).click();
+    bulkActions.selectItemTableCells.get(2).click();
+
+    bulkActions.selectChangeGroups.click();
+
+    // Remove all Groups
+    bulkActions.selectGroupsInputFields.get(0).click();
+    bulkActions.selectGroupsInputFields.get(0).all(by.css('option')).count().then(function(groupCount) {
+      bulkActions.removeGroupBtns.get(0).click().then(function() {
+        for (var i = 0; i < (groupCount - 1); i++) {
+          // Add group bulk action
+          bulkActions.addNewGroupBtn.click();
+
+          // Add group
+          expect(bulkActions.addGroupDropdownFields.get(i).$('option:checked').getText()).toBe('Add Group');
+
+          // Select group to add to users
+          bulkActions.selectGroupsInputFields.get(i).click();
+          bulkActions.selectGroupsInputFields.get(i).all(by.css('option')).get(i + 1).click();
+        }
+      }).then(function() {
+        bulkActions.submitFormBtn.click();
+        expect(bulkActions.confirmModal.isDisplayed()).toBeTruthy();
+        bulkActions.confirmOK.click().then(function() {
+          expect(shared.successMessage.isDisplayed()).toBeTruthy();
+
+          // Verify groups are added to each user
+          for (var i = 0; i < 3; i++) {
+            shared.tableElements.get(i).click();
+            expect(users.userGroups.count()).toBe(groupCount-1);
+          }
+        });
+      });
+    });
+  });
+
+  xit('should allow multiple groups to be removed for the selected users', function() {
+    // Update All bulk actions
+    shared.actionsBtn.click();
+
+    // Select first three users; ASSUMPTION three exist
+    bulkActions.selectItemTableCells.get(0).click();
+    bulkActions.selectItemTableCells.get(1).click();
+    bulkActions.selectItemTableCells.get(2).click();
+
+    bulkActions.selectChangeGroups.click();
+
+    // Remove all Groups
+    bulkActions.selectGroupsInputFields.get(0).click();
+    bulkActions.selectGroupsInputFields.get(0).all(by.css('option')).count().then(function(groupCount) {
+      bulkActions.removeGroupBtns.get(0).click();
+      for (var i = 0; i < (groupCount - 1); i++) {
+        // Add group bulk action
+        bulkActions.addNewGroupBtn.click();
+
+        // Remove group
+        bulkActions.addGroupDropdownFields.get(i).all(by.css('option')).get(1).click();
+        expect(bulkActions.addGroupDropdownFields.get(i).$('option:checked').getText()).toBe('Remove Group');
+
+        // Select group to add to users
+        bulkActions.selectGroupsInputFields.get(i).click();
+        bulkActions.selectGroupsInputFields.get(i).all(by.css('option')).get(i + 1).click();
+      }
+    }).then(function() {
+      bulkActions.submitFormBtn.click();
+      expect(bulkActions.confirmModal.isDisplayed()).toBeTruthy();
+      bulkActions.confirmOK.click().then(function() {
+        expect(shared.successMessage.isDisplayed()).toBeTruthy();
+
+        // Verify groups are removed for each user
+        for (var i = 0; i < 3; i++) {
+          shared.tableElements.get(i).click();
+          expect(users.noUserGroupsMessage.isDisplayed()).toBeTruthy();
+        }
+      });
+    });
+  });
+
+  xit('should show message when all Groups or Skills have been removed', function() {
     shared.actionsBtn.click();
 
     // Enable Skills and Groups bulk actions
@@ -123,7 +724,7 @@ describe('The users view bulk actions', function() {
     expect(bulkActions.noGroupsMessage.isDisplayed()).toBeFalsy();
   });
 
-  it('should not display number of affected users below Skills and Groups', function() {
+  xit('should not display number of affected users below Skills and Groups', function() {
     shared.actionsBtn.click();
 
     // Enable Skills and Groups bulk actions
@@ -147,7 +748,7 @@ describe('The users view bulk actions', function() {
     expect(bulkActions.groupsAffectedUsers.isPresent()).toBeFalsy();
   });
 
-  it('should display the correct number of selected users and message in the Confirm modal', function() {
+  xit('should display the correct number of selected users and message in the Confirm modal', function() {
     // Select items
     shared.tableElements.count().then(function(tableCount) {
       shared.tableElements.count().then(function(tableCount) {
