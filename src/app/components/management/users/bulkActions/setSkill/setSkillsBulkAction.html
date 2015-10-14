@@ -12,24 +12,24 @@
       ng-disabled="! bulkAction.checked"
       ng-model="userSkillsBulkAction.selectedType"
       ng-options="item as item.display for item in userSkillsBulkActionTypes"
-      ng-change="onChange(userSkillsBulkAction)">
+      ng-change="onChangeType(userSkillsBulkAction)">
       <option disabled value="">{{'bulkActions.defaultActions' | translate}}</option>
     </select>
 
     <number-slider
       ng-disabled="! bulkAction.checked" class="pull-right"
-      ng-if="userSkillsBulkAction.selectedSkill.hasProficiency && userSkillsBulkAction.selectedType != 'remove'"
+      ng-if="userSkillsBulkAction.selectedSkill.hasProficiency && userSkillsBulkAction.selectedType.value != 'remove'"
       placeholder="{{'skill.details.proficiency' | translate}}"
       value="userSkillsBulkAction.params.proficiency"
-      min-value="0" max-value="100"
+      min-value="1" max-value="100"
       required="true"
       ng-changed="onChange(userSkillsBulkAction)" >
     </number-slider>
     <select
       ng-disabled="! bulkAction.checked"
       ng-model="userSkillsBulkAction.selectedSkill"
-      ng-options="skill as skill.name for skill in fetchSkills()"
-      ng-change="onChange(userSkillsBulkAction)">
+      ng-options="skill as skill.name for skill in availableSkills"
+      ng-change="onChangeSkill(userSkillsBulkAction)">
       <option disabled value="">{{'bulkActions.skills.defaultSkills' | translate}}</option>
     </select>
   </div>
@@ -37,3 +37,4 @@
     <i class="fa fa-times"></i>
   </a>
 </div>
+    
