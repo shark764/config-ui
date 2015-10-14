@@ -275,7 +275,7 @@ describe('The basic query builder', function() {
     });
   });
 
-  xit('should add all groups', function() {
+  it('should add all groups', function() {
     shared.createBtn.click();
 
     newQueue.allGroupsTypeAhead.click();
@@ -296,7 +296,7 @@ describe('The basic query builder', function() {
     });
   });
 
-  xit('should add all skills', function() {
+  it('should add all skills', function() {
     shared.createBtn.click();
 
     newQueue.anySkillsTypeAhead.click();
@@ -562,7 +562,7 @@ describe('The basic query builder', function() {
       expect(queues.noVersionsMsg.isDisplayed()).toBeTruthy();
 
       // Add version and select as default
-      queue.addNewVersionBtn.click();
+      queues.addNewVersionBtn.click();
       newVersion.createVersionBtn.click().then(function() {
         shared.waitForSuccess();
         expect(shared.successMessage.isDisplayed()).toBeTruthy();
