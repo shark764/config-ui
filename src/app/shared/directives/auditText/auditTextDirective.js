@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('auditText', ['$filter', 'User',
-    function ($filter, User) {
+  .directive('auditText', ['$filter', 'TenantUser', 'Session',
+    function ($filter, TenantUser, Session) {
       return {
         restrict: 'AE',
         scope: {
@@ -19,9 +19,10 @@ angular.module('liveopsConfigPanel')
               });
             }
 
-            var user = User.cachedGet({
-              id: $scope.userId
-            });
+            var user = TenantUser.cachedGet({
+              id: $scope.userId,
+              tenantId: Session.tenant.tenantId
+            }, 'AuditTextUsers');
 
             if(user.$resolved) {
               $scope.text = $filter('translate')($scope.translation, {

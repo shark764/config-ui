@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('tenantUserTransformer', ['User', function(User) {
+  .service('tenantUserTransformer', ['User', 'Session', function(User, Session) {
     var move = function(tenantUser, source, destination) {
       tenantUser.$user[destination ? destination : source] = tenantUser[source];
       delete tenantUser[source];
@@ -23,6 +23,9 @@ angular.module('liveopsConfigPanel')
       copy(tenantUser, 'id');
       copy(tenantUser, 'email');
 
+      //Required so that we can get a cache hit on TenantUser.cachedGet
+      tenantUser.tenantId = Session.tenant.tenantId;
+      
       tenantUser.$user.$original = angular.copy(tenantUser.$user);
     };
   }])
