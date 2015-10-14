@@ -34,13 +34,6 @@ describe('seperateValidation directive', function(){
     expect(seperatedController['inner-form']).not.toBeDefined();
   });
   
-  it('should replace the inner form\'s controller', function() {
-    doDefaultCompile();
-    
-    expect(controller.$addControl).toEqual(angular.noop);
-    expect(controller.$removeControl).toEqual(angular.noop);
-  });
-  
   it('should do nothing if not applied to a form', function() {
     element = $compile('<ng-form name="first-form"><input seperate-validation name="input-one"></input></ng-form>')($scope);
     var formController = element.controller('form');

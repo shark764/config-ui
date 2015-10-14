@@ -10,6 +10,16 @@ describe('The groups view bulk actions', function() {
 
   beforeAll(function() {
     loginPage.login(params.login.user, params.login.password);
+
+    // Ensure group exists
+    browser.get(shared.groupsPageUrl);
+    var random = Math.floor((Math.random() * 1000) + 1);
+    browser.get(shared.groupsPageUrl);
+    shared.createBtn.click();
+    groups.nameFormField.sendKeys('Group Name ' + random);
+    shared.submitFormBtn.click().then(function() {
+      expect(shared.successMessage.isDisplayed()).toBeTruthy();
+    });
   });
 
   beforeEach(function() {
@@ -170,7 +180,7 @@ describe('The groups view bulk actions', function() {
     expect(shared.successMessage.isPresent()).toBeFalsy();
   });
 
-  xit('should only affect selected groups', function() {
+  it('should only affect selected groups', function() {
     shared.tableElements.then(function(originalGroups) {
 
       // Select odd groups and leave even groups unselected, skip everyone group

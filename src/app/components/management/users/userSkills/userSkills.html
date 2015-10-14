@@ -5,36 +5,51 @@
 <loading ng-if="!fetchSkills().$resolved"></loading>
 
 <div ng-show="fetchSkills().$resolved" class="detail-group">
-<ng-form seperate-validation ng-disabled="saving" id="skillsForm" name="skillsForm" 
+<ng-form seperate-validation ng-disabled="saving" id="skillsForm" name="skillsForm"
   ng-show="fetchSkills().$resolved && ['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'MANAGE_ALL_USER_SKILLS', 'MANAGE_TENANT_ENROLLMENT'] | hasPermission">
-  <type-ahead hover="true" placeholder="{{'details.skills.placeholder' | translate}}"
-    items="fetchSkills()" selected-item="selectedSkill" name-field="name" on-enter="save()"></type-ahead>
+  <type-ahead placeholder="{{'details.skills.placeholder' | translate}}"
+      items="fetchSkills()"
+      name-field="name"
+      on-enter="save(item)"
+      selected-item="selectedSkill"
+      filters="filterSkills"></type-ahead>
   <number-slider
-    ng-if="selectedSkill.hasProficiency || (skillsForm.name.$dirty && ! selectedSkill.id)"
+    id="new-user-skill-proficiency" ng-if="selectedSkill.hasProficiency || (skillsForm.name.$dirty && ! selectedSkill.id)"
     placeholder="{{'skill.details.proficiency' | translate}}" value="newUserSkill.proficiency"
-    min-value="0" max-value="100" ></number-slider>
+    min-value="1" max-value="100" ></number-slider>
   <div>
-    <a ng-show="!saving" id="add-skill-btn" ng-disabled="!selectedSkill" ng-click="save()" class="btn"><i class="fa fa-plus"></i></a>
+    <a ng-show="!saving" id="add-skill-btn" ng-disabled="!selectedSkill" ng-click="save(selectedSkill)" class="btn"><i class="fa fa-plus"></i></a>
     <a ng-show="saving" ng-disabled="true" class="btn btn-primary"><i class="fa fa-refresh fa-spin"></i></a>
   </div>
 </ng-form>
 
   <p id="no-user-skills" class="null" ng-if="userSkills.length == 0">{{'details.skills.none' | translate}}</p>
-  <table scroll-table max-height="300" class="table" ng-show="userSkills.length > 0">
-    <thead>
-      <tr>
-        <th>{{'value.name' | translate}}</th>
-        <th style="text-align:right">{{'skill.details.proficiency' | translate}}</th>
-        <th>&nbsp;</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr ng-repeat="userSkill in userSkills | orderBy:'name'">
-        <td>{{userSkill.name}}</td>
-        <td style="text-align:right">{{userSkill.proficiency > 0 ? userSkill.proficiency : "-"}}</td>
-        <td style="text-align:right"><i class="fa fa-times remove" ng-click="remove(userSkill)"
-          title="{{'value.remove' | translate}}"></i></td>
-      </tr>
-    </tbody>
-  </table>
+  <ng-form seperate-validation name="userSkillsForm">
+    <table scroll-table max-height="300" class="table" ng-show="userSkills.length > 0">
+      <thead>
+        <tr>
+          <th>{{'value.name' | translate}}</th>
+          <th style="text-align:right">{{'skill.details.proficiency' | translate}}</th>
+          <th>&nbsp;</th>
+          <th class="control-col">&nbsp;</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="userSkill in userSkills | orderBy:'name'">
+          <td>{{userSkill.name}}</td>
+          <td style="text-align:right;padding:0">
+            <input id="proficiency{{$index}}" name="proficiency{{$index}}" ng-show="userSkill.proficiency > 0 || userSkillsForm['proficiency' + $index].$dirty" ng-required="true" type="number" min="1" max="100" ng-model="userSkill.proficiency"/>
+          </td>
+          <td>
+            <a id="cancel-proficiency-edit-btn"ng-show="userSkill.proficiency != userSkill.$original.proficiency" class="btn" ng-click="userSkill.reset()">{{'value.cancel'| translate}}</a>
+            <button id="save-proficiency-edit-btn" ng-show="userSkill.proficiency != userSkill.$original.proficiency" ng-disabled="userSkillsForm['proficiency' + $index].$invalid" class="btn btn-primary" ng-click="updateUserSkill(userSkill)">{{'value.save' | translate}}</button>
+          </td>
+          <td style="text-align:right">
+            <i class="fa fa-times remove" ng-click="remove(userSkill)"
+            title="{{'value.remove' | translate}}"></i>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </ng-form>
 </div>

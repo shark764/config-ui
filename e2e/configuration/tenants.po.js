@@ -2,10 +2,11 @@
 var shared = require('../shared.po.js');
 
 var TenantsPage = function() {
-  this.nameFormField = element(by.model('resource.name'));
-  this.descriptionFormField = element(by.model('resource.description'));
-  this.statusFormToggle = element(by.model('resource.active'));
-  this.adminFormDropDown = element(by.model('resource.adminUserId'));
+  this.nameFormField = element(by.model('selectedTenant.name'));
+  this.descriptionFormField = element(by.model('selectedTenant.description'));
+  this.statusFormToggle = element(by.model('selectedTenant.active'));
+  this.adminFormDropDown = element(by.model('selectedTenant.adminUserId'));
+  this.adminDropDownItems = this.adminFormDropDown.all(by.css('option'));
 
   this.region = element(by.id('tenant-details-region'));
 
@@ -23,6 +24,7 @@ var TenantsPage = function() {
     shared.createBtn.click();
     this.nameFormField.sendKeys(newTenantName);
     shared.submitFormBtn.click();
+    shared.waitForSuccess();
     return newTenantName;
   };
 

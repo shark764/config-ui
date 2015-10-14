@@ -12,7 +12,8 @@ angular.module('liveopsConfigPanel')
         expandIcon: '@',
         orderBy: '@',
         hovering: '=?',
-        hoverTracker: '=?'
+        hoverTracker: '=?',
+        showOnHover: '='
       },
       templateUrl : 'app/shared/directives/dropdown/dropdown.html',
       controller : 'DropdownController',
@@ -51,7 +52,7 @@ angular.module('liveopsConfigPanel')
         }
 
         scope.mouseIn = function(){
-          if (scope.hovering){
+          if (scope.hovering || scope.showOnHover){
             scope.showDrop = true;
             scope.clearOtherHovers();
           }

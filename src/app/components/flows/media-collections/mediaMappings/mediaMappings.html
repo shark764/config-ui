@@ -22,25 +22,39 @@
     <tr ng-show="! collection.mediaMap.length"><td colspan="3"><p class="null">{{'media.collections.mapping.add' | translate}}</p></td></tr>
     <tr ng-repeat="mapping in collection.mediaMap">
       <td>
-        <form-error ng-init="mappingFieldName='mapping' + $index" field="form[mappingFieldName]"
+        <form-error
+          ng-init="mappingFieldName='mapping' + $index"
+          field="form[mappingFieldName]"
           error-type-required="{{'media.collections.mappingLookup.error.required' | translate}}"
           error-type-media-map-duplicate="{{'media.collections.mappingLookup.error.duplicate' | translate}}">
         </form-error>
-        <input
+        <input type="text"
           ng-disabled="!('MANAGE_ALL_MEDIA' | hasPermission)"
           ng-change="'{{mapping.lookup}}' == collection.defaultMediaKey ? resetDefaultMediaKey() : ''"
           ng-required="true"
-          type="text"
           name="{{mappingFieldName}}"
-          ng-model="mapping.lookup" />
+          ng-model="mapping.lookup">
+        </input>
       </td>
       <td>
-        <form-error ng-init="fieldName='source' + $index" field="form[fieldName]"
-          error-type-required="{{'media.collections.mappingId.error' | translate}}"></form-error>
-        <lo-multibox ng-disabled="!('MANAGE_ALL_MEDIA' | hasPermission)" model="mapping" items="fetchMedias()" resource-name="Media" name="{{fieldName}}" on-item-select="onSelect()"></lo-multibox>
+        <form-error field="form[fieldName]"
+          ng-init="fieldName='source' + $index"
+          error-type-required="{{'media.collections.mappingId.error' | translate}}">
+        </form-error>
+        <lo-multibox name="{{fieldName}}"
+          ng-init="onSelectCallback = onSelect(mapping); initMapping(mapping)"
+          ng-disabled="!('MANAGE_ALL_MEDIA' | hasPermission)"
+          items="fetchMedias()"
+          resource-name="Media"
+          selected-item="mapping.$media"
+          on-item-select="onSelectCallback">
+        </lo-multibox>
       </td>
       <td class='remove-col'>
-        <i ng-hide="!('MANAGE_ALL_MEDIA' | hasPermission)" id="remove-media-mapping-button" class="fa fa-times remove" ng-click="removeMapping($index)"></i>
+        <i id="remove-media-mapping-button"
+          class="fa fa-times remove"
+          ng-hide="!('MANAGE_ALL_MEDIA' | hasPermission)"
+          ng-click="removeMapping($index)"></i>
       </td>
     </tr>
   </tbody>

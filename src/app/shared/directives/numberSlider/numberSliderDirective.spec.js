@@ -1,5 +1,7 @@
 'use strict';
 
+/*global jQuery : false */
+
 describe('numberSlider directive', function(){
   var $scope,
     element,
@@ -8,6 +10,7 @@ describe('numberSlider directive', function(){
   
   beforeEach(module('liveopsConfigPanel'));
   beforeEach(module('gulpAngular')); 
+  beforeEach(module('liveopsConfigPanel.mock.content'));
   
   beforeEach(inject(['$compile', '$rootScope', function($compile,_$rootScope_) {
     $scope = _$rootScope_.$new();
@@ -101,17 +104,37 @@ describe('numberSlider directive', function(){
     it('should increase value by 1', inject(function() {
       doCompile();
 
-      isolateScope.value = '1';
+      isolateScope.value = 1;
       isolateScope.increment();
       expect(isolateScope.value).toEqual(2);
     }));
     
-    it('should set value to 1 if it is null', inject(function() {
+    it('should set value to 0 if it is null and no minvalue given', inject(function() {
       doCompile();
       
       isolateScope.value = null;
       isolateScope.increment();
-      expect(isolateScope.value).toEqual(1);
+      expect(isolateScope.value).toEqual(0);
+    }));
+    
+    it('should set value to minValue if value is null', inject(function($compile) {
+      element = $compile('<number-slider min-value="-1" value="value"></number-slider>')($scope);
+      $scope.$digest();
+      isolateScope = element.isolateScope();
+
+      isolateScope.increment();
+      isolateScope.$digest();
+      expect(isolateScope.value).toEqual(-1);
+    }));
+    
+    it('should not increment value if value is already maxValue', inject(function($compile) {
+      element = $compile('<number-slider max-value="10" value="value"></number-slider>')($scope);
+      $scope.$digest();
+      isolateScope = element.isolateScope();
+
+      isolateScope.value = 10;
+      isolateScope.increment();
+      expect(isolateScope.value).toEqual(10);
     }));
   });
   
@@ -124,12 +147,58 @@ describe('numberSlider directive', function(){
       expect(isolateScope.value).toEqual(0);
     }));
     
-    it('should set value to -1 if it is null', inject(function() {
+    it('should set value to 0 if it is null', inject(function() {
       doCompile();
       
       isolateScope.value = null;
       isolateScope.decrement();
+      expect(isolateScope.value).toEqual(0);
+    }));
+    
+    it('should set value to minValue if value is null', inject(function($compile) {
+      element = $compile('<number-slider min-value="-1" value="value"></number-slider>')($scope);
+      $scope.$digest();
+      isolateScope = element.isolateScope();
+
+      isolateScope.decrement();
+      isolateScope.$digest();
       expect(isolateScope.value).toEqual(-1);
+    }));
+    
+    it('should not decrease value if value is already minValue', inject(function($compile) {
+      element = $compile('<number-slider min-value="10" value="value"></number-slider>')($scope);
+      $scope.$digest();
+      isolateScope = element.isolateScope();
+
+      isolateScope.value = 10;
+      isolateScope.decrement();
+      expect(isolateScope.value).toEqual(10);
+    }));
+  });
+  
+  describe('keypress event handler', function(){
+    it('should call decrement on keydown', inject(function($timeout) {
+      doCompile();
+      
+      spyOn(isolateScope, 'decrement');
+      
+      var event = jQuery.Event('keydown');
+      event.which = 40;
+      element.find('input').trigger(event);
+      $timeout.flush();
+      expect(isolateScope.decrement).toHaveBeenCalled();
+    }));
+    
+    it('should call increment on keyup', inject(function($timeout) {
+      doCompile();
+      
+      spyOn(isolateScope, 'increment');
+      
+      var event = jQuery.Event('keydown');
+      event.which = 38;
+      element.find('input').trigger(event);
+      $timeout.flush();
+      expect(isolateScope.increment).toHaveBeenCalled();
     }));
   });
 });

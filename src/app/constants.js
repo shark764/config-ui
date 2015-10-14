@@ -1,6 +1,10 @@
 'use strict';
 
+/*global window: false */
+
 angular.module('liveopsConfigPanel.config', [])
+
+.constant('jsedn', window.jsedn)
 
 .constant('preferenceKey', 'LIVEOPS-PREFERENCE-KEY')
 

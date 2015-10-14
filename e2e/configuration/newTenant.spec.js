@@ -33,7 +33,7 @@ describe('The create new tenants view', function() {
     expect(tenants.adminFormDropDown.$('option:checked').getText()).toBe(params.login.firstName + ' ' + params.login.lastName);
 
     // Region is not displayed when adding a new tenant, defaults to current region
-    expect(tenants.region.isPresent()).toBeFalsy();
+    //expect(tenants.region.isPresent()).toBeFalsy();
   });
 
   it('should successfully create a new tenant and add to the tenants table and dropdown', function() {
@@ -104,7 +104,7 @@ describe('The create new tenants view', function() {
           }
         });
       }
-    }).then(function () {
+    }).then(function() {
       shared.submitFormBtn.click().then(function() {
         expect(shared.successMessage.isDisplayed()).toBeTruthy();
 
@@ -215,4 +215,23 @@ describe('The create new tenants view', function() {
     expect(shared.successMessage.isPresent()).toBeFalsy();
     expect(shared.tableElements.count()).toBe(tenantCount);
   });
+
+
+  it('should not change selected navbar tenant when new tenant is created', function() {
+    shared.tenantsNavDropdown.click();
+    shared.tenantsNavDropdownContents.get(1).getText().then(function(selectedTenantName) {
+      shared.tenantsNavDropdownContents.get(1).click();
+      shared.createBtn.click();
+      randomTenant = Math.floor((Math.random() * 1000) + 1);
+
+      tenants.nameFormField.sendKeys('Tenant ' + randomTenant);
+      tenants.descriptionFormField.sendKeys('This is the tenant description for tenant ' + randomTenant);
+      shared.submitFormBtn.click().then(function() {
+        expect(shared.successMessage.isDisplayed()).toBeTruthy();
+
+        expect(shared.tenantsNavDropdown.getText()).toBe(selectedTenantName);
+      });
+    });
+  });
+
 });
