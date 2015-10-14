@@ -5,7 +5,7 @@
             "entity": "activity",
             "label": "Play Media",
             "bindings": {},
-            "targeted": true,
+            "props": ["name", "params", "bindings", "loop", "target"],
             "target": "twilio",
             "signals": [],
             "inputs": [
@@ -124,7 +124,7 @@
                 "path": "digits"
               }
             },
-            "targeted": true,
+            "props": ["name", "params", "bindings", "loop", "target"],
             "target": "twilio",
             "signals": [],
             "inputs": [
@@ -262,7 +262,7 @@
                 "path": "bindings.resource"
               }
             },
-            "targeted": false,
+            "props": ["name", "params", "bindings", "loop"],
             "signals": [],
             "inputs": [
                 {
@@ -317,7 +317,7 @@
             "entity": "activity",
             "label": "Dequeue",
             "bindings": {},
-            "targeted": false,
+            "props": ["name", "params", "bindings", "loop"],
             "signals": [],
             "inputs": [
                 {
@@ -359,7 +359,7 @@
             "name": "work-offer",
             "entity": "activity",
             "label": "Work Offer",
-            "targeted": true,
+            "props": ["name", "params", "bindings", "loop", "target"],
             "target": "client",
             "bindings": {},
             "signals": [],
@@ -472,7 +472,7 @@
             "entity": "activity",
             "label": "Free Resource",
             "bindings": {},
-            "targeted": false,
+            "props": ["name", "params", "bindings", "loop"],
             "signals": [],
             "inputs": [
                 {
@@ -544,7 +544,7 @@
             "name": "add-participant",
             "entity": "activity",
             "label": "Add Participant",
-            "targeted": true,
+            "props": ["name", "params", "bindings", "loop", "target"],
             "target": "twilio",
             "bindings": {},
             "signals": [],
@@ -665,7 +665,7 @@
             "name": "dial",
             "entity": "activity",
             "label": "Dial",
-            "targeted": true,
+            "props": ["name", "params", "bindings", "loop", "target"],
             "target": "twilio",
             "bindings": {},
             "signals": ["customer-disconnect", "resource-disconnect"],
@@ -748,7 +748,7 @@
             "name": "disconnect",
             "entity": "activity",
             "label": "Disconnect",
-            "targeted": true,
+            "props": ["name", "params", "bindings", "loop", "target"],
             "target": "twilio",
             "bindings": {},
             "signals": [],
@@ -802,7 +802,7 @@
             "name": "hold",
             "entity": "activity",
             "label": "Hold",
-            "targeted": true,
+            "props": ["name", "params", "bindings", "loop", "target"],
             "target": "twilio",
             "bindings": {},
             "signals": [],
@@ -875,7 +875,7 @@
             "name": "resume",
             "entity": "activity",
             "label": "Resume",
-            "targeted": true,
+            "props": ["name", "params", "bindings", "loop", "target"],
             "target": "twilio",
             "bindings": {},
             "signals": [],
@@ -931,7 +931,7 @@
             "label": "Agent Notification",
             "bindings": {},
             "signals": [],
-            "targeted": false,
+            "props": ["name", "params", "bindings", "loop"],
             "inputs": [
               {
                   "name": "notification-type",
@@ -1015,7 +1015,7 @@
             "label": "Set Attribute",
             "bindings": {},
             "signals": [],
-            "targeted": false,
+            "props": ["name", "params", "bindings", "loop"],
             "inputs": [
                 {
                     "name": "name",
@@ -1063,7 +1063,7 @@
             "label": "Set Global Attribute",
             "bindings": {},
             "signals": [],
-            "targeted": false,
+            "props": ["name", "params", "bindings", "loop"],
             "inputs": [
                 {
                     "name": "name",
