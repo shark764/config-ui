@@ -27,6 +27,7 @@ var QueuePage = function() {
   this.priorityRateUnitDefault = 'seconds';
 
   // EXISTING QUEUE VERSIONS
+  this.noVersionsMsg = element(by.id('no-versions-msg'));
   this.versionsTable = element(by.css('.queue-version-table'));
   this.queueVersions = this.versionsTable.all(by.css('[id^=version-row]')); // All rows with id that starts with 'version-row'
   this.activeVersion = this.versionsTable.element(by.css('.fa-circle'));

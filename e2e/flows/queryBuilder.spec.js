@@ -490,7 +490,7 @@ describe('The basic query builder', function() {
         return queues.queueVersions.count().then(function(queueVersionCount) {
           return queueVersionCount == 1;
         });
-      }, 5000).then(function () {
+      }, 5000).then(function() {
         // Verify all selected groups/skills are saved
         expect(queues.basicQueryDetails.get(0).getText()).toContain('All of these groups:');
         expect(queues.basicQueryDetails.get(0).getText()).toContain('Any of these groups:');
@@ -540,5 +540,25 @@ describe('The basic query builder', function() {
     });
   });
 
+  it('should create queue without version when advanced query field is submited with an invalid query', function() {
+    // TODO Update after TITAN2-3290
+    shared.createBtn.click();
+    randomQueue = Math.floor((Math.random() * 100) + 1);
+
+    newQueue.showAdvancedQueryLink.click();
+    newQueue.advancedQueryFormField.sendKeys('Not a valid query');
+
+    // Complete required queue fields
+    queues.nameFormField.sendKeys('New Queue ' + randomQueue);
+    shared.submitFormBtn.click().then(function() {
+      shared.waitForSuccess();
+      expect(shared.successMessage.isDisplayed()).toBeTruthy();
+      expect(shared.errorMessage.isDisplayed()).toBeTruthy();
+      expect(shared.errorMessage.getText()).toContain("Sorry, the initial query for this queue was invalid. Please create a new query version.");
+
+      expect(shared.tableElements.count()).toBeGreaterThan(queueCount);
+      expect(queues.noVersionsMsg.isDisplayed()).toBeTruthy();
+    });
+  });
 
 });
