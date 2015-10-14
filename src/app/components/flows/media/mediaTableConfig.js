@@ -23,7 +23,8 @@ angular.module('liveopsConfigPanel')
           'name': '$original.type',
           'id': 'type-column-dropdown',
           'lookup': '$original:type',
-          'filter': 'selectedOptions'
+          'filter': 'selectedOptions',
+          'transclude': true
         }, {
           'header': {
             'display': $translate.instant('value.properties')

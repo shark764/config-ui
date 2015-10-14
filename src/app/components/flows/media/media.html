@@ -4,7 +4,14 @@
   items="fetchMedias()"
   selected="selectedMedia"
   resource-name="Media"
-  hide-bulk-actions="true"></table-controls>
+  hide-bulk-actions="true">
+  
+  <div name="$original.type">
+    <span ng-show="item.type === 'tts'">{{'media.details.mediaTypes.tts' | translate}}</span>
+    <span ng-show="item.type === 'audio'">{{'media.details.mediaTypes.audio' | translate}}</span>
+  </div>
+  
+  </table-controls>
 
 <resize-handle
   ng-show="!! selectedMedia"

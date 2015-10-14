@@ -8,7 +8,9 @@ describe('auditText directive', function () {
 
   beforeEach(module('liveopsConfigPanel'));
   beforeEach(module('gulpAngular'));
+  beforeEach(module('liveopsConfigPanel.mock.content'));
   beforeEach(module('liveopsConfigPanel.mock.content.management.users'));
+  beforeEach(module('liveopsConfigPanel.mock.content.management.tenantUsers'));
 
   beforeEach(module('pascalprecht.translate', function ($translateProvider) {
     $translateProvider.translations('en', {
@@ -38,10 +40,10 @@ describe('auditText directive', function () {
       expect(text).toEqual('A string');
     });
 
-    it('should translate the displayname with the one returned by usercache',
-      inject(['$httpBackend', '$q', 'User', 'apiHostname', 'mockUsers',
-        function ($httpBackend, $q, User, apiHostname, mockUsers) {
-          $httpBackend.expect('GET', apiHostname + '/v1/users/userId1').respond(mockUsers[0]);
+    it('should translate the displayname with the one returned by tenantuser cache',
+      inject(['$httpBackend', '$q', 'TenantUser', 'apiHostname', 'mockTenantUsers',
+        function ($httpBackend, $q, TenantUser, apiHostname, mockTenantUsers) {
+          $httpBackend.expect('GET', apiHostname + '/v1/tenants/tenant-id/users/userId1').respond(mockTenantUsers[0]);
 
           element = $compile('<audit-text translation="value.displayName" user-id="user.id"></audit-text>')($scope);
           $scope.$digest();
