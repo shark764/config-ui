@@ -24,5 +24,9 @@ angular.module('liveopsConfigPanel')
       $scope.bulkActions = {
         setIntegrationStatus: new BulkAction()
       };
+      
+      $scope.submit = function(){
+        return $scope.selectedIntegration.save();
+      };
     }
   ]);

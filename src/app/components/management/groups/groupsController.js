@@ -16,21 +16,11 @@ angular.module('liveopsConfigPanel')
         this.members = result;
         return result;
       };
-
+      
       $scope.fetchGroups = function () {
         return Group.cachedQuery({
           tenantId: Session.tenant.tenantId
         });
-      };
-
-      Group.prototype.preCreate = function () {
-        delete this.members;
-        return this;
-      };
-
-      Group.prototype.postCreate = function () {
-        this.fetchGroupUsers();
-        return this;
       };
 
       $scope.$on('table:on:click:create', function () {
@@ -45,12 +35,18 @@ angular.module('liveopsConfigPanel')
         setGroupStatus: new BulkAction()
       };
 
-      $scope.additional = {
-        gotoUserPage: function (userId) {
-          $state.transitionTo('content.management.users', {
-            id: userId
-          });
-        }
+      $scope.gotoUserPage = function (userId) {
+        $state.transitionTo('content.management.users', {
+          id: userId
+        });
+      };
+      
+      $scope.submit = function(){
+        delete $scope.selectedGroup.members;
+        
+        return $scope.selectedGroup.save(function(result){
+          result.fetchGroupUsers();
+        });
       };
     }
   ]);

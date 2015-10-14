@@ -20,8 +20,6 @@ angular.module('liveopsConfigPanel')
         
         // Replace form controller with a "null-controller"
         var nullFormCtrl = {
-          $addControl: angular.noop,
-          $removeControl: angular.noop,
 
           $setValidity: function () {
             formController.$invalid = false;

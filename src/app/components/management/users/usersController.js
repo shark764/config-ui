@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('UsersController', ['$scope', '$window', '$parse', 'User', 'Session', 'AuthService', 'userTableConfig', 'Alert', 'flowSetup', 'BulkAction', '$q', '$location', 'lodash', 'Chain', 'TenantUser', 'TenantRole', 'queryCache', 'UserPermissions', 'PlatformRole', 'TenantUserGroups',
-    function($scope, $window, $parse, User, Session, AuthService, userTableConfig, Alert, flowSetup, BulkAction, $q, $location, _, Chain, TenantUser, TenantRole, queryCache, UserPermissions, PlatformRole, TenantUserGroups) {
+  .controller('UsersController', ['$scope', '$window', '$parse', 'User', 'Session', 'AuthService', 'userTableConfig', 'Alert', 'flowSetup', 'BulkAction', '$q', '$location', 'lodash', 'Chain', 'TenantUser', 'TenantRole', 'queryCache', 'UserPermissions', 'PlatformRole', 'TenantUserGroups', 'Modal',
+    function($scope, $window, $parse, User, Session, AuthService, userTableConfig, Alert, flowSetup, BulkAction, $q, $location, _, Chain, TenantUser, TenantRole, queryCache, UserPermissions, PlatformRole, TenantUserGroups, Modal) {
       var self = this;
       
       $scope.forms = {};
@@ -168,6 +168,23 @@ angular.module('liveopsConfigPanel')
         }
         
         return $q.all(promises);
+      };
+      
+      $scope.expireTenantUser = function () {
+        Modal.showConfirm({
+          message: 'This will prevent the user from accepting their invitation. Continue?',
+          okCallback: function(){
+            $scope.selectedTenantUser.status = 'pending';
+            
+            $scope.selectedTenantUser.save({
+              tenantId: Session.tenant.tenantId
+            }).then(function() {
+              Alert.success('Invitation revoked');
+            }, function() {
+              Alert.error('An error occured. Invite remains active.');
+            });
+          }
+        });
       };
       
       $scope.saveTenantUser = this.saveTenantUser;

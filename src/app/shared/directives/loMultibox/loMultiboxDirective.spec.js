@@ -31,9 +31,10 @@ describe('loMultibox directive', function(){
       getDisplay: jasmine.createSpy('getDisplay').and.returnValue('3')
     }];
     
-    $scope.model = {importantprop: 'important value'};
+    $scope.selectedItem = $scope.items[1];
 
-    element = $compile('<lo-multibox items="items" model="model" resource-name="myresource" name="myinput" display-field="displayname"></lo-multibox>')($scope);
+    element = $compile('<lo-multibox items="items" selected-item="selectedItem" ' +
+      'resource-name="myresource"></lo-multibox>')($scope);
     $scope.$digest();
     isolateScope = element.isolateScope();
   }]));
@@ -74,18 +75,6 @@ describe('loMultibox directive', function(){
   });
 
   describe('onSelect function', function () {
-    it('should copy selected id into model but leave other properties untouched', function () {
-      isolateScope.onSelect({
-        id: '1234',
-        otherprop: 'NO',
-        getDisplay: jasmine.createSpy('getDisplay').and.returnValue('1234')
-      });
-
-      expect($scope.model.id).toEqual('1234');
-      expect($scope.model.otherprop).toBeUndefined();
-      expect($scope.model.importantprop).toEqual('important value');
-    });
-
     it('should disable edit and showDrop modes', inject(function () {
       isolateScope.showDrop = true;
       isolateScope.createMode = true;

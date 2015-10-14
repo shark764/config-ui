@@ -91,13 +91,6 @@ describe('userGroups directive', function() {
         expect($scope.userGroups).not.toBeDefined();
       }));
 
-      it('should update filtered', inject(function() {
-        isolateScope.filtered = [];
-        isolateScope.fetch();
-        $httpBackend.flush();
-        expect(isolateScope.filtered.length).toEqual(2);
-      }));
-
       it('should call updatecollapsestate', inject(['$timeout', function($timeout) {
         isolateScope.fetch();
         $timeout.flush();
@@ -127,19 +120,10 @@ describe('userGroups directive', function() {
       }]));
 
       it('should remove the item from userGroups list', inject(function() {
-        isolateScope.updateFiltered();
         expect(isolateScope.userGroups.length).toBe(1);
         isolateScope.remove(isolateScope.userGroups[0]);
         $httpBackend.flush();
         expect(isolateScope.userGroups.length).toBe(0);
-      }));
-
-      it('should add the removed group to the filtered list', inject(function() {
-        isolateScope.updateFiltered();
-        expect(isolateScope.filtered.length).toBe(2);
-        isolateScope.remove(isolateScope.userGroups[0]);
-        $httpBackend.flush();
-        expect(isolateScope.filtered.length).toBe(3);
       }));
     });
     
@@ -178,8 +162,7 @@ describe('userGroups directive', function() {
 
       it('should not save if no group is selected', inject(function() {
         expect(isolateScope.save).toBeDefined();
-        $scope.selectedGroup = null;
-        isolateScope.save();
+        isolateScope.save(null);
       }));
 
       it('should set the saving flag to true', inject(function() {
@@ -191,60 +174,20 @@ describe('userGroups directive', function() {
         expect(isolateScope.saving).toBeTruthy();
       }));
 
-      it('should call creategroup if the user entered a new one', inject(function() {
+      it('should call add a new group is given a string', inject(function() {
         spyOn(isolateScope, 'saveUserGroup');
         $httpBackend.expectPOST(apiHostname + '/v1/tenants/tenant-id/groups');
-        isolateScope.selectedGroup = {
-          tenantId: 'tenant-id'
-        };
-        isolateScope.save();
+        isolateScope.save('new-group');
         $httpBackend.flush();
       }));
       
       it('should alert if creating a group failed', inject(['Alert', function(Alert) {
         spyOn(Alert, 'error');
-        spyOn(isolateScope, 'createGroup').and.callFake(function(name, success, fail){
-          fail();
-        });
-        
-        isolateScope.selectedGroup = {name: 'a group'};
-        isolateScope.save();
+        $httpBackend.expectPOST(apiHostname + '/v1/tenants/tenant-id/groups').respond(500);
+        isolateScope.save('a group');
+        $httpBackend.flush();
         expect(Alert.error).toHaveBeenCalled();
       }]));
-    });
-    
-    describe('createGroup function', function() {
-      it('should exist', inject(function() {
-        expect(isolateScope.createGroup).toBeDefined();
-        expect(isolateScope.createGroup).toEqual(jasmine.any(Function));
-      }));
-
-      it('should make call to create a group', inject(function() {
-        $httpBackend.expectPOST(apiHostname + '/v1/tenants/tenant-id/groups');
-        isolateScope.createGroup('groupname');
-        $httpBackend.flush();
-
-        expect(isolateScope.selectedGroup.id).toEqual('groupId100');
-      }));
-
-      it('should call success callback on success', inject(function() {
-        var successSpy = jasmine.createSpy('success');
-        var failSpy = jasmine.createSpy('fail');
-        isolateScope.createGroup('groupname', successSpy, failSpy);
-        $httpBackend.flush();
-        expect(successSpy).toHaveBeenCalled();
-      }));
-
-      it('should call fail callback on success', inject(function() {
-        var successSpy = jasmine.createSpy('success');
-        var failSpy = jasmine.createSpy('fail');
-        Session.tenant.tenantId = '2';
-        $httpBackend.when('POST', apiHostname + '/v1/tenants/2/groups').respond(500);
-        isolateScope.createGroup('groupname', successSpy, failSpy);
-        $httpBackend.flush();
-        expect(failSpy).toHaveBeenCalled();
-        expect(successSpy).not.toHaveBeenCalled();
-      }));
     });
     
     describe('saveUserGroup function', function() {
@@ -255,9 +198,6 @@ describe('userGroups directive', function() {
             success();
           }
         };
-        isolateScope.selectedGroup = {
-          id: 'newgroup'
-        };
       });
 
       it('should exist', inject(function() {
@@ -267,28 +207,26 @@ describe('userGroups directive', function() {
 
       it('should call save on newUserGroup', inject(function() {
         spyOn(isolateScope.newGroupUser, '$save');
-        isolateScope.saveUserGroup();
+        isolateScope.saveUserGroup({
+          id: 'newgroup'
+        });
         expect(isolateScope.newGroupUser.$save).toHaveBeenCalled();
-      }));
-
-      it('should call updateFiltered on success', inject(function() {
-        spyOn(isolateScope, 'updateFiltered');
-        isolateScope.saveUserGroup();
-        expect(isolateScope.updateFiltered).toHaveBeenCalled();
       }));
 
       it('should call reset on success', inject(function() {
         spyOn(isolateScope, 'reset');
-        isolateScope.saveUserGroup();
+        isolateScope.saveUserGroup({
+          id: 'newgroup'
+        });
         expect(isolateScope.reset).toHaveBeenCalled();
       }));
       
       it('should add the group to the user object on success', inject(function() {
         expect(isolateScope.user.groups.length).toBe(0);
-        expect(isolateScope.user.$original.groups.length).toBe(0);
-        isolateScope.saveUserGroup();
+        isolateScope.saveUserGroup({
+          id: 'newgroup'
+        });
         expect(isolateScope.user.groups.length).toBe(1);
-        expect(isolateScope.user.$original.groups.length).toBe(1);
       }));
 
       it('should not reset on failure', inject(function() {
@@ -296,7 +234,9 @@ describe('userGroups directive', function() {
           failure();
         };
         spyOn(isolateScope, 'reset');
-        isolateScope.saveUserGroup();
+        isolateScope.saveUserGroup({
+          id: 'newgroup'
+        });
         expect(isolateScope.reset).not.toHaveBeenCalled();
       }));
 
@@ -305,7 +245,9 @@ describe('userGroups directive', function() {
           failure();
         };
         spyOn(isolateScope, 'reset');
-        isolateScope.saveUserGroup();
+        isolateScope.saveUserGroup({
+          id: 'newgroup'
+        });
         expect(isolateScope.saving).toBeFalsy();
       }));
     });

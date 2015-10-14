@@ -2,7 +2,7 @@
 
 describe('When switching tenants', function() {
   var loginPage = require('../login/login.po.js'),
-    tenants = require('./tenants.po.js'),
+    tenants = require('../configuration/tenants.po.js'),
     shared = require('../shared.po.js'),
     users = require('../management/users.po.js'),
     skills = require('../management/skills.po.js'),
@@ -239,7 +239,6 @@ describe('When switching tenants', function() {
         users.addSkillSearch.sendKeys('New Default Tenant Skill');
         users.addSkillBtn.click();
 
-
         // Verify changes to user role were not made to the new tenant
         tenants.selectTenant(newTenantName);
         shared.searchField.sendKeys(mutualUserFirstName);
@@ -286,18 +285,18 @@ describe('When switching tenants', function() {
         shared.createBtn.click();
         skills.nameFormField.sendKeys(previousTenantSkill);
         skills.proficiencyFormCheckbox.click();
-        shared.submitFormBtn.click();
+        shared.submitFormBtn.click().then(function () {
+          expect(shared.successMessage.isDisplayed()).toBeTruthy();
 
-        expect(shared.successMessage.isDisplayed()).toBeTruthy();
-
-        // Verify skill is not added in new tenant
-        tenants.selectTenant(newTenantName);
-        expect(shared.tableElements.count()).toBe(1);
-        shared.tableElements.then(function(rows) {
-          for (var i = 1; i <= rows.length; ++i) {
-            // Check if skill name in table matches newly added skill
-            expect(element(by.css('tr.ng-scope:nth-child(' + i + ') > td:nth-child(2)')).getText()).not.toBe(previousTenantSkill);
-          }
+          // Verify skill is not added in new tenant
+          tenants.selectTenant(newTenantName);
+          expect(shared.tableElements.count()).toBe(1);
+          shared.tableElements.then(function(rows) {
+            for (var i = 1; i <= rows.length; ++i) {
+              // Check if skill name in table matches newly added skill
+              expect(element(by.css('tr.ng-scope:nth-child(' + i + ') > td:nth-child(2)')).getText()).not.toBe(previousTenantSkill);
+            }
+          });
         });
       });
     });
@@ -372,7 +371,7 @@ describe('When switching tenants', function() {
       elementCount = shared.tableElements.count();
     });
 
-    it('should display the correct Roles for the current tenant', function() {
+    xit('should display the correct Roles for the current tenant', function() {
       expect(elementCount).toBe(3);
 
       expect(shared.tableRows.get(0).getText()).toContain('Administrator tenant administrator 33');

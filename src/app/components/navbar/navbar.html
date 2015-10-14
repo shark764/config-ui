@@ -15,19 +15,19 @@
       <li class="divider"></li>
 
       <li ng-show="managementDropConfig" id="users-nav-link" ng-class="{ active: isActive('/management')}">
-        <dropdown items="managementDropConfig" collapse-icon="fa fa-caret-down" label="{{'navbar.users.title' | translate}}" order-by="order" hovering="hovering" hover-tracker="hoverTracker"></dropdown>
+        <dropdown items="managementDropConfig" collapse-icon="fa fa-caret-down" label="{{'navbar.users.title' | translate}}" order-by="order" hovering="hovering" show-on-hover="true" hover-tracker="hoverTracker"></dropdown>
       </li>
 
       <li ng-show="configurationDropConfig" id="tenants-nav-link" ng-class="{ active: isActive('/configuration')}">
-        <dropdown items="configurationDropConfig" collapse-icon="fa fa-caret-down" label="{{'navbar.configuration.title' | translate}}" order-by="order" hovering="hovering" hover-tracker="hoverTracker"></dropdown>
+        <dropdown items="configurationDropConfig" collapse-icon="fa fa-caret-down" label="{{'navbar.configuration.title' | translate}}" order-by="order" hovering="hovering" show-on-hover="true" hover-tracker="hoverTracker"></dropdown>
       </li>
 
       <li ng-show="flowsDropConfig" id="flows-nav-link" ng-class="{ active: isActive('/flows')}">
-        <dropdown items="flowsDropConfig" collapse-icon="fa fa-caret-down" label="{{'navbar.flows.title' | translate}}" order-by="order" hovering="hovering" hover-tracker="hoverTracker"></dropdown>
+        <dropdown items="flowsDropConfig" collapse-icon="fa fa-caret-down" label="{{'navbar.flows.title' | translate}}" order-by="order" hovering="hovering" show-on-hover="true" hover-tracker="hoverTracker"></dropdown>
       </li>
 
       <li id="reporting-nav-link" ng-class="{ active: isActive('/reporting')}">
-        <dropdown items="reportingDropConfig" collapse-icon="fa fa-caret-down" label="{{'navbar.reports.title' | translate}}" order-by="order" hovering="hovering" hover-tracker="hoverTracker"></dropdown>
+        <dropdown items="reportingDropConfig" collapse-icon="fa fa-caret-down" label="{{'navbar.reports.title' | translate}}" order-by="order" hovering="hovering" show-on-hover="true" hover-tracker="hoverTracker"></dropdown>
       </li>
 
       <li id='welcome'>

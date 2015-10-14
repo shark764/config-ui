@@ -2,15 +2,16 @@
 
 var DispatchMappingsPage = function() {
   this.creatingDispatchMappingHeader = element(by.id('dispatch-mappings-details-create-header'));
-  this.nameFormField = element(by.model('resource.name'));
-  this.descriptionFormField = element(by.model('resource.description'));
-  this.interactionTypeDropdown = element(by.model('resource.channelType'));
-  this.mappingDropdown = element(by.model('resource.interactionField'));
-  this.flowDropdown = element(by.model('resource.flowId'));
-  this.valueFormField = element(by.model('resource.value'));
+  this.nameFormField = element(by.model('selectedDispatchMapping.name'));
+  this.descriptionFormField = element(by.model('selectedDispatchMapping.description'));
+  this.interactionTypeDropdown = element(by.model('selectedDispatchMapping.channelType'));
+  this.mappingDropdown = element(by.model('selectedDispatchMapping.interactionField'));
+  this.flowDropdown = element(by.model('selectedDispatchMapping.flowId'));
+  this.valueFormField = element(by.model('selectedDispatchMapping.value'));
 
   this.nameHeader = element(by.id('dispatch-mappings-details-name-header'));
-  this.statusSwitch = element(by.model('resource.active'));
+  this.statusSwitch = element(by.model('selectedDispatchMapping.active'));
+  this.statusSwitchInput = this.statusSwitch.element(by.css('label:nth-child(2) > input:nth-child(1)'));
 
   this.nameColumn = 'td:nth-child(2)';
   this.descriptionColumn = 'td:nth-child(3)';
