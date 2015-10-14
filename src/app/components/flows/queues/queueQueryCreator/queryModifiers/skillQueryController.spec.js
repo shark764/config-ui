@@ -2,14 +2,13 @@
 
 describe('skillQueryController', function () {
   var $scope,
-    $groupScope,
     $controller,
     apiHostname,
     mockSkills,
     mockGroups,
     jsedn,
     rootMap,
-    groupQueryController;
+    controller;
 
   beforeEach(module('gulpAngular'));
   beforeEach(module('liveopsConfigPanel'));
@@ -25,96 +24,213 @@ describe('skillQueryController', function () {
       jsedn = _jsedn;
     }
   ]));
-  
-  beforeEach(inject(['$rootScope', function($rootScope) {
+
+  beforeEach(inject(['$rootScope', function ($rootScope) {
     $scope = $rootScope.$new();
     rootMap = new jsedn.Map();
     $scope.parentMap = rootMap;
   }]));
-  
-  beforeEach(inject(['$rootScope', function($rootScope) {
-    $groupScope = $rootScope.$new();
-    $groupScope.parentMap = rootMap;
-    $groupScope.operator = 'and';
-    
-    groupQueryController = $controller('groupQueryController', {
-      '$scope': $groupScope
+
+  describe('ON add', function () {
+    describe('WHEN operator is "and"', function () {
+      beforeEach(function () {
+        controller = $controller('skillQueryController', {
+          '$scope': {
+            parentMap: rootMap,
+            operator: 'and'
+          }
+        });
+      });
+
+      it('should add skill to query with proficiency >=1', function () {
+        var expected = '{:skills (and (and {#uuid "skillId2" (>= 1)}))}';
+
+        controller.add(mockSkills[1]);
+
+        expect(jsedn.encode($scope.parentMap)).toEqual(expected);
+      });
+
+      it('should add 2 skills to query and "and" them together', function () {
+        var expected = '{:skills (and (and {#uuid "skillId2" (>= 1)} {#uuid "skillId1" (> 50)}))}';
+
+        mockSkills[0].proficiency = 50;
+        mockSkills[0].proficiencyOperator = 'gt';
+
+        controller.add(mockSkills[1]);
+        controller.add(mockSkills[0]);
+
+        expect(jsedn.encode($scope.parentMap)).toEqual(expected);
+      });
+
+      it('should add 2 skills and a group to query', function () {
+        var expected = '{:groups (and (and {#uuid "groupId1" true})) :skills (and (and {#uuid "skillId2" (>= 1)} {#uuid "skillId1" (> 50)}))}';
+        
+        var groupQueryController = $controller('groupQueryController', {
+          '$scope': {
+            parentMap: rootMap,
+            operator: 'and'
+          }
+        });
+        
+        mockSkills[0].proficiency = 50;
+        mockSkills[0].proficiencyOperator = 'gt';
+
+        groupQueryController.add(mockGroups[0]);
+        controller.add(mockSkills[1]);
+        controller.add(mockSkills[0]);
+
+        expect(jsedn.encode($scope.parentMap)).toEqual(expected);
+      });
     });
-  }]));
-  
-  describe('ON add', function() {
-    var skillQueryController;
-    
-    describe('WHEN operator is "and"', function() {
-      beforeEach(function() {
-        $scope.operator = 'and';
-        skillQueryController = $controller('skillQueryController', {
-          '$scope': $scope
+
+    describe('WHEN operator is "or"', function () {
+      beforeEach(function () {
+        controller = $controller('skillQueryController', {
+          '$scope': {
+            parentMap: rootMap,
+            operator: 'or'
+          }
+        });
+      });
+
+      it('should add skill to query with proficiency >=1', function () {
+        var expected = '{:skills (and (or {#uuid "skillId2" (>= 1)}))}';
+
+        controller.add(mockSkills[1]);
+
+        expect(jsedn.encode($scope.parentMap)).toEqual(expected);
+      });
+
+      it('should add 2 skills to query and "or" them together', function () {
+        var expected = '{:skills (and (or {#uuid "skillId2" (>= 1)} {#uuid "skillId1" (> 50)}))}';
+
+        mockSkills[0].proficiency = 50;
+        mockSkills[0].proficiencyOperator = 'gt';
+
+        controller.add(mockSkills[1]);
+        controller.add(mockSkills[0]);
+
+        expect(jsedn.encode($scope.parentMap)).toEqual(expected);
+      });
+    });
+
+  });
+
+  describe('ON remove', function () {
+    describe('WHEN operator is "and"', function () {
+      beforeEach(function () {
+        controller = $controller('skillQueryController', {
+          '$scope': {
+            parentMap: rootMap,
+            operator: 'and'
+          }
         });
       });
       
-      it('should add skill to query with proficiency >=1', function() {
-        var expected = '{:skills (and (and {#uuid "skillId2" (>= 1)}))}'
+      it('should empty the query when the last skill is removed', function() {
+        mockSkills[0].proficiencyOperator = 'gte';
         
-        $scope.add(mockSkills[1]);
+        controller.add(mockSkills[0]);
+        controller.remove(mockSkills[0]);
         
-        expect(jsedn.encode($scope.parentMap)).toEqual(expected)
+        expect(jsedn.encode($scope.parentMap)).toEqual('{}');
       });
       
-      it('should add 2 skills to query and and them together', function() {
-        var expected = '{:skills (and (and {#uuid "skillId2" (>= 1)} {#uuid "skillId1" (> 50)}))}'
+      it('should remove the skill specified', function() {
+        var expected = '{:skills (and (and {#uuid "skillId2" (>= 1)}))}';
         
-        mockSkills[0].proficiency = 50;
-        mockSkills[0].proficiencyOperator = 'gt';
+        mockSkills[0].proficiencyOperator = 'gte';
         
-        $scope.add(mockSkills[1]);
-        $scope.add(mockSkills[0]);
+        controller.add(mockSkills[0]);
+        controller.add(mockSkills[1]);
+        controller.remove(mockSkills[0]);
         
-        expect(jsedn.encode($scope.parentMap)).toEqual(expected)
-      });
-      
-      it('should add 2 skills and a group to query', function() {
-        var expected = '{:groups (and (and {#uuid "groupId1" true})) :skills (and (and {#uuid "skillId2" (>= 1)} {#uuid "skillId1" (> 50)}))}'
-        
-        mockSkills[0].proficiency = 50;
-        mockSkills[0].proficiencyOperator = 'gt';
-        
-        $groupScope.add(mockGroups[0]);
-        $scope.add(mockSkills[1]);
-        $scope.add(mockSkills[0]);
-        
-        expect(jsedn.encode($scope.parentMap)).toEqual(expected)
+        expect(jsedn.encode($scope.parentMap)).toEqual(expected);
       });
     });
     
-    describe('WHEN operator is "or"', function() {
-      beforeEach(function() {
-        $scope.operator = 'or';
-        skillQueryController = $controller('skillQueryController', {
-          '$scope': $scope
+    describe('WHEN operator is "or"', function () {
+      beforeEach(function () {
+        controller = $controller('skillQueryController', {
+          '$scope': {
+            parentMap: rootMap,
+            operator: 'or'
+          }
         });
       });
       
-      it('should add skill to query with proficiency >=1', function() {
-        var expected = '{:skills (and (or {#uuid "skillId2" (>= 1)}))}'
+      it('should remove the skill specified', function() {
+        var expected = '{:skills (and (or {#uuid "skillId2" (>= 1)}))}';
         
-        $scope.add(mockSkills[1]);
+        mockSkills[0].proficiencyOperator = 'gte';
         
-        expect(jsedn.encode($scope.parentMap)).toEqual(expected)
-      });
-      
-      it('should add 2 skills to query and and them together', function() {
-        var expected = '{:skills (and (or {#uuid "skillId2" (>= 1)} {#uuid "skillId1" (> 50)}))}'
+        controller.add(mockSkills[0]);
+        controller.add(mockSkills[1]);
+        controller.remove(mockSkills[0]);
         
-        mockSkills[0].proficiency = 50;
-        mockSkills[0].proficiencyOperator = 'gt';
-        
-        $scope.add(mockSkills[1]);
-        $scope.add(mockSkills[0]);
-        
-        expect(jsedn.encode($scope.parentMap)).toEqual(expected)
+        expect(jsedn.encode($scope.parentMap)).toEqual(expected);
       });
     });
+  });
+  
+  describe('ON parseOperands', function() {
+    beforeEach(inject(['$q', function ($q) {
+      controller = $controller('skillQueryController', {
+        '$scope': {
+          parentMap: rootMap,
+          operator: 'and'
+        }
+      });
+    }]));
     
+    it('should return an empty list', inject([function() {
+      var operands = controller.parseOperands();
+      
+      expect(operands.length).toEqual(0);
+    }]));
+    
+    it('should return a single skill', inject(['$httpBackend', function($httpBackend) {
+      controller.add(mockSkills[1]);
+      
+      var operands = controller.parseOperands();
+      
+      $httpBackend.flush();
+      
+      expect(operands.length).toEqual(1);
+      expect(operands[0].id).toEqual(mockSkills[1].id);
+    }]));
+    
+    it('should return a single skill WHEN another "or" skill is added', inject(['$httpBackend', function($httpBackend) {
+      var orSkillController = $controller('skillQueryController', {
+        '$scope': {
+          parentMap: rootMap,
+          operator: 'or'
+        }
+      });
+      
+      orSkillController.add(mockSkills[1]);
+      controller.add(mockSkills[1]);
+      
+      var operands = controller.parseOperands();
+      
+      $httpBackend.flush();
+      
+      expect(operands.length).toEqual(1);
+      expect(operands[0].id).toEqual(mockSkills[1].id);
+    }]));
+    
+    it('should return a single skill that hasProficiency', inject(['$httpBackend', function($httpBackend) {
+      mockSkills[0].proficiency = 50;
+      mockSkills[0].proficiencyOperator = 'lte';
+      
+      controller.add(mockSkills[0]);
+      
+      var operands = controller.parseOperands();
+      
+      $httpBackend.flush();
+      
+      expect(operands.length).toEqual(1);
+      expect(operands[0].id).toEqual(mockSkills[0].id);
+    }]));
   });
 });
