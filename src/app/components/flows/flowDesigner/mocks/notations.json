@@ -1,1019 +1,1057 @@
 {
-    "activities": [
-        {
-            "name": "play-media",
-            "entity": "activity",
-            "label": "Play Media",
-            "bindings": {},
-            "targeted": true,
-            "target": "twilio",
-            "signals": [],
-            "inputs": [
-                {
-                    "name": "targeted",
-                    "path": "targeted",
-                    "type": "boolean",
-                    "label": "Targeted:",
-                    "group": "params",
-                    "index": 0,
-                    "disabled": false,
-                    "required": false,
-                    "placeholder": null,
-                    "hidden": true
-                },
-                {
-                    "name": "target",
-                    "path": "target",
-                    "type": "string",
-                    "label": "Target:",
-                    "group": "params",
-                    "index": 0,
-                    "disabled": false,
-                    "required": false,
-                    "placeholder": "Enter a target...",
-                    "hidden": true
-                },
-                {
-                    "name": "participant",
-                    "path": "params.participant",
-                    "type": "select",
-                    "source": "resource",
-                    "label": "Participant:",
-                    "group": "params",
-                    "index": 0,
-                    "disabled": false,
-                    "required": false,
-                    "placeholder": null,
-                    "hidden": false,
-                    "options": [
-                        {
-                            "value": "titan/customer",
-                            "content": "Customer"
-                        }
-                    ]
-                },
-                {
-                    "name": "media",
-                    "path": "params.media",
-                    "type": "typeahead",
-                    "label": "Media:",
-                    "group": "params",
-                    "index": 0,
-                    "disabled": false,
-                    "required": false,
-                    "placeholder": "Search for a media...",
-                    "hidden": false,
-                    "source": "media"
-                },
-                {
-                    "name": "loop",
-                    "path": "params.loop",
-                    "type": "boolean",
-                    "label": "Loop:",
-                    "group": "params",
-                    "index": 0,
-                    "disabled": false,
-                    "required": false,
-                    "placeholder": null,
-                    "hidden": false
-                }
-            ],
-            "params": {
-                "media": {
-                    "source": "entity",
-                    "type": "media",
-                    "mandatory": true,
-                    "key": "media"
-                },
-                "loop": {
-                    "source": "expression",
-                    "type": "boolean",
-                    "mandatory": true,
-                    "default": false,
-                    "key": "loop"
-                },
-                "customer": {
-                    "source": "expression",
-                    "type": "variable",
-                    "key": "participant",
-                    "when": {
-                        "eq": {
-                            "params.participant": "titan/customer"
-                        }
-                    }
-                },
-                "resource": {
-                    "source": "expression",
-                    "type": "variable",
-                    "key": "participant",
-                    "when": {
-                        "ne": {
-                            "params.participant": "titan/customer"
-                        }
-                    }
-                }
-            }
-        },
-        {
-            "name": "collect-digits",
-            "entity": "activity",
-            "label": "Collect Digits",
-            "bindings": {
-              "digits": {
-                "type": "string",
-                "path": "digits"
+  "activities": [
+      {
+          "name": "play-media",
+          "entity": "activity",
+          "label": "Play Media",
+          "props": ["name", "params", "bindings", "loop", "target"],
+          "bindings": {},
+          "target": "twilio",
+          "signals": [],
+          "inputs": [
+              {
+                  "name": "targeted",
+                  "path": "targeted",
+                  "type": "boolean",
+                  "label": "Targeted:",
+                  "group": "params",
+                  "index": 0,
+                  "disabled": false,
+                  "required": false,
+                  "placeholder": null,
+                  "hidden": true
+              },
+              {
+                  "name": "target",
+                  "path": "target",
+                  "type": "string",
+                  "label": "Target:",
+                  "group": "params",
+                  "index": 0,
+                  "disabled": false,
+                  "required": false,
+                  "placeholder": "Enter a target...",
+                  "hidden": true
+              },
+              {
+                  "name": "participant",
+                  "path": "params.participant",
+                  "type": "select",
+                  "source": "resource",
+                  "label": "Participant:",
+                  "group": "params",
+                  "index": 0,
+                  "disabled": false,
+                  "required": false,
+                  "placeholder": null,
+                  "hidden": false,
+                  "options": [
+                      {
+                          "value": "titan/customer",
+                          "content": "Customer"
+                      }
+                  ]
+              },
+              {
+                  "name": "media",
+                  "path": "params.media",
+                  "type": "typeahead",
+                  "label": "Media:",
+                  "group": "params",
+                  "index": 0,
+                  "disabled": false,
+                  "required": false,
+                  "placeholder": "Search for a media...",
+                  "hidden": false,
+                  "source": "media"
+              },
+              {
+                  "name": "loop",
+                  "path": "params.loop",
+                  "type": "boolean",
+                  "label": "Loop:",
+                  "group": "params",
+                  "index": 0,
+                  "disabled": false,
+                  "required": false,
+                  "placeholder": null,
+                  "hidden": false
               }
-            },
-            "targeted": true,
-            "target": "twilio",
-            "signals": [],
-            "inputs": [
-                {
-                    "name": "digits_binding",
-                    "path": "bindings.digits",
-                    "type": "string",
-                    "label": "Digits:",
-                    "group": "bindings",
-                    "index": 0,
-                    "disabled": false,
-                    "required": false,
-                    "placeholder": "Enter a name to bind to the digits returned...",
-                    "hidden": false
-                },
-                {
-                    "name": "targeted",
-                    "path": "targeted",
-                    "type": "boolean",
-                    "label": "Targeted:",
-                    "group": "params",
-                    "index": 0,
-                    "disabled": false,
-                    "required": false,
-                    "placeholder": null,
-                    "hidden": true
-                },
-                {
-                    "name": "target",
-                    "path": "target",
-                    "type": "string",
-                    "label": "Target:",
-                    "group": "params",
-                    "index": 0,
-                    "disabled": false,
-                    "required": false,
-                    "placeholder": "Enter a target...",
-                    "hidden": true
-                },
-                {
-                    "name": "participant",
-                    "path": "params.participant",
-                    "type": "select",
-                    "source": "resource",
-                    "label": "Participant:",
-                    "group": "params",
-                    "index": 0,
-                    "disabled": false,
-                    "required": false,
-                    "placeholder": null,
-                    "hidden": false,
-                    "options": [
-                        {
-                            "value": "titan/customer",
-                            "content": "Customer"
-                        }
-                    ]
-                },
-                {
-                    "name": "media",
-                    "path": "params.media",
-                    "type": "typeahead",
-                    "label": "Media:",
-                    "group": "params",
-                    "index": 0,
-                    "disabled": false,
-                    "required": false,
-                    "placeholder": "Search for a media...",
-                    "hidden": false,
-                    "source": "media"
-                },
-                {
-                    "name": "digits",
-                    "path": "params.digits",
-                    "type": "number",
-                    "label": "Number of digits to collect:",
-                    "group": "params",
-                    "index": 0,
-                    "disabled": false,
-                    "required": false,
-                    "placeholder": "Specify # of digits...",
-                    "hidden": false
-                }
-            ],
-            "params": {
-                "media": {
-                    "source": "entity",
-                    "type": "media",
-                    "mandatory": true,
-                    "key": "media"
-                },
-                "num-digits": {
-                    "source": "expression",
-                    "type": "integer",
-                    "mandatory": true,
-                    "default": 5,
-                    "key": "digits"
-                },
-                "terminator": {
-                    "source": "expression",
-                    "type": "string",
-                    "default": "\"#\"",
-                    "mandatory": true,
-                    "key": "terminator"
-                },
-                "customer": {
-                    "source": "expression",
-                    "type": "variable",
-                    "key": "participant",
-                    "when": {
-                        "eq": {
-                            "params.participant": "titan/customer"
-                        }
-                    }
-                },
-                "resource": {
-                    "source": "expression",
-                    "type": "variable",
-                    "key": "participant",
-                    "when": {
-                        "ne": {
-                            "params.participant": "titan/customer"
-                        }
-                    }
-                }
-            }
-        },
-        {
-            "name": "enqueue",
-            "entity": "activity",
-            "label": "Enqueue",
-            "bindings": {
+          ],
+          "params": {
+              "media": {
+                  "source": "entity",
+                  "type": "media",
+                  "mandatory": true,
+                  "key": "media"
+              },
+              "loop": {
+                  "source": "expression",
+                  "type": "boolean",
+                  "mandatory": true,
+                  "default": false,
+                  "key": "loop"
+              },
+              "customer": {
+                  "source": "expression",
+                  "type": "variable",
+                  "key": "participant",
+                  "when": {
+                      "eq": {
+                          "params.participant": "titan/customer"
+                      }
+                  }
+              },
               "resource": {
-                "type": "resource",
-                "path": "bindings.resource"
+                  "source": "expression",
+                  "type": "variable",
+                  "key": "participant",
+                  "when": {
+                      "ne": {
+                          "params.participant": "titan/customer"
+                      }
+                  }
               }
-            },
-            "targeted": false,
-            "signals": [],
-            "inputs": [
-                {
-                    "name": "resource_binding",
-                    "path": "bindings.resource",
-                    "type": "string",
-                    "label": "Resource:",
-                    "group": "bindings",
-                    "index": 0,
-                    "disabled": false,
-                    "required": false,
-                    "placeholder": "Enter a name to bind to the resource returned...",
-                    "hidden": false
-                },
-                {
-                    "name": "targeted",
-                    "path": "targeted",
-                    "type": "boolean",
-                    "label": "Targeted:",
-                    "group": "params",
-                    "index": 0,
-                    "disabled": false,
-                    "required": false,
-                    "placeholder": null,
-                    "hidden": true
-                },
-                {
-                    "name": "queue",
-                    "path": "params.queue",
-                    "type": "typeahead",
-                    "label": "Queue:",
-                    "group": "params",
-                    "index": 0,
-                    "disabled": false,
-                    "required": false,
-                    "placeholder": "Search for a queue...",
-                    "hidden": false,
-                    "source": "queue"
-                }
-            ],
-            "params": {
-                "queue": {
-                    "source": "entity",
-                    "type": "queues",
-                    "mandatory": true,
-                    "key": "queue"
-                }
+          }
+      },
+      {
+          "name": "collect-digits",
+          "entity": "activity",
+          "label": "Collect Digits",
+          "bindings": {
+            "digits": {
+              "type": "string",
+              "path": "digits"
             }
-        },
-        {
-            "name": "dequeue",
-            "entity": "activity",
-            "label": "Dequeue",
-            "bindings": {},
-            "targeted": false,
-            "signals": [],
-            "inputs": [
-                {
-                    "name": "targeted",
-                    "path": "targeted",
-                    "type": "boolean",
-                    "label": "Targeted:",
-                    "group": "params",
-                    "index": 0,
-                    "disabled": false,
-                    "required": false,
-                    "placeholder": null,
-                    "hidden": true
-                },
-                {
-                    "name": "queue",
-                    "path": "params.queue",
-                    "type": "typeahead",
-                    "label": "Queue:",
-                    "group": "params",
-                    "index": 0,
-                    "disabled": false,
-                    "required": true,
-                    "placeholder": "Search for a queue...",
-                    "hidden": false,
-                    "source": "queue"
-                }
-            ],
-            "params": {
-                "queue": {
-                    "source": "entity",
-                    "type": "queues",
-                    "mandatory": true,
-                    "key": "queue"
-                }
+          },
+          "props": ["name", "params", "bindings", "loop", "target"],
+          "target": "twilio",
+          "signals": [],
+          "inputs": [
+              {
+                  "name": "digits_binding",
+                  "path": "bindings.digits",
+                  "type": "string",
+                  "label": "Digits:",
+                  "group": "bindings",
+                  "index": 0,
+                  "disabled": false,
+                  "required": false,
+                  "placeholder": "Enter a name to bind to the digits returned...",
+                  "hidden": false
+              },
+              {
+                  "name": "targeted",
+                  "path": "targeted",
+                  "type": "boolean",
+                  "label": "Targeted:",
+                  "group": "params",
+                  "index": 0,
+                  "disabled": false,
+                  "required": false,
+                  "placeholder": null,
+                  "hidden": true
+              },
+              {
+                  "name": "target",
+                  "path": "target",
+                  "type": "string",
+                  "label": "Target:",
+                  "group": "params",
+                  "index": 0,
+                  "disabled": false,
+                  "required": false,
+                  "placeholder": "Enter a target...",
+                  "hidden": true
+              },
+              {
+                  "name": "participant",
+                  "path": "params.participant",
+                  "type": "select",
+                  "source": "resource",
+                  "label": "Participant:",
+                  "group": "params",
+                  "index": 0,
+                  "disabled": false,
+                  "required": false,
+                  "placeholder": null,
+                  "hidden": false,
+                  "options": [
+                      {
+                          "value": "titan/customer",
+                          "content": "Customer"
+                      }
+                  ]
+              },
+              {
+                  "name": "media",
+                  "path": "params.media",
+                  "type": "typeahead",
+                  "label": "Media:",
+                  "group": "params",
+                  "index": 0,
+                  "disabled": false,
+                  "required": false,
+                  "placeholder": "Search for a media...",
+                  "hidden": false,
+                  "source": "media"
+              },
+              {
+                  "name": "digits",
+                  "path": "params.digits",
+                  "type": "number",
+                  "label": "Number of digits to collect:",
+                  "group": "params",
+                  "index": 0,
+                  "disabled": false,
+                  "required": false,
+                  "placeholder": "Specify # of digits...",
+                  "hidden": false
+              }
+          ],
+          "params": {
+              "media": {
+                  "source": "entity",
+                  "type": "media",
+                  "mandatory": true,
+                  "key": "media"
+              },
+              "num-digits": {
+                  "source": "expression",
+                  "type": "integer",
+                  "mandatory": true,
+                  "default": 5,
+                  "key": "digits"
+              },
+              "terminator": {
+                  "source": "expression",
+                  "type": "string",
+                  "default": "\"#\"",
+                  "mandatory": true,
+                  "key": "terminator"
+              },
+              "customer": {
+                  "source": "expression",
+                  "type": "variable",
+                  "key": "participant",
+                  "when": {
+                      "eq": {
+                          "params.participant": "titan/customer"
+                      }
+                  }
+              },
+              "resource": {
+                  "source": "expression",
+                  "type": "variable",
+                  "key": "participant",
+                  "when": {
+                      "ne": {
+                          "params.participant": "titan/customer"
+                      }
+                  }
+              }
+          }
+      },
+      {
+          "name": "enqueue",
+          "entity": "activity",
+          "label": "Enqueue",
+          "bindings": {
+            "resource": {
+              "type": "resource",
+              "path": "bindings.resource"
             }
-        },
-        {
-            "name": "work-offer",
-            "entity": "activity",
-            "label": "Work Offer",
-            "targeted": true,
-            "target": "client",
-            "bindings": {},
-            "signals": [],
-            "inputs": [
-                {
-                    "name": "targeted",
-                    "path": "targeted",
-                    "type": "boolean",
-                    "label": "Targeted:",
-                    "group": "params",
-                    "index": 0,
-                    "disabled": false,
-                    "required": false,
-                    "placeholder": null,
-                    "hidden": true
-                },
-                {
-                    "name": "target",
-                    "path": "target",
-                    "type": "string",
-                    "label": "Target:",
-                    "group": "params",
-                    "index": 0,
-                    "disabled": false,
-                    "required": false,
-                    "placeholder": "Enter a target...",
-                    "hidden": true
-                },
-                {
-                    "name": "resource",
-                    "path": "params.resource",
-                    "type": "select",
-                    "source": "resource",
-                    "label": "Resource:",
-                    "group": "params",
-                    "index": 0,
-                    "disabled": false,
-                    "required": false,
-                    "placeholder": null,
-                    "hidden": false,
-                    "options": []
-                },
-                {
-                    "name": "timeout",
-                    "path": "params.timeout",
-                    "type": "timestamp",
-                    "label": "Timeout:",
-                    "group": "params",
-                    "index": 0,
-                    "disabled": false,
-                    "required": false,
-                    "placeholder": "Enter a timeout...",
-                    "hidden": false
-                },
-                {
-                    "name": "search",
-                    "path": "params.search",
-                    "type": "string",
-                    "label": "Search:",
-                    "group": "params",
-                    "index": 0,
-                    "disabled": false,
-                    "required": false,
-                    "placeholder": "Enter a search...",
-                    "hidden": true
-                }
-            ],
-            "params": {
-                "resource-id": {
-                    "source": "expression",
-                    "type": "resourceId",
-                    "mandatory": true,
-                    "key": "resource"
-                },
-                "timeout": {
-                    "source": "expression",
-                    "type": "timestamp",
-                    "mandatory": true,
-                    "key": "timeout",
-                    "default": {
-                        "value": 30,
-                        "measurement": "seconds"
-                    }
-                },
-                "search-value": {
-                    "source": "expression",
-                    "type": "string",
-                    "mandatory": false,
-                    "key": "search",
-                    "default": "titan/customer"
-                },
-                "search-value-action": {
-                    "source": "expression",
-                    "type": "string",
-                    "mandatory": false,
-                    "key": "search-action",
-                    "default": "\"immediate\""
-                }
-            }
-        },
-        {
-            "name": "free-resource",
-            "entity": "activity",
-            "label": "Free Resource",
-            "bindings": {},
-            "targeted": false,
-            "signals": [],
-            "inputs": [
-                {
-                    "name": "targeted",
-                    "path": "targeted",
-                    "type": "boolean",
-                    "label": "Targeted:",
-                    "group": "params",
-                    "index": 0,
-                    "disabled": false,
-                    "required": false,
-                    "placeholder": null,
-                    "hidden": true
-                },
-                {
-                    "name": "resource",
-                    "path": "params.resource",
-                    "type": "select",
-                    "source": "resource",
-                    "label": "Participant:",
-                    "group": "params",
-                    "index": 1,
-                    "disabled": false,
-                    "required": false,
-                    "placeholder": null,
-                    "hidden": false,
-                    "options": []
-                },
-                {
-                    "name": "state",
-                    "path": "params.state",
-                    "type": "select",
-                    "label": "Set Presence:",
-                    "group": "params",
-                    "index": 2,
-                    "disabled": false,
-                    "required": false,
-                    "placeholder": null,
-                    "hidden": false,
-                    "options": [
-                        {
-                            "value": "ready",
-                            "content": "Ready"
-                        },
-                        {
-                            "value": "not-ready",
-                            "content": "Not Ready"
-                        }
-                    ]
-                }
-            ],
-            "params": {
-                "resource-id": {
-                    "source": "expression",
-                    "type": "resourceId",
-                    "key": "resource",
-                    "mandatory": true
-                },
-                "state": {
-                    "source": "expression",
-                    "type": "variable",
-                    "key": "state",
-                    "mandatory": true,
-                    "default": "ready"
-                }
-            }
-        },
-        {
-            "name": "add-participant",
-            "entity": "activity",
-            "label": "Add Participant",
-            "targeted": true,
-            "target": "twilio",
-            "bindings": {},
-            "signals": [],
-            "inputs": [
-                {
-                    "name": "targeted",
-                    "path": "targeted",
-                    "type": "boolean",
-                    "label": "Targeted:",
-                    "group": "params",
-                    "index": 0,
-                    "disabled": false,
-                    "required": false,
-                    "placeholder": null,
-                    "hidden": true
-                },
-                {
-                    "name": "target",
-                    "path": "target",
-                    "type": "string",
-                    "label": "Target:",
-                    "group": "params",
-                    "index": 0,
-                    "disabled": false,
-                    "required": false,
-                    "placeholder": "Enter a target...",
-                    "hidden": true
-                },
-                {
-                    "name": "participant",
-                    "path": "params.participant",
-                    "type": "select",
-                    "source": "resource",
-                    "label": "Participant:",
-                    "group": "params",
-                    "index": 0,
-                    "disabled": false,
-                    "required": false,
-                    "placeholder": null,
-                    "hidden": false,
-                    "options": [
-                        {
-                            "value": "titan/customer",
-                            "content": "Customer"
-                        }
-                    ]
-                },
-                {
-                    "name": "muted",
-                    "path": "params.muted",
-                    "type": "boolean",
-                    "label": "Muted:",
-                    "group": "params",
-                    "index": 0,
-                    "disabled": false,
-                    "required": false,
-                    "placeholder": null,
-                    "hidden": false
-                },
-                {
-                    "name": "disconnectedOn",
-                    "path": "params.disconnectOn",
-                    "type": "boolean",
-                    "label": "Disconnect On *",
-                    "group": "params",
-                    "index": 0,
-                    "disabled": false,
-                    "required": false,
-                    "placeholder": null,
-                    "hidden": false,
-                    "trueValue": "*",
-                    "falseValue": ","
-                }
-            ],
-            "params": {
-                "customer": {
-                    "source": "expression",
-                    "type": "variable",
-                    "key": "participant",
-                    "when": {
-                        "eq": {
-                            "params.participant": "titan/customer"
-                        }
-                    }
-                },
-                "resource": {
-                    "source": "expression",
-                    "type": "variable",
-                    "key": "participant",
-                    "when": {
-                        "ne": {
-                            "params.participant": "titan/customer"
-                        }
-                    }
-                },
-                "muted": {
-                    "source": "expression",
-                    "type": "boolean",
-                    "key": "muted",
-                    "mandatory": false,
-                    "default": false
-                },
-                "disconnectOn": {
-                    "source": "expression",
-                    "type": "string",
-                    "key": "disconnectOn",
-                    "mandatory": false,
-                    "default": ",",
-                    "when": {
-                        "eq": {
-                            "params.disconnectOn": "*"
-                        }
-                    }
-                }
-            }
-        },
-        {
-            "name": "dial",
-            "entity": "activity",
-            "label": "Dial",
-            "targeted": true,
-            "target": "twilio",
-            "bindings": {},
-            "signals": ["customer-disconnect", "resource-disconnect"],
-            "inputs": [
-                {
-                    "name": "to",
-                    "path": "params.to",
-                    "type": "select",
-                    "source": "resource",
-                    "label": "To:",
-                    "group": "params",
-                    "index": 0,
-                    "disabled": false,
-                    "required": false,
-                    "hidden": false,
-                    "options": []
-                },
-                {
-                    "name": "timeout",
-                    "path": "params.timeout",
-                    "type": "timestamp",
-                    "label": "Timeout:",
-                    "group": "params",
-                    "index": 1,
-                    "disabled": false,
-                    "required": false,
-                    "placeholder": "Enter a timeout...",
-                    "hidden": false
-                }
-            ],
-            "params": {
-                "from": {
-                    "source": "expression",
-                    "type": "variable",
-                    "key": "from",
-                    "mandatory": true,
-                    "default": "titan/customer"
-                },
-                "to": {
-                    "source": "expression",
-                    "type": "extension",
-                    "key": "to",
-                    "mandatory": true
-                },
-                "timeout": {
-                    "source": "expression",
-                    "type": "timestamp",
-                    "mandatory": true,
-                    "key": "timeout",
-                    "default": {
-                        "value": 30,
-                        "measurement": "seconds"
-                    }
-                },
-                "resource": {
-                    "source": "expression",
-                    "type": "variable",
-                    "key": "resource",
-                    "default": "resource",
-                    "when": {
-                        "ne": {
-                            "params.to": "titan/customer"
-                        }
-                    }
-                },
-                "customer": {
-                    "source": "expression",
-                    "type": "variable",
-                    "key": "customer",
-                    "default": "titan/customer",
-                    "when": {
-                        "eq": {
-                            "params.to": "titan/customer"
-                        }
-                    }
-                }
-            }
-        },
-        {
-            "name": "disconnect",
-            "entity": "activity",
-            "label": "Disconnect",
-            "targeted": true,
-            "target": "twilio",
-            "bindings": {},
-            "signals": [],
-            "inputs": [
-                {
-                    "name": "participant",
-                    "path": "params.participant",
-                    "type": "select",
-                    "source": "resource",
-                    "label": "Participant:",
-                    "group": "params",
-                    "index": 0,
-                    "disabled": false,
-                    "required": true,
-                    "placeholder": null,
-                    "hidden": false,
-                    "options": [
-                        {
-                            "value": "titan/customer",
-                            "content": "Customer"
-                        }
-                    ]
-                }
-            ],
-            "params": {
-                "customer": {
-                    "source": "expression",
-                    "type": "variable",
-                    "key": "participant",
-                    "mandatory": true,
-                    "when": {
-                        "eq": {
-                            "params.participant": "titan/customer"
-                        }
-                    }
-                },
-                "resource": {
-                    "source": "expression",
-                    "type": "variable",
-                    "key": "participant",
-                    "mandatory": true,
-                    "when": {
-                        "ne": {
-                            "params.participant": "titan/customer"
-                        }
-                    }
-                }
-            }
-        },
-        {
-            "name": "hold",
-            "entity": "activity",
-            "label": "Hold",
-            "targeted": true,
-            "target": "twilio",
-            "bindings": {},
-            "signals": [],
-            "inputs": [
-                {
-                    "name": "participant",
-                    "path": "params.participant",
-                    "type": "select",
-                    "source": "resource",
-                    "label": "Participant:",
-                    "group": "params",
-                    "index": 0,
-                    "disabled": false,
-                    "required": true,
-                    "placeholder": null,
-                    "hidden": false,
-                    "options": [
-                        {
-                            "value": "titan/customer",
-                            "content": "Customer"
-                        }
-                    ]
-                },
-                {
-                    "name": "media",
-                    "path": "params.media",
-                    "type": "typeahead",
-                    "label": "Media:",
-                    "group": "params",
-                    "index": 0,
-                    "disabled": false,
-                    "required": false,
-                    "placeholder": "Search for a media...",
-                    "hidden": false,
-                    "source": "media"
-                }
-            ],
-            "params": {
-                "customer": {
-                    "source": "expression",
-                    "type": "variable",
-                    "key": "participant",
-                    "mandatory": true,
-                    "when": {
-                        "eq": {
-                            "params.participant": "titan/customer"
-                        }
-                    }
-                },
-                "resource": {
-                    "source": "expression",
-                    "type": "variable",
-                    "key": "participant",
-                    "mandatory": true,
-                    "when": {
-                        "ne": {
-                            "params.participant": "titan/customer"
-                        }
-                    }
-                },
-                "media": {
-                    "source": "entity",
-                    "type": "media",
-                    "mandatory": true,
-                    "key": "media"
-                }
-            }
-        },
-        {
-            "name": "resume",
-            "entity": "activity",
-            "label": "Resume",
-            "targeted": true,
-            "target": "twilio",
-            "bindings": {},
-            "signals": [],
-            "inputs": [
-                {
-                    "name": "participant",
-                    "path": "params.participant",
-                    "type": "select",
-                    "source": "resource",
-                    "label": "Participant:",
-                    "group": "params",
-                    "index": 0,
-                    "disabled": false,
-                    "required": true,
-                    "placeholder": null,
-                    "hidden": false,
-                    "options": [
-                        {
-                            "value": "titan/customer",
-                            "content": "Customer"
-                        }
-                    ]
-                }
-            ],
-            "params": {
-                "customer": {
-                    "source": "expression",
-                    "type": "variable",
-                    "key": "participant",
-                    "mandatory": true,
-                    "when": {
-                        "eq": {
-                            "params.participant": "titan/customer"
-                        }
-                    }
-                },
-                "resource": {
-                    "source": "expression",
-                    "type": "variable",
-                    "key": "participant",
-                    "mandatory": true,
-                    "when": {
-                        "ne": {
-                            "params.participant": "titan/customer"
-                        }
-                    }
-                }
-            }
-        },
-        {
-            "name": "set-attribute",
-            "entity": "activity",
-            "label": "Set Attribute",
-            "bindings": {},
-            "signals": [],
-            "targeted": false,
-            "inputs": [
-                {
-                    "name": "name",
-                    "path": "params.name",
-                    "type": "string",
-                    "label": "Name:",
-                    "group": "params",
-                    "index": 0,
-                    "disabled": false,
-                    "required": true,
-                    "placeholder": "Enter the attribute name...",
-                    "hidden": false
-                },
-                {
-                    "name": "value",
-                    "path": "params.value",
-                    "type": "string",
-                    "label": "Value:",
-                    "group": "params",
-                    "index": 1,
-                    "disabled": false,
-                    "required": true,
-                    "placeholder": "Enter the attribute value...",
-                    "hidden": false
-                }
-            ],
-            "params": {
-                "name": {
-                    "source": "expression",
-                    "type": "string",
-                    "key": "name",
-                    "mandatory": true
-                },
-                "value": {
-                    "source": "expression",
-                    "type": "string",
-                    "key": "value",
-                    "mandatory": true
-                }
-            }
-        },
-        {
-            "name": "set-global-attribute",
-            "entity": "activity",
-            "label": "Set Global Attribute",
-            "bindings": {},
-            "signals": [],
-            "targeted": false,
-            "inputs": [
-                {
-                    "name": "name",
-                    "path": "params.name",
-                    "type": "string",
-                    "label": "Name:",
-                    "group": "params",
-                    "index": 0,
-                    "disabled": false,
-                    "required": true,
-                    "placeholder": "Enter the attribute name...",
-                    "hidden": false
-                },
-                {
-                    "name": "value",
-                    "path": "params.value",
-                    "type": "string",
-                    "label": "Value:",
-                    "group": "params",
-                    "index": 1,
-                    "disabled": false,
-                    "required": true,
-                    "placeholder": "Enter the attribute value...",
-                    "hidden": false
-                }
-            ],
-            "params": {
-                "name": {
-                    "source": "expression",
-                    "type": "string",
-                    "key": "name",
-                    "mandatory": true
-                },
-                "value": {
-                    "source": "expression",
-                    "type": "string",
-                    "key": "value",
-                    "mandatory": true
-                }
-            }
-        }
+          },
+          "props": ["name", "params", "bindings", "loop"],
+          "signals": [],
+          "inputs": [
+              {
+                  "name": "resource_binding",
+                  "path": "bindings.resource",
+                  "type": "string",
+                  "label": "Resource:",
+                  "group": "bindings",
+                  "index": 0,
+                  "disabled": false,
+                  "required": false,
+                  "placeholder": "Enter a name to bind to the resource returned...",
+                  "hidden": false
+              },
+              {
+                  "name": "targeted",
+                  "path": "targeted",
+                  "type": "boolean",
+                  "label": "Targeted:",
+                  "group": "params",
+                  "index": 0,
+                  "disabled": false,
+                  "required": false,
+                  "placeholder": null,
+                  "hidden": true
+              },
+              {
+                  "name": "queue",
+                  "path": "params.queue",
+                  "type": "typeahead",
+                  "label": "Queue:",
+                  "group": "params",
+                  "index": 0,
+                  "disabled": false,
+                  "required": false,
+                  "placeholder": "Search for a queue...",
+                  "hidden": false,
+                  "source": "queue"
+              }
+          ],
+          "params": {
+              "queue": {
+                  "source": "entity",
+                  "type": "queues",
+                  "mandatory": true,
+                  "key": "queue"
+              }
+          }
+      },
+      {
+          "name": "dequeue",
+          "entity": "activity",
+          "label": "Dequeue",
+          "bindings": {},
+          "props": ["name", "params", "bindings", "loop"],
+          "signals": [],
+          "inputs": [
+              {
+                  "name": "targeted",
+                  "path": "targeted",
+                  "type": "boolean",
+                  "label": "Targeted:",
+                  "group": "params",
+                  "index": 0,
+                  "disabled": false,
+                  "required": false,
+                  "placeholder": null,
+                  "hidden": true
+              },
+              {
+                  "name": "queue",
+                  "path": "params.queue",
+                  "type": "typeahead",
+                  "label": "Queue:",
+                  "group": "params",
+                  "index": 0,
+                  "disabled": false,
+                  "required": true,
+                  "placeholder": "Search for a queue...",
+                  "hidden": false,
+                  "source": "queue"
+              }
+          ],
+          "params": {
+              "queue": {
+                  "source": "entity",
+                  "type": "queues",
+                  "mandatory": true,
+                  "key": "queue"
+              }
+          }
+      },
+      {
+          "name": "work-offer",
+          "entity": "activity",
+          "label": "Work Offer",
+          "props": ["name", "params", "bindings", "loop", "target"],
+          "target": "client",
+          "bindings": {},
+          "signals": [],
+          "inputs": [
+              {
+                  "name": "targeted",
+                  "path": "targeted",
+                  "type": "boolean",
+                  "label": "Targeted:",
+                  "group": "params",
+                  "index": 0,
+                  "disabled": false,
+                  "required": false,
+                  "placeholder": null,
+                  "hidden": true
+              },
+              {
+                  "name": "target",
+                  "path": "target",
+                  "type": "string",
+                  "label": "Target:",
+                  "group": "params",
+                  "index": 0,
+                  "disabled": false,
+                  "required": false,
+                  "placeholder": "Enter a target...",
+                  "hidden": true
+              },
+              {
+                  "name": "resource",
+                  "path": "params.resource",
+                  "type": "select",
+                  "source": "resource",
+                  "label": "Resource:",
+                  "group": "params",
+                  "index": 0,
+                  "disabled": false,
+                  "required": false,
+                  "placeholder": null,
+                  "hidden": false,
+                  "options": []
+              },
+              {
+                  "name": "timeout",
+                  "path": "params.timeout",
+                  "type": "timestamp",
+                  "label": "Timeout:",
+                  "group": "params",
+                  "index": 0,
+                  "disabled": false,
+                  "required": false,
+                  "placeholder": "Enter a timeout...",
+                  "hidden": false
+              },
+              {
+                  "name": "search",
+                  "path": "params.search",
+                  "type": "string",
+                  "label": "Search:",
+                  "group": "params",
+                  "index": 0,
+                  "disabled": false,
+                  "required": false,
+                  "placeholder": "Enter a search...",
+                  "hidden": true
+              }
+          ],
+          "params": {
+              "resource-id": {
+                  "source": "expression",
+                  "type": "resourceId",
+                  "mandatory": true,
+                  "key": "resource"
+              },
+              "resource": {
+                  "source": "expression",
+                  "type": "variable",
+                  "mandatory": true,
+                  "key": "resource",
+                  "default": "resource"
+              },
+              "timeout": {
+                  "source": "expression",
+                  "type": "timestamp",
+                  "mandatory": true,
+                  "key": "timeout",
+                  "default": {
+                      "value": 30,
+                      "measurement": "seconds"
+                  }
+              },
+              "search-value": {
+                  "source": "expression",
+                  "type": "string",
+                  "mandatory": false,
+                  "key": "search",
+                  "default": "titan/customer"
+              },
+              "search-value-action": {
+                  "source": "expression",
+                  "type": "string",
+                  "mandatory": false,
+                  "key": "search-action",
+                  "default": "\"immediate\""
+              }
+          }
+      },
+      {
+          "name": "free-resource",
+          "entity": "activity",
+          "label": "Free Resource",
+          "bindings": {},
+          "props": ["name", "params", "bindings", "loop"],
+          "signals": [],
+          "inputs": [
+              {
+                  "name": "targeted",
+                  "path": "targeted",
+                  "type": "boolean",
+                  "label": "Targeted:",
+                  "group": "params",
+                  "index": 0,
+                  "disabled": false,
+                  "required": false,
+                  "placeholder": null,
+                  "hidden": true
+              },
+              {
+                  "name": "resource",
+                  "path": "params.resource",
+                  "type": "select",
+                  "source": "resource",
+                  "label": "Participant:",
+                  "group": "params",
+                  "index": 1,
+                  "disabled": false,
+                  "required": false,
+                  "placeholder": null,
+                  "hidden": false,
+                  "options": []
+              },
+              {
+                  "name": "state",
+                  "path": "params.state",
+                  "type": "select",
+                  "label": "Set Presence:",
+                  "group": "params",
+                  "index": 2,
+                  "disabled": false,
+                  "required": false,
+                  "placeholder": null,
+                  "hidden": false,
+                  "options": [
+                      {
+                          "value": "ready",
+                          "content": "Ready"
+                      },
+                      {
+                          "value": "not-ready",
+                          "content": "Not Ready"
+                      }
+                  ]
+              }
+          ],
+          "params": {
+              "resource-id": {
+                  "source": "expression",
+                  "type": "resourceId",
+                  "key": "resource",
+                  "mandatory": true
+              },
+              "state": {
+                  "source": "expression",
+                  "type": "variable",
+                  "key": "state",
+                  "mandatory": true,
+                  "default": "ready"
+              }
+          }
+      },
+      {
+          "name": "add-participant",
+          "entity": "activity",
+          "label": "Add Participant",
+          "props": ["name", "params", "bindings", "loop", "target"],
+          "target": "twilio",
+          "bindings": {},
+          "signals": [],
+          "inputs": [
+              {
+                  "name": "targeted",
+                  "path": "targeted",
+                  "type": "boolean",
+                  "label": "Targeted:",
+                  "group": "params",
+                  "index": 0,
+                  "disabled": false,
+                  "required": false,
+                  "placeholder": null,
+                  "hidden": true
+              },
+              {
+                  "name": "target",
+                  "path": "target",
+                  "type": "string",
+                  "label": "Target:",
+                  "group": "params",
+                  "index": 0,
+                  "disabled": false,
+                  "required": false,
+                  "placeholder": "Enter a target...",
+                  "hidden": true
+              },
+              {
+                  "name": "participant",
+                  "path": "params.participant",
+                  "type": "select",
+                  "source": "resource",
+                  "label": "Participant:",
+                  "group": "params",
+                  "index": 0,
+                  "disabled": false,
+                  "required": false,
+                  "placeholder": null,
+                  "hidden": false,
+                  "options": [
+                      {
+                          "value": "titan/customer",
+                          "content": "Customer"
+                      }
+                  ]
+              },
+              {
+                  "name": "muted",
+                  "path": "params.muted",
+                  "type": "boolean",
+                  "label": "Muted:",
+                  "group": "params",
+                  "index": 0,
+                  "disabled": false,
+                  "required": false,
+                  "placeholder": null,
+                  "hidden": false
+              },
+              {
+                  "name": "disconnectedOn",
+                  "path": "params.disconnectOn",
+                  "type": "boolean",
+                  "label": "Disconnect On *",
+                  "group": "params",
+                  "index": 0,
+                  "disabled": false,
+                  "required": false,
+                  "placeholder": null,
+                  "hidden": false,
+                  "trueValue": "*",
+                  "falseValue": ","
+              }
+          ],
+          "params": {
+              "customer": {
+                  "source": "expression",
+                  "type": "variable",
+                  "key": "participant",
+                  "when": {
+                      "eq": {
+                          "params.participant": "titan/customer"
+                      }
+                  }
+              },
+              "resource": {
+                  "source": "expression",
+                  "type": "variable",
+                  "key": "participant",
+                  "when": {
+                      "ne": {
+                          "params.participant": "titan/customer"
+                      }
+                  }
+              },
+              "muted": {
+                  "source": "expression",
+                  "type": "boolean",
+                  "key": "muted",
+                  "mandatory": false,
+                  "default": false
+              },
+              "disconnectOn": {
+                  "source": "expression",
+                  "type": "string",
+                  "key": "disconnectOn",
+                  "mandatory": false,
+                  "default": ",",
+                  "when": {
+                      "eq": {
+                          "params.disconnectOn": "*"
+                      }
+                  }
+              }
+          }
+      },
+      {
+          "name": "dial",
+          "entity": "activity",
+          "label": "Dial",
+          "props": ["name", "params", "bindings", "loop", "target"],
+          "target": "twilio",
+          "bindings": {},
+          "signals": ["customer-disconnect", "resource-disconnect"],
+          "inputs": [
+              {
+                  "name": "to",
+                  "path": "params.to",
+                  "type": "select",
+                  "source": "resource",
+                  "label": "To:",
+                  "group": "params",
+                  "index": 0,
+                  "disabled": false,
+                  "required": false,
+                  "hidden": false,
+                  "options": []
+              },
+              {
+                  "name": "timeout",
+                  "path": "params.timeout",
+                  "type": "timestamp",
+                  "label": "Timeout:",
+                  "group": "params",
+                  "index": 1,
+                  "disabled": false,
+                  "required": false,
+                  "placeholder": "Enter a timeout...",
+                  "hidden": false
+              }
+          ],
+          "params": {
+              "from": {
+                  "source": "expression",
+                  "type": "variable",
+                  "key": "from",
+                  "mandatory": true,
+                  "default": "titan/customer"
+              },
+              "to": {
+                  "source": "expression",
+                  "type": "extension",
+                  "key": "to",
+                  "mandatory": true
+              },
+              "timeout": {
+                  "source": "expression",
+                  "type": "timestamp",
+                  "mandatory": true,
+                  "key": "timeout",
+                  "default": {
+                      "value": 30,
+                      "measurement": "seconds"
+                  }
+              },
+              "resource": {
+                  "source": "expression",
+                  "type": "variable",
+                  "key": "resource",
+                  "default": "resource",
+                  "when": {
+                      "ne": {
+                          "params.to": "titan/customer"
+                      }
+                  }
+              },
+              "customer": {
+                  "source": "expression",
+                  "type": "variable",
+                  "key": "customer",
+                  "default": "titan/customer",
+                  "when": {
+                      "eq": {
+                          "params.to": "titan/customer"
+                      }
+                  }
+              }
+          }
+      },
+      {
+          "name": "disconnect",
+          "entity": "activity",
+          "label": "Disconnect",
+          "props": ["name", "params", "bindings", "loop", "target"],
+          "target": "twilio",
+          "bindings": {},
+          "signals": [],
+          "inputs": [
+              {
+                  "name": "participant",
+                  "path": "params.participant",
+                  "type": "select",
+                  "source": "resource",
+                  "label": "Participant:",
+                  "group": "params",
+                  "index": 0,
+                  "disabled": false,
+                  "required": true,
+                  "placeholder": null,
+                  "hidden": false,
+                  "options": [
+                      {
+                          "value": "titan/customer",
+                          "content": "Customer"
+                      }
+                  ]
+              }
+          ],
+          "params": {
+              "customer": {
+                  "source": "expression",
+                  "type": "variable",
+                  "key": "participant",
+                  "mandatory": true,
+                  "when": {
+                      "eq": {
+                          "params.participant": "titan/customer"
+                      }
+                  }
+              },
+              "resource": {
+                  "source": "expression",
+                  "type": "variable",
+                  "key": "participant",
+                  "mandatory": true,
+                  "when": {
+                      "ne": {
+                          "params.participant": "titan/customer"
+                      }
+                  }
+              }
+          }
+      },
+      {
+          "name": "hold",
+          "entity": "activity",
+          "label": "Hold",
+          "props": ["name", "params", "bindings", "loop", "target"],
+          "target": "twilio",
+          "bindings": {},
+          "signals": [],
+          "inputs": [
+              {
+                  "name": "participant",
+                  "path": "params.participant",
+                  "type": "select",
+                  "source": "resource",
+                  "label": "Participant:",
+                  "group": "params",
+                  "index": 0,
+                  "disabled": false,
+                  "required": true,
+                  "placeholder": null,
+                  "hidden": false,
+                  "options": [
+                      {
+                          "value": "titan/customer",
+                          "content": "Customer"
+                      }
+                  ]
+              },
+              {
+                  "name": "media",
+                  "path": "params.media",
+                  "type": "typeahead",
+                  "label": "Media:",
+                  "group": "params",
+                  "index": 0,
+                  "disabled": false,
+                  "required": false,
+                  "placeholder": "Search for a media...",
+                  "hidden": false,
+                  "source": "media"
+              }
+          ],
+          "params": {
+              "customer": {
+                  "source": "expression",
+                  "type": "variable",
+                  "key": "participant",
+                  "mandatory": true,
+                  "when": {
+                      "eq": {
+                          "params.participant": "titan/customer"
+                      }
+                  }
+              },
+              "resource": {
+                  "source": "expression",
+                  "type": "variable",
+                  "key": "participant",
+                  "mandatory": true,
+                  "when": {
+                      "ne": {
+                          "params.participant": "titan/customer"
+                      }
+                  }
+              },
+              "media": {
+                  "source": "entity",
+                  "type": "media",
+                  "mandatory": true,
+                  "key": "media"
+              }
+          }
+      },
+      {
+          "name": "resume",
+          "entity": "activity",
+          "label": "Resume",
+          "props": ["name", "params", "bindings", "loop", "target"],
+          "target": "twilio",
+          "bindings": {},
+          "signals": [],
+          "inputs": [
+              {
+                  "name": "participant",
+                  "path": "params.participant",
+                  "type": "select",
+                  "source": "resource",
+                  "label": "Participant:",
+                  "group": "params",
+                  "index": 0,
+                  "disabled": false,
+                  "required": true,
+                  "placeholder": null,
+                  "hidden": false,
+                  "options": [
+                      {
+                          "value": "titan/customer",
+                          "content": "Customer"
+                      }
+                  ]
+              }
+          ],
+          "params": {
+              "customer": {
+                  "source": "expression",
+                  "type": "variable",
+                  "key": "participant",
+                  "mandatory": true,
+                  "when": {
+                      "eq": {
+                          "params.participant": "titan/customer"
+                      }
+                  }
+              },
+              "resource": {
+                  "source": "expression",
+                  "type": "variable",
+                  "key": "participant",
+                  "mandatory": true,
+                  "when": {
+                      "ne": {
+                          "params.participant": "titan/customer"
+                      }
+                  }
+              }
+          }
+      },
+      {
+          "name": "agent-notification",
+          "entity": "activity",
+          "label": "Agent Notification",
+          "bindings": {},
+          "signals": [],
+          "props": ["name", "params", "bindings", "loop"],
+          "inputs": [
+              {
+                  "name": "notification",
+                  "path": "params.notification",
+                  "type": "autocomplete",
+                  "source": "signal",
+                  "label": "Notification:",
+                  "group": "general",
+                  "index": 0,
+                  "disabled": false,
+                  "required": true,
+                  "placeholder": "Enter a notification...",
+                  "hidden": false
+              }
+          ],
+          "params": {
+              "notification": {
+                  "source": "expression",
+                  "type": "string",
+                  "key": "notification",
+                  "mandatory": true
+              }
+          }
+      },
+      {
+          "name": "set-attribute",
+          "entity": "activity",
+          "label": "Set Attribute",
+          "bindings": {},
+          "signals": [],
+          "props": ["name", "params", "bindings", "loop"],
+          "inputs": [
+              {
+                  "name": "name",
+                  "path": "params.name",
+                  "type": "string",
+                  "label": "Name:",
+                  "group": "params",
+                  "index": 0,
+                  "disabled": false,
+                  "required": true,
+                  "placeholder": "Enter the attribute name...",
+                  "hidden": false
+              },
+              {
+                  "name": "value",
+                  "path": "params.value",
+                  "type": "string",
+                  "label": "Value:",
+                  "group": "params",
+                  "index": 1,
+                  "disabled": false,
+                  "required": true,
+                  "placeholder": "Enter the attribute value...",
+                  "hidden": false
+              }
+          ],
+          "params": {
+              "name": {
+                  "source": "expression",
+                  "type": "string",
+                  "key": "name",
+                  "mandatory": true
+              },
+              "value": {
+                  "source": "expression",
+                  "type": "string",
+                  "key": "value",
+                  "mandatory": true
+              }
+          }
+      },
+      {
+          "name": "set-global-attribute",
+          "entity": "activity",
+          "label": "Set Global Attribute",
+          "bindings": {},
+          "signals": [],
+          "props": ["name", "params", "bindings", "loop"],
+          "inputs": [
+              {
+                  "name": "name",
+                  "path": "params.name",
+                  "type": "string",
+                  "label": "Name:",
+                  "group": "params",
+                  "index": 0,
+                  "disabled": false,
+                  "required": true,
+                  "placeholder": "Enter the attribute name...",
+                  "hidden": false
+              },
+              {
+                  "name": "value",
+                  "path": "params.value",
+                  "type": "string",
+                  "label": "Value:",
+                  "group": "params",
+                  "index": 1,
+                  "disabled": false,
+                  "required": true,
+                  "placeholder": "Enter the attribute value...",
+                  "hidden": false
+              }
+          ],
+          "params": {
+              "name": {
+                  "source": "expression",
+                  "type": "string",
+                  "key": "name",
+                  "mandatory": true
+              },
+              "value": {
+                  "source": "expression",
+                  "type": "string",
+                  "key": "value",
+                  "mandatory": true
+              }
+          }
+      }
     ],
     "events": [
         {
