@@ -7,7 +7,7 @@ angular.module('liveopsConfigPanel')
         if (! $scope.flow || $scope.flow.isNew()){
           return [];
         }
-        
+
         return FlowVersion.cachedQuery({
           tenantId: Session.tenant.tenantId,
           flowId: $scope.flow.id
@@ -40,7 +40,7 @@ angular.module('liveopsConfigPanel')
         if (! $scope.flow){
           return;
         }
-        
+
         $scope.createVersion();
 
         if($scope.cleanHandler){

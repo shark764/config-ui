@@ -66,6 +66,7 @@ function flowDesigner() {
           function addErrors(errors) {
             var graph = $scope.graph;
             _.each(errors, function(e) {
+              console.log(e);
               var cell = graph.getCell(e.step);
               var view = cell.findView(graph.interfaces.paper);
               new V(view.el).addClass('error');
@@ -182,6 +183,8 @@ function flowDesigner() {
                     flowId: $scope.flowData.flowId
                   });
 
+              console.log('Where are we here');
+
               _version.save(function(v){
                 $document.find('modal').remove();
                 Alert.success('New flow version successfully created.');
@@ -197,6 +200,11 @@ function flowDesigner() {
               }, function(error) {
                 if (error.data.error.attribute === null) {
                   Alert.error('API rejected this flow -- likely invalid Alienese.', JSON.stringify(error, null, 2));
+                } else if (error.data.error.attribute.flow.message === 'Error parsing') {
+                  $document.find('modal').remove();
+                  Alert.error('API rejected this flow -- please verify your conditional statements are correct.');
+                  addErrors([error.data.error.attribute.flow]);
+                  console.log(error);
                 } else {
                   Alert.error('API rejected this flow -- some other reason...', JSON.stringify(error, null, 2));
                 }
