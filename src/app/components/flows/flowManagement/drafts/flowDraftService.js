@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .factory('FlowDraft', ['LiveopsResourceFactory', 'emitInterceptor', '$http', 'apiHostname', '$q',
-    function (LiveopsResourceFactory, emitInterceptor, $http, apiHostname, $q) {
+  .factory('FlowDraft', ['LiveopsResourceFactory', 'emitInterceptor', '$http', 'apiHostname',
+    function (LiveopsResourceFactory, emitInterceptor, $http, apiHostname) {
 
       var endpoint = '/v1/tenants/:tenantId/flows/:flowId/drafts/:id';
 
@@ -32,24 +32,16 @@ angular.module('liveopsConfigPanel')
       };
 
       FlowDraft.prototype.validate = function () {
-        var draftUrl = apiHostname + '/v1/tenants/' + this.tenantId + '/flows/' + this.flowId + '/drafts/';
-        var _draft = this;
-        var deferred = $q.defer();
+        var url = apiHostname + '/v1/tenants/' + this.tenantId + '/flows/' + this.flowId + '/drafts/' + this.id + '/validate';
 
-        _draft.save().then(function(d){
-          $http({
-            method: 'POST',
-            url: draftUrl + d.id + '/validate'
-          }).then(function successCallback() {
-            deferred.resolve();
-          }, function errorCallback(response) {
-            deferred.reject(response);
-          }).finally(function () {
-            _draft.delete();
-          });
+        return $http({
+          method: 'POST',
+          url: url
+        }).then(function successCallback() {
+          return true;
+        }, function errorCallback(response) {
+          return response;
         });
-
-        return deferred.promise;
       };
 
       return FlowDraft;
