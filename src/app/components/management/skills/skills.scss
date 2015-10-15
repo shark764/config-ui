@@ -1,3 +1,36 @@
-.proficiency-col {
-  text-align: right;
+#skill-members{
+  .proficiency-col {
+    text-align: right !important;
+  }
+  
+  #usersForm .btn {
+    height: $input-height;
+    line-height: $input-height - 8px;
+    width: $input-height;
+  }
+  
+  type-ahead {
+    padding-right: 8px;
+    width: $details-table-width - $input-height;
+  }
+  
+  number-slider {
+    padding-right: 8px;
+    width: 200px;
+  }
+  
+  #usersForm {
+    width: 100%;
+    display: table;
+    margin-bottom: 10px;
+    padding-right: 0;
+  
+    > * {
+      display: table-cell;
+    }
+  
+    number-slider {
+      min-width: 95px;
+    }
+  }
 }

@@ -95,16 +95,18 @@ describe('SkillsController', function () {
     it('should delete the skill from the given user', inject(['mockSkills', 'TenantSkillUser', function(mockSkills, TenantSkillUser) {
       $httpBackend.expectDELETE(apiHostname + '/v1/tenants/tenant-id/users/userId1/skills/skillId1');
       $scope.selectedSkill = mockSkills[0];
+
       var skillUser = new TenantSkillUser({
         tenantId: 'tenant-id',
-        userId: 'userId1'
+        userId: 'userId1',
+        skillId: 'skillId1'
       });
       $scope.removeUser(skillUser);
       $httpBackend.flush();
     }]));
     
     it('should remove the skill from the cached tenant user', inject(['mockSkills', 'TenantSkillUser', 'queryCache', 'mockTenantUsers', function(mockSkills, TenantSkillUser, queryCache, mockTenantUsers) {
-      mockTenantUsers[0].skills = [{
+      mockTenantUsers[0].$skills = [{
         id: 'skillId1'
       }];
       
@@ -119,14 +121,16 @@ describe('SkillsController', function () {
       
       $httpBackend.expectDELETE(apiHostname + '/v1/tenants/tenant-id/users/userId1/skills/skillId1').respond(200);
       $scope.selectedSkill = mockSkills[0];
+
       var skillUser = new TenantSkillUser({
         tenantId: 'tenant-id',
-        userId: 'userId1'
+        userId: 'userId1',
+        skillId: 'skillId1'
       });
       $scope.removeUser(skillUser);
       $httpBackend.flush();
       
-      expect(mockTenantUsers[0].skills.length).toBe(0);
+      expect(mockTenantUsers[0].$skills.length).toBe(0);
     }]));
     
     it('should show an error if the delete fails', inject(['mockSkills', 'TenantSkillUser', 'queryCache', 'mockTenantUsers', 'Alert', function(mockSkills, TenantSkillUser, queryCache, mockTenantUsers, Alert) {
@@ -135,7 +139,8 @@ describe('SkillsController', function () {
       $scope.selectedSkill = mockSkills[0];
       var skillUser = new TenantSkillUser({
         tenantId: 'tenant-id',
-        userId: 'userId1'
+        userId: 'userId1',
+        skillId: 'skillId1'
       });
       $scope.removeUser(skillUser);
       $httpBackend.flush();

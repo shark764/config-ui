@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('userSkills', ['TenantUserSkill', 'Skill', 'Session', 'Alert', 'filterFilter', 'queryCache',
-    function (TenantUserSkill, Skill, Session, Alert, filterFilter, queryCache) {
+  .directive('userSkills', ['TenantUserSkill', 'Skill', 'Session', 'Alert', 'filterFilter', 'queryCache', 'TenantSkillUser',
+    function (TenantUserSkill, Skill, Session, Alert, filterFilter, queryCache, TenantSkillUser) {
       return {
         restrict: 'E',
         scope: {
@@ -121,19 +121,29 @@ angular.module('liveopsConfigPanel')
           
           $scope.updateUserSkill = function(userSkill){
             userSkill.id = userSkill.skillId;
-            userSkill.save().then(function(){
+            userSkill.save().then(function(result){
               Alert.success('User skill updated!');
+              
+              //Update cache for Skill Management page
+              if (queryCache.get('skills/' + result.skillId + '/users')){
+                var skillUsers = TenantSkillUser.cachedQuery({
+                  tenantId: Session.tenant.tenantId,
+                  skillId: result.skillId
+                }, 'skills/' + result.skillId + '/users');
+                
+                var skillUser = filterFilter(skillUsers, {
+                  userId: result.userId
+                });
+                
+                if (skillUser.length){
+                  skillUser[0].proficiency = result.proficiency;
+                }
+              }
+              
+              
             }, function(){
               Alert.error('Failed to update user skill');
             });
-          };
-          
-          $scope.filterSkills = function(item) {
-            var matchingSkills = filterFilter($scope.user.$skills, {
-              'id': item.id
-            }, true);
-            
-            return matchingSkills.length === 0;
           };
           
           $scope.filterSkills = function(item) {

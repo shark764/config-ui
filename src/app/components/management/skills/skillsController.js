@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('SkillsController', ['$scope', '$state', 'Session', 'Skill', 'skillTableConfig', 'BulkAction', 'TenantSkillUser', 'TenantUserSkill', 'Alert', 'TenantUser', 'queryCache', '$filter',
-    function($scope, $state, Session, Skill, skillTableConfig, BulkAction, TenantSkillUser, TenantUserSkill, Alert, TenantUser, queryCache, $filter) {
+  .controller('SkillsController', ['$scope', '$state', 'Session', 'Skill', 'skillTableConfig', 'BulkAction', 'TenantSkillUser', 'TenantUserSkill', 'Alert', 'TenantUser', 'queryCache', '$filter', '$timeout',
+    function($scope, $state, Session, Skill, skillTableConfig, BulkAction, TenantSkillUser, TenantUserSkill, Alert, TenantUser, queryCache, $filter, $timeout) {
 
       $scope.Session = Session;
 
@@ -10,6 +10,12 @@ angular.module('liveopsConfigPanel')
 
       $scope.fetchSkills = function() {
         return Skill.cachedQuery({
+          tenantId: Session.tenant.tenantId
+        });
+      };
+      
+      $scope.fetchTenantUsers = function() {
+        return TenantUser.cachedQuery({
           tenantId: Session.tenant.tenantId
         });
       };
@@ -44,9 +50,15 @@ angular.module('liveopsConfigPanel')
         return $scope.selectedSkill.save();
       };
       
+      $scope.gotoUserPage = function (userId) {
+        $state.transitionTo('content.management.users', {
+          id: userId
+        });
+      };
+      
       $scope.removeUser = function(skillUser){
         var tenantUserSkill = new TenantUserSkill({
-          id: $scope.selectedSkill.id,
+          id: skillUser.skillId,
           tenantId: skillUser.tenantId,
           userId: skillUser.userId
         });
@@ -59,14 +71,76 @@ angular.module('liveopsConfigPanel')
           
           if (queryCache.get(TenantUser.prototype.resourceName)){
             var tenantUser = TenantUser.cachedGet({id: skillUser.userId, tenantId: skillUser.tenantId});
-            var userSkill = $filter('filter')(tenantUser.skills, {id: $scope.selectedSkill.id});
+            var userSkill = $filter('filter')(tenantUser.$skills, {id: $scope.selectedSkill.id});
             if (userSkill.length > 0){
-              tenantUser.skills.removeItem(userSkill[0]);
+              tenantUser.$skills.removeItem(userSkill[0]);
             }
           }
         }, function(){
           Alert.error('Failed to remove this skill from the user!');
         });
       };
+      
+      $scope.addUser = function(selectedUser){
+        if (selectedUser === null || angular.isString(selectedUser)) {
+          return;
+        }
+
+        $scope.saving = true;
+        
+        var tenantUserSkill = new TenantUserSkill({
+          skillId: $scope.selectedSkill.id,
+          tenantId: Session.tenant.tenantId,
+          userId: selectedUser.id
+        });
+        
+        if ($scope.selectedSkill.$original.hasProficiency){
+          tenantUserSkill.proficiency = $scope.newUserProficiency;
+        }
+        
+        tenantUserSkill.save(function(result){
+          $scope.saving = false;
+          Alert.success('Skill added to user!');
+          $scope.resetAddUser();
+          
+          //Add to caches
+          var tenantSkillUser = new TenantSkillUser({
+            skillId: result.skillId,
+            tenantId: result.tenantId,
+            userId: result.userId,
+            proficiency: result.proficiency
+          });
+          $scope.selectedSkill.fetchSkillUsers().push(tenantSkillUser);
+          
+          if (queryCache.get(TenantUser.prototype.resourceName)){
+            var tenantUser = TenantUser.cachedGet({id: result.userId, tenantId: result.tenantId});
+            tenantUser.$skills.push(tenantUserSkill);
+          }
+        }, function(){
+          Alert.error('Failed to add this skill to the user!');
+          $scope.saving = false;
+        });
+      };
+      
+      $scope.resetAddUser = function(){
+        $scope.newUserProficiency = 1;
+        $timeout(function(){
+          $scope.typeahead = {
+              selectedUser: null
+          }
+        });
+      };
+      
+      $scope.filterUsers = function(item) {
+        if ($scope.selectedSkill){
+          var matchingUsers = $filter('filter')($scope.selectedSkill.fetchSkillUsers(), {
+            'userId': item.id
+          }, true);
+          
+          return matchingUsers.length === 0;
+        }
+      };
+      
+      $scope.resetAddUser();
     }
   ]);
