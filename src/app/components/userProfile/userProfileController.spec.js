@@ -13,8 +13,8 @@ describe('UserProfileController', function() {
   beforeEach(module('liveopsConfigPanel.mock.content.management.tenantUsers'));
   beforeEach(module('liveopsConfigPanel.mock.content.management.users'));
 
-  beforeEach(inject(['$rootScope', '$controller', '$httpBackend', 'User', 'Skill', 'Group', 'apiHostname', 'Session',
-    function($rootScope, _$controller_, _$httpBackend_, User, Skill, Group, _apiHostname_, Session) {
+  beforeEach(inject(['$rootScope', '$controller', '$httpBackend', 'User', 'Skill', 'Group', 'apiHostname',
+    function($rootScope, _$controller_, _$httpBackend_, User, Skill, Group, _apiHostname_) {
       $scope = $rootScope.$new();
       apiHostname = _apiHostname_;
       $controller = _$controller_;
@@ -51,6 +51,6 @@ describe('UserProfileController', function() {
       $scope.submit();
 
       $httpBackend.flush();
-    })
+    });
   });
 });

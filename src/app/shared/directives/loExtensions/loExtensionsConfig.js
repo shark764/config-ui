@@ -8,7 +8,7 @@ angular.module('liveopsConfigPanel')
     }, {
       value: 'pilvo',
       display: $filter('translate')('pilvo')
-    }]
+    }];
   }])
   .service('loExtensionTypes', ['$filter', function ($filter) {
     return [{
@@ -20,5 +20,5 @@ angular.module('liveopsConfigPanel')
     }, {
       value: 'sip',
       display: $filter('translate')('sip')
-    }]
+    }];
   }]);

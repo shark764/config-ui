@@ -8,7 +8,7 @@ angular.module('liveopsConfigPanel')
       this.keyword = jsedn.kw(':groups');
       this.operatorSymbol = jsedn.sym($scope.operator);
       
-      this.uuidTag = new jsedn.Tag("uuid");
+      this.uuidTag = new jsedn.Tag('uuid');
       
       this.tagUuid = function tagUuid(uuid) {
         return new jsedn.Tagged(self.uuidTag, uuid);
@@ -20,7 +20,7 @@ angular.module('liveopsConfigPanel')
         });
       };
       
-      this.filterGroups = function (operand) {
+      this.filterGroups = function () {
         if (!$scope.operands) {
           return;
         }
@@ -70,8 +70,6 @@ angular.module('liveopsConfigPanel')
             
             groupIdTag.id = groupIdTag.obj();
             
-            var groupExpression = groupMap.vals[0];
-
             for (var optionIndex = 0; optionIndex < options.length; optionIndex++) {
               if (groupIdTag.id === options[optionIndex].id) {
                 groupIdTag.display = options[optionIndex].name;
@@ -178,7 +176,7 @@ angular.module('liveopsConfigPanel')
                 
                 return;
               }
-            };
+            }
           }
         }
       };

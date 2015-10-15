@@ -144,10 +144,10 @@ describe('users controller', function() {
 
   describe('ON submit', function() {
     beforeEach(function() {
-      $scope.forms = {}
+      $scope.forms = {};
 
       $scope.selectedTenantUser = mockTenantUsers[0];
-      $scope.selectedTenantUser.$user = mockUsers[0]
+      $scope.selectedTenantUser.$user = mockUsers[0];
 
       //TODO use $httpBackend or something so the promise resolves
       $scope.selectedTenantUser.save = jasmine.createSpy('save').and.returnValue({
@@ -168,7 +168,7 @@ describe('users controller', function() {
           firstName: {$dirty: false},
           lastName: {$dirty: false},
           externalId: {$dirty: false}
-        }
+        };
       });
       
       describe('WHEN permissions are sufficient', function() {
@@ -178,7 +178,7 @@ describe('users controller', function() {
         }]));
         
         it('should PUT to /tenants/users', function() {
-          $scope.submit()
+          $scope.submit();
           
           expect($scope.selectedTenantUser.save).toHaveBeenCalled();
           expect($scope.selectedTenantUser.status).not.toBeDefined();
@@ -192,7 +192,7 @@ describe('users controller', function() {
         }]));
         
         it('should not call selectedTenantUser.save', function() {
-          $scope.submit()
+          $scope.submit();
 
           expect($scope.selectedTenantUser.save).not.toHaveBeenCalled();
         });
@@ -207,7 +207,7 @@ describe('users controller', function() {
           firstName: {$dirty: false},
           lastName: {$dirty: true},
           externalId: {$dirty: false}
-        }
+        };
       });
       
       describe('WHEN permissions are sufficient', function() {
@@ -217,7 +217,7 @@ describe('users controller', function() {
         }]));
         
         it('should PUT to /tenants/users', function() {
-          $scope.submit()
+          $scope.submit();
 
           expect($scope.selectedTenantUser.$user.save).toHaveBeenCalled();
           expect($scope.selectedTenantUser.$user.email).toEqual($scope.selectedTenantUser.email);
@@ -231,7 +231,7 @@ describe('users controller', function() {
         }]));
         
         it('should PUT to /tenants/users', function() {
-          $scope.submit()
+          $scope.submit();
 
           expect($scope.selectedTenantUser.$user.save).not.toHaveBeenCalled();
         });

@@ -16,7 +16,7 @@ angular.module('liveopsConfigPanel')
         equal: '='
       };
 
-      this.uuidTag = new jsedn.Tag("uuid");
+      this.uuidTag = new jsedn.Tag('uuid');
       
       this.tagUuid = function tagUuid(uuid) {
         return new jsedn.Tagged(self.uuidTag, uuid);
@@ -46,7 +46,7 @@ angular.module('liveopsConfigPanel')
         });
       };
 
-      this.filterSkills = function (operand) {
+      this.filterSkills = function () {
         if (!$scope.operands) {
           return;
         }

@@ -159,7 +159,7 @@ describe('groupQueryController', function () {
   });
 
   describe('ON parseOperands', function () {
-    beforeEach(inject(['$q', function ($q) {
+    beforeEach(inject([function () {
       controller = $controller('groupQueryController', {
         '$scope': {
           parentMap: rootMap,

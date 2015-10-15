@@ -46,5 +46,5 @@ angular.module('liveopsConfigPanel')
       }
       
       return user;
-    }
+    };
   }]);
