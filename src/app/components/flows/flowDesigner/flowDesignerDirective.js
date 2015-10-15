@@ -15,6 +15,22 @@ function flowDesigner() {
       controller: ['$scope', '$element', '$attrs', '$window', '$document', '$compile', '$timeout', 'FlowInitService', 'SubflowCommunicationService', 'FlowDraft', 'FlowVersion', 'Session', 'Alert', '$state', 'FlowLibrary', function($scope, $element, $attrs, $window, $document, $compile, $timeout, FlowInitService, SubflowCommunicationService, FlowDraft, FlowVersion, Session, Alert, $state, FlowLibrary) {
 
         $timeout(function() {
+          //This must be preloaded as it is used when connection is down
+          function preloadNetworkModal() {
+            var newScope = $scope.$new();
+
+            newScope.modalBody = 'app/components/flows/flowDesigner/networkIssueModal.html';
+            newScope.title = 'Network Connection';
+
+            newScope.okCallback = function() {
+              $document.find('modal').remove();
+              update();
+            };
+
+            return $compile('<modal></modal>')(newScope);
+          }
+
+          $scope.networkModal = preloadNetworkModal();
 
           FlowLibrary.loadData($scope.notations);
 
@@ -97,6 +113,12 @@ function flowDesigner() {
             if(newValue !== oldValue) {$scope.$broadcast('update:draft');}
           });
 
+          $scope.$watch('online', function(state) {
+            if(state === false) {
+              $document.find('html > body').append($scope.networkModal);
+            }
+          });
+
           $scope.graph.on('change', function(){
             $scope.$broadcast('update:draft');
           });
@@ -120,7 +142,14 @@ function flowDesigner() {
             });
 
             request.then(function() {
+              $scope.online = true;
               validate($scope.graph);
+            }).catch(function (rejection) {
+              if(rejection.status === -1) {
+                $scope.online = false;
+              } else {
+                $scope.online = true;
+              }
             });
           };
 
