@@ -46,7 +46,7 @@ var BulkActions = function() {
   // Generic Management Bulk Actions
   this.selectEnable = element(by.id('select-enable-bulk-action'));
   this.enableToggle = element(by.id('bulk-action-enable-toggle'));
-  this.enableToggleClick = element(by.css('#bulk-action-enable-toggle > label:nth-child(2)'));
+  this.enableToggleSwitch = this.enableToggle.element(by.css('.switch-handle'));
 
   // Bulk Actions buttons
   this.submitFormBtn = this.bulkActionsForm.element(by.id('submit-bulk-actions-btn'));
@@ -67,6 +67,13 @@ var BulkActions = function() {
   this.allStatus = this.statusColumnDropDown.element(by.css('.all'));
   this.statuses = this.statusColumnDropDown.all(by.repeater('option in options | orderBy:orderBy'));
   this.statusInputs = this.statusColumnDropDown.all(by.css('input'));
+
+  // Tenant Status table selectors
+  this.tenantStatusColumnDropDown = this.tableHeader.element(by.id('tenant-status-table-column'));
+  this.tenantStatusColumnDropDownLabel = this.tenantStatusColumnDropDown.element(by.css('.dropdown-label'));
+  this.allTenantStatus = this.tenantStatusColumnDropDown.element(by.css('.all'));
+  this.tenantStatuses = this.tenantStatusColumnDropDown.all(by.repeater('option in options | orderBy:orderBy'));
+  this.tenantStatusInputs = this.tenantStatusColumnDropDown.all(by.css('input'));
 };
 
 module.exports = new BulkActions();

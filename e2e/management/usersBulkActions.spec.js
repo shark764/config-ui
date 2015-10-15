@@ -103,105 +103,137 @@ describe('The users view bulk actions', function() {
     });
   });
 
-  xit('should allow selected user\'s status to be set to disabled', function() {
-    // TODO Fails when no users are edited, ie all pending
-    shared.actionsBtn.click();
+  it('should allow selected user\'s status to be set to disabled', function() {
+    // Only display users with Tenant Status == Accepted
+    // Add Tenant Status Column
+    shared.tableColumnsDropDown.click();
+    shared.tableColumnsDropDownInputs.get(8).isSelected().then(function(tenantStatusSelected) {
+      if (!tenantStatusSelected) {
+        shared.tableColumnsDropDownOptions.get(8).click();
+        expect(shared.tableColumnsDropDownInputs.get(8).isSelected()).toBeTruthy();
+      }
+    }).then(function() {
+      shared.tableColumnsDropDown.click().then(function() {
 
-    // Select all users, except current user
-    shared.tableElements.each(function(userElement, elementIndex) {
-      userElement.getText().then(function(userText) {
-        if (userText.indexOf(params.login.user) == -1) {
-          bulkActions.selectItemTableCells.get(elementIndex).click();
-        }
-      });
-    });
+        // Select Accepted from Tenant Status drop down
+        users.tenantStatusTableDropDownLabel.click();
+        users.dropdownTenantStatuses.get(3).click();
 
-    bulkActions.userSelectEnable.click();
+        shared.tableElements.count().then(function(acceptedUserCount) {
+          if (acceptedUserCount > 1) { // Ignore current user
+            shared.actionsBtn.click();
 
-    expect(bulkActions.submitFormBtn.getAttribute('disabled')).toBeFalsy();
-    bulkActions.submitFormBtn.click();
+            // Select all users, except current user
+            shared.tableElements.each(function(userElement, elementIndex) {
+              userElement.getText().then(function(userText) {
+                if (userText.indexOf(params.login.user) == -1) {
+                  bulkActions.selectItemTableCells.get(elementIndex).click();
+                }
+              });
+            });
 
-    expect(bulkActions.confirmModal.isDisplayed()).toBeTruthy();
-    bulkActions.confirmOK.click().then(function() {
-      shared.waitForSuccess();
-      expect(shared.successMessage.isDisplayed()).toBeTruthy();
+            bulkActions.userSelectEnable.click();
 
-      // Form reset
-      expect(bulkActions.submitFormBtn.getAttribute('disabled')).toBeTruthy();
-      expect(bulkActions.enableToggle.getAttribute('disabled')).toBeTruthy();
+            expect(bulkActions.submitFormBtn.getAttribute('disabled')).toBeFalsy();
+            bulkActions.submitFormBtn.click();
 
-      // Add status column
-      shared.tableColumnsDropDown.click();
-      columns.options.get(7).click().then(function() {
-        shared.tableColumnsDropDown.click();
+            expect(bulkActions.confirmModal.isDisplayed()).toBeTruthy();
+            bulkActions.confirmOK.click().then(function() {
 
-        // All users are set to disabled
-        // Select Disabled from Status drop down
-        bulkActions.statusColumnDropDownLabel.click();
-        bulkActions.statuses.get(0).click();
-        bulkActions.statuses.get(2).click(); // And Pending which aren't updated
-        shared.tableElements.count().then(function(disabledTotal) {
-          expect(disabledTotal).toBe(userCount - 1);
-        });
+              // TODO Bug TITAN2-4416 where unsaved changes message is displayed
+              shared.waitForAlert();
+              shared.dismissChanges();
 
-        // Select Enabled from Status drop down
-        bulkActions.statuses.get(0).click();
-        bulkActions.statuses.get(2).click();
-        bulkActions.statuses.get(1).click();
-        shared.tableElements.count().then(function(enabledTotal) {
-          expect(enabledTotal).toBe(1);
+              shared.waitForSuccess();
+              expect(shared.successMessage.isDisplayed()).toBeTruthy();
+
+              // Form reset
+              expect(bulkActions.submitFormBtn.getAttribute('disabled')).toBeTruthy();
+              expect(bulkActions.enableToggle.getAttribute('disabled')).toBeTruthy();
+
+              // Only current user remains with Tenant Status == Accepted
+              shared.tableElements.count().then(function(enabledTotal) {
+                expect(enabledTotal).toBe(1);
+              });
+
+              // All users are set to disabled
+              // Select Disabled from Tenant Status drop down
+              bulkActions.tenantStatusColumnDropDownLabel.click();
+              bulkActions.tenantStatuses.get(3).click();
+              bulkActions.tenantStatuses.get(0).click();
+              bulkActions.tenantStatusColumnDropDownLabel.click();
+              shared.tableElements.count().then(function(disabledTotal) {
+                expect(disabledTotal).not.toBeLessThan(acceptedUserCount - 1); // Should be at least equal to the number reset - current user
+              });
+            });
+          }
         });
       });
     });
   });
 
-  xit('should allow selected user\'s status to be set to enabled', function() {
-    // TODO Fails when no users are edited, ie all pending
-    shared.actionsBtn.click();
+  it('should allow selected user\'s status to be set to enabled', function() {
+    // Only display users with Tenant Status == Disabled
+    // Add Status Column
+    shared.tableColumnsDropDown.click();
+    shared.tableColumnsDropDownInputs.get(8).isSelected().then(function(tenantStatusSelected) {
+      if (!tenantStatusSelected) {
+        shared.tableColumnsDropDownOptions.get(8).click();
+        expect(shared.tableColumnsDropDownInputs.get(8).isSelected()).toBeTruthy();
+      }
+    }).then(function() {
+      shared.tableColumnsDropDown.click().then(function() {
 
-    // Select all users, except current user
-    shared.tableElements.each(function(userElement, elementIndex) {
-      userElement.getText().then(function(userText) {
-        if (userText.indexOf(params.login.user) == -1) {
-          bulkActions.selectItemTableCells.get(elementIndex).click();
-        }
-      });
-    });
+        // Select Disabled from Tenant Status drop down
+        users.tenantStatusTableDropDownLabel.click();
+        users.dropdownTenantStatuses.get(0).click();
 
-    bulkActions.userSelectEnable.click();
-    bulkActions.enableToggle.click();
+        shared.tableElements.count().then(function(disabledUserCount) {
+          if (disabledUserCount > 0) {
+            shared.actionsBtn.click();
 
-    bulkActions.submitFormBtn.click();
+            // Select all users, except current user
+            shared.tableElements.each(function(userElement, elementIndex) {
+              userElement.getText().then(function(userText) {
+                if (userText.indexOf(params.login.user) == -1) {
+                  bulkActions.selectItemTableCells.get(elementIndex).click();
+                }
+              });
+            });
 
-    expect(bulkActions.confirmModal.isDisplayed()).toBeTruthy();
-    bulkActions.confirmOK.click().then(function() {
-      shared.waitForSuccess();
-      expect(shared.successMessage.isDisplayed()).toBeTruthy();
+            bulkActions.userSelectEnable.click().then(function() {
+              bulkActions.enableToggleSwitch.click();
 
-      // Form reset
-      expect(bulkActions.submitFormBtn.getAttribute('disabled')).toBeTruthy();
-      expect(bulkActions.enableToggle.getAttribute('disabled')).toBeTruthy();
+              bulkActions.submitFormBtn.click();
 
-      // Add status column
-      shared.tableColumnsDropDown.click();
-      columns.options.get(7).click().then(function() {
-        shared.tableColumnsDropDown.click();
+              expect(bulkActions.confirmModal.isDisplayed()).toBeTruthy();
+              bulkActions.confirmOK.click().then(function() {
 
-        // All users are set to disabled
-        // Select Disabled from Status drop down
-        bulkActions.statusColumnDropDownLabel.click();
-        bulkActions.statuses.get(0).click();
-        bulkActions.statuses.get(2).click();
-        shared.tableElements.count().then(function(disabledTotal) {
-          expect(disabledTotal).toBe(0);
-        });
+                // TODO Bug TITAN2-4416 where unsaved changes message is displayed
+                shared.waitForAlert();
+                shared.dismissChanges();
 
-        // Select Enabled from Status drop down
-        bulkActions.statuses.get(0).click();
-        bulkActions.statuses.get(2).click(); // And Pending which aren't updated
-        bulkActions.statuses.get(1).click();
-        shared.tableElements.count().then(function(enabledTotal) {
-          expect(enabledTotal).toBe(userCount);
+                shared.waitForSuccess();
+                expect(shared.successMessage.isDisplayed()).toBeTruthy();
+
+                // Form reset
+                expect(bulkActions.submitFormBtn.getAttribute('disabled')).toBeTruthy();
+                expect(bulkActions.enableToggle.getAttribute('disabled')).toBeTruthy();
+
+                // No users are disabled
+                expect(shared.tableElements.count()).toBe(0);
+
+                // Select Accepted from Tenant Status drop down
+                bulkActions.tenantStatusColumnDropDownLabel.click();
+                bulkActions.tenantStatuses.get(0).click();
+                bulkActions.tenantStatuses.get(3).click();
+                bulkActions.tenantStatusColumnDropDownLabel.click();
+                shared.tableElements.count().then(function(enabledTotal) {
+                  expect(enabledTotal).not.toBeLessThan(disabledUserCount); // Should be at least the number reset
+                });
+              });
+            });
+          }
         });
       });
     });
@@ -341,7 +373,7 @@ describe('The users view bulk actions', function() {
                 return userSkillCount;
               });
             }, 5000);
-            expect(users.userSkills.count()).toBe(skillCount-1);
+            expect(users.userSkills.count()).toBe(skillCount - 1);
           }
         });
       });
@@ -476,7 +508,7 @@ describe('The users view bulk actions', function() {
       });
     }).then(function() {
       // Update proficiency
-      shared.actionsBtn.click().then(function () {
+      shared.actionsBtn.click().then(function() {
         bulkActions.selectChangeSkills.click();
 
         // Update newly added skill proficiency
@@ -636,7 +668,7 @@ describe('The users view bulk actions', function() {
           // Verify groups are added to each user
           for (var i = 0; i < 3; i++) {
             shared.tableElements.get(i).click();
-            expect(users.userGroups.count()).toBe(groupCount-1);
+            expect(users.userGroups.count()).toBe(groupCount - 1);
           }
         });
       });
@@ -685,7 +717,7 @@ describe('The users view bulk actions', function() {
     });
   });
 
-  xit('should show message when all Groups or Skills have been removed', function() {
+  it('should show message when all Groups or Skills have been removed', function() {
     shared.actionsBtn.click();
 
     // Enable Skills and Groups bulk actions
