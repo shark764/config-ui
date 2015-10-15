@@ -101,6 +101,7 @@
   "details.groups.showall": "Show all",
   "details.groups.hideextra": "Minimize",
   "details.groups.placeholder": "Add Group...",
+  "details.users.placeholder": "Add User...",
   "details.groups.title": "Groups",
   "details.channelType": "Channel Type",
   "details.flow": "Flow",

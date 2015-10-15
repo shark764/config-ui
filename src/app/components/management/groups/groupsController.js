@@ -12,10 +12,18 @@ angular.module('liveopsConfigPanel')
           tenantId: Session.tenant.tenantId,
           groupId: this.id
         }, 'groups/' + this.id + '/users');
-        
+
         this.members = result;
         return result;
       };
+
+/*      $scope.fetchUsers = function () {
+        $scope.allusers = User.cachedQuery({
+          tenantId: Session.tenant.tenantId
+        });
+
+        console.log($scope.allusers);
+      };*/
       
       $scope.fetchGroups = function () {
         return Group.cachedQuery({
