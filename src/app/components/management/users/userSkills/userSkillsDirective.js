@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('userSkills', ['TenantUserSkill', 'Skill', 'Session', 'Alert', 'filterFilter',
-    function (TenantUserSkill, Skill, Session, Alert, filterFilter) {
+  .directive('userSkills', ['TenantUserSkill', 'Skill', 'Session', 'Alert', 'filterFilter', 'queryCache',
+    function (TenantUserSkill, Skill, Session, Alert, filterFilter, queryCache) {
       return {
         restrict: 'E',
         scope: {
@@ -38,6 +38,10 @@ angular.module('liveopsConfigPanel')
               if (userSkill.length){
                 $scope.user.$skills.removeItem(userSkill[0]);
               }
+              
+              //TODO: remove once skills api returns members list
+              //Reset cache of users for this skill
+              queryCache.remove('skills/' + tsu.skillId + '/users');
             }, function () {
               Alert.error('Failed to remove skill');
             });
@@ -97,6 +101,11 @@ angular.module('liveopsConfigPanel')
               });
               
               Alert.success('User skill added!');
+              
+              //TODO: remove once skills api returns members list
+              //Reset cache of users for this skill
+              queryCache.remove('skills/' + selectedSkill.id + '/users');
+              
               $scope.reset();
             }, function () {
               Alert.error('Failed to save user skill');

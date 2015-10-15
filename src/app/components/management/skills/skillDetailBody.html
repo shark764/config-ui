@@ -27,3 +27,43 @@
     <toggle ng-disabled="! ('MANAGE_ALL_SKILLS' | hasPermission) || (! selectedSkill.isNew() && selectedSkill.$original.hasProficiency)" class="status-toggle" name="hasProficiency" ng-model="selectedSkill.hasProficiency"></toggle>
   </div>
 </div>
+
+<div ng-if="!selectedSkill.isNew()">
+  <div class="divider-header">
+    <h4>Members
+      <b class="count" translate="value.numMembers"
+        translate-value-number="{{selectedSkill.fetchSkillUsers().length}}" >
+      </b>
+    </h4>
+  </div>
+
+  <p ng-if="selectedSkill.fetchSkillUsers().$resolved"
+    class="null" id="empty-members-message" ng-hide="selectedSkill.fetchSkillUsers().length">
+    {{'skill.details.members.none' | translate}}
+  </p>
+  
+  <loading ng-if="selectedSkill.fetchSkillUsers().$resolved != undefined"
+    ng-show="!selectedSkill.fetchSkillUsers().$resolved"></loading>
+
+  <table 
+    scroll-table 
+    max-height="300" 
+    class="table" 
+    ng-show="selectedSkill.fetchSkillUsers().length > 0">
+    <thead>
+      <tr>
+        <th>{{'value.name' | translate}}</th>
+        <th>{{'value.proficiency' | translate}}</th>
+        <th class="control-col"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="user in selectedSkill.fetchSkillUsers()">
+        <td><a ng-click="gotoUserPage(user.userId)"><audit-text translation="value.displayName" user-id="user.userId"></audit-text></a></td>
+        <td class="proficiency-col">{{user.proficiency}}</td>
+        <td class="control-col"><i class="remove fa fa-times" ng-click="removeUser(user)"></i></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+

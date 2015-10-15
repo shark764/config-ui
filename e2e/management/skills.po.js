@@ -13,8 +13,9 @@ var SkillsPage = function() {
 
   this.nameColumn = 'td:nth-child(2)';
   this.descriptionColumn = 'td:nth-child(3)';
-  this.proficiencyColumn = 'td:nth-child(4)';
-  this.statusColumn = 'td:nth-child(5)';
+  this.membersColumn = 'td:nth-child(4)';
+  this.proficiencyColumn = 'td:nth-child(5)';
+  this.statusColumn = 'td:nth-child(6)';
 
   this.nameRequiredError = element.all(by.css('.lo-error'));
 };
