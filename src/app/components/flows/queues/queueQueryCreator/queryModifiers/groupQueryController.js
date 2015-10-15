@@ -7,15 +7,11 @@ angular.module('liveopsConfigPanel')
 
       this.keyword = jsedn.kw(':groups');
       this.operatorSymbol = jsedn.sym($scope.operator);
-
-      this.uuidSymbolRegex = /#uuid \"([\w-]+)\"/g;
       
-      var parseIdSymbol = function parseIdSymbol(idSymbol) {
-        return self.uuidSymbolRegex.exec(idSymbol)[1];
-      };
+      this.uuidTag = new jsedn.Tag("uuid");
       
-      var generateIdSymbol = function generateIdSymbol(operand) {
-        return jsedn.sym('#uuid "' + operand.id + '"');
+      this.tagUuid = function tagUuid(uuid) {
+        return new jsedn.Tagged(self.uuidTag, uuid);
       };
       
       this.fetchGroups = function () {
@@ -66,23 +62,20 @@ angular.module('liveopsConfigPanel')
           for (var operationListIndex = 1; operationListIndex < operationList.val.length; operationListIndex++) {
             var groupMap = operationList.val[operationListIndex];
 
-            var groupIdSymbol = groupMap.keys[0];
-            groupIdSymbol.id = parseIdSymbol(groupIdSymbol);
+            var groupIdTag = groupMap.keys[0];
+            
+            if(angular.isString(groupIdTag)) {
+              groupMap.keys[0] = groupIdTag = self.tagUuid(groupIdTag);
+            }
+            
+            groupIdTag.id = groupIdTag.obj();
             
             var groupExpression = groupMap.vals[0];
 
             for (var optionIndex = 0; optionIndex < options.length; optionIndex++) {
-              if (groupIdSymbol.id === options[optionIndex].id) {
-                if (options[optionIndex].hasProficiency) {
-                  var groupOperator = groupExpression.at(0);
-                  var groupOperand = groupExpression.at(1);
-
-                  groupIdSymbol.display = [options[optionIndex].name, groupOperator, groupOperand].join(' ');
-                } else {
-                  groupIdSymbol.display = options[optionIndex].name;
-                }
-
-                operands.push(groupIdSymbol);
+              if (groupIdTag.id === options[optionIndex].id) {
+                groupIdTag.display = options[optionIndex].name;
+                operands.push(groupIdTag);
                 break;
               }
             }
@@ -116,7 +109,8 @@ angular.module('liveopsConfigPanel')
 
           //if the operationList doesn't exist or is followed up by nothing
           if (!operationList || operationList.length <= 1) {
-            groupProficiencyMap = new jsedn.Map([generateIdSymbol(operand), true]);
+            groupProficiencyMap = new jsedn.Map([self.tagUuid(operand.id), true]);
+            
             operationList = new jsedn.List([self.operatorSymbol, groupProficiencyMap]);
 
             andList.val.push(operationList);
@@ -128,15 +122,15 @@ angular.module('liveopsConfigPanel')
           for (var operationListIndex = 1; operationListIndex < operationList.val.length; operationListIndex++) {
             var groupMap = operationList.val[operationListIndex];
 
-            if (groupMap.exists(generateIdSymbol(operand))) {
+            if (groupMap.exists(self.tagUuid(operand.id))) {
               return;
             }
           }
 
-          groupProficiencyMap = new jsedn.Map([generateIdSymbol(operand), true]);
+          groupProficiencyMap = new jsedn.Map([self.tagUuid(operand.id), true]);
           operationList.val.push(groupProficiencyMap);
         } else {
-          groupProficiencyMap = new jsedn.Map([generateIdSymbol(operand), true]);
+          groupProficiencyMap = new jsedn.Map([self.tagUuid(operand.id), true]);
 
           operationList = new jsedn.List([self.operatorSymbol, groupProficiencyMap]);
           andList = new jsedn.List([jsedn.sym('and'), operationList]);
@@ -172,15 +166,19 @@ angular.module('liveopsConfigPanel')
           //look in operationList for the group operand being removed
           for (var operationListIndex = 1; operationListIndex < operationList.val.length; operationListIndex++) {
             var groupMap = operationList.val[operationListIndex];
+            
+            for(var groupMapKey in groupMap.keys) {
+              var groupIdTag = groupMap.keys[groupMapKey];
+              if(groupIdTag.obj() === operand.id) {
+                operationList.val.splice(operationListIndex, 1);
 
-            if (groupMap.exists(generateIdSymbol(operand))) {
-              operationList.val.splice(operationListIndex, 1);
-
-              if (operationList.val.length <= 1) {
-                $scope.parentMap.remove(self.keyword);
+                if (operationList.val.length <= 1) {
+                  $scope.parentMap.remove(self.keyword);
+                }
+                
+                return;
               }
-              return;
-            }
+            };
           }
         }
       };

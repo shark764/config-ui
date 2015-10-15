@@ -16,14 +16,10 @@ angular.module('liveopsConfigPanel')
         equal: '='
       };
 
-      this.uuidSymbolRegex = /#uuid \"([\w-]+)\"/g;
-
-      var parseIdSymbol = function parseIdSymbol(idSymbol) {
-        return self.uuidSymbolRegex.exec(idSymbol)[1];
-      };
-
-      var generateIdSymbol = function generateIdSymbol(operand) {
-        return jsedn.sym('#uuid "' + operand.id + '"');
+      this.uuidTag = new jsedn.Tag("uuid");
+      
+      this.tagUuid = function tagUuid(uuid) {
+        return new jsedn.Tagged(self.uuidTag, uuid);
       };
 
       var generateProficiencyMap = function generateProficiencyMap(operand) {
@@ -34,11 +30,11 @@ angular.module('liveopsConfigPanel')
         if (operand.hasProficiency) {
           proficiencyOperator = jsedn.sym(self.operatorMap[operand.proficiencyOperator]);
           proficiencyList = new jsedn.List([proficiencyOperator, operand.proficiency]);
-          skillProficiencyMap = new jsedn.Map([generateIdSymbol(operand), proficiencyList]);
+          skillProficiencyMap = new jsedn.Map([self.tagUuid(operand.id), proficiencyList]);
         } else {
           proficiencyOperator = jsedn.sym(self.operatorMap.gte);
           proficiencyList = new jsedn.List([proficiencyOperator, 1]);
-          skillProficiencyMap = new jsedn.Map([generateIdSymbol(operand), proficiencyList]);
+          skillProficiencyMap = new jsedn.Map([self.tagUuid(operand.id), proficiencyList]);
         }
 
         return skillProficiencyMap;
@@ -92,23 +88,28 @@ angular.module('liveopsConfigPanel')
           for (var operationListIndex = 1; operationListIndex < operationList.val.length; operationListIndex++) {
             var skillMap = operationList.val[operationListIndex];
 
-            var skillIdSymbol = skillMap.keys[0];
-            skillIdSymbol.id = parseIdSymbol(skillIdSymbol);
+            var skillIdTag = skillMap.keys[0];
+            
+            if(angular.isString(skillIdTag)) {
+              skillMap.keys[0] = skillIdTag = self.tagUuid(skillIdTag);
+            }
+            
+            skillIdTag.id = skillIdTag.obj();
 
             var skillExpression = skillMap.vals[0];
 
             for (var optionIndex = 0; optionIndex < options.length; optionIndex++) {
-              if (skillIdSymbol.id === options[optionIndex].id) {
+              if (skillIdTag.id === options[optionIndex].id) {
                 if (options[optionIndex].hasProficiency) {
                   var skillOperator = skillExpression.at(0);
                   var skillOperand = skillExpression.at(1);
 
-                  skillIdSymbol.display = [options[optionIndex].name, skillOperator, skillOperand].join(' ');
+                  skillIdTag.display = [options[optionIndex].name, skillOperator, skillOperand].join(' ');
                 } else {
-                  skillIdSymbol.display = options[optionIndex].name;
+                  skillIdTag.display = options[optionIndex].name;
                 }
 
-                operands.push(skillIdSymbol);
+                operands.push(skillIdTag);
                 break;
               }
             }
@@ -154,7 +155,7 @@ angular.module('liveopsConfigPanel')
           for (var operationListIndex = 1; operationListIndex < operationList.val.length; operationListIndex++) {
             var skillMap = operationList.val[operationListIndex];
 
-            if (skillMap.exists(generateIdSymbol(operand))) {
+            if (skillMap.exists(self.tagUuid(operand.id))) {
               return;
             }
           }
@@ -198,14 +199,18 @@ angular.module('liveopsConfigPanel')
           //look in operationList for the skill operand being removed
           for (var operationListIndex = 1; operationListIndex < operationList.val.length; operationListIndex++) {
             var skillMap = operationList.val[operationListIndex];
+            
+            for(var skillMapKey in skillMap.keys) {
+              var skillIdTag = skillMap.keys[skillMapKey];
+              if(skillIdTag.obj() === operand.id) {
+                operationList.val.splice(operationListIndex, 1);
 
-            if (skillMap.exists(generateIdSymbol(operand))) {
-              operationList.val.splice(operationListIndex, 1);
-
-              if (operationList.val.length <= 1) {
-                $scope.parentMap.remove(self.keyword);
+                if (operationList.val.length <= 1) {
+                  $scope.parentMap.remove(self.keyword);
+                }
+                
+                return;
               }
-              return;
             }
           }
         }

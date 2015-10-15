@@ -46,7 +46,7 @@ describe('groupQueryController', function () {
         var expected = '{:groups (and (and {#uuid "groupId2" true}))}';
 
         controller.add(mockGroups[1]);
-
+        
         expect(jsedn.encode($scope.parentMap)).toEqual(expected);
       });
 
