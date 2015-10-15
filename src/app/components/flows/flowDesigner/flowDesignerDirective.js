@@ -12,7 +12,7 @@ function flowDesigner() {
       templateUrl: 'app/components/flows/flowDesigner/flowDesignerDirective.html',
       replace: true,
       link: function() {},
-      controller: ['$scope', '$element', '$attrs', '$window', '$document', '$compile', '$timeout', 'FlowInitService', 'SubflowCommunicationService', 'FlowDraft', 'FlowVersion', 'Session', 'Alert', '$state', 'FlowLibrary', function($scope, $element, $attrs, $window, $document, $compile, $timeout, FlowInitService, SubflowCommunicationService, FlowDraft, FlowVersion, Session, Alert, $state, FlowLibrary) {
+      controller: ['$scope', '$element', '$attrs', '$window', '$document', '$compile', '$timeout', 'FlowInitService', 'SubflowCommunicationService', 'FlowDraft', 'FlowVersion', 'Session', 'Alert', '$state', 'FlowLibrary', '$q', function($scope, $element, $attrs, $window, $document, $compile, $timeout, FlowInitService, SubflowCommunicationService, FlowDraft, FlowVersion, Session, Alert, $state, FlowLibrary, $q) {
 
         $timeout(function() {
 
@@ -74,12 +74,34 @@ function flowDesigner() {
           }
 
           function validate(graph) {
-            var errors = FlowLibrary.validate(graph.toJSON());
-            if(errors){
-              addErrors(errors);
-              return false;
-            }
-            else { return true; }
+            var deferred = $q.defer();
+            var jsonGraph = graph.toJSON();
+            var errors = FlowLibrary.validate(jsonGraph);
+
+            var alienese = FlowLibrary.convertToAlienese(graph.toJSON()),
+                _draft = new FlowDraft({
+                  flow: JSON.stringify(alienese),
+                  description: '',
+                  name: 'validation',
+                  tenantId: Session.tenant.tenantId,
+                  flowId: $scope.flowData.flowId
+                });
+
+            var apiErrors = _draft.validate();
+            apiErrors.then(function() {
+              deferred.resolve();
+            }, function(results) {
+              errors.push(results.data.error.attribute.flow);
+              deferred.resolve();
+            });
+
+            deferred.promise.then(function() {
+              if(errors){
+                addErrors(errors);
+                return false;
+              }
+              else { return true; }
+            });
           }
 
           $scope.$watch('flowData.name', function(newValue, oldValue){
@@ -183,8 +205,6 @@ function flowDesigner() {
                     flowId: $scope.flowData.flowId
                   });
 
-              console.log('Where are we here');
-
               _version.save(function(v){
                 $document.find('modal').remove();
                 Alert.success('New flow version successfully created.');
@@ -204,7 +224,6 @@ function flowDesigner() {
                   $document.find('modal').remove();
                   Alert.error('API rejected this flow -- please verify your conditional statements are correct.');
                   addErrors([error.data.error.attribute.flow]);
-                  console.log(error);
                 } else {
                   Alert.error('API rejected this flow -- some other reason...', JSON.stringify(error, null, 2));
                 }
