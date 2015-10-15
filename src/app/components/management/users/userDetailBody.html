@@ -109,9 +109,11 @@
       <label></label>
       <div>
         <input id="resend-invitation-btn" type="button" class="btn" ng-click="resend()"
-          value="{{'user.details.invitation.resend' | translate}}">
-          <a ng-if="selectedTenantUser.status == 'invited'" id="expire-invitation-link" ng-click="expireTenantUser()">
-          {{'user.details.invitation.expire' | translate}}</a>
+          value="{{(selectedTenantUser.status == 'pending' ? 'user.details.invitation.send' : 'user.details.invitation.resend') | translate}}">
+        <a ng-if="selectedTenantUser.status == 'invited'" id="expire-invitation-link"
+          ng-click="expireTenantUser()">
+          {{'user.details.invitation.expire' | translate}}
+        </a>
       </div>
     </div>
   </div>

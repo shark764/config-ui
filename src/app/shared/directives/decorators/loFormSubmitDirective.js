@@ -30,7 +30,7 @@ angular.module('liveopsConfigPanel')
                       self.errorInputWatchesUnbinds[key]();
                       delete self.errorInputWatchesUnbinds[key];
                     }
-                  })
+                  });
                 });
             }
 

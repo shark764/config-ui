@@ -38,7 +38,7 @@ angular.module('liveopsConfigPanel')
               });
           });
 
-          $scope.$on('dropdown:item:checked', function (option){
+          $scope.$on('dropdown:item:checked', function (){
             var columnPreferences = Session.columnPreferences;
             columnPreferences[$scope.config.title] = $scope.config.fields;
             Session.setColumnPreferences(columnPreferences);
@@ -189,10 +189,10 @@ angular.module('liveopsConfigPanel')
                   }
                 });
               }
-            };
+            }
 
             return $scope.config.fields;
-          }
+          };
         }
       };
     }

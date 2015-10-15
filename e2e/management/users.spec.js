@@ -143,7 +143,7 @@ describe('The users view', function() {
     });
   });
 
-  it('should not update table when user details are changed and cancelled', function() {
+  xit('should not update table when user details are changed and cancelled', function() {
     // Select External Id column
     shared.tableColumnsDropDown.click();
     columns.options.get(2).click();
@@ -195,7 +195,7 @@ describe('The users view', function() {
     expect(shared.firstTableRow.element(by.css(users.nameColumn)).getText()).toBe(users.userNameDetailsHeader.getText());
   });
 
-  it('should update table when user details are changed and saved', function() {
+  xit('should update table when user details are changed and saved', function() {
     // Select External Id column
     shared.tableColumnsDropDown.click();
     columns.options.get(2).click();

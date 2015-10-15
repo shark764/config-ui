@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('tenantUserTransformer', ['User', 'TenantRole', function(User, TenantRole) {
+  .service('tenantUserTransformer', ['User', 'TenantRole', 'Session', function(User, TenantRole, Session) {
     var rename = function(tenantUser, fieldName, newFieldName) {
       tenantUser[newFieldName] = tenantUser[fieldName];
       delete tenantUser[fieldName];
@@ -41,6 +41,9 @@ angular.module('liveopsConfigPanel')
         tenantUser.$roleName = TenantRole.getName(tenantUser.roleId)
       }
 
+      //Required so that we can get a cache hit on TenantUser.cachedGet
+      tenantUser.tenantId = Session.tenant.tenantId;
+      
       tenantUser.$user.$original = angular.copy(tenantUser.$user);
     };
   }])

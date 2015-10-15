@@ -21,7 +21,7 @@ angular.module('liveopsConfigPanel')
       };
 
       $scope.create = function() {
-        new Flow({
+        $scope.selectedFlow = new Flow({
           tenantId: Session.tenant.tenantId,
           active: true,
           name: 'Untitled Flow',

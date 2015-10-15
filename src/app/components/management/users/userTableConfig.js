@@ -58,6 +58,16 @@ angular.module('liveopsConfigPanel')
             path: '$user.lastName'
           }, {
             path: '$user.email'
+          }, {
+            path: '$original.skills',
+            inner: {
+              path: 'name'
+            }
+          }, {
+            path: '$original.groups',
+            inner: {
+              path: 'name'
+            }
           }]
         };
 

@@ -132,28 +132,17 @@ describe('setSkillsBulkAction directive', function () {
 
   describe('ON onChange', function () {
     it('should be defined', function () {
-      expect(isolateScope.onChange).toBeDefined();
+      expect(isolateScope.onChangeSkill).toBeDefined();
+      expect(isolateScope.onChangeType).toBeDefined();
     });
 
-    it('should fetch userSkills', inject(['$httpBackend', 'apiHostname', function ($httpBackend, apiHostname) {
-      isolateScope.bulkAction.userSkillsBulkActions[0].selectedSkill = isolateScope.fetchSkills()[0];
+    it('should set action.params.skillId', inject([function () {
+      isolateScope.bulkAction.userSkillsBulkActions[0].selectedSkill = isolateScope.availableSkills[0];
 
-      $httpBackend.expectGET(apiHostname + '/v1/tenants/tenant-id/skills/skillId1/users');
-
-      isolateScope.onChange(isolateScope.bulkAction.userSkillsBulkActions[0]);
-
-      $httpBackend.flush();
-    }]));
-
-    it('should set action.params.skillId', inject(['$httpBackend', function ($httpBackend) {
-      isolateScope.bulkAction.userSkillsBulkActions[0].selectedSkill = isolateScope.fetchSkills()[0];
-
-      isolateScope.onChange(isolateScope.bulkAction.userSkillsBulkActions[0]);
-
-      $httpBackend.flush();
+      isolateScope.onChangeSkill(isolateScope.bulkAction.userSkillsBulkActions[0]);
 
       expect(isolateScope.bulkAction.userSkillsBulkActions[0].params.skillId).toEqual(
-        isolateScope.fetchSkills()[0].id);
+        isolateScope.availableSkills[0].id);
     }]));
   });
 });

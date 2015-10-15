@@ -5,7 +5,7 @@
 <div>
   <div class="input-group">
     <label>{{'value.name' | translate}} *</label>
-    <form-error field="detailsForm.name"
+    <form-error field="forms.dispatchMappingForm.name"
       error-type-required="{{'value.error.name.required' | translate}}">
     </form-error>
     <div>
@@ -29,7 +29,7 @@
 <div disable-contents="! ('MAP_ALL_CONTACT_POINTS' | hasPermission)">
   <div class="input-group">
     <label>{{'dispatchMappings.details.interactionType' | translate}} *</label>
-    <form-error field="detailsForm.channelType"
+    <form-error field="forms.dispatchMappingForm.channelType"
       error-type-required="{{'dispatchMappings.details.channelType.error' | translate}}">
     </form-error>
     <div>
@@ -46,7 +46,7 @@
   
   <div class="input-group">
     <label>{{'dispatchMappings.details.channelType' | translate}} *</label>
-    <form-error field="detailsForm.interationField"
+    <form-error field="forms.dispatchMappingForm.interactionField"
       error-type-required="{{'dispatchMappings.details.interactionType.error' | translate}}">
     </form-error>
     <div>
@@ -65,7 +65,7 @@
   <div class="input-group"
     ng-if="selectedDispatchMapping.interactionField === 'customer' || selectedDispatchMapping.interactionField === 'contact-point'">
     <label>{{'details.phoneNumber' | translate}} *</label>
-      <form-error field="detailsForm.value"
+      <form-error field="forms.dispatchMappingForm.value"
         error-type-required="{{'dispatchMappings.details.phone.error' | translate}}"
         error-type-phone-number="{{'details.phoneNumber.error' | translate}}">
       </form-error>
@@ -78,7 +78,9 @@
   
   <div class="input-group" ng-if="selectedDispatchMapping.interactionField === 'source'">
     <label>{{'integration.details' | translate}} *</label>
-    <form-error field="detailsForm.value"></form-error>
+    <form-error field="forms.dispatchMappingForm.value"
+      error-type-required="{{'dispatchMappings.details.integration.error' | translate}}">
+    </form-error>
     <div>
       <select id="integration-form-dropdown" name="value"
         ng-if="fetchIntegrations().$resolved"
@@ -94,7 +96,7 @@
   
   <div class="input-group" ng-if="selectedDispatchMapping.interactionField === 'direction'">
     <label>{{'dispatchMappings.details.direction' | translate}} *</label>
-    <form-error field="detailsForm.value"
+    <form-error field="forms.dispatchMappingForm.value"
       error-type-required="{{'dispatchMappings.details.direction.error' | translate}}">
     </form-error>
     <div>
@@ -112,7 +114,7 @@
   
   <div class="input-group">
     <label>{{'dispatchMappings.details.flow' | translate}} *</label>
-    <form-error field="detailsForm.interationField"
+    <form-error field="forms.dispatchMappingForm.flowId"
       error-type-required="{{'dispatchMappings.details.flow.error' | translate}}">
     </form-error>
     <div>
