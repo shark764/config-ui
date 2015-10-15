@@ -32,7 +32,7 @@ describe('The profile view', function() {
     });
   });
 
-  xit('should include profile page components', function() {
+  it('should include profile page components', function() {
     expect(shared.navBar.isDisplayed()).toBeTruthy();
     expect(profile.firstNameFormField.getAttribute('value')).toBe(params.login.firstName);
     expect(profile.lastNameFormField.getAttribute('value')).toBe(params.login.lastName);
@@ -46,7 +46,7 @@ describe('The profile view', function() {
     expect(profile.userGroupsSectionHeader.isDisplayed()).toBeTruthy();
   });
 
-  xit('should update user name', function() {
+  it('should update user name', function() {
     profile.firstNameFormField.sendKeys('Update');
     profile.lastNameFormField.sendKeys('Update');
 
@@ -64,7 +64,7 @@ describe('The profile view', function() {
     });
   });
 
-  xit('should not require first or last name', function() {
+  it('should not require first or last name', function() {
     profile.firstNameFormField.clear();
     profile.lastNameFormField.clear();
 
@@ -87,7 +87,7 @@ describe('The profile view', function() {
     });
   });
 
-  xit('should require password after reset password button is clicked', function() {
+  it('should require password after reset password button is clicked', function() {
     profile.resetPasswordButton.click();
     profile.passwordFormField.clear();
     profile.firstNameFormField.click();
@@ -101,7 +101,7 @@ describe('The profile view', function() {
     expect(profile.errors.get(0).getText()).toBe('Please enter a password');
   });
 
-  xit('should apply the new password', function() {
+  it('should apply the new password', function() {
     // Change the password
     profile.resetPasswordButton.click();
     profile.passwordFormField.clear();
@@ -124,9 +124,10 @@ describe('The profile view', function() {
   });
 
   it('should display message if user has no groups or skills', function() {
+    profile.waitForUserSkills();
     profile.userSkills.count().then(function(userSkillsCount) {
       if (userSkillsCount > 0) {
-        expect(profile.noUserSkillsMessage.isDisplayed()).toBeFalsy();
+        expect(profile.noUserSkillsMessage.isPresent()).toBeFalsy();
       } else {
         expect(profile.noUserSkillsMessage.isDisplayed()).toBeTruthy();
       }
@@ -141,43 +142,55 @@ describe('The profile view', function() {
     });
   });
 
-  xit('should display user groups and skills', function() {
+  it('should display user groups and skills', function() {
     var userSkillsList = [];
     var userGroupsList = [];
 
     // Get list of User Skills
-    profile.userSkills.each(function(userSkillElement, index) {
-      userSkillElement.getText().then(function(skillName) {
-        userSkillsList.push(skillName);
-      });
-    }).then(function() {
-      // Get list of User Groups
-      profile.userGroups.each(function(userGroupElement, index) {
-        userGroupElement.getText().then(function(groupName) {
+    profile.waitForUserSkills();
+    profile.userSkills.then(function(userSkillElements) {
+      for (var i = 0; i < userSkillElements.length; i++) {
+        userSkillElements[i].getText().then(function(skillName) {
+          userSkillsList.push(skillName);
+        });
+      }
+    });
+
+    // Get list of User Groups
+    profile.userGroups.then(function(userGroupElements) {
+      for (var j = 0; j < userGroupElements.length; j++) {
+        userGroupElements[j].getText().then(function(groupName) {
           userGroupsList.push(groupName);
         });
-      });
+      }
     }).then(function() {
       browser.get(shared.usersPageUrl);
-
       // Compare user skills from profile page
       shared.searchField.sendKeys(params.login.user);
       shared.firstTableRow.click();
 
-      expect(users.userSkills.count()).toBe(userSkillsList.length)
-      expect(users.userGroups.count()).toBe(userGroupsList.length)
+      // Wait for user skills
+      browser.driver.wait(function() {
+        return users.userSkills.count().then(function(userSkillCount) {
+          return userSkillCount == userSkillsList.length;
+        });
+      }, 5000).then(function() {
 
-      for (var i = 0; i < userSkillsList.length; i++) {
-        expect(userSkillsList[i]).toContain(users.userSkills.get(i).getText());
-      }
+        expect(users.userSkills.count()).toBe(userSkillsList.length)
+        expect(users.userGroups.count()).toBe(userGroupsList.length)
 
-      for (var j = 0; j < userGroupsList.length; i++) {
-        expect(users.userGroups.get(i).getText()).toBe(userGroupsList[i]);
-      }
+        for (var i = 0; i < userSkillsList.length; i++) {
+          expect(userSkillsList[i]).toContain(users.userSkills.get(i).getText());
+        }
+
+        for (var j = 0; j < userGroupsList.length; j++) {
+          expect(users.userGroups.get(j).getText()).toBe(userGroupsList[j]);
+        }
+      });
     });
   });
 
-  xit('should display user groups and skills for the current tenant', function() {
+  it('should display user groups and skills for the current tenant', function() {
     browser.get(shared.tenantsPageUrl);
     var defaultTenantName;
     shared.tenantsNavDropdown.getText().then(function(selectTenantNav) {
@@ -188,6 +201,7 @@ describe('The profile view', function() {
 
     // No skills or groups for the new Tenant
     browser.get(shared.profilePageUrl);
+    profile.waitForUserSkills();
     expect(profile.userSkills.count()).toBe(0);
     expect(profile.noUserSkillsMessage.isDisplayed()).toBeTruthy();
     expect(profile.userGroups.count()).toBe(0);
@@ -205,6 +219,7 @@ describe('The profile view', function() {
 
       // Verify added to current tenant profile page but not previous
       browser.get(shared.profilePageUrl);
+      profile.waitForUserSkills();
       expect(profile.userSkills.count()).toBe(1);
       expect(profile.userSkills.get(0).getText()).toContain('User Skill ' + newTenantName);
       expect(profile.userGroups.count()).toBe(1);

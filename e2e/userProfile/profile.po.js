@@ -21,6 +21,16 @@ var ProfilePage = function() {
   this.userGroupsSectionHeader = element(by.id('user-groups-header'));
   this.userGroups = element.all(by.repeater('userGroup in tenantUser.$groups'));
   this.noUserGroupsMessage = element(by.id('no-user-groups'));
+
+  this.waitForUserSkills = function() {
+    browser.driver.wait(function() {
+      return element.all(by.repeater('userSkill in tenantUser.$skills | orderBy:\'name\'')).count().then(function(skillsCount) {
+        return element(by.id('no-user-skills')).isPresent().then(function(noSkillsMessageDisplayed) {
+          return noSkillsMessageDisplayed || skillsCount;
+        });
+      });
+    }, 5000);
+  };
 };
 
 module.exports = new ProfilePage();
