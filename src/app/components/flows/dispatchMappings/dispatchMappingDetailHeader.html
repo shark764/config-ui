@@ -6,7 +6,7 @@
 
   <div class="info pull-left">
     <h1 id="dispatch-mappings-details-name-header">{{selectedDispatchMapping.$original.getDisplay()}}</h1>
-    <div class="details" ng-if="! (['PLATFORM_VIEW_ALL_USERS', 'PLATFORM_CREATE_USERS', 'PLATFORM_MANAGE_ALL_USERS', 'PLATFORM_MANAGE_ALL_TENANTS', 'PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT'] | hasPermission)">
+    <div class="details" ng-if="! (['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'VIEW_ALL_USERS', 'MANAGE_ALL_USER_EXTENSIONS', 'MANAGE_ALL_GROUP_USERS', 'MANAGE_ALL_USER_SKILLS', 'MANAGE_ALL_USER_LOCATIONS', 'MANAGE_TENANT_ENROLLMENT'] | hasPermission)">
       <b audit-text
         translation="value.createdon.time"
         date="selectedDispatchMapping.$original.created">
@@ -17,7 +17,7 @@
         date="selectedDispatchMapping.$original.updated">
       </b>
     </div>
-    <div class="details" ng-if="['PLATFORM_VIEW_ALL_USERS', 'PLATFORM_CREATE_USERS', 'PLATFORM_MANAGE_ALL_USERS', 'PLATFORM_MANAGE_ALL_TENANTS', 'PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT'] | hasPermission">
+    <div class="details" ng-if="['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'VIEW_ALL_USERS', 'MANAGE_ALL_USER_EXTENSIONS', 'MANAGE_ALL_GROUP_USERS', 'MANAGE_ALL_USER_SKILLS', 'MANAGE_ALL_USER_LOCATIONS', 'MANAGE_TENANT_ENROLLMENT'] | hasPermission">
       <b audit-text
         translation="value.createdby.time"
         user-id="selectedDispatchMapping.$original.createdBy"

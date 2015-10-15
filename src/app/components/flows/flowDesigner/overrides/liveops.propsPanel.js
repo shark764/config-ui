@@ -113,9 +113,9 @@
         formSection += ' ng-hide="' + input.hidden + '"';
         formSection += '><label>' + input.label + '</label>';
         formSection += '<div class="timestamp">';
-        formSection += '<input type="text" ng-model="notation.model.attributes.' + input.path + '.value"';
+        formSection += '<input type="number" ng-model="notation.model.attributes.' + input.path + '.value"';
         formSection += ' ng-change="onInputChange(notation.model, notation.model.attributes.' + input.path + ', inputs[' + index + '])"';
-        formSection += '></input>';
+        formSection += ' min="0"></input>';
         formSection += '<select ng-model="notation.model.attributes.' + input.path + '.measurement"';
         formSection += ' ng-change="onInputChange(notation.model, notation.model.attributes.' + input.path + ', inputs[' + index + '])"';
         formSection += '>';

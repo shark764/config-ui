@@ -17,20 +17,8 @@
           disable-contents="! (['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'MANAGE_TENANT_ENROLLMENT'] | hasPermission)">
         </toggle>
       </div>
-
-      <div ng-if="! (['PLATFORM_VIEW_ALL_USERS', 'PLATFORM_CREATE_USERS', 'PLATFORM_MANAGE_ALL_USERS', 'PLATFORM_MANAGE_ALL_TENANTS', 'PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT'] | hasPermission)">
-        <b audit-text
-          translation="value.createdon.time"
-          date="selectedTenantUser.$original.created">
-        </b>
-        <br/>
-        <b audit-text 
-          ng-show="!!selectedTenantUser.$original.updated"
-          translation="value.updatedon"
-          date="selectedTenantUser.$original.updated">
-        </b>
-      </div>
-      <div ng-if="['PLATFORM_VIEW_ALL_USERS', 'PLATFORM_CREATE_USERS', 'PLATFORM_MANAGE_ALL_USERS', 'PLATFORM_MANAGE_ALL_TENANTS', 'PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT'] | hasPermission">
+      
+      <div>
         <b audit-text
           translation="value.createdby.time"
           user-id="selectedTenantUser.$original.createdBy"

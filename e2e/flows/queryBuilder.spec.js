@@ -4,6 +4,7 @@ describe('The basic query builder', function() {
   var loginPage = require('../login/login.po.js'),
     queues = require('./queues.po.js'),
     newQueue = require('./newQueue.po.js'),
+    newVersion = require('./newQueueVersion.po.js'),
     shared = require('../shared.po.js'),
     params = browser.params,
     queueCount,
@@ -306,16 +307,13 @@ describe('The basic query builder', function() {
         newQueue.anySkillsAdd.click();
       }
 
-      /*
-       TODO Bug where fields aren't reset
       for (var i = 0; i < skillCount; i++) {
         newQueue.allSkillsTypeAhead.click();
         newQueue.allSkillsDropdownSkills.get(0).click();
         newQueue.allSkillsAdd.click();
       }
-      */
 
-      //expect(newQueue.allSkillsSelected.count()).toBe(skillCount);
+      expect(newQueue.allSkillsSelected.count()).toBe(skillCount);
       expect(newQueue.anySkillsSelected.count()).toBe(skillCount);
     });
   });
@@ -456,7 +454,7 @@ describe('The basic query builder', function() {
     });
   });
 
-  it('should be saved with new queue', function() {
+  xit('should be saved with new queue', function() {
     shared.createBtn.click();
     randomQueue = Math.floor((Math.random() * 100) + 1);
 
@@ -493,7 +491,7 @@ describe('The basic query builder', function() {
         return queues.queueVersions.count().then(function(queueVersionCount) {
           return queueVersionCount == 1;
         });
-      }, 5000).then(function () {
+      }, 5000).then(function() {
         // Verify all selected groups/skills are saved
         expect(queues.basicQueryDetails.get(0).getText()).toContain('All of these groups:');
         expect(queues.basicQueryDetails.get(0).getText()).toContain('Any of these groups:');
@@ -543,5 +541,39 @@ describe('The basic query builder', function() {
     });
   });
 
+  it('should create queue without version when advanced query field is submited with an invalid query', function() {
+    // TODO Update after TITAN2-3290
+    shared.createBtn.click();
+    randomQueue = Math.floor((Math.random() * 100) + 1);
+
+    newQueue.showAdvancedQueryLink.click();
+    newQueue.advancedQueryFormField.clear();
+    newQueue.advancedQueryFormField.sendKeys('Not a valid query');
+
+    // Complete required queue fields
+    queues.nameFormField.sendKeys('New Queue ' + randomQueue);
+    shared.submitFormBtn.click().then(function() {
+      shared.waitForSuccess();
+      shared.waitForError();
+      expect(shared.errorMessage.isDisplayed()).toBeTruthy();
+      expect(shared.errorMessage.getText()).toContain("Sorry, the initial query for this queue was invalid. Please create a new query version.");
+
+      expect(shared.tableElements.count()).toBeGreaterThan(queueCount);
+      expect(queues.noVersionsMsg.isDisplayed()).toBeTruthy();
+
+      // Add version and select as default
+      queues.addNewVersionBtn.click();
+      newVersion.createVersionBtn.click().then(function() {
+        shared.waitForSuccess();
+        expect(shared.successMessage.isDisplayed()).toBeTruthy();
+
+        queues.activeVersionDropdown.all(by.css('option')).get(1).click();
+        shared.submitFormBtn.click().then(function() {
+          shared.waitForSuccess();
+          expect(shared.successMessage.isDisplayed()).toBeTruthy();
+        });
+      });
+    });
+  });
 
 });

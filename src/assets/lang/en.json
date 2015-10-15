@@ -309,6 +309,7 @@
   "dispatchMappings.details.channelType": "Mapping",
   "dispatchMappings.details.channelType.error": "Please select a Mapping",
   "dispatchMappings.details.channelType.select": "Select Mapping...",
+  "dispatchMappings.details.integration.error": "Please select an integration",
   "dispatchMappings.details.flow": "Dispatch to flow",
   "dispatchMappings.details.flow.error": "Please select a flow",
   "dispatchMappings.details.flow.select": "Select Flow...",
