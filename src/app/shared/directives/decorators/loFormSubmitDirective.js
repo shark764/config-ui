@@ -5,16 +5,12 @@ angular.module('liveopsConfigPanel')
     function($parse) {
       return {
         restrict: 'A',
-        require: ['form', 'loFormCancel'],
-        controller: function($scope) {
+        require: 'form',
+        controller: function() {
           var self = this;
           
           self.errorInputWatchesUnbinds = {};
           
-          this.resetForm = function() {
-            return this.formCancelController.resetForm(this.formController);
-          };
-
           this.populateApiErrors = function(error) {
             if ($parse('data.error')(error)) {
               angular.forEach(error.data.error.attribute,
@@ -41,10 +37,9 @@ angular.module('liveopsConfigPanel')
             return error;
           };
         },
-        link: function($scope, $elem, $attrs, $ctrl) {
+        link: function($scope, $elem, $attrs, form) {
           var controller = $elem.data('$loFormSubmitController');
-          controller.formController = $ctrl[0];
-          controller.formCancelController = $ctrl[1];
+          controller.formController = form;
         }
       };
     }

@@ -1,27 +1,45 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('tenantUserTransformer', ['User', 'Session', function(User, Session) {
-    var move = function(tenantUser, source, destination) {
+  .service('tenantUserTransformer', ['User', 'TenantRole', 'Session', function(User, TenantRole, Session) {
+    var rename = function(tenantUser, fieldName, newFieldName) {
+      tenantUser[newFieldName] = tenantUser[fieldName];
+      delete tenantUser[fieldName];
+    }
+    
+    var moveToUser = function(tenantUser, source, destination) {
       tenantUser.$user[destination ? destination : source] = tenantUser[source];
       delete tenantUser[source];
     };
 
-    var copy = function(tenantUser, member) {
+    var copyToUser = function(tenantUser, member) {
       tenantUser.$user[member] = tenantUser[member];
     };
-
+    
     this.transform = function(tenantUser) {
       tenantUser.$user = new User();
-
-      move(tenantUser, 'firstName');
-      move(tenantUser, 'lastName');
-      move(tenantUser, 'externalId');
-      move(tenantUser, 'personalTelephone');
-      move(tenantUser, 'platformStatus', 'status');
-
-      copy(tenantUser, 'id');
-      copy(tenantUser, 'email');
+      
+      if(tenantUser.userId) {
+        rename(tenantUser, 'userId', 'id');
+      }
+      
+      moveToUser(tenantUser, 'firstName');
+      moveToUser(tenantUser, 'lastName');
+      moveToUser(tenantUser, 'externalId');
+      moveToUser(tenantUser, 'personalTelephone');
+      moveToUser(tenantUser, 'platformStatus', 'status');
+      
+      copyToUser(tenantUser, 'id');
+      copyToUser(tenantUser, 'email');
+      
+      rename(tenantUser, 'groups', '$groups');
+      rename(tenantUser, 'skills', '$skills');
+      
+      if(tenantUser.roleName) {
+        rename(tenantUser, 'roleName', '$roleName');
+      } else {
+        tenantUser.$roleName = TenantRole.getName(tenantUser.roleId)
+      }
 
       //Required so that we can get a cache hit on TenantUser.cachedGet
       tenantUser.tenantId = Session.tenant.tenantId;

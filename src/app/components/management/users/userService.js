@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .factory('User', ['LiveopsResourceFactory', 'cacheAddInterceptor', 'emitInterceptor',
-    function(LiveopsResourceFactory, cacheAddInterceptor, emitInterceptor) {
+  .factory('User', ['LiveopsResourceFactory', 'cacheAddInterceptor', 'emitInterceptor', 'userUpdateTransformer',
+    function(LiveopsResourceFactory, cacheAddInterceptor, emitInterceptor, userUpdateTransformer) {
       var User = LiveopsResourceFactory.create({
         endpoint: '/v1/users/:id',
         resourceName: 'User',
@@ -13,8 +13,6 @@ angular.module('liveopsConfigPanel')
           name: 'lastName',
           optional: true
         }, {
-          name: 'roleId'
-        }, {
           name: 'password'
         }, {
           name: 'externalId',
@@ -24,7 +22,8 @@ angular.module('liveopsConfigPanel')
           optional: true
         }],
         saveInterceptor: [cacheAddInterceptor, emitInterceptor],
-        updateInterceptor: emitInterceptor
+        updateInterceptor: emitInterceptor,
+        putRequestTransformer: userUpdateTransformer
       });
 
       User.prototype.getDisplay = function() {
@@ -38,4 +37,14 @@ angular.module('liveopsConfigPanel')
 
       return User;
     }
-  ]);
+  ])
+  .service('userUpdateTransformer', ['Session', function(Session) {
+    return function(user) {
+      if(!Session.isAuthenticated() || user.id === Session.user.id) {
+        delete user.status; //User cannot edit their own status
+        delete user.roleId; //User cannot edit their own platform roleId
+      }
+      
+      return user;
+    }
+  }]);

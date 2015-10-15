@@ -1,4 +1,4 @@
-#userProfile {
+#user-profile {
   padding: 10px 30px;
   
   .mystery-man {
@@ -6,12 +6,23 @@
     background-color: #eee;
     font-size: 10em;
     height: 170px;
-    margin-right: 0.5em;
     padding: 15px 20px;
+    position: absolute;
+    width: 160px;
   }
   
   .wrapper {
-    width: 500px;
+   display: inline-block;
+   width: 100%;
+   padding-left: 200px;
+  }
+  
+  .submit-wrapper {
+    text-align: right;
+  }
+  
+  #save-user-details-btn {
+    width: 200px !important;
   }
 
   .table {
@@ -25,29 +36,35 @@
     &.clone-header {
         @include border-radius-complex(4px, 0, 0, 4px);
         border-bottom: 0;
-  }
+    }
 
-  td, th {
-    padding: 10px;
-  }
+    td, th {
+      padding: 10px;
+    }
 
-  th {
-    border-bottom: $light-grey solid 1px;
-    color: $dark-grey;
-    text-align: left;
-    font-weight: 600;
-  }
+    th {
+      border-bottom: $light-grey solid 1px;
+      color: $dark-grey;
+      text-align: left;
+      font-weight: 600;
+    }
 
-  tbody tr:hover {
-    background-color: $accent-light;
-  }
+    tbody tr:hover {
+      background-color: $accent-light;
+    }
 
-  .scrollable-table-container {
-    max-width: $max-control-width + 200px;
+    .scrollable-table-container {
+      max-width: $max-control-width + 200px;
+    }
   }
-}
   
-  #detailsForm {
+  .divider-header {
+    margin-left: -10px;
+  }
+  
+  #user-form {
+    max-width: 500px;
+    
     & > div {
       width: 100%;
       margin: 10px 0;
