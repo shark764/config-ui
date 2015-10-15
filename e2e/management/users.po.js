@@ -112,7 +112,7 @@ var UserPage = function() {
   this.addSkill = element(by.id('skillsForm'));
   this.addSkillSearch = this.addSkill.element(by.id('typeahead-container'));
   this.skillDropdownItems = this.addSkill.all(by.repeater('item in filtered = (items | filter:filterCriteria | orderBy:orderByFunction)'));
-  this.skillProficiency = this.addSkill.element(by.css('#new-user-skill-proficiency input'));
+  this.skillProficiency = this.addSkill.all(by.css('#new-user-skill-proficiency input'));
   this.proficiencyCounterUp = this.addSkill.element(by.css('.top'));
   this.proficiencyCounterDown = this.addSkill.element(by.css('.bottom'));
   this.addSkillBtn = this.addSkill.element(by.id('add-skill-btn'));
@@ -120,6 +120,7 @@ var UserPage = function() {
   this.userSkills = element.all(by.repeater('userSkill in userSkills | orderBy:\'name\''));
   this.userSkillsTable = element(by.css('[name=userSkills]'));
   this.userSkillTableRows = element.all(by.repeater('userSkill in userSkills | orderBy:\'name\''));
+  this.editSkillProficiencyTds = this.userSkills.all(by.model('userSkill.proficiency'));
   this.editSkillProficiency = 'userSkill.proficiency';
   this.editCounterUp = 'userSkill.proficiency';
   this.editCounterDown = 'userSkill.proficiency';

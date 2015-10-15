@@ -16,7 +16,7 @@
       <option disabled value="">{{'bulkActions.defaultActions' | translate}}</option>
     </select>
 
-    <number-slider
+    <number-slider id="user-skill-bulk-proficiency-field"
       ng-disabled="! bulkAction.checked" class="pull-right"
       ng-if="userSkillsBulkAction.selectedSkill.hasProficiency && userSkillsBulkAction.selectedType.value != 'remove'"
       placeholder="{{'skill.details.proficiency' | translate}}"
