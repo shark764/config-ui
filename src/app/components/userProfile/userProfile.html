@@ -61,7 +61,14 @@
     </div>
     
     <lo-extensions 
-      tenant-user="tenantUser">
+      tenant-user="tenantUser"
+      ng-disabled="!(
+          ('MANAGE_ALL_USER_EXTENSIONS' | hasPermission) ||
+          ('MANAGE_USER_EXTENSIONS' | hasPermission) ||
+          (
+            ('MANAGE_MY_EXTENSIONS' | hasPermission) && (Session.user.id === selectedTenantUser.id)
+          )
+        )">
     </lo-extensions>
 
     <div class="divider-header">

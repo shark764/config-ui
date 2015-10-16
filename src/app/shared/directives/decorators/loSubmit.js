@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('loSubmit', ['$q', function ($q) {
+  .directive('loSubmit', ['$q', '$parse', function ($q, $parse) {
     return {
       restrict: 'A',
       require: ['^loFormSubmit', '?^loFormCancel', '?^loFormAlert', '?^loFormReset'],
@@ -14,6 +14,11 @@ angular.module('liveopsConfigPanel')
         var loFormReset = $ctrl[3];
         
         $elem.bind($attrs.event, function () {
+          var ngDisabled = $parse($attrs.ngDisabled)($scope);
+          if(!!ngDisabled){
+            return;
+          }
+          
           //TODO check if $attrs.loSubmit is actually a thing that return resource
           var promise = $q.when($scope.$eval($attrs.loSubmit));
           
