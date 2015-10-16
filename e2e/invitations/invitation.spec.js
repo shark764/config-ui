@@ -131,7 +131,6 @@ describe('The user invitation', function() {
     it('should be sent when creating a new user', function() {
       // Add randomness to user details
       randomUser = Math.floor((Math.random() * 1000) + 1);
-      userAdded = false;
       newUserEmail = 'titantest' + randomUser + '@mailinator.com';
 
       // Add new user
@@ -222,7 +221,6 @@ describe('The user invitation', function() {
     it('should link to the invitation accept form', function() {
       // Add randomness to user details
       randomUser = Math.floor((Math.random() * 1000) + 1);
-      userAdded = false;
       newUserEmail = 'titantest' + randomUser + '@mailinator.com';
 
       // Add new user
@@ -505,6 +503,108 @@ describe('The user invitation', function() {
 
   xit('should display expired message after expiry period has passed', function() {});
 
+
+  describe('cancel', function() {
+    it('should display confirmation modal', function() {
+      // Add randomness to user details
+      randomUser = Math.floor((Math.random() * 1000) + 1);
+      newUserEmail = 'titantest' + randomUser + '@mailinator.com';
+
+      // Add new user
+      shared.createBtn.click().then(function() {
+        users.emailFormField.sendKeys('titantest' + randomUser + '@mailinator.com\t');
+        users.tenantRoleFormDropdownOptions.get((randomUser % 3) + 1).click();
+        users.platformRoleFormDropdownOptions.get(1).click();
+
+        users.submitFormBtn.click().then(function() {
+          expect(shared.successMessage.isDisplayed()).toBeTruthy();
+
+          // Verify tenant status
+          expect(users.tenantStatus.getText()).toBe('Pending Acceptance');
+          expect(users.cancelInvitationBtn.isDisplayed()).toBeTruthy();
+          expect(users.resendInvitationBtn.isDisplayed()).toBeTruthy();
+          expect(users.resendInvitationBtn.GetText()).toBe('Resend Invitation');
+
+          cancelInvitationBtn.click().then(function() {
+            expect(invites.confirmModal.isDisplayed()).toBeTruthy();
+            expect(invites.confirmOK.isDisplayed()).toBeTruthy();
+            expect(invites.confirmCancel.isDisplayed()).toBeTruthy();
+            expect(invites.confirmMessage.isDisplayed()).toBeTruthy();
+            expect(invites.confirmMessage.getText()).toBe('This will prevent the user from accepting their invitation. Continue?');
+
+            invites.confirmCancel.click().then(function() {
+              expect(invites.confirmModal.isPresent()).toBeFalsy();
+
+              expect(users.tenantStatus.getText()).toBe('Pending Acceptance');
+              expect(users.cancelInvitationBtn.isDisplayed()).toBeTruthy();
+              expect(users.resendInvitationBtn.isDisplayed()).toBeTruthy();
+              expect(users.resendInvitationBtn.GetText()).toBe('Resend Invitation');
+            });
+          });
+        });
+      });
+    });
+
+    it('should update tenant status and Resend button after confirming', function() {
+      // Uses new user from previous test
+      shared.searchField.sendKeys(newUserEmail);
+      shared.firstTableRow.click();
+
+      cancelInvitationBtn.click().then(function() {
+        expect(invites.confirmModal.isDisplayed()).toBeTruthy();
+        invites.confirmOK.click().then(function() {
+          expect(invites.confirmModal.isPresent()).toBeFalsy();
+
+          expect(users.tenantStatus.getText()).toBe('Pending Invitation');
+          expect(users.cancelInvitationBtn.isPresent()).toBeFalsy();
+          expect(users.resendInvitationBtn.isDisplayed()).toBeTruthy();
+          expect(users.resendInvitationBtn.GetText()).toBe('Send Invitation');
+        });
+      });
+    });
+
+    it('should not allow user to accept the invitation', function() {
+      // Get accept link from expired invitation email
+
+      // NOTE: Add randomUser when emails are sent to the user email and not redirected
+      req.get('https://api.mailinator.com/api/inbox?to=titantest&token=' + params.mailinator.token, '', function(error, response, body) {
+        if (JSON.parse(body).messages.length > 0) {
+          var newestMessage2 = JSON.parse(body).messages[JSON.parse(body).messages.length - 1];
+
+          // Verify the newest message details
+          expect(newestMessage2.subject).toBe(params.mailinator.subject);
+          expect(newestMessage2.been_read).toBeFalsy();
+          expect(newestMessage2.from).toBe(params.mailinator.from);
+
+          // Get the newest message content
+          req.get('https://api.mailinator.com/api/email?id=' + newestMessage2.id + '&token=' + params.mailinator.token, '', function(error, response, body) {
+            if (body) {
+              var newestMessage2Contents = JSON.parse(body).data.parts[0].body;
+
+              // Verify the email contains the expected content
+              expect(newestMessage2Contents).toContain('User Name: ' + newUserEmail);
+              expect(newestMessage2Contents).toContain('Password: Set the first time you login');
+              expect(newestMessage2Contents).toContain('Log in automatically by clicking');
+
+              // Verify link is correct
+              acceptInvitationLink = newestMessage2Contents.split('Log in automatically by clicking ')[1].split('\n')[0];
+              browser.get(acceptInvitationLink);
+
+              // User is unable to accept the invitation
+              expect(browser.getCurrentUrl()).toContain('login?messageKey=invite.accept.expired');
+              expect(shared.message.isDisplayed()).toBeTruthy();
+              expect(shared.message.getText()).toContain('Sorry, this invitation has expired. Please contact your account administrator.');
+            } else { // Fail test
+              expect(true).toBeFalsy();
+            }
+          });
+        } else { // Fail test
+          expect(true).toBeFalsy();
+        }
+      });
+    });
+  });
+
   // For existing users
   describe('for inviting existing users not in the current tenant', function() {
     beforeAll(function() {
@@ -774,8 +874,5 @@ describe('The user invitation', function() {
       expect(users.resendInvitationBtn.isPresent()).toBeFalsy();
       expect(users.cancelInvitationBtn.isPresent()).toBeFalsy();
     });
-
   });
-
-  
 });
