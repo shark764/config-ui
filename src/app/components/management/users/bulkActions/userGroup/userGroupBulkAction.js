@@ -20,12 +20,13 @@ angular.module('liveopsConfigPanel')
       return UserGroupBulkAction;
     }
   ])
-  .service('userGroupBulkActionTypes', ['$filter', 'TenantGroupUsers', 'Session', 'isMember',
-    function ($filter, TenantGroupUsers, Session, isMember) {
+  .service('userGroupBulkActionTypes', ['$filter', 'TenantGroupUsers', 'Session', 'hasGroup',
+    function ($filter, TenantGroupUsers, Session, hasGroup) {
       return [{
+        value: 'add',
         display: $filter('translate')('bulkActions.userGroups.add'),
         doesQualify: function (user, action) {
-          return !isMember(user, action.selectedGroup.members);
+          return ! hasGroup (action.selectedGroup, user.$groups);
         },
         execute: function (user, action) {
           var tenantGroupUser = new TenantGroupUsers();
@@ -45,9 +46,10 @@ angular.module('liveopsConfigPanel')
           return action.selectedGroup;
         }
       }, {
+        value: 'remove',
         display: $filter('translate')('bulkActions.userGroups.remove'),
         doesQualify: function (user, action) {
-          return isMember(user, action.selectedGroup.members);
+          return hasGroup(action.selectedGroup, user.$groups);
         },
         execute: function (user, action) {
           var tenantGroupUser = new TenantGroupUsers();
@@ -55,9 +57,9 @@ angular.module('liveopsConfigPanel')
             groupId: action.selectedGroup.id,
             tenantId: Session.tenant.tenantId,
             memberId: user.id
-          }, function(){
+          }, function(deletedGroup){
             for(var i = 0; i < user.$groups.length; i++){
-              if (user.$groups[i].id === action.selectedGroup.id){
+              if (user.$groups[i].id === deletedGroup.groupId){
                 user.$groups.removeItem(user.$groups[i]);
                 break;
               }
@@ -70,13 +72,13 @@ angular.module('liveopsConfigPanel')
       }];
     }
   ])
-  .service('isMember', function () {
-    return function (user, members) {
-      var isMember = false;
-      angular.forEach(members, function (member) {
-        isMember = isMember || member.memberId === user.id;
+  .service('hasGroup', function () {
+    return function (group, userGroups) {
+      var hasGroup = false;
+      angular.forEach(userGroups, function (userGroup) {
+        hasGroup = hasGroup || group.id === userGroup.id;
       });
 
-      return isMember;
+      return hasGroup;
     };
   });
