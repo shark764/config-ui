@@ -65,7 +65,7 @@ describe('The user invitation', function() {
         expect(users.tenantStatus.getText()).toBe('Pending Invitation');
         expect(users.cancelInvitationBtn.isPresent()).toBeFalsy();
         expect(users.resendInvitationBtn.isDisplayed()).toBeTruthy();
-        expect(users.resendInvitationBtn.GetText()).toBe('Send Invitation');
+        expect(users.resendInvitationBtn.getText()).toBe('Send Invitation');
 
         // Wait to allow the API to send and Mailinator to receive the email
         browser.sleep(1000).then(function() {
@@ -96,7 +96,7 @@ describe('The user invitation', function() {
       shared.searchField.sendKeys(newUserEmail);
       shared.firstTableRow.click();
       users.resendInvitationBtn.click().then(function() {
-        expect(users.resendInvitationBtn.GetText()).toBe('Resend Invitation');
+        expect(users.resendInvitationBtn.getText()).toBe('Resend Invitation');
         expect(users.cancelInvitationBtn.isDisplayed()).toBeTruthy();
         expect(shared.successMessage.isDisplayed()).toBeTruthy();
         expect(users.tenantStatus.getText()).toBe('Pending Acceptance');
@@ -146,7 +146,7 @@ describe('The user invitation', function() {
           expect(users.tenantStatus.getText()).toBe('Pending Acceptance');
           expect(users.cancelInvitationBtn.isDisplayed()).toBeTruthy();
           expect(users.resendInvitationBtn.isDisplayed()).toBeTruthy();
-          expect(users.resendInvitationBtn.GetText()).toBe('Resend Invitation');
+          expect(users.resendInvitationBtn.getText()).toBe('Resend Invitation');
 
           // Wait to allow the API to send and Mailinator to receive the email
           browser.sleep(1000).then(function() {
@@ -455,7 +455,7 @@ describe('The user invitation', function() {
       expect(invites.submitFormBtn.getAttribute('disabled')).toBeNull();
     });
 
-    xit('should not accept spaces as valid input', function() {
+    it('should not accept spaces as valid input', function() {
       // TODO Fails
       browser.get(acceptInvitationLink);
 
@@ -484,7 +484,7 @@ describe('The user invitation', function() {
       });
     });
 
-    xit('should redirect to login page when invitation is already accepted', function() {
+    it('should redirect to login page when invitation is already accepted', function() {
       // TODO Update expected flow after TITAN2-3299
       browser.get(acceptInvitationLink);
 
@@ -497,11 +497,11 @@ describe('The user invitation', function() {
     });
   });
 
-  xit('should expire after 24 hours', function() {});
+  it('should expire after 24 hours', function() {});
 
-  xit('should not be expired after 23 hours', function() {});
+  it('should not be expired after 23 hours', function() {});
 
-  xit('should display expired message after expiry period has passed', function() {});
+  it('should display expired message after expiry period has passed', function() {});
 
 
   describe('cancel', function() {
@@ -523,7 +523,7 @@ describe('The user invitation', function() {
           expect(users.tenantStatus.getText()).toBe('Pending Acceptance');
           expect(users.cancelInvitationBtn.isDisplayed()).toBeTruthy();
           expect(users.resendInvitationBtn.isDisplayed()).toBeTruthy();
-          expect(users.resendInvitationBtn.GetText()).toBe('Resend Invitation');
+          expect(users.resendInvitationBtn.getText()).toBe('Resend Invitation');
 
           cancelInvitationBtn.click().then(function() {
             expect(invites.confirmModal.isDisplayed()).toBeTruthy();
@@ -538,7 +538,7 @@ describe('The user invitation', function() {
               expect(users.tenantStatus.getText()).toBe('Pending Acceptance');
               expect(users.cancelInvitationBtn.isDisplayed()).toBeTruthy();
               expect(users.resendInvitationBtn.isDisplayed()).toBeTruthy();
-              expect(users.resendInvitationBtn.GetText()).toBe('Resend Invitation');
+              expect(users.resendInvitationBtn.getText()).toBe('Resend Invitation');
             });
           });
         });
@@ -558,7 +558,7 @@ describe('The user invitation', function() {
           expect(users.tenantStatus.getText()).toBe('Pending Invitation');
           expect(users.cancelInvitationBtn.isPresent()).toBeFalsy();
           expect(users.resendInvitationBtn.isDisplayed()).toBeTruthy();
-          expect(users.resendInvitationBtn.GetText()).toBe('Send Invitation');
+          expect(users.resendInvitationBtn.getText()).toBe('Send Invitation');
         });
       });
     });
@@ -668,7 +668,7 @@ describe('The user invitation', function() {
         expect(users.tenantStatus.getText()).toBe('Pending Invitation');
         expect(users.cancelInvitationBtn.isPresent()).toBeFalsy();
         expect(users.resendInvitationBtn.isDisplayed()).toBeTruthy();
-        expect(users.resendInvitationBtn.GetText()).toBe('Send Invitation');
+        expect(users.resendInvitationBtn.getText()).toBe('Send Invitation');
 
         // Wait to allow the API to send and Mailinator to receive the email
         browser.sleep(1000).then(function() {
@@ -710,7 +710,7 @@ describe('The user invitation', function() {
         expect(users.tenantStatus.getText()).toBe('Pending Acceptance');
         expect(users.cancelInvitationBtn.isDisplayed()).toBeTruthy();
         expect(users.resendInvitationBtn.isDisplayed()).toBeTruthy();
-        expect(users.resendInvitationBtn.GetText()).toBe('Resend Invitation');
+        expect(users.resendInvitationBtn.getText()).toBe('Resend Invitation');
 
         // Wait to allow the API to send and Mailinator to receive the email
         browser.sleep(1000).then(function() {
@@ -762,7 +762,7 @@ describe('The user invitation', function() {
         expect(users.tenantStatus.getText()).toBe('Pending Acceptance');
         expect(users.resendInvitationBtn.isDisplayed()).toBeTruthy();
         expect(users.cancelInvitationBtn.isDisplayed()).toBeTruthy();
-        expect(users.resendInvitationBtn.GetText()).toBe('Resend Invitation');
+        expect(users.resendInvitationBtn.getText()).toBe('Resend Invitation');
 
         // Wait to allow the API to send and Mailinator to receive the email
         browser.sleep(1000).then(function() {
@@ -804,7 +804,7 @@ describe('The user invitation', function() {
       });
     });
 
-    xit('should not display user details before invitation is accepted', function() {
+    it('should not display user details before invitation is accepted', function() {
       // TODO Bug TITAN2-3979
       shared.searchField.sendKeys(newUserEmail);
       shared.firstTableRow.click();
