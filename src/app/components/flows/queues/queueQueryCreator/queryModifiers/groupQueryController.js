@@ -20,14 +20,14 @@ angular.module('liveopsConfigPanel')
         });
       };
       
-      this.filterGroups = function () {
+      this.filterGroups = function (group) {
         if (!$scope.operands) {
           return;
         }
 
         for (var operandIndex = 0; operandIndex < $scope.operands.length; operandIndex++) {
           var operand = $scope.operands[operandIndex];
-          if (operand.id === operand.id) {
+          if (group.id === operand.id) {
             return false;
           }
         }
@@ -86,6 +86,10 @@ angular.module('liveopsConfigPanel')
       };
 
       this.add = function (operand) {
+        if(!operand) {
+          return;
+        }
+        
         var andList,
           groupProficiencyMap,
           operationList;
@@ -128,6 +132,7 @@ angular.module('liveopsConfigPanel')
           groupProficiencyMap = new jsedn.Map([self.tagUuid(operand.id), true]);
           operationList.val.push(groupProficiencyMap);
         } else {
+          //else create the entire tree
           groupProficiencyMap = new jsedn.Map([self.tagUuid(operand.id), true]);
 
           operationList = new jsedn.List([self.operatorSymbol, groupProficiencyMap]);
