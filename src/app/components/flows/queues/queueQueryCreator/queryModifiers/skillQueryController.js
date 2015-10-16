@@ -46,14 +46,14 @@ angular.module('liveopsConfigPanel')
         });
       };
 
-      this.filterSkills = function () {
+      this.filterSkills = function (skill) {
         if (!$scope.operands) {
           return;
         }
 
         for (var operandIndex = 0; operandIndex < $scope.operands.length; operandIndex++) {
           var operand = $scope.operands[operandIndex];
-          if (operand.id === operand.id) {
+          if (skill.id === operand.id) {
             return false;
           }
         }
@@ -122,6 +122,10 @@ angular.module('liveopsConfigPanel')
       };
 
       this.add = function (operand) {
+        if(!operand) {
+          return;
+        }
+        
         var andList,
           skillProficiencyMap,
           operationList;
@@ -163,6 +167,7 @@ angular.module('liveopsConfigPanel')
           skillProficiencyMap = generateProficiencyMap(operand);
           operationList.val.push(skillProficiencyMap);
         } else {
+          //else create the entire tree
           skillProficiencyMap = generateProficiencyMap(operand);
 
           operationList = new jsedn.List([self.operatorSymbol, skillProficiencyMap]);
