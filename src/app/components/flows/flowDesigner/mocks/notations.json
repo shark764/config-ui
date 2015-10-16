@@ -42,7 +42,7 @@
                     "group": "params",
                     "index": 0,
                     "disabled": false,
-                    "required": false,
+                    "required": true,
                     "placeholder": null,
                     "hidden": false,
                     "options": [
@@ -95,6 +95,7 @@
                 "customer": {
                     "source": "expression",
                     "type": "variable",
+                    "mandatory": true,
                     "key": "participant",
                     "when": {
                         "eq": {
@@ -105,6 +106,7 @@
                 "resource": {
                     "source": "expression",
                     "type": "variable",
+                    "mandatory": true,
                     "key": "participant",
                     "when": {
                         "ne": {
@@ -233,6 +235,7 @@
                 "customer": {
                     "source": "expression",
                     "type": "variable",
+                    "mandatory": true,
                     "key": "participant",
                     "when": {
                         "eq": {
@@ -243,6 +246,7 @@
                 "resource": {
                     "source": "expression",
                     "type": "variable",
+                    "mandatory": true,
                     "key": "participant",
                     "when": {
                         "ne": {
@@ -438,8 +442,7 @@
                     "source": "expression",
                     "type": "variable",
                     "mandatory": true,
-                    "key": "resource",
-                    "default": "resource"
+                    "key": "resource"
                 },
                 "timeout": {
                     "source": "expression",
@@ -623,6 +626,7 @@
                 "customer": {
                     "source": "expression",
                     "type": "variable",
+                    "mandatory": true,
                     "key": "participant",
                     "when": {
                         "eq": {
@@ -633,6 +637,7 @@
                 "resource": {
                     "source": "expression",
                     "type": "variable",
+                    "mandatory": true,
                     "key": "participant",
                     "when": {
                         "ne": {
@@ -723,8 +728,8 @@
                 "resource": {
                     "source": "expression",
                     "type": "variable",
-                    "key": "resource",
-                    "default": "resource",
+                    "mandatory": true,
+                    "key": "to",
                     "when": {
                         "ne": {
                             "params.to": "titan/customer"
@@ -734,8 +739,8 @@
                 "customer": {
                     "source": "expression",
                     "type": "variable",
-                    "key": "customer",
-                    "default": "titan/customer",
+                    "mandatory": true,
+                    "key": "to",
                     "when": {
                         "eq": {
                             "params.to": "titan/customer"
@@ -997,8 +1002,7 @@
                     "source": "expression",
                     "type": "variable",
                     "mandatory": true,
-                    "key": "resource",
-                    "default": "resource"
+                    "key": "resource"
                 },
                 "customer": {
                     "source": "expression",
