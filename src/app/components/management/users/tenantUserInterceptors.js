@@ -5,7 +5,7 @@ angular.module('liveopsConfigPanel')
     var rename = function(tenantUser, fieldName, newFieldName) {
       tenantUser[newFieldName] = tenantUser[fieldName];
       delete tenantUser[fieldName];
-    }
+    };
     
     var moveToUser = function(tenantUser, source, destination) {
       tenantUser.$user[destination ? destination : source] = tenantUser[source];
@@ -38,7 +38,7 @@ angular.module('liveopsConfigPanel')
       if(tenantUser.roleName) {
         rename(tenantUser, 'roleName', '$roleName');
       } else {
-        tenantUser.$roleName = TenantRole.getName(tenantUser.roleId)
+        tenantUser.$roleName = TenantRole.getName(tenantUser.roleId);
       }
 
       //Required so that we can get a cache hit on TenantUser.cachedGet

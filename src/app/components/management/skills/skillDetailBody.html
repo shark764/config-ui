@@ -30,7 +30,7 @@
 
 <div ng-show="!selectedSkill.isNew()" id="skill-members">
   <div class="divider-header">
-    <h4>Members
+    <h4>{{'value.members' | translate}}
       <b class="count" translate="value.numMembers"
         translate-value-number="{{selectedSkill.fetchSkillUsers().length}}" >
       </b>
@@ -41,7 +41,7 @@
     <type-ahead items="fetchTenantUsers()" 
       on-enter="addUser(item)" 
       selected-item="typeahead.selectedUser" 
-      placeholder="Add a user..."
+      placeholder="{{'skill.details.adduser.placeholder' | translate}}"
       filters="filterUsers">
     </type-ahead>
     <number-slider

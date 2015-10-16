@@ -127,7 +127,7 @@ angular.module('liveopsConfigPanel')
         $timeout(function(){
           $scope.typeahead = {
               selectedUser: null
-          }
+          };
         });
       };
       

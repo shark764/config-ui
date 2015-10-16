@@ -3,8 +3,6 @@
 angular.module('liveopsConfigPanel')
   .controller('UsersController', ['$scope', '$window', '$parse', 'User', 'Session', 'AuthService', 'userTableConfig', 'Alert', 'flowSetup', 'BulkAction', '$q', '$location', 'lodash', 'Chain', 'TenantUser', 'TenantRole', 'queryCache', 'UserPermissions', 'PlatformRole', 'TenantUserGroups', 'Modal',
     function ($scope, $window, $parse, User, Session, AuthService, userTableConfig, Alert, flowSetup, BulkAction, $q, $location, _, Chain, TenantUser, TenantRole, queryCache, UserPermissions, PlatformRole, TenantUserGroups, Modal) {
-      var self = this;
-
       $scope.forms = {};
       $scope.Session = Session;
       $window.flowSetup = flowSetup;
@@ -53,12 +51,12 @@ angular.module('liveopsConfigPanel')
 
         angular.forEach(fields, function (field) {
           if (field in $scope.forms.detailsForm) {
-            isDirty = isDirty || $scope.forms.detailsForm[field].$dirty
+            isDirty = isDirty || $scope.forms.detailsForm[field].$dirty;
           }
         });
 
         return isDirty;
-      }
+      };
 
       $scope.submit = function () {
         var promises = [];

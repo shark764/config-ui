@@ -44,9 +44,11 @@ describe('setSkillsBulkAction directive', function () {
     });
 
     it('should should call userkillBulkAction.selectedType.execute when user doesQualify', inject([function () {
+      isolateScope.bulkAction.userSkillsBulkActions[0].selectedSkill = mockSkills[0];
       spyOn(isolateScope.bulkAction.userSkillsBulkActions[0].selectedType, 'execute');
       spyOn(isolateScope.bulkAction.userSkillsBulkActions[0].selectedType, 'doesQualify').and.returnValue(true);
 
+      
       isolateScope.bulkAction.execute([mockTenantUsers[0]]);
 
       expect(isolateScope.bulkAction.userSkillsBulkActions[0].selectedType.execute).toHaveBeenCalled();

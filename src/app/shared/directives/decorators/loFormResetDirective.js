@@ -1,12 +1,12 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('loFormReset', ['$parse', 'DirtyForms', '$timeout',
-    function ($parse, DirtyForms, $timeout) {
+  .directive('loFormReset', [
+    function () {
       return {
         restrict: 'A',
         require: 'form',
-        controller: function($scope) {
+        controller: function() {
           var self = this;
           
           this.resetForm = function () {
