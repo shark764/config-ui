@@ -167,6 +167,7 @@ describe('The users table filter', function() {
           for (var i = 0; i < rows.length; ++i) {
             var searchTermFound = false;
             // users name, email, skills, or groups contain search phrase
+            rows[i].click();
             rows[i].getText().then(function(userRowText) {
               if(userRowText.toLowerCase().indexOf('an') > -1){
                 searchTermFound = true;
