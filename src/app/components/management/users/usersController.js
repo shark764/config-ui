@@ -76,15 +76,17 @@ angular.module('liveopsConfigPanel')
               memberId: tenantUser.id,
               tenantId: Session.tenant.tenantId
             });
+            
+            if (dirty(['firstName', 'lastName', 'externalId']) && UserPermissions.hasPermission('PLATFORM_MANAGE_ALL_USERS')) {
+              $scope.selectedTenantUser.$user.save();
+            }
           }));
-        }
-
-        if (dirty(['firstName', 'lastName', 'externalId'])) {
+        } else if (dirty(['firstName', 'lastName', 'externalId'])) {
           if (UserPermissions.hasPermission('PLATFORM_MANAGE_ALL_USERS')) {
             promises.push($scope.selectedTenantUser.$user.save());
           } else if (UserPermissions.hasPermission('PLATFORM_MANAGE_USER_ACCOUNT') &&
             Session.user.id === $scope.selectedTenantUser.$user.id) {
-
+            
             delete $scope.selectedTenantUser.$user.status; //User cannot edit their own status		
             delete $scope.selectedTenantUser.$user.roleId; //User cannot edit their own platform roleId		
 
