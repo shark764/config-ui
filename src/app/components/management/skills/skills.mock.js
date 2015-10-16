@@ -5,16 +5,19 @@ angular.module('liveopsConfigPanel.mock.content.management.skills', ['liveopsCon
     return [new Skill({
       'id': 'skillId1',
       'name': 'skillName1',
-      'tenantId': 'tenant-id'
+      'tenantId': 'tenant-id',
+      'hasProficiency': true
     }), new Skill({
       'id': 'skillId2',
       'name': 'skillName2',
-      'tenantId': 'tenant-id'
+      'tenantId': 'tenant-id',
+      'hasProficiency': false
     }), new Skill({
       'id': 'skillId3',
       'name': 'skillName3',
       'description': 'Does not exist yet!',
-      'tenantId': 'tenant-id'
+      'tenantId': 'tenant-id',
+      'hasProficiency': false
     })];
   })
   .service('mockUserSkills', function(TenantUserSkill) {

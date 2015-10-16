@@ -59,12 +59,12 @@ angular.module('liveopsConfigPanel')
           }, {
             path: '$user.email'
           }, {
-            path: '$original.skills',
+            path: '$original.$skills',
             inner: {
               path: 'name'
             }
           }, {
-            path: '$original.groups',
+            path: '$original.$groups',
             inner: {
               path: 'name'
             }
