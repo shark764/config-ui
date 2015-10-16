@@ -9,7 +9,7 @@ angular.module('liveopsConfigPanel')
           tenantUser: '='
         },
         templateUrl: 'app/shared/directives/loExtensions/loExtensions.html',
-        link: function ($scope, elem, attrs, controllers) {
+        link: function ($scope) {
           $scope.loExtensionProviders = loExtensionProviders;
           $scope.loExtensionTypes = loExtensionTypes;
           
@@ -61,7 +61,7 @@ angular.module('liveopsConfigPanel')
               def.reject(error);
               return def.promise;
             });
-          }
+          };
         }
       };
     }

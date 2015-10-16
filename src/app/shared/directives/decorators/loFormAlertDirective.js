@@ -6,9 +6,7 @@ angular.module('liveopsConfigPanel')
       return {
         restrict: 'A',
         require: ['loFormSubmit'],
-        controller: function($scope) {
-          var self = this;
-
+        controller: function() {
           this.alertSuccess = function(resource) {
             var action = resource.updated ? 'updated' : 'saved';
             Alert.success('Record ' + action);
@@ -19,7 +17,7 @@ angular.module('liveopsConfigPanel')
             Alert.error('Record failed to ' + action);
           };
         },
-        link: function ($scope, elem, attr, ctrl) {
+        link: function ($scope, elem) {
           $scope.$on('form:submit:success', function(event, resource) {
             var controller = elem.data('$loFormAlertController');
             controller.alertSuccess(resource);

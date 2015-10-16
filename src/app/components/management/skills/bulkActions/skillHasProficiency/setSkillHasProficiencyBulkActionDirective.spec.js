@@ -49,7 +49,7 @@ describe('setSkillHasProficiencyBulkAction directive', function() {
         result: returnSkill
       });
 
-      expect(mockSkills[0].hasProficiency).toBeFalsy();
+      expect(mockSkills[0].hasProficiency).toBeTruthy();
       isolateScope.hasProficiency = true;
       isolateScope.bulkAction.apply(mockSkills[0]);
       $httpBackend.flush();

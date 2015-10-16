@@ -6,7 +6,7 @@ angular.module('liveopsConfigPanel')
       return {
         restrict: 'A',
         require: 'form',
-        controller: function() {
+        controller: function($scope) {
           var self = this;
           
           self.errorInputWatchesUnbinds = {};

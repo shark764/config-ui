@@ -32,6 +32,11 @@ angular.module('liveopsConfigPanel')
             
             $scope.selected = item;
           });
+          
+          $scope.add = controller.add;
+          $scope.remove = controller.remove;
+          $scope.fetchGroups = controller.fetchGroups;
+          $scope.filterGroups = controller.filterGroups;
         }
       };
     }
