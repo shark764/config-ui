@@ -8,7 +8,7 @@ angular.module('liveopsConfigPanel')
         scope: {
           tenantUser: '='
         },
-        templateUrl: 'app/shared/directives/loExtensions/loExtensions.html',
+        templateUrl: 'app/components/management/users/loExtensions/loExtensions.html',
         link: function ($scope) {
           $scope.loExtensionProviders = loExtensionProviders;
           $scope.loExtensionTypes = loExtensionTypes;

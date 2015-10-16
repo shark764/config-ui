@@ -51,10 +51,10 @@ angular.module('liveopsConfigPanel')
               angular.forEach($scope.users, function (user) {
                 if (user.checked){
                   angular.forEach(user.$skills, function (skill){
-                    Skill.cachedGet({
+                    $q.when(Skill.cachedGet({
                       id: skill.id,
                       tenantId: Session.tenant.tenantId
-                    }).$promise.then(function(fullSkill){
+                    }), function(fullSkill){
                       if ((fullSkill.hasProficiency && $scope.currSelectedType === 'update') || $scope.currSelectedType === 'remove'){
                         if ($scope.availableSkills.length === 0){
                           $scope.availableSkills.push(fullSkill);
