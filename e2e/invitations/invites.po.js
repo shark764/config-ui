@@ -22,6 +22,12 @@ var InvitePage = function() {
 
   this.copyrightText = 'Copyright © 2015 LiveOps, Inc. All rights reserved.';
   this.legalText = 'Access to this site requires separate permission from LiveOps. This site contains confidential information, and may also contain content and enable interaction with users from third-party sites subject to different terms that are outside of LiveOps control. By using or accessing this site, you have agreed to the Terms of Service as outlined in the Beta Service Agreement ("Agreement"). A copy of this Agreement is available from your LiveOps contact.';
+
+  // Confirm cancel invitation
+  this.confirmModal = element(by.css('.confirm'));
+  this.confirmMessage = this.confirmModal.element(by.css('p'));
+  this.confirmOK = this.confirmModal.element(by.id('modal-ok'));
+  this.confirmCancel = this.confirmModal.element(by.id('modal-cancel'));
 };
 
 module.exports = new InvitePage();
