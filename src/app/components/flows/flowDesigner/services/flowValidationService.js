@@ -10,7 +10,7 @@
     }
 
     function serverValidate(flow){
-      if(_.has(flow, 'validate') && (_.isFunction(flow, 'validate'))){
+      if('validate' in flow){
         return flow.validate().then(function(response){
           if(response === true){
             return [];
