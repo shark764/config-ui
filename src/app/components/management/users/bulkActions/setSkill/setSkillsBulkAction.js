@@ -107,7 +107,7 @@ angular.module('liveopsConfigPanel')
   .service('hasSkill', function () {
     return function (user, skillId) {
       var matchingSkill;
-      angular.forEach(user.skills, function (userSkill) {
+      angular.forEach(user.$skills, function (userSkill) {
         if (userSkill.id === skillId) {
           matchingSkill = userSkill;
         }
