@@ -12,7 +12,7 @@ function flowDesigner() {
       templateUrl: 'app/components/flows/flowDesigner/flowDesignerDirective.html',
       replace: true,
       link: function() {},
-      controller: ['$scope', '$element', '$attrs', '$window', '$document', '$compile', '$timeout', 'FlowInitService', 'SubflowCommunicationService', 'FlowDraft', 'FlowVersion', 'Session', 'Alert', '$state', 'FlowLibrary', function($scope, $element, $attrs, $window, $document, $compile, $timeout, FlowInitService, SubflowCommunicationService, FlowDraft, FlowVersion, Session, Alert, $state, FlowLibrary) {
+      controller: ['$scope', '$element', '$attrs', '$window', '$document', '$compile', '$timeout', 'FlowInitService', 'SubflowCommunicationService', 'FlowDraft', 'FlowVersion', 'Session', 'Alert', '$state', 'FlowLibrary', 'FlowValidationService', function($scope, $element, $attrs, $window, $document, $compile, $timeout, FlowInitService, SubflowCommunicationService, FlowDraft, FlowVersion, Session, Alert, $state, FlowLibrary, FlowValidationService) {
 
         $timeout(function() {
 
@@ -55,44 +55,6 @@ function flowDesigner() {
             });
           };
 
-          function clearErrors() {
-            var graph = $scope.graph;
-            _.each(graph.getElements(), function(element) {
-              var view = element.findView(graph.interfaces.paper);
-              new V(view.el).removeClass('error');
-            });
-          }
-
-          function addErrors(errors) {
-            var graph = $scope.graph;
-            _.each(errors, function(e) {
-              var cell = graph.getCell(e.step);
-              var view = cell.findView(graph.interfaces.paper);
-              new V(view.el).addClass('error');
-            });
-          }
-
-          function validate(graph) {
-            var errors;
-
-            var apiValidation = $scope.flowData.validate();
-
-            return apiValidation.then(function(results) {
-              clearErrors();
-              errors = FlowLibrary.validate(graph.toJSON());
-
-              if(results !== true) {
-                errors.push(results.data.error.attribute.flow);
-              }
-
-              if(errors.length > 0){
-                addErrors(errors);
-                return false;
-              }
-              else { return true; }
-            });
-          }
-
           $scope.$watch('flowData.name', function(newValue, oldValue){
             if(newValue !== oldValue) {$scope.$broadcast('update:draft');}
           });
@@ -120,7 +82,7 @@ function flowDesigner() {
             });
 
             request.then(function() {
-              validate($scope.graph);
+              FlowValidationService.validate($scope.flowData, $scope.graph);
             });
           };
 
@@ -132,8 +94,7 @@ function flowDesigner() {
 
             var graph = $scope.graph;
             if (graph.toJSON().cells.length === 0) { return; }
-            clearErrors();
-            if(!validate) {return;}
+            if(!FlowValidationService.validate($scope.flowData, $scope.graph)) {return;}
 
             var newScope = $scope.$new();
 
@@ -175,7 +136,7 @@ function flowDesigner() {
             var graph = $scope.graph;
             if (graph.toJSON().cells.length === 0) { return; }
 
-            validate($scope.graph).then(function (results) {
+            FlowValidationService.validate($scope.flowData, $scope.graph).then(function (results) {
                 if(results === true) {
                   var newScope = $scope.$new();
 
@@ -213,7 +174,6 @@ function flowDesigner() {
                       } else if (error.data.error.attribute.flow.message === 'Error parsing') {
                         $document.find('modal').remove();
                         Alert.error('API rejected this flow -- please verify your conditional statements are correct.');
-                        addErrors([error.data.error.attribute.flow]);
                       } else {
                         Alert.error('API rejected this flow -- some other reason...', JSON.stringify(error, null, 2));
                       }
@@ -233,9 +193,18 @@ function flowDesigner() {
             $scope.graph.fromJSON(SubflowCommunicationService.currentFlowContext);
             SubflowCommunicationService.currentFlowContext = '';
           } else {
-            var graphJSON = JSON.parse($scope.flowData.flow);
-            var jjs = FlowLibrary.convertToJoint(graphJSON);
-            $scope.graph.fromJSON(jjs);
+            if($scope.readOnly){
+              var graphJSON = JSON.parse($scope.flowData.flow);
+              var jjs = FlowLibrary.convertToJoint(graphJSON);
+              $scope.graph.fromJSON(jjs);
+            }
+            else{
+              var graphJSON = JSON.parse($scope.flowData.flow);
+              FlowValidationService.checkEntities(graphJSON);
+              var jjs = FlowLibrary.convertToJoint(graphJSON);
+              $scope.graph.fromJSON(jjs);
+              FlowValidationService.validate($scope.flowData, $scope.graph);
+            }
           }
           $window.spitOutAlienese = function() {
             return FlowLibrary.convertToAlienese($scope.graph.toJSON());
