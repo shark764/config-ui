@@ -45,7 +45,7 @@ describe('The users table filter', function() {
     shared.tearDown();
   });
 
-  xit('should display users based on the table Status filter', function() {
+  it('should display users based on the table Status filter', function() {
     // Add Status Column
     shared.tableColumnsDropDown.click();
     shared.tableColumnsDropDownInputs.get(7).isSelected().then(function(statusSelected) {
@@ -73,7 +73,7 @@ describe('The users table filter', function() {
     });
   });
 
-  xit('should display users based on the table Status filter with selection changed selected', function() {
+  it('should display users based on the table Status filter with selection changed selected', function() {
     // Add Status Column
     shared.tableColumnsDropDown.click();
     shared.tableColumnsDropDownInputs.get(7).isSelected().then(function(statusSelected) {
@@ -108,7 +108,7 @@ describe('The users table filter', function() {
     });
   });
 
-  xit('should display all users based on the table Status filter when All is selected', function() {
+  it('should display all users based on the table Status filter when All is selected', function() {
     // Add Status Column
     shared.tableColumnsDropDown.click();
     shared.tableColumnsDropDownInputs.get(7).isSelected().then(function(statusSelected) {
@@ -165,27 +165,32 @@ describe('The users table filter', function() {
       users.statusTableDropDownLabel.click().then(function() {
         shared.tableElements.then(function(rows) {
           for (var i = 0; i < rows.length; ++i) {
-            var usersSearchableFields = [];
+            var searchTermFound = false;
             // users name, email, skills, or groups contain search phrase
             rows[i].getText().then(function(userRowText) {
-              usersSearchableFields.push(userRowText.toLowerCase());
-              expect(userRowText.toLowerCase()).toContain('an');
+              if(userRowText.toLowerCase().indexOf('an') > -1){
+                searchTermFound = true;
+              };
             });
             users.userSkills.then(function (userSkillElements) {
               for (var i = 0; i < userSkillElements.length; i++) {
                 userSkillElements[i].getText().then(function (skillName) {
-                  usersSearchableFields.push(skillName.toLowerCase());
+                  if(skillName.toLowerCase().indexOf('an') > -1){
+                    searchTermFound = true;
+                  };
                 });
               }
             });
             users.userGroups.then(function (userGroupsElements) {
               for (var i = 0; i < userGroupsElements.length; i++) {
                 userGroupsElements[i].getText().then(function (groupName) {
-                  usersSearchableFields.push(groupName.toLowerCase());
+                  if(groupName.toLowerCase().indexOf('an') > -1){
+                    searchTermFound = true;
+                  };
                 });
               }
             }).then(function () {
-              expect(usersSearchableFields).toContain('an');
+              expect(searchTermFound).toBeTruthy();
             });
             expect(rows[i].getText()).toContain('Enabled');
           };
@@ -211,28 +216,32 @@ describe('The users table filter', function() {
               users.userSkills.then(function (userSkillElements) {
                 for (var i = 0; i < userSkillElements.length; i++) {
                   userSkillElements[i].getText().then(function (skillName) {
-                    usersSearchableFields.push(skillName.toLowerCase());
+                    if(skillName.toLowerCase().indexOf('se') > -1){
+                      searchTermFound = true;
+                    };
                   });
                 }
               });
               users.userGroups.then(function (userGroupsElements) {
                 for (var i = 0; i < userGroupsElements.length; i++) {
                   userGroupsElements[i].getText().then(function (groupName) {
-                    usersSearchableFields.push(groupName.toLowerCase());
+                    if(groupName.toLowerCase().indexOf('se') > -1){
+                      searchTermFound = true;
+                    };
                   });
                 }
               }).then(function () {
-                expect(usersSearchableFields).toContain('se');
+                expect(searchTermFound).toBeTruthy();
               });
               expect(['Enabled', 'Disabled']).toContain(shared.tableElements.get(i).element(by.css('td:nth-child(8)')).getText());
-            };
+            }
           });
         });
       });
     });
   });
 
-  xit('should display all tenant Groups in the user table Group filter', function() {
+  it('should display all tenant Groups in the user table Group filter', function() {
     // Select Group from Groups drop down
     users.groupsTableDropDownLabel.click();
 
@@ -254,7 +263,7 @@ describe('The users table filter', function() {
     });
   });
 
-  xit('should display users based on the table Group filter', function() {
+  it('should display users based on the table Group filter', function() {
     // Select Group from Groups drop down
     users.groupsTableDropDownLabel.click();
     users.dropdownGroups.get(0).click();
@@ -303,7 +312,7 @@ describe('The users table filter', function() {
     });
   });
 
-  xit('should display users based on the selected Groups on table filter', function() {
+  it('should display users based on the selected Groups on table filter', function() {
     // Select Group from Groups drop down
     users.groupsTableDropDownLabel.click();
     users.dropdownGroups.get(0).click();
@@ -339,7 +348,7 @@ describe('The users table filter', function() {
     });
   });
 
-  xit('should display users based on the Search and Group filters', function() {
+  it('should display users based on the Search and Group filters', function() {
     // Search
     shared.searchField.sendKeys('a');
 
@@ -375,7 +384,7 @@ describe('The users table filter', function() {
     });
   });
 
-  xit('should display all tenant Skills in the user table Skill filter', function() {
+  it('should display all tenant Skills in the user table Skill filter', function() {
     // Select Skill from Skills drop down
     users.skillsTableDropDownLabel.click();
 
@@ -397,7 +406,7 @@ describe('The users table filter', function() {
     });
   });
 
-  xit('should display users based on the table Skill filter', function() {
+  it('should display users based on the table Skill filter', function() {
     // Select Skill from Skills drop down
     users.skillsTableDropDownLabel.click();
     users.dropdownSkills.get(0).click();
@@ -486,7 +495,7 @@ describe('The users table filter', function() {
     });
   });
 
-  xit('should display users based on the selected Skills on table filter', function() {
+  it('should display users based on the selected Skills on table filter', function() {
     // Select Skill from Skills drop down
     users.skillsTableDropDownLabel.click();
     users.dropdownSkills.get(0).click();
@@ -522,7 +531,7 @@ describe('The users table filter', function() {
     });
   });
 
-  xit('should display users based on the Search and Skill filters', function() {
+  it('should display users based on the Search and Skill filters', function() {
     // Search
     shared.searchField.sendKeys('a');
 
@@ -557,7 +566,7 @@ describe('The users table filter', function() {
     });
   });
 
-  xit('should display all of the user Role options', function() {
+  it('should display all of the user Role options', function() {
     // Select Roles from drop down
     users.rolesTableDropDownLabel.click();
 
@@ -580,7 +589,7 @@ describe('The users table filter', function() {
   });
 
 
-  xit('should display users based on the table Roles filter', function() {
+  it('should display users based on the table Roles filter', function() {
     users.rolesTableDropDownLabel.click();
 
     // Select Administrator from Role drop down
@@ -637,7 +646,7 @@ describe('The users table filter', function() {
     });
   });
 
-  xit('should display all of the Presence options', function() {
+  it('should display all of the Presence options', function() {
     // Add Presence Column
     shared.tableColumnsDropDown.click();
     shared.tableColumnsDropDownInputs.get(6).isSelected().then(function(presenceSelected) {
@@ -667,7 +676,7 @@ describe('The users table filter', function() {
     });
   });
 
-  xit('should display users based on the table Presence filter', function() {
+  it('should display users based on the table Presence filter', function() {
     // Add Presence Column
     shared.tableColumnsDropDown.click();
     shared.tableColumnsDropDownInputs.get(6).isSelected().then(function(presenceSelected) {
@@ -734,7 +743,7 @@ describe('The users table filter', function() {
     });
   });
 
-  xit('should display all of the Tenant Status options', function() {
+  it('should display all of the Tenant Status options', function() {
     // Add Tenant Status Column
     shared.tableColumnsDropDown.click();
     shared.tableColumnsDropDownInputs.get(8).isSelected().then(function(tenantStatusSelected) {
@@ -767,7 +776,7 @@ describe('The users table filter', function() {
     });
   });
 
-  xit('should display users based on the table Tenant Status filter', function() {
+  it('should display users based on the table Tenant Status filter', function() {
     // Add Tenant Status Column
     shared.tableColumnsDropDown.click();
     shared.tableColumnsDropDownInputs.get(8).isSelected().then(function(tenantStatusSelected) {
