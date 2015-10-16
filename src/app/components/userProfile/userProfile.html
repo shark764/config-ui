@@ -10,8 +10,12 @@
     </div>
     
     <form id="user-form" name="userForm"
-      ng-submit="submit()"
-      separate-validation>
+      separate-validation
+      ng-model="tenantUser"
+      ng-resource="tenantUser"
+      lo-form-submit
+      lo-form-alert
+      lo-form-reset>
       
       <div id="user-profile-email">
         <label>Email:</label> {{tenantUser.$user.email}}
@@ -50,9 +54,8 @@
       </div>
       
       <div class="submit-wrapper">
-        <input type="submit" id="save-user-details-btn" class="btn btn-primary"
-        ng-disabled="userForm.$invalid || ! userForm.$dirty"
-        value="{{'value.update' | translate}}" />
+        <input type="submit" lo-submit="submit()" id="save-user-details-btn" class="btn btn-primary"
+        ng-disabled="userForm.$invalid || ! userForm.$dirty" value="{{'value.update' | translate}}"/>
       </div>
     </form>
     

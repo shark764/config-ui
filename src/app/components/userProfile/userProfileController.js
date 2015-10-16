@@ -13,11 +13,9 @@ angular.module('liveopsConfigPanel')
         delete $scope.tenantUser.status; //User cannot edit their own status
         delete $scope.tenantUser.roleId; //User cannot edit their own platform roleId
         
-        $scope.tenantUser.$user.save().then(function(user) {
-          Alert.success($translate.instant('user.profile.save.success'));
+        return $scope.tenantUser.$user.save(function(user) {
           Session.setUser(user);
-        }, function() {
-          Alert.error($translate.instant('user.profile.save.fail'));
+          $scope.userForm.password.$setPristine()
         });
       };
     }

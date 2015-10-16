@@ -48,6 +48,12 @@ describe('UserProfileController', function() {
 
     it('should PUT to /v1/users on submit', function() {
       $httpBackend.expect('PUT', apiHostname + '/v1/users/userId1').respond(200);
+      $scope.userForm = {
+        password : {
+          $setPristine : jasmine.createSpy('$setPristine')
+        }
+     }; 
+      
       $scope.submit();
 
       $httpBackend.flush();
