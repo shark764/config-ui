@@ -75,7 +75,7 @@ describe('The user invitation', function() {
               var newestMessage1 = JSON.parse(body).messages[JSON.parse(body).messages.length - 1];
 
               // Get the newest message content
-              req.get('https://api.mailinator.com/api/email?id=' + newestMessage1.id + '&token=' + params.mailinator.token, '', function(error, response, body) {
+              req.get('https://api.mailinator.com/api/email?msgid=' + newestMessage1.id + '&token=' + params.mailinator.token, '', function(error, response, body) {
                 if (body) {
                   var newestMessage1Contents = JSON.parse(body).data.parts[0].body;
 
@@ -109,7 +109,7 @@ describe('The user invitation', function() {
               var newestMessage1 = JSON.parse(body).messages[JSON.parse(body).messages.length - 1];
 
               // Get the newest message content
-              req.get('https://api.mailinator.com/api/email?id=' + newestMessage1.id + '&token=' + params.mailinator.token, '', function(error, response, body) {
+              req.get('https://api.mailinator.com/api/email?msgid=' + newestMessage1.id + '&token=' + params.mailinator.token, '', function(error, response, body) {
                 if (body) {
                   var newestMessage1Contents = JSON.parse(body).data.parts[0].body;
 
@@ -162,7 +162,7 @@ describe('The user invitation', function() {
                 expect(newestMessage2.from).toBe(params.mailinator.from);
 
                 // Get the newest message content
-                req.get('https://api.mailinator.com/api/email?id=' + newestMessage2.id + '&token=' + params.mailinator.token, '', function(error, response, body) {
+                req.get('https://api.mailinator.com/api/email?msgid=' + newestMessage2.id + '&token=' + params.mailinator.token, '', function(error, response, body) {
                   if (body) {
                     var newestMessage2Contents = JSON.parse(body).data.parts[0].body;
 
@@ -198,7 +198,7 @@ describe('The user invitation', function() {
           expect(newestMessage.been_read).toBeFalsy();
           expect(newestMessage.from).toBe(params.mailinator.from);
 
-          req.get('https://api.mailinator.com/api/email?id=' + newestMessage.id + '&token=' + params.mailinator.token, '', function(error, response, body) {
+          req.get('https://api.mailinator.com/api/email?msgid=' + newestMessage.id + '&token=' + params.mailinator.token, '', function(error, response, body) {
             if (body) {
               var newestMessageContents = JSON.parse(body).data.parts[0].body;
               expect(newestMessageContents).toContain('User Name: ');
@@ -246,7 +246,7 @@ describe('The user invitation', function() {
                 expect(newestMessage.from).toBe(params.mailinator.from);
 
                 // Get the newest message content
-                req.get('https://api.mailinator.com/api/email?id=' + newestMessage.id + '&token=' + params.mailinator.token, '', function(error, response, body) {
+                req.get('https://api.mailinator.com/api/email?msgid=' + newestMessage.id + '&token=' + params.mailinator.token, '', function(error, response, body) {
                   if (body) {
                     var newestMessageContents = JSON.parse(body).data.parts[0].body;
 
@@ -301,7 +301,7 @@ describe('The user invitation', function() {
                 expect(newestMessage.from).toBe(params.mailinator.from);
 
                 // Get the newest message content
-                req.get('https://api.mailinator.com/api/email?id=' + newestMessage.id + '&token=' + params.mailinator.token, '', function(error, response, body) {
+                req.get('https://api.mailinator.com/api/email?msgid=' + newestMessage.id + '&token=' + params.mailinator.token, '', function(error, response, body) {
                   if (body) {
                     var newestMessageContents = JSON.parse(body).data.parts[0].body;
 
@@ -378,7 +378,7 @@ describe('The user invitation', function() {
                 expect(newestMessage.from).toBe(params.mailinator.from);
 
                 // Get the newest message content
-                req.get('https://api.mailinator.com/api/email?id=' + newestMessage.id + '&token=' + params.mailinator.token, '', function(error, response, body) {
+                req.get('https://api.mailinator.com/api/email?msgid=' + newestMessage.id + '&token=' + params.mailinator.token, '', function(error, response, body) {
                   if (body) {
                     var newestMessageContents = JSON.parse(body).data.parts[0].body;
 
@@ -523,7 +523,7 @@ describe('The user invitation', function() {
           expect(users.resendInvitationBtn.isDisplayed()).toBeTruthy();
           expect(users.resendInvitationBtn.getAttribute('value')).toBe('Resend Invitation');
 
-          cancelInvitationBtn.click().then(function() {
+          users.cancelInvitationBtn.click().then(function() {
             expect(invites.confirmModal.isDisplayed()).toBeTruthy();
             expect(invites.confirmOK.isDisplayed()).toBeTruthy();
             expect(invites.confirmCancel.isDisplayed()).toBeTruthy();
@@ -548,7 +548,7 @@ describe('The user invitation', function() {
       shared.searchField.sendKeys(newUserEmail);
       shared.firstTableRow.click();
 
-      cancelInvitationBtn.click().then(function() {
+      users.cancelInvitationBtn.click().then(function() {
         expect(invites.confirmModal.isDisplayed()).toBeTruthy();
         invites.confirmOK.click().then(function() {
           expect(invites.confirmModal.isPresent()).toBeFalsy();
@@ -575,7 +575,7 @@ describe('The user invitation', function() {
           expect(newestMessage2.from).toBe(params.mailinator.from);
 
           // Get the newest message content
-          req.get('https://api.mailinator.com/api/email?id=' + newestMessage2.id + '&token=' + params.mailinator.token, '', function(error, response, body) {
+          req.get('https://api.mailinator.com/api/email?msgid=' + newestMessage2.id + '&token=' + params.mailinator.token, '', function(error, response, body) {
             if (body) {
               var newestMessage2Contents = JSON.parse(body).data.parts[0].body;
 
@@ -647,7 +647,7 @@ describe('The user invitation', function() {
     });
 
     it('should not send invitation email when Invite Now is deselected', function() {
-      browser.get(shared.usersPageUrl());
+      browser.get(shared.usersPageUrl);
       shared.createBtn.click();
 
       // newUserEmail is already set to a value used for the previous tenants new user
@@ -678,10 +678,9 @@ describe('The user invitation', function() {
               var newestMessage1 = JSON.parse(body).messages[JSON.parse(body).messages.length - 1];
               // Verify message is not new
               expect(newestMessage1.seconds_ago).not.toBeLessThan(30);
-              expect(newestMessage1.been_read).toBeTruthy();
 
               // Get the newest message content
-              req.get('https://api.mailinator.com/api/email?id=' + newestMessage1.id + '&token=' + params.mailinator.token, '', function(error, response, body) {
+              req.get('https://api.mailinator.com/api/email?msgid=' + newestMessage1.id + '&token=' + params.mailinator.token, '', function(error, response, body) {
                 if (body) {
                   var newestMessage1Contents = JSON.parse(body).data.parts[0].body;
 
@@ -699,7 +698,7 @@ describe('The user invitation', function() {
     });
 
     it('should send invitation email when Invite Now is deselected and selecting Send Invitation', function() {
-      browser.get(shared.usersPageUrl());
+      browser.get(shared.usersPageUrl);
       shared.searchField.sendKeys(newUserEmail);
       shared.firstTableRow.click();
 
@@ -723,7 +722,7 @@ describe('The user invitation', function() {
               expect(newestMessage1.been_read).toBeFalsy();
 
               // Get the newest message content
-              req.get('https://api.mailinator.com/api/email?id=' + newestMessage1.id + '&token=' + params.mailinator.token, '', function(error, response, body) {
+              req.get('https://api.mailinator.com/api/email?msgid=' + newestMessage1.id + '&token=' + params.mailinator.token, '', function(error, response, body) {
                 if (body) {
                   var newestMessage1Contents = JSON.parse(body).data.parts[0].body;
 
@@ -746,6 +745,7 @@ describe('The user invitation', function() {
       newTenantName = tenants.createTenant();
       tenants.selectTenant(newTenantName);
 
+      browser.get(shared.usersPageUrl);
       shared.createBtn.click();
 
       // newUserEmail is already set to a value used for the previous tenants new user
@@ -778,7 +778,7 @@ describe('The user invitation', function() {
               expect(newestMessage2.from).toBe(params.mailinator.from);
 
               // Get the newest message content
-              req.get('https://api.mailinator.com/api/email?id=' + newestMessage2.id + '&token=' + params.mailinator.token, '', function(error, response, body) {
+              req.get('https://api.mailinator.com/api/email?msgid=' + newestMessage2.id + '&token=' + params.mailinator.token, '', function(error, response, body) {
                 if (body) {
                   var newestMessage2Contents = JSON.parse(body).data.parts[0].body;
 
@@ -844,8 +844,8 @@ describe('The user invitation', function() {
 
       // User is added to previous and new Tenant
       expect(shared.tenantsNavDropdownContents.count()).toBe(2);
-      expect(shared.tenantsNavDropdownContents.get(0).getText()).toBeIn([newTenantName, defaultTenantName]);
-      expect(shared.tenantsNavDropdownContents.get(1).getText()).toBeIn([newTenantName, defaultTenantName]);
+      expect([newTenantName, defaultTenantName]).toContain(shared.tenantsNavDropdownContents.get(0).getText());
+      expect([newTenantName, defaultTenantName]).toContain(shared.tenantsNavDropdownContents.get(1).getText());
     });
 
     it('should display user details after the invitation is accepted', function() {
@@ -857,7 +857,6 @@ describe('The user invitation', function() {
       expect(shared.firstTableRow.getText()).toContain('Last ' + randomUser);
       expect(shared.firstTableRow.getText()).toContain('External Id' + randomUser);
       expect(shared.firstTableRow.getText()).toContain(newUserEmail);
-      expect(shared.firstTableRow.getText()).toContain('Agent');
       expect(shared.firstTableRow.getText()).toContain('Accepted');
 
       // Remaining fields are displayed and remain blank
