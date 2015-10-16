@@ -155,11 +155,10 @@
     return tpl += '</div></div></form>';
   }
 
-  var propsPanel = function ($compile, $timeout, $window, $rootScope, FlowNotationService) {
+  var propsPanel = function ($compile, $timeout, $window, $rootScope, FlowResource) {
     return {
       scope: {
         notation: '=notation',
-        medias: '=medias',
         inputs: '=inputs'
       },
       template: '<div class="propsPanel"><h1 ng-show="loading"><i class="fa fa-spinner fa-spin"></i></h1></div>',
@@ -182,7 +181,7 @@
         _.each(scope.inputs, function (input) {
           if (input.type === 'typeahead' && input.source !== undefined) {
             if (input.source === 'media') {
-              input.options = _.map(FlowNotationService.media, function(entity) {
+              input.options = _.map(FlowResource.getAllMedia(), function(entity) {
                 return {
                   value: entity.id,
                   content: entity.name,
@@ -199,7 +198,7 @@
                 });
               }
             } else if (input.source === 'queue') {
-              input.options = _.map(FlowNotationService.queue, function(entity) {
+              input.options = _.map(FlowResource.getActiveQueues(), function(entity) {
                 return {
                   value: entity.id,
                   content: entity.name,
