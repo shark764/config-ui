@@ -52,7 +52,7 @@ var UserPage = function() {
   this.groupsColumn = 'td:nth-child(5)';
   this.rolesColumn = 'td:nth-child(6)';
   this.presenceColumn = 'td:nth-child(7)';
-  this.tenantStatusColumn = 'td:nth-child(8)';
+  this.tenantStatusColumn = 'td:nth-child(9)';
 
   this.tableDropDowns = this.tableHeader.all(by.css('filter-dropdown'));
 

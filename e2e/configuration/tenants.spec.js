@@ -102,20 +102,22 @@ describe('The tenants view', function() {
     });
   });
 
-  xit('should require name field when editing', function() {
-    shared.searchField.sendKeys('Tenant'); // Ensure Platform tenant is not selected
+  it('should require name field when editing', function() {
+    shared.tableElements.count().then(function(tenantCount) {
+      if (tenantCount > 0) {
+        tenants.firstTableRow.click().then(function() {
+          tenants.nameFormField.clear();
+          tenants.nameFormField.sendKeys('\t');
 
-    tenants.firstTableRow.click().then(function () {
-      tenants.nameFormField.clear();
-      tenants.nameFormField.sendKeys('\t');
+          // Submit button is still disabled
+          expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
+          shared.submitFormBtn.click();
 
-      // Submit button is still disabled
-      expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
-      shared.submitFormBtn.click();
-
-      expect(tenants.nameRequiredError.get(0).isDisplayed()).toBeTruthy();
-      expect(tenants.nameRequiredError.get(0).getText()).toBe('Please enter a name');
-      expect(shared.successMessage.isPresent()).toBeFalsy();
+          expect(tenants.nameRequiredError.get(0).isDisplayed()).toBeTruthy();
+          expect(tenants.nameRequiredError.get(0).getText()).toBe('Please enter a name');
+          expect(shared.successMessage.isPresent()).toBeFalsy();
+        });
+      }
     });
   });
 
