@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('UserProfileController', ['$q', '$scope', 'Session', 'User', 'TenantUser', 'TenantUserSkill', 'TenantUserGroups', 'Alert', '$translate',
-    function ($q, $scope, Session, User, TenantUser, TenantUserSkill, TenantUserGroups, Alert, $translate) {
+  .controller('UserProfileController', ['$q', '$scope', 'Session', 'User', 'TenantUser',
+    function ($q, $scope, Session, User, TenantUser) {
 
       $scope.tenantUser = TenantUser.get({
         id: Session.user.id,
@@ -15,7 +15,7 @@ angular.module('liveopsConfigPanel')
         
         return $scope.tenantUser.$user.save(function(user) {
           Session.setUser(user);
-          $scope.userForm.password.$setPristine()
+          $scope.userForm.password.$setPristine();
         });
       };
     }
