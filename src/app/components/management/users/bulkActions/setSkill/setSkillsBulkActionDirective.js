@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-.directive('baUserSkills', [ '$q', 'UserSkillsBulkAction', 'userSkillsBulkActionTypes', 'Skill', 'Session',
-  function ($q, UserSkillsBulkAction, userSkillsBulkActionTypes, Skill, Session) {
+.directive('baUserSkills', [ '$q', 'UserSkillsBulkAction', 'userSkillsBulkActionTypes', 'Skill', 'Session', 'queryCache',
+  function ($q, UserSkillsBulkAction, userSkillsBulkActionTypes, Skill, Session, queryCache) {
     return {
       restrict: 'AE',
       scope: {
@@ -17,10 +17,13 @@ angular.module('liveopsConfigPanel')
             angular.forEach($scope.bulkAction.userSkillsBulkActions, function(userSkillsBulkAction) {
               if(userSkillsBulkAction.selectedType.doesQualify(user, userSkillsBulkAction)) {
                 promises.push(userSkillsBulkAction.execute(user));
+                
+                //Quicker to just reset the cache of users with this skill than to manually update the cache for each user
+                queryCache.remove('skills/' + userSkillsBulkAction.selectedSkill.id + '/users');
               }
             });
           });
-
+          
           return $q.all(promises);
         };
 
@@ -47,19 +50,22 @@ angular.module('liveopsConfigPanel')
 
               angular.forEach($scope.users, function (user) {
                 if (user.checked){
-                  angular.forEach(user.skills, function (skill){
-                    var fullSkill = Skill.cachedGet({id: skill.id});
-                    if (fullSkill.hasProficiency){
-                      if ($scope.availableSkills.length === 0){
-                        $scope.availableSkills.push(fullSkill);
-                      } else {
-                        // Checks if the current user skills is already in the list, if it is, we skip.  If not we add it to the list.
-                        if ($scope.availableSkills.map(function(e) { return e.id; }).indexOf(skill.id) < 0){
+                  angular.forEach(user.$skills, function (skill){
+                    Skill.cachedGet({
+                      id: skill.id,
+                      tenantId: Session.tenant.tenantId
+                    }).$promise.then(function(fullSkill){
+                      if ((fullSkill.hasProficiency && $scope.currSelectedType === 'update') || $scope.currSelectedType === 'remove'){
+                        if ($scope.availableSkills.length === 0){
                           $scope.availableSkills.push(fullSkill);
+                        } else {
+                          // Checks if the current user skills is already in the list, if it is, we skip.  If not we add it to the list.
+                          if ($scope.availableSkills.map(function(e) { return e.id; }).indexOf(skill.id) < 0){
+                            $scope.availableSkills.push(fullSkill);
+                          }
                         }
                       }
-                    }
-                    
+                    });
                   });
                 }
               });

@@ -27,3 +27,60 @@
     <toggle ng-disabled="! ('MANAGE_ALL_SKILLS' | hasPermission) || (! selectedSkill.isNew() && selectedSkill.$original.hasProficiency)" class="status-toggle" name="hasProficiency" ng-model="selectedSkill.hasProficiency"></toggle>
   </div>
 </div>
+
+<div ng-show="!selectedSkill.isNew()" id="skill-members">
+  <div class="divider-header">
+    <h4>{{'value.members' | translate}}
+      <b class="count" translate="value.numMembers"
+        translate-value-number="{{selectedSkill.fetchSkillUsers().length}}" >
+      </b>
+    </h4>
+  </div>
+  
+  <ng-form separate-validation id="usersForm">
+    <type-ahead items="fetchTenantUsers()" 
+      on-enter="addUser(item)" 
+      selected-item="typeahead.selectedUser" 
+      placeholder="{{'skill.details.adduser.placeholder' | translate}}"
+      filters="filterUsers">
+    </type-ahead>
+    <number-slider
+    id="new-user-skill-proficiency" ng-if="selectedSkill.$original.hasProficiency"
+    placeholder="{{'skill.details.proficiency' | translate}}" 
+    value="newUserProficiency"
+    min-value="1" max-value="100" ></number-slider>
+    <div>
+      <a lo-submit-spinner spinner-status="saving" class="btn" ng-disabled="! typeahead.selectedUser.id" ng-click="addUser(typeahead.selectedUser)"><i class="fa fa-plus add"></i></a>
+    </div>
+  </ng-form>
+  
+  <p ng-if="selectedSkill.fetchSkillUsers().$resolved"
+    class="null" id="empty-members-message" ng-hide="selectedSkill.fetchSkillUsers().length">
+    {{'skill.details.members.none' | translate}}
+  </p>
+  
+  <loading ng-if="selectedSkill.fetchSkillUsers().$resolved != undefined"
+    ng-show="!selectedSkill.fetchSkillUsers().$resolved"></loading>
+
+  <table 
+    scroll-table 
+    max-height="300" 
+    class="table" 
+    ng-show="selectedSkill.fetchSkillUsers().length > 0">
+    <thead>
+      <tr>
+        <th>{{'value.name' | translate}}</th>
+        <th class="proficiency-col" ng-show="selectedSkill.$original.hasProficiency">{{'value.proficiency' | translate}}</th>
+        <th class="control-col"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="user in selectedSkill.fetchSkillUsers()">
+        <td><a ng-click="gotoUserPage(user.userId)"><audit-text translation="value.displayName" user-id="user.userId"></audit-text></a></td>
+        <td class="proficiency-col" ng-show="selectedSkill.$original.hasProficiency">{{user.proficiency}}</td>
+        <td class="control-col"><i class="remove fa fa-times" ng-click="removeUser(user)"></i></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
