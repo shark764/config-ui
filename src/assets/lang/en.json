@@ -152,6 +152,10 @@
   "group.details.enable.confirm": "This will enable this group. Do you want to continue?",
   "group.table.members": "Members",
   "group.table.title": "Group Management",
+  "group.table.add.member": "Member successfully added!",
+  "group.table.add.member.error": "Error adding member!",
+  "group.table.remove.member": "Member successfully removed!",
+  "group.table.remove.member.error": "Error removing member!",
 
   "skill.details.hasProficiency": "Has Proficiency",
   "skill.details.name.error": "Please enter a name",
