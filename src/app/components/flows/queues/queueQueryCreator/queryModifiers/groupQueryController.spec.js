@@ -156,6 +156,26 @@ describe('groupQueryController', function () {
         expect(jsedn.encode($scope.parentMap)).toEqual(expected);
       });
     });
+    
+    it('should not remove anything else when removing last item in operatorList', function() {
+      var expected = '{:groups (and (and {#uuid "groupId1" true}))}';
+
+      var andGroupQueryController = $controller('groupQueryController', {
+        '$scope': {
+          parentMap: rootMap,
+          operator: 'and'
+        }
+      });
+      
+      andGroupQueryController.add(mockGroups[0]);
+      controller.add(mockGroups[0]);
+      controller.add(mockGroups[1]);
+      
+      controller.remove(mockGroups[0]);
+      controller.remove(mockGroups[1]);
+
+      expect(jsedn.encode($scope.parentMap)).toEqual(expected);
+    });
   });
 
   describe('ON parseOperands', function () {

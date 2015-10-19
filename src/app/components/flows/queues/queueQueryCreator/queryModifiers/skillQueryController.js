@@ -19,7 +19,11 @@ angular.module('liveopsConfigPanel')
       this.uuidTag = new jsedn.Tag('uuid');
       
       this.tagUuid = function tagUuid(uuid) {
-        return new jsedn.Tagged(self.uuidTag, uuid);
+        if(angular.isString(uuid)) {
+          return new jsedn.Tagged(self.uuidTag, uuid);
+        }
+        
+        return uuid;
       };
 
       var generateProficiencyMap = function generateProficiencyMap(operand) {
@@ -89,10 +93,7 @@ angular.module('liveopsConfigPanel')
             var skillMap = operationList.val[operationListIndex];
 
             var skillIdTag = skillMap.keys[0];
-            
-            if(angular.isString(skillIdTag)) {
-              skillMap.keys[0] = skillIdTag = self.tagUuid(skillIdTag);
-            }
+            skillMap.keys[0] = skillIdTag = self.tagUuid(skillIdTag);
             
             skillIdTag.id = skillIdTag.obj();
 
@@ -201,12 +202,18 @@ angular.module('liveopsConfigPanel')
           for (var operationListIndex = 1; operationListIndex < operationList.val.length; operationListIndex++) {
             var skillMap = operationList.val[operationListIndex];
             
-            for(var skillMapKey in skillMap.keys) {
+            for(var skillMapKey = 0; skillMapKey < skillMap.keys.length; skillMapKey ++) {
               var skillIdTag = skillMap.keys[skillMapKey];
+              skillIdTag = skillMap.keys[skillMapKey] = self.tagUuid(skillIdTag);
+              
               if(skillIdTag.obj() === operand.id) {
                 operationList.val.splice(operationListIndex, 1);
-
+                
                 if (operationList.val.length <= 1) {
+                  andList.val.removeItem(operationList);
+                }
+                
+                if (andList.val.length <= 1) {
                   $scope.parentMap.remove(self.keyword);
                 }
                 

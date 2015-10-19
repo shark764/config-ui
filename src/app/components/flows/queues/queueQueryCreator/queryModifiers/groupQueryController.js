@@ -11,7 +11,11 @@ angular.module('liveopsConfigPanel')
       this.uuidTag = new jsedn.Tag('uuid');
       
       this.tagUuid = function tagUuid(uuid) {
-        return new jsedn.Tagged(self.uuidTag, uuid);
+        if(angular.isString(uuid)) {
+          return new jsedn.Tagged(self.uuidTag, uuid);
+        }
+        
+        return uuid;
       };
       
       this.fetchGroups = function () {
@@ -63,10 +67,7 @@ angular.module('liveopsConfigPanel')
             var groupMap = operationList.val[operationListIndex];
 
             var groupIdTag = groupMap.keys[0];
-            
-            if(angular.isString(groupIdTag)) {
-              groupMap.keys[0] = groupIdTag = self.tagUuid(groupIdTag);
-            }
+            groupIdTag = groupMap.keys[0] = self.tagUuid(groupIdTag);
             
             groupIdTag.id = groupIdTag.obj();
             
@@ -166,12 +167,18 @@ angular.module('liveopsConfigPanel')
           for (var operationListIndex = 1; operationListIndex < operationList.val.length; operationListIndex++) {
             var groupMap = operationList.val[operationListIndex];
             
-            for(var groupMapKey in groupMap.keys) {
+            for(var groupMapKey = 0; groupMapKey < groupMap.keys.length; groupMapKey ++) {
               var groupIdTag = groupMap.keys[groupMapKey];
+              groupIdTag = groupMap.keys[groupMapKey] = self.tagUuid(groupIdTag);
+              
               if(groupIdTag.obj() === operand.id) {
                 operationList.val.splice(operationListIndex, 1);
-
+                
                 if (operationList.val.length <= 1) {
+                  andList.val.removeItem(operationList);
+                }
+                
+                if (andList.val.length <= 1) {
                   $scope.parentMap.remove(self.keyword);
                 }
                 
