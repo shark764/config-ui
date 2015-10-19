@@ -6,7 +6,6 @@ angular.module('liveopsConfigPanel')
       $scope.flow = flow;
       $scope.flowData = data;
       $scope.readOnly = readOnly;
-      $scope.online = true;
 
       $scope.notations = notations.data;
 
