@@ -64,7 +64,7 @@ angular.module('liveopsConfigPanel')
           tenantId : Session.tenant.tenantId,
           groupId:$scope.selectedGroup.id,
           memberId: user.memberId
-        }, function (resp) {
+        }, function () {
           $scope.selectedGroup.memberList.removeItem(user);
           Alert.success($translate.instant('group.table.remove.member'));
         }, function () {
