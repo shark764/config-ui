@@ -28,7 +28,7 @@
   </div>
 </div>
 
-<div ng-show="!selectedSkill.isNew()" id="skill-members">
+<div ng-if="!selectedSkill.isNew()" id="skill-members">
   <div class="divider-header">
     <h4>{{'value.members' | translate}}
       <b class="count" translate="value.numMembers"

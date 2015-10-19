@@ -27,7 +27,7 @@ angular.module('liveopsConfigPanel')
           skillId: this.id
         }, 'skills/' + this.id + '/users');
         
-        this.members = result;
+        this.$members = result;
         return result;
       };
 
