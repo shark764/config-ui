@@ -6,7 +6,8 @@ angular.module('liveopsConfigPanel')
       return {
         restrict: 'E',
         scope: {
-          tenantUser: '='
+          tenantUser: '=',
+          ngDisabled: '='
         },
         templateUrl: 'app/components/management/users/loExtensions/loExtensions.html',
         link: function ($scope) {

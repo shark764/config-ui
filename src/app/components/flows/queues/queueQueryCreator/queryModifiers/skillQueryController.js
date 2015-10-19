@@ -122,10 +122,6 @@ angular.module('liveopsConfigPanel')
       };
 
       this.add = function (operand) {
-        if(!operand) {
-          return;
-        }
-        
         var andList,
           skillProficiencyMap,
           operationList;

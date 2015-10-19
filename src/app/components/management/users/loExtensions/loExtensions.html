@@ -20,6 +20,7 @@
             error-type-required="{{'details.extension.type.required' | translate}}" >
           </form-error>
           <select name="type"
+            ng-disabled="ngDisabled"
             ng-required="true"
             ng-class="{'default-selected': ! newExtension.type}"
             ng-model="newExtension.type"
@@ -34,6 +35,7 @@
             error-type-required="{{'details.extension.provider.required' | translate}}" >
           </form-error>
           <select name="provider"
+            ng-disabled="ngDisabled"
             ng-required="true"
             ng-class="{'default-selected': ! newExtension.provider}"
             ng-model="newExtension.provider"
@@ -49,6 +51,7 @@
             error-type-phone-number="{{'details.phoneNumber.error' | translate}}" >
           </form-error>
           <input type="tel" name="value"
+            ng-disabled="ngDisabled"
             ng-required="true"
             placeholder="{{'details.extension.value' | translate}}"
             ng-model="phoneNumber">
@@ -58,12 +61,15 @@
             name="phoneExtension"
             pattern="\d*"
             placeholder="{{'details.phone.extension.value' | translate}}"
+            ng-disabled="ngDisabled"
             ng-model="phoneExtension">
           </input>
           <button class="btn" type="button"
             style="width: 35px;"
             lo-submit="add()"
-            ng-disabled="userTenantExtensionForm.type.$invalid || userTenantExtensionForm.provider.$invalid || userTenantExtensionForm.value.$invalid">
+            ng-disabled="userTenantExtensionForm.type.$invalid ||
+              userTenantExtensionForm.provider.$invalid ||
+              userTenantExtensionForm.value.$invalid">
             <i class="fa fa-plus"></i>
           </button>
         </div>
@@ -94,6 +100,7 @@
         </div>
         <div class="lo-extension-table-col remove-col" dnd-nodrag>
           <i class="fa fa-close remove"
+            ng-disabled="ngDisabled"
             lo-submit="remove(extension)">
           </i>
         </div>
