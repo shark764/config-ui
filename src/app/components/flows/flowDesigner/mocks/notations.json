@@ -1562,15 +1562,16 @@
                 {
                     "name": "resource",
                     "path": "params.resource",
-                    "type": "string",
+                    "type": "select",
+                    "source": "resource",
                     "label": "Resource:",
                     "group": "params",
                     "index": 0,
                     "disabled": false,
                     "required": true,
                     "hidden": false,
-                    "placeholder": "Enter a resource...",
-                    "targeted": false
+                    "targeted": false,
+                    "options": []
                 },
                 {
                     "name": "muted",
