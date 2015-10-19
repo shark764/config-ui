@@ -196,28 +196,28 @@ describe('The groups view bulk actions', function() {
 
       // Disable selected Groups
       bulkActions.selectEnable.click();
-      bulkActions.submitFormBtn.click();
+      
+      bulkActions.submitFormBtn.click().then(function () {
+        expect(bulkActions.confirmModal.isDisplayed()).toBeTruthy();
+        bulkActions.confirmOK.click().then(function() {
+          expect(shared.successMessage.isDisplayed()).toBeTruthy();
 
-      expect(bulkActions.confirmModal.isDisplayed()).toBeTruthy();
-      bulkActions.confirmOK.click().then(function() {
-        expect(shared.successMessage.isDisplayed()).toBeTruthy();
+          // Form reset
+          expect(bulkActions.submitFormBtn.getAttribute('disabled')).toBeTruthy();
+          expect(bulkActions.enableToggle.getAttribute('disabled')).toBeTruthy();
 
-        // Form reset
-        expect(bulkActions.submitFormBtn.getAttribute('disabled')).toBeTruthy();
-        expect(bulkActions.enableToggle.getAttribute('disabled')).toBeTruthy();
-
-        shared.tableElements.each(function(groupElement, elementIndex) {
-          groupElement.getText().then(function(groupText) {
-            if (groupText.indexOf('everyone') == -1 && elementIndex % 2 > 0) {
-              // Group was updated to Disabled
-              expect(groupText).toContain('Disabled');
-            } else {
-              // Group status remains unchanged
-              expect(groupText).toBe(originalGroups[elementIndex].getText());
-            }
+          shared.tableElements.each(function(groupElement, elementIndex) {
+            groupElement.getText().then(function(groupText) {
+              if (groupText.indexOf('everyone') == -1 && elementIndex % 2 > 0) {
+                // Group was updated to Disabled
+                expect(groupText).toContain('Disabled');
+              } else {
+                // Group status remains unchanged
+                expect(groupText).toBe(originalGroups[elementIndex].getText());
+              }
+            });
           });
         });
-
       });
     });
   });

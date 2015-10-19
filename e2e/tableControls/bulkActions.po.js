@@ -47,6 +47,7 @@ var BulkActions = function() {
   this.selectEnable = element(by.id('select-enable-bulk-action'));
   this.enableToggle = element(by.id('bulk-action-enable-toggle'));
   this.enableToggleSwitch = this.enableToggle.element(by.css('.switch-handle'));
+  this.enableToggleClick = this.enableToggle.element(by.css('.switch-handle'));
 
   // Bulk Actions buttons
   this.submitFormBtn = this.bulkActionsForm.element(by.id('submit-bulk-actions-btn'));
