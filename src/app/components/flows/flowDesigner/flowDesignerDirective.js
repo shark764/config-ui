@@ -143,7 +143,12 @@ function flowDesigner() {
                   newScope.modalBody = 'app/components/flows/flowDesigner/publishModalTemplate.html';
                   newScope.title = 'Publish';
                   newScope.flow = {
-                    name: $scope.flow.name
+                    name: $scope.flow.name,
+                    active: true
+                  };
+                  newScope.version = {
+                    name: '',
+                    description: ''
                   };
 
                   newScope.okCallback = function(flow, version){

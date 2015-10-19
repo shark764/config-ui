@@ -1,9 +1,11 @@
 <div class="publish">
   <h3 class="header">{{title}}</h3>
-  <div class="form">
+  <ng-form name="forms.publishNewVersion">
     <div class="input-group">
       <label>Flow Name</label>
-      <input type="text" ng-model="flow.name"/>
+      <form-error field="forms.publishNewVersion.flowName"
+        error-type-required="Please enter a Flow name"></form-error>
+      <input type="text" ng-model="flow.name" name="flowName" ng-required="true"/>
     </div>
     <div class="input-group">
       <label>Make active</label>
@@ -11,15 +13,17 @@
     </div>
     <div class="input-group">
       <label>Version name</label>
-      <input type="text" ng-model="version.name"/>
+      <form-error field="forms.publishNewVersion.versionName"
+        error-type-required="Please enter a version name"></form-error>
+      <input type="text" ng-model="version.name" name="versionName" ng-required="true"/>
     </div>
     <div class="input-group">
       <label>Description</label>
-      <input type="text" ng-model="version.description"/>
+      <input type="text" ng-model="version.description" name="versionDescription"/>
     </div>
-  </div>
+  </ng-form>
   <div class="footer">
-    <a id="modal-cancel" class="btn" ng-click="cancelCallback()">{{'value.cancel' | translate}}</a>
-    <a ng-click="okCallback(flow, version)" class="btn btn-primary" id="modal-ok">{{'value.ok' | translate}}</a>
+    <input type="button" id="modal-cancel" class="btn" ng-click="cancelCallback()" value="{{'value.cancel' | translate}}"/>
+    <input type="submit" ng-click="okCallback(flow, version)" class="btn btn-primary" id="modal-ok" ng-disabled="forms.publishNewVersion.$invalid || ! forms.publishNewVersion.$dirty">
   </div>
 </div>
