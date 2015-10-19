@@ -3,7 +3,9 @@
   <ng-form name="forms.publishNewVersion">
     <div class="input-group">
       <label>Flow Name</label>
-      <input type="text" ng-model="flow.name"/>
+      <form-error field="forms.publishNewVersion.flowName"
+        error-type-required="Please enter a Flow name"></form-error>
+      <input type="text" ng-model="flow.name" name="flowName" ng-required="true"/>
     </div>
     <div class="input-group">
       <label>Make active</label>
