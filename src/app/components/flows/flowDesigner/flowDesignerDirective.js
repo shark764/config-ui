@@ -23,14 +23,26 @@ function flowDesigner() {
             newScope.title = 'Network Connection';
 
             newScope.okCallback = function() {
-              $document.find('modal').remove();
-              update();
+              Offline.check();
             };
 
             return $compile('<modal></modal>')(newScope);
           }
 
           $scope.networkModal = preloadNetworkModal();
+
+          Offline.options = {
+            checkOnLoad: true,
+            interceptRequests: true
+          };
+
+          Offline.on('confirmed-down', function () {
+              $document.find('html > body').append($scope.networkModal);
+          });
+
+          Offline.on('up', function () {
+              $document.find('modal').remove();
+          });
 
           FlowLibrary.loadData($scope.notations);
 
@@ -113,12 +125,6 @@ function flowDesigner() {
             if(newValue !== oldValue) {$scope.$broadcast('update:draft');}
           });
 
-          $scope.$watch('online', function(state) {
-            if(state === false) {
-              $document.find('html > body').append($scope.networkModal);
-            }
-          });
-
           $scope.graph.on('change', function(){
             $scope.$broadcast('update:draft');
           });
@@ -132,6 +138,8 @@ function flowDesigner() {
           });
 
           var update = function(){
+            Offline.check();
+
             if($scope.readOnly){
               return;
             }
@@ -142,14 +150,7 @@ function flowDesigner() {
             });
 
             request.then(function() {
-              $scope.online = true;
               validate($scope.graph);
-            }).catch(function (rejection) {
-              if(rejection.status === -1) {
-                $scope.online = false;
-              } else {
-                $scope.online = true;
-              }
             });
           };
 
@@ -158,6 +159,7 @@ function flowDesigner() {
           $scope.$on('update:draft', lazyUpdate);
 
           $scope.publishNewFlowDraft = function() {
+            Offline.check();
 
             var graph = $scope.graph;
             if (graph.toJSON().cells.length === 0) { return; }
