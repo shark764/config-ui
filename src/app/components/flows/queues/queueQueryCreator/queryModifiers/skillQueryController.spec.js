@@ -170,6 +170,29 @@ describe('skillQueryController', function () {
         
         expect(jsedn.encode($scope.parentMap)).toEqual(expected);
       });
+      
+      it('should not remove anything else when removing last item in operatorList', function() {
+        var expected = '{:skills (and (and {#uuid "skillId1" (>= 50)}))}';
+
+        var andSkillQueryController = $controller('skillQueryController', {
+          '$scope': {
+            parentMap: rootMap,
+            operator: 'and'
+          }
+        });
+        
+        mockSkills[0].proficiencyOperator = 'gte';
+        mockSkills[0].proficiency = 50;
+        
+        andSkillQueryController.add(mockSkills[0]);
+        controller.add(mockSkills[0]);
+        controller.add(mockSkills[1]);
+        
+        controller.remove(mockSkills[0]);
+        controller.remove(mockSkills[1]);
+
+        expect(jsedn.encode($scope.parentMap)).toEqual(expected);
+      });
     });
   });
   
