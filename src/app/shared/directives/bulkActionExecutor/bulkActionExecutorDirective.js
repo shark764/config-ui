@@ -59,6 +59,11 @@ angular.module('liveopsConfigPanel')
           $scope.canExecute = function () {
             var selectedBulkActions = $scope.getSelectedItems($scope.bulkActions);
             var canExecute = !!selectedBulkActions.length;
+
+            if( $scope.selectedItems().length === 0 ){
+              return false;
+            }
+
             angular.forEach(selectedBulkActions, function (bulkAction) {
               canExecute = canExecute && bulkAction.canExecute();
             });

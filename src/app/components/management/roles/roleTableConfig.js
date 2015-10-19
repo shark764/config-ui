@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('roleTableConfig', ['$translate', 'UserPermissions', 'TenantPermission', 'Session', function ($translate, UserPermissions, TenantPermission, Session) {
+  .service('roleTableConfig', ['$translate', 'UserPermissions', function ($translate, UserPermissions) {
     //TODO: enable when API returns list of permissions object instead of just ids
     //function getPermissionOptions() {
     //  return TenantPermission.cachedQuery({
@@ -14,12 +14,12 @@ angular.module('liveopsConfigPanel')
           'header': {
             'display': $translate.instant('value.name')
           },
-          'name': 'name'
+          'name': '$original.name'
         }, {
           'header': {
             'display': $translate.instant('value.description')
           },
-          'name': 'description'
+          'name': '$original.description'
         }, {
           'header': {
             'display': $translate.instant('role.table.permissions')//,
@@ -30,13 +30,13 @@ angular.module('liveopsConfigPanel')
           },
           //'lookup': 'permissions:id',
           'resolve': function (tenantRole) {
-            return tenantRole.permissions.length;
+            return tenantRole.$original.permissions.length;
           },
-          'sortOn': 'permissions.length',
-          'name': 'permissions'
+          'sortOn': '$original.permissions.length',
+          'name': '$original.permissions'
         }],
-        'searchOn' : ['name'],
-        'orderBy' : 'name',
+        'searchOn' : ['$original.name'],
+        'orderBy' : '$original.name',
         'title': $translate.instant('role.table.title'),
         'showBulkActions': false,
         'showCreate': UserPermissions.hasPermissionInList(['PLATFORM_CREATE_TENANT_ROLES', 'MANAGE_ALL_ROLES'])

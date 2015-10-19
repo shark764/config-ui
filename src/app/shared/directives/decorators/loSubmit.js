@@ -9,6 +9,7 @@ angular.module('liveopsConfigPanel')
         $attrs.event = angular.isDefined($attrs.event) ? $attrs.event : 'click';
 
         $elem.bind($attrs.event, function () {
+          //TODO check if $attrs.loSubmit is actually a thing that return resource
           var promise = $q.when($scope.$eval($attrs.loSubmit));
           
           promise = promise.then(function(resource) {

@@ -5,9 +5,9 @@
   selected="selectedDispatchMapping"
   resource-name="{{'tenants:' + Session.tenant.tenantId + ':dispatch-mappings'}}">
 
-  <span name="active">
-    <span ng-if="item.active">{{'value.enabled' | translate}}</span>
-    <span ng-if="!item.active" class="disabled">{{'value.disabled' | translate}}</span>
+  <span name="$original.active">
+    <span ng-if="item.$original.active">{{'value.enabled' | translate}}</span>
+    <span ng-if="!item.$original.active" class="disabled">{{'value.disabled' | translate}}</span>
   </span>
 
 </table-controls>
@@ -18,19 +18,52 @@
   right-element-id="right-panel"
   left-element-id="table-pane"></resize-handle>
 
-<div id="right-panel" class="right-panel" ng-show="selectedDispatchMapping || showBulkActions">
-  <resource-details
-    ng-show="!! selectedDispatchMapping && !showBulkActions"
-    id="details-pane"
-    resource-name="{{'tenants:' + Session.tenant.tenantId + ':dispatch-mappings'}}"
-    extend-scope="additional"
-    header-template-url="app/components/flows/dispatchMappings/dispatchMappingDetailHeader.html"
-    body-template-url="app/components/flows/dispatchMappings/dispatchMappingDetailBody.html"
-    original-resource="selectedDispatchMapping"></resource-details>
+<lo-details-panel id="right-panel" class="right-panel"
+  name="mediaDetailsController"
+  ng-show="selectedDispatchMapping || showBulkActions"
+  ng-resource="selectedDispatchMapping"
+  lo-media-details>
 
-  <bulk-action-executor class="details-pane" ng-show="showBulkActions" items="fetchDispatchMappings()"
-    bulk-actions="bulkActions" show-bulk-actions="showBulkActions">
-    <ba-set-dispatch-mapping-status bulk-action="bulkActions.setDispatchMappingStatus">
+  <ng-form unsaved-changes-warning class="details-pane"
+    ng-show="selectedDispatchMapping"
+    name="forms.dispatchMappingForm"
+    ng-model="selectedDispatchMapping"
+    ng-resource="selectedDispatchMapping"
+    lo-form-submit
+    lo-form-cancel
+    lo-form-alert>
+
+    <div class="detail-header"
+      ng-include src="'app/components/flows/dispatchMappings/dispatchMappingDetailHeader.html'">
+    </div>
+
+    <div class="detail-body"
+      ng-include src="'app/components/flows/dispatchMappings/dispatchMappingDetailBody.html'">
+    </div>
+
+    <div class="detail-controls">
+      <input id="cancel-details-btn" type="button" class="btn"
+        value="{{'value.cancel' | translate}}"
+        lo-cancel>
+      </input>
+      <input id="submit-details-btn" class="btn btn-primary"
+        type="submit" value="{{'value.submit' | translate}}"
+        ng-disabled="forms.dispatchMappingForm.$invalid || ! forms.dispatchMappingForm.$dirty"
+        lo-submit="submit()"
+        lo-submit-spinner
+        lo-submit-spinner-status="selectedDispatchMapping.$busy">
+      </input>
+    </div>
+  </ng-form>
+  
+  <bulk-action-executor class="details-pane"
+    ng-show="showBulkActions"
+    items="fetchDispatchMappings()"
+    bulk-actions="bulkActions"
+    show-bulk-actions="showBulkActions">
+    
+    <ba-set-dispatch-mapping-status
+      bulk-action="bulkActions.setDispatchMappingStatus">
     </ba-set-dispatch-mapping-status>
   </bulk-action-executor>
-</div>
+</lo-details-panel>

@@ -75,12 +75,11 @@ describe('FlowManagementController', function () {
     });
   });
 
-  describe('Flow.postCreate prototype function', function () {
+  describe('create function', function () {
     it('should create a version if creating a new flow', function () {
-      var newFlow = new Flow(mockFlows[2]);
       $httpBackend.expectPOST(apiHostname + '/v1/tenants/tenant-id/flows/flowId3/drafts');
       spyOn($state, 'go');
-      newFlow.postCreate(newFlow);
+      $scope.create();
 
       $httpBackend.flush();
     });

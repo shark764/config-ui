@@ -123,7 +123,7 @@ describe('The dispatchMappings view bulk actions', function() {
     expect(shared.successMessage.isPresent()).toBeFalsy();
   });
 
-  xit('should only affect selected dispatchMappings', function() {
+  it('should only affect selected dispatchMappings', function() {
     shared.tableElements.then(function(originalDispatchMappings) {
       // Select odd dispatchMappings and leave even dispatchMappings unselected
       for (var i = 0; i < originalDispatchMappings.length; i++) {

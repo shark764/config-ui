@@ -22,14 +22,14 @@ describe('The create new flows view', function() {
     shared.tearDown();
   });
 
-  it('should include supported flow fields only', function() {
+  xit('should include supported flow fields only', function() {
     shared.createBtn.click();
     expect(flows.nameFormField.isDisplayed()).toBeTruthy();
     expect(flows.descriptionFormField.isDisplayed()).toBeTruthy();
     expect(flows.typeFormDropdown.isDisplayed()).toBeTruthy();
   });
 
-  it('should add new flow to table', function() {
+  xit('should add new flow to table', function() {
     var flowAdded = false;
     randomFlow = Math.floor((Math.random() * 1000) + 1);
     shared.createBtn.click();
@@ -39,7 +39,7 @@ describe('The create new flows view', function() {
     flows.typeFormDropdown.all(by.css('option')).get((randomFlow % 3) + 1).click();
     shared.submitFormBtn.click();
     expect(shared.successMessage.isDisplayed()).toBeTruthy();
-    
+
     // Confirm flow is displayed in flow list with correct details
     shared.tableElements.then(function(flowsList) {
       for (var i = 1; i <= flowsList.length; ++i) {
@@ -56,7 +56,7 @@ describe('The create new flows view', function() {
     });
   });
 
-  it('should create a default version', function() {
+  xit('should create a default version', function() {
     randomFlow = Math.floor((Math.random() * 1000) + 1);
     shared.createBtn.click();
 
@@ -73,7 +73,7 @@ describe('The create new flows view', function() {
     });
   });
 
-  it('should require field inputs', function() {
+  xit('should require field inputs', function() {
     flowCount = shared.tableElements.count();
     shared.createBtn.click();
 
@@ -84,7 +84,7 @@ describe('The create new flows view', function() {
     expect(shared.successMessage.isPresent()).toBeFalsy();
   });
 
-  it('should require name', function() {
+  xit('should require name', function() {
     flowCount = shared.tableElements.count();
     randomFlow = Math.floor((Math.random() * 1000) + 1);
     shared.createBtn.click();
@@ -103,7 +103,7 @@ describe('The create new flows view', function() {
     expect(shared.successMessage.isPresent()).toBeFalsy();
   });
 
-  it('should not require description', function() {
+  xit('should not require description', function() {
     flowCount = shared.tableElements.count();
     randomFlow = Math.floor((Math.random() * 1000) + 1);
     shared.createBtn.click();
@@ -119,7 +119,7 @@ describe('The create new flows view', function() {
     });
   });
 
-  it('should require type', function() {
+  xit('should require type', function() {
     flowCount = shared.tableElements.count();
     randomFlow = Math.floor((Math.random() * 1000) + 1);
     shared.createBtn.click();
@@ -138,7 +138,7 @@ describe('The create new flows view', function() {
     expect(shared.successMessage.isPresent()).toBeFalsy();
   });
 
-  it('should not accept spaces only as valid field input', function() {
+  xit('should not accept spaces only as valid field input', function() {
     flowCount = shared.tableElements.count();
     shared.createBtn.click();
     flows.nameFormField.sendKeys(' ');
@@ -154,7 +154,7 @@ describe('The create new flows view', function() {
     expect(shared.successMessage.isPresent()).toBeFalsy();
   });
 
-  it('should clear fields on Cancel', function() {
+  xit('should clear fields on Cancel', function() {
     flowCount = shared.tableElements.count();
     shared.createBtn.click();
 

@@ -5,7 +5,7 @@
             "entity": "activity",
             "label": "Play Media",
             "bindings": {},
-            "targeted": true,
+            "props": ["name", "params", "bindings", "loop", "target"],
             "target": "twilio",
             "signals": [],
             "inputs": [
@@ -124,7 +124,7 @@
                 "path": "digits"
               }
             },
-            "targeted": true,
+            "props": ["name", "params", "bindings", "loop", "target"],
             "target": "twilio",
             "signals": [],
             "inputs": [
@@ -262,7 +262,7 @@
                 "path": "bindings.resource"
               }
             },
-            "targeted": false,
+            "props": ["name", "params", "bindings", "loop"],
             "signals": [],
             "inputs": [
                 {
@@ -317,7 +317,7 @@
             "entity": "activity",
             "label": "Dequeue",
             "bindings": {},
-            "targeted": false,
+            "props": ["name", "params", "bindings", "loop"],
             "signals": [],
             "inputs": [
                 {
@@ -359,7 +359,7 @@
             "name": "work-offer",
             "entity": "activity",
             "label": "Work Offer",
-            "targeted": true,
+            "props": ["name", "params", "bindings", "loop", "target"],
             "target": "client",
             "bindings": {},
             "signals": [],
@@ -472,7 +472,7 @@
             "entity": "activity",
             "label": "Free Resource",
             "bindings": {},
-            "targeted": false,
+            "props": ["name", "params", "bindings", "loop"],
             "signals": [],
             "inputs": [
                 {
@@ -544,7 +544,7 @@
             "name": "add-participant",
             "entity": "activity",
             "label": "Add Participant",
-            "targeted": true,
+            "props": ["name", "params", "bindings", "loop", "target"],
             "target": "twilio",
             "bindings": {},
             "signals": [],
@@ -665,7 +665,7 @@
             "name": "dial",
             "entity": "activity",
             "label": "Dial",
-            "targeted": true,
+            "props": ["name", "params", "bindings", "loop", "target"],
             "target": "twilio",
             "bindings": {},
             "signals": ["customer-disconnect", "resource-disconnect"],
@@ -748,7 +748,7 @@
             "name": "disconnect",
             "entity": "activity",
             "label": "Disconnect",
-            "targeted": true,
+            "props": ["name", "params", "bindings", "loop", "target"],
             "target": "twilio",
             "bindings": {},
             "signals": [],
@@ -802,7 +802,7 @@
             "name": "hold",
             "entity": "activity",
             "label": "Hold",
-            "targeted": true,
+            "props": ["name", "params", "bindings", "loop", "target"],
             "target": "twilio",
             "bindings": {},
             "signals": [],
@@ -875,7 +875,7 @@
             "name": "resume",
             "entity": "activity",
             "label": "Resume",
-            "targeted": true,
+            "props": ["name", "params", "bindings", "loop", "target"],
             "target": "twilio",
             "bindings": {},
             "signals": [],
@@ -931,28 +931,81 @@
             "label": "Agent Notification",
             "bindings": {},
             "signals": [],
-            "targeted": false,
+            "props": ["name", "params", "bindings", "loop"],
             "inputs": [
-                {
-                    "name": "notification",
-                    "path": "params.notification",
-                    "type": "autocomplete",
-                    "source": "signal",
-                    "label": "Notification:",
-                    "group": "general",
-                    "index": 0,
-                    "disabled": false,
-                    "required": true,
-                    "placeholder": "Enter a notification...",
-                    "hidden": false
-                }
+              {
+                  "name": "notification-type",
+                  "path": "params.notificationType",
+                  "type": "autocomplete",
+                  "source": "signal",
+                  "label": "Notification:",
+                  "group": "general",
+                  "index": 0,
+                  "disabled": false,
+                  "required": true,
+                  "placeholder": "Enter the attribute name...",
+                  "hidden": false
+              },
+              {
+                  "name": "resource",
+                  "path": "params.resource",
+                  "type": "select",
+                  "source": "resource",
+                  "label": "Resource:",
+                  "group": "general",
+                  "index": 1,
+                  "disabled": false,
+                  "required": false,
+                  "placeholder": null,
+                  "hidden": false,
+                  "options": []
+              },
+              {
+                  "name": "customer",
+                  "path": "params.customer",
+                  "type": "select",
+                  "source": "resource",
+                  "label": "Customer:",
+                  "group": "general",
+                  "index": 0,
+                  "disabled": false,
+                  "required": true,
+                  "placeholder": null,
+                  "hidden": true,
+                  "options": [
+                      {
+                          "value": "titan/customer",
+                          "content": "Customer"
+                      }
+                  ]
+              }
             ],
             "params": {
-                "notification": {
+                "notification-type": {
                     "source": "expression",
                     "type": "string",
-                    "key": "notification",
+                    "key": "notificationType",
                     "mandatory": true
+                },
+                "resource-id": {
+                    "source": "expression",
+                    "type": "resourceId",
+                    "mandatory": true,
+                    "key": "resource"
+                },
+                "resource": {
+                    "source": "expression",
+                    "type": "variable",
+                    "mandatory": true,
+                    "key": "resource",
+                    "default": "resource"
+                },
+                "customer": {
+                    "source": "expression",
+                    "type": "variable",
+                    "key": "participant",
+                    "mandatory": true,
+                    "default": "titan/customer"
                 }
             }
         },
@@ -962,7 +1015,7 @@
             "label": "Set Attribute",
             "bindings": {},
             "signals": [],
-            "targeted": false,
+            "props": ["name", "params", "bindings", "loop"],
             "inputs": [
                 {
                     "name": "name",
@@ -1010,7 +1063,7 @@
             "label": "Set Global Attribute",
             "bindings": {},
             "signals": [],
-            "targeted": false,
+            "props": ["name", "params", "bindings", "loop"],
             "inputs": [
                 {
                     "name": "name",
@@ -1069,12 +1122,12 @@
                     "path": "target",
                     "type": "autocomplete",
                     "source": "throw",
-                    "label": "Target:",
+                    "label": "Signal Name:",
                     "group": "general",
                     "index": 0,
                     "disabled": false,
                     "required": false,
-                    "placeholder": "Enter a target...",
+                    "placeholder": "Enter a signal name...",
                     "hidden": false
                 },
                 {
@@ -1132,12 +1185,12 @@
                     "path": "target",
                     "type": "autocomplete",
                     "source": "throw",
-                    "label": "Target:",
+                    "label": "Signal Name:",
                     "group": "general",
                     "index": 0,
                     "disabled": false,
                     "required": false,
-                    "placeholder": "Enter a target...",
+                    "placeholder": "Enter a signal name...",
                     "hidden": false
                 },
                 {
@@ -1180,7 +1233,7 @@
                     "index": 0,
                     "disabled": false,
                     "required": false,
-                    "placeholder": "Enter a signal name to catch...",
+                    "placeholder": "Enter a signal name...",
                     "hidden": false
                 }
             ],
@@ -1220,7 +1273,7 @@
                     "index": 0,
                     "disabled": false,
                     "required": false,
-                    "placeholder": "Enter a signal name to throw...",
+                    "placeholder": "Enter a signal name...",
                     "hidden": false
                 },
                 {
@@ -1416,7 +1469,7 @@
             "entity": "template",
             "label": "Queue Interaction",
             "start": "t21657",
-            "end": "t21654",
+            "end": "t21652",
             "signals": ["resource-acquired", "abandon-queue"],
             "bindings": {
               "resource": {
@@ -1485,7 +1538,7 @@
                     "mandatory": true
                 }
             },
-            "flow": "[{\"id\":\"tag/t21657\",\"children\":[\"tag/t21651\",\"tag/t21645\"],\"parents\":[],\"entity\":\"gateway\",\"type\":\"parallel\"},{\"id\":\"tag/t21654\",\"children\":[],\"parents\":[\"tag/t21643\",\"tag/t21650\"],\"entity\":\"gateway\",\"type\":\"parallel\"},{\"children\":[\"tag/t21644\"],\"bindings\":{},\"interrupting\":true,\"type\":\"signal\",\"id\":\"tag/t21658\",\"parents\":[],\"target\":\"customer-disconnect\",\"entity\":\"start\"},{\"id\":\"tag/t21644\",\"children\":[\"tag/t21646\",\"tag/t21649\"],\"parents\":[\"tag/t21658\"],\"entity\":\"gateway\",\"type\":\"exclusive\",\"conditionals\":[[\"tag/t21646\",\"false\"],[\"tag/t21649\",\"(not resource)\"]],\"default\":\"tag/t21646\"},{\"id\":\"tag/t21649\",\"children\":[\"tag/t21642\",\"tag/t21648\"],\"parents\":[\"tag/t21644\"],\"entity\":\"gateway\",\"type\":\"parallel\"},{\"id\":\"tag/t21648\",\"children\":[\"tag/t21647\"],\"parents\":[\"tag/t21649\"],\"entity\":\"throw\",\"type\":\"signal\",\"terminate\":false,\"event\":{\"name\":\"abandon-queue\",\"params\":{}}},{\"id\":\"tag/t21647\",\"children\":[\"tag/t21656\"],\"parents\":[\"tag/t21648\",\"tag/t21642\"],\"entity\":\"gateway\",\"type\":\"parallel\"},{\"id\":\"tag/t21656\",\"children\":[],\"parents\":[\"tag/t21647\"],\"entity\":\"throw\",\"type\":\"terminate\",\"terminate\":true},{\"id\":\"tag/t21646\",\"children\":[],\"parents\":[\"tag/t21644\"],\"entity\":\"throw\",\"type\":\"none\",\"terminate\":true},{\"id\":\"tag/t21655\",\"children\":[\"tag/t21650\"],\"parents\":[\"tag/t21651\"],\"entity\":\"throw\",\"type\":\"signal\",\"terminate\":false,\"event\":{\"name\":\"resource-acquired\",\"params\":{\"resource\":{\"source\":\"expression\",\"value\":\"{{resource}}\"}}}},{\"children\":[],\"bindings\":{},\"name\":\"play-media\",\"params\":{\"media\":{\"source\":\"system\",\"store\":\"media\",\"id\":\"{{media}}\"},\"loop\":{\"source\":\"expression\",\"value\":\"true\"},\"customer\":{\"source\":\"expression\",\"value\":\"titan/customer\"}},\"type\":\"task\",\"id\":\"tag/t21645\",\"parents\":[\"tag/t21657\"],\"decorations\":[\"tag/t21643\"],\"target\":\"twilio\",\"entity\":\"activity\"},{\"children\":[\"tag/t21655\"],\"bindings\":{\"resource\":\"{{resource}}\"},\"name\":\"enqueue\",\"params\":{\"queue\":{\"source\":\"system\",\"store\":\"queues\",\"id\":\"{{queue}}\"}},\"type\":\"task\",\"id\":\"tag/t21651\",\"parents\":[\"tag/t21657\"],\"decorations\":[],\"entity\":\"activity\"},{\"children\":[\"tag/t21647\"],\"bindings\":{},\"name\":\"dequeue\",\"params\":{\"queue\":{\"source\":\"system\",\"store\":\"queues\",\"id\":\"{{queue}}\"}},\"type\":\"task\",\"id\":\"tag/t21642\",\"parents\":[\"tag/t21649\"],\"decorations\":[],\"entity\":\"activity\"},{\"children\":[\"tag/t21654\"],\"bindings\":{},\"name\":\"set-global-attribute\",\"params\":{\"resource\":{\"source\":\"expression\",\"value\":\"{{resource}}\"}},\"type\":\"task\",\"id\":\"tag/t21650\",\"parents\":[\"tag/t21655\"],\"decorations\":[],\"entity\":\"activity\"},{\"children\":[\"tag/t21654\"],\"bindings\":{},\"interrupting\":true,\"type\":\"signal\",\"id\":\"tag/t21643\",\"parents\":[\"tag/t21645\"],\"target\":\"work-accepted\",\"entity\":\"catch\"}]"
+            "flow": "[{\"id\":\"tag/t21657\",\"children\":[\"tag/t21648\",\"tag/t21642\"],\"parents\":[],\"entity\":\"gateway\",\"type\":\"parallel\"},{\"children\":[\"tag/t21641\"],\"bindings\":{},\"interrupting\":true,\"type\":\"signal\",\"id\":\"tag/t21658\",\"parents\":[],\"target\":\"customer-disconnect\",\"entity\":\"start\"},{\"id\":\"tag/t21641\",\"children\":[\"tag/t21646\",\"tag/t21643\"],\"parents\":[\"tag/t21658\"],\"entity\":\"gateway\",\"type\":\"exclusive\",\"conditionals\":[[\"tag/t21646\",\"(not resource)\"],[\"tag/t21643\",null]],\"default\":\"tag/t21643\"},{\"id\":\"tag/t21646\",\"children\":[\"tag/t21638\",\"tag/t21645\"],\"parents\":[\"tag/t21641\"],\"entity\":\"gateway\",\"type\":\"parallel\"},{\"id\":\"tag/t21645\",\"children\":[\"tag/t21644\"],\"parents\":[\"tag/t21646\"],\"entity\":\"throw\",\"type\":\"signal\",\"terminate\":false,\"event\":{\"name\":\"abandon-queue\",\"params\":{}}},{\"id\":\"tag/t21644\",\"children\":[\"tag/t21656\"],\"parents\":[\"tag/t21645\",\"tag/t21638\"],\"entity\":\"gateway\",\"type\":\"parallel\"},{\"id\":\"tag/t21656\",\"children\":[],\"parents\":[\"tag/t21644\"],\"entity\":\"throw\",\"type\":\"terminate\",\"terminate\":true},{\"id\":\"tag/t21652\",\"children\":[],\"parents\":[\"tag/t21653\",\"tag/t21640\"],\"entity\":\"gateway\",\"type\":\"parallel\"},{\"children\":[\"tag/t21652\"],\"bindings\":{},\"interrupting\":true,\"type\":\"signal\",\"id\":\"tag/t21653\",\"parents\":[\"tag/t21639\"],\"target\":\"work-accepted\",\"entity\":\"catch\"},{\"id\":\"tag/t21639\",\"children\":[\"tag/t21653\",\"tag/t21649\"],\"parents\":[\"tag/t21655\"],\"entity\":\"gateway\",\"type\":\"event\"},{\"id\":\"tag/t21654\",\"children\":[\"tag/t21655\"],\"parents\":[\"tag/t21648\"],\"entity\":\"throw\",\"type\":\"signal\",\"terminate\":false,\"event\":{\"name\":\"resource-acquired\",\"params\":{\"resource\":{\"source\":\"expression\",\"value\":\"{{resource}}\"}}}},{\"children\":[\"tag/t21647\"],\"bindings\":{},\"interrupting\":true,\"type\":\"signal\",\"id\":\"tag/t21649\",\"parents\":[\"tag/t21639\"],\"target\":\"work-rejected\",\"entity\":\"catch\"},{\"id\":\"tag/t21643\",\"children\":[],\"parents\":[\"tag/t21641\"],\"entity\":\"throw\",\"type\":\"none\",\"terminate\":true},{\"children\":[\"tag/t21644\"],\"bindings\":{},\"name\":\"dequeue\",\"params\":{\"queue\":{\"source\":\"system\",\"store\":\"queues\",\"id\":\"{{queue}}\"}},\"type\":\"task\",\"id\":\"tag/t21638\",\"parents\":[\"tag/t21646\"],\"decorations\":[],\"entity\":\"activity\"},{\"children\":[\"tag/t21648\"],\"bindings\":{},\"name\":\"set-attribute\",\"params\":{\"resource\":{\"source\":\"expression\",\"value\":\"nil\"}},\"type\":\"task\",\"id\":\"tag/t21647\",\"parents\":[\"tag/t21649\"],\"decorations\":[],\"entity\":\"activity\"},{\"children\":[\"tag/t21639\"],\"bindings\":{},\"name\":\"set-global-attribute\",\"params\":{\"resource\":{\"source\":\"expression\",\"value\":\"{{resource}}\"}},\"type\":\"task\",\"id\":\"tag/t21655\",\"parents\":[\"tag/t21654\"],\"decorations\":[],\"entity\":\"activity\"},{\"children\":[\"tag/t21654\"],\"bindings\":{\"resource\":\"{{resource}}\"},\"name\":\"enqueue\",\"params\":{\"queue\":{\"source\":\"system\",\"store\":\"queues\",\"id\":\"{{queue}}\"}},\"type\":\"task\",\"id\":\"tag/t21648\",\"parents\":[\"tag/t21657\",\"tag/t21647\"],\"decorations\":[],\"entity\":\"activity\"},{\"children\":[],\"bindings\":{},\"name\":\"play-media\",\"params\":{\"media\":{\"source\":\"system\",\"store\":\"media\",\"id\":\"{{media}}\"},\"loop\":{\"source\":\"expression\",\"value\":\"true\"},\"customer\":{\"source\":\"expression\",\"value\":\"titan/customer\"}},\"type\":\"task\",\"id\":\"tag/t21642\",\"parents\":[\"tag/t21657\"],\"decorations\":[\"tag/t21640\"],\"target\":\"twilio\",\"entity\":\"activity\"},{\"children\":[\"tag/t21652\"],\"bindings\":{},\"interrupting\":true,\"type\":\"signal\",\"id\":\"tag/t21640\",\"parents\":[\"tag/t21642\"],\"target\":\"work-accepted\",\"entity\":\"catch\"}]"
         },
         {
             "name": "add-customer",

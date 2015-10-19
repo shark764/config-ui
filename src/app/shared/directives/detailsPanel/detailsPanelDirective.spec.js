@@ -1,7 +1,5 @@
 'use strict';
 
-/*global xit : false */
-
 describe('loDetailsPanel directive', function() {
   var $scope,
     element,

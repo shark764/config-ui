@@ -54,4 +54,8 @@ lo-multibox {
       @include border-radius-complex(5px, 0, 0, 5px);
     }
   }
+  
+  type-ahead ul {
+    position: static !important;
+  }
 }
