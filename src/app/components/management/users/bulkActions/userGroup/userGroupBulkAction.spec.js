@@ -27,6 +27,10 @@ describe('userGroupBulkAction', function () {
       mockUserGroups = _mockUserGroups;
     }
   ]));
+  
+  beforeEach(inject(['tenantUserTransformer', function(tenantUserTransformer) {
+    tenantUserTransformer.transform(mockTenantUsers[0]);
+  }]));
 
   describe('canExecute', function () {
     it('should return false when no group is selected', function () {

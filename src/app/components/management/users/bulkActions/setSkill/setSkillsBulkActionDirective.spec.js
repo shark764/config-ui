@@ -13,6 +13,7 @@ describe('setSkillsBulkAction directive', function () {
 
   beforeEach(module('gulpAngular'));
   beforeEach(module('liveopsConfigPanel'));
+  beforeEach(module('liveopsConfigPanel.mock.content'));
   beforeEach(module('liveopsConfigPanel.mock.content.management.tenantUsers'));
   beforeEach(module('liveopsConfigPanel.mock.content.management.skills'));
 
@@ -44,9 +45,11 @@ describe('setSkillsBulkAction directive', function () {
     });
 
     it('should should call userkillBulkAction.selectedType.execute when user doesQualify', inject([function () {
+      isolateScope.bulkAction.userSkillsBulkActions[0].selectedSkill = mockSkills[0];
       spyOn(isolateScope.bulkAction.userSkillsBulkActions[0].selectedType, 'execute');
       spyOn(isolateScope.bulkAction.userSkillsBulkActions[0].selectedType, 'doesQualify').and.returnValue(true);
 
+      
       isolateScope.bulkAction.execute([mockTenantUsers[0]]);
 
       expect(isolateScope.bulkAction.userSkillsBulkActions[0].selectedType.execute).toHaveBeenCalled();
@@ -143,6 +146,26 @@ describe('setSkillsBulkAction directive', function () {
 
       expect(isolateScope.bulkAction.userSkillsBulkActions[0].params.skillId).toEqual(
         isolateScope.availableSkills[0].id);
+    }]));
+  });
+  
+  describe('fetchSkills function', function () {
+    it('should include only skills with proficiency belong to at least one selected user on update', inject(['$httpBackend', 'queryCache', function ($httpBackend, queryCache) {
+      isolateScope.currSelectedType = 'update';
+      mockSkills[0].hasProficiency = true;
+      mockSkills[1].hasProficiency = false;
+      mockTenantUsers[0].$skills = [mockSkills[0]];
+      mockTenantUsers[1].$skills = [mockSkills[1]];
+      mockTenantUsers[0].checked = true;
+      mockTenantUsers[1].checked = true;
+      
+      queryCache.remove('Skill');
+      isolateScope.users = [mockTenantUsers[0], mockTenantUsers[1]];
+      isolateScope.fetchSkills();
+      $httpBackend.flush();
+      isolateScope.$digest();
+      expect(isolateScope.availableSkills.length).toBe(1);
+      expect(isolateScope.availableSkills[0].id).toBe(mockSkills[0].id);
     }]));
   });
 });

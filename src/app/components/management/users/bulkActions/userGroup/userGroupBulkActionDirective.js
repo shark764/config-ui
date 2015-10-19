@@ -38,20 +38,35 @@ angular.module('liveopsConfigPanel')
             $scope.bulkAction.userGroupBulkActions = [];
             $scope.addUserGroupBulkAction();
           };
-
+          
           $scope.fetchGroups = function () {
-            return Group.cachedQuery({
-              tenantId: Session.tenant.tenantId
-            });
-          };
+            $scope.availableGroups = [];
 
-          $scope.fetchUserGroups = function (group) {
-            group.members = TenantGroupUsers.query({
-              tenantId: Session.tenant.tenantId,
-              groupId: group.id
-            });
-
-            return group.members;
+            if ($scope.currSelectedType === 'remove'){
+              angular.forEach($scope.users, function (user) {
+                if (user.checked){
+                  angular.forEach(user.$groups, function (group){
+                    $q.when(Group.cachedGet({
+                      id: group.id,
+                      tenantId: Session.tenant.tenantId
+                    }), function(fullGroup){
+                      if ($scope.availableGroups.length === 0){
+                        $scope.availableGroups.push(fullGroup);
+                      } else {
+                        // Checks if the current user group is already in the list, if it is, we skip.  If not we add it to the list.
+                        if ($scope.availableGroups.map(function(e) { return e.id; }).indexOf(fullGroup.id) < 0){
+                          $scope.availableGroups.push(fullGroup);
+                        }
+                      }
+                    });
+                  });
+                }
+              });
+            } else {
+              return Group.cachedQuery({
+                tenantId: Session.tenant.tenantId
+              });
+            }
           };
 
           $scope.removeUserGroupBulkAction = function (action) {
@@ -63,11 +78,9 @@ angular.module('liveopsConfigPanel')
               new UserGroupBulkAction());
           };
 
-          $scope.onChange = function (action) {
-            var group = action.selectedGroup;
-            if (angular.isDefined(group)){
-              $scope.fetchUserGroups(group);
-            }
+          $scope.onTypeChange = function (action) {
+            $scope.currSelectedType = action.selectedType.value;
+            $scope.fetchGroups();
           };
 
           $scope.findGroupForId = function (groups, id) {
@@ -85,7 +98,12 @@ angular.module('liveopsConfigPanel')
             $scope.bulkAction.reset();
           });
           
+          $scope.$on('table:resource:checked', function(){
+            $scope.fetchGroups();
+          });
+          
           $scope.userGroupBulkActionTypes = userGroupBulkActionTypes;
+          $scope.fetchGroups();
         }
       };
     }

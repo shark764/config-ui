@@ -27,34 +27,6 @@ describe('loFormSubmit directive', function() {
     }
   ]));
 
-  describe('ON resetForm', function() {
-    beforeEach(inject(['$compile', function($compile) {
-      element = angular.element(elementString);
-      element.data('$loDetailsPanelController', {
-        close: jasmine.createSpy()
-      });
-
-      $compile(element)($scope);
-
-      $scope.$digest();
-      isolateScope = element.find('ng-form').scope();
-
-      loFormSubmitController = element.find('ng-form').controller('loFormSubmit');
-    }]));
-
-    it('should reset the form', inject(['$timeout', function($timeout) {
-      var loFormCancelController = element.find('ng-form').controller('loFormCancel');
-      var formController = element.find('ng-form').controller('form');
-
-      spyOn(loFormCancelController, 'resetForm');
-
-      loFormSubmitController.resetForm();
-      $timeout.flush();
-
-      expect(loFormCancelController.resetForm).toHaveBeenCalledWith(formController);
-    }]));
-  });
-
   describe('ON populateApiErrors', function() {
     var error,
       formController;

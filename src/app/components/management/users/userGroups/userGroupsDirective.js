@@ -63,7 +63,7 @@ angular.module('liveopsConfigPanel')
               var newUserGroup = new TenantUserGroups(data);
               newUserGroup.groupName = selectedGroup.name;
 
-              $scope.user.groups.push({
+              $scope.user.$groups.push({
                 id: newUserGroup.groupId,
                 name: newUserGroup.groupName
               });
@@ -93,10 +93,10 @@ angular.module('liveopsConfigPanel')
             });
 
             tgu.$delete(function (tenantGroupUser) {
-              for(var groupIndex in $scope.user.groups) {
-                var group = $scope.user.groups[groupIndex];
+              for(var groupIndex in $scope.user.$groups) {
+                var group = $scope.user.$groups[groupIndex];
                 if(group.id === tenantGroupUser.groupId) {
-                  $scope.user.groups.removeItem(group);
+                  $scope.user.$groups.removeItem(group);
                   break;
                 }
               }

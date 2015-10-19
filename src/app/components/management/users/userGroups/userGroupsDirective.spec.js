@@ -41,10 +41,11 @@ describe('userGroups directive', function() {
     }
   ]));
   
-  beforeEach(function() {
+  beforeEach(inject(['tenantUserTransformer', function(tenantUserTransformer) {
+    tenantUserTransformer.transform(mockTenantUsers[1]);
     $scope.user = mockTenantUsers[1];
     $scope.user.$original = angular.copy(mockTenantUsers[1]);
-  });
+  }]));
   
   describe('USING defaultCompile', function() {
     beforeEach(function() {
@@ -222,11 +223,11 @@ describe('userGroups directive', function() {
       }));
       
       it('should add the group to the user object on success', inject(function() {
-        expect(isolateScope.user.groups.length).toBe(0);
+        expect(isolateScope.user.$groups.length).toBe(0);
         isolateScope.saveUserGroup({
           id: 'newgroup'
         });
-        expect(isolateScope.user.groups.length).toBe(1);
+        expect(isolateScope.user.$groups.length).toBe(1);
       }));
 
       it('should not reset on failure', inject(function() {

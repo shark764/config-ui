@@ -1,6 +1,6 @@
 'use strict';
 
-//Seperate the translation loader from the main config because
+//Separate the translation loader from the main config because
 //it needs to be excluded from unit tests
 
 angular.module('liveopsConfigPanel').config(['$translateProvider', function($translateProvider){

@@ -39,7 +39,7 @@ angular.module('liveopsConfigPanel')
             tenantId: Session.tenant.tenantId,
             userId: user.id
           }, function(userSkill){
-            user.skills.push({
+            user.$skills.push({
               id: userSkill.skillId,
               name: userSkill.name
             });
@@ -88,9 +88,9 @@ angular.module('liveopsConfigPanel')
             tenantId: Session.tenant.tenantId,
             userId: user.id
           }, function(){
-            for(var i = 0; i < user.skills.length; i++){
-              if (user.skills[i].id === action.params.skillId){
-                user.skills.removeItem(user.skills[i]);
+            for(var i = 0; i < user.$skills.length; i++){
+              if (user.$skills[i].id === action.params.skillId){
+                user.$skills.removeItem(user.$skills[i]);
                 break;
               }
             }
@@ -107,7 +107,7 @@ angular.module('liveopsConfigPanel')
   .service('hasSkill', function () {
     return function (user, skillId) {
       var matchingSkill;
-      angular.forEach(user.skills, function (userSkill) {
+      angular.forEach(user.$skills, function (userSkill) {
         if (userSkill.id === skillId) {
           matchingSkill = userSkill;
         }

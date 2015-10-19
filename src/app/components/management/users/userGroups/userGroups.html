@@ -5,7 +5,7 @@
 <loading ng-show="!fetchGroups().$resolved && userGroups && !userGroups.$resolved"></loading>
 
 <div ng-show="fetchGroups().$resolved && userGroups.$resolved" class="detail-group">
-  <ng-form seperate-validation id="addGroup" name="addGroup" ng-show="['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'MANAGE_ALL_GROUP_USERS', 'MANAGE_TENANT_ENROLLMENT'] | hasPermission">
+  <ng-form separate-validation id="addGroup" name="addGroup" ng-show="['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'MANAGE_ALL_GROUP_USERS', 'MANAGE_TENANT_ENROLLMENT'] | hasPermission">
     <type-ahead name-field="name" 
       placeholder="{{'details.groups.placeholder' | translate}}" 
       items="fetchGroups()" 

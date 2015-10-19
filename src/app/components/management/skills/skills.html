@@ -14,6 +14,10 @@
     <span ng-if="item.$original.active">{{'value.enabled' | translate}}</span>
     <span ng-if="!item.$original.active" class="disabled">{{'value.disabled' | translate}}</span>
   </span>
+  
+  <span name="members">
+    {{item.fetchSkillUsers().length}}
+  </span>
 
 </table-controls>
 

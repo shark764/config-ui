@@ -2,57 +2,80 @@
 
 angular.module('liveopsConfigPanel')
   .controller('groupQueryController', ['$scope', '$q', 'Session', 'Group', 'jsedn',
-    function($scope, $q, Session, Group, jsedn) {
-      $scope.keyword = jsedn.kw(':groups');
-      $scope.operatorSymbol = jsedn.sym($scope.operator);
+    function ($scope, $q, Session, Group, jsedn) {
+      var self = this;
 
-      $scope.fetchGroups = function() {
+      this.keyword = jsedn.kw(':groups');
+      this.operatorSymbol = jsedn.sym($scope.operator);
+      
+      this.uuidTag = new jsedn.Tag('uuid');
+      
+      this.tagUuid = function tagUuid(uuid) {
+        if(angular.isString(uuid)) {
+          return new jsedn.Tagged(self.uuidTag, uuid);
+        }
+        
+        return uuid;
+      };
+      
+      this.fetchGroups = function () {
         return Group.cachedQuery({
           tenantId: Session.tenant.tenantId
         });
       };
-
-      $scope.filterGroups = function(item) {
-        if(!$scope.operands) {
+      
+      this.filterGroups = function (group) {
+        if (!$scope.operands) {
           return;
         }
 
-        for(var operandIndex = 0; operandIndex < $scope.operands.length; operandIndex++) {
+        for (var operandIndex = 0; operandIndex < $scope.operands.length; operandIndex++) {
           var operand = $scope.operands[operandIndex];
-          if(operand.id === item.id) {
+          if (group.id === operand.id) {
             return false;
           }
         }
         return true;
       };
 
-      this.parseOperands = function() {
+
+      this.parseOperands = function () {
         var andList,
-            groupSet;
-        
+          operands = [];
+
         if (!$scope.parentMap ||
-          !$scope.parentMap.exists($scope.keyword) ||
-          (andList = $scope.parentMap.at($scope.keyword)).val.length <= 1) {
-          return $q.when();
+          !$scope.parentMap.exists(self.keyword) ||
+          (andList = $scope.parentMap.at(self.keyword)).val.length <= 1) {
+          return operands;
         }
 
+        var operationList;
         for (var andListIndex = 1; andListIndex < andList.val.length; andListIndex++) {
           if (andList.val[andListIndex].val.length > 1 &&
-            andList.val[andListIndex].val[0] === $scope.operatorSymbol) {
-            groupSet = andList.val[andListIndex].val[1];
+            andList.val[andListIndex].val[0] === self.operatorSymbol) {
+            operationList = andList.val[andListIndex];
+            break;
           }
         }
 
-        if (!groupSet) {
-          return $q.when();
+        if (!operationList) {
+          return operands;
         }
 
-        var operands = [];
-        $scope.fetchGroups().$promise.then(function(options) {
-          for (var groupSetIndex = 0; groupSetIndex < groupSet.val.length; groupSetIndex++) {
+        operands.$promise = self.fetchGroups().$promise.then(function (options) {
+          for (var operationListIndex = 1; operationListIndex < operationList.val.length; operationListIndex++) {
+            var groupMap = operationList.val[operationListIndex];
+
+            var groupIdTag = groupMap.keys[0];
+            groupIdTag = groupMap.keys[0] = self.tagUuid(groupIdTag);
+            
+            groupIdTag.id = groupIdTag.obj();
+            
             for (var optionIndex = 0; optionIndex < options.length; optionIndex++) {
-              if (groupSet.val[groupSetIndex] === options[optionIndex].id) {
-                operands.push(options[optionIndex]);
+              if (groupIdTag.id === options[optionIndex].id) {
+                groupIdTag.display = options[optionIndex].name;
+                operands.push(groupIdTag);
+                break;
               }
             }
           }
@@ -63,66 +86,103 @@ angular.module('liveopsConfigPanel')
         return operands;
       };
 
-      $scope.add = function(item) {
-        var groupSet,
-            operationList,
-            andList;
+      this.add = function (operand) {
+        var andList,
+          groupProficiencyMap,
+          operationList;
         
         $scope.typeaheadItem = null;
         
-        if ($scope.parentMap.exists($scope.keyword) &&
-          (andList = $scope.parentMap.at($scope.keyword)).val.length > 1) {
+        //if root "and" exists and is followed up with something we dub thee andList
+        if ($scope.parentMap.exists(self.keyword) &&
+          (andList = $scope.parentMap.at(self.keyword)).val.length > 1) {
 
+          //look in andList for the scope's operator (and/or) and dub thee operationList
           for (var andListIndex = 1; andListIndex < andList.val.length; andListIndex++) {
-            if (andList.val[andListIndex].val.length &&
-              andList.val[andListIndex].val[0] === $scope.operatorSymbol) {
-              groupSet = andList.val[andListIndex].val[1];
+            if (andList.val[andListIndex].val.length > 1 &&
+              andList.val[andListIndex].val[0] === self.operatorSymbol) {
+              operationList = andList.val[andListIndex];
+              break;
             }
           }
 
-          if (groupSet) {
-            for (var groupSetIndex = 0; groupSetIndex < groupSet.val.length; groupSetIndex++) {
-              if (groupSet.val[groupSetIndex] === item.id) {
-                return;
-              }
-            }
+          //if the operationList doesn't exist or is followed up by nothing
+          if (!operationList || operationList.length <= 1) {
+            groupProficiencyMap = new jsedn.Map([self.tagUuid(operand.id), true]);
+            
+            operationList = new jsedn.List([self.operatorSymbol, groupProficiencyMap]);
 
-            groupSet.val.push(item.id);
-          } else {
-            groupSet = new jsedn.Set([item.id]);
-            operationList = new jsedn.List([$scope.operatorSymbol, groupSet]);
             andList.val.push(operationList);
+            $scope.selected = null;
+            return;
           }
+
+          //check if the group id has already been added
+          for (var operationListIndex = 1; operationListIndex < operationList.val.length; operationListIndex++) {
+            var groupMap = operationList.val[operationListIndex];
+
+            if (groupMap.exists(self.tagUuid(operand.id))) {
+              return;
+            }
+          }
+
+          groupProficiencyMap = new jsedn.Map([self.tagUuid(operand.id), true]);
+          operationList.val.push(groupProficiencyMap);
         } else {
-          groupSet = new jsedn.Set([item.id]);
-          operationList = new jsedn.List([$scope.operatorSymbol, groupSet]);
+          //else create the entire tree
+          groupProficiencyMap = new jsedn.Map([self.tagUuid(operand.id), true]);
+
+          operationList = new jsedn.List([self.operatorSymbol, groupProficiencyMap]);
           andList = new jsedn.List([jsedn.sym('and'), operationList]);
 
-          $scope.parentMap.set($scope.keyword, andList);
+          $scope.parentMap.set(jsedn.kw(self.keyword), andList);
         }
 
         $scope.selected = null;
       };
 
-      $scope.remove = function(item) {
+      this.remove = function (operand) {
         var andList;
-        if ($scope.parentMap.exists($scope.keyword) &&
-          (andList = $scope.parentMap.at($scope.keyword)).val.length > 1) {
 
-          var groupSet;
+        //if root "and" exists and is followed up with something we dub thee andList
+        if ($scope.parentMap.exists(self.keyword) &&
+          (andList = $scope.parentMap.at(self.keyword)).val.length > 1) {
+
+          var operationList;
+
+          //look in andList for the scope's operator (and/or) and dub thee operationList
           for (var andListIndex = 1; andListIndex < andList.val.length; andListIndex++) {
-            if (andList.val[andListIndex].val.length &&
-              andList.val[andListIndex].val[0] === $scope.operatorSymbol) {
-              groupSet = andList.val[andListIndex].val[1];
+            if (andList.val[andListIndex].val.length > 1 &&
+              andList.val[andListIndex].val[0] === self.operatorSymbol) {
+              operationList = andList.val[andListIndex];
+              break;
+            }
+          }
 
-              groupSet.val.removeItem(item.id);
+          if (!operationList) {
+            return;
+          }
 
-              if (groupSet.val.length === 0) {
-                andList.val.splice(andListIndex, 1);
-
-                if (andList.val.length <= 1) {
-                  $scope.parentMap.remove($scope.keyword);
+          //look in operationList for the group operand being removed
+          for (var operationListIndex = 1; operationListIndex < operationList.val.length; operationListIndex++) {
+            var groupMap = operationList.val[operationListIndex];
+            
+            for(var groupMapKey = 0; groupMapKey < groupMap.keys.length; groupMapKey ++) {
+              var groupIdTag = groupMap.keys[groupMapKey];
+              groupIdTag = groupMap.keys[groupMapKey] = self.tagUuid(groupIdTag);
+              
+              if(groupIdTag.obj() === operand.id) {
+                operationList.val.splice(operationListIndex, 1);
+                
+                if (operationList.val.length <= 1) {
+                  andList.val.removeItem(operationList);
                 }
+                
+                if (andList.val.length <= 1) {
+                  $scope.parentMap.remove(self.keyword);
+                }
+                
+                return;
               }
             }
           }

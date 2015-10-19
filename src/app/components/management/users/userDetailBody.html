@@ -18,7 +18,9 @@
         duplicate-email
         api-error>
       </input>
-      <i class="email-verify-spinner" ng-class="{'fa fa-spin fa-spinner' : forms.detailsForm.email.$pending.duplicateUsername}"></i>
+      <i class="email-verify-spinner"
+        ng-class="{'fa fa-spin fa-spinner' : forms.detailsForm.email.$pending.duplicateUsername}">
+      </i>
     </div>
   </div>
 
@@ -94,7 +96,7 @@
       <div>
         <select ng-model="selectedTenantUser.roleId" name="roleId" required
           ng-options="role.id as role.name for role in fetchTenantRoles()"
-          ng-disabled="Session.user.id == selectedTenantUser.$user.id">
+          ng-disabled="Session.user.id == selectedTenantUser.id">
           <option value="" ng-disabled="true">
             {{'users.details.role.select' | translate}}
           </option>
@@ -102,18 +104,24 @@
       </div>
     </div>
 
-    <div ng-if="selectedTenantUser.status != 'accepted' && selectedTenantUser.status != 'disabled' && ['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'MANAGE_TENANT_ENROLLMENT'] | hasPermission" class="input-group">
+    <div ng-if="selectedTenantUser.status != 'accepted' && selectedTenantUser.status != 'disabled' &&
+      ['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'MANAGE_TENANT_ENROLLMENT'] | hasPermission" class="input-group">
       <label></label>
       <div>
-        <input id="resend-invitation-btn" type="button" class="btn" ng-click="saveTenantUser()"
+        <input id="resend-invitation-btn" type="button" class="btn" ng-click="resend()"
           value="{{(selectedTenantUser.status == 'pending' ? 'user.details.invitation.send' : 'user.details.invitation.resend') | translate}}">
-          <a ng-if="selectedTenantUser.status == 'invited'" id="expire-invitation-link" ng-click="expireTenantUser()">
-          {{'user.details.invitation.expire' | translate}}</a>
+        <a ng-if="selectedTenantUser.status == 'invited'" id="expire-invitation-link"
+          ng-click="expireTenantUser()">
+          {{'user.details.invitation.expire' | translate}}
+        </a>
       </div>
     </div>
   </div>
 
-  <div disable-contents="forms.detailsForm.email.$invalid || scenario() == 'invite:existing:user' || ! (('PLATFORM_MANAGE_ALL_USERS' | hasPermission) || (('PLATFORM_MANAGE_USER_ACCOUNT' | hasPermission) && Session.user.id == selectedTenantUser.$user.id))">
+  <div disable-contents="forms.detailsForm.email.$invalid || scenario() === 'invite:existing:user' || 
+    ! (('PLATFORM_MANAGE_ALL_USERS' | hasPermission) ||
+    (('PLATFORM_MANAGE_USER_ACCOUNT' | hasPermission) &&
+    Session.user.id === selectedTenantUser.id))">
     <div class="divider-header">
       <h4>{{'details' | translate}}</h4>
     </div>
@@ -167,6 +175,20 @@
 <div class="clear"></div>
 
 <div ng-if="scenario() === 'update'">
+  <div class="divider-header">
+    <h4>{{'details.extensions' | translate}}</h4>
+  </div>
+  
+  <lo-extensions 
+    tenant-user="selectedTenantUser"
+    ng-disabled="!(
+        ('MANAGE_ALL_USER_EXTENSIONS' | hasPermission) ||
+        ('MANAGE_USER_EXTENSIONS' | hasPermission) ||
+        (
+          ('MANAGE_MY_EXTENSIONS' | hasPermission) && (Session.user.id === selectedTenantUser.id)
+        )
+      )">
+  </lo-extensions>
   <user-skills user="selectedTenantUser"></user-skills>
   <user-groups user="selectedTenantUser"></user-groups>
 </div>

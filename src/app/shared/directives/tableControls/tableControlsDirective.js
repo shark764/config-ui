@@ -17,6 +17,9 @@ angular.module('liveopsConfigPanel')
         transclude: true,
         controller: function () {},
         link: function ($scope) {
+          $scope.primaryKey = $scope.config.primaryKey ?
+            $scope.config.primaryKey : 'id';
+          
           $scope.$watch('config', function(){
             $scope.showBulkActions = angular.isDefined($scope.config.showBulkActions) ? $scope.config.showBulkActions : true;
             $scope.showCreate = angular.isDefined($scope.config.showCreate) ? $scope.config.showCreate : true;
@@ -178,13 +181,14 @@ angular.module('liveopsConfigPanel')
 
           $scope.getFields = function(){
 
-            for (var i = 0; i < $scope.config.fields.length; i++) {
+            for (var fieldIndex = 0; fieldIndex < $scope.config.fields.length; fieldIndex++) {
               if (Session.columnPreferences[$scope.config.title]) {
-                angular.forEach(Session.columnPreferences[$scope.config.title], function (storedOption) {
-                  if ($scope.config.fields[i].header.display === storedOption.header.display) {
-                    $scope.config.fields[i].checked = (angular.isUndefined(storedOption.checked) ? true : storedOption.checked);
+                for (var storeOptionIndex = 0; storeOptionIndex < Session.columnPreferences[$scope.config.title].length; storeOptionIndex++) {
+                  var storedOption = Session.columnPreferences[$scope.config.title][storeOptionIndex];
+                  if ($scope.config.fields[fieldIndex].header.display === storedOption.header.display) {
+                    $scope.config.fields[fieldIndex].checked = (angular.isUndefined(storedOption.checked) ? true : storedOption.checked);
                   }
-                });
+                }
               }
             }
 

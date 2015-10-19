@@ -59,12 +59,12 @@ angular.module('liveopsConfigPanel')
           }, {
             path: '$user.email'
           }, {
-            path: '$original.skills',
+            path: '$original.$skills',
             inner: {
               path: 'name'
             }
           }, {
-            path: '$original.groups',
+            path: '$original.$groups',
             inner: {
               path: 'name'
             }
@@ -82,13 +82,13 @@ angular.module('liveopsConfigPanel')
               'displayPath': 'name',
               'options': getSkillOptions,
             },
-            'lookup': 'skills:id',
+            'lookup': '$skills:id',
             'name': 'skills',
             'id': 'user-skills-table-column',
             'resolve': function (tenantUser) {
-              return tenantUser.skills.length;
+              return tenantUser.$skills.length;
             },
-            'sortOn': 'skills.length',
+            'sortOn': '$skills.length',
             'filterOrderBy': 'name'
           });
         }
@@ -101,13 +101,13 @@ angular.module('liveopsConfigPanel')
               'displayPath': 'name',
               'options': getGroupOptions,
             },
-            'lookup': 'groups:id',
-            'name': 'groups',
+            'lookup': '$groups:id',
+            'name': '$groups',
             'id': 'user-groups-table-column',
             'resolve': function (tenantUser) {
-              return tenantUser.groups.length;
+              return tenantUser.$groups.length;
             },
-            'sortOn': 'groups.length',
+            'sortOn': '$groups.length',
             'filterOrderBy': 'name'
           });
         }
@@ -120,10 +120,10 @@ angular.module('liveopsConfigPanel')
               'displayPath': 'name',
               'options': getRoleOptions,
             },
-            'name': '$original.roleName',
+            'name': '$original.$roleName',
             'id': 'user-roles-table-column',
             'lookup': '$original:roleId',
-            'sortOn': '$original.roleName',
+            'sortOn': '$original.$roleName',
             'filterOrderBy': 'name'
           });
         }

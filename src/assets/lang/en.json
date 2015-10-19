@@ -18,6 +18,7 @@
   "value.error.name.required" : "Field \"Name\" is required.",
   "value.identifier": "Identifier",
   "value.media": "Media",
+  "value.members": "Members",
   "value.name": "Name",
   "value.no": "No",
   "value.numMembers": "({{number}})",
@@ -45,6 +46,7 @@
   "value.select.action": "Select Action",
   "value.pending": "Pending",
   "value.presence": "Presence",
+  "value.proficiency": "Proficiency",
   "value.offline": "Offline",
   "value.notready": "Not Ready",
   "value.ready": "Ready",
@@ -107,8 +109,10 @@
   "details.flow": "Flow",
   "details.value": "Value",
   "details.or" : "-OR-",
+  "details.primary": "primary",
   "details.phoneNumber": "Phone Number",
   "details.phoneNumber.error": "Phone number should be in E.164 format.",
+  "details.extensions": "Extensions",
   "details.skills.none": "This user has not been assigned any skills",
   "details.skills.title": "Skills",
   "details.skills.placeholder": "Add Skill...",
@@ -161,6 +165,7 @@
   "skill.details.name.error": "Please enter a name",
   "skill.details.description.error" : "Description is required",
   "skill.details.none" : "There are no skills for the selected tenant.",
+  "skill.details.members.none": "There are no users with this skill.",
   "skill.details.proficiency": "Proficiency",
   "skill.details.creating": "Creating Skill",
   "skill.table.members": "Members",
@@ -168,6 +173,7 @@
   "skill.table.title": "Skill Management",
   "skill.details.disable.confirm": "This will disable this skill. Do you want to continue?",
   "skill.details.enable.confirm": "This will enable this skill. Do you want to continue?",
+  "skill.details.adduser.placeholder": "Add a user...",
 
   "flow.type": "Type",
   "flow.type.choose": "Select a Type...",
@@ -379,7 +385,16 @@
   "user.profile.save.fail": "An error occurred while updating your details.",
   "profile.usergroups.none": "You have not been assigned to any groups.",
   "profile.skills.none": "You have not been assigned any skills.",
-
+  
+  "details.extension.type.required": "Extension Type required",
+  "details.extension.type": "Extension Type",
+  "details.extension.provider": "Provider",
+  "details.extension.provider.required": "Extension provider required",
+  "details.extension.value": "Enter Extension",
+  "details.extension.value.required": "Extension value required",
+  "details.extension.drop": "Drop extension here",
+  "details.phone.extension.value": "Ext.",
+  
   "multibox.add.placeholder": "Add Item...",
   "multibox.search.placeholder": "Search...",
   "multibox.create.btn": "Create New",
@@ -408,5 +423,11 @@
   "role.permission.remove.success": "Removed permission!",
   "role.permission.remove.fail": "Sorry, there was an error removing that permission",
   "role.permission.add.success": "Added permission!",
-  "role.permission.add.fail": "Sorry, there was an error adding that permission"
+  "role.permission.add.fail": "Sorry, there was an error adding that permission",
+  
+  "webrtc": "WebRTC",
+  "twilio": "Twilio",
+  "pstn": "PSTN",
+  "pilvo": "Pilvo",
+  "sip": "SIP"
 }
