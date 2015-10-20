@@ -22,6 +22,10 @@ angular.module('liveopsConfigPanel')
       
       //This is really awful and hopefully the API will update to accommodate this.
       Skill.prototype.fetchSkillUsers = function () {
+        if (this.isNew()){
+          return [];
+        }
+        
         var result = TenantSkillUser.cachedQuery({
           tenantId: Session.tenant.tenantId,
           skillId: this.id

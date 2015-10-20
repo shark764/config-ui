@@ -181,6 +181,8 @@ angular.module('liveopsConfigPanel')
                 if (andList.val.length <= 1) {
                   $scope.parentMap.remove(self.keyword);
                 }
+                
+                return;
               }
             }
           }
