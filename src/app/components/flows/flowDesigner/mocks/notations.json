@@ -226,7 +226,7 @@
                 "terminator": {
                     "source": "expression",
                     "type": "string",
-                    "default": "\"#\"",
+                    "default": "#",
                     "mandatory": true,
                     "key": "terminator"
                 },
@@ -453,7 +453,7 @@
                 },
                 "search-value": {
                     "source": "expression",
-                    "type": "string",
+                    "type": "variable",
                     "mandatory": false,
                     "key": "search",
                     "default": "titan/customer"
@@ -463,7 +463,7 @@
                     "type": "string",
                     "mandatory": false,
                     "key": "search-action",
-                    "default": "\"immediate\""
+                    "default": "immediate"
                 }
             }
         },
@@ -649,7 +649,7 @@
                 },
                 "disconnectOn": {
                     "source": "expression",
-                    "type": "string",
+                    "type": "variable",
                     "key": "disconnectOn",
                     "mandatory": false,
                     "default": ",",
@@ -931,7 +931,8 @@
             "label": "Agent Notification",
             "bindings": {},
             "signals": [],
-            "props": ["name", "params", "bindings", "loop"],
+            "props": ["name", "params", "bindings", "loop", "target"],
+            "target": "client",
             "inputs": [
               {
                   "name": "notification-type",
@@ -1045,13 +1046,13 @@
             "params": {
                 "name": {
                     "source": "expression",
-                    "type": "string",
+                    "type": "variable",
                     "key": "name",
                     "mandatory": true
                 },
                 "value": {
                     "source": "expression",
-                    "type": "string",
+                    "type": "variable",
                     "key": "value",
                     "mandatory": true
                 }
@@ -1093,13 +1094,13 @@
             "params": {
                 "name": {
                     "source": "expression",
-                    "type": "string",
+                    "type": "variable",
                     "key": "name",
                     "mandatory": true
                 },
                 "value": {
                     "source": "expression",
-                    "type": "string",
+                    "type": "variable",
                     "key": "value",
                     "mandatory": true
                 }
@@ -1521,7 +1522,7 @@
             "params": {
                 "resource": {
                     "source": "entity",
-                    "type": "string",
+                    "type": "variable",
                     "key": "resource",
                     "mandatory": true
                 },
@@ -1602,7 +1603,7 @@
             "params": {
                 "resource": {
                     "source": "entity",
-                    "type": "string",
+                    "type": "variable",
                     "key": "resource",
                     "mandatory": true
                 },
@@ -1615,7 +1616,7 @@
                 },
                 "disconnectOn": {
                     "source": "expression",
-                    "type": "string",
+                    "type": "variable",
                     "key": "disconnectOn",
                     "mandatory": false,
                     "default": ",",
@@ -1632,8 +1633,8 @@
             "name": "voice-work-offer",
             "entity": "template",
             "label": "Voice Work Offer",
-            "start": "t21571",
-            "end": "t21568",
+            "start": "t21650",
+            "end": "t21653",
             "signals": ["work-rejected", "work-accepted"],
             "inputs": [
                 {
@@ -1666,7 +1667,7 @@
             "params": {
                 "resource": {
                     "source": "entity",
-                    "type": "string",
+                    "type": "variable",
                     "key": "resource",
                     "mandatory": true
                 },
@@ -1681,14 +1682,14 @@
                     }
                 }
             },
-            "flow": "[{\"id\":\"tag/t21573\",\"children\":[\"tag/t21580\",\"tag/t21581\"],\"parents\":[\"tag/t21571\"],\"entity\":\"gateway\",\"type\":\"parallel\"},{\"id\":\"tag/t21564\",\"children\":[\"tag/t21572\"],\"parents\":[\"tag/t21580\",\"tag/t21581\"],\"entity\":\"gateway\",\"type\":\"parallel\"},{\"id\":\"tag/t21568\",\"children\":[],\"parents\":[\"tag/t21572\"],\"entity\":\"throw\",\"type\":\"signal\",\"terminate\":false,\"event\":{\"name\":\"work-accepted\",\"params\":{\"resource\":{\"source\":\"expression\",\"value\":\"resource\"}}}},{\"id\":\"tag/t21569\",\"children\":[\"tag/t21567\"],\"parents\":[\"tag/t21576\"],\"entity\":\"throw\",\"type\":\"signal\",\"terminate\":false,\"event\":{\"name\":\"work-rejected\",\"params\":{\"resource\":{\"source\":\"expression\",\"value\":\"resource\"}}}},{\"id\":\"tag/t21566\",\"children\":[],\"parents\":[\"tag/t21567\"],\"entity\":\"throw\",\"type\":\"none\",\"terminate\":true},{\"children\":[\"tag/t21575\"],\"bindings\":{},\"interrupting\":true,\"type\":\"signal\",\"id\":\"tag/t21579\",\"parents\":[],\"target\":\"customer-disconnect\",\"entity\":\"start\"},{\"id\":\"tag/t21565\",\"children\":[],\"parents\":[\"tag/t21570\"],\"entity\":\"throw\",\"type\":\"none\",\"terminate\":true},{\"children\":[],\"bindings\":{\"{{resource}}\":\"resource\"},\"name\":\"enqueue\",\"params\":{\"queue\":{\"source\":\"system\",\"store\":\"queues\",\"id\":\"tag/t21577\"}},\"type\":\"task\",\"id\":\"tag/t21574\",\"parents\":[],\"decorations\":[],\"entity\":\"activity\"},{\"children\":[\"tag/t21564\"],\"bindings\":{},\"name\":\"dial\",\"params\":{\"from\":{\"source\":\"expression\",\"value\":\"titan/customer\"},\"to\":{\"source\":\"expression\",\"value\":\"{{resource}}.extension\"},\"timeout\":{\"source\":\"expression\",\"value\":\"(timestamp (from-now ({{timeout.measurement}} {{timeout.value}})))\"},\"resource\":{\"source\":\"expression\",\"value\":\"resource\"}},\"type\":\"task\",\"id\":\"tag/t21581\",\"parents\":[\"tag/t21573\"],\"decorations\":[\"tag/t21578\"],\"target\":\"twilio\",\"entity\":\"activity\"},{\"children\":[\"tag/t21573\"],\"bindings\":{},\"name\":\"work-offer\",\"params\":{\"resource-id\":{\"source\":\"expression\",\"value\":\"{{resource}}.id\"},\"resource\":{\"source\":\"expression\",\"value\":\"{{resource}}\"},\"timeout\":{\"source\":\"expression\",\"value\":\"(timestamp (from-now ({{timeout.measurement}} {{timeout.value}})))\"},\"search-value\":{\"source\":\"expression\",\"value\":\"titan/customer\"},\"search-value-action\":{\"source\":\"expression\",\"value\":\"\\\"immediate\\\"\"}},\"type\":\"task\",\"id\":\"tag/t21571\",\"parents\":[],\"decorations\":[],\"target\":\"client\",\"entity\":\"activity\"},{\"children\":[\"tag/t21564\"],\"bindings\":{},\"name\":\"agent-notification\",\"params\":{\"notification-type\":{\"source\":\"expression\",\"value\":\"work-initiated\"},\"resource-id\":{\"source\":\"expression\",\"value\":\"{{resource}}.id\"},\"resource\":{\"source\":\"expression\",\"value\":\"{{resource}}\"},\"customer\":{\"source\":\"expression\",\"value\":\"titan/customer\"}},\"type\":\"task\",\"id\":\"tag/t21580\",\"parents\":[\"tag/t21573\"],\"decorations\":[],\"entity\":\"activity\"},{\"children\":[\"tag/t21568\"],\"bindings\":{},\"name\":\"agent-notification\",\"params\":{\"notification-type\":{\"source\":\"expression\",\"value\":\"work-accepted\"},\"resource-id\":{\"source\":\"expression\",\"value\":\"{{resource}}.id\"},\"resource\":{\"source\":\"expression\",\"value\":\"{{resource}}\"},\"customer\":{\"source\":\"expression\",\"value\":\"titan/customer\"}},\"type\":\"task\",\"id\":\"tag/t21572\",\"parents\":[\"tag/t21564\"],\"decorations\":[],\"entity\":\"activity\"},{\"children\":[\"tag/t21569\"],\"bindings\":{},\"name\":\"agent-notification\",\"params\":{\"notification-type\":{\"source\":\"expression\",\"value\":\"work-rejected\"},\"resource-id\":{\"source\":\"expression\",\"value\":\"{{resource}}.id\"},\"resource\":{\"source\":\"expression\",\"value\":\"{{resource}}\"},\"customer\":{\"source\":\"expression\",\"value\":\"titan/customer\"}},\"type\":\"task\",\"id\":\"tag/t21576\",\"parents\":[\"tag/t21578\"],\"decorations\":[],\"entity\":\"activity\"},{\"children\":[\"tag/t21566\"],\"bindings\":{},\"name\":\"free-resource\",\"params\":{\"resource-id\":{\"source\":\"expression\",\"value\":\"{{resource}}.id\"},\"state\":{\"source\":\"expression\",\"value\":\"not-ready\"}},\"type\":\"task\",\"id\":\"tag/t21567\",\"parents\":[\"tag/t21569\"],\"decorations\":[],\"entity\":\"activity\"},{\"children\":[\"tag/t21570\"],\"bindings\":{},\"name\":\"disconnect\",\"params\":{\"resource\":{\"source\":\"expression\",\"value\":\"{{resource}}\"}},\"type\":\"task\",\"id\":\"tag/t21575\",\"parents\":[\"tag/t21579\"],\"decorations\":[],\"target\":\"twilio\",\"entity\":\"activity\"},{\"children\":[\"tag/t21565\"],\"bindings\":{},\"name\":\"free-resource\",\"params\":{\"resource-id\":{\"source\":\"expression\",\"value\":\"{{resource}}.id\"},\"state\":{\"source\":\"expression\",\"value\":\"ready\"}},\"type\":\"task\",\"id\":\"tag/t21570\",\"parents\":[\"tag/t21575\"],\"decorations\":[],\"entity\":\"activity\"},{\"children\":[\"tag/t21576\"],\"bindings\":{},\"interrupting\":true,\"type\":\"signal\",\"id\":\"tag/t21578\",\"parents\":[\"tag/t21581\"],\"target\":\"resource-disconnect\",\"entity\":\"catch\"}]"
+            "flow": "[{\"id\":\"tag/t21658\",\"children\":[\"tag/t21659\",\"tag/t21664\"],\"parents\":[\"tag/t21650\"],\"entity\":\"gateway\",\"type\":\"parallel\"},{\"id\":\"tag/t21649\",\"children\":[\"tag/t21660\"],\"parents\":[\"tag/t21659\",\"tag/t21664\"],\"entity\":\"gateway\",\"type\":\"parallel\"},{\"id\":\"tag/t21653\",\"children\":[],\"parents\":[\"tag/t21660\"],\"entity\":\"throw\",\"type\":\"signal\",\"terminate\":false,\"event\":{\"name\":\"work-accepted\",\"params\":{\"resource\":{\"source\":\"expression\",\"value\":\"resource\"}}}},{\"id\":\"tag/t21655\",\"children\":[\"tag/t21666\"],\"parents\":[\"tag/t21652\"],\"entity\":\"throw\",\"type\":\"signal\",\"terminate\":false,\"event\":{\"name\":\"work-rejected\",\"params\":{\"resource\":{\"source\":\"expression\",\"value\":\"resource\"}}}},{\"id\":\"tag/t21662\",\"children\":[],\"parents\":[\"tag/t21666\"],\"entity\":\"throw\",\"type\":\"none\",\"terminate\":true},{\"children\":[\"tag/t21665\"],\"bindings\":{},\"interrupting\":true,\"type\":\"signal\",\"id\":\"tag/t21667\",\"parents\":[],\"target\":\"customer-disconnect\",\"entity\":\"start\"},{\"id\":\"tag/t21651\",\"children\":[],\"parents\":[\"tag/t21657\"],\"entity\":\"throw\",\"type\":\"none\",\"terminate\":true},{\"children\":[\"tag/t21649\"],\"bindings\":{},\"name\":\"dial\",\"params\":{\"from\":{\"source\":\"expression\",\"value\":\"titan/customer\"},\"to\":{\"source\":\"expression\",\"value\":\"{{resource}}.active-extension\"},\"timeout\":{\"source\":\"expression\",\"value\":\"(timestamp (from-now ({{timeout.measurement}} {{timeout.value}})))\"},\"resource\":{\"source\":\"expression\",\"value\":\"resource\"}},\"type\":\"task\",\"id\":\"tag/t21664\",\"parents\":[\"tag/t21658\"],\"decorations\":[\"tag/t21661\"],\"target\":\"twilio\",\"entity\":\"activity\"},{\"children\":[\"tag/t21658\"],\"bindings\":{},\"name\":\"work-offer\",\"params\":{\"resource-id\":{\"source\":\"expression\",\"value\":\"{{resource}}.id\"},\"resource\":{\"source\":\"expression\",\"value\":\"{{resource}}\"},\"timeout\":{\"source\":\"expression\",\"value\":\"(timestamp (from-now ({{timeout.measurement}} {{timeout.value}})))\"},\"search-value\":{\"source\":\"expression\",\"value\":\"titan/customer\"},\"search-value-action\":{\"source\":\"expression\",\"value\":\"\\\"immediate\\\"\"}},\"type\":\"task\",\"id\":\"tag/t21650\",\"parents\":[],\"decorations\":[],\"target\":\"client\",\"entity\":\"activity\"},{\"children\":[\"tag/t21649\"],\"bindings\":{},\"name\":\"agent-notification\",\"params\":{\"notification-type\":{\"source\":\"expression\",\"value\":\"\\\"work-initiated\\\"\"},\"resource-id\":{\"source\":\"expression\",\"value\":\"{{resource}}.id\"},\"resource\":{\"source\":\"expression\",\"value\":\"{{resource}}\"},\"customer\":{\"source\":\"expression\",\"value\":\"titan/customer\"}},\"type\":\"task\",\"id\":\"tag/t21659\",\"parents\":[\"tag/t21658\"],\"decorations\":[],\"target\":\"client\",\"entity\":\"activity\"},{\"children\":[\"tag/t21653\"],\"bindings\":{},\"name\":\"agent-notification\",\"params\":{\"notification-type\":{\"source\":\"expression\",\"value\":\"\\\"work-accepted\\\"\"},\"resource-id\":{\"source\":\"expression\",\"value\":\"{{resource}}.id\"},\"resource\":{\"source\":\"expression\",\"value\":\"{{resource}}\"},\"customer\":{\"source\":\"expression\",\"value\":\"titan/customer\"}},\"type\":\"task\",\"id\":\"tag/t21660\",\"parents\":[\"tag/t21649\"],\"decorations\":[],\"target\":\"client\",\"entity\":\"activity\"},{\"children\":[\"tag/t21655\"],\"bindings\":{},\"name\":\"agent-notification\",\"params\":{\"notification-type\":{\"source\":\"expression\",\"value\":\"\\\"work-rejected\\\"\"},\"resource-id\":{\"source\":\"expression\",\"value\":\"{{resource}}.id\"},\"resource\":{\"source\":\"expression\",\"value\":\"{{resource}}\"},\"customer\":{\"source\":\"expression\",\"value\":\"titan/customer\"}},\"type\":\"task\",\"id\":\"tag/t21652\",\"parents\":[\"tag/t21661\"],\"decorations\":[],\"target\":\"client\",\"entity\":\"activity\"},{\"children\":[\"tag/t21662\"],\"bindings\":{},\"name\":\"free-resource\",\"params\":{\"resource-id\":{\"source\":\"expression\",\"value\":\"{{resource}}.id\"},\"state\":{\"source\":\"expression\",\"value\":\"not-ready\"}},\"type\":\"task\",\"id\":\"tag/t21666\",\"parents\":[\"tag/t21655\"],\"decorations\":[],\"entity\":\"activity\"},{\"children\":[\"tag/t21657\"],\"bindings\":{},\"name\":\"disconnect\",\"params\":{\"resource\":{\"source\":\"expression\",\"value\":\"{{resource}}\"}},\"type\":\"task\",\"id\":\"tag/t21665\",\"parents\":[\"tag/t21667\"],\"decorations\":[],\"target\":\"twilio\",\"entity\":\"activity\"},{\"children\":[\"tag/t21651\"],\"bindings\":{},\"name\":\"free-resource\",\"params\":{\"resource-id\":{\"source\":\"expression\",\"value\":\"{{resource}}.id\"},\"state\":{\"source\":\"expression\",\"value\":\"ready\"}},\"type\":\"task\",\"id\":\"tag/t21657\",\"parents\":[\"tag/t21665\"],\"decorations\":[],\"entity\":\"activity\"},{\"children\":[\"tag/t21652\"],\"bindings\":{},\"interrupting\":true,\"type\":\"signal\",\"id\":\"tag/t21661\",\"parents\":[\"tag/t21664\"],\"target\":\"resource-disconnect\",\"entity\":\"catch\"}]"
         },
         {
             "name": "resource-flow",
             "entity": "template",
             "label": "Resource Flow",
-            "start": "t21538",
-            "end": "t21537",
+            "start": "t21643",
+            "end": "t21632",
             "signals": ["work-rejected", "work-accepted", "remove-participant"],
             "inputs": [
                 {
@@ -1735,7 +1736,7 @@
             "params": {
                 "resource": {
                     "source": "entity",
-                    "type": "string",
+                    "type": "variable",
                     "key": "resource",
                     "mandatory": true
                 },
@@ -1751,7 +1752,7 @@
                 },
                 "disconnectOn": {
                     "source": "expression",
-                    "type": "string",
+                    "type": "variable",
                     "key": "disconnectOn",
                     "mandatory": false,
                     "default": ",",
@@ -1762,7 +1763,7 @@
                     }
                 }
             },
-            "flow": "[{\"id\":\"tag/t21546\",\"children\":[\"tag/t21557\",\"tag/t21559\"],\"parents\":[\"tag/t21542\"],\"entity\":\"gateway\",\"type\":\"parallel\"},{\"id\":\"tag/t21533\",\"children\":[\"tag/t21544\"],\"parents\":[\"tag/t21557\",\"tag/t21559\"],\"entity\":\"gateway\",\"type\":\"parallel\"},{\"id\":\"tag/t21539\",\"children\":[\"tag/t21545\"],\"parents\":[\"tag/t21544\"],\"entity\":\"throw\",\"type\":\"signal\",\"terminate\":false,\"event\":{\"name\":\"work-accepted\",\"params\":{\"resource\":{\"source\":\"expression\",\"value\":\"resource\"}}}},{\"id\":\"tag/t21540\",\"children\":[\"tag/t21536\"],\"parents\":[\"tag/t21550\"],\"entity\":\"throw\",\"type\":\"signal\",\"terminate\":false,\"event\":{\"name\":\"work-rejected\",\"params\":{\"resource\":{\"source\":\"expression\",\"value\":\"resource\"}}}},{\"id\":\"tag/t21535\",\"children\":[],\"parents\":[\"tag/t21536\"],\"entity\":\"throw\",\"type\":\"none\",\"terminate\":true},{\"children\":[\"tag/t21558\"],\"bindings\":{},\"interrupting\":true,\"type\":\"signal\",\"id\":\"tag/t21549\",\"parents\":[\"tag/t21545\"],\"target\":\"resource-disconnect\",\"entity\":\"catch\"},{\"id\":\"tag/t21558\",\"children\":[\"tag/t21543\",\"tag/t21555\"],\"parents\":[\"tag/t21549\"],\"entity\":\"gateway\",\"type\":\"parallel\"},{\"id\":\"tag/t21555\",\"children\":[\"tag/t21551\"],\"parents\":[\"tag/t21558\"],\"entity\":\"throw\",\"type\":\"signal\",\"terminate\":false,\"event\":{\"name\":\"remove-participant\",\"params\":{\"resource\":{\"source\":\"expression\",\"value\":\"resource\"}}}},{\"id\":\"tag/t21551\",\"children\":[\"tag/t21537\"],\"parents\":[\"tag/t21543\",\"tag/t21555\"],\"entity\":\"gateway\",\"type\":\"parallel\"},{\"id\":\"tag/t21537\",\"children\":[],\"parents\":[\"tag/t21551\"],\"entity\":\"throw\",\"type\":\"none\",\"terminate\":true},{\"children\":[\"tag/t21548\"],\"bindings\":{},\"interrupting\":true,\"type\":\"signal\",\"id\":\"tag/t21554\",\"parents\":[],\"target\":\"customer-disconnect\",\"entity\":\"start\"},{\"id\":\"tag/t21534\",\"children\":[],\"parents\":[\"tag/t21541\"],\"entity\":\"throw\",\"type\":\"none\",\"terminate\":true},{\"children\":[\"tag/t21542\"],\"bindings\":{},\"interrupting\":true,\"type\":\"signal\",\"id\":\"tag/t21538\",\"parents\":[],\"target\":\"resource-acquired\",\"entity\":\"start\"},{\"children\":[\"tag/t21533\"],\"bindings\":{},\"name\":\"dial\",\"params\":{\"from\":{\"source\":\"expression\",\"value\":\"titan/customer\"},\"to\":{\"source\":\"expression\",\"value\":\"{{resource}}.active-extension\"},\"timeout\":{\"source\":\"expression\",\"value\":\"(timestamp (from-now ({{timeout.measurement}} {{timeout.value}})))\"},\"resource\":{\"source\":\"expression\",\"value\":\"resource\"}},\"type\":\"task\",\"id\":\"tag/t21559\",\"parents\":[\"tag/t21546\"],\"decorations\":[\"tag/t21553\"],\"target\":\"twilio\",\"entity\":\"activity\"},{\"children\":[\"tag/t21546\"],\"bindings\":{},\"name\":\"work-offer\",\"params\":{\"resource-id\":{\"source\":\"expression\",\"value\":\"{{resource}}.id\"},\"resource\":{\"source\":\"expression\",\"value\":\"{{resource}}\"},\"timeout\":{\"source\":\"expression\",\"value\":\"(timestamp (from-now ({{timeout.measurement}} {{timeout.value}})))\"},\"search-value\":{\"source\":\"expression\",\"value\":\"titan/customer\"},\"search-value-action\":{\"source\":\"expression\",\"value\":\"\\\"immediate\\\"\"}},\"type\":\"task\",\"id\":\"tag/t21542\",\"parents\":[\"tag/t21538\"],\"decorations\":[],\"target\":\"client\",\"entity\":\"activity\"},{\"children\":[\"tag/t21533\"],\"bindings\":{},\"name\":\"agent-notification\",\"params\":{\"notification-type\":{\"source\":\"expression\",\"value\":\"work-initiated\"},\"resource-id\":{\"source\":\"expression\",\"value\":\"{{resource}}.id\"},\"resource\":{\"source\":\"expression\",\"value\":\"{{resource}}\"},\"customer\":{\"source\":\"expression\",\"value\":\"titan/customer\"}},\"type\":\"task\",\"id\":\"tag/t21557\",\"parents\":[\"tag/t21546\"],\"decorations\":[],\"entity\":\"activity\"},{\"children\":[\"tag/t21539\"],\"bindings\":{},\"name\":\"agent-notification\",\"params\":{\"notification-type\":{\"source\":\"expression\",\"value\":\"work-accepted\"},\"resource-id\":{\"source\":\"expression\",\"value\":\"{{resource}}.id\"},\"resource\":{\"source\":\"expression\",\"value\":\"{{resource}}\"},\"customer\":{\"source\":\"expression\",\"value\":\"titan/customer\"}},\"type\":\"task\",\"id\":\"tag/t21544\",\"parents\":[\"tag/t21533\"],\"decorations\":[],\"entity\":\"activity\"},{\"children\":[\"tag/t21540\"],\"bindings\":{},\"name\":\"agent-notification\",\"params\":{\"notification-type\":{\"source\":\"expression\",\"value\":\"work-rejected\"},\"resource-id\":{\"source\":\"expression\",\"value\":\"{{resource}}.id\"},\"resource\":{\"source\":\"expression\",\"value\":\"{{resource}}\"},\"customer\":{\"source\":\"expression\",\"value\":\"titan/customer\"}},\"type\":\"task\",\"id\":\"tag/t21550\",\"parents\":[\"tag/t21553\"],\"decorations\":[],\"entity\":\"activity\"},{\"children\":[\"tag/t21535\"],\"bindings\":{},\"name\":\"free-resource\",\"params\":{\"resource-id\":{\"source\":\"expression\",\"value\":\"{{resource}}.id\"},\"state\":{\"source\":\"expression\",\"value\":\"not-ready\"}},\"type\":\"task\",\"id\":\"tag/t21536\",\"parents\":[\"tag/t21540\"],\"decorations\":[],\"entity\":\"activity\"},{\"children\":[\"tag/t21549\"],\"bindings\":{},\"name\":\"add-participant\",\"params\":{\"resource\":{\"source\":\"expression\",\"value\":\"{{resource}}\"},\"muted\":{\"source\":\"expression\",\"value\":\"false\"},\"disconnectOn\":{\"source\":\"expression\",\"value\":\"{{disconnectOn}}\"}},\"type\":\"task\",\"id\":\"tag/t21545\",\"parents\":[\"tag/t21539\"],\"decorations\":[],\"target\":\"twilio\",\"entity\":\"activity\"},{\"children\":[\"tag/t21551\"],\"bindings\":{},\"name\":\"agent-notification\",\"params\":{\"notification-type\":{\"source\":\"expression\",\"value\":\"work-ended\"},\"resource-id\":{\"source\":\"expression\",\"value\":\"{{resource}}.id\"},\"resource\":{\"source\":\"expression\",\"value\":\"{{resource}}\"},\"customer\":{\"source\":\"expression\",\"value\":\"titan/customer\"}},\"type\":\"task\",\"id\":\"tag/t21543\",\"parents\":[\"tag/t21558\"],\"decorations\":[],\"entity\":\"activity\"},{\"children\":[\"tag/t21541\"],\"bindings\":{},\"name\":\"disconnect\",\"params\":{\"resource\":{\"source\":\"expression\",\"value\":\"{{resource}}\"}},\"type\":\"task\",\"id\":\"tag/t21548\",\"parents\":[\"tag/t21554\"],\"decorations\":[],\"target\":\"twilio\",\"entity\":\"activity\"},{\"children\":[\"tag/t21534\"],\"bindings\":{},\"name\":\"free-resource\",\"params\":{\"resource-id\":{\"source\":\"expression\",\"value\":\"{{resource}}.id\"},\"state\":{\"source\":\"expression\",\"value\":\"ready\"}},\"type\":\"task\",\"id\":\"tag/t21541\",\"parents\":[\"tag/t21548\"],\"decorations\":[],\"entity\":\"activity\"},{\"children\":[\"tag/t21550\"],\"bindings\":{},\"interrupting\":true,\"type\":\"signal\",\"id\":\"tag/t21553\",\"parents\":[\"tag/t21559\"],\"target\":\"resource-disconnect\",\"entity\":\"catch\"}]"
+            "flow": "[{\"children\":[\"tag/t21621\"],\"bindings\":{},\"interrupting\":true,\"type\":\"signal\",\"id\":\"tag/t21643\",\"parents\":[],\"target\":\"resource-acquired\",\"entity\":\"start\"},{\"children\":[\"tag/t21619\"],\"bindings\":{},\"name\":\"dial\",\"params\":{\"from\":{\"source\":\"expression\",\"value\":\"titan/customer\"},\"to\":{\"source\":\"expression\",\"value\":\"{{resource}}.active-extension\"},\"timeout\":{\"source\":\"expression\",\"value\":\"(timestamp (from-now ({{timeout.measurement}} {{timeout.value}})))\"},\"resource\":{\"source\":\"expression\",\"value\":\"resource\"}},\"type\":\"task\",\"id\":\"tag/t21640\",\"parents\":[\"tag/t21631\"],\"decorations\":[\"tag/t21637\"],\"target\":\"twilio\",\"entity\":\"activity\"},{\"children\":[\"tag/t21631\"],\"bindings\":{},\"name\":\"work-offer\",\"params\":{\"resource-id\":{\"source\":\"expression\",\"value\":\"{{resource}}.id\"},\"resource\":{\"source\":\"expression\",\"value\":\"{{resource}}\"},\"timeout\":{\"source\":\"expression\",\"value\":\"(timestamp (from-now ({{timeout.measurement}} {{timeout.value}})))\"},\"search-value\":{\"source\":\"expression\",\"value\":\"titan/customer\"},\"search-value-action\":{\"source\":\"expression\",\"value\":\"\\\"immediate\\\"\"}},\"type\":\"task\",\"id\":\"tag/t21621\",\"parents\":[\"tag/t21643\"],\"decorations\":[],\"target\":\"client\",\"entity\":\"activity\"},{\"id\":\"tag/t21631\",\"children\":[\"tag/t21634\",\"tag/t21640\"],\"parents\":[\"tag/t21621\"],\"entity\":\"gateway\",\"type\":\"parallel\"},{\"children\":[\"tag/t21625\"],\"bindings\":{},\"interrupting\":true,\"type\":\"signal\",\"id\":\"tag/t21637\",\"parents\":[\"tag/t21640\"],\"target\":\"resource-disconnect\",\"entity\":\"catch\"},{\"children\":[\"tag/t21619\"],\"bindings\":{},\"name\":\"agent-notification\",\"params\":{\"notification-type\":{\"source\":\"expression\",\"value\":\"\\\"work-initiated\\\"\"},\"resource-id\":{\"source\":\"expression\",\"value\":\"{{resource}}.id\"},\"resource\":{\"source\":\"expression\",\"value\":\"{{resource}}\"},\"customer\":{\"source\":\"expression\",\"value\":\"titan/customer\"}},\"type\":\"task\",\"id\":\"tag/t21634\",\"parents\":[\"tag/t21631\"],\"decorations\":[],\"target\":\"client\",\"entity\":\"activity\"},{\"id\":\"tag/t21619\",\"children\":[\"tag/t21635\"],\"parents\":[\"tag/t21634\",\"tag/t21640\"],\"entity\":\"gateway\",\"type\":\"parallel\"},{\"children\":[\"tag/t21626\"],\"bindings\":{},\"name\":\"agent-notification\",\"params\":{\"notification-type\":{\"source\":\"expression\",\"value\":\"\\\"work-accepted\\\"\"},\"resource-id\":{\"source\":\"expression\",\"value\":\"{{resource}}.id\"},\"resource\":{\"source\":\"expression\",\"value\":\"{{resource}}\"},\"customer\":{\"source\":\"expression\",\"value\":\"titan/customer\"}},\"type\":\"task\",\"id\":\"tag/t21635\",\"parents\":[\"tag/t21619\"],\"decorations\":[],\"target\":\"client\",\"entity\":\"activity\"},{\"id\":\"tag/t21626\",\"children\":[\"tag/t21620\"],\"parents\":[\"tag/t21635\"],\"entity\":\"throw\",\"type\":\"signal\",\"terminate\":false,\"event\":{\"name\":\"work-accepted\",\"params\":{\"resource\":{\"source\":\"expression\",\"value\":\"resource\"}}}},{\"children\":[\"tag/t21628\"],\"bindings\":{},\"name\":\"agent-notification\",\"params\":{\"notification-type\":{\"source\":\"expression\",\"value\":\"\\\"work-rejected\\\"\"},\"resource-id\":{\"source\":\"expression\",\"value\":\"{{resource}}.id\"},\"resource\":{\"source\":\"expression\",\"value\":\"{{resource}}\"},\"customer\":{\"source\":\"expression\",\"value\":\"titan/customer\"}},\"type\":\"task\",\"id\":\"tag/t21625\",\"parents\":[\"tag/t21637\"],\"decorations\":[],\"target\":\"client\",\"entity\":\"activity\"},{\"id\":\"tag/t21628\",\"children\":[\"tag/t21642\"],\"parents\":[\"tag/t21625\"],\"entity\":\"throw\",\"type\":\"signal\",\"terminate\":false,\"event\":{\"name\":\"work-rejected\",\"params\":{\"resource\":{\"source\":\"expression\",\"value\":\"resource\"}}}},{\"children\":[\"tag/t21638\"],\"bindings\":{},\"name\":\"free-resource\",\"params\":{\"resource-id\":{\"source\":\"expression\",\"value\":\"{{resource}}.id\"},\"state\":{\"source\":\"expression\",\"value\":\"not-ready\"}},\"type\":\"task\",\"id\":\"tag/t21642\",\"parents\":[\"tag/t21628\"],\"decorations\":[],\"entity\":\"activity\"},{\"id\":\"tag/t21638\",\"children\":[],\"parents\":[\"tag/t21642\"],\"entity\":\"throw\",\"type\":\"none\",\"terminate\":true},{\"children\":[\"tag/t21633\"],\"bindings\":{},\"interrupting\":true,\"type\":\"signal\",\"id\":\"tag/t21623\",\"parents\":[\"tag/t21620\"],\"target\":\"resource-disconnect\",\"entity\":\"catch\"},{\"children\":[\"tag/t21623\"],\"bindings\":{},\"name\":\"add-participant\",\"params\":{\"resource\":{\"source\":\"expression\",\"value\":\"{{resource}}\"},\"muted\":{\"source\":\"expression\",\"value\":\"true\"},\"disconnectOn\":{\"source\":\"expression\",\"value\":\"{{disconnectOn}}\"}},\"type\":\"task\",\"id\":\"tag/t21620\",\"parents\":[\"tag/t21626\"],\"decorations\":[],\"target\":\"twilio\",\"entity\":\"activity\"},{\"id\":\"tag/t21633\",\"children\":[\"tag/t21636\",\"tag/t21618\"],\"parents\":[\"tag/t21623\"],\"entity\":\"gateway\",\"type\":\"parallel\"},{\"children\":[\"tag/t21624\"],\"bindings\":{},\"name\":\"agent-notification\",\"params\":{\"notification-type\":{\"source\":\"expression\",\"value\":\"\\\"work-ended\\\"\"},\"resource-id\":{\"source\":\"expression\",\"value\":\"{{resource}}.id\"},\"resource\":{\"source\":\"expression\",\"value\":\"{{resource}}\"},\"customer\":{\"source\":\"expression\",\"value\":\"titan/customer\"}},\"type\":\"task\",\"id\":\"tag/t21636\",\"parents\":[\"tag/t21633\"],\"decorations\":[],\"target\":\"client\",\"entity\":\"activity\"},{\"id\":\"tag/t21618\",\"children\":[\"tag/t21624\"],\"parents\":[\"tag/t21633\"],\"entity\":\"throw\",\"type\":\"signal\",\"terminate\":false,\"event\":{\"name\":\"remove-participant\",\"params\":{\"resource\":{\"source\":\"expression\",\"value\":\"resource\"}}}},{\"id\":\"tag/t21624\",\"children\":[\"tag/t21632\"],\"parents\":[\"tag/t21636\",\"tag/t21618\"],\"entity\":\"gateway\",\"type\":\"parallel\"},{\"id\":\"tag/t21632\",\"children\":[],\"parents\":[\"tag/t21624\"],\"entity\":\"throw\",\"type\":\"none\",\"terminate\":true},{\"children\":[\"tag/t21630\"],\"bindings\":{},\"name\":\"disconnect\",\"params\":{\"resource\":{\"source\":\"expression\",\"value\":\"{{resource}}\"}},\"type\":\"task\",\"id\":\"tag/t21641\",\"parents\":[\"tag/t21644\"],\"decorations\":[],\"target\":\"twilio\",\"entity\":\"activity\"},{\"children\":[\"tag/t21641\"],\"bindings\":{},\"interrupting\":true,\"type\":\"signal\",\"id\":\"tag/t21644\",\"parents\":[],\"target\":\"customer-disconnect\",\"entity\":\"start\"},{\"children\":[\"tag/t21622\"],\"bindings\":{},\"name\":\"free-resource\",\"params\":{\"resource-id\":{\"source\":\"expression\",\"value\":\"{{resource}}.id\"},\"state\":{\"source\":\"expression\",\"value\":\"ready\"}},\"type\":\"task\",\"id\":\"tag/t21630\",\"parents\":[\"tag/t21641\"],\"decorations\":[],\"entity\":\"activity\"},{\"id\":\"tag/t21622\",\"children\":[],\"parents\":[\"tag/t21630\"],\"entity\":\"throw\",\"type\":\"none\",\"terminate\":true}]"
         },
         {
             "name": "customer-hold-resume",
