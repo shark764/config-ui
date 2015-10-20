@@ -1,44 +1,75 @@
-<div class="query-component">
-  <group-query-modifier
-    id="basic-query-all-groups"
-    class="input-group"
-    parent-map="rootMap"
-    query="version.query"
-    label-key="queue.query.builder.groups.all"
-    placeholder-key="queue.query.builder.groups.placeholder"
-    operator="and">
-  </group-query-modifier>
+<div class="input-group">
+  <label>Add a filter: </label>
+  
+  <div>
+    <select ng-model="selectedComponent" ng-options="component as component.display for (k, component) in queryComponents">
+      <option value="" disabled>Select filter...</option>
+    </select>
+  
+    <button class="add btn" type="button"
+      ng-disabled="! selectedComponent"
+      ng-click="add(selectedComponent)">
+    
+      <i class="fa fa-plus"></i>
+    </button>
+  </div>
+</div>
 
-  <group-query-modifier
-    id="basic-query-any-groups"
-    class="input-group"
-    ng-class="{'has-elements': modifier.operands().length}"
-    parent-map="rootMap"
-    query="version.query"
-    label-key="queue.query.builder.groups.some"
-    placeholder-key="queue.query.builder.groups.placeholder"
-    operator="or">
-  </group-query-modifier>
+<div class="details-group">
+  <div class="query-component" ng-show="groupcomponent">
+    <div class="divider-header">
+      <h4 class="">Group Filters</h4>
+    </div>
+    
+    <group-query-modifier
+      id="basic-query-all-groups"
+      class="input-group"
+      parent-map="rootMap"
+      query="version.query"
+      label-key="queue.query.builder.groups.all"
+      placeholder-key="queue.query.builder.groups.placeholder"
+      operator="and">
+    </group-query-modifier>
+  
+    <group-query-modifier
+      id="basic-query-any-groups"
+      class="input-group"
+      ng-class="{'has-elements': modifier.operands().length}"
+      parent-map="rootMap"
+      query="version.query"
+      label-key="queue.query.builder.groups.some"
+      placeholder-key="queue.query.builder.groups.placeholder"
+      operator="or">
+    </group-query-modifier>
+  </div>
+</div>
 
-  <skill-query-modifier
-    id="basic-query-all-skills"
-    class="input-group"
-    ng-class="{'has-elements': modifier.operands().length}"
-    parent-map="rootMap"
-    query="version.query"
-    label-key="queue.query.builder.skills.all"
-    placeholder-key="queue.query.builder.skills.placeholder"
-    operator="and">
-  </skill-query-modifier>
-
-  <skill-query-modifier
-    id="basic-query-any-skills"
-    class="input-group"
-    ng-class="{'has-elements': modifier.operands().length}"
-    parent-map="rootMap"
-    query="version.query"
-    label-key="queue.query.builder.skills.some"
-    placeholder-key="queue.query.builder.skills.placeholder"
-    operator="or">
-  </skill-query-modifier>
+<div class="details-group">
+  <div class="query-component" ng-show="skillcomponent">
+    <div class="divider-header">
+      <h4 class="">Skill Filters</h4>
+    </div>
+    
+    <skill-query-modifier
+      id="basic-query-all-skills"
+      class="input-group"
+      ng-class="{'has-elements': modifier.operands().length}"
+      parent-map="rootMap"
+      query="version.query"
+      label-key="queue.query.builder.skills.all"
+      placeholder-key="queue.query.builder.skills.placeholder"
+      operator="and">
+    </skill-query-modifier>
+  
+    <skill-query-modifier
+      id="basic-query-any-skills"
+      class="input-group"
+      ng-class="{'has-elements': modifier.operands().length}"
+      parent-map="rootMap"
+      query="version.query"
+      label-key="queue.query.builder.skills.some"
+      placeholder-key="queue.query.builder.skills.placeholder"
+      operator="or">
+    </skill-query-modifier>
+  </div>
 </div>

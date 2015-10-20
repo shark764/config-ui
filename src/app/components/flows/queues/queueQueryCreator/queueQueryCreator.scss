@@ -24,10 +24,12 @@ queue-query-creator{
     margin-left: 5px;
   }
   
-  .query-component + .query-component {
-    border-top: 1px solid $lightest-grey;
-    margin-top: 20px;
-    padding-top: 20px;
+  .query-component {
+    margin-left: 10px;
+    
+    h4 {
+      color: $dark-grey;
+    }
   }
   
   .tag {

@@ -20,5 +20,22 @@ angular.module('liveopsConfigPanel')
         
         $scope.rootMap = jsedn.parse(newQuery);
       });
+      
+      $scope.queryComponents = {
+        'skillcomponent': {
+          display:'Skills',
+          key: 'skillcomponent'
+        }, 
+        'groupcomponent': {
+          display:'Groups',
+          key: 'groupcomponent'
+        }
+      };
+      
+      $scope.add = function(selectedComponent){
+        $scope.selectedComponent = null;
+        $scope[selectedComponent.key] = true;
+        delete $scope.queryComponents[selectedComponent.key];
+      };
     }
   ]);
