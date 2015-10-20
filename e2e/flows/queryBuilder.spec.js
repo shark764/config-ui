@@ -407,7 +407,7 @@ describe('The basic query builder', function() {
     });
   });
 
-  it('should be updated when advanced query is altered', function() {
+  xit('should be updated when advanced query is altered', function() {
     var updatedAdvancedQuery;
     shared.createBtn.click();
 

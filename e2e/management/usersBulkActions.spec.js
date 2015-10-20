@@ -83,7 +83,7 @@ describe('The users view bulk actions', function() {
   });
 
   it('should not allow updates to current user status', function() {
-    shared.searchField.sendKeys(params.login.firstName + ' ' + params.login.lastName);
+    shared.searchField.sendKeys(params.login.user);
     bulkActions.selectAllTableHeader.click();
 
     shared.actionsBtn.click();
@@ -560,7 +560,8 @@ describe('The users view bulk actions', function() {
     });
   });
 
-  it('should allow selected user\'s groups to be added', function() {
+  xit('should allow selected user\'s groups to be added', function() {
+    // TODO BUG TITAN2-4491
     shared.actionsBtn.click();
 
     // Select first three users; ASSUMPTION three exist
@@ -647,7 +648,8 @@ describe('The users view bulk actions', function() {
     });
   });
 
-  it('should allow multiple groups to be added to the selected users', function() {
+  xit('should allow multiple groups to be added to the selected users', function() {
+    // TODO BUG TITAN2-4491
     shared.actionsBtn.click();
 
     // Select first three users; ASSUMPTION three exist
@@ -657,7 +659,6 @@ describe('The users view bulk actions', function() {
 
     bulkActions.selectChangeGroups.click();
 
-    // Remove all Groups
     bulkActions.selectGroupsInputFields.get(0).click();
     bulkActions.selectGroupsInputFields.get(0).all(by.css('option')).count().then(function(groupCount) {
       bulkActions.removeGroupBtns.get(0).click().then(function() {

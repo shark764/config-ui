@@ -42,7 +42,7 @@ describe('The user invitation', function() {
   // and invite emails being sent to the email specified when creating the user
 
   describe('email', function() {
-    it('should not be sent when creating a new user and Invite Now is deselected', function() {
+    xit('should not be sent when creating a new user and Invite Now is deselected', function() {
       // Add randomness to user details
       randomUser = Math.floor((Math.random() * 1000) + 1);
       newUserEmail = 'titantest' + randomUser + '@mailinator.com';
@@ -90,7 +90,7 @@ describe('The user invitation', function() {
       });
     });
 
-    it('should be sent after creating a new user and selecting Send Invitation', function() {
+    xit('should be sent after creating a new user and selecting Send Invitation', function() {
       // User previoiusly created user
       shared.searchField.sendKeys(newUserEmail);
       shared.firstTableRow.click();
@@ -127,7 +127,7 @@ describe('The user invitation', function() {
       });
     });
 
-    it('should be sent when creating a new user', function() {
+    xit('should be sent when creating a new user', function() {
       // Add randomness to user details
       randomUser = Math.floor((Math.random() * 1000) + 1);
       newUserEmail = 'titantest' + randomUser + '@mailinator.com';
@@ -187,7 +187,7 @@ describe('The user invitation', function() {
       });
     });
 
-    it('contain user information and accept link', function() {
+    xit('contain user information and accept link', function() {
       // NOTE: Add randomUser when emails are sent to the user email and not redirected
       //req.get('https://api.mailinator.com/api/inbox?to=titantest' + randomUser + '&token=' + params.mailinator.token, '', function(error, response, body) {
       req.get('https://api.mailinator.com/api/inbox?to=titantest&token=' + params.mailinator.token, '', function(error, response, body) {
@@ -217,7 +217,7 @@ describe('The user invitation', function() {
       });
     });
 
-    it('should link to the invitation accept form', function() {
+    xit('should link to the invitation accept form', function() {
       // Add randomness to user details
       randomUser = Math.floor((Math.random() * 1000) + 1);
       newUserEmail = 'titantest' + randomUser + '@mailinator.com';
@@ -269,7 +269,7 @@ describe('The user invitation', function() {
   });
 
   describe('acceptance form', function() {
-    it('should include supported fields and user details', function() {
+    xit('should include supported fields and user details', function() {
       loginPage.login(params.login.user, params.login.password);
       browser.get(shared.usersPageUrl);
 
@@ -342,7 +342,7 @@ describe('The user invitation', function() {
       });
     });
 
-    it('should include non-required fields when provided', function() {
+    xit('should include non-required fields when provided', function() {
       loginPage.login(params.login.user, params.login.password);
       browser.get(shared.usersPageUrl);
 
@@ -407,7 +407,7 @@ describe('The user invitation', function() {
       });
     });
 
-    it('should include Copyright and Legal information', function() {
+    xit('should include Copyright and Legal information', function() {
       // NOTE: This test uses the acceptInvitationLink from the previous test
       browser.get(acceptInvitationLink);
 
@@ -418,7 +418,7 @@ describe('The user invitation', function() {
       expect(invites.signupLegalLabel.getText()).toBe(invites.legalText);
     });
 
-    it('should require completed fields', function() {
+    xit('should require completed fields', function() {
       browser.get(acceptInvitationLink);
 
       invites.passwordFormField.sendKeys('temp');
@@ -434,7 +434,7 @@ describe('The user invitation', function() {
       expect(invites.submitFormBtn.getAttribute('disabled')).toBeTruthy();
     });
 
-    it('should require password field input', function() {
+    xit('should require password field input', function() {
       browser.get(acceptInvitationLink);
 
       invites.passwordFormField.sendKeys('temp');
@@ -445,7 +445,7 @@ describe('The user invitation', function() {
       expect(invites.errors.get(0).getText()).toBe('Please enter a password');
     });
 
-    it('should not require first, last name or external id field input', function() {
+    xit('should not require first, last name or external id field input', function() {
       browser.get(acceptInvitationLink);
 
       invites.passwordFormField.sendKeys('password\t');
@@ -470,7 +470,7 @@ describe('The user invitation', function() {
       expect(invites.errors.get(3).getText()).toBe('Please enter an external id');
     });
 
-    it('should accept invitation', function() {
+    xit('should accept invitation', function() {
       browser.get(acceptInvitationLink);
 
       invites.passwordFormField.sendKeys('password');
@@ -503,7 +503,7 @@ describe('The user invitation', function() {
 
 
   describe('cancel', function() {
-    it('should display confirmation modal', function() {
+    xit('should display confirmation modal', function() {
       // Add randomness to user details
       randomUser = Math.floor((Math.random() * 1000) + 1);
       newUserEmail = 'titantest' + randomUser + '@mailinator.com';
@@ -543,7 +543,7 @@ describe('The user invitation', function() {
       });
     });
 
-    it('should update tenant status and Resend button after confirming', function() {
+    xit('should update tenant status and Resend button after confirming', function() {
       // Uses new user from previous test
       shared.searchField.sendKeys(newUserEmail);
       shared.firstTableRow.click();
@@ -561,7 +561,7 @@ describe('The user invitation', function() {
       });
     });
 
-    it('should not allow user to accept the invitation', function() {
+    xit('should not allow user to accept the invitation', function() {
       // Get accept link from expired invitation email
 
       // NOTE: Add randomUser when emails are sent to the user email and not redirected
@@ -618,7 +618,7 @@ describe('The user invitation', function() {
       tenants.selectTenant(newTenantName);
     });
 
-    it('should display message but not user details', function() {
+    xit('should display message but not user details', function() {
       shared.createBtn.click();
 
       // newUserEmail is already set to a value used for the previous tenants new user
@@ -646,7 +646,7 @@ describe('The user invitation', function() {
       expect(users.submitFormBtn.isEnabled()).toBeTruthy();
     });
 
-    it('should not send invitation email when Invite Now is deselected', function() {
+    xit('should not send invitation email when Invite Now is deselected', function() {
       browser.get(shared.usersPageUrl);
       shared.createBtn.click();
 
@@ -697,7 +697,7 @@ describe('The user invitation', function() {
       });
     });
 
-    it('should send invitation email when Invite Now is deselected and selecting Send Invitation', function() {
+    xit('should send invitation email when Invite Now is deselected and selecting Send Invitation', function() {
       browser.get(shared.usersPageUrl);
       shared.searchField.sendKeys(newUserEmail);
       shared.firstTableRow.click();
@@ -739,7 +739,7 @@ describe('The user invitation', function() {
       });
     });
 
-    it('should send invitation email', function() {
+    xit('should send invitation email', function() {
       // Create new Tenant that tests will use; admin defaults to current user
       browser.get(shared.tenantsPageUrl);
       newTenantName = tenants.createTenant();
@@ -831,7 +831,7 @@ describe('The user invitation', function() {
       expect(browser.getCurrentUrl()).toContain(shared.loginPageUrl);
     });
 
-    it('should accept invitation after login', function() {
+    xit('should accept invitation after login', function() {
       browser.get(acceptInvitationLink);
 
       loginPage.emailLoginField.sendKeys(newUserEmail);
@@ -848,7 +848,7 @@ describe('The user invitation', function() {
       expect([newTenantName, defaultTenantName]).toContain(shared.tenantsNavDropdownContents.get(1).getText());
     });
 
-    it('should display user details after the invitation is accepted', function() {
+    xit('should display user details after the invitation is accepted', function() {
       shared.searchField.sendKeys(newUserEmail);
       shared.firstTableRow.click();
 
