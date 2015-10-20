@@ -11,7 +11,7 @@
              '</g></g><text class="label"/>'].join(''),
     defaults: joint.util.deepSupplement({
       type: 'liveOps.gateway',
-      size: {width: 80, height: 80},
+      size: {width: 60, height: 60},
       attrs: {
           '.body': {
             points: '40,0 80,40 40,80 0,40',

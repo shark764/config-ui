@@ -21,7 +21,7 @@ function flowDesigner() {
           var graphOptions = {
             width: 2000,
             height: 2000,
-            gridSize: 20,
+            gridSize: 12,
             perpendicularLinks: true,
             embeddingMode: true,
             frontParentOnly: false,
