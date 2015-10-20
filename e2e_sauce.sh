@@ -10,7 +10,7 @@ export SAUCE_ACCESS_KEY=$2
 export SAUCE_TUNNEL=$3
 
 export SAUCE_BUILD=stageing
-export SAUCE_TAG=temp-testing-timeouts-names
+export SAUCE_TAG=regression
 
 FILES="$( cd "$(dirname "${BASH_SOURCE}")" ; pwd -P )"/e2e/**/*.spec.js
 
