@@ -763,7 +763,6 @@ describe('The users table filter', function() {
       expect(users.dropdownTenantStatuses.get(2).getText()).toBe('Pending Invitation');
       expect(users.dropdownTenantStatuses.get(3).getText()).toBe('Accepted');
       expect(users.dropdownTenantStatuses.get(4).getText()).toBe('Pending Acceptance');
-      expect(users.dropdownTenantStatuses.get(5).getText()).toBe('Removed');
 
       // All input is selected by default
       expect(users.dropdownTenantStatusInputs.get(0).isSelected()).toBeTruthy();
@@ -773,7 +772,6 @@ describe('The users table filter', function() {
       expect(users.dropdownTenantStatusInputs.get(3).isSelected()).toBeFalsy();
       expect(users.dropdownTenantStatusInputs.get(4).isSelected()).toBeFalsy();
       expect(users.dropdownTenantStatusInputs.get(5).isSelected()).toBeFalsy();
-      expect(users.dropdownTenantStatusInputs.get(6).isSelected()).toBeFalsy();
     });
   });
 

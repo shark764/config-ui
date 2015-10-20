@@ -120,8 +120,8 @@ describe('SkillsController', function () {
       skill.fetchSkillUsers();
       $httpBackend.flush();
       
-      expect(skill.members).toBeDefined();
-      expect(skill.members.length).toEqual(2);
+      expect(skill.$members).toBeDefined();
+      expect(skill.$members.length).toEqual(2);
     });
   });
   
