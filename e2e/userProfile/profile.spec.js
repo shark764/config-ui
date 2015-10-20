@@ -6,7 +6,9 @@ describe('The profile view', function() {
     profile = require('./profile.po.js'),
     tenants = require('../configuration/tenants.po.js'),
     users = require('../management/users.po.js'),
-    params = browser.params;
+    params = browser.params,
+    defaultTenantName,
+    newTenantName;
 
   beforeAll(function() {
     loginPage.login(params.login.user, params.login.password);
@@ -191,11 +193,10 @@ describe('The profile view', function() {
 
   it('should display user groups and skills for the current tenant', function() {
     browser.get(shared.tenantsPageUrl);
-    var defaultTenantName;
     shared.tenantsNavDropdown.getText().then(function(selectTenantNav) {
       defaultTenantName = selectTenantNav;
     });
-    var newTenantName = tenants.createTenant();
+    newTenantName = tenants.createTenant();
     tenants.selectTenant(newTenantName);
 
     // No skills or groups for the new Tenant
@@ -205,6 +206,10 @@ describe('The profile view', function() {
     expect(profile.noUserSkillsMessage.isDisplayed()).toBeTruthy();
     expect(profile.userGroups.count()).toBe(0);
     expect(profile.noUserGroupsMessage.isDisplayed()).toBeTruthy();
+  });
+
+  it('should add new user groups and skills for the current tenant', function() {
+    tenants.selectTenant(newTenantName);
 
     // Add user skill and group
     browser.get(shared.usersPageUrl);
@@ -225,6 +230,7 @@ describe('The profile view', function() {
       expect(profile.userGroups.get(0).getText()).toBe('User Group ' + newTenantName);
 
       tenants.selectTenant(defaultTenantName);
+      profile.waitForUserSkills();
       profile.userSkills.each(function(userSkillItem) {
         expect(userSkillItem.getText()).not.toContain('User Skill ' + newTenantName);
       });

@@ -126,6 +126,14 @@ var Shared = function() {
     );
   };
 
+  this.waitForConfirm = function () {
+    browser.driver.wait(function() {
+      return element(by.css('#modal .confirm')).isPresent().then(function (confirmDisplayed) {
+          return confirmDisplayed;
+      });
+    }, 5000);
+  };
+
   this.tearDown = function() {
     // Ignore unsaved changes warnings
     browser.switchTo().alert().then(

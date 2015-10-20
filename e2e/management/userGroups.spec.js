@@ -175,6 +175,7 @@ describe('The user groups component of User view', function() {
   });
 
   it('should allow the user to be added to each group once', function() {
+    // TODO Times out when there are a lot of groups
     // Create a new user
     shared.createBtn.click();
     var randomUser = Math.floor((Math.random() * 1000) + 1);

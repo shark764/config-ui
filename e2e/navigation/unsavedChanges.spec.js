@@ -12,11 +12,11 @@ describe('The unsaved changes warning', function() {
 
   beforeAll(function() {
     loginPage.login(params.login.user, params.login.password);
-    //browser.get(shared.usersPageUrl);
+    browser.get(shared.usersPageUrl);
   });
 
   afterAll(function() {
-    //shared.tearDown();
+    shared.tearDown();
   });
 
   it('should be displayed after changing form fields and selecting cancel', function() {

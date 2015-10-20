@@ -17,7 +17,7 @@ var UserPage = function() {
   this.tenantRoles = ['Administrator', 'Supervisor', 'Agent'];
   this.platformRoleFormDropdown = element(by.name('platformRoleId'));
   this.platformRoleFormDropdownOptions = this.platformRoleFormDropdown.all(by.css('option'));
-  this.platformRoles = ['Platform Administrator', 'Platform User'];
+  this.platformRoles = ['Platform User', 'Platform Administrator'];
 
   this.inviteNowFormToggle = element(by.model('selectedTenantUser.status'));
   this.inviteNowHelp = element(by.id('invite-now-help'));

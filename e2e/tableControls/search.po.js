@@ -7,7 +7,7 @@ var Search = function() {
     var searchTermFound = false;
 
     // Users name, email, skills, or groups contain search phrase
-    for (var i = 0; i < rows.length; ++i) {
+    for (var i = 0; i < rows.length && i < 10; ++i) { // Limit test length
       rows[i].click();
       rows[i].getText().then(function(userRowText) {
         if (userRowText.toLowerCase().indexOf(searchTerm) > -1) {
@@ -15,7 +15,7 @@ var Search = function() {
         };
       });
       users.userSkills.then(function(userSkillElements) {
-        for (var i = 0; i < userSkillElements.length; i++) {
+        for (var i = 0; i < userSkillElements.length && !searchTermFound; i++) {
           userSkillElements[i].getText().then(function(skillName) {
             if (skillName.toLowerCase().indexOf(searchTerm) > -1) {
               searchTermFound = true;
@@ -24,7 +24,7 @@ var Search = function() {
         }
       });
       users.userGroups.then(function(userGroupsElements) {
-        for (var i = 0; i < userGroupsElements.length; i++) {
+        for (var i = 0; i < userGroupsElements.length && !searchTermFound; i++) {
           userGroupsElements[i].getText().then(function(groupName) {
             if (groupName.toLowerCase().indexOf(searchTerm) > -1) {
               searchTermFound = true;
@@ -41,7 +41,7 @@ var Search = function() {
     var searchTermFound = false;
 
     // Users name, email, skills, or groups contain search phrase
-    for (var i = 0; i < rows.length; ++i) {
+    for (var i = 0; i < rows.length && i < 10; ++i) { // Limit test length
       rows[i].click();
       rows[i].getText().then(function(userRowText) {
         if (userRowText.toLowerCase().search(searchTermRegex) > -1) {
@@ -49,7 +49,7 @@ var Search = function() {
         };
       });
       users.userSkills.then(function(userSkillElements) {
-        for (var i = 0; i < userSkillElements.length; i++) {
+        for (var i = 0; i < userSkillElements.length && !searchTermFound; i++) {
           userSkillElements[i].getText().then(function(skillName) {
             if (skillName.toLowerCase().search(searchTermRegex) > -1) {
               searchTermFound = true;
@@ -58,7 +58,7 @@ var Search = function() {
         }
       });
       users.userGroups.then(function(userGroupsElements) {
-        for (var i = 0; i < userGroupsElements.length; i++) {
+        for (var i = 0; i < userGroupsElements.length && !searchTermFound; i++) {
           userGroupsElements[i].getText().then(function(groupName) {
             if (groupName.toLowerCase().search(searchTermRegex) > -1) {
               searchTermFound = true;

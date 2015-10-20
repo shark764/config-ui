@@ -26,7 +26,7 @@ describe('The groups view bulk actions', function() {
     // Ignore unsaved changes warnings
     browser.executeScript("window.onbeforeunload = function(){};");
     browser.get(shared.groupsPageUrl);
-    shared.tableElements.count().then(function(count){
+    shared.tableElements.count().then(function(count) {
       groupCount = count;
     });
   });
@@ -64,7 +64,7 @@ describe('The groups view bulk actions', function() {
           expect(shared.errorMessage.getText()).toContain('Cannot disable the Everyone group.');
 
           // Form not reset
-          expect(bulkActions.submitFormBtn.getAttribute('disabled')) .toBeFalsy();
+          expect(bulkActions.submitFormBtn.getAttribute('disabled')).toBeFalsy();
           expect(bulkActions.enableToggle.getAttribute('disabled')).toBeFalsy();
         });
       }
@@ -130,33 +130,33 @@ describe('The groups view bulk actions', function() {
       });
     });
 
-    bulkActions.selectEnable.click();
-    bulkActions.enableToggleClick.click();
+    bulkActions.selectEnable.click().then(function() {
+      bulkActions.enableToggleClick.click();
 
-    expect(bulkActions.submitFormBtn.getAttribute('disabled')).toBeFalsy();
-    bulkActions.submitFormBtn.click();
+      expect(bulkActions.submitFormBtn.getAttribute('disabled')).toBeFalsy();
+      bulkActions.submitFormBtn.click();
+      expect(bulkActions.confirmModal.isDisplayed()).toBeTruthy();
+      bulkActions.confirmOK.click().then(function() {
+        expect(shared.successMessage.isDisplayed()).toBeTruthy();
 
-    expect(bulkActions.confirmModal.isDisplayed()).toBeTruthy();
-    bulkActions.confirmOK.click().then(function() {
-      expect(shared.successMessage.isDisplayed()).toBeTruthy();
+        // Form reset
+        expect(bulkActions.submitFormBtn.getAttribute('disabled')).toBeTruthy();
+        expect(bulkActions.enableToggle.getAttribute('disabled')).toBeTruthy();
 
-      // Form reset
-      expect(bulkActions.submitFormBtn.getAttribute('disabled')).toBeTruthy();
-      expect(bulkActions.enableToggle.getAttribute('disabled')).toBeTruthy();
+        // All groups are set to enabled
+        // Select Disabled from Status drop down
+        bulkActions.statusColumnDropDownLabel.click();
+        bulkActions.statuses.get(0).click();
+        shared.tableElements.count().then(function(disabledTotal) {
+          expect(disabledTotal).toBe(0);
+        });
 
-      // All groups are set to enabled
-      // Select Disabled from Status drop down
-      bulkActions.statusColumnDropDownLabel.click();
-      bulkActions.statuses.get(0).click();
-      shared.tableElements.count().then(function(disabledTotal) {
-        expect(disabledTotal).toBe(0);
-      });
-
-      // Select Enabled from Status drop down
-      bulkActions.statuses.get(0).click();
-      bulkActions.statuses.get(1).click();
-      shared.tableElements.count().then(function(enabledTotal) {
-        expect(enabledTotal).toBe(groupCount);
+        // Select Enabled from Status drop down
+        bulkActions.statuses.get(0).click();
+        bulkActions.statuses.get(1).click();
+        shared.tableElements.count().then(function(enabledTotal) {
+          expect(enabledTotal).toBe(groupCount);
+        });
       });
     });
   });
@@ -196,28 +196,28 @@ describe('The groups view bulk actions', function() {
 
       // Disable selected Groups
       bulkActions.selectEnable.click();
-      bulkActions.submitFormBtn.click();
 
-      expect(bulkActions.confirmModal.isDisplayed()).toBeTruthy();
-      bulkActions.confirmOK.click().then(function() {
-        expect(shared.successMessage.isDisplayed()).toBeTruthy();
+      bulkActions.submitFormBtn.click().then(function() {
+        expect(bulkActions.confirmModal.isDisplayed()).toBeTruthy();
+        bulkActions.confirmOK.click().then(function() {
+          expect(shared.successMessage.isDisplayed()).toBeTruthy();
 
-        // Form reset
-        expect(bulkActions.submitFormBtn.getAttribute('disabled')).toBeTruthy();
-        expect(bulkActions.enableToggle.getAttribute('disabled')).toBeTruthy();
+          // Form reset
+          expect(bulkActions.submitFormBtn.getAttribute('disabled')).toBeTruthy();
+          expect(bulkActions.enableToggle.getAttribute('disabled')).toBeTruthy();
 
-        shared.tableElements.each(function(groupElement, elementIndex) {
-          groupElement.getText().then(function(groupText) {
-            if (groupText.indexOf('everyone') == -1 && elementIndex % 2 > 0) {
-              // Group was updated to Disabled
-              expect(groupText).toContain('Disabled');
-            } else {
-              // Group status remains unchanged
-              expect(groupText).toBe(originalGroups[elementIndex].getText());
-            }
+          shared.tableElements.each(function(groupElement, elementIndex) {
+            groupElement.getText().then(function(groupText) {
+              if (groupText.indexOf('everyone') == -1 && elementIndex % 2 > 0) {
+                // Group was updated to Disabled
+                expect(groupText).toContain('Disabled');
+              } else {
+                // Group status remains unchanged
+                expect(groupText).toBe(originalGroups[elementIndex].getText());
+              }
+            });
           });
         });
-
       });
     });
   });
