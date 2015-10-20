@@ -1,17 +1,18 @@
 <div class="input-group">
   <label>Add a filter: </label>
   
-  <div>
+  <div class="instant-add">
     <select ng-model="selectedComponent" ng-options="component as component.display for (k, component) in queryComponents">
       <option value="" disabled>Select filter...</option>
     </select>
-  
-    <button class="add btn" type="button"
-      ng-disabled="! selectedComponent"
-      ng-click="add(selectedComponent)">
-    
-      <i class="fa fa-plus"></i>
-    </button>
+    <div style="width: 40px;">
+      <button class="add btn" type="button"
+        ng-disabled="! selectedComponent"
+        ng-click="add(selectedComponent)">
+      
+        <i class="fa fa-plus"></i>
+      </button>
+    </div>
   </div>
 </div>
 
