@@ -63,7 +63,8 @@ angular.module('liveopsConfigPanel')
                 }
               });
             } else {
-              return Group.cachedQuery({
+
+              $scope.availableGroups = Group.cachedQuery({
                 tenantId: Session.tenant.tenantId
               });
             }
