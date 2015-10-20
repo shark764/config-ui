@@ -5,15 +5,15 @@ describe('The view navigation', function() {
     shared = require('../shared.po.js'),
     params = browser.params;
 
-  beforeAll(function() {
-    shared.tearDown();
-  });
-
   afterAll(function() {
     shared.tearDown();
   });
 
   describe('when not logged in', function() {
+    beforeAll(function() {
+      shared.tearDown();
+    });
+
     it('should redirect to login page when there is no page specified', function() {
       browser.get(shared.rootURL);
       expect(browser.getCurrentUrl()).toBe(shared.loginPageUrl);
@@ -37,9 +37,11 @@ describe('The view navigation', function() {
   });
 
   describe('when logged in', function() {
-    it('should navigate to correct page', function() {
+    beforeAll(function() {
       loginPage.login(params.login.user, params.login.password);
+    });
 
+    it('should navigate to correct page', function() {
       browser.get(shared.usersPageUrl);
       expect(browser.getCurrentUrl()).toContain(shared.usersPageUrl);
 

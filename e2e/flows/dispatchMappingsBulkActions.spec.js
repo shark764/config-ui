@@ -13,6 +13,7 @@ describe('The dispatchMappings view bulk actions', function() {
 
     loginPage.login(params.login.user, params.login.password);
 
+    /* TODO Update based on new flow creation
     // Create flow required for Dispatch Mapping
     browser.get(shared.flowsPageUrl);
     shared.createBtn.click();
@@ -34,7 +35,7 @@ describe('The dispatchMappings view bulk actions', function() {
         shared.waitForSuccess();
         expect(shared.successMessage.isDisplayed()).toBeTruthy();
       });
-    });
+    });*/
   });
 
   beforeEach(function() {

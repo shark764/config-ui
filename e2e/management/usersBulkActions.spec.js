@@ -91,6 +91,7 @@ describe('The users view bulk actions', function() {
 
     bulkActions.submitFormBtn.click();
 
+    shared.waitForConfirm();
     expect(bulkActions.confirmModal.isDisplayed()).toBeTruthy();
     bulkActions.confirmOK.click().then(function() {
       expect(shared.successMessage.isPresent()).toBeFalsy();
@@ -137,6 +138,7 @@ describe('The users view bulk actions', function() {
             expect(bulkActions.submitFormBtn.getAttribute('disabled')).toBeFalsy();
             bulkActions.submitFormBtn.click();
 
+            shared.waitForConfirm();
             expect(bulkActions.confirmModal.isDisplayed()).toBeTruthy();
             bulkActions.confirmOK.click().then(function() {
 
@@ -206,6 +208,7 @@ describe('The users view bulk actions', function() {
 
               bulkActions.submitFormBtn.click();
 
+              shared.waitForConfirm();
               expect(bulkActions.confirmModal.isDisplayed()).toBeTruthy();
               bulkActions.confirmOK.click().then(function() {
 
@@ -264,6 +267,7 @@ describe('The users view bulk actions', function() {
 
     bulkActions.selectSkillsInputFields.get(0).$('option:checked').getText().then(function(addedSkillName) {
       bulkActions.submitFormBtn.click();
+      shared.waitForConfirm();
       expect(bulkActions.confirmModal.isDisplayed()).toBeTruthy();
       bulkActions.confirmOK.click().then(function() {
         shared.waitForSuccess();
@@ -316,6 +320,7 @@ describe('The users view bulk actions', function() {
 
     bulkActions.selectSkillsInputFields.get(0).$('option:checked').getText().then(function(removedSkillName) {
       bulkActions.submitFormBtn.click();
+      shared.waitForConfirm();
       expect(bulkActions.confirmModal.isDisplayed()).toBeTruthy();
       bulkActions.confirmOK.click().then(function() {
         shared.waitForSuccess().then(function() {
@@ -360,6 +365,8 @@ describe('The users view bulk actions', function() {
         }
       }).then(function() {
         bulkActions.submitFormBtn.click();
+
+        shared.waitForConfirm();
         expect(bulkActions.confirmModal.isDisplayed()).toBeTruthy();
         bulkActions.confirmOK.click().then(function() {
           expect(shared.successMessage.isDisplayed()).toBeTruthy();
@@ -409,6 +416,8 @@ describe('The users view bulk actions', function() {
       }
     }).then(function() {
       bulkActions.submitFormBtn.click();
+
+      shared.waitForConfirm();
       expect(bulkActions.confirmModal.isDisplayed()).toBeTruthy();
       bulkActions.confirmOK.click().then(function() {
         expect(shared.successMessage.isDisplayed()).toBeTruthy();
@@ -482,6 +491,7 @@ describe('The users view bulk actions', function() {
       bulkActions.selectSkillsInputFields.get(0).sendKeys(newSkillName + '\t');
 
       bulkActions.submitFormBtn.click();
+      shared.waitForConfirm();
       expect(bulkActions.confirmModal.isDisplayed()).toBeTruthy();
       bulkActions.confirmOK.click().then(function() {
         expect(shared.successMessage.isDisplayed()).toBeTruthy();
@@ -521,6 +531,7 @@ describe('The users view bulk actions', function() {
         bulkActions.skillProficiencyFields.get(0).element(by.css('input')).sendKeys('55\t');
 
         bulkActions.submitFormBtn.click();
+        shared.waitForConfirm();
         expect(bulkActions.confirmModal.isDisplayed()).toBeTruthy();
         bulkActions.confirmOK.click().then(function() {
           expect(shared.successMessage.isDisplayed()).toBeTruthy();
@@ -574,6 +585,7 @@ describe('The users view bulk actions', function() {
 
     bulkActions.selectGroupsInputFields.get(0).$('option:checked').getText().then(function(addedGroupName) {
       bulkActions.submitFormBtn.click();
+      shared.waitForConfirm();
       expect(bulkActions.confirmModal.isDisplayed()).toBeTruthy();
       bulkActions.confirmOK.click().then(function() {
         expect(shared.successMessage.isDisplayed()).toBeTruthy();
@@ -619,6 +631,7 @@ describe('The users view bulk actions', function() {
 
     bulkActions.selectGroupsInputFields.get(0).$('option:checked').getText().then(function(removedGroupName) {
       bulkActions.submitFormBtn.click();
+      shared.waitForConfirm();
       expect(bulkActions.confirmModal.isDisplayed()).toBeTruthy();
       bulkActions.confirmOK.click().then(function() {
         expect(shared.successMessage.isDisplayed()).toBeTruthy();
@@ -661,6 +674,7 @@ describe('The users view bulk actions', function() {
         }
       }).then(function() {
         bulkActions.submitFormBtn.click();
+        shared.waitForConfirm();
         expect(bulkActions.confirmModal.isDisplayed()).toBeTruthy();
         bulkActions.confirmOK.click().then(function() {
           expect(shared.successMessage.isDisplayed()).toBeTruthy();
@@ -704,6 +718,7 @@ describe('The users view bulk actions', function() {
       }
     }).then(function() {
       bulkActions.submitFormBtn.click();
+      shared.waitForConfirm();
       expect(bulkActions.confirmModal.isDisplayed()).toBeTruthy();
       bulkActions.confirmOK.click().then(function() {
         expect(shared.successMessage.isDisplayed()).toBeTruthy();
@@ -792,6 +807,7 @@ describe('The users view bulk actions', function() {
         bulkActions.submitFormBtn.click();
 
         // Confirmation modal displayed with the same number of users selected
+        shared.waitForConfirm();
         expect(bulkActions.confirmModal.isDisplayed()).toBeTruthy();
         expect(bulkActions.confirmOK.isDisplayed()).toBeTruthy();
         expect(bulkActions.confirmCancel.isDisplayed()).toBeTruthy();
