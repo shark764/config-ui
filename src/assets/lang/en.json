@@ -124,7 +124,7 @@
   "details.inviteNow": "Invite Now",
   "details.inviteStatus": "Invite Status",
   "details.tenantStatus": "Tenant Status",
-  "details.tenantStatus.help": "Tenant Status <ul><li>Pending Invitation</li><li>Pending Acceptance</li><li>Accepted</li><li>Removed</li><li>Expired Invitation</li></ul>",
+  "details.tenantStatus.help": "Tenant Statuses: <ul><li>Pending Invitation</li><li>Pending Acceptance</li><li>Accepted</li><li>Disabled</li><li>Expired Invitation</li></ul>",
   "details.inviteNow.help" : "<center><p>To invite this user now select, click \"Submit\" with \"Invite Now\" selected</p> <p>or</p> <p>To set this user to a pending invite status de-select \"Invite Now and click \"Submit\"</p></center>",
   "details.tenantStatus.notInvited" : "This user has not been invited to join the tenant, to invite them now select \"Invite Now\" and click \"Submit\"",
   
