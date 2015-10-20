@@ -143,7 +143,6 @@ describe('The user skills component of User view', function() {
       browser.get(shared.usersPageUrl);
       shared.firstTableRow.click();
       users.addSkillSearch.sendKeys(newSkillName + '\t');
-      expect(users.skillProficiency.isPresent()).toBeFalsy();
 
       var skillAdded = false;
       users.addSkillBtn.click().then(function() {

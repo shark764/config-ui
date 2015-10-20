@@ -298,7 +298,7 @@ describe('The users view bulk actions', function() {
     });
   });
 
-  it('should allow selected user\'s skills to be removed', function() {
+  xit('should allow selected user\'s skills to be removed', function() {
     // NOTE depends on previous test: users must have the same skill added
     shared.actionsBtn.click();
 
@@ -386,7 +386,7 @@ describe('The users view bulk actions', function() {
     });
   });
 
-  it('should allow multiple skills to be removed for the selected users', function() {
+  xit('should allow multiple skills to be removed for the selected users', function() {
     shared.actionsBtn.click();
 
     // Select first three users; ASSUMPTION three exist
@@ -608,7 +608,7 @@ describe('The users view bulk actions', function() {
     });
   });
 
-  it('should allow selected user\'s groups to be removed', function() {
+  xit('should allow selected user\'s groups to be removed', function() {
     // NOTE depends on previous test: users must have the same group added
     shared.actionsBtn.click();
 
@@ -687,7 +687,7 @@ describe('The users view bulk actions', function() {
     });
   });
 
-  it('should allow multiple groups to be removed for the selected users', function() {
+  xit('should allow multiple groups to be removed for the selected users', function() {
     shared.actionsBtn.click();
 
     // Select first three users; ASSUMPTION three exist
