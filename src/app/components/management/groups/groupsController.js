@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('GroupsController', ['$scope', 'Session', 'Group', 'TenantUser', 'groupTableConfig', 'TenantGroupUsers', 'DirtyForms', 'BulkAction', 'Alert', '$state', '$translate',
-    function ($scope, Session, Group, TenantUser, groupTableConfig, TenantGroupUsers, DirtyForms, BulkAction, Alert, $state, $translate) {
+  .controller('GroupsController', ['$scope', 'Session', 'Group', 'TenantUser', 'groupTableConfig', 'TenantGroupUsers', 'queryCache', 'DirtyForms', 'BulkAction', 'Alert', '$state', '$translate',
+    function ($scope, Session, Group, TenantUser, groupTableConfig, TenantGroupUsers, queryCache, DirtyForms, BulkAction, Alert, $state, $translate) {
       $scope.Session = Session;
       $scope.tableConfig = groupTableConfig;
 
@@ -53,6 +53,7 @@ angular.module('liveopsConfigPanel')
           userId: user.id
         }, function (resp){
           $scope.selectedGroup.memberList.push(resp);
+          queryCache.remove('TenantUser');
           Alert.success($translate.instant('group.table.add.member'));
         }, function () {
           Alert.error($translate.instant('group.table.add.member.error'));
@@ -66,6 +67,7 @@ angular.module('liveopsConfigPanel')
           memberId: user.memberId
         }, function () {
           $scope.selectedGroup.memberList.removeItem(user);
+          queryCache.remove('TenantUser');
           Alert.success($translate.instant('group.table.remove.member'));
         }, function () {
           Alert.error($translate.instant('group.table.remove.member.error'));
