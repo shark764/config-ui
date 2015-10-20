@@ -15,13 +15,41 @@ function flowDesigner() {
       controller: ['$scope', '$element', '$attrs', '$window', '$document', '$compile', '$timeout', 'FlowInitService', 'SubflowCommunicationService', 'FlowDraft', 'FlowVersion', 'Session', 'Alert', '$state', 'FlowLibrary', 'FlowValidationService', function($scope, $element, $attrs, $window, $document, $compile, $timeout, FlowInitService, SubflowCommunicationService, FlowDraft, FlowVersion, Session, Alert, $state, FlowLibrary, FlowValidationService) {
 
         $timeout(function() {
+          //This must be preloaded as it is used when connection is down
+          function preloadNetworkModal() {
+            var newScope = $scope.$new();
+
+            newScope.modalBody = 'app/components/flows/flowDesigner/networkIssueModal.html';
+            newScope.title = 'Network Connection';
+
+            newScope.okCallback = function() {
+              Offline.check();
+            };
+
+            return $compile('<modal></modal>')(newScope);
+          }
+
+          $scope.networkModal = preloadNetworkModal();
+
+          Offline.options = {
+            checkOnLoad: true,
+            interceptRequests: true
+          };
+
+          Offline.on('confirmed-down', function () {
+              $document.find('html > body').append($scope.networkModal);
+          });
+
+          Offline.on('up', function () {
+              $document.find('modal').remove();
+          });
 
           FlowLibrary.loadData($scope.notations);
 
           var graphOptions = {
             width: 2000,
             height: 2000,
-            gridSize: 20,
+            gridSize: 12,
             perpendicularLinks: true,
             embeddingMode: true,
             frontParentOnly: false,
@@ -72,6 +100,8 @@ function flowDesigner() {
           });
 
           var update = function(){
+            Offline.check();
+
             if($scope.readOnly){
               return;
             }
@@ -91,6 +121,7 @@ function flowDesigner() {
           $scope.$on('update:draft', lazyUpdate);
 
           $scope.publishNewFlowDraft = function() {
+            Offline.check();
 
             var graph = $scope.graph;
             if (graph.toJSON().cells.length === 0) { return; }
