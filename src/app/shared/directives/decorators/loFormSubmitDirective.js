@@ -13,8 +13,8 @@ angular.module('liveopsConfigPanel')
           
           this.populateApiErrors = function(error) {
             if ($parse('data.error')(error)) {
-              angular.forEach(error.data.error.attribute,
-                function(value, key) {
+              angular.forEach(error.data.error.attribute, function(value, key) {
+                if (angular.isDefined(self.formController[key])){
                   self.formController[key].$setValidity('api', false);
                   self.formController[key].$error = {
                     api: value
@@ -31,7 +31,8 @@ angular.module('liveopsConfigPanel')
                       delete self.errorInputWatchesUnbinds[key];
                     }
                   });
-                });
+                }
+              });
             }
 
             return error;
