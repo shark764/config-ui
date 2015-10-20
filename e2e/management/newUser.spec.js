@@ -122,8 +122,7 @@ describe('The create new user form', function() {
     expect(users.requiredErrors.get(0).getText()).toBe('Please enter an email address');
   });
 
-  xit('should display new user in table and display user details with correct Tenant Status', function() {
-    // TODO Bug TITAN2-4421
+  it('should display new user in table and display user details with correct Tenant Status', function() {
     // Add randomness to user details
     randomUser = Math.floor((Math.random() * 1000) + 1);
     newUserName = 'First' + randomUser + ' Last' + randomUser;
@@ -141,10 +140,8 @@ describe('The create new user form', function() {
     users.externalIdFormField.sendKeys(randomUser);
 
     users.submitFormBtn.click().then(function() {
-
-      // TODO Bug TITAN2-4421
-      //shared.waitForSuccess();
-      //expect(shared.successMessage.isDisplayed()).toBeTruthy();
+      shared.waitForSuccess();
+      expect(shared.successMessage.isDisplayed()).toBeTruthy();
 
       // Confirm user is displayed in user list with correct details
       shared.searchField.sendKeys(newUserEmail);
@@ -346,7 +343,7 @@ describe('The create new user form', function() {
   });
 
   xit('should show user details when entering existing tenant user email; case insensitive', function() {
-    // TODO Out check for user's being in the current tenant is not case insensitive
+    // TODO Our check for user's being in the current tenant is not case insensitive
     var caseChangeExistingEmail;
     shared.createBtn.click();
 
@@ -435,10 +432,8 @@ describe('The create new user form', function() {
     users.externalIdFormField.sendKeys(randomUser);
 
     users.submitFormBtn.click().then(function() {
-
-      // TODO Bug TITAN2-4421
-      //shared.waitForSuccess();
-      //expect(shared.successMessage.isDisplayed()).toBeTruthy();
+      shared.waitForSuccess();
+      expect(shared.successMessage.isDisplayed()).toBeTruthy();
 
       // Edit user details
       users.firstNameFormField.sendKeys('NewUserEdit');

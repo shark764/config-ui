@@ -31,12 +31,11 @@ describe('The user skills component of User view', function() {
     users.tenantRoleFormDropdownOptions.get((randomUser % 3) + 1).click();
     users.platformRoleFormDropdownOptions.get(1).click();
 
-    //users.firstNameFormField.sendKeys(newUserFirstName);
-    //users.lastNameFormField.sendKeys('Last ' + randomUser);
+    users.firstNameFormField.sendKeys(newUserFirstName);
+    users.lastNameFormField.sendKeys('Last ' + randomUser);
 
     users.submitFormBtn.click().then(function() {
-      // TODO TITAN2-4421
-      //expect(shared.successMessage.isDisplayed()).toBeTruthy();
+      expect(shared.successMessage.isDisplayed()).toBeTruthy();
 
       //Add a skill to the new user
       shared.searchField.sendKeys('titantest' + randomUser + '@mailinator.com\t');
@@ -144,7 +143,6 @@ describe('The user skills component of User view', function() {
       browser.get(shared.usersPageUrl);
       shared.firstTableRow.click();
       users.addSkillSearch.sendKeys(newSkillName + '\t');
-      expect(users.skillProficiency.isPresent()).toBeFalsy();
 
       var skillAdded = false;
       users.addSkillBtn.click().then(function() {
@@ -333,12 +331,11 @@ describe('The user skills component of User view', function() {
     users.tenantRoleFormDropdownOptions.get((randomUser % 3) + 1).click();
     users.platformRoleFormDropdownOptions.get(1).click();
 
-    //users.firstNameFormField.sendKeys('First ' + randomUser);
-    //users.lastNameFormField.sendKeys('Last ' + randomUser);
+    users.firstNameFormField.sendKeys('First ' + randomUser);
+    users.lastNameFormField.sendKeys('Last ' + randomUser);
 
     users.submitFormBtn.click().then(function() {
-      // TODO TITAN2-4421
-      //expect(shared.successMessage.isDisplayed()).toBeTruthy();
+      expect(shared.successMessage.isDisplayed()).toBeTruthy();
 
       shared.searchField.sendKeys('titantest' + randomUser + '@mailinator.com');
       users.addSkillSearch.click();
@@ -590,12 +587,11 @@ describe('The user skills component of User view', function() {
     users.tenantRoleFormDropdownOptions.get((randomUser % 3) + 1).click();
     users.platformRoleFormDropdownOptions.get(1).click();
 
-    //users.firstNameFormField.sendKeys(newUserFirstName);
-    //users.lastNameFormField.sendKeys('Last ' + randomUser);
+    users.firstNameFormField.sendKeys(newUserFirstName);
+    users.lastNameFormField.sendKeys('Last ' + randomUser);
 
     users.submitFormBtn.click().then(function() {
-      // TODO TITAN2-4421
-      //expect(shared.successMessage.isDisplayed()).toBeTruthy();
+      expect(shared.successMessage.isDisplayed()).toBeTruthy();
 
       //Add a skill to the new user
       users.addSkillSearch.click();

@@ -100,12 +100,11 @@ describe('When switching tenants', function() {
       users.tenantRoleFormDropdownOptions.get((randomUser % 3) + 1).click();
       users.platformRoleFormDropdownOptions.get(1).click();
 
-      //users.firstNameFormField.sendKeys('New Tenant');
-      //users.lastNameFormField.sendKeys('User');
+      users.firstNameFormField.sendKeys('New Tenant');
+      users.lastNameFormField.sendKeys('User');
       users.submitFormBtn.click();
 
-      // TODO TITAN2-4421
-      //expect(shared.successMessage.isDisplayed()).toBeTruthy();
+      expect(shared.successMessage.isDisplayed()).toBeTruthy();
       expect(shared.tableElements.count()).toBe(2);
 
       // Verify user is not added in previous tenant
@@ -125,12 +124,11 @@ describe('When switching tenants', function() {
       users.tenantRoleFormDropdownOptions.get((randomUser % 3) + 1).click();
       users.platformRoleFormDropdownOptions.get(1).click();
 
-      //users.firstNameFormField.sendKeys('Previous Tenant');
-      //users.lastNameFormField.sendKeys('User');
+      users.firstNameFormField.sendKeys('Previous Tenant');
+      users.lastNameFormField.sendKeys('User');
       users.submitFormBtn.click();
 
-      // TODO TITAN2-4421
-      //expect(shared.successMessage.isDisplayed()).toBeTruthy();
+      expect(shared.successMessage.isDisplayed()).toBeTruthy();
 
       // Verify user is not added in new tenant
       tenants.selectTenant(newTenantName);
@@ -157,9 +155,8 @@ describe('When switching tenants', function() {
         users.tenantRoleFormDropdownOptions.get(1).click();
         users.platformRoleFormDropdownOptions.get(1).click();
 
-        // TODO TITAN2-4421
-        //users.firstNameFormField.sendKeys('Mutual ' + randomUser);
-        //users.lastNameFormField.sendKeys('User ' + randomUser);
+        users.firstNameFormField.sendKeys('Mutual ' + randomUser);
+        users.lastNameFormField.sendKeys('User ' + randomUser);
         users.submitFormBtn.click().then(function() {
           expect(shared.successMessage.isDisplayed()).toBeTruthy();
 
@@ -333,11 +330,7 @@ describe('When switching tenants', function() {
       groups.nameFormField.sendKeys(newTenantGroup);
       groups.descriptionFormField.sendKeys('Group Description');
       shared.submitFormBtn.click().then(function() {
-
-
-
-        // TODO Bug; error message displayed but group is created normally
-        //expect(shared.successMessage.isDisplayed()).toBeTruthy();
+        expect(shared.successMessage.isDisplayed()).toBeTruthy();
         expect(shared.tableElements.count()).toBe(2);
 
         // Verify group is not added in previous tenant
@@ -355,9 +348,7 @@ describe('When switching tenants', function() {
         groups.nameFormField.sendKeys(previousTenantGroup);
         groups.descriptionFormField.sendKeys('Group Description');
         shared.submitFormBtn.click();
-
-        // TODO Bug; error message displayed but group is created normally
-        // expect(shared.successMessage.isDisplayed()).toBeTruthy();
+        expect(shared.successMessage.isDisplayed()).toBeTruthy();
 
         // Verify group is not added in new tenant
         tenants.selectTenant(newTenantName);

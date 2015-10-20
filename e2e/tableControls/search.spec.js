@@ -559,7 +559,6 @@ describe('The table search', function() {
   it('should display Queues based on the Search on Name', function() {
     browser.get(shared.queuesPageUrl);
     elementCount = shared.tableElements.count();
-    // TODO
 
     shared.searchField.sendKeys('Qu*ue');
     shared.tableElements.then(function(rows) {
