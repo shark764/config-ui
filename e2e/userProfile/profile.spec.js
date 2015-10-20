@@ -112,9 +112,8 @@ describe('The profile view', function() {
       shared.waitForSuccess();
       shared.closeMessageBtn.click();
 
-      // TODO Bug TITAN2-4426
       // No validation messages displayed
-      //expect(profile.errors.count()).toBe(0);
+      expect(profile.errors.count()).toBe(0);
     }).then(function() {
       shared.welcomeMessage.click();
       shared.logoutButton.click();

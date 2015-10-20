@@ -31,12 +31,11 @@ describe('The user groups component of User view', function() {
     users.tenantRoleFormDropdownOptions.get((randomUser % 3) + 1).click();
     users.platformRoleFormDropdownOptions.get(1).click();
 
-    //users.firstNameFormField.sendKeys(newUserFirstName);
-    //users.lastNameFormField.sendKeys('Last ' + randomUser);
+    users.firstNameFormField.sendKeys(newUserFirstName);
+    users.lastNameFormField.sendKeys('Last ' + randomUser);
 
     users.submitFormBtn.click().then(function() {
-      // TODO TITAN2-4421
-      //expect(shared.successMessage.isDisplayed()).toBeTruthy();
+      expect(shared.successMessage.isDisplayed()).toBeTruthy();
 
       // Add a group to the new user
       users.addGroupSearch.click();
@@ -54,7 +53,7 @@ describe('The user groups component of User view', function() {
     });
   });
 
-  xit('should add to the member count for an existing group', function() {
+  it('should add to the member count for an existing group', function() {
     //Regression test for TITAN2-2533
 
     //Create a new group
@@ -86,7 +85,7 @@ describe('The user groups component of User view', function() {
     });
   });
 
-  xit('should create new group and add user', function() {
+  it('should create new group and add user', function() {
     shared.firstTableRow.click();
 
     var randomGroup = Math.floor((Math.random() * 1000) + 1);
@@ -118,7 +117,7 @@ describe('The user groups component of User view', function() {
     });
   });
 
-  xit('should create new group and add user after pressing Enter key', function() {
+  it('should create new group and add user after pressing Enter key', function() {
     shared.firstTableRow.click();
 
     var randomGroup = Math.floor((Math.random() * 1000) + 1);
@@ -185,12 +184,11 @@ describe('The user groups component of User view', function() {
     users.tenantRoleFormDropdownOptions.get((randomUser % 3) + 1).click();
     users.platformRoleFormDropdownOptions.get(1).click();
 
-    //users.firstNameFormField.sendKeys('First ' + randomUser);
-    //users.lastNameFormField.sendKeys('Last ' + randomUser);
+    users.firstNameFormField.sendKeys('First ' + randomUser);
+    users.lastNameFormField.sendKeys('Last ' + randomUser);
 
     users.submitFormBtn.click().then(function() {
-      // TODO TITAN2-4421
-      //expect(shared.successMessage.isDisplayed()).toBeTruthy();
+      expect(shared.successMessage.isDisplayed()).toBeTruthy();
 
       // Add all groups to the new user
       shared.searchField.sendKeys(newUserEmail);
@@ -413,12 +411,11 @@ describe('The user groups component of User view', function() {
     users.tenantRoleFormDropdownOptions.get((randomUser % 3) + 1).click();
     users.platformRoleFormDropdownOptions.get(1).click();
 
-    //users.firstNameFormField.sendKeys(newUserFirstName);
-    //users.lastNameFormField.sendKeys('Last ' + randomUser);
+    users.firstNameFormField.sendKeys(newUserFirstName);
+    users.lastNameFormField.sendKeys('Last ' + randomUser);
 
     users.submitFormBtn.click().then(function() {
-      // TODO TITAN2-4421
-      //expect(shared.successMessage.isDisplayed()).toBeTruthy();
+      expect(shared.successMessage.isDisplayed()).toBeTruthy();
 
       //Add a group to the new user
       users.addGroupSearch.click();

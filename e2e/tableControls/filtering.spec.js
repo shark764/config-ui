@@ -1058,8 +1058,7 @@ describe('The table filters', function() {
       expect(columns.dropdownStatusInputs.get(2).isSelected()).toBeFalsy();
     });
 
-    xit('should display rows by Status', function() {
-      // TODO Bug TITAN2-4238
+    it('should display rows by Status', function() {
       columns.statusTableDropDownLabel.click();
 
       // Select input from drop down
