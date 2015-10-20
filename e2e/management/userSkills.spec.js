@@ -186,19 +186,19 @@ describe('The user skills component of User view', function() {
         // Set proficiency below Minimum
         users.skillProficiency.clear();
         users.skillProficiency.sendKeys(0);
-        expect(users.skillProficiency.getAttribute('value')).toBe('1');
+        expect(users.skillProficiency.get(0).getAttribute('value')).toBe('1');
         expect(users.proficiencyCounterDown.getAttribute('class')).toContain('disabled');
         expect(users.proficiencyCounterUp.getAttribute('class')).not.toContain('disabled');
 
         // Decrement proficiency counter to Minimum
         users.proficiencyCounterDown.click();
-        expect(users.skillProficiency.getAttribute('value')).toBe('1');
+        expect(users.skillProficiency.get(0).getAttribute('value')).toBe('1');
         expect(users.proficiencyCounterDown.getAttribute('class')).toContain('disabled');
         expect(users.proficiencyCounterUp.getAttribute('class')).not.toContain('disabled');
 
         // Increment proficiency counter
         users.proficiencyCounterUp.click();
-        expect(users.skillProficiency.getAttribute('value')).toBe('2');
+        expect(users.skillProficiency.get(0).getAttribute('value')).toBe('2');
         expect(users.proficiencyCounterDown.getAttribute('class')).not.toContain('disabled');
         expect(users.proficiencyCounterUp.getAttribute('class')).not.toContain('disabled');
 
@@ -206,13 +206,13 @@ describe('The user skills component of User view', function() {
         users.skillProficiency.clear();
         users.skillProficiency.sendKeys('99');
         users.proficiencyCounterUp.click();
-        expect(users.skillProficiency.getAttribute('value')).toBe('100');
+        expect(users.skillProficiency.get(0).getAttribute('value')).toBe('100');
         expect(users.proficiencyCounterDown.getAttribute('class')).not.toContain('disabled');
         expect(users.proficiencyCounterUp.getAttribute('class')).toContain('disabled');
 
         // Decrement proficiency counter
         users.proficiencyCounterDown.click();
-        expect(users.skillProficiency.getAttribute('value')).toBe('99');
+        expect(users.skillProficiency.get(0).getAttribute('value')).toBe('99');
         expect(users.proficiencyCounterDown.getAttribute('class')).not.toContain('disabled');
         expect(users.proficiencyCounterUp.getAttribute('class')).not.toContain('disabled');
 
@@ -220,7 +220,7 @@ describe('The user skills component of User view', function() {
         users.skillProficiency.clear();
         users.skillProficiency.sendKeys('101');
         users.proficiencyCounterUp.click();
-        expect(users.skillProficiency.getAttribute('value')).toBe('100');
+        expect(users.skillProficiency.get(0).getAttribute('value')).toBe('100');
         expect(users.proficiencyCounterDown.getAttribute('class')).not.toContain('disabled');
         expect(users.proficiencyCounterUp.getAttribute('class')).toContain('disabled');
       });

@@ -8,9 +8,9 @@ exports.config = {
   sauceKey: process.env.SAUCE_ACCESS_KEY,
 
   capabilities: {
-    'platform': 'Windows 8',
+    'platform': 'Windows 8.1',
     'browserName': 'chrome',
-    'version': '43',
+    'version': '45',
     'screenResolution': '1280x1024',
     'tunnelIdentifier': process.env.SAUCE_TUNNEL,
     // Test Identifiers - For easier grouping and reference in Sauce Labs

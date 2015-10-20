@@ -11,6 +11,7 @@ describe('The flows view bulk actions', function() {
   beforeAll(function() {
     loginPage.login(params.login.user, params.login.password);
 
+    // TODO Update based on new flow creation
     // Create new flow
     browser.get(shared.flowsPageUrl);
     var randomFlow = Math.floor((Math.random() * 1000) + 1);

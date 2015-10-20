@@ -39,19 +39,21 @@ describe('The tenants view', function() {
   });
 
 
-  it('should display all users in the admin dropdown', function() {
+  it('should display users in the admin dropdown', function() {
     shared.createBtn.click();
 
     var adminUserList = [];
     tenants.adminDropDownItems.each(function(adminElement, index) {
-      adminElement.getText().then(function(adminName) {
-        adminUserList.push(adminName);
-      });
+      if (index < 10) { // Only check first 10 users to limit test length
+        adminElement.getText().then(function(adminName) {
+          adminUserList.push(adminName);
+        });
+      }
     }).then(function() {
       browser.get(shared.usersPageUrl);
 
       // Admin list on Tenants page should contain all Users
-      for (var i = 0; i < adminUserList.length; i++) {
+      for (var i = 0; i < adminUserList.length && i < 10; i++) {
         shared.searchField.clear();
         shared.searchField.sendKeys(adminUserList[i]);
         expect(shared.tableElements.count()).toBeGreaterThan(0);
