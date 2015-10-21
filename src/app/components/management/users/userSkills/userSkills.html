@@ -5,7 +5,7 @@
 <loading ng-if="!fetchSkills().$resolved"></loading>
 
 <div ng-show="fetchSkills().$resolved" class="detail-group">
-<ng-form separate-validation ng-disabled="saving" id="skillsForm" name="skillsForm"
+<ng-form class="instant-add" separate-validation ng-disabled="saving" id="skillsForm" name="skillsForm"
   ng-show="fetchSkills().$resolved && ['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'MANAGE_ALL_USER_SKILLS', 'MANAGE_TENANT_ENROLLMENT'] | hasPermission">
   <type-ahead placeholder="{{'details.skills.placeholder' | translate}}"
       items="fetchSkills()"
@@ -18,8 +18,7 @@
     placeholder="{{'skill.details.proficiency' | translate}}" value="newUserSkill.proficiency"
     min-value="1" max-value="100" ></number-slider>
   <div>
-    <a ng-show="!saving" id="add-skill-btn" ng-disabled="!selectedSkill" ng-click="save(selectedSkill)" class="btn"><i class="fa fa-plus"></i></a>
-    <a ng-show="saving" ng-disabled="true" class="btn btn-primary"><i class="fa fa-refresh fa-spin"></i></a>
+    <a lo-submit-spinner lo-submit-spinner-status="saving" id="add-skill-btn" ng-disabled="!selectedSkill" ng-click="save(selectedSkill)" class="btn"><i class="fa fa-plus"></i></a>
   </div>
 </ng-form>
 

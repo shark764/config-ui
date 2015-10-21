@@ -107,3 +107,29 @@ textarea {
     }
   }
 }
+
+.instant-add {
+  width: 100%;
+  max-width: $max-control-width;
+  display: table !important;
+  margin-bottom: 10px;
+  padding-right: 0;
+
+  > * {
+    display: table-cell;
+  }
+    
+  .btn {
+    height: $input-height;
+    line-height: $input-height - 8px;
+    width: $input-height;
+  }
+
+  type-ahead, select {
+    max-width: $max-control-width - $input-height;
+  }
+  
+  * + div {
+    padding-left: 10px;
+  }
+}

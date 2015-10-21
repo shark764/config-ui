@@ -1,10 +1,6 @@
 queue-query-creator{
   
-  .input-group {
-    max-width: $max-control-width + 300; 
-  }
-  
-  .input-group + .input-group {
+  .details-group + .details-group {
     margin-top: 20px;
   }
   
@@ -20,17 +16,28 @@ queue-query-creator{
     border-right: 3px solid $accent-light;
   }
   
-  .input-group > div {
-    margin-left: 5px;
-  }
-  
-  .query-component + .query-component {
-    border-top: 1px solid $lightest-grey;
-    margin-top: 20px;
-    padding-top: 20px;
+  .query-component {
+    margin-left: 10px;
+    
+    h4 {
+      color: $dark-grey;
+    }
+    
+    .input-group > div {
+      margin-left: 5px;
+    }
+    
+    .divider-header {
+      margin-top: 10px;
+      max-width: $max-control-width;
+    }
   }
   
   .tag {
     margin: 5px;
+  }
+  
+  group-query-modifier + group-query-modifier {
+    margin-top: 10px;
   }
 }

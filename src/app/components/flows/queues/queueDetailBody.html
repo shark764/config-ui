@@ -54,7 +54,7 @@
     <textarea id="advanced-query-field" ng-required="true" type="text" ng-model="initialVersion.query" name="query"></textarea>
   </div>
 
-  <queue-query-creator ng-if="queryType!='advanced'" version="initialVersion" queue="selectedQueue"></queue-query-creator>
+  <queue-query-creator ng-show="queryType!='advanced'" version="initialVersion" queue="selectedQueue"></queue-query-creator>
 
   <div class="divider-header">
     <h4>{{'queue.details.priority' | translate}}</h4>

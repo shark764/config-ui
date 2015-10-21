@@ -1,15 +1,7 @@
 <label ng-class="{'has-elements': operands.length}">
   {{ labelKey | translate}}
 </label>
-<div class="tag-wrapper clear">
-  <div ng-repeat="operand in operands" class="tag">
-    {{operand.display}}
-    <a ng-click="remove(operand)">
-      <i class="fa fa-times"></i>
-    </a>
-  </div>
-</div>
-<div>
+<div class="instant-add">
   <type-ahead hover="true"
     placeholder="{{placeholderKey | translate}}"
     items="fetchGroups()"
@@ -21,4 +13,12 @@
     ng-click="add(selected)">
     <i class="fa fa-plus"></i>
   </button>
+</div>
+<div class="tag-wrapper clear">
+  <div ng-repeat="operand in operands" class="tag">
+    {{operand.display}}
+    <a ng-click="remove(operand)">
+      <i class="fa fa-times"></i>
+    </a>
+  </div>
 </div>

@@ -5,7 +5,7 @@
 <loading ng-show="!fetchGroups().$resolved && userGroups && !userGroups.$resolved"></loading>
 
 <div ng-show="fetchGroups().$resolved && userGroups.$resolved" class="detail-group">
-  <ng-form separate-validation id="addGroup" name="addGroup" ng-show="['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'MANAGE_ALL_GROUP_USERS', 'MANAGE_TENANT_ENROLLMENT'] | hasPermission">
+  <ng-form class="instant-add" separate-validation id="addGroup" name="addGroup" ng-show="['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'MANAGE_ALL_GROUP_USERS', 'MANAGE_TENANT_ENROLLMENT'] | hasPermission">
     <type-ahead name-field="name" 
       placeholder="{{'details.groups.placeholder' | translate}}" 
       items="fetchGroups()" 
@@ -14,8 +14,7 @@
       selected-item="selectedGroup"
       filters="filterGroups"></type-ahead>
     <div>
-      <a ng-hide="saving" id="add-group-btn" ng-disabled="!selectedGroup" class="btn" ng-click="save(selectedGroup)" title="{{'value.save' | translate}}"><i class="fa fa-plus"></i></a>
-      <a ng-show="saving" ng-disabled="true" class="btn btn-primary"><i class="fa fa-refresh fa-spin"></i></a>
+      <a lo-submit-spinner lo-submit-spinner-status="saving" id="add-group-btn" ng-disabled="!selectedGroup" class="btn" ng-click="save(selectedGroup)" title="{{'value.save' | translate}}"><i class="fa fa-plus"></i></a>
     </div>
   </ng-form>
 
