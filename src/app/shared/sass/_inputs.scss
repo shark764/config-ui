@@ -123,13 +123,10 @@ textarea {
     height: $input-height;
     line-height: $input-height - 8px;
     width: $input-height;
+    margin-left: 8px;
   }
 
   type-ahead, select {
     max-width: $max-control-width - $input-height;
-  }
-  
-  * + div {
-    padding-left: 10px;
   }
 }
