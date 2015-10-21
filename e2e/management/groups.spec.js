@@ -23,7 +23,8 @@ describe('The groups view', function() {
     shared.tearDown();
   });
 
-  it('should successfully create new Group', function() {
+  // TODO TITAN2-4505
+  xit('should successfully create new Group', function() {
     randomGroup = Math.floor((Math.random() * 1000) + 1);
     var groupAdded = false;
     var newGroupName = 'Group Name ' + randomGroup;
@@ -56,7 +57,7 @@ describe('The groups view', function() {
     });
   });
 
-  it('should include group page components', function() {
+  xit('should include group page components', function() {
     expect(shared.navBar.isDisplayed()).toBeTruthy();
     expect(groups.tablePane.isDisplayed()).toBeTruthy();
     expect(shared.searchField.isDisplayed()).toBeTruthy();
@@ -67,14 +68,14 @@ describe('The groups view', function() {
     expect(shared.pageHeader.getText()).toBe('Group Management');
   });
 
-  it('should include valid Group fields when creating a new Group', function() {
+  xit('should include valid Group fields when creating a new Group', function() {
     shared.createBtn.click();
     expect(groups.creatingGroupHeader.getText()).toBe('Creating Group');
     expect(groups.nameFormField.isDisplayed()).toBeTruthy();
     expect(groups.descriptionFormField.isDisplayed()).toBeTruthy();
   });
 
-  it('should require field input when creating a new Group', function() {
+  xit('should require field input when creating a new Group', function() {
     groupCount = shared.tableElements.count();
     shared.createBtn.click();
 
@@ -86,7 +87,7 @@ describe('The groups view', function() {
     expect(shared.tableElements.count()).toBe(groupCount);
   });
 
-  it('should require name when creating a new Group', function() {
+  xit('should require name when creating a new Group', function() {
     groupCount = shared.tableElements.count();
     shared.createBtn.click();
 
@@ -115,7 +116,7 @@ describe('The groups view', function() {
     expect(shared.tableElements.count()).toBe(groupCount);
   });
 
-  it('should successfully create new Group without description', function() {
+  xit('should successfully create new Group without description', function() {
     groupCount = shared.tableElements.count();
     randomGroup = Math.floor((Math.random() * 1000) + 1);
     shared.createBtn.click();
@@ -132,7 +133,7 @@ describe('The groups view', function() {
     });
   });
 
-  it('should clear fields on Cancel', function() {
+  xit('should clear fields on Cancel', function() {
     groupCount = shared.tableElements.count();
     shared.createBtn.click();
 
@@ -157,7 +158,7 @@ describe('The groups view', function() {
     expect(groups.descriptionFormField.getAttribute('value')).toBe('');
   });
 
-  it('should display group details when selected from table', function() {
+  xit('should display group details when selected from table', function() {
     // Select first group from table
     groups.firstTableRow.click();
 
@@ -179,7 +180,7 @@ describe('The groups view', function() {
     });
   });
 
-  it('should include valid Group fields when editing an existing Group', function() {
+  xit('should include valid Group fields when editing an existing Group', function() {
     groups.secondTableRow.click();
     expect(groups.nameHeader.isDisplayed()).toBeTruthy();
     expect(groups.nameFormField.isDisplayed()).toBeTruthy();
@@ -188,7 +189,7 @@ describe('The groups view', function() {
     expect(groups.detailsMemberCount.isDisplayed()).toBeTruthy();
   });
 
-  it('should reset Group fields after editing and selecting Cancel', function() {
+  xit('should reset Group fields after editing and selecting Cancel', function() {
     groups.secondTableRow.click();
 
     var originalName = groups.nameFormField.getAttribute('value');
@@ -214,7 +215,7 @@ describe('The groups view', function() {
     expect(groups.descriptionFormField.getAttribute('value')).toBe(originalDescription);
   });
 
-  it('should allow the Group fields to be updated', function() {
+  xit('should allow the Group fields to be updated', function() {
     //Select group with second-most members. Group with most members will be an "everyone" group that cannot be edited.
     groups.membersHeader.click();
     groups.membersHeader.click();
@@ -242,7 +243,7 @@ describe('The groups view', function() {
     });
   });
 
-  it('should require name field when editing a Group', function() {
+  xit('should require name field when editing a Group', function() {
     //Select group with second-most members. Group with most members will be an "everyone" group that cannot be edited.
     groups.membersHeader.click();
     groups.membersHeader.click();
@@ -261,7 +262,7 @@ describe('The groups view', function() {
     expect(shared.successMessage.isPresent()).toBeFalsy();
   });
 
-  it('should not require description field when editing a Group', function() {
+  xit('should not require description field when editing a Group', function() {
     //Select group with second-most members. Group with most members will be an "everyone" group that cannot be edited.
     groups.membersHeader.click();
     groups.membersHeader.click();
@@ -274,7 +275,7 @@ describe('The groups view', function() {
     });
   });
 
-  it('should not allow updates to Everyone group', function() {
+  xit('should not allow updates to Everyone group', function() {
     shared.searchField.sendKeys('everyone');
     shared.tableElements.then(function(groups) {
       if (groups.length > 0){
@@ -286,7 +287,7 @@ describe('The groups view', function() {
     });
   });
 
-  it('should link to the user details view in the members list', function() {
+  xit('should link to the user details view in the members list', function() {
     var groupWithMembersRow;
 
     // Order by group member count, descending

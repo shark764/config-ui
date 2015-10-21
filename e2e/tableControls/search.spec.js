@@ -63,12 +63,6 @@ describe('The table search', function() {
     expect(shared.tableElements.count()).toBe(elementCount);
 
     shared.searchField.clear();
-    shared.searchField.sendKeys('* *');
-    shared.tableElements.then(function(rows) {
-      search.verifyUserSearch(' ', rows);
-    });
-
-    shared.searchField.clear();
     expect(shared.tableElements.count()).toBe(elementCount);
   });
 

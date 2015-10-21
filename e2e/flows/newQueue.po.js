@@ -10,6 +10,12 @@ var NewQueue = function() {
 
   this.advancedQueryFormField = this.newQueueQuerySection.element(by.id('advanced-query-field'));
 
+  this.addFilterSection = this.newQueueQuerySection.element(by.id('add-query-filter'));
+  this.addFilterDropdown = this.addFilterSection.element(by.id('select-filter-dropdown'));
+  this.groupFilterDropdownOption = this.addFilterDropdown.all(by.css('[value=groupcomponent]'));
+  this.skillFilterDropdownOption = this.addFilterDropdown.all(by.css('[value=skillcomponent]'));
+  this.addFilterBtn = this.addFilterSection.element(by.id('add-filter-btn'));
+
   this.basicQueryAllGroups = this.newQueueQuerySection.element(by.id('basic-query-all-groups'));
   this.allGroupsTypeAhead = this.basicQueryAllGroups.element(by.id('typeahead-container'));
   this.allGroupsDropdownGroups = this.basicQueryAllGroups.all(by.repeater('item in filtered = (items | filter:filterCriteria | orderBy:orderByFunction)'));

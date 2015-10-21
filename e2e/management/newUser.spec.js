@@ -185,8 +185,8 @@ describe('The create new user form', function() {
     expect(users.firstNameFormField.getAttribute('value')).toBe('');
     expect(users.lastNameFormField.getAttribute('value')).toBe('');
     expect(users.emailFormField.getAttribute('value')).toBe('');
-    expect(users.tenantRoleFormDropdown.getAttribute('value')).toBe('');
-    expect(users.platformRoleFormDropdown.getAttribute('value')).toBe('');
+    expect(users.tenantRoleFormDropdown.$('option:checked').getText()).toContain('Select a role');
+    expect(users.platformRoleFormDropdown.$('option:checked').getText()).toContain('Select a role');
     expect(users.externalIdFormField.getAttribute('value')).toBe('');
 
     // Confirm user is not displayed in user list with correct details

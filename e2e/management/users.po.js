@@ -15,7 +15,7 @@ var UserPage = function() {
   this.tenantRoleFormDropdown = element(by.model('selectedTenantUser.roleId'));
   this.tenantRoleFormDropdownOptions = this.tenantRoleFormDropdown.all(by.css('option'));
   this.tenantRoles = ['Administrator', 'Supervisor', 'Agent'];
-  this.platformRoleFormDropdown = element(by.name('platformRoleId'));
+  this.platformRoleFormDropdown = element(by.id('user-platform-role-dropdown'));
   this.platformRoleFormDropdownOptions = this.platformRoleFormDropdown.all(by.css('option'));
   this.platformRoles = ['Platform User', 'Platform Administrator'];
 

@@ -311,6 +311,7 @@ describe('The user skills component of User view', function() {
         for (var i = 1; i <= userSkillCount; i++) {
           users.userSkillTableRows.get(userSkillCount - i).element(by.css('i')).click();
           shared.waitForSuccess();
+          shared.closeMessageBtn.click();
         }
       }).then(function() {
         expect(users.userSkills.count()).toBe(0);

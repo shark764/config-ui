@@ -303,13 +303,14 @@ describe('When switching tenants', function() {
     });
   });
 
+  // TODO TITAN2-4505
   describe('Groups Management page', function() {
     beforeAll(function() {
       browser.get(shared.groupsPageUrl);
       elementCount = shared.tableElements.count();
     });
 
-    it('should display the correct Groups for the current tenant', function() {
+    xit('should display the correct Groups for the current tenant', function() {
       // everyone group added to the new tenant by default
       expect(elementCount).toBe(1);
       expect(shared.firstTableRow.getText()).toContain('everyone');
@@ -323,7 +324,7 @@ describe('When switching tenants', function() {
       */
     });
 
-    it('should create a new Group in one and not the previous', function() {
+    xit('should create a new Group in one and not the previous', function() {
       // Create Group in new tenant
       var newTenantGroup = 'New Tenant Group ' + Math.floor((Math.random() * 1000) + 1);
       shared.createBtn.click();
