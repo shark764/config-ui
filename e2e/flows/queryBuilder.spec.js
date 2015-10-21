@@ -347,6 +347,118 @@ describe('The basic query builder', function() {
     });
   });
 
+  it('should remove second group from All section', function() {
+    var firstGroupName;
+
+    shared.createBtn.click();
+
+    // Add Groups filter
+    newQueue.addFilterDropdown.click();
+    newQueue.groupFilterDropdownOption.click();
+    newQueue.addFilterBtn.click();
+
+    // Select 2 groups from All section
+    newQueue.allGroupsTypeAhead.click();
+    firstGroupName = newQueue.allGroupsDropdownGroups.get(0).getText();
+    newQueue.allGroupsDropdownGroups.get(0).click();
+    newQueue.allGroupsAdd.click();
+
+    newQueue.allGroupsTypeAhead.click();
+    newQueue.allGroupsDropdownGroups.get(0).click();
+    newQueue.allGroupsAdd.click().then(function() {
+      // Remove second group from each section
+      newQueue.allGroupsSelected.get(1).element(by.css('a')).click().then(function() {
+        // Second group is removed and first remains
+        expect(newQueue.allGroupsSelected.count()).toBe(1);
+        expect(newQueue.allGroupsSelected.get(0).getText()).toBe(firstGroupName);
+      });
+    });
+  });
+
+  it('should remove second group from Any section', function() {
+    var firstGroupName;
+
+    shared.createBtn.click();
+
+    // Add Groups filter
+    newQueue.addFilterDropdown.click();
+    newQueue.groupFilterDropdownOption.click();
+    newQueue.addFilterBtn.click();
+
+    // Select 2 groups from Any section
+    newQueue.anyGroupsTypeAhead.click();
+    firstGroupName = newQueue.anyGroupsDropdownGroups.get(0).getText();
+    newQueue.anyGroupsDropdownGroups.get(0).click();
+    newQueue.anyGroupsAdd.click();
+
+    newQueue.anyGroupsTypeAhead.click();
+    newQueue.anyGroupsDropdownGroups.get(0).click();
+    newQueue.anyGroupsAdd.click().then(function() {
+      // Remove second group from each section
+      newQueue.anyGroupsSelected.get(1).element(by.css('a')).click().then(function() {
+        // Second group is removed and first remains
+        expect(newQueue.anyGroupsSelected.count()).toBe(1);
+        expect(newQueue.anyGroupsSelected.get(0).getText()).toBe(firstGroupName);
+      });
+    });
+  });
+
+  it('should remove second skill from All section', function() {
+    var firstSkillName;
+
+    shared.createBtn.click();
+
+    // Add Skills filter
+    newQueue.addFilterDropdown.click();
+    newQueue.skillFilterDropdownOption.click();
+    newQueue.addFilterBtn.click();
+
+    // Select 2 skills from All section
+    newQueue.allSkillsTypeAhead.click();
+    firstSkillName = newQueue.allSkillsDropdownSkills.get(0).getText();
+    newQueue.allSkillsDropdownSkills.get(0).click();
+    newQueue.allSkillsAdd.click();
+
+    newQueue.allSkillsTypeAhead.click();
+    newQueue.allSkillsDropdownSkills.get(0).click();
+    newQueue.allSkillsAdd.click().then(function() {
+      // Remove second skill from each section
+      newQueue.allSkillsSelected.get(1).element(by.css('a')).click().then(function() {
+        // Second skill is removed and first remains
+        expect(newQueue.allSkillsSelected.count()).toBe(1);
+        expect(newQueue.allSkillsSelected.get(0).getText()).toBe(firstSkillName);
+      });
+    });
+  });
+
+  it('should remove second skill from Any section', function() {
+    var firstSkillName;
+
+    shared.createBtn.click();
+
+    // Add Skills filter
+    newQueue.addFilterDropdown.click();
+    newQueue.skillFilterDropdownOption.click();
+    newQueue.addFilterBtn.click();
+
+    // Select 2 skills from Any section
+    newQueue.anySkillsTypeAhead.click();
+    firstSkillName = newQueue.anySkillsDropdownSkills.get(0).getText();
+    newQueue.anySkillsDropdownSkills.get(0).click();
+    newQueue.anySkillsAdd.click();
+
+    newQueue.anySkillsTypeAhead.click();
+    newQueue.anySkillsDropdownSkills.get(0).click();
+    newQueue.anySkillsAdd.click().then(function() {
+      // Remove second skill from each section
+      newQueue.anySkillsSelected.get(1).element(by.css('a')).click().then(function() {
+        // Second skill is removed and first remains
+        expect(newQueue.anySkillsSelected.count()).toBe(1);
+        expect(newQueue.anySkillsSelected.get(0).getText()).toBe(firstSkillName);
+      });
+    });
+  });
+
   it('should add all skills', function() {
     shared.createBtn.click();
 
@@ -447,7 +559,7 @@ describe('The basic query builder', function() {
       // Remove Skill in Any section
       newQueue.showBasicQueryLink.click();
       newQueue.anySkillsSelected.get(0).element(by.css('a')).click();
-    }).thenFinally(function () {
+    }).thenFinally(function() {
       newQueue.showAdvancedQueryLink.click();
       expect(newQueue.advancedQueryFormField.getAttribute('value')).toBe('{}');
     });
@@ -551,11 +663,11 @@ describe('The basic query builder', function() {
         });
       }, 5000).then(function() {
         // Verify all selected groups/skills are saved
-        element(by.id("view-version-v1")).isDisplayed().then(function (versionDisplayed) {
-          if(!versionDisplayed) {
+        element(by.id("view-version-v1")).isDisplayed().then(function(versionDisplayed) {
+          if (!versionDisplayed) {
             queues.queueVersions.get(0).click();
           }
-        }).then(function () {
+        }).then(function() {
           expect(queues.basicQueryDetails.get(0).getText()).toContain('All of these groups:');
           expect(queues.basicQueryDetails.get(0).getText()).toContain('Any of these groups:');
           expect(queues.basicQueryDetails.get(0).getText()).toContain('All of these skills:');
