@@ -17,15 +17,16 @@ angular.module('liveopsConfigPanel')
           $scope.newExtension = {};
           
           $scope.add = function() {
+            $scope.newExtension.value = $scope.phoneNumber;
             if ($scope.phoneExtension){
-              $scope.newExtension.value =
-                $scope.phoneNumber + 'x' + $scope.phoneExtension;
+              $scope.newExtension.value += 'x' + $scope.phoneExtension;
             }
             
             $scope.tenantUser.extensions.push($scope.newExtension);
-            return save().then(function() {
+            return save().then(function(tenantUser) {
               $scope.phoneNumber = null;
               $scope.phoneExtension = null;
+              return tenantUser;
             });
           };
           
