@@ -39,7 +39,7 @@ describe('The table sorting', function() {
 
       shared.tableElements.then(function(rows) {
         expect(rows.length).toBe(elementCount);
-        for (var i = 0; i < rows.length; ++i) {
+        for (var i = 0; i < rows.length && i < 10; ++i) { // Limit test length
           if (i == 0) {
             rows[i].click();
             previousLastName = users.lastNameFormField.getAttribute('value');

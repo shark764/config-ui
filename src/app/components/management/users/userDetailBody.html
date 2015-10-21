@@ -31,7 +31,7 @@
       error-type-required="{{'details.role.error' | translate}}">
     </form-error>
     <div>
-      <select ng-model="selectedTenantUser.$user.roleId" name="platformRoleId" required
+      <select ng-model="selectedTenantUser.$user.roleId" name="platformRoleId" id="user-platform-role-dropdown" required
         ng-options="role.id as role.name for role in fetchPlatformRoles()">
         <option value="" ng-disabled="true">
           {{'users.details.role.select' | translate}}
@@ -118,7 +118,7 @@
     </div>
   </div>
 
-  <div disable-contents="forms.detailsForm.email.$invalid || scenario() === 'invite:existing:user' || 
+  <div disable-contents="forms.detailsForm.email.$invalid || scenario() === 'invite:existing:user' ||
     ! (('PLATFORM_MANAGE_ALL_USERS' | hasPermission) ||
     (('PLATFORM_MANAGE_USER_ACCOUNT' | hasPermission) &&
     Session.user.id === selectedTenantUser.id))">
@@ -178,8 +178,8 @@
   <div class="divider-header">
     <h4>{{'details.extensions' | translate}}</h4>
   </div>
-  
-  <lo-extensions 
+
+  <lo-extensions
     tenant-user="selectedTenantUser"
     ng-disabled="!(
         ('MANAGE_ALL_USER_EXTENSIONS' | hasPermission) ||

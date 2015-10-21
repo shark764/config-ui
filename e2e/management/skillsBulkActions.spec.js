@@ -155,7 +155,7 @@ describe('The skills view bulk actions', function() {
 
     expect(bulkActions.confirmModal.isDisplayed()).toBeTruthy();
     bulkActions.confirmOK.click().then(function() {
-      expect(shared.successMessage.isDisplayed()).toBeTruthy();
+      shared.waitForSuccess();
 
       // First table row is updated
       expect(shared.firstTableRow.getText()).toContain('Yes');
