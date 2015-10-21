@@ -8,7 +8,7 @@
     <div class="divider-header first-header">
       <h4>{{'details' | translate}}</h4>
     </div>
-    
+
     <form id="user-form" name="userForm"
       separate-validation
       ng-model="tenantUser"
@@ -16,7 +16,7 @@
       lo-form-submit
       lo-form-alert
       lo-form-reset>
-      
+
       <div id="user-profile-email">
         <label>Email:</label> {{tenantUser.$user.email}}
       </div>
@@ -46,24 +46,25 @@
           <form-error field="userForm.password"
             error-type-required="{{'details.password.error' | translate}}">
           </form-error>
-          <input autocomplete="off" ng-model="tenantUser.$user.password" name="password" type="password"
+          <input autocomplete="off" name="password" type="password"
+            ng-model="tenantUser.$user.password"
             ng-show="userForm.password.$dirty"
             ng-required="userForm.password.$dirty">
           </input>
         </div>
       </div>
-      
+
       <div class="submit-wrapper">
         <input type="submit" lo-submit="submit()" id="save-user-details-btn" class="btn btn-primary"
         ng-disabled="userForm.$invalid || ! userForm.$dirty" value="{{'value.update' | translate}}"/>
       </div>
     </form>
-    
+
     <div class="divider-header">
       <h4>{{'details.extensions' | translate}}</h4>
     </div>
-    
-    <lo-extensions 
+
+    <lo-extensions
       tenant-user="tenantUser"
       ng-disabled="!(
           ('MANAGE_ALL_USER_EXTENSIONS' | hasPermission) ||
