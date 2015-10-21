@@ -486,7 +486,7 @@ describe('The basic query builder', function() {
     });
   });
 
-  it('should update advanced query when altered', function() {
+  it('should update advanced query when adding groups and skills', function() {
     shared.createBtn.click();
 
     // Add Groups & Skills filter
@@ -504,7 +504,6 @@ describe('The basic query builder', function() {
       // Review Advanced Query
       newQueue.showAdvancedQueryLink.click();
       expect(newQueue.advancedQueryFormField.getAttribute('value')).toMatch(/\{:groups \(and \(and \{#uuid [^}]* true}\)\)}/);
-      expect(newQueue.advancedQueryFormField.getAttribute('value')).not.toContain('or');
 
       // Select Group in Any section
       newQueue.showBasicQueryLink.click();
@@ -514,7 +513,6 @@ describe('The basic query builder', function() {
     }).then(function() {
       newQueue.showAdvancedQueryLink.click();
       expect(newQueue.advancedQueryFormField.getAttribute('value')).toMatch(/\{:groups \(and \(and \{#uuid [^}]* true}\) \(or \{#uuid [^}]* true\}\)\)}/);
-      expect(newQueue.advancedQueryFormField.getAttribute('value')).not.toContain('skills');
 
       // Select Skill in All section
       newQueue.showBasicQueryLink.click();
@@ -533,11 +531,43 @@ describe('The basic query builder', function() {
     }).then(function() {
       newQueue.showAdvancedQueryLink.click();
       expect(newQueue.advancedQueryFormField.getAttribute('value')).toMatch(/\{:groups \(and \(and \{#uuid [^}]* true}\) \(or \{#uuid [^}]* true}\)\) :skills \(and \(and \{#uuid [^}]* \(.*\)}\) \(or \{#uuid [^}]* \(.*\)}\)\)}/);
+    });
+  });
 
-      // Remove Group in All section
-      newQueue.showBasicQueryLink.click();
-      newQueue.allGroupsSelected.get(0).element(by.css('a')).click();
-    }).then(function() {
+
+  it('should update advanced query when altered', function() {
+    shared.createBtn.click();
+
+    // Add Groups & Skills filter
+    newQueue.addFilterDropdown.click();
+    newQueue.groupFilterDropdownOption.click();
+    newQueue.addFilterBtn.click();
+    newQueue.addFilterDropdown.click();
+    newQueue.skillFilterDropdownOption.click();
+    newQueue.addFilterBtn.click();
+
+    // Select group in All section
+    newQueue.allGroupsTypeAhead.click();
+    newQueue.allGroupsDropdownGroups.get(0).click();
+    newQueue.allGroupsAdd.click();
+
+    // Select Group in Any section
+    newQueue.anyGroupsTypeAhead.click();
+    newQueue.anyGroupsDropdownGroups.get(0).click();
+    newQueue.anyGroupsAdd.click();
+
+    // Select Skill in All section
+    newQueue.allSkillsTypeAhead.click();
+    newQueue.allSkillsDropdownSkills.get(0).click();
+    newQueue.allSkillsAdd.click();
+
+    // Select Skill in Any section
+    newQueue.anySkillsTypeAhead.click();
+    newQueue.anySkillsDropdownSkills.get(0).click();
+    newQueue.anySkillsAdd.click()
+
+    // Remove Group in All section
+    newQueue.allGroupsSelected.get(0).element(by.css('a')).click().then(function() {
       newQueue.showAdvancedQueryLink.click();
       expect(newQueue.advancedQueryFormField.getAttribute('value')).toMatch(/\{:groups \(and \(or {#uuid [^}]* true}\)\) :skills \(and \(and \{#uuid [^}]* \(.*\)}\) \(or \{#uuid [^}]* \(.*\)}\)\)}/);
 
@@ -547,7 +577,6 @@ describe('The basic query builder', function() {
     }).then(function() {
       newQueue.showAdvancedQueryLink.click();
       expect(newQueue.advancedQueryFormField.getAttribute('value')).toMatch(/\{:skills \(and \(and \{#uuid [^}]* \(.*\)}\) \(or \{#uuid [^}]* \(.*\)}\)\)}/);
-      expect(newQueue.advancedQueryFormField.getAttribute('value')).not.toContain('groups');
 
       // Remove Skill in All section
       newQueue.showBasicQueryLink.click();
