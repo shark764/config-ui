@@ -1,16 +1,16 @@
-<div class="input-group">
+<div class="input-group" id="add-query-filter">
   <label>Add a filter: </label>
-  
+
   <div class="instant-add">
-    <select ng-model="selectedComponent" ng-options="component as component.display for (k, component) in queryComponents">
+    <select id="select-filter-dropdown" ng-model="selectedComponent" ng-options="component as component.display for (k, component) in queryComponents">
       <option value="" disabled>Select filter...</option>
     </select>
     <div style="width: 40px;">
       <button class="add btn" type="button"
         ng-disabled="! selectedComponent"
         ng-click="add(selectedComponent)">
-      
-        <i class="fa fa-plus"></i>
+
+        <i id="add-filter-btn" class="fa fa-plus"></i>
       </button>
     </div>
   </div>
@@ -21,7 +21,7 @@
     <div class="divider-header">
       <h4 class="">Group Filters</h4>
     </div>
-    
+
     <group-query-modifier
       id="basic-query-all-groups"
       class="input-group"
@@ -31,7 +31,7 @@
       placeholder-key="queue.query.builder.groups.placeholder"
       operator="and">
     </group-query-modifier>
-  
+
     <group-query-modifier
       id="basic-query-any-groups"
       class="input-group"
@@ -50,7 +50,7 @@
     <div class="divider-header">
       <h4 class="">Skill Filters</h4>
     </div>
-    
+
     <skill-query-modifier
       id="basic-query-all-skills"
       class="input-group"
@@ -61,7 +61,7 @@
       placeholder-key="queue.query.builder.skills.placeholder"
       operator="and">
     </skill-query-modifier>
-  
+
     <skill-query-modifier
       id="basic-query-any-skills"
       class="input-group"

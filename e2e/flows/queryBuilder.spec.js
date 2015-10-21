@@ -28,6 +28,11 @@ describe('The basic query builder', function() {
   it('should display all tenant groups', function() {
     shared.createBtn.click();
 
+    // Add Groups filter
+    newQueue.addFilterDropdown.click();
+    newQueue.groupFilterDropdownOption.click();
+    newQueue.addFilterBtn.click();
+
     // Get list of Groups from 'All' query dropdown
     var groupNameList = [];
     newQueue.allGroupsTypeAhead.click();
@@ -57,6 +62,11 @@ describe('The basic query builder', function() {
   it('should display all tenant skills', function() {
     shared.createBtn.click();
 
+    // Add Skills filter
+    newQueue.addFilterDropdown.click();
+    newQueue.skillFilterDropdownOption.click();
+    newQueue.addFilterBtn.click();
+
     // Get list of Skills from 'All' query dropdown
     var skillNameList = [];
     newQueue.allSkillsTypeAhead.click();
@@ -85,6 +95,14 @@ describe('The basic query builder', function() {
 
   it('should add groups and skills when selected', function() {
     shared.createBtn.click();
+
+    // Add Groups & Skills filter
+    newQueue.addFilterDropdown.click();
+    newQueue.groupFilterDropdownOption.click();
+    newQueue.addFilterBtn.click();
+    newQueue.addFilterDropdown.click();
+    newQueue.skillFilterDropdownOption.click();
+    newQueue.addFilterBtn.click();
 
     // Select group from 'All' query dropdown
     newQueue.allGroupsTypeAhead.click();
@@ -123,9 +141,16 @@ describe('The basic query builder', function() {
     });
   });
 
-  xit('should remove group from \'All\' and leave other selected groups/skills', function() {
-    // TODO BUG More than one gets removed
+  it('should remove group from \'All\' and leave other selected groups/skills', function() {
     shared.createBtn.click();
+
+    // Add Groups & Skills filter
+    newQueue.addFilterDropdown.click();
+    newQueue.groupFilterDropdownOption.click();
+    newQueue.addFilterBtn.click();
+    newQueue.addFilterDropdown.click();
+    newQueue.skillFilterDropdownOption.click();
+    newQueue.addFilterBtn.click();
 
     // Select group from 'All' query dropdown
     newQueue.allGroupsTypeAhead.click();
@@ -161,9 +186,16 @@ describe('The basic query builder', function() {
     });
   });
 
-  xit('should remove group from \'Any\' and leave other selected groups/skills', function() {
-    // TODO BUG More than one gets removed
+  it('should remove group from \'Any\' and leave other selected groups/skills', function() {
     shared.createBtn.click();
+
+    // Add Groups & Skills filter
+    newQueue.addFilterDropdown.click();
+    newQueue.groupFilterDropdownOption.click();
+    newQueue.addFilterBtn.click();
+    newQueue.addFilterDropdown.click();
+    newQueue.skillFilterDropdownOption.click();
+    newQueue.addFilterBtn.click();
 
     // Select group from 'All' query dropdown
     newQueue.allGroupsTypeAhead.click();
@@ -199,9 +231,16 @@ describe('The basic query builder', function() {
     });
   });
 
-  xit('should remove skill from \'All\' and leave other selected groups/skills', function() {
-    // TODO BUG More than one gets removed
+  it('should remove skill from \'All\' and leave other selected groups/skills', function() {
     shared.createBtn.click();
+
+    // Add Groups & Skills filter
+    newQueue.addFilterDropdown.click();
+    newQueue.groupFilterDropdownOption.click();
+    newQueue.addFilterBtn.click();
+    newQueue.addFilterDropdown.click();
+    newQueue.skillFilterDropdownOption.click();
+    newQueue.addFilterBtn.click();
 
     // Select group from 'All' query dropdown
     newQueue.allGroupsTypeAhead.click();
@@ -237,9 +276,16 @@ describe('The basic query builder', function() {
     });
   });
 
-  xit('should remove skill from \'Any\' and leave other selected groups/skills', function() {
-    // TODO BUG More than one gets removed
+  it('should remove skill from \'Any\' and leave other selected groups/skills', function() {
     shared.createBtn.click();
+
+    // Add Groups & Skills filter
+    newQueue.addFilterDropdown.click();
+    newQueue.groupFilterDropdownOption.click();
+    newQueue.addFilterBtn.click();
+    newQueue.addFilterDropdown.click();
+    newQueue.skillFilterDropdownOption.click();
+    newQueue.addFilterBtn.click();
 
     // Select group from 'All' query dropdown
     newQueue.allGroupsTypeAhead.click();
@@ -278,6 +324,11 @@ describe('The basic query builder', function() {
   it('should add all groups', function() {
     shared.createBtn.click();
 
+    // Add Groups filter
+    newQueue.addFilterDropdown.click();
+    newQueue.groupFilterDropdownOption.click();
+    newQueue.addFilterBtn.click();
+
     newQueue.allGroupsTypeAhead.click();
     newQueue.allGroupsDropdownGroups.count().then(function(groupCount) {
       for (var i = 0; i < groupCount; i++) {
@@ -299,6 +350,11 @@ describe('The basic query builder', function() {
   it('should add all skills', function() {
     shared.createBtn.click();
 
+    // Add Skills filter
+    newQueue.addFilterDropdown.click();
+    newQueue.skillFilterDropdownOption.click();
+    newQueue.addFilterBtn.click();
+
     newQueue.anySkillsTypeAhead.click();
     newQueue.anySkillsDropdownSkills.count().then(function(skillCount) {
       for (var j = 0; j < skillCount; j++) {
@@ -318,9 +374,16 @@ describe('The basic query builder', function() {
     });
   });
 
-  xit('should update advanced query when altered', function() {
-    // TODO Fails from more than one skill being removed
+  it('should update advanced query when altered', function() {
     shared.createBtn.click();
+
+    // Add Groups & Skills filter
+    newQueue.addFilterDropdown.click();
+    newQueue.groupFilterDropdownOption.click();
+    newQueue.addFilterBtn.click();
+    newQueue.addFilterDropdown.click();
+    newQueue.skillFilterDropdownOption.click();
+    newQueue.addFilterBtn.click();
 
     // Select group in All section
     newQueue.allGroupsTypeAhead.click();
@@ -328,8 +391,8 @@ describe('The basic query builder', function() {
     newQueue.allGroupsAdd.click().then(function() {
       // Review Advanced Query
       newQueue.showAdvancedQueryLink.click();
-      expect(newQueue.advancedQueryFormField.getAttribute('value')).toContain('{:groups (and (and {#');
-      expect(newQueue.advancedQueryFormField.getAttribute('value')).not.toContain('}) (or {#');
+      expect(newQueue.advancedQueryFormField.getAttribute('value')).toMatch(/\{:groups \(and \(and \{#uuid [^}]* true}\)\)}/);
+      expect(newQueue.advancedQueryFormField.getAttribute('value')).not.toContain('or');
 
       // Select Group in Any section
       newQueue.showBasicQueryLink.click();
@@ -338,9 +401,8 @@ describe('The basic query builder', function() {
       newQueue.anyGroupsAdd.click();
     }).then(function() {
       newQueue.showAdvancedQueryLink.click();
-      expect(newQueue.advancedQueryFormField.getAttribute('value')).toContain('{:groups (and (and {#');
-      expect(newQueue.advancedQueryFormField.getAttribute('value')).toContain('}) (or {#');
-      expect(newQueue.advancedQueryFormField.getAttribute('value')).not.toContain(':skills (and (and {#');
+      expect(newQueue.advancedQueryFormField.getAttribute('value')).toMatch(/\{:groups \(and \(and \{#uuid [^}]* true}\) \(or \{#uuid [^}]* true\}\)\)}/);
+      expect(newQueue.advancedQueryFormField.getAttribute('value')).not.toContain('skills');
 
       // Select Skill in All section
       newQueue.showBasicQueryLink.click();
@@ -349,10 +411,7 @@ describe('The basic query builder', function() {
       newQueue.allSkillsAdd.click();
     }).then(function() {
       newQueue.showAdvancedQueryLink.click();
-      expect(newQueue.advancedQueryFormField.getAttribute('value')).toContain('{:groups (and (and {#');
-      expect(newQueue.advancedQueryFormField.getAttribute('value')).toContain('}) (or {#');
-      expect(newQueue.advancedQueryFormField.getAttribute('value')).toContain(':skills (and (and {#');
-      expect(newQueue.advancedQueryFormField.getAttribute('value')).not.toContain('}) (or {#');
+      expect(newQueue.advancedQueryFormField.getAttribute('value')).toMatch(/\{:groups \(and \(and \{#uuid [^}]* true}\) \(or \{#uuid [^}]* true}\)\) :skills \(and \(and \{#uuid [^}]* \(.*\)}\)\)}/);
 
       // Select Skill in Any section
       newQueue.showBasicQueryLink.click();
@@ -361,55 +420,50 @@ describe('The basic query builder', function() {
       newQueue.anySkillsAdd.click();
     }).then(function() {
       newQueue.showAdvancedQueryLink.click();
-      expect(newQueue.advancedQueryFormField.getAttribute('value')).toContain('{:groups (and (and {#');
-      expect(newQueue.advancedQueryFormField.getAttribute('value')).toContain('}) (or {#');
-      expect(newQueue.advancedQueryFormField.getAttribute('value')).toContain(':skills (and (and {#');
-      expect(newQueue.advancedQueryFormField.getAttribute('value')).toContain('}) (or {#');
+      expect(newQueue.advancedQueryFormField.getAttribute('value')).toMatch(/\{:groups \(and \(and \{#uuid [^}]* true}\) \(or \{#uuid [^}]* true}\)\) :skills \(and \(and \{#uuid [^}]* \(.*\)}\) \(or \{#uuid [^}]* \(.*\)}\)\)}/);
 
       // Remove Group in All section
       newQueue.showBasicQueryLink.click();
       newQueue.allGroupsSelected.get(0).element(by.css('a')).click();
     }).then(function() {
       newQueue.showAdvancedQueryLink.click();
-      expect(newQueue.advancedQueryFormField.getAttribute('value')).not.toContain('groups (and (and');
-      expect(newQueue.advancedQueryFormField.getAttribute('value')).toContain(':groups (and (or {#');
-      expect(newQueue.advancedQueryFormField.getAttribute('value')).toContain(':skills (and (and {#');
-      expect(newQueue.advancedQueryFormField.getAttribute('value')).toContain('}) (or {#');
+      expect(newQueue.advancedQueryFormField.getAttribute('value')).toMatch(/\{:groups \(and \(or {#uuid [^}]* true}\)\) :skills \(and \(and \{#uuid [^}]* \(.*\)}\) \(or \{#uuid [^}]* \(.*\)}\)\)}/);
 
       // Remove Group in Any section
       newQueue.showBasicQueryLink.click();
       newQueue.anyGroupsSelected.get(0).element(by.css('a')).click();
     }).then(function() {
       newQueue.showAdvancedQueryLink.click();
-      expect(newQueue.advancedQueryFormField.getAttribute('value')).not.toContain('groups (and (and');
-      expect(newQueue.advancedQueryFormField.getAttribute('value')).not.toContain('groups (and (or');
+      expect(newQueue.advancedQueryFormField.getAttribute('value')).toMatch(/\{:skills \(and \(and \{#uuid [^}]* \(.*\)}\) \(or \{#uuid [^}]* \(.*\)}\)\)}/);
       expect(newQueue.advancedQueryFormField.getAttribute('value')).not.toContain('groups');
-      expect(newQueue.advancedQueryFormField.getAttribute('value')).toContain(':skills (and (and {#');
-      expect(newQueue.advancedQueryFormField.getAttribute('value')).toContain('}) (or {#');
 
       // Remove Skill in All section
       newQueue.showBasicQueryLink.click();
       newQueue.allSkillsSelected.get(0).element(by.css('a')).click();
     }).then(function() {
       newQueue.showAdvancedQueryLink.click();
-      expect(newQueue.advancedQueryFormField.getAttribute('value')).not.toContain('groups (and (and');
-      expect(newQueue.advancedQueryFormField.getAttribute('value')).not.toContain('groups (and (or');
-      expect(newQueue.advancedQueryFormField.getAttribute('value')).not.toContain('groups');
-      expect(newQueue.advancedQueryFormField.getAttribute('value')).not.toContain('skills (and (and');
-      expect(newQueue.advancedQueryFormField.getAttribute('value')).toContain('{:skills (and (or {#');
+      expect(newQueue.advancedQueryFormField.getAttribute('value')).toMatch(/\{:skills \(and \(or \{#uuid [^}]* \(.*\)}\)\)}/);
 
       // Remove Skill in Any section
       newQueue.showBasicQueryLink.click();
-      newQueue.allSkillsSelected.get(0).element(by.css('a')).click();
+      newQueue.anySkillsSelected.get(0).element(by.css('a')).click();
     }).thenFinally(function () {
       newQueue.showAdvancedQueryLink.click();
       expect(newQueue.advancedQueryFormField.getAttribute('value')).toBe('{}');
     });
   });
 
-  xit('should be updated when advanced query is altered', function() {
+  it('should be updated when advanced query is altered', function() {
     var updatedAdvancedQuery;
     shared.createBtn.click();
+
+    // Add Groups & Skills filter
+    newQueue.addFilterDropdown.click();
+    newQueue.groupFilterDropdownOption.click();
+    newQueue.addFilterBtn.click();
+    newQueue.addFilterDropdown.click();
+    newQueue.skillFilterDropdownOption.click();
+    newQueue.addFilterBtn.click();
 
     // Select group in All section
     newQueue.allGroupsTypeAhead.click();
@@ -433,7 +487,7 @@ describe('The basic query builder', function() {
       newQueue.advancedQueryFormField.getAttribute('value').then(function(advancedQuery) {
         // Change advanced query to have selections in the 'Any' section instead of 'All'
         // Replace 'and' with 'or'
-        updatedAdvancedQuery = advancedQuery.replace('(and {#', '(or {#');
+        updatedAdvancedQuery = advancedQuery.replace(/\(and \{#/g, '(or {#');
 
         newQueue.advancedQueryFormField.clear();
         newQueue.advancedQueryFormField.sendKeys(updatedAdvancedQuery);
@@ -451,9 +505,17 @@ describe('The basic query builder', function() {
     });
   });
 
-  xit('should be saved with new queue', function() {
+  it('should be saved with new queue', function() {
     shared.createBtn.click();
     randomQueue = Math.floor((Math.random() * 100) + 1);
+
+    // Add Groups & Skills filter
+    newQueue.addFilterDropdown.click();
+    newQueue.groupFilterDropdownOption.click();
+    newQueue.addFilterBtn.click();
+    newQueue.addFilterDropdown.click();
+    newQueue.skillFilterDropdownOption.click();
+    newQueue.addFilterBtn.click();
 
     // Select group/skill in each section
     newQueue.allGroupsTypeAhead.click();
@@ -480,31 +542,44 @@ describe('The basic query builder', function() {
     queues.nameFormField.sendKeys('New Queue ' + randomQueue);
     shared.submitFormBtn.click().then(function() {
       shared.waitForSuccess();
-      expect(shared.successMessage.isDisplayed()).toBeTruthy();
       expect(shared.tableElements.count()).toBeGreaterThan(queueCount);
 
-      // Wait for version table to show nwe version
+      // Wait for version table to show new version
       browser.driver.wait(function() {
         return queues.queueVersions.count().then(function(queueVersionCount) {
           return queueVersionCount == 1;
         });
       }, 5000).then(function() {
         // Verify all selected groups/skills are saved
-        expect(queues.basicQueryDetails.get(0).getText()).toContain('All of these groups:');
-        expect(queues.basicQueryDetails.get(0).getText()).toContain('Any of these groups:');
-        expect(queues.basicQueryDetails.get(0).getText()).toContain('All of these skills:');
-        expect(queues.basicQueryDetails.get(0).getText()).toContain('Any of these skills:');
-        expect(queues.basicQueryAllGroupDetails.get(0).getText()).toContain(allGroupName);
-        expect(queues.basicQueryAnyGroupDetails.get(0).getText()).toContain(anyGroupName);
-        expect(queues.basicQueryAllSkillDetails.get(0).getText()).toContain(allSkillName);
-        expect(queues.basicQueryAnySkillDetails.get(0).getText()).toContain(anySkillName);
+        element(by.id("view-version-v1")).isDisplayed().then(function (versionDisplayed) {
+          if(!versionDisplayed) {
+            queues.queueVersions.get(0).click();
+          }
+        }).then(function () {
+          expect(queues.basicQueryDetails.get(0).getText()).toContain('All of these groups:');
+          expect(queues.basicQueryDetails.get(0).getText()).toContain('Any of these groups:');
+          expect(queues.basicQueryDetails.get(0).getText()).toContain('All of these skills:');
+          expect(queues.basicQueryDetails.get(0).getText()).toContain('Any of these skills:');
+          expect(queues.basicQueryAllGroupDetails.get(0).getText()).toContain(allGroupName);
+          expect(queues.basicQueryAnyGroupDetails.get(0).getText()).toContain(anyGroupName);
+          expect(queues.basicQueryAllSkillDetails.get(0).getText()).toContain(allSkillName);
+          expect(queues.basicQueryAnySkillDetails.get(0).getText()).toContain(anySkillName);
+        });
       });
     });
   });
 
-  xit('should save advanced query with new queue', function() {
+  it('should save advanced query with new queue', function() {
     shared.createBtn.click();
     randomQueue = Math.floor((Math.random() * 100) + 1);
+
+    // Add Groups & Skills filter
+    newQueue.addFilterDropdown.click();
+    newQueue.groupFilterDropdownOption.click();
+    newQueue.addFilterBtn.click();
+    newQueue.addFilterDropdown.click();
+    newQueue.skillFilterDropdownOption.click();
+    newQueue.addFilterBtn.click();
 
     // Select group/skill in each section
     newQueue.allGroupsTypeAhead.click();
@@ -529,7 +604,7 @@ describe('The basic query builder', function() {
       // Complete required queue fields
       queues.nameFormField.sendKeys('New Queue ' + randomQueue);
       shared.submitFormBtn.click().then(function() {
-        expect(shared.successMessage.isDisplayed()).toBeTruthy();
+        shared.waitForSuccess();
         expect(shared.tableElements.count()).toBeGreaterThan(queueCount);
 
         // Verify all selected groups/skills are saved
@@ -538,7 +613,7 @@ describe('The basic query builder', function() {
     });
   });
 
-  it('should create queue without version when advanced query field is submited with an invalid query', function() {
+  xit('should create queue without version when advanced query field is submited with an invalid query', function() {
     // TODO Update after TITAN2-3290
     shared.createBtn.click();
     randomQueue = Math.floor((Math.random() * 100) + 1);

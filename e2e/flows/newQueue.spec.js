@@ -122,8 +122,7 @@ describe('The create new queues view', function() {
       expect(shared.tableElements.count()).toBeGreaterThan(0);
 
       // Default version created
-      // TODO Bug: Not seleceted by default
-      //expect(queues.activeVersionDropdown.$('option:checked').getText()).toBe('v1');
+      expect(queues.activeVersionDropdown.$('option:checked').getText()).toBe('v1');
       expect(queues.queueVersions.count()).toBe(1);
       expect(queues.queueVersions.get(0).getText()).toContain('v1');
     });
@@ -165,9 +164,8 @@ describe('The create new queues view', function() {
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
     shared.submitFormBtn.click();
 
-    // TODO TITAN2-4097
-    //expect(queues.requiredErrors.get(0).isDisplayed()).toBeTruthy();
-    //expect(queues.requiredErrors.get(0).getText()).toBe('Field "Name" is required.');
+    expect(queues.requiredErrors.get(0).isDisplayed()).toBeTruthy();
+    expect(queues.requiredErrors.get(0).getText()).toBe('Field "Name" is required.');
     expect(shared.tableElements.count()).toBe(queueCount);
     expect(shared.successMessage.isPresent()).toBeFalsy();
   });
@@ -183,14 +181,13 @@ describe('The create new queues view', function() {
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
     shared.submitFormBtn.click();
 
-    // TODO TITAN2-4097
-    //expect(queues.requiredErrors.get(0).isDisplayed()).toBeTruthy();
-    //expect(queues.requiredErrors.get(0).getText()).toBe('Field "Query" is required.');
+    expect(queues.requiredErrors.get(0).isDisplayed()).toBeTruthy();
+    expect(queues.requiredErrors.get(0).getText()).toBe('Field "Query" is required.');
     expect(shared.tableElements.count()).toBe(queueCount);
     expect(shared.successMessage.isPresent()).toBeFalsy();
   });
 
-  //TODO: bug, see TITAN2-3765
+  //TODO: bug, see TITAN2-3765 TITAN2-3290
   xit('should validate query field', function() {
     shared.createBtn.click();
     randomQueue = Math.floor((Math.random() * 100) + 1);
@@ -234,11 +231,10 @@ describe('The create new queues view', function() {
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
     shared.submitFormBtn.click();
 
-    // TODO TITAN2-4097
-    //expect(queues.requiredErrors.get(0).isDisplayed()).toBeTruthy();
-    //expect(queues.requiredErrors.get(0).getText()).toBe('Field "Name" is required.');
-    //expect(queues.requiredErrors.get(1).isDisplayed()).toBeTruthy();
-    //expect(queues.requiredErrors.get(1).getText()).toBe('Field "Query" is required.');
+    expect(queues.requiredErrors.get(0).isDisplayed()).toBeTruthy();
+    expect(queues.requiredErrors.get(0).getText()).toBe('Field "Name" is required.');
+    expect(queues.requiredErrors.get(1).isDisplayed()).toBeTruthy();
+    expect(queues.requiredErrors.get(1).getText()).toBe('Field "Query" is required.');
 
     expect(shared.successMessage.isPresent()).toBeFalsy();
     expect(shared.tableElements.count()).toBe(queueCount);
@@ -258,11 +254,10 @@ describe('The create new queues view', function() {
     // Submit button is disabled
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
     shared.submitFormBtn.click().then(function() {
-      // TODO TITAN2-4097
-      //expect(queues.requiredErrors.get(0).getText()).toBe('Field "Min Priority" is required.');
-      //expect(queues.requiredErrors.get(1).getText()).toBe('Field "Max Priority" is required.');
-      //expect(queues.requiredErrors.get(2).getText()).toBe('Field "Priority Value" is required.');
-      //expect(queues.requiredErrors.get(3).getText()).toBe('Field "Priority Rate" is required.');
+      expect(queues.requiredErrors.get(0).getText()).toBe('Field "Min Priority" is required.');
+      expect(queues.requiredErrors.get(1).getText()).toBe('Field "Max Priority" is required.');
+      expect(queues.requiredErrors.get(2).getText()).toBe('Field "Priority Value" is required.');
+      expect(queues.requiredErrors.get(3).getText()).toBe('Field "Priority Rate" is required.');
 
       expect(shared.tableElements.count()).toBe(queueCount);
       expect(shared.successMessage.isPresent()).toBeFalsy();
