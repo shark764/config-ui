@@ -49,14 +49,33 @@ describe('UserProfileController', function() {
     it('should PUT to /v1/users on submit', function() {
       $httpBackend.expect('PUT', apiHostname + '/v1/users/userId1').respond(200);
       $scope.userForm = {
-        password : {
-          $setPristine : jasmine.createSpy('$setPristine')
+        password: {
+          $setPristine: jasmine.createSpy('$setPristine')
         }
-     }; 
-      
+      };
+
       $scope.submit();
 
       $httpBackend.flush();
     });
+
+    it('should update your existing token', inject(['Session', function(Session) {
+      $httpBackend.expect('PUT', apiHostname + '/v1/users/userId1').respond(200);
+      $scope.userForm = {
+        password: {
+          $dirty: true,
+          $setPristine: jasmine.createSpy('$setPristine')
+        }
+      };
+
+      $scope.tenantUser.$user.password = 'password1';
+      var currentToken = Session.token;
+
+      $scope.submit();
+
+      $httpBackend.flush();
+
+      expect(currentToken).not.toEqual(Session.token);
+    }]));
   });
 });
