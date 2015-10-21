@@ -143,7 +143,6 @@ describe('The user skills component of User view', function() {
       browser.get(shared.usersPageUrl);
       shared.firstTableRow.click();
       users.addSkillSearch.sendKeys(newSkillName + '\t');
-      expect(users.skillProficiency.isPresent()).toBeFalsy();
 
       var skillAdded = false;
       users.addSkillBtn.click().then(function() {
@@ -185,19 +184,19 @@ describe('The user skills component of User view', function() {
         // Set proficiency below Minimum
         users.skillProficiency.clear();
         users.skillProficiency.sendKeys(0);
-        expect(users.skillProficiency.getAttribute('value')).toBe('1');
+        expect(users.skillProficiency.get(0).getAttribute('value')).toBe('1');
         expect(users.proficiencyCounterDown.getAttribute('class')).toContain('disabled');
         expect(users.proficiencyCounterUp.getAttribute('class')).not.toContain('disabled');
 
         // Decrement proficiency counter to Minimum
         users.proficiencyCounterDown.click();
-        expect(users.skillProficiency.getAttribute('value')).toBe('1');
+        expect(users.skillProficiency.get(0).getAttribute('value')).toBe('1');
         expect(users.proficiencyCounterDown.getAttribute('class')).toContain('disabled');
         expect(users.proficiencyCounterUp.getAttribute('class')).not.toContain('disabled');
 
         // Increment proficiency counter
         users.proficiencyCounterUp.click();
-        expect(users.skillProficiency.getAttribute('value')).toBe('2');
+        expect(users.skillProficiency.get(0).getAttribute('value')).toBe('2');
         expect(users.proficiencyCounterDown.getAttribute('class')).not.toContain('disabled');
         expect(users.proficiencyCounterUp.getAttribute('class')).not.toContain('disabled');
 
@@ -205,13 +204,13 @@ describe('The user skills component of User view', function() {
         users.skillProficiency.clear();
         users.skillProficiency.sendKeys('99');
         users.proficiencyCounterUp.click();
-        expect(users.skillProficiency.getAttribute('value')).toBe('100');
+        expect(users.skillProficiency.get(0).getAttribute('value')).toBe('100');
         expect(users.proficiencyCounterDown.getAttribute('class')).not.toContain('disabled');
         expect(users.proficiencyCounterUp.getAttribute('class')).toContain('disabled');
 
         // Decrement proficiency counter
         users.proficiencyCounterDown.click();
-        expect(users.skillProficiency.getAttribute('value')).toBe('99');
+        expect(users.skillProficiency.get(0).getAttribute('value')).toBe('99');
         expect(users.proficiencyCounterDown.getAttribute('class')).not.toContain('disabled');
         expect(users.proficiencyCounterUp.getAttribute('class')).not.toContain('disabled');
 
@@ -219,7 +218,7 @@ describe('The user skills component of User view', function() {
         users.skillProficiency.clear();
         users.skillProficiency.sendKeys('101');
         users.proficiencyCounterUp.click();
-        expect(users.skillProficiency.getAttribute('value')).toBe('100');
+        expect(users.skillProficiency.get(0).getAttribute('value')).toBe('100');
         expect(users.proficiencyCounterDown.getAttribute('class')).not.toContain('disabled');
         expect(users.proficiencyCounterUp.getAttribute('class')).toContain('disabled');
       });
@@ -312,6 +311,7 @@ describe('The user skills component of User view', function() {
         for (var i = 1; i <= userSkillCount; i++) {
           users.userSkillTableRows.get(userSkillCount - i).element(by.css('i')).click();
           shared.waitForSuccess();
+          shared.closeMessageBtn.click();
         }
       }).then(function() {
         expect(users.userSkills.count()).toBe(0);
@@ -574,6 +574,51 @@ describe('The user skills component of User view', function() {
           expect(currentUserSkill.element(by.model(users.editSkillProficiency)).getAttribute('value')).toBe('100');
           expect(users.editProficiencySave.isEnabled()).toBeTruthy();
         }
+      });
+    });
+  });
+
+  it('should autocomplete skill dropdown when arrow buttons are selected', function() {
+    //Create a new user
+    shared.createBtn.click();
+    var randomUser = Math.floor((Math.random() * 1000) + 1);
+    var newUserFirstName = 'First ' + randomUser;
+
+    users.emailFormField.sendKeys('titantest' + randomUser + '@mailinator.com\t');
+    users.tenantRoleFormDropdownOptions.get((randomUser % 3) + 1).click();
+    users.platformRoleFormDropdownOptions.get(1).click();
+
+    users.firstNameFormField.sendKeys(newUserFirstName);
+    users.lastNameFormField.sendKeys('Last ' + randomUser);
+
+    users.submitFormBtn.click().then(function() {
+      expect(shared.successMessage.isDisplayed()).toBeTruthy();
+
+      //Add a skill to the new user
+      users.addSkillSearch.click();
+      browser.driver.actions().sendKeys(protractor.Key.ARROW_DOWN).perform().then(function() {
+        // Expect first skill to be highlighted
+        expect(users.skillDropdownItems.get(0).getAttribute('class')).toContain('highlight');
+        expect(users.skillDropdownItems.get(1).getAttribute('class')).not.toContain('highlight');
+
+        browser.driver.actions().sendKeys(protractor.Key.ARROW_DOWN).perform().then(function() {
+          // Expect second skill to be highlighted
+          expect(users.skillDropdownItems.get(0).getAttribute('class')).not.toContain('highlight');
+          expect(users.skillDropdownItems.get(1).getAttribute('class')).toContain('highlight');
+
+          browser.driver.actions().sendKeys(protractor.Key.ARROW_UP).perform().then(function() {
+            // Expect first skill to be highlighted again
+            expect(users.skillDropdownItems.get(0).getAttribute('class')).toContain('highlight');
+            expect(users.skillDropdownItems.get(1).getAttribute('class')).not.toContain('highlight');
+
+            users.skillDropdownItems.get(0).getText().then(function(firstSkillName) {
+              users.addSkillSearch.sendKeys('\n');
+
+              // Expect first skill to be selected
+              expect(users.userSkills.get(0).getText()).toContain(firstSkillName);
+            });
+          });
+        });
       });
     });
   });

@@ -27,16 +27,17 @@ var QueuePage = function() {
   this.priorityRateUnitDefault = 'seconds';
 
   // EXISTING QUEUE VERSIONS
+  this.noVersionsMsg = element(by.id('no-versions-msg'));
   this.versionsTable = element(by.css('.queue-version-table'));
   this.queueVersions = this.versionsTable.all(by.css('[id^=version-row]')); // All rows with id that starts with 'version-row'
   this.activeVersion = this.versionsTable.element(by.css('.fa-circle'));
   this.copyVersionBtn = element.all(by.id('create-version-copy-btn'));
   this.basicQueryDetails = element.all(by.id('version-basic-query-details'));
 
-  this.basicQueryAllGroupDetails = this.versionsTable.all(by.css('[operator=every]'));
-  this.basicQueryAnyGroupDetails = this.versionsTable.all(by.css('[operator=some]'));
-  this.basicQueryAllSkillDetails = this.versionsTable.all(by.css('[operator=and]'));
-  this.basicQueryAnySkillDetails = this.versionsTable.all(by.css('[operator=or]'));
+  this.basicQueryAllGroupDetails = this.versionsTable.all(by.css('[label-key="queue.query.builder.groups.all"]'));
+  this.basicQueryAnyGroupDetails = this.versionsTable.all(by.css('[label-key="queue.query.builder.groups.some"]'));
+  this.basicQueryAllSkillDetails = this.versionsTable.all(by.css('[label-key="queue.query.builder.skills.all"]'));
+  this.basicQueryAnySkillDetails = this.versionsTable.all(by.css('[label-key="queue.query.builder.skills.some"]'));
 
   this.advancedQueryFormField = this.versionsTable.all(by.id('advanced-query-field'));
 

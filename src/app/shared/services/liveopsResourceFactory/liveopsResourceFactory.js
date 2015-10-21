@@ -164,7 +164,31 @@ angular.module('liveopsConfigPanel')
           });
 
           Resource.prototype.resourceName = params.resourceName;
-
+          
+          Resource.prototype.$$backupSudoProperties = function() {
+            var backup = {};
+            angular.forEach(this, function(value, key) {
+              if (key.match(/^\$[^$].*/g) &&
+                !angular.isFunction(value) &&
+                (['$original', '$busy', '$resolved'].indexOf(key) < 0)) {
+                backup[key] = value;
+              }
+            });
+            
+            return backup;
+          };
+          
+          Resource.prototype.$$restoreSudoProperties = function(result, backup) {
+            angular.forEach(backup, function(value, key) {
+              //if the key is already present, don't overwrite it.
+              if(!result[key]) {
+                result[key] = value;
+              } else if(angular.isObject(value)) {
+                angular.extend(result[key], value);
+              }
+            });
+          };
+          
           var proxyGet = Resource.get;
 
           Resource.get = function(params, success, failure) {
@@ -207,9 +231,9 @@ angular.module('liveopsConfigPanel')
           };
 
           var proxyUpdate = Resource.prototype.$update;
-          Resource.prototype.$update = function(params, success, failure) {
-            var promise = proxyUpdate.call(this, params, success, failure);
-
+          Resource.prototype.$update = function(queryParams, success, failure) {
+            var promise = proxyUpdate.call(this, queryParams, success, failure);
+            
             promise.then(function(result) {
               result.$original = angular.copy(result);
               return result;
@@ -259,13 +283,20 @@ angular.module('liveopsConfigPanel')
                 action = this.isNew() ? this.$save : this.$update;
 
             self.$busy = true;
+            
+            //backup sudo properties such as $user, $groups
+            var backup = this.$$backupSudoProperties();
 
             return action.call(self, params, success, failure)
               .then(function(result) {
                 self.$original = angular.copy(result);
                 if(self.$original && self.$original.$original) {
-                  delete self.$original.$original; //Prevent the object from keeping a history, if $original is present on result
+                  //Prevent the object from keeping a history, if $original is present on result
+                  delete self.$original.$original;
                 }
+                
+                //restore backed-up sudo properties
+                self.$$restoreSudoProperties(result, backup);
                 
                 return result;
               }).finally(function() {
@@ -279,7 +310,7 @@ angular.module('liveopsConfigPanel')
                 angular.isFunction(this.$original[prop])) {
                 continue;
               }
-              this[prop] = this.$original[prop];
+              this[prop] = angular.copy(this.$original[prop]);
             }
           };
 

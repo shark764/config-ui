@@ -66,9 +66,6 @@ angular.module('liveopsConfigPanel.config', [])
     }, {
       'display': 'Pending Acceptance',
       'value': 'invited'
-    }, {
-      'display': 'Removed',
-      'value': 'removed'
     }];
   };
 })

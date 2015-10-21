@@ -20,7 +20,7 @@
     </div>
   </div>
   
-  <div ng-if="!selectedGroup.isNew() && ['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'MANAGE_ALL_GROUP_USERS', 'MANAGE_TENANT_ENROLLMENT'] | hasPermission" class="input-group">
+  <div ng-if="!selectedGroup.isNew() && ['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'MANAGE_ALL_GROUP_USERS', 'MANAGE_TENANT_ENROLLMENT'] | hasPermission">
     <div class="divider-header">
       <h4>Members
         <b class="count" translate="value.numMembers"
@@ -29,6 +29,18 @@
       </h4>
     </div>
   
+  <div id="addUser">
+    <type-ahead placeholder="{{'details.users.placeholder' | translate}}"
+    items="fetchUsers()"
+    name-field="displayName"
+    on-enter="save(item)"
+    selected-item="selectedUser"
+    filters="filterUsers"></type-ahead>
+    <a ng-show="!saving" id="add-skill-btn" ng-disabled="!selectedUser" ng-click="addMember(selectedUser)" class="btn"><i class="fa fa-plus"></i></a>
+    <a ng-show="saving" ng-disabled="true" class="btn btn-primary"><i class="fa fa-refresh fa-spin"></i></a>
+  </div>
+
+
     <p ng-if="selectedGroup.fetchGroupUsers().$resolved"
       class="null" id="empty-members-message" ng-hide="selectedGroup.fetchGroupUsers().length">
       {{'group.details.members.none' | translate}}
@@ -41,13 +53,17 @@
       scroll-table 
       max-height="300" 
       class="table" 
-      ng-show="selectedGroup.fetchGroupUsers().length > 0">
+      ng-show="selectedGroup.$memberList.length > 0">
       <thead>
-        <tr><th>{{'value.name' | translate}}</th></tr>
+        <tr>
+          <th>{{'value.name' | translate}}</th>
+          <th></th>
+        </tr>
       </thead>
       <tbody>
-        <tr ng-repeat="user in selectedGroup.fetchGroupUsers()">
+        <tr ng-repeat="user in selectedGroup.$memberList">
           <td><a ng-click="gotoUserPage(user.memberId)"><audit-text translation="value.displayName" user-id="user.memberId"></audit-text></a></td>
+          <td td style="text-align:right"><a id="remove-member-btn" ng-click="removeMember(user)"><i class="fa fa-times remove"></i></a></td>
         </tr>
       </tbody>
     </table>

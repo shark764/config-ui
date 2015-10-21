@@ -61,7 +61,7 @@ angular.module('liveopsConfigPanel')
       };
       
       $scope.fetchVersions = function(){
-        if (! $scope.selectedQueue){
+        if (! $scope.selectedQueue || $scope.selectedQueue.isNew()){
           return [];
         } else {
           return QueueVersion.cachedQuery({

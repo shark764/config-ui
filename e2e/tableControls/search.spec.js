@@ -3,6 +3,8 @@
 describe('The table search', function() {
   var loginPage = require('../login/login.po.js'),
     shared = require('../shared.po.js'),
+    search = require('./search.po.js'),
+    users = require('../management/users.po.js'),
     params = browser.params,
     elementCount;
 
@@ -19,51 +21,31 @@ describe('The table search', function() {
 
     shared.searchField.sendKeys('abc');
     shared.tableElements.then(function(rows) {
-      for (var i = 0; i < rows.length; ++i) {
-        rows[i].getText().then(function(value) {
-          expect(value.toLowerCase()).toContain('titan');
-        });
-      };
+      search.verifyUserSearch('abc', rows);
     });
 
     shared.searchField.clear();
     shared.searchField.sendKeys('123');
     shared.tableElements.then(function(rows) {
-      for (var i = 0; i < rows.length; ++i) {
-        rows[i].getText().then(function(value) {
-          expect(value.toLowerCase()).toContain('123');
-        });
-      };
+      search.verifyUserSearch('123', rows);
     });
 
     shared.searchField.clear();
     shared.searchField.sendKeys('!@#$%^&()_+`-=');
     shared.tableElements.then(function(rows) {
-      for (var i = 0; i < rows.length; ++i) {
-        rows[i].getText().then(function(value) {
-          expect(value.toLowerCase()).toContain('!@#$%^&()_+`-=');
-        });
-      };
+      search.verifyUserSearch('!@#$%^&()_+`-=', rows);
     });
 
     shared.searchField.clear();
     shared.searchField.sendKeys('[]\\{}|;\':\",./<>?');
     shared.tableElements.then(function(rows) {
-      for (var i = 0; i < rows.length; ++i) {
-        rows[i].getText().then(function(value) {
-          expect(value.toLowerCase()).toContain('[]\\{}|;\':\",./<>?');
-        });
-      };
+      search.verifyUserSearch('[]\\{}|;\':\",./<>?', rows);
     });
 
     shared.searchField.clear();
     shared.searchField.sendKeys('éëèẽê');
     shared.tableElements.then(function(rows) {
-      for (var i = 0; i < rows.length; ++i) {
-        rows[i].getText().then(function(value) {
-          expect(value.toLowerCase()).toContain('éëèẽê');
-        });
-      };
+      search.verifyUserSearch('éëèẽê', rows);
     });
 
     shared.searchField.clear();
@@ -81,71 +63,23 @@ describe('The table search', function() {
     expect(shared.tableElements.count()).toBe(elementCount);
 
     shared.searchField.clear();
+    expect(shared.tableElements.count()).toBe(elementCount);
+  });
+
+  it('should user * as a wildcard character with other letters', function() {
+    elementCount = shared.tableElements.count();
+
     shared.searchField.sendKeys('T*r');
-    //expect(shared.tableElements.count()).toBeGreaterThan(0);
     shared.tableElements.then(function(rows) {
-      for (var i = 0; i < rows.length; ++i) {
-        rows[i].getText().then(function(value) {
-          expect(value.toLowerCase()).toContain('t');
-          expect(value.toLowerCase()).toContain('r');
-          expect(value.toLowerCase()).toMatch(/.*t.*r.*/);
-        });
-      };
+      search.verifyUserSearch('t', rows);
+      search.verifyUserSearch('r', rows);
+      search.verifyUserSearchRegex(/.*t.*r.*/, rows);
     });
 
     shared.searchField.clear();
     shared.searchField.sendKeys('*t*');
-    //expect(shared.tableElements.count()).toBeGreaterThan(0);
     shared.tableElements.then(function(rows) {
-      for (var i = 0; i < rows.length; ++i) {
-        rows[i].getText().then(function(value) {
-          expect(value.toLowerCase()).toContain('t');
-        });
-      };
-    });
-
-    shared.searchField.clear();
-    shared.searchField.sendKeys('*r*');
-    //expect(shared.tableElements.count()).toBeGreaterThan(0);
-    shared.tableElements.then(function(rows) {
-      for (var i = 0; i < rows.length; ++i) {
-        rows[i].getText().then(function(value) {
-          expect(value.toLowerCase()).toContain('r');
-        });
-      };
-    });
-
-    shared.searchField.clear();
-    shared.searchField.sendKeys('* *');
-    //expect(shared.tableElements.count()).toBeGreaterThan(0);
-    shared.tableElements.then(function(rows) {
-      for (var i = 0; i < rows.length; ++i) {
-        rows[i].getText().then(function(value) {
-          expect(value.toLowerCase()).toContain(' ');
-        });
-      };
-    });
-
-    shared.searchField.clear();
-    shared.searchField.sendKeys('*u*');
-    //expect(shared.tableElements.count()).toBeGreaterThan(0);
-    shared.tableElements.then(function(rows) {
-      for (var i = 0; i < rows.length; ++i) {
-        rows[i].getText().then(function(value) {
-          expect(value.toLowerCase()).toContain('u');
-        });
-      };
-    });
-
-    shared.searchField.clear();
-    shared.searchField.sendKeys('*t*i*t*a*n* *u*s*e*r*');
-    //expect(shared.tableElements.count()).toBeGreaterThan(0);
-    shared.tableElements.then(function(rows) {
-      for (var i = 0; i < rows.length; ++i) {
-        rows[i].getText().then(function(value) {
-          expect(value.toLowerCase()).toContain('titan user');
-        });
-      };
+      search.verifyUserSearch('t', rows);
     });
 
     shared.searchField.clear();
@@ -155,37 +89,21 @@ describe('The table search', function() {
   it('should be case insensitive', function() {
     elementCount = shared.tableElements.count();
 
-    shared.searchField.clear();
     shared.searchField.sendKeys('TITAN USER');
-    //expect(shared.tableElements.count()).toBeGreaterThan(0);
     shared.tableElements.then(function(rows) {
-      for (var i = 0; i < rows.length; ++i) {
-        rows[i].getText().then(function(value) {
-          expect(value.toLowerCase()).toContain('titan user');
-        });
-      };
+      search.verifyUserSearch('titan user', rows);
     });
 
     shared.searchField.clear();
     shared.searchField.sendKeys('titan user');
-    //expect(shared.tableElements.count()).toBeGreaterThan(0);
     shared.tableElements.then(function(rows) {
-      for (var i = 0; i < rows.length; ++i) {
-        rows[i].getText().then(function(value) {
-          expect(value.toLowerCase()).toContain('titan user');
-        });
-      };
+      search.verifyUserSearch('titan user', rows);
     });
 
     shared.searchField.clear();
     shared.searchField.sendKeys('tItAn uSeR');
-    //expect(shared.tableElements.count()).toBeGreaterThan(0);
     shared.tableElements.then(function(rows) {
-      for (var i = 0; i < rows.length; ++i) {
-        rows[i].getText().then(function(value) {
-          expect(value.toLowerCase()).toContain('titan user');
-        });
-      };
+      search.verifyUserSearch('titan user', rows);
     });
 
     shared.searchField.clear();
@@ -200,7 +118,7 @@ describe('The table search', function() {
       expect(shared.filteredResultsMessage.isDisplayed()).toBeTruthy();
       expect(shared.clearAllResultsLink.isDisplayed()).toBeTruthy();
 
-      shared.filteredResultsMessage.getText().then(function (resultsMessage) {
+      shared.filteredResultsMessage.getText().then(function(resultsMessage) {
         var messageWords = resultsMessage.split(' ');
         expect(messageWords[0]).toBe('Showing');
         expect(parseInt(messageWords[1])).toBe(shared.tableElements.count());
@@ -211,7 +129,7 @@ describe('The table search', function() {
 
       expect(shared.clearAllResultsLink.getText()).toBe('(Clear all filters)');
 
-      shared.clearAllResultsLink.click().then(function () {
+      shared.clearAllResultsLink.click().then(function() {
         expect(shared.filteredResultsMessage.isDisplayed()).toBeFalsy();
         expect(shared.clearAllResultsLink.isDisplayed()).toBeFalsy();
 
@@ -228,75 +146,83 @@ describe('The table search', function() {
    * Search on First Name, Last Name, Email
    */
 
-  it('should display Users based on the Search on First and Last Name', function() {
+  it('should display Users based on the Search on First Name', function() {
+    elementCount = shared.tableElements.count();
+
+    shared.searchField.sendKeys(params.login.firstName);
+    expect(shared.tableElements.count()).toBeGreaterThan(0);
+    shared.tableElements.then(function(rows) {
+      search.verifyUserSearch(params.login.firstName, rows);
+    });
+
+    shared.searchField.clear();
+    shared.searchField.sendKeys(params.login.firstName.substr(0, 4));
+    expect(shared.tableElements.count()).toBeGreaterThan(0);
+    shared.tableElements.then(function(rows) {
+      search.verifyUserSearch(params.login.firstName.substr(0, 4), rows);
+    });
+
+    shared.searchField.clear();
+    expect(shared.tableElements.count()).toBe(elementCount);
+  });
+
+  it('should display Users based on the Search on Last Name', function() {
     elementCount = shared.tableElements.count();
 
     shared.searchField.clear();
-    shared.searchField.sendKeys('Titan');
+    shared.searchField.sendKeys(params.login.lastName);
     expect(shared.tableElements.count()).toBeGreaterThan(0);
     shared.tableElements.then(function(rows) {
-      for (var i = 0; i < rows.length; ++i) {
-        rows[i].getText().then(function(value) {
-          expect(value.toLowerCase()).toContain('titan');
-        });
-      };
+      search.verifyUserSearch(params.login.lastName, rows);
     });
 
     shared.searchField.clear();
-    shared.searchField.sendKeys('tan');
+    expect(shared.tableElements.count()).toBe(elementCount);
+  });
+
+  it('should display Users based on the Search on First and Last Name', function() {
+    elementCount = shared.tableElements.count();
+
+    shared.searchField.sendKeys(params.login.firstName.substr(0, 4) + '*' + params.login.lastName.split(-4));
     expect(shared.tableElements.count()).toBeGreaterThan(0);
+    var regexpSearchTerm = new RegExp('.*' + params.login.firstName.substr(0, 4) + '.*' + params.login.lastName.split(-4) + '.*')
     shared.tableElements.then(function(rows) {
-      for (var i = 0; i < rows.length; ++i) {
-        rows[i].getText().then(function(value) {
-          expect(value.toLowerCase()).toContain('tan');
-        });
-      };
+      search.verifyUserSearch(params.login.firstName.substr(0, 4), rows);
+      search.verifyUserSearch(params.login.lastName.split(-4), rows);
+      //search.verifyUserSearchRegex(regexpSearchTerm, rows); TODO Can fail from match being combination of names, skills and groups
     });
 
     shared.searchField.clear();
-    shared.searchField.sendKeys('USER');
+    shared.searchField.sendKeys(params.login.firstName + ' ' + params.login.lastName);
     expect(shared.tableElements.count()).toBeGreaterThan(0);
     shared.tableElements.then(function(rows) {
-      for (var i = 0; i < rows.length; ++i) {
-        rows[i].getText().then(function(value) {
-          expect(value.toLowerCase()).toContain('user');
-        });
-      };
+      search.verifyUserSearch(params.login.firstName + ' ' + params.login.lastName, rows);
     });
 
     shared.searchField.clear();
-    shared.searchField.sendKeys('Ti*er');
+    shared.searchField.sendKeys(params.login.firstName.split(-1) + ' ' + params.login.lastName.substr(0, 1));
     expect(shared.tableElements.count()).toBeGreaterThan(0);
     shared.tableElements.then(function(rows) {
-      for (var i = 0; i < rows.length; ++i) {
-        rows[i].getText().then(function(value) {
-          expect(value.toLowerCase()).toContain('ti');
-          expect(value.toLowerCase()).toContain('er');
-          expect(value.toLowerCase()).toMatch(/.*ti.*er.*/);
-        });
-      };
+      search.verifyUserSearch(params.login.firstName.split(-1) + ' ' + params.login.lastName.substr(0, 1), rows);
     });
 
     shared.searchField.clear();
-    shared.searchField.sendKeys('Titan User');
+    expect(shared.tableElements.count()).toBe(elementCount);
+  });
+
+  it('should display current User based on the Search on Email', function() {
+    // Email
+    shared.searchField.sendKeys(params.login.user);
     expect(shared.tableElements.count()).toBeGreaterThan(0);
     shared.tableElements.then(function(rows) {
-      for (var i = 0; i < rows.length; ++i) {
-        rows[i].getText().then(function(value) {
-          expect(value.toLowerCase()).toContain('titan user');
-        });
-      };
+      search.verifyUserSearch(params.login.user, rows);
     });
 
     shared.searchField.clear();
-    shared.searchField.sendKeys('n u');
-    //expect(shared.tableElements.count()).toBeGreaterThan(0);
+    shared.searchField.sendKeys(params.login.user.substr(0, 5));
+    expect(shared.tableElements.count()).toBeGreaterThan(0);
     shared.tableElements.then(function(rows) {
-      for (var i = 0; i < rows.length; ++i) {
-        rows[i].getText().then(function(value) {
-          expect(value.toLowerCase()).toContain('n u');
-        });
-      };
+      search.verifyUserSearch(params.login.user.substr(0, 5), rows);
     });
 
     shared.searchField.clear();
@@ -304,45 +230,113 @@ describe('The table search', function() {
   });
 
   it('should display current User based on the Search on First Name, Last Name and Email', function() {
-    // First name
-    shared.searchField.clear();
-    shared.searchField.sendKeys(params.login.firstName);
-    expect(shared.tableElements.count()).toBeGreaterThan(0);
-    shared.firstTableRow.getText().then(function (firstRowString) {
-      expect(firstRowString.toLowerCase()).toContain(params.login.firstName);
-    });
-
-    // Last name
-    shared.searchField.clear();
-    shared.searchField.sendKeys(params.login.lastName);
-    expect(shared.tableElements.count()).toBeGreaterThan(0);
-    shared.firstTableRow.getText().then(function (firstRowString) {
-      expect(firstRowString.toLowerCase()).toContain(params.login.lastName);
-    });
-
-    // Email
-    shared.searchField.clear();
-    shared.searchField.sendKeys(params.login.user);
-    expect(shared.tableElements.count()).toBeGreaterThan(0);
-    expect(shared.firstTableRow.getText()).toContain(params.login.user);
-
-    // First, Last
-    shared.searchField.clear();
-    shared.searchField.sendKeys(params.login.firstName + ' ' + params.login.lastName);
-    expect(shared.tableElements.count()).toBeGreaterThan(0);
-    expect(shared.firstTableRow.getText()).toContain(params.login.firstName + ' ' + params.login.lastName);
-
     // First, Last, Email
-    shared.searchField.clear();
     shared.searchField.sendKeys(params.login.firstName + ' ' + params.login.lastName + ' ' + params.login.user);
     expect(shared.tableElements.count()).toBeGreaterThan(0);
-    expect(shared.firstTableRow.getText()).toContain(params.login.firstName + ' ' + params.login.lastName + ' ' + params.login.user);
+    shared.tableElements.then(function(rows) {
+      search.verifyUserSearch(params.login.firstName + ' ' + params.login.lastName + ' ' + params.login.user, rows);
+    });
 
     // Last, Email
     shared.searchField.clear();
     shared.searchField.sendKeys(params.login.lastName + ' ' + params.login.user);
     expect(shared.tableElements.count()).toBeGreaterThan(0);
-    expect(shared.firstTableRow.getText()).toContain(params.login.lastName + ' ' + params.login.user);
+    shared.tableElements.then(function(rows) {
+      search.verifyUserSearch(params.login.lastName + ' ' + params.login.user, rows);
+    });
+
+    shared.searchField.clear();
+    expect(shared.tableElements.count()).toBe(elementCount);
+  });
+
+  it('should display current User based on the Search on Users Skill Name', function() {
+    // Get current user's Skills
+    var userSkillNames = []
+    shared.searchField.sendKeys(params.login.user);
+    shared.firstTableRow.click();
+
+    users.userSkills.then(function(userSkillElements) {
+      for (var i = 0; i < userSkillElements.length; i++) {
+        userSkillElements[i].getText().then(function(skillName) {
+          userSkillNames.push(skillName);
+        });
+      }
+    }).then(function() {
+      // Search by Skill name
+      for (var i = 0; i < userSkillNames.length; i++) {
+        shared.searchField.clear();
+        shared.searchField.sendKeys(userSkillNames[i]);
+        expect(shared.tableElements.count()).toBeGreaterThan(0);
+      }
+    }).then(function() {
+      if (userSkillNames.length > 0) {
+        // Search by skill name case insensitive
+        shared.searchField.clear();
+        shared.searchField.sendKeys(userSkillNames[0].toLowerCase());
+        expect(shared.tableElements.count()).toBeGreaterThan(0);
+
+        shared.searchField.clear();
+        shared.searchField.sendKeys(userSkillNames[0].toUpperCase());
+        expect(shared.tableElements.count()).toBeGreaterThan(0);
+
+        // Search by partial skill name
+        shared.searchField.clear();
+        shared.searchField.sendKeys(userSkillNames[0].substr(0, 3));
+        expect(shared.tableElements.count()).toBeGreaterThan(0);
+
+        shared.searchField.clear();
+        shared.searchField.sendKeys(userSkillNames[0].slice(-3));
+        expect(shared.tableElements.count()).toBeGreaterThan(0);
+      }
+    });
+
+    shared.searchField.clear();
+    expect(shared.tableElements.count()).toBe(elementCount);
+  });
+
+  it('should display current User based on the Search on Users Group Name', function() {
+    // Get current user's Groups
+    var userGroupNames = []
+    shared.searchField.sendKeys(params.login.user);
+    shared.firstTableRow.click();
+
+    users.userGroups.then(function(userGroupElements) {
+      for (var i = 0; i < userGroupElements.length; i++) {
+        userGroupElements[i].getText().then(function(groupName) {
+          userGroupNames.push(groupName);
+        });
+      }
+    }).then(function() {
+      // Search by Group name
+      for (var i = 0; i < userGroupNames.length; i++) {
+        shared.searchField.clear();
+        shared.searchField.sendKeys(userGroupNames[i]);
+        expect(shared.tableElements.count()).toBeGreaterThan(0);
+      }
+    }).then(function() {
+      if (userGroupNames.length > 0) {
+        // Search by group name case insensitive
+        shared.searchField.clear();
+        shared.searchField.sendKeys(userGroupNames[0].toLowerCase());
+        expect(shared.tableElements.count()).toBeGreaterThan(0);
+
+        shared.searchField.clear();
+        shared.searchField.sendKeys(userGroupNames[0].toUpperCase());
+        expect(shared.tableElements.count()).toBeGreaterThan(0);
+
+        // Search by partial group name
+        shared.searchField.clear();
+        shared.searchField.sendKeys(userGroupNames[0].substr(0, 3));
+        expect(shared.tableElements.count()).toBeGreaterThan(0);
+
+        shared.searchField.clear();
+        shared.searchField.sendKeys(userGroupNames[0].slice(-3));
+        expect(shared.tableElements.count()).toBeGreaterThan(0);
+      }
+    });
+
+    shared.searchField.clear();
+    expect(shared.tableElements.count()).toBe(elementCount);
   });
 
   /*
@@ -559,7 +553,6 @@ describe('The table search', function() {
   it('should display Queues based on the Search on Name', function() {
     browser.get(shared.queuesPageUrl);
     elementCount = shared.tableElements.count();
-    // TODO
 
     shared.searchField.sendKeys('Qu*ue');
     shared.tableElements.then(function(rows) {
@@ -603,110 +596,140 @@ describe('The table search', function() {
   describe('when exact element name is input', function() {
     it('should result in at least one element in the User table', function() {
       browser.get(shared.usersPageUrl);
-      elementCount = shared.tableElements.count();
 
-      shared.firstTableRow.element(by.css('td:nth-child(2)')).getText().then(function(firstUserName) {
-        shared.searchField.sendKeys(firstUserName);
-        expect(shared.tableElements.count()).toBeGreaterThan(0);
-        expect(shared.firstTableRow.getText()).toContain(firstUserName);
+      shared.tableElements.count().then(function(elementCount) {
+        if (elementCount > 0) {
+          shared.firstTableRow.element(by.css('td:nth-child(2)')).getText().then(function(firstUserName) {
+            shared.searchField.sendKeys(firstUserName);
+            expect(shared.tableElements.count()).toBeGreaterThan(0);
+            expect(shared.firstTableRow.getText()).toContain(firstUserName);
+          });
+        }
       });
     });
+
     it('should result in at least one element in the Skills table', function() {
       browser.get(shared.skillsPageUrl);
-      elementCount = shared.tableElements.count();
 
-      shared.firstTableRow.element(by.css('td:nth-child(2)')).getText().then(function(firstSkillName) {
-        shared.searchField.sendKeys(firstSkillName);
-        expect(shared.tableElements.count()).toBeGreaterThan(0);
-        expect(shared.firstTableRow.getText()).toContain(firstSkillName);
+      shared.tableElements.count().then(function(elementCount) {
+        if (elementCount > 0) {
+          shared.firstTableRow.element(by.css('td:nth-child(2)')).getText().then(function(firstSkillName) {
+            shared.searchField.sendKeys(firstSkillName);
+            expect(shared.tableElements.count()).toBeGreaterThan(0);
+            expect(shared.firstTableRow.getText()).toContain(firstSkillName);
+          });
+        }
       });
     });
 
     it('should result in at least one element in the Groups table', function() {
       browser.get(shared.groupsPageUrl);
-      elementCount = shared.tableElements.count();
 
-      shared.firstTableRow.element(by.css('td:nth-child(2)')).getText().then(function(firstGroupName) {
-        shared.searchField.sendKeys(firstGroupName);
-        expect(shared.tableElements.count()).toBeGreaterThan(0);
-        expect(shared.firstTableRow.getText()).toContain(firstGroupName);
+      shared.tableElements.count().then(function(elementCount) {
+        if (elementCount > 0) {
+          shared.firstTableRow.element(by.css('td:nth-child(2)')).getText().then(function(firstGroupName) {
+            shared.searchField.sendKeys(firstGroupName);
+            expect(shared.tableElements.count()).toBeGreaterThan(0);
+            expect(shared.firstTableRow.getText()).toContain(firstGroupName);
+          });
+        }
       });
     });
 
     it('should result in at least one element in the Tenants table', function() {
       browser.get(shared.tenantsPageUrl);
-      elementCount = shared.tableElements.count();
 
-      shared.firstTableRow.element(by.css('td:nth-child(2)')).getText().then(function(firstTenantName) {
-        shared.searchField.sendKeys(firstTenantName);
-        expect(shared.tableElements.count()).toBeGreaterThan(0);
-        expect(shared.firstTableRow.getText()).toContain(firstTenantName);
+      shared.tableElements.count().then(function(elementCount) {
+        if (elementCount > 0) {
+          shared.firstTableRow.element(by.css('td:nth-child(2)')).getText().then(function(firstTenantName) {
+            shared.searchField.sendKeys(firstTenantName);
+            expect(shared.tableElements.count()).toBeGreaterThan(0);
+            expect(shared.firstTableRow.getText()).toContain(firstTenantName);
+          });
+        }
       });
     });
 
     it('should result in at least one element in the Integrations table', function() {
       browser.get(shared.integrationsPageUrl);
-      elementCount = shared.tableElements.count();
 
-      shared.firstTableRow.element(by.css('td:nth-child(2)')).getText().then(function(firstIntegrationName) {
-        shared.searchField.sendKeys(firstIntegrationName);
-        expect(shared.tableElements.count()).toBeGreaterThan(0);
-        expect(shared.firstTableRow.getText()).toContain(firstIntegrationName);
+      shared.tableElements.count().then(function(elementCount) {
+        if (elementCount > 0) {
+          shared.firstTableRow.element(by.css('td:nth-child(2)')).getText().then(function(firstIntegrationName) {
+            shared.searchField.sendKeys(firstIntegrationName);
+            expect(shared.tableElements.count()).toBeGreaterThan(0);
+            expect(shared.firstTableRow.getText()).toContain(firstIntegrationName);
+          });
+        }
       });
     });
 
     it('should result in at least one element in the Flow table', function() {
       browser.get(shared.flowsPageUrl);
-      elementCount = shared.tableElements.count();
 
-      shared.firstTableRow.element(by.css('td:nth-child(2)')).getText().then(function(firstFlowName) {
-        shared.searchField.sendKeys(firstFlowName);
-        expect(shared.tableElements.count()).toBeGreaterThan(0);
-        expect(shared.firstTableRow.getText()).toContain(firstFlowName);
+      shared.tableElements.count().then(function(elementCount) {
+        if (elementCount > 0) {
+          shared.firstTableRow.element(by.css('td:nth-child(2)')).getText().then(function(firstFlowName) {
+            shared.searchField.sendKeys(firstFlowName);
+            expect(shared.tableElements.count()).toBeGreaterThan(0);
+            expect(shared.firstTableRow.getText()).toContain(firstFlowName);
+          });
+        }
       });
     });
 
     it('should result in at least one element in the Queue table', function() {
       browser.get(shared.queuesPageUrl);
-      elementCount = shared.tableElements.count();
 
-      shared.firstTableRow.element(by.css('td:nth-child(2)')).getText().then(function(firstQueueName) {
-        shared.searchField.sendKeys(firstQueueName);
-        expect(shared.tableElements.count()).toBeGreaterThan(0);
-        expect(shared.firstTableRow.getText()).toContain(firstQueueName);
+      shared.tableElements.count().then(function(elementCount) {
+        if (elementCount > 0) {
+          shared.firstTableRow.element(by.css('td:nth-child(2)')).getText().then(function(firstQueueName) {
+            shared.searchField.sendKeys(firstQueueName);
+            expect(shared.tableElements.count()).toBeGreaterThan(0);
+            expect(shared.firstTableRow.getText()).toContain(firstQueueName);
+          });
+        }
       });
     });
 
     it('should result in at least one element in the Dispatch Mappings table', function() {
       browser.get(shared.dispatchMappingsPageUrl);
-      elementCount = shared.tableElements.count();
 
-      shared.firstTableRow.element(by.css('td:nth-child(2)')).getText().then(function(firstDispatchMappingName) {
-        shared.searchField.sendKeys(firstDispatchMappingName);
-        expect(shared.tableElements.count()).toBeGreaterThan(0);
-        expect(shared.firstTableRow.getText()).toContain(firstDispatchMappingName);
+      shared.tableElements.count().then(function(elementCount) {
+        if (elementCount > 0) {
+          shared.firstTableRow.element(by.css('td:nth-child(2)')).getText().then(function(firstDispatchMappingName) {
+            shared.searchField.sendKeys(firstDispatchMappingName);
+            expect(shared.tableElements.count()).toBeGreaterThan(0);
+            expect(shared.firstTableRow.getText()).toContain(firstDispatchMappingName);
+          });
+        }
       });
     });
 
     it('should result in at least one element in the Media Collections table', function() {
       browser.get(shared.mediaCollectionsPageUrl);
-      elementCount = shared.tableElements.count();
 
-      shared.firstTableRow.element(by.css('td:nth-child(2)')).getText().then(function(firstMediaCollectionName) {
-        shared.searchField.sendKeys(firstMediaCollectionName);
-        expect(shared.tableElements.count()).toBeGreaterThan(0);
-        expect(shared.firstTableRow.getText()).toContain(firstMediaCollectionName);
+      shared.tableElements.count().then(function(elementCount) {
+        if (elementCount > 0) {
+          shared.firstTableRow.element(by.css('td:nth-child(2)')).getText().then(function(firstMediaCollectionName) {
+            shared.searchField.sendKeys(firstMediaCollectionName);
+            expect(shared.tableElements.count()).toBeGreaterThan(0);
+            expect(shared.firstTableRow.getText()).toContain(firstMediaCollectionName);
+          });
+        }
       });
     });
 
     it('should result in at least one element in the Media table', function() {
       browser.get(shared.mediaPageUrl);
-      elementCount = shared.tableElements.count();
-
-      shared.firstTableRow.element(by.css('td:nth-child(2)')).getText().then(function(firstMediaName) {
-        shared.searchField.sendKeys(firstMediaName);
-        expect(shared.tableElements.count()).toBeGreaterThan(0);
-        expect(shared.firstTableRow.getText()).toContain(firstMediaName);
+      shared.tableElements.count().then(function(elementCount) {
+        if (elementCount > 0) {
+          shared.firstTableRow.element(by.css('td:nth-child(2)')).getText().then(function(firstMediaName) {
+            shared.searchField.sendKeys(firstMediaName);
+            expect(shared.tableElements.count()).toBeGreaterThan(0);
+            expect(shared.firstTableRow.getText()).toContain(firstMediaName);
+          });
+        }
       });
     });
 

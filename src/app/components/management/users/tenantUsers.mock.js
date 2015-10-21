@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('liveopsConfigPanel.mock.content.management.tenantUsers', ['liveopsConfigPanel.mock.content'])
+angular.module('liveopsConfigPanel.mock.content.management.tenantUsers', ['liveopsConfigPanel.mock.content', 'liveopsConfigPanel.mock.content.management.roles'])
   .service('mockTenantUsers', function (TenantUser) {
     return [new TenantUser({
       'id': 'userId1',
@@ -35,7 +35,7 @@ angular.module('liveopsConfigPanel.mock.content.management.tenantUsers', ['liveo
       'created': '2015-08-19T13:25:13Z',
       'state': 'offline',
       'extension': 'ca027450_4673_11e5_bded_621c6d9e2761',
-      'skills': [],
+      '$skills': [],
       'externalId': '56789',
       'status': 'invited',
       'id': 'userId100',

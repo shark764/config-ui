@@ -23,13 +23,14 @@ var BulkActions = function() {
   this.skillsAffectedUsers = this.changeSkills.element(by.css('.affected-banner'));
   this.addNewSkillBtn = element(by.css('#user-skill-bulk > div:nth-child(3) > a:nth-child(1)'));
   this.addSkillDropdownFields = this.changeSkills.all(by.model('userSkillsBulkAction.selectedType'));
+  this.skillProficiencyFields = this.changeSkills.all(by.id('user-skill-bulk-proficiency-field'));
   this.selectSkillsInputFields = this.changeSkills.all(by.model('userSkillsBulkAction.selectedSkill'));
   this.removeSkillBtns = this.changeSkills.all(by.css('.remove'));
   this.noSkillsMessage = this.changeSkills.element(by.css('p'));
 
   this.changeGroups = element(by.css('ba-user-groups'));
   this.selectChangeGroups = element(by.id('user-group-bulk-enable-check'));
-  this.firstGroupDiv = this.changeSkills.element(by.css('ba-user-groups.ng-scope > div:nth-child(3)'));
+  this.firstGroupDiv = this.changeGroups.element(by.css('ba-user-groups.ng-scope > div:nth-child(3)'));
   this.groupsAffectedUsers = this.changeGroups.element(by.css('.affected-banner'));
   this.addNewGroupBtn = element(by.css('#user-group-bulk > div:nth-child(3) > a:nth-child(1)'));
   this.addGroupDropdownFields = this.changeGroups.all(by.model('action.selectedType'));
@@ -45,7 +46,8 @@ var BulkActions = function() {
   // Generic Management Bulk Actions
   this.selectEnable = element(by.id('select-enable-bulk-action'));
   this.enableToggle = element(by.id('bulk-action-enable-toggle'));
-  this.enableToggleClick = element(by.css('#bulk-action-enable-toggle > label:nth-child(2)'));
+  this.enableToggleSwitch = this.enableToggle.element(by.css('.switch-handle'));
+  this.enableToggleClick = this.enableToggle.element(by.css('label:nth-child(2) > .switch-handle'));
 
   // Bulk Actions buttons
   this.submitFormBtn = this.bulkActionsForm.element(by.id('submit-bulk-actions-btn'));
@@ -66,6 +68,13 @@ var BulkActions = function() {
   this.allStatus = this.statusColumnDropDown.element(by.css('.all'));
   this.statuses = this.statusColumnDropDown.all(by.repeater('option in options | orderBy:orderBy'));
   this.statusInputs = this.statusColumnDropDown.all(by.css('input'));
+
+  // Tenant Status table selectors
+  this.tenantStatusColumnDropDown = this.tableHeader.element(by.id('tenant-status-table-column'));
+  this.tenantStatusColumnDropDownLabel = this.tenantStatusColumnDropDown.element(by.css('.dropdown-label'));
+  this.allTenantStatus = this.tenantStatusColumnDropDown.element(by.css('.all'));
+  this.tenantStatuses = this.tenantStatusColumnDropDown.all(by.repeater('option in options | orderBy:orderBy'));
+  this.tenantStatusInputs = this.tenantStatusColumnDropDown.all(by.css('input'));
 };
 
 module.exports = new BulkActions();

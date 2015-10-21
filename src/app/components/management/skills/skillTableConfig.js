@@ -2,7 +2,7 @@
 
 angular.module('liveopsConfigPanel')
   .service('skillTableConfig', ['statuses', '$translate', 'UserPermissions', 'ynStatuses', function (statuses, $translate, UserPermissions, ynStatuses) {
-     return {
+     var config = {
         'fields': [{
           'header': {
             'display': $translate.instant('value.name')
@@ -13,6 +13,13 @@ angular.module('liveopsConfigPanel')
             'display': $translate.instant('value.description')
           },
           'name': '$original.description'
+        }, {
+          'header': {
+            'display': $translate.instant('skill.table.members')
+          },
+          'name': '$members',
+          'transclude': true,
+          'sortOn': '$members.length'
         }, {
           'header': {
             'display': $translate.instant('skill.table.proficiency'),
@@ -42,5 +49,7 @@ angular.module('liveopsConfigPanel')
         'showBulkActions': UserPermissions.hasPermission('MANAGE_ALL_SKILLS'),
         'showCreate': UserPermissions.hasPermission('MANAGE_ALL_SKILLS'),
       };
+     
+     return config;
     }
   ]);

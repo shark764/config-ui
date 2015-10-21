@@ -1,46 +1,29 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-.controller('UserProfileController', ['$scope', 'Session', 'User', 'TenantUserSkill', 'TenantUserGroups', 'Alert', '$translate', function ($scope, Session, User, TenantUserSkill, TenantUserGroups, Alert, $translate) {
-  $scope.user = User.get({id : Session.user.id});
+  .controller('UserProfileController', ['$q', '$scope', 'AuthService', 'Session', 'User', 'TenantUser',
+    function ($q, $scope, AuthService, Session, User, TenantUser) {
 
-  $scope.save = function() {
-    delete $scope.user.status; //User cannot edit their own status
-    delete $scope.user.roleId; //User cannot edit their own platform roleId
-    
-    $scope.user.save(function(result){
-      Alert.success($translate.instant('user.profile.save.success'));
-      Session.setUser(result);
-      $scope.detailsForm.$setPristine();
-      $scope.detailsForm.$setUntouched();
-    }, function(){
-      Alert.error($translate.instant('user.profile.save.fail'));
-    });
-  };
+      $scope.tenantUser = TenantUser.get({
+        id: Session.user.id,
+        tenantId: Session.tenant.tenantId
+      });
 
-  $scope.fetchSkills = function () {
-    if (!Session.tenant.tenantId) {
-      return;
+      $scope.submit = function () {
+        delete $scope.tenantUser.status; //User cannot edit their own status
+        delete $scope.tenantUser.roleId; //User cannot edit their own platform roleId
+
+        var password = $scope.tenantUser.$user.password;
+        return $scope.tenantUser.$user.save(function(user) {
+          Session.setUser(user);
+
+          if($scope.userForm.password.$dirty) {
+            var token = AuthService.generateToken(user.email, password);
+            Session.setToken(token);
+          }
+
+          $scope.userForm.password.$setPristine();
+        });
+      };
     }
-
-    $scope.userSkills = TenantUserSkill.query({
-      tenantId: Session.tenant.tenantId,
-      userId: Session.user.id
-    });
-  };
-
-  $scope.fetchGroups = function () {
-    if (!Session.tenant.tenantId) {
-      return;
-    }
-
-    $scope.userGroups = TenantUserGroups.query({
-      tenantId: Session.tenant.tenantId,
-      memberId: Session.user.id
-    });
-  };
-
-  $scope.fetchSkills();
-  $scope.fetchGroups();
-
-}]);
+  ]);

@@ -177,7 +177,7 @@ describe('When switching tenants', function() {
 
       it('should update details for both tenants', function() {
         // Select new user in new tenant
-        shared.searchField.sendKeys(mutualUserFirstName);
+        shared.searchField.sendKeys(mutualUserEmail);
         shared.firstTableRow.click();
 
         users.firstNameFormField.sendKeys('Edit');
@@ -185,14 +185,15 @@ describe('When switching tenants', function() {
         users.externalIdFormField.sendKeys('12345');
 
         users.submitFormBtn.click().then(function() {
+          shared.waitForSuccess();
           expect(shared.successMessage.isDisplayed()).toBeTruthy();
 
           // Verify changes to user in Default tenant
           tenants.selectTenant(defaultTenantName);
-          shared.searchField.sendKeys(mutualUserFirstName);
+          shared.searchField.sendKeys(mutualUserEmail);
           shared.firstTableRow.click();
 
-          expect(users.firstNameFormField.getAttribute('value')).toBe(mutualUserFirstName + 'Edit');
+          expect(users.firstNameFormField.getAttribute('value')).toContain('Edit');
           expect(users.lastNameFormField.getAttribute('value')).toContain('Edit');
           expect(users.externalIdFormField.getAttribute('value')).toBe('12345');
 
@@ -205,7 +206,7 @@ describe('When switching tenants', function() {
         // TODO Bug unable to edit user role before saving invitation
 
         // Select new user in new tenant
-        shared.searchField.sendKeys(mutualUserFirstName);
+        shared.searchField.sendKeys(mutualUserEmail);
         shared.firstTableRow.click();
 
         // Change user role
@@ -217,7 +218,7 @@ describe('When switching tenants', function() {
 
           tenants.selectTenant(defaultTenantName);
 
-          shared.searchField.sendKeys(mutualUserFirstName);
+          shared.searchField.sendKeys(mutualUserEmail);
           shared.firstTableRow.click();
 
           expect(users.tenantRoleFormDropdown.getAttribute('value')).not.toBe(3);
@@ -230,7 +231,7 @@ describe('When switching tenants', function() {
       it('should not update Skills and Groups for both tenants', function() {
         // Select new user in default tenant
         tenants.selectTenant(defaultTenantName);
-        shared.searchField.sendKeys(mutualUserFirstName);
+        shared.searchField.sendKeys(mutualUserEmail);
         shared.firstTableRow.click();
 
         // Add user groups and skills
@@ -241,7 +242,7 @@ describe('When switching tenants', function() {
 
         // Verify changes to user role were not made to the new tenant
         tenants.selectTenant(newTenantName);
-        shared.searchField.sendKeys(mutualUserFirstName);
+        shared.searchField.sendKeys(mutualUserEmail);
         shared.firstTableRow.click();
 
         expect(users.userGroups.count()).toBe(1); // everyone group
@@ -285,7 +286,7 @@ describe('When switching tenants', function() {
         shared.createBtn.click();
         skills.nameFormField.sendKeys(previousTenantSkill);
         skills.proficiencyFormCheckbox.click();
-        shared.submitFormBtn.click().then(function () {
+        shared.submitFormBtn.click().then(function() {
           expect(shared.successMessage.isDisplayed()).toBeTruthy();
 
           // Verify skill is not added in new tenant
@@ -302,13 +303,14 @@ describe('When switching tenants', function() {
     });
   });
 
+  // TODO TITAN2-4505
   describe('Groups Management page', function() {
     beforeAll(function() {
       browser.get(shared.groupsPageUrl);
       elementCount = shared.tableElements.count();
     });
 
-    it('should display the correct Groups for the current tenant', function() {
+    xit('should display the correct Groups for the current tenant', function() {
       // everyone group added to the new tenant by default
       expect(elementCount).toBe(1);
       expect(shared.firstTableRow.getText()).toContain('everyone');
@@ -322,45 +324,42 @@ describe('When switching tenants', function() {
       */
     });
 
-    it('should create a new Group in one and not the previous', function() {
+    xit('should create a new Group in one and not the previous', function() {
       // Create Group in new tenant
       var newTenantGroup = 'New Tenant Group ' + Math.floor((Math.random() * 1000) + 1);
       shared.createBtn.click();
       groups.nameFormField.sendKeys(newTenantGroup);
       groups.descriptionFormField.sendKeys('Group Description');
-      shared.submitFormBtn.click();
+      shared.submitFormBtn.click().then(function() {
+        expect(shared.successMessage.isDisplayed()).toBeTruthy();
+        expect(shared.tableElements.count()).toBe(2);
 
-      // TODO Bug; error message displayed but group is created normally
-      //expect(shared.successMessage.isDisplayed()).toBeTruthy();
-      expect(shared.tableElements.count()).toBe(2);
+        // Verify group is not added in previous tenant
+        tenants.selectTenant(defaultTenantName);
+        shared.tableElements.then(function(rows) {
+          for (var i = 1; i <= rows.length; ++i) {
+            // Check if group name in table matches newly added group
+            expect(element(by.css('tr.ng-scope:nth-child(' + i + ') > td:nth-child(2)')).getText()).not.toBe(newTenantGroup);
+          }
+        });
 
-      // Verify group is not added in previous tenant
-      tenants.selectTenant(defaultTenantName);
-      shared.tableElements.then(function(rows) {
-        for (var i = 1; i <= rows.length; ++i) {
-          // Check if group name in table matches newly added group
-          expect(element(by.css('tr.ng-scope:nth-child(' + i + ') > td:nth-child(2)')).getText()).not.toBe(newTenantGroup);
-        }
-      });
+        // Create group in previous tenant
+        var previousTenantGroup = 'Previous Tenant Group ' + Math.floor((Math.random() * 1000) + 1);
+        shared.createBtn.click();
+        groups.nameFormField.sendKeys(previousTenantGroup);
+        groups.descriptionFormField.sendKeys('Group Description');
+        shared.submitFormBtn.click();
+        expect(shared.successMessage.isDisplayed()).toBeTruthy();
 
-      // Create group in previous tenant
-      var previousTenantGroup = 'Previous Tenant Group ' + Math.floor((Math.random() * 1000) + 1);
-      shared.createBtn.click();
-      groups.nameFormField.sendKeys(previousTenantGroup);
-      groups.descriptionFormField.sendKeys('Group Description');
-      shared.submitFormBtn.click();
-
-      // TODO Bug; error message displayed but group is created normally
-      // expect(shared.successMessage.isDisplayed()).toBeTruthy();
-
-      // Verify group is not added in new tenant
-      tenants.selectTenant(newTenantName);
-      expect(shared.tableElements.count()).toBe(2);
-      shared.tableElements.then(function(rows) {
-        for (var i = 1; i <= rows.length; ++i) {
-          // Check if group name in table matches newly added group
-          expect(element(by.css('tr.ng-scope:nth-child(' + i + ') > td:nth-child(2)')).getText()).not.toBe(previousTenantGroup);
-        }
+        // Verify group is not added in new tenant
+        tenants.selectTenant(newTenantName);
+        expect(shared.tableElements.count()).toBe(2);
+        shared.tableElements.then(function(rows) {
+          for (var i = 1; i <= rows.length; ++i) {
+            // Check if group name in table matches newly added group
+            expect(element(by.css('tr.ng-scope:nth-child(' + i + ') > td:nth-child(2)')).getText()).not.toBe(previousTenantGroup);
+          }
+        });
       });
     });
   });

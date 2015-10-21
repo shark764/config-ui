@@ -7,7 +7,7 @@
  </h4>
 </div>
 
-<ng-form ng-show="role.type != 'system' && (['PLATFORM_CREATE_TENANT_ROLES', 'MANAGE_ALL_ROLES'] | hasPermission)" id="addPermission" name="addPermission">
+<ng-form class="instant-add" ng-show="role.type != 'system' && (['PLATFORM_CREATE_TENANT_ROLES', 'MANAGE_ALL_ROLES'] | hasPermission)" id="addPermission" name="addPermission">
   <type-ahead hover="true" 
     placeholder="{{'role.details.permission.placeholder' | translate}}" 
     items="filtered" 

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('seperateValidation', [function () {
+  .directive('separateValidation', [function () {
     return {
       restrict: 'A',
       require: '?form',

@@ -1,20 +1,31 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('GroupsController', ['$scope', 'Session', 'Group', 'User', 'groupTableConfig', 'TenantGroupUsers', 'DirtyForms', 'BulkAction', '$state',
-    function ($scope, Session, Group, User, groupTableConfig, TenantGroupUsers, DirtyForms, BulkAction, $state) {
+  .controller('GroupsController', ['$scope', 'Session', 'Group', 'TenantUser', 'groupTableConfig', 'TenantGroupUsers', 'queryCache', 'DirtyForms', 'BulkAction', 'Alert', '$state', '$translate',
+    function ($scope, Session, Group, TenantUser, groupTableConfig, TenantGroupUsers, queryCache, DirtyForms, BulkAction, Alert, $state, $translate) {
       $scope.Session = Session;
       $scope.tableConfig = groupTableConfig;
 
       //This is really awful and hopefully the API will update to accommodate this.
       Group.prototype.fetchGroupUsers = function () {
+
         var result = TenantGroupUsers.cachedQuery({
           tenantId: Session.tenant.tenantId,
           groupId: this.id
         }, 'groups/' + this.id + '/users');
+
+        if ($scope.selectedGroup){
+          $scope.selectedGroup.$memberList = result;
+        }
         
         this.members = result;
         return result;
+      };
+
+     $scope.fetchUsers = function () {
+        return TenantUser.cachedQuery({
+          tenantId: Session.tenant.tenantId
+        });
       };
       
       $scope.fetchGroups = function () {
@@ -33,6 +44,34 @@ angular.module('liveopsConfigPanel')
 
       $scope.bulkActions = {
         setGroupStatus: new BulkAction()
+      };
+
+      $scope.addMember = function (user) {
+        TenantGroupUsers.save({
+          tenantId: Session.tenant.tenantId,
+          groupId: $scope.selectedGroup.id,
+          userId: user.id
+        }, function (resp){
+          $scope.selectedGroup.$memberList.push(resp);
+          queryCache.remove('TenantUser');
+          Alert.success($translate.instant('group.table.add.member'));
+        }, function () {
+          Alert.error($translate.instant('group.table.add.member.error'));
+        });
+      };
+
+      $scope.removeMember = function (user) {
+        TenantGroupUsers.delete({
+          tenantId : Session.tenant.tenantId,
+          groupId:$scope.selectedGroup.id,
+          memberId: user.memberId
+        }, function () {
+          $scope.selectedGroup.$memberList.removeItem(user);
+          queryCache.remove('TenantUser');
+          Alert.success($translate.instant('group.table.remove.member'));
+        }, function () {
+          Alert.error($translate.instant('group.table.remove.member.error'));
+        });
       };
 
       $scope.gotoUserPage = function (userId) {

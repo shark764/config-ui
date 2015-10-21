@@ -6,7 +6,7 @@ exports.config = {
 
   capabilities: {
     'browserName': 'chrome',
-    'version': '35'
+    'version': '45'
   },
 
   // Timeout time in milliseconds; prevents Protractor waiting to synchronize timeouts
