@@ -217,11 +217,8 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
           notations: ['$http', function($http) {
             return $http.get('/app/components/flows/flowDesigner/mocks/notations.json');
           }],
-          media: ['Media', 'Session', function(Media, Session) {
-            return Media.query({tenantId : Session.tenant.tenantId});
-          }],
-          queue: ['Queue', 'Session', function(Queue, Session) {
-            return Queue.query({tenantId : Session.tenant.tenantId});
+          resources: ['FlowResource', function(FlowResource){
+            return FlowResource.loadResources();
           }],
           readOnly: [function(){
             return false;
@@ -266,11 +263,8 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
           notations: ['$http', function($http) {
             return $http.get('/app/components/flows/flowDesigner/mocks/notations.json');
           }],
-          media: ['Media', 'Session', function(Media, Session) {
-            return Media.query({tenantId : Session.tenant.tenantId});
-          }],
-          queue: ['Queue', 'Session', function(Queue, Session) {
-            return Queue.query({tenantId : Session.tenant.tenantId});
+          resources: ['FlowResource', function(FlowResource){
+            return FlowResource.loadResources();
           }],
           readOnly: [function(){
             return true;
