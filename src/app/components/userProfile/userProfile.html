@@ -69,9 +69,7 @@
       ng-disabled="!(
           ('MANAGE_ALL_USER_EXTENSIONS' | hasPermission) ||
           ('MANAGE_USER_EXTENSIONS' | hasPermission) ||
-          (
-            ('MANAGE_MY_EXTENSIONS' | hasPermission) && (Session.user.id === selectedTenantUser.id)
-          )
+          ('MANAGE_MY_EXTENSIONS' | hasPermission)
         )">
     </lo-extensions>
 
