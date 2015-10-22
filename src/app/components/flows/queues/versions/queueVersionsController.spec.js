@@ -1,6 +1,6 @@
 'use strict';
 
-describe('Versions directive controller', function () {
+describe('Queue Versions controller', function () {
   var $scope,
     $controller,
     $compile,

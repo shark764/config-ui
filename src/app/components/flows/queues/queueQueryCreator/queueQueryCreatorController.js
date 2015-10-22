@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('QueueQueryCreatorController', ['$scope', 'jsedn', 'Alert', '$translate',
-    function($scope, jsedn, Alert, $translate) {
+  .controller('QueueQueryCreatorController', ['$scope', 'jsedn', 'Alert', '$translate', 'queueQueryComponents',
+    function($scope, jsedn, Alert, $translate, queueQueryComponents) {
       var self = this;
       
       $scope.$watch('rootMap', function(newMap) {
@@ -22,25 +22,7 @@ angular.module('liveopsConfigPanel')
         self.initComponentState();
       });
       
-      $scope.queryComponents = [{
-        display: $translate.instant('queues.query.builder.skills'),
-        enabled: false,
-        name: 'skillcomponent',
-        keyword: ':skills',
-        remove: function(rootMap){
-          var keyword = jsedn.kw(':skills');
-          rootMap.remove(keyword);
-        }
-      }, {
-        display: $translate.instant('queues.query.builder.groups'),
-        enabled: false,
-        name: 'groupcomponent',
-        keyword: ':groups',
-        remove: function(rootMap){
-          var keyword = jsedn.kw(':groups');
-          rootMap.remove(keyword);
-        }
-      }];
+      $scope.queryComponents = queueQueryComponents;
       
       $scope.add = function(selectedComponent){
         $scope.selectedComponent = null;
