@@ -33,7 +33,8 @@ function flowDesigner() {
 
           Offline.options = {
             checkOnLoad: true,
-            interceptRequests: true
+            interceptRequests: true,
+            checks: {xhr: {url: 'app/components/flows/flowDesigner/networkIssueModal.html'}}
           };
 
           Offline.on('confirmed-down', function () {
@@ -229,15 +230,16 @@ function flowDesigner() {
             $scope.graph.fromJSON(SubflowCommunicationService.currentFlowContext);
             SubflowCommunicationService.currentFlowContext = '';
           } else {
+            var jjs, graphJSON;
             if($scope.readOnly){
-              var graphJSON = JSON.parse($scope.flowData.flow);
-              var jjs = FlowLibrary.convertToJoint(graphJSON);
+              graphJSON = JSON.parse($scope.flowData.flow);
+              jjs = FlowLibrary.convertToJoint(graphJSON);
               $scope.graph.fromJSON(jjs);
             }
             else{
-              var graphJSON = JSON.parse($scope.flowData.flow);
+              graphJSON = JSON.parse($scope.flowData.flow);
               FlowValidationService.checkEntities(graphJSON);
-              var jjs = FlowLibrary.convertToJoint(graphJSON);
+              jjs = FlowLibrary.convertToJoint(graphJSON);
               $scope.graph.fromJSON(jjs);
               FlowValidationService.validate($scope.flowData, $scope.graph);
             }
