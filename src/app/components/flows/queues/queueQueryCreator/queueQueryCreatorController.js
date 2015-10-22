@@ -3,6 +3,8 @@
 angular.module('liveopsConfigPanel')
   .controller('QueueQueryCreatorController', ['$scope', 'jsedn', 'Alert', '$translate',
     function($scope, jsedn, Alert, $translate) {
+      var self = this;
+      
       $scope.$watch('rootMap', function(newMap) {
         if(!newMap || !$scope.version) {
           return;
@@ -11,12 +13,16 @@ angular.module('liveopsConfigPanel')
         $scope.version.query = jsedn.encode(newMap);
       }, true);
       
-      $scope.$watch('version.query', function(newQuery) {
+      $scope.$watch('version.query', function(newQuery, oldQuery) {
         if(!newQuery) {
           return;
         }
         
         $scope.rootMap = jsedn.parse(newQuery);
+        if (!oldQuery){
+          //Only change component visibility on initial load
+          self.initComponentState();
+        }
       });
       
       $scope.queryComponents = [{
@@ -63,6 +69,15 @@ angular.module('liveopsConfigPanel')
         } else {
           doRemove();
         }
+      };
+      
+      this.initComponentState = function(){
+        angular.forEach($scope.queryComponents, function(component){
+          var keyword = jsedn.kw(component.keyword);
+          if ($scope.rootMap.exists(keyword)){
+            $scope.add(component);
+          }
+        });
       };
     }
   ]);
