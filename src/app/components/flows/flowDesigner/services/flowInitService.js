@@ -202,12 +202,7 @@
         });
 
         $(stencilContainerId).append(stencil.render().$el);
-
-        FlowPaletteService.loadGateways(stencil);
-        FlowPaletteService.loadEvents(stencil);
-        FlowPaletteService.loadActivities(stencil);
-        FlowPaletteService.loadLinks();
-        FlowPaletteService.loadTemplates(stencil);
+        FlowPaletteService.loadPallet(stencil);
 
         _.each(stencil.graphs, function(graph) {
           joint.layout.GridLayout.layout(graph, {
@@ -283,6 +278,7 @@
         var self = this;
         KeyboardJS.on('delete', function(evt) {
           if (!$.contains(evt.target, self.graph.interfaces.paper.el)) {return;}
+          self.graph.utils.hidePropertiesPanel();
           self.graph.interfaces.commandManager.initBatchCommand();
           self.graph.interfaces.selector.invoke('remove');
           self.graph.interfaces.commandManager.storeBatchCommand();

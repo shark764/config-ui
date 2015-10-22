@@ -5,7 +5,6 @@ function flowDesigner() {
       scope: {
         flow: '=flow',
         flowData: '=flowData',
-        notations: '=notations',
         readOnly: '=readOnly'
       },
       restrict: 'E',
@@ -15,8 +14,6 @@ function flowDesigner() {
       controller: ['$scope', '$element', '$attrs', '$window', '$document', '$compile', '$timeout', 'FlowInitService', 'SubflowCommunicationService', 'FlowDraft', 'FlowVersion', 'Session', 'Alert', '$state', 'FlowLibrary', 'FlowValidationService', function($scope, $element, $attrs, $window, $document, $compile, $timeout, FlowInitService, SubflowCommunicationService, FlowDraft, FlowVersion, Session, Alert, $state, FlowLibrary, FlowValidationService) {
 
         $timeout(function() {
-
-          FlowLibrary.loadData($scope.notations);
 
           var graphOptions = {
             width: 2000,

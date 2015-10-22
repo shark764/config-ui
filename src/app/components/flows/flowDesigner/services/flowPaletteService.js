@@ -1,15 +1,14 @@
 (function() {
   'use strict';
 
-  function FlowPaletteService(FlowNotationService) {
+  function FlowPaletteService(FlowLibrary) {
     return {
 
-      loadData: function(data) {
-        this.data = data;
-      },
-
-      loadLinks: function() {
-        var self = this;
+      loadPallet: function(pallet) {
+        this.loadGateways(pallet);
+        this.loadEvents(pallet);
+        this.loadActivities(pallet);
+        this.loadTemplates(pallet)
       },
 
       loadGateways: function(palette) {
@@ -27,9 +26,7 @@
       },
 
       loadEvents: function(palette) {
-        var self = this;
-
-        palette.load(_.map(self.data.events, function(event){
+        palette.load(_.map(FlowLibrary.listEvents(), function(event){
           var evt = new joint.shapes.liveOps.event({
             name: event.type,
             entity: event.entity,
@@ -41,8 +38,7 @@
       },
 
       loadActivities: function(palette) {
-        var self = this;
-        _.each(_.groupBy(self.data.activities, 'entity'), function(notations, entity) {
+        _.each(_.groupBy(FlowLibrary.listActivities(), 'entity'), function(notations, entity) {
           palette.load(
             _.map(notations, function(notation) {
               var n = new joint.shapes.liveOps[entity]({
@@ -70,9 +66,7 @@
       },
 
       loadTemplates: function(palette) {
-        var self = this;
-
-        palette.load(_.map(self.data.templates, function(template){
+        palette.load(_.map(FlowLibrary.listTemplates(), function(template){
           var tmp = new joint.shapes.liveOps.template({
             content: template.label,
             type: 'liveOps.template',
