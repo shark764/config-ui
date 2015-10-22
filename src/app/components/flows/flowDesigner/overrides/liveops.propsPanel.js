@@ -177,47 +177,6 @@
           joint.util.setByPath(scope.notation.model.attributes, path, value, '.');
         };
 
-        // Populate typeahead search collections with relevant API sources
-        _.each(scope.inputs, function (input) {
-          if (input.type === 'typeahead' && input.source !== undefined) {
-            if (input.source === 'media') {
-              input.options = _.map(FlowResource.getAllMedia(), function(entity) {
-                return {
-                  value: entity.id,
-                  content: entity.name,
-                  getDisplay: function(){
-                    return this.content;
-                  }
-                };
-              });
-              if (scope.notation.model.attributes.params.media) {
-                _.each(input.options, function (opt, optIndex) {
-                  if (input.path.indexOf('media') > -1) {
-                    scope.selectedItem = input.options[optIndex];
-                  }
-                });
-              }
-            } else if (input.source === 'queue') {
-              input.options = _.map(FlowResource.getActiveQueues(), function(entity) {
-                return {
-                  value: entity.id,
-                  content: entity.name,
-                  getDisplay: function(){
-                    return this.content;
-                  }
-                };
-              });
-              if (scope.notation.model.attributes.params.queue) {
-                _.each(input.options, function (opt, optIndex) {
-                  if (input.path.indexOf('queue') > -1) {
-                    scope.selectedItem = input.options[optIndex];
-                  }
-                });
-              }
-            }
-          }
-        });
-
         scope.onInputChange = function(model, value, input) {
           scope.notation.model.onInputChange(model, value, input.path);
 

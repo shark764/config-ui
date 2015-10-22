@@ -1,7 +1,7 @@
 (function() {
   'use strict';
 
-  function FlowNotationService(FlowLibrary) {
+  function FlowNotationService(FlowLibrary, FlowResource) {
 
     function getDefinition(model){
       var modelType = model.get('type');
@@ -33,16 +33,42 @@
         options = _.union(options, _.map(FlowLibrary.search({cells: model.collection.toJSON()}, 'resource'), function(item){
           return {
             content: item,
-            value: item
+            value: item,
+            getDisplay: function(){
+              return this.content;
+            }
           };
         }));
       } else if (input.source === 'catch' || input.source === 'throw' || input.source === 'signal') {
         options = _.union(options, _.map(FlowLibrary.search({cells: model.collection.toJSON()}, input.source), function(item){
           return {
             content: item,
-            value: item
+            value: item,
+            getDisplay: function(){
+              return this.content;
+            }
           };
         }));
+      } else if (input.source === 'media') {
+        options = _.map(FlowResource.getAllMedia(), function(entity) {
+          return {
+            value: entity.id,
+            content: entity.name,
+            getDisplay: function(){
+              return this.content;
+            }
+          };
+        });
+      } else if (input.source === 'queue') {
+        options = _.map(FlowResource.getActiveQueues(), function(entity) {
+          return {
+            value: entity.id,
+            content: entity.name,
+            getDisplay: function(){
+              return this.content;
+            }
+          };
+        });
       }
 
       return options;
@@ -65,12 +91,10 @@
         var inputs = getDefinition(model).inputs;
 
         _.each(inputs, function(input){
-          if(input.type === 'select'){
+          if(input.type === 'select' || input.type === 'typeahead' || input.type === 'autocomplete'){
             var options = buildOptions(model, input);
 
             if(options.length === 1){
-              console.log('input only has 1 option', input);
-              console.log(options[0]);
               joint.util.setByPath(model, 'attributes.' + input.path, options[0].value, '.');
             }
           }
