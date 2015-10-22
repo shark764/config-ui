@@ -11,6 +11,7 @@ var SkillsPage = function() {
   this.nameHeader = element(by.id('skill-details-name-header'));
   this.detailsMemberCount = element(by.css('.count'));
 
+  this.tablePane = element(by.id('table-pane'));
   this.headerRow = this.tablePane.element(by.css('.clone-header tr'));
   this.nameColumn = 'td:nth-child(2)';
   this.descriptionColumn = 'td:nth-child(3)';
@@ -23,7 +24,7 @@ var SkillsPage = function() {
   this.addMemberArea = element(by.id('usersForm'));
   this.addMemberField = this.addMemberArea.element(by.css('.typeahead-container'));
   this.addMemberDropdownOptions = element.all(by.repeater('item in filtered = (items | filter:filterCriteria | orderBy:orderByFunction)'));
-  this.addMemberProficiency = this.addMemberArea.element(by.id('new-user-skill-proficiency .input'));
+  this.addMemberProficiency = this.addMemberArea.element(by.css('#new-user-skill-proficiency > .number-slider > input'));
   this.addMemberBtn = this.addMemberArea.element(by.id('add-member-btn'));
 
   this.skillMembersLoading = element(by.css('#right-panel loading'));

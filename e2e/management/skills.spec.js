@@ -4,6 +4,7 @@ describe('The skills view', function() {
   var loginPage = require('../login/login.po.js'),
     shared = require('../shared.po.js'),
     skills = require('./skills.po.js'),
+    users = require('./users.po.js'),
     params = browser.params,
     skillCount,
     randomSkill,
@@ -25,7 +26,7 @@ describe('The skills view', function() {
     shared.tearDown();
   });
 
-  xit('should successfully create new Skill', function() {
+  it('should successfully create new Skill', function() {
     randomSkill = Math.floor((Math.random() * 1000) + 1);
     var skillAdded = false;
     newSkillName = 'Skill Name ' + randomSkill;
@@ -60,7 +61,7 @@ describe('The skills view', function() {
     });
   });
 
-  xit('should include skill page components', function() {
+  it('should include skill page components', function() {
     expect(shared.navBar.isDisplayed()).toBeTruthy();
     expect(shared.table.isDisplayed()).toBeTruthy();
     expect(shared.searchField.isDisplayed()).toBeTruthy();
@@ -71,7 +72,7 @@ describe('The skills view', function() {
     expect(shared.pageHeader.getText()).toBe('Skill Management');
   });
 
-  xit('should include valid Skill fields when creating a new Skill', function() {
+  it('should include valid Skill fields when creating a new Skill', function() {
     shared.createBtn.click();
     expect(skills.creatingSkillHeader.isDisplayed()).toBeTruthy();
     expect(skills.nameFormField.isDisplayed()).toBeTruthy();
@@ -82,7 +83,7 @@ describe('The skills view', function() {
     expect(skills.addMemberArea.isDisplayed()).toBeFalsy();
   });
 
-  xit('should require field input when creating a new Skill', function() {
+  it('should require field input when creating a new Skill', function() {
     shared.createBtn.click();
 
     // Submit button is disabled
@@ -93,7 +94,7 @@ describe('The skills view', function() {
     expect(shared.tableElements.count()).toBe(skillCount);
   });
 
-  xit('should require name when creating a new Skill', function() {
+  it('should require name when creating a new Skill', function() {
     shared.createBtn.click();
 
     // Edit fields
@@ -122,7 +123,7 @@ describe('The skills view', function() {
     expect(shared.tableElements.count()).toBe(skillCount);
   });
 
-  xit('should successfully create new Skill without description', function() {
+  it('should successfully create new Skill without description', function() {
     randomSkill = Math.floor((Math.random() * 1000) + 1);
     shared.createBtn.click();
 
@@ -135,7 +136,7 @@ describe('The skills view', function() {
     expect(shared.tableElements.count()).toBeGreaterThan(skillCount);
   });
 
-  xit('should successfully create new Skill without proficiency', function() {
+  it('should successfully create new Skill without proficiency', function() {
     randomSkill = Math.floor((Math.random() * 1000) + 1);
     shared.createBtn.click();
 
@@ -148,7 +149,7 @@ describe('The skills view', function() {
     expect(shared.tableElements.count()).toBeGreaterThan(skillCount);
   });
 
-  xit('should clear fields on Cancel', function() {
+  it('should clear fields on Cancel', function() {
     shared.createBtn.click();
 
     // Edit fields
@@ -174,7 +175,7 @@ describe('The skills view', function() {
     expect(skills.proficiencySwitch.isSelected()).toBeFalsy;
   });
 
-  xit('should display skill details when selected from table', function() {
+  it('should display skill details when selected from table', function() {
     // Select first queue from table
     shared.firstTableRow.click();
 
@@ -212,7 +213,7 @@ describe('The skills view', function() {
     });
   });
 
-  xit('should include valid Skill fields when editing an existing Skill', function() {
+  it('should include valid Skill fields when editing an existing Skill', function() {
     shared.firstTableRow.click();
     expect(skills.nameFormField.isDisplayed()).toBeTruthy();
     expect(skills.descriptionFormField.isDisplayed()).toBeTruthy();
@@ -226,7 +227,7 @@ describe('The skills view', function() {
     expect(skills.addMemberField.isDisplayed()).toBeTruthy();
   });
 
-  xit('should reset Skill fields after editing and selecting Cancel', function() {
+  it('should reset Skill fields after editing and selecting Cancel', function() {
     // Select first queue from table
     shared.firstTableRow.click();
 
@@ -256,7 +257,7 @@ describe('The skills view', function() {
     expect(skills.proficiencySwitch.isSelected()).toBe(originalProficiency);
   });
 
-  xit('should allow the Skill fields to be updated', function() {
+  it('should allow the Skill fields to be updated', function() {
     shared.firstTableRow.click();
 
     // Edit fields
@@ -278,7 +279,7 @@ describe('The skills view', function() {
     expect(skills.proficiencySwitch.isSelected()).toBe(editedProficiency);
   });
 
-  xit('should allow the Skill to be updated to have proficiency', function() {
+  it('should allow the Skill to be updated to have proficiency', function() {
     // Create new skill without proficiency
     randomSkill = Math.floor((Math.random() * 1000) + 1);
     newSkillName = 'Skill Name ' + randomSkill;
@@ -305,7 +306,7 @@ describe('The skills view', function() {
     });
   });
 
-  xit('should not allow the Skill proficiency to be removed', function() {
+  it('should not allow the Skill proficiency to be removed', function() {
     // Create new skill with proficiency
     randomSkill = Math.floor((Math.random() * 1000) + 1);
     newSkillName = 'Skill Name ' + randomSkill;
@@ -324,7 +325,7 @@ describe('The skills view', function() {
     });
   });
 
-  xit('should require name field when editing a Skill', function() {
+  it('should require name field when editing a Skill', function() {
     // Select first skill from table
     shared.firstTableRow.click();
 
@@ -341,7 +342,7 @@ describe('The skills view', function() {
     expect(shared.successMessage.isPresent()).toBeFalsy();
   });
 
-  xit('should not require description field when editing a Skill', function() {
+  it('should not require description field when editing a Skill', function() {
     shared.firstTableRow.click();
 
     // Edit fields
@@ -370,13 +371,14 @@ describe('The skills view', function() {
         skills.skillMembersRows.get(0).element(by.css('a')).click().then(function() {
           expect(browser.getCurrentUrl()).toContain(shared.usersPageUrl);
           expect(shared.rightPanel.isDisplayed()).toBeTruthy();
-          expect(users.userNameDetailsHeader.getText()).toContain(memberName);
+          expect(memberName).toContain(users.userNameDetailsHeader.getText());
         });
       }
     });
   });
 
-  it('should list all users in Add Member dropdown', function() {
+// TODO Enable the following after TITAN2-4583 && TITAN2-4533
+  xit('should list all users in Add Member dropdown', function() {
     randomSkill = Math.floor((Math.random() * 1000) + 1);
     newSkillName = 'Skill Name ' + randomSkill; // Save name for subsequent tests
     shared.createBtn.click();
@@ -401,7 +403,7 @@ describe('The skills view', function() {
     });
   });
 
-  it('should add member to skill and increment member count', function() {
+  xit('should add member to skill and increment member count', function() {
     // NOTE Uses new skill from previous test to ensure member count is 0
     shared.searchField.sendKeys(newSkillName);
     shared.firstTableRow.click();
@@ -434,7 +436,7 @@ describe('The skills view', function() {
     });
   });
 
-  it('should update user after adding as a member', function() {
+  xit('should update user after adding as a member', function() {
     // NOTE Uses new skill and user from previous test
     browser.get(shared.usersPageUrl);
     shared.searchField.sendKeys(newSkillName + '\t'); // Search for user based on new skill
@@ -442,7 +444,7 @@ describe('The skills view', function() {
     expect(shared.firstTableRow.getText()).toContain(addedMember);
   });
 
-  it('should clear add member field after adding', function() {
+  xit('should clear add member field after adding', function() {
     // NOTE Uses new skill from previous test to ensure member count is 0
     shared.searchField.sendKeys(newSkillName);
     shared.firstTableRow.click();
@@ -457,7 +459,7 @@ describe('The skills view', function() {
     });
   });
 
-  it('should update user dropdown after adding and removing members', function() {
+  xit('should update user dropdown after adding and removing members', function() {
     // NOTE Uses new skill from previous test
     shared.searchField.sendKeys(newSkillName);
     shared.firstTableRow.click();
@@ -490,7 +492,7 @@ describe('The skills view', function() {
     });
   });
 
-  it('should allow all members to be removed', function() {
+  xit('should allow all members to be removed', function() {
     // NOTE Uses new skill from previous test
     shared.searchField.sendKeys(newSkillName);
     shared.firstTableRow.click();
@@ -511,7 +513,7 @@ describe('The skills view', function() {
     });
   });
 
-  it('should display proficiency fields for adding new members', function() {
+  xit('should display proficiency fields for adding new members', function() {
     randomSkill = Math.floor((Math.random() * 1000) + 1);
     newSkillName = 'Skill Name ' + randomSkill; // Save name for subsequent tests
     shared.createBtn.click();
@@ -531,7 +533,7 @@ describe('The skills view', function() {
     });
   });
 
-  it('should add member to skill with default proficiency', function() {
+  xit('should add member to skill with default proficiency', function() {
     // NOTE Uses new skill from previous test to ensure member count is 0
     shared.searchField.sendKeys(newSkillName);
     shared.firstTableRow.click();
@@ -551,7 +553,7 @@ describe('The skills view', function() {
         expect(skills.skillMembersRows.get(0).getText()).toContain(addedMemberName);
         expect(skills.skillMembersRows.get(0).getText()).toContain('1');
         expect(skills.detailsMemberCount.getText()).toContain('1');
-        expect(skills.firstTableRow.element(by.css(skills.membersColumn)).getText()).toBe('1');
+        expect(shared.firstTableRow.element(by.css(skills.membersColumn)).getText()).toBe('1');
 
         // Changes persist
         browser.refresh();
@@ -561,12 +563,12 @@ describe('The skills view', function() {
         expect(skills.skillMembersRows.count()).toBe(1);
         expect(skills.skillMembersRows.get(0).getText()).toContain(addedMemberName);
         expect(skills.skillMembersRows.get(0).getText()).toContain('1');
-        expect(skills.firstTableRow.element(by.css(skills.membersColumn)).getText()).toBe('1');
+        expect(shared.firstTableRow.element(by.css(skills.membersColumn)).getText()).toBe('1');
       });
     });
   });
 
-  it('should reset add member fields after adding with default proficiency', function() {
+  xit('should reset add member fields after adding with default proficiency', function() {
     // NOTE Uses new skill from previous test
     shared.searchField.sendKeys(newSkillName);
     shared.firstTableRow.click();
@@ -581,7 +583,7 @@ describe('The skills view', function() {
     });
   });
 
-  it('should allow all members to be removed with proficiency', function() {
+  xit('should allow all members to be removed with proficiency', function() {
     // NOTE Uses new skill from previous test
     shared.searchField.sendKeys(newSkillName);
     shared.firstTableRow.click();
@@ -602,7 +604,7 @@ describe('The skills view', function() {
     });
   });
 
-  it('should add member to skill with input proficiency', function() {
+  xit('should add member to skill with input proficiency', function() {
     // NOTE Uses new skill from previous test
     shared.searchField.sendKeys(newSkillName);
     shared.firstTableRow.click();
@@ -622,12 +624,12 @@ describe('The skills view', function() {
         expect(skills.skillMembersRows.get(0).getText()).toContain(addedMemberName);
         expect(skills.skillMembersRows.get(0).getText()).toContain('50');
         expect(skills.detailsMemberCount.getText()).toContain('1');
-        expect(skills.firstTableRow.element(by.css(skills.membersColumn)).getText()).toBe('1');
+        expect(shared.firstTableRow.element(by.css(skills.membersColumn)).getText()).toBe('1');
       });
     });
   });
 
-  it('should reset add member field after adding with input proficiency', function() {
+  xit('should reset add member field after adding with input proficiency', function() {
     // NOTE Uses new skill from previous test
     shared.searchField.sendKeys(newSkillName);
     shared.firstTableRow.click();
@@ -639,7 +641,7 @@ describe('The skills view', function() {
 
     skills.addMemberBtn.click().then(function() {
       shared.waitForSuccess();
-      expect(skills.addMemberField.getAttribute('value')).toBe('');
+      expect(skills.addMemberField.getAttribute('value')).toBeNull();
       expect(skills.addMemberProficiency.getAttribute('value')).toBe('1');
     });
   });
