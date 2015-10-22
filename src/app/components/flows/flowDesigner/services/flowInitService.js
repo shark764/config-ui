@@ -28,6 +28,7 @@
         self.initializeKeyboardListeners();
         self.initializeSelectorViewListeners();
         self.initializePaperListeners();
+        self.initializeGraphListeners();
 
         /**
          * [ Properties Panel Logic  & Functions]
@@ -257,10 +258,11 @@
       },
       initializeGraphListeners: function() {
         var self = this;
-        self.on({
+        self.graph.on({
           'add': function(cell, collection, opt) {
             if (!opt.stencil) {return;}
             var view = self.graph.interfaces.paper.findViewByModel(cell);
+            FlowNotationService.populateSingleOption(cell);
             if (view) {self.graph.utils.renderPropertiesPanel(view);}
           }
         });

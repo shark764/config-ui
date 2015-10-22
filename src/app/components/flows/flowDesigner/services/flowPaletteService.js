@@ -10,9 +10,6 @@
 
       loadLinks: function() {
         var self = this;
-        _.each(self.data.links, function(notation) {
-          FlowNotationService.registerLink(notation);
-        });
       },
 
       loadGateways: function(palette) {
@@ -41,10 +38,6 @@
           });
           return evt;
         }), 'events');
-
-        _.each(self.data.events, function(notation) {
-          FlowNotationService.registerEvent(notation);
-        });
       },
 
       loadActivities: function(palette) {
@@ -73,10 +66,6 @@
               return n;
             }
           ), entity);
-
-          _.each(notations, function(notation) {
-            FlowNotationService.registerActivity(notation);
-          });
         });
       },
 
@@ -101,10 +90,6 @@
           tmp.attributes.inputs = tmp.attributes.inputs.concat(template.inputs);
           return tmp;
         }), 'templates');
-
-        _.each(self.data.templates, function(notation) {
-          FlowNotationService.registerTemplate(notation);
-        });
       }
     };
   }

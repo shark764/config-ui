@@ -194,23 +194,6 @@ function flowDesigner() {
             });
           };
 
-          if (SubflowCommunicationService.currentFlowContext !== '') {
-            $scope.graph.fromJSON(SubflowCommunicationService.currentFlowContext);
-            SubflowCommunicationService.currentFlowContext = '';
-          } else {
-            if($scope.readOnly){
-              var graphJSON = JSON.parse($scope.flowData.flow);
-              var jjs = FlowLibrary.convertToJoint(graphJSON);
-              $scope.graph.fromJSON(jjs);
-            }
-            else{
-              var graphJSON = JSON.parse($scope.flowData.flow);
-              FlowValidationService.checkEntities(graphJSON);
-              var jjs = FlowLibrary.convertToJoint(graphJSON);
-              $scope.graph.fromJSON(jjs);
-              FlowValidationService.validate($scope.flowData, $scope.graph);
-            }
-          }
           $window.spitOutAlienese = function() {
             return FlowLibrary.convertToAlienese($scope.graph.toJSON());
           };
@@ -230,6 +213,25 @@ function flowDesigner() {
           $window.search = function(target) {
             return FlowLibrary.search($scope.graph.toJSON(), target);
           };
+
+          if (SubflowCommunicationService.currentFlowContext !== '') {
+            $scope.graph.fromJSON(SubflowCommunicationService.currentFlowContext);
+            SubflowCommunicationService.currentFlowContext = '';
+          } else {
+            if($scope.readOnly){
+              var graphJSON = JSON.parse($scope.flowData.flow);
+              var jjs = FlowLibrary.convertToJoint(graphJSON);
+              $scope.graph.fromJSON(jjs);
+            }
+            else{
+              var graphJSON = JSON.parse($scope.flowData.flow);
+              FlowValidationService.checkEntities(graphJSON);
+              var jjs = FlowLibrary.convertToJoint(graphJSON);
+              $scope.graph.fromJSON(jjs);
+              FlowValidationService.validate($scope.flowData, $scope.graph);
+            }
+          }
+
         }, 1000);
       }]
     };
