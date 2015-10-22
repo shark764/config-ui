@@ -102,7 +102,7 @@
 
     onParentChange: function(cell, parent) {
       if (parent) {
-        this.resize(30, 30);
+        this.resize(this.defaults.size.width/2, this.defaults.size.height/2);
         this.set('z', 20);
         //remove connecting links
         if (cell.collection) {
@@ -113,7 +113,7 @@
         }
 
       } else {
-        this.resize(70, 70);
+        this.resize(this.defaults.size.width, this.defaults.size.height);
       }
     },
 

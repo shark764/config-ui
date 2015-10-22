@@ -15,7 +15,7 @@ angular.module('liveopsConfigPanel')
         }, 'groups/' + this.id + '/users');
 
         if ($scope.selectedGroup){
-          $scope.selectedGroup.memberList = result;
+          $scope.selectedGroup.$memberList = result;
         }
         
         this.members = result;
@@ -52,7 +52,7 @@ angular.module('liveopsConfigPanel')
           groupId: $scope.selectedGroup.id,
           userId: user.id
         }, function (resp){
-          $scope.selectedGroup.memberList.push(resp);
+          $scope.selectedGroup.$memberList.push(resp);
           queryCache.remove('TenantUser');
           Alert.success($translate.instant('group.table.add.member'));
         }, function () {
@@ -66,7 +66,7 @@ angular.module('liveopsConfigPanel')
           groupId:$scope.selectedGroup.id,
           memberId: user.memberId
         }, function () {
-          $scope.selectedGroup.memberList.removeItem(user);
+          $scope.selectedGroup.$memberList.removeItem(user);
           queryCache.remove('TenantUser');
           Alert.success($translate.instant('group.table.remove.member'));
         }, function () {

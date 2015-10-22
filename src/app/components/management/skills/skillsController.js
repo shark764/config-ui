@@ -7,6 +7,8 @@ angular.module('liveopsConfigPanel')
       $scope.Session = Session;
 
       $scope.tableConfig = skillTableConfig;
+      
+      $scope.params = {}
 
       $scope.fetchSkills = function() {
         return Skill.cachedQuery({
@@ -98,8 +100,8 @@ angular.module('liveopsConfigPanel')
           userId: selectedUser.id
         });
         
-        if ($scope.selectedSkill.$original.hasProficiency){
-          tenantUserSkill.proficiency = $scope.newUserProficiency;
+        if($scope.selectedSkill.hasProficiency) {
+          tenantUserSkill.proficiency = $scope.params.proficiency;
         }
         
         tenantUserSkill.save(function(result){
@@ -127,7 +129,7 @@ angular.module('liveopsConfigPanel')
       };
       
       $scope.resetAddUser = function(){
-        $scope.newUserProficiency = 1;
+        $scope.params.proficiency = 1;
         $timeout(function(){
           $scope.typeahead = {
               selectedUser: null

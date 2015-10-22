@@ -239,7 +239,7 @@ describe('SkillsController', function () {
       $scope.selectedSkill = mockSkills[0];
       $scope.selectedSkill.$original = mockSkills[0];
 
-      $scope.newUserProficiency = 20;
+      $scope.params.proficiency = 20;
       $scope.addUser(mockTenantUsers[0]);
       $httpBackend.flush();
     }]));

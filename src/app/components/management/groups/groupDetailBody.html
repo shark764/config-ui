@@ -53,7 +53,7 @@
       scroll-table 
       max-height="300" 
       class="table" 
-      ng-show="selectedGroup.memberList.length > 0">
+      ng-show="selectedGroup.$memberList.length > 0">
       <thead>
         <tr>
           <th>{{'value.name' | translate}}</th>
@@ -61,7 +61,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr ng-repeat="user in selectedGroup.memberList">
+        <tr ng-repeat="user in selectedGroup.$memberList">
           <td><a ng-click="gotoUserPage(user.memberId)"><audit-text translation="value.displayName" user-id="user.memberId"></audit-text></a></td>
           <td td style="text-align:right"><a id="remove-member-btn" ng-click="removeMember(user)"><i class="fa fa-times remove"></i></a></td>
         </tr>

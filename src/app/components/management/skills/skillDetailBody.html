@@ -23,8 +23,14 @@
 <div class="input-group" disable-contents="! ('MANAGE_ALL_SKILLS' | hasPermission)">
   <label>{{'skill.details.hasProficiency' | translate}}</label>
   <div>
-    <div class="error" ng-show="forms.detailsForm.hasProficiency.$touched && forms.detailsForm.hasProficiency.$invalid">{{'skill.details.hasProficiency.error' | translate}}</div>
-    <toggle ng-disabled="! ('MANAGE_ALL_SKILLS' | hasPermission) || (! selectedSkill.isNew() && selectedSkill.$original.hasProficiency)" class="status-toggle" name="hasProficiency" ng-model="selectedSkill.hasProficiency"></toggle>
+    <div class="error"
+      ng-show="forms.detailsForm.hasProficiency.$touched && forms.detailsForm.hasProficiency.$invalid">
+        {{'skill.details.hasProficiency.error' | translate}}
+      </div>
+    <toggle class="status-toggle" name="hasProficiency"
+      ng-disabled="! ('MANAGE_ALL_SKILLS' | hasPermission) || (! selectedSkill.isNew() && selectedSkill.$original.hasProficiency)"
+      ng-model="selectedSkill.hasProficiency">
+    </toggle>
   </div>
 </div>
 
@@ -45,12 +51,17 @@
       filters="filterUsers">
     </type-ahead>
     <number-slider
-    id="new-user-skill-proficiency" ng-if="selectedSkill.$original.hasProficiency"
-    placeholder="{{'skill.details.proficiency' | translate}}" 
-    value="newUserProficiency"
-    min-value="1" max-value="100" ></number-slider>
+      id="new-user-skill-proficiency" ng-if="selectedSkill.$original.hasProficiency"
+      placeholder="{{'skill.details.proficiency' | translate}}" 
+      value="params.proficiency"
+      min-value="1" max-value="100" >
+    </number-slider>
     <div>
-      <a lo-submit-spinner spinner-status="saving" class="btn" ng-disabled="! typeahead.selectedUser.id" ng-click="addUser(typeahead.selectedUser)"><i class="fa fa-plus add"></i></a>
+      <a lo-submit-spinner spinner-status="saving" class="btn"
+        ng-disabled="! typeahead.selectedUser.id"
+        ng-click="addUser(typeahead.selectedUser)">
+        <i class="fa fa-plus add"></i>
+      </a>
     </div>
   </ng-form>
   
@@ -76,9 +87,15 @@
     </thead>
     <tbody>
       <tr ng-repeat="user in selectedSkill.fetchSkillUsers()">
-        <td><a ng-click="gotoUserPage(user.userId)"><audit-text translation="value.displayName" user-id="user.userId"></audit-text></a></td>
-        <td class="proficiency-col" ng-show="selectedSkill.$original.hasProficiency">{{user.proficiency}}</td>
-        <td class="control-col"><i class="remove fa fa-times" ng-click="removeUser(user)"></i></td>
+        <td><a ng-click="gotoUserPage(user.userId)">
+          <audit-text translation="value.displayName" user-id="user.userId"></audit-text>
+        </a></td>
+        <td class="proficiency-col" ng-show="selectedSkill.$original.hasProficiency">
+          {{user.proficiency}}
+        </td>
+        <td class="control-col">
+          <i class="remove fa fa-times" ng-click="removeUser(user)"></i>
+        </td>
       </tr>
     </tbody>
   </table>

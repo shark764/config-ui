@@ -95,11 +95,12 @@
           {{extension.provider | translate}}
         </div>
         <div class="lo-extension-table-col lo-extension-table-col phone-number-col" dnd-nodrag>
-          <span ng-show="extension.type !== 'webrtc'">{{extension.value}}</span>
+          <span ng-show="!(extension.type === 'webrtc' && extension.provider === 'twilio')">{{extension.value}}</span>
           <span ng-show="$index === 0">({{'details.primary' | translate}})</span>
         </div>
         <div class="lo-extension-table-col remove-col" dnd-nodrag>
           <i class="fa fa-close remove"
+            ng-show="!(extension.type === 'webrtc' && extension.provider === 'twilio')"
             ng-disabled="ngDisabled"
             lo-submit="remove(extension)">
           </i>

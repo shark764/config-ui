@@ -1,6 +1,9 @@
 #user-profile {
   padding: 10px 30px;
-  
+
+  overflow-y: auto;
+  height: 100%;
+
   .mystery-man {
     color: #fff;
     background-color: #eee;
@@ -10,17 +13,17 @@
     position: absolute;
     width: 160px;
   }
-  
+
   .wrapper {
    display: inline-block;
    width: 100%;
    padding-left: 200px;
   }
-  
+
   .submit-wrapper {
     text-align: right;
   }
-  
+
   #save-user-details-btn {
     width: 200px !important;
   }
@@ -32,7 +35,7 @@
     font-size: 0.9em;
     width: 100%;
     max-width: $max-control-width + 200px;
-    
+
     &.clone-header {
         @include border-radius-complex(4px, 0, 0, 4px);
         border-bottom: 0;
@@ -57,24 +60,24 @@
       max-width: $max-control-width + 200px;
     }
   }
-  
+
   .divider-header {
     margin-left: -10px;
   }
-  
+
   #user-form {
     max-width: 500px;
-    
+
     & > div {
       width: 100%;
       margin: 10px 0;
-      
+
       & > input, & > div {
         width: 70%;
         display: inline-block;
       }
     }
-    
+
     label {
       display: inline-block;
       padding-right: 10px;
@@ -83,4 +86,3 @@
     }
   }
 }
-
