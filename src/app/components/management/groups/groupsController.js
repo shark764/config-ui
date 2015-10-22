@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('GroupsController', ['$scope', 'Session', 'Group', 'TenantUser', 'groupTableConfig', 'TenantGroupUsers', 'queryCache', 'DirtyForms', 'BulkAction', 'Alert', '$state', '$translate',
-    function ($scope, Session, Group, TenantUser, groupTableConfig, TenantGroupUsers, queryCache, DirtyForms, BulkAction, Alert, $state, $translate) {
+  .controller('GroupsController', ['$scope', 'Session', 'Group', 'TenantUser', 'groupTableConfig', 'TenantGroupUsers', 'queryCache', 'DirtyForms', 'BulkAction', '$filter', 'Alert', '$state', '$translate',
+    function ($scope, Session, Group, TenantUser, groupTableConfig, TenantGroupUsers, queryCache, DirtyForms, BulkAction, $filter, Alert, $state, $translate) {
       $scope.Session = Session;
       $scope.tableConfig = groupTableConfig;
 
@@ -78,6 +78,15 @@ angular.module('liveopsConfigPanel')
         $state.transitionTo('content.management.users', {
           id: userId
         });
+      };
+
+     $scope.filterUsers = function(item) {
+        if ($scope.selectedGroup){
+          var matchingUsers = $filter('filter')($scope.selectedGroup.fetchGroupUsers(), {
+            'memberId': item.id
+          }, true);
+          return matchingUsers.length === 0;
+        }
       };
       
       $scope.submit = function(){
