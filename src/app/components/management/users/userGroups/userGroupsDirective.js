@@ -77,11 +77,13 @@ angular.module('liveopsConfigPanel')
               $timeout(function () { //Timeout prevents simultaneous $digest cycles
                 $scope.updateCollapseState(tagWrapper.height());
               }, 200);
-
+              
               $scope.reset();
             }, function () {
               Alert.error('Failed to save user group');
               $scope.saving = false;
+            }).then(function() {
+              Alert.success('User group added!');
             });
           };
 
@@ -109,6 +111,8 @@ angular.module('liveopsConfigPanel')
               //TODO: remove once groups api returns members list
               //Reset cache of users for this group
               queryCache.remove('groups/' + tgu.groupId + '/users');
+            }).then(function() {
+              Alert.success('User group removed!');
             });
           };
 
