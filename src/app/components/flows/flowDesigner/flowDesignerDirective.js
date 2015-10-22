@@ -14,6 +14,35 @@ function flowDesigner() {
       controller: ['$scope', '$element', '$attrs', '$window', '$document', '$compile', '$timeout', 'FlowInitService', 'SubflowCommunicationService', 'FlowDraft', 'FlowVersion', 'Session', 'Alert', '$state', 'FlowLibrary', 'FlowValidationService', function($scope, $element, $attrs, $window, $document, $compile, $timeout, FlowInitService, SubflowCommunicationService, FlowDraft, FlowVersion, Session, Alert, $state, FlowLibrary, FlowValidationService) {
 
         $timeout(function() {
+          //This must be preloaded as it is used when connection is down
+          function preloadNetworkModal() {
+            var newScope = $scope.$new();
+
+            newScope.modalBody = 'app/components/flows/flowDesigner/networkIssueModal.html';
+            newScope.title = 'Network Connection';
+
+            newScope.okCallback = function() {
+              Offline.check();
+            };
+
+            return $compile('<modal></modal>')(newScope);
+          }
+
+          $scope.networkModal = preloadNetworkModal();
+
+          Offline.options = {
+            checkOnLoad: true,
+            interceptRequests: true,
+            checks: {xhr: {url: 'app/components/flows/flowDesigner/networkIssueModal.html'}}
+          };
+
+          Offline.on('confirmed-down', function () {
+              $document.find('html > body').append($scope.networkModal);
+          });
+
+          Offline.on('up', function () {
+              $document.find('modal').remove();
+          });
 
           var graphOptions = {
             width: 2000,
@@ -69,6 +98,8 @@ function flowDesigner() {
           });
 
           var update = function(){
+            Offline.check();
+
             if($scope.readOnly){
               return;
             }
@@ -88,6 +119,7 @@ function flowDesigner() {
           $scope.$on('update:draft', lazyUpdate);
 
           $scope.publishNewFlowDraft = function() {
+            Offline.check();
 
             var graph = $scope.graph;
             if (graph.toJSON().cells.length === 0) { return; }
@@ -191,6 +223,25 @@ function flowDesigner() {
             });
           };
 
+          if (SubflowCommunicationService.currentFlowContext !== '') {
+            $scope.graph.fromJSON(SubflowCommunicationService.currentFlowContext);
+            SubflowCommunicationService.currentFlowContext = '';
+          } else {
+            var jjs, graphJSON;
+            if($scope.readOnly){
+              graphJSON = JSON.parse($scope.flowData.flow);
+              jjs = FlowLibrary.convertToJoint(graphJSON);
+              $scope.graph.fromJSON(jjs);
+            }
+            else{
+              graphJSON = JSON.parse($scope.flowData.flow);
+              FlowValidationService.checkEntities(graphJSON);
+              jjs = FlowLibrary.convertToJoint(graphJSON);
+              $scope.graph.fromJSON(jjs);
+              FlowValidationService.validate($scope.flowData, $scope.graph);
+            }
+          }
+
           $window.spitOutAlienese = function() {
             return FlowLibrary.convertToAlienese($scope.graph.toJSON());
           };
@@ -210,25 +261,7 @@ function flowDesigner() {
           $window.search = function(target) {
             return FlowLibrary.search($scope.graph.toJSON(), target);
           };
-
-          if (SubflowCommunicationService.currentFlowContext !== '') {
-            $scope.graph.fromJSON(SubflowCommunicationService.currentFlowContext);
-            SubflowCommunicationService.currentFlowContext = '';
-          } else {
-            if($scope.readOnly){
-              var graphJSON = JSON.parse($scope.flowData.flow);
-              var jjs = FlowLibrary.convertToJoint(graphJSON);
-              $scope.graph.fromJSON(jjs);
-            }
-            else{
-              var graphJSON = JSON.parse($scope.flowData.flow);
-              FlowValidationService.checkEntities(graphJSON);
-              var jjs = FlowLibrary.convertToJoint(graphJSON);
-              $scope.graph.fromJSON(jjs);
-              FlowValidationService.validate($scope.flowData, $scope.graph);
-            }
-          }
-
+          
         }, 1000);
       }]
     };

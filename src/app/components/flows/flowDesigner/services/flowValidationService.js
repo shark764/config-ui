@@ -35,8 +35,10 @@
     function highlightCells(errors, graph){
       _.each(errors, function(e) {
         var cell = graph.getCell(e.step);
-        var view = cell.findView(graph.interfaces.paper);
-        new V(view.el).addClass('error');
+        if (cell) {
+          var view = cell.findView(graph.interfaces.paper);
+          new V(view.el).addClass('error');
+        }
       });
     }
 
