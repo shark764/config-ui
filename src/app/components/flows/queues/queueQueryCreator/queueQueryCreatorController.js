@@ -13,16 +13,13 @@ angular.module('liveopsConfigPanel')
         $scope.version.query = jsedn.encode(newMap);
       }, true);
       
-      $scope.$watch('version.query', function(newQuery, oldQuery) {
+      $scope.$watch('version.query', function(newQuery) {
         if(!newQuery) {
           return;
         }
         
         $scope.rootMap = jsedn.parse(newQuery);
-        if (!oldQuery){
-          //Only change component visibility on initial load
-          self.initComponentState();
-        }
+        self.initComponentState();
       });
       
       $scope.queryComponents = [{

@@ -2,7 +2,7 @@
 
 describe('QueueController', function() {
   var $scope,
-  $controller,
+  controller,
   QueueVersion,
   jsedn;
 
@@ -10,15 +10,14 @@ describe('QueueController', function() {
   beforeEach(module('liveopsConfigPanel'));
   
   beforeEach(inject(['$rootScope', '$controller', 'QueueVersion', 'jsedn',
-    function($rootScope, _$controller_, _QueueVersion, _jsedn) {
+    function($rootScope, $controller, _QueueVersion, _jsedn) {
       $scope = $rootScope.$new();
-      $controller = _$controller_;
       QueueVersion = _QueueVersion;
       jsedn = _jsedn;
       
       $scope.rootMap = jsedn.parse('{}');
       $scope.version = new QueueVersion();
-      $controller('QueueQueryCreatorController', {'$scope': $scope});
+      controller = $controller('QueueQueryCreatorController', {'$scope': $scope});
       $scope.$digest();
     }]));
     
@@ -204,5 +203,22 @@ describe('QueueController', function() {
         $scope.remove(mockComponent);
         expect(mockComponent.remove).not.toHaveBeenCalled();
     }]));
+  });
+  
+  describe('initComponentState function', function() {
+    it('should add the component if its keyword exists in the rootMap', function() {
+      var mockComponent = {
+        name: 'myComponent',
+        enabled: false,
+        keyword: ':myKey'
+      };
+
+      $scope.queryComponents = [mockComponent];
+      expect($scope.myComponent).toBeUndefined();
+      $scope.rootMap = jsedn.parse('{:myKey [1 2 3] :anotherKey [5  5]}');
+      controller.initComponentState();
+      expect(mockComponent.enabled).toBeTruthy();
+      expect($scope.myComponent).toBe(mockComponent);
+    });
   });
 });
