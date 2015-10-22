@@ -71,8 +71,6 @@ describe('The table search', function() {
 
     shared.searchField.sendKeys('T*r');
     shared.tableElements.then(function(rows) {
-      search.verifyUserSearch('t', rows);
-      search.verifyUserSearch('r', rows);
       search.verifyUserSearchRegex(/.*t.*r.*/, rows);
     });
 

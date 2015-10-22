@@ -5,7 +5,8 @@ describe('The user skills component of User view', function() {
     shared = require('../shared.po.js'),
     users = require('./users.po.js'),
     skills = require('./skills.po.js'),
-    params = browser.params;
+    params = browser.params,
+    newSkillName;
 
   beforeAll(function() {
     loginPage.login(params.login.user, params.login.password);
@@ -162,12 +163,12 @@ describe('The user skills component of User view', function() {
     });
   });
 
-  it('should accept skill proficiency from 1-100', function() {
+  it('should validate skill proficiency based on minimum', function() {
     //Create a new skill
     browser.get(shared.skillsPageUrl);
     shared.createBtn.click();
     var randomSkill = Math.floor((Math.random() * 1000) + 1);
-    var newSkillName = 'Skill Name ' + randomSkill;
+    newSkillName = 'Skill Name ' + randomSkill;
     skills.nameFormField.sendKeys(newSkillName);
     skills.proficiencyFormCheckbox.click().then(function() {
       shared.submitFormBtn.click().then(function() {
@@ -199,30 +200,40 @@ describe('The user skills component of User view', function() {
         expect(users.skillProficiency.get(0).getAttribute('value')).toBe('2');
         expect(users.proficiencyCounterDown.getAttribute('class')).not.toContain('disabled');
         expect(users.proficiencyCounterUp.getAttribute('class')).not.toContain('disabled');
-
-        // Increment proficiency counter to max
-        users.skillProficiency.clear();
-        users.skillProficiency.sendKeys('99');
-        users.proficiencyCounterUp.click();
-        expect(users.skillProficiency.get(0).getAttribute('value')).toBe('100');
-        expect(users.proficiencyCounterDown.getAttribute('class')).not.toContain('disabled');
-        expect(users.proficiencyCounterUp.getAttribute('class')).toContain('disabled');
-
-        // Decrement proficiency counter
-        users.proficiencyCounterDown.click();
-        expect(users.skillProficiency.get(0).getAttribute('value')).toBe('99');
-        expect(users.proficiencyCounterDown.getAttribute('class')).not.toContain('disabled');
-        expect(users.proficiencyCounterUp.getAttribute('class')).not.toContain('disabled');
-
-        // Set proficiency above max
-        users.skillProficiency.clear();
-        users.skillProficiency.sendKeys('101');
-        users.proficiencyCounterUp.click();
-        expect(users.skillProficiency.get(0).getAttribute('value')).toBe('100');
-        expect(users.proficiencyCounterDown.getAttribute('class')).not.toContain('disabled');
-        expect(users.proficiencyCounterUp.getAttribute('class')).toContain('disabled');
       });
     });
+  });
+
+  it('should validate skill proficiency based on maximum', function() {
+    // Uses skill from previous test
+    // Assign a user to it
+    browser.get(shared.usersPageUrl);
+    shared.secondTableRow.click();
+    var selectedUserName = users.userNameDetailsHeader.getText();
+    users.addSkillSearch.sendKeys(newSkillName);
+    expect(users.skillProficiency.isDisplayed()).toBeTruthy();
+
+    // Increment proficiency counter to max
+    users.skillProficiency.clear();
+    users.skillProficiency.sendKeys('99');
+    users.proficiencyCounterUp.click();
+    expect(users.skillProficiency.get(0).getAttribute('value')).toBe('100');
+    expect(users.proficiencyCounterDown.getAttribute('class')).not.toContain('disabled');
+    expect(users.proficiencyCounterUp.getAttribute('class')).toContain('disabled');
+
+    // Decrement proficiency counter
+    users.proficiencyCounterDown.click();
+    expect(users.skillProficiency.get(0).getAttribute('value')).toBe('99');
+    expect(users.proficiencyCounterDown.getAttribute('class')).not.toContain('disabled');
+    expect(users.proficiencyCounterUp.getAttribute('class')).not.toContain('disabled');
+
+    // Set proficiency above max
+    users.skillProficiency.clear();
+    users.skillProficiency.sendKeys('101');
+    users.proficiencyCounterUp.click();
+    expect(users.skillProficiency.get(0).getAttribute('value')).toBe('100');
+    expect(users.proficiencyCounterDown.getAttribute('class')).not.toContain('disabled');
+    expect(users.proficiencyCounterUp.getAttribute('class')).toContain('disabled');
   });
 
   it('should create new skill and add to user', function() {
@@ -329,8 +340,8 @@ describe('The user skills component of User view', function() {
     var newUserName = 'First ' + randomUser + ' Last ' + randomUser;
 
     users.emailFormField.sendKeys('titantest' + randomUser + '@mailinator.com\t');
-    users.tenantRoleFormDropdownOptions.get((randomUser % 3) + 1).click();
     users.platformRoleFormDropdownOptions.get(1).click();
+    users.tenantRoleFormDropdownOptions.get((randomUser % 3) + 1).click();
 
     users.firstNameFormField.sendKeys('First ' + randomUser);
     users.lastNameFormField.sendKeys('Last ' + randomUser);
@@ -397,11 +408,7 @@ describe('The user skills component of User view', function() {
       browser.get(shared.skillsPageUrl);
 
       // Skill list on Users page should contain each of the same Skill records
-      for (var i = 0; i < skillNameList.length; i++) {
-        shared.searchField.clear();
-        shared.searchField.sendKeys(skillNameList[i]);
-        expect(shared.tableElements.count()).toBeGreaterThan(0);
-      }
+      expect(shared.tableElements.count()).toBe(skillNameList.length);
     });
   });
 
@@ -457,11 +464,6 @@ describe('The user skills component of User view', function() {
         }).then(function() {
           users.addSkillSearch.click();
           expect(users.skillDropdownItems.count()).toBe(skillNameList.length);
-
-          // Search Skills for each skill element
-          for (var i = 0; i < skillNameList.length; i++) {
-            expect(skillNameList[i]).toContain(users.skillDropdownItems.get(i).getText());
-          }
         });
       });
     });

@@ -34,10 +34,8 @@ describe('The groups view bulk actions', function() {
   afterAll(function() {
     shared.tearDown();
   });
-  
-  // TODO TITAN2-4505
 
-  xit('should allow updates to supported bulk action fields', function() {
+  it('should allow updates to supported bulk action fields', function() {
     shared.actionsBtn.click();
     expect(bulkActions.bulkActionDivs.count()).toBe(1);
 
@@ -46,7 +44,7 @@ describe('The groups view bulk actions', function() {
     expect(bulkActions.enableToggle.isDisplayed()).toBeTruthy();
   });
 
-  xit('should not allow updates to Everyone group', function() {
+  it('should not allow updates to Everyone group', function() {
     shared.searchField.sendKeys('everyone');
     shared.tableElements.then(function(groups) {
       if (groups.length > 0) {
@@ -72,7 +70,7 @@ describe('The groups view bulk actions', function() {
     });
   });
 
-  xit('should allow all selected group\'s status to be Disabled', function() {
+  it('should allow all selected group\'s status to be Disabled', function() {
     // Update All bulk actions
     shared.actionsBtn.click();
 
@@ -118,7 +116,7 @@ describe('The groups view bulk actions', function() {
     });
   });
 
-  xit('should allow all selected group\'s status to be Enabled', function() {
+  it('should allow all selected group\'s status to be Enabled', function() {
     // Update All bulk actions
     shared.actionsBtn.click();
 
@@ -162,7 +160,7 @@ describe('The groups view bulk actions', function() {
     });
   });
 
-  xit('should ignore disabled fields on update', function() {
+  it('should ignore disabled fields on update', function() {
     shared.actionsBtn.click();
     bulkActions.selectAllTableHeader.click();
 
@@ -181,7 +179,7 @@ describe('The groups view bulk actions', function() {
     expect(shared.successMessage.isPresent()).toBeFalsy();
   });
 
-  xit('should only affect selected groups', function() {
+  it('should only affect selected groups', function() {
     shared.tableElements.then(function(originalGroups) {
 
       // Select odd groups and leave even groups unselected, skip everyone group
