@@ -3,6 +3,8 @@
 
   function FlowNotationService(FlowLibrary, FlowResource) {
 
+    var lastResource, lastParticipant;
+
     function getDefinition(model){
       var modelType = model.get('type');
       //If we're dealing with an activity
@@ -29,7 +31,7 @@
 
     function buildOptions(model, input) {
       var options = input.options || [];
-      if (input.source === 'resource') {
+      if (input.source === 'resource' || input.source === 'participant') {
         options = _.union(options, _.map(FlowLibrary.search({cells: model.collection.toJSON()}, 'resource'), function(item){
           return {
             content: item,
@@ -96,6 +98,36 @@
 
             if(options.length === 1){
               joint.util.setByPath(model, 'attributes.' + input.path, options[0].value, '.');
+            }
+          }
+        });
+      },
+
+      setLastResource: function(resource){
+        console.log('Setting last resource used', resource);
+        lastResource = resource;
+      },
+
+      setLastParticipant: function(participant){
+        console.log('Setting last participant used');
+        lastParticipant = participant;
+      },
+
+      populatePreviousOption: function(model) {
+        var inputs = getDefinition(model).inputs;
+
+        _.each(inputs, function(input){
+          if(input.type === 'select' || input.type === 'typeahead' || input.type === 'autocomplete'){
+            var options = buildOptions(model, input);
+            if(input.source === 'participant'){
+              if(_.find(options, {value: lastParticipant})){
+                joint.util.setByPath(model, 'attributes.' + input.path, lastParticipant, '.');
+              }
+            }
+            if(input.source === 'resource'){
+              if(_.find(options, {value: lastResource})){
+                joint.util.setByPath(model, 'attributes.' + input.path, lastResource, '.');
+              }
             }
           }
         });
