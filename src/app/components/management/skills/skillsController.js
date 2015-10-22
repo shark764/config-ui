@@ -8,7 +8,7 @@ angular.module('liveopsConfigPanel')
 
       $scope.tableConfig = skillTableConfig;
       
-      $scope.params = {}
+      $scope.params = {};
 
       $scope.fetchSkills = function() {
         return Skill.cachedQuery({
