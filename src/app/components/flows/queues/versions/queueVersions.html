@@ -20,7 +20,7 @@
     <tr ng-repeat-start="version in fetchVersions() | orderBy:'created':'reverse'"
       id="version-row-{{version.name}}"
       ng-click="toggleDetails(version);">
-      <td><i ng-if="version.version == queue.activeVersion" class="fa fa-circle" title="Currently active version"></i></td>
+      <td><i ng-if="version.version == queue.activeVersion" class="fa fa-circle" title="{{'queue.details.version.active.tooltip' | translate}}"></i></td>
       <td>
         {{version.name}}
       </td>
@@ -36,9 +36,14 @@
         <div disable-contents="! ('MANAGE_ALL_QUEUES' | hasPermission)">
           <readonly-query version="version">
             <div id="version-basic-query-details" ng-show="showBasicQuery" class="input-group">
-              <label class="textarea-label disabled">Basic Query</label>
-              <p class="null" ng-show="showBasicQuery && ! hasValidBasicQuery">Could not parse a basic query from the advanced query.</p>
-              <a class="show-advanced-link" ng-show="showBasicQuery" ng-click="showBasicQuery = false;">(Show advanced query)</a>
+              <label class="textarea-label disabled">{{'queue.details.version.query.basic.title' | translate}}</label>
+              <a class="show-advanced-link"
+                ng-show="showBasicQuery"
+                ng-click="showBasicQuery = false;">
+                    {{'queue.details.version.query.advanced.link' | translate}}
+              </a>
+              
+              <p class="null" ng-show="showBasicQuery && ! hasValidBasicQuery">{{'queue.details.version.query.basic.invalid' | translate}}</p>
               
               <skill-query query="version.query"
                 label-key="queue.query.builder.skills.all"
@@ -60,15 +65,24 @@
             </div>
           
             <div class="input-group" ng-show="! showBasicQuery">
-              <label class="textarea-label disabled">Advanced Query</label>
-              <a class="show-basic-link" ng-show="! showBasicQuery" ng-click="showBasicQuery = true;">(Show basic query)</a>
+              <label class="textarea-label disabled">{{'queue.details.version.query.advanced.title' | translate}}</label>
+              <a class="show-basic-link"
+                ng-show="! showBasicQuery"
+                ng-click="showBasicQuery = true;">
+                  {{'queue.details.version.query.basic.link' | translate}}
+              </a>
               <textarea id="advanced-query-field" ng-disabled="true" type="text" ng-model="version.query" name="query"></textarea>
             </div>
           </readonly-query>
           
           <version-priority queue-version="version" ng-disabled="true"></version-priority>
         </div>
-        <a id="create-version-copy-btn" class="btn pull-right copy-version-btn" ng-if="'MANAGE_ALL_QUEUES' | hasPermission" ng-click="createVersionCopy(version)">Create Copy</a>
+        <a id="create-version-copy-btn" 
+          class="btn pull-right copy-version-btn"
+          ng-if="'MANAGE_ALL_QUEUES' | hasPermission"
+          ng-click="createVersionCopy(version)">
+            {{'queue.details.version.copy' | translate}}
+        </a>
       </td>
     </tr>
   </table>
