@@ -21,9 +21,14 @@ var GroupsPage = function() {
 
   this.nameRequiredError = element.all(by.css('.lo-error'));
 
+  this.addMemberArea = element(by.id('addUser'));
+  this.addMemberField = this.addMemberArea.element(by.css('.typeahead-container'));
+  this.addMemberDropdownOptions = element.all(by.repeater('item in filtered = (items | filter:filterCriteria | orderBy:orderByFunction)'));
+  this.addMemberBtn = this.addMemberArea.element(by.id('add-member-btn'));
+
   this.groupMembersLoading = element(by.css('#right-panel loading'));
   this.groupMembersEmpty = element(by.css('#right-panel #empty-members-message'));
-  this.groupMembersRows = element.all(by.repeater('user in selectedGroup.fetchGroupUsers()'));
+  this.groupMembersRows = element.all(by.repeater('user in selectedGroup.$memberList'));
 };
 
 module.exports = new GroupsPage();

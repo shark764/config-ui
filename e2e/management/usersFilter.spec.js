@@ -17,7 +17,6 @@ describe('The users table filter', function() {
     loginPage.login(params.login.user, params.login.password);
 
     // Ensure at least 2 groups and skills are added
-    /* TODO TITAN2-4505
     var random = Math.floor((Math.random() * 1000) + 1);
     browser.get(shared.groupsPageUrl);
     shared.createBtn.click();
@@ -33,7 +32,6 @@ describe('The users table filter', function() {
         expect(shared.successMessage.isDisplayed()).toBeTruthy();
       });
     });
-    */
   });
 
   beforeEach(function() {
