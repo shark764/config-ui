@@ -5,7 +5,6 @@ function flowDesigner() {
       scope: {
         flow: '=flow',
         flowData: '=flowData',
-        notations: '=notations',
         readOnly: '=readOnly'
       },
       restrict: 'E',
@@ -44,8 +43,6 @@ function flowDesigner() {
           Offline.on('up', function () {
               $document.find('modal').remove();
           });
-
-          FlowLibrary.loadData($scope.notations);
 
           var graphOptions = {
             width: 2000,
@@ -244,6 +241,7 @@ function flowDesigner() {
               FlowValidationService.validate($scope.flowData, $scope.graph);
             }
           }
+
           $window.spitOutAlienese = function() {
             return FlowLibrary.convertToAlienese($scope.graph.toJSON());
           };
@@ -263,6 +261,7 @@ function flowDesigner() {
           $window.search = function(target) {
             return FlowLibrary.search($scope.graph.toJSON(), target);
           };
+          
         }, 1000);
       }]
     };
