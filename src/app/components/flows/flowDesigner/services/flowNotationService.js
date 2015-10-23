@@ -104,18 +104,15 @@
       },
 
       setLastResource: function(resource){
-        console.log('Setting last resource used', resource);
         lastResource = resource;
       },
 
       setLastParticipant: function(participant){
-        console.log('Setting last participant used');
         lastParticipant = participant;
       },
 
       populatePreviousOption: function(model) {
         var inputs = getDefinition(model).inputs;
-
         _.each(inputs, function(input){
           if(input.type === 'select' || input.type === 'typeahead' || input.type === 'autocomplete'){
             var options = buildOptions(model, input);
