@@ -155,7 +155,7 @@
     return tpl += '</div></div></form>';
   }
 
-  var propsPanel = function ($compile, $timeout, $window, $rootScope, FlowResource) {
+  var propsPanel = function ($compile, $timeout, $window, $rootScope, FlowNotationService) {
     return {
       scope: {
         notation: '=notation',
@@ -179,6 +179,14 @@
 
         scope.onInputChange = function(model, value, input) {
           scope.notation.model.onInputChange(model, value, input.path);
+
+          if(input.source && input.source === 'resource'){
+            FlowNotationService.setLastResource(value);
+          }
+
+          if(input.source && input.source === 'participant'){
+            FlowNotationService.setLastParticipant(value);
+          }
 
           if (input.refresh) {
             scope.$emit('rebuild');

@@ -257,6 +257,7 @@
           'add': function(cell, collection, opt) {
             if (!opt.stencil) {return;}
             var view = self.graph.interfaces.paper.findViewByModel(cell);
+            FlowNotationService.populatePreviousOption(cell);
             FlowNotationService.populateSingleOption(cell);
             if (view) {self.graph.utils.renderPropertiesPanel(view);}
           }
