@@ -5,20 +5,16 @@ angular.module('liveopsConfigPanel')
     function($parse) {
       return {
         restrict: 'A',
-        require: ['form', 'loFormCancel'],
+        require: 'form',
         controller: function($scope) {
           var self = this;
           
           self.errorInputWatchesUnbinds = {};
           
-          this.resetForm = function() {
-            return this.formCancelController.resetForm(this.formController);
-          };
-
           this.populateApiErrors = function(error) {
             if ($parse('data.error')(error)) {
-              angular.forEach(error.data.error.attribute,
-                function(value, key) {
+              angular.forEach(error.data.error.attribute, function(value, key) {
+                if (angular.isDefined(self.formController[key])){
                   self.formController[key].$setValidity('api', false);
                   self.formController[key].$error = {
                     api: value
@@ -34,17 +30,17 @@ angular.module('liveopsConfigPanel')
                       self.errorInputWatchesUnbinds[key]();
                       delete self.errorInputWatchesUnbinds[key];
                     }
-                  })
-                });
+                  });
+                }
+              });
             }
 
             return error;
           };
         },
-        link: function($scope, $elem, $attrs, $ctrl) {
+        link: function($scope, $elem, $attrs, form) {
           var controller = $elem.data('$loFormSubmitController');
-          controller.formController = $ctrl[0];
-          controller.formCancelController = $ctrl[1];
+          controller.formController = form;
         }
       };
     }

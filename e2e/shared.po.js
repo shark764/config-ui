@@ -87,6 +87,14 @@ var Shared = function() {
     }, 5000);
   };
 
+  this.waitForError = function () {
+    browser.driver.wait(function() {
+      return element(by.css('.toast-error')).isPresent().then(function (messageDisplayed) {
+          return messageDisplayed;
+      });
+    }, 5000);
+  };
+
   this.waitForAlert = function () {
     browser.driver.wait(function() {
       return browser.driver.switchTo().alert().then(
@@ -116,6 +124,14 @@ var Shared = function() {
       },
       function(err) {}
     );
+  };
+
+  this.waitForConfirm = function () {
+    browser.driver.wait(function() {
+      return element(by.css('#modal .confirm')).isPresent().then(function (confirmDisplayed) {
+          return confirmDisplayed;
+      });
+    }, 5000);
   };
 
   this.tearDown = function() {

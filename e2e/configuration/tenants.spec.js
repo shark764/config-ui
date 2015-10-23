@@ -39,19 +39,21 @@ describe('The tenants view', function() {
   });
 
 
-  it('should display all users in the admin dropdown', function() {
+  it('should display users in the admin dropdown', function() {
     shared.createBtn.click();
 
     var adminUserList = [];
     tenants.adminDropDownItems.each(function(adminElement, index) {
-      adminElement.getText().then(function(adminName) {
-        adminUserList.push(adminName);
-      });
+      if (index < 10) { // Only check first 10 users to limit test length
+        adminElement.getText().then(function(adminName) {
+          adminUserList.push(adminName);
+        });
+      }
     }).then(function() {
       browser.get(shared.usersPageUrl);
 
       // Admin list on Tenants page should contain all Users
-      for (var i = 0; i < adminUserList.length; i++) {
+      for (var i = 0; i < adminUserList.length && i < 10; i++) {
         shared.searchField.clear();
         shared.searchField.sendKeys(adminUserList[i]);
         expect(shared.tableElements.count()).toBeGreaterThan(0);
@@ -59,7 +61,7 @@ describe('The tenants view', function() {
     });
   });
 
-  it('should users email in the admin dropdown when name is blank', function() {
+  it('should display users email in the admin dropdown when name is blank', function() {
     // Remove current user's first and last name
     browser.get(shared.profilePageUrl);
     profile.firstNameFormField.clear();
@@ -79,6 +81,8 @@ describe('The tenants view', function() {
       profile.firstNameFormField.sendKeys(params.login.firstName);
       profile.lastNameFormField.sendKeys(params.login.lastName);
       profile.updateProfileBtn.click();
+      shared.waitForSuccess();
+      expect(shared.successMessage.isPresent()).toBeTruthy();
     });
   });
 
@@ -101,19 +105,22 @@ describe('The tenants view', function() {
   });
 
   it('should require name field when editing', function() {
-    shared.searchField.sendKeys('Tenant'); // Ensure Platform tenant is not selected
+    shared.tableElements.count().then(function(tenantCount) {
+      if (tenantCount > 0) {
+        tenants.firstTableRow.click().then(function() {
+          tenants.nameFormField.clear();
+          tenants.nameFormField.sendKeys('\t');
 
-    tenants.firstTableRow.click();
+          // Submit button is still disabled
+          expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
+          shared.submitFormBtn.click();
 
-    tenants.nameFormField.clear();
-    tenants.descriptionFormField.click();
-
-    // Submit button is still disabled
-    expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
-
-    expect(tenants.nameRequiredError.get(0).isDisplayed()).toBeTruthy();
-    expect(tenants.nameRequiredError.get(0).getText()).toBe('Please enter a name');
-    expect(shared.successMessage.isPresent()).toBeFalsy();
+          expect(tenants.nameRequiredError.get(0).isDisplayed()).toBeTruthy();
+          expect(tenants.nameRequiredError.get(0).getText()).toBe('Please enter a name');
+          expect(shared.successMessage.isPresent()).toBeFalsy();
+        });
+      }
+    });
   });
 
   it('should not require description when editing', function() {
@@ -143,6 +150,7 @@ describe('The tenants view', function() {
     shared.cancelFormBtn.click();
 
     // Warning message is displayed
+    shared.waitForAlert();
     var alertDialog = browser.switchTo().alert();
     expect(alertDialog.accept).toBeDefined();
     expect(alertDialog.dismiss).toBeDefined();

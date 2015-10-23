@@ -1,0 +1,114 @@
+<form name="userTenantExtensionForm"
+  ng-resource="tenantUser"
+  separate-validation
+  lo-form-submit
+  lo-form-reset
+  lo-form-alert>
+  
+  <form-error field="userTenantExtensionForm.extensions"
+    error-type-required="{{'details.extension.type.required' | translate}}" >
+  </form-error>
+  <input type="hidden" name="extensions"
+    ng-model="tenantUser.extensions">
+  </input>
+  
+  <div class="lo-extension-table">
+    <div class="lo-extension-table-header">
+      <div class="lo-extension-table-row">
+        <div class="lo-extension-table-col">
+          <form-error field="userTenantExtensionForm.type"
+            error-type-required="{{'details.extension.type.required' | translate}}" >
+          </form-error>
+          <select name="type"
+            ng-disabled="ngDisabled"
+            ng-required="true"
+            ng-class="{'default-selected': ! newExtension.type}"
+            ng-model="newExtension.type"
+            ng-options="type.value as type.display for type in loExtensionTypes">
+            <option class="disabled" value="" ng-disabled="true">
+              {{'details.extension.type' | translate}}
+            </option>
+          </select>
+        </div>
+        <div class="lo-extension-table-col">
+          <form-error field="userTenantExtensionForm.provider"
+            error-type-required="{{'details.extension.provider.required' | translate}}" >
+          </form-error>
+          <select name="provider"
+            ng-disabled="ngDisabled"
+            ng-required="true"
+            ng-class="{'default-selected': ! newExtension.provider}"
+            ng-model="newExtension.provider"
+            ng-options="provider.value as provider.display for provider in loExtensionProviders">
+            <option class="disabled" value="" ng-disabled="true">
+              {{'details.extension.provider' | translate}}
+            </option>
+          </select>
+        </div>
+        <div class="lo-extension-table-col phone-number-col">
+          <form-error field="userTenantExtensionForm.value"
+            error-type-required="{{'details.extension.value.required' | translate}}"
+            error-type-phone-number="{{'details.phoneNumber.error' | translate}}" >
+          </form-error>
+          <input type="tel" name="value"
+            ng-disabled="ngDisabled"
+            ng-required="true"
+            placeholder="{{'details.extension.value' | translate}}"
+            ng-model="phoneNumber">
+          </input>
+          <input type="text" 
+            style="width: 85px"
+            name="phoneExtension"
+            pattern="\d*"
+            placeholder="{{'details.phone.extension.value' | translate}}"
+            ng-disabled="ngDisabled"
+            ng-model="phoneExtension">
+          </input>
+          <button class="btn" type="button"
+            style="width: 35px;"
+            lo-submit="add()"
+            ng-disabled="userTenantExtensionForm.type.$invalid ||
+              userTenantExtensionForm.provider.$invalid ||
+              userTenantExtensionForm.value.$invalid">
+            <i class="fa fa-plus"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+    
+    <div class="lo-extension-table-body"
+      dnd-list="tenantUser.extensions">
+      <div class="lo-extension-table-row"
+        ng-repeat="extension in tenantUser.extensions"
+        dnd-draggable="extension"
+        dnd-effect-allowed="move"
+        dnd-moved="moved($index)"
+        dnd-selected="tenantUser.extensions.selected = extension">
+        
+        <div class="lo-extension-table-col">
+          <div class="handle">:::</div>
+          <span dnd-nodrag>
+            {{extension.type | translate}}
+          </span>
+        </div>
+        <div class="lo-extension-table-col" dnd-nodrag>
+          {{extension.provider | translate}}
+        </div>
+        <div class="lo-extension-table-col lo-extension-table-col phone-number-col" dnd-nodrag>
+          <span ng-show="!(extension.type === 'webrtc' && extension.provider === 'twilio')">{{extension.value}}</span>
+          <span ng-show="$index === 0">({{'details.primary' | translate}})</span>
+        </div>
+        <div class="lo-extension-table-col remove-col" dnd-nodrag>
+          <i class="fa fa-close remove"
+            ng-show="!(extension.type === 'webrtc' && extension.provider === 'twilio')"
+            ng-disabled="ngDisabled"
+            lo-submit="remove(extension)">
+          </i>
+        </div>
+      </div>
+      <div class="dndPlaceholder">
+        {{'details.extension.drop' | translate}}
+      </div>
+    </div>
+  </div>
+</form>

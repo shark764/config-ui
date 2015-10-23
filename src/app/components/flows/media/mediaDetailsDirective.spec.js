@@ -34,7 +34,7 @@ describe('media details directive', function(){
     it('should remove the selectedMedia source', inject(function() {
       $scope.selectedMedia = {
         source: 'a source'
-      }
+      };
       
       controller.onSelect();
       expect($scope.selectedMedia.source).toBeUndefined();

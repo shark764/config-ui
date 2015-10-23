@@ -1,44 +1,84 @@
-<div class="query-component">
-  <group-query-modifier
-    id="basic-query-all-groups"
-    class="input-group"
-    parent-map="rootMap"
-    query="version.query"
-    label-key="queue.query.builder.groups.all"
-    placeholder-key="queue.query.builder.groups.placeholder"
-    operator="every">
-  </group-query-modifier>
+<div class="input-group">
+  <label>{{'queues.query.builder.filters.label' | translate}}</label>
+  
+  <div class="instant-add" disable-contents="(queryComponents | filter:{enabled:false}).length == 0">
+    <select id="select-filter-dropdown"
+      ng-model="selectedComponent"
+      ng-options="component as component.display for component in queryComponents | filter:{enabled:false}">
+      <option value="" disabled>{{'queues.query.builder.filters.placeholder' | translate}}</option>
+    </select>
+    <div style="width: 40px;">
+      <button class="add btn" type="button"
+        ng-disabled="! selectedComponent"
+        ng-click="add(selectedComponent)">
 
-  <group-query-modifier
-    id="basic-query-any-groups"
-    class="input-group"
-    ng-class="{'has-elements': modifier.operands().length}"
-    parent-map="rootMap"
-    query="version.query"
-    label-key="queue.query.builder.groups.some"
-    placeholder-key="queue.query.builder.groups.placeholder"
-    operator="some">
-  </group-query-modifier>
+        <i id="add-filter-btn" class="fa fa-plus"></i>
+      </button>
+    </div>
+  </div>
+</div>
 
-  <skill-query-modifier
-    id="basic-query-all-skills"
-    class="input-group"
-    ng-class="{'has-elements': modifier.operands().length}"
-    parent-map="rootMap"
-    query="version.query"
-    label-key="queue.query.builder.skills.all"
-    placeholder-key="queue.query.builder.skills.placeholder"
-    operator="and">
-  </skill-query-modifier>
+<div class="details-group" ng-show="groupcomponent">
+  <div class="query-component" id="group-filters">
+    <div class="divider-header">
+      <h4>{{'queues.query.builder.groups.title' | translate}}</h4>
+      <a id="remove-group-filter" 
+        class="pull-right" 
+        ng-click="remove(groupcomponent)">
+          {{'queues.query.builder.filters.remove' | translate}}
+      </a>
+    </div>
 
-  <skill-query-modifier
-    id="basic-query-any-skills"
-    class="input-group"
-    ng-class="{'has-elements': modifier.operands().length}"
-    parent-map="rootMap"
-    query="version.query"
-    label-key="queue.query.builder.skills.some"
-    placeholder-key="queue.query.builder.skills.placeholder"
-    operator="or">
-  </skill-query-modifier>
+    <group-query-modifier
+      id="basic-query-all-groups"
+      class="input-group"
+      parent-map="rootMap"
+      query="version.query"
+      label-key="queue.query.builder.groups.all"
+      placeholder-key="queue.query.builder.groups.placeholder"
+      operator="and">
+    </group-query-modifier>
+
+    <group-query-modifier
+      id="basic-query-any-groups"
+      class="input-group"
+      ng-class="{'has-elements': modifier.operands().length}"
+      parent-map="rootMap"
+      query="version.query"
+      label-key="queue.query.builder.groups.some"
+      placeholder-key="queue.query.builder.groups.placeholder"
+      operator="or">
+    </group-query-modifier>
+  </div>
+</div>
+
+<div class="details-group">
+  <div class="query-component" ng-show="skillcomponent" id="skill-filters">
+    <div class="divider-header">
+      <h4 class="">{{'queues.query.builder.skills.title' | translate}}</h4>
+      <a id="remove-skill-filter" class="pull-right" ng-click="remove(skillcomponent)">{{'queues.query.builder.filters.remove' | translate}}</a>
+    </div>
+
+    <skill-query-modifier
+      id="basic-query-all-skills"
+      class="input-group"
+      ng-class="{'has-elements': modifier.operands().length}"
+      parent-map="rootMap"
+      query="version.query"
+      label-key="queue.query.builder.skills.all"
+      placeholder-key="queue.query.builder.skills.placeholder"
+      operator="and">
+    </skill-query-modifier>
+
+    <skill-query-modifier
+      id="basic-query-any-skills"
+      class="input-group"
+      ng-class="{'has-elements': modifier.operands().length}"
+      parent-map="rootMap"
+      query="version.query"
+      label-key="queue.query.builder.skills.some"
+      placeholder-key="queue.query.builder.skills.placeholder"
+      operator="or">
+    </skill-query-modifier>
+  </div>
 </div>

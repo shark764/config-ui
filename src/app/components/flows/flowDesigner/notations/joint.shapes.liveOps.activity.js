@@ -16,8 +16,8 @@
              '</switch><path class="sub-process"/><image class="icon"/></g>'].join(''),
     defaults: joint.util.deepSupplement({
       size:{
-        height: 54,
-        width: 85
+        height: 60,
+        width: 84
       },
       type: 'liveOps.activity',
       attrs: {

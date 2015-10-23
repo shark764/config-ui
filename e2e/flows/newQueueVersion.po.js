@@ -9,8 +9,17 @@ var NewQueueVersion = function() {
   this.createVersionBtn = this.newQueueVersionPanel.element(by.id('create-version-btn'));
   this.cancelVersionBtn = this.newQueueVersionPanel.element(by.id('cancel-version-btn'));
 
+  this.showAdvancedQueryLink = this.newQueueVersionPanel.element(by.id('show-advanced-query'));
+  this.showBasicQueryLink = this.newQueueVersionPanel.element(by.id('show-basic-query'));
+
   // Query Fields
   this.newQueueQuerySection = this.newQueueVersionPanel.element(by.id('selected-queue-version-section'));
+
+  this.addFilterSection = this.newQueueQuerySection.element(by.id('add-query-filter'));
+  this.addFilterDropdown = this.addFilterSection.element(by.id('select-filter-dropdown'));
+  this.groupFilterDropdownOption = this.addFilterDropdown.all(by.css('[value=groupcomponent]'));
+  this.skillFilterDropdownOption = this.addFilterDropdown.all(by.css('[value=skillcomponent]'));
+  this.addFilterBtn = this.addFilterSection.element(by.id('add-filter-btn'));
 
   this.basicQueryDetails = this.newQueueVersionPanel.element(by.id('version-basic-query-details'));
   this.basicQueryDetailsAll = this.newQueueVersionPanel.all(by.repeater('operand in operands'));

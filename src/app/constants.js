@@ -1,5 +1,7 @@
 'use strict';
 
+/*global window: false */
+
 angular.module('liveopsConfigPanel.config', [])
 
 .constant('jsedn', window.jsedn)
@@ -64,9 +66,6 @@ angular.module('liveopsConfigPanel.config', [])
     }, {
       'display': 'Pending Acceptance',
       'value': 'invited'
-    }, {
-      'display': 'Removed',
-      'value': 'removed'
     }];
   };
 })

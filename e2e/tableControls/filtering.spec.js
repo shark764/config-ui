@@ -69,7 +69,7 @@ describe('The table filters', function() {
           columns.proficiencyTableDropDownLabel.click().then(function() {
             shared.tableElements.then(function(rows) {
               for (var i = 0; i < rows.length; ++i) {
-                expect(['Yes', 'No']).toContain(rows[i].element(by.css('td:nth-child(4)')).getText());
+                expect(['Yes', 'No']).toContain(rows[i].element(by.css('td:nth-child(5)')).getText());
               };
             });
           });
@@ -141,7 +141,7 @@ describe('The table filters', function() {
           columns.statusTableDropDownLabel.click().then(function() {
             shared.tableElements.then(function(rows) {
               for (var i = 0; i < rows.length; ++i) {
-                expect(['Enabled', 'Disabled']).toContain(rows[i].element(by.css('td:nth-child(5)')).getText());
+                expect(['Enabled', 'Disabled']).toContain(rows[i].element(by.css('td:nth-child(6)')).getText());
               };
             });
           });
@@ -810,7 +810,7 @@ describe('The table filters', function() {
 
       // All listed
       expect(columns.dropdownTypes.get(0).getText()).toBe('Audio');
-      expect(columns.dropdownTypes.get(1).getText()).toBe('TTS');
+      expect(columns.dropdownTypes.get(1).getText()).toBe('Text-to-Speech');
 
       // All input is selected by default
       expect(columns.dropdownTypeInputs.get(0).isSelected()).toBeTruthy();
@@ -833,7 +833,7 @@ describe('The table filters', function() {
         columns.typeTableDropDownLabel.click().then(function() {
           shared.tableElements.then(function(rows) {
             for (var i = 0; i < rows.length; ++i) {
-              expect(rows[i].getText()).toContain('audio');
+              expect(rows[i].getText()).toContain('Audio');
             };
           });
         });
@@ -852,7 +852,7 @@ describe('The table filters', function() {
           columns.typeTableDropDownLabel.click().then(function() {
             shared.tableElements.then(function(rows) {
               for (var i = 0; i < rows.length; ++i) {
-                expect(['audio', 'tts']).toContain(rows[i].element(by.css('td:nth-child(4)')).getText());
+                expect(['Audio', 'Text-to-Speech']).toContain(rows[i].element(by.css('td:nth-child(4)')).getText());
               };
             });
           });

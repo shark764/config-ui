@@ -45,7 +45,7 @@ input[type=password], input[type=text], input[type=email], input[type=tel], inpu
 }
 
 select.default-selected {
-  color: $dark-grey;
+  color: $grey;
   
   option:not([disabled]){
     color: $darkest-grey;
@@ -105,5 +105,28 @@ textarea {
       @include border-radius-complex(0, 0, 4px, 4px);
       border-right: none;
     }
+  }
+}
+
+.instant-add {
+  width: 100%;
+  max-width: $max-control-width;
+  display: table !important;
+  margin-bottom: 10px;
+  padding-right: 0;
+
+  > * {
+    display: table-cell;
+  }
+    
+  .btn {
+    height: $input-height;
+    line-height: $input-height - 8px;
+    width: $input-height;
+    margin-left: 8px;
+  }
+
+  type-ahead, select {
+    max-width: $max-control-width - $input-height;
   }
 }
