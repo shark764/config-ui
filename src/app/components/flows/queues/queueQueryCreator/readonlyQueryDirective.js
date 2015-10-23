@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('readonlyQuery', [function () {
+  .directive('readonlyQuery', ['$q', function ($q) {
     return {
       restrict : 'E',
       scope : {
@@ -10,15 +10,10 @@ angular.module('liveopsConfigPanel')
       transclude : true,
       controller : function ($scope) {
         this.setDisplay = function (operandList) {
-          if (angular.isDefined(operandList.$promise)) {
-            operandList.$promise.then(function (operands) {
-              $scope.hasValidBasicQuery = $scope.hasValidBasicQuery || operands.length > 0;
-              $scope.showBasicQuery = $scope.hasValidBasicQuery;
-            });
-          } else {
-            $scope.hasValidBasicQuery = $scope.hasValidBasicQuery || operandList.length > 0;
+          $q.when(operandList).then(function(operands){
+            $scope.hasValidBasicQuery = $scope.hasValidBasicQuery || operands.length > 0;
             $scope.showBasicQuery = $scope.hasValidBasicQuery;
-          }
+          });
         };
       },
       link : function ($scope, element, attrs, ctrl, transclude) {
