@@ -426,7 +426,7 @@ describe('The basic query builder', function() {
       newQueue.allSkillsSelected.get(1).element(by.css('a')).click().then(function() {
         // Second skill is removed and first remains
         expect(newQueue.allSkillsSelected.count()).toBe(1);
-        expect(newQueue.allSkillsSelected.get(0).getText()).toBe(firstSkillName);
+        expect(newQueue.allSkillsSelected.get(0).getText()).toContain(firstSkillName);
       });
     });
   });
@@ -454,7 +454,7 @@ describe('The basic query builder', function() {
       newQueue.anySkillsSelected.get(1).element(by.css('a')).click().then(function() {
         // Second skill is removed and first remains
         expect(newQueue.anySkillsSelected.count()).toBe(1);
-        expect(newQueue.anySkillsSelected.get(0).getText()).toBe(firstSkillName);
+        expect(newQueue.anySkillsSelected.get(0).getText()).toContain(firstSkillName);
       });
     });
   });
