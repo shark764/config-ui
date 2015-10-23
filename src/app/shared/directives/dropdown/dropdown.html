@@ -13,7 +13,8 @@
         <li id="{{item.id}}"
           ng-repeat="item in items | orderBy:orderBy"
           ng-click="optionClick(item.onClick)">
-          <i class="{{item.iconClass}}"></i>{{item[displayPath]}}
+            <span ng-if="! item.stateLink"><i class="{{item.iconClass}}"></i>{{item[displayPath]}}</span>
+            <a ng-if="item.stateLink" ui-sref="{{item.stateLink}}({{item.stateLinkParams}})"><i class="{{item.iconClass}}"></i>{{item[displayPath]}}</a>
         </li>
       </ul>
     </div>
