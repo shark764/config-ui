@@ -1528,7 +1528,8 @@
                     "source": "entity",
                     "type": "variable",
                     "key": "resource",
-                    "mandatory": true
+                    "mandatory": true,
+                    "default": "Agent"
                 },
                 "queue": {
                     "source": "entity",
