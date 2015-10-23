@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('flowTableConfig', ['$translate', 'statuses', 'UserPermissions', function ($translate, statuses, UserPermissions) {
+  .service('flowTableConfig', ['$translate', 'statuses', 'UserPermissions', 'helpDocsHostname', function ($translate, statuses, UserPermissions, helpDocsHostname) {
       return {
         'fields': [{
           'header': {
@@ -38,7 +38,8 @@ angular.module('liveopsConfigPanel')
         'orderBy' : 'name',
         'title' : $translate.instant('flow.table.title'),
         'showBulkActions': UserPermissions.hasPermission('MANAGE_ALL_FLOWS'),
-        'showCreate': UserPermissions.hasPermission('MANAGE_ALL_FLOWS')
+        'showCreate': UserPermissions.hasPermission('MANAGE_ALL_FLOWS'),
+        'helpLink' : helpDocsHostname + '/Content/Managing%20Flows/Setup_flows.htm'
       };
     }]
   );

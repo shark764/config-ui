@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('skillTableConfig', ['statuses', '$translate', 'UserPermissions', 'ynStatuses', function (statuses, $translate, UserPermissions, ynStatuses) {
+  .service('skillTableConfig', ['statuses', '$translate', 'UserPermissions', 'ynStatuses', 'helpDocsHostname', function (statuses, $translate, UserPermissions, ynStatuses, helpDocsHostname) {
      return {
         'fields': [{
           'header': {
@@ -39,6 +39,7 @@ angular.module('liveopsConfigPanel')
         'searchOn' : ['$original.name', '$original.description'],
         'orderBy' : '$original.name',
         'title': $translate.instant('skill.table.title'),
+        'helpLink' : helpDocsHostname + '/Content/Managing%20Users/Adding_skills.htm',
         'showBulkActions': UserPermissions.hasPermission('MANAGE_ALL_SKILLS'),
         'showCreate': UserPermissions.hasPermission('MANAGE_ALL_SKILLS'),
       };

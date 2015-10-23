@@ -1,12 +1,13 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('groupTableConfig', ['statuses', '$translate', 'UserPermissions',
-    function (statuses, $translate, UserPermissions) {
+  .service('groupTableConfig', ['statuses', '$translate', 'UserPermissions', 'helpDocsHostname',
+    function (statuses, $translate, UserPermissions, helpDocsHostname) {
       var config = {
         'searchOn' : ['$original.name', '$original.description'],
         'orderBy' : '$original.name',
         'title' : $translate.instant('group.table.title'),
+        'helpLink' : helpDocsHostname + '/Content/Managing%20Users/Adding_groups.htm',
         'showBulkActions': UserPermissions.hasPermission('MANAGE_ALL_GROUPS'),
         'showCreate': UserPermissions.hasPermission('MANAGE_ALL_GROUPS')
       };
