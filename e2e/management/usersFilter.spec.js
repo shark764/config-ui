@@ -15,25 +15,6 @@ describe('The users table filter', function() {
 
   beforeAll(function() {
     loginPage.login(params.login.user, params.login.password);
-
-    // Ensure at least 2 groups and skills are added
-    /*
-    var random = Math.floor((Math.random() * 1000) + 1);
-    browser.get(shared.groupsPageUrl);
-    shared.createBtn.click();
-    groups.nameFormField.sendKeys('Group Name ' + random);
-    shared.submitFormBtn.click().then(function() {
-      expect(shared.successMessage.isDisplayed()).toBeTruthy();
-    }).then(function() {
-      browser.get(shared.skillsPageUrl);
-      shared.createBtn.click();
-      skills.nameFormField.sendKeys('Skill Name ' + random);
-
-      shared.submitFormBtn.click().then(function() {
-        expect(shared.successMessage.isDisplayed()).toBeTruthy();
-      });
-    });
-    */
   });
 
   beforeEach(function() {
