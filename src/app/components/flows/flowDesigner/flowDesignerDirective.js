@@ -223,25 +223,6 @@ function flowDesigner() {
             });
           };
 
-          if (SubflowCommunicationService.currentFlowContext !== '') {
-            $scope.graph.fromJSON(SubflowCommunicationService.currentFlowContext);
-            SubflowCommunicationService.currentFlowContext = '';
-          } else {
-            var jjs, graphJSON;
-            if($scope.readOnly){
-              graphJSON = JSON.parse($scope.flowData.flow);
-              jjs = FlowLibrary.convertToJoint(graphJSON);
-              $scope.graph.fromJSON(jjs);
-            }
-            else{
-              graphJSON = JSON.parse($scope.flowData.flow);
-              FlowValidationService.checkEntities(graphJSON);
-              jjs = FlowLibrary.convertToJoint(graphJSON);
-              $scope.graph.fromJSON(jjs);
-              FlowValidationService.validate($scope.flowData, $scope.graph);
-            }
-          }
-
           $window.spitOutAlienese = function() {
             return FlowLibrary.convertToAlienese($scope.graph.toJSON());
           };
@@ -261,7 +242,26 @@ function flowDesigner() {
           $window.search = function(target) {
             return FlowLibrary.search($scope.graph.toJSON(), target);
           };
-          
+
+          if (SubflowCommunicationService.currentFlowContext !== '') {
+            $scope.graph.fromJSON(SubflowCommunicationService.currentFlowContext);
+            SubflowCommunicationService.currentFlowContext = '';
+          } else {
+            var jjs, graphJSON;
+            if($scope.readOnly){
+              graphJSON = JSON.parse($scope.flowData.flow);
+              jjs = FlowLibrary.convertToJoint(graphJSON);
+              $scope.graph.fromJSON(jjs);
+            }
+            else{
+              graphJSON = JSON.parse($scope.flowData.flow);
+              FlowValidationService.checkEntities(graphJSON);
+              jjs = FlowLibrary.convertToJoint(graphJSON);
+              $scope.graph.fromJSON(jjs);
+              FlowValidationService.validate($scope.flowData, $scope.graph);
+            }
+          }
+
         }, 1000);
       }]
     };
