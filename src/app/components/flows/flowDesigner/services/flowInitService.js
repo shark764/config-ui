@@ -212,10 +212,9 @@
           joint.layout.GridLayout.layout(graph, {
             columns: 3,
             columnWidth: 95,
-            rowHeight: 75,
+            rowHeight: 70,
             dy: 5,
-            dx: 5,
-            resizeToFit: true
+            dx: 5
           });
         });
         _.each(stencil.papers, function(paper) {

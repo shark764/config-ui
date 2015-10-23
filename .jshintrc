@@ -33,6 +33,7 @@
     // JASMINE
     "KeyboardJS": false,
     "MouseWheelJS": false,
+    "Offline": false,
     "it": false,
     "V": false,
     "g": false,
