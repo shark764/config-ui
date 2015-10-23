@@ -942,15 +942,32 @@
               {
                   "name": "notification-type",
                   "path": "params.notificationType",
-                  "type": "autocomplete",
-                  "source": "signal",
+                  "type": "select",
                   "label": "Notification:",
                   "group": "general",
                   "index": 0,
                   "disabled": false,
                   "required": true,
-                  "placeholder": "Enter the attribute name...",
-                  "hidden": false
+                  "placeholder": null,
+                  "hidden": false,
+                  "options": [
+                      {
+                          "value": "work-initiated",
+                          "content": "Work Initiated"
+                      },
+                      {
+                          "value": "work-accepted",
+                          "content": "Work Accepted"
+                      },
+                      {
+                          "value": "work-rejected",
+                          "content": "Work Rejected"
+                      },
+                      {
+                          "value": "work-ended",
+                          "content": "Work Initiated"
+                      }
+                  ]
               },
               {
                   "name": "resource",
