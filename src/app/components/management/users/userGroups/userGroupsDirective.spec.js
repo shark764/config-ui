@@ -196,7 +196,7 @@ describe('userGroups directive', function () {
       beforeEach(inject(['$q', function ($q) {
         saveSpy = jasmine.createSpy('$save').and.callFake(function(success) {
           return $q.when(success());
-        })
+        });
         
         isolateScope.newGroupUser = {
           id: 'newthing',
