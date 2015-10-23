@@ -55,6 +55,8 @@ angular.module('liveopsConfigPanel')
           var keyword = jsedn.kw(component.keyword);
           if ($scope.rootMap.exists(keyword)){
             $scope.add(component);
+          } else {
+            $scope.remove(component);
           }
         });
       };
