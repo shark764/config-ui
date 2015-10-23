@@ -7,6 +7,10 @@ angular.module('liveopsConfigPanel')
       $scope.flowData = data;
       $scope.readOnly = readOnly;
 
+      if(flow.type === 'customer' || flow.type === 'reusable'){
+        FlowNotationService.setLastParticipant('titan/customer');
+      }
+
       FlowLibrary.loadData(notations.data);
 
       $scope.$on('$destroy', function() {

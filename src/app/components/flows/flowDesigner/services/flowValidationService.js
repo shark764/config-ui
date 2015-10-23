@@ -43,7 +43,6 @@
     }
 
     function checkEntities(alienese){
-      console.log(alienese);
       _.each(alienese, function(notation){
         if(notation.entity === 'activity' && _.has(notation, 'params')){
           _.each(notation.params, function(param){
@@ -58,7 +57,7 @@
       });
     }
 
-    //Public functionsd
+    //Public functions
     return {
       validate: function(flowDraft, graph){
         return $q.all({
