@@ -65,7 +65,6 @@
           serverValidate: serverValidate(flowDraft),
           libraryValidate: libraryValidate(graph)
         }).then(function(data){
-          console.log(data);
           var errors = _.union(data.serverValidate, data.libraryValidate);
           clearErrors(graph);
           highlightCells(errors, graph);
