@@ -1617,7 +1617,7 @@
                     "type": "boolean",
                     "key": "muted",
                     "mandatory": false,
-                    "default": false
+                    "default": "false"
                 },
                 "disconnectOn": {
                     "source": "expression",
