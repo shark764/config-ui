@@ -6,9 +6,11 @@ describe('The profile view', function() {
     profile = require('./profile.po.js'),
     tenants = require('../configuration/tenants.po.js'),
     users = require('../management/users.po.js'),
+    extensions = require('../management/extensions.po.js'),
     params = browser.params,
     defaultTenantName,
-    newTenantName;
+    newTenantName,
+    extensionCount;
 
   beforeAll(function() {
     loginPage.login(params.login.user, params.login.password);
@@ -46,6 +48,17 @@ describe('The profile view', function() {
 
     expect(profile.userSkillsSectionHeader.isDisplayed()).toBeTruthy();
     expect(profile.userGroupsSectionHeader.isDisplayed()).toBeTruthy();
+  });
+
+  it('should include extension fields', function() {
+    expect(extensions.extensionsSection.isDisplayed()).toBeTruthy();
+    expect(extensions.typeDropdown.isDisplayed()).toBeTruthy();
+    expect(extensions.providerDropdown.isDisplayed()).toBeTruthy();
+    expect(extensions.valueFormField.isDisplayed()).toBeTruthy();
+    expect(extensions.extFormField.isDisplayed()).toBeTruthy();
+    expect(extensions.addBtn.isDisplayed()).toBeTruthy();
+
+    expect(extensions.table.isDisplayed()).toBeTruthy();
   });
 
   it('should update user name', function() {
@@ -240,4 +253,89 @@ describe('The profile view', function() {
     });
   });
 
+  it('should allow user to add an extension', function() {
+    extensions.userExtensions.count().then(function(originalExtensionCount) {
+      extensions.typeDropdown.click();
+      extensions.pstnDropdownOption.click();
+
+      extensions.providerDropdown.click();
+      extensions.twilioDropdownOption.click();
+
+      extensions.valueFormField.sendKeys('15064561234\t');
+      extensions.extFormField.sendKeys('12345');
+
+      extensions.addBtn.click().then(function() {
+        shared.waitForSuccess();
+
+        expect(extensions.userExtensions.count()).toBe(originalExtensionCount + 1);
+        newExtension = extensions.userExtensions.get(originalExtensionCount);
+        expect(newExtension.element(by.css('.type-col')).getText()).toContain('PSTN');
+        expect(newExtension.element(by.css('.provider-col')).getText()).toBe('Twilio');
+        expect(newExtension.element(by.css('.phone-number-col')).getText()).toBe('+15064561234x12345');
+        expect(newExtension.element(by.css('.remove')).isDisplayed()).toBeTruthy();
+
+        // Fields are reset
+        expect(extensions.typeDropdown.$('option:checked').getText()).toContain('Extension Type');
+        expect(extensions.providerDropdown.$('option:checked').getText()).toContain('Provider');
+        expect(extensions.valueFormField.getAttribute('value')).toBe('');
+        expect(extensions.extFormField.getAttribute('value')).toBe('');
+      });
+    });
+  });
+
+  it('should add an extension and update user page', function() {
+    extensionCount = extensions.userExtensions.count();
+
+    extensions.typeDropdown.click();
+    extensions.pstnDropdownOption.click();
+
+    extensions.providerDropdown.click();
+    extensions.twilioDropdownOption.click();
+
+    extensions.valueFormField.sendKeys('15064657894\t');
+    extensions.extFormField.sendKeys('12345');
+
+    extensions.addBtn.click().then(function() {
+      shared.waitForSuccess();
+
+      expect(extensions.userExtensions.count()).toBeGreaterThan(extensionCount);
+      extensionCount = extensions.userExtensions.count();
+      shared.searchField.sendKeys(params.login.user);
+      shared.firstTableRow.click();
+      expect(extensions.userExtensions.count()).toBe(extensionCount);
+    });
+  });
+
+  it('should remove an extension and update user page', function() {
+    extensionCount = extensions.userExtensions.count();
+
+    extensions.removeBtns.get(0).click().then(function() {
+      shared.waitForSuccess();
+
+      expect(extensions.userExtensions.count()).toBeLessThan(extensionCount);
+      extensionCount = extensions.userExtensions.count();
+      shared.searchField.sendKeys(params.login.user);
+      shared.firstTableRow.click();
+      expect(extensions.userExtensions.count()).toBe(extensionCount);
+    });
+  });
+
+  xit('should update order on user profile page', function() {
+    var originalUserExtensionOrder = [];
+    extensions.userExtensions.each().then(function(extensionRow) {
+      extensionRow.getText().then(function(extensionRowText) {
+        originalUserExtensionOrder.push(extensionRowText);
+      });
+    }).then(function() {
+      // Drag second extension to the bottom
+      browser.actions().dragAndDrop(extensions.sortingHandles.get(1), extensions.sortingHandles.get(originalUserExtensionOrder.length - 1)).perform();
+
+      // All other extensions are moved up in order
+      expect(extensions.userExtensions.get(0).getText()).toBe(originalUserExtensionOrder[0]);
+      for (var i = 1; i < originalUserExtensionOrder.length - 1; i++) {
+        expect(extensions.userExtensions.get(i).getText()).toBe(originalUserExtensionOrder[i + 1]);
+      }
+      expect(extensions.userExtensions.get(originalUserExtensionOrder.length - 1).getText()).toBe(originalUserExtensionOrder[1]);
+    });
+  });
 });

@@ -18,7 +18,7 @@ describe('The users extensions', function() {
   beforeEach(function() {
     // Ignore unsaved changes warnings
     browser.executeScript("window.onbeforeunload = function(){};");
-    //browser.get(shared.usersPageUrl);
+    browser.get(shared.usersPageUrl);
   });
 
   afterAll(function() {
@@ -489,7 +489,6 @@ describe('The users extensions', function() {
   });
 
   it('should allow its own user to add an extension and update profile page', function() {
-    // Use new user from previous test
     shared.searchField.sendKeys(params.login.user);
     shared.firstTableRow.click();
     extensionCount = extensions.userExtensions.count();
@@ -514,7 +513,6 @@ describe('The users extensions', function() {
   });
 
   it('should allow its own user to remove an extension and update profile page', function() {
-    // Use new user from previous test
     shared.searchField.sendKeys(params.login.user);
     shared.firstTableRow.click();
     extensionCount = extensions.userExtensions.count();
@@ -531,7 +529,7 @@ describe('The users extensions', function() {
 
   xit('should update order on user profile page', function() {
     // Use new user from previous test
-    shared.searchField.sendKeys(newUserEmail);
+    shared.searchField.sendKeys(params.login.user);
     shared.firstTableRow.click();
 
     var originalUserExtensionOrder = [];
