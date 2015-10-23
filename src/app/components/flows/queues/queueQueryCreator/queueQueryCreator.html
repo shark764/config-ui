@@ -1,9 +1,11 @@
-<div class="input-group" id="add-query-filter">
-  <label>Add a filter: </label>
-
-  <div class="instant-add">
-    <select id="select-filter-dropdown" ng-model="selectedComponent" ng-options="component as component.display for (k, component) in queryComponents">
-      <option value="" disabled>Select filter...</option>
+<div class="input-group">
+  <label>{{'queues.query.builder.filters.label' | translate}}</label>
+  
+  <div class="instant-add" disable-contents="(queryComponents | filter:{enabled:false}).length == 0">
+    <select id="select-filter-dropdown"
+      ng-model="selectedComponent"
+      ng-options="component as component.display for component in queryComponents | filter:{enabled:false}">
+      <option value="" disabled>{{'queues.query.builder.filters.placeholder' | translate}}</option>
     </select>
     <div style="width: 40px;">
       <button class="add btn" type="button"
@@ -16,10 +18,15 @@
   </div>
 </div>
 
-<div class="details-group">
-  <div class="query-component" ng-show="groupcomponent">
+<div class="details-group" ng-show="groupcomponent">
+  <div class="query-component" id="group-filters">
     <div class="divider-header">
-      <h4 class="">Group Filters</h4>
+      <h4>{{'queues.query.builder.groups.title' | translate}}</h4>
+      <a id="remove-group-filter" 
+        class="pull-right" 
+        ng-click="remove(groupcomponent)">
+          {{'queues.query.builder.filters.remove' | translate}}
+      </a>
     </div>
 
     <group-query-modifier
@@ -46,9 +53,10 @@
 </div>
 
 <div class="details-group">
-  <div class="query-component" ng-show="skillcomponent">
+  <div class="query-component" ng-show="skillcomponent" id="skill-filters">
     <div class="divider-header">
-      <h4 class="">Skill Filters</h4>
+      <h4 class="">{{'queues.query.builder.skills.title' | translate}}</h4>
+      <a id="remove-skill-filter" class="pull-right" ng-click="remove(skillcomponent)">{{'queues.query.builder.filters.remove' | translate}}</a>
     </div>
 
     <skill-query-modifier
