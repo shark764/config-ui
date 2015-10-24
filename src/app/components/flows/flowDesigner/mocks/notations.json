@@ -222,7 +222,7 @@
                     "source": "expression",
                     "type": "integer",
                     "mandatory": true,
-                    "default": 5,
+                    "default": 1,
                     "key": "digits"
                 },
                 "terminator": {
