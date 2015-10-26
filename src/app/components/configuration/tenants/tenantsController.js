@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('TenantsController', ['$scope', '$stateParams', '$filter', 'Session', 'Tenant', 'TenantUser', 'tenantTableConfig', 'BulkAction', 'UserPermissions', 'AuthService', 'Region',
-    function($scope, $stateParams, $filter, Session, Tenant, TenantUser, tenantTableConfig, BulkAction, UserPermissions, AuthService, Region) {
+  .controller('TenantsController', ['$scope', '$stateParams', '$filter', 'Session', 'Tenant', 'TenantUser', 'tenantTableConfig', 'BulkAction', 'UserPermissions', 'AuthService', 'Region', '$q',
+    function($scope, $stateParams, $filter, Session, Tenant, TenantUser, tenantTableConfig, BulkAction, UserPermissions, AuthService, Region, $q) {
 
       $scope.create = function() {
         $scope.selectedTenant = new Tenant({
@@ -49,7 +49,7 @@ angular.module('liveopsConfigPanel')
       
       $scope.$watch('selectedTenant', function(newVal){
         if (newVal){
-          newVal.$promise.then(function(tenant){
+          $q.when(newVal).then(function(tenant){
             tenant.region = Region.cachedGet({
               id: tenant.regionId
             });
