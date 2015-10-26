@@ -42,41 +42,41 @@
       </b>
     </h4>
   </div>
-  
+
   <ng-form class="instant-add" separate-validation id="usersForm">
-    <type-ahead items="fetchTenantUsers()" 
-      on-enter="addUser(item)" 
-      selected-item="typeahead.selectedUser" 
+    <type-ahead items="fetchTenantUsers()"
+      on-enter="addUser(item)"
+      selected-item="typeahead.selectedUser"
       placeholder="{{'skill.details.adduser.placeholder' | translate}}"
       filters="filterUsers">
     </type-ahead>
     <number-slider
       id="new-user-skill-proficiency" ng-if="selectedSkill.$original.hasProficiency"
-      placeholder="{{'skill.details.proficiency' | translate}}" 
+      placeholder="{{'skill.details.proficiency' | translate}}"
       value="params.proficiency"
       min-value="1" max-value="100" >
     </number-slider>
     <div>
-      <a lo-submit-spinner spinner-status="saving" class="btn"
+      <a id="add-member-btn" lo-submit-spinner spinner-status="saving" class="btn"
         ng-disabled="! typeahead.selectedUser.id"
         ng-click="addUser(typeahead.selectedUser)">
         <i class="fa fa-plus add"></i>
       </a>
     </div>
   </ng-form>
-  
+
   <p ng-if="selectedSkill.fetchSkillUsers().$resolved"
     class="null" id="empty-members-message" ng-hide="selectedSkill.fetchSkillUsers().length">
     {{'skill.details.members.none' | translate}}
   </p>
-  
+
   <loading ng-if="selectedSkill.fetchSkillUsers().$resolved != undefined"
     ng-show="!selectedSkill.fetchSkillUsers().$resolved"></loading>
 
-  <table 
-    scroll-table 
-    max-height="300" 
-    class="table" 
+  <table
+    scroll-table
+    max-height="300"
+    class="table"
     ng-show="selectedSkill.fetchSkillUsers().length > 0">
     <thead>
       <tr>
@@ -100,4 +100,3 @@
     </tbody>
   </table>
 </div>
-
