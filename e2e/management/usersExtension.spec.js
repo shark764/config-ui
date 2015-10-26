@@ -394,28 +394,7 @@ describe('The users extensions', function() {
     });
   });
 
-  // TODO Drag and drop extensions
-  xit('should allow order to be altered TEST', function() {
-    newUserEmail = 'titanuserext243@mailinator.com'
-      // Use new user from previous test
-    shared.searchField.sendKeys(newUserEmail);
-    shared.firstTableRow.click();
-
-
-    // Drag second extension to the bottom
-    var handle = element(by.css('.handle'));
-    browser.actions().dragAndDrop(handle, {x: 0, y: 25}).perform();
-    browser.actions().dragAndDrop(handle, {x: 0, y: -25}).perform();
-    browser.actions().dragAndDrop(handle, {x: 0, y: -50}).perform();
-    browser.actions().dragAndDrop(handle, {x: 25, y: 0}).perform();
-    browser.actions().dragAndDrop(handle, {x: -25, y: 0}).perform();
-
-    //browser.actions().mouseMove(element.all(by.css('.handle')).get(2).find()).mouseDown().mouseMove(element.all(by.css('.handle')).get(0).find(),{x: -10, y: 0}).mouseUp().perform();
-    expect(true).toBeTruthy();
-
-  });
-
-
+  // TODO Drag and drop
   xit('should allow order to be altered', function() {
     // Use new user from previous test
     shared.searchField.sendKeys(newUserEmail);
@@ -458,6 +437,7 @@ describe('The users extensions', function() {
   });
 
   xit('should update second extension to primary when the first is removed', function() {
+    // TODO After drag and drop; requires order change
     // Use new user from previous test
     shared.searchField.sendKeys(newUserEmail);
     shared.firstTableRow.click();
