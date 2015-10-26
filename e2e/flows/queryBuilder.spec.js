@@ -93,6 +93,66 @@ describe('The basic query builder', function() {
     });
   });
 
+  it('should add and remove filters', function() {
+    shared.createBtn.click();
+
+    // Filters are hidden by default
+    expect(newQueue.removeGroupsFilter.isDisplayed()).toBeFalsy();
+    expect(newQueue.basicQueryAllGroups.isDisplayed()).toBeFalsy();
+    expect(newQueue.basicQueryAnyGroups.isDisplayed()).toBeFalsy();
+    expect(newQueue.removeSkillsFilter.isDisplayed()).toBeFalsy();
+    expect(newQueue.basicQueryAllSkills.isDisplayed()).toBeFalsy();
+    expect(newQueue.basicQueryAnySkills.isDisplayed()).toBeFalsy();
+
+    // Add Groups filter
+    newQueue.addFilterDropdown.click();
+    newQueue.groupFilterDropdownOption.click();
+    newQueue.addFilterBtn.click();
+
+    // Group filter is displayed with remove link
+    expect(newQueue.removeGroupsFilter.isDisplayed()).toBeTruthy();
+    expect(newQueue.basicQueryAllGroups.isDisplayed()).toBeTruthy();
+    expect(newQueue.basicQueryAnyGroups.isDisplayed()).toBeTruthy();
+    expect(newQueue.removeSkillsFilter.isDisplayed()).toBeFalsy();
+    expect(newQueue.basicQueryAllSkills.isDisplayed()).toBeFalsy();
+    expect(newQueue.basicQueryAnySkills.isDisplayed()).toBeFalsy();
+
+    // Add Skills filter
+    newQueue.addFilterDropdown.click();
+    newQueue.skillFilterDropdownOption.click();
+    newQueue.addFilterBtn.click();
+
+    // Skill filter is displayed with remove link
+    expect(newQueue.removeGroupsFilter.isDisplayed()).toBeTruthy();
+    expect(newQueue.basicQueryAllGroups.isDisplayed()).toBeTruthy();
+    expect(newQueue.basicQueryAnyGroups.isDisplayed()).toBeTruthy();
+    expect(newQueue.removeSkillsFilter.isDisplayed()).toBeTruthy();
+    expect(newQueue.basicQueryAllSkills.isDisplayed()).toBeTruthy();
+    expect(newQueue.basicQueryAnySkills.isDisplayed()).toBeTruthy();
+
+    // Remove Groups Filter
+    newQueue.removeGroupsFilter.click();
+
+    // Groups filter is removed
+    expect(newQueue.removeGroupsFilter.isDisplayed()).toBeFalsy();
+    expect(newQueue.basicQueryAllGroups.isDisplayed()).toBeFalsy();
+    expect(newQueue.basicQueryAnyGroups.isDisplayed()).toBeFalsy();
+    expect(newQueue.removeSkillsFilter.isDisplayed()).toBeTruthy();
+    expect(newQueue.basicQueryAllSkills.isDisplayed()).toBeTruthy();
+    expect(newQueue.basicQueryAnySkills.isDisplayed()).toBeTruthy();
+
+    // Remove Skills Filter
+    newQueue.removeSkillsFilter.click();
+
+    // Filters are hidden
+    expect(newQueue.removeGroupsFilter.isDisplayed()).toBeFalsy();
+    expect(newQueue.basicQueryAllGroups.isDisplayed()).toBeFalsy();
+    expect(newQueue.basicQueryAnyGroups.isDisplayed()).toBeFalsy();
+    expect(newQueue.removeSkillsFilter.isDisplayed()).toBeFalsy();
+    expect(newQueue.basicQueryAllSkills.isDisplayed()).toBeFalsy();
+    expect(newQueue.basicQueryAnySkills.isDisplayed()).toBeFalsy();
+  });
+
   it('should add groups and skills when selected', function() {
     shared.createBtn.click();
 

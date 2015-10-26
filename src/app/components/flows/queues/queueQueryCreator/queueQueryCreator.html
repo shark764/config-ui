@@ -1,6 +1,6 @@
-<div class="input-group">
+<div class="input-group" id="add-query-filter">
   <label>{{'queues.query.builder.filters.label' | translate}}</label>
-  
+
   <div class="instant-add" disable-contents="(queryComponents | filter:{enabled:false}).length == 0">
     <select id="select-filter-dropdown"
       ng-model="selectedComponent"
@@ -22,8 +22,8 @@
   <div class="query-component" id="group-filters">
     <div class="divider-header">
       <h4>{{'queues.query.builder.groups.title' | translate}}</h4>
-      <a id="remove-group-filter" 
-        class="pull-right" 
+      <a id="remove-group-filter"
+        class="pull-right"
         ng-click="remove(groupcomponent)">
           {{'queues.query.builder.filters.remove' | translate}}
       </a>

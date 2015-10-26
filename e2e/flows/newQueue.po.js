@@ -12,9 +12,11 @@ var NewQueue = function() {
 
   this.addFilterSection = this.newQueueQuerySection.element(by.id('add-query-filter'));
   this.addFilterDropdown = this.addFilterSection.element(by.id('select-filter-dropdown'));
-  this.groupFilterDropdownOption = this.addFilterDropdown.all(by.css('[value=groupcomponent]'));
-  this.skillFilterDropdownOption = this.addFilterDropdown.all(by.css('[value=skillcomponent]'));
+  this.groupFilterDropdownOption = this.addFilterDropdown.all(by.css('[label="Groups"]'));
+  this.skillFilterDropdownOption = this.addFilterDropdown.all(by.css('[label="Skills"]'));
   this.addFilterBtn = this.addFilterSection.element(by.id('add-filter-btn'));
+  this.removeGroupsFilter = this.newQueueQuerySection.element(by.id('remove-group-filter'));
+  this.removeSkillsFilter = this.newQueueQuerySection.element(by.id('remove-skill-filter'));
 
   this.basicQueryAllGroups = this.newQueueQuerySection.element(by.id('basic-query-all-groups'));
   this.allGroupsTypeAhead = this.basicQueryAllGroups.element(by.id('typeahead-container'));
