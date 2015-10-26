@@ -104,7 +104,7 @@ describe('The users view bulk actions', function() {
     });
   });
 
-  it('should allow selected user\'s status to be set to disabled', function() {
+  xit('should allow selected user\'s status to be set to disabled', function() {
     // Only display users with Tenant Status == Accepted
     // Add Tenant Status Column
     shared.tableColumnsDropDown.click();
@@ -174,7 +174,7 @@ describe('The users view bulk actions', function() {
     });
   });
 
-  it('should allow selected user\'s status to be set to enabled', function() {
+  xit('should allow selected user\'s status to be set to enabled', function() {
     // Only display users with Tenant Status == Disabled
     // Add Status Column
     shared.tableColumnsDropDown.click();
