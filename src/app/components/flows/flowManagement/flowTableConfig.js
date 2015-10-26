@@ -7,12 +7,12 @@ angular.module('liveopsConfigPanel')
           'header': {
             'display': $translate.instant('value.name')
           },
-          'name': 'name'
+          'name': '$original.name'
         }, {
           'header': {
             'display': $translate.instant('value.description')
           },
-          'name': 'description'
+          'name': '$original.description'
         }, {
           'header': {
             'display': $translate.instant('value.details.activeVersion')
@@ -34,8 +34,8 @@ angular.module('liveopsConfigPanel')
           'transclude': true,
           'filter': 'selectedOptions'
         }],
-        'searchOn' : ['name'],
-        'orderBy' : 'name',
+        'searchOn' : ['$original.name'],
+        'orderBy' : '$original.name',
         'title' : $translate.instant('flow.table.title'),
         'showBulkActions': UserPermissions.hasPermission('MANAGE_ALL_FLOWS'),
         'showCreate': UserPermissions.hasPermission('MANAGE_ALL_FLOWS'),

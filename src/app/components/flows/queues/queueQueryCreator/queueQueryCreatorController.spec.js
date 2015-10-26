@@ -21,7 +21,24 @@ describe('QueueController', function() {
       $scope.$digest();
     }]));
     
+  it('should catch the table create event and reinitialize the builder UI', inject(['$rootScope', function($rootScope) {
+    $rootScope.$broadcast('table:on:click:create');
+    $scope.$digest();
     
+    var mockComponent = {
+      name: 'myComponent',
+      enabled: false,
+      keyword: ':myKey'
+    };
+
+    $scope.queryComponents = [mockComponent];
+    expect($scope.myComponent).toBeUndefined();
+    $scope.rootMap = jsedn.parse('{}');
+    controller.initComponentState();
+    expect(mockComponent.enabled).toBeFalsy();
+    expect($scope.myComponent).toBeNull();
+  }]));
+  
   describe('rootMap watch', function() {
     it('should encode the rootMap and set the version\'s query', function() {
       expect($scope.version.query).toEqual('{}');

@@ -22,6 +22,10 @@ angular.module('liveopsConfigPanel')
         self.initComponentState();
       });
       
+      $scope.$on('table:on:click:create', function () {
+        self.initComponentState();
+      });
+      
       $scope.queryComponents = queueQueryComponents;
       
       $scope.add = function(selectedComponent){
@@ -36,12 +40,12 @@ angular.module('liveopsConfigPanel')
         function doRemove(){
           $scope[selectedComponent.name] = null;
           selectedComponent.enabled = false;
-          if ($scope.rootMap.exists(keyword)){
+          if (angular.isDefined($scope.rootMap) && $scope.rootMap.exists(keyword)){
             selectedComponent.remove($scope.rootMap);
           }
         }
         
-        if ($scope.rootMap.exists(keyword) && $scope.rootMap.at(keyword).val.length > 0){
+        if (angular.isDefined($scope.rootMap) && $scope.rootMap.exists(keyword) && $scope.rootMap.at(keyword).val.length > 0){
           Alert.confirm($translate.instant('queue.query.builder.remove.filter.confirm'), function(){
             doRemove();
           });
@@ -53,8 +57,10 @@ angular.module('liveopsConfigPanel')
       this.initComponentState = function(){
         angular.forEach($scope.queryComponents, function(component){
           var keyword = jsedn.kw(component.keyword);
-          if ($scope.rootMap.exists(keyword)){
+          if (angular.isDefined($scope.rootMap) && $scope.rootMap.exists(keyword)){
             $scope.add(component);
+          } else {
+            $scope.remove(component);
           }
         });
       };
