@@ -104,7 +104,7 @@ describe('The users view bulk actions', function() {
     });
   });
 
-  xit('should allow selected user\'s status to be set to disabled', function() {
+  it('should allow selected user\'s status to be set to disabled', function() {
     // Only display users with Tenant Status == Accepted
     // Add Tenant Status Column
     shared.tableColumnsDropDown.click();
@@ -142,7 +142,6 @@ describe('The users view bulk actions', function() {
             expect(bulkActions.confirmModal.isDisplayed()).toBeTruthy();
             bulkActions.confirmOK.click().then(function() {
 
-              // TODO Bug TITAN2-4416 where unsaved changes message is displayed
               shared.waitForAlert();
               shared.dismissChanges();
 
@@ -174,7 +173,7 @@ describe('The users view bulk actions', function() {
     });
   });
 
-  xit('should allow selected user\'s status to be set to enabled', function() {
+  it('should allow selected user\'s status to be set to enabled', function() {
     // Only display users with Tenant Status == Disabled
     // Add Status Column
     shared.tableColumnsDropDown.click();
@@ -212,7 +211,6 @@ describe('The users view bulk actions', function() {
               expect(bulkActions.confirmModal.isDisplayed()).toBeTruthy();
               bulkActions.confirmOK.click().then(function() {
 
-                // TODO Bug TITAN2-4416 where unsaved changes message is displayed
                 shared.waitForAlert();
                 shared.dismissChanges();
 
@@ -245,10 +243,9 @@ describe('The users view bulk actions', function() {
   it('should allow selected user\'s skills to be added', function() {
     shared.actionsBtn.click();
 
-    // Select first three users; ASSUMPTION three exist
+    // Select first two users; ASSUMPTION two exist
     bulkActions.selectItemTableCells.get(0).click();
     bulkActions.selectItemTableCells.get(1).click();
-    bulkActions.selectItemTableCells.get(2).click();
 
     // Add skill
     bulkActions.selectChangeSkills.click();
@@ -275,7 +272,7 @@ describe('The users view bulk actions', function() {
 
         // Verify skill is added to each user
         var skillAdded;
-        for (var i = 0; i < 3; i++) {
+        for (var i = 0; i < 2; i++) {
           skillAdded = false;
           shared.tableElements.get(i).click();
           // Wait for skills to be populated
@@ -298,14 +295,13 @@ describe('The users view bulk actions', function() {
     });
   });
 
-  xit('should allow selected user\'s skills to be removed', function() {
+  it('should allow selected user\'s skills to be removed', function() {
     // NOTE depends on previous test: users must have the same skill added
     shared.actionsBtn.click();
 
-    // Select first three users; ASSUMPTION three exist
+    // Select first two users; ASSUMPTION two exist
     bulkActions.selectItemTableCells.get(0).click();
     bulkActions.selectItemTableCells.get(1).click();
-    bulkActions.selectItemTableCells.get(2).click();
 
     // Remove skill
     bulkActions.selectChangeSkills.click();
@@ -326,7 +322,7 @@ describe('The users view bulk actions', function() {
           expect(shared.successMessage.isDisplayed()).toBeTruthy();
 
           // Verify skill is removed from each user
-          for (var i = 0; i < 3; i++) {
+          for (var i = 0; i < 2; i++) {
             shared.tableElements.get(i).click();
             users.userSkills.each(function(userSkillElement) {
               expect(userSkillElement.getText()).not.toContain(removedSkillName);
@@ -337,22 +333,20 @@ describe('The users view bulk actions', function() {
     });
   });
 
-  xit('should allow multiple skills to be added to the selected users', function() {
+  it('should allow multiple skills to be added to the selected users', function() {
     // TODO Times out when there are several skills
     shared.actionsBtn.click();
 
-    // Select first three users; ASSUMPTION three exist
+    // Select first two users; ASSUMPTION two exist
     bulkActions.selectItemTableCells.get(0).click();
     bulkActions.selectItemTableCells.get(1).click();
-    bulkActions.selectItemTableCells.get(2).click();
 
     bulkActions.selectChangeSkills.click();
 
-    // Remove all Skills
     bulkActions.selectSkillsInputFields.get(0).click();
     bulkActions.selectSkillsInputFields.get(0).all(by.css('option')).count().then(function(skillCount) {
       bulkActions.removeSkillBtns.get(0).click().then(function() {
-        for (var i = 0; i < (skillCount - 1); i++) {
+        for (var i = 0; i < (skillCount - 1) && i < 2; i++) { // Limit test length
           // Add skill bulk action
           bulkActions.addNewSkillBtn.click();
 
@@ -372,7 +366,7 @@ describe('The users view bulk actions', function() {
           expect(shared.successMessage.isDisplayed()).toBeTruthy();
 
           // Verify skills are added to each user
-          for (var i = 0; i < 3; i++) {
+          for (var i = 0; i < 2; i++) {
             shared.tableElements.get(i).click();
             // Wait for skills to be populated
             browser.driver.wait(function() {
@@ -380,20 +374,19 @@ describe('The users view bulk actions', function() {
                 return userSkillCount;
               });
             }, 5000);
-            expect(users.userSkills.count()).toBe(skillCount - 1);
+            expect(users.userSkills.count()).toBeGreaterThan(Math.min(skillCount - 1, 2));
           }
         });
       });
     });
   });
 
-  xit('should allow multiple skills to be removed for the selected users', function() {
+  it('should allow multiple skills to be removed for the selected users', function() {
     shared.actionsBtn.click();
 
-    // Select first three users; ASSUMPTION three exist
+    // Select first two users; ASSUMPTION two exist
     bulkActions.selectItemTableCells.get(0).click();
     bulkActions.selectItemTableCells.get(1).click();
-    bulkActions.selectItemTableCells.get(2).click();
 
     bulkActions.selectChangeSkills.click();
 
@@ -422,7 +415,7 @@ describe('The users view bulk actions', function() {
         expect(shared.successMessage.isDisplayed()).toBeTruthy();
 
         // Verify skills are removed for each user
-        for (var i = 0; i < 3; i++) {
+        for (var i = 0; i < 2; i++) {
           shared.tableElements.get(i).click();
           expect(users.noUserSkillsMessage.isDisplayed()).toBeTruthy();
         }
@@ -446,10 +439,9 @@ describe('The users view bulk actions', function() {
       browser.get(shared.usersPageUrl);
       shared.actionsBtn.click();
 
-      // Select first three users; ASSUMPTION three exist
+      // Select first two users; ASSUMPTION two exist
       bulkActions.selectItemTableCells.get(0).click();
       bulkActions.selectItemTableCells.get(1).click();
-      bulkActions.selectItemTableCells.get(2).click();
 
       bulkActions.selectChangeSkills.click();
 
@@ -463,8 +455,7 @@ describe('The users view bulk actions', function() {
     });
   });
 
-  xit('should update proficiency when updating a skill for existing users with the skill', function() {
-    // TODO Enable after Titan2-4351 is in stageing
+  it('should update proficiency when updating a skill for existing users with the skill', function() {
     // Create new skill to ensure the skill isn't already added to a user
     browser.get(shared.skillsPageUrl);
     var randomSkill = Math.floor((Math.random() * 1000) + 1);
@@ -559,14 +550,12 @@ describe('The users view bulk actions', function() {
     });
   });
 
-  xit('should allow selected user\'s groups to be added', function() {
-    // TODO BUG TITAN2-4491
+  it('should allow selected user\'s groups to be added', function() {
     shared.actionsBtn.click();
 
-    // Select first three users; ASSUMPTION three exist
+    // Select first two users; ASSUMPTION two exist
     bulkActions.selectItemTableCells.get(0).click();
     bulkActions.selectItemTableCells.get(1).click();
-    bulkActions.selectItemTableCells.get(2).click();
 
     // Add group
     bulkActions.selectChangeGroups.click();
@@ -592,7 +581,7 @@ describe('The users view bulk actions', function() {
 
         // Verify group is added to each user
         var groupAdded;
-        for (var i = 0; i < 3; i++) {
+        for (var i = 0; i < 2; i++) {
           groupAdded = false;
           shared.tableElements.get(i).click();
           users.userGroups.each(function(userGroupElement) {
@@ -609,14 +598,13 @@ describe('The users view bulk actions', function() {
     });
   });
 
-  xit('should allow selected user\'s groups to be removed', function() {
+  it('should allow selected user\'s groups to be removed', function() {
     // NOTE depends on previous test: users must have the same group added
     shared.actionsBtn.click();
 
-    // Select first three users; ASSUMPTION three exist
+    // Select first two users; ASSUMPTION two exist
     bulkActions.selectItemTableCells.get(0).click();
     bulkActions.selectItemTableCells.get(1).click();
-    bulkActions.selectItemTableCells.get(2).click();
 
     // Remove group
     bulkActions.selectChangeGroups.click();
@@ -636,7 +624,7 @@ describe('The users view bulk actions', function() {
         expect(shared.successMessage.isDisplayed()).toBeTruthy();
 
         // Verify group is removed from each user
-        for (var i = 0; i < 3; i++) {
+        for (var i = 0; i < 2; i++) {
           shared.tableElements.get(i).click();
           users.userGroups.each(function(userGroupElement) {
             expect(userGroupElement.getText()).not.toContain(removedGroupName);
@@ -646,21 +634,19 @@ describe('The users view bulk actions', function() {
     });
   });
 
-  xit('should allow multiple groups to be added to the selected users', function() {
-    // TODO BUG TITAN2-4491
+  it('should allow multiple groups to be added to the selected users', function() {
     shared.actionsBtn.click();
 
-    // Select first three users; ASSUMPTION three exist
+    // Select first two users; ASSUMPTION two exist
     bulkActions.selectItemTableCells.get(0).click();
     bulkActions.selectItemTableCells.get(1).click();
-    bulkActions.selectItemTableCells.get(2).click();
 
     bulkActions.selectChangeGroups.click();
 
     bulkActions.selectGroupsInputFields.get(0).click();
     bulkActions.selectGroupsInputFields.get(0).all(by.css('option')).count().then(function(groupCount) {
       bulkActions.removeGroupBtns.get(0).click().then(function() {
-        for (var i = 0; i < (groupCount - 1); i++) {
+        for (var i = 0; i < (groupCount - 1) && i < 2; i++) {
           // Add group bulk action
           bulkActions.addNewGroupBtn.click();
 
@@ -679,22 +665,21 @@ describe('The users view bulk actions', function() {
           expect(shared.successMessage.isDisplayed()).toBeTruthy();
 
           // Verify groups are added to each user
-          for (var i = 0; i < 3; i++) {
+          for (var i = 0; i < 2; i++) {
             shared.tableElements.get(i).click();
-            expect(users.userGroups.count()).toBe(groupCount - 1);
+            expect(users.userGroups.count()).not.toBeLessThan(Math.min(groupCount - 1, 2));
           }
         });
       });
     });
   });
 
-  xit('should allow multiple groups to be removed for the selected users', function() {
+  it('should allow multiple groups to be removed for the selected users', function() {
     shared.actionsBtn.click();
 
-    // Select first three users; ASSUMPTION three exist
+    // Select first two users; ASSUMPTION two exist
     bulkActions.selectItemTableCells.get(0).click();
     bulkActions.selectItemTableCells.get(1).click();
-    bulkActions.selectItemTableCells.get(2).click();
 
     bulkActions.selectChangeGroups.click();
 
@@ -722,7 +707,7 @@ describe('The users view bulk actions', function() {
         expect(shared.successMessage.isDisplayed()).toBeTruthy();
 
         // Verify groups are removed for each user
-        for (var i = 0; i < 3; i++) {
+        for (var i = 0; i < 2; i++) {
           shared.tableElements.get(i).click();
           expect(users.noUserGroupsMessage.isDisplayed()).toBeTruthy();
         }
@@ -791,7 +776,7 @@ describe('The users view bulk actions', function() {
     shared.tableElements.count().then(function(tableCount) {
       shared.tableElements.count().then(function(tableCount) {
         var numSelected = 0;
-        for (var i = 0; i < tableCount; i++) {
+        for (var i = 0; i < tableCount && i < 10; i++) {
           if ((i % 2) > 0) {
             // Select some but not all items
             bulkActions.selectItemTableCells.get(i).click();
