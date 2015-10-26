@@ -90,7 +90,8 @@
       },
 
       populateSingleOption: function(model) {
-        var inputs = getDefinition(model).inputs;
+        var self = this,
+            inputs = getDefinition(model).inputs;
 
         _.each(inputs, function(input){
           if(input.type === 'select' || input.type === 'typeahead' || input.type === 'autocomplete'){
@@ -98,6 +99,12 @@
 
             if(options.length === 1){
               joint.util.setByPath(model, 'attributes.' + input.path, options[0].value, '.');
+              if(input.source === 'participant'){
+                self.setLastParticipant(options[0].value);
+              }
+              else if(input.source === 'resource'){
+                self.setLastResource(options[0].value);
+              }
             }
           }
         });

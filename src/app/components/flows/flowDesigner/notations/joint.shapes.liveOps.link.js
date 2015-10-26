@@ -38,26 +38,22 @@
     initialize: function() {
       joint.dia.Link.prototype.initialize.apply(this, arguments);
 
-      this.listenTo(this, 'change:source', this.onSourceChange);
-      this.listenTo(this, 'change:target', this.onTargetChange);
+      this.listenTo(this, 'change:source', this.checkStatus);
+      this.listenTo(this, 'change:target', this.checkStatus);
+
+      this.listenTo(this, 'change:source', this.checkGateway);
       this.listenTo(this, 'change:linkType', this.onLinkTypeChange);
       this.onLinkTypeChange(this, this.get('linkType'));
+      this.checkStatus(this);
     },
 
-    onSourceChange: function(cell, source) {
-      if (!source || !source.id) {
+    checkStatus: function(cell) {
+      var source = cell.get('source'),
+          target = cell.get('target');
+
+      if ((!source || !source.id) || (!target || !target.id)) {
         this.turnRed(cell);
         return;
-      }
-      else{
-        this.turnBlack(cell);
-        this.checkGateway(cell, source);
-      }
-    },
-
-    onTargetChange: function(cell, target) {
-      if(!target || !target.id){
-        this.turnRed(cell);
       }
       else{
         this.turnBlack(cell);
@@ -65,6 +61,7 @@
     },
 
     checkGateway: function(cell, source){
+      if(!source || !source.id){return;}
       joint.util.nextFrame(function() {
         if (!cell.collection) {return;}
         var _source = cell.collection.get(source);
