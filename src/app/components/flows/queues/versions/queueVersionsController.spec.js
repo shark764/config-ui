@@ -3,7 +3,6 @@
 describe('Queue Versions controller', function () {
   var $scope,
     $controller,
-    controller,
     $compile,
     $httpBackend,
     versions,
@@ -57,7 +56,7 @@ describe('Queue Versions controller', function () {
         $setUntouched: angular.noop
       };
 
-      controller = $controller('QueueVersionsController', {
+      $controller('QueueVersionsController', {
         '$scope': $scope,
         'Session': {
           tenant: {
