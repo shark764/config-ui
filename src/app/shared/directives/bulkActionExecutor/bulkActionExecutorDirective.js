@@ -41,6 +41,12 @@ angular.module('liveopsConfigPanel')
           $scope.execute = function () {
             var selectedBulkActions = $scope.getSelectedBulkActions($scope.bulkActions);
             var itemPromises = [];
+            
+            //Prevent unsaved changes warning from triggering if all items are
+            //filtered out of the table and the bulk actions panel auto-closes
+            $scope.bulkActionForm.$setUntouched();
+            $scope.bulkActionForm.$setPristine();
+            
             angular.forEach(selectedBulkActions, function (bulkAction) {
               if (bulkAction.canExecute()) {
                 var selectedItems = $scope.getSelectedBulkActions($scope.items);
