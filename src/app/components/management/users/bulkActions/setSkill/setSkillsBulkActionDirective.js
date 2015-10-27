@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-.directive('baUserSkills', [ '$q', 'UserSkillsBulkAction', 'userSkillsBulkActionTypes', 'Skill', 'Session', '$translate', 'TenantSkillUsers',
-  function ($q, UserSkillsBulkAction, userSkillsBulkActionTypes, Skill, Session, $translate, TenantSkillUsers) {
+.directive('baUserSkills', [ '$q', 'UserSkillsBulkAction', 'userSkillsBulkActionTypes', 'Skill', 'Session', 'queryCache',
+  function ($q, UserSkillsBulkAction, userSkillsBulkActionTypes, Skill, Session, queryCache) {
     return {
       restrict: 'AE',
       scope: {
@@ -17,10 +17,13 @@ angular.module('liveopsConfigPanel')
             angular.forEach($scope.bulkAction.userSkillsBulkActions, function(userSkillsBulkAction) {
               if(userSkillsBulkAction.selectedType.doesQualify(user, userSkillsBulkAction)) {
                 promises.push(userSkillsBulkAction.execute(user));
+                
+                //Quicker to just reset the cache of users with this skill than to manually update the cache for each user
+                queryCache.remove('skills/' + userSkillsBulkAction.selectedSkill.id + '/users');
               }
             });
           });
-
+          
           return $q.all(promises);
         };
 
@@ -40,18 +43,35 @@ angular.module('liveopsConfigPanel')
         };
 
         $scope.fetchSkills = function () {
-          return Skill.cachedQuery({
-            tenantId: Session.tenant.tenantId
-          });
-        };
+          $scope.availableSkills = [];
 
-        $scope.fetchSkillUsers = function(skill) {
-          skill.users = TenantSkillUsers.query({
-            tenantId: Session.tenant.tenantId,
-            skillId: skill.id
-          });
-
-          return skill.users;
+          if ($scope.currSelectedType === 'update' || $scope.currSelectedType === 'remove'){
+            angular.forEach($scope.users, function (user) {
+              if (user.checked){
+                angular.forEach(user.$skills, function (skill){
+                  $q.when(Skill.cachedGet({
+                    id: skill.id,
+                    tenantId: Session.tenant.tenantId
+                  }).$promise, function(fullSkill){
+                    if ((fullSkill.hasProficiency && $scope.currSelectedType === 'update') || $scope.currSelectedType === 'remove'){
+                      if ($scope.availableSkills.length === 0){
+                        $scope.availableSkills.push(fullSkill);
+                      } else {
+                        // Checks if the current user skills is already in the list, if it is, we skip.  If not we add it to the list.
+                        if ($scope.availableSkills.map(function(e) { return e.id; }).indexOf(skill.id) < 0){
+                          $scope.availableSkills.push(fullSkill);
+                        }
+                      }
+                    }
+                  });
+                });
+              }
+            });
+          } else {
+            $scope.availableSkills = Skill.cachedQuery({
+              tenantId: Session.tenant.tenantId
+            });
+          }
         };
 
         $scope.removeBulkSkill = function(item) {
@@ -63,13 +83,16 @@ angular.module('liveopsConfigPanel')
             new UserSkillsBulkAction());
         };
 
-        $scope.onChange = function(action) {
-          if(action.selectedSkill) {
-            $scope.fetchSkillUsers(action.selectedSkill);
+        $scope.onChangeType = function(action) {
 
-            action.selectedSkill.users.$promise.then(function() {
-              action.params.skillId = action.selectedSkill.id;
-            });
+          $scope.currSelectedType = action.selectedType.value;
+          $scope.fetchSkills();
+
+        };
+
+        $scope.onChangeSkill = function(action) {
+          if(action.selectedSkill) {
+            action.params.skillId = action.selectedSkill.id;
           }
         };
 
@@ -87,8 +110,13 @@ angular.module('liveopsConfigPanel')
         $scope.$watch('bulkAction.params', function() {
           $scope.bulkAction.reset();
         });
+
+        $scope.$on('table:resource:checked', function(){
+          $scope.fetchSkills();
+        });
           
         $scope.userSkillsBulkActionTypes = userSkillsBulkActionTypes;
+        $scope.fetchSkills();
       }
     };
   }

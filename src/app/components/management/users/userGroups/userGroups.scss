@@ -3,29 +3,8 @@ $tag-row-margin: 5px;
 
 user-groups {
 
-.null {
-  max-width:  $details-table-width;
-}
-  #addGroup{
-    width: 100%;
-    display: table;
-    margin-bottom: 10px;
-    padding-right: 0;
-
-    .btn {
-      height: $input-height;
-      line-height: $input-height - 8px;
-      width: $input-height;
-    }
-
-    type-ahead {
-      padding-right: 8px;
-      width: $details-table-width - $input-height;
-    }
-
-    & > * {
-      display: table-cell;
-    }
+  .null {
+    max-width:  $details-table-width;
   }
 
   #tag-wrapper {

@@ -42,8 +42,7 @@ describe('The user invitation', function() {
   // and invite emails being sent to the email specified when creating the user
 
   describe('email', function() {
-
-    it('should not be sent when creating a new user and Invite Now is deselected', function() {
+    xit('should not be sent when creating a new user and Invite Now is deselected', function() {
       // Add randomness to user details
       randomUser = Math.floor((Math.random() * 1000) + 1);
       newUserEmail = 'titantest' + randomUser + '@mailinator.com';
@@ -63,7 +62,9 @@ describe('The user invitation', function() {
 
         // Verify tenant status
         expect(users.tenantStatus.getText()).toBe('Pending Invitation');
+        expect(users.cancelInvitationBtn.isPresent()).toBeFalsy();
         expect(users.resendInvitationBtn.isDisplayed()).toBeTruthy();
+        expect(users.resendInvitationBtn.getAttribute('value')).toBe('Send Invitation');
 
         // Wait to allow the API to send and Mailinator to receive the email
         browser.sleep(1000).then(function() {
@@ -74,12 +75,46 @@ describe('The user invitation', function() {
               var newestMessage1 = JSON.parse(body).messages[JSON.parse(body).messages.length - 1];
 
               // Get the newest message content
-              req.get('https://api.mailinator.com/api/email?id=' + newestMessage1.id + '&token=' + params.mailinator.token, '', function(error, response, body) {
+              req.get('https://api.mailinator.com/api/email?msgid=' + newestMessage1.id + '&token=' + params.mailinator.token, '', function(error, response, body) {
                 if (body) {
                   var newestMessage1Contents = JSON.parse(body).data.parts[0].body;
 
                   // Verify the email is NOT from the latest user created
                   expect(newestMessage1Contents).not.toContain('User Name: ' + newUserEmail);
+                  browser.get(shared.usersPageUrl);
+                }
+              });
+            }
+          });
+        });
+      });
+    });
+
+    xit('should be sent after creating a new user and selecting Send Invitation', function() {
+      // User previoiusly created user
+      shared.searchField.sendKeys(newUserEmail);
+      shared.firstTableRow.click();
+      users.resendInvitationBtn.click().then(function() {
+        expect(users.resendInvitationBtn.getAttribute('value')).toBe('Resend Invitation');
+        expect(users.cancelInvitationBtn.isDisplayed()).toBeTruthy();
+        expect(shared.successMessage.isDisplayed()).toBeTruthy();
+        expect(users.tenantStatus.getText()).toBe('Pending Acceptance');
+
+        // Wait to allow the API to send and Mailinator to receive the email
+        browser.sleep(1000).then(function() {
+          // Verify user invitation email was sent
+          // NOTE: Add randomUser when emails are sent to the user email and not redirected
+          req.get('https://api.mailinator.com/api/inbox?to=titantest&token=' + params.mailinator.token, '', function(error, response, body) {
+            if (JSON.parse(body).messages.length > 0) {
+              var newestMessage1 = JSON.parse(body).messages[JSON.parse(body).messages.length - 1];
+
+              // Get the newest message content
+              req.get('https://api.mailinator.com/api/email?msgid=' + newestMessage1.id + '&token=' + params.mailinator.token, '', function(error, response, body) {
+                if (body) {
+                  var newestMessage1Contents = JSON.parse(body).data.parts[0].body;
+
+                  // Verify the email is from the latest user created
+                  expect(newestMessage1Contents).toContain('User Name: ' + newUserEmail);
                   browser.get(shared.usersPageUrl);
                 } else {
                   // Fail test
@@ -92,10 +127,9 @@ describe('The user invitation', function() {
       });
     });
 
-    it('should be sent when creating a new user', function() {
+    xit('should be sent when creating a new user', function() {
       // Add randomness to user details
       randomUser = Math.floor((Math.random() * 1000) + 1);
-      userAdded = false;
       newUserEmail = 'titantest' + randomUser + '@mailinator.com';
 
       // Add new user
@@ -106,6 +140,12 @@ describe('The user invitation', function() {
 
         users.submitFormBtn.click().then(function() {
           expect(shared.successMessage.isDisplayed()).toBeTruthy();
+
+          // Verify tenant status
+          expect(users.tenantStatus.getText()).toBe('Pending Acceptance');
+          expect(users.cancelInvitationBtn.isDisplayed()).toBeTruthy();
+          expect(users.resendInvitationBtn.isDisplayed()).toBeTruthy();
+          expect(users.resendInvitationBtn.getAttribute('value')).toBe('Resend Invitation');
 
           // Wait to allow the API to send and Mailinator to receive the email
           browser.sleep(1000).then(function() {
@@ -122,7 +162,7 @@ describe('The user invitation', function() {
                 expect(newestMessage2.from).toBe(params.mailinator.from);
 
                 // Get the newest message content
-                req.get('https://api.mailinator.com/api/email?id=' + newestMessage2.id + '&token=' + params.mailinator.token, '', function(error, response, body) {
+                req.get('https://api.mailinator.com/api/email?msgid=' + newestMessage2.id + '&token=' + params.mailinator.token, '', function(error, response, body) {
                   if (body) {
                     var newestMessage2Contents = JSON.parse(body).data.parts[0].body;
 
@@ -147,7 +187,7 @@ describe('The user invitation', function() {
       });
     });
 
-    it('contain user information and accept link', function() {
+    xit('contain user information and accept link', function() {
       // NOTE: Add randomUser when emails are sent to the user email and not redirected
       //req.get('https://api.mailinator.com/api/inbox?to=titantest' + randomUser + '&token=' + params.mailinator.token, '', function(error, response, body) {
       req.get('https://api.mailinator.com/api/inbox?to=titantest&token=' + params.mailinator.token, '', function(error, response, body) {
@@ -158,7 +198,7 @@ describe('The user invitation', function() {
           expect(newestMessage.been_read).toBeFalsy();
           expect(newestMessage.from).toBe(params.mailinator.from);
 
-          req.get('https://api.mailinator.com/api/email?id=' + newestMessage.id + '&token=' + params.mailinator.token, '', function(error, response, body) {
+          req.get('https://api.mailinator.com/api/email?msgid=' + newestMessage.id + '&token=' + params.mailinator.token, '', function(error, response, body) {
             if (body) {
               var newestMessageContents = JSON.parse(body).data.parts[0].body;
               expect(newestMessageContents).toContain('User Name: ');
@@ -177,10 +217,9 @@ describe('The user invitation', function() {
       });
     });
 
-    it('should link to the invitation accept form', function() {
+    xit('should link to the invitation accept form', function() {
       // Add randomness to user details
       randomUser = Math.floor((Math.random() * 1000) + 1);
-      userAdded = false;
       newUserEmail = 'titantest' + randomUser + '@mailinator.com';
 
       // Add new user
@@ -207,7 +246,7 @@ describe('The user invitation', function() {
                 expect(newestMessage.from).toBe(params.mailinator.from);
 
                 // Get the newest message content
-                req.get('https://api.mailinator.com/api/email?id=' + newestMessage.id + '&token=' + params.mailinator.token, '', function(error, response, body) {
+                req.get('https://api.mailinator.com/api/email?msgid=' + newestMessage.id + '&token=' + params.mailinator.token, '', function(error, response, body) {
                   if (body) {
                     var newestMessageContents = JSON.parse(body).data.parts[0].body;
 
@@ -230,8 +269,7 @@ describe('The user invitation', function() {
   });
 
   describe('acceptance form', function() {
-
-    it('should include supported fields and user details', function() {
+    xit('should include supported fields and user details', function() {
       loginPage.login(params.login.user, params.login.password);
       browser.get(shared.usersPageUrl);
 
@@ -263,7 +301,7 @@ describe('The user invitation', function() {
                 expect(newestMessage.from).toBe(params.mailinator.from);
 
                 // Get the newest message content
-                req.get('https://api.mailinator.com/api/email?id=' + newestMessage.id + '&token=' + params.mailinator.token, '', function(error, response, body) {
+                req.get('https://api.mailinator.com/api/email?msgid=' + newestMessage.id + '&token=' + params.mailinator.token, '', function(error, response, body) {
                   if (body) {
                     var newestMessageContents = JSON.parse(body).data.parts[0].body;
 
@@ -304,7 +342,7 @@ describe('The user invitation', function() {
       });
     });
 
-    it('should include non-required fields when provided', function() {
+    xit('should include non-required fields when provided', function() {
       loginPage.login(params.login.user, params.login.password);
       browser.get(shared.usersPageUrl);
 
@@ -340,7 +378,7 @@ describe('The user invitation', function() {
                 expect(newestMessage.from).toBe(params.mailinator.from);
 
                 // Get the newest message content
-                req.get('https://api.mailinator.com/api/email?id=' + newestMessage.id + '&token=' + params.mailinator.token, '', function(error, response, body) {
+                req.get('https://api.mailinator.com/api/email?msgid=' + newestMessage.id + '&token=' + params.mailinator.token, '', function(error, response, body) {
                   if (body) {
                     var newestMessageContents = JSON.parse(body).data.parts[0].body;
 
@@ -369,7 +407,7 @@ describe('The user invitation', function() {
       });
     });
 
-    it('should include Copyright and Legal information', function() {
+    xit('should include Copyright and Legal information', function() {
       // NOTE: This test uses the acceptInvitationLink from the previous test
       browser.get(acceptInvitationLink);
 
@@ -380,7 +418,7 @@ describe('The user invitation', function() {
       expect(invites.signupLegalLabel.getText()).toBe(invites.legalText);
     });
 
-    it('should require completed fields', function() {
+    xit('should require completed fields', function() {
       browser.get(acceptInvitationLink);
 
       invites.passwordFormField.sendKeys('temp');
@@ -396,7 +434,7 @@ describe('The user invitation', function() {
       expect(invites.submitFormBtn.getAttribute('disabled')).toBeTruthy();
     });
 
-    it('should require password field input', function() {
+    xit('should require password field input', function() {
       browser.get(acceptInvitationLink);
 
       invites.passwordFormField.sendKeys('temp');
@@ -407,7 +445,7 @@ describe('The user invitation', function() {
       expect(invites.errors.get(0).getText()).toBe('Please enter a password');
     });
 
-    it('should not require first, last name or external id field input', function() {
+    xit('should not require first, last name or external id field input', function() {
       browser.get(acceptInvitationLink);
 
       invites.passwordFormField.sendKeys('password\t');
@@ -432,7 +470,7 @@ describe('The user invitation', function() {
       expect(invites.errors.get(3).getText()).toBe('Please enter an external id');
     });
 
-    it('should accept invitation', function() {
+    xit('should accept invitation', function() {
       browser.get(acceptInvitationLink);
 
       invites.passwordFormField.sendKeys('password');
@@ -463,6 +501,108 @@ describe('The user invitation', function() {
 
   xit('should display expired message after expiry period has passed', function() {});
 
+
+  describe('cancel', function() {
+    xit('should display confirmation modal', function() {
+      // Add randomness to user details
+      randomUser = Math.floor((Math.random() * 1000) + 1);
+      newUserEmail = 'titantest' + randomUser + '@mailinator.com';
+
+      // Add new user
+      shared.createBtn.click().then(function() {
+        users.emailFormField.sendKeys('titantest' + randomUser + '@mailinator.com\t');
+        users.tenantRoleFormDropdownOptions.get((randomUser % 3) + 1).click();
+        users.platformRoleFormDropdownOptions.get(1).click();
+
+        users.submitFormBtn.click().then(function() {
+          expect(shared.successMessage.isDisplayed()).toBeTruthy();
+
+          // Verify tenant status
+          expect(users.tenantStatus.getText()).toBe('Pending Acceptance');
+          expect(users.cancelInvitationBtn.isDisplayed()).toBeTruthy();
+          expect(users.resendInvitationBtn.isDisplayed()).toBeTruthy();
+          expect(users.resendInvitationBtn.getAttribute('value')).toBe('Resend Invitation');
+
+          users.cancelInvitationBtn.click().then(function() {
+            expect(invites.confirmModal.isDisplayed()).toBeTruthy();
+            expect(invites.confirmOK.isDisplayed()).toBeTruthy();
+            expect(invites.confirmCancel.isDisplayed()).toBeTruthy();
+            expect(invites.confirmMessage.isDisplayed()).toBeTruthy();
+            expect(invites.confirmMessage.getText()).toBe('This will prevent the user from accepting their invitation. Continue?');
+
+            invites.confirmCancel.click().then(function() {
+              expect(invites.confirmModal.isPresent()).toBeFalsy();
+
+              expect(users.tenantStatus.getText()).toBe('Pending Acceptance');
+              expect(users.cancelInvitationBtn.isDisplayed()).toBeTruthy();
+              expect(users.resendInvitationBtn.isDisplayed()).toBeTruthy();
+              expect(users.resendInvitationBtn.getAttribute('value')).toBe('Resend Invitation');
+            });
+          });
+        });
+      });
+    });
+
+    xit('should update tenant status and Resend button after confirming', function() {
+      // Uses new user from previous test
+      shared.searchField.sendKeys(newUserEmail);
+      shared.firstTableRow.click();
+
+      users.cancelInvitationBtn.click().then(function() {
+        expect(invites.confirmModal.isDisplayed()).toBeTruthy();
+        invites.confirmOK.click().then(function() {
+          expect(invites.confirmModal.isPresent()).toBeFalsy();
+
+          expect(users.tenantStatus.getText()).toBe('Pending Invitation');
+          expect(users.cancelInvitationBtn.isPresent()).toBeFalsy();
+          expect(users.resendInvitationBtn.isDisplayed()).toBeTruthy();
+          expect(users.resendInvitationBtn.getAttribute('value')).toBe('Send Invitation');
+        });
+      });
+    });
+
+    xit('should not allow user to accept the invitation', function() {
+      // Get accept link from expired invitation email
+
+      // NOTE: Add randomUser when emails are sent to the user email and not redirected
+      req.get('https://api.mailinator.com/api/inbox?to=titantest&token=' + params.mailinator.token, '', function(error, response, body) {
+        if (JSON.parse(body).messages.length > 0) {
+          var newestMessage2 = JSON.parse(body).messages[JSON.parse(body).messages.length - 1];
+
+          // Verify the newest message details
+          expect(newestMessage2.subject).toBe(params.mailinator.subject);
+          expect(newestMessage2.been_read).toBeFalsy();
+          expect(newestMessage2.from).toBe(params.mailinator.from);
+
+          // Get the newest message content
+          req.get('https://api.mailinator.com/api/email?msgid=' + newestMessage2.id + '&token=' + params.mailinator.token, '', function(error, response, body) {
+            if (body) {
+              var newestMessage2Contents = JSON.parse(body).data.parts[0].body;
+
+              // Verify the email contains the expected content
+              expect(newestMessage2Contents).toContain('User Name: ' + newUserEmail);
+              expect(newestMessage2Contents).toContain('Password: Set the first time you login');
+              expect(newestMessage2Contents).toContain('Log in automatically by clicking');
+
+              // Verify link is correct
+              acceptInvitationLink = newestMessage2Contents.split('Log in automatically by clicking ')[1].split('\n')[0];
+              browser.get(acceptInvitationLink);
+
+              // User is unable to accept the invitation
+              expect(browser.getCurrentUrl()).toContain('login?messageKey=invite.accept.expired');
+              expect(shared.message.isDisplayed()).toBeTruthy();
+              expect(shared.message.getText()).toContain('Sorry, this invitation has expired. Please contact your account administrator.');
+            } else { // Fail test
+              expect(true).toBeFalsy();
+            }
+          });
+        } else { // Fail test
+          expect(true).toBeFalsy();
+        }
+      });
+    });
+  });
+
   // For existing users
   describe('for inviting existing users not in the current tenant', function() {
     beforeAll(function() {
@@ -478,7 +618,7 @@ describe('The user invitation', function() {
       tenants.selectTenant(newTenantName);
     });
 
-    it('should display message but not user details', function() {
+    xit('should display message but not user details', function() {
       shared.createBtn.click();
 
       // newUserEmail is already set to a value used for the previous tenants new user
@@ -506,8 +646,8 @@ describe('The user invitation', function() {
       expect(users.submitFormBtn.isEnabled()).toBeTruthy();
     });
 
-    it('should not send invitation email when Invite Now is deselected', function() {
-      browser.get(shared.usersPageUrl());
+    xit('should not send invitation email when Invite Now is deselected', function() {
+      browser.get(shared.usersPageUrl);
       shared.createBtn.click();
 
       // newUserEmail is already set to a value used for the previous tenants new user
@@ -522,6 +662,12 @@ describe('The user invitation', function() {
       users.submitFormBtn.click().then(function() {
         expect(shared.successMessage.isDisplayed()).toBeTruthy();
 
+        // Verify tenant status
+        expect(users.tenantStatus.getText()).toBe('Pending Invitation');
+        expect(users.cancelInvitationBtn.isPresent()).toBeFalsy();
+        expect(users.resendInvitationBtn.isDisplayed()).toBeTruthy();
+        expect(users.resendInvitationBtn.getAttribute('value')).toBe('Send Invitation');
+
         // Wait to allow the API to send and Mailinator to receive the email
         browser.sleep(1000).then(function() {
           // Verify user invitation email was NOT sent
@@ -532,10 +678,9 @@ describe('The user invitation', function() {
               var newestMessage1 = JSON.parse(body).messages[JSON.parse(body).messages.length - 1];
               // Verify message is not new
               expect(newestMessage1.seconds_ago).not.toBeLessThan(30);
-              expect(newestMessage1.been_read).toBeTruthy();
 
               // Get the newest message content
-              req.get('https://api.mailinator.com/api/email?id=' + newestMessage1.id + '&token=' + params.mailinator.token, '', function(error, response, body) {
+              req.get('https://api.mailinator.com/api/email?msgid=' + newestMessage1.id + '&token=' + params.mailinator.token, '', function(error, response, body) {
                 if (body) {
                   var newestMessage1Contents = JSON.parse(body).data.parts[0].body;
 
@@ -552,12 +697,55 @@ describe('The user invitation', function() {
       });
     });
 
-    it('should send invitation email', function() {
+    xit('should send invitation email when Invite Now is deselected and selecting Send Invitation', function() {
+      browser.get(shared.usersPageUrl);
+      shared.searchField.sendKeys(newUserEmail);
+      shared.firstTableRow.click();
+
+      users.resendInvitationBtn.click().then(function() {
+        // Verify tenant status
+        expect(users.tenantStatus.getText()).toBe('Pending Acceptance');
+        expect(users.cancelInvitationBtn.isDisplayed()).toBeTruthy();
+        expect(users.resendInvitationBtn.isDisplayed()).toBeTruthy();
+        expect(users.resendInvitationBtn.getAttribute('value')).toBe('Resend Invitation');
+
+        // Wait to allow the API to send and Mailinator to receive the email
+        browser.sleep(1000).then(function() {
+          // Verify user invitation email was sent
+          // NOTE: Add randomUser when emails are sent to the user email and not redirected
+          //req.get('https://api.mailinator.com/api/inbox?to=titantest' + randomUser + '&token=' + params.mailinator.token, '', function(error, response, body) {
+          req.get('https://api.mailinator.com/api/inbox?to=titantest&token=' + params.mailinator.token, '', function(error, response, body) {
+            if (JSON.parse(body).messages.length > 0) {
+              var newestMessage1 = JSON.parse(body).messages[JSON.parse(body).messages.length - 1];
+              // Verify message is new
+              expect(newestMessage1.seconds_ago).toBeLessThan(60);
+              expect(newestMessage1.been_read).toBeFalsy();
+
+              // Get the newest message content
+              req.get('https://api.mailinator.com/api/email?msgid=' + newestMessage1.id + '&token=' + params.mailinator.token, '', function(error, response, body) {
+                if (body) {
+                  var newestMessage1Contents = JSON.parse(body).data.parts[0].body;
+
+                  // Verify the email is one sent to an existing user
+                  expect(newestMessage1Contents).not.toContain('Please click the following link to get started on accepting this invitation:');
+                  expect(newestMessage1Contents).not.toContain('You will simply enter your existing LiveOps User Name: mike.wazowski@mailinator.com and password');
+                } else { // Fail test
+                  expect(false).toBeTruthy();
+                }
+              });
+            }
+          });
+        });
+      });
+    });
+
+    xit('should send invitation email', function() {
       // Create new Tenant that tests will use; admin defaults to current user
       browser.get(shared.tenantsPageUrl);
       newTenantName = tenants.createTenant();
       tenants.selectTenant(newTenantName);
 
+      browser.get(shared.usersPageUrl);
       shared.createBtn.click();
 
       // newUserEmail is already set to a value used for the previous tenants new user
@@ -567,6 +755,12 @@ describe('The user invitation', function() {
       expect(users.userAlreadyExistsAlert.isDisplayed()).toBeTruthy();
       users.submitFormBtn.click().then(function() {
         expect(shared.successMessage.isDisplayed()).toBeTruthy();
+
+        // Verify tenant status
+        expect(users.tenantStatus.getText()).toBe('Pending Acceptance');
+        expect(users.resendInvitationBtn.isDisplayed()).toBeTruthy();
+        expect(users.cancelInvitationBtn.isDisplayed()).toBeTruthy();
+        expect(users.resendInvitationBtn.getAttribute('value')).toBe('Resend Invitation');
 
         // Wait to allow the API to send and Mailinator to receive the email
         browser.sleep(1000).then(function() {
@@ -584,7 +778,7 @@ describe('The user invitation', function() {
               expect(newestMessage2.from).toBe(params.mailinator.from);
 
               // Get the newest message content
-              req.get('https://api.mailinator.com/api/email?id=' + newestMessage2.id + '&token=' + params.mailinator.token, '', function(error, response, body) {
+              req.get('https://api.mailinator.com/api/email?msgid=' + newestMessage2.id + '&token=' + params.mailinator.token, '', function(error, response, body) {
                 if (body) {
                   var newestMessage2Contents = JSON.parse(body).data.parts[0].body;
 
@@ -630,14 +824,14 @@ describe('The user invitation', function() {
       expect(users.externalIdFormField.getAttribute('value')).toBe('');
     });
 
-    it('should link to login page instead of the acceptance form', function() {
+    xit('should link to login page instead of the acceptance form', function() {
       // NOTE: This test uses the acceptInvitationLink from the previous test
       browser.get(acceptInvitationLink);
 
       expect(browser.getCurrentUrl()).toContain(shared.loginPageUrl);
     });
 
-    it('should accept invitation after login', function() {
+    xit('should accept invitation after login', function() {
       browser.get(acceptInvitationLink);
 
       loginPage.emailLoginField.sendKeys(newUserEmail);
@@ -650,11 +844,11 @@ describe('The user invitation', function() {
 
       // User is added to previous and new Tenant
       expect(shared.tenantsNavDropdownContents.count()).toBe(2);
-      expect(shared.tenantsNavDropdownContents.get(0).getText()).toBeIn([newTenantName, defaultTenantName]);
-      expect(shared.tenantsNavDropdownContents.get(1).getText()).toBeIn([newTenantName, defaultTenantName]);
+      expect([newTenantName, defaultTenantName]).toContain(shared.tenantsNavDropdownContents.get(0).getText());
+      expect([newTenantName, defaultTenantName]).toContain(shared.tenantsNavDropdownContents.get(1).getText());
     });
 
-    it('should display user details after the invitation is accepted', function() {
+    xit('should display user details after the invitation is accepted', function() {
       shared.searchField.sendKeys(newUserEmail);
       shared.firstTableRow.click();
 
@@ -663,7 +857,6 @@ describe('The user invitation', function() {
       expect(shared.firstTableRow.getText()).toContain('Last ' + randomUser);
       expect(shared.firstTableRow.getText()).toContain('External Id' + randomUser);
       expect(shared.firstTableRow.getText()).toContain(newUserEmail);
-      expect(shared.firstTableRow.getText()).toContain('Agent');
       expect(shared.firstTableRow.getText()).toContain('Accepted');
 
       // Remaining fields are displayed and remain blank
@@ -673,7 +866,10 @@ describe('The user invitation', function() {
       expect(users.firstNameFormField.getAttribute('value')).toBe('First ' + randomUser);
       expect(users.lastNameFormField.getAttribute('value')).toBe('Last ' + randomUser);
       expect(users.externalIdFormField.getAttribute('value')).toBe('External Id' + randomUser);
-    });
 
+      // Resend invitation button is not displayed
+      expect(users.resendInvitationBtn.isPresent()).toBeFalsy();
+      expect(users.cancelInvitationBtn.isPresent()).toBeFalsy();
+    });
   });
 });

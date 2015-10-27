@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('dispatchMappingTableConfig', ['statuses', 'dispatchMappingInteractionFields', 'dispatchMappingChannelTypes', '$translate', 'UserPermissions',
-    function (statuses, dispatchMappingInteractionFields, dispatchMappingChannelTypes, $translate, UserPermissions) {
+  .service('dispatchMappingTableConfig', ['statuses', 'dispatchMappingInteractionFields', 'dispatchMappingChannelTypes', '$translate', 'UserPermissions', 'helpDocsHostname',
+    function (statuses, dispatchMappingInteractionFields, dispatchMappingChannelTypes, $translate, UserPermissions, helpDocsHostname) {
       return {
         'fields': [{
           'header': {
@@ -59,7 +59,8 @@ angular.module('liveopsConfigPanel')
         'orderBy': '$original.name',
         'title': $translate.instant('dispatchmappings.table.title'),
         'showCreate': UserPermissions.hasPermission('MAP_ALL_CONTACT_POINTS'),
-        'showBulkActions': UserPermissions.hasPermission('MAP_ALL_CONTACT_POINTS')
+        'showBulkActions': UserPermissions.hasPermission('MAP_ALL_CONTACT_POINTS'),
+        'helpLink' : helpDocsHostname + '/Content/Managing%20Flows/Dispatch_Mapping.htm'
       };
     }
   ]);

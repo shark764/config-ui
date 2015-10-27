@@ -67,9 +67,8 @@ describe('The queues view', function() {
     shared.submitFormBtn.click();
     expect(shared.successMessage.isPresent()).toBeFalsy();
 
-    // TODO TITAN2-4097
-    //expect(queues.requiredErrors.get(0).isDisplayed()).toBeTruthy();
-    //expect(queues.requiredErrors.get(0).getText()).toBe('Field \"Name\" is required.');
+    expect(queues.requiredErrors.get(0).isDisplayed()).toBeTruthy();
+    expect(queues.requiredErrors.get(0).getText()).toBe('Field \"Name\" is required.');
   });
 
   it('should not require description field when editing a Queue', function() {
@@ -110,15 +109,14 @@ describe('The queues view', function() {
     shared.firstTableRow.click();
 
     queues.nameFormField.clear();
-    queues.nameFormField.sendKeys(' ');
+    queues.nameFormField.sendKeys(' \t');
 
     // Submit button is still disabled
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
     shared.submitFormBtn.click();
 
-    // TODO TITAN2-4097
-    //expect(queues.requiredErrors.get(0).isDisplayed()).toBeTruthy();
-    //expect(queues.requiredErrors.get(0).getText()).toBe('Field \"Name\" is required.');
+    expect(queues.requiredErrors.get(0).isDisplayed()).toBeTruthy();
+    expect(queues.requiredErrors.get(0).getText()).toBe('Field \"Name\" is required.');
     expect(shared.successMessage.isPresent()).toBeFalsy();
   });
 
@@ -193,9 +191,9 @@ describe('The queues view', function() {
       // If the advanced query is not the default value, expect the basic query details to be displayed
       activeVersionDetails.element(by.id('advanced-query-field')).getAttribute('value').then(function(advancedQuery) {
         if (advancedQuery == '{}') {
-          expect(activeVersionDetails.all(by.id('version-basic-query-details')).count()).toBe(0);
+          expect(activeVersionDetails.element(by.id('version-basic-query-details')).all(by.repeater('operand in operands')).count()).toBe(0);
         } else {
-          expect(activeVersionDetails.all(by.id('version-basic-query-details')).count()).toBeGreaterThan(0);
+          expect(activeVersionDetails.element(by.id('version-basic-query-details')).all(by.repeater('operand in operands')).count()).toBeGreaterThan(0);
         }
       });
 
@@ -264,7 +262,8 @@ describe('The queues view', function() {
     });
   });
 
-  it('should display new version panel when add new version is selected', function() {
+  xit('should display new version panel when add new version is selected', function() {
+    // TODO TITAN2-4470
     shared.firstTableRow.click();
     queues.addNewVersionBtn.click();
 
@@ -272,6 +271,14 @@ describe('The queues view', function() {
     expect(newVersion.createVersionHeader.isDisplayed()).toBeTruthy();
     expect(newVersion.createVersionBtn.isDisplayed()).toBeTruthy();
     expect(newVersion.cancelVersionBtn.isDisplayed()).toBeTruthy();
+
+    // Add Groups & Skills filter
+    newQueue.addFilterDropdown.click();
+    newQueue.groupFilterDropdownOption.click();
+    newQueue.addFilterBtn.click();
+    newQueue.addFilterDropdown.click();
+    newQueue.skillFilterDropdownOption.click();
+    newQueue.addFilterBtn.click();
 
     expect(newVersion.basicQueryDetailsAll.count()).toBe(0);
 
@@ -286,6 +293,7 @@ describe('The queues view', function() {
   });
 
   xit('should display copy version panel when copy is selected', function() {
+    // TODO TITAN2-4470
     shared.firstTableRow.click();
     queues.activeVersionDropdown.$('option:checked').getAttribute('value').then(function(activeVersionValue) {
       queues.copyVersionBtn.get(activeVersionValue).click();
@@ -404,7 +412,7 @@ describe('The queues view', function() {
   });
 
   xit('should not require basic query details when adding a new queue version from copy', function() {
-    // TODO Fails from more than one being removed at a time
+    // TODO TITAN2-4470
     shared.firstTableRow.click();
     queues.activeVersionDropdown.all(by.css('option')).count().then(function(originalVersionCount) {
       queues.activeVersionDropdown.$('option:checked').getAttribute('value').then(function(activeVersionValue) {
@@ -427,7 +435,7 @@ describe('The queues view', function() {
     });
   });
 
-  xit('should require priority fields when adding a new queue version', function() {
+  it('should require priority fields when adding a new queue version', function() {
     shared.firstTableRow.click();
     queues.addNewVersionBtn.click();
 
@@ -440,14 +448,47 @@ describe('The queues view', function() {
     // Submit button is disabled
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
     shared.submitFormBtn.click().then(function() {
-      // TODO TITAN2-4097
-      //expect(queues.requiredErrors.get(0).getText()).toBe('Field "Min Priority" is required.');
-      //expect(queues.requiredErrors.get(1).getText()).toBe('Field "Max Priority" is required.');
-      //expect(queues.requiredErrors.get(2).getText()).toBe('Field "Priority Value" is required.');
-      //expect(queues.requiredErrors.get(3).getText()).toBe('Field "Priority Rate" is required.');
+      expect(queues.requiredErrors.get(0).getText()).toBe('Please enter a minimum priority');
+      expect(queues.requiredErrors.get(1).getText()).toBe('Please enter a maximum priority');
+      expect(queues.requiredErrors.get(2).getText()).toBe('Please enter a priority value');
+      expect(queues.requiredErrors.get(3).getText()).toBe('Please enter a priority rate');
 
       expect(shared.tableElements.count()).toBe(queueCount);
       expect(shared.successMessage.isPresent()).toBeFalsy();
+    });
+  });
+
+  it('should allow advanced query field to be edited after submitting new version with invalid input', function() {
+    shared.firstTableRow.click();
+    var originalVersionCount = queues.queueVersions.count();
+
+    queues.addNewVersionBtn.click();
+    newVersion.showAdvancedQueryLink.click();
+    newVersion.advancedQueryFormField.clear();
+    newVersion.advancedQueryFormField.sendKeys('Not a valid query');
+
+    newVersion.createVersionBtn.click().then(function() {
+      expect(shared.errorMessage.isDisplayed()).toBeTruthy();
+      expect(shared.errorMessage.getText()).toContain("Record failed to save");
+
+      // New version is not created
+      expect(newVersion.newQueueVersionPanel.isDisplayed()).toBeTruthy();
+      expect(queues.queueVersions.count()).toBe(originalVersionCount);
+      expect(queues.requiredErrors.get(0).getText()).toContain('invalid query, reason: Value does not match schema:');
+
+      // Edit field
+      newVersion.advancedQueryFormField.clear();
+      newVersion.advancedQueryFormField.sendKeys('{}\t');
+      expect(queues.requiredErrors.count()).toBe(0);
+
+      newVersion.createVersionBtn.click().then(function() {
+        shared.waitForSuccess();
+        expect(shared.successMessage.isDisplayed()).toBeTruthy();
+
+        // New version is created
+        expect(queues.queueVersions.count()).toBeGreaterThan(originalVersionCount);
+        expect(newVersion.newQueueVersionPanel.isDisplayed()).toBeFalsy();
+      });
     });
   });
 });

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('mediaTableConfig', ['mediaTypes', '$translate', 'UserPermissions', function (mediaTypes, $translate, UserPermissions) {
+  .service('mediaTableConfig', ['mediaTypes', '$translate', 'UserPermissions', 'helpDocsHostname', function (mediaTypes, $translate, UserPermissions, helpDocsHostname) {
       return {
         'fields': [{
           'header': {
@@ -23,7 +23,8 @@ angular.module('liveopsConfigPanel')
           'name': '$original.type',
           'id': 'type-column-dropdown',
           'lookup': '$original:type',
-          'filter': 'selectedOptions'
+          'filter': 'selectedOptions',
+          'transclude': true
         }, {
           'header': {
             'display': $translate.instant('value.properties')
@@ -34,7 +35,8 @@ angular.module('liveopsConfigPanel')
         'orderBy' : '$original.name',
         'title' : $translate.instant('media.table.title'),
         'showBulkActions': false,
-        'showCreate': UserPermissions.hasPermission('MANAGE_ALL_MEDIA')
+        'showCreate': UserPermissions.hasPermission('MANAGE_ALL_MEDIA'),
+        'helpLink' : helpDocsHostname + '/Content/Managing%20Flows/Add_media.htm'
       };
     }]
   );

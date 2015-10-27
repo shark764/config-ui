@@ -80,7 +80,7 @@ describe('The users view', function() {
       }
     }).thenFinally(function() {
       // Fields can be edited for your own user
-      shared.searchField.sendKeys(params.login.firstName + ' ' + params.login.lastName);
+      shared.searchField.sendKeys(params.login.user);
       shared.firstTableRow.click();
 
       expect(users.firstNameFormField.isDisplayed()).toBeTruthy();
@@ -151,7 +151,7 @@ describe('The users view', function() {
     shared.tableColumnsDropDown.click();
 
     // Select user row
-    shared.searchField.sendKeys(params.login.firstName + ' ' + params.login.lastName);
+    shared.searchField.sendKeys(params.login.user);
     shared.firstTableRow.click();
 
     // Update User details
@@ -183,7 +183,7 @@ describe('The users view', function() {
     expect(columns.optionCheckboxes.get(2).getAttribute('selected')).toBeTruthy();
     shared.tableColumnsDropDown.click();
 
-    shared.searchField.sendKeys(params.login.firstName + ' ' + params.login.lastName);
+    shared.searchField.sendKeys(params.login.user);
     shared.firstTableRow.click();
 
     expect(shared.firstTableRow.element(by.css(users.nameColumn)).getText()).not.toContain('cancel');
@@ -203,7 +203,7 @@ describe('The users view', function() {
     shared.tableColumnsDropDown.click();
 
     // Select user row
-    shared.searchField.sendKeys(params.login.firstName + ' ' + params.login.lastName);
+    shared.searchField.sendKeys(params.login.user);
     shared.firstTableRow.click();
 
     // Update User details
@@ -215,7 +215,7 @@ describe('The users view', function() {
       expect(shared.successMessage.isDisplayed()).toBeTruthy();
 
       shared.searchField.clear();
-      shared.searchField.sendKeys(params.login.firstName + 'test ' + params.login.lastName + 'test');
+      shared.searchField.sendKeys(params.login.user);
       expect(shared.firstTableRow.element(by.css(users.nameColumn)).getText()).toContain(users.firstNameFormField.getAttribute('value'));
       expect(shared.firstTableRow.element(by.css(users.nameColumn)).getText()).toContain(users.lastNameFormField.getAttribute('value'));
       expect(shared.firstTableRow.element(by.css(users.externalIdColumn)).getText()).toBe(users.externalIdFormField.getAttribute('value'));
@@ -229,7 +229,7 @@ describe('The users view', function() {
       expect(columns.optionCheckboxes.get(2).getAttribute('selected')).toBeTruthy();
       shared.tableColumnsDropDown.click();
 
-      shared.searchField.sendKeys(params.login.firstName + 'test ' + params.login.lastName + 'test');
+      shared.searchField.sendKeys(params.login.user);
       shared.firstTableRow.click();
 
       expect(shared.firstTableRow.element(by.css(users.nameColumn)).getText()).toContain(users.firstNameFormField.getAttribute('value'));
@@ -249,7 +249,7 @@ describe('The users view', function() {
 
   it('should not require First Name when editing', function() {
     // Select first user from table
-    shared.searchField.sendKeys(params.login.firstName + ' ' + params.login.lastName);
+    shared.searchField.sendKeys(params.login.user);
     shared.firstTableRow.click();
 
     // Edit fields
@@ -273,7 +273,7 @@ describe('The users view', function() {
 
   it('should not require Last Name when editing', function() {
     // Select first user from table
-    shared.searchField.sendKeys(params.login.firstName + ' ' + params.login.lastName);
+    shared.searchField.sendKeys(params.login.user);
     shared.firstTableRow.click();
 
     // Edit fields
@@ -330,7 +330,7 @@ describe('The users view', function() {
 
   it('should not require External Id when editing', function() {
     // Select first user from table
-    shared.searchField.sendKeys(params.login.firstName + ' ' + params.login.lastName);
+    shared.searchField.sendKeys(params.login.user);
     shared.firstTableRow.click();
 
     // Edit fields
@@ -343,7 +343,7 @@ describe('The users view', function() {
 
   xit('should not accept spaces as valid input when editing', function() {
     // TODO Fails
-    shared.searchField.sendKeys(params.login.firstName + ' ' + params.login.lastName);
+    shared.searchField.sendKeys(params.login.user);
     shared.firstTableRow.click();
 
     // Enter a space into each field
@@ -363,7 +363,7 @@ describe('The users view', function() {
 
   it('should not allow user to update it\'s own status or role', function() {
     // Select current user from table
-    shared.searchField.sendKeys(params.login.firstName + ' ' + params.login.lastName);
+    shared.searchField.sendKeys(params.login.user);
     shared.firstTableRow.click();
 
     expect(users.activeFormToggle.getAttribute('disabled')).toBeTruthy();

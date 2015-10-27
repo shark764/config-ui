@@ -15,15 +15,16 @@ var UserPage = function() {
   this.tenantRoleFormDropdown = element(by.model('selectedTenantUser.roleId'));
   this.tenantRoleFormDropdownOptions = this.tenantRoleFormDropdown.all(by.css('option'));
   this.tenantRoles = ['Administrator', 'Supervisor', 'Agent'];
-  this.platformRoleFormDropdown = element(by.name('platformRoleId'));
+  this.platformRoleFormDropdown = element(by.id('user-platform-role-dropdown'));
   this.platformRoleFormDropdownOptions = this.platformRoleFormDropdown.all(by.css('option'));
-  this.platformRoles = ['Platform Administrator', 'Platform User'];
+  this.platformRoles = ['Platform User', 'Platform Administrator'];
 
   this.inviteNowFormToggle = element(by.model('selectedTenantUser.status'));
   this.inviteNowHelp = element(by.id('invite-now-help'));
   this.tenantStatus = this.userPanel.element(by.css('tenant-user-status'));
   this.tenantStatusHelp = element(by.id('tenant-status-help'));
   this.resendInvitationBtn = element(by.id('resend-invitation-btn'));
+  this.cancelInvitationBtn = element(by.id('expire-invitation-link'));
   this.userAlreadyExistsAlert = element(by.id('user-exists-alert'));
 
   this.firstNameFormField = element(by.model('selectedTenantUser.$user.firstName'));
@@ -52,7 +53,7 @@ var UserPage = function() {
   this.groupsColumn = 'td:nth-child(5)';
   this.rolesColumn = 'td:nth-child(6)';
   this.presenceColumn = 'td:nth-child(7)';
-  this.tenantStatusColumn = 'td:nth-child(8)';
+  this.tenantStatusColumn = 'td:nth-child(9)';
 
   this.tableDropDowns = this.tableHeader.all(by.css('filter-dropdown'));
 
@@ -109,11 +110,10 @@ var UserPage = function() {
   this.userGroups = element.all(by.repeater('userGroup in userGroups'));
 
   //User Skills component
-  this.userSkills = element.all(by.css('user-skills'));
   this.addSkill = element(by.id('skillsForm'));
   this.addSkillSearch = this.addSkill.element(by.id('typeahead-container'));
   this.skillDropdownItems = this.addSkill.all(by.repeater('item in filtered = (items | filter:filterCriteria | orderBy:orderByFunction)'));
-  this.skillProficiency = this.addSkill.element(by.css('#new-user-skill-proficiency input'));
+  this.skillProficiency = this.addSkill.all(by.css('#new-user-skill-proficiency input'));
   this.proficiencyCounterUp = this.addSkill.element(by.css('.top'));
   this.proficiencyCounterDown = this.addSkill.element(by.css('.bottom'));
   this.addSkillBtn = this.addSkill.element(by.id('add-skill-btn'));
@@ -121,6 +121,7 @@ var UserPage = function() {
   this.userSkills = element.all(by.repeater('userSkill in userSkills | orderBy:\'name\''));
   this.userSkillsTable = element(by.css('[name=userSkills]'));
   this.userSkillTableRows = element.all(by.repeater('userSkill in userSkills | orderBy:\'name\''));
+  this.editSkillProficiencyTds = this.userSkills.all(by.model('userSkill.proficiency'));
   this.editSkillProficiency = 'userSkill.proficiency';
   this.editCounterUp = 'userSkill.proficiency';
   this.editCounterDown = 'userSkill.proficiency';

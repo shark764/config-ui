@@ -1,13 +1,7 @@
 <label ng-class="{'has-elements': operands.length}">
   {{ labelKey | translate}}
 </label>
-<div class="tag-wrapper clear">
-  <div ng-repeat="operand in operands" class="tag">
-    {{operand.display}}
-    <a ng-click="remove(operand)"><i class="fa fa-times"></i></a>
-  </div>
-</div>
-<div>
+<div class="instant-add">
   <div>
     <div>
       <type-ahead hover="true"
@@ -18,10 +12,10 @@
       </type-ahead>
     </div>
     <div ng-if="selected.hasProficiency"
-      ng-init="selected.proficiencyOperator = 'gt'; selected.proficiency = 1;">
+      ng-init="selected.proficiencyOperator = 'gte'; selected.proficiency = 1;">
       <select id="proficiency-operator-dropdown" ng-model="selected.proficiencyOperator" class="pull-left" style="width: 65%;">
-        <option value="gt">Proficiency at Least</option>
-        <option value="lt">Proficiency at Most</option>
+        <option value="gte">Proficiency at Least</option>
+        <option value="lte">Proficiency at Most</option>
         <option value="equal">Proficiency Exactly</option>
       </select>
       <number-slider id="proficiency-value" value="selected.proficiency"
@@ -30,10 +24,16 @@
       </number-slider>
     </div>
   </div>
-  <a class="add btn"
+  <button class="add btn" type="button"
     ng-disabled="! selected"
     ng-click="add(selected)">
 
     <i class="fa fa-plus"></i>
-  </a>
+  </button>
+</div>
+<div class="tag-wrapper clear">
+  <div ng-repeat="operand in operands" class="tag">
+    {{operand.display}}
+    <a ng-click="remove(operand)"><i class="fa fa-times"></i></a>
+  </div>
 </div>

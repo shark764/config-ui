@@ -15,23 +15,6 @@ describe('The users table filter', function() {
 
   beforeAll(function() {
     loginPage.login(params.login.user, params.login.password);
-
-    // Ensure groups and skills are added
-    var random = Math.floor((Math.random() * 1000) + 1);
-    browser.get(shared.groupsPageUrl);
-    shared.createBtn.click();
-    groups.nameFormField.sendKeys('Group Name ' + random);
-    shared.submitFormBtn.click().then(function() {
-      expect(shared.successMessage.isDisplayed()).toBeTruthy();
-    }).then(function() {
-      browser.get(shared.skillsPageUrl);
-      shared.createBtn.click();
-      skills.nameFormField.sendKeys('Skill Name ' + random);
-
-      shared.submitFormBtn.click().then(function() {
-        expect(shared.successMessage.isDisplayed()).toBeTruthy();
-      });
-    });
   });
 
   beforeEach(function() {
@@ -48,9 +31,13 @@ describe('The users table filter', function() {
   it('should display users based on the table Status filter', function() {
     // Add Status Column
     shared.tableColumnsDropDown.click();
-    shared.tableColumnsDropDownOptions.get(7).click();
-    expect(shared.tableColumnsDropDownInputs.get(7).isSelected()).toBeTruthy();
-    shared.tableColumnsDropDown.click().then(function() {
+    shared.tableColumnsDropDownInputs.get(7).isSelected().then(function(statusSelected) {
+      if (!statusSelected) {
+        shared.tableColumnsDropDownOptions.get(7).click();
+        expect(shared.tableColumnsDropDownInputs.get(7).isSelected()).toBeTruthy();
+      }
+    }).then(function() {
+      shared.tableColumnsDropDown.click();
 
       // Select Disabled from Status drop down
       users.statusTableDropDownLabel.click();
@@ -61,7 +48,7 @@ describe('The users table filter', function() {
         expect(users.dropdownStatusInputs.get(1).isSelected()).toBeTruthy();
 
         shared.tableElements.then(function(rows) {
-          for (var i = 0; i < rows.length; ++i) {
+          for (var i = 0; i < rows.length && i < 5; ++i) {
             expect(rows[i].getText()).toContain('Disabled');
           };
         });
@@ -69,12 +56,16 @@ describe('The users table filter', function() {
     });
   });
 
-  xit('should display users based on the table Status filter with selection changed selected', function() {
+  it('should display users based on the table Status filter with selection changed selected', function() {
     // Add Status Column
     shared.tableColumnsDropDown.click();
-    shared.tableColumnsDropDownOptions.get(7).click();
-    expect(shared.tableColumnsDropDownInputs.get(7).isSelected()).toBeTruthy();
-    shared.tableColumnsDropDown.click().then(function() {
+    shared.tableColumnsDropDownInputs.get(7).isSelected().then(function(statusSelected) {
+      if (!statusSelected) {
+        shared.tableColumnsDropDownOptions.get(7).click();
+        expect(shared.tableColumnsDropDownInputs.get(7).isSelected()).toBeTruthy();
+      }
+    }).then(function() {
+      shared.tableColumnsDropDown.click();
 
       // Select Enabled from Status drop down
       users.statusTableDropDownLabel.click();
@@ -92,7 +83,7 @@ describe('The users table filter', function() {
 
       users.statusTableDropDownLabel.click().then(function() {
         shared.tableElements.then(function(rows) {
-          for (var i = 0; i < rows.length; ++i) {
+          for (var i = 0; i < rows.length && i < 5; ++i) {
             expect(rows[i].getText()).toContain('Enabled');
           };
         });
@@ -100,12 +91,16 @@ describe('The users table filter', function() {
     });
   });
 
-  xit('should display all users based on the table Status filter when All is selected', function() {
+  it('should display all users based on the table Status filter when All is selected', function() {
     // Add Status Column
     shared.tableColumnsDropDown.click();
-    shared.tableColumnsDropDownOptions.get(7).click();
-    expect(shared.tableColumnsDropDownInputs.get(7).isSelected()).toBeTruthy();
-    shared.tableColumnsDropDown.click().then(function() {
+    shared.tableColumnsDropDownInputs.get(7).isSelected().then(function(statusSelected) {
+      if (!statusSelected) {
+        shared.tableColumnsDropDownOptions.get(7).click();
+        expect(shared.tableColumnsDropDownInputs.get(7).isSelected()).toBeTruthy();
+      }
+    }).then(function() {
+      shared.tableColumnsDropDown.click();
 
       // Select Disabled from Status drop down
       users.statusTableDropDownLabel.click();
@@ -133,44 +128,56 @@ describe('The users table filter', function() {
     });
   });
 
-  xit('should display users based on the Search and Status filters', function() {
+  it('should display users based on the Search and Status filters', function() {
     // Add Status Column
     shared.tableColumnsDropDown.click();
-    shared.tableColumnsDropDownOptions.get(7).click();
-    shared.tableColumnsDropDown.click().then(function() {
+    shared.tableColumnsDropDownInputs.get(7).isSelected().then(function(statusSelected) {
+      if (!statusSelected) {
+        shared.tableColumnsDropDownOptions.get(7).click();
+        expect(shared.tableColumnsDropDownInputs.get(7).isSelected()).toBeTruthy();
+      }
+    }).then(function() {
+      shared.tableColumnsDropDown.click();
 
       // Search
-      shared.searchField.sendKeys('a\t');
+      shared.searchField.sendKeys('an\t');
 
       // Select Status filter
       users.statusTableDropDownLabel.click(); // Open
       users.dropdownStatuses.get(1).click();
       users.statusTableDropDownLabel.click().then(function() {
         shared.tableElements.then(function(rows) {
-          for (var i = 0; i < rows.length; ++i) {
-            rows[i].getText().then(function(value) {
-              expect(value.toLowerCase()).toContain('a');
+          for (var i = 0; i < rows.length && i < 5; ++i) {
+            var searchTermFound = false;
+            // users name, email, skills, or groups contain search phrase
+            rows[i].click();
+            rows[i].getText().then(function(userRowText) {
+              if (userRowText.toLowerCase().indexOf('an') > -1) {
+                searchTermFound = true;
+              };
+            });
+            users.userSkills.then(function(userSkillElements) {
+              for (var i = 0; i < userSkillElements.length; i++) {
+                userSkillElements[i].getText().then(function(skillName) {
+                  if (skillName.toLowerCase().indexOf('an') > -1) {
+                    searchTermFound = true;
+                  };
+                });
+              }
+            });
+            users.userGroups.then(function(userGroupsElements) {
+              for (var i = 0; i < userGroupsElements.length; i++) {
+                userGroupsElements[i].getText().then(function(groupName) {
+                  if (groupName.toLowerCase().indexOf('an') > -1) {
+                    searchTermFound = true;
+                  };
+                });
+              }
+            }).then(function() {
+              expect(searchTermFound).toBeTruthy();
             });
             expect(rows[i].getText()).toContain('Enabled');
           };
-        });
-      }).then(function() {
-        // Update Search & add filter options
-        shared.searchField.clear();
-        shared.searchField.sendKeys('se\t');
-
-        // Select Status filter
-        users.statusTableDropDownLabel.click(); // Open
-        users.dropdownStatuses.get(0).click();
-        users.statusTableDropDownLabel.click().then(function() {
-          shared.tableElements.then(function(rows) {
-            for (var i = 0; i < rows.length; ++i) {
-              rows[i].getText().then(function(value) {
-                expect(value.toLowerCase()).toContain('se');
-              });
-              expect(['Enabled', 'Disabled']).toContain(shared.tableElements.get(i).element(by.css('td:nth-child(8)')).getText());
-            };
-          });
         });
       });
     });
@@ -190,7 +197,7 @@ describe('The users table filter', function() {
       browser.get(shared.groupsPageUrl);
 
       // Group list from Users page filter dropdown should contain each of the same Group records
-      for (var i = 0; i < groupNameList.length; i++) {
+      for (var i = 0; i < groupNameList.length && i < 5; i++) {
         shared.searchField.clear();
         shared.searchField.sendKeys(groupNameList[i]);
         expect(shared.tableElements.count()).toBeGreaterThan(0);
@@ -213,7 +220,7 @@ describe('The users table filter', function() {
       var userHasGroup;
       shared.tableElements.then(function(rows) {
         if (rows.length > 0) {
-          for (var i = 0; i < rows.length; ++i) {
+          for (var i = 0; i < rows.length && i < 5; ++i) {
             userHasGroup = false;
             // Select row
             shared.tableRows.get(i).click();
@@ -263,7 +270,7 @@ describe('The users table filter', function() {
     var userHasGroup = false;
     shared.tableElements.then(function(rows) {
       if (rows > 0) {
-        for (var i = 1; i <= rows.length; ++i) {
+        for (var i = 1; i <= rows.length && i < 5; ++i) {
           // Select row
           shared.tableRows.get(i).click(); // Skip table header row
           // Verify user has group
@@ -296,7 +303,7 @@ describe('The users table filter', function() {
       userHasGroup = false;
       shared.tableElements.then(function(rows) {
         if (rows > 0) {
-          for (var i = 0; i < rows.length; ++i) {
+          for (var i = 0; i < rows.length && i < 5; ++i) {
             rows[i].getText().then(function(value) {
               expect(value.toLowerCase()).toContain('a');
             });
@@ -319,7 +326,7 @@ describe('The users table filter', function() {
     });
   });
 
-  xit('should display all tenant Skills in the user table Skill filter', function() {
+  it('should display all tenant Skills in the user table Skill filter', function() {
     // Select Skill from Skills drop down
     users.skillsTableDropDownLabel.click();
 
@@ -333,7 +340,7 @@ describe('The users table filter', function() {
       browser.get(shared.skillsPageUrl);
 
       // Skill list from Users page filter dropdown should contain each of the same Skill records
-      for (var i = 0; i < skillNameList.length; i++) {
+      for (var i = 0; i < skillNameList.length && i < 5; i++) {
         shared.searchField.clear();
         shared.searchField.sendKeys(skillNameList[i]);
         expect(shared.tableElements.count()).toBeGreaterThan(0);
@@ -341,7 +348,7 @@ describe('The users table filter', function() {
     });
   });
 
-  xit('should display users based on the table Skill filter', function() {
+  it('should display users based on the table Skill filter', function() {
     // Select Skill from Skills drop down
     users.skillsTableDropDownLabel.click();
     users.dropdownSkills.get(0).click();
@@ -356,7 +363,7 @@ describe('The users table filter', function() {
       var userHasSkill;
       shared.tableElements.then(function(rows) {
         if (rows.length > 0) {
-          for (var i = 0; i < rows.length; ++i) {
+          for (var i = 0; i < rows.length && i < 5; ++i) {
             userHasSkill = false
 
             // Select row
@@ -375,62 +382,25 @@ describe('The users table filter', function() {
         }
       });
     }).then(function() {
-      // Select a different Skill from drop down
+      // Select All from drop down
       users.skillsTableDropDownLabel.click();
-      users.dropdownSkills.get(0).click();
-      users.dropdownSkills.get(1).click();
+      users.allUserSkills.click();
 
-      users.dropdownSkills.get(1).getText().then(function(selectedSkillName) {
-        // New input is selected
-        expect(users.dropdownSkillsInputs.get(2).isSelected()).toBeTruthy();
+      // All input is selected
+      expect(users.dropdownSkillsInputs.get(0).isSelected()).toBeTruthy();
 
-        // Previous and All inputs are unselected
-        expect(users.dropdownSkillsInputs.get(1).isSelected()).toBeFalsy();
-        expect(users.dropdownSkillsInputs.get(0).isSelected()).toBeFalsy();
-        users.skillsTableDropDownLabel.click();
+      // Previous inputs are unselected
+      expect(users.dropdownSkillsInputs.get(1).isSelected()).toBeFalsy();
+      expect(users.dropdownSkillsInputs.get(2).isSelected()).toBeFalsy();
 
-        // Select each user and verify that the user is assigned to the filtered skill
-        shared.tableElements.then(function(rows) {
-          if (rows > 0) {
-            for (var i = 1; i <= rows.length; ++i) {
-              userHasSkill = false
+      users.skillsTableDropDownLabel.click();
 
-              // Select row
-              shared.tableRows.get(i).click(); // Skip table header row
-              // Verify user has skill
-              users.userSkillTableRows.each(function(currentUserSkill) {
-                currentUserSkill.getText().then(function(currentSkill) {
-                  if (currentSkill.indexOf(selectedSkillName) > -1) {
-                    userHasSkill = true;
-                  }
-                });
-              }).then(function() {
-                expect(userHasSkill).toBeTruthy();
-              });
-            }
-          }
-        });
-      }).then(function() {
-        // Select All from drop down
-        users.skillsTableDropDownLabel.click();
-        users.allUserSkills.click();
-
-        // All input is selected
-        expect(users.dropdownSkillsInputs.get(0).isSelected()).toBeTruthy();
-
-        // Previous inputs are unselected
-        expect(users.dropdownSkillsInputs.get(1).isSelected()).toBeFalsy();
-        expect(users.dropdownSkillsInputs.get(2).isSelected()).toBeFalsy();
-
-        users.skillsTableDropDownLabel.click();
-
-        // Expect all users to be displayed
-        expect(shared.tableElements.count()).toBe(userCount);
-      });
+      // Expect all users to be displayed
+      expect(shared.tableElements.count()).toBe(userCount);
     });
   });
 
-  xit('should display users based on the selected Skills on table filter', function() {
+  it('should display users based on the selected Skills on table filter', function() {
     // Select Skill from Skills drop down
     users.skillsTableDropDownLabel.click();
     users.dropdownSkills.get(0).click();
@@ -446,7 +416,7 @@ describe('The users table filter', function() {
     var userHasSkill;
     shared.tableElements.then(function(rows) {
       if (rows > 0) {
-        for (var i = 1; i <= rows.length; ++i) {
+        for (var i = 1; i <= rows.length && i < 5; ++i) {
           userHasSkill = false;
 
           // Select row
@@ -466,7 +436,7 @@ describe('The users table filter', function() {
     });
   });
 
-  xit('should display users based on the Search and Skill filters', function() {
+  it('should display users based on the Search and Skill filters', function() {
     // Search
     shared.searchField.sendKeys('a');
 
@@ -478,7 +448,7 @@ describe('The users table filter', function() {
 
       shared.tableElements.then(function(rows) {
         if (rows > 0) {
-          for (var i = 0; i < rows.length; ++i) {
+          for (var i = 0; i < rows.length && i < 5; ++i) {
             userHasSkill = false;
 
             rows[i].getText().then(function(value) {
@@ -515,7 +485,7 @@ describe('The users table filter', function() {
       browser.get(shared.rolesPageUrl);
 
       // Role list from Users page filter dropdown should contain each of the same Role records
-      for (var i = 0; i < roleNameList.length; i++) {
+      for (var i = 0; i < roleNameList.length && i < 5; i++) {
         shared.searchField.clear();
         shared.searchField.sendKeys(roleNameList[i]);
         expect(shared.tableElements.get(0).getText()).toContain(roleNameList[i]);
@@ -536,29 +506,9 @@ describe('The users table filter', function() {
 
       users.rolesTableDropDownLabel.click().then(function() {
         shared.tableElements.then(function(rows) {
-          for (var i = 0; i < rows.length; ++i) {
+          for (var i = 0; i < rows.length && i < 5; ++i) {
             expect(rows[i].getText()).toContain('Administrator');
           };
-        });
-      });
-    }).then(function() {
-      users.rolesTableDropDownLabel.click();
-
-      // Select Supervisor from Role drop down
-      users.dropdownRoles.get(2).click().then(function() {
-
-        // All input is unselected
-        expect(users.dropdownRolesInputs.get(0).isSelected()).toBeFalsy();
-        // Administrator and Supervisor inputs are selected
-        expect(users.dropdownRolesInputs.get(1).isSelected()).toBeTruthy();
-        expect(users.dropdownRolesInputs.get(3).isSelected()).toBeTruthy();
-
-        users.rolesTableDropDownLabel.click().then(function() {
-          shared.tableElements.then(function(rows) {
-            for (var i = 0; i < rows.length; ++i) {
-              expect(['Administrator', 'Supervisor']).toContain(rows[i].element(by.css(users.rolesColumn)).getText());
-            };
-          });
         });
       });
     }).thenFinally(function() {
@@ -581,160 +531,161 @@ describe('The users table filter', function() {
     });
   });
 
-  xit('should display all of the Presence options', function() {
-    users.presenceTableDropDownLabel.click();
-
-    // All presence listed
-    expect(users.dropdownPresence.get(0).getText()).toBe('Busy');
-    expect(users.dropdownPresence.get(1).getText()).toBe('Ready');
-    expect(users.dropdownPresence.get(2).getText()).toBe('Not Ready');
-    expect(users.dropdownPresence.get(3).getText()).toBe('Allocated');
-    expect(users.dropdownPresence.get(4).getText()).toBe('Offline');
-
-    // All input is selected by default
-    expect(users.dropdownPresenceInputs.get(0).isSelected()).toBeTruthy();
-    // Remaining inputs are unselected by default
-    expect(users.dropdownPresenceInputs.get(1).isSelected()).toBeFalsy();
-    expect(users.dropdownPresenceInputs.get(2).isSelected()).toBeFalsy();
-    expect(users.dropdownPresenceInputs.get(3).isSelected()).toBeFalsy();
-    expect(users.dropdownPresenceInputs.get(4).isSelected()).toBeFalsy();
-    expect(users.dropdownPresenceInputs.get(5).isSelected()).toBeFalsy();
-  });
-
-  xit('should display users based on the table Presence filter', function() {
-    users.presenceTableDropDownLabel.click();
-
-    // Select Busy from drop down
-    users.dropdownPresence.get(0).click().then(function() {
-      // All input is unselected
-      expect(users.dropdownPresenceInputs.get(0).isSelected()).toBeFalsy();
-      // Busy input is selected
-      expect(users.dropdownPresenceInputs.get(1).isSelected()).toBeTruthy();
-
-      users.presenceTableDropDownLabel.click().then(function() {
-        shared.tableElements.then(function(rows) {
-          for (var i = 0; i < rows.length; ++i) {
-            expect(rows[i].getText()).toContain('Busy');
-          };
-        });
-      });
+  it('should display all of the Presence options', function() {
+    // Add Presence Column
+    shared.tableColumnsDropDown.click();
+    shared.tableColumnsDropDownInputs.get(6).isSelected().then(function(presenceSelected) {
+      if (!presenceSelected) {
+        shared.tableColumnsDropDownOptions.get(6).click();
+        expect(shared.tableColumnsDropDownInputs.get(6).isSelected()).toBeTruthy();
+      }
     }).then(function() {
+      shared.tableColumnsDropDown.click();
       users.presenceTableDropDownLabel.click();
 
-      // Select Offline from drop down
-      users.dropdownPresence.get(4).click().then(function() {
+      // All presence listed
+      expect(users.dropdownPresence.get(0).getText()).toBe('Busy');
+      expect(users.dropdownPresence.get(1).getText()).toBe('Ready');
+      expect(users.dropdownPresence.get(2).getText()).toBe('Not Ready');
+      expect(users.dropdownPresence.get(3).getText()).toBe('Allocated');
+      expect(users.dropdownPresence.get(4).getText()).toBe('Offline');
 
+      // All input is selected by default
+      expect(users.dropdownPresenceInputs.get(0).isSelected()).toBeTruthy();
+      // Remaining inputs are unselected by default
+      expect(users.dropdownPresenceInputs.get(1).isSelected()).toBeFalsy();
+      expect(users.dropdownPresenceInputs.get(2).isSelected()).toBeFalsy();
+      expect(users.dropdownPresenceInputs.get(3).isSelected()).toBeFalsy();
+      expect(users.dropdownPresenceInputs.get(4).isSelected()).toBeFalsy();
+      expect(users.dropdownPresenceInputs.get(5).isSelected()).toBeFalsy();
+    });
+  });
+
+  it('should display users based on the table Presence filter', function() {
+    // Add Presence Column
+    shared.tableColumnsDropDown.click();
+    shared.tableColumnsDropDownInputs.get(6).isSelected().then(function(presenceSelected) {
+      if (!presenceSelected) {
+        shared.tableColumnsDropDownOptions.get(6).click();
+        expect(shared.tableColumnsDropDownInputs.get(6).isSelected()).toBeTruthy();
+      }
+    }).then(function() {
+      shared.tableColumnsDropDown.click();
+      users.presenceTableDropDownLabel.click();
+
+      // Select Busy from drop down
+      users.dropdownPresence.get(0).click().then(function() {
         // All input is unselected
         expect(users.dropdownPresenceInputs.get(0).isSelected()).toBeFalsy();
-        // Busy and Offline inputs are selected
+        // Busy input is selected
         expect(users.dropdownPresenceInputs.get(1).isSelected()).toBeTruthy();
-        expect(users.dropdownPresenceInputs.get(5).isSelected()).toBeTruthy();
 
         users.presenceTableDropDownLabel.click().then(function() {
           shared.tableElements.then(function(rows) {
-            for (var i = 0; i < rows.length; ++i) {
-              expect(['Busy', 'Offline']).toContain(rows[i].element(by.css(users.presenceColumn)).getText());
+            for (var i = 0; i < rows.length && i < 5; ++i) {
+              expect(rows[i].getText()).toContain('Busy');
             };
           });
         });
-      });
-    }).thenFinally(function() {
-      users.presenceTableDropDownLabel.click();
+      }).thenFinally(function() {
+        users.presenceTableDropDownLabel.click();
 
-      // Select All from drop down
-      users.allUserPresence.click().then(function() {
+        // Select All from drop down
+        users.allUserPresence.click().then(function() {
 
-        // All input is selected
-        expect(users.dropdownPresenceInputs.get(0).isSelected()).toBeTruthy();
+          // All input is selected
+          expect(users.dropdownPresenceInputs.get(0).isSelected()).toBeTruthy();
 
-        // Busy and Offline inputs are unselected
-        expect(users.dropdownPresenceInputs.get(1).isSelected()).toBeFalsy();
-        expect(users.dropdownPresenceInputs.get(5).isSelected()).toBeFalsy();
+          // Busy and Offline inputs are unselected
+          expect(users.dropdownPresenceInputs.get(1).isSelected()).toBeFalsy();
+          expect(users.dropdownPresenceInputs.get(5).isSelected()).toBeFalsy();
 
-        users.presenceTableDropDownLabel.click().then(function() {
-          expect(shared.tableElements.count()).toBe(userCount)
+          users.presenceTableDropDownLabel.click().then(function() {
+            expect(shared.tableElements.count()).toBe(userCount)
+          });
         });
       });
     });
   });
 
   it('should display all of the Tenant Status options', function() {
-    users.tenantStatusTableDropDownLabel.click();
+    // Add Tenant Status Column
+    shared.tableColumnsDropDown.click();
+    shared.tableColumnsDropDownInputs.get(8).isSelected().then(function(tenantStatusSelected) {
+      if (!tenantStatusSelected) {
+        shared.tableColumnsDropDownOptions.get(8).click();
+        expect(shared.tableColumnsDropDownInputs.get(8).isSelected()).toBeTruthy();
+      }
+    }).then(function() {
+      shared.tableColumnsDropDown.click();
 
-    // All tenantStatus listed
-    expect(users.dropdownTenantStatuses.get(0).getText()).toBe('Disabled');
-    expect(users.dropdownTenantStatuses.get(1).getText()).toBe('Expired Invitation');
-    expect(users.dropdownTenantStatuses.get(2).getText()).toBe('Pending Invitation');
-    expect(users.dropdownTenantStatuses.get(3).getText()).toBe('Accepted');
-    expect(users.dropdownTenantStatuses.get(4).getText()).toBe('Pending Acceptance');
-    expect(users.dropdownTenantStatuses.get(5).getText()).toBe('Removed');
+      users.tenantStatusTableDropDownLabel.click();
 
-    // All input is selected by default
-    expect(users.dropdownTenantStatusInputs.get(0).isSelected()).toBeTruthy();
-    // Remaining inputs are unselected by default
-    expect(users.dropdownTenantStatusInputs.get(1).isSelected()).toBeFalsy();
-    expect(users.dropdownTenantStatusInputs.get(2).isSelected()).toBeFalsy();
-    expect(users.dropdownTenantStatusInputs.get(3).isSelected()).toBeFalsy();
-    expect(users.dropdownTenantStatusInputs.get(4).isSelected()).toBeFalsy();
-    expect(users.dropdownTenantStatusInputs.get(5).isSelected()).toBeFalsy();
-    expect(users.dropdownTenantStatusInputs.get(6).isSelected()).toBeFalsy();
+      // All tenantStatus listed
+      expect(users.dropdownTenantStatuses.get(0).getText()).toBe('Disabled');
+      expect(users.dropdownTenantStatuses.get(1).getText()).toBe('Expired Invitation');
+      expect(users.dropdownTenantStatuses.get(2).getText()).toBe('Pending Invitation');
+      expect(users.dropdownTenantStatuses.get(3).getText()).toBe('Accepted');
+      expect(users.dropdownTenantStatuses.get(4).getText()).toBe('Pending Acceptance');
+
+      // All input is selected by default
+      expect(users.dropdownTenantStatusInputs.get(0).isSelected()).toBeTruthy();
+      // Remaining inputs are unselected by default
+      expect(users.dropdownTenantStatusInputs.get(1).isSelected()).toBeFalsy();
+      expect(users.dropdownTenantStatusInputs.get(2).isSelected()).toBeFalsy();
+      expect(users.dropdownTenantStatusInputs.get(3).isSelected()).toBeFalsy();
+      expect(users.dropdownTenantStatusInputs.get(4).isSelected()).toBeFalsy();
+      expect(users.dropdownTenantStatusInputs.get(5).isSelected()).toBeFalsy();
+    });
   });
 
   it('should display users based on the table Tenant Status filter', function() {
-    users.tenantStatusTableDropDownLabel.click();
-
-    // Select Busy from drop down
-    users.dropdownTenantStatuses.get(0).click().then(function() {
-      // All input is unselected
-      expect(users.dropdownTenantStatusInputs.get(0).isSelected()).toBeFalsy();
-      // Disabled input is selected
-      expect(users.dropdownTenantStatusInputs.get(1).isSelected()).toBeTruthy();
-
-      users.tenantStatusTableDropDownLabel.click().then(function() {
-        shared.tableElements.then(function(rows) {
-          for (var i = 0; i < rows.length; ++i) {
-            expect(rows[i].getText()).toContain('Busy');
-          };
-        });
-      });
+    // Add Tenant Status Column
+    shared.tableColumnsDropDown.click();
+    shared.tableColumnsDropDownInputs.get(8).isSelected().then(function(tenantStatusSelected) {
+      if (!tenantStatusSelected) {
+        shared.tableColumnsDropDownOptions.get(8).click();
+        expect(shared.tableColumnsDropDownInputs.get(8).isSelected()).toBeTruthy();
+      }
     }).then(function() {
+      shared.tableColumnsDropDown.click();
       users.tenantStatusTableDropDownLabel.click();
 
-      // Select Pending Acceptance from drop down
-      users.dropdownTenantStatuses.get(4).click().then(function() {
-
+      // Select Disabled from drop down
+      users.dropdownTenantStatuses.get(0).click().then(function() {
         // All input is unselected
         expect(users.dropdownTenantStatusInputs.get(0).isSelected()).toBeFalsy();
-        // Disabled and Pending Acceptance inputs are selected
+        // Disabled input is selected
         expect(users.dropdownTenantStatusInputs.get(1).isSelected()).toBeTruthy();
-        expect(users.dropdownTenantStatusInputs.get(5).isSelected()).toBeTruthy();
 
         users.tenantStatusTableDropDownLabel.click().then(function() {
           shared.tableElements.then(function(rows) {
-            for (var i = 0; i < rows.length; ++i) {
-              expect(['Pending', 'Disabled']).toContain(rows[i].element(by.css(users.tenantStatusColumn)).getText());
+            for (var i = 0; i < rows.length && i < 5; ++i) {
+              expect(rows[i].getText()).toContain('Disabled');
             };
           });
         });
-      });
-    }).thenFinally(function() {
-      users.tenantStatusTableDropDownLabel.click();
+      }).then(function() {
+        users.tenantStatusTableDropDownLabel.click();
 
-      // Select All from drop down
-      users.allUserTenantStatus.click().then(function() {
+        // Select Pending Acceptance from drop down
+        users.dropdownTenantStatuses.get(4).click().then(function() {
 
-        // All input is selected
-        expect(users.dropdownTenantStatusInputs.get(0).isSelected()).toBeTruthy();
+          // All input is unselected
+          expect(users.dropdownTenantStatusInputs.get(0).isSelected()).toBeFalsy();
+          // Disabled and Pending Acceptance inputs are selected
+          expect(users.dropdownTenantStatusInputs.get(1).isSelected()).toBeTruthy();
+          expect(users.dropdownTenantStatusInputs.get(5).isSelected()).toBeTruthy();
 
-        // Disabled and Pending Acceptance inputs are unselected
-        expect(users.dropdownTenantStatusInputs.get(1).isSelected()).toBeFalsy();
-        expect(users.dropdownTenantStatusInputs.get(5).isSelected()).toBeFalsy();
-
-        users.tenantStatusTableDropDownLabel.click().then(function() {
-          expect(shared.tableElements.count()).toBe(userCount)
+          users.tenantStatusTableDropDownLabel.click().then(function() {
+            shared.tableElements.then(function(rows) {
+              for (var i = 0; i < rows.length && i < 5; ++i) {
+                expect(['Pending Acceptance', 'Disabled']).toContain(rows[i].element(by.css(users.tenantStatusColumn)).getText());
+              };
+            });
+          });
         });
       });
     });
   });
-
 });

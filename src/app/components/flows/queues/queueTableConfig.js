@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('queueTableConfig', ['statuses', '$translate', 'UserPermissions', function (statuses, $translate, UserPermissions) {
+  .service('queueTableConfig', ['statuses', '$translate', 'UserPermissions', 'helpDocsHostname', function (statuses, $translate, UserPermissions, helpDocsHostname) {
       return {
         'fields': [{
           'header': {
@@ -36,7 +36,8 @@ angular.module('liveopsConfigPanel')
         'orderBy' : '$original.name',
         'title' : $translate.instant('queue.table.title'),
         'showBulkActions': UserPermissions.hasPermission('MANAGE_ALL_QUEUES'),
-        'showCreate': UserPermissions.hasPermission('MANAGE_ALL_QUEUES')
+        'showCreate': UserPermissions.hasPermission('MANAGE_ALL_QUEUES'),
+        'helpLink' : helpDocsHostname + '/Content/Managing%20Flows/Adding_queues.htm'
       };
     }
   ]);

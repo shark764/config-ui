@@ -8,9 +8,9 @@ exports.config = {
   sauceKey: process.env.SAUCE_ACCESS_KEY,
 
   capabilities: {
-    'platform': 'Windows 8',
+    'platform': 'Windows 8.1',
     'browserName': 'chrome',
-    'version': '43',
+    'version': '45',
     'screenResolution': '1280x1024',
     'tunnelIdentifier': process.env.SAUCE_TUNNEL,
     // Test Identifiers - For easier grouping and reference in Sauce Labs
@@ -23,7 +23,7 @@ exports.config = {
 
   // Timeout time in milliseconds; prevents Protractor waiting to synchronize timeouts
   // Defaults to 11 seconds
-  allScriptsTimeout: 60000,
+  allScriptsTimeout: 100000,
 
   // This can be changed via the command line as:
   // --params.login.user 'ngrocks'

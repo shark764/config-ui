@@ -9,14 +9,16 @@ describe('Versions directive controller', function () {
     FlowVersion,
     Session,
     mockFlows,
-    mockFlowVersions;
+    mockFlowVersions,
+    apiHostname;
 
   beforeEach(module('gulpAngular'));
   beforeEach(module('liveopsConfigPanel'));
+  beforeEach(module('liveopsConfigPanel.mock.content'));
   beforeEach(module('liveopsConfigPanel.mock.content.flows'));
   beforeEach(module('liveopsConfigPanel.mock.content.flows.versions'));
   beforeEach(inject(['$rootScope', '$controller', '$injector', 'FlowVersion', 'apiHostname', 'mockFlows', 'mockFlowVersions', 'Session',
-    function ($rootScope, _$controller_, $injector, _FlowVersion_, apiHostname, _mockFlows, _mockFlowVersions, _Session) {
+    function ($rootScope, _$controller_, $injector, _FlowVersion_, _apiHostname, _mockFlows, _mockFlowVersions, _Session) {
       $scope = $rootScope.$new();
       $controller = _$controller_;
       $httpBackend = $injector.get('$httpBackend');
@@ -24,6 +26,7 @@ describe('Versions directive controller', function () {
       mockFlowVersions = _mockFlowVersions;
       FlowVersion = _FlowVersion_;
       Session = _Session;
+      apiHostname = _apiHostname;
 
       $scope.flow = mockFlows[0];
 
@@ -35,8 +38,6 @@ describe('Versions directive controller', function () {
       $controller('FlowVersionsController', {
         '$scope': $scope
       });
-
-      $httpBackend.flush();
     }
   ]));
 
@@ -47,7 +48,7 @@ describe('Versions directive controller', function () {
     });
 
     it('should query for flow versions', function () {
-      $httpBackend.expectGET('fakendpoint.com/v1/tenants/tenant-id/flows/flowId1/versions');
+      $httpBackend.expectGET(apiHostname + '/v1/tenants/tenant-id/flows/flowId1/versions');
       $scope.getVersions();
       $httpBackend.flush();
     });
@@ -67,7 +68,12 @@ describe('Versions directive controller', function () {
     });
 
     it('should save the version', function () {
-      $httpBackend.expectPOST('fakendpoint.com/v1/tenants/tenant-id/flows/flowId1/versions').respond(201, {
+      $scope.version = new FlowVersion({
+        tenantId: 'tenant-id',
+        flowId: 'flowId1'
+      });
+      
+      $httpBackend.expectPOST(apiHostname + '/v1/tenants/tenant-id/flows/flowId1/versions').respond(201, {
         'result': mockFlowVersions[0]
       });
       $scope.saveVersion();
@@ -75,7 +81,12 @@ describe('Versions directive controller', function () {
     });
     
     it('should reset the controller after creating', function () {
-      $httpBackend.expectPOST('fakendpoint.com/v1/tenants/tenant-id/flows/flowId1/versions').respond(201, {
+      $scope.version = new FlowVersion({
+        tenantId: 'tenant-id',
+        flowId: 'flowId1'
+      });
+      
+      $httpBackend.expectPOST(apiHostname + '/v1/tenants/tenant-id/flows/flowId1/versions').respond(201, {
         'result': mockFlowVersions[0]
       });
       
@@ -95,11 +106,11 @@ describe('Versions directive controller', function () {
     beforeEach(function () {
       $scope.createVersion();
 
-      $httpBackend.when('POST', 'fakendpoint.com/v1/tenants/tenant-id/flows/flowId1/versions').respond(201, {
+      $httpBackend.when('POST', apiHostname + '/v1/tenants/tenant-id/flows/flowId1/versions').respond(201, {
         'result': mockFlowVersions[0]
       });
       
-      $httpBackend.when('GET', 'fakendpoint.com/v1/tenants/tenant-id/flows/flowId1/versions').respond(200, {
+      $httpBackend.when('GET', apiHostname + '/v1/tenants/tenant-id/flows/flowId1/versions').respond(200, {
         'result': [mockFlowVersions[0], mockFlowVersions[1]]
       });
     });
@@ -111,11 +122,11 @@ describe('Versions directive controller', function () {
     });
 
     it('should clean listener when switching flow id', function () {
-      $httpBackend.when('GET', 'fakendpoint.com/v1/tenants/tenant-id/flows/flowId1/versions').respond({
+      $httpBackend.when('GET', apiHostname + '/v1/tenants/tenant-id/flows/flowId1/versions').respond({
         'result': []
       });
 
-      spyOn($scope, 'cleanHandler');
+      $scope.cleanHandler = jasmine.createSpy('cleanHandler');
       var cleanHandler = $scope.cleanHandler;
 
       $scope.flow = {

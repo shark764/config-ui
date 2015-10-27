@@ -15,6 +15,12 @@ var NewQueueVersion = function() {
   // Query Fields
   this.newQueueQuerySection = this.newQueueVersionPanel.element(by.id('selected-queue-version-section'));
 
+  this.addFilterSection = this.newQueueQuerySection.element(by.id('add-query-filter'));
+  this.addFilterDropdown = this.addFilterSection.element(by.id('select-filter-dropdown'));
+  this.groupFilterDropdownOption = this.addFilterDropdown.all(by.css('[value=groupcomponent]'));
+  this.skillFilterDropdownOption = this.addFilterDropdown.all(by.css('[value=skillcomponent]'));
+  this.addFilterBtn = this.addFilterSection.element(by.id('add-filter-btn'));
+
   this.basicQueryDetails = this.newQueueVersionPanel.element(by.id('version-basic-query-details'));
   this.basicQueryDetailsAll = this.newQueueVersionPanel.all(by.repeater('operand in operands'));
 

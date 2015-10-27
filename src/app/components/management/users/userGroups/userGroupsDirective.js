@@ -58,12 +58,12 @@ angular.module('liveopsConfigPanel')
 
           $scope.saveUserGroup = function (selectedGroup) {
             $scope.newGroupUser.groupId = selectedGroup.id;
-
+            
             $scope.newGroupUser.$save(function (data) {
               var newUserGroup = new TenantUserGroups(data);
               newUserGroup.groupName = selectedGroup.name;
 
-              $scope.user.groups.push({
+              $scope.user.$groups.push({
                 id: newUserGroup.groupId,
                 name: newUserGroup.groupName
               });
@@ -77,11 +77,13 @@ angular.module('liveopsConfigPanel')
               $timeout(function () { //Timeout prevents simultaneous $digest cycles
                 $scope.updateCollapseState(tagWrapper.height());
               }, 200);
-
+              
               $scope.reset();
             }, function () {
               Alert.error('Failed to save user group');
               $scope.saving = false;
+            }).then(function() {
+              Alert.success('User group added!');
             });
           };
 
@@ -93,10 +95,10 @@ angular.module('liveopsConfigPanel')
             });
 
             tgu.$delete(function (tenantGroupUser) {
-              for(var groupIndex in $scope.user.groups) {
-                var group = $scope.user.groups[groupIndex];
+              for(var groupIndex in $scope.user.$groups) {
+                var group = $scope.user.$groups[groupIndex];
                 if(group.id === tenantGroupUser.groupId) {
-                  $scope.user.groups.removeItem(group);
+                  $scope.user.$groups.removeItem(group);
                   break;
                 }
               }
@@ -109,6 +111,8 @@ angular.module('liveopsConfigPanel')
               //TODO: remove once groups api returns members list
               //Reset cache of users for this group
               queryCache.remove('groups/' + tgu.groupId + '/users');
+            }).then(function() {
+              Alert.success('User group removed!');
             });
           };
 
