@@ -75,17 +75,4 @@ describe('groups controller', function () {
       expect(mockGroups[0].members.length).toBe(3);
     }]));
   });
-  
-  describe('gotoUserPage function', function () {
-    it('should be defined', inject(function () {
-      expect($scope.gotoUserPage).toBeDefined();
-      expect($scope.gotoUserPage).toEqual(jasmine.any(Function));
-    }));
-    
-    it('should call $state transition to with the users page and given userId', inject(['$state', function ($state) {
-      spyOn($state, 'transitionTo');
-      $scope.gotoUserPage('1234');
-      expect($state.transitionTo).toHaveBeenCalledWith('content.management.users', {id: '1234'});
-    }]));
-  });
 });
