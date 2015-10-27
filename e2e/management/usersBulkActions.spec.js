@@ -142,6 +142,7 @@ describe('The users view bulk actions', function() {
             expect(bulkActions.confirmModal.isDisplayed()).toBeTruthy();
             bulkActions.confirmOK.click().then(function() {
 
+              // TODO TITAN2-4416
               shared.waitForAlert();
               shared.dismissChanges();
 
@@ -295,7 +296,8 @@ describe('The users view bulk actions', function() {
     });
   });
 
-  it('should allow selected user\'s skills to be removed', function() {
+  xit('should allow selected user\'s skills to be removed', function() {
+    // TODO TITAN2-4801 Skill list is empty when both users have a skill
     // NOTE depends on previous test: users must have the same skill added
     shared.actionsBtn.click();
 
@@ -381,7 +383,8 @@ describe('The users view bulk actions', function() {
     });
   });
 
-  it('should allow multiple skills to be removed for the selected users', function() {
+  xit('should allow multiple skills to be removed for the selected users', function() {
+    // TODO TITAN2-4801 Skill list is empty when both users have a skill
     shared.actionsBtn.click();
 
     // Select first two users; ASSUMPTION two exist
@@ -391,6 +394,7 @@ describe('The users view bulk actions', function() {
     bulkActions.selectChangeSkills.click();
 
     // Remove all Skills
+    bulkActions.addSkillDropdownFields.get(0).all(by.css('option')).get(3).click();
     bulkActions.selectSkillsInputFields.get(0).click();
     bulkActions.selectSkillsInputFields.get(0).all(by.css('option')).count().then(function(skillCount) {
       bulkActions.removeSkillBtns.get(0).click();
@@ -423,7 +427,8 @@ describe('The users view bulk actions', function() {
     });
   });
 
-  it('should not add a new skill when updating', function() {
+  xit('should not add a new skill when updating', function() {
+    // TODO TITAN2-4801 Skill list is empty when both users have a skill
     // Create new skill to ensure the skill isn't already added to a user
     browser.get(shared.skillsPageUrl);
     var randomSkill = Math.floor((Math.random() * 1000) + 1);
@@ -455,7 +460,8 @@ describe('The users view bulk actions', function() {
     });
   });
 
-  it('should update proficiency when updating a skill for existing users with the skill', function() {
+  xit('should update proficiency when updating a skill for existing users with the skill', function() {
+    // TODO TITAN2-4801 Skill list is empty when both users have a skill
     // Create new skill to ensure the skill isn't already added to a user
     browser.get(shared.skillsPageUrl);
     var randomSkill = Math.floor((Math.random() * 1000) + 1);
@@ -684,6 +690,7 @@ describe('The users view bulk actions', function() {
     bulkActions.selectChangeGroups.click();
 
     // Remove all Groups
+    bulkActions.addGroupDropdownFields.get(0).all(by.css('option')).get(1).click();
     bulkActions.selectGroupsInputFields.get(0).click();
     bulkActions.selectGroupsInputFields.get(0).all(by.css('option')).count().then(function(groupCount) {
       bulkActions.removeGroupBtns.get(0).click();
@@ -715,7 +722,7 @@ describe('The users view bulk actions', function() {
     });
   });
 
-  it('should show message when all Groups or Skills have been removed', function() {
+  it('should show message when all Bulk Update options for Groups or Skills have been removed', function() {
     shared.actionsBtn.click();
 
     // Enable Skills and Groups bulk actions
