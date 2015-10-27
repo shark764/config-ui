@@ -142,10 +142,6 @@ describe('The users view bulk actions', function() {
             expect(bulkActions.confirmModal.isDisplayed()).toBeTruthy();
             bulkActions.confirmOK.click().then(function() {
 
-              // TODO TITAN2-4416
-              shared.waitForAlert();
-              shared.dismissChanges();
-
               shared.waitForSuccess();
               expect(shared.successMessage.isDisplayed()).toBeTruthy();
 
@@ -212,9 +208,6 @@ describe('The users view bulk actions', function() {
               expect(bulkActions.confirmModal.isDisplayed()).toBeTruthy();
               bulkActions.confirmOK.click().then(function() {
 
-                shared.waitForAlert();
-                shared.dismissChanges();
-
                 shared.waitForSuccess();
                 expect(shared.successMessage.isDisplayed()).toBeTruthy();
 
@@ -232,6 +225,9 @@ describe('The users view bulk actions', function() {
                 bulkActions.tenantStatusColumnDropDownLabel.click();
                 shared.tableElements.count().then(function(enabledTotal) {
                   expect(enabledTotal).not.toBeLessThan(disabledUserCount); // Should be at least the number reset
+
+                  // TITAN2-4740 Number of selected users should be 0
+                  expect(bulkActions.selectItemTableCells.all(by.css('input:checked')).count()).toBe(0);
                 });
               });
             });
