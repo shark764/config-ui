@@ -41,7 +41,7 @@ angular.module('liveopsConfigPanel')
           scope.showDrop = false;
           scope.hovering = false;
           
-          if (angular.isDefined(func)){
+          if (angular.isFunction(func)){
             func();
           }
         };
