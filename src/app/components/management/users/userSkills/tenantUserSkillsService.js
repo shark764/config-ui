@@ -1,11 +1,11 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .factory('TenantUserSkill', ['LiveopsResourceFactory', 'emitInterceptor', 'cacheAddInterceptor', 'userSkillCacheRemoveInterceptor', 'setSkillNameInterceptor', 'removeDefaultProficiencyInterceptor',
-    function (LiveopsResourceFactory, emitInterceptor, cacheAddInterceptor, userSkillCacheRemoveInterceptor, setSkillNameInterceptor, removeDefaultProficiencyInterceptor) {
+  .factory('TenantUserSkill', ['LiveopsResourceFactory', 'apiHostname', 'emitInterceptor', 'cacheAddInterceptor', 'userSkillCacheRemoveInterceptor', 'setSkillNameInterceptor', 'removeDefaultProficiencyInterceptor',
+    function (LiveopsResourceFactory, apiHostname, emitInterceptor, cacheAddInterceptor, userSkillCacheRemoveInterceptor, setSkillNameInterceptor, removeDefaultProficiencyInterceptor) {
 
       var TenantUserSkill =  LiveopsResourceFactory.create({
-        endpoint: '/v1/tenants/:tenantId/users/:userId/skills/:skillId',
+        endpoint: apiHostname + '/v1/tenants/:tenantId/users/:userId/skills/:skillId',
         resourceName: 'TenantUserSkill',
         updateFields: [{
           name: 'proficiency'

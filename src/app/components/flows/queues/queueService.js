@@ -1,11 +1,11 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .factory('Queue', ['LiveopsResourceFactory', 'emitInterceptor', 'cacheAddInterceptor',
-    function (LiveopsResourceFactory, emitInterceptor, cacheAddInterceptor) {
+  .factory('Queue', ['LiveopsResourceFactory', 'apiHostname', 'emitInterceptor', 'cacheAddInterceptor',
+    function (LiveopsResourceFactory, apiHostname, emitInterceptor, cacheAddInterceptor) {
 
       var Queue = LiveopsResourceFactory.create({
-        endpoint: '/v1/tenants/:tenantId/queues/:id',
+        endpoint: apiHostname + '/v1/tenants/:tenantId/queues/:id',
         resourceName: 'Queue',
         updateFields: [{
           name: 'name'

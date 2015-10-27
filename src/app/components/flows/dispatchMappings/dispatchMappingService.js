@@ -1,11 +1,11 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .factory('DispatchMapping', ['LiveopsResourceFactory', 'emitInterceptor', 'cacheAddInterceptor',
-    function (LiveopsResourceFactory, emitInterceptor, cacheAddInterceptor) {
+  .factory('DispatchMapping', ['LiveopsResourceFactory', 'apiHostname', 'emitInterceptor', 'cacheAddInterceptor',
+    function (LiveopsResourceFactory, apiHostname, emitInterceptor, cacheAddInterceptor) {
 
       var DispatchMapping = LiveopsResourceFactory.create({
-        endpoint: '/v1/tenants/:tenantId/dispatch-mappings/:id',
+        endpoint: apiHostname + '/v1/tenants/:tenantId/dispatch-mappings/:id',
         resourceName: 'DispatchMapping',
         updateFields: [{
           name: 'name'

@@ -1,10 +1,10 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .factory('TenantRole', ['LiveopsResourceFactory', 'Session', 'cacheAddInterceptor', 'emitInterceptor',
-    function(LiveopsResourceFactory, Session, cacheAddInterceptor, emitInterceptor) {
+  .factory('TenantRole', ['LiveopsResourceFactory', 'apiHostname', 'Session', 'cacheAddInterceptor', 'emitInterceptor',
+    function(LiveopsResourceFactory, apiHostname, Session, cacheAddInterceptor, emitInterceptor) {
       var TenantRole = LiveopsResourceFactory.create({
-        endpoint: '/v1/tenants/:tenantId/roles/:id',
+        endpoint: apiHostname + '/v1/tenants/:tenantId/roles/:id',
         resourceName: 'TenantRole',
         updateFields: [{
           name: 'name'

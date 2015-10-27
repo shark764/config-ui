@@ -1,11 +1,11 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .factory('Group', ['LiveopsResourceFactory', 'cacheAddInterceptor', 'emitInterceptor',
-    function (LiveopsResourceFactory, cacheAddInterceptor, emitInterceptor) {
+  .factory('Group', ['LiveopsResourceFactory', 'apiHostname', 'cacheAddInterceptor', 'emitInterceptor',
+    function (LiveopsResourceFactory, apiHostname, cacheAddInterceptor, emitInterceptor) {
 
       var Group = LiveopsResourceFactory.create({
-        endpoint: '/v1/tenants/:tenantId/groups/:id',
+        endpoint: apiHostname + '/v1/tenants/:tenantId/groups/:id',
         resourceName: 'Group',
         updateFields: [{
           name: 'name'

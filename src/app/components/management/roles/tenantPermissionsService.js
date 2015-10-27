@@ -1,10 +1,10 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .factory('TenantPermission', ['LiveopsResourceFactory',
-    function(LiveopsResourceFactory) {
+  .factory('TenantPermission', ['LiveopsResourceFactory', 'apiHostname',
+    function(LiveopsResourceFactory, apiHostname) {
       var TenantPermission = LiveopsResourceFactory.create({
-        endpoint: '/v1/tenants/:tenantId/permissions/:id',
+        endpoint: apiHostname + '/v1/tenants/:tenantId/permissions/:id',
         resourceName: 'TenantPermission',
         updateFields: []
       });

@@ -1,10 +1,10 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .factory('Skill', ['LiveopsResourceFactory', 'cacheAddInterceptor', 'emitInterceptor',
-    function (LiveopsResourceFactory, cacheAddInterceptor, emitInterceptor) {
+  .factory('Skill', ['LiveopsResourceFactory', 'apiHostname', 'cacheAddInterceptor', 'emitInterceptor',
+    function (LiveopsResourceFactory, apiHostname, cacheAddInterceptor, emitInterceptor) {
       var Skill = LiveopsResourceFactory.create({
-        endpoint: '/v1/tenants/:tenantId/skills/:id',
+        endpoint: apiHostname + '/v1/tenants/:tenantId/skills/:id',
         resourceName: 'Skill',
         updateFields: [{
           name: 'name'

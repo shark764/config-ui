@@ -1,11 +1,11 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .factory('Region', ['LiveopsResourceFactory',
-    function (LiveopsResourceFactory) {
+  .factory('Region', ['LiveopsResourceFactory', 'apiHostname',
+    function (LiveopsResourceFactory, apiHostname) {
 
       return LiveopsResourceFactory.create({
-        endpoint: '/v1/regions/:id',
+        endpoint: apiHostname + '/v1/regions/:id',
         resourceName: 'Region'
       });
     }

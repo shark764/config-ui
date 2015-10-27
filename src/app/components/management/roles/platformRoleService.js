@@ -1,10 +1,10 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .factory('PlatformRole', ['LiveopsResourceFactory',
-    function(LiveopsResourceFactory) {
+  .factory('PlatformRole', ['LiveopsResourceFactory', 'apiHostname',
+    function(LiveopsResourceFactory, apiHostname) {
       var PlatformRole = LiveopsResourceFactory.create({
-        endpoint: '/v1/roles:id',
+        endpoint: apiHostname + '/v1/roles:id',
         resourceName: 'PlatformRole',
         updateFields: [{
           name: 'name'

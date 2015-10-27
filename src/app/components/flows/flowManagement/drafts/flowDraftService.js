@@ -1,10 +1,10 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .factory('FlowDraft', ['LiveopsResourceFactory', 'emitInterceptor', '$http', 'apiHostname',
-    function (LiveopsResourceFactory, emitInterceptor, $http, apiHostname) {
+  .factory('FlowDraft', ['LiveopsResourceFactory', 'apiHostname', 'emitInterceptor', '$http',
+    function (LiveopsResourceFactory, apiHostname, emitInterceptor, $http) {
 
-      var endpoint = '/v1/tenants/:tenantId/flows/:flowId/drafts/:id';
+      var endpoint = apiHostname + '/v1/tenants/:tenantId/flows/:flowId/drafts/:id';
 
       var FlowDraft = LiveopsResourceFactory.create({
         endpoint: endpoint,

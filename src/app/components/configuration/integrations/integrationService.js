@@ -1,11 +1,11 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .factory('Integration', ['LiveopsResourceFactory', 'emitInterceptor',
-    function (LiveopsResourceFactory, emitInterceptor) {
+  .factory('Integration', ['LiveopsResourceFactory', 'apiHostname', 'emitInterceptor',
+    function (LiveopsResourceFactory, apiHostname, emitInterceptor) {
 
       var Integration = LiveopsResourceFactory.create({
-        endpoint: '/v1/tenants/:tenantId/integrations/:id',
+        endpoint: apiHostname + '/v1/tenants/:tenantId/integrations/:id',
         resourceName: 'Integration',
         updateFields: [{
           name: 'properties'

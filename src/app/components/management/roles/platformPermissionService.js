@@ -1,10 +1,10 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .factory('PlatformPermission', ['LiveopsResourceFactory',
-    function(LiveopsResourceFactory) {
+  .factory('PlatformPermission', ['LiveopsResourceFactory', 'apiHostname',
+    function(LiveopsResourceFactory, apiHostname) {
       var PlatformPermission = LiveopsResourceFactory.create({
-        endpoint: '/v1/permissions/:id',
+        endpoint: apiHostname + '/v1/permissions/:id',
         resourceName: 'PlatformPermission',
         updateFields: []
       });
