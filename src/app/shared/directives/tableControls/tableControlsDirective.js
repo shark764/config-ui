@@ -120,7 +120,14 @@ angular.module('liveopsConfigPanel')
               $scope.selectItem(null);
               return;
             }
-
+            
+            //Uncheck rows that have been filtered out
+            angular.forEach($scope.items, function (item) {
+              if (item.checked && $scope.filtered.indexOf(item) < 0) {
+                item.checked = false;
+              }
+            });
+            
             if ($scope.filtered.length === 0) {
               $rootScope.$broadcast('resource:create');
               return;
@@ -140,13 +147,6 @@ angular.module('liveopsConfigPanel')
             if (!selectedIsVisible) {
               $scope.selectItem(null);
             }
-
-            //Uncheck rows that have been filtered out
-            angular.forEach($scope.items, function (item) {
-              if (item.checked && $scope.filtered.indexOf(item) < 0) {
-                item.checked = false;
-              }
-            });
           });
 
           $scope.sortTable = function (field) {
