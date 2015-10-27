@@ -4,11 +4,11 @@
   items="fetchFlows()"
   selected="selectedFlow"
   resource-name="Flow">
-  
+
   <span name="activeVersion">
     {{item.activeFlow.name}}
   </span>
-  
+
   <span name="active">
     <span ng-if="item.active">{{'value.enabled' | translate}}</span>
     <span ng-if="!item.active" class="disabled">{{'value.disabled' | translate}}</span>
@@ -52,7 +52,7 @@
 
         <input
           id="submit-details-btn"
-          lo-submit="submit()"
+          lo-submit="saveFlow()"
           lo-submit-spinner
           lo-submit-spinner-status="selectedFlow.$busy"
           ng-disabled="forms.detailsForm.$pending || forms.detailsForm.$invalid || ! forms.detailsForm.$dirty"
