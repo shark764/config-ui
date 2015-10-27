@@ -41,25 +41,22 @@
         _.each(_.groupBy(FlowLibrary.listActivities(), 'entity'), function(notations, entity) {
           palette.load(
             _.map(notations, function(notation) {
-              var n = new joint.shapes.liveOps[entity]({
-                content: notation.label,
-                activityType: notation.type,
-                type: 'liveOps.activity',
-                name: notation.name,
-                targeted: notation.targeted,
-                target: notation.target,
-                params: _.reduce(notation.params, function(memo, value) {
-                  if (_.has(value, 'default')) {
-                    memo[value.key] = value.default;
-                  }
-                  else {
-                    memo[value.key] = null;
-                  }
-                  return memo;
-                }, {})
-              });
-              n.attributes.inputs = n.attributes.inputs.concat(notation.inputs);
-              return n;
+              var n = FlowLibrary.convertToJoint([
+                {
+                  entity: 'activity',
+                  type: notation.type || 'task',
+                  flow: {
+                    id: notation.flow
+                  },
+                  name: notation.name,
+                  version: {
+                    id: notation.version
+                  },
+                  id: joint.util.uuid(),
+                  position: {x:0, y:0}
+                }
+              ]);
+              return n.cells[0];
             }
           ), entity);
         });
