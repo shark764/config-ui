@@ -49,7 +49,7 @@ angular.module('liveopsConfigPanel')
       
       $scope.$watch('selectedTenant', function(newVal){
         if (newVal){
-          $q.when(newVal).then(function(tenant){
+          newVal.$promise.then(function(tenant){
             tenant.region = Region.cachedGet({
               id: tenant.regionId
             });
