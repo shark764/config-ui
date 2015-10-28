@@ -38,15 +38,30 @@
     initialize: function() {
       joint.dia.Link.prototype.initialize.apply(this, arguments);
 
-      this.listenTo(this, 'change:source', this.onSourceChange);
+      this.listenTo(this, 'change:source', this.checkStatus);
+      this.listenTo(this, 'change:target', this.checkStatus);
 
+      this.listenTo(this, 'change:source', this.checkGateway);
       this.listenTo(this, 'change:linkType', this.onLinkTypeChange);
       this.onLinkTypeChange(this, this.get('linkType'));
+      this.checkStatus(this);
     },
 
-    onSourceChange: function(cell, source) {
-      if (!source || !source.id) {return;}
+    checkStatus: function(cell) {
+      var source = cell.get('source'),
+          target = cell.get('target');
 
+      if ((!source || !source.id) || (!target || !target.id)) {
+        this.turnRed(cell);
+        return;
+      }
+      else{
+        this.turnBlack(cell);
+      }
+    },
+
+    checkGateway: function(cell, source){
+      if(!source || !source.id){return;}
       joint.util.nextFrame(function() {
         if (!cell.collection) {return;}
         var _source = cell.collection.get(source);
@@ -59,6 +74,32 @@
 
         return cell.collection.get(source).get('type') === 'liveOps.event';
       });
+    },
+
+    turnRed: function(cell){
+      var attrs = {
+        '.marker-target': {
+          fill: '#ff0000',
+          stroke: '#ff0000'
+        },
+        '.connection': {
+          stroke: '#ff0000'
+        }
+      };
+      cell.attr(_.merge({}, this.defaults.attrs, attrs));
+    },
+
+    turnBlack: function(cell){
+      var attrs = {
+        '.marker-target': {
+          fill: '#000000',
+          stroke: '#000000'
+        },
+        '.connection': {
+          stroke: '#000000'
+        }
+      };
+      cell.attr(_.merge({}, this.defaults.attrs, attrs));
     },
 
     onLinkTypeChange: function(cell, type) {

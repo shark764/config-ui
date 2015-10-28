@@ -1,0 +1,39 @@
+<label ng-class="{'has-elements': operands.length}">
+  {{ labelKey | translate}}
+</label>
+<div class="instant-add">
+  <div>
+    <div>
+      <type-ahead hover="true"
+        placeholder="{{placeholderKey | translate}}"
+        items="fetchSkills()"
+        selected-item="typeaheadItem"
+        filters="filterSkills">
+      </type-ahead>
+    </div>
+    <div ng-if="selected.hasProficiency"
+      ng-init="selected.proficiencyOperator = 'gte'; selected.proficiency = 1;">
+      <select id="proficiency-operator-dropdown" ng-model="selected.proficiencyOperator" class="pull-left" style="width: 65%;">
+        <option value="gte">Proficiency at Least</option>
+        <option value="lte">Proficiency at Most</option>
+        <option value="equal">Proficiency Exactly</option>
+      </select>
+      <number-slider id="proficiency-value" value="selected.proficiency"
+        min-value="1" max-value="100" class="pull-left"
+        style="display:block;width: 35%;">
+      </number-slider>
+    </div>
+  </div>
+  <button class="add btn" type="button"
+    ng-disabled="! selected"
+    ng-click="add(selected)">
+
+    <i class="fa fa-plus"></i>
+  </button>
+</div>
+<div class="tag-wrapper clear">
+  <div ng-repeat="operand in operands" class="tag">
+    {{operand.display}}
+    <a ng-click="remove(operand)"><i class="fa fa-times"></i></a>
+  </div>
+</div>

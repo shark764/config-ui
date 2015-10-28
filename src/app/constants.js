@@ -1,6 +1,10 @@
 'use strict';
 
+/*global window: false */
+
 angular.module('liveopsConfigPanel.config', [])
+
+.constant('jsedn', window.jsedn)
 
 .constant('preferenceKey', 'LIVEOPS-PREFERENCE-KEY')
 
@@ -62,9 +66,6 @@ angular.module('liveopsConfigPanel.config', [])
     }, {
       'display': 'Pending Acceptance',
       'value': 'invited'
-    }, {
-      'display': 'Removed',
-      'value': 'removed'
     }];
   };
 })

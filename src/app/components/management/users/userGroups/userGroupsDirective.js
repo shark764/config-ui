@@ -31,78 +31,59 @@ angular.module('liveopsConfigPanel')
             });
           };
 
-          $scope.save = function () {
-            if ($scope.selectedGroup === null) {
+          $scope.save = function (selectedGroup) {
+            if (selectedGroup === null) {
               return;
             }
-
+            
             $scope.saving = true;
 
-            if (!$scope.selectedGroup.id) {
-              $scope.createGroup($scope.selectedGroup.name,
-                $scope.saveUserGroup,
-                function () {
-                  $scope.saving = false;
-                  Alert.error('Failed to create a new group');
-                }
-              );
+            if (angular.isString(selectedGroup)) {
+              new Group({
+                name: selectedGroup,
+                tenantId: Session.tenant.tenantId,
+                description: '',
+                active: true,
+                owner: Session.user.id
+              }).save(function(result){
+                $scope.saveUserGroup(result);
+              }, function () {
+                $scope.saving = false;
+                Alert.error('Failed to create a new group');
+              });
             } else {
-              $scope.filtered.removeItem($scope.selectedGroup);
-              $scope.saveUserGroup();
+              $scope.saveUserGroup(selectedGroup);
             }
           };
 
-          $scope.createGroup = function (groupName, onComplete, onError) {
-            new Group({
-              name: groupName,
-              tenantId: Session.tenant.tenantId,
-              description: '',
-              active: true,
-              owner: Session.user.id
-            }).save(function (result) {
-              $scope.selectedGroup = result;
-              if (typeof onComplete !== 'undefined' && onComplete !== null) {
-                onComplete();
-              }
-            }, function () {
-              if (typeof onError !== 'undefined' && onError !== null) {
-                onError();
-              }
-            });
-          };
-
-          $scope.saveUserGroup = function () {
-            $scope.newGroupUser.groupId = $scope.selectedGroup.id;
-
+          $scope.saveUserGroup = function (selectedGroup) {
+            $scope.newGroupUser.groupId = selectedGroup.id;
+            
             $scope.newGroupUser.$save(function (data) {
               var newUserGroup = new TenantUserGroups(data);
-              newUserGroup.groupName = $scope.selectedGroup.name;
+              newUserGroup.groupName = selectedGroup.name;
 
-              $scope.user.$original.groups.push({
-                id: newUserGroup.groupId,
-                name: newUserGroup.groupName
-              });
-              
-              $scope.user.groups.push({
+              $scope.user.$groups.push({
                 id: newUserGroup.groupId,
                 name: newUserGroup.groupName
               });
 
               $scope.userGroups.push(newUserGroup);
-              $scope.updateFiltered();
               
               //TODO: remove once groups api returns members list
               //Reset cache of users for this group
-              queryCache.remove('groups/' + $scope.selectedGroup.id + '/users');
+              queryCache.remove('groups/' + selectedGroup.id + '/users');
 
               $timeout(function () { //Timeout prevents simultaneous $digest cycles
                 $scope.updateCollapseState(tagWrapper.height());
               }, 200);
-
+              
               $scope.reset();
             }, function () {
               Alert.error('Failed to save user group');
               $scope.saving = false;
+            }).then(function() {
+              Alert.success('User group added!');
             });
           };
 
@@ -114,16 +95,15 @@ angular.module('liveopsConfigPanel')
             });
 
             tgu.$delete(function (tenantGroupUser) {
-              for(var groupIndex in $scope.user.groups) {
-                var group = $scope.user.groups[groupIndex];
+              for(var groupIndex in $scope.user.$groups) {
+                var group = $scope.user.$groups[groupIndex];
                 if(group.id === tenantGroupUser.groupId) {
-                  $scope.user.groups.removeItem(group);
+                  $scope.user.$groups.removeItem(group);
                   break;
                 }
               }
 
               $scope.userGroups.removeItem(userGroup);
-              $scope.updateFiltered();
               $timeout(function () {
                 $scope.updateCollapseState(tagWrapper.height());
               }, 200);
@@ -131,11 +111,9 @@ angular.module('liveopsConfigPanel')
               //TODO: remove once groups api returns members list
               //Reset cache of users for this group
               queryCache.remove('groups/' + tgu.groupId + '/users');
+            }).then(function() {
+              Alert.success('User group removed!');
             });
-          };
-
-          $scope.updateFiltered = function () {
-            $scope.filtered = $filter('objectNegation')($scope.fetchGroups(), 'id', $scope.userGroups, 'groupId');
           };
 
           $scope.fetch = function () {
@@ -149,8 +127,6 @@ angular.module('liveopsConfigPanel')
             }, $scope.reset);
 
             $q.all([$scope.fetchGroups().$promise, $scope.userGroups.$promise]).then(function () {
-
-              $scope.updateFiltered();
 
               $timeout(function () {
                 $scope.updateCollapseState(tagWrapper.height());
@@ -172,6 +148,14 @@ angular.module('liveopsConfigPanel')
             $scope.reset();
             $scope.fetch();
           });
+          
+          $scope.filterGroups = function(item) {
+            var matchingGroups = $filter('filter')($scope.userGroups, {
+              'groupId': item.id
+            }, true);
+            
+            return matchingGroups.length === 0;
+          };
 
           //This is just for presentation, to only show the expander thing when there is more than three rows of data
           $scope.collapsed = true;

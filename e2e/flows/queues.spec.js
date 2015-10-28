@@ -4,6 +4,8 @@ describe('The queues view', function() {
   var loginPage = require('../login/login.po.js'),
     shared = require('../shared.po.js'),
     queues = require('./queues.po.js'),
+    newQueue = require('./newQueue.po.js'),
+    newVersion = require('./newQueueVersion.po.js'),
     params = browser.params,
     queueCount,
     queueVersionCount,
@@ -27,310 +29,466 @@ describe('The queues view', function() {
   it('should include queue management page components', function() {
     expect(shared.navBar.isDisplayed()).toBeTruthy();
 
-    expect(shared.detailsForm.isDisplayed()).toBeFalsy();
+    expect(shared.rightPanel.isDisplayed()).toBeFalsy();
+    expect(newVersion.newQueueVersionPanel.isDisplayed()).toBeFalsy();
     expect(queues.nameFormField.isDisplayed()).toBeFalsy();
     expect(queues.descriptionFormField.isDisplayed()).toBeFalsy();
     expect(shared.submitFormBtn.isDisplayed()).toBeFalsy();
   });
 
   it('should display queue details when selected from table', function() {
-    queues.firstTableRow.click();
+    shared.firstTableRow.click();
 
     // Verify queue name in table matches populated field
-    expect(queues.firstTableRow.getText()).toContain(queues.nameFormField.getAttribute('value'));
+    expect(shared.firstTableRow.getText()).toContain(queues.nameFormField.getAttribute('value'));
+    expect(shared.firstTableRow.getText()).toContain(queues.descriptionFormField.getAttribute('value'));
+    expect(shared.firstTableRow.getText()).toContain(queues.activeVersionDropdown.$('option:checked').getText());
 
     shared.tableElements.count().then(function(numQueues) {
       if (numQueues > 1) {
-        queues.secondTableRow.click();
-        expect(queues.secondTableRow.getText()).toContain(queues.nameFormField.getAttribute('value'));
+        shared.secondTableRow.click();
+        expect(shared.secondTableRow.getText()).toContain(queues.nameFormField.getAttribute('value'));
+        expect(shared.secondTableRow.getText()).toContain(queues.descriptionFormField.getAttribute('value'));
+        expect(shared.secondTableRow.getText()).toContain(queues.activeVersionDropdown.$('option:checked').getText());
       }
     });
   });
 
   it('should require name field when editing a Queue', function() {
-    queues.firstTableRow.click();
+    shared.firstTableRow.click();
 
     // Edit fields
     queues.nameFormField.clear();
-    queues.descriptionFormField.clear();
+    queues.nameFormField.sendKeys('\t');
 
     // Submit button is still disabled
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
 
-    expect(shared.tableElements.count()).toBe(queueCount);
+    shared.submitFormBtn.click();
     expect(shared.successMessage.isPresent()).toBeFalsy();
+
     expect(queues.requiredErrors.get(0).isDisplayed()).toBeTruthy();
     expect(queues.requiredErrors.get(0).getText()).toBe('Field \"Name\" is required.');
   });
 
-  it('should allow the Queue fields to be updated', function() {
-    queues.firstTableRow.click();
-    queues.activeVersionDropdown.all(by.css('option')).count().then(function(curQueueVersionCount) {
-      randomQueue = Math.floor((Math.random() * 1000) + 1);
+  it('should not require description field when editing a Queue', function() {
+    shared.firstTableRow.click();
 
-      // Edit fields
-      queues.nameFormField.sendKeys('Edit');
-      queues.descriptionFormField.sendKeys('Edit');
-      var versionSelected = randomQueue % curQueueVersionCount;
-      queues.activeVersionDropdown.all(by.css('option')).get(versionSelected).click();
+    // Edit fields
+    queues.descriptionFormField.sendKeys('not required');
+    queues.descriptionFormField.clear();
+    queues.descriptionFormField.sendKeys('\t');
 
-      var editedName = queues.nameFormField.getAttribute('value');
-      var editedDescription = queues.descriptionFormField.getAttribute('value');
-      var editedActiveVersion = queues.activeVersionDropdown.getAttribute('value');
-      shared.submitFormBtn.click().then(function() {
-        expect(shared.successMessage.isDisplayed()).toBeTruthy();
+    // Submit button is enabled
+    expect(shared.submitFormBtn.isEnabled()).toBeTruthy();
 
-        // Changes persist
-        browser.refresh();
-        expect(queues.nameFormField.getAttribute('value')).toBe(editedName);
-        expect(queues.descriptionFormField.getAttribute('value')).toBe(editedDescription);
-        expect(queues.activeVersionDropdown.getAttribute('value')).toBe(editedActiveVersion);
-      });
+    shared.submitFormBtn.click().then(function() {
+      expect(shared.successMessage.isDisplayed()).toBeTruthy();
+      expect(shared.tableElements.count()).toBe(queueCount);
     });
   });
 
-  it('should not require description field when editing a queue', function() {
-    queues.firstTableRow.click();
-    // Edit fields
-    queues.descriptionFormField.sendKeys('Temp Description');
-    queues.descriptionFormField.clear();
-    shared.submitFormBtn.click().then(function() {
-      expect(shared.successMessage.isDisplayed()).toBeTruthy();
+  it('should not allow the Queue Version fields to be updated', function() {
+    shared.firstTableRow.click();
+
+    queues.queueVersions.count().then(function(queueVersionCount) {
+      for (var i = 0; i < queueVersionCount; i++) {
+        expect(queues.advancedQueryFormField.get(i).isEnabled()).toBeFalsy();
+
+        expect(queues.minPriorityInputField.get(i).isEnabled()).toBeFalsy();
+        expect(queues.maxPriorityInputField.get(i).isEnabled()).toBeFalsy();
+        expect(queues.priorityValueInputField.get(i).isEnabled()).toBeFalsy();
+        expect(queues.priorityRateInputField.get(i).isEnabled()).toBeFalsy();
+        expect(queues.priorityRateUnitField.get(i).isEnabled()).toBeFalsy();
+      }
     });
   });
 
   it('should not accept spaces only as valid field input', function() {
     queueCount = shared.tableElements.count();
-    queues.firstTableRow.click();
+    shared.firstTableRow.click();
 
     queues.nameFormField.clear();
-    queues.nameFormField.sendKeys(' ');
-    queues.descriptionFormField.clear();
-    queues.descriptionFormField.sendKeys(' ');
+    queues.nameFormField.sendKeys(' \t');
 
     // Submit button is still disabled
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
+    shared.submitFormBtn.click();
 
     expect(queues.requiredErrors.get(0).isDisplayed()).toBeTruthy();
     expect(queues.requiredErrors.get(0).getText()).toBe('Field \"Name\" is required.');
-    expect(shared.tableElements.count()).toBe(queueCount);
     expect(shared.successMessage.isPresent()).toBeFalsy();
   });
 
   it('should reset fields after editing and selecting Cancel', function() {
-    queues.firstTableRow.click();
+    shared.firstTableRow.click();
 
     queues.activeVersionDropdown.all(by.css('option')).count().then(function(curQueueVersionCount) {
       randomQueue = Math.floor((Math.random() * 1000) + 1);
 
       var originalName = queues.nameFormField.getAttribute('value');
       var originalDescription = queues.descriptionFormField.getAttribute('value');
-      var originalActiveVersion = queues.activeVersionDropdown.getAttribute('value');
+      var originalActiveVersion = queues.activeVersionDropdown.$('option:checked').getText();
 
       // Edit fields
       queues.nameFormField.sendKeys('Edit');
       queues.descriptionFormField.sendKeys('Edit');
-      var versionSelected = randomQueue % curQueueVersionCount;
-      queues.activeVersionDropdown.all(by.css('option')).get(versionSelected).click();
+      queues.activeVersionDropdown.all(by.css('option')).get(randomQueue % curQueueVersionCount).click();
 
       shared.cancelFormBtn.click();
 
       // Warning message is displayed
-      var alertDialog = browser.switchTo().alert();
-      expect(alertDialog.accept).toBeDefined();
-      expect(alertDialog.dismiss).toBeDefined();
-      alertDialog.accept();
+      shared.waitForAlert();
+      shared.dismissChanges();
 
       expect(shared.successMessage.isPresent()).toBeFalsy();
 
       // Fields reset to original values
       expect(queues.nameFormField.getAttribute('value')).toBe(originalName);
       expect(queues.descriptionFormField.getAttribute('value')).toBe(originalDescription);
-      expect(queues.activeVersionDropdown.getAttribute('value')).toBe(originalActiveVersion);
+      expect(queues.activeVersionDropdown.$('option:checked').getText()).toBe(originalActiveVersion);
     });
   });
 
   it('should display all queue versions in Active Version dropdown', function() {
-    queues.firstTableRow.click();
+    shared.firstTableRow.click();
     queues.activeVersionDropdown.all(by.css('option')).then(function(dropdownVersions) {
-      for (var i = 1; i < dropdownVersions.length; ++i) {
-        expect(queues.versionsTable.element(by.id('version-row-v' + (dropdownVersions.length - i))).getText()).toContain(queues.activeVersionDropdown.all(by.css('option')).get(i).getText());
-      };
+      for (var i = 1; i <= dropdownVersions.length; ++i) {
+        expect(element(by.id('version-row-v' + i)).getText()).toContain(queues.activeVersionDropdown.all(by.css('option')).get(dropdownVersions.length - i).getText());
+      }
     });
   });
 
-  xit('should toggle showing version details with defaults and disabled fields', function() {
-    queues.firstTableRow.click();
-    queues.versionRowV1Plus.click();
+  it('should show active version details', function() {
+    shared.firstTableRow.click();
+    queues.activeVersionDropdown.$('option:checked').getText().then(function(activeVersionNumber) {
+      var versionNumber = parseInt(activeVersionNumber.split('v')[1]);
 
-    // Plus button changes to minus to close
-    expect(queues.versionRowV1Plus.isPresent()).toBeFalsy();
-    expect(queues.versionRowV1Minus.isDisplayed()).toBeTruthy();
+      // Active version details are displayed by default
+      var activeVersionRow = element(by.id("version-row-v" + versionNumber));
+      var activeVersionDetails = element(by.id("view-version-v" + versionNumber));
+      expect(activeVersionDetails.isDisplayed()).toBeTruthy();
 
-    // Version details show values and defaults
-    expect(queues.selectedVersionQuery.getAttribute('value')).not.toBeNull();
-    expect(queues.selectedVersionPriority.getAttribute('value')).toBe('75');
-    expect(queues.selectedVersionRate.getAttribute('value')).toBe('2');
-    expect(queues.selectedVersionRateUnit.getAttribute('value')).toBe('min');
+      // Row shows that the version is selected and expanded
+      expect(activeVersionRow.element(by.css('.fa-circle')).isDisplayed()).toBeTruthy();
+      expect(activeVersionRow.element(by.css('.fa-caret-up')).isDisplayed()).toBeTruthy();
+      expect(activeVersionRow.element(by.css('.fa-caret-down')).isPresent()).toBeFalsy();
 
-    // Version query should be disabled
-    expect(queues.selectedVersionQuery.getAttribute('disabled')).toBeTruthy();
+      expect(activeVersionDetails.element(by.id('advanced-query-field')).isEnabled()).toBeFalsy();
+      expect(activeVersionDetails.element(by.id('version-min-priority')).isEnabled()).toBeFalsy();
+      expect(activeVersionDetails.element(by.id('version-max-priority')).isEnabled()).toBeFalsy();
+      expect(activeVersionDetails.element(by.id('version-priority-value')).isEnabled()).toBeFalsy();
+      expect(activeVersionDetails.element(by.id('version-priority-rate')).isEnabled()).toBeFalsy();
+      expect(activeVersionDetails.element(by.id('version-rate-units-input')).isEnabled()).toBeFalsy();
 
-    // Other version details enabled
-    expect(queues.selectedVersionPriority.getAttribute('disabled')).toBeNull();
-    expect(queues.selectedVersionRate.getAttribute('disabled')).toBeNull();
-    expect(queues.selectedVersionRateUnit.getAttribute('disabled')).toBeNull();
+      expect(activeVersionDetails.element(by.id('advanced-query-field')).getAttribute('value')).not.toBeNull();
+      expect(activeVersionDetails.element(by.id('version-min-priority')).getAttribute('value')).not.toBeNull();
+      expect(activeVersionDetails.element(by.id('version-max-priority')).getAttribute('value')).not.toBeNull();
+      expect(activeVersionDetails.element(by.id('version-priority-value')).getAttribute('value')).not.toBeNull();
+      expect(activeVersionDetails.element(by.id('version-priority-rate')).getAttribute('value')).not.toBeNull();
+      expect(activeVersionDetails.element(by.id('version-rate-units-input')).getAttribute('value')).not.toBeNull();
 
-    // Close and copy buttons displayed
-    expect(queues.closeVersionBtn.isDisplayed()).toBeTruthy();
-    expect(queues.copyVersionBtn.isDisplayed()).toBeTruthy();
+      // If the advanced query is not the default value, expect the basic query details to be displayed
+      activeVersionDetails.element(by.id('advanced-query-field')).getAttribute('value').then(function(advancedQuery) {
+        if (advancedQuery == '{}') {
+          expect(activeVersionDetails.element(by.id('version-basic-query-details')).all(by.repeater('operand in operands')).count()).toBe(0);
+        } else {
+          expect(activeVersionDetails.element(by.id('version-basic-query-details')).all(by.repeater('operand in operands')).count()).toBeGreaterThan(0);
+        }
+      });
 
-    queues.versionRowV1Minus.click().then(function() {
-      // Minus button changes to plus to open
-      expect(queues.versionRowV1Minus.isPresent()).toBeFalsy();
-      expect(queues.versionRowV1Plus.isDisplayed()).toBeTruthy();
-
-      // Version details show values and defaults
-      expect(queues.selectedVersionQuery.isDisplayed()).toBeFalsy();
-      expect(queues.selectedVersionPriority.isDisplayed()).toBeFalsy();
-      expect(queues.selectedVersionRate.isDisplayed()).toBeFalsy();
-      expect(queues.selectedVersionRateUnit.isDisplayed()).toBeFalsy();
-
-      // Close and copy buttons are not displayed
-      expect(queues.closeVersionBtn.isDisplayed()).toBeFalsy();
-      expect(queues.copyVersionBtn.isDisplayed()).toBeFalsy();
+      expect(activeVersionDetails.element(by.id('create-version-copy-btn')).isDisplayed()).toBeTruthy();
+      expect(activeVersionDetails.element(by.id('create-version-copy-btn')).isEnabled()).toBeTruthy();
     });
   });
 
-  xit('should close selected version details after selected close button', function() {
-    queues.firstTableRow.click();
-    queues.versionRowV1Plus.click();
+  it('should toggle showing version details when selected', function() {
+    shared.firstTableRow.click();
 
-    // Plus button changes to minus to close
-    expect(queues.versionRowV1Plus.isPresent()).toBeFalsy();
-    expect(queues.versionRowV1Minus.isDisplayed()).toBeTruthy();
+    queues.activeVersionDropdown.$('option:checked').getText().then(function(activeVersion) {
+      // Close active version
+      element(by.id("version-row-" + activeVersion)).click()
+    }).then(function() {
+      queues.activeVersionDropdown.all(by.css('option')).count().then(function(versionCount) {
+        var currentVersion;
 
-    // Version details displayed
-    expect(queues.selectedVersionQuery.isDisplayed()).toBeTruthy();
-    expect(queues.selectedVersionPriority.isDisplayed()).toBeTruthy();
-    expect(queues.selectedVersionRate.isDisplayed()).toBeTruthy();
-    expect(queues.selectedVersionRateUnit.isDisplayed()).toBeTruthy();
+        // Select each version, details are displayed
+        for (var i = 2; i < versionCount; i++) {
+          currentVersion = element(by.id("version-row-v" + i));
 
-    // Close and copy buttons displayed
-    expect(queues.closeVersionBtn.isDisplayed()).toBeTruthy();
-    expect(queues.copyVersionBtn.isDisplayed()).toBeTruthy();
+          // Open version details
+          currentVersion.click();
+          expect(element(by.id("view-version-v" + i)).isDisplayed()).toBeTruthy();
+          expect(currentVersion.element(by.css('.fa-caret-up')).isDisplayed()).toBeTruthy();
+          expect(currentVersion.element(by.css('.fa-caret-down')).isPresent()).toBeFalsy();
 
-    queues.closeVersionBtn.click().then(function() {
-      // Minus button changes to plus to open
-      expect(queues.versionRowV1Minus.isPresent()).toBeFalsy();
-      expect(queues.versionRowV1Plus.isDisplayed()).toBeTruthy();
-
-      // Version details show values and defaults
-      expect(queues.selectedVersionQuery.isDisplayed()).toBeFalsy();
-      expect(queues.selectedVersionPriority.isDisplayed()).toBeFalsy();
-      expect(queues.selectedVersionRate.isDisplayed()).toBeFalsy();
-      expect(queues.selectedVersionRateUnit.isDisplayed()).toBeFalsy();
-
-      // Close and copy buttons are not displayed
-      expect(queues.closeVersionBtn.isDisplayed()).toBeFalsy();
-      expect(queues.copyVersionBtn.isDisplayed()).toBeFalsy();
-    });
-  });
-
-  xit('should copy version details when copy is selected', function() {
-    queues.firstTableRow.click();
-
-    queues.activeVersionDropdown.all(by.css('option')).count().then(function(dropdownVersions) {
-      queues.versionRowV1Plus.click();
-      queues.copyVersionBtn.click().then(function() {
-        // Version details section closes
-        expect(queues.versionRowV1Minus.isPresent()).toBeFalsy();
-        expect(queues.versionRowV1Plus.isDisplayed()).toBeTruthy();
-        expect(queues.selectedVersionQuery.isDisplayed()).toBeFalsy();
-        expect(queues.selectedVersionPriority.isDisplayed()).toBeFalsy();
-        expect(queues.selectedVersionRate.isDisplayed()).toBeFalsy();
-        expect(queues.selectedVersionRateUnit.isDisplayed()).toBeFalsy();
-        expect(queues.closeVersionBtn.isDisplayed()).toBeFalsy();
-        expect(queues.copyVersionBtn.isDisplayed()).toBeFalsy();
-
-        // New version number should be 1 more than the current number of versions
-        expect(queues.copyVersionNumberFormField.getAttribute('value')).toContain(dropdownVersions + 1);
-        expect(queues.copyVersionNumberFormField.getAttribute('disabled')).toBeTruthy();
-
-        // New version query field should be populated with copied query value
-        queues.versionRowV1Plus.click();
-        expect(queues.copyVersionQueryFormField.getAttribute('value')).toBe(queues.selectedVersionQuery.getAttribute('value'));
-
-        // Copy create fields are displayed with copied values and defaults
-        expect(queues.copyVersionPriorityFormField.getAttribute('value')).toBe('75');
-        expect(queues.copyVersionRateFormField.getAttribute('value')).toBe('2');
-        expect(queues.copyVersionRateUnitDropdown.getAttribute('value')).toBe('min');
-
-        // Version defaults should be disabled
-        expect(queues.copyVersionPriorityFormField.getAttribute('disabled')).toBeTruthy();
-        expect(queues.copyVersionRateFormField.getAttribute('disabled')).toBeTruthy();
-        expect(queues.copyVersionRateUnitDropdown.getAttribute('disabled')).toBeTruthy();
+          // Close version details
+          currentVersion.click();
+          expect(element(by.id("view-version-v" + i)).isDisplayed()).toBeFalsy();
+          expect(currentVersion.element(by.css('.fa-caret-up')).isPresent()).toBeFalsy();
+          expect(currentVersion.element(by.css('.fa-caret-down')).isDisplayed()).toBeTruthy();
+        }
       });
     });
   });
 
-  it('should add new queue version', function() {
-    queues.firstTableRow.click();
+  it('should toggle showing one version details at a time when selected', function() {
+    shared.firstTableRow.click();
+    queues.activeVersionDropdown.all(by.css('option')).count().then(function(versionCount) {
+      var currentVersion;
 
-    queueVersionCount = queues.activeVersionDropdown.all(by.css('option')).count();
-    randomQueue = Math.floor((Math.random() * 1000) + 1);
-    queues.firstTableRow.click();
-    queues.versionRowV1Plus.click();
-    queues.copyVersionBtn.click();
+      queues.activeVersionDropdown.$('option:checked').getText().then(function(activeVersion) {
+        // Close active version
+        element(by.id("version-row-" + activeVersion)).click()
+      }).then(function() {
+        // Only one version is displayed at a time
+        // Select first version
+        element(by.id("version-row-v1")).click();
+        for (var i = 2; i <= versionCount; i++) {
+          currentVersion = element(by.id("version-row-v" + i));
 
-    queues.copyVersionQueryFormField.sendKeys('{}');
+          // Open version details
+          currentVersion.click();
+          expect(element(by.id("view-version-v" + i)).isDisplayed()).toBeTruthy();
+          expect(currentVersion.element(by.css('.fa-caret-up')).isDisplayed()).toBeTruthy();
+          expect(currentVersion.element(by.css('.fa-caret-down')).isPresent()).toBeFalsy();
 
-    queues.createVersionBtn.click().then(function() {
-      expect(queues.activeVersionDropdown.all(by.css('option')).count()).toBeGreaterThan(queueVersionCount);
-      queues.activeVersionDropdown.all(by.css('option')).then(function(dropdownVersions) {
-        for (var i = 1; i < dropdownVersions.length; ++i) {
-          expect(queues.versionsTable.element(by.id('version-row-v' + (dropdownVersions.length - i))).getText()).toContain(queues.activeVersionDropdown.all(by.css('option')).get(i).getText());
-        };
+          // Previous version is closed
+          expect(element(by.id("view-version-v" + (i - 1))).isDisplayed()).toBeFalsy();
+          expect(element(by.id("version-row-v" + (i - 1))).element(by.css('.fa-caret-down')).isDisplayed()).toBeTruthy();
+          expect(element(by.id("version-row-v" + (i - 1))).element(by.css('.fa-caret-up')).isPresent()).toBeFalsy();
+        }
       });
     });
   });
 
-  it('should require query when adding a new queue version', function() {
-    queues.firstTableRow.click();
+  xit('should display new version panel when add new version is selected', function() {
+    // TODO TITAN2-4470
+    shared.firstTableRow.click();
+    queues.addNewVersionBtn.click();
 
-    queueVersionCount = queues.activeVersionDropdown.all(by.css('option')).count();
-    randomQueue = Math.floor((Math.random() * 1000) + 1);
-    queues.firstTableRow.click();
-    queues.versionRowV1Plus.click();
-    queues.copyVersionBtn.click();
+    expect(newVersion.newQueueVersionPanel.isDisplayed()).toBeTruthy();
+    expect(newVersion.createVersionHeader.isDisplayed()).toBeTruthy();
+    expect(newVersion.createVersionBtn.isDisplayed()).toBeTruthy();
+    expect(newVersion.cancelVersionBtn.isDisplayed()).toBeTruthy();
 
-    queues.copyVersionQueryFormField.clear();
-    queues.copyVersionQueryFormField.sendKeys('\t');
+    // Add Groups & Skills filter
+    newQueue.addFilterDropdown.click();
+    newQueue.groupFilterDropdownOption.click();
+    newQueue.addFilterBtn.click();
+    newQueue.addFilterDropdown.click();
+    newQueue.skillFilterDropdownOption.click();
+    newQueue.addFilterBtn.click();
 
-    queues.createVersionBtn.click();
-    expect(queues.requiredErrors.get(0).isDisplayed()).toBeTruthy();
-    expect(queues.requiredErrors.get(0).getText()).toBe('Field \"Query\" is required.');
+    expect(newVersion.basicQueryDetailsAll.count()).toBe(0);
 
-    expect(queues.activeVersionDropdown.all(by.css('option')).count()).toBe(queueVersionCount);
+    expect(newVersion.minPriorityInputField.getAttribute('value')).toBe(queues.minPriorityDefault);
+    expect(newVersion.maxPriorityInputField.getAttribute('value')).toBe(queues.maxPriorityDefault);
+    expect(newVersion.priorityValueInputField.getAttribute('value')).toBe(queues.priorityValueDefault);
+    expect(newVersion.priorityRateInputField.getAttribute('value')).toBe(queues.priorityRateDefault);
+    expect(newVersion.priorityRateUnitField.$('option:checked').getText()).toBe(queues.priorityRateUnitDefault);
+
+    newVersion.showAdvancedQueryLink.click();
+    expect(newVersion.advancedQueryFormField.getAttribute('value')).toBe('{}');
   });
 
-  it('should not accept spaces only as valid field input when creating queue version', function() {
-    queues.firstTableRow.click();
+  xit('should display copy version panel when copy is selected', function() {
+    // TODO TITAN2-4470
+    shared.firstTableRow.click();
+    queues.activeVersionDropdown.$('option:checked').getAttribute('value').then(function(activeVersionValue) {
+      queues.copyVersionBtn.get(activeVersionValue).click();
 
-    queueVersionCount = queues.activeVersionDropdown.all(by.css('option')).count();
-    queues.firstTableRow.click();
-    queues.versionRowV1Plus.click();
-    queues.copyVersionBtn.click();
+      expect(newVersion.newQueueVersionPanel.isDisplayed()).toBeTruthy();
+      expect(newVersion.createVersionHeader.isDisplayed()).toBeTruthy();
+      expect(newVersion.createVersionBtn.isDisplayed()).toBeTruthy();
+      expect(newVersion.cancelVersionBtn.isDisplayed()).toBeTruthy();
 
-    queues.copyVersionQueryFormField.clear();
-    queues.copyVersionQueryFormField.sendKeys(' \t');
+      // All values are copied from selected version
+      var copiedBasicQueryDetails = queues.basicQueryDetails.get(activeVersionValue);
+      expect(newVersion.basicQueryDetailsAll.count()).toBe(copiedBasicQueryDetails.all(by.repeater('operand in operands')).count());
 
-    queues.createVersionBtn.click();
+      // All groups match
+      newVersion.allGroupsSelected.count().then(function(allGroupCount) {
+        for (var i = 0; i < allGroupCount; i++) {
+          expect(newVersion.allGroupsSelected.get(i).getText()).toBe(queues.basicQueryAllGroupDetails.get(activeVersionValue).all(by.repeater('operand in operands')).get(i).getText());
+        }
+      });
 
-    expect(queues.requiredErrors.get(0).isDisplayed()).toBeTruthy();
-    expect(queues.requiredErrors.get(0).getText()).toBe('Field \"Query\" is required.');
+      // Any groups match
+      newVersion.anyGroupsSelected.count().then(function(anyGroupCount) {
+        for (var i = 0; i < anyGroupCount; i++) {
+          expect(newVersion.anyGroupsSelected.get(i).getText()).toBe(queues.basicQueryAnyGroupDetails.get(activeVersionValue).all(by.repeater('operand in operands')).get(i).getText());
+        }
+      });
 
-    expect(queues.activeVersionDropdown.all(by.css('option')).count()).toBe(queueVersionCount);
-    expect(shared.successMessage.isPresent()).toBeFalsy();
+      // All skills match
+      newVersion.allSkillsSelected.count().then(function(allSkillCount) {
+        for (var i = 0; i < allGroupCount; i++) {
+          expect(newVersion.allSkillsSelected.get(i).getText()).toBe(queues.basicQueryAllSkillDetails.get(activeVersionValue).all(by.repeater('operand in operands')).get(i).getText());
+        }
+      });
+
+      // Any skills match
+      newVersion.anySkillsSelected.count().then(function(anySkillCount) {
+        for (var i = 0; i < anySkillCount; i++) {
+          expect(newVersion.anySkillsSelected.get(i).getText()).toBe(queues.basicQueryAnySkillDetails.get(activeVersionValue).all(by.repeater('operand in operands')).get(i).getText());
+        }
+      });
+
+      newVersion.showAdvancedQueryLink.click();
+      expect(newVersion.advancedQueryFormField.getAttribute('value')).toBe(queues.advancedQueryFormField.get(activeVersionValue).getAttribute('value'));
+
+      expect(newVersion.minPriorityInputField.getAttribute('value')).toBe(queues.minPriorityInputField.get(activeVersionValue).getAttribute('value'));
+      expect(newVersion.maxPriorityInputField.getAttribute('value')).toBe(queues.maxPriorityInputField.get(activeVersionValue).getAttribute('value'));
+      expect(newVersion.priorityValueInputField.getAttribute('value')).toBe(queues.priorityValueInputField.get(activeVersionValue).getAttribute('value'));
+      expect(newVersion.priorityRateInputField.getAttribute('value')).toBe(queues.priorityRateInputField.get(activeVersionValue).getAttribute('value'));
+      expect(newVersion.priorityRateUnitField.$('option:checked').getText()).toBe(queues.priorityRateUnitField.get(activeVersionValue).$('option:checked').getText());
+    });
+  });
+
+  it('should increment version number when adding new version', function() {
+    shared.firstTableRow.click();
+    queues.addNewVersionBtn.click();
+
+    queues.activeVersionDropdown.all(by.css('option')).count().then(function(versionCount) {
+      expect(newVersion.createVersionHeader.getText()).toBe('Creating New Queue version: v' + (versionCount + 1));
+    });
+  });
+
+  it('should increment version number when creating from copy', function() {
+    shared.firstTableRow.click();
+    queues.activeVersionDropdown.$('option:checked').getAttribute('value').then(function(activeVersionValue) {
+      queues.copyVersionBtn.get(activeVersionValue).click();
+
+      queues.activeVersionDropdown.all(by.css('option')).count().then(function(versionCount) {
+        expect(newVersion.createVersionHeader.getText()).toBe('Creating New Queue version: v' + (versionCount + 1));
+      });
+    });
+  });
+
+  it('should add new queue version from copy', function() {
+    shared.firstTableRow.click();
+    queues.activeVersionDropdown.$('option:checked').getAttribute('value').then(function(activeVersionValue) {
+      queues.copyVersionBtn.get(activeVersionValue).click();
+
+      queues.activeVersionDropdown.all(by.css('option')).count().then(function(originalVersionCount) {
+        newVersion.createVersionBtn.click().then(function() {
+          expect(queues.activeVersionDropdown.all(by.css('option')).count()).toBeGreaterThan(originalVersionCount);
+          expect(queues.activeVersionDropdown.all(by.css('option')).get(0).getText()).toBe('v' + (originalVersionCount + 1));
+          expect(queues.queueVersions.get(0).getText()).toContain('v' + (originalVersionCount + 1));
+        });
+      });
+    });
+  });
+
+  it('should require advanced query when adding a new queue version', function() {
+    shared.firstTableRow.click();
+    queues.activeVersionDropdown.$('option:checked').getAttribute('value').then(function(activeVersionValue) {
+      queues.copyVersionBtn.get(activeVersionValue).click();
+
+      newVersion.showAdvancedQueryLink.click();
+      newVersion.advancedQueryFormField.clear();
+      newVersion.advancedQueryFormField.sendKeys('\t');
+      expect(newVersion.createVersionBtn.isEnabled()).toBeFalsy();
+
+      newVersion.createVersionBtn.click();
+      expect(shared.successMessage.isPresent()).toBeFalsy();
+      expect(queues.requiredErrors.get(0).isDisplayed()).toBeTruthy();
+      expect(queues.requiredErrors.get(0).getText()).toBe('Field "Query" is required.');
+    });
+  });
+
+  it('should not require basic query details when adding a new queue version', function() {
+    shared.firstTableRow.click();
+    queues.activeVersionDropdown.all(by.css('option')).count().then(function(originalVersionCount) {
+      queues.addNewVersionBtn.click()
+      newVersion.createVersionBtn.click().then(function() {
+        expect(shared.successMessage.isDisplayed()).toBeTruthy();
+        expect(queues.activeVersionDropdown.all(by.css('option')).count()).toBeGreaterThan(originalVersionCount);
+        expect(queues.activeVersionDropdown.all(by.css('option')).get(0).getText()).toBe('v' + (originalVersionCount + 1));
+        expect(queues.queueVersions.get(0).getText()).toContain('v' + (originalVersionCount + 1));
+      });
+    });
+  });
+
+  xit('should not require basic query details when adding a new queue version from copy', function() {
+    // TODO TITAN2-4470
+    shared.firstTableRow.click();
+    queues.activeVersionDropdown.all(by.css('option')).count().then(function(originalVersionCount) {
+      queues.activeVersionDropdown.$('option:checked').getAttribute('value').then(function(activeVersionValue) {
+        queues.copyVersionBtn.get(activeVersionValue).click();
+
+        // Remove all query details
+        newVersion.basicQueryDetailsAll.count().then(function(basicQueryDetailCount) {
+          for (var i = 0; i < basicQueryDetailCount; i++) {
+            newVersion.basicQueryDetailsAll.get(0).element(by.css('a')).click();
+          }
+        }).then(function() {
+          newVersion.createVersionBtn.click().then(function() {
+            expect(shared.successMessage.isDisplayed()).toBeTruthy();
+            expect(queues.activeVersionDropdown.all(by.css('option')).count()).toBeGreaterThan(originalVersionCount);
+            expect(queues.activeVersionDropdown.all(by.css('option')).get(0).getText()).toBe('v' + (originalVersionCount + 1));
+            expect(queues.queueVersions.get(0).getText()).toContain('v' + (originalVersionCount + 1));
+          });
+        });
+      });
+    });
+  });
+
+  it('should require priority fields when adding a new queue version', function() {
+    shared.firstTableRow.click();
+    queues.addNewVersionBtn.click();
+
+    newVersion.minPriorityInputField.clear();
+    newVersion.maxPriorityInputField.clear();
+    newVersion.priorityValueInputField.clear();
+    newVersion.priorityRateInputField.clear();
+    newVersion.priorityRateInputField.sendKeys('\t');
+
+    // Submit button is disabled
+    expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
+    shared.submitFormBtn.click().then(function() {
+      expect(queues.requiredErrors.get(0).getText()).toBe('Please enter a minimum priority');
+      expect(queues.requiredErrors.get(1).getText()).toBe('Please enter a maximum priority');
+      expect(queues.requiredErrors.get(2).getText()).toBe('Please enter a priority value');
+      expect(queues.requiredErrors.get(3).getText()).toBe('Please enter a priority rate');
+
+      expect(shared.tableElements.count()).toBe(queueCount);
+      expect(shared.successMessage.isPresent()).toBeFalsy();
+    });
+  });
+
+  it('should allow advanced query field to be edited after submitting new version with invalid input', function() {
+    shared.firstTableRow.click();
+    var originalVersionCount = queues.queueVersions.count();
+
+    queues.addNewVersionBtn.click();
+    newVersion.showAdvancedQueryLink.click();
+    newVersion.advancedQueryFormField.clear();
+    newVersion.advancedQueryFormField.sendKeys('Not a valid query');
+
+    newVersion.createVersionBtn.click().then(function() {
+      expect(shared.errorMessage.isDisplayed()).toBeTruthy();
+      expect(shared.errorMessage.getText()).toContain("Record failed to save");
+
+      // New version is not created
+      expect(newVersion.newQueueVersionPanel.isDisplayed()).toBeTruthy();
+      expect(queues.queueVersions.count()).toBe(originalVersionCount);
+      expect(queues.requiredErrors.get(0).getText()).toContain('invalid query, reason: Value does not match schema:');
+
+      // Edit field
+      newVersion.advancedQueryFormField.clear();
+      newVersion.advancedQueryFormField.sendKeys('{}\t');
+      expect(queues.requiredErrors.count()).toBe(0);
+
+      newVersion.createVersionBtn.click().then(function() {
+        shared.waitForSuccess();
+        expect(shared.successMessage.isDisplayed()).toBeTruthy();
+
+        // New version is created
+        expect(queues.queueVersions.count()).toBeGreaterThan(originalVersionCount);
+        expect(newVersion.newQueueVersionPanel.isDisplayed()).toBeFalsy();
+      });
+    });
   });
 });

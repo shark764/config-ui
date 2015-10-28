@@ -1,36 +1,36 @@
-<div ng-if="originalResource.id">
-  <toggle class="status-toggle" ng-model="resource.active" 
+<div ng-if="! selectedQueue.isNew()">
+  <toggle class="status-toggle" ng-model="selectedQueue.active"
   confirm-disable-message="{{'queue.details.disable.confirm' | translate}}"
   confirm-enable-message="{{'queue.details.enable.confirm' | translate}}"
   ng-disabled="! ('MANAGE_ALL_QUEUES' | hasPermission)"></toggle>
 
   <div class="info">
-    <h1>{{originalResource.name}}</h1>
-    <div class="details" ng-if="['PLATFORM_VIEW_ALL_USERS', 'PLATFORM_CREATE_USERS', 'PLATFORM_MANAGE_ALL_USERS', 'PLATFORM_MANAGE_ALL_TENANTS', 'PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT'] | hasPermission">
-      <b audit-text
+    <h1>{{selectedQueue.$original.getDisplay()}}</h1>
+    <div class="details" ng-if="['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'VIEW_ALL_USERS', 'MANAGE_ALL_USER_EXTENSIONS', 'MANAGE_ALL_GROUP_USERS', 'MANAGE_ALL_USER_SKILLS', 'MANAGE_ALL_USER_LOCATIONS', 'MANAGE_TENANT_ENROLLMENT'] | hasPermission">
+      <b audit-text id="created-by-audit"
         translation="value.createdby.time"
-        user-id="originalResource.createdBy"
-        date="originalResource.created">
+        user-id="selectedQueue.$original.createdBy"
+        date="selectedQueue.$original.created">
       </b>
       <br/>
-      <b audit-text ng-if="!!originalResource.updatedBy"
+      <b audit-text ng-if="!!selectedQueue.$original.updatedBy" id="updated-by-audit"
         translation="value.updatedby"
-        user-id="originalResource.updatedBy"
-        date="originalResource.updated">
+        user-id="selectedQueue.$original.updatedBy"
+        date="selectedQueue.$original.updated">
       </b>
     </div>
-    <div class="details" ng-if="!(['PLATFORM_VIEW_ALL_USERS', 'PLATFORM_CREATE_USERS', 'PLATFORM_MANAGE_ALL_USERS', 'PLATFORM_MANAGE_ALL_TENANTS', 'PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT'] | hasPermission)">
+    <div class="details" ng-if="!(['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'VIEW_ALL_USERS', 'MANAGE_ALL_USER_EXTENSIONS', 'MANAGE_ALL_GROUP_USERS', 'MANAGE_ALL_USER_SKILLS', 'MANAGE_ALL_USER_LOCATIONS', 'MANAGE_TENANT_ENROLLMENT'] | hasPermission)">
       <b audit-text
         translation="value.createdon.time"
-        date="originalResource.created">
+        date="selectedQueue.$original.created">
       </b>
       <br/>
-      <b audit-text ng-if="!!originalResource.updated"
+      <b audit-text ng-if="!!selectedQueue.$original.updated"
         translation="value.updatedon"
-        date="originalResource.updated">
+        date="selectedQueue.$original.updated">
       </b>
     </div>
   </div>
 </div>
 
-<h1 ng-if="! originalResource.id">{{'queue.details.creating' | translate}}</h1>
+<h1 ng-if="selectedQueue.isNew()">{{'queue.details.creating' | translate}}</h1>

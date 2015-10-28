@@ -61,7 +61,7 @@ describe('setStatusBulkAction directive', function() {
       function (mockTenantUsers, $httpBackend, apiHostname) {
         $httpBackend.expect('PUT', apiHostname + '/v1/tenants/tenant-id/users/userId2', {
           status: 'accepted'
-        }).respond(200);
+        }).respond(200, mockTenantUsers[1]);
 
         isolateScope.status = 'accepted';
         mockTenantUsers[1].$original = mockTenantUsers[1];

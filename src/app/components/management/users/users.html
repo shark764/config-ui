@@ -35,7 +35,7 @@
       class="details-pane"
       unsaved-changes-warning
       name="forms.detailsForm"
-      ng-show="!showBulkActions"
+      ng-show="selectedTenantUser"
       ng-resource="selectedTenantUser"
       lo-form-submit lo-form-cancel lo-form-alert>
 
@@ -47,13 +47,10 @@
 
       <div class="detail-controls">
         <input
-          id="cancel-details-btn"
-          lo-cancel-chain-executor="user:cancel"
+          id="cancel-details-btn" class="btn" type="button"
           ng-disabled="selectedTenantUser.$busy"
-          type="button"
-          class="btn"
-          ng-click="cancel()"
-          value="{{'value.cancel' | translate}}"></input>
+          value="{{'value.cancel' | translate}}"
+          lo-cancel></input>
 
         <input
           id="submit-details-btn"

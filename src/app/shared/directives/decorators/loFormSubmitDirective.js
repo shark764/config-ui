@@ -5,32 +5,42 @@ angular.module('liveopsConfigPanel')
     function($parse) {
       return {
         restrict: 'A',
-        require: ['form', 'loFormCancel'],
-        controller: function() {
+        require: 'form',
+        controller: function($scope) {
           var self = this;
-          this.resetForm = function() {
-            return this.formCancelController.resetForm(this.formController);
-          };
-
+          
+          self.errorInputWatchesUnbinds = {};
+          
           this.populateApiErrors = function(error) {
             if ($parse('data.error')(error)) {
-              angular.forEach(error.data.error.attribute,
-                function(value, key) {
+              angular.forEach(error.data.error.attribute, function(value, key) {
+                if (angular.isDefined(self.formController[key])){
                   self.formController[key].$setValidity('api', false);
                   self.formController[key].$error = {
                     api: value
                   };
                   self.formController[key].$setTouched();
-                });
+                  self.formController[key].$setPristine();
+                  
+                  self.errorInputWatchesUnbinds[key] = $scope.$watch(function(){
+                    return self.formController[key].$dirty;
+                  }, function(dirtyValue){
+                    if (dirtyValue){
+                      self.formController[key].$setValidity('api', true);
+                      self.errorInputWatchesUnbinds[key]();
+                      delete self.errorInputWatchesUnbinds[key];
+                    }
+                  });
+                }
+              });
             }
 
             return error;
           };
         },
-        link: function($scope, $elem, $attrs, $ctrl) {
+        link: function($scope, $elem, $attrs, form) {
           var controller = $elem.data('$loFormSubmitController');
-          controller.formController = $ctrl[0];
-          controller.formCancelController = $ctrl[1];
+          controller.formController = form;
         }
       };
     }

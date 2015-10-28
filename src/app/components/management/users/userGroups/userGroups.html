@@ -5,11 +5,16 @@
 <loading ng-show="!fetchGroups().$resolved && userGroups && !userGroups.$resolved"></loading>
 
 <div ng-show="fetchGroups().$resolved && userGroups.$resolved" class="detail-group">
-  <ng-form seperate-validation id="addGroup" name="addGroup" ng-show="['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'MANAGE_ALL_GROUP_USERS', 'MANAGE_TENANT_ENROLLMENT'] | hasPermission">
-    <type-ahead name-field="name" hover="true" placeholder="{{'details.groups.placeholder' | translate}}" items="filtered" selected-item="selectedGroup" is-required="true" on-enter="save()"></type-ahead>
+  <ng-form class="instant-add" separate-validation id="addGroup" name="addGroup" ng-show="['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'MANAGE_ALL_GROUP_USERS', 'MANAGE_TENANT_ENROLLMENT'] | hasPermission">
+    <type-ahead name-field="name" 
+      placeholder="{{'details.groups.placeholder' | translate}}" 
+      items="fetchGroups()" 
+      is-required="true" 
+      on-enter="save(item)"
+      selected-item="selectedGroup"
+      filters="filterGroups"></type-ahead>
     <div>
-      <a ng-hide="saving" id="add-group-btn" ng-disabled="!selectedGroup" class="btn" ng-click="save()" title="{{'value.save' | translate}}"><i class="fa fa-plus"></i></a>
-      <a ng-show="saving" ng-disabled="true" class="btn btn-primary"><i class="fa fa-refresh fa-spin"></i></a>
+      <a lo-submit-spinner lo-submit-spinner-status="saving" id="add-group-btn" ng-disabled="!selectedGroup" class="btn" ng-click="save(selectedGroup)" title="{{'value.save' | translate}}"><i class="fa fa-plus"></i></a>
     </div>
   </ng-form>
 

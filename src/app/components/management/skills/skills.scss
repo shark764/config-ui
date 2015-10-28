@@ -1,0 +1,14 @@
+#skill-members{
+  .proficiency-col {
+    text-align: right !important;
+  }
+  
+  number-slider {
+    padding-right: 8px;
+    width: 200px;
+  }
+  
+  #usersForm number-slider {
+    min-width: 95px;
+  }
+}

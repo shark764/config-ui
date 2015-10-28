@@ -2,6 +2,7 @@
   <div class="table-controls top-row">
     <div class="col">
       <h2 ng-if="config.title">{{config.title}}</h2>
+      <a class="help-indicator" ng-show="config.helpLink" ng-href="{{ config.helpLink }}" target="_blank"><i class="fa fa-question-circle"></i></a>
     </div>
     <div class="col action-container">
       <button id="create-btn" ng-show="showCreate" class="btn btn-create btn-primary" ng-click="onCreateClick()">{{'value.create' | translate}}</button>
@@ -20,7 +21,7 @@
       <button id="actions-btn" ng-show="showBulkActions" class="btn" ng-click="onActionsClick()">{{'table.actions.button' | translate}}</button>
       <filter-dropdown id="table-columns-dropdown" class="btn"
         label="{{'table.columns.button' | translate}}"
-        options="config.fields"
+        options="getFields()"
         display-path="header.display"
         value-path="name"></filter-dropdown>
     </div>
@@ -58,7 +59,7 @@
 
   <tbody>
     <tr ng-repeat="item in (filtered = (items | selectedTableOptions:config.fields | search:config.searchOn:searchQuery | orderBy:orderBy:reverseSortOrder))"
-      ng-class="{selected: item.id === selected.id}">
+      ng-class="{selected: item[primaryKey] === selected[primaryKey]}">
       <td id="bulk-actions-select-table-cell" ng-show="showBulkActions" class="check-col" ng-click="checkItem(item)">
         <input type="checkbox" ng-checked="item.checked"/>
       </td>

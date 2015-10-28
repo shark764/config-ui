@@ -29,20 +29,20 @@ angular.module('liveopsConfigPanel')
           tenantId: Session.tenant.tenantId
         });
       };
+      
+      $scope.submit = function() {
+        return $scope.selectedDispatchMapping.save();
+      };
 
       $scope.$on('table:on:click:create', function() {
         $scope.create();
       });
 
       $scope.tableConfig = dispatchMappingTableConfig;
-
-      $scope.additional = {
-        fetchFlows: $scope.fetchFlows,
-        fetchIntegrations: $scope.fetchIntegrations,
-        dispatchMappingInteractionFields: dispatchMappingInteractionFields,
-        dispatchMappingChannelTypes: dispatchMappingChannelTypes,
-        dispatchMappingDirections: dispatchMappingDirections
-      };
+      
+      $scope.dispatchMappingInteractionFields = dispatchMappingInteractionFields;
+      $scope.dispatchMappingChannelTypes = dispatchMappingChannelTypes;
+      $scope.dispatchMappingDirections = dispatchMappingDirections;
       
       $scope.bulkActions = {
         setDispatchMappingStatus: new BulkAction()

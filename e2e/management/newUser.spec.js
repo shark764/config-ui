@@ -47,6 +47,7 @@ describe('The create new user form', function() {
     // Platform role dropdown displayed with expected roles
     expect(users.platformRoleFormDropdown.isDisplayed()).toBeTruthy();
     expect(users.platformRoleFormDropdownOptions.get(1).getText()).toBe(users.platformRoles[0]);
+    expect(users.platformRoleFormDropdownOptions.get(2).getText()).toBe(users.platformRoles[1]);
 
     // Invite now toggle displayed, selected by default with help icon
     expect(users.inviteNowFormToggle.isDisplayed()).toBeTruthy();
@@ -124,8 +125,8 @@ describe('The create new user form', function() {
   it('should display new user in table and display user details with correct Tenant Status', function() {
     // Add randomness to user details
     randomUser = Math.floor((Math.random() * 1000) + 1);
-    userAdded = false;
     newUserName = 'First' + randomUser + ' Last' + randomUser;
+    var newUserEmail = 'titantest' + randomUser + '@mailinator.com';
 
     // Add new user
     shared.createBtn.click();
@@ -138,23 +139,14 @@ describe('The create new user form', function() {
     users.lastNameFormField.sendKeys('Last' + randomUser);
     users.externalIdFormField.sendKeys(randomUser);
 
-    users.submitFormBtn.click();
-    expect(shared.successMessage.isDisplayed()).toBeTruthy();
+    users.submitFormBtn.click().then(function() {
+      shared.waitForSuccess();
+      expect(shared.successMessage.isDisplayed()).toBeTruthy();
 
-    // Confirm user is displayed in user list with correct details
-    shared.tableElements.then(function(users) {
-      for (var i = 1; i <= users.length; ++i) {
-        // Check if user name in table matches newly added user
-        element(by.css('tr.ng-scope:nth-child(' + i + ') > td:nth-child(2)')).getText().then(function(value) {
-          if (value == newUserName) {
-            userAdded = true;
-          }
-        });
-      }
-    }).thenFinally(function() {
-      // Verify new user was found in the user table
-      expect(userAdded).toBeTruthy();
-      expect(shared.tableElements.count()).toBeGreaterThan(userCount);
+      // Confirm user is displayed in user list with correct details
+      shared.searchField.sendKeys(newUserEmail);
+      expect(shared.tableElements.count()).toBe(1);
+      shared.firstTableRow.click();
       expect(users.userNameDetailsHeader.getText()).toBe(newUserName);
     });
   });
@@ -177,6 +169,7 @@ describe('The create new user form', function() {
     users.cancelFormBtn.click();
 
     // Warning message is displayed
+    shared.waitForAlert();
     var alertDialog = browser.switchTo().alert();
     expect(alertDialog.accept).toBeDefined();
     expect(alertDialog.dismiss).toBeDefined();
@@ -192,8 +185,8 @@ describe('The create new user form', function() {
     expect(users.firstNameFormField.getAttribute('value')).toBe('');
     expect(users.lastNameFormField.getAttribute('value')).toBe('');
     expect(users.emailFormField.getAttribute('value')).toBe('');
-    expect(users.tenantRoleFormDropdown.getAttribute('value')).toBe('');
-    expect(users.platformRoleFormDropdown.getAttribute('value')).toBe('');
+    expect(users.tenantRoleFormDropdown.$('option:checked').getText()).toContain('Select a role');
+    expect(users.platformRoleFormDropdown.$('option:checked').getText()).toContain('Select a role');
     expect(users.externalIdFormField.getAttribute('value')).toBe('');
 
     // Confirm user is not displayed in user list with correct details
@@ -337,9 +330,10 @@ describe('The create new user form', function() {
     // Attempt to create a new User with the email of an existing user
     shared.firstTableRow.element(by.css(users.emailColumn)).getText().then(function(existingUserEmail) {
       users.emailFormField.sendKeys(existingUserEmail + '\t').then(function() {
+
         // User details form displayed instead of creating a new user
-        expect(users.createNewUserHeader.isPresent()).toBeFalsy();
-        expect(users.userNameDetailsHeader.isDisplayed()).toBeTruthy();
+        expect(shared.detailsFormHeader.getText()).toContain(users.firstNameFormField.getAttribute('value'));
+        expect(shared.detailsFormHeader.getText()).toContain(users.lastNameFormField.getAttribute('value'));
 
         // Required details are populated
         expect(users.emailLabel.getText()).toBe(existingUserEmail);
@@ -349,7 +343,7 @@ describe('The create new user form', function() {
   });
 
   xit('should show user details when entering existing tenant user email; case insensitive', function() {
-    // TODO API Email is currently case sensitive
+    // TODO Our check for user's being in the current tenant is not case insensitive
     var caseChangeExistingEmail;
     shared.createBtn.click();
 
@@ -363,8 +357,8 @@ describe('The create new user form', function() {
       users.emailFormField.sendKeys(caseChangeExistingEmail + '\t');
 
       // User details form displayed instead of creating a new user
-      expect(shared.createNewUserHeader.isPresent()).toBeFalsy();
-      expect(shared.userNameDetailsHeader.isDisplayed()).toBeTruthy();
+      expect(shared.detailsFormHeader.getText()).toContain(users.firstNameFormField.getAttribute('value'));
+      expect(shared.detailsFormHeader.getText()).toContain(users.lastNameFormField.getAttribute('value'));
 
       // Required details are populated
       expect(users.emailLabel.getText()).toBe(existingUserEmail);
@@ -389,6 +383,7 @@ describe('The create new user form', function() {
 
     //Click Create button again
     shared.createBtn.click();
+    shared.waitForAlert();
     shared.dismissChanges();
 
     //Expect all fields to have been cleared
@@ -402,21 +397,27 @@ describe('The create new user form', function() {
   it('should reset invalid Email field after clicking Create while already Creating', function() {
     shared.createBtn.click();
 
-    //Fill in invalid values
-    users.emailFormField.sendKeys('not an email');
+    //Fill out all fields
+    users.emailFormField.sendKeys('not a valid email');
+    users.tenantRoleFormDropdownOptions.get(1).click();
+    users.platformRoleFormDropdownOptions.get(1).click();
 
     //Click Create button again
     shared.createBtn.click();
+    shared.waitForAlert();
     shared.dismissChanges();
 
     //Expect all fields to have been cleared
+    expect(users.firstNameFormField.getAttribute('value')).toBe('');
+    expect(users.lastNameFormField.getAttribute('value')).toBe('');
     expect(users.emailFormField.getAttribute('value')).toBe('');
+    expect(users.tenantRoleFormDropdown.getAttribute('value')).toBe('');
+    expect(users.externalIdFormField.getAttribute('value')).toBe('');
   });
 
   it('should allow newly added user to be edited', function() {
     // Add randomness to user details
     randomUser = Math.floor((Math.random() * 1000) + 1);
-    userAdded = false;
     newUserName = 'First' + randomUser + ' Last' + randomUser;
 
     // Add new user
@@ -430,14 +431,15 @@ describe('The create new user form', function() {
     users.lastNameFormField.sendKeys('Last' + randomUser);
     users.externalIdFormField.sendKeys(randomUser);
 
-    users.submitFormBtn.click().then(function () {
+    users.submitFormBtn.click().then(function() {
+      shared.waitForSuccess();
       expect(shared.successMessage.isDisplayed()).toBeTruthy();
 
       // Edit user details
       users.firstNameFormField.sendKeys('NewUserEdit');
       users.lastNameFormField.sendKeys('NewUserEdit');
       users.externalIdFormField.sendKeys('NewUserEdit');
-      users.submitFormBtn.click().then(function () {
+      users.submitFormBtn.click().then(function() {
         expect(shared.successMessage.isDisplayed()).toBeTruthy();
 
         // User found in table by updated name

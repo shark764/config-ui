@@ -1,24 +1,24 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('dispatchMappingTableConfig', ['statuses', 'dispatchMappingInteractionFields', 'dispatchMappingChannelTypes', '$translate', 'UserPermissions',
-    function (statuses, dispatchMappingInteractionFields, dispatchMappingChannelTypes, $translate, UserPermissions) {
+  .service('dispatchMappingTableConfig', ['statuses', 'dispatchMappingInteractionFields', 'dispatchMappingChannelTypes', '$translate', 'UserPermissions', 'helpDocsHostname',
+    function (statuses, dispatchMappingInteractionFields, dispatchMappingChannelTypes, $translate, UserPermissions, helpDocsHostname) {
       return {
         'fields': [{
           'header': {
             'display': $translate.instant('value.name')
           },
-          'name': 'name'
+          'name': '$original.name'
         }, {
           'header': {
             'display': $translate.instant('value.description')
           },
-          'name': 'description'
+          'name': '$original.description'
         }, {
           'header': {
             'display': $translate.instant('value.value')
           },
-          'name': 'value'
+          'name': '$original.value'
         }, {
           'header': {
             'display': $translate.instant('dispatchMappings.table.interactionField'),
@@ -26,7 +26,7 @@ angular.module('liveopsConfigPanel')
             'displayPath': 'display',
             'options': dispatchMappingInteractionFields
           },
-          'name': 'interactionField',
+          'name': '$original.interactionField',
           'id': 'interaction-column-dropdown',
           'lookup': '$original:interactionField',
           'filter': 'selectedOptions'
@@ -37,7 +37,7 @@ angular.module('liveopsConfigPanel')
             'displayPath': 'display',
             'options': dispatchMappingChannelTypes
           },
-          'name': 'channelType',
+          'name': '$original.channelType',
           'id': 'channelType-column-dropdown',
           'lookup': '$original:channelType',
           'filter': 'selectedOptions'
@@ -48,18 +48,19 @@ angular.module('liveopsConfigPanel')
             'displayPath': 'display',
             'options': statuses()
           },
-          'name': 'active',
+          'name': '$original.active',
           'id': 'status-column-dropdown',
           'lookup': '$original:active',
           'sortable': true,
           'transclude': true,
           'filter': 'selectedOptions'
         }],
-        'searchOn': ['name'],
-        'orderBy': 'name',
+        'searchOn': ['$original.name'],
+        'orderBy': '$original.name',
         'title': $translate.instant('dispatchmappings.table.title'),
         'showCreate': UserPermissions.hasPermission('MAP_ALL_CONTACT_POINTS'),
-        'showBulkActions': UserPermissions.hasPermission('MAP_ALL_CONTACT_POINTS')
+        'showBulkActions': UserPermissions.hasPermission('MAP_ALL_CONTACT_POINTS'),
+        'helpLink' : helpDocsHostname + '/Content/Managing%20Flows/Dispatch_Mapping.htm'
       };
     }
   ]);

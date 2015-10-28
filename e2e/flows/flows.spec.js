@@ -24,7 +24,7 @@ describe('The flows view', function() {
     shared.tearDown();
   });
 
-  it('should add new flow to table', function() {
+  xit('should add new flow to table', function() {
     var flowAdded = false;
     randomFlow = Math.floor((Math.random() * 1000) + 1);
     shared.createBtn.click();
@@ -32,19 +32,23 @@ describe('The flows view', function() {
     flows.nameFormField.sendKeys('Flow ' + randomFlow);
     flows.descriptionFormField.sendKeys('This is a new flow description');
     flows.typeFormDropdown.all(by.css('option')).get((randomFlow % 3) + 1).click();
-    shared.submitFormBtn.click();
-    expect(shared.successMessage.isDisplayed()).toBeTruthy();
+    shared.submitFormBtn.click().then(function() {
+      expect(shared.successMessage.isDisplayed()).toBeTruthy();
+      shared.searchField.sendKeys('Flow ' + randomFlow);
+
+      expect(shared.tableElements.count()).toBeGreaterThan(0);
+    });
   });
 
-  it('should include flow management page components', function() {
+  xit('should include flow management page components', function() {
     expect(shared.navBar.isDisplayed()).toBeTruthy();
 
     //Right panel is hidden by default
-    expect(shared.detailsForm.isDisplayed()).toBeFalsy();
+    expect(shared.rightPanel.isDisplayed()).toBeFalsy();
   });
 
 
-  it('should display flow details when selected from table', function() {
+  xit('should display flow details when selected from table', function() {
     // Select first flow from table
     shared.firstTableRow.click();
 
@@ -60,7 +64,7 @@ describe('The flows view', function() {
     });
   });
 
-  it('should allow the Flow fields to be updated', function() {
+  xit('should allow the Flow fields to be updated', function() {
     shared.firstTableRow.click();
 
     flows.versionsTableElements.count().then(function(curFlowVersionCount) {
@@ -89,7 +93,7 @@ describe('The flows view', function() {
     });
   });
 
-  it('should require name field when editing a Flow', function() {
+  xit('should require name field when editing a Flow', function() {
     flows.firstTableRow.click();
     flows.nameFormField.clear();
     flows.descriptionFormField.click();
@@ -103,7 +107,7 @@ describe('The flows view', function() {
     expect(flows.requiredErrors.get(0).getText()).toBe('Please enter a name');
   });
 
-  it('should not require description field when editing a Flow', function() {
+  xit('should not require description field when editing a Flow', function() {
     flows.firstTableRow.click();
     flows.descriptionFormField.clear();
     flows.nameFormField.click();
@@ -114,7 +118,7 @@ describe('The flows view', function() {
     });
   });
 
-  it('should reset fields after editing and selecting Cancel', function() {
+  xit('should reset fields after editing and selecting Cancel', function() {
     shared.firstTableRow.click();
 
     flows.versionsTableElements.count().then(function(curFlowVersionCount) {
@@ -135,6 +139,7 @@ describe('The flows view', function() {
       shared.cancelFormBtn.click();
 
       // Warning message is displayed
+      shared.waitForAlert();
       var alertDialog = browser.switchTo().alert();
       expect(alertDialog.accept).toBeDefined();
       expect(alertDialog.dismiss).toBeDefined();
@@ -150,7 +155,7 @@ describe('The flows view', function() {
     });
   });
 
-  it('should display all flow versions in Active Version dropdown', function() {
+  xit('should display all flow versions in Active Version dropdown', function() {
     shared.firstTableRow.click();
     flows.activeVersionDropdown.all(by.css('option')).then(function(dropdownVersions) {
       for (var i = 1; i < dropdownVersions.length; ++i) {
@@ -159,7 +164,7 @@ describe('The flows view', function() {
     });
   });
 
-  it('should display button to new flow version and correct fields', function() {
+  xit('should display button to new flow version and correct fields', function() {
     shared.firstTableRow.click();
 
     // Create Flow version details not displayed be default
@@ -177,7 +182,7 @@ describe('The flows view', function() {
     expect(flows.createVersionFormBtn.isDisplayed()).toBeTruthy();
   });
 
-  it('should hide flow version fields on cancel', function() {
+  xit('should hide flow version fields on cancel', function() {
     shared.firstTableRow.click();
     flows.showCreateNewVersionBtn.click();
     expect(flows.showCreateNewVersionBtn.isDisplayed()).toBeFalsy();
@@ -196,7 +201,7 @@ describe('The flows view', function() {
     });
   });
 
-  it('should add new flow version', function() {
+  xit('should add new flow version', function() {
     flowVersionCount = flows.versionsTableElements.count();
     randomFlow = Math.floor((Math.random() * 1000) + 1);
     flows.firstTableRow.click();
@@ -217,7 +222,7 @@ describe('The flows view', function() {
     });
   });
 
-  it('should require name when adding a new flow version', function() {
+  xit('should require name when adding a new flow version', function() {
     flows.firstTableRow.click();
     flowVersionCount = flows.versionsTableElements.count();
     randomFlow = Math.floor((Math.random() * 1000) + 1);
@@ -233,7 +238,7 @@ describe('The flows view', function() {
     expect(flows.versionsTableElements.count()).toBe(flowVersionCount);
   });
 
-  it('should not require description when adding a new flow version', function() {
+  xit('should not require description when adding a new flow version', function() {
     flowVersionCount = flows.versionsTableElements.count();
     randomFlow = Math.floor((Math.random() * 1000) + 1);
     flows.firstTableRow.click();
@@ -248,7 +253,7 @@ describe('The flows view', function() {
     });
   });
 
-  it('should not accept spaces only as valid field input when creating flow version', function() {
+  xit('should not accept spaces only as valid field input when creating flow version', function() {
     flows.firstTableRow.click();
     flowVersionCount = flows.versionsTableElements.count();
     flows.showCreateNewVersionBtn.click();
@@ -264,5 +269,23 @@ describe('The flows view', function() {
 
     expect(flows.versionsTableElements.count()).toBe(flowVersionCount);
     expect(shared.successMessage.isPresent()).toBeFalsy();
+  });
+
+  xit('should create version and select as default version', function() {
+    var flowAdded = false;
+    randomFlow = Math.floor((Math.random() * 1000) + 1);
+    shared.createBtn.click();
+
+    flows.nameFormField.sendKeys('Flow ' + randomFlow);
+    flows.descriptionFormField.sendKeys('This is a new flow description');
+    flows.typeFormDropdown.all(by.css('option')).get((randomFlow % 3) + 1).click();
+    shared.submitFormBtn.click().then(function() {
+      expect(shared.successMessage.isDisplayed()).toBeTruthy();
+      shared.searchField.sendKeys('Flow ' + randomFlow);
+
+      shared.firstTableRow.click();
+      expect(flows.activeVersionDropdown.all(by.css('option')).count()).toBe(2); // Includes disabled 'Select a version' option
+      expect(flows.activeVersionDropdown.$('option:checked').getText()).toBe('v1');
+    });
   });
 });

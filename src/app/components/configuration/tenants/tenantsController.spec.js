@@ -112,7 +112,7 @@ describe('TenantsController', function () {
     expect(AuthService.refreshTenants).not.toHaveBeenCalled();
   }]));
   
-  it('should refresh the tenants if user updates a tenant', inject(['AuthService', 'Tenant', function (AuthService, Tenant) {
+  it('should refresh the tenants if user updates a tenant', inject(['AuthService', function (AuthService) {
     spyOn(AuthService, 'refreshTenants');
     $scope.$broadcast('updated:resource:Tenant');
     $scope.$digest();

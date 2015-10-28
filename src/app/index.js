@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigPanel.config', 'pascalprecht.translate', 'ngCookies', 'ngMessages', 'ngSanitize', 'toastr', 'ngLodash', 'teljs', 'flow-library', 'realtime-dashboards'])
+angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigPanel.config', 'pascalprecht.translate', 'ngCookies', 'ngMessages', 'ngSanitize', 'toastr', 'ngLodash', 'teljs', 'flow-library', 'realtime-dashboards', 'ngFileUpload', 'dndLists'])
   .config(['$stateProvider', '$urlRouterProvider', '$translateProvider', 'toastrConfig', function($stateProvider, $urlRouterProvider, $translateProvider, toastrConfig) {
 
     $urlRouterProvider.otherwise(function($injector){
@@ -223,11 +223,8 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
 
             return deferred.promise;
           }],
-          media: ['Media', 'Session', function(Media, Session) {
-            return Media.query({tenantId : Session.tenant.tenantId});
-          }],
-          queue: ['Queue', 'Session', function(Queue, Session) {
-            return Queue.query({tenantId : Session.tenant.tenantId});
+          resources: ['FlowResource', function(FlowResource){
+            return FlowResource.loadResources();
           }],
           readOnly: [function(){
             return false;
@@ -278,11 +275,8 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
 
             return deferred.promise;
           }],
-          media: ['Media', 'Session', function(Media, Session) {
-            return Media.query({tenantId : Session.tenant.tenantId});
-          }],
-          queue: ['Queue', 'Session', function(Queue, Session) {
-            return Queue.query({tenantId : Session.tenant.tenantId});
+          resources: ['FlowResource', function(FlowResource){
+            return FlowResource.loadResources();
           }],
           readOnly: [function(){
             return true;
@@ -424,7 +418,7 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
     angular.extend(toastrConfig, {
       closeButton: true,
       timeout: 10000,
-      maxOpened: 1,
+      maxOpened: 3,
       positionClass: 'toast-top-right',
       preventOpenDuplicates: true,
       newestOnTop: true,

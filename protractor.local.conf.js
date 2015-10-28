@@ -6,12 +6,12 @@ exports.config = {
 
   capabilities: {
     'browserName': 'chrome',
-    'version': '35'
+    'version': '45'
   },
 
   // Timeout time in milliseconds; prevents Protractor waiting to synchronize timeouts
   // Defaults to 11 seconds
-  allScriptsTimeout: 300000,
+  allScriptsTimeout: 60000,
 
   // This can be changed via the command line as:
   // --params.login.user 'ngrocks'
@@ -58,6 +58,6 @@ exports.config = {
 
   jasmineNodeOpts: {
     showColors: true,
-    defaultTimeoutInterval: 300000
+    defaultTimeoutInterval: 60000
   }
 };

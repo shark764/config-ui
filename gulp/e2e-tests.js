@@ -39,7 +39,7 @@ module.exports = function(options) {
   });
 
   function runProtractor(done) {
-    gulp.src(options.e2e + '/**/*.spec.js')
+    gulp.src(process.env.E2E_TEST_SUITE)
       .pipe($.protractor.protractor({
         configFile: 'protractor.conf.js'
       }))

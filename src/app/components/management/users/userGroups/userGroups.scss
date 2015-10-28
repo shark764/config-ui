@@ -3,29 +3,8 @@ $tag-row-margin: 5px;
 
 user-groups {
 
-.null {
-  max-width:  $details-table-width;
-}
-  #addGroup{
-    width: 100%;
-    display: table;
-    margin-bottom: 10px;
-    padding-right: 0;
-
-    .btn {
-      height: $input-height;
-      line-height: $input-height - 8px;
-      width: $input-height;
-    }
-
-    type-ahead {
-      padding-right: 8px;
-      width: $details-table-width - $input-height;
-    }
-
-    & > * {
-      display: table-cell;
-    }
+  .null {
+    max-width:  $details-table-width;
   }
 
   #tag-wrapper {
@@ -43,26 +22,10 @@ user-groups {
   }
 
   .tag {
-    border: 1px solid $light-grey;
-    @include border-radius();
-    display: inline-block;
-    float: left;
-    line-height: 2.5ex;
     margin: 0 5px $tag-row-margin 5px;
     height: $tag-row-height;
-    background-color: $lightest-grey;
-    color: $darkest-grey;
-    padding: 3px 7px;
-
-    a {
-      color: $grey;
-    }
-
-    a:hover {
-      color: $dark-grey;
-    }
   }
-
+  
   .expander {
     height: 5px;
     margin: 5px auto;

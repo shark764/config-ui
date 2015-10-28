@@ -11,7 +11,7 @@ describe('userSkills directive', function(){
     mockSkills,
     mockUserSkills,
     mockTenantUsers,
-    TenantUserSkills;
+    TenantUserSkill;
 
   beforeEach(module('gulpAngular'));
   beforeEach(module('liveopsConfigPanel'));
@@ -19,8 +19,8 @@ describe('userSkills directive', function(){
   beforeEach(module('liveopsConfigPanel.mock.content.management.tenantUsers'));
   beforeEach(module('liveopsConfigPanel.mock.content.management.skills'));
 
-  beforeEach(inject(['$compile', '$rootScope', '$httpBackend', 'Session', 'apiHostname', 'mockSkills', 'mockUserSkills', 'mockTenantUsers', 'TenantUserSkills',
-    function($compile, $rootScope, _$httpBackend, _Session, _apiHostname, _mockSkills, _mockUserSkills, _mockTenantUsers, _TenantUserSkills) {
+  beforeEach(inject(['$compile', '$rootScope', '$httpBackend', 'Session', 'apiHostname', 'mockSkills', 'mockUserSkills', 'mockTenantUsers', 'TenantUserSkill', 'tenantUserTransformer',
+    function($compile, $rootScope, _$httpBackend, _Session, _apiHostname, _mockSkills, _mockUserSkills, _mockTenantUsers, _TenantUserSkill, tenantUserTransformer) {
       $scope = $rootScope.$new();
 
       $httpBackend = _$httpBackend;
@@ -29,8 +29,9 @@ describe('userSkills directive', function(){
       mockSkills = _mockSkills;
       mockUserSkills = _mockUserSkills;
       mockTenantUsers = _mockTenantUsers;
-      TenantUserSkills = _TenantUserSkills;
+      TenantUserSkill = _TenantUserSkill;
       
+      tenantUserTransformer.transform(mockTenantUsers[0]);
       $scope.user = mockTenantUsers[0];
 
       element = $compile('<user-skills user="user"></user-skills>')($scope);
@@ -40,34 +41,27 @@ describe('userSkills directive', function(){
       isolateScope = element.isolateScope();
     }
   ]));
-  
+
+  it('should call reset when the user changes', function() {
+    spyOn(isolateScope, 'reset');
+    $scope.user = {id: 'userId2', $skills: []};
+    $scope.$digest();
+    isolateScope.$digest();
+    expect(isolateScope.reset).toHaveBeenCalled();
+  });
+
   describe('ON fetchSkills', function() {
     it('should be defined', function() {
       expect(isolateScope.fetchSkills);
     });
-    
+
     it('should return skills on call', function() {
       var skills = isolateScope.fetchSkills();
-      
+
       expect(skills).toBeDefined();
       expect(skills.length).toEqual(2);
     });
   });
-  
-
-  it('should have userSkills defined', function() {
-    expect(isolateScope.userSkills).toBeDefined();
-    expect(isolateScope.userSkills.length).toEqual(2);
-  });
-
-  it('should not have skills or userSkill defined if no tenant is selected', inject(['$compile', function($compile) {
-    Session.tenant = {};
-    element = $compile('<user-skills user="user"></user-skills>')($scope);
-    $scope.$digest();
-    isolateScope = element.isolateScope();
-    expect(isolateScope.userSkills).toBeUndefined();
-    expect(isolateScope.skills).toBeUndefined();
-  }]));
 
   describe('remove function', function() {
     it('should exist', function() {
@@ -76,18 +70,17 @@ describe('userSkills directive', function(){
     });
 
     it('should call delete on the item', function() {
-      var tus = new TenantUserSkills();
+      var tus = new TenantUserSkill();
       spyOn(tus, '$delete');
       isolateScope.remove(tus);
       expect(tus.$delete).toHaveBeenCalled();
     });
 
-    it('should remove the deleted item from userSkills on success', function() {
-      spyOn(isolateScope.userSkills[0], '$delete').and.callFake(function(param, successCallback) {
-        successCallback();
-      });
-
+    it('should remove the deleted item from userSkill cache on success', function() {
+      //This functionality is handled by the interceptor on TenantUserSkill
       isolateScope.remove(isolateScope.userSkills[0]);
+      $httpBackend.flush();
+      isolateScope.$digest();
       expect(isolateScope.userSkills.length).toBe(1);
       expect(isolateScope.userSkills[0].skillId).toEqual('skillId2');
     });
@@ -101,43 +94,20 @@ describe('userSkills directive', function(){
       expect(isolateScope.userSkills.length).toBe(2);
       expect(isolateScope.userSkills[0].skillId).toEqual('skillId1');
     });
-  });
 
-  describe('fetch function', function() {
-    it('should exist', function() {
-      expect(isolateScope.fetch).toBeDefined();
-      expect(isolateScope.fetch).toEqual(jasmine.any(Function));
-    });
+    it('should remove the deleted item from the user\'s skills array', function() {
+      isolateScope.user.$skills = [{
+        id: isolateScope.userSkills[0].skillId
+      }, {
+        id: isolateScope.userSkills[1].skillId
+      }];
 
-    it('should set saving to false', function() {
-      isolateScope.saving = true;
-      isolateScope.fetch();
-      expect(isolateScope.saving).toBeFalsy();
-
-      isolateScope.saving = true;
-      delete Session.tenant.tenantId;
-      isolateScope.fetch();
-      expect(isolateScope.saving).toBeFalsy();
-    });
-
-    it('should not get userSkills if no tenant is selected', function() {
-      spyOn(TenantUserSkills, 'query');
-      delete Session.tenant.tenantId;
-      isolateScope.fetch();
-      expect(TenantUserSkills.query).not.toHaveBeenCalled();
-    });
-
-    it('should query TenantuserSkills', function() {
-      spyOn(TenantUserSkills, 'query');
-      isolateScope.fetch();
-      expect(TenantUserSkills.query).toHaveBeenCalled();
-    });
-
-    it('should call reset on success', function() {
-      spyOn(isolateScope, 'reset');
-      isolateScope.fetch();
+      isolateScope.remove(isolateScope.userSkills[0]);
       $httpBackend.flush();
-      expect(isolateScope.reset).toHaveBeenCalled();
+      isolateScope.$digest();
+
+      expect(isolateScope.user.$skills.length).toBe(1);
+      expect(isolateScope.user.$skills[0].id).toEqual('skillId2');
     });
   });
 
@@ -163,6 +133,19 @@ describe('userSkills directive', function(){
       isolateScope.reset();
       expect(isolateScope.newUserSkill.skillId).toBeNull();
     });
+
+    it('should reset the form name field', function() {
+      isolateScope.skillsForm = {
+          name : {
+            $setPristine : jasmine.createSpy('$setPristine'),
+            $setUntouched : jasmine.createSpy('$setUntouched')
+          }
+      };
+
+      isolateScope.reset();
+      expect(isolateScope.skillsForm.name.$setPristine).toHaveBeenCalled();
+      expect(isolateScope.skillsForm.name.$setUntouched).toHaveBeenCalled();
+    });
   });
 
   describe('save function', function() {
@@ -171,39 +154,36 @@ describe('userSkills directive', function(){
       expect(isolateScope.save).toEqual(jasmine.any(Function));
     });
 
+    it('should do nothing if the selected skill is null', function() {
+      spyOn(isolateScope, 'saveUserSkill');
+
+      isolateScope.save(null);
+      isolateScope.$digest();
+      expect(isolateScope.saveUserSkill).not.toHaveBeenCalled();
+    });
+
     it('should set saving to true', function() {
-      isolateScope.selectedSkill = mockSkills[2];
-      isolateScope.selectedSkill = {};
-      isolateScope.save();
+      isolateScope.save({});
       expect(isolateScope.saving).toBeTruthy();
     });
 
-    it('should create a new skill if the user entered a new one', function() {
+    it('should create a new skill if given a string', function() {
       spyOn(isolateScope, 'saveUserSkill'); //Stub this out for this test
-      
-      isolateScope.selectedSkill = {
-        name: 'totally new skill'
-      };
-      isolateScope.save();
+      $httpBackend.expectPOST(apiHostname + '/v1/tenants/tenant-id/skills');
+      isolateScope.save('totally new skill');
       $httpBackend.flush();
     });
 
     it('should set hasProficiency for the new skill', function() {
       spyOn(isolateScope, 'saveUserSkill'); //Stub this out for this test
-      isolateScope.selectedSkill = {
-        name: 'totally new skill'
-      };
 
       $httpBackend.expectPOST(apiHostname + '/v1/tenants/tenant-id/skills', function(requestBody) {
         var data = JSON.parse(requestBody);
         return data.hasProficiency === false;
       });
-      isolateScope.save();
+      isolateScope.save('totally new skill');
       $httpBackend.flush();
 
-      isolateScope.selectedSkill = {
-        name: 'totally new skill'
-      };
       isolateScope.newUserSkill = {
         proficiency: '0'
       };
@@ -211,50 +191,40 @@ describe('userSkills directive', function(){
         var data = JSON.parse(requestBody);
         return data.hasProficiency === true;
       });
-      isolateScope.save();
+      isolateScope.save('totally new skill');
       $httpBackend.flush();
     });
 
     it('should call save user skill on create skill success', function() {
-      isolateScope.selectedSkill = {
-        name: 'totally new skill'
-      };
       spyOn(isolateScope, 'saveUserSkill');
-      isolateScope.save();
+      isolateScope.save('totally new skill');
       $httpBackend.flush();
-      expect(isolateScope.selectedSkill.id).toEqual('skillId3');
       expect(isolateScope.saveUserSkill).toHaveBeenCalled();
     });
 
     it('should call save user skill if the skill already exists', function() {
-      isolateScope.selectedSkill = mockSkills[2];
       spyOn(isolateScope, 'saveUserSkill');
-      isolateScope.save();
+      isolateScope.save(mockSkills[2]);
       expect(isolateScope.saveUserSkill).toHaveBeenCalled();
     });
   });
 
   describe('saveUserSkill function', function() {
-    beforeEach(function() {
-      isolateScope.selectedSkill = mockUserSkills[1];
-    });
-
     it('should exist', function() {
       expect(isolateScope.saveUserSkill).toBeDefined();
       expect(isolateScope.saveUserSkill).toEqual(jasmine.any(Function));
     });
 
     it('should not send proficiency if the selected skill doesn\'t have proficiency', function() {
-      isolateScope.selectedSkill = {
-        id: 'skillthree',
-        name: 'Three'
-      };
-      isolateScope.newUserSkill = new TenantUserSkills({
+      isolateScope.newUserSkill = new TenantUserSkill({
         proficiency: '100',
         tenantId: 'tenant-id',
         userId: 'userId1'
       });
-      isolateScope.saveUserSkill();
+      isolateScope.saveUserSkill({
+        id: 'skillthree',
+        name: 'Three'
+      });
       $httpBackend.expectPOST(apiHostname + '/v1/tenants/tenant-id/users/userId1/skills', function(requestBody) {
         var data = JSON.parse(requestBody);
         return data.proficiency === undefined;
@@ -263,61 +233,61 @@ describe('userSkills directive', function(){
     });
 
     it('should save the given proficiency if the selected skill hasProficiency', function() {
-      isolateScope.selectedSkill.hasProficiency = true;
+      mockSkills[0].hasProficiency = true;
       isolateScope.newUserSkill.proficiency = '33';
-      isolateScope.saveUserSkill();
+      isolateScope.saveUserSkill(mockSkills[0]);
       $httpBackend.expectPOST(apiHostname + '/v1/tenants/tenant-id/users/userId1/skills', function(requestBody) {
         var data = JSON.parse(requestBody);
         return data.proficiency === 33;
       });
     });
-    
+
     it('should set a default proficiency of 1 if the selected skill hasProficiency', function() {
-      isolateScope.selectedSkill.hasProficiency = true;
-      isolateScope.saveUserSkill();
+      mockSkills[0].hasProficiency = true;
+      isolateScope.saveUserSkill(mockSkills[0]);
       $httpBackend.expectPOST(apiHostname + '/v1/tenants/tenant-id/users/userId1/skills', function(requestBody) {
         var data = JSON.parse(requestBody);
         return data.proficiency === 1;
       });
     });
 
-    it('should add the user skill if its new', function() {
+    it('should add the user skill to the userSkills list', function() {
       expect(isolateScope.userSkills.length).toBe(2);
-      isolateScope.saveUserSkill();
+      isolateScope.saveUserSkill(mockSkills[0]);
+      $httpBackend.flush();
+      isolateScope.$digest();
       expect(isolateScope.userSkills.length).toBe(3);
-    });
-
-    it('should update the proficiency of an existing user skill', function() {
-      isolateScope.selectedSkill = {
-        id: 'a',
-        hasProficiency: true
-      };
-      $httpBackend.expectPOST(apiHostname + '/v1/tenants/tenant-id/users/userId1/skills', function(requestBody) {
-        var data = JSON.parse(requestBody);
-        return data.proficiency === 33;
-      });
-      isolateScope.newUserSkill.proficiency = 33;
-      isolateScope.saveUserSkill();
-      expect(isolateScope.userSkills[2].proficiency).toEqual(33);
     });
 
     it('should reset on success', function() {
       spyOn(isolateScope, 'reset');
-      isolateScope.saveUserSkill();
+      isolateScope.saveUserSkill(mockSkills[0]);
       $httpBackend.flush();
       expect(isolateScope.reset).toHaveBeenCalled();
       expect(isolateScope.saving).toBeFalsy();
     });
 
-    it('should fetch on error', function() {
-      spyOn(isolateScope, 'fetch');
-      isolateScope.newUserSkill.userId='someuser';
-      
-      $httpBackend.expectPOST(apiHostname + '/v1/tenants/tenant-id/users/someuser/skills').respond(500);
-      isolateScope.saveUserSkill();
+    it('should show an error alert on fail', inject(['Alert', function(Alert) {
+      spyOn(Alert, 'error');
+      $httpBackend.expectPOST(apiHostname + '/v1/tenants/tenant-id/users/userId1/skills').respond(500);
+
+      isolateScope.saveUserSkill(mockSkills[0]);
       $httpBackend.flush();
-      
-      expect(isolateScope.fetch).toHaveBeenCalled();
+
+      expect(Alert.error).toHaveBeenCalled();
+    }]));
+  });
+
+  describe('updateUserSkill function', function() {
+    it('should be defined', function() {
+      expect(isolateScope.updateUserSkill).toBeDefined();
+      expect(isolateScope.updateUserSkill).toEqual(jasmine.any(Function));
+    });
+
+    it('should save the given userSkill', function() {
+      $httpBackend.expectPUT(apiHostname + '/v1/tenants/tenant-id/users/userId1/skills/skillId1').respond(200);
+      isolateScope.updateUserSkill(mockUserSkills[0]);
+      $httpBackend.flush();
     });
   });
 });

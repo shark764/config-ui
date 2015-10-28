@@ -3,6 +3,7 @@
 describe('The tenants view', function() {
   var loginPage = require('../login/login.po.js'),
     tenants = require('./tenants.po.js'),
+    profile = require('../userProfile/profile.po.js'),
     shared = require('../shared.po.js'),
     params = browser.params,
     tenantCount;
@@ -37,17 +38,52 @@ describe('The tenants view', function() {
     expect(shared.pageHeader.getText()).toBe('Tenant Management');
   });
 
-  xit('should display tenants available to the current user corresponding with the Tenants Navigation dropdown', function() {
-    // Confirm tenant added to tenant dropdown
-    shared.tenantsNavDropdown.click();
-    expect(shared.tenantsNavDropdownContents.count()).toBe(tenantCount);
 
-    tenantCount.then(function(numTenants) {
-      for (var i = 0; i < numTenants; i++) {
-        // Each table row should should match a tenant in the nav dropdown
-        expect(shared.tableElements.get(i).getText()).toContain(shared.tenantsNavDropdownContents.get(i).getText());
+  it('should display users in the admin dropdown', function() {
+    shared.createBtn.click();
+
+    var adminUserList = [];
+    tenants.adminDropDownItems.each(function(adminElement, index) {
+      if (index < 10) { // Only check first 10 users to limit test length
+        adminElement.getText().then(function(adminName) {
+          adminUserList.push(adminName);
+        });
       }
-    })
+    }).then(function() {
+      browser.get(shared.usersPageUrl);
+
+      // Admin list on Tenants page should contain all Users
+      for (var i = 0; i < adminUserList.length && i < 10; i++) {
+        shared.searchField.clear();
+        shared.searchField.sendKeys(adminUserList[i]);
+        expect(shared.tableElements.count()).toBeGreaterThan(0);
+      }
+    });
+  });
+
+  it('should display users email in the admin dropdown when name is blank', function() {
+    // Remove current user's first and last name
+    browser.get(shared.profilePageUrl);
+    profile.firstNameFormField.clear();
+    profile.lastNameFormField.clear();
+
+    profile.updateProfileBtn.click().then(function() {
+      expect(shared.successMessage.isPresent()).toBeTruthy();
+
+      // Verify that the user's email is displayed in the admin dropdown
+      browser.get(shared.tenantsPageUrl);
+      shared.createBtn.click();
+
+      expect(tenants.adminFormDropDown.$('option:checked').getText()).toBe(params.login.user);
+    }).then(function() {
+      // Reset users name
+      browser.get(shared.profilePageUrl);
+      profile.firstNameFormField.sendKeys(params.login.firstName);
+      profile.lastNameFormField.sendKeys(params.login.lastName);
+      profile.updateProfileBtn.click();
+      shared.waitForSuccess();
+      expect(shared.successMessage.isPresent()).toBeTruthy();
+    });
   });
 
   it('should display tenant details when selected from table', function() {
@@ -69,19 +105,22 @@ describe('The tenants view', function() {
   });
 
   it('should require name field when editing', function() {
-    shared.searchField.sendKeys('Tenant'); // Ensure Platform tenant is not selected
+    shared.tableElements.count().then(function(tenantCount) {
+      if (tenantCount > 0) {
+        tenants.firstTableRow.click().then(function() {
+          tenants.nameFormField.clear();
+          tenants.nameFormField.sendKeys('\t');
 
-    tenants.firstTableRow.click();
+          // Submit button is still disabled
+          expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
+          shared.submitFormBtn.click();
 
-    tenants.nameFormField.clear();
-    tenants.descriptionFormField.click();
-
-    // Submit button is still disabled
-    expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
-
-    expect(tenants.nameRequiredError.get(0).isDisplayed()).toBeTruthy();
-    expect(tenants.nameRequiredError.get(0).getText()).toBe('Please enter a name');
-    expect(shared.successMessage.isPresent()).toBeFalsy();
+          expect(tenants.nameRequiredError.get(0).isDisplayed()).toBeTruthy();
+          expect(tenants.nameRequiredError.get(0).getText()).toBe('Please enter a name');
+          expect(shared.successMessage.isPresent()).toBeFalsy();
+        });
+      }
+    });
   });
 
   it('should not require description when editing', function() {
@@ -111,6 +150,7 @@ describe('The tenants view', function() {
     shared.cancelFormBtn.click();
 
     // Warning message is displayed
+    shared.waitForAlert();
     var alertDialog = browser.switchTo().alert();
     expect(alertDialog.accept).toBeDefined();
     expect(alertDialog.dismiss).toBeDefined();
@@ -141,7 +181,7 @@ describe('The tenants view', function() {
   });
 
   xit('should update tenant name in table and nav dropdown when edited', function() {
-    // TODO Bug TITAN2-3527
+    // Fails; tenant name is not updated in dropdown due to caching
     var tenantUpdated = false;
 
     shared.searchField.sendKeys('Tenant'); // Ensure Platform tenant is not selected

@@ -1,16 +1,6 @@
 user-skills {
-  .btn {
-    height: $input-height;
-    line-height: $input-height - 8px;
-    width: $input-height;
-  }
   .null {
     max-width:  $details-table-width;
-  }
-
-  type-ahead {
-    padding-right: 8px;
-    width: $details-table-width - $input-height;
   }
 
   number-slider {
@@ -19,15 +9,6 @@ user-skills {
   }
 
   #skillsForm {
-    width: 100%;
-    display: table;
-    margin-bottom: 10px;
-    padding-right: 0;
-
-    > * {
-      display: table-cell;
-    }
-
     number-slider {
       min-width: 95px;
     }

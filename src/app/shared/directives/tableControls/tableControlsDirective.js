@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('tableControls', ['$rootScope', '$filter', '$location', '$stateParams', '$parse', 'DirtyForms',
-    function ($rootScope, $filter, $location, $stateParams, $parse, DirtyForms) {
+  .directive('tableControls', ['$rootScope', '$filter', '$location', '$stateParams', '$parse', 'DirtyForms', 'Session',
+    function ($rootScope, $filter, $location, $stateParams, $parse, DirtyForms, Session) {
       return {
         restrict: 'E',
         scope: {
@@ -17,6 +17,9 @@ angular.module('liveopsConfigPanel')
         transclude: true,
         controller: function () {},
         link: function ($scope) {
+          $scope.primaryKey = $scope.config.primaryKey ?
+            $scope.config.primaryKey : 'id';
+          
           $scope.$watch('config', function(){
             $scope.showBulkActions = angular.isDefined($scope.config.showBulkActions) ? $scope.config.showBulkActions : true;
             $scope.showCreate = angular.isDefined($scope.config.showCreate) ? $scope.config.showCreate : true;
@@ -33,6 +36,12 @@ angular.module('liveopsConfigPanel')
               $location.search({
                 id: item.id
               });
+          });
+
+          $scope.$on('dropdown:item:checked', function (){
+            var columnPreferences = Session.columnPreferences;
+            columnPreferences[$scope.config.title] = $scope.config.fields;
+            Session.setColumnPreferences(columnPreferences);
           });
 
           $scope.onCreateClick = function () {
@@ -168,6 +177,22 @@ angular.module('liveopsConfigPanel')
                 });
               }
             });
+          };
+
+          $scope.getFields = function(){
+
+            for (var fieldIndex = 0; fieldIndex < $scope.config.fields.length; fieldIndex++) {
+              if (Session.columnPreferences[$scope.config.title]) {
+                for (var storeOptionIndex = 0; storeOptionIndex < Session.columnPreferences[$scope.config.title].length; storeOptionIndex++) {
+                  var storedOption = Session.columnPreferences[$scope.config.title][storeOptionIndex];
+                  if ($scope.config.fields[fieldIndex].header.display === storedOption.header.display) {
+                    $scope.config.fields[fieldIndex].checked = (angular.isUndefined(storedOption.checked) ? true : storedOption.checked);
+                  }
+                }
+              }
+            }
+
+            return $scope.config.fields;
           };
         }
       };

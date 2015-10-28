@@ -4,7 +4,14 @@
   items="fetchMedias()"
   selected="selectedMedia"
   resource-name="Media"
-  hide-bulk-actions="true"></table-controls>
+  hide-bulk-actions="true">
+  
+  <div name="$original.type">
+    <span ng-show="item.type === 'tts'">{{'media.details.mediaTypes.tts' | translate}}</span>
+    <span ng-show="item.type === 'audio'">{{'media.details.mediaTypes.audio' | translate}}</span>
+  </div>
+  
+  </table-controls>
 
 <resize-handle
   ng-show="!! selectedMedia"
@@ -13,15 +20,17 @@
   left-element-id="table-pane" ></resize-handle>
 
 <lo-details-panel id="right-panel" class="right-panel"
+  name="mediaDetailsController"
   ng-show="selectedMedia"
-  ng-resource="selectedMedia">
+  ng-resource="selectedMedia"
+  lo-media-details>
 
   <ng-form unsaved-changes-warning class="details-pane"
     ng-show="selectedMedia" name="forms.mediaForm"
     ng-model="selectedMedia"
     ng-resource="selectedMedia"
-    lo-form-submit="media:save"
-    lo-form-cancel="media:cancel"
+    lo-form-submit
+    lo-form-cancel
     lo-form-alert>
 
     <div class="detail-header"
@@ -35,14 +44,15 @@
     <div class="detail-controls">
       <input id="cancel-details-btn" type="button" class="btn"
         value="{{'value.cancel' | translate}}"
-        lo-cancel-chain-executor="media:cancel"></input>
-      <input id="submit-details-btn" class="btn btn-primary" ng-hide="loading"
+        lo-cancel>
+      </input>
+      <input id="submit-details-btn" class="btn btn-primary"
         type="submit" value="{{'value.submit' | translate}}"
         ng-disabled="forms.mediaForm.$invalid || ! forms.mediaForm.$dirty"
-        lo-submit-chain-executor="media:save"></input>
-      <a ng-show="loading" ng-disabled="true" class="btn btn-primary">
-        <i class="fa fa-refresh fa-spin"></i>
-      </a>
+        lo-submit="mediaDetailsController.submit()"
+        lo-submit-spinner
+        lo-submit-spinner-status="selectedMedia.$busy">
+      </input>
     </div>
   </ng-form>
 </lo-details-panel>

@@ -1,36 +1,36 @@
-<div ng-hide="! originalResource.id">
-  <toggle class="status-toggle" ng-model="resource.active" name="active" 
+<div ng-hide="selectedGroup.isNew()">
+  <toggle class="status-toggle" ng-model="selectedGroup.active" name="active" 
   confirm-disable-message="{{'group.details.disable.confirm' | translate}}"
   confirm-enable-message="{{'group.details.enable.confirm' | translate}}"
-  ng-disabled="!('MANAGE_ALL_GROUPS' | hasPermission) || originalResource.type == 'everyone'"></toggle>
+  ng-disabled="!('MANAGE_ALL_GROUPS' | hasPermission) || selectedGroup.$original.type == 'everyone'"></toggle>
 
   <div class="info">
-     <h1 id="group-details-name-header">{{originalResource.name}}</h1>
-     <div class="details" ng-if="['PLATFORM_VIEW_ALL_USERS', 'PLATFORM_CREATE_USERS', 'PLATFORM_MANAGE_ALL_USERS', 'PLATFORM_MANAGE_ALL_TENANTS', 'PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT'] | hasPermission">
+     <h1 id="group-details-name-header">{{selectedGroup.$original.name}}</h1>
+     <div class="details" ng-if="['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'VIEW_ALL_USERS', 'MANAGE_ALL_USER_EXTENSIONS', 'MANAGE_ALL_GROUP_USERS', 'MANAGE_ALL_USER_SKILLS', 'MANAGE_ALL_USER_LOCATIONS', 'MANAGE_TENANT_ENROLLMENT'] | hasPermission">
        <b audit-text
          translation="value.createdby.time"
-         user-id="originalResource.createdBy"
-         date="originalResource.created">
+         user-id="selectedGroup.$original.createdBy"
+         date="selectedGroup.$original.created">
        </b>
        <br/>
-       <b audit-text ng-if="!!originalResource.updatedBy"
+       <b audit-text ng-if="!!selectedGroup.$original.updatedBy"
          translation="value.updatedby"
-         user-id="originalResource.updatedBy"
-         date="originalResource.updated">
+         user-id="selectedGroup.$original.updatedBy"
+         date="selectedGroup.$original.updated">
        </b>
      </div>
-     <div class="details" ng-if="!(['PLATFORM_VIEW_ALL_USERS', 'PLATFORM_CREATE_USERS', 'PLATFORM_MANAGE_ALL_USERS', 'PLATFORM_MANAGE_ALL_TENANTS', 'PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT'] | hasPermission)">
+     <div class="details" ng-if="!(['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'VIEW_ALL_USERS', 'MANAGE_ALL_USER_EXTENSIONS', 'MANAGE_ALL_GROUP_USERS', 'MANAGE_ALL_USER_SKILLS', 'MANAGE_ALL_USER_LOCATIONS', 'MANAGE_TENANT_ENROLLMENT'] | hasPermission)">
        <b audit-text
          translation="value.createdon.time"
-         date="originalResource.created">
+         date="selectedGroup.$original.created">
        </b>
        <br/>
-       <b audit-text ng-if="!!originalResource.updated"
+       <b audit-text ng-if="!!selectedGroup.$original.updated"
          translation="value.updatedon"
-         date="originalResource.updated">
+         date="selectedGroup.$original.updated">
        </b>
      </div>
   </div>
 </div>
 
-<h1 ng-hide="originalResource.id">{{'group.details.creating' | translate}}</h1>
+<h1 ng-hide="! selectedGroup.isNew()">{{'group.details.creating' | translate}}</h1>

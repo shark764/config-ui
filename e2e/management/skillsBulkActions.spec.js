@@ -10,6 +10,16 @@ describe('The skills view bulk actions', function() {
 
   beforeAll(function() {
     loginPage.login(params.login.user, params.login.password);
+
+    // Ensure skill exists
+    var random = Math.floor((Math.random() * 1000) + 1);
+    browser.get(shared.skillsPageUrl);
+    shared.createBtn.click();
+    skills.nameFormField.sendKeys('Skill Name ' + random);
+
+    shared.submitFormBtn.click().then(function() {
+      expect(shared.successMessage.isDisplayed()).toBeTruthy();
+    });
   });
 
   beforeEach(function() {
@@ -145,7 +155,7 @@ describe('The skills view bulk actions', function() {
 
     expect(bulkActions.confirmModal.isDisplayed()).toBeTruthy();
     bulkActions.confirmOK.click().then(function() {
-      expect(shared.successMessage.isDisplayed()).toBeTruthy();
+      shared.waitForSuccess();
 
       // First table row is updated
       expect(shared.firstTableRow.getText()).toContain('Yes');
@@ -205,7 +215,7 @@ describe('The skills view bulk actions', function() {
     });
   });
 
-  xit('should only affect selected skills', function() {
+  it('should only affect selected skills', function() {
     shared.tableElements.then(function(originalSkills) {
       // Select odd skills and leave even skills unselected
       for (var i = 0; i < originalSkills.length; i++) {

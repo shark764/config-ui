@@ -5,39 +5,61 @@ angular.module('liveopsConfigPanel.mock.content.management.skills', ['liveopsCon
     return [new Skill({
       'id': 'skillId1',
       'name': 'skillName1',
-      'tenantId': 'tenant-id'
+      'tenantId': 'tenant-id',
+      'hasProficiency': true
     }), new Skill({
       'id': 'skillId2',
       'name': 'skillName2',
-      'tenantId': 'tenant-id'
+      'tenantId': 'tenant-id',
+      'hasProficiency': false
     }), new Skill({
       'id': 'skillId3',
       'name': 'skillName3',
       'description': 'Does not exist yet!',
-      'tenantId': 'tenant-id'
+      'tenantId': 'tenant-id',
+      'hasProficiency': false
     })];
   })
-  .service('mockUserSkills', function(TenantUserSkills) {
-    return [new TenantUserSkills({
+  .service('mockUserSkills', function(TenantUserSkill) {
+    return [new TenantUserSkill({
       'skillId': 'skillId1',
+      'tenantId': 'tenant-id',
       'userId': 'userId1',
       'proficiency': 0
-    }), new TenantUserSkills({
+    }), new TenantUserSkill({
       'skillId': 'skillId1',
+      'tenantId': 'tenant-id',
       'userId': 'userId2',
       'proficiency': 5
-    }), new TenantUserSkills({
+    }), new TenantUserSkill({
       'skillId': 'skillId2',
+      'tenantId': 'tenant-id',
       'userId': 'userId1',
       'proficiency': 8
-    }), new TenantUserSkills({
+    }), new TenantUserSkill({
       'skillId': 'skillId3',
+      'tenantId': 'tenant-id',
       'userId': 'userId2',
       'proficiency': 10
     })];
   })
-  .run(['$httpBackend', 'apiHostname', 'mockSkills', 'mockUserSkills',
-    function($httpBackend, apiHostname, mockSkills, mockUserSkills) {
+  .service('mockSkillUsers', function(TenantSkillUser) {
+    return [new TenantSkillUser({
+      'userId': 'userId1',
+      'proficiency': 0
+    }), new TenantSkillUser({
+      'userId': 'userId2',
+      'proficiency': 5
+    }), new TenantSkillUser({
+      'userId': 'userId1',
+      'proficiency': 8
+    }), new TenantSkillUser({
+      'userId': 'userId2',
+      'proficiency': 10
+    })];
+  })
+  .run(['$httpBackend', 'apiHostname', 'mockSkills', 'mockUserSkills', 'mockSkillUsers',
+    function($httpBackend, apiHostname, mockSkills, mockUserSkills, mockSkillUsers) {
       //GET tenants/skills
       $httpBackend.when('GET', apiHostname + '/v1/tenants/tenant-id/skills').respond({
         'result': [mockSkills[0], mockSkills[1]]
@@ -55,14 +77,18 @@ angular.module('liveopsConfigPanel.mock.content.management.skills', ['liveopsCon
       $httpBackend.when('GET', apiHostname + '/v1/tenants/tenant-id/users/userId1/skills').respond({
         'result': [mockUserSkills[0], mockUserSkills[2]]
       });
+      
+      $httpBackend.when('GET', apiHostname + '/v1/tenants/tenant-id/users/userId2/skills').respond({
+        'result': [mockUserSkills[1]]
+      });
 
       //GET tenants/skills/user
       $httpBackend.when('GET', apiHostname + '/v1/tenants/tenant-id/skills/skillId1/users').respond({
-        'result': [mockUserSkills[0], mockUserSkills[1]]
+        'result': [mockSkillUsers[0], mockSkillUsers[1]]
       });
 
       $httpBackend.when('GET', apiHostname + '/v1/tenants/tenant-id/skills/skillId2/users').respond({
-        'result': [mockUserSkills[2]]
+        'result': [mockSkillUsers[2]]
       });
 
       //POST tenants/skills

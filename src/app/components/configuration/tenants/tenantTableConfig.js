@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('tenantTableConfig', ['statuses', '$translate', 'UserPermissions',  function (statuses, $translate, UserPermissions) {
+  .service('tenantTableConfig', ['statuses', '$translate', 'UserPermissions', 'helpDocsHostname',  function (statuses, $translate, UserPermissions, helpDocsHostname) {
     return {
       'fields': [{
         'header': {
@@ -13,6 +13,12 @@ angular.module('liveopsConfigPanel')
           'display': $translate.instant('value.description')
         },
         'name': 'description'
+      }, {
+        'header': {
+          'display': $translate.instant('value.identifier')
+        },
+        'name': 'id',
+        'checked': false
       }, {
         'header': {
           'display': $translate.instant('value.status'),
@@ -31,6 +37,7 @@ angular.module('liveopsConfigPanel')
       'orderBy': 'name',
       'title' : $translate.instant('tenant.table.title'),
       'showBulkActions': UserPermissions.hasPermissionInList(['PLATFORM_MANAGE_ALL_TENANTS', 'MANAGE_TENANT']),
-      'showCreate': UserPermissions.hasPermission('PLATFORM_CREATE_ALL_TENANTS')
+      'showCreate': UserPermissions.hasPermission('PLATFORM_CREATE_ALL_TENANTS'),
+      'helpLink' : helpDocsHostname + '/Content/Configuring%20CxEngage/Creating_Tenants.htm'
     };
   }]);

@@ -16,7 +16,7 @@ describe('The details panel', function() {
     shared.tearDown();
   });
 
-  it('should default to ~ 1/4 of the screen size', function() {
+  it('should default to 1/4 - 1/3 of the screen size', function() {
     browser.get(shared.usersPageUrl);
 
     shared.firstTableRow.click();
@@ -26,7 +26,7 @@ describe('The details panel', function() {
     browser.driver.manage().window().getSize().then(function(browserSize) {
       shared.rightPanel.getSize().then(function(rightPanelSize) {
         rightPanelWidthRatio = browserSize.width / rightPanelSize.width;
-        expect(rightPanelWidthRatio).toBeGreaterThan(3);
+        expect(rightPanelWidthRatio).toBeGreaterThan(2);
         expect(rightPanelWidthRatio).toBeLessThan(5);
       });
     });

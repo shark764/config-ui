@@ -1,18 +1,25 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('skillTableConfig', ['statuses', '$translate', 'UserPermissions', 'ynStatuses', function (statuses, $translate, UserPermissions, ynStatuses) {
-     return {
+  .service('skillTableConfig', ['statuses', '$translate', 'UserPermissions', 'ynStatuses', 'helpDocsHostname', function (statuses, $translate, UserPermissions, ynStatuses, helpDocsHostname) {
+     var config = {
         'fields': [{
           'header': {
             'display': $translate.instant('value.name')
           },
-          'name': 'name'
+          'name': '$original.name'
         }, {
           'header': {
             'display': $translate.instant('value.description')
           },
-          'name': 'description'
+          'name': '$original.description'
+        }, {
+          'header': {
+            'display': $translate.instant('skill.table.members')
+          },
+          'name': '$members',
+          'transclude': true,
+          'sortOn': '$members.length'
         }, {
           'header': {
             'display': $translate.instant('skill.table.proficiency'),
@@ -22,7 +29,7 @@ angular.module('liveopsConfigPanel')
           },
           'filter': 'selectedOptions',
           'transclude': true,
-          'name': 'hasProficiency',
+          'name': '$original.hasProficiency',
           'id': 'proficiency-column-dropdown'
         }, {
           'header': {
@@ -33,14 +40,17 @@ angular.module('liveopsConfigPanel')
           },
           'filter': 'selectedOptions',
           'transclude': true,
-          'name': 'active',
+          'name': '$original.active',
           'id': 'status-column-dropdown'
         }],
-        'searchOn' : ['name', 'description'],
-        'orderBy' : 'name',
+        'searchOn' : ['$original.name', '$original.description'],
+        'orderBy' : '$original.name',
         'title': $translate.instant('skill.table.title'),
+        'helpLink' : helpDocsHostname + '/Content/Managing%20Users/Adding_skills.htm',
         'showBulkActions': UserPermissions.hasPermission('MANAGE_ALL_SKILLS'),
         'showCreate': UserPermissions.hasPermission('MANAGE_ALL_SKILLS'),
       };
+     
+     return config;
     }
   ]);

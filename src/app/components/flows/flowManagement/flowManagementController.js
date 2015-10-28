@@ -14,17 +14,11 @@ angular.module('liveopsConfigPanel')
         }, 'FlowVersion' + $scope.selectedFlow.id);
       };
 
-      $scope.submit = function() {
-        return $scope.selectedFlow.save();
-      }
-
-
       $scope.fetchFlows = function () {
         return Flow.cachedQuery({
           tenantId: Session.tenant.tenantId
         });
       };
-
 
       $scope.create = function() {
         $scope.selectedFlow = new Flow({
@@ -32,41 +26,42 @@ angular.module('liveopsConfigPanel')
           active: true,
           name: 'Untitled Flow',
           type: 'customer'
-        });
-        $scope.submit();
-      };
-
-      Flow.prototype.postCreate = function (flow) {
-        var initialDraft = new FlowDraft({
-          flowId: flow.id,
-          flow: '[]',
-          tenantId: Session.tenant.tenantId,
-          name: 'Initial Draft'
-        });
-
-        var promise = initialDraft.save();
-        return promise.then(function(draft){
-          $state.go('content.flows.editor', {
+        }).save(function(flow){
+          var initialDraft = new FlowDraft({
             flowId: flow.id,
-            draftId: draft.id
+            flow: '[]',
+            tenantId: Session.tenant.tenantId,
+            name: 'Initial Draft'
+          });
+
+          var promise = initialDraft.save();
+          return promise.then(function(draft){
+            $state.go('content.flows.editor', {
+              flowId: flow.id,
+              draftId: draft.id
+            });
           });
         });
+      };
+
+      $scope.saveFlow = function(){
+        return $scope.selectedFlow.save().then(function(flow){
+          return flow;
+        })
       };
 
       $scope.$on('table:on:click:create', function () {
         $scope.create();
       });
 
-      $scope.additional = {
-        versions: $scope.versions,
-        flowTypes: flowTypes
-      };
-
-
       $scope.flowTypes = flowTypes;
       $scope.tableConfig = flowTableConfig;
       $scope.bulkActions = {
         setFlowStatus: new BulkAction()
+      };
+      
+      $scope.submit = function(){
+        return $scope.selectedFlow.save();
       };
     }
   ]);

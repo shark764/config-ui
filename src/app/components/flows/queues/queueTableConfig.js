@@ -1,25 +1,25 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('queueTableConfig', ['statuses', '$translate', 'UserPermissions', function (statuses, $translate, UserPermissions) {
+  .service('queueTableConfig', ['statuses', '$translate', 'UserPermissions', 'helpDocsHostname', function (statuses, $translate, UserPermissions, helpDocsHostname) {
       return {
         'fields': [{
           'header': {
             'display': $translate.instant('value.name')
           },
-          'name': 'name'
+          'name': '$original.name'
         }, {
           'header': {
             'display': $translate.instant('value.description')
           },
-          'name': 'description'
+          'name': '$original.description'
         }, {
           'header': {
             'display': $translate.instant('value.details.activeVersion')
           },
           'transclude': true,
-          'name': 'activeQueue',
-          'sortOn': 'activeQueue.name'
+          'name': '$original.activeQueue',
+          'sortOn': '$original.activeQueue.name'
         }, {
           'header': {
             'display': $translate.instant('value.status'),
@@ -27,16 +27,17 @@ angular.module('liveopsConfigPanel')
             'displayPath': 'display',
             'options': statuses()
           },
-          'name': 'active',
+          'name': '$original.active',
           'id': 'status-column-dropdown',
           'lookup': '$original:active',
           'transclude': true,
         }],
-        'searchOn' : ['name'],
-        'orderBy' : 'name',
+        'searchOn' : ['$original.name'],
+        'orderBy' : '$original.name',
         'title' : $translate.instant('queue.table.title'),
         'showBulkActions': UserPermissions.hasPermission('MANAGE_ALL_QUEUES'),
-        'showCreate': UserPermissions.hasPermission('MANAGE_ALL_QUEUES')
+        'showCreate': UserPermissions.hasPermission('MANAGE_ALL_QUEUES'),
+        'helpLink' : helpDocsHostname + '/Content/Managing%20Flows/Adding_queues.htm'
       };
     }
   ]);
