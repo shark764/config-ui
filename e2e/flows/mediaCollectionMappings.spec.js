@@ -86,7 +86,6 @@ describe('The media collections view', function() {
       });
     });
 
-    //TODO: Dropdown items are not ordered, so this test is failing
     it('should search list all existing Media by Media name', function() {
       browser.get(shared.mediaPageUrl);
       // Get list of media from Media page
@@ -282,8 +281,7 @@ describe('The media collections view', function() {
       expect(mediaCollections.mediaRequiredError.get(0).getText()).toBe('Audio source must be a URL');
     });
 
-    xit('should leave Media pane open when selecting Create & New', function() {
-      // TODO Existing bug
+    it('should leave Media pane open when selecting Create & New', function() {
       var randomMedia = Math.floor((Math.random() * 1000) + 1);
       shared.createBtn.click();
       mediaCollections.openCreateNewMedia();
@@ -384,7 +382,6 @@ describe('The media collections view', function() {
     });
 
     it('should leave new Media fields and pane open on Media Collections create', function() {
-      // TODO Existing bug, feedback on expected flow required
       shared.createBtn.click();
       mediaCollections.openCreateNewMedia();
 

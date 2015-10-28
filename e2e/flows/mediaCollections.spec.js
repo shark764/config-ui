@@ -496,9 +496,22 @@ describe('The media collections view', function() {
     mediaCollections.submitFormBtn.click();
 
     // Error messages displayed
-    expect(mediaCollections.requiredError.get(1).isDisplayed()).toBeTruthy();
-    expect(mediaCollections.requiredError.get(1).getText()).toBe('Please enter an identifier for this media item');
-    expect(shared.successMessage.isPresent()).toBeFalsy();
+    mediaCollections.requiredError.count().then(function(errorCount) {
+      if (errorCount == 1) {
+        // Identifier was not set as default
+        expect(mediaCollections.requiredError.get(0).isDisplayed()).toBeTruthy();
+        expect(mediaCollections.requiredError.get(0).getText()).toBe('Please enter an identifier for this media item');
+        expect(shared.successMessage.isPresent()).toBeFalsy();
+      } else {
+        // Identifier WAS set as default
+        expect(mediaCollections.requiredError.get(0).isDisplayed()).toBeTruthy();
+        expect(mediaCollections.requiredError.get(0).getText()).toBe('Please select a default identifier');
+        expect(mediaCollections.requiredError.get(1).isDisplayed()).toBeTruthy();
+        expect(mediaCollections.requiredError.get(1).getText()).toBe('Please enter an identifier for this media item');
+        expect(shared.successMessage.isPresent()).toBeFalsy();
+      }
+    });
+
   });
 
   it('should allow Media Mappings to be added when editing with existing Media Collection', function() {
@@ -529,12 +542,94 @@ describe('The media collections view', function() {
     });
   });
 
-  // TODO Existing bug to verify TITAN2-2291
-  xit('should require unique identifier field when editing a Media Mapping', function() {});
+  it('should require unique identifier field when editing a Media Mapping', function() {
+    mediaCollectionCount = shared.tableElements.count();
+    shared.createBtn.click();
 
-  xit('should require unique identifier field on create when adding a Media Mapping', function() {});
+    mediaCollections.nameFormField.sendKeys('Media Collection');
+    mediaCollections.mediaIdentifiers.get(0).sendKeys('Identifier 1');
+    mediaCollections.mediaDropdowns.get(0).click();
+    mediaCollections.mediaDropdownBoxes.get(0).all(by.repeater(mediaCollections.mediaElementsSelector)).get(0).click();
 
-  xit('should require unique identifier field on edit when adding a new Media Mapping', function() {});
+    mediaCollections.addMediaMappingButton.click();
+    mediaCollections.mediaIdentifiers.get(1).sendKeys('Identifier 2');
+    mediaCollections.mediaDropdowns.get(1).click();
+    mediaCollections.mediaMappings.get(1).all(by.css('ul')).get(0).click();
+
+    mediaCollections.defaultIdDropdown.all(by.css('option')).get(1).click();
+
+    mediaCollections.submitFormBtn.click().then(function() {
+      shared.waitForSuccess();
+
+      // Edit media identifiers to be the same
+      mediaCollections.mediaIdentifiers.get(1).clear();
+      mediaCollections.mediaIdentifiers.get(1).sendKeys('Identifier 1\t');
+
+      // Submit button is still disabled
+      expect(mediaCollections.submitFormBtn.getAttribute('disabled')).toBeTruthy();
+      mediaCollections.submitFormBtn.click();
+
+      // Error messages displayed
+      expect(mediaCollections.requiredError.get(0).isDisplayed()).toBeTruthy();
+      expect(mediaCollections.requiredError.get(0).getText()).toBe('This lookup value already exists for this media collection.');
+    });
+  });
+
+  it('should require unique identifier field on create when adding a Media Mapping', function() {
+    mediaCollectionCount = shared.tableElements.count();
+    shared.createBtn.click();
+
+    mediaCollections.nameFormField.sendKeys('Media Collection');
+    mediaCollections.defaultIdDropdown.click();
+    mediaCollections.mediaIdentifiers.get(0).sendKeys('Identifier');
+    mediaCollections.mediaDropdowns.get(0).click();
+    mediaCollections.mediaDropdownBoxes.get(0).all(by.repeater(mediaCollections.mediaElementsSelector)).get(0).click();
+
+    // An another media mapping with the same identifier
+    mediaCollections.addMediaMappingButton.click();
+    mediaCollections.mediaIdentifiers.get(1).sendKeys('Identifier');
+    mediaCollections.mediaDropdowns.get(1).click();
+    mediaCollections.mediaMappings.get(1).all(by.css('ul')).get(0).click();
+
+    mediaCollections.defaultIdDropdown.all(by.css('option')).get(1).click();
+
+    // Submit button is still disabled
+    expect(mediaCollections.submitFormBtn.getAttribute('disabled')).toBeTruthy();
+    mediaCollections.submitFormBtn.click();
+
+    // Error messages displayed
+    expect(mediaCollections.requiredError.get(0).isDisplayed()).toBeTruthy();
+    expect(mediaCollections.requiredError.get(0).getText()).toBe('This lookup value already exists for this media collection.');
+  });
+
+  it('should require unique identifier field on edit when adding a new Media Mapping', function() {
+    shared.firstTableRow.click();
+    randomCollection = Math.floor((Math.random() * 1000) + 1);
+
+    mediaCollections.mediaMappings.count().then(function(originalMediaCount) {
+      mediaCollections.mediaIdentifiers.get(0).getAttribute('value').then(function(existingIdentifierValue) {
+
+        // Add media with existing id
+        mediaCollections.addMediaMappingButton.click();
+        mediaCollections.mediaIdentifiers.get(originalMediaCount).sendKeys(existingIdentifierValue);
+
+        mediaCollections.mediaDropdowns.get(originalMediaCount).click();
+        mediaCollections.mediaDropdownSearchFields.get(originalMediaCount).click();
+        mediaCollections.mediaMappings.get(originalMediaCount).all(by.css('ul')).get(0).click();
+
+        mediaCollections.defaultIdDropdown.all(by.css('option')).get(1).click();
+
+        // Submit button is still disabled
+        expect(mediaCollections.submitFormBtn.getAttribute('disabled')).toBeTruthy();
+        mediaCollections.submitFormBtn.click();
+
+        // Error messages displayed
+        expect(mediaCollections.requiredError.get(0).isDisplayed()).toBeTruthy();
+        expect(mediaCollections.requiredError.get(0).getText()).toBe('This lookup value already exists for this media collection.');
+        expect(shared.successMessage.isPresent()).toBeFalsy();
+      });
+    });
+  });
 
   it('should allow a Media Mapping to be removed when editing', function() {
     shared.firstTableRow.click();
