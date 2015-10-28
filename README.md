@@ -1,9 +1,5 @@
 # README #
 
-This README would normally document whatever steps are necessary to get your application up and running.
-
-### What is this repository for? ###
-
 ## Quick summary ##
 Visual front-end for the LiveOps Configuration API.
 
@@ -22,6 +18,28 @@ Visual front-end for the LiveOps Configuration API.
 1. gulp serve
 
 *To configure the API end-point, you can change the app/env.js apiHostname.
+
+### Unit tests ###
+Run all unit tests
+```shell
+$ gulp test
+```
+
+Run unit tests and generate coverage report (view report at /coverage/PhantomJS [version]/index.html)
+```shell
+$ gulp coverage
+```
+
+### E2E tests ###
+Run all suites locally (uses config at /protractor.local.conf.js)
+```shell
+$ gulp protractor:local
+```
+
+Run all suites on saucelabs (uses config at /protractor.conf.js)
+```shell
+$ gulp protractor
+```
 
 ## Team ##
 * John Benson (john.benson@bluespurs.com)
