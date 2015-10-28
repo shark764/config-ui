@@ -9,7 +9,13 @@
       var modelType = model.get('type');
       //If we're dealing with an activity
       if (modelType === 'liveOps.activity') {
-        return _.findWhere(FlowLibrary.listActivities(), {name: model.get('name')});
+        var type = model.get('activityType');
+        if(type === 'task'){
+          return _.findWhere(FlowLibrary.listActivities(), {name: model.get('name')});
+        }
+        else if(type === 'call-activity'){
+          return _.findWhere(FlowLibrary.listActivities(), {flow: model.get('flow'), version: model.get('version')});
+        }
       }
       //if we're dealing with an event
       if (modelType === 'liveOps.event') {
