@@ -55,14 +55,13 @@ describe('When switching tenants', function() {
       expect(shared.firstTableRow.getText()).toContain('Accepted');
 
       // No Skills or Groups by default
-      expect(shared.firstTableRow.getText()).toContain('0 0');
+      expect(shared.firstTableRow.getText()).toContain('0 1'); // 0 skills, 1 group by default
       shared.firstTableRow.click();
       expect(users.userSkills.count()).toBe(0);
       expect(users.noUserSkillsMessage.isDisplayed()).toBeTruthy();
 
-      // TODO Exception for everyone group?
-      expect(users.userGroups.count()).toBe(0);
-      expect(users.noUserGroupsMessage.isDisplayed()).toBeTruthy();
+      expect(users.userGroups.count()).toBe(1);
+      expect(users.userGroups.get(0).getText()).toBe('everyone');
 
       // Correct email displayed
       expect(users.emailLabel.getText()).toBe(params.login.user);
@@ -75,8 +74,7 @@ describe('When switching tenants', function() {
 
       // Only 'everyone' group is added to the tenant by default
       users.addGroupSearch.click();
-      expect(users.groupDropdownItems.count()).toBe(1);
-      expect(users.groupDropdownItems.get(0).getText()).toBe('everyone');
+      expect(users.groupDropdownItems.count()).toBe(0); // Already added to the current user
     });
 
     it('should display the correct Roles available for the current tenant', function() {
