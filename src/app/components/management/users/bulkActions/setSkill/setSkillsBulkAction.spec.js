@@ -11,8 +11,8 @@ describe('setSkillsBulkAction', function() {
 
   beforeEach(module('gulpAngular'));
   beforeEach(module('liveopsConfigPanel'));
-  beforeEach(module('liveopsConfigPanel.mock.content.management.tenantUsers'));
-  beforeEach(module('liveopsConfigPanel.mock.content.management.skills'));
+  beforeEach(module('liveopsConfigPanel.tenant.user.mock'));
+  beforeEach(module('liveopsConfigPanel.tenant.skill.mock'));
 
   beforeEach(inject(['$httpBackend', 'apiHostname', 'UserSkillsBulkAction', 'userSkillsBulkActionTypes', 'mockTenantUsers', 'mockSkills', 'mockUserSkills',
     function(_$httpBackend, _apiHostname, _UserSkillsBulkAction, _userSkillsBulkActionTypes, _mockTenantUsers, _mockSkills, _mockUserSkills) {

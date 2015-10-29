@@ -12,7 +12,7 @@ describe('typeAhead directive', function(){
 
   beforeEach(module('gulpAngular'));
   beforeEach(module('liveopsConfigPanel'));
-  beforeEach(module('liveopsConfigPanel.mock.content'));
+  beforeEach(module('liveopsConfigPanel.mock'));
 
   beforeEach(inject(['$compile', '$rootScope', '$timeout', function(_$compile_, $rootScope, _$timeout_) {
     $compile = _$compile_;

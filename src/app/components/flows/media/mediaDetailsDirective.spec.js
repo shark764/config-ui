@@ -7,7 +7,7 @@ describe('media details directive', function(){
     isolateScope,
     controller;
   
-  beforeEach(module('liveopsConfigPanel', 'liveopsConfigPanel.mock.content'));
+  beforeEach(module('liveopsConfigPanel', 'liveopsConfigPanel.mock'));
   beforeEach(module('gulpAngular')); 
   
   beforeEach(inject(['$compile', '$rootScope', function(_$compile_,_$rootScope_) {

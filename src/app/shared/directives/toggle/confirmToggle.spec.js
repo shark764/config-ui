@@ -7,7 +7,7 @@ describe('confirmToggleDirective', function(){
 
   beforeEach(module('liveopsConfigPanel'));
   beforeEach(module('gulpAngular'));
-  beforeEach(module('liveopsConfigPanel.mock.content'));
+  beforeEach(module('liveopsConfigPanel.mock'));
 
   beforeEach(inject(['$compile', '$rootScope', '$q', function($compile, $rootScope, _$q_) {
     $q = _$q_;

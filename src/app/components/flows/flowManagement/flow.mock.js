@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('liveopsConfigPanel.mock.content.flows', ['liveopsConfigPanel.mock.content'])
+angular.module('liveopsConfigPanel.mock.content.flows', ['liveopsConfigPanel.mock'])
   .service('mockFlows', function(Flow){
     return [new Flow({
       name: 'f1',

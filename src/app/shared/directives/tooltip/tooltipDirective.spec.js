@@ -10,7 +10,7 @@ describe('tooltip directive', function(){
 
   beforeEach(module('liveopsConfigPanel'));
   beforeEach(module('gulpAngular'));
-  beforeEach(module('liveopsConfigPanel.mock.content'));
+  beforeEach(module('liveopsConfigPanel.mock'));
 
   beforeEach(inject(['$compile', '$rootScope', '$document', '$timeout', function(_$compile_, $rootScope, _$document_, $timeout) {
     $scope = $rootScope.$new();

@@ -9,7 +9,7 @@ describe('setSkillStatusBulkAction directive', function() {
 
   beforeEach(module('gulpAngular'));
   beforeEach(module('liveopsConfigPanel'));
-  beforeEach(module('liveopsConfigPanel.mock.content.management.skills'));
+  beforeEach(module('liveopsConfigPanel.tenant.skill.mock'));
 
   beforeEach(inject(['$compile', '$rootScope', 'BulkAction',
     function(_$compile_, _$rootScope_, _BulkAction) {

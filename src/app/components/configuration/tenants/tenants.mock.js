@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('liveopsConfigPanel.mock.content.configuration.tenants', ['liveopsConfigPanel.mock.content'])
+angular.module('liveopsConfigPanel.mock.content.configuration.tenants', ['liveopsConfigPanel.mock'])
   .service('mockTenants', function (Tenant) {
     return [new Tenant({
       'id': 'tenant-id'

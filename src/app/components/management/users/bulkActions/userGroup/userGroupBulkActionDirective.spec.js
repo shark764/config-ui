@@ -13,9 +13,9 @@ describe('userGroupBulkAction directive', function() {
 
   beforeEach(module('gulpAngular'));
   beforeEach(module('liveopsConfigPanel'));
-  beforeEach(module('liveopsConfigPanel.mock.content.management.users'));
-  beforeEach(module('liveopsConfigPanel.mock.content.management.groups'));
-  beforeEach(module('liveopsConfigPanel.mock.content.management.users.groups'));
+  beforeEach(module('liveopsConfigPanel.user.mock'));
+  beforeEach(module('liveopsConfigPanel.tenant.group.mock'));
+  beforeEach(module('liveopsConfigPanel.tenant.user.group.mock'));
 
   beforeEach(inject(['$compile', '$rootScope', '$httpBackend', 'BulkAction', 'mockGroups', 'mockUsers', 'UserGroupBulkAction',
     function(_$compile_, _$rootScope_, _$httpBackend, _BulkAction, _mockGroups, _mockUsers, _UserGroupBulkAction) {

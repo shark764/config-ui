@@ -10,7 +10,7 @@ describe('numberSlider directive', function(){
   
   beforeEach(module('liveopsConfigPanel'));
   beforeEach(module('gulpAngular')); 
-  beforeEach(module('liveopsConfigPanel.mock.content'));
+  beforeEach(module('liveopsConfigPanel.mock'));
   
   beforeEach(inject(['$compile', '$rootScope', function($compile,_$rootScope_) {
     $scope = _$rootScope_.$new();

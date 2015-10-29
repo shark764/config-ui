@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('liveopsConfigPanel.mock.content.media.collections', ['liveopsConfigPanel.mock.content'])
+angular.module('liveopsConfigPanel.mock.content.media.collections', ['liveopsConfigPanel.mock'])
   .service('mockMediaCollections', function (MediaCollection) {
     return [new MediaCollection({
       id: 'mc1'

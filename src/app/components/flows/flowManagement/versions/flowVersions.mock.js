@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('liveopsConfigPanel.mock.content.flows.versions', [
-    'liveopsConfigPanel.mock.content',
+    'liveopsConfigPanel.mock',
     'liveopsConfigPanel.mock.content.flows'
   ])
   .value('mockFlowVersions', [{

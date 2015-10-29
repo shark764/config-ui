@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('liveopsConfigPanel.mock.content.configuration.integrations', ['liveopsConfigPanel.mock.content'])
+angular.module('liveopsConfigPanel.mock.content.configuration.integrations', ['liveopsConfigPanel.mock'])
   .service('mockIntegrations', function (Integration) {
     return [new Integration({
       'id': 'integrationId1'

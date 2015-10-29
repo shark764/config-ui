@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('liveopsConfigPanel.mock.content.queueversions', ['liveopsConfigPanel.mock.content'])
+angular.module('liveopsConfigPanel.mock.content.queueversions', ['liveopsConfigPanel.mock'])
   .service('mockQueueVersions', ['QueueVersion', function(QueueVersion) {
     return [new QueueVersion({
       version: 'qv1',

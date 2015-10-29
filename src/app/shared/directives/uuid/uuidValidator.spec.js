@@ -7,7 +7,7 @@ describe('uuidValidator directive', function(){
 
   beforeEach(module('liveopsConfigPanel'));
   beforeEach(module('gulpAngular'));
-  beforeEach(module('liveopsConfigPanel.mock.content'));
+  beforeEach(module('liveopsConfigPanel.mock'));
 
   beforeEach(inject(['$compile', '$rootScope', function($compile, $rootScope) {
     $scope = $rootScope.$new();

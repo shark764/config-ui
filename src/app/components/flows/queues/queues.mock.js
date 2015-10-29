@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('liveopsConfigPanel.mock.content.queues', ['liveopsConfigPanel.mock.content'])
+angular.module('liveopsConfigPanel.mock.content.queues', ['liveopsConfigPanel.mock'])
   .service('mockQueues', ['Queue', function(Queue) {
     return [new Queue({
       name: 'q1',
