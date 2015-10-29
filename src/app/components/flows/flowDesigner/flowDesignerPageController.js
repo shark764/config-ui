@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('DesignerPageController', ['$scope', 'flow', 'notations', 'data', 'FlowNotationService', 'FlowLibrary', 'readOnly',
-    function($scope, flow, notations, data, FlowNotationService, FlowLibrary, readOnly) {
+  .controller('DesignerPageController', ['$scope', 'flow', 'notations', 'data', 'FlowResource', 'FlowNotationService', 'FlowLibrary', 'readOnly',
+    function($scope, flow, notations, data, FlowResource, FlowNotationService, FlowLibrary, readOnly) {
       $scope.flow = flow;
       $scope.flowData = data;
       $scope.readOnly = readOnly;
@@ -14,6 +14,12 @@ angular.module('liveopsConfigPanel')
       var parsedNotations = FlowLibrary.parseNotations(notations);
 
       FlowLibrary.loadData(parsedNotations);
+
+      FlowLibrary.clearCallActivities();
+      _.each(FlowResource.getFlows(), function(flow){
+        FlowLibrary.registerCallActivity(flow);
+      });
+
 
       $scope.$on('$destroy', function() {
         var designerKeys = [
