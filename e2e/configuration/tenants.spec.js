@@ -92,6 +92,9 @@ describe('The tenants view', function() {
     // Verify tenant name in table matches populated field
     expect(tenants.firstTableRow.element(by.css(tenants.nameColumn)).getText()).toContain(tenants.nameFormField.getAttribute('value'));
     expect(tenants.region.isDisplayed()).toBeTruthy();
+    expect(tenants.region.getText()).toBe('us-east-1');
+    expect(tenants.tenantUUID.isDisplayed()).toBeTruthy();
+    expect(browser.getCurrentUrl()).toContain(tenants.tenantUUID.getText());
 
     tenants.secondTableRow.isPresent().then(function(secondRowExists) {
       if (secondRowExists) {
@@ -100,6 +103,9 @@ describe('The tenants view', function() {
 
         expect(tenants.secondTableRow.element(by.css(tenants.nameColumn)).getText()).toContain(tenants.nameFormField.getAttribute('value'));
         expect(tenants.region.isDisplayed()).toBeTruthy();
+        expect(tenants.region.getText()).toBe('us-east-1');
+        expect(tenants.tenantUUID.isDisplayed()).toBeTruthy();
+        expect(browser.getCurrentUrl()).toContain(tenants.tenantUUID.getText());
       }
     });
   });
