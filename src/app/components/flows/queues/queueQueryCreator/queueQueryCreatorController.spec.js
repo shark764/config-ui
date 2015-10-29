@@ -1,6 +1,6 @@
 'use strict';
 
-describe('QueueController', function() {
+describe('QueueQueryCreatorController', function() {
   var $scope,
   controller,
   QueueVersion,
@@ -36,7 +36,7 @@ describe('QueueController', function() {
     $scope.rootMap = jsedn.parse('{}');
     controller.initComponentState();
     expect(mockComponent.enabled).toBeFalsy();
-    expect($scope.myComponent).toBeNull();
+    expect($scope.myComponent).toBeUndefined();
   }]));
   
   describe('rootMap watch', function() {
