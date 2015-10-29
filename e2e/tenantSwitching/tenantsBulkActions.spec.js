@@ -32,8 +32,8 @@ describe('The tenants view bulk actions', function() {
     shared.tearDown();
   });
 
-
-  it('should allow updates to supported bulk action fields', function() {
+  // TODO Bug Unable to create new tenant TITAN2-4878
+  xit('should allow updates to supported bulk action fields', function() {
     shared.actionsBtn.click();
     expect(bulkActions.bulkActionDivs.count()).toBe(1);
 
@@ -121,7 +121,7 @@ describe('The tenants view bulk actions', function() {
     });
   });
 
-  it('should ignore disabled fields on update', function() {
+  xit('should ignore disabled fields on update', function() {
     shared.searchField.sendKeys('Tenant'); // Ensure Platform tenant is not selected
     tenantCount = shared.tableElements.count();
 

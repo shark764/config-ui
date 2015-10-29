@@ -227,7 +227,8 @@ describe('The profile view', function() {
     });
   });
 
-  it('should display user groups and skills for the current tenant', function() {
+  // TODO Bug Unable to create new tenant TITAN2-4878
+  xit('should display user groups and skills for the current tenant', function() {
     browser.get(shared.tenantsPageUrl);
     shared.tenantsNavDropdown.getText().then(function(selectTenantNav) {
       defaultTenantName = selectTenantNav;
@@ -244,7 +245,8 @@ describe('The profile view', function() {
     expect(profile.userGroups.get(0).getText()).toBe('everyone');
   });
 
-  it('should add new user groups and skills for the current tenant', function() {
+  // TODO Bug Unable to create new tenant TITAN2-4878
+  xit('should add new user groups and skills for the current tenant', function() {
     tenants.selectTenant(newTenantName);
 
     // Add user skill and group

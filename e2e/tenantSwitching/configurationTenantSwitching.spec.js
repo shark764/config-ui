@@ -28,8 +28,8 @@ describe('When switching tenants', function() {
   afterAll(function() {
     shared.tearDown();
   });
-
-  it('the selected tenant should be shown as the current tenant in the navigation Tenant Dropdown', function() {
+  // TODO Bug Unable to create new tenant TITAN2-4878
+  xit('the selected tenant should be shown as the current tenant in the navigation Tenant Dropdown', function() {
     expect(shared.navBar.isDisplayed()).toBeTruthy();
     expect(shared.tenantsNavDropdown.isDisplayed()).toBeTruthy();
 
@@ -52,14 +52,14 @@ describe('When switching tenants', function() {
       elementCount = shared.tableElements.count();
     });
 
-    it('should display the correct Integrations for the current tenant', function() {
+    xit('should display the correct Integrations for the current tenant', function() {
       // TODO Determine which Integrations should be added by default
       expect(elementCount).toBe(1);
 
       expect(shared.tableRows.get(0).getText()).toBe('twilio Disabled');
     });
 
-    it('should edit details for an Integration in one and not the previous', function() {
+    xit('should edit details for an Integration in one and not the previous', function() {
       shared.searchField.sendKeys('twilio');
       shared.firstTableRow.click();
 
