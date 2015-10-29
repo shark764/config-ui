@@ -11,7 +11,9 @@ angular.module('liveopsConfigPanel')
         FlowNotationService.setLastParticipant('titan/customer');
       }
 
-      FlowLibrary.parseNotations(notations);
+      var parsedNotations = FlowLibrary.parseNotations(notations);
+
+      FlowLibrary.loadData(parsedNotations);
 
       $scope.$on('$destroy', function() {
         var designerKeys = [
