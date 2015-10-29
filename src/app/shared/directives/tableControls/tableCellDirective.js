@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('liveopsConfigPanel')
+angular.module('liveopsConfigPanel.shared.directives')
   .directive('tableCell', [
     function () {
       return {
