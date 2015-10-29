@@ -137,6 +137,29 @@ describe('The profile view', function() {
     });
   });
 
+  it('should not unauthorize the user after password change', function() {
+    browser.get(shared.usersPageUrl);
+
+    shared.createBtn.click();
+    var randomUser = Math.floor((Math.random() * 1000) + 1);
+
+    users.emailFormField.sendKeys('titantest' + randomUser + '@mailinator.com\t');
+    users.tenantRoleFormDropdownOptions.get((randomUser % 3) + 1).click();
+    users.platformRoleFormDropdownOptions.get(1).click();
+
+    users.submitFormBtn.click().then(function() {
+      shared.waitForSuccess();
+      expect(shared.successMessage.isDisplayed()).toBeTruthy();
+    });
+  });
+
+  it('should login with new password', function() {
+    shared.welcomeMessage.click();
+    shared.logoutButton.click();
+    loginPage.login(params.login.user, params.login.password + 'new');
+    expect(browser.getCurrentUrl()).toContain(shared.usersPageUrl);
+  });
+
   it('should display message if user has no groups or skills', function() {
     profile.waitForUserSkills();
     profile.userSkills.count().then(function(userSkillsCount) {

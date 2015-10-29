@@ -180,8 +180,7 @@ describe('The tenants view', function() {
     // TODO Expected result to be determined
   });
 
-  xit('should update tenant name in table and nav dropdown when edited', function() {
-    // Fails; tenant name is not updated in dropdown due to caching
+  it('should update tenant name in table and nav dropdown when edited', function() {
     var tenantUpdated = false;
 
     shared.searchField.sendKeys('Tenant'); // Ensure Platform tenant is not selected
