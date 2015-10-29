@@ -8,8 +8,8 @@ var MediaPage = function() {
   this.typeFormDropdown = element(by.model('selectedMedia.type'));
   this.requiredError = element.all(by.css('.lo-error'));
 
-  this.sourceUploadAudioName = element(by.model('selectedMedia.$sourceAudioFile.name'));
-  this.sourceUploadAudioBtn = element(by.model('selectedMedia.$sourceAudioFile'));
+  this.sourceUploadAudioName = element(by.id('audio-source-upload-file'));
+  this.sourceUploadAudioBtn = element(by.id('audio-source-upload-btn'));
   this.audioSourceFormField = element(by.id('audio-source-url-field'));
 
   this.submitFormBtn = element(by.id('submit-details-btn'));
