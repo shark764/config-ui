@@ -10,8 +10,10 @@ angular.module('liveopsConfigPanel')
       if(flow.type === 'customer' || flow.type === 'reusable'){
         FlowNotationService.setLastParticipant('titan/customer');
       }
-      
-      FlowLibrary.loadData(notations.data);
+
+      var parsedNotations = FlowLibrary.parseNotations(notations);
+
+      FlowLibrary.loadData(parsedNotations);
 
       FlowLibrary.clearCallActivities();
       _.each(FlowResource.getFlows(), function(flow){
