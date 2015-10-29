@@ -12,7 +12,7 @@ describe('MediaCollectionController', function () {
   beforeEach(module('gulpAngular'));
   beforeEach(module('liveopsConfigPanel'));
   beforeEach(module('liveopsConfigPanel.mock'));
-  beforeEach(module('liveopsConfigPanel.mock.content.media.collections'));
+  beforeEach(module('liveopsConfigPanel.tenant.mediaCollection.mock'));
 
   beforeEach(inject(['$rootScope', '$controller', '$httpBackend', 'MediaCollection', 'apiHostname',
     function (_$rootScope_, _$controller_, _$httpBackend_, _MediaCollection_, _apiHostname) {

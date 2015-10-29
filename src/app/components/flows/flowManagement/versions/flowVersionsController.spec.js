@@ -15,8 +15,8 @@ describe('Versions directive controller', function () {
   beforeEach(module('gulpAngular'));
   beforeEach(module('liveopsConfigPanel'));
   beforeEach(module('liveopsConfigPanel.mock'));
-  beforeEach(module('liveopsConfigPanel.mock.content.flows'));
-  beforeEach(module('liveopsConfigPanel.mock.content.flows.versions'));
+  beforeEach(module('liveopsConfigPanel.tenant.flow.mock'));
+  beforeEach(module('liveopsConfigPanel.tenant.flow.version.mock'));
   beforeEach(inject(['$rootScope', '$controller', '$injector', 'FlowVersion', 'apiHostname', 'mockFlows', 'mockFlowVersions', 'Session',
     function ($rootScope, _$controller_, $injector, _FlowVersion_, _apiHostname, _mockFlows, _mockFlowVersions, _Session) {
       $scope = $rootScope.$new();

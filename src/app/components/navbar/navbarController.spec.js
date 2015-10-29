@@ -16,7 +16,7 @@ describe('NavbarController', function () {
   beforeEach(module('gulpAngular'));
   beforeEach(module('liveopsConfigPanel'));
   beforeEach(module('liveopsConfigPanel.mock'));
-  beforeEach(module('liveopsConfigPanel.mock.content.configuration.tenants'));
+  beforeEach(module('liveopsConfigPanel.tenant.mock'));
 
   beforeEach(inject(['$compile', '$rootScope', '$state', '$controller', '$httpBackend', 'Session', 'apiHostname', 'mockTenants',
     function (_$compile_, _$rootScope_, _$state_, _$controller_, _$httpBackend, _Session_, _apiHostname_, _mockTenants) {
