@@ -119,7 +119,7 @@ angular.module('liveopsConfigPanel')
         }).then(function () {
           Alert.success('Invite Sent');
         }, function () {
-          Alert.failure('Error occured. Invite not sent.');
+          Alert.error('Error occured. Invite not sent.');
         });
       };
 
