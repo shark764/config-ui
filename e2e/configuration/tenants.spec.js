@@ -11,7 +11,8 @@ describe('The tenants view', function() {
   beforeAll(function() {
     loginPage.login(params.login.user, params.login.password);
     browser.get(shared.tenantsPageUrl);
-    tenants.createTenant();
+    // TITAN2-4878
+    //tenants.createTenant();
   });
 
   beforeEach(function() {

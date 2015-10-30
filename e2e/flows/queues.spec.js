@@ -292,7 +292,7 @@ describe('The queues view', function() {
     });
   });
 
-  it('should display new version panel when add new version is selected', function() {
+  xit('should display new version panel when add new version is selected', function() {
     // TODO TITAN2-4470
     shared.firstTableRow.click();
     queues.addNewVersionBtn.click();
@@ -322,7 +322,7 @@ describe('The queues view', function() {
     expect(newVersion.advancedQueryFormField.getAttribute('value')).toBe('{}');
   });
 
-  it('should display copy version panel when copy is selected', function() {
+  xit('should display copy version panel when copy is selected', function() {
     // TODO TITAN2-4470
     shared.firstTableRow.click();
     queues.activeVersionDropdown.$('option:checked').getAttribute('value').then(function(activeVersionValue) {
@@ -441,7 +441,7 @@ describe('The queues view', function() {
     });
   });
 
-  it('should not require basic query details when adding a new queue version from copy', function() {
+  xit('should not require basic query details when adding a new queue version from copy', function() {
     // TODO TITAN2-4470
     shared.firstTableRow.click();
     queues.activeVersionDropdown.all(by.css('option')).count().then(function(originalVersionCount) {
