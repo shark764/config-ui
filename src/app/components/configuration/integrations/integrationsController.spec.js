@@ -10,7 +10,7 @@ describe('IntegrationsController', function () {
 
   beforeEach(module('gulpAngular'));
   beforeEach(module('liveopsConfigPanel'));
-  beforeEach(module('liveopsConfigPanel.mock.content.configuration.integrations'));
+  beforeEach(module('liveopsConfigPanel.tenant.integration.mock'));
   
   beforeEach(inject(['$rootScope', '$controller', '$httpBackend', 'apiHostname', 'Session', 'mockIntegrations',
     function ($rootScope, _$controller_, _$httpBackend, _apiHostname_, _Session_, _mockIntegrations) {

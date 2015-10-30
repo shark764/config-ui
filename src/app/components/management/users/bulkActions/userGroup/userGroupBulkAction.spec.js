@@ -12,9 +12,9 @@ describe('userGroupBulkAction', function () {
 
   beforeEach(module('gulpAngular'));
   beforeEach(module('liveopsConfigPanel'));
-  beforeEach(module('liveopsConfigPanel.mock.content.management.tenantUsers'));
-  beforeEach(module('liveopsConfigPanel.mock.content.management.groups'));
-  beforeEach(module('liveopsConfigPanel.mock.content.management.users.groups'));
+  beforeEach(module('liveopsConfigPanel.tenant.user.mock'));
+  beforeEach(module('liveopsConfigPanel.tenant.group.mock'));
+  beforeEach(module('liveopsConfigPanel.tenant.user.group.mock'));
 
   beforeEach(inject(['$httpBackend', 'apiHostname', 'UserGroupBulkAction', 'userGroupBulkActionTypes', 'mockTenantUsers', 'mockGroups', 'mockUserGroups',
     function (_$httpBackend, _apiHostname, _UserGroupBulkAction, _userGroupBulkActionTypes, _mockTenantUsers, _mockGroups, _mockUserGroups) {
@@ -27,7 +27,7 @@ describe('userGroupBulkAction', function () {
       mockUserGroups = _mockUserGroups;
     }
   ]));
-  
+
   beforeEach(inject(['tenantUserTransformer', function(tenantUserTransformer) {
     tenantUserTransformer.transform(mockTenantUsers[0]);
   }]));

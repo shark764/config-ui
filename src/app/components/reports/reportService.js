@@ -1,10 +1,10 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .factory('Report', ['LiveopsResourceFactory', 'cacheAddInterceptor',
-    function(LiveopsResourceFactory, cacheAddInterceptor) {
+  .factory('Report', ['LiveopsResourceFactory', 'apiHostname', 'cacheAddInterceptor',
+    function(LiveopsResourceFactory, apiHostname, cacheAddInterceptor) {
       var Report = LiveopsResourceFactory.create({
-        endpoint: '/v1/tenants/:tenantId/reports/token',
+        endpoint: apiHostname + '/v1/tenants/:tenantId/reports/token',
         resourceName: 'Report',
         updateFields: [{
           name: 'baseUrl'

@@ -14,9 +14,9 @@ describe('userGroups directive', function () {
 
   beforeEach(module('gulpAngular'));
   beforeEach(module('liveopsConfigPanel'));
-  beforeEach(module('liveopsConfigPanel.mock.content.management.tenantUsers'));
-  beforeEach(module('liveopsConfigPanel.mock.content.management.groups'));
-  beforeEach(module('liveopsConfigPanel.mock.content.management.users.groups'));
+  beforeEach(module('liveopsConfigPanel.tenant.user.mock'));
+  beforeEach(module('liveopsConfigPanel.tenant.group.mock'));
+  beforeEach(module('liveopsConfigPanel.tenant.user.group.mock'));
 
   var doDefaultCompile = function () {
     //Mock the group services
@@ -197,7 +197,7 @@ describe('userGroups directive', function () {
         saveSpy = jasmine.createSpy('$save').and.callFake(function(success) {
           return $q.when(success());
         });
-        
+
         isolateScope.newGroupUser = {
           id: 'newthing',
           $save: saveSpy
@@ -238,7 +238,7 @@ describe('userGroups directive', function () {
           deferred.reject(failure());
           return deferred.promise;
         });
-        
+
         spyOn(isolateScope, 'reset');
         isolateScope.saveUserGroup({
           id: 'newgroup'
@@ -252,7 +252,7 @@ describe('userGroups directive', function () {
           deferred.reject(failure());
           return deferred.promise;
         });
-        
+
         spyOn(isolateScope, 'reset');
         isolateScope.saveUserGroup({
           id: 'newgroup'

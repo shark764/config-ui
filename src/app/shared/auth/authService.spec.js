@@ -26,7 +26,7 @@ describe('AuthService', function () {
 
   beforeEach(module('liveopsConfigPanel'));
   beforeEach(module('gulpAngular'));
-  beforeEach(module('liveopsConfigPanel.mock.content.management.users'));
+  beforeEach(module('liveopsConfigPanel.user.mock'));
   
   beforeEach(inject(['$rootScope', '$location', '$httpBackend', 'AuthService', 'Session', 'apiHostname', 'mockUsers',
     function (_$rootScope_, _$location_, _$httpBackend_, _AuthService_, _Session_, _apiHostname_, mockUsers) {

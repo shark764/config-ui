@@ -13,12 +13,12 @@ describe('users controller', function() {
 
   beforeEach(module('gulpAngular'));
   beforeEach(module('liveopsConfigPanel'));
-  beforeEach(module('liveopsConfigPanel.mock.content'));
-  beforeEach(module('liveopsConfigPanel.mock.content.management.users'));
-  beforeEach(module('liveopsConfigPanel.mock.content.management.tenantUsers'));
-  beforeEach(module('liveopsConfigPanel.mock.content.management.skills'));
-  beforeEach(module('liveopsConfigPanel.mock.content.management.groups'));
-  beforeEach(module('liveopsConfigPanel.mock.content.management.roles'));
+  beforeEach(module('liveopsConfigPanel.mock'));
+  beforeEach(module('liveopsConfigPanel.user.mock'));
+  beforeEach(module('liveopsConfigPanel.tenant.user.mock'));
+  beforeEach(module('liveopsConfigPanel.tenant.skill.mock'));
+  beforeEach(module('liveopsConfigPanel.tenant.group.mock'));
+  beforeEach(module('liveopsConfigPanel.tenant.role.mock'));
 
   beforeEach(inject(['$compile', '$rootScope', '$httpBackend', '$controller', 'apiHostname', 'mockUsers', 'Session', 'User', 'TenantUser', 'mockTenantUsers',
     function($compile, $rootScope, _$httpBackend, $controller, _apiHostname, _mockUsers, _Session_, _User_, _TenantUser, _mockTenantUsers) {
