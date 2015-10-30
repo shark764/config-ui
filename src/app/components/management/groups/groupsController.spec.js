@@ -9,9 +9,9 @@ describe('groups controller', function () {
 
   beforeEach(module('gulpAngular'));
   beforeEach(module('liveopsConfigPanel'));
-  beforeEach(module('liveopsConfigPanel.mock.content.management.groups'));
-  beforeEach(module('liveopsConfigPanel.mock.content.management.users'));
-  beforeEach(module('liveopsConfigPanel.mock.content.management.users.groups'));
+  beforeEach(module('liveopsConfigPanel.tenant.group.mock'));
+  beforeEach(module('liveopsConfigPanel.tenant.user.group.mock'));
+  beforeEach(module('liveopsConfigPanel.user.mock'));
 
   beforeEach(inject(['$rootScope', '$httpBackend', '$controller', 'apiHostname', 'Session', 'mockUsers', 'mockGroups',
     function ($rootScope, $httpBackend, $controller, apiHostname, Session, _mockUsers, _mockGroups) {
@@ -25,7 +25,7 @@ describe('groups controller', function () {
       $scope.$digest();
     }
   ]));
-  
+
   describe('fetch function', function () {
     it('should be defined', inject(function () {
       expect($scope.fetchGroups).toBeDefined();
@@ -57,7 +57,7 @@ describe('groups controller', function () {
     it('should be defined', inject(function (Group) {
       expect(Group.prototype.fetchGroupUsers).toBeDefined();
       expect(Group.prototype.fetchGroupUsers).toEqual(jasmine.any(Function));
-      
+
       expect(mockGroups[0].fetchGroupUsers).toBeDefined();
     }));
 
@@ -66,7 +66,7 @@ describe('groups controller', function () {
       mockGroups[0].fetchGroupUsers();
       $httpBackend.flush();
     }]));
-    
+
     it('should set the member property on the item', inject(['$httpBackend', 'apiHostname', 'mockGroupUsers', function ($httpBackend, apiHostname, mockGroupUsers) {
       $httpBackend.expectGET(apiHostname + '/v1/tenants/tenant-id/groups/groupId1/users').respond(200, mockGroupUsers);
       expect(mockGroups[0].members).toBeUndefined();

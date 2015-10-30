@@ -13,8 +13,8 @@ describe('invite accept controller', function () {
 
   beforeEach(module('gulpAngular'));
   beforeEach(module('liveopsConfigPanel'));
-  beforeEach(module('liveopsConfigPanel.mock.content.management.users'));
-  beforeEach(module('liveopsConfigPanel.mock.content.management.tenantUsers'));
+  beforeEach(module('liveopsConfigPanel.user.mock'));
+  beforeEach(module('liveopsConfigPanel.tenant.user.mock'));
 
   beforeEach(inject(['$compile', '$rootScope', '$httpBackend', '$controller', 'apiHostname', 'mockUsers', 'mockTenantUsers',
     function ($compile, _$rootScope, _$httpBackend, _$controller, _apiHostname, _mockUsers, _mockTenantUsers) {

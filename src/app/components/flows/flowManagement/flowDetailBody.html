@@ -30,7 +30,9 @@
       error-type-required="{{'flow.details.activeVersion.error' | translate}}">
     </form-error>
     <div>
-      <select ng-required="true" api-error ng-model="selectedFlow.activeVersion" name="activeVersion"
+      <select name="activeVersion"
+        ng-required="true"
+        ng-model="selectedFlow.activeVersion" 
         ng-options="version.version as version.name for version in getVersions() | orderBy:'created':'reverse'">
         <option disabled value="">{{'flow.details.version.choose' | translate}}</option>
       </select>

@@ -35,13 +35,11 @@
 
       <div class="detail-controls">
         <input
-          id="cancel-details-btn"
-          lo-cancel-chain-executor="role:cancel"
+          id="cancel-details-btn" type="button" class="btn"
           ng-disabled="selectedTenantRole.$busy"
-          type="button"
-          class="btn"
-          ng-click="reset()"
-          value="{{'value.cancel' | translate}}"></input>
+          value="{{'value.cancel' | translate}}"
+          lo-cancel>
+        </input>
 
         <input
           id="submit-details-btn"

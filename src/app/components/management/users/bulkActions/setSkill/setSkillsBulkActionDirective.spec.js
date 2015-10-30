@@ -13,9 +13,9 @@ describe('setSkillsBulkAction directive', function () {
 
   beforeEach(module('gulpAngular'));
   beforeEach(module('liveopsConfigPanel'));
-  beforeEach(module('liveopsConfigPanel.mock.content'));
-  beforeEach(module('liveopsConfigPanel.mock.content.management.tenantUsers'));
-  beforeEach(module('liveopsConfigPanel.mock.content.management.skills'));
+  beforeEach(module('liveopsConfigPanel.mock'));
+  beforeEach(module('liveopsConfigPanel.tenant.user.mock'));
+  beforeEach(module('liveopsConfigPanel.tenant.skill.mock'));
 
   beforeEach(inject(['$compile', '$rootScope', 'BulkAction', 'mockSkills', 'mockTenantUsers', 'mockUserSkills', 'UserSkillsBulkAction',
     function (_$compile_, _$rootScope_, _BulkAction, _mockSkills, _mockTenantUsers, _mockUserSkills, _UserSkillsBulkAction) {

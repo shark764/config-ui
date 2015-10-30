@@ -53,5 +53,9 @@ angular.module('liveopsConfigPanel')
       $scope.bulkActions = {
         setFlowStatus: new BulkAction()
       };
+      
+      $scope.submit = function(){
+        return $scope.selectedFlow.save();
+      };
     }
   ]);

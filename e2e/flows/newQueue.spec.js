@@ -35,7 +35,7 @@ describe('The create new queues view', function() {
     expect(shared.submitFormBtn.isDisplayed()).toBeTruthy();
 
     expect(newQueue.showAdvancedQueryLink.isDisplayed()).toBeTruthy();
-    expect(newQueue.advancedQueryFormField.isPresent()).toBeFalsy();
+    expect(newQueue.advancedQueryFormField.isDisplayed()).toBeFalsy();
 
     // Add Groups & Skills filter
     newQueue.addFilterDropdown.click();
@@ -43,31 +43,31 @@ describe('The create new queues view', function() {
     newQueue.addFilterBtn.click();
     newQueue.addFilterDropdown.click();
     newQueue.skillFilterDropdownOption.click();
-    newQueue.addFilterBtn.click();
+    newQueue.addFilterBtn.click().then(function () {
+      // Query fields
+      expect(newQueue.allGroupsTypeAhead.isDisplayed()).toBeTruthy();
+      expect(newQueue.anyGroupsTypeAhead.isDisplayed()).toBeTruthy();
+      expect(newQueue.allSkillsTypeAhead.isDisplayed()).toBeTruthy();
+      expect(newQueue.anySkillsTypeAhead.isDisplayed()).toBeTruthy();
 
-    // Query fields
-    expect(newQueue.allGroupsTypeAhead.isDisplayed()).toBeTruthy();
-    expect(newQueue.anyGroupsTypeAhead.isDisplayed()).toBeTruthy();
-    expect(newQueue.allSkillsTypeAhead.isDisplayed()).toBeTruthy();
-    expect(newQueue.anySkillsTypeAhead.isDisplayed()).toBeTruthy();
+      expect(newQueue.allGroupsAdd.isDisplayed()).toBeTruthy();
+      expect(newQueue.anyGroupsAdd.isDisplayed()).toBeTruthy();
+      expect(newQueue.allSkillsAdd.isDisplayed()).toBeTruthy();
+      expect(newQueue.anySkillsAdd.isDisplayed()).toBeTruthy();
 
-    expect(newQueue.allGroupsAdd.isDisplayed()).toBeTruthy();
-    expect(newQueue.anyGroupsAdd.isDisplayed()).toBeTruthy();
-    expect(newQueue.allSkillsAdd.isDisplayed()).toBeTruthy();
-    expect(newQueue.anySkillsAdd.isDisplayed()).toBeTruthy();
+      // Priority fields with defaults
+      expect(newQueue.minPriorityInputField.isDisplayed()).toBeTruthy();
+      expect(newQueue.maxPriorityInputField.isDisplayed()).toBeTruthy();
+      expect(newQueue.priorityValueInputField.isDisplayed()).toBeTruthy();
+      expect(newQueue.priorityRateInputField.isDisplayed()).toBeTruthy();
+      expect(newQueue.priorityRateUnitField.isDisplayed()).toBeTruthy();
 
-    // Priority fields with defaults
-    expect(newQueue.minPriorityInputField.isDisplayed()).toBeTruthy();
-    expect(newQueue.maxPriorityInputField.isDisplayed()).toBeTruthy();
-    expect(newQueue.priorityValueInputField.isDisplayed()).toBeTruthy();
-    expect(newQueue.priorityRateInputField.isDisplayed()).toBeTruthy();
-    expect(newQueue.priorityRateUnitField.isDisplayed()).toBeTruthy();
-
-    expect(newQueue.minPriorityInputField.getAttribute('value')).toBe(queues.minPriorityDefault);
-    expect(newQueue.maxPriorityInputField.getAttribute('value')).toBe(queues.maxPriorityDefault);
-    expect(newQueue.priorityValueInputField.getAttribute('value')).toBe(queues.priorityValueDefault);
-    expect(newQueue.priorityRateInputField.getAttribute('value')).toBe(queues.priorityRateDefault);
-    expect(newQueue.priorityRateUnitField.getAttribute('value')).toBe(queues.priorityRateUnitDefault);
+      expect(newQueue.minPriorityInputField.getAttribute('value')).toBe(queues.minPriorityDefault);
+      expect(newQueue.maxPriorityInputField.getAttribute('value')).toBe(queues.maxPriorityDefault);
+      expect(newQueue.priorityValueInputField.getAttribute('value')).toBe(queues.priorityValueDefault);
+      expect(newQueue.priorityRateInputField.getAttribute('value')).toBe(queues.priorityRateDefault);
+      expect(newQueue.priorityRateUnitField.getAttribute('value')).toBe(queues.priorityRateUnitDefault);
+    });
   });
 
   it('should toggle between showing advanced and basic query fields', function() {
@@ -76,7 +76,7 @@ describe('The create new queues view', function() {
     expect(newQueue.showBasicQueryLink.isDisplayed()).toBeFalsy();
 
     // Advanced query field is not displayed
-    expect(newQueue.advancedQueryFormField.isPresent()).toBeFalsy();
+    expect(newQueue.advancedQueryFormField.isDisplayed()).toBeFalsy();
 
     // Add Groups & Skills filter
     newQueue.addFilterDropdown.click();
@@ -84,40 +84,40 @@ describe('The create new queues view', function() {
     newQueue.addFilterBtn.click();
     newQueue.addFilterDropdown.click();
     newQueue.skillFilterDropdownOption.click();
-    newQueue.addFilterBtn.click();
+    newQueue.addFilterBtn.click().then(function () {
+      // Basic Query fields are displayed
+      expect(newQueue.allGroupsTypeAhead.isDisplayed()).toBeTruthy();
+      expect(newQueue.anyGroupsTypeAhead.isDisplayed()).toBeTruthy();
+      expect(newQueue.allSkillsTypeAhead.isDisplayed()).toBeTruthy();
+      expect(newQueue.anySkillsTypeAhead.isDisplayed()).toBeTruthy();
 
-    // Basic Query fields are displayed
-    expect(newQueue.allGroupsTypeAhead.isDisplayed()).toBeTruthy();
-    expect(newQueue.anyGroupsTypeAhead.isDisplayed()).toBeTruthy();
-    expect(newQueue.allSkillsTypeAhead.isDisplayed()).toBeTruthy();
-    expect(newQueue.anySkillsTypeAhead.isDisplayed()).toBeTruthy();
+      newQueue.showAdvancedQueryLink.click().then(function() {
+        expect(newQueue.showAdvancedQueryLink.isDisplayed()).toBeFalsy();
+        expect(newQueue.showBasicQueryLink.isDisplayed()).toBeTruthy();
 
-    newQueue.showAdvancedQueryLink.click().then(function() {
-      expect(newQueue.showAdvancedQueryLink.isDisplayed()).toBeFalsy();
-      expect(newQueue.showBasicQueryLink.isDisplayed()).toBeTruthy();
+        // Advanced query field is displayed
+        expect(newQueue.advancedQueryFormField.isDisplayed()).toBeTruthy();
+        expect(newQueue.advancedQueryFormField.getAttribute('value')).toBe('{}');
 
-      // Advanced query field is displayed
-      expect(newQueue.advancedQueryFormField.isDisplayed()).toBeTruthy();
-      expect(newQueue.advancedQueryFormField.getAttribute('value')).toBe('{}');
+        // Basic Query fields are not displayed
+        expect(newQueue.allGroupsTypeAhead.isDisplayed()).toBeFalsy();
+        expect(newQueue.anyGroupsTypeAhead.isDisplayed()).toBeFalsy();
+        expect(newQueue.allSkillsTypeAhead.isDisplayed()).toBeFalsy();
+        expect(newQueue.anySkillsTypeAhead.isDisplayed()).toBeFalsy();
+      }).then(function() {
+        newQueue.showBasicQueryLink.click().then(function() {
+          expect(newQueue.showAdvancedQueryLink.isDisplayed()).toBeTruthy();
+          expect(newQueue.showBasicQueryLink.isDisplayed()).toBeFalsy();
 
-      // Basic Query fields are not displayed
-      expect(newQueue.allGroupsTypeAhead.isDisplayed()).toBeFalsy();
-      expect(newQueue.anyGroupsTypeAhead.isDisplayed()).toBeFalsy();
-      expect(newQueue.allSkillsTypeAhead.isDisplayed()).toBeFalsy();
-      expect(newQueue.anySkillsTypeAhead.isDisplayed()).toBeFalsy();
-    }).then(function() {
-      newQueue.showBasicQueryLink.click().then(function() {
-        expect(newQueue.showAdvancedQueryLink.isDisplayed()).toBeTruthy();
-        expect(newQueue.showBasicQueryLink.isDisplayed()).toBeFalsy();
+          // Advanced query field is not displayed
+          expect(newQueue.advancedQueryFormField.isDisplayed()).toBeFalsy();
 
-        // Advanced query field is not displayed
-        expect(newQueue.advancedQueryFormField.isPresent()).toBeFalsy();
-
-        // Basic Query fields are displayed
-        expect(newQueue.allGroupsTypeAhead.isDisplayed()).toBeTruthy();
-        expect(newQueue.anyGroupsTypeAhead.isDisplayed()).toBeTruthy();
-        expect(newQueue.allSkillsTypeAhead.isDisplayed()).toBeTruthy();
-        expect(newQueue.anySkillsTypeAhead.isDisplayed()).toBeTruthy();
+          // Basic Query fields are displayed
+          expect(newQueue.allGroupsTypeAhead.isDisplayed()).toBeTruthy();
+          expect(newQueue.anyGroupsTypeAhead.isDisplayed()).toBeTruthy();
+          expect(newQueue.allSkillsTypeAhead.isDisplayed()).toBeTruthy();
+          expect(newQueue.anySkillsTypeAhead.isDisplayed()).toBeTruthy();
+        });
       });
     });
   });

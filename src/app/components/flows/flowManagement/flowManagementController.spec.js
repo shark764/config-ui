@@ -13,9 +13,9 @@ describe('FlowManagementController', function () {
 
   beforeEach(module('gulpAngular'));
   beforeEach(module('liveopsConfigPanel'));
-  beforeEach(module('liveopsConfigPanel.mock.content.flows'));
-  beforeEach(module('liveopsConfigPanel.mock.content.flows.versions'));
-  beforeEach(module('liveopsConfigPanel.mock.content.flows.drafts'));
+  beforeEach(module('liveopsConfigPanel.tenant.flow.mock'));
+  beforeEach(module('liveopsConfigPanel.tenant.flow.version.mock'));
+  beforeEach(module('liveopsConfigPanel.tenant.flow.draft.mock'));
 
   beforeEach(inject(['$rootScope', '$controller', '$injector', '$state', 'Flow', 'Session', 'apiHostname', 'mockFlows', 'mockFlowVersions',
     function ($rootScope, _$controller_, $injector, _$state_, _Flow_, _Session_, _apiHostname_, _mockFlows, _mockFlowVersions) {

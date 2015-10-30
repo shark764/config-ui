@@ -13,8 +13,8 @@ describe('DispatchMappingsController', function () {
   beforeEach(module('gulpAngular'));
   beforeEach(module('liveopsConfigPanel'));
   beforeEach(module('liveopsConfigPanel.mock.content.configuration.dispatchMappings.dispatchMappingsController'));
-  beforeEach(module('liveopsConfigPanel.mock.content.configuration.integrations'));
-  beforeEach(module('liveopsConfigPanel.mock.content.flows'));
+  beforeEach(module('liveopsConfigPanel.tenant.integration.mock'));
+  beforeEach(module('liveopsConfigPanel.tenant.flow.mock'));
 
   beforeEach(inject(['$rootScope', '$controller', '$httpBackend', 'apiHostname', 'Session', 'mockDispatchMappings', 'mockFlows', 'mockIntegrations',
     function ($rootScope, _$controller_, _$httpBackend_, _apiHostname_, _Session_, _mockDispatchMappings, _mockFlows, _mockIntegrations) {

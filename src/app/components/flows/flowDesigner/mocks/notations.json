@@ -37,7 +37,7 @@
                     "name": "participant",
                     "path": "params.participant",
                     "type": "select",
-                    "source": "resource",
+                    "source": "participant",
                     "label": "Participant:",
                     "group": "params",
                     "index": 0,
@@ -170,7 +170,7 @@
                     "name": "participant",
                     "path": "params.participant",
                     "type": "select",
-                    "source": "resource",
+                    "source": "participant",
                     "label": "Participant:",
                     "group": "params",
                     "index": 0,
@@ -222,7 +222,7 @@
                     "source": "expression",
                     "type": "integer",
                     "mandatory": true,
-                    "default": 5,
+                    "default": 1,
                     "key": "digits"
                 },
                 "terminator": {
@@ -580,7 +580,7 @@
                     "name": "participant",
                     "path": "params.participant",
                     "type": "select",
-                    "source": "resource",
+                    "source": "participant",
                     "label": "Participant:",
                     "group": "params",
                     "index": 0,
@@ -762,7 +762,7 @@
                     "name": "participant",
                     "path": "params.participant",
                     "type": "select",
-                    "source": "resource",
+                    "source": "participant",
                     "label": "Participant:",
                     "group": "params",
                     "index": 0,
@@ -816,7 +816,7 @@
                     "name": "participant",
                     "path": "params.participant",
                     "type": "select",
-                    "source": "resource",
+                    "source": "participant",
                     "label": "Participant:",
                     "group": "params",
                     "index": 0,
@@ -889,7 +889,7 @@
                     "name": "participant",
                     "path": "params.participant",
                     "type": "select",
-                    "source": "resource",
+                    "source": "participant",
                     "label": "Participant:",
                     "group": "params",
                     "index": 0,
@@ -942,15 +942,32 @@
               {
                   "name": "notification-type",
                   "path": "params.notificationType",
-                  "type": "autocomplete",
-                  "source": "signal",
+                  "type": "select",
                   "label": "Notification:",
                   "group": "general",
                   "index": 0,
                   "disabled": false,
                   "required": true,
-                  "placeholder": "Enter the attribute name...",
-                  "hidden": false
+                  "placeholder": null,
+                  "hidden": false,
+                  "options": [
+                      {
+                          "value": "work-initiated",
+                          "content": "Work Initiated"
+                      },
+                      {
+                          "value": "work-accepted",
+                          "content": "Work Accepted"
+                      },
+                      {
+                          "value": "work-rejected",
+                          "content": "Work Rejected"
+                      },
+                      {
+                          "value": "work-ended",
+                          "content": "Work Ended"
+                      }
+                  ]
               },
               {
                   "name": "resource",
@@ -1528,7 +1545,8 @@
                     "source": "entity",
                     "type": "variable",
                     "key": "resource",
-                    "mandatory": true
+                    "mandatory": true,
+                    "default": "Agent"
                 },
                 "queue": {
                     "source": "entity",
@@ -1567,15 +1585,16 @@
                 {
                     "name": "resource",
                     "path": "params.resource",
-                    "type": "string",
+                    "type": "select",
+                    "source": "resource",
                     "label": "Resource:",
                     "group": "params",
                     "index": 0,
                     "disabled": false,
                     "required": true,
                     "hidden": false,
-                    "placeholder": "Enter a resource...",
-                    "targeted": false
+                    "targeted": false,
+                    "options": []
                 },
                 {
                     "name": "muted",
@@ -1616,7 +1635,7 @@
                     "type": "boolean",
                     "key": "muted",
                     "mandatory": false,
-                    "default": false
+                    "default": "false"
                 },
                 "disconnectOn": {
                     "source": "expression",

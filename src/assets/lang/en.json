@@ -127,7 +127,7 @@
   "details.tenantStatus.help": "Tenant Statuses: <ul><li>Pending Invitation</li><li>Pending Acceptance</li><li>Accepted</li><li>Disabled</li><li>Expired Invitation</li></ul>",
   "details.inviteNow.help" : "<center><p>To invite this user now select, click \"Submit\" with \"Invite Now\" selected</p> <p>or</p> <p>To set this user to a pending invite status de-select \"Invite Now and click \"Submit\"</p></center>",
   "details.tenantStatus.notInvited" : "This user has not been invited to join the tenant, to invite them now select \"Invite Now\" and click \"Submit\"",
-  
+
   "user.details.disable.confirm": "This will disable this user and prevent them from logging in. Do you want to continue?",
   "user.details.enable.confirm": "This will enable this user and allow them to log in. Do you want to continue?",
   "user.details.creating": "Creating New User",
@@ -209,7 +209,14 @@
   "queue.details.disable.confirm": "This will disable this queue. Do you want to continue?",
   "queue.details.enable.confirm": "This will enable this queue. Do you want to continue?",
   "queue.details.version.expand": "Show/hide Details",
+  "queue.details.version.active.tooltip": "Currently active version",
   "queue.details.version.none": "No query versions for this queue. Create one with the plus button above.",
+  "queue.details.version.query.basic.invalid": "Could not parse a basic query from the advanced query.",
+  "queue.details.version.query.advanced.title": "Advanced Query",
+  "queue.details.version.query.advanced.link": "(Show advanced query)",
+  "queue.details.version.query.basic.link": "(Show basic query)",
+  "queue.details.version.query.basic.title": "Basic Query",
+  "queue.details.version.copy": "Create Copy",
   "queue.create.invalid.query": "Sorry, the initial query for this queue was invalid. Please create a new query version.",
   "queue.table.title": "Queue Management",
   "queues.query.builder.filters.label": "Add a filter",
@@ -391,16 +398,16 @@
   "user.profile.save.fail": "An error occurred while updating your details.",
   "profile.usergroups.none": "You have not been assigned to any groups.",
   "profile.skills.none": "You have not been assigned any skills.",
-  
-  "details.extension.type.required": "Extension Type required",
+
+  "details.extension.type.required": "Type required",
   "details.extension.type": "Extension Type",
   "details.extension.provider": "Provider",
-  "details.extension.provider.required": "Extension provider required",
+  "details.extension.provider.required": "Provider required",
   "details.extension.value": "Enter Extension",
-  "details.extension.value.required": "Extension value required",
+  "details.extension.value.required": "Value required",
   "details.extension.drop": "Drop extension here",
   "details.phone.extension.value": "Ext.",
-  
+
   "multibox.add.placeholder": "Add Item...",
   "multibox.search.placeholder": "Search...",
   "multibox.create.btn": "Create New",
@@ -430,7 +437,7 @@
   "role.permission.remove.fail": "Sorry, there was an error removing that permission",
   "role.permission.add.success": "Added permission!",
   "role.permission.add.fail": "Sorry, there was an error adding that permission",
-  
+
   "webrtc": "WebRTC",
   "twilio": "Twilio",
   "pstn": "PSTN",

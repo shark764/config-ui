@@ -13,8 +13,8 @@ describe('flowDraft controller', function () {
 
   beforeEach(module('gulpAngular'));
   beforeEach(module('liveopsConfigPanel'));
-  beforeEach(module('liveopsConfigPanel.mock.content.flows'));
-  beforeEach(module('liveopsConfigPanel.mock.content.flows.drafts'));
+  beforeEach(module('liveopsConfigPanel.tenant.flow.mock'));
+  beforeEach(module('liveopsConfigPanel.tenant.flow.draft.mock'));
   beforeEach(inject(['$rootScope', '$controller', '$injector', 'FlowDraft', 'apiHostname', 'mockFlows', 'mockFlowDrafts', 'Session',
     function ($rootScope, _$controller_, $injector, _FlowDraft_, apiHostname, _mockFlows, _mockFlowDrafts, _Session) {
       $scope = $rootScope.$new();

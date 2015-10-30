@@ -8,7 +8,7 @@ describe('UserPermissions Service', function () {
 
   beforeEach(module('liveopsConfigPanel'));
   beforeEach(module('gulpAngular'));
-  beforeEach(module('liveopsConfigPanel.mock.content'));
+  beforeEach(module('liveopsConfigPanel.mock'));
   
   beforeEach(inject(['UserPermissions', 'Session', function (_UserPermissions, _Session) {
       UserPermissions = _UserPermissions;

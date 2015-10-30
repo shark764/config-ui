@@ -1,6 +1,0 @@
-<div class="lo-error" role="alert" ng-if='field.$touched && field.$invalid' ng-messages="field.$error">
-  <div ng-repeat="(error, value) in field.$error" >
-    <span ng-message="{{error}}" ng-if="isString(value)">{{value}}</span>
-    <span ng-message="{{error}}" ng-if="value === true">{{errorTypes[error]}}</span>
-  </div>
-</div>
