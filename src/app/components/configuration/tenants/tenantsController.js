@@ -51,7 +51,7 @@ angular.module('liveopsConfigPanel')
         if (newVal){
           var result = angular.isDefined(newVal.$promise) ? newVal.$promise : newVal;
           $q.when(result).then(function(tenant){
-            tenant.region = Region.cachedGet({
+            tenant.$region = Region.cachedGet({
               id: tenant.regionId
             });
           });
