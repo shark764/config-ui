@@ -38,7 +38,8 @@ describe('When switching tenants', function() {
       browser.get(shared.flowsPageUrl);
       elementCount = shared.tableElements.count();
     });
-
+    
+    // TODO Bug Unable to create new tenant TITAN2-4878
     xit('should create a new Flow in one and not the previous', function() {
       // Create Flow in new tenant
       var randomFlow = Math.floor((Math.random() * 1000) + 1);

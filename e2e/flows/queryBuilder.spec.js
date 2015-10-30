@@ -51,7 +51,7 @@ describe('The basic query builder', function() {
       browser.get(shared.groupsPageUrl);
       expect(groupNameList.length).toBe(shared.tableElements.count());
 
-      for (var i = 0; i < groupNameList.length && i < 10; i++) {
+      for (var i = 0; i < groupNameList.length && i < 5; i++) {
         shared.searchField.clear();
         shared.searchField.sendKeys(groupNameList[i]);
         expect(shared.tableElements.count()).toBeGreaterThan(0);
@@ -85,7 +85,7 @@ describe('The basic query builder', function() {
       browser.get(shared.skillsPageUrl);
       expect(skillNameList.length).toBe(shared.tableElements.count());
 
-      for (var i = 0; i < skillNameList.length && i < 10; i++) {
+      for (var i = 0; i < skillNameList.length && i < 5; i++) {
         shared.searchField.clear();
         shared.searchField.sendKeys(skillNameList[i]);
         expect(shared.tableElements.count()).toBeGreaterThan(0);
@@ -151,6 +151,78 @@ describe('The basic query builder', function() {
     expect(newQueue.removeSkillsFilter.isDisplayed()).toBeFalsy();
     expect(newQueue.basicQueryAllSkills.isDisplayed()).toBeFalsy();
     expect(newQueue.basicQueryAnySkills.isDisplayed()).toBeFalsy();
+  });
+
+  it('should leave empty Skills filter when Groups are added', function() {
+    shared.createBtn.click();
+
+    // Add Groups filter
+    newQueue.addFilterDropdown.click();
+    newQueue.groupFilterDropdownOption.click();
+    newQueue.addFilterBtn.click();
+
+    // Add Skills filter
+    newQueue.addFilterDropdown.click();
+    newQueue.skillFilterDropdownOption.click();
+    newQueue.addFilterBtn.click();
+
+    // Select group from 'All' query dropdown
+    newQueue.allGroupsTypeAhead.click();
+    newQueue.allGroupsDropdownGroups.get(0).click();
+    newQueue.allGroupsTypeAhead.getAttribute('value').then(function(selectedGroupName) {
+      newQueue.allGroupsAdd.click();
+      expect(newQueue.allGroupsSelected.count()).toBe(1);
+      expect(newQueue.allGroupsSelected.get(0).getText()).toBe(selectedGroupName);
+    });
+
+    // Select Group from 'Any' query dropdown
+    newQueue.anyGroupsTypeAhead.click();
+    newQueue.anyGroupsDropdownGroups.get(0).click();
+    newQueue.anyGroupsTypeAhead.getAttribute('value').then(function(selectedGroupName) {
+      newQueue.anyGroupsAdd.click();
+      expect(newQueue.anyGroupsSelected.count()).toBe(1);
+      expect(newQueue.anyGroupsSelected.get(0).getText()).toBe(selectedGroupName);
+    });
+
+    // Skills filter remains selected
+    expect(newQueue.basicQueryAllSkills.isDisplayed()).toBeTruthy();
+    expect(newQueue.basicQueryAnySkills.isDisplayed()).toBeTruthy();
+  });
+
+  it('should leave empty Groups filter when Skills are added', function() {
+    shared.createBtn.click();
+
+    // Add Groups filter
+    newQueue.addFilterDropdown.click();
+    newQueue.groupFilterDropdownOption.click();
+    newQueue.addFilterBtn.click();
+
+    // Add Skills filter
+    newQueue.addFilterDropdown.click();
+    newQueue.skillFilterDropdownOption.click();
+    newQueue.addFilterBtn.click();
+
+    // Select Skill from 'All' query dropdown
+    newQueue.allSkillsTypeAhead.click();
+    newQueue.allSkillsDropdownSkills.get(0).click();
+    newQueue.allSkillsTypeAhead.getAttribute('value').then(function(selectedSkillName) {
+      newQueue.allSkillsAdd.click();
+      expect(newQueue.allSkillsSelected.count()).toBe(1);
+      expect(newQueue.allSkillsSelected.get(0).getText()).toContain(selectedSkillName);
+    });
+
+    // Select Skill from 'Any' query dropdown
+    newQueue.anySkillsTypeAhead.click();
+    newQueue.anySkillsDropdownSkills.get(0).click();
+    newQueue.anySkillsTypeAhead.getAttribute('value').then(function(selectedSkillName) {
+      newQueue.anySkillsAdd.click();
+      expect(newQueue.anySkillsSelected.count()).toBe(1);
+      expect(newQueue.anySkillsSelected.get(0).getText()).toContain(selectedSkillName);
+    });
+
+    // Groups section remains selected
+    expect(newQueue.basicQueryAllGroups.isDisplayed()).toBeTruthy();
+    expect(newQueue.basicQueryAnyGroups.isDisplayed()).toBeTruthy();
   });
 
   it('should add groups and skills when selected', function() {
@@ -400,19 +472,19 @@ describe('The basic query builder', function() {
     newQueue.addFilterBtn.click().then(function() {
       newQueue.allGroupsTypeAhead.click();
       newQueue.allGroupsDropdownGroups.count().then(function(groupCount) {
-        for (var i = 0; i < groupCount && i < 10; i++) {
+        for (var i = 0; i < groupCount && i < 5; i++) {
           newQueue.allGroupsTypeAhead.click();
           newQueue.allGroupsDropdownGroups.get(0).click();
           newQueue.allGroupsAdd.click();
         }
 
-        for (var j = 0; j < groupCount && j < 10; j++) {
+        for (var j = 0; j < groupCount && j < 5; j++) {
           newQueue.anyGroupsTypeAhead.click();
           newQueue.anyGroupsDropdownGroups.get(0).click();
           newQueue.anyGroupsAdd.click();
         }
-        expect([groupCount, 10]).toContain(newQueue.allGroupsSelected.count());
-        expect([groupCount, 10]).toContain(newQueue.anyGroupsSelected.count());
+        expect([groupCount, 5]).toContain(newQueue.allGroupsSelected.count());
+        expect([groupCount, 5]).toContain(newQueue.anyGroupsSelected.count());
       });
     });
   });
@@ -538,19 +610,19 @@ describe('The basic query builder', function() {
     newQueue.addFilterBtn.click().then(function() {
       newQueue.anySkillsTypeAhead.click();
       newQueue.anySkillsDropdownSkills.count().then(function(skillCount) {
-        for (var j = 0; j < skillCount && j < 10; j++) {
+        for (var j = 0; j < skillCount && j < 5; j++) {
           newQueue.anySkillsTypeAhead.click();
           newQueue.anySkillsDropdownSkills.get(0).click();
           newQueue.anySkillsAdd.click();
         }
 
-        for (var i = 0; i < skillCount && i < 10; i++) {
+        for (var i = 0; i < skillCount && i < 5; i++) {
           newQueue.allSkillsTypeAhead.click();
           newQueue.allSkillsDropdownSkills.get(0).click();
           newQueue.allSkillsAdd.click();
         }
-        expect([skillCount, 10]).toContain(newQueue.allSkillsSelected.count());
-        expect([skillCount, 10]).toContain(newQueue.anySkillsSelected.count());
+        expect([skillCount, 5]).toContain(newQueue.allSkillsSelected.count());
+        expect([skillCount, 5]).toContain(newQueue.anySkillsSelected.count());
       });
     });
   });

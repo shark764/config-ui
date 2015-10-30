@@ -9,6 +9,7 @@ var TenantsPage = function() {
   this.adminDropDownItems = this.adminFormDropDown.all(by.css('option'));
 
   this.region = element(by.id('tenant-details-region'));
+  this.tenantUUID = element(by.id('tenant-details-id'));
 
   this.firstTableRow = element(by.css('tr.ng-scope:nth-child(1)'));
   this.secondTableRow = element(by.css('tr.ng-scope:nth-child(2)'));
