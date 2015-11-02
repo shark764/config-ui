@@ -12,9 +12,9 @@ var Shared = function() {
   this.flowsUrl = this.mainUrl + 'flows/';
 
   this.usersPageUrl = this.managementUrl + 'users';
-  this.groupsPageUrl = this.managementUrl + 'groups';
-  this.skillsPageUrl = this.managementUrl + 'skills';
   this.rolesPageUrl = this.managementUrl + 'roles';
+  this.skillsPageUrl = this.managementUrl + 'skills';
+  this.rolePageUrl = this.managementUrl + 'roles';
 
   this.tenantsPageUrl = this.configurationUrl + 'tenants';
   this.integrationsPageUrl = this.configurationUrl + 'integrations';
