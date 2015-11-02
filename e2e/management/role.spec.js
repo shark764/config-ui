@@ -4,7 +4,7 @@ describe('The role view', function() {
   var loginPage = require('../login/login.po.js'),
     shared = require('../shared.po.js'),
     role = require('./role.po.js'),
-    user = require('./users.po.js'),
+    users = require('./users.po.js'),
     params = browser.params,
     roleCount,
     randomRole,
@@ -413,5 +413,34 @@ describe('The role view', function() {
     expect(role.descriptionFormField.getAttribute('value')).toBe('tenant supervisor');
     expect(role.rolePermissions.count()).toBe(6);
     expect(role.detailsPermissionCount.getText()).toBe('(6)');
+  });
+
+  it('should list all roles on the User Management page', function() {
+    // Get list of Roles
+    var roleNameList = [];
+    shared.tableElements.each(function(roleElement, index) {
+      if (index < 10) {
+        roleElement.element(by.css('td:nth-child(2)')).getText().then(function(roleName) {
+          if (roleName !== 'Administrator' && roleName !== 'Agent' && roleName !== 'Supervisor') {
+            roleNameList.push(roleName);
+          }
+        });
+      }
+    }).then(function() {
+      browser.get(shared.usersPageUrl);
+
+      shared.createBtn.click();
+      users.tenantRoleFormDropdown.click();
+
+      // Defaults are displayed at the top of the list
+      expect(users.tenantRoleFormDropdownOptions.get(1).getText()).toBe('Administrator');
+      expect(users.tenantRoleFormDropdownOptions.get(2).getText()).toBe('Supervisor');
+      expect(users.tenantRoleFormDropdownOptions.get(3).getText()).toBe('Agent');
+
+      // Role list on Users page should contain the same Roles
+      for (var i = 0; i < roleNameList.length; i++) {
+        expect(users.tenantRoleFormDropdown.element(by.cssContainingText('option', roleNameList[i]))).toBeTruthy();
+      }
+    });
   });
 });
