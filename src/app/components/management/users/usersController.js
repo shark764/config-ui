@@ -82,14 +82,8 @@ angular.module('liveopsConfigPanel')
           promises.push(updateSelfPromise);
           savePromise = updateSelfPromise;
         }
-        
-        if (angular.isUndefined(savePromise)){
-          var deferred = $q.defer();
-          deferred.resolve();
-          savePromise = deferred.promise;
-        }
 
-        savePromise.then(function() {
+        $q.when(savePromise).then(function() {
           if ($scope.selectedTenantUser.isNew() || (dirty(['status', 'roleId']) && UserPermissions.hasPermissionInList(['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'MANAGE_TENANT_ENROLLMENT']))){
 
             if (!$scope.selectedTenantUser.isNew()) {
