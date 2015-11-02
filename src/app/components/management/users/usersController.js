@@ -60,40 +60,48 @@ angular.module('liveopsConfigPanel')
 
       $scope.submit = function () {
         var promises = [];
+        var savePromise;
 
-        if (($scope.selectedTenantUser.isNew() || dirty(['status', 'roleId'])) &&
-          UserPermissions.hasPermissionInList(['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'MANAGE_TENANT_ENROLLMENT'])) {
+        if ($scope.selectedTenantUser.$user.isNew()) {
+          $scope.selectedTenantUser.$user.email = $scope.selectedTenantUser.email;
 
-          if (!$scope.selectedTenantUser.isNew()) {
-            delete $scope.selectedTenantUser.status;
-          }
-          
-          promises.push($scope.selectedTenantUser.save({
-            tenantId: Session.tenant.tenantId
-          }).then(function(tenantUser) {
-            tenantUser.$skills = [];
-            tenantUser.$groups = TenantUserGroups.query({
-              memberId: tenantUser.id,
-              tenantId: Session.tenant.tenantId
-            });
-            
-            if (dirty(['firstName', 'lastName', 'externalId']) && UserPermissions.hasPermission('PLATFORM_MANAGE_ALL_USERS')) {
-              $scope.selectedTenantUser.$user.save();
-            }
-          }));
-        } else if (dirty(['firstName', 'lastName', 'externalId'])) {
-          if (UserPermissions.hasPermission('PLATFORM_MANAGE_ALL_USERS')) {
-            promises.push($scope.selectedTenantUser.$user.save());
-          } else if (UserPermissions.hasPermission('PLATFORM_MANAGE_USER_ACCOUNT') &&
-            Session.user.id === $scope.selectedTenantUser.$user.id) {
-            
-            delete $scope.selectedTenantUser.$user.status; //User cannot edit their own status		
-            delete $scope.selectedTenantUser.$user.roleId; //User cannot edit their own platform roleId		
+          var newUserPromise = $scope.selectedTenantUser.$user.save();
+          promises.push(newUserPromise);
+          savePromise = newUserPromise;
 
-            promises.push($scope.selectedTenantUser.$user.save());
-          }
+        } else if (dirty(['firstName', 'lastName', 'externalId']) && UserPermissions.hasPermission('PLATFORM_MANAGE_ALL_USERS')) {
+          var updateUserPromise = $scope.selectedTenantUser.$user.save();
+          promises.push(updateUserPromise);
+          savePromise = updateUserPromise;
+
+        } else if (UserPermissions.hasPermission('PLATFORM_MANAGE_USER_ACCOUNT') && Session.user.id === $scope.selectedTenantUser.$user.id){
+          delete $scope.selectedTenantUser.$user.status; // User cannot edit their own status
+          delete $scope.selectedTenantUser.$user.roleId; // User cannot edit their own platform roleId
+
+          var updateSelfPromise = $scope.selectedTenantUser.$user.save();
+          promises.push(updateSelfPromise);
+          savePromise = updateSelfPromise;
         }
 
+        $q.when(savePromise).then(function() {
+          if ($scope.selectedTenantUser.isNew() || (dirty(['status', 'roleId']) && UserPermissions.hasPermissionInList(['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'MANAGE_TENANT_ENROLLMENT']))){
+
+            if (!$scope.selectedTenantUser.isNew()) {
+              delete $scope.selectedTenantUser.status;
+            }
+
+            promises.push($scope.selectedTenantUser.save({
+              tenantId: Session.tenant.tenantId
+            }).then(function(tenantUser) {
+              tenantUser.$skills = [];
+              tenantUser.$groups = TenantUserGroups.query({
+                memberId: tenantUser.id,
+                tenantId: Session.tenant.tenantId
+              });
+            }));
+          }
+        });
+        
         return $q.all(promises);
       };
 
@@ -105,7 +113,7 @@ angular.module('liveopsConfigPanel')
         }).then(function () {
           Alert.success('Invite Sent');
         }, function () {
-          Alert.failure('Error occured. Invite not sent.');
+          Alert.error('Error occured. Invite not sent.');
         });
       };
 
