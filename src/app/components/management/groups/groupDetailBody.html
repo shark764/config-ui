@@ -70,7 +70,7 @@
       </thead>
       <tbody>
         <tr ng-repeat="user in selectedGroup.$memberList">
-          <td><a ng-click="gotoUserPage(user.memberId)">
+          <td><a ui-sref="content.management.users({id: user.memberId})">
             <audit-text translation="value.displayName" user-id="user.memberId">
             </audit-text>
           </a></td>

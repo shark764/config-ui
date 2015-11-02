@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('GroupsController', ['$scope', '$timeout', 'Session', 'Group', 'TenantUser', 'groupTableConfig', 'TenantGroupUsers', 'queryCache', 'DirtyForms', 'BulkAction', '$filter', 'Alert', '$state', '$translate',
-    function($scope, $timeout, Session, Group, TenantUser, groupTableConfig, TenantGroupUsers, queryCache, DirtyForms, BulkAction, $filter, Alert, $state, $translate) {
+  .controller('GroupsController', ['$scope', '$timeout', 'Session', 'Group', 'TenantUser', 'groupTableConfig', 'TenantGroupUsers', 'queryCache', 'DirtyForms', 'BulkAction', '$filter', 'Alert', '$translate',
+    function($scope, $timeout, Session, Group, TenantUser, groupTableConfig, TenantGroupUsers, queryCache, DirtyForms, BulkAction, $filter, Alert, $translate) {
       $scope.Session = Session;
       $scope.tableConfig = groupTableConfig;
 
@@ -71,12 +71,6 @@ angular.module('liveopsConfigPanel')
           Alert.success($translate.instant('group.table.remove.member'));
         }, function() {
           Alert.error($translate.instant('group.table.remove.member.error'));
-        });
-      };
-
-      $scope.gotoUserPage = function(userId) {
-        $state.transitionTo('content.management.users', {
-          id: userId
         });
       };
 

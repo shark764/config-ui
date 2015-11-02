@@ -168,7 +168,7 @@ describe('NavbarController', function () {
   });
   
   describe('tableConfig setup', function() {
-    it('should add the Users link if the user has permissions', inject(['UserPermissions', 'filterFilter', '$state', function (UserPermissions, filterFilter, $state) {
+    it('should add the Users link if the user has permissions', inject(['UserPermissions', 'filterFilter', function (UserPermissions, filterFilter) {
       var permissionsList = ['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'VIEW_ALL_USERS', 'MANAGE_ALL_USER_EXTENSIONS', 'MANAGE_ALL_GROUP_USERS', 'MANAGE_ALL_USER_SKILLS', 'MANAGE_ALL_USER_LOCATIONS', 'MANAGE_TENANT_ENROLLMENT'];
       var currentPermission;
       spyOn(UserPermissions, 'hasPermission').and.callFake(function(permission){
@@ -195,12 +195,11 @@ describe('NavbarController', function () {
         expect(userConfigItem.length).toBe(1);
         userConfigItem = userConfigItem[0];
         
-        userConfigItem.onClick();
-        expect($state.transitionTo).toHaveBeenCalledWith('content.management.users');
+        expect(userConfigItem.stateLink).toEqual('content.management.users');
       }
     }]));
     
-    it('should add the Roles link if the user has permissions', inject(['UserPermissions', 'filterFilter', '$state', function (UserPermissions, filterFilter, $state) {
+    it('should add the Roles link if the user has permissions', inject(['UserPermissions', 'filterFilter', function (UserPermissions, filterFilter) {
       var permissionsList = ['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'PLATFORM_CREATE_TENANT_ROLES', 'VIEW_ALL_ROLES', 'MANAGE_ALL_ROLES', 'MANAGE_TENANT_ENROLLMENT'];
       var currentPermission;
       spyOn(UserPermissions, 'hasPermission').and.callFake(function(permission){
@@ -211,8 +210,6 @@ describe('NavbarController', function () {
             return false;
         }
       });
-      
-      spyOn($state, 'transitionTo');
 
       for (var i = 0; i < permissionsList.length; i++){
         currentPermission = permissionsList[i];
@@ -227,12 +224,11 @@ describe('NavbarController', function () {
         expect(roleConfigItem.length).toBe(1);
         roleConfigItem = roleConfigItem[0];
         
-        roleConfigItem.onClick();
-        expect($state.transitionTo).toHaveBeenCalledWith('content.management.roles');
+        expect(roleConfigItem.stateLink).toEqual('content.management.roles');
       }
     }]));
     
-    it('should add the Skills link if the user has permissions', inject(['UserPermissions', 'filterFilter', '$state', function (UserPermissions, filterFilter, $state) {
+    it('should add the Skills link if the user has permissions', inject(['UserPermissions', 'filterFilter', function (UserPermissions, filterFilter) {
       var permissionsList = ['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'VIEW_ALL_SKILLS', 'MANAGE_ALL_SKILLS', 'MANAGE_ALL_USER_SKILLS', 'MANAGE_TENANT_ENROLLMENT'];
       var currentPermission;
       spyOn(UserPermissions, 'hasPermission').and.callFake(function(permission){
@@ -244,8 +240,6 @@ describe('NavbarController', function () {
         }
       });
       
-      spyOn($state, 'transitionTo');
-
       for (var i = 0; i < permissionsList.length; i++){
         currentPermission = permissionsList[i];
         
@@ -259,12 +253,11 @@ describe('NavbarController', function () {
         expect(skillConfigItem.length).toBe(1);
         skillConfigItem = skillConfigItem[0];
         
-        skillConfigItem.onClick();
-        expect($state.transitionTo).toHaveBeenCalledWith('content.management.skills');
+        expect(skillConfigItem.stateLink).toEqual('content.management.skills');
       }
     }]));
     
-    it('should add the Groups link if the user has permissions', inject(['UserPermissions', 'filterFilter', '$state', function (UserPermissions, filterFilter, $state) {
+    it('should add the Groups link if the user has permissions', inject(['UserPermissions', 'filterFilter', function (UserPermissions, filterFilter) {
       var permissionsList = ['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'VIEW_ALL_GROUPS', 'MANAGE_ALL_GROUPS', 'MANAGE_ALL_GROUP_USERS', 'MANAGE_ALL_GROUP_OWNERS', 'MANAGE_TENANT_ENROLLMENT'];
       var currentPermission;
       spyOn(UserPermissions, 'hasPermission').and.callFake(function(permission){
@@ -276,8 +269,6 @@ describe('NavbarController', function () {
         }
       });
       
-      spyOn($state, 'transitionTo');
-
       for (var i = 0; i < permissionsList.length; i++){
         currentPermission = permissionsList[i];
         
@@ -291,12 +282,11 @@ describe('NavbarController', function () {
         expect(groupConfigItem.length).toBe(1);
         groupConfigItem = groupConfigItem[0];
         
-        groupConfigItem.onClick();
-        expect($state.transitionTo).toHaveBeenCalledWith('content.management.groups');
+        expect(groupConfigItem.stateLink).toEqual('content.management.groups');
       }
     }]));
     
-    it('should add the Tenants link if the user has permissions', inject(['UserPermissions', 'filterFilter', '$state', function (UserPermissions, filterFilter, $state) {
+    it('should add the Tenants link if the user has permissions', inject(['UserPermissions', 'filterFilter', function (UserPermissions, filterFilter) {
       var permissionsList = ['PLATFORM_VIEW_ALL_TENANTS', 'PLATFORM_MANAGE_ALL_TENANTS', 'PLATFORM_CREATE_ALL_TENANTS', 'PLATFORM_CREATE_TENANT_ROLES', 'PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'MANAGE_TENANT'];
       var currentPermission;
       spyOn(UserPermissions, 'hasPermission').and.callFake(function(permission){
@@ -308,8 +298,6 @@ describe('NavbarController', function () {
         }
       });
       
-      spyOn($state, 'transitionTo');
-
       for (var i = 0; i < permissionsList.length; i++){
         currentPermission = permissionsList[i];
         
@@ -323,12 +311,11 @@ describe('NavbarController', function () {
         expect(tenantsConfigItem.length).toBe(1);
         tenantsConfigItem = tenantsConfigItem[0];
         
-        tenantsConfigItem.onClick();
-        expect($state.transitionTo).toHaveBeenCalledWith('content.configuration.tenants');
+        expect(tenantsConfigItem.stateLink).toEqual('content.configuration.tenants');
       }
     }]));
     
-    it('should add the Integrations link if the user has permissions', inject(['UserPermissions', 'filterFilter', '$state', function (UserPermissions, filterFilter, $state) {
+    it('should add the Integrations link if the user has permissions', inject(['UserPermissions', 'filterFilter', function (UserPermissions, filterFilter) {
       var permissionsList = ['VIEW_ALL_PROVIDERS', 'MANAGE_ALL_PROVIDERS'];
       var currentPermission;
       spyOn(UserPermissions, 'hasPermission').and.callFake(function(permission){
@@ -339,8 +326,6 @@ describe('NavbarController', function () {
             return false;
         }
       });
-      
-      spyOn($state, 'transitionTo');
 
       for (var i = 0; i < permissionsList.length; i++){
         currentPermission = permissionsList[i];
@@ -355,12 +340,11 @@ describe('NavbarController', function () {
         expect(integrationConfigItem.length).toBe(1);
         integrationConfigItem = integrationConfigItem[0];
         
-        integrationConfigItem.onClick();
-        expect($state.transitionTo).toHaveBeenCalledWith('content.configuration.integrations');
+        expect(integrationConfigItem.stateLink).toEqual('content.configuration.integrations');
       }
     }]));
     
-    it('should add the Flows link if the user has permissions', inject(['UserPermissions', 'filterFilter', '$state', function (UserPermissions, filterFilter, $state) {
+    it('should add the Flows link if the user has permissions', inject(['UserPermissions', 'filterFilter', function (UserPermissions, filterFilter) {
       var permissionsList = ['VIEW_ALL_FLOWS', 'MANAGE_ALL_FLOWS', 'MAP_ALL_CONTACT_POINTS'];
       var currentPermission;
       spyOn(UserPermissions, 'hasPermission').and.callFake(function(permission){
@@ -372,8 +356,6 @@ describe('NavbarController', function () {
         }
       });
       
-      spyOn($state, 'transitionTo');
-
       for (var i = 0; i < permissionsList.length; i++){
         currentPermission = permissionsList[i];
         
@@ -387,12 +369,11 @@ describe('NavbarController', function () {
         expect(flowConfigItem.length).toBe(1);
         flowConfigItem = flowConfigItem[0];
         
-        flowConfigItem.onClick();
-        expect($state.transitionTo).toHaveBeenCalledWith('content.flows.flowManagement');
+        expect(flowConfigItem.stateLink).toEqual('content.flows.flowManagement');
       }
     }]));
     
-    it('should add the Queues link if the user has permissions', inject(['UserPermissions', 'filterFilter', '$state', function (UserPermissions, filterFilter, $state) {
+    it('should add the Queues link if the user has permissions', inject(['UserPermissions', 'filterFilter', function (UserPermissions, filterFilter) {
       var permissionsList = ['VIEW_ALL_FLOWS', 'MANAGE_ALL_FLOWS', 'VIEW_ALL_QUEUES', 'MANAGE_ALL_QUEUES'];
       var currentPermission;
       spyOn(UserPermissions, 'hasPermission').and.callFake(function(permission){
@@ -403,8 +384,6 @@ describe('NavbarController', function () {
             return false;
         }
       });
-      
-      spyOn($state, 'transitionTo');
 
       for (var i = 0; i < permissionsList.length; i++){
         currentPermission = permissionsList[i];
@@ -419,12 +398,11 @@ describe('NavbarController', function () {
         expect(queueConfigItem.length).toBe(1);
         queueConfigItem = queueConfigItem[0];
         
-        queueConfigItem.onClick();
-        expect($state.transitionTo).toHaveBeenCalledWith('content.flows.queues');
+        expect(queueConfigItem.stateLink).toEqual('content.flows.queues');
       }
     }]));
     
-    it('should add the Media Collections link if the user has permissions', inject(['UserPermissions', 'filterFilter', '$state', function (UserPermissions, filterFilter, $state) {
+    it('should add the Media Collections link if the user has permissions', inject(['UserPermissions', 'filterFilter', function (UserPermissions, filterFilter) {
       var permissionsList = ['VIEW_ALL_MEDIA', 'VIEW_ALL_FLOWS', 'MANAGE_ALL_FLOWS'];
       var currentPermission;
       spyOn(UserPermissions, 'hasPermission').and.callFake(function(permission){
@@ -435,8 +413,6 @@ describe('NavbarController', function () {
             return false;
         }
       });
-      
-      spyOn($state, 'transitionTo');
 
       for (var i = 0; i < permissionsList.length; i++){
         currentPermission = permissionsList[i];
@@ -451,12 +427,11 @@ describe('NavbarController', function () {
         expect(mcConfigItem.length).toBe(1);
         mcConfigItem = mcConfigItem[0];
         
-        mcConfigItem.onClick();
-        expect($state.transitionTo).toHaveBeenCalledWith('content.flows.media-collections');
+        expect(mcConfigItem.stateLink).toEqual('content.flows.media-collections');
       }
     }]));
     
-    it('should add the Media link if the user has permissions', inject(['UserPermissions', 'filterFilter', '$state', function (UserPermissions, filterFilter, $state) {
+    it('should add the Media link if the user has permissions', inject(['UserPermissions', 'filterFilter', function (UserPermissions, filterFilter) {
       var permissionsList = ['VIEW_ALL_MEDIA', 'VIEW_ALL_FLOWS', 'MANAGE_ALL_FLOWS'];
       var currentPermission;
       spyOn(UserPermissions, 'hasPermission').and.callFake(function(permission){
@@ -468,8 +443,6 @@ describe('NavbarController', function () {
         }
       });
       
-      spyOn($state, 'transitionTo');
-
       for (var i = 0; i < permissionsList.length; i++){
         currentPermission = permissionsList[i];
         
@@ -483,12 +456,11 @@ describe('NavbarController', function () {
         expect(mediaConfigItem.length).toBe(1);
         mediaConfigItem = mediaConfigItem[0];
         
-        mediaConfigItem.onClick();
-        expect($state.transitionTo).toHaveBeenCalledWith('content.flows.media');
+        expect(mediaConfigItem.stateLink).toEqual('content.flows.media');
       }
     }]));
     
-    it('should add the Media link if the user has permissions', inject(['UserPermissions', 'filterFilter', '$state', function (UserPermissions, filterFilter, $state) {
+    it('should add the Dispatch Mappings link if the user has permissions', inject(['UserPermissions', 'filterFilter', function (UserPermissions, filterFilter) {
       var permissionsList = ['VIEW_ALL_CONTACT_POINTS', 'MAP_ALL_CONTACT_POINTS'];
       var currentPermission;
       spyOn(UserPermissions, 'hasPermission').and.callFake(function(permission){
@@ -515,8 +487,7 @@ describe('NavbarController', function () {
         expect(dmConfigItem.length).toBe(1);
         dmConfigItem = dmConfigItem[0];
         
-        dmConfigItem.onClick();
-        expect($state.transitionTo).toHaveBeenCalledWith('content.flows.dispatchMappings');
+        expect(dmConfigItem.stateLink).toEqual('content.flows.dispatchMappings');
       }
     }]));
   });

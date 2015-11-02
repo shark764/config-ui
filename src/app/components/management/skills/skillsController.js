@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('SkillsController', ['$scope', '$state', 'Session', 'Skill', 'skillTableConfig', 'BulkAction', 'TenantSkillUser', 'TenantUserSkill', 'Alert', 'TenantUser', 'queryCache', '$filter', '$timeout',
-    function($scope, $state, Session, Skill, skillTableConfig, BulkAction, TenantSkillUser, TenantUserSkill, Alert, TenantUser, queryCache, $filter, $timeout) {
+  .controller('SkillsController', ['$scope', 'Session', 'Skill', 'skillTableConfig', 'BulkAction', 'TenantSkillUser', 'TenantUserSkill', 'Alert', 'TenantUser', 'queryCache', '$filter', '$timeout',
+    function($scope, Session, Skill, skillTableConfig, BulkAction, TenantSkillUser, TenantUserSkill, Alert, TenantUser, queryCache, $filter, $timeout) {
 
       $scope.Session = Session;
 
@@ -54,12 +54,6 @@ angular.module('liveopsConfigPanel')
 
       $scope.submit = function(){
         return $scope.selectedSkill.save();
-      };
-
-      $scope.gotoUserPage = function (userId) {
-        $state.transitionTo('content.management.users', {
-          id: userId
-        });
       };
 
       $scope.removeUser = function(skillUser){

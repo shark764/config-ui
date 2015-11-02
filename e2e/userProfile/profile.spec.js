@@ -227,7 +227,8 @@ describe('The profile view', function() {
     });
   });
 
-  it('should display user groups and skills for the current tenant', function() {
+  // TODO Bug Unable to create new tenant TITAN2-4878
+  xit('should display user groups and skills for the current tenant', function() {
     browser.get(shared.tenantsPageUrl);
     shared.tenantsNavDropdown.getText().then(function(selectTenantNav) {
       defaultTenantName = selectTenantNav;
@@ -240,11 +241,12 @@ describe('The profile view', function() {
     profile.waitForUserSkills();
     expect(profile.userSkills.count()).toBe(0);
     expect(profile.noUserSkillsMessage.isDisplayed()).toBeTruthy();
-    expect(profile.userGroups.count()).toBe(0);
-    expect(profile.noUserGroupsMessage.isDisplayed()).toBeTruthy();
+    expect(profile.userGroups.count()).toBe(1); // everyone group
+    expect(profile.userGroups.get(0).getText()).toBe('everyone');
   });
 
-  it('should add new user groups and skills for the current tenant', function() {
+  // TODO Bug Unable to create new tenant TITAN2-4878
+  xit('should add new user groups and skills for the current tenant', function() {
     tenants.selectTenant(newTenantName);
 
     // Add user skill and group
@@ -262,8 +264,8 @@ describe('The profile view', function() {
       profile.waitForUserSkills();
       expect(profile.userSkills.count()).toBe(1);
       expect(profile.userSkills.get(0).getText()).toContain('User Skill ' + newTenantName);
-      expect(profile.userGroups.count()).toBe(1);
-      expect(profile.userGroups.get(0).getText()).toBe('User Group ' + newTenantName);
+      expect(profile.userGroups.count()).toBe(2);
+      expect(['User Group ' + newTenantName, 'everyone']).toContain(profile.userGroups.get(0).getText());
 
       tenants.selectTenant(defaultTenantName);
       profile.waitForUserSkills();
@@ -291,7 +293,7 @@ describe('The profile view', function() {
         shared.waitForSuccess();
 
         expect(extensions.userExtensions.count()).toBe(originalExtensionCount + 1);
-        newExtension = extensions.userExtensions.get(originalExtensionCount);
+        var newExtension = extensions.userExtensions.get(originalExtensionCount);
         expect(newExtension.element(by.css('.type-col')).getText()).toContain('PSTN');
         expect(newExtension.element(by.css('.provider-col')).getText()).toBe('Twilio');
         expect(newExtension.element(by.css('.phone-number-col')).getText()).toBe('+15064561234x12345');
@@ -323,6 +325,8 @@ describe('The profile view', function() {
 
       expect(extensions.userExtensions.count()).toBeGreaterThan(extensionCount);
       extensionCount = extensions.userExtensions.count();
+
+      browser.get(shared.usersPageUrl);
       shared.searchField.sendKeys(params.login.user);
       shared.firstTableRow.click();
       expect(extensions.userExtensions.count()).toBe(extensionCount);
@@ -337,6 +341,8 @@ describe('The profile view', function() {
 
       expect(extensions.userExtensions.count()).toBeLessThan(extensionCount);
       extensionCount = extensions.userExtensions.count();
+
+      browser.get(shared.usersPageUrl);
       shared.searchField.sendKeys(params.login.user);
       shared.firstTableRow.click();
       expect(extensions.userExtensions.count()).toBe(extensionCount);

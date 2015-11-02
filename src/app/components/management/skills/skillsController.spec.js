@@ -80,22 +80,6 @@ describe('SkillsController', function () {
     });
   });
 
-  describe('gotoUserPage function', function() {
-    it('should be defined', function() {
-      expect($scope.gotoUserPage).toBeDefined();
-    });
-
-    it('should transition to user management page with given id param', inject(['$state', function($state) {
-      spyOn($state, 'transitionTo').and.callThrough();
-
-      $scope.gotoUserPage('userId1');
-
-      expect($state.transitionTo).toHaveBeenCalledWith('content.management.users', {
-        id: 'userId1'
-      });
-    }]));
-  });
-
   describe('fetchSkillUsers prototype function', function() {
     it('should return the list of skill users', function() {
       var skill = new Skill({
