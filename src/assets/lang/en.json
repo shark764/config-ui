@@ -160,6 +160,7 @@
   "group.table.add.member.error": "Error adding member!",
   "group.table.remove.member": "Member successfully removed!",
   "group.table.remove.member.error": "Error removing member!",
+  "group.readonly.warning": "This group is inherited and cannot be edited",
 
   "skill.details.hasProficiency": "Has Proficiency",
   "skill.details.name.error": "Please enter a name",
@@ -437,6 +438,7 @@
   "role.permission.remove.fail": "Sorry, there was an error removing that permission",
   "role.permission.add.success": "Added permission!",
   "role.permission.add.fail": "Sorry, there was an error adding that permission",
+  "role.readonly.warning": "This role is inherited and cannot be edited",
 
   "webrtc": "WebRTC",
   "twilio": "Twilio",

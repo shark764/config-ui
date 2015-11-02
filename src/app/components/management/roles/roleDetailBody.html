@@ -1,3 +1,7 @@
+<div class="lo-alert lo-alert-info" ng-show="! selectedTenantRole.isNew() && selectedTenantRole.type != 'custom' && (['PLATFORM_CREATE_TENANT_ROLES', 'MANAGE_ALL_ROLES'] | hasPermission)">
+  {{'role.readonly.warning' | translate}}
+</div>
+
 <div class="divider-header first-header">
   <h4>{{'details' | translate}}</h4>
 </div>
