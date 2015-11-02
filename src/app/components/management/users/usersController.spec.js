@@ -179,6 +179,7 @@ describe('users controller', function() {
         
         it('should PUT to /tenants/users', function() {
           $scope.submit();
+          $scope.$digest();
           
           expect($scope.selectedTenantUser.save).toHaveBeenCalled();
           expect($scope.selectedTenantUser.status).not.toBeDefined();

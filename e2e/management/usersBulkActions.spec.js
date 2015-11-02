@@ -372,7 +372,7 @@ describe('The users view bulk actions', function() {
                 return userSkillCount;
               });
             }, 5000);
-            expect(users.userSkills.count()).toBeGreaterThan(Math.min(skillCount - 1, 2));
+            expect(users.userSkills.count()).not.toBeLessThan(Math.min(skillCount - 1, 2));
           }
         });
       });

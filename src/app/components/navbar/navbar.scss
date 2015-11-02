@@ -81,12 +81,12 @@ navbar {
       position: relative;
       margin: 0px 5px;
 
-      a {
+      #logo {
         display: table-cell;
         vertical-align: middle;
       }
 
-      a, .drop-label {
+      #logo, .drop-label {
         color: $light-grey;
         font-size: 130%;
         font-weight: 100;
@@ -99,7 +99,7 @@ navbar {
       }
 
       &.active, &:hover {
-        .drop-label span, a {
+        .drop-label span, #logo {
           @include box-shadow(inset 0px -5px 0px 0px $accent1);
           color: white;
         }
