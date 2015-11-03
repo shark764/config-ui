@@ -1,16 +1,20 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-.directive('baUserSkills', [ '$q', 'UserSkillsBulkAction', 'userSkillsBulkActionTypes', 'Skill', 'Session', 'queryCache',
-  function ($q, UserSkillsBulkAction, userSkillsBulkActionTypes, Skill, Session, queryCache) {
+.directive('baUserSkills', [ '$q', 'UserSkillsBulkAction', 'userSkillsBulkActionTypes', 'Skill', 'Session', 'queryCache', 'BulkAction',
+  function ($q, UserSkillsBulkAction, userSkillsBulkActionTypes, Skill, Session, queryCache, BulkAction) {
     return {
-      restrict: 'AE',
+      restrict: 'E',
+      require: '^bulkActionExecutor',
       scope: {
         bulkAction: '=',
         users: '='
       },
       templateUrl: 'app/components/management/users/bulkActions/setSkill/setSkillsBulkAction.html',
-      link: function ($scope) {
+      link: function ($scope, elem, attr, bulkActionExecutor) {
+        $scope.bulkAction = new BulkAction();
+        bulkActionExecutor.register($scope.bulkAction);
+        
         $scope.bulkAction.execute = function (users) {
           var promises = [];
           angular.forEach(users, function(user) {

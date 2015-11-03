@@ -9,7 +9,7 @@ var options = {
   dist: 'dist',
   tmp: '.tmp',
   e2e: 'e2e',
-  configShared: 'bower_components/config-shared',
+  configShared: 'bower_components/liveops-config-panel-shared',
   errorHandler: function(title) {
     return function(err) {
       gutil.log(gutil.colors.red('[' + title + ']'), err.toString());
