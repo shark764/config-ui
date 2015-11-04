@@ -266,9 +266,8 @@ describe('The media collections view', function() {
     mediaCollections.cancelFormBtn.click();
 
     // Warning message is displayed
+    shared.waitForAlert();
     var alertDialog = browser.switchTo().alert();
-    expect(alertDialog.accept).toBeDefined();
-    expect(alertDialog.dismiss).toBeDefined();
     alertDialog.accept();
 
     // New media is not created
@@ -385,6 +384,7 @@ describe('The media collections view', function() {
       mediaCollections.addMediaMappingButton.click();
 
       mediaCollections.cancelFormBtn.click();
+      shared.waitForAlert();
       shared.dismissChanges();
 
       expect(shared.successMessage.isPresent()).toBeFalsy();
@@ -410,9 +410,6 @@ describe('The media collections view', function() {
     mediaCollections.submitFormBtn.click().then(function() {
       expect(shared.successMessage.isDisplayed()).toBeTruthy();
 
-      // Changes persist
-      browser.refresh();
-      shared.firstTableRow.click();
       expect(mediaCollections.nameFormField.getAttribute('value')).toBe(editedName);
       expect(mediaCollections.descriptionFormField.getAttribute('value')).toBe(editedDescription);
     });
@@ -446,9 +443,6 @@ describe('The media collections view', function() {
     mediaCollections.submitFormBtn.click().then(function() {
       expect(shared.successMessage.isDisplayed()).toBeTruthy();
 
-      // Changes persist
-      browser.refresh();
-      shared.firstTableRow.click();
       expect(mediaCollections.descriptionFormField.getAttribute('value')).toBe('');
     });
   });
@@ -471,10 +465,6 @@ describe('The media collections view', function() {
 
     mediaCollections.submitFormBtn.click().then(function() {
       expect(shared.successMessage.isDisplayed()).toBeTruthy();
-
-      // Changes persist
-      browser.refresh();
-      shared.firstTableRow.click();
 
       expect(mediaCollections.defaultIdDropdown.isDisplayed()).toBeTruthy();
 
@@ -531,10 +521,6 @@ describe('The media collections view', function() {
 
       mediaCollections.submitFormBtn.click().then(function() {
         expect(shared.successMessage.isDisplayed()).toBeTruthy();
-
-        // Changes persist
-        browser.refresh();
-        shared.firstTableRow.click();
 
         expect(mediaCollections.defaultIdDropdown.isDisplayed()).toBeTruthy();
         expect(mediaCollections.mediaMappings.count()).toBeGreaterThan(originalMediaCount);
@@ -644,10 +630,6 @@ describe('The media collections view', function() {
 
         mediaCollections.submitFormBtn.click();
         expect(shared.successMessage.isDisplayed()).toBeTruthy();
-
-        // Changes persist
-        browser.refresh();
-        shared.firstTableRow.click();
 
         expect(mediaCollections.defaultIdDropdown.isDisplayed()).toBeTruthy();
         expect(mediaCollections.mediaMappings.count()).toBeLessThan(mediaCount);
