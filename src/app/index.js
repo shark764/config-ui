@@ -214,8 +214,14 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
 
             return deferred.promise;
           }],
-          notations: ['$http', function($http) {
-            return $http.get('/app/components/flows/flowDesigner/mocks/notations.json');
+          notations: ['Notation','$q', function(Notation, $q) {
+            var deferred = $q.defer();
+
+            Notation.query({}, function(results) {
+              deferred.resolve(results);
+            });
+
+            return deferred.promise;
           }],
           resources: ['FlowResource', function(FlowResource){
             return FlowResource.loadResources();
@@ -260,8 +266,14 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
 
             return deferred.promise;
           }],
-          notations: ['$http', function($http) {
-            return $http.get('/app/components/flows/flowDesigner/mocks/notations.json');
+          notations: ['Notation', '$q', function(Notation, $q) {
+            var deferred = $q.defer();
+
+            Notation.query({}, function(results) {
+              deferred.resolve(results);
+            });
+
+            return deferred.promise;
           }],
           resources: ['FlowResource', function(FlowResource){
             return FlowResource.loadResources();

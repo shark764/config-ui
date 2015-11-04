@@ -12,14 +12,14 @@
       <input required ng-model="selectedGroup.name" name="name" type="text"></input>
     </div>
   </div>
-  
+
   <div class="input-group">
     <label class="textarea-label">{{'value.description' | translate}}</label>
     <div>
       <textarea ng-model="selectedGroup.description" name="description"></textarea>
     </div>
   </div>
-  
+
   <div ng-if="!selectedGroup.isNew() && ['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'MANAGE_ALL_GROUP_USERS', 'MANAGE_TENANT_ENROLLMENT'] | hasPermission">
     <div class="divider-header">
       <h4>Members
@@ -28,31 +28,39 @@
         </b>
       </h4>
     </div>
-  
-  <div id="addUser">
-    <type-ahead placeholder="{{'details.users.placeholder' | translate}}"
-    items="fetchUsers()"
-    name-field="displayName"
-    on-enter="save(item)"
-    selected-item="selectedUser"
-    filters="filterUsers"></type-ahead>
-    <a ng-show="!saving" id="add-skill-btn" ng-disabled="!selectedUser" ng-click="addMember(selectedUser)" class="btn"><i class="fa fa-plus"></i></a>
-    <a ng-show="saving" ng-disabled="true" class="btn btn-primary"><i class="fa fa-refresh fa-spin"></i></a>
-  </div>
 
+    <div id="addUser">
+      <type-ahead placeholder="{{'details.users.placeholder' | translate}}"
+        items="fetchUsers()"
+        name-field="displayName"
+        on-enter="save(item)"
+        selected-item="typeahead.selectedUser"
+        filters="filterUsers">
+      </type-ahead>
+      <a id="add-skill-btn" class="btn"
+        ng-show="!saving"
+        ng-disabled="!typeahead.selectedUser"
+        ng-click="addMember(typeahead.selectedUser)" >
+          <i class="fa fa-plus"></i>
+      </a>
+      <a class="btn btn-primary"
+        ng-show="saving" ng-disabled="true">
+        <i class="fa fa-refresh fa-spin"></i>
+      </a>
+    </div>
 
     <p ng-if="selectedGroup.fetchGroupUsers().$resolved"
       class="null" id="empty-members-message" ng-hide="selectedGroup.fetchGroupUsers().length">
       {{'group.details.members.none' | translate}}
     </p>
-    
+
     <loading ng-if="selectedGroup.fetchGroupUsers().$resolved != undefined"
-      ng-show="!selectedGroup.fetchGroupUsers().$resolved"></loading>
-  
-    <table 
-      scroll-table 
-      max-height="300" 
-      class="table" 
+      ng-show="!selectedGroup.fetchGroupUsers().$resolved">
+    </loading>
+
+    <table class="table"
+      scroll-table
+      max-height="300"
       ng-show="selectedGroup.$memberList.length > 0">
       <thead>
         <tr>
@@ -62,8 +70,15 @@
       </thead>
       <tbody>
         <tr ng-repeat="user in selectedGroup.$memberList">
-          <td><a ng-click="gotoUserPage(user.memberId)"><audit-text translation="value.displayName" user-id="user.memberId"></audit-text></a></td>
-          <td td style="text-align:right"><a id="remove-member-btn" ng-click="removeMember(user)"><i class="fa fa-times remove"></i></a></td>
+          <td><a ng-click="gotoUserPage(user.memberId)">
+            <audit-text translation="value.displayName" user-id="user.memberId">
+            </audit-text>
+          </a></td>
+          <td td style="text-align:right">
+            <a id="remove-member-btn" ng-click="removeMember(user)">
+              <i class="fa fa-times remove"></i>
+            </a>
+          </td>
         </tr>
       </tbody>
     </table>

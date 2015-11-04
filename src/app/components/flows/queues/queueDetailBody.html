@@ -47,7 +47,7 @@
     </a>
   </div>
 
-  <div class="input-group" ng-if="queryType=='advanced'">
+  <div class="input-group" ng-show="queryType=='advanced'">
     <label class="textarea-label">{{'value.details.query' | translate}} *</label>
     <form-error field="forms.detailsForm.query"
     error-type-required="{{'queue.details.queue.error' | translate}}"></form-error>
