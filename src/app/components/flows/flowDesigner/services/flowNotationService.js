@@ -67,7 +67,7 @@
             }
           };
         });
-      } else if (input.source === 'queue') {
+      } else if (input.source === 'queues') {
         options = _.map(FlowResource.getActiveQueues(), function(entity) {
           return {
             value: entity.id,
