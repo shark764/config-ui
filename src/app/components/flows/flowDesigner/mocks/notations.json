@@ -304,7 +304,7 @@
                     "required": false,
                     "placeholder": "Search for a queue...",
                     "hidden": false,
-                    "source": "queue"
+                    "source": "queues"
                 }
             ],
             "params": {
@@ -347,7 +347,7 @@
                     "required": true,
                     "placeholder": "Search for a queue...",
                     "hidden": false,
-                    "source": "queue"
+                    "source": "queues"
                 }
             ],
             "params": {
@@ -1523,7 +1523,7 @@
                     "disabled": false,
                     "required": true,
                     "hidden": false,
-                    "source": "queue",
+                    "source": "queues",
                     "placeholder": "Search for a queue..."
                 },
                 {
