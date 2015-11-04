@@ -71,7 +71,9 @@
     bulk-actions="bulkActions" show-bulk-actions="showBulkActions"
     confirm-message-key="bulkActions.user.confirm.message" drop-order-by="lastName">
     <ba-set-status ng-if="['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'MANAGE_TENANT_ENROLLMENT'] | hasPermission" bulk-action="bulkActions.setStatus"></ba-set-status>
-    <ba-invite users="fetchTenantUsers()"></ba-invite>
+    <ba-invite></ba-invite>
+    <ba-resend-invite></ba-resend-invite>
+    <ba-cancel-invite></ba-cancel-invite>
     <ba-user-skills ng-if="['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'MANAGE_ALL_USER_SKILLS', 'MANAGE_TENANT_ENROLLMENT'] | hasPermission" bulk-action="bulkActions.userSkills" users="fetchTenantUsers()"></ba-user-skills>
     <ba-user-groups ng-if="['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'MANAGE_ALL_GROUP_USERS', 'MANAGE_TENANT_ENROLLMENT'] | hasPermission" bulk-action="bulkActions.userGroups" users="fetchTenantUsers()"></ba-user-groups>
   </bulk-action-executor>
