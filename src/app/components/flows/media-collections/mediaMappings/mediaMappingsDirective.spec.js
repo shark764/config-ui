@@ -8,9 +8,9 @@ describe('MediaMappings directive', function () {
 
   beforeEach(module('gulpAngular'));
   beforeEach(module('liveopsConfigPanel'));
-  beforeEach(module('liveopsConfigPanel.mock.content'));
-  beforeEach(module('liveopsConfigPanel.mock.content.flows.media.mediaController'));
-  beforeEach(module('liveopsConfigPanel.mock.content.media.collections'));
+  beforeEach(module('liveopsConfigPanel.mock'));
+  beforeEach(module('liveopsConfigPanel.tenant.media.mock'));
+  beforeEach(module('liveopsConfigPanel.tenant.mediaCollection.mock'));
 
   beforeEach(inject(['$rootScope', '$compile', 'mockMediaCollections',
     function (_$rootScope_, $compile, mockMediaCollections) {

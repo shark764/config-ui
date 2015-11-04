@@ -10,7 +10,7 @@ describe('TenantsController', function () {
   
   beforeEach(module('gulpAngular'));
   beforeEach(module('liveopsConfigPanel'));
-  beforeEach(module('liveopsConfigPanel.mock.content.configuration.tenants'));
+  beforeEach(module('liveopsConfigPanel.tenant.mock'));
 
   beforeEach(inject(['$rootScope', '$controller', '$httpBackend', 'apiHostname', 'Session', 'mockTenants',
     function ($rootScope, _$controller_, _$httpBackend, _apiHostname_, _Session_, _mockTenants) {

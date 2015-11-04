@@ -36,9 +36,10 @@
     </div>
 
     <div class="detail-controls">
-      <input id="cancel-details-btn" ng-disabled="loading" type="button" class="btn"
+      <input id="cancel-details-btn" type="button" class="btn"
+        ng-disabled="loading"
         value="{{'value.cancel' | translate}}"
-        lo-cancel-chain-executor="media:collection:cancel">
+        lo-cancel>
       <input id="submit-details-btn" class="btn btn-primary" type="submit"
         ng-show="!loading"
         ng-disabled="forms.mediaCollectionForm.$invalid || ! forms.mediaCollectionForm.$dirty"
@@ -81,7 +82,7 @@
     <div class="detail-controls">
       <input id="cancel-media-btn" type="button" class="btn"
         value="{{'value.cancel' | translate}}"
-        lo-cancel-chain-executor="media:cancel">
+        lo-cancel>
       </input>
       <input id="create-media-btn" class="btn btn-primary" ng-hide="loading"
         type="submit" value="{{'value.create' | translate}}"

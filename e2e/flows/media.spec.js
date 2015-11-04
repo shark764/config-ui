@@ -29,6 +29,11 @@ describe('The media view', function() {
     expect(media.typeFormDropdown.isDisplayed()).toBeTruthy();
     expect(media.typeFormDropdown.all(by.css('option')).get(1).getText()).toBe('Audio');
     expect(media.typeFormDropdown.all(by.css('option')).get(2).getText()).toBe('Text-to-Speech');
+
+    // Upload media fields
+    expect(media.sourceUploadAudioName.isDisplayed()).toBeTruthy();
+    expect(media.sourceUploadAudioName.isEnabled()).toBeFalsy();
+    expect(media.sourceUploadAudioBtn.isDisplayed()).toBeTruthy();
   });
 
   it('should successfully create new Media with Audio type', function() {
@@ -184,7 +189,7 @@ describe('The media view', function() {
     // Edit fields
     media.nameFormField.sendKeys('Audio Media ' + randomMedia);
     media.typeFormDropdown.all(by.css('option')).get(1).click();
-    media.audioSourceFormField.sendKeys('Not a valid a Audio Media Source');
+    media.audioSourceFormField.sendKeys('Not a valid a Audio Media Source\t');
 
     // Submit button is still disabled
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
@@ -193,8 +198,8 @@ describe('The media view', function() {
     expect(shared.successMessage.isPresent()).toBeFalsy();
     expect(shared.tableElements.count()).toBe(mediaCount);
 
-    //expect(media.requiredError.get(0).isDisplayed()).toBeTruthy();
-    //expect(media.requiredError.get(0).getText()).toBe('Audio source must be a URL');
+    expect(media.requiredError.get(0).isDisplayed()).toBeTruthy();
+    expect(media.requiredError.get(0).getText()).toBe('Audio source must be a URL');
   });
 
   it('should require Source when creating a new Media with Text-To-Speech type', function() {
@@ -469,7 +474,7 @@ describe('The media view', function() {
     expect(media.requiredError.get(0).isDisplayed()).toBeTruthy();
     expect(media.requiredError.get(0).getText()).toBe('Audio source must be a URL');
 
-    media.typeFormDropdown.all(by.css('option')).get(2).click().then(function () { //Select TTS type
+    media.typeFormDropdown.all(by.css('option')).get(2).click().then(function() { //Select TTS type
       // Error messages are removed
       media.requiredError.then(function(items) {
         expect(items.length).toBe(0);
@@ -477,5 +482,28 @@ describe('The media view', function() {
 
       expect(media.ttsSourceFormField.getAttribute('value')).toEqual('This is not a URL');
     });
+  });
+
+  it('should not display Upload fields for Text-To-Speech media on create', function() {
+    shared.createBtn.click();
+    media.typeFormDropdown.all(by.css('option')).get(2).click();
+
+    expect(media.sourceUploadAudioName.isDisplayed()).toBeFalsy();
+    expect(media.sourceUploadAudioBtn.isDisplayed()).toBeFalsy();
+  });
+
+  it('should not display Upload fields for Text-To-Speech media on edit', function() {
+    shared.searchField.sendKeys('Text-To-Speech');
+    shared.firstTableRow.click();
+
+    expect(media.sourceUploadAudioName.isDisplayed()).toBeFalsy();
+    expect(media.sourceUploadAudioBtn.isDisplayed()).toBeFalsy();
+  });
+
+  it('should not allow Upload Media File field to be altered when editing Audio media', function() {
+    shared.searchField.sendKeys('Audio');
+    shared.firstTableRow.click();
+
+    expect(media.sourceUploadAudioName.isEnabled()).toBeFalsy();
   });
 });

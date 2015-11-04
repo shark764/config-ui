@@ -134,12 +134,12 @@ describe('tableControls directive', function () {
     doCompile();
     expect(element.find('table').find('filter-dropdown').length).toBe(2); //Doubled due to scroll-table directive
   }));
-  
+
   it('should catch the created:resource event and select the newly created item', inject(['$rootScope', function ($rootScope) {
     doCompile();
     var newItem = {id: 'myNewItem'};
     $rootScope.$broadcast('created:resource:resource', newItem);
-    
+
     isolateScope.$digest();
     expect(isolateScope.selected).toEqual(newItem);
   }]));
@@ -201,7 +201,7 @@ describe('tableControls directive', function () {
       });
     }]));
   });
-  
+
   describe('onCreateClick function', function () {
     beforeEach(function () {
       doCompile();
@@ -224,7 +224,7 @@ describe('tableControls directive', function () {
       expect($rootScope.$broadcast).toHaveBeenCalledWith('table:on:click:create');
     }]));
   });
-  
+
   describe('onActionsClick function', function () {
     beforeEach(function () {
       doCompile();
@@ -400,7 +400,7 @@ describe('tableControls directive', function () {
       result = isolateScope.parse(item, field);
       expect(result).toBeUndefined();
     }));
-    
+
     it('should call resolve function if it is defined', inject(function () {
       var item = {
         bob: 'yes'
@@ -471,11 +471,11 @@ describe('tableControls directive', function () {
       expect(isolateScope.orderBy).toEqual('theField');
     }));
   });
-  
+
   describe('clearAllFilters function', function () {
     beforeEach(function () {
       doCompile();
-      
+
       $scope.config.fields = [{
         header: {id: 'one'}
       }, {
@@ -492,7 +492,7 @@ describe('tableControls directive', function () {
       isolateScope.clearAllFilters();
       expect(isolateScope.searchQuery).toBeNull();
     }));
-    
+
     it('should deselect all filters, if provided', inject(function () {
       isolateScope.config.fields[0].header.options = [{
         id: 'option1',
@@ -503,9 +503,9 @@ describe('tableControls directive', function () {
         id: 'option3',
         checked: false
       }];
-      
+
       isolateScope.clearAllFilters();
-      
+
       expect(isolateScope.config.fields[0].header.options[0].checked).toBeFalsy();
       expect(isolateScope.config.fields[0].header.options[1].checked).toBeFalsy();
       expect(isolateScope.config.fields[0].header.options[2].checked).toBeFalsy();

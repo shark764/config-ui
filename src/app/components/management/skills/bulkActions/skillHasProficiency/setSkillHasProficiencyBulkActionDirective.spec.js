@@ -9,7 +9,7 @@ describe('setSkillHasProficiencyBulkAction directive', function() {
 
   beforeEach(module('gulpAngular'));
   beforeEach(module('liveopsConfigPanel'));
-  beforeEach(module('liveopsConfigPanel.mock.content.management.skills'));
+  beforeEach(module('liveopsConfigPanel.tenant.skill.mock'));
 
   beforeEach(inject(['$compile', '$rootScope', 'BulkAction',
     function(_$compile_, _$rootScope_, _BulkAction) {
@@ -30,10 +30,10 @@ describe('setSkillHasProficiencyBulkAction directive', function() {
   it('should override bulkAction.apply', function() {
     expect(isolateScope.bulkAction.apply).toBeDefined();
   });
-  
+
   it('should override bulkAction.reset', function() {
     expect(isolateScope.bulkAction.reset).toBeDefined();
-    
+
     isolateScope.bulkAction.hasProficiency = true;
     isolateScope.bulkAction.reset();
     expect(isolateScope.hasProficiency).toBeTruthy();
@@ -57,7 +57,7 @@ describe('setSkillHasProficiencyBulkAction directive', function() {
       expect(mockSkills[0].hasProficiency).toEqual(true);
     }
   ]));
-  
+
   it('should should only have the attribute in the PUT payload',
     inject(['mockSkills', '$httpBackend', 'apiHostname',
       function (mockSkills, $httpBackend, apiHostname) {

@@ -11,7 +11,7 @@ describe('Queue Versions controller', function () {
 
   beforeEach(module('gulpAngular'));
   beforeEach(module('liveopsConfigPanel'));
-  beforeEach(module('liveopsConfigPanel.mock.content'));
+  beforeEach(module('liveopsConfigPanel.mock'));
 
   beforeEach(inject(['$compile', '$rootScope', '$controller', '$injector', 'QueueVersion', 'apiHostname',
     function (_$compile_, $rootScope, _$controller_, $injector, _QueueVersion_, apiHostname) {

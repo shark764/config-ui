@@ -5,7 +5,7 @@ describe('ContentController', function () {
 
   beforeEach(module('liveopsConfigPanel'));
   beforeEach(module('gulpAngular'));
-  beforeEach(module('liveopsConfigPanel.mock.content'));
+  beforeEach(module('liveopsConfigPanel.mock'));
 
   beforeEach(inject(['$rootScope', '$controller',
     function ($rootScope, $controller) {

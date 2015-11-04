@@ -1,3 +1,7 @@
+<div class="lo-alert lo-alert-info" ng-show="! selectedGroup.isNew() && selectedGroup.type == 'everyone' && ('MANAGE_ALL_GROUPS' | hasPermission)">
+  {{'group.readonly.warning' | translate}}
+</div>
+
 <div class="divider-header first-header">
   <h4>{{'details' | translate}}</h4>
 </div>
@@ -29,7 +33,7 @@
       </h4>
     </div>
 
-    <div id="addUser">
+    <div id="addUser" ng-show="selectedGroup.type != 'everyone'">
       <type-ahead placeholder="{{'details.users.placeholder' | translate}}"
         items="fetchUsers()"
         name-field="displayName"
@@ -70,12 +74,12 @@
       </thead>
       <tbody>
         <tr ng-repeat="user in selectedGroup.$memberList">
-          <td><a ng-click="gotoUserPage(user.memberId)">
+          <td><a ui-sref="content.management.users({id: user.memberId})">
             <audit-text translation="value.displayName" user-id="user.memberId">
             </audit-text>
           </a></td>
           <td td style="text-align:right">
-            <a id="remove-member-btn" ng-click="removeMember(user)">
+            <a id="remove-member-btn" ng-click="removeMember(user)" ng-show="selectedGroup.type != 'everyone'">
               <i class="fa fa-times remove"></i>
             </a>
           </td>

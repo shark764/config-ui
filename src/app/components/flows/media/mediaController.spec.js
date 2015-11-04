@@ -11,7 +11,7 @@ describe('MediaController', function () {
     routeParams;
 
   beforeEach(module('gulpAngular'));
-  beforeEach(module('liveopsConfigPanel', 'liveopsConfigPanel.mock.content.flows.media.mediaController'));
+  beforeEach(module('liveopsConfigPanel', 'liveopsConfigPanel.tenant.media.mock'));
   beforeEach(inject(['$rootScope', '$controller', '$httpBackend', 'Media', 'apiHostname', 'Session', 'medias',
     function ($rootScope, _$controller_, _$httpBackend_, _Media_, _apiHostname_, _Session_, _mockMedias_) {
       $scope = $rootScope.$new();
