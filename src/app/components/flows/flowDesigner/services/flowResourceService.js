@@ -43,6 +43,10 @@
       getAllMedia: function(){
         var self = this;
         return self.media;
+      },
+      getFlows: function() {
+        var self = this;
+        return self.flows;
       }
     };
   }

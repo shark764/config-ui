@@ -44,6 +44,12 @@ angular.module('liveopsConfigPanel')
         });
       };
 
+      $scope.saveFlow = function(){
+        return $scope.selectedFlow.save().then(function(flow){
+          return flow;
+        });
+      };
+
       $scope.$on('table:on:click:create', function () {
         $scope.create();
       });
