@@ -7,9 +7,9 @@ describe('duplicateEmail directive', function() {
 
   beforeEach(module('gulpAngular'));
   beforeEach(module('liveopsConfigPanel'));
-  beforeEach(module('liveopsConfigPanel.mock.content'));
-  beforeEach(module('liveopsConfigPanel.mock.content.management.tenantUsers'));
-  beforeEach(module('liveopsConfigPanel.mock.content.management.users'));
+  beforeEach(module('liveopsConfigPanel.mock'));
+  beforeEach(module('liveopsConfigPanel.tenant.user.mock'));
+  beforeEach(module('liveopsConfigPanel.user.mock'));
 
   beforeEach(inject(['$compile', '$rootScope', 'mockUsers', 'mockTenantUsers',
     function($compile, $rootScope, mockUsers, mockTenantUsers) {

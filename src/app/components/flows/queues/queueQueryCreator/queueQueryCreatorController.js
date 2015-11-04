@@ -23,6 +23,7 @@ angular.module('liveopsConfigPanel')
       });
       
       $scope.$on('table:on:click:create', function () {
+        self.resetComponents();
         self.initComponentState();
       });
       
@@ -59,10 +60,18 @@ angular.module('liveopsConfigPanel')
           var keyword = jsedn.kw(component.keyword);
           if (angular.isDefined($scope.rootMap) && $scope.rootMap.exists(keyword)){
             $scope.add(component);
-          } else {
-            $scope.remove(component);
           }
         });
       };
+      
+      this.resetComponents = function(){
+        angular.forEach($scope.queryComponents, function(component){
+          var keyword = jsedn.kw(component.keyword);
+          $scope.remove(component);
+        });
+      };
+      
+      self.resetComponents();
+      self.initComponentState();
     }
   ]);

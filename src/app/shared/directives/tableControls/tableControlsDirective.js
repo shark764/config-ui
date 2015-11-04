@@ -19,17 +19,17 @@ angular.module('liveopsConfigPanel')
         link: function ($scope) {
           $scope.primaryKey = $scope.config.primaryKey ?
             $scope.config.primaryKey : 'id';
-          
+
           $scope.$watch('config', function(){
             $scope.showBulkActions = angular.isDefined($scope.config.showBulkActions) ? $scope.config.showBulkActions : true;
             $scope.showCreate = angular.isDefined($scope.config.showCreate) ? $scope.config.showCreate : true;
-            
+
             $scope.reverseSortOrder = false;
             $scope.orderBy = $scope.config.orderBy;
           });
-          
+
           angular.extend($scope, $scope.extendScope);
-          
+
           $scope.$on('created:resource:' + $scope.resourceName,
             function (event, item) {
               $scope.selected = item;
@@ -121,6 +121,13 @@ angular.module('liveopsConfigPanel')
               return;
             }
 
+            //Uncheck rows that have been filtered out
+            angular.forEach($scope.items, function (item) {
+              if (item.checked && $scope.filtered.indexOf(item) < 0) {
+                item.checked = false;
+              }
+            });
+
             if ($scope.filtered.length === 0) {
               $rootScope.$broadcast('resource:create');
               return;
@@ -140,13 +147,6 @@ angular.module('liveopsConfigPanel')
             if (!selectedIsVisible) {
               $scope.selectItem(null);
             }
-
-            //Uncheck rows that have been filtered out
-            angular.forEach($scope.items, function (item) {
-              if (item.checked && $scope.filtered.indexOf(item) < 0) {
-                item.checked = false;
-              }
-            });
           });
 
           $scope.sortTable = function (field) {
@@ -165,10 +165,10 @@ angular.module('liveopsConfigPanel')
 
             $scope.orderBy = fieldName;
           };
-          
+
           $scope.clearAllFilters = function(){
             $scope.searchQuery = null;
-            
+
             angular.forEach($scope.config.fields, function(field){
               if (field.header.options){
                 var options = $filter('invoke')(field.header.options);

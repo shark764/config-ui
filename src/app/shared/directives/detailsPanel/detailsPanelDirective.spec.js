@@ -7,7 +7,7 @@ describe('loDetailsPanel directive', function() {
 
   beforeEach(module('gulpAngular'));
   beforeEach(module('liveopsConfigPanel'));
-  beforeEach(module('liveopsConfigPanel.mock.content'));
+  beforeEach(module('liveopsConfigPanel.mock'));
 
   beforeEach(inject(['$compile', '$rootScope', '$stateParams',
     function($compile, $rootScope, $stateParams) {

@@ -34,13 +34,14 @@ describe('When switching tenants', function() {
     shared.tearDown();
   });
 
+  // TODO Bug Unable to create new tenant TITAN2-4878
   describe('Users Management page', function() {
     beforeAll(function() {
       browser.get(shared.usersPageUrl);
       elementCount = shared.tableElements.count();
     });
 
-    it('should display the correct users for the current tenant', function() {
+    xit('should display the correct users for the current tenant', function() {
       // New tenant should only have 1 user by default
       expect(elementCount).toBe(1);
 
@@ -49,37 +50,35 @@ describe('When switching tenants', function() {
       expect(shared.firstTableRow.getText()).toContain(params.login.user);
     });
 
-    it('should display the correct User Details for the Current user for the new tenant', function() {
+    xit('should display the correct User Details for the Current user for the new tenant', function() {
       // Current user should default to Administrator role in the new tenant and be Accepted by default
       expect(shared.firstTableRow.getText()).toContain('Administrator');
       expect(shared.firstTableRow.getText()).toContain('Accepted');
 
       // No Skills or Groups by default
-      expect(shared.firstTableRow.getText()).toContain('0 0');
+      expect(shared.firstTableRow.getText()).toContain('0 1'); // 0 skills, 1 group by default
       shared.firstTableRow.click();
       expect(users.userSkills.count()).toBe(0);
       expect(users.noUserSkillsMessage.isDisplayed()).toBeTruthy();
 
-      // TODO Exception for everyone group?
-      expect(users.userGroups.count()).toBe(0);
-      expect(users.noUserGroupsMessage.isDisplayed()).toBeTruthy();
+      expect(users.userGroups.count()).toBe(1);
+      expect(users.userGroups.get(0).getText()).toBe('everyone');
 
       // Correct email displayed
       expect(users.emailLabel.getText()).toBe(params.login.user);
     });
 
-    it('should display the correct Skills and Groups available for the current tenant', function() {
+    xit('should display the correct Skills and Groups available for the current tenant', function() {
       // There should be no Skills or Groups available for the new tenant
       users.addSkillSearch.click();
       expect(users.skillDropdownItems.count()).toBe(0);
 
       // Only 'everyone' group is added to the tenant by default
       users.addGroupSearch.click();
-      expect(users.groupDropdownItems.count()).toBe(1);
-      expect(users.groupDropdownItems.get(0).getText()).toBe('everyone');
+      expect(users.groupDropdownItems.count()).toBe(0); // Already added to the current user
     });
 
-    it('should display the correct Roles available for the current tenant', function() {
+    xit('should display the correct Roles available for the current tenant', function() {
       shared.createBtn.click();
 
       // Only the default roles are displayed
@@ -91,7 +90,7 @@ describe('When switching tenants', function() {
       expect(users.tenantRoleFormDropdownOptions.get(3).getText()).toBe('Agent');
     });
 
-    it('should create a new User in one and not the previous', function() {
+    xit('should create a new User in one and not the previous', function() {
       // Create User in new tenant
       var randomUser = Math.floor((Math.random() * 1000) + 1);
       var newTenantEmail = 'NewTenantUser' + randomUser + '@mailinator.com';
@@ -175,7 +174,7 @@ describe('When switching tenants', function() {
         });
       });
 
-      it('should update details for both tenants', function() {
+      xit('should update details for both tenants', function() {
         // Select new user in new tenant
         shared.searchField.sendKeys(mutualUserEmail);
         shared.firstTableRow.click();
@@ -228,7 +227,7 @@ describe('When switching tenants', function() {
         });
       });
 
-      it('should not update Skills and Groups for both tenants', function() {
+      xit('should not update Skills and Groups for both tenants', function() {
         // Select new user in default tenant
         tenants.selectTenant(defaultTenantName);
         shared.searchField.sendKeys(mutualUserEmail);
@@ -258,11 +257,11 @@ describe('When switching tenants', function() {
       elementCount = shared.tableElements.count();
     });
 
-    it('should display the correct Skills for the current tenant', function() {
+    xit('should display the correct Skills for the current tenant', function() {
       expect(elementCount).toBe(0);
     });
 
-    it('should create a new Skill in one and not the previous', function() {
+    xit('should create a new Skill in one and not the previous', function() {
       // Create skill in new tenant
       var newTenantSkill = 'New Tenant Skill ' + Math.floor((Math.random() * 1000) + 1);
       shared.createBtn.click();
@@ -378,7 +377,7 @@ describe('When switching tenants', function() {
       expect(shared.tableRows.get(2).getText()).toContain('Supervisor tenant supervisor 4');
     });
 
-    it('should create a new Role in one and not the previous', function() {
+    xit('should create a new Role in one and not the previous', function() {
       // Create Role in new tenant
       var newTenantRole = 'New Tenant Role ' + Math.floor((Math.random() * 1000) + 1);
       shared.createBtn.click();

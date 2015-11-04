@@ -30,7 +30,7 @@ module.exports = function(config) {
 
     preprocessors: {
       'src/**/*.html': ['ng-html2js'],
-      'src/**/*.js': ['coverage']
+      'src/**/!(*spec|*mock).js': ['coverage']
     }
   };
 

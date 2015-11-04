@@ -9,7 +9,7 @@ describe('setIntegrationStatusBulkAction directive', function() {
 
   beforeEach(module('gulpAngular'));
   beforeEach(module('liveopsConfigPanel'));
-  beforeEach(module('liveopsConfigPanel.mock.content'));
+  beforeEach(module('liveopsConfigPanel.mock'));
 
   beforeEach(inject(['$compile', '$rootScope', 'BulkAction',
     function(_$compile_, _$rootScope_, _BulkAction) {
@@ -36,14 +36,14 @@ describe('setIntegrationStatusBulkAction directive', function() {
       var mockIntegration = {
           id: 'integration1'
       };
-      
+
       var returnIntegration = angular.copy(mockIntegration);
       returnIntegration.active = true;
 
       $httpBackend.when('PUT', apiHostname + '/v1/tenants/tenant-id/integrations/integration1').respond(200, {
         result: returnIntegration
       });
-      
+
       expect(mockIntegration.active).toBeFalsy();
       isolateScope.active = true;
       isolateScope.bulkAction.apply(mockIntegration);
@@ -53,7 +53,7 @@ describe('setIntegrationStatusBulkAction directive', function() {
       expect(mockIntegration.active).toEqual(true);
     }
   ]));
-  
+
   it('should should only have the attribute in the PUT payload',
     inject(['$httpBackend', 'apiHostname', function ($httpBackend, apiHostname) {
         $httpBackend.expect('PUT', apiHostname + '/v1/tenants/tenant-id/integrations/integration1', {
@@ -63,7 +63,7 @@ describe('setIntegrationStatusBulkAction directive', function() {
         var mockIntegration = {
             id: 'integration1'
         };
-        
+
         isolateScope.active = true;
         isolateScope.bulkAction.apply(mockIntegration);
 

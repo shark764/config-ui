@@ -21,7 +21,7 @@ var MediaCollectionsPage = function() {
   this.mediaDropdownBoxes = element.all(by.css('lo-multibox'));
   this.mediaDropdowns = element.all(by.model('display'));
   this.mediaDropdownSearchFields = element.all(by.model('currentText'));
-  this.mediaElementsSelector = 'item in filtered = (items | filter:filterCriteria | orderBy:nameField)';
+  this.mediaElementsSelector = 'item in filtered = (items | filter:filterCriteria | orderBy:orderByFunction)';
   this.removeMedia = element.all(by.id('remove-media-mapping-button'));
 
   this.requiredError = this.mediaCollectionPane.all(by.css('.lo-error'));
@@ -30,7 +30,8 @@ var MediaCollectionsPage = function() {
   this.createMediaForm = element(by.id('media-pane'));
   this.mediaNameField = this.createMediaForm.element(by.model('selectedMedia.name'));
   this.mediaTypeDropdown = this.createMediaForm.element(by.model('selectedMedia.type'));
-  this.mediaSourceField = this.createMediaForm.element(by.model('selectedMedia.source'));
+  this.ttsSourceField = this.createMediaForm.element(by.id('tts-source-field'));
+  this.audioSourceField = this.createMediaForm.element(by.id('audio-source-url-field'));
   this.mediaCancelBtn = this.createMediaForm.element(by.id('cancel-media-btn'));
   this.mediaCreateBtn = this.createMediaForm.element(by.id('create-media-btn'));
   this.mediaCreateAndNewBtn = this.createMediaForm.element(by.id('create-and-new-media-btn'));
@@ -47,7 +48,6 @@ var MediaCollectionsPage = function() {
   this.closeMedia = this.createMediaForm.element(by.id('close-details-button'));
 
   this.openCreateNewMedia = function() {
-    this.addMediaMappingButton.click();
     this.mediaDropdowns.get(0).click();
     this.openCreateMediaButton.get(0).click();
   };

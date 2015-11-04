@@ -44,7 +44,8 @@
     <div class="detail-controls">
       <input id="cancel-details-btn" type="button" class="btn"
         value="{{'value.cancel' | translate}}"
-        lo-cancel-chain-executor="version:cancel"></input>
+        lo-cancel>
+      </input>
       <input id="submit-details-btn" class="btn btn-primary"
         type="submit" value="{{'value.submit' | translate}}"
         ng-disabled="forms.detailsForm.$invalid || ! forms.detailsForm.$dirty"
@@ -86,7 +87,8 @@
     <div class="detail-controls">
       <input id="cancel-version-btn" type="button" class="btn"
         value="{{'value.cancel' | translate}}"
-        lo-cancel-chain-executor="version:cancel"></input>
+        lo-cancel>
+      </input>
       <input id="create-version-btn" class="btn btn-primary"
         type="submit" value="{{'value.create' | translate}}"
         ng-disabled="forms.versionForm.$invalid"
