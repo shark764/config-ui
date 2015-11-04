@@ -21,9 +21,7 @@ describe('setStatusBulkAction directive', function() {
   ]));
 
   beforeEach(function() {
-    $scope.bulkAction = new BulkAction();
-
-    element = $compile('<ba-set-status bulk-action="bulkAction"></ba-set-status>')($scope);
+    element = $compile('<ba-set-status></ba-set-status>')($scope);
     $scope.$digest();
     isolateScope = element.isolateScope();
   });

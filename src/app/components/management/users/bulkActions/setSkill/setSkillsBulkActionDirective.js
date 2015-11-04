@@ -5,7 +5,7 @@ angular.module('liveopsConfigPanel')
   function ($q, UserSkillsBulkAction, userSkillsBulkActionTypes, Skill, Session, queryCache, BulkAction) {
     return {
       restrict: 'E',
-      require: '^bulkActionExecutor',
+      require: '?^bulkActionExecutor',
       scope: {
         bulkAction: '=',
         users: '='
@@ -13,7 +13,10 @@ angular.module('liveopsConfigPanel')
       templateUrl: 'app/components/management/users/bulkActions/setSkill/setSkillsBulkAction.html',
       link: function ($scope, elem, attr, bulkActionExecutor) {
         $scope.bulkAction = new BulkAction();
-        bulkActionExecutor.register($scope.bulkAction);
+        
+        if(bulkActionExecutor){
+          bulkActionExecutor.register($scope.bulkAction);
+        }
         
         $scope.bulkAction.execute = function (users) {
           var promises = [];

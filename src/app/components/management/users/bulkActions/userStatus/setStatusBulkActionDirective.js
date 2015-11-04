@@ -5,12 +5,15 @@ angular.module('liveopsConfigPanel')
     function (TenantUser, Session, $q, Alert, $translate, BulkAction) {
       return {
         restrict: 'E',
-        require: '^bulkActionExecutor',
-        scope: true,
+        require: '?^bulkActionExecutor',
+        scope: {},
         templateUrl: 'app/components/management/users/bulkActions/userStatus/setStatusBulkAction.html',
         link: function ($scope, elem, attr, bulkActionExecutor) {
           $scope.bulkAction = new BulkAction();
-          bulkActionExecutor.register($scope.bulkAction);
+          
+          if(bulkActionExecutor){
+            bulkActionExecutor.register($scope.bulkAction);
+          }
           
           $scope.bulkAction.apply = function(tenantUser) {
             if ($scope.status === 'disabled' && tenantUser.id === Session.user.id){
