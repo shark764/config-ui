@@ -9,9 +9,9 @@ describe('UserProfileController', function() {
 
   beforeEach(module('liveopsConfigPanel'));
   beforeEach(module('gulpAngular'));
-  beforeEach(module('liveopsConfigPanel.mock.content'));
-  beforeEach(module('liveopsConfigPanel.mock.content.management.tenantUsers'));
-  beforeEach(module('liveopsConfigPanel.mock.content.management.users'));
+  beforeEach(module('liveopsConfigPanel.mock'));
+  beforeEach(module('liveopsConfigPanel.tenant.user.mock'));
+  beforeEach(module('liveopsConfigPanel.user.mock'));
 
   beforeEach(inject(['$rootScope', '$controller', '$httpBackend', 'User', 'Skill', 'Group', 'apiHostname',
     function($rootScope, _$controller_, _$httpBackend_, User, Skill, Group, _apiHostname_) {

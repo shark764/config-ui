@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('userTableConfig', ['userStatuses', 'userStates', '$translate', 'Skill', 'Group', 'TenantRole', 'Session', 'UserPermissions', 'tenantStatuses', 'queryCache',
-    function (userStatuses, userStates, $translate, Skill, Group, TenantRole, Session, UserPermissions, tenantStatuses, queryCache) {
+  .service('userTableConfig', ['userStatuses', 'userStates', '$translate', 'Skill', 'Group', 'TenantRole', 'Session', 'UserPermissions', 'tenantStatuses', 'queryCache', 'helpDocsHostname',
+    function (userStatuses, userStates, $translate, Skill, Group, TenantRole, Session, UserPermissions, tenantStatuses, queryCache, helpDocsHostname) {
       function getSkillOptions() {
         return Skill.cachedQuery({
           tenantId: Session.tenant.tenantId
@@ -50,6 +50,7 @@ angular.module('liveopsConfigPanel')
           }],
           'orderBy': '$user.$original.lastName',
           'title': $translate.instant('user.table.title'),
+          'helpLink' : helpDocsHostname + '/Content/Managing%20Users/Adding_users.htm',
           'searchOn': [{
             //Property order is significant, as it is the order that the fields get concat'd before being compared
             //So they should match the display order of "firstName lastName"

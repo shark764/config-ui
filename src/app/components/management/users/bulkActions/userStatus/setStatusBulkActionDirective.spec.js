@@ -9,8 +9,8 @@ describe('setStatusBulkAction directive', function() {
 
   beforeEach(module('gulpAngular'));
   beforeEach(module('liveopsConfigPanel'));
-  beforeEach(module('liveopsConfigPanel.mock.content.management.users'));
-  beforeEach(module('liveopsConfigPanel.mock.content.management.tenantUsers'));
+  beforeEach(module('liveopsConfigPanel.user.mock'));
+  beforeEach(module('liveopsConfigPanel.tenant.user.mock'));
 
   beforeEach(inject(['$compile', '$rootScope', 'BulkAction',
     function(_$compile_, _$rootScope_, _BulkAction) {

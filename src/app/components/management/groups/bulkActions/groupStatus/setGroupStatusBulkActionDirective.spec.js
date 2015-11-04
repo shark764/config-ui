@@ -9,7 +9,7 @@ describe('setGroupStatusBulkAction directive', function() {
 
   beforeEach(module('gulpAngular'));
   beforeEach(module('liveopsConfigPanel'));
-  beforeEach(module('liveopsConfigPanel.mock.content.management.groups'));
+  beforeEach(module('liveopsConfigPanel.tenant.group.mock'));
 
   beforeEach(inject(['$compile', '$rootScope', 'BulkAction',
     function(_$compile_, _$rootScope_, _BulkAction) {
@@ -39,7 +39,7 @@ describe('setGroupStatusBulkAction directive', function() {
       $httpBackend.when('PUT', apiHostname + '/v1/tenants/tenant-id/groups/groupId1').respond(200, {
         result: returnGroup
       });
-      
+
       expect(mockGroups[0].active).toBeFalsy();
       isolateScope.active = true;
       isolateScope.bulkAction.apply(mockGroups[0]);
@@ -49,7 +49,7 @@ describe('setGroupStatusBulkAction directive', function() {
       expect(mockGroups[0].active).toEqual(true);
     }
   ]));
-  
+
   it('should only have the attribute in the PUT payload',
     inject(['mockGroups', '$httpBackend', 'apiHostname',
       function (mockGroups, $httpBackend, apiHostname) {
@@ -63,21 +63,21 @@ describe('setGroupStatusBulkAction directive', function() {
         $httpBackend.flush();
       }
     ]));
-  
+
   it('should reject the change if attempting to edit the Everyone group', inject(['Group', function (Group) {
       var everyoneGroup = new Group({
         type: 'everyone',
         id: '123456',
         active: true
       });
-      
+
       isolateScope.active = false;
       var result = isolateScope.bulkAction.apply(everyoneGroup);
 
       result.then(angular.noop, function(reason) {
         expect(reason).toEqual('Cannot disable the Everyone group');
       });
-      
+
       $scope.$digest();
       expect(everyoneGroup.active).toBeTruthy();
     }

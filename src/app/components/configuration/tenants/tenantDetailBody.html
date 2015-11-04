@@ -9,7 +9,7 @@
       error-type-required="{{'tenant.details.name.error' | translate}}" >
     </form-error>
     <div>
-      <input required ng-model="selectedTenant.name" name="name" type="text" api-error></input>
+      <input required ng-model="selectedTenant.name" name="name" type="text"></input>
     </div>
   </div>
   
@@ -30,7 +30,7 @@
   
   <div class="input-group" ng-show="! selectedTenant.isNew()">
     <label class="textarea-label">{{'tenant.details.region' | translate}}</label>
-    <p id="tenant-details-region">{{selectedTenant.region.name}}</p>
+    <p id="tenant-details-region">{{selectedTenant.$region.name}}</p>
   </div>
 
   <div class="input-group" ng-if="! selectedTenant.isNew()">
