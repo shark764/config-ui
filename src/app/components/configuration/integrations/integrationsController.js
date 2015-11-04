@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('IntegrationsController', ['$scope', '$state', 'Session', 'Integration', 'integrationTableConfig', 'BulkAction',
-    function($scope, $state, Session, Integration, integrationTableConfig, BulkAction) {
+  .controller('IntegrationsController', ['$scope', '$state', 'Session', 'Integration', 'integrationTableConfig',
+    function($scope, $state, Session, Integration, integrationTableConfig) {
       
       $scope.fetchIntegrations = function() {
         return Integration.cachedQuery({
@@ -20,10 +20,6 @@ angular.module('liveopsConfigPanel')
       });
 
       $scope.tableConfig = integrationTableConfig;
-      
-      $scope.bulkActions = {
-        setIntegrationStatus: new BulkAction()
-      };
       
       $scope.submit = function(){
         return $scope.selectedIntegration.save();

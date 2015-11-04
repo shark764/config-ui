@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('TenantsController', ['$scope', '$stateParams', '$filter', 'Session', 'Tenant', 'TenantUser', 'tenantTableConfig', 'BulkAction', 'UserPermissions', 'AuthService', 'Region', '$q',
-    function($scope, $stateParams, $filter, Session, Tenant, TenantUser, tenantTableConfig, BulkAction, UserPermissions, AuthService, Region, $q) {
+  .controller('TenantsController', ['$scope', '$stateParams', '$filter', 'Session', 'Tenant', 'TenantUser', 'tenantTableConfig', 'UserPermissions', 'AuthService', 'Region', '$q',
+    function($scope, $stateParams, $filter, Session, Tenant, TenantUser, tenantTableConfig, UserPermissions, AuthService, Region, $q) {
 
       $scope.create = function() {
         $scope.selectedTenant = new Tenant({
@@ -26,7 +26,11 @@ angular.module('liveopsConfigPanel')
           tenantId: Session.tenant.tenantId
         });
       };
-
+      
+      $scope.submit = function() {
+        return $scope.selectedTenant.save();
+      };
+      
       $scope.$on('table:on:click:create', function() {
         $scope.create();
       });
@@ -43,10 +47,6 @@ angular.module('liveopsConfigPanel')
 
       $scope.tableConfig = tenantTableConfig;
 
-      $scope.bulkActions = {
-        setTenantStatus: new BulkAction()
-      };
-      
       $scope.$watch('selectedTenant', function(newVal){
         if (newVal){
           var result = angular.isDefined(newVal.$promise) ? newVal.$promise : newVal;
@@ -57,9 +57,5 @@ angular.module('liveopsConfigPanel')
           });
         }
       });
-      
-      $scope.submit = function() {
-        return $scope.selectedTenant.save();
-      };
     }
   ]);

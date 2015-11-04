@@ -56,8 +56,11 @@
     </div>
   </ng-form>
   
-  <bulk-action-executor class="details-pane" ng-show="showBulkActions" items="fetchIntegrations()"
-      bulk-actions="bulkActions" show-bulk-actions="showBulkActions">
-      <ba-set-integration-status bulk-action="bulkActions.setIntegrationStatus"></ba-set-integration-status>
-    </bulk-action-executor>
+  <bulk-action-executor class="details-pane"
+    ng-show="showBulkActions"
+    items="fetchIntegrations()"
+    show-bulk-actions="showBulkActions">
+    
+    <ba-set-integration-status></ba-set-integration-status>
+  </bulk-action-executor>
 </lo-details-panel>
