@@ -7,7 +7,6 @@ angular.module('liveopsConfigPanel')
       restrict: 'E',
       require: '?^bulkActionExecutor',
       scope: {
-        bulkAction: '=',
         users: '='
       },
       templateUrl: 'app/components/management/users/bulkActions/setSkill/setSkillsBulkAction.html',

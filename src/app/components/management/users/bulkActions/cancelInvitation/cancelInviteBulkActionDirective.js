@@ -5,7 +5,7 @@ angular.module('liveopsConfigPanel')
     function (BulkAction, Session) {
       return {
         restrict: 'E',
-        scope: true,
+        scope: {},
         require: '?^bulkActionExecutor',
         templateUrl: 'app/components/management/users/bulkActions/cancelInvitation/cancelInviteBulkAction.html',
         link: function($scope, elem, attr, bulkActionExecutor) {

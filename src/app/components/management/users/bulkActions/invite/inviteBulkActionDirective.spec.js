@@ -1,30 +1,49 @@
 'use strict';
 
-describe('setStatusBulkAction directive', function() {
+describe('baInvite directive', function() {
   var $scope,
     $compile,
     element,
     isolateScope,
-    BulkAction;
+    mockTenantUsers;
 
   beforeEach(module('gulpAngular'));
   beforeEach(module('liveopsConfigPanel'));
-  beforeEach(module('liveopsConfigPanel.user.mock'));
   beforeEach(module('liveopsConfigPanel.tenant.user.mock'));
 
-  beforeEach(inject(['$compile', '$rootScope', 'BulkAction',
-    function(_$compile_, _$rootScope_, _BulkAction) {
+  beforeEach(inject(['$compile', '$rootScope', 'mockTenantUsers',
+    function(_$compile_, _$rootScope_, _mockTenantUsers) {
       $scope = _$rootScope_.$new();
       $compile = _$compile_;
-      BulkAction = _BulkAction;
+      mockTenantUsers = _mockTenantUsers;
     }
   ]));
 
   beforeEach(function() {
-    // $scope.bulkAction = new BulkAction();
-    // 
-    // element = $compile('<ba-set-status bulk-action="bulkAction"></ba-set-status>')($scope);
-    // $scope.$digest();
-    // isolateScope = element.isolateScope();
+    element = $compile('<ba-invite></ba-invite>')($scope);
+    $scope.$digest();
+    isolateScope = element.isolateScope();
+  });
+  
+  describe('ON apply', function() {
+    
+    it('should call tenantUser.save', function() {
+      mockTenantUsers[0].save = jasmine.createSpy('save');
+      isolateScope.bulkAction.apply(mockTenantUsers[0]);
+      expect(mockTenantUsers[0].status).toEqual('invited');
+      expect(mockTenantUsers[0].save).toHaveBeenCalled();
+    });
+  });
+  
+  describe('ON doesQualify', function() {
+    it('should pass', function() {
+      var doesQualify = isolateScope.bulkAction.doesQualify(mockTenantUsers[0]);
+      expect(doesQualify).toBeTruthy();
+    });
+    
+    it('should not pass', function() {
+      var doesQualify = isolateScope.bulkAction.doesQualify(mockTenantUsers[1]);
+      expect(doesQualify).toBeFalsy();
+    });
   });
 });

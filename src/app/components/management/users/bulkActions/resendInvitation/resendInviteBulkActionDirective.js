@@ -5,7 +5,7 @@ angular.module('liveopsConfigPanel')
     function (BulkAction, Session) {
       return {
         restrict: 'E',
-        scope: true,
+        scope: {},
         require: '?^bulkActionExecutor',
         templateUrl: 'app/components/management/users/bulkActions/resendInvitation/resendInviteBulkAction.html',
         link: function($scope, elem, attr, bulkActionExecutor) {
@@ -22,7 +22,7 @@ angular.module('liveopsConfigPanel')
           };
           
           $scope.bulkAction.doesQualify = function doesQualify(tenantUser) {
-            return tenantUser.status === 'invited';
+            return !['invited', 'pending'].indexOf(tenantUser.status);
           };
         }
       };

@@ -108,7 +108,7 @@ angular.module('liveopsConfigPanel')
       };
       
       var canSaveTenantuser = function canSaveTenantuser(tenantUser) {
-        return $scope.selectedTenantUser.isNew() ||
+        return tenantUser.isNew() ||
           (dirty(['status', 'roleId']) &&
             UserPermissions.hasPermissionInList([
               'PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT',

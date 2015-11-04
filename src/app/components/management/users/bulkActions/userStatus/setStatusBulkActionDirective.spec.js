@@ -4,19 +4,17 @@ describe('setStatusBulkAction directive', function() {
   var $scope,
     $compile,
     element,
-    isolateScope,
-    BulkAction;
+    isolateScope;
 
   beforeEach(module('gulpAngular'));
   beforeEach(module('liveopsConfigPanel'));
   beforeEach(module('liveopsConfigPanel.user.mock'));
   beforeEach(module('liveopsConfigPanel.tenant.user.mock'));
 
-  beforeEach(inject(['$compile', '$rootScope', 'BulkAction',
-    function(_$compile_, _$rootScope_, _BulkAction) {
+  beforeEach(inject(['$compile', '$rootScope',
+    function(_$compile_, _$rootScope_) {
       $scope = _$rootScope_.$new();
       $compile = _$compile_;
-      BulkAction = _BulkAction;
     }
   ]));
 
