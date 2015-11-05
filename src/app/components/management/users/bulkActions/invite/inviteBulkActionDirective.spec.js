@@ -36,12 +36,12 @@ describe('baInvite directive', function() {
   });
   
   describe('ON doesQualify', function() {
-    it('should pass', function() {
+    it('should pass if tenantUser.status is "pending"', function() {
       var doesQualify = isolateScope.bulkAction.doesQualify(mockTenantUsers[0]);
       expect(doesQualify).toBeTruthy();
     });
     
-    it('should not pass', function() {
+    it('should pass if tenantUser.status is not "pending"', function() {
       var doesQualify = isolateScope.bulkAction.doesQualify(mockTenantUsers[1]);
       expect(doesQualify).toBeFalsy();
     });

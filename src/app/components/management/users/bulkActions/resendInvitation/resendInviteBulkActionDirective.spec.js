@@ -36,12 +36,12 @@ describe('baResendInvite directive', function() {
   });
   
   describe('ON doesQualify', function() {
-    it('should pass', function() {
+    it('should pass if tenantUser.status is "invited" or "pending"', function() {
       var doesQualify = isolateScope.bulkAction.doesQualify(mockTenantUsers[2]);
       expect(doesQualify).toBeTruthy();
     });
     
-    it('should not pass', function() {
+    it('should pass if tenantUser.status is not "invited" or "pending"', function() {
       var doesQualify = isolateScope.bulkAction.doesQualify(mockTenantUsers[0]);
       expect(doesQualify).toBeFalsy();
     });
