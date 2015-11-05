@@ -3,15 +3,13 @@
 describe('The Administrator role', function() {
   var loginPage = require('../login/login.po.js'),
     shared = require('../shared.po.js'),
-    role = require('../management/role.po.js'),
     users = require('../management/users.po.js'),
     invites = require('../invitations/invites.po.js'),
     request = require('request'),
     params = browser.params,
-    roleCount,
     randomRole,
     administratorEmail,
-    addedMember;
+    randomUser;
   var req,
     jar;
 
@@ -19,7 +17,7 @@ describe('The Administrator role', function() {
     loginPage.login(params.login.user, params.login.password);
 
     // Create user with Administrator role
-    var randomUser = Math.floor((Math.random() * 1000) + 1);
+    randomUser = Math.floor((Math.random() * 1000) + 1);
     administratorEmail = 'administrator' + randomUser + '@mailinator.com';
 
     // Add new user

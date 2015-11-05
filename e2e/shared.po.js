@@ -30,6 +30,7 @@ var Shared = function() {
   this.welcomeMessage = element(by.id('user-settings-dropdown'));
   this.siteNavLogo = element(by.id('logo'));
   this.tenantsNavDropdown = element(by.id('tenant-dropdown'));
+  this.tenantsNavDropdownClick = element(by.css('#tenant-dropdown > div > div.drop-label > div > span'));
   this.tenantsNavDropdownContents = this.tenantsNavDropdown.all(by.repeater('item in items | orderBy:orderBy'));
   this.usersNavButton = element(by.id('users-nav-link'));
   this.tenantsNavButton = element(by.id('tenants-nav-link'));
