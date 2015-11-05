@@ -6,12 +6,9 @@ describe('The Agent role', function() {
     users = require('../management/users.po.js'),
     invites = require('../invitations/invites.po.js'),
     profile = require('../userProfile/profile.po.js'),
-    request = require('request'),
     params = browser.params,
     agentEmail,
     randomUser;
-  var req,
-    jar;
 
   beforeAll(function() {
     loginPage.login(params.login.user, params.login.password);
@@ -42,7 +39,7 @@ describe('The Agent role', function() {
       invites.goToInvitationAcceptPage();
 
       browser.driver.wait(function() {
-        return invites.submitFormBtn.isPresent().then(function (submitBtn) {
+        return invites.submitFormBtn.isPresent().then(function(submitBtn) {
           console.log(submitBtn);
           return submitBtn;
         });

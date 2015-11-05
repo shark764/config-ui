@@ -5,16 +5,15 @@ describe('The Supervisor role', function() {
     shared = require('../shared.po.js'),
     users = require('../management/users.po.js'),
     invites = require('../invitations/invites.po.js'),
-    request = require('request'),
     params = browser.params,
     randomUser,
     supervisorEmail;
-  var req,
-    jar;
 
-  beforeAll(function() {
-    loginPage.login(params.login.user, params.login.password);
+  afterAll(function() {
+    shared.tearDown();
+  });
 
+  it('should allow new user to be created with the role', function() {
     // Create user with supervisor role
     randomUser = Math.floor((Math.random() * 1000) + 1);
     supervisorEmail = 'supervisor' + randomUser + '@mailinator.com';
@@ -23,71 +22,31 @@ describe('The Supervisor role', function() {
     shared.createBtn.click();
 
     users.emailFormField.sendKeys(supervisorEmail);
-    users.tenantRoleFormDropdown.element(by.cssContainingText('option', 'Supervisor')).click();
+    users.tenantRoleFormDropdown.element(by.cssContainingText('option', 'supervisor')).click();
     users.platformRoleFormDropdownOptions.get(1).click();
 
-    users.firstNameFormField.sendKeys('Supervisor' + randomUser);
+    users.firstNameFormField.sendKeys('supervisor' + randomUser);
     users.lastNameFormField.sendKeys('Role' + randomUser);
 
     users.submitFormBtn.click().then(function() {
-      shared.waitForSuccess();
-
-      // Accept invite
-      jar = request.jar();
-      req = request.defaults({
-        jar: jar
-      });
 
       // Wait to allow the API to send and Mailinator to receive the email
-      browser.sleep(2000).then(function() {
-        // Verify user invitation email was sent
-        // NOTE: Add user email when emails are not redirected
-        req.get('https://api.mailinator.com/api/inbox?to=titantest&token=' + params.mailinator.token, '', function(error, response, body) {
-          if (JSON.parse(body).messages.length > 0) {
-            var newestMessage = JSON.parse(body).messages[JSON.parse(body).messages.length - 1];
+      invites.goToInvitationAcceptPage();
 
-            // Verify the newest message details
-            expect(newestMessage.seconds_ago).toBeLessThan(60);
+      browser.driver.wait(function() {
+        return invites.submitFormBtn.isPresent().then(function(submitBtn) {
+          console.log(submitBtn);
+          return submitBtn;
+        });
+      }, 10000).then(function() {
+        invites.passwordFormField.sendKeys('password');
 
-            // Prevent 429 response
-            browser.sleep(2000).then(function() {
-              // Get the newest message content
-              req.get('https://api.mailinator.com/api/email?id=' + newestMessage.id + '&token=' + params.mailinator.token, '', function(error, response, body) {
-                if (body) {
-                  var newestMessageContents = JSON.parse(body).data.parts[0].body;
-
-                  // Verify link is correct
-                  var acceptInvitationLink = newestMessageContents.split('Log in automatically by clicking ')[1].split('\n')[0];
-                  browser.get(acceptInvitationLink);
-
-                  invites.passwordFormField.sendKeys('password');
-
-                  expect(invites.submitFormBtn.getAttribute('disabled')).toBeNull();
-                  invites.submitFormBtn.click().then(function() {
-                    expect(shared.message.isDisplayed()).toBeTruthy();
-                    expect(shared.message.getText()).toBe('Your invitation has been accepted!');
-                  });
-                } else { // Fail test
-                  expect(true).toBeFalsy();
-                }
-              });
-            });
-          } else { // Fail test
-            expect(true).toBeFalsy();
-          }
+        invites.submitFormBtn.click().then(function() {
+          expect(shared.message.isDisplayed()).toBeTruthy();
+          expect(shared.message.getText()).toBe('Your invitation has been accepted!');
         });
       });
     });
-  });
-
-  beforeEach(function() {
-    // Ignore unsaved changes warnings
-    browser.executeScript("window.onbeforeunload = function(){};");
-    browser.get(shared.rolePageUrl);
-  });
-
-  afterAll(function() {
-    shared.tearDown();
   });
 
   it('should only have access to the current tenant', function() {
