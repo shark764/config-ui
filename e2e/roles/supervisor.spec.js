@@ -9,6 +9,10 @@ describe('The Supervisor role', function() {
     randomUser,
     supervisorEmail;
 
+  beforeAll(function() {
+    loginPage.login(params.login.user, params.login.password);
+  });
+
   afterAll(function() {
     shared.tearDown();
   });
@@ -35,7 +39,6 @@ describe('The Supervisor role', function() {
 
       browser.driver.wait(function() {
         return invites.submitFormBtn.isPresent().then(function(submitBtn) {
-          console.log(submitBtn);
           return submitBtn;
         });
       }, 10000).then(function() {

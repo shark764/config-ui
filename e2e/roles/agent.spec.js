@@ -40,7 +40,6 @@ describe('The Agent role', function() {
 
       browser.driver.wait(function() {
         return invites.submitFormBtn.isPresent().then(function(submitBtn) {
-          console.log(submitBtn);
           return submitBtn;
         });
       }, 10000).then(function() {
@@ -62,9 +61,6 @@ describe('The Agent role', function() {
     shared.tenantsNavDropdownClick.click().then(function() {
       expect(shared.tenantsNavDropdownContents.count()).toBe(1);
       expect(shared.tenantsNavDropdownContents.get(0).getText()).toBe('Platform');
-      //expect(shared.tenantsNavDropdownContents.get(0).getAttribute('value')).toBe('Platform');
-
-      //browser.pause();
     });
   });
 
@@ -115,7 +111,7 @@ describe('The Agent role', function() {
     expect(shared.message.getText()).toContain('Sorry, your account does not have the correct permissions to view that page.');
   });
 
-  xit('should not have access to Flow pages', function() {
+  it('should not have access to Flow pages', function() {
     browser.get(shared.flowsPageUrl);
     expect(browser.getCurrentUrl()).toContain('userprofile?messageKey=permissions.unauthorized.message');
     expect(shared.message.isDisplayed()).toBeTruthy();
@@ -148,7 +144,7 @@ describe('The Agent role', function() {
 
   // TODO TITAN2-4937
   xit('should have access to user profile details', function() {
-    expect(profile.userEmail.getText()).toBe(agentEmail);
+    expect(profile.userEmail.getText()).toContain(agentEmail);
     expect(profile.firstNameFormField.getAttribute('value')).toBe('Agent' + randomUser);
     expect(profile.lastNameFormField.getAttribute('value')).toBe('Role' + randomUser);
 
