@@ -57,7 +57,7 @@ angular.module('liveopsConfigPanel')
               });
             });
           });
-        }
+        };
 
         var element = $compile('<modal></modal>')(newScope);
         $document.find('html > body').append(element);
