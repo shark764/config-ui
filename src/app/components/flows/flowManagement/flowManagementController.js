@@ -21,28 +21,6 @@ angular.module('liveopsConfigPanel')
       };
 
       $scope.create = function() {
-        // $scope.selectedFlow = new Flow({
-        //   tenantId: Session.tenant.tenantId,
-        //   active: true,
-        //   name: 'Untitled Flow',
-        //   type: 'customer'
-        // }).save(function(flow){
-        //   var initialDraft = new FlowDraft({
-        //     flowId: flow.id,
-        //     flow: '[]',
-        //     tenantId: Session.tenant.tenantId,
-        //     name: 'Initial Draft'
-        //   });
-        //
-        //   var promise = initialDraft.save();
-        //   return promise.then(function(draft){
-        //     $state.go('content.flows.editor', {
-        //       flowId: flow.id,
-        //       draftId: draft.id
-        //     });
-        //   });
-        // });
-
         var newScope = $scope.$new();
 
         newScope.modalBody = '/app/components/flows/flowManagement/newFlowModal.html';
