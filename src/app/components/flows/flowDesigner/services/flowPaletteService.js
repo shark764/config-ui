@@ -53,7 +53,8 @@
                     id: notation.version
                   },
                   id: joint.util.uuid(),
-                  position: {x:0, y:0}
+                  position: {x:0, y:0},
+                  target: notation.target
                 }
               ]);
               return n.cells[0];
