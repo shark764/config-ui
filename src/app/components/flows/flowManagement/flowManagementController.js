@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('FlowManagementController', ['$scope', '$state', 'Session', 'Flow', 'flowTableConfig', 'flowTypes', 'FlowDraft', 'FlowVersion', 'BulkAction',
-    function ($scope, $state, Session, Flow, flowTableConfig, flowTypes, FlowDraft, FlowVersion, BulkAction) {
+  .controller('FlowManagementController', ['$scope', '$state', '$document', '$compile', 'Session', 'Flow', 'flowTableConfig', 'flowTypes', 'FlowDraft', 'FlowVersion', 'BulkAction',
+    function ($scope, $state, $document, $compile, Session, Flow, flowTableConfig, flowTypes, FlowDraft, FlowVersion, BulkAction) {
       $scope.getVersions = function(){
         if (! $scope.selectedFlow || $scope.selectedFlow.isNew()){
           return [];
@@ -21,27 +21,69 @@ angular.module('liveopsConfigPanel')
       };
 
       $scope.create = function() {
-        $scope.selectedFlow = new Flow({
-          tenantId: Session.tenant.tenantId,
-          active: true,
-          name: 'Untitled Flow',
-          type: 'customer'
-        }).save(function(flow){
-          var initialDraft = new FlowDraft({
-            flowId: flow.id,
-            flow: '[]',
-            tenantId: Session.tenant.tenantId,
-            name: 'Initial Draft'
-          });
+        // $scope.selectedFlow = new Flow({
+        //   tenantId: Session.tenant.tenantId,
+        //   active: true,
+        //   name: 'Untitled Flow',
+        //   type: 'customer'
+        // }).save(function(flow){
+        //   var initialDraft = new FlowDraft({
+        //     flowId: flow.id,
+        //     flow: '[]',
+        //     tenantId: Session.tenant.tenantId,
+        //     name: 'Initial Draft'
+        //   });
+        //
+        //   var promise = initialDraft.save();
+        //   return promise.then(function(draft){
+        //     $state.go('content.flows.editor', {
+        //       flowId: flow.id,
+        //       draftId: draft.id
+        //     });
+        //   });
+        // });
 
-          var promise = initialDraft.save();
-          return promise.then(function(draft){
-            $state.go('content.flows.editor', {
+        var newScope = $scope.$new();
+
+        newScope.modalBody = '/app/components/flows/flowManagement/newFlowModal.html';
+        newScope.title = 'New Flow';
+        newScope.flow = {
+          name: 'Untitled Flow',
+          flowTypes: flowTypes
+        };
+
+        newScope.cancelCallback = function() {
+          $document.find('modal').remove();
+        };
+
+        newScope.okCallback = function(newFlow) {
+          $document.find('modal').remove();
+          $scope.selectedFlow = new Flow({
+            tenantId: Session.tenant.tenantId,
+            active: true,
+            name: newFlow.name,
+            type: newFlow.type
+          }).save(function(flow){
+            var initialDraft = new FlowDraft({
               flowId: flow.id,
-              draftId: draft.id
+              flow: '[]',
+              tenantId: Session.tenant.tenantId,
+              name: 'Initial Draft'
+            });
+
+            var promise = initialDraft.save();
+            return promise.then(function(draft){
+              $state.go('content.flows.editor', {
+                flowId: flow.id,
+                draftId: draft.id
+              });
             });
           });
-        });
+        }
+
+        var element = $compile('<modal></modal>')(newScope);
+        $document.find('html > body').append(element);
+
       };
 
       $scope.saveFlow = function(){
@@ -59,7 +101,7 @@ angular.module('liveopsConfigPanel')
       $scope.bulkActions = {
         setFlowStatus: new BulkAction()
       };
-      
+
       $scope.submit = function(){
         return $scope.selectedFlow.save();
       };

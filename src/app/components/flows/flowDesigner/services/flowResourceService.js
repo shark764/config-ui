@@ -21,7 +21,8 @@
     function loadReusableFlows(){
       var deferred = $q.defer();
       Flow.query({tenantId: Session.tenant.tenantId}, function(data){
-        deferred.resolve(_.where(data, {type: 'reusable'}));
+        var filtered = _.where(data, {type: 'reusable'});
+        deferred.resolve(_.reject(filtered, {activeFlow: null}));
       });
       return deferred.promise;
     }
