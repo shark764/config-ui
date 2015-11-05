@@ -289,7 +289,7 @@
 
   "tenant.details.title": "Tenants",
   "tenant.details.name": "Tenant Name",
-  "tenant.details.admin": "Platform Admin",
+  "tenant.details.admin": "Tenant Admin",
   "tenant.details.description": "Description",
   "tenant.details.region": "Region",
   "tenant.details.name.error": "Please enter a name",
