@@ -7,7 +7,8 @@ angular.module('liveopsConfigPanel')
       $scope.create = function() {
         $scope.selectedTenant = new Tenant({
           regionId: Session.activeRegionId,
-          adminUserId: Session.user.id
+          adminUserId: Session.user.id,
+          parentId: Session.tenant.tenantId
         });
       };
 
@@ -57,5 +58,7 @@ angular.module('liveopsConfigPanel')
           });
         }
       });
+      
+      $scope.Session = Session;
     }
   ]);

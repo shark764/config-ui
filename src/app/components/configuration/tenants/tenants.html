@@ -9,6 +9,12 @@
     <span ng-if="item.active">{{'value.enabled' | translate}}</span>
     <span ng-if="!item.active" class="disabled">{{'value.disabled' | translate}}</span>
   </span>
+  
+  <span name="parentId">
+    <span ng-repeat="option in options | filter:{id: item.parentId}">
+      {{option.name}}
+    </span>
+  </span>
 
 </table-controls>
 

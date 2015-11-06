@@ -38,3 +38,17 @@
     <p id="tenant-details-id">{{selectedTenant.id}}</p>
   </div>
 </div>
+
+<div class="divider-header first-header">
+  <h4>{{'tenant.details.parent' | translate}}</h4>
+</div>
+
+<div class="input-group">
+  <label class="textarea-label">{{'tenant.details.id' | translate}}</label>
+  <p id="tenant-details-id">{{Session.tenant.tenantId}}</p>
+</div>
+
+<div class="input-group">
+  <label class="textarea-label">{{'tenant.details.name' | translate}}</label>
+  <p id="tenant-details-id">{{Session.tenant.tenantName}}</p>
+</div>
