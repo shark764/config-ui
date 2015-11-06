@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('SkillsController', ['$scope', 'Session', 'Skill', 'skillTableConfig', 'BulkAction', 'TenantSkillUser', 'TenantUserSkill', 'Alert', 'TenantUser', 'queryCache', '$filter', '$timeout',
-    function($scope, Session, Skill, skillTableConfig, BulkAction, TenantSkillUser, TenantUserSkill, Alert, TenantUser, queryCache, $filter, $timeout) {
+  .controller('SkillsController', ['$scope', 'Session', 'Skill', 'skillTableConfig', 'TenantSkillUser', 'TenantUserSkill', 'Alert', 'TenantUser', 'queryCache', '$filter', '$timeout',
+    function($scope, Session, Skill, skillTableConfig, TenantSkillUser, TenantUserSkill, Alert, TenantUser, queryCache, $filter, $timeout) {
 
       $scope.Session = Session;
 
@@ -46,11 +46,6 @@ angular.module('liveopsConfigPanel')
           description: ''
         });
       });
-
-      $scope.bulkActions = {
-        setStatus: new BulkAction(),
-        setHasProficiency: new BulkAction()
-      };
 
       $scope.submit = function(){
         return $scope.selectedSkill.save();

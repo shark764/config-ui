@@ -1,15 +1,20 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('baSetGroupStatus', ['Group', 'Session', 'Alert', '$q', '$translate',
-    function (Group, Session, Alert, $q, $translate) {
+  .directive('baSetGroupStatus', ['Group', 'Session', 'Alert', '$q', '$translate', 'BulkAction',
+    function (Group, Session, Alert, $q, $translate, BulkAction) {
       return {
         restrict: 'AE',
-        scope: {
-          bulkAction: '='
-        },
+        scope: {},
+        require: '?^bulkActionExecutor',
         templateUrl: 'app/components/management/groups/bulkActions/groupStatus/setGroupStatusBulkAction.html',
-        link: function ($scope) {
+        link: function ($scope, elem, attr, bulkActionExecutor) {
+          $scope.bulkAction = new BulkAction();
+          
+          if(bulkActionExecutor){
+            bulkActionExecutor.register($scope.bulkAction);
+          }
+          
           $scope.bulkAction.apply = function(group) {
             if (group.type === 'everyone'){
               Alert.error($translate.instant('bulkActions.enable.groups.fail'));
