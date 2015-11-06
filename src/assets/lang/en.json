@@ -428,6 +428,7 @@
   "flow.draft.title": "Drafts",
 
   "role.details.creating": "Creating new role",
+  "role.details.name.error": "Please enter a name",
   "role.table.title": "Role Management",
   "role.table.permissions": "Permissions",
   "role.permissions.title": "Permissions",

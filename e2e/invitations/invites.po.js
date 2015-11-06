@@ -1,4 +1,6 @@
 'use strict';
+var request = require('request'),
+  params = browser.params;
 
 var InvitePage = function() {
   this.emailFormField = element(by.name('email'));
@@ -28,6 +30,33 @@ var InvitePage = function() {
   this.confirmMessage = this.confirmModal.element(by.css('p'));
   this.confirmOK = this.confirmModal.element(by.id('modal-ok'));
   this.confirmCancel = this.confirmModal.element(by.id('modal-cancel'));
+
+  this.goToInvitationAcceptPage = function() {
+    var jar = request.jar();
+    var req = request.defaults({
+      jar: jar
+    });
+
+    var newestMessage;
+    var newestMessageContents;
+
+    browser.sleep(2000).then(function() {
+      req.get('https://api.mailinator.com/api/inbox?to=titantest&token=' + params.mailinator.token, '', function(error, response, body) {
+        if (JSON.parse(body).messages.length > 0) {
+          newestMessage = JSON.parse(body).messages[JSON.parse(body).messages.length - 1];
+
+          browser.sleep(2000).then(function() {
+            req.get('https://api.mailinator.com/api/email?id=' + newestMessage.id + '&token=' + params.mailinator.token, '', function(error, response, body) {
+              if (body) {
+                newestMessageContents = JSON.parse(body).data.parts[0].body;
+                browser.get(newestMessageContents.split('Log in automatically by clicking ')[1].split('\n')[0]);
+              }
+            });
+          });
+        }
+      });
+    });
+  };
 };
 
 module.exports = new InvitePage();
