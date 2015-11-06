@@ -75,10 +75,13 @@ var Shared = function() {
   this.errorMessage = element(by.css('.toast-error'));
   this.closeMessageBtn = element(by.css('.toast-close-button'));
 
-  //Modal
+  // Modal
   this.confirmModal = element(by.css('#modal .confirm'));
   this.confirmModalCancelBtn = element(by.id('modal-cancel'));
   this.confirmModalOkBtn = element(by.id('modal-ok'));
+
+  // Read Only Message
+  this.readOnlyMessage = element(by.css('.lo-alert.lo-alert-info'));
 
   this.waitForSuccess = function () {
     browser.driver.wait(function() {
