@@ -163,4 +163,13 @@ describe('The login view', function() {
     expect(browser.getCurrentUrl()).toBe(shared.loginPageUrl);
     expect(loginPage.errorMessage.isDisplayed()).toBeTruthy();
   });
+
+  // TODO Enable once TITAN2-4484 is in
+  xit('should hide Copyright info while logging in', function() {
+    loginPage.emailLoginField.sendKeys(params.login.user);
+    loginPage.passwordLoginField.sendKeys(params.login.password);
+    loginPage.loginButton.click().then(function() {
+      loginPage.loggingIn();
+    });
+  });
 });
