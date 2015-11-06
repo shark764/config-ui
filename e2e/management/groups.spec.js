@@ -319,7 +319,7 @@ describe('The groups view', function() {
     });
   });
 
-// TODO Enable the following after TITAN2-4583 && TITAN2-4533
+// TODO Enable the following after TITAN2-4533
   xit('should list all users in Add Member dropdown', function() {
     randomGroup = Math.floor((Math.random() * 1000) + 1);
     newGroupName = 'Group Name ' + randomGroup;
