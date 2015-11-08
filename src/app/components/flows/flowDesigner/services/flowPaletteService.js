@@ -8,7 +8,7 @@
         this.loadGateways(pallet);
         this.loadEvents(pallet);
         this.loadActivities(pallet);
-        this.loadTemplates(pallet)
+        this.loadTemplates(pallet);
       },
 
       loadGateways: function(palette) {
@@ -33,6 +33,11 @@
             terminate: event.terminate || false,
             inputs: event.inputs
           });
+
+          if(event.timer) {
+            evt.timer = event.timer;
+          }
+
           return evt;
         }), 'events');
       },
