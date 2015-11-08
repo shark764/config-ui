@@ -38,6 +38,7 @@ angular.module('liveopsConfigPanel')
         'searchOn' : ['$original.name'],
         'orderBy' : '$original.name',
         'title': $translate.instant('role.table.title'),
+        'sref' : 'content.management.roles',
         'showBulkActions': false,
         'showCreate': UserPermissions.hasPermissionInList(['PLATFORM_CREATE_TENANT_ROLES', 'MANAGE_ALL_ROLES'])
       };

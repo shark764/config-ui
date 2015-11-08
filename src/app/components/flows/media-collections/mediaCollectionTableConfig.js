@@ -30,6 +30,7 @@ angular.module('liveopsConfigPanel')
         'searchOn' : ['$original.name'],
         'orderBy' : '$original.name',
         'title' : $translate.instant('media.collections.table.title'),
+        'sref' : 'content.flows.media-collections',
         'showBulkActions': false,
         'showCreate': UserPermissions.hasPermission('MANAGE_ALL_MEDIA'),
         'helpLink' : helpDocsHostname + '/Content/Managing%20Flows/Media_collection.htm'

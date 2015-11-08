@@ -24,6 +24,7 @@ angular.module('liveopsConfigPanel')
       'searchOn': ['$original.type'],
       'orderBy': '$original.type',
       'title' : $translate.instant('integration.table.title'),
+      'sref' : 'content.configuration.integrations',
       'showCreate': false,
       'showBulkActions': UserPermissions.hasPermission('MANAGE_ALL_PROVIDERS'),
       'helpLink' : helpDocsHostname + '/Content/Configuring%20CxEngage/Creating_Integrations.htm'
