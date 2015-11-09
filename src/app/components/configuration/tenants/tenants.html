@@ -9,6 +9,12 @@
     <span ng-if="item.active">{{'value.enabled' | translate}}</span>
     <span ng-if="!item.active" class="disabled">{{'value.disabled' | translate}}</span>
   </span>
+  
+  <span name="parentId">
+    <span ng-repeat="option in options | filter:{id: item.parentId}">
+      {{option.name}}
+    </span>
+  </span>
 
 </table-controls>
 
@@ -57,8 +63,11 @@
       </div>
     </ng-form>
 
-  <bulk-action-executor class="details-pane" ng-show="showBulkActions" items="fetchTenants()"
-    bulk-actions="bulkActions" show-bulk-actions="showBulkActions">
-    <ba-set-tenant-status bulk-action="bulkActions.setTenantStatus"></ba-set-tenant-status>
+  <bulk-action-executor class="details-pane"
+    ng-show="showBulkActions"
+    items="fetchTenants()"
+    show-bulk-actions="showBulkActions">
+    
+    <ba-set-tenant-status></ba-set-tenant-status>
   </bulk-action-executor>
 </lo-details-panel>

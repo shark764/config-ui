@@ -1,15 +1,20 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('baSetStatus', ['TenantUser', 'Session', '$q', 'Alert', '$translate',
-    function (TenantUser, Session, $q, Alert, $translate) {
+  .directive('baSetStatus', ['TenantUser', 'Session', '$q', 'Alert', '$translate', 'BulkAction',
+    function (TenantUser, Session, $q, Alert, $translate, BulkAction) {
       return {
-        restrict: 'AE',
-        scope: {
-          bulkAction: '='
-        },
+        restrict: 'E',
+        require: '?^bulkActionExecutor',
+        scope: {},
         templateUrl: 'app/components/management/users/bulkActions/userStatus/setStatusBulkAction.html',
-        link: function ($scope) {
+        link: function ($scope, elem, attr, bulkActionExecutor) {
+          $scope.bulkAction = new BulkAction();
+          
+          if(bulkActionExecutor){
+            bulkActionExecutor.register($scope.bulkAction);
+          }
+          
           $scope.bulkAction.apply = function(tenantUser) {
             if ($scope.status === 'disabled' && tenantUser.id === Session.user.id){
               Alert.error($translate.instant('bulkActions.enable.users.fail'));

@@ -3,6 +3,7 @@
 angular.module('liveopsConfigPanel')
   .controller('UsersController', ['$scope', '$window', '$parse', 'User', 'Session', 'AuthService', 'userTableConfig', 'Alert', 'flowSetup', 'BulkAction', '$q', '$location', 'lodash', 'TenantUser', 'TenantRole', 'queryCache', 'UserPermissions', 'PlatformRole', 'TenantUserGroups', 'Modal',
     function ($scope, $window, $parse, User, Session, AuthService, userTableConfig, Alert, flowSetup, BulkAction, $q, $location, _, TenantUser, TenantRole, queryCache, UserPermissions, PlatformRole, TenantUserGroups, Modal) {
+      var self = this;
       $scope.forms = {};
       $scope.Session = Session;
       $window.flowSetup = flowSetup;
@@ -59,50 +60,60 @@ angular.module('liveopsConfigPanel')
       };
 
       $scope.submit = function () {
-        var promises = [];
         var savePromise;
 
         if ($scope.selectedTenantUser.$user.isNew()) {
           $scope.selectedTenantUser.$user.email = $scope.selectedTenantUser.email;
 
-          var newUserPromise = $scope.selectedTenantUser.$user.save();
-          promises.push(newUserPromise);
-          savePromise = newUserPromise;
+          savePromise = $scope.selectedTenantUser.$user.save();
+        } else if (dirty(['firstName', 'lastName', 'externalId']) &&
+          UserPermissions.hasPermission('PLATFORM_MANAGE_ALL_USERS')) {
 
-        } else if (dirty(['firstName', 'lastName', 'externalId']) && UserPermissions.hasPermission('PLATFORM_MANAGE_ALL_USERS')) {
-          var updateUserPromise = $scope.selectedTenantUser.$user.save();
-          promises.push(updateUserPromise);
-          savePromise = updateUserPromise;
+          savePromise = $scope.selectedTenantUser.$user.save();
 
-        } else if (UserPermissions.hasPermission('PLATFORM_MANAGE_USER_ACCOUNT') && Session.user.id === $scope.selectedTenantUser.$user.id){
+        } else if (UserPermissions.hasPermission('PLATFORM_MANAGE_USER_ACCOUNT') &&
+          Session.user.id === $scope.selectedTenantUser.$user.id) {
+
           delete $scope.selectedTenantUser.$user.status; // User cannot edit their own status
           delete $scope.selectedTenantUser.$user.roleId; // User cannot edit their own platform roleId
 
-          var updateSelfPromise = $scope.selectedTenantUser.$user.save();
-          promises.push(updateSelfPromise);
-          savePromise = updateSelfPromise;
+          savePromise = $scope.selectedTenantUser.$user.save();
         }
 
-        $q.when(savePromise).then(function() {
-          if ($scope.selectedTenantUser.isNew() || (dirty(['status', 'roleId']) && UserPermissions.hasPermissionInList(['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'MANAGE_TENANT_ENROLLMENT']))){
-
-            if (!$scope.selectedTenantUser.isNew()) {
-              delete $scope.selectedTenantUser.status;
-            }
-
-            promises.push($scope.selectedTenantUser.save({
-              tenantId: Session.tenant.tenantId
-            }).then(function(tenantUser) {
-              tenantUser.$skills = [];
-              tenantUser.$groups = TenantUserGroups.query({
-                memberId: tenantUser.id,
-                tenantId: Session.tenant.tenantId
-              });
-            }));
+        return $q.when(savePromise).then(function () {
+          if (!canSaveTenantuser($scope.selectedTenantUser)) {
+            return $scope.selectedTenantUser;
           }
+
+          return self.saveTenantUser();
         });
-        
-        return $q.all(promises);
+      };
+      
+      this.saveTenantUser = function saveTenantUser () {
+        if (!$scope.selectedTenantUser.isNew()) {
+          delete $scope.selectedTenantUser.status;
+        }
+
+        return $scope.selectedTenantUser.save({
+          tenantId: Session.tenant.tenantId
+        }).then(function (tenantUser) {
+          tenantUser.$skills = [];
+          tenantUser.$groups = TenantUserGroups.query({
+            memberId: tenantUser.id,
+            tenantId: Session.tenant.tenantId
+          });
+          
+          return tenantUser;
+        });
+      };
+      
+      var canSaveTenantuser = function canSaveTenantuser(tenantUser) {
+        return tenantUser.isNew() ||
+          (dirty(['status', 'roleId']) &&
+            UserPermissions.hasPermissionInList([
+              'PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT',
+              'MANAGE_TENANT_ENROLLMENT'
+            ]));
       };
 
       $scope.resend = function () {
@@ -142,11 +153,5 @@ angular.module('liveopsConfigPanel')
       $scope.$on('email:validator:found', function (event, tenantUser) {
         $scope.selectedTenantUser = tenantUser;
       });
-
-      $scope.bulkActions = {
-        setStatus: new BulkAction(),
-        userSkills: new BulkAction(),
-        userGroups: new BulkAction()
-      };
     }
   ]);

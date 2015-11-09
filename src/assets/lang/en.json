@@ -289,7 +289,7 @@
 
   "tenant.details.title": "Tenants",
   "tenant.details.name": "Tenant Name",
-  "tenant.details.admin": "Platform Admin",
+  "tenant.details.admin": "Tenant Admin",
   "tenant.details.description": "Description",
   "tenant.details.region": "Region",
   "tenant.details.name.error": "Please enter a name",
@@ -298,6 +298,7 @@
   "tenant.details.disable.confirm": "This will disable this tenant. Do you want to continue?",
   "tenant.details.enable.confirm": "This will enable this tenant. Do you want to continue?",
   "tenant.table.title": "Tenant Management",
+  "tenant.details.parent": "Parent Tenant",
 
   "integration.details": "Integration",
   "integration.details.properties.accountSid": "Account SID",
@@ -428,6 +429,7 @@
   "flow.draft.title": "Drafts",
 
   "role.details.creating": "Creating new role",
+  "role.details.name.error": "Please enter a name",
   "role.table.title": "Role Management",
   "role.table.permissions": "Permissions",
   "role.permissions.title": "Permissions",

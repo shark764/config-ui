@@ -1,15 +1,20 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('baSetSkillHasProficiency', ['Skill', 'Session',
-    function (Skill, Session) {
+  .directive('baSetSkillHasProficiency', ['Skill', 'Session', 'BulkAction',
+    function (Skill, Session, BulkAction) {
       return {
         restrict: 'AE',
-        scope: {
-          bulkAction: '='
-        },
+        scope: {},
+        require: '?^bulkActionExecutor',
         templateUrl: 'app/components/management/skills/bulkActions/skillHasProficiency/setSkillHasProficiencyBulkAction.html',
-        link: function ($scope) {
+        link: function ($scope, elem, attr, bulkActionExecutor) {
+          $scope.bulkAction = new BulkAction();
+          
+          if(bulkActionExecutor){
+            bulkActionExecutor.register($scope.bulkAction);
+          }
+          
           $scope.bulkAction.apply = function(skill) {
             var skillCopy = new Skill();
             skillCopy.id = skill.id;

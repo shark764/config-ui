@@ -66,7 +66,6 @@ angular.module('liveopsConfigPanel')
       
       this.resetComponents = function(){
         angular.forEach($scope.queryComponents, function(component){
-          var keyword = jsedn.kw(component.keyword);
           $scope.remove(component);
         });
       };

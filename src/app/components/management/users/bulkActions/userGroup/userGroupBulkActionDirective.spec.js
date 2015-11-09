@@ -6,7 +6,6 @@ describe('userGroupBulkAction directive', function() {
     $httpBackend,
     element,
     isolateScope,
-    BulkAction,
     mockGroups,
     mockUsers,
     UserGroupBulkAction;
@@ -17,12 +16,11 @@ describe('userGroupBulkAction directive', function() {
   beforeEach(module('liveopsConfigPanel.tenant.group.mock'));
   beforeEach(module('liveopsConfigPanel.tenant.user.group.mock'));
 
-  beforeEach(inject(['$compile', '$rootScope', '$httpBackend', 'BulkAction', 'mockGroups', 'mockUsers', 'UserGroupBulkAction',
-    function(_$compile_, _$rootScope_, _$httpBackend, _BulkAction, _mockGroups, _mockUsers, _UserGroupBulkAction) {
+  beforeEach(inject(['$compile', '$rootScope', '$httpBackend', 'mockGroups', 'mockUsers', 'UserGroupBulkAction',
+    function(_$compile_, _$rootScope_, _$httpBackend, _mockGroups, _mockUsers, _UserGroupBulkAction) {
       $scope = _$rootScope_.$new();
       $compile = _$compile_;
       $httpBackend = _$httpBackend;
-      BulkAction = _BulkAction;
       mockGroups = _mockGroups;
       mockUsers = _mockUsers;
       UserGroupBulkAction = _UserGroupBulkAction;
@@ -30,10 +28,9 @@ describe('userGroupBulkAction directive', function() {
   ]));
 
   beforeEach(function() {
-    $scope.bulkAction = new BulkAction();
     $scope.users = [mockUsers[0], mockUsers[1]];
 
-    element = $compile('<ba-user-groups users="users" bulk-action="bulkAction"></ba-user-groups>')($scope);
+    element = $compile('<ba-user-groups users="users"></ba-user-groups>')($scope);
     $scope.$digest();
     isolateScope = element.isolateScope();
     $httpBackend.flush();

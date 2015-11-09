@@ -5,7 +5,6 @@ describe('setSkillsBulkAction directive', function () {
     $compile,
     element,
     isolateScope,
-    BulkAction,
     mockSkills,
     mockTenantUsers,
     mockUserSkills,
@@ -17,11 +16,10 @@ describe('setSkillsBulkAction directive', function () {
   beforeEach(module('liveopsConfigPanel.tenant.user.mock'));
   beforeEach(module('liveopsConfigPanel.tenant.skill.mock'));
 
-  beforeEach(inject(['$compile', '$rootScope', 'BulkAction', 'mockSkills', 'mockTenantUsers', 'mockUserSkills', 'UserSkillsBulkAction',
-    function (_$compile_, _$rootScope_, _BulkAction, _mockSkills, _mockTenantUsers, _mockUserSkills, _UserSkillsBulkAction) {
+  beforeEach(inject(['$compile', '$rootScope', 'mockSkills', 'mockTenantUsers', 'mockUserSkills', 'UserSkillsBulkAction',
+    function (_$compile_, _$rootScope_, _mockSkills, _mockTenantUsers, _mockUserSkills, _UserSkillsBulkAction) {
       $scope = _$rootScope_.$new();
       $compile = _$compile_;
-      BulkAction = _BulkAction;
       mockSkills = _mockSkills;
       mockTenantUsers = _mockTenantUsers;
       mockUserSkills = _mockUserSkills;
@@ -30,10 +28,9 @@ describe('setSkillsBulkAction directive', function () {
   ]));
 
   beforeEach(inject(['$httpBackend', function ($httpBackend) {
-    $scope.bulkAction = new BulkAction();
     $scope.users = [mockTenantUsers[0], mockTenantUsers[1]];
 
-    element = $compile('<ba-user-skills users="users" bulk-action="bulkAction"></ba-user-skills>')($scope);
+    element = $compile('<ba-user-skills users="users"></ba-user-skills>')($scope);
     $scope.$digest();
     isolateScope = element.isolateScope();
     $httpBackend.flush();
