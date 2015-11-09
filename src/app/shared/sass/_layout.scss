@@ -91,17 +91,17 @@ header {
       padding: 15px;
       padding-right: 25px; /* add room for x button */
       position: relative;
-  
+
       toggle {
         position: absolute;
         top: 20px;
         left: 15px;
       }
-  
+
       toggle + * {
         padding-left: $toggle-width + 5px;
       }
-  
+
       h1 {
         word-break: break-all;
         padding: 0;
@@ -109,7 +109,7 @@ header {
         line-height: 0.8em;
         margin: 0;
       }
-  
+
       .info {
         b {
           font-size: .7em;
@@ -132,32 +132,32 @@ header {
         font-size: 0.9em;
         width: 100%;
         max-width: $max-control-width + 200px;
-        
+
         &.clone-header {
             @include border-radius-complex(4px, 0, 0, 4px);
             border-bottom: 0;
         }
-  
+
         td, th {
           padding: 10px;
         }
-  
+
         th {
           border-bottom: $light-grey solid 1px;
           color: $dark-grey;
           text-align: left;
           font-weight: 600;
         }
-  
+
         tbody tr:hover {
           background-color: $accent-light;
         }
-        
+
         .control-col {
           width: 40px;
         }
       }
-  
+
       .scrollable-table-container {
         max-width: $max-control-width + 200px;
       }
@@ -168,18 +168,18 @@ header {
       justify-content: flex-end;
       @include display-flex();
       padding: 15px 5px;
-  
+
       input, .btn {
         max-width: 200px;
         margin: 0;
         width: 45%;
       }
-      
+
       .btn + .btn{
       	margin-left: 20px;
       }
     }
-  
+
     > .fa-remove {
       position: absolute;
       top : 10px;
@@ -199,7 +199,7 @@ header {
   padding-right: 10px;
   width: 100%;
 }
-    
+
 .input-group {
   display: table;
   max-width: $max-control-width;
@@ -230,7 +230,7 @@ header {
     justify-content: flex-start;
     align-items: center;
     position: relative;
-    
+
     * + .btn {
       margin-left: 10px;
     }
@@ -239,7 +239,7 @@ header {
   > .timestamp input[type=text] {
     width: 60px;
   }
-  
+
   button, input[type=button] {
     width: 175px;
   }
@@ -272,12 +272,12 @@ div[disable-contents] + .input-group, .input-group + div[disable-contents] {
     margin: 0;
     padding-right: 5px;
   }
-  
+
   .btn {
     margin-bottom: 10px;
   }
 }
-    
+
 .two-col .logical-group {
   float: left;
   max-width: $max-control-width  + 200px;
@@ -292,7 +292,7 @@ div[disable-contents] + .input-group, .input-group + div[disable-contents] {
     max-width: $max-control-width;
   }
 }
-  
+
 .compact-view .detail-body {
   .input-group, .detail-group {
     margin-left: 5px;
@@ -311,4 +311,3 @@ div[disable-contents] + .input-group, .input-group + div[disable-contents] {
     margin-top: 5px;
   }
 }
-
