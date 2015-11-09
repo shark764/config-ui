@@ -230,7 +230,7 @@
           }
         }, true);
 
-        var content = $compile(buildTemplate(scope.inputs, scope.notation, scope.lists))(scope);
+        var content = $compile(buildTemplate(scope.inputs, scope.notation))(scope);
         angular.element(element[0].children[0]).append(content);
 
         $timeout(function() {
