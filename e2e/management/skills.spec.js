@@ -176,7 +176,6 @@ describe('The skills view', function() {
   });
 
   it('should display skill details when selected from table', function() {
-    // Select first queue from table
     shared.firstTableRow.click();
 
     // Verify skill details in table matches populated field
@@ -195,7 +194,7 @@ describe('The skills view', function() {
       };
     });
 
-    // Change selected queue and ensure details are updated
+    // Change selected and ensure details are updated
     shared.secondTableRow.click();
     expect(skills.nameHeader.getText()).toContain(shared.secondTableRow.element(by.css(skills.nameColumn)).getText());
     expect(shared.secondTableRow.element(by.css(skills.nameColumn)).getText()).toBe(skills.nameFormField.getAttribute('value'));

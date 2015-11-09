@@ -1,13 +1,10 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('QueueController', ['$scope', 'Queue', 'Session', '$stateParams', 'queueTableConfig', 'QueueVersion', 'BulkAction', 'Alert', '$translate',
-    function ($scope, Queue, Session, $stateParams, queueTableConfig, QueueVersion, BulkAction, Alert, $translate) {
+  .controller('QueueController', ['$scope', 'Queue', 'Session', '$stateParams', 'queueTableConfig', 'QueueVersion', 'Alert', '$translate',
+    function ($scope, Queue, Session, $stateParams, queueTableConfig, QueueVersion, Alert, $translate) {
       $scope.Session = Session;
       $scope.tableConfig = queueTableConfig;
-      $scope.bulkActions = {
-        setQueueStatus: new BulkAction()
-      };
       
       $scope.fetchQueues = function () {
         return Queue.cachedQuery({

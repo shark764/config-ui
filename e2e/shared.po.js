@@ -14,7 +14,7 @@ var Shared = function() {
   this.usersPageUrl = this.managementUrl + 'users';
   this.groupsPageUrl = this.managementUrl + 'groups';
   this.skillsPageUrl = this.managementUrl + 'skills';
-  this.rolesPageUrl = this.managementUrl + 'roles';
+  this.rolePageUrl = this.managementUrl + 'roles';
 
   this.tenantsPageUrl = this.configurationUrl + 'tenants';
   this.integrationsPageUrl = this.configurationUrl + 'integrations';
@@ -30,6 +30,7 @@ var Shared = function() {
   this.welcomeMessage = element(by.id('user-settings-dropdown'));
   this.siteNavLogo = element(by.id('logo'));
   this.tenantsNavDropdown = element(by.id('tenant-dropdown'));
+  this.tenantsNavDropdownClick = element(by.css('#tenant-dropdown > div > div.drop-label > div > span'));
   this.tenantsNavDropdownContents = this.tenantsNavDropdown.all(by.repeater('item in items | orderBy:orderBy'));
   this.usersNavButton = element(by.id('users-nav-link'));
   this.tenantsNavButton = element(by.id('tenants-nav-link'));

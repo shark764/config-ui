@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('FlowManagementController', ['$scope', '$state', 'Session', 'Flow', 'flowTableConfig', 'flowTypes', 'FlowDraft', 'FlowVersion', 'BulkAction',
-    function ($scope, $state, Session, Flow, flowTableConfig, flowTypes, FlowDraft, FlowVersion, BulkAction) {
+  .controller('FlowManagementController', ['$scope', '$state', 'Session', 'Flow', 'flowTableConfig', 'flowTypes', 'FlowDraft', 'FlowVersion',
+    function ($scope, $state, Session, Flow, flowTableConfig, flowTypes, FlowDraft, FlowVersion) {
       $scope.getVersions = function(){
         if (! $scope.selectedFlow || $scope.selectedFlow.isNew()){
           return [];
@@ -50,9 +50,6 @@ angular.module('liveopsConfigPanel')
 
       $scope.flowTypes = flowTypes;
       $scope.tableConfig = flowTableConfig;
-      $scope.bulkActions = {
-        setFlowStatus: new BulkAction()
-      };
       
       $scope.submit = function(){
         return $scope.selectedFlow.save();

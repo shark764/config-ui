@@ -6,6 +6,7 @@ angular.module('liveopsConfigPanel.shared.directives')
       return {
         scope: {
           item: '=',
+          options: '=',
           name: '@'
         },
         link: function ($scope, $element, $attrs, controller, $transclude) {
@@ -20,6 +21,7 @@ angular.module('liveopsConfigPanel.shared.directives')
                 $element.append(include);
               }
             });
+            
             $element.on('$destroy', function () {
               innerScope.$destroy();
             });

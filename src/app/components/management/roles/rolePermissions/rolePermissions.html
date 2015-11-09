@@ -8,9 +8,9 @@
 </div>
 
 <ng-form class="instant-add" ng-show="role.type != 'system' && (['PLATFORM_CREATE_TENANT_ROLES', 'MANAGE_ALL_ROLES'] | hasPermission)" id="addPermission" name="addPermission">
-  <type-ahead hover="true" 
-    placeholder="{{'role.details.permission.placeholder' | translate}}" 
-    items="filtered" 
+  <type-ahead hover="true"
+    placeholder="{{'role.details.permission.placeholder' | translate}}"
+    items="filtered"
     selected-item="selectedPermission"
     on-enter="save()"></type-ahead>
   <div>
@@ -19,7 +19,7 @@
   <input type="hidden" name="permissionchanges" ng-model="permissionchanges"/>
 </ng-form>
 
-<p class="null" ng-show="role.permissions.length == 0">{{'role.permissions.none' | translate}}</p>
+<p class="null" id="no-role-permissions-msg" ng-show="role.permissions.length == 0">{{'role.permissions.none' | translate}}</p>
 
 <table class="table" ng-show="rolePermissions.length > 0">
   <thead>

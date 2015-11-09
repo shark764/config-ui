@@ -2,8 +2,8 @@
 
 angular.module('liveopsConfigPanel')
   .controller('DispatchMappingsController', [
-    '$scope', 'Session', 'DispatchMapping', 'Flow', 'Integration', 'dispatchMappingTableConfig', 'dispatchMappingInteractionFields', 'dispatchMappingChannelTypes', 'dispatchMappingDirections', 'BulkAction',
-    function($scope, Session, DispatchMapping, Flow, Integration, dispatchMappingTableConfig, dispatchMappingInteractionFields, dispatchMappingChannelTypes, dispatchMappingDirections, BulkAction) {
+    '$scope', 'Session', 'DispatchMapping', 'Flow', 'Integration', 'dispatchMappingTableConfig', 'dispatchMappingInteractionFields', 'dispatchMappingChannelTypes', 'dispatchMappingDirections',
+    function($scope, Session, DispatchMapping, Flow, Integration, dispatchMappingTableConfig, dispatchMappingInteractionFields, dispatchMappingChannelTypes, dispatchMappingDirections) {
       $scope.create = function() {
         $scope.selectedDispatchMapping = new DispatchMapping({
           tenantId: Session.tenant.tenantId,
@@ -43,9 +43,5 @@ angular.module('liveopsConfigPanel')
       $scope.dispatchMappingInteractionFields = dispatchMappingInteractionFields;
       $scope.dispatchMappingChannelTypes = dispatchMappingChannelTypes;
       $scope.dispatchMappingDirections = dispatchMappingDirections;
-      
-      $scope.bulkActions = {
-        setDispatchMappingStatus: new BulkAction()
-      };
     }
   ]);

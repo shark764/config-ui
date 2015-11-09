@@ -1,16 +1,22 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('baUserGroups', ['$q', 'UserGroupBulkAction', 'userGroupBulkActionTypes', 'Group', 'TenantGroupUsers', 'Session',
-    function ($q, UserGroupBulkAction, userGroupBulkActionTypes, Group, TenantGroupUsers, Session) {
+  .directive('baUserGroups', ['$q', 'UserGroupBulkAction', 'userGroupBulkActionTypes', 'Group', 'TenantGroupUsers', 'Session', 'BulkAction',
+    function ($q, UserGroupBulkAction, userGroupBulkActionTypes, Group, TenantGroupUsers, Session, BulkAction) {
       return {
-        restrict: 'AE',
+        restrict: 'E',
+        require: '?^bulkActionExecutor',
         scope: {
-          bulkAction: '=',
           users: '='
         },
         templateUrl: 'app/components/management/users/bulkActions/userGroup/userGroupBulkAction.html',
-        link: function ($scope) {
+        link: function ($scope, elem, attr, bulkActionExecutor) {
+          $scope.bulkAction = new BulkAction();
+          
+          if(bulkActionExecutor){
+            bulkActionExecutor.register($scope.bulkAction);
+          }
+          
           $scope.bulkAction.execute = function (users) {
             var promises = [];
             angular.forEach(users, function (user) {
