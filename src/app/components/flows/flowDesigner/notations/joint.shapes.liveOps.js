@@ -1,4 +1,4 @@
-(function() {
+angular.module('liveopsConfigPanel').run(function(lodash) {
   'use strict';
 
   joint.shapes.liveOps = joint.shapes.liveOps || {};
@@ -33,7 +33,7 @@
     },
     _onIconChange: function(cell, icon) {
       var icons = joint.shapes.liveOps.icons;
-      if (_.has(icons, icon)) {
+      if (lodash.has(icons, icon)) {
         cell.attr('image/xlink:href', icons[icon]);
       } else {
         throw 'BPMN: Unknown icon: ' + icon;
@@ -58,4 +58,4 @@
       });
     }
   };
-})();
+});

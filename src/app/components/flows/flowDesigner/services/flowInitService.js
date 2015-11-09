@@ -55,7 +55,7 @@
         graph.utils.unselectCell = function(){
           var nodes = document.querySelectorAll(graphOptions.paperContainerId + ' .selected');
           _.each(nodes, function(node){
-            new V(node).removeClass('selected');
+            new joint.V(node).removeClass('selected');
           });
         };
         graph.utils.updateSelectedCell = function(cellView){
@@ -64,7 +64,7 @@
 
           //highlight current cell if it is not a link
           if(cellView.model.get('type') !== 'liveOps.link'){
-            new V(cellView.el.getElementsByClassName('border')[0]).addClass('selected');
+            new joint.V(cellView.el.getElementsByClassName('border')[0]).addClass('selected');
           }
         };
         graph.utils.renderPropertiesPanel = function(notation) {
@@ -278,6 +278,7 @@
       initializeKeyboardListeners: function() {
         var self = this;
         KeyboardJS.on('delete', function(evt) {
+          console.log(self.graph.interfaces.selector);
           if (!$.contains(evt.target, self.graph.interfaces.paper.el)) {return;}
           self.graph.utils.hidePropertiesPanel();
           self.graph.interfaces.commandManager.initBatchCommand();
@@ -327,6 +328,10 @@
           KeyboardJS.on(key + ' + -', function(evt) {
             evt.preventDefault();
             self.graph.interfaces.scroller.zoomOut();
+          });
+
+          KeyboardJS.on('~', function(evt) {
+            console.log(self.graph);
           });
         });
       }

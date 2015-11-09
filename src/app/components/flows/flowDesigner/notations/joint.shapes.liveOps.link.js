@@ -1,4 +1,4 @@
-(function() {
+angular.module('liveopsConfigPanel').run(function(lodash) {
   'use strict';
   joint.shapes.liveOps = joint.shapes.liveOps || {};
   joint.shapes.liveOps.link = joint.dia.Link.extend({
@@ -86,7 +86,7 @@
           stroke: '#ff0000'
         }
       };
-      cell.attr(_.merge({}, this.defaults.attrs, attrs));
+      cell.attr(lodash.merge({}, this.defaults.attrs, attrs));
     },
 
     turnBlack: function(cell){
@@ -99,7 +99,7 @@
           stroke: '#000000'
         }
       };
-      cell.attr(_.merge({}, this.defaults.attrs, attrs));
+      cell.attr(lodash.merge({}, this.defaults.attrs, attrs));
     },
 
     onLinkTypeChange: function(cell, type) {
@@ -195,7 +195,7 @@
         throw 'BPMN: Unknown Flow Type: ' + type;
       }
 
-      cell.attr(_.merge({}, this.defaults.attrs, attrs));
+      cell.attr(lodash.merge({}, this.defaults.attrs, attrs));
     },
 
     onInputChange: function(cell, value, path) {
@@ -260,10 +260,10 @@
           throw 'BPMN: Unknown link Type: ' + value;
         }
 
-        cell.attr(_.merge({}, this.defaults.attrs, attrs));
+        cell.attr(lodash.merge({}, this.defaults.attrs, attrs));
       } else {
         // console.warn('This property is not hooked up to a UI listener.');
       }
     }
   });
-})();
+});

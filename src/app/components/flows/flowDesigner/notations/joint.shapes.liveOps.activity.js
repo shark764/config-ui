@@ -1,4 +1,4 @@
-(function() {
+angular.module('liveopsConfigPanel').run(function(lodash) {
   'use strict';
 
   joint.shapes.liveOps = joint.shapes.liveOps || {};
@@ -111,7 +111,7 @@
         cell.set('z', 2);
         var box = cell.getBBox();
         joint.util.nextFrame(function() {
-          _.forEach(cell.getEmbeddedCells(), function(child, index) {
+          lodash.forEach(cell.getEmbeddedCells(), function(child, index) {
             if (!child) {return;}
 
             if (index === 0) {
@@ -205,4 +205,4 @@
       }
     }
   }).extend(joint.shapes.liveOps.IconInterface).extend(joint.shapes.liveOps.SubProcessInterface);
-})();
+});

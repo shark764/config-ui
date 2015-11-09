@@ -1,4 +1,4 @@
-(function() {
+angular.module('liveopsConfigPanel').run(function(lodash) {
   'use strict';
 
   joint.shapes.liveOps = joint.shapes.liveOps || {};
@@ -101,7 +101,7 @@
       joint.util.nextFrame(function() {
         if (type === 'exclusive') {
           links = cell.collection.getConnectedLinks(cell, {outbound: true});
-          _.each(links, function(link) {
+          lodash.each(links, function(link) {
             if (link.prop('target/id') === cell.get('default')) {
               link.set('linkType', 'default');
             } else {
@@ -110,16 +110,16 @@
           });
         } else if (type === 'inclusive') {
           links = cell.collection.getConnectedLinks(cell, {outbound: true});
-          _.each(links, function(link) {
+          lodash.each(links, function(link) {
             link.set('linkType', 'normal');
           });
         } else if (type === 'event') {
           links = cell.collection.getConnectedLinks(cell, {outbound: true});
-          _.each(links, function(link) {
+          lodash.each(links, function(link) {
             link.set('linkType', 'normal');
           });
         }
       });
     }
   }).extend(joint.shapes.liveOps.IconInterface);
-})();
+});

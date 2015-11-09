@@ -1,7 +1,7 @@
 (function() {
   'use strict';
 
-  function FlowResourceService($q, Session, Media, Queue, Flow) {
+  function FlowResourceService($q, lodash, Session, Media, Queue, Flow) {
     function loadMedia(){
       var deferred = $q.defer();
       Media.query({tenantId : Session.tenant.tenantId}, function(data){
@@ -21,8 +21,8 @@
     function loadReusableFlows(){
       var deferred = $q.defer();
       Flow.query({tenantId: Session.tenant.tenantId}, function(data){
-        var filtered = _.where(data, {type: 'reusable'});
-        deferred.resolve(_.reject(filtered, {activeFlow: null}));
+        var filtered = lodash.where(data, {type: 'reusable'});
+        deferred.resolve(lodash.reject(filtered, {activeFlow: null}));
       });
       return deferred.promise;
     }
@@ -39,7 +39,7 @@
       },
       getActiveQueues: function(){
         var self = this;
-        return _.where(self.queues, {active: true});
+        return lodash.where(self.queues, {active: true});
       },
       getAllMedia: function(){
         var self = this;

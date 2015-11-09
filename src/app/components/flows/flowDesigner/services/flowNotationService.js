@@ -1,7 +1,7 @@
 (function() {
   'use strict';
 
-  function FlowNotationService(FlowLibrary, FlowResource) {
+  function FlowNotationService(FlowLibrary, FlowResource, lodash) {
 
     var lastResource, lastParticipant;
 
@@ -11,23 +11,23 @@
       if (modelType === 'liveOps.activity') {
         var type = model.get('activityType');
         if(type === 'task'){
-          return _.findWhere(FlowLibrary.listActivities(), {name: model.get('name')});
+          return lodash.findWhere(FlowLibrary.listActivities(), {name: model.get('name')});
         }
         else if(type === 'call-activity'){
-          return _.findWhere(FlowLibrary.listActivities(), {flow: model.get('flow'), version: model.get('version')});
+          return lodash.findWhere(FlowLibrary.listActivities(), {flow: model.get('flow'), version: model.get('version')});
         }
       }
       //if we're dealing with an event
       if (modelType === 'liveOps.event') {
-        return _.findWhere(FlowLibrary.listEvents(), {entity: model.get('entity'), type: model.get('name')});
+        return lodash.findWhere(FlowLibrary.listEvents(), {entity: model.get('entity'), type: model.get('name')});
       }
       //if we're dealing with a link
       if (modelType === 'liveOps.link') {
-        return _.findWhere(FlowLibrary.listLinks(), {type: model.get('linkType')});
+        return lodash.findWhere(FlowLibrary.listLinks(), {type: model.get('linkType')});
       }
       //if we're dealing with a template
       if (modelType === 'liveOps.template') {
-        return _.findWhere(FlowLibrary.listTemplates(), {name: model.get('name')});
+        return lodash.findWhere(FlowLibrary.listTemplates(), {name: model.get('name')});
       }
       //if we're dealing with a gateway
       if (modelType === 'liveOps.gateway') {
@@ -38,7 +38,7 @@
     function buildOptions(model, input) {
       var options = input.options || [];
       if (input.source === 'resource' || input.source === 'participant') {
-        options = _.union(options, _.map(FlowLibrary.search({cells: model.collection.toJSON()}, 'resource'), function(item){
+        options = lodash.union(options, lodash.map(FlowLibrary.search({cells: model.collection.toJSON()}, 'resource'), function(item){
           return {
             content: item,
             value: item,
@@ -48,7 +48,7 @@
           };
         }));
       } else if (input.source === 'catch' || input.source === 'throw' || input.source === 'signal') {
-        options = _.union(options, _.map(FlowLibrary.search({cells: model.collection.toJSON()}, input.source), function(item){
+        options = lodash.union(options, lodash.map(FlowLibrary.search({cells: model.collection.toJSON()}, input.source), function(item){
           return {
             content: item,
             value: item,
@@ -58,7 +58,7 @@
           };
         }));
       } else if (input.source === 'media') {
-        options = _.map(FlowResource.getAllMedia(), function(entity) {
+        options = lodash.map(FlowResource.getAllMedia(), function(entity) {
           return {
             value: entity.id,
             content: entity.name,
@@ -68,7 +68,7 @@
           };
         });
       } else if (input.source === 'queues') {
-        options = _.map(FlowResource.getActiveQueues(), function(entity) {
+        options = lodash.map(FlowResource.getActiveQueues(), function(entity) {
           return {
             value: entity.id,
             content: entity.name,
@@ -86,8 +86,8 @@
 
       buildInputPanel: function(model) {
         var inputs = getDefinition(model).inputs;
-        return _.map(inputs, function(input){
-          input = _.clone(input);
+        return lodash.map(inputs, function(input){
+          input = lodash.clone(input);
           if(input.type === 'select' || input.type === 'typeahead' || input.type === 'autocomplete'){
             input.options = buildOptions(model, input);
           }
@@ -99,7 +99,7 @@
         var self = this,
             inputs = getDefinition(model).inputs;
 
-        _.each(inputs, function(input){
+        lodash.each(inputs, function(input){
           if(input.type === 'select' || input.type === 'typeahead' || input.type === 'autocomplete'){
             var options = buildOptions(model, input);
 
@@ -126,21 +126,54 @@
 
       populatePreviousOption: function(model) {
         var inputs = getDefinition(model).inputs;
-        _.each(inputs, function(input){
+        lodash.each(inputs, function(input){
           if(input.type === 'select' || input.type === 'typeahead' || input.type === 'autocomplete'){
             var options = buildOptions(model, input);
             if(input.source === 'participant'){
-              if(_.find(options, {value: lastParticipant})){
+              if(lodash.find(options, {value: lastParticipant})){
                 joint.util.setByPath(model, 'attributes.' + input.path, lastParticipant, '.');
               }
             }
             if(input.source === 'resource'){
-              if(_.find(options, {value: lastResource})){
+              if(lodash.find(options, {value: lastResource})){
                 joint.util.setByPath(model, 'attributes.' + input.path, lastResource, '.');
               }
             }
           }
         });
+      },
+
+      parseNotations: function(data){
+        var notations = {
+          activities: [],
+          events: [],
+          links: [],
+          templates: []
+        };
+
+        var json;
+
+        lodash.each(data, function(notation) {
+          if(notation.active && notation.activeNotation) {
+            json = (JSON.parse(notation.activeNotation.notation));
+
+            if (json.entity === 'activity') {
+              notations.activities.push(json);
+            } else if (json.entity === 'start' || json.entity === 'throw' || json.entity === 'catch') {
+              notations.events.push(json);
+            } else if (json.entity === 'link') {
+              notations.links.push(json);
+            } else if (json.entity === 'template') {
+              notations.templates.push(json);
+            }
+          }
+        });
+
+        notations.activities = lodash.sortBy(notations.activities, 'label');
+        notations.templates = lodash.sortBy(notations.templates, 'label');
+        notations.events = lodash.sortBy(notations.events, 'index');
+
+        return notations;
       }
     };
   }

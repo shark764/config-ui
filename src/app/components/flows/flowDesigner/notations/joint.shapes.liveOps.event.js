@@ -1,4 +1,4 @@
-(function() {
+angular.module('liveopsConfigPanel').run(function(lodash) {
   'use strict';
 
   joint.shapes.liveOps = joint.shapes.liveOps || {};
@@ -107,7 +107,7 @@
         //remove connecting links
         if (cell.collection) {
           var links = cell.collection.getConnectedLinks(cell, {inbound: true});
-          _.each(links, function(link) {
+          lodash.each(links, function(link) {
             link.remove();
           });
         }
@@ -224,4 +224,4 @@
       // console.warn('This property is not hooked up to a UI listener.');
     }
   }).extend(joint.shapes.liveOps.IconInterface);
-})();
+});

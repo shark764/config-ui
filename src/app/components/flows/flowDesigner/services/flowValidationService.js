@@ -28,7 +28,7 @@
     function clearErrors(graph) {
       _.each(graph.getElements(), function(element) {
         var view = element.findView(graph.interfaces.paper);
-        new V(view.el).removeClass('error');
+        new joint.V(view.el).removeClass('error');
       });
     }
 
@@ -37,7 +37,7 @@
         var cell = graph.getCell(e.step);
         if (cell) {
           var view = cell.findView(graph.interfaces.paper);
-          new V(view.el).addClass('error');
+          new joint.V(view.el).addClass('error');
         }
       });
     }

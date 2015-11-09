@@ -1,4 +1,4 @@
-(function() {
+angular.module('liveopsConfigPanel').run(function(lodash) {
   'use strict';
 
   joint.shapes.liveOps = joint.shapes.liveOps || {};
@@ -85,4 +85,4 @@
       // console.warn('This property is not hooked up to a UI listener.');
     }
   }).extend(joint.shapes.liveOps.IconInterface).extend(joint.shapes.liveOps.SubProcessInterface);
-})();
+});
