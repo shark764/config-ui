@@ -14,6 +14,8 @@ var Shared = function() {
   this.usersPageUrl = this.managementUrl + 'users';
   this.groupsPageUrl = this.managementUrl + 'groups';
   this.skillsPageUrl = this.managementUrl + 'skills';
+
+  this.rolesPageUrl = this.managementUrl + 'roles';
   this.rolePageUrl = this.managementUrl + 'roles';
 
   this.tenantsPageUrl = this.configurationUrl + 'tenants';
@@ -75,10 +77,13 @@ var Shared = function() {
   this.errorMessage = element(by.css('.toast-error'));
   this.closeMessageBtn = element(by.css('.toast-close-button'));
 
-  //Modal
+  // Modal
   this.confirmModal = element(by.css('#modal .confirm'));
   this.confirmModalCancelBtn = element(by.id('modal-cancel'));
   this.confirmModalOkBtn = element(by.id('modal-ok'));
+
+  // Read Only Message
+  this.readOnlyMessage = element(by.css('.lo-alert.lo-alert-info'));
 
   this.waitForSuccess = function () {
     browser.driver.wait(function() {

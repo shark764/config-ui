@@ -7,6 +7,8 @@ var Login = function() {
   this.passwordLoginField = element(by.model('password'));
   this.loginButton = element(by.css('.btn'));
 
+  this.loading = element(by.css('loading'))
+
   this.logo = element(by.css('img'));
   this.errorMessage = element(by.css('.lo-error'));
 
@@ -28,10 +30,25 @@ var Login = function() {
     this.loginButton.click();
 
     browser.driver.wait(function() {
-      return browser.getCurrentUrl().then(function (url) {
-          return shared.loginPageUrl !== url;
+      return browser.getCurrentUrl().then(function(url) {
+        return shared.loginPageUrl !== url;
       });
     }, 5000);
+  };
+
+  this.loggingIn = function() {
+    browser.getCurrentUrl().then(function (currentUrl) {
+      if(currentUrl == shared.loginPageUrl) {
+        this.loading.isDisplayed().then(function(loadingDisplayed) {
+          if (loadingDisplayed) {
+            // Copyright messages are hidden
+            expect(this.copyrightLabel.isDisplayed()).toBeFalsy();
+            expect(this.signupLegalLabel.isDisplayed()).toBeFalsy();
+            this.loggingIn();
+          }
+        });
+      }
+    });
   };
 };
 
