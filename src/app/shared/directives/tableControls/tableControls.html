@@ -65,7 +65,7 @@
       </td>
 
       <td ng-if="field.checked" ng-repeat="field in config.fields" ng-click="selectItem(item)">
-      <a ui-sref="{{config.sref}}({id: item.id})" ui-sref-args="{reload: true}" style="display:block">
+      <a ui-sref="{{config.sref}}({id: item.id})" ui-sref-args="{reload: true}">
         <table-cell ng-if="field.transclude" name="{{field.name}}" item="item"></table-cell>
         <span ng-if="!field.transclude" title="{{parse(item, field)}}">{{parse(item, field)}}</span></a>
       </td>

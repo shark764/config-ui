@@ -112,11 +112,12 @@ table-controls {
       white-space: nowrap;
 
       > a {
-        color: $dark-grey
+        color: $dark-grey;
+        display: block;
       }
 
       > a:hover {
-       color: $dark-grey
+        color: $dark-grey;
       }
     }
 
