@@ -87,7 +87,7 @@
     </thead>
     <tbody>
       <tr ng-repeat="user in selectedSkill.fetchSkillUsers()">
-        <td><a ng-click="gotoUserPage(user.userId)">
+        <td><a ui-sref="content.management.users({id: user.userId})">
           <audit-text translation="value.displayName" user-id="user.userId"></audit-text>
         </a></td>
         <td class="proficiency-col" ng-show="selectedSkill.$original.hasProficiency">

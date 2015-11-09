@@ -1,11 +1,11 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .factory('Notation', ['LiveopsResourceFactory', 'emitInterceptor', 'cacheAddInterceptor',
-    function (LiveopsResourceFactory, emitInterceptor, cacheAddInterceptor) {
+  .factory('Notation', ['LiveopsResourceFactory', 'apiHostname', 'emitInterceptor', 'cacheAddInterceptor',
+    function (LiveopsResourceFactory, apiHostname, emitInterceptor, cacheAddInterceptor) {
 
       var Notation = LiveopsResourceFactory.create({
-        endpoint: '/v1/notations',
+        endpoint: apiHostname + '/v1/notations',
         resourceName: 'Notation',
         updateFields: [{
           name: 'name'

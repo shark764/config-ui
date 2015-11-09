@@ -7,7 +7,7 @@ var $scope,
   controller;
 
 describe('LoginController', function () {
-  beforeEach(module('liveopsConfigPanel.mock.content.management.tenantUsers'));
+  beforeEach(module('liveopsConfigPanel.tenant.user.mock'));
   beforeEach(module('liveopsConfigPanel'));
   beforeEach(module('gulpAngular'));
 

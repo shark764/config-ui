@@ -14,6 +14,7 @@ module.exports = function (options) {
     };
 
     var injectFiles = gulp.src([
+      options.configShared + '/dist/styles.scss',
       options.src + '/app/**/*.scss',
       '!' + options.src + '/app/index.scss',
       '!' + options.src + '/app/vendor.scss'

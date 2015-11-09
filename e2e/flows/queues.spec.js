@@ -232,6 +232,36 @@ describe('The queues view', function() {
     });
   });
 
+  it('should toggle showing version details when arrow icon is selected', function() {
+    shared.firstTableRow.click();
+
+    queues.activeVersionDropdown.$('option:checked').getText().then(function(activeVersion) {
+      // Close active version
+      element(by.id("version-row-" + activeVersion)).click()
+    }).then(function() {
+      queues.activeVersionDropdown.all(by.css('option')).count().then(function(versionCount) {
+        var currentVersion;
+
+        // Select each version, details are displayed
+        for (var i = 2; i < versionCount; i++) {
+          currentVersion = element(by.id("version-row-v" + i));
+
+          // Open version details
+          currentVersion.element(by.css('.fa')).click();
+          expect(element(by.id("view-version-v" + i)).isDisplayed()).toBeTruthy();
+          expect(currentVersion.element(by.css('.fa-caret-up')).isDisplayed()).toBeTruthy();
+          expect(currentVersion.element(by.css('.fa-caret-down')).isPresent()).toBeFalsy();
+
+          // Close version details
+          currentVersion.element(by.css('.fa')).click();
+          expect(element(by.id("view-version-v" + i)).isDisplayed()).toBeFalsy();
+          expect(currentVersion.element(by.css('.fa-caret-up')).isPresent()).toBeFalsy();
+          expect(currentVersion.element(by.css('.fa-caret-down')).isDisplayed()).toBeTruthy();
+        }
+      });
+    });
+  });
+
   it('should toggle showing one version details at a time when selected', function() {
     shared.firstTableRow.click();
     queues.activeVersionDropdown.all(by.css('option')).count().then(function(versionCount) {

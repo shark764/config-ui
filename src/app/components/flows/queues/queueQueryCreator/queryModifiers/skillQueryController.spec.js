@@ -12,8 +12,8 @@ describe('skillQueryController', function () {
 
   beforeEach(module('gulpAngular'));
   beforeEach(module('liveopsConfigPanel'));
-  beforeEach(module('liveopsConfigPanel.mock.content.management.skills'));
-  beforeEach(module('liveopsConfigPanel.mock.content.management.groups'));
+  beforeEach(module('liveopsConfigPanel.tenant.skill.mock'));
+  beforeEach(module('liveopsConfigPanel.tenant.group.mock'));
 
   beforeEach(inject(['$controller', 'apiHostname', 'jsedn', 'mockSkills', 'mockGroups',
     function (_$controller, _apiHostname, _jsedn, _mockSkills, _mockGroups) {
