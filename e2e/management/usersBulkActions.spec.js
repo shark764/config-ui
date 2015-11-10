@@ -25,10 +25,8 @@ describe('The users view bulk actions', function() {
     shared.tearDown();
   });
 
-
   it('should allow updates to supported bulk action fields', function() {
     shared.actionsBtn.click();
-    expect(bulkActions.bulkActionDivs.count()).toBe(3);
 
     // Enable Users
     expect(bulkActions.userSelectEnable.isDisplayed()).toBeTruthy();
@@ -127,7 +125,7 @@ describe('The users view bulk actions', function() {
             // Select all users, except current user
             shared.tableElements.each(function(userElement, elementIndex) {
               userElement.getText().then(function(userText) {
-                if (userText.indexOf(params.login.user) == -1) {
+                if (userText.indexOf(params.login.user) == -1 && elementIndex < 10) {
                   bulkActions.selectItemTableCells.get(elementIndex).click();
                 }
               });
@@ -151,7 +149,7 @@ describe('The users view bulk actions', function() {
 
               // Only current user remains with Tenant Status == Accepted
               shared.tableElements.count().then(function(enabledTotal) {
-                expect(enabledTotal).toBe(1);
+                expect(enabledTotal).not.toBe(0);
               });
 
               // All users are set to disabled
@@ -161,7 +159,7 @@ describe('The users view bulk actions', function() {
               bulkActions.tenantStatuses.get(0).click();
               bulkActions.tenantStatusColumnDropDownLabel.click();
               shared.tableElements.count().then(function(disabledTotal) {
-                expect(disabledTotal).not.toBeLessThan(acceptedUserCount - 1); // Should be at least equal to the number reset - current user
+                expect(disabledTotal).not.toBeLessThan(Math.min(acceptedUserCount - 1, 9)); // Should be at least equal to the number reset - current user
               });
             });
           }
@@ -292,12 +290,10 @@ describe('The users view bulk actions', function() {
     });
   });
 
-  xit('should allow selected user\'s skills to be removed', function() {
-    // TODO TITAN2-4801 Skill list is empty when both users have a skill
+  it('should allow selected user\'s skills to be removed', function() {
     // NOTE depends on previous test: users must have the same skill added
     shared.actionsBtn.click();
 
-    // Select first two users; ASSUMPTION two exist
     bulkActions.selectItemTableCells.get(0).click();
     bulkActions.selectItemTableCells.get(1).click();
 
@@ -315,18 +311,18 @@ describe('The users view bulk actions', function() {
       bulkActions.submitFormBtn.click();
       shared.waitForConfirm();
       expect(bulkActions.confirmModal.isDisplayed()).toBeTruthy();
-      bulkActions.confirmOK.click().then(function() {
-        shared.waitForSuccess().then(function() {
-          expect(shared.successMessage.isDisplayed()).toBeTruthy();
 
-          // Verify skill is removed from each user
-          for (var i = 0; i < 2; i++) {
-            shared.tableElements.get(i).click();
-            users.userSkills.each(function(userSkillElement) {
-              expect(userSkillElement.getText()).not.toContain(removedSkillName);
-            });
-          }
-        });
+      bulkActions.confirmOK.click().then(function() {
+        shared.waitForSuccess();
+        expect(shared.successMessage.isDisplayed()).toBeTruthy();
+
+        // Verify skill is removed from each user
+        for (var i = 0; i < 2; i++) {
+          shared.tableElements.get(i).click();
+          users.userSkills.each(function(userSkillElement) {
+            expect(userSkillElement.getText()).not.toContain(removedSkillName);
+          });
+        }
       });
     });
   });
@@ -379,8 +375,7 @@ describe('The users view bulk actions', function() {
     });
   });
 
-  xit('should allow multiple skills to be removed for the selected users', function() {
-    // TODO TITAN2-4801 Skill list is empty when both users have a skill
+  it('should allow multiple skills to be removed for the selected users', function() {
     shared.actionsBtn.click();
 
     // Select first two users; ASSUMPTION two exist
@@ -423,8 +418,7 @@ describe('The users view bulk actions', function() {
     });
   });
 
-  xit('should not add a new skill when updating', function() {
-    // TODO TITAN2-4801 Skill list is empty when both users have a skill
+  it('should not add a new skill when updating', function() {
     // Create new skill to ensure the skill isn't already added to a user
     browser.get(shared.skillsPageUrl);
     var randomSkill = Math.floor((Math.random() * 1000) + 1);
@@ -456,8 +450,7 @@ describe('The users view bulk actions', function() {
     });
   });
 
-  xit('should update proficiency when updating a skill for existing users with the skill', function() {
-    // TODO TITAN2-4801 Skill list is empty when both users have a skill
+  it('should update proficiency when updating a skill for existing users with the skill', function() {
     // Create new skill to ensure the skill isn't already added to a user
     browser.get(shared.skillsPageUrl);
     var randomSkill = Math.floor((Math.random() * 1000) + 1);
