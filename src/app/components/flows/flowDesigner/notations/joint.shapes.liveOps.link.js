@@ -195,7 +195,7 @@
         throw 'BPMN: Unknown Flow Type: ' + type;
       }
 
-      cell.attr(_.merge({}, this.defaults.attrs, attrs));
+      cell.attr(_.extend(this.defaults.attrs, attrs));
     },
 
     onInputChange: function(cell, value, path) {
