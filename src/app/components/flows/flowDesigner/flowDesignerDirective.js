@@ -11,14 +11,16 @@ function flowDesigner() {
       templateUrl: 'app/components/flows/flowDesigner/flowDesignerDirective.html',
       replace: true,
       link: function() {},
-      controller: ['$scope', '$element', '$attrs', '$window', '$document', '$compile', '$timeout', 'FlowInitService', 'SubflowCommunicationService', 'FlowDraft', 'FlowVersion', 'Session', 'Alert', '$state', 'FlowLibrary', 'FlowValidationService', function($scope, $element, $attrs, $window, $document, $compile, $timeout, FlowInitService, SubflowCommunicationService, FlowDraft, FlowVersion, Session, Alert, $state, FlowLibrary, FlowValidationService) {
+      controller: ['$scope', '$element', '$attrs', '$window', '$document', '$compile', '$timeout', '$location', 'FlowInitService', 'SubflowCommunicationService', 'FlowDraft', 'FlowVersion', 'Session', 'Alert', '$state', 'FlowLibrary', 'FlowValidationService', function($scope, $element, $attrs, $window, $document, $compile, $timeout, $location, FlowInitService, SubflowCommunicationService, FlowDraft, FlowVersion, Session, Alert, $state, FlowLibrary, FlowValidationService) {
 
         $timeout(function() {
+          var currentLocation = $location.protocol() + '://' + $location.host() + ':' + $location.port();
+          
           //This must be preloaded as it is used when connection is down
           function preloadNetworkModal() {
             var newScope = $scope.$new();
 
-            newScope.modalBody = 'app/components/flows/flowDesigner/networkIssueModal.html';
+            newScope.modalBody = currentLocation + '/app/components/flows/flowDesigner/networkIssueModal.html';
             newScope.title = 'Network Connection';
 
             newScope.okCallback = function() {
@@ -33,7 +35,7 @@ function flowDesigner() {
           Offline.options = {
             checkOnLoad: true,
             interceptRequests: true,
-            checks: {xhr: {url: 'app/components/flows/flowDesigner/networkIssueModal.html'}}
+            checks: {xhr: {url: currentLocation + '/app/components/flows/flowDesigner/networkIssueModal.html'}}
           };
 
           Offline.on('confirmed-down', function () {
