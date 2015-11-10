@@ -49,6 +49,7 @@ angular.module('liveopsConfigPanel')
             'checked': false
           }],
           'orderBy': '$user.$original.lastName',
+          'sref' : 'content.management.users',
           'title': $translate.instant('user.table.title'),
           'helpLink' : helpDocsHostname + '/Content/Managing%20Users/Adding_users.htm',
           'searchOn': [{

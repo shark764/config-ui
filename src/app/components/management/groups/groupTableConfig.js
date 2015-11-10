@@ -6,6 +6,7 @@ angular.module('liveopsConfigPanel')
       var config = {
         'searchOn' : ['$original.name', '$original.description'],
         'orderBy' : '$original.name',
+        'sref' : 'content.management.groups',
         'title' : $translate.instant('group.table.title'),
         'helpLink' : helpDocsHostname + '/Content/Managing%20Users/Adding_groups.htm',
         'showBulkActions': UserPermissions.hasPermission('MANAGE_ALL_GROUPS'),

@@ -22,6 +22,7 @@ describe('tableControls directive', function () {
         fields: [{
           name: 'id'
         }],
+        sref: 'contents.management.users',
         searchOn: ['id']
       };
       $scope.selected = {};

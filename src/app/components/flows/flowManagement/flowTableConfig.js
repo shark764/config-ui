@@ -37,6 +37,7 @@ angular.module('liveopsConfigPanel')
         'searchOn' : ['$original.name'],
         'orderBy' : '$original.name',
         'title' : $translate.instant('flow.table.title'),
+        'sref' : 'content.flows.flowManagement',
         'showBulkActions': UserPermissions.hasPermission('MANAGE_ALL_FLOWS'),
         'showCreate': UserPermissions.hasPermission('MANAGE_ALL_FLOWS'),
         'helpLink' : helpDocsHostname + '/Content/Managing%20Flows/Setup_flows.htm'

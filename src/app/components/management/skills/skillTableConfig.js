@@ -45,6 +45,7 @@ angular.module('liveopsConfigPanel')
         }],
         'searchOn' : ['$original.name', '$original.description'],
         'orderBy' : '$original.name',
+        'sref' : 'content.management.skills',
         'title': $translate.instant('skill.table.title'),
         'helpLink' : helpDocsHostname + '/Content/Managing%20Users/Adding_skills.htm',
         'showBulkActions': UserPermissions.hasPermission('MANAGE_ALL_SKILLS'),
