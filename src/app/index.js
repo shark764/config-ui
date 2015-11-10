@@ -101,6 +101,17 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
           }]
         }
       })
+      .state('content.configuration.lists', {
+        url: '/lists?id',
+        templateUrl: 'app/components/configuration/lists/lists.html',
+        controller: 'ListsController',
+        reloadOnSearch: false,
+        resolve: {
+          hasPermission: ['UserPermissions', function(UserPermissions) {
+            return UserPermissions.resolvePermissions([]);
+          }]
+        }
+      })
       .state('content.configuration.integrations', {
         url: '/integrations?id',
         templateUrl: 'app/components/configuration/integrations/integrations.html',

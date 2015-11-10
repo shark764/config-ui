@@ -1,0 +1,63 @@
+<div class="divider-header first-header">
+  <h4>{{'details' | translate}}</h4>
+</div>
+
+<div>
+  <div class="input-group">
+    <label>{{'list.details.name' | translate}}</label>
+    <p>{{selectedList.name}}</p>
+  </div>
+
+  <div class="input-group">
+    <label class="textarea-label">{{'list.details.description' | translate}}</label>
+    <p>{{selectedList.description}}</p>
+  </div>
+
+</div>
+
+<div class="divider-header">
+  <h4>{{'list.details.listItems' | translate}}</h4>
+</div>
+
+<i class="fa fa-plus add"
+  ng-click="addListItem()">
+</i>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th ng-repeat="field in selectedList.$listType.fields">
+        {{field.name | translate}}
+      </th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat-start="(index, item) in selectedList.$original.items"
+      
+      ng-class-odd="row-odd">
+      
+      <td ng-repeat="field in selectedList.$listType.fields"
+        ng-click="item.$edit = !item.$edit">
+        <span ng-show="item[field.name]">{{item[field.name]}}</span>
+        <span ng-show="!item[field.name]" class="null">{{'details.blank' | translate}}</span>
+      </td>
+      <td>
+        <i class="fa fa-minus"
+          ng-click="removeListItem(index)">
+        </i>
+      </td>
+    </tr>
+    <tr ng-repeat-end
+      ng-show="item.$edit"
+      ng-class-odd="row-odd">
+      <td colspan="{{selectedList.$listType.fields.length}}">
+        <list-item
+          item="selectedList.items[index]"
+          list-type="selectedList.$listType">
+        </list-item>
+      </td>
+    </tr>
+    
+  </tbody>
+</table>
