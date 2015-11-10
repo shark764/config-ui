@@ -30,7 +30,7 @@
             </option>
           </select>
         </div>
-        <div class="lo-extension-table-col" ng-if="newExtension.type == 'webrtc'">
+        <div class="lo-extension-table-col secondary-field-col" ng-if="newExtension.type == 'webrtc'">
           <form-error field="userTenantExtensionForm.provider"
             error-type-required="{{'details.extension.provider.required' | translate}}" >
           </form-error>
@@ -45,7 +45,7 @@
             </option>
           </select>
         </div>
-        <div ng-if="newExtension.type == 'pstn'" class="lo-extension-table-col phone-number-col"  >
+        <div ng-if="newExtension.type == 'pstn'" class="lo-extension-table-col secondary-field-col phone-number-col"  >
           <form-error field="userTenantExtensionForm.value"
             error-type-required="{{'details.extension.value.required' | translate}}"
             error-type-phone-number="{{'details.phoneNumber.error' | translate}}" >
@@ -60,7 +60,6 @@
             style="width: 85px"
             name="phoneExtension"
             pattern="\d*"
-            ng-show="newExtension.type == 'pstn'"
             placeholder="{{'details.phone.extension.value' | translate}}"
             ng-disabled="ngDisabled"
             ng-model="phoneExtension">

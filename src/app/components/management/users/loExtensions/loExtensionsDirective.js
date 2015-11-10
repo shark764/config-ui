@@ -64,6 +64,8 @@ angular.module('liveopsConfigPanel')
               return def.promise;
             });
           };
+
+          $scope.newExtension.type = 'webrtc';
         }
       };
     }
