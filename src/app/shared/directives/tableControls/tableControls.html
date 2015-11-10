@@ -2,48 +2,49 @@
   <div class="table-controls top-row">
     <div class="col">
       <h2 ng-if="config.title">{{config.title}}</h2>
+
       <a class="help-indicator"
       ng-show="config.helpLink"
       ng-href="{{ config.helpLink }}"
       target="_blank">
-      <i class="fa fa-question-circle"></i>
-    </a>
+        <i class="fa fa-question-circle"></i>
+      </a>
+    </div>
+    <div class="col action-container">
+      <button id="create-btn" class="btn btn-create btn-primary"
+      ng-show="showCreate"
+      ng-click="onCreateClick()">
+
+      {{'value.create' | translate}}
+      </button>
+    </div>
   </div>
-  <div class="col action-container">
-    <button id="create-btn" class="btn btn-create btn-primary"
-    ng-show="showCreate"
-    ng-click="onCreateClick()">
-    
-    {{'value.create' | translate}}
-  </button>
-</div>
-</div>
 
-<div class="table-controls">
-  <div class="col">
-    <div class="inner-addon right">
-      <input type="text" ng-model="searchQuery"
-      placeholder="{{'table.search.placeholder' | translate}}">
-    </input>
-    <i class="fa fa-search"></i>
+  <div class="table-controls">
+    <div class="col">
+      <div class="inner-addon right">
+        <input type="text" ng-model="searchQuery"
+        placeholder="{{'table.search.placeholder' | translate}}">
+        </input>
+        <i class="fa fa-search"></i>
+      </div>
+    </div>
+
+    <div class="col action-container">
+      <button id="actions-btn" class="btn"
+      ng-show="showBulkActions"
+      ng-click="onActionsClick()">
+      
+      {{'table.actions.button' | translate}}
+      </button>
+
+      <filter-dropdown id="table-columns-dropdown" class="btn"
+      label="{{'table.columns.button' | translate}}"
+      options="getFields()"
+      display-path="header.display"
+      value-path="name"></filter-dropdown>
+    </div>
   </div>
-</div>
-
-<div class="col action-container">
-  <button id="actions-btn" class="btn"
-  ng-show="showBulkActions"
-  ng-click="onActionsClick()">
-  
-  {{'table.actions.button' | translate}}
-</button>
-
-<filter-dropdown id="table-columns-dropdown" class="btn"
-label="{{'table.columns.button' | translate}}"
-options="getFields()"
-display-path="header.display"
-value-path="name"></filter-dropdown>
-</div>
-</div>
 </div>
 
 <loading ng-if="items && !items.$resolved"></loading>
@@ -55,10 +56,10 @@ value-path="name"></filter-dropdown>
   <span translate="table.filtered.status"
   translate-value-count="{{filtered.length}}"
   translate-value-total="{{items.length}}">
-</span>
-<a ng-click="clearAllFilters()">
-  {{'table.clear.link' | translate}}
-</a>
+  </span>
+  <a ng-click="clearAllFilters()">
+    {{'table.clear.link' | translate}}
+  </a>
 </p>
 
 <table scroll-table class="table" ng-show="items.length" id="items-table">
@@ -70,62 +71,65 @@ value-path="name"></filter-dropdown>
       ng-model="checkAll"
       ng-change="toggleAll(checkAll)" />
       
-    </th>
-    <th class="sortable-header"
-    ng-repeat="field in config.fields"
-    ng-if="field.checked"
-    ng-class="{'filter-header': !!field.header.options}"
-    ng-click="sortTable(field)">
+      </th>
+      <th class="sortable-header"
+      ng-repeat="field in config.fields"
+      ng-if="field.checked"
+      ng-class="{'filter-header': !!field.header.options}"
+      ng-click="sortTable(field)">
     
-    <i class="sort-icon fa pull-left"
-    ng-show="orderBy == field.name || orderBy == field.sortOn"
-    ng-class="{'fa-arrow-up' : reverseSortOrder, 'fa-arrow-down': ! reverseSortOrder}"></i>
-    <div ng-if="!field.header.options">{{field.header.display}}</div>
-    <div ng-if="!!field.header.options" class="filter-header-content">
-      <div class="filter-header-name">{{field.header.display}}</div>
-      <filter-dropdown id="{{field.id}}" ng-if="(field.header.options | invoke).length" show-all="true"
-      style="vertical-align:middle;text-align:right"
-      ng-click="$event.stopPropagation()"
-      options="field.header.options | invoke"
-      value-path="{{field.header.valuePath}}"
-      display-path="{{field.header.displayPath}}"
-      order-by="{{field.filterOrderBy}}">
-    </filter-dropdown>
-  </div>
-</th>
-</tr>
-</thead>
+        <i class="sort-icon fa pull-left"
+        ng-show="orderBy == field.name || orderBy == field.sortOn"
+        ng-class="{'fa-arrow-up' : reverseSortOrder, 'fa-arrow-down': ! reverseSortOrder}"></i>
+        <div ng-if="!field.header.options">
+          {{field.header.display}}
+        </div>
+        <div ng-if="!!field.header.options" class="filter-header-content">
+          <div class="filter-header-name">
+            {{field.header.display}}
+          </div>
+          <filter-dropdown id="{{field.id}}" ng-if="(field.header.options | invoke).length" show-all="true"
+          style="vertical-align:middle;text-align:right"
+          ng-click="$event.stopPropagation()"
+          options="field.header.options | invoke"
+          value-path="{{field.header.valuePath}}"
+          display-path="{{field.header.displayPath}}"
+          order-by="{{field.filterOrderBy}}">
+          </filter-dropdown>
+        </div>
+      </th>
+    </tr>
+  </thead>
 
-<tbody>
-  <tr ng-repeat="item in (filtered = (items | selectedTableOptions:config.fields | search:config.searchOn:searchQuery | orderBy:orderBy:reverseSortOrder))"
-  ng-class="{selected: item[primaryKey] === selected[primaryKey]}">
-  <td id="bulk-actions-select-table-cell" class="check-col"
-  ng-show="showBulkActions"
-  ng-click="checkItem(item)">
-  
-  <input type="checkbox" ng-checked="item.checked"/>
-</td>
+  <tbody>
+    <tr ng-repeat="item in (filtered = (items | selectedTableOptions:config.fields | search:config.searchOn:searchQuery | orderBy:orderBy:reverseSortOrder))"
+    ng-class="{selected: item[primaryKey] === selected[primaryKey]}">
+      <td id="bulk-actions-select-table-cell" class="check-col"
+      ng-show="showBulkActions"
+      ng-click="checkItem(item)">
+        <input type="checkbox" ng-checked="item.checked"/>
+      </td>
 
-<td ng-if="field.checked"
-ng-repeat="field in config.fields"
-ng-click="selectItem(item)">
+      <td ng-if="field.checked"
+      ng-repeat="field in config.fields"
+      ng-click="selectItem(item)">
 
-<a ui-sref="{{config.sref}}({id: item.id})" ui-sref-args="{reload: true}">
-  
-  <table-cell name="{{field.name}}"
-  ng-if="field.transclude"
-  item="item"
-  options="field.header.options">
-</table-cell>
+        <a ui-sref="{{config.sref}}({id: item.id})" ui-sref-args="{reload: true}">
 
-<span
-ng-if="!field.transclude"
-title="{{parse(item, field)}}">
-{{parse(item, field)}}
-</span>
-</a>
+          <table-cell name="{{field.name}}"
+          ng-if="field.transclude"
+          item="item"
+          options="field.header.options">
+          </table-cell>
 
-</td>
-</tr>
-</tbody>
+          <span
+          ng-if="!field.transclude"
+          title="{{parse(item, field)}}">
+            {{parse(item, field)}}
+          </span>
+        </a>
+
+      </td>
+    </tr>
+  </tbody>
 </table>
