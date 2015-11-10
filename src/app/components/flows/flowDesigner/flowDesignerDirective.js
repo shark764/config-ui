@@ -11,7 +11,7 @@ function flowDesigner() {
       templateUrl: 'app/components/flows/flowDesigner/flowDesignerDirective.html',
       replace: true,
       link: function() {},
-      controller: ['$scope', '$element', '$attrs', '$window', '$document', '$compile', '$timeout', 'FlowInitService', 'SubflowCommunicationService', 'FlowDraft', 'FlowVersion', 'Session', 'Alert', '$state', 'FlowLibrary', 'FlowValidationService', function($scope, $element, $attrs, $window, $document, $compile, $timeout, FlowInitService, SubflowCommunicationService, FlowDraft, FlowVersion, Session, Alert, $state, FlowLibrary, FlowValidationService) {
+      controller: ['$scope', '$element', '$attrs', '$window', '$document', '$compile', '$timeout', 'FlowInitService', 'SubflowCommunicationService', 'FlowDraft', 'FlowVersion', 'Session', 'Alert', '$state', 'FlowLibrary', 'FlowValidationService', 'apiHostname', function($scope, $element, $attrs, $window, $document, $compile, $timeout, FlowInitService, SubflowCommunicationService, FlowDraft, FlowVersion, Session, Alert, $state, FlowLibrary, FlowValidationService, apiHostname) {
 
         $timeout(function() {
           //This must be preloaded as it is used when connection is down
@@ -33,7 +33,7 @@ function flowDesigner() {
           Offline.options = {
             checkOnLoad: true,
             interceptRequests: true,
-            checks: {xhr: {url: 'app/components/flows/flowDesigner/networkIssueModal.html'}}
+            checks: {xhr: {url: apiHostname + 'app/components/flows/flowDesigner/networkIssueModal.html'}}
           };
 
           Offline.on('confirmed-down', function () {
