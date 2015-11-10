@@ -88,6 +88,17 @@
         var inputs = getDefinition(model).inputs;
         return _.map(inputs, function(input){
           input = _.clone(input);
+
+          if(input.type === 'list') {
+            var item = _.clone(input.item);
+
+            if(item.type === 'select' || item.type === 'typeahead' || item.type === 'autocomplete'){
+              item.options = buildOptions(model, item);
+            }
+
+            input.item = item;
+          }
+
           if(input.type === 'select' || input.type === 'typeahead' || input.type === 'autocomplete'){
             input.options = buildOptions(model, input);
           }
