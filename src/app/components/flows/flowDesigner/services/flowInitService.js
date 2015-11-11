@@ -2,7 +2,7 @@
   'use strict';
 
   /* global document : false */
-  function FlowInitService (FlowPaletteService, FlowNotationService, $compile, $rootScope) {
+  function FlowInitService (FlowPaletteService, FlowNotationService, $compile, $rootScope, lodash) {
     return {
       initializeGraph: function(graphOptions) {
         var self = this;
@@ -247,7 +247,9 @@
           },
           'cell:pointerup': function(cellView) {
             self.graph.utils.renderPropertiesPanel(cellView);
+            console.log(cellView.model);
             self.graph.interfaces.selector.add(cellView.model);
+            console.log(self.graph.interfaces.selector.at(0));
           }
         });
       },
@@ -330,8 +332,11 @@
             self.graph.interfaces.scroller.zoomOut();
           });
 
-          KeyboardJS.on('~', function(evt) {
-            console.log(self.graph);
+          KeyboardJS.on('~', function() {
+            console.log(self.graph.interfaces.selector);
+            self.graph.interfaces.selector.each(function(element){
+              console.log(element);
+            });
           });
         });
       }
