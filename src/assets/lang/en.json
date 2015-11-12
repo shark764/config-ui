@@ -444,7 +444,7 @@
   "role.readonly.warning": "This role is inherited and cannot be edited",
 
   "list.field.required": "{{fieldLabel}} is required.",
-  "list.items.required": "You must supply at least one item.",
+  "list.items.required": "List needs at least one item.",
   "list.items.header": "List Item(s)",
   "list.table.title": "List Item(s)",
 

@@ -1,38 +1,43 @@
-<div ng-repeat="field in listType.fields" ng-switch="field.type">
+<div ng-repeat="field in listType.fields"
+  ng-switch="field.type">
+  
   <div class="input-group" ng-switch-when="string">
     <label>{{field.label}}</label>
-    <form-error field-name="{{field.name}}"
+    <form-field-validation-message field-name="{{getName(field)}}"
       error-type-required="{{'list.field.required' | translate:{fieldLabel: field.label} }}" >
-    </form-error>
+    </form-field-validation-message>
     <div>
-      <input name="{{field.name}}" type="text"
+      <input name="{{getName(field)}}" type="text"
         ng-required="field.required"
-        ng-model="item[field.name]">
+        ng-model="item[field.name]"
+        ng-change="inputChange(field)">
       </input>
     </div>
   </div>
   
   <div class="input-group" ng-switch-when="number">
     <label>{{field.label}}</label>
-    <form-error field-name="{{field.name}}"
+    <form-field-validation-message field-name="{{getName(field)}}"
       error-type-required="{{'list.field.required' | translate:{fieldLabel: field.label} }}" >
-    </form-error>
+    </form-field-validation-message>
     <div>
-      <input name="{{field.name}}" type="number"
+      <input name="{{getName(field)}}" type="number"
         ng-required="field.required"
         ng-model="item[field.name]"
-        ng-pattern="/^[-+]?([0-9]*\.[0-9]+|[0-9]+)$/">
+        ng-pattern="/^[-+]?([0-9]*\.[0-9]+|[0-9]+)$/"
+        ng-change="inputChange(field)">
       </input>
     </div>
   </div>
   
   <div class="input-group" ng-switch-when="boolean">
     <label>{{field.label}}</label>
-    <form-error field-name="{{field.name}}"
+    <form-field-validation-message field-name="{{getName(field)}}"
       error-type-required="{{'list.field.required' | translate:{fieldLabel: field.label} }}" >
-    </form-error>
+    </form-field-validation-message>
     <div>
-      <toggle name="{{field.name}}" ng-model="item[field.name]">
+      <toggle name="{{getName(field)}}"
+        ng-model="item[field.name]">
     </div>
   </div>
 </div>
