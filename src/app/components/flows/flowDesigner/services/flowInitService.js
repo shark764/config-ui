@@ -129,7 +129,7 @@
           defaultLink: defaultLink,
           interactive: (readOnly === false),
           validateEmbedding: function(childView) {
-            var validEventNames = ['message', 'signal', 'timer', 'conditional', 'escalation'];
+            var validEventNames = ['message', 'signal', 'timer', 'conditional', 'escalation', 'flow-error'];
             return (childView.model.get('type') === 'liveOps.event' &&
               childView.model.get('entity') === 'catch' &&
               _.contains(validEventNames, childView.model.get('name')));
