@@ -4,43 +4,47 @@
 
 <div>
   <div class="input-group">
-    <label>{{'list.details.name' | translate}}</label>
+    <label>{{'value.name' | translate}}</label>
     <p>{{selectedList.name}}</p>
   </div>
 
   <div class="input-group">
-    <label class="textarea-label">{{'list.details.description' | translate}}</label>
+    <label class="textarea-label">{{'value.description' | translate}}</label>
     <p>{{selectedList.description}}</p>
   </div>
 
 </div>
 
 <div class="divider-header">
-  <h4>{{'list.details.listItems' | translate}}</h4>
+  <h4>{{'list.items.header' | translate}}</h4>
 </div>
 
-<i class="fa fa-plus add"
+<i class="fa fa-plus btn"
   ng-click="addListItem()">
 </i>
+
+<form-error field-name="items"
+  error-type-required="{{'list.items.required' | translate}}" >
+</form-error>
+<input type="hidden" name="items" ng-model="selectedList.items" ng-required="true"/>
 
 <table class="table">
   <thead>
     <tr>
       <th ng-repeat="field in selectedList.$listType.fields">
-        {{field.name | translate}}
+        {{field.label}}
       </th>
       <th></th>
     </tr>
   </thead>
   <tbody>
     <tr ng-repeat-start="(index, item) in selectedList.$original.items"
-      
       ng-class-odd="row-odd">
       
       <td ng-repeat="field in selectedList.$listType.fields"
         ng-click="item.$edit = !item.$edit">
         <span ng-show="item[field.name]">{{item[field.name]}}</span>
-        <span ng-show="!item[field.name]" class="null">{{'details.blank' | translate}}</span>
+        <span ng-show="!item[field.name]" class="null">{{'value.blank' | translate}}</span>
       </td>
       <td>
         <i class="fa fa-minus"

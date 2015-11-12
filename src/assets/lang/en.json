@@ -53,6 +53,7 @@
   "value.allocated": "Allocated",
   "value.busy": "Busy",
   "value.publish": "Publish",
+  "value.blank": "blank",
 
   "loading": "Loading",
 
@@ -441,6 +442,11 @@
   "role.permission.add.success": "Added permission!",
   "role.permission.add.fail": "Sorry, there was an error adding that permission",
   "role.readonly.warning": "This role is inherited and cannot be edited",
+
+  "list.field.required": "{{fieldLabel}} is required.",
+  "list.items.required": "You must supply at least one item.",
+  "list.items.header": "List Item(s)",
+  "list.table.title": "List Item(s)",
 
   "webrtc": "WebRTC",
   "twilio": "Twilio",

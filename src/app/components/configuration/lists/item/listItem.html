@@ -1,11 +1,11 @@
 <div ng-repeat="field in listType.fields" ng-switch="field.type">
   <div class="input-group" ng-switch-when="string">
     <label>{{field.label}}</label>
-    <form-error field="xxxxx"
-      error-type-required="xxxxxx" >
+    <form-error field-name="{{field.name}}"
+      error-type-required="{{'list.field.required' | translate:{fieldLabel: field.label} }}" >
     </form-error>
     <div>
-      <input name="field.name" type="text"
+      <input name="{{field.name}}" type="text"
         ng-required="field.required"
         ng-model="item[field.name]">
       </input>
@@ -14,11 +14,11 @@
   
   <div class="input-group" ng-switch-when="number">
     <label>{{field.label}}</label>
-    <form-error field="xxxxx"
-      error-type-required="xxxxxx" >
+    <form-error field-name="{{field.name}}"
+      error-type-required="{{'list.field.required' | translate:{fieldLabel: field.label} }}" >
     </form-error>
     <div>
-      <input name="field.name" type="number"
+      <input name="{{field.name}}" type="number"
         ng-required="field.required"
         ng-model="item[field.name]"
         ng-pattern="/^[-+]?([0-9]*\.[0-9]+|[0-9]+)$/">
@@ -28,11 +28,11 @@
   
   <div class="input-group" ng-switch-when="boolean">
     <label>{{field.label}}</label>
-    <form-error field="xxxxx"
-      error-type-required="xxxxxx" >
+    <form-error field-name="{{field.name}}"
+      error-type-required="{{'list.field.required' | translate:{fieldLabel: field.label} }}" >
     </form-error>
     <div>
-      <toggle ng-model="item[field.name]">
+      <toggle name="{{field.name}}" ng-model="item[field.name]">
     </div>
   </div>
 </div>
