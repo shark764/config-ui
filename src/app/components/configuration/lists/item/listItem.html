@@ -24,7 +24,6 @@
       <input name="{{getName(field)}}" type="number"
         ng-required="field.required"
         ng-model="item[field.name]"
-        ng-pattern="/^[-+]?([0-9]*\.[0-9]+|[0-9]+)$/"
         ng-change="inputChange(field)">
       </input>
     </div>
@@ -32,12 +31,12 @@
   
   <div class="input-group" ng-switch-when="boolean">
     <label>{{field.label}}</label>
-    <form-field-validation-message field-name="{{getName(field)}}"
-      error-type-required="{{'list.field.required' | translate:{fieldLabel: field.label} }}" >
+    <form-field-validation-message field-name="{{getName(field)}}" >
     </form-field-validation-message>
     <div>
       <toggle name="{{getName(field)}}"
-        ng-model="item[field.name]">
+        ng-model="item[field.name]"
+        ng-init="initBool(item, field)">
     </div>
   </div>
 </div>

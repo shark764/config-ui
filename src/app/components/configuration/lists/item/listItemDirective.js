@@ -20,6 +20,12 @@ angular.module('liveopsConfigPanel')
         $scope.getName = function getName(field) {
           return $scope.index + '.' + field.name;
         };
+        
+        $scope.initBool = function initBool(item, field) {
+          if(angular.isUndefined(item[field.name]) && field.required) {
+            item[field.name] = false;
+          }
+        };
       }
     };
   }]);

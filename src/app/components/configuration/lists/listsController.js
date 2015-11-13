@@ -40,7 +40,7 @@ angular.module('liveopsConfigPanel')
         
         $scope.forms.detailsForm.$setDirty();
       };
-
+      
       $scope.$on('table:on:click:create', function () {
         $scope.create();
       });
