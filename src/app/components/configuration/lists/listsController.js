@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('ListsController', ['$scope', '$filter', '$q', 'Session', 'List', 'ListType', 'listTableConfig', 'UserPermissions',
+  .controller('listsController', ['$scope', '$filter', '$q', 'Session', 'List', 'ListType', 'listTableConfig', 'UserPermissions',
     function ($scope, $filter, $q, Session, List, ListType, listTableConfig, UserPermissions) {
 
       $scope.create = function () {
@@ -22,9 +22,6 @@ angular.module('liveopsConfigPanel')
         });
       };
 
-      $scope.selectListItem = function selectListItem(listItem) {
-        $scope.selectedListItem = listItem;
-      };
 
       $scope.addListItem = function addListItem() {
         var newItem = {
@@ -33,6 +30,8 @@ angular.module('liveopsConfigPanel')
         
         $scope.selectedList.items.push(newItem);
         $scope.selectedList.$original.items.push(newItem);
+        
+        return newItem;
       };
       
       $scope.removeListItem = function removeListItem(index) {
@@ -46,11 +45,15 @@ angular.module('liveopsConfigPanel')
         $scope.create();
       });
 
-      $scope.$watchCollection('lists', function (news) {
+      $scope.$watchCollection('lists', function (lists) {
+        if(!lists || !lists.length) {
+          return;
+        }
+        
         ListType.cachedQuery({
           tenantId: Session.tenant.tenantId
         }).$promise.then(function (listTypes) {
-          angular.forEach($scope.lists, function (list) {
+          angular.forEach(lists, function (list) {
             var listType = $filter('filter')(listTypes, {
               id: list.listTypeId
             })[0];

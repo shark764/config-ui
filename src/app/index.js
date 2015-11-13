@@ -104,7 +104,7 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
       .state('content.configuration.lists', {
         url: '/lists?id',
         templateUrl: 'app/components/configuration/lists/lists.html',
-        controller: 'ListsController',
+        controller: 'listsController',
         reloadOnSearch: false,
         resolve: {
           hasPermission: ['UserPermissions', function(UserPermissions) {

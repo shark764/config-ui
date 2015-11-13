@@ -12,14 +12,14 @@ angular.module('liveopsConfigPanel')
       templateUrl: 'app/components/configuration/lists/item/listItem.html',
       link: function($scope) {
         $scope.inputChange = function inputChange(field) {
-          if ($scope.item[field.name] === null) {
-            delete $scope.item[field.name]
+          if (!$scope.item[field.name]) {
+            delete $scope.item[field.name];
           }
         };
         
         $scope.getName = function getName(field) {
           return $scope.index + '.' + field.name;
-        }
+        };
       }
-    }
+    };
   }]);
