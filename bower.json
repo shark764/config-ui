@@ -25,7 +25,7 @@
     "teljs": "git@github.com:liveops/tel.js.git#master",
     "realtime-dashboards": "git@github.com:liveops/realtime-dashboards.git#master",
     "jsedn": "git@github.com:liveops/jsedn#master",
-    "liveops-config-panel-shared": "git@github.com:liveops/config-shared#b3e9557ed3ddbf8a1221e7b988fb43d2fa6202e7",
+    "liveops-config-panel-shared": "git@github.com:liveops/config-shared#0f8b00933e7e2d98c4e8685893cee1dd8f5e08ba",
     "ng-file-upload": "~7.0.17",
     "angular-drag-and-drop-lists": "~1.3.0",
     "offline": "~0.7.0"
