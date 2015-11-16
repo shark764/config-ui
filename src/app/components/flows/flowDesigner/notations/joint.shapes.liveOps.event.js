@@ -55,7 +55,11 @@
       },
       interrupting: true,
       terminate: false,
-      icon: 'none'
+      icon: 'none',
+      timer: {
+        measurement: 'seconds',
+        value: 30
+      }
     }, joint.dia.Element.prototype.defaults),
     initialize: function() {
       joint.dia.Element.prototype.initialize.apply(this, arguments);

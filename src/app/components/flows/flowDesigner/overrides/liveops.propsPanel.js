@@ -14,47 +14,47 @@
         return formSection;
       },
 
+      inputWrapperStart: function(input) {
+        var wrapper = '<div class="input-group"';
+            wrapper += ' ng-hide="' + input.hidden + '"';
+            wrapper += '><label>' + input.label + '</label><div>';
+        return wrapper;
+      },
+
+      inputWrapperEnd: function() {
+        return '</div></div>';
+      },
+
       string: function (input, index) {
-        var formSection = '<div class="input-group"';
-        formSection += ' ng-hide="' + input.hidden + '"';
-        formSection += '><label>' + input.label + '</label><div>';
-        formSection += '<input type="text" ng-model="notation.model.attributes.' + input.path + '"';
+        var formSection = '<input type="text" ';
+          formSection += ' ng-model="notation.model.attributes.' + input.path + '" ';
         formSection += ' placeholder="' + input.placeholder + '"';
         formSection += ' ng-disabled="' + input.disabled + '"';
         formSection += ' ng-change="onInputChange(notation.model, notation.model.attributes.' + input.path + ', inputs[' + index + '])"';
-        formSection += '></input></div></div>';
+        formSection += '></input>';
         return formSection;
       },
 
       number: function (input, index) {
-        var formSection = '<div class="input-group"';
-        formSection += ' ng-hide="' + input.hidden + '"';
-        formSection += '><label>' + input.label + '</label><div>';
-        formSection += '<input type="text" ng-model="notation.model.attributes.' + input.path + '"';
+        var formSection = '<input type="text" ng-model="notation.model.attributes.' + input.path + '"';
         formSection += ' placeholder="' + input.placeholder + '"';
         formSection += ' ng-disabled="' + input.disabled + '"';
         formSection += ' ng-change="onInputChange(notation.model, notation.model.attributes.' + input.path + ', inputs[' + index + '])"';
-        formSection += '></input></div></div>';
+        formSection += '></input>';
         return formSection;
       },
 
       textarea: function (input, index) {
-        var formSection = '<div class="input-group"';
-        formSection += ' ng-hide="' + input.hidden + '"';
-        formSection += '><label>' + input.label + '</label><div>';
-        formSection += '<textarea ng-model="notation.model.attributes.' + input.path + '"';
+        var formSection = '<textarea ng-model="notation.model.attributes.' + input.path + '"';
         formSection += ' placeholder="' + input.placeholder + '"';
         formSection += ' ng-disabled="' + input.disabled + '"';
         formSection += ' ng-change="onInputChange(notation.model, notation.model.attributes.' + input.path + ', inputs[' + index + '])"';
-        formSection += '></textarea></div></div>';
+        formSection += '></textarea>';
         return formSection;
       },
 
       select: function (input, index) {
-        var formSection = '<div class="input-group"';
-        formSection += ' ng-hide="' + input.hidden + '"';
-        formSection += '><label>' + input.label + '</label><div>';
-        formSection += '<select ng-model="notation.model.attributes.' + input.path + '"';
+        var formSection = '<select ng-model="notation.model.attributes.' + input.path + '"';
         formSection += ' ng-disabled="' + input.disabled + '"';
         formSection += ' ng-options="item.value as item.content for item in inputs[' + index + '].options"';
         formSection += ' ng-change="onInputChange(notation.model, notation.model.attributes.' + input.path + ', inputs[' + index + '])"';
@@ -62,41 +62,30 @@
         // _.each(input.options, function (opt) {
         //   formSection += '<option value="' + opt.value + '">' + opt.content + '</option>';
         // });
-        formSection += '></select></div></div>';
+        formSection += '></select>';
         return formSection;
       },
 
       typeahead: function (input, index) {
-        var formSection = '<div class="input-group"';
-        formSection += ' ng-hide="' + input.hidden + '"';
-        formSection += '><label>' + input.label + '</label><div>';
-        formSection += '<type-ahead hover="true" placeholder="Search..."';
+        var formSection = '<type-ahead hover="true" placeholder="Search..."';
         if (notation.model.attributes.params && notation.model.attributes.params[input.name] &&  _.findWhere(inputs[index].options, { value: notation.model.attributes.params[input.name] })) {
           formSection += ' prefill="inputs[' + index + '].options['+ _.findIndex(inputs[index].options, { value: notation.model.attributes.params[input.name] }) +'].content"';
         }
         formSection += ' placeholder="' + input.placeholder + '"';
         formSection += ' items="inputs[' + index + '].options" on-select="setEntityProp(selectedItem, ' + index + ')" name-field="content" is-required="false">';
-        formSection += '</div></div>';
         return formSection;
       },
 
       autocomplete: function (input, index) {
-        var formSection = '<div class="input-group"';
-        formSection += ' ng-hide="' + input.hidden + '"';
-        formSection += '><label>' + input.label + '</label><div>';
-        formSection += '<autocomplete hover="true"';
+        var formSection = '<autocomplete hover="true"';
         formSection += ' prefill="notation.model.attributes.' + input.path + '"';
         formSection += ' placeholder="' + input.placeholder + '"';
-        formSection += ' items="inputs[' + index + '].options" on-select="assignAttribute(currentText, \'' + input.path + '\')" name-field="content" is-required="false"';
-        formSection += ' ></div></div>';
+        formSection += ' items="inputs[' + index + '].options" on-select="assignAttribute(currentText, \'' + input.path + '\')" name-field="content" is-required="false">';
         return formSection;
       },
 
       boolean: function (input) {
-        var formSection = '<div class="input-group"';
-        formSection += ' ng-hide="' + input.hidden + '"';
-        formSection += '><label>' + input.label + '</label>';
-        formSection += '<toggle ng-model="notation.model.attributes.' + input.path + '"';
+        var formSection = '<toggle ng-model="notation.model.attributes.' + input.path + '"';
         if (_.has(input, 'trueValue')) {
           formSection += ' true-value="' + input.trueValue + '"';
         }
@@ -104,15 +93,11 @@
           formSection += ' false-value="' + input.falseValue + '"';
         }
         formSection += ' "class="status-toggle"></toggle>';
-        formSection += '</div>';
         return formSection;
       },
 
       timestamp: function(input, index) {
-        var formSection = '<div class="input-group"';
-        formSection += ' ng-hide="' + input.hidden + '"';
-        formSection += '><label>' + input.label + '</label>';
-        formSection += '<div class="timestamp">';
+        var formSection = '<div class="timestamp">';
         formSection += '<input type="number" ng-model="notation.model.attributes.' + input.path + '.value"';
         formSection += ' ng-change="onInputChange(notation.model, notation.model.attributes.' + input.path + ', inputs[' + index + '])"';
         formSection += ' min="0"></input>';
@@ -123,7 +108,30 @@
         formSection += '<option value="minutes">Minutes</option>';
         formSection += '<option value="hours">Hours</option>';
         formSection += '</select>';
-        formSection += '</div></div>';
+        formSection += '</div>';
+        return formSection;
+      },
+
+      list: function(input, index) {
+        if(!joint.util.getByPath(notation.model.attributes, input.path)) {
+          joint.util.setByPath(notation.model.attributes, input.path, [null], '.');
+        }
+        var formSection = '<div class="input-group">';
+            formSection += '<label>' + input.label + '</label>';
+            formSection += '<a class="btn pull-right" ng-click="addItem(\'' + input.path + '\')">';
+            formSection += '<i class="fa fa-plus"></i></a>';
+            formSection += '<div style="display: table-row;" ng-repeat="item in notation.model.attributes.' + input.path + ' track by $index">';
+            formSection += this.listItem(input, index);
+            formSection += '</div></div>';
+        return formSection;
+      },
+
+      listItem: function(input, index) {
+        input.item.path = input.path + '[$index]';
+        inputs[index].options = input.item.options;
+        var formSection = '<div class="item-cell">' + this[input.item.type](input.item, index) + '</div>';
+            formSection += '<div class="btn-cell"><a class="btn pull-right" ng-click="removeItem(\'' + input.path + '\', $index)">';
+            formSection += '<i class="fa fa-minus"></i></a></div>';
         return formSection;
       }
     };
@@ -146,7 +154,15 @@
     // appropriate type at the appropriate location within
     // the template
     _.each(inputs, function (input, index) {
-      var formSection = formBuilder[input.type](input, index);
+      var formSection = '';
+      if(input.type !== 'list') {
+        formSection += formBuilder.inputWrapperStart(input);
+        formSection += formBuilder[input.type](input, index);
+        formSection += formBuilder.inputWrapperEnd();
+      } else {
+        formSection += formBuilder[input.type](input, index);
+      }
+
       var groupIndex = tpl.indexOf(input.group) + input.group.length + 2;
       tpl = tpl.insert(groupIndex, formSection);
     });
@@ -191,6 +207,16 @@
           if (input.refresh) {
             scope.$emit('rebuild');
           }
+        };
+
+        scope.addItem = function(input) {
+          var list = joint.util.getByPath(scope.notation.model.attributes, input);
+          list.push(null);
+        };
+
+        scope.removeItem = function(input, number) {
+          var list = joint.util.getByPath(scope.notation.model.attributes, input);
+          list.splice(number, 1);
         };
 
         scope.$watch(function(scope){

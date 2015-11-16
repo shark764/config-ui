@@ -345,3 +345,16 @@
 .inspector .list-item .btn-list-del {
     margin: 4px;
 }
+
+.input-group {
+  .item-cell {
+    display: table-cell;
+    width: 100%;
+    padding-right: 5px;
+  }
+
+  .btn-cell {
+    display: table-cell;
+    vertical-align: middle;
+  }
+}
