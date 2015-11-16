@@ -63,6 +63,7 @@
     "node": ">=0.10.0"
   },
   "dependencies": {
+    "gulp-sass": "^2.1.0",
     "sauce-tunnel": "^2.2.3"
   }
 }
