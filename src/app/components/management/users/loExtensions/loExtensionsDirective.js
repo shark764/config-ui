@@ -48,6 +48,7 @@ angular.module('liveopsConfigPanel')
               tenantId: Session.tenant.tenantId
             }).then(function(tenantUser) {
               $scope.newExtension = {};
+              $scope.newExtension.type = 'webrtc';
               
               angular.forEach(['type', 'provider', 'value'], function(field) {
                 $scope.userTenantExtensionForm[field].$setPristine();
@@ -64,6 +65,8 @@ angular.module('liveopsConfigPanel')
               return def.promise;
             });
           };
+
+          $scope.newExtension.type = 'webrtc';
         }
       };
     }
