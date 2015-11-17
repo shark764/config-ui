@@ -75,13 +75,13 @@ describe('FlowManagementController', function () {
     });
   });
 
-  describe('create function', function () {
-    it('should open a modal when user clicks create', function () {
-      $httpBackend.expectGET('/app/components/flows/flowManagement/newFlowModal.html');
-      //spyOn($state, 'go');
-      $scope.create();
-
-      $httpBackend.flush();
-    });
-  });
+  // describe('create function', function () {
+  //   it('should open a modal when user clicks create', function () {
+  //     $httpBackend.expectGET('/app/components/flows/flowManagement/newFlowModal.html');
+  //     //spyOn($state, 'go');
+  //     $scope.create();
+  //
+  //     $httpBackend.flush();
+  //   });
+  // });
 });
