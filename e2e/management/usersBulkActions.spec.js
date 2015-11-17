@@ -32,6 +32,11 @@ describe('The users view bulk actions', function() {
     expect(bulkActions.userSelectEnable.isDisplayed()).toBeTruthy();
     expect(bulkActions.enableToggle.isDisplayed()).toBeTruthy();
 
+    // Invite actions
+    expect(bulkActions.selectInviteNow.isDisplayed()).toBeTruthy();
+    expect(bulkActions.selectResendInvite.isDisplayed()).toBeTruthy();
+    expect(bulkActions.selectCancelInvite.isDisplayed()).toBeTruthy();
+
     // Change Skills
     expect(bulkActions.selectChangeSkills.isDisplayed()).toBeTruthy();
     expect(bulkActions.addNewSkillBtn.isDisplayed()).toBeTruthy();
@@ -60,7 +65,7 @@ describe('The users view bulk actions', function() {
 
     // User's bulk actions fields are disabled by default
     expect(bulkActions.enableToggle.getAttribute('disabled')).toBeTruthy();
-
+    
     // Skill fields disabled
     expect(bulkActions.addNewSkillBtn.getAttribute('disabled')).toBeTruthy();
     expect(bulkActions.addSkillDropdownFields.get(0).getAttribute('disabled')).toBeTruthy();

@@ -16,6 +16,9 @@ var BulkActions = function() {
   // User Management Bulk Actions
   this.userSelectEnable = element(by.id('user-status-bulk-enable-check'));
   this.userDetailsPanel = element(by.id('user-pane'));
+  this.selectInviteNow = element(by.id('user-invite-now-bulk-enable-check'));
+  this.selectCancelInvite = element(by.id('user-cancel-invite-bulk-enable-check'));
+  this.selectResendInvite = element(by.id('user-resend-invite-bulk-enable-check'));
 
   this.changeSkills = element(by.css('ba-user-skills'));
   this.selectChangeSkills = element(by.id('user-skill-bulk-enable-check'));
