@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('FlowManagementController', ['$scope', '$state', '$document', '$compile', 'Session', 'Flow', 'flowTableConfig', 'flowTypes', 'FlowDraft', 'FlowVersion', 'BulkAction',
-    function ($scope, $state, $document, $compile, Session, Flow, flowTableConfig, flowTypes, FlowDraft, FlowVersion, BulkAction) {
+  .controller('FlowManagementController', ['$scope', '$state', '$document', '$compile', '$location', 'Session', 'Flow', 'flowTableConfig', 'flowTypes', 'FlowDraft', 'FlowVersion', 'BulkAction',
+    function ($scope, $state, $document, $compile, $location, Session, Flow, flowTableConfig, flowTypes, FlowDraft, FlowVersion, BulkAction) {
       $scope.getVersions = function(){
         if (! $scope.selectedFlow || $scope.selectedFlow.isNew()){
           return [];
@@ -21,9 +21,10 @@ angular.module('liveopsConfigPanel')
       };
 
       $scope.create = function() {
-        var newScope = $scope.$new();
+        var newScope = $scope.$new(),
+            currentLocation = $location.protocol() + '://' + $location.host() + ':' + $location.port();
 
-        newScope.modalBody = '/app/components/flows/flowManagement/newFlowModal.html';
+        newScope.modalBody = currentLocation + '/app/components/flows/flowManagement/newFlowModal.html';
         newScope.title = 'New Flow';
         newScope.flow = {
           name: 'Untitled Flow',
