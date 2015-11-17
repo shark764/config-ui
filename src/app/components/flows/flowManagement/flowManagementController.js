@@ -21,10 +21,9 @@ angular.module('liveopsConfigPanel')
       };
 
       $scope.create = function() {
-        var newScope = $scope.$new(),
-            currentLocation = $location.protocol() + '://' + $location.host() + ':' + $location.port();
+        var newScope = $scope.$new();
 
-        newScope.modalBody = currentLocation + '/app/components/flows/flowManagement/newFlowModal.html';
+        newScope.modalBody = '//app/components/flows/flowManagement/newFlowModal.html';
         newScope.title = 'New Flow';
         newScope.flow = {
           name: 'Untitled Flow',

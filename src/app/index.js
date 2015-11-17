@@ -223,8 +223,15 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
 
             return deferred.promise;
           }],
-          resources: ['FlowResource', function(FlowResource){
-            return FlowResource.loadResources();
+          resources: ['FlowResource', '$q', function(FlowResource, $q){
+            var deferred = $q.defer();
+
+            FlowResource.loadResources().then(function(data){
+                console.log(data);
+                deferred.resolve();
+            });
+
+            return deferred.promise;
           }],
           readOnly: [function(){
             return false;
