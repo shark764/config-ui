@@ -45,7 +45,7 @@
             </option>
           </select>
         </div>
-        <div ng-show="newExtension.type == 'pstn' || newExtension.type === 'sip'" class="lo-extension-table-col secondary-field-col phone-number-col"  >
+        <div ng-show="newExtension.type === 'pstn' || newExtension.type === 'sip'" class="lo-extension-table-col secondary-field-col phone-number-col"  >
           <form-error field="userTenantExtensionForm.value"
             error-type-required="{{'details.extension.value.required' | translate}}"
             error-type-phone-number="{{'details.phoneNumber.error' | translate}}" >
