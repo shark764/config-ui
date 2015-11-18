@@ -45,18 +45,18 @@
             </option>
           </select>
         </div>
-        <div ng-show="newExtension.type == 'pstn'" class="lo-extension-table-col secondary-field-col phone-number-col"  >
+        <div ng-show="newExtension.type == 'pstn' || newExtension.type === 'sip'" class="lo-extension-table-col secondary-field-col phone-number-col"  >
           <form-error field="userTenantExtensionForm.value"
             error-type-required="{{'details.extension.value.required' | translate}}"
             error-type-phone-number="{{'details.phoneNumber.error' | translate}}" >
           </form-error>
-          <input id="extension-value-field" type="tel" name="value"
+          <input ng-show="newExtension.type === 'pstn' || newExtension.type === 'sip'" id="extension-value-field" type="tel" name="value"
             ng-disabled="ngDisabled"
             ng-required="true"
             placeholder="{{'details.extension.value' | translate}}"
             ng-model="phoneNumber">
           </input>
-          <input id="extension-ext-field" type="text"
+          <input ng-show="newExtension.type === 'pstn'" id="extension-ext-field" type="text"
             style="width: 85px"
             name="phoneExtension"
             pattern="\d*"
@@ -64,7 +64,6 @@
             ng-disabled="ngDisabled"
             ng-model="phoneExtension">
           </input>
-          
         </div>
         <button id="add-extension-btn" class="btn" type="button"
             style="width: 35px;"
