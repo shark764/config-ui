@@ -19,24 +19,5 @@ angular.module('liveopsConfigPanel')
       lodash.each(FlowResource.getFlows(), function(flow){
         FlowLibrary.registerCallActivity(flow);
       });
-
-
-      $scope.$on('$destroy', function() {
-        var designerKeys = [
-          'delete',
-          'super',
-          'ctrl',
-          'backspace',
-          'z',
-          'y',
-          'c',
-          'v',
-          '=',
-          '-'
-        ];
-
-        //Unbind Flow Designer keys
-        designerKeys.forEach(function(key) { KeyboardJS.clear(key); });
-      });
     }
   ]);

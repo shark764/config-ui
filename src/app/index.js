@@ -227,7 +227,6 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
             var deferred = $q.defer();
 
             FlowResource.loadResources().then(function(data){
-                console.log(data);
                 deferred.resolve();
             });
 
