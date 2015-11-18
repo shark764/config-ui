@@ -74,7 +74,7 @@ describe('The Supervisor role', function() {
     expect(shared.usersNavButton.isDisplayed()).toBeTruthy();
     expect(shared.reportingNavButton.isDisplayed()).toBeTruthy();
 
-    expect(shared.tenantsNavButton.isDisplayed()).toBeFalsy();
+    //expect(shared.tenantsNavButton.isDisplayed()).toBeFalsy();
     expect(shared.flowsNavButton.isDisplayed()).toBeFalsy();
   });
 
@@ -186,7 +186,8 @@ describe('The Supervisor role', function() {
     profile.passwordFormField.sendKeys('newpassword');
 
     profile.updateProfileBtn.click().then(function() {
-      expect(shared.successMessage.isPresent()).toBeTruthy();
+      shared.waitForSuccess();
+      shared.successMessage.click();
       expect(profile.firstNameFormField.getAttribute('value')).toBe('Supervisor' + random + 'Update');
       expect(profile.lastNameFormField.getAttribute('value')).toBe('Role' + random + 'Update');
       expect(shared.welcomeMessage.getText()).toContain('Supervisor' + random + 'Update');
@@ -215,7 +216,6 @@ describe('The Supervisor role', function() {
     users.addSkillSearch.sendKeys('New Skill');
     users.addSkillBtn.click().then(function() {
       shared.waitForSuccess();
-      expect(shared.successMessage.isDisplayed()).toBeTruthy();
 
       expect(users.userSkills.count()).toBe(1);
       shared.successMessage.click(); // Dismiss message
@@ -228,7 +228,7 @@ describe('The Supervisor role', function() {
     users.addGroupSearch.sendKeys('New Group\t');
     users.addGroupBtn.click().then(function() {
       shared.waitForSuccess();
-      expect(shared.successMessage.isDisplayed()).toBeTruthy();
+      shared.successMessage.click();
 
       expect(users.userGroups.count()).toBe(1);
     });
@@ -276,7 +276,7 @@ describe('The Supervisor role', function() {
     skills.addMemberDropdownOptions.get(0).click();
     skills.addMemberBtn.click().then(function() {
       shared.waitForSuccess();
-      expect(shared.successMessage.isDisplayed()).toBeTruthy();
+      shared.successMessage.click();
     });
   });
 
@@ -315,7 +315,7 @@ describe('The Supervisor role', function() {
     groups.addMemberDropdownOptions.get(0).click();
     groups.addMemberBtn.click().then(function() {
       shared.waitForSuccess();
-      expect(shared.successMessage.isDisplayed()).toBeTruthy();
+      shared.successMessage.click();
     });
   });
 

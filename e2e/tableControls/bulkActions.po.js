@@ -1,7 +1,8 @@
 'use strict';
 
 var BulkActions = function() {
-  this.tableHeader = element(by.css('.clone-header'));
+  this.tablePane = element(by.id('table-pane'));
+  this.tableHeader = this.tablePane.element(by.css('.clone-header'));
   this.selectAllTableHeader = this.tableHeader.element(by.id('bulk-actions-select-table-header'));
   this.selectItemTableCells = element.all(by.id('bulk-actions-select-table-cell'));
 
@@ -49,7 +50,7 @@ var BulkActions = function() {
   // Generic Management Bulk Actions
   this.selectEnable = element(by.id('select-enable-bulk-action'));
   this.enableToggle = element(by.id('bulk-action-enable-toggle'));
-  this.enableToggleSwitch = this.enableToggle.element(by.css('.switch-handle'));
+  this.enableToggleSwitch = this.enableToggle.element(by.css('label:nth-child(1) > .switch-handle'));
   this.enableToggleClick = this.enableToggle.element(by.css('label:nth-child(2) > .switch-handle'));
 
   // Bulk Actions buttons
@@ -65,7 +66,7 @@ var BulkActions = function() {
   this.confirmCancel = this.confirmModal.element(by.id('modal-cancel'));
 
   // Status table selectors
-  this.tableHeader = element(by.css('.clone-header > thead:nth-child(1)'));
+  this.tableHeader = this.tablePane.element(by.css('.clone-header > thead:nth-child(1)'));
   this.statusColumnDropDown = this.tableHeader.element(by.id('status-column-dropdown'));
   this.statusColumnDropDownLabel = this.statusColumnDropDown.element(by.css('.dropdown-label'));
   this.allStatus = this.statusColumnDropDown.element(by.css('.all'));

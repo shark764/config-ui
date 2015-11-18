@@ -60,10 +60,6 @@ describe('The skills view bulk actions', function() {
     bulkActions.confirmOK.click().then(function() {
       expect(shared.successMessage.isDisplayed()).toBeTruthy();
 
-      // Form reset
-      expect(bulkActions.submitFormBtn.getAttribute('disabled')).toBeTruthy();
-      expect(bulkActions.enableToggle.getAttribute('disabled')).toBeTruthy();
-
       // All skills are set to disabled
       // Select Disabled from Status drop down
       bulkActions.statusColumnDropDownLabel.click();
@@ -95,10 +91,6 @@ describe('The skills view bulk actions', function() {
     expect(bulkActions.confirmModal.isDisplayed()).toBeTruthy();
     bulkActions.confirmOK.click().then(function() {
       expect(shared.successMessage.isDisplayed()).toBeTruthy();
-
-      // Form reset
-      expect(bulkActions.submitFormBtn.getAttribute('disabled')).toBeTruthy();
-      expect(bulkActions.enableToggle.getAttribute('disabled')).toBeTruthy();
 
       // All skills are set to enabled
       // Select Disabled from Status drop down
@@ -234,10 +226,6 @@ describe('The skills view bulk actions', function() {
       expect(bulkActions.confirmModal.isDisplayed()).toBeTruthy();
       bulkActions.confirmOK.click().then(function() {
         expect(shared.successMessage.isDisplayed()).toBeTruthy();
-
-        // Form reset
-        expect(bulkActions.submitFormBtn.getAttribute('disabled')).toBeTruthy();
-        expect(bulkActions.enableToggle.getAttribute('disabled')).toBeTruthy();
 
         // Only selected skills are updated
         for (var i = 0; i < originalSkills.length; i++) {

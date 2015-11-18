@@ -404,7 +404,7 @@ describe('The table filters', function() {
           columns.statusTableDropDownLabel.click().then(function() {
             shared.tableElements.then(function(rows) {
               for (var i = 0; i < rows.length; ++i) {
-                expect(['Enabled', 'Disabled']).toContain(rows[i].element(by.css('td:nth-child(4)')).getText());
+                expect(['Enabled', 'Disabled']).toContain(rows[i].element(by.css('td:nth-child(5)')).getText());
               };
             });
           });

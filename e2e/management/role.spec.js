@@ -41,17 +41,23 @@ describe('The role view', function() {
 
     shared.searchField.sendKeys('Administrator');
     expect(shared.tableElements.count()).toBe(1);
-    expect(shared.firstTableRow.getText()).toBe('Administrator tenant administrator 35');
+    expect(shared.firstTableRow.getText()).toContain('Administrator');
+    expect(shared.firstTableRow.getText()).toContain('tenant administrator');
+    expect(shared.firstTableRow.getText()).toContain('35');
 
     shared.searchField.clear();
     shared.searchField.sendKeys('Agent');
     expect(shared.tableElements.count()).toBe(1);
-    expect(shared.firstTableRow.getText()).toBe('Agent tenant agent 1');
+    expect(shared.firstTableRow.getText()).toBe('Agent');
+    expect(shared.firstTableRow.getText()).toBe('tenant agent');
+    expect(shared.firstTableRow.getText()).toBe('1');
 
     shared.searchField.clear();
     shared.searchField.sendKeys('Supervisor');
     expect(shared.tableElements.count()).toBe(1);
-    expect(shared.firstTableRow.getText()).toBe('Supervisor tenant supervisor 6');
+    expect(shared.firstTableRow.getText()).toBe('Supervisor');
+    expect(shared.firstTableRow.getText()).toBe('tenant supervisor');
+    expect(shared.firstTableRow.getText()).toBe('6');
   });
 
   it('should include valid Role fields when creating a new Role', function() {
@@ -79,7 +85,7 @@ describe('The role view', function() {
     role.descriptionFormField.sendKeys('Role Description');
     role.submitFormBtn.click().then(function() {
       shared.waitForSuccess();
-      expect(shared.successMessage.isDisplayed()).toBeTruthy();
+      shared.successMessage.click();
       expect(role.noPermissions.isDisplayed()).toBeTruthy();
 
       // Confirm role is displayed in role list
@@ -106,7 +112,7 @@ describe('The role view', function() {
 
     role.submitFormBtn.click().then(function() {
       shared.waitForSuccess();
-      expect(shared.successMessage.isDisplayed()).toBeTruthy();
+      shared.successMessage.click();
 
       // Confirm role is displayed in role list
       shared.searchField.sendKeys(newRoleName);
@@ -191,7 +197,7 @@ describe('The role view', function() {
 
     role.submitFormBtn.click().then(function() {
       shared.waitForSuccess();
-      expect(shared.successMessage.isDisplayed()).toBeTruthy();
+      shared.successMessage.click();
       expect(shared.tableElements.count()).toBeGreaterThan(roleCount);
     });
   });
@@ -304,7 +310,8 @@ describe('The role view', function() {
     var editedName = role.nameFormField.getAttribute('value');
     var editedDescription = role.descriptionFormField.getAttribute('value');
     role.submitFormBtn.click().then(function() {
-      expect(shared.successMessage.isDisplayed()).toBeTruthy();
+      shared.waitForSuccess();
+      shared.successMessage.click();
 
       // Changes persist
       browser.refresh();
@@ -321,7 +328,8 @@ describe('The role view', function() {
       role.permissionsDropdown.click();
       role.dropdownPermissions.get(0).click();
       role.permissionAddBtn.click().then(function() {
-        expect(shared.successMessage.isDisplayed()).toBeTruthy();
+        shared.waitForSuccess();
+        shared.successMessage.click();
         expect(role.rolePermissions.count()).toBe(originalPermissionCount + 1);
       });
     });
@@ -332,7 +340,8 @@ describe('The role view', function() {
     shared.firstTableRow.click();
     role.rolePermissions.count().then(function(originalPermissionCount) {
       role.rolePermissions.get(0).element(by.css('.fa')).click().then(function() {
-        expect(shared.successMessage.isDisplayed()).toBeTruthy();
+        shared.waitForSuccess();
+        shared.successMessage.click();
         expect(role.rolePermissions.count()).toBe(originalPermissionCount - 1);
       });
     });
@@ -365,7 +374,8 @@ describe('The role view', function() {
     role.descriptionFormField.clear();
 
     role.submitFormBtn.click().then(function() {
-      expect(shared.successMessage.isPresent()).toBeTruthy();
+      shared.waitForSuccess();
+      shared.successMessage.click();
       expect(role.descriptionFormField.getAttribute('value')).toBe('');
     });
   });

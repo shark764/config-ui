@@ -54,8 +54,6 @@ describe('The profile view', function() {
     expect(extensions.extensionsSection.isDisplayed()).toBeTruthy();
     expect(extensions.typeDropdown.isDisplayed()).toBeTruthy();
     expect(extensions.providerDropdown.isDisplayed()).toBeTruthy();
-    expect(extensions.valueFormField.isDisplayed()).toBeTruthy();
-    expect(extensions.extFormField.isDisplayed()).toBeTruthy();
     expect(extensions.addBtn.isDisplayed()).toBeTruthy();
 
     expect(extensions.table.isDisplayed()).toBeTruthy();
@@ -278,7 +276,7 @@ describe('The profile view', function() {
     });
   });
 
-  it('should allow user to add an extension', function() {
+  xit('should allow user to add an extension', function() {
     extensions.userExtensions.count().then(function(originalExtensionCount) {
       extensions.typeDropdown.click();
       extensions.pstnDropdownOption.click();
@@ -308,7 +306,7 @@ describe('The profile view', function() {
     });
   });
 
-  it('should add an extension and update user page', function() {
+  xit('should add an extension and update user page', function() {
     extensionCount = extensions.userExtensions.count();
 
     extensions.typeDropdown.click();
@@ -333,7 +331,7 @@ describe('The profile view', function() {
     });
   });
 
-  it('should remove an extension and update user page', function() {
+  xit('should remove an extension and update user page', function() {
     extensionCount = extensions.userExtensions.count();
 
     extensions.removeBtns.get(0).click().then(function() {
