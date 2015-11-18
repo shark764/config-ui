@@ -50,7 +50,13 @@
             error-type-required="{{'details.extension.value.required' | translate}}"
             error-type-phone-number="{{'details.phoneNumber.error' | translate}}" >
           </form-error>
-          <input ng-show="newExtension.type === 'pstn' || newExtension.type === 'sip'" id="extension-value-field" type="tel" name="value"
+          <input ng-show="newExtension.type === 'pstn'" id="extension-value-field" type="tel" name="value"
+            ng-disabled="ngDisabled"
+            ng-required="true"
+            placeholder="{{'details.extension.value' | translate}}"
+            ng-model="phoneNumber">
+          </input>
+          <input ng-show="newExtension.type === 'sip'" id="extension-value-field" type="text" name="value"
             ng-disabled="ngDisabled"
             ng-required="true"
             placeholder="{{'details.extension.value' | translate}}"
