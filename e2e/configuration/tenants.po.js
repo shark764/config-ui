@@ -11,12 +11,16 @@ var TenantsPage = function() {
   this.region = element(by.id('tenant-details-region'));
   this.tenantUUID = element(by.id('tenant-details-id'));
 
+  this.parentName = element(by.id('tenant-details-parent-name'));
+  this.parentUUID = element(by.id('tenant-details-parent-id'));
+
   this.firstTableRow = element(by.css('tr.ng-scope:nth-child(1)'));
   this.secondTableRow = element(by.css('tr.ng-scope:nth-child(2)'));
 
   this.nameColumn = 'td:nth-child(2)';
   this.descriptionColumn = 'td:nth-child(3)';
-  this.statusColumn = 'td:nth-child(4)';
+  this.parentColumn = 'td:nth-child(4)';
+  this.statusColumn = 'td:nth-child(5)';
 
   this.nameRequiredError = element.all(by.css('.lo-error'));
 

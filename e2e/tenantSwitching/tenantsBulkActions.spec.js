@@ -41,7 +41,7 @@ describe('The tenants view bulk actions', function() {
     expect(bulkActions.enableToggle.isDisplayed()).toBeTruthy();
   });
 
-  it('should allow all selected tenant\'s status to be Disabled', function() {
+  xit('should allow all selected tenant\'s status to be Disabled', function() {
     shared.searchField.sendKeys('Tenant'); // Ensure Platform tenant is not selected
     tenantCount = shared.tableElements.count();
 
@@ -76,7 +76,7 @@ describe('The tenants view bulk actions', function() {
     });
   });
 
-  it('should allow all selected tenant\'s status to be Enabled', function() {
+  xit('should allow all selected tenant\'s status to be Enabled', function() {
     shared.searchField.sendKeys('Tenant'); // Ensure Platform tenant is not selected
     tenantCount = shared.tableElements.count();
 
@@ -134,12 +134,12 @@ describe('The tenants view bulk actions', function() {
     expect(shared.successMessage.isPresent()).toBeFalsy();
   });
 
-  it('should only affect selected tenants', function() {
+  xit('should only affect selected tenants', function() {
     shared.searchField.sendKeys('Tenant'); // Ensure Platform tenant is not selected
 
     shared.tableElements.then(function(originalTenants) {
       // Select odd tenants and leave even tenants unselected
-      for (var i = 0; i < originalTenants.length; i++) {
+      for (var i = 0; i < originalTenants.length && i < 10; i++) {
         if (i % 2 > 0) {
           bulkActions.selectItemTableCells.get(i).click();
         }
@@ -158,7 +158,7 @@ describe('The tenants view bulk actions', function() {
 
         // Only selected tenants are updated
         shared.tableElements.then(function(updatedTenants) {
-          for (var i = 0; i < originalTenants.length; i++) {
+          for (var i = 0; i < originalTenants.length && i < 10; i++) {
             if (i % 2 > 0) {
               // Tenant was updated to Disabled
               expect(shared.tableElements.get(i).getText()).toContain('Disabled');

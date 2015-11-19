@@ -34,7 +34,6 @@ describe('When switching tenants', function() {
     shared.tearDown();
   });
 
-  // TODO Bug Unable to create new tenant TITAN2-4878
   describe('Users Management page', function() {
     beforeAll(function() {
       browser.get(shared.usersPageUrl);
@@ -302,28 +301,25 @@ describe('When switching tenants', function() {
     });
   });
 
-  // TODO TITAN2-4505
   describe('Groups Management page', function() {
     beforeAll(function() {
       browser.get(shared.groupsPageUrl);
       elementCount = shared.tableElements.count();
     });
 
-    xit('should display the correct Groups for the current tenant', function() {
+    it('should display the correct Groups for the current tenant', function() {
       // everyone group added to the new tenant by default
       expect(elementCount).toBe(1);
       expect(shared.firstTableRow.getText()).toContain('everyone');
 
       // One member by default
-      /* TODO
       expect(shared.firstTableRow.getText()).toContain('1');
       shared.firstTableRow.click();
       expect(groups.groupMembersRows.count()).toBe(1);
       expect(groups.groupMembersRows.get(0).getText()).toBe(params.login.firstName + ' ' + params.login.lastName);
-      */
     });
 
-    xit('should create a new Group in one and not the previous', function() {
+    it('should create a new Group in one and not the previous', function() {
       // Create Group in new tenant
       var newTenantGroup = 'New Tenant Group ' + Math.floor((Math.random() * 1000) + 1);
       shared.createBtn.click();

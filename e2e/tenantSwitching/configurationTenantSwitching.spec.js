@@ -28,8 +28,8 @@ describe('When switching tenants', function() {
   afterAll(function() {
     shared.tearDown();
   });
-  // TODO Bug Unable to create new tenant TITAN2-4878
-  xit('the selected tenant should be shown as the current tenant in the navigation Tenant Dropdown', function() {
+
+  it('the selected tenant should be shown as the current tenant in the navigation Tenant Dropdown', function() {
     expect(shared.navBar.isDisplayed()).toBeTruthy();
     expect(shared.tenantsNavDropdown.isDisplayed()).toBeTruthy();
 
@@ -59,7 +59,7 @@ describe('When switching tenants', function() {
       expect(shared.tableRows.get(0).getText()).toBe('twilio Disabled');
     });
 
-    xit('should edit details for an Integration in one and not the previous', function() {
+    it('should edit details for an Integration in one and not the previous', function() {
       shared.searchField.sendKeys('twilio');
       shared.firstTableRow.click();
 
@@ -71,11 +71,12 @@ describe('When switching tenants', function() {
 
         // Verify changes are not made to twilio integration in default tenant
         tenants.selectTenant(defaultTenantName);
+        expect(shared.tenantsNavDropdown.getText()).toBe(defaultTenantName);
         shared.searchField.sendKeys('twilio');
         shared.firstTableRow.click();
 
-        expect(integrations.accountSIDFormField.getAttribute('value')).not.toContain('NewTenantSID');
-        expect(integrations.authTokenFormField.getAttribute('value')).not.toContain('NewTenantAuthToken');
+        expect(integrations.accountSIDFormField.getAttribute('value')).not.toBe('NewTenantSID');
+        expect(integrations.authTokenFormField.getAttribute('value')).not.toBe('NewTenantAuthToken');
       });
     });
   });
