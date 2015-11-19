@@ -10,6 +10,7 @@ var Search = function() {
     for (var i = 0; i < rows.length && i < 10; ++i) { // Limit test length
       rows[i].click();
       rows[i].getText().then(function(userRowText) {
+        userRowText = userRowText.replace(/(?:\r\n|\r|\n)/g, ' ');
         if (userRowText.toLowerCase().indexOf(searchTerm) > -1) {
           searchTermFound = true;
         };

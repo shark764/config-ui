@@ -52,11 +52,8 @@ describe('The queues view bulk actions', function() {
 
     expect(bulkActions.confirmModal.isDisplayed()).toBeTruthy();
     bulkActions.confirmOK.click().then(function() {
-      expect(shared.successMessage.isDisplayed()).toBeTruthy();
-
-      // Form reset
-      expect(bulkActions.submitFormBtn.getAttribute('disabled')).toBeTruthy();
-      expect(bulkActions.enableToggle.getAttribute('disabled')).toBeTruthy();
+      shared.waitForSuccess();
+      shared.successMessage.click();
 
       // All queues are set to disabled
       // Select Disabled from Status drop down
@@ -88,11 +85,9 @@ describe('The queues view bulk actions', function() {
 
     expect(bulkActions.confirmModal.isDisplayed()).toBeTruthy();
     bulkActions.confirmOK.click().then(function() {
-      expect(shared.successMessage.isDisplayed()).toBeTruthy();
-
-      // Form reset
-      expect(bulkActions.submitFormBtn.getAttribute('disabled')).toBeTruthy();
-      expect(bulkActions.enableToggle.getAttribute('disabled')).toBeTruthy();
+      // TODO Fails if queue happens to not have a version ..?
+      shared.waitForSuccess();
+      shared.successMessage.click();
 
       // All queues are set to enabled
       // Select Disabled from Status drop down
@@ -148,11 +143,8 @@ describe('The queues view bulk actions', function() {
 
       expect(bulkActions.confirmModal.isDisplayed()).toBeTruthy();
       bulkActions.confirmOK.click().then(function() {
-        expect(shared.successMessage.isDisplayed()).toBeTruthy();
-
-        // Form reset
-        expect(bulkActions.submitFormBtn.getAttribute('disabled')).toBeTruthy();
-        expect(bulkActions.enableToggle.getAttribute('disabled')).toBeTruthy();
+        shared.waitForSuccess();
+        shared.successMessage.click();
 
         // Only selected queues are updated
         for (var i = 0; i < originalQueues.length; i++) {

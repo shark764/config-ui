@@ -32,8 +32,7 @@ describe('The tenants view bulk actions', function() {
     shared.tearDown();
   });
 
-  // TODO Bug Unable to create new tenant TITAN2-4878
-  xit('should allow updates to supported bulk action fields', function() {
+  it('should allow updates to supported bulk action fields', function() {
     shared.actionsBtn.click();
     expect(bulkActions.bulkActionDivs.count()).toBe(1);
 
@@ -42,7 +41,7 @@ describe('The tenants view bulk actions', function() {
     expect(bulkActions.enableToggle.isDisplayed()).toBeTruthy();
   });
 
-  xit('should allow all selected tenant\'s status to be Disabled', function() {
+  it('should allow all selected tenant\'s status to be Disabled', function() {
     shared.searchField.sendKeys('Tenant'); // Ensure Platform tenant is not selected
     tenantCount = shared.tableElements.count();
 
@@ -59,10 +58,6 @@ describe('The tenants view bulk actions', function() {
     bulkActions.confirmOK.click().then(function() {
       shared.waitForSuccess();
       expect(shared.successMessage.isDisplayed()).toBeTruthy();
-
-      // Form reset
-      expect(bulkActions.submitFormBtn.getAttribute('disabled')).toBeTruthy();
-      expect(bulkActions.enableToggle.getAttribute('disabled')).toBeTruthy();
 
       // All tenants are set to disabled
       // Select Disabled from Status drop down
@@ -81,7 +76,7 @@ describe('The tenants view bulk actions', function() {
     });
   });
 
-  xit('should allow all selected tenant\'s status to be Enabled', function() {
+  it('should allow all selected tenant\'s status to be Enabled', function() {
     shared.searchField.sendKeys('Tenant'); // Ensure Platform tenant is not selected
     tenantCount = shared.tableElements.count();
 
@@ -100,10 +95,6 @@ describe('The tenants view bulk actions', function() {
       shared.waitForSuccess();
       expect(shared.successMessage.isDisplayed()).toBeTruthy();
 
-      // Form reset
-      expect(bulkActions.submitFormBtn.getAttribute('disabled')).toBeTruthy();
-      expect(bulkActions.enableToggle.getAttribute('disabled')).toBeTruthy();
-
       // All tenants are set to enabled
       // Select Disabled from Status drop down
       bulkActions.statusColumnDropDown.click();
@@ -121,7 +112,7 @@ describe('The tenants view bulk actions', function() {
     });
   });
 
-  xit('should ignore disabled fields on update', function() {
+  it('should ignore disabled fields on update', function() {
     shared.searchField.sendKeys('Tenant'); // Ensure Platform tenant is not selected
     tenantCount = shared.tableElements.count();
 
@@ -143,7 +134,7 @@ describe('The tenants view bulk actions', function() {
     expect(shared.successMessage.isPresent()).toBeFalsy();
   });
 
-  xit('should only affect selected tenants', function() {
+  it('should only affect selected tenants', function() {
     shared.searchField.sendKeys('Tenant'); // Ensure Platform tenant is not selected
 
     shared.tableElements.then(function(originalTenants) {
@@ -164,10 +155,6 @@ describe('The tenants view bulk actions', function() {
       expect(bulkActions.confirmModal.isDisplayed()).toBeTruthy();
       bulkActions.confirmOK.click().then(function() {
         shared.waitForSuccess();
-
-        // Form reset
-        expect(bulkActions.submitFormBtn.getAttribute('disabled')).toBeTruthy();
-        expect(bulkActions.enableToggle.getAttribute('disabled')).toBeTruthy();
 
         // Only selected tenants are updated
         shared.tableElements.then(function(updatedTenants) {

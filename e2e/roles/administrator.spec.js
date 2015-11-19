@@ -198,7 +198,8 @@ describe('The Administrator role', function() {
     profile.passwordFormField.sendKeys('newpassword');
 
     profile.updateProfileBtn.click().then(function() {
-      expect(shared.successMessage.isPresent()).toBeTruthy();
+      shared.waitForSuccess();
+      shared.successMessage.click();
       expect(profile.firstNameFormField.getAttribute('value')).toBe('Administrator' + random + 'Update');
       expect(profile.lastNameFormField.getAttribute('value')).toBe('Role' + random + 'Update');
       expect(shared.welcomeMessage.getText()).toContain('Administrator' + random + 'Update');
@@ -223,7 +224,7 @@ describe('The Administrator role', function() {
 
     users.submitFormBtn.click().then(function() {
       shared.waitForSuccess();
-      expect(shared.successMessage.isDisplayed()).toBeTruthy();
+      shared.successMessage.click();
     });
   });
 
@@ -235,7 +236,7 @@ describe('The Administrator role', function() {
     expect(users.tenantRoleFormDropdown.isEnabled()).toBeTruthy();
   });
 
-  it('should have access to add Extensions existing User', function() {
+  xit('should have access to add Extensions existing User', function() {
     extensions.typeDropdown.click();
     extensions.pstnDropdownOption.click();
 
@@ -258,7 +259,6 @@ describe('The Administrator role', function() {
     users.addSkillSearch.sendKeys('New Skill');
     users.addSkillBtn.click().then(function() {
       shared.waitForSuccess();
-      expect(shared.successMessage.isDisplayed()).toBeTruthy();
 
       expect(users.userSkills.count()).toBe(1);
       shared.successMessage.click(); // Dismiss message
@@ -270,7 +270,7 @@ describe('The Administrator role', function() {
     users.addGroupSearch.sendKeys('New Group\t');
     users.addGroupBtn.click().then(function() {
       shared.waitForSuccess();
-      expect(shared.successMessage.isDisplayed()).toBeTruthy();
+      shared.successMessage.click();
 
       expect(users.userGroups.count()).toBe(1);
     });
@@ -307,7 +307,7 @@ describe('The Administrator role', function() {
     role.descriptionFormField.sendKeys('Role Description');
     role.submitFormBtn.click().then(function() {
       shared.waitForSuccess();
-      expect(shared.successMessage.isDisplayed()).toBeTruthy();
+      shared.successMessage.click();
     });
   });
 
@@ -321,7 +321,7 @@ describe('The Administrator role', function() {
 
     role.submitFormBtn.click().then(function() {
       shared.waitForSuccess();
-      expect(shared.successMessage.isDisplayed()).toBeTruthy();
+      shared.successMessage.click();
 
       expect(role.nameFormField.getAttribute('value')).toBe('Role Name ' + random + 'Edit');
       expect(role.descriptionFormField.getAttribute('value')).toBe('Role Description' + 'Edit');
@@ -346,7 +346,7 @@ describe('The Administrator role', function() {
     skills.descriptionFormField.sendKeys('Skill Description');
     shared.submitFormBtn.click().then(function() {
       shared.waitForSuccess();
-      expect(shared.successMessage.isDisplayed()).toBeTruthy();
+      shared.successMessage.click();
     });
   });
 
@@ -356,7 +356,7 @@ describe('The Administrator role', function() {
     skills.proficiencyFormCheckbox.click();
     shared.submitFormBtn.click().then(function() {
       shared.waitForSuccess();
-      expect(shared.successMessage.isDisplayed()).toBeTruthy();
+      shared.successMessage.click();
 
       expect(skills.nameFormField.getAttribute('value')).toBe('New Skill ' + random + 'Edit');
       expect(skills.descriptionFormField.getAttribute('value')).toBe('Skill DescriptionEdit');
@@ -369,7 +369,7 @@ describe('The Administrator role', function() {
     skills.addMemberDropdownOptions.get(0).click();
     skills.addMemberBtn.click().then(function() {
       shared.waitForSuccess();
-      expect(shared.successMessage.isDisplayed()).toBeTruthy();
+      shared.successMessage.click();
 
       expect(skills.skillMembersRows.count()).toBe(1);
       expect(skills.detailsMemberCount.getText()).toContain('1');
@@ -404,7 +404,7 @@ describe('The Administrator role', function() {
     groups.descriptionFormField.sendKeys('Group Description');
     shared.submitFormBtn.click().then(function() {
       shared.waitForSuccess();
-      expect(shared.successMessage.isDisplayed()).toBeTruthy();
+      shared.successMessage.click();
     });
   });
 
@@ -413,7 +413,7 @@ describe('The Administrator role', function() {
     groups.descriptionFormField.sendKeys('Edit');
     shared.submitFormBtn.click().then(function() {
       shared.waitForSuccess();
-      expect(shared.successMessage.isDisplayed()).toBeTruthy();
+      shared.successMessage.click();
 
       expect(groups.nameFormField.getAttribute('value')).toBe('New Group ' + random + 'Edit');
       expect(groups.descriptionFormField.getAttribute('value')).toBe('Group DescriptionEdit');
@@ -425,7 +425,7 @@ describe('The Administrator role', function() {
     groups.addMemberDropdownOptions.get(0).click();
     groups.addMemberBtn.click().then(function() {
       shared.waitForSuccess();
-      expect(shared.successMessage.isDisplayed()).toBeTruthy();
+      shared.successMessage.click();
 
       expect(groups.groupMembersRows.count()).toBe(1);
       expect(groups.detailsMemberCount.getText()).toContain('1');
@@ -452,7 +452,8 @@ describe('The Administrator role', function() {
     tenants.nameFormField.sendKeys('Edit');
     tenants.descriptionFormField.sendKeys('Edit');
     shared.submitFormBtn.click().then(function() {
-      expect(shared.successMessage.isDisplayed()).toBeTruthy();
+      shared.waitForSuccess();
+      shared.successMessage.click();
     });
   });
 
@@ -625,7 +626,7 @@ describe('The Administrator role', function() {
     shared.firstTableRow.click();
 
     expect(shared.firstTableRow.element(by.css(mediaCollections.nameColumn)).getText()).toContain(mediaCollections.nameFormField.getAttribute('value'));
-    expect(shared.firstTableRow.element(by.css(mediaCollections.descriptionColumn)).getText()).toContain(mediaCollections.descriptionFormField.getAttribute('value'));
+    expect(shared.firstTableRow.element(by.css(mediaCollections.descriptionColumn)).getText()).toBe(mediaCollections.descriptionFormField.getAttribute('value'));
     expect(shared.firstTableRow.element(by.css(mediaCollections.identifierColumn)).getText()).toContain(mediaCollections.defaultIdDropdown.$('option:checked').getText());
   });
 

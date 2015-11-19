@@ -293,10 +293,6 @@ describe('The unsaved changes warning', function() {
       alertDialog = browser.switchTo().alert();
       alertDialog.accept();
       expect(bulkActions.bulkActionsForm.isDisplayed()).toBeTruthy();
-
-      // Form reset
-      expect(bulkActions.userSelectEnable.getAttribute('selected')).toBeFalsy();
-      expect(bulkActions.submitFormBtn.getAttribute('disabled')).toBeTruthy();
       bulkActions.cancelFormBtn.click();
 
       // No alert and panel closed

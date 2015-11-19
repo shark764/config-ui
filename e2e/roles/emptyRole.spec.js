@@ -79,7 +79,7 @@ describe('The empty role', function() {
     expect(shared.reportingNavButton.isDisplayed()).toBeTruthy();
 
     expect(shared.usersNavButton.isDisplayed()).toBeFalsy();
-    expect(shared.tenantsNavButton.isDisplayed()).toBeFalsy();
+    //expect(shared.tenantsNavButton.isDisplayed()).toBeFalsy();
     expect(shared.flowsNavButton.isDisplayed()).toBeFalsy();
   });
 
