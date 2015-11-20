@@ -20,6 +20,7 @@ var Shared = function() {
 
   this.tenantsPageUrl = this.configurationUrl + 'tenants';
   this.integrationsPageUrl = this.configurationUrl + 'integrations';
+  this.listsPageUrl = this.configurationUrl + 'lists';
 
   this.flowsPageUrl = this.flowsUrl + 'management';
   this.queuesPageUrl = this.flowsUrl + 'queues';
