@@ -3,7 +3,7 @@
 angular.module('liveopsConfigPanel')
   .service('tenantTableConfig', ['statuses', '$translate', 'Tenant', 'Session', 'UserPermissions', 'helpDocsHostname',
     function (statuses, $translate, Tenant, Session, UserPermissions, helpDocsHostname) {
-      return function (fetchTenants) {
+      return function ($scope) {
         return {
           'fields': [{
             'header': {
@@ -26,7 +26,7 @@ angular.module('liveopsConfigPanel')
               'display': $translate.instant('tenant.details.parent'),
               'valuePath': 'id',
               'displayPath': 'name',
-              'options': fetchTenants()
+              'options': $scope.tenants
             },
             'name': 'parentId',
             'id': 'parent-column-dropdown',

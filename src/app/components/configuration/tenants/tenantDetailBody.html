@@ -17,11 +17,10 @@
     <label>{{'tenant.details.admin' | translate}}</label>
     <div>
       <select ng-model="selectedTenant.adminUserId"
-        ng-options="user.id as user.getDisplay() for user in fetchUsers()">
+        ng-options="user.id as user.getDisplay() for user in users">
       </select>
       <i class="fa fa-refresh fa-spin"
-        ng-hide="fetchUsers().$resolved"></i>
-      <!-- <loading ng-hide="fetchUsers().$resolved"></loading> -->
+        ng-hide="users.$resolved"></i>
     </div>
   </div>
 
