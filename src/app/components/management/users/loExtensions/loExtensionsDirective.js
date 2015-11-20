@@ -20,7 +20,15 @@ angular.module('liveopsConfigPanel')
             $scope.newExtension.value = $scope.phoneNumber;
             if ($scope.phoneExtension){
               $scope.newExtension.value += 'x' + $scope.phoneExtension;
+            } else if ($scope.sipExtension) {
+              $scope.newExtension.value = $scope.sipExtension;
             }
+
+            if ($scope.newExtension.provider == null){
+              delete $scope.newExtension.provider;
+            }
+
+            console.log($scope.newExtension);
             
             $scope.tenantUser.extensions.push($scope.newExtension);
             return save().then(function(tenantUser) {
@@ -28,6 +36,13 @@ angular.module('liveopsConfigPanel')
               $scope.phoneExtension = null;
               return tenantUser;
             });
+          };
+
+          $scope.clearValues = function(){
+           /* $scope.phoneNumber = null;
+            $scope.phoneExtension = null;
+            $scope.sipExtension = null;
+            $scope.newExtension.provider = null;*/
           };
           
           $scope.remove = function(extension) {
