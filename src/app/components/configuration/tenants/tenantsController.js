@@ -23,11 +23,13 @@ angular.module('liveopsConfigPanel')
           };
           
           if(!Tenant.hasItem(params)) {
-            Tenant.cachedGet(params)
+            Tenant.cachedGet(params);
           }
           
           $scope.tenants = Tenant.cachedQuery();
           $scope.tenants.$resolved = true;
+        } else {
+          throw new Error('Insufficient permissions to load tenantsController.');
         }
         
         $scope.tenants.$promise.then($scope.loadUsers);

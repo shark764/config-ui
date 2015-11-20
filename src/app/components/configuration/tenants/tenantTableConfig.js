@@ -56,6 +56,6 @@ angular.module('liveopsConfigPanel')
           'showCreate': UserPermissions.hasPermission('PLATFORM_CREATE_ALL_TENANTS'),
           'helpLink': helpDocsHostname + '/Content/Configuring%20CxEngage/Creating_Tenants.htm'
         };
-      }
+      };
     }
   ]);
