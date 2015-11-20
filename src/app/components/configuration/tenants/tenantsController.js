@@ -18,11 +18,25 @@ angular.module('liveopsConfigPanel')
             regionId: Session.activeRegionId
           });
         } else if (UserPermissions.hasPermission('MANAGE_TENANT')){
-          return Tenant.prototype.getAsArray(Session.tenant.tenantId);
+          var params = {
+            id: Session.tenant.tenantId
+          };
+          
+          if(!Tenant.hasItem(params)) {
+            Tenant.cachedGet(params)
+          }
+          
+          var tenants = Tenant.cachedQuery();
+          tenants.$resolved = true;
+          return tenants;
         }
       };
 
       $scope.fetchUsers = function() {
+        if(!$scope.fetchTenants().$resolved) {
+          return;
+        }
+        
         return TenantUser.cachedQuery({
           tenantId: Session.tenant.tenantId
         });
@@ -46,8 +60,6 @@ angular.module('liveopsConfigPanel')
         AuthService.refreshTenants();
       });
 
-      $scope.tableConfig = tenantTableConfig;
-
       $scope.$watch('selectedTenant', function(newVal){
         if (newVal){
           var result = angular.isDefined(newVal.$promise) ? newVal.$promise : newVal;
@@ -55,9 +67,15 @@ angular.module('liveopsConfigPanel')
             tenant.$region = Region.cachedGet({
               id: tenant.regionId
             });
+            
+            tenant.$parent = Tenant.cachedGet({
+              id: Session.tenant.tenantId
+            });
           });
         }
       });
+      
+      $scope.tableConfig = tenantTableConfig($scope.fetchTenants);
       
       $scope.Session = Session;
     }

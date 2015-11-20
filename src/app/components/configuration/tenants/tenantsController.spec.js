@@ -71,11 +71,14 @@ describe('TenantsController', function () {
   });
   
   describe('fetchUsers function', function(){
-    it('should fetch the list of users', inject(['queryCache', function (queryCache) {
-      queryCache.removeAll();
+    it('should fetch the list of users WHEN fetchTenants is $resolved', inject(['queryCache', function (queryCache) {
+      $scope.fetchTenants = jasmine.createSpy('fetchTenants').and.returnValue({
+        $resolved: true
+      });
+      
       $httpBackend.expectGET(apiHostname + '/v1/tenants/tenant-id/users').respond({
-          'result': []
-        });
+        'result': []
+      });
 
       $scope.fetchUsers();
       $httpBackend.flush();
