@@ -75,7 +75,8 @@
         <button id="add-extension-btn" class="btn" type="button"
             style="width: 35px;"
             lo-submit="add()"
-            ng-disabled="!((userTenantExtensionForm.description.$valid && userTenantExtensionForm.type.$valid) &&
+            ng-disabled="!((userTenantExtensionForm.description.$valid && 
+              userTenantExtensionForm.type.$valid) &&
               (userTenantExtensionForm.telValue.$valid ||
                 userTenantExtensionForm.sipValue.$valid ||
                 userTenantExtensionForm.value))">
