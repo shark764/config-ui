@@ -10,13 +10,13 @@ describe('The queues view bulk actions', function() {
 
   beforeAll(function() {
     loginPage.login(params.login.user, params.login.password);
-
-    // Create new queue
-    browser.get(shared.queuesPageUrl);
-    var randomQueue = Math.floor((Math.random() * 100) + 1);
-    shared.createBtn.click();
-    queues.nameFormField.sendKeys('Queue ' + randomQueue);
-    shared.submitFormBtn.click();
+    /*
+        // Create new queue
+        browser.get(shared.queuesPageUrl);
+        var randomQueue = Math.floor((Math.random() * 100) + 1);
+        shared.createBtn.click();
+        queues.nameFormField.sendKeys('Queue ' + randomQueue);
+        shared.submitFormBtn.click(); */
   });
 
   beforeEach(function() {
@@ -41,67 +41,74 @@ describe('The queues view bulk actions', function() {
   });
 
   it('should allow all selected queue\'s status to be Disabled', function() {
-    // Update All bulk actions
     shared.actionsBtn.click();
-    bulkActions.selectAllTableHeader.click();
 
-    bulkActions.selectEnable.click();
+    shared.tableElements.count().then(function(queueCount) {
+      for (var i = 0; i < queueCount && i < 5; i++) { // Reduce test length
+        bulkActions.selectItemTableCells.get(i).click();
+      }
 
-    expect(bulkActions.submitFormBtn.getAttribute('disabled')).toBeFalsy();
-    bulkActions.submitFormBtn.click();
+      bulkActions.selectEnable.click();
 
-    expect(bulkActions.confirmModal.isDisplayed()).toBeTruthy();
-    bulkActions.confirmOK.click().then(function() {
-      shared.waitForSuccess();
-      shared.successMessage.click();
+      expect(bulkActions.submitFormBtn.getAttribute('disabled')).toBeFalsy();
+      bulkActions.submitFormBtn.click();
 
-      // All queues are set to disabled
-      // Select Disabled from Status drop down
-      bulkActions.statusColumnDropDownLabel.click();
-      bulkActions.statuses.get(0).click();
-      shared.tableElements.count().then(function(disabledTotal) {
-        expect(disabledTotal).toBe(queueCount);
-      });
+      expect(bulkActions.confirmModal.isDisplayed()).toBeTruthy();
+      bulkActions.confirmOK.click().then(function() {
+        shared.waitForSuccess();
+        shared.successMessage.click();
 
-      // Select Enabled from Status drop down
-      bulkActions.statuses.get(0).click();
-      bulkActions.statuses.get(1).click();
-      shared.tableElements.count().then(function(enabledTotal) {
-        expect(enabledTotal).toBe(0);
+        // All queues are set to disabled
+        // Select Disabled from Status drop down
+        bulkActions.statusColumnDropDownLabel.click();
+        bulkActions.statuses.get(0).click();
+        shared.tableElements.count().then(function(disabledTotal) {
+          expect(disabledTotal).not.toBeLessThan(Math.min(5, queueCount));
+        });
+
+        // Select Enabled from Status drop down
+        bulkActions.statuses.get(0).click();
+        bulkActions.statuses.get(1).click();
+        shared.tableElements.count().then(function(enabledTotal) {
+          expect(enabledTotal).not.toBeGreaterThan(queueCount - 5);
+        });
       });
     });
   });
 
-  xit('should allow all selected queue\'s status to be Enabled', function() {
-    // Update All bulk actions
+  it('should allow all selected queue\'s status to be Enabled', function() {
     shared.actionsBtn.click();
-    bulkActions.selectAllTableHeader.click();
 
-    bulkActions.selectEnable.click();
-    bulkActions.enableToggleClick.click();
+    shared.tableElements.count().then(function(queueCount) {
+      for (var i = 0; i < queueCount && i < 5; i++) { // Reduce test length
+        bulkActions.selectItemTableCells.get(i).click();
+      }
 
-    expect(bulkActions.submitFormBtn.getAttribute('disabled')).toBeFalsy();
-    bulkActions.submitFormBtn.click();
+      bulkActions.selectEnable.click();
+      bulkActions.enableToggleClick.click();
 
-    expect(bulkActions.confirmModal.isDisplayed()).toBeTruthy();
-    bulkActions.confirmOK.click().then(function() {
-      // TODO Fails if queue happens to not have a version ..?
-      shared.waitForSuccess();
-      shared.successMessage.click();
+      expect(bulkActions.submitFormBtn.getAttribute('disabled')).toBeFalsy();
+      bulkActions.submitFormBtn.click();
 
-      // All queues are set to enabled
-      // Select Disabled from Status drop down
-      bulkActions.statusColumnDropDownLabel.click();
-      bulkActions.statuses.get(0).click();
-      shared.tableElements.count().then(function(disabledTotal) {
-        expect(disabledTotal).toBe(0);
-      });
+      expect(bulkActions.confirmModal.isDisplayed()).toBeTruthy();
+      bulkActions.confirmOK.click().then(function() {
+        shared.waitForSuccess();
+        shared.successMessage.click();
 
-      // Select Enabled from Status drop down
-      bulkActions.statuses.get(0).click();
-      bulkActions.statuses.get(1).click();
-      shared.tableElements.count().then(function(enabledTotal) {
-        expect(enabledTotal).toBe(queueCount);
+        // All queues are set to disabled
+        // Select Disabled from Status drop down
+        bulkActions.statusColumnDropDownLabel.click();
+        bulkActions.statuses.get(0).click();
+        shared.tableElements.count().then(function(disabledTotal) {
+          expect(disabledTotal).not.toBeGreaterThan(queueCount - 5);
+        });
+
+        // Select Enabled from Status drop down
+        bulkActions.statuses.get(0).click();
+        bulkActions.statuses.get(1).click();
+        shared.tableElements.count().then(function(enabledTotal) {
+          expect(enabledTotal).not.toBeLessThan(Math.min(5, queueCount));
+        });
       });
     });
   });

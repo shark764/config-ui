@@ -9,7 +9,9 @@ describe('The create new user form', function() {
     userCount,
     randomUser,
     userAdded,
-    newUserName;
+    newUserName,
+    newTenantName,
+    defaultTenantName;
 
   beforeAll(function() {
     loginPage.login(params.login.user, params.login.password);
@@ -343,7 +345,6 @@ describe('The create new user form', function() {
   });
 
   xit('should show user details when entering existing tenant user email; case insensitive', function() {
-    // TODO Our check for user's being in the current tenant is not case insensitive
     var caseChangeExistingEmail;
     shared.createBtn.click();
 
@@ -452,91 +453,6 @@ describe('The create new user form', function() {
         expect(users.firstNameFormField.getAttribute('value')).toBe('First' + randomUser + 'NewUserEdit');
         expect(users.lastNameFormField.getAttribute('value')).toBe('Last' + randomUser + 'NewUserEdit');
         expect(users.externalIdFormField.getAttribute('value')).toBe(randomUser + 'NewUserEdit');
-      });
-    });
-  });
-
-  describe('for an existing user not in the current tenant', function() {
-    // TODO Get user name that is in another but not the current tenant
-    xit('should not populate fields and should disable uneditable fields', function() {
-      // TODO
-      shared.createBtn.click();
-
-      // Attempt to create a new User with the email of an existing user
-      users.emailFormField.sendKeys(params.login.user);
-
-      randomUser = Math.floor((Math.random() * 1000) + 1);
-      users.firstNameFormField.sendKeys('First' + randomUser);
-      users.lastNameFormField.sendKeys('Last' + randomUser);
-      users.externalIdFormField.sendKeys('12345');
-      users.submitFormBtn.click().then(function() {
-        // New user not added, invite sent to existing user
-        expect(shared.tableElements.count()).toBe(userCount);
-        expect(shared.successMessage.getText()).toContain('User already exists. Sending ' + params.login.user + ' an invite for');
-        shared.closeMessageBtn.click().then(function() {
-          expect(shared.errorMessage.getText()).toContain('Record failed to save');
-        });
-      });
-    });
-
-    xit('should should not populate fields and should disable uneditable fields', function() {
-      // TODO Existing bug; this test fails
-      shared.createBtn.click();
-
-      // Attempt to create a new User with the email of an existing user
-      users.emailFormField.sendKeys(params.login.user.toUpperCase());
-
-      randomUser = Math.floor((Math.random() * 1000) + 1);
-      users.firstNameFormField.sendKeys('First' + randomUser);
-      users.lastNameFormField.sendKeys('Last' + randomUser);
-      users.externalIdFormField.sendKeys('12345');
-      users.submitFormBtn.click();
-
-      // New user not added, invite sent to existing user
-      expect(shared.tableElements.count()).toBe(userCount);
-      expect(shared.errorMessage.getText()).toContain('Record failed to save');
-      expect(shared.successMessage.getText()).toContain('User already exists. Sending ' + params.login.user.toUpperCase() + ' an invite for');
-    });
-
-    xit('should reset uneditable fields when email is removed', function() {
-      // TODO
-      shared.createBtn.click();
-
-      // Attempt to create a new User with the email of an existing user
-      users.emailFormField.sendKeys(params.login.user);
-
-      randomUser = Math.floor((Math.random() * 1000) + 1);
-      users.firstNameFormField.sendKeys('First' + randomUser);
-      users.lastNameFormField.sendKeys('Last' + randomUser);
-      users.externalIdFormField.sendKeys('12345');
-      users.submitFormBtn.click().then(function() {
-        // New user not added, invite sent to existing user
-        expect(shared.tableElements.count()).toBe(userCount);
-        expect(shared.successMessage.getText()).toContain('User already exists. Sending ' + params.login.user + ' an invite for');
-        shared.closeMessageBtn.click().then(function() {
-          expect(shared.errorMessage.getText()).toContain('Record failed to save');
-        });
-      });
-    });
-
-    xit('should require role fields', function() {
-      // TODO
-      shared.createBtn.click();
-
-      // Attempt to create a new User with the email of an existing user
-      users.emailFormField.sendKeys(params.login.user);
-
-      randomUser = Math.floor((Math.random() * 1000) + 1);
-      users.firstNameFormField.sendKeys('First' + randomUser);
-      users.lastNameFormField.sendKeys('Last' + randomUser);
-      users.externalIdFormField.sendKeys('12345');
-      users.submitFormBtn.click().then(function() {
-        // New user not added, invite sent to existing user
-        expect(shared.tableElements.count()).toBe(userCount);
-        expect(shared.successMessage.getText()).toContain('User already exists. Sending ' + params.login.user + ' an invite for');
-        shared.closeMessageBtn.click().then(function() {
-          expect(shared.errorMessage.getText()).toContain('Record failed to save');
-        });
       });
     });
   });
