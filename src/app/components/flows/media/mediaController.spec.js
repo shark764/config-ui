@@ -1,5 +1,4 @@
 'use strict';
-// jshint unused:false
 describe('MediaController', function () {
   var $scope,
     $controller,
@@ -7,8 +6,7 @@ describe('MediaController', function () {
     apiHostname,
     Session,
     mockMedias,
-    Media,
-    routeParams;
+    Media;
 
   beforeEach(module('gulpAngular'));
   beforeEach(module('liveopsConfigPanel', 'liveopsConfigPanel.tenant.media.mock'));
@@ -23,13 +21,13 @@ describe('MediaController', function () {
       mockMedias =  _mockMedias_;
     }
   ]));
-  
+
   beforeEach(function() {
     $controller('MediaController', {
       '$scope': $scope
     });
   });
-  
+
   describe('ON fetchMedias', function() {
     it('should be defined', function() {
       expect($scope.fetchMedias).toBeDefined();
@@ -37,9 +35,9 @@ describe('MediaController', function () {
 
     it('should populate $scope.medias when loaded', function() {
       var medias = $scope.fetchMedias();
-      
+
       $httpBackend.flush();
-      
+
       expect(medias[0].id).toEqual(mockMedias[0].id);
       expect(medias[1].id).toEqual(mockMedias[1].id);
     });
