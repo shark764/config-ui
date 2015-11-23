@@ -204,7 +204,7 @@ describe('The create new queues view', function() {
     expect(shared.successMessage.isPresent()).toBeFalsy();
   });
 
-  //TODO Creates a queue without a version
+  //TODO TITAN2-1805 Creates a queue without a version
   xit('should validate query field', function() {
     shared.createBtn.click();
     randomQueue = Math.floor((Math.random() * 100) + 1);

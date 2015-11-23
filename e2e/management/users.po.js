@@ -127,14 +127,6 @@ var UserPage = function() {
   this.editCounterDown = 'userSkill.proficiency';
   this.editProficiencySave = element(by.id('save-proficiency-edit-btn'));
   this.editProficiencyCancel = element(by.id('cancel-proficiency-edit-btn'));
-
-  this.waitForMessage = function () {
-    browser.driver.wait(function() {
-      return element(by.css('.lo-alert')).isDisplayed().then(function (messageDisplayed) {
-          return messageDisplayed;
-      });
-    }, 5000);
-  };
 };
 
 module.exports = new UserPage();
