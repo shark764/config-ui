@@ -93,6 +93,8 @@ describe('The tenants view', function() {
     // Verify tenant name in table matches populated field
     expect(tenants.firstTableRow.element(by.css(tenants.nameColumn)).getText()).toContain(tenants.nameFormField.getAttribute('value'));
     expect(tenants.region.isDisplayed()).toBeTruthy();
+    // TODO TITAN2-5426
+    //expect(tenants.firstTableRow.element(by.css(tenants.parentColumn)).getText()).toContain(tenants.parentName.getText());
 
     tenants.secondTableRow.isPresent().then(function(secondRowExists) {
       if (secondRowExists) {
@@ -101,6 +103,8 @@ describe('The tenants view', function() {
 
         expect(tenants.secondTableRow.element(by.css(tenants.nameColumn)).getText()).toContain(tenants.nameFormField.getAttribute('value'));
         expect(tenants.region.isDisplayed()).toBeTruthy();
+        // TODO TITAN2-5426
+        //expect(tenants.secondTableRow.element(by.css(tenants.parentColumn)).getText()).toContain(tenants.parentName.getText());
       }
     });
   });
@@ -206,7 +210,7 @@ describe('The tenants view', function() {
             // Confirm tenant is displayed in tenant table with new name
             shared.tableElements.then(function(rows) {
               for (var i = 1; i <= rows.length; ++i) {
-                element(by.css('tr.ng-scope:nth-child(' + i + ') > td:nth-child(2) > span:nth-child(1)')).getText().then(function(value) {
+                element(by.css('tr.ng-scope:nth-child(' + i + ') > td:nth-child(2)')).getText().then(function(value) {
                   expect(value).not.toBe(previousTenantName);
                   if (value == (previousTenantName + 'Edit')) {
                     tenantUpdated = true;

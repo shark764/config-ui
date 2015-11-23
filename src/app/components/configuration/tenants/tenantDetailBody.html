@@ -12,7 +12,7 @@
       <input required ng-model="selectedTenant.name" name="name" type="text"></input>
     </div>
   </div>
-  
+
   <div class="input-group">
     <label>{{'tenant.details.admin' | translate}}</label>
     <div>
@@ -20,14 +20,14 @@
       </select>
     </div>
   </div>
-  
+
   <div class="input-group">
     <label class="textarea-label">{{'tenant.details.description' | translate}}</label>
     <div>
       <textarea ng-model="selectedTenant.description"></textarea>
     </div>
   </div>
-  
+
   <div class="input-group" ng-show="! selectedTenant.isNew()">
     <label class="textarea-label">{{'tenant.details.region' | translate}}</label>
     <p id="tenant-details-region">{{selectedTenant.$region.name}}</p>
@@ -45,10 +45,10 @@
 
 <div class="input-group">
   <label class="textarea-label">{{'tenant.details.id' | translate}}</label>
-  <p id="tenant-details-id">{{Session.tenant.tenantId}}</p>
+  <p id="tenant-details-parent-id">{{Session.tenant.tenantId}}</p>
 </div>
 
 <div class="input-group">
   <label class="textarea-label">{{'tenant.details.name' | translate}}</label>
-  <p id="tenant-details-id">{{Session.tenant.tenantName}}</p>
+  <p id="tenant-details-parent-name">{{Session.tenant.tenantName}}</p>
 </div>
