@@ -64,51 +64,56 @@ describe('The users view', function() {
   });
 
   it('should display the selected user details in the user details section', function() {
-    // Select External Id column
+    // Add External Id Column
     shared.tableColumnsDropDown.click();
-    columns.options.get(2).click();
-    expect(columns.optionCheckboxes.get(2).getAttribute('selected')).toBeTruthy();
-    shared.tableColumnsDropDown.click();
-
-    // Select user row
-    shared.firstTableRow.click();
-
-    shared.firstTableRow.element(by.css(users.nameColumn)).getText().then(function(firstRowUserName) {
-      if (firstRowUserName) {
-        expect(shared.firstTableRow.element(by.css(users.nameColumn)).getText()).toContain(users.firstNameFormField.getAttribute('value'));
-        expect(shared.firstTableRow.element(by.css(users.nameColumn)).getText()).toContain(users.lastNameFormField.getAttribute('value'));
-        expect(shared.firstTableRow.element(by.css(users.emailColumn)).getText()).toBe(users.emailLabel.getText());
-        expect(shared.firstTableRow.element(by.css(users.externalIdColumn)).getText()).toBe(users.externalIdFormField.getAttribute('value'));
-        expect(shared.firstTableRow.element(by.css(users.nameColumn)).getText()).toBe(users.userNameDetailsHeader.getText());
-      } else {
-        expect(users.firstNameFormField.getAttribute('value')).toBe('');
-        expect(users.lastNameFormField.getAttribute('value')).toBe('');
-        expect(shared.firstTableRow.element(by.css(users.emailColumn)).getText()).toBe(users.emailLabel.getText());
-        expect(shared.firstTableRow.element(by.css(users.externalIdColumn)).getText()).toBe(users.externalIdFormField.getAttribute('value'));
-        expect(users.userNameDetailsHeader.getText()).toBe('');
+    shared.tableColumnsDropDownInputs.get(2).isSelected().then(function(columnSelected) {
+      if (!columnSelected) {
+        shared.tableColumnsDropDownOptions.get(2).click();
+        expect(shared.tableColumnsDropDownInputs.get(2).isSelected()).toBeTruthy();
       }
     }).then(function() {
-      // Change user and verify all fields are updated
-      shared.tableElements.count().then(function(numUsers) {
-        if (numUsers > 1) {
-          shared.secondTableRow.click();
+      shared.tableColumnsDropDown.click();
 
-          shared.secondTableRow.element(by.css(users.nameColumn)).getText().then(function(secondRowUserName) {
-            if (secondRowUserName) {
-              expect(shared.secondTableRow.element(by.css(users.nameColumn)).getText()).toContain(users.firstNameFormField.getAttribute('value'));
-              expect(shared.secondTableRow.element(by.css(users.nameColumn)).getText()).toContain(users.lastNameFormField.getAttribute('value'));
-              expect(shared.secondTableRow.element(by.css(users.emailColumn)).getText()).toBe(users.emailLabel.getText());
-              expect(shared.secondTableRow.element(by.css(users.externalIdColumn)).getText()).toBe(users.externalIdFormField.getAttribute('value'));
-              expect(shared.secondTableRow.element(by.css(users.nameColumn)).getText()).toBe(users.userNameDetailsHeader.getText());
-            } else {
-              expect(users.firstNameFormField.getAttribute('value')).toBe('');
-              expect(users.lastNameFormField.getAttribute('value')).toBe('');
-              expect(shared.secondTableRow.element(by.css(users.emailColumn)).getText()).toBe(users.emailLabel.getText());
-              expect(shared.secondTableRow.element(by.css(users.externalIdColumn)).getText()).toBe(users.externalIdFormField.getAttribute('value'));
-              expect(users.userNameDetailsHeader.getText()).toBe('');
-            }
-          });
+      // Select user row
+      shared.firstTableRow.click();
+
+      shared.firstTableRow.element(by.css(users.nameColumn)).getText().then(function(firstRowUserName) {
+        if (firstRowUserName) {
+          expect(shared.firstTableRow.element(by.css(users.nameColumn)).getText()).toContain(users.firstNameFormField.getAttribute('value'));
+          expect(shared.firstTableRow.element(by.css(users.nameColumn)).getText()).toContain(users.lastNameFormField.getAttribute('value'));
+          expect(shared.firstTableRow.element(by.css(users.emailColumn)).getText()).toBe(users.emailLabel.getText());
+          expect(shared.firstTableRow.element(by.css(users.externalIdColumn)).getText()).toBe(users.externalIdFormField.getAttribute('value'));
+          expect(shared.firstTableRow.element(by.css(users.nameColumn)).getText()).toBe(users.userNameDetailsHeader.getText());
+        } else {
+          expect(users.firstNameFormField.getAttribute('value')).toBe('');
+          expect(users.lastNameFormField.getAttribute('value')).toBe('');
+          expect(shared.firstTableRow.element(by.css(users.emailColumn)).getText()).toBe(users.emailLabel.getText());
+          expect(shared.firstTableRow.element(by.css(users.externalIdColumn)).getText()).toBe(users.externalIdFormField.getAttribute('value'));
+          expect(users.userNameDetailsHeader.getText()).toBe('');
         }
+      }).then(function() {
+        // Change user and verify all fields are updated
+        shared.tableElements.count().then(function(numUsers) {
+          if (numUsers > 1) {
+            shared.secondTableRow.click();
+
+            shared.secondTableRow.element(by.css(users.nameColumn)).getText().then(function(secondRowUserName) {
+              if (secondRowUserName) {
+                expect(shared.secondTableRow.element(by.css(users.nameColumn)).getText()).toContain(users.firstNameFormField.getAttribute('value'));
+                expect(shared.secondTableRow.element(by.css(users.nameColumn)).getText()).toContain(users.lastNameFormField.getAttribute('value'));
+                expect(shared.secondTableRow.element(by.css(users.emailColumn)).getText()).toBe(users.emailLabel.getText());
+                expect(shared.secondTableRow.element(by.css(users.externalIdColumn)).getText()).toBe(users.externalIdFormField.getAttribute('value'));
+                expect(shared.secondTableRow.element(by.css(users.nameColumn)).getText()).toBe(users.userNameDetailsHeader.getText());
+              } else {
+                expect(users.firstNameFormField.getAttribute('value')).toBe('');
+                expect(users.lastNameFormField.getAttribute('value')).toBe('');
+                expect(shared.secondTableRow.element(by.css(users.emailColumn)).getText()).toBe(users.emailLabel.getText());
+                expect(shared.secondTableRow.element(by.css(users.externalIdColumn)).getText()).toBe(users.externalIdFormField.getAttribute('value'));
+                expect(users.userNameDetailsHeader.getText()).toBe('');
+              }
+            });
+          }
+        });
       });
     });
   });
@@ -250,6 +255,17 @@ describe('The users view', function() {
 
     expect(users.requiredErrors.count()).toBe(1);
     expect(users.requiredErrors.get(0).getText()).toBe('Please enter a last name');
+  });
+
+  xit('should display email when First and Last name are blank', function() {
+    // NOTE: First and last name can only be blank when a user exists in a tenant
+    // but hasn't accepted the invitation for the current tenant
+
+    // TODO
+    // User name is shown as email in table and details header
+    expect(shared.tableElements.count()).toBeGreaterThan(0);
+    expect(shared.firstTableRow.element(by.css(users.nameColumn)).getText()).toBe(params.login.user);
+    expect(users.userNameDetailsHeader.getText()).toBe(params.login.user);
   });
 
   it('should not require External Id when editing', function() {
