@@ -211,7 +211,6 @@ describe('The Administrator role', function() {
     browser.get(shared.usersPageUrl);
 
     shared.createBtn.click();
-    random = Math.floor((Math.random() * 1000) + 1);
     users.emailFormField.sendKeys('newUser' + random + '@mailinator.com');
 
     users.tenantRoleFormDropdown.click();

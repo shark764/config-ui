@@ -48,16 +48,16 @@ describe('The role view', function() {
     shared.searchField.clear();
     shared.searchField.sendKeys('Agent');
     expect(shared.tableElements.count()).toBe(1);
-    expect(shared.firstTableRow.getText()).toBe('Agent');
-    expect(shared.firstTableRow.getText()).toBe('tenant agent');
-    expect(shared.firstTableRow.getText()).toBe('1');
+    expect(shared.firstTableRow.getText()).toContain('Agent');
+    expect(shared.firstTableRow.getText()).toContain('tenant agent');
+    expect(shared.firstTableRow.getText()).toContain('1');
 
     shared.searchField.clear();
     shared.searchField.sendKeys('Supervisor');
     expect(shared.tableElements.count()).toBe(1);
-    expect(shared.firstTableRow.getText()).toBe('Supervisor');
-    expect(shared.firstTableRow.getText()).toBe('tenant supervisor');
-    expect(shared.firstTableRow.getText()).toBe('6');
+    expect(shared.firstTableRow.getText()).toContain('Supervisor');
+    expect(shared.firstTableRow.getText()).toContain('tenant supervisor');
+    expect(shared.firstTableRow.getText()).toContain('6');
   });
 
   it('should include valid Role fields when creating a new Role', function() {

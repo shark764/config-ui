@@ -172,7 +172,7 @@ describe('The user invitation', function() {
                       var newestMessage2Contents = JSON.parse(body).data.parts[0].body;
 
                       // Verify the email contains the expected content
-                      expect(newestMessage1Contents).toContain('User Name: titantest' + randomUser + '@mailinator.com');
+                      expect(newestMessage2Contents).toContain('User Name: titantest' + randomUser + '@mailinator.com');
                       expect(newestMessage2Contents).toContain('Password: Set the first time you login');
                       expect(newestMessage2Contents).toContain('Log in automatically by clicking');
 
@@ -827,8 +827,7 @@ describe('The user invitation', function() {
       });
     });
 
-    xit('should not display user details before invitation is accepted', function() {
-      // TODO Bug TITAN2-3979
+    it('should not display user details before invitation is accepted', function() {
       shared.searchField.sendKeys('titantest' + randomUser + '@mailinator.com');
       shared.firstTableRow.click();
 
@@ -840,9 +839,6 @@ describe('The user invitation', function() {
       expect(shared.firstTableRow.getText()).toContain('Pending Acceptance');
 
       // Remaining fields are displayed and remain blank
-      expect(users.firstNameFormField.isEnabled()).toBeFalsy();
-      expect(users.lastNameFormField.isEnabled()).toBeFalsy();
-      expect(users.externalIdFormField.isEnabled()).toBeFalsy();
       expect(users.firstNameFormField.getAttribute('value')).toBe('');
       expect(users.lastNameFormField.getAttribute('value')).toBe('');
       expect(users.externalIdFormField.getAttribute('value')).toBe('');
@@ -872,7 +868,7 @@ describe('The user invitation', function() {
       expect([newTenantName, defaultTenantName]).toContain(shared.tenantsNavDropdownContents.get(1).getText());
     });
 
-    xit('should display user details after the invitation is accepted', function() {
+    it('should display user details after the invitation is accepted', function() {
       shared.searchField.sendKeys('titantest' + randomUser + '@mailinator.com');
       shared.firstTableRow.click();
 
