@@ -6,14 +6,10 @@ angular.module('liveopsConfigPanel')
       $scope.showBulkActions = false;
       $scope.Session = Session;
       
-      $scope.$watch('Session.tenant', function(newTenant, oldTenant) {
-        if(!newTenant || newTenant.tenantId === oldTenant.tenantId) {
-          return;
-        }
-        
+      $scope.$watch('Session.tenant', function() {
         queryCache.removeAll();
         $scope.$broadcast('session:tenant:changed');
-      });
+      }, true);
 
       $scope.$on('table:on:click:create', function () {
         $scope.showBulkActions = false;
