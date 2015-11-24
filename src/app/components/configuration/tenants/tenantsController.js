@@ -34,7 +34,7 @@ angular.module('liveopsConfigPanel')
         
         $scope.tenants.$promise.then($scope.loadUsers);
       };
-
+      
       $scope.loadUsers = function() {
         $scope.users = TenantUser.cachedQuery({
           tenantId: Session.tenant.tenantId
@@ -62,7 +62,7 @@ angular.module('liveopsConfigPanel')
       $scope.$on('session:tenant:changed', function() {
         $scope.loadTenants();
       });
-
+      
       $scope.$watch('selectedTenant', function(newVal){
         if (newVal){
           var result = angular.isDefined(newVal.$promise) ? newVal.$promise : newVal;
@@ -72,7 +72,7 @@ angular.module('liveopsConfigPanel')
             });
             
             tenant.$parent = Tenant.cachedGet({
-              id: Session.tenant.tenantId
+              id: $scope.selectedTenant.parentId
             });
           });
         }
@@ -80,8 +80,8 @@ angular.module('liveopsConfigPanel')
       
       $scope.loadTenants();
       
-      $scope.tableConfig = tenantTableConfig($scope);
-      
-      $scope.Session = Session;
+      $scope.tableConfig = tenantTableConfig(function() {
+        return $scope.tenants;
+      });
     }
   ]);
