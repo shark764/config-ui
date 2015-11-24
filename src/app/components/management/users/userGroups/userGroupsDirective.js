@@ -1,7 +1,5 @@
 'use strict';
 
-/*jshint browser:true */
-
 angular.module('liveopsConfigPanel')
   .directive('userGroups', ['TenantUserGroups', 'TenantGroupUsers', 'Group', 'Session', '$timeout', '$filter', 'Alert', '$q', 'queryCache',
     function (TenantUserGroups, TenantGroupUsers, Group, Session, $timeout, $filter, Alert, $q, queryCache) {
@@ -15,6 +13,9 @@ angular.module('liveopsConfigPanel')
         templateUrl: 'app/components/management/users/userGroups/userGroups.html',
 
         link: function ($scope) {
+
+          var tagWrapper = angular.element(document.querySelector('#tags-inside'));
+
           $scope.reset = function () {
             $scope.saving = false;
             $scope.selectedGroup = null;
@@ -35,7 +36,7 @@ angular.module('liveopsConfigPanel')
             if (selectedGroup === null) {
               return;
             }
-            
+
             $scope.saving = true;
 
             if (angular.isString(selectedGroup)) {
@@ -58,7 +59,7 @@ angular.module('liveopsConfigPanel')
 
           $scope.saveUserGroup = function (selectedGroup) {
             $scope.newGroupUser.groupId = selectedGroup.id;
-            
+
             $scope.newGroupUser.$save(function (data) {
               var newUserGroup = new TenantUserGroups(data);
               newUserGroup.groupName = selectedGroup.name;
@@ -69,7 +70,7 @@ angular.module('liveopsConfigPanel')
               });
 
               $scope.userGroups.push(newUserGroup);
-              
+
               //TODO: remove once groups api returns members list
               //Reset cache of users for this group
               queryCache.remove('groups/' + selectedGroup.id + '/users');
@@ -77,7 +78,7 @@ angular.module('liveopsConfigPanel')
               $timeout(function () { //Timeout prevents simultaneous $digest cycles
                 $scope.updateCollapseState(tagWrapper.height());
               }, 200);
-              
+
               $scope.reset();
             }, function () {
               Alert.error('Failed to save user group');
@@ -107,7 +108,7 @@ angular.module('liveopsConfigPanel')
               $timeout(function () {
                 $scope.updateCollapseState(tagWrapper.height());
               }, 200);
-              
+
               //TODO: remove once groups api returns members list
               //Reset cache of users for this group
               queryCache.remove('groups/' + tgu.groupId + '/users');
@@ -148,12 +149,12 @@ angular.module('liveopsConfigPanel')
             $scope.reset();
             $scope.fetch();
           });
-          
+
           $scope.filterGroups = function(item) {
             var matchingGroups = $filter('filter')($scope.userGroups, {
               'groupId': item.id
             }, true);
-            
+
             return matchingGroups.length === 0;
           };
 
@@ -161,7 +162,6 @@ angular.module('liveopsConfigPanel')
           $scope.collapsed = true;
           $scope.hideCollapseControls = true;
 
-          var tagWrapper = angular.element(document.querySelector('#tags-inside'));
           $scope.$on('resizehandle:resize', function () {
             $scope.updateCollapseState(tagWrapper.height());
           });

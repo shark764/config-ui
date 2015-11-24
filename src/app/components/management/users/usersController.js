@@ -3,7 +3,7 @@
 angular.module('liveopsConfigPanel')
   .controller('UsersController', ['$scope', '$window', '$parse', 'User', 'Session', 'AuthService', 'userTableConfig', 'Alert', 'flowSetup', 'BulkAction', '$q', '$location', 'lodash', 'TenantUser', 'TenantRole', 'queryCache', 'UserPermissions', 'PlatformRole', 'TenantUserGroups', 'Modal',
     function ($scope, $window, $parse, User, Session, AuthService, userTableConfig, Alert, flowSetup, BulkAction, $q, $location, _, TenantUser, TenantRole, queryCache, UserPermissions, PlatformRole, TenantUserGroups, Modal) {
-      var self = this;
+      var vm = this;
       $scope.forms = {};
       $scope.Session = Session;
       $window.flowSetup = flowSetup;
@@ -59,6 +59,33 @@ angular.module('liveopsConfigPanel')
         return isDirty;
       };
 
+      vm.saveTenantUser = function saveTenantUser () {
+        if (!$scope.selectedTenantUser.isNew()) {
+          delete $scope.selectedTenantUser.status;
+        }
+
+        return $scope.selectedTenantUser.save({
+          tenantId: Session.tenant.tenantId
+        }).then(function (tenantUser) {
+          tenantUser.$skills = [];
+          tenantUser.$groups = TenantUserGroups.query({
+            memberId: tenantUser.id,
+            tenantId: Session.tenant.tenantId
+          });
+
+          return tenantUser;
+        });
+      };
+
+      vm.canSaveTenantUser = function(tenantUser) {
+        return tenantUser.isNew() ||
+          (dirty(['status', 'roleId']) &&
+            UserPermissions.hasPermissionInList([
+              'PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT',
+              'MANAGE_TENANT_ENROLLMENT'
+            ]));
+      };
+
       $scope.submit = function () {
         var savePromise;
 
@@ -81,39 +108,12 @@ angular.module('liveopsConfigPanel')
         }
 
         return $q.when(savePromise).then(function () {
-          if (!canSaveTenantuser($scope.selectedTenantUser)) {
+          if (!vm.canSaveTenantUser($scope.selectedTenantUser)) {
             return $scope.selectedTenantUser;
           }
 
-          return self.saveTenantUser();
+          return vm.saveTenantUser();
         });
-      };
-      
-      this.saveTenantUser = function saveTenantUser () {
-        if (!$scope.selectedTenantUser.isNew()) {
-          delete $scope.selectedTenantUser.status;
-        }
-
-        return $scope.selectedTenantUser.save({
-          tenantId: Session.tenant.tenantId
-        }).then(function (tenantUser) {
-          tenantUser.$skills = [];
-          tenantUser.$groups = TenantUserGroups.query({
-            memberId: tenantUser.id,
-            tenantId: Session.tenant.tenantId
-          });
-          
-          return tenantUser;
-        });
-      };
-      
-      var canSaveTenantuser = function canSaveTenantuser(tenantUser) {
-        return tenantUser.isNew() ||
-          (dirty(['status', 'roleId']) &&
-            UserPermissions.hasPermissionInList([
-              'PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT',
-              'MANAGE_TENANT_ENROLLMENT'
-            ]));
       };
 
       $scope.resend = function () {
