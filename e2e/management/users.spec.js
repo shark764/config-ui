@@ -312,6 +312,58 @@ describe('The users view', function() {
     expect(users.tenantRoleFormDropdown.getAttribute('disabled')).toBeTruthy();
   });
 
+  it('should not allow pending user\'s status to be updated', function() {
+    // Ensure Tenant Status column is added
+    shared.tableColumnsDropDown.click();
+    shared.tableColumnsDropDownInputs.get(8).isSelected().then(function(columnSelected) {
+      if (!columnSelected) {
+        shared.tableColumnsDropDownOptions.get(8).click();
+        expect(shared.tableColumnsDropDownInputs.get(8).isSelected()).toBeTruthy();
+      }
+    }).then(function() {
+      shared.tableColumnsDropDown.click();
+
+      users.tenantStatusTableDropDownLabel.click();
+      users.dropdownTenantStatuses.get(2).click(); // Pending Invitation
+      users.dropdownTenantStatuses.get(4).click(); // Pending Acceptance
+      // All input is unselected
+      expect(users.dropdownTenantStatusInputs.get(0).isSelected()).toBeFalsy();
+
+      shared.tableElements.then(function(rows) {
+        for (var i = 0; i < rows.length && i < 5; ++i) {
+          rows[i].click();
+          expect(users.activeFormToggle.isEnabled()).toBeFalsy();
+        };
+      });
+    });
+  });
+
+  it('should allow Accepted and Disabled user\'s status to be updated', function() {
+    // Ensure Tenant Status column is added
+    shared.tableColumnsDropDown.click();
+    shared.tableColumnsDropDownInputs.get(8).isSelected().then(function(columnSelected) {
+      if (!columnSelected) {
+        shared.tableColumnsDropDownOptions.get(8).click();
+        expect(shared.tableColumnsDropDownInputs.get(8).isSelected()).toBeTruthy();
+      }
+    }).then(function() {
+      shared.tableColumnsDropDown.click();
+
+      users.tenantStatusTableDropDownLabel.click();
+      users.dropdownTenantStatuses.get(0).click(); // Disabled
+      users.dropdownTenantStatuses.get(3).click(); // Accepted
+      // All input is unselected
+      expect(users.dropdownTenantStatusInputs.get(0).isSelected()).toBeFalsy();
+
+      shared.tableElements.then(function(rows) {
+        for (var i = 0; i < rows.length && i < 5; ++i) {
+          rows[i].click();
+          expect(users.activeFormToggle.isEnabled()).toBeTruthy();
+        };
+      });
+    });
+  });
+
   describe('bulk actions', function() {
     //Regression test for TITAN2-2237
     it('should only display confirm dialog once when switching selected elements', function() {

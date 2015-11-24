@@ -177,7 +177,7 @@ describe('The create new user form', function() {
     });
   });
 
-  it('should clear close new user details after clicking Cancel', function() {
+  it('should clear and close new user details after clicking Cancel', function() {
     // Add randomness to user details
     randomUser = Math.floor((Math.random() * 1000) + 1);
     userAdded = false;
@@ -500,6 +500,32 @@ describe('The create new user form', function() {
         expect(users.lastNameFormField.getAttribute('value')).toBe('Last' + randomUser + 'NewUserEdit');
         expect(users.externalIdFormField.getAttribute('value')).toBe(randomUser + 'NewUserEdit');
       });
+    });
+  });
+
+  it('should add new user with status toggle disabled', function() {
+    // Add randomness to user details
+    randomUser = Math.floor((Math.random() * 1000) + 1);
+    newUserName = 'First' + randomUser + ' Last' + randomUser;
+    var newUserEmail = 'titantest' + randomUser + '@mailinator.com';
+
+    // Add new user
+    shared.createBtn.click();
+
+    users.emailFormField.sendKeys('titantest' + randomUser + '@mailinator.com\t');
+    users.tenantRoleFormDropdownOptions.get((randomUser % 3) + 1).click();
+    users.platformRoleFormDropdownOptions.get(1).click();
+
+    users.firstNameFormField.sendKeys('First' + randomUser);
+    users.lastNameFormField.sendKeys('Last' + randomUser);
+    users.externalIdFormField.sendKeys(randomUser);
+
+    users.submitFormBtn.click().then(function() {
+      shared.waitForSuccess();
+      expect(shared.successMessage.isDisplayed()).toBeTruthy();
+
+      // Confirm user is enabled by default
+      expect(users.activeFormToggle.isEnabled()).toBeFalsy();
     });
   });
 });
