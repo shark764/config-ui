@@ -121,12 +121,15 @@ describe('The user invitation', function() {
                     // Verify the email is from the latest user created
                     expect(newestMessage1Contents).toContain('User Name: titantest' + randomUser + '@mailinator.com');
                     browser.get(shared.usersPageUrl);
-                  } else {
-                    // Fail test
+                  } else { // Fail test
+                    console.log('Mailinator email error: ' + error);
                     expect(false).toBeTruthy();
                   }
                 });
               });
+            } else { // Fail test
+              console.log('Mailinator inbox error: ' + error);
+              expect(false).toBeTruthy();
             }
           });
         });
@@ -142,8 +145,8 @@ describe('The user invitation', function() {
         users.emailFormField.sendKeys('titantest' + randomUser + '@mailinator.com\t');
         users.tenantRoleFormDropdownOptions.get((randomUser % 3) + 1).click();
         users.platformRoleFormDropdownOptions.get(1).click();
-users.firstNameFormField.sendKeys('First' + randomUser);
-      users.lastNameFormField.sendKeys('Last' + randomUser);
+        users.firstNameFormField.sendKeys('First' + randomUser);
+        users.lastNameFormField.sendKeys('Last' + randomUser);
 
         users.submitFormBtn.click().then(function() {
           expect(shared.successMessage.isDisplayed()).toBeTruthy();
@@ -184,11 +187,13 @@ users.firstNameFormField.sendKeys('First' + randomUser);
                       acceptInvitationLink = newestMessage2Contents.split('Log in automatically by clicking ')[1].split('\n')[0];
                       browser.get(acceptInvitationLink);
                     } else { // Fail test
+                      console.log('Mailinator email error: ' + error);
                       expect(true).toBeFalsy();
                     }
                   });
                 });
               } else { // Fail test
+                console.log('Mailinator inbox error: ' + error);
                 expect(true).toBeFalsy();
               }
             });
@@ -218,13 +223,14 @@ users.firstNameFormField.sendKeys('First' + randomUser);
                 expect(newestMessageContents).toContain('Log in automatically by clicking');
 
                 acceptInvitationLink = newestMessageContents.split('Log in automatically by clicking ')[1].split('\n')[0];
-              } else {
+              } else { // Fail test
+                console.log('Mailinator email error: ' + error);
                 expect(false).toBeTruthy();
               }
             });
           });
-        } else {
-          // Fail test
+        } else { // Fail test
+          console.log('Mailinator inbox error: ' + error);
           expect(false).toBeTruthy();
         }
       });
@@ -239,8 +245,8 @@ users.firstNameFormField.sendKeys('First' + randomUser);
         users.emailFormField.sendKeys('titantest' + randomUser + '@mailinator.com\t');
         users.tenantRoleFormDropdownOptions.get((randomUser % 3) + 1).click();
         users.platformRoleFormDropdownOptions.get(1).click();
-users.firstNameFormField.sendKeys('First' + randomUser);
-      users.lastNameFormField.sendKeys('Last' + randomUser);
+        users.firstNameFormField.sendKeys('First' + randomUser);
+        users.lastNameFormField.sendKeys('Last' + randomUser);
 
         users.submitFormBtn.click().then(function() {
           expect(shared.successMessage.isDisplayed()).toBeTruthy();
@@ -271,11 +277,13 @@ users.firstNameFormField.sendKeys('First' + randomUser);
                       browser.get(acceptInvitationLink);
                       expect(invites.acceptForm.isDisplayed()).toBeTruthy();
                     } else { // Fail test
+                      console.log('Mailinator email error: ' + error);
                       expect(false).toBeTruthy();
                     }
                   });
                 });
               } else { // Fail test
+                console.log('Mailinator inbox error: ' + error);
                 expect(false).toBeTruthy();
               }
             });
@@ -298,8 +306,8 @@ users.firstNameFormField.sendKeys('First' + randomUser);
         users.emailFormField.sendKeys('titantest' + randomUser + '@mailinator.com\t');
         users.tenantRoleFormDropdownOptions.get((randomUser % 3) + 1).click();
         users.platformRoleFormDropdownOptions.get(1).click();
-users.firstNameFormField.sendKeys('First' + randomUser);
-      users.lastNameFormField.sendKeys('Last' + randomUser);
+        users.firstNameFormField.sendKeys('First' + randomUser);
+        users.lastNameFormField.sendKeys('Last' + randomUser);
 
         users.submitFormBtn.click().then(function() {
           expect(shared.successMessage.isDisplayed()).toBeTruthy();
@@ -350,11 +358,13 @@ users.firstNameFormField.sendKeys('First' + randomUser);
 
                       expect(shared.navBar.isPresent()).toBeFalsy();
                     } else { // Fail test
+                      console.log('Mailinator email error: ' + error);
                       expect(false).toBeTruthy();
                     }
                   });
                 });
               } else { // Fail test
+                console.log('Mailinator inbox error: ' + error);
                 expect(false).toBeTruthy();
               }
             });
@@ -415,12 +425,14 @@ users.firstNameFormField.sendKeys('First' + randomUser);
                       expect(invites.lastNameFormField.getAttribute('value')).toBe('Last ' + randomUser);
                       expect(invites.externalIdFormField.getAttribute('value')).toBe('External Id' + randomUser);
                     } else { // Fail test
+                      console.log('Mailinator email error: ' + error);
                       expect(false).toBeTruthy();
                     }
                   });
                 });
               } else {
                 // Fail test
+                console.log('Mailinator inbox error: ' + error);
                 expect(false).toBeTruthy();
               }
             });
@@ -454,7 +466,7 @@ users.firstNameFormField.sendKeys('First' + randomUser);
       invites.externalIdFormField.clear();
 
       expect(invites.submitFormBtn.isEnabled()).toBeFalsy();
-      expect(invites.errors.count()).toBe(2);
+      expect(invites.errors.count()).toBe(3);
       expect(invites.errors.get(0).getText()).toBe('Please enter a password');
       expect(invites.errors.get(1).getText()).toBe('Please enter a first name');
       expect(invites.errors.get(2).getText()).toBe('Please enter a last name');
@@ -485,7 +497,7 @@ users.firstNameFormField.sendKeys('First' + randomUser);
       expect(invites.errors.get(1).getText()).toBe('Please enter a last name');
     });
 
-    it('should not external id field input', function() {
+    it('should not require external id field input', function() {
       browser.get(acceptInvitationLink);
 
       invites.passwordFormField.sendKeys('password\t');
@@ -496,17 +508,15 @@ users.firstNameFormField.sendKeys('First' + randomUser);
     it('should not accept spaces as valid input', function() {
       browser.get(acceptInvitationLink);
 
-      invites.passwordFormField.sendKeys(' \t');
       invites.firstNameFormField.sendKeys(' \t');
       invites.lastNameFormField.sendKeys(' \t');
       invites.externalIdFormField.sendKeys(' \t');
 
       expect(invites.submitFormBtn.getAttribute('disabled')).toBeTruthy();
 
-      expect(invites.errors.get(0).getText()).toBe('Please enter a password');
-      expect(invites.errors.get(1).getText()).toBe('Please enter a first name');
-      expect(invites.errors.get(2).getText()).toBe('Please enter a last name');
-      expect(invites.errors.get(3).getText()).toBe('Please enter an external id');
+      expect(invites.errors.count()).toBe(2);
+      expect(invites.errors.get(0).getText()).toBe('Please enter a first name');
+      expect(invites.errors.get(1).getText()).toBe('Please enter a last name');
     });
 
     it('should accept invitation', function() {
@@ -550,7 +560,7 @@ users.firstNameFormField.sendKeys('First' + randomUser);
         users.emailFormField.sendKeys('titantest' + randomUser + '@mailinator.com\t');
         users.tenantRoleFormDropdownOptions.get((randomUser % 3) + 1).click();
         users.platformRoleFormDropdownOptions.get(1).click();
-                users.firstNameFormField.sendKeys('First ' + randomUser);
+        users.firstNameFormField.sendKeys('First ' + randomUser);
         users.lastNameFormField.sendKeys('Last ' + randomUser);
 
         users.submitFormBtn.click().then(function() {
@@ -634,11 +644,13 @@ users.firstNameFormField.sendKeys('First' + randomUser);
                 expect(shared.message.isDisplayed()).toBeTruthy();
                 expect(shared.message.getText()).toContain('Sorry, this invitation has expired. Please contact your account administrator.');
               } else { // Fail test
+                console.log('Mailinator email error: ' + error);
                 expect(true).toBeFalsy();
               }
             });
           });
         } else { // Fail test
+          console.log('Mailinator inbox error: ' + error);
           expect(true).toBeFalsy();
         }
       });
@@ -731,8 +743,9 @@ users.firstNameFormField.sendKeys('First' + randomUser);
 
                     // Verify the email is NOT one sent to an existing user
                     expect(newestMessage1Contents).not.toContain('Please click the following link to get started on accepting this invitation:');
-                    expect(newestMessage1Contents).not.toContain('You will simply enter your existing LiveOps User Name: mike.wazowski@mailinator.com and password');
+                    expect(newestMessage1Contents).not.toContain('You will simply enter your existing LiveOps User Name: ');
                   } else { // Fail test
+                    console.log('Mailinator email error: ' + error);
                     expect(false).toBeTruthy();
                   }
                 });
@@ -775,13 +788,17 @@ users.firstNameFormField.sendKeys('First' + randomUser);
                     var newestMessage1Contents = JSON.parse(body).data.parts[0].body;
 
                     // Verify the email is one sent to an existing user
-                    expect(newestMessage1Contents).not.toContain('Please click the following link to get started on accepting this invitation:');
-                    expect(newestMessage1Contents).not.toContain('You will simply enter your existing LiveOps User Name: mike.wazowski@mailinator.com and password');
+                    expect(newestMessage1Contents).toContain('Please click the following link to get started on accepting this invitation:');
+                    expect(newestMessage1Contents).toContain('You will simply enter your existing LiveOps User Name:');
                   } else { // Fail test
+                    console.log('Mailinator email error: ' + error);
                     expect(false).toBeTruthy();
                   }
                 });
               });
+            } else {
+              console.log('Mailinator inbox error: ' + error);
+              expect(false).toBeTruthy();
             }
           });
         });
@@ -842,11 +859,13 @@ users.firstNameFormField.sendKeys('First' + randomUser);
                     acceptInvitationLink = newestMessage2Contents.split('Log in automatically by clicking ')[1].split('\n')[0];
                     browser.get(acceptInvitationLink);
                   } else { // Fail test
+                    console.log('Mailinator email error: ' + error);
                     expect(false).toBeTruthy();
                   }
                 });
               });
             } else { // Fail test
+              console.log('Mailinator inbox error: ' + error);
               expect(true).toBeFalsy();
             }
           });

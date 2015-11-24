@@ -263,7 +263,8 @@ describe('The users view', function() {
     users.externalIdFormField.sendKeys(' \t');
 
     expect(users.submitFormBtn.getAttribute('disabled')).toBeTruthy();
-    expect(shared.tableElements.count()).toBe(userCount);
+    users.submitFormBtn.click();
+    expect(shared.successMessage.isPresent()).toBeFalsy();
 
     // Verify error messages are displayed
     expect(users.requiredErrors.count()).toBe(2);
