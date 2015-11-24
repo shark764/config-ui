@@ -21,26 +21,26 @@ describe('listItem directive', function () {
 
       mockLists = _mockLists;
       mockListTypes = _mockListTypes;
-      
+
       List = _List;
     }
   ]));
-  
+
   it('should link functions to the isolateScope', function() {
     element = $compile('<form><list-item></list-item><form>')($scope);
     element = element.find('list-item');
 
     $scope.$digest();
     isolateScope = element.isolateScope();
-    
+
     expect(isolateScope.inputChange).toBeDefined();
     expect(isolateScope.getName).toBeDefined();
     expect(isolateScope.initBool).toBeDefined();
   });
-  
+
   it('should not touch bool field WHEN not required', function() {
     $scope.listType = mockListTypes[0];
-    
+
     $scope.item = new List({
       listTypeId: 'listTypeId1',
       $listType: $scope.listType,
@@ -52,15 +52,13 @@ describe('listItem directive', function () {
 
     $scope.$digest();
     isolateScope = element.isolateScope();
-    
+
     expect(isolateScope.item.field1).not.toBeDefined();
   });
-  
-  it('should init bool field to false WHEN required but not supplied', function() {
-    console.log('stuff');
-    
+
+  it('should init bool field to false WHEN required but not supplied', function() { 
     $scope.listType = mockListTypes[1];
-    
+
     $scope.item = new List({
       listTypeId: 'listTypeId2',
       $listType: $scope.listType,
@@ -72,7 +70,7 @@ describe('listItem directive', function () {
 
     $scope.$digest();
     isolateScope = element.isolateScope();
-    
+
     expect(isolateScope.item.field1).toEqual(false);
   });
 
