@@ -55,7 +55,7 @@ describe('listItem directive', function () {
 
     expect(isolateScope.item.field1).not.toBeDefined();
   });
-
+  
   it('should init bool field to false WHEN required but not supplied', function() { 
     $scope.listType = mockListTypes[1];
 

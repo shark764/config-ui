@@ -16,8 +16,11 @@
   <div class="input-group">
     <label>{{'tenant.details.admin' | translate}}</label>
     <div>
-      <select ng-model="selectedTenant.adminUserId" ng-options="user.id as user.getDisplay() for user in fetchUsers()">
+      <select ng-model="selectedTenant.adminUserId"
+        ng-options="user.id as user.getDisplay() for user in users">
       </select>
+      <i class="fa fa-refresh fa-spin"
+        ng-hide="users.$resolved"></i>
     </div>
   </div>
 
@@ -45,10 +48,17 @@
 
 <div class="input-group">
   <label class="textarea-label">{{'tenant.details.id' | translate}}</label>
-  <p id="tenant-details-parent-id">{{Session.tenant.tenantId}}</p>
+  <p id="tenant-details-parent-id">{{selectedTenant.$parent.id}}</p>
 </div>
 
 <div class="input-group">
   <label class="textarea-label">{{'tenant.details.name' | translate}}</label>
-  <p id="tenant-details-parent-name">{{Session.tenant.tenantName}}</p>
+  <p id="tenant-details-parent-name"
+    ng-show="selectedTenant.$parent.name">
+    {{selectedTenant.$parent.name}}
+  </p>
+  <p id="tenant-details-parent-name" class="null"
+    ng-hide="selectedTenant.$parent.name">
+    {{ 'value.unknown' | translate }}
+  </p>
 </div>

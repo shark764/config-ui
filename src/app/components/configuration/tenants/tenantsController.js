@@ -3,7 +3,7 @@
 angular.module('liveopsConfigPanel')
   .controller('TenantsController', ['$scope', '$stateParams', '$filter', 'Session', 'Tenant', 'TenantUser', 'tenantTableConfig', 'UserPermissions', 'AuthService', 'Region', '$q',
     function($scope, $stateParams, $filter, Session, Tenant, TenantUser, tenantTableConfig, UserPermissions, AuthService, Region, $q) {
-
+      
       $scope.create = function() {
         $scope.selectedTenant = new Tenant({
           regionId: Session.activeRegionId,
@@ -12,18 +12,31 @@ angular.module('liveopsConfigPanel')
         });
       };
 
-      $scope.fetchTenants = function() {
+      $scope.loadTenants = function() {
         if (UserPermissions.hasPermissionInList(['PLATFORM_VIEW_ALL_TENANTS', 'PLATFORM_MANAGE_ALL_TENANTS', 'PLATFORM_CREATE_ALL_TENANTS', 'PLATFORM_CREATE_TENANT_ROLES', 'PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT'])){
-          return Tenant.cachedQuery({
+          $scope.tenants = Tenant.cachedQuery({
             regionId: Session.activeRegionId
           });
         } else if (UserPermissions.hasPermission('MANAGE_TENANT')){
-          return Tenant.prototype.getAsArray(Session.tenant.tenantId);
+          var params = {
+            id: Session.tenant.tenantId
+          };
+          
+          if(!Tenant.hasItem(params)) {
+            Tenant.cachedGet(params);
+          }
+          
+          $scope.tenants = Tenant.cachedQuery();
+          $scope.tenants.$resolved = true;
+        } else {
+          throw new Error('Insufficient permissions to load tenantsController.');
         }
+        
+        $scope.tenants.$promise.then($scope.loadUsers);
       };
-
-      $scope.fetchUsers = function() {
-        return TenantUser.cachedQuery({
+      
+      $scope.loadUsers = function() {
+        $scope.users = TenantUser.cachedQuery({
           tenantId: Session.tenant.tenantId
         });
       };
@@ -45,9 +58,11 @@ angular.module('liveopsConfigPanel')
       $scope.$on('updated:resource:Tenant', function() {
         AuthService.refreshTenants();
       });
-
-      $scope.tableConfig = tenantTableConfig;
-
+      
+      $scope.$on('session:tenant:changed', function() {
+        $scope.loadTenants();
+      });
+      
       $scope.$watch('selectedTenant', function(newVal){
         if (newVal){
           var result = angular.isDefined(newVal.$promise) ? newVal.$promise : newVal;
@@ -55,10 +70,18 @@ angular.module('liveopsConfigPanel')
             tenant.$region = Region.cachedGet({
               id: tenant.regionId
             });
+            
+            tenant.$parent = Tenant.cachedGet({
+              id: $scope.selectedTenant.parentId
+            });
           });
         }
       });
       
-      $scope.Session = Session;
+      $scope.loadTenants();
+      
+      $scope.tableConfig = tenantTableConfig(function() {
+        return $scope.tenants;
+      });
     }
   ]);

@@ -12,7 +12,7 @@ angular.module('liveopsConfigPanel')
         var permissions = [];
         permissions.push.apply(permissions, Session.platformPermissions);
         permissions.push.apply(permissions, Session.tenant.tenantPermissions);
-
+        
         for (var i = 0; i < permissions.length; i++){
           if (permissions[i] === permissionKey){
             return true;

@@ -1,7 +1,7 @@
 <table-controls
   id="table-pane"
   config="tableConfig"
-  items="fetchTenants()"
+  items="tenants"
   selected="selectedTenant"
   resource-name="Tenant">
 
@@ -11,21 +11,24 @@
   </span>
   
   <span name="parentId">
-    <span ng-repeat="option in options | filter:{id: item.parentId}">
+    <span ng-repeat="option in filtered = (options | filter:{id: item.parentId})">
       {{option.name}}
     </span>
+    <span ng-hide="filtered.length" class="null">
+      {{ 'value.unknown' | translate }}
+    </span>
   </span>
-
+  
 </table-controls>
 
 <resize-handle
   ng-show="selectedTenant || showBulkActions"
   id="resize-pane"
-  right-element-id="right-panel"
+  right-element-id="tenant-details-pane"
   left-element-id="table-pane"></resize-handle>
 
 <lo-details-panel
-  id="right-panel"
+  id="tenant-details-pane"
   class="right-panel"
   ng-show="selectedTenant || showBulkActions"
   ng-resource="selectedTenant">
