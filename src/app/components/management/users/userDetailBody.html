@@ -130,7 +130,7 @@
       <form-error field="forms.detailsForm.firstName"
         error-type-required="{{'details.firstName.error' | translate}}"></form-error>
       <div>
-        <input name="firstName" type="text" ng-required="true"
+        <input name="firstName" type="text" ng-required="!forms.detailsForm.email.$error.duplicateEmail"
           ng-model="selectedTenantUser.$user.firstName"></input>
       </div>
     </div>
@@ -141,7 +141,7 @@
       <form-error field="forms.detailsForm.lastName"
         error-type-required="{{'details.lastName.error' | translate}}"></form-error>
       <div>
-        <input name="lastName" type="text" ng-required="true"
+        <input name="lastName" type="text" ng-required="!forms.detailsForm.email.$error.duplicateEmail"
           ng-model="selectedTenantUser.$user.lastName">
       </input>
       </div>
