@@ -102,7 +102,7 @@ describe('The create new user form', function() {
     expect(shared.successMessage.isPresent()).toBeFalsy();
   });
 
-  it('should not accept spaces as valid input for required fields', function() {
+  it('should not accept spaces as valid input for required email field', function() {
     shared.createBtn.click();
 
     // Enter a space into each field, select required dropdown field
@@ -122,6 +122,30 @@ describe('The create new user form', function() {
 
     // Verify error messages are displayed
     expect(users.requiredErrors.get(0).getText()).toBe('Please enter an email address');
+  });
+
+  it('should not accept spaces as valid input for required name fields', function() {
+    randomUser = Math.floor((Math.random() * 1000) + 1);
+    shared.createBtn.click();
+
+    // Enter a space into each field, select required dropdown field
+    users.emailFormField.sendKeys('titantestrequired' + randomUser + '@mailinator.com\t');
+    users.tenantRoleFormDropdownOptions.get(1).click();
+    users.platformRoleFormDropdownOptions.get(1).click();
+
+    users.firstNameFormField.sendKeys('  ');
+    users.lastNameFormField.sendKeys('  ');
+    users.externalIdFormField.sendKeys('  ');
+
+    expect(users.submitFormBtn.getAttribute('disabled')).toBeTruthy();
+    users.submitFormBtn.click();
+    expect(shared.tableElements.count()).toBe(userCount);
+    expect(shared.successMessage.isPresent()).toBeFalsy();
+
+    // Verify error messages are displayed
+    expect(users.requiredErrors.count()).toBe(2);
+    expect(users.requiredErrors.get(0).getText()).toBe('Please enter a first name');
+    expect(users.requiredErrors.get(1).getText()).toBe('Please enter a last name');
   });
 
   it('should display new user in table and display user details with correct Tenant Status', function() {
@@ -253,7 +277,7 @@ describe('The create new user form', function() {
     expect(users.requiredErrors.get(1).getText()).toBe('Please select a role');
   });
 
-  it('should not require First Name, Last Name, External Id', function() {
+  it('should require First Name, and Last Name', function() {
     // Add randomness to user details
     randomUser = Math.floor((Math.random() * 1000) + 1);
     var newUserEmail = 'titantest' + randomUser + '@mailinator.com'
@@ -266,28 +290,50 @@ describe('The create new user form', function() {
     users.platformRoleFormDropdownOptions.get(1).click();
 
     // Fields enabled
-    expect(users.firstNameFormField.getAttribute('disabled')).toBeFalsy();
-    expect(users.lastNameFormField.getAttribute('disabled')).toBeFalsy();
-    expect(users.externalIdFormField.getAttribute('disabled')).toBeFalsy();
+    expect(users.firstNameFormField.isEnabled()).toBeTruthy();
+    expect(users.lastNameFormField.isEnabled()).toBeTruthy();
+    expect(users.externalIdFormField.isEnabled()).toBeTruthy();
+
+    expect(users.submitFormBtn.isEnabled()).toBeFalsy();
+
+    users.submitFormBtn.click();
+    expect(shared.successMessage.isPresent()).toBeFalsy();
+
+    users.firstNameFormField.click();
+    users.lastNameFormField.click();
+    users.externalIdFormField.click();
+
+    expect(users.requiredErrors.count()).toBe(2);
+    expect(users.requiredErrors.get(0).getText()).toBe('Please enter a first name');
+    expect(users.requiredErrors.get(1).getText()).toBe('Please enter a last name');
+  });
+
+  it('should not require External Id', function() {
+    // Add randomness to user details
+    randomUser = Math.floor((Math.random() * 1000) + 1);
+    newUserName = 'First' + randomUser + ' Last' + randomUser;
+    var newUserEmail = 'titantest' + randomUser + '@mailinator.com';
+
+    // Add new user
+    shared.createBtn.click();
+
+    users.emailFormField.sendKeys('titantest' + randomUser + '@mailinator.com\t');
+    users.tenantRoleFormDropdownOptions.get((randomUser % 3) + 1).click();
+    users.platformRoleFormDropdownOptions.get(1).click();
+
+    users.firstNameFormField.sendKeys('First' + randomUser);
+    users.lastNameFormField.sendKeys('Last' + randomUser);
 
     users.submitFormBtn.click().then(function() {
+      shared.waitForSuccess();
       expect(shared.successMessage.isDisplayed()).toBeTruthy();
-      expect(shared.tableElements.count()).toBeGreaterThan(userCount);
 
-      // User displayed in table without Name
-      shared.tableElements.then(function(users) {
-        for (var i = 1; i <= users.length; ++i) {
-          // Check if user email in table matches newly added user
-          element(by.css('tr.ng-scope:nth-child(' + i + ') > td:nth-child(3)')).getText().then(function(value) {
-            if (value == newUserEmail) {
-              userAdded = true;
-            }
-          });
-        }
-      }).thenFinally(function() {
-        // Verify new user was found in the user table
-        expect(userAdded).toBeTruthy();
-      });
+      // Confirm user is displayed in user list with correct details
+      shared.searchField.sendKeys(newUserEmail);
+      expect(shared.tableElements.count()).toBe(1);
+      shared.firstTableRow.click();
+      expect(users.userNameDetailsHeader.getText()).toBe(newUserName);
+      expect(users.externalIdFormField.getAttribute('value')).toBe('');
     });
   });
 

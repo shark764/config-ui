@@ -26,17 +26,17 @@
       <div>
         <label>{{'details.firstName' | translate}} *</label>
         <div>
-          <input ng-required="true" ng-model="tenantUser.$user.firstName" name="firstName" type="text"></input>
           <form-error field="userForm.firstName"
             error-type-required="{{'details.firstName.error' | translate}}"></form-error>
+          <input ng-required="true" ng-model="tenantUser.$user.firstName" name="firstName" type="text"></input>
         </div>
       </div>
       <div>
         <label>{{'details.lastName' | translate}} *</label>
         <div>
-          <input ng-required="true" ng-model="tenantUser.$user.lastName" name="lastName" type="text"></input>
           <form-error field="userForm.lastName"
-            error-type-required="{{'details.firstName.error' | translate}}"></form-error>
+            error-type-required="{{'details.lastName.error' | translate}}"></form-error>
+          <input ng-required="true" ng-model="tenantUser.$user.lastName" name="lastName" type="text"></input>
         </div>
       </div>
       <div>
