@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigPanel.config', 'pascalprecht.translate', 'ngCookies', 'ngMessages', 'ngSanitize', 'toastr', 'ngLodash', 'teljs', 'flow-library', 'realtime-dashboards', 'ngFileUpload', 'dndLists', 'liveopsConfigPanel.shared'])
+angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigPanel.config', 'pascalprecht.translate', 'ngCookies', 'ngMessages', 'ngSanitize', 'toastr', 'ngLodash', 'teljs', 'realtime-dashboards', 'ngFileUpload', 'dndLists', 'liveopsConfigPanel.shared', 'liveOps.flowDesigner'])
   .config(['$stateProvider', '$urlRouterProvider', '$translateProvider', 'toastrConfig', function($stateProvider, $urlRouterProvider, $translateProvider, toastrConfig) {
 
     $urlRouterProvider.otherwise(function($injector){
@@ -225,11 +225,23 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
 
             return deferred.promise;
           }],
-          notations: ['$http', function($http) {
-            return $http.get('/app/components/flows/flowDesigner/mocks/notations.json');
+          notations: ['Notation','$q', function(Notation, $q) {
+            var deferred = $q.defer();
+
+            Notation.query({}, function(results) {
+              deferred.resolve(results);
+            });
+
+            return deferred.promise;
           }],
-          resources: ['FlowResource', function(FlowResource){
-            return FlowResource.loadResources();
+          resources: ['FlowResource', '$q', function(FlowResource, $q){
+            var deferred = $q.defer();
+
+            FlowResource.loadResources().then(function(){
+                deferred.resolve();
+            });
+
+            return deferred.promise;
           }],
           readOnly: [function(){
             return false;
@@ -271,8 +283,14 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
 
             return deferred.promise;
           }],
-          notations: ['$http', function($http) {
-            return $http.get('/app/components/flows/flowDesigner/mocks/notations.json');
+          notations: ['Notation', '$q', function(Notation, $q) {
+            var deferred = $q.defer();
+
+            Notation.query({}, function(results) {
+              deferred.resolve(results);
+            });
+
+            return deferred.promise;
           }],
           resources: ['FlowResource', function(FlowResource){
             return FlowResource.loadResources();
