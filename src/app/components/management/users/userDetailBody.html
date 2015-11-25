@@ -103,8 +103,8 @@
       </div>
     </div>
 
-    <div ng-if="selectedTenantUser.status != 'accepted' && selectedTenantUser.status != 'disabled' &&
-      ['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'MANAGE_TENANT_ENROLLMENT'] | hasPermission" class="input-group">
+    <div ng-show="selectedTenantUser.status != 'accepted' && selectedTenantUser.status != 'disabled' &&
+      (['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'MANAGE_TENANT_ENROLLMENT'] | hasPermission)" class="input-group">
       <label></label>
       <div>
         <input id="resend-invitation-btn" type="button" class="btn" ng-click="resend()"
@@ -130,7 +130,11 @@
       <form-error field="forms.detailsForm.firstName"
         error-type-required="{{'details.firstName.error' | translate}}"></form-error>
       <div>
-        <input name="firstName" type="text" ng-required="!forms.detailsForm.email.$error.duplicateEmail"
+        <input name="firstName" type="text" ng-required="!(
+          forms.detailsForm.email.$invalid || scenario() === 'invite:existing:user' ||
+          ! (('PLATFORM_MANAGE_ALL_USERS' | hasPermission) ||
+          (('PLATFORM_MANAGE_USER_ACCOUNT' | hasPermission) &&
+          Session.user.id === selectedTenantUser.id)))"
           ng-model="selectedTenantUser.$user.firstName"></input>
       </div>
     </div>
@@ -141,7 +145,12 @@
       <form-error field="forms.detailsForm.lastName"
         error-type-required="{{'details.lastName.error' | translate}}"></form-error>
       <div>
-        <input name="lastName" type="text" ng-required="!forms.detailsForm.email.$error.duplicateEmail"
+        <input name="lastName" type="text"
+          ng-required="!(
+            forms.detailsForm.email.$invalid || scenario() === 'invite:existing:user' ||
+            ! (('PLATFORM_MANAGE_ALL_USERS' | hasPermission) ||
+            (('PLATFORM_MANAGE_USER_ACCOUNT' | hasPermission) &&
+            Session.user.id === selectedTenantUser.id)))"
           ng-model="selectedTenantUser.$user.lastName">
       </input>
       </div>
