@@ -11,10 +11,10 @@
   </span>
   
   <span name="parentId">
-    <span ng-repeat="option in filtered = (options | filter:{id: item.parentId})">
-      {{option.name}}
+    <span ng-show="item.$parent">
+      {{item.$parent.name}}
     </span>
-    <span ng-hide="filtered.length" class="null">
+    <span ng-hide="item.$parent" class="null">
       {{ 'value.unknown' | translate }}
     </span>
   </span>

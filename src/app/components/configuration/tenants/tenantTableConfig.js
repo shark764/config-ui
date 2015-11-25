@@ -9,12 +9,12 @@ angular.module('liveopsConfigPanel')
             'header': {
               'display': $translate.instant('value.name')
             },
-            'name': 'name'
+            'name': '$original.name'
           }, {
             'header': {
               'display': $translate.instant('value.description')
             },
-            'name': 'description'
+            'name': '$original.description'
           }, {
             'header': {
               'display': $translate.instant('value.identifier')
