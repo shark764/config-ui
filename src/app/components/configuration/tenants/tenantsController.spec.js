@@ -3,6 +3,7 @@
 describe('TenantsController', function () {
   var $scope,
     $controller,
+    controller,
     $httpBackend,
     apiHostname,
     Session,
@@ -30,7 +31,7 @@ describe('TenantsController', function () {
     Session.tenant.tenantPermissions = ['MANAGE_TENANT'];
     Session.platformPermissions = ['PLATFORM_VIEW_ALL_TENANTS'];
 
-    $controller('TenantsController', {
+    controller = $controller('TenantsController', {
       '$scope': $scope
     });
 
@@ -54,7 +55,7 @@ describe('TenantsController', function () {
       Session.activeRegionId = 'regionId2';
       Session.platformPermissions = ['PLATFORM_VIEW_ALL_TENANTS'];
 
-      $scope.loadTenants();
+      controller.loadTenants();
       $httpBackend.flush();
     }]));
 
@@ -65,7 +66,7 @@ describe('TenantsController', function () {
 
       Session.tenant.tenantPermissions = ['MANAGE_TENANT'];
 
-      $scope.loadTenants();
+      controller.loadTenants();
       $httpBackend.flush();
       expect($scope.tenants.length).toBe(1);
       expect($scope.tenants[0].id).toBe(mockTenants[0].id);
@@ -74,7 +75,7 @@ describe('TenantsController', function () {
     it('should return nothing if user doens\'t have permission',
       inject([function () {
         expect(function () {
-          $scope.loadTenants();
+          controller.loadTenants();
         }).toThrow();
 
         expect($scope.tenants).toBeUndefined();
@@ -89,7 +90,7 @@ describe('TenantsController', function () {
     it('should fetch the list of users', inject([function () {
       $httpBackend.expectGET(apiHostname + '/v1/tenants/tenant-id/users');
 
-      $scope.loadTenants();
+      controller.loadTenants();
       $httpBackend.flush();
     }]));
   });
