@@ -125,6 +125,18 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
           }]
         }
       })
+      .state('content.configuration.hours', {
+        url: '/hours?id',
+        templateUrl: 'app/components/configuration/hours/hours.html',
+        controller: 'HoursController',
+        reloadOnSearch: false,
+        resolve: {
+          hasPermission: ['UserPermissions', function(UserPermissions) {
+            //return UserPermissions.resolvePermissions(['VIEW_ALL_BUSINESS_HOURS', 'MANAGE_ALL_BUSINESS_HOURS']);
+            return UserPermissions.resolvePermissions([]);
+          }]
+        }
+      })
       .state('content.flows', {
         abstract: true,
         url: '/flows',

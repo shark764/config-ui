@@ -400,6 +400,7 @@
   "bulkActions.enable.queues": "Enable/Disable Queues",
   "bulkAction.success": "Bulk action successful!",
   "bulkActions.status.placeholder": "Select new status...",
+  "bulkActions.enable.hours": "Enable Hours",
 
   "user.profile.save.success": "Your details have been updated.",
   "user.profile.save.fail": "An error occurred while updating your details.",
@@ -456,5 +457,10 @@
   "twilio": "Twilio",
   "pstn": "PSTN",
   "pilvo": "Pilvo",
-  "sip": "SIP"
+  "sip": "SIP",
+  
+  "hours.table.title": "Business Hours Management",
+  "hours.details.creating": "Creating New Business Hours",
+  "hours.details.disable.confirm": "This will disable these business hours. Do you want to continue?",
+  "hours.details.enable.confirm": "This will enable these business hours. Do you want to continue?"
 }
