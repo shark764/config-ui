@@ -37,7 +37,7 @@ angular.module('liveopsConfigPanel')
 
         newScope.okCallback = function(newFlow) {
           $document.find('modal').remove();
-          $scope.selectedFlow = new Flow({
+          new Flow({
             tenantId: Session.tenant.tenantId,
             active: true,
             name: newFlow.name,
