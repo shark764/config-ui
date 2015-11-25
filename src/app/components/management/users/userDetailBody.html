@@ -103,7 +103,7 @@
       </div>
     </div>
 
-    <div ng-show="selectedTenantUser.status != 'accepted' && selectedTenantUser.status != 'disabled' &&
+    <div ng-if="selectedTenantUser.status != 'accepted' && selectedTenantUser.status != 'disabled' &&
       (['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'MANAGE_TENANT_ENROLLMENT'] | hasPermission)" class="input-group">
       <label></label>
       <div>
