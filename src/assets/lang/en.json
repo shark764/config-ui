@@ -7,6 +7,7 @@
   "value.createdOn": "Created On",
   "value.createdby.time": "Created by {{displayName}} on {{date}}",
   "value.createdon.time": "Created on {{date}}",
+  "value.date": "Date",
   "value.description": "Description",
   "value.designerLink": "Designer Link",
   "value.details.activeVersion": "Active Version",
@@ -462,5 +463,9 @@
   "hours.table.title": "Business Hours Management",
   "hours.details.creating": "Creating New Business Hours",
   "hours.details.disable.confirm": "This will disable these business hours. Do you want to continue?",
-  "hours.details.enable.confirm": "This will enable these business hours. Do you want to continue?"
+  "hours.details.enable.confirm": "This will enable these business hours. Do you want to continue?",
+  "hours.timezone.header": "Timezone",
+  "hours.timezone.select.placeholder": "Select timezone...",
+  "hours.hours.title": "Regular Hours",
+  "hours.exceptions.title": "Exceptions"
 }

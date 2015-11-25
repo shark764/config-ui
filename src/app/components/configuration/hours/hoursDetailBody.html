@@ -13,4 +13,135 @@
     <textarea ng-model="selectedHours.description"></textarea>
   </div>
 
+  <div class="input-group">
+    <label>{{'hours.timezone.header' | translate}} *</label>
+    <select ng-model="selectedHours.timezone" ng-options="timezone as timezone.name for timezone in timezones">
+      <option value="" disabled>{{'hours.timezone.select.placeholder' | translate}}</option>
+    </select>
+  </div>
 </div>
+
+<div class="divider-header">
+  <h4>{{'hours.hours.title' | translate}}</h4>
+</div>
+
+<div>
+  <div class="input-group">
+    <label>Business Hours</label>
+    <div>
+      <input type="radio" ng-model="selectedHours.type" value="default"> <label>24/7 Hours</label>
+      <input type="radio" ng-model="selectedHours.type" value="custom"> <label>Scheduled Hours</label>
+    </div>
+  </div>
+  
+  <div class="input-group" ng-show="selectedHours.type === 'custom'">
+    <table id="week-hours-table" class="table">
+      <thead>
+        <tr>
+          <th>&nbsp;</th>
+          <th>Start Time</th>
+          <th>Start Time</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th scope="row">Sunday</th>
+          <td><input type="time"/></td>
+          <td><input type="time"/></td>
+        </tr>
+        
+        <tr>
+          <th scope="row">Monday</th>
+          <td><input type="time"/></td>
+          <td><input type="time"/></td>
+        </tr>
+        
+        <tr>
+          <th scope="row">Tuesday</th>
+          <td><input type="time"/></td>
+          <td><input type="time"/></td>
+        </tr>
+        
+        <tr>
+          <th scope="row">Wednesday</th>
+          <td><input type="time"/></td>
+          <td><input type="time"/></td>
+        </tr>
+        
+        <tr>
+          <th scope="row">Thursday</th>
+          <td><input type="time"/></td>
+          <td><input type="time"/></td>
+        </tr>
+        
+        <tr>
+          <th scope="row">Friday</th>
+          <td><input type="time"/></td>
+          <td><input type="time"/></td>
+        </tr>
+        
+        <tr>
+          <th scope="row">Saturday</th>
+          <td><input type="time"/></td>
+          <td><input type="time"/></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="divider-header">
+  <h4>{{'hours.exceptions.title' | translate}}</h4>
+  <a class="btn pull-right" title="Add a schedule exception" ng-click="showCreateException()"><i class="fa fa-plus"></i></a>
+</div>
+
+<ng-form ng-show="exceptionHours" id="add-exception-form" seperate-validation>
+
+  <div class="input-group">
+    <label>Date *</label>
+    <input type="date" ng-model="exceptionHours.date" ng-required="true"/>
+  </div>
+  
+  <div class="input-group">
+    <label>Description</label>
+    <textarea ng-model="exceptionHours.description"></textarea>
+  </div>
+  
+  <div class="input-group">
+    <label>Start Time</label>
+    <input type="time" ng-required="true"/>
+  </div>
+  
+  <div class="input-group">
+    <label>End Time</label>
+    <input type="time" ng-required="true"/>
+  </div>
+  
+  <div class="input-group controls">
+    <label></label>
+    <input type="button" class="btn" value="Cancel" ng-click="exceptionHours = null"/>
+    <input type="button" class="btn btn-primary" value="Submit" ng-click="addException()"/>
+  </div>
+  
+</ng-form>
+
+<p class="null" ng-show="! selectedHours.exceptions.length && ! exceptionHours">No exceptions for the schedule have been defined. Add one with the plus button, above!</p>
+
+<table class="table" ng-show="selectedHours.exceptions.length">
+  <thead>
+    <tr>
+      <th>Date</th>
+      <th>Description</th>
+      <th>Start</th>
+      <th>End</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="exception in selectedHours.exceptions">
+      <td>{{exception.date}}</td>
+      <td>{{exception.description}}</td>
+      <td>{{exception.start}}</td>
+      <td>{{exception.end}}</td>
+    </tr>
+  </tbody>
+</table>
