@@ -22,7 +22,6 @@ angular.module('liveopsConfigPanel')
         });
       };
 
-
       $scope.addListItem = function addListItem() {
         var newItem = {
           $edit: true
