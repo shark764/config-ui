@@ -4,10 +4,6 @@ lo-extensions {
   max-width: 700px;
   
   .lo-extension-table {
-    .dndPlaceholder {
-      background-color: $accent-light;
-    }
-    
     .dndDraggingSource {
       display: none;
     }

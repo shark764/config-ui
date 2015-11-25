@@ -20,7 +20,7 @@
     <tr ng-repeat-start="version in fetchVersions() | orderBy:'created':'reverse'"
       id="version-row-{{version.name}}"
       ng-click="toggleDetails(version);">
-      <td><i ng-if="version.version == queue.activeVersion" class="fa fa-circle" title="{{'queue.details.version.active.tooltip' | translate}}"></i></td>
+      <td class="lo-accent-text"><i ng-if="version.version == queue.activeVersion" class="fa fa-circle" title="{{'queue.details.version.active.tooltip' | translate}}"></i></td>
       <td>
         {{version.name}}
       </td>

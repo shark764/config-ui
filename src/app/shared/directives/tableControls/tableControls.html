@@ -3,7 +3,7 @@
     <div class="col">
       <h2 ng-if="config.title">{{config.title}}</h2>
 
-      <a class="help-indicator"
+      <a class="help-indicator lo-accent-text"
       ng-show="config.helpLink"
       ng-href="{{ config.helpLink }}"
       target="_blank">
@@ -26,7 +26,7 @@
         <input type="text" ng-model="searchQuery"
         placeholder="{{'table.search.placeholder' | translate}}">
         </input>
-        <i class="fa fa-search"></i>
+        <i class="fa fa-search lo-main-bg"></i>
       </div>
     </div>
 
@@ -103,7 +103,7 @@
 
   <tbody>
     <tr ng-repeat="item in (filtered = (items | selectedTableOptions:config.fields | search:config.searchOn:searchQuery | orderBy:orderBy:reverseSortOrder))"
-    ng-class="{selected: item[primaryKey] === selected[primaryKey]}">
+    ng-class="{selected: item[primaryKey] === selected[primaryKey], 'lo-highlight': item[primaryKey] === selected[primaryKey]}">
       <td id="bulk-actions-select-table-cell" class="check-col"
       ng-show="showBulkActions"
       ng-click="checkItem(item)">

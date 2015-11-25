@@ -19,10 +19,6 @@ queue-versions {
   }
   
   .queue-version-table {
-    i {
-      color: $accent1;
-    }
-    
     tr:nth-child(4n), tr:nth-child(4n-1) {
       background-color: $lightest-grey;
     }
