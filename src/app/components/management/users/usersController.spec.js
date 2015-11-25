@@ -9,7 +9,8 @@ describe('users controller', function() {
     User,
     TenantUser,
     mockUsers,
-    mockTenantUsers;
+    mockTenantUsers,
+    $q;
 
   beforeEach(module('gulpAngular'));
   beforeEach(module('liveopsConfigPanel'));
@@ -20,8 +21,8 @@ describe('users controller', function() {
   beforeEach(module('liveopsConfigPanel.tenant.group.mock'));
   beforeEach(module('liveopsConfigPanel.tenant.role.mock'));
 
-  beforeEach(inject(['$compile', '$rootScope', '$httpBackend', '$controller', 'apiHostname', 'mockUsers', 'Session', 'User', 'TenantUser', 'mockTenantUsers',
-    function($compile, $rootScope, _$httpBackend, $controller, _apiHostname, _mockUsers, _Session_, _User_, _TenantUser, _mockTenantUsers) {
+  beforeEach(inject(['$compile', '$rootScope', '$httpBackend', '$controller', 'apiHostname', 'mockUsers', 'Session', 'User', 'TenantUser', 'mockTenantUsers', '$q',
+    function($compile, $rootScope, _$httpBackend, $controller, _apiHostname, _mockUsers, _Session_, _User_, _TenantUser, _mockTenantUsers, _$q_) {
       $scope = $rootScope.$new();
       $httpBackend = _$httpBackend;
       mockUsers = _mockUsers;
@@ -30,6 +31,7 @@ describe('users controller', function() {
       Session = _Session_;
       User = _User_;
       TenantUser = _TenantUser;
+      $q = _$q_;
 
       controller = $controller('UsersController', {
         '$scope': $scope
@@ -153,7 +155,7 @@ describe('users controller', function() {
       $scope.selectedTenantUser.save = jasmine.createSpy('save').and.returnValue({
         then: jasmine.createSpy('then')
       });
-      $scope.selectedTenantUser.$user.save = jasmine.createSpy('$user.save');
+      $scope.selectedTenantUser.$user.save = jasmine.createSpy('$user.save').and.returnValue($q.when());
     });
 
     it('should be defined', function() {
@@ -170,28 +172,27 @@ describe('users controller', function() {
           externalId: {$dirty: false}
         };
       });
-      
+
       describe('WHEN permissions are sufficient', function() {
         beforeEach(inject(['UserPermissions', function(UserPermissions) {
           UserPermissions.hasPermissionInList = jasmine.createSpy().and.returnValue(true);
           UserPermissions.hasPermission = jasmine.createSpy().and.returnValue(true);
         }]));
-        
+
         it('should PUT to /tenants/users', function() {
           $scope.submit();
           $scope.$digest();
-          
+
           expect($scope.selectedTenantUser.save).toHaveBeenCalled();
-          expect($scope.selectedTenantUser.status).not.toBeDefined();
         });
       });
-      
+
       describe('WHEN permissions are insufficient', function() {
         beforeEach(inject(['UserPermissions', function(UserPermissions) {
           UserPermissions.hasPermissionInList = jasmine.createSpy().and.returnValue(false);
           UserPermissions.hasPermission = jasmine.createSpy().and.returnValue(false);
         }]));
-        
+
         it('should not call selectedTenantUser.save', function() {
           $scope.submit();
 
@@ -210,13 +211,13 @@ describe('users controller', function() {
           externalId: {$dirty: false}
         };
       });
-      
+
       describe('WHEN permissions are sufficient', function() {
         beforeEach(inject(['UserPermissions', function(UserPermissions) {
           UserPermissions.hasPermissionInList = jasmine.createSpy().and.returnValue(true);
           UserPermissions.hasPermission = jasmine.createSpy().and.returnValue(true);
         }]));
-        
+
         it('should PUT to /tenants/users', function() {
           $scope.submit();
 
@@ -224,13 +225,13 @@ describe('users controller', function() {
           expect($scope.selectedTenantUser.$user.email).toEqual($scope.selectedTenantUser.email);
         });
       });
-      
+
       describe('WHEN permissions are insufficient', function() {
         beforeEach(inject(['UserPermissions', function(UserPermissions) {
           UserPermissions.hasPermissionInList = jasmine.createSpy().and.returnValue(false);
           UserPermissions.hasPermission = jasmine.createSpy().and.returnValue(false);
         }]));
-        
+
         it('should PUT to /tenants/users', function() {
           $scope.submit();
 
@@ -239,27 +240,27 @@ describe('users controller', function() {
       });
     });
   });
-  
+
   describe('expireTenantUser function', function () {
     it('should show a confirm modal', inject(['Modal', function (Modal) {
       spyOn(Modal, 'showConfirm');
       $scope.expireTenantUser();
       expect(Modal.showConfirm).toHaveBeenCalled();
     }]));
-    
+
     it('should set the user status to pending', inject(['Modal', function (Modal) {
       $scope.selectedTenantUser = mockTenantUsers[2];
       expect($scope.selectedTenantUser.status).toEqual('invited');
-      
+
       $httpBackend.expectPUT(apiHostname + '/v1/tenants/tenant-id/users/userId100', function(requestBody) {
         var data = JSON.parse(requestBody);
         return data.status === 'pending';
       }).respond(200);
-      
+
       spyOn(Modal, 'showConfirm').and.callFake(function(config){
         config.okCallback();
       });
-      
+
       $scope.expireTenantUser();
       $httpBackend.flush();
       expect($scope.selectedTenantUser.status).toEqual('pending');
