@@ -158,7 +158,7 @@ describe('The navbar', function() {
     it('should navigate to users page when users link is selected', function() {
       browser.actions().mouseMove(shared.usersNavButton).perform();
       navbar.userLink.click();
-      expect(browser.getCurrentUrl()).toContain(shared.usersPageUrl);;
+      expect(browser.getCurrentUrl()).toContain(shared.usersPageUrl);
     });
 
     it('should navigate to roles page when groups link is selected', function() {
@@ -178,6 +178,86 @@ describe('The navbar', function() {
       navbar.skillsLink.click();
       expect(browser.getCurrentUrl()).toContain(shared.skillsPageUrl);
     });
+
+    it('should open users page in new tab when link is right clicked', function() {
+      browser.actions().mouseMove(shared.usersNavButton).perform();
+      browser.actions().mouseMove(navbar.userLink).keyDown(protractor.Key.CONTROL).click().keyUp(protractor.Key.CONTROL).perform().then(function() {
+        // Wait for new tab to open
+        browser.driver.wait(function() {
+          return browser.getAllWindowHandles().then(function(handles) {
+            return handles.length === 2;
+          });
+        }, 5000);
+
+        browser.getAllWindowHandles().then(function(handles) {
+          browser.switchTo().window(handles[1]).then(function() {
+            expect(browser.getCurrentUrl()).toBe(shared.usersPageUrl);
+            browser.driver.close();
+            browser.driver.switchTo().window(handles[0]);
+          });
+        });
+      });
+    });
+
+    it('should open roles page in new tab when link is right clicked', function() {
+      browser.actions().mouseMove(shared.usersNavButton).perform();
+      browser.actions().mouseMove(navbar.rolesLink).keyDown(protractor.Key.CONTROL).click().keyUp(protractor.Key.CONTROL).perform().then(function() {
+        // Wait for new tab to open
+        browser.driver.wait(function() {
+          return browser.getAllWindowHandles().then(function(handles) {
+            return handles.length === 2;
+          });
+        }, 5000);
+
+        browser.getAllWindowHandles().then(function(handles) {
+          browser.switchTo().window(handles[1]).then(function() {
+            expect(browser.getCurrentUrl()).toBe(shared.rolesPageUrl);
+            browser.driver.close();
+            browser.driver.switchTo().window(handles[0]);
+          });
+        });
+      });
+    });
+
+    it('should open groups page in new tab when link is right clicked', function() {
+      browser.actions().mouseMove(shared.usersNavButton).perform();
+      browser.actions().mouseMove(navbar.groupsLink).keyDown(protractor.Key.CONTROL).click().keyUp(protractor.Key.CONTROL).perform().then(function() {
+        // Wait for new tab to open
+        browser.driver.wait(function() {
+          return browser.getAllWindowHandles().then(function(handles) {
+            return handles.length === 2;
+          });
+        }, 5000);
+
+        browser.getAllWindowHandles().then(function(handles) {
+          browser.switchTo().window(handles[1]).then(function() {
+            expect(browser.getCurrentUrl()).toBe(shared.groupsPageUrl);
+            browser.driver.close();
+            browser.driver.switchTo().window(handles[0]);
+          });
+        });
+      });
+    });
+
+    it('should open skills page in new tab when link is right clicked', function() {
+      browser.actions().mouseMove(shared.usersNavButton).perform();
+      browser.actions().mouseMove(navbar.skillsLink).keyDown(protractor.Key.CONTROL).click().keyUp(protractor.Key.CONTROL).perform().then(function() {
+        // Wait for new tab to open
+        browser.driver.wait(function() {
+          return browser.getAllWindowHandles().then(function(handles) {
+            return handles.length === 2;
+          });
+        }, 5000);
+
+        browser.getAllWindowHandles().then(function(handles) {
+          browser.switchTo().window(handles[1]).then(function() {
+            expect(browser.getCurrentUrl()).toBe(shared.skillsPageUrl);
+            browser.driver.close();
+            browser.driver.switchTo().window(handles[0]);
+          });
+        });
+      });
+    });
   });
 
   describe('Configuration', function() {
@@ -195,13 +275,80 @@ describe('The navbar', function() {
     it('should navigate to tenants page when tenants link is selected', function() {
       browser.actions().mouseMove(shared.tenantsNavButton).perform();
       navbar.tenantsLink.click();
-      expect(browser.getCurrentUrl()).toContain(shared.tenantsPageUrl);;
+      expect(browser.getCurrentUrl()).toContain(shared.tenantsPageUrl);
     });
 
     it('should navigate to integrations page when integrations link is selected', function() {
       browser.actions().mouseMove(shared.tenantsNavButton).perform();
       navbar.integrationsLink.click();
       expect(browser.getCurrentUrl()).toContain(shared.integrationsPageUrl);
+    });
+
+    it('should navigate to lists page when lists link is selected', function() {
+      browser.actions().mouseMove(shared.tenantsNavButton).perform();
+      navbar.listsLink.click();
+      expect(browser.getCurrentUrl()).toContain(shared.listsPageUrl);
+    });
+
+    it('should open tenants page in new tab when link is right clicked', function() {
+      browser.actions().mouseMove(shared.tenantsNavButton).perform();
+      browser.actions().mouseMove(navbar.tenantsLink).keyDown(protractor.Key.CONTROL).click().keyUp(protractor.Key.CONTROL).perform().then(function() {
+        // Wait for new tab to open
+        browser.driver.wait(function() {
+          return browser.getAllWindowHandles().then(function(handles) {
+            return handles.length === 2;
+          });
+        }, 5000);
+
+        browser.getAllWindowHandles().then(function(handles) {
+          browser.switchTo().window(handles[1]).then(function() {
+            expect(browser.getCurrentUrl()).toBe(shared.tenantsPageUrl);
+            browser.driver.close();
+            browser.driver.switchTo().window(handles[0]);
+          });
+        });
+      });
+
+    });
+
+    it('should open integrations page in new tab when link is right clicked', function() {
+      browser.actions().mouseMove(shared.tenantsNavButton).perform();
+      browser.actions().mouseMove(navbar.integrationsLink).keyDown(protractor.Key.CONTROL).click().keyUp(protractor.Key.CONTROL).perform().then(function() {
+        // Wait for new tab to open
+        browser.driver.wait(function() {
+          return browser.getAllWindowHandles().then(function(handles) {
+            return handles.length === 2;
+          });
+        }, 5000);
+
+        browser.getAllWindowHandles().then(function(handles) {
+          browser.switchTo().window(handles[1]).then(function() {
+            expect(browser.getCurrentUrl()).toBe(shared.integrationsPageUrl);
+            browser.driver.close();
+            browser.driver.switchTo().window(handles[0]);
+          });
+        });
+      });
+    });
+
+    it('should open lists page in new tab when link is right clicked', function() {
+      browser.actions().mouseMove(shared.tenantsNavButton).perform();
+      browser.actions().mouseMove(navbar.listsLink).keyDown(protractor.Key.CONTROL).click().keyUp(protractor.Key.CONTROL).perform().then(function() {
+        // Wait for new tab to open
+        browser.driver.wait(function() {
+          return browser.getAllWindowHandles().then(function(handles) {
+            return handles.length === 2;
+          });
+        }, 5000);
+
+        browser.getAllWindowHandles().then(function(handles) {
+          browser.switchTo().window(handles[1]).then(function() {
+            expect(browser.getCurrentUrl()).toBe(shared.listsPageUrl);
+            browser.driver.close();
+            browser.driver.switchTo().window(handles[0]);
+          });
+        });
+      });
     });
   });
 
@@ -245,6 +392,86 @@ describe('The navbar', function() {
       browser.actions().mouseMove(shared.flowsNavButton).perform();
       navbar.dispatchMappingsLink.click();
       expect(browser.getCurrentUrl()).toContain(shared.dispatchMappingsPageUrl);
+    });
+
+    it('should open flows page in new tab when link is right clicked', function() {
+      browser.actions().mouseMove(shared.flowsNavButton).perform();
+      browser.actions().mouseMove(navbar.flowsLink).keyDown(protractor.Key.CONTROL).click().keyUp(protractor.Key.CONTROL).perform().then(function() {
+        // Wait for new tab to open
+        browser.driver.wait(function() {
+          return browser.getAllWindowHandles().then(function(handles) {
+            return handles.length === 2;
+          });
+        }, 5000);
+
+        browser.getAllWindowHandles().then(function(handles) {
+          browser.switchTo().window(handles[1]).then(function() {
+            expect(browser.getCurrentUrl()).toBe(shared.flowsPageUrl);
+            browser.driver.close();
+            browser.driver.switchTo().window(handles[0]);
+          });
+        });
+      });
+    });
+
+    it('should open queues page in new tab when link is right clicked', function() {
+      browser.actions().mouseMove(shared.flowsNavButton).perform();
+      browser.actions().mouseMove(navbar.queuesLink).keyDown(protractor.Key.CONTROL).click().keyUp(protractor.Key.CONTROL).perform().then(function() {
+        // Wait for new tab to open
+        browser.driver.wait(function() {
+          return browser.getAllWindowHandles().then(function(handles) {
+            return handles.length === 2;
+          });
+        }, 5000);
+
+        browser.getAllWindowHandles().then(function(handles) {
+          browser.switchTo().window(handles[1]).then(function() {
+            expect(browser.getCurrentUrl()).toBe(shared.queuesPageUrl);
+            browser.driver.close();
+            browser.driver.switchTo().window(handles[0]);
+          });
+        });
+      });
+    });
+
+    it('should open media page in new tab when link is right clicked', function() {
+      browser.actions().mouseMove(shared.flowsNavButton).perform();
+      browser.actions().mouseMove(navbar.mediaLink).keyDown(protractor.Key.CONTROL).click().keyUp(protractor.Key.CONTROL).perform().then(function() {
+        // Wait for new tab to open
+        browser.driver.wait(function() {
+          return browser.getAllWindowHandles().then(function(handles) {
+            return handles.length === 2;
+          });
+        }, 5000);
+
+        browser.getAllWindowHandles().then(function(handles) {
+          browser.switchTo().window(handles[1]).then(function() {
+            expect(browser.getCurrentUrl()).toBe(shared.mediaPageUrl);
+            browser.driver.close();
+            browser.driver.switchTo().window(handles[0]);
+          });
+        });
+      });
+    });
+
+    it('should open dispatch mappings page in new tab when link is right clicked', function() {
+      browser.actions().mouseMove(shared.flowsNavButton).perform();
+      browser.actions().mouseMove(navbar.dispatchMappingsLink).keyDown(protractor.Key.CONTROL).click().keyUp(protractor.Key.CONTROL).perform().then(function() {
+        // Wait for new tab to open
+        browser.driver.wait(function() {
+          return browser.getAllWindowHandles().then(function(handles) {
+            return handles.length === 2;
+          });
+        }, 5000);
+
+        browser.getAllWindowHandles().then(function(handles) {
+          browser.switchTo().window(handles[1]).then(function() {
+            expect(browser.getCurrentUrl()).toBe(shared.dispatchMappingsPageUrl);
+            browser.driver.close();
+            browser.driver.switchTo().window(handles[0]);
+          });
+        });
+      });
     });
   });
 

@@ -54,9 +54,11 @@
     </div>
   </ng-form>
   
-  <bulk-action-executor class="details-pane" ng-show="showBulkActions" items="fetchQueues()"
-    bulk-actions="bulkActions" show-bulk-actions="showBulkActions">
-    <ba-set-queue-status bulk-action="bulkActions.setQueueStatus"></ba-set-queue-status>
+  <bulk-action-executor class="details-pane"
+    ng-show="showBulkActions"
+    items="fetchQueues()"
+    show-bulk-actions="showBulkActions">
+    <ba-set-queue-status></ba-set-queue-status>
   </bulk-action-executor>
 </lo-details-panel>
 

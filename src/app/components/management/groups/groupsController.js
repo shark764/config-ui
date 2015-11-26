@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('GroupsController', ['$scope', '$timeout', 'Session', 'Group', 'TenantUser', 'groupTableConfig', 'TenantGroupUsers', 'queryCache', 'DirtyForms', 'BulkAction', '$filter', 'Alert', '$translate',
-    function($scope, $timeout, Session, Group, TenantUser, groupTableConfig, TenantGroupUsers, queryCache, DirtyForms, BulkAction, $filter, Alert, $translate) {
+  .controller('GroupsController', ['$scope', '$timeout', 'Session', 'Group', 'TenantUser', 'groupTableConfig', 'TenantGroupUsers', 'queryCache', 'DirtyForms', 'BulkAction', '$stateParams', '$filter', 'Alert', '$translate',
+    function($scope, $timeout, Session, Group, TenantUser, groupTableConfig, TenantGroupUsers, queryCache, DirtyForms, BulkAction, $stateParams, $filter, Alert, $translate) {
       $scope.Session = Session;
       $scope.tableConfig = groupTableConfig;
 
@@ -40,10 +40,6 @@ angular.module('liveopsConfigPanel')
           owner: Session.user.id
         });
       });
-
-      $scope.bulkActions = {
-        setGroupStatus: new BulkAction()
-      };
 
       $scope.addMember = function(user) {
         TenantGroupUsers.save({

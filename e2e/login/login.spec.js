@@ -163,4 +163,12 @@ describe('The login view', function() {
     expect(browser.getCurrentUrl()).toBe(shared.loginPageUrl);
     expect(loginPage.errorMessage.isDisplayed()).toBeTruthy();
   });
+
+  it('should hide Copyright info while logging in', function() {
+    loginPage.emailLoginField.sendKeys(params.login.user);
+    loginPage.passwordLoginField.sendKeys(params.login.password);
+    loginPage.loginButton.click().then(function() {
+      loginPage.loggingIn();
+    });
+  });
 });

@@ -16,6 +16,7 @@ var Navbar = function() {
   this.configurationOptions = this.configurationDropdown.all(by.css('li'));
   this.tenantsLink = element(by.id('tenants-configuration-link'));
   this.integrationsLink = element(by.id('integrations-configuration-link'));
+  this.listsLink = element(by.id('lists-configuration-link'));
 
   // Flow Designer Page links
   this.flowsDropdown = element(by.css('#flows-nav-link .dropdown'));

@@ -101,6 +101,17 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
           }]
         }
       })
+      .state('content.configuration.lists', {
+        url: '/lists?id',
+        templateUrl: 'app/components/configuration/lists/lists.html',
+        controller: 'listsController',
+        reloadOnSearch: false,
+        resolve: {
+          hasPermission: ['UserPermissions', function(UserPermissions) {
+            return UserPermissions.resolvePermissions([]);
+          }]
+        }
+      })
       .state('content.configuration.integrations', {
         url: '/integrations?id',
         templateUrl: 'app/components/configuration/integrations/integrations.html',
@@ -152,7 +163,7 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
         }
       })
       .state('content.flows.media-collections', {
-        url: '/media-collections',
+        url: '/media-collections?id',
         templateUrl: 'app/components/flows/media-collections/media-collections.html',
         controller: 'MediaCollectionController',
         reloadOnSearch: false,

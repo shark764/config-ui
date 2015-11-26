@@ -89,6 +89,7 @@ angular.module('liveopsConfigPanel')
       this.destroy = function () {
         this.token = null;
         this.user = null;
+        this.tenant = null;
         this.tenants = null;
         this.platformPermissions = null;
         

@@ -1,0 +1,76 @@
+<div class="divider-header first-header">
+  <h4>{{'details' | translate}}</h4>
+</div>
+
+<div>
+  <div class="input-group">
+    <label>{{'value.name' | translate}}</label>
+    <p>{{selectedList.name}}</p>
+  </div>
+
+  <div class="input-group">
+    <label class="textarea-label">{{'value.description' | translate}}</label>
+    <p>{{selectedList.description}}</p>
+  </div>
+
+</div>
+
+<div class="divider-header">
+  <h4>{{'list.items.header' | translate}}</h4>
+</div>
+
+<i class="fa fa-plus btn"
+  ng-click="addListItem()">
+</i>
+
+<form-field-validation-message field-name="items"
+  error-type-required="{{'list.items.required' | translate}}" >
+</form-field-validation-message>
+<input type="hidden" name="items"
+  ng-model="selectedList.items" 
+  ng-required="true"
+  validate-count/>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th ng-repeat="field in selectedList.$listType.fields">
+        {{field.label}}
+      </th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat-start="(index, item) in selectedList.$original.items"
+      ng-class-odd="row-odd">
+      
+      <td ng-repeat="field in selectedList.$listType.fields"
+        ng-click="item.$edit = !item.$edit">
+        <span ng-show="item[field.name]">{{item[field.name]}}</span>
+        <span ng-show="!item[field.name]" class="null">{{'value.blank' | translate}}</span>
+      </td>
+      <td>
+        <i class="fa fa-times remove"
+          ng-click="removeListItem(index)">
+        </i>
+      </td>
+    </tr>
+    <tr ng-repeat-end
+      ng-show="item.$edit"
+      ng-class-odd="row-odd">
+      <td colspan="{{selectedList.$listType.fields.length}}">
+        <list-item
+          item="selectedList.items[index]"
+          list-type="selectedList.$listType"
+          index="{{$index}}">
+        </list-item>
+      </td>
+    </tr>
+    <tr ng-show="!selectedList.items.length">
+      <td colspan="{{selectedList.$listType.fields.length}}" class="lo-error">
+        {{'list.items.required' | translate}}
+      </td>
+    </tr>
+    
+  </tbody>
+</table>

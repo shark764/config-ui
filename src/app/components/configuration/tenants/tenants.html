@@ -1,7 +1,7 @@
 <table-controls
   id="table-pane"
   config="tableConfig"
-  items="fetchTenants()"
+  items="tenants"
   selected="selectedTenant"
   resource-name="Tenant">
 
@@ -9,17 +9,26 @@
     <span ng-if="item.active">{{'value.enabled' | translate}}</span>
     <span ng-if="!item.active" class="disabled">{{'value.disabled' | translate}}</span>
   </span>
-
+  
+  <span name="parentId">
+    <span ng-show="item.$parent">
+      {{item.$parent.name}}
+    </span>
+    <span ng-hide="item.$parent" class="null">
+      {{ 'value.unknown' | translate }}
+    </span>
+  </span>
+  
 </table-controls>
 
 <resize-handle
   ng-show="selectedTenant || showBulkActions"
   id="resize-pane"
-  right-element-id="right-panel"
+  right-element-id="tenant-details-pane"
   left-element-id="table-pane"></resize-handle>
 
 <lo-details-panel
-  id="right-panel"
+  id="tenant-details-pane"
   class="right-panel"
   ng-show="selectedTenant || showBulkActions"
   ng-resource="selectedTenant">
@@ -57,8 +66,11 @@
       </div>
     </ng-form>
 
-  <bulk-action-executor class="details-pane" ng-show="showBulkActions" items="fetchTenants()"
-    bulk-actions="bulkActions" show-bulk-actions="showBulkActions">
-    <ba-set-tenant-status bulk-action="bulkActions.setTenantStatus"></ba-set-tenant-status>
+  <bulk-action-executor class="details-pane"
+    ng-show="showBulkActions"
+    items="fetchTenants()"
+    show-bulk-actions="showBulkActions">
+    
+    <ba-set-tenant-status></ba-set-tenant-status>
   </bulk-action-executor>
 </lo-details-panel>

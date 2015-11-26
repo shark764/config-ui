@@ -32,7 +32,7 @@
 
       <div class="detail-body" ng-include="'app/components/management/roles/roleDetailBody.html'">
       </div>
-
+      
       <div class="detail-controls">
         <input
           id="cancel-details-btn" type="button" class="btn"
@@ -46,7 +46,7 @@
           lo-submit="submit()"
           lo-submit-spinner
           lo-submit-spinner-status="selectedTenantRole.$busy"
-          ng-disabled="forms.detailsForm.$pending || ! forms.detailsForm.$dirty"
+          ng-disabled="forms.detailsForm.$invalid || forms.detailsForm.$pending || ! forms.detailsForm.$dirty"
           class="btn btn-primary"
           type="submit"
           value="{{'value.submit' | translate}}" />

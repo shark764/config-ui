@@ -279,8 +279,7 @@ describe('The integrations view', function() {
       });
     });
 
-    xit('should allow the Integration fields to be updated', function() {
-      // TODO Bug TITAN2-3733
+    it('should allow the Integration fields to be updated', function() {
       shared.tableElements.count().then(function(integrationCount) {
         if (integrationCount == 1) {
           shared.firstTableRow.click();

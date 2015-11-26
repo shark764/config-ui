@@ -60,8 +60,11 @@
     </ng-form>
   </div>
 
-  <bulk-action-executor class="details-pane" ng-show="showBulkActions" items="fetchFlows()"
-    bulk-actions="bulkActions" show-bulk-actions="showBulkActions">
-    <ba-set-flow-status bulk-action="bulkActions.setFlowStatus"></ba-set-flow-status>
+  <bulk-action-executor class="details-pane"
+    ng-show="showBulkActions"
+    items="fetchFlows()"
+    show-bulk-actions="showBulkActions">
+    
+    <ba-set-flow-status></ba-set-flow-status>
   </bulk-action-executor>
 </lo-details-panel>

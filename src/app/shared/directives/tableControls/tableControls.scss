@@ -110,6 +110,15 @@ table-controls {
       text-overflow: ellipsis;
       overflow: hidden;
       white-space: nowrap;
+
+      > a {
+        color: $dark-grey;
+        display: block;
+      }
+
+      > a:hover {
+        color: $dark-grey;
+      }
     }
 
     tr:last-child td{

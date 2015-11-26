@@ -8,7 +8,8 @@ angular.module('liveopsConfigPanel')
       
       $scope.$watch('Session.tenant', function() {
         queryCache.removeAll();
-      });
+        $scope.$broadcast('session:tenant:changed');
+      }, true);
 
       $scope.$on('table:on:click:create', function () {
         $scope.showBulkActions = false;

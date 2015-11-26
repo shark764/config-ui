@@ -35,6 +35,7 @@ angular.module('liveopsConfigPanel')
         'searchOn' : ['$original.name'],
         'orderBy' : '$original.name',
         'title' : $translate.instant('queue.table.title'),
+        'sref' : 'content.flows.queues',
         'showBulkActions': UserPermissions.hasPermission('MANAGE_ALL_QUEUES'),
         'showCreate': UserPermissions.hasPermission('MANAGE_ALL_QUEUES'),
         'helpLink' : helpDocsHostname + '/Content/Managing%20Flows/Adding_queues.htm'

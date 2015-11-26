@@ -23,7 +23,7 @@
     "flow-designer": "git@github.com:liveops/flow-designer.git#1.0.2-SNAPSHOT",
     "realtime-dashboards": "git@github.com:liveops/realtime-dashboards.git#master",
     "jsedn": "git@github.com:liveops/jsedn#master",
-    "config-shared": "git@github.com:liveops/config-shared#d477d0a32d1fa5b47b5a243afdb85f73cc6a3015",
+    "liveops-config-panel-shared": "git@github.com:liveops/config-shared#91afd3c8548afe1269abefb4d1a7f1b7733ad9b0",
     "ng-file-upload": "~7.0.17",
     "angular-drag-and-drop-lists": "~1.3.0"
   },

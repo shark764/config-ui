@@ -63,9 +63,12 @@
     </div>
   </ng-form>
   
-  <bulk-action-executor class="details-pane skill-ba" ng-show="showBulkActions" items="fetchSkills()"
-    bulk-actions="bulkActions" show-bulk-actions="showBulkActions">
-    <ba-set-skill-status bulk-action="bulkActions.setStatus"></ba-set-skill-status>
-    <ba-set-skill-has-proficiency bulk-action="bulkActions.setHasProficiency"></ba-set-skill-has-proficiency>
+  <bulk-action-executor class="details-pane skill-ba"
+    ng-show="showBulkActions"
+    items="fetchSkills()"
+    show-bulk-actions="showBulkActions">
+    
+    <ba-set-skill-status></ba-set-skill-status>
+    <ba-set-skill-has-proficiency></ba-set-skill-has-proficiency>
   </bulk-action-executor>
 </lo-details-panel>

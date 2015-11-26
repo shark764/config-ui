@@ -22,9 +22,15 @@ lo-extensions {
         width: 20%;
       }
       
-      .lo-extension-table-col.phone-number-col {
-        width: 50%;
+      .lo-extension-table-col.secondary-field-col {
+        width: 70%;
+
       }
+    }
+    
+    #add-extension-btn {
+      vertical-align: top;
+      margin-top: 3px;
     }
     
     .phone-number-col input {

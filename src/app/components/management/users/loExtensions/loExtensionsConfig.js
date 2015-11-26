@@ -17,8 +17,5 @@ angular.module('liveopsConfigPanel')
     }, {
       value: 'pstn',
       display: $filter('translate')('pstn')
-    }, {
-      value: 'sip',
-      display: $filter('translate')('sip')
     }];
   }]);

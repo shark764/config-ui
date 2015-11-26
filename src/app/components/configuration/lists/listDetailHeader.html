@@ -1,0 +1,37 @@
+<div ng-if="! selectedList.isNew()">
+  <toggle class="status-toggle" ng-model="selectedList.active"
+    confirm-disable-message="{{'list.details.disable.confirm' | translate}}"
+    confirm-enable-message="{{'list.details.enable.confirm' | translate}}"
+    ng-disabled="! ([] | hasPermission)">
+  </toggle>
+
+  <div class="info">
+    <h1>{{selectedList.$original.name}}</h1>
+    <div class="details" ng-if="[] | hasPermission">
+      <b audit-text
+        translation="value.createdby.time"
+        user-id="selectedList.$original.createdBy"
+        date="selectedList.$original.created">
+      </b>
+      <br/>
+      <b audit-text ng-if="!!selectedList.$original.updatedBy"
+        translation="value.updatedby"
+        user-id="selectedList.$original.updatedBy"
+        date="selectedList.$original.updated">
+      </b>
+    </div>
+    <div class="details" ng-if="!([] | hasPermission)">
+      <b audit-text
+        translation="value.createdon.time"
+        date="selectedList.$original.created">
+      </b>
+      <br/>
+      <b audit-text ng-if="!!selectedList.$original.updated"
+        translation="value.updatedon"
+        date="selectedList.$original.updated">
+      </b>
+    </div>
+  </div>
+</div>
+
+<h1 ng-if="selectedList.isNew()">{{'list.details.creating' | translate}}</h1>
