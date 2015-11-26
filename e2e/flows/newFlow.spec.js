@@ -16,91 +16,79 @@ describe('The create new flows view', function() {
     // Ignore unsaved changes warnings
     browser.executeScript("window.onbeforeunload = function(){};");
     browser.get(shared.flowsPageUrl);
+    flowCount = shared.tableElements.count();
   });
 
   afterAll(function() {
     shared.tearDown();
   });
 
-  xit('should include supported flow fields only', function() {
+  it('should display a modal with new flow fields', function() {
     shared.createBtn.click();
-    expect(flows.nameFormField.isDisplayed()).toBeTruthy();
-    expect(flows.descriptionFormField.isDisplayed()).toBeTruthy();
-    expect(flows.typeFormDropdown.isDisplayed()).toBeTruthy();
+    expect(flows.createModal.isDisplayed()).toBeTruthy();
+    expect(flows.modalHeader.getText()).toBe('New Flow');
+
+    // Create modal contains new flow fields with default values
+    expect(flows.modalNameField.isDisplayed()).toBeTruthy();
+    expect(flows.modalTypeDropdown.isDisplayed()).toBeTruthy();
+    expect(flows.modalNameField.getAttribute('value')).toBe('Untitled Flow');
+    expect(flows.modalTypeDropdown.$('option:checked').getText()).toBe('Select a Type...');
+
+    expect(flows.submitModalBtn.isDisplayed()).toBeTruthy();
+    expect(flows.submitModalBtn.isEnabled()).toBeFalsy();
+    expect(flows.cancelModalBtn.isDisplayed()).toBeTruthy();
   });
 
-  xit('should add new flow to table', function() {
-    var flowAdded = false;
+  it('should add new flow to table', function() {
     randomFlow = Math.floor((Math.random() * 1000) + 1);
     shared.createBtn.click();
 
-    flows.nameFormField.sendKeys('Flow ' + randomFlow);
-    flows.descriptionFormField.sendKeys('This is a new flow description');
+    flows.modalNameField.clear();
+    flows.modalNameField.sendKeys('Flow ' + randomFlow);
     flows.typeFormDropdown.all(by.css('option')).get((randomFlow % 3) + 1).click();
-    shared.submitFormBtn.click();
-    expect(shared.successMessage.isDisplayed()).toBeTruthy();
+    flows.modalTypeDropdown.$('option:checked').getText().then(function(flowType) {
+      flow.confirmModal.click().then(function() {
+        shared.waitForSuccess();
+        expect(flows.createModal.isPresent()).toBeFalsy();
 
-    // Confirm flow is displayed in flow list with correct details
-    shared.tableElements.then(function(flowsList) {
-      for (var i = 1; i <= flowsList.length; ++i) {
-        // Check if flow name in table matches newly added flow
-        element(by.css('#items-table > tbody:nth-child(2) > tr:nth-child(' + i + ') > td:nth-child(2) > span:nth-child(1)')).getText().then(function(value) {
-          if (value == 'Flow ' + randomFlow) {
-            flowAdded = true;
-          }
-        });
-      }
-    }).thenFinally(function() {
-      // Verify new flow was found in the table
-      expect(flowAdded).toBeTruthy();
+        // Confirm flow is displayed in flow list with correct details
+        shared.searchField.sendKeys('Flow ' + randomFlow);
+        shared.firstTableRow.click();
+        expect(flows.nameFormField.getAttribute('value')).toBe('Flow ' + randomFlow);
+        expect(flows.typeFormDropdown.$('option:checked').getText()).toBe(flowType);
+      });
     });
   });
 
-  xit('should create a default version', function() {
+  it('should not add a new flow when modal cancel button is selected', function() {
     randomFlow = Math.floor((Math.random() * 1000) + 1);
     shared.createBtn.click();
 
-    flows.nameFormField.sendKeys('Flow ' + randomFlow);
-    flows.descriptionFormField.sendKeys('This is a new flow description');
+    flows.modalNameField.clear();
+    flows.modalNameField.sendKeys('Flow ' + randomFlow);
     flows.typeFormDropdown.all(by.css('option')).get((randomFlow % 3) + 1).click();
-
-    shared.submitFormBtn.click().then(function() {
-      expect(shared.successMessage.isDisplayed()).toBeTruthy();
-
-      expect(flows.activeVersionDropdown.getAttribute('value')).toBe('0');
-      expect(flows.versionsTableElements.count()).toBe(1);
-      expect(flows.versionsTableElements.get(0).getText()).toContain('v1');
+    flow.cancelModalBtn.click().then(function() {
+      expect(shared.successMessage.isPresent()).toBeFalsy();
+      expect(flows.createModal.isPresent()).toBeFalsy();
+      expect(shared.tableElements.count()).toBe(flowCount);
     });
   });
 
-  xit('should require field inputs', function() {
-    flowCount = shared.tableElements.count();
-    shared.createBtn.click();
-
-    // Submit button is still disabled
-    expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
-
-    expect(shared.tableElements.count()).toBe(flowCount);
-    expect(shared.successMessage.isPresent()).toBeFalsy();
-  });
-
-  xit('should require name', function() {
-    flowCount = shared.tableElements.count();
+  it('should require name', function() {
     randomFlow = Math.floor((Math.random() * 1000) + 1);
     shared.createBtn.click();
 
-    // Complete flow form and submit without flow name
-    flows.nameFormField.click();
-    flows.descriptionFormField.sendKeys('This is the flow description for flow ' + randomFlow);
+    flows.modalNameField.clear();
     flows.typeFormDropdown.all(by.css('option')).get((randomFlow % 3) + 1).click();
 
-    // Submit button is still disabled
-    expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
+    expect(flows.submitModalBtn.isEnabled()).toBeFalsy();
+    flows.submitModalBtn.click();
+    expect(shared.successMessage.isPresent()).toBeFalsy();
+    expect(flows.createModal.isDisplayed()).toBeTruthy();
 
     expect(shared.tableElements.count()).toBe(flowCount);
-    expect(flows.requiredErrors.get(0).isDisplayed()).toBeTruthy();
-    expect(flows.requiredErrors.get(0).getText()).toBe('Please enter a name');
-    expect(shared.successMessage.isPresent()).toBeFalsy();
+    expect(flows.modalErrors.get(0).isDisplayed()).toBeTruthy();
+    expect(flows.modalErrors.get(0).getText()).toBe('Please enter a draft name');
   });
 
   xit('should not require description', function() {

@@ -12,6 +12,17 @@ var FlowPage = function() {
   this.versionNameFormField = element(by.model('version.name'));
   this.versionDescriptionFormField = element(by.model('version.description'));
 
+  this.createModal = element(by.id('modal'));
+  this.modalHeader = this.createModal.element(by.css('h3'));
+  this.modalNameField = this.createModal.element(by.model('flow.name'));
+  this.modalTypeDropdown = this.createModal.element(by.model('flow.type'));
+  this.customerTypeOption = this.createModal.element(by.css('[label="Customer"]'));
+  this.resourceTypeOption = this.createModal.element(by.css('[label="Resource"]'));
+  this.reusableTypeOption = this.createModal.element(by.css('[label="Reusable"]'));
+  this.submitModalBtn = this.createModal.element(by.id('modal-ok'));
+  this.cancelModalBtn = this.createModal.element(by.id('modal-cancel'));
+  this.modalErrors = this.createModal.element.by(css('form-error'));
+
   this.requiredErrors = element.all(by.css('.lo-error'));
 
   this.firstTableRow = element(by.css('#items-table > tbody:nth-child(2) > tr:nth-child(1)'));
