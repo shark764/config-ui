@@ -162,6 +162,18 @@ describe('The users view bulk actions', function() {
               shared.tableElements.count().then(function(disabledTotal) {
                 expect(disabledTotal).not.toBeLessThan(Math.min(acceptedUserCount - 1, 9)); // Should be at least equal to the number reset - current user
               });
+            }).then(function() {
+              // Verify users status updates persist
+              browser.refresh();
+
+              // Select Disabled from Tenant Status drop down
+              bulkActions.tenantStatusColumnDropDownLabel.click();
+              bulkActions.tenantStatuses.get(3).click();
+              bulkActions.tenantStatuses.get(0).click();
+              bulkActions.tenantStatusColumnDropDownLabel.click();
+              shared.tableElements.count().then(function(disabledTotal) {
+                expect(disabledTotal).not.toBeLessThan(Math.min(acceptedUserCount - 1, 9)); // Should be at least equal to the number reset - current user
+              });
             });
           }
         });
@@ -211,6 +223,27 @@ describe('The users view bulk actions', function() {
                 expect(shared.successMessage.isDisplayed()).toBeTruthy();
 
                 // No users are disabled
+                expect(shared.tableElements.count()).toBe(0);
+
+                // Select Accepted from Tenant Status drop down
+                bulkActions.tenantStatusColumnDropDownLabel.click();
+                bulkActions.tenantStatuses.get(0).click();
+                bulkActions.tenantStatuses.get(3).click();
+                bulkActions.tenantStatusColumnDropDownLabel.click();
+                shared.tableElements.count().then(function(enabledTotal) {
+                  expect(enabledTotal).not.toBeLessThan(disabledUserCount); // Should be at least the number reset
+
+                  // TITAN2-4740 Number of selected users should be 0
+                  expect(bulkActions.selectItemTableCells.all(by.css('input:checked')).count()).toBe(0);
+                });
+              }).then(function() {
+                // Verify users status updates persist
+                browser.refresh();
+
+                // No users are disabled
+                users.tenantStatusTableDropDownLabel.click();
+                users.dropdownTenantStatuses.get(0).click();
+                bulkActions.tenantStatusColumnDropDownLabel.click();
                 expect(shared.tableElements.count()).toBe(0);
 
                 // Select Accepted from Tenant Status drop down
@@ -481,7 +514,6 @@ describe('The users view bulk actions', function() {
       bulkActions.submitFormBtn.click();
 
       shared.waitForConfirm();
-      expect(bulkActions.confirmModal.isDisplayed()).toBeTruthy();
       bulkActions.confirmOK.click().then(function() {
         expect(shared.successMessage.isDisplayed()).toBeTruthy();
 
@@ -522,7 +554,6 @@ describe('The users view bulk actions', function() {
 
         bulkActions.submitFormBtn.click();
         shared.waitForConfirm();
-        expect(bulkActions.confirmModal.isDisplayed()).toBeTruthy();
         bulkActions.confirmOK.click().then(function() {
 
           // Verify skill is added to user with default proficiency
@@ -709,7 +740,13 @@ describe('The users view bulk actions', function() {
         // Verify groups are removed for each user
         for (var i = 0; i < 2; i++) {
           shared.tableElements.get(i).click();
-          expect(users.noUserGroupsMessage.isDisplayed()).toBeTruthy();
+          users.noUserGroupsMessage.isDisplayed().then(function (userHasNoGroups) {
+            if(!userHasNoGroups){
+              // User remains in 'everyone' group
+              expect(users.userGroups.count()).toBe(1);
+              expect(users.userGroups.get(0).getText()).toBe('everyone');
+            }
+          });
         }
       });
     });

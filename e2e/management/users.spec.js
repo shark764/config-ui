@@ -8,7 +8,8 @@ describe('The users view', function() {
     params = browser.params,
     userQueryText,
     statusFilterText,
-    userCount;
+    userCount,
+    updatedUserEmail;
 
   beforeAll(function() {
     loginPage.login(params.login.user, params.login.password);
@@ -310,6 +311,247 @@ describe('The users view', function() {
 
     expect(users.activeFormToggle.getAttribute('disabled')).toBeTruthy();
     expect(users.tenantRoleFormDropdown.getAttribute('disabled')).toBeTruthy();
+  });
+
+  it('should not allow pending user\'s status to be updated', function() {
+    // Ensure Tenant Status column is added
+    shared.tableColumnsDropDown.click();
+    shared.tableColumnsDropDownInputs.get(8).isSelected().then(function(columnSelected) {
+      if (!columnSelected) {
+        shared.tableColumnsDropDownOptions.get(8).click();
+        expect(shared.tableColumnsDropDownInputs.get(8).isSelected()).toBeTruthy();
+      }
+    }).then(function() {
+      shared.tableColumnsDropDown.click();
+
+      users.tenantStatusTableDropDownLabel.click();
+      users.dropdownTenantStatuses.get(2).click(); // Pending Invitation
+      users.dropdownTenantStatuses.get(4).click(); // Pending Acceptance
+      // All input is unselected
+      expect(users.dropdownTenantStatusInputs.get(0).isSelected()).toBeFalsy();
+
+      shared.tableElements.then(function(rows) {
+        for (var i = 0; i < rows.length && i < 5; ++i) {
+          rows[i].click();
+          expect(users.activeFormToggle.getAttribute('disabled')).toBeTruthy();
+        };
+      });
+    });
+  });
+
+  it('should allow Accepted and Disabled user\'s status to be updated', function() {
+    // Ensure Tenant Status column is added
+    shared.tableColumnsDropDown.click();
+    shared.tableColumnsDropDownInputs.get(8).isSelected().then(function(columnSelected) {
+      if (!columnSelected) {
+        shared.tableColumnsDropDownOptions.get(8).click();
+        expect(shared.tableColumnsDropDownInputs.get(8).isSelected()).toBeTruthy();
+      }
+    }).then(function() {
+      shared.tableColumnsDropDown.click();
+
+      users.tenantStatusTableDropDownLabel.click();
+      users.dropdownTenantStatuses.get(0).click(); // Disabled
+      users.dropdownTenantStatuses.get(3).click(); // Accepted
+      // All input is unselected
+      expect(users.dropdownTenantStatusInputs.get(0).isSelected()).toBeFalsy();
+
+      shared.tableElements.then(function(rows) {
+        for (var i = 0; i < rows.length && i < 5; ++i) {
+          rows[i].click();
+          expect(users.activeFormToggle.isEnabled()).toBeTruthy();
+        };
+      });
+    });
+  });
+
+  it('should not update Accepted user\'s status to Disabled when confirm modal is cancelled', function() {
+    // Ensure Tenant Status column is added
+    shared.tableColumnsDropDown.click();
+    shared.tableColumnsDropDownInputs.get(8).isSelected().then(function(columnSelected) {
+      if (!columnSelected) {
+        shared.tableColumnsDropDownOptions.get(8).click();
+        expect(shared.tableColumnsDropDownInputs.get(8).isSelected()).toBeTruthy();
+      }
+    }).then(function() {
+      shared.tableColumnsDropDown.click();
+
+      users.tenantStatusTableDropDownLabel.click();
+      users.dropdownTenantStatuses.get(3).click(); // Accepted
+      // All input is unselected
+      expect(users.dropdownTenantStatusInputs.get(0).isSelected()).toBeFalsy();
+
+      shared.tableElements.count().then(function(userCount) {
+        if (userCount > 1) {
+          shared.tableElements.each(function(row, index) {
+            row.getText().then(function(rowText) {
+              if (rowText.indexOf(params.login.user) < 0 && index < 2) {
+                expect(rowText).not.toContain(params.login.user);
+                row.click();
+                expect(users.rightPanel.isDisplayed()).toBeTruthy();
+              }
+            });
+          }).then(function() {
+            expect(users.activeFormToggle.isEnabled()).toBeTruthy();
+            expect(users.activeToggleInput.isSelected()).toBeTruthy();
+
+            users.activeFormToggle.click();
+            shared.waitForConfirm();
+            expect(shared.confirmModalMsg.getText()).toBe('This will disable this user and prevent them from logging in. Do you want to continue?');
+            shared.confirmModalCancelBtn.click().then(function() {
+              expect(shared.confirmModal.isPresent()).toBeFalsy();
+              expect(shared.successMessage.isPresent()).toBeFalsy();
+
+              // User status is unchanged
+              expect(users.activeFormToggle.isEnabled()).toBeTruthy();
+              expect(users.activeToggleInput.isSelected()).toBeTruthy();
+            });
+          });
+        }
+      });
+    });
+  });
+
+  it('should update Accepted user\'s status to Disabled', function() {
+    // Ensure Tenant Status column is added
+    shared.tableColumnsDropDown.click();
+    shared.tableColumnsDropDownInputs.get(8).isSelected().then(function(columnSelected) {
+      if (!columnSelected) {
+        shared.tableColumnsDropDownOptions.get(8).click();
+        expect(shared.tableColumnsDropDownInputs.get(8).isSelected()).toBeTruthy();
+      }
+    }).then(function() {
+      shared.tableColumnsDropDown.click();
+
+      users.tenantStatusTableDropDownLabel.click();
+      users.dropdownTenantStatuses.get(3).click(); // Accepted
+      // All input is unselected
+      expect(users.dropdownTenantStatusInputs.get(0).isSelected()).toBeFalsy();
+
+      shared.tableElements.count().then(function(userCount) {
+        if (userCount > 2) {
+          shared.tableElements.each(function(row, index) {
+            row.getText().then(function(rowText) {
+              if (rowText.indexOf(params.login.user) < 0 && index < 2) {
+                expect(rowText).not.toContain(params.login.user);
+                row.click();
+              }
+            });
+          }).then(function() {
+            expect(users.activeFormToggle.isEnabled()).toBeTruthy();
+            expect(users.activeToggleInput.isSelected()).toBeTruthy();
+
+            users.activeFormToggle.click();
+            shared.waitForConfirm();
+            expect(shared.confirmModalMsg.getText()).toBe('This will disable this user and prevent them from logging in. Do you want to continue?');
+            shared.confirmModalOkBtn.click();
+            expect(shared.confirmModal.isPresent()).toBeFalsy();
+            users.submitFormBtn.click().then(function() {
+              shared.waitForSuccess();
+
+              // User status is changed
+              expect(users.activeFormToggle.isEnabled()).toBeTruthy();
+              expect(users.activeToggleInput.isSelected()).toBeFalsy();
+
+              users.emailLabel.getText().then(function(userEmail) {
+                updatedUserEmail = userEmail;
+                browser.refresh();
+
+                // Ensure user status persists
+                shared.searchField.sendKeys(updatedUserEmail);
+                shared.firstTableRow.click();
+                expect(shared.firstTableRow.getText()).toContain('Disabled');
+                expect(users.activeFormToggle.isEnabled()).toBeTruthy();
+                expect(users.activeToggleInput.isSelected()).toBeFalsy();
+              });
+            });
+          });
+        }
+      });
+    });
+  });
+
+  it('should not update Disabled user\'s status to Accepted when confirm modal is cancelled', function() {
+    // Ensure Tenant Status column is added
+    shared.tableColumnsDropDown.click();
+    shared.tableColumnsDropDownInputs.get(8).isSelected().then(function(columnSelected) {
+      if (!columnSelected) {
+        shared.tableColumnsDropDownOptions.get(8).click();
+        expect(shared.tableColumnsDropDownInputs.get(8).isSelected()).toBeTruthy();
+      }
+    }).then(function() {
+      shared.tableColumnsDropDown.click();
+
+      users.tenantStatusTableDropDownLabel.click();
+      users.dropdownTenantStatuses.get(0).click(); // Disabled
+      // All input is unselected
+      expect(users.dropdownTenantStatusInputs.get(0).isSelected()).toBeFalsy();
+
+      shared.tableElements.count().then(function(userCount) {
+        if (userCount > 0) {
+          expect(shared.firstTableRow.getText()).not.toContain(params.login.user);
+          shared.firstTableRow.click();
+
+          expect(users.activeFormToggle.isEnabled()).toBeTruthy();
+          expect(users.activeToggleInput.isSelected()).toBeFalsy();
+
+          users.activeFormToggle.click();
+          shared.waitForConfirm();
+          expect(shared.confirmModalMsg.getText()).toBe('This will enable this user and allow them to log in. Do you want to continue?');
+          shared.confirmModalCancelBtn.click().then(function() {
+            expect(shared.confirmModal.isPresent()).toBeFalsy();
+            expect(shared.successMessage.isPresent()).toBeFalsy();
+
+            // User status is unchanged
+            expect(users.activeFormToggle.isEnabled()).toBeTruthy();
+            expect(users.activeToggleInput.isSelected()).toBeFalsy();
+          });
+        }
+      });
+    });
+  });
+
+  it('should update Disabled user\'s status to Enabled', function() {
+    // NOTE Enables user from previous test
+    if (updatedUserEmail) {
+      // Ensure Tenant Status column is added
+      shared.tableColumnsDropDown.click();
+      shared.tableColumnsDropDownInputs.get(8).isSelected().then(function(columnSelected) {
+        if (!columnSelected) {
+          shared.tableColumnsDropDownOptions.get(8).click();
+          expect(shared.tableColumnsDropDownInputs.get(8).isSelected()).toBeTruthy();
+        }
+      }).then(function() {
+        shared.searchField.sendKeys(updatedUserEmail);
+
+        shared.firstTableRow.click();
+        expect(shared.firstTableRow.getText()).toContain('Disabled');
+        expect(users.activeFormToggle.isEnabled()).toBeTruthy();
+        expect(users.activeToggleInput.isSelected()).toBeFalsy();
+
+        users.activeFormToggle.click();
+        shared.waitForConfirm();
+        expect(shared.confirmModalMsg.getText()).toBe('This will enable this user and allow them to log in. Do you want to continue?');
+        shared.confirmModalOkBtn.click();
+        expect(shared.confirmModal.isPresent()).toBeFalsy();
+        users.submitFormBtn.click().then(function() {
+          shared.waitForSuccess();
+
+          // User status is changed
+          expect(users.activeFormToggle.isEnabled()).toBeTruthy();
+          expect(users.activeToggleInput.isSelected()).toBeTruthy();
+
+          browser.refresh().then(function() {
+            // Ensure user status persists
+            shared.searchField.sendKeys(updatedUserEmail);
+            shared.firstTableRow.click();
+            expect(shared.firstTableRow.getText()).toContain('Accepted');
+            expect(users.activeFormToggle.isEnabled()).toBeTruthy();
+            expect(users.activeToggleInput.isSelected()).toBeTruthy();
+          });
+        });
+      });
+    }
   });
 
   describe('bulk actions', function() {
