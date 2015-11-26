@@ -80,8 +80,9 @@ var Shared = function() {
 
   // Modal
   this.confirmModal = element(by.css('#modal .confirm'));
-  this.confirmModalCancelBtn = element(by.id('modal-cancel'));
-  this.confirmModalOkBtn = element(by.id('modal-ok'));
+  this.confirmModalMsg = this.confirmModal.element(by.css('p'));
+  this.confirmModalCancelBtn = this.confirmModal.element(by.id('modal-cancel'));
+  this.confirmModalOkBtn = this.confirmModal.element(by.id('modal-ok'));
 
   // Read Only Message
   this.readOnlyMessage = element(by.css('.lo-alert.lo-alert-info'));
