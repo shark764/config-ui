@@ -24,31 +24,15 @@ describe('The flows view', function() {
     shared.tearDown();
   });
 
-  xit('should add new flow to table', function() {
-    var flowAdded = false;
-    randomFlow = Math.floor((Math.random() * 1000) + 1);
-    shared.createBtn.click();
-
-    flows.nameFormField.sendKeys('Flow ' + randomFlow);
-    flows.descriptionFormField.sendKeys('This is a new flow description');
-    flows.typeFormDropdown.all(by.css('option')).get((randomFlow % 3) + 1).click();
-    shared.submitFormBtn.click().then(function() {
-      expect(shared.successMessage.isDisplayed()).toBeTruthy();
-      shared.searchField.sendKeys('Flow ' + randomFlow);
-
-      expect(shared.tableElements.count()).toBeGreaterThan(0);
-    });
-  });
-
-  xit('should include flow management page components', function() {
+  it('should include flow management page components', function() {
     expect(shared.navBar.isDisplayed()).toBeTruthy();
-
-    //Right panel is hidden by default
-    expect(shared.rightPanel.isDisplayed()).toBeFalsy();
+    expect(shared.searchField.isDisplayed()).toBeTruthy();
+    expect(shared.createBtn.isDisplayed()).toBeTruthy();
+    expect(shared.actionsBtn.isDisplayed()).toBeTruthy();
+    expect(shared.detailsPanel.isDisplayed()).toBeFalsy();
   });
 
-
-  xit('should display flow details when selected from table', function() {
+  it('should display flow details when selected from table', function() {
     // Select first flow from table
     shared.firstTableRow.click();
 

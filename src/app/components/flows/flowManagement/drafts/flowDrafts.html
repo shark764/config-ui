@@ -21,8 +21,8 @@
     </div>
     <div class="flow-controls input-group">
       <label></label>
-      <input id="cancel-flow-version-btn" type="button" ng-click="createNewDraft = false" class="btn" value="{{'value.cancel' | translate}}" />
-      <input id="create-flow-version-btn" ng-disabled="createDraftForm.$invalid || !createDraftForm.$dirty"
+      <input id="cancel-flow-draft-btn" type="button" ng-click="createNewDraft = false" class="btn" value="{{'value.cancel' | translate}}" />
+      <input id="create-flow-draft-btn" ng-disabled="createDraftForm.$invalid || !createDraftForm.$dirty"
         ng-click="saveDraft()" type="submit" class="btn btn-primary" value="{{ 'value.create' | translate }}"/>
     </div>
   </ng-form>

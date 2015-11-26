@@ -39,16 +39,24 @@ describe('When switching tenants', function() {
       elementCount = shared.tableElements.count();
     });
 
-    xit('should create a new Flow in one and not the previous', function() {
+    it('should create a new Flow in one and not the previous', function() {
       // Create Flow in new tenant
       var randomFlow = Math.floor((Math.random() * 1000) + 1);
       var newTenantFlow = 'New Tenant Flow ' + randomFlow;
       shared.createBtn.click();
-      flows.nameFormField.sendKeys(newTenantFlow);
-      flows.typeFormDropdown.all(by.css('option')).get((randomFlow % 3) + 1).click();
-      shared.submitFormBtn.click();
 
-      expect(shared.successMessage.isDisplayed()).toBeTruthy();
+      flows.modalNameField.clear();
+      flows.modalNameField.sendKeys(newTenantFlow);
+      flows.modalTypeDropdown.all(by.css('option')).get((randomFlow % 3) + 1).click();
+      flows.submitModalBtn.click();
+      expect(flows.createModal.isPresent()).toBeFalsy();
+
+      // Redirects to flow designer
+      flows.waitForFlowDesignerRedirect();
+      expect(browser.getCurrentUrl()).toContain('/flows/editor');
+
+      // Confirm flow is displayed in flow list with correct details
+      browser.get(shared.flowsPageUrl);
       expect(shared.tableElements.count()).toBe(1);
 
       // Verify flow is not added in previous tenant
@@ -64,11 +72,19 @@ describe('When switching tenants', function() {
       randomFlow = Math.floor((Math.random() * 1000) + 1);
       var previousTenantFlow = 'Previous Tenant Flow ' + randomFlow;
       shared.createBtn.click();
-      flows.nameFormField.sendKeys(previousTenantFlow);
-      flows.typeFormDropdown.all(by.css('option')).get((randomFlow % 3) + 1).click();
-      shared.submitFormBtn.click();
 
-      expect(shared.successMessage.isDisplayed()).toBeTruthy();
+      flows.modalNameField.clear();
+      flows.modalNameField.sendKeys(previousTenantFlow);
+      flows.modalTypeDropdown.all(by.css('option')).get((randomFlow % 3) + 1).click();
+      flows.submitModalBtn.click();
+      expect(flows.createModal.isPresent()).toBeFalsy();
+
+      // Redirects to flow designer
+      flows.waitForFlowDesignerRedirect();
+      expect(browser.getCurrentUrl()).toContain('/flows/editor');
+
+      // Confirm flow is displayed in flow list with correct details
+      browser.get(shared.flowsPageUrl);
 
       // Verify flow is not added in new tenant
       tenants.selectTenant(newTenantName);
@@ -202,8 +218,7 @@ describe('When switching tenants', function() {
       expect(elementCount).toBe(0);
     });
 
-    // TODO Requires flow
-    xit('should create a new Dispatch Mapping in one and not the previous', function() {
+    it('should create a new Dispatch Mapping in one and not the previous', function() {
       // Create DispatchMapping in new tenant
       var newTenantDispatchMapping = 'New Tenant DispatchMapping ' + Math.floor((Math.random() * 1000) + 1);
       shared.createBtn.click();

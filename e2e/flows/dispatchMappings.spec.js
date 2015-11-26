@@ -25,7 +25,7 @@ describe('The dispatch mappings view', function() {
     shared.tearDown();
   });
 
-  xit('should require flow', function() {
+  it('should require flow', function() {
     dispatchMappings.flowDropdown.all(by.css('option')).count().then(function(flowCount) {
       if (flowCount == 1) {
         // No flows; unable to create Dispatch Mapping
@@ -52,11 +52,15 @@ describe('The dispatch mappings view', function() {
 
         shared.createBtn.click();
 
-        flows.nameFormField.sendKeys('Flow ' + randomDispatchMapping);
-        flows.descriptionFormField.sendKeys('This is a new flow description');
-        flows.typeFormDropdown.all(by.css('option')).get((randomDispatchMapping % 3) + 1).click();
-        shared.submitFormBtn.click().then(function() {
-          expect(shared.successMessage.isDisplayed()).toBeTruthy();
+        flows.modalNameField.clear();
+        flows.modalNameField.sendKeys('Flow ' + randomFlow);
+        flows.modalTypeDropdown.all(by.css('option')).get((randomFlow % 3) + 1).click();
+        flows.submitModalBtn.click().then(function() {
+          expect(flows.createModal.isPresent()).toBeFalsy();
+
+          // Redirects to flow designer
+          flows.waitForFlowDesignerRedirect();
+          expect(browser.getCurrentUrl()).toContain('/flows/editor');
         });
       };
     });
@@ -542,7 +546,7 @@ describe('The dispatch mappings view', function() {
     dispatchMappings.nameFormField.sendKeys('Edit');
     var newDispatchMappingName = dispatchMappings.nameFormField.getAttribute('value');
 
-    shared.submitFormBtn.click().then(function () {
+    shared.submitFormBtn.click().then(function() {
       expect(shared.successMessage.isDisplayed()).toBeTruthy();
       expect(dispatchMappings.nameHeader.getText()).toBe(newDispatchMappingName);
     });

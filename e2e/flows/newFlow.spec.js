@@ -45,17 +45,25 @@ describe('The create new flows view', function() {
 
     flows.modalNameField.clear();
     flows.modalNameField.sendKeys('Flow ' + randomFlow);
-    flows.typeFormDropdown.all(by.css('option')).get((randomFlow % 3) + 1).click();
+    flows.modalTypeDropdown.all(by.css('option')).get((randomFlow % 3) + 1).click();
     flows.modalTypeDropdown.$('option:checked').getText().then(function(flowType) {
-      flow.confirmModal.click().then(function() {
-        shared.waitForSuccess();
+      flows.submitModalBtn.click().then(function() {
         expect(flows.createModal.isPresent()).toBeFalsy();
 
+        // Redirects to flow designer
+        flows.waitForFlowDesignerRedirect();
+        expect(browser.getCurrentUrl()).toContain('/flows/editor');
+
         // Confirm flow is displayed in flow list with correct details
+        browser.get(shared.flowsPageUrl);
         shared.searchField.sendKeys('Flow ' + randomFlow);
         shared.firstTableRow.click();
         expect(flows.nameFormField.getAttribute('value')).toBe('Flow ' + randomFlow);
         expect(flows.typeFormDropdown.$('option:checked').getText()).toBe(flowType);
+
+        expect(flows.draftTableElements.count()).toBe(1);
+        expect(flows.draftTableElements.get(0).getText()).toContain('Initial Draft');
+        expect(flows.versionsTable.isDisplayed()).toBeFalsy();
       });
     });
   });
@@ -66,8 +74,8 @@ describe('The create new flows view', function() {
 
     flows.modalNameField.clear();
     flows.modalNameField.sendKeys('Flow ' + randomFlow);
-    flows.typeFormDropdown.all(by.css('option')).get((randomFlow % 3) + 1).click();
-    flow.cancelModalBtn.click().then(function() {
+    flows.modalTypeDropdown.all(by.css('option')).get((randomFlow % 3) + 1).click();
+    flows.cancelModalBtn.click().then(function() {
       expect(shared.successMessage.isPresent()).toBeFalsy();
       expect(flows.createModal.isPresent()).toBeFalsy();
       expect(shared.tableElements.count()).toBe(flowCount);
@@ -79,7 +87,7 @@ describe('The create new flows view', function() {
     shared.createBtn.click();
 
     flows.modalNameField.clear();
-    flows.typeFormDropdown.all(by.css('option')).get((randomFlow % 3) + 1).click();
+    flows.modalTypeDropdown.all(by.css('option')).get((randomFlow % 3) + 1).click();
 
     expect(flows.submitModalBtn.isEnabled()).toBeFalsy();
     flows.submitModalBtn.click();
@@ -91,74 +99,39 @@ describe('The create new flows view', function() {
     expect(flows.modalErrors.get(0).getText()).toBe('Please enter a draft name');
   });
 
-  xit('should not require description', function() {
-    flowCount = shared.tableElements.count();
+  it('should require type', function() {
     randomFlow = Math.floor((Math.random() * 1000) + 1);
     shared.createBtn.click();
 
-    // Complete flow form and submit without flow description
-    flows.nameFormField.sendKeys('Flow ' + randomFlow);
-    flows.descriptionFormField.click();
-    flows.typeFormDropdown.all(by.css('option')).get((randomFlow % 3) + 1).click();
+    flows.modalTypeDropdown.click();
+    flows.modalNameField.clear();
+    flows.modalNameField.sendKeys('Flow ' + randomFlow);
 
-    shared.submitFormBtn.click().then(function() {
-      expect(shared.tableElements.count()).toBeGreaterThan(flowCount);
-      expect(shared.successMessage.isDisplayed()).toBeTruthy();
-    });
+    expect(flows.submitModalBtn.isEnabled()).toBeFalsy();
+    flows.submitModalBtn.click();
+    expect(shared.successMessage.isPresent()).toBeFalsy();
+    expect(flows.createModal.isDisplayed()).toBeTruthy();
+
+    expect(shared.tableElements.count()).toBe(flowCount);
+    expect(flows.modalErrors.get(0).isDisplayed()).toBeTruthy();
+    expect(flows.modalErrors.get(0).getText()).toBe('Type is required');
   });
 
-  xit('should require type', function() {
-    flowCount = shared.tableElements.count();
+  it('should not accept spaces only as valid field input', function() {
     randomFlow = Math.floor((Math.random() * 1000) + 1);
     shared.createBtn.click();
 
-    // Complete flow form and submit without flow type
-    flows.typeFormDropdown.click();
-    flows.nameFormField.sendKeys('Flow ' + randomFlow);
-    flows.descriptionFormField.sendKeys('This is the flow description for flow ' + randomFlow);
+    flows.modalNameField.clear();
+    flows.modalNameField.sendKeys('  ');
+    flows.modalTypeDropdown.all(by.css('option')).get((randomFlow % 3) + 1).click();
 
-    // Submit button is still disabled
-    expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
-
-    expect(shared.tableElements.count()).toBe(flowCount);
-    expect(flows.requiredErrors.get(0).isDisplayed()).toBeTruthy();
-    expect(flows.requiredErrors.get(0).getText()).toBe('Type is required');
+    expect(flows.submitModalBtn.isEnabled()).toBeFalsy();
+    flows.submitModalBtn.click();
     expect(shared.successMessage.isPresent()).toBeFalsy();
-  });
+    expect(flows.createModal.isDisplayed()).toBeTruthy();
 
-  xit('should not accept spaces only as valid field input', function() {
-    flowCount = shared.tableElements.count();
-    shared.createBtn.click();
-    flows.nameFormField.sendKeys(' ');
-    flows.descriptionFormField.sendKeys(' ');
-    flows.typeFormDropdown.all(by.css('option')).get((randomFlow % 3) + 1).click();
-
-    // Submit button is still disabled
-    expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
-
-    expect(flows.requiredErrors.get(0).isDisplayed()).toBeTruthy();
-    expect(flows.requiredErrors.get(0).getText()).toBe('Please enter a name');
     expect(shared.tableElements.count()).toBe(flowCount);
-    expect(shared.successMessage.isPresent()).toBeFalsy();
-  });
-
-  xit('should clear fields on Cancel', function() {
-    flowCount = shared.tableElements.count();
-    shared.createBtn.click();
-
-    // Edit fields
-    flows.nameFormField.sendKeys('Flow Name');
-    flows.descriptionFormField.sendKeys('Flow Description');
-    flows.typeFormDropdown.all(by.css('option')).get((randomFlow % 3) + 1).click();
-    shared.cancelFormBtn.click();
-
-    // Warning message is displayed
-    shared.dismissChanges()
-
-    // New flow is not created
-    expect(shared.tableElements.count()).toBe(flowCount);
-
-    //Side panel is closed
-    expect(shared.rightPanel.isDisplayed()).toBeFalsy();
+    expect(flows.modalErrors.get(0).isDisplayed()).toBeTruthy();
+    expect(flows.modalErrors.get(0).getText()).toBe('Please enter a draft name');
   });
 });
