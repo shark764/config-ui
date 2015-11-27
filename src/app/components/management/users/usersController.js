@@ -23,6 +23,18 @@ angular.module('liveopsConfigPanel')
         }
       };
 
+      $scope.namesRequired = function(){
+        if (! $scope.selectedTenantUser){
+          return false;
+        }
+
+        if ($scope.scenario() === 'update' && $scope.selectedTenantUser.$user.status !== 'pending'){
+          return true;
+        }
+
+        return false;
+      };
+
       $scope.fetchTenantUsers = function () {
         return TenantUser.cachedQuery({
           tenantId: Session.tenant.tenantId
@@ -76,7 +88,7 @@ angular.module('liveopsConfigPanel')
       };
 
       $scope.submit = function () {
-        if ($scope.selectedTenantUser.$user.isNew()) {
+        if ($scope.scenario() === 'invite:new:user') {
           $scope.selectedTenantUser.$user.email = $scope.selectedTenantUser.email;
         }
 
