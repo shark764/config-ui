@@ -1,10 +1,12 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('QueueController', ['$scope', 'Queue', 'Session', '$stateParams', 'queueTableConfig', 'QueueVersion', 'Alert', '$translate',
-    function ($scope, Queue, Session, $stateParams, queueTableConfig, QueueVersion, Alert, $translate) {
+  .controller('QueueController', ['$scope', 'Queue', 'Session', '$stateParams', 'queueTableConfig', 'QueueVersion', 'Alert', '$translate', '$timeout',
+    function ($scope, Queue, Session, $stateParams, queueTableConfig, QueueVersion, Alert, $translate, $timeout) {
+      var vm = this;
       $scope.Session = Session;
       $scope.tableConfig = queueTableConfig;
+      $scope.forms = {};
       
       $scope.fetchQueues = function () {
         return Queue.cachedQuery({
@@ -43,18 +45,46 @@ angular.module('liveopsConfigPanel')
         var createInitialVersion = $scope.selectedQueue.isNew();
         return $scope.selectedQueue.save(function(queue){
           if (createInitialVersion){
-            var qv = $scope.initialVersion;
-            qv.queueId = queue.id;
-            qv.save()
-              .then(function (versionResult) {
-                queue.activeVersion = versionResult.version;
-                queue.activeQueue = versionResult;
-                queue.save();
-              }, function(){
-                Alert.error($translate.instant('queue.create.invalid.query'));
-              });
+            $scope.initialVersion.queueId = queue.id;
+            vm.saveInitialVersion(queue);
           }
         });
+      };
+      
+      vm.saveInitialVersion = function(queue){
+        var qv = $scope.initialVersion;
+        
+        $scope.initialVersion.save()
+          .then(function (versionResult) {
+            queue.activeVersion = versionResult.version;
+            queue.activeQueue = versionResult;
+            queue.save();
+          }, function(response){
+            Alert.error($translate.instant('queue.create.invalid.query'));
+            
+            if (angular.isDefined(response.data.error.attribute.query)){
+              $scope.copySelectedVersion(qv);
+              $scope.queryType = 'advanced';
+              
+              $scope.forms.versionForm.query.$setValidity('api', false);
+              $scope.forms.versionForm.query.$error = {
+                api: response.data.error.attribute.query
+              };
+              
+              var unbindErrorWatch = $scope.$watch('forms.versionForm.query.$dirty', function(dirtyValue){
+                if (dirtyValue){
+                  $scope.forms.versionForm.query.$setValidity('api', true);
+                  unbindErrorWatch();
+                }
+              });
+              
+              //Must use timeout here instead of evalAsync; evalAsync executes too early
+              $timeout(function(){
+                $scope.forms.versionForm.query.$setTouched();
+              });
+            }
+          }
+        );
       };
       
       $scope.fetchVersions = function(){

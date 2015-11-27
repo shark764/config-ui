@@ -101,7 +101,7 @@ angular.module('liveopsConfigPanel')
           $q.when;
 
         return userSave.call($scope.selectedTenantUser.$user)
-          .then(tenantUserSave)
+          .then(tenantUserSave);
       };
 
       $scope.resend = function () {
