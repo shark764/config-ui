@@ -21,7 +21,7 @@
   </div>
 
   <div ng-if="! selectedQueue.isNew()" class="input-group">
-    <label>{{'queue.details.activeVersion' | translate}}</label>
+    <label>{{'queue.details.activeVersion' | translate}} *</label>
     <div>
       <form-error field="forms.detailsForm.activeVersion"
       error-type-required="{{'queue.details.version.error' | translate}}"></form-error>
