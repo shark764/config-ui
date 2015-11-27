@@ -1,10 +1,19 @@
 <div class="bulk-action">
   <div><input id="user-status-bulk-enable-check" type="checkbox" ng-model="bulkAction.checked"></div>
   <label><b>{{'bulkActions.enable.users' | translate}}</b></label>
-  <toggle id="bulk-action-enable-toggle"
-    ng-disabled="! bulkAction.checked"
-    ng-model="status"
-    true-value="accepted"
-    false-value="disabled">
-  </toggle>
+  <div></div>
+</div>
+
+<div class="action-wrapper">
+  <div>
+    <select id="bulk-action-enable-select"
+      ng-model="status" 
+      ng-disabled="! bulkAction.checked" 
+      ng-required="bulkAction.checked"
+      ng-class="{'default-selected': !status}">
+        <option value="" ng-disabled="true">{{'bulkActions.status.placeholder' | translate}}</option>
+        <option value="accepted">{{'value.enable' | translate}}</option>
+        <option value="disabled">{{'value.disable' | translate}}</option>
+    </select>
+  </div>
 </div>
