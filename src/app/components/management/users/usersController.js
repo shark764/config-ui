@@ -61,7 +61,7 @@ angular.module('liveopsConfigPanel')
       };
 
       vm.canSaveUser = function(tenantUser) {
-        return tenantUser.isNew() ||
+        return tenantUser.$user.isNew() ||
           (UserPermissions.hasPermission('PLATFORM_MANAGE_USER_ACCOUNT') &&
             Session.user.id === $scope.selectedTenantUser.$user.id) ||
           UserPermissions.hasPermission('PLATFORM_MANAGE_ALL_USERS');
