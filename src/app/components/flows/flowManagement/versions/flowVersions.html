@@ -38,13 +38,17 @@
       <th ng-if="['PLATFORM_VIEW_ALL_USERS', 'PLATFORM_CREATE_USERS', 'PLATFORM_MANAGE_ALL_USERS', 'PLATFORM_MANAGE_ALL_TENANTS', 'PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT'] | hasPermission">
         {{'value.createdBy' | translate}}
       </th>
+      <th></th>
+      <th></th>
     </tr>
   </thead>
   <tr ng-repeat="version in getVersions() | orderBy:'created':'reverse'">
-    <td><a href="#/flows/editor/{{version.flowId}}/v/{{version.version}}?v={{($index - getVersions().length) * -1}}">{{version.name}}</a></td>
+    <td>{{version.name}}</td>
     <td>{{version.created | date:'medium'}}</td>
     <td ng-if="['PLATFORM_VIEW_ALL_USERS', 'PLATFORM_CREATE_USERS', 'PLATFORM_MANAGE_ALL_USERS', 'PLATFORM_MANAGE_ALL_TENANTS', 'PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT'] | hasPermission">
       <audit-text translation="value.displayName" user-id="version.createdBy"></audit-text>
     </td>
+    <td><a ng-href="#/flows/editor/{{version.flowId}}/v/{{version.version}}">view</a></td>
+    <td><a ng-click="onEditClick({version: version})">edit</a></td>
   </tr>
 </table>

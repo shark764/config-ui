@@ -21,10 +21,43 @@ angular.module('liveopsConfigPanel')
         });
       };
 
+      $scope.newDraftModal = function(version){
+        console.log(version);
+        var newScope = $scope.$new();
+
+        newScope.modalBody = 'app/components/flows/flowManagement/newDraft.modal.html';
+        newScope.title = 'New Draft';
+        newScope.draft = {
+          name: version.name + ' - draft'
+        };
+
+        newScope.cancelCallback = function() {
+          $document.find('modal').remove();
+        };
+
+        newScope.okCallback = function(draft) {
+          $document.find('modal').remove();
+          new FlowDraft({
+            flowId: version.flowId,
+            flow: version.flow,
+            tenantId: Session.tenant.tenantId,
+            name: draft.name
+          }).save().then(function(draft){
+            $state.go('content.flows.editor', {
+              flowId: draft.flowId,
+              draftId: draft.id
+            });
+          });
+        };
+
+        var element = $compile('<modal></modal>')(newScope);
+        $document.find('html > body').append(element);
+      };
+
       $scope.create = function() {
         var newScope = $scope.$new();
 
-        newScope.modalBody = 'app/components/flows/flowManagement/newFlowModal.html';
+        newScope.modalBody = 'app/components/flows/flowManagement/newFlow.modal.html';
         newScope.title = 'New Flow';
         newScope.flow = {
           name: 'Untitled Flow',
