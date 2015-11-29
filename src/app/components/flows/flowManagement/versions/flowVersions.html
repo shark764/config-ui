@@ -33,6 +33,7 @@
 <table class="table" id="flow-details-versions-table" ng-show="getVersions().length > 0">
   <thead>
     <tr>
+      <th>{{'value.version' | translate}}</th>
       <th>{{'value.name' | translate}}</th>
       <th>{{'value.createdOn' | translate}}</th>
       <th ng-if="['PLATFORM_VIEW_ALL_USERS', 'PLATFORM_CREATE_USERS', 'PLATFORM_MANAGE_ALL_USERS', 'PLATFORM_MANAGE_ALL_TENANTS', 'PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT'] | hasPermission">
@@ -43,6 +44,7 @@
     </tr>
   </thead>
   <tr ng-repeat="version in getVersions() | orderBy:'created':'reverse'">
+    <td>{{version.fakeVersion}}</td>
     <td>{{version.name}}</td>
     <td>{{version.created | date:'medium'}}</td>
     <td ng-if="['PLATFORM_VIEW_ALL_USERS', 'PLATFORM_CREATE_USERS', 'PLATFORM_MANAGE_ALL_USERS', 'PLATFORM_MANAGE_ALL_TENANTS', 'PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT'] | hasPermission">
