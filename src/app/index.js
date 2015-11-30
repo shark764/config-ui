@@ -108,7 +108,7 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
         reloadOnSearch: false,
         resolve: {
           hasPermission: ['UserPermissions', function(UserPermissions) {
-            return UserPermissions.resolvePermissions([]);
+            return UserPermissions.resolvePermissions(['MANAGE_ALL_LISTS']);
           }]
         }
       })
