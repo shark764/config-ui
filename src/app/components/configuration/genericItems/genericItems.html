@@ -1,0 +1,73 @@
+<table-controls
+  id="table-pane"
+  ng-if="tableConfig"
+  config="tableConfig"
+  selected="selectedItem"
+  items="list.items"
+  resource-name="Item"
+  ng-model=list.items
+  lo-editable>
+
+</table-controls>
+
+<resize-handle
+  ng-show="selectedItem || showBulkActions"
+  id="resize-pane"
+  right-element-id="item-details-pane"
+  left-element-id="table-pane">
+</resize-handle>
+
+<lo-details-panel
+  id="item-details-pane"
+  class="right-panel"
+  ng-show="selectedItem || showBulkActions"
+  ng-resource="selectedItem">
+
+  <ng-form
+    class="details-pane"
+    unsaved-changes-warning
+    name="controllers.detailsForm"
+    ng-show="!showBulkActions"
+    ng-resource="selectedItem"
+    lo-form-submit lo-form-alert>
+    
+    <div class="detail-body">
+      <div class="divider-header first-header">
+        <h4>{{'details' | translate}}</h4>
+      </div>
+    
+      <div disable-contents="! ([] | hasPermission)">
+        
+        <list-item
+          item="selectedItem"
+          list-type="listType">
+        </list-item>
+
+      </div>
+    </div>
+    
+    <div class="detail-controls">
+      <input
+        id="cancel-details-btn" class="btn" type="button"
+        name="controllers.reset"
+        ng-disabled="selectedItem.$busy"
+        value="{{'value.cancel' | translate}}"
+        ng-model="selectedItem"
+        lo-reset>
+      </input>
+      
+      <input
+        id="submit-details-btn"
+        lo-submit="submit()"
+        lo-submit-spinner
+        lo-submit-spinner-status="selectedItem.$busy"
+        ng-disabled="controllers.detailsForm.$pending ||
+          controllers.detailsForm.$invalid ||
+          ! controllers.detailsForm.$dirty"
+        class="btn btn-primary"
+        type="submit"
+        value="{{'value.submit' | translate}}" />
+    </div>
+  </ng-form>
+
+</lo-details-panel>

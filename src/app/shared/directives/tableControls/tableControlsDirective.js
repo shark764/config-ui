@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('tableControls', ['$rootScope', '$filter', '$location', '$stateParams', '$parse', 'DirtyForms', 'Session',
-    function ($rootScope, $filter, $location, $stateParams, $parse, DirtyForms, Session) {
+  .directive('tableControls', ['$rootScope', '$filter', '$location', '$stateParams', '$parse', 'loEvents', 'DirtyForms', 'Session',
+    function ($rootScope, $filter, $location, $stateParams, $parse, loEvents, DirtyForms, Session) {
       return {
         restrict: 'E',
         scope: {
@@ -17,15 +17,28 @@ angular.module('liveopsConfigPanel')
         transclude: true,
         controller: function () {},
         link: function ($scope) {
-          $scope.primaryKey = $scope.config.primaryKey ?
-            $scope.config.primaryKey : 'id';
+          var parseResourceKey = angular.noop;
+          var parseStateKey = angular.noop;
+          
+          $scope.$watch('config', function(newConfig){
+            if(!newConfig) {
+              return;
+            }
 
-          $scope.$watch('config', function(){
             $scope.showBulkActions = angular.isDefined($scope.config.showBulkActions) ? $scope.config.showBulkActions : true;
             $scope.showCreate = angular.isDefined($scope.config.showCreate) ? $scope.config.showCreate : true;
 
             $scope.reverseSortOrder = false;
             $scope.orderBy = $scope.config.orderBy;
+
+            $scope.resourceKey = $scope.config.resourceKey ?
+              $scope.config.resourceKey : 'id';
+              
+            $scope.stateKey = $scope.config.stateKey ?
+              $scope.config.stateKey : 'id';
+              
+            parseResourceKey = $parse($scope.resourceKey);
+            parseStateKey = $parse($scope.stateKey);
           });
 
           angular.extend($scope, $scope.extendScope);
@@ -33,9 +46,10 @@ angular.module('liveopsConfigPanel')
           $scope.$on('created:resource:' + $scope.resourceName,
             function (event, item) {
               $scope.selected = item;
-              $location.search({
-                id: item.id
-              });
+              
+              var params = {};
+              params[$scope.stateKey] = parseKey(item);
+              $location.search(params);
           });
 
           $scope.$on('dropdown:item:checked', function (){
@@ -46,28 +60,27 @@ angular.module('liveopsConfigPanel')
 
           $scope.onCreateClick = function () {
             DirtyForms.confirmIfDirty(function () {
-              $rootScope.$broadcast('table:on:click:create');
+              $rootScope.$broadcast(loEvents.tableControls.itemCreate);
             });
           };
 
           $scope.onActionsClick = function () {
             DirtyForms.confirmIfDirty(function () {
               $scope.selected = undefined;
-              $rootScope.$broadcast('table:on:click:actions');
+              $rootScope.$broadcast(loEvents.tableControls.actions);
             });
           };
 
           $scope.selectItem = function (item) {
             DirtyForms.confirmIfDirty(function () {
-              $scope.selected = item;
-
               if (item) {
-                $location.search({
-                  id: item.id
-                });
+                var params = {};
+                params[$scope.stateKey] = parseResourceKey(item);
+                $location.search(params);
               }
 
-              $rootScope.$broadcast('table:resource:selected', item);
+              $rootScope.$broadcast(loEvents.tableControls.itemSelected, item, $scope.selected);
+              $scope.selected = item;
             });
           };
 
@@ -76,7 +89,7 @@ angular.module('liveopsConfigPanel')
 
             if (item.checked !== newValue) {
               item.checked = newValue;
-              $rootScope.$broadcast('table:resource:checked', item);
+              $rootScope.$broadcast(loEvents.tableControls.itemChecked, item);
             }
           };
 
@@ -95,28 +108,30 @@ angular.module('liveopsConfigPanel')
             });
           };
 
-          //TODO: Run this again if the selected tenant changes?
-          if ($scope.items) {
-            $scope.items.$promise.then(function () {
-              if ($scope.items.length === 0) {
-                $rootScope.$broadcast('resource:create');
-              } else if ($stateParams.id) {
-                //Init the selected item based on URL param
-                var matchedItems = $filter('filter')($scope.items, {
-                  id: $stateParams.id
-                }, true);
-                if (matchedItems.length > 0) {
-                  $scope.selectItem(matchedItems[0]);
-                  return;
-                } else {
-                  $scope.selected = $scope.selectItem(null);
-                }
+          $scope.$watchCollection('items', function(newItems) {
+            if(!newItems) {
+              return;
+            }
+
+            if (newItems.length === 0) {
+              $rootScope.$broadcast(loEvents.tableControls.itemCreate);
+            } else if (parseStateKey($stateParams)) {
+              //Init the selected item based on URL param
+              var params = {};
+              params[$scope.resourceKey] = parseStateKey($stateParams);
+              var matchedItems = $filter('filter')(newItems, params, false);
+              
+              if (matchedItems.length > 0) {
+                $scope.selectItem(matchedItems[0]);
+                return;
+              } else {
+                $scope.selected = $scope.selectItem(null);
               }
-            });
-          }
+            }
+          });
 
           $scope.$watchCollection('filtered', function () {
-            if (!$scope.items || !$scope.items.$resolved) {
+            if (!$scope.items || ($scope.items.$promise && !$scope.items.$resolved)) {
               $scope.selectItem(null);
               return;
             }
@@ -129,16 +144,17 @@ angular.module('liveopsConfigPanel')
             });
 
             if ($scope.filtered.length === 0) {
-              $rootScope.$broadcast('resource:create');
+              $rootScope.$broadcast(loEvents.tableControls.itemCreate);
               return;
             }
 
             //Swap the selection if the selected item gets filtered out
             var selectedIsVisible = false;
             if ($scope.selected) {
-              var matchedItems = $filter('filter')($scope.filtered, {
-                id: $scope.selected.id
-              }, true);
+              var params = {};
+              params[$scope.resourceKey] = parseStateKey($stateParams);
+              var matchedItems = $filter('filter')($scope.filtered, params);
+              
               if (matchedItems.length > 0) {
                 selectedIsVisible = true;
               }
@@ -180,6 +196,9 @@ angular.module('liveopsConfigPanel')
           };
 
           $scope.getFields = function(){
+            if(!$scope.config || !$scope.config.fields){
+              return;
+            }
 
             for (var fieldIndex = 0; fieldIndex < $scope.config.fields.length; fieldIndex++) {
               if (Session.columnPreferences[$scope.config.title]) {

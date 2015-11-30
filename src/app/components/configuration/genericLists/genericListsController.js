@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('listsController', ['$scope', '$filter', '$q', 'Session', 'List', 'ListType', 'listTableConfig',
+  .controller('genericListsController', ['$scope', '$filter', '$q', 'Session', 'List', 'ListType', 'listTableConfig',
     function ($scope, $filter, $q, Session, List, ListType, listTableConfig) {
 
       $scope.create = function () {
