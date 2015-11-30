@@ -59,14 +59,14 @@ angular.module('liveopsConfigPanel')
           };
 
           $scope.clearValues = function(){
-            /*
+
             $scope.phoneNumber = null;
             $scope.phoneExtension = null;
             $scope.sipExtension = null;
             $scope.newExtension.provider = null;
-            */
+            
           };
-          
+
           $scope.remove = function(extension) {
             $scope.tenantUser.extensions.removeItem(extension);
             return save();

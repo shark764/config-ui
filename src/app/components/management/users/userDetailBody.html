@@ -130,8 +130,8 @@
       <form-error field="forms.detailsForm.firstName"
         error-type-required="{{'details.firstName.error' | translate}}"></form-error>
       <div>
-        <input name="firstName" 
-          type="text" 
+        <input name="firstName"
+          type="text"
           ng-required="namesRequired()"
           ng-model="selectedTenantUser.$user.firstName"></input>
       </div>
@@ -143,7 +143,7 @@
       <form-error field="forms.detailsForm.lastName"
         error-type-required="{{'details.lastName.error' | translate}}"></form-error>
       <div>
-        <input name="lastName" 
+        <input name="lastName"
           type="text"
           ng-required="namesRequired()"
           ng-model="selectedTenantUser.$user.lastName">
@@ -184,7 +184,7 @@
 
   <lo-extensions
     tenant-user="selectedTenantUser"
-    ng-disabled="!(
+    ng-disabled="true || !(
         ('MANAGE_ALL_USER_EXTENSIONS' | hasPermission) ||
         ('MANAGE_USER_EXTENSIONS' | hasPermission) ||
         (
