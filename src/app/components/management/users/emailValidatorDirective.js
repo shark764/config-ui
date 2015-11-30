@@ -43,6 +43,7 @@ angular.module('liveopsConfigPanel')
 
               // If the request 404s, assume the email is unique
               if (error.status === 404) {
+                ngResource.$user = new User();
                 return def.resolve();
               }
 

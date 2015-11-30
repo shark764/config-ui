@@ -23,6 +23,18 @@ angular.module('liveopsConfigPanel')
         }
       };
 
+      $scope.namesRequired = function(){
+        if (! $scope.selectedTenantUser){
+          return false;
+        }
+
+        if ($scope.scenario() === 'update' && $scope.selectedTenantUser.$user.status !== 'pending'){
+          return true;
+        }
+
+        return false;
+      };
+
       $scope.fetchTenantUsers = function () {
         return TenantUser.cachedQuery({
           tenantId: Session.tenant.tenantId
@@ -61,10 +73,13 @@ angular.module('liveopsConfigPanel')
       };
 
       vm.canSaveUser = function(tenantUser) {
-        return tenantUser.$user.isNew() ||
+        return $scope.scenario() !== 'invite:existing:user' &&
+
+          (tenantUser.$user.isNew() ||
+
           (UserPermissions.hasPermission('PLATFORM_MANAGE_USER_ACCOUNT') &&
             Session.user.id === $scope.selectedTenantUser.$user.id) ||
-          UserPermissions.hasPermission('PLATFORM_MANAGE_ALL_USERS');
+          UserPermissions.hasPermission('PLATFORM_MANAGE_ALL_USERS'));
       };
 
       vm.canSaveTenantUser = function(tenantUser) {
@@ -76,7 +91,7 @@ angular.module('liveopsConfigPanel')
       };
 
       $scope.submit = function () {
-        if ($scope.selectedTenantUser.$user.isNew()) {
+        if ($scope.scenario() === 'invite:new:user') {
           $scope.selectedTenantUser.$user.email = $scope.selectedTenantUser.email;
         }
 
@@ -89,7 +104,7 @@ angular.module('liveopsConfigPanel')
           $q.when;
 
         return userSave.call($scope.selectedTenantUser.$user)
-          .then(tenantUserSave)
+          .then(tenantUserSave);
       };
 
       $scope.resend = function () {
