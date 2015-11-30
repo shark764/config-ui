@@ -95,10 +95,6 @@ describe('The groups view bulk actions', function() {
     bulkActions.confirmOK.click().then(function() {
       expect(shared.successMessage.isDisplayed()).toBeTruthy();
 
-      // Form reset
-      expect(bulkActions.submitFormBtn.getAttribute('disabled')).toBeTruthy();
-      expect(bulkActions.enableToggle.getAttribute('disabled')).toBeTruthy();
-
       // All groups are set to disabled
       // Select Disabled from Status drop down
       bulkActions.statusColumnDropDownLabel.click();
@@ -137,10 +133,6 @@ describe('The groups view bulk actions', function() {
       expect(bulkActions.confirmModal.isDisplayed()).toBeTruthy();
       bulkActions.confirmOK.click().then(function() {
         expect(shared.successMessage.isDisplayed()).toBeTruthy();
-
-        // Form reset
-        expect(bulkActions.submitFormBtn.getAttribute('disabled')).toBeTruthy();
-        expect(bulkActions.enableToggle.getAttribute('disabled')).toBeTruthy();
 
         // All groups are set to enabled
         // Select Disabled from Status drop down
@@ -200,10 +192,6 @@ describe('The groups view bulk actions', function() {
         expect(bulkActions.confirmModal.isDisplayed()).toBeTruthy();
         bulkActions.confirmOK.click().then(function() {
           expect(shared.successMessage.isDisplayed()).toBeTruthy();
-
-          // Form reset
-          expect(bulkActions.submitFormBtn.getAttribute('disabled')).toBeTruthy();
-          expect(bulkActions.enableToggle.getAttribute('disabled')).toBeTruthy();
 
           shared.tableElements.each(function(groupElement, elementIndex) {
             groupElement.getText().then(function(groupText) {

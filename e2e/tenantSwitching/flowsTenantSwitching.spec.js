@@ -38,8 +38,7 @@ describe('When switching tenants', function() {
       browser.get(shared.flowsPageUrl);
       elementCount = shared.tableElements.count();
     });
-    
-    // TODO Bug Unable to create new tenant TITAN2-4878
+
     xit('should create a new Flow in one and not the previous', function() {
       // Create Flow in new tenant
       var randomFlow = Math.floor((Math.random() * 1000) + 1);
@@ -83,75 +82,25 @@ describe('When switching tenants', function() {
     });
   });
 
-  describe('Media Collection Management page', function() {
-    beforeAll(function() {
-      browser.get(shared.mediaCollectionsPageUrl);
-      elementCount = shared.tableElements.count();
-    });
-
-    xit('should display the correct Media Collections for the current tenant', function() {
-      expect(elementCount).toBe(0);
-    });
-
-    xit('should create a new Media Collection in one and not the previous', function() {
-      // TODO Update to require mediaMapping
-      // Create MediaCollection in new tenant
-      var newTenantMediaCollection = 'New Tenant MediaCollection ' + Math.floor((Math.random() * 1000) + 1);
-      shared.createBtn.click();
-      mediaCollections.nameFormField.sendKeys(newTenantMediaCollection);
-      mediaCollections.submitFormBtn.click();
-
-      expect(shared.successMessage.isDisplayed()).toBeTruthy();
-      expect(shared.tableElements.count()).toBe(1);
-
-      // Verify mediaCollection is not added in previous tenant
-      tenants.selectTenant(defaultTenantName);
-      shared.tableElements.then(function(rows) {
-        for (var i = 1; i <= rows.length; ++i) {
-          // Check if mediaCollection name in table matches newly added mediaCollection
-          expect(element(by.css('tr.ng-scope:nth-child(' + i + ') > td:nth-child(2)')).getText()).not.toBe(newTenantMediaCollection);
-        }
-      });
-
-      // Create mediaCollection in previous tenant
-      var previousTenantMediaCollection = 'Previous Tenant MediaCollection ' + Math.floor((Math.random() * 1000) + 1);
-      shared.createBtn.click();
-      mediaCollections.nameFormField.sendKeys(previousTenantMediaCollection);
-      mediaCollections.submitFormBtn.click();
-
-      expect(shared.successMessage.isDisplayed()).toBeTruthy();
-
-      // Verify mediaCollection is not added in new tenant
-      tenants.selectTenant(newTenantName);
-      expect(shared.tableElements.count()).toBe(1);
-      shared.tableElements.then(function(rows) {
-        for (var i = 1; i <= rows.length; ++i) {
-          // Check if mediaCollection name in table matches newly added mediaCollection
-          expect(element(by.css('tr.ng-scope:nth-child(' + i + ') > td:nth-child(2)')).getText()).not.toBe(previousTenantMediaCollection);
-        }
-      });
-    });
-  });
-
   describe('Media Management page', function() {
     beforeAll(function() {
       browser.get(shared.mediaPageUrl);
       elementCount = shared.tableElements.count();
     });
 
-    xit('should display the correct Media for the current tenant', function() {
+    it('should display the correct Media for the current tenant', function() {
       expect(elementCount).toBe(0);
     });
 
-    xit('should create a new Media in one and not the previous', function() {
+    it('should create a new Media in one and not the previous', function() {
       // Create Media in new tenant
       var newTenantMedia = 'New Tenant Media ' + Math.floor((Math.random() * 1000) + 1);
       shared.createBtn.click();
       media.nameFormField.sendKeys(newTenantMedia);
       media.typeFormDropdown.all(by.css('option')).get(1).click();
-      media.sourceFormField.sendKeys('http://www.example.com/');
+      media.audioSourceFormField.sendKeys('http://www.example.com/');
       media.submitFormBtn.click().then(function() {
-        expect(shared.successMessage.isDisplayed()).toBeTruthy();
+        shared.waitForSuccess();
         expect(shared.tableElements.count()).toBe(1);
 
         // Verify media is not added in previous tenant
@@ -168,9 +117,9 @@ describe('When switching tenants', function() {
         shared.createBtn.click();
         media.nameFormField.sendKeys(previousTenantMedia);
         media.typeFormDropdown.all(by.css('option')).get(1).click();
-        media.sourceFormField.sendKeys('http://www.example.com/');
+        media.audioSourceFormField.sendKeys('http://www.example.com/');
         media.submitFormBtn.click().then(function() {
-          expect(shared.successMessage.isDisplayed()).toBeTruthy();
+          shared.waitForSuccess();
 
           // Verify media is not added in new tenant
           tenants.selectTenant(newTenantName);
@@ -186,16 +135,74 @@ describe('When switching tenants', function() {
     });
   });
 
+  describe('Media Collection Management page', function() {
+    beforeAll(function() {
+      browser.get(shared.mediaCollectionsPageUrl);
+      elementCount = shared.tableElements.count();
+    });
+
+    it('should display the correct Media Collections for the current tenant', function() {
+      expect(elementCount).toBe(0);
+    });
+
+    it('should create a new Media Collection in one and not the previous', function() {
+      // Create MediaCollection in new tenant
+      var newTenantMediaCollection = 'New Tenant MediaCollection ' + Math.floor((Math.random() * 1000) + 1);
+      shared.createBtn.click();
+      mediaCollections.nameFormField.sendKeys(newTenantMediaCollection);
+      mediaCollections.mediaIdentifiers.get(0).sendKeys('Identifier');
+      mediaCollections.mediaDropdowns.get(0).click();
+      mediaCollections.mediaDropdownBoxes.get(0).all(by.repeater(mediaCollections.mediaElementsSelector)).get(0).click();
+      mediaCollections.defaultIdDropdown.all(by.css('option')).get(1).click();
+      mediaCollections.submitFormBtn.click();
+
+      shared.waitForSuccess();
+      expect(shared.tableElements.count()).toBe(1);
+
+      // Verify mediaCollection is not added in previous tenant
+      tenants.selectTenant(defaultTenantName);
+      shared.tableElements.then(function(rows) {
+        for (var i = 1; i <= rows.length; ++i) {
+          // Check if mediaCollection name in table matches newly added mediaCollection
+          expect(element(by.css('tr.ng-scope:nth-child(' + i + ') > td:nth-child(2)')).getText()).not.toBe(newTenantMediaCollection);
+        }
+      });
+
+      // Create mediaCollection in previous tenant
+      var previousTenantMediaCollection = 'Previous Tenant MediaCollection ' + Math.floor((Math.random() * 1000) + 1);
+      shared.createBtn.click();
+      mediaCollections.nameFormField.sendKeys(previousTenantMediaCollection);
+      mediaCollections.mediaIdentifiers.get(0).sendKeys('Identifier');
+      mediaCollections.mediaDropdowns.get(0).click();
+      mediaCollections.mediaDropdownBoxes.get(0).all(by.repeater(mediaCollections.mediaElementsSelector)).get(0).click();
+      mediaCollections.defaultIdDropdown.all(by.css('option')).get(1).click();
+      mediaCollections.submitFormBtn.click();
+
+      shared.waitForSuccess();
+
+      // Verify mediaCollection is not added in new tenant
+      tenants.selectTenant(newTenantName);
+      expect(shared.tableElements.count()).toBe(1);
+      shared.tableElements.then(function(rows) {
+        for (var i = 1; i <= rows.length; ++i) {
+          // Check if mediaCollection name in table matches newly added mediaCollection
+          expect(element(by.css('tr.ng-scope:nth-child(' + i + ') > td:nth-child(2)')).getText()).not.toBe(previousTenantMediaCollection);
+        }
+      });
+    });
+  });
+
   describe('Dispatch Mapping page', function() {
     beforeAll(function() {
       browser.get(shared.dispatchMappingsPageUrl);
       elementCount = shared.tableElements.count();
     });
 
-    xit('should display the correct Dispatch Mappings for the current tenant', function() {
+    it('should display the correct Dispatch Mappings for the current tenant', function() {
       expect(elementCount).toBe(0);
     });
 
+    // TODO Requires flow
     xit('should create a new Dispatch Mapping in one and not the previous', function() {
       // Create DispatchMapping in new tenant
       var newTenantDispatchMapping = 'New Tenant DispatchMapping ' + Math.floor((Math.random() * 1000) + 1);
@@ -247,11 +254,11 @@ describe('When switching tenants', function() {
       elementCount = shared.tableElements.count();
     });
 
-    xit('should display the correct Queues for the current tenant', function() {
+    it('should display the correct Queues for the current tenant', function() {
       expect(elementCount).toBe(0);
     });
 
-    xit('should create a new Queue in one and not the previous', function() {
+    it('should create a new Queue in one and not the previous', function() {
       // Create Queue in new tenant
       var newTenantQueue = 'New Tenant Queue ' + Math.floor((Math.random() * 1000) + 1);
       shared.createBtn.click();

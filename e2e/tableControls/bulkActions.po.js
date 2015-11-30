@@ -1,7 +1,8 @@
 'use strict';
 
 var BulkActions = function() {
-  this.tableHeader = element(by.css('.clone-header'));
+  this.tablePane = element(by.id('table-pane'));
+  this.tableHeader = this.tablePane.element(by.css('.clone-header'));
   this.selectAllTableHeader = this.tableHeader.element(by.id('bulk-actions-select-table-header'));
   this.selectItemTableCells = element.all(by.id('bulk-actions-select-table-cell'));
 
@@ -16,6 +17,9 @@ var BulkActions = function() {
   // User Management Bulk Actions
   this.userSelectEnable = element(by.id('user-status-bulk-enable-check'));
   this.userDetailsPanel = element(by.id('user-pane'));
+  this.selectInviteNow = element(by.id('user-invite-now-bulk-enable-check'));
+  this.selectCancelInvite = element(by.id('user-cancel-invite-bulk-enable-check'));
+  this.selectResendInvite = element(by.id('user-resend-invite-bulk-enable-check'));
 
   this.changeSkills = element(by.css('ba-user-skills'));
   this.selectChangeSkills = element(by.id('user-skill-bulk-enable-check'));
@@ -46,7 +50,7 @@ var BulkActions = function() {
   // Generic Management Bulk Actions
   this.selectEnable = element(by.id('select-enable-bulk-action'));
   this.enableToggle = element(by.id('bulk-action-enable-toggle'));
-  this.enableToggleSwitch = this.enableToggle.element(by.css('.switch-handle'));
+  this.enableToggleSwitch = this.enableToggle.element(by.css('label:nth-child(1) > .switch-handle'));
   this.enableToggleClick = this.enableToggle.element(by.css('label:nth-child(2) > .switch-handle'));
 
   // Bulk Actions buttons
@@ -62,7 +66,7 @@ var BulkActions = function() {
   this.confirmCancel = this.confirmModal.element(by.id('modal-cancel'));
 
   // Status table selectors
-  this.tableHeader = element(by.css('.clone-header > thead:nth-child(1)'));
+  this.tableHeader = this.tablePane.element(by.css('.clone-header > thead:nth-child(1)'));
   this.statusColumnDropDown = this.tableHeader.element(by.id('status-column-dropdown'));
   this.statusColumnDropDownLabel = this.statusColumnDropDown.element(by.css('.dropdown-label'));
   this.allStatus = this.statusColumnDropDown.element(by.css('.all'));

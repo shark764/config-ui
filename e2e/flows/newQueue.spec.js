@@ -204,16 +204,14 @@ describe('The create new queues view', function() {
     expect(shared.successMessage.isPresent()).toBeFalsy();
   });
 
-  //TODO: bug, see TITAN2-3765 TITAN2-3290
+  //TODO TITAN2-1805 Creates a queue without a version
   xit('should validate query field', function() {
     shared.createBtn.click();
     randomQueue = Math.floor((Math.random() * 100) + 1);
-    newQueue.showAdvancedQueryLink.click();
 
     // Complete queue form and submit without valid query
-    newQueue.showAdvancedQueryLink.click();
     queues.nameFormField.sendKeys('Queue ' + randomQueue);
-    queues.descriptionFormField.sendKeys('This is the queue description for queue ' + randomQueue);
+    newQueue.showAdvancedQueryLink.click();
     newQueue.advancedQueryFormField.clear();
     newQueue.advancedQueryFormField.sendKeys('This is not a valid query');
 
@@ -239,6 +237,7 @@ describe('The create new queues view', function() {
     });
   });
 
+  // Fails
   xit('should not accept spaces only as valid field input when creating a new queue', function() {
     shared.createBtn.click();
     queues.nameFormField.sendKeys(' ');

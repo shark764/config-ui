@@ -17,23 +17,26 @@
       lo-form-alert
       lo-form-reset>
 
-      <div id="user-profile-email">
-        <label>Email:</label> {{tenantUser.$user.email}}
-      </div>
       <div>
-        <label>{{'details.firstName' | translate}}</label>
+        <label>{{'details.email' | translate}}</label>
         <div>
-          <form-error field="userForm.firstName"></form-error>
-          <input ng-model="tenantUser.$user.firstName" name="firstName" type="text"></input>
+          <input readonly ng-disabled="true" ng-model="tenantUser.$user.email" name="email" type="text"></input>
         </div>
       </div>
       <div>
-        <label>{{'details.lastName' | translate}}</label>
+        <label>{{'details.firstName' | translate}} *</label>
+        <div>
+          <form-error field="userForm.firstName"
+            error-type-required="{{'details.firstName.error' | translate}}"></form-error>
+          <input ng-required="true" ng-model="tenantUser.$user.firstName" name="firstName" type="text"></input>
+        </div>
+      </div>
+      <div>
+        <label>{{'details.lastName' | translate}} *</label>
         <div>
           <form-error field="userForm.lastName"
-            error-type-required="{{'details.lastName.error' | translate}}">
-          </form-error>
-          <input ng-model="tenantUser.$user.lastName" name="lastName" type="text"></input>
+            error-type-required="{{'details.lastName.error' | translate}}"></form-error>
+          <input ng-required="true" ng-model="tenantUser.$user.lastName" name="lastName" type="text"></input>
         </div>
       </div>
       <div>

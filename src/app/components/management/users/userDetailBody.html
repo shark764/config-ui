@@ -104,7 +104,7 @@
     </div>
 
     <div ng-if="selectedTenantUser.status != 'accepted' && selectedTenantUser.status != 'disabled' &&
-      ['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'MANAGE_TENANT_ENROLLMENT'] | hasPermission" class="input-group">
+      (['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'MANAGE_TENANT_ENROLLMENT'] | hasPermission)" class="input-group">
       <label></label>
       <div>
         <input id="resend-invitation-btn" type="button" class="btn" ng-click="resend()"
@@ -126,22 +126,26 @@
     </div>
 
     <div class="input-group">
-      <label>{{'details.firstName' | translate}}</label>
-      <form-error field="forms.detailsForm.firstName">
-      </form-error>
+      <label>{{'details.firstName' | translate}} <span ng-show="namesRequired()">*</span></label>
+      <form-error field="forms.detailsForm.firstName"
+        error-type-required="{{'details.firstName.error' | translate}}"></form-error>
       <div>
-
-        <input name="firstName" type="text"
+        <input name="firstName" 
+          type="text" 
+          ng-required="namesRequired()"
           ng-model="selectedTenantUser.$user.firstName"></input>
       </div>
     </div>
 
     <div class="input-group">
-      <label>{{'details.lastName' | translate}}</label>
-      <form-error field="forms.detailsForm.lastName">
-      </form-error>
+      <label>{{'details.lastName' | translate}} <span ng-show="namesRequired()">*</span></label>
+
+      <form-error field="forms.detailsForm.lastName"
+        error-type-required="{{'details.lastName.error' | translate}}"></form-error>
       <div>
-        <input name="lastName" type="text"
+        <input name="lastName" 
+          type="text"
+          ng-required="namesRequired()"
           ng-model="selectedTenantUser.$user.lastName">
       </input>
       </div>

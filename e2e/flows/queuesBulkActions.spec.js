@@ -41,72 +41,74 @@ describe('The queues view bulk actions', function() {
   });
 
   it('should allow all selected queue\'s status to be Disabled', function() {
-    // Update All bulk actions
     shared.actionsBtn.click();
-    bulkActions.selectAllTableHeader.click();
 
-    bulkActions.selectEnable.click();
+    shared.tableElements.count().then(function(queueCount) {
+      for (var i = 0; i < queueCount && i < 5; i++) { // Reduce test length
+        bulkActions.selectItemTableCells.get(i).click();
+      }
 
-    expect(bulkActions.submitFormBtn.getAttribute('disabled')).toBeFalsy();
-    bulkActions.submitFormBtn.click();
+      bulkActions.selectEnable.click();
 
-    expect(bulkActions.confirmModal.isDisplayed()).toBeTruthy();
-    bulkActions.confirmOK.click().then(function() {
-      expect(shared.successMessage.isDisplayed()).toBeTruthy();
+      expect(bulkActions.submitFormBtn.getAttribute('disabled')).toBeFalsy();
+      bulkActions.submitFormBtn.click();
 
-      // Form reset
-      expect(bulkActions.submitFormBtn.getAttribute('disabled')).toBeTruthy();
-      expect(bulkActions.enableToggle.getAttribute('disabled')).toBeTruthy();
+      expect(bulkActions.confirmModal.isDisplayed()).toBeTruthy();
+      bulkActions.confirmOK.click().then(function() {
+        shared.waitForSuccess();
+        shared.successMessage.click();
 
-      // All queues are set to disabled
-      // Select Disabled from Status drop down
-      bulkActions.statusColumnDropDownLabel.click();
-      bulkActions.statuses.get(0).click();
-      shared.tableElements.count().then(function(disabledTotal) {
-        expect(disabledTotal).toBe(queueCount);
-      });
+        // All queues are set to disabled
+        // Select Disabled from Status drop down
+        bulkActions.statusColumnDropDownLabel.click();
+        bulkActions.statuses.get(0).click();
+        shared.tableElements.count().then(function(disabledTotal) {
+          expect(disabledTotal).not.toBeLessThan(Math.min(5, queueCount));
+        });
 
-      // Select Enabled from Status drop down
-      bulkActions.statuses.get(0).click();
-      bulkActions.statuses.get(1).click();
-      shared.tableElements.count().then(function(enabledTotal) {
-        expect(enabledTotal).toBe(0);
+        // Select Enabled from Status drop down
+        bulkActions.statuses.get(0).click();
+        bulkActions.statuses.get(1).click();
+        shared.tableElements.count().then(function(enabledTotal) {
+          expect(enabledTotal).not.toBeGreaterThan(queueCount - 5);
+        });
       });
     });
   });
 
-  xit('should allow all selected queue\'s status to be Enabled', function() {
-    // Update All bulk actions
+  it('should allow all selected queue\'s status to be Enabled', function() {
     shared.actionsBtn.click();
-    bulkActions.selectAllTableHeader.click();
 
-    bulkActions.selectEnable.click();
-    bulkActions.enableToggleClick.click();
+    shared.tableElements.count().then(function(queueCount) {
+      for (var i = 0; i < queueCount && i < 5; i++) { // Reduce test length
+        bulkActions.selectItemTableCells.get(i).click();
+      }
 
-    expect(bulkActions.submitFormBtn.getAttribute('disabled')).toBeFalsy();
-    bulkActions.submitFormBtn.click();
+      bulkActions.selectEnable.click();
+      bulkActions.enableToggleClick.click();
 
-    expect(bulkActions.confirmModal.isDisplayed()).toBeTruthy();
-    bulkActions.confirmOK.click().then(function() {
-      expect(shared.successMessage.isDisplayed()).toBeTruthy();
+      expect(bulkActions.submitFormBtn.getAttribute('disabled')).toBeFalsy();
+      bulkActions.submitFormBtn.click();
 
-      // Form reset
-      expect(bulkActions.submitFormBtn.getAttribute('disabled')).toBeTruthy();
-      expect(bulkActions.enableToggle.getAttribute('disabled')).toBeTruthy();
+      expect(bulkActions.confirmModal.isDisplayed()).toBeTruthy();
+      bulkActions.confirmOK.click().then(function() {
+        shared.waitForSuccess();
+        shared.successMessage.click();
 
-      // All queues are set to enabled
-      // Select Disabled from Status drop down
-      bulkActions.statusColumnDropDownLabel.click();
-      bulkActions.statuses.get(0).click();
-      shared.tableElements.count().then(function(disabledTotal) {
-        expect(disabledTotal).toBe(0);
-      });
+        // All queues are set to disabled
+        // Select Disabled from Status drop down
+        bulkActions.statusColumnDropDownLabel.click();
+        bulkActions.statuses.get(0).click();
+        shared.tableElements.count().then(function(disabledTotal) {
+          expect(disabledTotal).not.toBeGreaterThan(queueCount - 5);
+        });
 
-      // Select Enabled from Status drop down
-      bulkActions.statuses.get(0).click();
-      bulkActions.statuses.get(1).click();
-      shared.tableElements.count().then(function(enabledTotal) {
-        expect(enabledTotal).toBe(queueCount);
+        // Select Enabled from Status drop down
+        bulkActions.statuses.get(0).click();
+        bulkActions.statuses.get(1).click();
+        shared.tableElements.count().then(function(enabledTotal) {
+          expect(enabledTotal).not.toBeLessThan(Math.min(5, queueCount));
+        });
       });
     });
   });
@@ -148,11 +150,8 @@ describe('The queues view bulk actions', function() {
 
       expect(bulkActions.confirmModal.isDisplayed()).toBeTruthy();
       bulkActions.confirmOK.click().then(function() {
-        expect(shared.successMessage.isDisplayed()).toBeTruthy();
-
-        // Form reset
-        expect(bulkActions.submitFormBtn.getAttribute('disabled')).toBeTruthy();
-        expect(bulkActions.enableToggle.getAttribute('disabled')).toBeTruthy();
+        shared.waitForSuccess();
+        shared.successMessage.click();
 
         // Only selected queues are updated
         for (var i = 0; i < originalQueues.length; i++) {

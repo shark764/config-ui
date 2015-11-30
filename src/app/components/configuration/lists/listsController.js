@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('listsController', ['$scope', '$filter', '$q', 'Session', 'List', 'ListType', 'listTableConfig', 'UserPermissions',
-    function ($scope, $filter, $q, Session, List, ListType, listTableConfig, UserPermissions) {
+  .controller('listsController', ['$scope', '$filter', '$q', 'Session', 'List', 'ListType', 'listTableConfig',
+    function ($scope, $filter, $q, Session, List, ListType, listTableConfig) {
 
       $scope.create = function () {
         $scope.selectedList = new List();
@@ -22,25 +22,24 @@ angular.module('liveopsConfigPanel')
         });
       };
 
-
       $scope.addListItem = function addListItem() {
         var newItem = {
           $edit: true
         };
-        
+
         $scope.selectedList.items.push(newItem);
         $scope.selectedList.$original.items.push(newItem);
-        
+
         return newItem;
       };
-      
+
       $scope.removeListItem = function removeListItem(index) {
         $scope.selectedList.items.splice(index, 1);
         $scope.selectedList.$original.items.splice(index, 1);
-        
+
         $scope.forms.detailsForm.$setDirty();
       };
-      
+
       $scope.$on('table:on:click:create', function () {
         $scope.create();
       });
@@ -49,7 +48,7 @@ angular.module('liveopsConfigPanel')
         if(!lists || !lists.length) {
           return;
         }
-        
+
         ListType.cachedQuery({
           tenantId: Session.tenant.tenantId
         }).$promise.then(function (listTypes) {
@@ -62,7 +61,7 @@ angular.module('liveopsConfigPanel')
           });
         });
       });
-      
+
       $scope.forms = {};
       $scope.tableConfig = listTableConfig;
     }

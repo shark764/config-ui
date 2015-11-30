@@ -73,10 +73,6 @@ describe('The dispatchMappings view bulk actions', function() {
     bulkActions.confirmOK.click().then(function() {
       expect(shared.successMessage.isDisplayed()).toBeTruthy();
 
-      // Form reset
-      expect(bulkActions.submitFormBtn.getAttribute('disabled')).toBeTruthy();
-      expect(bulkActions.enableToggle.getAttribute('disabled')).toBeTruthy();
-
       // All dispatchMappings are set to disabled
       // Select Disabled from Status drop down
       bulkActions.statusColumnDropDownLabel.click();
@@ -108,10 +104,6 @@ describe('The dispatchMappings view bulk actions', function() {
     expect(bulkActions.confirmModal.isDisplayed()).toBeTruthy();
     bulkActions.confirmOK.click().then(function() {
       expect(shared.successMessage.isDisplayed()).toBeTruthy();
-
-      // Form reset
-      expect(bulkActions.submitFormBtn.getAttribute('disabled')).toBeTruthy();
-      expect(bulkActions.enableToggle.getAttribute('disabled')).toBeTruthy();
 
       // All dispatchMappings are set to enabled
       // Select Disabled from Status drop down
@@ -168,10 +160,6 @@ describe('The dispatchMappings view bulk actions', function() {
       expect(bulkActions.confirmModal.isDisplayed()).toBeTruthy();
       bulkActions.confirmOK.click().then(function() {
         expect(shared.successMessage.isDisplayed()).toBeTruthy();
-
-        // Form reset
-        expect(bulkActions.submitFormBtn.getAttribute('disabled')).toBeTruthy();
-        expect(bulkActions.enableToggle.getAttribute('disabled')).toBeTruthy();
 
         // Only selected dispatchMappings are updated
         for (var i = 0; i < originalDispatchMappings.length; i++) {

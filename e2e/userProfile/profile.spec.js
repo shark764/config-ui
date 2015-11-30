@@ -40,7 +40,8 @@ describe('The profile view', function() {
     expect(shared.navBar.isDisplayed()).toBeTruthy();
     expect(profile.firstNameFormField.getAttribute('value')).toBe(params.login.firstName);
     expect(profile.lastNameFormField.getAttribute('value')).toBe(params.login.lastName);
-    expect(profile.userEmail.getText()).toContain(params.login.user);
+    expect(profile.userEmail.getAttribute('value')).toContain(params.login.user);
+    expect(profile.userEmail.isEnabled()).toBeFalsy();
     expect(profile.userProfilePic.isDisplayed()).toBeTruthy();
 
     expect(profile.resetPasswordButton.isDisplayed()).toBeTruthy();
@@ -54,8 +55,6 @@ describe('The profile view', function() {
     expect(extensions.extensionsSection.isDisplayed()).toBeTruthy();
     expect(extensions.typeDropdown.isDisplayed()).toBeTruthy();
     expect(extensions.providerDropdown.isDisplayed()).toBeTruthy();
-    expect(extensions.valueFormField.isDisplayed()).toBeTruthy();
-    expect(extensions.extFormField.isDisplayed()).toBeTruthy();
     expect(extensions.addBtn.isDisplayed()).toBeTruthy();
 
     expect(extensions.table.isDisplayed()).toBeTruthy();
@@ -79,27 +78,37 @@ describe('The profile view', function() {
     });
   });
 
-  it('should not require first or last name', function() {
+  it('should require first and last name', function() {
     profile.firstNameFormField.clear();
     profile.lastNameFormField.clear();
+    profile.lastNameFormField.sendKeys('\t');
 
-    profile.updateProfileBtn.click().then(function() {
-      expect(shared.successMessage.isPresent()).toBeTruthy();
-      expect(profile.firstNameFormField.getAttribute('value')).toBe('');
-      expect(profile.lastNameFormField.getAttribute('value')).toBe('');
+    // Submit button is disabled
+    expect(profile.updateProfileBtn.isEnabled()).toBeFalsy();
+    profile.updateProfileBtn.click();
+    expect(shared.successMessage.isPresent()).toBeFalsy();
 
-      // Welcome message shows user email
-      expect(shared.welcomeMessage.getText()).toContain('Hello, ' + params.login.user);
-      expect(shared.welcomeMessage.getText()).not.toContain(params.login.firstName + 'Update');
-      expect(shared.welcomeMessage.getText()).not.toContain(params.login.lastName + 'Update');
+    // Error messages
+    expect(profile.errors.count()).toBe(2);
+    expect(profile.errors.get(0).getText()).toBe('Please enter a first name');
+    expect(profile.errors.get(1).getText()).toBe('Please enter a last name');
+  });
 
-      // Confirm user is updated
-      shared.welcomeMessage.click();
-      shared.logoutButton.click();
+  it('should not accept spaces as valid input for required fields', function() {
+    profile.firstNameFormField.clear();
+    profile.lastNameFormField.clear();
+    profile.firstNameFormField.sendKeys(' ');
+    profile.lastNameFormField.sendKeys(' \t');
 
-      loginPage.login(params.login.user, params.login.password);
-      expect(shared.welcomeMessage.getText()).toContain('Hello, ' + params.login.user);
-    });
+    // Submit button is disabled
+    expect(profile.updateProfileBtn.isEnabled()).toBeFalsy();
+    profile.updateProfileBtn.click();
+    expect(shared.successMessage.isPresent()).toBeFalsy();
+
+    // Error messages
+    expect(profile.errors.count()).toBe(2);
+    expect(profile.errors.get(0).getText()).toBe('Please enter a first name');
+    expect(profile.errors.get(1).getText()).toBe('Please enter a last name');
   });
 
   it('should require password after reset password button is clicked', function() {
@@ -146,6 +155,8 @@ describe('The profile view', function() {
     users.emailFormField.sendKeys('titantest' + randomUser + '@mailinator.com\t');
     users.tenantRoleFormDropdownOptions.get((randomUser % 3) + 1).click();
     users.platformRoleFormDropdownOptions.get(1).click();
+    users.firstNameFormField.sendKeys('First' + randomUser);
+    users.lastNameFormField.sendKeys('Last' + randomUser);
 
     users.submitFormBtn.click().then(function() {
       shared.waitForSuccess();
@@ -227,8 +238,7 @@ describe('The profile view', function() {
     });
   });
 
-  // TODO Bug Unable to create new tenant TITAN2-4878
-  xit('should display user groups and skills for the current tenant', function() {
+  it('should display user groups and skills for the current tenant', function() {
     browser.get(shared.tenantsPageUrl);
     shared.tenantsNavDropdown.getText().then(function(selectTenantNav) {
       defaultTenantName = selectTenantNav;
@@ -245,8 +255,7 @@ describe('The profile view', function() {
     expect(profile.userGroups.get(0).getText()).toBe('everyone');
   });
 
-  // TODO Bug Unable to create new tenant TITAN2-4878
-  xit('should add new user groups and skills for the current tenant', function() {
+  it('should add new user groups and skills for the current tenant', function() {
     tenants.selectTenant(newTenantName);
 
     // Add user skill and group
@@ -278,7 +287,7 @@ describe('The profile view', function() {
     });
   });
 
-  it('should allow user to add an extension', function() {
+  xit('should allow user to add an extension', function() {
     extensions.userExtensions.count().then(function(originalExtensionCount) {
       extensions.typeDropdown.click();
       extensions.pstnDropdownOption.click();
@@ -308,7 +317,7 @@ describe('The profile view', function() {
     });
   });
 
-  it('should add an extension and update user page', function() {
+  xit('should add an extension and update user page', function() {
     extensionCount = extensions.userExtensions.count();
 
     extensions.typeDropdown.click();
@@ -333,7 +342,7 @@ describe('The profile view', function() {
     });
   });
 
-  it('should remove an extension and update user page', function() {
+  xit('should remove an extension and update user page', function() {
     extensionCount = extensions.userExtensions.count();
 
     extensions.removeBtns.get(0).click().then(function() {

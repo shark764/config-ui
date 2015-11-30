@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('DesignerPageController', ['$scope', 'flow', 'notations', 'data', 'FlowNotationService', 'FlowLibrary', 'readOnly',
-    function($scope, flow, notations, data, FlowNotationService, FlowLibrary, readOnly) {
+  .controller('DesignerPageController', ['$scope', 'flow', 'notations', 'data', 'FlowResource', 'FlowNotationService', 'FlowLibrary', 'readOnly', 'lodash',
+    function($scope, flow, notations, data, FlowResource, FlowNotationService, FlowLibrary, readOnly, lodash) {
       $scope.flow = flow;
       $scope.flowData = data;
       $scope.readOnly = readOnly;
@@ -11,24 +11,13 @@ angular.module('liveopsConfigPanel')
         FlowNotationService.setLastParticipant('titan/customer');
       }
 
-      FlowLibrary.loadData(notations.data);
+      var parsedNotations = FlowNotationService.parseNotations(notations);
 
-      $scope.$on('$destroy', function() {
-        var designerKeys = [
-          'delete',
-          'super',
-          'ctrl',
-          'backspace',
-          'z',
-          'y',
-          'c',
-          'v',
-          '=',
-          '-'
-        ];
+      FlowLibrary.loadData(parsedNotations);
 
-        //Unbind Flow Designer keys
-        designerKeys.forEach(function(key) { KeyboardJS.clear(key); });
+      FlowLibrary.clearCallActivities();
+      lodash.each(FlowResource.getFlows(), function(flow){
+        FlowLibrary.registerCallActivity(flow);
       });
     }
   ]);

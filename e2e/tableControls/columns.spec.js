@@ -277,6 +277,9 @@ describe('The table columns', function() {
 
       expect(columns.options.get(3).getText()).toBe(columns.tenants[3]);
       expect(allColumns[3].getAttribute('checked')).toBeTruthy();
+
+      expect(columns.options.get(4).getText()).toBe(columns.tenants[4]);
+      expect(allColumns[4].getAttribute('checked')).toBeTruthy();
     });
   });
 

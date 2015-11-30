@@ -292,8 +292,7 @@ describe('The queues view', function() {
     });
   });
 
-  xit('should display new version panel when add new version is selected', function() {
-    // TODO TITAN2-4470
+  it('should display new version panel when add new version is selected', function() {
     shared.firstTableRow.click();
     queues.addNewVersionBtn.click();
 
@@ -303,12 +302,12 @@ describe('The queues view', function() {
     expect(newVersion.cancelVersionBtn.isDisplayed()).toBeTruthy();
 
     // Add Groups & Skills filter
-    newQueue.addFilterDropdown.click();
-    newQueue.groupFilterDropdownOption.click();
-    newQueue.addFilterBtn.click();
-    newQueue.addFilterDropdown.click();
-    newQueue.skillFilterDropdownOption.click();
-    newQueue.addFilterBtn.click();
+    newVersion.addFilterDropdown.click();
+    newVersion.groupFilterDropdownOption.click();
+    newVersion.addFilterBtn.click();
+    newVersion.addFilterDropdown.click();
+    newVersion.skillFilterDropdownOption.click();
+    newVersion.addFilterBtn.click();
 
     expect(newVersion.basicQueryDetailsAll.count()).toBe(0);
 
@@ -322,8 +321,7 @@ describe('The queues view', function() {
     expect(newVersion.advancedQueryFormField.getAttribute('value')).toBe('{}');
   });
 
-  xit('should display copy version panel when copy is selected', function() {
-    // TODO TITAN2-4470
+  it('should display copy version panel when copy is selected', function() {
     shared.firstTableRow.click();
     queues.activeVersionDropdown.$('option:checked').getAttribute('value').then(function(activeVersionValue) {
       queues.copyVersionBtn.get(activeVersionValue).click();
@@ -353,7 +351,7 @@ describe('The queues view', function() {
 
       // All skills match
       newVersion.allSkillsSelected.count().then(function(allSkillCount) {
-        for (var i = 0; i < allGroupCount; i++) {
+        for (var i = 0; i < allSkillCount; i++) {
           expect(newVersion.allSkillsSelected.get(i).getText()).toBe(queues.basicQueryAllSkillDetails.get(activeVersionValue).all(by.repeater('operand in operands')).get(i).getText());
         }
       });
@@ -442,7 +440,6 @@ describe('The queues view', function() {
   });
 
   xit('should not require basic query details when adding a new queue version from copy', function() {
-    // TODO TITAN2-4470
     shared.firstTableRow.click();
     queues.activeVersionDropdown.all(by.css('option')).count().then(function(originalVersionCount) {
       queues.activeVersionDropdown.$('option:checked').getAttribute('value').then(function(activeVersionValue) {

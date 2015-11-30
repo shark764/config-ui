@@ -5,6 +5,7 @@ describe('The styling', function() {
     shared = require('../shared.po.js'),
     mediaCollections = require('../flows/mediaCollections.po.js'),
     queues = require('../flows/queues.po.js'),
+    newQueueVersion = require('../flows/newQueueVersion.po.js'),
     params = browser.params;
 
   beforeAll(function() {
@@ -53,17 +54,17 @@ describe('The styling', function() {
       expect(mediaCollections.mediaCancelBtn.getAttribute('class')).toBe('btn');
     });
 
-    xit('should be the same when creating a version', function() {
+    it('should be the same when creating a version', function() {
       browser.get(shared.queuesPageUrl);
 
       shared.tableElements.count().then(function(elementCount) {
         if (elementCount > 0) {
           shared.firstTableRow.click();
 
-          queues.versionRowV1Plus.click();
+          queues.addNewVersionBtn.click();
 
-          expect(queues.copyVersionBtn.getAttribute('class')).toContain('btn btn-primary');
-          expect(queues.closeVersionBtn.getAttribute('class')).toBe('btn');
+          expect(newQueueVersion.createVersionBtn.getAttribute('class')).toContain('btn btn-primary');
+          expect(newQueueVersion.cancelVersionBtn.getAttribute('class')).toBe('btn');
         }
       });
     });
