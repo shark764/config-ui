@@ -28,7 +28,6 @@ angular.module('liveopsConfigPanel')
       };
 
       $scope.newDraftModal = function(version){
-        console.log(version);
         var newScope = $scope.$new();
 
         newScope.modalBody = 'app/components/flows/flowManagement/newDraft.modal.html';
