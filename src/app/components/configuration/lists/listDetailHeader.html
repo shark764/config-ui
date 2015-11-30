@@ -2,7 +2,7 @@
   <toggle class="status-toggle" ng-model="selectedList.active"
     confirm-disable-message="{{'list.details.disable.confirm' | translate}}"
     confirm-enable-message="{{'list.details.enable.confirm' | translate}}"
-    ng-disabled="! ([MANAGE_ALL_LISTS] | hasPermission)">
+    ng-disabled="! (['MANAGE_ALL_LISTS'] | hasPermission)">
   </toggle>
 
   <div class="info">
