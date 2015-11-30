@@ -173,7 +173,7 @@ angular.module('liveopsConfigPanel')
               if (field.header.options){
                 var options = $filter('invoke')(field.header.options);
                 angular.forEach(options, function(option){
-                  option.checked = false;
+                  option.checked = true;
                 });
               }
             });

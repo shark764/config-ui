@@ -494,7 +494,7 @@ describe('tableControls directive', function () {
       expect(isolateScope.searchQuery).toBeNull();
     }));
 
-    it('should deselect all filters, if provided', inject(function () {
+    it('should reselect all filters, if provided', inject(function () {
       isolateScope.config.fields[0].header.options = [{
         id: 'option1',
         checked: true
@@ -507,9 +507,9 @@ describe('tableControls directive', function () {
 
       isolateScope.clearAllFilters();
 
-      expect(isolateScope.config.fields[0].header.options[0].checked).toBeFalsy();
-      expect(isolateScope.config.fields[0].header.options[1].checked).toBeFalsy();
-      expect(isolateScope.config.fields[0].header.options[2].checked).toBeFalsy();
+      expect(isolateScope.config.fields[0].header.options[0].checked).toBeTruthy();
+      expect(isolateScope.config.fields[0].header.options[1].checked).toBeTruthy();
+      expect(isolateScope.config.fields[0].header.options[2].checked).toBeTruthy();
     }));
 
   });
