@@ -191,7 +191,7 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
         reloadOnSearch: false
       })
       .state('content.flows.editor', {
-        url: '/editor/:flowId/d/:draftId',
+        url: '/editor/:flowId/:draftId',
         templateUrl: 'app/components/flows/flowDesigner/flowDesignerPage.html',
         controller: 'DesignerPageController',
         reloadOnSearch: false,
@@ -210,7 +210,7 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
 
             return deferred.promise;
           }],
-          data: ['$stateParams', 'FlowDraft', 'Session', '$q', function($stateParams, FlowDraft, Session, $q) {
+          draft: ['$stateParams', 'FlowDraft', 'Session', '$q', function($stateParams, FlowDraft, Session, $q) {
             var deferred = $q.defer();
             var draft;
 
@@ -242,16 +242,13 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
             });
 
             return deferred.promise;
-          }],
-          readOnly: [function(){
-            return false;
           }]
         }
       })
       .state('content.flows.view', {
-        url: '/editor/:flowId/v/:versionId',
-        templateUrl: 'app/components/flows/flowDesigner/flowDesignerPage.html',
-        controller: 'DesignerPageController',
+        url: '/viewer/:flowId/:versionId',
+        templateUrl: 'app/components/flows/flowDesigner/flowViewerPage.html',
+        controller: 'ViewerPageController',
         reloadOnSearch: false,
         resolve: {
           flow: ['$stateParams', 'Session', 'Flow', '$q', function($stateParams, Session, Flow, $q) {
@@ -294,9 +291,6 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
           }],
           resources: ['FlowResource', function(FlowResource){
             return FlowResource.loadResources();
-          }],
-          readOnly: [function(){
-            return true;
           }]
         }
       })

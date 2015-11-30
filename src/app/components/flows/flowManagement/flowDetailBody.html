@@ -12,7 +12,7 @@
       <input type="text" ng-required="true" ng-model="selectedFlow.name" name="name"></input>
     </div>
   </div>
-  
+
   <div class="input-group">
     <label>{{'value.type' | translate}} <span ng-if="selectedFlow.isNew()">*</span></label>
     <form-error field="forms.detailsForm.type" error-type-required="{{'flow.details.type.error' | translate}}"></form-error>
@@ -23,7 +23,7 @@
       </select>
     </div>
   </div>
-  
+
   <div ng-if="! selectedFlow.isNew()" class="input-group">
     <label>{{'value.version' | translate}} *</label>
     <form-error field="forms.detailsForm.activeVersion"
@@ -32,13 +32,13 @@
     <div>
       <select name="activeVersion"
         ng-required="true"
-        ng-model="selectedFlow.activeVersion" 
-        ng-options="version.version as version.name for version in getVersions() | orderBy:'created':'reverse'">
+        ng-model="selectedFlow.activeVersion"
+        ng-options="version.version as (version.fakeVersion + ' - ' + version.name) for version in getVersions() | orderBy:'created':'reverse'">
         <option disabled value="">{{'flow.details.version.choose' | translate}}</option>
       </select>
     </div>
   </div>
-  
+
   <div class="input-group">
     <label class="textarea-label">{{'value.description' | translate}}</label>
     <div>
@@ -48,6 +48,6 @@
 </div>
 
 <div ng-if="! selectedFlow.isNew()" class="details-group">
-  <flow-versions flow="selectedFlow"></flow-versions>
+  <flow-versions flow="selectedFlow" on-edit-click="newDraftModal(version)"></flow-versions>
   <flow-drafts flow="selectedFlow" drafts="drafts"></flow-drafts>
 </div>
