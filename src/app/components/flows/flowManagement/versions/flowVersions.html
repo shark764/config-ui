@@ -50,7 +50,7 @@
     <td ng-if="['PLATFORM_VIEW_ALL_USERS', 'PLATFORM_CREATE_USERS', 'PLATFORM_MANAGE_ALL_USERS', 'PLATFORM_MANAGE_ALL_TENANTS', 'PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT'] | hasPermission">
       <audit-text translation="value.displayName" user-id="version.createdBy"></audit-text>
     </td>
-    <td><a ng-href="#/flows/editor/{{version.flowId}}/v/{{version.version}}">view</a></td>
+    <td><a ng-href="#/flows/viewer/{{version.flowId}}/{{version.version}}">view</a></td>
     <td><a ng-click="onEditClick({version: version})">edit</a></td>
   </tr>
 </table>
