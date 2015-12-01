@@ -8,7 +8,8 @@ describe('genericListsController', function () {
     List,
     ListType,
     mockLists,
-    mockListTypes
+    mockListTypes,
+    loEvents
     ;
 
   beforeEach(module('gulpAngular'));
@@ -16,8 +17,8 @@ describe('genericListsController', function () {
   beforeEach(module('liveopsConfigPanel.tenant.list.mock'));
   beforeEach(module('liveopsConfigPanel.tenant.listType.mock'));
 
-  beforeEach(inject(['$rootScope', '$controller', '$httpBackend', 'apiHostname', 'List', 'ListType', 'mockLists', 'mockListTypes',
-    function ($rootScope, $controller, _$httpBackend, _apiHostname, _List, _ListType, _mockLists, _mockListTypes) {
+  beforeEach(inject(['$rootScope', '$controller', '$httpBackend', 'apiHostname', 'List', 'ListType', 'mockLists', 'mockListTypes', 'loEvents',
+    function ($rootScope, $controller, _$httpBackend, _apiHostname, _List, _ListType, _mockLists, _mockListTypes, _loEvents) {
       $scope = $rootScope.$new();
 
       $httpBackend = _$httpBackend;
@@ -28,7 +29,9 @@ describe('genericListsController', function () {
 
       mockLists = _mockLists;
       mockListTypes = _mockListTypes;
-
+      
+      loEvents = _loEvents;
+      
       controller = $controller('genericListsController', {
         '$scope': $scope
       });
@@ -144,7 +147,7 @@ describe('genericListsController', function () {
     it('should call create', function() {
       $scope.create = jasmine.createSpy('create');
 
-      $scope.$broadcast('table:on:click:create');
+      $scope.$broadcast(loEvents.tableControls.itemCreate);
 
       expect($scope.create).toHaveBeenCalled();
     });

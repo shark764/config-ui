@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('FlowManagementController', ['$scope', '$state', '$document', '$compile', '$location', 'Session', 'Flow', 'flowTableConfig', 'flowTypes', 'FlowDraft', 'FlowVersion', 'BulkAction',
-    function ($scope, $state, $document, $compile, $location, Session, Flow, flowTableConfig, flowTypes, FlowDraft, FlowVersion, BulkAction) {
+  .controller('FlowManagementController', ['$scope', '$state', '$document', '$compile', '$location', 'Session', 'Flow', 'flowTableConfig', 'flowTypes', 'FlowDraft', 'FlowVersion', 'BulkAction', 'loEvents',
+    function ($scope, $state, $document, $compile, $location, Session, Flow, flowTableConfig, flowTypes, FlowDraft, FlowVersion, BulkAction, loEvents) {
 
       $scope.getVersions = function(){
         if (! $scope.selectedFlow || $scope.selectedFlow.isNew()){
@@ -71,7 +71,7 @@ angular.module('liveopsConfigPanel')
         });
       };
 
-      $scope.$on('table:on:click:create', function () {
+      $scope.$on(loEvents.tableControls.itemCreate, function () {
         $scope.create();
       });
 

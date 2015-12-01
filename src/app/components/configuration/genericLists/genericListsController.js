@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('genericListsController', ['$scope', '$filter', '$q', 'Session', 'List', 'ListType', 'listTableConfig',
-    function ($scope, $filter, $q, Session, List, ListType, listTableConfig) {
+  .controller('genericListsController', ['$scope', '$filter', '$q', 'Session', 'List', 'ListType', 'listTableConfig', 'loEvents',
+    function ($scope, $filter, $q, Session, List, ListType, listTableConfig, loEvents) {
 
       $scope.create = function () {
         $scope.selectedList = new List();
@@ -40,7 +40,7 @@ angular.module('liveopsConfigPanel')
         $scope.forms.detailsForm.$setDirty();
       };
 
-      $scope.$on('table:on:click:create', function () {
+      $scope.$on(loEvents.tableControls.itemCreate, function () {
         $scope.create();
       });
 

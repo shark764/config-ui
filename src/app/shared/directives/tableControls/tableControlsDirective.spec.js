@@ -7,16 +7,18 @@ describe('tableControls directive', function () {
     $stateParams,
     element,
     isolateScope,
-    doCompile;
+    doCompile,
+    loEvents;
 
   beforeEach(module('liveopsConfigPanel'));
 
   beforeEach(module('gulpAngular'));
 
-  beforeEach(inject(['$compile', '$rootScope', '$stateParams',
-    function ($compile, $rootScope, _$stateParams_) {
+  beforeEach(inject(['$compile', '$rootScope', '$stateParams', 'loEvents',
+    function ($compile, $rootScope, _$stateParams_, _loEvents) {
       $scope = $rootScope.$new();
       $stateParams = _$stateParams_;
+      loEvents = _loEvents;
 
       $scope.config = {
         fields: [{
@@ -222,7 +224,7 @@ describe('tableControls directive', function () {
     it('should emit the table create click event', inject(['$rootScope', function ($rootScope) {
       spyOn($rootScope, '$broadcast');
       isolateScope.onCreateClick();
-      expect($rootScope.$broadcast).toHaveBeenCalledWith('table:on:click:create');
+      expect($rootScope.$broadcast).toHaveBeenCalledWith(loEvents.tableControls.itemCreate);
     }]));
   });
 

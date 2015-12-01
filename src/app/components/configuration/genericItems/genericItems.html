@@ -10,9 +10,8 @@
 
 </table-controls>
 
-<resize-handle
+<resize-handle id="resize-pane"
   ng-show="selectedItem || showBulkActions"
-  id="resize-pane"
   right-element-id="item-details-pane"
   left-element-id="table-pane">
 </resize-handle>
@@ -49,7 +48,7 @@
     <div class="detail-controls">
       <input
         id="cancel-details-btn" class="btn" type="button"
-        name="controllers.reset"
+        name="controllers.detailReset"
         ng-disabled="selectedItem.$busy"
         value="{{'value.cancel' | translate}}"
         ng-model="selectedItem"

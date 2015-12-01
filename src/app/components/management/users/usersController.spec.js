@@ -10,7 +10,8 @@ describe('users controller', function() {
     TenantUser,
     mockUsers,
     mockTenantUsers,
-    $q;
+    $q,
+    loEvents;
 
   beforeEach(module('gulpAngular'));
   beforeEach(module('liveopsConfigPanel'));
@@ -21,8 +22,8 @@ describe('users controller', function() {
   beforeEach(module('liveopsConfigPanel.tenant.group.mock'));
   beforeEach(module('liveopsConfigPanel.tenant.role.mock'));
 
-  beforeEach(inject(['$compile', '$rootScope', '$httpBackend', '$controller', 'apiHostname', 'mockUsers', 'Session', 'User', 'TenantUser', 'mockTenantUsers', '$q',
-    function($compile, $rootScope, _$httpBackend, $controller, _apiHostname, _mockUsers, _Session_, _User_, _TenantUser, _mockTenantUsers, _$q_) {
+  beforeEach(inject(['$compile', '$rootScope', '$httpBackend', '$controller', 'apiHostname', 'mockUsers', 'Session', 'User', 'TenantUser', 'mockTenantUsers', '$q', 'loEvents',
+    function($compile, $rootScope, _$httpBackend, $controller, _apiHostname, _mockUsers, _Session_, _User_, _TenantUser, _mockTenantUsers, _$q_, _loEvents) {
       $scope = $rootScope.$new();
       $httpBackend = _$httpBackend;
       mockUsers = _mockUsers;
@@ -32,6 +33,7 @@ describe('users controller', function() {
       User = _User_;
       TenantUser = _TenantUser;
       $q = _$q_;
+      loEvents = _loEvents;
 
       controller = $controller('UsersController', {
         '$scope': $scope
@@ -40,7 +42,7 @@ describe('users controller', function() {
   ]));
 
   it('should catch the on:click:create event', inject([function() {
-    $scope.$broadcast('table:on:click:create');
+    $scope.$broadcast(loEvents.tableControls.itemCreate);
     expect($scope.selectedTenantUser).toBeDefined();
     expect($scope.selectedTenantUser.isNew()).toBeTruthy();
 

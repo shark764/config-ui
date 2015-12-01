@@ -48,7 +48,7 @@ angular.module('liveopsConfigPanel')
               $scope.selected = item;
               
               var params = {};
-              params[$scope.stateKey] = parseKey(item);
+              params[$scope.stateKey] = parseStateKey(item);
               $location.search(params);
           });
 
