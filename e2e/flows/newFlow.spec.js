@@ -57,13 +57,15 @@ describe('The create new flows view', function() {
         // Confirm flow is displayed in flow list with correct details
         browser.get(shared.flowsPageUrl);
         shared.searchField.sendKeys('Flow ' + randomFlow);
-        shared.firstTableRow.click();
-        expect(flows.nameFormField.getAttribute('value')).toBe('Flow ' + randomFlow);
-        expect(flows.typeFormDropdown.$('option:checked').getText()).toBe(flowType);
+        shared.firstTableRow.click().then(function () {
+          flows.waitForDrafts();
+          expect(flows.nameFormField.getAttribute('value')).toBe('Flow ' + randomFlow);
+          expect(flows.typeFormDropdown.$('option:checked').getText()).toBe(flowType);
 
-        expect(flows.draftTableElements.count()).toBe(1);
-        expect(flows.draftTableElements.get(0).getText()).toContain('Initial Draft');
-        expect(flows.versionsTable.isDisplayed()).toBeFalsy();
+          expect(flows.draftTableElements.count()).toBe(1);
+          expect(flows.draftTableElements.get(0).getText()).toContain('Initial Draft');
+          expect(flows.versionsTable.isDisplayed()).toBeFalsy();
+        });
       });
     });
   });
@@ -95,8 +97,8 @@ describe('The create new flows view', function() {
     expect(flows.createModal.isDisplayed()).toBeTruthy();
 
     expect(shared.tableElements.count()).toBe(flowCount);
-    expect(flows.modalErrors.get(0).isDisplayed()).toBeTruthy();
-    expect(flows.modalErrors.get(0).getText()).toBe('Please enter a draft name');
+    expect(flows.requiredErrors.get(0).isDisplayed()).toBeTruthy();
+    expect(flows.requiredErrors.get(0).getText()).toBe('Please enter a draft name');
   });
 
   it('should require type', function() {
@@ -113,8 +115,8 @@ describe('The create new flows view', function() {
     expect(flows.createModal.isDisplayed()).toBeTruthy();
 
     expect(shared.tableElements.count()).toBe(flowCount);
-    expect(flows.modalErrors.get(0).isDisplayed()).toBeTruthy();
-    expect(flows.modalErrors.get(0).getText()).toBe('Type is required');
+    expect(flows.requiredErrors.get(0).isDisplayed()).toBeTruthy();
+    expect(flows.requiredErrors.get(0).getText()).toBe('Type is required');
   });
 
   it('should not accept spaces only as valid field input', function() {
@@ -131,7 +133,7 @@ describe('The create new flows view', function() {
     expect(flows.createModal.isDisplayed()).toBeTruthy();
 
     expect(shared.tableElements.count()).toBe(flowCount);
-    expect(flows.modalErrors.get(0).isDisplayed()).toBeTruthy();
-    expect(flows.modalErrors.get(0).getText()).toBe('Please enter a draft name');
+    expect(flows.requiredErrors.get(0).isDisplayed()).toBeTruthy();
+    expect(flows.requiredErrors.get(0).getText()).toBe('Please enter a draft name');
   });
 });
