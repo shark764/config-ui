@@ -15,6 +15,7 @@ angular.module('liveopsConfigPanel')
           $scope.loExtensionTypes = loExtensionTypes;
 
           $scope.newExtension = {};
+          $scope.sipPattern = '[s|S]{1}[i|I]{1}[p|P]{1}:.*';
 
           function save() {
             delete $scope.tenantUser.status;

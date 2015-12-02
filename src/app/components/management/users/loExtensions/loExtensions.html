@@ -70,6 +70,7 @@
             <input ng-show="newExtension.type === 'sip'" id="extension-value-field" type="text" name="sipValue"
             ng-disabled="ngDisabled"
             ng-required="true"
+            ng-pattern="sipPattern"
             placeholder="{{'details.extension.value' | translate}}"
             ng-model="sipExtension">
             </input>
