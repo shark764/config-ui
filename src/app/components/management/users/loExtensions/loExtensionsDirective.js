@@ -57,7 +57,7 @@ angular.module('liveopsConfigPanel')
               return tenantUser;
             });
           };
-          
+
           $scope.remove = function(extension) {
             $scope.tenantUser.extensions.removeItem(extension);
             return save();
