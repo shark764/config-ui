@@ -1,7 +1,7 @@
 <div class="input-group" id="add-query-filter">
   <label>{{'queues.query.builder.filters.label' | translate}}</label>
 
-  <div class="instant-add" disable-contents="qc.possibleComponents.length == 0">
+  <div class="instant-add" disable-contents="qc.possibleEntities.length == 0">
     <select id="select-filter-dropdown"
       ng-model="qc.currentEntity"
       ng-options="item.name for item in qc.possibleEntities">
@@ -10,7 +10,7 @@
     <div>
       <button class="add btn" type="button"
         ng-disabled="!qc.currentEntity"
-        ng-click="qc.query.addObject(qc.currentEntity.entity)">
+        ng-click="qc.selectEntity(qc.currentEntity)">
 
         <i id="add-filter-btn" class="fa fa-plus"></i>
       </button>
@@ -18,6 +18,19 @@
   </div>
 </div>
 
-<div ng-repeat="entity in qc.query.objects" class="details-group">
-  <div ng-click="qc.query.removeObject(entity)">{{entity}}</div>
+<div>{{qc.query.toEdn().ednEncode()}}</div>
+
+<div ng-repeat="entity in qc.selectedEntities" class="details-group" ng-switch="entity.name">
+  <select ng-options="item.getDisplay() for item in entity.objects" ng-model="selectedItem"></select>
+
+  <h3>OR conditions</h3>
+  <input type="button" ng-click="entity.objectGroup.orConditions.addCondition(qc.randomCondition(selectedItem))" />
+  <div ng-repeat="orCondition in group.orConditions.conditions">
+
+  </div>
+  <h3>AND conditions</h3>
+  <input type="button" ng-click="entity.objectGroup.andConditions.addCondition(qc.randomCondition(selectedItem))" />
+  <div ng-repeat="andCondition in group.andConditions.conditions">
+
+  </div>
 </div>

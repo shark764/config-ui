@@ -12,6 +12,8 @@ angular.module('liveopsConfigPanel.config', [])
 
 .constant('uuidcacheKey', 'LIVEOPS-CACHE-KEY')
 
+.constant('_', _)
+
 .factory('userStatuses', function() {
   return function(){
     return [{
