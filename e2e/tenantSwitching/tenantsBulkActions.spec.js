@@ -38,7 +38,7 @@ describe('The tenants view bulk actions', function() {
 
     // Enable Tenants
     expect(bulkActions.selectEnable.isDisplayed()).toBeTruthy();
-    expect(bulkActions.enableToggle.isDisplayed()).toBeTruthy();
+    expect(bulkActions.enableDropdown.isDisplayed()).toBeTruthy();
   });
 
   xit('should allow all selected tenant\'s status to be Disabled', function() {
@@ -50,6 +50,7 @@ describe('The tenants view bulk actions', function() {
     bulkActions.selectAllTableHeader.click();
 
     bulkActions.selectEnable.click();
+    bulkActions.disableDropdownOption.click();
 
     expect(bulkActions.submitFormBtn.getAttribute('disabled')).toBeFalsy();
     bulkActions.submitFormBtn.click();
@@ -85,7 +86,7 @@ describe('The tenants view bulk actions', function() {
     bulkActions.selectAllTableHeader.click();
 
     bulkActions.selectEnable.click();
-    bulkActions.enableToggleClick.click();
+    bulkActions.enableDropdownOption.click();
 
     expect(bulkActions.submitFormBtn.getAttribute('disabled')).toBeFalsy();
     bulkActions.submitFormBtn.click();
@@ -120,11 +121,11 @@ describe('The tenants view bulk actions', function() {
     bulkActions.selectAllTableHeader.click();
 
     bulkActions.selectEnable.click();
-    bulkActions.enableToggle.click();
+    bulkActions.enableDropdownOption.click();
 
     // Disable Enable toggle
     bulkActions.selectEnable.click();
-    expect(bulkActions.enableToggle.getAttribute('disabled')).toBeTruthy();
+    expect(bulkActions.enableDropdown.getAttribute('disabled')).toBeTruthy();
 
     // No bulk actions to perform
     expect(bulkActions.submitFormBtn.getAttribute('disabled')).toBeTruthy();
@@ -149,6 +150,7 @@ describe('The tenants view bulk actions', function() {
 
       // Disable selected Tenants
       bulkActions.selectEnable.click();
+      bulkActions.disableDropdownOption.click();
 
       bulkActions.submitFormBtn.click();
 

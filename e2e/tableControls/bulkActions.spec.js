@@ -304,6 +304,7 @@ describe('The bulk actions', function() {
 
       shared.actionsBtn.click();
       bulkActions.selectEnable.click();
+      bulkActions.disableDropdownOption.click();
 
       bulkActions.submitFormBtn.click();
 
