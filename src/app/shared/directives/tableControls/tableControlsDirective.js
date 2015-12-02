@@ -109,7 +109,7 @@ angular.module('liveopsConfigPanel')
           };
 
           $scope.$watchCollection('items', function(newItems) {
-            if(!newItems) {
+            if(!$scope.items || ($scope.items.$promise && !$scope.items.$resolved)) {
               return;
             }
 

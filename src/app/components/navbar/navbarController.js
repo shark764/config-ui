@@ -126,7 +126,7 @@ angular.module('liveopsConfigPanel')
       if (UserPermissions.hasPermissionInList([])){
         configurationConfig.push({
           label: 'Lists',
-          stateLink: 'content.configuration.lists',
+          stateLink: 'content.configuration.genericLists',
           id: 'lists-configuration-link',
           order: 3
         });

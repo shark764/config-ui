@@ -1,11 +1,11 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('genericItemsController', ['$scope', '$stateParams', 'Session', 'List', 'ListType', 'loEvents', 'genericItemTableConfig',
-    function ($scope, $stateParams, Session, List, ListType, loEvents, genericItemTableConfig) {
+  .controller('genericItemsController', ['$scope', '$stateParams', '$q', 'Session', 'List', 'ListType', 'loEvents', 'genericItemTableConfig',
+    function ($scope, $stateParams, $q, Session, List, ListType, loEvents, genericItemTableConfig) {
       var vm = this;
 
-      vm.loadList = function loadList() {
+      vm.loadList = function () {
         if (!$stateParams.listId) {
           return;
         }
@@ -14,23 +14,30 @@ angular.module('liveopsConfigPanel')
           id: $stateParams.listId,
           tenantId: Session.tenant.tenantId
         });
-
-        $scope.list.$promise
-          .then(function (list) {
-            $scope.listType = ListType.cachedGet({
-              id: list.listTypeId,
-              tenantId: Session.tenant.tenantId
-            });
-            return $scope.listType.$promise;
-          }).then(function () {
-            $scope.tableConfig = genericItemTableConfig(
-              $scope.list,
-              $scope.listType
-            );
-          });
+        
+        return $q.when($scope.list.$promise)
+          .then(vm.loadListType)
+          .then(vm.loadTableConfig);
+        
+      };
+      
+      vm.loadListType = function () {
+        $scope.listType = ListType.cachedGet({
+          id: $scope.list.listTypeId,
+          tenantId: Session.tenant.tenantId
+        });
+        
+        return $q.when($scope.listType.$promise);
+      };
+      
+      vm.loadTableConfig = function() {
+        $scope.tableConfig = genericItemTableConfig(
+          $scope.list,
+          $scope.listType
+        );
       };
 
-      vm.onItemSelected = function onItemSelected(event, item, oldItem) {
+      vm.onItemSelected = function (event, item, oldItem) {
         if (oldItem) {
           $scope.controllers.detailReset.reset(oldItem);
         }
