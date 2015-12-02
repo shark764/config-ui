@@ -29,6 +29,7 @@
     unsaved-changes-warning
     name="forms.detailsForm"
     ng-resource="selectedList"
+    disable-contents="! ('MANAGE_ALL_LISTS' | hasPermission)"
     lo-form-submit lo-form-cancel lo-form-alert>
 
     <div class="detail-header" ng-include="'app/components/configuration/genericLists/genericListDetailHeader.html'">

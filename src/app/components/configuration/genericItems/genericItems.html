@@ -11,7 +11,7 @@
 </table-controls>
 
 <resize-handle id="resize-pane"
-  ng-show="selectedItem || showBulkActions"
+  ng-show="selectedItem"
   right-element-id="item-details-pane"
   left-element-id="table-pane">
 </resize-handle>
@@ -19,14 +19,13 @@
 <lo-details-panel
   id="item-details-pane"
   class="right-panel"
-  ng-show="selectedItem || showBulkActions"
+  ng-show="selectedItem"
   ng-resource="selectedItem">
 
   <ng-form
     class="details-pane"
     unsaved-changes-warning
     name="controllers.detailsForm"
-    ng-show="!showBulkActions"
     ng-resource="selectedItem"
     lo-form-submit lo-form-alert>
     
@@ -35,8 +34,7 @@
         <h4>{{'details' | translate}}</h4>
       </div>
     
-      <!-- TODO: permissions -->
-      <div disable-contents="! ([] | hasPermission)">
+      <div disable-contents="! ('MANAGE_ALL_LISTS' | hasPermission)">
         
         <list-item
           item="selectedItem"

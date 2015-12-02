@@ -1,13 +1,13 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('genericItemTableConfig', ['statuses', '$translate', 'Tenant', 'Session', 'UserPermissions', 'helpDocsHostname',
-    function (statuses, $translate, Tenant, Session, UserPermissions, helpDocsHostname) {
+  .service('genericItemTableConfig', ['statuses', '$translate', 'Tenant', 'Session', 'UserPermissions',
+    function (statuses, $translate, Tenant, Session, UserPermissions) {
       return function (list, listType) {
         var config = {
           fields: [],
           title: list.name,
-          showCreate: UserPermissions.hasPermissionInList([]),
+          showCreate: UserPermissions.hasPermissionInList(['MANAGE_ALL_LISTS']),
           resourceKey: '$index',
           stateKey: 'index',
           orderBy: listType.fields[0].name
