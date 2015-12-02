@@ -68,10 +68,9 @@ var Shared = function() {
   // Shared Form elements
   this.detailsPanel = element(by.css('.right-panel'));
   this.detailsForm = this.detailsPanel.element(by.css('.details-pane'));
-  this.rightPanel = element(by.id('right-panel'));
   this.bulkActionsPanel = element(by.id('bulk-action-form'));
-  this.submitFormBtn = this.rightPanel.element(by.id('submit-details-btn'));
-  this.cancelFormBtn = this.rightPanel.element(by.id('cancel-details-btn'));
+  this.submitFormBtn = this.detailsPanel.element(by.id('submit-details-btn'));
+  this.cancelFormBtn = this.detailsPanel.element(by.id('cancel-details-btn'));
   this.closeFormBtn = this.detailsPanel.element(by.id('close-details-button'));
   this.message = element(by.css('.toast-message'));
   this.successMessage = element(by.css('.toast-success'));
@@ -87,23 +86,23 @@ var Shared = function() {
   // Read Only Message
   this.readOnlyMessage = element(by.css('.lo-alert.lo-alert-info'));
 
-  this.waitForSuccess = function () {
+  this.waitForSuccess = function() {
     browser.driver.wait(function() {
-      return element(by.css('.toast-success')).isPresent().then(function (messageDisplayed) {
-          return messageDisplayed;
+      return element(by.css('.toast-success')).isPresent().then(function(messageDisplayed) {
+        return messageDisplayed;
       });
     }, 5000);
   };
 
-  this.waitForError = function () {
+  this.waitForError = function() {
     browser.driver.wait(function() {
-      return element(by.css('.toast-error')).isPresent().then(function (messageDisplayed) {
-          return messageDisplayed;
+      return element(by.css('.toast-error')).isPresent().then(function(messageDisplayed) {
+        return messageDisplayed;
       });
     }, 5000);
   };
 
-  this.waitForAlert = function () {
+  this.waitForAlert = function() {
     browser.driver.wait(function() {
       return browser.driver.switchTo().alert().then(
         function() {
@@ -134,10 +133,10 @@ var Shared = function() {
     );
   };
 
-  this.waitForConfirm = function () {
+  this.waitForConfirm = function() {
     browser.driver.wait(function() {
-      return element(by.css('#modal .confirm')).isPresent().then(function (confirmDisplayed) {
-          return confirmDisplayed;
+      return element(by.css('#modal .confirm')).isPresent().then(function(confirmDisplayed) {
+        return confirmDisplayed;
       });
     }, 5000);
   };
