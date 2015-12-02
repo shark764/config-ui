@@ -46,15 +46,8 @@
       <span id="show-basic-query" ng-show="queryType == 'advanced'" ng-click="queryType = 'basic'">(Show basic query builder)</span>
     </a>
   </div>
-
-  <div class="input-group" ng-show="queryType=='advanced'">
-    <label class="textarea-label">{{'value.details.query' | translate}} *</label>
-    <form-error field="forms.detailsForm.query"
-    error-type-required="{{'queue.details.queue.error' | translate}}"></form-error>
-    <textarea id="advanced-query-field" ng-required="true" type="text" ng-model="initialVersion.query" name="query"></textarea>
-  </div>
-
-  <queue-query-creator ng-show="queryType!='advanced'" version="initialVersion" queue="selectedQueue"></queue-query-creator>
+  
+  <query-creator version="initialVersion" queue="selectedQueue"></query-creator>
 
   <div class="divider-header">
     <h4>{{'queue.details.priority' | translate}}</h4>

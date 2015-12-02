@@ -1,0 +1,23 @@
+<div class="input-group" id="add-query-filter">
+  <label>{{'queues.query.builder.filters.label' | translate}}</label>
+
+  <div class="instant-add" disable-contents="qc.possibleComponents.length == 0">
+    <select id="select-filter-dropdown"
+      ng-model="qc.currentEntity"
+      ng-options="item.name for item in qc.possibleEntities">
+      <option value="" disabled>{{'queues.query.builder.filters.placeholder' | translate}}</option>
+    </select>
+    <div>
+      <button class="add btn" type="button"
+        ng-disabled="!qc.currentEntity"
+        ng-click="qc.query.addObject(qc.currentEntity.entity)">
+
+        <i id="add-filter-btn" class="fa fa-plus"></i>
+      </button>
+    </div>
+  </div>
+</div>
+
+<div ng-repeat="entity in qc.query.objects" class="details-group">
+  <div ng-click="qc.query.removeObject(entity)">{{entity}}</div>
+</div>
