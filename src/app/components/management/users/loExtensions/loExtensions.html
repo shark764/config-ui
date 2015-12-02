@@ -21,9 +21,13 @@
         <form-error field="userTenantExtensionForm.provider"
           error-type-required="{{'details.extension.provider.required' | translate}}" >
         </form-error>
-        <form-error field="userTenantExtensionForm.value"
+        <form-error field="userTenantExtensionForm.telValue"
           error-type-required="{{'details.extension.value.required' | translate}}"
           error-type-phone-number="{{'details.phoneNumber.error' | translate}}" >
+        </form-error>
+        <form-error field="userTenantExtensionForm.sipValue"
+          error-type-required="{{'details.extension.value.required' | translate}}"
+          error-type-pattern="{{'details.extensions.sipformat.error' | translate}}" >
         </form-error>
         <div class="lo-extension-table-col">
           <select id="extension-type-dropdown" name="type"
