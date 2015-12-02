@@ -29,7 +29,7 @@ describe('The queues view', function() {
   it('should include queue management page components', function() {
     expect(shared.navBar.isDisplayed()).toBeTruthy();
 
-    expect(shared.rightPanel.isDisplayed()).toBeFalsy();
+    expect(shared.detailsPanel.isDisplayed()).toBeFalsy();
     expect(newVersion.newQueueVersionPanel.isDisplayed()).toBeFalsy();
     expect(queues.nameFormField.isDisplayed()).toBeFalsy();
     expect(queues.descriptionFormField.isDisplayed()).toBeFalsy();

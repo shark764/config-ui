@@ -155,7 +155,7 @@ describe('The create new queues view', function() {
 
     shared.waitForAlert();
     shared.dismissChanges();
-    expect(shared.rightPanel.isDisplayed()).toBeFalsy();
+    expect(shared.detailsPanel.isDisplayed()).toBeFalsy();
   });
 
   it('should require field inputs', function() {
