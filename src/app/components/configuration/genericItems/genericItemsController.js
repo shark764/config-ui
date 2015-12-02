@@ -9,7 +9,7 @@ angular.module('liveopsConfigPanel')
         if (!$stateParams.listId) {
           return;
         }
-
+        
         $scope.list = List.cachedGet({
           id: $stateParams.listId,
           tenantId: Session.tenant.tenantId
@@ -18,7 +18,6 @@ angular.module('liveopsConfigPanel')
         return $q.when($scope.list.$promise)
           .then(vm.loadListType)
           .then(vm.loadTableConfig);
-        
       };
       
       vm.loadListType = function () {
@@ -38,6 +37,11 @@ angular.module('liveopsConfigPanel')
       };
 
       vm.onItemSelected = function (event, item, oldItem) {
+        //for some reason itemSelected wouldn't propagate back up to the parent
+        //(even though it does for every other table view) so I had to put this in.
+        //TODO: investigate this further
+        $scope.selectedItem = item;
+        
         if (oldItem) {
           $scope.controllers.detailReset.reset(oldItem);
         }
@@ -48,7 +52,7 @@ angular.module('liveopsConfigPanel')
       };
 
       $scope.submit = function () {
-        if ($scope.list.items.indexOf($scope.selectedItem) < 0) {
+        if ($scope.selectedItem && $scope.list.items.indexOf($scope.selectedItem) < 0) {
           $scope.list.items.push($scope.selectedItem);
         }
         
@@ -64,7 +68,7 @@ angular.module('liveopsConfigPanel')
           $scope.controllers.detailReset.resetForm();
           return list;
         }, function () {
-          $scope.loadList();
+          vm.loadList();
         }).finally(function() {
           vm.destroyOnItemSelected =
             $scope.$on(loEvents.tableControls.itemSelected, vm.onItemSelected);
@@ -77,12 +81,6 @@ angular.module('liveopsConfigPanel')
 
       vm.destroyOnItemSelected =
         $scope.$on(loEvents.tableControls.itemSelected, vm.onItemSelected);
-
-      //for some reason itemSelected wouldn't propagate back up to the parent
-      //(even though it does for every other table view) so I had to put this in.
-      $scope.$on(loEvents.tableControls.itemSelected, function (event, item) {
-        $scope.selectedItem = item;
-      });
 
       $scope.controllers = {};
 
