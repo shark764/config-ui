@@ -152,7 +152,7 @@ angular.module('liveopsConfigPanel')
             var selectedIsVisible = false;
             if ($scope.selected) {
               var params = {};
-              params[$scope.resourceKey] = parseStateKey($stateParams);
+              params[$scope.resourceKey] = parseResourceKey($scope.selected);
               var matchedItems = $filter('filter')($scope.filtered, params);
               
               if (matchedItems.length > 0) {

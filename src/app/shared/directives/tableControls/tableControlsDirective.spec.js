@@ -195,13 +195,18 @@ describe('tableControls directive', function () {
     }]));
 
     it('should emit the resource:selected event', inject(['$rootScope', function ($rootScope) {
-      spyOn($rootScope, '$broadcast');
+      $rootScope.$broadcast = jasmine.createSpy('$broadcast');
       isolateScope.selectItem({
         name: 'my item'
       });
-      expect($rootScope.$broadcast).toHaveBeenCalledWith('table:resource:selected', {
+      
+      expect($rootScope.$broadcast).toHaveBeenCalled();
+      expect($rootScope.$broadcast.calls.argsFor(0)[0]).toEqual(loEvents.tableControls.itemSelected);
+      expect($rootScope.$broadcast.calls.argsFor(0)[1]).toEqual({
         name: 'my item'
       });
+      
+      expect($rootScope.$broadcast.calls.argsFor(0)[2]).toEqual({});
     }]));
   });
 
@@ -247,7 +252,7 @@ describe('tableControls directive', function () {
     it('should emit the table actions click event', inject(['$rootScope', function ($rootScope) {
       spyOn($rootScope, '$broadcast');
       isolateScope.onActionsClick();
-      expect($rootScope.$broadcast).toHaveBeenCalledWith('table:on:click:actions');
+      expect($rootScope.$broadcast).toHaveBeenCalledWith(loEvents.tableControls.actions);
     }]));
   });
 
