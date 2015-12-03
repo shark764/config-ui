@@ -16,7 +16,9 @@ angular.module('liveopsConfigPanel')
 
       FlowLibrary.clearCallActivities();
       lodash.each(FlowResource.getFlows(), function(flow){
-        FlowLibrary.registerCallActivity(flow);
+        lodash.each(FlowResource.getVersions(flow.id), function(version){
+          FlowLibrary.registerCallActivity(flow, version);
+        });
       });
     }
   ]);
