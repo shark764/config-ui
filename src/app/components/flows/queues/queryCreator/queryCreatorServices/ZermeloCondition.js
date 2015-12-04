@@ -41,18 +41,19 @@
           condition.filter = edn.vals[0];
 
           if(!angular.isString(condition.identifier)) {
-            throw new Exception('condition must start with #uuid');
+            throw 'condition must start with #uuid';
           }
 
           if(condition.filter instanceof jsedn.List) {
 
             if(condition.filter.val.length !== 2) {
-              throw new Exception('condition filter must be exactly length 2 if it is a list');
+              throw 'condition filter must be exactly length 2 if it is a list';
             }
 
-            condition.filter = [condition.filter.val[0].val, condition.filter.val[1].val];
-          } else if(condition.filter.val != true) {
-            throw new Exception('if condition filter is not a list, it must be true');
+            condition.filter = [condition.filter.val[0].val, condition.filter.val[1]];
+
+          } else if(condition.filter != true) {
+            throw 'if condition filter is not a list, it must be true';
           }
 
           return condition;

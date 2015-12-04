@@ -143,7 +143,7 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
       .state('content.flows.queues', {
         url: '/queues?id',
         templateUrl: 'app/components/flows/queues/queues.html',
-        controller: 'QueueController',
+        controller: 'QueueController as qc',
         reloadOnSearch: false,
         resolve: {
           hasPermission: ['UserPermissions', function(UserPermissions) {

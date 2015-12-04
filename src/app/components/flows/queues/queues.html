@@ -1,15 +1,15 @@
 <table-controls
   id="table-pane"
-  config="tableConfig"
-  items="fetchQueues()"
-  selected="selectedQueue"
+  config="qc.tableConfig"
+  items="qc.fetchQueues()"
+  selected="qc.selectedQueue"
   resource-name="Queue">
-  
+
   <span name="$original.active">
     <span ng-if="item.$original.active">{{'value.enabled' | translate}}</span>
     <span ng-if="!item.$original.active" class="disabled">{{'value.disabled' | translate}}</span>
   </span>
-  
+
   <span name="$original.activeQueue">
     {{item.$original.activeQueue.name}}
   </span>
@@ -17,20 +17,20 @@
 </table-controls>
 
 <resize-handle
-  ng-show="!! selectedQueue || showBulkActions"
+  ng-show="!! qc.selectedQueue || qc.showBulkActions"
   id="resize-pane"
   right-element-id="right-panel"
   left-element-id="table-pane" ></resize-handle>
 
 <lo-details-panel id="right-panel" class="right-panel"
-  ng-show="selectedQueue || showBulkActions"
-  ng-resource="selectedQueue">
-  
+  ng-show="qc.selectedQueue || qc.showBulkActions"
+  ng-resource="qc.selectedQueue">
+
   <ng-form unsaved-changes-warning name="forms.detailsForm"
-    ng-show="selectedQueue"
+    ng-show="qc.selectedQueue"
     class="details-pane"
-    ng-model="selectedQueue"
-    ng-resource="selectedQueue"
+    ng-model="qc.selectedQueue"
+    ng-resource="qc.selectedQueue"
     lo-form-submit lo-form-cancel lo-form-alert>
 
     <div class="detail-header"
@@ -49,41 +49,41 @@
       <input id="submit-details-btn" class="btn btn-primary"
         type="submit" value="{{'value.submit' | translate}}"
         ng-disabled="forms.detailsForm.$invalid || ! forms.detailsForm.$dirty"
-        lo-submit="submit()"
-        lo-submit-spinner lo-submit-spinner-status="selectedQueue.$busy"></input>
+        lo-submit="qc.submit()"
+        lo-submit-spinner lo-submit-spinner-status="qc.selectedQueue.$busy"></input>
     </div>
   </ng-form>
-  
+
   <bulk-action-executor class="details-pane"
-    ng-show="showBulkActions"
-    items="fetchQueues()"
-    show-bulk-actions="showBulkActions">
+    ng-show="qc.showBulkActions"
+    items="qc.fetchQueues()"
+    show-bulk-actions="qc.showBulkActions">
     <ba-set-queue-status></ba-set-queue-status>
   </bulk-action-executor>
 </lo-details-panel>
 
 <resize-handle
-  ng-show="selectedQueueVersion"
+  ng-show="qc.selectedQueueVersion"
   id="resize-pane"
   right-element-id="queue-version-panel"
   left-element-id="right-panel" ></resize-handle>
 
 <lo-details-panel id="queue-version-panel" class="right-panel"
-  ng-show="selectedQueueVersion"
-  ng-resource="selectedQueueVersion">
+  ng-show="qc.selectedQueueVersion"
+  ng-resource="qc.selectedQueueVersion">
 
   <ng-form unsaved-changes-warning name="forms.versionForm"
     class="details-pane"
-    ng-model="selectedQueueVersion"
-    ng-resource="selectedQueueVersion"
+    ng-model="qc.selectedQueueVersion"
+    ng-resource="qc.selectedQueueVersion"
     lo-form-submit lo-form-cancel lo-form-alert>
 
     <div class="detail-header"
-      ng-include src="'app/components/flows/queues/versions/versionDetailHeader.html'">
+      ng-include="'app/components/flows/queues/versions/versionDetailHeader.html'">
     </div>
 
     <div class="detail-body"
-      ng-include src="'app/components/flows/queues/versions/versionDetailBody.html'">
+      ng-include="'app/components/flows/queues/versions/versionDetailBody.html'">
     </div>
 
     <div class="detail-controls">
@@ -94,8 +94,8 @@
       <input id="create-version-btn" class="btn btn-primary"
         type="submit" value="{{'value.create' | translate}}"
         ng-disabled="forms.versionForm.$invalid"
-        lo-submit="saveVersion()"
-        lo-submit-spinner lo-submit-spinner-status="selectedQueueVersion.$busy"></input>
+        lo-submit="qc.saveVersion()"
+        lo-submit-spinner lo-submit-spinner-status="qc.selectedQueueVersion.$busy"></input>
     </div>
   </ng-form>
 </lo-details-panel>

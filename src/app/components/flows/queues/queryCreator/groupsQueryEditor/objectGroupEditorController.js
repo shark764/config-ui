@@ -7,7 +7,7 @@
     function GroupsQueryCreatorController($scope, $translate, Session) {
       var vm = this;
 
-      vm.objectGroup = $scope.objectGroup; 
+      vm.objectGroup = $scope.objectGroup;
       vm.key = $scope.key;
       vm.placeholderText = $translate.instant('queue.query.builder.' + vm.key + '.placeholder');
 

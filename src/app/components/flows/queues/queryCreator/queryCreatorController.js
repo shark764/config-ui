@@ -4,16 +4,42 @@
   angular.module('liveopsConfigPanel')
     .controller('QueryCreatorController', QueryCreator);
 
-    function QueryCreator($scope,ZermeloCondition, jsedn, ZermeloObjectGroup,
+    function QueryCreator($scope, ZermeloCondition, jsedn, ZermeloObjectGroup,
       ZermeloQuery, _, Skill, Group, $translate, Alert) {
 
       var vm = this;
 
+      var ALLOWED_GROUP_KEYS = [':skills', ':groups'];
+
+      $scope.$watch(function (){
+        return $scope.query;
+      }, function (nv) {
+        if(!vm.query || (nv && nv != vm.query.toEdn().ednEncode())) {
+
+          try {
+            var ednQuery = ZermeloQuery.fromEdn(jsedn.parse(nv));
+            return vm.initQuery(ednQuery);
+          } catch (e) { }
+
+          vm.advancedQuery = nv;
+          vm.isAdvancedMode = true;
+          vm.forms.advancedQueryForm.query.$setTouched();
+        }
+      });
+
       $scope.$watch(function () {
         return vm.query;
       }, function (nv, ov) {
-        $scope.query = vm.query.toEdn().ednEncode();
+        if(vm.query) {
+          $scope.query = vm.query.toEdn().ednEncode();
+        }
       }, true);
+
+      vm.advancedQueryChanged = function () {
+        if(!vm.initialAdvancedQuery ) {
+          vm.initialAdvancedQuery = ZermeloQuery.fromEdn(jsedn.parse(vm.advancedQuery));
+        }
+      };
 
       vm.advancedMode = function () {
         vm.advancedQuery = vm.query.toEdn(true).ednEncode();
@@ -22,30 +48,30 @@
       };
 
       vm.basicMode = function () {
+        var query = null;
+
         try {
-          var query = ZermeloQuery.fromEdn(jsedn.parse(vm.advancedQuery));
+          query = ZermeloQuery.fromEdn(jsedn.parse(vm.advancedQuery));
         } catch (e) {}
 
         if(!query) {
-          return Alert.confirm('Your query is invalid, going back to basic mode will reset your query. Are you sure?',
+          return Alert.confirm($translate.instant('queue.details.version.query.basic.invalid'),
             function () {
-              vm.initQuery(vm.initialAdvancedQuery);
+              vm.initQuery(ZermeloQuery.fromEdn(jsedn.parse(vm.initialAdvancedQuery)));
               vm.isAdvancedMode = false;
             },
             angular.noop
           )
         }
 
-        vm.initQuery(vm.advancedQuery);
+        vm.initQuery(query);
         vm.isAdvancedMode = false;
       };
 
       vm.initQuery = function (query) {
-        vm.query = new ZermeloQuery();
+        vm.query = query || new ZermeloQuery();
 
-        if(query) {
-          vm.query = ZermeloQuery.fromEdn(jsedn.parse(query));
-        }
+        vm.possibleGroups = _.xor(_.pluck(vm.query.groups, 'key'), ALLOWED_GROUP_KEYS);
       };
 
       vm.addGroup = function (key) {
@@ -54,7 +80,19 @@
         vm.currentGroup = '';
       };
 
-      vm.removeGroup = function (key) {
+      vm.verifyRemoveGroup = function (key) {
+        if(vm.query.getGroup(key).objectGroup.hasConditions()) {
+          return Alert.confirm($translate.instant('queue.query.builder.remove.filter.confirm'),
+            function () {
+              vm.removeGroup(key);
+            }, angular.noop
+          );
+        }
+
+        return vm.removeGroup(key);
+      };
+
+      vm.removeGroup = function(key) {
         vm.query.removeGroup(key);
         vm.possibleGroups.push(key);
       };
@@ -74,9 +112,8 @@
       vm.groupModelType = Group;
       vm.skillsModelType = Skill;
 
-      vm.possibleGroups = [':skills', ':groups'];
+      vm.possibleGroups = ALLOWED_GROUP_KEYS;
       vm.isAdvancedMode = false;
-      vm.initQuery($scope.query);
     };
 
 })();

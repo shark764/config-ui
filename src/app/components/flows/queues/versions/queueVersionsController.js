@@ -3,57 +3,57 @@
 angular.module('liveopsConfigPanel')
   .controller('QueueVersionsController', ['$scope', '$state', 'Session', 'QueueVersion',
     function ($scope, $state, Session, QueueVersion) {
-      var self = this;
+      var vm = this;
 
-      $scope.fetchVersions = function () {
-        if ($scope.queue && $scope.queue.id) {
+      vm.fetchVersions = function(){
+        if (! vm.queue || vm.queue.isNew()){
+          return [];
+        } else {
           return QueueVersion.cachedQuery({
             tenantId: Session.tenant.tenantId,
-            queueId: $scope.queue.id
-          }, 'QueueVersion' + $scope.queue.id);
-        } else {
-          return [];
+            queueId: vm.queue.id
+          }, 'QueueVersion' + vm.queue.id);
         }
       };
 
-      $scope.toggleDetails = function (version) {
+      vm.toggleDetails = function (version) {
         if (! version){
           return;
         }
-        
+
         if (version.viewing){
           version.viewing = false;
         } else {
-          self.showDetails(version);
+          vm.showDetails(version);
         }
       };
-      
-      this.showDetails = function(version){
+
+      vm.showDetails = function(version){
         if (! version){
           return;
         }
-        
-        for(var i = 0; i < $scope.fetchVersions().length; i++){
-          $scope.fetchVersions()[i].viewing = false;
-          if ($scope.fetchVersions()[i].version === version.version){
-            $scope.fetchVersions()[i].viewing = true;
+
+        for(var i = 0; i < vm.versions.length; i++){
+          vm.versions[i].viewing = false;
+          if (vm.versions[i].version === version.version){
+            vm.versions[i].viewing = true;
           }
         }
       };
-      
-      $scope.addQueueVersion = function(){
+
+      vm.addQueueVersion = function(){
         $scope.$emit('create:queue:version');
       };
-      
-      $scope.createVersionCopy = function(version) {
+
+      vm.createVersionCopy = function(version) {
         $scope.$emit('copy:queue:version', version);
       };
-      
+
       $scope.$watch('queue', function(){
         if ($scope.queue){
-          $scope.fetchVersions().$promise.then(function(){
-            self.showDetails($scope.queue.activeQueue);
-          });
+          vm.queue = $scope.queue;
+          vm.versions = vm.fetchVersions();
+          vm.showDetails(vm.queue.activeQueue);
         }
       });
     }

@@ -10,6 +10,10 @@
         this.orConditions = new ZermeloConditionGroup('or');
       }
 
+      ObjectGroup.prototype.hasConditions = function () {
+        return this.andConditions.conditions.length > 0 || this.orConditions.conditions.length > 0;
+      };
+
       ObjectGroup.prototype.toEdn = function (allowEmpty) {
         var list = new jsedn.List([new jsedn.sym('and')]),
             conditionGroups = [this.andConditions, this.orConditions];
@@ -30,7 +34,7 @@
             var og = new ObjectGroup();
 
             if(list.val[0].val !== 'and') {
-              throw new Exception('object group must start with and');
+              throw 'object group must start with and';
             }
 
             list.map(function (i) {
@@ -43,7 +47,7 @@
                     og.orConditions = ZermeloConditionGroup.fromEdn(i);
                     break;
                   default:
-                    throw new Exception('condition group must start with \'and\' or \'or\'');
+                    throw 'condition group must start with \'and\' or \'or\'';
                 }
               }
             });

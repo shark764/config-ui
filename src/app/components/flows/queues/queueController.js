@@ -4,17 +4,18 @@ angular.module('liveopsConfigPanel')
   .controller('QueueController', ['$scope', 'Queue', 'Session', '$stateParams', 'queueTableConfig', 'QueueVersion', 'Alert', '$translate', '$timeout',
     function ($scope, Queue, Session, $stateParams, queueTableConfig, QueueVersion, Alert, $translate, $timeout) {
       var vm = this;
-      $scope.Session = Session;
-      $scope.tableConfig = queueTableConfig;
-      $scope.forms = {};
-      
-      $scope.fetchQueues = function () {
+      vm.Session = Session;
+      vm.tableConfig = queueTableConfig;
+      vm.forms = {};
+      vm.selectedQueueVersion = null;
+
+      vm.fetchQueues = function () {
         return Queue.cachedQuery({
           tenantId: Session.tenant.tenantId
         });
       };
-      
-      $scope.getDefaultVersion = function(){
+
+      vm.getDefaultVersion = function(){
         return new QueueVersion({
           query: '{}',
           tenantId: Session.tenant.tenantId,
@@ -28,56 +29,57 @@ angular.module('liveopsConfigPanel')
       };
 
       $scope.$on('table:on:click:create', function () {
-        $scope.selectedQueueVersion = null;
-        
-        $scope.initialVersion = $scope.getDefaultVersion();
+        vm.selectedQueueVersion = null;
 
-        $scope.selectedQueue = new Queue({
+        vm.initialVersion = vm.getDefaultVersion();
+
+        vm.selectedQueue = new Queue({
           tenantId: Session.tenant.tenantId
         });
       });
-      
+
       $scope.$on('details:panel:close', function () {
-        $scope.selectedQueueVersion = null;
+        vm.selectedQueueVersion = null;
       });
-      
-      $scope.submit = function(){
-        var createInitialVersion = $scope.selectedQueue.isNew();
-        return $scope.selectedQueue.save(function(queue){
+
+      vm.submit = function(){
+        var createInitialVersion = vm.selectedQueue.isNew();
+
+        return vm.selectedQueue.save(function(queue){
           if (createInitialVersion){
-            $scope.initialVersion.queueId = queue.id;
+            vm.initialVersion.queueId = queue.id;
             vm.saveInitialVersion(queue);
           }
         });
       };
-      
+
       vm.saveInitialVersion = function(queue){
-        var qv = $scope.initialVersion;
-        
-        $scope.initialVersion.save()
+        var qv = vm.initialVersion;
+
+        vm.initialVersion.save()
           .then(function (versionResult) {
             queue.activeVersion = versionResult.version;
             queue.activeQueue = versionResult;
             queue.save();
           }, function(response){
             Alert.error($translate.instant('queue.create.invalid.query'));
-            
+
             if (angular.isDefined(response.data.error.attribute.query)){
-              $scope.copySelectedVersion(qv);
-              $scope.queryType = 'advanced';
-              
+              vm.copySelectedVersion(qv);
+
               $scope.forms.versionForm.query.$setValidity('api', false);
+
               $scope.forms.versionForm.query.$error = {
                 api: response.data.error.attribute.query
               };
-              
+
               var unbindErrorWatch = $scope.$watch('forms.versionForm.query.$dirty', function(dirtyValue){
                 if (dirtyValue){
                   $scope.forms.versionForm.query.$setValidity('api', true);
                   unbindErrorWatch();
                 }
               });
-              
+
               //Must use timeout here instead of evalAsync; evalAsync executes too early
               $timeout(function(){
                 $scope.forms.versionForm.query.$setTouched();
@@ -86,22 +88,22 @@ angular.module('liveopsConfigPanel')
           }
         );
       };
-      
-      $scope.fetchVersions = function(){
-        if (! $scope.selectedQueue || $scope.selectedQueue.isNew()){
+
+      vm.fetchVersions = function(){
+        if (! vm.selectedQueue || vm.selectedQueue.isNew()){
           return [];
         } else {
           return QueueVersion.cachedQuery({
             tenantId: Session.tenant.tenantId,
-            queueId: $scope.selectedQueue.id
-          }, 'QueueVersion' + $scope.selectedQueue.id);
+            queueId: vm.selectedQueue.id
+          }, 'QueueVersion' + vm.selectedQueue.id);
         }
       };
-      
-      $scope.copySelectedVersion = function(version){
-        $scope.selectedQueueVersion = new QueueVersion({
+
+      vm.copySelectedVersion = function(version){
+        vm.selectedQueueVersion = new QueueVersion({
           query: version.query,
-          name: 'v' + ($scope.fetchVersions().length + 1),
+          name: 'v' + (vm.fetchVersions().length + 1),
           tenantId: version.tenantId,
           queueId: version.queueId,
           minPriority: version.minPriority,
@@ -111,24 +113,24 @@ angular.module('liveopsConfigPanel')
           priorityUnit: version.priorityUnit
         });
       };
-      
+
       $scope.$on('table:resource:selected', function () {
-        $scope.selectedQueueVersion = null;
+        vm.selectedQueueVersion = null;
       });
-      
+
       $scope.$on('create:queue:version', function () {
-        $scope.selectedQueueVersion = $scope.getDefaultVersion();
-        $scope.selectedQueueVersion.queueId= $scope.selectedQueue.id;
-        $scope.selectedQueueVersion.name= 'v' + ($scope.fetchVersions().length + 1);
+        vm.selectedQueueVersion = vm.getDefaultVersion();
+        vm.selectedQueueVersion.queueId = vm.selectedQueue.id;
+        vm.selectedQueueVersion.name= 'v' + (vm.fetchVersions().length + 1);
       });
-      
+
       $scope.$on('copy:queue:version', function (event, version) {
-        $scope.copySelectedVersion(version);
+        vm.copySelectedVersion(version);
       });
-      
-      $scope.saveVersion = function() {
-        return $scope.selectedQueueVersion.save().then(function(version){
-          $scope.selectedQueueVersion = null;
+
+      vm.saveVersion = function() {
+        return vm.selectedQueueVersion.save().then(function(version){
+          vm.selectedQueueVersion = null;
           return version;
         });
       };

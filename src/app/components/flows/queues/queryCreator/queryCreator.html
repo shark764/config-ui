@@ -1,18 +1,28 @@
 <div class="divider-header first-header">
   <h4>Query</h4>
   <a class="pull-right">
-    <span id="show-advanced-query" ng-show="!qc.isAdvancedMode" ng-click="qc.advancedMode()">(Show advanced query editor)</span>
-    <span id="show-basic-query" ng-show="qc.isAdvancedMode" ng-click="qc.basicMode()">(Show basic query builder)</span>
+    <span id="show-advanced-query" ng-show="!qc.isAdvancedMode" ng-click="qc.advancedMode()">
+      (Show advanced query editor)
+    </span>
+    <span class="pull-right"  id="show-basic-query" ng-show="qc.isAdvancedMode && qc.initialAdvancedQuery" ng-click="qc.basicMode()">
+      (Show basic query builder)
+    </span>
   </a>
 </div>
 
-<div class="input-group" ng-show="qc.isAdvancedMode">
-  <label class="textarea-label">{{'value.details.query' | translate}}</label>
-  <form-error field="forms.versionForm.query"
-    error-type-required="{{'queue.details.queue.error' | translate}}">
-  </form-error>
-  <textarea id="advanced-query-field" ng-required="true" type="text" ng-model="qc.advancedQuery" name="query"></textarea>
-</div>
+
+<ng-form name="qc.forms.advancedQueryForm">
+  <div class="input-group" ng-show="qc.isAdvancedMode">
+    <label class="textarea-label">{{'value.details.query' | translate}}</label>
+    <textarea zermelo-query-validator id="advanced-query-field"
+      ng-required="true" type="text" ng-model="qc.advancedQuery" name="query"
+     ng-change="qc.advancedQueryChanged()"></textarea>
+     <form-error field="qc.forms.advancedQueryForm.query"
+       error-type-required="{{'queue.details.queue.error' | translate}}"
+       error-type-zermelo="{{'queue.query.build.zermelo.invalid' | translate}}">
+     </form-error>
+  </div>
+</ng-form>
 
 <div ng-show="!qc.isAdvancedMode">
   <div class="input-group" id="add-query-filter">
@@ -39,7 +49,7 @@
     <div class="query-component">
       <div class="divider-header">
         <h4>{{ 'queues.query.builder.' + item.key + '.title' | translate }}</h4>
-        <a class="pull-right" ng-click="qc.removeGroup(item.key)">(remove filter)</a>
+        <a class="pull-right" ng-click="qc.verifyRemoveGroup(item.key)">(remove filter)</a>
       </div>
       <object-group-editor
         object-group="item.objectGroup"

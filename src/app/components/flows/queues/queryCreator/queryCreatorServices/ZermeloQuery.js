@@ -50,29 +50,26 @@
       };
 
       Query.fromEdn = function (map) {
-        try {
-          if(map instanceof jsedn.Map) {
-            var query = new Query(),
-                keys = map.keys;
+        if(map instanceof jsedn.Map) {
+          var query = new Query(),
+              keys = map.keys;
 
-            for(var i = 0; i < keys.length; i++) {
-              var key = keys[i];
+          for(var i = 0; i < keys.length; i++) {
+            var key = keys[i];
 
-              if(key.val === ':afterSecondsInQueue') {
-                query.afterSecondsInQueue = map[key];
-              } else if (_.includes(ALLOWED_KEYS, key.val)) {
-                query.setGroup(key.val, ZermeloObjectGroup.fromEdn(map.at(key)));
-              } else {
-                throw new Exception('invalid key in query; must be :afterSecondsInQueue OR in ' + ALLOWED_KEYS);
-              }
+            if(key.val === ':afterSecondsInQueue') {
+              query.afterSecondsInQueue = map[key];
+            } else if (_.includes(ALLOWED_KEYS, key.val)) {
+              query.setGroup(key.val, ZermeloObjectGroup.fromEdn(map.at(key)));
+            } else {
+              throw 'invalid key in query; must be :afterSecondsInQueue OR in ' + angular.toJson(ALLOWED_KEYS);
             }
-
-            return query;
           }
-        } catch (e) { }
 
-        return null
+          return query;
+        }
 
+        return null;
       };
 
       return Query;

@@ -1,10 +1,10 @@
 <div id="create-new-version-details">
 
-  <query-creator query="selectedQueueVersion.query"></queue-query-creator>
+  <query-creator ng-if="qc.selectedQueueVersion" query="qc.selectedQueueVersion.query"></query-creator>
 
   <div class="divider-header">
     <h4>Priority</h4>
   </div>
 
-  <version-priority queue-version="selectedQueueVersion"></version-priority>
+  <version-priority queue-version="qc.selectedQueueVersion"></version-priority>
 </div>
