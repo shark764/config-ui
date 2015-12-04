@@ -120,18 +120,20 @@
       <td ng-if="field.checked"
         ng-repeat="field in config.fields"
         ng-click="selectItem(item)">
-        <table-cell name="{{field.name}}"
-          ng-if="field.transclude"
-          item="item"
-          options="field.header.options">
-        </table-cell>
+        
+        <a ui-sref="{{config.sref}}(stateParam(item))" ui-sref-args="{reload: true}">
+          <table-cell name="{{field.name}}"
+            ng-if="field.transclude"
+            item="item"
+            options="field.header.options">
+          </table-cell>
 
-        <span
-          ng-if="!field.transclude"
-          title="{{parse(item, field)}}">
-          {{parse(item, field)}}
-        </span>
-
+          <span
+            ng-if="!field.transclude"
+            title="{{parse(item, field)}}">
+            {{parse(item, field)}}
+          </span>
+        </a>
       </td>
     </tr>
   </tbody>

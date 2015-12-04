@@ -101,7 +101,13 @@ angular.module('liveopsConfigPanel')
               return parseFunc(item);
             }
           };
-
+          
+          $scope.stateParam = function(item) {
+            var param = {};
+            param[$scope.stateKey] = parseResourceKey(item);
+            return param;
+          };
+          
           $scope.toggleAll = function (checkedValue) {
             angular.forEach($scope.filtered, function (item) {
               $scope.checkItem(item, checkedValue);
