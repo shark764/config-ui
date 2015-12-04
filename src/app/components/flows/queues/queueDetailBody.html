@@ -39,13 +39,6 @@
 </div>
 
 <div id="create-new-queue-query-details" ng-if="selectedQueue.isNew()">
-  <div class="divider-header">
-    <h4>Query</h4>
-    <a class="pull-right">
-      <span id="show-advanced-query" ng-show="queryType != 'advanced'" ng-click="queryType = 'advanced'">(Show advanced query editor)</span>
-      <span id="show-basic-query" ng-show="queryType == 'advanced'" ng-click="queryType = 'basic'">(Show basic query builder)</span>
-    </a>
-  </div>
   {{initialVersion.query}}
   <query-creator query="initialVersion.query"></query-creator>
 

@@ -3,7 +3,7 @@
 
   angular
     .module('liveopsConfigPanel')
-    .factory('ZermeloConditionGroup', function (jsedn, ZermeloCondition ) {
+    .factory('ZermeloConditionGroup', function (jsedn, ZermeloCondition, _) {
 
       function ConditionGroup(operator) {
         this.operator = operator;
@@ -47,7 +47,7 @@
           var conditionGroup = new ConditionGroup();
 
           conditionGroup.operator = edn.at(0).val;
-
+ 
           for(var i = 1; i < edn.val.length; i++) {
             conditionGroup.conditions.push(ZermeloCondition.fromEdn(edn.val[i]));
           }

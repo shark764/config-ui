@@ -39,6 +39,10 @@
           condition.identifier = edn.keys[0];
           condition.filter = edn.vals[0];
 
+          if(!(condition.identifier instanceof String)) {
+            throw new Exception('condition must start with #uuid');
+          }
+
           if(condition.filter instanceof jsedn.List) {
             condition.filter = [condition.filter.val[0].val, condition.filter.val[1].val];
           }

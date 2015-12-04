@@ -1,35 +1,51 @@
-<div class="input-group" id="add-query-filter">
-  <label>{{'queues.query.builder.filters.label' | translate}}</label>
-  <div class="instant-add" disable-contents="qc.possibleGroups.length == 0">
-    <select id="select-filter-dropdown"
-      ng-model="qc.currentGroup">
-      <option value="" disabled>{{'queues.query.builder.filters.placeholder' | translate}}</option>
-      <option ng-repeat="key in qc.possibleGroups" value="{{key}}">{{'queues.query.builder.' + key | translate }}</option>
-    </select>
-    <div class="add-group-button">
-      <button class="add btn" type="button"
-        ng-disabled="!qc.currentGroup"
-        ng-click="qc.addGroup(qc.currentGroup)">
-
-        <i id="add-filter-btn" class="fa fa-plus"></i>
-      </button>
-    </div>
-  </div>
+<div class="divider-header first-header">
+  <h4>Query</h4>
+  <a class="pull-right">
+    <span id="show-advanced-query" ng-show="!qc.isAdvancedMode" ng-click="qc.advancedMode()">(Show advanced query editor)</span>
+    <span id="show-basic-query" ng-show="qc.isAdvancedMode" ng-click="qc.basicMode()">(Show basic query builder)</span>
+  </a>
 </div>
 
-<div ng-repeat="item in qc.query.groups" class="details-group">
+<div class="input-group" ng-show="qc.isAdvancedMode">
+  <label class="textarea-label">{{'value.details.query' | translate}}</label>
+  <form-error field="forms.versionForm.query"
+    error-type-required="{{'queue.details.queue.error' | translate}}">
+  </form-error>
+  <textarea id="advanced-query-field" ng-required="true" type="text" ng-model="qc.advancedQuery" name="query"></textarea>
+</div>
 
-  <div class="query-component">
-    <div class="divider-header">
-      <h4>{{ 'queues.query.builder.' + item.key + '.title' | translate }}</h4>
-      <a class="pull-right" ng-click="qc.removeGroup(item.key)">(remove filter)</a>
+<div ng-show="!qc.isAdvancedMode">
+  <div class="input-group" id="add-query-filter">
+    <label>{{'queues.query.builder.filters.label' | translate}}</label>
+    <div class="instant-add" disable-contents="qc.possibleGroups.length == 0">
+      <select id="select-filter-dropdown"
+        ng-model="qc.currentGroup">
+        <option value="" disabled>{{'queues.query.builder.filters.placeholder' | translate}}</option>
+        <option ng-repeat="key in qc.possibleGroups" value="{{key}}">{{'queues.query.builder.' + key | translate }}</option>
+      </select>
+      <div class="add-group-button">
+        <button class="add btn" type="button"
+          ng-disabled="!qc.currentGroup"
+          ng-click="qc.addGroup(qc.currentGroup)">
+
+          <i id="add-filter-btn" class="fa fa-plus"></i>
+        </button>
+      </div>
     </div>
-    <object-group-editor
-      class="details-group"
-      object-group="item.objectGroup"
-      model-type="qc.modelType(item.key)"
-      key="item.key">
-    </object-group-editor>
   </div>
 
+  <div ng-repeat="item in qc.query.groups" class="details-group">
+
+    <div class="query-component">
+      <div class="divider-header">
+        <h4>{{ 'queues.query.builder.' + item.key + '.title' | translate }}</h4>
+        <a class="pull-right" ng-click="qc.removeGroup(item.key)">(remove filter)</a>
+      </div>
+      <object-group-editor
+        object-group="item.objectGroup"
+        model-type="qc.modelType(item.key)"
+        key="item.key">
+      </object-group-editor>
+    </div>
+  </div>
 </div>

@@ -4,7 +4,7 @@
   angular.module('liveopsConfigPanel')
     .controller('ConditionGroupEditorController', ConditionGroupEditorController);
 
-    function ConditionGroupEditorController($scope, ZermeloCondition, _) {
+    function ConditionGroupEditorController($scope, ZermeloCondition, _, $translate) {
       var vm = this;
 
       vm.conditionGroup = $scope.conditionGroup;
@@ -19,12 +19,21 @@
       };
 
       vm.getConditionName = function (condition) {
-        return vm.findItemForCondition(condition).getDisplay();
+        var condition = vm.findItemForCondition(condition);
+
+        if(condition) {
+          return condition.getDisplay();
+        }
+
+        return $translate.instant('value.unknown');
       };
 
       vm.prettyConditionFilter = function (condition) {
-        if(condition.filter instanceof Array &&
-              vm.findItemForCondition(condition).hasProficiency) {
+        var item = vm.findItemForCondition(condition);
+
+        if(item && condition.filter instanceof Array &&
+              item.hasProficiency) {
+
           return condition.filter[0] + ' ' + condition.filter[1];
         }
 

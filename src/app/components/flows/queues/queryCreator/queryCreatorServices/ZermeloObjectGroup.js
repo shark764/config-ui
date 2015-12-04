@@ -4,7 +4,7 @@
   angular
     .module('liveopsConfigPanel')
     .factory('ZermeloObjectGroup', function (jsedn, _, ZermeloConditionGroup) {
-      
+
       function ObjectGroup() {
         this.andConditions = new ZermeloConditionGroup('and');
         this.orConditions = new ZermeloConditionGroup('or');
@@ -29,6 +29,10 @@
         if(list instanceof jsedn.List) {
             var og = new ObjectGroup();
 
+            if(list.val[0].val !== 'and') {
+              throw new Exception('object group must start with and');
+            }
+
             list.map(function (i) {
               if(i instanceof jsedn.List) {
                 switch (i.at(0).val) {
@@ -38,6 +42,8 @@
                   case 'or':
                     og.orConditions = ZermeloConditionGroup.fromEdn(i);
                     break;
+                  default:
+                    throw new Exception('condition group must start with \'and\' or \'or\'');
                 }
               }
             });
