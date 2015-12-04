@@ -108,7 +108,7 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
         reloadOnSearch: false,
         resolve: {
           hasPermission: ['UserPermissions', function(UserPermissions) {
-            return UserPermissions.resolvePermissions(['MANAGE_ALL_LISTS', 'VIEW_ALL_LISTS']);
+            return UserPermissions.resolvePermissions(['MANAGE_ALL_LISTS']);
           }]
         }
       })
@@ -127,7 +127,7 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
         },
         resolve: {
           hasPermission: ['UserPermissions', function(UserPermissions) {
-            return UserPermissions.resolvePermissions(['MANAGE_ALL_LISTS', 'VIEW_ALL_LISTS']);
+            return UserPermissions.resolvePermissions(['MANAGE_ALL_LISTS']);
           }]
         }
       })
@@ -141,7 +141,7 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
         },
         resolve: {
           hasPermission: ['UserPermissions', function(UserPermissions) {
-            return UserPermissions.resolvePermissions(['MANAGE_ALL_LISTS', 'VIEW_ALL_LISTS']);
+            return UserPermissions.resolvePermissions(['MANAGE_ALL_LISTS']);
           }]
         }
       })

@@ -123,7 +123,7 @@ angular.module('liveopsConfigPanel')
         });
       }
 
-      if (UserPermissions.hasPermissionInList([])){
+      if (UserPermissions.hasPermissionInList(['MANAGE_ALL_LISTS'])){
         configurationConfig.push({
           label: 'Lists',
           stateLink: 'content.configuration.genericLists',
@@ -132,7 +132,7 @@ angular.module('liveopsConfigPanel')
         });
       }
 
-      if (UserPermissions.hasPermissionInList([])){
+      if (UserPermissions.hasPermissionInList(['MANAGE_ALL_LISTS'])){
         configurationConfig.push({
           label: 'Disposition Codes',
           stateLink: 'content.configuration.dispositions',
@@ -141,7 +141,7 @@ angular.module('liveopsConfigPanel')
         });
       }
 
-      if (UserPermissions.hasPermissionInList([])){
+      if (UserPermissions.hasPermissionInList(['MANAGE_ALL_LISTS'])){
         configurationConfig.push({
           label: 'Reason Codes',
           stateLink: 'content.configuration.reasons',
