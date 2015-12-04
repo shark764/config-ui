@@ -74,5 +74,55 @@ describe('groups controller', function () {
       $httpBackend.flush();
       expect(mockGroups[0].members.length).toBe(3);
     }]));
+    
+    it('should set the memberList property on the selected group', inject(['$httpBackend', 'apiHostname', 'mockGroupUsers', function ($httpBackend, apiHostname, mockGroupUsers) {
+      $httpBackend.expectGET(apiHostname + '/v1/tenants/tenant-id/groups/groupId1/users').respond(200, mockGroupUsers);
+      
+      $scope.selectedGroup = mockGroups[0];
+      expect($scope.selectedGroup.$memberList).toBeUndefined();
+      mockGroups[0].fetchGroupUsers();
+      $httpBackend.flush();
+      expect($scope.selectedGroup.$memberList.length).toBe(3);
+    }]));
+  });
+  
+  describe('fetchUsers function', function () {
+    it('should query for the tenant users list', inject(['$httpBackend', 'apiHostname', function ($httpBackend, apiHostname) {
+      $httpBackend.expectGET(apiHostname + '/v1/tenants/tenant-id/users').respond(200);
+      $scope.fetchUsers();
+      $httpBackend.flush();
+    }]));
+  });
+  
+  describe('addMember function', function () {
+    it('should post to tenant-group-users', inject(['$httpBackend', 'apiHostname', 'Group', function ($httpBackend, apiHostname, Group) {
+      $httpBackend.expectPOST(apiHostname + '/v1/tenants/tenant-id/groups/group-id/users').respond(200);
+      
+      $scope.selectedGroup = new Group({id: 'group-id'});
+      $scope.selectedGroup.$memberList = [];
+      
+      $scope.addMember({
+        id: 'user-id'
+      });
+      
+      $httpBackend.flush();
+    }]));
+    
+    it('should reset the TenantUser cache', inject(['$httpBackend', 'apiHostname', 'Group', 'queryCache', function ($httpBackend, apiHostname, Group, queryCache) {
+      $httpBackend.expectPOST(apiHostname + '/v1/tenants/tenant-id/groups/group-id/users').respond(200);
+      
+      $scope.selectedGroup = new Group({id: 'group-id'});
+      $scope.selectedGroup.$memberList = [];
+      
+      spyOn(queryCache, 'remove');
+      
+      $scope.addMember({
+        id: 'user-id'
+      });
+      
+      $httpBackend.flush();
+      expect(queryCache.remove).toHaveBeenCalledWith('TenantUser');
+      
+    }]));
   });
 });
