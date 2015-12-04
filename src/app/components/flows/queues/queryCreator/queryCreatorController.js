@@ -16,7 +16,8 @@
       }, true);
 
       vm.advancedMode = function () {
-        vm.advancedQuery = $scope.query;
+        vm.advancedQuery = vm.query.toEdn(true).ednEncode();
+        vm.initialAdvancedQuery = vm.advancedQuery;
         vm.isAdvancedMode = true;
       };
 
@@ -28,7 +29,7 @@
         if(!query) {
           return Alert.confirm('Your query is invalid, going back to basic mode will reset your query. Are you sure?',
             function () {
-              vm.initQuery($scope.query);
+              vm.initQuery(vm.initialAdvancedQuery);
               vm.isAdvancedMode = false;
             },
             angular.noop

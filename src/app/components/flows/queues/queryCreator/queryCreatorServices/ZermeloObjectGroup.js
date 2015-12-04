@@ -10,14 +10,14 @@
         this.orConditions = new ZermeloConditionGroup('or');
       }
 
-      ObjectGroup.prototype.toEdn = function () {
+      ObjectGroup.prototype.toEdn = function (allowEmpty) {
         var list = new jsedn.List([new jsedn.sym('and')]),
             conditionGroups = [this.andConditions, this.orConditions];
 
         for (var i = 0; i < conditionGroups.length; i++) {
-          var conditionGroup = conditionGroups[i].toEdn();
+          var conditionGroup = conditionGroups[i].toEdn(allowEmpty);
 
-          if(conditionGroup) {
+          if(allowEmpty || conditionGroup) {
             list.val.push(conditionGroup);
           }
         }

@@ -45,10 +45,10 @@
         cond.setFilter(true);
 
         if(vm.selectedItem.hasProficiency === false) {
-          cond.setFilter(['>=', 1]);
+          cond.setFilter('>=', 1);
         }
         else if(vm.selectedItem.hasProficiency) {
-          cond.setFilter([vm.conditionOperator, vm.conditionProficiency]);
+          cond.setFilter(vm.conditionOperator, vm.conditionProficiency);
         }
 
         vm.conditionGroup.addCondition(cond);

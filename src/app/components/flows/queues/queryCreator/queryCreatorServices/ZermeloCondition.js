@@ -17,7 +17,7 @@
         }
 
         if(arguments.length === 2) {
-          this.filter = new jsedn.List(new jsedn.sym(arguments[0]), arguments[1])
+          this.filter = [arguments[0], arguments[1]]
         }
       };
 
@@ -33,18 +33,26 @@
         if(edn instanceof jsedn.Map) {
           var condition = new Condition();
 
-          // jsedn requires at least two elements for a valid tag; and
-          // throws away invalid tags; we have to manually inject it
+          // jsedn seems to ignore the #uuid tag? will have to investigate
+          // the library to find out why. most other things work fine.
+          // for now, manually inject uuid
           condition.tag = 'uuid';
           condition.identifier = edn.keys[0];
           condition.filter = edn.vals[0];
 
-          if(!(condition.identifier instanceof String)) {
+          if(!angular.isString(condition.identifier)) {
             throw new Exception('condition must start with #uuid');
           }
 
           if(condition.filter instanceof jsedn.List) {
+
+            if(condition.filter.val.length !== 2) {
+              throw new Exception('condition filter must be exactly length 2 if it is a list');
+            }
+
             condition.filter = [condition.filter.val[0].val, condition.filter.val[1].val];
+          } else if(condition.filter.val != true) {
+            throw new Exception('if condition filter is not a list, it must be true');
           }
 
           return condition;

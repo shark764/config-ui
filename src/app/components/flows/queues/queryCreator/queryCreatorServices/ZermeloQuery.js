@@ -5,6 +5,8 @@
     .module('liveopsConfigPanel')
     .factory('ZermeloQuery', function ($rootScope, _, ZermeloObjectGroup) {
 
+      var ALLOWED_KEYS = [':groups', ':skills'];
+
       function Query() {
         this.groups = [];
         this.afterSecondsInQueue = null;
@@ -27,15 +29,15 @@
         });
       };
 
-      Query.prototype.toEdn = function () {
+      Query.prototype.toEdn = function (allowEmpty) {
         var map = new jsedn.Map();
 
         for (var i = 0; i < this.groups.length; i++) {
           var group = this.groups[i],
               key = group.key,
-              list = group.objectGroup.toEdn();
+              list = group.objectGroup.toEdn(allowEmpty);
 
-          if(list) {
+          if(allowEmpty || list) {
             map.set(new jsedn.Keyword(key), list);
           }
 
@@ -56,10 +58,12 @@
             for(var i = 0; i < keys.length; i++) {
               var key = keys[i];
 
-              if(key.val != ':afterSecondsInQueue') {
+              if(key.val === ':afterSecondsInQueue') {
+                query.afterSecondsInQueue = map[key];
+              } else if (_.includes(ALLOWED_KEYS, key.val)) {
                 query.setGroup(key.val, ZermeloObjectGroup.fromEdn(map.at(key)));
               } else {
-                query.afterSecondsInQueue = map[key];
+                throw new Exception('invalid key in query; must be :afterSecondsInQueue OR in ' + ALLOWED_KEYS);
               }
             }
 
