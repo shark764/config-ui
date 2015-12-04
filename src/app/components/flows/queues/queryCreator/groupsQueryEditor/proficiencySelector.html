@@ -1,0 +1,10 @@
+<div>
+  <select ng-model="operator" class="pull-left proficiency-operator-dropdown">
+    <option value=">=">{{ 'queue.query.builder.at.least' | translate }}</option>
+    <option value="<=">{{ 'queue.query.builder.at.most' | translate }}</option>
+    <option value="=">{{ 'queue.query.builder.exactly' | translate }}</option>
+  </select>
+  <number-slider value="proficiency"
+    min-value="1" max-value="100" class="proficiency-value pull-left">
+  </number-slider>
+</div>

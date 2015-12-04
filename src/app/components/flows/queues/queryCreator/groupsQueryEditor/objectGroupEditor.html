@@ -1,0 +1,15 @@
+<condition-group-editor
+  class="details-group"
+  condition-group="oge.objectGroup.andConditions"
+  items="oge.items"
+  section-label="{{'queue.query.builder.' + oge.key + '.all' | translate}}"
+  placeholder-text="{{ oge.placeholderText }}">
+</condition-group-editor>
+
+<condition-group-editor
+  class="details-group"
+  condition-group="oge.objectGroup.orConditions"
+  items="oge.items"
+  section-label="{{'queue.query.builder.' + oge.key + '.some' | translate}}"
+  placeholder-text="{{ oge.placeholderText }}">
+</condition-group-editor>

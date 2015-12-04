@@ -4,43 +4,42 @@
   angular.module('liveopsConfigPanel')
     .controller('QueryCreatorController', QueryCreator);
 
-    function QueryCreator($scope,ZermeloCondition, jsedn,
-      ZermeloObjectGroup, ZermeloQuery, _, Skill, Group) {
+    function QueryCreator($scope,ZermeloCondition, jsedn, ZermeloObjectGroup, ZermeloQuery, _, Skill, Group, $translate) {
       var vm = this;
 
-      vm.query = ZermeloQuery.fromEdn(jsedn.parse('{:skills (and (or {#uuid "4ea839a0-92e2-11e5-a2fa-c1ae7ae4ed37" true}))}'));
+      vm.query = new ZermeloQuery();
 
-      vm.randomCondition = function (item) {
-        var condition = new ZermeloCondition('uuid', item.id);
-        condition.filter = _.sample([true, ['>=', 10]]);
-        return condition;
+      if($scope.query) {
+        vm.query = ZermeloQuery.fromEdn(jsedn.parse($scope.query));
+      }
+
+      vm.addGroup = function (key) {
+        vm.query.setGroup(key, new ZermeloObjectGroup());
+        vm.possibleGroups.splice(vm.possibleGroups.indexOf(key), 1);
+        vm.currentGroup = '';
       };
 
-      vm.selectEntity = function (entity) {
-        vm.possibleEntities.splice(entity, 1);
-        vm.selectedEntities.push(entity);
-        vm.query.addGroup(entity.key, entity.objectGroup);
+      vm.removeGroup = function (key) {
+        vm.query.removeGroup(key);
+        vm.possibleGroups.push(key);
       };
 
-      vm.possibleEntities = [
-        {
-          name: 'Skills',
-          key: 'skills',
-          objectGroup: new ZermeloObjectGroup('skills'),
-          objects: Skill.cachedQuery(),
-          templateUrl: 'app/components/flows/queues/queryCreator/skillQueryCreator.html'
-        },
-        {
-          name: 'Groups',
-          key: 'groups',
-          objectGroup: new ZermeloObjectGroup('groups'),
-          objects: Group.cachedQuery(),
-          templateUrl: 'app/components/flows/queues/queryCreator/groupQueryCreator.html'
+      vm.modelType = function (key) {
+        if(key === ':skills') {
+          return Skill;
         }
-      ];
 
-      vm.selectedEntities = [];
+        if(key === ':groups') {
+          return Group;
+        }
 
+        return null;
+      };
+
+      vm.groupModelType = Group;
+      vm.skillsModelType = Skill;
+
+      vm.possibleGroups = [':skills', ':groups'];
 
     };
 

@@ -4,6 +4,7 @@
   angular
     .module('liveopsConfigPanel')
     .factory('ZermeloObjectGroup', function (jsedn, _, ZermeloConditionGroup) {
+      
       function ObjectGroup() {
         this.andConditions = new ZermeloConditionGroup('and');
         this.orConditions = new ZermeloConditionGroup('or');

@@ -4,10 +4,21 @@
   angular
     .module('liveopsConfigPanel')
     .factory('ZermeloCondition', function ($rootScope, jsedn) {
+
       function Condition(tag, identifier) {
         this.tag = tag;
         this.identifier = identifier;
         this.filter = null;
+      };
+
+      Condition.prototype.setFilter = function () {
+        if(arguments.length === 1) {
+          this.filter = arguments[0];
+        }
+
+        if(arguments.length === 2) {
+          this.filter = new jsedn.List(new jsedn.sym(arguments[0]), arguments[1])
+        }
       };
 
       Condition.prototype.toEdn = function () {

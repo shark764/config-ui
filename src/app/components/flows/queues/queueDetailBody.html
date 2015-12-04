@@ -46,8 +46,8 @@
       <span id="show-basic-query" ng-show="queryType == 'advanced'" ng-click="queryType = 'basic'">(Show basic query builder)</span>
     </a>
   </div>
-  
-  <query-creator version="initialVersion" queue="selectedQueue"></query-creator>
+  {{initialVersion.query}}
+  <query-creator query="initialVersion.query"></query-creator>
 
   <div class="divider-header">
     <h4>{{'queue.details.priority' | translate}}</h4>

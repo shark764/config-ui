@@ -1,16 +1,15 @@
 <div class="input-group" id="add-query-filter">
   <label>{{'queues.query.builder.filters.label' | translate}}</label>
-
-  <div class="instant-add" disable-contents="qc.possibleEntities.length == 0">
+  <div class="instant-add" disable-contents="qc.possibleGroups.length == 0">
     <select id="select-filter-dropdown"
-      ng-model="qc.currentEntity"
-      ng-options="item.name for item in qc.possibleEntities">
+      ng-model="qc.currentGroup">
       <option value="" disabled>{{'queues.query.builder.filters.placeholder' | translate}}</option>
+      <option ng-repeat="key in qc.possibleGroups" value="{{key}}">{{'queues.query.builder.' + key | translate }}</option>
     </select>
-    <div>
+    <div class="add-group-button">
       <button class="add btn" type="button"
-        ng-disabled="!qc.currentEntity"
-        ng-click="qc.selectEntity(qc.currentEntity)">
+        ng-disabled="!qc.currentGroup"
+        ng-click="qc.addGroup(qc.currentGroup)">
 
         <i id="add-filter-btn" class="fa fa-plus"></i>
       </button>
@@ -18,19 +17,19 @@
   </div>
 </div>
 
-<div>{{qc.query.toEdn().ednEncode()}}</div>
+<div ng-repeat="item in qc.query.groups" class="details-group">
 
-<div ng-repeat="entity in qc.selectedEntities" class="details-group" ng-switch="entity.name">
-  <select ng-options="item.getDisplay() for item in entity.objects" ng-model="selectedItem"></select>
-
-  <h3>OR conditions</h3>
-  <input type="button" ng-click="entity.objectGroup.orConditions.addCondition(qc.randomCondition(selectedItem))" />
-  <div ng-repeat="orCondition in group.orConditions.conditions">
-
+  <div class="query-component">
+    <div class="divider-header">
+      <h4>{{ 'queues.query.builder.' + item.key + '.title' | translate }}</h4>
+      <a class="pull-right" ng-click="qc.removeGroup(item.key)">(remove filter)</a>
+    </div>
+    <object-group-editor
+      class="details-group"
+      object-group="item.objectGroup"
+      model-type="qc.modelType(item.key)"
+      key="item.key">
+    </object-group-editor>
   </div>
-  <h3>AND conditions</h3>
-  <input type="button" ng-click="entity.objectGroup.andConditions.addCondition(qc.randomCondition(selectedItem))" />
-  <div ng-repeat="andCondition in group.andConditions.conditions">
 
-  </div>
 </div>

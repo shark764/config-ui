@@ -10,12 +10,22 @@
         this.conditions = [];
       };
 
+      ConditionGroup.prototype.getConditionIdentifiers = function () {
+        var ids = [];
+
+        for(var i = 0; i < this.conditions.length; i++) {
+          ids.push(this.conditions[i].identifier);
+        }
+
+        return ids;
+      };
+
       ConditionGroup.prototype.addCondition = function (condition) {
         this.conditions.push(condition);
       };
 
       ConditionGroup.prototype.removeCondition = function (condition) {
-        this.conditions.splice(list.indexOf(condition), 1);
+        this.conditions.splice(this.conditions.indexOf(condition), 1);
       };
 
       ConditionGroup.prototype.toEdn = function () {
