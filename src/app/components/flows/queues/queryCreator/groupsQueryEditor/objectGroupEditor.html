@@ -3,7 +3,8 @@
   condition-group="oge.objectGroup.andConditions"
   items="oge.items"
   section-label="{{'queue.query.builder.' + oge.key + '.all' | translate}}"
-  placeholder-text="{{ oge.placeholderText }}">
+  placeholder-text="{{ oge.placeholderText }}"
+  readonly="oge.readonly">
 </condition-group-editor>
 
 <condition-group-editor
@@ -11,5 +12,6 @@
   condition-group="oge.objectGroup.orConditions"
   items="oge.items"
   section-label="{{'queue.query.builder.' + oge.key + '.some' | translate}}"
-  placeholder-text="{{ oge.placeholderText }}">
+  placeholder-text="{{ oge.placeholderText }}"
+  readonly="oge.readonly">
 </condition-group-editor>

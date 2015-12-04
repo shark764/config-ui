@@ -11,8 +11,8 @@
         controller: 'ObjectGroupEditorController as oge',
         scope: {
           objectGroup: '=',
-          modelType: '=',
-          key: '='
+          key: '=',
+          readonly: '='
         }
       };
     }

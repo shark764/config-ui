@@ -53,13 +53,13 @@ query-creator {
   }
 
   .tag {
-    margin: 5px;
+    margin: 0;
   }
 
   condition-group-editor {
     display: block;
 
-    &:first-child { 
+    &:first-child {
     }
   }
 }

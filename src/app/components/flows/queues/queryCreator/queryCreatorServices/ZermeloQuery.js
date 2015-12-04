@@ -50,6 +50,10 @@
       };
 
       Query.fromEdn = function (map) {
+        if (angular.isString(map)) {
+          map = jsedn.parse(map);
+        };
+
         if(map instanceof jsedn.Map) {
           var query = new Query(),
               keys = map.keys;

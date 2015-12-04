@@ -1,17 +1,23 @@
 readonly-query {
   display: block;
   margin-bottom: 10px;
-  
+
+  .tag {
+    margin: 0 5px;
+    &:first-child {
+      margin: 0;
+    }
+  }
   .show-advanced-link, .show-basic-link {
     display: block;
     text-align: right;
     padding-top: 0.7em;
   }
-  
+
   .show-basic-link {
     margin-bottom: 5px;
   }
-  
+
   .tag-wrapper {
     margin: 5px 0;
   }

@@ -13,6 +13,7 @@
       vm.placeholderText = $scope.placeholderText;
       vm.conditionProficiency = 1;
       vm.conditionOperator = '>=';
+      vm.readonly = $scope.readonly;
 
       vm.findItemForCondition = function(condition) {
         return  _.findWhere(vm.items, {id: condition.identifier});

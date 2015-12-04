@@ -47,7 +47,7 @@
                     og.orConditions = ZermeloConditionGroup.fromEdn(i);
                     break;
                   default:
-                    throw 'condition group must start with \'and\' or \'or\'';
+                    return null;
                 }
               }
             });

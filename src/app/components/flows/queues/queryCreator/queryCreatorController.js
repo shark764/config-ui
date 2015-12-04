@@ -16,12 +16,13 @@
       }, function (nv) {
         if(!vm.query || (nv && nv != vm.query.toEdn().ednEncode())) {
 
+          vm.advancedQuery = nv;
+
           try {
-            var ednQuery = ZermeloQuery.fromEdn(jsedn.parse(nv));
+            var ednQuery = ZermeloQuery.fromEdn(nv);
             return vm.initQuery(ednQuery);
           } catch (e) { }
 
-          vm.advancedQuery = nv;
           vm.isAdvancedMode = true;
           vm.forms.advancedQueryForm.query.$setTouched();
         }
@@ -37,7 +38,7 @@
 
       vm.advancedQueryChanged = function () {
         if(!vm.initialAdvancedQuery ) {
-          vm.initialAdvancedQuery = ZermeloQuery.fromEdn(jsedn.parse(vm.advancedQuery));
+          vm.initialAdvancedQuery = ZermeloQuery.fromEdn(vm.advancedQuery);
         }
       };
 
@@ -51,13 +52,13 @@
         var query = null;
 
         try {
-          query = ZermeloQuery.fromEdn(jsedn.parse(vm.advancedQuery));
+          query = ZermeloQuery.fromEdn(vm.advancedQuery);
         } catch (e) {}
 
         if(!query) {
           return Alert.confirm($translate.instant('queue.details.version.query.basic.invalid'),
             function () {
-              vm.initQuery(ZermeloQuery.fromEdn(jsedn.parse(vm.initialAdvancedQuery)));
+              vm.initQuery(ZermeloQuery.fromEdn(vm.initialAdvancedQuery));
               vm.isAdvancedMode = false;
             },
             angular.noop
@@ -70,7 +71,6 @@
 
       vm.initQuery = function (query) {
         vm.query = query || new ZermeloQuery();
-
         vm.possibleGroups = _.xor(_.pluck(vm.query.groups, 'key'), ALLOWED_GROUP_KEYS);
       };
 

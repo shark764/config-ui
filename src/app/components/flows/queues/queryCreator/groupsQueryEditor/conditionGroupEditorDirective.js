@@ -13,7 +13,8 @@
           conditionGroup: '=',
           items: '=',
           sectionLabel: '@',
-          placeholderText: '@'
+          placeholderText: '@',
+          readonly: '='
         }
       };
     }
