@@ -14,7 +14,7 @@
       $scope.$watch(function (){
         return $scope.query;
       }, function (nv) {
-        if(!vm.query || (nv && nv != vm.query.toEdn().ednEncode())) {
+        if(!vm.query || (nv && nv !== vm.query.toEdn().ednEncode())) {
 
           vm.advancedQuery = nv;
 
@@ -30,9 +30,9 @@
 
       $scope.$watch(function () {
         return vm.query;
-      }, function (nv, ov) {
-        if(vm.query) {
-          $scope.query = vm.query.toEdn().ednEncode();
+      }, function (nv) {
+        if(nv) {
+          $scope.query = nv.toEdn().ednEncode();
         }
       }, true);
 
@@ -62,7 +62,7 @@
               vm.isAdvancedMode = false;
             },
             angular.noop
-          )
+          );
         }
 
         vm.initQuery(query);
@@ -114,6 +114,6 @@
 
       vm.possibleGroups = ALLOWED_GROUP_KEYS;
       vm.isAdvancedMode = false;
-    };
+    }
 
 })();

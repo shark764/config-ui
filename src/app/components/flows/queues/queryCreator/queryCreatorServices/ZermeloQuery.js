@@ -3,7 +3,7 @@
 
   angular
     .module('liveopsConfigPanel')
-    .factory('ZermeloQuery', function ($rootScope, _, ZermeloObjectGroup) {
+    .factory('ZermeloQuery', function ($rootScope, _, ZermeloObjectGroup, jsedn) {
 
       var ALLOWED_KEYS = [':groups', ':skills'];
 
@@ -25,7 +25,7 @@
 
       Query.prototype.removeGroup = function (key) {
         this.groups = _.filter(this.groups, function (item) {
-          return item.key !== key
+          return item.key !== key;
         });
       };
 
@@ -44,7 +44,7 @@
           if(this.afterSecondsInQueue) {
             map.set(new jsedn.Keyword(':afterSecondsInQueue'), this.afterSecondsInQueue);
           }
-        };
+        }
 
         return map;
       };
@@ -52,7 +52,7 @@
       Query.fromEdn = function (map) {
         if (angular.isString(map)) {
           map = jsedn.parse(map);
-        };
+        }
 
         if(map instanceof jsedn.Map) {
           var query = new Query(),

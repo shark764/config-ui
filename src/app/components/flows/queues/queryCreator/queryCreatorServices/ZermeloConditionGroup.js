@@ -3,12 +3,12 @@
 
   angular
     .module('liveopsConfigPanel')
-    .factory('ZermeloConditionGroup', function (jsedn, ZermeloCondition, _) {
+    .factory('ZermeloConditionGroup', function (jsedn, ZermeloCondition) {
 
       function ConditionGroup(operator) {
         this.operator = operator;
         this.conditions = [];
-      };
+      }
 
       ConditionGroup.prototype.getConditionIdentifiers = function () {
         var ids = [];

@@ -25,7 +25,7 @@
           ctrl.$parsers.unshift(validateZermelo);
           ctrl.$formatters.unshift(validateZermelo);
         }
-      }
-    };
+      };
+    }
 
 })();

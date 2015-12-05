@@ -11,12 +11,12 @@
       vm.key = $scope.key;
       vm.placeholderText = $translate.instant('queue.query.builder.' + vm.key + '.placeholder');
       vm.readonly = $scope.readonly;
-      
+
       vm.modelType = vm.key === ':skills' ? Skill : Group;
 
       vm.items = vm.modelType.cachedQuery({
           tenantId: Session.tenant.tenantId
       });
-    };
+    }
 
 })();

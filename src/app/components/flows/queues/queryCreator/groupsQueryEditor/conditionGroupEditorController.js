@@ -20,7 +20,7 @@
       };
 
       vm.getConditionName = function (condition) {
-        var condition = vm.findItemForCondition(condition);
+        condition = vm.findItemForCondition(condition);
 
         if(condition) {
           return condition.getDisplay();
@@ -60,6 +60,6 @@
         return !_.includes(vm.conditionGroup.getConditionIdentifiers(), item.id);
       };
 
-    };
+    }
 
 })();

@@ -3,8 +3,8 @@
 
   angular
     .module('liveopsConfigPanel')
-    .factory('ZermeloQueryList', function (ZermeloQuery) {
-      
+    .factory('ZermeloQueryList', function (ZermeloQuery, jsedn) {
+
       function QueryList() {
         this.queries = [];
       }
@@ -27,9 +27,9 @@
           if(map) {
             list.val.push(map);
           }
-        };
+        }
 
-        return map;
+        return list;
       };
 
       QueryList.fromEdn = function (edn) {
@@ -37,7 +37,7 @@
           var queryList = new QueryList();
 
           for(var i = 0; i < edn.val.length; i++) {
-            queryList.addQuery(key, ZermeloQuery.fromEdn(map[i]));
+            queryList.addQuery(ZermeloQuery.fromEdn(edn.val[i]));
           }
 
           return queryList;

@@ -9,7 +9,7 @@
         this.tag = tag;
         this.identifier = identifier;
         this.filter = null;
-      };
+      }
 
       Condition.prototype.setFilter = function () {
         if(arguments.length === 1) {
@@ -17,7 +17,7 @@
         }
 
         if(arguments.length === 2) {
-          this.filter = [arguments[0], arguments[1]]
+          this.filter = [arguments[0], arguments[1]];
         }
       };
 
@@ -52,7 +52,7 @@
 
             condition.filter = [condition.filter.val[0].val, condition.filter.val[1]];
 
-          } else if(condition.filter != true) {
+          } else if(condition.filter !== true) {
             throw 'if condition filter is not a list, it must be true';
           }
 

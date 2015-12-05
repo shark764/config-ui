@@ -1,21 +1,20 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('readonlyQuery', function ($q) {
+  .directive('readonlyQuery', function () {
     return {
       restrict : 'E',
       scope : {
         query : '='
       },
       transclude : true,
-      controller : function ($scope, ZermeloQuery) {
-        var vm = this;
+      controller : function ($scope, ZermeloQuery) { 
 
         $scope.$watch('query', function (nv) {
           try {
             $scope.ednQuery = ZermeloQuery.fromEdn(nv);
           } catch (e) {
-            $scope.ednQuery = null
+            $scope.ednQuery = null;
           }
 
           $scope.showBasicQuery = !!$scope.ednQuery;
