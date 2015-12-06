@@ -33,6 +33,8 @@ angular.module('liveopsConfigPanel')
           return;
         }
 
+        vm.versions = vm.fetchVersions();
+
         for(var i = 0; i < vm.versions.length; i++){
           vm.versions[i].viewing = false;
           if (vm.versions[i].version === version.version){
