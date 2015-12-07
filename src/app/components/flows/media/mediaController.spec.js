@@ -6,12 +6,13 @@ describe('MediaController', function () {
     apiHostname,
     Session,
     mockMedias,
-    Media;
+    Media,
+    loEvents;
 
   beforeEach(module('gulpAngular'));
   beforeEach(module('liveopsConfigPanel', 'liveopsConfigPanel.tenant.media.mock'));
-  beforeEach(inject(['$rootScope', '$controller', '$httpBackend', 'Media', 'apiHostname', 'Session', 'medias',
-    function ($rootScope, _$controller_, _$httpBackend_, _Media_, _apiHostname_, _Session_, _mockMedias_) {
+  beforeEach(inject(['$rootScope', '$controller', '$httpBackend', 'Media', 'apiHostname', 'Session', 'medias', 'loEvents',
+    function ($rootScope, _$controller_, _$httpBackend_, _Media_, _apiHostname_, _Session_, _mockMedias_, _loEvents) {
       $scope = $rootScope.$new();
       $controller = _$controller_;
       $httpBackend = _$httpBackend_;
@@ -19,6 +20,7 @@ describe('MediaController', function () {
       apiHostname = _apiHostname_;
       Session = _Session_;
       mockMedias =  _mockMedias_;
+      loEvents = _loEvents;
     }
   ]));
 
@@ -43,7 +45,7 @@ describe('MediaController', function () {
     });
 
     it('should call create when on:click:create event occurs', function () {
-      $scope.$broadcast('table:on:click:create');
+      $scope.$broadcast(loEvents.tableControls.itemCreate);
       expect($scope.selectedMedia).toBeDefined();
     });
   });

@@ -10,15 +10,16 @@ describe('QueueController', function() {
   routeParams,
   mockQueueVersions,
   QueueVersion,
-  controller;
+  controller,
+  loEvents;
 
   beforeEach(module('gulpAngular'));
   beforeEach(module('liveopsConfigPanel'));
   beforeEach(module('liveopsConfigPanel.tenant.queue.mock'));
   beforeEach(module('liveopsConfigPanel.tenant.queue.version.mock'));
   
-  beforeEach(inject(['$rootScope', '$controller', '$injector', 'Queue', 'apiHostname', 'Session', 'mockQueues', 'mockQueueVersions', 'QueueVersion',
-    function($rootScope, $controller, $injector, _Queue_, _apiHostname, _Session_, _mockQueues, _mockQueueVersions, _QueueVersion) {
+  beforeEach(inject(['$rootScope', '$controller', '$injector', 'Queue', 'apiHostname', 'Session', 'mockQueues', 'mockQueueVersions', 'QueueVersion', 'loEvents',
+    function($rootScope, $controller, $injector, _Queue_, _apiHostname, _Session_, _mockQueues, _mockQueueVersions, _QueueVersion, _loEvents) {
       $scope = $rootScope.$new();
       Queue = _Queue_;
       apiHostname = _apiHostname;
@@ -26,6 +27,7 @@ describe('QueueController', function() {
       mockQueues = _mockQueues;
       mockQueueVersions = _mockQueueVersions;
       QueueVersion = _QueueVersion;
+      loEvents = _loEvents;
 
       routeParams = {id : 'q1'};
 
@@ -51,7 +53,7 @@ describe('QueueController', function() {
   });
   
   it('should initialize a queue on createQueue', function() {
-    $scope.$broadcast('table:on:click:create');
+    $scope.$broadcast(loEvents.tableControls.itemCreate);
 
     expect($scope.selectedQueue).toBeDefined();
     expect($scope.selectedQueue.tenantId).toEqual(Session.tenant.tenantId);

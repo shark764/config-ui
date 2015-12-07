@@ -2,7 +2,6 @@
   ng-resource="tenantUser"
   separate-validation
   lo-form-submit
-  lo-form-reset
   lo-form-alert>
 
   <form-error field="userTenantExtensionForm.extensions"
@@ -19,7 +18,7 @@
             ng-required="true"
             ng-class="{'default-selected': ! newExtension.type}"
             ng-model="newExtension.type"
-            ng-change="reset()"
+            ng-change="clearValues()"
             ng-options="type.value as type.display for type in loExtensionTypes">
             <option class="disabled" value="" ng-disabled="true">
               {{'details.extension.type' | translate}}

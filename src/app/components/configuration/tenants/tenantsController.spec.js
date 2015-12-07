@@ -7,7 +7,8 @@ describe('TenantsController', function () {
     $httpBackend,
     apiHostname,
     Session,
-    mockTenants;
+    mockTenants,
+    loEvents;
 
   beforeEach(module('gulpAngular'));
   beforeEach(module('liveopsConfigPanel'));
@@ -15,11 +16,13 @@ describe('TenantsController', function () {
   beforeEach(module('liveopsConfigPanel.tenant.mock'));
   beforeEach(module('liveopsConfigPanel.tenant.user.mock'));
 
-  beforeEach(inject(['$rootScope', '$controller', '$httpBackend', 'apiHostname', 'Session', 'mockTenants',
-    function ($rootScope, _$controller_, _$httpBackend, _apiHostname_, _Session_, _mockTenants) {
+  beforeEach(inject(['$rootScope', '$controller', '$httpBackend', 'apiHostname', 'Session', 'mockTenants', 'loEvents',
+    function ($rootScope, _$controller_, _$httpBackend, _apiHostname_, _Session_, _mockTenants, _loEvents) {
       $scope = $rootScope.$new();
       $controller = _$controller_;
       $httpBackend = _$httpBackend;
+
+      loEvents = _loEvents;
 
       apiHostname = _apiHostname_;
       mockTenants = _mockTenants;
@@ -96,7 +99,7 @@ describe('TenantsController', function () {
   });
 
   it('should have a function to create a new tenant and set it as selected', function () {
-    $scope.$broadcast('table:on:click:create');
+    $scope.$broadcast(loEvents.tableControls.itemCreate);
     expect($scope.selectedTenant).toBeDefined();
     expect($scope.selectedTenant.regionId).toBe(Session.activeRegionId);
   });

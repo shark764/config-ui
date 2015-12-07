@@ -154,7 +154,7 @@ describe('The empty role', function() {
 
   // TODO TITAN2-4936 TBD
   xit('should not have access to user profile details', function() {
-    expect(profile.userEmail.getText()).toContain(emptyRoleEmail);
+    expect(profile.userEmail.getAttribute('value')).toContain(emptyRoleEmail);
     expect(profile.firstNameFormField.getAttribute('value')).toBe('Agent' + random);
     expect(profile.lastNameFormField.getAttribute('value')).toBe('Role' + random);
 

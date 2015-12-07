@@ -1,15 +1,18 @@
 'use strict';
 
 describe('ContentController', function () {
-  var $scope;
+  var $scope,
+    loEvents;
 
   beforeEach(module('liveopsConfigPanel'));
   beforeEach(module('gulpAngular'));
   beforeEach(module('liveopsConfigPanel.mock'));
 
-  beforeEach(inject(['$rootScope', '$controller',
-    function ($rootScope, $controller) {
+  beforeEach(inject(['$rootScope', '$controller', 'loEvents',
+    function ($rootScope, $controller, _loEvents) {
       $scope = $rootScope.$new();
+      
+      loEvents = _loEvents;
 
       $controller('ContentController', {
         '$scope': $scope
@@ -19,7 +22,7 @@ describe('ContentController', function () {
 
   it('should catch the table create event and hide bulk actions panel', inject(['$rootScope', function ($rootScope) {
     $scope.showBulkActions = true;
-    $rootScope.$broadcast('table:on:click:create');
+    $rootScope.$broadcast(loEvents.tableControls.itemCreate);
     $scope.$digest();
     expect($scope.showBulkActions).toBeFalsy();
   }]));

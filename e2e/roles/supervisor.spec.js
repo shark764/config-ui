@@ -170,7 +170,7 @@ describe('The Supervisor role', function() {
   });
 
   it('should have access to user profile details', function() {
-    expect(profile.userEmail.getText()).toContain(supervisorEmail);
+    expect(profile.userEmail.getAttribute('value')).toContain(supervisorEmail);
     expect(profile.firstNameFormField.getAttribute('value')).toBe('Supervisor' + random);
     expect(profile.lastNameFormField.getAttribute('value')).toBe('Role' + random);
 

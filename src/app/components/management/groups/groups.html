@@ -1,10 +1,9 @@
-
 <table-controls
-    id="table-pane"
-    config="tableConfig"
-    items="fetchGroups()"
-    selected="selectedGroup"
-    resource-name="Group">
+  id="table-pane"
+  config="tableConfig"
+  items="fetchGroups()"
+  selected="selectedGroup"
+  resource-name="Group">
 
   <span name="$original.active">
     <span ng-if="item.$original.active">{{'value.enabled' | translate}}</span>
@@ -18,10 +17,10 @@
 </table-controls>
 
 <resize-handle
-    ng-show="selectedGroup || showBulkActions"
-    id="resize-pane"
-    right-element-id="right-panel"
-    left-element-id="table-pane"></resize-handle>
+  ng-show="selectedGroup || showBulkActions"
+  id="resize-pane"
+  right-element-id="right-panel"
+  left-element-id="table-pane"></resize-handle>
 
 <lo-details-panel id="right-panel" 
   class="right-panel"

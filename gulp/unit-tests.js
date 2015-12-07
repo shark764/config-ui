@@ -29,6 +29,7 @@ module.exports = function (options) {
     ];
 
     var srcFiles = [
+      options.src + '/app/index.js',
       options.src + '/app/**/*.js',
       'test/test-env.js',
       '!' + options.src + '/app/components/flows/flowDesigner/**/*.js',

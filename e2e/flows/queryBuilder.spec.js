@@ -905,8 +905,7 @@ describe('The basic query builder', function() {
     });
   });
 
-  xit('should create queue without version when advanced query field is submited with an invalid query', function() {
-    // TODO Update after TITAN2-3290
+  it('should create queue without version when advanced query field is submited with an invalid query', function() {
     shared.createBtn.click();
     randomQueue = Math.floor((Math.random() * 100) + 1);
 
@@ -921,12 +920,19 @@ describe('The basic query builder', function() {
       shared.waitForError();
       expect(shared.errorMessage.isDisplayed()).toBeTruthy();
       expect(shared.errorMessage.getText()).toContain("Sorry, the initial query for this queue was invalid. Please create a new query version.");
+      shared.successMessage.click();
+      shared.errorMessage.click();
 
       expect(shared.tableElements.count()).toBeGreaterThan(queueCount);
       expect(queues.noVersionsMsg.isDisplayed()).toBeTruthy();
+      expect(newVersion.newQueueVersionPanel.isDisplayed()).toBeTruthy();
 
-      // Add version and select as default
-      queues.addNewVersionBtn.click();
+      expect(queues.requiredErrors.get(0).isDisplayed()).toBeTruthy();
+      expect(queues.requiredErrors.get(0).getText()).toContain('invalid query, reason: Value does not match schema: (not (map?');
+
+      // Update and add version and select as default
+      newVersion.advancedQueryFormField.clear();
+      newVersion.advancedQueryFormField.sendKeys('{}');
       newVersion.createVersionBtn.click().then(function() {
         shared.waitForSuccess();
         expect(shared.successMessage.isDisplayed()).toBeTruthy();

@@ -222,7 +222,7 @@ describe('The users view', function() {
     });
   });
 
-  it('should require First Name when editing', function() {
+  it('should require First Name when editing an accepted user', function() {
     // Select first user from table
     shared.searchField.sendKeys(params.login.user);
     shared.firstTableRow.click();
@@ -240,7 +240,7 @@ describe('The users view', function() {
     expect(users.requiredErrors.get(0).getText()).toBe('Please enter a first name');
   });
 
-  it('should require Last Name when editing', function() {
+  it('should require Last Name when editing an accepted user', function() {
     // Select first user from table
     shared.searchField.sendKeys(params.login.user);
     shared.firstTableRow.click();
@@ -258,15 +258,44 @@ describe('The users view', function() {
     expect(users.requiredErrors.get(0).getText()).toBe('Please enter a last name');
   });
 
-  xit('should display email when First and Last name are blank', function() {
-    // NOTE: First and last name can only be blank when a user exists in a tenant
-    // but hasn't accepted the invitation for the current tenant
+  it('should not require First or Last name when editing a pending user', function() {
+    // Select pending user from table
+    // Add Tenant Status Column
+    shared.tableColumnsDropDown.click();
+    shared.tableColumnsDropDownInputs.get(8).isSelected().then(function(tenantStatusSelected) {
+      if (!tenantStatusSelected) {
+        shared.tableColumnsDropDownOptions.get(8).click();
+        expect(shared.tableColumnsDropDownInputs.get(8).isSelected()).toBeTruthy();
+      }
+    }).then(function() {
+      shared.tableColumnsDropDown.click();
+      users.tenantStatusTableDropDownLabel.click();
 
-    // TODO
-    // User name is shown as email in table and details header
-    expect(shared.tableElements.count()).toBeGreaterThan(0);
-    expect(shared.firstTableRow.element(by.css(users.nameColumn)).getText()).toBe(params.login.user);
-    expect(users.userNameDetailsHeader.getText()).toBe(params.login.user);
+      // Leave only Pending Invitation and Pending Acceptance selected
+      users.dropdownTenantStatuses.get(0).click(); // Unselect Disabled
+      users.dropdownTenantStatuses.get(1).click(); // Unselect Expired
+      users.dropdownTenantStatuses.get(3).click(); // Unselect Accepted
+      users.dropdownTenantStatuses.get(5).click(); // Unselect Removed
+
+      shared.tableElements.count().then(function(userCount) {
+        if (userCount) {
+          shared.firstTableRow.click();
+
+          // Edit fields
+          users.firstNameFormField.sendKeys('not required'); // Incase the fields were already empty
+          users.lastNameFormField.sendKeys('not required');
+          users.firstNameFormField.clear();
+          users.lastNameFormField.clear();
+          users.submitFormBtn.click().then(function() {
+            expect(shared.successMessage.isDisplayed()).toBeTruthy();
+
+            // User name is shown as email in table and details header
+            expect(shared.selectedTableRow.element(by.css(users.nameColumn)).getText()).toBe(users.emailLabel.getText());
+            expect(users.userNameDetailsHeader.getText()).toBe(users.emailLabel.getText());
+          });
+        }
+      });
+    });
   });
 
   it('should not require External Id when editing', function() {
@@ -324,9 +353,13 @@ describe('The users view', function() {
     }).then(function() {
       shared.tableColumnsDropDown.click();
 
+      // Leave only Pending Invitation and Pending Acceptance selected
       users.tenantStatusTableDropDownLabel.click();
-      users.dropdownTenantStatuses.get(2).click(); // Pending Invitation
-      users.dropdownTenantStatuses.get(4).click(); // Pending Acceptance
+      users.dropdownTenantStatuses.get(0).click(); // Unselect Disabled
+      users.dropdownTenantStatuses.get(1).click(); // Unselect Expired
+      users.dropdownTenantStatuses.get(3).click(); // Unselect Accepted
+      users.dropdownTenantStatuses.get(5).click(); // Unselect Removed
+
       // All input is unselected
       expect(users.dropdownTenantStatusInputs.get(0).isSelected()).toBeFalsy();
 
@@ -350,9 +383,13 @@ describe('The users view', function() {
     }).then(function() {
       shared.tableColumnsDropDown.click();
 
+      // Leave only Disabled and Accepted selected
       users.tenantStatusTableDropDownLabel.click();
-      users.dropdownTenantStatuses.get(0).click(); // Disabled
-      users.dropdownTenantStatuses.get(3).click(); // Accepted
+      users.dropdownTenantStatuses.get(1).click(); // Unselect Expired
+      users.dropdownTenantStatuses.get(2).click(); // Unselect Pending Invitation
+      users.dropdownTenantStatuses.get(4).click(); // Unselect Pending Acceptance
+      users.dropdownTenantStatuses.get(5).click(); // Unselect Removed
+
       // All input is unselected
       expect(users.dropdownTenantStatusInputs.get(0).isSelected()).toBeFalsy();
 
@@ -376,8 +413,14 @@ describe('The users view', function() {
     }).then(function() {
       shared.tableColumnsDropDown.click();
 
+      // Leave only Accepted selected
       users.tenantStatusTableDropDownLabel.click();
-      users.dropdownTenantStatuses.get(3).click(); // Accepted
+      users.dropdownTenantStatuses.get(0).click(); // Unselect Disabled
+      users.dropdownTenantStatuses.get(1).click(); // Unselect Expired
+      users.dropdownTenantStatuses.get(2).click(); // Unselect Pending Invitation
+      users.dropdownTenantStatuses.get(4).click(); // Unselect Pending Acceptance
+      users.dropdownTenantStatuses.get(5).click(); // Unselect Removed
+
       // All input is unselected
       expect(users.dropdownTenantStatusInputs.get(0).isSelected()).toBeFalsy();
 
@@ -423,8 +466,14 @@ describe('The users view', function() {
     }).then(function() {
       shared.tableColumnsDropDown.click();
 
+      // Leave only Accepted selected
       users.tenantStatusTableDropDownLabel.click();
-      users.dropdownTenantStatuses.get(3).click(); // Accepted
+      users.dropdownTenantStatuses.get(0).click(); // Unselect Disabled
+      users.dropdownTenantStatuses.get(1).click(); // Unselect Expired
+      users.dropdownTenantStatuses.get(2).click(); // Unselect Pending Invitation
+      users.dropdownTenantStatuses.get(4).click(); // Unselect Pending Acceptance
+      users.dropdownTenantStatuses.get(5).click(); // Unselect Removed
+
       // All input is unselected
       expect(users.dropdownTenantStatusInputs.get(0).isSelected()).toBeFalsy();
 
@@ -446,15 +495,17 @@ describe('The users view', function() {
             expect(shared.confirmModalMsg.getText()).toBe('This will disable this user and prevent them from logging in. Do you want to continue?');
             shared.confirmModalOkBtn.click();
             expect(shared.confirmModal.isPresent()).toBeFalsy();
-            users.submitFormBtn.click().then(function() {
-              shared.waitForSuccess();
 
-              // User status is changed
-              expect(users.activeFormToggle.isEnabled()).toBeTruthy();
-              expect(users.activeToggleInput.isSelected()).toBeFalsy();
+            users.emailLabel.getText().then(function(userEmail) {
+              updatedUserEmail = userEmail; // Used in another test
 
-              users.emailLabel.getText().then(function(userEmail) {
-                updatedUserEmail = userEmail;
+              users.submitFormBtn.click().then(function() {
+                shared.waitForSuccess();
+
+                // User status is changed
+                expect(users.activeFormToggle.isEnabled()).toBeTruthy();
+                expect(users.activeToggleInput.isSelected()).toBeFalsy();
+
                 browser.refresh();
 
                 // Ensure user status persists
@@ -482,8 +533,14 @@ describe('The users view', function() {
     }).then(function() {
       shared.tableColumnsDropDown.click();
 
+      // Leave only Disabled selected
       users.tenantStatusTableDropDownLabel.click();
-      users.dropdownTenantStatuses.get(0).click(); // Disabled
+      users.dropdownTenantStatuses.get(1).click(); // Unselect Expired
+      users.dropdownTenantStatuses.get(2).click(); // Unselect Pending Invitation
+      users.dropdownTenantStatuses.get(3).click(); // Unselect Accepted
+      users.dropdownTenantStatuses.get(4).click(); // Unselect Pending Acceptance
+      users.dropdownTenantStatuses.get(5).click(); // Unselect Removed
+
       // All input is unselected
       expect(users.dropdownTenantStatusInputs.get(0).isSelected()).toBeFalsy();
 
@@ -559,10 +616,11 @@ describe('The users view', function() {
     it('should only display confirm dialog once when switching selected elements', function() {
       //Dirty the bulk action form
       shared.actionsBtn.click();
-      users.statusBulkEnableCheck.click();
+      users.selectBulkEnable.click();
 
       //Select a table item and dismiss the expected alert
       shared.firstTableRow.click();
+      shared.waitForAlert();
       shared.dismissChanges();
 
       //Select another table item and expect there not to be an alert

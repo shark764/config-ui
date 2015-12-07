@@ -137,7 +137,7 @@ describe('The unsaved changes warning', function() {
     alertDialog.accept();
 
     // Panel is hidden
-    expect(shared.rightPanel.isDisplayed()).toBeFalsy();
+    expect(shared.detailsPanel.isDisplayed()).toBeFalsy();
   });
 
   it('should be closed after selecting cancel and dismissing warning', function() {
@@ -320,7 +320,7 @@ describe('The unsaved changes warning', function() {
       alertDialog = browser.switchTo().alert();
       alertDialog.accept();
       expect(bulkActions.bulkActionsForm.isDisplayed()).toBeFalsy();
-      expect(shared.rightPanel.isDisplayed()).toBeTruthy();
+      expect(shared.detailsPanel.isDisplayed()).toBeTruthy();
 
       shared.createBtn.click();
       users.emailFormField.sendKeys('test');
@@ -344,7 +344,7 @@ describe('The unsaved changes warning', function() {
         alertDialog = browser.switchTo().alert();
         alertDialog.accept();
         expect(bulkActions.bulkActionsForm.isDisplayed()).toBeFalsy();
-        expect(shared.rightPanel.isDisplayed()).toBeTruthy();
+        expect(shared.detailsPanel.isDisplayed()).toBeTruthy();
 
         users.firstNameFormField.sendKeys('test');
         shared.actionsBtn.click();

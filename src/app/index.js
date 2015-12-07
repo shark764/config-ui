@@ -103,14 +103,47 @@ angular.module('liveopsConfigPanel', ['ui.router', 'ngResource', 'liveopsConfigP
           }]
         }
       })
-      .state('content.configuration.lists', {
+      .state('content.configuration.genericLists', {
         url: '/lists?id',
-        templateUrl: 'app/components/configuration/lists/lists.html',
-        controller: 'listsController',
+        templateUrl: 'app/components/configuration/genericLists/genericLists.html',
+        controller: 'genericListsController',
         reloadOnSearch: false,
         resolve: {
           hasPermission: ['UserPermissions', function(UserPermissions) {
-            return UserPermissions.resolvePermissions([]);
+            return UserPermissions.resolvePermissions(['MANAGE_ALL_LISTS']);
+          }]
+        }
+      })
+      .state('content.configuration.code', {
+        url: '/code',
+        abstract: true,
+        template: '<ui-view />'
+      })
+      .state('content.configuration.dispositions', {
+        url: '/dispositions?index',
+        templateUrl: 'app/components/configuration/genericItems/genericItems.html',
+        controller: 'genericItemsController',
+        reloadOnSearch: false,
+        params: {
+          listId: 'c9d31830-9499-11e5-b3ac-c1ae7ae4ed37',
+        },
+        resolve: {
+          hasPermission: ['UserPermissions', function(UserPermissions) {
+            return UserPermissions.resolvePermissions(['MANAGE_ALL_LISTS']);
+          }]
+        }
+      })
+      .state('content.configuration.reasons', {
+        url: '/reasons?index',
+        templateUrl: 'app/components/configuration/genericItems/genericItems.html',
+        controller: 'genericItemsController',
+        reloadOnSearch: false,
+        params: {
+          listId: 'c9d31830-9499-11e5-b3ac-c1ae7ae4ed37',
+        },
+        resolve: {
+          hasPermission: ['UserPermissions', function(UserPermissions) {
+            return UserPermissions.resolvePermissions(['MANAGE_ALL_LISTS']);
           }]
         }
       })
