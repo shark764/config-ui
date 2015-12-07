@@ -452,6 +452,8 @@
   "list.items.required": "List needs at least one item.",
   "list.items.header": "List Item(s)",
   "list.table.title": "List Item(s)",
+  "list.details.disable.confirm": "Are you sure you want to disable this list?",
+  "list.details.enable.confirm": "Are you sure you want to enable this list?",
 
   "webrtc": "WebRTC",
   "twilio": "Twilio",
