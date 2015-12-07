@@ -24,6 +24,9 @@ angular.module('liveopsConfigPanel')
             return $scope.tenantUser.save({
               tenantId: Session.tenant.tenantId
             }).then(function(tenantUser) {
+              $scope.newExtension = {};
+              $scope.newExtension.type = 'webrtc';
+              
               $scope.reset();
 
               return tenantUser;
@@ -64,9 +67,6 @@ angular.module('liveopsConfigPanel')
           };
 
           $scope.reset = function () {
-            $scope.newExtension = {};
-            $scope.newExtension.type = 'webrtc';
-            
             $scope.newExtension.provider = null;
             $scope.newExtension.description = null;
             $scope.phoneNumber = null;

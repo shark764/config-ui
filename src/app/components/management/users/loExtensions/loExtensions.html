@@ -42,10 +42,10 @@
           error-type-pattern="{{'details.extensions.sipformat.error' | translate}}" >
         </form-error>
         
-        <div class="secondary-field-col" ng-show="newExtension.type === 'webrtc'">
+        <div ng-show="newExtension.type == 'webrtc'" class="secondary-field-col">
           <select id="extension-provider-dropdown" name="provider"
             ng-disabled="ngDisabled"
-            ng-required="newExtension.type === 'webrtc'"
+            ng-required="newExtension.type == 'webrtc'"
             ng-class="{'default-selected': ! newExtension.provider}"
             ng-model="newExtension.provider"
             ng-options="provider.value as provider.display for provider in loExtensionProviders">
@@ -55,10 +55,10 @@
           </select>
         </div>
         
-        <div ng-show="newExtension.type === 'pstn'" class="secondary-field-col phone-number-col"  >
+        <div ng-show="newExtension.type == 'pstn'" class="secondary-field-col phone-number-col"  >
           <input id="extension-value-field" type="tel" name="telValue"
             ng-disabled="ngDisabled"
-            ng-required="newExtension.type === 'pstn'"
+            ng-required="newExtension.type == 'pstn'"
             placeholder="{{'details.extension.value' | translate}}"
             ng-model="phoneNumber">
           </input>
@@ -72,10 +72,10 @@
           </input>
         </div>
         
-        <div ng-show="newExtension.type === 'sip'" class="secondary-field-col">
-            <input ng-show="newExtension.type === 'sip'" id="extension-value-field" type="text" name="sipValue"
+        <div ng-show="newExtension.type == 'sip'" class="secondary-field-col">
+            <input id="extension-value-field" type="text" name="sipValue"
             ng-disabled="ngDisabled"
-            ng-required="newExtension.type === 'sip'"
+            ng-required="newExtension.type == 'sip'"
             ng-pattern="sipPattern"
             placeholder="{{'details.extension.value' | translate}}"
             ng-model="sipExtension">
