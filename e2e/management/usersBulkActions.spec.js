@@ -29,8 +29,8 @@ describe('The users view bulk actions', function() {
     shared.actionsBtn.click();
 
     // Enable Users
-    expect(bulkActions.userSelectEnable.isDisplayed()).toBeTruthy();
-    expect(bulkActions.enableToggle.isDisplayed()).toBeTruthy();
+    expect(users.selectBulkEnable.isDisplayed()).toBeTruthy();
+    expect(users.enableBulkDropdown.isDisplayed()).toBeTruthy();
 
     // Invite actions
     expect(bulkActions.selectInviteNow.isDisplayed()).toBeTruthy();
@@ -64,7 +64,7 @@ describe('The users view bulk actions', function() {
     shared.actionsBtn.click();
 
     // User's bulk actions fields are disabled by default
-    expect(bulkActions.enableToggle.getAttribute('disabled')).toBeTruthy();
+    expect(users.enableBulkDropdown.getAttribute('disabled')).toBeTruthy();
 
     // Skill fields disabled
     expect(bulkActions.addNewSkillBtn.getAttribute('disabled')).toBeTruthy();
@@ -90,7 +90,8 @@ describe('The users view bulk actions', function() {
     bulkActions.selectAllTableHeader.click();
 
     shared.actionsBtn.click();
-    bulkActions.userSelectEnable.click();
+    users.selectBulkEnable.click();
+    users.disableBulkDropdownOption.click();
 
     bulkActions.submitFormBtn.click();
 
@@ -103,7 +104,7 @@ describe('The users view bulk actions', function() {
 
       // Form not reset
       expect(bulkActions.submitFormBtn.getAttribute('disabled')).toBeFalsy();
-      expect(bulkActions.enableToggle.getAttribute('disabled')).toBeFalsy();
+      expect(users.enableBulkDropdown.getAttribute('disabled')).toBeFalsy();
     });
   });
 
@@ -119,9 +120,13 @@ describe('The users view bulk actions', function() {
     }).then(function() {
       shared.tableColumnsDropDown.click().then(function() {
 
-        // Select Accepted from Tenant Status drop down
+        // Leave Accepted from Tenant Status drop down selected
         users.tenantStatusTableDropDownLabel.click();
-        users.dropdownTenantStatuses.get(3).click();
+        users.dropdownTenantStatuses.get(0).click();
+        users.dropdownTenantStatuses.get(1).click();
+        users.dropdownTenantStatuses.get(2).click();
+        users.dropdownTenantStatuses.get(4).click();
+        users.dropdownTenantStatuses.get(5).click();
 
         shared.tableElements.count().then(function(acceptedUserCount) {
           if (acceptedUserCount > 1) { // Ignore current user
@@ -136,7 +141,8 @@ describe('The users view bulk actions', function() {
               });
             });
 
-            bulkActions.userSelectEnable.click();
+            users.selectBulkEnable.click();
+            users.disableBulkDropdownOption.click();
 
             expect(bulkActions.submitFormBtn.getAttribute('disabled')).toBeFalsy();
             bulkActions.submitFormBtn.click();
@@ -166,10 +172,13 @@ describe('The users view bulk actions', function() {
               // Verify users status updates persist
               browser.refresh();
 
-              // Select Disabled from Tenant Status drop down
+              // Leave Disabled selected from Tenant Status drop down
               bulkActions.tenantStatusColumnDropDownLabel.click();
+              bulkActions.tenantStatuses.get(1).click();
+              bulkActions.tenantStatuses.get(2).click();
               bulkActions.tenantStatuses.get(3).click();
-              bulkActions.tenantStatuses.get(0).click();
+              bulkActions.tenantStatuses.get(4).click();
+              bulkActions.tenantStatuses.get(5).click();
               bulkActions.tenantStatusColumnDropDownLabel.click();
               shared.tableElements.count().then(function(disabledTotal) {
                 expect(disabledTotal).not.toBeLessThan(Math.min(acceptedUserCount - 1, 9)); // Should be at least equal to the number reset - current user
@@ -193,9 +202,13 @@ describe('The users view bulk actions', function() {
     }).then(function() {
       shared.tableColumnsDropDown.click().then(function() {
 
-        // Select Disabled from Tenant Status drop down
+        // Leave Disabled selected from Tenant Status drop down
         users.tenantStatusTableDropDownLabel.click();
-        users.dropdownTenantStatuses.get(0).click();
+        users.dropdownTenantStatuses.get(1).click();
+        users.dropdownTenantStatuses.get(2).click();
+        users.dropdownTenantStatuses.get(3).click();
+        users.dropdownTenantStatuses.get(4).click();
+        users.dropdownTenantStatuses.get(5).click();
 
         shared.tableElements.count().then(function(disabledUserCount) {
           if (disabledUserCount > 0) {
@@ -210,8 +223,9 @@ describe('The users view bulk actions', function() {
               });
             });
 
-            bulkActions.userSelectEnable.click().then(function() {
-              bulkActions.enableToggleSwitch.click();
+            users.selectBulkEnable.click().then(function() {
+              users.enableBulkDropdown.click();
+              users.enableBulkDropdownOption.click();
 
               bulkActions.submitFormBtn.click();
 
@@ -242,7 +256,11 @@ describe('The users view bulk actions', function() {
 
                 // No users are disabled
                 users.tenantStatusTableDropDownLabel.click();
-                users.dropdownTenantStatuses.get(0).click();
+                users.dropdownTenantStatuses.get(1).click();
+                users.dropdownTenantStatuses.get(2).click();
+                users.dropdownTenantStatuses.get(3).click();
+                users.dropdownTenantStatuses.get(4).click();
+                users.dropdownTenantStatuses.get(5).click();
                 bulkActions.tenantStatusColumnDropDownLabel.click();
                 expect(shared.tableElements.count()).toBe(0);
 
@@ -740,8 +758,8 @@ describe('The users view bulk actions', function() {
         // Verify groups are removed for each user
         for (var i = 0; i < 2; i++) {
           shared.tableElements.get(i).click();
-          users.noUserGroupsMessage.isDisplayed().then(function (userHasNoGroups) {
-            if(!userHasNoGroups){
+          users.noUserGroupsMessage.isDisplayed().then(function(userHasNoGroups) {
+            if (!userHasNoGroups) {
               // User remains in 'everyone' group
               expect(users.userGroups.count()).toBe(1);
               expect(users.userGroups.get(0).getText()).toBe('everyone');
@@ -822,7 +840,8 @@ describe('The users view bulk actions', function() {
         }
         // Expect selected number of items to be displayed in the confirm modal
         shared.actionsBtn.click();
-        bulkActions.userSelectEnable.click();
+        users.selectBulkEnable.click();
+        users.disableBulkDropdownOption.click();
 
         bulkActions.submitFormBtn.click();
 

@@ -32,7 +32,7 @@ describe('The tenants view', function() {
 
     expect(shared.table.isDisplayed()).toBeTruthy();
     expect(shared.searchField.isDisplayed()).toBeTruthy();
-    expect(shared.rightPanel.isDisplayed()).toBeFalsy(); //Hide side panel by default
+    expect(shared.detailsPanel.isDisplayed()).toBeFalsy(); //Hide side panel by default
     expect(shared.actionsBtn.isDisplayed()).toBeTruthy();
     expect(shared.createBtn.isDisplayed()).toBeTruthy();
     expect(shared.tableColumnsDropDown.isDisplayed()).toBeTruthy();
@@ -62,39 +62,13 @@ describe('The tenants view', function() {
     });
   });
 
-  it('should display users email in the admin dropdown when name is blank', function() {
-    // Remove current user's first and last name
-    browser.get(shared.profilePageUrl);
-    profile.firstNameFormField.clear();
-    profile.lastNameFormField.clear();
-
-    profile.updateProfileBtn.click().then(function() {
-      expect(shared.successMessage.isPresent()).toBeTruthy();
-
-      // Verify that the user's email is displayed in the admin dropdown
-      browser.get(shared.tenantsPageUrl);
-      shared.createBtn.click();
-
-      expect(tenants.adminFormDropDown.$('option:checked').getText()).toBe(params.login.user);
-    }).then(function() {
-      // Reset users name
-      browser.get(shared.profilePageUrl);
-      profile.firstNameFormField.sendKeys(params.login.firstName);
-      profile.lastNameFormField.sendKeys(params.login.lastName);
-      profile.updateProfileBtn.click();
-      shared.waitForSuccess();
-      expect(shared.successMessage.isPresent()).toBeTruthy();
-    });
-  });
-
   it('should display tenant details when selected from table', function() {
     tenants.firstTableRow.click();
 
     // Verify tenant name in table matches populated field
     expect(tenants.firstTableRow.element(by.css(tenants.nameColumn)).getText()).toContain(tenants.nameFormField.getAttribute('value'));
     expect(tenants.region.isDisplayed()).toBeTruthy();
-    // TODO TITAN2-5426
-    //expect(tenants.firstTableRow.element(by.css(tenants.parentColumn)).getText()).toContain(tenants.parentName.getText());
+    expect(tenants.firstTableRow.element(by.css(tenants.parentColumn)).getText()).toContain(tenants.parentName.getText());
 
     tenants.secondTableRow.isPresent().then(function(secondRowExists) {
       if (secondRowExists) {
@@ -103,8 +77,7 @@ describe('The tenants view', function() {
 
         expect(tenants.secondTableRow.element(by.css(tenants.nameColumn)).getText()).toContain(tenants.nameFormField.getAttribute('value'));
         expect(tenants.region.isDisplayed()).toBeTruthy();
-        // TODO TITAN2-5426
-        //expect(tenants.secondTableRow.element(by.css(tenants.parentColumn)).getText()).toContain(tenants.parentName.getText());
+        expect(tenants.secondTableRow.element(by.css(tenants.parentColumn)).getText()).toContain(tenants.parentName.getText());
       }
     });
   });

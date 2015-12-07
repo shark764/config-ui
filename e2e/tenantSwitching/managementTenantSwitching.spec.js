@@ -33,14 +33,14 @@ describe('When switching tenants', function() {
   afterAll(function() {
     shared.tearDown();
   });
-
+  // TODO Bug TITAN2-5854
   describe('Users Management page', function() {
     beforeAll(function() {
       browser.get(shared.usersPageUrl);
       elementCount = shared.tableElements.count();
     });
 
-    it('should display the correct users for the current tenant', function() {
+    xit('should display the correct users for the current tenant', function() {
       // New tenant should only have 1 user by default
       expect(elementCount).toBe(1);
 
@@ -49,7 +49,7 @@ describe('When switching tenants', function() {
       expect(shared.firstTableRow.getText()).toContain(params.login.user);
     });
 
-    it('should display the correct User Details for the Current user for the new tenant', function() {
+    xit('should display the correct User Details for the Current user for the new tenant', function() {
       // Current user should default to Administrator role in the new tenant and be Accepted by default
       expect(shared.firstTableRow.getText()).toContain('Administrator');
       expect(shared.firstTableRow.getText()).toContain('Accepted');
@@ -67,7 +67,7 @@ describe('When switching tenants', function() {
       expect(users.emailLabel.getText()).toBe(params.login.user);
     });
 
-    it('should display the correct Skills and Groups available for the current tenant', function() {
+    xit('should display the correct Skills and Groups available for the current tenant', function() {
       // There should be no Skills or Groups available for the new tenant
       users.addSkillSearch.click();
       expect(users.skillDropdownItems.count()).toBe(0);
@@ -77,7 +77,7 @@ describe('When switching tenants', function() {
       expect(users.groupDropdownItems.count()).toBe(0); // Already added to the current user
     });
 
-    it('should display the correct Roles available for the current tenant', function() {
+    xit('should display the correct Roles available for the current tenant', function() {
       shared.createBtn.click();
 
       // Only the default roles are displayed
@@ -89,7 +89,7 @@ describe('When switching tenants', function() {
       expect(users.tenantRoleFormDropdownOptions.get(3).getText()).toBe('Agent');
     });
 
-    it('should create a new User in one and not the previous', function() {
+    xit('should create a new User in one and not the previous', function() {
       // Create User in new tenant
       var randomUser = Math.floor((Math.random() * 1000) + 1);
       var newTenantEmail = 'NewTenantUser' + randomUser + '@mailinator.com';
@@ -173,7 +173,7 @@ describe('When switching tenants', function() {
         });
       });
 
-      it('should update details for both tenants', function() {
+      xit('should update details for both tenants', function() {
         // Select new user in new tenant
         shared.searchField.sendKeys(mutualUserEmail);
         shared.firstTableRow.click();
@@ -226,7 +226,7 @@ describe('When switching tenants', function() {
         });
       });
 
-      it('should not update Skills and Groups for both tenants', function() {
+      xit('should not update Skills and Groups for both tenants', function() {
         // Select new user in default tenant
         tenants.selectTenant(defaultTenantName);
         shared.searchField.sendKeys(mutualUserEmail);
@@ -247,6 +247,55 @@ describe('When switching tenants', function() {
         expect(users.userSkills.count()).toBe(0);
         expect(users.noUserSkillsMessage.isDisplayed()).toBeTruthy();
       });
+
+      // TITAN2-5730
+      xit('should reset fields after changing email from existing user to new user', function() {
+        // Create new user in default tenant
+        tenants.selectTenant(defaultTenantName);
+        var randomUser = Math.floor((Math.random() * 1000) + 1);
+
+        shared.createBtn.click();
+        users.emailFormField.sendKeys('newtenantuser' + randomUser + '@mailinator.com\t');
+        users.tenantRoleFormDropdownOptions.get(1).click();
+        users.platformRoleFormDropdownOptions.get(1).click();
+
+        users.firstNameFormField.sendKeys('Mutual ' + randomUser);
+        users.lastNameFormField.sendKeys('User ' + randomUser);
+        users.submitFormBtn.click().then(function() {
+          expect(shared.successMessage.isDisplayed()).toBeTruthy();
+
+          // Begin to add new user to New tenant
+          tenants.selectTenant(newTenantName);
+
+          shared.createBtn.click();
+          users.emailFormField.sendKeys('newtenantuser' + randomUser + '@mailinator.com\t');
+          users.tenantRoleFormDropdownOptions.get(1).click();
+
+          // User name fields are disabled; message displayed
+          expect(users.userAlreadyExistsAlert.isDisplayed()).toBeTruthy();
+          expect(users.firstNameFormField.isEnabled()).toBeFalsy();
+          expect(users.lastNameFormField.isEnabled()).toBeFalsy();
+          expect(users.externalIdFormField.isEnabled()).toBeFalsy();
+          expect(users.platformRoleFormDropdown.isDisplayed()).toBeFalsy();
+          expect(users.firstNameFormField.getAttribute('value')).toBe('');
+          expect(users.lastNameFormField.getAttribute('value')).toBe('');
+          expect(users.externalIdFormField.getAttribute('value')).toBe('');
+
+          // Fields are reset when user email is changed to new user
+          users.emailFormField.clear();
+          users.emailFormField.sendKeys('anothernewtenantuser' + randomUser + '@mailinator.com\t');
+          expect(users.userAlreadyExistsAlert.isDisplayed()).toBeFalsy();
+          expect(users.firstNameFormField.isEnabled()).toBeTruthy();
+          expect(users.lastNameFormField.isEnabled()).toBeTruthy();
+          expect(users.externalIdFormField.isEnabled()).toBeTruthy();
+          expect(users.platformRoleFormDropdown.isDisplayed()).toBeTruthy();
+          expect(users.firstNameFormField.getAttribute('value')).toBe('');
+          expect(users.lastNameFormField.getAttribute('value')).toBe('');
+          expect(users.externalIdFormField.getAttribute('value')).toBe('');
+
+        });
+
+      });
     });
   });
 
@@ -256,11 +305,11 @@ describe('When switching tenants', function() {
       elementCount = shared.tableElements.count();
     });
 
-    it('should display the correct Skills for the current tenant', function() {
+    xit('should display the correct Skills for the current tenant', function() {
       expect(elementCount).toBe(0);
     });
 
-    it('should create a new Skill in one and not the previous', function() {
+    xit('should create a new Skill in one and not the previous', function() {
       // Create skill in new tenant
       var newTenantSkill = 'New Tenant Skill ' + Math.floor((Math.random() * 1000) + 1);
       shared.createBtn.click();
@@ -307,7 +356,7 @@ describe('When switching tenants', function() {
       elementCount = shared.tableElements.count();
     });
 
-    it('should display the correct Groups for the current tenant', function() {
+    xit('should display the correct Groups for the current tenant', function() {
       // everyone group added to the new tenant by default
       expect(elementCount).toBe(1);
       expect(shared.firstTableRow.getText()).toContain('everyone');
@@ -319,7 +368,7 @@ describe('When switching tenants', function() {
       expect(groups.groupMembersRows.get(0).getText()).toBe(params.login.firstName + ' ' + params.login.lastName);
     });
 
-    it('should create a new Group in one and not the previous', function() {
+    xit('should create a new Group in one and not the previous', function() {
       // Create Group in new tenant
       var newTenantGroup = 'New Tenant Group ' + Math.floor((Math.random() * 1000) + 1);
       shared.createBtn.click();
@@ -365,7 +414,7 @@ describe('When switching tenants', function() {
       elementCount = shared.tableElements.count();
     });
 
-    it('should display the correct Roles for the current tenant', function() {
+    xit('should display the correct Roles for the current tenant', function() {
       expect(elementCount).toBe(3);
 
       expect(shared.tableRows.get(0).getText()).toContain('Administrator\ntenant administrator\n35');
@@ -373,7 +422,7 @@ describe('When switching tenants', function() {
       expect(shared.tableRows.get(2).getText()).toContain('Supervisor\ntenant supervisor\n6');
     });
 
-    it('should create a new Role in one and not the previous', function() {
+    xit('should create a new Role in one and not the previous', function() {
       // Create Role in new tenant
       var newTenantRole = 'New Tenant Role ' + Math.floor((Math.random() * 1000) + 1);
       shared.createBtn.click();

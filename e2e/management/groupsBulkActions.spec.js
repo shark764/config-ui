@@ -41,7 +41,7 @@ describe('The groups view bulk actions', function() {
 
     // Enable Groups
     expect(bulkActions.selectEnable.isDisplayed()).toBeTruthy();
-    expect(bulkActions.enableToggle.isDisplayed()).toBeTruthy();
+    expect(bulkActions.enableDropdown.isDisplayed()).toBeTruthy();
   });
 
   it('should not allow updates to Everyone group', function() {
@@ -52,6 +52,7 @@ describe('The groups view bulk actions', function() {
 
         shared.actionsBtn.click();
         bulkActions.selectEnable.click();
+        bulkActions.disableDropdownOption.click();
 
         expect(bulkActions.submitFormBtn.getAttribute('disabled')).toBeFalsy();
         bulkActions.submitFormBtn.click();
@@ -87,6 +88,7 @@ describe('The groups view bulk actions', function() {
     });
 
     bulkActions.selectEnable.click();
+    bulkActions.disableDropdownOption.click();
 
     expect(bulkActions.submitFormBtn.getAttribute('disabled')).toBeFalsy();
     bulkActions.submitFormBtn.click();
@@ -96,9 +98,9 @@ describe('The groups view bulk actions', function() {
       expect(shared.successMessage.isDisplayed()).toBeTruthy();
 
       // All groups are set to disabled
-      // Select Disabled from Status drop down
+      // Leave Disabled selected from Status drop down
       bulkActions.statusColumnDropDownLabel.click();
-      bulkActions.statuses.get(0).click();
+      bulkActions.statuses.get(1).click();
       shared.tableElements.count().then(function(disabledTotal) {
         expect(disabledTotal).toBe(groupCount - numEveryoneGroups);
       });
@@ -126,7 +128,7 @@ describe('The groups view bulk actions', function() {
     });
 
     bulkActions.selectEnable.click().then(function() {
-      bulkActions.enableToggleClick.click();
+      bulkActions.enableDropdownOption.click();
 
       expect(bulkActions.submitFormBtn.getAttribute('disabled')).toBeFalsy();
       bulkActions.submitFormBtn.click();
@@ -135,9 +137,9 @@ describe('The groups view bulk actions', function() {
         expect(shared.successMessage.isDisplayed()).toBeTruthy();
 
         // All groups are set to enabled
-        // Select Disabled from Status drop down
+        // Leave Disabled selected from Status drop down
         bulkActions.statusColumnDropDownLabel.click();
-        bulkActions.statuses.get(0).click();
+        bulkActions.statuses.get(1).click();
         shared.tableElements.count().then(function(disabledTotal) {
           expect(disabledTotal).toBe(0);
         });
@@ -157,11 +159,11 @@ describe('The groups view bulk actions', function() {
     bulkActions.selectAllTableHeader.click();
 
     bulkActions.selectEnable.click();
-    bulkActions.enableToggle.click();
+    bulkActions.enableDropdownOption.click();
 
     // Disable Enable toggle
     bulkActions.selectEnable.click();
-    expect(bulkActions.enableToggle.getAttribute('disabled')).toBeTruthy();
+    expect(bulkActions.enableDropdown.getAttribute('disabled')).toBeTruthy();
 
     // No bulk actions to perform
     expect(bulkActions.submitFormBtn.getAttribute('disabled')).toBeTruthy();
@@ -187,6 +189,7 @@ describe('The groups view bulk actions', function() {
 
       // Disable selected Groups
       bulkActions.selectEnable.click();
+      bulkActions.disableDropdownOption.click();
 
       bulkActions.submitFormBtn.click().then(function() {
         expect(bulkActions.confirmModal.isDisplayed()).toBeTruthy();

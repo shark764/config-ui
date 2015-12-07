@@ -39,7 +39,7 @@ describe('The skills view bulk actions', function() {
 
     // Enable Skills
     expect(bulkActions.selectEnable.isDisplayed()).toBeTruthy();
-    expect(bulkActions.enableToggle.isDisplayed()).toBeTruthy();
+    expect(bulkActions.enableDropdown.isDisplayed()).toBeTruthy();
 
     // Add Proficiency
     expect(bulkActions.selectProficiency.isDisplayed()).toBeTruthy();
@@ -52,6 +52,7 @@ describe('The skills view bulk actions', function() {
     bulkActions.selectAllTableHeader.click();
 
     bulkActions.selectEnable.click();
+    bulkActions.disableDropdownOption.click();
 
     expect(bulkActions.submitFormBtn.getAttribute('disabled')).toBeFalsy();
     bulkActions.submitFormBtn.click();
@@ -61,9 +62,9 @@ describe('The skills view bulk actions', function() {
       expect(shared.successMessage.isDisplayed()).toBeTruthy();
 
       // All skills are set to disabled
-      // Select Disabled from Status drop down
+      // Leave Disabled selected from Status drop down
       bulkActions.statusColumnDropDownLabel.click();
-      bulkActions.statuses.get(0).click();
+      bulkActions.statuses.get(1).click();
       shared.tableElements.count().then(function(disabledTotal) {
         expect(disabledTotal).toBe(skillCount);
       });
@@ -83,7 +84,7 @@ describe('The skills view bulk actions', function() {
     bulkActions.selectAllTableHeader.click();
 
     bulkActions.selectEnable.click();
-    bulkActions.enableToggleClick.click();
+    bulkActions.enableDropdownOption.click();
 
     expect(bulkActions.submitFormBtn.getAttribute('disabled')).toBeFalsy();
     bulkActions.submitFormBtn.click();
@@ -93,9 +94,9 @@ describe('The skills view bulk actions', function() {
       expect(shared.successMessage.isDisplayed()).toBeTruthy();
 
       // All skills are set to enabled
-      // Select Disabled from Status drop down
+      // Leave Disabled selected from Status drop down
       bulkActions.statusColumnDropDownLabel.click();
-      bulkActions.statuses.get(0).click();
+      bulkActions.statuses.get(1).click();
       shared.tableElements.count().then(function(disabledTotal) {
         expect(disabledTotal).toBe(0);
       });
@@ -114,12 +115,12 @@ describe('The skills view bulk actions', function() {
     bulkActions.selectAllTableHeader.click();
 
     bulkActions.selectEnable.click();
-    bulkActions.enableToggle.click();
+    bulkActions.enableDropdownOption.click();
     bulkActions.selectProficiency.click();
 
     // Disable Enable toggle
     bulkActions.selectEnable.click();
-    expect(bulkActions.enableToggle.getAttribute('disabled')).toBeTruthy();
+    expect(bulkActions.enableDropdown.getAttribute('disabled')).toBeTruthy();
 
     // Disable Proficiency
     bulkActions.selectProficiency.click();
@@ -140,6 +141,7 @@ describe('The skills view bulk actions', function() {
     bulkActions.selectItemTableCells.get(0).click();
 
     bulkActions.selectEnable.click();
+    bulkActions.disableDropdownOption.click();
     bulkActions.selectProficiency.click();
 
     expect(bulkActions.submitFormBtn.getAttribute('disabled')).toBeFalsy();
@@ -220,6 +222,7 @@ describe('The skills view bulk actions', function() {
 
       // Disable selected Skills
       bulkActions.selectEnable.click();
+      bulkActions.disableDropdownOption.click();
 
       bulkActions.submitFormBtn.click();
 

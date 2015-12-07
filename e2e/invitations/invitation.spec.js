@@ -508,6 +508,8 @@ describe('The user invitation', function() {
     it('should not accept spaces as valid input', function() {
       browser.get(acceptInvitationLink);
 
+      invites.firstNameFormField.clear();
+      invites.lastNameFormField.clear();
       invites.firstNameFormField.sendKeys(' \t');
       invites.lastNameFormField.sendKeys(' \t');
       invites.externalIdFormField.sendKeys(' \t');
@@ -657,6 +659,7 @@ describe('The user invitation', function() {
     });
   });
 
+  // TODO Bug TITAN2-5854
   // For existing users
   describe('for inviting existing users not in the current tenant', function() {
     beforeAll(function() {
@@ -672,7 +675,7 @@ describe('The user invitation', function() {
       tenants.selectTenant(newTenantName);
     });
 
-    it('should display message but not user details', function() {
+    xit('should display message but not user details', function() {
       browser.get(shared.usersPageUrl);
       shared.createBtn.click();
 
@@ -701,7 +704,7 @@ describe('The user invitation', function() {
       expect(users.submitFormBtn.isEnabled()).toBeTruthy();
     });
 
-    it('should not send invitation email when Invite Now is deselected', function() {
+    xit('should not send invitation email when Invite Now is deselected', function() {
       browser.get(shared.usersPageUrl);
       shared.createBtn.click();
 
@@ -756,7 +759,7 @@ describe('The user invitation', function() {
       });
     });
 
-    it('should send invitation email when Invite Now is deselected and selecting Send Invitation', function() {
+    xit('should send invitation email when Invite Now is deselected and selecting Send Invitation', function() {
       browser.get(shared.usersPageUrl);
       shared.searchField.sendKeys('titantest' + randomUser + '@mailinator.com');
       shared.firstTableRow.click();
@@ -805,7 +808,7 @@ describe('The user invitation', function() {
       });
     });
 
-    it('should send invitation email', function() {
+    xit('should send invitation email', function() {
       // Create new Tenant that tests will use; admin defaults to current user
       browser.get(shared.tenantsPageUrl);
       newTenantName = tenants.createTenant();
@@ -873,7 +876,7 @@ describe('The user invitation', function() {
       });
     });
 
-    it('should not display user details before invitation is accepted', function() {
+    xit('should not display user details before invitation is accepted', function() {
       shared.searchField.sendKeys('titantest' + randomUser + '@mailinator.com');
       shared.firstTableRow.click();
 
@@ -890,14 +893,14 @@ describe('The user invitation', function() {
       expect(users.externalIdFormField.getAttribute('value')).toBe('');
     });
 
-    it('should link to login page instead of the acceptance form', function() {
+    xit('should link to login page instead of the acceptance form', function() {
       // NOTE: This test uses the acceptInvitationLink from the previous test
       browser.get(acceptInvitationLink);
 
       expect(browser.getCurrentUrl()).toContain(shared.loginPageUrl);
     });
 
-    it('should accept invitation after login', function() {
+    xit('should accept invitation after login', function() {
       browser.get(acceptInvitationLink);
 
       loginPage.emailLoginField.sendKeys('titantest' + randomUser + '@mailinator.com');
@@ -914,7 +917,7 @@ describe('The user invitation', function() {
       expect([newTenantName, defaultTenantName]).toContain(shared.tenantsNavDropdownContents.get(1).getText());
     });
 
-    it('should display user details after the invitation is accepted', function() {
+    xit('should display user details after the invitation is accepted', function() {
       shared.searchField.sendKeys('titantest' + randomUser + '@mailinator.com');
       shared.firstTableRow.click();
 

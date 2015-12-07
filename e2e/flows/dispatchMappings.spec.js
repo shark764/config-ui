@@ -224,7 +224,7 @@ describe('The dispatch mappings view', function() {
     expect(shared.navBar.isDisplayed()).toBeTruthy();
     expect(shared.table.isDisplayed()).toBeTruthy();
     expect(shared.searchField.isDisplayed()).toBeTruthy();
-    expect(shared.rightPanel.isDisplayed()).toBeFalsy(); //Right panel is hidden
+    expect(shared.detailsPanel.isDisplayed()).toBeFalsy(); //Right panel is hidden
     expect(shared.actionsBtn.isDisplayed()).toBeTruthy();
     expect(shared.createBtn.isDisplayed()).toBeTruthy();
     expect(shared.tableColumnsDropDown.isDisplayed()).toBeTruthy();
@@ -555,8 +555,8 @@ describe('The dispatch mappings view', function() {
   it('should require Phone field when editing a Dispatch Mapping', function() {
     // Filter table results so only dispatch Mappings with a phone number are visible
     dispatchMappings.interactionFieldDropDownLabel.click();
-    dispatchMappings.interactionFields.get(0).click();
-    dispatchMappings.interactionFields.get(1).click();
+    dispatchMappings.interactionFields.get(2).click();
+    dispatchMappings.interactionFields.get(3).click();
     dispatchMappings.interactionFieldDropDownLabel.click();
 
     shared.firstTableRow.click();
@@ -577,8 +577,8 @@ describe('The dispatch mappings view', function() {
   it('should require Valid Phone field when editing a Dispatch Mapping', function() {
     // Filter table results so only dispatch Mappings with a phone number are visible
     dispatchMappings.interactionFieldDropDownLabel.click();
-    dispatchMappings.interactionFields.get(0).click();
-    dispatchMappings.interactionFields.get(1).click();
+    dispatchMappings.interactionFields.get(2).click();
+    dispatchMappings.interactionFields.get(3).click();
 
     shared.firstTableRow.click();
 
@@ -598,8 +598,8 @@ describe('The dispatch mappings view', function() {
   it('should format Phone field when editing a Dispatch Mapping', function() {
     // Filter table results so only dispatch Mappings with a phone number are visible
     dispatchMappings.interactionFieldDropDownLabel.click();
-    dispatchMappings.interactionFields.get(0).click();
-    dispatchMappings.interactionFields.get(1).click();
+    dispatchMappings.interactionFields.get(2).click();
+    dispatchMappings.interactionFields.get(3).click();
 
     shared.firstTableRow.click();
 
@@ -617,8 +617,8 @@ describe('The dispatch mappings view', function() {
   it('should accept Euro phone number input in Phone field when editing a Dispatch Mapping', function() {
     // Filter table results so only dispatch Mappings with a phone number are visible
     dispatchMappings.interactionFieldDropDownLabel.click();
-    dispatchMappings.interactionFields.get(0).click();
-    dispatchMappings.interactionFields.get(1).click();
+    dispatchMappings.interactionFields.get(2).click();
+    dispatchMappings.interactionFields.get(3).click();
 
     shared.firstTableRow.click();
 

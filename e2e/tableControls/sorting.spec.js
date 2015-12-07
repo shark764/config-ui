@@ -881,6 +881,11 @@ describe('The table sorting', function() {
                 return text.toLowerCase();
               });
             }).then(function(strings) {
+              // Remove empty strings as sorting differs if the value was null
+              strings = strings.filter(function(n) {
+                return n;
+              });
+
               // get a copy of the array
               var sortedStrings = strings.slice();
 
@@ -903,6 +908,11 @@ describe('The table sorting', function() {
                   return text.toLowerCase();
                 });
               }).then(function(strings) {
+                // Remove empty strings as sorting differs if the value was null
+                strings = strings.filter(function(n) {
+                  return n;
+                });
+
                 // get a copy of the array
                 var sortedStrings = strings.slice();
 
@@ -1003,6 +1013,11 @@ describe('The table sorting', function() {
                 return text.toLowerCase();
               });
             }).then(function(strings) {
+              // Remove empty strings as sorting differs if the value was null
+              strings = strings.filter(function(n) {
+                return n;
+              });
+
               // get a copy of the array
               var sortedStrings = strings.slice();
 
@@ -1025,6 +1040,11 @@ describe('The table sorting', function() {
                   return text.toLowerCase();
                 });
               }).then(function(strings) {
+                // Remove empty strings as sorting differs if the value was null
+                strings = strings.filter(function(n) {
+                  return n;
+                });
+
                 // get a copy of the array
                 var sortedStrings = strings.slice();
 
