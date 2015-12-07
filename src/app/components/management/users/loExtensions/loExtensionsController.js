@@ -6,7 +6,8 @@ angular.module('liveopsConfigPanel')
       var vm = this;
       $scope.loExtensionProviders = loExtensionProviders;
       $scope.loExtensionTypes = loExtensionTypes;
-
+      $scope.sipPattern = '[s|S]{1}[i|I]{1}[p|P]{1}:.*';
+      
       $scope.newExtension = {};
 
       vm.save = function() {
@@ -20,7 +21,7 @@ angular.module('liveopsConfigPanel')
           $scope.newExtension.type = 'webrtc';
 
           angular.forEach([
-              'type', 'provider', 'value'
+              'type', 'provider', 'value', 'telValue', 'sipValue', 'description'
           ], function (field) {
             $scope.userTenantExtensionForm[field].$setPristine();
             $scope.userTenantExtensionForm[field].$setUntouched();

@@ -2,7 +2,6 @@
   ng-resource="tenantUser"
   separate-validation
   lo-form-submit
-  lo-form-reset
   lo-form-alert>
 
   <form-error field="userTenantExtensionForm.extensions"
@@ -21,9 +20,13 @@
         <form-error field="userTenantExtensionForm.provider"
           error-type-required="{{'details.extension.provider.required' | translate}}" >
         </form-error>
-        <form-error field="userTenantExtensionForm.value"
+        <form-error field="userTenantExtensionForm.telValue"
           error-type-required="{{'details.extension.value.required' | translate}}"
           error-type-phone-number="{{'details.phoneNumber.error' | translate}}" >
+        </form-error>
+        <form-error field="userTenantExtensionForm.sipValue"
+          error-type-required="{{'details.extension.value.required' | translate}}"
+          error-type-pattern="{{'details.extensions.sipformat.error' | translate}}" >
         </form-error>
         <div class="lo-extension-table-col">
           <select id="extension-type-dropdown" name="type"
@@ -31,7 +34,7 @@
             ng-required="true"
             ng-class="{'default-selected': ! newExtension.type}"
             ng-model="newExtension.type"
-            ng-change="clearValues()"
+            ng-change="reset()"
             ng-options="type.value as type.display for type in loExtensionTypes">
             <option class="disabled" value="" ng-disabled="true">
               {{'details.extension.type' | translate}}
@@ -39,7 +42,7 @@
           </select>
         </div>
         <div class="lo-extension-table-col secondary-field-col" ng-show="newExtension.type == 'webrtc'">
-          <select id="extension-provider-dropdown" name="value"
+          <select id="extension-provider-dropdown" name="provider"
             ng-disabled="ngDisabled"
             ng-required="true"
             ng-class="{'default-selected': ! newExtension.provider}"
@@ -50,18 +53,12 @@
             </option>
           </select>
         </div>
-        <div ng-show="newExtension.type === 'pstn' || newExtension.type === 'sip'" class="lo-extension-table-col secondary-field-col phone-number-col"  >
+        <div ng-show="newExtension.type === 'pstn'" class="lo-extension-table-col secondary-field-col phone-number-col"  >
           <input ng-show="newExtension.type === 'pstn'" id="extension-value-field" type="tel" name="telValue"
             ng-disabled="ngDisabled"
             ng-required="true"
             placeholder="{{'details.extension.value' | translate}}"
             ng-model="phoneNumber">
-          </input>
-          <input ng-show="newExtension.type === 'sip'" id="extension-value-field" type="text" name="sipValue"
-            ng-disabled="ngDisabled"
-            ng-required="true"
-            placeholder="{{'details.extension.value' | translate}}"
-            ng-model="sipExtension">
           </input>
           <input ng-show="newExtension.type === 'pstn'" id="extension-ext-field" type="text"
             style="width: 85px"
@@ -71,6 +68,15 @@
             ng-disabled="ngDisabled"
             ng-model="phoneExtension">
           </input>
+        </div>
+        <div div ng-show="newExtension.type === 'sip'" class="lo-extension-table-col secondary-field-col">
+            <input ng-show="newExtension.type === 'sip'" id="extension-value-field" type="text" name="sipValue"
+            ng-disabled="ngDisabled"
+            ng-required="true"
+            ng-pattern="sipPattern"
+            placeholder="{{'details.extension.value' | translate}}"
+            ng-model="sipExtension">
+            </input>
         </div>
         <button id="add-extension-btn" class="btn" type="button"
             style="width: 35px;"

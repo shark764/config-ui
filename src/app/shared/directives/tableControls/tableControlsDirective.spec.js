@@ -7,16 +7,18 @@ describe('tableControls directive', function () {
     $stateParams,
     element,
     isolateScope,
-    doCompile;
+    doCompile,
+    loEvents;
 
   beforeEach(module('liveopsConfigPanel'));
 
   beforeEach(module('gulpAngular'));
 
-  beforeEach(inject(['$compile', '$rootScope', '$stateParams',
-    function ($compile, $rootScope, _$stateParams_) {
+  beforeEach(inject(['$compile', '$rootScope', '$stateParams', 'loEvents',
+    function ($compile, $rootScope, _$stateParams_, _loEvents) {
       $scope = $rootScope.$new();
       $stateParams = _$stateParams_;
+      loEvents = _loEvents;
 
       $scope.config = {
         fields: [{
@@ -193,13 +195,18 @@ describe('tableControls directive', function () {
     }]));
 
     it('should emit the resource:selected event', inject(['$rootScope', function ($rootScope) {
-      spyOn($rootScope, '$broadcast');
+      $rootScope.$broadcast = jasmine.createSpy('$broadcast');
       isolateScope.selectItem({
         name: 'my item'
       });
-      expect($rootScope.$broadcast).toHaveBeenCalledWith('table:resource:selected', {
+      
+      expect($rootScope.$broadcast).toHaveBeenCalled();
+      expect($rootScope.$broadcast.calls.argsFor(0)[0]).toEqual(loEvents.tableControls.itemSelected);
+      expect($rootScope.$broadcast.calls.argsFor(0)[1]).toEqual({
         name: 'my item'
       });
+      
+      expect($rootScope.$broadcast.calls.argsFor(0)[2]).toEqual({});
     }]));
   });
 
@@ -222,7 +229,7 @@ describe('tableControls directive', function () {
     it('should emit the table create click event', inject(['$rootScope', function ($rootScope) {
       spyOn($rootScope, '$broadcast');
       isolateScope.onCreateClick();
-      expect($rootScope.$broadcast).toHaveBeenCalledWith('table:on:click:create');
+      expect($rootScope.$broadcast).toHaveBeenCalledWith(loEvents.tableControls.itemCreate);
     }]));
   });
 
@@ -245,7 +252,7 @@ describe('tableControls directive', function () {
     it('should emit the table actions click event', inject(['$rootScope', function ($rootScope) {
       spyOn($rootScope, '$broadcast');
       isolateScope.onActionsClick();
-      expect($rootScope.$broadcast).toHaveBeenCalledWith('table:on:click:actions');
+      expect($rootScope.$broadcast).toHaveBeenCalledWith(loEvents.tableControls.actions);
     }]));
   });
 

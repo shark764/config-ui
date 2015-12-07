@@ -4,16 +4,18 @@ describe('QueueQueryCreatorController', function() {
   var $scope,
   controller,
   QueueVersion,
-  jsedn;
+  jsedn,
+  loEvents;
 
   beforeEach(module('gulpAngular'));
   beforeEach(module('liveopsConfigPanel'));
   
-  beforeEach(inject(['$rootScope', '$controller', 'QueueVersion', 'jsedn',
-    function($rootScope, $controller, _QueueVersion, _jsedn) {
+  beforeEach(inject(['$rootScope', '$controller', 'QueueVersion', 'jsedn', 'loEvents',
+    function($rootScope, $controller, _QueueVersion, _jsedn, _loEvents) {
       $scope = $rootScope.$new();
       QueueVersion = _QueueVersion;
       jsedn = _jsedn;
+      loEvents = _loEvents;
       
       $scope.rootMap = jsedn.parse('{}');
       $scope.version = new QueueVersion();
@@ -22,7 +24,7 @@ describe('QueueQueryCreatorController', function() {
     }]));
     
   it('should catch the table create event and reinitialize the builder UI', inject(['$rootScope', function($rootScope) {
-    $rootScope.$broadcast('table:on:click:create');
+    $rootScope.$broadcast(loEvents.tableControls.itemCreate);
     $scope.$digest();
     
     var mockComponent = {

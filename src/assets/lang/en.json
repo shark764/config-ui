@@ -116,6 +116,7 @@
   "details.phoneNumber": "Phone Number",
   "details.phoneNumber.error": "Phone number should be in E.164 format.",
   "details.extensions": "Extensions",
+  "details.extensions.sipformat.error":"Extensions must start with 'sip:'.",
   "details.skills.none": "This user has not been assigned any skills",
   "details.skills.title": "Skills",
   "details.skills.placeholder": "Add Skill...",
@@ -451,6 +452,8 @@
   "list.items.required": "List needs at least one item.",
   "list.items.header": "List Item(s)",
   "list.table.title": "List Item(s)",
+  "list.details.disable.confirm": "Are you sure you want to disable this list?",
+  "list.details.enable.confirm": "Are you sure you want to enable this list?",
 
   "webrtc": "WebRTC",
   "twilio": "Twilio",

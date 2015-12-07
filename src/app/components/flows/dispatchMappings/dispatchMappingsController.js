@@ -2,8 +2,8 @@
 
 angular.module('liveopsConfigPanel')
   .controller('DispatchMappingsController', [
-    '$scope', 'Session', 'DispatchMapping', 'Flow', 'Integration', 'dispatchMappingTableConfig', 'dispatchMappingInteractionFields', 'dispatchMappingChannelTypes', 'dispatchMappingDirections',
-    function($scope, Session, DispatchMapping, Flow, Integration, dispatchMappingTableConfig, dispatchMappingInteractionFields, dispatchMappingChannelTypes, dispatchMappingDirections) {
+    '$scope', 'Session', 'DispatchMapping', 'Flow', 'Integration', 'dispatchMappingTableConfig', 'dispatchMappingInteractionFields', 'dispatchMappingChannelTypes', 'dispatchMappingDirections', 'loEvents',
+    function($scope, Session, DispatchMapping, Flow, Integration, dispatchMappingTableConfig, dispatchMappingInteractionFields, dispatchMappingChannelTypes, dispatchMappingDirections, loEvents) {
       $scope.create = function() {
         $scope.selectedDispatchMapping = new DispatchMapping({
           tenantId: Session.tenant.tenantId,
@@ -34,7 +34,7 @@ angular.module('liveopsConfigPanel')
         return $scope.selectedDispatchMapping.save();
       };
 
-      $scope.$on('table:on:click:create', function() {
+      $scope.$on(loEvents.tableControls.itemCreate, function() {
         $scope.create();
       });
 

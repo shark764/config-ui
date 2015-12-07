@@ -5,7 +5,8 @@
 describe('groups controller', function () {
   var $scope,
     mockUsers,
-    mockGroups;
+    mockGroups,
+    loEvents;
 
   beforeEach(module('gulpAngular'));
   beforeEach(module('liveopsConfigPanel'));
@@ -13,11 +14,12 @@ describe('groups controller', function () {
   beforeEach(module('liveopsConfigPanel.tenant.user.group.mock'));
   beforeEach(module('liveopsConfigPanel.user.mock'));
 
-  beforeEach(inject(['$rootScope', '$httpBackend', '$controller', 'apiHostname', 'Session', 'mockUsers', 'mockGroups',
-    function ($rootScope, $httpBackend, $controller, apiHostname, Session, _mockUsers, _mockGroups) {
+  beforeEach(inject(['$rootScope', '$httpBackend', '$controller', 'apiHostname', 'Session', 'mockUsers', 'mockGroups', 'loEvents',
+    function ($rootScope, $httpBackend, $controller, apiHostname, Session, _mockUsers, _mockGroups, _loEvents) {
       $scope = $rootScope.$new();
       mockUsers = _mockUsers;
       mockGroups = _mockGroups;
+      loEvents = _loEvents;
 
       $controller('GroupsController', {
         '$scope': $scope
@@ -40,13 +42,13 @@ describe('groups controller', function () {
 
   describe('createGroup function', function () {
     it('should catch the on:click:create event', inject(['Session', function (Session) {
-      $scope.$broadcast('table:on:click:create');
+      $scope.$broadcast(loEvents.tableControls.itemCreate);
       expect($scope.selectedGroup).toBeDefined();
       expect($scope.selectedGroup.tenantId).toEqual(Session.tenant.tenantId);
     }]));
 
     it('should set selectedGroup to default values', inject(function () {
-      $scope.$broadcast('table:on:click:create');
+      $scope.$broadcast(loEvents.tableControls.itemCreate);
       expect($scope.selectedGroup.tenantId).toEqual('tenant-id');
       expect($scope.selectedGroup.active).toBeTruthy();
       expect($scope.selectedGroup.owner).toEqual('userId1');

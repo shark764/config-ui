@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('QueueQueryCreatorController', ['$scope', 'jsedn', 'Alert', '$translate', 'queueQueryComponents',
-    function($scope, jsedn, Alert, $translate, queueQueryComponents) {
+  .controller('QueueQueryCreatorController', ['$scope', 'jsedn', 'Alert', '$translate', 'queueQueryComponents', 'loEvents',
+    function($scope, jsedn, Alert, $translate, queueQueryComponents, loEvents) {
       var self = this;
       
       $scope.$watch('rootMap', function(newMap) {
@@ -22,7 +22,7 @@ angular.module('liveopsConfigPanel')
         self.initComponentState();
       });
       
-      $scope.$on('table:on:click:create', function () {
+      $scope.$on(loEvents.tableControls.itemCreate, function () {
         self.resetComponents();
         self.initComponentState();
       });
