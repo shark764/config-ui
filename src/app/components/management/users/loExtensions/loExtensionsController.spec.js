@@ -64,8 +64,12 @@ describe('loExtensions controller', function(){
       expect($scope.userTenantExtensionForm.type.$setUntouched).toHaveBeenCalled();
       expect($scope.userTenantExtensionForm.provider.$setPristine).toHaveBeenCalled();
       expect($scope.userTenantExtensionForm.provider.$setUntouched).toHaveBeenCalled();
-      expect($scope.userTenantExtensionForm.value.$setPristine).toHaveBeenCalled();
-      expect($scope.userTenantExtensionForm.value.$setUntouched).toHaveBeenCalled();
+      expect($scope.userTenantExtensionForm.sipValue.$setPristine).toHaveBeenCalled();
+      expect($scope.userTenantExtensionForm.sipValue.$setUntouched).toHaveBeenCalled();
+      expect($scope.userTenantExtensionForm.telValue.$setPristine).toHaveBeenCalled();
+      expect($scope.userTenantExtensionForm.telValue.$setUntouched).toHaveBeenCalled();
+      expect($scope.userTenantExtensionForm.description.$setPristine).toHaveBeenCalled();
+      expect($scope.userTenantExtensionForm.description.$setUntouched).toHaveBeenCalled();
     }));
     
     it('should reset the user on fail', inject(function($httpBackend, apiHostname) {
