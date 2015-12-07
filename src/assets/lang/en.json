@@ -413,8 +413,10 @@
   "details.extension.provider.required": "Provider required",
   "details.extension.value": "Enter Extension",
   "details.extension.value.required": "Value required",
-  "details.extension.drop": "Drop extension here",
+  "details.extension.drop": "(Drop extension here)",
+  "details.extension.drag.titletext": "Drag to reorder",
   "details.phone.extension.value": "Ext.",
+  "details.extension.description.required": "Please provide a description",
 
   "multibox.add.placeholder": "Add Item...",
   "multibox.search.placeholder": "Search...",

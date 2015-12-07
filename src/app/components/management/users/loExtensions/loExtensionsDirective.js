@@ -24,13 +24,7 @@ angular.module('liveopsConfigPanel')
             return $scope.tenantUser.save({
               tenantId: Session.tenant.tenantId
             }).then(function(tenantUser) {
-              $scope.newExtension = {};
-              $scope.newExtension.type = 'webrtc';
-
-              angular.forEach(['type', 'provider', 'telValue', 'sipValue', 'description'], function(field) {
-                $scope.userTenantExtensionForm[field].$setPristine();
-                $scope.userTenantExtensionForm[field].$setUntouched();
-              });
+              $scope.reset();
 
               return tenantUser;
             }, function(error) {
@@ -70,7 +64,9 @@ angular.module('liveopsConfigPanel')
           };
 
           $scope.reset = function () {
-
+            $scope.newExtension = {};
+            $scope.newExtension.type = 'webrtc';
+            
             $scope.newExtension.provider = null;
             $scope.newExtension.description = null;
             $scope.phoneNumber = null;
