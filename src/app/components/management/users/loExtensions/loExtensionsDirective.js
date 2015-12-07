@@ -15,6 +15,7 @@ angular.module('liveopsConfigPanel')
           $scope.loExtensionTypes = loExtensionTypes;
 
           $scope.newExtension = {};
+          $scope.sipPattern = '[s|S]{1}[i|I]{1}[p|P]{1}:.*';
 
           function save() {
             delete $scope.tenantUser.status;
@@ -26,7 +27,7 @@ angular.module('liveopsConfigPanel')
               $scope.newExtension = {};
               $scope.newExtension.type = 'webrtc';
 
-              angular.forEach(['type', 'provider', 'value'], function(field) {
+              angular.forEach(['type', 'provider', 'telValue', 'sipValue', 'description'], function(field) {
                 $scope.userTenantExtensionForm[field].$setPristine();
                 $scope.userTenantExtensionForm[field].$setUntouched();
               });
@@ -58,15 +59,6 @@ angular.module('liveopsConfigPanel')
             });
           };
 
-          $scope.clearValues = function(){
-
-            $scope.phoneNumber = null;
-            $scope.phoneExtension = null;
-            $scope.sipExtension = null;
-            $scope.newExtension.provider = null;
-            
-          };
-
           $scope.remove = function(extension) {
             $scope.tenantUser.extensions.removeItem(extension);
             return save();
@@ -76,6 +68,27 @@ angular.module('liveopsConfigPanel')
             $scope.tenantUser.extensions.splice(index, 1);
             return save();
           };
+
+          $scope.reset = function () {
+
+            $scope.newExtension.provider = null;
+            $scope.newExtension.description = null;
+            $scope.phoneNumber = null;
+            $scope.phoneExtension = null;
+            $scope.sipExtension = null;
+
+            angular.forEach(['type', 'provider', 'telValue', 'sipValue', 'description'], function(field) {
+              $scope.userTenantExtensionForm[field].$setPristine();
+              $scope.userTenantExtensionForm[field].$setUntouched();
+            });
+          };
+
+          $scope.$watch('tenantUser', function (newSelection, oldSelection) {
+            if (!newSelection || newSelection === oldSelection) {
+              return;
+            }
+            $scope.reset();
+          });
 
           $scope.newExtension.type = 'webrtc';
         }

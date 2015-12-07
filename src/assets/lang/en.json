@@ -116,6 +116,7 @@
   "details.phoneNumber": "Phone Number",
   "details.phoneNumber.error": "Phone number should be in E.164 format.",
   "details.extensions": "Extensions",
+  "details.extensions.sipformat.error":"Extensions must start with 'sip:'.",
   "details.skills.none": "This user has not been assigned any skills",
   "details.skills.title": "Skills",
   "details.skills.placeholder": "Add Skill...",
