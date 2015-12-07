@@ -15,15 +15,15 @@ angular.module('liveopsConfigPanel')
         $scope.showBulkActions = false;
       });
       
-      $scope.$on('table:on:click:actions', function () {
+      $scope.$on(loEvents.tableControls.actions, function () {
         $scope.showBulkActions = true;
       });
 
-      $scope.$on('table:resource:selected', function () {
+      $scope.$on(loEvents.tableControls.itemSelected, function () {
         $scope.showBulkActions = false;
       });
       
-      $scope.$on('details:panel:close', function () {
+      $scope.$on(loEvents.bulkActions.close, function () {
         $scope.showBulkActions = false;
       });
       
