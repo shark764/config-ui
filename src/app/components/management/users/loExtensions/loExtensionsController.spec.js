@@ -28,6 +28,18 @@ describe('loExtensions directive', function(){
         value: {
           $setPristine : jasmine.createSpy('$setPristine'),
           $setUntouched : jasmine.createSpy('$setUntouched')
+        },
+        sipValue: {
+          $setPristine : jasmine.createSpy('$setPristine'),
+          $setUntouched : jasmine.createSpy('$setUntouched')
+        },
+        telValue: {
+          $setPristine : jasmine.createSpy('$setPristine'),
+          $setUntouched : jasmine.createSpy('$setUntouched')
+        },
+        description: {
+          $setPristine : jasmine.createSpy('$setPristine'),
+          $setUntouched : jasmine.createSpy('$setUntouched')
         }
     };
     
@@ -105,10 +117,10 @@ describe('loExtensions directive', function(){
       $scope.add();
       $scope.$digest();
       
-      expect($scope.phoneNumber).toBeNull();
-      expect($scope.phoneExtension).toBeNull();
-      expect($scope.sipExtension).toBeNull();
-      expect($scope.newExtension.provider).toBeNull();
+      expect($scope.phoneNumber).toBeFalsy();
+      expect($scope.phoneExtension).toBeFalsy();
+      expect($scope.sipExtension).toBeFalsy();
+      expect($scope.newExtension.provider).toBeFalsy();
     }));
   });
   
