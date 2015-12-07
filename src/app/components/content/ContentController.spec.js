@@ -29,14 +29,14 @@ describe('ContentController', function () {
 
   it('should catch the item selected event and hide bulk actions panel', inject(['$rootScope', function ($rootScope) {
     $scope.showBulkActions = true;
-    $rootScope.$broadcast('table:resource:selected');
+    $rootScope.$broadcast(loEvents.tableControls.itemSelected);
     $scope.$digest();
     expect($scope.showBulkActions).toBeFalsy();
   }]));
 
   it('should catch the action button click event and show the bulk action panel', inject(['$rootScope', function ($rootScope) {
     $scope.showBulkActions = false;
-    $rootScope.$broadcast('table:on:click:actions');
+    $rootScope.$broadcast(loEvents.tableControls.actions);
     $scope.$digest();
     expect($scope.showBulkActions).toBeTruthy();
   }]));
