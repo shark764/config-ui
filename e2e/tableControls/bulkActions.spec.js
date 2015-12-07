@@ -278,13 +278,13 @@ describe('The bulk actions', function() {
     shared.actionsBtn.click();
 
     // User's enable field is disabled by default
-    expect(bulkActions.enableToggle.getAttribute('disabled')).toBeTruthy();
+    expect(bulkActions.enableDropdown.getAttribute('disabled')).toBeTruthy();
 
     bulkActions.userSelectEnable.click();
-    expect(bulkActions.enableToggle.getAttribute('disabled')).toBeFalsy();
+    expect(bulkActions.enableDropdown.getAttribute('disabled')).toBeFalsy();
 
     bulkActions.userSelectEnable.click();
-    expect(bulkActions.enableToggle.getAttribute('disabled')).toBeTruthy();
+    expect(bulkActions.enableDropdown.getAttribute('disabled')).toBeTruthy();
   });
 
   it('should display the correct number of selected items and message in the Confirm modal', function() {

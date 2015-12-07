@@ -53,6 +53,7 @@ var Shared = function() {
   this.table = element(by.id('items-table'));
   this.firstTableRow = this.table.element(by.css('tr.ng-scope:nth-child(1)'));
   this.secondTableRow = this.table.element(by.css('tr.ng-scope:nth-child(2)'));
+  this.selectedTableRow = this.table.element(by.css('tr.ng-scope.selected'));
   this.tableRows = this.table.all(by.css('tr.ng-scope'));
   this.tableElements = element.all(by.repeater('item in (filtered = (items | selectedTableOptions:config.fields | search:config.searchOn:searchQuery | orderBy:orderBy:reverseSortOrder))'));
   this.createBtn = element(by.id('create-btn'));

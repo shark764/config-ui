@@ -290,7 +290,7 @@ describe('The users view', function() {
             expect(shared.successMessage.isDisplayed()).toBeTruthy();
 
             // User name is shown as email in table and details header
-            expect(shared.firstTableRow.element(by.css(users.nameColumn)).getText()).toBe(users.emailLabel.getText());
+            expect(shared.selectedTableRow.element(by.css(users.nameColumn)).getText()).toBe(users.emailLabel.getText());
             expect(users.userNameDetailsHeader.getText()).toBe(users.emailLabel.getText());
           });
         }
@@ -616,10 +616,11 @@ describe('The users view', function() {
     it('should only display confirm dialog once when switching selected elements', function() {
       //Dirty the bulk action form
       shared.actionsBtn.click();
-      users.statusBulkEnableCheck.click();
+      users.selectBulkEnable.click();
 
       //Select a table item and dismiss the expected alert
       shared.firstTableRow.click();
+      shared.waitForAlert();
       shared.dismissChanges();
 
       //Select another table item and expect there not to be an alert

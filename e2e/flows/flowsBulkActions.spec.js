@@ -66,8 +66,7 @@ describe('The flows view bulk actions', function() {
       bulkActions.statusColumnDropDownLabel.click();
       bulkActions.statuses.get(1).click();
       shared.tableElements.count().then(function(disabledTotal) {
-        // BUG
-        //expect(disabledTotal).toBe(flowCount);
+        expect(disabledTotal).toBe(flowCount);
       });
 
       // Select Enabled from Status drop down

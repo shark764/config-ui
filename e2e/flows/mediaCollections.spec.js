@@ -352,6 +352,7 @@ describe('The media collections view', function() {
     mediaCollections.descriptionFormField.sendKeys('Edit');
 
     mediaCollections.cancelFormBtn.click();
+    shared.waitForAlert();
     shared.dismissChanges();
 
     expect(shared.successMessage.isPresent()).toBeFalsy();
