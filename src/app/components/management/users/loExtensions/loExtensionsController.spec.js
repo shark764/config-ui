@@ -1,6 +1,6 @@
 'use strict';
 
-describe('loExtensions directive', function(){
+describe('loExtensions controller', function(){
   var $scope,
    controller,
    mockTenantUsers;
@@ -43,7 +43,7 @@ describe('loExtensions directive', function(){
         }
     };
     
-    controller = $controller('LoExtensionsController', {'$scope': $scope});
+    controller = $controller('loExtensionsController', {'$scope': $scope});
     $scope.$digest();
  }]));
 

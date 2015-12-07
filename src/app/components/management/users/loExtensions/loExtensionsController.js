@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('LoExtensionsController', ['$scope', '$q', '$parse', 'Session', 'loExtensionProviders', 'loExtensionTypes',
+  .controller('loExtensionsController', ['$scope', '$q', '$parse', 'Session', 'loExtensionProviders', 'loExtensionTypes',
     function ($scope, $q, $parse, Session, loExtensionProviders, loExtensionTypes) {
       var vm = this;
       $scope.loExtensionProviders = loExtensionProviders;

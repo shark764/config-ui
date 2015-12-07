@@ -10,7 +10,7 @@ angular.module('liveopsConfigPanel')
           ngDisabled: '='
         },
         templateUrl: 'app/components/management/users/loExtensions/loExtensions.html',
-        controller: 'LoExtensionsController'
+        controller: 'loExtensionsController'
       };
     }
   ]);
