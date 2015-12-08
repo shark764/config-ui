@@ -58,6 +58,7 @@ angular.module('liveopsConfigPanel')
           .then(function (versionResult) {
             queue.activeVersion = versionResult.version;
             queue.activeQueue = versionResult;
+            queue.active = true;
             queue.save();
           }, function(response){
             Alert.error($translate.instant('queue.create.invalid.query'));
