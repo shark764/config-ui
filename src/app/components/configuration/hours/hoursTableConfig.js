@@ -17,7 +17,7 @@ angular.module('liveopsConfigPanel')
         'header': {
           'display': $translate.instant('hours.timezone.header')
         },
-        'name': '$original.timezoneName'
+        'name': '$original.timezone'
       }, {
         'header': {
           'display': $translate.instant('value.status'),

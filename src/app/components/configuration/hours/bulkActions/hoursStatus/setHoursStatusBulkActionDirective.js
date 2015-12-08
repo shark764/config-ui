@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('baSetHoursStatus', ['BusinessHours', 'Session', 'BulkAction',
-    function (BusinessHours, Session, BulkAction) {
+  .directive('baSetHoursStatus', ['BusinessHour', 'Session', 'BulkAction',
+    function (BusinessHour, Session, BulkAction) {
       return {
         restrict: 'AE',
         scope: {},
@@ -16,7 +16,7 @@ angular.module('liveopsConfigPanel')
           }
           
           $scope.bulkAction.apply = function(hours) {
-            var hoursCopy = new BusinessHours();
+            var hoursCopy = new BusinessHour();
             hoursCopy.id = hours.id;
             hoursCopy.tenantId = Session.tenant.tenantId;
             hoursCopy.active = $scope.active;

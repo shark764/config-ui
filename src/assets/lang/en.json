@@ -467,5 +467,16 @@
   "hours.timezone.header": "Timezone",
   "hours.timezone.select.placeholder": "Select timezone...",
   "hours.hours.title": "Regular Hours",
-  "hours.exceptions.title": "Exceptions"
+  "hours.exceptions.title": "Exceptions",
+  "hours.startTime": "Start Time",
+  "hours.endTime": "End Time",
+  "hours.sunday": "Sunday",
+  "hours.monday": "Monday",
+  "hours.tuesday": "Tuesday",
+  "hours.wednesday": "Wednesday",
+  "hours.thursday": "Thursday",
+  "hours.friday": "Friday",
+  "hours.saturday": "Saturday",
+  "hours.day.startTime.required": "{{day}} start time is required.",
+  "hours.day.endTime.required": "{{day}} end time is required."
 }

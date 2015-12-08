@@ -1,7 +1,7 @@
 <table-controls
   id="table-pane"
   config="tableConfig"
-  items="fetchHours()"
+  items="hours"
   selected="selectedHours"
   resource-name="BusinessHours">
 
@@ -58,7 +58,7 @@
   
   <bulk-action-executor class="details-pane"
     ng-show="showBulkActions"
-    items="fetchHours()"
+    items="hours"
     show-bulk-actions="showBulkActions">
     
     <ba-set-hours-status></ba-set-hours-status>
