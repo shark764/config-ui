@@ -1,4 +1,6 @@
 <div id="create-new-version-details">
+ 
+  <input name="query" type="hidden" ng-model="qc.selectedQueueVersion.query" ng-required="true" />
 
   <query-creator ng-if="qc.selectedQueueVersion" query="qc.selectedQueueVersion.query"></query-creator>
 

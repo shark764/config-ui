@@ -74,22 +74,22 @@ angular.module('liveopsConfigPanel')
             if (angular.isDefined(response.data.error.attribute.query)) {
               vm.copySelectedVersion(qv);
 
-              $scope.forms.versionForm.query.$setValidity('api', false);
+              vm.forms.versionForm.query.$setValidity('api', false);
 
-              $scope.forms.versionForm.query.$error = {
+              vm.forms.versionForm.query.$error = {
                 api: response.data.error.attribute.query
               };
 
               var unbindErrorWatch = $scope.$watch('forms.versionForm.query.$dirty', function(dirtyValue){
                 if (dirtyValue){
-                  $scope.forms.versionForm.query.$setValidity('api', true);
+                  vm.forms.versionForm.query.$setValidity('api', true);
                   unbindErrorWatch();
                 }
               });
 
               //Must use timeout here instead of evalAsync; evalAsync executes too early
               $timeout(function(){
-                $scope.forms.versionForm.query.$setTouched();
+                vm.forms.versionForm.query.$setTouched();
               });
             }
           }
@@ -145,11 +145,8 @@ angular.module('liveopsConfigPanel')
             vm.versions[i].viewing = true;
           }
         }
-      }; 
-
-      vm.createVersionCopy = function(version) {
-        $scope.$emit('copy:queue:version', version);
       };
+ 
 
       $scope.$watch(function () {
         return vm.selectedQueue;
