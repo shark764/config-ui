@@ -5,8 +5,8 @@ angular.module('liveopsConfigPanel')
     function ($scope, Session, Alert, $translate, queryCache, $stateParams, loEvents) {
       $scope.showBulkActions = false;
       $scope.Session = Session;
-      
-      $scope.$watch('Session.tenant', function() {
+
+      $scope.$watch('Session.tenant', function () {
         queryCache.removeAll();
         $scope.$broadcast('session:tenant:changed');
       }, true);
@@ -14,7 +14,6 @@ angular.module('liveopsConfigPanel')
       $scope.$on(loEvents.tableControls.itemCreate, function () {
         $scope.showBulkActions = false;
       });
-      
       $scope.$on(loEvents.tableControls.actions, function () {
         $scope.showBulkActions = true;
       });
@@ -26,8 +25,12 @@ angular.module('liveopsConfigPanel')
       $scope.$on(loEvents.bulkActions.close, function () {
         $scope.showBulkActions = false;
       });
-      
-      if ($stateParams.messageKey){
+
+      $scope.$on('$stateChangeSuccess', function () {
+        queryCache.removeAll();
+      });
+
+      if ($stateParams.messageKey) {
         Alert.info($translate.instant($stateParams.messageKey), '', {
           closeButton: true,
           showDuration: 0,
