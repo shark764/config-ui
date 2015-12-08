@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('QueueController', ['$scope', 'Queue', 'Session', '$stateParams', 'queueTableConfig', 'QueueVersion', 'Alert', '$translate', '$timeout',
-    function ($scope, Queue, Session, $stateParams, queueTableConfig, QueueVersion, Alert, $translate, $timeout) {
+  .controller('QueueController', ['$scope', 'Queue', 'Session', '$stateParams', 'queueTableConfig', 'QueueVersion', 'Alert', '$translate', '$timeout', 'loEvents',
+    function ($scope, Queue, Session, $stateParams, queueTableConfig, QueueVersion, Alert, $translate, $timeout, loEvents) {
       var vm = this;
       vm.Session = Session;
       vm.tableConfig = queueTableConfig;
@@ -28,7 +28,7 @@ angular.module('liveopsConfigPanel')
         });
       };
 
-      $scope.$on('table:on:click:create', function () {
+      $scope.$on(loEvents.tableControls.itemCreate, function () {
         vm.selectedQueueVersion = null;
 
         vm.initialVersion = vm.getDefaultVersion();
@@ -43,14 +43,15 @@ angular.module('liveopsConfigPanel')
       });
 
       vm.submit = function(){
-        var createInitialVersion = vm.selectedQueue.isNew();
+        var isNew = vm.selectedQueue.isNew();
 
-        return vm.selectedQueue.save(function(queue){
-          if (createInitialVersion){
+        return vm.selectedQueue.save(function(queue) {
+          if (isNew){
             vm.initialVersion.queueId = queue.id;
             vm.saveInitialVersion(queue);
           }
         });
+
       };
 
       vm.saveInitialVersion = function(queue){
@@ -60,11 +61,12 @@ angular.module('liveopsConfigPanel')
           .then(function (versionResult) {
             queue.activeVersion = versionResult.version;
             queue.activeQueue = versionResult;
-            queue.save();
-          }, function(response){
+            queue.active = true;
+            return queue.save();
+          }, function(response) {
             Alert.error($translate.instant('queue.create.invalid.query'));
 
-            if (angular.isDefined(response.data.error.attribute.query)){
+            if (angular.isDefined(response.data.error.attribute.query)) {
               vm.copySelectedVersion(qv);
 
               $scope.forms.versionForm.query.$setValidity('api', false);

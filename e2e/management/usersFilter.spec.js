@@ -39,9 +39,10 @@ describe('The users table filter', function() {
     }).then(function() {
       shared.tableColumnsDropDown.click();
 
-      // Select Disabled from Status drop down
+      // Leave Disabled selected from Status drop down
       users.statusTableDropDownLabel.click();
-      users.dropdownStatuses.get(0).click().then(function() {
+      users.dropdownStatuses.get(1).click();
+      users.dropdownStatuses.get(2).click().then(function() {
         // All input is unselected
         expect(users.dropdownStatusInputs.get(0).isSelected()).toBeFalsy();
         // Disabled input is selected
@@ -67,11 +68,10 @@ describe('The users table filter', function() {
     }).then(function() {
       shared.tableColumnsDropDown.click();
 
-      // Select Enabled from Status drop down
+      // Leave Enabled selected from Status drop down
       users.statusTableDropDownLabel.click();
       users.dropdownStatuses.get(0).click();
-      users.dropdownStatuses.get(0).click(); // Change selection
-      users.dropdownStatuses.get(1).click();
+      users.dropdownStatuses.get(2).click();
 
       // Enabled input is selected
       expect(users.dropdownStatusInputs.get(2).isSelected()).toBeTruthy();
@@ -102,15 +102,16 @@ describe('The users table filter', function() {
     }).then(function() {
       shared.tableColumnsDropDown.click();
 
-      // Select Disabled from Status drop down
+      // Leave Disabled selected from Status drop down
       users.statusTableDropDownLabel.click();
-      users.dropdownStatuses.get(0).click();
       users.dropdownStatuses.get(1).click();
+      users.dropdownStatuses.get(2).click();
+
       // All input is unselected
       expect(users.dropdownStatusInputs.get(0).isSelected()).toBeFalsy();
-      // Disabled and Enabled inputs are selected
       expect(users.dropdownStatusInputs.get(1).isSelected()).toBeTruthy();
-      expect(users.dropdownStatusInputs.get(2).isSelected()).toBeTruthy();
+      expect(users.dropdownStatusInputs.get(2).isSelected()).toBeFalsy();
+      expect(users.dropdownStatusInputs.get(3).isSelected()).toBeFalsy();
 
       // Select All from Status drop down
       users.allUserStatus.click();
@@ -118,9 +119,10 @@ describe('The users table filter', function() {
       // All input is selected
       expect(users.dropdownStatusInputs.get(0).isSelected()).toBeTruthy();
 
-      // Disabled and Enabled inputs are unselected
-      expect(users.dropdownStatusInputs.get(1).isSelected()).toBeFalsy();
-      expect(users.dropdownStatusInputs.get(2).isSelected()).toBeFalsy();
+      // Disabled, Pending and Enabled inputs are selected
+      expect(users.dropdownStatusInputs.get(1).isSelected()).toBeTruthy();
+      expect(users.dropdownStatusInputs.get(2).isSelected()).toBeTruthy();
+      expect(users.dropdownStatusInputs.get(3).isSelected()).toBeTruthy();
 
       users.statusTableDropDownLabel.click();
       // Expect all users to be displayed
@@ -142,9 +144,10 @@ describe('The users table filter', function() {
       // Search
       shared.searchField.sendKeys('an\t');
 
-      // Select Status filter
+      // Leave Enabled selected from Status filter
       users.statusTableDropDownLabel.click(); // Open
-      users.dropdownStatuses.get(1).click();
+      users.dropdownStatuses.get(0).click();
+      users.dropdownStatuses.get(2).click();
       users.statusTableDropDownLabel.click().then(function() {
         shared.tableElements.then(function(rows) {
           for (var i = 0; i < rows.length && i < 5; ++i) {
@@ -205,7 +208,8 @@ describe('The users table filter', function() {
     });
   });
 
-  it('should display users based on the table Group filter', function() {
+  // TODO Deselect all groups and select first one
+  xit('should display users based on the table Group filter', function() {
     // Select Group from Groups drop down
     users.groupsTableDropDownLabel.click();
     users.dropdownGroups.get(0).click();
@@ -244,8 +248,8 @@ describe('The users table filter', function() {
         // All input is selected
         expect(users.dropdownGroupsInputs.get(0).isSelected()).toBeTruthy();
 
-        // Previous inputs are unselected
-        expect(users.dropdownGroupsInputs.get(1).isSelected()).toBeFalsy();
+        // Previous inputs are selected
+        expect(users.dropdownGroupsInputs.get(1).isSelected()).toBeTruthy();
         users.groupsTableDropDownLabel.click();
 
         // Expect all users to be displayed
@@ -254,7 +258,8 @@ describe('The users table filter', function() {
     });
   });
 
-  it('should display users based on the selected Groups on table filter', function() {
+// TODO Deselect all groups and select first one
+  xit('should display users based on the selected Groups on table filter', function() {
     // Select Group from Groups drop down
     users.groupsTableDropDownLabel.click();
     users.dropdownGroups.get(0).click();
@@ -290,7 +295,8 @@ describe('The users table filter', function() {
     });
   });
 
-  it('should display users based on the Search and Group filters', function() {
+// TODO Deselect all groups and select first one
+  xit('should display users based on the Search and Group filters', function() {
     // Search
     shared.searchField.sendKeys('a');
 
@@ -326,7 +332,8 @@ describe('The users table filter', function() {
     });
   });
 
-  it('should display all tenant Skills in the user table Skill filter', function() {
+// TODO Deselect all groups and select first one
+  xit('should display all tenant Skills in the user table Skill filter', function() {
     // Select Skill from Skills drop down
     users.skillsTableDropDownLabel.click();
 
@@ -348,7 +355,8 @@ describe('The users table filter', function() {
     });
   });
 
-  it('should display users based on the table Skill filter', function() {
+// TODO Deselect all groups and select first one
+  xit('should display users based on the table Skill filter', function() {
     // Select Skill from Skills drop down
     users.skillsTableDropDownLabel.click();
     users.dropdownSkills.get(0).click();
@@ -389,9 +397,9 @@ describe('The users table filter', function() {
       // All input is selected
       expect(users.dropdownSkillsInputs.get(0).isSelected()).toBeTruthy();
 
-      // Previous inputs are unselected
-      expect(users.dropdownSkillsInputs.get(1).isSelected()).toBeFalsy();
-      expect(users.dropdownSkillsInputs.get(2).isSelected()).toBeFalsy();
+      // Previous inputs are selected
+      expect(users.dropdownSkillsInputs.get(1).isSelected()).toBeTruthy();
+      expect(users.dropdownSkillsInputs.get(2).isSelected()).toBeTruthy();
 
       users.skillsTableDropDownLabel.click();
 
@@ -400,7 +408,8 @@ describe('The users table filter', function() {
     });
   });
 
-  it('should display users based on the selected Skills on table filter', function() {
+// TODO Deselect all groups and select first one
+  xit('should display users based on the selected Skills on table filter', function() {
     // Select Skill from Skills drop down
     users.skillsTableDropDownLabel.click();
     users.dropdownSkills.get(0).click();
@@ -436,7 +445,8 @@ describe('The users table filter', function() {
     });
   });
 
-  it('should display users based on the Search and Skill filters', function() {
+// TODO Deselect all groups and select first one
+  xit('should display users based on the Search and Skill filters', function() {
     // Search
     shared.searchField.sendKeys('a');
 
@@ -471,7 +481,8 @@ describe('The users table filter', function() {
     });
   });
 
-  it('should display all of the user Role options', function() {
+// TODO Deselect all groups and select first one
+  xit('should display all of the user Role options', function() {
     // Select Roles from drop down
     users.rolesTableDropDownLabel.click();
 
@@ -493,8 +504,8 @@ describe('The users table filter', function() {
     });
   });
 
-
-  it('should display users based on the table Roles filter', function() {
+// TODO Deselect all groups and select first one
+  xit('should display users based on the table Roles filter', function() {
     users.rolesTableDropDownLabel.click();
 
     // Select Administrator from Role drop down
@@ -520,9 +531,9 @@ describe('The users table filter', function() {
         // All input is selected
         expect(users.dropdownRolesInputs.get(0).isSelected()).toBeTruthy();
 
-        // Administrator and Supervisor inputs are unselected
-        expect(users.dropdownRolesInputs.get(1).isSelected()).toBeFalsy();
-        expect(users.dropdownRolesInputs.get(3).isSelected()).toBeFalsy();
+        // Administrator and Supervisor inputs are selected
+        expect(users.dropdownRolesInputs.get(1).isSelected()).toBeTruthy();
+        expect(users.dropdownRolesInputs.get(3).isSelected()).toBeTruthy();
 
         users.rolesTableDropDownLabel.click().then(function() {
           expect(shared.tableElements.count()).toBe(userCount)
@@ -552,12 +563,12 @@ describe('The users table filter', function() {
 
       // All input is selected by default
       expect(users.dropdownPresenceInputs.get(0).isSelected()).toBeTruthy();
-      // Remaining inputs are unselected by default
-      expect(users.dropdownPresenceInputs.get(1).isSelected()).toBeFalsy();
-      expect(users.dropdownPresenceInputs.get(2).isSelected()).toBeFalsy();
-      expect(users.dropdownPresenceInputs.get(3).isSelected()).toBeFalsy();
-      expect(users.dropdownPresenceInputs.get(4).isSelected()).toBeFalsy();
-      expect(users.dropdownPresenceInputs.get(5).isSelected()).toBeFalsy();
+      // Remaining inputs are selected by default
+      expect(users.dropdownPresenceInputs.get(1).isSelected()).toBeTruthy();
+      expect(users.dropdownPresenceInputs.get(2).isSelected()).toBeTruthy();
+      expect(users.dropdownPresenceInputs.get(3).isSelected()).toBeTruthy();
+      expect(users.dropdownPresenceInputs.get(4).isSelected()).toBeTruthy();
+      expect(users.dropdownPresenceInputs.get(5).isSelected()).toBeTruthy();
     });
   });
 
@@ -573,8 +584,11 @@ describe('The users table filter', function() {
       shared.tableColumnsDropDown.click();
       users.presenceTableDropDownLabel.click();
 
-      // Select Busy from drop down
-      users.dropdownPresence.get(0).click().then(function() {
+      // Leave Busy selected from drop down
+      users.dropdownPresence.get(1);
+      users.dropdownPresence.get(2);
+      users.dropdownPresence.get(3);
+      users.dropdownPresence.get(4).click().then(function() {
         // All input is unselected
         expect(users.dropdownPresenceInputs.get(0).isSelected()).toBeFalsy();
         // Busy input is selected
@@ -596,9 +610,9 @@ describe('The users table filter', function() {
           // All input is selected
           expect(users.dropdownPresenceInputs.get(0).isSelected()).toBeTruthy();
 
-          // Busy and Offline inputs are unselected
-          expect(users.dropdownPresenceInputs.get(1).isSelected()).toBeFalsy();
-          expect(users.dropdownPresenceInputs.get(5).isSelected()).toBeFalsy();
+          // Busy and Offline inputs are selected
+          expect(users.dropdownPresenceInputs.get(1).isSelected()).toBeTruthy();
+          expect(users.dropdownPresenceInputs.get(5).isSelected()).toBeTruthy();
 
           users.presenceTableDropDownLabel.click().then(function() {
             expect(shared.tableElements.count()).toBe(userCount)
@@ -630,12 +644,12 @@ describe('The users table filter', function() {
 
       // All input is selected by default
       expect(users.dropdownTenantStatusInputs.get(0).isSelected()).toBeTruthy();
-      // Remaining inputs are unselected by default
-      expect(users.dropdownTenantStatusInputs.get(1).isSelected()).toBeFalsy();
-      expect(users.dropdownTenantStatusInputs.get(2).isSelected()).toBeFalsy();
-      expect(users.dropdownTenantStatusInputs.get(3).isSelected()).toBeFalsy();
-      expect(users.dropdownTenantStatusInputs.get(4).isSelected()).toBeFalsy();
-      expect(users.dropdownTenantStatusInputs.get(5).isSelected()).toBeFalsy();
+      // Remaining inputs are selected by default
+      expect(users.dropdownTenantStatusInputs.get(1).isSelected()).toBeTruthy();
+      expect(users.dropdownTenantStatusInputs.get(2).isSelected()).toBeTruthy();
+      expect(users.dropdownTenantStatusInputs.get(3).isSelected()).toBeTruthy();
+      expect(users.dropdownTenantStatusInputs.get(4).isSelected()).toBeTruthy();
+      expect(users.dropdownTenantStatusInputs.get(5).isSelected()).toBeTruthy();
     });
   });
 
@@ -651,8 +665,12 @@ describe('The users table filter', function() {
       shared.tableColumnsDropDown.click();
       users.tenantStatusTableDropDownLabel.click();
 
-      // Select Disabled from drop down
-      users.dropdownTenantStatuses.get(0).click().then(function() {
+      // Leave Disabled selected from drop down
+      users.dropdownTenantStatuses.get(1).click();
+      users.dropdownTenantStatuses.get(2).click();
+      users.dropdownTenantStatuses.get(3).click();
+      users.dropdownTenantStatuses.get(4).click();
+      users.dropdownTenantStatuses.get(5).click().then(function() {
         // All input is unselected
         expect(users.dropdownTenantStatusInputs.get(0).isSelected()).toBeFalsy();
         // Disabled input is selected

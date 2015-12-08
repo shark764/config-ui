@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('SkillsController', ['$scope', 'Session', 'Skill', 'skillTableConfig', 'TenantSkillUser', 'TenantUserSkill', 'Alert', 'TenantUser', 'queryCache', '$filter', '$timeout',
-    function($scope, Session, Skill, skillTableConfig, TenantSkillUser, TenantUserSkill, Alert, TenantUser, queryCache, $filter, $timeout) {
+  .controller('SkillsController', ['$scope', 'Session', 'Skill', 'skillTableConfig', 'TenantSkillUser', 'TenantUserSkill', 'Alert', 'TenantUser', 'queryCache', '$filter', '$timeout', 'loEvents',
+    function($scope, Session, Skill, skillTableConfig, TenantSkillUser, TenantUserSkill, Alert, TenantUser, queryCache, $filter, $timeout, loEvents) {
 
       $scope.Session = Session;
 
@@ -38,7 +38,7 @@ angular.module('liveopsConfigPanel')
       };
 
       //Various navigation rules
-      $scope.$on('table:on:click:create', function () {
+      $scope.$on(loEvents.tableControls.itemCreate, function () {
         $scope.selectedSkill = new Skill({
           tenantId: Session.tenant.tenantId,
           active: true,

@@ -9,7 +9,7 @@
     </div>
     <div class="input-group">
       <label>{{'value.type' | translate}} <span ng-if="selectedFlow.isNew()">*</span></label>
-      <form-error field="forms.detailsForm.type" error-type-required="{{'flow.details.type.error' | translate}}"></form-error>
+      <form-error field="forms.newFlow.type" error-type-required="{{'flow.details.type.error' | translate}}"></form-error>
       <div>
         <select ng-required="true" name="type" ng-model="flow.type"
           ng-options="type.value as type.display for type in flowTypes">

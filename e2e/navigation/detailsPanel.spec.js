@@ -5,7 +5,7 @@ describe('The details panel', function() {
     shared = require('../shared.po.js'),
     detailsPanel = require('../navigation/detailsPanel.po.js'),
     params = browser.params,
-    rightPanelWidthRatio;
+    detailsPanelWidthRatio;
 
   beforeAll(function() {
     shared.tearDown();
@@ -21,13 +21,13 @@ describe('The details panel', function() {
 
     shared.firstTableRow.click();
 
-    expect(shared.rightPanel.isDisplayed()).toBeTruthy();
+    expect(shared.detailsPanel.isDisplayed()).toBeTruthy();
 
     browser.driver.manage().window().getSize().then(function(browserSize) {
-      shared.rightPanel.getSize().then(function(rightPanelSize) {
-        rightPanelWidthRatio = browserSize.width / rightPanelSize.width;
-        expect(rightPanelWidthRatio).toBeGreaterThan(2);
-        expect(rightPanelWidthRatio).toBeLessThan(5);
+      shared.detailsPanel.getSize().then(function(detailsPanelSize) {
+        detailsPanelWidthRatio = browserSize.width / detailsPanelSize.width;
+        expect(detailsPanelWidthRatio).toBeGreaterThan(2);
+        expect(detailsPanelWidthRatio).toBeLessThan(5);
       });
     });
   });
@@ -40,12 +40,12 @@ describe('The details panel', function() {
       browser.get(shared.usersPageUrl);
       shared.firstTableRow.click();
 
-      expect(shared.rightPanel.isDisplayed()).toBeTruthy();
+      expect(shared.detailsPanel.isDisplayed()).toBeTruthy();
 
-      shared.rightPanel.getSize().then(function(rightPanelSize) {
-        rightPanelWidthRatio = 1200 / rightPanelSize.width;
-        expect(rightPanelWidthRatio).toBeGreaterThan(2);
-        expect(rightPanelWidthRatio).toBeLessThan(5);
+      shared.detailsPanel.getSize().then(function(detailsPanelSize) {
+        detailsPanelWidthRatio = 1200 / detailsPanelSize.width;
+        expect(detailsPanelWidthRatio).toBeGreaterThan(2);
+        expect(detailsPanelWidthRatio).toBeLessThan(5);
       });
     }).then(function () {
       // reset browser width
@@ -58,11 +58,11 @@ describe('The details panel', function() {
 
     shared.firstTableRow.click();
 
-    expect(shared.rightPanel.isDisplayed()).toBeTruthy();
+    expect(shared.detailsPanel.isDisplayed()).toBeTruthy();
 
     detailsPanel.closePanelButton.click();
 
-    expect(shared.rightPanel.isDisplayed()).toBeFalsy();
+    expect(shared.detailsPanel.isDisplayed()).toBeFalsy();
   });
 
   it('should allow the user to close the bulk actions panel', function() {
@@ -71,11 +71,11 @@ describe('The details panel', function() {
     shared.actionsBtn.click();
 
     expect(shared.bulkActionsPanel.isDisplayed()).toBeTruthy();
-    expect(shared.rightPanel.isDisplayed()).toBeTruthy();
+    expect(shared.detailsPanel.isDisplayed()).toBeTruthy();
 
     detailsPanel.closeBulkPanelButton.click();
 
     expect(shared.bulkActionsPanel.isDisplayed()).toBeFalsy();
-    expect(shared.rightPanel.isDisplayed()).toBeFalsy();
+    expect(shared.detailsPanel.isDisplayed()).toBeFalsy();
   });
 });

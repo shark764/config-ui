@@ -65,7 +65,7 @@ describe('The skills view', function() {
     expect(shared.navBar.isDisplayed()).toBeTruthy();
     expect(shared.table.isDisplayed()).toBeTruthy();
     expect(shared.searchField.isDisplayed()).toBeTruthy();
-    expect(shared.rightPanel.isDisplayed()).toBeFalsy(); //Hide side panel by default
+    expect(shared.detailsPanel.isDisplayed()).toBeFalsy(); //Hide side panel by default
     expect(shared.actionsBtn.isDisplayed()).toBeTruthy();
     expect(shared.createBtn.isDisplayed()).toBeTruthy();
     expect(shared.tableColumnsDropDown.isDisplayed()).toBeTruthy();
@@ -369,7 +369,7 @@ describe('The skills view', function() {
         //Follow the link
         skills.skillMembersRows.get(0).element(by.css('a')).click().then(function() {
           expect(browser.getCurrentUrl()).toContain(shared.usersPageUrl);
-          expect(shared.rightPanel.isDisplayed()).toBeTruthy();
+          expect(shared.detailsPanel.isDisplayed()).toBeTruthy();
           expect(memberName).toContain(users.userNameDetailsHeader.getText());
         });
       }

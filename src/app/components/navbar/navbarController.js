@@ -64,7 +64,10 @@ angular.module('liveopsConfigPanel')
       $scope.$watch('Session.tenants', $scope.populateTenantsHandler);
 
       var managementConfig = [];
-      if (UserPermissions.hasPermissionInList(['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'VIEW_ALL_USERS', 'MANAGE_ALL_USER_EXTENSIONS', 'MANAGE_ALL_GROUP_USERS', 'MANAGE_ALL_USER_SKILLS', 'MANAGE_ALL_USER_LOCATIONS', 'MANAGE_TENANT_ENROLLMENT'])){
+      
+      //See TITAN2-4897 for why we have this extra permissions check
+      if (UserPermissions.hasPermissionInList(['MANAGE_ALL_GROUPS', 'MANAGE_ALL_SKILLS']) 
+          && UserPermissions.hasPermissionInList(['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'VIEW_ALL_USERS', 'MANAGE_ALL_USER_EXTENSIONS', 'MANAGE_ALL_GROUP_USERS', 'MANAGE_ALL_USER_SKILLS', 'MANAGE_ALL_USER_LOCATIONS', 'MANAGE_TENANT_ENROLLMENT'])){
         managementConfig.push({
           label: 'Users',
           stateLink: 'content.management.users',
@@ -123,12 +126,30 @@ angular.module('liveopsConfigPanel')
         });
       }
 
-      if (UserPermissions.hasPermissionInList([])){
+      if (UserPermissions.hasPermissionInList(['MANAGE_ALL_LISTS'])){
         configurationConfig.push({
           label: 'Lists',
-          stateLink: 'content.configuration.lists',
+          stateLink: 'content.configuration.genericLists',
           id: 'lists-configuration-link',
           order: 3
+        });
+      }
+
+      if (UserPermissions.hasPermissionInList(['MANAGE_ALL_LISTS'])){
+        configurationConfig.push({
+          label: 'Disposition Codes',
+          stateLink: 'content.configuration.dispositions',
+          id: 'disposition-codes-link',
+          order: 4
+        });
+      }
+
+      if (UserPermissions.hasPermissionInList(['MANAGE_ALL_LISTS'])){
+        configurationConfig.push({
+          label: 'Reason Codes',
+          stateLink: 'content.configuration.reasons',
+          id: 'reason-codes-link',
+          order: 5
         });
       }
 
@@ -146,7 +167,7 @@ angular.module('liveopsConfigPanel')
         });
       }
 
-      if (UserPermissions.hasPermissionInList(['VIEW_ALL_FLOWS', 'MANAGE_ALL_FLOWS', 'VIEW_ALL_QUEUES', 'MANAGE_ALL_QUEUES'])){
+      if (UserPermissions.hasPermissionInList(['VIEW_ALL_FLOWS', 'MANAGE_ALL_FLOWS', 'MANAGE_ALL_QUEUES'])){
         flowsConfig.push({
           label: 'Queues',
           stateLink: 'content.flows.queues',
