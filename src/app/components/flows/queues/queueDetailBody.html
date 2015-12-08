@@ -25,7 +25,7 @@
     <div>
       <form-error field="forms.detailsForm.activeVersion"
       error-type-required="{{'queue.details.version.error' | translate}}"></form-error>
-      <select id="active-version-field" name="activeVersion" ng-required="true" ng-model="qc.selectedQueue.activeVersion" ng-options="version.version as version.name for version in qc.fetchVersions() | orderBy:'created':'reverse'">
+      <select id="active-version-field" name="activeVersion" ng-required="true" ng-model="qc.selectedQueue.activeVersion" ng-options="version.version as version.name for version in qc.versions | orderBy:'created':'reverse'">
       </select>
     </div>
   </div>
@@ -48,6 +48,85 @@
   <version-priority queue-version="qc.initialVersion"></version-priority>
 </div>
 
-<div ng-show="!qc.selectedQueue.isNew()">
-  <queue-versions queue="qc.selectedQueue"></queue-versions>
+<div ng-show="!qc.selectedQueue.isNew()" class="queue-versions">
+  <div class="divider-header">
+    <h4>Versions</h4>
+    <a id="add-queue-version-btn" class="btn pull-right" title="Create new version" ng-click="qc.addQueueVersion()"><i class="fa fa-plus"></i></a>
+  </div>
+  <loading ng-show="! qc.versions.$resolved"></loading>
+  <p id="no-versions-msg" ng-show="qc.versions.$resolved && qc.versions.length < 1" class="null">{{'queue.details.version.none' | translate}}</p>
+
+  <div class="queue-version-table">
+    <table class="table" ng-show="qc.versions.length">
+      <thead>
+        <th></th>
+        <th>{{'value.version' | translate}}</th>
+        <th>{{'value.createdOn' | translate}}</th>
+        <th ng-if="['PLATFORM_VIEW_ALL_USERS', 'PLATFORM_CREATE_USERS', 'PLATFORM_MANAGE_ALL_USERS', 'PLATFORM_MANAGE_ALL_TENANTS', 'PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT'] | hasPermission">
+          {{'queue.details.createdBy' | translate}}
+        </th>
+        <th></th>
+      </thead>
+      <tr ng-repeat-start="version in qc.versions  | orderBy:'created':'reverse'"
+        id="version-row-{{version.name}}"
+        ng-click="qc.toggleDetails(version);">
+        <td><i ng-if="version.version == qc.selectedQueue.activeVersion" class="fa fa-circle" title="{{'queue.details.version.active.tooltip' | translate}}"></i></td>
+        <td>
+          {{version.name}}
+        </td>
+        <td>{{version.created | date:'medium'}}</td>
+        <td ng-if="['PLATFORM_VIEW_ALL_USERS', 'PLATFORM_CREATE_USERS', 'PLATFORM_MANAGE_ALL_USERS', 'PLATFORM_MANAGE_ALL_TENANTS', 'PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT'] | hasPermission">
+          <audit-text translation="value.displayName" user-id="qc.version.createdBy"></audit-text>
+        </td>
+        <td><i class="fa" ng-class="{'fa-caret-down' : !version.viewing, 'fa-caret-up': version.viewing}" title="{{'queue.details.version.expand' | translate}}"></i></td>
+      </tr>
+      <tr ng-repeat-end id="view-version-{{version.name}}" ng-show="version.viewing">
+        <td></td>
+        <td colspan="5">
+          <div disable-contents="! ('MANAGE_ALL_QUEUES' | hasPermission)">
+
+            <readonly-query query="version.query">
+              <div id="version-basic-query-details" ng-show="showBasicQuery" class="input-group">
+                <label class="textarea-label disabled">{{'queue.details.version.query.basic.title' | translate}}</label>
+                <a class="show-advanced-link"
+                  ng-show="showBasicQuery"
+                  ng-click="showBasicQuery = false;">
+                      {{'queue.details.version.query.advanced.link' | translate}}
+                </a>
+
+                <p class="null" ng-show="!ednQuery">{{'queue.details.version.query.basic.invalid' | translate}}</p>
+
+                <object-group-editor
+                  ng-repeat="item in ednQuery.groups"
+                  object-group="item.objectGroup"
+                  readonly="true"
+                  key="item.key">
+                </object-group-editor>
+              </div>
+
+              <div class="input-group" ng-show="! showBasicQuery">
+                <label class="textarea-label disabled">{{'queue.details.version.query.advanced.title' | translate}}</label>
+                <a class="show-basic-link"
+                  ng-show="! showBasicQuery"
+                  ng-click="showBasicQuery = true;">
+                    {{'queue.details.version.query.basic.link' | translate}}
+                </a>
+                <textarea id="advanced-query-field" ng-disabled="true" type="text" ng-model="query" name="query"></textarea>
+              </div>
+            </readonly-query>
+
+
+            <version-priority queue-version="version" ng-disabled="true"></version-priority>
+          </div>
+          <a id="create-version-copy-btn"
+            class="btn pull-right copy-version-btn"
+            ng-if="'MANAGE_ALL_QUEUES' | hasPermission"
+            ng-click="qc.copySelectedVersion(version)">
+              {{'queue.details.version.copy' | translate}}
+          </a>
+        </td>
+      </tr>
+    </table>
+  </div>
+
 </div>

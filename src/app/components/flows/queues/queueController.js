@@ -47,11 +47,16 @@ angular.module('liveopsConfigPanel')
 
         return vm.selectedQueue.save(function(queue) {
           if (isNew){
+            $scope.$broadcast('created:resource:queue')
             vm.initialVersion.queueId = queue.id;
             vm.saveInitialVersion(queue);
           }
         });
 
+      };
+
+      vm.updateVersions = function () {
+        vm.versions = vm.fetchVersions();
       };
 
       vm.saveInitialVersion = function(queue){
@@ -88,7 +93,8 @@ angular.module('liveopsConfigPanel')
               });
             }
           }
-        );
+        )
+        .finally(vm.updateVersions);
       };
 
       vm.fetchVersions = function(){
@@ -116,25 +122,54 @@ angular.module('liveopsConfigPanel')
         });
       };
 
+      vm.toggleDetails = function (version) {
+        if (! version){
+          return;
+        }
+
+        if (version.viewing){
+          version.viewing = false;
+        } else {
+          vm.showDetails(version);
+        }
+      };
+
+      vm.showDetails = function(version){
+        if (! version){
+          return;
+        }
+
+        for(var i = 0; i < vm.versions.length; i++){
+          vm.versions[i].viewing = false;
+          if (vm.versions[i].version === version.version){
+            vm.versions[i].viewing = true;
+          }
+        }
+      }; 
+
+      vm.createVersionCopy = function(version) {
+        $scope.$emit('copy:queue:version', version);
+      };
+
+      $scope.$watch(function () {
+        return vm.selectedQueue;
+      }, vm.updateVersions);
+
       $scope.$on('table:resource:selected', function () {
         vm.selectedQueueVersion = null;
       });
 
-      $scope.$on('create:queue:version', function () {
+      vm.addQueueVersion = function () {
         vm.selectedQueueVersion = vm.getDefaultVersion();
         vm.selectedQueueVersion.queueId = vm.selectedQueue.id;
         vm.selectedQueueVersion.name= 'v' + (vm.fetchVersions().length + 1);
-      });
-
-      $scope.$on('copy:queue:version', function (event, version) {
-        vm.copySelectedVersion(version);
-      });
+      };
 
       vm.saveVersion = function() {
         return vm.selectedQueueVersion.save().then(function(version){
           vm.selectedQueueVersion = null;
           return version;
-        });
+        }).finally(vm.updateVersions);
       };
     }
   ]);

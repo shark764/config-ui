@@ -19,7 +19,7 @@ angular.module('liveopsConfigPanel')
         link: function ($scope) {
           var parseResourceKey = angular.noop;
           var parseStateKey = angular.noop;
-          
+
           $scope.$watch('config', function(newConfig){
             if(!newConfig) {
               return;
@@ -33,10 +33,10 @@ angular.module('liveopsConfigPanel')
 
             $scope.resourceKey = $scope.config.resourceKey ?
               $scope.config.resourceKey : 'id';
-              
+
             $scope.stateKey = $scope.config.stateKey ?
               $scope.config.stateKey : 'id';
-              
+
             parseResourceKey = $parse($scope.resourceKey);
             parseStateKey = $parse($scope.stateKey);
           });
@@ -46,7 +46,7 @@ angular.module('liveopsConfigPanel')
           $scope.$on('created:resource:' + $scope.resourceName,
             function (event, item) {
               $scope.selected = item;
-              
+
               var params = {};
               params[$scope.stateKey] = parseStateKey(item);
               $location.search(params);
@@ -101,13 +101,13 @@ angular.module('liveopsConfigPanel')
               return parseFunc(item);
             }
           };
-          
+
           $scope.stateParam = function(item) {
             var param = {};
             param[$scope.stateKey] = parseResourceKey(item);
             return param;
           };
-          
+
           $scope.toggleAll = function (checkedValue) {
             angular.forEach($scope.filtered, function (item) {
               $scope.checkItem(item, checkedValue);
@@ -121,12 +121,12 @@ angular.module('liveopsConfigPanel')
 
             if (newItems.length === 0) {
               $rootScope.$broadcast(loEvents.tableControls.itemCreate);
-            } else if (parseStateKey($stateParams)) {
+            } else if (parseStateKey($location.search())) {
               //Init the selected item based on URL param
               var params = {};
-              params[$scope.resourceKey] = parseStateKey($stateParams);
+              params[$scope.resourceKey] = parseStateKey($location.search());
               var matchedItems = $filter('filter')(newItems, params, false);
-              
+
               if (matchedItems.length > 0) {
                 $scope.selectItem(matchedItems[0]);
                 return;
@@ -160,7 +160,7 @@ angular.module('liveopsConfigPanel')
               var params = {};
               params[$scope.resourceKey] = parseResourceKey($scope.selected);
               var matchedItems = $filter('filter')($scope.filtered, params);
-              
+
               if (matchedItems.length > 0) {
                 selectedIsVisible = true;
               }

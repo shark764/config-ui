@@ -7,9 +7,6 @@ angular.module('liveopsConfigPanel')
         queue: '='
       },
       templateUrl: 'app/components/flows/queues/versions/queueVersions.html',
-      controller: 'QueueVersionsController as qvc',
-      link: function($scope, $elem, $attr, ctrl) {
-        $scope.qc = ctrl;
-      }
+      controller: 'QueueVersionsController as qvc'
     };
   }]);
