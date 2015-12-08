@@ -196,7 +196,8 @@ describe('QueueController', function() {
       $httpBackend.expectPUT(apiHostname + '/v1/tenants/tenant-id/queues/queueId1', {
         activeVersion: mockQueueVersions[0].version,
         name: mockQueues[0].name,
-        description: mockQueues[0].description
+        description: mockQueues[0].description,
+        active: true
       }).respond(200, mockQueues[0]);
       
       controller.saveInitialVersion(mockQueues[0]);
