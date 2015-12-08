@@ -533,6 +533,15 @@
   "list.table.title": "List Item(s)",
   "list.details.disable.confirm": "Are you sure you want to disable this list?",
   "list.details.enable.confirm": "Are you sure you want to enable this list?",
+  
+  "recordings.table.title": "Recordings",
+  "recordings.table.audio": "Audio",
+  "recordings.table.timestamp": "Timestamp",
+  "recordings.table.resources": "Resources",
+  "recordings.table.emails": "Emails",
+  "recordings.table.extension": "Extension",
+  "recordings.table.flow": "Flow",
+  "recordings.table.callerani": "Caller ANI",
 
   "webrtc": "WebRTC",
   "twilio": "Twilio",

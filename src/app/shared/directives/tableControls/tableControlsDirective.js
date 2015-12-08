@@ -59,6 +59,7 @@ angular.module('liveopsConfigPanel')
             }
 
             $scope.showBulkActions = angular.isDefined($scope.config.showBulkActions) ? $scope.config.showBulkActions : true;
+            $scope.showSearch = angular.isDefined($scope.config.showSearch) ? $scope.config.showSearch : true;
             $scope.showCreate = angular.isDefined($scope.config.showCreate) ? $scope.config.showCreate : true;
 
             $scope.reverseSortOrder = false;

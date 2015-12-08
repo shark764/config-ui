@@ -1,0 +1,55 @@
+<table-controls
+  id="table-pane"
+  config="tableConfig"
+  items="fetchRecordings()"
+  selected="selectedRecording"
+  resource-name="Recording">
+  
+  <div name="play">
+    <i class="fa fa-play"></i>
+  </div>
+  
+  </table-controls>
+
+<resize-handle
+  ng-show="!! selectedRecording"
+  id="resize-pane"
+  right-element-id="right-panel"
+  left-element-id="table-pane" ></resize-handle>
+
+<lo-details-panel id="right-panel" class="right-panel"
+  name="recordingDetailsController"
+  ng-show="selectedRecording"
+  ng-resource="selectedRecording">
+
+  <ng-form unsaved-changes-warning class="details-pane"
+    ng-show="selectedRecording" name="forms.recordingForm"
+    ng-model="selectedRecording"
+    ng-resource="selectedRecording"
+    lo-form-submit
+    lo-form-cancel
+    lo-form-alert>
+
+    <div class="detail-header"
+      ng-include src="'app/components/reports/recordings/recordingDetailHeader.html'">
+    </div>
+
+    <div class="detail-body"
+      ng-include src="'app/components/reports/recordings/recordingDetailBody.html'">
+    </div>
+
+    <div class="detail-controls">
+      <input id="cancel-details-btn" type="button" class="btn"
+        value="{{'value.cancel' | translate}}"
+        lo-cancel>
+      </input>
+      <input id="submit-details-btn" class="btn btn-primary"
+        type="submit" value="{{'value.submit' | translate}}"
+        ng-disabled="forms.recordingForm.$invalid || ! forms.recordingForm.$dirty"
+        lo-submit="recordingDetailsController.submit()"
+        lo-submit-spinner
+        lo-submit-spinner-status="selectedRecording.$busy">
+      </input>
+    </div>
+  </ng-form>
+</lo-details-panel>

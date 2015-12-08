@@ -392,6 +392,18 @@ angular.module('liveopsConfigPanel')
           templateUrl: 'app/components/reports/reports.html',
           controller: 'ReportsController'
         })
+        .state('content.reports.recordings', {
+          url: '/recordings?id',
+          templateUrl: 'app/components/reports/recordings/recordings.html',
+          controller: 'RecordingsController',
+          reloadOnSearch: false,
+          resolve: {
+            hasPermission: ['UserPermissions', function(UserPermissions) {
+              //TODO: fill in permissions
+              return UserPermissions.resolvePermissions([]);
+            }]
+          }
+        })
         .state('invite-accept', {
           url: '/invite-accept?userId&tenantId&token',
           templateUrl: 'app/components/inviteAccept/inviteAccept.html',

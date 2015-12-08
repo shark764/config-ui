@@ -1,0 +1,35 @@
+<div class="divider-header first-header">
+  <h4>{{'details' | translate}}</h4>
+</div>
+
+<div class="tile" disable-contents="!('MANAGE_ALL_RECORDINGS' | hasPermission)">
+  <div class="input-group">
+    <label>{{'value.name' | translate}} *</label>
+    <form-error field="forms.recordingForm.name"
+      error-type-required="{{'recording.details.name.error' | translate}}">
+    </form-error>
+    <div>
+      <input type="text" name="name"
+        ng-required="true"
+        ng-model="selectedRecording.name">
+      </input>
+    </div>
+  </div>
+  
+  <div class="input-group">
+    <label>{{'recording.details.play' | translate}}</label>
+    <div>
+      <i class="fa fa-play"></i>
+    </div>
+  </div>
+  
+  <div class="input-group">
+    <label>{{'value.timestamp' | translate}} *</label>
+    <div>
+      <input type="text" name="name"
+        ng-required="true"
+        ng-model="selectedRecording.name">
+      </input>
+    </div>
+  </div>
+</div>

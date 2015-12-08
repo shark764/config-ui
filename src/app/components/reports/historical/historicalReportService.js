@@ -1,11 +1,11 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .factory('Report', ['LiveopsResourceFactory', 'apiHostname', 'cacheAddInterceptor',
+  .factory('HistoricalReport', ['LiveopsResourceFactory', 'apiHostname', 'cacheAddInterceptor',
     function(LiveopsResourceFactory, apiHostname, cacheAddInterceptor) {
-      var Report = LiveopsResourceFactory.create({
+      var HistoricalReport = LiveopsResourceFactory.create({
         endpoint: apiHostname + '/v1/tenants/:tenantId/reports/token',
-        resourceName: 'Report',
+        resourceName: 'HistoricalReport',
         updateFields: [{
           name: 'baseUrl'
         }, {
@@ -16,6 +16,6 @@ angular.module('liveopsConfigPanel')
         saveInterceptor: cacheAddInterceptor
       });
 
-      return Report;
+      return HistoricalReport;
     }
   ]);
