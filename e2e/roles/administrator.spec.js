@@ -33,14 +33,14 @@ describe('The Administrator role', function() {
   it('should allow new user to be created with the role', function() {
     // Create user with administrator role
     random = Math.floor((Math.random() * 1000) + 1);
-    administratorEmail = 'administrator' + random + '@mailinator.com';
+    administratorEmail = 'tenantadrole' + random + '@mailinator.com'; // Mailinator does not allow email addresses with admin
 
     // Add new user
     shared.createBtn.click();
 
     users.emailFormField.sendKeys(administratorEmail);
     users.tenantRoleFormDropdown.element(by.cssContainingText('option', 'Administrator')).click();
-    users.platformRoleFormDropdownOptions.get(1).click();
+    users.platformRoleFormDropdown.element(by.cssContainingText('option', 'Platform User')).click();
 
     users.firstNameFormField.sendKeys('Administrator' + random);
     users.lastNameFormField.sendKeys('Role' + random);
@@ -58,6 +58,8 @@ describe('The Administrator role', function() {
         invites.passwordFormField.sendKeys('password');
 
         invites.submitFormBtn.click().then(function() {
+
+          shared.waitForMessage();
           expect(shared.message.isDisplayed()).toBeTruthy();
           expect(shared.message.getText()).toBe('Your invitation has been accepted!');
         });
@@ -66,6 +68,7 @@ describe('The Administrator role', function() {
   });
 
   it('should login as new user with Administrator role', function() {
+    browser.get(shared.usersPageUrl);
     expect(shared.welcomeMessage.getText()).toContain('Hello, Administrator' + random + ' Role' + random);
   });
 
@@ -207,6 +210,36 @@ describe('The Administrator role', function() {
     });
   });
 
+  it('should allow user to add an extension', function() {
+    extensions.userExtensions.count().then(function(originalExtensionCount) {
+      extensions.typeDropdown.click();
+      extensions.pstnDropdownOption.click();
+
+      extensions.pstnValueFormField.sendKeys('15064561234\t');
+      extensions.extFormField.sendKeys('12345');
+
+      extensions.descriptionFormField.sendKeys('PSTN Extension description');
+
+      extensions.addBtn.click().then(function() {
+        shared.waitForSuccess();
+
+        expect(extensions.userExtensions.count()).toBe(originalExtensionCount + 1);
+        var newExtension = extensions.userExtensions.get(originalExtensionCount);
+        expect(newExtension.element(by.css('.type-col')).getText()).toContain('PSTN');
+        expect(newExtension.element(by.css('.phone-number-col')).getText()).toBe('+15064561234x12345');
+        expect(newExtension.element(by.css('.description-col')).getText()).toBe('PSTN Extension description');
+        expect(newExtension.element(by.css('.remove')).isDisplayed()).toBeTruthy();
+
+        // Fields are reset
+        expect(extensions.typeDropdown.$('option:checked').getText()).toContain('WebRTC');
+        expect(extensions.providerDropdown.$('option:checked').getText()).toContain('Provider');
+        expect(extensions.pstnValueFormField.isDisplayed()).toBeFalsy();
+        expect(extensions.extFormField.isDisplayed()).toBeFalsy();
+        expect(extensions.descriptionFormField.getAttribute('value')).toBe('');
+      });
+    });
+  });
+
   it('should have access to add a new User with equal or lesser Tenant Role', function() {
     browser.get(shared.usersPageUrl);
 
@@ -235,16 +268,14 @@ describe('The Administrator role', function() {
     expect(users.tenantRoleFormDropdown.isEnabled()).toBeTruthy();
   });
 
-  xit('should have access to add Extensions existing User', function() {
+  it('should have access to add Extensions existing User', function() {
     extensions.typeDropdown.click();
     extensions.pstnDropdownOption.click();
 
-    extensions.providerDropdown.click();
-    extensions.twilioDropdownOption.click();
-
-    extensions.valueFormField.sendKeys('15064561234\t');
+    extensions.pstnValueFormField.sendKeys('15064561234\t');
     extensions.extFormField.sendKeys('12345');
 
+    extensions.descriptionFormField.sendKeys('PSTN Extension description');
     extensions.addBtn.click().then(function() {
       shared.waitForSuccess();
 
