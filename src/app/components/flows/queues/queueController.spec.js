@@ -93,8 +93,7 @@ describe('QueueController', function() {
 
   it('should set up a default version when creating a new version', inject(['Session', function(Session) {
     controller.selectedQueue = mockQueues[0];
-    $scope.$broadcast('create:queue:version');
-    $scope.$digest();
+    controller.addQueueVersion();
     expect(controller.selectedQueueVersion).toBeDefined();
     expect(controller.selectedQueueVersion.query).toEqual('{}');
     expect(controller.selectedQueueVersion.tenantId).toEqual(Session.tenant.tenantId);
@@ -116,9 +115,7 @@ describe('QueueController', function() {
       priorityUnit: 'seconds'
     });
 
-    $scope.$broadcast('copy:queue:version', myQueueVersion);
-
-    $scope.$digest();
+    controller.copySelectedVersion(myQueueVersion);
     expect(controller.selectedQueueVersion).toBeDefined();
     expect(controller.selectedQueueVersion.query).toEqual('query stuff');
     expect(controller.selectedQueueVersion.tenantId).toEqual('tenant1');

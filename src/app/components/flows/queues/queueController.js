@@ -72,25 +72,7 @@ angular.module('liveopsConfigPanel')
             Alert.error($translate.instant('queue.create.invalid.query'));
 
             if (angular.isDefined(response.data.error.attribute.query)) {
-              vm.copySelectedVersion(qv);
-
-              vm.forms.versionForm.query.$setValidity('api', false);
-
-              vm.forms.versionForm.query.$error = {
-                api: response.data.error.attribute.query
-              };
-
-              var unbindErrorWatch = $scope.$watch('forms.versionForm.query.$dirty', function(dirtyValue){
-                if (dirtyValue){
-                  vm.forms.versionForm.query.$setValidity('api', true);
-                  unbindErrorWatch();
-                }
-              });
-
-              //Must use timeout here instead of evalAsync; evalAsync executes too early
-              $timeout(function(){
-                vm.forms.versionForm.query.$setTouched();
-              });
+              vm.copySelectedVersion(qv); 
             }
           }
         )
@@ -146,7 +128,7 @@ angular.module('liveopsConfigPanel')
           }
         }
       };
- 
+
 
       $scope.$watch(function () {
         return vm.selectedQueue;
