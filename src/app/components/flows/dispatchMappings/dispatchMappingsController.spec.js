@@ -8,7 +8,8 @@ describe('DispatchMappingsController', function () {
     mockDispatchMappings,
     mockFlows,
     mockIntegrations,
-    Session;
+    Session,
+    loEvents;
 
   beforeEach(module('gulpAngular'));
   beforeEach(module('liveopsConfigPanel'));
@@ -16,8 +17,8 @@ describe('DispatchMappingsController', function () {
   beforeEach(module('liveopsConfigPanel.tenant.integration.mock'));
   beforeEach(module('liveopsConfigPanel.tenant.flow.mock'));
 
-  beforeEach(inject(['$rootScope', '$controller', '$httpBackend', 'apiHostname', 'Session', 'mockDispatchMappings', 'mockFlows', 'mockIntegrations',
-    function ($rootScope, _$controller_, _$httpBackend_, _apiHostname_, _Session_, _mockDispatchMappings, _mockFlows, _mockIntegrations) {
+  beforeEach(inject(['$rootScope', '$controller', '$httpBackend', 'apiHostname', 'Session', 'mockDispatchMappings', 'mockFlows', 'mockIntegrations', 'loEvents',
+    function ($rootScope, _$controller_, _$httpBackend_, _apiHostname_, _Session_, _mockDispatchMappings, _mockFlows, _mockIntegrations, _loEvents) {
       $scope = $rootScope.$new();
       $controller = _$controller_;
       Session = _Session_;
@@ -26,6 +27,7 @@ describe('DispatchMappingsController', function () {
       mockDispatchMappings = _mockDispatchMappings;
       mockFlows = _mockFlows;
       mockIntegrations = _mockIntegrations;
+      loEvents = _loEvents;
     }
   ]));
 
@@ -87,7 +89,7 @@ describe('DispatchMappingsController', function () {
   
 
   it('should have a function to create a new dispatchMapping and set it as selected', function () {
-    $scope.$broadcast('table:on:click:create');
+    $scope.$broadcast(loEvents.tableControls.itemCreate);
     expect($scope.selectedDispatchMapping).toBeDefined();
   });
 

@@ -48,8 +48,8 @@ angular.module('liveopsConfigPanel')
             'transclude': true,
             'filter': 'selectedOptions'
           }],
-          'searchOn': ['name'],
-          'orderBy': 'name',
+          'searchOn': ['$original.name'],
+          'orderBy': '$original.name',
           'title': $translate.instant('tenant.table.title'),
           'sref': 'content.configuration.tenants',
           'showBulkActions': UserPermissions.hasPermissionInList(['PLATFORM_MANAGE_ALL_TENANTS', 'MANAGE_TENANT']),

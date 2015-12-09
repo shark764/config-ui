@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('roleTableConfig', ['$translate', 'UserPermissions', function ($translate, UserPermissions) {
+  .service('roleTableConfig', ['$translate', 'UserPermissions', 'helpDocsHostname', function ($translate, UserPermissions, helpDocsHostname) {
     //TODO: enable when API returns list of permissions object instead of just ids
     //function getPermissionOptions() {
     //  return TenantPermission.cachedQuery({
@@ -40,7 +40,8 @@ angular.module('liveopsConfigPanel')
         'title': $translate.instant('role.table.title'),
         'sref' : 'content.management.roles',
         'showBulkActions': false,
-        'showCreate': UserPermissions.hasPermissionInList(['PLATFORM_CREATE_TENANT_ROLES', 'MANAGE_ALL_ROLES'])
+        'showCreate': UserPermissions.hasPermissionInList(['PLATFORM_CREATE_TENANT_ROLES', 'MANAGE_ALL_ROLES']),
+        'helpLink': helpDocsHostname + '/Content/Managing%20Users/Adding_roles.htm'
       };
     }
   ]);

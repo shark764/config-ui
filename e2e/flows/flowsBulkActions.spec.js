@@ -10,15 +10,19 @@ describe('The flows view bulk actions', function() {
 
   beforeAll(function() {
     loginPage.login(params.login.user, params.login.password);
+    var randomFlow = Math.floor((Math.random() * 1000) + 1);
 
-    // TODO Update based on new flow creation
     // Create new flow
     browser.get(shared.flowsPageUrl);
-    var randomFlow = Math.floor((Math.random() * 1000) + 1);
     shared.createBtn.click();
-    flows.nameFormField.sendKeys('Flow ' + randomFlow);
-    flows.typeFormDropdown.all(by.css('option')).get((randomFlow % 3) + 1).click();
-    shared.submitFormBtn.click()
+    flows.modalNameField.sendKeys('Flow ' + randomFlow);
+    flows.modalTypeDropdown.all(by.css('option')).get((randomFlow % 3) + 1).click();
+    flows.submitModalBtn.click().then(function() {
+      flows.waitForFlowDesignerRedirect();
+      expect(browser.getCurrentUrl()).toContain('/flows/editor');
+
+      browser.get(shared.flowsPageUrl);
+    });
   });
 
   beforeEach(function() {
@@ -33,21 +37,22 @@ describe('The flows view bulk actions', function() {
   });
 
 
-  xit('should allow updates to supported bulk action fields', function() {
+  it('should allow updates to supported bulk action fields', function() {
     shared.actionsBtn.click();
     expect(bulkActions.bulkActionDivs.count()).toBe(1);
 
     // Enable Flows
     expect(bulkActions.selectEnable.isDisplayed()).toBeTruthy();
-    expect(bulkActions.enableToggle.isDisplayed()).toBeTruthy();
+    expect(bulkActions.enableDropdown.isDisplayed()).toBeTruthy();
   });
 
-  xit('should allow all selected flow\'s status to be Disabled', function() {
+  it('should allow all selected flow\'s status to be Disabled', function() {
     // Update All bulk actions
     shared.actionsBtn.click();
     bulkActions.selectAllTableHeader.click();
 
     bulkActions.selectEnable.click();
+    bulkActions.disableDropdownOption.click();
 
     expect(bulkActions.submitFormBtn.getAttribute('disabled')).toBeFalsy();
     bulkActions.submitFormBtn.click();
@@ -57,12 +62,11 @@ describe('The flows view bulk actions', function() {
       //expect(shared.successMessage.isDisplayed()).toBeTruthy();
 
       // All flows are set to disabled
-      // Select Disabled from Status drop down
+      // Leave Disabled selected from Status drop down
       bulkActions.statusColumnDropDownLabel.click();
-      bulkActions.statuses.get(0).click();
+      bulkActions.statuses.get(1).click();
       shared.tableElements.count().then(function(disabledTotal) {
-        // BUG
-        //expect(disabledTotal).toBe(flowCount);
+        expect(disabledTotal).toBe(flowCount);
       });
 
       // Select Enabled from Status drop down
@@ -74,13 +78,13 @@ describe('The flows view bulk actions', function() {
     });
   });
 
-  xit('should allow all selected flow\'s status to be Enabled', function() {
+  it('should allow all selected flow\'s status to be Enabled', function() {
     // Update All bulk actions
     shared.actionsBtn.click();
     bulkActions.selectAllTableHeader.click();
 
     bulkActions.selectEnable.click();
-    bulkActions.enableToggleClick.click();
+    bulkActions.enableDropdownOption.click();
 
     expect(bulkActions.submitFormBtn.getAttribute('disabled')).toBeFalsy();
     bulkActions.submitFormBtn.click();
@@ -90,9 +94,9 @@ describe('The flows view bulk actions', function() {
       shared.waitForSuccess();
 
       // All flows are set to enabled
-      // Select Disabled from Status drop down
+      // Leave Disabled selected from Status drop down
       bulkActions.statusColumnDropDownLabel.click();
-      bulkActions.statuses.get(0).click();
+      bulkActions.statuses.get(1).click();
       shared.tableElements.count().then(function(disabledTotal) {
         expect(disabledTotal).toBe(0);
       });
@@ -106,16 +110,16 @@ describe('The flows view bulk actions', function() {
     });
   });
 
-  xit('should ignore disabled fields on update', function() {
+  it('should ignore disabled fields on update', function() {
     shared.actionsBtn.click();
     bulkActions.selectAllTableHeader.click();
 
     bulkActions.selectEnable.click();
-    bulkActions.enableToggle.click();
+    bulkActions.enableDropdownOption.click();
 
     // Disable Enable toggle
     bulkActions.selectEnable.click();
-    expect(bulkActions.enableToggle.getAttribute('disabled')).toBeTruthy();
+    expect(bulkActions.enableDropdown.getAttribute('disabled')).toBeTruthy();
 
     // No bulk actions to perform
     expect(bulkActions.submitFormBtn.getAttribute('disabled')).toBeTruthy();
@@ -125,7 +129,7 @@ describe('The flows view bulk actions', function() {
     expect(shared.successMessage.isPresent()).toBeFalsy();
   });
 
-  xit('should only affect selected flows', function() {
+  it('should only affect selected flows', function() {
     shared.tableElements.then(function(originalFlows) {
       // Select odd flows and leave even flows unselected
       for (var i = 0; i < originalFlows.length; i++) {
@@ -138,6 +142,7 @@ describe('The flows view bulk actions', function() {
 
       // Disable selected Flows
       bulkActions.selectEnable.click();
+      bulkActions.disableDropdownOption.click();
 
       bulkActions.submitFormBtn.click();
 

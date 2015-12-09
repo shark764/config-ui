@@ -29,7 +29,7 @@ describe('The queues view', function() {
   it('should include queue management page components', function() {
     expect(shared.navBar.isDisplayed()).toBeTruthy();
 
-    expect(shared.rightPanel.isDisplayed()).toBeFalsy();
+    expect(shared.detailsPanel.isDisplayed()).toBeFalsy();
     expect(newVersion.newQueueVersionPanel.isDisplayed()).toBeFalsy();
     expect(queues.nameFormField.isDisplayed()).toBeFalsy();
     expect(queues.descriptionFormField.isDisplayed()).toBeFalsy();
@@ -60,6 +60,7 @@ describe('The queues view', function() {
     // Edit fields
     queues.nameFormField.clear();
     queues.nameFormField.sendKeys('\t');
+    queues.activeVersionDropdown.all(by.css('option')).get(1).click();
 
     // Submit button is still disabled
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
@@ -75,6 +76,7 @@ describe('The queues view', function() {
     shared.firstTableRow.click();
 
     // Edit fields
+    queues.activeVersionDropdown.all(by.css('option')).get(1).click();
     queues.descriptionFormField.sendKeys('not required');
     queues.descriptionFormField.clear();
     queues.descriptionFormField.sendKeys('\t');

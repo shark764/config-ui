@@ -61,7 +61,7 @@ angular.module('liveopsConfigPanel')
         'sref' : 'content.flows.dispatchMappings',
         'showCreate': UserPermissions.hasPermission('MAP_ALL_CONTACT_POINTS'),
         'showBulkActions': UserPermissions.hasPermission('MAP_ALL_CONTACT_POINTS'),
-        'helpLink' : helpDocsHostname + '/Content/Managing%20Flows/Dispatch_Mapping.htm'
+        'helpLink' : helpDocsHostname + '/Content/Managing%20Flows/Dispatch_mapping.htm'
       };
     }
   ]);

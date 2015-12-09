@@ -2,17 +2,19 @@
 
 describe('roles controller', function () {
   var $scope,
-    mockRoles;
+    mockRoles,
+    loEvents;
 
   beforeEach(module('gulpAngular'));
   beforeEach(module('liveopsConfigPanel'));
   beforeEach(module('liveopsConfigPanel.mock'));
   beforeEach(module('liveopsConfigPanel.tenant.role.mock'));
 
-  beforeEach(inject(['$rootScope', 'mockRoles', '$controller',
-    function ($rootScope, _mockRoles, $controller) {
+  beforeEach(inject(['$rootScope', 'mockRoles', '$controller', 'loEvents',
+    function ($rootScope, _mockRoles, $controller, _loEvents) {
       $scope = $rootScope.$new();
       mockRoles = _mockRoles;
+      loEvents = _loEvents;
 
       $controller('RolesController', {
         '$scope': $scope
@@ -23,7 +25,7 @@ describe('roles controller', function () {
 
   it('should catch the table create click event and call create', inject(['$rootScope', function ($rootScope) {
     spyOn($scope, 'create');
-    $rootScope.$broadcast('table:on:click:create');
+    $rootScope.$broadcast(loEvents.tableControls.itemCreate);
     $scope.$digest();
     expect($scope.create).toHaveBeenCalled();
   }]));

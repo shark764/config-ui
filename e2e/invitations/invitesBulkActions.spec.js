@@ -37,9 +37,12 @@ describe('The users invitations bulk actions', function() {
       shared.tableColumnsDropDown.click();
       users.tenantStatusTableDropDownLabel.click();
 
-      // Select Pending Acceptance from drop down
-      users.dropdownTenantStatuses.get(4).click().then(function() {
-        // All input is unselected
+      // Leave Pending Acceptance selected from drop down
+      users.dropdownTenantStatuses.get(0).click();
+      users.dropdownTenantStatuses.get(1).click();
+      users.dropdownTenantStatuses.get(2).click();
+      users.dropdownTenantStatuses.get(3).click();
+      users.dropdownTenantStatuses.get(5).click().then(function() {
         expect(users.dropdownTenantStatusInputs.get(0).isSelected()).toBeFalsy();
         expect(users.dropdownTenantStatusInputs.get(5).isSelected()).toBeTruthy();
 
@@ -79,7 +82,11 @@ describe('The users invitations bulk actions', function() {
       users.tenantStatusTableDropDownLabel.click();
 
       // Select Pending Invitation from drop down
-      users.dropdownTenantStatuses.get(2).click().then(function() {
+      users.dropdownTenantStatuses.get(0).click();
+      users.dropdownTenantStatuses.get(1).click();
+      users.dropdownTenantStatuses.get(3).click();
+      users.dropdownTenantStatuses.get(4).click();
+      users.dropdownTenantStatuses.get(5).click().then(function() {
         // All input is unselected
         expect(users.dropdownTenantStatusInputs.get(0).isSelected()).toBeFalsy();
         expect(users.dropdownTenantStatusInputs.get(3).isSelected()).toBeTruthy();
@@ -121,7 +128,11 @@ describe('The users invitations bulk actions', function() {
       users.tenantStatusTableDropDownLabel.click();
 
       // Select Expired from drop down
-      users.dropdownTenantStatuses.get(1).click().then(function() {
+      users.dropdownTenantStatuses.get(0).click();
+      users.dropdownTenantStatuses.get(2).click();
+      users.dropdownTenantStatuses.get(3).click();
+      users.dropdownTenantStatuses.get(4).click();
+      users.dropdownTenantStatuses.get(5).click().then(function() {
         // All input is unselected
         expect(users.dropdownTenantStatusInputs.get(0).isSelected()).toBeFalsy();
         expect(users.dropdownTenantStatusInputs.get(2).isSelected()).toBeTruthy();
@@ -162,7 +173,11 @@ describe('The users invitations bulk actions', function() {
       users.tenantStatusTableDropDownLabel.click();
 
       // Select Accepted from drop down
-      users.dropdownTenantStatuses.get(3).click().then(function() {
+      users.dropdownTenantStatuses.get(0).click();
+      users.dropdownTenantStatuses.get(1).click();
+      users.dropdownTenantStatuses.get(2).click();
+      users.dropdownTenantStatuses.get(4).click();
+      users.dropdownTenantStatuses.get(5).click().then(function() {
         // All input is unselected
         expect(users.dropdownTenantStatusInputs.get(0).isSelected()).toBeFalsy();
         expect(users.dropdownTenantStatusInputs.get(4).isSelected()).toBeTruthy();
