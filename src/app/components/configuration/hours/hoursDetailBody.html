@@ -13,7 +13,8 @@
     <textarea ng-model="selectedHour.description"></textarea>
   </div>
 
-  <div class="input-group">
+  <div class="input-group"
+    ng-if="timezones.$resolved">
     <label>{{'hours.timezone.header' | translate}} *</label>
     <select ng-model="selectedHour.timezone"
       ng-options="timezone for timezone in timezones">
@@ -28,14 +29,19 @@
 </div>
 
 <div>
-  <div class="input-group"
-    ng-init="isHoursCustom = false">
+  <div class="input-group">
     <label>{{'hours.details.hour' | translate}}</label>
     <div>
-      <input type="radio" ng-model="isHoursCustom" ng-value="false">
+      <input type="radio"
+        ng-model="isHoursCustom"
+        ng-change="onIsHoursCustomChanged(isHoursCustom)"
+        ng-value="false">
       <label>{{'hours.open.default' | translate}}</label>
 
-      <input type="radio" ng-model="isHoursCustom" ng-value="true">
+      <input type="radio"
+        ng-model="isHoursCustom"
+        ng-change="onIsHoursCustomChanged(isHoursCustom)"
+        ng-value="true">
       <label>{{'hours.open.custom' | translate}}</label>
     </div>
   </div>
@@ -202,11 +208,12 @@
   </div>
 </div>
 
-<div class="divider-header">
+<div class="divider-header"
+  ng-hide="selectedHour.isNew()">
   <h4>{{'hours.exceptions.title' | translate}}</h4>
   <a class="btn pull-right" title="Add a schedule exception"
     ng-click="showCreateException()">
-    <i class="fa fa-plus"></i>
+    <i class="fa fa-plus center"></i>
   </a>
 </div>
 
@@ -281,11 +288,13 @@
 
 </ng-form>
 
-<p class="null" ng-show="! selectedHour.$exceptions.length && ! exceptionHour">
+<p class="null"
+  ng-show="! selectedHour.$exceptions.length && ! exceptionHour && !selectedHour.isNew()">
   {{'hours.exception.noneDefined' | translate}}
 </p>
 
-<table class="table" ng-show="selectedHour.$exceptions.length">
+<table class="table"
+  ng-show="selectedHour.$exceptions.length && !selectedHour.isNew()">
   <thead>
     <tr>
       <th>{{'value.date' | translate}}</th>
