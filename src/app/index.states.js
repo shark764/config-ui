@@ -110,7 +110,7 @@ angular.module('liveopsConfigPanel')
         controller: 'genericListsController',
         reloadOnSearch: false,
         resolve: {
-            hasPermission: ['UserPermissions', function (UserPermissions) {
+          hasPermission: ['UserPermissions', function (UserPermissions) {
             return UserPermissions.resolvePermissions(['MANAGE_ALL_LISTS']);
           }]
         }
