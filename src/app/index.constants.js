@@ -4,13 +4,13 @@
 
 angular.module('liveopsConfigPanel.config', [])
 
-.constant('jsedn', window.jsedn)
-
 .constant('preferenceKey', 'LIVEOPS-PREFERENCE-KEY')
 
 .constant('sessionKey', 'LIVEOPS-SESSION-KEY')
 
 .constant('uuidcacheKey', 'LIVEOPS-CACHE-KEY')
+
+.constant('_', _)
 
 .factory('userStatuses', function() {
   return function(){

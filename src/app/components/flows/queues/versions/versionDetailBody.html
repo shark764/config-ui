@@ -1,25 +1,12 @@
 <div id="create-new-version-details">
-  <div class="divider-header first-header">
-    <h4>Query</h4>
-    <a class="pull-right">
-      <span id="show-advanced-query" ng-show="queryType != 'advanced'" ng-click="queryType = 'advanced'">(Show advanced query editor)</span>
-      <span id="show-basic-query" ng-show="queryType == 'advanced'" ng-click="queryType = 'basic'">(Show basic query builder)</span>
-    </a>
-  </div>
+ 
+  <input name="query" type="hidden" ng-model="qc.selectedQueueVersion.query" ng-required="true" />
 
-  <div class="input-group" ng-show="queryType=='advanced'">
-    <label class="textarea-label">{{'value.details.query' | translate}}</label>
-    <form-error field="forms.versionForm.query"
-      error-type-required="{{'queue.details.queue.error' | translate}}">
-    </form-error>
-    <textarea id="advanced-query-field" ng-required="true" type="text" ng-model="selectedQueueVersion.query" name="query"></textarea>
-  </div>
-
-  <queue-query-creator ng-if="queryType!='advanced'" version="selectedQueueVersion" queue="queue"></queue-query-creator>
+  <query-creator ng-if="qc.selectedQueueVersion" query="qc.selectedQueueVersion.query"></query-creator>
 
   <div class="divider-header">
     <h4>Priority</h4>
   </div>
 
-  <version-priority queue-version="selectedQueueVersion"></version-priority>
+  <version-priority queue-version="qc.selectedQueueVersion"></version-priority>
 </div>

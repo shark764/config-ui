@@ -12,6 +12,7 @@ module.exports = function(config) {
       moduleName: 'gulpAngular'
     },
 
+    //browsers: ['Chrome'],
     browsers: ['PhantomJS'],
 
     plugins: [

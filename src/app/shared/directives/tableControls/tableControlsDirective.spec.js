@@ -8,17 +8,19 @@ describe('tableControls directive', function () {
     element,
     isolateScope,
     doCompile,
+    $location,
     loEvents;
 
   beforeEach(module('liveopsConfigPanel'));
 
   beforeEach(module('gulpAngular'));
 
-  beforeEach(inject(['$compile', '$rootScope', '$stateParams', 'loEvents',
-    function ($compile, $rootScope, _$stateParams_, _loEvents) {
+  beforeEach(inject(['$compile', '$rootScope', '$stateParams', 'loEvents', '$location',
+    function ($compile, $rootScope, _$stateParams_, _loEvents, _$location_) {
       $scope = $rootScope.$new();
       $stateParams = _$stateParams_;
       loEvents = _loEvents;
+      $location = _$location_;
 
       $scope.config = {
         fields: [{
@@ -68,7 +70,9 @@ describe('tableControls directive', function () {
     $scope.items.push({
       id: 'item2'
     });
-    $stateParams.id = 'item2';
+
+    $location.search({id: 'item2'});
+
     doCompile();
     expect($scope.selected).toEqual($scope.items[1]);
   }));
@@ -87,7 +91,7 @@ describe('tableControls directive', function () {
     $scope.items.push({
       id: 'item2'
     });
-    $stateParams.id = 'somethingelse';
+    $location.search({id: 'somethingelse'});
     doCompile();
     expect($scope.selected).toEqual(null);
   }));
@@ -199,13 +203,13 @@ describe('tableControls directive', function () {
       isolateScope.selectItem({
         name: 'my item'
       });
-      
+
       expect($rootScope.$broadcast).toHaveBeenCalled();
       expect($rootScope.$broadcast.calls.argsFor(0)[0]).toEqual(loEvents.tableControls.itemSelected);
       expect($rootScope.$broadcast.calls.argsFor(0)[1]).toEqual({
         name: 'my item'
       });
-      
+
       expect($rootScope.$broadcast.calls.argsFor(0)[2]).toEqual({});
     }]));
   });
