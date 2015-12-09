@@ -1,3 +1,5 @@
+'use strict';
+
 angular.module('liveopsConfigPanel.config')
   .constant('apiHostname', 'http://localhost:9080')
   .constant('BIRST_URL', 'http://dev-birst.liveopslabs.com')

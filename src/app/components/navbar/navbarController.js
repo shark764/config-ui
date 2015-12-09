@@ -23,11 +23,7 @@ angular.module('liveopsConfigPanel')
             onClick: function () {
               DirtyForms.confirmIfDirty(function () {
                 Session.setTenant(tenant);
-                $state.go($state.current, {
-                  messageKey: ''
-                }, {
-                  reload: true
-                });
+
               });
             }
           });
@@ -137,25 +133,7 @@ angular.module('liveopsConfigPanel')
           id: 'lists-configuration-link',
           order: 3
         });
-      }
-
-      if (UserPermissions.hasPermissionInList(['MANAGE_ALL_LISTS'])) {
-        configurationConfig.push({
-          label: 'Disposition Codes',
-          stateLink: 'content.configuration.dispositions',
-          id: 'disposition-codes-link',
-          order: 4
-        });
-      }
-
-      if (UserPermissions.hasPermissionInList(['MANAGE_ALL_LISTS'])) {
-        configurationConfig.push({
-          label: 'Reason Codes',
-          stateLink: 'content.configuration.reasons',
-          id: 'reason-codes-link',
-          order: 5
-        });
-      }
+      } 
 
       if (configurationConfig.length > 0) {
         $scope.configurationDropConfig = configurationConfig;

@@ -40,12 +40,16 @@ angular.module('liveopsConfigPanel')
         return tenants;
       };
 
-      vm.associateParents = function associateParents(tenants) {
+      vm.associateParents = function (tenants) {
+        if(angular.isObject(tenants)) {
+            tenants = [tenants];
+        }
+
         angular.forEach(tenants, function(tenant) {
           if(!tenant.parentId) {
             return;
           }
-          
+
           tenant.$parent = _.find(tenants, {
             id: tenant.parentId
           });

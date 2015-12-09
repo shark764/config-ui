@@ -1,6 +1,4 @@
-'use strict';
-
-/*global window: false */
+'use strict'; 
 
 angular.module('liveopsConfigPanel.config', [])
 

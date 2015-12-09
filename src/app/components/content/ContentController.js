@@ -6,10 +6,14 @@ angular.module('liveopsConfigPanel')
       $scope.showBulkActions = false;
       $scope.Session = Session;
 
-      $scope.$watch('Session.tenant', function () {
-        queryCache.removeAll();
-        $scope.$broadcast('session:tenant:changed');
-      }, true);
+      $scope.$watch(function () {
+        return Session.tenant.tenantId;
+      }, function (nv, ov) {
+        if(nv !== ov) {
+          queryCache.removeAll();
+          $scope.$broadcast('session:tenant:changed');
+        }
+      });
 
       $scope.$on(loEvents.tableControls.itemCreate, function () {
         $scope.showBulkActions = false;
@@ -21,7 +25,7 @@ angular.module('liveopsConfigPanel')
       $scope.$on(loEvents.tableControls.itemSelected, function () {
         $scope.showBulkActions = false;
       });
-      
+
       $scope.$on(loEvents.bulkActions.close, function () {
         $scope.showBulkActions = false;
       });

@@ -46,8 +46,7 @@ angular.module('liveopsConfigPanel')
         var isNew = vm.selectedQueue.isNew();
 
         return vm.selectedQueue.save(function(queue) {
-          if (isNew){
-            $scope.$broadcast('created:resource:queue')
+          if (isNew) {
             vm.initialVersion.queueId = queue.id;
             vm.saveInitialVersion(queue);
           }
@@ -72,7 +71,7 @@ angular.module('liveopsConfigPanel')
             Alert.error($translate.instant('queue.create.invalid.query'));
 
             if (angular.isDefined(response.data.error.attribute.query)) {
-              vm.copySelectedVersion(qv); 
+              vm.copySelectedVersion(qv);
             }
           }
         )
