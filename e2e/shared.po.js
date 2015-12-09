@@ -55,7 +55,7 @@ var Shared = function() {
   this.secondTableRow = this.table.element(by.css('tr.ng-scope:nth-child(2)'));
   this.selectedTableRow = this.table.element(by.css('tr.ng-scope.selected'));
   this.tableRows = this.table.all(by.css('tr.ng-scope'));
-  this.tableElements = element.all(by.repeater('item in (filtered = (items | selectedTableOptions:config.fields | search:config.searchOn:searchQuery | orderBy:orderBy:reverseSortOrder))'));
+  this.tableElements = this.table.all(by.css('tr.ng-scope'));
   this.createBtn = element(by.id('create-btn'));
   this.searchField = element(by.model('searchQuery'));
   this.actionsBtn = element(by.id('actions-btn'));
