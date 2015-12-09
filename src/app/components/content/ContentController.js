@@ -7,9 +7,13 @@ angular.module('liveopsConfigPanel')
       $scope.Session = Session;
 
       $scope.$watch(function () {
-        return Session.tenant.tenantId;
+        if(Session.tenant) {
+          return Session.tenant.tenantId;
+        }
+
+        return null;
       }, function (nv, ov) {
-        if(nv !== ov) {
+        if(nv && nv !== ov) {
           queryCache.removeAll();
           $scope.$broadcast('session:tenant:changed');
         }
