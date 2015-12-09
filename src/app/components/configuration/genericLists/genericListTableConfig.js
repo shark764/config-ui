@@ -32,8 +32,7 @@ angular.module('liveopsConfigPanel')
         'orderBy': 'name',
         'title': $translate.instant('list.table.title'),
         'showCreate': false,
-        'showBulkActions': false,
-        'helpLink': helpDocsHostname + '/Content/Configuring%20CxEngage/Creating_Lists.htm'
+        'showBulkActions': false
       };
     }
   ]);

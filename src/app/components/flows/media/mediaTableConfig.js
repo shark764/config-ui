@@ -37,7 +37,7 @@ angular.module('liveopsConfigPanel')
         'sref' : 'content.flows.media',
         'showBulkActions': false,
         'showCreate': UserPermissions.hasPermission('MANAGE_ALL_MEDIA'),
-        'helpLink' : helpDocsHostname + '/Content/Managing%20Flows/Add_media.htm'
+        'helpLink' : helpDocsHostname + '/Content/Managing%20Flows/Media/Adding%20Media.htm'
       };
     }]
   );
