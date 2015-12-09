@@ -14,7 +14,7 @@ angular.module('liveopsConfigPanel', [
     'teljs',
     'realtime-dashboards',
     'ngFileUpload',
-    'dndLists',
+    'dndLists'
   ])
   .config(['$translateProvider', 'toastrConfig',
   function ($translateProvider, toastrConfig) {

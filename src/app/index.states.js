@@ -2,11 +2,11 @@
 
 angular.module('liveopsConfigPanel')
   .config(['$stateProvider', '$urlRouterProvider',
-    function($stateProvider, $urlRouterProvider) {
+    function ($stateProvider, $urlRouterProvider) {
 
-    $urlRouterProvider.otherwise(function($injector){
+      $urlRouterProvider.otherwise(function ($injector) {
       var Session = $injector.get('Session');
-      if (Session.isAuthenticated()){
+        if (Session.isAuthenticated()) {
         return '/management/users';
       } else {
         return '/login';
@@ -20,19 +20,19 @@ angular.module('liveopsConfigPanel')
         templateUrl: 'app/components/content/content.html',
         controller: 'ContentController',
         resolve: {
-          regions: ['Session', 'Region', function(Session, Region) {
-            return Region.query({}, function(result) {
+            regions: ['Session', 'Region', function (Session, Region) {
+              return Region.query({}, function (result) {
               Session.activeRegionId = result[0].id;
             }).$promise;
           }],
 
-          login: ['Session', 'Login', '$state', function(Session, Login, $state) {
-            return Login.save(function(result) {
+            login: ['Session', 'Login', '$state', function (Session, Login, $state) {
+              return Login.save(function (result) {
               Session.tenants = result.tenants;
-            }, function() {
+              }, function () {
               $state.go('login');
             }).$promise;
-          }],
+            }]
         }
       })
       .state('content.management', {
@@ -47,7 +47,7 @@ angular.module('liveopsConfigPanel')
         controller: 'UsersController',
         reloadOnSearch: false,
         resolve: {
-          hasPermission: ['UserPermissions', '$q', function(UserPermissions, $q) {
+            hasPermission: ['UserPermissions', '$q', function (UserPermissions, $q) {
             return $q.all(
                 UserPermissions.resolvePermissions(['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'VIEW_ALL_USERS', 'MANAGE_ALL_USER_EXTENSIONS', 'MANAGE_ALL_GROUP_USERS', 'MANAGE_ALL_USER_SKILLS', 'MANAGE_ALL_USER_LOCATIONS', 'MANAGE_TENANT_ENROLLMENT']),
                 UserPermissions.resolvePermissions(['MANAGE_ALL_GROUPS', 'MANAGE_ALL_SKILLS'])); //See TITAN2-4897 for why we do this extra check
@@ -60,7 +60,7 @@ angular.module('liveopsConfigPanel')
         controller: 'RolesController',
         reloadOnSearch: false,
         resolve: {
-          hasPermission: ['UserPermissions', function(UserPermissions) {
+            hasPermission: ['UserPermissions', function (UserPermissions) {
             return UserPermissions.resolvePermissions(['PLATFORM_CREATE_TENANT_ROLES', 'PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'VIEW_ALL_ROLES', 'MANAGE_ALL_ROLES', 'MANAGE_TENANT_ENROLLMENT']);
           }]
         }
@@ -71,7 +71,7 @@ angular.module('liveopsConfigPanel')
         controller: 'SkillsController',
         reloadOnSearch: false,
         resolve: {
-          hasPermission: ['UserPermissions', function(UserPermissions) {
+            hasPermission: ['UserPermissions', function (UserPermissions) {
             return UserPermissions.resolvePermissions(['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'VIEW_ALL_SKILLS', 'MANAGE_ALL_SKILLS', 'MANAGE_ALL_USER_SKILLS', 'MANAGE_TENANT_ENROLLMENT']);
           }]
         }
@@ -82,7 +82,7 @@ angular.module('liveopsConfigPanel')
         controller: 'GroupsController',
         reloadOnSearch: false,
         resolve: {
-          hasPermission: ['UserPermissions', function(UserPermissions) {
+            hasPermission: ['UserPermissions', function (UserPermissions) {
             return UserPermissions.resolvePermissions(['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'VIEW_ALL_GROUPS', 'MANAGE_ALL_GROUPS', 'MANAGE_ALL_GROUP_USERS', 'MANAGE_ALL_GROUP_OWNERS', 'MANAGE_TENANT_ENROLLMENT']);
           }]
         }
@@ -99,7 +99,7 @@ angular.module('liveopsConfigPanel')
         controller: 'TenantsController',
         reloadOnSearch: false,
         resolve: {
-          hasPermission: ['UserPermissions', function(UserPermissions) {
+            hasPermission: ['UserPermissions', function (UserPermissions) {
             return UserPermissions.resolvePermissions(['PLATFORM_VIEW_ALL_TENANTS', 'PLATFORM_MANAGE_ALL_TENANTS', 'PLATFORM_CREATE_ALL_TENANTS', 'PLATFORM_CREATE_TENANT_ROLES', 'PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'MANAGE_TENANT']);
           }]
         }
@@ -110,7 +110,7 @@ angular.module('liveopsConfigPanel')
         controller: 'genericListsController',
         reloadOnSearch: false,
         resolve: {
-          hasPermission: ['UserPermissions', function(UserPermissions) {
+            hasPermission: ['UserPermissions', function (UserPermissions) {
             return UserPermissions.resolvePermissions(['MANAGE_ALL_LISTS']);
           }]
         }
@@ -129,7 +129,7 @@ angular.module('liveopsConfigPanel')
           listId: 'c9d31830-9499-11e5-b3ac-c1ae7ae4ed37',
         },
         resolve: {
-          hasPermission: ['UserPermissions', function(UserPermissions) {
+            hasPermission: ['UserPermissions', function (UserPermissions) {
             return UserPermissions.resolvePermissions(['MANAGE_ALL_LISTS']);
           }]
         }
@@ -143,7 +143,7 @@ angular.module('liveopsConfigPanel')
           listId: 'c9d31830-9499-11e5-b3ac-c1ae7ae4ed37',
         },
         resolve: {
-          hasPermission: ['UserPermissions', function(UserPermissions) {
+            hasPermission: ['UserPermissions', function (UserPermissions) {
             return UserPermissions.resolvePermissions(['MANAGE_ALL_LISTS']);
           }]
         }
@@ -154,7 +154,7 @@ angular.module('liveopsConfigPanel')
         controller: 'IntegrationsController',
         reloadOnSearch: false,
         resolve: {
-          hasPermission: ['UserPermissions', function(UserPermissions) {
+            hasPermission: ['UserPermissions', function (UserPermissions) {
             return UserPermissions.resolvePermissions(['VIEW_ALL_PROVIDERS', 'MANAGE_ALL_PROVIDERS']);
           }]
         }
@@ -171,7 +171,7 @@ angular.module('liveopsConfigPanel')
         controller: 'FlowManagementController',
         reloadOnSearch: false,
         resolve: {
-          hasPermission: ['UserPermissions', function(UserPermissions) {
+            hasPermission: ['UserPermissions', function (UserPermissions) {
             return UserPermissions.resolvePermissions(['VIEW_ALL_FLOWS', 'MANAGE_ALL_FLOWS', 'MAP_ALL_CONTACT_POINTS']);
           }]
         }
@@ -182,7 +182,7 @@ angular.module('liveopsConfigPanel')
         controller: 'QueueController as qc',
         reloadOnSearch: false,
         resolve: {
-          hasPermission: ['UserPermissions', function(UserPermissions) {
+            hasPermission: ['UserPermissions', function (UserPermissions) {
             return UserPermissions.resolvePermissions(['VIEW_ALL_FLOWS', 'MANAGE_ALL_FLOWS', 'MANAGE_ALL_QUEUES']);
           }]
         }
@@ -193,7 +193,7 @@ angular.module('liveopsConfigPanel')
         controller: 'MediaController',
         reloadOnSearch: false,
         resolve: {
-          hasPermission: ['UserPermissions', function(UserPermissions) {
+            hasPermission: ['UserPermissions', function (UserPermissions) {
             return UserPermissions.resolvePermissions(['VIEW_ALL_MEDIA', 'VIEW_ALL_FLOWS', 'MANAGE_ALL_FLOWS']);
           }]
         }
@@ -204,7 +204,7 @@ angular.module('liveopsConfigPanel')
         controller: 'MediaCollectionController',
         reloadOnSearch: false,
         resolve: {
-          hasPermission: ['UserPermissions', function(UserPermissions) {
+            hasPermission: ['UserPermissions', function (UserPermissions) {
             return UserPermissions.resolvePermissions(['VIEW_ALL_MEDIA', 'VIEW_ALL_FLOWS', 'MANAGE_ALL_FLOWS']);
           }]
         }
@@ -215,7 +215,7 @@ angular.module('liveopsConfigPanel')
         controller: 'DispatchMappingsController',
         reloadOnSearch: false,
         resolve: {
-          hasPermission: ['UserPermissions', function(UserPermissions) {
+            hasPermission: ['UserPermissions', function (UserPermissions) {
             return UserPermissions.resolvePermissions(['VIEW_ALL_CONTACT_POINTS', 'MAP_ALL_CONTACT_POINTS']);
           }]
         }
@@ -232,21 +232,21 @@ angular.module('liveopsConfigPanel')
         controller: 'DesignerPageController',
         reloadOnSearch: false,
         resolve: {
-          flow: ['$stateParams', 'Session', 'Flow', '$q', function($stateParams, Session, Flow, $q) {
+            flow: ['$stateParams', 'Session', 'Flow', '$q', function ($stateParams, Session, Flow, $q) {
             var deferred = $q.defer();
             var flow;
 
             Flow.get({
               tenantId: Session.tenant.tenantId,
               id: $stateParams.flowId
-            }, function(data) {
+              }, function (data) {
               flow = data;
               deferred.resolve(flow);
             });
 
             return deferred.promise;
           }],
-          data: ['$stateParams', 'FlowDraft', 'Session', '$q', function($stateParams, FlowDraft, Session, $q) {
+            data: ['$stateParams', 'FlowDraft', 'Session', '$q', function ($stateParams, FlowDraft, Session, $q) {
             var deferred = $q.defer();
             var draft;
 
@@ -254,32 +254,32 @@ angular.module('liveopsConfigPanel')
               flowId: $stateParams.flowId,
               id: $stateParams.draftId,
               tenantId: Session.tenant.tenantId
-            }, function(data) {
+              }, function (data) {
               draft = data;
               deferred.resolve(draft);
             });
 
             return deferred.promise;
           }],
-          notations: ['Notation','$q', function(Notation, $q) {
+            notations: ['Notation', '$q', function (Notation, $q) {
             var deferred = $q.defer();
 
-            Notation.query({}, function(results) {
+              Notation.query({}, function (results) {
               deferred.resolve(results);
             });
 
             return deferred.promise;
           }],
-          resources: ['FlowResource', '$q', function(FlowResource, $q){
+            resources: ['FlowResource', '$q', function (FlowResource, $q) {
             var deferred = $q.defer();
 
-            FlowResource.loadResources().then(function(){
+              FlowResource.loadResources().then(function () {
                 deferred.resolve();
             });
 
             return deferred.promise;
           }],
-          readOnly: [function(){
+            readOnly: [function () {
             return false;
           }]
         }
@@ -290,21 +290,21 @@ angular.module('liveopsConfigPanel')
         controller: 'DesignerPageController',
         reloadOnSearch: false,
         resolve: {
-          flow: ['$stateParams', 'Session', 'Flow', '$q', function($stateParams, Session, Flow, $q) {
+            flow: ['$stateParams', 'Session', 'Flow', '$q', function ($stateParams, Session, Flow, $q) {
             var deferred = $q.defer();
             var flow;
 
             Flow.get({
               tenantId: Session.tenant.tenantId,
               id: $stateParams.flowId
-            }, function(data) {
+              }, function (data) {
               flow = data;
               deferred.resolve(flow);
             });
 
             return deferred.promise;
           }],
-          data: ['$stateParams', 'FlowVersion', 'Session', '$q', function($stateParams, FlowVersion, Session, $q) {
+            data: ['$stateParams', 'FlowVersion', 'Session', '$q', function ($stateParams, FlowVersion, Session, $q) {
             var deferred = $q.defer();
             var version;
 
@@ -312,26 +312,26 @@ angular.module('liveopsConfigPanel')
               flowId: $stateParams.flowId,
               version: $stateParams.versionId,
               tenantId: Session.tenant.tenantId
-            }, function(data) {
+              }, function (data) {
               version = data;
               deferred.resolve(version);
             });
 
             return deferred.promise;
           }],
-          notations: ['Notation', '$q', function(Notation, $q) {
+            notations: ['Notation', '$q', function (Notation, $q) {
             var deferred = $q.defer();
 
-            Notation.query({}, function(results) {
+              Notation.query({}, function (results) {
               deferred.resolve(results);
             });
 
             return deferred.promise;
           }],
-          resources: ['FlowResource', function(FlowResource){
+            resources: ['FlowResource', function (FlowResource) {
             return FlowResource.loadResources();
           }],
-          readOnly: [function(){
+            readOnly: [function () {
             return true;
           }]
         }
@@ -342,9 +342,11 @@ angular.module('liveopsConfigPanel')
         controller: 'SubflowDesignerPageController',
         reloadOnSearch: false,
         resolve: {
-          subflow: ['$stateParams', '$state', '$timeout', 'SubflowCommunicationService', function($stateParams, $state, $timeout, SubflowCommunicationService) {
+            subflow: ['$stateParams', '$state', '$timeout', 'SubflowCommunicationService', function ($stateParams, $state, $timeout, SubflowCommunicationService) {
             if (SubflowCommunicationService.currentFlowContext === '') {
-              $timeout(function() { $state.go('content.flows.flowManagement'); }, 5);
+                $timeout(function () {
+                  $state.go('content.flows.flowManagement');
+                }, 5);
             }
             var subflow = SubflowCommunicationService.retrieve($stateParams.subflowNotationId);
             if (_.isUndefined(subflow)) {
@@ -384,14 +386,16 @@ angular.module('liveopsConfigPanel')
         controller: 'InviteAcceptController',
         isPublic: true,
         resolve: {
-          invitedUser: ['$stateParams', 'Session', 'User', '$q', '$state', function($stateParams, Session, User, $q, $state) {
+            invitedUser: ['$stateParams', 'Session', 'User', '$q', '$state', function ($stateParams, Session, User, $q, $state) {
             Session.setToken('Token ' + $stateParams.token);
 
             var userResult = User.get({
               id: $stateParams.userId
-            }, angular.noop, function(){
-              $state.go('login', {messageKey: 'invite.accept.expired'});
+              }, angular.noop, function () {
+                $state.go('login', {
+                  messageKey: 'invite.accept.expired'
             });
+              });
 
             return userResult.$promise;
           }]
@@ -403,7 +407,7 @@ angular.module('liveopsConfigPanel')
         controller: 'RealtimeDashboardsController',
         isPublic: false,
         resolve: {
-          dashboard: function() {
+            dashboard: function () {
             return {
               name: 'Dashboard A',
               order: 0,
@@ -429,8 +433,16 @@ angular.module('liveopsConfigPanel')
                       ['data2', 50, 20, 10, 40, 15, 25]
                     ],
                     regions: {
-                      'data1': [{'start':1, 'end':2, 'style':'dashed'},{'start':3}], // currently 'dashed' style only
-                      'data2': [{'end':3}]
+                        'data1': [{
+                          'start': 1,
+                          'end': 2,
+                          'style': 'dashed'
+                        }, {
+                          'start': 3
+                        }], // currently 'dashed' style only
+                        'data2': [{
+                          'end': 3
+                        }]
                     }
                   }
                 }
@@ -456,9 +468,19 @@ angular.module('liveopsConfigPanel')
                       ['data3', 3, 3, 255, 46, 77, 36]
                     ],
                     regions: {
-                      'data1': [{'start':1, 'end':2, 'style':'dashed'},{'start':3}],
-                      'data2': [{'end':3}],
-                      'data3': [{'end':2}]
+                        'data1': [{
+                          'start': 1,
+                          'end': 2,
+                          'style': 'dashed'
+                        }, {
+                          'start': 3
+                        }],
+                        'data2': [{
+                          'end': 3
+                        }],
+                        'data3': [{
+                          'end': 2
+                        }]
                     }
                   }
                 }
@@ -467,4 +489,5 @@ angular.module('liveopsConfigPanel')
           }
         }
       });
-  }]);
+    }
+  ]);
