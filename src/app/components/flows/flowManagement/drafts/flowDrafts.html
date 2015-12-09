@@ -43,7 +43,7 @@
     </tr>
   </thead>
   <tr ng-repeat="draft in drafts | orderBy:'created':'reverse'">
-    <td><a ng-href="#/flows/editor/{{draft.flowId}}/d/{{draft.id}}">{{draft.name}}</a></td>
+    <td><a ng-href="#/flows/editor/{{draft.flowId}}/{{draft.id}}">{{draft.name}}</a></td>
     <td>{{draft.created | date:'medium'}}</td>
     <td ng-if="['PLATFORM_VIEW_ALL_USERS', 'PLATFORM_CREATE_USERS', 'PLATFORM_MANAGE_ALL_USERS', 'PLATFORM_MANAGE_ALL_TENANTS', 'PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT'] | hasPermission">
       <audit-text translation="value.displayName" user-id="draft.createdBy"></audit-text>

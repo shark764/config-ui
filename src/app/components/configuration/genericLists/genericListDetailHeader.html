@@ -2,12 +2,12 @@
   <toggle class="status-toggle" ng-model="selectedList.active"
     confirm-disable-message="{{'list.details.disable.confirm' | translate}}"
     confirm-enable-message="{{'list.details.enable.confirm' | translate}}"
-    ng-disabled="! ([] | hasPermission)">
+    ng-disabled="! (['MANAGE_ALL_LISTS'] | hasPermission)">
   </toggle>
 
   <div class="info">
     <h1>{{selectedList.$original.name}}</h1>
-    <div class="details" ng-if="[] | hasPermission">
+    <div class="details" ng-if="['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'VIEW_ALL_USERS', 'MANAGE_ALL_USER_EXTENSIONS', 'MANAGE_ALL_GROUP_USERS', 'MANAGE_ALL_USER_SKILLS', 'MANAGE_ALL_USER_LOCATIONS', 'MANAGE_TENANT_ENROLLMENT'] | hasPermission">
       <b audit-text
         translation="value.createdby.time"
         user-id="selectedList.$original.createdBy"
@@ -20,7 +20,7 @@
         date="selectedList.$original.updated">
       </b>
     </div>
-    <div class="details" ng-if="!([] | hasPermission)">
+    <div class="details" ng-if="!(['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'VIEW_ALL_USERS', 'MANAGE_ALL_USER_EXTENSIONS', 'MANAGE_ALL_GROUP_USERS', 'MANAGE_ALL_USER_SKILLS', 'MANAGE_ALL_USER_LOCATIONS', 'MANAGE_TENANT_ENROLLMENT'] | hasPermission)">
       <b audit-text
         translation="value.createdon.time"
         date="selectedList.$original.created">

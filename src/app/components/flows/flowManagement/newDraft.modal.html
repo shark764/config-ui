@@ -1,0 +1,15 @@
+<div class="publish">
+  <h3 class="header">{{title}}</h3>
+  <ng-form name="forms.newDraft">
+    <div class="input-group">
+      <label>Name</label>
+      <form-error field="forms.newDraft.name"
+        error-type-required="Please enter a draft name"></form-error>
+      <input type="text" ng-model="draft.name" name="name" ng-required="true"/>
+    </div>
+  </ng-form>
+  <div class="footer">
+    <input type="button" id="modal-cancel" class="btn" ng-click="cancelCallback()" value="{{'value.cancel' | translate}}"/>
+    <input type="submit" id="modal-ok" class="btn btn-primary" ng-click="okCallback(draft)" ng-disabled="forms.newDraft.$invalid">
+  </div>
+</div>

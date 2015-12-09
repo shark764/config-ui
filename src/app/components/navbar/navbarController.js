@@ -68,10 +68,9 @@ angular.module('liveopsConfigPanel')
       $scope.$watch('Session.tenants', $scope.populateTenantsHandler);
 
       var managementConfig = [];
-
-      //See TITAN2-4897 for why we have this extra permissions check
-      if (UserPermissions.hasPermissionInList(['MANAGE_ALL_GROUPS', 'MANAGE_ALL_SKILLS']) &&
-        UserPermissions.hasPermissionInList(['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'VIEW_ALL_USERS', 'MANAGE_ALL_USER_EXTENSIONS', 'MANAGE_ALL_GROUP_USERS', 'MANAGE_ALL_USER_SKILLS', 'MANAGE_ALL_USER_LOCATIONS', 'MANAGE_TENANT_ENROLLMENT'])) {
+      //Note: see TITAN2-5445 for why VIEW_ALL_USERS permission on its own is not sufficient
+      if ((UserPermissions.hasPermission('VIEW_ALL_USERS') && UserPermissions.hasPermissionInList(['MANAGE_ALL_GROUPS', 'MANAGE_ALL_SKILLS'])) ||
+          UserPermissions.hasPermissionInList(['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'MANAGE_ALL_USER_EXTENSIONS', 'MANAGE_ALL_GROUP_USERS', 'MANAGE_ALL_USER_SKILLS', 'MANAGE_ALL_USER_LOCATIONS', 'MANAGE_TENANT_ENROLLMENT'])){
         managementConfig.push({
           label: 'Users',
           stateLink: 'content.management.users',
@@ -130,7 +129,7 @@ angular.module('liveopsConfigPanel')
         });
       }
 
-      if (UserPermissions.hasPermissionInList(['MANAGE_ALL_LISTS'])) {
+      if (UserPermissions.hasPermission('MANAGE_ALL_LISTS')){
         configurationConfig.push({
           label: 'Lists',
           stateLink: 'content.configuration.genericLists',

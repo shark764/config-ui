@@ -20,7 +20,7 @@
     "angular-toastr": "~1.4.1",
     "MouseWheelJS": "*",
     "teljs": "git@github.com:liveops/tel.js.git#master",
-    "flow-designer": "git@github.com:liveops/flow-designer.git#1.0.1",
+    "flow-designer": "git@github.com:liveops/flow-designer.git#1.0.2-SNAPSHOT",
     "realtime-dashboards": "git@github.com:liveops/realtime-dashboards.git#master",
     "liveops-config-panel-shared": "git@github.com:liveops/config-shared#1.0.4",
     "ng-file-upload": "~7.0.17",
