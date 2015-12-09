@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('HoursController', ['$scope', '$filter', 'Session', 'BusinessHour', 'BusinessHourException', 'Timezone', 'hoursTableConfig', 'Alert',
-    function($scope, $filter, Session, BusinessHour, BusinessHourException, Timezone, hoursTableConfig, Alert) {
+  .controller('HoursController', ['$scope', '$filter', 'Session', 'BusinessHour', 'BusinessHourException', 'Timezone', 'hoursTableConfig', 'Alert', 'loEvents',
+    function($scope, $filter, Session, BusinessHour, BusinessHourException, Timezone, hoursTableConfig, Alert, loEvents) {
       var vm = this;
       
       vm.dayPrefixes = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
@@ -120,7 +120,7 @@ angular.module('liveopsConfigPanel')
         vm.loadHours();
       });
       
-      $scope.$on('table:on:click:create', function() {
+      $scope.$on(loEvents.tableControls.itemCreate, function() {
         $scope.selectedHour = new BusinessHour({
           tenantId: Session.tenant.tenantId,
           active: true

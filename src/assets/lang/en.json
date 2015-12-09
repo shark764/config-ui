@@ -501,5 +501,6 @@
   "hours.exception.remove": "Remove exception",
   "hours.exception.create.success": "Exception created successfully!",
   "hours.exception.remove.success": "Exception removed successfully!",
-  "hours.exception.create.failure": "Exception creation failure!"
+  "hours.exception.create.failure": "Exception creation failure!",
+  "hours.timezone.required": "Field \"Timezone\" is required."
 }
