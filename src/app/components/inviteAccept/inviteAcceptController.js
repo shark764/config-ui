@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('InviteAcceptController', ['$scope', 'User', '$state', '$stateParams', 'invitedUser', 'AuthService', 'TenantUser', 'Alert', 'Session', 'UserPermissions',
-    function ($scope, User, $state, $stateParams, invitedUser, AuthService, TenantUser, Alert, Session, UserPermissions) {
+  .controller('InviteAcceptController', ['$scope', 'User', '$state', '$stateParams', 'invitedUser', 'AuthService', 'TenantUser', 'Alert', 'Session', 'UserPermissions', '$q',
+    function ($scope, User, $state, $stateParams, invitedUser, AuthService, TenantUser, Alert, Session, UserPermissions, $q) {
       $scope.user = invitedUser;
       $scope.loading = false;
 
@@ -16,7 +16,7 @@ angular.module('liveopsConfigPanel')
         
         delete $scope.user.status; //Users don't have permission to update their own status
         delete $scope.user.roleId; //Users cannot update their own roles
-        $scope.user.save()
+        return $scope.user.save()
           .then($scope.signupSuccess, $scope.signupFailure);
       };
       
@@ -32,14 +32,15 @@ angular.module('liveopsConfigPanel')
         }, $scope.acceptSuccess, $scope.acceptFailure);
       };
       
-      $scope.signupFailure = function(){
+      $scope.signupFailure = function(error){
         Alert.error('Sorry, your details could not be updated at this time');
         $scope.loading = false;
+        return $q.reject(error);
       };
       
       $scope.acceptSuccess = function(){
         Session.setToken(null);
-        AuthService.login($scope.user.email, $scope.newPassword).then(function(){
+        return AuthService.login($scope.user.email, $scope.newPassword).then(function(){
           if (UserPermissions.hasPermissionInList(['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'VIEW_ALL_USERS', 'MANAGE_ALL_USER_EXTENSIONS', 'MANAGE_ALL_GROUP_USERS', 'MANAGE_ALL_USER_SKILLS', 'MANAGE_ALL_USER_LOCATIONS', 'MANAGE_TENANT_ENROLLMENT'])){
             $state.transitionTo('content.management.users', {id: $stateParams.userId, messageKey: 'invite.accept.autologin.success'});
           } else {

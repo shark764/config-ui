@@ -40,7 +40,7 @@ angular.module('liveopsConfigPanel')
         'sref' : 'content.flows.flowManagement',
         'showBulkActions': UserPermissions.hasPermission('MANAGE_ALL_FLOWS'),
         'showCreate': UserPermissions.hasPermission('MANAGE_ALL_FLOWS'),
-        'helpLink' : helpDocsHostname + '/Content/Managing%20Flows/Setup_flows.htm'
+        'helpLink' : helpDocsHostname + '/Content/Managing%20Flows/Create_flows.htm'
       };
     }]
   );

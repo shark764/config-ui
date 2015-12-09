@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('MediaController', ['$scope', 'Media', 'Session', 'mediaTableConfig',
-    function ($scope, Media, Session, mediaTableConfig) {
+  .controller('MediaController', ['$scope', 'Media', 'Session', 'mediaTableConfig', 'loEvents',
+    function ($scope, Media, Session, mediaTableConfig, loEvents) {
       $scope.Session = Session;
       $scope.forms = {};
 
@@ -20,7 +20,7 @@ angular.module('liveopsConfigPanel')
         });
       };
 
-      $scope.$on('table:on:click:create', function () {
+      $scope.$on(loEvents.tableControls.itemCreate, function () {
         $scope.create();
       });
 

@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('GroupsController', ['$scope', '$timeout', 'Session', 'Group', 'TenantUser', 'groupTableConfig', 'TenantGroupUsers', 'queryCache', 'DirtyForms', 'BulkAction', '$stateParams', '$filter', 'Alert', '$translate',
-    function($scope, $timeout, Session, Group, TenantUser, groupTableConfig, TenantGroupUsers, queryCache, DirtyForms, BulkAction, $stateParams, $filter, Alert, $translate) {
+  .controller('GroupsController', ['$scope', '$timeout', 'Session', 'Group', 'TenantUser', 'groupTableConfig', 'TenantGroupUsers', 'queryCache', 'DirtyForms', 'BulkAction', '$stateParams', '$filter', 'Alert', '$translate', 'loEvents',
+    function($scope, $timeout, Session, Group, TenantUser, groupTableConfig, TenantGroupUsers, queryCache, DirtyForms, BulkAction, $stateParams, $filter, Alert, $translate, loEvents) {
       $scope.Session = Session;
       $scope.tableConfig = groupTableConfig;
 
@@ -33,7 +33,7 @@ angular.module('liveopsConfigPanel')
         });
       };
 
-      $scope.$on('table:on:click:create', function() {
+      $scope.$on(loEvents.tableControls.itemCreate, function() {
         $scope.selectedGroup = new Group({
           tenantId: Session.tenant.tenantId,
           active: true,

@@ -62,7 +62,7 @@ describe('The groups view', function() {
     expect(shared.navBar.isDisplayed()).toBeTruthy();
     expect(groups.tablePane.isDisplayed()).toBeTruthy();
     expect(shared.searchField.isDisplayed()).toBeTruthy();
-    expect(shared.rightPanel.isDisplayed()).toBeFalsy(); //hide right panel by default
+    expect(shared.detailsPanel.isDisplayed()).toBeFalsy(); //hide right panel by default
     expect(shared.actionsBtn.isDisplayed()).toBeTruthy();
     expect(shared.createBtn.isDisplayed()).toBeTruthy();
     expect(shared.tableColumnsDropDown.isDisplayed()).toBeTruthy();
@@ -312,7 +312,7 @@ describe('The groups view', function() {
         //Follow the link
         groups.groupMembersRows.get(0).element(by.css('a')).click().then(function() {
           expect(browser.getCurrentUrl()).toContain(shared.usersPageUrl);
-          expect(shared.rightPanel.isDisplayed()).toBeTruthy();
+          expect(shared.detailsPanel.isDisplayed()).toBeTruthy();
           expect(users.userNameDetailsHeader.getText()).toContain(memberName);
         });
       }

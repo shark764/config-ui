@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('TenantsController', ['$scope', 'Session', 'Tenant', 'TenantUser', 'tenantTableConfig', 'UserPermissions', 'AuthService', 'Region', '$q', 'lodash',
-    function ($scope, Session, Tenant, TenantUser, tenantTableConfig, UserPermissions, AuthService, Region, $q, _) {
+  .controller('TenantsController', ['$scope', 'Session', 'Tenant', 'TenantUser', 'tenantTableConfig', 'UserPermissions', 'AuthService', 'Region', '$q', 'lodash', 'loEvents',
+    function ($scope, Session, Tenant, TenantUser, tenantTableConfig, UserPermissions, AuthService, Region, $q, _, loEvents) {
       var vm = this;
 
       vm.loadTenants = function () {
@@ -40,12 +40,16 @@ angular.module('liveopsConfigPanel')
         return tenants;
       };
 
-      vm.associateParents = function associateParents(tenants) {
+      vm.associateParents = function (tenants) {
+        if(angular.isObject(tenants)) {
+            tenants = [tenants];
+        }
+
         angular.forEach(tenants, function(tenant) {
           if(!tenant.parentId) {
             return;
           }
-          
+
           tenant.$parent = _.find(tenants, {
             id: tenant.parentId
           });
@@ -64,7 +68,7 @@ angular.module('liveopsConfigPanel')
         return $scope.selectedTenant.save();
       };
 
-      $scope.$on('table:on:click:create', function () {
+      $scope.$on(loEvents.tableControls.itemCreate, function () {
         $scope.create();
       });
 

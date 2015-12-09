@@ -182,7 +182,7 @@ describe('The Administrator role', function() {
 
   it('should have access to user profile details', function() {
     browser.get(shared.profilePageUrl)
-    expect(profile.userEmail.getText()).toContain(administratorEmail);
+    expect(profile.userEmail.getAttribute('value')).toContain(administratorEmail);
     expect(profile.firstNameFormField.getAttribute('value')).toBe('Administrator' + random);
     expect(profile.lastNameFormField.getAttribute('value')).toBe('Role' + random);
 
@@ -276,6 +276,7 @@ describe('The Administrator role', function() {
   });
 
   it('should have access to view existing User details', function() {
+    browser.get(shared.usersPageUrl);
     shared.firstTableRow.click();
 
     shared.firstTableRow.element(by.css(users.nameColumn)).getText().then(function(firstRowUserName) {

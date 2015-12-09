@@ -1,11 +1,10 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('DesignerPageController', ['$scope', 'flow', 'notations', 'data', 'FlowResource', 'FlowNotationService', 'FlowLibrary', 'readOnly', 'lodash',
-    function($scope, flow, notations, data, FlowResource, FlowNotationService, FlowLibrary, readOnly, lodash) {
+  .controller('DesignerPageController', ['$scope', 'flow', 'notations', 'draft', 'FlowResource', 'FlowNotationService', 'FlowLibrary', 'lodash',
+    function($scope, flow, notations, draft, FlowResource, FlowNotationService, FlowLibrary, lodash) {
       $scope.flow = flow;
-      $scope.flowData = data;
-      $scope.readOnly = readOnly;
+      $scope.draft = draft;
 
       if(flow.type === 'customer' || flow.type === 'reusable'){
         FlowNotationService.setLastParticipant('titan/customer');
@@ -17,7 +16,9 @@ angular.module('liveopsConfigPanel')
 
       FlowLibrary.clearCallActivities();
       lodash.each(FlowResource.getFlows(), function(flow){
-        FlowLibrary.registerCallActivity(flow);
+        lodash.each(FlowResource.getVersions(flow.id), function(version){
+          FlowLibrary.registerCallActivity(flow, version);
+        });
       });
     }
   ]);

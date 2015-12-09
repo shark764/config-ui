@@ -8,15 +8,16 @@ describe('SkillsController', function () {
     apiHostname,
     Skill,
     mockSkills,
-    mockTenantUsers;
+    mockTenantUsers,
+    loEvents;
 
   beforeEach(module('gulpAngular'));
   beforeEach(module('liveopsConfigPanel'));
   beforeEach(module('liveopsConfigPanel.tenant.skill.mock'));
   beforeEach(module('liveopsConfigPanel.tenant.user.mock'));
 
-  beforeEach(inject(['$rootScope', '$controller', '$httpBackend', 'Session', 'apiHostname', 'Skill', 'mockSkills', 'mockTenantUsers',
-    function ($rootScope, _$controller_, _$httpBackend_, _Session_, _apiHostname_, _Skill, _mockSkills, _mockTenantUsers) {
+  beforeEach(inject(['$rootScope', '$controller', '$httpBackend', 'Session', 'apiHostname', 'Skill', 'mockSkills', 'mockTenantUsers', 'loEvents',
+    function ($rootScope, _$controller_, _$httpBackend_, _Session_, _apiHostname_, _Skill, _mockSkills, _mockTenantUsers, _loEvents) {
       $scope = $rootScope.$new();
       $controller = _$controller_;
       $httpBackend = _$httpBackend_;
@@ -25,6 +26,7 @@ describe('SkillsController', function () {
       Skill = _Skill;
       mockSkills = _mockSkills;
       mockTenantUsers = _mockTenantUsers;
+      loEvents = _loEvents;
     }
   ]));
 
@@ -52,7 +54,7 @@ describe('SkillsController', function () {
   });
 
   it('should set selectedSkill on createSkill', function() {
-    $scope.$broadcast('table:on:click:create');
+    $scope.$broadcast(loEvents.tableControls.itemCreate);
 
     expect($scope.selectedSkill).toBeDefined();
     expect($scope.selectedSkill.tenantId).toEqual(Session.tenant.tenantId);

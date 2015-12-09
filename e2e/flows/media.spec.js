@@ -101,7 +101,7 @@ describe('The media view', function() {
   it('should include media page components', function() {
     expect(shared.navBar.isDisplayed()).toBeTruthy();
     expect(shared.searchField.isDisplayed()).toBeTruthy();
-    expect(shared.rightPanel.isDisplayed()).toBeFalsy(); //Hide by default
+    expect(shared.detailsPanel.isDisplayed()).toBeFalsy(); //Hide by default
     expect(shared.actionsBtn.isDisplayed()).toBeFalsy(); //Hide, since there are no bulk actions
     expect(shared.createBtn.isDisplayed()).toBeTruthy();
     expect(shared.tableColumnsDropDown.isDisplayed()).toBeTruthy();

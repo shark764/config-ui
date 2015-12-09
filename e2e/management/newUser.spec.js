@@ -137,15 +137,14 @@ describe('The create new user form', function() {
     users.lastNameFormField.sendKeys('  ');
     users.externalIdFormField.sendKeys('  ');
 
-    expect(users.submitFormBtn.getAttribute('disabled')).toBeTruthy();
     users.submitFormBtn.click();
     expect(shared.tableElements.count()).toBe(userCount);
     expect(shared.successMessage.isPresent()).toBeFalsy();
 
     // Verify error messages are displayed
     expect(users.requiredErrors.count()).toBe(2);
-    expect(users.requiredErrors.get(0).getText()).toBe('Please enter a first name');
-    expect(users.requiredErrors.get(1).getText()).toBe('Please enter a last name');
+    expect(users.requiredErrors.get(0).getText()).toBe('must be a non-blank string');
+    expect(users.requiredErrors.get(1).getText()).toBe('must be a non-blank string');
   });
 
   it('should display new user in table and display user details with correct Tenant Status', function() {
@@ -277,7 +276,7 @@ describe('The create new user form', function() {
     expect(users.requiredErrors.get(1).getText()).toBe('Please select a role');
   });
 
-  it('should require First Name, and Last Name', function() {
+  it('should not require First Name, and Last Name before invitation is accepted', function() {
     // Add randomness to user details
     randomUser = Math.floor((Math.random() * 1000) + 1);
     var newUserEmail = 'titantest' + randomUser + '@mailinator.com'
@@ -294,18 +293,19 @@ describe('The create new user form', function() {
     expect(users.lastNameFormField.isEnabled()).toBeTruthy();
     expect(users.externalIdFormField.isEnabled()).toBeTruthy();
 
-    expect(users.submitFormBtn.isEnabled()).toBeFalsy();
+    users.submitFormBtn.click().then(function () {
+      shared.waitForSuccess();
+      expect(shared.successMessage.isDisplayed()).toBeTruthy();
 
-    users.submitFormBtn.click();
-    expect(shared.successMessage.isPresent()).toBeFalsy();
-
-    users.firstNameFormField.click();
-    users.lastNameFormField.click();
-    users.externalIdFormField.click();
-
-    expect(users.requiredErrors.count()).toBe(2);
-    expect(users.requiredErrors.get(0).getText()).toBe('Please enter a first name');
-    expect(users.requiredErrors.get(1).getText()).toBe('Please enter a last name');
+      // Confirm user is displayed in user list with correct details
+      shared.searchField.sendKeys(newUserEmail);
+      expect(shared.tableElements.count()).toBe(1);
+      shared.firstTableRow.click();
+      expect(users.userNameDetailsHeader.getText()).toBe(newUserEmail);
+      expect(users.firstNameFormField.getAttribute('value')).toBe('');
+      expect(users.lastNameFormField.getAttribute('value')).toBe('');
+      expect(users.externalIdFormField.getAttribute('value')).toBe('');
+    });
   });
 
   it('should not require External Id', function() {
@@ -525,7 +525,7 @@ describe('The create new user form', function() {
       expect(shared.successMessage.isDisplayed()).toBeTruthy();
 
       // Confirm user is enabled by default
-      expect(users.activeFormToggle.isEnabled()).toBeFalsy();
+      expect(users.activeToggleInput.isEnabled()).toBeFalsy();
     });
   });
 });

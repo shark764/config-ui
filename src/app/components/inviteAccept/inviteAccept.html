@@ -2,7 +2,11 @@
   <div id="invite-accept-wrapper">
     <img ng-src="assets/images/liveops-logo.png" height="23" >
 
-    <ng-form ng-show="showSignupForm" name="detailsForm">
+    <ng-form 
+      ng-show="showSignupForm" 
+      name="detailsForm"
+      lo-form-submit>
+      
       <div class="details-pane">
         <div class="detail-body clear">
           <div class="lo-alert">
@@ -25,12 +29,11 @@
           </div>
 
           <div class="input-group">
-            <label>{{'details.password' | translate}} *</label>
+            <label  class="textarea-label">{{'details.password' | translate}} *</label>
             <form-error field="detailsForm.password"
               error-type-required="{{'details.password.error' | translate}}"></form-error>
-            <div>
-              <input ng-required="true" autocomplete="off" ng-model="user.password" name="password" type="password"></input>
-            </div>
+            <input ng-required="true" autocomplete="off" ng-model="user.password" name="password" type="password"/>
+            <p><small>{{'details.password.defauly.policy' | translate}}</small></p>
           </div>
 
           <div class="divider-header" ng-class="{'first-header' : resource.id}">
@@ -64,7 +67,7 @@
           </div>
 
           <input id="submit-invite-accept" lo-submit-spinner lo-submit-spinner-status="loading"
-            ng-click="save()" ng-disabled="detailsForm.$invalid || ! detailsForm.$dirty"
+            lo-submit="save()" ng-disabled="detailsForm.$invalid || ! detailsForm.$dirty"
            class="btn btn-primary pull-right" type="submit" value="{{'value.submit' | translate}}" />
         </div>
       </div>
