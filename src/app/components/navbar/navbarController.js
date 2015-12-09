@@ -2,12 +2,12 @@
 
 angular.module('liveopsConfigPanel')
   .controller('NavbarController', ['$rootScope', '$scope', '$state', 'AuthService', 'Session', 'DirtyForms', '$translate', 'UserPermissions',
-    function($rootScope, $scope, $state, AuthService, Session, DirtyForms, $translate, UserPermissions) {
+    function ($rootScope, $scope, $state, AuthService, Session, DirtyForms, $translate, UserPermissions) {
       $scope.hovering = false;
 
       $scope.Session = Session;
 
-      $scope.populateTenantsHandler = function() {
+      $scope.populateTenantsHandler = function () {
         if (!Session.isAuthenticated()) {
           return;
         }
@@ -17,13 +17,17 @@ angular.module('liveopsConfigPanel')
         }
 
         var tenantDropdownItems = [];
-        angular.forEach(Session.tenants, function(tenant) {
+        angular.forEach(Session.tenants, function (tenant) {
           tenantDropdownItems.push({
             label: tenant.tenantName,
-            onClick: function(){
-              DirtyForms.confirmIfDirty(function(){
+            onClick: function () {
+              DirtyForms.confirmIfDirty(function () {
                 Session.setTenant(tenant);
-                $state.go($state.current, {messageKey: ''}, {reload: true});
+                $state.go($state.current, {
+                  messageKey: ''
+                }, {
+                  reload: true
+                });
               });
             }
           });
@@ -34,11 +38,11 @@ angular.module('liveopsConfigPanel')
 
       $scope.hoverTracker = [];
 
-      $scope.isActive = function(viewLocation) {
+      $scope.isActive = function (viewLocation) {
         return $state.current.name !== '' ? $state.href($state.current.name).indexOf(viewLocation) === 1 : false;
       };
 
-      $scope.logout = function() {
+      $scope.logout = function () {
         AuthService.logout();
         $state.transitionTo('login');
         $rootScope.$broadcast('logout');
@@ -46,13 +50,13 @@ angular.module('liveopsConfigPanel')
 
       $scope.userDropdownItems = [{
         label: $translate.instant('navbar.logout'),
-        onClick: function() {
+        onClick: function () {
           $scope.logout();
         },
         iconClass: 'fa fa-sign-out'
       }, {
         label: $translate.instant('navbar.profile'),
-        onClick: function() {
+        onClick: function () {
           $state.transitionTo('content.userprofile');
         },
         iconClass: 'fa fa-gear'
@@ -64,10 +68,10 @@ angular.module('liveopsConfigPanel')
       $scope.$watch('Session.tenants', $scope.populateTenantsHandler);
 
       var managementConfig = [];
-      
+
       //See TITAN2-4897 for why we have this extra permissions check
-      if (UserPermissions.hasPermissionInList(['MANAGE_ALL_GROUPS', 'MANAGE_ALL_SKILLS']) 
-          && UserPermissions.hasPermissionInList(['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'VIEW_ALL_USERS', 'MANAGE_ALL_USER_EXTENSIONS', 'MANAGE_ALL_GROUP_USERS', 'MANAGE_ALL_USER_SKILLS', 'MANAGE_ALL_USER_LOCATIONS', 'MANAGE_TENANT_ENROLLMENT'])){
+      if (UserPermissions.hasPermissionInList(['MANAGE_ALL_GROUPS', 'MANAGE_ALL_SKILLS']) &&
+        UserPermissions.hasPermissionInList(['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'VIEW_ALL_USERS', 'MANAGE_ALL_USER_EXTENSIONS', 'MANAGE_ALL_GROUP_USERS', 'MANAGE_ALL_USER_SKILLS', 'MANAGE_ALL_USER_LOCATIONS', 'MANAGE_TENANT_ENROLLMENT'])) {
         managementConfig.push({
           label: 'Users',
           stateLink: 'content.management.users',
@@ -76,7 +80,7 @@ angular.module('liveopsConfigPanel')
         });
       }
 
-      if (UserPermissions.hasPermissionInList(['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'PLATFORM_CREATE_TENANT_ROLES', 'VIEW_ALL_ROLES', 'MANAGE_ALL_ROLES', 'MANAGE_TENANT_ENROLLMENT'])){
+      if (UserPermissions.hasPermissionInList(['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'PLATFORM_CREATE_TENANT_ROLES', 'VIEW_ALL_ROLES', 'MANAGE_ALL_ROLES', 'MANAGE_TENANT_ENROLLMENT'])) {
         managementConfig.push({
           label: 'Roles',
           stateLink: 'content.management.roles',
@@ -85,7 +89,7 @@ angular.module('liveopsConfigPanel')
         });
       }
 
-      if (UserPermissions.hasPermissionInList(['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'VIEW_ALL_SKILLS', 'MANAGE_ALL_SKILLS', 'MANAGE_ALL_USER_SKILLS', 'MANAGE_TENANT_ENROLLMENT'])){
+      if (UserPermissions.hasPermissionInList(['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'VIEW_ALL_SKILLS', 'MANAGE_ALL_SKILLS', 'MANAGE_ALL_USER_SKILLS', 'MANAGE_TENANT_ENROLLMENT'])) {
         managementConfig.push({
           label: 'Skills',
           stateLink: 'content.management.skills',
@@ -94,7 +98,7 @@ angular.module('liveopsConfigPanel')
         });
       }
 
-      if (UserPermissions.hasPermissionInList(['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'VIEW_ALL_GROUPS', 'MANAGE_ALL_GROUPS', 'MANAGE_ALL_GROUP_USERS', 'MANAGE_ALL_GROUP_OWNERS', 'MANAGE_TENANT_ENROLLMENT'])){
+      if (UserPermissions.hasPermissionInList(['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'VIEW_ALL_GROUPS', 'MANAGE_ALL_GROUPS', 'MANAGE_ALL_GROUP_USERS', 'MANAGE_ALL_GROUP_OWNERS', 'MANAGE_TENANT_ENROLLMENT'])) {
         managementConfig.push({
           label: 'Groups',
           stateLink: 'content.management.groups',
@@ -103,12 +107,12 @@ angular.module('liveopsConfigPanel')
         });
       }
 
-      if (managementConfig.length > 0){
+      if (managementConfig.length > 0) {
         $scope.managementDropConfig = managementConfig;
       }
 
       var configurationConfig = [];
-      if (UserPermissions.hasPermissionInList(['PLATFORM_VIEW_ALL_TENANTS', 'PLATFORM_MANAGE_ALL_TENANTS', 'PLATFORM_CREATE_ALL_TENANTS', 'PLATFORM_CREATE_TENANT_ROLES', 'PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'MANAGE_TENANT'])){
+      if (UserPermissions.hasPermissionInList(['PLATFORM_VIEW_ALL_TENANTS', 'PLATFORM_MANAGE_ALL_TENANTS', 'PLATFORM_CREATE_ALL_TENANTS', 'PLATFORM_CREATE_TENANT_ROLES', 'PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'MANAGE_TENANT'])) {
         configurationConfig.push({
           label: 'Tenants',
           stateLink: 'content.configuration.tenants',
@@ -117,7 +121,7 @@ angular.module('liveopsConfigPanel')
         });
       }
 
-      if (UserPermissions.hasPermissionInList(['VIEW_ALL_PROVIDERS', 'MANAGE_ALL_PROVIDERS'])){
+      if (UserPermissions.hasPermissionInList(['VIEW_ALL_PROVIDERS', 'MANAGE_ALL_PROVIDERS'])) {
         configurationConfig.push({
           label: 'Integrations',
           stateLink: 'content.configuration.integrations',
@@ -126,7 +130,7 @@ angular.module('liveopsConfigPanel')
         });
       }
 
-      if (UserPermissions.hasPermissionInList(['MANAGE_ALL_LISTS'])){
+      if (UserPermissions.hasPermissionInList(['MANAGE_ALL_LISTS'])) {
         configurationConfig.push({
           label: 'Lists',
           stateLink: 'content.configuration.genericLists',
@@ -135,7 +139,7 @@ angular.module('liveopsConfigPanel')
         });
       }
 
-      if (UserPermissions.hasPermissionInList(['MANAGE_ALL_LISTS'])){
+      if (UserPermissions.hasPermissionInList(['MANAGE_ALL_LISTS'])) {
         configurationConfig.push({
           label: 'Disposition Codes',
           stateLink: 'content.configuration.dispositions',
@@ -144,7 +148,7 @@ angular.module('liveopsConfigPanel')
         });
       }
 
-      if (UserPermissions.hasPermissionInList(['MANAGE_ALL_LISTS'])){
+      if (UserPermissions.hasPermissionInList(['MANAGE_ALL_LISTS'])) {
         configurationConfig.push({
           label: 'Reason Codes',
           stateLink: 'content.configuration.reasons',
@@ -153,12 +157,12 @@ angular.module('liveopsConfigPanel')
         });
       }
 
-      if (configurationConfig.length > 0){
+      if (configurationConfig.length > 0) {
         $scope.configurationDropConfig = configurationConfig;
       }
 
       var flowsConfig = [];
-      if (UserPermissions.hasPermissionInList(['VIEW_ALL_FLOWS', 'MANAGE_ALL_FLOWS', 'MAP_ALL_CONTACT_POINTS'])){
+      if (UserPermissions.hasPermissionInList(['VIEW_ALL_FLOWS', 'MANAGE_ALL_FLOWS', 'MAP_ALL_CONTACT_POINTS'])) {
         flowsConfig.push({
           label: 'Flows',
           stateLink: 'content.flows.flowManagement',
@@ -167,7 +171,7 @@ angular.module('liveopsConfigPanel')
         });
       }
 
-      if (UserPermissions.hasPermissionInList(['VIEW_ALL_FLOWS', 'MANAGE_ALL_FLOWS', 'MANAGE_ALL_QUEUES'])){
+      if (UserPermissions.hasPermissionInList(['VIEW_ALL_FLOWS', 'MANAGE_ALL_FLOWS', 'MANAGE_ALL_QUEUES'])) {
         flowsConfig.push({
           label: 'Queues',
           stateLink: 'content.flows.queues',
@@ -176,7 +180,7 @@ angular.module('liveopsConfigPanel')
         });
       }
 
-      if (UserPermissions.hasPermissionInList(['VIEW_ALL_MEDIA', 'VIEW_ALL_FLOWS', 'MANAGE_ALL_FLOWS'])){
+      if (UserPermissions.hasPermissionInList(['VIEW_ALL_MEDIA', 'VIEW_ALL_FLOWS', 'MANAGE_ALL_FLOWS'])) {
         flowsConfig.push({
           label: 'Media Collections',
           stateLink: 'content.flows.media-collections',
@@ -192,7 +196,7 @@ angular.module('liveopsConfigPanel')
         });
       }
 
-      if (UserPermissions.hasPermissionInList(['VIEW_ALL_CONTACT_POINTS', 'MAP_ALL_CONTACT_POINTS'])){
+      if (UserPermissions.hasPermissionInList(['VIEW_ALL_CONTACT_POINTS', 'MAP_ALL_CONTACT_POINTS'])) {
         flowsConfig.push({
           label: 'Dispatch Mappings',
           stateLink: 'content.flows.dispatchMappings',
@@ -201,14 +205,16 @@ angular.module('liveopsConfigPanel')
         });
       }
 
-      if (flowsConfig.length > 0){
+      if (flowsConfig.length > 0) {
         $scope.flowsDropConfig = flowsConfig;
       }
 
       $scope.reportingDropConfig = [{
           label: 'Historical Dashboards',
           stateLink: 'content.reports',
-          stateLinkParams: {id: 'historical-dashboards'},
+          stateLinkParams: {
+            id: 'historical-dashboards'
+          },
           id: 'reports-management-link',
           order: 1
         }
