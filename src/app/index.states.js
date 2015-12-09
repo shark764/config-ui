@@ -5,13 +5,13 @@ angular.module('liveopsConfigPanel')
     function ($stateProvider, $urlRouterProvider) {
 
       $urlRouterProvider.otherwise(function ($injector) {
-      var Session = $injector.get('Session');
-        if (Session.isAuthenticated()) {
-        return '/management/users';
-      } else {
-        return '/login';
-      }
-    });
+        var Session = $injector.get('Session');
+          if (Session.isAuthenticated()) {
+          return '/management/users';
+        } else {
+          return '/login';
+        }
+      });
 
     $stateProvider
       .state('content', {
@@ -227,26 +227,26 @@ angular.module('liveopsConfigPanel')
         reloadOnSearch: false
       })
       .state('content.flows.editor', {
-        url: '/editor/:flowId/d/:draftId',
+        url: '/editor/:flowId/:draftId',
         templateUrl: 'app/components/flows/flowDesigner/flowDesignerPage.html',
         controller: 'DesignerPageController',
         reloadOnSearch: false,
         resolve: {
-            flow: ['$stateParams', 'Session', 'Flow', '$q', function ($stateParams, Session, Flow, $q) {
+          flow: ['$stateParams', 'Session', 'Flow', '$q', function($stateParams, Session, Flow, $q) {
             var deferred = $q.defer();
             var flow;
 
             Flow.get({
               tenantId: Session.tenant.tenantId,
               id: $stateParams.flowId
-              }, function (data) {
+            }, function(data) {
               flow = data;
               deferred.resolve(flow);
             });
 
             return deferred.promise;
           }],
-            data: ['$stateParams', 'FlowDraft', 'Session', '$q', function ($stateParams, FlowDraft, Session, $q) {
+          draft: ['$stateParams', 'FlowDraft', 'Session', '$q', function($stateParams, FlowDraft, Session, $q) {
             var deferred = $q.defer();
             var draft;
 
@@ -254,57 +254,54 @@ angular.module('liveopsConfigPanel')
               flowId: $stateParams.flowId,
               id: $stateParams.draftId,
               tenantId: Session.tenant.tenantId
-              }, function (data) {
+            }, function(data) {
               draft = data;
               deferred.resolve(draft);
             });
 
             return deferred.promise;
           }],
-            notations: ['Notation', '$q', function (Notation, $q) {
+          notations: ['Notation','$q', function(Notation, $q) {
             var deferred = $q.defer();
 
-              Notation.query({}, function (results) {
+            Notation.query({}, function(results) {
               deferred.resolve(results);
             });
 
             return deferred.promise;
           }],
-            resources: ['FlowResource', '$q', function (FlowResource, $q) {
+          resources: ['FlowResource', '$q', function(FlowResource, $q){
             var deferred = $q.defer();
 
-              FlowResource.loadResources().then(function () {
+            FlowResource.loadResources().then(function(){
                 deferred.resolve();
             });
 
             return deferred.promise;
-          }],
-            readOnly: [function () {
-            return false;
           }]
         }
       })
       .state('content.flows.view', {
-        url: '/editor/:flowId/v/:versionId',
-        templateUrl: 'app/components/flows/flowDesigner/flowDesignerPage.html',
-        controller: 'DesignerPageController',
+        url: '/viewer/:flowId/:versionId',
+        templateUrl: 'app/components/flows/flowDesigner/flowViewerPage.html',
+        controller: 'ViewerPageController',
         reloadOnSearch: false,
         resolve: {
-            flow: ['$stateParams', 'Session', 'Flow', '$q', function ($stateParams, Session, Flow, $q) {
+          flow: ['$stateParams', 'Session', 'Flow', '$q', function($stateParams, Session, Flow, $q) {
             var deferred = $q.defer();
             var flow;
 
             Flow.get({
               tenantId: Session.tenant.tenantId,
               id: $stateParams.flowId
-              }, function (data) {
+            }, function(data) {
               flow = data;
               deferred.resolve(flow);
             });
 
             return deferred.promise;
           }],
-            data: ['$stateParams', 'FlowVersion', 'Session', '$q', function ($stateParams, FlowVersion, Session, $q) {
+          data: ['$stateParams', 'FlowVersion', 'Session', '$q', function($stateParams, FlowVersion, Session, $q) {
             var deferred = $q.defer();
             var version;
 
@@ -312,27 +309,24 @@ angular.module('liveopsConfigPanel')
               flowId: $stateParams.flowId,
               version: $stateParams.versionId,
               tenantId: Session.tenant.tenantId
-              }, function (data) {
+            }, function(data) {
               version = data;
               deferred.resolve(version);
             });
 
             return deferred.promise;
           }],
-            notations: ['Notation', '$q', function (Notation, $q) {
+          notations: ['Notation', '$q', function(Notation, $q) {
             var deferred = $q.defer();
 
-              Notation.query({}, function (results) {
+            Notation.query({}, function(results) {
               deferred.resolve(results);
             });
 
             return deferred.promise;
           }],
-            resources: ['FlowResource', function (FlowResource) {
+          resources: ['FlowResource', function(FlowResource){
             return FlowResource.loadResources();
-          }],
-            readOnly: [function () {
-            return true;
           }]
         }
       })
