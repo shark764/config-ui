@@ -1,9 +1,10 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('HoursController', ['$scope', '$translate', '$moment', 'Session', 'BusinessHour', 'BusinessHourException', 'Timezone', 'hoursTableConfig', 'Alert', 'loEvents',
-    function($scope, $translate, $moment, Session, BusinessHour, BusinessHourException, Timezone, hoursTableConfig, Alert, loEvents) {
+  .controller('HoursController', ['$scope', '$translate', '$moment', 'Session', 'BusinessHour', 'BusinessHourException', 'Timezone', 'hoursTableConfig', 'Alert', 'loEvents', '$q',
+    function($scope, $translate, $moment, Session, BusinessHour, BusinessHourException, Timezone, hoursTableConfig, Alert, loEvents, $q) {
       var vm = this;
+      $scope.forms = {};
       
       vm.dayPrefixes = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
       
@@ -22,6 +23,21 @@ angular.module('liveopsConfigPanel')
       $scope.submit = function(){
         return $scope.selectedHour.save({
           tenantId: Session.tenant.tenantId
+        }).catch(function(error){
+          $scope.forms.detailsForm.$setPristine();
+          var unbindWatch = $scope.$watch('forms.detailsForm.$dirty', function(dirtyValue){
+            if (dirtyValue){
+              unbindWatch();
+              
+              angular.forEach($scope.forms.detailsForm, function(field){
+                if (field && angular.isObject(field) && angular.isFunction(field.$setValidity)){
+                  field.$setValidity('api', true);
+                }
+              });
+            }
+          });
+          
+          return $q.reject(error);
         });
       };
 
