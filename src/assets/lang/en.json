@@ -65,6 +65,7 @@
 
   "login.button": "Login",
   "login.error": "Invalid username or password.",
+  "login.unexpected.error": "An unexpected error occured. Please try again. If this error persists, please contact support.",
 
   "session.tenants.none": "No tenants available",
 

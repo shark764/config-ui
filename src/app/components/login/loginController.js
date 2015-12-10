@@ -32,8 +32,12 @@ angular.module('liveopsConfigPanel')
               }
             }
           }, function (response) {
-            if (response.status === 401) {
-              $scope.error = 'Invalid username and password';
+            switch (response.status) {
+              case 401:
+                $scope.error = $translate.instant('login.error');
+                break;
+              default:
+                $scope.error = $translate.instant('login.unexpected.error');
             }
           });
       };
