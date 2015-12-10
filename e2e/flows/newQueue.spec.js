@@ -97,7 +97,7 @@ describe('The create new queues view', function() {
 
         // Advanced query field is displayed
         expect(newQueue.advancedQueryFormField.isDisplayed()).toBeTruthy();
-        expect(newQueue.advancedQueryFormField.getAttribute('value')).toBe('{}');
+        expect(newQueue.advancedQueryFormField.getAttribute('value')).toBe('{:groups (and (and) (or)) :skills (and (and) (or))}');
 
         // Basic Query fields are not displayed
         expect(newQueue.allGroupsTypeAhead.isDisplayed()).toBeFalsy();
@@ -208,8 +208,7 @@ describe('The create new queues view', function() {
     expect(shared.successMessage.isPresent()).toBeFalsy();
   });
 
-  //TODO TITAN2-1805 Creates a queue without a version
-  xit('should validate query field', function() {
+  it('should validate query field', function() {
     shared.createBtn.click();
     randomQueue = Math.floor((Math.random() * 100) + 1);
 
@@ -217,17 +216,55 @@ describe('The create new queues view', function() {
     queues.nameFormField.sendKeys('Queue ' + randomQueue);
     newQueue.showAdvancedQueryLink.click();
     newQueue.advancedQueryFormField.clear();
-    newQueue.advancedQueryFormField.sendKeys('This is not a valid query');
+    newQueue.advancedQueryFormField.sendKeys('This is not a valid query\t');
 
+    expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
     shared.submitFormBtn.click().then(function() {
       expect(queues.requiredErrors.get(0).isDisplayed()).toBeTruthy();
-      expect(queues.requiredErrors.get(0).getText()).toContain('invalid query, reason: Value does not match schema: (not (map?');
+      expect(queues.requiredErrors.get(0).getText()).toContain('Your query is invalid, please fix your query.');
       expect(shared.tableRows.count()).toBe(queueCount);
       expect(shared.successMessage.isPresent()).toBeFalsy();
     });
   });
 
-  it('should not require description', function() {
+  it('should display warning when advanced query changes cannot be converted to the basic query builder', function() {
+    shared.createBtn.click();
+    newQueue.showAdvancedQueryLink.click();
+    newQueue.advancedQueryFormField.clear();
+    newQueue.advancedQueryFormField.sendKeys('This is not a valid query');
+
+    newQueue.showBasicQueryLink.click();
+
+    shared.waitForAlert();
+    shared.dismissChanges();
+
+    // Basic query builder is displayed with no filter options
+    expect(newQueue.allGroupsTypeAhead.isPresent()).toBeFalsy();
+    expect(newQueue.anyGroupsTypeAhead.isPresent()).toBeFalsy();
+    expect(newQueue.allSkillsTypeAhead.isPresent()).toBeFalsy();
+    expect(newQueue.anySkillsTypeAhead.isPresent()).toBeFalsy();
+
+    // Advanced query details are cleared
+    newQueue.showAdvancedQueryLink.click();
+    expect(newQueue.advancedQueryFormField.getAttribute('value')).toBe('{}');
+  });
+
+  it('should add filters to basic query builder when advanced query field is updated', function() {
+    shared.createBtn.click();
+    newQueue.showAdvancedQueryLink.click();
+    newQueue.advancedQueryFormField.clear();
+    newQueue.advancedQueryFormField.sendKeys('{:groups (and (and) (or)) :skills (and (and) (or))}');
+
+    newQueue.showBasicQueryLink.click();
+
+    // Basic query builder is displayed with filter options
+    expect(newQueue.allGroupsTypeAhead.isDisplayed()).toBeTruthy();
+    expect(newQueue.anyGroupsTypeAhead.isDisplayed()).toBeTruthy();
+    expect(newQueue.allSkillsTypeAhead.isDisplayed()).toBeTruthy();
+    expect(newQueue.anySkillsTypeAhead.isDisplayed()).toBeTruthy();
+  });
+
+  it('should not require description or query filters', function() {
     shared.createBtn.click();
     randomQueue = Math.floor((Math.random() * 100) + 1);
 
@@ -241,11 +278,13 @@ describe('The create new queues view', function() {
     });
   });
 
-  // Fails
-  xit('should not accept spaces only as valid field input when creating a new queue', function() {
+  it('should not accept spaces only as valid field input when creating a new queue', function() {
     shared.createBtn.click();
     queues.nameFormField.sendKeys(' ');
     queues.descriptionFormField.sendKeys(' ');
+    newQueue.showAdvancedQueryLink.click();
+    newQueue.advancedQueryFormField.clear();
+    newQueue.advancedQueryFormField.sendKeys(' \t');
 
     // Submit button is disabled
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
