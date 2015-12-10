@@ -150,7 +150,7 @@ describe('The users extensions', function() {
     extensions.webRtcDropdownOption.click();
 
     extensions.providerDropdown.click();
-    extensions.pilvoDropdownOption.click();
+    extensions.plivoDropdownOption.click();
 
     extensions.valueFormField.sendKeys('15064564567\t');
 
@@ -160,7 +160,7 @@ describe('The users extensions', function() {
       expect(extensions.userExtensions.count()).toBe(3);
       newExtension = extensions.userExtensions.get(2);
       expect(newExtension.element(by.css('.type-col')).getText()).toContain('WebRTC');
-      expect(newExtension.element(by.css('.provider-col')).getText()).toBe('Pilvo');
+      expect(newExtension.element(by.css('.provider-col')).getText()).toBe('Plivo');
       expect(newExtension.element(by.css('.phone-number-col')).getText()).toBe('+15064564567');
       expect(newExtension.element(by.css('.remove')).isDisplayed()).toBeTruthy();
     });
@@ -174,7 +174,7 @@ describe('The users extensions', function() {
     extensions.typeDropdown.click();
     extensions.webRtcDropdownOption.click();
     extensions.providerDropdown.click();
-    extensions.pilvoDropdownOption.click();
+    extensions.plivoDropdownOption.click();
 
     extensions.valueFormField.sendKeys('not a valid phone number\t');
 
@@ -254,7 +254,7 @@ describe('The users extensions', function() {
     extensions.typeDropdown.click();
     extensions.webRtcDropdownOption.click();
     extensions.providerDropdown.click();
-    extensions.pilvoDropdownOption.click();
+    extensions.plivoDropdownOption.click();
 
     extensions.valueFormField.sendKeys('15062345678\t');
     extensions.addBtn.click().then(function() {
@@ -266,7 +266,7 @@ describe('The users extensions', function() {
       extensions.typeDropdown.click();
       extensions.webRtcDropdownOption.click();
       extensions.providerDropdown.click();
-      extensions.pilvoDropdownOption.click();
+      extensions.plivoDropdownOption.click();
 
       extensions.valueFormField.sendKeys('15062345678\t');
       extensions.addBtn.click().then(function() {
@@ -310,7 +310,7 @@ describe('The users extensions', function() {
       extensions.typeDropdown.click();
       extensions.pstnDropdownOption.click();
       extensions.providerDropdown.click();
-      extensions.pilvoDropdownOption.click();
+      extensions.plivoDropdownOption.click();
 
       extensions.valueFormField.sendKeys('15062345678\t');
       extensions.addBtn.click().then(function() {
@@ -322,7 +322,7 @@ describe('The users extensions', function() {
         extensions.typeDropdown.click();
         extensions.pstnDropdownOption.click();
         extensions.providerDropdown.click();
-        extensions.pilvoDropdownOption.click();
+        extensions.plivoDropdownOption.click();
 
         extensions.valueFormField.sendKeys('15062345678\t');
         extensions.addBtn.click().then(function() {
@@ -367,7 +367,7 @@ describe('The users extensions', function() {
       extensions.typeDropdown.click();
       extensions.sipDropdownOption.click();
       extensions.providerDropdown.click();
-      extensions.pilvoDropdownOption.click();
+      extensions.plivoDropdownOption.click();
 
       extensions.valueFormField.sendKeys('15062345678\t');
       extensions.addBtn.click().then(function() {
@@ -379,7 +379,7 @@ describe('The users extensions', function() {
         extensions.typeDropdown.click();
         extensions.sipDropdownOption.click();
         extensions.providerDropdown.click();
-        extensions.pilvoDropdownOption.click();
+        extensions.plivoDropdownOption.click();
 
         extensions.valueFormField.sendKeys('15062345678\t');
         extensions.addBtn.click().then(function() {
