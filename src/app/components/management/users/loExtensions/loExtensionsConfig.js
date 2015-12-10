@@ -6,8 +6,8 @@ angular.module('liveopsConfigPanel')
       value: 'twilio',
       display: $filter('translate')('twilio')
     }, {
-      value: 'pilvo',
-      display: $filter('translate')('pilvo')
+      value: 'plivo',
+      display: $filter('translate')('plivo')
     }];
   }])
   .service('loExtensionTypes', ['$filter', function ($filter) {
