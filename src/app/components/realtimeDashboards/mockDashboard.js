@@ -4,9 +4,9 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
   'name': 'Default Dashboard',
   'gridster': {
     'mobileModeEnabled': false,
-    'columns': 24,
-    'minRows': 10,
-    'maxRows': 30,
+    'columns': 36,
+    'minRows': 20,
+    'maxRows': 60,
     'margins': [0,40],
     'outerMargin': false,
     'draggable': {
@@ -30,15 +30,15 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
     'config': {
       'ui': {
         'size': {
-          'width': 8,
-          'height': 10,
+          'width': 12,
+          'height': 20,
           'autoResize': true
         }
       }
     },
     'gridster': {
       'mobileModeEnabled': false,
-      'columns': 6,
+      'columns': 12,
       'margins': [10,25],
       'outerMargin': false,
       'draggable': {
@@ -69,10 +69,10 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
       'config': {
         'ui': {
           'size': {
-            'width': 3,
-            'minWidth': 3,
-            'maxWidth': 3,
-            'height': 6,
+            'width': 6,
+            'minWidth': 6,
+            'maxWidth': 6,
+            'height': 11,
             'autoResize': true
           },
           'resizable': {
@@ -116,11 +116,7 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
             'ui': {
                 'size': {
                   'width': 6,
-                  'height': 6,
-                  'maxHeight': 6,
-                  'minHeight': 1,
-                  'maxWidth': 6,
-                  'minWidth': 1
+                  'height': 6
                 }
             }
           },
@@ -169,9 +165,8 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
             }
           },
           'chart': {
-            'data': 0.1,
-            'indicator': {
-            }
+            'data': 2.45,
+            'indicator': {}
           }
       }, {
           'id': '00000000-0000-0000-000000000004',
@@ -188,7 +183,7 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
             'ui': {
               'title': {
                 'show': true,
-                'text': 'Max Talk Time (min)'
+                'text': 'Avg Talk Time (min)'
               },
               'size': {
                 'width': 3,
@@ -197,7 +192,7 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
             }
           },
           'chart': {
-            'data': 0.1,
+            'data': 4.60,
             'indicator': {
               'threshold': 5.5
             }
@@ -226,7 +221,7 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
           }
         },
         'chart': {
-          'data': 0.1,
+          'data': 7.87,
           'indicator': {
             'threshold': 5.5
           }
@@ -240,10 +235,10 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
       'config': {
         'ui': {
           'size': {
-            'width': 3,
-            'minWidth': 3,
-            'maxWidth': 3,
-            'height': 6,
+            'width': 6,
+            'minWidth': 6,
+            'maxWidth': 6,
+            'height': 11,
             'autoResize': true
            },
           'resizable': {
@@ -349,10 +344,8 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
           }
         },
         'chart': {
-          'data': 0.1,
-          'indicator': {
-            'threshold': 5.5
-          }
+          'data': 1.33,
+          'indicator': {}
         }
       }, {
         'id': '00000000-0000-0000-000000000009',
@@ -369,20 +362,16 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
           'ui': {
             'title': {
               'show': true,
-              'text': 'Max Talk Time (min)'
+              'text': 'Avg Talk Time (min)'
             },
             'size': {
               'width': 3,
-              'height': 2,
-              'maxHeight': 4,
-              'minHeight': 2,
-              'maxWidth': 6,
-              'minWidth': 2
+              'height': 2
             }
           }
         },
         'chart': {
-          'data': 0.1,
+          'data': 2.55,
           'indicator': {
             'threshold': 5.5
           }
@@ -406,11 +395,7 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
             },
             'size': {
               'width': 3,
-              'height': 2,
-              'maxHeight': 6,
-              'minHeight': 2,
-              'maxWidth': 6,
-              'minWidth': 2
+              'height': 2
             }
           }
         },
@@ -435,12 +420,8 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
               'text': 'Queue Overview'
             },
             'size': {
-              'width': 6,
-              'height': 2,
-              'maxHeight': 8,
-              'minHeight': 2,
-              'maxWidth': 6,
-              'minWidth': 6
+              'width': 12,
+              'height': 6
             }
           }
         },
@@ -488,7 +469,7 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
     'id': '00000000-0000-0000-000000000012',
     'gridster': {
       'mobileModeEnabled': false,
-      'columns': 6,
+      'columns': 12,
       'margins': [10, 25],
       'outerMargin': false,
       'draggable': {
@@ -502,10 +483,10 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
     'config': {
       'ui': {
         'size': {
-          'width': 8,
-          'maxWidth': 8,
-          'minWidth': 8,
-          'height': 10,
+          'width': 12,
+          'maxWidth': 12,
+          'minWidth': 12,
+          'height': 20,
           'autoResize': true
         }
       }
@@ -518,8 +499,8 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
       'config': {
         'ui': {
           'size': {
-            'width': 2,
-            'height': 6,
+            'width': 4,
+            'height': 11,
             'autoResize': true
           },
           'resizable': {
@@ -529,7 +510,7 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
       },
       'gridster': {
         'mobileModeEnabled': false,
-        'columns': 6,
+        'columns': 4,
         'margins': [10, 10],
         'outerMargin': false,
         'draggable': {
@@ -542,8 +523,8 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
         'config': {
           'ui': {
             'size': {
-              'width': 6,
-              'height': 2
+              'width': 4,
+              'height': 1
             },
             'resizable' : {
               'disabled': true
@@ -568,18 +549,18 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
           'ui': {
             'title': {
               'show': true,
-              'text': 'Average Wait Time (min)'
+              'text': 'Average Abandons (Per Hour)'
             },
             'size': {
-              'width': 6,
-              'height': 6
+              'width': 4,
+              'height': 4
             }
           }
         },
         'chart': {
           'data': 0.1,
           'indicator': {
-            'threshold': 5.5
+            'threshold': 5
           }
         }
       }, {
@@ -600,8 +581,8 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
                 'text': 'Average Wait Time (min)'
               },
               'size': {
-                'width': 6,
-                'height': 6
+                'width': 4,
+                'height': 4
               }
             }
           },
@@ -629,8 +610,8 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
                 'text': 'Max Talk Time (min)'
               },
               'size': {
-                'width': 6,
-                'height': 4,
+                'width': 4,
+                'height': 2,
               }
             }
           },
@@ -648,7 +629,7 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
       'id': '00000000-0000-0000-000000000017',
       'gridster': {
         'mobileModeEnabled': false,
-        'columns': 6,
+        'columns': 4,
         'margins': [10,10],
         'outerMargin': false,
         'draggable': {
@@ -661,8 +642,8 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
       'config': {
         'ui': {
           'size': {
-            'width': 2,
-            'height': 6,
+            'width': 4,
+            'height': 11,
             'autoResize': true
           },
           'resizable': {
@@ -677,8 +658,8 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
         'config': {
           'ui': {
             'size': {
-              'width': 6,
-              'height': 2
+              'width': 4,
+              'height': 1
             },
             'resizable' : {
               'disabled': true
@@ -701,16 +682,20 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
             'intervalUnit': 'seconds'
           },
           'ui': {
+            'title': {
+              'show': true,
+              'text': 'Average Abandons (Per Hour)'
+            },
             'size': {
-              'width': 6,
-              'height': 6
+              'width': 4,
+              'height': 4
             }
           }
         },
         'chart': {
-          'data': 0.1,
+          'data': 2,
           'indicator': {
-            'threshold': 5.5
+            'threshold': 5
           }
         }
       }, {
@@ -728,11 +713,11 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
           'ui': {
             'title': {
               'show': true,
-              'text': 'ATT'
+              'text': 'Average Wait Time (min)'
             },
             'size': {
-              'width': 6,
-              'height': 6
+              'width': 4,
+              'height': 4
             }
           }
         },
@@ -760,8 +745,8 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
               'text': 'Max Talk Time (min)'
             },
             'size': {
-              'width': 6,
-              'height': 4
+              'width': 4,
+              'height': 2
             }
           }
         },
@@ -786,11 +771,8 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
               'text': 'Group Overview'
             },
             'size': {
-              'width': 6,
-              'height': 2,
-              'minHeight': 2,
-              'maxWidth': 6,
-              'minWidth': 6
+              'width': 12,
+              'height': 6
             }
           }
         },
@@ -833,7 +815,7 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
         'id': '00000000-0000-0000-000000000022',
         'gridster': {
           'mobileModeEnabled': false,
-          'columns': 6,
+          'columns': 4,
           'margins': [10,10],
           'outerMargin': false,
           'draggable': {
@@ -843,8 +825,8 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
         'config': {
           'ui': {
             'size': {
-              'width': 2,
-              'height': 6,
+              'width': 4,
+              'height': 11,
               'autoResize': true
             },
             'resizable' : {
@@ -859,8 +841,8 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
           'config': {
             'ui': {
               'size': {
-                'width': 6,
-                'height': 2
+                'width': 4,
+                'height': 1
               },
               'resizable' : {
                 'disabled': true
@@ -885,18 +867,18 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
             'ui': {
               'title': {
                 'show': true,
-                'text': 'Average Wait Time (min)'
+                'text': 'Average Abandons (Per Hour)'
               },
               'size': {
-                'width': 6,
-                'height': 6
+                'width': 4,
+                'height': 4
               }
             }
           },
           'chart': {
-            'data': 0.1,
+            'data': 4,
             'indicator': {
-              'threshold': 5.5
+              'threshold': 5
             }
           }
         }, {
@@ -917,8 +899,8 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
                   'text': 'Average Wait Time (min)'
                 },
                 'size': {
-                  'width': 6,
-                  'height': 6
+                  'width': 4,
+                  'height': 4
                 }
               }
             },
@@ -946,8 +928,8 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
                   'text': 'Max Talk Time (min)'
                 },
                 'size': {
-                  'width': 6,
-                  'height': 4,
+                  'width': 4,
+                  'height': 2,
                 }
               }
             },
@@ -966,7 +948,7 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
     'id': '00000000-0000-0000-000000000026',
     'gridster': {
       'mobileModeEnabled': false,
-      'columns': 6,
+      'columns': 12,
       'margins': [10,10],
       'outerMargin': false,
       'draggable': {
@@ -979,15 +961,11 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
     'config': {
       'ui': {
         'size': {
-          'width': 8,
-          'maxWidth': 8,
-          'minWidth': 8,
-          'height': 10,
+          'width': 12,
+          'maxWidth': 12,
+          'minWidth': 12,
+          'height': 20,
           'autoResize': true
-        },
-        'position': {
-          'row': 0,
-          'col': 16 
         }
       }
     },
@@ -997,7 +975,7 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
       'config': {
         'ui': {
           'size': {
-            'width': 6,
+            'width': 12,
             'height': 1
           },
           'resizable' : {
@@ -1023,19 +1001,17 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
         'ui': {
           'title': {
             'show': true,
-            'text': 'Average Wait Time (min)'
+            'text': 'Average Inbound Calls (min)'
           },
           'size': {
-            'width': 2,
-            'height': 2
+            'width': 4,
+            'height': 4
           }
         }
       },
       'chart': {
         'data': 0.1,
-        'indicator': {
-          'threshold': 5.5
-        }
+        'indicator': {}
       }
     }, {
       'id': '00000000-0000-0000-000000000028',
@@ -1052,19 +1028,17 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
         'ui': {
           'title': {
             'show': true,
-            'text': 'Average Wait Time (min)'
+            'text': 'Average Outbound Calls (min)'
           },
           'size': {
-            'width': 2,
-            'height': 2
+            'width': 4,
+            'height': 4
           }
         }
       },
         'chart': {
           'data': 0.1,
-          'indicator': {
-            'threshold': 5.5
-          }
+          'indicator': {}
         }
     }, {
       'id': '00000000-0000-0000-000000000029',
@@ -1081,16 +1055,16 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
         'ui': {
           'title': {
             'show': true,
-            'text': 'Average Wait Time (min)'
+            'text': 'Min Wait Time'
           },
           'size': {
-            'width': 2,
-            'height': 2
+            'width': 4,
+            'height': 4
           }
         }
       },
       'chart': {
-        'data': 0.1,
+        'data': 0.44,
         'indicator': {
           'threshold': 5.5
         }
@@ -1110,16 +1084,16 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
         'ui': {
           'title': {
             'show': true,
-            'text': 'Average Wait Time (min)'
+            'text': 'Max Wait Time (min)'
           },
           'size': {
-            'width': 4,
-            'height': 2
+            'width': 6,
+            'height': 3
           }
         }
       },
       'chart': {
-        'data': 0.1,
+        'data': 8.67,
         'indicator': {
           'threshold': 5.5
         }
@@ -1139,16 +1113,16 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
         'ui': {
           'title': {
             'show': true,
-            'text': 'Average Wait Time (min)'
+            'text': 'Average Talk Time (min)'
           },
           'size': {
-            'width': 2,
-            'height': 1
+            'width': 3,
+            'height': 3
           }
         }
       },
       'chart': {
-        'data': 0.1,
+        'data': 3.2,
         'indicator': {
           'threshold': 5.5
         }
@@ -1171,8 +1145,8 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
             'text': 'Average Wait Time (min)'
           },
           'size': {
-            'width': 2,
-            'height': 1
+            'width': 3,
+            'height': 3
           }
         }
       },
