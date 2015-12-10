@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('HoursController', ['$scope', '$filter', 'Session', 'BusinessHour', 'BusinessHourException', 'Timezone', 'hoursTableConfig', 'Alert', 'loEvents',
-    function($scope, $filter, Session, BusinessHour, BusinessHourException, Timezone, hoursTableConfig, Alert, loEvents) {
+  .controller('HoursController', ['$scope', '$translate', '$moment', 'Session', 'BusinessHour', 'BusinessHourException', 'Timezone', 'hoursTableConfig', 'Alert', 'loEvents',
+    function($scope, $translate, $moment, Session, BusinessHour, BusinessHourException, Timezone, hoursTableConfig, Alert, loEvents) {
       var vm = this;
       
       vm.dayPrefixes = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
@@ -46,10 +46,9 @@ angular.module('liveopsConfigPanel')
       };
 
       $scope.showCreateException = function(){
-        //will probably need an external library to do this properly
         var newLocalDate = new Date();
         var newUTCDate = new Date(Date.UTC(
-          newLocalDate.getFullYear(), newLocalDate.getMonth(), newLocalDate.getDate(), 0, 0, 0, 0));
+          newLocalDate.getFullYear(), newLocalDate.getMonth(), newLocalDate.getDate()));
 
         $scope.exceptionHour = new BusinessHourException({
           date: newUTCDate,
@@ -68,10 +67,10 @@ angular.module('liveopsConfigPanel')
         }).then(function(exceptionHour) {
           $scope.selectedHour.$exceptions.push(exceptionHour);
           $scope.exceptionHour = null;
-          Alert.success($filter('translate')('hours.exception.create.success'));
+          Alert.success($translate.instant('hours.exception.create.success'));
           return exceptionHour;
         }, function(error) {
-          Alert.error($filter('translate')('hours.exception.create.failure'));
+          Alert.error($translate.instant('hours.exception.create.failure'));
           return error;
         });
       };
@@ -81,9 +80,9 @@ angular.module('liveopsConfigPanel')
           businessHourId: $scope.selectedHour.id
         }).then(function() {
           $scope.selectedHour.$exceptions.removeItem(exception);
-          Alert.success($filter('translate')('hours.exception.remove.success'));
+          Alert.success($translate.instant('hours.exception.remove.success'));
         }, function() {
-          Alert.error($filter('translate')('hours.exception.remove.failure'));
+          Alert.error($translate.instant('hours.exception.remove.failure'));
         });
       };
       
@@ -98,18 +97,16 @@ angular.module('liveopsConfigPanel')
       
       $scope.generateHoursMessage = function(day) {
         return {
-          day: $filter('translate')('hours.' + day)
+          day: $translate.instant('hours.' + day)
         };
       };
 
       $scope.formatMinutes = function(minutes) {
-        var hours = Math.floor(minutes / 60);
-        hours = hours < 10 ? '0' + hours : hours;
-
-        var minutesRemainder = minutes - (hours * 60);
-        minutesRemainder = minutesRemainder < 10 ? '0' + minutesRemainder : minutesRemainder;
-
-        return hours + ':' + minutesRemainder;
+        var newDate = $moment();
+        newDate.hours(0);
+        newDate.minutes(minutes);
+        
+        return newDate.format('HH:mm');
       };
       
       $scope.$watch('selectedHour', function() {

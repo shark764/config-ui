@@ -318,7 +318,7 @@
   </thead>
   <tbody>
     <tr ng-repeat="exception in selectedHour.$exceptions">
-      <td>{{exception.date}}</td>
+      <td>{{exception.date | date:'dd-MM-yyyy'}}</td>
       <td>{{exception.description}}</td>
       <td>{{formatMinutes(exception.startTimeMinutes)}}</td>
       <td>{{formatMinutes(exception.endTimeMinutes)}}</td>
