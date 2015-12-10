@@ -7,7 +7,7 @@ angular.module('liveopsConfigPanel')
       $scope.loExtensionProviders = loExtensionProviders;
       $scope.loExtensionTypes = loExtensionTypes;
       $scope.sipPattern = '[s|S]{1}[i|I]{1}[p|P]{1}:.*';
-      
+
       $scope.newExtension = {};
 
       vm.save = function() {
@@ -49,6 +49,10 @@ angular.module('liveopsConfigPanel')
         });
       };
 
+      $scope.clearExtensionError = function () {
+        $scope.userTenantExtensionForm.extensions.$setValidity('api', true);
+      };
+
       $scope.clearValues = function () {
         $scope.phoneNumber = null;
         $scope.phoneExtension = null;
@@ -57,10 +61,11 @@ angular.module('liveopsConfigPanel')
         delete($scope.newExtension.provider);
 
         angular.forEach([
-            'type', 'provider', 'telValue', 'sipValue', 'description'
+            'type', 'provider', 'telValue', 'sipValue', 'description', 'extensions'
         ], function (field) {
           $scope.userTenantExtensionForm[field].$setPristine();
           $scope.userTenantExtensionForm[field].$setUntouched();
+          $scope.userTenantExtensionForm[field].$setValidity('api', true);
         });
       };
 

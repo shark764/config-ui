@@ -68,6 +68,7 @@
 
   "login.button": "Login",
   "login.error": "Invalid username or password.",
+  "login.unexpected.error": "An unexpected error occured. Please try again. If this error persists, please contact support.",
 
   "session.tenants.none": "No tenants available",
 
@@ -470,9 +471,9 @@
   "webrtc": "WebRTC",
   "twilio": "Twilio",
   "pstn": "PSTN",
-  "pilvo": "Pilvo",
+  "plivo": "Plivo",
   "sip": "SIP",
-
+  
   "hours.table.title": "Business Hours Management",
   "hours.details.creating": "Creating New Business Hours",
   "hours.details.disable.confirm": "This will disable these business hours. Do you want to continue?",
