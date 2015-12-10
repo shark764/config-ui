@@ -466,6 +466,6 @@
   "webrtc": "WebRTC",
   "twilio": "Twilio",
   "pstn": "PSTN",
-  "pilvo": "Pilvo",
+  "plivo": "Plivo",
   "sip": "SIP"
 }
