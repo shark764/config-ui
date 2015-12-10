@@ -39,7 +39,7 @@
 </div>
 
 <div id="create-new-queue-query-details" ng-if="qc.selectedQueue.isNew()">
-  <query-creator query="qc.initialVersion.query"></query-creator>
+  <query-list-creator query-string="qc.initialVersion.query"></query-list-creator>
 
   <div class="divider-header">
     <h4>{{'queue.details.priority' | translate}}</h4>
