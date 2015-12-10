@@ -20,7 +20,9 @@ angular.module('liveopsConfigPanel')
       };
 
       $scope.submit = function(){
-        return $scope.selectedHour.save();
+        return $scope.selectedHour.save({
+          tenantId: Session.tenant.tenantId
+        });
       };
 
       $scope.hasHours = function() {
