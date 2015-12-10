@@ -50,7 +50,7 @@ angular.module('liveopsConfigPanel')
       };
 
       $scope.clearExtensionError = function () {
-        $scope.userTenantExtensionForm['extensions'].$setValidity('api', true);
+        $scope.userTenantExtensionForm.extensions.$setValidity('api', true);
       };
 
       $scope.clearValues = function () {
