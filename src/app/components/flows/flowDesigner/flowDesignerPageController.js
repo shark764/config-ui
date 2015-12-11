@@ -21,7 +21,6 @@ angular.module('liveopsConfigPanel')
       });
 
       $scope.$on('$destroy', function(){
-        console.log('Kill it all!');
         FlowLibrary.clearData();
       })
     }
