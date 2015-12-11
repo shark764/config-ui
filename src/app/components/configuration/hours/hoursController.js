@@ -70,9 +70,9 @@ angular.module('liveopsConfigPanel')
 
       $scope.showCreateException = function () {
         var newLocalDate = new Date();
-        var newUTCDate = new Date(Date.UTC(
-          newLocalDate.getFullYear(), newLocalDate.getMonth(), newLocalDate.getDate()));
-
+        var newUTCDate = $moment.utc([
+          newLocalDate.getFullYear(), newLocalDate.getMonth(), newLocalDate.getDate()]);
+        
         $scope.exceptionHour = new BusinessHourException({
           date: newUTCDate,
           isAllDay: true
@@ -122,14 +122,6 @@ angular.module('liveopsConfigPanel')
         return {
           day: $translate.instant('hours.' + day)
         };
-      };
-
-      $scope.formatMinutes = function (minutes) {
-        var newDate = $moment();
-        newDate.hours(0);
-        newDate.minutes(minutes);
-
-        return newDate.format('HH:mm');
       };
 
       $scope.$watch('selectedHour', function () {
