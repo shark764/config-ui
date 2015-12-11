@@ -45,7 +45,6 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
                         }
                     },
                     "chart":{
-                        "data":0.1,
                         "indicator":{}
                     }
                 }
