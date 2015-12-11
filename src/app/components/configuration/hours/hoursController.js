@@ -143,8 +143,11 @@ angular.module('liveopsConfigPanel')
       $scope.$on(loEvents.tableControls.itemCreate, function () {
         $scope.selectedHour = new BusinessHour({
           tenantId: Session.tenant.tenantId,
-          active: true
+          active: true,
+          timezone: 'US/Eastern'
         });
+        
+        $scope.exceptionHour = null;
       });
 
       $scope.tableConfig = hoursTableConfig;
