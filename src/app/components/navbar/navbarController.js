@@ -204,6 +204,11 @@ angular.module('liveopsConfigPanel')
           },
           id: 'reports-management-link',
           order: 1
+        },  {
+          label: 'Realtime Dashboards',
+          stateLink: 'content.realtime-dashboards',
+          id: 'realtime-dashboard-link',
+          order: 2
         }
 
         // TODO: This is coming out for this release as they are only giving access to dashboards for this Beta.

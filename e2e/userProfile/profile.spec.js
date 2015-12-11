@@ -45,6 +45,8 @@ describe('The profile view', function() {
     expect(profile.userProfilePic.isDisplayed()).toBeTruthy();
 
     expect(profile.resetPasswordButton.isDisplayed()).toBeTruthy();
+    expect(profile.passwordFormField.isDisplayed()).toBeFalsy();
+    expect(profile.passwordPolicy.isDisplayed()).toBeFalsy();
     expect(profile.updateProfileBtn.isDisplayed()).toBeTruthy();
 
     expect(profile.userSkillsSectionHeader.isDisplayed()).toBeTruthy();
@@ -111,6 +113,14 @@ describe('The profile view', function() {
     expect(profile.errors.get(1).getText()).toBe('Please enter a last name');
   });
 
+  it('should display password policy when reset password button is clicked', function() {
+    profile.resetPasswordButton.click();
+
+    expect(profile.passwordFormField.isDisplayed()).toBeTruthy();
+    expect(profile.passwordPolicy.isDisplayed()).toBeTruthy();
+    expect(profile.passwordPolicy.getText()).toBe(profile.passwordPolicyText);
+  });
+
   it('should require password after reset password button is clicked', function() {
     profile.resetPasswordButton.click();
     profile.passwordFormField.clear();
@@ -125,24 +135,96 @@ describe('The profile view', function() {
     expect(profile.errors.get(0).getText()).toBe('Please enter a password');
   });
 
-  it('should apply the new password', function() {
-    // Change the password
+  it('should display error for invalid password and remove after editing field', function() {
     profile.resetPasswordButton.click();
-    profile.passwordFormField.clear();
-    profile.passwordFormField.sendKeys(params.login.password + 'new');
+    profile.passwordFormField.sendKeys('notvalid');
+    profile.updateProfileBtn.click();
 
-    // Log in with the new password
+    expect(shared.successMessage.isPresent()).toBeFalsy();
+    shared.waitForError();
+    expect(profile.errors.get(0).isDisplayed()).toBeTruthy();
+    expect(profile.updateProfileBtn.getAttribute('disabled')).toBeTruthy();
+
+    // Edit field
+    profile.passwordFormField.sendKeys('edit');
+    expect(profile.errors.count()).toBe(0);
+    expect(profile.updateProfileBtn.getAttribute('disabled')).toBeFalsy();
+  });
+
+  it('should not accept spaces for password input', function() {
+    profile.resetPasswordButton.click();
+    profile.passwordFormField.sendKeys('       ');
+    profile.updateProfileBtn.click();
+
+    expect(shared.successMessage.isPresent()).toBeFalsy();
+    shared.waitForError();
+
+    // Error messages
+    expect(profile.errors.get(0).isDisplayed()).toBeTruthy();
+    expect(profile.errors.get(0).getText()).toBe('must be a non-blank string');
+  });
+
+  it('should require password with more than 8 characters', function() {
+    profile.resetPasswordButton.click();
+    profile.passwordFormField.sendKeys('seven1!');
+    profile.updateProfileBtn.click();
+
+    expect(shared.successMessage.isPresent()).toBeFalsy();
+    shared.waitForError();
+
+    // Error messages
+    expect(profile.errors.get(0).isDisplayed()).toBeTruthy();
+    expect(profile.errors.get(0).getText()).toBe('must be at least 8 characters in length');
+  });
+
+  it('should require password with at least one letter', function() {
+    profile.resetPasswordButton.click();
+    profile.passwordFormField.sendKeys('12345678!');
+    profile.updateProfileBtn.click();
+
+    expect(shared.successMessage.isPresent()).toBeFalsy();
+    shared.waitForError();
+
+    // Error messages
+    expect(profile.errors.get(0).isDisplayed()).toBeTruthy();
+    expect(profile.errors.get(0).getText()).toBe('must contain at least 1 alphabetic characters');
+  });
+
+  it('should require password with at least one number', function() {
+    profile.resetPasswordButton.click();
+    profile.passwordFormField.sendKeys('abcdefg!');
+    profile.updateProfileBtn.click();
+
+    expect(shared.successMessage.isPresent()).toBeFalsy();
+    shared.waitForError();
+
+    // Error messages
+    expect(profile.errors.get(0).isDisplayed()).toBeTruthy();
+    expect(profile.errors.get(0).getText()).toBe('must contain at least 1 numeric case characters');
+  });
+
+  it('should require password with at least one special character', function() {
+    profile.resetPasswordButton.click();
+    profile.passwordFormField.sendKeys('abcdefg1');
+    profile.updateProfileBtn.click();
+
+    expect(shared.successMessage.isPresent()).toBeFalsy();
+    shared.waitForError();
+
+    // Error messages
+    expect(profile.errors.get(0).isDisplayed()).toBeTruthy();
+    expect(profile.errors.get(0).getText()).toBe('must contain at least 1 characters from !#$%-_=+<>.');
+  });
+
+  it('should accept a password with 8 characters, 1 letter, 1 number and 1 special character', function() {
+    profile.resetPasswordButton.click();
+    profile.passwordFormField.sendKeys('abcdef1!');
     profile.updateProfileBtn.click().then(function() {
       shared.waitForSuccess();
       shared.closeMessageBtn.click();
 
       // No validation messages displayed
       expect(profile.errors.count()).toBe(0);
-    }).then(function() {
-      shared.welcomeMessage.click();
-      shared.logoutButton.click();
-      loginPage.login(params.login.user, params.login.password + 'new');
-      expect(browser.getCurrentUrl()).toContain(shared.usersPageUrl);
     });
   });
 
@@ -161,6 +243,22 @@ describe('The profile view', function() {
     users.submitFormBtn.click().then(function() {
       shared.waitForSuccess();
       expect(shared.successMessage.isDisplayed()).toBeTruthy();
+    });
+  });
+
+  it('should apply the new password', function() {
+    // Change the password
+    profile.resetPasswordButton.click();
+    profile.passwordFormField.clear();
+    profile.passwordFormField.sendKeys(params.login.password + 'new');
+
+    // Log in with the new password
+    profile.updateProfileBtn.click().then(function() {
+      shared.waitForSuccess();
+      shared.closeMessageBtn.click();
+
+      // No validation messages displayed
+      expect(profile.errors.count()).toBe(0);
     });
   });
 

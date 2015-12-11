@@ -14,6 +14,8 @@ var InvitePage = function() {
   this.alertMessage = this.acceptForm.element(by.css('.lo-alert'));
   this.userEmail = this.acceptForm.element(by.id('user-details-email'));
   this.passwordFormField = this.acceptForm.element(by.model('user.password'));
+  this.passwordPolicy = element(by.id('password-policy'));
+  this.passwordPolicyText = 'Password must have at least 1 alphabetic character, 1 number, and 1 special character (! # $ % - _ = + < > .)';
   this.firstNameFormField = this.acceptForm.element(by.model('user.firstName'));
   this.lastNameFormField = this.acceptForm.element(by.model('user.lastName'));
   this.externalIdFormField = this.acceptForm.element(by.model('user.externalId'));
