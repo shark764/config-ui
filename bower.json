@@ -22,7 +22,7 @@
     "teljs": "git@github.com:liveops/tel.js.git#master",
     "flow-designer": "git@github.com:liveops/flow-designer.git#1.0.2-SNAPSHOT",
     "realtime-dashboards": "git@github.com:liveops/realtime-dashboards.git#master",
-    "liveops-config-panel-shared": "git@github.com:liveops/config-shared#1.0.8",
+    "liveops-config-panel-shared": "git@github.com:liveops/config-shared#1.0.11",
     "ng-file-upload": "~7.0.17",
     "angular-drag-and-drop-lists": "~1.3.0",
     "lodash": "~3.10.1"
