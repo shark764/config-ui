@@ -2,11 +2,11 @@
   <div id="invite-accept-wrapper">
     <img ng-src="assets/images/liveops-logo.png" height="23" >
 
-    <ng-form 
-      ng-show="showSignupForm" 
+    <ng-form
+      ng-show="showSignupForm"
       name="detailsForm"
       lo-form-submit>
-      
+
       <div class="details-pane">
         <div class="detail-body clear">
           <div class="lo-alert">
@@ -33,7 +33,7 @@
             <form-error field="detailsForm.password"
               error-type-required="{{'details.password.error' | translate}}"></form-error>
             <input ng-required="true" autocomplete="off" ng-model="user.password" name="password" type="password"/>
-            <p><small>{{'details.password.defauly.policy' | translate}}</small></p>
+            <p id="password-policy"><small>{{'details.password.default.policy' | translate}}</small></p>
           </div>
 
           <div class="divider-header" ng-class="{'first-header' : resource.id}">

@@ -96,7 +96,7 @@
   "details.email.alreadyExists": "This user already exists on the platform and they will be added to the tenant upon clicking \"Submit\"",
   "details.password": "Password",
   "details.password.error": "Please enter a password",
-  "details.password.defauly.policy": "Password must have at least 1 alphabetic character, 1 number, and 1 special character (! # $ % - _ = + < >)",
+  "details.password.default.policy": "Password must have at least 1 alphabetic character, 1 number, and 1 special character (! # $ % - _ = + < > .)",
   "details.externalId": "External ID",
   "details.role": "Tenant Role",
   "details.platformRole": "Platform Role",

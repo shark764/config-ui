@@ -452,6 +452,15 @@ describe('The user invitation', function() {
       expect(invites.signupLegalLabel.getText()).toBe(invites.legalText);
     });
 
+    it('should include Password Policy information', function() {
+      // NOTE: This test uses the acceptInvitationLink from the previous test
+      browser.get(acceptInvitationLink);
+
+      expect(invites.passwordPolicy.isDisplayed()).toBeTruthy();
+
+      expect(invites.passwordPolicy.getText()).toBe(invites.passwordPolicyText);
+    });
+
     it('should require completed fields', function() {
       browser.get(acceptInvitationLink);
 
@@ -521,10 +530,98 @@ describe('The user invitation', function() {
       expect(invites.errors.get(1).getText()).toBe('Please enter a last name');
     });
 
-    it('should accept invitation', function() {
+    it('should display error for invalid password and remove after editing field', function() {
       browser.get(acceptInvitationLink);
 
-      invites.passwordFormField.sendKeys('password');
+      invites.passwordFormField.sendKeys('notvalid');
+
+      invites.submitFormBtn.click();
+      shared.waitForError();
+
+      expect(invites.errors.count()).toBe(1);
+      expect(invites.submitFormBtn.getAttribute('disabled')).toBeTruthy();
+
+      invites.passwordFormField.sendKeys('edit');
+      expect(invites.errors.count()).toBe(0);
+      expect(invites.submitFormBtn.isEnabled()).toBeTruthy();
+    });
+
+    it('should not accept spaces for password input', function() {
+      browser.get(acceptInvitationLink);
+
+      invites.passwordFormField.sendKeys('      ');
+
+      invites.submitFormBtn.click();
+      shared.waitForError();
+
+      expect(invites.errors.count()).toBe(1);
+      expect(invites.errors.get(0).getText()).toBe('must be a non-blank string');
+    });
+
+    it('should require password with more than 8 characters', function() {
+      browser.get(acceptInvitationLink);
+
+      invites.passwordFormField.sendKeys('seven1!');
+
+      invites.submitFormBtn.click();
+      shared.waitForError();
+
+      expect(invites.errors.count()).toBe(1);
+      expect(invites.errors.get(0).getText()).toBe('must be at least 8 characters in length');
+    });
+
+    it('should require password with at least one letter', function() {
+      browser.get(acceptInvitationLink);
+
+      invites.passwordFormField.sendKeys('12345678!');
+
+      invites.submitFormBtn.click();
+      shared.waitForError();
+
+      expect(invites.errors.count()).toBe(1);
+      expect(invites.errors.get(0).getText()).toBe('must contain at least 1 alphabetic characters');
+    });
+
+    it('should require password with at least one number', function() {
+      browser.get(acceptInvitationLink);
+
+      invites.passwordFormField.sendKeys('abcdefg!');
+
+      invites.submitFormBtn.click();
+      shared.waitForError();
+
+      expect(invites.errors.count()).toBe(1);
+      expect(invites.errors.get(0).getText()).toBe('must contain at least 1 numeric case characters');
+    });
+
+    it('should require password with at least one special character', function() {
+      browser.get(acceptInvitationLink);
+
+      invites.passwordFormField.sendKeys('abcdefg1');
+
+      invites.submitFormBtn.click();
+      shared.waitForError();
+
+      expect(invites.errors.count()).toBe(1);
+      expect(invites.errors.get(0).getText()).toBe('must contain at least 1 characters from !#$%-_=+<>.');
+    });
+
+    it('should accept a password with 8 characters, 1 letter, 1 number and 1 special character', function() {
+      profile.resetPasswordButton.click();
+      profile.passwordFormField.sendKeys('abcdef1!');
+      profile.updateProfileBtn.click().then(function() {
+        shared.waitForSuccess();
+        shared.closeMessageBtn.click();
+
+        // No validation messages displayed
+        expect(profile.errors.count()).toBe(0);
+      });
+    });
+
+    it('should accept invitation with password containing 8 characters, 1 letter, 1 number and 1 special character', function() {
+      browser.get(acceptInvitationLink);
+
+      invites.passwordFormField.sendKeys('password1!');
 
       expect(invites.submitFormBtn.getAttribute('disabled')).toBeNull();
       invites.submitFormBtn.click().then(function() {
@@ -904,7 +1001,7 @@ describe('The user invitation', function() {
       browser.get(acceptInvitationLink);
 
       loginPage.emailLoginField.sendKeys('titantest' + randomUser + '@mailinator.com');
-      loginPage.passwordLoginField.sendKeys('password');
+      loginPage.passwordLoginField.sendKeys('password1!');
       loginPage.loginButton.click();
 
       expect(browser.getCurrentUrl()).toContain(shared.profilePageUrl);
