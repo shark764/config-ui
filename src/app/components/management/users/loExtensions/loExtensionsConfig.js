@@ -5,9 +5,6 @@ angular.module('liveopsConfigPanel')
     return [{
       value: 'twilio',
       display: $translate.instant('twilio')
-    }, {
-      value: 'plivo',
-      display: $translate.instant('plivo')
     }];
   }])
   .service('loExtensionTypes', ['$translate', function ($translate) {

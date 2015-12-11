@@ -10,7 +10,7 @@ var Extensions = function() {
 
   this.providerDropdown = this.extensionsSection.element(by.id('extension-provider-dropdown'));
   this.twilioDropdownOption = this.providerDropdown.element(by.css('[label="Twilio"]'));
-  this.pilvoDropdownOption = this.providerDropdown.element(by.css('[label="Pilvo"]'));
+  this.plivoDropdownOption = this.providerDropdown.element(by.css('[label="Plivo"]'));
 
   this.valueFormField = this.extensionsSection.element(by.id('extension-value-field'));
   this.extFormField = this.extensionsSection.element(by.id('extension-ext-field'));

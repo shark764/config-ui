@@ -76,7 +76,7 @@ angular.module('liveopsConfigPanel.config', [])
   'value': 'ready'
 }, {
   'display': 'Not Ready',
-  'value': 'not-ready'
+  'value': 'notready'
 }, {
   'display': 'Allocated',
   'value': 'allocated'

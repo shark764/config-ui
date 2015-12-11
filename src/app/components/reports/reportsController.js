@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('ReportsController', ['$scope', '$sce', '$http', 'Session', 'Report', '$state', 'BIRST_URL',
-    function($scope, $sce, $http, Session, Report, $state, BIRST_URL) {
+  .controller('ReportsController', ['$scope', '$sce', '$http', 'Session', 'Report', '$state', 'BIRST_URL', 'HIDE_REPORTING_DASHBOARD',
+    function($scope, $sce, $http, Session, Report, $state, BIRST_URL, HIDE_REPORTING_DASHBOARD) {
       $scope.birst = {};
 
       $scope.fetch = function() {
@@ -33,7 +33,7 @@ angular.module('liveopsConfigPanel')
         buildingUrl = buildingUrl + 'birst.SSOToken=' + $scope.birst.SSOToken + '&birst.embedded=true&birst.module=' + $scope.birst.module;
 
         if ($scope.birst.module === 'newDashboards'){
-          buildingUrl = buildingUrl + '&birst.hideDashboardNavigation=true';
+          buildingUrl = buildingUrl + '&birst.hideDashboardNavigation=' + HIDE_REPORTING_DASHBOARD;
         }
 
         if ( dashboardName !== '' && pageName !== '' ){

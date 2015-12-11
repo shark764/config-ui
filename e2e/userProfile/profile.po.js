@@ -9,6 +9,8 @@ var ProfilePage = function() {
   this.userProfilePic = element(by.id('user-profile-pic'));
   this.resetPasswordButton = element(by.id('reset-password-button'));
   this.passwordFormField = element(by.model('tenantUser.$user.password'));
+  this.passwordPolicy = element(by.id('password-policy'));
+  this.passwordPolicyText = 'Password must have at least 1 alphabetic character, 1 number, and 1 special character (! # $ % - _ = + < > .)';
 
   this.errors = element.all(by.css('.lo-error'));
 
