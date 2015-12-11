@@ -509,12 +509,14 @@
   "hours.open.default": "24/7 Hours",
   "hours.open.custom": "Scheduled Hours",
   "hours.details.hour": "Business Hours",
-  "hours.exception.noneDefined": "No exceptions for the schedule have been defined. Add one with the plus button, above!",
+  "hours.exception.noneDefined.hasPermission": "Add one with the plus button, above!",
+  "hours.exception.noneDefined": "No exceptions for the schedule have been defined.",
   "hours.exception.isAllDay": "All Day",
   "hours.exception.custom": "Custom",
   "hours.exception.remove": "Remove exception",
   "hours.exception.create.success": "Exception created successfully!",
-  "hours.exception.remove.success": "Exception removed successfully!",
   "hours.exception.create.failure": "Exception creation failure!",
+  "hours.exception.remove.success": "Exception removed successfully!",
+  "hours.exception.remove.failure": "Exception removal failure!",
   "hours.timezone.required": "Field \"Timezone\" is required."
 }
