@@ -33,7 +33,7 @@ angular.module('liveopsConfigPanel')
         buildingUrl = buildingUrl + 'birst.SSOToken=' + $scope.birst.SSOToken + '&birst.embedded=true&birst.module=' + $scope.birst.module;
 
         if ($scope.birst.module === 'newDashboards'){
-          buildingUrl = buildingUrl + '&birst.hideDashboardNavigation=true';
+          buildingUrl = buildingUrl + '&birst.hideDashboardNavigation=false';
         }
 
         if ( dashboardName !== '' && pageName !== '' ){
