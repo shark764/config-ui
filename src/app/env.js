@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('liveopsConfigPanel.config')
-  .constant('apiHostname', 'https://dev-api.liveopslabs.com')
+  .constant('apiHostname', 'http://localhost:9080')
   .constant('BIRST_URL', 'https://dev-birst.liveopslabs.com')
   .constant('SSO_PASSWORD', 'JO4IIiv0vuzyhoYoyWpbip0QquoCQyGh')
   .constant('HIDE_DASHBOARD_NAVIGATION', 'false')
