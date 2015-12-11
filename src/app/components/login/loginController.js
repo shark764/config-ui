@@ -25,7 +25,7 @@ angular.module('liveopsConfigPanel')
                 status: 'accepted'
               }, self.inviteAcceptSuccess, self.inviteAcceptFail);
             } else {
-              if (UserPermissions.hasPermissionInList(['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'VIEW_ALL_USERS', 'MANAGE_ALL_USER_EXTENSIONS', 'MANAGE_ALL_GROUP_USERS', 'MANAGE_ALL_USER_SKILLS', 'MANAGE_ALL_USER_LOCATIONS', 'MANAGE_TENANT_ENROLLMENT'])) {
+              if (UserPermissions.hasPermissionInList(['MANAGE_ALL_SKILLS', 'MANAGE_ALL_GROUPS'])) {
                 $state.go('content.management.users');
               } else {
                 $state.go('content.userprofile');

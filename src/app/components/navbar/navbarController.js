@@ -84,7 +84,8 @@ angular.module('liveopsConfigPanel')
         });
       }
 
-      if (UserPermissions.hasPermissionInList(['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'VIEW_ALL_SKILLS', 'MANAGE_ALL_SKILLS', 'MANAGE_ALL_USER_SKILLS', 'MANAGE_TENANT_ENROLLMENT'])) {
+    //See TITAN2-6199 for why we do this extra check
+      if (UserPermissions.hasPermission('MANAGE_ALL_MEDIA') && UserPermissions.hasPermissionInList(['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'VIEW_ALL_SKILLS', 'MANAGE_ALL_SKILLS', 'MANAGE_ALL_USER_SKILLS', 'MANAGE_TENANT_ENROLLMENT'])) {
         managementConfig.push({
           label: 'Skills',
           stateLink: 'content.management.skills',
@@ -93,7 +94,8 @@ angular.module('liveopsConfigPanel')
         });
       }
 
-      if (UserPermissions.hasPermissionInList(['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'VIEW_ALL_GROUPS', 'MANAGE_ALL_GROUPS', 'MANAGE_ALL_GROUP_USERS', 'MANAGE_ALL_GROUP_OWNERS', 'MANAGE_TENANT_ENROLLMENT'])) {
+      //See TITAN2-6199 for why we do this extra check
+      if (UserPermissions.hasPermission('MANAGE_ALL_MEDIA') && UserPermissions.hasPermissionInList(['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'VIEW_ALL_GROUPS', 'MANAGE_ALL_GROUPS', 'MANAGE_ALL_GROUP_USERS', 'MANAGE_ALL_GROUP_OWNERS', 'MANAGE_TENANT_ENROLLMENT'])) {
         managementConfig.push({
           label: 'Groups',
           stateLink: 'content.management.groups',
