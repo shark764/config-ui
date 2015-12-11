@@ -41,13 +41,15 @@ angular.module('liveopsConfigPanel')
         };
 
         newScope.okCallback = function(draft) {
-          $document.find('modal').remove();
-          new FlowDraft({
+          var newFlow = new FlowDraft({
             flowId: version.flowId,
             flow: version.flow,
             tenantId: Session.tenant.tenantId,
             name: draft.name
-          }).save().then(function(draft){
+          })
+          
+          return newFlow.save().then(function(draft){
+            $document.find('modal').remove();
             $state.go('content.flows.editor', {
               flowId: draft.flowId,
               draftId: draft.id
@@ -74,13 +76,15 @@ angular.module('liveopsConfigPanel')
         };
 
         newScope.okCallback = function(newFlow) {
-          $document.find('modal').remove();
-          new Flow({
+          var newFlow = new Flow({
             tenantId: Session.tenant.tenantId,
             active: true,
             name: newFlow.name,
             type: newFlow.type
-          }).save(function(flow){
+          });
+          
+          return newFlow.save(function(flow){
+            $document.find('modal').remove();
             var initialDraft = new FlowDraft({
               flowId: flow.id,
               flow: '[]',

@@ -14,7 +14,7 @@ angular.module('liveopsConfigPanel')
       };
 
       $scope.saveDraft = function () {
-        $scope.draft.save(function() {
+        return $scope.draft.save(function() {
           $scope.createDraft();
           $scope.createDraftForm.$setPristine();
           $scope.createDraftForm.$setUntouched();
