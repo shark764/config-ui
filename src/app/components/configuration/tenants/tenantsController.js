@@ -1,10 +1,14 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('TenantsController', ['$scope', 'Session', 'Tenant', 'TenantUser', 'tenantTableConfig', 'UserPermissions', 'AuthService', 'Region', '$q', 'lodash', 'loEvents',
-    function ($scope, Session, Tenant, TenantUser, tenantTableConfig, UserPermissions, AuthService, Region, $q, _, loEvents) {
+  .controller('TenantsController', ['$scope', 'Session', 'Tenant', 'TenantUser', 'tenantTableConfig', 'UserPermissions', 'AuthService', 'Region', '$q', 'lodash', 'loEvents', 'Timezone',
+    function ($scope, Session, Tenant, TenantUser, tenantTableConfig, UserPermissions, AuthService, Region, $q, _, loEvents, Timezone) {
       var vm = this;
 
+      vm.loadTimezones = function () {
+        $scope.timezones = Timezone.query();
+      };
+      
       vm.loadTenants = function () {
         if (UserPermissions.hasPermissionInList(['PLATFORM_VIEW_ALL_TENANTS', 'PLATFORM_MANAGE_ALL_TENANTS', 'PLATFORM_CREATE_ALL_TENANTS', 'PLATFORM_CREATE_TENANT_ROLES', 'PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT'])) {
           $scope.tenants = Tenant.cachedQuery({
@@ -60,7 +64,8 @@ angular.module('liveopsConfigPanel')
         $scope.selectedTenant = new Tenant({
           regionId: Session.activeRegionId,
           adminUserId: Session.user.id,
-          parentId: Session.tenant.tenantId
+          parentId: Session.tenant.tenantId,
+          timezone: 'US/Eastern' //Default to US-east timezone
         });
       };
 
@@ -108,5 +113,6 @@ angular.module('liveopsConfigPanel')
       });
 
       vm.loadTenants();
+      vm.loadTimezones();
     }
   ]);
