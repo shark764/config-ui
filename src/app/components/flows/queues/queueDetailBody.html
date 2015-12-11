@@ -96,16 +96,16 @@
 
                 <p class="null" ng-show="!ednQuery">{{'queue.details.version.query.basic.invalid' | translate}}</p>
 
-                <div ng-repeat="query in ednQuery.queries">
+                <div ng-repeat="escalation in ednQuery.escalations">
                   <div class="basic-readonly-query">
-                    <h3 ng-show="query.afterSecondsInQueue > 0 && query.afterSecondsInQueue % 60 !== 0">
-                      {{'queue.query.readonly.after.seconds' | translate:{seconds:query.afterSecondsInQueue} }}
+                    <h3 ng-show="escalation.afterSecondsInQueue > 0 && escalation.afterSecondsInQueue % 60 !== 0">
+                      {{'queue.query.readonly.after.seconds' | translate:{seconds:escalation.afterSecondsInQueue} }}
                     </h3>
-                    <h3 ng-show="query.afterSecondsInQueue > 0 && query.afterSecondsInQueue % 60 === 0">
-                      {{'queue.query.readonly.after.minutes' | translate:{minutes:query.afterSecondsInQueue / 60} }}
+                    <h3 ng-show="escalation.afterSecondsInQueue > 0 && escalation.afterSecondsInQueue % 60 === 0">
+                      {{'queue.query.readonly.after.minutes' | translate:{minutes:escalation.afterSecondsInQueue / 60} }}
                     </h3>
                     <object-group-editor
-                      ng-repeat="item in query.groups"
+                      ng-repeat="item in escalation.query.groups"
                       object-group="item.objectGroup"
                       readonly="true"
                       key="item.key">

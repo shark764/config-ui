@@ -17,7 +17,7 @@ angular.module('liveopsConfigPanel')
 
       vm.getDefaultVersion = function(){
         return new QueueVersion({
-          query: '({:after-seconds-in-queue 0})',
+          query: '[{:after-seconds-in-queue 0 :query {}}]',
           tenantId: Session.tenant.tenantId,
           name: 'v1',
           maxPriority: 1000,
