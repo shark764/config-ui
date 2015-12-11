@@ -244,6 +244,8 @@ describe('NavbarController', function () {
         switch(permission){
           case currentPermission:
             return true;
+          case 'MANAGE_ALL_MEDIA':
+            return true;
           default: 
             return false;
         }
@@ -272,6 +274,8 @@ describe('NavbarController', function () {
       spyOn(UserPermissions, 'hasPermission').and.callFake(function(permission){
         switch(permission){
           case currentPermission:
+            return true;
+          case 'MANAGE_ALL_MEDIA':
             return true;
           default: 
             return false;

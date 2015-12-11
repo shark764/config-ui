@@ -50,7 +50,8 @@ angular.module('liveopsConfigPanel')
             hasPermission: ['UserPermissions', '$q', function (UserPermissions, $q) {
             return $q.all(
                 UserPermissions.resolvePermissions(['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'VIEW_ALL_USERS', 'MANAGE_ALL_USER_EXTENSIONS', 'MANAGE_ALL_GROUP_USERS', 'MANAGE_ALL_USER_SKILLS', 'MANAGE_ALL_USER_LOCATIONS', 'MANAGE_TENANT_ENROLLMENT']),
-                UserPermissions.resolvePermissions(['MANAGE_ALL_GROUPS', 'MANAGE_ALL_SKILLS'])); //See TITAN2-4897 for why we do this extra check
+                UserPermissions.resolvePermissions(['MANAGE_ALL_GROUPS', 'MANAGE_ALL_SKILLS']) //See TITAN2-4897 for why we do this extra check
+            );
           }]
         }
       })
@@ -71,8 +72,11 @@ angular.module('liveopsConfigPanel')
         controller: 'SkillsController',
         reloadOnSearch: false,
         resolve: {
-            hasPermission: ['UserPermissions', function (UserPermissions) {
-            return UserPermissions.resolvePermissions(['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'VIEW_ALL_SKILLS', 'MANAGE_ALL_SKILLS', 'MANAGE_ALL_USER_SKILLS', 'MANAGE_TENANT_ENROLLMENT']);
+            hasPermission: ['UserPermissions', '$q', function (UserPermissions, $q) {
+              return $q.all(
+                  UserPermissions.resolvePermissions(['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'VIEW_ALL_SKILLS', 'MANAGE_ALL_SKILLS', 'MANAGE_ALL_USER_SKILLS', 'MANAGE_TENANT_ENROLLMENT']),
+                  UserPermissions.resolvePermissions(['MANAGE_ALL_MEDIA']) //See TITAN2-6199 for why we do this extra check
+              );
           }]
         }
       })
@@ -82,8 +86,11 @@ angular.module('liveopsConfigPanel')
         controller: 'GroupsController',
         reloadOnSearch: false,
         resolve: {
-            hasPermission: ['UserPermissions', function (UserPermissions) {
-            return UserPermissions.resolvePermissions(['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'VIEW_ALL_GROUPS', 'MANAGE_ALL_GROUPS', 'MANAGE_ALL_GROUP_USERS', 'MANAGE_ALL_GROUP_OWNERS', 'MANAGE_TENANT_ENROLLMENT']);
+            hasPermission: ['UserPermissions', '$q', function (UserPermissions, $q) {
+              return $q.all(
+                  UserPermissions.resolvePermissions(['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'VIEW_ALL_GROUPS', 'MANAGE_ALL_GROUPS', 'MANAGE_ALL_GROUP_USERS', 'MANAGE_ALL_GROUP_OWNERS', 'MANAGE_TENANT_ENROLLMENT']),
+                  UserPermissions.resolvePermissions(['MANAGE_ALL_MEDIA']) //See TITAN2-6199 for why we do this extra check
+              );
           }]
         }
       })
