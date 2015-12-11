@@ -159,6 +159,19 @@ angular.module('liveopsConfigPanel')
           }]
         }
       })
+      .state('content.configuration.hours', {
+        url: '/hours?id',
+        templateUrl: 'app/components/configuration/hours/hours.html',
+        controller: 'HoursController',
+        reloadOnSearch: false,
+        resolve: {
+          hasPermission: ['UserPermissions', function(UserPermissions) {
+            //TODO business hours permissions
+            //return UserPermissions.resolvePermissions(['VIEW_ALL_BUSINESS_HOURS', 'MANAGE_ALL_BUSINESS_HOURS']);
+            return UserPermissions.resolvePermissions([]);
+          }]
+        }
+      })
       .state('content.flows', {
         abstract: true,
         url: '/flows',
