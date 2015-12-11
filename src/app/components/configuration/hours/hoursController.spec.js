@@ -232,15 +232,4 @@ describe('HoursController', function () {
       expect(result).toEqual({day: 'hours.monday'});
     });
   });
-  
-  describe('ON formatMinutes', function() {
-    it('should be defined on $scope', function() {
-      expect($scope.formatMinutes).toBeDefined();
-    });
-    
-    it('should return string format of minutes', function() {
-      var result = $scope.formatMinutes(90);
-      expect(result).toEqual('01:30');
-    });
-  });
 });
