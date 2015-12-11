@@ -50,7 +50,8 @@ angular.module('liveopsConfigPanel')
             hasPermission: ['UserPermissions', '$q', function (UserPermissions, $q) {
             return $q.all(
                 UserPermissions.resolvePermissions(['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'VIEW_ALL_USERS', 'MANAGE_ALL_USER_EXTENSIONS', 'MANAGE_ALL_GROUP_USERS', 'MANAGE_ALL_USER_SKILLS', 'MANAGE_ALL_USER_LOCATIONS', 'MANAGE_TENANT_ENROLLMENT']),
-                UserPermissions.resolvePermissions(['MANAGE_ALL_GROUPS', 'MANAGE_ALL_SKILLS'])); //See TITAN2-4897 for why we do this extra check
+                UserPermissions.resolvePermissions(['MANAGE_ALL_GROUPS', 'MANAGE_ALL_SKILLS']) //See TITAN2-4897 for why we do this extra check
+            );
           }]
         }
       })
@@ -71,8 +72,11 @@ angular.module('liveopsConfigPanel')
         controller: 'SkillsController',
         reloadOnSearch: false,
         resolve: {
-            hasPermission: ['UserPermissions', function (UserPermissions) {
-            return UserPermissions.resolvePermissions(['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'VIEW_ALL_SKILLS', 'MANAGE_ALL_SKILLS', 'MANAGE_ALL_USER_SKILLS', 'MANAGE_TENANT_ENROLLMENT']);
+            hasPermission: ['UserPermissions', '$q', function (UserPermissions, $q) {
+              return $q.all(
+                  UserPermissions.resolvePermissions(['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'VIEW_ALL_SKILLS', 'MANAGE_ALL_SKILLS', 'MANAGE_ALL_USER_SKILLS', 'MANAGE_TENANT_ENROLLMENT']),
+                  UserPermissions.resolvePermissions(['MANAGE_ALL_MEDIA']) //See TITAN2-6199 for why we do this extra check
+              );
           }]
         }
       })
@@ -82,8 +86,11 @@ angular.module('liveopsConfigPanel')
         controller: 'GroupsController',
         reloadOnSearch: false,
         resolve: {
-            hasPermission: ['UserPermissions', function (UserPermissions) {
-            return UserPermissions.resolvePermissions(['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'VIEW_ALL_GROUPS', 'MANAGE_ALL_GROUPS', 'MANAGE_ALL_GROUP_USERS', 'MANAGE_ALL_GROUP_OWNERS', 'MANAGE_TENANT_ENROLLMENT']);
+            hasPermission: ['UserPermissions', '$q', function (UserPermissions, $q) {
+              return $q.all(
+                  UserPermissions.resolvePermissions(['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'VIEW_ALL_GROUPS', 'MANAGE_ALL_GROUPS', 'MANAGE_ALL_GROUP_USERS', 'MANAGE_ALL_GROUP_OWNERS', 'MANAGE_TENANT_ENROLLMENT']),
+                  UserPermissions.resolvePermissions(['MANAGE_ALL_MEDIA']) //See TITAN2-6199 for why we do this extra check
+              );
           }]
         }
       })
@@ -156,6 +163,19 @@ angular.module('liveopsConfigPanel')
         resolve: {
             hasPermission: ['UserPermissions', function (UserPermissions) {
             return UserPermissions.resolvePermissions(['VIEW_ALL_PROVIDERS', 'MANAGE_ALL_PROVIDERS']);
+          }]
+        }
+      })
+      .state('content.configuration.hours', {
+        url: '/hours?id',
+        templateUrl: 'app/components/configuration/hours/hours.html',
+        controller: 'HoursController',
+        reloadOnSearch: false,
+        resolve: {
+          hasPermission: ['UserPermissions', function(UserPermissions) {
+            //TODO business hours permissions
+            //return UserPermissions.resolvePermissions(['VIEW_ALL_BUSINESS_HOURS', 'MANAGE_ALL_BUSINESS_HOURS']);
+            return UserPermissions.resolvePermissions([]);
           }]
         }
       })
@@ -398,90 +418,7 @@ angular.module('liveopsConfigPanel')
       .state('content.realtime-dashboards', {
         url: '/realtime-dashboards',
         templateUrl: 'app/components/realtimeDashboards/demo.html',
-        controller: 'RealtimeDashboardsController',
-        isPublic: false,
-        resolve: {
-            dashboard: function () {
-            return {
-              name: 'Dashboard A',
-              order: 0,
-              id: '00000000-0000-0000-000000000000',
-              widgets: [{
-                title: {
-                  enabled: true,
-                  text: 'Widget A'
-                },
-                size: {
-                  width: 3,
-                  height: 2
-                },
-                position: {
-                  row: 0,
-                  col: 0
-                },
-                chart: {
-                  type: 'line',
-                  data: {
-                    columns: [
-                      ['data1', 30, 200, 100, 400, 150, 5],
-                      ['data2', 50, 20, 10, 40, 15, 25]
-                    ],
-                    regions: {
-                        'data1': [{
-                          'start': 1,
-                          'end': 2,
-                          'style': 'dashed'
-                        }, {
-                          'start': 3
-                        }], // currently 'dashed' style only
-                        'data2': [{
-                          'end': 3
-                        }]
-                    }
-                  }
-                }
-              }, {
-                title: {
-                  enabled: true,
-                  text: 'Widget B'
-                },
-                size: {
-                  width: 2,
-                  height: 2
-                },
-                position: {
-                  row: 0,
-                  col: 0
-                },
-                chart: {
-                  type: 'line',
-                  data: {
-                    columns: [
-                      ['data1', 5, 10, 20, 12, 13, 7],
-                      ['data2', 6, 6, 77, 46, 23, 25],
-                      ['data3', 3, 3, 255, 46, 77, 36]
-                    ],
-                    regions: {
-                        'data1': [{
-                          'start': 1,
-                          'end': 2,
-                          'style': 'dashed'
-                        }, {
-                          'start': 3
-                        }],
-                        'data2': [{
-                          'end': 3
-                        }],
-                        'data3': [{
-                          'end': 2
-                        }]
-                    }
-                  }
-                }
-              }]
-            };
-          }
-        }
+        controller: 'RealtimeDashboardsController'
       });
     }
   ]);

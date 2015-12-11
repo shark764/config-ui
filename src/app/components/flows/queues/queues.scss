@@ -2,6 +2,14 @@
   .bordered-section {
     max-width: $max-control-width + 200px;
   }
+  .advanced-query-readonly {
+    padding-top: 0;
+  }
+
+  .basic-readonly-query {
+    h3 { 
+    }
+  }
 
   .queue-controls{
     text-align: right;

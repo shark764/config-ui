@@ -1,24 +1,21 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('loExtensionProviders', ['$filter', function ($filter) {
+  .service('loExtensionProviders', ['$translate', function ($translate) {
     return [{
       value: 'twilio',
-      display: $filter('translate')('twilio')
-    }, {
-      value: 'pilvo',
-      display: $filter('translate')('pilvo')
+      display: $translate.instant('twilio')
     }];
   }])
-  .service('loExtensionTypes', ['$filter', function ($filter) {
+  .service('loExtensionTypes', ['$translate', function ($translate) {
     return [{
       value: 'webrtc',
-      display: $filter('translate')('webrtc')
+      display: $translate.instant('webrtc')
     }, {
       value: 'pstn',
-      display: $filter('translate')('pstn')
+      display: $translate.instant('pstn')
     }, {
       value: 'sip',
-      display: $filter('translate')('sip')
+      display: $translate.instant('sip')
     }];
   }]);

@@ -12,39 +12,39 @@ var NewQueue = function() {
 
   this.addFilterSection = this.newQueueQuerySection.element(by.id('add-query-filter'));
   this.addFilterDropdown = this.addFilterSection.element(by.id('select-filter-dropdown'));
-  this.groupFilterDropdownOption = this.addFilterDropdown.all(by.css('[label="Groups"]'));
-  this.skillFilterDropdownOption = this.addFilterDropdown.all(by.css('[label="Skills"]'));
+  this.groupFilterDropdownOption = this.addFilterDropdown.all(by.css('[value=":groups"]'));
+  this.skillFilterDropdownOption = this.addFilterDropdown.all(by.css('[value=":skills"]'));
   this.addFilterBtn = this.addFilterSection.element(by.id('add-filter-btn'));
-  this.removeGroupsFilter = this.newQueueQuerySection.element(by.id('remove-group-filter'));
-  this.removeSkillsFilter = this.newQueueQuerySection.element(by.id('remove-skill-filter'));
+  this.removeGroupsFilter = this.newQueueQuerySection.element(by.id(':groups-remove'));
+  this.removeSkillsFilter = this.newQueueQuerySection.element(by.id(':skills-remove'));
 
-  this.basicQueryAllGroups = this.newQueueQuerySection.element(by.id('basic-query-all-groups'));
+  this.basicQueryAllGroups = this.newQueueQuerySection.element(by.id(':groups-all'));
   this.allGroupsTypeAhead = this.basicQueryAllGroups.element(by.id('typeahead-container'));
   this.allGroupsDropdownGroups = this.basicQueryAllGroups.all(by.repeater('item in filtered = (items | filter:filterCriteria | orderBy:orderByFunction)'));
   this.allGroupsAdd = this.basicQueryAllGroups.element(by.css('.fa-plus'));
-  this.allGroupsSelected = this.basicQueryAllGroups.all(by.repeater('operand in operands'));
+  this.allGroupsSelected = this.basicQueryAllGroups.all(by.repeater('condition in cqe.conditionGroup.conditions'));
 
-  this.basicQueryAnyGroups = this.newQueueQuerySection.element(by.id('basic-query-any-groups'));
+  this.basicQueryAnyGroups = this.newQueueQuerySection.element(by.id(':groups-any'));
   this.anyGroupsTypeAhead = this.basicQueryAnyGroups.element(by.id('typeahead-container'));
   this.anyGroupsDropdownGroups = this.basicQueryAnyGroups.all(by.repeater('item in filtered = (items | filter:filterCriteria | orderBy:orderByFunction)'));
   this.anyGroupsAdd = this.basicQueryAnyGroups.element(by.css('.fa-plus'));
-  this.anyGroupsSelected = this.basicQueryAnyGroups.all(by.repeater('operand in operands'));
+  this.anyGroupsSelected = this.basicQueryAnyGroups.all(by.repeater('condition in cqe.conditionGroup.conditions'));
 
-  this.basicQueryAllSkills = this.newQueueQuerySection.element(by.id('basic-query-all-skills'));
+  this.basicQueryAllSkills = this.newQueueQuerySection.element(by.id(':skills-all'));
   this.allSkillsTypeAhead = this.basicQueryAllSkills.element(by.id('typeahead-container'));
   this.allSkillsDropdownSkills = this.basicQueryAllSkills.all(by.repeater('item in filtered = (items | filter:filterCriteria | orderBy:orderByFunction)'));
   this.allSkillsProficiencyOperator = this.basicQueryAllSkills.element(by.id('proficiency-operator-dropdown'));
   this.allSkillsProficiencyValue = this.basicQueryAllSkills.element(by.id('proficiency-value'));
   this.allSkillsAdd = this.basicQueryAllSkills.element(by.css('.fa-plus'));
-  this.allSkillsSelected = this.basicQueryAllSkills.all(by.repeater('operand in operands'));
+  this.allSkillsSelected = this.basicQueryAllSkills.all(by.repeater('condition in cqe.conditionGroup.conditions'));
 
-  this.basicQueryAnySkills = this.newQueueQuerySection.element(by.id('basic-query-any-skills'));
+  this.basicQueryAnySkills = this.newQueueQuerySection.element(by.id(':skills-any'));
   this.anySkillsTypeAhead = this.basicQueryAnySkills.element(by.id('typeahead-container'));
   this.anySkillsDropdownSkills = this.basicQueryAnySkills.all(by.repeater('item in filtered = (items | filter:filterCriteria | orderBy:orderByFunction)'));
   this.anySkillsProficiencyOperator = this.basicQueryAnySkills.element(by.id('proficiency-operator-dropdown'));
   this.anySkillsProficiencyValue = this.basicQueryAnySkills.element(by.id('proficiency-value'));
   this.anySkillsAdd = this.basicQueryAnySkills.element(by.css('.fa-plus'));
-  this.anySkillsSelected = this.basicQueryAnySkills.all(by.repeater('operand in operands'));
+  this.anySkillsSelected = this.basicQueryAnySkills.all(by.repeater('condition in cqe.conditionGroup.conditions'));
 
   // Priority Fields
   this.minPriorityInputField = this.newQueueQuerySection.element(by.id('version-min-priority'));

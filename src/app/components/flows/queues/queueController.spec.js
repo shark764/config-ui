@@ -57,7 +57,7 @@ describe('QueueController', function() {
 
     expect(controller.selectedQueue).toBeDefined();
     expect(controller.selectedQueue.tenantId).toEqual(Session.tenant.tenantId);
-    expect(controller.initialVersion.query).toEqual('{}');
+    expect(controller.initialVersion.query).toEqual('[{:after-seconds-in-queue 0 :query {}}]');
   });
 
   describe('fetchVersions function', function() {
@@ -95,7 +95,7 @@ describe('QueueController', function() {
     controller.selectedQueue = mockQueues[0];
     controller.addQueueVersion();
     expect(controller.selectedQueueVersion).toBeDefined();
-    expect(controller.selectedQueueVersion.query).toEqual('{}');
+    expect(controller.selectedQueueVersion.query).toEqual('[{:after-seconds-in-queue 0 :query {}}]');
     expect(controller.selectedQueueVersion.tenantId).toEqual(Session.tenant.tenantId);
     expect(controller.selectedQueueVersion.name).toEqual('v1');
   }]));

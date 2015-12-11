@@ -15,6 +15,7 @@ describe('TenantsController', function () {
   beforeEach(module('liveopsConfigPanel.mock'));
   beforeEach(module('liveopsConfigPanel.tenant.mock'));
   beforeEach(module('liveopsConfigPanel.tenant.user.mock'));
+  beforeEach(module('liveopsConfigPanel.timezone.mock'));
 
   beforeEach(inject(['$rootScope', '$controller', '$httpBackend', 'apiHostname', 'Session', 'mockTenants', 'loEvents',
     function ($rootScope, _$controller_, _$httpBackend, _apiHostname_, _Session_, _mockTenants, _loEvents) {

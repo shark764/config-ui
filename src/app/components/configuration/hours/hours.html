@@ -1,0 +1,66 @@
+<table-controls
+  id="table-pane"
+  config="tableConfig"
+  items="hours"
+  selected="selectedHour"
+  resource-name="BusinessHour">
+
+  <span name="$original.active">
+    <span ng-if="item.active">{{'value.enabled' | translate}}</span>
+    <span ng-if="!item.active" class="disabled">{{'value.disabled' | translate}}</span>
+  </span>
+
+</table-controls>
+
+<resize-handle
+  ng-show="!! selectedHour || showBulkActions"
+  id="resize-pane"
+  right-element-id="right-panel"
+  left-element-id="table-pane"></resize-handle>
+
+<lo-details-panel id="right-panel"
+  class="right-panel"
+  ng-show="selectedHour || showBulkActions"
+  ng-resource="selectedHour">
+
+  <ng-form unsaved-changes-warning
+    class="details-pane"
+    ng-show="selectedHour && !showBulkActions"
+    name="forms.detailsForm"
+    ng-model="selectedHour"
+    ng-resource="selectedHour"
+    lo-form-submit
+    lo-form-cancel
+    lo-form-alert>
+
+    <div class="detail-header"
+      ng-include src="'app/components/configuration/hours/hoursDetailHeader.html'">
+    </div>
+
+    <div class="detail-body"
+      ng-include src="'app/components/configuration/hours/hoursDetailBody.html'">
+    </div>
+
+    <div class="detail-controls">
+      <input id="cancel-details-btn" type="button" class="btn"
+        value="{{'value.cancel' | translate}}"
+        lo-cancel>
+      </input>
+      <input id="submit-details-btn" class="btn btn-primary"
+        type="submit" value="{{'value.submit' | translate}}"
+        ng-disabled="forms.detailsForm.$invalid || ! forms.detailsForm.$dirty"
+        lo-submit="submit()"
+        lo-submit-spinner
+        lo-submit-spinner-status="selectedHour.$busy">
+      </input>
+    </div>
+  </ng-form>
+
+  <bulk-action-executor class="details-pane"
+    ng-show="showBulkActions"
+    items="hours"
+    show-bulk-actions="showBulkActions">
+
+    <ba-set-hours-status></ba-set-hours-status>
+  </bulk-action-executor>
+</lo-details-panel>

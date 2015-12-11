@@ -19,6 +19,11 @@ $form-height: 300px;
   margin-left: auto;
   margin-right: auto;
 
+  .loading {
+    color: #fff;
+    opacity: 0.87;
+  }
+
   #glass-wrapper {
     position: relative;
     width: 100%;
@@ -42,11 +47,11 @@ $form-height: 300px;
     & > .lo-error {
       margin-bottom: 20px;
     }
-    
+
     .input-group + .input-group {
       margin-top: 20px;
     }
-    
+
     .input-group .lo-error {
       @extend .lo-alert
     }
@@ -63,7 +68,3 @@ $form-height: 300px;
     @include border-radius-complex(0, 3px, 3px, 0);
   }
 }
-
-
-
-

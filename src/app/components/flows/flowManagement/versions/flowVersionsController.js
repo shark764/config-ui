@@ -15,7 +15,7 @@ angular.module('liveopsConfigPanel')
       };
 
       $scope.saveVersion = function () {
-        $scope.version.save(function() {
+        return $scope.version.save(function() {
           $scope.createVersion();
           $scope.createVersionForm.$setPristine();
           $scope.createVersionForm.$setUntouched();
