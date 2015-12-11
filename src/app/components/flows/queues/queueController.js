@@ -1,13 +1,14 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('QueueController', ['$scope', 'Queue', 'Session', '$stateParams', 'queueTableConfig', 'QueueVersion', 'Alert', '$translate', '$timeout', 'loEvents',
-    function ($scope, Queue, Session, $stateParams, queueTableConfig, QueueVersion, Alert, $translate, $timeout, loEvents) {
+  .controller('QueueController', ['$scope', 'Queue', 'Session', '$stateParams', 'queueTableConfig', 'QueueVersion', 'Alert', '$translate', '$timeout', 'loEvents', 'moment',
+    function ($scope, Queue, Session, $stateParams, queueTableConfig, QueueVersion, Alert, $translate, $timeout, loEvents, moment) {
       var vm = this;
       vm.Session = Session;
       vm.tableConfig = queueTableConfig;
       vm.forms = {};
       vm.selectedQueueVersion = null;
+      vm.moment = moment;
 
       vm.fetchQueues = function () {
         return Queue.cachedQuery({
@@ -48,7 +49,7 @@ angular.module('liveopsConfigPanel')
         return vm.selectedQueue.save(function(queue) {
           if (isNew) {
             vm.initialVersion.queueId = queue.id;
-            vm.saveInitialVersion(queue);
+            vm.saveInitialVersion(vm.selectedQueue);
           }
         });
 

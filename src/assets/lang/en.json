@@ -265,6 +265,8 @@
   "queue.query.filter.remove" : "(remove filter)",
   "queue.query.escalation.level.remove" : "(remove level)",
   "queue.query.escalation.level.remove.confirm" : "This search query has conditions. Are you sure you wish to remove it?",
+  "queue.query.readonly.after.seconds": "After {{seconds}} seconds",
+  "queue.query.readonly.after.minutes": "After {{minutes}} minutes",
   "queue.details.priorityUnit.seconds": "seconds",
   "queue.details.priorityUnit.minutes": "minutes",
   "queue.details.priorityUnit.hours": "hours",
