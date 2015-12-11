@@ -1,8 +1,8 @@
 <div id="create-new-version-details">
- 
+
   <input name="query" type="hidden" ng-model="qc.selectedQueueVersion.query" ng-required="true" />
 
-  <query-creator ng-if="qc.selectedQueueVersion" query="qc.selectedQueueVersion.query"></query-creator>
+  <query-list-creator ng-if="qc.selectedQueueVersion" query-string="qc.selectedQueueVersion.query"></query-list-creator>
 
   <div class="divider-header">
     <h4>Priority</h4>

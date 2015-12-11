@@ -94,7 +94,7 @@ angular.module('liveopsConfigPanel')
           return exceptionHour;
         }, function (error) {
           Alert.error($translate.instant('hours.exception.create.failure'));
-          return error;
+          return $q.reject(error);
         });
       };
 
