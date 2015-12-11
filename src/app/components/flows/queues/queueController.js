@@ -8,7 +8,6 @@ angular.module('liveopsConfigPanel')
       vm.tableConfig = queueTableConfig;
       vm.forms = {};
       vm.selectedQueueVersion = null;
-      vm.moment = moment;
 
       vm.fetchQueues = function () {
         return Queue.cachedQuery({
