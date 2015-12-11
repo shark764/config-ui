@@ -230,6 +230,8 @@
   "queue.details.version.copy": "Create Copy",
   "queue.create.invalid.query": "Sorry, the initial query for this queue was invalid. Please create a new query version.",
   "queue.table.title": "Queue Management",
+  "queues.query.builder.escalation.time.required" : "Time in queue is required",
+  "queues.query.builder.escalation.time.min" : "Time in queue must be greater then the previous value",
   "queues.query.builder.filters.label": "Add a filter",
   "queues.query.builder.filters.placeholder": "Select filter...",
   "queues.query.builder.filters.remove": "(remove filter)",
@@ -484,7 +486,7 @@
   "pstn": "PSTN",
   "plivo": "Plivo",
   "sip": "SIP",
-  
+
   "hours.table.title": "Business Hours Management",
   "hours.details.creating": "Creating New Business Hours",
   "hours.details.disable.confirm": "This will disable these business hours. Do you want to continue?",
