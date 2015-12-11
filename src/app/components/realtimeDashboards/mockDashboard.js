@@ -31,352 +31,16 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
                     "id":"00000000-0000-0000-000000000003",
                     "type":"statistic",
                     "config":{
-                        "statistic":"abandonTimeMin",
-                        "refreshRate":10000,
-                        "ui":{
-                            "title":{
-                                "show":true,
-                                "text":"Abandon Time (min)"
-                            },
-                            "size":{
-                                "width":3,
-                                "height":4
-                            }
-                        }
-                    },
-                    "chart":{
-                        "indicator":{}
-                    }
-                },
-                {
-                    "id":"00000000-0000-0000-000000000003",
-                    "type":"statistic",
-                    "config":{
-                        "statistic":"abandonTimeMax",
-                        "refreshRate":10000,
-                        "ui":{
-                            "title":{
-                                "show":true,
-                                "text":"Abandon Time (min)"
-                            },
-                            "size":{
-                                "width":3,
-                                "height":4
-                            }
-                        }
-                    },
-                    "chart":{
-                        "indicator":{}
-                    }
-                },
-                {
-                    "id":"00000000-0000-0000-000000000003",
-                    "type":"statistic",
-                    "config":{
                         "statistic":"abandonTimeAvg",
-                        "refreshRate":10000,
+                        "refreshRate":5000,
                         "ui":{
                             "title":{
                                 "show":true,
-                                "text":"Abandon Time (min)"
+                                "text":"Average Abandon Time"
                             },
                             "size":{
-                                "width":3,
-                                "height":4
-                            }
-                        }
-                    },
-                    "chart":{
-                        "indicator":{}
-                    }
-                },
-                {
-                    "id":"00000000-0000-0000-000000000003",
-                    "type":"statistic",
-                    "config":{
-                        "statistic":"handleTimeMin",
-                        "refreshRate":10000,
-                        "ui":{
-                            "title":{
-                                "show":true,
-                                "text":"Abandon Time (min)"
-                            },
-                            "size":{
-                                "width":3,
-                                "height":4
-                            }
-                        }
-                    },
-                    "chart":{
-                        "indicator":{}
-                    }
-                },
-                {
-                    "id":"00000000-0000-0000-000000000003",
-                    "type":"statistic",
-                    "config":{
-                        "statistic":"handleTimeMax",
-                        "refreshRate":17500,
-                        "ui":{
-                            "title":{
-                                "show":true,
-                                "text":"Abandon Time (min)"
-                            },
-                            "size":{
-                                "width":3,
-                                "height":4
-                            }
-                        }
-                    },
-                    "chart":{
-                        "indicator":{}
-                    }
-                },
-                {
-                    "id":"00000000-0000-0000-000000000003",
-                    "type":"statistic",
-                    "config":{
-                        "statistic":"handleTimeAvg",
-                        "refreshRate":17500,
-                        "ui":{
-                            "title":{
-                                "show":true,
-                                "text":"Abandon Time (min)"
-                            },
-                            "size":{
-                                "width":3,
-                                "height":4
-                            }
-                        }
-                    },
-                    "chart":{
-                        "indicator":{}
-                    }
-                },
-                {
-                    "id":"00000000-0000-0000-000000000003",
-                    "type":"statistic",
-                    "config":{
-                        "statistic":"interactionTimeMin",
-                        "refreshRate":17500,
-                        "ui":{
-                            "title":{
-                                "show":true,
-                                "text":"Abandon Time (min)"
-                            },
-                            "size":{
-                                "width":3,
-                                "height":4
-                            }
-                        }
-                    },
-                    "chart":{
-                        "indicator":{}
-                    }
-                },
-                {
-                    "id":"00000000-0000-0000-000000000003",
-                    "type":"statistic",
-                    "config":{
-                        "statistic":"interactionTimeMax",
-                        "refreshRate":17500,
-                        "ui":{
-                            "title":{
-                                "show":true,
-                                "text":"Abandon Time (min)"
-                            },
-                            "size":{
-                                "width":3,
-                                "height":4
-                            }
-                        }
-                    },
-                    "chart":{
-                        "indicator":{}
-                    }
-                },
-                {
-                    "id":"00000000-0000-0000-000000000003",
-                    "type":"statistic",
-                    "config":{
-                        "statistic":"interactionTimeAvg",
-                        "refreshRate":30000,
-                        "ui":{
-                            "title":{
-                                "show":true,
-                                "text":"Abandon Time (min)"
-                            },
-                            "size":{
-                                "width":3,
-                                "height":4
-                            }
-                        }
-                    },
-                    "chart":{
-                        "indicator":{}
-                    }
-                },
-                {
-                    "id":"00000000-0000-0000-000000000003",
-                    "type":"statistic",
-                    "config":{
-                        "statistic":"agentTalkTimeMin",
-                        "refreshRate":30000,
-                        "ui":{
-                            "title":{
-                                "show":true,
-                                "text":"Abandon Time (min)"
-                            },
-                            "size":{
-                                "width":3,
-                                "height":4
-                            }
-                        }
-                    },
-                    "chart":{
-                        "indicator":{}
-                    }
-                },
-                {
-                    "id":"00000000-0000-0000-000000000003",
-                    "type":"statistic",
-                    "config":{
-                        "statistic":"agentTalkTimeMax",
-                        "refreshRate":30000,
-                        "ui":{
-                            "title":{
-                                "show":true,
-                                "text":"Abandon Time (min)"
-                            },
-                            "size":{
-                                "width":3,
-                                "height":4
-                            }
-                        }
-                    },
-                    "chart":{
-                        "indicator":{}
-                    }
-                },
-                {
-                    "id":"00000000-0000-0000-000000000003",
-                    "type":"statistic",
-                    "config":{
-                        "statistic":"agentTalkTimeAvg",
-                        "refreshRate":30000,
-                        "ui":{
-                            "title":{
-                                "show":true,
-                                "text":"Abandon Time (min)"
-                            },
-                            "size":{
-                                "width":3,
-                                "height":4
-                            }
-                        }
-                    },
-                    "chart":{
-                        "indicator":{}
-                    }
-                },
-                {
-                    "id":"00000000-0000-0000-000000000003",
-                    "type":"statistic",
-                    "config":{
-                        "statistic":"timeToAnswerMin",
-                        "refreshRate":7500,
-                        "ui":{
-                            "title":{
-                                "show":true,
-                                "text":"Abandon Time (min)"
-                            },
-                            "size":{
-                                "width":3,
-                                "height":4
-                            }
-                        }
-                    },
-                    "chart":{
-                        "indicator":{}
-                    }
-                },
-                {
-                    "id":"00000000-0000-0000-000000000003",
-                    "type":"statistic",
-                    "config":{
-                        "statistic":"timeToAnswerMax",
-                        "refreshRate":7500,
-                        "ui":{
-                            "title":{
-                                "show":true,
-                                "text":"Abandon Time (min)"
-                            },
-                            "size":{
-                                "width":3,
-                                "height":4
-                            }
-                        }
-                    },
-                    "chart":{
-                        "indicator":{}
-                    }
-                },
-                {
-                    "id":"00000000-0000-0000-000000000003",
-                    "type":"statistic",
-                    "config":{
-                        "statistic":"timeToAnswerAvg",
-                        "refreshRate":7500,
-                        "ui":{
-                            "title":{
-                                "show":true,
-                                "text":"Abandon Time (min)"
-                            },
-                            "size":{
-                                "width":3,
-                                "height":4
-                            }
-                        }
-                    },
-                    "chart":{
-                        "indicator":{}
-                    }
-                },
-                {
-                    "id":"00000000-0000-0000-000000000003",
-                    "type":"statistic",
-                    "config":{
-                        "statistic":"wrapUpTimeMin",
-                        "refreshRate":7500,
-                        "ui":{
-                            "title":{
-                                "show":true,
-                                "text":"Abandon Time (min)"
-                            },
-                            "size":{
-                                "width":3,
-                                "height":4
-                            }
-                        }
-                    },
-                    "chart":{
-                        "indicator":{}
-                    }
-                },
-                {
-                    "id":"00000000-0000-0000-000000000003",
-                    "type":"statistic",
-                    "config":{
-                        "statistic":"wrapUpTimeMax",
-                        "refreshRate":7500,
-                        "ui":{
-                            "title":{
-                                "show":true,
-                                "text":"Abandon Time (min)"
-                            },
-                            "size":{
-                                "width":3,
-                                "height":4
+                                "width":4,
+                                "height":3
                             }
                         }
                     },
@@ -389,57 +53,15 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
                     "type":"statistic",
                     "config":{
                         "statistic":"wrapUpTimeAvg",
-                        "refreshRate":12000,
+                        "refreshRate":5000,
                         "ui":{
                             "title":{
                                 "show":true,
-                                "text":"Abandon Time (min)"
+                                "text":"Average Wrap Up Time"
                             },
                             "size":{
-                                "width":3,
-                                "height":4
-                            }
-                        }
-                    },
-                    "chart":{
-                        "indicator":{}
-                    }
-                },
-                {
-                    "id":"00000000-0000-0000-000000000003",
-                    "type":"statistic",
-                    "config":{
-                        "statistic":"holdTimeMin",
-                        "refreshRate":12000,
-                        "ui":{
-                            "title":{
-                                "show":true,
-                                "text":"Abandon Time (min)"
-                            },
-                            "size":{
-                                "width":3,
-                                "height":4
-                            }
-                        }
-                    },
-                    "chart":{
-                        "indicator":{}
-                    }
-                },
-                {
-                    "id":"00000000-0000-0000-000000000003",
-                    "type":"statistic",
-                    "config":{
-                        "statistic":"holdTimeMax",
-                        "refreshRate":12000,
-                        "ui":{
-                            "title":{
-                                "show":true,
-                                "text":"Abandon Time (min)"
-                            },
-                            "size":{
-                                "width":3,
-                                "height":4
+                                "width":4,
+                                "height":3
                             }
                         }
                     },
@@ -452,57 +74,15 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
                     "type":"statistic",
                     "config":{
                         "statistic":"holdTimeAvg",
-                        "refreshRate":12000,
+                        "refreshRate":5000,
                         "ui":{
                             "title":{
                                 "show":true,
-                                "text":"Abandon Time (min)"
+                                "text":"Average Hold Time"
                             },
                             "size":{
-                                "width":3,
-                                "height":4
-                            }
-                        }
-                    },
-                    "chart":{
-                        "indicator":{}
-                    }
-                },
-                {
-                    "id":"00000000-0000-0000-000000000003",
-                    "type":"statistic",
-                    "config":{
-                        "statistic":"queueDurationMin",
-                        "refreshRate":12000,
-                        "ui":{
-                            "title":{
-                                "show":true,
-                                "text":"Abandon Time (min)"
-                            },
-                            "size":{
-                                "width":3,
-                                "height":4
-                            }
-                        }
-                    },
-                    "chart":{
-                        "indicator":{}
-                    }
-                },
-                {
-                    "id":"00000000-0000-0000-000000000003",
-                    "type":"statistic",
-                    "config":{
-                        "statistic":"queueDurationMax",
-                        "refreshRate":12000,
-                        "ui":{
-                            "title":{
-                                "show":true,
-                                "text":"Abandon Time (min)"
-                            },
-                            "size":{
-                                "width":3,
-                                "height":4
+                                "width":4,
+                                "height":3
                             }
                         }
                     },
@@ -515,15 +95,99 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
                     "type":"statistic",
                     "config":{
                         "statistic":"queueDurationAvg",
-                        "refreshRate":17500,
+                        "refreshRate":5000,
                         "ui":{
                             "title":{
                                 "show":true,
-                                "text":"Abandon Time (min)"
+                                "text":"Average Queue Wait"
                             },
                             "size":{
-                                "width":3,
-                                "height":4
+                                "width":4,
+                                "height":3
+                            }
+                        }
+                    },
+                    "chart":{
+                        "indicator":{}
+                    }
+                },
+                {
+                    "id":"00000000-0000-0000-000000000003",
+                    "type":"statistic",
+                    "config":{
+                        "statistic":"queueAbandonsInstance",
+                        "refreshRate":5000,
+                        "ui":{
+                            "title":{
+                                "show":true,
+                                "text":"# of Queues abandoned"
+                            },
+                            "size":{
+                                "width":4,
+                                "height":3
+                            }
+                        }
+                    },
+                    "chart":{
+                        "indicator":{}
+                    }
+                },
+                {
+                    "id":"00000000-0000-0000-000000000003",
+                    "type":"statistic",
+                    "config":{
+                        "statistic":"timeToAnswerAvg",
+                        "refreshRate":5000,
+                        "ui":{
+                            "title":{
+                                "show":true,
+                                "text":"Average Time To Answer"
+                            },
+                            "size":{
+                                "width":4,
+                                "height":3
+                            }
+                        }
+                    },
+                    "chart":{
+                        "indicator":{}
+                    }
+                },
+                {
+                    "id":"00000000-0000-0000-000000000003",
+                    "type":"statistic",
+                    "config":{
+                        "statistic":"agentTalkTimeAvg",
+                        "refreshRate":5000,
+                        "ui":{
+                            "title":{
+                                "show":true,
+                                "text":"Average Talk Time"
+                            },
+                            "size":{
+                                "width":4,
+                                "height":3
+                            }
+                        }
+                    },
+                    "chart":{
+                        "indicator":{}
+                    }
+                },
+                {
+                    "id":"00000000-0000-0000-000000000003",
+                    "type":"statistic",
+                    "config":{
+                        "statistic":"interactionTimeAvg",
+                        "refreshRate":5000,
+                        "ui":{
+                            "title":{
+                                "show":true,
+                                "text":"Average Interaction Time"
+                            },
+                            "size":{
+                                "width":4,
+                                "height":3
                             }
                         }
                     },
