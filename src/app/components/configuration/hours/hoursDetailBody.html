@@ -2,7 +2,7 @@
   <h4>{{'details' | translate}}</h4>
 </div>
 
-<div>
+<div disable-contents="! (['MANAGE_ALL_BUSINESS_HOURS'] | hasPermission)">
   <div class="input-group">
     <label>{{'value.name' | translate}} *</label>
     
@@ -40,7 +40,7 @@
   <h4>{{'hours.hours.title' | translate}}</h4>
 </div>
 
-<div>
+<div disable-contents="! (['MANAGE_ALL_BUSINESS_HOURS'] | hasPermission)">
   <div class="input-group">
     <label>{{'hours.details.hour' | translate}}</label>
     <div>
@@ -224,7 +224,8 @@
   ng-hide="selectedHour.isNew()">
   <h4>{{'hours.exceptions.title' | translate}}</h4>
   <a class="btn pull-right" title="Add a schedule exception"
-    ng-click="showCreateException()">
+    ng-click="showCreateException()"
+    ng-show="(['MANAGE_ALL_BUSINESS_HOURS'] | hasPermission)">
     <i class="fa fa-plus center"></i>
   </a>
 </div>
@@ -235,7 +236,8 @@
   ng-resource="exceptionHour"
   lo-form-submit
   lo-form-cancel
-  separate-validation>
+  seperate-validation
+  disable-contents="! (['MANAGE_ALL_BUSINESS_HOURS'] | hasPermission)">
 
   <div class="input-group">
     <label>{{'value.date' | translate}} *</label>
@@ -244,6 +246,7 @@
     <input type="date" name="date"
       ng-model="exceptionHour.date"
       ng-required="exceptionHour"
+      ng-model-options="{timezone: 'UTC'}"
       utc-date-converter>
   </div>
 
@@ -304,6 +307,9 @@
 <p class="null"
   ng-show="! selectedHour.$exceptions.length && ! exceptionHour && !selectedHour.isNew()">
   {{'hours.exception.noneDefined' | translate}}
+  <span ng-show="(['MANAGE_ALL_BUSINESS_HOURS'] | hasPermission)">
+    {{'hours.exception.noneDefined.hasPermission' | translate}}
+  </span>
 </p>
 
 <table class="table"
@@ -314,7 +320,7 @@
       <th>{{'value.description' | translate}}</th>
       <th>{{'value.start' | translate}}</th>
       <th>{{'value.end' | translate}}</th>
-      <th></th>
+      <th ng-show="(['MANAGE_ALL_BUSINESS_HOURS'] | hasPermission)">{{'value.remove' | translate}}</th>
     </tr>
   </thead>
   <tbody>
@@ -323,7 +329,7 @@
       <td>{{exception.description}}</td>
       <td>{{exception.startTimeMinutes | minutesToTime}}</td>
       <td>{{exception.endTimeMinutes | minutesToTime}}</td>
-      <td>
+      <td ng-show="(['MANAGE_ALL_BUSINESS_HOURS'] | hasPermission)">
         <a class="remove"
           title="{{'hours.exception.remove' | translate}}"
           ng-click="removeException(exception)">
