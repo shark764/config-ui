@@ -83,7 +83,7 @@
         </td>
         <td>{{version.created | date:'medium'}}</td>
         <td ng-if="['PLATFORM_VIEW_ALL_USERS', 'PLATFORM_CREATE_USERS', 'PLATFORM_MANAGE_ALL_USERS', 'PLATFORM_MANAGE_ALL_TENANTS', 'PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT'] | hasPermission">
-          <audit-text translation="value.displayName" user-id="qc.version.createdBy"></audit-text>
+          <audit-text translation="value.displayName" user-id="version.createdBy"></audit-text>
         </td>
         <td><i class="fa" ng-class="{'fa-caret-down' : !version.viewing, 'fa-caret-up': version.viewing}" title="{{'queue.details.version.expand' | translate}}"></i></td>
       </tr>
