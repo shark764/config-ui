@@ -74,6 +74,7 @@
         <th></th>
       </thead>
       <tr ng-repeat-start="version in qc.versions  | orderBy:'created':'reverse'"
+        ng-init="version.viewing = (version.version === qc.selectedQueue.activeVersion)"
         id="version-row-{{version.name}}"
         ng-click="qc.toggleDetails(version);">
         <td><i ng-if="version.version === qc.selectedQueue.activeVersion" class="fa fa-circle" title="{{'queue.details.version.active.tooltip' | translate}}"></i></td>
