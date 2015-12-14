@@ -20,7 +20,7 @@
     <tr ng-repeat-start="version in fetchVersions() | orderBy:'created':'reverse'"
       id="version-row-{{version.name}}"
       ng-click="toggleDetails(version);">
-      <td class="lo-accent-text"><i ng-if="version.version == queue.activeVersion" class="fa fa-circle" title="{{'queue.details.version.active.tooltip' | translate}}"></i></td>
+      <td class="lo-accent-text"><i ng-if="version.version == queue.activeVersion" class="fa fa-circle lo-accent-text" title="{{'queue.details.version.active.tooltip' | translate}}"></i></td>
       <td>
         {{version.name}}
       </td>
@@ -28,7 +28,7 @@
       <td ng-if="['PLATFORM_VIEW_ALL_USERS', 'PLATFORM_CREATE_USERS', 'PLATFORM_MANAGE_ALL_USERS', 'PLATFORM_MANAGE_ALL_TENANTS', 'PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT'] | hasPermission">
         <audit-text translation="value.displayName" user-id="version.createdBy"></audit-text>
       </td>
-      <td><i class="fa" ng-class="{'fa-caret-down' : !version.viewing, 'fa-caret-up': version.viewing}" title="{{'queue.details.version.expand' | translate}}"></i></td>
+      <td><i class="fa lo-accent-text" ng-class="{'fa-caret-down' : !version.viewing, 'fa-caret-up': version.viewing}" title="{{'queue.details.version.expand' | translate}}"></i></td>
     </tr>
     <tr ng-repeat-end id="view-version-{{version.name}}" ng-show="version.viewing">
       <td></td>
