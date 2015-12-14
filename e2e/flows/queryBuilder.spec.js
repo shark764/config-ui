@@ -25,7 +25,7 @@ describe('The basic query builder', function() {
     shared.tearDown();
   });
 
-  it('should display all tenant groups', function() {
+  it('should display all enabled tenant groups', function() {
     shared.createBtn.click();
 
     // Add Groups filter
@@ -49,17 +49,25 @@ describe('The basic query builder', function() {
 
       // Verify all tenant groups are listed
       browser.get(shared.groupsPageUrl);
-      expect(groupNameList.length).toBe(shared.tableElements.count());
 
-      for (var i = 0; i < groupNameList.length && i < 5; i++) {
-        shared.searchField.clear();
-        shared.searchField.sendKeys(groupNameList[i]);
-        expect(shared.tableElements.count()).toBeGreaterThan(0);
-      }
+      // Show only enabled groups
+      columns.statusTableDropDownLabel.click();
+      columns.dropdownStatuses.get(0).click().then(function() {
+        columns.statusTableDropDownLabel.click().then(function() {
+
+          expect(groupNameList.length).toBe(shared.tableElements.count());
+
+          for (var i = 0; i < groupNameList.length && i < 10; i++) {
+            shared.searchField.clear();
+            shared.searchField.sendKeys(groupNameList[i]);
+            expect(shared.tableElements.count()).toBeGreaterThan(0);
+          }
+        });
+      });
     });
   });
 
-  it('should display all tenant skills', function() {
+  it('should display all enabled tenant skills', function() {
     shared.createBtn.click();
 
     // Add Skills filter
@@ -83,13 +91,21 @@ describe('The basic query builder', function() {
 
       // Verify all tenant skills are listed
       browser.get(shared.skillsPageUrl);
-      expect(skillNameList.length).toBe(shared.tableElements.count());
 
-      for (var i = 0; i < skillNameList.length && i < 5; i++) {
-        shared.searchField.clear();
-        shared.searchField.sendKeys(skillNameList[i]);
-        expect(shared.tableElements.count()).toBeGreaterThan(0);
-      }
+      // Show only enabled skills
+      columns.statusTableDropDownLabel.click();
+      columns.dropdownStatuses.get(0).click().then(function() {
+        columns.statusTableDropDownLabel.click().then(function() {
+
+          expect(skillNameList.length).toBe(shared.tableElements.count());
+
+          for (var i = 0; i < skillNameList.length && i < 10; i++) {
+            shared.searchField.clear();
+            shared.searchField.sendKeys(skillNameList[i]);
+            expect(shared.tableElements.count()).toBeGreaterThan(0);
+          }
+        });
+      });
     });
   });
 
