@@ -144,7 +144,7 @@ describe('The Agent role', function() {
 
   // TODO TITAN2-4937
   xit('should have access to user profile details', function() {
-    expect(profile.userEmail.getText()).toContain(agentEmail);
+    expect(profile.userEmail.getAttribute('value')).toContain(agentEmail);
     expect(profile.firstNameFormField.getAttribute('value')).toBe('Agent' + randomUser);
     expect(profile.lastNameFormField.getAttribute('value')).toBe('Role' + randomUser);
 

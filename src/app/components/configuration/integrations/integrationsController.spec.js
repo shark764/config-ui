@@ -6,21 +6,24 @@ describe('IntegrationsController', function () {
     $httpBackend,
     apiHostname,
     mockIntegrations,
-    Session;
+    Session,
+    loEvents;
 
   beforeEach(module('gulpAngular'));
   beforeEach(module('liveopsConfigPanel'));
   beforeEach(module('liveopsConfigPanel.tenant.integration.mock'));
   
-  beforeEach(inject(['$rootScope', '$controller', '$httpBackend', 'apiHostname', 'Session', 'mockIntegrations',
-    function ($rootScope, _$controller_, _$httpBackend, _apiHostname_, _Session_, _mockIntegrations) {
+  beforeEach(inject(['$rootScope', '$controller', '$httpBackend', 'apiHostname', 'Session', 'mockIntegrations', 'loEvents',
+    function ($rootScope, _$controller_, _$httpBackend, _apiHostname_, _Session_, _mockIntegrations, _loEvents) {
       $scope = $rootScope.$new();
       $controller = _$controller_;
       $httpBackend = _$httpBackend;
       Session = _Session_;
       apiHostname = _apiHostname_;
       mockIntegrations = _mockIntegrations;
-
+      
+      loEvents = _loEvents;
+      
       $controller('IntegrationsController', {
         '$scope': $scope
       });
@@ -40,7 +43,7 @@ describe('IntegrationsController', function () {
     });
 
     it('should have a function to create a new integration and set it as selected', function () {
-      $scope.$broadcast('table:on:click:create');
+      $scope.$broadcast(loEvents.tableControls.itemCreate);
       expect($scope.selectedIntegration).toBeDefined();
     });
   });

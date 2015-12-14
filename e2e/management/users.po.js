@@ -35,6 +35,7 @@ var UserPage = function() {
   this.personalTelephoneFormField = element(by.model('selectedTenantUser.$user.personalTelephone'));
   this.personalTelephoneHelp = element(by.id('personal-telephone-help'));
   this.activeFormToggle = element(by.css('.status-toggle'));
+  this.activeToggleInput = this.activeFormToggle.element(by.css('label:nth-child(1) > input'));
 
   this.emailLabel = element(by.id('user-details-email'));
   this.error = element(by.css('.lo-error'));
@@ -99,7 +100,10 @@ var UserPage = function() {
   this.dropdownPresence = this.presenceTableDropDown.all(by.repeater('option in options | orderBy:orderBy'));
   this.dropdownPresenceInputs = this.presenceTableDropDown.all(by.css('input'));
 
-  this.statusBulkEnableCheck = element(by.id('user-status-bulk-enable-check'));
+  this.selectBulkEnable = element(by.id('user-status-bulk-enable-check'));
+  this.enableBulkDropdown = element(by.id('bulk-action-enable-select'));
+  this.enableBulkDropdownOption = this.enableBulkDropdown.element(by.css('[value="accepted"]'));
+  this.disableBulkDropdownOption = this.enableBulkDropdown.element(by.css('[value="disabled"]'));
 
   //User Groups component
   this.addGroup = element(by.id('addGroup'));

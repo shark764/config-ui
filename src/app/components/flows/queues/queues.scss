@@ -1,0 +1,51 @@
+.queue-versions {
+  .bordered-section {
+    max-width: $max-control-width + 200px;
+  }
+  .advanced-query-readonly {
+    padding-top: 0;
+  }
+
+  .basic-readonly-query {
+    h3 { 
+    }
+  }
+
+  .queue-controls{
+    text-align: right;
+    margin-bottom: 10px;
+    margin-top: 10px;
+
+    input, a {
+      float: left;
+      width: calc(50% - 3px) !important;
+    }
+
+    input+input {
+      margin-left: 6px !important;
+    }
+  }
+
+  .queue-version-table {
+    i {
+      color: $accent1;
+    }
+
+    tr:nth-child(4n), tr:nth-child(4n-1) {
+      background-color: $lightest-grey;
+    }
+  }
+
+  tr.view-version td {
+    border-bottom: 1px solid $light-grey;
+    @include drop-shadow();
+  }
+
+  tr.view-version:hover {
+    background-color: #ffffff !important;
+  }
+
+  .copy-version-btn {
+    margin-top: 10px;
+  }
+}

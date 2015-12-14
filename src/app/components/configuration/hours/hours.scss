@@ -1,0 +1,17 @@
+#week-hours-table {
+  margin-top: 20px;
+}
+
+#add-exception-form .controls {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  
+  input {
+    float: left;
+    width: calc(50% - 3px) !important;
+  }
+  
+  input + input {
+    margin-left: 6px !important;
+  }
+}

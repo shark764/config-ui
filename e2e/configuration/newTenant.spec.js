@@ -23,8 +23,7 @@ describe('The create new tenants view', function() {
     shared.tearDown();
   });
 
-  // TODO Bug Unable to create new tenant TITAN2-4878
-  xit('should include supported tenant fields only', function() {
+  it('should include supported tenant fields only', function() {
     shared.createBtn.click();
     expect(tenants.nameFormField.isDisplayed()).toBeTruthy();
     expect(tenants.descriptionFormField.isDisplayed()).toBeTruthy();
@@ -34,10 +33,20 @@ describe('The create new tenants view', function() {
     expect(tenants.adminFormDropDown.$('option:checked').getText()).toBe(params.login.firstName + ' ' + params.login.lastName);
 
     // Region is not displayed when adding a new tenant, defaults to current region
-    //expect(tenants.region.isPresent()).toBeFalsy();
+    expect(tenants.region.isDisplayed()).toBeFalsy();
+
+    // Parent tenant shown as current tenant
+    shared.tenantsNavDropdown.getText().then(function(currentTenantName) {
+      expect(currentTenantName).toBe(tenants.parentName.getText());
+      shared.searchField.sendKeys(currentTenantName);
+      tenants.parentUUID.getText().then(function(parentUUID) {
+        shared.firstTableRow.click();
+        expect(parentUUID).toBe(tenants.tenantUUID.getText());
+      });
+    });
   });
 
-  xit('should successfully create a new tenant and add to the tenants table and dropdown', function() {
+  it('should successfully create a new tenant and add to the tenants table and dropdown', function() {
     shared.createBtn.click();
     randomTenant = Math.floor((Math.random() * 1000) + 1);
     var tenantAdded = false;
@@ -49,44 +58,32 @@ describe('The create new tenants view', function() {
       expect(shared.successMessage.isDisplayed()).toBeTruthy();
 
       // Confirm tenant is displayed in tenant table with correct details
-      shared.tableElements.then(function(rows) {
-        for (var i = 1; i <= rows.length; ++i) {
-          element(by.css('tr.ng-scope:nth-child(' + i + ') > td:nth-child(2) > span:nth-child(1)')).getText().then(function(value) {
+      shared.searchField.sendKeys('Tenant ' + randomTenant);
+      expect(shared.tableElements.count()).toBeGreaterThan(0);
+      shared.firstTableRow.click();
+      expect(shared.firstTableRow.element(by.css(tenants.parentColumn)).getText()).toBe(tenants.parentName.getText());
+      shared.searchField.clear();
+    }).then(function() {
+      // Confirm tenant added to tenant dropdown
+      shared.tenantsNavDropdown.click();
+      expect(shared.tenantsNavDropdownContents.count()).toBe(shared.tableElements.count());
+
+      shared.tenantsNavDropdownContents.then(function(tenants) {
+        for (var i = 0; i < tenants.length; ++i) {
+          tenants[i].getText().then(function(value) {
             if (value == 'Tenant ' + randomTenant) {
               tenantAdded = true;
             }
           });
         }
       }).then(function() {
-        // Verify new tenant was found in the table
+        // Verify new tenant was found in the tenant dropdown
         expect(tenantAdded).toBeTruthy();
-        expect(shared.tableElements.count()).toBeGreaterThan(tenantCount);
-      }).then(function() {
-        // Reset flag
-        tenantAdded = false;
-
-        // Confirm tenant added to tenant dropdown
-        shared.tenantsNavDropdown.click();
-        expect(shared.tenantsNavDropdownContents.count()).toBe(shared.tableElements.count());
-
-        shared.tenantsNavDropdownContents.then(function(tenants) {
-          for (var i = 0; i < tenants.length; ++i) {
-            tenants[i].getText().then(function(value) {
-              if (value == 'Tenant ' + randomTenant) {
-                tenantAdded = true;
-              }
-            });
-          }
-        }).then(function() {
-          // Verify new tenant was found in the tenant dropdown
-          //expect(tenantAdded).toBeTruthy();
-        });
       });
     });
   });
 
-  xit('should not add new tenant to the tenants nav dropdown when current user is not selected as admin', function() {
-    // TODO Determine expected result
+  it('should not add new tenant to the tenants nav dropdown when current user is not selected as admin', function() {
     shared.createBtn.click();
     randomTenant = Math.floor((Math.random() * 1000) + 1);
     var tenantAdded = false;
@@ -98,12 +95,10 @@ describe('The create new tenants view', function() {
     // Select a different admin
     tenants.adminFormDropDown.all(by.css('option')).then(function(users) {
       for (var i = 0; i < users.length; i++) {
-        users[i].getText().then(function(userName) {
-          // If not current user, select as admin
-          if (userName !== (params.login.firstName + params.login.lastName)) {
-            users[i].click();
-          }
-        });
+        if (users[i] != (params.login.firstName + ' ' + params.login.lastName)) {
+          users[i].click();
+          i = users.length;
+        }
       }
     }).then(function() {
       shared.submitFormBtn.click().then(function() {
@@ -112,7 +107,7 @@ describe('The create new tenants view', function() {
         // Confirm tenant is displayed in tenant table with correct details
         shared.tableElements.then(function(rows) {
           for (var i = 1; i <= rows.length; ++i) {
-            element(by.css('tr.ng-scope:nth-child(' + i + ') > td:nth-child(2) > span:nth-child(1)')).getText().then(function(value) {
+            element(by.css('tr.ng-scope:nth-child(' + i + ') > td:nth-child(2)')).getText().then(function(value) {
               if (value == 'Tenant ' + randomTenant) {
                 tenantAdded = true;
               }
@@ -148,7 +143,7 @@ describe('The create new tenants view', function() {
     });
   });
 
-  xit('should require field inputs', function() {
+  it('should require field inputs', function() {
     shared.createBtn.click();
 
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
@@ -157,7 +152,7 @@ describe('The create new tenants view', function() {
     expect(shared.tableElements.count()).toBe(tenantCount);
   });
 
-  xit('should require name', function() {
+  it('should require name', function() {
     shared.createBtn.click();
     randomTenant = Math.floor((Math.random() * 1000) + 1);
 
@@ -174,7 +169,7 @@ describe('The create new tenants view', function() {
     expect(shared.tableElements.count()).toBe(tenantCount);
   });
 
-  xit('should not require a description', function() {
+  it('should not require a description', function() {
     shared.createBtn.click();
     randomTenant = Math.floor((Math.random() * 1000) + 1);
 
@@ -188,7 +183,7 @@ describe('The create new tenants view', function() {
     expect(shared.tableElements.count()).toBeGreaterThan(tenantCount);
   });
 
-  xit('should allow admin to be selected', function() {
+  it('should allow admin to be selected', function() {
     shared.createBtn.click();
     randomTenant = Math.floor((Math.random() * 1000) + 1);
 
@@ -201,7 +196,7 @@ describe('The create new tenants view', function() {
     expect(shared.tableElements.count()).toBeGreaterThan(tenantCount);
   });
 
-  xit('should not accept spaces only as valid field input', function() {
+  it('should not accept spaces only as valid field input', function() {
     shared.createBtn.click();
     randomTenant = Math.floor((Math.random() * 1000) + 1);
 
@@ -218,7 +213,7 @@ describe('The create new tenants view', function() {
   });
 
 
-  xit('should not change selected navbar tenant when new tenant is created', function() {
+  it('should not change selected navbar tenant when new tenant is created', function() {
     shared.tenantsNavDropdown.click();
     shared.tenantsNavDropdownContents.get(1).getText().then(function(selectedTenantName) {
       shared.tenantsNavDropdownContents.get(1).click();
@@ -233,6 +228,34 @@ describe('The create new tenants view', function() {
         expect(shared.tenantsNavDropdown.getText()).toBe(selectedTenantName);
       });
     });
+  });
+
+  // TODO TITAN2-5426
+  xit('should successfully create sub tenants', function() {
+    var grandParentTenantName = tenants.createTenant();
+    tenants.selectTenant(grandParentTenantName);
+    shared.createBtn.click();
+    expect(tenants.parentName.getText()).toBe(grandParentTenantName);
+
+    var parentTenantName = tenants.createTenant();
+    tenants.selectTenant(parentTenantName);
+    shared.createBtn.click();
+    expect(tenants.parentName.getText()).toBe(grandParentTenantName);
+
+    var childTenantName = tenants.createTenant();
+    tenants.selectTenant(childTenantName);
+
+    // Ensure all parents are shown correctly
+    shared.searchField.sendKeys(parentTenantName);
+    shared.firstTableRow.click();
+    expect(shared.firstTableRow.element(by.css(tenants.parentColumn)).getText()).toBe(grandParentTenantName);
+    expect(tenants.parentName.getText()).toBe(grandParentTenantName);
+
+    shared.searchField.clear();
+    shared.searchField.sendKeys(childTenantName);
+    shared.firstTableRow.click();
+    expect(shared.firstTableRow.element(by.css(tenants.parentColumn)).getText()).toBe(parentTenantName);
+    expect(tenants.parentName.getText()).toBe(parentTenantName);
   });
 
 });

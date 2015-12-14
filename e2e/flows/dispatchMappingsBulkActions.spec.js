@@ -5,37 +5,37 @@ describe('The dispatchMappings view bulk actions', function() {
     bulkActions = require('../tableControls/bulkActions.po.js'),
     shared = require('../shared.po.js'),
     dispatchMappings = require('./dispatchMappings.po.js'),
+    flows = require('./flows.po.js'),
     params = browser.params,
     dispatchMappingCount;
 
   beforeAll(function() {
+    loginPage.login(params.login.user, params.login.password);
     var random = Math.floor((Math.random() * 1000) + 1);
 
-    loginPage.login(params.login.user, params.login.password);
-
-    /* TODO Update based on new flow creation
     // Create flow required for Dispatch Mapping
     browser.get(shared.flowsPageUrl);
     shared.createBtn.click();
-    flows.nameFormField.sendKeys('Flow ' + random);
-    flows.typeFormDropdown.all(by.css('option')).get((random % 3) + 1).click();
-    shared.submitFormBtn.click().then(function() {
-      shared.waitForSuccess();
+    flows.modalNameField.sendKeys('Flow ' + random);
+    flows.modalTypeDropdown.all(by.css('option')).get((random % 3) + 1).click();
+    flows.submitModalBtn.click().then(function() {
+      flows.waitForFlowDesignerRedirect();
+      expect(browser.getCurrentUrl()).toContain('/flows/editor');
+        // Ensure Dispatch Mapping exists
+        browser.get(shared.dispatchMappingsPageUrl).then(function () {
+        shared.createBtn.click();
 
-      // Ensure Dispatch Mapping exists
-      browser.get(shared.dispatchMappingsPageUrl);
-      shared.createBtn.click();
-
-      // Edit fields
-      dispatchMappings.nameFormField.sendKeys('New Dispatch Mapping ' + random);
-      dispatchMappings.mappingOptions.get(1).click(); // Customer mapping
-      dispatchMappings.phoneFormField.sendKeys('15062345678');
-      dispatchMappings.flowDropdown.all(by.css('option')).get(1).click();
-      shared.submitFormBtn.click().then(function() {
-        shared.waitForSuccess();
-        expect(shared.successMessage.isDisplayed()).toBeTruthy();
+        // Edit fields
+        dispatchMappings.nameFormField.sendKeys('New Dispatch Mapping ' + random);
+        dispatchMappings.mappingOptions.get(1).click(); // Customer mapping
+        dispatchMappings.phoneFormField.sendKeys('15062345678');
+        dispatchMappings.flowDropdown.all(by.css('option')).get(1).click();
+        shared.submitFormBtn.click().then(function() {
+          shared.waitForSuccess();
+          expect(shared.successMessage.isDisplayed()).toBeTruthy();
+        });
       });
-    });*/
+    });
   });
 
   beforeEach(function() {
@@ -56,7 +56,7 @@ describe('The dispatchMappings view bulk actions', function() {
 
     // Enable Dispatch Mappings
     expect(bulkActions.selectEnable.isDisplayed()).toBeTruthy();
-    expect(bulkActions.enableToggle.isDisplayed()).toBeTruthy();
+    expect(bulkActions.enableDropdown.isDisplayed()).toBeTruthy();
   });
 
   it('should allow all selected dispatchMapping\'s status to be Disabled', function() {
@@ -65,6 +65,7 @@ describe('The dispatchMappings view bulk actions', function() {
     bulkActions.selectAllTableHeader.click();
 
     bulkActions.selectEnable.click();
+    bulkActions.disableDropdownOption.click();
 
     expect(bulkActions.submitFormBtn.getAttribute('disabled')).toBeFalsy();
     bulkActions.submitFormBtn.click();
@@ -74,9 +75,9 @@ describe('The dispatchMappings view bulk actions', function() {
       expect(shared.successMessage.isDisplayed()).toBeTruthy();
 
       // All dispatchMappings are set to disabled
-      // Select Disabled from Status drop down
+      // Leave Disabled selected from Status drop down
       bulkActions.statusColumnDropDownLabel.click();
-      dispatchMappings.statuses.get(0).click();
+      dispatchMappings.statuses.get(1).click();
       shared.tableElements.count().then(function(disabledTotal) {
         expect(disabledTotal).toBe(dispatchMappingCount);
       });
@@ -96,7 +97,7 @@ describe('The dispatchMappings view bulk actions', function() {
     bulkActions.selectAllTableHeader.click();
 
     bulkActions.selectEnable.click();
-    bulkActions.enableToggleClick.click();
+    bulkActions.enableDropdownOption.click();
 
     expect(bulkActions.submitFormBtn.getAttribute('disabled')).toBeFalsy();
     bulkActions.submitFormBtn.click();
@@ -106,9 +107,9 @@ describe('The dispatchMappings view bulk actions', function() {
       expect(shared.successMessage.isDisplayed()).toBeTruthy();
 
       // All dispatchMappings are set to enabled
-      // Select Disabled from Status drop down
+      // Leave Disabled selected from Status drop down
       bulkActions.statusColumnDropDownLabel.click();
-      dispatchMappings.statuses.get(0).click();
+      dispatchMappings.statuses.get(1).click();
       shared.tableElements.count().then(function(disabledTotal) {
         expect(disabledTotal).toBe(0);
       });
@@ -127,11 +128,11 @@ describe('The dispatchMappings view bulk actions', function() {
     bulkActions.selectAllTableHeader.click();
 
     bulkActions.selectEnable.click();
-    bulkActions.enableToggle.click();
+    bulkActions.enableDropdownOption.click();
 
     // Disable Enable toggle
     bulkActions.selectEnable.click();
-    expect(bulkActions.enableToggle.getAttribute('disabled')).toBeTruthy();
+    expect(bulkActions.enableDropdown.getAttribute('disabled')).toBeTruthy();
 
     // No bulk actions to perform
     expect(bulkActions.submitFormBtn.getAttribute('disabled')).toBeTruthy();
@@ -154,6 +155,7 @@ describe('The dispatchMappings view bulk actions', function() {
 
       // Disable selected Dispatch Mappings
       bulkActions.selectEnable.click();
+      bulkActions.disableDropdownOption.click();
 
       bulkActions.submitFormBtn.click();
 

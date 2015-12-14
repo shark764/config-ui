@@ -97,12 +97,12 @@ describe('The basic query builder', function() {
     shared.createBtn.click();
 
     // Filters are hidden by default
-    expect(newQueue.removeGroupsFilter.isDisplayed()).toBeFalsy();
-    expect(newQueue.basicQueryAllGroups.isDisplayed()).toBeFalsy();
-    expect(newQueue.basicQueryAnyGroups.isDisplayed()).toBeFalsy();
-    expect(newQueue.removeSkillsFilter.isDisplayed()).toBeFalsy();
-    expect(newQueue.basicQueryAllSkills.isDisplayed()).toBeFalsy();
-    expect(newQueue.basicQueryAnySkills.isDisplayed()).toBeFalsy();
+    expect(newQueue.removeGroupsFilter.isPresent()).toBeFalsy();
+    expect(newQueue.basicQueryAllGroups.isPresent()).toBeFalsy();
+    expect(newQueue.basicQueryAnyGroups.isPresent()).toBeFalsy();
+    expect(newQueue.removeSkillsFilter.isPresent()).toBeFalsy();
+    expect(newQueue.basicQueryAllSkills.isPresent()).toBeFalsy();
+    expect(newQueue.basicQueryAnySkills.isPresent()).toBeFalsy();
 
     // Add Groups filter
     newQueue.addFilterDropdown.click();
@@ -113,9 +113,9 @@ describe('The basic query builder', function() {
     expect(newQueue.removeGroupsFilter.isDisplayed()).toBeTruthy();
     expect(newQueue.basicQueryAllGroups.isDisplayed()).toBeTruthy();
     expect(newQueue.basicQueryAnyGroups.isDisplayed()).toBeTruthy();
-    expect(newQueue.removeSkillsFilter.isDisplayed()).toBeFalsy();
-    expect(newQueue.basicQueryAllSkills.isDisplayed()).toBeFalsy();
-    expect(newQueue.basicQueryAnySkills.isDisplayed()).toBeFalsy();
+    expect(newQueue.removeSkillsFilter.isPresent()).toBeFalsy();
+    expect(newQueue.basicQueryAllSkills.isPresent()).toBeFalsy();
+    expect(newQueue.basicQueryAnySkills.isPresent()).toBeFalsy();
 
     // Add Skills filter
     newQueue.addFilterDropdown.click();
@@ -134,9 +134,9 @@ describe('The basic query builder', function() {
     newQueue.removeGroupsFilter.click();
 
     // Groups filter is removed
-    expect(newQueue.removeGroupsFilter.isDisplayed()).toBeFalsy();
-    expect(newQueue.basicQueryAllGroups.isDisplayed()).toBeFalsy();
-    expect(newQueue.basicQueryAnyGroups.isDisplayed()).toBeFalsy();
+    expect(newQueue.removeGroupsFilter.isPresent()).toBeFalsy();
+    expect(newQueue.basicQueryAllGroups.isPresent()).toBeFalsy();
+    expect(newQueue.basicQueryAnyGroups.isPresent()).toBeFalsy();
     expect(newQueue.removeSkillsFilter.isDisplayed()).toBeTruthy();
     expect(newQueue.basicQueryAllSkills.isDisplayed()).toBeTruthy();
     expect(newQueue.basicQueryAnySkills.isDisplayed()).toBeTruthy();
@@ -145,12 +145,12 @@ describe('The basic query builder', function() {
     newQueue.removeSkillsFilter.click();
 
     // Filters are hidden
-    expect(newQueue.removeGroupsFilter.isDisplayed()).toBeFalsy();
-    expect(newQueue.basicQueryAllGroups.isDisplayed()).toBeFalsy();
-    expect(newQueue.basicQueryAnyGroups.isDisplayed()).toBeFalsy();
-    expect(newQueue.removeSkillsFilter.isDisplayed()).toBeFalsy();
-    expect(newQueue.basicQueryAllSkills.isDisplayed()).toBeFalsy();
-    expect(newQueue.basicQueryAnySkills.isDisplayed()).toBeFalsy();
+    expect(newQueue.removeGroupsFilter.isPresent()).toBeFalsy();
+    expect(newQueue.basicQueryAllGroups.isPresent()).toBeFalsy();
+    expect(newQueue.basicQueryAnyGroups.isPresent()).toBeFalsy();
+    expect(newQueue.removeSkillsFilter.isPresent()).toBeFalsy();
+    expect(newQueue.basicQueryAllSkills.isPresent()).toBeFalsy();
+    expect(newQueue.basicQueryAnySkills.isPresent()).toBeFalsy();
   });
 
   it('should leave empty Skills filter when Groups are added', function() {
@@ -641,7 +641,7 @@ describe('The basic query builder', function() {
     newQueue.allGroupsAdd.click().then(function() {
       // Review Advanced Query
       newQueue.showAdvancedQueryLink.click();
-      expect(newQueue.advancedQueryFormField.getAttribute('value')).toMatch(/\{:groups \(and \(and \{#uuid [^}]* true}\)\)}/);
+      expect(newQueue.advancedQueryFormField.getAttribute('value')).toMatch(/\{:groups \(and \(and \{#uuid [^}]* true}\) \(or\)\)}/);
 
       // Select Group in Any section
       newQueue.showBasicQueryLink.click();
@@ -664,7 +664,7 @@ describe('The basic query builder', function() {
       newQueue.allSkillsAdd.click();
     }).then(function() {
       newQueue.showAdvancedQueryLink.click();
-      expect(newQueue.advancedQueryFormField.getAttribute('value')).toMatch(/\{:groups \(and \(and \{#uuid [^}]* true}\) \(or \{#uuid [^}]* true}\)\) :skills \(and \(and \{#uuid [^}]* \(.*\)}\)\)}/);
+      expect(newQueue.advancedQueryFormField.getAttribute('value')).toMatch(/\{:groups \(and \(and \{#uuid [^}]* true}\) \(or \{#uuid [^}]* true}\)\) :skills \(and \(and \{#uuid [^}]* \(.*\)}\) \(or\)\)}/);
 
       // Select Skill in Any section
       newQueue.showBasicQueryLink.click();
@@ -713,25 +713,33 @@ describe('The basic query builder', function() {
     // Remove Group in All section
     newQueue.allGroupsSelected.get(0).element(by.css('a')).click().then(function() {
       newQueue.showAdvancedQueryLink.click();
-      expect(newQueue.advancedQueryFormField.getAttribute('value')).toMatch(/\{:groups \(and \(or {#uuid [^}]* true}\)\) :skills \(and \(and \{#uuid [^}]* \(.*\)}\) \(or \{#uuid [^}]* \(.*\)}\)\)}/);
+      expect(newQueue.advancedQueryFormField.getAttribute('value')).toMatch(/\{:groups \(and \(and\) \(or {#uuid [^}]* true}\)\) :skills \(and \(and \{#uuid [^}]* \(.*\)}\) \(or \{#uuid [^}]* \(.*\)}\)\)}/);
 
       // Remove Group in Any section
       newQueue.showBasicQueryLink.click();
       newQueue.anyGroupsSelected.get(0).element(by.css('a')).click();
     }).then(function() {
       newQueue.showAdvancedQueryLink.click();
-      expect(newQueue.advancedQueryFormField.getAttribute('value')).toMatch(/\{:skills \(and \(and \{#uuid [^}]* \(.*\)}\) \(or \{#uuid [^}]* \(.*\)}\)\)}/);
+      expect(newQueue.advancedQueryFormField.getAttribute('value')).toMatch(/\{:groups \(and \(and\) \(or\)\) :skills \(and \(and \{#uuid [^}]* \(.*\)}\) \(or \{#uuid [^}]* \(.*\)}\)\)}/);
 
       // Remove Skill in All section
       newQueue.showBasicQueryLink.click();
       newQueue.allSkillsSelected.get(0).element(by.css('a')).click();
     }).then(function() {
       newQueue.showAdvancedQueryLink.click();
-      expect(newQueue.advancedQueryFormField.getAttribute('value')).toMatch(/\{:skills \(and \(or \{#uuid [^}]* \(.*\)}\)\)}/);
+      expect(newQueue.advancedQueryFormField.getAttribute('value')).toMatch(/\{:groups \(and \(and\) \(or\)\) :skills \(and \(and\) \(or \{#uuid [^}]* \(.*\)}\)\)}/);
 
       // Remove Skill in Any section
       newQueue.showBasicQueryLink.click();
       newQueue.anySkillsSelected.get(0).element(by.css('a')).click();
+    }).then(function() {
+      newQueue.showAdvancedQueryLink.click();
+      expect(newQueue.advancedQueryFormField.getAttribute('value')).toMatch(/\{:groups \(and \(and\) \(or\)\) :skills \(and \(and\) \(or\)\)}/);
+
+      // Remove filters
+      newQueue.showBasicQueryLink.click();
+      newQueue.removeGroupsFilter.click();
+      newQueue.removeSkillsFilter.click();
     }).thenFinally(function() {
       newQueue.showAdvancedQueryLink.click();
       expect(newQueue.advancedQueryFormField.getAttribute('value')).toBe('{}');
@@ -752,40 +760,36 @@ describe('The basic query builder', function() {
     newQueue.allGroupsDropdownGroups.get(0).click();
     newQueue.allGroupsAdd.click();
 
-    // Add Skills filter
-    newQueue.addFilterDropdown.click();
-    newQueue.skillFilterDropdownOption.click();
-    newQueue.addFilterBtn.click();
-
-    // Select skill in All section
-    newQueue.allSkillsTypeAhead.click();
-    newQueue.allSkillsDropdownSkills.get(0).click();
-    newQueue.allSkillsAdd.click().then(function() {
+    // Select group in Any section
+    newQueue.anyGroupsTypeAhead.click();
+    newQueue.anyGroupsDropdownGroups.get(0).click();
+    newQueue.anyGroupsAdd.click().then(function() {
       // One group selected in the 'All' section and none in the 'Any' section
       expect(newQueue.allGroupsSelected.count()).toBe(1);
-      expect(newQueue.anyGroupsSelected.count()).toBe(0);
+      expect(newQueue.anyGroupsSelected.count()).toBe(1);
 
-      // One skill selected in the 'All' section and none in the 'Any' section
-      expect(newQueue.allSkillsSelected.count()).toBe(1);
-      expect(newQueue.anySkillsSelected.count()).toBe(0);
+      // Skill section is not displayed
+      expect(newQueue.basicQueryAllSkills.isPresent()).toBeFalsy();
+      expect(newQueue.basicQueryAnySkills.isPresent()).toBeFalsy();
 
       // Review Advanced Query
       newQueue.showAdvancedQueryLink.click();
       newQueue.advancedQueryFormField.getAttribute('value').then(function(advancedQuery) {
-        // Change advanced query to have selections in the 'Any' section instead of 'All'
-        // Replace 'and' with 'or'
-        updatedAdvancedQuery = advancedQuery.replace(/\(and \{#/g, '(or {#');
+        // Change advanced query to have selections in the Skill section instead of Groups
+        // Note: uuids won't be valid
+        updatedAdvancedQuery = advancedQuery.replace(/group/g, 'skill');
 
         newQueue.advancedQueryFormField.clear();
         newQueue.advancedQueryFormField.sendKeys(updatedAdvancedQuery);
         newQueue.showBasicQueryLink.click().then(function() {
           // Basic Query builder is updated
 
-          // One group selected in the 'Any' section and none in the 'All' section
-          expect(newQueue.allGroupsSelected.count()).toBe(0);
-          expect(newQueue.anyGroupsSelected.count()).toBe(1);
-          // One skill selected in the 'Any' section and none in the 'All' section
-          expect(newQueue.allSkillsSelected.count()).toBe(0);
+          // Group section is not displayed
+          expect(newQueue.basicQueryAllGroups.isPresent()).toBeFalsy();
+          expect(newQueue.basicQueryAnyGroups.isPresent()).toBeFalsy();
+
+          // One skill selected in the 'Any' section and one in the 'All' section
+          expect(newQueue.allSkillsSelected.count()).toBe(1);
           expect(newQueue.anySkillsSelected.count()).toBe(1);
         });
       });
@@ -805,12 +809,10 @@ describe('The basic query builder', function() {
     newQueue.allGroupsTypeAhead.click();
     newQueue.allGroupsDropdownGroups.get(0).click();
     newQueue.allGroupsAdd.click();
-    var allGroupName = newQueue.allGroupsSelected.get(0).getText();
 
     newQueue.anyGroupsTypeAhead.click();
     newQueue.anyGroupsDropdownGroups.get(0).click();
     newQueue.anyGroupsAdd.click();
-    var anyGroupName = newQueue.anyGroupsSelected.get(0).getText();
 
     // Add Skills filter
     newQueue.addFilterDropdown.click();
@@ -820,11 +822,14 @@ describe('The basic query builder', function() {
     newQueue.allSkillsTypeAhead.click();
     newQueue.allSkillsDropdownSkills.get(0).click();
     newQueue.allSkillsAdd.click();
-    var allSkillName = newQueue.allSkillsSelected.get(0).getText();
 
     newQueue.anySkillsTypeAhead.click();
     newQueue.anySkillsDropdownSkills.get(0).click();
     newQueue.anySkillsAdd.click();
+
+    var allGroupName = newQueue.allGroupsSelected.get(0).getText();
+    var anyGroupName = newQueue.anyGroupsSelected.get(0).getText();
+    var allSkillName = newQueue.allSkillsSelected.get(0).getText();
     var anySkillName = newQueue.anySkillsSelected.get(0).getText();
 
     // Complete required queue fields
@@ -849,10 +854,10 @@ describe('The basic query builder', function() {
           expect(queues.basicQueryDetails.get(0).getText()).toContain('Any of these groups:');
           expect(queues.basicQueryDetails.get(0).getText()).toContain('All of these skills:');
           expect(queues.basicQueryDetails.get(0).getText()).toContain('Any of these skills:');
-          expect(queues.basicQueryAllGroupDetails.get(0).getText()).toContain(allGroupName);
-          expect(queues.basicQueryAnyGroupDetails.get(0).getText()).toContain(anyGroupName);
-          expect(queues.basicQueryAllSkillDetails.get(0).getText()).toContain(allSkillName);
-          expect(queues.basicQueryAnySkillDetails.get(0).getText()).toContain(anySkillName);
+          expect(queues.basicQueryAllGroups.get(0).getText()).toContain(allGroupName);
+          expect(queues.basicQueryAnyGroups.get(0).getText()).toContain(anyGroupName);
+          expect(queues.basicQueryAllSkills.get(0).getText()).toContain(allSkillName);
+          expect(queues.basicQueryAnySkills.get(0).getText()).toContain(anySkillName);
         });
       });
     });
@@ -904,40 +909,4 @@ describe('The basic query builder', function() {
       });
     });
   });
-
-  xit('should create queue without version when advanced query field is submited with an invalid query', function() {
-    // TODO Update after TITAN2-3290
-    shared.createBtn.click();
-    randomQueue = Math.floor((Math.random() * 100) + 1);
-
-    newQueue.showAdvancedQueryLink.click();
-    newQueue.advancedQueryFormField.clear();
-    newQueue.advancedQueryFormField.sendKeys('Not a valid query');
-
-    // Complete required queue fields
-    queues.nameFormField.sendKeys('New Queue ' + randomQueue);
-    shared.submitFormBtn.click().then(function() {
-      shared.waitForSuccess();
-      shared.waitForError();
-      expect(shared.errorMessage.isDisplayed()).toBeTruthy();
-      expect(shared.errorMessage.getText()).toContain("Sorry, the initial query for this queue was invalid. Please create a new query version.");
-
-      expect(shared.tableElements.count()).toBeGreaterThan(queueCount);
-      expect(queues.noVersionsMsg.isDisplayed()).toBeTruthy();
-
-      // Add version and select as default
-      queues.addNewVersionBtn.click();
-      newVersion.createVersionBtn.click().then(function() {
-        shared.waitForSuccess();
-        expect(shared.successMessage.isDisplayed()).toBeTruthy();
-
-        queues.activeVersionDropdown.all(by.css('option')).get(1).click();
-        shared.submitFormBtn.click().then(function() {
-          shared.waitForSuccess();
-          expect(shared.successMessage.isDisplayed()).toBeTruthy();
-        });
-      });
-    });
-  });
-
 });

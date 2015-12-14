@@ -1,6 +1,6 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('RealtimeDashboardsController', function($scope, dashboard) {
-    $scope.dashboard = dashboard;
-  });
+  .controller('RealtimeDashboardsController', ['$scope', 'mockDashboard', function($scope, mockDashboard) {
+    $scope.dashboard = mockDashboard;
+  }]);

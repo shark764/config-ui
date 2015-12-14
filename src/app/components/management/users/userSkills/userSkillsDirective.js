@@ -16,7 +16,7 @@ angular.module('liveopsConfigPanel')
               tenantId: Session.tenant.tenantId
             });
           };
-          
+
           $scope.fetchUserSkills = function () {
             $scope.userSkills = TenantUserSkill.query({
                 tenantId: Session.tenant.tenantId,
@@ -29,16 +29,16 @@ angular.module('liveopsConfigPanel')
               skillId: tsu.skillId
             }, function () {
               Alert.success('Removed skill from user!');
-              
+
               $scope.userSkills.removeItem(tsu);
               var userSkill = filterFilter($scope.user.$skills, {
                 'id': tsu.skillId
               }, true);
-              
+
               if (userSkill.length){
                 $scope.user.$skills.removeItem(userSkill[0]);
               }
-              
+
               //TODO: remove once skills api returns members list
               //Reset cache of users for this skill
               queryCache.remove('skills/' + tsu.skillId + '/users');
@@ -49,7 +49,7 @@ angular.module('liveopsConfigPanel')
 
           $scope.reset = function () {
             $scope.selectedSkill = null;
-            
+
             if ($scope.skillsForm.name) {
               $scope.skillsForm.name.$setUntouched();
               $scope.skillsForm.name.$setPristine();
@@ -99,13 +99,13 @@ angular.module('liveopsConfigPanel')
                 id: tenantUserSkill.skillId,
                 name: tenantUserSkill.name
               });
-              
+
               Alert.success('User skill added!');
-              
+
               //TODO: remove once skills api returns members list
               //Reset cache of users for this skill
               queryCache.remove('skills/' + selectedSkill.id + '/users');
-              
+
               $scope.reset();
             }, function () {
               Alert.error('Failed to save user skill');
@@ -118,39 +118,45 @@ angular.module('liveopsConfigPanel')
             $scope.reset();
             $scope.fetchUserSkills();
           });
-          
+
           $scope.updateUserSkill = function(userSkill){
             userSkill.id = userSkill.skillId;
+            var newProficiency = userSkill.proficiency;
+
             userSkill.save().then(function(result){
               Alert.success('User skill updated!');
               
+              // @TODO: make this change in the TeantnUserControl model
+              userSkill.proficiency = newProficiency;
+              userSkill.$original.proficiency = newProficiency;
+
               //Update cache for Skill Management page
               if (queryCache.get('skills/' + result.skillId + '/users')){
                 var skillUsers = TenantSkillUser.cachedQuery({
                   tenantId: Session.tenant.tenantId,
                   skillId: result.skillId
                 }, 'skills/' + result.skillId + '/users');
-                
+
                 var skillUser = filterFilter(skillUsers, {
                   userId: result.userId
                 });
-                
+
                 if (skillUser.length){
                   skillUser[0].proficiency = result.proficiency;
                 }
               }
-              
-              
+
+
             }, function(){
               Alert.error('Failed to update user skill');
             });
           };
-          
+
           $scope.filterSkills = function(item) {
             var matchingSkills = filterFilter($scope.user.$skills, {
               'id': item.id
             }, true);
-            
+
             return matchingSkills.length === 0;
           };
         }

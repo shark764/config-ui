@@ -1,64 +1,118 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('TenantsController', ['$scope', '$stateParams', '$filter', 'Session', 'Tenant', 'TenantUser', 'tenantTableConfig', 'UserPermissions', 'AuthService', 'Region', '$q',
-    function($scope, $stateParams, $filter, Session, Tenant, TenantUser, tenantTableConfig, UserPermissions, AuthService, Region, $q) {
+  .controller('TenantsController', ['$scope', 'Session', 'Tenant', 'TenantUser', 'tenantTableConfig', 'UserPermissions', 'AuthService', 'Region', '$q', 'lodash', 'loEvents', 'Timezone',
+    function ($scope, Session, Tenant, TenantUser, tenantTableConfig, UserPermissions, AuthService, Region, $q, _, loEvents, Timezone) {
+      var vm = this;
 
-      $scope.create = function() {
+      vm.loadTimezones = function () {
+        $scope.timezones = Timezone.query();
+      };
+      
+      vm.loadTenants = function () {
+        if (UserPermissions.hasPermissionInList(['PLATFORM_VIEW_ALL_TENANTS', 'PLATFORM_MANAGE_ALL_TENANTS', 'PLATFORM_CREATE_ALL_TENANTS', 'PLATFORM_CREATE_TENANT_ROLES', 'PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT'])) {
+          $scope.tenants = Tenant.cachedQuery({
+            regionId: Session.activeRegionId
+          });
+        } else if (UserPermissions.hasPermission('MANAGE_TENANT')) {
+          var params = {
+            id: Session.tenant.tenantId
+          };
+
+          if (!Tenant.hasItem(params)) {
+            Tenant.cachedGet(params);
+          }
+
+          $scope.tenants = Tenant.cachedQuery();
+          $scope.tenants.$resolved = true;
+        } else {
+          throw new Error('Insufficient permissions to load tenantsController.');
+        }
+
+        var promise = $scope.tenants.$promise
+          .then(vm.loadUsers)
+          .then(vm.associateParents);
+
+        return promise;
+      };
+
+      vm.loadUsers = function (tenants) {
+        $scope.users = TenantUser.cachedQuery({
+          tenantId: Session.tenant.tenantId
+        });
+
+        return tenants;
+      };
+
+      vm.associateParents = function (tenants) {
+        if(angular.isObject(tenants)) {
+            tenants = [tenants];
+        }
+
+        angular.forEach(tenants, function(tenant) {
+          if(!tenant.parentId) {
+            return;
+          }
+
+          tenant.$parent = _.find(tenants, {
+            id: tenant.parentId
+          });
+        });
+      };
+
+      $scope.create = function () {
         $scope.selectedTenant = new Tenant({
           regionId: Session.activeRegionId,
           adminUserId: Session.user.id,
-          parentId: Session.tenant.tenantId
+          parentId: Session.tenant.tenantId,
+          timezone: 'US/Eastern' //Default to US-east timezone
         });
       };
 
-      $scope.fetchTenants = function() {
-        if (UserPermissions.hasPermissionInList(['PLATFORM_VIEW_ALL_TENANTS', 'PLATFORM_MANAGE_ALL_TENANTS', 'PLATFORM_CREATE_ALL_TENANTS', 'PLATFORM_CREATE_TENANT_ROLES', 'PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT'])){
-          return Tenant.cachedQuery({
-            regionId: Session.activeRegionId
-          });
-        } else if (UserPermissions.hasPermission('MANAGE_TENANT')){
-          return Tenant.prototype.getAsArray(Session.tenant.tenantId);
-        }
-      };
-
-      $scope.fetchUsers = function() {
-        return TenantUser.cachedQuery({
-          tenantId: Session.tenant.tenantId
-        });
-      };
-      
-      $scope.submit = function() {
+      $scope.submit = function () {
         return $scope.selectedTenant.save();
       };
-      
-      $scope.$on('table:on:click:create', function() {
+
+      $scope.$on(loEvents.tableControls.itemCreate, function () {
         $scope.create();
       });
-      
-      $scope.$on('created:resource:Tenant', function(event, newTenant) {
-        if (newTenant.adminUserId === Session.user.id){
+
+      $scope.$on('created:resource:Tenant', function (event, newTenant) {
+        if (newTenant.adminUserId === Session.user.id) {
           AuthService.refreshTenants();
         }
       });
-      
-      $scope.$on('updated:resource:Tenant', function() {
+
+      $scope.$on('updated:resource:Tenant', function () {
         AuthService.refreshTenants();
       });
 
-      $scope.tableConfig = tenantTableConfig;
+      $scope.$on('session:tenant:changed', function () {
+        vm.loadTenants();
+      });
 
-      $scope.$watch('selectedTenant', function(newVal){
-        if (newVal){
+      $scope.$watch('selectedTenant', function (newVal) {
+        if (newVal) {
           var result = angular.isDefined(newVal.$promise) ? newVal.$promise : newVal;
-          $q.when(result).then(function(tenant){
+          $q.when(result).then(function (tenant) {
             tenant.$region = Region.cachedGet({
               id: tenant.regionId
             });
+
+            if ($scope.selectedTenant.parentId) {
+              tenant.$parent = Tenant.cachedGet({
+                id: $scope.selectedTenant.parentId
+              });
+            }
           });
         }
       });
-      
-      $scope.Session = Session;
+
+      $scope.tableConfig = tenantTableConfig(function () {
+        return $scope.tenants;
+      });
+
+      vm.loadTenants();
+      vm.loadTimezones();
     }
   ]);

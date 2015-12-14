@@ -5,10 +5,12 @@ var ProfilePage = function() {
 
   this.firstNameFormField = element(by.model('tenantUser.$user.firstName'));
   this.lastNameFormField = element(by.model('tenantUser.$user.lastName'));
-  this.userEmail = element(by.id('user-profile-email'));
+  this.userEmail = element(by.model('tenantUser.$user.email'));
   this.userProfilePic = element(by.id('user-profile-pic'));
   this.resetPasswordButton = element(by.id('reset-password-button'));
   this.passwordFormField = element(by.model('tenantUser.$user.password'));
+  this.passwordPolicy = element(by.id('password-policy'));
+  this.passwordPolicyText = 'Password must have at least 1 alphabetic character, 1 number, and 1 special character (! # $ % - _ = + < > .)';
 
   this.errors = element.all(by.css('.lo-error'));
 

@@ -15,10 +15,10 @@ var NewQueueVersion = function() {
   // Query Fields
   this.newQueueQuerySection = this.newQueueVersionPanel.element(by.id('selected-queue-version-section'));
 
-  this.addFilterSection = this.newQueueQuerySection.element(by.id('add-query-filter'));
+  this.addFilterSection = this.newQueueVersionPanel.element(by.id('add-query-filter'));
   this.addFilterDropdown = this.addFilterSection.element(by.id('select-filter-dropdown'));
-  this.groupFilterDropdownOption = this.addFilterDropdown.all(by.css('[value=groupcomponent]'));
-  this.skillFilterDropdownOption = this.addFilterDropdown.all(by.css('[value=skillcomponent]'));
+  this.groupFilterDropdownOption = this.addFilterDropdown.all(by.css('[value=":groups"]'));
+  this.skillFilterDropdownOption = this.addFilterDropdown.all(by.css('[value=":skills"]'));
   this.addFilterBtn = this.addFilterSection.element(by.id('add-filter-btn'));
 
   this.basicQueryDetails = this.newQueueVersionPanel.element(by.id('version-basic-query-details'));
@@ -26,19 +26,19 @@ var NewQueueVersion = function() {
 
   this.advancedQueryFormField = this.newQueueVersionPanel.element(by.id('advanced-query-field'));
 
-  this.basicQueryAllGroups = this.newQueueVersionPanel.element(by.id('basic-query-all-groups'));
+  this.basicQueryAllGroups = this.newQueueVersionPanel.element(by.id(':groups-all'));
   this.allGroupsTypeAhead = this.basicQueryAllGroups.element(by.id('typeahead-container'));
   this.allGroupsDropdownGroups = this.basicQueryAllGroups.all(by.repeater('item in filtered = (items | filter:filterCriteria | orderBy:orderByFunction)'));
   this.allGroupsAdd = this.basicQueryAllGroups.element(by.css('.fa-plus'));
   this.allGroupsSelected = this.basicQueryAllGroups.all(by.repeater('operand in operands'));
 
-  this.basicQueryAnyGroups = this.newQueueVersionPanel.element(by.id('basic-query-any-groups'));
+  this.basicQueryAnyGroups = this.newQueueVersionPanel.element(by.id(':groups-any'));
   this.anyGroupsTypeAhead = this.basicQueryAnyGroups.element(by.id('typeahead-container'));
   this.anyGroupsDropdownGroups = this.basicQueryAnyGroups.all(by.repeater('item in filtered = (items | filter:filterCriteria | orderBy:orderByFunction)'));
   this.anyGroupsAdd = this.basicQueryAnyGroups.element(by.css('.fa-plus'));
   this.anyGroupsSelected = this.basicQueryAnyGroups.all(by.repeater('operand in operands'));
 
-  this.basicQueryAllSkills = this.newQueueVersionPanel.element(by.id('basic-query-all-skills'));
+  this.basicQueryAllSkills = this.newQueueVersionPanel.element(by.id(':skills-all'));
   this.allSkillsTypeAhead = this.basicQueryAllSkills.element(by.id('typeahead-container'));
   this.allSkillsDropdownSkills = this.basicQueryAllSkills.all(by.repeater('item in filtered = (items | filter:filterCriteria | orderBy:orderByFunction)'));
   this.allSkillsProficiencyOperator = this.basicQueryAllSkills.element(by.id('proficiency-operator-dropdown'));
@@ -46,7 +46,7 @@ var NewQueueVersion = function() {
   this.allSkillsAdd = this.basicQueryAllSkills.element(by.css('.fa-plus'));
   this.allSkillsSelected = this.basicQueryAllSkills.all(by.repeater('operand in operands'));
 
-  this.basicQueryAnySkills = this.newQueueVersionPanel.element(by.id('basic-query-any-skills'));
+  this.basicQueryAnySkills = this.newQueueVersionPanel.element(by.id(':skills-any'));
   this.anySkillsTypeAhead = this.basicQueryAnySkills.element(by.id('typeahead-container'));
   this.anySkillsDropdownSkills = this.basicQueryAnySkills.all(by.repeater('item in filtered = (items | filter:filterCriteria | orderBy:orderByFunction)'));
   this.anySkillsProficiencyOperator = this.basicQueryAnySkills.element(by.id('proficiency-operator-dropdown'));

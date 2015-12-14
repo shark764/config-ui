@@ -12,20 +12,39 @@
       <input required ng-model="selectedTenant.name" name="name" type="text"></input>
     </div>
   </div>
-  
+
   <div class="input-group">
     <label>{{'tenant.details.admin' | translate}}</label>
     <div>
-      <select ng-model="selectedTenant.adminUserId" ng-options="user.id as user.getDisplay() for user in fetchUsers()">
+      <select ng-model="selectedTenant.adminUserId"
+        ng-options="user.id as user.getDisplay() for user in users">
       </select>
+      <i class="fa fa-refresh fa-spin"
+        ng-hide="users.$resolved"></i>
     </div>
   </div>
-  
+
   <div class="input-group">
     <label class="textarea-label">{{'tenant.details.description' | translate}}</label>
     <div>
       <textarea ng-model="selectedTenant.description"></textarea>
     </div>
+  </div>
+
+  <div class="input-group"
+    ng-if="timezones.$resolved">
+    <label>{{'tenant.details.timezone' | translate}} *</label>
+    
+    <form-error field="forms.detailsForm.timezone"
+      error-type-required="{{'tenant.details.timezone.required' | translate}}">
+    </form-error>
+    <select name="timezone"
+      ng-required="true"
+      ng-model="selectedTenant.timezone"
+      ng-options="timezone for timezone in timezones">
+
+      <option value="" disabled>{{'tenant.details.timezone.placeholder' | translate}}</option>
+    </select>
   </div>
   
   <div class="input-group" ng-show="! selectedTenant.isNew()">
@@ -45,10 +64,17 @@
 
 <div class="input-group">
   <label class="textarea-label">{{'tenant.details.id' | translate}}</label>
-  <p id="tenant-details-id">{{Session.tenant.tenantId}}</p>
+  <p id="tenant-details-parent-id">{{selectedTenant.$parent.id}}</p>
 </div>
 
 <div class="input-group">
   <label class="textarea-label">{{'tenant.details.name' | translate}}</label>
-  <p id="tenant-details-id">{{Session.tenant.tenantName}}</p>
+  <p id="tenant-details-parent-name"
+    ng-show="selectedTenant.$parent.name">
+    {{selectedTenant.$parent.name}}
+  </p>
+  <p class="null"
+    ng-hide="selectedTenant.$parent.name">
+    {{ 'value.unknown' | translate }}
+  </p>
 </div>

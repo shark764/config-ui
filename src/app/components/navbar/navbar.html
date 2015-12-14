@@ -26,7 +26,7 @@
         <dropdown items="flowsDropConfig" collapse-icon="fa fa-caret-down" label="{{'navbar.flows.title' | translate}}" order-by="order" hovering="hovering" show-on-hover="true" hover-tracker="hoverTracker"></dropdown>
       </li>
 
-      <li id="reporting-nav-link" ng-class="{ active: isActive('/reporting')}">
+      <li id="reporting-nav-link" ng-class="{ active: isActive('/reporting') || isActive('/realtime-dashboards')}">
         <dropdown items="reportingDropConfig" collapse-icon="fa fa-caret-down" label="{{'navbar.reports.title' | translate}}" order-by="order" hovering="hovering" show-on-hover="true" hover-tracker="hoverTracker"></dropdown>
       </li>
 

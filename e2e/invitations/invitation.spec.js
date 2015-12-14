@@ -51,6 +51,8 @@ describe('The user invitation', function() {
       users.emailFormField.sendKeys('titantest' + randomUser + '@mailinator.com\t');
       users.tenantRoleFormDropdownOptions.get((randomUser % 3) + 1).click();
       users.platformRoleFormDropdownOptions.get(1).click();
+      users.firstNameFormField.sendKeys('First' + randomUser);
+      users.lastNameFormField.sendKeys('Last' + randomUser);
 
       // Deselect Invite Now toggle
       users.inviteNowFormToggle.click();
@@ -119,12 +121,15 @@ describe('The user invitation', function() {
                     // Verify the email is from the latest user created
                     expect(newestMessage1Contents).toContain('User Name: titantest' + randomUser + '@mailinator.com');
                     browser.get(shared.usersPageUrl);
-                  } else {
-                    // Fail test
+                  } else { // Fail test
+                    console.log('Mailinator email error: ' + error);
                     expect(false).toBeTruthy();
                   }
                 });
               });
+            } else { // Fail test
+              console.log('Mailinator inbox error: ' + error);
+              expect(false).toBeTruthy();
             }
           });
         });
@@ -140,6 +145,8 @@ describe('The user invitation', function() {
         users.emailFormField.sendKeys('titantest' + randomUser + '@mailinator.com\t');
         users.tenantRoleFormDropdownOptions.get((randomUser % 3) + 1).click();
         users.platformRoleFormDropdownOptions.get(1).click();
+        users.firstNameFormField.sendKeys('First' + randomUser);
+        users.lastNameFormField.sendKeys('Last' + randomUser);
 
         users.submitFormBtn.click().then(function() {
           expect(shared.successMessage.isDisplayed()).toBeTruthy();
@@ -172,7 +179,7 @@ describe('The user invitation', function() {
                       var newestMessage2Contents = JSON.parse(body).data.parts[0].body;
 
                       // Verify the email contains the expected content
-                      expect(newestMessage1Contents).toContain('User Name: titantest' + randomUser + '@mailinator.com');
+                      expect(newestMessage2Contents).toContain('User Name: titantest' + randomUser + '@mailinator.com');
                       expect(newestMessage2Contents).toContain('Password: Set the first time you login');
                       expect(newestMessage2Contents).toContain('Log in automatically by clicking');
 
@@ -180,11 +187,13 @@ describe('The user invitation', function() {
                       acceptInvitationLink = newestMessage2Contents.split('Log in automatically by clicking ')[1].split('\n')[0];
                       browser.get(acceptInvitationLink);
                     } else { // Fail test
+                      console.log('Mailinator email error: ' + error);
                       expect(true).toBeFalsy();
                     }
                   });
                 });
               } else { // Fail test
+                console.log('Mailinator inbox error: ' + error);
                 expect(true).toBeFalsy();
               }
             });
@@ -214,13 +223,14 @@ describe('The user invitation', function() {
                 expect(newestMessageContents).toContain('Log in automatically by clicking');
 
                 acceptInvitationLink = newestMessageContents.split('Log in automatically by clicking ')[1].split('\n')[0];
-              } else {
+              } else { // Fail test
+                console.log('Mailinator email error: ' + error);
                 expect(false).toBeTruthy();
               }
             });
           });
-        } else {
-          // Fail test
+        } else { // Fail test
+          console.log('Mailinator inbox error: ' + error);
           expect(false).toBeTruthy();
         }
       });
@@ -235,6 +245,8 @@ describe('The user invitation', function() {
         users.emailFormField.sendKeys('titantest' + randomUser + '@mailinator.com\t');
         users.tenantRoleFormDropdownOptions.get((randomUser % 3) + 1).click();
         users.platformRoleFormDropdownOptions.get(1).click();
+        users.firstNameFormField.sendKeys('First' + randomUser);
+        users.lastNameFormField.sendKeys('Last' + randomUser);
 
         users.submitFormBtn.click().then(function() {
           expect(shared.successMessage.isDisplayed()).toBeTruthy();
@@ -265,11 +277,13 @@ describe('The user invitation', function() {
                       browser.get(acceptInvitationLink);
                       expect(invites.acceptForm.isDisplayed()).toBeTruthy();
                     } else { // Fail test
+                      console.log('Mailinator email error: ' + error);
                       expect(false).toBeTruthy();
                     }
                   });
                 });
               } else { // Fail test
+                console.log('Mailinator inbox error: ' + error);
                 expect(false).toBeTruthy();
               }
             });
@@ -292,6 +306,8 @@ describe('The user invitation', function() {
         users.emailFormField.sendKeys('titantest' + randomUser + '@mailinator.com\t');
         users.tenantRoleFormDropdownOptions.get((randomUser % 3) + 1).click();
         users.platformRoleFormDropdownOptions.get(1).click();
+        users.firstNameFormField.sendKeys('First' + randomUser);
+        users.lastNameFormField.sendKeys('Last' + randomUser);
 
         users.submitFormBtn.click().then(function() {
           expect(shared.successMessage.isDisplayed()).toBeTruthy();
@@ -336,17 +352,19 @@ describe('The user invitation', function() {
                       expect(invites.userEmail.getText()).toBe('titantest' + randomUser + '@mailinator.com');
 
                       expect(invites.passwordFormField.getAttribute('value')).toBe('');
-                      expect(invites.firstNameFormField.getAttribute('value')).toBe('');
-                      expect(invites.lastNameFormField.getAttribute('value')).toBe('');
+                      expect(invites.firstNameFormField.getAttribute('value')).toBe('First' + randomUser);
+                      expect(invites.lastNameFormField.getAttribute('value')).toBe('Last' + randomUser);
                       expect(invites.externalIdFormField.getAttribute('value')).toBe('');
 
                       expect(shared.navBar.isPresent()).toBeFalsy();
                     } else { // Fail test
+                      console.log('Mailinator email error: ' + error);
                       expect(false).toBeTruthy();
                     }
                   });
                 });
               } else { // Fail test
+                console.log('Mailinator inbox error: ' + error);
                 expect(false).toBeTruthy();
               }
             });
@@ -407,12 +425,14 @@ describe('The user invitation', function() {
                       expect(invites.lastNameFormField.getAttribute('value')).toBe('Last ' + randomUser);
                       expect(invites.externalIdFormField.getAttribute('value')).toBe('External Id' + randomUser);
                     } else { // Fail test
+                      console.log('Mailinator email error: ' + error);
                       expect(false).toBeTruthy();
                     }
                   });
                 });
               } else {
                 // Fail test
+                console.log('Mailinator inbox error: ' + error);
                 expect(false).toBeTruthy();
               }
             });
@@ -432,6 +452,15 @@ describe('The user invitation', function() {
       expect(invites.signupLegalLabel.getText()).toBe(invites.legalText);
     });
 
+    it('should include Password Policy information', function() {
+      // NOTE: This test uses the acceptInvitationLink from the previous test
+      browser.get(acceptInvitationLink);
+
+      expect(invites.passwordPolicy.isDisplayed()).toBeTruthy();
+
+      expect(invites.passwordPolicy.getText()).toBe(invites.passwordPolicyText);
+    });
+
     it('should require completed fields', function() {
       browser.get(acceptInvitationLink);
 
@@ -445,7 +474,11 @@ describe('The user invitation', function() {
       invites.lastNameFormField.clear();
       invites.externalIdFormField.clear();
 
-      expect(invites.submitFormBtn.getAttribute('disabled')).toBeTruthy();
+      expect(invites.submitFormBtn.isEnabled()).toBeFalsy();
+      expect(invites.errors.count()).toBe(3);
+      expect(invites.errors.get(0).getText()).toBe('Please enter a password');
+      expect(invites.errors.get(1).getText()).toBe('Please enter a first name');
+      expect(invites.errors.get(2).getText()).toBe('Please enter a last name');
     });
 
     it('should require password field input', function() {
@@ -455,39 +488,140 @@ describe('The user invitation', function() {
       invites.passwordFormField.clear();
       invites.passwordFormField.sendKeys('\t');
 
-      expect(invites.submitFormBtn.getAttribute('disabled')).toBeTruthy();
+      expect(invites.submitFormBtn.isEnabled()).toBeFalsy();
+      expect(invites.errors.count()).toBe(1);
       expect(invites.errors.get(0).getText()).toBe('Please enter a password');
     });
 
-    it('should not require first, last name or external id field input', function() {
+    it('should require first, and last name field input', function() {
+      browser.get(acceptInvitationLink);
+
+      invites.firstNameFormField.clear();
+      invites.lastNameFormField.clear();
+      invites.passwordFormField.sendKeys('password\t');
+
+      expect(invites.submitFormBtn.isEnabled()).toBeFalsy();
+      expect(invites.errors.count()).toBe(2);
+      expect(invites.errors.get(0).getText()).toBe('Please enter a first name');
+      expect(invites.errors.get(1).getText()).toBe('Please enter a last name');
+    });
+
+    it('should not require external id field input', function() {
       browser.get(acceptInvitationLink);
 
       invites.passwordFormField.sendKeys('password\t');
 
-      expect(invites.submitFormBtn.getAttribute('disabled')).toBeNull();
+      expect(invites.submitFormBtn.isEnabled()).toBeTruthy();
     });
 
-    xit('should not accept spaces as valid input', function() {
-      // TODO Fails
+    it('should not accept spaces as valid input', function() {
       browser.get(acceptInvitationLink);
 
-      invites.passwordFormField.sendKeys(' \t');
+      invites.firstNameFormField.clear();
+      invites.lastNameFormField.clear();
       invites.firstNameFormField.sendKeys(' \t');
       invites.lastNameFormField.sendKeys(' \t');
       invites.externalIdFormField.sendKeys(' \t');
 
       expect(invites.submitFormBtn.getAttribute('disabled')).toBeTruthy();
 
-      expect(invites.errors.get(0).getText()).toBe('Please enter a password');
-      expect(invites.errors.get(1).getText()).toBe('Please enter a first name');
-      expect(invites.errors.get(2).getText()).toBe('Please enter a last name');
-      expect(invites.errors.get(3).getText()).toBe('Please enter an external id');
+      expect(invites.errors.count()).toBe(2);
+      expect(invites.errors.get(0).getText()).toBe('Please enter a first name');
+      expect(invites.errors.get(1).getText()).toBe('Please enter a last name');
     });
 
-    it('should accept invitation', function() {
+    it('should display error for invalid password and remove after editing field', function() {
       browser.get(acceptInvitationLink);
 
-      invites.passwordFormField.sendKeys('password');
+      invites.passwordFormField.sendKeys('notvalid');
+
+      invites.submitFormBtn.click();
+      shared.waitForError();
+
+      expect(invites.errors.count()).toBe(1);
+      expect(invites.submitFormBtn.getAttribute('disabled')).toBeTruthy();
+
+      invites.passwordFormField.sendKeys('edit');
+      expect(invites.errors.count()).toBe(0);
+      expect(invites.submitFormBtn.isEnabled()).toBeTruthy();
+    });
+
+    it('should not accept spaces for password input', function() {
+      browser.get(acceptInvitationLink);
+
+      invites.passwordFormField.sendKeys('      ');
+
+      invites.submitFormBtn.click();
+      shared.waitForError();
+
+      expect(invites.errors.count()).toBe(1);
+      expect(invites.errors.get(0).getText()).toBe('must be a non-blank string');
+    });
+
+    it('should require password with more than 8 characters', function() {
+      browser.get(acceptInvitationLink);
+
+      invites.passwordFormField.sendKeys('seven1!');
+
+      invites.submitFormBtn.click();
+      shared.waitForError();
+
+      expect(invites.errors.count()).toBe(1);
+      expect(invites.errors.get(0).getText()).toBe('must be at least 8 characters in length');
+    });
+
+    it('should require password with at least one letter', function() {
+      browser.get(acceptInvitationLink);
+
+      invites.passwordFormField.sendKeys('12345678!');
+
+      invites.submitFormBtn.click();
+      shared.waitForError();
+
+      expect(invites.errors.count()).toBe(1);
+      expect(invites.errors.get(0).getText()).toBe('must contain at least 1 alphabetic characters');
+    });
+
+    it('should require password with at least one number', function() {
+      browser.get(acceptInvitationLink);
+
+      invites.passwordFormField.sendKeys('abcdefg!');
+
+      invites.submitFormBtn.click();
+      shared.waitForError();
+
+      expect(invites.errors.count()).toBe(1);
+      expect(invites.errors.get(0).getText()).toBe('must contain at least 1 numeric case characters');
+    });
+
+    it('should require password with at least one special character', function() {
+      browser.get(acceptInvitationLink);
+
+      invites.passwordFormField.sendKeys('abcdefg1');
+
+      invites.submitFormBtn.click();
+      shared.waitForError();
+
+      expect(invites.errors.count()).toBe(1);
+      expect(invites.errors.get(0).getText()).toBe('must contain at least 1 characters from !#$%-_=+<>.');
+    });
+
+    it('should accept a password with 8 characters, 1 letter, 1 number and 1 special character', function() {
+      profile.resetPasswordButton.click();
+      profile.passwordFormField.sendKeys('abcdef1!');
+      profile.updateProfileBtn.click().then(function() {
+        shared.waitForSuccess();
+        shared.closeMessageBtn.click();
+
+        // No validation messages displayed
+        expect(profile.errors.count()).toBe(0);
+      });
+    });
+
+    it('should accept invitation with password containing 8 characters, 1 letter, 1 number and 1 special character', function() {
+      browser.get(acceptInvitationLink);
+
+      invites.passwordFormField.sendKeys('password1!');
 
       expect(invites.submitFormBtn.getAttribute('disabled')).toBeNull();
       invites.submitFormBtn.click().then(function() {
@@ -525,6 +659,8 @@ describe('The user invitation', function() {
         users.emailFormField.sendKeys('titantest' + randomUser + '@mailinator.com\t');
         users.tenantRoleFormDropdownOptions.get((randomUser % 3) + 1).click();
         users.platformRoleFormDropdownOptions.get(1).click();
+        users.firstNameFormField.sendKeys('First ' + randomUser);
+        users.lastNameFormField.sendKeys('Last ' + randomUser);
 
         users.submitFormBtn.click().then(function() {
           expect(shared.successMessage.isDisplayed()).toBeTruthy();
@@ -607,17 +743,20 @@ describe('The user invitation', function() {
                 expect(shared.message.isDisplayed()).toBeTruthy();
                 expect(shared.message.getText()).toContain('Sorry, this invitation has expired. Please contact your account administrator.');
               } else { // Fail test
+                console.log('Mailinator email error: ' + error);
                 expect(true).toBeFalsy();
               }
             });
           });
         } else { // Fail test
+          console.log('Mailinator inbox error: ' + error);
           expect(true).toBeFalsy();
         }
       });
     });
   });
 
+  // TODO Bug TITAN2-5854
   // For existing users
   describe('for inviting existing users not in the current tenant', function() {
     beforeAll(function() {
@@ -633,7 +772,7 @@ describe('The user invitation', function() {
       tenants.selectTenant(newTenantName);
     });
 
-    it('should display message but not user details', function() {
+    xit('should display message but not user details', function() {
       browser.get(shared.usersPageUrl);
       shared.createBtn.click();
 
@@ -662,7 +801,7 @@ describe('The user invitation', function() {
       expect(users.submitFormBtn.isEnabled()).toBeTruthy();
     });
 
-    it('should not send invitation email when Invite Now is deselected', function() {
+    xit('should not send invitation email when Invite Now is deselected', function() {
       browser.get(shared.usersPageUrl);
       shared.createBtn.click();
 
@@ -704,8 +843,9 @@ describe('The user invitation', function() {
 
                     // Verify the email is NOT one sent to an existing user
                     expect(newestMessage1Contents).not.toContain('Please click the following link to get started on accepting this invitation:');
-                    expect(newestMessage1Contents).not.toContain('You will simply enter your existing LiveOps User Name: mike.wazowski@mailinator.com and password');
+                    expect(newestMessage1Contents).not.toContain('You will simply enter your existing LiveOps User Name: ');
                   } else { // Fail test
+                    console.log('Mailinator email error: ' + error);
                     expect(false).toBeTruthy();
                   }
                 });
@@ -716,7 +856,7 @@ describe('The user invitation', function() {
       });
     });
 
-    it('should send invitation email when Invite Now is deselected and selecting Send Invitation', function() {
+    xit('should send invitation email when Invite Now is deselected and selecting Send Invitation', function() {
       browser.get(shared.usersPageUrl);
       shared.searchField.sendKeys('titantest' + randomUser + '@mailinator.com');
       shared.firstTableRow.click();
@@ -748,20 +888,24 @@ describe('The user invitation', function() {
                     var newestMessage1Contents = JSON.parse(body).data.parts[0].body;
 
                     // Verify the email is one sent to an existing user
-                    expect(newestMessage1Contents).not.toContain('Please click the following link to get started on accepting this invitation:');
-                    expect(newestMessage1Contents).not.toContain('You will simply enter your existing LiveOps User Name: mike.wazowski@mailinator.com and password');
+                    expect(newestMessage1Contents).toContain('Please click the following link to get started on accepting this invitation:');
+                    expect(newestMessage1Contents).toContain('You will simply enter your existing LiveOps User Name:');
                   } else { // Fail test
+                    console.log('Mailinator email error: ' + error);
                     expect(false).toBeTruthy();
                   }
                 });
               });
+            } else {
+              console.log('Mailinator inbox error: ' + error);
+              expect(false).toBeTruthy();
             }
           });
         });
       });
     });
 
-    it('should send invitation email', function() {
+    xit('should send invitation email', function() {
       // Create new Tenant that tests will use; admin defaults to current user
       browser.get(shared.tenantsPageUrl);
       newTenantName = tenants.createTenant();
@@ -815,11 +959,13 @@ describe('The user invitation', function() {
                     acceptInvitationLink = newestMessage2Contents.split('Log in automatically by clicking ')[1].split('\n')[0];
                     browser.get(acceptInvitationLink);
                   } else { // Fail test
+                    console.log('Mailinator email error: ' + error);
                     expect(false).toBeTruthy();
                   }
                 });
               });
             } else { // Fail test
+              console.log('Mailinator inbox error: ' + error);
               expect(true).toBeFalsy();
             }
           });
@@ -828,7 +974,6 @@ describe('The user invitation', function() {
     });
 
     xit('should not display user details before invitation is accepted', function() {
-      // TODO Bug TITAN2-3979
       shared.searchField.sendKeys('titantest' + randomUser + '@mailinator.com');
       shared.firstTableRow.click();
 
@@ -840,26 +985,23 @@ describe('The user invitation', function() {
       expect(shared.firstTableRow.getText()).toContain('Pending Acceptance');
 
       // Remaining fields are displayed and remain blank
-      expect(users.firstNameFormField.isEnabled()).toBeFalsy();
-      expect(users.lastNameFormField.isEnabled()).toBeFalsy();
-      expect(users.externalIdFormField.isEnabled()).toBeFalsy();
       expect(users.firstNameFormField.getAttribute('value')).toBe('');
       expect(users.lastNameFormField.getAttribute('value')).toBe('');
       expect(users.externalIdFormField.getAttribute('value')).toBe('');
     });
 
-    it('should link to login page instead of the acceptance form', function() {
+    xit('should link to login page instead of the acceptance form', function() {
       // NOTE: This test uses the acceptInvitationLink from the previous test
       browser.get(acceptInvitationLink);
 
       expect(browser.getCurrentUrl()).toContain(shared.loginPageUrl);
     });
 
-    it('should accept invitation after login', function() {
+    xit('should accept invitation after login', function() {
       browser.get(acceptInvitationLink);
 
       loginPage.emailLoginField.sendKeys('titantest' + randomUser + '@mailinator.com');
-      loginPage.passwordLoginField.sendKeys('password');
+      loginPage.passwordLoginField.sendKeys('password1!');
       loginPage.loginButton.click();
 
       expect(browser.getCurrentUrl()).toContain(shared.profilePageUrl);

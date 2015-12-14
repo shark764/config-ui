@@ -14,43 +14,48 @@
       ng-model="tenantUser"
       ng-resource="tenantUser"
       lo-form-submit
-      lo-form-alert
-      lo-form-reset>
+      lo-form-alert>
 
-      <div id="user-profile-email">
-        <label>Email:</label> {{tenantUser.$user.email}}
-      </div>
       <div>
-        <label>{{'details.firstName' | translate}}</label>
+        <label>{{'details.email' | translate}}</label>
         <div>
-          <form-error field="userForm.firstName"></form-error>
-          <input ng-model="tenantUser.$user.firstName" name="firstName" type="text"></input>
+          <input readonly ng-disabled="true" ng-model="tenantUser.$user.email" name="email" type="text"></input>
         </div>
       </div>
       <div>
-        <label>{{'details.lastName' | translate}}</label>
+        <label>{{'details.firstName' | translate}} *</label>
+        <div>
+          <form-error field="userForm.firstName"
+            error-type-required="{{'details.firstName.error' | translate}}"></form-error>
+          <input ng-required="true" ng-model="tenantUser.$user.firstName" name="firstName" type="text"></input>
+        </div>
+      </div>
+      <div>
+        <label>{{'details.lastName' | translate}} *</label>
         <div>
           <form-error field="userForm.lastName"
-            error-type-required="{{'details.lastName.error' | translate}}">
-          </form-error>
-          <input ng-model="tenantUser.$user.lastName" name="lastName" type="text"></input>
+            error-type-required="{{'details.lastName.error' | translate}}"></form-error>
+          <input ng-required="true" ng-model="tenantUser.$user.lastName" name="lastName" type="text"></input>
         </div>
       </div>
       <div>
         <label>{{'details.password' | translate}}</label>
         <div>
           <input id="reset-password-button" type="button" class="btn"
-            ng-hide="userForm.password.$dirty"
+            ng-hide="userForm.password.$dirty || userForm.password.$error.api"
             ng-click="userForm.password.$setDirty()"
             value="{{'user.details.password.reset' | translate}}">
+
           <form-error field="userForm.password"
             error-type-required="{{'details.password.error' | translate}}">
           </form-error>
+
           <input autocomplete="off" name="password" type="password"
             ng-model="tenantUser.$user.password"
-            ng-show="userForm.password.$dirty"
-            ng-required="userForm.password.$dirty">
-          </input>
+            ng-show="userForm.password.$dirty || userForm.password.$error.api"
+            ng-required="userForm.password.$dirty"/>
+
+          <p id="password-policy" ng-show="userForm.password.$dirty || userForm.password.$error.api"><small>{{'details.password.default.policy' | translate}}</small></p>
         </div>
       </div>
 

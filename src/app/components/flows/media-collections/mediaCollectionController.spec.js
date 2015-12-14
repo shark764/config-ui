@@ -7,21 +7,23 @@ describe('MediaCollectionController', function () {
     $controller,
     $httpBackend,
     MediaCollection,
-    apiHostname;
+    apiHostname,
+    loEvents;
 
   beforeEach(module('gulpAngular'));
   beforeEach(module('liveopsConfigPanel'));
   beforeEach(module('liveopsConfigPanel.mock'));
   beforeEach(module('liveopsConfigPanel.tenant.mediaCollection.mock'));
 
-  beforeEach(inject(['$rootScope', '$controller', '$httpBackend', 'MediaCollection', 'apiHostname',
-    function (_$rootScope_, _$controller_, _$httpBackend_, _MediaCollection_, _apiHostname) {
+  beforeEach(inject(['$rootScope', '$controller', '$httpBackend', 'MediaCollection', 'apiHostname', 'loEvents',
+    function (_$rootScope_, _$controller_, _$httpBackend_, _MediaCollection_, _apiHostname, _loEvents) {
       $rootScope = _$rootScope_;
       $scope = $rootScope.$new();
       $controller = _$controller_;
       $httpBackend = _$httpBackend_;
       MediaCollection = _MediaCollection_;
       apiHostname = _apiHostname;
+      loEvents = _loEvents;
 
       $controller('MediaCollectionController', {
         '$scope': $scope
@@ -38,7 +40,7 @@ describe('MediaCollectionController', function () {
   it('should call create when the create button is clicked', inject(function () {
     spyOn($scope, 'create');
 
-    $rootScope.$broadcast('table:on:click:create');
+    $rootScope.$broadcast(loEvents.tableControls.itemCreate);
 
     expect($scope.create).toHaveBeenCalled();
   }));

@@ -8,9 +8,9 @@
     <h4>{{'flow.details.versions.create.title' | translate }}</h4>
   </div>
 
-  <ng-form name="createVersionForm" separate-validation>
+  <ng-form name="createVersionForm" separate-validation lo-form-submit>
     <div class="input-group">
-      <label>{{'value.name' | translate}}</label>
+      <label>{{'value.name' | translate}} *</label>
       <form-error field="createVersionForm.name" error-type-required="{{'value.error.name.required' | translate}}"></form-error>
       <input ng-required="true" type="text" ng-model="version.name" name="name"></input>
     </div>
@@ -23,7 +23,7 @@
       <label></label>
       <input id="cancel-flow-version-btn" type="button" ng-click="createNewVersion = false" class="btn" value="{{'value.cancel' | translate}}" />
       <input id="create-flow-version-btn" ng-disabled="createVersionForm.$invalid || !createVersionForm.$dirty"
-        ng-click="saveVersion()" type="submit" class="btn btn-primary" value="{{ 'value.create' | translate }}"/>
+        lo-submit="saveVersion()" type="submit" class="btn btn-primary" value="{{ 'value.create' | translate }}"/>
     </div>
   </ng-form>
 </div>
@@ -33,18 +33,24 @@
 <table class="table" id="flow-details-versions-table" ng-show="getVersions().length > 0">
   <thead>
     <tr>
+      <th>{{'value.version' | translate}}</th>
       <th>{{'value.name' | translate}}</th>
       <th>{{'value.createdOn' | translate}}</th>
       <th ng-if="['PLATFORM_VIEW_ALL_USERS', 'PLATFORM_CREATE_USERS', 'PLATFORM_MANAGE_ALL_USERS', 'PLATFORM_MANAGE_ALL_TENANTS', 'PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT'] | hasPermission">
         {{'value.createdBy' | translate}}
       </th>
+      <th></th>
+      <th></th>
     </tr>
   </thead>
   <tr ng-repeat="version in getVersions() | orderBy:'created':'reverse'">
-    <td><a href="#/flows/editor/{{version.flowId}}/v/{{version.version}}?v={{($index - getVersions().length) * -1}}">{{version.name}}</a></td>
+    <td>{{version.fakeVersion}}</td>
+    <td>{{version.name}}</td>
     <td>{{version.created | date:'medium'}}</td>
     <td ng-if="['PLATFORM_VIEW_ALL_USERS', 'PLATFORM_CREATE_USERS', 'PLATFORM_MANAGE_ALL_USERS', 'PLATFORM_MANAGE_ALL_TENANTS', 'PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT'] | hasPermission">
       <audit-text translation="value.displayName" user-id="version.createdBy"></audit-text>
     </td>
+    <td><a ng-href="#/flows/viewer/{{version.flowId}}/{{version.version}}">view</a></td>
+    <td><a ng-click="onEditClick({version: version})">edit</a></td>
   </tr>
 </table>

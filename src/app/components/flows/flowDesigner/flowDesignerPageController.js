@@ -1,34 +1,27 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('DesignerPageController', ['$scope', 'flow', 'notations', 'data', 'FlowNotationService', 'FlowLibrary', 'readOnly',
-    function($scope, flow, notations, data, FlowNotationService, FlowLibrary, readOnly) {
+  .controller('DesignerPageController', ['$scope', 'flow', 'notations', 'draft', 'FlowResource', 'FlowNotationService', 'FlowLibrary', 'lodash',
+    function($scope, flow, notations, draft, FlowResource, FlowNotationService, FlowLibrary, lodash) {
       $scope.flow = flow;
-      $scope.flowData = data;
-      $scope.readOnly = readOnly;
+      $scope.draft = draft;
 
       if(flow.type === 'customer' || flow.type === 'reusable'){
         FlowNotationService.setLastParticipant('titan/customer');
       }
 
-      FlowLibrary.loadData(notations.data);
+      var parsedNotations = FlowNotationService.parseNotations(notations);
 
-      $scope.$on('$destroy', function() {
-        var designerKeys = [
-          'delete',
-          'super',
-          'ctrl',
-          'backspace',
-          'z',
-          'y',
-          'c',
-          'v',
-          '=',
-          '-'
-        ];
+      FlowLibrary.loadData(parsedNotations);
 
-        //Unbind Flow Designer keys
-        designerKeys.forEach(function(key) { KeyboardJS.clear(key); });
+      lodash.each(FlowResource.getFlows(), function(flow){
+        lodash.each(FlowResource.getVersions(flow.id), function(version){
+          FlowLibrary.registerCallActivity(flow, version);
+        });
+      });
+
+      $scope.$on('$destroy', function(){
+        FlowLibrary.clearData();
       });
     }
   ]);

@@ -170,10 +170,15 @@ describe('NavbarController', function () {
   describe('tableConfig setup', function() {
     it('should add the Users link if the user has permissions', inject(['UserPermissions', 'filterFilter', function (UserPermissions, filterFilter) {
       var permissionsList = ['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'VIEW_ALL_USERS', 'MANAGE_ALL_USER_EXTENSIONS', 'MANAGE_ALL_GROUP_USERS', 'MANAGE_ALL_USER_SKILLS', 'MANAGE_ALL_USER_LOCATIONS', 'MANAGE_TENANT_ENROLLMENT'];
+      var permissionsList2 = ['MANAGE_ALL_SKILLS', 'MANAGE_ALL_GROUPS'];
       var currentPermission;
+      var currentSecondPermission;
+      
       spyOn(UserPermissions, 'hasPermission').and.callFake(function(permission){
         switch(permission){
           case currentPermission:
+            return true;
+          case currentSecondPermission:
             return true;
           default: 
             return false;
@@ -182,20 +187,24 @@ describe('NavbarController', function () {
       
       spyOn($state, 'transitionTo');
 
-      for (var i = 0; i < permissionsList.length; i++){
-        currentPermission = permissionsList[i];
+      for (var j = 0; j < permissionsList2.length; j++){
+        currentSecondPermission = permissionsList2[j];
         
-        $controller('NavbarController', {'$scope': $scope});
-        $scope.$digest();
-        
-        expect($scope.managementDropConfig).toBeDefined();
-        expect($scope.managementDropConfig.length).toBeGreaterThan(0);
-        
-        var userConfigItem = filterFilter($scope.managementDropConfig, {id: 'user-management-link'});
-        expect(userConfigItem.length).toBe(1);
-        userConfigItem = userConfigItem[0];
-        
-        expect(userConfigItem.stateLink).toEqual('content.management.users');
+        for (var i = 0; i < permissionsList.length; i++){
+          currentPermission = permissionsList[i];
+          
+          $controller('NavbarController', {'$scope': $scope});
+          $scope.$digest();
+          
+          expect($scope.managementDropConfig).toBeDefined();
+          expect($scope.managementDropConfig.length).toBeGreaterThan(0);
+          
+          var userConfigItem = filterFilter($scope.managementDropConfig, {id: 'user-management-link'});
+          expect(userConfigItem.length).toBe(1);
+          userConfigItem = userConfigItem[0];
+          
+          expect(userConfigItem.stateLink).toEqual('content.management.users');
+        }
       }
     }]));
     
@@ -235,6 +244,8 @@ describe('NavbarController', function () {
         switch(permission){
           case currentPermission:
             return true;
+          case 'MANAGE_ALL_MEDIA':
+            return true;
           default: 
             return false;
         }
@@ -263,6 +274,8 @@ describe('NavbarController', function () {
       spyOn(UserPermissions, 'hasPermission').and.callFake(function(permission){
         switch(permission){
           case currentPermission:
+            return true;
+          case 'MANAGE_ALL_MEDIA':
             return true;
           default: 
             return false;

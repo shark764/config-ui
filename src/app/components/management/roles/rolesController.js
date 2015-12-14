@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('RolesController', ['$scope', 'Session', 'roleTableConfig', 'BulkAction', 'TenantRole',
-    function($scope, Session, roleTableConfig, BulkAction, TenantRole) {
+  .controller('RolesController', ['$scope', 'Session', 'roleTableConfig', 'BulkAction', 'TenantRole', 'loEvents',
+    function($scope, Session, roleTableConfig, BulkAction, TenantRole, loEvents) {
       $scope.forms = {};
       $scope.roleTableConfig = roleTableConfig;
 
@@ -23,7 +23,7 @@ angular.module('liveopsConfigPanel')
         return $scope.selectedTenantRole.save();
       };
       
-      $scope.$on('table:on:click:create', function() {
+      $scope.$on(loEvents.tableControls.itemCreate, function() {
         $scope.create();
       });
     }

@@ -17,7 +17,7 @@ describe('The create new queues view', function() {
     // Ignore unsaved changes warnings
     browser.executeScript("window.onbeforeunload = function(){};");
     browser.get(shared.queuesPageUrl);
-    queueCount = shared.tableElements.count();
+    queueCount = shared.tableRows.count();
   });
 
   afterAll(function() {
@@ -43,7 +43,7 @@ describe('The create new queues view', function() {
     newQueue.addFilterBtn.click();
     newQueue.addFilterDropdown.click();
     newQueue.skillFilterDropdownOption.click();
-    newQueue.addFilterBtn.click().then(function () {
+    newQueue.addFilterBtn.click().then(function() {
       // Query fields
       expect(newQueue.allGroupsTypeAhead.isDisplayed()).toBeTruthy();
       expect(newQueue.anyGroupsTypeAhead.isDisplayed()).toBeTruthy();
@@ -84,7 +84,7 @@ describe('The create new queues view', function() {
     newQueue.addFilterBtn.click();
     newQueue.addFilterDropdown.click();
     newQueue.skillFilterDropdownOption.click();
-    newQueue.addFilterBtn.click().then(function () {
+    newQueue.addFilterBtn.click().then(function() {
       // Basic Query fields are displayed
       expect(newQueue.allGroupsTypeAhead.isDisplayed()).toBeTruthy();
       expect(newQueue.anyGroupsTypeAhead.isDisplayed()).toBeTruthy();
@@ -97,7 +97,7 @@ describe('The create new queues view', function() {
 
         // Advanced query field is displayed
         expect(newQueue.advancedQueryFormField.isDisplayed()).toBeTruthy();
-        expect(newQueue.advancedQueryFormField.getAttribute('value')).toBe('{}');
+        expect(newQueue.advancedQueryFormField.getAttribute('value')).toBe('{:groups (and (and) (or)) :skills (and (and) (or))}');
 
         // Basic Query fields are not displayed
         expect(newQueue.allGroupsTypeAhead.isDisplayed()).toBeFalsy();
@@ -131,16 +131,20 @@ describe('The create new queues view', function() {
     queues.descriptionFormField.sendKeys('This is the queue description for queue ' + randomQueue);
 
     shared.submitFormBtn.click().then(function() {
-      expect(shared.successMessage.isDisplayed()).toBeTruthy();
-      expect(shared.tableElements.count()).toBeGreaterThan(queueCount);
+      shared.waitForSuccess();
+      expect(shared.tableRows.count()).toBeGreaterThan(queueCount);
 
       shared.searchField.sendKeys('Queue ' + randomQueue);
-      expect(shared.tableElements.count()).toBeGreaterThan(0);
+      expect(shared.tableRows.count()).toBeGreaterThan(0);
 
       // Default version created
       expect(queues.activeVersionDropdown.$('option:checked').getText()).toBe('v1');
       expect(queues.queueVersions.count()).toBe(1);
       expect(queues.queueVersions.get(0).getText()).toContain('v1');
+
+      // Queue is enabled by default
+      expect(shared.firstTableRow.getText()).toContain('Enabled');
+      expect(queues.activeFormToggle.element(by.css('label.switch:nth-child(2) > input:nth-child(1)')).isSelected()).toBeTruthy();
     });
   });
 
@@ -155,7 +159,7 @@ describe('The create new queues view', function() {
 
     shared.waitForAlert();
     shared.dismissChanges();
-    expect(shared.rightPanel.isDisplayed()).toBeFalsy();
+    expect(shared.detailsPanel.isDisplayed()).toBeFalsy();
   });
 
   it('should require field inputs', function() {
@@ -165,7 +169,7 @@ describe('The create new queues view', function() {
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
 
     shared.submitFormBtn.click();
-    expect(shared.tableElements.count()).toBe(queueCount);
+    expect(shared.tableRows.count()).toBe(queueCount);
     expect(shared.successMessage.isPresent()).toBeFalsy();
   });
 
@@ -182,7 +186,7 @@ describe('The create new queues view', function() {
 
     expect(queues.requiredErrors.get(0).isDisplayed()).toBeTruthy();
     expect(queues.requiredErrors.get(0).getText()).toBe('Field "Name" is required.');
-    expect(shared.tableElements.count()).toBe(queueCount);
+    expect(shared.tableRows.count()).toBe(queueCount);
     expect(shared.successMessage.isPresent()).toBeFalsy();
   });
 
@@ -200,32 +204,67 @@ describe('The create new queues view', function() {
 
     expect(queues.requiredErrors.get(0).isDisplayed()).toBeTruthy();
     expect(queues.requiredErrors.get(0).getText()).toBe('Field "Query" is required.');
-    expect(shared.tableElements.count()).toBe(queueCount);
+    expect(shared.tableRows.count()).toBe(queueCount);
     expect(shared.successMessage.isPresent()).toBeFalsy();
   });
 
-  //TODO: bug, see TITAN2-3765 TITAN2-3290
-  xit('should validate query field', function() {
+  it('should validate query field', function() {
     shared.createBtn.click();
     randomQueue = Math.floor((Math.random() * 100) + 1);
-    newQueue.showAdvancedQueryLink.click();
 
     // Complete queue form and submit without valid query
-    newQueue.showAdvancedQueryLink.click();
     queues.nameFormField.sendKeys('Queue ' + randomQueue);
-    queues.descriptionFormField.sendKeys('This is the queue description for queue ' + randomQueue);
+    newQueue.showAdvancedQueryLink.click();
     newQueue.advancedQueryFormField.clear();
-    newQueue.advancedQueryFormField.sendKeys('This is not a valid query');
+    newQueue.advancedQueryFormField.sendKeys('This is not a valid query\t');
 
+    expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
     shared.submitFormBtn.click().then(function() {
       expect(queues.requiredErrors.get(0).isDisplayed()).toBeTruthy();
-      expect(queues.requiredErrors.get(0).getText()).toContain('invalid query, reason: Value does not match schema: (not (map?');
-      expect(shared.tableElements.count()).toBe(queueCount);
+      expect(queues.requiredErrors.get(0).getText()).toContain('Your query is invalid, please fix your query.');
+      expect(shared.tableRows.count()).toBe(queueCount);
       expect(shared.successMessage.isPresent()).toBeFalsy();
     });
   });
 
-  it('should not require description', function() {
+  it('should display warning when advanced query changes cannot be converted to the basic query builder', function() {
+    shared.createBtn.click();
+    newQueue.showAdvancedQueryLink.click();
+    newQueue.advancedQueryFormField.clear();
+    newQueue.advancedQueryFormField.sendKeys('This is not a valid query');
+
+    newQueue.showBasicQueryLink.click();
+
+    shared.waitForAlert();
+    shared.dismissChanges();
+
+    // Basic query builder is displayed with no filter options
+    expect(newQueue.allGroupsTypeAhead.isPresent()).toBeFalsy();
+    expect(newQueue.anyGroupsTypeAhead.isPresent()).toBeFalsy();
+    expect(newQueue.allSkillsTypeAhead.isPresent()).toBeFalsy();
+    expect(newQueue.anySkillsTypeAhead.isPresent()).toBeFalsy();
+
+    // Advanced query details are cleared
+    newQueue.showAdvancedQueryLink.click();
+    expect(newQueue.advancedQueryFormField.getAttribute('value')).toBe('{}');
+  });
+
+  it('should add filters to basic query builder when advanced query field is updated', function() {
+    shared.createBtn.click();
+    newQueue.showAdvancedQueryLink.click();
+    newQueue.advancedQueryFormField.clear();
+    newQueue.advancedQueryFormField.sendKeys('{:groups (and (and) (or)) :skills (and (and) (or))}');
+
+    newQueue.showBasicQueryLink.click();
+
+    // Basic query builder is displayed with filter options
+    expect(newQueue.allGroupsTypeAhead.isDisplayed()).toBeTruthy();
+    expect(newQueue.anyGroupsTypeAhead.isDisplayed()).toBeTruthy();
+    expect(newQueue.allSkillsTypeAhead.isDisplayed()).toBeTruthy();
+    expect(newQueue.anySkillsTypeAhead.isDisplayed()).toBeTruthy();
+  });
+
+  it('should not require description or query filters', function() {
     shared.createBtn.click();
     randomQueue = Math.floor((Math.random() * 100) + 1);
 
@@ -234,15 +273,18 @@ describe('The create new queues view', function() {
     queues.nameFormField.sendKeys('Queue ' + randomQueue);
 
     shared.submitFormBtn.click().then(function() {
-      expect(shared.tableElements.count()).toBeGreaterThan(queueCount);
+      expect(shared.tableRows.count()).toBeGreaterThan(queueCount);
       expect(shared.successMessage.isDisplayed()).toBeTruthy();
     });
   });
 
-  xit('should not accept spaces only as valid field input when creating a new queue', function() {
+  it('should not accept spaces only as valid field input when creating a new queue', function() {
     shared.createBtn.click();
     queues.nameFormField.sendKeys(' ');
     queues.descriptionFormField.sendKeys(' ');
+    newQueue.showAdvancedQueryLink.click();
+    newQueue.advancedQueryFormField.clear();
+    newQueue.advancedQueryFormField.sendKeys(' \t');
 
     // Submit button is disabled
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
@@ -254,7 +296,7 @@ describe('The create new queues view', function() {
     expect(queues.requiredErrors.get(1).getText()).toBe('Field "Query" is required.');
 
     expect(shared.successMessage.isPresent()).toBeFalsy();
-    expect(shared.tableElements.count()).toBe(queueCount);
+    expect(shared.tableRows.count()).toBe(queueCount);
   });
 
   it('should require priority values', function() {
@@ -276,7 +318,7 @@ describe('The create new queues view', function() {
       expect(queues.requiredErrors.get(2).getText()).toBe('Please enter a priority value');
       expect(queues.requiredErrors.get(3).getText()).toBe('Please enter a priority rate');
 
-      expect(shared.tableElements.count()).toBe(queueCount);
+      expect(shared.tableRows.count()).toBe(queueCount);
       expect(shared.successMessage.isPresent()).toBeFalsy();
     });
   });

@@ -28,7 +28,7 @@ angular.module('liveopsConfigPanel')
           
           $scope.bulkAction.reset = function() {
             $scope.bulkAction.checked = false;
-            $scope.active = false;
+            $scope.active = '';
           };
         }
       };

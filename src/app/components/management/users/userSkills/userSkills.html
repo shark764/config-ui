@@ -36,12 +36,13 @@
       <tbody>
         <tr ng-repeat="userSkill in userSkills | orderBy:'name'">
           <td>{{userSkill.name}}</td>
-          <td id="user-skill-table-proficiency" style="text-align:right;padding:0">
-            <input id="proficiency{{$index}}" name="proficiency{{$index}}" ng-show="userSkill.proficiency > 0 || userSkillsForm['proficiency' + $index].$dirty" ng-required="true" type="number" min="1" max="100" ng-model="userSkill.proficiency"/>
+          <td id="user-skill-table-proficiency" class="unpadded">
+            <number-slider value="userSkill.proficiency" required="true" name="proficiency{{$index}}" min-value="1" max-value="100" id="proficiency{{$index}}" ng-show="userSkill.proficiency >= 0 || userSkillsForm['proficiency' + $index].$dirty"></number-slider>
           </td>
-          <td>
-            <a id="cancel-proficiency-edit-btn"ng-show="userSkill.proficiency != userSkill.$original.proficiency" class="btn" ng-click="userSkill.reset()">{{'value.cancel'| translate}}</a>
-            <button id="save-proficiency-edit-btn" ng-show="userSkill.proficiency != userSkill.$original.proficiency" ng-disabled="userSkillsForm['proficiency' + $index].$invalid" class="btn btn-primary" ng-click="updateUserSkill(userSkill)">{{'value.save' | translate}}</button>
+          <td class="unpadded">
+            <a id="cancel-proficiency-edit-btn" ng-show="userSkill.proficiency != userSkill.$original.proficiency" class="btn" ng-click="userSkill.reset()">{{'value.cancel'| translate}}</a>
+            <button id="save-proficiency-edit-btn" ng-show="!userSkill.$busy && userSkill.proficiency != userSkill.$original.proficiency" ng-disabled="userSkillsForm['proficiency' + $index].$invalid" class="btn btn-primary" ng-click="updateUserSkill(userSkill)">{{'value.save' | translate}}</button>
+            <a ng-show="userSkill.$busy" disabled="true" class="btn btn-primary"><i class="fa fa-refresh fa-spin"></i></a>
           </td>
           <td style="text-align:right">
             <i class="fa fa-times remove" ng-click="remove(userSkill)"
