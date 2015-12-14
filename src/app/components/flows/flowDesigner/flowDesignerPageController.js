@@ -14,11 +14,14 @@ angular.module('liveopsConfigPanel')
 
       FlowLibrary.loadData(parsedNotations);
 
-      FlowLibrary.clearCallActivities();
       lodash.each(FlowResource.getFlows(), function(flow){
         lodash.each(FlowResource.getVersions(flow.id), function(version){
           FlowLibrary.registerCallActivity(flow, version);
         });
+      });
+
+      $scope.$on('$destroy', function(){
+        FlowLibrary.clearData();
       });
     }
   ]);

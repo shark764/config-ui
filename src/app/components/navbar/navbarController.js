@@ -84,7 +84,8 @@ angular.module('liveopsConfigPanel')
         });
       }
 
-      if (UserPermissions.hasPermissionInList(['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'VIEW_ALL_SKILLS', 'MANAGE_ALL_SKILLS', 'MANAGE_ALL_USER_SKILLS', 'MANAGE_TENANT_ENROLLMENT'])) {
+    //See TITAN2-6199 for why we do this extra check
+      if (UserPermissions.hasPermission('MANAGE_ALL_MEDIA') && UserPermissions.hasPermissionInList(['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'VIEW_ALL_SKILLS', 'MANAGE_ALL_SKILLS', 'MANAGE_ALL_USER_SKILLS', 'MANAGE_TENANT_ENROLLMENT'])) {
         managementConfig.push({
           label: 'Skills',
           stateLink: 'content.management.skills',
@@ -93,7 +94,8 @@ angular.module('liveopsConfigPanel')
         });
       }
 
-      if (UserPermissions.hasPermissionInList(['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'VIEW_ALL_GROUPS', 'MANAGE_ALL_GROUPS', 'MANAGE_ALL_GROUP_USERS', 'MANAGE_ALL_GROUP_OWNERS', 'MANAGE_TENANT_ENROLLMENT'])) {
+      //See TITAN2-6199 for why we do this extra check
+      if (UserPermissions.hasPermission('MANAGE_ALL_MEDIA') && UserPermissions.hasPermissionInList(['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'VIEW_ALL_GROUPS', 'MANAGE_ALL_GROUPS', 'MANAGE_ALL_GROUP_USERS', 'MANAGE_ALL_GROUP_OWNERS', 'MANAGE_TENANT_ENROLLMENT'])) {
         managementConfig.push({
           label: 'Groups',
           stateLink: 'content.management.groups',
@@ -132,7 +134,17 @@ angular.module('liveopsConfigPanel')
           id: 'lists-configuration-link',
           order: 3
         });
-      } 
+      }
+      
+      //TODO: business hours permissions
+      //if (UserPermissions.hasPermissionInList(['VIEW_ALL_BUSINESS_HOURS', 'MANAGE_ALL_BUSINESS_HOURS'])){
+        configurationConfig.push({
+          label: 'Business Hours',
+          stateLink: 'content.configuration.hours',
+          id: 'hours-configuration-link',
+          order: 4
+        });
+      //}
 
       if (configurationConfig.length > 0) {
         $scope.configurationDropConfig = configurationConfig;
@@ -194,6 +206,11 @@ angular.module('liveopsConfigPanel')
           },
           id: 'reports-management-link',
           order: 1
+        },  {
+          label: 'Realtime Dashboards',
+          stateLink: 'content.realtime-dashboards',
+          id: 'realtime-dashboard-link',
+          order: 2
         }
 
         // TODO: This is coming out for this release as they are only giving access to dashboards for this Beta.

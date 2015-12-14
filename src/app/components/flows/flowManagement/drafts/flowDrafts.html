@@ -8,9 +8,9 @@
     <h4>{{'flow.details.versions.create.title' | translate }}</h4>
   </div>
 
-  <ng-form name="createDraftForm" separate-validation>
+  <ng-form name="createDraftForm" separate-validation lo-form-submit>
     <div class="input-group">
-      <label>{{'value.name' | translate}}</label>
+      <label>{{'value.name' | translate}} *</label>
       <form-error field="createDraftForm.name" error-type-required="{{'value.error.name.required' | translate}}"></form-error>
       <input ng-required="true" type="text" ng-model="draft.name" name="name"></input>
     </div>
@@ -23,7 +23,7 @@
       <label></label>
       <input id="cancel-flow-draft-btn" type="button" ng-click="createNewDraft = false" class="btn" value="{{'value.cancel' | translate}}" />
       <input id="create-flow-draft-btn" ng-disabled="createDraftForm.$invalid || !createDraftForm.$dirty"
-        ng-click="saveDraft()" type="submit" class="btn btn-primary" value="{{ 'value.create' | translate }}"/>
+        lo-submit="saveDraft()" type="submit" class="btn btn-primary" value="{{ 'value.create' | translate }}"/>
     </div>
   </ng-form>
 </div>

@@ -1,10 +1,10 @@
 'use strict';
 
 var QueuePage = function() {
-  this.nameFormField = element(by.model('selectedQueue.name'));
-  this.descriptionFormField = element(by.model('selectedQueue.description'));
+  this.nameFormField = element(by.model('qc.selectedQueue.name'));
+  this.descriptionFormField = element(by.model('qc.selectedQueue.description'));
   this.activeVersionDropdown = element(by.id('active-version-field'));
-  this.activeFormToggle = element(by.model('selectedQueue.active'));
+  this.activeFormToggle = element(by.model('qc.selectedQueue.active'));
   this.createdByAudit = element(by.id('created-by-audit'));
   this.updatedByAudit = element(by.id('updated-by-audit'));
   this.queueDetailsPane = element(by.id('details-pane'));
@@ -34,10 +34,15 @@ var QueuePage = function() {
   this.copyVersionBtn = element.all(by.id('create-version-copy-btn'));
   this.basicQueryDetails = element.all(by.id('version-basic-query-details'));
 
-  this.basicQueryAllGroupDetails = this.versionsTable.all(by.css('[label-key="queue.query.builder.groups.all"]'));
-  this.basicQueryAnyGroupDetails = this.versionsTable.all(by.css('[label-key="queue.query.builder.groups.some"]'));
-  this.basicQueryAllSkillDetails = this.versionsTable.all(by.css('[label-key="queue.query.builder.skills.all"]'));
-  this.basicQueryAnySkillDetails = this.versionsTable.all(by.css('[label-key="queue.query.builder.skills.some"]'));
+  this.basicQueryAllGroupSection = this.versionsTable.element(by.id(':groups-all'));
+  this.basicQueryAnyGroupSection = this.versionsTable.element(by.id(':groups-any'));
+  this.basicQueryAllSkillSection = this.versionsTable.element(by.id(':skills-all'));
+  this.basicQueryAnySkillSection = this.versionsTable.element(by.id(':skills-any'));
+
+  this.basicQueryAllGroups = this.basicQueryAllGroupSection.all(by.repeater('condition in cqe.conditionGroup.conditions'));
+  this.basicQueryAnyGroups = this.basicQueryAnyGroupSection.all(by.repeater('condition in cqe.conditionGroup.conditions'));
+  this.basicQueryAllSkills = this.basicQueryAllSkillSection.all(by.repeater('condition in cqe.conditionGroup.conditions'));
+  this.basicQueryAnySkills = this.basicQueryAnySkillSection.all(by.repeater('condition in cqe.conditionGroup.conditions'));
 
   this.advancedQueryFormField = this.versionsTable.all(by.id('advanced-query-field'));
 
