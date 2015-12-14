@@ -190,6 +190,25 @@ describe('The create new queues view', function() {
     expect(shared.successMessage.isPresent()).toBeFalsy();
   });
 
+  xit('should require unique name', function() {
+    // TODO No error returned from bs-api
+    shared.createBtn.click();
+
+    // Complete queue form and submit with existing queue name
+    shared.firstTableRow.element(by.css(queues.nameColumn)).getText().then(function(existingQueueName) {
+      queues.nameFormField.sendKeys(existingQueueName);
+      shared.submitFormBtn.click().then(function() {
+        expect(queues.requiredErrors.get(0).isDisplayed()).toBeTruthy();
+        expect(queues.requiredErrors.get(0).getText()).toBe('resource with the same value already exists in the system');
+        expect(shared.successMessage.isPresent()).toBeFalsy();
+
+        queues.nameFormField.sendKeys('Update');
+        expect(queues.requiredErrors.count()).toBe(0);
+        expect(shared.submitFormBtn.isEnabled()).toBeTruthy();
+      });
+    });
+  });
+
   it('should require advanced query input', function() {
     shared.createBtn.click();
     queues.nameFormField.sendKeys('New Queue');

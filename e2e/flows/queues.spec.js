@@ -72,6 +72,28 @@ describe('The queues view', function() {
     expect(queues.requiredErrors.get(0).getText()).toBe('Field \"Name\" is required.');
   });
 
+  xit('should require unique name when editing a Queue', function() {
+    // TODO No error returned from bs-api
+    shared.tableElements.count().then(function(queueCount) {
+      if (queueCount > 1) {
+        shared.firstTableRow.element(by.css(queues.nameColumn)).getText().then(function(existingQueueName) {
+          shared.secondTableRow.click();
+          queues.nameFormField.clear();
+          queues.nameFormField.sendKeys(existingQueueName);
+          shared.submitFormBtn.click().then(function() {
+            expect(queues.requiredErrors.get(0).isDisplayed()).toBeTruthy();
+            expect(queues.requiredErrors.get(0).getText()).toBe('resource with the same value already exists in the system');
+            expect(shared.successMessage.isPresent()).toBeFalsy();
+
+            queues.nameFormField.sendKeys('Update');
+            expect(queues.requiredErrors.count()).toBe(0);
+            expect(shared.submitFormBtn.isEnabled()).toBeTruthy();
+          });
+        });
+      }
+    });
+  });
+
   it('should not require description field when editing a Queue', function() {
     shared.firstTableRow.click();
 
