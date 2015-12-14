@@ -26,7 +26,7 @@
   ng-show="qc.selectedQueue || qc.showBulkActions"
   ng-resource="qc.selectedQueue">
 
-  <ng-form unsaved-changes-warning name="forms.detailsForm"
+  <ng-form unsaved-changes-warning name="qc.forms.detailsForm"
     ng-show="qc.selectedQueue"
     class="details-pane"
     ng-model="qc.selectedQueue"
@@ -48,7 +48,7 @@
       </input>
       <input id="submit-details-btn" class="btn btn-primary"
         type="submit" value="{{'value.submit' | translate}}"
-        ng-disabled="forms.detailsForm.$invalid || ! forms.detailsForm.$dirty"
+        ng-disabled="qc.forms.detailsForm.$invalid || ! qc.forms.detailsForm.$dirty"
         lo-submit="qc.submit()"
         lo-submit-spinner lo-submit-spinner-status="qc.selectedQueue.$busy"></input>
     </div>
@@ -94,7 +94,7 @@
       </input>
       <input id="create-version-btn" class="btn btn-primary"
         type="submit" value="{{'value.create' | translate}}"
-        ng-disabled="forms.versionForm.$invalid"
+        ng-disabled="qc.forms.versionForm.$invalid"
         lo-submit="qc.saveVersion()"
         lo-submit-spinner lo-submit-spinner-status="qc.selectedQueueVersion.$busy"></input>
     </div>
