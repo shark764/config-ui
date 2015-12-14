@@ -33,7 +33,8 @@ angular.module('liveopsConfigPanel')
             'lookup': '$original:parentId',
             'sortable': true,
             'transclude': true,
-            'filter': 'selectedOptions'
+            'filter': 'selectedOptions',
+            'sortOn': '$parent.name'
           }, {
             'header': {
               'display': $translate.instant('value.status'),
