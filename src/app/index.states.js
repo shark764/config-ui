@@ -173,9 +173,7 @@ angular.module('liveopsConfigPanel')
         reloadOnSearch: false,
         resolve: {
           hasPermission: ['UserPermissions', function(UserPermissions) {
-            //TODO business hours permissions
-            //return UserPermissions.resolvePermissions(['VIEW_ALL_BUSINESS_HOURS', 'MANAGE_ALL_BUSINESS_HOURS']);
-            return UserPermissions.resolvePermissions([]);
+            return UserPermissions.resolvePermissions(['VIEW_ALL_BUSINESS_HOURS', 'MANAGE_ALL_BUSINESS_HOURS']);
           }]
         }
       })

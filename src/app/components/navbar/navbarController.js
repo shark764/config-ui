@@ -136,15 +136,14 @@ angular.module('liveopsConfigPanel')
         });
       }
       
-      //TODO: business hours permissions
-      //if (UserPermissions.hasPermissionInList(['VIEW_ALL_BUSINESS_HOURS', 'MANAGE_ALL_BUSINESS_HOURS'])){
+      if (UserPermissions.hasPermissionInList(['VIEW_ALL_BUSINESS_HOURS', 'MANAGE_ALL_BUSINESS_HOURS'])){
         configurationConfig.push({
           label: 'Business Hours',
           stateLink: 'content.configuration.hours',
           id: 'hours-configuration-link',
           order: 4
         });
-      //}
+      }
 
       if (configurationConfig.length > 0) {
         $scope.configurationDropConfig = configurationConfig;
