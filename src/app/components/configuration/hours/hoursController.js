@@ -128,6 +128,10 @@ angular.module('liveopsConfigPanel')
         };
       };
 
+      $scope.dateTransformer = function (date) {
+        return date.format('YYYY-MM-DD[T]HH:mm:ss[Z]');
+      };
+
       $scope.$watch('selectedHour', function () {
         $scope.isHoursCustom = $scope.hasHours();
       });
