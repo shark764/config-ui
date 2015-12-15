@@ -300,8 +300,7 @@
     <input type="button" class="btn btn-primary"
       value="{{'value.submit' | translate}}"
       lo-submit="submitException()"
-      ng-show="!exceptionHour.$busy"/>
-    <a disabled="true" class="btn btn-primary" ng-show="exceptionHour.$busy"><i class="fa fa-refresh fa-spin"></i></a>
+      lo-submit-spinner lo-submit-spinner-status="exceptionHour.$busy"/>
   </div>
 
 </ng-form>
