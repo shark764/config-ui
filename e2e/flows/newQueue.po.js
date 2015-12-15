@@ -46,6 +46,13 @@ var NewQueue = function() {
   this.anySkillsAdd = this.basicQueryAnySkills.element(by.css('.fa-plus'));
   this.anySkillsSelected = this.basicQueryAnySkills.all(by.repeater('condition in cqe.conditionGroup.conditions'));
 
+  // Escalation query
+  this.escalationQuerySections = element.all(by.repeater('escalation in qlc.escalationList.escalations'));
+  this.addEscalationLabel = element(by.id('add-escalation-label'));
+  this.addEscalationBtn = element(by.id('add-escalation-btn'));
+  this.escalationLevelHeaders = element.all(by.id('escalation-level-header'));
+  this.removeEscalationLevelLinks = element.all(by.id('remove-escalation-level'));
+
   // Priority Fields
   this.minPriorityInputField = this.newQueueQuerySection.element(by.id('version-min-priority'));
   this.maxPriorityInputField = this.newQueueQuerySection.element(by.id('version-max-priority'));

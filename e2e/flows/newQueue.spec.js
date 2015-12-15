@@ -35,7 +35,7 @@ describe('The create new queues view', function() {
     expect(shared.submitFormBtn.isDisplayed()).toBeTruthy();
 
     expect(newQueue.showAdvancedQueryLink.isDisplayed()).toBeTruthy();
-    expect(newQueue.advancedQueryFormField.isDisplayed()).toBeFalsy();
+    expect(newQueue.advancedQueryFormField.isPresent()).toBeFalsy();
 
     // Add Groups & Skills filter
     newQueue.addFilterDropdown.click();
@@ -76,7 +76,7 @@ describe('The create new queues view', function() {
     expect(newQueue.showBasicQueryLink.isDisplayed()).toBeFalsy();
 
     // Advanced query field is not displayed
-    expect(newQueue.advancedQueryFormField.isDisplayed()).toBeFalsy();
+    expect(newQueue.advancedQueryFormField.isPresent()).toBeFalsy();
 
     // Add Groups & Skills filter
     newQueue.addFilterDropdown.click();
@@ -97,20 +97,20 @@ describe('The create new queues view', function() {
 
         // Advanced query field is displayed
         expect(newQueue.advancedQueryFormField.isDisplayed()).toBeTruthy();
-        expect(newQueue.advancedQueryFormField.getAttribute('value')).toBe('{:groups (and (and) (or)) :skills (and (and) (or))}');
+        expect(newQueue.advancedQueryFormField.getAttribute('value')).toBe('[{:after-seconds-in-queue 0 :query {:groups (and (and) (or)) :skills (and (and) (or))}}]');
 
         // Basic Query fields are not displayed
-        expect(newQueue.allGroupsTypeAhead.isDisplayed()).toBeFalsy();
-        expect(newQueue.anyGroupsTypeAhead.isDisplayed()).toBeFalsy();
-        expect(newQueue.allSkillsTypeAhead.isDisplayed()).toBeFalsy();
-        expect(newQueue.anySkillsTypeAhead.isDisplayed()).toBeFalsy();
+        expect(newQueue.allGroupsTypeAhead.isPresent()).toBeFalsy();
+        expect(newQueue.anyGroupsTypeAhead.isPresent()).toBeFalsy();
+        expect(newQueue.allSkillsTypeAhead.isPresent()).toBeFalsy();
+        expect(newQueue.anySkillsTypeAhead.isPresent()).toBeFalsy();
       }).then(function() {
         newQueue.showBasicQueryLink.click().then(function() {
           expect(newQueue.showAdvancedQueryLink.isDisplayed()).toBeTruthy();
           expect(newQueue.showBasicQueryLink.isDisplayed()).toBeFalsy();
 
           // Advanced query field is not displayed
-          expect(newQueue.advancedQueryFormField.isDisplayed()).toBeFalsy();
+          expect(newQueue.advancedQueryFormField.isPresent()).toBeFalsy();
 
           // Basic Query fields are displayed
           expect(newQueue.allGroupsTypeAhead.isDisplayed()).toBeTruthy();
@@ -246,33 +246,36 @@ describe('The create new queues view', function() {
     });
   });
 
-  it('should display warning when advanced query changes cannot be converted to the basic query builder', function() {
+  it('should not be able to switch to basic when query is invalid', function() {
     shared.createBtn.click();
     newQueue.showAdvancedQueryLink.click();
     newQueue.advancedQueryFormField.clear();
-    newQueue.advancedQueryFormField.sendKeys('This is not a valid query');
+    newQueue.advancedQueryFormField.sendKeys('This is not a valid query\t');
+    expect(queues.requiredErrors.get(0).isDisplayed()).toBeTruthy();
+    expect(queues.requiredErrors.get(0).getText()).toContain('Your query is invalid, please fix your query.');
 
-    newQueue.showBasicQueryLink.click();
+    newQueue.showBasicQueryLink.click().then(function () {
+      expect(shared.confirmModal.isDisplayed()).toBeTruthy();
+      expect(shared.confirmModalMsg.getText()).toBe('Could not parse a basic query from the advanced query. Do you wish to reset your query?');
+      shared.confirmModalOkBtn.click().then(function () {
+        // Basic query builder is displayed with no filter options
+        expect(newQueue.allGroupsTypeAhead.isPresent()).toBeFalsy();
+        expect(newQueue.anyGroupsTypeAhead.isPresent()).toBeFalsy();
+        expect(newQueue.allSkillsTypeAhead.isPresent()).toBeFalsy();
+        expect(newQueue.anySkillsTypeAhead.isPresent()).toBeFalsy();
 
-    shared.waitForAlert();
-    shared.dismissChanges();
-
-    // Basic query builder is displayed with no filter options
-    expect(newQueue.allGroupsTypeAhead.isPresent()).toBeFalsy();
-    expect(newQueue.anyGroupsTypeAhead.isPresent()).toBeFalsy();
-    expect(newQueue.allSkillsTypeAhead.isPresent()).toBeFalsy();
-    expect(newQueue.anySkillsTypeAhead.isPresent()).toBeFalsy();
-
-    // Advanced query details are cleared
-    newQueue.showAdvancedQueryLink.click();
-    expect(newQueue.advancedQueryFormField.getAttribute('value')).toBe('{}');
+        // Advanced query details are cleared
+        newQueue.showAdvancedQueryLink.click();
+        expect(newQueue.advancedQueryFormField.getAttribute('value')).toBe('[{:after-seconds-in-queue 0 :query {}}]');
+      });
+    });
   });
 
-  it('should add filters to basic query builder when advanced query field is updated', function() {
+  xit('should add filters to basic query builder when advanced query field is updated', function() {
     shared.createBtn.click();
     newQueue.showAdvancedQueryLink.click();
     newQueue.advancedQueryFormField.clear();
-    newQueue.advancedQueryFormField.sendKeys('{:groups (and (and) (or)) :skills (and (and) (or))}');
+    newQueue.advancedQueryFormField.sendKeys('[{:after-seconds-in-queue 0 :query {:skills (and (and) (or)) :groups (and (and) (or))}}]\t');
 
     newQueue.showBasicQueryLink.click();
 
