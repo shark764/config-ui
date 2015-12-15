@@ -5,31 +5,31 @@
 <div disable-contents="! (['MANAGE_ALL_BUSINESS_HOURS'] | hasPermission)">
   <div class="input-group">
     <label>{{'value.name' | translate}} *</label>
-
-    <form-error field="forms.detailsForm.name"
+    
+    <form-error field="hc.forms.detailsForm.name"
       error-type-required="{{'value.error.name.required' | translate}}">
     </form-error>
     <input type="text" name="name"
-      ng-model="selectedHour.name"
+      ng-model="hc.selectedHour.name"
       ng-required="true"/>
   </div>
 
   <div class="input-group">
     <label class="textarea-label">{{'value.description' | translate}}</label>
-    <textarea ng-model="selectedHour.description"></textarea>
+    <textarea ng-model="hc.selectedHour.description"></textarea>
   </div>
 
   <div class="input-group"
     ng-if="timezones.$resolved">
     <label>{{'hours.timezone.header' | translate}} *</label>
-
-    <form-error field="forms.detailsForm.timezone"
+    
+    <form-error field="hc.forms.detailsForm.timezone"
       error-type-required="{{'hours.timezone.required' | translate}}">
     </form-error>
     <select name="timezone"
       ng-required="true"
-      ng-model="selectedHour.timezone"
-      ng-options="timezone for timezone in timezones">
+      ng-model="hc.selectedHour.timezone"
+      ng-options="timezone for timezone in hc.timezones">
 
       <option value="" disabled>{{'hours.timezone.select.placeholder' | translate}}</option>
     </select>
@@ -45,66 +45,66 @@
     <label>{{'hours.details.hour' | translate}}</label>
     <div>
       <input type="radio"
-        ng-model="isHoursCustom"
-        ng-change="onIsHoursCustomChanged(isHoursCustom)"
+        ng-model="hc.isHoursCustom"
+        ng-change="hc.onIsHoursCustomChanged(hc.isHoursCustom)"
         ng-value="false">
       <label>{{'hours.open.default' | translate}}</label>
 
       <input type="radio"
-        ng-model="isHoursCustom"
-        ng-change="onIsHoursCustomChanged(isHoursCustom)"
+        ng-model="hc.isHoursCustom"
+        ng-change="hc.onIsHoursCustomChanged(hc.isHoursCustom)"
         ng-value="true">
       <label>{{'hours.open.custom' | translate}}</label>
     </div>
   </div>
 
-  <div class="input-group" ng-show="isHoursCustom || hasHours()">
-    <form-error field="forms.detailsForm.sunStartTimeMinutes"
+  <div class="input-group" ng-show="hc.isHoursCustom || hc.hasHours()">
+    <form-error field="hc.forms.detailsForm.sunStartTimeMinutes"
       error-type-required="{{'hours.day.startTime.required' | translate:generateHoursMessage('sunday')}}">
     </form-error>
-    <form-error field="forms.detailsForm.sunEndTimeMinutes"
+    <form-error field="hc.forms.detailsForm.sunEndTimeMinutes"
       error-type-required="{{'hours.day.endTime.required' | translate:generateHoursMessage('sunday')}}">
     </form-error>
 
-    <form-error field="forms.detailsForm.monStartTimeMinutes"
+    <form-error field="hc.forms.detailsForm.monStartTimeMinutes"
       error-type-required="{{'hours.day.startTime.required' | translate:generateHoursMessage('monday')}}">
     </form-error>
-    <form-error field="forms.detailsForm.monEndTimeMinutes"
+    <form-error field="hc.forms.detailsForm.monEndTimeMinutes"
       error-type-required="{{'hours.day.endTime.required' | translate:generateHoursMessage('monday')}}">
     </form-error>
 
-    <form-error field="forms.detailsForm.tueStartTimeMinutes"
+    <form-error field="hc.forms.detailsForm.tueStartTimeMinutes"
       error-type-required="{{'hours.day.startTime.required' | translate:generateHoursMessage('tuesday')}}">
     </form-error>
-    <form-error field="forms.detailsForm.tueEndTimeMinutes"
+    <form-error field="hc.forms.detailsForm.tueEndTimeMinutes"
       error-type-required="{{'hours.day.endTime.required' | translate:generateHoursMessage('tuesday')}}">
     </form-error>
 
-    <form-error field="forms.detailsForm.wedStartTimeMinutes"
+    <form-error field="hc.forms.detailsForm.wedStartTimeMinutes"
       error-type-required="{{'hours.day.startTime.required' | translate:generateHoursMessage('wednesday')}}">
     </form-error>
-    <form-error field="forms.detailsForm.wedEndTimeMinutes"
+    <form-error field="hc.forms.detailsForm.wedEndTimeMinutes"
       error-type-required="{{'hours.day.endTime.required' | translate:generateHoursMessage('wednesday')}}">
     </form-error>
 
-    <form-error field="forms.detailsForm.thuStartTimeMinutes"
+    <form-error field="hc.forms.detailsForm.thuStartTimeMinutes"
       error-type-required="{{'hours.day.startTime.required' | translate:generateHoursMessage('thursday')}}">
     </form-error>
-    <form-error field="forms.detailsForm.thuEndTimeMinutes"
+    <form-error field="hc.forms.detailsForm.thuEndTimeMinutes"
       error-type-required="{{'hours.day.endTime.required' | translate:generateHoursMessage('thursday')}}">
     </form-error>
 
-    <form-error field="forms.detailsForm.friStartTimeMinutes"
+    <form-error field="hc.forms.detailsForm.friStartTimeMinutes"
       error-type-required="{{'hours.day.startTime.required' | translate:generateHoursMessage('friday')}}">
     </form-error>
-    <form-error field="forms.detailsForm.friEndTimeMinutes"
+    <form-error field="hc.forms.detailsForm.friEndTimeMinutes"
       error-type-required="{{'hours.day.endTime.required' | translate:generateHoursMessage('friday')}}">
     </form-error>
 
-    <form-error field="forms.detailsForm.satStartTimeMinutes"
+    <form-error field="hc.forms.detailsForm.satStartTimeMinutes"
       error-type-required="{{'hours.day.startTime.required' | translate:generateHoursMessage('saturday')}}">
     </form-error>
-    <form-error field="forms.detailsForm.satEndTimeMinutes"
+    <form-error field="hc.forms.detailsForm.satEndTimeMinutes"
       error-type-required="{{'hours.day.endTime.required' | translate:generateHoursMessage('saturday')}}">
     </form-error>
 
@@ -121,12 +121,12 @@
           <th scope="row">{{'hours.sunday' | translate}}</th>
           <td>
             <input type="time" name="sunStartTimeMinutes"
-              ng-model="selectedHour.sunStartTimeMinutes"
+              ng-model="hc.selectedHour.sunStartTimeMinutes"
               date-to-minute-converter>
           </td>
           <td>
             <input type="time" name="sunEndTimeMinutes"
-              ng-model="selectedHour.sunEndTimeMinutes"
+              ng-model="hc.selectedHour.sunEndTimeMinutes"
               date-to-minute-converter/>
           </td>
         </tr>
@@ -135,13 +135,13 @@
           <th scope="row">{{'hours.monday' | translate}}</th>
           <td>
             <input type="time" name="monStartTimeMinutes"
-              ng-model="selectedHour.monStartTimeMinutes"
+              ng-model="hc.selectedHour.monStartTimeMinutes"
               ng-required="false"
               date-to-minute-converter>
           </td>
           <td>
             <input type="time" name="monEndTimeMinutes"
-              ng-model="selectedHour.monEndTimeMinutes"
+              ng-model="hc.selectedHour.monEndTimeMinutes"
               date-to-minute-converter/>
           </td>
         </tr>
@@ -150,12 +150,12 @@
           <th scope="row">{{'hours.tuesday' | translate}}</th>
           <td>
             <input type="time" name="tueStartTimeMinutes"
-              ng-model="selectedHour.tueStartTimeMinutes"
+              ng-model="hc.selectedHour.tueStartTimeMinutes"
               date-to-minute-converter>
           </td>
           <td>
             <input type="time" name="tueEndTimeMinutes"
-              ng-model="selectedHour.tueEndTimeMinutes"
+              ng-model="hc.selectedHour.tueEndTimeMinutes"
               date-to-minute-converter/>
           </td>
         </tr>
@@ -164,12 +164,12 @@
           <th scope="row">{{'hours.wednesday' | translate}}</th>
           <td>
             <input type="time" name="wedStartTimeMinutes"
-              ng-model="selectedHour.wedStartTimeMinutes"
+              ng-model="hc.selectedHour.wedStartTimeMinutes"
               date-to-minute-converter>
           </td>
           <td>
             <input type="time" name="wedEndTimeMinutes"
-              ng-model="selectedHour.wedEndTimeMinutes"
+              ng-model="hc.selectedHour.wedEndTimeMinutes"
               date-to-minute-converter/>
           </td>
         </tr>
@@ -178,12 +178,12 @@
           <th scope="row">{{'hours.thursday' | translate}}</th>
           <td>
             <input type="time" name="thuStartTimeMinutes"
-              ng-model="selectedHour.thuStartTimeMinutes"
+              ng-model="hc.selectedHour.thuStartTimeMinutes"
               date-to-minute-converter>
           </td>
           <td>
             <input type="time" name="thuEndTimeMinutes"
-              ng-model="selectedHour.thuEndTimeMinutes"
+              ng-model="hc.selectedHour.thuEndTimeMinutes"
               date-to-minute-converter/>
           </td>
         </tr>
@@ -192,12 +192,12 @@
           <th scope="row">{{'hours.friday' | translate}}</th>
           <td>
             <input type="time" name="friStartTimeMinutes"
-              ng-model="selectedHour.friStartTimeMinutes"
+              ng-model="hc.selectedHour.friStartTimeMinutes"
               date-to-minute-converter>
           </td>
           <td>
             <input type="time" name="friEndTimeMinutes"
-              ng-model="selectedHour.friEndTimeMinutes"
+              ng-model="hc.selectedHour.friEndTimeMinutes"
               date-to-minute-converter/>
           </td>
         </tr>
@@ -206,12 +206,12 @@
           <th scope="row">{{'hours.saturday' | translate}}</th>
           <td>
             <input type="time" name="satStartTimeMinutes"
-              ng-model="selectedHour.satStartTimeMinutes"
+              ng-model="hc.selectedHour.satStartTimeMinutes"
               date-to-minute-converter>
           </td>
           <td>
             <input type="time" name="satEndTimeMinutes"
-              ng-model="selectedHour.satEndTimeMinutes"
+              ng-model="hc.selectedHour.satEndTimeMinutes"
               date-to-minute-converter/>
           </td>
         </tr>
@@ -221,19 +221,19 @@
 </div>
 
 <div class="divider-header"
-  ng-hide="selectedHour.isNew()">
+  ng-hide="hc.selectedHour.isNew()">
   <h4>{{'hours.exceptions.title' | translate}}</h4>
   <a class="btn pull-right" title="Add a schedule exception"
-    ng-click="showCreateException()"
+    ng-click="hc.showCreateException()"
     ng-show="(['MANAGE_ALL_BUSINESS_HOURS'] | hasPermission)">
     <i class="fa fa-plus center"></i>
   </a>
 </div>
 
 <ng-form id="add-exception-form"
-  name="forms.exceptionHour"
-  ng-show="exceptionHour"
-  ng-resource="exceptionHour"
+  name="hc.forms.exceptionHour"
+  ng-show="hc.exceptionHour"
+  ng-resource="hc.exceptionHour"
   lo-form-submit
   lo-form-cancel
   seperate-validation
@@ -242,10 +242,10 @@
   <div class="input-group">
     <label>{{'value.date' | translate}} *</label>
 
-    <form-error field="forms.exceptionHour.date"></form-error>
+    <form-error field="hc.forms.exceptionHour.date"></form-error>
     <input type="date" name="date"
-      ng-model="exceptionHour.date"
-      ng-required="exceptionHour"
+      ng-model="hc.exceptionHour.date"
+      ng-required="hc.exceptionHour"
       ng-model-options="{timezone: 'UTC'}"
       utc-date-converter>
   </div>
@@ -253,42 +253,42 @@
   <div class="input-group">
     <label>{{'value.description' | translate}}</label>
 
-    <form-error field="forms.exceptionHour.description"></form-error>
+    <form-error field="hc.forms.exceptionHour.description"></form-error>
     <textarea name="description"
-      ng-model="exceptionHour.description">
+      ng-model="hc.exceptionHour.description">
     </textarea>
   </div>
 
   <div class="input-group">
     <label></label>
     <div>
-      <input type="radio" ng-model="exceptionHour.isAllDay" ng-value="true">
+      <input type="radio" ng-model="hc.exceptionHour.isAllDay" ng-value="true">
       <label>{{'hours.exception.isAllDay' | translate}}</label>
 
-      <input type="radio" ng-model="exceptionHour.isAllDay" ng-value="false">
+      <input type="radio" ng-model="hc.exceptionHour.isAllDay" ng-value="false">
       <label>{{'hours.exception.custom' | translate}}</label>
     </div>
   </div>
 
   <div class="input-group"
-    ng-show="!exceptionHour.isAllDay">
+    ng-show="!hc.exceptionHour.isAllDay">
     <label>{{'hours.startTime' | translate}}</label>
 
-    <form-error field="forms.exceptionHour.startTimeMinutes"></form-error>
+    <form-error field="hc.forms.exceptionHour.startTimeMinutes"></form-error>
     <input type="time" name="startTimeMinutes"
-      ng-model="exceptionHour.startTimeMinutes"
-      ng-required="exceptionHour && !exceptionHour.isAllDay"
+      ng-model="hc.exceptionHour.startTimeMinutes"
+      ng-required="hc.exceptionHour && !hc.exceptionHour.isAllDay"
       date-to-minute-converter/>
   </div>
 
   <div class="input-group"
-    ng-show="!exceptionHour.isAllDay">
+    ng-show="!hc.exceptionHour.isAllDay">
     <label>{{'hours.endTime' | translate}}</label>
 
-    <form-error field="forms.exceptionHour.endTimeMinutes"></form-error>
+    <form-error field="hc.forms.exceptionHour.endTimeMinutes"></form-error>
     <input type="time" name="endTimeMinutes"
-      ng-model="exceptionHour.endTimeMinutes"
-      ng-required="exceptionHour && !exceptionHour.isAllDay"
+      ng-model="hc.exceptionHour.endTimeMinutes"
+      ng-required="hc.exceptionHour && !hc.exceptionHour.isAllDay"
       date-to-minute-converter/>
   </div>
 
@@ -296,17 +296,18 @@
     <label></label>
     <input type="button" class="btn"
       value="{{'value.cancel' | translate}}"
-      ng-click="cancelException()"/>
+      ng-click="hc.cancelException()"/>
     <input type="button" class="btn btn-primary"
       value="{{'value.submit' | translate}}"
-      lo-submit="submitException()"
-      lo-submit-spinner lo-submit-spinner-status="exceptionHour.$busy"/>
+      lo-submit="hc.submitException()"
+      lo-submit-spinner
+      lo-submit-spinner-status="hc.exceptionHour.$busy"/>
   </div>
 
 </ng-form>
 
 <p class="null"
-  ng-show="! selectedHour.$exceptions.length && ! exceptionHour && !selectedHour.isNew()">
+  ng-show="! hc.selectedHour.$exceptions.length && ! hc.exceptionHour && !hc.selectedHour.isNew()">
   {{'hours.exception.noneDefined' | translate}}
   <span ng-show="(['MANAGE_ALL_BUSINESS_HOURS'] | hasPermission)">
     {{'hours.exception.noneDefined.hasPermission' | translate}}
@@ -314,7 +315,7 @@
 </p>
 
 <table class="table"
-  ng-show="selectedHour.$exceptions.length && !selectedHour.isNew()">
+  ng-show="hc.selectedHour.$exceptions.length && !hc.selectedHour.isNew()">
   <thead>
     <tr>
       <th>{{'value.date' | translate}}</th>
@@ -325,7 +326,7 @@
     </tr>
   </thead>
   <tbody>
-    <tr ng-repeat="exception in selectedHour.$exceptions | orderBy:'date'">
+    <tr ng-repeat="exception in hc.selectedHour.$exceptions | orderBy:'date'">
       <td>{{exception.date | date:'dd-MM-yyyy'}}</td>
       <td>{{exception.description}}</td>
       <td>{{exception.startTimeMinutes | minutesToTime}}</td>
@@ -333,7 +334,7 @@
       <td ng-show="(['MANAGE_ALL_BUSINESS_HOURS'] | hasPermission)">
         <a class="remove"
           title="{{'hours.exception.remove' | translate}}"
-          ng-click="removeException(exception)">
+          ng-click="hc.removeException(exception)">
           <i class="fa fa-times"></i>
         </a>
       </td>

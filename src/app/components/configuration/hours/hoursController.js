@@ -4,34 +4,32 @@ angular.module('liveopsConfigPanel')
   .controller('HoursController', ['$scope', '$translate', '$moment', 'Session', 'BusinessHour', 'BusinessHourException', 'Timezone', 'hoursTableConfig', 'Alert', 'loEvents', '$q',
     function ($scope, $translate, $moment, Session, BusinessHour, BusinessHourException, Timezone, hoursTableConfig, Alert, loEvents, $q) {
       var vm = this;
-      $scope.forms = {};
-
       vm.dayPrefixes = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
 
       vm.loadTimezones = function () {
-        $scope.timezones = Timezone.query();
+        vm.timezones = Timezone.query();
       };
 
       vm.loadHours = function () {
-        $scope.hours = BusinessHour.cachedQuery({
+        vm.hours = BusinessHour.cachedQuery({
           tenantId: Session.tenant.tenantId
         });
 
-        return $scope.hours;
+        return vm.hours;
       };
 
-      $scope.submit = function () {
-        return $scope.selectedHour.save({
+      vm.submit = function () {
+        return vm.selectedHour.save({
           tenantId: Session.tenant.tenantId
         }).catch(function (error) {
-          $scope.forms.detailsForm.$setPristine();
-          var unbindWatch = $scope.$watch('forms.detailsForm.$dirty', function (dirty) {
+          vm.forms.detailsForm.$setPristine();
+          var unbindWatch = $scope.$watch('hc.forms.detailsForm.$dirty', function (dirty) {
             if (!dirty) {
               return;
             }
 
-            for (var errorIndex in $scope.forms.detailsForm.$error) {
-              var errorFields = $scope.forms.detailsForm.$error[errorIndex];
+            for (var errorIndex in vm.forms.detailsForm.$error) {
+              var errorFields = vm.forms.detailsForm.$error[errorIndex];
 
               for (var errorFieldIndex = 0; errorFieldIndex < errorFields.length; errorFields++) {
                 var error = errorFields[errorFieldIndex];
@@ -46,8 +44,18 @@ angular.module('liveopsConfigPanel')
         });
       };
 
-      $scope.hasHours = function () {
-        if (!$scope.selectedHour) {
+      vm.reset = function (hour) {
+        vm.isHoursCustom = vm.hasHours();
+        vm.exceptionHour = null;
+        
+        vm.forms
+          .detailsForm
+          .resetController
+          .reset(hour);
+      };
+
+      vm.hasHours = function () {
+        if (!vm.selectedHour) {
           return false;
         }
 
@@ -55,11 +63,11 @@ angular.module('liveopsConfigPanel')
         for (var index = 0; index < vm.dayPrefixes.length; index++) {
           var dayPrefix = vm.dayPrefixes[index];
 
-          hasHours = $scope.selectedHour[dayPrefix + 'StartTimeMinutes'] &&
-            $scope.selectedHour[dayPrefix + 'StartTimeMinutes'] !== -1;
+          hasHours = vm.selectedHour[dayPrefix + 'StartTimeMinutes'] &&
+            vm.selectedHour[dayPrefix + 'StartTimeMinutes'] !== -1;
 
-          hasHours = hasHours || ($scope.selectedHour[dayPrefix + 'EndTimeMinutes'] &&
-            $scope.selectedHour[dayPrefix + 'EndTimeMinutes'] !== -1);
+          hasHours = hasHours || (vm.selectedHour[dayPrefix + 'EndTimeMinutes'] &&
+            vm.selectedHour[dayPrefix + 'EndTimeMinutes'] !== -1);
 
           if (hasHours) {
             return true;
@@ -68,30 +76,30 @@ angular.module('liveopsConfigPanel')
         return false;
       };
 
-      $scope.showCreateException = function () {
+      vm.showCreateException = function () {
         var newLocalDate = new Date();
         var newUTCDate = $moment.utc([
           newLocalDate.getFullYear(), newLocalDate.getMonth(), newLocalDate.getDate()]);
 
-        newUTCDate.add('days', 1);
+        newUTCDate.add(1, 'days');
 
-        $scope.exceptionHour = new BusinessHourException({
+        vm.exceptionHour = new BusinessHourException({
           date: newUTCDate,
           isAllDay: true
         });
       };
 
-      $scope.cancelException = function () {
-        $scope.exceptionHour = null;
+      vm.cancelException = function () {
+        vm.exceptionHour = null;
       };
 
-      $scope.submitException = function () {
-        return $scope.exceptionHour.save({
+      vm.submitException = function () {
+        return vm.exceptionHour.save({
           tenantId: Session.tenant.tenantId,
-          businessHourId: $scope.selectedHour.id
+          businessHourId: vm.selectedHour.id
         }).then(function (exceptionHour) {
-          $scope.selectedHour.$exceptions.push(exceptionHour);
-          $scope.exceptionHour = null;
+          vm.selectedHour.$exceptions.push(exceptionHour);
+          vm.exceptionHour = null;
           Alert.success($translate.instant('hours.exception.create.success'));
           return exceptionHour;
         }, function (error) {
@@ -100,36 +108,38 @@ angular.module('liveopsConfigPanel')
         });
       };
 
-      $scope.removeException = function (exception) {
-        $scope.selectedHour.$exceptions.removeItem(exception);
+      vm.removeException = function (exception) {
+        vm.selectedHour.$exceptions.removeItem(exception);
 
         return exception.$delete({
-          businessHourId: $scope.selectedHour.id
+          businessHourId: vm.selectedHour.id
         }).then(function () {
           Alert.success($translate.instant('hours.exception.remove.success'));
         }, function () {
           Alert.error($translate.instant('hours.exception.remove.failure'));
-          $scope.selectedHour.$exceptions.push(exception);
+          vm.selectedHour.$exceptions.push(exception);
         });
       };
 
-      $scope.onIsHoursCustomChanged = function (isCustom) {
+      vm.onIsHoursCustomChanged = function (isCustom) {
         if (!isCustom) {
           angular.forEach(vm.dayPrefixes, function (dayPrefix) {
-            $scope.selectedHour[dayPrefix + 'StartTimeMinutes'] = -1;
-            $scope.selectedHour[dayPrefix + 'EndTimeMinutes'] = -1;
+            vm.selectedHour[dayPrefix + 'StartTimeMinutes'] = -1;
+            vm.selectedHour[dayPrefix + 'EndTimeMinutes'] = -1;
           });
         }
       };
 
-      $scope.generateHoursMessage = function (day) {
+      vm.generateHoursMessage = function (day) {
         return {
           day: $translate.instant('hours.' + day)
         };
       };
 
-      $scope.$watch('selectedHour', function () {
-        $scope.isHoursCustom = $scope.hasHours();
+      $scope.$watch('hc.selectedHour', function (newHour, oldHour) {
+        if(oldHour) {
+          vm.reset(oldHour);
+        }
       });
 
       $scope.$on('session:tenant:changed', function () {
@@ -137,18 +147,17 @@ angular.module('liveopsConfigPanel')
       });
 
       $scope.$on(loEvents.tableControls.itemCreate, function () {
-        $scope.selectedHour = new BusinessHour({
+        vm.selectedHour = new BusinessHour({
           tenantId: Session.tenant.tenantId,
           active: true,
           timezone: 'US/Eastern'
         });
 
-        $scope.exceptionHour = null;
+        vm.exceptionHour = null;
       });
 
-      $scope.tableConfig = hoursTableConfig;
-      $scope.isHoursCustom = false;
-      $scope.forms = {};
+      vm.tableConfig = hoursTableConfig;
+      vm.isHoursCustom = false;
 
       vm.loadTimezones();
       vm.loadHours();
