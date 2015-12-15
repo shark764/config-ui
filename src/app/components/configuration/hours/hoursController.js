@@ -81,7 +81,7 @@ angular.module('liveopsConfigPanel')
         var newUTCDate = $moment.utc([
           newLocalDate.getFullYear(), newLocalDate.getMonth(), newLocalDate.getDate()]);
 
-        newUTCDate.add('days', 1);
+        newUTCDate.add(1, 'days');
 
         vm.exceptionHour = new BusinessHourException({
           date: newUTCDate,
