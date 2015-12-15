@@ -234,6 +234,7 @@
   name="forms.exceptionHour"
   ng-show="exceptionHour"
   ng-resource="exceptionHour"
+  separate-validation
   lo-form-submit
   lo-form-cancel
   seperate-validation
@@ -249,8 +250,7 @@
       ng-model-options="{timezone: 'UTC'}"
       lo-duplicate-validator
       lo-duplicate-validator-items="selectedHour.$exceptions"
-      lo-duplicate-validator-field="date"
-      lo-duplicate-validator-value-transformer="dateTransformer()"
+      lo-duplicate-validator-options="{ comparer: dateComparer }"
       utc-date-converter>
   </div>
 

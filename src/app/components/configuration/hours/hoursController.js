@@ -128,8 +128,22 @@ angular.module('liveopsConfigPanel')
         };
       };
 
-      $scope.dateTransformer = function (date) {
-        return date.format('YYYY-MM-DD[T]HH:mm:ss[Z]');
+      $scope.dateComparer = function (item) {
+        if(item && $scope.exceptionHour.date) {
+          if(item.startTimeMinutes >= 0 && item.endTimeMinutes >= 0) {
+            var start = moment(item.date),
+                end = moment(item.date);
+
+            start.add('minutes', item.startTimeMinutes);
+            end.add('minutes', item.endTimeMinutes);
+
+            return !$scope.exceptionHour.date.isBetween(start, end);
+          }
+
+          return !moment(item.date).isSame($scope.exceptionHour.date)
+        }
+
+        return false;
       };
 
       $scope.$watch('selectedHour', function () {
