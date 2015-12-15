@@ -20,7 +20,7 @@
   </div>
 
   <div class="input-group"
-    ng-if="timezones.$resolved">
+    ng-if="hc.timezones.$resolved">
     <label>{{'hours.timezone.header' | translate}} *</label>
     
     <form-error field="hc.forms.detailsForm.timezone"
@@ -327,7 +327,7 @@
   </thead>
   <tbody>
     <tr ng-repeat="exception in hc.selectedHour.$exceptions | orderBy:'date'">
-      <td>{{exception.date | date:'dd-MM-yyyy'}}</td>
+      <td>{{exception.date | localToUtcDate | moment:'DD-MM-YYYY'}}</td>
       <td>{{exception.description}}</td>
       <td>{{exception.startTimeMinutes | minutesToTime}}</td>
       <td>{{exception.endTimeMinutes | minutesToTime}}</td>
