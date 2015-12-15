@@ -72,7 +72,9 @@ angular.module('liveopsConfigPanel')
         var newLocalDate = new Date();
         var newUTCDate = $moment.utc([
           newLocalDate.getFullYear(), newLocalDate.getMonth(), newLocalDate.getDate()]);
-        
+          
+        newUTCDate.add('days', 1);
+
         $scope.exceptionHour = new BusinessHourException({
           date: newUTCDate,
           isAllDay: true
@@ -138,7 +140,7 @@ angular.module('liveopsConfigPanel')
           active: true,
           timezone: 'US/Eastern'
         });
-        
+
         $scope.exceptionHour = null;
       });
 
