@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('genericItemsController', ['$scope', '$stateParams', '$q', 'Session', 'List', 'ListType', 'loEvents', 'genericItemTableConfig',
-    function ($scope, $stateParams, $q, Session, List, ListType, loEvents, genericItemTableConfig) {
+  .controller('genericItemsController', ['$scope', '$state', '$stateParams', '$q', 'Session', 'List', 'ListType', 'loEvents', 'genericItemTableConfig',
+    function ($scope, $state, $stateParams, $q, Session, List, ListType, loEvents, genericItemTableConfig) {
       var vm = this;
 
       vm.loadList = function () {
@@ -32,7 +32,8 @@ angular.module('liveopsConfigPanel')
       vm.loadTableConfig = function() {
         $scope.tableConfig = genericItemTableConfig(
           $scope.list,
-          $scope.listType
+          $scope.listType,
+          $state.current.name
         );
       };
 

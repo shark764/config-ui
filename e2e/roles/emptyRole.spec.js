@@ -37,7 +37,7 @@ describe('The empty role', function() {
 
       users.emailFormField.sendKeys(emptyRoleEmail);
       users.tenantRoleFormDropdown.element(by.cssContainingText('option', 'Empty Role' + random)).click();
-      users.platformRoleFormDropdownOptions.get(1).click();
+      users.platformRoleFormDropdown.element(by.cssContainingText('option', 'Platform User')).click();
 
       users.firstNameFormField.sendKeys('Empty' + random);
       users.lastNameFormField.sendKeys('Role' + random);
@@ -152,8 +152,7 @@ describe('The empty role', function() {
     expect(shared.message.getText()).toContain('Sorry, your account does not have the correct permissions to view that page.');
   });
 
-  // TODO TITAN2-4936 TBD
-  xit('should not have access to user profile details', function() {
+  it('should not have access to user profile details', function() {
     expect(profile.userEmail.getAttribute('value')).toContain(emptyRoleEmail);
     expect(profile.firstNameFormField.getAttribute('value')).toBe('Agent' + random);
     expect(profile.lastNameFormField.getAttribute('value')).toBe('Role' + random);
@@ -163,9 +162,32 @@ describe('The empty role', function() {
     expect(profile.userGroupsSectionHeader.isDisplayed()).toBeTruthy();
   });
 
-  xit('should not have access to user profile details', function() {
+  it('should not have access to user profile details', function() {
     expect(profile.firstNameFormField.isEnabled()).toBeFalsy();
     expect(profile.lastNameFormField.isEnabled()).toBeFalsy();
     expect(profile.resetPasswordButton.isEnabled()).toBeFalsy();
+  });
+
+  it('should allow user to add an extension', function() {
+    extensions.userExtensions.count().then(function(originalExtensionCount) {
+      extensions.typeDropdown.click();
+      extensions.pstnDropdownOption.click();
+
+      extensions.pstnValueFormField.sendKeys('15064561234\t');
+      extensions.extFormField.sendKeys('12345');
+
+      extensions.descriptionFormField.sendKeys('PSTN Extension description');
+
+      extensions.addBtn.click().then(function() {
+        shared.waitForSuccess();
+
+        expect(extensions.userExtensions.count()).toBe(originalExtensionCount + 1);
+        var newExtension = extensions.userExtensions.get(originalExtensionCount);
+        expect(newExtension.element(by.css('.type-col')).getText()).toContain('PSTN');
+        expect(newExtension.element(by.css('.phone-number-col')).getText()).toBe('+15064561234x12345');
+        expect(newExtension.element(by.css('.description-col')).getText()).toBe('PSTN Extension description');
+        expect(newExtension.element(by.css('.remove')).isDisplayed()).toBeTruthy();
+      });
+    });
   });
 });

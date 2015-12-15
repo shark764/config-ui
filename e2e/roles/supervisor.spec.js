@@ -32,7 +32,7 @@ describe('The Supervisor role', function() {
 
     users.emailFormField.sendKeys(supervisorEmail);
     users.tenantRoleFormDropdown.element(by.cssContainingText('option', 'Supervisor')).click();
-    users.platformRoleFormDropdownOptions.get(1).click();
+    users.platformRoleFormDropdown.element(by.cssContainingText('option', 'Platform User')).click();
 
     users.firstNameFormField.sendKeys('Supervisor' + random);
     users.lastNameFormField.sendKeys('Role' + random);
@@ -195,6 +195,29 @@ describe('The Supervisor role', function() {
     });
   });
 
+  it('should allow user to add an extension', function() {
+    extensions.userExtensions.count().then(function(originalExtensionCount) {
+      extensions.typeDropdown.click();
+      extensions.pstnDropdownOption.click();
+
+      extensions.pstnValueFormField.sendKeys('15064561234\t');
+      extensions.extFormField.sendKeys('12345');
+
+      extensions.descriptionFormField.sendKeys('PSTN Extension description');
+
+      extensions.addBtn.click().then(function() {
+        shared.waitForSuccess();
+
+        expect(extensions.userExtensions.count()).toBe(originalExtensionCount + 1);
+        var newExtension = extensions.userExtensions.get(originalExtensionCount);
+        expect(newExtension.element(by.css('.type-col')).getText()).toContain('PSTN');
+        expect(newExtension.element(by.css('.phone-number-col')).getText()).toBe('+15064561234x12345');
+        expect(newExtension.element(by.css('.description-col')).getText()).toBe('PSTN Extension description');
+        expect(newExtension.element(by.css('.remove')).isDisplayed()).toBeTruthy();
+      });
+    });
+  });
+
   it('should not have access to edit an existing User', function() {
     browser.get(shared.usersPageUrl);
     shared.firstTableRow.click();
@@ -210,7 +233,23 @@ describe('The Supervisor role', function() {
     expect(extensions.addBtn.isEnabled()).toBeFalsy();
   });
 
-  xit('should have access to add Skills to existing User', function() {
+  it('should have access to add Extensions existing User', function() {
+    extensions.typeDropdown.click();
+    extensions.pstnDropdownOption.click();
+
+    extensions.pstnValueFormField.sendKeys('15064561234\t');
+    extensions.extFormField.sendKeys('12345');
+
+    extensions.descriptionFormField.sendKeys('PSTN Extension description');
+    extensions.addBtn.click().then(function() {
+      shared.waitForSuccess();
+
+      expect(extensions.userExtensions.count()).toBe(2);
+      shared.successMessage.click(); // Dismiss message
+    });
+  });
+
+  it('should have access to add Skills to existing User', function() {
   // TODO TITAN2-4936
     // Edit user previously created
     users.addSkillSearch.sendKeys('New Skill');
@@ -222,7 +261,7 @@ describe('The Supervisor role', function() {
     });
   });
 
-  xit('should have access to add Groups to existing User', function() {
+  it('should have access to add Groups to existing User', function() {
     // TODO TITAN2-4936
     // Edit user previously created
     users.addGroupSearch.sendKeys('New Group\t');
@@ -260,7 +299,7 @@ describe('The Supervisor role', function() {
     });
   });
 
-  xit('should not have access to edit an existing Skill', function() {
+  it('should not have access to edit an existing Skill', function() {
   // TODO TITAN2-4936
     browser.get(shared.skillsPageUrl);
     shared.firstTableRow.click();
@@ -270,7 +309,7 @@ describe('The Supervisor role', function() {
     expect(users.proficiencyFormCheckbox.isEnabled()).toBeFalsy();
   });
 
-  xit('should have access to add members to an existing Skill', function() {
+  it('should have access to add members to an existing Skill', function() {
     // TODO TITAN2-4936
     skills.addMemberField.click();
     skills.addMemberDropdownOptions.get(0).click();
@@ -280,7 +319,7 @@ describe('The Supervisor role', function() {
     });
   });
 
-  xit('should have access to view existing Skill details', function() {
+  it('should have access to view existing Skill details', function() {
     // TODO TITAN2-4936
     shared.firstTableRow.click();
 
@@ -309,7 +348,7 @@ describe('The Supervisor role', function() {
     expect(groups.descriptionFormField.isEnabled()).toBeFalsy();
   });
 
-  xit('should have access to add members to an existing Group', function() {
+  it('should have access to add members to an existing Group', function() {
     // TODO TITAN2-4936
     groups.addMemberField.click();
     groups.addMemberDropdownOptions.get(0).click();

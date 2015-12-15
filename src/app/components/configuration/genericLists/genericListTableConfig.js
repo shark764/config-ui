@@ -32,7 +32,8 @@ angular.module('liveopsConfigPanel')
         'orderBy': 'name',
         'title': $translate.instant('list.table.title'),
         'showCreate': false,
-        'showBulkActions': false
+        'showBulkActions': false,
+        'sref': 'content.configuration.genericLists'
       };
     }
   ]);
