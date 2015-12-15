@@ -343,7 +343,7 @@ describe('The queues view', function() {
     expect(newVersion.priorityRateUnitField.$('option:checked').getText()).toBe(queues.priorityRateUnitDefault);
 
     newVersion.showAdvancedQueryLink.click();
-    expect(newVersion.advancedQueryFormField.getAttribute('value')).toBe('{:groups (and (and) (or)) :skills (and (and) (or))}');
+    expect(newVersion.advancedQueryFormField.getAttribute('value')).toBe('[{:after-seconds-in-queue 0 :query {:groups (and (and) (or)) :skills (and (and) (or))}}]');
   });
 
   it('should display copy version panel when copy is selected', function() {
@@ -388,9 +388,6 @@ describe('The queues view', function() {
           expect(newVersion.anySkillsSelected.get(i).getText()).toBe(queues.basicQueryDetails.get(activeVersionValue).all(by.repeater('condition in cqe.conditionGroup.conditions')).get(i).getText());
         }
       });
-
-      newVersion.showAdvancedQueryLink.click();
-      expect(newVersion.advancedQueryFormField.getAttribute('value')).toBe(queues.advancedQueryFormField.get(activeVersionValue).getAttribute('value'));
 
       expect(newVersion.minPriorityInputField.getAttribute('value')).toBe(queues.minPriorityInputField.get(activeVersionValue).getAttribute('value'));
       expect(newVersion.maxPriorityInputField.getAttribute('value')).toBe(queues.maxPriorityInputField.get(activeVersionValue).getAttribute('value'));
