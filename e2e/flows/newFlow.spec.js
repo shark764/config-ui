@@ -57,7 +57,7 @@ describe('The create new flows view', function() {
         // Confirm flow is displayed in flow list with correct details
         browser.get(shared.flowsPageUrl);
         shared.searchField.sendKeys('Flow ' + randomFlow);
-        shared.firstTableRow.click().then(function () {
+        shared.firstTableRow.click().then(function() {
           flows.waitForDrafts();
           expect(flows.nameFormField.getAttribute('value')).toBe('Flow ' + randomFlow);
           expect(flows.typeFormDropdown.$('option:checked').getText()).toBe(flowType);
@@ -66,6 +66,28 @@ describe('The create new flows view', function() {
           expect(flows.draftTableElements.get(0).getText()).toContain('Initial Draft');
           expect(flows.versionsTable.isDisplayed()).toBeFalsy();
         });
+      });
+    });
+  });
+
+  xit('should require unique flow names', function() {
+    // TODO No error returned from bs-api
+    shared.firstTableRow.element(by.css(flows.nameColumn)).getText().then(function(existingFlowName) {
+      shared.createBtn.click();
+
+      flows.modalNameField.clear();
+      flows.modalNameField.sendKeys(existingFlowName);
+      flows.modalTypeDropdown.all(by.css('option')).get(1).click();
+      flows.submitModalBtn.click().then(function() {
+        expect(shared.successMessage.isPresent()).toBeFalsy();
+        expect(flows.createModal.isDisplayed()).toBeTruthy();
+
+        expect(flows.requiredErrors.get(0).isDisplayed()).toBeTruthy();
+        expect(flows.requiredErrors.get(0).getText()).toBe('resource with the same value already exists in the system');
+
+        flows.modalNameField.sendKeys('update');
+        expect(flows.requiredErrors.count()).toBe(0);
+        expect(flows.submitModalBtn.isEnabled()).toBeTruthy();
       });
     });
   });

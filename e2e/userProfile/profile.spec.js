@@ -28,8 +28,12 @@ describe('The profile view', function() {
     profile.lastNameFormField.clear();
     profile.lastNameFormField.sendKeys(params.login.lastName);
     profile.resetPasswordButton.click();
-    profile.passwordFormField.clear();
-    profile.passwordFormField.sendKeys(params.login.password);
+    
+    // Does not update password if current user is titantest
+    if (params.login.user !== 'titan@liveops.com') {
+      profile.passwordFormField.clear();
+      profile.passwordFormField.sendKeys(params.login.password);
+    }
 
     profile.updateProfileBtn.click().then(function() {
       shared.tearDown();
@@ -221,15 +225,18 @@ describe('The profile view', function() {
   });
 
   it('should accept a password with 8 characters, 1 letter, 1 number and 1 special character', function() {
-    profile.resetPasswordButton.click();
-    profile.passwordFormField.sendKeys('abcdef1!');
-    profile.updateProfileBtn.click().then(function() {
-      shared.waitForSuccess();
-      shared.closeMessageBtn.click();
+    // Do not update password if current user is titantest
+    if (params.login.user !== 'titan@liveops.com') {
+      profile.resetPasswordButton.click();
+      profile.passwordFormField.sendKeys('abcdef1!');
+      profile.updateProfileBtn.click().then(function() {
+        shared.waitForSuccess();
+        shared.closeMessageBtn.click();
 
-      // No validation messages displayed
-      expect(profile.errors.count()).toBe(0);
-    });
+        // No validation messages displayed
+        expect(profile.errors.count()).toBe(0);
+      });
+    }
   });
 
   it('should not unauthorize the user after password change', function() {
@@ -251,26 +258,32 @@ describe('The profile view', function() {
   });
 
   it('should apply the new password', function() {
-    // Change the password
-    profile.resetPasswordButton.click();
-    profile.passwordFormField.clear();
-    profile.passwordFormField.sendKeys(params.login.password + 'new');
+    // Do not update password if current user is titantest
+    if (params.login.user !== 'titan@liveops.com') {
+      // Change the password
+      profile.resetPasswordButton.click();
+      profile.passwordFormField.clear();
+      profile.passwordFormField.sendKeys(params.login.password + 'new');
 
-    // Log in with the new password
-    profile.updateProfileBtn.click().then(function() {
-      shared.waitForSuccess();
-      shared.closeMessageBtn.click();
+      // Log in with the new password
+      profile.updateProfileBtn.click().then(function() {
+        shared.waitForSuccess();
+        shared.closeMessageBtn.click();
 
-      // No validation messages displayed
-      expect(profile.errors.count()).toBe(0);
-    });
+        // No validation messages displayed
+        expect(profile.errors.count()).toBe(0);
+      });
+    }
   });
 
   it('should login with new password', function() {
-    shared.welcomeMessage.click();
-    shared.logoutButton.click();
-    loginPage.login(params.login.user, params.login.password + 'new');
-    expect(browser.getCurrentUrl()).toContain(shared.usersPageUrl);
+    // Does not update password if current user is titantest
+    if (params.login.user !== 'titan@liveops.com') {
+      shared.welcomeMessage.click();
+      shared.logoutButton.click();
+      loginPage.login(params.login.user, params.login.password + 'new');
+      expect(browser.getCurrentUrl()).toContain(shared.usersPageUrl);
+    }
   });
 
   it('should display message if user has no groups or skills', function() {
