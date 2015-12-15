@@ -30,8 +30,7 @@ angular.module('liveopsConfigPanel')
         }
 
         var promise = $scope.tenants.$promise
-          .then(vm.loadUsers)
-          .then(vm.associateParents);
+          .then(vm.loadUsers);
 
         return promise;
       };
@@ -42,22 +41,6 @@ angular.module('liveopsConfigPanel')
         });
 
         return tenants;
-      };
-
-      vm.associateParents = function (tenants) {
-        if(angular.isObject(tenants)) {
-            tenants = [tenants];
-        }
-
-        angular.forEach(tenants, function(tenant) {
-          if(!tenant.parentId) {
-            return;
-          }
-
-          tenant.$parent = _.find(tenants, {
-            id: tenant.parentId
-          });
-        });
       };
 
       $scope.create = function () {
@@ -98,12 +81,6 @@ angular.module('liveopsConfigPanel')
             tenant.$region = Region.cachedGet({
               id: tenant.regionId
             });
-
-            if ($scope.selectedTenant.parentId) {
-              tenant.$parent = Tenant.cachedGet({
-                id: $scope.selectedTenant.parentId
-              });
-            }
           });
         }
       });

@@ -28,12 +28,12 @@ angular.module('liveopsConfigPanel')
               'displayPath': 'name',
               'options': getTenants()
             },
-            'name': 'parentId',
+            'name': '$original.parent.name',
             'id': 'parent-column-dropdown',
             'lookup': '$original:parentId',
             'sortable': true,
-            'transclude': true,
-            'filter': 'selectedOptions'
+            'filter': 'selectedOptions',
+            'sortOn': 'parent.name'
           }, {
             'header': {
               'display': $translate.instant('value.status'),

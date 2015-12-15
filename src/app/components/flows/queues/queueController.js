@@ -131,9 +131,14 @@ angular.module('liveopsConfigPanel')
 
       $scope.$watch(function () {
         return vm.selectedQueue;
-      }, vm.updateVersions);
+      }, function(newValue){
+        if (newValue){
+          vm.updateVersions();
+          vm.selectedQueue.reset(); //TODO: figure out why this is needed
+        }
+      });
 
-      $scope.$on('table:resource:selected', function () {
+      $scope.$on('table:resource:selected', function (event, item) {
         vm.selectedQueueVersion = null;
       });
 

@@ -25,7 +25,13 @@
     <div>
       <form-error field="forms.detailsForm.activeVersion"
       error-type-required="{{'queue.details.version.error' | translate}}"></form-error>
-      <select id="active-version-field" name="activeVersion" ng-required="true" ng-model="qc.selectedQueue.activeVersion" ng-options="version.version as version.name for version in qc.versions | orderBy:'created':'reverse'">
+      <select id="active-version-field"
+        name="activeVersion"
+        ng-required="true"
+        ng-model="qc.selectedQueue.activeVersion"
+        ng-options="version.version as version.name for version in qc.versions | orderBy:'created':'reverse'"
+        ng-class="{'default-selected': ! qc.selectedQueue.activeVersion}">
+      <option value="" disabled>Select Version...</option>
       </select>
     </div>
   </div>
@@ -68,15 +74,16 @@
         <th></th>
       </thead>
       <tr ng-repeat-start="version in qc.versions  | orderBy:'created':'reverse'"
+        ng-init="version.viewing = (version.version === qc.selectedQueue.activeVersion)"
         id="version-row-{{version.name}}"
         ng-click="qc.toggleDetails(version);">
-        <td><i ng-if="version.version == qc.selectedQueue.activeVersion" class="fa fa-circle" title="{{'queue.details.version.active.tooltip' | translate}}"></i></td>
+        <td><i ng-if="version.version === qc.selectedQueue.activeVersion" class="fa fa-circle" title="{{'queue.details.version.active.tooltip' | translate}}"></i></td>
         <td>
           {{version.name}}
         </td>
         <td>{{version.created | date:'medium'}}</td>
         <td ng-if="['PLATFORM_VIEW_ALL_USERS', 'PLATFORM_CREATE_USERS', 'PLATFORM_MANAGE_ALL_USERS', 'PLATFORM_MANAGE_ALL_TENANTS', 'PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT'] | hasPermission">
-          <audit-text translation="value.displayName" user-id="qc.version.createdBy"></audit-text>
+          <audit-text translation="value.displayName" user-id="version.createdBy"></audit-text>
         </td>
         <td><i class="fa" ng-class="{'fa-caret-down' : !version.viewing, 'fa-caret-up': version.viewing}" title="{{'queue.details.version.expand' | translate}}"></i></td>
       </tr>
