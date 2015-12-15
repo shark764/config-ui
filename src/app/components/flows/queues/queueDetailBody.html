@@ -23,9 +23,9 @@
 
   <div ng-if="! qc.selectedQueue.isNew()" class="input-group">
     <label>{{'queue.details.activeVersion' | translate}} *</label>
+    <form-error field="qc.forms.detailsForm.activeVersion"
+    error-type-required="{{'queue.details.version.error' | translate}}"></form-error>
     <div>
-      <form-error field="qc.forms.detailsForm.activeVersion"
-      error-type-required="{{'queue.details.version.error' | translate}}"></form-error>
       <select id="active-version-field"
         name="activeVersion"
         ng-required="true"

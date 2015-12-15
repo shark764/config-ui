@@ -52,6 +52,8 @@ var NewQueue = function() {
   this.addEscalationBtn = element(by.id('add-escalation-btn'));
   this.escalationLevelHeaders = element.all(by.id('escalation-level-header'));
   this.removeEscalationLevelLinks = element.all(by.id('remove-escalation-level'));
+  this.escalationTimeField = element.all(by.id('escalation-time-input'));
+  this.escalationUnitsDropdown = element.all(by.id('escalation-units-dropdown'));
 
   // Priority Fields
   this.minPriorityInputField = this.newQueueQuerySection.element(by.id('version-min-priority'));
