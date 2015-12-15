@@ -57,6 +57,10 @@ describe('The profile view', function() {
     expect(extensions.extensionsSection.isDisplayed()).toBeTruthy();
     expect(extensions.typeDropdown.isDisplayed()).toBeTruthy();
     expect(extensions.providerDropdown.isDisplayed()).toBeTruthy();
+    expect(extensions.pstnValueFormField.isDisplayed()).toBeFalsy(); // Hidden by default when WebRTC is selected
+    expect(extensions.extFormField.isDisplayed()).toBeFalsy(); // Hidden by default when WebRTC is selected
+    expect(extensions.sipValueFormField.isDisplayed()).toBeFalsy(); // Hidden by default when WebRTC is selected
+    expect(extensions.descriptionFormField.isDisplayed()).toBeTruthy();
     expect(extensions.addBtn.isDisplayed()).toBeTruthy();
 
     expect(extensions.table.isDisplayed()).toBeTruthy();
@@ -385,16 +389,15 @@ describe('The profile view', function() {
     });
   });
 
-  xit('should allow user to add an extension', function() {
+  it('should allow user to add an extension', function() {
     extensions.userExtensions.count().then(function(originalExtensionCount) {
       extensions.typeDropdown.click();
       extensions.pstnDropdownOption.click();
 
-      extensions.providerDropdown.click();
-      extensions.twilioDropdownOption.click();
-
-      extensions.valueFormField.sendKeys('15064561234\t');
+      extensions.pstnValueFormField.sendKeys('15064561234\t');
       extensions.extFormField.sendKeys('12345');
+
+      extensions.descriptionFormField.sendKeys('PSTN Extension description');
 
       extensions.addBtn.click().then(function() {
         shared.waitForSuccess();
@@ -402,31 +405,52 @@ describe('The profile view', function() {
         expect(extensions.userExtensions.count()).toBe(originalExtensionCount + 1);
         var newExtension = extensions.userExtensions.get(originalExtensionCount);
         expect(newExtension.element(by.css('.type-col')).getText()).toContain('PSTN');
-        expect(newExtension.element(by.css('.provider-col')).getText()).toBe('Twilio');
         expect(newExtension.element(by.css('.phone-number-col')).getText()).toBe('+15064561234x12345');
+        expect(newExtension.element(by.css('.description-col')).getText()).toBe('PSTN Extension description');
         expect(newExtension.element(by.css('.remove')).isDisplayed()).toBeTruthy();
 
         // Fields are reset
-        expect(extensions.typeDropdown.$('option:checked').getText()).toContain('Extension Type');
+        expect(extensions.typeDropdown.$('option:checked').getText()).toContain('WebRTC');
         expect(extensions.providerDropdown.$('option:checked').getText()).toContain('Provider');
-        expect(extensions.valueFormField.getAttribute('value')).toBe('');
-        expect(extensions.extFormField.getAttribute('value')).toBe('');
+        expect(extensions.pstnValueFormField.isDisplayed()).toBeFalsy();
+        expect(extensions.extFormField.isDisplayed()).toBeFalsy();
+        expect(extensions.descriptionFormField.getAttribute('value')).toBe('');
       });
     });
   });
 
-  xit('should add an extension and update user page', function() {
+  it('should require description when adding an extension', function() {
+    extensions.userExtensions.count().then(function(originalExtensionCount) {
+      extensions.typeDropdown.click();
+      extensions.pstnDropdownOption.click();
+
+      extensions.descriptionFormField.click();
+      extensions.pstnValueFormField.sendKeys('15064561234\t');
+      extensions.extFormField.sendKeys('12345');
+
+      expect(extensions.addBtn.isEnabled()).toBeFalsy();
+      extensions.addBtn.click();
+
+      // Error messages
+      expect(profile.errors.get(0).isDisplayed()).toBeTruthy();
+      expect(profile.errors.get(0).getText()).toBe('Please provide a description');
+
+      extensions.descriptionFormField.sendKeys('PSTN Extension description\t');
+      expect(profile.errors.count()).toBe(0);
+      expect(extensions.addBtn.isEnabled()).toBeTruthy();
+    });
+  });
+
+  it('should add an extension and update user page', function() {
     extensionCount = extensions.userExtensions.count();
 
     extensions.typeDropdown.click();
     extensions.pstnDropdownOption.click();
 
-    extensions.providerDropdown.click();
-    extensions.twilioDropdownOption.click();
-
-    extensions.valueFormField.sendKeys('15064657894\t');
+    extensions.pstnValueFormField.sendKeys('15064657894\t');
     extensions.extFormField.sendKeys('12345');
 
+    extensions.descriptionFormField.sendKeys('PSTN Extension description');
     extensions.addBtn.click().then(function() {
       shared.waitForSuccess();
 
@@ -440,7 +464,7 @@ describe('The profile view', function() {
     });
   });
 
-  xit('should remove an extension and update user page', function() {
+  it('should remove an extension and update user page', function() {
     extensionCount = extensions.userExtensions.count();
 
     extensions.removeBtns.get(0).click().then(function() {

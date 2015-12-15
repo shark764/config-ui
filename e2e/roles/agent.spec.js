@@ -28,7 +28,7 @@ describe('The Agent role', function() {
 
     users.emailFormField.sendKeys(agentEmail);
     users.tenantRoleFormDropdown.element(by.cssContainingText('option', 'Agent')).click();
-    users.platformRoleFormDropdownOptions.get(1).click();
+    users.platformRoleFormDropdown.element(by.cssContainingText('option', 'Platform User')).click();
 
     users.firstNameFormField.sendKeys('Agent' + randomUser);
     users.lastNameFormField.sendKeys('Role' + randomUser);
@@ -53,7 +53,7 @@ describe('The Agent role', function() {
     });
   });
 
-  xit('should login as new user with Agent role', function() {
+  it('should login as new user with Agent role', function() {
     expect(shared.welcomeMessage.getText()).toContain('Hello, Agent' + randomUser + ' Role' + randomUser);
   });
 
@@ -73,7 +73,7 @@ describe('The Agent role', function() {
     expect(shared.flowsNavButton.isDisplayed()).toBeFalsy();
   });
 
-  xit('should not have access to User Management pages', function() {
+  it('should not have access to User Management pages', function() {
     browser.get(shared.usersPageUrl);
     expect(browser.getCurrentUrl()).toContain('userprofile?messageKey=permissions.unauthorized.message');
     expect(shared.message.isDisplayed()).toBeTruthy();
@@ -98,7 +98,7 @@ describe('The Agent role', function() {
     expect(shared.message.getText()).toContain('Sorry, your account does not have the correct permissions to view that page.');
   });
 
-  xit('should not have access to Configuration pages', function() {
+  it('should not have access to Configuration pages', function() {
     browser.get(shared.tenantsPageUrl);
     expect(browser.getCurrentUrl()).toContain('userprofile?messageKey=permissions.unauthorized.message');
     expect(shared.message.isDisplayed()).toBeTruthy();
@@ -111,7 +111,7 @@ describe('The Agent role', function() {
     expect(shared.message.getText()).toContain('Sorry, your account does not have the correct permissions to view that page.');
   });
 
-  xit('should not have access to Flow pages', function() {
+  it('should not have access to Flow pages', function() {
     browser.get(shared.flowsPageUrl);
     expect(browser.getCurrentUrl()).toContain('userprofile?messageKey=permissions.unauthorized.message');
     expect(shared.message.isDisplayed()).toBeTruthy();
@@ -142,8 +142,7 @@ describe('The Agent role', function() {
     expect(shared.message.getText()).toContain('Sorry, your account does not have the correct permissions to view that page.');
   });
 
-  // TODO TITAN2-4937
-  xit('should have access to user profile details', function() {
+  it('should have access to user profile details', function() {
     expect(profile.userEmail.getAttribute('value')).toContain(agentEmail);
     expect(profile.firstNameFormField.getAttribute('value')).toBe('Agent' + randomUser);
     expect(profile.lastNameFormField.getAttribute('value')).toBe('Role' + randomUser);
@@ -153,7 +152,7 @@ describe('The Agent role', function() {
     expect(profile.userGroupsSectionHeader.isDisplayed()).toBeTruthy();
   });
 
-  xit('should have access to edit user profile details', function() {
+  it('should have access to edit user profile details', function() {
     profile.firstNameFormField.sendKeys('Update');
     profile.lastNameFormField.sendKeys('Update');
     profile.resetPasswordButton.click();
@@ -166,6 +165,36 @@ describe('The Agent role', function() {
       expect(profile.lastNameFormField.getAttribute('value')).toBe('Role' + randomUser + 'Update');
       expect(shared.welcomeMessage.getText()).toContain('Agent' + randomUser + 'Update');
       expect(shared.welcomeMessage.getText()).toContain('Role' + randomUser + 'Update');
+    });
+  });
+
+  it('should allow user to add an extension', function() {
+    extensions.userExtensions.count().then(function(originalExtensionCount) {
+      extensions.typeDropdown.click();
+      extensions.pstnDropdownOption.click();
+
+      extensions.pstnValueFormField.sendKeys('15064561234\t');
+      extensions.extFormField.sendKeys('12345');
+
+      extensions.descriptionFormField.sendKeys('PSTN Extension description');
+
+      extensions.addBtn.click().then(function() {
+        shared.waitForSuccess();
+
+        expect(extensions.userExtensions.count()).toBe(originalExtensionCount + 1);
+        var newExtension = extensions.userExtensions.get(originalExtensionCount);
+        expect(newExtension.element(by.css('.type-col')).getText()).toContain('PSTN');
+        expect(newExtension.element(by.css('.phone-number-col')).getText()).toBe('+15064561234x12345');
+        expect(newExtension.element(by.css('.description-col')).getText()).toBe('PSTN Extension description');
+        expect(newExtension.element(by.css('.remove')).isDisplayed()).toBeTruthy();
+
+        // Fields are reset
+        expect(extensions.typeDropdown.$('option:checked').getText()).toContain('WebRTC');
+        expect(extensions.providerDropdown.$('option:checked').getText()).toContain('Provider');
+        expect(extensions.pstnValueFormField.isDisplayed()).toBeFalsy();
+        expect(extensions.extFormField.isDisplayed()).toBeFalsy();
+        expect(extensions.descriptionFormField.getAttribute('value')).toBe('');
+      });
     });
   });
 
