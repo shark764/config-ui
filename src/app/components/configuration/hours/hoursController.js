@@ -72,7 +72,7 @@ angular.module('liveopsConfigPanel')
         var newLocalDate = new Date();
         var newUTCDate = $moment.utc([
           newLocalDate.getFullYear(), newLocalDate.getMonth(), newLocalDate.getDate()]);
-          
+
         newUTCDate.add('days', 1);
 
         $scope.exceptionHour = new BusinessHourException({
@@ -101,13 +101,15 @@ angular.module('liveopsConfigPanel')
       };
 
       $scope.removeException = function (exception) {
+        $scope.selectedHour.$exceptions.removeItem(exception);
+
         return exception.$delete({
           businessHourId: $scope.selectedHour.id
         }).then(function () {
-          $scope.selectedHour.$exceptions.removeItem(exception);
           Alert.success($translate.instant('hours.exception.remove.success'));
         }, function () {
           Alert.error($translate.instant('hours.exception.remove.failure'));
+          $scope.selectedHour.$exceptions.push(exception);
         });
       };
 
