@@ -72,7 +72,27 @@ angular.module('liveopsConfigPanel')
 
             if (angular.isDefined(response.data.error.attribute.query)) {
               vm.copySelectedVersion(qv);
+
+              $timeout(function () {
+                vm.forms.versionForm.query.$setValidity('api', false);
+
+                vm.forms.versionForm.query.$error = {
+                  api: response.data.error.attribute.query
+                };
+
+                vm.forms.versionForm.query.$setTouched();
+
+                var unbindErrorWatch = $scope.$watch(function () {
+                  return vm.forms.versionForm.query.$dirty;
+                }, function(dirtyValue){
+                  if (dirtyValue){
+                    vm.forms.versionForm.query.$setValidity('api', true);
+                    unbindErrorWatch();
+                  }
+                });
+              });
             }
+
           }
         )
         .finally(vm.updateVersions);
@@ -132,7 +152,13 @@ angular.module('liveopsConfigPanel')
       $scope.$watch(function () {
         return vm.selectedQueue;
       }, function(newValue){
-        if (newValue){
+        
+        // hack to fix partially removed selectedQueue cause by binding
+        if(newValue && !(newValue instanceof Queue)) {
+          vm.selectedQueue = null;
+        }
+
+        if (newValue && newValue instanceof Queue){
           vm.updateVersions();
           vm.selectedQueue.reset(); //TODO: figure out why this is needed
         }
