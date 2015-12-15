@@ -31,13 +31,13 @@
     ng-resource="selectedList"
     disable-contents="! ('MANAGE_ALL_LISTS' | hasPermission)"
     lo-form-submit lo-form-cancel lo-form-alert>
-
+    
     <div class="detail-header" ng-include="'app/components/configuration/genericLists/genericListDetailHeader.html'">
     </div>
 
     <div class="detail-body" ng-include="'app/components/configuration/genericLists/genericListDetailBody.html'">
     </div>
-
+    
     <div class="detail-controls">
       <input
         id="cancel-details-btn" class="btn" type="button"
@@ -50,7 +50,7 @@
         lo-submit="submit()"
         lo-submit-spinner
         lo-submit-spinner-status="selectedList.$busy"
-        ng-disabled="forms.detailsForm.$pending || forms.detailsForm.$invalid || ! forms.detailsForm.$dirty"
+        ng-disabled="forms.detailsForm.$invalid || ! forms.detailsForm.$dirty"
         class="btn btn-primary"
         type="submit"
         value="{{'value.submit' | translate}}" />
