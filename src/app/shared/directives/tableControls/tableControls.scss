@@ -16,7 +16,6 @@ table-controls {
     }
 
     .inner-addon i {
-      background-color: $main-color;
       color: white;
     }
 
@@ -125,10 +124,6 @@ table-controls {
       border-bottom: 1px solid #ddd;
     }
 
-    tbody tr:hover, tr.selected {
-      background-color: $accent-light;
-    }
-
     .check-col {
       width: 40px;
     }
@@ -161,6 +156,5 @@ table-controls {
     margin-left: 10px;
     margin-top: 3px;
     font-size: 20px;
-    color: $accent1;
   }
 }
