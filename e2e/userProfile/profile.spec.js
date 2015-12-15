@@ -57,6 +57,10 @@ describe('The profile view', function() {
     expect(extensions.extensionsSection.isDisplayed()).toBeTruthy();
     expect(extensions.typeDropdown.isDisplayed()).toBeTruthy();
     expect(extensions.providerDropdown.isDisplayed()).toBeTruthy();
+    expect(extensions.pstnValueFormField.isDisplayed()).toBeFalsy(); // Hidden by default when WebRTC is selected
+    expect(extensions.extFormField.isDisplayed()).toBeFalsy(); // Hidden by default when WebRTC is selected
+    expect(extensions.sipValueFormField.isDisplayed()).toBeFalsy(); // Hidden by default when WebRTC is selected
+    expect(extensions.descriptionFormField.isDisplayed()).toBeTruthy();
     expect(extensions.addBtn.isDisplayed()).toBeTruthy();
 
     expect(extensions.table.isDisplayed()).toBeTruthy();
@@ -412,6 +416,28 @@ describe('The profile view', function() {
         expect(extensions.extFormField.isDisplayed()).toBeFalsy();
         expect(extensions.descriptionFormField.getAttribute('value')).toBe('');
       });
+    });
+  });
+
+  it('should require description when adding an extension', function() {
+    extensions.userExtensions.count().then(function(originalExtensionCount) {
+      extensions.typeDropdown.click();
+      extensions.pstnDropdownOption.click();
+
+      extensions.descriptionFormField.click();
+      extensions.pstnValueFormField.sendKeys('15064561234\t');
+      extensions.extFormField.sendKeys('12345');
+
+      expect(extensions.addBtn.isEnabled()).toBeFalsy();
+      extensions.addBtn.click();
+
+      // Error messages
+      expect(profile.errors.get(0).isDisplayed()).toBeTruthy();
+      expect(profile.errors.get(0).getText()).toBe('Please provide a description');
+
+      extensions.descriptionFormField.sendKeys('PSTN Extension description\t');
+      expect(profile.errors.count()).toBe(0);
+      expect(extensions.addBtn.isEnabled()).toBeTruthy();
     });
   });
 
