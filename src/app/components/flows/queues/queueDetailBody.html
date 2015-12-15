@@ -5,7 +5,7 @@
 <div disable-contents="! ('MANAGE_ALL_QUEUES' | hasPermission)">
   <div class="input-group">
     <label>{{'value.name' | translate}} *</label>
-    <form-error field="forms.detailsForm.name"
+    <form-error field="qc.forms.detailsForm.name"
       error-type-required="{{'value.error.name.required' | translate}}">
     </form-error>
     <div>
@@ -22,9 +22,9 @@
 
   <div ng-if="! qc.selectedQueue.isNew()" class="input-group">
     <label>{{'queue.details.activeVersion' | translate}} *</label>
+    <form-error field="qc.forms.detailsForm.activeVersion"
+    error-type-required="{{'queue.details.version.error' | translate}}"></form-error>
     <div>
-      <form-error field="forms.detailsForm.activeVersion"
-      error-type-required="{{'queue.details.version.error' | translate}}"></form-error>
       <select id="active-version-field"
         name="activeVersion"
         ng-required="true"

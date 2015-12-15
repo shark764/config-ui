@@ -6,6 +6,7 @@ describe('The basic query builder', function() {
     newQueue = require('./newQueue.po.js'),
     newVersion = require('./newQueueVersion.po.js'),
     shared = require('../shared.po.js'),
+    columns = require('../tableControls/columns.po.js'),
     params = browser.params,
     queueCount,
     randomQueue;
@@ -758,7 +759,7 @@ describe('The basic query builder', function() {
       newQueue.removeSkillsFilter.click();
     }).thenFinally(function() {
       newQueue.showAdvancedQueryLink.click();
-      expect(newQueue.advancedQueryFormField.getAttribute('value')).toBe('{}');
+      expect(newQueue.advancedQueryFormField.getAttribute('value')).toBe('[{:after-seconds-in-queue 0 :query {}}]');
     });
   });
 

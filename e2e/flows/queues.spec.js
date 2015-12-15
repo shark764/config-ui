@@ -177,14 +177,13 @@ describe('The queues view', function() {
   it('should display all queue versions in Active Version dropdown', function() {
     shared.firstTableRow.click();
     queues.activeVersionDropdown.all(by.css('option')).then(function(dropdownVersions) {
-      for (var i = 1; i <= dropdownVersions.length; ++i) {
+      for (var i = 1; i < dropdownVersions.length; ++i) {
         expect(element(by.id('version-row-v' + i)).getText()).toContain(queues.activeVersionDropdown.all(by.css('option')).get(dropdownVersions.length - i).getText());
       }
     });
   });
 
-  xit('should show active version details', function() {
-    // TODO Fails; active version is not opened by default
+  it('should show active version details', function() {
     shared.firstTableRow.click();
     queues.activeVersionDropdown.$('option:checked').getText().then(function(activeVersionNumber) {
       var versionNumber = parseInt(activeVersionNumber.split('v')[1]);
@@ -215,7 +214,7 @@ describe('The queues view', function() {
 
       // If the advanced query is not the default value, expect the basic query details to be displayed
       activeVersionDetails.element(by.id('advanced-query-field')).getAttribute('value').then(function(advancedQuery) {
-        if (advancedQuery == '{}') {
+        if (advancedQuery == '[{:after-seconds-in-queue 0 :query {}}]') {
           expect(activeVersionDetails.element(by.id('version-basic-query-details')).all(by.repeater('operand in operands')).count()).toBe(0);
         } else {
           expect(activeVersionDetails.element(by.id('version-basic-query-details')).all(by.repeater('operand in operands')).count()).toBeGreaterThan(0);
@@ -238,7 +237,7 @@ describe('The queues view', function() {
         var currentVersion;
 
         // Select each version, details are displayed
-        for (var i = 2; i < versionCount; i++) {
+        for (var i = 1; i < versionCount; i++) {
           currentVersion = element(by.id("version-row-v" + i));
 
           // Open version details
@@ -268,7 +267,7 @@ describe('The queues view', function() {
         var currentVersion;
 
         // Select each version, details are displayed
-        for (var i = 2; i < versionCount; i++) {
+        for (var i = 1; i < versionCount; i++) {
           currentVersion = element(by.id("version-row-v" + i));
 
           // Open version details
@@ -299,7 +298,7 @@ describe('The queues view', function() {
         // Only one version is displayed at a time
         // Select first version
         element(by.id("version-row-v1")).click();
-        for (var i = 2; i <= versionCount; i++) {
+        for (var i = 2; i < versionCount; i++) {
           currentVersion = element(by.id("version-row-v" + i));
 
           // Open version details
@@ -349,7 +348,6 @@ describe('The queues view', function() {
   it('should display copy version panel when copy is selected', function() {
     shared.firstTableRow.click();
     queues.activeVersionDropdown.$('option:checked').getAttribute('value').then(function(activeVersionValue) {
-      queues.queueVersions.get(activeVersionValue).click();
       queues.copyVersionBtn.get(activeVersionValue).click();
 
       expect(newVersion.newQueueVersionPanel.isDisplayed()).toBeTruthy();
@@ -402,18 +400,17 @@ describe('The queues view', function() {
     queues.addNewVersionBtn.click();
 
     queues.activeVersionDropdown.all(by.css('option')).count().then(function(versionCount) {
-      expect(newVersion.createVersionHeader.getText()).toBe('Creating New Queue version: v' + (versionCount + 1));
+      expect(newVersion.createVersionHeader.getText()).toBe('Creating New Queue version: v' + versionCount);
     });
   });
 
   it('should increment version number when creating from copy', function() {
     shared.firstTableRow.click();
     queues.activeVersionDropdown.$('option:checked').getAttribute('value').then(function(activeVersionValue) {
-      queues.queueVersions.get(activeVersionValue).click();
       queues.copyVersionBtn.get(activeVersionValue).click();
 
       queues.activeVersionDropdown.all(by.css('option')).count().then(function(versionCount) {
-        expect(newVersion.createVersionHeader.getText()).toBe('Creating New Queue version: v' + (versionCount + 1));
+        expect(newVersion.createVersionHeader.getText()).toBe('Creating New Queue version: v' + versionCount);
       });
     });
   });
@@ -421,14 +418,13 @@ describe('The queues view', function() {
   it('should add new queue version from copy', function() {
     shared.firstTableRow.click();
     queues.activeVersionDropdown.$('option:checked').getAttribute('value').then(function(activeVersionValue) {
-      queues.queueVersions.get(activeVersionValue).click();
       queues.copyVersionBtn.get(activeVersionValue).click();
 
       queues.activeVersionDropdown.all(by.css('option')).count().then(function(originalVersionCount) {
         newVersion.createVersionBtn.click().then(function() {
           expect(queues.activeVersionDropdown.all(by.css('option')).count()).toBeGreaterThan(originalVersionCount);
-          expect(queues.activeVersionDropdown.all(by.css('option')).get(0).getText()).toBe('v' + (originalVersionCount + 1));
-          expect(queues.queueVersions.get(0).getText()).toContain('v' + (originalVersionCount + 1));
+          expect(queues.activeVersionDropdown.all(by.css('option')).get(1).getText()).toBe('v' + originalVersionCount);
+          expect(queues.queueVersions.get(0).getText()).toContain('v' + originalVersionCount);
         });
       });
     });
@@ -438,7 +434,6 @@ describe('The queues view', function() {
     // TODO TITAN2-6164 Submit button enabled when advanced query is not valid
     shared.firstTableRow.click();
     queues.activeVersionDropdown.$('option:checked').getAttribute('value').then(function(activeVersionValue) {
-      queues.queueVersions.get(activeVersionValue).click();
       queues.copyVersionBtn.get(activeVersionValue).click();
 
       newVersion.showAdvancedQueryLink.click();
@@ -460,8 +455,8 @@ describe('The queues view', function() {
       newVersion.createVersionBtn.click().then(function() {
         expect(shared.successMessage.isDisplayed()).toBeTruthy();
         expect(queues.activeVersionDropdown.all(by.css('option')).count()).toBeGreaterThan(originalVersionCount);
-        expect(queues.activeVersionDropdown.all(by.css('option')).get(0).getText()).toBe('v' + (originalVersionCount + 1));
-        expect(queues.queueVersions.get(0).getText()).toContain('v' + (originalVersionCount + 1));
+        expect(queues.activeVersionDropdown.all(by.css('option')).get(1).getText()).toBe('v' + originalVersionCount);
+        expect(queues.queueVersions.get(0).getText()).toContain('v' + originalVersionCount);
       });
     });
   });
@@ -470,7 +465,6 @@ describe('The queues view', function() {
     shared.firstTableRow.click();
     queues.activeVersionDropdown.all(by.css('option')).count().then(function(originalVersionCount) {
       queues.activeVersionDropdown.$('option:checked').getAttribute('value').then(function(activeVersionValue) {
-        queues.queueVersions.get(activeVersionValue).click();
         queues.copyVersionBtn.get(activeVersionValue).click();
 
         // Remove all query details
@@ -482,8 +476,8 @@ describe('The queues view', function() {
           newVersion.createVersionBtn.click().then(function() {
             expect(shared.successMessage.isDisplayed()).toBeTruthy();
             expect(queues.activeVersionDropdown.all(by.css('option')).count()).toBeGreaterThan(originalVersionCount);
-            expect(queues.activeVersionDropdown.all(by.css('option')).get(0).getText()).toBe('v' + (originalVersionCount + 1));
-            expect(queues.queueVersions.get(0).getText()).toContain('v' + (originalVersionCount + 1));
+            expect(queues.activeVersionDropdown.all(by.css('option')).get(1).getText()).toBe('v' + originalVersionCount);
+            expect(queues.queueVersions.get(0).getText()).toContain('v' + originalVersionCount);
           });
         });
       });
@@ -534,7 +528,7 @@ describe('The queues view', function() {
 
       // Edit field
       newVersion.advancedQueryFormField.clear();
-      newVersion.advancedQueryFormField.sendKeys('{}\t');
+      newVersion.advancedQueryFormField.sendKeys('[{:after-seconds-in-queue 0 :query {}}]\t');
       expect(queues.requiredErrors.count()).toBe(0);
 
       newVersion.createVersionBtn.click().then(function() {
