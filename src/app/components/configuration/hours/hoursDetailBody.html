@@ -5,7 +5,7 @@
 <div disable-contents="! (['MANAGE_ALL_BUSINESS_HOURS'] | hasPermission)">
   <div class="input-group">
     <label>{{'value.name' | translate}} *</label>
-    
+
     <form-error field="forms.detailsForm.name"
       error-type-required="{{'value.error.name.required' | translate}}">
     </form-error>
@@ -22,7 +22,7 @@
   <div class="input-group"
     ng-if="timezones.$resolved">
     <label>{{'hours.timezone.header' | translate}} *</label>
-    
+
     <form-error field="forms.detailsForm.timezone"
       error-type-required="{{'hours.timezone.required' | translate}}">
     </form-error>
@@ -299,7 +299,9 @@
       ng-click="cancelException()"/>
     <input type="button" class="btn btn-primary"
       value="{{'value.submit' | translate}}"
-      lo-submit="submitException()"/>
+      lo-submit="submitException()"
+      ng-show="!exceptionHour.$busy"/>
+    <a disabled="true" class="btn btn-primary" ng-show="exceptionHour.$busy"><i class="fa fa-refresh fa-spin"></i></a>
   </div>
 
 </ng-form>
@@ -324,7 +326,7 @@
     </tr>
   </thead>
   <tbody>
-    <tr ng-repeat="exception in selectedHour.$exceptions">
+    <tr ng-repeat="exception in selectedHour.$exceptions | orderBy:'date'">
       <td>{{exception.date | date:'dd-MM-yyyy'}}</td>
       <td>{{exception.description}}</td>
       <td>{{exception.startTimeMinutes | minutesToTime}}</td>
