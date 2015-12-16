@@ -377,7 +377,8 @@
   "dispatchMappings.table.interactionField": "Interaction Field",
   "dispatchMappings.table.channelType": "Channel Type",
   "dispatchmappings.table.title": "Dispatch Mapping Management",
-
+  "dispatchMappings.inbound": "Inbound",
+  "dispatchMappings.outbound": "Outbound", 
 
   "table.search.placeholder": "Search",
   "table.actions.button": "Actions",
