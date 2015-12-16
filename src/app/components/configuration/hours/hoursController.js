@@ -1,7 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('HoursController', ['$scope', '$translate', '$moment', 'Session', 'BusinessHour', 'BusinessHourException', 'Timezone', 'hoursTableConfig', 'Alert', 'loEvents', '$q',
+  .controller('HoursController', [
+    '$scope', '$translate', '$moment', 'Session', 'BusinessHour', 'BusinessHourException', 'Timezone', 'hoursTableConfig', 'Alert', 'loEvents', '$q',
     function ($scope, $translate, $moment, Session, BusinessHour, BusinessHourException, Timezone, hoursTableConfig, Alert, loEvents, $q) {
       var vm = this;
       vm.dayPrefixes = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
@@ -47,7 +48,7 @@ angular.module('liveopsConfigPanel')
       vm.reset = function (hour) {
         vm.isHoursCustom = vm.hasHours();
         vm.exceptionHour = null;
-        
+
         vm.forms
           .detailsForm
           .resetController
@@ -118,6 +119,9 @@ angular.module('liveopsConfigPanel')
         }, function () {
           Alert.error($translate.instant('hours.exception.remove.failure'));
           vm.selectedHour.$exceptions.push(exception);
+        })
+        .finally(function () {
+          vm.forms.exceptionHour.date.$validate();
         });
       };
 
@@ -140,7 +144,39 @@ angular.module('liveopsConfigPanel')
         if(oldHour) {
           vm.reset(oldHour);
         }
+
       });
+
+
+      $scope.dateComparer = function (item) {
+        var curVal = this.viewValue,
+            itemStart = $moment.utc(item.date),
+            itemEnd = $moment.utc(item.date),
+            valStart = $moment.utc(curVal),
+            valEnd = $moment.utc(curVal);
+
+        if(vm.exceptionHour.isAllDay) {
+          valStart.startOf('day');
+          valEnd.endOf('day');
+        } else {
+          valStart.add('minutes', vm.exceptionHour.startTimeMinutes);
+          valEnd.add('minutes', vm.exceptionHour.endTimeMinutes);
+        }
+
+        if (item.isAllDay) {
+          itemStart.startOf('day');
+          itemEnd.endOf('day');
+        } else {
+          itemStart.add('minutes', item.startTimeMinutes);
+          itemEnd.add('minutes', item.endTimeMinutes);
+        }
+
+        var itemRange = $moment.range(itemStart, itemEnd),
+            valRange = $moment.range(valStart, valEnd);
+
+        return itemRange.overlaps(valRange);
+
+      };
 
       $scope.$on('session:tenant:changed', function () {
         vm.loadHours();

@@ -500,6 +500,8 @@
   "hours.timezone.select.placeholder": "Select timezone...",
   "hours.hours.title": "Regular Hours",
   "hours.exceptions.title": "Exceptions",
+  "hours.exceptions.date.required": "Exception date is required",
+  "hours.exceptions.date.duplicate": "Selected date overlaps with an existing exception",
   "hours.startTime": "Start Time",
   "hours.endTime": "End Time",
   "hours.sunday": "Sunday",

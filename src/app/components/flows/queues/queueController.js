@@ -152,7 +152,7 @@ angular.module('liveopsConfigPanel')
       $scope.$watch(function () {
         return vm.selectedQueue;
       }, function(newValue){
-        
+
         // hack to fix partially removed selectedQueue cause by binding
         if(newValue && !(newValue instanceof Queue)) {
           vm.selectedQueue = null;
@@ -164,7 +164,7 @@ angular.module('liveopsConfigPanel')
         }
       });
 
-      $scope.$on('table:resource:selected', function (event, item) {
+      $scope.$on('table:resource:selected', function () {
         vm.selectedQueueVersion = null;
       });
 

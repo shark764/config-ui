@@ -243,13 +243,19 @@
     <label>{{'value.date' | translate}} *</label>
 
     <form-error field="hc.forms.exceptionHour.date"
-      error-type-date="{{'hours.exception.date.required' | translate}}"
-      error-type-required="{{'hours.exception.date.required' | translate}}">
+      error-type-duplicate="{{ 'hours.exceptions.date.duplicate' | translate}}"
+      error-type-required="{{ 'hours.exceptions.date.required' | translate}}"
+      error-type-date="{{ 'hours.exceptions.date.required' | translate}}"
+    >
+
     </form-error>
     <input type="date" name="date"
       ng-model="hc.exceptionHour.date"
       ng-required="hc.exceptionHour"
       ng-model-options="{timezone: 'UTC'}"
+      lo-duplicate-validator
+      lo-duplicate-validator-items="hc.selectedHour.$exceptions"
+      lo-duplicate-validator-options="{comparer: dateComparer}"
       utc-date-converter>
   </div>
 
@@ -279,11 +285,13 @@
     <label>{{'hours.startTime' | translate}}</label>
 
     <form-error field="hc.forms.exceptionHour.startTimeMinutes"
+      error-type-time="{{'hours.exception.startTime.required' | translate}}"
       error-type-required="{{'hours.exception.startTime.required' | translate}}">
     </form-error>
     <input type="time" name="startTimeMinutes"
       ng-model="hc.exceptionHour.startTimeMinutes"
       ng-required="hc.exceptionHour && !hc.exceptionHour.isAllDay"
+      ng-change="hc.forms.exceptionHour.date.$validate()"
       date-to-minute-converter/>
   </div>
 
@@ -292,11 +300,13 @@
     <label>{{'hours.endTime' | translate}}</label>
 
     <form-error field="hc.forms.exceptionHour.endTimeMinutes"
+      error-type-time="{{'hours.exception.endTime.required' | translate}}"
       error-type-required="{{'hours.exception.endTime.required' | translate}}">
     </form-error>
     <input type="time" name="endTimeMinutes"
       ng-model="hc.exceptionHour.endTimeMinutes"
       ng-required="hc.exceptionHour && !hc.exceptionHour.isAllDay"
+      ng-change="hc.forms.exceptionHour.date.$validate()"
       date-to-minute-converter/>
   </div>
 
@@ -336,7 +346,7 @@
   </thead>
   <tbody>
     <tr ng-repeat="exception in hc.selectedHour.$exceptions | orderBy:'date'">
-      <td>{{exception.date | localToUtcDate | moment:'DD-MM-YYYY'}}</td>
+      <td>{{exception.date | date:'dd-MM-yyyy':'UTC'}}</td>
       <td>{{exception.description}}</td>
       <td>{{exception.startTimeMinutes | minutesToTime}}</td>
       <td>{{exception.endTimeMinutes | minutesToTime}}</td>
