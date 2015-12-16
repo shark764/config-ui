@@ -118,6 +118,9 @@ angular.module('liveopsConfigPanel')
         }, function () {
           Alert.error($translate.instant('hours.exception.remove.failure'));
           vm.selectedHour.$exceptions.push(exception);
+        })
+        .finally(function () {
+          vm.forms.exceptionHour.date.$validate();
         });
       };
 
