@@ -1,8 +1,9 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('HoursController', ['$scope', '$translate', '$moment', 'Session', 'BusinessHour', 'BusinessHourException', 'Timezone', 'hoursTableConfig', 'Alert', 'loEvents', '$q',
-    function ($scope, $translate, $moment, Session, BusinessHour, BusinessHourException, Timezone, hoursTableConfig, Alert, loEvents, $q) {
+  .controller('HoursController', [
+    '$scope', '$translate', '$moment', 'Session', 'BusinessHour', 'BusinessHourException', 'Timezone', 'hoursTableConfig', 'Alert', 'loEvents', '$q', 'moment',
+    function ($scope, $translate, $moment, Session, BusinessHour, BusinessHourException, Timezone, hoursTableConfig, Alert, loEvents, $q, moment) {
       var vm = this;
       vm.dayPrefixes = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
 
