@@ -2,8 +2,8 @@
 
 angular.module('liveopsConfigPanel')
   .controller('HoursController', [
-    '$scope', '$translate', '$moment', 'Session', 'BusinessHour', 'BusinessHourException', 'Timezone', 'hoursTableConfig', 'Alert', 'loEvents', '$q', 'moment',
-    function ($scope, $translate, $moment, Session, BusinessHour, BusinessHourException, Timezone, hoursTableConfig, Alert, loEvents, $q, moment) {
+    '$scope', '$translate', '$moment', 'Session', 'BusinessHour', 'BusinessHourException', 'Timezone', 'hoursTableConfig', 'Alert', 'loEvents', '$q',
+    function ($scope, $translate, $moment, Session, BusinessHour, BusinessHourException, Timezone, hoursTableConfig, Alert, loEvents, $q) {
       var vm = this;
       vm.dayPrefixes = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
 
@@ -150,10 +150,10 @@ angular.module('liveopsConfigPanel')
 
       $scope.dateComparer = function (item) {
         var curVal = this.viewValue,
-            itemStart = moment.utc(item.date),
-            itemEnd = moment.utc(item.date),
-            valStart = moment.utc(curVal),
-            valEnd = moment.utc(curVal);
+            itemStart = $moment.utc(item.date),
+            itemEnd = $moment.utc(item.date),
+            valStart = $moment.utc(curVal),
+            valEnd = $moment.utc(curVal);
 
         if(vm.exceptionHour.isAllDay) {
           valStart.startOf('day');
@@ -171,8 +171,8 @@ angular.module('liveopsConfigPanel')
           itemEnd.add('minutes', item.endTimeMinutes);
         }
 
-        var itemRange = moment.range(itemStart, itemEnd),
-            valRange = moment.range(valStart, valEnd);
+        var itemRange = $moment.range(itemStart, itemEnd),
+            valRange = $moment.range(valStart, valEnd);
 
         return itemRange.overlaps(valRange);
 
