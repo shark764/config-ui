@@ -8,7 +8,7 @@ angular.module('liveopsConfigPanel')
     //    tenantId: Session.tenant.tenantId
     //  });
     //}
-    
+
      return {
         'fields': [{
           'header': {
@@ -40,7 +40,7 @@ angular.module('liveopsConfigPanel')
         'title': $translate.instant('role.table.title'),
         'sref' : 'content.management.roles',
         'showBulkActions': false,
-        'showCreate': UserPermissions.hasPermissionInList(['PLATFORM_CREATE_TENANT_ROLES', 'MANAGE_ALL_ROLES']),
+        'showCreate': function () { return UserPermissions.hasPermissionInList(['PLATFORM_CREATE_TENANT_ROLES', 'MANAGE_ALL_ROLES']); },
         'helpLink': helpDocsHostname + '/Content/Managing%20Users/Adding_roles.htm'
       };
     }

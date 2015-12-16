@@ -1,23 +1,10 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('ContentController', ['$scope', 'Session', 'Alert', '$translate', 'queryCache', '$stateParams', 'loEvents',
-    function ($scope, Session, Alert, $translate, queryCache, $stateParams, loEvents) {
+  .controller('ContentController', ['$scope', 'Session', 'Alert', '$translate', 'queryCache', '$stateParams', 'loEvents', '$state', '$q',
+    function ($scope, Session, Alert, $translate, queryCache, $stateParams, loEvents, $state, $q) {
       $scope.showBulkActions = false;
-      $scope.Session = Session;
-
-      $scope.$watch(function () {
-        if(Session.tenant) {
-          return Session.tenant.tenantId;
-        }
-
-        return null;
-      }, function (nv, ov) {
-        if(nv && nv !== ov) {
-          queryCache.removeAll();
-          $scope.$broadcast('session:tenant:changed');
-        }
-      });
+      $scope.Session = Session; 
 
       $scope.$on(loEvents.tableControls.itemCreate, function () {
         $scope.showBulkActions = false;

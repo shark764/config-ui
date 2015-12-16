@@ -32,7 +32,7 @@ angular.module('liveopsConfigPanel')
         'title' : $translate.instant('media.collections.table.title'),
         'sref' : 'content.flows.media-collections',
         'showBulkActions': false,
-        'showCreate': UserPermissions.hasPermission('MANAGE_ALL_MEDIA'),
+        'showCreate': function() { return UserPermissions.hasPermission('MANAGE_ALL_MEDIA'); },
         'helpLink' : helpDocsHostname + '/Content/Managing%20Flows/Media/Creating%20Media%20Collections.htm'
       };
     }

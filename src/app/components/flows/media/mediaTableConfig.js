@@ -36,7 +36,7 @@ angular.module('liveopsConfigPanel')
         'title' : $translate.instant('media.table.title'),
         'sref' : 'content.flows.media',
         'showBulkActions': false,
-        'showCreate': UserPermissions.hasPermission('MANAGE_ALL_MEDIA'),
+        'showCreate': function () { return UserPermissions.hasPermission('MANAGE_ALL_MEDIA'); },
         'helpLink' : helpDocsHostname + '/Content/Managing%20Flows/Media/Adding%20Media.htm'
       };
     }]
