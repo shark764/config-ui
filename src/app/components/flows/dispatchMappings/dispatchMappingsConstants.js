@@ -17,8 +17,14 @@ angular.module('liveopsConfigPanel.config')
   }, {
     display: 'Direction',
     value: 'direction'
-  }])
-  .constant('dispatchMappingDirections', [{
-    display: 'Inbound',
-    value: 'inbound'
+  }]) 
+  .service('dispatchMappingDirections', [ '$translate', function($translate) {
+    return [{
+      display: $translate.instant('dispatchMappings.inbound'),
+      value: 'inbound'
+    },
+    {
+      display: $translate.instant('dispatchMappings.outbound'),
+      value: 'outbound'
+    }];
   }]);
