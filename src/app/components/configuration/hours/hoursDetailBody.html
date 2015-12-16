@@ -5,7 +5,7 @@
 <div disable-contents="! (['MANAGE_ALL_BUSINESS_HOURS'] | hasPermission)">
   <div class="input-group">
     <label>{{'value.name' | translate}} *</label>
-    
+
     <form-error field="hc.forms.detailsForm.name"
       error-type-required="{{'value.error.name.required' | translate}}">
     </form-error>
@@ -22,7 +22,7 @@
   <div class="input-group"
     ng-if="timezones.$resolved">
     <label>{{'hours.timezone.header' | translate}} *</label>
-    
+
     <form-error field="hc.forms.detailsForm.timezone"
       error-type-required="{{'hours.timezone.required' | translate}}">
     </form-error>
@@ -242,7 +242,10 @@
   <div class="input-group">
     <label>{{'value.date' | translate}} *</label>
 
-    <form-error field="hc.forms.exceptionHour.date"></form-error>
+    <form-error field="hc.forms.exceptionHour.date"
+      error-type-date="{{'hours.exception.date.required' | translate}}"
+      error-type-required="{{'hours.exception.date.required' | translate}}">
+    </form-error>
     <input type="date" name="date"
       ng-model="hc.exceptionHour.date"
       ng-required="hc.exceptionHour"
@@ -253,7 +256,8 @@
   <div class="input-group">
     <label>{{'value.description' | translate}}</label>
 
-    <form-error field="hc.forms.exceptionHour.description"></form-error>
+    <form-error field="hc.forms.exceptionHour.description">
+    </form-error>
     <textarea name="description"
       ng-model="hc.exceptionHour.description">
     </textarea>
@@ -274,7 +278,9 @@
     ng-show="!hc.exceptionHour.isAllDay">
     <label>{{'hours.startTime' | translate}}</label>
 
-    <form-error field="hc.forms.exceptionHour.startTimeMinutes"></form-error>
+    <form-error field="hc.forms.exceptionHour.startTimeMinutes"
+      error-type-required="{{'hours.exception.startTime.required' | translate}}">
+    </form-error>
     <input type="time" name="startTimeMinutes"
       ng-model="hc.exceptionHour.startTimeMinutes"
       ng-required="hc.exceptionHour && !hc.exceptionHour.isAllDay"
@@ -285,7 +291,9 @@
     ng-show="!hc.exceptionHour.isAllDay">
     <label>{{'hours.endTime' | translate}}</label>
 
-    <form-error field="hc.forms.exceptionHour.endTimeMinutes"></form-error>
+    <form-error field="hc.forms.exceptionHour.endTimeMinutes"
+      error-type-required="{{'hours.exception.endTime.required' | translate}}">
+    </form-error>
     <input type="time" name="endTimeMinutes"
       ng-model="hc.exceptionHour.endTimeMinutes"
       ng-required="hc.exceptionHour && !hc.exceptionHour.isAllDay"
@@ -300,6 +308,7 @@
     <input type="button" class="btn btn-primary"
       value="{{'value.submit' | translate}}"
       lo-submit="hc.submitException()"
+      ng-disabled="hc.forms.exceptionHour.$invalid"
       lo-submit-spinner
       lo-submit-spinner-status="hc.exceptionHour.$busy"/>
   </div>
