@@ -201,7 +201,7 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
             "id":"default2",
             "dashId":"default2",
             "name":"Monitor Dashboard",
-            "refreshRate":5000,
+            "refreshRate":10000,
             "gridster":{
                 "mobileModeEnabled":false,
                 "columns":24,
@@ -732,7 +732,7 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
                     }
                 },
                 {
-                    "id":"00000000-0000-0000-000000000026",
+                    "id":"00000000-0000-0000-000000000025",
                     "type":"statistic",
                     "config":{
                         "statistic":"customer-conversation-start-instance",
@@ -753,7 +753,7 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
                     }
                 },
                 {
-                    "id":"00000000-0000-0000-000000000027",
+                    "id":"00000000-0000-0000-000000000026",
                     "type":"statistic",
                     "config":{
                         "statistic":"customer-conversation-end-instance",
@@ -774,7 +774,7 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
                     }
                 },
                 {
-                    "id":"00000000-0000-0000-000000000028",
+                    "id":"00000000-0000-0000-000000000027",
                     "type":"statistic",
                     "config":{
                         "statistic":"interaction-transfer-instance",
@@ -795,7 +795,7 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
                     }
                 },
                 {
-                    "id":"00000000-0000-0000-000000000029",
+                    "id":"00000000-0000-0000-000000000028",
                     "type":"statistic",
                     "config":{
                         "statistic":"resource-transfer-instance",
@@ -816,7 +816,7 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
                     }
                 },
                 {
-                    "id":"00000000-0000-0000-000000000030",
+                    "id":"00000000-0000-0000-000000000029",
                     "type":"statistic",
                     "config":{
                         "statistic":"resource-logout-instance",
@@ -837,7 +837,7 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
                     }
                 },
                 {
-                    "id":"00000000-0000-0000-000000000031",
+                    "id":"00000000-0000-0000-000000000030",
                     "type":"statistic",
                     "config":{
                         "statistic":"resource-not-ready-instance",
@@ -858,7 +858,7 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
                     }
                 },
                 {
-                    "id":"00000000-0000-0000-000000000032",
+                    "id":"00000000-0000-0000-000000000031",
                     "type":"statistic",
                     "config":{
                         "statistic":"abandon-queue-instance",
@@ -879,7 +879,7 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
                     }
                 },
                 {
-                    "id":"00000000-0000-0000-000000000033",
+                    "id":"00000000-0000-0000-000000000032",
                     "type":"statistic",
                     "config":{
                         "statistic":"resource-ready-instance",
@@ -900,7 +900,7 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
                     }
                 },
                 {
-                    "id":"00000000-0000-0000-000000000034",
+                    "id":"00000000-0000-0000-000000000033",
                     "type":"statistic",
                     "config":{
                         "statistic":"resource-presence-utilization",
