@@ -43,7 +43,7 @@
       </select>
     </div>
   </div>
-  
+
   <div class="input-group">
     <label>{{'dispatchMappings.details.channelType' | translate}} *</label>
     <form-error field="forms.dispatchMappingForm.interactionField"
@@ -61,7 +61,7 @@
       </select>
     </div>
   </div>
-  
+
   <div class="input-group"
     ng-if="selectedDispatchMapping.interactionField === 'customer' || selectedDispatchMapping.interactionField === 'contact-point'">
     <label>{{'details.phoneNumber' | translate}} *</label>
@@ -75,7 +75,7 @@
         ng-model="selectedDispatchMapping.value">
     </div>
   </div>
-  
+
   <div class="input-group" ng-if="selectedDispatchMapping.interactionField === 'source'">
     <label>{{'integration.details' | translate}} *</label>
     <form-error field="forms.dispatchMappingForm.value"
@@ -93,7 +93,7 @@
       </select>
     </div>
   </div>
-  
+
   <div class="input-group" ng-if="selectedDispatchMapping.interactionField === 'direction'">
     <label>{{'dispatchMappings.details.direction' | translate}} *</label>
     <form-error field="forms.dispatchMappingForm.value"
@@ -103,7 +103,6 @@
       <select id="direction-form-dropdown" name="value"
         ng-required="true"
         ng-model="selectedDispatchMapping.value"
-        ng-init="selectedDispatchMapping.value = 'inbound'"
         ng-options="dispatchMappingDirection.value as dispatchMappingDirection.display for dispatchMappingDirection in dispatchMappingDirections">
         <option value="" ng-disabled="true">
           {{'dispatchMappings.details.direction.select' | translate}}
@@ -111,7 +110,7 @@
       </select>
     </div>
   </div>
-  
+
   <div class="input-group">
     <label>{{'dispatchMappings.details.flow' | translate}} *</label>
     <form-error field="forms.dispatchMappingForm.flowId"
@@ -119,7 +118,7 @@
     </form-error>
     <div>
       <select name="flowId"
-        ng-required="true" 
+        ng-required="true"
         ng-model="selectedDispatchMapping.flowId"
         ng-options="flow.id as flow.name for flow in fetchFlows()">
         <option value="" ng-disabled="true">
