@@ -5,7 +5,7 @@
 <div disable-contents="! (['MANAGE_ALL_BUSINESS_HOURS'] | hasPermission)">
   <div class="input-group">
     <label>{{'value.name' | translate}} *</label>
-    
+
     <form-error field="hc.forms.detailsForm.name"
       error-type-required="{{'value.error.name.required' | translate}}">
     </form-error>
@@ -22,7 +22,7 @@
   <div class="input-group"
     ng-if="timezones.$resolved">
     <label>{{'hours.timezone.header' | translate}} *</label>
-    
+
     <form-error field="hc.forms.detailsForm.timezone"
       error-type-required="{{'hours.timezone.required' | translate}}">
     </form-error>
@@ -242,11 +242,20 @@
   <div class="input-group">
     <label>{{'value.date' | translate}} *</label>
 
-    <form-error field="hc.forms.exceptionHour.date"></form-error>
+    <form-error field="hc.forms.exceptionHour.date"
+      error-type-duplicate="{{ 'hours.exceptions.date.duplicate' | translate}}"
+      error-type-required="{{ 'hours.exceptions.date.required' | translate}}"
+      error-type-date="{{ 'hours.exceptions.date.required' | translate}}"
+    >
+
+    </form-error>
     <input type="date" name="date"
       ng-model="hc.exceptionHour.date"
       ng-required="hc.exceptionHour"
       ng-model-options="{timezone: 'UTC'}"
+      lo-duplicate-validator
+      lo-duplicate-validator-items="hc.selectedHour.$exceptions"
+      lo-duplicate-validator-options="{comparer: dateComparer}"
       utc-date-converter>
   </div>
 
@@ -327,7 +336,7 @@
   </thead>
   <tbody>
     <tr ng-repeat="exception in hc.selectedHour.$exceptions | orderBy:'date'">
-      <td>{{exception.date | date:'dd-MM-yyyy'}}</td>
+      <td>{{exception.date | date:'dd-MM-yyyy':'UTC'}}</td>
       <td>{{exception.description}}</td>
       <td>{{exception.startTimeMinutes | minutesToTime}}</td>
       <td>{{exception.endTimeMinutes | minutesToTime}}</td>

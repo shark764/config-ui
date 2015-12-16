@@ -47,7 +47,7 @@ angular.module('liveopsConfigPanel')
       vm.reset = function (hour) {
         vm.isHoursCustom = vm.hasHours();
         vm.exceptionHour = null;
-        
+
         vm.forms
           .detailsForm
           .resetController
@@ -141,25 +141,38 @@ angular.module('liveopsConfigPanel')
           vm.reset(oldHour);
         }
 
-	  $scope.dateComparer = function (item) {
-        if(item && $scope.exceptionHour.date) {
-          if(item.startTimeMinutes >= 0 && item.endTimeMinutes >= 0) {
-            var start = moment(item.date),
-                end = moment(item.date);
+      });
 
-            start.add('minutes', item.startTimeMinutes);
-            end.add('minutes', item.endTimeMinutes);
 
-            return !$scope.exceptionHour.date.isBetween(start, end);
-          }
+      $scope.dateComparer = function (item) {
+        var curVal = this.viewValue,
+            itemStart = moment.utc(item.date),
+            itemEnd = moment.utc(item.date),
+            valStart = moment.utc(curVal),
+            valEnd = moment.utc(curVal);
 
-          return !moment(item.date).isSame($scope.exceptionHour.date)
+        if(vm.exceptionHour.isAllDay) {
+          valStart.startOf('day');
+          valEnd.endOf('day');
+        } else {
+          valStart.add('minutes', vm.exceptionHour.startTimeMinutes);
+          valEnd.add('minutes', vm.exceptionHour.endTimeMinutes);
         }
 
-        return false;
-      };
+        if (item.isAllDay) {
+          itemStart.startOf('day');
+          itemEnd.endOf('day');
+        } else {
+          itemStart.add('minutes', item.startTimeMinutes);
+          itemEnd.add('minutes', item.endTimeMinutes);
+        }
 
-      });
+        var itemRange = moment.range(itemStart, itemEnd),
+            valRange = moment.range(valStart, valEnd);
+
+        return itemRange.overlaps(valRange);
+
+      };
 
       $scope.$on('session:tenant:changed', function () {
         vm.loadHours();
