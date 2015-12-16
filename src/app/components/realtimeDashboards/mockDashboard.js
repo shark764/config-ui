@@ -201,6 +201,7 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
             "id":"default2",
             "dashId":"default2",
             "name":"Monitor Dashboard",
+            "refreshRate":5000,
             "gridster":{
                 "mobileModeEnabled":false,
                 "columns":24,
@@ -227,11 +228,11 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
             },
             "widgets":[
                 {
-                    "id":"00000000-0000-0000-000000000003",
+                    "id":"00000000-0000-0000-000000000001",
                     "type":"statistic",
                     "config":{
                         "statistic":"handle-time-duration",
-                        "refreshRate":5000,
+                        "statisticLookup":"avg",
                         "ui":{
                             "title":{
                                 "show":true,
@@ -248,11 +249,11 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
                     }
                 },
                 {
-                    "id":"00000000-0000-0000-000000000003",
+                    "id":"00000000-0000-0000-000000000002",
                     "type":"statistic",
                     "config":{
                         "statistic":"queue-duration ",
-                        "refreshRate":5000,
+                        "statisticLookup":"avg",
                         "ui":{
                             "title":{
                                 "show":true,
@@ -273,7 +274,7 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
                     "type":"statistic",
                     "config":{
                         "statistic":"time-to-answer-duration",
-                        "refreshRate":5000,
+                        "statisticLookup":"avg",
                         "ui":{
                             "title":{
                                 "show":true,
@@ -290,11 +291,11 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
                     }
                 },
                 {
-                    "id":"00000000-0000-0000-000000000003",
+                    "id":"00000000-0000-0000-000000000004",
                     "type":"statistic",
                     "config":{
                         "statistic":"time-to-answer-duration",
-                        "refreshRate":5000,
+                        "statisticLookup":"avg",
                         "ui":{
                             "title":{
                                 "show":true,
@@ -311,11 +312,11 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
                     }
                 },
                 {
-                    "id":"00000000-0000-0000-000000000003",
+                    "id":"00000000-0000-0000-000000000005",
                     "type":"statistic",
                     "config":{
                         "statistic":"resource-conversation-duration",
-                        "refreshRate":5000,
+                        "statisticLookup":"avg",
                         "ui":{
                             "title":{
                                 "show":true,
@@ -332,11 +333,11 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
                     }
                 },
                 {
-                    "id":"00000000-0000-0000-000000000003",
+                    "id":"00000000-0000-0000-000000000006",
                     "type":"statistic",
                     "config":{
                         "statistic":"wrap-up-duration",
-                        "refreshRate":5000,
+                        "statisticLookup":"avg",
                         "ui":{
                             "title":{
                                 "show":true,
@@ -353,11 +354,11 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
                     }
                 },
                 {
-                    "id":"00000000-0000-0000-000000000003",
+                    "id":"00000000-0000-0000-000000000007",
                     "type":"statistic",
                     "config":{
                         "statistic":"interaction-hold-duration",
-                        "refreshRate":5000,
+                        "statisticLookup":"avg",
                         "ui":{
                             "title":{
                                 "show":true,
@@ -374,11 +375,11 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
                     }
                 },
                 {
-                    "id":"00000000-0000-0000-000000000003",
+                    "id":"00000000-0000-0000-000000000008",
                     "type":"statistic",
                     "config":{
                         "statistic":"interaction-duration",
-                        "refreshRate":5000,
+                        "statisticLookup":"avg",
                         "ui":{
                             "title":{
                                 "show":true,
@@ -395,11 +396,11 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
                     }
                 },
                 {
-                    "id":"00000000-0000-0000-000000000003",
+                    "id":"00000000-0000-0000-000000000009",
                     "type":"statistic",
                     "config":{
                         "statistic":"resource-hold-duration",
-                        "refreshRate":5000,
+                        "statisticLookup":"avg",
                         "ui":{
                             "title":{
                                 "show":true,
@@ -416,11 +417,11 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
                     }
                 },
                 {
-                    "id":"00000000-0000-0000-000000000003",
+                    "id":"00000000-0000-0000-000000000010",
                     "type":"statistic",
                     "config":{
                         "statistic":"resource-talk-time-duration",
-                        "refreshRate":5000,
+                        "statisticLookup":"avg",
                         "ui":{
                             "title":{
                                 "show":true,
@@ -437,11 +438,11 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
                     }
                 },
                 {
-                    "id":"00000000-0000-0000-000000000003",
+                    "id":"00000000-0000-0000-000000000011",
                     "type":"statistic",
                     "config":{
                         "statistic":"resource-logged-in-duration",
-                        "refreshRate":5000,
+                        "statisticLookup":"avg",
                         "ui":{
                             "title":{
                                 "show":true,
@@ -458,11 +459,11 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
                     }
                 },
                 {
-                    "id":"00000000-0000-0000-000000000003",
+                    "id":"00000000-0000-0000-000000000012",
                     "type":"statistic",
                     "config":{
                         "statistic":"abandon-time-duration",
-                        "refreshRate":5000,
+                        "statisticLookup":"avg",
                         "ui":{
                             "title":{
                                 "show":true,
@@ -479,11 +480,11 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
                     }
                 },
                 {
-                    "id":"00000000-0000-0000-000000000003",
+                    "id":"00000000-0000-0000-000000000013",
                     "type":"statistic",
                     "config":{
                         "statistic":"resource-busy-duration",
-                        "refreshRate":5000,
+                        "statisticLookup":"avg",
                         "ui":{
                             "title":{
                                 "show":true,
@@ -500,11 +501,11 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
                     }
                 },
                 {
-                    "id":"00000000-0000-0000-000000000003",
+                    "id":"00000000-0000-0000-000000000014",
                     "type":"statistic",
                     "config":{
                         "statistic":"resource-away-duration",
-                        "refreshRate":5000,
+                        "statisticLookup":"avg",
                         "ui":{
                             "title":{
                                 "show":true,
@@ -521,11 +522,11 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
                     }
                 },
                 {
-                    "id":"00000000-0000-0000-000000000003",
+                    "id":"00000000-0000-0000-000000000015",
                     "type":"statistic",
                     "config":{
                         "statistic":"resource-ready-duration",
-                        "refreshRate":5000,
+                        "statisticLookup":"avg",
                         "ui":{
                             "title":{
                                 "show":true,
@@ -542,11 +543,11 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
                     }
                 },
                 {
-                    "id":"00000000-0000-0000-000000000003",
+                    "id":"00000000-0000-0000-000000000016",
                     "type":"statistic",
                     "config":{
                         "statistic":"resource-hold-start-instance",
-                        "refreshRate":5000,
+                        "statisticLookup":"avg",
                         "ui":{
                             "title":{
                                 "show":true,
@@ -563,11 +564,11 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
                     }
                 },
                 {
-                    "id":"00000000-0000-0000-000000000003",
+                    "id":"00000000-0000-0000-000000000017",
                     "type":"statistic",
                     "config":{
                         "statistic":"resource-conversation-start-instance",
-                        "refreshRate":5000,
+                        "statisticLookup":"avg",
                         "ui":{
                             "title":{
                                 "show":true,
@@ -584,11 +585,11 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
                     }
                 },
                 {
-                    "id":"00000000-0000-0000-000000000003",
+                    "id":"00000000-0000-0000-000000000018",
                     "type":"statistic",
                     "config":{
                         "statistic":"resource-conversation-end-instance",
-                        "refreshRate":5000,
+                        "statisticLookup":"avg",
                         "ui":{
                             "title":{
                                 "show":true,
@@ -605,11 +606,11 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
                     }
                 },
                 {
-                    "id":"00000000-0000-0000-000000000003",
+                    "id":"00000000-0000-0000-000000000019",
                     "type":"statistic",
                     "config":{
                         "statistic":"interaction-abandon-instance",
-                        "refreshRate":5000,
+                        "statisticLookup":"avg",
                         "ui":{
                             "title":{
                                 "show":true,
@@ -626,11 +627,11 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
                     }
                 },
                 {
-                    "id":"00000000-0000-0000-000000000003",
+                    "id":"00000000-0000-0000-000000000020",
                     "type":"statistic",
                     "config":{
                         "statistic":"queue-entry-instance",
-                        "refreshRate":5000,
+                        "statisticLookup":"avg",
                         "ui":{
                             "title":{
                                 "show":true,
@@ -647,11 +648,11 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
                     }
                 },
                 {
-                    "id":"00000000-0000-0000-000000000003",
+                    "id":"00000000-0000-0000-000000000021",
                     "type":"statistic",
                     "config":{
                         "statistic":"queue-exit-instance",
-                        "refreshRate":5000,
+                        "statisticLookup":"avg",
                         "ui":{
                             "title":{
                                 "show":true,
@@ -668,11 +669,11 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
                     }
                 },
                 {
-                    "id":"00000000-0000-0000-000000000003",
+                    "id":"00000000-0000-0000-000000000022",
                     "type":"statistic",
                     "config":{
                         "statistic":"resource-login-instance",
-                        "refreshRate":5000,
+                        "statisticLookup":"avg",
                         "ui":{
                             "title":{
                                 "show":true,
@@ -689,11 +690,11 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
                     }
                 },
                 {
-                    "id":"00000000-0000-0000-000000000003",
+                    "id":"00000000-0000-0000-000000000023",
                     "type":"statistic",
                     "config":{
                         "statistic":"interaction-start-instance",
-                        "refreshRate":5000,
+                        "statisticLookup":"avg",
                         "ui":{
                             "title":{
                                 "show":true,
@@ -710,11 +711,11 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
                     }
                 },
                 {
-                    "id":"00000000-0000-0000-000000000003",
+                    "id":"00000000-0000-0000-000000000024",
                     "type":"statistic",
                     "config":{
                         "statistic":"interaction-end-instance",
-                        "refreshRate":5000,
+                        "statisticLookup":"avg",
                         "ui":{
                             "title":{
                                 "show":true,
@@ -731,11 +732,11 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
                     }
                 },
                 {
-                    "id":"00000000-0000-0000-000000000003",
+                    "id":"00000000-0000-0000-000000000026",
                     "type":"statistic",
                     "config":{
                         "statistic":"customer-conversation-start-instance",
-                        "refreshRate":5000,
+                        "statisticLookup":"avg",
                         "ui":{
                             "title":{
                                 "show":true,
@@ -752,11 +753,11 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
                     }
                 },
                 {
-                    "id":"00000000-0000-0000-000000000003",
+                    "id":"00000000-0000-0000-000000000027",
                     "type":"statistic",
                     "config":{
                         "statistic":"customer-conversation-end-instance",
-                        "refreshRate":5000,
+                        "statisticLookup":"avg",
                         "ui":{
                             "title":{
                                 "show":true,
@@ -773,11 +774,11 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
                     }
                 },
                 {
-                    "id":"00000000-0000-0000-000000000003",
+                    "id":"00000000-0000-0000-000000000028",
                     "type":"statistic",
                     "config":{
                         "statistic":"interaction-transfer-instance",
-                        "refreshRate":5000,
+                        "statisticLookup":"avg",
                         "ui":{
                             "title":{
                                 "show":true,
@@ -794,11 +795,11 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
                     }
                 },
                 {
-                    "id":"00000000-0000-0000-000000000003",
+                    "id":"00000000-0000-0000-000000000029",
                     "type":"statistic",
                     "config":{
                         "statistic":"resource-transfer-instance",
-                        "refreshRate":5000,
+                        "statisticLookup":"avg",
                         "ui":{
                             "title":{
                                 "show":true,
@@ -815,11 +816,11 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
                     }
                 },
                 {
-                    "id":"00000000-0000-0000-000000000003",
+                    "id":"00000000-0000-0000-000000000030",
                     "type":"statistic",
                     "config":{
                         "statistic":"resource-logout-instance",
-                        "refreshRate":5000,
+                        "statisticLookup":"avg",
                         "ui":{
                             "title":{
                                 "show":true,
@@ -836,11 +837,11 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
                     }
                 },
                 {
-                    "id":"00000000-0000-0000-000000000003",
+                    "id":"00000000-0000-0000-000000000031",
                     "type":"statistic",
                     "config":{
                         "statistic":"resource-not-ready-instance",
-                        "refreshRate":5000,
+                        "statisticLookup":"avg",
                         "ui":{
                             "title":{
                                 "show":true,
@@ -857,11 +858,11 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
                     }
                 },
                 {
-                    "id":"00000000-0000-0000-000000000003",
+                    "id":"00000000-0000-0000-000000000032",
                     "type":"statistic",
                     "config":{
                         "statistic":"abandon-queue-instance",
-                        "refreshRate":5000,
+                        "statisticLookup":"avg",
                         "ui":{
                             "title":{
                                 "show":true,
@@ -878,11 +879,11 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
                     }
                 },
                 {
-                    "id":"00000000-0000-0000-000000000003",
+                    "id":"00000000-0000-0000-000000000033",
                     "type":"statistic",
                     "config":{
                         "statistic":"resource-ready-instance",
-                        "refreshRate":5000,
+                        "statisticLookup":"avg",
                         "ui":{
                             "title":{
                                 "show":true,
@@ -899,11 +900,11 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
                     }
                 },
                 {
-                    "id":"00000000-0000-0000-000000000003",
+                    "id":"00000000-0000-0000-000000000034",
                     "type":"statistic",
                     "config":{
                         "statistic":"resource-presence-utilization",
-                        "refreshRate":5000,
+                        "statisticLookup":"avg",
                         "ui":{
                             "title":{
                                 "show":true,
