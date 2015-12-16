@@ -386,7 +386,7 @@ describe('NavbarController', function () {
       }
     }]));
 
-    fit('should add the Queues link if the user has permissions', inject(['UserPermissions', 'filterFilter', function (UserPermissions, filterFilter) {
+    it('should add the Queues link if the user has permissions', inject(['UserPermissions', 'filterFilter', function (UserPermissions, filterFilter) {
       var permissionsList = ['VIEW_ALL_FLOWS', 'MANAGE_ALL_FLOWS', 'MANAGE_ALL_QUEUES'];
       var currentPermission;
       spyOn(UserPermissions, 'hasPermission').and.callFake(function(permission){
@@ -402,7 +402,7 @@ describe('NavbarController', function () {
         currentPermission = permissionsList[i];
 
         var c = $controller('NavbarController', {'$scope': $scope});
-        
+
         $scope.$digest();
 
         expect($scope.flowsDropConfig).toBeDefined();
