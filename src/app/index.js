@@ -34,4 +34,10 @@ angular.module('liveopsConfigPanel', [
       .useSanitizeValueStrategy('escaped')
       .useLocalStorage()
       .preferredLanguage('en');
+  }])
+  .run(['queryCache', '$rootScope', function(queryCache, $rootScope) {
+    $rootScope.$on('$stateChangeSuccess', function () {
+      queryCache.removeAll();
+    });
+
   }]);
