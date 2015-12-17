@@ -1,10 +1,10 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('ContentController', ['$scope', 'Session', 'Alert', '$translate', 'queryCache', '$stateParams', 'loEvents', '$state', '$q',
-    function ($scope, Session, Alert, $translate, queryCache, $stateParams, loEvents, $state, $q) {
+  .controller('ContentController', ['$scope', 'Session', 'Alert', '$translate', 'queryCache', '$stateParams', 'loEvents',
+    function ($scope, Session, Alert, $translate, queryCache, $stateParams, loEvents) {
       $scope.showBulkActions = false;
-      $scope.Session = Session; 
+      $scope.Session = Session;
 
       $scope.$on(loEvents.tableControls.itemCreate, function () {
         $scope.showBulkActions = false;
@@ -19,10 +19,6 @@ angular.module('liveopsConfigPanel')
 
       $scope.$on(loEvents.bulkActions.close, function () {
         $scope.showBulkActions = false;
-      });
-
-      $scope.$on('$stateChangeSuccess', function () {
-        queryCache.removeAll();
       });
 
       if ($stateParams.messageKey) {

@@ -26,7 +26,7 @@ angular.module('liveopsConfigPanel')
       'title' : $translate.instant('integration.table.title'),
       'sref' : 'content.configuration.integrations',
       'showCreate': false,
-      'showBulkActions': function () { return UserPermissions.hasPermission('MANAGE_ALL_PROVIDERS') },
+      'showBulkActions': function () { return UserPermissions.hasPermission('MANAGE_ALL_PROVIDERS'); },
       'helpLink' : helpDocsHostname + '/Content/Configuring%20CxEngage/Creating_Integrations.htm'
     };
   }]);
