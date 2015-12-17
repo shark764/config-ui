@@ -204,7 +204,7 @@ angular.module('liveopsConfigPanel')
             "name":"Monitor Dashboard",
             "refreshRate":30000,
             "gridster":{
-                "columns":36,
+                "columns":30,
                 "minRows":10,
                 "maxRows":30,
                 "margins":[
@@ -233,7 +233,7 @@ angular.module('liveopsConfigPanel')
                             "text":"Queue:"
                         },
                           "size":{
-                              "width":8,
+                              "width":7,
                               "height":1
                           }
                       }
@@ -254,11 +254,11 @@ angular.module('liveopsConfigPanel')
                                 "text":"Average Wait Time"
                             },
                             "size":{
-                                "width":4,
+                                "width":3,
                                 "height":4
                             },
                             "position": {
-                                row: 2,
+                                row: 1,
                                 col: 0
                             }
                         }
@@ -287,7 +287,7 @@ angular.module('liveopsConfigPanel')
                             },
                             "position": {
                               row: 2,
-                              col: 4
+                              col: 3
                           }
                         }
                     },
@@ -316,7 +316,7 @@ angular.module('liveopsConfigPanel')
                           },
                           "position": {
                             row: 4,
-                            col: 4
+                            col: 3
                         }
                       }
                   },
@@ -337,12 +337,12 @@ angular.module('liveopsConfigPanel')
                           "text":"Queue:"
                       },
                         "size":{
-                            "width":8,
+                            "width":7,
                             "height":1
                         },
                         "position": {
                             "row": 0,
-                            "col": 9
+                            "col": 8
                         }
                     }
                 }
@@ -362,12 +362,12 @@ angular.module('liveopsConfigPanel')
                               "text":"Average Wait Time"
                           },
                           "size":{
-                              "width":4,
+                              "width":3,
                               "height":4
                           },
                           "position": {
                               row: 2,
-                              col: 9
+                              col: 8
                           }
                       }
                   },
@@ -395,7 +395,7 @@ angular.module('liveopsConfigPanel')
                           },
                           "position": {
                             row: 2,
-                            col: 13
+                            col: 11
                         }
                       }
                   },
@@ -424,7 +424,7 @@ angular.module('liveopsConfigPanel')
                         },
                         "position": {
                           row: 4,
-                          col: 13
+                          col: 11
                       }
                     }
                 },
@@ -438,12 +438,12 @@ angular.module('liveopsConfigPanel')
               "config":{
                   "ui":{
                       "size":{
-                          "width":16,
+                          "width":14,
                           "height":1
                       },
                       "position": {
                         row: 0,
-                        col: 18
+                        col: 17
                     }
                   }
               },
@@ -464,12 +464,12 @@ angular.module('liveopsConfigPanel')
                         "text":"Active Interactions"
                     },
                     "size":{
-                        "width":6,
+                        "width":5,
                         "height":5
                     },
                     "position": {
                       row: 1,
-                      col: 18
+                      col: 16
                   }
                 }
             },
@@ -494,7 +494,7 @@ angular.module('liveopsConfigPanel')
                   },
                   "position": {
                     row: 1,
-                    col: 24
+                    col: 21
                 }
               }
           },
@@ -514,12 +514,12 @@ angular.module('liveopsConfigPanel')
                     "text":"Avg. Int. Time"
                 },
                 "size":{
-                    "width":5,
+                    "width":4,
                     "height":5
                 },
                 "position": {
                     row: 1,
-                    col: 29
+                    col: 26
                 }
             }
         },
@@ -540,11 +540,11 @@ angular.module('liveopsConfigPanel')
                 },
                 "size":{
                     "width":4,
-                    "height":4
+                    "height":3
                 },
                 "position": {
                     row: 6,
-                    col: 18
+                    col: 16
                 }
             }
         },
@@ -565,11 +565,11 @@ angular.module('liveopsConfigPanel')
                 },
                 "size":{
                     "width":4,
-                    "height":4
+                    "height":3
                 },
                 "position": {
                     row: 6,
-                    col: 22
+                    col: 20
                 }
             }
         },
@@ -589,12 +589,12 @@ angular.module('liveopsConfigPanel')
                     "text":"IVR Abandons"
                 },
                 "size":{
-                    "width":4,
-                    "height":4
+                    "width":3,
+                    "height":3
                 },
                 "position": {
                     row: 6,
-                    col: 26
+                    col: 24
                 }
             }
         },
@@ -614,354 +614,18 @@ angular.module('liveopsConfigPanel')
                     "text":"Interactions Transferred"
                 },
                 "size":{
-                    "width":4,
-                    "height":4
+                    "width":3,
+                    "height":3
                 },
                 "position": {
                     row: 6,
-                    col: 30
+                    col: 27
                 }
             }
         },
         "chart":{
             "indicator":{}
         }
-      }//,
-//                {
-//                    "id":"00000000-0000-0000-000000000003",
-//                    "type":"statistic",
-//                    "config":{
-//                        "statistic":"time-to-answer-duration",
-//                        "statisticLookup":"avg",
-//                        "ui":{
-//                            "title":{
-//                                "show":true,
-//                                "text":"Time to Answer Duration"
-//                            },
-//                            "size":{
-//                                "width":2,
-//                                "height":2
-//                            }
-//                        }
-//                    },
-//                    "chart":{
-//                        "indicator":{}
-//                    }
-//                },
-//                {
-//                    "id":"00000000-0000-0000-000000000005",
-//                    "type":"statistic",
-//                    "config":{
-//                        "statistic":"resource-conversation-duration",
-//                        "statisticLookup":"avg",
-//                        "ui":{
-//                            "title":{
-//                                "show":true,
-//                                "text":"Resource Conversation Duration"
-//                            },
-//                            "size":{
-//                                "width":2,
-//                                "height":2
-//                            }
-//                        }
-//                    },
-//                    "chart":{
-//                        "indicator":{}
-//                    }
-//                },
-//                {
-//                    "id":"00000000-0000-0000-000000000006",
-//                    "type":"statistic",
-//                    "config":{
-//                        "statistic":"wrap-up-duration",
-//                        "statisticLookup":"avg",
-//                        "ui":{
-//                            "title":{
-//                                "show":true,
-//                                "text":"Wrap Up Duration"
-//                            },
-//                            "size":{
-//                                "width":2,
-//                                "height":2
-//                            }
-//                        }
-//                    },
-//                    "chart":{
-//                        "indicator":{}
-//                    }
-//                },
-//                {
-//                    "id":"00000000-0000-0000-000000000007",
-//                    "type":"statistic",
-//                    "config":{
-//                        "statistic":"interaction-hold-duration",
-//                        "statisticLookup":"avg",
-//                        "ui":{
-//                            "title":{
-//                                "show":true,
-//                                "text":"Interaction Hold Duration"
-//                            },
-//                            "size":{
-//                                "width":2,
-//                                "height":2
-//                            }
-//                        }
-//                    },
-//                    "chart":{
-//                        "indicator":{}
-//                    }
-//                },
-//                {
-//                    "id":"00000000-0000-0000-000000000008",
-//                    "type":"statistic",
-//                    "config":{
-//                        "statistic":"interaction-duration",
-//                        "statisticLookup":"avg",
-//                        "ui":{
-//                            "title":{
-//                                "show":true,
-//                                "text":"Interaction Duration"
-//                            },
-//                            "size":{
-//                                "width":2,
-//                                "height":2
-//                            }
-//                        }
-//                    },
-//                    "chart":{
-//                        "indicator":{}
-//                    }
-//                },
-//                {
-//                    "id":"00000000-0000-0000-000000000009",
-//                    "type":"statistic",
-//                    "config":{
-//                        "statistic":"resource-hold-duration",
-//                        "statisticLookup":"avg",
-//                        "ui":{
-//                            "title":{
-//                                "show":true,
-//                                "text":"Resource Hold Duration"
-//                            },
-//                            "size":{
-//                                "width":2,
-//                                "height":2
-//                            }
-//                        }
-//                    },
-//                    "chart":{
-//                        "indicator":{}
-//                    }
-//                },
-//                {
-//                    "id":"00000000-0000-0000-000000000012",
-//                    "type":"statistic",
-//                    "config":{
-//                        "statistic":"abandon-time-duration",
-//                        "statisticLookup":"avg",
-//                        "ui":{
-//                            "title":{
-//                                "show":true,
-//                                "text":"Abandon Time Duration"
-//                            },
-//                            "size":{
-//                                "width":2,
-//                                "height":2
-//                            }
-//                        }
-//                    },
-//                    "chart":{
-//                        "indicator":{}
-//                    }
-//                },
-//                {
-//                    "id":"00000000-0000-0000-000000000019",
-//                    "type":"statistic",
-//                    "config":{
-//                        "statistic":"interaction-abandon-instance",
-//                        "statisticLookup":"recordsCount",
-//                        "ui":{
-//                            "title":{
-//                                "show":true,
-//                                "text":"Interaction Abandon Instance"
-//                            },
-//                            "size":{
-//                                "width":2,
-//                                "height":2
-//                            }
-//                        }
-//                    },
-//                    "chart":{
-//                        "indicator":{}
-//                    }
-//                },
-//                {
-//                    "id":"00000000-0000-0000-000000000020",
-//                    "type":"statistic",
-//                    "config":{
-//                        "statistic":"queue-entry-instance",
-//                        "statisticLookup":"recordsCount",
-//                        "ui":{
-//                            "title":{
-//                                "show":true,
-//                                "text":"Queue Entry Instance"
-//                            },
-//                            "size":{
-//                                "width":2,
-//                                "height":2
-//                            }
-//                        }
-//                    },
-//                    "chart":{
-//                        "indicator":{}
-//                    }
-//                },
-//                {
-//                    "id":"00000000-0000-0000-000000000021",
-//                    "type":"statistic",
-//                    "config":{
-//                        "statistic":"queue-exit-instance",
-//                        "statisticLookup":"recordsCount",
-//                        "ui":{
-//                            "title":{
-//                                "show":true,
-//                                "text":"Queue Exit Instance"
-//                            },
-//                            "size":{
-//                                "width":2,
-//                                "height":2
-//                            }
-//                        }
-//                    },
-//                    "chart":{
-//                        "indicator":{}
-//                    }
-//                },
-//                {
-//                    "id":"00000000-0000-0000-000000000023",
-//                    "type":"statistic",
-//                    "config":{
-//                        "statistic":"interaction-start-instance",
-//                        "statisticLookup":"recordsCount",
-//                        "ui":{
-//                            "title":{
-//                                "show":true,
-//                                "text":"Interaction Start Instance"
-//                            },
-//                            "size":{
-//                                "width":2,
-//                                "height":2
-//                            }
-//                        }
-//                    },
-//                    "chart":{
-//                        "indicator":{}
-//                    }
-//                },
-//                {
-//                    "id":"00000000-0000-0000-000000000024",
-//                    "type":"statistic",
-//                    "config":{
-//                        "statistic":"interaction-end-instance",
-//                        "statisticLookup":"recordsCount",
-//                        "ui":{
-//                            "title":{
-//                                "show":true,
-//                                "text":"Interaction End Instance"
-//                            },
-//                            "size":{
-//                                "width":2,
-//                                "height":2
-//                            }
-//                        }
-//                    },
-//                    "chart":{
-//                        "indicator":{}
-//                    }
-//                },
-//                {
-//                    "id":"00000000-0000-0000-000000000025",
-//                    "type":"statistic",
-//                    "config":{
-//                        "statistic":"customer-conversation-start-instance",
-//                        "statisticLookup":"recordsCount",
-//                        "ui":{
-//                            "title":{
-//                                "show":true,
-//                                "text":"Customer Conversation Start Instance"
-//                            },
-//                            "size":{
-//                                "width":2,
-//                                "height":2
-//                            }
-//                        }
-//                    },
-//                    "chart":{
-//                        "indicator":{}
-//                    }
-//                },
-//                {
-//                    "id":"00000000-0000-0000-000000000026",
-//                    "type":"statistic",
-//                    "config":{
-//                        "statistic":"customer-conversation-end-instance",
-//                        "statisticLookup":"recordsCount",
-//                        "ui":{
-//                            "title":{
-//                                "show":true,
-//                                "text":"Customer Conversation End Instance"
-//                            },
-//                            "size":{
-//                                "width":2,
-//                                "height":2
-//                            }
-//                        }
-//                    },
-//                    "chart":{
-//                        "indicator":{}
-//                    }
-//                },
-//                {
-//                    "id":"00000000-0000-0000-000000000027",
-//                    "type":"statistic",
-//                    "config":{
-//                        "statistic":"interaction-transfer-instance",
-//                        "statisticLookup":"recordsCount",
-//                        "ui":{
-//                            "title":{
-//                                "show":true,
-//                                "text":"Interaction Transfer Instance"
-//                            },
-//                            "size":{
-//                                "width":2,
-//                                "height":2
-//                            }
-//                        }
-//                    },
-//                    "chart":{
-//                        "indicator":{}
-//                    }
-//                },
-//                {
-//                    "id":"00000000-0000-0000-000000000031",
-//                    "type":"statistic",
-//                    "config":{
-//                        "statistic":"abandon-queue-instance",
-//                        "statisticLookup":"recordsCount",
-//                        "ui":{
-//                            "title":{
-//                                "show":true,
-//                                "text":"Abandon Queue Instance"
-//                            },
-//                            "size":{
-//                                "width":2,
-//                                "height":2
-//                            }
-//                        }
-//                    },
-//                    "chart":{
-//                        "indicator":{}
-//                    }
-//                }
+      }
             ]
         });
