@@ -2,7 +2,7 @@
 
   <input name="query" type="hidden" ng-model="qc.selectedQueueVersion.query" ng-required="true" />
 
-  <query-list-creator ng-if="qc.selectedQueueVersion" query-string="qc.selectedQueueVersion.query"></query-list-creator>
+  <query-list-creator form="qc.forms.versionForm" ng-if="qc.selectedQueueVersion" query-string="qc.selectedQueueVersion.query"></query-list-creator>
 
   <div class="divider-header">
     <h4>Priority</h4>

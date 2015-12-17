@@ -107,12 +107,18 @@ describe('duplicateEmail directive', function() {
       $httpBackend.flush();
     });
     
-    it('should reject the promise WHEN query returns 4**', function(done) {
-      $httpBackend.expect('GET', apiHostname + '/v1/users?email=' + mockUsers[0].email).respond(400);
+    it('should resolve the promise WHEN query returns 4**', function(done) {
+      $httpBackend.expect('GET', apiHostname + '/v1/users?email=' + mockUsers[0].email).respond(400, {
+        error: {
+          attribute: {
+            email: 'invalid email'
+          }
+        }
+      });
       
       var result = ngModel.$asyncValidators.duplicateEmail(mockUsers[0].email);
       
-      result.then(null, function() {
+      result.then(function() {
         done();
       });
       

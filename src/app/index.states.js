@@ -20,19 +20,19 @@ angular.module('liveopsConfigPanel')
         templateUrl: 'app/components/content/content.html',
         controller: 'ContentController',
         resolve: {
-            regions: ['Session', 'Region', function (Session, Region) {
-              return Region.query({}, function (result) {
+          regions: ['Session', 'Region', function (Session, Region) {
+            return Region.query({}, function (result) {
               Session.activeRegionId = result[0].id;
             }).$promise;
           }],
 
-            login: ['Session', 'Login', '$state', function (Session, Login, $state) {
-              return Login.save(function (result) {
-              Session.tenants = result.tenants;
-              }, function () {
-              $state.go('login');
-            }).$promise;
-            }]
+          login: ['Session', 'Login', '$state', function (Session, Login, $state) {
+            return Login.save(function (result) {
+                Session.tenants = result.tenants;
+            }, function () {
+                $state.go('login');
+              }).$promise;
+          }],
         }
       })
       .state('content.management', {
@@ -47,10 +47,10 @@ angular.module('liveopsConfigPanel')
         controller: 'UsersController',
         reloadOnSearch: false,
         resolve: {
-            hasPermission: ['UserPermissions', '$q', function (UserPermissions, $q) {
+          hasPermission: ['UserPermissions', 'PermissionGroups', '$q', function (UserPermissions, PermissionGroups, $q) {
             return $q.all(
-                UserPermissions.resolvePermissions(['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'VIEW_ALL_USERS', 'MANAGE_ALL_USER_EXTENSIONS', 'MANAGE_ALL_GROUP_USERS', 'MANAGE_ALL_USER_SKILLS', 'MANAGE_ALL_USER_LOCATIONS', 'MANAGE_TENANT_ENROLLMENT']),
-                UserPermissions.resolvePermissions(['MANAGE_ALL_GROUPS', 'MANAGE_ALL_SKILLS']) //See TITAN2-4897 for why we do this extra check
+                UserPermissions.resolvePermissions(PermissionGroups.manageUsers.concat(PermissionGroups.viewUsers)),
+                UserPermissions.resolvePermissions(PermissionGroups.manageUserSkillsAndGroups) //See TITAN2-4897 for why we do this extra check
             );
           }]
         }
@@ -61,8 +61,8 @@ angular.module('liveopsConfigPanel')
         controller: 'RolesController',
         reloadOnSearch: false,
         resolve: {
-            hasPermission: ['UserPermissions', function (UserPermissions) {
-            return UserPermissions.resolvePermissions(['PLATFORM_CREATE_TENANT_ROLES', 'PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'VIEW_ALL_ROLES', 'MANAGE_ALL_ROLES', 'MANAGE_TENANT_ENROLLMENT']);
+          hasPermission: ['UserPermissions', 'PermissionGroups', function (UserPermissions, PermissionGroups) {
+            return UserPermissions.resolvePermissions(PermissionGroups.manageRoles);
           }]
         }
       })
@@ -72,11 +72,11 @@ angular.module('liveopsConfigPanel')
         controller: 'SkillsController',
         reloadOnSearch: false,
         resolve: {
-            hasPermission: ['UserPermissions', '$q', function (UserPermissions, $q) {
-              return $q.all(
-                  UserPermissions.resolvePermissions(['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'VIEW_ALL_SKILLS', 'MANAGE_ALL_SKILLS', 'MANAGE_ALL_USER_SKILLS', 'MANAGE_TENANT_ENROLLMENT']),
-                  UserPermissions.resolvePermissions(['MANAGE_ALL_MEDIA']) //See TITAN2-6199 for why we do this extra check
-              );
+          hasPermission: ['UserPermissions', 'PermissionGroups', '$q', function (UserPermissions, PermissionGroups, $q) {
+            return $q.all(
+                UserPermissions.resolvePermissions(PermissionGroups.manageSkills),
+                UserPermissions.resolvePermissions(PermissionGroups.manageAllMedia) //See TITAN2-6199 for why we do this extra check
+            );
           }]
         }
       })
@@ -86,11 +86,11 @@ angular.module('liveopsConfigPanel')
         controller: 'GroupsController',
         reloadOnSearch: false,
         resolve: {
-            hasPermission: ['UserPermissions', '$q', function (UserPermissions, $q) {
-              return $q.all(
-                  UserPermissions.resolvePermissions(['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'VIEW_ALL_GROUPS', 'MANAGE_ALL_GROUPS', 'MANAGE_ALL_GROUP_USERS', 'MANAGE_ALL_GROUP_OWNERS', 'MANAGE_TENANT_ENROLLMENT']),
-                  UserPermissions.resolvePermissions(['MANAGE_ALL_MEDIA']) //See TITAN2-6199 for why we do this extra check
-              );
+          hasPermission: ['UserPermissions', 'PermissionGroups', '$q', function (UserPermissions, PermissionGroups, $q) {
+            return $q.all(
+                UserPermissions.resolvePermissions(PermissionGroups.manageGroups),
+                UserPermissions.resolvePermissions(PermissionGroups.manageAllMedia)
+            );
           }]
         }
       })
@@ -106,8 +106,8 @@ angular.module('liveopsConfigPanel')
         controller: 'TenantsController',
         reloadOnSearch: false,
         resolve: {
-            hasPermission: ['UserPermissions', function (UserPermissions) {
-            return UserPermissions.resolvePermissions(['PLATFORM_VIEW_ALL_TENANTS', 'PLATFORM_MANAGE_ALL_TENANTS', 'PLATFORM_CREATE_ALL_TENANTS', 'PLATFORM_CREATE_TENANT_ROLES', 'PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'MANAGE_TENANT']);
+          hasPermission: ['UserPermissions', 'PermissionGroups', function (UserPermissions, PermissionGroups) {
+            return UserPermissions.resolvePermissions(PermissionGroups.accessAllTenants);
           }]
         }
       })
@@ -117,8 +117,8 @@ angular.module('liveopsConfigPanel')
         controller: 'genericListsController',
         reloadOnSearch: false,
         resolve: {
-          hasPermission: ['UserPermissions', function (UserPermissions) {
-            return UserPermissions.resolvePermissions(['MANAGE_ALL_LISTS']);
+          hasPermission: ['UserPermissions', 'PermissionGroups', function (UserPermissions, PermissionGroups) {
+            return UserPermissions.resolvePermissions(PermissionGroups.accessAllLists);
           }]
         }
       })
@@ -136,8 +136,8 @@ angular.module('liveopsConfigPanel')
           listId: 'c9d31830-9499-11e5-b3ac-c1ae7ae4ed37',
         },
         resolve: {
-            hasPermission: ['UserPermissions', function (UserPermissions) {
-            return UserPermissions.resolvePermissions(['MANAGE_ALL_LISTS']);
+          hasPermission: ['UserPermissions', 'PermissionGroups', function (UserPermissions, PermissionGroups) {
+            return UserPermissions.resolvePermissions(PermissionGroups.accessAllLists);
           }]
         }
       })
@@ -150,8 +150,8 @@ angular.module('liveopsConfigPanel')
           listId: 'c9d31830-9499-11e5-b3ac-c1ae7ae4ed37',
         },
         resolve: {
-            hasPermission: ['UserPermissions', function (UserPermissions) {
-            return UserPermissions.resolvePermissions(['MANAGE_ALL_LISTS']);
+          hasPermission: ['UserPermissions', 'PermissionGroups', function (UserPermissions, PermissionGroups) {
+            return UserPermissions.resolvePermissions(PermissionGroups.accessAllLists);
           }]
         }
       })
@@ -161,21 +161,19 @@ angular.module('liveopsConfigPanel')
         controller: 'IntegrationsController',
         reloadOnSearch: false,
         resolve: {
-            hasPermission: ['UserPermissions', function (UserPermissions) {
-            return UserPermissions.resolvePermissions(['VIEW_ALL_PROVIDERS', 'MANAGE_ALL_PROVIDERS']);
+          hasPermission: ['UserPermissions', 'PermissionGroups', function (UserPermissions, PermissionGroups) {
+            return UserPermissions.resolvePermissions(PermissionGroups.accessAllIntegrations);
           }]
         }
       })
       .state('content.configuration.hours', {
         url: '/hours?id',
         templateUrl: 'app/components/configuration/hours/hours.html',
-        controller: 'HoursController',
+        controller: 'HoursController as hc',
         reloadOnSearch: false,
         resolve: {
-          hasPermission: ['UserPermissions', function(UserPermissions) {
-            //TODO business hours permissions
-            //return UserPermissions.resolvePermissions(['VIEW_ALL_BUSINESS_HOURS', 'MANAGE_ALL_BUSINESS_HOURS']);
-            return UserPermissions.resolvePermissions([]);
+          hasPermission: ['UserPermissions', 'PermissionGroups', function (UserPermissions, PermissionGroups) {
+            return UserPermissions.resolvePermissions(PermissionGroups.accessAllBusinessHours);
           }]
         }
       })
@@ -191,8 +189,8 @@ angular.module('liveopsConfigPanel')
         controller: 'FlowManagementController',
         reloadOnSearch: false,
         resolve: {
-            hasPermission: ['UserPermissions', function (UserPermissions) {
-            return UserPermissions.resolvePermissions(['VIEW_ALL_FLOWS', 'MANAGE_ALL_FLOWS', 'MAP_ALL_CONTACT_POINTS']);
+          hasPermission: ['UserPermissions', 'PermissionGroups', function (UserPermissions, PermissionGroups) {
+            return UserPermissions.resolvePermissions(PermissionGroups.accessAllFlows);
           }]
         }
       })
@@ -202,8 +200,8 @@ angular.module('liveopsConfigPanel')
         controller: 'QueueController as qc',
         reloadOnSearch: false,
         resolve: {
-            hasPermission: ['UserPermissions', function (UserPermissions) {
-            return UserPermissions.resolvePermissions(['VIEW_ALL_FLOWS', 'MANAGE_ALL_FLOWS', 'MANAGE_ALL_QUEUES']);
+          hasPermission: ['UserPermissions', 'PermissionGroups', function (UserPermissions, PermissionGroups) {
+            return UserPermissions.resolvePermissions(PermissionGroups.accessAllQueues);
           }]
         }
       })
@@ -213,8 +211,8 @@ angular.module('liveopsConfigPanel')
         controller: 'MediaController',
         reloadOnSearch: false,
         resolve: {
-            hasPermission: ['UserPermissions', function (UserPermissions) {
-            return UserPermissions.resolvePermissions(['VIEW_ALL_MEDIA', 'VIEW_ALL_FLOWS', 'MANAGE_ALL_FLOWS']);
+          hasPermission: ['UserPermissions', 'PermissionGroups', function (UserPermissions, PermissionGroups) {
+            return UserPermissions.resolvePermissions(PermissionGroups.accessAllMedia);
           }]
         }
       })
@@ -224,8 +222,8 @@ angular.module('liveopsConfigPanel')
         controller: 'MediaCollectionController',
         reloadOnSearch: false,
         resolve: {
-            hasPermission: ['UserPermissions', function (UserPermissions) {
-            return UserPermissions.resolvePermissions(['VIEW_ALL_MEDIA', 'VIEW_ALL_FLOWS', 'MANAGE_ALL_FLOWS']);
+          hasPermission: ['UserPermissions', 'PermissionGroups', function (UserPermissions, PermissionGroups) {
+            return UserPermissions.resolvePermissions(PermissionGroups.accessAllMedia);
           }]
         }
       })
@@ -235,8 +233,8 @@ angular.module('liveopsConfigPanel')
         controller: 'DispatchMappingsController',
         reloadOnSearch: false,
         resolve: {
-            hasPermission: ['UserPermissions', function (UserPermissions) {
-            return UserPermissions.resolvePermissions(['VIEW_ALL_CONTACT_POINTS', 'MAP_ALL_CONTACT_POINTS']);
+          hasPermission: ['UserPermissions', 'PermissionGroups', function (UserPermissions, PermissionGroups) {
+            return UserPermissions.resolvePermissions(PermissionGroups.accsessAllDispatchMappings);
           }]
         }
       })

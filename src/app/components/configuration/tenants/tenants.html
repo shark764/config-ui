@@ -9,16 +9,6 @@
     <span ng-if="item.active">{{'value.enabled' | translate}}</span>
     <span ng-if="!item.active" class="disabled">{{'value.disabled' | translate}}</span>
   </span>
-  
-  <span name="parentId">
-    <span ng-show="item.$parent">
-      {{item.$parent.name}}
-    </span>
-    <span ng-hide="item.$parent" class="null">
-      {{ 'value.unknown' | translate }}
-    </span>
-  </span>
-  
 </table-controls>
 
 <resize-handle

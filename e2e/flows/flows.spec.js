@@ -91,6 +91,30 @@ describe('The flows view', function() {
     expect(flows.requiredErrors.get(0).getText()).toBe('Please enter a name');
   });
 
+  xit('should require unique name when editing a Flow', function() {
+    // TODO No error returned from bs-api
+    shared.tableElements.count().then(function(flowCount) {
+      if (flowCount > 1) {
+        flows.firstTableRow.element(by.css(flows.nameColumn)).getText().then(function(existingFlowName) {
+          flows.secondTableRow.click();
+
+          flows.nameFormField.clear();
+          flows.nameFormField.sendKeys(existingFlowName);
+
+          shared.submitFormBtn.click().then(function() {
+            expect(shared.successMessage.isPresent()).toBeFalsy();
+            expect(flows.requiredErrors.get(0).isDisplayed()).toBeTruthy();
+            expect(flows.requiredErrors.get(0).getText()).toBe('resource with the same value already exists in the system');
+
+            flows.nameFormField.sendKeys('update');
+            expect(flows.requiredErrors.count()).toBe(0);
+            expect(shared.submitFormBtn.isEnabled()).toBeTruthy();
+          });
+        });
+      }
+    });
+  });
+
   xit('should not require description field when editing a Flow', function() {
     flows.firstTableRow.click();
     flows.descriptionFormField.clear();

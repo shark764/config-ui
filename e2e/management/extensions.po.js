@@ -12,8 +12,12 @@ var Extensions = function() {
   this.twilioDropdownOption = this.providerDropdown.element(by.css('[label="Twilio"]'));
   this.plivoDropdownOption = this.providerDropdown.element(by.css('[label="Plivo"]'));
 
-  this.valueFormField = this.extensionsSection.element(by.id('extension-value-field'));
+  this.pstnValueFormField = this.extensionsSection.element(by.model('phoneNumber'));
   this.extFormField = this.extensionsSection.element(by.id('extension-ext-field'));
+
+  this.sipValueFormField = this.extensionsSection.element(by.model('sipExtension'));
+
+  this.descriptionFormField = this.extensionsSection.element(by.model('newExtension.description'));
   this.addBtn = this.extensionsSection.element(by.id('add-extension-btn'));
 
   this.errors = this.extensionsSection.all(by.css('.lo-error'));

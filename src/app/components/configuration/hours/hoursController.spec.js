@@ -39,101 +39,101 @@ describe('HoursController', function () {
   }]));
 
   describe('ON loadTimezones', function () {
-    it('should initialize $scope.timezones', function () {
-      expect($scope.timezones).toBeDefined();
-      expect($scope.timezones.length).toEqual(16);
+    it('should initialize controller.timezones', function () {
+      expect(controller.timezones).toBeDefined();
+      expect(controller.timezones.length).toEqual(16);
     });
   });
 
   describe('ON loadHours', function () {
-    it('should initialize $scope.hours', function () {
-      expect($scope.hours).toBeDefined();
-      expect($scope.hours.length).toEqual(2);
+    it('should initialize controller.hours', function () {
+      expect(controller.hours).toBeDefined();
+      expect(controller.hours.length).toEqual(2);
     });
   });
 
   describe('ON submit', function () {
-    it('should be defined on $scope', function() {
-      expect($scope.submit).toBeDefined();
+    it('should be defined on controller', function() {
+      expect(controller.submit).toBeDefined();
     });
     
     it('should POST to /v1/tenants/tenant-id/business-hours', inject(['apiHostname', function(apiHostname) {
       $httpBackend.expect('POST', apiHostname + '/v1/tenants/tenant-id/business-hours').respond(200);
       
-      $scope.selectedHour = new BusinessHour();
-      $scope.submit();
+      controller.selectedHour = new BusinessHour();
+      controller.submit();
       
       $httpBackend.flush();
     }]));
   });
   
   describe('ON hasHours', function() {
-    it('should be defined on $scope', function() {
-      expect($scope.hasHours).toBeDefined();
+    it('should be defined on controller', function() {
+      expect(controller.hasHours).toBeDefined();
     });
     
     it('should return false if all times are null', function() {
-      $scope.selectedHour = mockBusinessHours[0];
-      var result = $scope.hasHours();
+      controller.selectedHour = mockBusinessHours[0];
+      var result = controller.hasHours();
       expect(result).toBeFalsy();
     });
     
     it('should return true if some times are >= 0', function() {
-      $scope.selectedHour = mockBusinessHours[1];
-      var result = $scope.hasHours();
+      controller.selectedHour = mockBusinessHours[1];
+      var result = controller.hasHours();
       expect(result).toBeTruthy();
     });
     
     it('should return false if some times are null and some are -1', function() {
-      $scope.selectedHour = mockBusinessHours[0];
+      controller.selectedHour = mockBusinessHours[0];
       mockBusinessHours[0].sunStartTimeMinutes = -1;
       mockBusinessHours[0].sunEndTimeMinutes = -1;
       
-      var result = $scope.hasHours();
+      var result = controller.hasHours();
       expect(result).toBeFalsy();
     });
     
     it('should return true if some times are -1 but others are defined', function() {
-      $scope.selectedHour = mockBusinessHours[0];
+      controller.selectedHour = mockBusinessHours[0];
       mockBusinessHours[0].sunStartTimeMinutes = -1;
       mockBusinessHours[0].sunEndTimeMinutes = -1;
       
       mockBusinessHours[0].monStartTimeMinutes = 0;
       mockBusinessHours[0].monEndTimeMinutes = 60;
       
-      var result = $scope.hasHours();
+      var result = controller.hasHours();
       expect(result).toBeTruthy();
     });
   });
   
   
   describe('ON showCreateException', function() {
-    it('should be defined on $scope', function() {
-      expect($scope.showCreateException).toBeDefined();
+    it('should be defined on controller', function() {
+      expect(controller.showCreateException).toBeDefined();
     });
     
     it('should define exceptionHour on call', function() {
-      $scope.showCreateException();
+      controller.showCreateException();
       
-      expect($scope.exceptionHour).toBeDefined();
-      expect($scope.exceptionHour.isAllDay).toBeTruthy();
+      expect(controller.exceptionHour).toBeDefined();
+      expect(controller.exceptionHour.isAllDay).toBeTruthy();
     });
   });
   
   describe('ON cancelException', function() {
-    it('should be defined on $scope', function() {
-      expect($scope.cancelException).toBeDefined();
+    it('should be defined on controller', function() {
+      expect(controller.cancelException).toBeDefined();
     });
     
     it('should nullify exceptionHour', function() {
-      $scope.cancelException();
-      expect($scope.exceptionHour).toEqual(null);
+      controller.cancelException();
+      expect(controller.exceptionHour).toEqual(null);
     });
   });
   
   describe('ON submitException', function() {
-    it('should be defined on $scope', function() {
-      expect($scope.submitException).toBeDefined();
+    it('should be defined on controller', function() {
+      expect(controller.submitException).toBeDefined();
     });
     
     (function() {
@@ -142,29 +142,29 @@ describe('HoursController', function () {
       }]));
       
       it('should POST to /v1/tenants/tenant-id/business-hours/businessHourId1/exceptions', function() {
-        $scope.selectedHour = $scope.hours[0];
-        $scope.exceptionHour = new BusinessHourException();
-        $scope.submitException();
+        controller.selectedHour = controller.hours[0];
+        controller.exceptionHour = new BusinessHourException();
+        controller.submitException();
         
         $httpBackend.flush();
       });
       
-      it('should push exception to $scope.selectedHour.$exceptions', function() {
-        $scope.selectedHour = $scope.hours[0];
-        $scope.exceptionHour = new BusinessHourException();
-        $scope.submitException();
+      it('should push exception to controller.selectedHour.$exceptions', function() {
+        controller.selectedHour = controller.hours[0];
+        controller.exceptionHour = new BusinessHourException();
+        controller.submitException();
         
         $httpBackend.flush();
         
-        expect($scope.selectedHour.$exceptions.length).toEqual(3);
-        expect($scope.exceptionHour).toEqual(null);
+        expect(controller.selectedHour.$exceptions.length).toEqual(3);
+        expect(controller.exceptionHour).toEqual(null);
       });
     })();
   });
   
   describe('ON removeException', function() {
-    it('should be defined on $scope', function() {
-      expect($scope.removeException).toBeDefined();
+    it('should be defined on controller', function() {
+      expect(controller.removeException).toBeDefined();
     });
     
     (function() {
@@ -173,62 +173,62 @@ describe('HoursController', function () {
       });
       
       it('should DELETE /v1/tenants/tenant-id/business-hours/businessHourId1/exceptions/businessHourException1', function() {
-        $scope.selectedHour = $scope.hours[0];
-        var exception = $scope.selectedHour.$exceptions[0];
-        $scope.removeException(exception);
+        controller.selectedHour = controller.hours[0];
+        var exception = controller.selectedHour.$exceptions[0];
+        controller.removeException(exception);
         
         $httpBackend.flush();
       });
       
-      it('should remove exception from $scope.selectedHour.$exceptions', function() {
-        $scope.selectedHour = $scope.hours[0];
-        var exception = $scope.selectedHour.$exceptions[0];
-        $scope.removeException(exception);
+      it('should remove exception from controller.selectedHour.$exceptions', function() {
+        controller.selectedHour = controller.hours[0];
+        var exception = controller.selectedHour.$exceptions[0];
+        controller.removeException(exception);
         
         $httpBackend.flush();
         
-        expect($scope.selectedHour.$exceptions.length).toEqual(1);
+        expect(controller.selectedHour.$exceptions.length).toEqual(1);
       });
     })();
   });
   
   describe('ON onIsHoursCustomChanged', function() {
     beforeEach(function() {
-      $scope.selectedHour = $scope.hours[0];
+      controller.selectedHour = controller.hours[0];
     });
     
-    it('should be defined on $scope', function() {
-      expect($scope.onIsHoursCustomChanged).toBeDefined();
+    it('should be defined on controller', function() {
+      expect(controller.onIsHoursCustomChanged).toBeDefined();
     });
     
     it('should set all times to -1 on isCustom false', function() {
-      $scope.onIsHoursCustomChanged(false);
+      controller.onIsHoursCustomChanged(false);
       var expected = -1;
       
       angular.forEach(['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'], function(day) {
-        expect($scope.selectedHour[day + 'StartTimeMinutes']).toEqual(expected);
-        expect($scope.selectedHour[day + 'EndTimeMinutes']).toEqual(expected);
+        expect(controller.selectedHour[day + 'StartTimeMinutes']).toEqual(expected);
+        expect(controller.selectedHour[day + 'EndTimeMinutes']).toEqual(expected);
       });
     });
     
     it('should set all times to -1 on isCustom false', function() {
-      $scope.onIsHoursCustomChanged(true);
+      controller.onIsHoursCustomChanged(true);
       var expected = -1;
       
       for(var day in ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat']) {
-        expect($scope.selectedHour[day + 'StartTimeMinutes']).not.toEqual(expected);
-        expect($scope.selectedHour[day + 'EndTimeMinutes']).not.toEqual(expected);
+        expect(controller.selectedHour[day + 'StartTimeMinutes']).not.toEqual(expected);
+        expect(controller.selectedHour[day + 'EndTimeMinutes']).not.toEqual(expected);
       }
     });
   });
   
   describe('ON generateHoursMessage', function() {
-    it('should be defined on $scope', function() {
-      expect($scope.generateHoursMessage).toBeDefined();
+    it('should be defined on controller', function() {
+      expect(controller.generateHoursMessage).toBeDefined();
     });
     
     it('should return hours.monday for value = monday', function() {
-      var result = $scope.generateHoursMessage('monday');
+      var result = controller.generateHoursMessage('monday');
       expect(result).toEqual({day: 'hours.monday'});
     });
   });

@@ -48,10 +48,10 @@ angular.module('liveopsConfigPanel')
         'sref' : 'content.management.skills',
         'title': $translate.instant('skill.table.title'),
         'helpLink' : helpDocsHostname + '/Content/Managing%20Users/Adding_skills.htm',
-        'showBulkActions': UserPermissions.hasPermission('MANAGE_ALL_SKILLS'),
-        'showCreate': UserPermissions.hasPermission('MANAGE_ALL_SKILLS'),
+        'showBulkActions': function() { return UserPermissions.hasPermission('MANAGE_ALL_SKILLS'); },
+        'showCreate': function () { return UserPermissions.hasPermission('MANAGE_ALL_SKILLS'); },
       };
-     
+
      return config;
     }
   ]);

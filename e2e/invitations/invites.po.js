@@ -44,7 +44,7 @@ var InvitePage = function() {
 
     browser.sleep(2000).then(function() {
       req.get('https://api.mailinator.com/api/inbox?to=titantest&token=' + params.mailinator.token, '', function(error, response, body) {
-        if (JSON.parse(body).messages.length > 0) {
+        if (body) {
           newestMessage = JSON.parse(body).messages[JSON.parse(body).messages.length - 1];
 
           browser.sleep(2000).then(function() {
@@ -52,9 +52,14 @@ var InvitePage = function() {
               if (body) {
                 newestMessageContents = JSON.parse(body).data.parts[0].body;
                 browser.get(newestMessageContents.split('Log in automatically by clicking ')[1].split('\n')[0]);
+              } else {
+                console.log('Mailinator email error: ' + error);
               }
             });
           });
+        } else {
+          console.log('Mailinator inbox response: ' + response);
+          console.log('Mailinator inbox error: ' + error);
         }
       });
     });
