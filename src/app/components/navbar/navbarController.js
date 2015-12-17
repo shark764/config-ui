@@ -27,7 +27,6 @@ angular.module('liveopsConfigPanel')
                 DirtyForms.confirmIfDirty(function () {
                   Session.setTenant(tenant);
                   vm.updateTopbarConfig();
-                  queryCache.removeAll();
                   $state.go($state.current, {id: null}, {reload: true, inherit: false });
                 });
               }
