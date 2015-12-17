@@ -20,19 +20,19 @@ angular.module('liveopsConfigPanel')
         templateUrl: 'app/components/content/content.html',
         controller: 'ContentController',
         resolve: {
-            regions: ['Session', 'Region', function (Session, Region) {
-              return Region.query({}, function (result) {
+          regions: ['Session', 'Region', function (Session, Region) {
+            return Region.query({}, function (result) {
               Session.activeRegionId = result[0].id;
             }).$promise;
           }],
 
-            login: ['Session', 'Login', '$state', function (Session, Login, $state) {
-              return Login.save(function (result) {
+          login: ['Session', 'Login', '$state', function (Session, Login, $state) {
+            return Login.save(function (result) {
               Session.tenants = result.tenants;
-              }, function () {
+            }, function () {
               $state.go('login');
             }).$promise;
-            }]
+          }],
         }
       })
       .state('content.management', {
