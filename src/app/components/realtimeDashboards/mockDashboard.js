@@ -204,7 +204,7 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
             "refreshRate":10000,
             "gridster":{
                 "mobileModeEnabled":false,
-                "columns":24,
+                "columns":16,
                 "minRows":10,
                 "maxRows":30,
                 "margins":[
@@ -213,10 +213,10 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
                 ],
                 "outerMargin":false,
                 "draggable":{
-                    "enabled":true
+                    "enabled": false
                 },
                 "resizable":{
-                    "enabled":true
+                    "enabled": false
                 }
             },
             "config":{
@@ -239,8 +239,8 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
                                 "text":"Handle Time Duration"
                             },
                             "size":{
-                                "width":4,
-                                "height":3
+                                "width":2,
+                                "height":2
                             }
                         }
                     },
@@ -252,16 +252,16 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
                     "id":"00000000-0000-0000-000000000002",
                     "type":"statistic",
                     "config":{
-                        "statistic":"queue-duration ",
-                        "statisticLookup":"avg",
+                        "statistic":"queue-duration",
+                        "statisticLookup":"recordsCount",
                         "ui":{
                             "title":{
                                 "show":true,
                                 "text":"Queue Duration"
                             },
                             "size":{
-                                "width":4,
-                                "height":3
+                                "width":2,
+                                "height":2
                             }
                         }
                     },
@@ -281,29 +281,8 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
                                 "text":"Time to Answer Duration"
                             },
                             "size":{
-                                "width":4,
-                                "height":3
-                            }
-                        }
-                    },
-                    "chart":{
-                        "indicator":{}
-                    }
-                },
-                {
-                    "id":"00000000-0000-0000-000000000004",
-                    "type":"statistic",
-                    "config":{
-                        "statistic":"time-to-answer-duration",
-                        "statisticLookup":"avg",
-                        "ui":{
-                            "title":{
-                                "show":true,
-                                "text":"Time to Answer Duration"
-                            },
-                            "size":{
-                                "width":4,
-                                "height":3
+                                "width":2,
+                                "height":2
                             }
                         }
                     },
@@ -323,8 +302,8 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
                                 "text":"Resource Conversation Duration"
                             },
                             "size":{
-                                "width":4,
-                                "height":3
+                                "width":2,
+                                "height":2
                             }
                         }
                     },
@@ -344,8 +323,8 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
                                 "text":"Wrap Up Duration"
                             },
                             "size":{
-                                "width":4,
-                                "height":3
+                                "width":2,
+                                "height":2
                             }
                         }
                     },
@@ -365,8 +344,8 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
                                 "text":"Interaction Hold Duration"
                             },
                             "size":{
-                                "width":4,
-                                "height":3
+                                "width":2,
+                                "height":2
                             }
                         }
                     },
@@ -386,8 +365,8 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
                                 "text":"Interaction Duration"
                             },
                             "size":{
-                                "width":4,
-                                "height":3
+                                "width":2,
+                                "height":2
                             }
                         }
                     },
@@ -407,8 +386,8 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
                                 "text":"Resource Hold Duration"
                             },
                             "size":{
-                                "width":4,
-                                "height":3
+                                "width":2,
+                                "height":2
                             }
                         }
                     },
@@ -428,8 +407,8 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
                                 "text":"Resource Talk Time Duration"
                             },
                             "size":{
-                                "width":4,
-                                "height":3
+                                "width":2,
+                                "height":2
                             }
                         }
                     },
@@ -449,8 +428,8 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
                                 "text":"Resource Logged In Duration"
                             },
                             "size":{
-                                "width":4,
-                                "height":3
+                                "width":2,
+                                "height":2
                             }
                         }
                     },
@@ -470,8 +449,8 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
                                 "text":"Abandon Time Duration"
                             },
                             "size":{
-                                "width":4,
-                                "height":3
+                                "width":2,
+                                "height":2
                             }
                         }
                     },
@@ -491,8 +470,8 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
                                 "text":"Resource Busy Duration"
                             },
                             "size":{
-                                "width":4,
-                                "height":3
+                                "width":2,
+                                "height":2
                             }
                         }
                     },
@@ -512,8 +491,8 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
                                 "text":"Resource Away Duration"
                             },
                             "size":{
-                                "width":4,
-                                "height":3
+                                "width":2,
+                                "height":2
                             }
                         }
                     },
@@ -533,8 +512,8 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
                                 "text":"Resource Ready Duration"
                             },
                             "size":{
-                                "width":4,
-                                "height":3
+                                "width":2,
+                                "height":2
                             }
                         }
                     },
@@ -547,15 +526,15 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
                     "type":"statistic",
                     "config":{
                         "statistic":"resource-hold-start-instance",
-                        "statisticLookup":"avg",
+                        "statisticLookup":"recordsCount",
                         "ui":{
                             "title":{
                                 "show":true,
                                 "text":"Resource Hold Start Instance"
                             },
                             "size":{
-                                "width":4,
-                                "height":3
+                                "width":2,
+                                "height":2
                             }
                         }
                     },
@@ -568,15 +547,15 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
                     "type":"statistic",
                     "config":{
                         "statistic":"resource-conversation-start-instance",
-                        "statisticLookup":"avg",
+                        "statisticLookup":"recordsCount",
                         "ui":{
                             "title":{
                                 "show":true,
                                 "text":"Resource Conversation Start Instance"
                             },
                             "size":{
-                                "width":4,
-                                "height":3
+                                "width":2,
+                                "height":2
                             }
                         }
                     },
@@ -589,15 +568,15 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
                     "type":"statistic",
                     "config":{
                         "statistic":"resource-conversation-end-instance",
-                        "statisticLookup":"avg",
+                        "statisticLookup":"recordsCount",
                         "ui":{
                             "title":{
                                 "show":true,
                                 "text":"Resource Conversation End Instance"
                             },
                             "size":{
-                                "width":4,
-                                "height":3
+                                "width":2,
+                                "height":2
                             }
                         }
                     },
@@ -610,15 +589,15 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
                     "type":"statistic",
                     "config":{
                         "statistic":"interaction-abandon-instance",
-                        "statisticLookup":"avg",
+                        "statisticLookup":"recordsCount",
                         "ui":{
                             "title":{
                                 "show":true,
                                 "text":"Interaction Abandon Instance"
                             },
                             "size":{
-                                "width":4,
-                                "height":3
+                                "width":2,
+                                "height":2
                             }
                         }
                     },
@@ -631,15 +610,15 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
                     "type":"statistic",
                     "config":{
                         "statistic":"queue-entry-instance",
-                        "statisticLookup":"avg",
+                        "statisticLookup":"recordsCount",
                         "ui":{
                             "title":{
                                 "show":true,
                                 "text":"Queue Entry Instance"
                             },
                             "size":{
-                                "width":4,
-                                "height":3
+                                "width":2,
+                                "height":2
                             }
                         }
                     },
@@ -652,15 +631,15 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
                     "type":"statistic",
                     "config":{
                         "statistic":"queue-exit-instance",
-                        "statisticLookup":"avg",
+                        "statisticLookup":"recordsCount",
                         "ui":{
                             "title":{
                                 "show":true,
                                 "text":"Queue Exit Instance"
                             },
                             "size":{
-                                "width":4,
-                                "height":3
+                                "width":2,
+                                "height":2
                             }
                         }
                     },
@@ -673,15 +652,15 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
                     "type":"statistic",
                     "config":{
                         "statistic":"resource-login-instance",
-                        "statisticLookup":"avg",
+                        "statisticLookup":"recordsCount",
                         "ui":{
                             "title":{
                                 "show":true,
                                 "text":"Resource Login Instance"
                             },
                             "size":{
-                                "width":4,
-                                "height":3
+                                "width":2,
+                                "height":2
                             }
                         }
                     },
@@ -694,15 +673,15 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
                     "type":"statistic",
                     "config":{
                         "statistic":"interaction-start-instance",
-                        "statisticLookup":"avg",
+                        "statisticLookup":"recordsCount",
                         "ui":{
                             "title":{
                                 "show":true,
                                 "text":"Interaction Start Instance"
                             },
                             "size":{
-                                "width":4,
-                                "height":3
+                                "width":2,
+                                "height":2
                             }
                         }
                     },
@@ -715,15 +694,15 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
                     "type":"statistic",
                     "config":{
                         "statistic":"interaction-end-instance",
-                        "statisticLookup":"avg",
+                        "statisticLookup":"recordsCount",
                         "ui":{
                             "title":{
                                 "show":true,
                                 "text":"Interaction End Instance"
                             },
                             "size":{
-                                "width":4,
-                                "height":3
+                                "width":2,
+                                "height":2
                             }
                         }
                     },
@@ -736,15 +715,15 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
                     "type":"statistic",
                     "config":{
                         "statistic":"customer-conversation-start-instance",
-                        "statisticLookup":"avg",
+                        "statisticLookup":"recordsCount",
                         "ui":{
                             "title":{
                                 "show":true,
                                 "text":"Customer Conversation Start Instance"
                             },
                             "size":{
-                                "width":4,
-                                "height":3
+                                "width":2,
+                                "height":2
                             }
                         }
                     },
@@ -757,15 +736,15 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
                     "type":"statistic",
                     "config":{
                         "statistic":"customer-conversation-end-instance",
-                        "statisticLookup":"avg",
+                        "statisticLookup":"recordsCount",
                         "ui":{
                             "title":{
                                 "show":true,
                                 "text":"Customer Conversation End Instance"
                             },
                             "size":{
-                                "width":4,
-                                "height":3
+                                "width":2,
+                                "height":2
                             }
                         }
                     },
@@ -778,15 +757,15 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
                     "type":"statistic",
                     "config":{
                         "statistic":"interaction-transfer-instance",
-                        "statisticLookup":"avg",
+                        "statisticLookup":"recordsCount",
                         "ui":{
                             "title":{
                                 "show":true,
                                 "text":"Interaction Transfer Instance"
                             },
                             "size":{
-                                "width":4,
-                                "height":3
+                                "width":2,
+                                "height":2
                             }
                         }
                     },
@@ -799,15 +778,15 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
                     "type":"statistic",
                     "config":{
                         "statistic":"resource-transfer-instance",
-                        "statisticLookup":"avg",
+                        "statisticLookup":"recordsCount",
                         "ui":{
                             "title":{
                                 "show":true,
                                 "text":"Resource Transfer Instance"
                             },
                             "size":{
-                                "width":4,
-                                "height":3
+                                "width":2,
+                                "height":2
                             }
                         }
                     },
@@ -820,15 +799,15 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
                     "type":"statistic",
                     "config":{
                         "statistic":"resource-logout-instance",
-                        "statisticLookup":"avg",
+                        "statisticLookup":"recordsCount",
                         "ui":{
                             "title":{
                                 "show":true,
                                 "text":"Resource Logout Instance"
                             },
                             "size":{
-                                "width":4,
-                                "height":3
+                                "width":2,
+                                "height":2
                             }
                         }
                     },
@@ -841,15 +820,15 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
                     "type":"statistic",
                     "config":{
                         "statistic":"resource-not-ready-instance",
-                        "statisticLookup":"avg",
+                        "statisticLookup":"recordsCount",
                         "ui":{
                             "title":{
                                 "show":true,
                                 "text":"Resource Not Ready Instance"
                             },
                             "size":{
-                                "width":4,
-                                "height":3
+                                "width":2,
+                                "height":2
                             }
                         }
                     },
@@ -862,15 +841,15 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
                     "type":"statistic",
                     "config":{
                         "statistic":"abandon-queue-instance",
-                        "statisticLookup":"avg",
+                        "statisticLookup":"recordsCount",
                         "ui":{
                             "title":{
                                 "show":true,
                                 "text":"Abandon Queue Instance"
                             },
                             "size":{
-                                "width":4,
-                                "height":3
+                                "width":2,
+                                "height":2
                             }
                         }
                     },
@@ -883,36 +862,15 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
                     "type":"statistic",
                     "config":{
                         "statistic":"resource-ready-instance",
-                        "statisticLookup":"avg",
+                        "statisticLookup":"recordsCount",
                         "ui":{
                             "title":{
                                 "show":true,
                                 "text":"Resource Ready Instance"
                             },
                             "size":{
-                                "width":4,
-                                "height":3
-                            }
-                        }
-                    },
-                    "chart":{
-                        "indicator":{}
-                    }
-                },
-                {
-                    "id":"00000000-0000-0000-000000000033",
-                    "type":"statistic",
-                    "config":{
-                        "statistic":"resource-presence-utilization",
-                        "statisticLookup":"avg",
-                        "ui":{
-                            "title":{
-                                "show":true,
-                                "text":"Resource Presence Utilization"
-                            },
-                            "size":{
-                                "width":4,
-                                "height":3
+                                "width":2,
+                                "height":2
                             }
                         }
                     },
