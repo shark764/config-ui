@@ -16,6 +16,7 @@
   "strict": true,
   "trailing": true,
   "smarttabs": true,
+  "multistr": true,
   "white": true,
   "validthis": true,
   "globals": {
