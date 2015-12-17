@@ -44,13 +44,13 @@
   <div class="input-group">
     <label>{{'hours.details.hour' | translate}}</label>
     <div>
-      <input type="radio"
+      <input type="radio" id="247-hours-radio"
         ng-model="hc.isHoursCustom"
         ng-change="hc.onIsHoursCustomChanged(hc.isHoursCustom)"
         ng-value="false">
       <label>{{'hours.open.default' | translate}}</label>
 
-      <input type="radio"
+      <input type="radio" id="custom-hours-radio"
         ng-model="hc.isHoursCustom"
         ng-change="hc.onIsHoursCustomChanged(hc.isHoursCustom)"
         ng-value="true">
@@ -223,7 +223,7 @@
 <div class="divider-header"
   ng-hide="hc.selectedHour.isNew()">
   <h4>{{'hours.exceptions.title' | translate}}</h4>
-  <a class="btn pull-right" title="Add a schedule exception"
+  <a id="add-exception-btn" class="btn pull-right" title="Add a schedule exception"
     ng-click="hc.showCreateException()"
     ng-show="(['MANAGE_ALL_BUSINESS_HOURS'] | hasPermission)">
     <i class="fa fa-plus center"></i>
@@ -272,10 +272,10 @@
   <div class="input-group">
     <label></label>
     <div>
-      <input type="radio" ng-model="hc.exceptionHour.isAllDay" ng-value="true">
+      <input type="radio" id="exception-all-day" ng-model="hc.exceptionHour.isAllDay" ng-value="true">
       <label>{{'hours.exception.isAllDay' | translate}}</label>
 
-      <input type="radio" ng-model="hc.exceptionHour.isAllDay" ng-value="false">
+      <input type="radio" id="exception-custom-hours" ng-model="hc.exceptionHour.isAllDay" ng-value="false">
       <label>{{'hours.exception.custom' | translate}}</label>
     </div>
   </div>
@@ -312,10 +312,10 @@
 
   <div class="input-group controls">
     <label></label>
-    <input type="button" class="btn"
+    <input id="cancel-exception" type="button" class="btn"
       value="{{'value.cancel' | translate}}"
       ng-click="hc.cancelException()"/>
-    <input type="button" class="btn btn-primary"
+    <input id="submit-exception" type="button" class="btn btn-primary"
       value="{{'value.submit' | translate}}"
       lo-submit="hc.submitException()"
       ng-disabled="hc.forms.exceptionHour.$invalid"
@@ -333,7 +333,7 @@
   </span>
 </p>
 
-<table class="table"
+<table class="table" id="exceptions-table"
   ng-show="hc.selectedHour.$exceptions.length && !hc.selectedHour.isNew()">
   <thead>
     <tr>

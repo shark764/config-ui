@@ -9,10 +9,10 @@ angular.module('liveopsConfigPanel')
         'sref' : 'content.management.groups',
         'title' : $translate.instant('group.table.title'),
         'helpLink' : helpDocsHostname + '/Content/Managing%20Users/Adding_groups.htm',
-        'showBulkActions': UserPermissions.hasPermission('MANAGE_ALL_GROUPS'),
-        'showCreate': UserPermissions.hasPermission('MANAGE_ALL_GROUPS')
+        'showBulkActions': function () { return UserPermissions.hasPermission('MANAGE_ALL_GROUPS'); },
+        'showCreate': function () { return UserPermissions.hasPermission('MANAGE_ALL_GROUPS'); }
       };
-      
+
       config.fields = [{
         'header': {
           'display': $translate.instant('value.name')
@@ -24,7 +24,7 @@ angular.module('liveopsConfigPanel')
         },
         'name': '$original.description'
       }];
-      
+
       if (UserPermissions.hasPermissionInList(['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'MANAGE_ALL_GROUP_USERS', 'MANAGE_TENANT_ENROLLMENT'])){
         config.fields.push({
           'header': {
@@ -35,7 +35,7 @@ angular.module('liveopsConfigPanel')
           'sortOn': 'members.length'
         });
       }
-      
+
       config.fields.push({
         'header': {
           'display': $translate.instant('value.status'),
@@ -45,9 +45,9 @@ angular.module('liveopsConfigPanel')
         },
         'name': '$original.active',
         'id': 'status-column-dropdown',
-        'transclude': true,          
+        'transclude': true,
       });
-      
+
       return config;
     }
   ]);

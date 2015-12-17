@@ -178,10 +178,6 @@ angular.module('liveopsConfigPanel')
 
       };
 
-      $scope.$on('session:tenant:changed', function () {
-        vm.loadHours();
-      });
-
       $scope.$on(loEvents.tableControls.itemCreate, function () {
         vm.selectedHour = new BusinessHour({
           tenantId: Session.tenant.tenantId,

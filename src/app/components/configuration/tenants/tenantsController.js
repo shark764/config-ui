@@ -8,7 +8,7 @@ angular.module('liveopsConfigPanel')
       vm.loadTimezones = function () {
         $scope.timezones = Timezone.query();
       };
-      
+
       vm.loadTenants = function () {
         if (UserPermissions.hasPermissionInList(['PLATFORM_VIEW_ALL_TENANTS', 'PLATFORM_MANAGE_ALL_TENANTS', 'PLATFORM_CREATE_ALL_TENANTS', 'PLATFORM_CREATE_TENANT_ROLES', 'PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT'])) {
           $scope.tenants = Tenant.cachedQuery({
@@ -68,10 +68,6 @@ angular.module('liveopsConfigPanel')
 
       $scope.$on('updated:resource:Tenant', function () {
         AuthService.refreshTenants();
-      });
-
-      $scope.$on('session:tenant:changed', function () {
-        vm.loadTenants();
       });
 
       $scope.$watch('selectedTenant', function (newVal) {

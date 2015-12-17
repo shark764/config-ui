@@ -7,7 +7,7 @@ angular.module('liveopsConfigPanel')
         var config = {
           fields: [],
           title: list.name,
-          showCreate: UserPermissions.hasPermissionInList(['MANAGE_ALL_LISTS']),
+          showCreate: function() { return UserPermissions.hasPermissionInList(['MANAGE_ALL_LISTS']); },
           resourceKey: '$index',
           stateKey: 'index',
           orderBy: listType.fields[0].name,
