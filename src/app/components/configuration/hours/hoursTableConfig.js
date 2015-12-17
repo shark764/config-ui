@@ -35,8 +35,8 @@ angular.module('liveopsConfigPanel')
       'orderBy': '$original.name',
       'title' : $translate.instant('hours.table.title'),
       'sref' : 'content.configuration.hours',
-      'showCreate': true,
-      'showBulkActions': UserPermissions.hasPermission('MANAGE_ALL_BUSINESS_HOURS'),
+      'showCreate': function () { return UserPermissions.hasPermission('MANAGE_ALL_BUSINESS_HOURS'); },
+      'showBulkActions': function () { return UserPermissions.hasPermission('MANAGE_ALL_BUSINESS_HOURS'); },
       'helpLink' : helpDocsHostname + '/Content/Configuring%20CxEngage/Creating_Business_Hours.htm'
     };
   }]);

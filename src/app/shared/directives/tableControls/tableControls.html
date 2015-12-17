@@ -12,7 +12,7 @@
     </div>
     <div class="col action-container">
       <button id="create-btn" class="btn btn-create btn-primary"
-        ng-show="showCreate"
+        ng-show="showCreate | invoke"
         ng-click="onCreateClick()">
 
       {{'value.create' | translate}}
@@ -32,7 +32,7 @@
 
     <div class="col action-container">
       <button id="actions-btn" class="btn"
-        ng-show="showBulkActions"
+        ng-show="showBulkActions | invoke"
         ng-click="onActionsClick()">
 
         {{'table.actions.button' | translate}}
@@ -109,7 +109,7 @@
         orderBy:orderBy:reverseSortOrder))"
       ng-init="item.$index = $index"
       ng-class="{selected: item === selected, 'lo-highlight': item === selected}">
-      
+
       <td id="bulk-actions-select-table-cell" class="check-col"
         ng-show="showBulkActions"
         ng-click="checkItem(item)">
@@ -120,7 +120,7 @@
       <td ng-if="field.checked"
         ng-repeat="field in config.fields"
         ng-click="selectItem(item)">
-        
+
         <a ui-sref="{{config.sref}}(stateParam(item))" ui-sref-args="{reload: true}">
           <table-cell name="{{field.name}}"
             ng-if="field.transclude"

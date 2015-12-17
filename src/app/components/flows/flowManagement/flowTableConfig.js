@@ -38,8 +38,8 @@ angular.module('liveopsConfigPanel')
         'orderBy' : '$original.name',
         'title' : $translate.instant('flow.table.title'),
         'sref' : 'content.flows.flowManagement',
-        'showBulkActions': UserPermissions.hasPermission('MANAGE_ALL_FLOWS'),
-        'showCreate': UserPermissions.hasPermission('MANAGE_ALL_FLOWS'),
+        'showBulkActions': function () { return UserPermissions.hasPermission('MANAGE_ALL_FLOWS'); },
+        'showCreate': function () { return UserPermissions.hasPermission('MANAGE_ALL_FLOWS'); },
         'helpLink' : helpDocsHostname + '/Content/Managing%20Flows/Create_flows.htm'
       };
     }]
