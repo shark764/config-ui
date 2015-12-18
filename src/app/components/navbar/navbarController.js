@@ -93,7 +93,7 @@ angular.module('liveopsConfigPanel')
 
         //See TITAN2-6199 for why we do this extra check
         if (UserPermissions.hasPermissionInList(PermissionGroups.manageAllMedia) &&
-        UserPermissions.hasPermissionInList(PermissionGroups.manageMedia)) {
+        UserPermissions.hasPermissionInList(PermissionGroups.manageSkills)) {
           items.push({
             label: 'Skills',
             stateLink: 'content.management.skills',
