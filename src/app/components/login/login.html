@@ -1,4 +1,4 @@
-<div id="login-page">
+<div id="login-page" class="lo-gradient-squares">
   <div id="login-wrapper">
     <div ng-show="loginStatus.$$state.status == 0 || loggingIn" >
       <loading></loading>
@@ -25,7 +25,7 @@
         </div>
       </div>
 
-      <input class='btn btn-primary' type="submit" value="{{'login.button' | translate}}" />
+      <input class='btn btn-primary lo-accent-border lo-accent-bg' type="submit" value="{{'login.button' | translate}}" />
 
     </form>
     <p ng-show="loginStatus.$$state.status == 1 && !loggingIn" class="copyright">{{'copyright' | translate}}</p>

@@ -3,6 +3,7 @@
 angular.module('liveopsConfigPanel', [
     'liveopsConfigPanel.config',
     'liveopsConfigPanel.shared',
+    'liveopsConfigPanel.permissions',
     'liveOps.flowDesigner',
     'ui.router',
     'ngResource',
@@ -33,4 +34,10 @@ angular.module('liveopsConfigPanel', [
       .useSanitizeValueStrategy('escaped')
       .useLocalStorage()
       .preferredLanguage('en');
+  }])
+  .run(['queryCache', '$rootScope', function(queryCache, $rootScope) {
+    $rootScope.$on('$stateChangeSuccess', function () {
+      queryCache.removeAll();
+    });
+
   }]);

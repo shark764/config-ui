@@ -28,12 +28,12 @@ angular.module('liveopsConfigPanel')
               'displayPath': 'name',
               'options': getTenants()
             },
-            'name': 'parentId',
+            'name': '$original.parent.name',
             'id': 'parent-column-dropdown',
             'lookup': '$original:parentId',
             'sortable': true,
-            'transclude': true,
-            'filter': 'selectedOptions'
+            'filter': 'selectedOptions',
+            'sortOn': 'parent.name'
           }, {
             'header': {
               'display': $translate.instant('value.status'),
@@ -52,8 +52,8 @@ angular.module('liveopsConfigPanel')
           'orderBy': '$original.name',
           'title': $translate.instant('tenant.table.title'),
           'sref': 'content.configuration.tenants',
-          'showBulkActions': UserPermissions.hasPermissionInList(['PLATFORM_MANAGE_ALL_TENANTS', 'MANAGE_TENANT']),
-          'showCreate': UserPermissions.hasPermission('PLATFORM_CREATE_ALL_TENANTS'),
+          'showBulkActions': function () { return UserPermissions.hasPermissionInList(['PLATFORM_MANAGE_ALL_TENANTS', 'MANAGE_TENANT']); },
+          'showCreate': function () { return UserPermissions.hasPermission('PLATFORM_CREATE_ALL_TENANTS'); },
           'helpLink': helpDocsHostname + '/Content/Configuring%20CxEngage/Creating_Tenants.htm'
         };
       };

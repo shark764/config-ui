@@ -103,6 +103,14 @@ var Shared = function() {
     }, 5000);
   };
 
+  this.waitForMessage = function() {
+    browser.driver.wait(function() {
+      return element(by.css('.toast-message')).isPresent().then(function(messageDisplayed) {
+        return messageDisplayed;
+      });
+    }, 5000);
+  };
+
   this.waitForAlert = function() {
     browser.driver.wait(function() {
       return browser.driver.switchTo().alert().then(

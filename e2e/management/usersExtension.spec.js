@@ -78,12 +78,16 @@ describe('The users extensions', function() {
     expect(extensions.extensionsSection.isDisplayed()).toBeTruthy();
     expect(extensions.typeDropdown.isDisplayed()).toBeTruthy();
     expect(extensions.providerDropdown.isDisplayed()).toBeTruthy();
+    expect(extensions.pstnValueFormField.isDisplayed()).toBeFalsy(); // Hidden by default when WebRTC is selected
+    expect(extensions.extFormField.isDisplayed()).toBeFalsy(); // Hidden by default when WebRTC is selected
+    expect(extensions.sipValueFormField.isDisplayed()).toBeFalsy(); // Hidden by default when WebRTC is selected
+    expect(extensions.descriptionFormField.isDisplayed()).toBeTruthy();
     expect(extensions.addBtn.isDisplayed()).toBeTruthy();
 
     expect(extensions.table.isDisplayed()).toBeTruthy();
   });
 
-  xit('should add to table with correct Type, Provider and Value when creating', function() {
+  it('should add to table with correct Type, Provider and Value when creating', function() {
     // Use new user from previous test
     shared.searchField.sendKeys(newUserEmail);
     shared.firstTableRow.click();
@@ -91,11 +95,10 @@ describe('The users extensions', function() {
     extensions.typeDropdown.click();
     extensions.pstnDropdownOption.click();
 
-    extensions.providerDropdown.click();
-    extensions.twilioDropdownOption.click();
-
-    extensions.valueFormField.sendKeys('15064561234\t');
+    extensions.pstnValueFormField.sendKeys('15064561234\t');
     extensions.extFormField.sendKeys('12345');
+
+    extensions.descriptionFormField.sendKeys('PSTN Extension description\t');
 
     extensions.addBtn.click().then(function() {
       shared.waitForSuccess();
@@ -103,19 +106,21 @@ describe('The users extensions', function() {
       expect(extensions.userExtensions.count()).toBe(2);
       newExtension = extensions.userExtensions.get(1);
       expect(newExtension.element(by.css('.type-col')).getText()).toContain('PSTN');
-      expect(newExtension.element(by.css('.provider-col')).getText()).toBe('Twilio');
+      expect(newExtension.element(by.css('.provider-col')).getText()).toBe('');
       expect(newExtension.element(by.css('.phone-number-col')).getText()).toBe('+15064561234x12345');
+      expect(newExtension.element(by.css('.description-col')).getText()).toBe('PSTN Extension description');
       expect(newExtension.element(by.css('.remove')).isDisplayed()).toBeTruthy();
 
       // Fields are reset
-      expect(extensions.typeDropdown.$('option:checked').getText()).toContain('Extension Type');
+      expect(extensions.typeDropdown.$('option:checked').getText()).toContain('WebRTC');
       expect(extensions.providerDropdown.$('option:checked').getText()).toContain('Provider');
-      expect(extensions.valueFormField.getAttribute('value')).toBe('');
-      expect(extensions.extFormField.getAttribute('value')).toBe('');
+      expect(extensions.pstnValueFormField.isDisplayed()).toBeFalsy();
+      expect(extensions.extFormField.isDisplayed()).toBeFalsy();
+      expect(extensions.descriptionFormField.getAttribute('value')).toBe('');
     });
   });
 
-  xit('should require input', function() {
+  it('should require input', function() {
     // Use new user from previous test
     shared.searchField.sendKeys(newUserEmail);
     shared.firstTableRow.click();
@@ -126,8 +131,7 @@ describe('The users extensions', function() {
     // Click each field
     extensions.typeDropdown.click();
     extensions.providerDropdown.click();
-    extensions.valueFormField.click();
-    extensions.extFormField.click();
+    extensions.descriptionFormField.click();
 
     // Add btn remains disabled
     expect(extensions.addBtn.isEnabled()).toBeFalsy();
@@ -135,48 +139,84 @@ describe('The users extensions', function() {
     expect(shared.successMessage.isPresent()).toBeFalsy();
 
     // Required field messages displayed
-    expect(extensions.errors.get(0).getText()).toBe('Type required');
-    expect(extensions.errors.get(1).getText()).toBe('Provider required');
-    expect(extensions.errors.get(2).getText()).toBe('Value required');
-    expect(extensions.errors.count()).toBe(3);
+    expect(extensions.errors.get(0).getText()).toBe('Provider required');
+    expect(extensions.errors.get(1).getText()).toBe('Please provide a description');
+    expect(extensions.errors.count()).toBe(2);
   });
 
-  xit('should not require Ext. field input', function() {
+  it('should require description', function() {
+    // Use new user from previous test
+    shared.searchField.sendKeys(newUserEmail);
+    shared.firstTableRow.click();
+
+    // Description required for WebRTC
+    extensions.providerDropdown.click();
+    extensions.twilioDropdownOption.click();
+    extensions.descriptionFormField.click();
+    expect(extensions.addBtn.isEnabled()).toBeFalsy();
+    extensions.addBtn.click();
+    expect(shared.successMessage.isPresent()).toBeFalsy();
+    expect(extensions.errors.get(0).getText()).toBe('Please provide a description');
+    expect(extensions.errors.count()).toBe(1);
+
+    // Description required for PSTN
+    extensions.typeDropdown.click();
+    extensions.pstnDropdownOption.click();
+    extensions.pstnValueFormField.sendKeys('15064564567\t');
+    extensions.extFormField.sendKeys('12345');
+    extensions.descriptionFormField.click();
+    expect(extensions.addBtn.isEnabled()).toBeFalsy();
+    extensions.addBtn.click();
+    expect(shared.successMessage.isPresent()).toBeFalsy();
+    expect(extensions.errors.get(0).getText()).toBe('Please provide a description');
+    expect(extensions.errors.count()).toBe(1);
+
+    // Description required for SIP
+    extensions.typeDropdown.click();
+    extensions.sipDropdownOption.click();
+    extensions.sipValueFormField.sendKeys('sip:test@mailinator.com\t');
+    extensions.descriptionFormField.click();
+    expect(extensions.addBtn.isEnabled()).toBeFalsy();
+    extensions.addBtn.click();
+    expect(shared.successMessage.isPresent()).toBeFalsy();
+    expect(extensions.errors.get(0).getText()).toBe('Please provide a description');
+    expect(extensions.errors.count()).toBe(1);
+  });
+
+  it('should not require Ext. field input', function() {
     // Use new user from previous test
     shared.searchField.sendKeys(newUserEmail);
     shared.firstTableRow.click();
 
     extensions.typeDropdown.click();
-    extensions.webRtcDropdownOption.click();
+    extensions.pstnDropdownOption.click();
 
-    extensions.providerDropdown.click();
-    extensions.plivoDropdownOption.click();
+    extensions.pstnValueFormField.sendKeys('15064564567\t');
 
-    extensions.valueFormField.sendKeys('15064564567\t');
+    extensions.descriptionFormField.sendKeys('PSTN Extension description\t');
 
     extensions.addBtn.click().then(function() {
       shared.waitForSuccess();
 
       expect(extensions.userExtensions.count()).toBe(3);
       newExtension = extensions.userExtensions.get(2);
-      expect(newExtension.element(by.css('.type-col')).getText()).toContain('WebRTC');
-      expect(newExtension.element(by.css('.provider-col')).getText()).toBe('Plivo');
+      expect(newExtension.element(by.css('.type-col')).getText()).toContain('PSTN');
+      expect(newExtension.element(by.css('.provider-col')).getText()).toBe('');
       expect(newExtension.element(by.css('.phone-number-col')).getText()).toBe('+15064564567');
+      expect(newExtension.element(by.css('.description-col')).getText()).toBe('PSTN Extension description');
       expect(newExtension.element(by.css('.remove')).isDisplayed()).toBeTruthy();
     });
   });
 
-  xit('should require valid E.164 format phone number input', function() {
+  it('should require valid E.164 format phone number input', function() {
     // Use new user from previous test
     shared.searchField.sendKeys(newUserEmail);
     shared.firstTableRow.click();
 
     extensions.typeDropdown.click();
-    extensions.webRtcDropdownOption.click();
-    extensions.providerDropdown.click();
-    extensions.plivoDropdownOption.click();
-
-    extensions.valueFormField.sendKeys('not a valid phone number\t');
+    extensions.pstnDropdownOption.click();
+    extensions.pstnValueFormField.sendKeys('not a valid phone number\t');
+    extensions.descriptionFormField.sendKeys('PSTN Extension description\t');
 
     // Add button is still disabled
     expect(extensions.addBtn.isEnabled()).toBeFalsy();
@@ -188,32 +228,116 @@ describe('The users extensions', function() {
     expect(extensions.errors.count()).toBe(1);
   });
 
-  xit('should format phone number value input', function() {
+  it('should format phone number value input', function() {
     // Use new user from previous test
     shared.searchField.sendKeys(newUserEmail);
     shared.firstTableRow.click();
 
-    extensions.valueFormField.sendKeys('15062345678\t');
+    extensions.typeDropdown.click();
+    extensions.pstnDropdownOption.click();
+    extensions.pstnValueFormField.sendKeys('15062345678\t');
 
     // Error messages are not displayed
     expect(extensions.errors.count()).toBe(0);
 
     // Phone input is reformatted
-    expect(extensions.valueFormField.getAttribute('value')).toBe('+1 506-234-5678');
+    expect(extensions.pstnValueFormField.getAttribute('value')).toBe('+1 506-234-5678');
   });
 
-  xit('should accept Euro phone number input', function() {
+  it('should accept Euro phone number input', function() {
     // Use new user from previous test
     shared.searchField.sendKeys(newUserEmail);
     shared.firstTableRow.click();
 
-    extensions.valueFormField.sendKeys('442071828750\t');
+    extensions.typeDropdown.click();
+    extensions.pstnDropdownOption.click();
+    extensions.pstnValueFormField.sendKeys('442071828750\t');
 
     // Error messages are not displayed
     expect(extensions.errors.count()).toBe(0);
 
     // Phone input is reformatted
-    expect(extensions.valueFormField.getAttribute('value')).toBe('+44 20 7182 8750');
+    expect(extensions.pstnValueFormField.getAttribute('value')).toBe('+44 20 7182 8750');
+  });
+
+  it('should require SIP value field', function() {
+    // Use new user from previous test
+    shared.searchField.sendKeys(newUserEmail);
+    shared.firstTableRow.click();
+
+    extensions.typeDropdown.click();
+    extensions.sipDropdownOption.click();
+    extensions.sipValueFormField.click();
+    extensions.descriptionFormField.sendKeys('SIP Extension description\t');
+
+    // Add btn remains disabled
+    expect(extensions.addBtn.isEnabled()).toBeFalsy();
+    extensions.addBtn.click();
+    expect(shared.successMessage.isPresent()).toBeFalsy();
+
+    // Required field messages displayed
+    expect(extensions.errors.get(0).getText()).toBe('Value required');
+    expect(extensions.errors.count()).toBe(1);
+  });
+
+  it('should validate SIP value field', function() {
+    // Use new user from previous test
+    shared.searchField.sendKeys(newUserEmail);
+    shared.firstTableRow.click();
+
+    extensions.typeDropdown.click();
+    extensions.sipDropdownOption.click();
+    extensions.sipValueFormField.sendKeys('Not valid SIP value');
+    extensions.descriptionFormField.sendKeys('SIP Extension description\t');
+
+    // Add btn remains disabled
+    expect(extensions.addBtn.isEnabled()).toBeFalsy();
+    extensions.addBtn.click();
+    expect(shared.successMessage.isPresent()).toBeFalsy();
+
+    // Required field messages displayed
+    expect(extensions.errors.get(0).getText()).toBe('Extensions must start with \'sip:\'.');
+    expect(extensions.errors.count()).toBe(1);
+
+    extensions.sipValueFormField.clear();
+    extensions.sipValueFormField.sendKeys('sip:\t');
+    extensions.addBtn.click().then(function() {
+      shared.waitForError();
+      expect(extensions.errors.get(0).getText()).toBe('must be a valid sip address');
+      expect(extensions.errors.count()).toBe(1);
+
+      // Error removed after editing field
+      extensions.sipValueFormField.sendKeys('still not valid');
+      expect(extensions.errors.count()).toBe(0);
+      extensions.addBtn.click().then(function() {
+        shared.waitForError();
+        expect(extensions.errors.get(0).getText()).toBe('must be a valid sip address');
+        expect(extensions.errors.count()).toBe(1);
+      });
+    });
+  });
+
+  it('should require valid SIP value containing sip:', function() {
+    // Use new user from previous test
+    shared.searchField.sendKeys(newUserEmail);
+    shared.firstTableRow.click();
+
+    extensions.typeDropdown.click();
+    extensions.sipDropdownOption.click();
+    extensions.sipValueFormField.sendKeys('sip:test@mailinator.com');
+    extensions.descriptionFormField.sendKeys('SIP Extension description\t');
+
+    extensions.addBtn.click().then(function() {
+      shared.waitForSuccess();
+
+      expect(extensions.userExtensions.count()).toBe(4);
+      newExtension = extensions.userExtensions.get(3);
+      expect(newExtension.element(by.css('.type-col')).getText()).toContain('SIP');
+      expect(newExtension.element(by.css('.provider-col')).getText()).toBe('');
+      expect(newExtension.element(by.css('.phone-number-col')).getText()).toBe('sip:test@mailinator.com');
+      expect(newExtension.element(by.css('.description-col')).getText()).toBe('SIP Extension description');
+      expect(newExtension.element(by.css('.remove')).isDisplayed()).toBeTruthy();
+    });
   });
 
   xit('should only allow one WebRTC-Twilio', function() {
@@ -226,7 +350,8 @@ describe('The users extensions', function() {
     extensions.webRtcDropdownOption.click();
     extensions.providerDropdown.click();
     extensions.twilioDropdownOption.click();
-    extensions.valueFormField.sendKeys('442071828750\t');
+    extensions.descriptionFormField.sendKeys('WebRTC Extension description\t');
+
     extensions.addBtn.click().then(function() {
       shared.waitForError();
       expect(shared.successMessage.isPresent()).toBeFalsy();
@@ -238,14 +363,14 @@ describe('The users extensions', function() {
       // Fields are not reset
       expect(extensions.typeDropdown.$('option:checked').getText()).toBe('WebRTC');
       expect(extensions.providerDropdown.$('option:checked').getText()).toBe('Twilio');
-      expect(extensions.valueFormField.getAttribute('value')).toBe('+44 20 7182 8750');
+      expect(extensions.descriptionFormField.getAttribute('value')).toBe('WebRTC Extension description');
 
       // New extension is no added
       expect(extensions.userExtensions.count()).toBe(extensionCount);
     });
   });
 
-  xit('should allow duplicates of WebRTC-Pilvo combination', function() {
+  xit('should allow duplicates of WebRTC-Plivo combination', function() {
     // Use new user from previous test
     shared.searchField.sendKeys(newUserEmail);
     shared.firstTableRow.click();
@@ -255,8 +380,8 @@ describe('The users extensions', function() {
     extensions.webRtcDropdownOption.click();
     extensions.providerDropdown.click();
     extensions.plivoDropdownOption.click();
+    extensions.descriptionFormField.sendKeys('WebRTC Plivo Extension description\t');
 
-    extensions.valueFormField.sendKeys('15062345678\t');
     extensions.addBtn.click().then(function() {
       shared.waitForSuccess();
       expect(extensions.userExtensions.count()).toBeGreaterThan(extensionCount);
@@ -267,8 +392,8 @@ describe('The users extensions', function() {
       extensions.webRtcDropdownOption.click();
       extensions.providerDropdown.click();
       extensions.plivoDropdownOption.click();
+      extensions.descriptionFormField.sendKeys('WebRTC Plivo Extension 2 description\t');
 
-      extensions.valueFormField.sendKeys('15062345678\t');
       extensions.addBtn.click().then(function() {
         shared.waitForSuccess();
         expect(extensions.userExtensions.count()).toBeGreaterThan(extensionCount);
@@ -276,7 +401,7 @@ describe('The users extensions', function() {
     });
   });
 
-  xit('should allow duplicates of all PSTN combinations', function() {
+  it('should allow duplicate PSTN extensions', function() {
     // Use new user from previous test
     shared.searchField.sendKeys(newUserEmail);
     shared.firstTableRow.click();
@@ -284,56 +409,27 @@ describe('The users extensions', function() {
 
     extensions.typeDropdown.click();
     extensions.pstnDropdownOption.click();
-    extensions.providerDropdown.click();
-    extensions.twilioDropdownOption.click();
 
-    extensions.valueFormField.sendKeys('15062345678\t');
+    extensions.pstnValueFormField.sendKeys('15062345678\t');
+    extensions.descriptionFormField.sendKeys('PSTN Extension description\t');
     extensions.addBtn.click().then(function() {
       shared.waitForSuccess();
       expect(extensions.userExtensions.count()).toBeGreaterThan(extensionCount);
       extensionCount = extensions.userExtensions.count();
 
-      // Add another with same type-provider combination
+      // Add another PSTN Extension
       extensions.typeDropdown.click();
       extensions.pstnDropdownOption.click();
-      extensions.providerDropdown.click();
-      extensions.twilioDropdownOption.click();
-
-      extensions.valueFormField.sendKeys('15062345678\t');
+      extensions.pstnValueFormField.sendKeys('15062345678\t');
+      extensions.descriptionFormField.sendKeys('PSTN Extension 2 description\t');
       extensions.addBtn.click().then(function() {
         shared.waitForSuccess();
         expect(extensions.userExtensions.count()).toBeGreaterThan(extensionCount);
       });
-    }).then(function() {
-      extensionCount = extensions.userExtensions.count();
-
-      extensions.typeDropdown.click();
-      extensions.pstnDropdownOption.click();
-      extensions.providerDropdown.click();
-      extensions.plivoDropdownOption.click();
-
-      extensions.valueFormField.sendKeys('15062345678\t');
-      extensions.addBtn.click().then(function() {
-        shared.waitForSuccess();
-        expect(extensions.userExtensions.count()).toBeGreaterThan(extensionCount);
-        extensionCount = extensions.userExtensions.count();
-
-        // Add another with same type-provider combination
-        extensions.typeDropdown.click();
-        extensions.pstnDropdownOption.click();
-        extensions.providerDropdown.click();
-        extensions.plivoDropdownOption.click();
-
-        extensions.valueFormField.sendKeys('15062345678\t');
-        extensions.addBtn.click().then(function() {
-          shared.waitForSuccess();
-          expect(extensions.userExtensions.count()).toBeGreaterThan(extensionCount);
-        });
-      })
     });
   });
 
-  xit('should allow duplicates of all SIP combinations', function() {
+  it('should allow duplicate SIP extenations', function() {
     // Use new user from previous test
     shared.searchField.sendKeys(newUserEmail);
     shared.firstTableRow.click();
@@ -341,52 +437,22 @@ describe('The users extensions', function() {
 
     extensions.typeDropdown.click();
     extensions.sipDropdownOption.click();
-    extensions.providerDropdown.click();
-    extensions.twilioDropdownOption.click();
-
-    extensions.valueFormField.sendKeys('15062345678\t');
+    extensions.sipValueFormField.sendKeys('sip:test@mailinator.com\t');
+    extensions.descriptionFormField.sendKeys('SIP Extension description\t');
     extensions.addBtn.click().then(function() {
       shared.waitForSuccess();
       expect(extensions.userExtensions.count()).toBeGreaterThan(extensionCount);
       extensionCount = extensions.userExtensions.count();
 
-      // Add another with same type-provider combination
+      // Add another SIP extension
       extensions.typeDropdown.click();
       extensions.sipDropdownOption.click();
-      extensions.providerDropdown.click();
-      extensions.twilioDropdownOption.click();
-
-      extensions.valueFormField.sendKeys('15062345678\t');
+      extensions.sipValueFormField.sendKeys('sip:test@mailinator.com\t');
+      extensions.descriptionFormField.sendKeys('SIP Extension 2 description\t');
       extensions.addBtn.click().then(function() {
         shared.waitForSuccess();
         expect(extensions.userExtensions.count()).toBeGreaterThan(extensionCount);
       });
-    }).then(function() {
-      extensionCount = extensions.userExtensions.count();
-
-      extensions.typeDropdown.click();
-      extensions.sipDropdownOption.click();
-      extensions.providerDropdown.click();
-      extensions.plivoDropdownOption.click();
-
-      extensions.valueFormField.sendKeys('15062345678\t');
-      extensions.addBtn.click().then(function() {
-        shared.waitForSuccess();
-        expect(extensions.userExtensions.count()).toBeGreaterThan(extensionCount);
-        extensionCount = extensions.userExtensions.count();
-
-        // Add another with same type-provider combination
-        extensions.typeDropdown.click();
-        extensions.sipDropdownOption.click();
-        extensions.providerDropdown.click();
-        extensions.plivoDropdownOption.click();
-
-        extensions.valueFormField.sendKeys('15062345678\t');
-        extensions.addBtn.click().then(function() {
-          shared.waitForSuccess();
-          expect(extensions.userExtensions.count()).toBeGreaterThan(extensionCount);
-        });
-      })
     });
   });
 
@@ -446,7 +512,7 @@ describe('The users extensions', function() {
     });
   });
 
-  xit('should allow all except default WebRTC-Twilio to be removed', function() {
+  it('should allow all except default WebRTC-Twilio to be removed', function() {
     // Use new user from previous test
     shared.searchField.sendKeys(newUserEmail);
     shared.firstTableRow.click();
@@ -464,7 +530,7 @@ describe('The users extensions', function() {
     })
   });
 
-  xit('should allow its own user to add an extension and update profile page', function() {
+  it('should allow its own user to add an extension and update profile page', function() {
     shared.searchField.sendKeys(params.login.user);
     shared.firstTableRow.click();
     extensionCount = extensions.userExtensions.count();
@@ -472,11 +538,10 @@ describe('The users extensions', function() {
     extensions.typeDropdown.click();
     extensions.pstnDropdownOption.click();
 
-    extensions.providerDropdown.click();
-    extensions.twilioDropdownOption.click();
-
-    extensions.valueFormField.sendKeys('15064657894\t');
+    extensions.pstnValueFormField.sendKeys('15064657894\t');
     extensions.extFormField.sendKeys('12345');
+
+    extensions.descriptionFormField.sendKeys('PSTN Extension description\t');
 
     extensions.addBtn.click().then(function() {
       shared.waitForSuccess();
@@ -488,7 +553,7 @@ describe('The users extensions', function() {
     });
   });
 
-  xit('should allow its own user to remove an extension and update profile page', function() {
+  it('should allow its own user to remove an extension and update profile page', function() {
     shared.searchField.sendKeys(params.login.user);
     shared.firstTableRow.click();
     extensionCount = extensions.userExtensions.count();

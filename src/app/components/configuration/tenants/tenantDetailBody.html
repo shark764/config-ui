@@ -64,17 +64,17 @@
 
 <div class="input-group">
   <label class="textarea-label">{{'tenant.details.id' | translate}}</label>
-  <p id="tenant-details-parent-id">{{selectedTenant.$parent.id}}</p>
+  <p id="tenant-details-parent-id">{{selectedTenant.parent.id}}</p>
 </div>
 
 <div class="input-group">
   <label class="textarea-label">{{'tenant.details.name' | translate}}</label>
   <p id="tenant-details-parent-name"
-    ng-show="selectedTenant.$parent.name">
-    {{selectedTenant.$parent.name}}
+    ng-show="selectedTenant.parent.name">
+    {{selectedTenant.parent.name}}
   </p>
   <p class="null"
-    ng-hide="selectedTenant.$parent.name">
+    ng-hide="selectedTenant.parent.name">
     {{ 'value.unknown' | translate }}
   </p>
 </div>

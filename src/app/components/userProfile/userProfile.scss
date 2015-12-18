@@ -30,34 +30,10 @@
 
   .table {
     border: $light-grey solid 1px;
-    border-spacing: 0;
-    @include border-radius(0px);
-    font-size: 0.9em;
-    width: 100%;
     max-width: $max-control-width + 200px;
 
-    &.clone-header {
-        @include border-radius-complex(4px, 0, 0, 4px);
-        border-bottom: 0;
-    }
-
-    td, th {
-      padding: 10px;
-    }
-
     th {
-      border-bottom: $light-grey solid 1px;
-      color: $dark-grey;
       text-align: left;
-      font-weight: 600;
-    }
-
-    tbody tr:hover {
-      background-color: $accent-light;
-    }
-
-    .scrollable-table-container {
-      max-width: $max-control-width + 200px;
     }
   }
 

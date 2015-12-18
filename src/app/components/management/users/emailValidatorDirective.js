@@ -47,8 +47,21 @@ angular.module('liveopsConfigPanel')
                 return def.resolve();
               }
 
-              // By default, on error, reject
-              return def.reject();
+              // By default, on another error, set proper validity
+              ngModelController.$setValidity('api', false);
+              ngModelController.$error.api = error.data.error.attribute.email;
+              ngModelController.$setPristine();
+              
+              var unbindWatch = $scope.$watch(function(){
+                return ngModelController.$dirty;
+              }, function(isDirty){
+                if (isDirty){
+                  ngModelController.$setValidity('api', true);
+                  unbindWatch();
+                }
+              });
+              
+              return def.resolve();
             });
 
             return def.promise;

@@ -8,7 +8,7 @@ angular.module('liveopsConfigPanel')
       vm.loadTimezones = function () {
         $scope.timezones = Timezone.query();
       };
-      
+
       vm.loadTenants = function () {
         if (UserPermissions.hasPermissionInList(['PLATFORM_VIEW_ALL_TENANTS', 'PLATFORM_MANAGE_ALL_TENANTS', 'PLATFORM_CREATE_ALL_TENANTS', 'PLATFORM_CREATE_TENANT_ROLES', 'PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT'])) {
           $scope.tenants = Tenant.cachedQuery({
@@ -30,8 +30,7 @@ angular.module('liveopsConfigPanel')
         }
 
         var promise = $scope.tenants.$promise
-          .then(vm.loadUsers)
-          .then(vm.associateParents);
+          .then(vm.loadUsers);
 
         return promise;
       };
@@ -42,22 +41,6 @@ angular.module('liveopsConfigPanel')
         });
 
         return tenants;
-      };
-
-      vm.associateParents = function (tenants) {
-        if(angular.isObject(tenants)) {
-            tenants = [tenants];
-        }
-
-        angular.forEach(tenants, function(tenant) {
-          if(!tenant.parentId) {
-            return;
-          }
-
-          tenant.$parent = _.find(tenants, {
-            id: tenant.parentId
-          });
-        });
       };
 
       $scope.create = function () {
@@ -87,10 +70,6 @@ angular.module('liveopsConfigPanel')
         AuthService.refreshTenants();
       });
 
-      $scope.$on('session:tenant:changed', function () {
-        vm.loadTenants();
-      });
-
       $scope.$watch('selectedTenant', function (newVal) {
         if (newVal) {
           var result = angular.isDefined(newVal.$promise) ? newVal.$promise : newVal;
@@ -98,12 +77,6 @@ angular.module('liveopsConfigPanel')
             tenant.$region = Region.cachedGet({
               id: tenant.regionId
             });
-
-            if ($scope.selectedTenant.parentId) {
-              tenant.$parent = Tenant.cachedGet({
-                id: $scope.selectedTenant.parentId
-              });
-            }
           });
         }
       });
