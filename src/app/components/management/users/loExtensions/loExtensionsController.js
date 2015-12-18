@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('loExtensionsController', ['$scope', '$q', '$parse', 'Session', 'loExtensionProviders', 'loExtensionTypes',
-    function ($scope, $q, $parse, Session, loExtensionProviders, loExtensionTypes) {
+  .controller('loExtensionsController', ['$scope', '$q', '$parse', 'Session', 'loExtensionProviders', 'loExtensionTypes', '_',
+    function ($scope, $q, $parse, Session, loExtensionProviders, loExtensionTypes, _) {
       var vm = this;
       $scope.loExtensionProviders = loExtensionProviders;
       $scope.loExtensionTypes = loExtensionTypes;
@@ -10,25 +10,23 @@ angular.module('liveopsConfigPanel')
 
       $scope.newExtension = {};
 
-      vm.save = function() {
-        delete $scope.tenantUser.status;
-        delete $scope.tenantUser.roleId;
+      vm.resetExtension = function () {
+        $scope.newExtension = {};
+        $scope.newExtension.type = 'webrtc';
+        $scope.clearValues();
+      };
 
+      vm.save = function() {
         return $scope.tenantUser.save({
           tenantId : Session.tenant.tenantId
         }).then(function (tenantUser) {
-          $scope.newExtension = {};
-          $scope.newExtension.type = 'webrtc';
-          $scope.clearValues();
-
+          vm.resetExtension();
           return tenantUser;
         }, function (error) {
-          var def = $q.defer();
 
           $scope.tenantUser.reset();
 
-          def.reject(error);
-          return def.promise;
+          return $q.reject(error);
         });
       };
 
@@ -42,9 +40,7 @@ angular.module('liveopsConfigPanel')
 
         $scope.tenantUser.extensions.push($scope.newExtension);
         return vm.save().then(function (tenantUser) {
-          $scope.newExtension = {};
-          $scope.newExtension.type = 'webrtc';
-          $scope.clearValues();
+          vm.resetExtension();
           return tenantUser;
         });
       };
@@ -76,6 +72,13 @@ angular.module('liveopsConfigPanel')
 
       $scope.moved = function (index) {
         $scope.tenantUser.extensions.splice(index, 1);
+
+        var defaultExtension = $scope.tenantUser.extensions[0];
+
+        if(!_.isEqual(defaultExtension, $scope.tenantUser.activeExtension)) {
+          $scope.tenantUser.activeExtension = defaultExtension;
+        }
+
         return vm.save();
       };
 
