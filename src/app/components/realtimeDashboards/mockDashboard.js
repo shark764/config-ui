@@ -1,4 +1,5 @@
-angular.module('liveopsConfigPanel').constant('mockDashboard', {
+angular.module('liveopsConfigPanel')
+.value('mockDashboard', {
             "id":"default",
             "dashId":"default1",
             "name":"Default Dashboard",
@@ -197,56 +198,46 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
                 }
             ]
         })
-.constant('monitorDashboard', {
+.value('monitorDashboard', {
             "id":"default2",
             "dashId":"default2",
             "name":"Monitor Dashboard",
-            "refreshRate":10000,
+            "refreshRate":30000,
             "gridster":{
-                "mobileModeEnabled":false,
-                "columns":16,
+                "columns":60,
                 "minRows":10,
-                "maxRows":30,
+                "maxRows":40,
                 "margins":[
-                    40,
-                    40
+                    20,
+                    20
                 ],
-                "outerMargin":false,
-                "draggable":{
+                "outerMargin": false,
+                "draggable": {
                     "enabled": false
                 },
-                "resizable":{
+                "resizable": {
                     "enabled": false
-                }
-            },
-            "config":{
-                "ui":{
-                    "size":{
-                        "autoResize":true
-                    }
                 }
             },
             "widgets":[
                 {
-                    "id":"00000000-0000-0000-000000000001",
-                    "type":"statistic",
-                    "config":{
-                        "statistic":"handle-time-duration",
-                        "statisticLookup":"avg",
-                        "ui":{
-                            "title":{
-                                "show":true,
-                                "text":"Handle Time Duration"
-                            },
-                            "size":{
-                                "width":2,
-                                "height":2
-                            }
-                        }
-                    },
-                    "chart":{
-                        "indicator":{}
-                    }
+                  "id":"00000000-0000-0000-000000000065",
+                  "type":"sourceSwitcher",
+                  "config":{
+                      "groupName":"queue1",
+                      "sourceType": "queue",
+                      "items": [],
+                      "ui":{
+                        "title":{
+                            "show":true,
+                            "text":"Queue:"
+                        },
+                          "size":{
+                              "width":11,
+                              "height":3
+                          }
+                      }
+                  }
                 },
                 {
                     "id":"00000000-0000-0000-000000000002",
@@ -254,35 +245,52 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
                     "config":{
                         "statistic":"queue-duration",
                         "statisticLookup":"recordsCount",
+                        "groupName": "queue1",
+                        "resourceIdName": "queue-id",
+                        "resourceId": null,
                         "ui":{
                             "title":{
                                 "show":true,
-                                "text":"Queue Duration"
+                                "text":"Queue Length"
                             },
+                            "unit": "Customers",
                             "size":{
-                                "width":2,
-                                "height":2
-                            }
+                                "width":6,
+                                "height":8
+                            },
+                            "position": {
+                              row: 2,
+                              col: 0
+                          }
                         }
                     },
                     "chart":{
                         "indicator":{}
                     }
+                    
                 },
                 {
-                    "id":"00000000-0000-0000-000000000003",
+                    "id":"00000000-0000-0000-000000000001",
                     "type":"statistic",
                     "config":{
-                        "statistic":"time-to-answer-duration",
+                        "statistic":"queue-duration",
                         "statisticLookup":"avg",
+                        "groupName": "queue1",
+                        "resourceIdName": "queue-id",
+                        "resourceId": null,
                         "ui":{
                             "title":{
                                 "show":true,
-                                "text":"Time to Answer Duration"
+                                "text":"Average Wait Time"
                             },
+                            "unit": "mm:ss",
                             "size":{
-                                "width":2,
-                                "height":2
+                                "width":5,
+                                "height":4
+                            },
+                            "position": {
+                                row: 4,
+                                col: 6
                             }
                         }
                     },
@@ -291,592 +299,468 @@ angular.module('liveopsConfigPanel').constant('mockDashboard', {
                     }
                 },
                 {
-                    "id":"00000000-0000-0000-000000000005",
-                    "type":"statistic",
-                    "config":{
-                        "statistic":"resource-conversation-duration",
-                        "statisticLookup":"avg",
-                        "ui":{
-                            "title":{
-                                "show":true,
-                                "text":"Resource Conversation Duration"
-                            },
-                            "size":{
-                                "width":2,
-                                "height":2
-                            }
+                  "id":"00000000-0000-0000-000000000003",
+                  "type":"statistic",
+                  "config":{
+                      "statistic":"interaction-abandon-instance",
+                      "statisticLookup":"recordsCount",
+                      "groupName": "queue1",
+                      "resourceIdName": "queue-id",
+                      "resourceId": null,
+                      "ui":{
+                          "title":{
+                              "show":true,
+                              "text":"Total Abandons"
+                          },
+                          "unit": "Customers",
+                          "size":{
+                              "width":5,
+                              "height":4
+                          },
+                          "position": {
+                            row: 8,
+                            col: 6
                         }
-                    },
-                    "chart":{
-                        "indicator":{}
-                    }
-                },
-                {
-                    "id":"00000000-0000-0000-000000000006",
-                    "type":"statistic",
-                    "config":{
-                        "statistic":"wrap-up-duration",
-                        "statisticLookup":"avg",
-                        "ui":{
-                            "title":{
-                                "show":true,
-                                "text":"Wrap Up Duration"
-                            },
-                            "size":{
-                                "width":2,
-                                "height":2
-                            }
+                      }
+                  },
+                  "chart":{
+                      "indicator":{}
+                  }
+                  
+              }, {
+                "id":"00000000-0000-0000-000000000066",
+                "type":"sourceSwitcher",
+                "config":{
+                    "groupName":"queue2",
+                    "sourceType": "queue",
+                    "items": [],
+                    "ui":{
+                        "title":{
+                          "show":true,
+                          "text":"Queue:"
+                      },
+                        "size":{
+                            "width":11,
+                            "height":3
+                        },
+                        "position": {
+                            "row": 0,
+                            "col": 12
                         }
-                    },
-                    "chart":{
-                        "indicator":{}
-                    }
-                },
-                {
-                    "id":"00000000-0000-0000-000000000007",
-                    "type":"statistic",
-                    "config":{
-                        "statistic":"interaction-hold-duration",
-                        "statisticLookup":"avg",
-                        "ui":{
-                            "title":{
-                                "show":true,
-                                "text":"Interaction Hold Duration"
-                            },
-                            "size":{
-                                "width":2,
-                                "height":2
-                            }
-                        }
-                    },
-                    "chart":{
-                        "indicator":{}
-                    }
-                },
-                {
-                    "id":"00000000-0000-0000-000000000008",
-                    "type":"statistic",
-                    "config":{
-                        "statistic":"interaction-duration",
-                        "statisticLookup":"avg",
-                        "ui":{
-                            "title":{
-                                "show":true,
-                                "text":"Interaction Duration"
-                            },
-                            "size":{
-                                "width":2,
-                                "height":2
-                            }
-                        }
-                    },
-                    "chart":{
-                        "indicator":{}
-                    }
-                },
-                {
-                    "id":"00000000-0000-0000-000000000009",
-                    "type":"statistic",
-                    "config":{
-                        "statistic":"resource-hold-duration",
-                        "statisticLookup":"avg",
-                        "ui":{
-                            "title":{
-                                "show":true,
-                                "text":"Resource Hold Duration"
-                            },
-                            "size":{
-                                "width":2,
-                                "height":2
-                            }
-                        }
-                    },
-                    "chart":{
-                        "indicator":{}
-                    }
-                },
-                {
-                    "id":"00000000-0000-0000-000000000010",
-                    "type":"statistic",
-                    "config":{
-                        "statistic":"resource-talk-time-duration",
-                        "statisticLookup":"avg",
-                        "ui":{
-                            "title":{
-                                "show":true,
-                                "text":"Resource Talk Time Duration"
-                            },
-                            "size":{
-                                "width":2,
-                                "height":2
-                            }
-                        }
-                    },
-                    "chart":{
-                        "indicator":{}
-                    }
-                },
-                {
-                    "id":"00000000-0000-0000-000000000011",
-                    "type":"statistic",
-                    "config":{
-                        "statistic":"resource-logged-in-duration",
-                        "statisticLookup":"avg",
-                        "ui":{
-                            "title":{
-                                "show":true,
-                                "text":"Resource Logged In Duration"
-                            },
-                            "size":{
-                                "width":2,
-                                "height":2
-                            }
-                        }
-                    },
-                    "chart":{
-                        "indicator":{}
-                    }
-                },
-                {
-                    "id":"00000000-0000-0000-000000000012",
-                    "type":"statistic",
-                    "config":{
-                        "statistic":"abandon-time-duration",
-                        "statisticLookup":"avg",
-                        "ui":{
-                            "title":{
-                                "show":true,
-                                "text":"Abandon Time Duration"
-                            },
-                            "size":{
-                                "width":2,
-                                "height":2
-                            }
-                        }
-                    },
-                    "chart":{
-                        "indicator":{}
-                    }
-                },
-                {
-                    "id":"00000000-0000-0000-000000000013",
-                    "type":"statistic",
-                    "config":{
-                        "statistic":"resource-busy-duration",
-                        "statisticLookup":"avg",
-                        "ui":{
-                            "title":{
-                                "show":true,
-                                "text":"Resource Busy Duration"
-                            },
-                            "size":{
-                                "width":2,
-                                "height":2
-                            }
-                        }
-                    },
-                    "chart":{
-                        "indicator":{}
-                    }
-                },
-                {
-                    "id":"00000000-0000-0000-000000000014",
-                    "type":"statistic",
-                    "config":{
-                        "statistic":"resource-away-duration",
-                        "statisticLookup":"avg",
-                        "ui":{
-                            "title":{
-                                "show":true,
-                                "text":"Resource Away Duration"
-                            },
-                            "size":{
-                                "width":2,
-                                "height":2
-                            }
-                        }
-                    },
-                    "chart":{
-                        "indicator":{}
-                    }
-                },
-                {
-                    "id":"00000000-0000-0000-000000000015",
-                    "type":"statistic",
-                    "config":{
-                        "statistic":"resource-ready-duration",
-                        "statisticLookup":"avg",
-                        "ui":{
-                            "title":{
-                                "show":true,
-                                "text":"Resource Ready Duration"
-                            },
-                            "size":{
-                                "width":2,
-                                "height":2
-                            }
-                        }
-                    },
-                    "chart":{
-                        "indicator":{}
-                    }
-                },
-                {
-                    "id":"00000000-0000-0000-000000000016",
-                    "type":"statistic",
-                    "config":{
-                        "statistic":"resource-hold-start-instance",
-                        "statisticLookup":"recordsCount",
-                        "ui":{
-                            "title":{
-                                "show":true,
-                                "text":"Resource Hold Start Instance"
-                            },
-                            "size":{
-                                "width":2,
-                                "height":2
-                            }
-                        }
-                    },
-                    "chart":{
-                        "indicator":{}
-                    }
-                },
-                {
-                    "id":"00000000-0000-0000-000000000017",
-                    "type":"statistic",
-                    "config":{
-                        "statistic":"resource-conversation-start-instance",
-                        "statisticLookup":"recordsCount",
-                        "ui":{
-                            "title":{
-                                "show":true,
-                                "text":"Resource Conversation Start Instance"
-                            },
-                            "size":{
-                                "width":2,
-                                "height":2
-                            }
-                        }
-                    },
-                    "chart":{
-                        "indicator":{}
-                    }
-                },
-                {
-                    "id":"00000000-0000-0000-000000000018",
-                    "type":"statistic",
-                    "config":{
-                        "statistic":"resource-conversation-end-instance",
-                        "statisticLookup":"recordsCount",
-                        "ui":{
-                            "title":{
-                                "show":true,
-                                "text":"Resource Conversation End Instance"
-                            },
-                            "size":{
-                                "width":2,
-                                "height":2
-                            }
-                        }
-                    },
-                    "chart":{
-                        "indicator":{}
-                    }
-                },
-                {
-                    "id":"00000000-0000-0000-000000000019",
-                    "type":"statistic",
-                    "config":{
-                        "statistic":"interaction-abandon-instance",
-                        "statisticLookup":"recordsCount",
-                        "ui":{
-                            "title":{
-                                "show":true,
-                                "text":"Interaction Abandon Instance"
-                            },
-                            "size":{
-                                "width":2,
-                                "height":2
-                            }
-                        }
-                    },
-                    "chart":{
-                        "indicator":{}
-                    }
-                },
-                {
-                    "id":"00000000-0000-0000-000000000020",
-                    "type":"statistic",
-                    "config":{
-                        "statistic":"queue-entry-instance",
-                        "statisticLookup":"recordsCount",
-                        "ui":{
-                            "title":{
-                                "show":true,
-                                "text":"Queue Entry Instance"
-                            },
-                            "size":{
-                                "width":2,
-                                "height":2
-                            }
-                        }
-                    },
-                    "chart":{
-                        "indicator":{}
-                    }
-                },
-                {
-                    "id":"00000000-0000-0000-000000000021",
-                    "type":"statistic",
-                    "config":{
-                        "statistic":"queue-exit-instance",
-                        "statisticLookup":"recordsCount",
-                        "ui":{
-                            "title":{
-                                "show":true,
-                                "text":"Queue Exit Instance"
-                            },
-                            "size":{
-                                "width":2,
-                                "height":2
-                            }
-                        }
-                    },
-                    "chart":{
-                        "indicator":{}
-                    }
-                },
-                {
-                    "id":"00000000-0000-0000-000000000022",
-                    "type":"statistic",
-                    "config":{
-                        "statistic":"resource-login-instance",
-                        "statisticLookup":"recordsCount",
-                        "ui":{
-                            "title":{
-                                "show":true,
-                                "text":"Resource Login Instance"
-                            },
-                            "size":{
-                                "width":2,
-                                "height":2
-                            }
-                        }
-                    },
-                    "chart":{
-                        "indicator":{}
-                    }
-                },
-                {
-                    "id":"00000000-0000-0000-000000000023",
-                    "type":"statistic",
-                    "config":{
-                        "statistic":"interaction-start-instance",
-                        "statisticLookup":"recordsCount",
-                        "ui":{
-                            "title":{
-                                "show":true,
-                                "text":"Interaction Start Instance"
-                            },
-                            "size":{
-                                "width":2,
-                                "height":2
-                            }
-                        }
-                    },
-                    "chart":{
-                        "indicator":{}
-                    }
-                },
-                {
-                    "id":"00000000-0000-0000-000000000024",
-                    "type":"statistic",
-                    "config":{
-                        "statistic":"interaction-end-instance",
-                        "statisticLookup":"recordsCount",
-                        "ui":{
-                            "title":{
-                                "show":true,
-                                "text":"Interaction End Instance"
-                            },
-                            "size":{
-                                "width":2,
-                                "height":2
-                            }
-                        }
-                    },
-                    "chart":{
-                        "indicator":{}
-                    }
-                },
-                {
-                    "id":"00000000-0000-0000-000000000025",
-                    "type":"statistic",
-                    "config":{
-                        "statistic":"customer-conversation-start-instance",
-                        "statisticLookup":"recordsCount",
-                        "ui":{
-                            "title":{
-                                "show":true,
-                                "text":"Customer Conversation Start Instance"
-                            },
-                            "size":{
-                                "width":2,
-                                "height":2
-                            }
-                        }
-                    },
-                    "chart":{
-                        "indicator":{}
-                    }
-                },
-                {
-                    "id":"00000000-0000-0000-000000000026",
-                    "type":"statistic",
-                    "config":{
-                        "statistic":"customer-conversation-end-instance",
-                        "statisticLookup":"recordsCount",
-                        "ui":{
-                            "title":{
-                                "show":true,
-                                "text":"Customer Conversation End Instance"
-                            },
-                            "size":{
-                                "width":2,
-                                "height":2
-                            }
-                        }
-                    },
-                    "chart":{
-                        "indicator":{}
-                    }
-                },
-                {
-                    "id":"00000000-0000-0000-000000000027",
-                    "type":"statistic",
-                    "config":{
-                        "statistic":"interaction-transfer-instance",
-                        "statisticLookup":"recordsCount",
-                        "ui":{
-                            "title":{
-                                "show":true,
-                                "text":"Interaction Transfer Instance"
-                            },
-                            "size":{
-                                "width":2,
-                                "height":2
-                            }
-                        }
-                    },
-                    "chart":{
-                        "indicator":{}
-                    }
-                },
-                {
-                    "id":"00000000-0000-0000-000000000028",
-                    "type":"statistic",
-                    "config":{
-                        "statistic":"resource-transfer-instance",
-                        "statisticLookup":"recordsCount",
-                        "ui":{
-                            "title":{
-                                "show":true,
-                                "text":"Resource Transfer Instance"
-                            },
-                            "size":{
-                                "width":2,
-                                "height":2
-                            }
-                        }
-                    },
-                    "chart":{
-                        "indicator":{}
-                    }
-                },
-                {
-                    "id":"00000000-0000-0000-000000000029",
-                    "type":"statistic",
-                    "config":{
-                        "statistic":"resource-logout-instance",
-                        "statisticLookup":"recordsCount",
-                        "ui":{
-                            "title":{
-                                "show":true,
-                                "text":"Resource Logout Instance"
-                            },
-                            "size":{
-                                "width":2,
-                                "height":2
-                            }
-                        }
-                    },
-                    "chart":{
-                        "indicator":{}
-                    }
-                },
-                {
-                    "id":"00000000-0000-0000-000000000030",
-                    "type":"statistic",
-                    "config":{
-                        "statistic":"resource-not-ready-instance",
-                        "statisticLookup":"recordsCount",
-                        "ui":{
-                            "title":{
-                                "show":true,
-                                "text":"Resource Not Ready Instance"
-                            },
-                            "size":{
-                                "width":2,
-                                "height":2
-                            }
-                        }
-                    },
-                    "chart":{
-                        "indicator":{}
-                    }
-                },
-                {
-                    "id":"00000000-0000-0000-000000000031",
-                    "type":"statistic",
-                    "config":{
-                        "statistic":"abandon-queue-instance",
-                        "statisticLookup":"recordsCount",
-                        "ui":{
-                            "title":{
-                                "show":true,
-                                "text":"Abandon Queue Instance"
-                            },
-                            "size":{
-                                "width":2,
-                                "height":2
-                            }
-                        }
-                    },
-                    "chart":{
-                        "indicator":{}
-                    }
-                },
-                {
-                    "id":"00000000-0000-0000-000000000032",
-                    "type":"statistic",
-                    "config":{
-                        "statistic":"resource-ready-instance",
-                        "statisticLookup":"recordsCount",
-                        "ui":{
-                            "title":{
-                                "show":true,
-                                "text":"Resource Ready Instance"
-                            },
-                            "size":{
-                                "width":2,
-                                "height":2
-                            }
-                        }
-                    },
-                    "chart":{
-                        "indicator":{}
                     }
                 }
-            ]
-        });
+              },
+              {
+                  "id":"00000000-0000-0000-000000000068",
+                  "type":"statistic",
+                  "config":{
+                      "statistic":"queue-duration",
+                      "statisticLookup":"recordsCount",
+                      "groupName": "queue1",
+                      "resourceIdName": "queue-id",
+                      "resourceId": null,
+                      "ui":{
+                          "title":{
+                              "show":true,
+                              "text":"Queue Length"
+                          },
+                          "unit": "Customers",
+                          "size":{
+                              "width":6,
+                              "height":8
+                          },
+                          "position": {
+                            row: 4,
+                            col: 12
+                        }
+                      }
+                  },
+                  "chart":{
+                      "indicator":{}
+                  }
+                  
+              },
+              {
+                  "id":"00000000-0000-0000-000000000067",
+                  "type":"statistic",
+                  "config":{
+                      "statistic":"queue-duration",
+                      "statisticLookup":"avg",
+                      "groupName": "queue1",
+                      "resourceIdName": "queue-id",
+                      "resourceId": null,
+                      "ui":{
+                          "title":{
+                              "show":true,
+                              "text":"Average Wait Time"
+                          },
+                          "unit": "mm:ss",
+                          "size":{
+                              "width":5,
+                              "height":4
+                          },
+                          "position": {
+                              row: 4,
+                              col: 18
+                          }
+                      }
+                  },
+                  "chart":{
+                      "indicator":{}
+                  }
+              }, {
+                "id":"00000000-0000-0000-000000000069",
+                "type":"statistic",
+                "config":{
+                    "statistic":"interaction-abandon-instance",
+                    "statisticLookup":"recordsCount",
+                    "groupName": "queue1",
+                    "resourceIdName": "queue-id",
+                    "resourceId": null,
+                    "ui":{
+                        "title":{
+                            "show":true,
+                            "text":"Total Abandons"
+                        },
+                        "unit": "Customers",
+                        "size":{
+                            "width":5,
+                            "height":4
+                        },
+                        "position": {
+                          row: 8,
+                          col: 18
+                      }
+                    }
+                },
+                "chart":{
+                    "indicator":{}
+                }
+            },
+            {
+              "id":"00000000-0000-0000-000000000081",
+              "type":"title",
+              "config":{
+                  "ui":{
+                      "size":{
+                          "width":10,
+                          "height":3
+                      },
+                      "position": {
+                        row: 0,
+                        col: 24
+                    }
+                  }
+              },
+              "chart":{
+                  "data": 'All Agents'
+              }
+            },
+            {
+              "id":"00000000-0000-0000-000000000082",
+              "type":"statistic",
+              "config":{
+                  "statistic":"resource-ready-instance",
+                  "statisticLookup":"recordsCount",
+                  "ui":{
+                      "title":{
+                          "show":true,
+                          "text":"Agents Ready"
+                      },
+                      "unit": "Agents",
+                      "size":{
+                          "width":4,
+                          "height":5
+                      },
+                      "position": {
+                          row: 4,
+                          col: 24
+                      }
+                  }
+              },
+              "chart":{
+                  "indicator":{}
+              }
+            },
+            {
+              "id":"00000000-0000-0000-000000000083",
+              "type":"statistic",
+              "config":{
+                  "statistic":"resource-not-ready-instance",
+                  "statisticLookup":"recordsCount",
+                  "ui":{
+                      "title":{
+                          "show":true,
+                          "text":"Agents Not Ready"
+                      },
+                      "unit": "Agents",
+                      "size":{
+                          "width":4,
+                          "height":5
+                      },
+                      "position": {
+                          row: 4,
+                          col: 28
+                      }
+                  }
+              },
+              "chart":{
+                  "indicator":{}
+              }
+            },
+            {
+              "id":"00000000-0000-0000-000000000084",
+              "type":"statistic",
+              "config":{
+                  "statistic":"resource-busy-duration",
+                  "statisticLookup":"recordsCount",
+                  "ui":{
+                      "title":{
+                          "show":true,
+                          "text":"Agents Busy"
+                      },
+                      "unit": "Agents",
+                      "size":{
+                          "width":4,
+                          "height":5
+                      },
+                      "position": {
+                          row: 4,
+                          col: 32
+                      }
+                  }
+              },
+              "chart":{
+                  "indicator":{}
+              }
+            },
+            {
+              "id":"00000000-0000-0000-000000000085",
+              "type":"statistic",
+              "config":{
+                  "statistic":"resource-conversation-duration",
+                  "statisticLookup":"avg",
+                  "ui":{
+                      "title":{
+                          "show":true,
+                          "text":"Avg. Conversation Time"
+                      },
+                      "unit": "mm:ss",
+                      "size":{
+                          "width":4,
+                          "height":5
+                      },
+                      "position": {
+                          row: 9,
+                          col: 24
+                      }
+                  }
+              },
+              "chart":{
+                  "indicator":{}
+              }
+            },
+            {
+              "id":"00000000-0000-0000-000000000086",
+              "type":"statistic",
+              "config":{
+                  "statistic":"wrap-up-duration",
+                  "statisticLookup":"avg",
+                  "ui":{
+                      "title":{
+                          "show":true,
+                          "text":"Avg. Wrap-up Time"
+                      },
+                      "unit": "mm:ss",
+                      "size":{
+                          "width":4,
+                          "height":5
+                      },
+                      "position": {
+                          row: 9,
+                          col: 28
+                      }
+                  }
+              },
+              "chart":{
+                  "indicator":{}
+              }
+            },
+            {
+              "id":"00000000-0000-0000-000000000087",
+              "type":"statistic",
+              "config":{
+                  "statistic":"resource-hold-duration",
+                  "statisticLookup":"recordsCount",
+                  "ui":{
+                      "title":{
+                          "show":true,
+                          "text":"Hold Count"
+                      },
+                      "unit": "Holds",
+                      "size":{
+                          "width":4,
+                          "height":5
+                      },
+                      "position": {
+                          row: 9,
+                          col: 32
+                      }
+                  }
+              },
+              "chart":{
+                  "indicator":{}
+              }
+            },
+            {
+              "id":"00000000-0000-0000-000000000070",
+              "type":"title",
+              "config":{
+                  "ui":{
+                      "size":{
+                          "width":18,
+                          "height":3
+                      },
+                      "position": {
+                        row: 0,
+                        col: 38
+                    }
+                  }
+              },
+              "chart":{
+                  "data": 'All Interactions'
+              }
+              
+        },
+        {
+          "id":"00000000-0000-0000-000000000073",
+          "type":"statistic",
+          "config":{
+              "statistic":"queue-duration",
+              "statisticLookup":"recordsCount",
+              "ui":{
+                  "title":{
+                      "show":true,
+                      "text":"Total in Queue"
+                  },
+                  "unit": "Customers",
+                  "size":{
+                      "width":8,
+                      "height":8
+                  },
+                  "position": {
+                      row: 4,
+                      col: 38
+                  }
+              }
+          },
+          "chart":{
+              "indicator":{}
+          }
+        },
+        {
+          "id":"00000000-0000-0000-000000000072",
+          "type":"statistic",
+          "config":{
+              "statistic":"interaction-start-instance",
+              "statisticLookup":"recordsCount",
+              "ui":{
+                  "title":{
+                      "show":true,
+                      "text":"Interactions in Conversation"
+                  },
+                  "unit": "Interactions",
+                  "size":{
+                      "width":8,
+                      "height":8
+                  },
+                  "position": {
+                    row: 4,
+                    col: 46
+                }
+              }
+          },
+          "chart":{
+              "indicator":{}
+          }
+      },
+      {
+        "id":"00000000-0000-0000-000000000074",
+        "type":"statistic",
+        "config":{
+            "statistic":"abandon-queue-instance",
+            "statisticLookup":"recordsCount",
+            "ui":{
+                "title":{
+                    "show":true,
+                    "text":"Queue Abandons"
+                },
+                "unit": "Customers",
+                "size":{
+                    "width":6,
+                    "height":5
+                },
+                "position": {
+                    row: 4,
+                    col: 54
+                }
+            }
+        },
+        "chart":{
+            "indicator":{}
+        }
+      },
+      {
+        "id":"00000000-0000-0000-000000000076",
+        "type":"statistic",
+        "config":{
+            "statistic":"interaction-duration",
+            "statisticLookup":"avg",
+            "ui":{
+                "title":{
+                    "show":true,
+                    "text":"Avg. Interaction Time"
+                },
+                "unit": "mm:ss",
+                "size":{
+                    "width":6,
+                    "height":4
+                },
+                "position": {
+                    row: 12,
+                    col: 38
+                }
+            }
+        },
+        "chart":{
+            "indicator":{}
+        }
+      },
+      {
+        "id":"00000000-0000-0000-000000000079",
+        "type":"statistic",
+        "config":{
+            "statistic":"abandon-time-duration",
+            "statisticLookup":"avg",
+            "ui":{
+                "title":{
+                    "show":true,
+                    "text":"Avg. Abandon Time"
+                },
+                "unit": "mm:ss",
+                "size":{
+                    "width":6,
+                    "height":4
+                },
+                "position": {
+                    row: 12,
+                    col: 44
+                }
+            }
+        },
+        "chart":{
+            "indicator":{}
+        }
+      }
+    ]
+});
