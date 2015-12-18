@@ -204,9 +204,9 @@ angular.module('liveopsConfigPanel')
             "name":"Monitor Dashboard",
             "refreshRate":30000,
             "gridster":{
-                "columns":30,
+                "columns":60,
                 "minRows":10,
-                "maxRows":30,
+                "maxRows":40,
                 "margins":[
                     20,
                     20
@@ -233,39 +233,11 @@ angular.module('liveopsConfigPanel')
                             "text":"Queue:"
                         },
                           "size":{
-                              "width":7,
-                              "height":1
+                              "width":11,
+                              "height":3
                           }
                       }
                   }
-                },
-                {
-                    "id":"00000000-0000-0000-000000000001",
-                    "type":"statistic",
-                    "config":{
-                        "statistic":"queue-duration",
-                        "statisticLookup":"avg",
-                        "groupName": "queue1",
-                        "resourceIdName": "queue-id",
-                        "resourceId": null,
-                        "ui":{
-                            "title":{
-                                "show":true,
-                                "text":"Average Wait Time"
-                            },
-                            "size":{
-                                "width":3,
-                                "height":4
-                            },
-                            "position": {
-                                row: 1,
-                                col: 0
-                            }
-                        }
-                    },
-                    "chart":{
-                        "indicator":{}
-                    }
                 },
                 {
                     "id":"00000000-0000-0000-000000000002",
@@ -281,13 +253,14 @@ angular.module('liveopsConfigPanel')
                                 "show":true,
                                 "text":"Queue Length"
                             },
+                            "unit": "Customers",
                             "size":{
-                                "width":4,
-                                "height":2
+                                "width":6,
+                                "height":8
                             },
                             "position": {
                               row: 2,
-                              col: 3
+                              col: 0
                           }
                         }
                     },
@@ -295,6 +268,35 @@ angular.module('liveopsConfigPanel')
                         "indicator":{}
                     }
                     
+                },
+                {
+                    "id":"00000000-0000-0000-000000000001",
+                    "type":"statistic",
+                    "config":{
+                        "statistic":"queue-duration",
+                        "statisticLookup":"avg",
+                        "groupName": "queue1",
+                        "resourceIdName": "queue-id",
+                        "resourceId": null,
+                        "ui":{
+                            "title":{
+                                "show":true,
+                                "text":"Average Wait Time"
+                            },
+                            "unit": "mm:ss",
+                            "size":{
+                                "width":5,
+                                "height":4
+                            },
+                            "position": {
+                                row: 4,
+                                col: 6
+                            }
+                        }
+                    },
+                    "chart":{
+                        "indicator":{}
+                    }
                 },
                 {
                   "id":"00000000-0000-0000-000000000003",
@@ -310,13 +312,14 @@ angular.module('liveopsConfigPanel')
                               "show":true,
                               "text":"Total Abandons"
                           },
+                          "unit": "Customers",
                           "size":{
-                              "width":4,
-                              "height":2
+                              "width":5,
+                              "height":4
                           },
                           "position": {
-                            row: 4,
-                            col: 3
+                            row: 8,
+                            col: 6
                         }
                       }
                   },
@@ -337,43 +340,15 @@ angular.module('liveopsConfigPanel')
                           "text":"Queue:"
                       },
                         "size":{
-                            "width":7,
-                            "height":1
+                            "width":11,
+                            "height":3
                         },
                         "position": {
                             "row": 0,
-                            "col": 8
+                            "col": 12
                         }
                     }
                 }
-              },
-              {
-                  "id":"00000000-0000-0000-000000000067",
-                  "type":"statistic",
-                  "config":{
-                      "statistic":"queue-duration",
-                      "statisticLookup":"avg",
-                      "groupName": "queue1",
-                      "resourceIdName": "queue-id",
-                      "resourceId": null,
-                      "ui":{
-                          "title":{
-                              "show":true,
-                              "text":"Average Wait Time"
-                          },
-                          "size":{
-                              "width":3,
-                              "height":4
-                          },
-                          "position": {
-                              row: 2,
-                              col: 8
-                          }
-                      }
-                  },
-                  "chart":{
-                      "indicator":{}
-                  }
               },
               {
                   "id":"00000000-0000-0000-000000000068",
@@ -389,13 +364,14 @@ angular.module('liveopsConfigPanel')
                               "show":true,
                               "text":"Queue Length"
                           },
+                          "unit": "Customers",
                           "size":{
-                              "width":4,
-                              "height":2
+                              "width":6,
+                              "height":8
                           },
                           "position": {
-                            row: 2,
-                            col: 11
+                            row: 4,
+                            col: 12
                         }
                       }
                   },
@@ -405,6 +381,34 @@ angular.module('liveopsConfigPanel')
                   
               },
               {
+                  "id":"00000000-0000-0000-000000000067",
+                  "type":"statistic",
+                  "config":{
+                      "statistic":"queue-duration",
+                      "statisticLookup":"avg",
+                      "groupName": "queue1",
+                      "resourceIdName": "queue-id",
+                      "resourceId": null,
+                      "ui":{
+                          "title":{
+                              "show":true,
+                              "text":"Average Wait Time"
+                          },
+                          "unit": "mm:ss",
+                          "size":{
+                              "width":5,
+                              "height":4
+                          },
+                          "position": {
+                              row: 4,
+                              col: 18
+                          }
+                      }
+                  },
+                  "chart":{
+                      "indicator":{}
+                  }
+              }, {
                 "id":"00000000-0000-0000-000000000069",
                 "type":"statistic",
                 "config":{
@@ -418,13 +422,14 @@ angular.module('liveopsConfigPanel')
                             "show":true,
                             "text":"Total Abandons"
                         },
+                        "unit": "Customers",
                         "size":{
-                            "width":4,
-                            "height":2
+                            "width":5,
+                            "height":4
                         },
                         "position": {
-                          row: 4,
-                          col: 11
+                          row: 8,
+                          col: 18
                       }
                     }
                 },
@@ -433,17 +438,192 @@ angular.module('liveopsConfigPanel')
                 }
             },
             {
+              "id":"00000000-0000-0000-000000000081",
+              "type":"title",
+              "config":{
+                  "ui":{
+                      "size":{
+                          "width":10,
+                          "height":3
+                      },
+                      "position": {
+                        row: 0,
+                        col: 24
+                    }
+                  }
+              },
+              "chart":{
+                  "data": 'All Agents'
+              }
+            },
+            {
+              "id":"00000000-0000-0000-000000000082",
+              "type":"statistic",
+              "config":{
+                  "statistic":"resource-ready-instance",
+                  "statisticLookup":"recordsCount",
+                  "ui":{
+                      "title":{
+                          "show":true,
+                          "text":"Agents Ready"
+                      },
+                      "unit": "Agents",
+                      "size":{
+                          "width":4,
+                          "height":5
+                      },
+                      "position": {
+                          row: 4,
+                          col: 24
+                      }
+                  }
+              },
+              "chart":{
+                  "indicator":{}
+              }
+            },
+            {
+              "id":"00000000-0000-0000-000000000083",
+              "type":"statistic",
+              "config":{
+                  "statistic":"resource-not-ready-instance",
+                  "statisticLookup":"recordsCount",
+                  "ui":{
+                      "title":{
+                          "show":true,
+                          "text":"Agents Not Ready"
+                      },
+                      "unit": "Agents",
+                      "size":{
+                          "width":4,
+                          "height":5
+                      },
+                      "position": {
+                          row: 4,
+                          col: 28
+                      }
+                  }
+              },
+              "chart":{
+                  "indicator":{}
+              }
+            },
+            {
+              "id":"00000000-0000-0000-000000000084",
+              "type":"statistic",
+              "config":{
+                  "statistic":"resource-busy-duration",
+                  "statisticLookup":"recordsCount",
+                  "ui":{
+                      "title":{
+                          "show":true,
+                          "text":"Agents Busy"
+                      },
+                      "unit": "Agents",
+                      "size":{
+                          "width":4,
+                          "height":5
+                      },
+                      "position": {
+                          row: 4,
+                          col: 32
+                      }
+                  }
+              },
+              "chart":{
+                  "indicator":{}
+              }
+            },
+            {
+              "id":"00000000-0000-0000-000000000085",
+              "type":"statistic",
+              "config":{
+                  "statistic":"resource-conversation-duration",
+                  "statisticLookup":"avg",
+                  "ui":{
+                      "title":{
+                          "show":true,
+                          "text":"Avg. Conversation Time"
+                      },
+                      "unit": "mm:ss",
+                      "size":{
+                          "width":4,
+                          "height":5
+                      },
+                      "position": {
+                          row: 9,
+                          col: 24
+                      }
+                  }
+              },
+              "chart":{
+                  "indicator":{}
+              }
+            },
+            {
+              "id":"00000000-0000-0000-000000000086",
+              "type":"statistic",
+              "config":{
+                  "statistic":"wrap-up-duration",
+                  "statisticLookup":"avg",
+                  "ui":{
+                      "title":{
+                          "show":true,
+                          "text":"Avg. Wrap-up Time"
+                      },
+                      "unit": "mm:ss",
+                      "size":{
+                          "width":4,
+                          "height":5
+                      },
+                      "position": {
+                          row: 9,
+                          col: 28
+                      }
+                  }
+              },
+              "chart":{
+                  "indicator":{}
+              }
+            },
+            {
+              "id":"00000000-0000-0000-000000000087",
+              "type":"statistic",
+              "config":{
+                  "statistic":"resource-hold-duration",
+                  "statisticLookup":"recordsCount",
+                  "ui":{
+                      "title":{
+                          "show":true,
+                          "text":"Hold Count"
+                      },
+                      "unit": "Holds",
+                      "size":{
+                          "width":4,
+                          "height":5
+                      },
+                      "position": {
+                          row: 9,
+                          col: 32
+                      }
+                  }
+              },
+              "chart":{
+                  "indicator":{}
+              }
+            },
+            {
               "id":"00000000-0000-0000-000000000070",
               "type":"title",
               "config":{
                   "ui":{
                       "size":{
-                          "width":14,
-                          "height":1
+                          "width":18,
+                          "height":3
                       },
                       "position": {
                         row: 0,
-                        col: 17
+                        col: 38
                     }
                   }
               },
@@ -451,31 +631,32 @@ angular.module('liveopsConfigPanel')
                   "data": 'All Interactions'
               }
               
-          },
-          {
-            "id":"00000000-0000-0000-000000000071",
-            "type":"statistic",
-            "config":{
-                "statistic":"interaction-duration",
-                "statisticLookup":"recordsCount",
-                "ui":{
-                    "title":{
-                        "show":true,
-                        "text":"Active Interactions"
-                    },
-                    "size":{
-                        "width":5,
-                        "height":5
-                    },
-                    "position": {
-                      row: 1,
-                      col: 16
+        },
+        {
+          "id":"00000000-0000-0000-000000000073",
+          "type":"statistic",
+          "config":{
+              "statistic":"queue-duration",
+              "statisticLookup":"recordsCount",
+              "ui":{
+                  "title":{
+                      "show":true,
+                      "text":"Total in Queue"
+                  },
+                  "unit": "Customers",
+                  "size":{
+                      "width":8,
+                      "height":8
+                  },
+                  "position": {
+                      row: 4,
+                      col: 38
                   }
-                }
-            },
-            "chart":{
-                "indicator":{}
-            }
+              }
+          },
+          "chart":{
+              "indicator":{}
+          }
         },
         {
           "id":"00000000-0000-0000-000000000072",
@@ -488,69 +669,20 @@ angular.module('liveopsConfigPanel')
                       "show":true,
                       "text":"Interactions in Conversation"
                   },
+                  "unit": "Interactions",
                   "size":{
-                      "width":5,
-                      "height":5
+                      "width":8,
+                      "height":8
                   },
                   "position": {
-                    row: 1,
-                    col: 21
+                    row: 4,
+                    col: 46
                 }
               }
           },
           "chart":{
               "indicator":{}
           }
-      },
-      {
-        "id":"00000000-0000-0000-000000000076",
-        "type":"statistic",
-        "config":{
-            "statistic":"interaction-duration",
-            "statisticLookup":"avg",
-            "ui":{
-                "title":{
-                    "show":true,
-                    "text":"Avg. Int. Time"
-                },
-                "size":{
-                    "width":4,
-                    "height":5
-                },
-                "position": {
-                    row: 1,
-                    col: 26
-                }
-            }
-        },
-        "chart":{
-            "indicator":{}
-        }
-      },
-      {
-        "id":"00000000-0000-0000-000000000073",
-        "type":"statistic",
-        "config":{
-            "statistic":"queue-duration",
-            "statisticLookup":"recordsCount",
-            "ui":{
-                "title":{
-                    "show":true,
-                    "text":"Total in Queue"
-                },
-                "size":{
-                    "width":4,
-                    "height":3
-                },
-                "position": {
-                    row: 6,
-                    col: 16
-                }
-            }
-        },
-        "chart":{
-            "indicator":{}
-        }
       },
       {
         "id":"00000000-0000-0000-000000000074",
@@ -563,38 +695,14 @@ angular.module('liveopsConfigPanel')
                     "show":true,
                     "text":"Queue Abandons"
                 },
+                "unit": "Customers",
                 "size":{
-                    "width":4,
-                    "height":3
+                    "width":6,
+                    "height":5
                 },
                 "position": {
-                    row: 6,
-                    col: 20
-                }
-            }
-        },
-        "chart":{
-            "indicator":{}
-        }
-      },
-      {
-        "id":"00000000-0000-0000-000000000075",
-        "type":"statistic",
-        "config":{
-            "statistic":"interaction-abandon-instance",
-            "statisticLookup":"recordsCount",
-            "ui":{
-                "title":{
-                    "show":true,
-                    "text":"IVR Abandons"
-                },
-                "size":{
-                    "width":3,
-                    "height":3
-                },
-                "position": {
-                    row: 6,
-                    col: 24
+                    row: 4,
+                    col: 54
                 }
             }
         },
@@ -606,20 +714,47 @@ angular.module('liveopsConfigPanel')
         "id":"00000000-0000-0000-000000000076",
         "type":"statistic",
         "config":{
-            "statistic":"interaction-transfer-instance",
-            "statisticLookup":"recordsCount",
+            "statistic":"interaction-duration",
+            "statisticLookup":"avg",
             "ui":{
                 "title":{
                     "show":true,
-                    "text":"Interactions Transferred"
+                    "text":"Avg. Interaction Time"
                 },
+                "unit": "mm:ss",
                 "size":{
-                    "width":3,
-                    "height":3
+                    "width":6,
+                    "height":4
                 },
                 "position": {
-                    row: 6,
-                    col: 27
+                    row: 12,
+                    col: 38
+                }
+            }
+        },
+        "chart":{
+            "indicator":{}
+        }
+      },
+      {
+        "id":"00000000-0000-0000-000000000079",
+        "type":"statistic",
+        "config":{
+            "statistic":"abandon-time-duration",
+            "statisticLookup":"avg",
+            "ui":{
+                "title":{
+                    "show":true,
+                    "text":"Avg. Abandon Time"
+                },
+                "unit": "mm:ss",
+                "size":{
+                    "width":6,
+                    "height":4
+                },
+                "position": {
+                    row: 12,
+                    col: 44
                 }
             }
         },
@@ -627,5 +762,5 @@ angular.module('liveopsConfigPanel')
             "indicator":{}
         }
       }
-            ]
-        });
+    ]
+});
