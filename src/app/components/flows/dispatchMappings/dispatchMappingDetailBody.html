@@ -120,7 +120,7 @@
       <select name="flowId"
         ng-required="true"
         ng-model="selectedDispatchMapping.flowId"
-        ng-options="flow.id as flow.name for flow in fetchFlows()">
+        ng-options="flow.id as flow.name for flow in fetchFlows() | filter:{active: true}">
         <option value="" ng-disabled="true">
           {{'dispatchMappings.details.flow.select' | translate}}
         </option>
