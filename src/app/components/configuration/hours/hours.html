@@ -1,8 +1,8 @@
 <table-controls
   id="table-pane"
-  config="tableConfig"
-  items="hours"
-  selected="selectedHour"
+  config="hc.tableConfig"
+  items="hc.hours"
+  selected="hc.selectedHour"
   resource-name="BusinessHour">
 
   <span name="$original.active">
@@ -13,24 +13,23 @@
 </table-controls>
 
 <resize-handle
-  ng-show="!! selectedHour || showBulkActions"
+  ng-show="!! hc.selectedHour || hc.showBulkActions"
   id="resize-pane"
   right-element-id="right-panel"
   left-element-id="table-pane"></resize-handle>
 
 <lo-details-panel id="right-panel"
   class="right-panel"
-  ng-show="selectedHour || showBulkActions"
-  ng-resource="selectedHour">
+  ng-show="hc.selectedHour || hc.showBulkActions"
+  ng-resource="hc.selectedHour">
 
   <ng-form unsaved-changes-warning
     class="details-pane"
-    ng-show="selectedHour && !showBulkActions"
-    name="forms.detailsForm"
-    ng-model="selectedHour"
-    ng-resource="selectedHour"
+    ng-show="hc.selectedHour && !hc.showBulkActions"
+    name="hc.forms.detailsForm"
+    ng-model="hc.selectedHour"
     lo-form-submit
-    lo-form-cancel
+    lo-form-reset
     lo-form-alert>
 
     <div class="detail-header"
@@ -44,22 +43,22 @@
     <div class="detail-controls">
       <input id="cancel-details-btn" type="button" class="btn"
         value="{{'value.cancel' | translate}}"
-        lo-cancel>
+        ng-click="hc.reset(hc.selectedHour)">
       </input>
       <input id="submit-details-btn" class="btn btn-primary"
         type="submit" value="{{'value.submit' | translate}}"
-        ng-disabled="forms.detailsForm.$invalid || ! forms.detailsForm.$dirty"
-        lo-submit="submit()"
+        ng-disabled="hc.forms.detailsForm.$invalid || ! hc.forms.detailsForm.$dirty"
+        lo-submit="hc.submit()"
         lo-submit-spinner
-        lo-submit-spinner-status="selectedHour.$busy">
+        lo-submit-spinner-status="hc.selectedHour.$busy">
       </input>
     </div>
   </ng-form>
 
   <bulk-action-executor class="details-pane"
-    ng-show="showBulkActions"
-    items="hours"
-    show-bulk-actions="showBulkActions">
+    ng-show="hc.showBulkActions"
+    items="hc.hours"
+    show-bulk-actions="hc.showBulkActions">
 
     <ba-set-hours-status></ba-set-hours-status>
   </bulk-action-executor>

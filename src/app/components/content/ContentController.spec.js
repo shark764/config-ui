@@ -11,7 +11,7 @@ describe('ContentController', function () {
   beforeEach(inject(['$rootScope', '$controller', 'loEvents',
     function ($rootScope, $controller, _loEvents) {
       $scope = $rootScope.$new();
-      
+
       loEvents = _loEvents;
 
       $controller('ContentController', {
@@ -50,17 +50,4 @@ describe('ContentController', function () {
     expect(Alert.info).toHaveBeenCalledWith('message.key.value', '', jasmine.any(Object));
   }]));
 
-  it('should reset the queryCache if Session tenant changes', inject(['queryCache', 'Session',
-    function (queryCache, Session) {
-      spyOn(queryCache, 'removeAll');
-      $scope.$digest();
-      
-      Session.tenant = {
-        tenantId: 'anotherId'
-      };
-
-      $scope.$digest();
-      expect(queryCache.removeAll).toHaveBeenCalled();
-    }
-  ]));
 });

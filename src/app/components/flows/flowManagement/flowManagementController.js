@@ -116,6 +116,13 @@ angular.module('liveopsConfigPanel')
       $scope.$on(loEvents.tableControls.itemCreate, function () {
         $scope.create();
       });
+      
+      $scope.$watch('selectedFlow', function(newValue){
+        if (newValue){
+          $scope.getVersions();
+          $scope.selectedFlow.reset(); //TODO: figure out why this is needed
+        }
+      });
 
       $scope.flowTypes = flowTypes;
       $scope.tableConfig = flowTableConfig;

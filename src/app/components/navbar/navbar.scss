@@ -8,7 +8,6 @@ $down-arrow-url: "/assets/images/down-arrow.png";
 navbar {
   display: block;
   width: 100%;
-  background-color: $main-color;
   height: $navbar-height;
 }
 
@@ -93,14 +92,9 @@ navbar {
         height: $navbar-height;
         position: relative;
       }
-      
-      .label-icon {
-        color : $main-color;
-      }
 
       &.active, &:hover {
         .drop-label span, #logo {
-          @include box-shadow(inset 0px -5px 0px 0px $accent1);
           color: white;
         }
       }

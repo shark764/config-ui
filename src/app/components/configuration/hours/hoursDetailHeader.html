@@ -1,42 +1,42 @@
-<div ng-if="! selectedHour.isNew()">
-  <toggle class="status-toggle" ng-model="selectedHour.active" 
+<div ng-if="! hc.selectedHour.isNew()">
+  <toggle class="status-toggle" ng-model="hc.selectedHour.active" 
   confirm-disable-message="{{'hours.details.disable.confirm' | translate}}"
   confirm-enable-message="{{'hours.details.enable.confirm' | translate}}"
   ng-disabled="!('MANAGE_ALL_BUSINESS_HOURS' | hasPermission)"></toggle>
 
   <div class="info">
     <h1 id="hours-details-type-header">
-      {{selectedHour.$original.name}}
+      {{hc.selectedHour.$original.name}}
     </h1>
     <div class="details">
       <div ng-if="! ([] | hasPermission)">
         <b audit-text
           translation="value.createdon.time"
-          date="selectedHour.$original.created">
+          date="hc.selectedHour.$original.created">
         </b>
         <br/>
-        <b audit-text ng-if="!!selectedHour.$original.updated"
+        <b audit-text ng-if="!!hc.selectedHour.$original.updated"
           translation="value.updatedon"
-          date="selectedHour.$original.updated">
+          date="hc.selectedHour.$original.updated">
         </b>
       </div>
       <div ng-if="[] | hasPermission">
         <b audit-text
           translation="value.createdby.time"
-          user-id="selectedHour.$original.createdBy"
-          date="selectedHour.$original.created">
+          user-id="hc.selectedHour.$original.createdBy"
+          date="hc.selectedHour.$original.created">
         </b>
         <br/>
-        <b audit-text ng-if="!!selectedHour.$original.updatedBy"
+        <b audit-text ng-if="!!hc.selectedHour.$original.updatedBy"
           translation="value.updatedby"
-          user-id="selectedHour.$original.updatedBy"
-          date="selectedHour.$original.updated">
+          user-id="hc.selectedHour.$original.updatedBy"
+          date="hc.selectedHour.$original.updated">
         </b>
       </div>
     </div>
   </div>
 </div>
 
-<h1 id="hours-details-create-header" ng-if="selectedHour.isNew()">
+<h1 id="hours-details-create-header" ng-if="hc.selectedHour.isNew()">
   {{'hours.details.creating' | translate}}
 </h1>

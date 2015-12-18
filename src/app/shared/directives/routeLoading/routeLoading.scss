@@ -1,0 +1,17 @@
+.page-loading-wrapper {
+  @include display-flex();
+  @include flex-box-direct(column);
+  position:relative;
+  height: 100%;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  user-select: none;
+  cursor: default;
+  z-index: 10;
+
+  .loading {
+    color: #474747;
+    font-size: 2em;
+  }
+}
