@@ -17,13 +17,13 @@
 </table-controls>
 
 <resize-handle
-  ng-show="!! qc.selectedQueue || qc.showBulkActions"
+  ng-show="!! qc.selectedQueue || showBulkActions"
   id="resize-pane"
   right-element-id="right-panel"
   left-element-id="table-pane" ></resize-handle>
 
 <lo-details-panel id="right-panel" class="right-panel"
-  ng-show="qc.selectedQueue || qc.showBulkActions"
+  ng-show="qc.selectedQueue || showBulkActions"
   ng-resource="qc.selectedQueue">
 
   <ng-form unsaved-changes-warning name="qc.forms.detailsForm"
@@ -55,9 +55,9 @@
   </ng-form>
 
   <bulk-action-executor class="details-pane"
-    ng-show="qc.showBulkActions"
+    ng-show="showBulkActions"
     items="qc.fetchQueues()"
-    show-bulk-actions="qc.showBulkActions">
+    show-bulk-actions="showBulkActions">
     <ba-set-queue-status></ba-set-queue-status>
   </bulk-action-executor>
 </lo-details-panel>

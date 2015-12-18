@@ -45,7 +45,7 @@ angular.module('liveopsConfigPanel')
             $scope.rolePermissions.length = 0;
             if ($scope.role){
               angular.forEach($scope.role.permissions, function(permissionId){
-                $scope.rolePermissions.push(TenantPermission.cachedGet({id: permissionId, tenantId: Session.tenant.tenantId}));
+                $scope.rolePermissions.push(TenantPermission.cachedGet({id: permissionId, tenantId: Session.tenant.tenantId}, null, null, {id: permissionId}));
               });
             }
             
