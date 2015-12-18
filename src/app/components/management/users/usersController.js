@@ -62,13 +62,6 @@ angular.module('liveopsConfigPanel')
           tenantId: Session.tenant.tenantId
         })
         .then(function (tenantUser) {
-          if(_.isEmpty(tenantUser.activeExtension)) {
-            tenantUser.activeExtension = tenantUser.extensions[0];
-          }
-
-          return tenantUser.save();
-        })
-        .then(function (tenantUser) {
           tenantUser.$skills = [];
 
           tenantUser.$groups = TenantUserGroups.query({
@@ -76,8 +69,12 @@ angular.module('liveopsConfigPanel')
             tenantId: Session.tenant.tenantId
           });
 
-          return tenantUser;
-        });
+          if(_.isEmpty(tenantUser.activeExtension)) {
+            tenantUser.activeExtension = tenantUser.extensions[0];
+          }
+
+          return tenantUser.save();
+        })
       };
 
       vm.canSaveUser = function(tenantUser) {
