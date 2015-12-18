@@ -22,7 +22,7 @@ angular.module('liveopsConfigPanel')
           };
           
           $scope.bulkAction.doesQualify = function doesQualify(tenantUser) {
-            return !['invited', 'pending'].indexOf(tenantUser.status);
+            return ['invited', 'pending', 'expired'].indexOf(tenantUser.status) > -1;
           };
         }
       };
