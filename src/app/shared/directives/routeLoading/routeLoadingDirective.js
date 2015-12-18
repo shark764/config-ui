@@ -16,16 +16,25 @@ angular.module('liveopsConfigPanel')
         $scope.isRouteLoading = false;
         $scope.timeout = null;
 
-        $scope.$on('$stateChangeStart', function() {
+        var transitionStarted = function (event) {
+          $scope.isRouteLoading = true;
+        };
+
+        var transitionDone = function () {
+          $timeout.cancel($scope.timeout);
+          $scope.isRouteLoading = false;
+        };
+
+        $scope.$on('$stateChangeStart', function(event) {
+          $timeout.cancel($scope.timeout);
+          
           $scope.timeout = $timeout(function () {
-            $scope.isRouteLoading = true;
+            transitionStarted(event)
           }, 100);
         });
 
-        $scope.$on('$stateChangeSuccess', function() {
-          $timeout.cancel($scope.timeout);
-          $scope.isRouteLoading = false;
-        });
+        $scope.$on('$stateChangeSuccess', transitionDone);
+        $scope.$on('$stateChangeError', transitionDone);
       }
     };
   }]);
