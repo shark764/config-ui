@@ -161,14 +161,14 @@ describe('loExtensions controller', function(){
   });
 
   describe('moved function', function(){
-    it('should remove the extension at the index', inject(function($q) {
+    it('should remove the extension at the index, and update the active extension', inject(function($q) {
       spyOn(controller, 'save').and.returnValue($q.when());
-
-      $scope.tenantUser.extensions = [{id: 'extension1'}, {id: 'extension2'}];
+      $scope.tenantUser.extensions = [{value: 'extension1'}, {value: 'extension2'}];
 
       $scope.moved(0);
       expect($scope.tenantUser.extensions.length).toBe(1);
-      expect($scope.tenantUser.extensions[0].id).toEqual('extension2');
+      expect($scope.tenantUser.extensions[0].value).toEqual('extension2');
+      expect($scope.tenantUser.activeExtension.value).toEqual('extension2');
     }));
   });
 });
