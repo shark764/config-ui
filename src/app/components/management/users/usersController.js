@@ -60,7 +60,8 @@ angular.module('liveopsConfigPanel')
 
         return $scope.selectedTenantUser.save({
           tenantId: Session.tenant.tenantId
-        }).then(function (tenantUser) {
+        })
+        .then(function (tenantUser) {
           tenantUser.$skills = [];
 
           tenantUser.$groups = TenantUserGroups.query({
@@ -68,8 +69,12 @@ angular.module('liveopsConfigPanel')
             tenantId: Session.tenant.tenantId
           });
 
-          return tenantUser;
-        });
+          if(_.isEmpty(tenantUser.activeExtension) && tenantUser.extensions.length > 0) {
+            tenantUser.activeExtension = tenantUser.extensions[0];
+          }
+
+          return tenantUser.save();
+        })
       };
 
       vm.canSaveUser = function(tenantUser) {
