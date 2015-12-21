@@ -45,14 +45,6 @@
   </tbody>
 </table>
 
-<!-- <ng-form id="add-exception-form"
-  name="form"
-  ng-repeat="exceptionHour in hours.$exceptions | newResource:false"
-  ng-resource="exceptionHour"
-  lo-form-submit
-  seperate-validation
-  disable-contents="! (['MANAGE_ALL_BUSINESS_HOURS'] | hasPermission)"> -->
-
 <div ng-repeat="exceptionHour in hours.$exceptions | newResource:false">
 
   <div class="input-group">
@@ -126,18 +118,5 @@
       ng-change="form.date.$validate()"
       date-to-minute-converter/>
   </div>
-
-  <!-- <div class="input-group controls">
-    <label></label>
-    <input id="cancel-exception" type="button" class="btn"
-      value="{{'value.cancel' | translate}}"
-      ng-click="hec.cancelException()"/>
-    <input id="submit-exception" type="button" class="btn btn-primary"
-      value="{{'value.submit' | translate}}"
-      lo-submit="hec.submitException()"
-      ng-disabled="form.$invalid"
-      lo-submit-spinner
-      lo-submit-spinner-status="exceptionHour.$busy"/>
-  </div> -->
 
 </div>
