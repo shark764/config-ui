@@ -69,7 +69,7 @@ angular.module('liveopsConfigPanel')
             tenantId: Session.tenant.tenantId
           });
 
-          if(_.isEmpty(tenantUser.activeExtension)) {
+          if(_.isEmpty(tenantUser.activeExtension) && tenantUser.extensions.length > 0) {
             tenantUser.activeExtension = tenantUser.extensions[0];
           }
 

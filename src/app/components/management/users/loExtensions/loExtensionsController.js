@@ -75,7 +75,7 @@ angular.module('liveopsConfigPanel')
 
         var defaultExtension = $scope.tenantUser.extensions[0];
 
-        if(!_.isEqual(defaultExtension, $scope.tenantUser.activeExtension)) {
+        if(!_.isEqual(defaultExtension.value, $scope.tenantUser.activeExtension.value)) {
           $scope.tenantUser.activeExtension = defaultExtension;
         }
 
