@@ -96,7 +96,6 @@ angular.module('liveopsConfigPanel')
         tenantUserSkill.save(function(result){
           $scope.saving = false;
           Alert.success('Skill added to user!');
-          $scope.resetAddUser();
 
           //Add to caches
           var tenantSkillUser = new TenantSkillUser({
@@ -111,6 +110,9 @@ angular.module('liveopsConfigPanel')
             var tenantUser = TenantUser.cachedGet({id: result.userId, tenantId: result.tenantId});
             tenantUser.$skills.push(tenantUserSkill);
           }
+
+          $scope.resetAddUser();
+
         }, function(){
           Alert.error('Failed to add this skill to the user!');
           $scope.saving = false;
@@ -119,11 +121,7 @@ angular.module('liveopsConfigPanel')
 
       $scope.resetAddUser = function(){
         $scope.params.proficiency = 1;
-        $timeout(function(){
-          $scope.typeahead = {
-              selectedUser: null
-          };
-        });
+        $scope.typeahead.selectedUser = null;
       };
 
       $scope.filterUsers = function(item) {
@@ -135,7 +133,7 @@ angular.module('liveopsConfigPanel')
           return matchingUsers.length === 0;
         }
       };
-
-      $scope.resetAddUser();
+      $scope.typeahead = {};
+      $scope.resetAddUser
     }
   ]);
