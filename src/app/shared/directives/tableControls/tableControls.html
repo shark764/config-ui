@@ -49,6 +49,7 @@
 </div>
 
 <loading ng-show="items && items.$promise && !items.$resolved"></loading>
+
 <p class="null" ng-show="!items || (items.$resolved && !items.length)">
   {{'table.results.none' | translate}}
 </p>
