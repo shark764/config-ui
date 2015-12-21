@@ -38,10 +38,10 @@ angular.module('liveopsConfigPanel')
         }, function () {
           Alert.error($translate.instant('hours.exception.remove.failure'));
           $scope.hours.$exceptions.push(exception);
+        })
+        .finally(function () {
+          $scope.form['date' + exceptionIndex].$validate();
         });
-        // .finally(function () {
-        //   $scope.form['date' + exceptionIndex].$validate();
-        // });
       };
     }
   ]);

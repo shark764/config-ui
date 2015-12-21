@@ -2,16 +2,18 @@
   margin-top: 20px;
 }
 
-#add-exception-form .controls {
+.add-exception-form  {
   margin-top: 20px;
   margin-bottom: 20px;
+  
+  .controls {
+    input, a {
+      float: left;
+      width: calc(50% - 3px) !important;
+    }
 
-  input, a {
-    float: left;
-    width: calc(50% - 3px) !important;
-  }
-
-  input + input, input + a {
-    margin-left: 6px !important;
+    input + input, input + a {
+      margin-left: 6px !important;
+    }
   }
 }

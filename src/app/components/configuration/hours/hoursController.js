@@ -53,15 +53,7 @@ angular.module('liveopsConfigPanel')
             return;
           }
 
-          for (var errorIndex in vm.forms.detailsForm.$error) {
-            var errorFields = vm.forms.detailsForm.$error[errorIndex];
-
-            for (var errorFieldIndex = 0; errorFieldIndex < errorFields.length; errorFields++) {
-              var error = errorFields[errorFieldIndex];
-              error.$setValidity(errorIndex, true);
-            }
-          }
-
+          vm.forms.detailsForm.resetController.resetErrors();
           unbindWatch();
         });
 
