@@ -169,7 +169,7 @@ angular.module('liveopsConfigPanel')
       .state('content.configuration.hours', {
         url: '/hours?id',
         templateUrl: 'app/components/configuration/hours/hours.html',
-        controller: 'HoursController as hc',
+        controller: 'hoursController as hc',
         reloadOnSearch: false,
         resolve: {
           hasPermission: ['UserPermissions', 'PermissionGroups', function (UserPermissions, PermissionGroups) {

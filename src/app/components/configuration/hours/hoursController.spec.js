@@ -1,6 +1,6 @@
 'use strict';
 
-describe('HoursController', function () {
+describe('hoursController', function () {
   var $scope,
     controller,
     $httpBackend,
@@ -31,7 +31,7 @@ describe('HoursController', function () {
   ]));
 
   beforeEach(inject(['$controller', function ($controller) {
-    controller = $controller('HoursController', {
+    controller = $controller('hoursController', {
       '$scope': $scope
     });
 
@@ -104,92 +104,6 @@ describe('HoursController', function () {
       var result = controller.hasHours();
       expect(result).toBeTruthy();
     });
-  });
-  
-  
-  describe('ON showCreateException', function() {
-    it('should be defined on controller', function() {
-      expect(controller.showCreateException).toBeDefined();
-    });
-    
-    it('should define exceptionHour on call', function() {
-      controller.showCreateException();
-      
-      expect(controller.exceptionHour).toBeDefined();
-      expect(controller.exceptionHour.isAllDay).toBeTruthy();
-    });
-  });
-  
-  describe('ON cancelException', function() {
-    it('should be defined on controller', function() {
-      expect(controller.cancelException).toBeDefined();
-    });
-    
-    it('should nullify exceptionHour', function() {
-      controller.cancelException();
-      expect(controller.exceptionHour).toEqual(null);
-    });
-  });
-  
-  describe('ON submitException', function() {
-    it('should be defined on controller', function() {
-      expect(controller.submitException).toBeDefined();
-    });
-    
-    (function() {
-      beforeEach(inject(['apiHostname', function(apiHostname) {
-        $httpBackend.expect('POST', apiHostname + '/v1/tenants/tenant-id/business-hours/businessHourId1/exceptions').respond(200);
-      }]));
-      
-      it('should POST to /v1/tenants/tenant-id/business-hours/businessHourId1/exceptions', function() {
-        controller.selectedHour = controller.hours[0];
-        controller.exceptionHour = new BusinessHourException();
-        controller.submitException();
-        
-        $httpBackend.flush();
-      });
-      
-      it('should push exception to controller.selectedHour.$exceptions', function() {
-        controller.selectedHour = controller.hours[0];
-        controller.exceptionHour = new BusinessHourException();
-        controller.submitException();
-        
-        $httpBackend.flush();
-        
-        expect(controller.selectedHour.$exceptions.length).toEqual(3);
-        expect(controller.exceptionHour).toEqual(null);
-      });
-    })();
-  });
-  
-  describe('ON removeException', function() {
-    it('should be defined on controller', function() {
-      expect(controller.removeException).toBeDefined();
-    });
-    
-    (function() {
-      beforeEach(function() {
-        $httpBackend.expect('DELETE', apiHostname + '/v1/tenants/tenant-id/business-hours/businessHourId1/exceptions/businessHourException1').respond(200);
-      });
-      
-      it('should DELETE /v1/tenants/tenant-id/business-hours/businessHourId1/exceptions/businessHourException1', function() {
-        controller.selectedHour = controller.hours[0];
-        var exception = controller.selectedHour.$exceptions[0];
-        controller.removeException(exception);
-        
-        $httpBackend.flush();
-      });
-      
-      it('should remove exception from controller.selectedHour.$exceptions', function() {
-        controller.selectedHour = controller.hours[0];
-        var exception = controller.selectedHour.$exceptions[0];
-        controller.removeException(exception);
-        
-        $httpBackend.flush();
-        
-        expect(controller.selectedHour.$exceptions.length).toEqual(1);
-      });
-    })();
   });
   
   describe('ON onIsHoursCustomChanged', function() {

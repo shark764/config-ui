@@ -150,7 +150,24 @@ describe('tableControls directive', function () {
     isolateScope.$digest();
     expect(isolateScope.selected).toEqual(newItem);
   }]));
-
+  
+  describe('onSelectItem function', function() {
+    beforeEach(function () {
+      doCompile();
+    });
+    
+    it('should be defined', inject(function () {
+      expect(isolateScope.onSelectItem).toBeDefined();
+      expect(isolateScope.onSelectItem).toEqual(jasmine.any(Function));
+    }));
+    
+    it('should check DirtyForms.confirmIfDirty', inject(['DirtyForms', function (DirtyForms) {
+      spyOn(DirtyForms, 'confirmIfDirty');
+      isolateScope.onSelectItem();
+      expect(DirtyForms.confirmIfDirty).toHaveBeenCalled();
+    }]));
+  });
+  
   describe('selectItem function', function () {
     beforeEach(function () {
       doCompile();
@@ -160,13 +177,6 @@ describe('tableControls directive', function () {
       expect(isolateScope.selectItem).toBeDefined();
       expect(isolateScope.selectItem).toEqual(jasmine.any(Function));
     }));
-
-    it('should check DirtyForms.confirmIfDirty', inject(['DirtyForms', function (DirtyForms) {
-      spyOn(DirtyForms, 'confirmIfDirty');
-      isolateScope.selectItem();
-      expect(DirtyForms.confirmIfDirty).toHaveBeenCalled();
-    }]));
-
 
     it('should set selected', inject(function () {
       isolateScope.selectItem({
