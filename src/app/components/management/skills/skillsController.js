@@ -1,13 +1,11 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('SkillsController', ['$scope', 'Session', 'Skill', 'skillTableConfig', 'TenantSkillUser', 'TenantUserSkill', 'Alert', 'TenantUser', 'queryCache', '$filter', '$translate', '$timeout', 'loEvents',
-    function($scope, Session, Skill, skillTableConfig, TenantSkillUser, TenantUserSkill, Alert, TenantUser, queryCache, $filter, $translate, $timeout, loEvents) {
+  .controller('SkillsController', ['$scope', 'Session', 'Skill', 'skillTableConfig', 'TenantSkillUser', 'TenantUserSkill', 'Alert', 'TenantUser', 'queryCache', '$filter', '$translate', 'loEvents',
+    function($scope, Session, Skill, skillTableConfig, TenantSkillUser, TenantUserSkill, Alert, TenantUser, queryCache, $filter, $translate, loEvents) {
 
       $scope.Session = Session;
-
       $scope.tableConfig = skillTableConfig;
-
       $scope.params = {};
 
       $scope.fetchSkills = function() {
@@ -23,8 +21,8 @@ angular.module('liveopsConfigPanel')
       };
 
       //This is really awful and hopefully the API will update to accommodate this.
-      Skill.prototype.fetchSkillUsers = function () {
-        if (this.isNew()){
+      Skill.prototype.fetchSkillUsers = function() {
+        if (this.isNew()) {
           return [];
         }
 
@@ -38,7 +36,7 @@ angular.module('liveopsConfigPanel')
       };
 
       //Various navigation rules
-      $scope.$on(loEvents.tableControls.itemCreate, function () {
+      $scope.$on(loEvents.tableControls.itemCreate, function() {
         $scope.selectedSkill = new Skill({
           tenantId: Session.tenant.tenantId,
           active: true,
@@ -47,11 +45,11 @@ angular.module('liveopsConfigPanel')
         });
       });
 
-      $scope.submit = function(){
+      $scope.submit = function() {
         return $scope.selectedSkill.save();
       };
 
-      $scope.removeUser = function(skillUser){
+      $scope.removeUser = function(skillUser) {
         var tenantUserSkill = new TenantUserSkill({
           id: skillUser.skillId,
           tenantId: skillUser.tenantId,
@@ -64,10 +62,15 @@ angular.module('liveopsConfigPanel')
           //Clean up caches
           $scope.selectedSkill.fetchSkillUsers().removeItem(skillUser);
 
-          if (queryCache.get(TenantUser.prototype.resourceName)){
-            var tenantUser = TenantUser.cachedGet({id: skillUser.userId, tenantId: skillUser.tenantId});
-            var userSkill = $filter('filter')(tenantUser.$skills, {id: $scope.selectedSkill.id});
-            if (userSkill.length > 0){
+          if (queryCache.get(TenantUser.prototype.resourceName)) {
+            var tenantUser = TenantUser.cachedGet({
+              id: skillUser.userId,
+              tenantId: skillUser.tenantId
+            });
+            var userSkill = $filter('filter')(tenantUser.$skills, {
+              id: $scope.selectedSkill.id
+            });
+            if (userSkill.length > 0) {
               tenantUser.$skills.removeItem(userSkill[0]);
             }
           }
@@ -76,7 +79,7 @@ angular.module('liveopsConfigPanel')
         });
       };
 
-      $scope.addUser = function(selectedUser){
+      $scope.addUser = function(selectedUser) {
         if (selectedUser === null || angular.isString(selectedUser)) {
           return;
         }
@@ -89,11 +92,11 @@ angular.module('liveopsConfigPanel')
           userId: selectedUser.id
         });
 
-        if($scope.selectedSkill.hasProficiency) {
+        if ($scope.selectedSkill.hasProficiency) {
           tenantUserSkill.proficiency = $scope.params.proficiency;
         }
 
-        tenantUserSkill.save(function(result){
+        tenantUserSkill.save(function(result) {
           $scope.saving = false;
           Alert.success($translate.instant('skill.details.add.success'));
 
@@ -106,8 +109,11 @@ angular.module('liveopsConfigPanel')
           });
           $scope.selectedSkill.fetchSkillUsers().push(tenantSkillUser);
 
-          if (queryCache.get(TenantUser.prototype.resourceName)){
-            var tenantUser = TenantUser.cachedGet({id: result.userId, tenantId: result.tenantId});
+          if (queryCache.get(TenantUser.prototype.resourceName)) {
+            var tenantUser = TenantUser.cachedGet({
+              id: result.userId,
+              tenantId: result.tenantId
+            });
             tenantUser.$skills.push(tenantUserSkill);
           }
 
@@ -119,13 +125,13 @@ angular.module('liveopsConfigPanel')
         });
       };
 
-      $scope.resetAddUser = function(){
+      $scope.resetAddUser = function() {
         $scope.params.proficiency = 1;
         $scope.typeahead.selectedUser = null;
       };
 
       $scope.filterUsers = function(item) {
-        if ($scope.selectedSkill){
+        if ($scope.selectedSkill) {
           var matchingUsers = $filter('filter')($scope.selectedSkill.fetchSkillUsers(), {
             'userId': item.id
           }, true);
@@ -133,6 +139,7 @@ angular.module('liveopsConfigPanel')
           return matchingUsers.length === 0;
         }
       };
+
       $scope.typeahead = {};
       $scope.resetAddUser();
     }

@@ -7,10 +7,10 @@
 
 angular.module('liveopsConfigPanel')
   .run(['$rootScope', '$state', 'Session',
-    function ($rootScope, $state, Session) {
-      $rootScope.$on('$stateChangeStart', function (event, next) {
+    function($rootScope, $state, Session) {
+      $rootScope.$on('$stateChangeStart', function(event, next) {
 
-        if(next.isPublic || Session.isAuthenticated()){
+        if (next.isPublic || Session.isAuthenticated()) {
           return;
         }
 

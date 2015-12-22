@@ -1,10 +1,9 @@
 'use strict';
 
 /* global spyOn: false */
-describe('MediaCollectionController', function () {
+describe('MediaCollectionController', function() {
   var $scope,
     $rootScope,
-    $controller,
     $httpBackend,
     MediaCollection,
     apiHostname,
@@ -16,12 +15,11 @@ describe('MediaCollectionController', function () {
   beforeEach(module('liveopsConfigPanel.tenant.mediaCollection.mock'));
 
   beforeEach(inject(['$rootScope', '$controller', '$httpBackend', 'MediaCollection', 'apiHostname', 'loEvents',
-    function (_$rootScope_, _$controller_, _$httpBackend_, _MediaCollection_, _apiHostname, _loEvents) {
-      $rootScope = _$rootScope_;
+    function(_$rootScope, $controller, _$httpBackend, _MediaCollection, _apiHostname, _loEvents) {
+      $rootScope = _$rootScope;
       $scope = $rootScope.$new();
-      $controller = _$controller_;
-      $httpBackend = _$httpBackend_;
-      MediaCollection = _MediaCollection_;
+      $httpBackend = _$httpBackend;
+      MediaCollection = _MediaCollection;
       apiHostname = _apiHostname;
       loEvents = _loEvents;
 
@@ -31,21 +29,21 @@ describe('MediaCollectionController', function () {
     }
   ]));
 
-  it('should have a function to create a blank MediaCollection and set it as selected', inject(function (MediaCollection, Session) {
+  it('should have a function to create a blank MediaCollection and set it as selected', inject(function(MediaCollection, Session) {
     $scope.create();
 
     expect($scope.selectedMediaCollection.tenantId).toEqual(Session.tenant.tenantId);
   }));
 
-  it('should call create when the create button is clicked', inject(function () {
+  it('should call create when the create button is clicked', function() {
     spyOn($scope, 'create');
 
     $rootScope.$broadcast(loEvents.tableControls.itemCreate);
 
     expect($scope.create).toHaveBeenCalled();
-  }));
-  
-  it('should catch the create media event', inject(['Session', function (Session) {
+  });
+
+  it('should catch the create media event', inject(function(Session) {
     $rootScope.$broadcast('resource:details:create:Media', [{
       lookup: 'item 1'
     }]);
@@ -53,103 +51,107 @@ describe('MediaCollectionController', function () {
     expect($scope.selectedMedia).not.toBeNull();
     expect($scope.selectedMedia.properties).toEqual({});
     expect($scope.selectedMedia.tenantId).toEqual(Session.tenant.tenantId);
-  }]));
-  
-  describe('fetchMediaCollections function', function(){
-    it('should exist', inject(function () {
+  }));
+
+  describe('fetchMediaCollections function', function() {
+    it('should exist', inject(function() {
       expect($scope.fetchMediaCollections).toBeDefined();
     }));
-    
-    it('should return the list of media collections', inject(['mockMediaCollections', function (mockMediaCollections) {
+
+    it('should return the list of media collections', inject(function(mockMediaCollections) {
       var collection = $scope.fetchMediaCollections();
       $httpBackend.flush();
       expect(collection.length).toEqual(mockMediaCollections.length);
       expect(collection[0].id).toEqual(mockMediaCollections[0].id);
       expect(collection[1].id).toEqual(mockMediaCollections[1].id);
-    }]));
+    }));
   });
-  
-  describe('submitMediaCollection function', function(){
-    it('should exist', inject(function () {
+
+  describe('submitMediaCollection function', function() {
+    it('should exist', inject(function() {
       expect($scope.submitMediaCollection).toBeDefined();
     }));
-    
-    it('should save the selected media collection', inject(['mockMediaCollections', function (mockMediaCollections) {
+
+    it('should save the selected media collection', inject(function(mockMediaCollections) {
       $httpBackend.expectPUT(apiHostname + '/v1/tenants/tenant-id/media-collections/mc1').respond(200);
       $scope.selectedMediaCollection = mockMediaCollections[0];
       $scope.selectedMediaCollection.tenantId = 'tenant-id';
       $scope.submitMediaCollection();
       $httpBackend.flush();
-    }]));
+    }));
   });
-  
-  describe('submitMedia function', function(){
-    it('should exist', inject(function () {
+
+  describe('submitMedia function', function() {
+    it('should exist', inject(function() {
       expect($scope.submitMedia).toBeDefined();
     }));
-    
-    it('should call submit on the mediaDetails controller', inject(['$q', function ($q) {
+
+    it('should call submit on the mediaDetails controller', inject(function($q) {
       $scope.mediaDetailsController = {
-        submit : jasmine.createSpy('submit').and.callFake(function(){
+        submit: jasmine.createSpy('submit').and.callFake(function() {
           var deferred = $q.defer();
           deferred.resolve();
           return deferred.promise;
         })
       };
-      
+
       $scope.submitMedia();
       expect($scope.mediaDetailsController.submit).toHaveBeenCalled();
-    }]));
-    
-    it('should set the selectedMedia to null on success', inject(['$q', function ($q) {
+    }));
+
+    it('should set the selectedMedia to null on success', inject(function($q) {
       $scope.mediaDetailsController = {
-        submit : jasmine.createSpy('submit').and.callFake(function(){
+        submit: jasmine.createSpy('submit').and.callFake(function() {
           var deferred = $q.defer();
           deferred.resolve();
           return deferred.promise;
         })
       };
-      
-      $scope.selectedMedia = {id: 'media'};
+
+      $scope.selectedMedia = {
+        id: 'media'
+      };
       $scope.submitMedia();
       $scope.$digest();
       expect($scope.selectedMedia).toBeNull();
-    }]));
+    }));
   });
-  
-  describe('submitMediaAndNew function', function(){
-    it('should exist', inject(function () {
+
+  describe('submitMediaAndNew function', function() {
+    it('should exist', inject(function() {
       expect($scope.submitMediaAndNew).toBeDefined();
     }));
-    
-    it('should call submit on the mediaDetails controller', inject(['$q', function ($q) {
+
+    it('should call submit on the mediaDetails controller', inject(function($q) {
       $scope.mediaDetailsController = {
-        submit : jasmine.createSpy('submit').and.callFake(function(){
+        submit: jasmine.createSpy('submit').and.callFake(function() {
           var deferred = $q.defer();
           deferred.resolve();
           return deferred.promise;
         })
       };
-      
+
       $scope.submitMediaAndNew();
       expect($scope.mediaDetailsController.submit).toHaveBeenCalled();
-    }]));
-    
-    it('should set the selectedMedia to an empty media on success', inject(['$q', 'Session', function ($q, Session) {
+    }));
+
+    it('should set the selectedMedia to an empty media on success', inject(function($q, Session) {
       $scope.mediaDetailsController = {
-        submit : jasmine.createSpy('submit').and.callFake(function(){
+        submit: jasmine.createSpy('submit').and.callFake(function() {
           var deferred = $q.defer();
           deferred.resolve();
           return deferred.promise;
         })
       };
-      
-      $scope.selectedMedia = {id: 'media'};
+
+      $scope.selectedMedia = {
+        id: 'media'
+      };
       $scope.submitMediaAndNew();
       $scope.$digest();
       expect($scope.selectedMedia).not.toBeNull();
       expect($scope.selectedMedia.properties).toEqual({});
       expect($scope.selectedMedia.tenantId).toEqual(Session.tenant.tenantId);
-    }]));
+    }));
   });
 });

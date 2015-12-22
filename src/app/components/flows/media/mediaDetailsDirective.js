@@ -2,18 +2,18 @@
 
 angular.module('liveopsConfigPanel')
   .directive('loMediaDetails', ['mediaTypes', 'Session', 'apiHostname', 'Upload',
-    function (mediaTypes, Session, apiHostname, Upload) {
+    function(mediaTypes, Session, apiHostname, Upload) {
       return {
-        restrict: 'EA',
-        controller: function ($scope) {
+        restrict: 'E',
+        controller: function($scope) {
           $scope.mediaTypes = mediaTypes;
 
-          this.onSelect = function () {
+          this.onSelect = function() {
             delete $scope.selectedMedia.source;
             $scope.forms.mediaForm.audiosourcefile.$setDirty();
           };
 
-          this.submit = function () {
+          this.submit = function() {
             if ($scope.forms.mediaForm.audiosourcefile.$dirty) {
               var upload = Upload.upload({
                 headers: {
@@ -24,7 +24,7 @@ angular.module('liveopsConfigPanel')
                 file: $scope.selectedMedia.$sourceAudioFile
               });
 
-              upload.then(function (response) {
+              upload.then(function(response) {
                 $scope.selectedMedia.source = response.data.result.url;
                 return $scope.selectedMedia.save();
               });
@@ -35,7 +35,7 @@ angular.module('liveopsConfigPanel')
             }
           };
 
-          $scope.$watch('selectedMedia.source', function (source) {
+          $scope.$watch('selectedMedia.source', function(source) {
             if (source) {
               delete $scope.selectedMedia.$sourceAudioFile;
               $scope.forms.mediaForm.audiosourcefile.$setPristine();
@@ -43,7 +43,7 @@ angular.module('liveopsConfigPanel')
             }
           });
         },
-        link: function ($scope, elem, attrs, controller) {
+        link: function($scope, elem, attrs, controller) {
           if (attrs.name) {
             $scope[attrs.name] = controller;
           }

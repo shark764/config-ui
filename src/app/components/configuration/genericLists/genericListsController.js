@@ -1,14 +1,14 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('genericListsController', ['$scope', '$filter', '$q', 'Session', 'List', 'ListType', 'genericListTableConfig', 'loEvents',
-    function ($scope, $filter, $q, Session, List, ListType, genericListTableConfig, loEvents) {
+  .controller('genericListsController', ['$scope', '$filter', 'Session', 'List', 'ListType', 'genericListTableConfig', 'loEvents',
+    function($scope, $filter, Session, List, ListType, genericListTableConfig, loEvents) {
 
-      $scope.create = function () {
+      $scope.create = function() {
         $scope.selectedList = new List();
       };
 
-      $scope.fetchLists = function () {
+      $scope.fetchLists = function() {
         $scope.lists = List.cachedQuery({
           tenantId: Session.tenant.tenantId
         });
@@ -16,7 +16,7 @@ angular.module('liveopsConfigPanel')
         return $scope.lists;
       };
 
-      $scope.submit = function () {
+      $scope.submit = function() {
         return $scope.selectedList.save({
           tenantId: Session.tenant.tenantId
         });
@@ -40,19 +40,19 @@ angular.module('liveopsConfigPanel')
         $scope.forms.detailsForm.$setDirty();
       };
 
-      $scope.$on(loEvents.tableControls.itemCreate, function () {
+      $scope.$on(loEvents.tableControls.itemCreate, function() {
         $scope.create();
       });
 
-      $scope.$watchCollection('lists', function (lists) {
-        if(!lists || !lists.length) {
+      $scope.$watchCollection('lists', function(lists) {
+        if (!lists || !lists.length) {
           return;
         }
 
         ListType.cachedQuery({
           tenantId: Session.tenant.tenantId
-        }).$promise.then(function (listTypes) {
-          angular.forEach(lists, function (list) {
+        }).$promise.then(function(listTypes) {
+          angular.forEach(lists, function(list) {
             var listType = $filter('filter')(listTypes, {
               id: list.listTypeId
             })[0];

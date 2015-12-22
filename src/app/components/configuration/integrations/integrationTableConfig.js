@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('integrationTableConfig', ['statuses', '$translate', 'UserPermissions', 'helpDocsHostname', function (statuses, $translate, UserPermissions, helpDocsHostname) {
+  .service('integrationTableConfig', ['statuses', '$translate', 'UserPermissions', 'helpDocsHostname', function(statuses, $translate, UserPermissions, helpDocsHostname) {
     return {
       'fields': [{
         'header': {
@@ -23,10 +23,12 @@ angular.module('liveopsConfigPanel')
       }],
       'searchOn': ['$original.type'],
       'orderBy': '$original.type',
-      'title' : $translate.instant('integration.table.title'),
-      'sref' : 'content.configuration.integrations',
+      'title': $translate.instant('integration.table.title'),
+      'sref': 'content.configuration.integrations',
       'showCreate': false,
-      'showBulkActions': function () { return UserPermissions.hasPermission('MANAGE_ALL_PROVIDERS'); },
-      'helpLink' : helpDocsHostname + '/Content/Configuring%20CxEngage/Creating_Integrations.htm'
+      'showBulkActions': function() {
+        return UserPermissions.hasPermission('MANAGE_ALL_PROVIDERS');
+      },
+      'helpLink': helpDocsHostname + '/Content/Configuring%20CxEngage/Creating_Integrations.htm'
     };
   }]);

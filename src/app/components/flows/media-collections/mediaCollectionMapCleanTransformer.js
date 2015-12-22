@@ -8,7 +8,7 @@ angular.module('liveopsConfigPanel')
           delete mediaMap.name;
           delete mediaMap.description;
         });
-        
+
         return mediaCollection;
       };
     }

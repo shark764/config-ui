@@ -28,17 +28,19 @@ describe('loDetailsPanel directive', function() {
     });
 
     describe('WHEN confirmIfDirty passes', function() {
-      beforeEach(inject(['DirtyForms', function(DirtyForms) {
+      beforeEach(inject(function(DirtyForms) {
         spyOn(DirtyForms, 'confirmIfDirty').and.callFake(function(callback) {
           callback();
         });
-      }]));
+      }));
 
-      it('should nullify the $location search id', inject(['$location', function($location) {
+      it('should nullify the $location search id', inject(function($location) {
         spyOn($location, 'search');
         isolateScope.close();
-        expect($location.search).toHaveBeenCalledWith({id: null});
-      }]));
+        expect($location.search).toHaveBeenCalledWith({
+          id: null
+        });
+      }));
 
       it('should nullify the ngResource', function() {
         expect(isolateScope.ngResource).not.toBeNull();
@@ -48,11 +50,11 @@ describe('loDetailsPanel directive', function() {
     });
 
     describe('WHEN confirmIfDirty fails', function() {
-      beforeEach(inject(['DirtyForms', function(DirtyForms) {
+      beforeEach(inject(function(DirtyForms) {
         spyOn(DirtyForms, 'confirmIfDirty').and.callFake(function() {
           return;
         });
-      }]));
+      }));
 
       it('should not nullify the ngResource', function() {
         expect(isolateScope.ngResource).not.toBeNull();

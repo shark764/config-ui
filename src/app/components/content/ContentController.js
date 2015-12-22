@@ -1,23 +1,23 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('ContentController', ['$scope', 'Session', 'Alert', '$translate', 'queryCache', '$stateParams', 'loEvents',
-    function ($scope, Session, Alert, $translate, queryCache, $stateParams, loEvents) {
+  .controller('ContentController', ['$scope', 'Session', 'Alert', '$translate', '$stateParams', 'loEvents',
+    function($scope, Session, Alert, $translate, $stateParams, loEvents) {
       $scope.showBulkActions = false;
       $scope.Session = Session;
 
-      $scope.$on(loEvents.tableControls.itemCreate, function () {
+      $scope.$on(loEvents.tableControls.itemCreate, function() {
         $scope.showBulkActions = false;
       });
-      $scope.$on(loEvents.tableControls.actions, function () {
+      $scope.$on(loEvents.tableControls.actions, function() {
         $scope.showBulkActions = true;
       });
 
-      $scope.$on(loEvents.tableControls.itemSelected, function () {
+      $scope.$on(loEvents.tableControls.itemSelected, function() {
         $scope.showBulkActions = false;
       });
 
-      $scope.$on(loEvents.bulkActions.close, function () {
+      $scope.$on(loEvents.bulkActions.close, function() {
         $scope.showBulkActions = false;
       });
 

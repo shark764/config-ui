@@ -2,7 +2,7 @@
 
 angular.module('liveopsConfigPanel')
   .directive('baCancelInvite', ['BulkAction', 'Session',
-    function (BulkAction, Session) {
+    function(BulkAction, Session) {
       return {
         restrict: 'E',
         scope: {},
@@ -10,19 +10,19 @@ angular.module('liveopsConfigPanel')
         templateUrl: 'app/components/management/users/bulkActions/cancelInvitation/cancelInviteBulkAction.html',
         link: function($scope, elem, attr, bulkActionExecutor) {
           $scope.bulkAction = new BulkAction();
-          
-          if(bulkActionExecutor){
+
+          if (bulkActionExecutor) {
             bulkActionExecutor.register($scope.bulkAction);
           }
-          
+
           $scope.bulkAction.apply = function apply(tenantUser) {
             tenantUser.status = 'pending';
-            
+
             return tenantUser.save({
               tenantId: Session.tenant.tenantId
             });
           };
-          
+
           $scope.bulkAction.doesQualify = function doesQualify(tenantUser) {
             return tenantUser.status === 'invited';
           };

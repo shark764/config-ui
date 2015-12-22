@@ -5,40 +5,42 @@
 var TOKEN = 'dGl0YW5AbGl2ZW9wcy5jb206Z0tWbmZGOXdyczZYUFNZcw==';
 var USERNAME = 'titan@liveops.com';
 var PASSWORD = 'gKVnfF9wrs6XPSYs';
-var TENANTS = [
-  {
-    tenantId: 1,
-    name: 'test1',
-    tenantPermissions: []
-  },
-  {
-    tenantId: 2,
-    name: 'test2',
-    tenantPermissions: []
-  }
-];
+var TENANTS = [{
+  tenantId: 1,
+  name: 'test1',
+  tenantPermissions: []
+}, {
+  tenantId: 2,
+  name: 'test2',
+  tenantPermissions: []
+}];
 var platformPermissions = [];
 
 var LOGIN_RESPONSE;
 
-describe('AuthService', function () {
-  var $scope, $location, $httpBackend, AuthService, Session, apiHostname;
+describe('AuthService', function() {
+  var $scope,
+    $location,
+    $httpBackend,
+    AuthService,
+    Session,
+    apiHostname;
 
   beforeEach(module('liveopsConfigPanel'));
   beforeEach(module('gulpAngular'));
   beforeEach(module('liveopsConfigPanel.user.mock'));
-  
+
   beforeEach(inject(['$rootScope', '$location', '$httpBackend', 'AuthService', 'Session', 'apiHostname', 'mockUsers',
-    function (_$rootScope_, _$location_, _$httpBackend_, _AuthService_, _Session_, _apiHostname_, mockUsers) {
-      $scope = _$rootScope_.$new();
-      $location = _$location_;
-      $httpBackend = _$httpBackend_;
-      AuthService = _AuthService_;
-      Session = _Session_;
-      apiHostname = _apiHostname_;
-      
+    function($rootScope, _$location, _$httpBackend, _AuthService, _Session, _apiHostname, mockUsers) {
+      $scope = $rootScope.$new();
+      $location = _$location;
+      $httpBackend = _$httpBackend;
+      AuthService = _AuthService;
+      Session = _Session;
+      apiHostname = _apiHostname;
+
       LOGIN_RESPONSE = {
-        result : {
+        result: {
           userId: mockUsers[0].id,
           username: mockUsers[0].email,
           tenants: TENANTS,
@@ -48,18 +50,18 @@ describe('AuthService', function () {
     }
   ]));
 
-  it('should have a method get an authentication token', function () {
+  it('should have a method get an authentication token', function() {
     var token = AuthService.generateToken(USERNAME, PASSWORD);
     expect(token).toBe(TOKEN);
   });
 
-  it('should have a method to logout which destroys the session', function () {
+  it('should have a method to logout which destroys the session', function() {
     AuthService.logout();
     expect(Session.token).toBeNull();
   });
 
   describe('ON login', function() {
-    it('should set the session when successful', function () {
+    it('should set the session when successful', function() {
       $httpBackend.expectPOST(apiHostname + '/v1/login').respond(LOGIN_RESPONSE);
 
       spyOn(Session, 'set');
@@ -72,7 +74,7 @@ describe('AuthService', function () {
     });
 
 
-    it('should validate on failure', function () {
+    it('should validate on failure', function() {
       $httpBackend.expectPOST(apiHostname + '/v1/login').respond(500, '');
 
       spyOn(Session, 'set');
@@ -84,15 +86,15 @@ describe('AuthService', function () {
       expect(Session.token).toBeNull();
     });
   });
-  
+
   describe('refreshTenants function', function() {
-    it('should set the tenants', inject([function () {
+    it('should set the tenants', function() {
       $httpBackend.expectPOST(apiHostname + '/v1/login').respond(LOGIN_RESPONSE);
       spyOn(Session, 'setTenants');
-      
+
       AuthService.refreshTenants();
       $httpBackend.flush();
       expect(Session.setTenants).toHaveBeenCalledWith(TENANTS);
-    }]));
+    });
   });
 });

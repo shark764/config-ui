@@ -2,7 +2,6 @@
 
 describe('UserProfileController', function() {
   var $scope,
-    $controller,
     apiHostname,
     $httpBackend,
     controller;
@@ -13,12 +12,11 @@ describe('UserProfileController', function() {
   beforeEach(module('liveopsConfigPanel.tenant.user.mock'));
   beforeEach(module('liveopsConfigPanel.user.mock'));
 
-  beforeEach(inject(['$rootScope', '$controller', '$httpBackend', 'User', 'Skill', 'Group', 'apiHostname',
-    function($rootScope, _$controller_, _$httpBackend_, User, Skill, Group, _apiHostname_) {
+  beforeEach(inject(['$rootScope', '$controller', '$httpBackend', 'apiHostname',
+    function($rootScope, $controller, _$httpBackend, _apiHostname) {
       $scope = $rootScope.$new();
-      apiHostname = _apiHostname_;
-      $controller = _$controller_;
-      $httpBackend = _$httpBackend_;
+      apiHostname = _apiHostname;
+      $httpBackend = _$httpBackend;
 
       controller = $controller('UserProfileController', {
         '$scope': $scope
@@ -59,7 +57,7 @@ describe('UserProfileController', function() {
       $httpBackend.flush();
     });
 
-    it('should update your existing token', inject(['Session', function(Session) {
+    it('should update your existing token', inject(function(Session) {
       $httpBackend.expect('PUT', apiHostname + '/v1/users/userId1').respond(200);
       $scope.userForm = {
         password: {
@@ -76,6 +74,6 @@ describe('UserProfileController', function() {
       $httpBackend.flush();
 
       expect(currentToken).not.toEqual(Session.token);
-    }]));
+    }));
   });
 });

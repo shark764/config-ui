@@ -1,6 +1,6 @@
 'use strict';
 
-describe('userGroupBulkAction', function () {
+describe('userGroupBulkAction', function() {
   var $httpBackend,
     apiHostname,
     UserGroupBulkAction,
@@ -17,7 +17,7 @@ describe('userGroupBulkAction', function () {
   beforeEach(module('liveopsConfigPanel.tenant.user.group.mock'));
 
   beforeEach(inject(['$httpBackend', 'apiHostname', 'UserGroupBulkAction', 'userGroupBulkActionTypes', 'mockTenantUsers', 'mockGroups', 'mockUserGroups',
-    function (_$httpBackend, _apiHostname, _UserGroupBulkAction, _userGroupBulkActionTypes, _mockTenantUsers, _mockGroups, _mockUserGroups) {
+    function(_$httpBackend, _apiHostname, _UserGroupBulkAction, _userGroupBulkActionTypes, _mockTenantUsers, _mockGroups, _mockUserGroups) {
       $httpBackend = _$httpBackend;
       apiHostname = _apiHostname;
       UserGroupBulkAction = _UserGroupBulkAction;
@@ -32,16 +32,16 @@ describe('userGroupBulkAction', function () {
     tenantUserTransformer.transform(mockTenantUsers[0]);
   }]));
 
-  describe('canExecute', function () {
-    it('should return false when no group is selected', function () {
+  describe('canExecute', function() {
+    it('should return false when no group is selected', function() {
       var userGroupBulkAction = new UserGroupBulkAction();
       var canExecute = userGroupBulkAction.canExecute();
       expect(canExecute).toBeFalsy();
     });
   });
 
-  describe('execute', function () {
-    it('should call POST end-point', function () {
+  describe('execute', function() {
+    it('should call POST end-point', function() {
       var userGroupBulkAction = new UserGroupBulkAction();
       userGroupBulkAction.selectedGroup = mockGroups[1];
 
@@ -53,19 +53,19 @@ describe('userGroupBulkAction', function () {
     });
   });
 
-  describe('userGroupBulkActionType "add"', function () {
-    beforeEach(function () {
+  describe('userGroupBulkActionType "add"', function() {
+    beforeEach(function() {
       userGroupBulkActionType = userGroupBulkActionTypes[0];
     });
 
-    it('should have functions defined', function () {
+    it('should have functions defined', function() {
       expect(userGroupBulkActionType.execute).toBeDefined();
       expect(userGroupBulkActionType.canExecute).toBeDefined();
       expect(userGroupBulkActionType.doesQualify).toBeDefined();
     });
 
-    describe('ON execute', function () {
-      it('should return tenantGroupUser', function () {
+    describe('ON execute', function() {
+      it('should return tenantGroupUser', function() {
         var userGroupBulkAction = new UserGroupBulkAction();
         userGroupBulkAction.selectedGroup = mockGroups[1];
 
@@ -81,19 +81,19 @@ describe('userGroupBulkAction', function () {
     });
   });
 
-  describe('userGroupBulkActionType "remove"', function () {
-    beforeEach(function () {
+  describe('userGroupBulkActionType "remove"', function() {
+    beforeEach(function() {
       userGroupBulkActionType = userGroupBulkActionTypes[1];
     });
 
-    it('should return something on exe', function () {
+    it('should return something on exe', function() {
       expect(userGroupBulkActionType.execute).toBeDefined();
       expect(userGroupBulkActionType.canExecute).toBeDefined();
       expect(userGroupBulkActionType.doesQualify).toBeDefined();
     });
 
-    describe('ON execute', function () {
-      it('should return tenantGroupUser', function () {
+    describe('ON execute', function() {
+      it('should return tenantGroupUser', function() {
         var userGroupBulkAction = new UserGroupBulkAction();
         userGroupBulkAction.selectedGroup = mockGroups[0];
 

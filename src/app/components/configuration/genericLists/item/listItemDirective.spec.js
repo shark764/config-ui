@@ -1,6 +1,6 @@
 'use strict';
 
-describe('listItem directive', function () {
+describe('listItem directive', function() {
   var $scope,
     $compile,
     element,
@@ -15,7 +15,7 @@ describe('listItem directive', function () {
   beforeEach(module('liveopsConfigPanel.tenant.listType.mock'));
 
   beforeEach(inject(['$compile', '$rootScope', 'List', 'mockLists', 'mockListTypes',
-    function (_$compile_, _$rootScope_, _List, _mockLists, _mockListTypes) {
+    function(_$compile_, _$rootScope_, _List, _mockLists, _mockListTypes) {
       $scope = _$rootScope_.$new();
       $compile = _$compile_;
 
@@ -55,8 +55,8 @@ describe('listItem directive', function () {
 
     expect(isolateScope.item.field1).not.toBeDefined();
   });
-  
-  it('should init bool field to false WHEN required but not supplied', function() { 
+
+  it('should init bool field to false WHEN required but not supplied', function() {
     $scope.listType = mockListTypes[1];
 
     $scope.item = new List({
@@ -74,8 +74,8 @@ describe('listItem directive', function () {
     expect(isolateScope.item.field1).toEqual(false);
   });
 
-  describe('WITH mockList1.items[0]/mockListType1', function () {
-    beforeEach(function () {
+  describe('WITH mockList1.items[0]/mockListType1', function() {
+    beforeEach(function() {
       $scope.item = mockLists[0].items[0];
       $scope.listType = mockListTypes[0];
 
@@ -86,8 +86,8 @@ describe('listItem directive', function () {
       isolateScope = element.isolateScope();
     });
 
-    describe('ON text input change', function () {
-      it('should call inputChange', function () {
+    describe('ON text input change', function() {
+      it('should call inputChange', function() {
         isolateScope.inputChange = jasmine.createSpy('inputChange');
 
         var input = element.find('input[type="text"]');
@@ -98,7 +98,7 @@ describe('listItem directive', function () {
         expect(isolateScope.inputChange).toHaveBeenCalled();
       });
 
-      it('should delete the item key if empty', function () {
+      it('should delete the item key if empty', function() {
         var input = element.find('input[type="text"]');
 
         expect(isolateScope.item.field1).toBeDefined();
@@ -109,7 +109,7 @@ describe('listItem directive', function () {
         expect(isolateScope.item.field1).not.toBeDefined();
       });
 
-      it('should not delete the item key if not empty', function () {
+      it('should not delete the item key if not empty', function() {
         var input = element.find('input[type="text"]');
 
         expect(isolateScope.item.field1).toBeDefined();

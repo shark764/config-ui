@@ -1,15 +1,13 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('NavbarController', ['$rootScope', '$scope', '$state', 'AuthService', 'Session', 'DirtyForms', '$translate', 'UserPermissions', 'queryCache',  'PermissionGroups',
-    function ($rootScope, $scope, $state, AuthService, Session, DirtyForms, $translate, UserPermissions, queryCache, PermissionGroups) {
+  .controller('NavbarController', ['$rootScope', '$scope', '$state', 'AuthService', 'Session', 'DirtyForms', '$translate', 'UserPermissions', 'PermissionGroups',
+    function($rootScope, $scope, $state, AuthService, Session, DirtyForms, $translate, UserPermissions, PermissionGroups) {
       var vm = this;
-
       $scope.hovering = false;
-
       $scope.Session = Session;
 
-      $scope.populateTenantsHandler = function () {
+      $scope.populateTenantsHandler = function() {
         if (!Session.isAuthenticated()) {
           return;
         }
@@ -19,15 +17,20 @@ angular.module('liveopsConfigPanel')
         }
 
         var tenantDropdownItems = [];
-        angular.forEach(Session.tenants, function (tenant) {
+        angular.forEach(Session.tenants, function(tenant) {
           tenantDropdownItems.push({
             label: tenant.tenantName,
-            onClick: function () {
-              if(!Session.tenant || tenant.tenantId !== Session.tenant.tenantId) {
-                DirtyForms.confirmIfDirty(function () {
+            onClick: function() {
+              if (!Session.tenant || tenant.tenantId !== Session.tenant.tenantId) {
+                DirtyForms.confirmIfDirty(function() {
                   Session.setTenant(tenant);
                   vm.updateTopbarConfig();
-                  $state.go($state.current, {id: null}, {reload: true, inherit: false });
+                  $state.go($state.current, {
+                    id: null
+                  }, {
+                    reload: true,
+                    inherit: false
+                  });
                 });
               }
             }
@@ -39,11 +42,11 @@ angular.module('liveopsConfigPanel')
 
       $scope.hoverTracker = [];
 
-      $scope.isActive = function (viewLocation) {
+      $scope.isActive = function(viewLocation) {
         return $state.current.name !== '' ? $state.href($state.current.name).indexOf(viewLocation) === 1 : false;
       };
 
-      $scope.logout = function () {
+      $scope.logout = function() {
         AuthService.logout();
         $state.transitionTo('login');
         $rootScope.$broadcast('logout');
@@ -51,13 +54,13 @@ angular.module('liveopsConfigPanel')
 
       $scope.userDropdownItems = [{
         label: $translate.instant('navbar.logout'),
-        onClick: function () {
+        onClick: function() {
           $scope.logout();
         },
         iconClass: 'fa fa-sign-out'
       }, {
         label: $translate.instant('navbar.profile'),
-        onClick: function () {
+        onClick: function() {
           $state.transitionTo('content.userprofile');
         },
         iconClass: 'fa fa-gear'
@@ -67,13 +70,13 @@ angular.module('liveopsConfigPanel')
       $scope.$on('resource:actions', $scope.onActionsClick);
       $scope.$watch('Session.tenants', $scope.populateTenantsHandler);
 
-      vm.getManagementConfig = function () {
+      vm.getManagementConfig = function() {
 
         var items = [];
 
         //Note: see TITAN2-5445 for why VIEW_ALL_USERS permission on its own is not sufficient
         if ((UserPermissions.hasPermissionInList(PermissionGroups.viewUsers) && UserPermissions.hasPermissionInList(PermissionGroups.manageUserSkillsAndGroups)) ||
-            UserPermissions.hasPermissionInList(PermissionGroups.manageUsers)){
+          UserPermissions.hasPermissionInList(PermissionGroups.manageUsers)) {
           items.push({
             label: $translate.instant('navbar.management.users.title'),
             stateLink: 'content.management.users',
@@ -93,7 +96,7 @@ angular.module('liveopsConfigPanel')
 
         //See TITAN2-6199 for why we do this extra check
         if (UserPermissions.hasPermissionInList(PermissionGroups.manageAllMedia) &&
-        UserPermissions.hasPermissionInList(PermissionGroups.manageSkills)) {
+          UserPermissions.hasPermissionInList(PermissionGroups.manageSkills)) {
           items.push({
             label: $translate.instant('navbar.management.skills.title'),
             stateLink: 'content.management.skills',
@@ -116,7 +119,7 @@ angular.module('liveopsConfigPanel')
         return items;
       };
 
-      vm.getConfigurationConfig = function () {
+      vm.getConfigurationConfig = function() {
         var items = [];
 
         if (UserPermissions.hasPermissionInList(PermissionGroups.accessAllTenants)) {
@@ -137,7 +140,7 @@ angular.module('liveopsConfigPanel')
           });
         }
 
-        if (UserPermissions.hasPermissionInList(PermissionGroups.accessAllLists)){
+        if (UserPermissions.hasPermissionInList(PermissionGroups.accessAllLists)) {
           items.push({
             label: $translate.instant('navbar.configuration.lists.title'),
             stateLink: 'content.configuration.genericLists',
@@ -146,7 +149,7 @@ angular.module('liveopsConfigPanel')
           });
         }
 
-        if (UserPermissions.hasPermissionInList(PermissionGroups.accessAllBusinessHours)){
+        if (UserPermissions.hasPermissionInList(PermissionGroups.accessAllBusinessHours)) {
           items.push({
             label: $translate.instant('navbar.configuration.bh.title'),
             stateLink: 'content.configuration.hours',
@@ -158,7 +161,7 @@ angular.module('liveopsConfigPanel')
         return items;
       };
 
-      vm.getFlowsConfig = function () {
+      vm.getFlowsConfig = function() {
         var items = [];
 
         if (UserPermissions.hasPermissionInList(PermissionGroups.accessAllFlows)) {
@@ -207,25 +210,24 @@ angular.module('liveopsConfigPanel')
         return items;
       };
 
-      vm.getReportingConfig = function () {
+      vm.getReportingConfig = function() {
         return [{
-            label: $translate.instant('navbar.reports.hd.title'),
-            stateLink: 'content.reports',
-            stateLinkParams: {
-              id: 'historical-dashboards'
-            },
-            id: 'reports-management-link',
-            order: 1
-          },  {
-            label: $translate.instant('navbar.reports.rtd.title'),
-            stateLink: 'content.realtime-dashboards',
-            id: 'realtime-dashboard-link',
-            order: 2
-          }
-        ];
+          label: $translate.instant('navbar.reports.hd.title'),
+          stateLink: 'content.reports',
+          stateLinkParams: {
+            id: 'historical-dashboards'
+          },
+          id: 'reports-management-link',
+          order: 1
+        }, {
+          label: $translate.instant('navbar.reports.rtd.title'),
+          stateLink: 'content.realtime-dashboards',
+          id: 'realtime-dashboard-link',
+          order: 2
+        }];
       };
 
-      vm.updateTopbarConfig = function () {
+      vm.updateTopbarConfig = function() {
         $scope.managementDropConfig = vm.getManagementConfig();
         $scope.configurationDropConfig = vm.getConfigurationConfig();
         $scope.flowsDropConfig = vm.getFlowsConfig();

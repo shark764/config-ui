@@ -2,7 +2,7 @@
 
 angular.module('liveopsConfigPanel')
   .controller('LoginController', ['$rootScope', '$scope', '$state', 'AuthService', '$stateParams', '$translate', 'Alert', 'TenantUser', '$filter', 'Session', 'UserPermissions',
-    function ($rootScope, $scope, $state, AuthService, $stateParams, $translate, Alert, TenantUser, $filter, Session, UserPermissions) {
+    function($rootScope, $scope, $state, AuthService, $stateParams, $translate, Alert, TenantUser, $filter, Session, UserPermissions) {
       var self = this;
 
       $scope.loginStatus = {
@@ -11,11 +11,11 @@ angular.module('liveopsConfigPanel')
         }
       };
 
-      $scope.login = function () {
+      $scope.login = function() {
         $scope.error = null;
 
         $scope.loginStatus = AuthService.login($scope.username, $scope.password)
-          .then(function (response) {
+          .then(function(response) {
             $scope.loggingIn = true;
             $rootScope.$broadcast('login:success');
             if ($stateParams.tenantId) {
@@ -31,7 +31,7 @@ angular.module('liveopsConfigPanel')
                 $state.go('content.userprofile');
               }
             }
-          }, function (response) {
+          }, function(response) {
             switch (response.status) {
               case 401:
                 $scope.error = $translate.instant('login.error');
@@ -42,9 +42,9 @@ angular.module('liveopsConfigPanel')
           });
       };
 
-      this.inviteAcceptSuccess = function () {
+      this.inviteAcceptSuccess = function() {
         //Update user info in Session
-        AuthService.refreshTenants().then(function () {
+        AuthService.refreshTenants().then(function() {
           var newTenant = $filter('filter')(Session.tenants, {
             tenantId: $stateParams.tenantId
           }, true);
@@ -64,7 +64,7 @@ angular.module('liveopsConfigPanel')
         }
       };
 
-      this.inviteAcceptFail = function () {
+      this.inviteAcceptFail = function() {
         if (UserPermissions.hasPermissionInList(['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'VIEW_ALL_USERS', 'MANAGE_ALL_USER_EXTENSIONS', 'MANAGE_ALL_GROUP_USERS', 'MANAGE_ALL_USER_SKILLS', 'MANAGE_ALL_USER_LOCATIONS', 'MANAGE_TENANT_ENROLLMENT'])) {
           $state.go('content.management.users', {
             messageKey: 'invite.accept.existing.fail'

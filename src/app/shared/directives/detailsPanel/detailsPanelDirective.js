@@ -2,9 +2,9 @@
 
 angular.module('liveopsConfigPanel')
   .directive('loDetailsPanel', ['$location', 'DirtyForms',
-    function ($location, DirtyForms) {
+    function($location, DirtyForms) {
       return {
-        restrict: 'EA',
+        restrict: 'E',
         require: ['ngResource'],
         transclude: true,
         templateUrl: 'app/shared/directives/detailsPanel/detailsPanel.html',
@@ -13,8 +13,10 @@ angular.module('liveopsConfigPanel')
         },
         controller: function($scope) {
           this.close = function() {
-            DirtyForms.confirmIfDirty(function(){
-              $location.search({id : null});
+            DirtyForms.confirmIfDirty(function() {
+              $location.search({
+                id: null
+              });
               $scope.ngResource = null;
               $scope.$emit('details:panel:close');
             });

@@ -22,7 +22,7 @@ angular.module('liveopsConfigPanel')
         };
 
         $scope.initBool = function initBool(item, field) {
-          if(item && angular.isUndefined(item[field.name]) && field.required) {
+          if (item && angular.isUndefined(item[field.name]) && field.required) {
             item[field.name] = false;
           }
         };

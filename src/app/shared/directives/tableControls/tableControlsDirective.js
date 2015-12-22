@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('tableControls', ['$rootScope', '$filter', '$location', '$stateParams', '$parse', 'loEvents', 'DirtyForms', 'Session',
-    function ($rootScope, $filter, $location, $stateParams, $parse, loEvents, DirtyForms, Session) {
+  .directive('tableControls', ['$rootScope', '$filter', '$location', '$parse', 'loEvents', 'DirtyForms', 'Session',
+    function($rootScope, $filter, $location, $parse, loEvents, DirtyForms, Session) {
       return {
         restrict: 'E',
         scope: {
@@ -15,13 +15,13 @@ angular.module('liveopsConfigPanel')
         },
         templateUrl: 'app/shared/directives/tableControls/tableControls.html',
         transclude: true,
-        controller: function () {},
-        link: function ($scope) {
+        controller: function() {},
+        link: function($scope) {
           var parseResourceKey = angular.noop;
           var parseStateKey = angular.noop;
 
-          $scope.$watch('config', function(newConfig){
-            if(!newConfig) {
+          $scope.$watch('config', function(newConfig) {
+            if (!newConfig) {
               return;
             }
 
@@ -44,40 +44,40 @@ angular.module('liveopsConfigPanel')
           angular.extend($scope, $scope.extendScope);
 
           $scope.$on('created:resource:' + $scope.resourceName,
-            function (event, item) {
+            function(event, item) {
               $scope.selected = item;
 
               var params = {};
               params[$scope.stateKey] = parseStateKey(item);
               $location.search(params);
-          });
+            });
 
-          $scope.$on('dropdown:item:checked', function (){
+          $scope.$on('dropdown:item:checked', function() {
             var columnPreferences = Session.columnPreferences;
             columnPreferences[$scope.config.title] = $scope.config.fields;
             Session.setColumnPreferences(columnPreferences);
           });
 
-          $scope.onCreateClick = function () {
-            DirtyForms.confirmIfDirty(function () {
+          $scope.onCreateClick = function() {
+            DirtyForms.confirmIfDirty(function() {
               $rootScope.$broadcast(loEvents.tableControls.itemCreate);
             });
           };
 
-          $scope.onActionsClick = function () {
-            DirtyForms.confirmIfDirty(function () {
+          $scope.onActionsClick = function() {
+            DirtyForms.confirmIfDirty(function() {
               $scope.selected = undefined;
               $rootScope.$broadcast(loEvents.tableControls.actions);
             });
           };
-          
-          $scope.onSelectItem = function (item) {
-            DirtyForms.confirmIfDirty(function () {
+
+          $scope.onSelectItem = function(item) {
+            DirtyForms.confirmIfDirty(function() {
               $scope.selectItem(item);
             });
           };
-          
-          $scope.selectItem = function (item) {
+
+          $scope.selectItem = function(item) {
             if (item) {
               var params = {};
               params[$scope.stateKey] = parseResourceKey(item);
@@ -88,7 +88,7 @@ angular.module('liveopsConfigPanel')
             $scope.selected = item;
           };
 
-          $scope.checkItem = function (item, value) {
+          $scope.checkItem = function(item, value) {
             var newValue = angular.isDefined(value) ? value : !item.checked;
 
             if (item.checked !== newValue) {
@@ -97,7 +97,7 @@ angular.module('liveopsConfigPanel')
             }
           };
 
-          $scope.parse = function (item, field) {
+          $scope.parse = function(item, field) {
             if (field.resolve) {
               return field.resolve(item);
             } else if (field.name) {
@@ -112,14 +112,14 @@ angular.module('liveopsConfigPanel')
             return param;
           };
 
-          $scope.toggleAll = function (checkedValue) {
-            angular.forEach($scope.filtered, function (item) {
+          $scope.toggleAll = function(checkedValue) {
+            angular.forEach($scope.filtered, function(item) {
               $scope.checkItem(item, checkedValue);
             });
           };
 
           $scope.$watchCollection('items', function(newItems) {
-            if(!$scope.items || ($scope.items.$promise && !$scope.items.$resolved)) {
+            if (!$scope.items || ($scope.items.$promise && !$scope.items.$resolved)) {
               return;
             }
 
@@ -140,14 +140,14 @@ angular.module('liveopsConfigPanel')
             }
           });
 
-          $scope.$watchCollection('filtered', function () {
+          $scope.$watchCollection('filtered', function() {
             if (!$scope.items || ($scope.items.$promise && !$scope.items.$resolved)) {
               $scope.selectItem(null);
               return;
             }
 
             //Uncheck rows that have been filtered out
-            angular.forEach($scope.items, function (item) {
+            angular.forEach($scope.items, function(item) {
               if (item.checked && $scope.filtered.indexOf(item) < 0) {
                 item.checked = false;
               }
@@ -175,7 +175,7 @@ angular.module('liveopsConfigPanel')
             }
           });
 
-          $scope.sortTable = function (field) {
+          $scope.sortTable = function(field) {
             var fieldName;
             if (field.sortOn) {
               fieldName = field.sortOn;
@@ -192,21 +192,21 @@ angular.module('liveopsConfigPanel')
             $scope.orderBy = fieldName;
           };
 
-          $scope.clearAllFilters = function(){
+          $scope.clearAllFilters = function() {
             $scope.searchQuery = null;
 
-            angular.forEach($scope.config.fields, function(field){
-              if (field.header.options){
+            angular.forEach($scope.config.fields, function(field) {
+              if (field.header.options) {
                 var options = $filter('invoke')(field.header.options);
-                angular.forEach(options, function(option){
+                angular.forEach(options, function(option) {
                   option.checked = true;
                 });
               }
             });
           };
 
-          $scope.getFields = function(){
-            if(!$scope.config || !$scope.config.fields){
+          $scope.getFields = function() {
+            if (!$scope.config || !$scope.config.fields) {
               return;
             }
 

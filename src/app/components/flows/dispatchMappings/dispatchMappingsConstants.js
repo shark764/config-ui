@@ -26,8 +26,7 @@ angular.module('liveopsConfigPanel.config')
     return [{
       display: $translate.instant('dispatchMappings.inbound'),
       value: 'inbound'
-    },
-    {
+    }, {
       display: $translate.instant('dispatchMappings.outbound'),
       value: 'outbound'
     }];
