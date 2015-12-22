@@ -41,7 +41,7 @@
     <select name="timezone"
       ng-required="true"
       ng-model="selectedTenant.timezone"
-      ng-options="timezone.timezone as timezone.timezone for timezone in timezones | orderBy:'offsetInMilliseconds'">
+      ng-options="timezone.timezone as timezone.getDisplay() for timezone in timezones | orderBy:'offsetInMilliseconds'">
 
       <option value="" disabled>{{'tenant.details.timezone.placeholder' | translate}}</option>
     </select>
