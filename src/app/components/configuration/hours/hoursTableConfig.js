@@ -33,14 +33,14 @@ angular.module('liveopsConfigPanel')
       }],
       'searchOn': ['$original.name'],
       'orderBy': '$original.name',
-      'title': $translate.instant('hours.table.title'),
-      'sref': 'content.configuration.hours',
-      'showCreate': function() {
+      'title' : $translate.instant('hours.table.title'),
+      'sref' : 'content.configuration.hours',
+      'showCreate': function () {
         return UserPermissions.hasPermission('MANAGE_ALL_BUSINESS_HOURS');
       },
-      'showBulkActions': function() {
+      'showBulkActions': function () {
         return UserPermissions.hasPermission('MANAGE_ALL_BUSINESS_HOURS');
       },
-      'helpLink': helpDocsHostname + '/Content/Configuring%20CxEngage/Creating_Business_Hours.htm'
+      'helpLink' : helpDocsHostname + '/Content/Configuring%20CxEngage/Creating_Business_Hours.htm'
     };
   }]);

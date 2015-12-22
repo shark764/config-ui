@@ -1,8 +1,9 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('SkillsController', ['$scope', 'Session', 'Skill', 'skillTableConfig', 'TenantSkillUser', 'TenantUserSkill', 'Alert', 'TenantUser', 'queryCache', '$filter', 'loEvents',
-    function($scope, Session, Skill, skillTableConfig, TenantSkillUser, TenantUserSkill, Alert, TenantUser, queryCache, $filter, loEvents) {
+  .controller('SkillsController', ['$scope', 'Session', 'Skill', 'skillTableConfig', 'TenantSkillUser', 'TenantUserSkill', 'Alert', 'TenantUser', 'queryCache', '$filter', '$translate', 'loEvents',
+    function($scope, Session, Skill, skillTableConfig, TenantSkillUser, TenantUserSkill, Alert, TenantUser, queryCache, $filter, $translate, loEvents) {
+
       $scope.Session = Session;
       $scope.tableConfig = skillTableConfig;
       $scope.params = {};
@@ -55,8 +56,8 @@ angular.module('liveopsConfigPanel')
           userId: skillUser.userId
         });
 
-        tenantUserSkill.$delete().then(function() {
-          Alert.success('Removed this skill from user');
+        tenantUserSkill.$delete().then(function(){
+          Alert.success($translate.instant('skill.details.remove.success'));
 
           //Clean up caches
           $scope.selectedSkill.fetchSkillUsers().removeItem(skillUser);
@@ -73,8 +74,8 @@ angular.module('liveopsConfigPanel')
               tenantUser.$skills.removeItem(userSkill[0]);
             }
           }
-        }, function() {
-          Alert.error('Failed to remove this skill from the user!');
+        }, function(){
+          Alert.error($translate.instant('skill.details.remove.fail'));
         });
       };
 
@@ -97,7 +98,7 @@ angular.module('liveopsConfigPanel')
 
         tenantUserSkill.save(function(result) {
           $scope.saving = false;
-          Alert.success('Skill added to user!');
+          Alert.success($translate.instant('skill.details.add.success'));
 
           //Add to caches
           var tenantSkillUser = new TenantSkillUser({
@@ -118,8 +119,8 @@ angular.module('liveopsConfigPanel')
 
           $scope.resetAddUser();
 
-        }, function() {
-          Alert.error('Failed to add this skill to the user!');
+        }, function(){
+          Alert.error($translate.instant('skill.details.add.fail'));
           $scope.saving = false;
         });
       };

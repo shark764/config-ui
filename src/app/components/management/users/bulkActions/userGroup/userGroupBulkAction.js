@@ -20,13 +20,13 @@ angular.module('liveopsConfigPanel')
       return UserGroupBulkAction;
     }
   ])
-  .service('userGroupBulkActionTypes', ['$filter', 'TenantGroupUsers', 'Session', 'hasGroup',
-    function($filter, TenantGroupUsers, Session, hasGroup) {
+  .service('userGroupBulkActionTypes', ['$translate', 'TenantGroupUsers', 'Session', 'hasGroup',
+    function ($translate, TenantGroupUsers, Session, hasGroup) {
       return [{
         value: 'add',
-        display: $filter('translate')('bulkActions.userGroups.add'),
-        doesQualify: function(user, action) {
-          return !hasGroup(action.selectedGroup, user.$groups);
+        display: $translate('bulkActions.userGroups.add'),
+        doesQualify: function (user, action) {
+          return ! hasGroup (action.selectedGroup, user.$groups);
         },
         execute: function(user, action) {
           var tenantGroupUser = new TenantGroupUsers();
@@ -47,8 +47,8 @@ angular.module('liveopsConfigPanel')
         }
       }, {
         value: 'remove',
-        display: $filter('translate')('bulkActions.userGroups.remove'),
-        doesQualify: function(user, action) {
+        display: $translate('bulkActions.userGroups.remove'),
+        doesQualify: function (user, action) {
           return hasGroup(action.selectedGroup, user.$groups);
         },
         execute: function(user, action) {

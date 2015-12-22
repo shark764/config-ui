@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('UsersController', ['$scope', 'User', 'Session', 'userTableConfig', 'Alert', '$q', 'TenantUser', 'TenantRole', 'UserPermissions', 'PlatformRole', 'TenantUserGroups', 'Modal', 'loEvents',
-    function($scope, User, Session, userTableConfig, Alert, $q, TenantUser, TenantRole, UserPermissions, PlatformRole, TenantUserGroups, Modal, loEvents) {
+  .controller('UsersController', ['$scope', '$translate', 'User', 'Session', 'userTableConfig', 'Alert', '$q', 'TenantUser', 'TenantRole', 'UserPermissions', 'PlatformRole', 'TenantUserGroups', 'Modal', 'loEvents',
+    function($scope, $translate, User, Session, userTableConfig, Alert, $q, TenantUser, TenantRole, UserPermissions, PlatformRole, TenantUserGroups, Modal, loEvents) {
       var vm = this;
       $scope.forms = {};
       $scope.Session = Session;
@@ -74,6 +74,7 @@ angular.module('liveopsConfigPanel')
 
             return tenantUser.save();
           });
+        });
       };
 
       vm.canSaveUser = function(tenantUser) {
@@ -116,10 +117,10 @@ angular.module('liveopsConfigPanel')
 
         return $scope.selectedTenantUser.save({
           tenantId: Session.tenant.tenantId
-        }).then(function() {
-          Alert.success('Invite Sent');
-        }, function() {
-          Alert.error('Error occured. Invite not sent.');
+        }).then(function () {
+          Alert.success($translate.instant('user.details.invite.send.success'));
+        }, function () {
+          Alert.error($translate.instant('user.details.invite.send.fail'));
         });
       };
 
@@ -131,10 +132,10 @@ angular.module('liveopsConfigPanel')
 
             $scope.selectedTenantUser.save({
               tenantId: Session.tenant.tenantId
-            }).then(function() {
-              Alert.success('Invitation revoked');
-            }, function() {
-              Alert.error('An error occured. Invite remains active.');
+            }).then(function () {
+              Alert.success($translate.instant('user.details.invite.revoke.success'));
+            }, function () {
+              Alert.error($translate.instant('user.details.invite.revoke.fail'));
             });
           }
         });

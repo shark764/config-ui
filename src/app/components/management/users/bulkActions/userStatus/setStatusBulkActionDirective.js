@@ -19,7 +19,7 @@ angular.module('liveopsConfigPanel')
             if ($scope.status === 'disabled' && tenantUser.id === Session.user.id) {
               Alert.error($translate.instant('bulkActions.enable.users.fail'));
               var deferred = $q.defer();
-              deferred.reject('Cannot disable your own account');
+              deferred.reject($translate.instant('bulkActions.enable.users.fail'));
               return deferred.promise;
             }
 
