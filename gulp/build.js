@@ -24,10 +24,26 @@ module.exports = function(options) {
       .pipe(gulp.dest(options.tmp + '/partials/'));
   });
 
-  gulp.task('html', ['inject', 'partials'], function () {
+  gulp.task('translations', [], function () {
+    return gulp.src(options.lang + '/*.json')
+      .pipe($.angularTranslate({
+        standalone: false,
+        module: 'liveopsConfigPanel'
+      }))
+      .pipe(gulp.dest(options.tmp + '/partials'));
+  });
+
+  gulp.task('html', ['inject', 'partials', 'translations'], function () {
     var partialsInjectFile = gulp.src(options.tmp + '/partials/templateCacheHtml.js', { read: false });
     var partialsInjectOptions = {
       starttag: '<!-- inject:partials -->',
+      ignorePath: options.tmp + '/partials',
+      addRootSlash: false
+    };
+
+    var translationsInjectFile = gulp.src(options.tmp + '/partials/translations.js', { read: false });
+    var translationsInjectOptions = {
+      starttag: '<!-- inject:translations -->',
       ignorePath: options.tmp + '/partials',
       addRootSlash: false
     };
@@ -39,6 +55,7 @@ module.exports = function(options) {
 
     return gulp.src(options.tmp + '/serve/*.html')
       .pipe($.inject(partialsInjectFile, partialsInjectOptions))
+      .pipe($.inject(translationsInjectFile, translationsInjectOptions))
       .pipe(assets = $.useref.assets())
       .pipe($.rev())
       .pipe(jsFilter)
@@ -76,8 +93,11 @@ module.exports = function(options) {
   gulp.task('other', function () {
     return gulp.src([
       options.src + '/**/*',
-      '!' + options.src + '/**/*.{html,css,js,scss,hbs}'
+      '!' + options.src + '/**/*.{html,css,js,scss,hbs}',
+      '!' + options.lang,
+      '!' + options.lang + '/**'
     ])
+    .pipe($.debug())
       .pipe(gulp.dest(options.dist + '/'));
   });
 

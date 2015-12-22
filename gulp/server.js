@@ -41,7 +41,7 @@ module.exports = function(options) {
   }));
 
   gulp.task('serve', ['watch'], function () {
-    browserSyncInit([options.tmp + '/serve', options.src, options.src + '/**/*.js']);
+    browserSyncInit([options.tmp + '/serve', options.src, options.src + '/**/*.js', options.lang]);
   });
 
   gulp.task('serve:dist', ['build'], function () {
