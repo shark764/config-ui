@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('userGroups', ['TenantUserGroups', 'TenantGroupUsers', 'Group', 'Session', '$timeout', '$filter', 'Alert', '$q', 'queryCache',
-    function (TenantUserGroups, TenantGroupUsers, Group, Session, $timeout, $filter, Alert, $q, queryCache) {
+  .directive('userGroups', ['TenantUserGroups', 'TenantGroupUsers', 'Group', 'Session', '$timeout', '$filter', '$translate', 'Alert', '$q', 'queryCache',
+    function (TenantUserGroups, TenantGroupUsers, Group, Session, $timeout, $filter, $translate, Alert, $q, queryCache) {
       return {
         restrict: 'E',
 
@@ -50,7 +50,7 @@ angular.module('liveopsConfigPanel')
                 $scope.saveUserGroup(result);
               }, function () {
                 $scope.saving = false;
-                Alert.error('Failed to create a new group');
+                Alert.error($translate.instant('group.details.create.fail'));
               });
             } else {
               $scope.saveUserGroup(selectedGroup);
@@ -81,10 +81,10 @@ angular.module('liveopsConfigPanel')
 
               $scope.reset();
             }, function () {
-              Alert.error('Failed to save user group');
+              Alert.error($translate.instant('group.details.add.fail'));
               $scope.saving = false;
             }).then(function() {
-              Alert.success('User group added!');
+              Alert.success($translate.instant('group.details.add.success'));
             });
           };
 
@@ -113,7 +113,7 @@ angular.module('liveopsConfigPanel')
               //Reset cache of users for this group
               queryCache.remove('groups/' + tgu.groupId + '/users');
             }).then(function() {
-              Alert.success('User group removed!');
+              Alert.success($translate.instant('group.table.remove.member'));
             });
           };
 

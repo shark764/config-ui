@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('SkillsController', ['$scope', 'Session', 'Skill', 'skillTableConfig', 'TenantSkillUser', 'TenantUserSkill', 'Alert', 'TenantUser', 'queryCache', '$filter', '$timeout', 'loEvents',
-    function($scope, Session, Skill, skillTableConfig, TenantSkillUser, TenantUserSkill, Alert, TenantUser, queryCache, $filter, $timeout, loEvents) {
+  .controller('SkillsController', ['$scope', 'Session', 'Skill', 'skillTableConfig', 'TenantSkillUser', 'TenantUserSkill', 'Alert', 'TenantUser', 'queryCache', '$filter', '$translate', '$timeout', 'loEvents',
+    function($scope, Session, Skill, skillTableConfig, TenantSkillUser, TenantUserSkill, Alert, TenantUser, queryCache, $filter, $translate, $timeout, loEvents) {
 
       $scope.Session = Session;
 
@@ -59,7 +59,7 @@ angular.module('liveopsConfigPanel')
         });
 
         tenantUserSkill.$delete().then(function(){
-          Alert.success('Removed this skill from user');
+          Alert.success($translate.instant('skill.details.remove.success'));
 
           //Clean up caches
           $scope.selectedSkill.fetchSkillUsers().removeItem(skillUser);
@@ -72,7 +72,7 @@ angular.module('liveopsConfigPanel')
             }
           }
         }, function(){
-          Alert.error('Failed to remove this skill from the user!');
+          Alert.error($translate.instant('skill.details.remove.fail'));
         });
       };
 
@@ -95,7 +95,7 @@ angular.module('liveopsConfigPanel')
 
         tenantUserSkill.save(function(result){
           $scope.saving = false;
-          Alert.success('Skill added to user!');
+          Alert.success($translate.instant('skill.details.add.success'));
 
           //Add to caches
           var tenantSkillUser = new TenantSkillUser({
@@ -114,7 +114,7 @@ angular.module('liveopsConfigPanel')
           $scope.resetAddUser();
 
         }, function(){
-          Alert.error('Failed to add this skill to the user!');
+          Alert.error($translate.instant('skill.details.add.fail'));
           $scope.saving = false;
         });
       };

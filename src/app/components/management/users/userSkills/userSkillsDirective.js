@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('userSkills', ['TenantUserSkill', 'Skill', 'Session', 'Alert', 'filterFilter', 'queryCache', 'TenantSkillUser',
-    function (TenantUserSkill, Skill, Session, Alert, filterFilter, queryCache, TenantSkillUser) {
+  .directive('userSkills', ['TenantUserSkill', 'Skill', 'Session', 'Alert', '$translate', 'filterFilter', 'queryCache', 'TenantSkillUser',
+    function (TenantUserSkill, Skill, Session, Alert, $translate, filterFilter, queryCache, TenantSkillUser) {
       return {
         restrict: 'E',
         scope: {
@@ -28,7 +28,7 @@ angular.module('liveopsConfigPanel')
             tsu.$delete({
               skillId: tsu.skillId
             }, function () {
-              Alert.success('Removed skill from user!');
+              Alert.success($translate.instant('skill.details.remove.success'));
 
               $scope.userSkills.removeItem(tsu);
               var userSkill = filterFilter($scope.user.$skills, {
@@ -43,7 +43,7 @@ angular.module('liveopsConfigPanel')
               //Reset cache of users for this skill
               queryCache.remove('skills/' + tsu.skillId + '/users');
             }, function () {
-              Alert.error('Failed to remove skill');
+              Alert.error($translate.instant('skill.details.remove.fail'));
             });
           };
 
@@ -100,7 +100,7 @@ angular.module('liveopsConfigPanel')
                 name: tenantUserSkill.name
               });
 
-              Alert.success('User skill added!');
+              Alert.success($translate.instant('skill.details.add.success'));
 
               //TODO: remove once skills api returns members list
               //Reset cache of users for this skill
@@ -108,7 +108,7 @@ angular.module('liveopsConfigPanel')
 
               $scope.reset();
             }, function () {
-              Alert.error('Failed to save user skill');
+              Alert.error($translate.instant('skill.details.add.fail'));
             }).finally(function(){
               $scope.saving = false;
             });
@@ -124,7 +124,7 @@ angular.module('liveopsConfigPanel')
             var newProficiency = userSkill.proficiency;
 
             userSkill.save().then(function(result){
-              Alert.success('User skill updated!');
+              Alert.success($translate.instant('skill.details.update.success'));
               
               // @TODO: make this change in the TeantnUserControl model
               userSkill.proficiency = newProficiency;
@@ -148,7 +148,7 @@ angular.module('liveopsConfigPanel')
 
 
             }, function(){
-              Alert.error('Failed to update user skill');
+              Alert.error($translate.instant('skill.details.update.fail'));
             });
           };
 

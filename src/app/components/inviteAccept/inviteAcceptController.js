@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('InviteAcceptController', ['$scope', 'User', '$state', '$stateParams', 'invitedUser', 'AuthService', 'TenantUser', 'Alert', 'Session', 'UserPermissions', '$q',
-    function ($scope, User, $state, $stateParams, invitedUser, AuthService, TenantUser, Alert, Session, UserPermissions, $q) {
+  .controller('InviteAcceptController', ['$scope', 'User', '$state', '$stateParams', '$translate', 'invitedUser', 'AuthService', 'TenantUser', 'Alert', 'Session', 'UserPermissions', '$q',
+    function ($scope, User, $state, $stateParams, $translate, invitedUser, AuthService, TenantUser, Alert, Session, UserPermissions, $q) {
       $scope.user = invitedUser;
       $scope.loading = false;
 
@@ -33,7 +33,7 @@ angular.module('liveopsConfigPanel')
       };
       
       $scope.signupFailure = function(error){
-        Alert.error('Sorry, your details could not be updated at this time');
+        Alert.error($translate.instant('invite.accept.fail.details'));
         $scope.loading = false;
         return $q.reject(error);
       };
@@ -52,7 +52,7 @@ angular.module('liveopsConfigPanel')
       };
       
       $scope.acceptFailure = function(){
-        Alert.error('Sorry, there was an error accepting your invitation.');
+        Alert.error($translate.instant('invite.accept.fail'));
         $scope.loading = false;
       };
     }
