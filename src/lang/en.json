@@ -38,7 +38,6 @@
   "value.text": "Text",
   "value.true": "True",
   "value.type": "Type",
-  "value.unknown": "unknown",
   "value.update": "Update",
   "value.updatedby": "Last updated by {{displayName}} on {{date}}",
   "value.updatedon": "Last updated on {{date}}",
@@ -383,7 +382,7 @@
   "dispatchMappings.table.channelType": "Channel Type",
   "dispatchmappings.table.title": "Dispatch Mapping Management",
   "dispatchMappings.inbound": "Inbound",
-  "dispatchMappings.outbound": "Outbound", 
+  "dispatchMappings.outbound": "Outbound",
 
   "table.search.placeholder": "Search",
   "table.actions.button": "Actions",

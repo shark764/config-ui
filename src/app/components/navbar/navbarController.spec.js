@@ -401,7 +401,7 @@ describe('NavbarController', function () {
       for (var i = 0; i < permissionsList.length; i++){
         currentPermission = permissionsList[i];
 
-        var c = $controller('NavbarController', {'$scope': $scope});
+        $controller('NavbarController', {'$scope': $scope});
 
         $scope.$digest();
 
