@@ -2,9 +2,9 @@
 
 angular.module('liveopsConfigPanel')
   .controller('FlowVersionsController', ['$scope', 'Session', 'FlowVersion',
-    function ($scope, Session, FlowVersion) {
-      $scope.getVersions = function(){
-        if (! $scope.flow || $scope.flow.isNew()){
+    function($scope, Session, FlowVersion) {
+      $scope.getVersions = function() {
+        if (!$scope.flow || $scope.flow.isNew()) {
           return [];
         }
 
@@ -14,7 +14,7 @@ angular.module('liveopsConfigPanel')
         }, 'FlowVersion' + $scope.flow.id);
       };
 
-      $scope.saveVersion = function () {
+      $scope.saveVersion = function() {
         return $scope.version.save(function() {
           $scope.createVersion();
           $scope.createVersionForm.$setPristine();
@@ -23,7 +23,7 @@ angular.module('liveopsConfigPanel')
         });
       };
 
-      $scope.createVersion = function () {
+      $scope.createVersion = function() {
         $scope.version = new FlowVersion({
           flowId: $scope.flow.id,
           flow: '[]',
@@ -36,14 +36,14 @@ angular.module('liveopsConfigPanel')
         $scope.selectedVersion = item;
       };
 
-      $scope.$watch('flow', function () {
-        if (! $scope.flow){
+      $scope.$watch('flow', function() {
+        if (!$scope.flow) {
           return;
         }
 
         $scope.createVersion();
 
-        if($scope.cleanHandler){
+        if ($scope.cleanHandler) {
           $scope.cleanHandler();
         }
 

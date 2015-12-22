@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .factory('flowTypes', ['$translate',  function($translate) {
+  .factory('flowTypes', ['$translate', function($translate) {
     return [{
       display: $translate.instant('flow.type.customer'),
       value: 'customer'

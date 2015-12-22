@@ -2,7 +2,7 @@
 
 angular.module('liveopsConfigPanel')
   .service('genericListTableConfig', ['$translate', 'statuses',
-    function ($translate, statuses) {
+    function($translate, statuses) {
       return {
         'fields': [{
           'header': {

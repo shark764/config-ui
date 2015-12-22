@@ -16,20 +16,20 @@ angular.module('liveopsConfigPanel')
         $scope.isRouteLoading = false;
         $scope.timeout = null;
 
-        var transitionStarted = function (event) {
+        var transitionStarted = function() {
           $scope.isRouteLoading = true;
         };
 
-        var transitionDone = function () {
+        var transitionDone = function() {
           $timeout.cancel($scope.timeout);
           $scope.isRouteLoading = false;
         };
 
         $scope.$on('$stateChangeStart', function(event) {
           $timeout.cancel($scope.timeout);
-          
-          $scope.timeout = $timeout(function () {
-            transitionStarted(event)
+
+          $scope.timeout = $timeout(function() {
+            transitionStarted(event);
           }, 100);
         });
 

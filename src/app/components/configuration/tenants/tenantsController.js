@@ -1,15 +1,15 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('TenantsController', ['$scope', 'Session', 'Tenant', 'TenantUser', 'tenantTableConfig', 'UserPermissions', 'AuthService', 'Region', '$q', 'lodash', 'loEvents', 'Timezone',
-    function ($scope, Session, Tenant, TenantUser, tenantTableConfig, UserPermissions, AuthService, Region, $q, _, loEvents, Timezone) {
+  .controller('TenantsController', ['$scope', 'Session', 'Tenant', 'TenantUser', 'tenantTableConfig', 'UserPermissions', 'AuthService', 'Region', '$q', 'loEvents', 'Timezone',
+    function($scope, Session, Tenant, TenantUser, tenantTableConfig, UserPermissions, AuthService, Region, $q, loEvents, Timezone) {
       var vm = this;
 
-      vm.loadTimezones = function () {
+      vm.loadTimezones = function() {
         $scope.timezones = Timezone.query();
       };
 
-      vm.loadTenants = function () {
+      vm.loadTenants = function() {
         if (UserPermissions.hasPermissionInList(['PLATFORM_VIEW_ALL_TENANTS', 'PLATFORM_MANAGE_ALL_TENANTS', 'PLATFORM_CREATE_ALL_TENANTS', 'PLATFORM_CREATE_TENANT_ROLES', 'PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT'])) {
           $scope.tenants = Tenant.cachedQuery({
             regionId: Session.activeRegionId
@@ -35,7 +35,7 @@ angular.module('liveopsConfigPanel')
         return promise;
       };
 
-      vm.loadUsers = function (tenants) {
+      vm.loadUsers = function(tenants) {
         $scope.users = TenantUser.cachedQuery({
           tenantId: Session.tenant.tenantId
         });
@@ -43,7 +43,7 @@ angular.module('liveopsConfigPanel')
         return tenants;
       };
 
-      $scope.create = function () {
+      $scope.create = function() {
         $scope.selectedTenant = new Tenant({
           regionId: Session.activeRegionId,
           adminUserId: Session.user.id,
@@ -52,28 +52,28 @@ angular.module('liveopsConfigPanel')
         });
       };
 
-      $scope.submit = function () {
+      $scope.submit = function() {
         return $scope.selectedTenant.save();
       };
 
-      $scope.$on(loEvents.tableControls.itemCreate, function () {
+      $scope.$on(loEvents.tableControls.itemCreate, function() {
         $scope.create();
       });
 
-      $scope.$on('created:resource:Tenant', function (event, newTenant) {
+      $scope.$on('created:resource:Tenant', function(event, newTenant) {
         if (newTenant.adminUserId === Session.user.id) {
           AuthService.refreshTenants();
         }
       });
 
-      $scope.$on('updated:resource:Tenant', function () {
+      $scope.$on('updated:resource:Tenant', function() {
         AuthService.refreshTenants();
       });
 
-      $scope.$watch('selectedTenant', function (newVal) {
+      $scope.$watch('selectedTenant', function(newVal) {
         if (newVal) {
           var result = angular.isDefined(newVal.$promise) ? newVal.$promise : newVal;
-          $q.when(result).then(function (tenant) {
+          $q.when(result).then(function(tenant) {
             tenant.$region = Region.cachedGet({
               id: tenant.regionId
             });
@@ -81,7 +81,7 @@ angular.module('liveopsConfigPanel')
         }
       });
 
-      $scope.tableConfig = tenantTableConfig(function () {
+      $scope.tableConfig = tenantTableConfig(function() {
         return $scope.tenants;
       });
 

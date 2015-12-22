@@ -1,7 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('flowTableConfig', ['$translate', 'statuses', 'UserPermissions', 'helpDocsHostname', function ($translate, statuses, UserPermissions, helpDocsHostname) {
+  .service('flowTableConfig', ['$translate', 'statuses', 'UserPermissions', 'helpDocsHostname',
+    function($translate, statuses, UserPermissions, helpDocsHostname) {
       return {
         'fields': [{
           'header': {
@@ -34,13 +35,17 @@ angular.module('liveopsConfigPanel')
           'transclude': true,
           'filter': 'selectedOptions'
         }],
-        'searchOn' : ['$original.name'],
-        'orderBy' : '$original.name',
-        'title' : $translate.instant('flow.table.title'),
-        'sref' : 'content.flows.flowManagement',
-        'showBulkActions': function () { return UserPermissions.hasPermission('MANAGE_ALL_FLOWS'); },
-        'showCreate': function () { return UserPermissions.hasPermission('MANAGE_ALL_FLOWS'); },
-        'helpLink' : helpDocsHostname + '/Content/Managing%20Flows/Create_flows.htm'
+        'searchOn': ['$original.name'],
+        'orderBy': '$original.name',
+        'title': $translate.instant('flow.table.title'),
+        'sref': 'content.flows.flowManagement',
+        'showBulkActions': function() {
+          return UserPermissions.hasPermission('MANAGE_ALL_FLOWS');
+        },
+        'showCreate': function() {
+          return UserPermissions.hasPermission('MANAGE_ALL_FLOWS');
+        },
+        'helpLink': helpDocsHostname + '/Content/Managing%20Flows/Create_flows.htm'
       };
-    }]
-  );
+    }
+  ]);

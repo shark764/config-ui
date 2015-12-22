@@ -34,7 +34,7 @@ angular.module('liveopsConfigPanel').controller('RealtimeDashboardsController', 
 
                 //replace array but keep same object so bindings don't break
                 widget.config.items.length = 0;
-                widget.config.items.push.apply(widget.config.items, filtered)
+                widget.config.items.push.apply(widget.config.items, filtered);
 
                 //Select the next queue automatically, so two groups don't show the same queue
                 widget.config.selectedItem = widget.config.items[queueIndex];

@@ -2,64 +2,58 @@
 
 describe('setDispatchMappingStatusBulkAction directive', function() {
   var $scope,
-    $compile,
     element,
     isolateScope,
-    BulkAction;
+    $httpBackend,
+    apiHostname,
+    mockDispatchMappings;
 
   beforeEach(module('gulpAngular'));
   beforeEach(module('liveopsConfigPanel'));
   beforeEach(module('liveopsConfigPanel.mock.content.configuration.dispatchMappings.dispatchMappingsController'));
 
-  beforeEach(inject(['$compile', '$rootScope', 'BulkAction',
-    function(_$compile_, _$rootScope_, _BulkAction) {
-      $scope = _$rootScope_.$new();
-      $compile = _$compile_;
-      BulkAction = _BulkAction;
+  beforeEach(inject(['$compile', '$rootScope', 'mockDispatchMappings', '$httpBackend', 'apiHostname',
+    function($compile, $rootScope, _mockDispatchMappings, _$httpBackend, _apiHostname) {
+      $scope = $rootScope.$new();
+      mockDispatchMappings = _mockDispatchMappings;
+      $httpBackend = _$httpBackend;
+      apiHostname = _apiHostname;
+
+      element = $compile('<ba-set-dispatch-mapping-status bulk-action="bulkAction"></ba-set-dispatch-mapping-status>')($scope);
+      $scope.$digest();
+      isolateScope = element.isolateScope();
     }
   ]));
-
-  beforeEach(function() {
-    $scope.bulkAction = new BulkAction();
-
-    element = $compile('<ba-set-dispatch-mapping-status bulk-action="bulkAction"></ba-set-dispatch-mapping-status>')($scope);
-    $scope.$digest();
-    isolateScope = element.isolateScope();
-  });
 
   it('should override bulkAction.execute', function() {
     expect(isolateScope.bulkAction.apply).toBeDefined();
   });
 
-  it('should should set dispatchMapping.active on bulkAction.execute', inject(['mockDispatchMappings', '$httpBackend', 'apiHostname',
-    function(mockDispatchMappings, $httpBackend, apiHostname) {
-      var returnMapping = angular.copy(mockDispatchMappings[0]);
-      returnMapping.active = true;
+  it('should should set dispatchMapping.active on bulkAction.execute', function() {
+    var returnMapping = angular.copy(mockDispatchMappings[0]);
+    returnMapping.active = true;
 
-      $httpBackend.when('PUT', apiHostname + '/v1/tenants/tenant-id/dispatch-mappings/dispatchMappingId1').respond(200, {
-        result: returnMapping
-      });
-      
-      expect(mockDispatchMappings[0].active).toBeFalsy();
-      isolateScope.active = true;
-      isolateScope.bulkAction.apply(mockDispatchMappings[0]);
+    $httpBackend.when('PUT', apiHostname + '/v1/tenants/tenant-id/dispatch-mappings/dispatchMappingId1').respond(200, {
+      result: returnMapping
+    });
 
-      $httpBackend.flush();
+    expect(mockDispatchMappings[0].active).toBeFalsy();
+    isolateScope.active = true;
+    isolateScope.bulkAction.apply(mockDispatchMappings[0]);
 
-      expect(mockDispatchMappings[0].active).toEqual(true);
-    }
-  ]));
-  
-  it('should only have the attribute in the PUT payload',
-    inject(['mockDispatchMappings', '$httpBackend', 'apiHostname', function (mockDispatchMappings, $httpBackend, apiHostname) {
-        $httpBackend.expect('PUT', apiHostname + '/v1/tenants/tenant-id/dispatch-mappings/dispatchMappingId1', {
-          active: true
-        }).respond(200);
+    $httpBackend.flush();
 
-        isolateScope.active = true;
-        isolateScope.bulkAction.apply(mockDispatchMappings[0]);
+    expect(mockDispatchMappings[0].active).toEqual(true);
+  });
 
-        $httpBackend.flush();
-      }
-    ]));
+  it('should only have the attribute in the PUT payload', function() {
+    $httpBackend.expect('PUT', apiHostname + '/v1/tenants/tenant-id/dispatch-mappings/dispatchMappingId1', {
+      active: true
+    }).respond(200);
+
+    isolateScope.active = true;
+    isolateScope.bulkAction.apply(mockDispatchMappings[0]);
+
+    $httpBackend.flush();
+  });
 });

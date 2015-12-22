@@ -2,15 +2,19 @@
 
 angular.module('liveopsConfigPanel')
   .service('groupTableConfig', ['statuses', '$translate', 'UserPermissions', 'helpDocsHostname',
-    function (statuses, $translate, UserPermissions, helpDocsHostname) {
+    function(statuses, $translate, UserPermissions, helpDocsHostname) {
       var config = {
-        'searchOn' : ['$original.name', '$original.description'],
-        'orderBy' : '$original.name',
-        'sref' : 'content.management.groups',
-        'title' : $translate.instant('group.table.title'),
-        'helpLink' : helpDocsHostname + '/Content/Managing%20Users/Adding_groups.htm',
-        'showBulkActions': function () { return UserPermissions.hasPermission('MANAGE_ALL_GROUPS'); },
-        'showCreate': function () { return UserPermissions.hasPermission('MANAGE_ALL_GROUPS'); }
+        'searchOn': ['$original.name', '$original.description'],
+        'orderBy': '$original.name',
+        'sref': 'content.management.groups',
+        'title': $translate.instant('group.table.title'),
+        'helpLink': helpDocsHostname + '/Content/Managing%20Users/Adding_groups.htm',
+        'showBulkActions': function() {
+          return UserPermissions.hasPermission('MANAGE_ALL_GROUPS');
+        },
+        'showCreate': function() {
+          return UserPermissions.hasPermission('MANAGE_ALL_GROUPS');
+        }
       };
 
       config.fields = [{
@@ -25,7 +29,7 @@ angular.module('liveopsConfigPanel')
         'name': '$original.description'
       }];
 
-      if (UserPermissions.hasPermissionInList(['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'MANAGE_ALL_GROUP_USERS', 'MANAGE_TENANT_ENROLLMENT'])){
+      if (UserPermissions.hasPermissionInList(['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'MANAGE_ALL_GROUP_USERS', 'MANAGE_TENANT_ENROLLMENT'])) {
         config.fields.push({
           'header': {
             'display': $translate.instant('group.table.members')

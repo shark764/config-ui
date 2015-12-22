@@ -4,17 +4,17 @@ angular.module('liveopsConfigPanel')
   .directive('baSetQueueStatus', ['Queue', 'Session', 'BulkAction',
     function (Queue, Session, BulkAction) {
       return {
-        restrict: 'AE',
+        restrict: 'E',
         scope: {},
         require: '?^bulkActionExecutor',
         templateUrl: 'app/components/flows/queues/bulkActions/setQueueStatus/setQueueStatusBulkAction.html',
         link: function ($scope, elem, attr, bulkActionExecutor) {
           $scope.bulkAction = new BulkAction();
-          
+
           if(bulkActionExecutor){
             bulkActionExecutor.register($scope.bulkAction);
           }
-          
+
           $scope.bulkAction.apply = function(queue) {
             var queueCopy = new Queue();
             queueCopy.id = queue.id;
@@ -26,7 +26,7 @@ angular.module('liveopsConfigPanel')
               return queue;
             });
           };
-          
+
           $scope.bulkAction.reset = function() {
             $scope.bulkAction.checked = false;
             $scope.active = '';

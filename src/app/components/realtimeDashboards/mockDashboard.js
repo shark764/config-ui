@@ -1,3 +1,5 @@
+/*jshint quotmark: false */
+
 angular.module('liveopsConfigPanel')
 .value('mockDashboard', {
             "id":"default",
@@ -267,7 +269,7 @@ angular.module('liveopsConfigPanel')
                     "chart":{
                         "indicator":{}
                     }
-                    
+
                 },
                 {
                     "id":"00000000-0000-0000-000000000001",
@@ -326,7 +328,7 @@ angular.module('liveopsConfigPanel')
                   "chart":{
                       "indicator":{}
                   }
-                  
+
               }, {
                 "id":"00000000-0000-0000-000000000066",
                 "type":"sourceSwitcher",
@@ -378,7 +380,7 @@ angular.module('liveopsConfigPanel')
                   "chart":{
                       "indicator":{}
                   }
-                  
+
               },
               {
                   "id":"00000000-0000-0000-000000000067",
@@ -630,7 +632,7 @@ angular.module('liveopsConfigPanel')
               "chart":{
                   "data": 'All Interactions'
               }
-              
+
         },
         {
           "id":"00000000-0000-0000-000000000073",
