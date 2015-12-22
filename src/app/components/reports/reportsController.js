@@ -9,7 +9,7 @@ angular.module('liveopsConfigPanel')
 
         Report.get({
           tenantId: Session.tenant.tenantId
-        }, function (data) {
+        }, function(data) {
           $scope.birst.SSOToken = data.reportToken;
           $scope.buildUrl();
         });
@@ -19,24 +19,24 @@ angular.module('liveopsConfigPanel')
       $scope.buildUrl = function() {
         var buildingUrl = BIRST_URL + '/SSO.aspx?';
 
-        if ( $state.params.id === 'historical-dashboards' ) {
+        if ($state.params.id === 'historical-dashboards') {
           $scope.birst.module = 'newDashboards';
-        } else if ( $state.params.id === 'reporting-designer' ) {
+        } else if ($state.params.id === 'reporting-designer') {
           $scope.birst.module = 'designer';
-        } else if ( $state.params.id === 'chart-designer' ) {
+        } else if ($state.params.id === 'chart-designer') {
           $scope.birst.module = 'visualizer';
         }
 
         var dashboardName = ''; // Name of the collection...
-        var pageName = '';  // Name of the Dashboard...  (Yes... variable naming fail by Birst.)
+        var pageName = ''; // Name of the Dashboard...  (Yes... variable naming fail by Birst.)
 
         buildingUrl = buildingUrl + 'birst.SSOToken=' + $scope.birst.SSOToken + '&birst.embedded=true&birst.module=' + $scope.birst.module;
 
-        if ($scope.birst.module === 'newDashboards'){
+        if ($scope.birst.module === 'newDashboards') {
           buildingUrl = buildingUrl + '&birst.hideDashboardNavigation=false';
         }
 
-        if ( dashboardName !== '' && pageName !== '' ){
+        if (dashboardName !== '' && pageName !== '') {
           buildingUrl = buildingUrl + '&birst.dashbaord=' + dashboardName + '&birst.page=' + pageName;
         }
 

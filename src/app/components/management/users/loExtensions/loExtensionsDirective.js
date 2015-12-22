@@ -2,7 +2,7 @@
 
 angular.module('liveopsConfigPanel')
   .directive('loExtensions', [
-    function () {
+    function() {
       return {
         restrict: 'E',
         scope: {

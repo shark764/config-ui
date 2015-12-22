@@ -17,19 +17,19 @@ angular.module('liveopsConfigPanel')
           tenantId: Session.tenant.tenantId
         });
       };
-      
+
       $scope.fetchIntegrations = function() {
         return Integration.cachedQuery({
           tenantId: Session.tenant.tenantId
         });
       };
-      
+
       $scope.fetchFlows = function() {
         return Flow.cachedQuery({
           tenantId: Session.tenant.tenantId
         });
       };
-      
+
       $scope.submit = function() {
         return $scope.selectedDispatchMapping.save();
       };
@@ -39,7 +39,7 @@ angular.module('liveopsConfigPanel')
       });
 
       $scope.tableConfig = dispatchMappingTableConfig;
-      
+
       $scope.dispatchMappingInteractionFields = dispatchMappingInteractionFields;
       $scope.dispatchMappingChannelTypes = dispatchMappingChannelTypes;
       $scope.dispatchMappingDirections = dispatchMappingDirections;

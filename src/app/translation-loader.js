@@ -4,10 +4,10 @@
 //it needs to be excluded from unit tests
 
 angular.module('liveopsConfigPanel')
-  .config(['$translateProvider', function ($translateProvider) {
+  .config(['$translateProvider', function($translateProvider) {
     $translateProvider
       .useStaticFilesLoader({
-        prefix: '/assets/lang/',
+        prefix: '/lang/',
         suffix: '.json'
       });
   }]);

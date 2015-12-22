@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('flowDrafts', [function () {
+  .directive('flowDrafts', [function() {
     return {
       scope: {
         flow: '=',

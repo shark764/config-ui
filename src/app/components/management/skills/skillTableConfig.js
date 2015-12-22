@@ -1,8 +1,9 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('skillTableConfig', ['statuses', '$translate', 'UserPermissions', 'ynStatuses', 'helpDocsHostname', function (statuses, $translate, UserPermissions, ynStatuses, helpDocsHostname) {
-     var config = {
+  .service('skillTableConfig', ['statuses', '$translate', 'UserPermissions', 'ynStatuses', 'helpDocsHostname',
+    function(statuses, $translate, UserPermissions, ynStatuses, helpDocsHostname) {
+      var config = {
         'fields': [{
           'header': {
             'display': $translate.instant('value.name')
@@ -43,15 +44,19 @@ angular.module('liveopsConfigPanel')
           'name': '$original.active',
           'id': 'status-column-dropdown'
         }],
-        'searchOn' : ['$original.name', '$original.description'],
-        'orderBy' : '$original.name',
-        'sref' : 'content.management.skills',
+        'searchOn': ['$original.name', '$original.description'],
+        'orderBy': '$original.name',
+        'sref': 'content.management.skills',
         'title': $translate.instant('skill.table.title'),
-        'helpLink' : helpDocsHostname + '/Content/Managing%20Users/Adding_skills.htm',
-        'showBulkActions': function() { return UserPermissions.hasPermission('MANAGE_ALL_SKILLS'); },
-        'showCreate': function () { return UserPermissions.hasPermission('MANAGE_ALL_SKILLS'); },
+        'helpLink': helpDocsHostname + '/Content/Managing%20Users/Adding_skills.htm',
+        'showBulkActions': function() {
+          return UserPermissions.hasPermission('MANAGE_ALL_SKILLS');
+        },
+        'showCreate': function() {
+          return UserPermissions.hasPermission('MANAGE_ALL_SKILLS');
+        },
       };
 
-     return config;
+      return config;
     }
   ]);

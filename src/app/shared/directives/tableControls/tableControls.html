@@ -49,6 +49,7 @@
 </div>
 
 <loading ng-show="items && items.$promise && !items.$resolved"></loading>
+
 <p class="null" ng-show="!items || (items.$resolved && !items.length)">
   {{'table.results.none' | translate}}
 </p>
@@ -120,7 +121,7 @@
 
       <td ng-if="field.checked"
         ng-repeat="field in config.fields"
-        ng-click="selectItem(item)">
+        ng-click="onSelectItem(item)">
 
         <a ui-sref="{{config.sref}}(stateParam(item))" ui-sref-args="{reload: true}">
           <table-cell name="{{field.name}}"

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('navbar', function () {
+  .directive('navbar', function() {
     return {
       restrict: 'E',
       templateUrl: 'app/components/navbar/navbar.html',

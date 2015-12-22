@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('GroupsController', ['$scope', '$timeout', 'Session', 'Group', 'TenantUser', 'groupTableConfig', 'TenantGroupUsers', 'queryCache', 'DirtyForms', 'BulkAction', '$stateParams', '$filter', 'Alert', '$translate', 'loEvents',
-    function($scope, $timeout, Session, Group, TenantUser, groupTableConfig, TenantGroupUsers, queryCache, DirtyForms, BulkAction, $stateParams, $filter, Alert, $translate, loEvents) {
+  .controller('GroupsController', ['$scope', 'Session', 'Group', 'TenantUser', 'groupTableConfig', 'TenantGroupUsers', 'queryCache', '$filter', 'Alert', '$translate', 'loEvents',
+    function($scope, Session, Group, TenantUser, groupTableConfig, TenantGroupUsers, queryCache, $filter, Alert, $translate, loEvents) {
       $scope.Session = Session;
       $scope.tableConfig = groupTableConfig;
 

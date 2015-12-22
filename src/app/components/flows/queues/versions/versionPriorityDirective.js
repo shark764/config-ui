@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('versionPriority', [function () {
+  .directive('versionPriority', [function() {
     return {
       scope: {
         queueVersion: '=',

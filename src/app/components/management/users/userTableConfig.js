@@ -2,7 +2,7 @@
 
 angular.module('liveopsConfigPanel')
   .service('userTableConfig', ['userStatuses', 'userStates', '$translate', 'Skill', 'Group', 'TenantRole', 'Session', 'UserPermissions', 'tenantStatuses', 'queryCache', 'helpDocsHostname',
-    function (userStatuses, userStates, $translate, Skill, Group, TenantRole, Session, UserPermissions, tenantStatuses, queryCache, helpDocsHostname) {
+    function(userStatuses, userStates, $translate, Skill, Group, TenantRole, Session, UserPermissions, tenantStatuses, queryCache, helpDocsHostname) {
       function getSkillOptions() {
         return Skill.cachedQuery({
           tenantId: Session.tenant.tenantId
@@ -23,16 +23,16 @@ angular.module('liveopsConfigPanel')
 
       this.getConfig = function() {
         var cached = queryCache.get('userTableConfig');
-        if (cached){
+        if (cached) {
           return cached;
         }
 
         var defaultConfig = {
-          'fields' : [{
+          'fields': [{
             'header': {
               'display': $translate.instant('value.name')
             },
-            'resolve': function (tenantUser) {
+            'resolve': function(tenantUser) {
               return tenantUser.$user.$original.getDisplay();
             },
             'sortOn': '$user.$original.lastName'
@@ -49,9 +49,9 @@ angular.module('liveopsConfigPanel')
             'checked': false
           }],
           'orderBy': '$user.$original.lastName',
-          'sref' : 'content.management.users',
+          'sref': 'content.management.users',
           'title': $translate.instant('user.table.title'),
-          'helpLink' : helpDocsHostname + '/Content/Managing%20Users/Adding_users.htm',
+          'helpLink': helpDocsHostname + '/Content/Managing%20Users/Adding_users.htm',
           'searchOn': [{
             //Property order is significant, as it is the order that the fields get concat'd before being compared
             //So they should match the display order of "firstName lastName"
@@ -73,15 +73,15 @@ angular.module('liveopsConfigPanel')
           }]
         };
 
-        defaultConfig.showBulkActions = function () {
+        defaultConfig.showBulkActions = function() {
           return UserPermissions.hasPermissionInList(['PLATFORM_MANAGE_ALL_USERS', 'MANAGE_TENANT_ENROLLMENT', 'MANAGE_ALL_USER_SKILLS', 'PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT']);
         };
 
-        defaultConfig.showCreate = function () {
+        defaultConfig.showCreate = function() {
           return UserPermissions.hasPermissionInList(['PLATFORM_CREATE_USERS', 'PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'MANAGE_TENANT_ENROLLMENT']);
         };
 
-        if (UserPermissions.hasPermissionInList(['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'VIEW_ALL_SKILLS', 'MANAGE_ALL_SKILLS', 'MANAGE_ALL_USER_SKILLS', 'MANAGE_TENANT_ENROLLMENT'])){
+        if (UserPermissions.hasPermissionInList(['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'VIEW_ALL_SKILLS', 'MANAGE_ALL_SKILLS', 'MANAGE_ALL_USER_SKILLS', 'MANAGE_TENANT_ENROLLMENT'])) {
           defaultConfig.fields.push({
             'header': {
               'display': $translate.instant('user.table.skills'),
@@ -92,7 +92,7 @@ angular.module('liveopsConfigPanel')
             'lookup': '$skills:id',
             'name': 'skills',
             'id': 'user-skills-table-column',
-            'resolve': function (tenantUser) {
+            'resolve': function(tenantUser) {
               return tenantUser.$skills.length;
             },
             'sortOn': '$skills.length',
@@ -100,7 +100,7 @@ angular.module('liveopsConfigPanel')
           });
         }
 
-        if (UserPermissions.hasPermissionInList(['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'VIEW_ALL_GROUPS', 'MANAGE_ALL_GROUPS', 'MANAGE_ALL_GROUP_USERS', 'MANAGE_ALL_GROUP_OWNERS', 'MANAGE_TENANT_ENROLLMENT'])){
+        if (UserPermissions.hasPermissionInList(['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'VIEW_ALL_GROUPS', 'MANAGE_ALL_GROUPS', 'MANAGE_ALL_GROUP_USERS', 'MANAGE_ALL_GROUP_OWNERS', 'MANAGE_TENANT_ENROLLMENT'])) {
           defaultConfig.fields.push({
             'header': {
               'display': $translate.instant('user.table.groups'),
@@ -111,7 +111,7 @@ angular.module('liveopsConfigPanel')
             'lookup': '$groups:id',
             'name': '$groups',
             'id': 'user-groups-table-column',
-            'resolve': function (tenantUser) {
+            'resolve': function(tenantUser) {
               return tenantUser.$groups.length;
             },
             'sortOn': '$groups.length',
@@ -119,7 +119,7 @@ angular.module('liveopsConfigPanel')
           });
         }
 
-        if (UserPermissions.hasPermissionInList(['PLATFORM_CREATE_TENANT_ROLES', 'PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'VIEW_ALL_ROLES', 'MANAGE_ALL_ROLES', 'MANAGE_TENANT_ENROLLMENT'])){
+        if (UserPermissions.hasPermissionInList(['PLATFORM_CREATE_TENANT_ROLES', 'PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'VIEW_ALL_ROLES', 'MANAGE_ALL_ROLES', 'MANAGE_TENANT_ENROLLMENT'])) {
           defaultConfig.fields.push({
             'header': {
               'display': $translate.instant('user.table.roles'),

@@ -53,7 +53,8 @@ table-controls {
   }
 
   .scrollable-table-container {
-    height: calc(100% - #{$action-container-height} + 40px);
+    height: calc(100% - #{$action-container-height});
+    -webkit-box-sizing: content-box;
   }
 
   .table {

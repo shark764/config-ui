@@ -1,9 +1,9 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('IntegrationsController', ['$scope', '$state', 'Session', 'Integration', 'integrationTableConfig', 'loEvents',
-    function($scope, $state, Session, Integration, integrationTableConfig, loEvents) {
-      
+  .controller('IntegrationsController', ['$scope', 'Session', 'Integration', 'integrationTableConfig', 'loEvents',
+    function($scope, Session, Integration, integrationTableConfig, loEvents) {
+
       $scope.fetchIntegrations = function() {
         return Integration.cachedQuery({
           tenantId: Session.tenant.tenantId
@@ -19,10 +19,10 @@ angular.module('liveopsConfigPanel')
         });
       });
 
-      $scope.tableConfig = integrationTableConfig;
-      
-      $scope.submit = function(){
+      $scope.submit = function() {
         return $scope.selectedIntegration.save();
       };
+
+      $scope.tableConfig = integrationTableConfig;
     }
   ]);

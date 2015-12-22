@@ -2,19 +2,19 @@
 
 angular.module('liveopsConfigPanel')
   .directive('baSetDispatchMappingStatus', ['DispatchMapping', 'Session', 'BulkAction',
-    function (DispatchMapping, Session, BulkAction) {
+    function(DispatchMapping, Session, BulkAction) {
       return {
-        restrict: 'AE',
+        restrict: 'E',
         scope: {},
         require: '?^bulkActionExecutor',
         templateUrl: 'app/components/flows/dispatchMappings/bulkActions/dispatchMappingStatus/setDispatchMappingStatusBulkAction.html',
-        link: function ($scope, elem, attr, bulkActionExecutor) {
+        link: function($scope, elem, attr, bulkActionExecutor) {
           $scope.bulkAction = new BulkAction();
-          
-          if(bulkActionExecutor){
+
+          if (bulkActionExecutor) {
             bulkActionExecutor.register($scope.bulkAction);
           }
-          
+
           $scope.bulkAction.apply = function(mapping) {
             var mappingCopy = new DispatchMapping();
             mappingCopy.id = mapping.id;
@@ -27,7 +27,7 @@ angular.module('liveopsConfigPanel')
               return mapping;
             });
           };
-          
+
           $scope.bulkAction.reset = function() {
             $scope.bulkAction.checked = false;
             $scope.active = '';

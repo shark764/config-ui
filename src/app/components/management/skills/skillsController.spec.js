@@ -1,8 +1,7 @@
 'use strict';
 
-describe('SkillsController', function () {
+describe('SkillsController', function() {
   var $scope,
-    $controller,
     $httpBackend,
     Session,
     apiHostname,
@@ -17,22 +16,21 @@ describe('SkillsController', function () {
   beforeEach(module('liveopsConfigPanel.tenant.user.mock'));
 
   beforeEach(inject(['$rootScope', '$controller', '$httpBackend', 'Session', 'apiHostname', 'Skill', 'mockSkills', 'mockTenantUsers', 'loEvents',
-    function ($rootScope, _$controller_, _$httpBackend_, _Session_, _apiHostname_, _Skill, _mockSkills, _mockTenantUsers, _loEvents) {
+    function($rootScope, $controller, _$httpBackend, _Session, _apiHostname, _Skill, _mockSkills, _mockTenantUsers, _loEvents) {
       $scope = $rootScope.$new();
-      $controller = _$controller_;
-      $httpBackend = _$httpBackend_;
-      Session = _Session_;
-      apiHostname = _apiHostname_;
+      $httpBackend = _$httpBackend;
+      Session = _Session;
+      apiHostname = _apiHostname;
       Skill = _Skill;
       mockSkills = _mockSkills;
       mockTenantUsers = _mockTenantUsers;
       loEvents = _loEvents;
+
+      $controller('SkillsController', {
+        '$scope': $scope
+      });
     }
   ]));
-
-  beforeEach(function() {
-    $controller('SkillsController', {'$scope': $scope});
-  });
 
   describe('ON fetchSkills', function() {
     it('should be defined', function() {
@@ -112,7 +110,7 @@ describe('SkillsController', function () {
   });
 
   describe('remove user function', function() {
-    it('should delete the skill from the given user', inject(['TenantSkillUser', function(TenantSkillUser) {
+    it('should delete the skill from the given user', inject(function(TenantSkillUser) {
       $httpBackend.expectDELETE(apiHostname + '/v1/tenants/tenant-id/users/userId1/skills/skillId1');
       $scope.selectedSkill = mockSkills[0];
 
@@ -123,16 +121,16 @@ describe('SkillsController', function () {
       });
       $scope.removeUser(skillUser);
       $httpBackend.flush();
-    }]));
+    }));
 
-    it('should remove the skill from the cached tenant user', inject(['TenantSkillUser', 'queryCache', function(TenantSkillUser, queryCache) {
+    it('should remove the skill from the cached tenant user', inject(function(TenantSkillUser, queryCache) {
       mockTenantUsers[0].$skills = [{
         id: 'skillId1'
       }];
 
       var originalGet = queryCache.get;
-      spyOn(queryCache, 'get').and.callFake(function(key){
-        if (key === 'TenantUser'){
+      spyOn(queryCache, 'get').and.callFake(function(key) {
+        if (key === 'TenantUser') {
           return [mockTenantUsers[0]];
         } else {
           return originalGet(key);
@@ -151,9 +149,9 @@ describe('SkillsController', function () {
       $httpBackend.flush();
 
       expect(mockTenantUsers[0].$skills.length).toBe(0);
-    }]));
+    }));
 
-    it('should show an error if the delete fails', inject(['TenantSkillUser', 'queryCache', 'Alert', function(TenantSkillUser, queryCache, Alert) {
+    it('should show an error if the delete fails', inject(function(TenantSkillUser, queryCache, Alert) {
       spyOn(Alert, 'error');
       $httpBackend.expectDELETE(apiHostname + '/v1/tenants/tenant-id/users/userId1/skills/skillId1').respond(500);
       $scope.selectedSkill = mockSkills[0];
@@ -166,7 +164,7 @@ describe('SkillsController', function () {
       $httpBackend.flush();
 
       expect(Alert.error).toHaveBeenCalled();
-    }]));
+    }));
   });
 
   describe('addUser function', function() {
@@ -192,10 +190,10 @@ describe('SkillsController', function () {
       expect($scope.saving).toBeFalsy();
     }]));
 
-    it('should add the skill to the existing tenantskilluser cache', inject(['queryCache', function(queryCache) {
+    it('should add the skill to the existing tenantskilluser cache', inject(function(queryCache) {
       var originalCacheGet = queryCache.get;
-      spyOn(queryCache, 'get').and.callFake(function(key){
-        if (key === 'TenantUser'){
+      spyOn(queryCache, 'get').and.callFake(function(key) {
+        if (key === 'TenantUser') {
           return [mockTenantUsers[0]];
         } else {
           return originalCacheGet(key);
@@ -211,9 +209,9 @@ describe('SkillsController', function () {
       $scope.addUser(mockTenantUsers[0]);
       $httpBackend.flush();
       expect(mockTenantUsers[0].$skills.length).toBe(1);
-    }]));
+    }));
 
-    it('should set proficiency if the skill has proficiency', inject([function() {
+    it('should set proficiency if the skill has proficiency', function() {
 
       $httpBackend.expectPOST(apiHostname + '/v1/tenants/tenant-id/users/userId1/skills', {
         skillId: 'skillId1',
@@ -228,9 +226,9 @@ describe('SkillsController', function () {
       $scope.params.proficiency = 20;
       $scope.addUser(mockTenantUsers[0]);
       $httpBackend.flush();
-    }]));
+    });
 
-    it('should show an error message if save fails', inject(['Alert', function(Alert) {
+    it('should show an error message if save fails', inject(function(Alert) {
       spyOn(Alert, 'error');
       $httpBackend.expectPOST(apiHostname + '/v1/tenants/tenant-id/users/userId1/skills').respond(500);
       $scope.selectedSkill = mockSkills[0];
@@ -239,6 +237,6 @@ describe('SkillsController', function () {
       $scope.addUser(mockTenantUsers[0]);
       $httpBackend.flush();
       expect(Alert.error).toHaveBeenCalled();
-    }]));
+    }));
   });
 });

@@ -2,7 +2,6 @@
 
 describe('baResendInvite directive', function() {
   var $scope,
-    $compile,
     element,
     isolateScope,
     mockTenantUsers;
@@ -12,21 +11,17 @@ describe('baResendInvite directive', function() {
   beforeEach(module('liveopsConfigPanel.tenant.user.mock'));
 
   beforeEach(inject(['$compile', '$rootScope', 'mockTenantUsers',
-    function(_$compile_, _$rootScope_, _mockTenantUsers) {
-      $scope = _$rootScope_.$new();
-      $compile = _$compile_;
+    function($compile, $rootScope, _mockTenantUsers) {
+      $scope = $rootScope.$new();
       mockTenantUsers = _mockTenantUsers;
+
+      element = $compile('<ba-resend-invite></ba-resend-invite>')($scope);
+      $scope.$digest();
+      isolateScope = element.isolateScope();
     }
   ]));
 
-  beforeEach(function() {
-    element = $compile('<ba-resend-invite></ba-resend-invite>')($scope);
-    $scope.$digest();
-    isolateScope = element.isolateScope();
-  });
-  
   describe('ON apply', function() {
-    
     it('should call tenantUser.save', function() {
       mockTenantUsers[2].save = jasmine.createSpy('save');
       isolateScope.bulkAction.apply(mockTenantUsers[2]);
@@ -34,15 +29,15 @@ describe('baResendInvite directive', function() {
       expect(mockTenantUsers[2].save).toHaveBeenCalled();
     });
   });
-  
+
   describe('ON doesQualify', function() {
-    it('should pass if tenantUser.status is "invited" or "pending"', function() {
+    it('should pass if tenantUser.status is "invited" or "pending" or "expired"', function() {
       var doesQualify = isolateScope.bulkAction.doesQualify(mockTenantUsers[2]);
       expect(doesQualify).toBeTruthy();
     });
-    
-    it('should pass if tenantUser.status is not "invited" or "pending"', function() {
-      var doesQualify = isolateScope.bulkAction.doesQualify(mockTenantUsers[0]);
+
+    it('should pass if tenantUser.status is not "invited" or "pending" or "expired"', function() {
+      var doesQualify = isolateScope.bulkAction.doesQualify(mockTenantUsers[1]);
       expect(doesQualify).toBeFalsy();
     });
   });

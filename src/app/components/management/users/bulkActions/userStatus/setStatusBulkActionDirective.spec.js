@@ -2,7 +2,6 @@
 
 describe('setStatusBulkAction directive', function() {
   var $scope,
-    $compile,
     element,
     isolateScope;
 
@@ -12,75 +11,65 @@ describe('setStatusBulkAction directive', function() {
   beforeEach(module('liveopsConfigPanel.tenant.user.mock'));
 
   beforeEach(inject(['$compile', '$rootScope',
-    function(_$compile_, _$rootScope_) {
-      $scope = _$rootScope_.$new();
-      $compile = _$compile_;
+    function($compile, $rootScope) {
+      $scope = $rootScope.$new();
+
+      element = $compile('<ba-set-status></ba-set-status>')($scope);
+      $scope.$digest();
+      isolateScope = element.isolateScope();
     }
   ]));
-
-  beforeEach(function() {
-    element = $compile('<ba-set-status></ba-set-status>')($scope);
-    $scope.$digest();
-    isolateScope = element.isolateScope();
-  });
 
   it('should override bulkAction.execute', function() {
     expect(isolateScope.bulkAction.apply).toBeDefined();
   });
 
-  it('should should set user.status on bulkAction.execute', inject(['mockUsers', 'mockTenantUsers', '$httpBackend', 'apiHostname',
-    function(mockUsers, mockTenantUsers, $httpBackend, apiHostname) {
-      mockTenantUsers[1].status = 'disabled';
-      var returnUser = angular.copy(mockTenantUsers[1]);
-      returnUser.status = 'accepted';
+  it('should should set user.status on bulkAction.execute', inject(function(mockUsers, mockTenantUsers, $httpBackend, apiHostname) {
+    mockTenantUsers[1].status = 'disabled';
+    var returnUser = angular.copy(mockTenantUsers[1]);
+    returnUser.status = 'accepted';
 
-      $httpBackend.when('PUT', apiHostname + '/v1/tenants/tenant-id/users/userId2').respond(200, {
-        result: returnUser
-      });
-      
-      mockTenantUsers[1].$user = mockUsers[1];
-      mockTenantUsers[1].$original = mockTenantUsers[1];
-      
-      isolateScope.status = 'accepted';
-      isolateScope.bulkAction.apply(mockTenantUsers[1]);
+    $httpBackend.when('PUT', apiHostname + '/v1/tenants/tenant-id/users/userId2').respond(200, {
+      result: returnUser
+    });
 
-      expect(mockTenantUsers[1].status).toEqual('disabled');
+    mockTenantUsers[1].$user = mockUsers[1];
+    mockTenantUsers[1].$original = mockTenantUsers[1];
 
-      $httpBackend.flush();
+    isolateScope.status = 'accepted';
+    isolateScope.bulkAction.apply(mockTenantUsers[1]);
 
-      expect(mockTenantUsers[1].status).toEqual('accepted');
-    }
-  ]));
-  
-  it('should should only have the attribute in the PUT payload',
-    inject(['mockTenantUsers', '$httpBackend', 'apiHostname',
-      function (mockTenantUsers, $httpBackend, apiHostname) {
-        $httpBackend.expect('PUT', apiHostname + '/v1/tenants/tenant-id/users/userId2', {
-          status: 'accepted'
-        }).respond(200, mockTenantUsers[1]);
+    expect(mockTenantUsers[1].status).toEqual('disabled');
 
-        isolateScope.status = 'accepted';
-        mockTenantUsers[1].$original = mockTenantUsers[1];
-        isolateScope.bulkAction.apply(mockTenantUsers[1]);
+    $httpBackend.flush();
 
-        $httpBackend.flush();
-      }
-    ]));
-  
-  it('should reject the change if user attempts to disable themselves',
-      inject(['mockTenantUsers', function (mockTenantUsers) {
-          mockTenantUsers[0].status = 'accepted';
-          isolateScope.status = 'disabled';
-          
-          var result = isolateScope.bulkAction.apply(mockTenantUsers[0]);
+    expect(mockTenantUsers[1].status).toEqual('accepted');
+  }));
 
-          result.then(function() {
-            throw new Error('Promise should not be resolved');
-          }, function(reason) {
-            expect(reason.msg).toEqual('Cannot disable your own account');
-          });
-          
-          expect(mockTenantUsers[0].status).toEqual('accepted');
-        }
-      ]));
+  it('should should only have the attribute in the PUT payload', inject(function(mockTenantUsers, $httpBackend, apiHostname) {
+    $httpBackend.expect('PUT', apiHostname + '/v1/tenants/tenant-id/users/userId2', {
+      status: 'accepted'
+    }).respond(200, mockTenantUsers[1]);
+
+    isolateScope.status = 'accepted';
+    mockTenantUsers[1].$original = mockTenantUsers[1];
+    isolateScope.bulkAction.apply(mockTenantUsers[1]);
+
+    $httpBackend.flush();
+  }));
+
+  it('should reject the change if user attempts to disable themselves', inject(function(mockTenantUsers) {
+    mockTenantUsers[0].status = 'accepted';
+    isolateScope.status = 'disabled';
+
+    var result = isolateScope.bulkAction.apply(mockTenantUsers[0]);
+
+    result.then(function() {
+      throw new Error('Promise should not be resolved');
+    }, function(reason) {
+      expect(reason.msg).toEqual('Cannot disable your own account');
+    });
+
+    expect(mockTenantUsers[0].status).toEqual('accepted');
+  }));
 });
