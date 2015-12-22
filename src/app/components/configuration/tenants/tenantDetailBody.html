@@ -34,19 +34,19 @@
   <div class="input-group"
     ng-if="timezones.$resolved">
     <label>{{'tenant.details.timezone' | translate}} *</label>
-    
+
     <form-error field="forms.detailsForm.timezone"
       error-type-required="{{'tenant.details.timezone.required' | translate}}">
     </form-error>
     <select name="timezone"
       ng-required="true"
       ng-model="selectedTenant.timezone"
-      ng-options="timezone for timezone in timezones">
+      ng-options="timezone.timezone as timezone.timezone for timezone in timezones | orderBy:'offsetInMilliseconds'">
 
       <option value="" disabled>{{'tenant.details.timezone.placeholder' | translate}}</option>
     </select>
   </div>
-  
+
   <div class="input-group" ng-show="! selectedTenant.isNew()">
     <label class="textarea-label">{{'tenant.details.region' | translate}}</label>
     <p id="tenant-details-region">{{selectedTenant.$region.name}}</p>
