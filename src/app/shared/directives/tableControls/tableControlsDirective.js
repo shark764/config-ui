@@ -70,18 +70,22 @@ angular.module('liveopsConfigPanel')
               $rootScope.$broadcast(loEvents.tableControls.actions);
             });
           };
-
-          $scope.selectItem = function (item) {
+          
+          $scope.onSelectItem = function (item) {
             DirtyForms.confirmIfDirty(function () {
-              if (item) {
-                var params = {};
-                params[$scope.stateKey] = parseResourceKey(item);
-                $location.search(params);
-              }
-
-              $rootScope.$broadcast(loEvents.tableControls.itemSelected, item, $scope.selected);
-              $scope.selected = item;
+              $scope.selectItem(item);
             });
+          };
+          
+          $scope.selectItem = function (item) {
+            if (item) {
+              var params = {};
+              params[$scope.stateKey] = parseResourceKey(item);
+              $location.search(params);
+            }
+
+            $rootScope.$broadcast(loEvents.tableControls.itemSelected, item, $scope.selected);
+            $scope.selected = item;
           };
 
           $scope.checkItem = function (item, value) {
