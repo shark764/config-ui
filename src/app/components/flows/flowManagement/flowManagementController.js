@@ -46,7 +46,7 @@ angular.module('liveopsConfigPanel')
             flow: version.flow,
             tenantId: Session.tenant.tenantId,
             name: draft.name
-          })
+          });
           
           return newFlow.save().then(function(draft){
             $document.find('modal').remove();
@@ -76,7 +76,7 @@ angular.module('liveopsConfigPanel')
         };
 
         newScope.okCallback = function(newFlow) {
-          var newFlow = new Flow({
+          newFlow = new Flow({
             tenantId: Session.tenant.tenantId,
             active: true,
             name: newFlow.name,

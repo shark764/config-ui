@@ -75,7 +75,7 @@ angular.module('liveopsConfigPanel')
         if ((UserPermissions.hasPermissionInList(PermissionGroups.viewUsers) && UserPermissions.hasPermissionInList(PermissionGroups.manageUserSkillsAndGroups)) ||
             UserPermissions.hasPermissionInList(PermissionGroups.manageUsers)){
           items.push({
-            label: 'Users',
+            label: $translate.instant('navbar.management.users.title'),
             stateLink: 'content.management.users',
             id: 'user-management-link',
             order: 1
@@ -84,7 +84,7 @@ angular.module('liveopsConfigPanel')
 
         if (UserPermissions.hasPermissionInList(PermissionGroups.manageRoles)) {
           items.push({
-            label: 'Roles',
+            label: $translate.instant('navbar.management.roles.title'),
             stateLink: 'content.management.roles',
             id: 'role-management-link',
             order: 2
@@ -95,7 +95,7 @@ angular.module('liveopsConfigPanel')
         if (UserPermissions.hasPermissionInList(PermissionGroups.manageAllMedia) &&
         UserPermissions.hasPermissionInList(PermissionGroups.manageSkills)) {
           items.push({
-            label: 'Skills',
+            label: $translate.instant('navbar.management.skills.title'),
             stateLink: 'content.management.skills',
             id: 'skill-management-link',
             order: 3
@@ -106,7 +106,7 @@ angular.module('liveopsConfigPanel')
         if (UserPermissions.hasPermissionInList(PermissionGroups.manageAllMedia) &&
           UserPermissions.hasPermissionInList(PermissionGroups.manageGroups)) {
           items.push({
-            label: 'Groups',
+            label: $translate.instant('navbar.management.groups.title'),
             stateLink: 'content.management.groups',
             id: 'group-management-link',
             order: 4
@@ -121,7 +121,7 @@ angular.module('liveopsConfigPanel')
 
         if (UserPermissions.hasPermissionInList(PermissionGroups.accessAllTenants)) {
           items.push({
-            label: 'Tenants',
+            label: $translate.instant('navbar.configuration.tenants.title'),
             stateLink: 'content.configuration.tenants',
             id: 'tenants-configuration-link',
             order: 1
@@ -130,7 +130,7 @@ angular.module('liveopsConfigPanel')
 
         if (UserPermissions.hasPermissionInList(PermissionGroups.accessAllIntegrations)) {
           items.push({
-            label: 'Integrations',
+            label: $translate.instant('navbar.configuration.integrations.title'),
             stateLink: 'content.configuration.integrations',
             id: 'integrations-configuration-link',
             order: 2
@@ -139,7 +139,7 @@ angular.module('liveopsConfigPanel')
 
         if (UserPermissions.hasPermissionInList(PermissionGroups.accessAllLists)){
           items.push({
-            label: 'Lists',
+            label: $translate.instant('navbar.configuration.lists.title'),
             stateLink: 'content.configuration.genericLists',
             id: 'lists-configuration-link',
             order: 3
@@ -148,7 +148,7 @@ angular.module('liveopsConfigPanel')
 
         if (UserPermissions.hasPermissionInList(PermissionGroups.accessAllBusinessHours)){
           items.push({
-            label: 'Business Hours',
+            label: $translate.instant('navbar.configuration.bh.title'),
             stateLink: 'content.configuration.hours',
             id: 'hours-configuration-link',
             order: 4
@@ -163,7 +163,7 @@ angular.module('liveopsConfigPanel')
 
         if (UserPermissions.hasPermissionInList(PermissionGroups.accessAllFlows)) {
           items.push({
-            label: 'Flows',
+            label: $translate.instant('navbar.flows.title'),
             stateLink: 'content.flows.flowManagement',
             id: 'flow-management-link',
             order: 1
@@ -172,7 +172,7 @@ angular.module('liveopsConfigPanel')
 
         if (UserPermissions.hasPermissionInList(PermissionGroups.accessAllQueues)) {
           items.push({
-            label: 'Queues',
+            label: $translate.instant('navbar.flows.queues.title'),
             stateLink: 'content.flows.queues',
             id: 'queue-management-link',
             order: 2
@@ -181,14 +181,14 @@ angular.module('liveopsConfigPanel')
 
         if (UserPermissions.hasPermissionInList(PermissionGroups.accessAllMedia)) {
           items.push({
-            label: 'Media Collections',
+            label: $translate.instant('navbar.flows.mediacollections.title'),
             stateLink: 'content.flows.media-collections',
             id: 'media-collection-management-link',
             order: 3
           });
 
           items.push({
-            label: 'Media',
+            label: $translate.instant('navbar.flows.media.title'),
             stateLink: 'content.flows.media',
             id: 'media-management-link',
             order: 4
@@ -197,7 +197,7 @@ angular.module('liveopsConfigPanel')
 
         if (UserPermissions.hasPermissionInList(PermissionGroups.accsessAllDispatchMappings)) {
           items.push({
-            label: 'Dispatch Mappings',
+            label: $translate.instant('navbar.flows.dispatchmappings.title'),
             stateLink: 'content.flows.dispatchMappings',
             id: 'dispatch-mappings-configuration-link',
             order: 5
@@ -209,7 +209,7 @@ angular.module('liveopsConfigPanel')
 
       vm.getReportingConfig = function () {
         return [{
-            label: 'Historical Dashboards',
+            label: $translate.instant('navbar.reports.hd.title'),
             stateLink: 'content.reports',
             stateLinkParams: {
               id: 'historical-dashboards'
@@ -217,7 +217,7 @@ angular.module('liveopsConfigPanel')
             id: 'reports-management-link',
             order: 1
           },  {
-            label: 'Realtime Dashboards',
+            label: $translate.instant('navbar.reports.rtd.title'),
             stateLink: 'content.realtime-dashboards',
             id: 'realtime-dashboard-link',
             order: 2

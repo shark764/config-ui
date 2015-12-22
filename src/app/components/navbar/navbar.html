@@ -15,7 +15,7 @@
       <li class="divider"></li>
 
       <li ng-show="managementDropConfig.length > 0" id="users-nav-link" ng-class="{ active: isActive('/management')}">
-        <dropdown items="managementDropConfig" collapse-icon="fa fa-caret-down" label="{{'navbar.users.title' | translate}}" order-by="order" hovering="hovering" show-on-hover="true" hover-tracker="hoverTracker"></dropdown>
+        <dropdown items="managementDropConfig" collapse-icon="fa fa-caret-down" label="{{'navbar.management.title' | translate}}" order-by="order" hovering="hovering" show-on-hover="true" hover-tracker="hoverTracker"></dropdown>
       </li>
 
       <li ng-show="configurationDropConfig.length > 0" id="tenants-nav-link" ng-class="{ active: isActive('/configuration')}">
