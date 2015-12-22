@@ -1,6 +1,6 @@
 'use strict';
 
-describe('usersTableConfig', function () {
+describe('usersTableConfig', function() {
   var userTableConfig;
 
   beforeEach(module('gulpAngular'));
@@ -11,12 +11,12 @@ describe('usersTableConfig', function () {
   beforeEach(module('liveopsConfigPanel.tenant.role.mock'));
 
   beforeEach(inject(['userTableConfig',
-    function (_userTableConfig) {
+    function(_userTableConfig) {
       userTableConfig = _userTableConfig;
     }
   ]));
 
-  it('should have required fields', inject(function () {
+  it('should have required fields', inject(function() {
     var config = userTableConfig.getConfig();
     expect(config.fields).toBeDefined();
     expect(config.searchOn).toBeDefined();
@@ -67,9 +67,9 @@ describe('usersTableConfig', function () {
   }]));
 
   it('should not have tenant skills if the user does not have permission', inject(['$httpBackend', 'UserPermissions', function($httpBackend, UserPermissions) {
-    spyOn(UserPermissions, 'hasPermissionInList').and.callFake(function(arr){
-      for (var i = 0; i < arr.length; i++){
-        if (arr[i] !== 'PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT' && arr[i] !== 'VIEW_ALL_SKILLS' && arr[i] !==  'MANAGE_ALL_SKILLS' && arr[i] !==  'MANAGE_ALL_USER_SKILLS' && arr[i] !==  'MANAGE_TENANT_ENROLLMENT'){
+    spyOn(UserPermissions, 'hasPermissionInList').and.callFake(function(arr) {
+      for (var i = 0; i < arr.length; i++) {
+        if (arr[i] !== 'PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT' && arr[i] !== 'VIEW_ALL_SKILLS' && arr[i] !== 'MANAGE_ALL_SKILLS' && arr[i] !== 'MANAGE_ALL_USER_SKILLS' && arr[i] !== 'MANAGE_TENANT_ENROLLMENT') {
           return true;
         }
       }
@@ -90,9 +90,9 @@ describe('usersTableConfig', function () {
   }]));
 
   it('should not have tenant groups if the user does not have permission', inject(['$httpBackend', 'UserPermissions', function($httpBackend, UserPermissions) {
-    spyOn(UserPermissions, 'hasPermissionInList').and.callFake(function(arr){
-      for (var i = 0; i < arr.length; i++){
-        if (arr[i] !== 'PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT' && arr[i] !== 'VIEW_ALL_GROUPS' && arr[i] !==  'MANAGE_ALL_GROUPS' && arr[i] !==  'MANAGE_ALL_GROUP_USERS' && arr[i] !==  'MANAGE_TENANT_ENROLLMENT' && arr[i] !== 'MANAGE_ALL_GROUP_OWNERS'){
+    spyOn(UserPermissions, 'hasPermissionInList').and.callFake(function(arr) {
+      for (var i = 0; i < arr.length; i++) {
+        if (arr[i] !== 'PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT' && arr[i] !== 'VIEW_ALL_GROUPS' && arr[i] !== 'MANAGE_ALL_GROUPS' && arr[i] !== 'MANAGE_ALL_GROUP_USERS' && arr[i] !== 'MANAGE_TENANT_ENROLLMENT' && arr[i] !== 'MANAGE_ALL_GROUP_OWNERS') {
           return true;
         }
       }
@@ -113,9 +113,9 @@ describe('usersTableConfig', function () {
   }]));
 
   it('should not have tenant roles if the user does not have permission', inject(['$httpBackend', 'UserPermissions', function($httpBackend, UserPermissions) {
-    spyOn(UserPermissions, 'hasPermissionInList').and.callFake(function(arr){
-      for (var i = 0; i < arr.length; i++){
-        if (arr[i] !== 'PLATFORM_CREATE_TENANT_ROLES' && arr[i] !== 'PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT' && arr[i] !==  'VIEW_ALL_ROLES' && arr[i] !==  'MANAGE_ALL_ROLES' && arr[i] !==  'MANAGE_TENANT_ENROLLMENT'){
+    spyOn(UserPermissions, 'hasPermissionInList').and.callFake(function(arr) {
+      for (var i = 0; i < arr.length; i++) {
+        if (arr[i] !== 'PLATFORM_CREATE_TENANT_ROLES' && arr[i] !== 'PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT' && arr[i] !== 'VIEW_ALL_ROLES' && arr[i] !== 'MANAGE_ALL_ROLES' && arr[i] !== 'MANAGE_TENANT_ENROLLMENT') {
           return true;
         }
       }

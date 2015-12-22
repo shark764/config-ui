@@ -27,7 +27,7 @@ angular.module('liveopsConfigPanel')
 
         $scope.$on('$stateChangeStart', function(event) {
           $timeout.cancel($scope.timeout);
-          
+
           $scope.timeout = $timeout(function() {
             transitionStarted(event);
           }, 100);

@@ -3,9 +3,8 @@
 /* global  window: false */
 
 angular.module('liveopsConfigPanel')
-  .service('AuthService', ['$resource', '$http', '$q', 'Session', 'apiHostname', 'User', '$state',
-    function ($resource, $http, $q, Session, apiHostname, User, $state) {
-
+  .service('AuthService', ['$http', '$q', 'Session', 'apiHostname', 'User', '$state',
+    function($http, $q, Session, apiHostname, User, $state) {
       var self = this;
 
       // localStorage should not be used to store passwords in production
@@ -16,7 +15,7 @@ angular.module('liveopsConfigPanel')
       // session information using redis or memcache
 
       // this will suffice in beta however.
-      this.login = function (username, password) {
+      this.login = function(username, password) {
         Session.token = null; //Destroy any previous token so that the AuthInterceptor doesn't trigger
         var token = this.generateToken(username, password);
         var request = this.fetchUserInfo(token);
@@ -28,10 +27,10 @@ angular.module('liveopsConfigPanel')
             firstName: response.data.result.firstName,
             lastName: response.data.result.lastName
           });
-          
+
           var tenants = response.data.result.tenants;
           var platformPermissions = response.data.result.platformPermissions;
-          
+
           Session.set(user, tenants, token, platformPermissions);
 
           return response;
@@ -40,18 +39,18 @@ angular.module('liveopsConfigPanel')
         });
       };
 
-      this.refreshTenants = function () {
-        return self.fetchUserInfo(Session.token).then( function (response ) {
+      this.refreshTenants = function() {
+        return self.fetchUserInfo(Session.token).then(function(response) {
           Session.setTenants(response.data.result.tenants);
         });
       };
 
-      this.logout = function () {
+      this.logout = function() {
         Session.destroy();
         $state.transitionTo('login');
       };
 
-      this.fetchUserInfo = function (token) {
+      this.fetchUserInfo = function(token) {
         return $http.post(apiHostname + '/v1/login', {}, {
           headers: {
             Authorization: 'Basic ' + token
@@ -59,7 +58,7 @@ angular.module('liveopsConfigPanel')
         });
       };
 
-      this.generateToken = function (username, password) {
+      this.generateToken = function(username, password) {
         return window.btoa(username + ':' + password);
       };
     }

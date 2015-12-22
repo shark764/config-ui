@@ -3,18 +3,17 @@
 /* global localStorage: false */
 
 var USER;
-
 var TOKEN = 'dGl0YW5AbGl2ZW9wcy5jb206Z0tWbmZGOXdyczZYUFNZcw==';
 
 describe('Session', function() {
-  var $scope, session;
+  var $scope,
+    session;
 
   beforeEach(module('liveopsConfigPanel'));
+  beforeEach(inject(['$rootScope', 'Session', 'User', function($rootScope, _session, User) {
+    $scope = $rootScope.$new();
+    session = _session;
 
-  beforeEach(inject(['$rootScope','Session', 'User', function(_$rootScope_, _session_, User) {
-    $scope = _$rootScope_.$new();
-    session = _session_;
-    
     USER = new User({
       'role': 'admin',
       'email': 'titan@liveops.com',

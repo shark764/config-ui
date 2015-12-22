@@ -11,8 +11,8 @@
 
 // this will suffice in beta however.
 angular.module('liveopsConfigPanel')
-  .service('Session', ['$rootScope', 'sessionKey', 'preferenceKey', '$translate', '$filter',
-    function ($rootScope, sessionKey, preferenceKey, $translate, $filter) {
+  .service('Session', ['sessionKey', 'preferenceKey', '$translate', '$filter',
+    function(sessionKey, preferenceKey, $translate, $filter) {
       var self = this;
 
       this.userSessionKey = sessionKey;
@@ -27,18 +27,17 @@ angular.module('liveopsConfigPanel')
       this.columnPreferences = {};
       this.platformPermissions = null;
 
-      this.set = function (user, tenants, token, platformPermissions) {
+      this.set = function(user, tenants, token, platformPermissions) {
         this.token = token;
         this.setUser(user);
         this.setTenants(tenants);
         this.setPlatformPermissions(platformPermissions);
-        
+
         this.flush();
       };
 
-      this.setTenants = function (tenants){
-
-        if(tenants && tenants.length > 0){
+      this.setTenants = function(tenants) {
+        if (tenants && tenants.length > 0) {
           this.tenants = tenants;
         } else {
           this.tenants = [{
@@ -47,10 +46,12 @@ angular.module('liveopsConfigPanel')
           }];
         }
 
-        if (this.tenant){
+        if (this.tenant) {
           //Keep the previously selected tenant
-          var matches = $filter('filter')(this.tenants, {tenantId: this.tenant.tenantId});
-          if (matches.length > 0){
+          var matches = $filter('filter')(this.tenants, {
+            tenantId: this.tenant.tenantId
+          });
+          if (matches.length > 0) {
             this.tenant = matches[0];
           } else {
             this.tenant = this.tenants[0];
@@ -60,9 +61,9 @@ angular.module('liveopsConfigPanel')
         }
 
         this.flush();
-      };  
+      };
 
-      this.setUser = function (user) {
+      this.setUser = function(user) {
         this.user = {
           id: user.id,
           displayName: user.getDisplay(),
@@ -71,32 +72,32 @@ angular.module('liveopsConfigPanel')
         this.flush();
       };
 
-      this.setToken = function (token) {
+      this.setToken = function(token) {
         this.token = token;
         this.flush();
       };
-      
-      this.setPlatformPermissions = function(platformPermissions){
+
+      this.setPlatformPermissions = function(platformPermissions) {
         this.platformPermissions = platformPermissions;
         this.flush();
       };
 
-      this.setColumnPreferences = function(columnPreferences){
+      this.setColumnPreferences = function(columnPreferences) {
         this.columnPreferences = columnPreferences;
         this.flush();
       };
 
-      this.destroy = function () {
+      this.destroy = function() {
         this.token = null;
         this.user = null;
         this.tenant = null;
         this.tenants = null;
         this.platformPermissions = null;
-        
+
         localStorage.removeItem(this.userSessionKey);
       };
 
-      this.setTenant = function (tenant) {
+      this.setTenant = function(tenant) {
         self.tenant = {
           tenantId: tenant.tenantId,
           tenantName: tenant.tenantName,
@@ -105,7 +106,7 @@ angular.module('liveopsConfigPanel')
         self.flush();
       };
 
-      this.destroyAll = function () {
+      this.destroyAll = function() {
         this.destroy();
         this.activeRegionId = null;
         this.lang = 'en';
@@ -113,25 +114,20 @@ angular.module('liveopsConfigPanel')
         localStorage.removeItem(this.userPreferenceKey);
       };
 
-      this.restore = function () {
+      this.restore = function() {
         angular.extend(this, JSON.parse(localStorage.getItem(this.userSessionKey)));
         angular.extend(this, JSON.parse(localStorage.getItem(this.userPreferenceKey)));
-
-        //if (this.lang) {
-        //  $translate.use(this.lang);
-        //}
       };
 
-      this.isAuthenticated = function () {
-        if (! this.token){
+      this.isAuthenticated = function() {
+        if (!this.token) {
           return false;
         } else {
           return this.token.indexOf('Token') < 0; //Prevent page load error when still authenticated with temp token
         }
-
       };
 
-      this.flush = function () {
+      this.flush = function() {
         localStorage.setItem(self.userSessionKey, JSON.stringify({
           token: self.token,
           user: self.user,

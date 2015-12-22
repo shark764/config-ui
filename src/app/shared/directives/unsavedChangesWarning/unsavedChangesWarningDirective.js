@@ -7,7 +7,6 @@ angular.module('liveopsConfigPanel')
         restrict: 'A',
         require: '?form',
         link: function link($scope, element, attrs, formController) {
-
           if (!formController) {
             return;
           }

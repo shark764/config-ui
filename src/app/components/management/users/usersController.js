@@ -74,7 +74,6 @@ angular.module('liveopsConfigPanel')
 
             return tenantUser.save();
           });
-        });
       };
 
       vm.canSaveUser = function(tenantUser) {
@@ -117,9 +116,9 @@ angular.module('liveopsConfigPanel')
 
         return $scope.selectedTenantUser.save({
           tenantId: Session.tenant.tenantId
-        }).then(function () {
+        }).then(function() {
           Alert.success($translate.instant('user.details.invite.send.success'));
-        }, function () {
+        }, function() {
           Alert.error($translate.instant('user.details.invite.send.fail'));
         });
       };
@@ -132,9 +131,9 @@ angular.module('liveopsConfigPanel')
 
             $scope.selectedTenantUser.save({
               tenantId: Session.tenant.tenantId
-            }).then(function () {
+            }).then(function() {
               Alert.success($translate.instant('user.details.invite.revoke.success'));
-            }, function () {
+            }, function() {
               Alert.error($translate.instant('user.details.invite.revoke.fail'));
             });
           }

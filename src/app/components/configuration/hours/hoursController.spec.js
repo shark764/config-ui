@@ -28,7 +28,7 @@ describe('hoursController', function() {
       BusinessHourException = _BusinessHourException;
       loEvents = _loEvents;
 
-      controller = $controller('HoursController', {
+      controller = $controller('hoursController', {
         '$scope': $scope
       });
 
@@ -36,16 +36,8 @@ describe('hoursController', function() {
     }
   ]));
 
-  beforeEach(inject(['$controller', function($controller) {
-    controller = $controller('hoursController', {
-      '$scope': $scope
-    });
-
-    $httpBackend.flush();
-  }]));
-
-  describe('ON loadTimezones', function () {
-    it('should initialize controller.timezones', function () {
+  describe('ON loadTimezones', function() {
+    it('should initialize controller.timezones', function() {
       expect(controller.timezones).toBeDefined();
       expect(controller.timezones.length).toEqual(16);
     });
