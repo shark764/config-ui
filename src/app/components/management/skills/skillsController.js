@@ -134,6 +134,6 @@ angular.module('liveopsConfigPanel')
         }
       };
       $scope.typeahead = {};
-      $scope.resetAddUser
+      $scope.resetAddUser();
     }
   ]);

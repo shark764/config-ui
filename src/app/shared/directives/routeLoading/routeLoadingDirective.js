@@ -29,7 +29,7 @@ angular.module('liveopsConfigPanel')
           $timeout.cancel($scope.timeout);
           
           $scope.timeout = $timeout(function () {
-            transitionStarted(event)
+            transitionStarted(event);
           }, 100);
         });
 

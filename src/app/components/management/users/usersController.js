@@ -74,7 +74,7 @@ angular.module('liveopsConfigPanel')
           }
 
           return tenantUser.save();
-        })
+        });
       };
 
       vm.canSaveUser = function(tenantUser) {
