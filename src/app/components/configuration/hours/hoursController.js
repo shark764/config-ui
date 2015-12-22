@@ -28,7 +28,7 @@ angular.module('liveopsConfigPanel')
             if(!exception.isNew()) {
               return;
             }
-            
+
             promises.push(exception.save({
               tenantId: Session.tenant.tenantId,
               businessHourId: hours.id
@@ -37,15 +37,15 @@ angular.module('liveopsConfigPanel')
                 vm.forms.detailsForm[field + index].$setValidity('api', false);
                 vm.forms.detailsForm[field + index].$error.api = message;
               });
-              
+
               return $q.reject(response);
             }));
           });
-          
+
           return $q.all(promises);
         }).catch(vm.saveError);
       };
-      
+
       vm.saveError = function(error) {
         vm.forms.detailsForm.$setPristine();
         var unbindWatch = $scope.$watch('hc.forms.detailsForm.$dirty', function (dirty) {
@@ -59,10 +59,11 @@ angular.module('liveopsConfigPanel')
 
         return $q.reject(error);
       };
-      
+
       vm.reset = function (hour) {
         vm.isHoursCustom = vm.hasHours();
         vm.exceptionHour = null;
+        hour.$exceptions = angular.copy(hour.$original.$exceptions);
 
         vm.forms
           .detailsForm
