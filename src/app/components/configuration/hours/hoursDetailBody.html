@@ -29,7 +29,7 @@
     <select name="timezone"
       ng-required="true"
       ng-model="hc.selectedHour.timezone"
-      ng-options="timezone for timezone in hc.timezones">
+      ng-options="timezone.timezone as timezone.timezone for timezone in hc.timezones | orderBy:'offsetInMilliseconds'">
 
       <option value="" disabled>{{'hours.timezone.select.placeholder' | translate}}</option>
     </select>
