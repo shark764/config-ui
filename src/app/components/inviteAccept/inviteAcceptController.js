@@ -33,7 +33,7 @@ angular.module('liveopsConfigPanel')
       };
       
       $scope.signupFailure = function(error){
-        Alert.error($translate.instant('invite.accept.fail.details'));
+        Alert.error($translate.instant('invite.accept.detials.fail'));
         $scope.loading = false;
         return $q.reject(error);
       };

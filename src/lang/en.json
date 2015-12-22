@@ -490,7 +490,7 @@
   "invite.accept.submit": "Then click \"Submit\" to create your new account",
   "invite.accept.fail.used": "Sorry, there was an error accepting your invitation. This invitation may have already been used.",
   "invite.accept.fail": "Sorry, there was an error accepting your invitation.",
-  "invite.accept.fail.details": "Sorry, your details could not be updated at this time",
+  "invite.accept.details.fail": "Sorry, your details could not be updated at this time",
   "invite.accept.success": "Your invitation has been accepted!",
   "invite.accept.alreadyAccepted": "This invitation has already been accepted! Please log in to view the tenant.",
   "invite.accept.existing.fail": "Sorry, your invitation could not be accepted.",
