@@ -26,7 +26,6 @@ module.exports = function(options) {
 
   gulp.task('translations', [], function () {
     return gulp.src(options.lang + '/*.json')
-      .pipe($.debug())
       .pipe($.angularTranslate({
         standalone: false,
         module: 'liveopsConfigPanel'
@@ -94,8 +93,11 @@ module.exports = function(options) {
   gulp.task('other', function () {
     return gulp.src([
       options.src + '/**/*',
-      '!' + options.src + '/**/*.{html,css,js,scss,hbs}'
+      '!' + options.src + '/**/*.{html,css,js,scss,hbs}',
+      '!' + options.lang,
+      '!' + options.lang + '/**'
     ])
+    .pipe($.debug())
       .pipe(gulp.dest(options.dist + '/'));
   });
 
