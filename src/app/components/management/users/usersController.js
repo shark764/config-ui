@@ -81,7 +81,7 @@ angular.module('liveopsConfigPanel')
       };
 
       vm.setDefaultActiveExtension = function (tenantUser) {
-        if(_.isEmpty(tenantUser.activeExtension) && tenantUser.extensions.length > 0) {
+        if(tenantUser.extensions && _.isEmpty(tenantUser.activeExtension) && tenantUser.extensions.length > 0) {
           tenantUser.activeExtension = tenantUser.extensions[0];
         }
       };
