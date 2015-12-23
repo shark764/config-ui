@@ -1,68 +1,77 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('genericListsController', ['$scope', '$filter', 'Session', 'List', 'ListType', 'genericListTableConfig', 'loEvents',
-    function($scope, $filter, Session, List, ListType, genericListTableConfig, loEvents) {
+  .controller('genericListsController', ['$scope', '$filter', '$q', 'Session', 'List', 'ListType', 'genericListTableConfig', 'loEvents',
+    function ($scope, $filter, $q, Session, List, ListType, genericListTableConfig, loEvents) {
+      var vm = this;
 
-      $scope.create = function() {
-        $scope.selectedList = new List();
+      vm.create = function () {
+        vm.selectedList = new List();
       };
 
-      $scope.fetchLists = function() {
-        $scope.lists = List.cachedQuery({
+      vm.loadLists = function () {
+        vm.lists = List.cachedQuery({
           tenantId: Session.tenant.tenantId
         });
 
-        return $scope.lists;
+        vm.lists.$promise
+          .then(vm.loadPermissions)
+          .then(vm.loadListTypes);
+
+        return vm.lists;
       };
 
-      $scope.submit = function() {
-        return $scope.selectedList.save({
-          tenantId: Session.tenant.tenantId
+      vm.loadPermissions = function (lists) {
+        angular.forEach(lists, function (list) {
+          list.$inherited = (list.tenantId !== Session.tenant.tenantId);
+        });
+
+        return lists;
+      };
+
+      vm.loadListTypes = function (lists) {
+        var promises = [];
+        angular.forEach(lists, function (list) {
+          list.$listType = ListType.cachedGet({
+            tenantId: list.tenantId,
+            id: list.listTypeId
+          });
+          
+          promises.push(list.$listType.$promise);
+        });
+        
+        return $q.all(promises);
+      };
+
+      vm.submit = function () {
+        return vm.selectedList.save({
+          tenantId: vm.selectedList.tenantId
         });
       };
 
-      $scope.addListItem = function addListItem() {
+      vm.addListItem = function addListItem() {
         var newItem = {
           $edit: true
         };
 
-        $scope.selectedList.items.push(newItem);
-        $scope.selectedList.$original.items.push(newItem);
+        vm.selectedList.items.push(newItem);
+        vm.selectedList.$original.items.push(newItem);
 
         return newItem;
       };
 
-      $scope.removeListItem = function removeListItem(index) {
-        $scope.selectedList.items.splice(index, 1);
-        $scope.selectedList.$original.items.splice(index, 1);
-
-        $scope.forms.detailsForm.$setDirty();
+      vm.removeListItem = function removeListItem(index) {
+        vm.selectedList.items.splice(index, 1);
+        vm.forms.detailsForm.$setDirty();
       };
 
-      $scope.$on(loEvents.tableControls.itemCreate, function() {
-        $scope.create();
+      $scope.$on(loEvents.tableControls.itemCreate, function () {
+        vm.create();
       });
 
-      $scope.$watchCollection('lists', function(lists) {
-        if (!lists || !lists.length) {
-          return;
-        }
+      vm.loadLists();
 
-        ListType.cachedQuery({
-          tenantId: Session.tenant.tenantId
-        }).$promise.then(function(listTypes) {
-          angular.forEach(lists, function(list) {
-            var listType = $filter('filter')(listTypes, {
-              id: list.listTypeId
-            })[0];
-
-            list.$listType = listType;
-          });
-        });
-      });
-
-      $scope.forms = {};
-      $scope.tableConfig = genericListTableConfig;
+      vm.tableConfig = genericListTableConfig;
+      vm.forms = {};
     }
   ]);

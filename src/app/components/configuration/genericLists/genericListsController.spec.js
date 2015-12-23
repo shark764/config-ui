@@ -33,75 +33,85 @@ describe('genericListsController', function() {
     }
   ]));
 
-  describe('ON create', function() {
-    it('should exist on $scope', function() {
-      expect($scope.create).toBeDefined();
+  describe('ON create', function () {
+    it('should exist on controller', function () {
+      expect(controller.create).toBeDefined();
     });
 
-    it('should set selectedList', function() {
-      $scope.create();
+    it('should set selectedList', function () {
+      controller.create();
 
-      expect($scope.selectedList).toBeDefined();
-    });
-  });
-
-  describe('ON fetchLists', function() {
-    beforeEach(function() {
-      List.cachedQuery = jasmine.createSpy('cachedQuery');
-    });
-
-    it('should exist on $scope', function() {
-      expect($scope.fetchLists).toBeDefined();
-    });
-
-    it('should call cachedQuery', function() {
-      $scope.fetchLists();
-
-      expect(List.cachedQuery).toHaveBeenCalled();
+      expect(controller.selectedList).toBeDefined();
     });
   });
 
-  describe('ON submit', function() {
-    beforeEach(function() {
-      $scope.selectedList = new List();
-      $scope.selectedList.save = jasmine.createSpy('save');
+  describe('ON loadLists', function () {
+    it('should exist on controller', function () {
+      expect(controller.loadLists).toBeDefined();
     });
 
-    it('should exist on $scope', function() {
-      expect($scope.submit).toBeDefined();
+    it('should call /v1/tenants/tenant-id/lists', inject([function () {
+      $httpBackend.expect('GET', apiHostname + '/v1/tenants/tenant-id/lists');
+      
+      controller.loadLists();
+
+      $httpBackend.flush();
+    }]));
+    
+    it('should call loadPermissions and loadListTypes on success', inject([function() {
+      controller.loadListTypes = jasmine.createSpy('loadListTypes');
+      controller.loadPermissions = jasmine.createSpy('loadPermissions');
+      
+      controller.loadLists();
+      
+      $httpBackend.flush();
+      
+      expect(controller.loadPermissions).toHaveBeenCalled();
+      expect(controller.loadListTypes).toHaveBeenCalled();
+    }]));
+  });
+
+  describe('ON submit', function () {
+    beforeEach(function () {
+      controller.selectedList = new List();
+      controller.selectedList.save = jasmine.createSpy('save');
     });
 
-    it('should call save', function() {
-      $scope.submit();
+    it('should exist on controller', function () {
+      expect(controller.submit).toBeDefined();
+    });
 
-      expect($scope.selectedList.save).toHaveBeenCalled();
+    it('should call save', function () {
+      controller.submit();
+
+      expect(controller.selectedList.save).toHaveBeenCalled();
     });
   });
 
   describe('ON addListItem', function() {
     beforeEach(function() {
-      $scope.selectedList = {};
-      $scope.selectedList.items = [];
-      $scope.selectedList.$original = {};
-      $scope.selectedList.$original.items = [];
+      controller.selectedList = {};
+      controller.selectedList.items = [];
+      controller.selectedList.$original = {};
+      controller.selectedList.$original.items = [];
     });
 
-    it('should exist on $scope', function() {
-      expect($scope.addListItem).toBeDefined();
+    it('should exist on controller', function () {
+      expect(controller.addListItem).toBeDefined();
     });
 
-    it('should add listItem on call', function() {
-      var listItem = $scope.addListItem();
+    it('should add listItem on call', function () {
+      var listItem = controller.addListItem();
 
-      expect($scope.selectedList.items.length).toEqual(1);
-      expect($scope.selectedList.items[0]).toBe(listItem);
+      expect(controller.selectedList.items.length).toEqual(1);
+      expect(controller.selectedList.items[0]).toBe(listItem);
     });
 
-    it('should add listItem to $original on call', function() {
-      var listItem = $scope.addListItem();
+    it('should add listItem to $original on call', function () {
+      var listItem = controller.addListItem();
 
-      expect($scope.selectedList.$original.items.length).toEqual(1);
-      expect($scope.selectedList.$original.items[0]).toBe(listItem);
+      expect(controller.selectedList.$original.items.length).toEqual(1);
+      expect(controller.selectedList.$original.items[0]).toBe(listItem);
     });
   });
 
@@ -109,96 +119,73 @@ describe('genericListsController', function() {
     var listItem = {};
 
     beforeEach(function() {
-      $scope.selectedList = {};
-      $scope.selectedList.items = [listItem];
-      $scope.selectedList.$original = {};
-      $scope.selectedList.$original.items = [listItem];
+      controller.selectedList = {};
+      controller.selectedList.items = [listItem];
+      controller.selectedList.$original = {};
+      controller.selectedList.$original.items = [listItem];
 
-      $scope.forms = {
+      controller.forms = {
         detailsForm: {
           $setDirty: jasmine.createSpy('setDirty')
         }
       };
     });
 
-    it('should exist on $scope', function() {
-      expect($scope.removeListItem).toBeDefined();
+    it('should exist on controller', function () {
+      expect(controller.removeListItem).toBeDefined();
     });
 
-    it('should remove listItem on call', function() {
-      $scope.removeListItem(listItem);
+    it('should remove listItem on call', function () {
+      controller.removeListItem(listItem);
 
-      expect($scope.selectedList.items.length).toEqual(0);
+      expect(controller.selectedList.items.length).toEqual(0);
     });
 
-    it('should remove listItem on $original on call', function() {
-      $scope.removeListItem(listItem);
+    it('should remove listItem on $original on call', function () {
+      controller.removeListItem(listItem);
 
-      expect($scope.selectedList.$original.items.length).toEqual(0);
+      expect(controller.selectedList.items.length).toEqual(0);
     });
   });
 
   describe('ON event table:on:click:create', function() {
     it('should call create', function() {
-      $scope.create = jasmine.createSpy('create');
+      controller.create = jasmine.createSpy('create');
 
       $scope.$broadcast(loEvents.tableControls.itemCreate);
 
-      expect($scope.create).toHaveBeenCalled();
+      expect(controller.create).toHaveBeenCalled();
     });
   });
 
-  describe('ON lists change', function() {
-    it('should not call ListType.cachedQuery when lists is undefined', inject(function($q) {
-      ListType.cachedQuery = jasmine.createSpy('cachedQuery').and.returnValue({
-        $promise: $q.when([mockListTypes[0], mockListTypes[1]])
-      });
-
-      $scope.$digest();
-
-      expect(ListType.cachedQuery).not.toHaveBeenCalled();
-    }));
-
-    it('should not call ListType.cachedQuery when lists is empty', inject(function($q) {
-      ListType.cachedQuery = jasmine.createSpy('cachedQuery').and.returnValue({
-        $promise: $q.when([mockListTypes[0], mockListTypes[1]])
-      });
-
-      $scope.lists = [];
-      $scope.$digest();
-
-      expect(ListType.cachedQuery).not.toHaveBeenCalled();
-    }));
-
-    it('should call ListType.cachedQuery', inject(function($q) {
-      ListType.cachedQuery = jasmine.createSpy('cachedQuery').and.returnValue({
-        $promise: $q.when([mockListTypes[0], mockListTypes[1]])
-      });
-
-      $scope.lists = [mockLists[0]];
-      $scope.$digest();
-
-      expect(ListType.cachedQuery).toHaveBeenCalled();
-    }));
-
+  describe('ON loadListTypes', function() {
     it('should populate $listType for list with listTypeId1', function() {
       $httpBackend.expect('GET', apiHostname + '/v1/tenants/tenant-id/list-types');
-
-      $scope.lists = [mockLists[0]];
+      
+      var lists = List.cachedQuery({
+        tenantId: 'tenant-id'
+      });
+      
+      controller.loadListTypes(lists);
+      
       $httpBackend.flush();
 
-      expect($scope.lists[0].$listType.id).toEqual(mockListTypes[0].id);
+      expect(controller.lists[0].$listType.id).toEqual(mockListTypes[0].id);
     });
 
     it('should populate multiple $listType for lists', function() {
       $httpBackend.expect('GET', apiHostname + '/v1/tenants/tenant-id/list-types');
-
-      $scope.lists = [mockLists[0], mockLists[1], mockLists[2]];
+      
+      var lists = List.cachedQuery({
+        tenantId: 'tenant-id'
+      });
+      
+      controller.loadListTypes(lists);
+      
       $httpBackend.flush();
 
-      expect($scope.lists[0].$listType.id).toEqual(mockListTypes[0].id);
-      expect($scope.lists[1].$listType.id).toEqual(mockListTypes[1].id);
-      expect($scope.lists[2].$listType.id).toEqual(mockListTypes[0].id);
+      expect(controller.lists[0].$listType.id).toEqual(mockListTypes[0].id);
+      expect(controller.lists[1].$listType.id).toEqual(mockListTypes[1].id);
     });
   });
 });

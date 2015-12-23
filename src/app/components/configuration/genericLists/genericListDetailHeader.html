@@ -1,5 +1,6 @@
-<div ng-if="! selectedList.isNew()">
-  <toggle class="status-toggle" ng-model="selectedList.active"
+<div ng-if="! gc.selectedList.isNew()">
+  <toggle class="status-toggle"
+    ng-model="gc.selectedList.active"
     confirm-disable-message="{{'list.details.disable.confirm' | translate}}"
     confirm-enable-message="{{'list.details.enable.confirm' | translate}}"
     ng-disabled="! (['MANAGE_ALL_LISTS'] | hasPermission)">
@@ -7,31 +8,34 @@
 
   <div class="info">
     <h1>{{selectedList.$original.name}}</h1>
-    <div class="details" ng-if="['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'VIEW_ALL_USERS', 'MANAGE_ALL_USER_EXTENSIONS', 'MANAGE_ALL_GROUP_USERS', 'MANAGE_ALL_USER_SKILLS', 'MANAGE_ALL_USER_LOCATIONS', 'MANAGE_TENANT_ENROLLMENT'] | hasPermission">
+    <div class="details"
+      ng-if="['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'VIEW_ALL_USERS', 'MANAGE_ALL_USER_EXTENSIONS', 'MANAGE_ALL_GROUP_USERS', 'MANAGE_ALL_USER_SKILLS', 'MANAGE_ALL_USER_LOCATIONS', 'MANAGE_TENANT_ENROLLMENT'] | hasPermission">
       <b audit-text
         translation="value.createdby.time"
-        user-id="selectedList.$original.createdBy"
-        date="selectedList.$original.created">
+        user-id="gc.selectedList.$original.createdBy"
+        date="gc.selectedList.$original.created">
       </b>
       <br/>
-      <b audit-text ng-if="!!selectedList.$original.updatedBy"
+      <b audit-text
+        ng-if="!!gc.selectedList.$original.updatedBy"
         translation="value.updatedby"
-        user-id="selectedList.$original.updatedBy"
-        date="selectedList.$original.updated">
+        user-id="gc.selectedList.$original.updatedBy"
+        date="gc.selectedList.$original.updated">
       </b>
     </div>
-    <div class="details" ng-if="!(['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'VIEW_ALL_USERS', 'MANAGE_ALL_USER_EXTENSIONS', 'MANAGE_ALL_GROUP_USERS', 'MANAGE_ALL_USER_SKILLS', 'MANAGE_ALL_USER_LOCATIONS', 'MANAGE_TENANT_ENROLLMENT'] | hasPermission)">
+    <div class="details"
+      ng-if="!(['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'VIEW_ALL_USERS', 'MANAGE_ALL_USER_EXTENSIONS', 'MANAGE_ALL_GROUP_USERS', 'MANAGE_ALL_USER_SKILLS', 'MANAGE_ALL_USER_LOCATIONS', 'MANAGE_TENANT_ENROLLMENT'] | hasPermission)">
       <b audit-text
         translation="value.createdon.time"
-        date="selectedList.$original.created">
+        date="gc.selectedList.$original.created">
       </b>
       <br/>
-      <b audit-text ng-if="!!selectedList.$original.updated"
+      <b audit-text ng-if="!!gc.selectedList.$original.updated"
         translation="value.updatedon"
-        date="selectedList.$original.updated">
+        date="gc.selectedList.$original.updated">
       </b>
     </div>
   </div>
 </div>
 
-<h1 ng-if="selectedList.isNew()">{{'list.details.creating' | translate}}</h1>
+<h1 ng-if="gc.selectedList.isNew()">{{'list.details.creating' | translate}}</h1>

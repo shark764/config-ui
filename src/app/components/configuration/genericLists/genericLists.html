@@ -1,8 +1,8 @@
 <table-controls
   id="table-pane"
-  config="tableConfig"
-  items="fetchLists()"
-  selected="selectedList"
+  config="gc.tableConfig"
+  items="gc.lists"
+  selected="gc.selectedList"
   resource-name="List">
     
   <span name="active">
@@ -13,7 +13,7 @@
 </table-controls>
 
 <resize-handle
-  ng-show="selectedList"
+  ng-show="gc.selectedList"
   id="resize-pane"
   right-element-id="right-panel"
   left-element-id="table-pane"></resize-handle>
@@ -21,36 +21,38 @@
 <lo-details-panel
   id="list-detail-panel"
   class="right-panel"
-  ng-show="selectedList"
-  ng-resource="selectedList">
+  ng-show="gc.selectedList"
+  ng-resource="gc.selectedList">
 
   <ng-form
     class="details-pane"
     unsaved-changes-warning
-    name="forms.detailsForm"
-    ng-resource="selectedList"
+    name="gc.forms.detailsForm"
+    ng-resource="gc.selectedList"
     disable-contents="! ('MANAGE_ALL_LISTS' | hasPermission)"
     lo-form-submit lo-form-cancel lo-form-alert>
     
-    <div class="detail-header" ng-include="'app/components/configuration/genericLists/genericListDetailHeader.html'">
+    <div class="detail-header"
+      ng-include="'app/components/configuration/genericLists/genericListDetailHeader.html'">
     </div>
 
-    <div class="detail-body" ng-include="'app/components/configuration/genericLists/genericListDetailBody.html'">
+    <div class="detail-body"
+      ng-include="'app/components/configuration/genericLists/genericListDetailBody.html'">
     </div>
     
     <div class="detail-controls">
       <input
         id="cancel-details-btn" class="btn" type="button"
-        ng-disabled="selectedList.$busy"
+        ng-disabled="gc.selectedList.$busy"
         value="{{'value.cancel' | translate}}"
         lo-cancel></input>
 
       <input
         id="submit-details-btn"
-        lo-submit="submit()"
+        lo-submit="gc.submit()"
         lo-submit-spinner
-        lo-submit-spinner-status="selectedList.$busy"
-        ng-disabled="forms.detailsForm.$invalid || ! forms.detailsForm.$dirty"
+        lo-submit-spinner-status="gc.selectedList.$busy"
+        ng-disabled="gc.forms.detailsForm.$invalid || ! gc.forms.detailsForm.$dirty"
         class="btn btn-primary"
         type="submit"
         value="{{'value.submit' | translate}}" />
