@@ -27,10 +27,8 @@ angular.module('liveopsConfigPanel')
           tenantId: Session.tenant.tenantId
         });
 
-        _.each(flows, function(flow, index){
-          if (flow && flow.tenantId !== Session.tenant.tenantId) {
-            flows.splice(index,1);
-          }
+        _.remove(flows, function (flow) {
+          return flow.tenantId !== Session.tenant.tenantId;
         });
 
         return flows;
