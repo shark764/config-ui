@@ -15,32 +15,23 @@ angular.module('liveopsConfigPanel')
         });
 
         vm.lists.$promise
-          .then(vm.loadPermissions)
           .then(vm.loadListTypes);
 
         return vm.lists;
       };
 
-      vm.loadPermissions = function (lists) {
-        angular.forEach(lists, function (list) {
-          list.$inherited = (list.tenantId !== Session.tenant.tenantId);
-        });
-
-        return lists;
-      };
-
       vm.loadListTypes = function (lists) {
-        var promises = [];
-        angular.forEach(lists, function (list) {
-          list.$listType = ListType.cachedGet({
-            tenantId: list.tenantId,
-            id: list.listTypeId
+        ListType.cachedQuery({
+          tenantId: Session.tenant.tenantId
+        }).$promise.then(function (listTypes) {
+          angular.forEach(lists, function (list) {
+            var listType = $filter('filter')(listTypes, {
+              id: list.listTypeId
+            })[0];
+
+            list.$listType = listType;
           });
-          
-          promises.push(list.$listType.$promise);
         });
-        
-        return $q.all(promises);
       };
 
       vm.submit = function () {
@@ -55,7 +46,7 @@ angular.module('liveopsConfigPanel')
         };
 
         vm.selectedList.items.push(newItem);
-        vm.selectedList.$original.items.push(newItem);
+        vm.forms.detailsForm.$setDirty();
 
         return newItem;
       };

@@ -60,13 +60,11 @@ describe('genericListsController', function() {
     
     it('should call loadPermissions and loadListTypes on success', inject([function() {
       controller.loadListTypes = jasmine.createSpy('loadListTypes');
-      controller.loadPermissions = jasmine.createSpy('loadPermissions');
       
       controller.loadLists();
       
       $httpBackend.flush();
       
-      expect(controller.loadPermissions).toHaveBeenCalled();
       expect(controller.loadListTypes).toHaveBeenCalled();
     }]));
   });
@@ -94,6 +92,12 @@ describe('genericListsController', function() {
       controller.selectedList.items = [];
       controller.selectedList.$original = {};
       controller.selectedList.$original.items = [];
+      
+      controller.forms = {
+        detailsForm: {
+          $setDirty: jasmine.createSpy('setDirty')
+        }
+      };
     });
 
     it('should exist on controller', function () {
@@ -110,8 +114,8 @@ describe('genericListsController', function() {
     it('should add listItem to $original on call', function () {
       var listItem = controller.addListItem();
 
-      expect(controller.selectedList.$original.items.length).toEqual(1);
-      expect(controller.selectedList.$original.items[0]).toBe(listItem);
+      expect(controller.selectedList.items.length).toEqual(1);
+      expect(controller.selectedList.items[0]).toBe(listItem);
     });
   });
 

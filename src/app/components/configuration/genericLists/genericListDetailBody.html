@@ -20,8 +20,7 @@
 </div>
 
 <i class="fa fa-plus btn"
-  ng-click="gc.addListItem()"
-  ng-hide="gc.selectedList.$inherited">
+  ng-click="gc.addListItem()">
 </i>
 
 <form-field-validation-message field-name="items"
@@ -52,13 +51,12 @@
       </td>
       <td>
         <i class="fa fa-times remove"
-          ng-hide="gc.selectedList.$inherited"
           ng-click="gc.removeListItem(index)">
         </i>
       </td>
     </tr>
     <tr ng-repeat-end
-      ng-show="!gc.selectedList.$inherited && item.$edit"
+      ng-show="item.$edit"
       ng-class-odd="row-odd">
       <td colspan="{{gc.selectedList.$listType.fields.length}}">
         <list-item
