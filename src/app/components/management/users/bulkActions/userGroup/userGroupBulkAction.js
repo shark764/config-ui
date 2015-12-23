@@ -24,7 +24,7 @@ angular.module('liveopsConfigPanel')
     function ($translate, TenantGroupUsers, Session, hasGroup) {
       return [{
         value: 'add',
-        display: $translate('bulkActions.userGroups.add'),
+        display: $translate.instant('bulkActions.userGroups.add'),
         doesQualify: function (user, action) {
           return ! hasGroup (action.selectedGroup, user.$groups);
         },
@@ -47,7 +47,7 @@ angular.module('liveopsConfigPanel')
         }
       }, {
         value: 'remove',
-        display: $translate('bulkActions.userGroups.remove'),
+        display: $translate.instant('bulkActions.userGroups.remove'),
         doesQualify: function (user, action) {
           return hasGroup(action.selectedGroup, user.$groups);
         },
