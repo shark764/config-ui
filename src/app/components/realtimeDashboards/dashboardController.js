@@ -1,6 +1,7 @@
 'use strict';
 
-angular.module('liveopsConfigPanel').controller('DashboardController', ['$rootScope', '$scope', 'realtimeDashboards', 'Queue', 'Session', '$q', '$filter', '$stateParams',
+angular.module('liveopsConfigPanel')
+.controller('DashController', ['$rootScope', '$scope', 'realtimeDashboards', 'Queue', 'Session', '$q', '$filter', '$stateParams',
   function($rootScope, $scope, realtimeDashboards, Queue, Session, $q, $filter, $stateParams) {
     var vm = this;
 

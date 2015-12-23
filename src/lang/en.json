@@ -567,5 +567,7 @@
   "hours.exception.create.failure": "Exception creation failure!",
   "hours.exception.remove.success": "Exception removed successfully!",
   "hours.exception.remove.failure": "Exception removal failure!",
-  "hours.timezone.required": "Field \"Timezone\" is required."
+  "hours.timezone.required": "Field \"Timezone\" is required.",
+  
+  "realtimeDashboards.table.title": "Realtime Dashboards"
 }

@@ -421,7 +421,7 @@ angular.module('liveopsConfigPanel')
         .state('content.dashboard', {
           url: '/dash?id',
           templateUrl: 'app/components/realtimeDashboards/dash.html',
-          controller: 'DashboardController'
+          controller: 'DashController'
         });
     }
   ]);
