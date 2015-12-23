@@ -415,8 +415,13 @@ angular.module('liveopsConfigPanel')
         })
         .state('content.realtime-dashboards', {
           url: '/realtime-dashboards',
-          templateUrl: 'app/components/realtimeDashboards/demo.html',
+          templateUrl: 'app/components/realtimeDashboards/realtimeDashboards.html',
           controller: 'RealtimeDashboardsController'
+        })
+        .state('content.dashboard', {
+          url: '/dash?id',
+          templateUrl: 'app/components/realtimeDashboards/dash.html',
+          controller: 'DashboardController'
         });
     }
   ]);
