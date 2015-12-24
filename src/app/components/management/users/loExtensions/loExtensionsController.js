@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('loExtensionsController', ['$scope', '$q', 'Session', 'loExtensionProviders', 'loExtensionTypes', '_',
-    function($scope, $q, Session, loExtensionProviders, loExtensionTypes, _) {
+  .controller('loExtensionsController', ['$scope', '$q', 'Session', 'loExtensionProviders', 'loExtensionTypes', '_', 'Alert',
+    function($scope, $q, Session, loExtensionProviders, loExtensionTypes, _, Alert) {
       var vm = this;
       $scope.loExtensionProviders = loExtensionProviders;
       $scope.loExtensionTypes = loExtensionTypes;
@@ -21,12 +21,23 @@ angular.module('liveopsConfigPanel')
           tenantId: Session.tenant.tenantId
         }).then(function(tenantUser) {
           vm.resetExtension();
+          Alert.success('Extensions saved succesfully!');
           return tenantUser;
-        }, function(error) {
+        }, function(response) {
+
+          if(response.data.error.attribute.activeExtension === 'Integration for extension is inactive.') {
+            response.data.error.attribute.activeExtension = 'No integration has been configured for this users default extension.';
+          }
+
+          $scope.form
+            .loFormSubmitController
+            .populateApiErrors(response);
 
           $scope.tenantUser.reset();
 
-          return $q.reject(error);
+          Alert.success('Extensions failed to update.');
+
+          return $q.reject(response);
         });
       };
 
@@ -46,7 +57,7 @@ angular.module('liveopsConfigPanel')
       };
 
       $scope.clearExtensionError = function() {
-        $scope.userTenantExtensionForm.extensions.$setValidity('api', true);
+        $scope.form.extensions.$setValidity('api', true);
       };
 
       $scope.clearValues = function() {
@@ -57,16 +68,21 @@ angular.module('liveopsConfigPanel')
         delete($scope.newExtension.provider);
 
         angular.forEach([
-          'type', 'provider', 'telValue', 'sipValue', 'description', 'extensions'
+          'type', 'provider', 'telValue', 'sipValue', 'extensiondescription', 'extensions'
         ], function(field) {
-          $scope.userTenantExtensionForm[field].$setPristine();
-          $scope.userTenantExtensionForm[field].$setUntouched();
-          $scope.userTenantExtensionForm[field].$setValidity('api', true);
+          $scope.form[field].$setPristine();
+          $scope.form[field].$setUntouched();
+          $scope.form[field].$setValidity('api', true);
         });
       };
 
       $scope.remove = function(extension) {
         $scope.tenantUser.extensions.removeItem(extension);
+
+        var defaultExtension = $scope.tenantUser.extensions[0];
+        
+        $scope.setActiveExtension(defaultExtension);
+
         return vm.save();
       };
 
@@ -75,12 +91,18 @@ angular.module('liveopsConfigPanel')
 
         var defaultExtension = $scope.tenantUser.extensions[0];
 
-        if (!$scope.tenantUser.activeExtension ||
-          !_.isEqual(defaultExtension.value, $scope.tenantUser.activeExtension.value)) {
-          $scope.tenantUser.activeExtension = defaultExtension;
-        }
+        $scope.setActiveExtension(defaultExtension);
 
         return vm.save();
+      };
+
+      $scope.setActiveExtension = function(extension) {
+        if (!$scope.tenantUser.activeExtension ||
+          !_.isEqual(extension.value, $scope.tenantUser.activeExtension.value)) {
+
+          $scope.tenantUser.activeExtension = extension;
+          $scope.form.activeExtension.$setDirty();
+        }
       };
 
       $scope.newExtension.type = 'webrtc';

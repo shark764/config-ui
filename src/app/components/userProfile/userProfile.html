@@ -69,14 +69,22 @@
       <h4>{{'details.extensions' | translate}}</h4>
     </div>
 
-    <lo-extensions
-      tenant-user="tenantUser"
-      ng-disabled="!(
-          ('MANAGE_ALL_USER_EXTENSIONS' | hasPermission) ||
-          ('MANAGE_USER_EXTENSIONS' | hasPermission) ||
-          ('MANAGE_MY_EXTENSIONS' | hasPermission)
-        )">
-    </lo-extensions>
+    <ng-form id="user-extensions-section" name="extensionsForm"
+      ng-resource="tenantUser"
+      ng-model="tenantUser"
+      lo-form-submit
+      lo-form-alert>
+
+      <lo-extensions
+        tenant-user="tenantUser"
+        form="extensionsForm"
+        ng-disabled="!(
+            ('MANAGE_ALL_USER_EXTENSIONS' | hasPermission) ||
+            ('MANAGE_USER_EXTENSIONS' | hasPermission) ||
+            ('MANAGE_MY_EXTENSIONS' | hasPermission)
+          )">
+      </lo-extensions>
+    <ng-form>
 
     <div class="divider-header">
       <h4 id="user-skills-header">{{'details.skills.title' | translate}}</h4>

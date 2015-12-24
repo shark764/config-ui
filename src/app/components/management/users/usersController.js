@@ -56,11 +56,6 @@ angular.module('liveopsConfigPanel')
       };
 
       vm.saveTenantUser = function saveTenantUser() {
-
-        // cover the case for existing tenant users who
-        // do not have active extension set
-        vm.setDefaultActiveExtension($scope.selectedTenantUser);
-
         return $scope.selectedTenantUser.save({
             tenantId: Session.tenant.tenantId
           })
@@ -72,17 +67,8 @@ angular.module('liveopsConfigPanel')
               tenantId: Session.tenant.tenantId
             });
 
-            //cover the case for new tenant users
-            vm.setDefaultActiveExtension(tenantUser);
-
             return tenantUser.save();
           });
-      };
-
-      vm.setDefaultActiveExtension = function (tenantUser) {
-        if(tenantUser.extensions && angular.isUndefined(tenantUser.activeExtension) && tenantUser.extensions.length > 0) {
-          tenantUser.activeExtension = tenantUser.extensions[0];
-        }
       };
 
       vm.canSaveUser = function(tenantUser) {

@@ -7,7 +7,8 @@ angular.module('liveopsConfigPanel')
         restrict: 'E',
         scope: {
           tenantUser: '=',
-          ngDisabled: '='
+          ngDisabled: '=',
+          form: '='
         },
         templateUrl: 'app/components/management/users/loExtensions/loExtensions.html',
         controller: 'loExtensionsController'

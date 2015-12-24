@@ -2,7 +2,11 @@ lo-extensions {
   display: block;
   width: 100%;
   max-width: 700px;
-
+  
+  form-error span {
+    margin-bottom: 5px;
+  }
+  
   #add-extension-btn {
     width: 35px;
   }
