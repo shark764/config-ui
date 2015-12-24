@@ -22,9 +22,16 @@ angular.module('liveopsConfigPanel')
       };
 
       $scope.fetchFlows = function () {
-        return Flow.cachedQuery({
+
+        var flows = Flow.cachedQuery({
           tenantId: Session.tenant.tenantId
         });
+
+        _.remove(flows, function (flow) {
+          return flow.tenantId !== Session.tenant.tenantId;
+        });
+
+        return flows;
       };
 
       $scope.newDraftModal = function(version){
