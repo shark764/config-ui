@@ -114,7 +114,7 @@ angular.module('liveopsConfigPanel')
         .state('content.configuration.genericLists', {
           url: '/lists?id',
           templateUrl: 'app/components/configuration/genericLists/genericLists.html',
-          controller: 'genericListsController',
+          controller: 'genericListsController as gc',
           reloadOnSearch: false,
           resolve: {
             hasPermission: ['UserPermissions', 'PermissionGroups', function(UserPermissions, PermissionGroups) {

@@ -67,11 +67,12 @@ angular.module('liveopsConfigPanel')
         }).then(function(list) {
           //reset the form
           $scope.controllers.detailReset.resetForm();
+          
           return list;
-        }, function() {
-          vm.loadList();
-        }).finally(function() {
-          vm.destroyOnItemSelected = $scope.$on(loEvents.tableControls.itemSelected, vm.onItemSelected);
+        }, vm.loadList
+        ).finally(function() {
+          vm.destroyOnItemSelected =
+            $scope.$on(loEvents.tableControls.itemSelected, vm.onItemSelected);
         });
       };
 
@@ -82,7 +83,7 @@ angular.module('liveopsConfigPanel')
       vm.destroyOnItemSelected = $scope.$on(loEvents.tableControls.itemSelected, vm.onItemSelected);
 
       $scope.controllers = {};
-
+      
       vm.loadList();
     }
   ]);
