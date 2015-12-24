@@ -4,7 +4,7 @@ angular.module('liveopsConfigPanel')
   .directive('loMediaDetails', ['mediaTypes', 'Session', 'apiHostname', 'Upload',
     function(mediaTypes, Session, apiHostname, Upload) {
       return {
-        restrict: 'E',
+        restrict: 'AE',
         controller: function($scope) {
           $scope.mediaTypes = mediaTypes;
 
