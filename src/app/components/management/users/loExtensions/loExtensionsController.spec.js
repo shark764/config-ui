@@ -16,7 +16,7 @@ describe('loExtensions controller', function() {
     $scope.tenantUser = mockTenantUsers[0];
     $scope.tenantUser.extensions = [];
 
-    $scope.userTenantExtensionForm = {
+    $scope.form = {
       type: {
         $setPristine: jasmine.createSpy('$setPristine'),
         $setUntouched: jasmine.createSpy('$setUntouched'),
@@ -42,7 +42,7 @@ describe('loExtensions controller', function() {
         $setUntouched: jasmine.createSpy('$setUntouched'),
         $setValidity: jasmine.createSpy('$setPristine')
       },
-      description: {
+      extensiondescription: {
         $setPristine: jasmine.createSpy('$setPristine'),
         $setUntouched: jasmine.createSpy('$setUntouched'),
         $setValidity: jasmine.createSpy('$setPristine')
@@ -51,6 +51,15 @@ describe('loExtensions controller', function() {
         $setPristine: jasmine.createSpy('$setPristine'),
         $setUntouched: jasmine.createSpy('$setUntouched'),
         $setValidity: jasmine.createSpy('$setPristine')
+      },
+      activeExtension: {
+        $setPristine: jasmine.createSpy('$setPristine'),
+        $setUntouched: jasmine.createSpy('$setUntouched'),
+        $setValidity: jasmine.createSpy('$setPristine'),
+        $setDirty: jasmine.createSpy('$setDirty')
+      },
+      loFormSubmitController: {
+        populateApiErrors: jasmine.createSpy('populateApiErrors')
       }
     };
 
@@ -73,16 +82,16 @@ describe('loExtensions controller', function() {
       controller.save();
       $httpBackend.flush();
 
-      expect($scope.userTenantExtensionForm.type.$setPristine).toHaveBeenCalled();
-      expect($scope.userTenantExtensionForm.type.$setUntouched).toHaveBeenCalled();
-      expect($scope.userTenantExtensionForm.provider.$setPristine).toHaveBeenCalled();
-      expect($scope.userTenantExtensionForm.provider.$setUntouched).toHaveBeenCalled();
-      expect($scope.userTenantExtensionForm.sipValue.$setPristine).toHaveBeenCalled();
-      expect($scope.userTenantExtensionForm.sipValue.$setUntouched).toHaveBeenCalled();
-      expect($scope.userTenantExtensionForm.telValue.$setPristine).toHaveBeenCalled();
-      expect($scope.userTenantExtensionForm.telValue.$setUntouched).toHaveBeenCalled();
-      expect($scope.userTenantExtensionForm.description.$setPristine).toHaveBeenCalled();
-      expect($scope.userTenantExtensionForm.description.$setUntouched).toHaveBeenCalled();
+      expect($scope.form.type.$setPristine).toHaveBeenCalled();
+      expect($scope.form.type.$setUntouched).toHaveBeenCalled();
+      expect($scope.form.provider.$setPristine).toHaveBeenCalled();
+      expect($scope.form.provider.$setUntouched).toHaveBeenCalled();
+      expect($scope.form.sipValue.$setPristine).toHaveBeenCalled();
+      expect($scope.form.sipValue.$setUntouched).toHaveBeenCalled();
+      expect($scope.form.telValue.$setPristine).toHaveBeenCalled();
+      expect($scope.form.telValue.$setUntouched).toHaveBeenCalled();
+      expect($scope.form.extensiondescription.$setPristine).toHaveBeenCalled();
+      expect($scope.form.extensiondescription.$setUntouched).toHaveBeenCalled();
     }));
 
     it('should reset the user on fail', inject(function($httpBackend, apiHostname) {

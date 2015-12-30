@@ -24,11 +24,6 @@ angular.module('liveopsConfigPanel')
           Alert.success('Extensions saved succesfully!');
           return tenantUser;
         }, function(response) {
-
-          if(response.data.error.attribute.activeExtension === 'Integration for extension is inactive.') {
-            response.data.error.attribute.activeExtension = 'No integration has been configured for this users default extension.';
-          }
-
           $scope.form
             .loFormSubmitController
             .populateApiErrors(response);
@@ -80,7 +75,7 @@ angular.module('liveopsConfigPanel')
         $scope.tenantUser.extensions.removeItem(extension);
 
         var defaultExtension = $scope.tenantUser.extensions[0];
-        
+
         $scope.setActiveExtension(defaultExtension);
 
         return vm.save();
