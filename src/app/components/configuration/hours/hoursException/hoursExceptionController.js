@@ -40,8 +40,14 @@ angular.module('liveopsConfigPanel')
           $scope.hours.$exceptions.push(exception);
         })
         .finally(function () {
-          $scope.form['date' + exceptionIndex].$validate();
+          angular.forEach($scope.hours.$exceptions, function(exception, index) {
+            if('exceptionHour' + index in $scope.form) {
+              $scope.form['exceptionHour' + index].$validate();
+            }
+          });
         });
       };
+
+
     }
   ]);

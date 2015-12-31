@@ -50,21 +50,31 @@
 
   <div class="input-group">
     <label>{{'value.date' | translate}} *</label>
-    
+
     <form-error field="form['date' + exceptionHour.$originalIndex]"
       error-type-duplicate="{{ 'hours.exceptions.date.duplicate' | translate}}"
       error-type-required="{{ 'hours.exceptions.date.required' | translate}}"
       error-type-date="{{ 'hours.exceptions.date.required' | translate}}"
     >
     </form-error>
-    
+
+    <form-error field="form['exceptionHour' + exceptionHour.$originalIndex]"
+      error-type-duplicate="{{ 'hours.exceptions.date.duplicate' | translate}}"
+      error-type-required="{{ 'hours.exceptions.date.required' | translate}}"
+      error-type-date="{{ 'hours.exceptions.date.required' | translate}}"
+    >
+    </form-error>
+
+    <input type="hidden" name="{{'exceptionHour' + exceptionHour.$originalIndex}}"
+      ng-model="exceptionHour"
+      ng-resource="hours"
+      lo-hour-exception-overlap
+      items="hours.$exceptions">
+
     <input type="date" name="{{'date' + exceptionHour.$originalIndex}}"
       ng-model="exceptionHour.date"
       ng-required="exceptionHour"
       ng-model-options="{timezone: 'UTC'}"
-      lo-duplicate-validator
-      lo-duplicate-validator-items="hours.$exceptions"
-      lo-duplicate-validator-options="{comparer: dateComparer}"
       utc-date-converter>
   </div>
 
@@ -73,7 +83,7 @@
 
     <form-error field="form['description' + exceptionHour.$originalIndex]">
     </form-error>
-    
+
     <textarea name="{{'description' + exceptionHour.$originalIndex}}"
       ng-model="exceptionHour.description">
     </textarea>
