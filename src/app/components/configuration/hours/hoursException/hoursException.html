@@ -57,15 +57,16 @@
       error-type-date="{{ 'hours.exceptions.date.required' | translate}}"
     >
     </form-error>
-    
-    <input type="date" name="{{'date' + exceptionHour.$originalIndex}}"
-      ng-model="exceptionHour.date"
-      ng-required="exceptionHour"
-      ng-model-options="{timezone: 'UTC'}"
-      lo-duplicate-validator
-      lo-duplicate-validator-items="hours.$exceptions"
-      lo-duplicate-validator-options="{comparer: dateComparer}"
-      utc-date-converter>
+    <datepicker date-format="yyyy-MM-dd">
+      <input type="date" name="{{'date' + exceptionHour.$originalIndex}}"
+        ng-model="exceptionHour.date"
+        ng-required="exceptionHour"
+        ng-model-options="{timezone: 'UTC'}"
+        lo-duplicate-validator
+        lo-duplicate-validator-items="hours.$exceptions"
+        lo-duplicate-validator-options="{comparer: dateComparer}"
+        utc-date-converter>
+    </datepicker>
   </div>
 
   <div class="input-group">
