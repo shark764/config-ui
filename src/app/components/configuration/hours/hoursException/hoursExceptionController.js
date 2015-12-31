@@ -39,15 +39,16 @@ angular.module('liveopsConfigPanel')
           Alert.error($translate.instant('hours.exception.remove.failure'));
           $scope.hours.$exceptions.push(exception);
         })
-        .finally(function () {
-          angular.forEach($scope.hours.$exceptions, function(exception, index) {
-            if('exceptionHour' + index in $scope.form) {
-              $scope.form['exceptionHour' + index].$validate();
-            }
-          });
-        });
+        .finally(vm.reValidateExceptionHours);
       };
 
-
+      vm.reValidateExceptionHours = function() {
+        angular.forEach($scope.hours.$exceptions, function(exception, index) {
+          if('date' + index in $scope.form) {
+            $scope.form['date' + index].$validate();
+            $scope.form['date' + index].$setTouched();
+          }
+        });
+      };
     }
   ]);
