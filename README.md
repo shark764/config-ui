@@ -31,14 +31,25 @@ $ gulp coverage
 ```
 
 ### E2E tests ###
+Login uses params.login in the respective config file and is default to titan@liveops.com
+Do not run the suite on a shared API as many records are created and edited.
+Tests depend on availability of Mailinator and expect that invitation emails are redirected to titantest@mailinator.com
+E2E Tests do not cover the following:
+* Media Upload
+* Flow designer
+* Reporting Dashboards
+* All browser support
+* Links to external pages (Help Docs)
+* Interaction with Toolbar or other components
+
 Run all suites locally (uses config at /protractor.local.conf.js)
 ```shell
-$ gulp protractor:local
+$ ./e2e_local.sh
 ```
 
 Run all suites on saucelabs (uses config at /protractor.conf.js)
 ```shell
-$ gulp protractor
+$ ./e2e_sauce.sh <SAUCE_USERNAME> <SAUCE_ACCESS_KEY> <SAUCE_TUNNEL>
 ```
 
 ## Team ##

@@ -59,10 +59,12 @@ exports.config = {
     regression: [paths.e2e + '/**/*.spec.js'],
     management: [paths.e2e + '/management/*.spec.js'],
     configuration: [paths.e2e + '/configuration/*.spec.js'],
+    invitations: [paths.e2e + '/invitations/*.spec.js'],
     flows: [paths.e2e + '/flows/*.spec.js'],
     login: [paths.e2e + '/login/*.spec.js'],
     navigation: [paths.e2e + '/navigation/*.spec.js'],
     tableControls: [paths.e2e + '/tableControls/*.spec.js'],
+    tenantSwitching: [paths.e2e + '/tenantSwitching/*.spec.js'],
     userProfile: [paths.e2e + '/userProfile/*.spec.js']
   },
 
