@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('loExtensionsController', ['$scope', '$q', 'Session', 'loExtensionProviders', 'loExtensionTypes', '_', 'Alert',
-    function($scope, $q, Session, loExtensionProviders, loExtensionTypes, _, Alert) {
+  .controller('loExtensionsController', ['$scope', '$q', '$translate', 'Session', 'loExtensionProviders', 'loExtensionTypes', '_', 'Alert',
+    function($scope, $q, $translate, Session, loExtensionProviders, loExtensionTypes, _, Alert) {
       var vm = this;
       $scope.loExtensionProviders = loExtensionProviders;
       $scope.loExtensionTypes = loExtensionTypes;
@@ -21,7 +21,7 @@ angular.module('liveopsConfigPanel')
           tenantId: Session.tenant.tenantId
         }).then(function(tenantUser) {
           vm.resetExtension();
-          Alert.success('Extensions saved succesfully!');
+          Alert.success($translate.instant('details.extensions.success'));
           return tenantUser;
         }, function(response) {
           if(response.data.error.attribute.activeExtension) {
@@ -31,7 +31,7 @@ angular.module('liveopsConfigPanel')
               .loFormSubmitController
               .populateApiErrors(response);
 
-            Alert.error('Extensions failed to update.');
+            Alert.error($translate.instant('details.extensions.error'));
           }
           
           $scope.tenantUser.reset();
