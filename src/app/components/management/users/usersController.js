@@ -7,7 +7,16 @@ angular.module('liveopsConfigPanel')
       $scope.forms = {};
       $scope.Session = Session;
       $scope.userTableConfig = userTableConfig;
-
+      
+      var extensionFields = [
+        'extensions', 
+        'activeExtension',
+        'type',
+        'provider',
+        'telValue',
+        'phoneExtension',
+        'extensiondescription'];
+      
       $scope.scenario = function() {
         if (!$scope.selectedTenantUser) {
           return;
@@ -21,7 +30,31 @@ angular.module('liveopsConfigPanel')
           return 'update';
         }
       };
-
+      
+      //isValid is for the tenantUser submit button
+      //it excludes error type of 'duplicateEmail' and any extension input
+      $scope.isValid = function() {
+        var valid = true;
+        for(var errorTypeIndex in $scope.forms.detailsForm.$error) {
+          if(errorTypeIndex === 'duplicateEmail') {
+            continue;
+          }
+          
+          var errorType = $scope.forms.detailsForm.$error[errorTypeIndex];
+          
+          for(var errorIndex = 0; errorIndex < errorType.length; errorIndex++) {
+            var errorModel = errorType[errorIndex];
+            if(extensionFields.indexOf(errorModel.$name) > 0) {
+              continue;
+            }
+            
+            valid = valid && errorModel.$valid;
+          }
+        }
+        
+        return valid;
+      };
+      
       $scope.namesRequired = function() {
         if (!$scope.selectedTenantUser) {
           return false;

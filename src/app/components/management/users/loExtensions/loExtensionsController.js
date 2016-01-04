@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('loExtensionsController', ['$scope', '$q', 'Session', 'loExtensionProviders', 'loExtensionTypes', '_', 'Alert',
-    function($scope, $q, Session, loExtensionProviders, loExtensionTypes, _, Alert) {
+  .controller('loExtensionsController', ['$scope', '$q', '$translate', 'Session', 'loExtensionProviders', 'loExtensionTypes', '_', 'Alert',
+    function($scope, $q, $translate, Session, loExtensionProviders, loExtensionTypes, _, Alert) {
       var vm = this;
       $scope.loExtensionProviders = loExtensionProviders;
       $scope.loExtensionTypes = loExtensionTypes;
@@ -21,16 +21,20 @@ angular.module('liveopsConfigPanel')
           tenantId: Session.tenant.tenantId
         }).then(function(tenantUser) {
           vm.resetExtension();
-          Alert.success('Extensions saved succesfully!');
+          Alert.success($translate.instant('details.extensions.success'));
           return tenantUser;
         }, function(response) {
-          $scope.form
-            .loFormSubmitController
-            .populateApiErrors(response);
+          if(response.data.error.attribute.activeExtension) {
+            Alert.error(response.data.error.attribute.activeExtension);
+          } else {
+            $scope.form
+              .loFormSubmitController
+              .populateApiErrors(response);
 
+            Alert.error($translate.instant('details.extensions.error'));
+          }
+          
           $scope.tenantUser.reset();
-
-          Alert.success('Extensions failed to update.');
 
           return $q.reject(response);
         });
@@ -51,10 +55,6 @@ angular.module('liveopsConfigPanel')
         });
       };
 
-      $scope.clearExtensionError = function() {
-        $scope.form.extensions.$setValidity('api', true);
-      };
-
       $scope.clearValues = function() {
         $scope.phoneNumber = null;
         $scope.phoneExtension = null;
@@ -63,7 +63,7 @@ angular.module('liveopsConfigPanel')
         delete($scope.newExtension.provider);
 
         angular.forEach([
-          'type', 'provider', 'telValue', 'sipValue', 'extensiondescription', 'extensions'
+          'type', 'provider', 'telValue', 'sipValue', 'extensiondescription'
         ], function(field) {
           $scope.form[field].$setPristine();
           $scope.form[field].$setUntouched();
@@ -96,7 +96,6 @@ angular.module('liveopsConfigPanel')
           !_.isEqual(extension.value, $scope.tenantUser.activeExtension.value)) {
 
           $scope.tenantUser.activeExtension = extension;
-          $scope.form.activeExtension.$setDirty();
         }
       };
 
