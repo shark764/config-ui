@@ -115,35 +115,6 @@ angular.module('liveopsConfigPanel')
         }
       });
 
-      $scope.dateComparer = function(item) {
-        var curVal = this.viewValue,
-          itemStart = $moment.utc(item.date),
-          itemEnd = $moment.utc(item.date),
-          valStart = $moment.utc(curVal),
-          valEnd = $moment.utc(curVal);
-
-        if (vm.exceptionHour.isAllDay) {
-          valStart.startOf('day');
-          valEnd.endOf('day');
-        } else {
-          valStart.add('minutes', vm.exceptionHour.startTimeMinutes);
-          valEnd.add('minutes', vm.exceptionHour.endTimeMinutes);
-        }
-
-        if (item.isAllDay) {
-          itemStart.startOf('day');
-          itemEnd.endOf('day');
-        } else {
-          itemStart.add('minutes', item.startTimeMinutes);
-          itemEnd.add('minutes', item.endTimeMinutes);
-        }
-
-        var itemRange = $moment.range(itemStart, itemEnd),
-          valRange = $moment.range(valStart, valEnd);
-
-        return itemRange.overlaps(valRange);
-      };
-
       $scope.$on(loEvents.tableControls.itemCreate, function() {
         vm.selectedHour = new BusinessHour({
           tenantId: Session.tenant.tenantId,
