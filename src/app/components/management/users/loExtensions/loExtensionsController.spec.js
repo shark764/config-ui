@@ -96,7 +96,11 @@ describe('loExtensions controller', function() {
 
     it('should reset the user on fail', inject(function($httpBackend, apiHostname) {
       spyOn(mockTenantUsers[0], 'reset');
-      $httpBackend.expectPUT(apiHostname + '/v1/tenants/tenant-id/users/userId1').respond(400);
+      $httpBackend.expectPUT(apiHostname + '/v1/tenants/tenant-id/users/userId1').respond(400, {
+        error: {
+          attribute: {}
+        }
+      });
       controller.save();
       $httpBackend.flush();
 
