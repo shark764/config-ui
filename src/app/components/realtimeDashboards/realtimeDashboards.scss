@@ -57,3 +57,43 @@
     }
   }
 }
+
+#queues {
+  .widget.widget3x2 {
+    padding: 5px;
+    
+    .kpi-stat-title, .stat-unit {
+      font-size: 0.8em;
+    }
+  }
+}
+
+#interactions {
+  .widget.widget4x4{
+    .kpi-stat-title, .stat-unit {
+      font-size: 2em;
+    }
+    
+    .kpi-value {
+      font-size: 3em;
+    }
+  }
+  
+  .widget.widget4x2 {
+    .kpi-stat-title, .stat-unit {
+      font-size: 1em;
+    }
+
+    .kpi-value {
+      font-size: 1.5em;
+    }
+  }
+}
+
+#resource {
+  .widget.widget3x3{
+    .kpi-value {
+      font-size: 2em;
+    }
+  }
+}
