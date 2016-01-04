@@ -10,7 +10,7 @@ var BusinessHoursPage = function() {
 
   // Regular Hours fields
   this.regularHours = element(by.model('hc.isHoursCustom'));
-  this.247HoursRadio = element(by.id('247-hours-radio'));
+  this.allHoursRadio = element(by.id('247-hours-radio'));
   this.customHoursRadio = element(by.id('custom-hours-radio'));
   this.customHoursTable = element(by.id('week-hours-table'));
   this.removeCustomHours = this.customHoursTable.all(by.css('.remove'));

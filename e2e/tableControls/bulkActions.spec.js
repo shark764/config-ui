@@ -145,7 +145,7 @@ describe('The bulk actions', function() {
     expect(bulkActions.submitFormBtn.isDisplayed()).toBeTruthy();
     expect(bulkActions.cancelFormBtn.isDisplayed()).toBeTruthy();
     expect(bulkActions.closeFormBtn.isDisplayed()).toBeTruthy();
-    expect(bulkActions.submitFormBtn.getAttribute('class')).toBe('btn btn-primary');
+    expect(bulkActions.submitFormBtn.getAttribute('class')).toContain('btn btn-primary');
     expect(bulkActions.cancelFormBtn.getAttribute('class')).toBe('btn');
   });
 
