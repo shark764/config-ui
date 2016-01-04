@@ -24,13 +24,17 @@ angular.module('liveopsConfigPanel')
           Alert.success('Extensions saved succesfully!');
           return tenantUser;
         }, function(response) {
-          $scope.form
-            .loFormSubmitController
-            .populateApiErrors(response);
+          if(response.data.error.attribute.activeExtension) {
+            Alert.error(response.data.error.attribute.activeExtension);
+          } else {
+            $scope.form
+              .loFormSubmitController
+              .populateApiErrors(response);
 
+            Alert.error('Extensions failed to update.');
+          }
+          
           $scope.tenantUser.reset();
-
-          Alert.success('Extensions failed to update.');
 
           return $q.reject(response);
         });
@@ -51,10 +55,6 @@ angular.module('liveopsConfigPanel')
         });
       };
 
-      $scope.clearExtensionError = function() {
-        $scope.form.extensions.$setValidity('api', true);
-      };
-
       $scope.clearValues = function() {
         $scope.phoneNumber = null;
         $scope.phoneExtension = null;
@@ -63,7 +63,7 @@ angular.module('liveopsConfigPanel')
         delete($scope.newExtension.provider);
 
         angular.forEach([
-          'type', 'provider', 'telValue', 'sipValue', 'extensiondescription', 'extensions'
+          'type', 'provider', 'telValue', 'sipValue', 'extensiondescription'
         ], function(field) {
           $scope.form[field].$setPristine();
           $scope.form[field].$setUntouched();
@@ -96,7 +96,6 @@ angular.module('liveopsConfigPanel')
           !_.isEqual(extension.value, $scope.tenantUser.activeExtension.value)) {
 
           $scope.tenantUser.activeExtension = extension;
-          $scope.form.activeExtension.$setDirty();
         }
       };
 

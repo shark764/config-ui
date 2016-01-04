@@ -1,13 +1,3 @@
-<form-error field="form.extensions"
-  error-type-required="{{'details.extension.type.required' | translate}}" >
-</form-error>
-<input type="hidden" name="extensions" ng-model="tenantUser.extensions"/>
-
-<form-error field="form.activeExtension"
-  error-type-required="{{'details.extension.type.required' | translate}}" >
-</form-error>
-<input type="hidden" name="activeExtension" ng-model="tenantUser.activeExtension"/>
-
 <div class="instant-add">
   <div>
     <div class="input-group">
@@ -75,7 +65,6 @@
           ng-disabled="ngDisabled"
           ng-required="newExtension.type == 'sip'"
           ng-pattern="sipPattern"
-          ng-change="clearExtensionError()"
           placeholder="{{'details.extension.value' | translate}}"
           ng-model="sipExtension">
           </input>
