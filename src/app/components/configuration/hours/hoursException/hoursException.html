@@ -30,7 +30,7 @@
   </thead>
   <tbody>
     <tr ng-repeat="exception in hours.$exceptions | newResource:true | orderBy:'date'">
-      <td>{{exception.date | date:'dd-MM-yyyy':'UTC'}}</td>
+      <td>{{exception.date | date:'yyyy-MM-dd':'UTC'}}</td>
       <td>{{exception.description}}</td>
       <td>{{exception.startTimeMinutes | minutesToTime}}</td>
       <td>{{exception.endTimeMinutes | minutesToTime}}</td>
@@ -59,7 +59,7 @@
     </form-error>
 
     <datepicker date-format="yyyy-MM-dd">
-      <input type="date" name="{{'date' + exceptionHour.$originalIndex}}"
+      <input type="text" name="{{'date' + exceptionHour.$originalIndex}}"
         ng-model="exceptionHour.date"
         ng-required="exceptionHour"
         ng-model-options="{timezone: 'UTC'}"
@@ -101,11 +101,21 @@
       error-type-time="{{'hours.exception.startTime.required' | translate}}"
       error-type-required="{{'hours.exception.startTime.required' | translate}}">
     </form-error>
-    <input type="time" name="{{'startTimeMinutes' + exceptionHour.$originalIndex}}"
+
+    <ng-timepicker 
+      name="{{'startTimeMinutes' + exceptionHour.$originalIndex}}"
+      ng-model="exceptionHour.startTimeMinutes" 
+      ng-required="exceptionHour && !exceptionHour.isAllDay"
+      ng-change="hec.reValidateExceptionHours()"
+      show-meridian="true"
+      step="1"
+      date-to-minute-converter>
+    </ng-timepicker>
+ <!--    <input type="time" name="{{'startTimeMinutes' + exceptionHour.$originalIndex}}"
       ng-model="exceptionHour.startTimeMinutes"
       ng-required="exceptionHour && !exceptionHour.isAllDay"
       ng-change="hec.reValidateExceptionHours()"
-      date-to-minute-converter/>
+      date-to-minute-converter/> -->
   </div>
 
   <div class="input-group"
@@ -116,11 +126,20 @@
       error-type-time="{{'hours.exception.endTime.required' | translate}}"
       error-type-required="{{'hours.exception.endTime.required' | translate}}">
     </form-error>
-    <input type="time" name="{{'endTimeMinutes' + exceptionHour.$originalIndex}}"
+    <ng-timepicker 
+      name="{{'endTimeMinutes' + exceptionHour.$originalIndex}}"
       ng-model="exceptionHour.endTimeMinutes"
       ng-required="exceptionHour && !exceptionHour.isAllDay"
       ng-change="hec.reValidateExceptionHours()"
-      date-to-minute-converter/>
+      show-meridian="true"
+      step="1"
+      date-to-minute-converter>
+    </ng-timepicker>
+  <!--   <input type="time" name="{{'endTimeMinutes' + exceptionHour.$originalIndex}}"
+      ng-model="exceptionHour.endTimeMinutes"
+      ng-required="exceptionHour && !exceptionHour.isAllDay"
+      ng-change="hec.reValidateExceptionHours()"
+      date-to-minute-converter/> -->
   </div>
 
 </div>

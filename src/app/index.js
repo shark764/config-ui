@@ -16,6 +16,7 @@ angular.module('liveopsConfigPanel', [
     'teljs',
     'realtime-dashboards',
     '720kb.datepicker',
+    'jkuri.timepicker',
     'ngFileUpload',
     'dndLists',
     'angular-momentjs'

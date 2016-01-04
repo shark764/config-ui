@@ -45,6 +45,7 @@ angular.module('liveopsConfigPanel')
       vm.reValidateExceptionHours = function() {
         angular.forEach($scope.hours.$exceptions, function(exception, index) {
           if('date' + index in $scope.form) {
+            console.log($scope.form['date' + index]);
             $scope.form['date' + index].$validate();
             $scope.form['date' + index].$setTouched();
           }
