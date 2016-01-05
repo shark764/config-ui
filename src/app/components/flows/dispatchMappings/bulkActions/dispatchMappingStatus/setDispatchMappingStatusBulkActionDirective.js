@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('baSetDispatchMappingStatus', ['DispatchMapping', 'Session', 'BulkAction',
-    function(DispatchMapping, Session, BulkAction) {
+  .directive('baSetDispatchMappingStatus', ['DispatchMapping', 'Session', 'BulkAction', 'statuses',
+    function(DispatchMapping, Session, BulkAction, statuses) {
       return {
         restrict: 'E',
         scope: {},
@@ -14,6 +14,10 @@ angular.module('liveopsConfigPanel')
           if (bulkActionExecutor) {
             bulkActionExecutor.register($scope.bulkAction);
           }
+          
+          $scope.$evalAsync(function() {
+            $scope.statuses = statuses();
+          });
 
           $scope.bulkAction.apply = function(mapping) {
             var mappingCopy = new DispatchMapping();
