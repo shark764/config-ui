@@ -34,11 +34,9 @@
   <div class="input-group">
     <label>{{'queue.details.priorityUnit' | translate}}</label>
     <div>
-      <select ng-model="queueVersion.priorityUnit" name="priorityUnit" id="version-rate-units-input">
-        <option value="seconds">{{'queue.details.priorityUnit.seconds' | translate}}</option>
-        <option value="minutes">{{'queue.details.priorityUnit.minutes' | translate}}</option>
-        <option value="hours">{{'queue.details.priorityUnit.hours' | translate}}</option>
-        <option value="days">{{'queue.details.priorityUnit.days' | translate}}</option>
+      <select id="version-rate-units-input" name="priorityUnit"
+        ng-model="queueVersion.priorityUnit"
+        ng-options="unit.value as unit.display for unit in versionPriorityUnits">
       </select>
     </div>
   </div>
