@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('baSetSkillStatus', ['Skill', 'Session', 'BulkAction',
-    function(Skill, Session, BulkAction) {
+  .directive('baSetSkillStatus', ['Skill', 'Session', 'BulkAction', 'statuses',
+    function(Skill, Session, BulkAction, statuses) {
       return {
         restrict: 'E',
         scope: {},
@@ -14,6 +14,10 @@ angular.module('liveopsConfigPanel')
           if (bulkActionExecutor) {
             bulkActionExecutor.register($scope.bulkAction);
           }
+          
+          $scope.$evalAsync(function() {
+            $scope.statuses = statuses();
+          });
 
           $scope.bulkAction.apply = function(skill) {
             var skillCopy = new Skill();

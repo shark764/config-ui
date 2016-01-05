@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('baSetQueueStatus', ['Queue', 'Session', 'BulkAction',
-    function (Queue, Session, BulkAction) {
+  .directive('baSetQueueStatus', ['Queue', 'Session', 'BulkAction', 'statuses',
+    function (Queue, Session, BulkAction, statuses) {
       return {
         restrict: 'E',
         scope: {},
@@ -14,7 +14,11 @@ angular.module('liveopsConfigPanel')
           if(bulkActionExecutor){
             bulkActionExecutor.register($scope.bulkAction);
           }
-
+          
+          $scope.$evalAsync(function() {
+            $scope.statuses = statuses();
+          });
+          
           $scope.bulkAction.apply = function(queue) {
             var queueCopy = new Queue();
             queueCopy.id = queue.id;

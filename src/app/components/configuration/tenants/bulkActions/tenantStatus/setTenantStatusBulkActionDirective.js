@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('baSetTenantStatus', ['Tenant', 'BulkAction',
-    function(Tenant, BulkAction) {
+  .directive('baSetTenantStatus', ['Tenant', 'BulkAction', 'statuses',
+    function(Tenant, BulkAction, statuses) {
       return {
         restrict: 'E',
         scope: {},
@@ -14,6 +14,10 @@ angular.module('liveopsConfigPanel')
           if (bulkActionExecutor) {
             bulkActionExecutor.register($scope.bulkAction);
           }
+          
+          $scope.$evalAsync(function() {
+            $scope.statuses = statuses();
+          });
 
           $scope.bulkAction.apply = function(tenant) {
             var tenantCopy = new Tenant();
