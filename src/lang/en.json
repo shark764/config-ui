@@ -335,6 +335,8 @@
   "media.details.source.upload.url": "Audio File URL",
   "media.details.source.tts": "Text-to-Speech",
   "media.details.source.text": "Text",
+  "media.details.property.voice": "Voice",
+  "media.details.property.language": "Language",
 
   "media.collections.media.mapping": "Media Mappings",
   "media.collections.media.new": "Create New Media",
