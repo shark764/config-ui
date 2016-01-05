@@ -4,6 +4,8 @@ angular.module('liveopsConfigPanel')
   .controller('DispatchMappingsController', [
     '$scope', 'Session', 'DispatchMapping', 'Flow', 'Integration', 'dispatchMappingTableConfig', 'dispatchMappingInteractionFields', 'dispatchMappingChannelTypes', 'dispatchMappingDirections', 'loEvents',
     function($scope, Session, DispatchMapping, Flow, Integration, dispatchMappingTableConfig, dispatchMappingInteractionFields, dispatchMappingChannelTypes, dispatchMappingDirections, loEvents) {
+      var vm = this;
+      
       $scope.create = function() {
         $scope.selectedDispatchMapping = new DispatchMapping({
           tenantId: Session.tenant.tenantId,
@@ -12,24 +14,33 @@ angular.module('liveopsConfigPanel')
         });
       };
 
-      $scope.fetchDispatchMappings = function() {
-        return DispatchMapping.cachedQuery({
+      vm.loadDispatchMappings = function() {
+        $scope.dispatchMappings = DispatchMapping.cachedQuery({
           tenantId: Session.tenant.tenantId
         });
       };
 
-      $scope.fetchIntegrations = function() {
-        return Integration.cachedQuery({
+      vm.loadIntegrations = function() {
+        $scope.integrations = Integration.cachedQuery({
           tenantId: Session.tenant.tenantId
         });
       };
 
-      $scope.fetchFlows = function() {
-        return Flow.cachedQuery({
+      vm.loadFlows = function() {
+        $scope.flows = Flow.cachedQuery({
           tenantId: Session.tenant.tenantId
         });
       };
-
+      
+      $scope.isTelInput = function() {
+        if(!$scope.selectedDispatchMapping) {
+          return;
+        }
+        
+        return $scope.selectedDispatchMapping.interactionField === 'customer' ||
+          $scope.selectedDispatchMapping.interactionField === 'contact-point';
+      };
+      
       $scope.submit = function() {
         return $scope.selectedDispatchMapping.save();
       };
@@ -37,7 +48,11 @@ angular.module('liveopsConfigPanel')
       $scope.$on(loEvents.tableControls.itemCreate, function() {
         $scope.create();
       });
-
+      
+      vm.loadIntegrations();
+      vm.loadFlows();
+      vm.loadDispatchMappings();
+      
       $scope.tableConfig = dispatchMappingTableConfig;
 
       $scope.dispatchMappingInteractionFields = dispatchMappingInteractionFields;

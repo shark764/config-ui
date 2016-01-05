@@ -62,31 +62,30 @@
     </div>
   </div>
 
-  <div class="input-group"
-    ng-if="selectedDispatchMapping.interactionField === 'customer' || selectedDispatchMapping.interactionField === 'contact-point'">
+  <div class="input-group" ng-show="isTelInput()">
     <label>{{'details.phoneNumber' | translate}} *</label>
-      <form-error field="forms.dispatchMappingForm.value"
+      <form-error field="forms.dispatchMappingForm.telvalue"
         error-type-required="{{'dispatchMappings.details.phone.error' | translate}}"
         error-type-phone-number="{{'details.phoneNumber.error' | translate}}">
       </form-error>
     <div>
-      <input id="phone-form-field" name="value" type="tel"
-        ng-required="true"
+      <input id="phone-form-field" name="telvalue" type="tel"
+        lo-validate="isTelInput()"
+        ng-required="isTelInput()"
         ng-model="selectedDispatchMapping.value">
     </div>
   </div>
 
-  <div class="input-group" ng-if="selectedDispatchMapping.interactionField === 'source'">
+  <div class="input-group" ng-show="selectedDispatchMapping.interactionField === 'source'">
     <label>{{'integration.details' | translate}} *</label>
-    <form-error field="forms.dispatchMappingForm.value"
+    <form-error field="forms.dispatchMappingForm.integrationvalue"
       error-type-required="{{'dispatchMappings.details.integration.error' | translate}}">
     </form-error>
     <div>
-      <select id="integration-form-dropdown" name="value"
-        ng-if="fetchIntegrations().$resolved"
-        ng-required="true"
+      <select id="integration-form-dropdown" name="integrationvalue"
+        ng-required="selectedDispatchMapping.interactionField === 'source'"
         ng-model="selectedDispatchMapping.value"
-        ng-options="integration.type as integration.type for integration in fetchIntegrations()">
+        ng-options="integration.type as integration.type for integration in integrations">
         <option value="" ng-disabled="true">
           {{'dispatchMappings.details.integration.select' | translate}}
         </option>
@@ -94,14 +93,14 @@
     </div>
   </div>
 
-  <div class="input-group" ng-if="selectedDispatchMapping.interactionField === 'direction'">
+  <div class="input-group" ng-show="selectedDispatchMapping.interactionField === 'direction'">
     <label>{{'dispatchMappings.details.direction' | translate}} *</label>
-    <form-error field="forms.dispatchMappingForm.value"
+    <form-error field="forms.dispatchMappingForm.directionvalue"
       error-type-required="{{'dispatchMappings.details.direction.error' | translate}}">
     </form-error>
     <div>
-      <select id="direction-form-dropdown" name="value"
-        ng-required="true"
+      <select id="direction-form-dropdown" name="directionvalue"
+        ng-required="selectedDispatchMapping.interactionField === 'direction'"
         ng-model="selectedDispatchMapping.value"
         ng-options="dispatchMappingDirection.value as dispatchMappingDirection.display for dispatchMappingDirection in dispatchMappingDirections">
         <option value="" ng-disabled="true">
@@ -120,7 +119,7 @@
       <select name="flowId"
         ng-required="true"
         ng-model="selectedDispatchMapping.flowId"
-        ng-options="flow.id as flow.name for flow in fetchFlows() | filter:{active: true, type: 'customer'}">
+        ng-options="flow.id as flow.name for flow in flows | filter:{active: true, type: 'customer'}">
         <option value="" ng-disabled="true">
           {{'dispatchMappings.details.flow.select' | translate}}
         </option>

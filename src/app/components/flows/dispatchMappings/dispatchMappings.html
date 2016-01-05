@@ -1,7 +1,7 @@
 <table-controls
   id="table-pane"
   config="tableConfig"
-  items="fetchDispatchMappings()"
+  items="dispatchMappings"
   selected="selectedDispatchMapping"
   resource-name="{{'tenants:' + Session.tenant.tenantId + ':dispatch-mappings'}}">
 
@@ -58,7 +58,7 @@
   
   <bulk-action-executor class="details-pane"
     ng-show="showBulkActions"
-    items="fetchDispatchMappings()"
+    items="dispatchMappings"
     show-bulk-actions="showBulkActions">
     
     <ba-set-dispatch-mapping-status>
