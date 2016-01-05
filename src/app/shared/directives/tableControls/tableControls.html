@@ -49,6 +49,7 @@
 </div>
 
 <loading ng-show="items && items.$promise && !items.$resolved"></loading>
+
 <p class="null" ng-show="!items || (items.$resolved && !items.length)">
   {{'table.results.none' | translate}}
 </p>
@@ -95,7 +96,8 @@
             options="field.header.options | invoke"
             value-path="{{field.header.valuePath}}"
             display-path="{{field.header.displayPath}}"
-            order-by="{{field.filterOrderBy}}">
+            order-by="{{field.filterOrderBy}}"
+            all="field.header.all">
           </filter-dropdown>
         </div>
       </th>
@@ -119,7 +121,7 @@
 
       <td ng-if="field.checked"
         ng-repeat="field in config.fields"
-        ng-click="selectItem(item)">
+        ng-click="onSelectItem(item)">
 
         <a ui-sref="{{config.sref}}(stateParam(item))" ui-sref-args="{reload: true}">
           <table-cell name="{{field.name}}"

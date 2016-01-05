@@ -1,7 +1,6 @@
 'use strict';
 
-angular.module('liveopsConfigPanel.mock.content.configuration.dispatchMappings.dispatchMappingsController',
-  ['liveopsConfigPanel.mock'])
+angular.module('liveopsConfigPanel.mock.content.configuration.dispatchMappings.dispatchMappingsController', ['liveopsConfigPanel.mock'])
   .value('mockDispatchMappings', [{
     'id': 'dispatchMappingId1',
   }, {
@@ -19,6 +18,4 @@ angular.module('liveopsConfigPanel.mock.content.configuration.dispatchMappings.d
     $httpBackend.when('GET', apiHostname + '/v1/tenants/tenant-id/dispatch-mappings/dispatchMappingId2').respond(200, {
       'result': mockDispatchMappings[1]
     });
-
-    // $httpBackend.when('PUT', apiHostname + '/v1/tenants/tenant-id/dispatch-mappings/dispatchMappingId1').respond(200);
   });

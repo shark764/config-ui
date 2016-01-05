@@ -5,41 +5,28 @@
 }
 
 .realtime-dashboard-wrapper {
-  .widget4x4, .widget6x5, .widget4x5  {
+  .widget[class*='widget4x'], .widget[class*='widget5x'] {
     .kpi-value {
       font-size: 2em;
     }
     
-    .kpi-stat-title {
+    .kpi-stat-title, .stat-unit {
       font-size: 0.8em;
     }
   }
   
-  .widget6x6, .widget8x6, .widget10x6 {
+  .widget.widget6x6, .widget.widget6x8, .widget.widget9x5 {
     .kpi-value {
       font-size: 3em;
     }
   }
-  
-  .widget6x8, .widget8x8 {
-    .kpi-value {
-      font-size: 5em;
-    }
-  }
-  
-  .widget8x4 {
-    .kpi-value {
-      font-size: 1.5em;
-    }
-  }
- 
 }
 
-@media (max-width: 1440px) {
+@media (max-width: 1700px) {
   .realtime-dashboard-wrapper {
-    .widget4x5, .widget6x5, .widget5x4, .widget6x5, .widget6x4  {
+    .widget[class*='widget4x'], .widget[class*='widget5x'] {
       .kpi-value {
-        font-size: 1em;
+        font-size: 1.5em;
       }
       
       .kpi-stat-title, .stat-unit {
@@ -47,23 +34,66 @@
       }
     }
     
-    .widget6x6, .widget8x6, .widget10x6 {
+    .widget.widget9x5 {
       .kpi-value {
         font-size: 2em;
       }
-    }
-    
-    .widget6x8, .widget8x8 {
-      .kpi-value {
-        font-size: 3em;
+      
+      .kpi-stat-title, .stat-unit {
+        font-size: 0.8em;
       }
     }
     
-    .widget8x4 {
+    .widget.widget6x6, .widget.widget6x8, .widget.widget9x5 {
+      .kpi-value {
+        font-size: 1.5em;
+      }
+    }
+      
+    .widget.widget5x4 {
       .kpi-value {
         font-size: 1em;
       }
     }
- 
+  }
+}
+
+#queues {
+  .widget.widget3x2 {
+    padding: 5px;
+    
+    .kpi-stat-title, .stat-unit {
+      font-size: 0.8em;
+    }
+  }
+}
+
+#interactions {
+  .widget.widget4x4{
+    .kpi-stat-title, .stat-unit {
+      font-size: 2em;
+    }
+    
+    .kpi-value {
+      font-size: 3em;
+    }
+  }
+  
+  .widget.widget4x2 {
+    .kpi-stat-title, .stat-unit {
+      font-size: 1em;
+    }
+
+    .kpi-value {
+      font-size: 1.5em;
+    }
+  }
+}
+
+#resource {
+  .widget.widget3x3{
+    .kpi-value {
+      font-size: 2em;
+    }
   }
 }

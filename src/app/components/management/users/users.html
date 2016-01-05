@@ -11,7 +11,7 @@
   </tenant-user-status>
 
   <user-state name="$original.state" ng-model="item.$original.state"></user-state>
-  
+
   <div name="$original.$user.status">
     <span ng-show="item.$user.status === 'enabled'">{{'value.enabled' | translate}}</span>
     <span ng-show="item.$user.status === 'pending'">{{'value.pending' | translate}}</span>
@@ -57,17 +57,17 @@
           lo-submit="submit()"
           lo-submit-spinner
           lo-submit-spinner-status="selectedTenantUser.$busy || selectedTenantUser.$user.$busy"
-          ng-disabled="forms.detailsForm.$pending ||
-            (forms.detailsForm.$invalid && ! forms.detailsForm.$error.duplicateEmail) ||
-            (forms.detailsForm.$error | keysCount) > 1 ||
-            ! forms.detailsForm.$dirty"
+          ng-disabled="
+            forms.detailsForm.$pending ||
+              ! forms.detailsForm.$dirty ||
+              ! isValid()"
           class="btn btn-primary"
           type="submit"
           value="{{'value.submit' | translate}}" />
       </div>
     </ng-form>
 
-  <bulk-action-executor class="right-panel user-ba" ng-show="showBulkActions" items="fetchTenantUsers()"
+  <bulk-action-executor class="details-pane user-ba" ng-show="showBulkActions" items="fetchTenantUsers()"
     bulk-actions="bulkActions" show-bulk-actions="showBulkActions"
     confirm-message-key="bulkActions.user.confirm.message" drop-order-by="lastName">
     <ba-set-status ng-if="['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'MANAGE_TENANT_ENROLLMENT'] | hasPermission"></ba-set-status>

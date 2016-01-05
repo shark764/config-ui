@@ -2,12 +2,12 @@
   text-align: right;
   margin-bottom: 10px;
   
-  input {
+  input, a {
     float: left;
     width: calc(50% - 3px) !important;
   }
   
-  input+input {
+  input+input, input+a {
     margin-left: 6px !important;
   }
 }

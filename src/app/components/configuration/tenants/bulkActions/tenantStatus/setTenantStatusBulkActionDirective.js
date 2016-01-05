@@ -1,20 +1,24 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('baSetTenantStatus', ['Tenant', 'BulkAction',
-    function (Tenant, BulkAction) {
+  .directive('baSetTenantStatus', ['Tenant', 'BulkAction', 'statuses',
+    function(Tenant, BulkAction, statuses) {
       return {
-        restrict: 'AE',
+        restrict: 'E',
         scope: {},
         require: '?^bulkActionExecutor',
         templateUrl: 'app/components/configuration/tenants/bulkActions/tenantStatus/setTenantStatusBulkAction.html',
-        link: function ($scope, elem, attr, bulkActionExecutor) {
+        link: function($scope, elem, attr, bulkActionExecutor) {
           $scope.bulkAction = new BulkAction();
-          
-          if(bulkActionExecutor){
+
+          if (bulkActionExecutor) {
             bulkActionExecutor.register($scope.bulkAction);
           }
           
+          $scope.$evalAsync(function() {
+            $scope.statuses = statuses();
+          });
+
           $scope.bulkAction.apply = function(tenant) {
             var tenantCopy = new Tenant();
             tenantCopy.id = tenant.id;
@@ -25,7 +29,7 @@ angular.module('liveopsConfigPanel')
               return tenant;
             });
           };
-          
+
           $scope.bulkAction.reset = function() {
             $scope.bulkAction.checked = false;
             $scope.active = '';

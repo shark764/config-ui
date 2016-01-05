@@ -2,7 +2,7 @@
 
 angular.module('liveopsConfigPanel')
   .service('dispatchMappingTableConfig', ['statuses', 'dispatchMappingInteractionFields', 'dispatchMappingChannelTypes', '$translate', 'UserPermissions', 'helpDocsHostname',
-    function (statuses, dispatchMappingInteractionFields, dispatchMappingChannelTypes, $translate, UserPermissions, helpDocsHostname) {
+    function(statuses, dispatchMappingInteractionFields, dispatchMappingChannelTypes, $translate, UserPermissions, helpDocsHostname) {
       return {
         'fields': [{
           'header': {
@@ -58,10 +58,14 @@ angular.module('liveopsConfigPanel')
         'searchOn': ['$original.name'],
         'orderBy': '$original.name',
         'title': $translate.instant('dispatchmappings.table.title'),
-        'sref' : 'content.flows.dispatchMappings',
-        'showCreate': function () { return UserPermissions.hasPermission('MAP_ALL_CONTACT_POINTS'); },
-        'showBulkActions': function () { return UserPermissions.hasPermission('MAP_ALL_CONTACT_POINTS'); }, 
-        'helpLink' : helpDocsHostname + '/Content/Managing%20Flows/Dispatch_mapping.htm'
+        'sref': 'content.flows.dispatchMappings',
+        'showCreate': function() {
+          return UserPermissions.hasPermission('MAP_ALL_CONTACT_POINTS');
+        },
+        'showBulkActions': function() {
+          return UserPermissions.hasPermission('MAP_ALL_CONTACT_POINTS');
+        },
+        'helpLink': helpDocsHostname + '/Content/Managing%20Flows/Dispatch_mapping.htm'
       };
     }
   ]);

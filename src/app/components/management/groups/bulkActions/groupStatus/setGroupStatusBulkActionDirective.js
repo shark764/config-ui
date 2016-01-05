@@ -1,28 +1,32 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('baSetGroupStatus', ['Group', 'Session', 'Alert', '$q', '$translate', 'BulkAction',
-    function (Group, Session, Alert, $q, $translate, BulkAction) {
+  .directive('baSetGroupStatus', ['Group', 'Session', 'Alert', '$q', '$translate', 'BulkAction', 'statuses',
+    function(Group, Session, Alert, $q, $translate, BulkAction, statuses) {
       return {
-        restrict: 'AE',
+        restrict: 'E',
         scope: {},
         require: '?^bulkActionExecutor',
         templateUrl: 'app/components/management/groups/bulkActions/groupStatus/setGroupStatusBulkAction.html',
-        link: function ($scope, elem, attr, bulkActionExecutor) {
+        link: function($scope, elem, attr, bulkActionExecutor) {
           $scope.bulkAction = new BulkAction();
-          
-          if(bulkActionExecutor){
+
+          if (bulkActionExecutor) {
             bulkActionExecutor.register($scope.bulkAction);
           }
           
+          $scope.$evalAsync(function() {
+            $scope.statuses = statuses();
+          });
+
           $scope.bulkAction.apply = function(group) {
-            if (group.type === 'everyone'){
+            if (group.type === 'everyone') {
               Alert.error($translate.instant('bulkActions.enable.groups.fail'));
               var deferred = $q.defer();
               deferred.reject('Cannot disable the Everyone group');
               return deferred.promise;
             }
-            
+
             var groupCopy = new Group();
             groupCopy.id = group.id;
             groupCopy.tenantId = Session.tenant.tenantId;
@@ -33,7 +37,7 @@ angular.module('liveopsConfigPanel')
               return group;
             });
           };
-          
+
           $scope.bulkAction.reset = function() {
             $scope.bulkAction.checked = false;
             $scope.active = '';

@@ -50,9 +50,9 @@ describe('The business hours view', function() {
 
     // Display hours radio buttons and default to 24/7
     expect(hours.customHoursRadio.isDisplayed()).toBeTruthy();
-    expect(hours.247 HoursRadio.isDisplayed()).toBeTruthy();
+    expect(hours.allHoursRadio.isDisplayed()).toBeTruthy();
     expect(hours.customHoursRadio.isSelected()).toBeFalsy();
-    expect(hours.247 HoursRadio.isSelected()).toBeTruthy();
+    expect(hours.allHoursRadio.isSelected()).toBeTruthy();
 
     // Not display custom hours table or exceptions fields
     expect(hours.customHoursTable.isDisplayed()).toBeFalsy();
@@ -157,7 +157,7 @@ describe('The business hours view', function() {
     hours.adminFormDropDown.all(by.css('option')).get(random).click();
     hours.regularHours.getAttribute('value').then(function(customHours) {
       if (customHours) { // Switch to 24/7 hours
-        hours.247 HoursRadio.click();
+        hours.allHoursRadio.click();
       } else { // Switch to custom hours
         hours.customHoursRadio.click();
       }

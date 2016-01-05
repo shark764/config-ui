@@ -1,9 +1,9 @@
 'use strict';
 
-describe('loExtensions controller', function(){
+describe('loExtensions controller', function() {
   var $scope,
-   controller,
-   mockTenantUsers;
+    controller,
+    mockTenantUsers;
 
   beforeEach(module('liveopsConfigPanel'));
   beforeEach(module('gulpAngular'));
@@ -16,49 +16,60 @@ describe('loExtensions controller', function(){
     $scope.tenantUser = mockTenantUsers[0];
     $scope.tenantUser.extensions = [];
 
-    $scope.userTenantExtensionForm = {
-        type: {
-          $setPristine : jasmine.createSpy('$setPristine'),
-          $setUntouched : jasmine.createSpy('$setUntouched'),
-          $setValidity: jasmine.createSpy('$setPristine')
-        },
-        provider: {
-          $setPristine : jasmine.createSpy('$setPristine'),
-          $setUntouched : jasmine.createSpy('$setUntouched'),
-          $setValidity: jasmine.createSpy('$setPristine')
-        },
-        value: {
-          $setPristine : jasmine.createSpy('$setPristine'),
-          $setUntouched : jasmine.createSpy('$setUntouched'),
-          $setValidity: jasmine.createSpy('$setPristine')
-        },
-        sipValue: {
-          $setPristine : jasmine.createSpy('$setPristine'),
-          $setUntouched : jasmine.createSpy('$setUntouched'),
-          $setValidity: jasmine.createSpy('$setPristine')
-        },
-        telValue: {
-          $setPristine : jasmine.createSpy('$setPristine'),
-          $setUntouched : jasmine.createSpy('$setUntouched'),
-          $setValidity: jasmine.createSpy('$setPristine')
-        },
-        description: {
-          $setPristine : jasmine.createSpy('$setPristine'),
-          $setUntouched : jasmine.createSpy('$setUntouched'),
-          $setValidity: jasmine.createSpy('$setPristine')
-        },
-        extensions: {
-          $setPristine: jasmine.createSpy('$setPristine'),
-          $setUntouched : jasmine.createSpy('$setUntouched'),
-          $setValidity: jasmine.createSpy('$setPristine')
-        }
+    $scope.form = {
+      type: {
+        $setPristine: jasmine.createSpy('$setPristine'),
+        $setUntouched: jasmine.createSpy('$setUntouched'),
+        $setValidity: jasmine.createSpy('$setPristine')
+      },
+      provider: {
+        $setPristine: jasmine.createSpy('$setPristine'),
+        $setUntouched: jasmine.createSpy('$setUntouched'),
+        $setValidity: jasmine.createSpy('$setPristine')
+      },
+      value: {
+        $setPristine: jasmine.createSpy('$setPristine'),
+        $setUntouched: jasmine.createSpy('$setUntouched'),
+        $setValidity: jasmine.createSpy('$setPristine')
+      },
+      sipValue: {
+        $setPristine: jasmine.createSpy('$setPristine'),
+        $setUntouched: jasmine.createSpy('$setUntouched'),
+        $setValidity: jasmine.createSpy('$setPristine')
+      },
+      telValue: {
+        $setPristine: jasmine.createSpy('$setPristine'),
+        $setUntouched: jasmine.createSpy('$setUntouched'),
+        $setValidity: jasmine.createSpy('$setPristine')
+      },
+      extensiondescription: {
+        $setPristine: jasmine.createSpy('$setPristine'),
+        $setUntouched: jasmine.createSpy('$setUntouched'),
+        $setValidity: jasmine.createSpy('$setPristine')
+      },
+      extensions: {
+        $setPristine: jasmine.createSpy('$setPristine'),
+        $setUntouched: jasmine.createSpy('$setUntouched'),
+        $setValidity: jasmine.createSpy('$setPristine')
+      },
+      activeExtension: {
+        $setPristine: jasmine.createSpy('$setPristine'),
+        $setUntouched: jasmine.createSpy('$setUntouched'),
+        $setValidity: jasmine.createSpy('$setPristine'),
+        $setDirty: jasmine.createSpy('$setDirty')
+      },
+      loFormSubmitController: {
+        populateApiErrors: jasmine.createSpy('populateApiErrors')
+      }
     };
 
-    controller = $controller('loExtensionsController', {'$scope': $scope});
+    controller = $controller('loExtensionsController', {
+      '$scope': $scope
+    });
     $scope.$digest();
- }]));
+  }]));
 
-  describe('save function', function(){
+  describe('save function', function() {
     it('should save the user', inject(function($httpBackend, apiHostname) {
       $httpBackend.expectPUT(apiHostname + '/v1/tenants/tenant-id/users/userId1').respond(200);
 
@@ -71,21 +82,25 @@ describe('loExtensions controller', function(){
       controller.save();
       $httpBackend.flush();
 
-      expect($scope.userTenantExtensionForm.type.$setPristine).toHaveBeenCalled();
-      expect($scope.userTenantExtensionForm.type.$setUntouched).toHaveBeenCalled();
-      expect($scope.userTenantExtensionForm.provider.$setPristine).toHaveBeenCalled();
-      expect($scope.userTenantExtensionForm.provider.$setUntouched).toHaveBeenCalled();
-      expect($scope.userTenantExtensionForm.sipValue.$setPristine).toHaveBeenCalled();
-      expect($scope.userTenantExtensionForm.sipValue.$setUntouched).toHaveBeenCalled();
-      expect($scope.userTenantExtensionForm.telValue.$setPristine).toHaveBeenCalled();
-      expect($scope.userTenantExtensionForm.telValue.$setUntouched).toHaveBeenCalled();
-      expect($scope.userTenantExtensionForm.description.$setPristine).toHaveBeenCalled();
-      expect($scope.userTenantExtensionForm.description.$setUntouched).toHaveBeenCalled();
+      expect($scope.form.type.$setPristine).toHaveBeenCalled();
+      expect($scope.form.type.$setUntouched).toHaveBeenCalled();
+      expect($scope.form.provider.$setPristine).toHaveBeenCalled();
+      expect($scope.form.provider.$setUntouched).toHaveBeenCalled();
+      expect($scope.form.sipValue.$setPristine).toHaveBeenCalled();
+      expect($scope.form.sipValue.$setUntouched).toHaveBeenCalled();
+      expect($scope.form.telValue.$setPristine).toHaveBeenCalled();
+      expect($scope.form.telValue.$setUntouched).toHaveBeenCalled();
+      expect($scope.form.extensiondescription.$setPristine).toHaveBeenCalled();
+      expect($scope.form.extensiondescription.$setUntouched).toHaveBeenCalled();
     }));
 
     it('should reset the user on fail', inject(function($httpBackend, apiHostname) {
       spyOn(mockTenantUsers[0], 'reset');
-      $httpBackend.expectPUT(apiHostname + '/v1/tenants/tenant-id/users/userId1').respond(400);
+      $httpBackend.expectPUT(apiHostname + '/v1/tenants/tenant-id/users/userId1').respond(400, {
+        error: {
+          attribute: {}
+        }
+      });
       controller.save();
       $httpBackend.flush();
 
@@ -93,7 +108,7 @@ describe('loExtensions controller', function(){
     }));
   });
 
-  describe('add function', function(){
+  describe('add function', function() {
     it('should add to the user\'s extensions', inject(function($q) {
       spyOn(controller, 'save').and.returnValue($q.when());
 
@@ -139,11 +154,15 @@ describe('loExtensions controller', function(){
     }));
   });
 
-  describe('remove function', function(){
+  describe('remove function', function() {
     it('should remove the extension from the user', inject(function($q) {
       spyOn(controller, 'save').and.returnValue($q.when());
 
-      $scope.tenantUser.extensions = [{id: 'extension1'}, {id: 'extension2'}];
+      $scope.tenantUser.extensions = [{
+        id: 'extension1'
+      }, {
+        id: 'extension2'
+      }];
 
       $scope.remove($scope.tenantUser.extensions[0]);
       expect($scope.tenantUser.extensions.length).toBe(1);
@@ -153,22 +172,30 @@ describe('loExtensions controller', function(){
     it('should save the user', inject(function($q) {
       spyOn(controller, 'save').and.returnValue($q.when());
 
-      $scope.tenantUser.extensions = [{id: 'extension1'}, {id: 'extension2'}];
+      $scope.tenantUser.extensions = [{
+        id: 'extension1'
+      }, {
+        id: 'extension2'
+      }];
 
       $scope.remove($scope.tenantUser.extensions[0]);
       expect(controller.save).toHaveBeenCalled();
     }));
   });
 
-  describe('moved function', function(){
-    it('should remove the extension at the index', inject(function($q) {
+  describe('moved function', function() {
+    it('should remove the extension at the index, and update the active extension', inject(function($q) {
       spyOn(controller, 'save').and.returnValue($q.when());
-
-      $scope.tenantUser.extensions = [{id: 'extension1'}, {id: 'extension2'}];
+      $scope.tenantUser.extensions = [{
+        value: 'extension1'
+      }, {
+        value: 'extension2'
+      }];
 
       $scope.moved(0);
       expect($scope.tenantUser.extensions.length).toBe(1);
-      expect($scope.tenantUser.extensions[0].id).toEqual('extension2');
+      expect($scope.tenantUser.extensions[0].value).toEqual('extension2');
+      expect($scope.tenantUser.activeExtension.value).toEqual('extension2');
     }));
   });
 });

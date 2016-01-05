@@ -3,52 +3,24 @@
 angular.module('liveopsConfigPanel')
   .controller('genericListsController', ['$scope', '$filter', '$q', 'Session', 'List', 'ListType', 'genericListTableConfig', 'loEvents',
     function ($scope, $filter, $q, Session, List, ListType, genericListTableConfig, loEvents) {
+      var vm = this;
 
-      $scope.create = function () {
-        $scope.selectedList = new List();
+      vm.create = function () {
+        vm.selectedList = new List();
       };
 
-      $scope.fetchLists = function () {
-        $scope.lists = List.cachedQuery({
+      vm.loadLists = function () {
+        vm.lists = List.cachedQuery({
           tenantId: Session.tenant.tenantId
         });
 
-        return $scope.lists;
+        vm.lists.$promise
+          .then(vm.loadListTypes);
+
+        return vm.lists;
       };
 
-      $scope.submit = function () {
-        return $scope.selectedList.save({
-          tenantId: Session.tenant.tenantId
-        });
-      };
-
-      $scope.addListItem = function addListItem() {
-        var newItem = {
-          $edit: true
-        };
-
-        $scope.selectedList.items.push(newItem);
-        $scope.selectedList.$original.items.push(newItem);
-
-        return newItem;
-      };
-
-      $scope.removeListItem = function removeListItem(index) {
-        $scope.selectedList.items.splice(index, 1);
-        $scope.selectedList.$original.items.splice(index, 1);
-
-        $scope.forms.detailsForm.$setDirty();
-      };
-
-      $scope.$on(loEvents.tableControls.itemCreate, function () {
-        $scope.create();
-      });
-
-      $scope.$watchCollection('lists', function (lists) {
-        if(!lists || !lists.length) {
-          return;
-        }
-
+      vm.loadListTypes = function (lists) {
         ListType.cachedQuery({
           tenantId: Session.tenant.tenantId
         }).$promise.then(function (listTypes) {
@@ -60,9 +32,37 @@ angular.module('liveopsConfigPanel')
             list.$listType = listType;
           });
         });
+      };
+
+      vm.submit = function () {
+        return vm.selectedList.save({
+          tenantId: vm.selectedList.tenantId
+        });
+      };
+
+      vm.addListItem = function addListItem() {
+        var newItem = {
+          $edit: true
+        };
+
+        vm.selectedList.items.push(newItem);
+        vm.forms.detailsForm.$setDirty();
+
+        return newItem;
+      };
+
+      vm.removeListItem = function removeListItem(index) {
+        vm.selectedList.items.splice(index, 1);
+        vm.forms.detailsForm.$setDirty();
+      };
+
+      $scope.$on(loEvents.tableControls.itemCreate, function () {
+        vm.create();
       });
 
-      $scope.forms = {};
-      $scope.tableConfig = genericListTableConfig;
+      vm.loadLists();
+
+      vm.tableConfig = genericListTableConfig;
+      vm.forms = {};
     }
   ]);

@@ -2,7 +2,7 @@
 
 /*global jasmine, spyOn: false */
 
-describe('tableControls directive', function () {
+describe('tableControls directive', function() {
   var $scope,
     $stateParams,
     element,
@@ -12,15 +12,14 @@ describe('tableControls directive', function () {
     loEvents;
 
   beforeEach(module('liveopsConfigPanel'));
-
   beforeEach(module('gulpAngular'));
 
   beforeEach(inject(['$compile', '$rootScope', '$stateParams', 'loEvents', '$location',
-    function ($compile, $rootScope, _$stateParams_, _loEvents, _$location_) {
+    function($compile, $rootScope, _$stateParams, _loEvents, _$location) {
       $scope = $rootScope.$new();
-      $stateParams = _$stateParams_;
+      $stateParams = _$stateParams;
       loEvents = _loEvents;
-      $location = _$location_;
+      $location = _$location;
 
       $scope.config = {
         fields: [{
@@ -35,13 +34,13 @@ describe('tableControls directive', function () {
       $scope.id = 'my-table';
       $scope.items = [];
       $scope.items.$promise = {
-        then: function (callback) {
+        then: function(callback) {
           callback();
         }
       };
       $scope.items.$resolved = true;
 
-      doCompile = function () {
+      doCompile = function() {
         element = $compile('<table-controls items="items" config="config" selected="selected" resource-name="{{resourceName}}" extend-scope="extendScope" id="id"></table-controls>')($scope);
         $scope.$digest();
         isolateScope = element.isolateScope();
@@ -49,21 +48,21 @@ describe('tableControls directive', function () {
     }
   ]));
 
-  it('should create a table', inject(function () {
+  it('should create a table', function() {
     doCompile();
     expect(element.find('table').length).toEqual(2); //Two tables are present due to scroll-table directive
-  }));
+  });
 
-  it('should add extendscope to its own scope', inject(function () {
+  it('should add extendscope to its own scope', function() {
     $scope.extendScope = {
       'newProperty': 'neat'
     };
     doCompile();
     expect(isolateScope.newProperty).toBeDefined();
     expect(isolateScope.newProperty).toEqual('neat');
-  }));
+  });
 
-  it('should select item based on url param', inject(function () {
+  it('should select item based on url param', function() {
     $scope.items.push({
       id: 'item1'
     });
@@ -71,32 +70,36 @@ describe('tableControls directive', function () {
       id: 'item2'
     });
 
-    $location.search({id: 'item2'});
+    $location.search({
+      id: 'item2'
+    });
 
     doCompile();
     expect($scope.selected).toEqual($scope.items[1]);
-  }));
+  });
 
-  it('should not try to select item based on url param if no items', inject(function () {
+  it('should not try to select item based on url param if no items', function() {
     var itemsSpy = spyOn($scope.items.$promise, 'then');
     delete $scope.items;
     doCompile();
     expect(itemsSpy).not.toHaveBeenCalled();
-  }));
+  });
 
-  it('should not select an item if id in url params does not match any item', inject(function () {
+  it('should not select an item if id in url params does not match any item', function() {
     $scope.items.push({
       id: 'item1'
     });
     $scope.items.push({
       id: 'item2'
     });
-    $location.search({id: 'somethingelse'});
+    $location.search({
+      id: 'somethingelse'
+    });
     doCompile();
     expect($scope.selected).toEqual(null);
-  }));
+  });
 
-  it('should select nothing on init if there is no id param', inject(function () {
+  it('should select nothing on init if there is no id param', function() {
     delete $stateParams.id;
     $scope.selected = null;
     $scope.items.push({
@@ -107,9 +110,9 @@ describe('tableControls directive', function () {
     });
     doCompile();
     expect($scope.selected).toEqual(null);
-  }));
+  });
 
-  it('should not display columns that are unchecked in config', inject(function () {
+  it('should not display columns that are unchecked in config', function() {
     $scope.config.fields.push({
       name: 'color',
       checked: false
@@ -120,9 +123,9 @@ describe('tableControls directive', function () {
     });
     doCompile();
     expect(element.find('th').length).toBe(3 * 2); //Two shown, one hidden, one checkbox column. Doubled due to scroll-table directive...
-  }));
+  });
 
-  it('should include a filter dropdown if field config has options defined', inject(function () {
+  it('should include a filter dropdown if field config has options defined', function() {
     $scope.config.fields.push({
       name: 'color',
       header: {
@@ -140,43 +143,55 @@ describe('tableControls directive', function () {
     });
     doCompile();
     expect(element.find('table').find('filter-dropdown').length).toBe(2); //Doubled due to scroll-table directive
-  }));
+  });
 
-  it('should catch the created:resource event and select the newly created item', inject(['$rootScope', function ($rootScope) {
+  it('should catch the created:resource event and select the newly created item', inject(function($rootScope) {
     doCompile();
-    var newItem = {id: 'myNewItem'};
+    var newItem = {
+      id: 'myNewItem'
+    };
     $rootScope.$broadcast('created:resource:resource', newItem);
 
     isolateScope.$digest();
     expect(isolateScope.selected).toEqual(newItem);
-  }]));
+  }));
 
-  describe('selectItem function', function () {
-    beforeEach(function () {
+  describe('onSelectItem function', function() {
+    beforeEach(function() {
       doCompile();
     });
 
-    it('should be defined', inject(function () {
+    it('should be defined', function() {
+      expect(isolateScope.onSelectItem).toBeDefined();
+      expect(isolateScope.onSelectItem).toEqual(jasmine.any(Function));
+    });
+
+    it('should check DirtyForms.confirmIfDirty', inject(function(DirtyForms) {
+      spyOn(DirtyForms, 'confirmIfDirty');
+      isolateScope.onSelectItem();
+      expect(DirtyForms.confirmIfDirty).toHaveBeenCalled();
+    }));
+  });
+
+  describe('selectItem function', function() {
+    beforeEach(function() {
+      doCompile();
+    });
+
+    it('should be defined', function() {
       expect(isolateScope.selectItem).toBeDefined();
       expect(isolateScope.selectItem).toEqual(jasmine.any(Function));
-    }));
+    });
 
-    it('should check DirtyForms.confirmIfDirty', inject(['DirtyForms', function (DirtyForms) {
-      spyOn(DirtyForms, 'confirmIfDirty');
-      isolateScope.selectItem();
-      expect(DirtyForms.confirmIfDirty).toHaveBeenCalled();
-    }]));
-
-
-    it('should set selected', inject(function () {
+    it('should set selected', function() {
       isolateScope.selectItem({
         name: 'my new item'
       });
       $scope.$digest();
       expect($scope.selected.name).toEqual('my new item');
-    }));
+    });
 
-    it('should call location to update the query param', inject(['$location', function ($location) {
+    it('should call location to update the query param', inject(function($location) {
       spyOn($location, 'search');
       isolateScope.selectItem({
         id: 'id1'
@@ -196,9 +211,9 @@ describe('tableControls directive', function () {
       expect($location.search).toHaveBeenCalledWith({
         id: undefined
       });
-    }]));
+    }));
 
-    it('should emit the resource:selected event', inject(['$rootScope', function ($rootScope) {
+    it('should emit the resource:selected event', inject(function($rootScope) {
       $rootScope.$broadcast = jasmine.createSpy('$broadcast');
       isolateScope.selectItem({
         name: 'my item'
@@ -211,57 +226,57 @@ describe('tableControls directive', function () {
       });
 
       expect($rootScope.$broadcast.calls.argsFor(0)[2]).toEqual({});
-    }]));
+    }));
   });
 
-  describe('onCreateClick function', function () {
-    beforeEach(function () {
+  describe('onCreateClick function', function() {
+    beforeEach(function() {
       doCompile();
     });
 
-    it('should be defined', inject(function () {
+    it('should be defined', function() {
       expect(isolateScope.onCreateClick).toBeDefined();
       expect(isolateScope.onCreateClick).toEqual(jasmine.any(Function));
-    }));
+    });
 
-    it('should check DirtyForms.confirmIfDirty', inject(['DirtyForms', function (DirtyForms) {
+    it('should check DirtyForms.confirmIfDirty', inject(function(DirtyForms) {
       spyOn(DirtyForms, 'confirmIfDirty');
       isolateScope.onCreateClick();
       expect(DirtyForms.confirmIfDirty).toHaveBeenCalled();
-    }]));
+    }));
 
-    it('should emit the table create click event', inject(['$rootScope', function ($rootScope) {
+    it('should emit the table create click event', inject(function($rootScope) {
       spyOn($rootScope, '$broadcast');
       isolateScope.onCreateClick();
       expect($rootScope.$broadcast).toHaveBeenCalledWith(loEvents.tableControls.itemCreate);
-    }]));
+    }));
   });
 
-  describe('onActionsClick function', function () {
-    beforeEach(function () {
+  describe('onActionsClick function', function() {
+    beforeEach(function() {
       doCompile();
     });
 
-    it('should be defined', inject(function () {
+    it('should be defined', function() {
       expect(isolateScope.onActionsClick).toBeDefined();
       expect(isolateScope.onActionsClick).toEqual(jasmine.any(Function));
-    }));
+    });
 
-    it('should check DirtyForms.confirmIfDirty', inject(['DirtyForms', function (DirtyForms) {
+    it('should check DirtyForms.confirmIfDirty', inject(function(DirtyForms) {
       spyOn(DirtyForms, 'confirmIfDirty');
       isolateScope.onActionsClick();
       expect(DirtyForms.confirmIfDirty).toHaveBeenCalled();
-    }]));
+    }));
 
-    it('should emit the table actions click event', inject(['$rootScope', function ($rootScope) {
+    it('should emit the table actions click event', inject(function($rootScope) {
       spyOn($rootScope, '$broadcast');
       isolateScope.onActionsClick();
       expect($rootScope.$broadcast).toHaveBeenCalledWith(loEvents.tableControls.actions);
-    }]));
+    }));
   });
 
-  describe('toggleAll function', function () {
-    beforeEach(function () {
+  describe('toggleAll function', function() {
+    beforeEach(function() {
       $scope.items.push({
         id: 'item1',
         checked: false
@@ -276,31 +291,31 @@ describe('tableControls directive', function () {
       doCompile();
     });
 
-    it('should set all filtered items to checked when param is true', inject(function () {
+    it('should set all filtered items to checked when param is true', function() {
       isolateScope.toggleAll(true);
       expect($scope.items[0].checked).toBeTruthy();
       expect($scope.items[1].checked).toBeTruthy();
       expect($scope.items[2].checked).toBeTruthy();
-    }));
+    });
 
-    it('should set all filtered items to unchecked when param is false', inject(function () {
+    it('should set all filtered items to unchecked when param is false', function() {
       isolateScope.toggleAll(false);
       expect($scope.items[0].checked).toBeFalsy();
       expect($scope.items[1].checked).toBeFalsy();
       expect($scope.items[2].checked).toBeFalsy();
-    }));
+    });
 
-    it('should only apply to filtered items', inject(function () {
+    it('should only apply to filtered items', function() {
       isolateScope.filtered.removeItem($scope.items[2]);
       isolateScope.toggleAll(true);
       expect($scope.items[0].checked).toBeTruthy();
       expect($scope.items[1].checked).toBeTruthy();
       expect($scope.items[2].checked).toBeFalsy();
-    }));
+    });
   });
 
-  describe('filtered', function () {
-    beforeEach(function () {
+  describe('filtered', function() {
+    beforeEach(function() {
       $scope.items.push({
         id: 'item1',
         checked: false
@@ -315,61 +330,61 @@ describe('tableControls directive', function () {
       doCompile();
     });
 
-    it('should update when searchQuery changes', inject(function () {
+    it('should update when searchQuery changes', function() {
       isolateScope.searchQuery = 'item2';
       isolateScope.$digest();
       expect(isolateScope.filtered.length).toBe(1);
       expect(isolateScope.filtered[0].id).toEqual('item2');
-    }));
+    });
 
-    it('watch should set selected item to null if there isn\'t one', inject(function () {
+    it('watch should set selected item to null if there isn\'t one', function() {
       spyOn(isolateScope, 'selectItem');
       delete isolateScope.selected;
       isolateScope.searchQuery = 'item1';
       isolateScope.$digest();
       expect(isolateScope.selectItem).toHaveBeenCalledWith(null);
-    }));
+    });
 
-    it('watch should reset selected item if old one gets filtered', inject(function () {
+    it('watch should reset selected item if old one gets filtered', function() {
       spyOn(isolateScope, 'selectItem');
       isolateScope.selected = $scope.items[2];
       isolateScope.searchQuery = 'item1';
       isolateScope.$digest();
       expect(isolateScope.selectItem).toHaveBeenCalledWith(null);
-    }));
+    });
 
-    it('watch should uncheck items that have been filtered out', inject(function () {
+    it('watch should uncheck items that have been filtered out', function() {
       isolateScope.searchQuery = 'item3';
       isolateScope.$digest();
       expect($scope.items[1].checked).toBeFalsy();
-    }));
+    });
   });
 
-  describe('parse function', function () {
-    beforeEach(function () {
+  describe('parse function', function() {
+    beforeEach(function() {
       doCompile();
     });
 
-    it('should exist', inject(function () {
+    it('should exist', function() {
       expect(isolateScope.parse).toBeDefined();
       expect(isolateScope.parse).toEqual(jasmine.any(Function));
-    }));
+    });
 
-    it('should call and return field.name if field.name is a function', inject(function () {
+    it('should call and return field.name if field.name is a function', function() {
       var item = {
         entity: 'the Hypnotoad'
       };
       var field = {
-        name: function (item) {
+        name: function(item) {
           return 'All Glory to ' + item.entity;
         }
       };
 
       var result = isolateScope.parse(item, field);
       expect(result).toEqual('All Glory to the Hypnotoad');
-    }));
+    });
 
-    it('should return the field value if field.name is a string', inject(function () {
+    it('should return the field value if field.name is a string', function() {
       var item = {
         bob: 'yes'
       };
@@ -379,9 +394,9 @@ describe('tableControls directive', function () {
 
       var result = isolateScope.parse(item, field);
       expect(result).toEqual('yes');
-    }));
+    });
 
-    it('should do nothing if field name is a type other than string or function', inject(function () {
+    it('should do nothing if field name is a type other than string or function', function() {
       var result;
       var field;
       var item = {
@@ -411,9 +426,9 @@ describe('tableControls directive', function () {
       };
       result = isolateScope.parse(item, field);
       expect(result).toBeUndefined();
-    }));
+    });
 
-    it('should call resolve function if it is defined', inject(function () {
+    it('should call resolve function if it is defined', function() {
       var item = {
         bob: 'yes'
       };
@@ -424,20 +439,20 @@ describe('tableControls directive', function () {
       var result = isolateScope.parse(item, field);
       expect(field.resolve).toHaveBeenCalledWith(item);
       expect(result).toEqual('spyResult');
-    }));
+    });
   });
 
-  describe('sortTable function', function () {
-    beforeEach(function () {
+  describe('sortTable function', function() {
+    beforeEach(function() {
       doCompile();
     });
 
-    it('should exist', inject(function () {
+    it('should exist', function() {
       expect(isolateScope.sortTable).toBeDefined();
       expect(isolateScope.sortTable).toEqual(jasmine.any(Function));
-    }));
+    });
 
-    it('should toggle reverseSortOrder if the orderBy field is already the given field', inject(function () {
+    it('should toggle reverseSortOrder if the orderBy field is already the given field', function() {
       isolateScope.reverseSortOrder = true;
       isolateScope.orderBy = 'theField';
 
@@ -446,9 +461,9 @@ describe('tableControls directive', function () {
       });
 
       expect(isolateScope.reverseSortOrder).toBeFalsy();
-    }));
+    });
 
-    it('should toggle reverseSortOrder if the orderBy field is already the given field\'s sortOn value', inject(function () {
+    it('should toggle reverseSortOrder if the orderBy field is already the given field\'s sortOn value', function() {
       isolateScope.reverseSortOrder = true;
       isolateScope.orderBy = 'theField';
 
@@ -457,9 +472,9 @@ describe('tableControls directive', function () {
       });
 
       expect(isolateScope.reverseSortOrder).toBeFalsy();
-    }));
+    });
 
-    it('should set orderBy and reset reverseSortOrder if it is a newly chosen field', inject(function () {
+    it('should set orderBy and reset reverseSortOrder if it is a newly chosen field', function() {
       isolateScope.reverseSortOrder = true;
       isolateScope.orderBy = 'anotherField';
 
@@ -469,9 +484,9 @@ describe('tableControls directive', function () {
 
       expect(isolateScope.reverseSortOrder).toBeFalsy();
       expect(isolateScope.orderBy).toEqual('theField');
-    }));
+    });
 
-    it('should set orderBy to the field\'s sortOn value and reset reverseSortOrder if it is a newly chosen field', inject(function () {
+    it('should set orderBy to the field\'s sortOn value and reset reverseSortOrder if it is a newly chosen field', function() {
       isolateScope.reverseSortOrder = true;
       isolateScope.orderBy = 'anotherField';
 
@@ -481,31 +496,35 @@ describe('tableControls directive', function () {
 
       expect(isolateScope.reverseSortOrder).toBeFalsy();
       expect(isolateScope.orderBy).toEqual('theField');
-    }));
+    });
   });
 
-  describe('clearAllFilters function', function () {
-    beforeEach(function () {
+  describe('clearAllFilters function', function() {
+    beforeEach(function() {
       doCompile();
 
       $scope.config.fields = [{
-        header: {id: 'one'}
+        header: {
+          id: 'one'
+        }
       }, {
-        header: {id: 'two'}
+        header: {
+          id: 'two'
+        }
       }];
     });
 
-    it('should exist', inject(function () {
+    it('should exist', function() {
       expect(isolateScope.clearAllFilters).toBeDefined();
       expect(isolateScope.clearAllFilters).toEqual(jasmine.any(Function));
-    }));
+    });
 
-    it('should clear the search field', inject(function () {
+    it('should clear the search field', function() {
       isolateScope.clearAllFilters();
       expect(isolateScope.searchQuery).toBeNull();
-    }));
+    });
 
-    it('should reselect all filters, if provided', inject(function () {
+    it('should reselect all filters, if provided', function() {
       isolateScope.config.fields[0].header.options = [{
         id: 'option1',
         checked: true
@@ -521,7 +540,6 @@ describe('tableControls directive', function () {
       expect(isolateScope.config.fields[0].header.options[0].checked).toBeTruthy();
       expect(isolateScope.config.fields[0].header.options[1].checked).toBeTruthy();
       expect(isolateScope.config.fields[0].header.options[2].checked).toBeTruthy();
-    }));
-
+    });
   });
 });

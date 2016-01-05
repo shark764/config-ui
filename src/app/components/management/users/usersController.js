@@ -1,15 +1,23 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('UsersController', ['$scope', '$window', '$parse', 'User', 'Session', 'AuthService', 'userTableConfig', 'Alert', 'flowSetup', 'BulkAction', '$q', '$location', 'lodash', 'TenantUser', 'TenantRole', 'queryCache', 'UserPermissions', 'PlatformRole', 'TenantUserGroups', 'Modal', 'loEvents',
-    function ($scope, $window, $parse, User, Session, AuthService, userTableConfig, Alert, flowSetup, BulkAction, $q, $location, _, TenantUser, TenantRole, queryCache, UserPermissions, PlatformRole, TenantUserGroups, Modal, loEvents) {
+  .controller('UsersController', ['$scope', '$translate', 'User', 'Session', 'userTableConfig', 'Alert', '$q', 'TenantUser', 'TenantRole', 'UserPermissions', 'PlatformRole', 'TenantUserGroups', 'Modal', 'loEvents',
+    function($scope, $translate, User, Session, userTableConfig, Alert, $q, TenantUser, TenantRole, UserPermissions, PlatformRole, TenantUserGroups, Modal, loEvents) {
       var vm = this;
       $scope.forms = {};
       $scope.Session = Session;
-      $window.flowSetup = flowSetup;
       $scope.userTableConfig = userTableConfig;
-
-      $scope.scenario = function () {
+      
+      var extensionFields = [
+        'extensions', 
+        'activeExtension',
+        'type',
+        'provider',
+        'telValue',
+        'phoneExtension',
+        'extensiondescription'];
+      
+      $scope.scenario = function() {
         if (!$scope.selectedTenantUser) {
           return;
         }
@@ -22,54 +30,78 @@ angular.module('liveopsConfigPanel')
           return 'update';
         }
       };
-
-      $scope.namesRequired = function(){
-        if (! $scope.selectedTenantUser){
+      
+      //isValid is for the tenantUser submit button
+      //it excludes error type of 'duplicateEmail' and any extension input
+      $scope.isValid = function() {
+        var valid = true;
+        for(var errorTypeIndex in $scope.forms.detailsForm.$error) {
+          if(errorTypeIndex === 'duplicateEmail') {
+            continue;
+          }
+          
+          var errorType = $scope.forms.detailsForm.$error[errorTypeIndex];
+          
+          for(var errorIndex = 0; errorIndex < errorType.length; errorIndex++) {
+            var errorModel = errorType[errorIndex];
+            if(extensionFields.indexOf(errorModel.$name) > 0) {
+              continue;
+            }
+            
+            valid = valid && errorModel.$valid;
+          }
+        }
+        
+        return valid;
+      };
+      
+      $scope.namesRequired = function() {
+        if (!$scope.selectedTenantUser) {
           return false;
         }
 
-        if ($scope.scenario() === 'update' && $scope.selectedTenantUser.$user.status !== 'pending'){
+        if ($scope.scenario() === 'update' && $scope.selectedTenantUser.$user.status !== 'pending') {
           return true;
         }
 
         return false;
       };
 
-      $scope.fetchTenantUsers = function () {
+      $scope.fetchTenantUsers = function() {
         return TenantUser.cachedQuery({
           tenantId: Session.tenant.tenantId
         });
       };
 
-      $scope.fetchTenantRoles = function () {
+      $scope.fetchTenantRoles = function() {
         return TenantRole.cachedQuery({
           tenantId: Session.tenant.tenantId
         });
       };
 
-      $scope.fetchPlatformRoles = function () {
+      $scope.fetchPlatformRoles = function() {
         return PlatformRole.cachedQuery();
       };
 
-      $scope.create = function () {
+      $scope.create = function() {
         $scope.selectedTenantUser = new TenantUser();
         $scope.selectedTenantUser.$user = new User();
       };
 
-      vm.saveTenantUser = function saveTenantUser () {
-
+      vm.saveTenantUser = function saveTenantUser() {
         return $scope.selectedTenantUser.save({
-          tenantId: Session.tenant.tenantId
-        }).then(function (tenantUser) {
-          tenantUser.$skills = [];
-
-          tenantUser.$groups = TenantUserGroups.query({
-            memberId: tenantUser.id,
             tenantId: Session.tenant.tenantId
-          });
+          })
+          .then(function(tenantUser) {
+            tenantUser.$skills = [];
 
-          return tenantUser;
-        });
+            tenantUser.$groups = TenantUserGroups.query({
+              memberId: tenantUser.id,
+              tenantId: Session.tenant.tenantId
+            });
+
+            return tenantUser.save();
+          });
       };
 
       vm.canSaveUser = function(tenantUser) {
@@ -77,9 +109,9 @@ angular.module('liveopsConfigPanel')
 
           (tenantUser.$user.isNew() ||
 
-          (UserPermissions.hasPermission('PLATFORM_MANAGE_USER_ACCOUNT') &&
-            Session.user.id === $scope.selectedTenantUser.$user.id) ||
-          UserPermissions.hasPermission('PLATFORM_MANAGE_ALL_USERS'));
+            (UserPermissions.hasPermission('PLATFORM_MANAGE_USER_ACCOUNT') &&
+              Session.user.id === $scope.selectedTenantUser.$user.id) ||
+            UserPermissions.hasPermission('PLATFORM_MANAGE_ALL_USERS'));
       };
 
       vm.canSaveTenantUser = function(tenantUser) {
@@ -90,7 +122,7 @@ angular.module('liveopsConfigPanel')
           ]));
       };
 
-      $scope.submit = function () {
+      $scope.submit = function() {
         if ($scope.scenario() === 'invite:new:user') {
           $scope.selectedTenantUser.$user.email = $scope.selectedTenantUser.email;
         }
@@ -107,41 +139,41 @@ angular.module('liveopsConfigPanel')
           .then(tenantUserSave);
       };
 
-      $scope.resend = function () {
+      $scope.resend = function() {
         $scope.selectedTenantUser.status = 'invited';
 
         return $scope.selectedTenantUser.save({
           tenantId: Session.tenant.tenantId
-        }).then(function () {
-          Alert.success('Invite Sent');
-        }, function () {
-          Alert.error('Error occured. Invite not sent.');
+        }).then(function() {
+          Alert.success($translate.instant('user.details.invite.send.success'));
+        }, function() {
+          Alert.error($translate.instant('user.details.invite.send.fail'));
         });
       };
 
-      $scope.expireTenantUser = function () {
+      $scope.expireTenantUser = function() {
         Modal.showConfirm({
           message: 'This will prevent the user from accepting their invitation. Continue?',
-          okCallback: function () {
+          okCallback: function() {
             $scope.selectedTenantUser.status = 'pending';
 
             $scope.selectedTenantUser.save({
               tenantId: Session.tenant.tenantId
-            }).then(function () {
-              Alert.success('Invitation revoked');
-            }, function () {
-              Alert.error('An error occured. Invite remains active.');
+            }).then(function() {
+              Alert.success($translate.instant('user.details.invite.revoke.success'));
+            }, function() {
+              Alert.error($translate.instant('user.details.invite.revoke.fail'));
             });
           }
         });
       };
 
-      $scope.$on(loEvents.tableControls.itemCreate, function () {
+      $scope.$on(loEvents.tableControls.itemCreate, function() {
         $scope.create();
       });
 
       //TODO revisit this.
-      $scope.$on('email:validator:found', function (event, tenantUser) {
+      $scope.$on('email:validator:found', function(event, tenantUser) {
         $scope.selectedTenantUser = tenantUser;
       });
     }

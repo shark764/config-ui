@@ -2,7 +2,6 @@
 
 describe('userGroupBulkAction directive', function() {
   var $scope,
-    $compile,
     $httpBackend,
     element,
     isolateScope,
@@ -17,47 +16,44 @@ describe('userGroupBulkAction directive', function() {
   beforeEach(module('liveopsConfigPanel.tenant.user.group.mock'));
 
   beforeEach(inject(['$compile', '$rootScope', '$httpBackend', 'mockGroups', 'mockUsers', 'UserGroupBulkAction',
-    function(_$compile_, _$rootScope_, _$httpBackend, _mockGroups, _mockUsers, _UserGroupBulkAction) {
-      $scope = _$rootScope_.$new();
-      $compile = _$compile_;
+    function($compile, $rootScope, _$httpBackend, _mockGroups, _mockUsers, _UserGroupBulkAction) {
+      $scope = $rootScope.$new();
       $httpBackend = _$httpBackend;
       mockGroups = _mockGroups;
       mockUsers = _mockUsers;
       UserGroupBulkAction = _UserGroupBulkAction;
+
+      $scope.users = [mockUsers[0], mockUsers[1]];
+
+      element = $compile('<ba-user-groups users="users"></ba-user-groups>')($scope);
+      $scope.$digest();
+      isolateScope = element.isolateScope();
+      $httpBackend.flush();
     }
   ]));
-
-  beforeEach(function() {
-    $scope.users = [mockUsers[0], mockUsers[1]];
-
-    element = $compile('<ba-user-groups users="users"></ba-user-groups>')($scope);
-    $scope.$digest();
-    isolateScope = element.isolateScope();
-    $httpBackend.flush();
-  });
 
   describe('ON bulkAction.execute', function() {
     it('should override bulkAction.execute', function() {
       expect(isolateScope.bulkAction.execute).toBeDefined();
     });
 
-    it('should should call userkillBulkAction.selectedType.execute when user doesQualify', inject([function() {
+    it('should should call userkillBulkAction.selectedType.execute when user doesQualify', function() {
       spyOn(isolateScope.bulkAction.userGroupBulkActions[0].selectedType, 'execute');
       spyOn(isolateScope.bulkAction.userGroupBulkActions[0].selectedType, 'doesQualify').and.returnValue(true);
 
       isolateScope.bulkAction.execute([mockUsers[0]]);
 
       expect(isolateScope.bulkAction.userGroupBulkActions[0].selectedType.execute).toHaveBeenCalled();
-    }]));
+    });
 
-    it('should not call userGroupBulkAction.selectedType.execute if user !doesQualify', inject([function() {
+    it('should not call userGroupBulkAction.selectedType.execute if user !doesQualify', function() {
       spyOn(isolateScope.bulkAction.userGroupBulkActions[0].selectedType, 'execute');
       spyOn(isolateScope.bulkAction.userGroupBulkActions[0].selectedType, 'doesQualify').and.returnValue(false);
 
       isolateScope.bulkAction.execute([mockUsers[1]]);
 
       expect(isolateScope.bulkAction.userGroupBulkActions[0].selectedType.execute).not.toHaveBeenCalled();
-    }]));
+    });
   });
 
   describe('ON bulkAction.canExecute', function() {

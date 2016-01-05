@@ -1,15 +1,9 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('roleTableConfig', ['$translate', 'UserPermissions', 'helpDocsHostname', function ($translate, UserPermissions, helpDocsHostname) {
-    //TODO: enable when API returns list of permissions object instead of just ids
-    //function getPermissionOptions() {
-    //  return TenantPermission.cachedQuery({
-    //    tenantId: Session.tenant.tenantId
-    //  });
-    //}
-
-     return {
+  .service('roleTableConfig', ['$translate', 'UserPermissions', 'helpDocsHostname',
+    function($translate, UserPermissions, helpDocsHostname) {
+      return {
         'fields': [{
           'header': {
             'display': $translate.instant('value.name')
@@ -22,25 +16,22 @@ angular.module('liveopsConfigPanel')
           'name': '$original.description'
         }, {
           'header': {
-            'display': $translate.instant('role.table.permissions')//,
-            //TODO: enable when API returns list of permissions object instead of just ids
-            //'valuePath': 'id',
-            //'displayPath': 'name',
-            //'options': getPermissionOptions
+            'display': $translate.instant('role.table.permissions')
           },
-          //'lookup': 'permissions:id',
-          'resolve': function (tenantRole) {
+          'resolve': function(tenantRole) {
             return tenantRole.$original.permissions.length;
           },
           'sortOn': '$original.permissions.length',
           'name': '$original.permissions'
         }],
-        'searchOn' : ['$original.name'],
-        'orderBy' : '$original.name',
+        'searchOn': ['$original.name'],
+        'orderBy': '$original.name',
         'title': $translate.instant('role.table.title'),
-        'sref' : 'content.management.roles',
+        'sref': 'content.management.roles',
         'showBulkActions': false,
-        'showCreate': function () { return UserPermissions.hasPermissionInList(['PLATFORM_CREATE_TENANT_ROLES', 'MANAGE_ALL_ROLES']); },
+        'showCreate': function() {
+          return UserPermissions.hasPermissionInList(['PLATFORM_CREATE_TENANT_ROLES', 'MANAGE_ALL_ROLES']);
+        },
         'helpLink': helpDocsHostname + '/Content/Managing%20Users/Adding_roles.htm'
       };
     }

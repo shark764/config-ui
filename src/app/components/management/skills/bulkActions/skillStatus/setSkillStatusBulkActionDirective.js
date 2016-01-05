@@ -1,20 +1,24 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('baSetSkillStatus', ['Skill', 'Session', 'BulkAction',
-    function (Skill, Session, BulkAction) {
+  .directive('baSetSkillStatus', ['Skill', 'Session', 'BulkAction', 'statuses',
+    function(Skill, Session, BulkAction, statuses) {
       return {
-        restrict: 'AE',
+        restrict: 'E',
         scope: {},
         require: '?^bulkActionExecutor',
         templateUrl: 'app/components/management/skills/bulkActions/skillStatus/setSkillStatusBulkAction.html',
-        link: function ($scope, elem, attr, bulkActionExecutor) {
+        link: function($scope, elem, attr, bulkActionExecutor) {
           $scope.bulkAction = new BulkAction();
-          
-          if(bulkActionExecutor){
+
+          if (bulkActionExecutor) {
             bulkActionExecutor.register($scope.bulkAction);
           }
           
+          $scope.$evalAsync(function() {
+            $scope.statuses = statuses();
+          });
+
           $scope.bulkAction.apply = function(skill) {
             var skillCopy = new Skill();
             skillCopy.id = skill.id;
@@ -26,7 +30,7 @@ angular.module('liveopsConfigPanel')
               return skill;
             });
           };
-          
+
           $scope.bulkAction.reset = function() {
             $scope.bulkAction.checked = false;
             $scope.active = '';

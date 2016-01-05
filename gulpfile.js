@@ -9,6 +9,7 @@ var options = {
   dist: 'dist',
   tmp: '.tmp',
   e2e: 'e2e',
+  lang: 'src/lang',
   configShared: 'bower_components/liveops-config-panel-shared',
   errorHandler: function(title) {
     return function(err) {

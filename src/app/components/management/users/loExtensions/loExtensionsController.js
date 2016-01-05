@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('loExtensionsController', ['$scope', '$q', '$parse', 'Session', 'loExtensionProviders', 'loExtensionTypes',
-    function ($scope, $q, $parse, Session, loExtensionProviders, loExtensionTypes) {
+  .controller('loExtensionsController', ['$scope', '$q', '$translate', 'Session', 'loExtensionProviders', 'loExtensionTypes', '_', 'Alert',
+    function($scope, $q, $translate, Session, loExtensionProviders, loExtensionTypes, _, Alert) {
       var vm = this;
       $scope.loExtensionProviders = loExtensionProviders;
       $scope.loExtensionTypes = loExtensionTypes;
@@ -10,29 +10,37 @@ angular.module('liveopsConfigPanel')
 
       $scope.newExtension = {};
 
+      vm.resetExtension = function() {
+        $scope.newExtension = {};
+        $scope.newExtension.type = 'webrtc';
+        $scope.clearValues();
+      };
+
       vm.save = function() {
-        delete $scope.tenantUser.status;
-        delete $scope.tenantUser.roleId;
-
         return $scope.tenantUser.save({
-          tenantId : Session.tenant.tenantId
-        }).then(function (tenantUser) {
-          $scope.newExtension = {};
-          $scope.newExtension.type = 'webrtc';
-          $scope.clearValues();
-
+          tenantId: Session.tenant.tenantId
+        }).then(function(tenantUser) {
+          vm.resetExtension();
+          Alert.success($translate.instant('details.extensions.success'));
           return tenantUser;
-        }, function (error) {
-          var def = $q.defer();
+        }, function(response) {
+          if(response.data.error.attribute.activeExtension) {
+            Alert.error(response.data.error.attribute.activeExtension);
+          } else {
+            $scope.form
+              .loFormSubmitController
+              .populateApiErrors(response);
 
+            Alert.error($translate.instant('details.extensions.error'));
+          }
+          
           $scope.tenantUser.reset();
 
-          def.reject(error);
-          return def.promise;
+          return $q.reject(response);
         });
       };
 
-      $scope.add = function () {
+      $scope.add = function() {
         $scope.newExtension.value = $scope.phoneNumber;
         if ($scope.phoneExtension) {
           $scope.newExtension.value += 'x' + $scope.phoneExtension;
@@ -41,19 +49,13 @@ angular.module('liveopsConfigPanel')
         }
 
         $scope.tenantUser.extensions.push($scope.newExtension);
-        return vm.save().then(function (tenantUser) {
-          $scope.newExtension = {};
-          $scope.newExtension.type = 'webrtc';
-          $scope.clearValues();
+        return vm.save().then(function(tenantUser) {
+          vm.resetExtension();
           return tenantUser;
         });
       };
 
-      $scope.clearExtensionError = function () {
-        $scope.userTenantExtensionForm.extensions.$setValidity('api', true);
-      };
-
-      $scope.clearValues = function () {
+      $scope.clearValues = function() {
         $scope.phoneNumber = null;
         $scope.phoneExtension = null;
         $scope.sipExtension = null;
@@ -61,22 +63,40 @@ angular.module('liveopsConfigPanel')
         delete($scope.newExtension.provider);
 
         angular.forEach([
-            'type', 'provider', 'telValue', 'sipValue', 'description', 'extensions'
-        ], function (field) {
-          $scope.userTenantExtensionForm[field].$setPristine();
-          $scope.userTenantExtensionForm[field].$setUntouched();
-          $scope.userTenantExtensionForm[field].$setValidity('api', true);
+          'type', 'provider', 'telValue', 'sipValue', 'extensiondescription'
+        ], function(field) {
+          $scope.form[field].$setPristine();
+          $scope.form[field].$setUntouched();
+          $scope.form[field].$setValidity('api', true);
         });
       };
 
-      $scope.remove = function (extension) {
+      $scope.remove = function(extension) {
         $scope.tenantUser.extensions.removeItem(extension);
+
+        var defaultExtension = $scope.tenantUser.extensions[0];
+
+        $scope.setActiveExtension(defaultExtension);
+
         return vm.save();
       };
 
-      $scope.moved = function (index) {
+      $scope.moved = function(index) {
         $scope.tenantUser.extensions.splice(index, 1);
+
+        var defaultExtension = $scope.tenantUser.extensions[0];
+
+        $scope.setActiveExtension(defaultExtension);
+
         return vm.save();
+      };
+
+      $scope.setActiveExtension = function(extension) {
+        if (!$scope.tenantUser.activeExtension ||
+          !_.isEqual(extension.value, $scope.tenantUser.activeExtension.value)) {
+
+          $scope.tenantUser.activeExtension = extension;
+        }
       };
 
       $scope.newExtension.type = 'webrtc';

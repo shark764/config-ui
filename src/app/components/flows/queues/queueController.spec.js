@@ -2,40 +2,43 @@
 
 describe('QueueController', function() {
   var $scope,
-  $httpBackend,
-  mockQueues,
-  Queue,
-  apiHostname,
-  Session,
-  routeParams,
-  mockQueueVersions,
-  QueueVersion,
-  controller,
-  loEvents;
+    $httpBackend,
+    mockQueues,
+    Queue,
+    apiHostname,
+    Session,
+    mockQueueVersions,
+    QueueVersion,
+    controller,
+    loEvents;
 
   beforeEach(module('gulpAngular'));
   beforeEach(module('liveopsConfigPanel'));
   beforeEach(module('liveopsConfigPanel.tenant.queue.mock'));
   beforeEach(module('liveopsConfigPanel.tenant.queue.version.mock'));
 
-  beforeEach(inject(['$rootScope', '$controller', '$injector', 'Queue', 'apiHostname', 'Session', 'mockQueues', 'mockQueueVersions', 'QueueVersion', 'loEvents',
-    function($rootScope, $controller, $injector, _Queue_, _apiHostname, _Session_, _mockQueues, _mockQueueVersions, _QueueVersion, _loEvents) {
+  beforeEach(inject(['$rootScope', '$controller', '$httpBackend', 'Queue', 'apiHostname', 'Session', 'mockQueues', 'mockQueueVersions', 'QueueVersion', 'loEvents',
+    function($rootScope, $controller, _$httpBackend, _Queue, _apiHostname, _Session, _mockQueues, _mockQueueVersions, _QueueVersion, _loEvents) {
       $scope = $rootScope.$new();
-      Queue = _Queue_;
+      Queue = _Queue;
       apiHostname = _apiHostname;
-      Session = _Session_;
+      Session = _Session;
       mockQueues = _mockQueues;
       mockQueueVersions = _mockQueueVersions;
       QueueVersion = _QueueVersion;
       loEvents = _loEvents;
+      $httpBackend = _$httpBackend;
 
-      routeParams = {id : 'q1'};
+      var routeParams = {
+        id: 'q1'
+      };
 
-      $httpBackend = $injector.get('$httpBackend');
-
-      controller = $controller('QueueController', {'$scope': $scope, '$stateParams' : routeParams});
-    }]));
-
+      controller = $controller('QueueController', {
+        '$scope': $scope,
+        '$stateParams': routeParams
+      });
+    }
+  ]));
 
   describe('ON fetchQueues', function() {
     it('should be defined', function() {
@@ -91,14 +94,14 @@ describe('QueueController', function() {
     expect(controller.selectedQueueVersion).toBeNull();
   });
 
-  it('should set up a default version when creating a new version', inject(['Session', function(Session) {
+  it('should set up a default version when creating a new version', function() {
     controller.selectedQueue = mockQueues[0];
     controller.addQueueVersion();
     expect(controller.selectedQueueVersion).toBeDefined();
     expect(controller.selectedQueueVersion.query).toEqual('[{:after-seconds-in-queue 0 :query {}}]');
     expect(controller.selectedQueueVersion.tenantId).toEqual(Session.tenant.tenantId);
     expect(controller.selectedQueueVersion.name).toEqual('v1');
-  }]));
+  });
 
   it('should copy the version into selectedqueueversion on copy event', function() {
     spyOn(controller, 'fetchVersions').and.returnValue([{}]);
@@ -209,9 +212,7 @@ describe('QueueController', function() {
 
       $httpBackend.expectPOST(apiHostname + '/v1/tenants/tenant-id/queues/queueId1/versions').respond(400, {
         error: {
-          attribute: {
-
-          }
+          attribute: {}
         }
       });
 
@@ -220,13 +221,13 @@ describe('QueueController', function() {
     });
 
     it('ON save failure should copy the initial queue version', function() {
-      $scope.forms = {
-          versionForm : {
-            query : {
-              $setValidity: jasmine.createSpy('setValidity'),
-              $setTouched: jasmine.createSpy('setTouched')
-            }
+      controller.forms = {
+        versionForm: {
+          query: {
+            $setValidity: jasmine.createSpy('setValidity'),
+            $setTouched: jasmine.createSpy('setTouched')
           }
+        }
       };
 
       controller.initialVersion = new QueueVersion({

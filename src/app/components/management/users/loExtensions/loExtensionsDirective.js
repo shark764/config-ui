@@ -2,12 +2,13 @@
 
 angular.module('liveopsConfigPanel')
   .directive('loExtensions', [
-    function () {
+    function() {
       return {
         restrict: 'E',
         scope: {
           tenantUser: '=',
-          ngDisabled: '='
+          ngDisabled: '=',
+          form: '='
         },
         templateUrl: 'app/components/management/users/loExtensions/loExtensions.html',
         controller: 'loExtensionsController'

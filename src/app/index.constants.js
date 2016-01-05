@@ -1,4 +1,4 @@
-'use strict'; 
+'use strict';
 
 angular.module('liveopsConfigPanel.config', [])
 
@@ -11,7 +11,7 @@ angular.module('liveopsConfigPanel.config', [])
 .constant('_', _)
 
 .factory('userStatuses', function() {
-  return function(){
+  return function() {
     return [{
       'display': 'Disabled',
       'value': 'disabled'
@@ -25,48 +25,48 @@ angular.module('liveopsConfigPanel.config', [])
   };
 })
 
-.factory('statuses', function () {
-  return function(){
-    return [{
-      'display': 'Disabled',
-      'value': false
-    }, {
-      'display': 'Enabled',
-      'value': true
-    }];
-  };
-})
-.factory('ynStatuses', function () {
-  return function(){
-    return [{
-      'display': 'No',
-      'value': false
-    }, {
-      'display': 'Yes',
-      'value': true
-    }];
-  };
-})
-.factory('tenantStatuses', function() {
-  return function(){
-    return [{
-      'display': 'Disabled',
-      'value': 'disabled'
-    }, {
-      'display': 'Expired Invitation',
-      'value': 'expired'
-    }, {
-      'display': 'Pending Invitation',
-      'value': 'pending'
-    }, {
-      'display': 'Accepted',
-      'value': 'accepted'
-    }, {
-      'display': 'Pending Acceptance',
-      'value': 'invited'
-    }];
-  };
-})
+.factory('statuses', ['$translate', function($translate) {
+    return function() {
+      return [{
+        'display': $translate.instant('value.disabled'),
+        'value': false
+      }, {
+        'display': $translate.instant('value.enabled'),
+        'value': true
+      }];
+    };
+  }])
+  .factory('ynStatuses', function() {
+    return function() {
+      return [{
+        'display': 'No',
+        'value': false
+      }, {
+        'display': 'Yes',
+        'value': true
+      }];
+    };
+  })
+  .factory('tenantStatuses', function() {
+    return function() {
+      return [{
+        'display': 'Disabled',
+        'value': 'disabled'
+      }, {
+        'display': 'Expired Invitation',
+        'value': 'expired'
+      }, {
+        'display': 'Pending Invitation',
+        'value': 'pending'
+      }, {
+        'display': 'Accepted',
+        'value': 'accepted'
+      }, {
+        'display': 'Pending Acceptance',
+        'value': 'invited'
+      }];
+    };
+  })
 
 .constant('userStates', [{
   'display': 'Busy',

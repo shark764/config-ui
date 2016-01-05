@@ -1,22 +1,29 @@
 'use strict';
 
-describe('navbar directive', function(){
+describe('navbar directive', function() {
   var $scope,
     element;
 
   beforeEach(module('liveopsConfigPanel'));
   beforeEach(module('gulpAngular'));
 
-  describe('when authenticated', function(){
+  describe('when authenticated', function() {
     beforeEach(inject(['$compile', '$rootScope', 'navbarDirective', function($compile, $rootScope, navbarDirective) {
       //Mock out the controller for this directive, so we don't have to worry about httpd calls, etc, that it might make
       var directiveDefinition = navbarDirective[0];
       directiveDefinition.controller = function($scope) {
-        $scope.tenants = [{name: 'one'}, {name : 'two'}, {name: 'three'}];
+        $scope.tenants = [{
+          name: 'one'
+        }, {
+          name: 'two'
+        }, {
+          name: 'three'
+        }];
         $scope.Session = {
           isAuthenticated: function() {
             return true;
-          }};
+          }
+        };
       };
 
       $scope = $rootScope.$new();
@@ -24,18 +31,18 @@ describe('navbar directive', function(){
       $scope.$digest();
     }]));
 
-    it('should insert one nav element', inject(function() {
+    it('should insert one nav element', function() {
       expect(element.find('nav').length).toEqual(1);
-    }));
+    });
 
-    it('should insert a welcome message', inject(function() {
+    it('should insert a welcome message', function() {
       var welcomeElement = element[0].querySelector('#welcome');
       expect(angular.element(welcomeElement).length).toEqual(1);
-    }));
+    });
 
-    it('should insert a tenant switcher dropdown', inject(function() {
+    it('should insert a tenant switcher dropdown', function() {
       var dropdownElement = angular.element(element[0].querySelector('#topnav').querySelector('#tenant-dropdown'));
       expect(dropdownElement.length).toEqual(1);
-    }));
+    });
   });
 });

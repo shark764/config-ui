@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('FlowManagementController', ['$scope', '$state', '$document', '$compile', '$location', 'Session', 'Flow', 'flowTableConfig', 'flowTypes', 'FlowDraft', 'FlowVersion', 'BulkAction', 'loEvents', '_',
-    function ($scope, $state, $document, $compile, $location, Session, Flow, flowTableConfig, flowTypes, FlowDraft, FlowVersion, BulkAction, loEvents, _) {
+  .controller('FlowManagementController', ['$scope', '$state', '$document', '$compile', 'Session', 'Flow', 'flowTableConfig', 'flowTypes', 'FlowDraft', 'FlowVersion', 'loEvents',
+    function ($scope, $state, $document, $compile, Session, Flow, flowTableConfig, flowTypes, FlowDraft, FlowVersion, loEvents) {
 
       $scope.getVersions = function(){
         if (! $scope.selectedFlow || $scope.selectedFlow.isNew()){
@@ -14,7 +14,7 @@ angular.module('liveopsConfigPanel')
           flowId: $scope.selectedFlow.id
         }, 'FlowVersion' + $scope.selectedFlow.id);
 
-        _.each(versions, function(version, index){
+        angular.forEach(versions, function(version, index){
           version.fakeVersion = 'v' + (versions.length - index);
         });
 
@@ -53,8 +53,8 @@ angular.module('liveopsConfigPanel')
             flow: version.flow,
             tenantId: Session.tenant.tenantId,
             name: draft.name
-          })
-          
+          });
+
           return newFlow.save().then(function(draft){
             $document.find('modal').remove();
             $state.go('content.flows.editor', {
@@ -83,14 +83,14 @@ angular.module('liveopsConfigPanel')
         };
 
         newScope.okCallback = function(newFlow) {
-          var newFlow = new Flow({
+          var newFlowCopy = new Flow({
             tenantId: Session.tenant.tenantId,
             active: true,
             name: newFlow.name,
             type: newFlow.type
           });
-          
-          return newFlow.save(function(flow){
+
+          return newFlowCopy.save(function(flow){
             $document.find('modal').remove();
             var initialDraft = new FlowDraft({
               flowId: flow.id,
@@ -123,7 +123,7 @@ angular.module('liveopsConfigPanel')
       $scope.$on(loEvents.tableControls.itemCreate, function () {
         $scope.create();
       });
-      
+
       $scope.$watch('selectedFlow', function(newValue){
         if (newValue){
           $scope.getVersions();
@@ -133,9 +133,6 @@ angular.module('liveopsConfigPanel')
 
       $scope.flowTypes = flowTypes;
       $scope.tableConfig = flowTableConfig;
-      $scope.bulkActions = {
-        setFlowStatus: new BulkAction()
-      };
 
       $scope.submit = function(){
         return $scope.selectedFlow.save();
