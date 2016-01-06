@@ -1433,8 +1433,8 @@ angular.module('liveopsConfigPanel')
       "id": "00000000-0000-0000-000000000092",
       "type": "gauge",
       "config": {
-        "statistic": "service-level",
-        "statisticLookup": "service-level-time",
+        "statistic": "calls-answered-percent",
+        "statisticLookup": "calls-answered",
         "groupName": "queue2",
         "resourceIdName": "queue-id",
         "resourceId": null,
