@@ -1441,7 +1441,7 @@ angular.module('liveopsConfigPanel')
         "ui": {
           "title": {
             "show": true,
-            "text": "Service Level"
+            "text": "Answered < 20s"
           },
           "unit": "Answered < 20s",
           "size": {
