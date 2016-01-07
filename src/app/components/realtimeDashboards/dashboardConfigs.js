@@ -82,7 +82,7 @@ angular.module('liveopsConfigPanel')
             "show": true,
             "text": "Avg. Queue Wait Time"
           },
-          "unit": "seconds",
+          "unit": "",
           "size": {
             "width": 5,
             "height": 4
@@ -190,7 +190,7 @@ angular.module('liveopsConfigPanel')
             "show": true,
             "text": "Avg. Queue Wait Time"
           },
-          "unit": "seconds",
+          "unit": "",
           "size": {
             "width": 5,
             "height": 4
@@ -336,7 +336,7 @@ angular.module('liveopsConfigPanel')
             "show": true,
             "text": "Avg. Conversation Duration"
           },
-          "unit": "seconds",
+          "unit": "",
           "size": {
             "width": 5,
             "height": 5
@@ -361,7 +361,7 @@ angular.module('liveopsConfigPanel')
             "show": true,
             "text": "Avg. Wrap-up Duration"
           },
-          "unit": "seconds",
+          "unit": "",
           "size": {
             "width": 5,
             "height": 5
@@ -505,7 +505,7 @@ angular.module('liveopsConfigPanel')
             "show": true,
             "text": "Avg. Interaction Time"
           },
-          "unit": "seconds",
+          "unit": "",
           "size": {
             "width": 9,
             "height": 5
@@ -530,7 +530,7 @@ angular.module('liveopsConfigPanel')
             "show": true,
             "text": "Avg. Abandon Time"
           },
-          "unit": "seconds",
+          "unit": "",
           "size": {
             "width": 9,
             "height": 5
@@ -937,7 +937,7 @@ angular.module('liveopsConfigPanel')
   //           "show": true,
   //           "text": "Avg Wait Time"
   //         },
-  //         "unit": "seconds",
+  //         "unit": "",
   //         "size": {
   //           "width": 3,
   //           "height": 2
@@ -963,7 +963,7 @@ angular.module('liveopsConfigPanel')
   //           "show": true,
   //           "text": "Max Wait Time"
   //         },
-  //         "unit": "seconds",
+  //         "unit": "",
   //         "size": {
   //           "width": 3,
   //           "height": 2
@@ -1096,7 +1096,7 @@ angular.module('liveopsConfigPanel')
   //           "show": true,
   //           "text": "Avg Wait Time"
   //         },
-  //         "unit": "seconds",
+  //         "unit": "",
   //         "size": {
   //           "width": 3,
   //           "height": 2
@@ -1125,7 +1125,7 @@ angular.module('liveopsConfigPanel')
   //           "show": true,
   //           "text": "Max Wait Time"
   //         },
-  //         "unit": "seconds",
+  //         "unit": "",
   //         "size": {
   //           "width": 3,
   //           "height": 2
@@ -1263,7 +1263,7 @@ angular.module('liveopsConfigPanel')
   //           "show": true,
   //           "text": "Avg Wait Time"
   //         },
-  //         "unit": "seconds",
+  //         "unit": "",
   //         "size": {
   //           "width": 3,
   //           "height": 2
@@ -1292,7 +1292,7 @@ angular.module('liveopsConfigPanel')
   //           "show": true,
   //           "text": "Max Wait Time"
   //         },
-  //         "unit": "seconds",
+  //         "unit": "",
   //         "size": {
   //           "width": 3,
   //           "height": 2
@@ -1518,7 +1518,7 @@ angular.module('liveopsConfigPanel')
   //           "show": true,
   //           "text": "Avg. Interaction Duration"
   //         },
-  //         "unit": "seconds",
+  //         "unit": "",
   //         "size": {
   //           "width": 4,
   //           "height": 2
