@@ -449,7 +449,7 @@ angular.module('liveopsConfigPanel')
       "id": "00000000-0000-0000-000000000072",
       "type": "statistic",
       "config": {
-        "statistic": "interaction-start-instance",
+        "statistic": "interactions",
         "statisticLookup": "recordsCount",
         "ui": {
           "title": {
