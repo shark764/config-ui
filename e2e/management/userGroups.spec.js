@@ -165,16 +165,19 @@ describe('The user groups component of User view', function() {
       }
     }).then(function() {
       // Remove all user Groups
-      users.userGroupsRemove.each(function(currentUserGroup) {
-        currentUserGroup.click();
+      users.userGroups.count().then(function(currentUserGroupCount) {
+        for (var i = 1; i < currentUserGroupCount; i++) {
+          users.userGroups.get(1).element(by.css('a')).click();
+        }
       }).then(function() {
-        users.userGroups.count().then(function(userGroupCount) {
-          if (userGroupCount) {
+        users.userGroups.get(0).getText().then(function(lastGroupName) {
+          if (lastGroupName == 'everyone') {
             // User is still assigned to 'everyone' group
             expect(users.userGroups.count()).toBe(1);
             expect(users.noUserGroupsMessage.isDisplayed()).toBeFalsy();
             expect(shared.firstTableRow.element(by.css(users.groupsColumn)).getText()).toEqual('1');
           } else {
+            users.userGroups.get(0).element(by.css('a')).click(); // Remove last group
             expect(users.userGroups.count()).toBe(0);
             expect(users.noUserGroupsMessage.isDisplayed()).toBeTruthy();
             expect(users.noUserGroupsMessage.getText()).toBe('This user is not assigned to any groups.');
@@ -235,12 +238,12 @@ describe('The user groups component of User view', function() {
 
     users.userNameDetailsHeader.getText().then(function(selectedUserName) {
       shared.firstTableRow.element(by.css(users.groupsColumn)).getText().then(function(userGroupCount) {
-        if (userGroupCount == 1) {
+        if (userGroupCount == parseInt(userGroupCount)) {
           //Add a group to the user
           users.addGroupSearch.click();
           users.groupDropdownItems.get(0).click();
           users.addGroupBtn.click();
-          expect(shared.firstTableRow.element(by.css(users.groupsColumn)).getText()).toContain(userGroupCount + 1);
+          expect(shared.firstTableRow.element(by.css(users.groupsColumn)).getText()).toContain(parseInt(userGroupCount) + 1);
         }
       }).then(function() {
         // Remove user Group
@@ -366,17 +369,25 @@ describe('The user groups component of User view', function() {
       shared.firstTableRow.click();
 
       // Remove all user Groups
-      users.userGroupsRemove.each(function(currentUserGroup) {
-        currentUserGroup.click();
+      users.userGroups.then(function(currentUserGroups) {
+        for (var i = 1; i < currentUserGroups.length; i++) {
+          currentUserGroups[i].element(by.css('a')).click();
+        }
+      }).then(function() {
+        users.userGroups.get(0).getText().then(function(lastGroupName) {
+          if (lastGroupName != 'everyone') {
+            users.userGroups.get(0).element(by.css('a')).click();
+          }
+        });
+
+        users.addGroupSearch.click();
+        expect(users.groupDropdownItems.count()).toBe(groupNameList.length);
+
+        // Search Groups for each group element
+        for (var i = 0; i < groupNameList.length; i++) {
+          expect(groupNameList[i]).toContain(users.groupDropdownItems.get(i).getText());
+        }
       });
-
-      users.addGroupSearch.click();
-      expect(users.groupDropdownItems.count()).toBe(groupNameList.length);
-
-      // Search Groups for each group element
-      for (var i = 0; i < groupNameList.length; i++) {
-        expect(groupNameList[i]).toContain(users.groupDropdownItems.get(i).getText());
-      }
     });
   });
 
@@ -392,8 +403,13 @@ describe('The user groups component of User view', function() {
       expect(shared.firstTableRow.element(by.css(users.groupsColumn)).getText()).toEqual(parseInt(userGroupCount) + 1 + '');
 
       // Remove a user Group
-      users.userGroupsRemove.get(0).click();
-      expect(shared.firstTableRow.element(by.css(users.groupsColumn)).getText()).toEqual(userGroupCount);
+      if (parseInt(userGroupCount)) {
+        users.userGroups.get(1).element(by.css('a')).click();
+        expect(shared.firstTableRow.element(by.css(users.groupsColumn)).getText()).toEqual(userGroupCount);
+      } else {
+        users.userGroups.get(0).element(by.css('a')).click();
+        expect(shared.firstTableRow.element(by.css(users.groupsColumn)).getText()).toEqual(userGroupCount);
+      }
     });
   });
 
@@ -434,8 +450,8 @@ describe('The user groups component of User view', function() {
               users.addGroupSearch.sendKeys('\n');
 
               // Expect first group to be added
-              users.userGroups.count().then(function (userGroupCount) {
-                expect(users.userGroups.get(userGroupCount-1).getText()).toContain(firstGroupName);
+              users.userGroups.count().then(function(userGroupCount) {
+                expect(users.userGroups.get(userGroupCount - 1).getText()).toContain(firstGroupName);
               })
             });
           });
