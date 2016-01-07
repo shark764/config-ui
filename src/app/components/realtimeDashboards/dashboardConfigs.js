@@ -449,7 +449,7 @@ angular.module('liveopsConfigPanel')
       "id": "00000000-0000-0000-000000000072",
       "type": "statistic",
       "config": {
-        "statistic": "interaction-start-instance",
+        "statistic": "interactions",
         "statisticLookup": "recordsCount",
         "ui": {
           "title": {
@@ -664,44 +664,6 @@ angular.module('liveopsConfigPanel')
       }
 
     }, {
-      "id": "00000000-0000-0000-000000000005",
-      "type": "table",
-      "config": {
-        "ui": {
-          "size": {
-            "width": 9,
-            "height": 9
-          },
-          "position": {
-            row: 5,
-            col: 0
-          }
-        }
-      },
-      "chart": {
-        'data': {
-          'headers': [
-            'Agent',
-            'ID',
-            'Groups',
-            'Reason'
-          ],
-          'rows': [
-            [
-              'user@test.com',
-              '15678',
-              'Support A, MultiLingual',
-              'Awaiting Work'
-            ], [
-              'user@example.com',
-              '98332',
-              'MultiLingual, Billing',
-              'Awaiting Work'
-            ]
-          ]
-        }
-      }
-    }, {
       "id": "00000000-0000-0000-000000000006",
       "type": "title",
       "config": {
@@ -798,45 +760,6 @@ angular.module('liveopsConfigPanel')
       }
 
     }, {
-      "id": "00000000-0000-0000-000000000010",
-      "type": "table",
-      "config": {
-        "ui": {
-          "size": {
-            "width": 9,
-            "height": 9
-          },
-          "position": {
-            row: 5,
-            col: 10
-          }
-        }
-      },
-      "chart": {
-        'data': {
-          'headers': [
-            'Agent',
-            'ID',
-            'Groups',
-            'Reason'
-          ],
-          'rows': [
-            [
-              'agent@test.com',
-              '56666',
-              'Support C, Technical Support',
-              'Lunch'
-            ], [
-              'trainee@test.com',
-              '44665',
-              'Trainee',
-              'Training'
-            ]
-          ]
-        }
-      }
-
-    }, {
       "id": "00000000-0000-0000-000000000011",
       "type": "title",
       "config": {
@@ -930,50 +853,6 @@ angular.module('liveopsConfigPanel')
       },
       "chart": {
         "indicator": {}
-      }
-
-    }, {
-      "id": "00000000-0000-0000-000000000015",
-      "type": "table",
-      "config": {
-        "ui": {
-          "size": {
-            "width": 9,
-            "height": 7
-          },
-          "position": {
-            row: 5,
-            col: 20
-          }
-        }
-      },
-      "chart": {
-        'data': {
-          'headers': [
-            'Agent',
-            'ID',
-            'Groups',
-            'Reason'
-          ],
-          'rows': [
-            [
-              'agenta@test.com',
-              '1244',
-              'MultiLingual',
-              'In Conversation'
-            ], [
-              'agentb@test.com',
-              '2355',
-              'Support A, Tech Support',
-              'In Conversation'
-            ], [
-              'agentc@example.com',
-              '64344',
-              'Trainee',
-              'Wrap-Up'
-            ]
-          ]
-        }
       }
 
     }]
@@ -1149,59 +1028,6 @@ angular.module('liveopsConfigPanel')
       }
 
     }, {
-      "id": "00000000-0000-0000-000000000005",
-      "type": "table",
-      "config": {
-        "ui": {
-          "size": {
-            "width": 10,
-            "height": 12
-          },
-          "position": {
-            row: 6,
-            col: 0
-          }
-        }
-      },
-      "chart": {
-        'data': {
-          'headers': [
-            'ID',
-            'ANI',
-            'Flow',
-            'Queue',
-            'Priority'
-          ],
-          'rows': [
-            [
-              '12454333',
-              '1-555-555-5555',
-              'Support',
-              'Support Level A',
-              '40'
-            ], [
-              '12454533',
-              '1-555-555-5555',
-              'Support',
-              'Support Level A',
-              '60'
-            ], [
-              '12454224',
-              '1-555-555-5555',
-              'Support',
-              'Queue A',
-              '60'
-            ], [
-              '12454775',
-              '1-555-555-5555',
-              'Support',
-              'Queue B',
-              '40'
-            ]
-          ]
-        }
-      }
-    }, {
       "id": "00000000-0000-0000-000000000066",
       "type": "sourceSwitcher",
       "config": {
@@ -1370,44 +1196,6 @@ angular.module('liveopsConfigPanel')
       }
 
     }, {
-      "id": "00000000-0000-0000-000000000011",
-      "type": "table",
-      "config": {
-        "groupName": "queue1",
-        "resourceIdName": "queue-id",
-        "resourceId": null,
-        "ui": {
-          "size": {
-            "width": 10,
-            "height": 5
-          },
-          "position": {
-            row: 7,
-            col: 10
-          }
-        }
-      },
-      "chart": {
-        'data': {
-          'headers': [
-            'ID',
-            'ANI',
-            'Flow',
-            'Queue',
-            'Priority'
-          ],
-          'rows': [
-            [
-              '12454224',
-              '1-555-555-5555',
-              'Support',
-              'Queue A',
-              '60'
-            ]
-          ]
-        }
-      }
-    }, {
       "id": "00000000-0000-0000-000000000066",
       "type": "sourceSwitcher",
       "config": {
@@ -1441,7 +1229,7 @@ angular.module('liveopsConfigPanel')
         "ui": {
           "title": {
             "show": true,
-            "text": "Service Level"
+            "text": "Answered < 20s"
           },
           "unit": "Answered < 20s",
           "size": {
@@ -1574,44 +1362,6 @@ angular.module('liveopsConfigPanel')
         "indicator": {}
       }
 
-    }, {
-      "id": "00000000-0000-0000-000000000017",
-      "type": "table",
-      "config": {
-        "groupName": "queue2",
-        "resourceIdName": "queue-id",
-        "resourceId": null,
-        "ui": {
-          "size": {
-            "width": 10,
-            "height": 5
-          },
-          "position": {
-            row: 7,
-            col: 20
-          }
-        }
-      },
-      "chart": {
-        'data': {
-          'headers': [
-            'ID',
-            'ANI',
-            'Flow',
-            'Queue',
-            'Priority'
-          ],
-          'rows': [
-            [
-              '12454775',
-              '1-555-555-5555',
-              'Support',
-              'Queue B',
-              '40'
-            ]
-          ]
-        }
-      }
     }]
   }, {
     "id": "interactions",
@@ -1860,63 +1610,5 @@ angular.module('liveopsConfigPanel')
         "indicator": {}
       }
 
-    }, {
-      "id": "00000000-0000-0000-000000000005",
-      "type": "table",
-      "config": {
-        "ui": {
-          "size": {
-            "width": 20,
-            "height": 12
-          },
-          "position": {
-            row: 8,
-            col: 0
-          }
-        }
-      },
-      "chart": {
-        'data': {
-          'headers': [
-            'Interaction ID',
-            'ANI',
-            'Flow',
-            'Priority',
-            'State',
-            'Description'
-          ],
-          'rows': [
-            [
-              '124543333434',
-              '1-555-555-5555',
-              'Support',
-              '40',
-              'In Conversation',
-              'Speaking with Agent A'
-            ], [
-              '124534343434',
-              '1-555-555-5555',
-              'Support',
-              '40',
-              'In Queue',
-              'Waiting in Support Level A Queue'
-            ], [
-              '173346894323',
-              '1-555-555-5555',
-              'Support',
-              '40',
-              'In Flight',
-              'Moving through Support Flow'
-            ], [
-              '124876266335',
-              '1-555-555-5555',
-              'Support',
-              '60',
-              'In Conversation',
-              'Speaking with Agent B'
-            ]
-          ]
-        }
-      }
     }]
   }]);
