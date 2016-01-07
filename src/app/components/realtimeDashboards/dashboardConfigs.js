@@ -45,7 +45,7 @@ angular.module('liveopsConfigPanel')
       "type": "statistic",
       "config": {
         "statistic": "queue-length",
-        "statisticLookup": "value",
+        "statisticLookup": "recordsCount",
         "groupName": "queue1",
         "resourceIdName": "queue-id",
         "resourceId": null,
@@ -152,7 +152,7 @@ angular.module('liveopsConfigPanel')
       "type": "statistic",
       "config": {
         "statistic": "queue-length",
-        "statisticLookup": "value",
+        "statisticLookup": "recordsCount",
         "groupName": "queue2",
         "resourceIdName": "queue-id",
         "resourceId": null,
@@ -424,7 +424,7 @@ angular.module('liveopsConfigPanel')
       "type": "statistic",
       "config": {
         "statistic": "queue-length",
-        "statisticLookup": "value",
+        "statisticLookup": "recordsCount",
         "ui": {
           "title": {
             "show": true,
