@@ -251,6 +251,24 @@ angular.module('liveopsConfigPanel')
         "data": 'All Agents'
       }
     }, {
+      "id": "disclaimer-title",
+      "type": "title",
+      "config": {
+        "ui": {
+          "size": {
+            "width": 14,
+            "height": 3
+          },
+          "position": {
+            row: 20,
+            col: 25
+          }
+        }
+      },
+      "chart": {
+        "data": 'This dashboard refreshes every 15 seconds.'
+      }
+    }, {
       "id": "all-agents-group-resources-currently-ready",
       "type": "statistic",
       "config": {
