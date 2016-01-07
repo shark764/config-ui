@@ -522,6 +522,7 @@
   "role.permission.add.fail": "Sorry, there was an error adding that permission",
   "role.readonly.warning": "This role is inherited and cannot be edited",
 
+  "list.readonly.warning": "This list is inherited, so its details cannot be edited",
   "list.field.required": "{{fieldLabel}} is required.",
   "list.items.required": "List needs at least one item.",
   "list.items.header": "List Item(s)",
