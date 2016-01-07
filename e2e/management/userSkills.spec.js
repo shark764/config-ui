@@ -21,9 +21,8 @@ describe('The user skills component of User view', function() {
   afterAll(function() {
     shared.tearDown();
   });
-  // TODO User group count TITAN2-4533
 
-  xit('should add to the skill count for a user', function() {
+  it('should add to the skill count for a user', function() {
     //Create a new user
     shared.createBtn.click();
     var randomUser = Math.floor((Math.random() * 1000) + 1);
@@ -56,7 +55,7 @@ describe('The user skills component of User view', function() {
     });
   });
 
-  xit('should add skill with proficiency', function() {
+  it('should add skill with proficiency', function() {
     //Create a new skill
     browser.get(shared.skillsPageUrl);
     shared.createBtn.click();
@@ -93,7 +92,7 @@ describe('The user skills component of User view', function() {
     });
   });
 
-  xit('should add skill with default proficiency', function() {
+  it('should add skill with default proficiency', function() {
     //Create a new skill
     browser.get(shared.skillsPageUrl);
     shared.createBtn.click();
@@ -130,7 +129,7 @@ describe('The user skills component of User view', function() {
     });
   });
 
-  xit('should add skill without proficiency', function() {
+  it('should add skill without proficiency', function() {
     //Create a new skill
     browser.get(shared.skillsPageUrl);
     shared.createBtn.click();
@@ -164,7 +163,7 @@ describe('The user skills component of User view', function() {
     });
   });
 
-  xit('should validate skill proficiency based on minimum', function() {
+  it('should validate skill proficiency based on minimum', function() {
     //Create a new skill
     browser.get(shared.skillsPageUrl);
     shared.createBtn.click();
@@ -205,7 +204,7 @@ describe('The user skills component of User view', function() {
     });
   });
 
-  xit('should validate skill proficiency based on maximum', function() {
+  it('should validate skill proficiency based on maximum', function() {
     // Uses skill from previous test
     // Assign a user to it
     browser.get(shared.usersPageUrl);
@@ -237,7 +236,7 @@ describe('The user skills component of User view', function() {
     expect(users.proficiencyCounterUp.getAttribute('class')).toContain('disabled');
   });
 
-  xit('should create new skill and add to user', function() {
+  it('should create new skill and add to user', function() {
     shared.firstTableRow.click();
     var previousUserSkillCount = users.userSkills.count();
 
@@ -260,7 +259,7 @@ describe('The user skills component of User view', function() {
     expect(skills.proficiencySwitch.isSelected()).toBeFalsy();
   });
 
-  xit('should create new skill and add to user after pressing Enter key', function() {
+  it('should create new skill and add to user after pressing Enter key', function() {
     shared.firstTableRow.click();
     var previousUserSkillCount = users.userSkills.count();
 
@@ -285,7 +284,7 @@ describe('The user skills component of User view', function() {
     expect(skills.proficiencySwitch.isSelected()).toBeFalsy();
   });
 
-  xit('should create new skill with proficiency and add to user', function() {
+  it('should create new skill with proficiency and add to user', function() {
     shared.firstTableRow.click();
     var previousUserSkillCount = users.userSkills.count();
 
@@ -309,7 +308,7 @@ describe('The user skills component of User view', function() {
     expect(skills.proficiencySwitch.isSelected()).toBeTruthy();
   });
 
-  xit('should update skill count when removing a user skill', function() {
+  it('should update skill count when removing a user skill', function() {
     shared.firstTableRow.click();
 
     //Add a skill to the user
@@ -334,7 +333,7 @@ describe('The user skills component of User view', function() {
     });
   });
 
-  xit('should allow the user to be added to each skill once', function() {
+  it('should allow the user to be added to each skill once', function() {
     // Create a new user
     shared.createBtn.click();
     var randomUser = Math.floor((Math.random() * 1000) + 1);
@@ -373,7 +372,7 @@ describe('The user skills component of User view', function() {
     });
   });
 
-  xit('should include the correct number of Skill elements', function() {
+  it('should include the correct number of Skill elements', function() {
     shared.firstTableRow.click();
 
     // Get list of Skills
@@ -395,7 +394,7 @@ describe('The user skills component of User view', function() {
     });
   });
 
-  xit('should list each existing Skill not assigned to the user', function() {
+  it('should list each existing Skill not assigned to the user', function() {
     shared.firstTableRow.click();
     users.addSkillSearch.click();
 
@@ -413,7 +412,7 @@ describe('The user skills component of User view', function() {
     });
   });
 
-  xit('should list each existing Skill assigned to the user', function() {
+  it('should list each existing Skill assigned to the user', function() {
     shared.firstTableRow.click();
 
     // Get list of Skills
@@ -434,7 +433,7 @@ describe('The user skills component of User view', function() {
     });
   });
 
-  xit('should search list of all existing Skills by Skill name', function() {
+  it('should search list of all existing Skills by Skill name', function() {
     browser.get(shared.skillsPageUrl);
 
     // Get list of skills from Skill page
@@ -470,7 +469,7 @@ describe('The user skills component of User view', function() {
     });
   });
 
-  xit('should update skill count when adding and removing a user skill', function() {
+  it('should update skill count when adding and removing a user skill', function() {
     var randomSkill = Math.floor((Math.random() * 1000) + 1);
     shared.firstTableRow.click();
 
@@ -487,7 +486,7 @@ describe('The user skills component of User view', function() {
     });
   });
 
-  xit('should edit skill proficiency', function() {
+  it('should edit skill proficiency', function() {
     var randomSkill = Math.floor((Math.random() * 1000) + 1);
     shared.firstTableRow.click();
     users.addSkillSearch.sendKeys('New Skill ' + randomSkill);
@@ -521,7 +520,7 @@ describe('The user skills component of User view', function() {
     });
   });
 
-  xit('should valid skill proficiency when editing', function() {
+  it('should valid skill proficiency when editing', function() {
     var randomSkill = Math.floor((Math.random() * 1000) + 1);
     shared.firstTableRow.click();
     users.addSkillSearch.sendKeys('New Skill ' + randomSkill);
@@ -581,7 +580,7 @@ describe('The user skills component of User view', function() {
     });
   });
 
-  xit('should autocomplete skill dropdown when arrow buttons are selected', function() {
+  it('should autocomplete skill dropdown when arrow buttons are selected', function() {
     //Create a new user
     shared.createBtn.click();
     var randomUser = Math.floor((Math.random() * 1000) + 1);

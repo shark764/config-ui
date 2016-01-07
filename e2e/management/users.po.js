@@ -106,23 +106,27 @@ var UserPage = function() {
   this.disableBulkDropdownOption = this.enableBulkDropdown.element(by.css('[value="disabled"]'));
 
   //User Groups component
+  this.userGroupComponent = element(by.css('user-groups'));
   this.addGroup = element(by.id('addGroup'));
   this.addGroupSearch = this.addGroup.element(by.id('typeahead-container'));
-  this.groupDropdownItems = this.addGroup.all(by.repeater('item in filtered = (items | filter:filterCriteria | orderBy:orderByFunction)'));
+  this.groupDropdownItems = this.addGroup.all(by.repeater('item in filtered = (items | filter:filterCriteria | orderBy:getDisplayString)'));
   this.addGroupBtn = this.addGroup.element(by.id('add-group-btn'));
   this.noUserGroupsMessage = element(by.id('no-user-groups'));
   this.userGroups = element.all(by.repeater('userGroup in userGroups'));
+  this.userGroupsRemove = this.userGroupComponent.all(by.css('div.tag > a'));
 
   //User Skills component
+  this.userSkillComponent = element(by.css('user-skills'));
   this.addSkill = element(by.id('skillsForm'));
   this.addSkillSearch = this.addSkill.element(by.id('typeahead-container'));
-  this.skillDropdownItems = this.addSkill.all(by.repeater('item in filtered = (items | filter:filterCriteria | orderBy:orderByFunction)'));
+  this.skillDropdownItems = this.addSkill.all(by.repeater('item in filtered = (items | filter:filterCriteria | orderBy:getDisplayString)'));
   this.skillProficiency = this.addSkill.all(by.css('#new-user-skill-proficiency input'));
   this.proficiencyCounterUp = this.addSkill.element(by.css('.top'));
   this.proficiencyCounterDown = this.addSkill.element(by.css('.bottom'));
   this.addSkillBtn = this.addSkill.element(by.id('add-skill-btn'));
   this.noUserSkillsMessage = element(by.id('no-user-skills'));
   this.userSkills = element.all(by.repeater('userSkill in userSkills | orderBy:\'name\''));
+  this.userSkillsRemove = this.userSkillComponent.all(by.css('tr > td > a.remove'));
   this.userSkillsTable = element(by.css('[name=userSkills]'));
   this.userSkillTableRows = element.all(by.repeater('userSkill in userSkills | orderBy:\'name\''));
   this.editSkillProficiencyTds = this.userSkills.all(by.model('userSkill.proficiency'));

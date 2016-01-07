@@ -20,9 +20,8 @@ describe('The user groups component of User view', function() {
   afterAll(function() {
     shared.tearDown();
   });
-  // TODO User group count TITAN2-4533
 
-  xit('should add to the group count for a user', function() {
+  it('should add to the group count for a user', function() {
     // Create a new user
     shared.createBtn.click();
     var randomUser = Math.floor((Math.random() * 1000) + 1);
@@ -37,25 +36,25 @@ describe('The user groups component of User view', function() {
 
     users.submitFormBtn.click().then(function() {
       expect(shared.successMessage.isDisplayed()).toBeTruthy();
+      users.userGroups.count().then(function(originalGroupCount) {
+        // Add a group to the new user
+        users.addGroupSearch.click();
+        users.groupDropdownItems.get(0).click();
+        users.addGroupSearch.getAttribute('value').then(function(newUserGroup) {
+          users.addGroupBtn.click();
 
-      // Add a group to the new user
-      users.addGroupSearch.click();
-      users.groupDropdownItems.get(0).click();
-      users.addGroupSearch.getAttribute('value').then(function(newUserGroup) {
-        users.addGroupBtn.click();
+          shared.searchField.sendKeys('titantest' + randomUser + '@mailinator.com');
 
-        shared.searchField.sendKeys('titantest' + randomUser + '@mailinator.com');
-
-        // Verify that the users group count has increased and the new group is displayed
-        expect(shared.firstTableRow.element(by.css(users.groupsColumn)).getText()).toBe('1');
-        expect(users.userGroups.count()).toBe(1);
-        expect(users.userGroups.get(0).getText()).toBe(newUserGroup);
+          // Verify that the users group count has increased and the new group is displayed
+          expect(shared.firstTableRow.element(by.css(users.groupsColumn)).getText()).toContain(originalGroupCount + 1);
+          expect(users.userGroups.count()).toBe(originalGroupCount + 1);
+          expect(users.userGroups.get(originalGroupCount).getText()).toBe(newUserGroup);
+        });
       });
     });
   });
 
-// TODO User group count TITAN2-4533
-  xit('should add to the member count for an existing group', function() {
+  it('should add to the member count for an existing group', function() {
     //Regression test for TITAN2-2533
 
     //Create a new group
@@ -87,12 +86,12 @@ describe('The user groups component of User view', function() {
     });
   });
 
-  xit('should create new group and add user', function() {
+  it('should create new group and add user', function() {
     shared.firstTableRow.click();
 
     var randomGroup = Math.floor((Math.random() * 1000) + 1);
     var newGroupName = 'Group Name from User Page ' + randomGroup;
-    shared.firstTableRow.element(by.css(users.groupsColumn)).getText().then(function(originalUserGroupCount) {
+    users.userGroups.count().then(function(originalUserGroupCount) {
 
       // Assign a user to a group that doesn't exist
       users.userNameDetailsHeader.getText().then(function(selectedUserName) {
@@ -101,7 +100,7 @@ describe('The user groups component of User view', function() {
 
         // Wait for group to be added to the current user
         browser.driver.wait(function() {
-          return shared.firstTableRow.element(by.css(users.groupsColumn)).getText().then(function(userGroupCount) {
+          return users.userGroups.count().then(function(userGroupCount) {
             return userGroupCount == (originalUserGroupCount + 1);
           });
         }, 5000);
@@ -120,12 +119,12 @@ describe('The user groups component of User view', function() {
     });
   });
 
-  xit('should create new group and add user after pressing Enter key', function() {
+  it('should create new group and add user after pressing Enter key', function() {
     shared.firstTableRow.click();
 
     var randomGroup = Math.floor((Math.random() * 1000) + 1);
     var newGroupName = 'Group Name from User Page ' + randomGroup;
-    shared.firstTableRow.element(by.css(users.groupsColumn)).getText().then(function(originalUserGroupCount) {
+    users.userGroups.count().then(function(originalUserGroupCount) {
       //Assign a user to a group that doesn't exist
       users.userNameDetailsHeader.getText().then(function(selectedUserName) {
         users.addGroupSearch.sendKeys(newGroupName);
@@ -135,7 +134,7 @@ describe('The user groups component of User view', function() {
 
           // Wait for group to be added to the current user
           browser.driver.wait(function() {
-            return shared.firstTableRow.element(by.css(users.groupsColumn)).getText().then(function(userGroupCount) {
+            return users.userGroups.count().then(function(userGroupCount) {
               return userGroupCount == (originalUserGroupCount + 1);
             });
           }, 5000);
@@ -154,11 +153,11 @@ describe('The user groups component of User view', function() {
     });
   });
 
-  xit('should update group count when removing a user group', function() {
+  it('should update group count when removing a user group', function() {
     shared.firstTableRow.click();
-    shared.firstTableRow.element(by.css(users.groupsColumn)).getText().then(function(userGroupCount) {
+    users.userGroups.count().then(function(userGroupCount) {
       if (userGroupCount == 0) {
-        //Add a group to the user
+        // Add a group to the user
         users.addGroupSearch.click();
         users.groupDropdownItems.get(0).click();
         users.addGroupBtn.click();
@@ -166,13 +165,22 @@ describe('The user groups component of User view', function() {
       }
     }).then(function() {
       // Remove all user Groups
-      users.userGroups.each(function(currentUserGroup) {
-        currentUserGroup.element(by.css('a')).click();
+      users.userGroupsRemove.each(function(currentUserGroup) {
+        currentUserGroup.click();
       }).then(function() {
-        expect(users.userGroups.count()).toBe(0);
-        expect(users.noUserGroupsMessage.isDisplayed()).toBeTruthy();
-        expect(users.noUserGroupsMessage.getText()).toBe('This user is not assigned to any groups.');
-        expect(shared.firstTableRow.element(by.css(users.groupsColumn)).getText()).toEqual('0');
+        users.userGroups.count().then(function(userGroupCount) {
+          if (userGroupCount) {
+            // User is still assigned to 'everyone' group
+            expect(users.userGroups.count()).toBe(1);
+            expect(users.noUserGroupsMessage.isDisplayed()).toBeFalsy();
+            expect(shared.firstTableRow.element(by.css(users.groupsColumn)).getText()).toEqual('1');
+          } else {
+            expect(users.userGroups.count()).toBe(0);
+            expect(users.noUserGroupsMessage.isDisplayed()).toBeTruthy();
+            expect(users.noUserGroupsMessage.getText()).toBe('This user is not assigned to any groups.');
+            expect(shared.firstTableRow.element(by.css(users.groupsColumn)).getText()).toEqual('0');
+          }
+        });
       });
     });
   });
@@ -222,39 +230,41 @@ describe('The user groups component of User view', function() {
     });
   });
 
-  xit('should update member count for an existing group when removing a user group', function() {
+  it('should update member count for an existing group when removing a user group', function() {
     shared.firstTableRow.click();
 
     users.userNameDetailsHeader.getText().then(function(selectedUserName) {
       shared.firstTableRow.element(by.css(users.groupsColumn)).getText().then(function(userGroupCount) {
-        if (userGroupCount == 0) {
+        if (userGroupCount == 1) {
           //Add a group to the user
           users.addGroupSearch.click();
           users.groupDropdownItems.get(0).click();
           users.addGroupBtn.click();
-          expect(shared.firstTableRow.element(by.css(users.groupsColumn)).getText()).toEqual('1');
+          expect(shared.firstTableRow.element(by.css(users.groupsColumn)).getText()).toContain(userGroupCount + 1);
         }
       }).then(function() {
         // Remove user Group
         users.userGroups.get(0).getText().then(function(currentUserGroup) {
-          users.userGroups.get(0).element(by.css('a')).click();
-          var removedUserGroupName = currentUserGroup;
+          if (currentUserGroup != 'everyone') {
+            users.userGroups.get(0).element(by.css('a')).click();
+            var removedUserGroupName = currentUserGroup;
 
-          //View the group again
-          browser.get(shared.groupsPageUrl);
-          shared.searchField.sendKeys(removedUserGroupName);
-          shared.firstTableRow.click();
+            //View the group again
+            browser.get(shared.groupsPageUrl);
+            shared.searchField.sendKeys(removedUserGroupName);
+            shared.firstTableRow.click();
 
-          //Verify that the group members has been updated to remove user
-          groups.groupMembersRows.each(function(groupUser) {
-            expect(groupUser.getText()).not.toContain(selectedUserName);
-          });
+            //Verify that the group members has been updated to remove user
+            groups.groupMembersRows.each(function(groupUser) {
+              expect(groupUser.getText()).not.toContain(selectedUserName);
+            });
+          }
         });
       });
     });
   });
 
-  xit('should link user members from group page', function() {
+  it('should link user members from group page', function() {
     //Create a new group
     browser.get(shared.groupsPageUrl);
     shared.firstTableRow.click();
@@ -275,7 +285,7 @@ describe('The user groups component of User view', function() {
     });
   });
 
-  xit('should include the correct number of Group elements', function() {
+  it('should include the correct number of Group elements', function() {
     shared.firstTableRow.click();
 
     // Get list of Groups
@@ -297,7 +307,7 @@ describe('The user groups component of User view', function() {
     });
   });
 
-  xit('should list each existing Group not assigned to the user', function() {
+  it('should list each existing Group not assigned to the user', function() {
     shared.firstTableRow.click();
     users.addGroupSearch.click();
 
@@ -319,7 +329,7 @@ describe('The user groups component of User view', function() {
     });
   });
 
-  xit('should list each existing Group assigned to the user', function() {
+  it('should list each existing Group assigned to the user', function() {
     shared.firstTableRow.click();
 
     // Get list of Groups
@@ -340,22 +350,24 @@ describe('The user groups component of User view', function() {
     });
   });
 
-  xit('should search list of all existing Groups by Group name', function() {
+  it('should search list of all existing Groups by Group name', function() {
     browser.get(shared.groupsPageUrl);
 
     // Get list of groups from Group page
     var groupNameList = [];
     shared.tableElements.each(function(groupElement, index) {
-      groupElement.getText().then(function(groupName) {
-        groupNameList.push(groupName);
+      groupElement.element(by.css('td:nth-child(2)')).getText().then(function(groupName) {
+        if (groupName != 'everyone') {
+          groupNameList.push(groupName);
+        }
       });
     }).then(function() {
       browser.get(shared.usersPageUrl);
       shared.firstTableRow.click();
 
       // Remove all user Groups
-      users.userGroups.each(function(currentUserGroup) {
-        currentUserGroup.element(by.css('a')).click();
+      users.userGroupsRemove.each(function(currentUserGroup) {
+        currentUserGroup.click();
       });
 
       users.addGroupSearch.click();
@@ -368,7 +380,7 @@ describe('The user groups component of User view', function() {
     });
   });
 
-  xit('should update group count when adding and removing groups', function() {
+  it('should update group count when adding and removing groups', function() {
     var randomGroup = Math.floor((Math.random() * 1000) + 1);
     shared.firstTableRow.click();
     shared.firstTableRow.element(by.css(users.groupsColumn)).getText().then(function(userGroupCount) {
@@ -380,12 +392,12 @@ describe('The user groups component of User view', function() {
       expect(shared.firstTableRow.element(by.css(users.groupsColumn)).getText()).toEqual(parseInt(userGroupCount) + 1 + '');
 
       // Remove a user Group
-      users.userGroups.get(0).element(by.css('a')).click();
+      users.userGroupsRemove.get(0).click();
       expect(shared.firstTableRow.element(by.css(users.groupsColumn)).getText()).toEqual(userGroupCount);
     });
   });
 
-  xit('should autocomplete group dropdown when arrow buttons are selected', function() {
+  it('should autocomplete group dropdown when arrow buttons are selected', function() {
     //Create a new user
     shared.createBtn.click();
     var randomUser = Math.floor((Math.random() * 1000) + 1);
@@ -405,24 +417,26 @@ describe('The user groups component of User view', function() {
       users.addGroupSearch.click();
       browser.driver.actions().sendKeys(protractor.Key.ARROW_DOWN).perform().then(function() {
         // Expect first group to be highlighted
-        expect(users.groupDropdownItems.get(0).getAttribute('class')).toContain('highlight');
-        expect(users.groupDropdownItems.get(1).getAttribute('class')).not.toContain('highlight');
+        expect(users.groupDropdownItems.get(0).getAttribute('class')).toContain('lo-highlight');
+        expect(users.groupDropdownItems.get(1).getAttribute('class')).not.toContain('lo-highlight');
 
         browser.driver.actions().sendKeys(protractor.Key.ARROW_DOWN).perform().then(function() {
           // Expect second group to be highlighted
-          expect(users.groupDropdownItems.get(0).getAttribute('class')).not.toContain('highlight');
-          expect(users.groupDropdownItems.get(1).getAttribute('class')).toContain('highlight');
+          expect(users.groupDropdownItems.get(0).getAttribute('class')).not.toContain('lo-highlight');
+          expect(users.groupDropdownItems.get(1).getAttribute('class')).toContain('lo-highlight');
 
           browser.driver.actions().sendKeys(protractor.Key.ARROW_UP).perform().then(function() {
             // Expect first group to be highlighted again
-            expect(users.groupDropdownItems.get(0).getAttribute('class')).toContain('highlight');
-            expect(users.groupDropdownItems.get(1).getAttribute('class')).not.toContain('highlight');
+            expect(users.groupDropdownItems.get(0).getAttribute('class')).toContain('lo-highlight');
+            expect(users.groupDropdownItems.get(1).getAttribute('class')).not.toContain('lo-highlight');
 
             users.groupDropdownItems.get(0).getText().then(function(firstGroupName) {
               users.addGroupSearch.sendKeys('\n');
 
-              // Expect first group to be selected
-              expect(users.userGroups.get(0).getText()).toContain(firstGroupName);
+              // Expect first group to be added
+              users.userGroups.count().then(function (userGroupCount) {
+                expect(users.userGroups.get(userGroupCount-1).getText()).toContain(firstGroupName);
+              })
             });
           });
         });

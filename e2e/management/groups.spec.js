@@ -288,9 +288,7 @@ describe('The groups view', function() {
     shared.tableElements.then(function(groups) {
       if (groups.length > 0) {
         shared.firstTableRow.click();
-        expect(groups.activeFormToggle.getAttribute('disabled')).toBeTruthy();
-        expect(groups.descriptionFormField.getAttribute('disabled')).toBeTruthy();
-        expect(groups.nameFormField.getAttribute('disabled')).toBeTruthy();
+        expect(shared.readOnlyMessage.getText()).toBe('This group is inherited and cannot be edited');
       }
     });
   });
@@ -319,8 +317,7 @@ describe('The groups view', function() {
     });
   });
 
-// TODO Enable the following after TITAN2-4533
-  xit('should list all users in Add Member dropdown', function() {
+  it('should list all users in Add Member dropdown', function() {
     randomGroup = Math.floor((Math.random() * 1000) + 1);
     newGroupName = 'Group Name ' + randomGroup;
     shared.createBtn.click();
@@ -344,7 +341,7 @@ describe('The groups view', function() {
     });
   });
 
-  xit('should add member to group and increment member count', function() {
+  it('should add member to group and increment member count', function() {
     // NOTE Uses new group from previous test to ensure member count is 0
     shared.searchField.sendKeys(newGroupName);
     shared.firstTableRow.click();
@@ -377,7 +374,7 @@ describe('The groups view', function() {
     });
   });
 
-  xit('should add update user after adding as a member', function() {
+  it('should add update user after adding as a member', function() {
     // NOTE Uses new group and user from previous test
     browser.get(shared.usersPageUrl);
     shared.searchField.sendKeys(newGroupName + '\t'); // Search for user based on new group
@@ -385,7 +382,7 @@ describe('The groups view', function() {
     expect(shared.firstTableRow.getText()).toContain(addedMember);
   });
 
-  xit('should clear add member field after adding', function() {
+  it('should clear add member field after adding', function() {
     // NOTE Uses new group from previous test to ensure member count is 0
     shared.searchField.sendKeys(newGroupName);
     shared.firstTableRow.click();
@@ -399,7 +396,7 @@ describe('The groups view', function() {
     });
   });
 
-  xit('should update user dropdown after adding and removing members', function() {
+  it('should update user dropdown after adding and removing members', function() {
     // NOTE Uses new group from previous test
     shared.searchField.sendKeys(newGroupName);
     shared.firstTableRow.click();
@@ -410,6 +407,7 @@ describe('The groups view', function() {
       groups.addMemberDropdownOptions.get(0).click();
       groups.addMemberBtn.click().then(function() {
         shared.waitForSuccess();
+        shared.successMessage.click();
 
         expect(groups.groupMembersRows.count()).toBe(3);
         expect(groups.detailsMemberCount.getText()).toContain('3');
@@ -420,6 +418,7 @@ describe('The groups view', function() {
         // Remove member
         groups.groupMembersRows.get(0).element(by.css('.remove')).click().then(function() {
           shared.waitForSuccess();
+          shared.successMessage.click();
 
           expect(groups.groupMembersRows.count()).toBe(2);
           expect(groups.detailsMemberCount.getText()).toContain('2');
@@ -432,7 +431,7 @@ describe('The groups view', function() {
     });
   });
 
-  xit('should allow all members to be removed', function() {
+  it('should allow all members to be removed', function() {
     // NOTE Uses new group from previous test
     shared.searchField.sendKeys(newGroupName);
     shared.firstTableRow.click();
@@ -440,6 +439,7 @@ describe('The groups view', function() {
     // Remove member
     groups.groupMembersRows.get(0).element(by.css('.remove')).click().then(function() {
       shared.waitForSuccess();
+      shared.successMessage.click();
 
       expect(groups.groupMembersRows.count()).toBe(1);
       expect(groups.detailsMemberCount.getText()).toContain('1');
