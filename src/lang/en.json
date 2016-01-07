@@ -155,6 +155,7 @@
   "details.tenantStatus.help": "Tenant Statuses: <ul><li>Pending Invitation</li><li>Pending Acceptance</li><li>Accepted</li><li>Disabled</li><li>Expired Invitation</li></ul>",
   "details.inviteNow.help": "<center><p>To invite this user now select, click \"Submit\" with \"Invite Now\" selected</p> <p>or</p> <p>To set this user to a pending invite status de-select \"Invite Now and click \"Submit\"</p></center>",
   "details.tenantStatus.notInvited": "This user has not been invited to join the tenant, to invite them now select \"Invite Now\" and click \"Submit\"",
+  "details.header.agent": "Agent(s)",
 
   "user.details.disable.confirm": "This will disable this user and prevent them from logging in. Do you want to continue?",
   "user.details.enable.confirm": "This will enable this user and allow them to log in. Do you want to continue?",
@@ -536,12 +537,17 @@
   
   "recordings.table.title": "Recordings",
   "recordings.table.audio": "Audio",
-  "recordings.table.timestamp": "Timestamp",
+  "recordings.table.datetime": "Date & Time",
   "recordings.table.resources": "Resources",
   "recordings.table.emails": "Emails",
-  "recordings.table.extension": "Extension",
+  "recordings.table.extensions": "Extensions",
   "recordings.table.flow": "Flow",
   "recordings.table.callerani": "Caller ANI",
+  "recordings.table.flag": "Flag",
+  "recordings.table.note": "Note",
+  "recordings.details.duration": "Duration",
+  "recordings.details.play": "Play",
+  "recordings.details.extension": "Extension",
 
   "webrtc": "WebRTC",
   "twilio": "Twilio",
