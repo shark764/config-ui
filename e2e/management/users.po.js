@@ -127,7 +127,7 @@ var UserPage = function() {
   this.userSkillsTable = element(by.css('[name=userSkills]'));
   this.userSkillTableRows = element.all(by.repeater('userSkill in userSkills | orderBy:\'name\''));
   this.editSkillProficiencyTds = this.userSkills.all(by.model('userSkill.proficiency'));
-  this.editSkillProficiency = 'userSkill.proficiency';
+  this.editSkillProficiency = '[value="userSkill.proficiency"]';
   this.editCounterUp = 'userSkill.proficiency';
   this.editCounterDown = 'userSkill.proficiency';
   this.editProficiencySave = element(by.id('save-proficiency-edit-btn'));
