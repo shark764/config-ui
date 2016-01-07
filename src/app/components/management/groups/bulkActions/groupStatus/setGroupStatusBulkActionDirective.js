@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('baSetGroupStatus', ['Group', 'Session', 'Alert', '$q', '$translate', 'BulkAction',
-    function(Group, Session, Alert, $q, $translate, BulkAction) {
+  .directive('baSetGroupStatus', ['Group', 'Session', 'Alert', '$q', '$translate', 'BulkAction', 'statuses',
+    function(Group, Session, Alert, $q, $translate, BulkAction, statuses) {
       return {
         restrict: 'E',
         scope: {},
@@ -14,6 +14,10 @@ angular.module('liveopsConfigPanel')
           if (bulkActionExecutor) {
             bulkActionExecutor.register($scope.bulkAction);
           }
+          
+          $scope.$evalAsync(function() {
+            $scope.statuses = statuses();
+          });
 
           $scope.bulkAction.apply = function(group) {
             if (group.type === 'everyone') {

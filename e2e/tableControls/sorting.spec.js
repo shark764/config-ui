@@ -748,7 +748,7 @@ describe('The table sorting', function() {
     });
 
     it('should sort by each default column', function() {
-      columns.columnTwoHeader.click(); // Change sorting order
+      columns.columnThreeHeader.click(); // Change sorting order
 
       columns.allHeaders.each(function(columnHeader, index) {
         columnHeader.getAttribute('class').then(function(classes) {
@@ -939,7 +939,8 @@ describe('The table sorting', function() {
       });
     });
 
-    it('should update sorted order of table search and filter results', function() {
+    xit('should update sorted order of table search and filter results', function() {
+      // TODO TITAN2-6035
       // Search
       shared.searchField.sendKeys('a');
 

@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('baSetFlowStatus', ['Flow', 'Session', 'BulkAction',
-    function(Flow, Session, BulkAction) {
+  .directive('baSetFlowStatus', ['Flow', 'Session', 'BulkAction', 'statuses',
+    function(Flow, Session, BulkAction, statuses) {
       return {
         restrict: 'E',
         scope: {},
@@ -14,7 +14,11 @@ angular.module('liveopsConfigPanel')
           if (bulkActionExecutor) {
             bulkActionExecutor.register($scope.bulkAction);
           }
-
+          
+          $scope.$evalAsync(function() {
+            $scope.statuses = statuses();
+          });
+          
           $scope.bulkAction.apply = function(flow) {
             var flowCopy = new Flow();
             flowCopy.id = flow.id;

@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('baSetIntegrationStatus', ['Integration', 'Session', 'BulkAction',
-    function(Integration, Session, BulkAction) {
+  .directive('baSetIntegrationStatus', ['Integration', 'Session', 'BulkAction', 'statuses',
+    function(Integration, Session, BulkAction, statuses) {
       return {
         restrict: 'E',
         scope: {},
@@ -14,6 +14,10 @@ angular.module('liveopsConfigPanel')
           if (bulkActionExecutor) {
             bulkActionExecutor.register($scope.bulkAction);
           }
+          
+          $scope.$evalAsync(function() {
+            $scope.statuses = statuses();
+          });
 
           $scope.bulkAction.apply = function(integration) {
             var integrationCopy = new Integration();

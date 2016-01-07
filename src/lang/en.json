@@ -139,6 +139,8 @@
   "details.phoneNumber.error": "Phone number should be in E.164 format.",
   "details.extensions": "Extensions",
   "details.extensions.sipformat.error":"Extensions must start with 'sip:'.",
+  "details.extensions.error":"Extensions failed to update.",
+  "details.extensions.success":"Extensions saved succesfully!",
   "details.skills.none": "This user has not been assigned any skills",
   "details.skills.title": "Skills",
   "details.skills.placeholder": "Add Skill...",
@@ -567,5 +569,7 @@
   "hours.exception.create.failure": "Exception creation failure!",
   "hours.exception.remove.success": "Exception removed successfully!",
   "hours.exception.remove.failure": "Exception removal failure!",
-  "hours.timezone.required": "Field \"Timezone\" is required."
+  "hours.timezone.required": "Field \"Timezone\" is required.",
+  
+  "realtimeDashboards.table.title": "Realtime Dashboards"
 }

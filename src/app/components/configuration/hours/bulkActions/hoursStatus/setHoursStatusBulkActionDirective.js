@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('baSetHoursStatus', ['BusinessHour', 'Session', 'BulkAction',
-    function(BusinessHour, Session, BulkAction) {
+  .directive('baSetHoursStatus', ['BusinessHour', 'Session', 'BulkAction', 'statuses',
+    function(BusinessHour, Session, BulkAction, statuses) {
       return {
         restrict: 'E',
         scope: {},
@@ -14,6 +14,10 @@ angular.module('liveopsConfigPanel')
           if (bulkActionExecutor) {
             bulkActionExecutor.register($scope.bulkAction);
           }
+          
+          $scope.$evalAsync(function() {
+            $scope.statuses = statuses();
+          });
 
           $scope.bulkAction.apply = function(hours) {
             var hoursCopy = new BusinessHour();

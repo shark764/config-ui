@@ -25,17 +25,17 @@ angular.module('liveopsConfigPanel.config', [])
   };
 })
 
-.factory('statuses', function() {
+.factory('statuses', ['$translate', function($translate) {
     return function() {
       return [{
-        'display': 'Disabled',
+        'display': $translate.instant('value.disabled'),
         'value': false
       }, {
-        'display': 'Enabled',
+        'display': $translate.instant('value.enabled'),
         'value': true
       }];
     };
-  })
+  }])
   .factory('ynStatuses', function() {
     return function() {
       return [{

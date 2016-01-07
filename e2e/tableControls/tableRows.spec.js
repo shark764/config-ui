@@ -26,7 +26,7 @@ describe('The table rows', function() {
     shared.tearDown();
   });
 
-  describe('when right clicked on the user management pages', function() {
+  describe('when right clicked', function() {
     it('should open a new tab with the user selected', function() {
       browser.get(shared.usersPageUrl);
       shared.tableElements.count().then(function(numUsers) {
@@ -158,9 +158,7 @@ describe('The table rows', function() {
         }
       });
     });
-  });
 
-  describe('when right clicked on the tenant management pages', function() {
     it('should open a new tab with the tenant selected', function() {
       browser.get(shared.tenantsPageUrl);
       shared.tableElements.count().then(function(numTenants) {
@@ -226,9 +224,7 @@ describe('The table rows', function() {
         }
       });
     });
-  });
 
-  describe('when right clicked on the flow management pages', function() {
     it('should open a new tab with the flow selected', function() {
       browser.get(shared.flowsPageUrl);
       shared.tableElements.count().then(function(numFlows) {
