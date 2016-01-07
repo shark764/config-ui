@@ -22,7 +22,6 @@
     "flow-designer": "git@github.com:liveops/flow-designer.git#1.1.3",
     "realtime-dashboards": "git@github.com:liveops/realtime-dashboards.git#1.2.4",
     "liveops-config-panel-shared": "git@github.com:liveops/config-shared#1.0.37",
-    "ngTimepicker": "git@github.com:groy/ngTimepicker#0.8.0",
     "angular-moment-picker": "git@github.com:groy/angular-moment-picker#master",
     "ng-file-upload": "~7.0.17",
     "angular-drag-and-drop-lists": "~1.3.0",
