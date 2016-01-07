@@ -5,7 +5,7 @@ angular.module('liveopsConfigPanel')
     "id": "overview",
     "dashId": "overview",
     "name": "Overview Dashboard",
-    "refreshRate": 30000,
+    "refreshRate": 15000,
     "gridster": {
       "columns": 60,
       "minRows": 10,
@@ -249,6 +249,24 @@ angular.module('liveopsConfigPanel')
       },
       "chart": {
         "data": 'All Agents'
+      }
+    }, {
+      "id": "disclaimer-title",
+      "type": "title",
+      "config": {
+        "ui": {
+          "size": {
+            "width": 14,
+            "height": 3
+          },
+          "position": {
+            row: 20,
+            col: 25
+          }
+        }
+      },
+      "chart": {
+        "data": 'This dashboard refreshes every 15 seconds.'
       }
     }, {
       "id": "all-agents-group-resources-currently-ready",
