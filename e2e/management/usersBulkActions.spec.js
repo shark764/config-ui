@@ -99,8 +99,6 @@ describe('The users view bulk actions', function() {
     expect(bulkActions.confirmModal.isDisplayed()).toBeTruthy();
     bulkActions.confirmOK.click().then(function() {
       expect(shared.successMessage.isPresent()).toBeFalsy();
-      expect(shared.errorMessage.isDisplayed()).toBeTruthy();
-      expect(shared.errorMessage.getText()).toContain('You cannot disable your own account.');
 
       // Form not reset
       expect(bulkActions.submitFormBtn.getAttribute('disabled')).toBeFalsy();
@@ -126,7 +124,6 @@ describe('The users view bulk actions', function() {
         users.dropdownTenantStatuses.get(1).click();
         users.dropdownTenantStatuses.get(2).click();
         users.dropdownTenantStatuses.get(4).click();
-        users.dropdownTenantStatuses.get(5).click();
 
         shared.tableElements.count().then(function(acceptedUserCount) {
           if (acceptedUserCount > 1) { // Ignore current user
@@ -178,7 +175,6 @@ describe('The users view bulk actions', function() {
               bulkActions.tenantStatuses.get(2).click();
               bulkActions.tenantStatuses.get(3).click();
               bulkActions.tenantStatuses.get(4).click();
-              bulkActions.tenantStatuses.get(5).click();
               bulkActions.tenantStatusColumnDropDownLabel.click();
               shared.tableElements.count().then(function(disabledTotal) {
                 expect(disabledTotal).not.toBeLessThan(Math.min(acceptedUserCount - 1, 9)); // Should be at least equal to the number reset - current user
@@ -208,7 +204,6 @@ describe('The users view bulk actions', function() {
         users.dropdownTenantStatuses.get(2).click();
         users.dropdownTenantStatuses.get(3).click();
         users.dropdownTenantStatuses.get(4).click();
-        users.dropdownTenantStatuses.get(5).click();
 
         shared.tableElements.count().then(function(disabledUserCount) {
           if (disabledUserCount > 0) {
@@ -260,7 +255,6 @@ describe('The users view bulk actions', function() {
                 users.dropdownTenantStatuses.get(2).click();
                 users.dropdownTenantStatuses.get(3).click();
                 users.dropdownTenantStatuses.get(4).click();
-                users.dropdownTenantStatuses.get(5).click();
                 bulkActions.tenantStatusColumnDropDownLabel.click();
                 expect(shared.tableElements.count()).toBe(0);
 
@@ -558,8 +552,7 @@ describe('The users view bulk actions', function() {
     }).then(function() {
       // Update proficiency
       shared.actionsBtn.click().then(function() {
-        // TITAN2-5373 Bulk actions not reset
-        //bulkActions.selectChangeSkills.click();
+        bulkActions.selectChangeSkills.click();
 
         // Update newly added skill proficiency
         bulkActions.addSkillDropdownFields.get(0).all(by.css('option')).get(2).click();

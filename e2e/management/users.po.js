@@ -102,8 +102,8 @@ var UserPage = function() {
 
   this.selectBulkEnable = element(by.id('user-status-bulk-enable-check'));
   this.enableBulkDropdown = element(by.id('bulk-action-enable-select'));
-  this.enableBulkDropdownOption = this.enableBulkDropdown.element(by.css('[value="accepted"]'));
-  this.disableBulkDropdownOption = this.enableBulkDropdown.element(by.css('[value="disabled"]'));
+  this.enableBulkDropdownOption = this.enableBulkDropdown.element(by.css('[label="Enabled"]'));
+  this.disableBulkDropdownOption = this.enableBulkDropdown.element(by.css('[label="Disabled"]'));
 
   //User Groups component
   this.addGroup = element(by.id('addGroup'));
@@ -126,8 +126,7 @@ var UserPage = function() {
   this.userSkillsRemove = element.all(by.css('tr > td > a.remove'));
   this.userSkillsTable = element(by.css('[name=userSkills]'));
   this.userSkillTableRows = element.all(by.repeater('userSkill in userSkills | orderBy:\'name\''));
-  this.editSkillProficiencyTds = this.userSkills.all(by.model('userSkill.proficiency'));
-  this.editSkillProficiency = '[value="userSkill.proficiency"]';
+  this.editSkillProficiencyTds = this.userSkills.all(by.css('input'));
   this.editCounterUp = 'userSkill.proficiency';
   this.editCounterDown = 'userSkill.proficiency';
   this.editProficiencySave = element(by.id('save-proficiency-edit-btn'));
