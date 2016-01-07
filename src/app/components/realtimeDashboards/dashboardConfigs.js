@@ -449,7 +449,7 @@ angular.module('liveopsConfigPanel')
       "id": "00000000-0000-0000-000000000072",
       "type": "statistic",
       "config": {
-        "statistic": "interactions",
+        "statistic": "interactions-in-conversation-count",
         "statisticLookup": "recordsCount",
         "ui": {
           "title": {
@@ -1407,7 +1407,7 @@ angular.module('liveopsConfigPanel')
       "id": "00000000-0000-0000-000000000002",
       "type": "statistic",
       "config": {
-        "statistic": "interaction-duration",
+        "statistic": "active-interaction-counts",
         "statisticLookup": "recordsCount",
         "ui": {
           "title": {
@@ -1433,7 +1433,7 @@ angular.module('liveopsConfigPanel')
       "id": "00000000-0000-0000-000000000003",
       "type": "statistic",
       "config": {
-        "statistic": "resource-conversation-duration",
+        "statistic": "interactions-in-conversation-count",
         "statisticLookup": "recordsCount",
         "ui": {
           "title": {
@@ -1588,7 +1588,7 @@ angular.module('liveopsConfigPanel')
       "id": "00000000-0000-0000-000000000009",
       "type": "statistic",
       "config": {
-        "statistic": "interaction-abandon-instance",
+        "statistic": "interactions-in-routing-abandon-count",
         "statisticLookup": "recordsCount",
         "ui": {
           "title": {
