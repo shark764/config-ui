@@ -83,7 +83,7 @@ angular.module('liveopsConfigPanel')
             "show": true,
             "text": "Avg. Wait Time"
           },
-          "unit": "mm:ss",
+          "unit": "seconds",
           "size": {
             "width": 5,
             "height": 4
@@ -191,7 +191,7 @@ angular.module('liveopsConfigPanel')
             "show": true,
             "text": "Avg. Wait Time"
           },
-          "unit": "mm:ss",
+          "unit": "seconds",
           "size": {
             "width": 5,
             "height": 4
@@ -337,7 +337,7 @@ angular.module('liveopsConfigPanel')
             "show": true,
             "text": "Avg. Conversation Time"
           },
-          "unit": "mm:ss",
+          "unit": "seconds",
           "size": {
             "width": 5,
             "height": 5
@@ -362,7 +362,7 @@ angular.module('liveopsConfigPanel')
             "show": true,
             "text": "Avg. Wrap-up Time"
           },
-          "unit": "mm:ss",
+          "unit": "seconds",
           "size": {
             "width": 5,
             "height": 5
@@ -449,7 +449,7 @@ angular.module('liveopsConfigPanel')
       "id": "00000000-0000-0000-000000000072",
       "type": "statistic",
       "config": {
-        "statistic": "interaction-start-instance",
+        "statistic": "interactions",
         "statisticLookup": "recordsCount",
         "ui": {
           "title": {
@@ -506,7 +506,7 @@ angular.module('liveopsConfigPanel')
             "show": true,
             "text": "Avg. Interaction Time"
           },
-          "unit": "mm:ss",
+          "unit": "seconds",
           "size": {
             "width": 9,
             "height": 5
@@ -531,7 +531,7 @@ angular.module('liveopsConfigPanel')
             "show": true,
             "text": "Avg. Abandon Time"
           },
-          "unit": "mm:ss",
+          "unit": "seconds",
           "size": {
             "width": 9,
             "height": 5
@@ -664,44 +664,6 @@ angular.module('liveopsConfigPanel')
       }
 
     }, {
-      "id": "00000000-0000-0000-000000000005",
-      "type": "table",
-      "config": {
-        "ui": {
-          "size": {
-            "width": 9,
-            "height": 9
-          },
-          "position": {
-            row: 5,
-            col: 0
-          }
-        }
-      },
-      "chart": {
-        'data': {
-          'headers': [
-            'Agent',
-            'ID',
-            'Groups',
-            'Reason'
-          ],
-          'rows': [
-            [
-              'user@test.com',
-              '15678',
-              'Support A, MultiLingual',
-              'Awaiting Work'
-            ], [
-              'user@example.com',
-              '98332',
-              'MultiLingual, Billing',
-              'Awaiting Work'
-            ]
-          ]
-        }
-      }
-    }, {
       "id": "00000000-0000-0000-000000000006",
       "type": "title",
       "config": {
@@ -795,45 +757,6 @@ angular.module('liveopsConfigPanel')
       },
       "chart": {
         "indicator": {}
-      }
-
-    }, {
-      "id": "00000000-0000-0000-000000000010",
-      "type": "table",
-      "config": {
-        "ui": {
-          "size": {
-            "width": 9,
-            "height": 9
-          },
-          "position": {
-            row: 5,
-            col: 10
-          }
-        }
-      },
-      "chart": {
-        'data': {
-          'headers': [
-            'Agent',
-            'ID',
-            'Groups',
-            'Reason'
-          ],
-          'rows': [
-            [
-              'agent@test.com',
-              '56666',
-              'Support C, Technical Support',
-              'Lunch'
-            ], [
-              'trainee@test.com',
-              '44665',
-              'Trainee',
-              'Training'
-            ]
-          ]
-        }
       }
 
     }, {
@@ -932,50 +855,6 @@ angular.module('liveopsConfigPanel')
         "indicator": {}
       }
 
-    }, {
-      "id": "00000000-0000-0000-000000000015",
-      "type": "table",
-      "config": {
-        "ui": {
-          "size": {
-            "width": 9,
-            "height": 7
-          },
-          "position": {
-            row: 5,
-            col: 20
-          }
-        }
-      },
-      "chart": {
-        'data': {
-          'headers': [
-            'Agent',
-            'ID',
-            'Groups',
-            'Reason'
-          ],
-          'rows': [
-            [
-              'agenta@test.com',
-              '1244',
-              'MultiLingual',
-              'In Conversation'
-            ], [
-              'agentb@test.com',
-              '2355',
-              'Support A, Tech Support',
-              'In Conversation'
-            ], [
-              'agentc@example.com',
-              '64344',
-              'Trainee',
-              'Wrap-Up'
-            ]
-          ]
-        }
-      }
-
     }]
   }, {
     "id": "queues",
@@ -1018,6 +897,35 @@ angular.module('liveopsConfigPanel')
       }
 
     }, {
+      "id": "00000000-0000-0000-000000000090",
+      "type": "gauge",
+      "config": {
+        "statistic": "calls-answered-percent",
+        "statisticLookup": "calls-answered",
+        "ui": {
+          "title": {
+            "show": true,
+            "text": "Answered < 20s"
+          },
+          "unit": "Answered < 20s",
+          "size": {
+            "width": 3,
+            "height": 4
+          },
+          "position": {
+            "row": 2,
+            "col": 0
+          }
+        }
+      },
+      "chart": {
+        "data": {
+          "type": "gauge",
+          "columns": [["Name of graph",12]]
+        }
+      }
+
+    }, {
       "id": "00000000-0000-0000-000000000002",
       "type": "statistic",
       "config": {
@@ -1028,14 +936,14 @@ angular.module('liveopsConfigPanel')
             "show": true,
             "text": "Avg Wait Time"
           },
-          "unit": "mm:ss",
+          "unit": "seconds",
           "size": {
             "width": 3,
             "height": 2
           },
           "position": {
             row: 2,
-            col: 0
+            col: 3
           }
         }
       },
@@ -1054,14 +962,14 @@ angular.module('liveopsConfigPanel')
             "show": true,
             "text": "Max Wait Time"
           },
-          "unit": "mm:ss",
+          "unit": "seconds",
           "size": {
             "width": 3,
             "height": 2
           },
           "position": {
             row: 2,
-            col: 3
+            col: 6
           }
         }
       },
@@ -1086,7 +994,7 @@ angular.module('liveopsConfigPanel')
           },
           "position": {
             row: 4,
-            col: 0
+            col: 3
           }
         }
       },
@@ -1098,21 +1006,20 @@ angular.module('liveopsConfigPanel')
       "id": "00000000-0000-0000-000000000030",
       "type": "statistic",
       "config": {
-        "statistic": "queue-duration",
+        "statistic": "queue-length",
         "statisticLookup": "recordsCount",
         "ui": {
           "title": {
             "show": true,
             "text": "Queue Length"
           },
-          "unit": "Customers",
           "size": {
             "width": 3,
             "height": 2
           },
           "position": {
             row: 4,
-            col: 3
+            col: 6
           }
         }
       },
@@ -1121,80 +1028,57 @@ angular.module('liveopsConfigPanel')
       }
 
     }, {
-      "id": "00000000-0000-0000-000000000005",
-      "type": "table",
+      "id": "00000000-0000-0000-000000000066",
+      "type": "sourceSwitcher",
       "config": {
+        "groupName": "queue1",
+        "sourceType": "queue",
+        "items": [],
         "ui": {
-          "size": {
-            "width": 10,
-            "height": 12
+          "title": {
+            "show": true,
+            "text": "Queue:"
           },
-          "position": {
-            row: 6,
-            col: 0
-          }
-        }
-      },
-      "chart": {
-        'data': {
-          'headers': [
-            'ID',
-            'Customer',
-            'ANI',
-            'Flow',
-            'Queue',
-            'Priority'
-          ],
-          'rows': [
-            [
-              '12454333',
-              'John Doe',
-              '1-555-555-5555',
-              'Support',
-              'Support Level A',
-              '40'
-            ], [
-              '12454533',
-              'Jane Dane',
-              '1-555-555-5555',
-              'Support',
-              'Support Level A',
-              '60'
-            ], [
-              '12454224',
-              'Jill Dill',
-              '1-555-555-5555',
-              'Support',
-              'Queue A',
-              '60'
-            ], [
-              '12454775',
-              'Jake Drake',
-              '1-555-555-5555',
-              'Support',
-              'Queue B',
-              '40'
-            ]
-          ]
-        }
-      }
-    }, {
-      "id": "00000000-0000-0000-000000000006",
-      "type": "title",
-      "config": {
-        "ui": {
           "size": {
             "width": 10,
             "height": 2
           },
           "position": {
-            row: 0,
-            col: 10
+            "row": 0,
+            "col": 10
+          }
+        }
+      }
+    }, {
+      "id": "00000000-0000-0000-000000000091",
+      "type": "gauge",
+      "config": {
+        "statistic": "calls-answered-percent",
+        "statisticLookup": "calls-answered",
+        "groupName": "queue1",
+        "resourceIdName": "queue-id",
+        "resourceId": null,
+        "ui": {
+          "title": {
+            "show": true,
+            "text": "Answered < 20s"
+          },
+          "unit": "Answered < 20s",
+          "size": {
+            "width": 3,
+            "height": 4
+          },
+          "position": {
+            "row": 3,
+            "col": 10
           }
         }
       },
       "chart": {
-        "data": "Queue A"
+        "data": {
+          "type": "gauge",
+          "columns": [["Name of graph",20]]
+        }
       }
 
     }, {
@@ -1203,19 +1087,22 @@ angular.module('liveopsConfigPanel')
       "config": {
         "statistic": "handle-time-duration",
         "statisticLookup": "avg",
+        "groupName": "queue1",
+        "resourceIdName": "queue-id",
+        "resourceId": null,
         "ui": {
           "title": {
             "show": true,
             "text": "Avg Wait Time"
           },
-          "unit": "mm:ss",
+          "unit": "seconds",
           "size": {
             "width": 3,
             "height": 2
           },
           "position": {
-            row: 2,
-            col: 10
+            row: 3,
+            col: 13
           }
         }
       },
@@ -1229,19 +1116,22 @@ angular.module('liveopsConfigPanel')
       "config": {
         "statistic": "handle-time-duration",
         "statisticLookup": "max",
+        "groupName": "queue1",
+        "resourceIdName": "queue-id",
+        "resourceId": null,
         "ui": {
           "title": {
             "show": true,
             "text": "Max Wait Time"
           },
-          "unit": "mm:ss",
+          "unit": "seconds",
           "size": {
             "width": 3,
             "height": 2
           },
           "position": {
-            row: 2,
-            col: 13
+            row: 3,
+            col: 16
           }
         }
       },
@@ -1254,6 +1144,9 @@ angular.module('liveopsConfigPanel')
       "config": {
         "statistic": "interaction-abandon-instance",
         "statisticLookup": "recordsCount",
+        "groupName": "queue1",
+        "resourceIdName": "queue-id",
+        "resourceId": null,
         "ui": {
           "title": {
             "show": true,
@@ -1265,8 +1158,8 @@ angular.module('liveopsConfigPanel')
             "height": 2
           },
           "position": {
-            row: 4,
-            col: 10
+            row: 5,
+            col: 13
           }
         }
       },
@@ -1278,21 +1171,23 @@ angular.module('liveopsConfigPanel')
       "id": "00000000-0000-0000-000000000010",
       "type": "statistic",
       "config": {
-        "statistic": "queue-duration",
+        "statistic": "queue-length",
         "statisticLookup": "recordsCount",
+        "groupName": "queue1",
+        "resourceIdName": "queue-id",
+        "resourceId": null,
         "ui": {
           "title": {
             "show": true,
             "text": "Queue Length"
           },
-          "unit": "Customers",
           "size": {
             "width": 3,
             "height": 2
           },
           "position": {
-            row: 4,
-            col: 13
+            row: 5,
+            col: 16
           }
         }
       },
@@ -1301,59 +1196,56 @@ angular.module('liveopsConfigPanel')
       }
 
     }, {
-      "id": "00000000-0000-0000-000000000011",
-      "type": "table",
+      "id": "00000000-0000-0000-000000000066",
+      "type": "sourceSwitcher",
       "config": {
+        "groupName": "queue2",
+        "sourceType": "queue",
+        "items": [],
         "ui": {
-          "size": {
-            "width": 10,
-            "height": 5
+          "title": {
+            "show": true,
+            "text": "Queue:"
           },
-          "position": {
-            row: 6,
-            col: 10
-          }
-        }
-      },
-      "chart": {
-        'data': {
-          'headers': [
-            'ID',
-            'Customer',
-            'ANI',
-            'Flow',
-            'Queue',
-            'Priority'
-          ],
-          'rows': [
-            [
-              '12454224',
-              'Jill Dill',
-              '1-555-555-5555',
-              'Support',
-              'Queue A',
-              '60'
-            ]
-          ]
-        }
-      }
-    }, {
-      "id": "00000000-0000-0000-000000000012",
-      "type": "title",
-      "config": {
-        "ui": {
           "size": {
             "width": 10,
             "height": 2
           },
           "position": {
-            row: 0,
-            col: 20
+            "row": 0,
+            "col": 20
+          }
+        }
+      }
+    },{
+      "id": "00000000-0000-0000-000000000092",
+      "type": "gauge",
+      "config": {
+        "statistic": "calls-answered-percent",
+        "statisticLookup": "calls-answered",
+        "groupName": "queue2",
+        "resourceIdName": "queue-id",
+        "resourceId": null,
+        "ui": {
+          "title": {
+            "show": true,
+            "text": "Answered < 20s"
+          },
+          "unit": "Answered < 20s",
+          "size": {
+            "width": 3,
+            "height": 4
+          },
+          "position": {
+            "row": 3,
+            "col": 20
           }
         }
       },
       "chart": {
-        "data": "Queue B"
+        "data": {
+          "columns": [["Name of graph",12]]
+        }
       }
 
     }, {
@@ -1362,19 +1254,22 @@ angular.module('liveopsConfigPanel')
       "config": {
         "statistic": "handle-time-duration",
         "statisticLookup": "avg",
+        "groupName": "queue2",
+        "resourceIdName": "queue-id",
+        "resourceId": null,
         "ui": {
           "title": {
             "show": true,
             "text": "Avg Wait Time"
           },
-          "unit": "mm:ss",
+          "unit": "seconds",
           "size": {
             "width": 3,
             "height": 2
           },
           "position": {
-            row: 2,
-            col: 20
+            row: 3,
+            col: 23
           }
         }
       },
@@ -1388,19 +1283,22 @@ angular.module('liveopsConfigPanel')
       "config": {
         "statistic": "handle-time-duration",
         "statisticLookup": "max",
+        "groupName": "queue2",
+        "resourceIdName": "queue-id",
+        "resourceId": null,
         "ui": {
           "title": {
             "show": true,
             "text": "Max Wait Time"
           },
-          "unit": "mm:ss",
+          "unit": "seconds",
           "size": {
             "width": 3,
             "height": 2
           },
           "position": {
-            row: 2,
-            col: 23
+            row: 3,
+            col: 26
           }
         }
       },
@@ -1413,6 +1311,9 @@ angular.module('liveopsConfigPanel')
       "config": {
         "statistic": "interaction-abandon-instance",
         "statisticLookup": "recordsCount",
+        "groupName": "queue2",
+        "resourceIdName": "queue-id",
+        "resourceId": null,
         "ui": {
           "title": {
             "show": true,
@@ -1424,8 +1325,8 @@ angular.module('liveopsConfigPanel')
             "height": 2
           },
           "position": {
-            row: 4,
-            col: 20
+            row: 5,
+            col: 23
           }
         }
       },
@@ -1437,21 +1338,23 @@ angular.module('liveopsConfigPanel')
       "id": "00000000-0000-0000-000000000016",
       "type": "statistic",
       "config": {
-        "statistic": "queue-duration",
+        "statistic": "queue-length",
         "statisticLookup": "recordsCount",
+        "groupName": "queue2",
+        "resourceIdName": "queue-id",
+        "resourceId": null,
         "ui": {
           "title": {
             "show": true,
             "text": "Queue Length"
           },
-          "unit": "Customers",
           "size": {
             "width": 3,
             "height": 2
           },
           "position": {
-            row: 4,
-            col: 23
+            row: 5,
+            col: 26
           }
         }
       },
@@ -1459,43 +1362,6 @@ angular.module('liveopsConfigPanel')
         "indicator": {}
       }
 
-    }, {
-      "id": "00000000-0000-0000-000000000017",
-      "type": "table",
-      "config": {
-        "ui": {
-          "size": {
-            "width": 10,
-            "height": 5
-          },
-          "position": {
-            row: 6,
-            col: 20
-          }
-        }
-      },
-      "chart": {
-        'data': {
-          'headers': [
-            'ID',
-            'Customer',
-            'ANI',
-            'Flow',
-            'Queue',
-            'Priority'
-          ],
-          'rows': [
-            [
-              '12454775',
-              'Jake Drake',
-              '1-555-555-5555',
-              'Support',
-              'Queue B',
-              '40'
-            ]
-          ]
-        }
-      }
     }]
   }, {
     "id": "interactions",
@@ -1651,7 +1517,7 @@ angular.module('liveopsConfigPanel')
             "show": true,
             "text": "Avg. Interaction Duration"
           },
-          "unit": "mm:ss",
+          "unit": "seconds",
           "size": {
             "width": 4,
             "height": 2
@@ -1744,63 +1610,5 @@ angular.module('liveopsConfigPanel')
         "indicator": {}
       }
 
-    }, {
-      "id": "00000000-0000-0000-000000000005",
-      "type": "table",
-      "config": {
-        "ui": {
-          "size": {
-            "width": 20,
-            "height": 12
-          },
-          "position": {
-            row: 8,
-            col: 0
-          }
-        }
-      },
-      "chart": {
-        'data': {
-          'headers': [
-            'Interaction ID',
-            'ANI',
-            'Flow',
-            'Priority',
-            'State',
-            'Description'
-          ],
-          'rows': [
-            [
-              '124543333434',
-              '1-555-555-5555',
-              'Support',
-              '40',
-              'In Conversation',
-              'Speaking with Agent A'
-            ], [
-              '124534343434',
-              '1-555-555-5555',
-              'Support',
-              '40',
-              'In Queue',
-              'Waiting in Support Level A Queue'
-            ], [
-              '173346894323',
-              '1-555-555-5555',
-              'Support',
-              '40',
-              'In Flight',
-              'Moving through Support Flow'
-            ], [
-              '124876266335',
-              '1-555-555-5555',
-              'Support',
-              '60',
-              'In Conversation',
-              'Speaking with Agent B'
-            ]
-          ]
-        }
-      }
     }]
   }]);
