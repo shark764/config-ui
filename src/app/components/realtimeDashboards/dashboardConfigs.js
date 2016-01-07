@@ -45,16 +45,16 @@ angular.module('liveopsConfigPanel')
       "type": "statistic",
       "config": {
         "statistic": "queue-length",
-        "statisticLookup": "recordsCount",
+        "statisticLookup": "value",
         "groupName": "queue1",
         "resourceIdName": "queue-id",
         "resourceId": null,
         "ui": {
           "title": {
             "show": true,
-            "text": "Queue Length"
+            "text": "Current Queue Length"
           },
-          "unit": "Customers",
+          "unit": "customers",
           "size": {
             "width": 6,
             "height": 8
@@ -100,7 +100,7 @@ angular.module('liveopsConfigPanel')
       "id": "queue-group-1-queue-abandons",
       "type": "statistic",
       "config": {
-        "statistic": "interaction-abandon-instance",
+        "statistic": "abandon-queue-instance",
         "statisticLookup": "recordsCount",
         "groupName": "queue1",
         "resourceIdName": "queue-id",
@@ -110,7 +110,7 @@ angular.module('liveopsConfigPanel')
             "show": true,
             "text": "Total Abandons"
           },
-          "unit": "Customers",
+          "unit": "customers",
           "size": {
             "width": 5,
             "height": 4
@@ -126,7 +126,7 @@ angular.module('liveopsConfigPanel')
       }
 
     }, {
-      "id": "00000000-0000-0000-000000000066",
+      "id": "source-switcher-2",
       "type": "sourceSwitcher",
       "config": {
         "groupName": "queue2",
@@ -148,20 +148,20 @@ angular.module('liveopsConfigPanel')
         }
       }
     }, {
-      "id": "00000000-0000-0000-000000000068",
+      "id": "queue-group-2-queue-length",
       "type": "statistic",
       "config": {
-        "statistic": "queue-duration",
-        "statisticLookup": "recordsCount",
+        "statistic": "queue-length",
+        "statisticLookup": "value",
         "groupName": "queue2",
         "resourceIdName": "queue-id",
         "resourceId": null,
         "ui": {
           "title": {
             "show": true,
-            "text": "Queue Length"
+            "text": "Current Queue Length"
           },
-          "unit": "Customers",
+          "unit": "customers",
           "size": {
             "width": 6,
             "height": 8
@@ -177,7 +177,7 @@ angular.module('liveopsConfigPanel')
       }
 
     }, {
-      "id": "00000000-0000-0000-000000000067",
+      "id": "queue-group-2-queue-duration",
       "type": "statistic",
       "config": {
         "statistic": "queue-duration",
@@ -188,7 +188,7 @@ angular.module('liveopsConfigPanel')
         "ui": {
           "title": {
             "show": true,
-            "text": "Avg. Wait Time"
+            "text": "Avg. Queue Wait Time"
           },
           "unit": "seconds",
           "size": {
@@ -205,10 +205,10 @@ angular.module('liveopsConfigPanel')
         "indicator": {}
       }
     }, {
-      "id": "00000000-0000-0000-000000000069",
+      "id": "queue-group-2-queue-abandons",
       "type": "statistic",
       "config": {
-        "statistic": "interaction-abandon-instance",
+        "statistic": "abandon-queue-instance",
         "statisticLookup": "recordsCount",
         "groupName": "queue2",
         "resourceIdName": "queue-id",
@@ -218,7 +218,7 @@ angular.module('liveopsConfigPanel')
             "show": true,
             "text": "Total Abandons"
           },
-          "unit": "Customers",
+          "unit": "customers",
           "size": {
             "width": 5,
             "height": 4
@@ -233,7 +233,7 @@ angular.module('liveopsConfigPanel')
         "indicator": {}
       }
     }, {
-      "id": "00000000-0000-0000-000000000081",
+      "id": "all-agents-group-title",
       "type": "title",
       "config": {
         "ui": {
@@ -251,17 +251,17 @@ angular.module('liveopsConfigPanel')
         "data": 'All Agents'
       }
     }, {
-      "id": "00000000-0000-0000-000000000082",
+      "id": "all-agents-group-resources-currently-ready",
       "type": "statistic",
       "config": {
-        "statistic": "resource-ready-instance",
-        "statisticLookup": "recordsCount",
+        "statistic": "resources-ready",
+        "statisticLookup": "value",
         "ui": {
           "title": {
             "show": true,
-            "text": "Agents Ready"
+            "text": "Agents Currently Ready"
           },
-          "unit": "Agents",
+          "unit": "agents",
           "size": {
             "width": 5,
             "height": 5
@@ -276,17 +276,17 @@ angular.module('liveopsConfigPanel')
         "indicator": {}
       }
     }, {
-      "id": "00000000-0000-0000-000000000083",
+      "id": "all-agents-group-resources-currently-away",
       "type": "statistic",
       "config": {
-        "statistic": "resource-not-ready-instance",
-        "statisticLookup": "recordsCount",
+        "statistic": "resources-away",
+        "statisticLookup": "value",
         "ui": {
           "title": {
             "show": true,
-            "text": "Agents Not Ready"
+            "text": "Agents Currently Away"
           },
-          "unit": "Agents",
+          "unit": "agents",
           "size": {
             "width": 5,
             "height": 5
@@ -301,17 +301,17 @@ angular.module('liveopsConfigPanel')
         "indicator": {}
       }
     }, {
-      "id": "00000000-0000-0000-000000000084",
+      "id": "all-agents-group-resources-currently-busy",
       "type": "statistic",
       "config": {
-        "statistic": "resource-busy-duration",
-        "statisticLookup": "recordsCount",
+        "statistic": "resources-busy",
+        "statisticLookup": "value",
         "ui": {
           "title": {
             "show": true,
-            "text": "Agents Busy"
+            "text": "Agents Currently Busy"
           },
-          "unit": "Agents",
+          "unit": "agents",
           "size": {
             "width": 5,
             "height": 5
@@ -326,15 +326,15 @@ angular.module('liveopsConfigPanel')
         "indicator": {}
       }
     }, {
-      "id": "00000000-0000-0000-000000000085",
+      "id": "all-agents-group-average-conversation-duration",
       "type": "statistic",
       "config": {
-        "statistic": "resource-conversation-duration",
+        "statistic": "conversation-duration",
         "statisticLookup": "avg",
         "ui": {
           "title": {
             "show": true,
-            "text": "Avg. Conversation Time"
+            "text": "Avg. Conversation Duration"
           },
           "unit": "seconds",
           "size": {
@@ -351,7 +351,7 @@ angular.module('liveopsConfigPanel')
         "indicator": {}
       }
     }, {
-      "id": "00000000-0000-0000-000000000086",
+      "id": "all-agents-group-average-wrap-up-time",
       "type": "statistic",
       "config": {
         "statistic": "wrap-up-duration",
@@ -359,7 +359,7 @@ angular.module('liveopsConfigPanel')
         "ui": {
           "title": {
             "show": true,
-            "text": "Avg. Wrap-up Time"
+            "text": "Avg. Wrap-up Duration"
           },
           "unit": "seconds",
           "size": {
@@ -376,7 +376,7 @@ angular.module('liveopsConfigPanel')
         "indicator": {}
       }
     }, {
-      "id": "00000000-0000-0000-000000000087",
+      "id": "all-agents-group-agents-hold-count",
       "type": "statistic",
       "config": {
         "statistic": "resource-hold-duration",
@@ -384,9 +384,9 @@ angular.module('liveopsConfigPanel')
         "ui": {
           "title": {
             "show": true,
-            "text": "Hold Count"
+            "text": "Total Holds Triggered"
           },
-          "unit": "Holds",
+          "unit": "holds",
           "size": {
             "width": 5,
             "height": 5
@@ -401,7 +401,7 @@ angular.module('liveopsConfigPanel')
         "indicator": {}
       }
     }, {
-      "id": "00000000-0000-0000-000000000070",
+      "id": "all-interactions-group-title",
       "type": "title",
       "config": {
         "ui": {
@@ -420,17 +420,17 @@ angular.module('liveopsConfigPanel')
       }
 
     }, {
-      "id": "00000000-0000-0000-000000000073",
+      "id": "all-interactions-group-total-interactions-in-queues",
       "type": "statistic",
       "config": {
-        "statistic": "queue-duration",
-        "statisticLookup": "recordsCount",
+        "statistic": "queue-length",
+        "statisticLookup": "value",
         "ui": {
           "title": {
             "show": true,
             "text": "Total in Queue"
           },
-          "unit": "Customers",
+          "unit": "customers",
           "size": {
             "width": 6,
             "height": 6
@@ -445,17 +445,17 @@ angular.module('liveopsConfigPanel')
         "indicator": {}
       }
     }, {
-      "id": "00000000-0000-0000-000000000072",
+      "id": "all-interactions-group-total-interactions-in-conversation",
       "type": "statistic",
       "config": {
-        "statistic": "interactions",
+        "statistic": "interactions-in-conversation-count",
         "statisticLookup": "recordsCount",
         "ui": {
           "title": {
             "show": true,
             "text": "Interactions in Conversation"
           },
-          "unit": "Interactions",
+          "unit": "interactions",
           "size": {
             "width": 6,
             "height": 6
@@ -470,7 +470,7 @@ angular.module('liveopsConfigPanel')
         "indicator": {}
       }
     }, {
-      "id": "00000000-0000-0000-000000000074",
+      "id": "all-interactions-group-total-queue-abandons-for-tenant",
       "type": "statistic",
       "config": {
         "statistic": "abandon-queue-instance",
@@ -480,7 +480,7 @@ angular.module('liveopsConfigPanel')
             "show": true,
             "text": "Queue Abandons"
           },
-          "unit": "Customers",
+          "unit": "customers",
           "size": {
             "width": 6,
             "height": 6
@@ -495,7 +495,7 @@ angular.module('liveopsConfigPanel')
         "indicator": {}
       }
     }, {
-      "id": "00000000-0000-0000-000000000076",
+      "id": "all-interactions-group-avg-interaction-duration",
       "type": "statistic",
       "config": {
         "statistic": "interaction-duration",
@@ -520,7 +520,7 @@ angular.module('liveopsConfigPanel')
         "indicator": {}
       }
     }, {
-      "id": "00000000-0000-0000-000000000079",
+      "id": "all-interactions-group-avg-abandon-time-duration",
       "type": "statistic",
       "config": {
         "statistic": "abandon-time-duration",
@@ -687,7 +687,7 @@ angular.module('liveopsConfigPanel')
   //     "id": "00000000-0000-0000-000000000007",
   //     "type": "statistic",
   //     "config": {
-  //       "statistic": "resource-not-ready-instance",
+  //       "statistic": "resource-away-instance",
   //       "statisticLookup": "recordsCount",
   //       "ui": {
   //         "title": {
@@ -712,7 +712,7 @@ angular.module('liveopsConfigPanel')
   //     "id": "00000000-0000-0000-000000000008",
   //     "type": "statistic",
   //     "config": {
-  //       "statistic": "resource-not-ready-instance",
+  //       "statistic": "resource-away-instance",
   //       "statisticLookup": "recordsCount",
   //       "ui": {
   //         "title": {
@@ -738,7 +738,7 @@ angular.module('liveopsConfigPanel')
   //     "id": "00000000-0000-0000-000000000009",
   //     "type": "statistic",
   //     "config": {
-  //       "statistic": "resource-not-ready-instance",
+  //       "statistic": "resource-away-instance",
   //       "statisticLookup": "recordsCount",
   //       "ui": {
   //         "title": {
@@ -988,7 +988,7 @@ angular.module('liveopsConfigPanel')
   //           "show": true,
   //           "text": "Abandons"
   //         },
-  //         "unit": "Customers",
+  //         "unit": "customers",
   //         "size": {
   //           "width": 3,
   //           "height": 2
@@ -1153,7 +1153,7 @@ angular.module('liveopsConfigPanel')
   //           "show": true,
   //           "text": "Abandons"
   //         },
-  //         "unit": "Customers",
+  //         "unit": "customers",
   //         "size": {
   //           "width": 3,
   //           "height": 2
@@ -1320,7 +1320,7 @@ angular.module('liveopsConfigPanel')
   //           "show": true,
   //           "text": "Abandons"
   //         },
-  //         "unit": "Customers",
+  //         "unit": "customers",
   //         "size": {
   //           "width": 3,
   //           "height": 2
@@ -1415,7 +1415,7 @@ angular.module('liveopsConfigPanel')
   //           "show": true,
   //           "text": "Total Active"
   //         },
-  //         "unit": "Interactions",
+  //         "unit": "interactions",
   //         "size": {
   //           "width": 4,
   //           "height": 4
@@ -1434,14 +1434,14 @@ angular.module('liveopsConfigPanel')
   //     "id": "00000000-0000-0000-000000000003",
   //     "type": "statistic",
   //     "config": {
-  //       "statistic": "resource-conversation-duration",
+  //       "statistic": "conversation-duration",
   //       "statisticLookup": "recordsCount",
   //       "ui": {
   //         "title": {
   //           "show": true,
   //           "text": "In Conversation"
   //         },
-  //         "unit": "Interactions",
+  //         "unit": "interactions",
   //         "size": {
   //           "width": 4,
   //           "height": 4
@@ -1466,7 +1466,7 @@ angular.module('liveopsConfigPanel')
   //           "show": true,
   //           "text": "Total Today"
   //         },
-  //         "unit": "Interactions",
+  //         "unit": "interactions",
   //         "size": {
   //           "width": 4,
   //           "height": 2
@@ -1492,7 +1492,7 @@ angular.module('liveopsConfigPanel')
   //           "show": true,
   //           "text": "In Queue"
   //         },
-  //         "unit": "Interactions",
+  //         "unit": "interactions",
   //         "size": {
   //           "width": 4,
   //           "height": 2
@@ -1544,7 +1544,7 @@ angular.module('liveopsConfigPanel')
   //           "show": true,
   //           "text": "Abandons"
   //         },
-  //         "unit": "Interactions",
+  //         "unit": "interactions",
   //         "size": {
   //           "width": 4,
   //           "height": 2
@@ -1570,7 +1570,7 @@ angular.module('liveopsConfigPanel')
   //           "show": true,
   //           "text": "Transfers"
   //         },
-  //         "unit": "Interactions",
+  //         "unit": "interactions",
   //         "size": {
   //           "width": 4,
   //           "height": 2
@@ -1596,7 +1596,7 @@ angular.module('liveopsConfigPanel')
   //           "show": true,
   //           "text": "IVR Abandons"
   //         },
-  //         "unit": "Interactions",
+  //         "unit": "interactions",
   //         "size": {
   //           "width": 4,
   //           "height": 2
