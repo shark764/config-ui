@@ -212,20 +212,22 @@ angular.module('liveopsConfigPanel')
 
       vm.getReportingConfig = function() {
         return [{
-          label: $translate.instant('navbar.reports.hd.title'),
-          stateLink: 'content.reports',
-          stateLinkParams: {
-            id: 'historical-dashboards'
-          },
-          id: 'reports-management-link',
-          order: 1
-        }, {
           label: $translate.instant('navbar.reports.rtd.title'),
           stateLink: 'content.realtime-dashboards',
           id: 'realtime-dashboard-link',
           order: 2
         }];
       };
+
+      // {
+      //     label: $translate.instant('navbar.reports.hd.title'),
+      //     stateLink: 'content.reports',
+      //     stateLinkParams: {
+      //       id: 'historical-dashboards'
+      //     },
+      //     id: 'reports-management-link',
+      //     order: 1
+      //   },
 
       vm.updateTopbarConfig = function() {
         $scope.managementDropConfig = vm.getManagementConfig();
