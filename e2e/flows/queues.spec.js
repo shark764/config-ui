@@ -215,9 +215,9 @@ describe('The queues view', function() {
       // If the advanced query is not the default value, expect the basic query details to be displayed
       activeVersionDetails.element(by.id('advanced-query-field')).getAttribute('value').then(function(advancedQuery) {
         if (advancedQuery == '[{:after-seconds-in-queue 0 :query {}}]') {
-          expect(activeVersionDetails.element(by.id('version-basic-query-details')).all(by.repeater('operand in operands')).count()).toBe(0);
+          expect(activeVersionDetails.element(by.id('version-basic-query-details')).all(by.repeater('condition in cqe.conditionGroup.conditions')).count()).toBe(0);
         } else {
-          expect(activeVersionDetails.element(by.id('version-basic-query-details')).all(by.repeater('operand in operands')).count()).toBeGreaterThan(0);
+          expect(activeVersionDetails.element(by.id('version-basic-query-details')).all(by.repeater('condition in cqe.conditionGroup.conditions')).count()).toBeGreaterThan(0);
         }
       });
 
@@ -359,31 +359,31 @@ describe('The queues view', function() {
       var copiedBasicQueryDetails = queues.basicQueryDetails.get(activeVersionValue);
       expect(newVersion.basicQueryDetailsAll.count()).toBe(copiedBasicQueryDetails.all(by.repeater('condition in cqe.conditionGroup.conditions')).count());
 
-      // All groups match
+      // All groups and skills match
       newVersion.allGroupsSelected.count().then(function(allGroupCount) {
         for (var i = 0; i < allGroupCount; i++) {
-          expect(newVersion.allGroupsSelected.get(i).getText()).toBe(queues.basicQueryDetails.get(activeVersionValue).all(by.repeater('condition in cqe.conditionGroup.conditions')).get(i).getText());
+          expect(newVersion.allGroupsSelected.get(i).getText()).toBe(queues.basicQueryDetails.get(activeVersionValue).element(by.id(':groups-all')).all(by.repeater('condition in cqe.conditionGroup.conditions')).get(i).getText());
         }
       });
 
       // Any groups match
       newVersion.anyGroupsSelected.count().then(function(anyGroupCount) {
         for (var i = 0; i < anyGroupCount; i++) {
-          expect(newVersion.anyGroupsSelected.get(i).getText()).toBe(queues.basicQueryDetails.get(activeVersionValue).all(by.repeater('condition in cqe.conditionGroup.conditions')).get(i).getText());
+          expect(newVersion.anyGroupsSelected.get(i).getText()).toBe(queues.basicQueryDetails.get(activeVersionValue).element(by.id(':groups-any')).all(by.repeater('condition in cqe.conditionGroup.conditions')).get(i).getText());
         }
       });
 
       // All skills match
       newVersion.allSkillsSelected.count().then(function(allSkillCount) {
         for (var i = 0; i < allSkillCount; i++) {
-          expect(newVersion.allSkillsSelected.get(i).getText()).toBe(queues.basicQueryDetails.get(activeVersionValue).all(by.repeater('condition in cqe.conditionGroup.conditions')).get(i).getText());
+          expect(newVersion.allSkillsSelected.get(i).getText()).toBe(queues.basicQueryDetails.get(activeVersionValue).element(by.id(':skills-all')).all(by.repeater('condition in cqe.conditionGroup.conditions')).get(i).getText());
         }
       });
 
       // Any skills match
       newVersion.anySkillsSelected.count().then(function(anySkillCount) {
         for (var i = 0; i < anySkillCount; i++) {
-          expect(newVersion.anySkillsSelected.get(i).getText()).toBe(queues.basicQueryDetails.get(activeVersionValue).all(by.repeater('condition in cqe.conditionGroup.conditions')).get(i).getText());
+          expect(newVersion.anySkillsSelected.get(i).getText()).toBe(queues.basicQueryDetails.get(activeVersionValue).element(by.id(':skills-any')).all(by.repeater('condition in cqe.conditionGroup.conditions')).get(i).getText());
         }
       });
 

@@ -125,7 +125,7 @@ describe('The media collections view', function() {
     expect(mediaCollections.requiredError.get(0).getText()).toBe('You must include at least one media mapping');
   });
 
-  it('should add new Media Mapping when creating a new Media Collection', function() {
+  it('should add new Audio Media when creating a new Media Collection', function() {
     mediaCollectionCount = shared.tableElements.count();
     shared.createBtn.click();
     mediaCollections.openCreateNewMedia();
@@ -136,6 +136,35 @@ describe('The media collections view', function() {
     mediaCollections.mediaNameField.sendKeys('Audio from Media Collections ' + randomMedia);
     mediaCollections.mediaTypeDropdown.all(by.css('option')).get(1).click();
     mediaCollections.audioSourceField.sendKeys('http://www.example.com/' + randomMedia);
+
+    mediaCollections.mediaCreateBtn.click().then(function() {
+      shared.waitForSuccess();
+
+      mediaCollections.nameFormField.sendKeys('Media Collection ' + randomMedia);
+      mediaCollections.mediaIdentifiers.get(0).sendKeys('Identifier ' + randomMedia);
+      mediaCollections.defaultIdDropdown.all(by.css('option')).get(1).click();
+
+      mediaCollections.submitFormBtn.click().then(function() {
+        shared.waitForSuccess();
+        expect(shared.successMessage.isDisplayed()).toBeTruthy();
+        expect(shared.tableElements.count()).toBeGreaterThan(mediaCollectionCount);
+      });
+    });
+  });
+
+  it('should add new Text-to-Speech Media when creating a new Media Collection', function() {
+    mediaCollectionCount = shared.tableElements.count();
+    shared.createBtn.click();
+    mediaCollections.openCreateNewMedia();
+
+    var randomMedia = Math.floor((Math.random() * 1000) + 1);
+
+    // Edit required fields
+    mediaCollections.mediaNameField.sendKeys('Text-to-Speech from Media Collections ' + randomMedia);
+    mediaCollections.mediaTypeDropdown.all(by.css('option')).get(2).click();
+    mediaCollections.ttsSourceField.sendKeys('Text-to-Speech media source');
+    mediaCollections.languageField.sendKeys('French');
+    mediaCollections.voiceField.sendKeys('Woman');
 
     mediaCollections.mediaCreateBtn.click().then(function() {
       shared.waitForSuccess();

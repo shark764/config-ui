@@ -21,7 +21,7 @@ var MediaCollectionsPage = function() {
   this.mediaDropdownBoxes = element.all(by.css('lo-multibox'));
   this.mediaDropdowns = element.all(by.model('display'));
   this.mediaDropdownSearchFields = element.all(by.model('currentText'));
-  this.mediaElementsSelector = 'item in filtered = (items | filter:filterCriteria | orderBy:orderByFunction)';
+  this.mediaElementsSelector = 'item in filtered = (items | filter:filterCriteria | orderBy:getDisplayString)';
   this.removeMedia = element.all(by.id('remove-media-mapping-button'));
 
   this.requiredError = this.mediaCollectionPane.all(by.css('.lo-error'));
@@ -31,6 +31,8 @@ var MediaCollectionsPage = function() {
   this.mediaNameField = this.createMediaForm.element(by.model('selectedMedia.name'));
   this.mediaTypeDropdown = this.createMediaForm.element(by.model('selectedMedia.type'));
   this.ttsSourceField = this.createMediaForm.element(by.id('tts-source-field'));
+  this.voiceField = this.createMediaForm.element(by.id('tts-property-voice-field'));
+  this.languageField = this.createMediaForm.element(by.id('tts-property-language-field'));
   this.audioSourceField = this.createMediaForm.element(by.id('audio-source-url-field'));
   this.mediaCancelBtn = this.createMediaForm.element(by.id('cancel-media-btn'));
   this.mediaCreateBtn = this.createMediaForm.element(by.id('create-media-btn'));
