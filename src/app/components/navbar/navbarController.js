@@ -12,7 +12,7 @@ angular.module('liveopsConfigPanel')
           return;
         }
 
-        if (!Session.tenant.tenantId && Session.tenants && Session.tenants.length) {
+        if ((!Session.tenant || !Session.tenant.tenantId) && Session.tenants && Session.tenants.length) {
           Session.setTenant(Session.tenants[0]);
         }
 
