@@ -97,20 +97,28 @@
 <div class="input-group" ng-show="selectedMedia.type === 'tts'">
   <label>{{'media.details.property.language' | translate}}</label>
   
-  <input id="tts-property-language-field" type="text" name="language"
+  <select id="tts-property-language-field" type="text" name="language"
     ng-required="selectedMedia.type === 'tts'"
     ng-disabled="!('MANAGE_ALL_MEDIA' | hasPermission)"
-    ng-model="selectedMedia.properties.language">
-  </input>
+    ng-model="selectedMedia.properties.language"
+    ng-options="lang.value as lang.display for lang in twilioLangs">
+    <option value="" ng-disabled=true>
+      {{'media.details.property.language.select' | translate}}
+    </option>
+  </select>
 </div>
 
 <div class="input-group" ng-show="selectedMedia.type === 'tts'">
   <label>{{'media.details.property.voice' | translate}}</label>
   
-  <input id="tts-property-voice-field" type="text" name="voice"
+  <select id="tts-property-voice-field" type="text" name="voice"
     ng-required="selectedMedia.type === 'tts'"
     ng-disabled="!('MANAGE_ALL_MEDIA' | hasPermission)"
-    ng-model="selectedMedia.properties.voice">
-  </input>
+    ng-model="selectedMedia.properties.voice"
+    ng-options="voice.value as voice.display for voice in twilioVoices">
+    <option value="" ng-disabled=true>
+      {{'media.details.property.voice.select' | translate}}
+    </option>
+  </select>
 </div>
 

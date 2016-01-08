@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('MediaController', ['$scope', 'Media', 'Session', 'mediaTableConfig', 'loEvents',
-    function($scope, Media, Session, mediaTableConfig, loEvents) {
+  .controller('MediaController', ['$scope', 'Media', 'Session', 'mediaTableConfig', 'loEvents', 'twilioLangs', 'twilioVoices',
+    function($scope, Media, Session, mediaTableConfig, loEvents, twilioLangs, twilioVoices) {
       $scope.Session = Session;
       $scope.forms = {};
 
@@ -25,5 +25,7 @@ angular.module('liveopsConfigPanel')
       });
 
       $scope.tableConfig = mediaTableConfig;
+      $scope.twilioLangs = twilioLangs;
+      $scope.twilioVoices = twilioVoices;
     }
   ]);
