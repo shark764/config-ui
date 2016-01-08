@@ -17,6 +17,7 @@ angular.module('liveopsConfigPanel')
                 angular.noop,
                 function() {
                   event.preventDefault();
+                  $rootScope.$broadcast('loStateChangeCanceled');
                 }
               );
             }
