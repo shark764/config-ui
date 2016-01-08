@@ -9,9 +9,11 @@ var MediaPage = function() {
   this.submitFormBtn = element(by.id('submit-details-btn'));
 
   // Text-to-Speech fields
-  this.ttsSourceFormField = element(by.id('tts-source-field')); 
-  this.languageFormField = element(by.id('tts-property-language-field'));
-  this.voiceFormField = element(by.id('tts-property-voice-field'));
+  this.ttsSourceFormField = element(by.id('tts-source-field'));
+  this.languageFormDropdown = element(by.id('tts-property-language-field'));
+  this.languageOptions = this.languageFormDropdown.all(by.css('option'));
+  this.voiceFormDropdown = element(by.id('tts-property-voice-field'));
+  this.voiceOptions = this.voiceFormDropdown.all(by.css('option'));
 
   // Audio fields
   this.audioSourceFormField = element(by.id('audio-source-url-field'));

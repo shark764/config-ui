@@ -190,8 +190,8 @@ describe('The media collections view', function() {
       mediaCollections.mediaNameField.sendKeys(newMediaName);
       mediaCollections.mediaTypeDropdown.all(by.css('option')).get(2).click();
       mediaCollections.ttsSourceField.sendKeys('Text-To-Speech Source ' + randomMedia);
-      mediaCollections.voiceField.sendKeys('Man');
-      mediaCollections.languageField.sendKeys('Spanish');
+      mediaCollections.voiceOptions.get((randomMedia % 3) + 1).click();
+      mediaCollections.languageOptions.get((randomMedia % 26) + 1).click();
 
       mediaCollections.mediaCreateBtn.click().then(function() {
         expect(shared.successMessage.isDisplayed()).toBeTruthy();
@@ -225,8 +225,8 @@ describe('The media collections view', function() {
       // Touch fields and ensure required field messages are displayed
       mediaCollections.mediaNameField.click();
       mediaCollections.ttsSourceField.click();
-      mediaCollections.languageField.click();
-      mediaCollections.voiceField.sendKeys('\t');
+      mediaCollections.languageFormDropdown.click();
+      mediaCollections.voiceOptions.get((randomMedia % 3) + 1).click();
 
       // Create buttons are still disabled
       expect(mediaCollections.mediaCreateBtn.getAttribute('disabled')).toBeTruthy();
@@ -302,8 +302,8 @@ describe('The media collections view', function() {
       mediaCollections.mediaNameField.sendKeys('Text-To-Speech from Media Collections ' + randomMedia);
       mediaCollections.mediaTypeDropdown.all(by.css('option')).get(2).click();
       mediaCollections.ttsSourceField.sendKeys('Text-To-Speech Source ' + randomMedia);
-      mediaCollections.languageField.sendKeys('French');
-      mediaCollections.voiceField.sendKeys('Woman');
+      mediaCollections.languageOptions.get((randomMedia % 26) + 1).click();
+      mediaCollections.voiceOptions.get((randomMedia % 3) + 1).click();
 
       mediaCollections.mediaCreateAndNewBtn.click().then(function() {
         expect(shared.successMessage.isDisplayed()).toBeTruthy();
@@ -321,8 +321,8 @@ describe('The media collections view', function() {
       mediaCollections.mediaNameField.sendKeys('Cancel Media');
       mediaCollections.mediaTypeDropdown.all(by.css('option')).get(2).click();
       mediaCollections.ttsSourceField.sendKeys('Cancel Source');
-      mediaCollections.languageField.sendKeys('Cancel');
-      mediaCollections.voiceField.sendKeys('Cancel');
+      mediaCollections.languageOptions.get((randomMedia % 26) + 1).click();
+      mediaCollections.voiceOptions.get((randomMedia % 3) + 1).click();
 
       mediaCollections.mediaCancelBtn.click();
 
@@ -342,8 +342,11 @@ describe('The media collections view', function() {
       mediaCollections.mediaNameField.sendKeys('Cancel Media Collections');
       mediaCollections.mediaTypeDropdown.all(by.css('option')).get(2).click();
       mediaCollections.ttsSourceField.sendKeys('Cancel Source');
-      mediaCollections.languageField.sendKeys('Cancel');
-      mediaCollections.voiceField.sendKeys('Cancel');
+      mediaCollections.languageOptions.get((randomMedia % 26) + 1).click();
+      mediaCollections.voiceOptions.get((randomMedia % 3) + 1).click();
+
+      var selectedLanguage = mediaCollections.languageFormDropdown.$('option:checked').getText();
+      var selectedVoice = mediaCollections.voiceFormDropdown.$('option:checked').getText();
 
       mediaCollections.cancelFormBtn.click();
 
@@ -358,8 +361,8 @@ describe('The media collections view', function() {
       // Media fields remain unchanged
       expect(mediaCollections.mediaNameField.getAttribute('value')).toBe('Cancel Media Collections');
       expect(mediaCollections.ttsSourceField.getAttribute('value')).toBe('Cancel Source');
-      expect(mediaCollections.languageField.getAttribute('value')).toBe('Cancel');
-      expect(mediaCollections.voiceField.getAttribute('value')).toBe('Cancel');
+      expect(mediaCollections.languageFormDropdown.$('option:checked').getText()).toBe(selectedLanguage);
+      expect(mediaCollections.voiceFormDropdown.$('option:checked').getText()).toBe(selectedVoice);
     });
 
     it('should close new media pane on Media close', function() {
@@ -369,8 +372,8 @@ describe('The media collections view', function() {
       mediaCollections.mediaNameField.sendKeys('Close Media');
       mediaCollections.mediaTypeDropdown.all(by.css('option')).get(2).click();
       mediaCollections.ttsSourceField.sendKeys('Close Source');
-      mediaCollections.languageField.sendKeys('Cancel');
-      mediaCollections.voiceField.sendKeys('Cancel');
+      mediaCollections.languageOptions.get((randomMedia % 26) + 1).click();
+      mediaCollections.voiceOptions.get((randomMedia % 3) + 1).click();
 
       mediaCollections.closeMedia.click();
 
@@ -390,8 +393,11 @@ describe('The media collections view', function() {
       mediaCollections.mediaNameField.sendKeys('Close Media Collections');
       mediaCollections.mediaTypeDropdown.all(by.css('option')).get(2).click();
       mediaCollections.ttsSourceField.sendKeys('Close Source');
-      mediaCollections.languageField.sendKeys('Cancel');
-      mediaCollections.voiceField.sendKeys('Cancel');
+      mediaCollections.languageOptions.get((randomMedia % 26) + 1).click();
+      mediaCollections.voiceOptions.get((randomMedia % 3) + 1).click();
+
+      var selectedLanguage = mediaCollections.languageFormDropdown.$('option:checked').getText();
+      var selectedVoice = mediaCollections.voiceFormDropdown.$('option:checked').getText();
 
       mediaCollections.closeMediaCollection.click();
 
@@ -407,8 +413,8 @@ describe('The media collections view', function() {
       expect(mediaCollections.mediaNameField.getAttribute('value')).toBe('Close Media Collections');
       expect(mediaCollections.mediaTypeDropdown.$('option:checked').getText()).toBe('Text-to-Speech');
       expect(mediaCollections.ttsSourceField.getAttribute('value')).toBe('Close Source');
-      expect(mediaCollections.languageField.getAttribute('value')).toBe('Cancel');
-      expect(mediaCollections.voiceField.getAttribute('value')).toBe('Cancel');
+      expect(mediaCollections.languageFormDropdown.$('option:checked').getText()).toBe(selectedLanguage);
+      expect(mediaCollections.voiceFormDropdown.$('option:checked').getText()).toBe(selectedVoice);
     });
 
     it('should leave new Media fields and pane open on Media Collections create', function() {
@@ -418,8 +424,11 @@ describe('The media collections view', function() {
       mediaCollections.mediaNameField.sendKeys('Create Media Collections');
       mediaCollections.mediaTypeDropdown.all(by.css('option')).get(2).click();
       mediaCollections.ttsSourceField.sendKeys('Create Source');
-      mediaCollections.languageField.sendKeys('Create');
-      mediaCollections.voiceField.sendKeys('Create');
+      mediaCollections.languageOptions.get((randomMedia % 26) + 1).click();
+      mediaCollections.voiceOptions.get((randomMedia % 26) + 1).click();
+
+      var selectedLanguage = mediaCollections.languageFormDropdown.$('option:checked').getText();
+      var selectedVoice = mediaCollections.voiceFormDropdown.$('option:checked').getText();
 
       // Create Media Collection
       randomCollection = Math.floor((Math.random() * 1000) + 1);
@@ -447,8 +456,8 @@ describe('The media collections view', function() {
         expect(mediaCollections.mediaNameField.getAttribute('value')).toBe('Create Media Collections');
         expect(mediaCollections.mediaTypeDropdown.$('option:checked').getText()).toBe('Text-to-Speech');
         expect(mediaCollections.ttsSourceField.getAttribute('value')).toBe('Create Source');
-        expect(mediaCollections.languageField.getAttribute('value')).toBe('Create');
-        expect(mediaCollections.voiceField.getAttribute('value')).toBe('Create');
+        expect(mediaCollections.languageFormDropdown.$('option:checked').getText()).toBe(selectedLanguage);
+        expect(mediaCollections.voiceFormDropdown.$('option:checked').getText()).toBe(selectedVoice);
       });
     });
   });

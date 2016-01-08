@@ -50,8 +50,8 @@ describe('The media view', function() {
 
     // TTS fields are not displayed
     expect(media.ttsSourceFormField.isDisplayed()).toBeFalsy();
-    expect(media.languageFormField.isDisplayed()).toBeFalsy();
-    expect(media.voiceFormField.isDisplayed()).toBeFalsy();
+    expect(media.languageFormDropdown.isDisplayed()).toBeFalsy();
+    expect(media.voiceFormDropdown.isDisplayed()).toBeFalsy();
   });
 
   it('should include valid Media fields when creating a new Text-to-Speech Media', function() {
@@ -63,8 +63,8 @@ describe('The media view', function() {
 
     // TTS fields are displayed
     expect(media.ttsSourceFormField.isDisplayed()).toBeTruthy();
-    expect(media.languageFormField.isDisplayed()).toBeTruthy();
-    expect(media.voiceFormField.isDisplayed()).toBeTruthy();
+    expect(media.languageFormDropdown.isDisplayed()).toBeTruthy();
+    expect(media.voiceFormDropdown.isDisplayed()).toBeTruthy();
 
     // Audio fields are not displayed
     expect(media.audioSourceFormField.isDisplayed()).toBeFalsy();
@@ -113,8 +113,8 @@ describe('The media view', function() {
     media.nameFormField.sendKeys(newMediaSource);
     media.typeFormDropdown.all(by.css('option')).get(2).click();
     media.ttsSourceFormField.sendKeys(newMediaSource);
-    media.languageFormField.sendKeys('English');
-    media.voiceFormField.sendKeys('Man');
+    media.languageOptions.get((randomMedia % 26) + 1).click();
+    media.voiceOptions.get((randomMedia % 3) + 1).click();
 
     shared.submitFormBtn.click().then(function() {
       expect(shared.successMessage.isDisplayed()).toBeTruthy();
@@ -278,10 +278,10 @@ describe('The media view', function() {
 
     // Edit fields
     media.typeFormDropdown.all(by.css('option')).get(2).click();
-    media.languageFormField.click();
+    media.languageFormDropdown.click();
     media.nameFormField.sendKeys('Text-To-Speech Media ' + randomMedia);
     media.ttsSourceFormField.sendKeys('Text-To-Speech Media Source');
-    media.voiceFormField.sendKeys('Man');
+    media.voiceOptions.get((randomMedia % 3) + 1).click();
 
     // Submit button is still disabled
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
@@ -303,10 +303,10 @@ describe('The media view', function() {
 
     // Edit fields
     media.typeFormDropdown.all(by.css('option')).get(2).click();
-    media.voiceFormField.click();
+    media.voiceFormDropdown.click();
     media.nameFormField.sendKeys('Text-To-Speech Media ' + randomMedia);
     media.ttsSourceFormField.sendKeys('Text-To-Speech Media Source');
-    media.languageFormField.sendKeys('English');
+    media.languageOptions.get((randomMedia % 26) + 1).click();
 
     // Submit button is still disabled
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
@@ -374,8 +374,8 @@ describe('The media view', function() {
     // Verify media details in table matches populated field
     expect(shared.detailsFormHeader.getText()).toContain(shared.firstTableRow.element(by.css(media.nameColumn)).getText());
     expect(shared.firstTableRow.element(by.css(media.sourceColumn)).getText()).toBe(media.ttsSourceFormField.getAttribute('value'));
-    expect(shared.firstTableRow.element(by.css(media.propertiesColumn)).getText()).toContain(media.languageFormField.getAttribute('value'));
-    expect(shared.firstTableRow.element(by.css(media.propertiesColumn)).getText()).toContain(media.voiceFormField.getAttribute('value'));
+    expect(shared.firstTableRow.element(by.css(media.propertiesColumn)).getText()).toContain(media.languageFormDropdown.$('option:checked').getText());
+    expect(shared.firstTableRow.element(by.css(media.propertiesColumn)).getText()).toContain(media.voiceFormDropdown.$('option:checked').getText());
 
     // Change selected media and ensure details are updated
     shared.tableElements.count().then(function(curMediaCount) {
@@ -383,8 +383,8 @@ describe('The media view', function() {
         shared.secondTableRow.click();
         expect(shared.detailsFormHeader.getText()).toContain(shared.secondTableRow.element(by.css(media.nameColumn)).getText());
         expect(shared.secondTableRow.element(by.css(media.sourceColumn)).getText()).toBe(media.ttsSourceFormField.getAttribute('value'));
-        expect(shared.secondTableRow.element(by.css(media.propertiesColumn)).getText()).toContain(media.languageFormField.getAttribute('value'));
-        expect(shared.secondTableRow.element(by.css(media.propertiesColumn)).getText()).toContain(media.voiceFormField.getAttribute('value'));
+        expect(shared.secondTableRow.element(by.css(media.propertiesColumn)).getText()).toContain(media.languageFormDropdown.$('option:checked').getText());
+        expect(shared.secondTableRow.element(by.css(media.propertiesColumn)).getText()).toContain(media.voiceFormDropdown.$('option:checked').getText());
       };
     });
   });
@@ -406,14 +406,14 @@ describe('The media view', function() {
 
     var originalName = media.nameFormField.getAttribute('value');
     var originalSource = media.ttsSourceFormField.getAttribute('value');
-    var originalLanguage = media.languageFormField.getAttribute('value');
-    var originalVoice = media.voiceFormField.getAttribute('value');
+    var originalLanguage = media.languageFormDropdown.$('option:checked').getText();
+    var originalVoice = media.voiceFormDropdown.$('option:checked').getText();
 
     // Edit editable fields
     media.nameFormField.sendKeys('Edit');
     media.ttsSourceFormField.sendKeys('Edit');
-    media.languageFormField.sendKeys('Edit');
-    media.voiceFormField.sendKeys('Edit');
+    media.languageOptions.get((randomMedia % 26) + 1).click();
+    media.voiceOptions.get((randomMedia % 3) + 1).click();
 
     shared.cancelFormBtn.click();
     shared.waitForAlert();
@@ -424,8 +424,8 @@ describe('The media view', function() {
     // Fields reset to original values
     expect(media.nameFormField.getAttribute('value')).toBe(originalName);
     expect(media.ttsSourceFormField.getAttribute('value')).toBe(originalSource);
-    expect(media.languageFormField.getAttribute('value')).toBe(originalLanguage);
-    expect(media.voiceFormField.getAttribute('value')).toBe(originalVoice);
+    expect(media.languageFormDropdown.$('option:checked').getText()).toBe(originalLanguage);
+    expect(media.voiceFormDropdown.$('option:checked').getText()).toBe(originalVoice);
   });
 
   it('should reset fields after editing Audio media and selecting Cancel', function() {
@@ -480,13 +480,13 @@ describe('The media view', function() {
     // Edit fields
     media.nameFormField.sendKeys('Edit');
     media.ttsSourceFormField.sendKeys('Edit');
-    media.languageFormField.sendKeys('Edit');
-    media.voiceFormField.sendKeys('Edit');
+    media.languageOptions.get((randomMedia % 26) + 1).click();
+    media.voiceOptions.get((randomMedia % 3) + 1).click();
 
     var editedName = media.nameFormField.getAttribute('value');
     var editedSource = media.ttsSourceFormField.getAttribute('value');
-    var editedLanguage = media.languageFormField.getAttribute('value');
-    var editedVoice = media.voiceFormField.getAttribute('value');
+    var editedLanguage = media.languageFormDropdown.$('option:checked').getText();
+    var editedVoice = media.voiceFormDropdown.$('option:checked').getText();
 
     shared.submitFormBtn.click().then(function() {
       expect(shared.successMessage.isDisplayed()).toBeTruthy();
@@ -495,8 +495,8 @@ describe('The media view', function() {
       browser.refresh();
       expect(media.nameFormField.getAttribute('value')).toBe(editedName);
       expect(media.ttsSourceFormField.getAttribute('value')).toBe(editedSource);
-      expect(media.languageFormField.getAttribute('value')).toBe(editedLanguage);
-      expect(media.voiceFormField.getAttribute('value')).toBe(editedVoice);
+      expect(media.languageFormDropdown.$('option:checked').getText()).toBe(editedLanguage);
+      expect(media.voiceFormDropdown.$('option:checked').getText()).toBe(editedVoice);
     });
   });
 
@@ -518,26 +518,22 @@ describe('The media view', function() {
     expect(shared.successMessage.isPresent()).toBeFalsy();
   });
 
-  it('should require source, voice and language fields when editing a Text-To-Speech Media', function() {
+  it('should require source field when editing a Text-To-Speech Media', function() {
     // Select first media from table
     shared.searchField.sendKeys('Text-To-Speech');
     shared.firstTableRow.click();
 
     // Edit fields
     media.ttsSourceFormField.clear();
-    media.languageFormField.clear();
-    media.voiceFormField.clear();
-    media.voiceFormField.sendKeys('\t');
+    media.ttsSourceFormField..sendKeys('/t');
 
     // Submit button is still disabled
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
     shared.submitFormBtn.click();
 
     // Error messages displayed
-    expect(media.requiredError.count()).toBe(3);
+    expect(media.requiredError.count()).toBe(1);
     expect(media.requiredError.get(0).getText()).toBe('Please enter a source');
-    expect(media.requiredError.get(1).getText()).toBe('Please enter a language');
-    expect(media.requiredError.get(2).getText()).toBe('Please enter a voice');
     expect(shared.successMessage.isPresent()).toBeFalsy();
   });
 

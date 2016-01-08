@@ -163,8 +163,8 @@ describe('The media collections view', function() {
     mediaCollections.mediaNameField.sendKeys('Text-to-Speech from Media Collections ' + randomMedia);
     mediaCollections.mediaTypeDropdown.all(by.css('option')).get(2).click();
     mediaCollections.ttsSourceField.sendKeys('Text-to-Speech media source');
-    mediaCollections.languageField.sendKeys('French');
-    mediaCollections.voiceField.sendKeys('Woman');
+    mediaCollections.languageOptions.get((randomMedia % 26) + 1).click();
+    mediaCollections.voiceOptions.get((randomMedia % 3) + 1).click();
 
     mediaCollections.mediaCreateBtn.click().then(function() {
       shared.waitForSuccess();
