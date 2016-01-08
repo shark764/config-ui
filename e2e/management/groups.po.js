@@ -23,7 +23,7 @@ var GroupsPage = function() {
 
   this.addMemberArea = element(by.id('addUser'));
   this.addMemberField = this.addMemberArea.element(by.css('.typeahead-container'));
-  this.addMemberDropdownOptions = element.all(by.repeater('item in filtered = (items | filter:filterCriteria | orderBy:orderByFunction)'));
+  this.addMemberDropdownOptions = element.all(by.repeater('item in filtered = (items | filter:filterCriteria | orderBy:getDisplayString)'));
   this.addMemberBtn = this.addMemberArea.element(by.id('add-member-btn'));
 
   this.groupMembersLoading = element(by.css('#right-panel loading'));

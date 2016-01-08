@@ -23,7 +23,7 @@ var SkillsPage = function() {
 
   this.addMemberArea = element(by.id('usersForm'));
   this.addMemberField = this.addMemberArea.element(by.css('.typeahead-container'));
-  this.addMemberDropdownOptions = element.all(by.repeater('item in filtered = (items | filter:filterCriteria | orderBy:orderByFunction)'));
+  this.addMemberDropdownOptions = element.all(by.repeater('item in filtered = (items | filter:filterCriteria | orderBy:getDisplayString)'));
   this.addMemberProficiency = this.addMemberArea.element(by.css('#new-user-skill-proficiency > .number-slider > input'));
   this.addMemberBtn = this.addMemberArea.element(by.id('add-member-btn'));
 

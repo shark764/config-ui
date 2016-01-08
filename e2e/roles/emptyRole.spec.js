@@ -51,8 +51,8 @@ describe('The empty role', function() {
           return invites.submitFormBtn.isPresent().then(function(submitBtn) {
             return submitBtn;
           });
-        }, 10000).then(function() {
-          invites.passwordFormField.sendKeys('password');
+        }, 50000).then(function() {
+          invites.passwordFormField.sendKeys('password1!');
 
           invites.submitFormBtn.click().then(function() {
             expect(shared.message.isDisplayed()).toBeTruthy();

@@ -275,7 +275,6 @@ describe('The users view', function() {
       users.dropdownTenantStatuses.get(0).click(); // Unselect Disabled
       users.dropdownTenantStatuses.get(1).click(); // Unselect Expired
       users.dropdownTenantStatuses.get(3).click(); // Unselect Accepted
-      users.dropdownTenantStatuses.get(5).click(); // Unselect Removed
 
       shared.tableElements.count().then(function(userCount) {
         if (userCount) {
@@ -358,7 +357,6 @@ describe('The users view', function() {
       users.dropdownTenantStatuses.get(0).click(); // Unselect Disabled
       users.dropdownTenantStatuses.get(1).click(); // Unselect Expired
       users.dropdownTenantStatuses.get(3).click(); // Unselect Accepted
-      users.dropdownTenantStatuses.get(5).click(); // Unselect Removed
 
       // All input is unselected
       expect(users.dropdownTenantStatusInputs.get(0).isSelected()).toBeFalsy();
@@ -388,7 +386,6 @@ describe('The users view', function() {
       users.dropdownTenantStatuses.get(1).click(); // Unselect Expired
       users.dropdownTenantStatuses.get(2).click(); // Unselect Pending Invitation
       users.dropdownTenantStatuses.get(4).click(); // Unselect Pending Acceptance
-      users.dropdownTenantStatuses.get(5).click(); // Unselect Removed
 
       // All input is unselected
       expect(users.dropdownTenantStatusInputs.get(0).isSelected()).toBeFalsy();
@@ -419,7 +416,6 @@ describe('The users view', function() {
       users.dropdownTenantStatuses.get(1).click(); // Unselect Expired
       users.dropdownTenantStatuses.get(2).click(); // Unselect Pending Invitation
       users.dropdownTenantStatuses.get(4).click(); // Unselect Pending Acceptance
-      users.dropdownTenantStatuses.get(5).click(); // Unselect Removed
 
       // All input is unselected
       expect(users.dropdownTenantStatusInputs.get(0).isSelected()).toBeFalsy();
@@ -472,7 +468,6 @@ describe('The users view', function() {
       users.dropdownTenantStatuses.get(1).click(); // Unselect Expired
       users.dropdownTenantStatuses.get(2).click(); // Unselect Pending Invitation
       users.dropdownTenantStatuses.get(4).click(); // Unselect Pending Acceptance
-      users.dropdownTenantStatuses.get(5).click(); // Unselect Removed
 
       // All input is unselected
       expect(users.dropdownTenantStatusInputs.get(0).isSelected()).toBeFalsy();
@@ -539,7 +534,6 @@ describe('The users view', function() {
       users.dropdownTenantStatuses.get(2).click(); // Unselect Pending Invitation
       users.dropdownTenantStatuses.get(3).click(); // Unselect Accepted
       users.dropdownTenantStatuses.get(4).click(); // Unselect Pending Acceptance
-      users.dropdownTenantStatuses.get(5).click(); // Unselect Removed
 
       // All input is unselected
       expect(users.dropdownTenantStatusInputs.get(0).isSelected()).toBeFalsy();

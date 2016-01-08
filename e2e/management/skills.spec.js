@@ -376,8 +376,7 @@ describe('The skills view', function() {
     });
   });
 
-// TODO Enable the following after TITAN2-4583 && TITAN2-4533
-  xit('should list all users in Add Member dropdown', function() {
+  it('should list all users in Add Member dropdown', function() {
     randomSkill = Math.floor((Math.random() * 1000) + 1);
     newSkillName = 'Skill Name ' + randomSkill; // Save name for subsequent tests
     shared.createBtn.click();
@@ -402,7 +401,7 @@ describe('The skills view', function() {
     });
   });
 
-  xit('should add member to skill and increment member count', function() {
+  it('should add member to skill and increment member count', function() {
     // NOTE Uses new skill from previous test to ensure member count is 0
     shared.searchField.sendKeys(newSkillName);
     shared.firstTableRow.click();
@@ -435,7 +434,7 @@ describe('The skills view', function() {
     });
   });
 
-  xit('should update user after adding as a member', function() {
+  it('should update user after adding as a member', function() {
     // NOTE Uses new skill and user from previous test
     browser.get(shared.usersPageUrl);
     shared.searchField.sendKeys(newSkillName + '\t'); // Search for user based on new skill
@@ -443,7 +442,7 @@ describe('The skills view', function() {
     expect(shared.firstTableRow.getText()).toContain(addedMember);
   });
 
-  xit('should clear add member field after adding', function() {
+  it('should clear add member field after adding', function() {
     // NOTE Uses new skill from previous test to ensure member count is 0
     shared.searchField.sendKeys(newSkillName);
     shared.firstTableRow.click();
@@ -453,12 +452,13 @@ describe('The skills view', function() {
     skills.addMemberDropdownOptions.get(0).click();
     skills.addMemberBtn.click().then(function() {
       shared.waitForSuccess();
+      shared.successMessage.click();
       expect(skills.addMemberField.getAttribute('value')).toBeNull();
       expect(skills.addMemberProficiency.isPresent()).toBeFalsy(); // Without proficiency
     });
   });
 
-  xit('should update user dropdown after adding and removing members', function() {
+  it('should update user dropdown after adding and removing members', function() {
     // NOTE Uses new skill from previous test
     shared.searchField.sendKeys(newSkillName);
     shared.firstTableRow.click();
@@ -469,6 +469,7 @@ describe('The skills view', function() {
       skills.addMemberDropdownOptions.get(0).click();
       skills.addMemberBtn.click().then(function() {
         shared.waitForSuccess();
+        shared.successMessage.click();
 
         expect(skills.skillMembersRows.count()).toBe(3);
         expect(skills.detailsMemberCount.getText()).toContain('3');
@@ -479,6 +480,7 @@ describe('The skills view', function() {
         // Remove member
         skills.skillMembersRows.get(0).element(by.css('.remove')).click().then(function() {
           shared.waitForSuccess();
+          shared.successMessage.click();
 
           expect(skills.skillMembersRows.count()).toBe(2);
           expect(skills.detailsMemberCount.getText()).toContain('2');
@@ -491,7 +493,7 @@ describe('The skills view', function() {
     });
   });
 
-  xit('should allow all members to be removed', function() {
+  it('should allow all members to be removed', function() {
     // NOTE Uses new skill from previous test
     shared.searchField.sendKeys(newSkillName);
     shared.firstTableRow.click();
@@ -499,12 +501,14 @@ describe('The skills view', function() {
     // Remove member
     skills.skillMembersRows.get(0).element(by.css('.remove')).click().then(function() {
       shared.waitForSuccess();
+      shared.successMessage.click();
 
       expect(skills.skillMembersRows.count()).toBe(1);
       expect(skills.detailsMemberCount.getText()).toContain('1');
 
       skills.skillMembersRows.get(0).element(by.css('.remove')).click().then(function() {
         shared.waitForSuccess();
+        shared.successMessage.click();
 
         expect(skills.detailsMemberCount.getText()).toContain('0');
         expect(skills.skillMembersEmpty.isDisplayed()).toBeTruthy();
@@ -512,7 +516,7 @@ describe('The skills view', function() {
     });
   });
 
-  xit('should display proficiency fields for adding new members', function() {
+  it('should display proficiency fields for adding new members', function() {
     randomSkill = Math.floor((Math.random() * 1000) + 1);
     newSkillName = 'Skill Name ' + randomSkill; // Save name for subsequent tests
     shared.createBtn.click();
@@ -532,7 +536,7 @@ describe('The skills view', function() {
     });
   });
 
-  xit('should add member to skill with default proficiency', function() {
+  it('should add member to skill with default proficiency', function() {
     // NOTE Uses new skill from previous test to ensure member count is 0
     shared.searchField.sendKeys(newSkillName);
     shared.firstTableRow.click();
@@ -567,7 +571,7 @@ describe('The skills view', function() {
     });
   });
 
-  xit('should reset add member fields after adding with default proficiency', function() {
+  it('should reset add member fields after adding with default proficiency', function() {
     // NOTE Uses new skill from previous test
     shared.searchField.sendKeys(newSkillName);
     shared.firstTableRow.click();
@@ -577,12 +581,13 @@ describe('The skills view', function() {
     skills.addMemberDropdownOptions.get(0).click();
     skills.addMemberBtn.click().then(function() {
       shared.waitForSuccess();
+      shared.successMessage.click();
       expect(skills.addMemberField.getAttribute('value')).toBeNull();
       expect(skills.addMemberProficiency.getAttribute('value')).toBe('1');
     });
   });
 
-  xit('should allow all members to be removed with proficiency', function() {
+  it('should allow all members to be removed with proficiency', function() {
     // NOTE Uses new skill from previous test
     shared.searchField.sendKeys(newSkillName);
     shared.firstTableRow.click();
@@ -590,12 +595,14 @@ describe('The skills view', function() {
     // Remove member
     skills.skillMembersRows.get(0).element(by.css('.remove')).click().then(function() {
       shared.waitForSuccess();
+      shared.successMessage.click();
 
       expect(skills.skillMembersRows.count()).toBe(1);
       expect(skills.detailsMemberCount.getText()).toContain('1');
 
       skills.skillMembersRows.get(0).element(by.css('.remove')).click().then(function() {
         shared.waitForSuccess();
+        shared.successMessage.click();
 
         expect(skills.detailsMemberCount.getText()).toContain('0');
         expect(skills.skillMembersEmpty.isDisplayed()).toBeTruthy();
@@ -603,7 +610,7 @@ describe('The skills view', function() {
     });
   });
 
-  xit('should add member to skill with input proficiency', function() {
+  it('should add member to skill with input proficiency', function() {
     // NOTE Uses new skill from previous test
     shared.searchField.sendKeys(newSkillName);
     shared.firstTableRow.click();
@@ -628,7 +635,7 @@ describe('The skills view', function() {
     });
   });
 
-  xit('should reset add member field after adding with input proficiency', function() {
+  it('should reset add member field after adding with input proficiency', function() {
     // NOTE Uses new skill from previous test
     shared.searchField.sendKeys(newSkillName);
     shared.firstTableRow.click();
