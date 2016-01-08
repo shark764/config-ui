@@ -53,8 +53,8 @@ describe('The dispatch mappings view', function() {
         shared.createBtn.click();
 
         flows.modalNameField.clear();
-        flows.modalNameField.sendKeys('Flow ' + randomFlow);
-        flows.modalTypeDropdown.all(by.css('option')).get((randomFlow % 3) + 1).click();
+        flows.modalNameField.sendKeys('Flow ' + randomDispatchMapping);
+        flows.modalTypeDropdown.all(by.css('option')).get(1).click();
         flows.submitModalBtn.click().then(function() {
           expect(flows.createModal.isPresent()).toBeFalsy();
 
