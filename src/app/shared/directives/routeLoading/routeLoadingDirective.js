@@ -35,6 +35,7 @@ angular.module('liveopsConfigPanel')
 
         $scope.$on('$stateChangeSuccess', transitionDone);
         $scope.$on('$stateChangeError', transitionDone);
+        $scope.$on('loStateChangeCanceled', transitionDone);
       }
     };
   }]);
