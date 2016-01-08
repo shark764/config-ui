@@ -36,6 +36,42 @@ describe('The media view', function() {
     expect(media.sourceUploadAudioBtn.isDisplayed()).toBeTruthy();
   });
 
+  it('should include valid Media fields when creating a new Audio Media', function() {
+    shared.createBtn.click();
+    expect(shared.detailsFormHeader.getText()).toContain('Creating New Media');
+
+    expect(media.typeFormDropdown.isDisplayed()).toBeTruthy();
+
+    // Audio fields are displayed
+    expect(media.audioSourceFormField.isDisplayed()).toBeTruthy();
+    expect(media.sourceUploadAudioName.isDisplayed()).toBeTruthy();
+    expect(media.sourceUploadAudioName.isEnabled()).toBeFalsy();
+    expect(media.sourceUploadAudioBtn.isDisplayed()).toBeTruthy();
+
+    // TTS fields are not displayed
+    expect(media.ttsSourceFormField.isDisplayed()).toBeFalsy();
+    expect(media.languageFormField.isDisplayed()).toBeFalsy();
+    expect(media.voiceFormField.isDisplayed()).toBeFalsy();
+  });
+
+  it('should include valid Media fields when creating a new Text-to-Speech Media', function() {
+    shared.createBtn.click();
+    expect(shared.detailsFormHeader.getText()).toContain('Creating New Media');
+
+    expect(media.typeFormDropdown.isDisplayed()).toBeTruthy();
+    media.typeFormDropdown.all(by.css('option')).get(2).click();
+
+    // TTS fields are displayed
+    expect(media.ttsSourceFormField.isDisplayed()).toBeTruthy();
+    expect(media.languageFormField.isDisplayed()).toBeTruthy();
+    expect(media.voiceFormField.isDisplayed()).toBeTruthy();
+
+    // Audio fields are not displayed
+    expect(media.audioSourceFormField.isDisplayed()).toBeFalsy();
+    expect(media.sourceUploadAudioName.isDisplayed()).toBeFalsy();
+    expect(media.sourceUploadAudioBtn.isDisplayed()).toBeFalsy();
+  });
+
   it('should successfully create new Media with Audio type', function() {
     randomMedia = Math.floor((Math.random() * 1000) + 1);
     var mediaAdded = false;
@@ -77,6 +113,8 @@ describe('The media view', function() {
     media.nameFormField.sendKeys(newMediaSource);
     media.typeFormDropdown.all(by.css('option')).get(2).click();
     media.ttsSourceFormField.sendKeys(newMediaSource);
+    media.languageFormField.sendKeys('English');
+    media.voiceFormField.sendKeys('Man');
 
     shared.submitFormBtn.click().then(function() {
       expect(shared.successMessage.isDisplayed()).toBeTruthy();
@@ -233,6 +271,56 @@ describe('The media view', function() {
     expect(shared.tableElements.count()).toBe(mediaCount);
   });
 
+  it('should require Language when creating a new Media with Text-To-Speech type', function() {
+    randomMedia = Math.floor((Math.random() * 1000) + 1);
+    mediaCount = shared.tableElements.count();
+    shared.createBtn.click();
+
+    // Edit fields
+    media.typeFormDropdown.all(by.css('option')).get(2).click();
+    media.languageFormField.click();
+    media.nameFormField.sendKeys('Text-To-Speech Media ' + randomMedia);
+    media.ttsSourceFormField.sendKeys('Text-To-Speech Media Source');
+    media.voiceFormField.sendKeys('Man');
+
+    // Submit button is still disabled
+    expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
+    shared.submitFormBtn.click();
+
+    // New Media is not saved
+    expect(shared.successMessage.isPresent()).toBeFalsy();
+    expect(shared.tableElements.count()).toBe(mediaCount);
+
+    // Error messages displayed
+    expect(media.requiredError.get(0).isDisplayed()).toBeTruthy();
+    expect(media.requiredError.get(0).getText()).toBe('Please enter a language');
+  });
+
+  it('should require Voice when creating a new Media with Text-To-Speech type', function() {
+    randomMedia = Math.floor((Math.random() * 1000) + 1);
+    mediaCount = shared.tableElements.count();
+    shared.createBtn.click();
+
+    // Edit fields
+    media.typeFormDropdown.all(by.css('option')).get(2).click();
+    media.voiceFormField.click();
+    media.nameFormField.sendKeys('Text-To-Speech Media ' + randomMedia);
+    media.ttsSourceFormField.sendKeys('Text-To-Speech Media Source');
+    media.languageFormField.sendKeys('English');
+
+    // Submit button is still disabled
+    expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
+    shared.submitFormBtn.click();
+
+    // New Media is not saved
+    expect(shared.successMessage.isPresent()).toBeFalsy();
+    expect(shared.tableElements.count()).toBe(mediaCount);
+
+    // Error messages displayed
+    expect(media.requiredError.get(0).isDisplayed()).toBeTruthy();
+    expect(media.requiredError.get(0).getText()).toBe('Please enter a voice');
+  });
+
   it('should clear fields on Cancel', function() {
     randomMedia = Math.floor((Math.random() * 1000) + 1);
     mediaCount = shared.tableElements.count();
@@ -286,6 +374,8 @@ describe('The media view', function() {
     // Verify media details in table matches populated field
     expect(shared.detailsFormHeader.getText()).toContain(shared.firstTableRow.element(by.css(media.nameColumn)).getText());
     expect(shared.firstTableRow.element(by.css(media.sourceColumn)).getText()).toBe(media.ttsSourceFormField.getAttribute('value'));
+    expect(shared.firstTableRow.element(by.css(media.propertiesColumn)).getText()).toContain(media.languageFormField.getAttribute('value'));
+    expect(shared.firstTableRow.element(by.css(media.propertiesColumn)).getText()).toContain(media.voiceFormField.getAttribute('value'));
 
     // Change selected media and ensure details are updated
     shared.tableElements.count().then(function(curMediaCount) {
@@ -293,6 +383,8 @@ describe('The media view', function() {
         shared.secondTableRow.click();
         expect(shared.detailsFormHeader.getText()).toContain(shared.secondTableRow.element(by.css(media.nameColumn)).getText());
         expect(shared.secondTableRow.element(by.css(media.sourceColumn)).getText()).toBe(media.ttsSourceFormField.getAttribute('value'));
+        expect(shared.secondTableRow.element(by.css(media.propertiesColumn)).getText()).toContain(media.languageFormField.getAttribute('value'));
+        expect(shared.secondTableRow.element(by.css(media.propertiesColumn)).getText()).toContain(media.voiceFormField.getAttribute('value'));
       };
     });
   });
@@ -314,10 +406,14 @@ describe('The media view', function() {
 
     var originalName = media.nameFormField.getAttribute('value');
     var originalSource = media.ttsSourceFormField.getAttribute('value');
+    var originalLanguage = media.languageFormField.getAttribute('value');
+    var originalVoice = media.voiceFormField.getAttribute('value');
 
     // Edit editable fields
     media.nameFormField.sendKeys('Edit');
     media.ttsSourceFormField.sendKeys('Edit');
+    media.languageFormField.sendKeys('Edit');
+    media.voiceFormField.sendKeys('Edit');
 
     shared.cancelFormBtn.click();
     shared.waitForAlert();
@@ -328,6 +424,8 @@ describe('The media view', function() {
     // Fields reset to original values
     expect(media.nameFormField.getAttribute('value')).toBe(originalName);
     expect(media.ttsSourceFormField.getAttribute('value')).toBe(originalSource);
+    expect(media.languageFormField.getAttribute('value')).toBe(originalLanguage);
+    expect(media.voiceFormField.getAttribute('value')).toBe(originalVoice);
   });
 
   it('should reset fields after editing Audio media and selecting Cancel', function() {
@@ -382,9 +480,13 @@ describe('The media view', function() {
     // Edit fields
     media.nameFormField.sendKeys('Edit');
     media.ttsSourceFormField.sendKeys('Edit');
+    media.languageFormField.sendKeys('Edit');
+    media.voiceFormField.sendKeys('Edit');
 
     var editedName = media.nameFormField.getAttribute('value');
     var editedSource = media.ttsSourceFormField.getAttribute('value');
+    var editedLanguage = media.languageFormField.getAttribute('value');
+    var editedVoice = media.voiceFormField.getAttribute('value');
 
     shared.submitFormBtn.click().then(function() {
       expect(shared.successMessage.isDisplayed()).toBeTruthy();
@@ -393,6 +495,8 @@ describe('The media view', function() {
       browser.refresh();
       expect(media.nameFormField.getAttribute('value')).toBe(editedName);
       expect(media.ttsSourceFormField.getAttribute('value')).toBe(editedSource);
+      expect(media.languageFormField.getAttribute('value')).toBe(editedLanguage);
+      expect(media.voiceFormField.getAttribute('value')).toBe(editedVoice);
     });
   });
 
@@ -414,21 +518,26 @@ describe('The media view', function() {
     expect(shared.successMessage.isPresent()).toBeFalsy();
   });
 
-  it('should require source field when editing a Text-To-Speech Media', function() {
+  it('should require source, voice and language fields when editing a Text-To-Speech Media', function() {
     // Select first media from table
     shared.searchField.sendKeys('Text-To-Speech');
     shared.firstTableRow.click();
 
     // Edit fields
     media.ttsSourceFormField.clear();
-    media.ttsSourceFormField.sendKeys('\t');
+    media.languageFormField.clear();
+    media.voiceFormField.clear();
+    media.voiceFormField.sendKeys('\t');
 
     // Submit button is still disabled
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
+    shared.submitFormBtn.click();
 
     // Error messages displayed
-    expect(media.requiredError.get(0).isDisplayed()).toBeTruthy();
+    expect(media.requiredError.count()).toBe(3);
     expect(media.requiredError.get(0).getText()).toBe('Please enter a source');
+    expect(media.requiredError.get(1).getText()).toBe('Please enter a language');
+    expect(media.requiredError.get(2).getText()).toBe('Please enter a voice');
     expect(shared.successMessage.isPresent()).toBeFalsy();
   });
 
@@ -476,10 +585,7 @@ describe('The media view', function() {
 
     media.typeFormDropdown.all(by.css('option')).get(2).click().then(function() { //Select TTS type
       // Error messages are removed
-      media.requiredError.then(function(items) {
-        expect(items.length).toBe(0);
-      });
-
+      expect(media.requiredError.count()).toBe(0);
       expect(media.ttsSourceFormField.getAttribute('value')).toEqual('This is not a URL');
     });
   });

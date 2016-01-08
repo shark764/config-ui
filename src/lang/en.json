@@ -337,6 +337,8 @@
   "media.details.source.text": "Text",
   "media.details.property.voice": "Voice",
   "media.details.property.language": "Language",
+  "media.details.voice.error": "Please enter a voice",
+  "media.details.language.error": "Please enter a language",
 
   "media.collections.media.mapping": "Media Mappings",
   "media.collections.media.new": "Create New Media",
@@ -572,6 +574,6 @@
   "hours.exception.remove.success": "Exception removed successfully!",
   "hours.exception.remove.failure": "Exception removal failure!",
   "hours.timezone.required": "Field \"Timezone\" is required.",
-  
+
   "realtimeDashboards.table.title": "Realtime Dashboards"
 }
