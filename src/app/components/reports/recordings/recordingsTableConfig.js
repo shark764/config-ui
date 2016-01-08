@@ -5,9 +5,6 @@ angular.module('liveopsConfigPanel')
     function ($translate, UserPermissions, helpDocsHostname) {
       return {
         'fields': [{
-          'name': 'play',
-          'transclude': true
-        }, {
           'header': {
             'display': $translate.instant('value.name')
           },

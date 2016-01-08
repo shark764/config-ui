@@ -32,6 +32,16 @@ angular.module('liveopsConfigPanel')
         });
       };
       
+      vm.play = function() {
+        var audioElem = angular.element('#recording-audio')[0];
+        audioElem.play();
+      };
+      
+      vm.pause = function() {
+        var audioElem = angular.element('#recording-audio')[0];
+        audioElem.pause();
+      };
+      
       vm.loadRecordings();
       $scope.tableConfig = recordingsTableConfig;
     }

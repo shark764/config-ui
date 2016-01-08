@@ -395,7 +395,7 @@ angular.module('liveopsConfigPanel')
         .state('content.reports.recordings', {
           url: '/recordings?id',
           templateUrl: 'app/components/reports/recordings/recordings.html',
-          controller: 'RecordingsController',
+          controller: 'RecordingsController as rc',
           reloadOnSearch: false,
           resolve: {
             hasPermission: ['UserPermissions', function(UserPermissions) {

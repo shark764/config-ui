@@ -18,7 +18,21 @@
 <div class="input-group">
   <label>{{'recordings.details.play' | translate}}</label>
   <div>
-    <i class="fa fa-play"></i>
+    <audio lo-audio-control name="recordingAudio" src="{{selectedRecording.url | trusted}}"></audio>
+    <i class="fa fa-backward"
+      ng-click="recordingAudio.rewind()">
+    </i>
+    <i class="fa fa-play"
+      ng-show="recordingAudio.audioElement.paused"
+      ng-click="recordingAudio.play()">
+    </i>
+    <i class="fa fa-pause"
+      ng-hide="recordingAudio.audioElement.paused"
+      ng-click="recordingAudio.pause()">
+    </i>
+    <i class="fa fa-forward"
+      ng-click="recordingAudio.forward()">
+    </i>
   </div>
 </div>
 
