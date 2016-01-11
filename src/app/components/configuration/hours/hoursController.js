@@ -53,11 +53,12 @@ angular.module('liveopsConfigPanel')
       };
 
       var convertToMinutes = function (value){
+        var newValue = null;
         if(value === null) {
           return -1;
         } else if(!(value instanceof Date)) {
-          var timeParts = value.split(":");
-          var newValue = new Date(0,0,0,timeParts[0], timeParts[1], 0, 0);
+          var timeParts = value.split(':');
+          newValue = new Date(0,0,0, timeParts[0], timeParts[1], 0, 0);
         }
 
         return (newValue.getHours() * 60) + newValue.getMinutes();
