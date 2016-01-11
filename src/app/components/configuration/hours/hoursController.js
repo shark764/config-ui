@@ -29,6 +29,11 @@ angular.module('liveopsConfigPanel')
             if(!exception.isNew()) {
               return;
             }
+            
+            if (!exception.allDay){
+              exception.startTimeMinutes = convertToMinutes(exception.startTimeMinutes);
+              exception.endTimeMinutes = convertToMinutes(exception.endTimeMinutes);
+            }
 
             promises.push(exception.save({
               tenantId: Session.tenant.tenantId,
@@ -45,6 +50,17 @@ angular.module('liveopsConfigPanel')
 
           return $q.all(promises);
         }).catch(vm.saveError);
+      };
+
+      var convertToMinutes = function (value){
+        if(value === null) {
+          return -1;
+        } else if(!(value instanceof Date)) {
+          var timeParts = value.split(":");
+          var newValue = new Date(0,0,0,timeParts[0], timeParts[1], 0, 0);
+        }
+
+        return (newValue.getHours() * 60) + newValue.getMinutes();
       };
 
       vm.saveError = function(error) {
