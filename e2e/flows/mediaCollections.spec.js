@@ -438,7 +438,7 @@ describe('The media collections view', function() {
     var editedDescription = mediaCollections.descriptionFormField.getAttribute('value');
 
     mediaCollections.submitFormBtn.click().then(function() {
-      expect(shared.successMessage.isDisplayed()).toBeTruthy();
+      shared.waitForSuccess();
 
       expect(mediaCollections.nameFormField.getAttribute('value')).toBe(editedName);
       expect(mediaCollections.descriptionFormField.getAttribute('value')).toBe(editedDescription);
@@ -560,9 +560,10 @@ describe('The media collections view', function() {
 
   it('should require unique identifier field when editing a Media Mapping', function() {
     mediaCollectionCount = shared.tableElements.count();
+    randomCollection = Math.floor((Math.random() * 1000) + 1);
     shared.createBtn.click();
 
-    mediaCollections.nameFormField.sendKeys('Media Collection');
+    mediaCollections.nameFormField.sendKeys('Media Collection ' + randomCollection);
     mediaCollections.mediaIdentifiers.get(0).sendKeys('Identifier 1');
     mediaCollections.mediaDropdowns.get(0).click();
     mediaCollections.mediaDropdownBoxes.get(0).all(by.repeater(mediaCollections.mediaElementsSelector)).get(0).click();
