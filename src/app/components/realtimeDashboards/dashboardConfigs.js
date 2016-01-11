@@ -16,25 +16,7 @@ angular.module('liveopsConfigPanel')
       ],
       "outerMargin": false,
       "draggable": {
-        "enabled": true,
-        "stop": function (event, $element, widget) {
-          console.log('STOP EVENT');
-          console.log('EVENT', event);
-          console.log('ELEMENT', $element);
-          console.log('WIDGET', widget);
-        },
-        "start": function (event, $element, widget) {
-          console.log('START EVENT');
-          console.log('EVENT', event);
-          console.log('ELEMENT', $element);
-          console.log('WIDGET', widget);
-        },
-        "drag": function (event, $element, widget) {
-          console.log('DRAG EVENT');
-          console.log('EVENT', event);
-          console.log('ELEMENT', $element);
-          console.log('WIDGET', widget);
-        }
+        "enabled": true
       },
       "resizable": {
         "enabled": false
