@@ -218,7 +218,7 @@ describe('The media collections view', function() {
     mediaCollections.defaultIdDropdown.all(by.css('option')).get(1).click();
 
     mediaCollections.submitFormBtn.click().then(function() {
-      expect(shared.successMessage.isDisplayed()).toBeTruthy();
+      shared.waitForSuccess();
       expect(shared.tableElements.count()).toBeGreaterThan(mediaCollectionCount);
     });
   });

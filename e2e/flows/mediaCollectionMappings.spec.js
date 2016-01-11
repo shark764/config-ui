@@ -254,7 +254,6 @@ describe('The media collections view', function() {
       expect(mediaCollections.mediaCreateAndNewBtn.getAttribute('disabled')).toBeTruthy();
       mediaCollections.mediaCreateBtn.click();
       mediaCollections.mediaCreateAndNewBtn.click();
-
       expect(shared.successMessage.isPresent()).toBeFalsy();
 
       // Touch fields and ensure required field messages are displayed

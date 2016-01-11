@@ -520,7 +520,7 @@ describe('The media view', function() {
     expect(shared.successMessage.isPresent()).toBeFalsy();
   });
 
-  it('should require source field when editing a Text-To-Speech Media', function() {
+  it('should require source fields when editing a Text-To-Speech Media', function() {
     // Select first media from table
     shared.searchField.sendKeys('Text-To-Speech');
     shared.firstTableRow.click();
