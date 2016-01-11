@@ -5,6 +5,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## 291
 
 ##### Realtime Dashboards
+- added back in resource dashboard
 - updated DSL to add support for gauge start and gauge end for resources gauges
 
 ## 287
