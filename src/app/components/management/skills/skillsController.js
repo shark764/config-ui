@@ -7,6 +7,7 @@ angular.module('liveopsConfigPanel')
       $scope.Session = Session;
       $scope.tableConfig = skillTableConfig;
       $scope.params = {};
+      $scope.forms = {};
 
       $scope.fetchSkills = function() {
         return Skill.cachedQuery({
@@ -138,6 +139,18 @@ angular.module('liveopsConfigPanel')
 
           return matchingUsers.length === 0;
         }
+      };
+      
+      $scope.updateActive = function(newVal){
+        var skillCopy = new Skill({
+          id: $scope.selectedSkill.id,
+          tenantId: $scope.selectedSkill.tenantId,
+          active: ! $scope.selectedSkill.active
+        });
+        
+        return skillCopy.save(function(result){
+          $scope.selectedSkill.$original.active = result.active;
+        });
       };
 
       $scope.typeahead = {};

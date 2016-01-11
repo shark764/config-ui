@@ -2,9 +2,10 @@
   <toggle class="status-toggle" ng-model="selectedDispatchMapping.active" 
   confirm-disable-message="{{'dispatchMappings.details.disable.confirm' | translate}}"
   confirm-enable-message="{{'dispatchMappings.details.enable.confirm' | translate}}"
-  ng-disabled="! ('MAP_ALL_CONTACT_POINTS' | hasPermission)"></toggle>
+  ng-disabled="! ('MAP_ALL_CONTACT_POINTS' | hasPermission)"
+  on-confirm="updateActive()"></toggle>
 
-  <div class="info pull-left">
+  <div class="info">
     <h1 id="dispatch-mappings-details-name-header">{{selectedDispatchMapping.$original.getDisplay()}}</h1>
     <div class="details" ng-if="! (['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'VIEW_ALL_USERS', 'MANAGE_ALL_USER_EXTENSIONS', 'MANAGE_ALL_GROUP_USERS', 'MANAGE_ALL_USER_SKILLS', 'MANAGE_ALL_USER_LOCATIONS', 'MANAGE_TENANT_ENROLLMENT'] | hasPermission)">
       <b audit-text

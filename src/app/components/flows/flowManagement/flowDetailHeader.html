@@ -2,7 +2,8 @@
   <toggle class="status-toggle" ng-model="selectedFlow.active" 
   confirm-disable-message="{{'flow.details.disable.confirm' | translate}}"
   confirm-enable-message="{{'flow.details.enable.confirm' | translate}}"
-  ng-disabled="! ('MANAGE_ALL_FLOWS' | hasPermission)"></toggle>
+  ng-disabled="! ('MANAGE_ALL_FLOWS' | hasPermission)"
+  on-confirm="updateActive()"></toggle>
 
   <div class="info">
     <h1>{{selectedFlow.$original.name}}</h1>

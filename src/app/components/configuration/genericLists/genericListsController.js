@@ -59,6 +59,22 @@ angular.module('liveopsConfigPanel')
       $scope.$on(loEvents.tableControls.itemCreate, function () {
         vm.create();
       });
+      
+      vm.updateActive = function(newVal){
+        if (vm.selectedList.tenantId !== Session.tenant.tenantId){
+          return;
+        }
+        
+        var listCopy = new List({
+          id: vm.selectedList.id,
+          tenantId: vm.selectedList.tenantId,
+          active: ! vm.selectedList.active
+        });
+        
+        return listCopy.save(function(result){
+          vm.selectedList.$original.active = result.active;
+        });
+      };
 
       vm.loadLists();
 

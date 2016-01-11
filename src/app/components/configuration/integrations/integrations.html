@@ -33,10 +33,12 @@
     lo-form-cancel
     lo-form-alert>
     
-    <div class="detail-header"
-      ng-include src="'app/components/configuration/integrations/integrationDetailHeader.html'">
-    </div>
-
+    <ng-form name="forms.headerForm" separate-validation>
+      <div class="detail-header"
+        ng-include src="'app/components/configuration/integrations/integrationDetailHeader.html'">
+      </div>
+    </ng-form>
+    
     <div class="detail-body"
       ng-include src="'app/components/configuration/integrations/integrationDetailBody.html'">
     </div>

@@ -108,6 +108,18 @@ angular.module('liveopsConfigPanel')
           day: $translate.instant('hours.' + day)
         };
       };
+      
+      vm.updateActive = function(newVal){
+        var hoursCopy = new BusinessHour({
+          id: vm.selectedHour.id,
+          tenantId: vm.selectedHour.tenantId,
+          active: ! vm.selectedHour.active
+        });
+        
+        return hoursCopy.save(function(result){
+          vm.selectedHour.$original.active = result.active;
+        });
+      };
 
       $scope.$watch('hc.selectedHour', function(newHour, oldHour) {
         if (oldHour) {

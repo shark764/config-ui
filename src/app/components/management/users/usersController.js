@@ -176,5 +176,21 @@ angular.module('liveopsConfigPanel')
       $scope.$on('email:validator:found', function(event, tenantUser) {
         $scope.selectedTenantUser = tenantUser;
       });
+      
+      $scope.updateStatus = function(newVal){
+        if ($scope.selectedTenantUser.status !== 'accepted' && $scope.selectedTenantUser.status !== 'disabled'){
+          return;
+        }
+        
+        var userCopy = new TenantUser({
+          id: $scope.selectedTenantUser.id,
+          tenantId: $scope.selectedTenantUser.tenantId,
+          status: $scope.selectedTenantUser.status === 'accepted' ? 'disabled' : 'accepted'
+        });
+        
+        return userCopy.save(function(result){
+          $scope.selectedTenantUser.$original.status = result.status;
+        });
+      };
     }
   ]);

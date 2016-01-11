@@ -92,6 +92,18 @@ angular.module('liveopsConfigPanel')
           selectedUser: null
         };
       };
+      
+      $scope.updateActive = function(newVal){
+        var groupCopy = new Group({
+          id: $scope.selectedGroup.id,
+          tenantId: $scope.selectedGroup.tenantId,
+          active: ! $scope.selectedGroup.active
+        });
+        
+        return groupCopy.save(function(result){
+          $scope.selectedGroup.$original.active = result.active;
+        });
+      };
 
       $scope.reset();
     }
