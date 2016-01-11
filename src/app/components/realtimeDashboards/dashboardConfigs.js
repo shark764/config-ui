@@ -16,7 +16,7 @@ angular.module('liveopsConfigPanel')
       ],
       "outerMargin": false,
       "draggable": {
-        "enabled": true
+        "enabled": false
       },
       "resizable": {
         "enabled": false
