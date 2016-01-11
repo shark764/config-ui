@@ -37,6 +37,10 @@ angular.module('liveopsConfigPanel')
           "size": {
             "width": 11,
             "height": 3
+          },
+          "position": {
+            "row": 0,
+            "col": 2
           }
         }
       }
@@ -56,12 +60,12 @@ angular.module('liveopsConfigPanel')
           },
           "unit": "customers",
           "size": {
-            "width": 6,
-            "height": 8
+            "width": 5,
+            "height": 5
           },
           "position": {
-            row: 2,
-            col: 0
+            row: 3,
+            col: 2
           }
         }
       },
@@ -85,11 +89,11 @@ angular.module('liveopsConfigPanel')
           "unit": "",
           "size": {
             "width": 5,
-            "height": 4
+            "height": 5
           },
           "position": {
-            row: 4,
-            col: 6
+            row: 3,
+            col: 8
           }
         }
       },
@@ -113,11 +117,11 @@ angular.module('liveopsConfigPanel')
           "unit": "customers",
           "size": {
             "width": 5,
-            "height": 4
+            "height": 5
           },
           "position": {
-            row: 8,
-            col: 6
+            row: 9,
+            col: 5
           }
         }
       },
@@ -143,7 +147,7 @@ angular.module('liveopsConfigPanel')
           },
           "position": {
             "row": 0,
-            "col": 12
+            "col": 15
           }
         }
       }
@@ -163,12 +167,12 @@ angular.module('liveopsConfigPanel')
           },
           "unit": "customers",
           "size": {
-            "width": 6,
-            "height": 8
+            "width": 5,
+            "height": 5
           },
           "position": {
-            row: 4,
-            col: 12
+            row: 3,
+            col: 15
           }
         }
       },
@@ -193,11 +197,11 @@ angular.module('liveopsConfigPanel')
           "unit": "",
           "size": {
             "width": 5,
-            "height": 4
+            "height": 5
           },
           "position": {
-            row: 4,
-            col: 18
+            row: 3,
+            col: 21
           }
         }
       },
@@ -221,10 +225,10 @@ angular.module('liveopsConfigPanel')
           "unit": "customers",
           "size": {
             "width": 5,
-            "height": 4
+            "height": 5
           },
           "position": {
-            row: 8,
+            row: 9,
             col: 18
           }
         }
@@ -243,30 +247,12 @@ angular.module('liveopsConfigPanel')
           },
           "position": {
             row: 0,
-            col: 25
+            col: 27
           }
         }
       },
       "chart": {
         "data": 'All Agents'
-      }
-    }, {
-      "id": "disclaimer-title",
-      "type": "title",
-      "config": {
-        "ui": {
-          "size": {
-            "width": 14,
-            "height": 3
-          },
-          "position": {
-            row: 20,
-            col: 25
-          }
-        }
-      },
-      "chart": {
-        "data": 'This dashboard refreshes every 15 seconds.'
       }
     }, {
       "id": "all-agents-group-resources-currently-ready",
@@ -285,8 +271,8 @@ angular.module('liveopsConfigPanel')
             "height": 5
           },
           "position": {
-            row: 4,
-            col: 25
+            row: 3,
+            col: 27
           }
         }
       },
@@ -310,8 +296,8 @@ angular.module('liveopsConfigPanel')
             "height": 5
           },
           "position": {
-            row: 4,
-            col: 30
+            row: 3,
+            col: 32
           }
         }
       },
@@ -335,8 +321,8 @@ angular.module('liveopsConfigPanel')
             "height": 5
           },
           "position": {
-            row: 4,
-            col: 35
+            row: 3,
+            col: 37
           }
         }
       },
@@ -361,7 +347,7 @@ angular.module('liveopsConfigPanel')
           },
           "position": {
             row: 9,
-            col: 25
+            col: 27
           }
         }
       },
@@ -386,7 +372,7 @@ angular.module('liveopsConfigPanel')
           },
           "position": {
             row: 9,
-            col: 30
+            col: 32
           }
         }
       },
@@ -411,7 +397,7 @@ angular.module('liveopsConfigPanel')
           },
           "position": {
             row: 9,
-            col: 35
+            col: 37
           }
         }
       },
@@ -424,12 +410,12 @@ angular.module('liveopsConfigPanel')
       "config": {
         "ui": {
           "size": {
-            "width": 18,
+            "width": 15,
             "height": 3
           },
           "position": {
             row: 0,
-            col: 42
+            col: 43
           }
         }
       },
@@ -450,12 +436,12 @@ angular.module('liveopsConfigPanel')
           },
           "unit": "customers",
           "size": {
-            "width": 6,
-            "height": 6
+            "width": 5,
+            "height": 5
           },
           "position": {
-            row: 4,
-            col: 42
+            row: 3,
+            col: 43
           }
         }
       },
@@ -475,11 +461,11 @@ angular.module('liveopsConfigPanel')
           },
           "unit": "interactions",
           "size": {
-            "width": 6,
-            "height": 6
+            "width": 5,
+            "height": 5
           },
           "position": {
-            row: 4,
+            row: 3,
             col: 48
           }
         }
@@ -500,12 +486,12 @@ angular.module('liveopsConfigPanel')
           },
           "unit": "customers",
           "size": {
-            "width": 6,
-            "height": 6
+            "width": 5,
+            "height": 5
           },
           "position": {
-            row: 4,
-            col: 55
+            row: 3,
+            col: 53
           }
         }
       },
@@ -525,12 +511,12 @@ angular.module('liveopsConfigPanel')
           },
           "unit": "",
           "size": {
-            "width": 9,
+            "width": 5,
             "height": 5
           },
           "position": {
-            row: 12,
-            col: 42
+            row: 9,
+            col: 45
           }
         }
       },
@@ -550,12 +536,12 @@ angular.module('liveopsConfigPanel')
           },
           "unit": "",
           "size": {
-            "width": 9,
+            "width": 5,
             "height": 5
           },
           "position": {
-            row: 12,
-            col: 51
+            row: 9,
+            col: 50
           }
         }
       },
@@ -1631,4 +1617,3 @@ angular.module('liveopsConfigPanel')
 
   //   }]
   // }
-
