@@ -62,10 +62,6 @@ describe('The groups view bulk actions', function() {
           expect(shared.successMessage.isPresent()).toBeFalsy();
           expect(shared.errorMessage.isDisplayed()).toBeTruthy();
           expect(shared.errorMessage.getText()).toContain('Cannot disable the Everyone group.');
-
-          // Form not reset
-          expect(bulkActions.submitFormBtn.getAttribute('disabled')).toBeFalsy();
-          expect(bulkActions.enableToggle.getAttribute('disabled')).toBeFalsy();
         });
       }
     });

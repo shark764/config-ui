@@ -48,8 +48,8 @@ describe('The create new user form', function() {
 
     // Platform role dropdown displayed with expected roles
     expect(users.platformRoleFormDropdown.isDisplayed()).toBeTruthy();
-    expect(users.platformRoleFormDropdownOptions.get(1).getText()).toBe(users.platformRoles[0]);
-    expect(users.platformRoleFormDropdownOptions.get(2).getText()).toBe(users.platformRoles[1]);
+    expect(users.platformRoleFormDropdownOptions.get(1).getText()).toBe(users.platformRoles[1]);
+    expect(users.platformRoleFormDropdownOptions.get(2).getText()).toBe(users.platformRoles[0]);
 
     // Invite now toggle displayed, selected by default with help icon
     expect(users.inviteNowFormToggle.isDisplayed()).toBeTruthy();

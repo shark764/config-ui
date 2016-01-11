@@ -2,26 +2,28 @@
   <h4>{{'details' | translate}}</h4>
 </div>
 
-<div>
+<div ng-show="gc.selectedList.tenantId !== Session.tenant.tenantId">
+  <p class="lo-alert">
+    {{'list.readonly.warning' | translate}}
+  </p>
   <div class="input-group">
     <label>{{'value.name' | translate}}</label>
-    <p>{{selectedList.name}}</p>
+    <p>{{gc.selectedList.name}}</p>
   </div>
 
   <div class="input-group">
     <label class="textarea-label">{{'value.description' | translate}}</label>
-    <p>{{selectedList.description}}</p>
+    <p ng-show="gc.selectedList.description">{{gc.selectedList.description}}</p>
+    <p ng-show="!gc.selectedList.description" class="null" style="text-align:left">{{'value.blank' | translate}}</p>
   </div>
-
 </div>
 
 <div class="divider-header">
   <h4>{{'list.items.header' | translate}}</h4>
+  <i class="fa fa-plus btn"
+    ng-click="gc.addListItem()">
+  </i>
 </div>
-
-<i class="fa fa-plus btn"
-  ng-click="gc.addListItem()">
-</i>
 
 <form-field-validation-message field-name="items"
   error-type-required="{{'list.items.required' | translate}}" >

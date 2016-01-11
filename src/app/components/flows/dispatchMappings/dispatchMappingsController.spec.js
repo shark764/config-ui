@@ -3,6 +3,7 @@
 describe('DispatchMappingsController', function() {
   var $scope,
     $controller,
+    controller,
     $httpBackend,
     apiHostname,
     mockDispatchMappings,
@@ -29,79 +30,63 @@ describe('DispatchMappingsController', function() {
       mockIntegrations = _mockIntegrations;
       loEvents = _loEvents;
 
-      $controller('DispatchMappingsController', {
+      controller = $controller('DispatchMappingsController', {
         '$scope': $scope
       });
     }
   ]));
 
-  describe('ON fetchDispatchMappings', function() {
-    it('should be defined', function() {
-      expect($scope.fetchDispatchMappings);
+  describe('ON loadDispatchMappings', function() {
+    it('should be defined on controller', function() {
+      expect(controller.loadDispatchMappings);
     });
 
     it('should return dispatchMappings on call', function() {
-      var dispatchMappings = $scope.fetchDispatchMappings();
+      controller.loadDispatchMappings();
 
       $httpBackend.flush();
 
-      expect(dispatchMappings).toBeDefined();
-      expect(dispatchMappings.length).toEqual(2);
-      expect(dispatchMappings[0].id).toEqual(mockDispatchMappings[0].id);
-      expect(dispatchMappings[1].id).toEqual(mockDispatchMappings[1].id);
+      expect($scope.dispatchMappings).toBeDefined();
+      expect($scope.dispatchMappings.length).toEqual(2);
+      expect($scope.dispatchMappings[0].id).toEqual(mockDispatchMappings[0].id);
+      expect($scope.dispatchMappings[1].id).toEqual(mockDispatchMappings[1].id);
     });
   });
 
-  describe('ON fetchFlows', function() {
-    it('should be defined', function() {
-      expect($scope.fetchFlows);
+  describe('ON loadFlows', function() {
+    it('should be defined on controller', function() {
+      expect(controller.loadFlows);
     });
 
     it('should return flows on call', function() {
-      var flows = $scope.fetchFlows();
+      controller.loadFlows();
 
       $httpBackend.flush();
 
-      expect(flows).toBeDefined();
-      expect(flows[0].id).toEqual(mockFlows[0].id);
-      expect(flows[1].id).toEqual(mockFlows[1].id);
+      expect($scope.flows).toBeDefined();
+      expect($scope.flows[0].id).toEqual(mockFlows[0].id);
+      expect($scope.flows[1].id).toEqual(mockFlows[1].id);
     });
   });
 
-  describe('ON fetchIntegrations', function() {
-    it('should be defined', function() {
-      expect($scope.fetchIntegrations);
+  describe('ON loadIntegrations', function() {
+    it('should be defined on controller', function() {
+      expect(controller.loadIntegrations);
     });
 
     it('should return flows on call', function() {
-      var integrations = $scope.fetchIntegrations();
+      controller.loadIntegrations();
 
       $httpBackend.flush();
 
-      expect(integrations).toBeDefined();
-      expect(integrations[0].id).toEqual(mockIntegrations[0].id);
-      expect(integrations[1].id).toEqual(mockIntegrations[1].id);
+      expect($scope.integrations).toBeDefined();
+      expect($scope.integrations[0].id).toEqual(mockIntegrations[0].id);
+      expect($scope.integrations[1].id).toEqual(mockIntegrations[1].id);
     });
   });
-
-
 
   it('should have a function to create a new dispatchMapping and set it as selected', function() {
     $scope.$broadcast(loEvents.tableControls.itemCreate);
     expect($scope.selectedDispatchMapping).toBeDefined();
-  });
-
-  describe('with tenant not set', function() {
-    beforeEach(function() {
-      Session.tenant.tenantId = null;
-
-      $controller('DispatchMappingsController', {
-        '$scope': $scope
-      });
-    });
-
-    it('should not fetch anything if Session.tenant is not set', function() {
-      expect($scope.dispatchMappings).not.toBeDefined();
-    });
   });
 });

@@ -321,6 +321,8 @@
   "media.details.source.error": "Please enter a source",
   "media.details.type.error": "Please enter a type",
   "media.details.type.select": "Select Type...",
+  "media.details.property.language.select": "Select Language...",
+  "media.details.property.voice.select": "Select Voice...",
   "media.details.properties.error": "Please enter properties as JSON",
   "media.details.name.error": "Please enter a name",
   "media.details.url.error": "URL is required",
@@ -335,6 +337,8 @@
   "media.details.source.upload.url": "Audio File URL",
   "media.details.source.tts": "Text-to-Speech",
   "media.details.source.text": "Text",
+  "media.details.property.voice": "Voice",
+  "media.details.property.language": "Language",
 
   "media.collections.media.mapping": "Media Mappings",
   "media.collections.media.new": "Create New Media",
@@ -520,6 +524,7 @@
   "role.permission.add.fail": "Sorry, there was an error adding that permission",
   "role.readonly.warning": "This role is inherited and cannot be edited",
 
+  "list.readonly.warning": "This list is inherited, so its details cannot be edited",
   "list.field.required": "{{fieldLabel}} is required.",
   "list.items.required": "List needs at least one item.",
   "list.items.header": "List Item(s)",
