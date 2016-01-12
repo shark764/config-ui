@@ -55,7 +55,7 @@ angular.module("liveopsConfigPanel")
             "config":{
                 "statistic":"queue-length",
                 "statisticLookup":"recordsCount",
-                "additionalParams":['gaugeStart','gaugeEnd'],
+                "additionalParams":[],
                 "groupName":"queue1",
                 "resourceIdName":"queue-id",
                 "resourceId":null,
@@ -87,7 +87,7 @@ angular.module("liveopsConfigPanel")
             "config":{
                 "statistic":"queue-duration",
                 "statisticLookup":"avg",
-                "additionalParams":['gaugeStart','gaugeEnd'],
+                "additionalParams":[],
                 "groupName":"queue1",
                 "resourceIdName":"queue-id",
                 "resourceId":null,
@@ -119,7 +119,7 @@ angular.module("liveopsConfigPanel")
             "config":{
                 "statistic":"abandon-queue-instance",
                 "statisticLookup":"recordsCount",
-                "additionalParams":['gaugeStart','gaugeEnd'],
+                "additionalParams":[],
                 "groupName":"queue1",
                 "resourceIdName":"queue-id",
                 "resourceId":null,
@@ -176,7 +176,7 @@ angular.module("liveopsConfigPanel")
             "config":{
                 "statistic":"queue-length",
                 "statisticLookup":"recordsCount",
-                "additionalParams":['gaugeStart','gaugeEnd'],
+                "additionalParams":[],
                 "groupName":"queue2",
                 "resourceIdName":"queue-id",
                 "resourceId":null,
@@ -208,7 +208,7 @@ angular.module("liveopsConfigPanel")
             "config":{
                 "statistic":"queue-duration",
                 "statisticLookup":"avg",
-                "additionalParams":['gaugeStart','gaugeEnd'],
+                "additionalParams":[],
                 "groupName":"queue2",
                 "resourceIdName":"queue-id",
                 "resourceId":null,
@@ -240,7 +240,7 @@ angular.module("liveopsConfigPanel")
             "config":{
                 "statistic":"abandon-queue-instance",
                 "statisticLookup":"recordsCount",
-                "additionalParams":['gaugeStart','gaugeEnd'],
+                "additionalParams":[],
                 "groupName":"queue2",
                 "resourceIdName":"queue-id",
                 "resourceId":null,
@@ -291,7 +291,7 @@ angular.module("liveopsConfigPanel")
             "config":{
                 "statistic":"resources-ready",
                 "statisticLookup":"value",
-                "additionalParams":['gaugeStart','gaugeEnd'],
+                "additionalParams":[],
                 "ui":{
                     "title":{
                         "show":true,
@@ -320,7 +320,7 @@ angular.module("liveopsConfigPanel")
             "config":{
                 "statistic":"resources-away",
                 "statisticLookup":"value",
-                "additionalParams":['gaugeStart','gaugeEnd'],
+                "additionalParams":[],
                 "ui":{
                     "title":{
                         "show":true,
@@ -349,7 +349,7 @@ angular.module("liveopsConfigPanel")
             "config":{
                 "statistic":"resources-busy",
                 "statisticLookup":"value",
-                "additionalParams":['gaugeStart','gaugeEnd'],
+                "additionalParams":[],
                 "ui":{
                     "title":{
                         "show":true,
@@ -378,7 +378,7 @@ angular.module("liveopsConfigPanel")
             "config":{
                 "statistic":"conversation-duration",
                 "statisticLookup":"avg",
-                "additionalParams":['gaugeStart','gaugeEnd'],
+                "additionalParams":[],
                 "ui":{
                     "title":{
                         "show":true,
@@ -407,7 +407,7 @@ angular.module("liveopsConfigPanel")
             "config":{
                 "statistic":"time-to-answer-duration",
                 "statisticLookup":"avg",
-                "additionalParams":['gaugeStart','gaugeEnd'],
+                "additionalParams":[],
                 "ui":{
                     "title":{
                         "show":true,
@@ -436,7 +436,7 @@ angular.module("liveopsConfigPanel")
             "config":{
                 "statistic":"resource-hold-duration",
                 "statisticLookup":"recordsCount",
-                "additionalParams":['gaugeStart','gaugeEnd'],
+                "additionalParams":[],
                 "ui":{
                     "title":{
                         "show":true,
@@ -484,7 +484,7 @@ angular.module("liveopsConfigPanel")
             "config":{
                 "statistic":"queue-length",
                 "statisticLookup":"recordsCount",
-                "additionalParams":['gaugeStart','gaugeEnd'],
+                "additionalParams":[],
                 "ui":{
                     "title":{
                         "show":true,
@@ -513,7 +513,7 @@ angular.module("liveopsConfigPanel")
             "config":{
                 "statistic":"interactions-in-conversation-count",
                 "statisticLookup":"recordsCount",
-                "additionalParams":['gaugeStart','gaugeEnd'],
+                "additionalParams":[],
                 "ui":{
                     "title":{
                         "show":true,
@@ -542,7 +542,7 @@ angular.module("liveopsConfigPanel")
             "config":{
                 "statistic":"abandon-queue-instance",
                 "statisticLookup":"recordsCount",
-                "additionalParams":['gaugeStart','gaugeEnd'],
+                "additionalParams":[],
                 "ui":{
                     "title":{
                         "show":true,
@@ -571,7 +571,7 @@ angular.module("liveopsConfigPanel")
             "config":{
                 "statistic":"interaction-duration",
                 "statisticLookup":"avg",
-                "additionalParams":['gaugeStart','gaugeEnd'],
+                "additionalParams":[],
                 "ui":{
                     "title":{
                         "show":true,
@@ -600,7 +600,7 @@ angular.module("liveopsConfigPanel")
             "config":{
                 "statistic":"abandon-time-duration",
                 "statisticLookup":"avg",
-                "additionalParams":['gaugeStart','gaugeEnd'],
+                "additionalParams":[],
                 "ui":{
                     "title":{
                         "show":true,
