@@ -2,6 +2,11 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 294
+
+##### Realtime Dashboards
+- fixed current resource statistics on overview dashboard (ui bug in query builder)
+
 ## 291
 
 ##### Realtime Dashboards
