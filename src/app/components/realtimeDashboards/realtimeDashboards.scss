@@ -9,17 +9,25 @@
     .kpi-value {
       font-size: 2em;
     }
-    
+
     .kpi-stat-title, .stat-unit {
       font-size: 0.8em;
     }
   }
-  
+
   .widget.widget6x6, .widget.widget6x8, .widget.widget9x5 {
     .kpi-value {
       font-size: 3em;
     }
   }
+}
+
+h3.refresh-disclaimer {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #ccc;
 }
 
 @media (max-width: 1700px) {
@@ -28,28 +36,28 @@
       .kpi-value {
         font-size: 1.5em;
       }
-      
+
       .kpi-stat-title, .stat-unit {
         font-size: 0.7em;
       }
     }
-    
+
     .widget.widget9x5 {
       .kpi-value {
         font-size: 2em;
       }
-      
+
       .kpi-stat-title, .stat-unit {
         font-size: 0.8em;
       }
     }
-    
+
     .widget.widget6x6, .widget.widget6x8, .widget.widget9x5 {
       .kpi-value {
         font-size: 1.5em;
       }
     }
-      
+
     .widget.widget5x4 {
       .kpi-value {
         font-size: 1em;
@@ -61,7 +69,7 @@
 #queues {
   .widget.widget3x2 {
     padding: 5px;
-    
+
     .kpi-stat-title, .stat-unit {
       font-size: 0.8em;
     }
@@ -73,12 +81,12 @@
     .kpi-stat-title, .stat-unit {
       font-size: 2em;
     }
-    
+
     .kpi-value {
       font-size: 3em;
     }
   }
-  
+
   .widget.widget4x2 {
     .kpi-stat-title, .stat-unit {
       font-size: 1em;

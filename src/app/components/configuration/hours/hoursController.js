@@ -54,7 +54,7 @@ angular.module('liveopsConfigPanel')
             return;
           }
 
-          vm.forms.detailsForm.resetController.resetErrors();
+          vm.forms.detailsForm.loFormResetController.resetErrors();
           unbindWatch();
         });
 

@@ -53,8 +53,8 @@ describe('The dispatch mappings view', function() {
         shared.createBtn.click();
 
         flows.modalNameField.clear();
-        flows.modalNameField.sendKeys('Flow ' + randomFlow);
-        flows.modalTypeDropdown.all(by.css('option')).get((randomFlow % 3) + 1).click();
+        flows.modalNameField.sendKeys('Flow ' + randomDispatchMapping);
+        flows.modalTypeDropdown.all(by.css('option')).get(1).click();
         flows.submitModalBtn.click().then(function() {
           expect(flows.createModal.isPresent()).toBeFalsy();
 
@@ -68,7 +68,6 @@ describe('The dispatch mappings view', function() {
 
   it('should successfully create new Dispatch Mapping with Customer Mapping', function() {
     randomDispatchMapping = Math.floor((Math.random() * 1000) + 1);
-    var dispatchMappingAdded = false;
     newDispatchMappingName = 'DispatchMapping ' + randomDispatchMapping;
     shared.createBtn.click();
 
@@ -80,33 +79,21 @@ describe('The dispatch mappings view', function() {
     dispatchMappings.phoneFormField.sendKeys('15062345678');
     dispatchMappings.flowDropdown.all(by.css('option')).get(1).click();
     shared.submitFormBtn.click().then(function() {
-      expect(shared.successMessage.isDisplayed()).toBeTruthy();
+      shared.waitForSuccess();
+      expect(shared.tableElements.count()).toBeGreaterThan(dispatchMappingCount);
 
-      // Confirm dispatch mapping is displayed in dispatch mapping list
-      shared.tableElements.then(function(rows) {
-        for (var i = 1; i <= rows.length; ++i) {
-          // Check if dispatch mapping name in table matches
-          element(by.css('tr.ng-scope:nth-child(' + i + ') > td:nth-child(2)')).getText().then(function(value) {
-            if (value == newDispatchMappingName) {
-              dispatchMappingAdded = true;
-            }
-          });
-        }
-      }).thenFinally(function() {
-        // Verify new dispatch mapping was found in the table
-        expect(dispatchMappingAdded).toBeTruthy();
-        expect(shared.tableElements.count()).toBeGreaterThan(dispatchMappingCount);
+      shared.searchField.sendKeys(newDispatchMappingName);
+      expect(shared.tableElements.count()).toBeGreaterThan(0);
+      expect(shared.firstTableRow.getText()).toContain(newDispatchMappingName);
 
-        // Confirm correct Mapping type is selected after saving
-        expect(dispatchMappings.mappingOptions.get(1).isSelected()).toBeTruthy();
-        expect(dispatchMappings.mappingDropdown.$('option:checked').getText()).toBe('Customer');
-      });
+      // Confirm correct Mapping type is selected after saving
+      expect(dispatchMappings.mappingOptions.get(1).isSelected()).toBeTruthy();
+      expect(dispatchMappings.mappingDropdown.$('option:checked').getText()).toBe('Customer');
     });
   });
 
   it('should successfully create new Dispatch Mapping with Contact Point Mapping', function() {
     randomDispatchMapping = Math.floor((Math.random() * 1000) + 1);
-    var dispatchMappingAdded = false;
     newDispatchMappingName = 'DispatchMapping ' + randomDispatchMapping;
     shared.createBtn.click();
 
@@ -117,25 +104,13 @@ describe('The dispatch mappings view', function() {
     dispatchMappings.mappingOptions.get(2).click();
     dispatchMappings.phoneFormField.sendKeys('15062345678');
     dispatchMappings.flowDropdown.all(by.css('option')).get(1).click();
-    shared.submitFormBtn.click();
+    shared.submitFormBtn.click().then(function() {
+      shared.waitForSuccess();
+      expect(shared.tableElements.count()).toBeGreaterThan(dispatchMappingCount);
 
-    expect(shared.successMessage.isDisplayed()).toBeTruthy();
-
-    expect(shared.tableElements.count()).toBeGreaterThan(dispatchMappingCount);
-
-    // Confirm dispatch mapping is displayed in dispatch mapping list
-    shared.tableElements.then(function(rows) {
-      for (var i = 1; i <= rows.length; ++i) {
-        // Check if dispatch mapping name in table matches
-        element(by.css('tr.ng-scope:nth-child(' + i + ') > td:nth-child(2)')).getText().then(function(value) {
-          if (value == newDispatchMappingName) {
-            dispatchMappingAdded = true;
-          }
-        });
-      }
-    }).thenFinally(function() {
-      // Verify new dispatch mapping was found in the table
-      expect(dispatchMappingAdded).toBeTruthy();
+      shared.searchField.sendKeys(newDispatchMappingName);
+      expect(shared.tableElements.count()).toBeGreaterThan(0);
+      expect(shared.firstTableRow.getText()).toContain(newDispatchMappingName);
 
       // Confirm correct Mapping type is selected after saving
       expect(dispatchMappings.mappingOptions.get(2).isSelected()).toBeTruthy();
@@ -145,7 +120,6 @@ describe('The dispatch mappings view', function() {
 
   it('should successfully create new Dispatch Mapping with Integration Mapping', function() {
     randomDispatchMapping = Math.floor((Math.random() * 1000) + 1);
-    var dispatchMappingAdded = false;
     newDispatchMappingName = 'DispatchMapping ' + randomDispatchMapping;
     shared.createBtn.click();
 
@@ -154,27 +128,15 @@ describe('The dispatch mappings view', function() {
     dispatchMappings.descriptionFormField.sendKeys('Description for dispatch mapping ' + randomDispatchMapping);
     // Select Integration Mapping
     dispatchMappings.mappingOptions.get(3).click();
-    dispatchMappings.valueFormField.all(by.css('option')).get(1).click();
+    dispatchMappings.integrationFormDropdown.all(by.css('option')).get(1).click();
     dispatchMappings.flowDropdown.all(by.css('option')).get(1).click();
-    shared.submitFormBtn.click();
+    shared.submitFormBtn.click().then(function() {
+      shared.waitForSuccess();
+      expect(shared.tableElements.count()).toBeGreaterThan(dispatchMappingCount);
 
-    expect(shared.successMessage.isDisplayed()).toBeTruthy();
-
-    expect(shared.tableElements.count()).toBeGreaterThan(dispatchMappingCount);
-
-    // Confirm dispatch mapping is displayed in dispatch mapping list
-    shared.tableElements.then(function(rows) {
-      for (var i = 1; i <= rows.length; ++i) {
-        // Check if dispatch mapping name in table matches
-        element(by.css('tr.ng-scope:nth-child(' + i + ') > td:nth-child(2)')).getText().then(function(value) {
-          if (value == newDispatchMappingName) {
-            dispatchMappingAdded = true;
-          }
-        });
-      }
-    }).thenFinally(function() {
-      // Verify new dispatch mapping was found in the table
-      expect(dispatchMappingAdded).toBeTruthy();
+      shared.searchField.sendKeys(newDispatchMappingName);
+      expect(shared.tableElements.count()).toBeGreaterThan(0);
+      expect(shared.firstTableRow.getText()).toContain(newDispatchMappingName);
 
       // Confirm correct Mapping type is selected after saving
       expect(dispatchMappings.mappingOptions.get(3).isSelected()).toBeTruthy();
@@ -184,7 +146,6 @@ describe('The dispatch mappings view', function() {
 
   it('should successfully create new Dispatch Mapping with Direction Mapping', function() {
     randomDispatchMapping = Math.floor((Math.random() * 1000) + 1);
-    var dispatchMappingAdded = false;
     newDispatchMappingName = 'DispatchMapping ' + randomDispatchMapping;
     shared.createBtn.click();
 
@@ -193,26 +154,15 @@ describe('The dispatch mappings view', function() {
     dispatchMappings.descriptionFormField.sendKeys('Description for dispatch mapping ' + randomDispatchMapping);
     // Select Direction Mapping
     dispatchMappings.mappingOptions.get(4).click();
+    dispatchMappings.directionFormDropdown.all(by.css('option')).get(1).click();
     dispatchMappings.flowDropdown.all(by.css('option')).get(1).click();
-    shared.submitFormBtn.click();
+    shared.submitFormBtn.click().then(function() {
+      shared.waitForSuccess();
+      expect(shared.tableElements.count()).toBeGreaterThan(dispatchMappingCount);
 
-    expect(shared.successMessage.isDisplayed()).toBeTruthy();
-
-    expect(shared.tableElements.count()).toBeGreaterThan(dispatchMappingCount);
-
-    // Confirm dispatch mapping is displayed in dispatch mapping list
-    shared.tableElements.then(function(rows) {
-      for (var i = 1; i <= rows.length; ++i) {
-        // Check if dispatch mapping name in table matches
-        element(by.css('tr.ng-scope:nth-child(' + i + ') > td:nth-child(2)')).getText().then(function(value) {
-          if (value == newDispatchMappingName) {
-            dispatchMappingAdded = true;
-          }
-        });
-      }
-    }).thenFinally(function() {
-      // Verify new dispatch mapping was found in the table
-      expect(dispatchMappingAdded).toBeTruthy();
+      shared.searchField.sendKeys(newDispatchMappingName);
+      expect(shared.tableElements.count()).toBeGreaterThan(0);
+      expect(shared.firstTableRow.getText()).toContain(newDispatchMappingName);
 
       // Confirm correct Mapping type is selected after saving
       expect(dispatchMappings.mappingOptions.get(4).isSelected()).toBeTruthy();
@@ -250,36 +200,36 @@ describe('The dispatch mappings view', function() {
     expect(dispatchMappings.flowDropdown.all(by.css('option')).get(0).isSelected()).toBeTruthy();
 
     // Changes value field based on Mapping type selected
-    expect(dispatchMappings.phoneFormField.isPresent()).toBeFalsy();
-    expect(dispatchMappings.integrationFormDropdown.isPresent()).toBeFalsy();
-    expect(dispatchMappings.directionFormDropdown.isPresent()).toBeFalsy();
+    expect(dispatchMappings.phoneFormField.isDisplayed()).toBeFalsy();
+    expect(dispatchMappings.integrationFormDropdown.isDisplayed()).toBeFalsy();
+    expect(dispatchMappings.directionFormDropdown.isDisplayed()).toBeFalsy();
 
     // Customer Mapping Shows Phone field; remaining conditional fields are not displayed
     dispatchMappings.mappingOptions.get(1).click();
     expect(dispatchMappings.mappingDropdown.$('option:checked').getText()).toBe('Customer');
     expect(dispatchMappings.phoneFormField.isDisplayed()).toBeTruthy();
-    expect(dispatchMappings.integrationFormDropdown.isPresent()).toBeFalsy();
-    expect(dispatchMappings.directionFormDropdown.isPresent()).toBeFalsy();
+    expect(dispatchMappings.integrationFormDropdown.isDisplayed()).toBeFalsy();
+    expect(dispatchMappings.directionFormDropdown.isDisplayed()).toBeFalsy();
 
     // Contact Point Mapping Shows Phone field; remaining conditional fields are not displayed
     dispatchMappings.mappingOptions.get(2).click();
     expect(dispatchMappings.mappingDropdown.$('option:checked').getText()).toBe('Contact Point');
     expect(dispatchMappings.phoneFormField.isDisplayed()).toBeTruthy();
-    expect(dispatchMappings.integrationFormDropdown.isPresent()).toBeFalsy();
-    expect(dispatchMappings.directionFormDropdown.isPresent()).toBeFalsy();
+    expect(dispatchMappings.integrationFormDropdown.isDisplayed()).toBeFalsy();
+    expect(dispatchMappings.directionFormDropdown.isDisplayed()).toBeFalsy();
 
     // Integration Mapping Shows Phone field; remaining conditional fields are not displayed
     dispatchMappings.mappingOptions.get(3).click();
     expect(dispatchMappings.mappingDropdown.$('option:checked').getText()).toBe('Integration');
-    expect(dispatchMappings.phoneFormField.isPresent()).toBeFalsy();
+    expect(dispatchMappings.phoneFormField.isDisplayed()).toBeFalsy();
     expect(dispatchMappings.integrationFormDropdown.isDisplayed()).toBeTruthy();
-    expect(dispatchMappings.directionFormDropdown.isPresent()).toBeFalsy();
+    expect(dispatchMappings.directionFormDropdown.isDisplayed()).toBeFalsy();
 
     // Direction Shows Phone field; remaining conditional fields are not displayed
     dispatchMappings.mappingOptions.get(4).click();
     expect(dispatchMappings.mappingDropdown.$('option:checked').getText()).toBe('Direction');
-    expect(dispatchMappings.phoneFormField.isPresent()).toBeFalsy();
-    expect(dispatchMappings.integrationFormDropdown.isPresent()).toBeFalsy();
+    expect(dispatchMappings.phoneFormField.isDisplayed()).toBeFalsy();
+    expect(dispatchMappings.integrationFormDropdown.isDisplayed()).toBeFalsy();
     expect(dispatchMappings.directionFormDropdown.isDisplayed()).toBeTruthy();
   });
 
@@ -348,7 +298,7 @@ describe('The dispatch mappings view', function() {
     expect(dispatchMappings.nameFormField.getAttribute('value')).toBe('');
     expect(dispatchMappings.descriptionFormField.getAttribute('value')).toBe('');
     expect(dispatchMappings.mappingDropdown.getAttribute('value')).toBe('');
-    expect(dispatchMappings.phoneFormField.isPresent()).toBeFalsy();
+    expect(dispatchMappings.phoneFormField.isDisplayed()).toBeFalsy();
   });
 
   it('should display dispatch mapping details when selected from table', function() {
@@ -434,9 +384,9 @@ describe('The dispatch mappings view', function() {
         expect(dispatchMappings.directionFormDropdown.isPresent()).toBeFalsy();
       } else if (mapping == 2) { // Integration
         expect(dispatchMappings.mappingDropdown.$('option:checked').getText()).toBe('Integration');
-        expect(dispatchMappings.phoneFormField.isPresent()).toBeFalsy();
+        expect(dispatchMappings.phoneFormField.isDisplayed()).toBeFalsy();
         expect(dispatchMappings.integrationFormDropdown.isDisplayed()).toBeTruthy();
-        expect(dispatchMappings.directionFormDropdown.isPresent()).toBeFalsy();
+        expect(dispatchMappings.directionFormDropdown.isDisplayed()).toBeFalsy();
       } else if (mapping == 3) { // Direction
         expect(dispatchMappings.mappingDropdown.$('option:checked').getText()).toBe('Direction');
         expect(dispatchMappings.phoneFormField.isPresent()).toBeFalsy();

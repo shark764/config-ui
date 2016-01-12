@@ -125,7 +125,7 @@ describe('The media collections view', function() {
     expect(mediaCollections.requiredError.get(0).getText()).toBe('You must include at least one media mapping');
   });
 
-  it('should add new Media Mapping when creating a new Media Collection', function() {
+  it('should add new Audio Media when creating a new Media Collection', function() {
     mediaCollectionCount = shared.tableElements.count();
     shared.createBtn.click();
     mediaCollections.openCreateNewMedia();
@@ -136,6 +136,35 @@ describe('The media collections view', function() {
     mediaCollections.mediaNameField.sendKeys('Audio from Media Collections ' + randomMedia);
     mediaCollections.mediaTypeDropdown.all(by.css('option')).get(1).click();
     mediaCollections.audioSourceField.sendKeys('http://www.example.com/' + randomMedia);
+
+    mediaCollections.mediaCreateBtn.click().then(function() {
+      shared.waitForSuccess();
+
+      mediaCollections.nameFormField.sendKeys('Media Collection ' + randomMedia);
+      mediaCollections.mediaIdentifiers.get(0).sendKeys('Identifier ' + randomMedia);
+      mediaCollections.defaultIdDropdown.all(by.css('option')).get(1).click();
+
+      mediaCollections.submitFormBtn.click().then(function() {
+        shared.waitForSuccess();
+        expect(shared.successMessage.isDisplayed()).toBeTruthy();
+        expect(shared.tableElements.count()).toBeGreaterThan(mediaCollectionCount);
+      });
+    });
+  });
+
+  it('should add new Text-to-Speech Media when creating a new Media Collection', function() {
+    mediaCollectionCount = shared.tableElements.count();
+    shared.createBtn.click();
+    mediaCollections.openCreateNewMedia();
+
+    var randomMedia = Math.floor((Math.random() * 1000) + 1);
+
+    // Edit required fields
+    mediaCollections.mediaNameField.sendKeys('Text-to-Speech from Media Collections ' + randomMedia);
+    mediaCollections.mediaTypeDropdown.all(by.css('option')).get(2).click();
+    mediaCollections.ttsSourceField.sendKeys('Text-to-Speech media source');
+    mediaCollections.languageOptions.get((randomMedia % 26) + 1).click();
+    mediaCollections.voiceOptions.get((randomMedia % 3) + 1).click();
 
     mediaCollections.mediaCreateBtn.click().then(function() {
       shared.waitForSuccess();
@@ -189,7 +218,7 @@ describe('The media collections view', function() {
     mediaCollections.defaultIdDropdown.all(by.css('option')).get(1).click();
 
     mediaCollections.submitFormBtn.click().then(function() {
-      expect(shared.successMessage.isDisplayed()).toBeTruthy();
+      shared.waitForSuccess();
       expect(shared.tableElements.count()).toBeGreaterThan(mediaCollectionCount);
     });
   });
@@ -409,7 +438,7 @@ describe('The media collections view', function() {
     var editedDescription = mediaCollections.descriptionFormField.getAttribute('value');
 
     mediaCollections.submitFormBtn.click().then(function() {
-      expect(shared.successMessage.isDisplayed()).toBeTruthy();
+      shared.waitForSuccess();
 
       expect(mediaCollections.nameFormField.getAttribute('value')).toBe(editedName);
       expect(mediaCollections.descriptionFormField.getAttribute('value')).toBe(editedDescription);
@@ -531,9 +560,10 @@ describe('The media collections view', function() {
 
   it('should require unique identifier field when editing a Media Mapping', function() {
     mediaCollectionCount = shared.tableElements.count();
+    randomCollection = Math.floor((Math.random() * 1000) + 1);
     shared.createBtn.click();
 
-    mediaCollections.nameFormField.sendKeys('Media Collection');
+    mediaCollections.nameFormField.sendKeys('Media Collection ' + randomCollection);
     mediaCollections.mediaIdentifiers.get(0).sendKeys('Identifier 1');
     mediaCollections.mediaDropdowns.get(0).click();
     mediaCollections.mediaDropdownBoxes.get(0).all(by.repeater(mediaCollections.mediaElementsSelector)).get(0).click();
