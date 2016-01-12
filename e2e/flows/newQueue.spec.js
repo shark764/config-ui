@@ -66,7 +66,7 @@ describe('The create new queues view', function() {
       expect(newQueue.maxPriorityInputField.getAttribute('value')).toBe(queues.maxPriorityDefault);
       expect(newQueue.priorityValueInputField.getAttribute('value')).toBe(queues.priorityValueDefault);
       expect(newQueue.priorityRateInputField.getAttribute('value')).toBe(queues.priorityRateDefault);
-      expect(newQueue.priorityRateUnitField.getAttribute('value')).toBe(queues.priorityRateUnitDefault);
+      expect(newQueue.priorityRateUnitField.$('option:checked').getText()).toBe(queues.priorityRateUnitDefault);
     });
   });
 
@@ -298,8 +298,8 @@ describe('The create new queues view', function() {
     queues.nameFormField.sendKeys('Queue ' + randomQueue);
 
     shared.submitFormBtn.click().then(function() {
+      shared.waitForSuccess();
       expect(shared.tableRows.count()).toBeGreaterThan(queueCount);
-      expect(shared.successMessage.isDisplayed()).toBeTruthy();
     });
   });
 
